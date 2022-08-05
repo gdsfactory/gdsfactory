@@ -349,13 +349,12 @@ class ComponentReference(DeviceReference):
             origin = (0, 0)
 
         if isinstance(origin, str):
-            if origin in self.ports:
-                origin = self.ports[origin]
-                origin = cast(Port, origin)
-                o = origin.center
-            else:
+            if origin not in self.ports:
                 raise ValueError(f"{origin} not in {self.ports.keys()}")
 
+            origin = self.ports[origin]
+            origin = cast(Port, origin)
+            o = origin.center
         elif hasattr(origin, "center"):
             origin = cast(Port, origin)
             o = origin.center
@@ -369,13 +368,12 @@ class ComponentReference(DeviceReference):
             )
 
         if isinstance(destination, str):
-            if destination in self.ports:
-                destination = self.ports[destination]
-                destination = cast(Port, destination)
-                d = destination.center
-            else:
+            if destination not in self.ports:
                 raise ValueError(f"{destination} not in {self.ports.keys()}")
 
+            destination = self.ports[destination]
+            destination = cast(Port, destination)
+            d = destination.center
         if hasattr(destination, "center"):
             destination = cast(Port, destination)
             d = destination.center
