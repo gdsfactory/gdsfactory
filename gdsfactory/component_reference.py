@@ -427,7 +427,7 @@ class ComponentReference(DeviceReference):
 
     def reflect_h(
         self, port_name: Optional[str] = None, x0: Optional[Coordinate] = None
-    ) -> None:
+    ) -> "ComponentReference":
         """Perform horizontal mirror using x0 or port as axis (default, x0=0).
         This is the default for mirror along X=x0 axis
         """
@@ -438,10 +438,11 @@ class ComponentReference(DeviceReference):
             position = self.ports[port_name]
             x0 = position.x
         self.reflect((x0, 1), (x0, 0))
+        return self
 
     def reflect_v(
         self, port_name: Optional[str] = None, y0: Optional[float] = None
-    ) -> None:
+    ) -> "ComponentReference":
         """Perform vertical mirror using y0 as axis (default, y0=0)."""
         if port_name is None and y0 is None:
             y0 = 0.0
@@ -450,6 +451,7 @@ class ComponentReference(DeviceReference):
             position = self.ports[port_name]
             y0 = position.y
         self.reflect((1, y0), (0, y0))
+        return self
 
     def reflect(
         self,
