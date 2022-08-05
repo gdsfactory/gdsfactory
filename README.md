@@ -22,7 +22,7 @@ It combines the power of a code driven flow (python or YAML) together with visua
 
 
 Multiple foundries have gdsfactory PDKs available. Talk to your foundry to access their gdsfactory PDK.
-We also have some open source PDKs available on GitHub, instructions on [how to build your own PDK](https://gdsfactory.github.io/gdsfactory/notebooks/08_pdk.html) and [import it from a library of fixed cells](https://gdsfactory.github.io/gdsfactory/notebooks/09_pdk_import.html)
+We also have some open source PDKs available on GitHub, instructions on [how to build your own PDK](https://gdsfactory.github.io/gdsfactory/notebooks/08_pdk.html) and instructions on [how to import a PDK from a library of fixed GDS cells](https://gdsfactory.github.io/gdsfactory/notebooks/09_pdk_import.html)
 
 See:
 
@@ -47,7 +47,7 @@ It also can output components settings (that you can use for measurement and dat
 ![](https://i.imgur.com/XbhWJDz.png)
 
 
-gdsfactory is based on phidl, gdspy and klayout.
+gdsfactory leverages phidl, gdspy and klayout python libraries.
 
 ![](https://i.imgur.com/zMpvrWr.png)
 
