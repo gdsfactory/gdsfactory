@@ -16,33 +16,32 @@
 
 ![](https://i.imgur.com/v4wpHpg.png)
 
-gdsfactory is an EDA (electronics design automation) tool to Layout Integrated Circuits.
-It is built on top of phidl, gdspy and klayout to work with GDSII components, PDKs and masks for different foundries.
-It combines the power of a code driven flow (python or YAML) together with visualization (Klayout for GDS, trimesh for 3D rendering, networkx for graphs ...) and simulation (for component and circuit) interfaces.
+gdsfactory is an EDA (electronics design automation) tool for Integrated Circuits.
+It combines a code driven flow (python or YAML) with visualization and simulation plugins.
 
 
 Multiple foundries have gdsfactory PDKs available. Talk to your foundry to access their gdsfactory PDK.
-We also have some open source PDKs available on GitHub, instructions on [how to build your own PDK](https://gdsfactory.github.io/gdsfactory/notebooks/08_pdk.html) and instructions on [how to import a PDK from a library of fixed GDS cells](https://gdsfactory.github.io/gdsfactory/notebooks/09_pdk_import.html)
 
-See:
+You can also access:
 
-- [UBCPDK](https://github.com/gdsfactory/ubc)
-- [skywater130](https://gdsfactory.github.io/skywater130/README.html)
+- open source PDKs available on GitHub
+    * [UBCPDK](https://gdsfactory.github.io/ubc/README.html)
+    * [skywater130](https://gdsfactory.github.io/skywater130/README.html)
+- instructions on [how to build your own PDK](https://gdsfactory.github.io/gdsfactory/notebooks/08_pdk.html)
+- instructions on [how to import a PDK from a library of fixed GDS cells](https://gdsfactory.github.io/gdsfactory/notebooks/09_pdk_import.html)
 
 
 
 gdsfactory provides you with functions that you can use to:
 
-- define components, circuits and masks in python or YAML
-- route between components
-- test settings, ports and GDS geometry
+- define Pcells in python or YAML.
+- define route between components.
+- test settings, ports and geometry for components to avoid regressions.
 
-It enables both layout and netlist driven flows and is all code driven.
 
 As input, you write python or YAML code.
-
-As output it creates a GDSII file which is the most common file format used by CMOS foundries.
-It also can output components settings (that you can use for measurement and data analysis) or netlists (for circuit simulations). And you can easily adapt any outputs to your needs, thanks to being all natively written in python.
+As output you write a GDSII or OASIS file that can send to your CMOS foundry.
+You can also write components settings (for measurement and data analysis) or netlists (for circuit simulations).
 
 ![](https://i.imgur.com/XbhWJDz.png)
 
@@ -63,14 +62,14 @@ gdsfactory leverages phidl, gdspy and klayout python libraries.
 
 gdsfactory top contributors:
 
-- Joaquin Matres (Google): maintainer
-- Damien Bonneau (PsiQ): cell decorator, Component routing functions, Klayout placer
-- Pete Shadbolt (PsiQ): Klayout auto-placer, Klayout GDS interface (klive)
-- Troy Tamas (Rockley): get_route_from_steps, netlist driven flow (from_yaml)
-- Floris Laporte (Rockley): netlist extraction and circuit simulation interface with SAX
-- Alec Hammond (Georgia Tech): Meep and MPB interface
-- Simon Bilodeau (Princeton): Meep FDTD write Sparameters
-- Thomas Dorch (Freedom Photonics): for Meep's material database access, MPB sidewall angles, and add_pin_path
+- Joaquin Matres (Google): maintainer.
+- Damien Bonneau (PsiQ): cell decorator, Component routing functions, Klayout placer.
+- Pete Shadbolt (PsiQ): Klayout auto-placer, Klayout GDS interface (klive).
+- Troy Tamas (Rockley): get_route_from_steps, netlist driven flow (from_yaml).
+- Floris Laporte (Rockley): netlist extraction and circuit simulation interface with SAX.
+- Alec Hammond (Georgia Tech): Meep and MPB interface.
+- Simon Bilodeau (Princeton): Meep FDTD write Sparameters.
+- Thomas Dorch (Freedom Photonics): for Meep's material database access, MPB sidewall angles, and add_pin_path.
 - Igal Bayn (Google): for documentation improvements and suggestions.
 - Alex Sludds (MIT): for tiling fixes.
 - Skandan Chandrasekar (BYU): for simphony and SiPANN plugins.
