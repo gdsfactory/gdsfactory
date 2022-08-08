@@ -12,10 +12,8 @@ def flatten_invalid_refs(component: Component, grid_size: int = 1):
     """
     refs = component.references.copy()
     for ref in refs:
-        origin_is_on_grid = all([is_on_grid(x, grid_size) for x in ref.origin])
+        origin_is_on_grid = all(is_on_grid(x, grid_size) for x in ref.origin)
         rotation_is_regular = ref.rotation is None or ref.rotation % 90 == 0
-        if origin_is_on_grid and rotation_is_regular:
-            pass
-        else:
+        if not origin_is_on_grid or not rotation_is_regular:
             component.flatten_reference(ref)
     return component
