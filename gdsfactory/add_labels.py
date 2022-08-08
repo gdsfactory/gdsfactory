@@ -7,7 +7,7 @@ import phidl.device_layout as pd
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.port import Port
-from gdsfactory.types import Label, LayerSpec
+from gdsfactory.types import ComponentOrReference, Label, LayerSpec
 
 
 def get_input_label_text(
@@ -104,6 +104,7 @@ def get_input_label_electrical(
     gc: Optional[ComponentReference] = None,
 ) -> Label:
     """Returns a label to test component info for a given electrical port.
+
     This is the label used by T&M to extract grating coupler coordinates
     and match it to the component.
 
@@ -272,6 +273,52 @@ add_labels_to_ports_optical = gf.partial(
 add_labels_to_ports_vertical_dc = gf.partial(
     add_labels_to_ports, port_type="vertical_dc", prefix="elec-"
 )
+
+
+def get_labels(
+    component: ComponentOrReference,
+    get_label_function: Callable = get_input_label_electrical,
+    layer_label: LayerSpec = "LABEL",
+    gc: Optional[Component] = None,
+    component_name: Optional[str] = None,
+    **kwargs,
+) -> List[Label]:
+    """Returns component labels on ports.
+
+    Args:
+        component: to add labels to.
+        get_label_function: function to get label.
+        layer_label: layer_label.
+        gc: Optional grating coupler.
+
+    keyword Args:
+        layer: port GDS layer.
+        prefix: with in port name.
+        orientation: in degrees.
+        width: for ports to add label.
+        layers_excluded: List of layers to exclude.
+        port_type: optical, electrical, ...
+        clockwise: if True, sort ports clockwise, False: counter-clockwise.
+
+    Returns:
+        list of component labels.
+
+    """
+    labels = []
+    ports = component.get_ports_list(**kwargs)
+    component_name = component_name or component.name
+
+    for i, port in enumerate(ports):
+        label = get_label_function(
+            port=port,
+            gc=gc,
+            gc_index=i,
+            component_name=component_name,
+            layer_label=layer_label,
+        )
+        labels.append(label)
+
+    return labels
 
 
 if __name__ == "__main__":
