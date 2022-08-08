@@ -652,13 +652,14 @@ class Component(Device):
 
         return super().add_polygon(points=points, layer=get_layer(layer))
 
-    def copy(self, prefix: str = "", suffix: str = "_copy") -> "Component":
+    def copy(self) -> "Component":
         from gdsfactory.copy import copy
 
-        return copy(self, prefix=prefix, suffix=suffix)
+        return copy(self)
 
     def copy_child_info(self, component: "Component") -> None:
         """Copy info from child component into parent.
+
         Parent components can access child cells settings.
         """
         if not isinstance(component, Component):
@@ -978,7 +979,8 @@ class Component(Device):
         from gdsfactory.show import show
 
         if show_subports:
-            component = self.copy(suffix="")
+            component = self.copy()
+            component.name = self.name
             for reference in component.references:
                 add_pins_triangle(
                     component=component,
@@ -987,7 +989,8 @@ class Component(Device):
                 )
 
         elif show_ports:
-            component = self.copy(suffix="")
+            component = self.copy()
+            component.name = self.name
             add_pins_triangle(component=component, layer=port_marker_layer)
         else:
             component = self
