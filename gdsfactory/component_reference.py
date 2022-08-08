@@ -501,7 +501,7 @@ class ComponentReference(DeviceReference):
         Returns:
             ComponentReference: with correct rotation to connect to destination.
         """
-        from gdsfactory.functions import rotate
+        from gdsfactory.functions import mirror, rotate
 
         # port can either be a string with the name or an actual Port
         if port in self.ports:  # Then ``port`` is a key for the ports dict
@@ -516,12 +516,15 @@ class ComponentReference(DeviceReference):
 
         angle = 180 + destination.orientation - p.orientation
         angle = angle % 360
+        parent = self.parent
 
         if angle not in (0, 90, 180, 270):
-            new = rotate(self.parent, angle=angle).flatten()
+            if self.x_reflection:
+                self.mirror()
+                parent = mirror(parent)
+            new = rotate(parent, angle=angle).flatten()
             self.parent = new
             p = new.ports[port]
-
         else:
             self.rotate(angle=angle, center=p.center)
 

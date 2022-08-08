@@ -125,7 +125,7 @@ def rotate(
         )
 
     component_new.add_ports(ref.ports)
-    component_new.copy_child_info(component)
+    component_new.info = component.info.copy()
     return component_new
 
 
@@ -153,7 +153,7 @@ def mirror(
     ref = component_new.add_ref(component)
     ref.mirror(p1=p1, p2=p2)
     component_new.add_ports(ref.ports)
-    component_new.copy_child_info(component)
+    component_new.info = component.info.copy()
     return component_new
 
 
