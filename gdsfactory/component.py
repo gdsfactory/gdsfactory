@@ -768,7 +768,6 @@ class Component(Device):
         for layer, polys in poly_dict.items():
             component_flat.add_polygon(polys, layer=single_layer or layer)
 
-        component_flat.name = f"{self.name}_flat"
         return component_flat
 
     def add_ref(
