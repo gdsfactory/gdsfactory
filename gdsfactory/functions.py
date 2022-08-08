@@ -12,6 +12,7 @@ import numpy as np
 from omegaconf import OmegaConf
 from pydantic import validate_arguments
 
+from gdsfactory import ComponentReference
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
@@ -88,7 +89,7 @@ def add_texts(
         text_factory: function to add text labels.
     """
     return [
-        add_text(component, text=f"{prefix}{i+index0}", **kwargs)
+        add_text(component, text=f"{prefix}{i + index0}", **kwargs)
         for i, component in enumerate(components)
     ]
 
@@ -181,6 +182,21 @@ def move(
     return component_new
 
 
+@cell
+def transformed(ref: ComponentReference):
+    """
+    Takes a reference and returns a flattened cell with all transformations from the reference applied
+
+    Args:
+        ref: the reference to flatten into a new cell
+
+    """
+    c = Component()
+    c.add(ref)
+    c.info = ref.info.copy()
+    return c.flatten()
+
+
 def move_port_to_zero(component: Component, port_name: str = "o1"):
     """Return a container that contains a reference to the original component.
 
@@ -240,7 +256,6 @@ __all__ = (
     "rotate",
     "update_info",
 )
-
 
 if __name__ == "__main__":
     import gdsfactory as gf

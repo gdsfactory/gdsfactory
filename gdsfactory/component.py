@@ -770,6 +770,13 @@ class Component(Device):
 
         return component_flat
 
+    def flatten_reference(self, ref: ComponentReference):
+        from gdsfactory.functions import transformed
+
+        self.remove(ref)
+        new_component = transformed(ref, decorator=None)
+        self.add_ref(new_component)
+
     def add_ref(
         self, component: "Component", alias: Optional[str] = None
     ) -> "ComponentReference":
