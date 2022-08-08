@@ -1113,7 +1113,7 @@ class Component(Device):
         if not filename.lower().endswith(".oas"):
             filename += ".oas"
         fileroot = os.path.splitext(filename)[0]
-        tempfilename = fileroot + "-tmp.gds"
+        tempfilename = f"{fileroot}-tmp.gds"
 
         self.write_gds(tempfilename, **write_kwargs)
         layout = pya.Layout()
