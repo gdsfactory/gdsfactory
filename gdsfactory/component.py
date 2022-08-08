@@ -768,8 +768,14 @@ class Component(Device):
         for layer, polys in poly_dict.items():
             component_flat.add_polygon(polys, layer=single_layer or layer)
 
-        component_flat.name = f"{self.name}_flat"
         return component_flat
+
+    def flatten_reference(self, ref: ComponentReference):
+        from gdsfactory.functions import transformed
+
+        self.remove(ref)
+        new_component = transformed(ref, decorator=None)
+        self.add_ref(new_component)
 
     def add_ref(
         self, component: "Component", alias: Optional[str] = None
@@ -1107,7 +1113,7 @@ class Component(Device):
         if not filename.lower().endswith(".oas"):
             filename += ".oas"
         fileroot = os.path.splitext(filename)[0]
-        tempfilename = fileroot + "-tmp.gds"
+        tempfilename = f"{fileroot}-tmp.gds"
 
         self.write_gds(tempfilename, **write_kwargs)
         layout = pya.Layout()

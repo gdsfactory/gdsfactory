@@ -18,7 +18,7 @@ def copy(
         prefix: to add to new component name.
         suffix: to add to new component name.
     """
-    D_copy = Component(name=f"{prefix}{D.name}{suffix}")
+    D_copy = Component()
     D_copy.info = python_copy.deepcopy(D.info)
     for ref in D.references:
         if isinstance(ref, DeviceReference):
