@@ -15,7 +15,7 @@ Assumes two ports are connected when they have same width, x, y
 
 """
 
-from typing import Callable, Dict
+from typing import Callable, Dict, List, Optional
 
 import omegaconf
 
@@ -69,6 +69,7 @@ def get_netlist(
     full_settings: bool = False,
     layer_label: LayerSpec = "LABEL_INSTANCE",
     tolerance: int = 1,
+    exclude_port_types: Optional[List] = None,
 ) -> omegaconf.DictConfig:
     """From a component returns instances, connections and placements dict. It
     assumes that ports with same width, x, y are connected.
@@ -78,6 +79,7 @@ def get_netlist(
          full_settings: True returns all, false changed settings.
          layer_label: label to read instanceNames from (if any).
          tolerance: tolerance in nm to consider two ports connected.
+         exclude_port_types: a list of port types to exclude from netlisting (optional)
 
      Returns:
          instances: Dict of instance name and settings.
@@ -149,19 +151,22 @@ def get_netlist(
 
     # build connectivity port_locations = Dict[Tuple(x,y,width), set of portNames]
     for name, port in name2port.items():
-        xyw = tuple(
+        if exclude_port_types and port.port_type in exclude_port_types:
+            continue
+        xywt = [
             round(1000 * snap_to_grid(v, nm=tolerance))
             for v in (port.x, port.y, port.width)
-        )
-        if xyw not in port_locations:
-            port_locations[xyw] = set()
-        port_locations[xyw].add(name)
+        ] + [port.port_type]
+        xywt = tuple(xywt)
+        if xywt not in port_locations:
+            port_locations[xywt] = set()
+        port_locations[xywt].add(name)
 
-    for xyw, names_set in port_locations.items():
+    for xywt, names_set in port_locations.items():
         if len(names_set) > 2:
-            x, y, w = (v / 1000 for v in xyw)
+            x, y, w, t = xywt
             raise ValueError(
-                f"more than 2 connections at {x, y} {list(names_set)}, width  = {w} "
+                f"more than 2 connections at {x / 1000, y / 1000} {list(names_set)}, width  = {w / 1000} "
             )
         if len(names_set) == 2:
             names_list = list(names_set)
