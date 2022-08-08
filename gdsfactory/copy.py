@@ -8,15 +8,11 @@ from gdsfactory.component import Component, ComponentReference
 
 def copy(
     D: Component,
-    prefix: str = "",
-    suffix: str = "_copy",
 ) -> Component:
     """Returns a deep copy of a Component.
 
     Args:
         D: component.
-        prefix: to add to new component name.
-        suffix: to add to new component name.
     """
     D_copy = Component()
     D_copy.info = python_copy.deepcopy(D.info)
