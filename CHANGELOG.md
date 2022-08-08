@@ -1,18 +1,17 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.15.3](https://github.com/gdsfactory/gdsfactory/pull/575)
+## [5.15.3](https://github.com/gdsfactory/gdsfactory/pull/579)
 
 - [PR](https://github.com/gdsfactory/gdsfactory/pull/576)
     - fix offgrid ports connect
     - Component.copy() and Component.flatten() don't assign fixed names to the output Component which could create name collisions. It is safer to keep the new cell's default name (with UID) to prevent this. The thought is that even a copied or flattened cell should be eventually placed inside a cell function with @cell decorator, which will remove the anonymous and unpredictable names (for those of us who care). And for those who don't care as much, at least they won't get dangerous side effects!
-
 - [PR](https://github.com/gdsfactory/gdsfactory/pull/578) changes get_netlist to only mate matching port types, and also to allow excluding specified port types from being netlisted (which is useful i.e. for non-logical placement ports)
+- solve add_labels.get_labels mutability issue by returning list of labels
 
 ## [5.15.2](https://github.com/gdsfactory/gdsfactory/pull/575)
 
 - fix move with string [issue](https://github.com/gdsfactory/gdsfactory/issues/572)  [PR](https://github.com/gdsfactory/gdsfactory/pull/573)
 - fix docs
-
 
 ## [5.15.1](https://github.com/gdsfactory/gdsfactory/pull/571)
 
