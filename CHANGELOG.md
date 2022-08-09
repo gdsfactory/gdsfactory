@@ -4,6 +4,7 @@
 
 - rename `gdsfactory/flatten_invalid_refs.py` to `gdsfactory/decorators.py`
 - add test to flatten_invalid_refs and include documentation in the [PDK docs](https://gdsfactory.github.io/gdsfactory/notebooks/08_pdk.html#)
+- pdk.activate clears cache
 
 ## [5.15.3](https://github.com/gdsfactory/gdsfactory/pull/579)
 
