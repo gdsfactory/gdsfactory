@@ -35,7 +35,7 @@ You can also access:
 gdsfactory provides you with functions that you can use to:
 
 - define Pcells in python or YAML.
-- define route between components.
+- define routes between components.
 - test settings, ports and geometry for components to avoid regressions.
 
 
@@ -84,6 +84,5 @@ Open source heroes:
 
 ## Links
 
-- [gdsfactory github repo](https://github.com/gdsfactory/gdsfactory) and [docs](https://gdsfactory.github.io/gdsfactory/)
-- [ubc PDK](https://github.com/gdsfactory/ubc): sample open source PDK from edx course.
+- [gdsfactory GitHub repo](https://github.com/gdsfactory/gdsfactory), [docs](https://gdsfactory.github.io/gdsfactory/) and [general updates](https://github.com/gdsfactory/gdsfactory/discussions/547)
 - [awesome photonics list](https://github.com/joamatab/awesome_photonics)
