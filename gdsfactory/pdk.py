@@ -39,6 +39,7 @@ layers_required = ["DEVREC", "PORT", "PORTE"]
 
 class Pdk(BaseModel):
     """Store layers, cross_sections, cell functions, simulation_settings ...
+
     only one Pdk can be active at a given time.
 
     Parameters:
@@ -48,9 +49,11 @@ class Pdk(BaseModel):
         containers: dict of pcells that contain other cells.
         base_pdk: a pdk to copy from and extend.
         default_decorator: decorate all cells, if not otherwise defined on the cell.
-        layers: maps name to gdslayer/datatype. For example dict(si=(1, 0), sin=(34, 0)).
+        layers: maps name to gdslayer/datatype.
+            For example dict(si=(1, 0), sin=(34, 0)).
         layer_stack: maps name to layer numbers, thickness, zmin, sidewall_angle.
-            if can also contain material properties (refractive index, nonlinear coefficient, sheet resistance ...).
+            if can also contain material properties
+            (refractive index, nonlinear coefficient, sheet resistance ...).
         layer_colors: includes layer name to color, opacity and pattern.
         sparameters_path: to store Sparameters simulations.
         interconnect_cml_path: path to interconnect CML (optional).
@@ -95,6 +98,10 @@ class Pdk(BaseModel):
 
     def activate(self) -> None:
         """Set current pdk to as the active pdk."""
+        from gdsfactory.cell import clear_cache
+
+        clear_cache()
+
         if self.base_pdk:
             cross_sections = self.base_pdk.cross_sections
             cross_sections.update(self.cross_sections)
