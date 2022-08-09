@@ -1,8 +1,8 @@
 import gdsfactory as gf
 from gdsfactory.add_labels import (
-    add_labels,
     get_input_label,
     get_input_label_electrical,
+    get_labels,
 )
 from gdsfactory.component import Component
 
@@ -15,18 +15,24 @@ straight = gf.partial(
 )
 
 
+@gf.cell
 def test_add_labels_optical() -> Component:
-    c = straight(length=1.467)
+    c = Component()
+    wg = c << straight(length=1.467)
+
     gc = gf.components.grating_coupler_elliptical_te()
     label1 = get_input_label(
-        port=c.ports["o1"], gc=gc, gc_index=0, layer_label=gf.LAYER.LABEL
+        port=wg.ports["o1"], gc=gc, gc_index=0, layer_label=gf.LAYER.LABEL
     )
     label2 = get_input_label(
-        port=c.ports["o2"], gc=gc, gc_index=1, layer_label=gf.LAYER.LABEL
+        port=wg.ports["o2"], gc=gc, gc_index=1, layer_label=gf.LAYER.LABEL
     )
 
-    c = c.copy(suffix="")
-    add_labels(c, get_label_function=get_input_label, gc=gc)
+    labels = get_labels(
+        wg, component_name=wg.parent.name, get_label_function=get_input_label, gc=gc
+    )
+
+    c.add(labels)
     labels_text = [c.labels[0].text, c.labels[1].text]
     # print(label1)
     # print(label2)
@@ -36,17 +42,22 @@ def test_add_labels_optical() -> Component:
     return c
 
 
+@gf.cell
 def test_add_labels_electrical() -> Component:
-    c = gf.components.wire_straight(length=5.987)
+    c = Component()
+    _wg = gf.components.wire_straight(length=5.987)
+    wg = c << _wg
     label1 = get_input_label_electrical(
-        port=c.ports["e1"], layer_label=gf.LAYER.LABEL, gc_index=0
+        port=wg.ports["e1"], layer_label=gf.LAYER.LABEL, gc_index=0
     )
     label2 = get_input_label_electrical(
-        port=c.ports["e2"], layer_label=gf.LAYER.LABEL, gc_index=1
+        port=wg.ports["e2"], layer_label=gf.LAYER.LABEL, gc_index=1
     )
+    labels = get_labels(
+        wg, get_label_function=get_input_label_electrical, component_name=_wg.name
+    )
+    c.add(labels)
 
-    c = c.copy(suffix="")
-    add_labels(component=c, get_label_function=get_input_label_electrical)
     labels_text = [c.labels[0].text, c.labels[1].text]
 
     assert label1.text in labels_text, f"{label1.text} not in {labels_text}"
@@ -58,3 +69,6 @@ if __name__ == "__main__":
     c = test_add_labels_electrical()
     # c = test_add_labels_optical()
     c.show(show_ports=True)
+    # c = gf.components.mzi()
+    # c2 = c.copy()
+    # print(c2.name)
