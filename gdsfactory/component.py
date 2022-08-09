@@ -652,13 +652,14 @@ class Component(Device):
 
         return super().add_polygon(points=points, layer=get_layer(layer))
 
-    def copy(self, prefix: str = "", suffix: str = "_copy") -> "Component":
+    def copy(self) -> "Component":
         from gdsfactory.copy import copy
 
-        return copy(self, prefix=prefix, suffix=suffix)
+        return copy(self)
 
     def copy_child_info(self, component: "Component") -> None:
         """Copy info from child component into parent.
+
         Parent components can access child cells settings.
         """
         if not isinstance(component, Component):
@@ -768,8 +769,14 @@ class Component(Device):
         for layer, polys in poly_dict.items():
             component_flat.add_polygon(polys, layer=single_layer or layer)
 
-        component_flat.name = f"{self.name}_flat"
         return component_flat
+
+    def flatten_reference(self, ref: ComponentReference):
+        from gdsfactory.functions import transformed
+
+        self.remove(ref)
+        new_component = transformed(ref, decorator=None)
+        self.add_ref(new_component)
 
     def add_ref(
         self, component: "Component", alias: Optional[str] = None
@@ -972,7 +979,8 @@ class Component(Device):
         from gdsfactory.show import show
 
         if show_subports:
-            component = self.copy(suffix="")
+            component = self.copy()
+            component.name = self.name
             for reference in component.references:
                 add_pins_triangle(
                     component=component,
@@ -981,7 +989,8 @@ class Component(Device):
                 )
 
         elif show_ports:
-            component = self.copy(suffix="")
+            component = self.copy()
+            component.name = self.name
             add_pins_triangle(component=component, layer=port_marker_layer)
         else:
             component = self
@@ -1107,7 +1116,7 @@ class Component(Device):
         if not filename.lower().endswith(".oas"):
             filename += ".oas"
         fileroot = os.path.splitext(filename)[0]
-        tempfilename = fileroot + "-tmp.gds"
+        tempfilename = f"{fileroot}-tmp.gds"
 
         self.write_gds(tempfilename, **write_kwargs)
         layout = pya.Layout()
