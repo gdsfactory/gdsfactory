@@ -435,22 +435,15 @@ def write_sparameters_meep(
             i = monitor_index
             if monitor_index == j:
                 sii = source_exiting / source_entering
-                siia = np.unwrap(np.angle(sii))
-                siim = np.abs(sii)
-                sp[f"s{i}{i}a"] = siia
-                sp[f"s{i}{i}m"] = siim
+                sp[f"s{i}{i}a"] = np.unwrap(np.angle(sii))
+                sp[f"s{i}{i}m"] = np.abs(sii)
             else:
                 monitor_entering, monitor_exiting = parse_port_eigenmode_coeff(
                     monitor_index, component_ref.ports, sim_dict
                 )
                 sij = monitor_exiting / source_entering
-                sija = np.unwrap(np.angle(sij))
-                sijm = np.abs(sij)
-                sp[f"s{i}{j}a"] = sija
-                sp[f"s{i}{j}m"] = sijm
-                sij = monitor_entering / source_entering
-                sija = np.unwrap(np.angle(sij))
-                sijm = np.abs(sij)
+                sp[f"s{i}{j}a"] = np.unwrap(np.angle(sij))
+                sp[f"s{i}{j}m"] = np.abs(sij)
 
         if bool(port_symmetries):
             for key in port_symmetries[f"o{monitor_indices[n]}"].keys():
