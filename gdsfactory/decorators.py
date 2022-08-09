@@ -31,7 +31,7 @@ def has_valid_transformations(component: Component) -> bool:
 
 
 def flatten_invalid_refs(component: Component, grid_size: Optional[float] = None):
-    """Flattens all references of the component with invalid GDS transformations
+    """Flattens component references component with invalid GDS transformations.
 
     (i.e. non-90 deg rotations or sub-grid translations).
 
@@ -56,15 +56,16 @@ def flatten_invalid_refs(component: Component, grid_size: Optional[float] = None
 
 
 @gf.cell
-def _demo_non_manhattan():
-    c = gf.Component("bend")
+def _demo_non_manhattan() -> Component:
+    """Returns component with Manhattan snapping issues."""
+    c = Component("bend")
     b = c << gf.components.bend_circular(angle=30)
     s = c << gf.components.straight(length=5)
     s.connect("o1", b.ports["o2"])
     return c
 
 
-def test_invalid_refs():
+def test_flatten_invalid_refs():
     c1 = _demo_non_manhattan()
     assert not has_valid_transformations(c1)
 
@@ -73,6 +74,6 @@ def test_invalid_refs():
 
 
 if __name__ == "__main__":
-    test_invalid_refs()
+    test_flatten_invalid_refs()
     # c = _demo_non_manhattan(decorator=flatten_invalid_refs)
     # c.show()
