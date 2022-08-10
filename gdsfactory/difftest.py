@@ -88,7 +88,7 @@ def difftest(
         diff.show(show_ports=False)
         print(
             f"\ngds_run {filename!r} changed from gds_ref {str(ref_file)!r}\n"
-            "You can check the differences in Klayout GUI or run XOR with"
+            "You can check the differences in Klayout GUI or run XOR with\n"
             f"gf gds diff --xor {ref_file} {run_file}\n"
         )
 

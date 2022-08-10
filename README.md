@@ -73,6 +73,7 @@ gdsfactory top contributors:
 - Igal Bayn (Google): for documentation improvements and suggestions.
 - Alex Sludds (MIT): for tiling fixes.
 - Skandan Chandrasekar (BYU): for simphony and SiPANN plugins.
+- Helge Gehring (Google): for simulation plugins, improving code quality and new components (spiral paths).
 
 Open source heroes:
 
