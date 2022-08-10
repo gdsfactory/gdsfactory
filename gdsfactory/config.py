@@ -91,8 +91,7 @@ CONFIG = dict(
     config_path=yamlpath_cwd.absolute(),
     repo_path=repo_path,
     module_path=module_path,
-    gdsdir=module_path / "gds",
-    font_path=module_path / "gds" / "alphabet.gds",
+    gdsdir=module_path / "tests" / "gds",
     masks_path=repo_path / "mask",
     home=home,
     cwd=cwd,
@@ -132,8 +131,8 @@ CONFIG["mask_config_directory"] = mask_config_directory
 CONFIG["samples_path"] = module_path / "samples"
 CONFIG["netlists"] = module_path / "samples" / "netlists"
 CONFIG["components_path"] = module_path / "components"
-CONFIG["schemas"] = module_path / "schemas"
-CONFIG["schema_netlist"] = module_path / "schemas" / "netlist.json"
+CONFIG["schemas"] = module_path / "tests" / "schemas"
+CONFIG["schema_netlist"] = module_path / "tests" / "schemas" / "netlist.json"
 
 if "gds_resources" in CONFIG:
     CONFIG["gds_resources"] = CONFIG["masks_path"] / CONFIG["gds_resources"]

@@ -1,3 +1,11 @@
+"""
+
+- Geometric operations:
+- Booleans
+- DRC checks
+
+"""
+
 from gdsfactory.geometry import functions
 from gdsfactory.geometry.boolean import boolean
 from gdsfactory.geometry.boolean_klayout import boolean_klayout

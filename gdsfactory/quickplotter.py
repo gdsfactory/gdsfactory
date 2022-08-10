@@ -1,4 +1,7 @@
-"""based on phidl.quickplotter"""
+"""Plot gdsfactory Components in matplotlib.
+
+based on phidl.quickplotter.
+"""
 
 import sys
 
