@@ -1,4 +1,4 @@
-"""cell decorator."""
+"""Cell decorator."""
 import copy
 import functools
 import hashlib
@@ -66,7 +66,6 @@ def cell_without_validator(func):
     type annotations
 
     I recommend using @cell instead
-
     """
 
     @functools.wraps(func)
@@ -220,7 +219,9 @@ _F = TypeVar("_F", bound=Callable)
 
 
 def cell(func: _F, *args, **kwargs) -> _F:
-    """Decorator for Component functions. Wraps cell_without_validator
+    """Decorator for Component functions.
+
+    Wraps cell_without_validator
     Validates type annotations with pydantic.
 
     Implements a cache so that if a component has already been build
@@ -244,7 +245,6 @@ def cell(func: _F, *args, **kwargs) -> _F:
         prefix: name_prefix, defaults to function name.
         max_name_length: truncates name beyond some characters (32) with a hash.
         decorator: function to run over the component.
-
     """
     return cell_without_validator(validate_arguments(func), *args, **kwargs)
 

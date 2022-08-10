@@ -1,4 +1,5 @@
-"""gdsfactory loads a configuration from 3 files, high priority overwrites low
+"""Gdsfactory loads a configuration from 3 files, high priority overwrites low.
+
 priority:
 
 1. A config.yml found in the current working directory (highest priority)
@@ -179,8 +180,10 @@ def write_tech(json_out_path: Path) -> None:
 
 
 def call_if_func(f: Any, **kwargs) -> Any:
-    """Calls function if it's a function Useful to create objects from
-    functions if it's an object it just returns the object."""
+    """Calls function if it's a function Useful to create objects from.
+
+    functions if it's an object it just returns the object.
+    """
     return f(**kwargs) if callable(f) else f
 
 

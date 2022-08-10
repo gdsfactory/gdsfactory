@@ -28,7 +28,7 @@ def cdsem_all(
     cross_section: CrossSectionSpec = strip,
     text: ComponentSpec = text_rectangular_mini,
 ) -> Component:
-    """column with all optical PCMs.
+    """Column with all optical PCMs.
 
     Args:
         widths: for straight lines.
@@ -40,7 +40,6 @@ def cdsem_all(
         bend90: spec.
         cross_section: spec.
         text: sepc.
-
     """
     c = Component()
     _c1 = cdsem_straight(

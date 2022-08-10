@@ -26,7 +26,6 @@ def pad(
         bbox_offsets: list of offsets.
         port_inclusion: from edge.
         port_orientation: in degrees.
-
     """
     c = Component()
     layer = gf.get_layer(layer)
@@ -79,7 +78,6 @@ def pad_array(
         columns: number of columns.
         rows: number of rows.
         orientation: port orientation in deg. None for low speed DC ports.
-
     """
     c = Component()
     pad = gf.get_component(pad)

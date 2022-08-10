@@ -28,7 +28,8 @@ def array_with_fanout(
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
-    """Returns an array of components in X axis with west facing waveguides
+    """Returns an array of components in X axis with west facing waveguides.
+
     fanout.
 
     Args:
@@ -45,7 +46,6 @@ def array_with_fanout(
         bend_port_name2: optional port name.
         cross_section: cross_section spec.
         kwargs: cross_section settings.
-
     """
     c = Component()
     component = gf.get_component(component)
@@ -110,7 +110,6 @@ def array_with_fanout_2d(
         component_port_name:
         bend_port_name1:
         bend_port_name2:
-
     """
     pitch_y = pitch_y or pitch
     pitch_x = pitch_x or pitch

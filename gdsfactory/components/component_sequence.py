@@ -36,7 +36,6 @@ class SequenceGenerator:
         O: taper with input '2'
         S: short straight waveguide
         L: long straight waveguide
-
         """
 
         self.start_sequence = start_sequence
@@ -48,8 +47,10 @@ class SequenceGenerator:
 
 
 def _parse_component_name(name: str) -> Tuple[str, bool]:
-    """If the component name has more than one character and starts with "!"
-    then we need to flip along the axis given by the input port angle."""
+    """If the component name has more than one character and starts with "!".
+
+    then we need to flip along the axis given by the input port angle.
+    """
     return (name[1:], True) if len(name) != 1 and name[0] == "!" else (name, False)
 
 
@@ -71,7 +72,8 @@ def component_sequence(
     port_name2: str = "o2",
     start_orientation: float = 0.0,
 ) -> Component:
-    """Returns component from a ASCII sequence and a dictionary to interpret
+    """Returns component from a ASCII sequence and a dictionary to interpret.
+
     each symbol.
 
     Args:
@@ -108,7 +110,6 @@ def component_sequence(
         s = "AB-H-H-H-H-BA"
         c = gf.components.component_sequence(sequence=s, symbol_to_component=symbol_to_component)
         c.plot()
-
     """
     ports_map = ports_map or {}
 

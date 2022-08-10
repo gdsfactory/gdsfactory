@@ -58,7 +58,6 @@ def loss_deembedding_ch13_24(
         input_port_indexes: adds test labels.
         cross_section: spec.
         kwargs: cross_section settings.
-
     """
 
     gc = gf.get_component(grating_coupler)
@@ -124,7 +123,6 @@ def loss_deembedding_ch12_34(
     Keyword Args:
         cross_section: spec.
         kwargs: cross_section settings.
-
     """
     gc = gf.get_component(grating_coupler)
 
@@ -173,7 +171,6 @@ def loss_deembedding_ch14_23(
     Keyword Args:
         cross_section: spec.
         kwargs: cross_section settings.
-
     """
     gc = gf.get_component(grating_coupler)
 
@@ -220,7 +217,6 @@ def grating_coupler_loss_fiber_array(
     Keyword Args:
         cross_section: spec.
         kwargs: cross_section settings.
-
     """
     gc = gf.get_component(grating_coupler)
 
@@ -261,7 +257,6 @@ def grating_coupler_loss_fiber_array4(
         pitch: grating_coupler_pitch.
         grating_coupler: function.
         kwargs: cross_section settings.
-
     """
     c = gf.Component()
     c1 = loss_deembedding_ch13_24(grating_coupler=grating_coupler, **kwargs)

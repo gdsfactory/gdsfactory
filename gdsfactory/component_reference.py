@@ -88,7 +88,6 @@ def _rotate_points(
         points: rotate points around center point.
         angle: in degrees.
         center: x, y.
-
     """
     # First check for common, easy values of angle
     p_arr = np.asarray(points)
@@ -114,8 +113,10 @@ def _rotate_points(
 
 
 class ComponentReference(DeviceReference):
-    """A ComponentReference is a pointer to a Component with x, y, rotation,
-    mirror."""
+    """A ComponentReference is a pointer to a Component with x, y, rotation,.
+
+    mirror.
+    """
 
     def __init__(
         self,
@@ -181,7 +182,6 @@ class ComponentReference(DeviceReference):
         """Return the bounding box of the ComponentReference.
 
         it snaps to 3 decimals in um (0.001um = 1nm precision)
-
         """
         bbox = self.get_bounding_box()
         if bbox is None:
@@ -194,16 +194,18 @@ class ComponentReference(DeviceReference):
 
     @classmethod
     def validate(cls, v):
-        """check with pydantic ComponentReference valid type."""
+        """Check with pydantic ComponentReference valid type."""
         assert isinstance(
             v, ComponentReference
         ), f"TypeError, Got {type(v)}, expecting ComponentReference"
         return v
 
     def __getitem__(self, val):
-        """This allows you to access an alias from the reference's parent, and
+        """This allows you to access an alias from the reference's parent, and.
+
         receive a copy of the reference which is correctly rotated and
-        translated."""
+        translated.
+        """
         try:
             alias_device = self.parent[val]
         except Exception as exc:
@@ -230,8 +232,10 @@ class ComponentReference(DeviceReference):
 
     @property
     def ports(self) -> Dict[str, Port]:
-        """This property allows you to access myref.ports, and receive a copy
-        of the ports dict which is correctly rotated and translated."""
+        """This property allows you to access myref.ports, and receive a copy.
+
+        of the ports dict which is correctly rotated and translated.
+        """
         for name, port in self.parent.ports.items():
             port = self.parent.ports[name]
             new_center, new_orientation = self._transform_port(
@@ -282,7 +286,7 @@ class ComponentReference(DeviceReference):
         rotation: Optional[int] = None,
         x_reflection: bool = False,
     ) -> Tuple[ndarray, float]:
-        """Apply GDS-type transformation to a port (x_ref)"""
+        """Apply GDS-type transformation to a port (x_ref)."""
         new_point = np.array(point)
         new_orientation = orientation
 
@@ -330,7 +334,8 @@ class ComponentReference(DeviceReference):
         destination: Optional[Union[Port, Coordinate, str]] = None,
         axis: Optional[str] = None,
     ) -> "ComponentReference":
-        """Move the ComponentReference from the origin point to the
+        """Move the ComponentReference from the origin point to the.
+
         destination.
 
         Both origin and destination can be 1x2 array-like, Port, or a key
@@ -343,7 +348,6 @@ class ComponentReference(DeviceReference):
 
         Returns:
             ComponentReference.
-
         """
 
         # If only one set of coordinates is defined, make sure it's used to move things
@@ -412,7 +416,6 @@ class ComponentReference(DeviceReference):
         Args:
             angle: in degrees
             center: x, y
-
         """
         if angle == 0:
             return self
@@ -433,7 +436,6 @@ class ComponentReference(DeviceReference):
         """Perform horizontal mirror using x0 or port as axis (default, x0=0).
 
         This is the default for mirror along X=x0 axis
-
         """
         if port_name is None and x0 is None:
             x0 = -self.x
@@ -465,7 +467,6 @@ class ComponentReference(DeviceReference):
         """TODO.
 
         Delete this code and rely on phidl's mirror code.
-
         """
         if isinstance(p1, Port):
             p1 = p1.center
@@ -510,7 +511,6 @@ class ComponentReference(DeviceReference):
 
         Returns:
             ComponentReference: with correct rotation to connect to destination.
-
         """
 
         # port can either be a string with the name or an actual Port
@@ -553,7 +553,6 @@ class ComponentReference(DeviceReference):
             layers_excluded: List of layers to exclude.
             port_type: optical, electrical, ...
             clockwise: if True, sort ports clockwise, False: counter-clockwise.
-
         """
         return list(select_ports(self.ports, **kwargs).values())
 
@@ -568,7 +567,6 @@ class ComponentReference(DeviceReference):
             layers_excluded: List of layers to exclude.
             port_type: optical, electrical, ...
             clockwise: if True, sort ports clockwise, False: counter-clockwise.
-
         """
         return select_ports(self.ports, **kwargs)
 
@@ -602,7 +600,6 @@ class ComponentReference(DeviceReference):
 
         Keyword Args:
             kwargs: orientation, port_type, layer.
-
         """
         ports_cw = self.get_ports_list(clockwise=True, **kwargs)
         ports_ccw = self.get_ports_list(clockwise=False, **kwargs)

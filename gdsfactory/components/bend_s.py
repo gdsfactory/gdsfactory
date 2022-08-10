@@ -26,7 +26,6 @@ def bend_s(
         with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
         cross_section: spec.
         kwargs: cross_section settings.
-
     """
     c = Component()
     dx, dy = size

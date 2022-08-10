@@ -28,7 +28,6 @@ def add_fidutials(
         bottom: optional bottom fidutial.
         offset: component offset coordinate (x, y).
         kwargs: fidutial settings.
-
     """
     c = Component()
     component = gf.get_component(component, **kwargs)
@@ -72,7 +71,6 @@ def add_fidutials_offsets(
         component: add reference to component to the new Component.
         fidutial: function to return fidutial.
         offsets: list of offsets.
-
     """
 
     c = Component()

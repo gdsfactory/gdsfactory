@@ -32,7 +32,6 @@ def bend_port(
         angle: for the bend.
         extension_length: for the straight after the bend.
         kwargs: cross_section settings.
-
     """
     c = gf.Component()
     component = gf.get_component(component)

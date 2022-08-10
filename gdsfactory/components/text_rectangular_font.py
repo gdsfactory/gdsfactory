@@ -29,7 +29,6 @@ def pixel_array(
         pixels: string representing the pixels
         pixel_size: width/height for each pixel
         layer: layer for each pixel
-
     """
     component = Component()
     lines = [line for line in pixels.split("\n") if len(line) > 0]
@@ -301,8 +300,10 @@ _
 
 @lru_cache(maxsize=None)
 def rectangular_font() -> Dict[str, str]:
-    """Returns a rectangular font dict The keys of the dictionary are the
-    characters The values are the pixel representation of the character."""
+    """Returns a rectangular font dict The keys of the dictionary are the.
+
+    characters The values are the pixel representation of the character.
+    """
     characters = {}
     lines = FONT.split("\n")
     while lines:

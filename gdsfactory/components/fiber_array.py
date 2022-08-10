@@ -33,7 +33,6 @@ def fiber_array(
        |         | base
        |_________|
           length
-
     """
     c = Component()
     layer_core = gf.get_layer(layer_core)

@@ -22,7 +22,6 @@ def taper_from_csv(
     Args:
         filepath: for CSV file.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
-
     """
     import pandas as pd
 

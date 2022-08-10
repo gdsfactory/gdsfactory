@@ -23,7 +23,6 @@ def get_padding_points(
         bottom: south padding in um.
         right: east padding in um.
         left: west padding in um.
-
     """
     c = component
     top = top if top is not None else default
@@ -57,7 +56,6 @@ def add_padding(
         bottom: south padding in um.
         right: east padding in um.
         left: west padding in um.
-
     """
     component = gf.get_component(component)
 
@@ -85,7 +83,6 @@ def add_padding_container(
         bottom: south padding in um.
         right: east padding in um.
         left: west padding in um.
-
     """
 
     component = gf.get_component(component)
@@ -121,7 +118,6 @@ def add_padding_to_size(
         ysize: y size to fill up in um.
         left: left padding in um to fill up in um.
         bottom: bottom padding in um to fill up in um.
-
     """
     component = gf.get_component(component)
 
@@ -150,7 +146,8 @@ def add_padding_to_size_container(
     left: float = 0,
     bottom: float = 0,
 ) -> Component:
-    """Returns new component with padding layers on each side. New size is
+    """Returns new component with padding layers on each side. New size is.
+
     multiple of grid size.
 
     Args:
@@ -160,7 +157,6 @@ def add_padding_to_size_container(
         ysize: y size to fill up in um.
         left: left padding in um to fill up in um.
         bottom: bottom padding in um to fill up in um.
-
     """
     component = gf.get_component(component)
 
