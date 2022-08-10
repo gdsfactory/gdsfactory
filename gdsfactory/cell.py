@@ -1,4 +1,4 @@
-"""cell decorator"""
+"""cell decorator for functions that return a Component."""
 import copy
 import functools
 import hashlib
