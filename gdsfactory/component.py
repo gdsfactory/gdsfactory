@@ -112,7 +112,7 @@ class Component(Device):
         changelog: str = "",
         **kwargs,
     ) -> None:
-
+        """Initialize the Component object."""
         self.__ports__ = {}
         self.aliases = {}
         self.uid = str(uuid.uuid4())[:8]
@@ -147,6 +147,7 @@ class Component(Device):
 
     @classmethod
     def __get_validators__(cls):
+        """Get validators for the Component object."""
         yield cls.validate
 
     @classmethod
@@ -437,6 +438,7 @@ class Component(Device):
         return _ref
 
     def __repr__(self) -> str:
+        """Return a string representation of the object."""
         return f"{self.name}: uid {self.uid}, ports {list(self.ports.keys())}, aliases {list(self.aliases.keys())}, {len(self.polygons)} polygons, {len(self.references)} references"
 
     def pprint(self) -> None:
@@ -762,7 +764,6 @@ class Component(Device):
         Args:
             single_layer: move all polygons are moved to the specified (optional).
         """
-
         component_flat = self.copy()
         component_flat.polygons = []
         component_flat.references = []
@@ -1372,7 +1373,6 @@ def recurse_structures(
         ignore_components_prefix: list of prefix to ignore.
         ignore_functions_prefix: list of prefix to ignore.
     """
-
     ignore_functions_prefix = ignore_functions_prefix or []
     ignore_components_prefix = ignore_components_prefix or []
 

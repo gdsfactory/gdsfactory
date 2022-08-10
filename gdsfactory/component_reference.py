@@ -25,6 +25,7 @@ Coordinates = Union[List[Coordinate], ndarray, List[Number], Tuple[Number, ...]]
 
 class SizeInfo:
     def __init__(self, bbox: ndarray) -> None:
+        """Initialize this object."""
         self.west = bbox[0, 0]
         self.east = bbox[1, 0]
         self.south = bbox[0, 1]
@@ -69,6 +70,7 @@ class SizeInfo:
         return self.get_rect()
 
     def __str__(self) -> str:
+        """Return a string representation of the object."""
         return f"w: {self.west}\ne: {self.east}\ns: {self.south}\nn: {self.north}\n"
 
 
@@ -127,6 +129,7 @@ class ComponentReference(DeviceReference):
         x_reflection: bool = False,
         visual_label: str = "",
     ) -> None:
+        """Initialize the ComponentReference object."""
         CellReference.__init__(
             self,
             ref_cell=component,
@@ -156,6 +159,7 @@ class ComponentReference(DeviceReference):
         self.ref_cell = value
 
     def __repr__(self) -> str:
+        """Return a string representation of the object."""
         return 'ComponentReference (parent Component "%s", ports %s, origin %s, rotation %s,' " x_reflection %s)" % (
             self.parent.name,
             list(self.ports.keys()),
@@ -165,6 +169,7 @@ class ComponentReference(DeviceReference):
         )
 
     def __str__(self) -> str:
+        """Return a string representation of the object."""
         return self.__repr__()
 
     def to_dict(self):
@@ -190,6 +195,7 @@ class ComponentReference(DeviceReference):
 
     @classmethod
     def __get_validators__(cls):
+        """Get validators."""
         yield cls.validate
 
     @classmethod
@@ -349,7 +355,6 @@ class ComponentReference(DeviceReference):
         Returns:
             ComponentReference.
         """
-
         # If only one set of coordinates is defined, make sure it's used to move things
         if destination is None:
             destination = origin
@@ -512,7 +517,6 @@ class ComponentReference(DeviceReference):
         Returns:
             ComponentReference: with correct rotation to connect to destination.
         """
-
         # port can either be a string with the name or an actual Port
         if port in self.ports:  # Then ``port`` is a key for the ports dict
             p = self.ports[port]

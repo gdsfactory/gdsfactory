@@ -84,7 +84,6 @@ def add_padding_container(
         right: east padding in um.
         left: west padding in um.
     """
-
     component = gf.get_component(component)
 
     c = Component()
