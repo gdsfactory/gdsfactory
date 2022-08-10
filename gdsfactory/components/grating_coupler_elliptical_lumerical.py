@@ -75,7 +75,7 @@ def grating_coupler_elliptical_lumerical(
     bias_gap: float = 0,
     **kwargs,
 ) -> Component:
-    """Returns a grating coupler from lumerical inverse design 3D optimization
+    """Returns a grating coupler from lumerical inverse design 3D optimization.
 
     this is a wrapper of components.grating_coupler_elliptical_arbitrary
     https://support.lumerical.com/hc/en-us/articles/1500000306621

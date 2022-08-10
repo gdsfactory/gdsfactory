@@ -1,4 +1,4 @@
-"""Merge mask metadata with test labels to return test_metadata """
+"""Merge mask metadata with test labels to return test_metadata."""
 import warnings
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -49,8 +49,8 @@ def merge_test_metadata(
     get_cell_from_string=get_cell_from_label,
     filepath: Optional[PathType] = None,
 ) -> DictConfig:
-    """Returns a test metadata dict config of labeled cells
-    by merging GDS labels in CSV and YAML mask metadata
+    """Returns a test metadata dict config of labeled cells by merging GDS
+    labels in CSV and YAML mask metadata.
 
     Args:
         labels_path: for test labels in CSV.
@@ -65,7 +65,6 @@ def merge_test_metadata(
                           |--> merge_test_metadata dict
                           |
         YAML metatada  ----
-
 
     """
     labels_path = Path(labels_path)

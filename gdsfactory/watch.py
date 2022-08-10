@@ -28,6 +28,7 @@ class YamlEventHandler(FileSystemEventHandler):
         """Register new YAML file into active pdk.
 
         pdk.cells[filename] = partial(from_yaml, filepath)
+
         """
         pdk = get_active_pdk()
         filepath = pathlib.Path(src_path)

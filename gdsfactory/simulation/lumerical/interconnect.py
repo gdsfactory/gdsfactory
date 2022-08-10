@@ -56,6 +56,7 @@ def add_interconnect_element(
         flip_horiz:
         rotation:
         extra_props:
+
     """
     props = OrderedDict(
         [
@@ -105,7 +106,8 @@ def send_to_interconnect(
     exclude_electrical: bool = True,
     **settings,
 ) -> object:
-    """Send netlist components to Interconnect and connect them according to netlist.
+    """Send netlist components to Interconnect and connect them according to
+    netlist.
 
     Args:
         component: component from which to extract netlist.
@@ -116,6 +118,7 @@ def send_to_interconnect(
             the prefix character.  (i.e. "c1_input" -> "input").
         component_distance_scaling: scaling factor for component distances when
             laying out Interconnect schematic.
+
     """
     if not session:
         import lumapi

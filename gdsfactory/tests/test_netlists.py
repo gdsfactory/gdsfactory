@@ -35,11 +35,11 @@ def test_netlists(
     check: bool = True,
     component_factory=components,
 ) -> None:
-    """Write netlists for hierarchical circuits.
-    Checks that both netlists are the same
-    jsondiff does a hierarchical diff
+    """Write netlists for hierarchical circuits. Checks that both netlists are
+    the same jsondiff does a hierarchical diff.
 
     Component -> netlist -> Component -> netlist
+
     """
     c = component_factory[component_type]()
     n = c.get_netlist()

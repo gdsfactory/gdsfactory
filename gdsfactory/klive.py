@@ -1,6 +1,8 @@
 """Update GDS view in Klayout dynamically.
-Requires the Klayout plugin installed in Klayout.
-This happens when you run `pf install`.
+
+Requires the Klayout plugin installed in Klayout. This happens when you
+run `pf install`.
+
 """
 
 import json

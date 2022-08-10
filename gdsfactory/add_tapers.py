@@ -13,7 +13,7 @@ def get_ports_and_tapers(
     taper: ComponentSpec = taper_function,
     select_ports: Optional[Callable] = select_ports_optical,
 ) -> Tuple[List[Port], List[ComponentReference]]:
-    """Returns ports and taper elements for a component"""
+    """Returns ports and taper elements for a component."""
     elements = []
 
     taper = gf.call_if_func(taper)

@@ -34,7 +34,7 @@ def _rotate(v: ndarray, m: ndarray) -> ndarray:
 
 
 def get_pin_triangle_polygon_tip(port: Port) -> Tuple[List[float], Tuple[float, float]]:
-    """Returns triangle polygon and tip position"""
+    """Returns triangle polygon and tip position."""
     p = port
 
     orientation = p.orientation
@@ -66,13 +66,14 @@ def add_pin_triangle(
     layer: LayerSpec = "PORT",
     layer_label: LayerSpec = "TEXT",
 ) -> None:
-    """Add triangle pin with a right angle, pointing out of the port
+    """Add triangle pin with a right angle, pointing out of the port.
 
     Args:
         component: to add pin.
         port: Port.
         layer: for the pin marker.
         layer_label: for the label.
+
     """
     if port.orientation is not None:
         polygon, ptip = get_pin_triangle_polygon_tip(port=port)
@@ -93,7 +94,7 @@ def add_pin_rectangle_inside(
     layer: LayerSpec = "PORT",
     layer_label: LayerSpec = "TEXT",
 ) -> None:
-    """Add square pin towards the inside of the port
+    """Add square pin towards the inside of the port.
 
     Args:
         component: to add pins.
@@ -113,7 +114,6 @@ def add_pin_rectangle_inside(
           |               |
           |      __       |
           |_______________|
-
 
     """
     p = port
@@ -355,6 +355,7 @@ def add_outline(
         bottom: padding.
         right: padding.
         left: padding.
+
     """
     from gdsfactory.add_padding import get_padding_points
 
@@ -413,6 +414,7 @@ def add_bbox_siepic(
         component: to add bbox.
         bbox_layer: bounding box.
         remove_layers: remove other layers.
+
     """
     from gdsfactory.pdk import get_layer
 
@@ -453,6 +455,7 @@ def add_pins_bbox_siepic(
         pin_length: in um.
         bbox_layer: bounding box layer.
         padding: around device.
+
     """
     component = component.copy()
     layers = component.get_layers()
@@ -516,7 +519,7 @@ def add_settings_label(
     reference: ComponentReference,
     layer_label: LayerSpec = "LABEL_SETTINGS",
 ) -> None:
-    """Add settings in label
+    """Add settings in label.
 
     Args:
         componnent: to add pins.

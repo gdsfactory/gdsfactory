@@ -27,6 +27,7 @@ def generate_doe(
         settings: component settings.
         do_permutations: for each setting.
         function: for the component (add padding, grating couplers ...)
+
     """
     if do_permutations:
         settings_list = [dict(zip(settings, t)) for t in it.product(*settings.values())]
@@ -79,6 +80,7 @@ def pack_doe(
         rotation: for each component in degrees.
         h_mirror: horizontal mirror in y axis (x, 1) (1, 0). This is the most common.
         v_mirror: vertical mirror using x axis (1, y) (0, y).
+
     """
     component_list, settings_list = generate_doe(
         doe, settings, do_permutations, function
@@ -127,6 +129,7 @@ def pack_doe_grid(
         rotation: for each component in degrees.
         h_mirror: horizontal mirror y axis (x, 1) (1, 0). most common mirror.
         v_mirror: vertical mirror using x axis (1, y) (0, y).
+
     """
     if do_permutations:
         settings_list = [dict(zip(settings, t)) for t in it.product(*settings.values())]

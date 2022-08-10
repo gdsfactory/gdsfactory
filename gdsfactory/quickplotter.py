@@ -1,4 +1,4 @@
-"""based on phidl.quickplotter"""
+"""based on phidl.quickplotter."""
 
 import sys
 
@@ -65,10 +65,13 @@ _quickplot_options = dict(
 
 def _zoom_factory(axis, scale_factor=1.4):
     """returns zooming functionality to axis.
-    From https://gist.github.com/tacaswell/3144287"""
+
+    From https://gist.github.com/tacaswell/3144287
+
+    """
 
     def zoom_fun(event, ax, scale):
-        """zoom when scrolling"""
+        """zoom when scrolling."""
         if event.inaxes == axis:
             scale_factor = np.power(scale, -event.step)
             xdata = event.xdata
@@ -153,6 +156,7 @@ def set_quickplot_options(
         mousewheel/trackpad
     interactive_zoom : bool
         Enables/disables the ability to use mousewheel/trackpad to zoom
+
     """
     if show_ports is not None:
         _quickplot_options["show_ports"] = show_ports
@@ -187,6 +191,7 @@ def quickplot(items):  # noqa: C901
 
     >>> E = gf.components.ellipse()
     >>> E.plot()
+
     """
     from matplotlib import pyplot as plt
 
@@ -315,7 +320,7 @@ def quickplot(items):  # noqa: C901
 
 def _use_interactive_zoom():
     """Checks whether the current matplotlib backend is compatible with
-    interactive zoom"""
+    interactive zoom."""
     import matplotlib
 
     if _quickplot_options["interactive_zoom"] is not None:

@@ -26,6 +26,7 @@ def _via_iterable(
         layer2: bottom wiring.
         via_layer: via.
         via_width: width of via.
+
     """
     c = gf.Component()
     wire1 = c.add_ref(compass(size=(via_spacing, wire_width), layer=layer1))

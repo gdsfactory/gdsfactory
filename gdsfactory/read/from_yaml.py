@@ -167,6 +167,7 @@ def place(
         instance_name: instance_name to place.
         all_remaining_insts: list of all the remaining instances to place
             instances pop from this instrance as they are placed.
+
     """
     if not all_remaining_insts:
         return
@@ -592,12 +593,14 @@ def _from_yaml(
     routing_strategy: Dict[str, Callable] = routing_strategy_factories,
     label_instance_function: Callable = add_instance_label,
 ) -> Component:
-    """Returns component from YAML decorated with cell for caching and autonaming.
+    """Returns component from YAML decorated with cell for caching and
+    autonaming.
 
     Args:
         conf: dict.
         routing_strategy: for each route.
         label_instance_function: to label each instance.
+
     """
     from gdsfactory.pdk import GENERIC, get_active_pdk
 

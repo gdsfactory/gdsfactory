@@ -63,6 +63,7 @@ def get_mode_solver_rib(
           |__________________________
           <------------------------>
                         sy
+
     """
     material_core = mp.Medium(index=ncore)
     material_clad = mp.Medium(index=nclad)

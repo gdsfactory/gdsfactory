@@ -1,5 +1,10 @@
-"""Given a find_modes_waveguide function repeats the mode simulation with increasing hyperparameter value (`sy`, `sz`, and `resolution`) until the change in output is below some tolerance.
-Output the results of `find_modes_waveguide` and the smallest hyperparameters that allowed convergence.
+"""Given a find_modes_waveguide function repeats the mode simulation with
+increasing hyperparameter value (`sy`, `sz`, and `resolution`) until the change
+in output is below some tolerance.
+
+Output the results of `find_modes_waveguide` and the smallest
+hyperparameters that allowed convergence.
+
 """
 from typing import Dict, Tuple
 
@@ -20,8 +25,9 @@ def neff_domain_convergence_test(
     stdout: bool = False,
     **kwargs,
 ) -> Tuple[Dict[int, Mode], float, float, int]:
-    """Repeats a find_modes_waveguide increasing hyperparameters sy, sz, and resolution
-    until results are no longer affected by the choice (according to conv_tol).
+    """Repeats a find_modes_waveguide increasing hyperparameters sy, sz, and
+    resolution until results are no longer affected by the choice (according to
+    conv_tol).
 
     Args:
         tol: tolerance when finding modes
@@ -49,6 +55,7 @@ def neff_domain_convergence_test(
         parity= mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM.
 
     Returns: Dict[mode_number, Mode], sy, sz, resolution
+
     """
     sy = kwargs.get("sy", 2)
     sz = kwargs.get("sz", 2)
@@ -124,8 +131,9 @@ def neff_resolution_convergence_test(
     stdout: bool = False,
     **kwargs,
 ) -> Tuple[Dict[int, Mode], float, float, int]:
-    """Repeats a find_modes_waveguide on a mode_solver, increasing hyperparameter resolution
-    until results are no longer affected by the choice (according to conv_tol).
+    """Repeats a find_modes_waveguide on a mode_solver, increasing
+    hyperparameter resolution until results are no longer affected by the
+    choice (according to conv_tol).
 
     Args:
         tol: tolerance when finding modes
@@ -153,6 +161,7 @@ def neff_resolution_convergence_test(
         parity= mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM.
 
     Returns: Dict[mode_number, Mode], sy, sz, resolution
+
     """
     sy = kwargs.get("sy", 2)
     sz = kwargs.get("sz", 2)

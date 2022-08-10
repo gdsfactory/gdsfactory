@@ -30,6 +30,7 @@ def straight(
 
         o1 -------------- o2
                 length
+
     """
     dwl = wl - wl0
     dneff_dwl = (ng - neff) / wl0
@@ -56,6 +57,7 @@ def attenuator(*, loss: float = 0.0) -> SDict:
 
         o1 -------------- o2
                 loss
+
     """
     transmission = jnp.asarray(10 ** (-loss / 20), dtype=complex)
     return reciprocal(

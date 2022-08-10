@@ -1,5 +1,4 @@
-"""Adiabatic tapers from CSV files
-"""
+"""Adiabatic tapers from CSV files."""
 import pathlib
 from functools import partial
 from pathlib import Path
@@ -23,6 +22,7 @@ def taper_from_csv(
     Args:
         filepath: for CSV file.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
+
     """
     import pandas as pd
 

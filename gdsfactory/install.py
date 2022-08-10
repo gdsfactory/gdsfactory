@@ -101,7 +101,11 @@ def make_symlink(src: Path, dest: Path) -> None:
 
 
 def install_klayout_package() -> None:
-    """Install klayout package. Equivalent to using klayout package manager."""
+    """Install klayout package.
+
+    Equivalent to using klayout package manager.
+
+    """
     klayout_folder = "KLayout" if sys.platform == "win32" else ".klayout"
     cwd = pathlib.Path(__file__).resolve().parent
     home = pathlib.Path.home()

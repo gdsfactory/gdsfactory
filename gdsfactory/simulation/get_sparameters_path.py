@@ -26,14 +26,15 @@ def _get_sparameters_path(
     dirpath: Optional[Path] = None,
     **kwargs,
 ) -> Path:
-    """Return Sparameters CSV filepath.
-    hashes of all simulation settings to get a consistent unique name.
+    """Return Sparameters CSV filepath. hashes of all simulation settings to
+    get a consistent unique name.
 
     Args:
         component: component or component factory.
         dirpath: directory to store sparameters in CSV.
             Defaults to active Pdk.sparameters_path.
         kwargs: simulation settings.
+
     """
 
     dirpath = dirpath or get_sparameters_path()
@@ -56,6 +57,7 @@ def _get_sparameters_data(**kwargs) -> pd.DataFrame:
         component: component.
         dirpath: directory path to store sparameters.
         kwargs: simulation settings.
+
     """
     filepath = _get_sparameters_path(**kwargs)
     return pd.read_csv(filepath)

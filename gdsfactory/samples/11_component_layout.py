@@ -1,4 +1,4 @@
-""" Lets create a new component.
+"""Lets create a new component.
 
 We create a function which returns a gf.Component.
 
@@ -7,6 +7,7 @@ Lets build straight crossing out of a vertical and horizontal arm
 - Create a component using a function with the cell decorator to define the name automatically and uniquely.
 - Define the polygons in the component
 - Add ports to the component so you can connect it with other components
+
 """
 
 import gdsfactory as gf
@@ -30,6 +31,7 @@ def test_crossing_arm(
         r2:
         taper_width:
         taper_length:
+
     """
     c = gf.Component()
     c << gf.components.ellipse(radii=(r1, r2), layer=LAYER.SLAB150)

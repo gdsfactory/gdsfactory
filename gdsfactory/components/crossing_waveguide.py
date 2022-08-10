@@ -20,7 +20,7 @@ from gdsfactory.types import ComponentSpec, CrossSectionSpec, LayerSpec
 
 
 def snap_to_grid(p: float, grid_per_unit: int = 1000) -> float64:
-    """round"""
+    """round."""
     return np.round(p * grid_per_unit) / grid_per_unit
 
 
@@ -42,6 +42,7 @@ def crossing_arm(
         L: length in um.
         layer_slab: for the shallow etch.
         cross_section: spec.
+
     """
     c = Component()
 
@@ -98,6 +99,7 @@ def crossing(
     Args:
         arm: arm spec.
         cross_section: spec.
+
     """
     x = gf.get_cross_section(cross_section)
     c = Component()
@@ -132,10 +134,11 @@ def crossing(
 
 @cell
 def crossing_from_taper(taper=lambda: taper(width2=2.5, length=3.0)) -> Component:
-    """Returns Crossing based on a taper. The default is a dummy taper
+    """Returns Crossing based on a taper. The default is a dummy taper.
 
     Args:
         taper: taper function.
+
     """
     taper = gf.get_component(taper)
 
@@ -160,8 +163,8 @@ def crossing_etched(
     layer_wg: LayerSpec = "WG",
     layer_slab: LayerSpec = "SLAB150",
 ) -> Component:
-    """
-    Waveguide crossing.
+    """Waveguide crossing.
+
     - The full crossing has to be on WG layer (to start with a 220nm slab)
     - Then we etch the ellipses down to 150nm slabs and we keep linear taper at 220nm.
     What we write is what we etch on this step
@@ -174,6 +177,7 @@ def crossing_etched(
         L: length.
         layer_wg: waveguide layer.
         layer_slab: shallow etch layer.
+
     """
     layer_wg = gf.get_layer(layer_wg)
     layer_slab = gf.get_layer(layer_slab)
@@ -452,7 +456,7 @@ def compensation_path(
 
 
 def _demo() -> None:
-    """plot curvature of bends"""
+    """plot curvature of bends."""
     from matplotlib import pyplot as plt
 
     c = crossing45(port_spacing=20.0, dx=15)

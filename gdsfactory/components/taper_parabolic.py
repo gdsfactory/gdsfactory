@@ -14,7 +14,7 @@ def taper_parabolic(
     npoints: int = 100,
     layer: LayerSpec = "WG",
 ) -> gf.Component:
-    """Returns a parabolic_taper
+    """Returns a parabolic_taper.
 
     Args:
         length: in um.
@@ -23,6 +23,7 @@ def taper_parabolic(
         exp: exponent.
         npoints: number of points.
         layer: layer spec.
+
     """
     x = np.linspace(0, 1, npoints)
     y = transition_exponential(y1=width1, y2=width2, exp=exp)(x) / 2

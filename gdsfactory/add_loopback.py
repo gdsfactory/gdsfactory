@@ -58,6 +58,7 @@ def add_loopback(
                |                                |       |
                |                                |       | south_waveguide_spacing
                |________________________________|      _|_
+
     """
 
     gc = gf.get_component(grating)

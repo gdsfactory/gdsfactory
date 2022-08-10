@@ -36,7 +36,10 @@ def component_name(request) -> str:
 
 def test_gds(component_name: str) -> None:
     """Avoid regressions in GDS names, shapes and layers.
-    Runs XOR and computes the area."""
+
+    Runs XOR and computes the area.
+
+    """
     component = cells[component_name]()
     test_name = f"fabc_{component_name}"
     difftest(component, test_name=test_name)
@@ -49,7 +52,7 @@ def test_settings(component_name: str, data_regression: DataRegressionFixture) -
 
 
 def test_assert_ports_on_grid(component_name: str) -> None:
-    """Ensures all ports are on grid to avoid 1nm gaps"""
+    """Ensures all ports are on grid to avoid 1nm gaps."""
     component = cells[component_name]()
     component.assert_ports_on_grid()
 

@@ -1,4 +1,4 @@
-""" Command line interface for gdsfactory."""
+"""Command line interface for gdsfactory."""
 import os
 import pathlib
 import shlex
@@ -23,7 +23,7 @@ LAYER_LABEL = LAYER.LABEL
 
 
 def print_version(ctx: Context, param: Option, value: bool) -> None:
-    """Prints the version"""
+    """Prints the version."""
     if not value or ctx.resilient_parsing:
         return
     click.echo(VERSION)
@@ -33,7 +33,7 @@ def print_version(ctx: Context, param: Option, value: bool) -> None:
 @click.command(name="delete")
 @click.argument("logfile", default="main", required=False)
 def log_delete(logfile: str) -> None:
-    """Deletes logs"""
+    """Deletes logs."""
     if not os.path.exists(log_directory):
         print("No logs found.")
         return
@@ -47,14 +47,14 @@ def log_delete(logfile: str) -> None:
 
 @click.group()
 def tool() -> None:
-    """Commands working with gdsfactory tool"""
+    """Commands working with gdsfactory tool."""
     pass
 
 
 @click.command(name="config")
 @click.argument("key", required=False, default=None)
 def config_get(key: str) -> None:
-    """Shows key values from CONFIG"""
+    """Shows key values from CONFIG."""
     print_config(key)
 
 
@@ -71,7 +71,7 @@ def gds() -> None:
 @click.argument("filepath", type=click.Path(exists=True))
 @click.option("--force", "-f", default=False, help="Force deletion", is_flag=True)
 def layermap_to_dataclass(filepath, force: bool) -> None:
-    """Converts klayout LYP to a dataclass"""
+    """Converts klayout LYP to a dataclass."""
     filepath_lyp = pathlib.Path(filepath)
     filepath_py = filepath_lyp.with_suffix(".py")
     if not filepath_lyp.exists():
@@ -111,7 +111,7 @@ def merge_gds(
 
 @click.group()
 def yaml() -> None:
-    """define components/circuits/masks in YAML"""
+    """define components/circuits/masks in YAML."""
     pass
 
 
@@ -143,7 +143,7 @@ def watch(path=cwd) -> None:
 @click.command()
 @click.argument("filename")
 def show(filename: str) -> None:
-    """Show a GDS file using klive"""
+    """Show a GDS file using klive."""
     gdsfactory.show(filename)
 
 
@@ -167,7 +167,10 @@ def install() -> None:
 @click.command(name="test")
 def run_tests() -> None:
     """Run tests using pytest.
-    You can also just run `pytest` directly."""
+
+    You can also just run `pytest` directly.
+
+    """
 
     os.chdir(CONFIG["repo_path"])
     command = shlex.split("pytest")

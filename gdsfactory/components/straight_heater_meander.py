@@ -43,6 +43,7 @@ def straight_heater_meander(
         heater_taper_length: minimizes current concentrations from heater to via_stack.
         straight_width: width of the straight section.
         taper_length: from the cross_section.
+
     """
     rows = 3
     c = Component()

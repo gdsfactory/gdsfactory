@@ -13,7 +13,7 @@ def fiber_array(
     layer_core: LayerSpec = "WG",
     layer_cladding: LayerSpec = "WGCLAD",
 ) -> Component:
-    """Returns a fiber array
+    """Returns a fiber array.
 
     Args:
         n: number of fibers.

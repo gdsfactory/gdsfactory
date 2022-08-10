@@ -68,6 +68,7 @@ def mzi_arms(
             |          |       ____
             |          |          |
             |__________|          |__________
+
     """
     from gdsfactory.pdk import get_component
 

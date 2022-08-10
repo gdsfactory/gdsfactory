@@ -137,9 +137,9 @@ def component_lattice(
     symbol_to_component: Dict[str, Component] = None,
     grid_per_unit: int = 1000,
 ) -> Component:
-    """Return a lattice Component of N inputs and outputs
-    Columns must have components with the same x spacing between input/output ports
-    Lines must have components with the same y spacing between input/output ports
+    """Return a lattice Component of N inputs and outputs Columns must have
+    components with the same x spacing between input/output ports Lines must
+    have components with the same y spacing between input/output ports.
 
     Args:
         lattice: ASCII map with character:
@@ -266,6 +266,7 @@ def parse_lattice(
     Args:
         lattice:
         symbol_to_component:
+
     """
     lines = lattice.replace(" ", "").split("\n")
     columns = {}

@@ -1,8 +1,8 @@
-"""# Components.
-You can adapt some component functions from the `gdsfactory.components` module.
-Each function there returns a Component object
+"""# Components. You can adapt some component functions from the
+`gdsfactory.components` module. Each function there returns a Component object
 
 Here are two equivalent functions
+
 """
 
 

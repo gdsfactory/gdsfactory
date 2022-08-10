@@ -37,7 +37,6 @@ def array(
         |   |      |   |     |   |        |   |
         |___|      |___|     |___|        |___|
 
-
     """
     if rows > 1 and spacing[1] == 0:
         raise ValueError(f"rows = {rows} > 1 require spacing[1] > 0")

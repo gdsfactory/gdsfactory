@@ -1,5 +1,4 @@
-"""equations from paper https://doi.org/10.1364/OE.27.010456
-"""
+"""equations from paper https://doi.org/10.1364/OE.27.010456."""
 
 dn_dt_si = 1.87e-4
 dn_dt_sio2 = 8.5e-6

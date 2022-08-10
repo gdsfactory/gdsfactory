@@ -37,6 +37,7 @@ def remove_simulation_kwargs(d: Dict[str, Any]) -> Dict[str, Any]:
     """Returns a copy of dict with only simulation settings.
 
     removes all flags for the simulator itself
+
     """
     d = d.copy()
     d.pop("run", None)
@@ -58,6 +59,7 @@ def parse_port_eigenmode_coeff(port_index: int, ports, sim_dict: Dict):
         port_index: index of port.
         ports: component_ref.ports.
         sim_dict: simulation dict.
+
     """
     if f"o{port_index}" not in ports:
         raise ValueError(

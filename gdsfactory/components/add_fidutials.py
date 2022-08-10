@@ -72,6 +72,7 @@ def add_fidutials_offsets(
         component: add reference to component to the new Component.
         fidutial: function to return fidutial.
         offsets: list of offsets.
+
     """
 
     c = Component()

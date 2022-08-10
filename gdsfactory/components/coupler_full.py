@@ -22,10 +22,10 @@ def coupler_full(
     cross_section: CrossSectionSpec = "strip",
     **kwargs
 ) -> Component:
-    """Adiabatic Full Coupler.
-    Design based on asymmetric adiabatic full coupler designs, such as the one reported
-    in 'Integrated Optic Adiabatic Devices on Silicon' by Y. Shani, et al
-    (IEEE Journal of Quantum Electronics, Vol. 27, No. 3 March 1991).
+    """Adiabatic Full Coupler. Design based on asymmetric adiabatic full
+    coupler designs, such as the one reported in 'Integrated Optic Adiabatic
+    Devices on Silicon' by Y. Shani, et al (IEEE Journal of Quantum
+    Electronics, Vol. 27, No. 3 March 1991).
 
     Region I is the first half of the input S-bend straight where the
     input straights widths taper by +dw and -dw,

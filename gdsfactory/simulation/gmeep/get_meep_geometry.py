@@ -28,6 +28,7 @@ def get_meep_geometry_from_component(
         is_3d: renders in 3D.
         dispersive: add dispersion.
         kwargs: settings.
+
     """
     component = gf.get_component(component=component, **kwargs)
     component_ref = component.ref()

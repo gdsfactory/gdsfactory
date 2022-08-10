@@ -56,7 +56,6 @@ def rectangle_with_slits(
         |___________________________________|
                         size[0]
 
-
     """
     c = Component()
     layer = gf.get_layer(layer)
