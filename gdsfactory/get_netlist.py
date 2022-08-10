@@ -1,4 +1,5 @@
 """Extract netlist from component port connectivity.
+
 Assumes two ports are connected when they have same width, x, y
 
 .. code:: yaml
@@ -33,6 +34,7 @@ def get_instance_name(
     layer_label: LayerSpec = "LABEL_INSTANCE",
 ) -> str:
     """Returns the instance name from the label.
+
     If no label returns to instanceName_x_y
 
     Args:
@@ -71,8 +73,9 @@ def get_netlist(
     tolerance: int = 1,
     exclude_port_types: Optional[List] = None,
 ) -> omegaconf.DictConfig:
-    """From a component returns instances, connections and placements dict. It
-    assumes that ports with same width, x, y are connected.
+    """From a component returns instances, connections and placements dict.
+
+    Assumes that ports with same width, x, y are connected.
 
      Args:
          component: to extract netlist.
@@ -166,7 +169,8 @@ def get_netlist(
         if len(names_set) > 2:
             x, y, w, t = xywt
             raise ValueError(
-                f"more than 2 connections at {x / 1000, y / 1000} {list(names_set)}, width  = {w / 1000} "
+                "more than 2 connections at "
+                f"{x / 1000, y / 1000} {list(names_set)}, width  = {w / 1000} "
             )
         if len(names_set) == 2:
             names_list = list(names_set)

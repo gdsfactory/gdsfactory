@@ -1,4 +1,5 @@
-"""
+"""We use Ports to connect Components with other Components.
+
 we follow start from the bottom left and name the ports counter-clock-wise
 
 .. code::

@@ -2,7 +2,6 @@
 
 # C extensions
 *.so
-*.ports
 *.properties
 *.sqlite3
 *.hdf5
