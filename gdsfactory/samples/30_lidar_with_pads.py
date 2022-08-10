@@ -9,7 +9,7 @@ import gdsfactory as gf
 
 if __name__ == "__main__":
     c = gf.Component("lidar")
-    elements = 2**2
+    elements = 2 ** 2
     # elements = 2**4
     antenna_pitch = 2.0
     splitter_tree_spacing = (50.0, 70.0)

@@ -52,7 +52,7 @@ def model_from_csv(
         raise ValueError(f"{xkey!r} not in {keys}")
 
     nsparameters = (len(keys) - 1) // 2
-    nports = int(nsparameters**0.5)
+    nports = int(nsparameters ** 0.5)
 
     x = jnp.asarray(dic[xkey] * xunits)
     wl = jnp.asarray(wl_cband)
