@@ -32,7 +32,6 @@ def pixelate_path(
         theta_end: in degrees.
 
     """
-
     thetas0 = [
         np.arctan2(y1 - y0, x1 - x0) for (x0, y0), (x1, y1) in zip(pts[:-1], pts[1:])
     ]
@@ -99,7 +98,6 @@ def _pixelate(
         A list of pixel bounding boxes
 
     """
-
     shape = points_to_shapely(pts)  # convert to shapely
     if not shape:
         return []
@@ -159,9 +157,8 @@ def rect_to_coords(r):
 
 
 def pixelate(pts, N=100, margin=0.4, **kwargs):
-    """pixelate shape defined by points Return rectangles [Rect1, Rect2, ...]
+    """Pixelate shape defined by points Return rectangles [Rect1, Rect2, ...] \
     ready to go in the quad tree."""
-
     pixels = _pixelate(pts, N=N, margin=margin, **kwargs)
     return [rect_to_coords(pixel) for pixel in pixels]
 

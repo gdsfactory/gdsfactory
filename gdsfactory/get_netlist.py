@@ -1,4 +1,4 @@
-"""Extract netlist from component port connectivity. Assumes two ports are
+"""Extract netlist from component port connectivity. Assumes two ports are \
 connected when they have same width, x, y.
 
 .. code:: yaml
@@ -32,7 +32,7 @@ def get_instance_name(
     reference: ComponentReference,
     layer_label: LayerSpec = "LABEL_INSTANCE",
 ) -> str:
-    """Returns the instance name from the label. If no label returns to
+    """Returns the instance name from the label. If no label returns to \
     instanceName_x_y.
 
     Args:
@@ -41,7 +41,6 @@ def get_instance_name(
         layer_label: ignores layer_label[1].
 
     """
-
     layer_label = get_layer(layer_label)
 
     x = snap_to_grid(reference.x)
@@ -72,7 +71,7 @@ def get_netlist(
     tolerance: int = 1,
     exclude_port_types: Optional[List] = None,
 ) -> omegaconf.DictConfig:
-    """From a component returns instances, connections and placements dict. It
+    """From a component returns instances, connections and placements dict. It \
     assumes that ports with same width, x, y are connected.
 
     Args:

@@ -152,7 +152,6 @@ class LayerColors(BaseModel):
             dither: KLayout dither style for phidl.utilities.write_lyp().
 
         """
-
         new_layer = LayerColor(
             gds_layer=gds_layer,
             gds_datatype=gds_datatype,
@@ -262,8 +261,7 @@ def _name_to_description(name_str) -> str:
 def _add_layer(
     entry, lys: LayerColors, shorten_names: bool = True
 ) -> Optional[LayerColors]:
-    """Adds a layer entry to layer colors and Returns a LayerColors updated
-    dict.
+    """Adds a layer entry to layer colors and Returns a LayerColors updated dict.
 
     Returns None for invalid entries.
 
@@ -321,7 +319,7 @@ def _add_layer(
 
 
 def load_lyp(filepath: Path) -> LayerColors:
-    """Returns a LayerColors object from a Klayout lyp file layer properties
+    """Returns a LayerColors object from a Klayout lyp file layer properties \
     file."""
     with open(filepath) as fx:
         lyp_dict = xmltodict.parse(fx.read(), process_namespaces=True)
@@ -355,8 +353,7 @@ load_lyp_generic = partial(load_lyp, filepath=layer_path)
 
 
 def lyp_to_dataclass(lyp_filepath: Union[str, Path], overwrite: bool = True) -> str:
-    """Returns python LayerMap script from a klayout layer properties file
-    lyp."""
+    """Returns python LayerMap script from a klayout layer properties file lyp."""
     filepathin = pathlib.Path(lyp_filepath)
     filepathout = filepathin.with_suffix(".py")
 
