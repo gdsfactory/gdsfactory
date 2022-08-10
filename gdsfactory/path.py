@@ -585,8 +585,7 @@ def euler(
     use_eff: bool = False,
     npoints: int = 720,
 ) -> Path:
-    """Returns an euler bend that adiabatically transitions from straight to
-    curved.
+    """Returns an euler bend that adiabatically transitions from straight to curved.
 
     `radius` is the minimum radius of curvature of the bend.
     However, if `use_eff` is set to True, `radius` corresponds to the effective

@@ -94,6 +94,7 @@ class CrossSection(BaseModel):
     add_center_section: bool = True
 
     class Config:
+        """Configuration."""
         extra = "forbid"
         fields = {
             "decorator": {"exclude": True},
@@ -146,7 +147,6 @@ class CrossSection(BaseModel):
             right: right padding.
             left: left padding.
         """
-
         from gdsfactory.add_padding import get_padding_points
 
         c = component
@@ -289,7 +289,6 @@ def cross_section(
         c = p.extrude(xs)
         c.plot()
     """
-
     return CrossSection(
         width=width,
         offset=offset,
@@ -396,7 +395,6 @@ def slot(
         c = p.extrude(xs)
         c.plot()
     """
-
     rail_width = (width - slot_width) / 2
     rail_offset = (rail_width + slot_width) / 2
     sections = [
@@ -1127,7 +1125,6 @@ def get_cross_section_factories(
         modules: module or iterable of modules.
         verbose: prints in case any errors occur.
     """
-
     modules = modules if isinstance(modules, Iterable) else [modules]
 
     xs = {}

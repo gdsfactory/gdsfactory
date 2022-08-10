@@ -111,7 +111,7 @@ def merge_gds(
 
 @click.group()
 def yaml() -> None:
-    """define components/circuits/masks in YAML."""
+    """Define components/circuits/masks in YAML."""
     pass
 
 
@@ -171,7 +171,6 @@ def run_tests() -> None:
     You can also just run `pytest` directly.
 
     """
-
     os.chdir(CONFIG["repo_path"])
     command = shlex.split("pytest")
     subprocess.call(command)

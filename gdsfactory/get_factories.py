@@ -13,7 +13,6 @@ def get_cells(modules, verbose: bool = False) -> Dict[str, ComponentFactory]:
         verbose: prints in case any errors occur.
 
     """
-
     modules = modules if isinstance(modules, Iterable) else [modules]
 
     cells = {}

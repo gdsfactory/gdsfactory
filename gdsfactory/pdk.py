@@ -78,6 +78,7 @@ class Pdk(BaseModel):
     warn_off_grid_ports: bool = False
 
     class Config:
+        """Configuration."""
         extra = "forbid"
         fields = {
             "cross_sections": {"exclude": True},
@@ -261,7 +262,6 @@ class Pdk(BaseModel):
 
     def get_component(self, component: ComponentSpec, **kwargs) -> Component:
         """Returns component from a component spec."""
-
         cells_and_containers = set(self.cells.keys()).union(set(self.containers.keys()))
 
         if isinstance(component, Component):
