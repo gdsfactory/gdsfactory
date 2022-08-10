@@ -1,4 +1,4 @@
-""" Command line interface for gdsfactory."""
+"""Command line interface. Type `gf` into a terminal."""
 import os
 import pathlib
 import shlex
