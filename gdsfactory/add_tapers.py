@@ -46,7 +46,6 @@ def add_tapers(
         taper_port_name1: for input.
         taper_port_name2: for output.
     """
-
     c = gf.Component()
     component = gf.pdk.get_component(component)
 
