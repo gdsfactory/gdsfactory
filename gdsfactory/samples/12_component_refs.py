@@ -1,4 +1,5 @@
-"""Lets create a crossing component with two references to other components (crossing_arm)
+"""Lets create a crossing component with two references to other components
+(crossing_arm)
 
 - add references to a component (one of the arm references rotated)
 - add ports from the child references into the parent cell
@@ -21,7 +22,7 @@ def test_crossing_arm(
     layer_wg: Layer = (1, 0),
     layer_slab: Layer = (2, 0),
 ) -> Component:
-    """crossing arm"""
+    """crossing arm."""
     c = gf.Component()
     c << gf.components.ellipse(radii=(r1, r2), layer=layer_slab)
 

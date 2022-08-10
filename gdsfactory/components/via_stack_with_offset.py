@@ -16,7 +16,7 @@ def via_stack_with_offset(
     offsets: Optional[Tuple[float, ...]] = None,
     port_orientation: float = 180,
 ) -> Component:
-    """Rectangular layer transition with offset between layers
+    """Rectangular layer transition with offset between layers.
 
     Args:
         layers: for each via.
@@ -24,6 +24,7 @@ def via_stack_with_offset(
         sizes: for each via.
         offsets: for next layer.
         port_orientation: 180: W0, 0: E0, 90: N0, 270: S0.
+
     """
     c = Component()
     y0 = y1 = 0

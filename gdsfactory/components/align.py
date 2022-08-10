@@ -25,6 +25,7 @@ def align_wafer(
         layer: for the cross.
         layer_cladding: optional.
         square_corner: bottom_left, bottom_right, top_right, top_left.
+
     """
     layer = gf.get_layer(layer)
     c = Component()
@@ -84,6 +85,7 @@ def add_frame(
         width: of the frame.
         spacing: of component to frame.
         layer: frame layer.
+
     """
     c = Component()
     layer = gf.get_layer(layer)

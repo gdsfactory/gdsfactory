@@ -1,4 +1,4 @@
-"""Group references. Distribute them as you want
+"""Group references. Distribute them as you want.
 
 Distribute different references in the X direction.
 

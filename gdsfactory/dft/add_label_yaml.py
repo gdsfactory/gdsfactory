@@ -1,6 +1,4 @@
-"""
-
-"""
+""""""
 from typing import List, Optional
 
 import flatdict
@@ -49,6 +47,7 @@ def add_label_yaml(
         metadata_include_parent: parent metadata keys to include.
             Works with flatdict setting:subsetting.
         metadata_include_child: child metadata keys to include.
+
     """
     metadata_ignore = metadata_ignore or []
     metadata_include_parent = metadata_include_parent or []

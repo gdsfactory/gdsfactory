@@ -20,7 +20,7 @@ def disk(
     waveguide_template: ComponentSpec = strip,
     **kwargs
 ) -> Component:
-    """Disk Resonator
+    """Disk Resonator.
 
     Args:
        radius: disk resonator radius.

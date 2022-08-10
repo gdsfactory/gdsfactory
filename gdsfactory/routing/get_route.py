@@ -68,9 +68,9 @@ def get_route(
     cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = "strip",
     **kwargs,
 ) -> Route:
-    """Returns a Manhattan Route between 2 ports.
-    The references are straights, bends and tapers.
-    `get_route` is an automatic version of `get_route_from_steps`
+    """Returns a Manhattan Route between 2 ports. The references are straights,
+    bends and tapers. `get_route` is an automatic version of
+    `get_route_from_steps`
 
     Args:
         input_port: start port.
@@ -166,12 +166,12 @@ def get_route_from_waypoints(
     cross_section: CrossSectionSpec = strip,
     **kwargs,
 ) -> Route:
-    """Returns a route formed by the given waypoints with
-    bends instead of corners and optionally tapers in straight sections.
-    Tapering to wider straights reduces the optical loss.
-    `get_route_from_waypoints` is a manual version of `get_route`
-    `get_route_from_steps` is a  more concise and convenient version of
-    `get_route_from_waypoints` also available in gf.routing
+    """Returns a route formed by the given waypoints with bends instead of
+    corners and optionally tapers in straight sections. Tapering to wider
+    straights reduces the optical loss. `get_route_from_waypoints` is a manual
+    version of `get_route` `get_route_from_steps` is a  more concise and
+    convenient version of `get_route_from_waypoints` also available in
+    gf.routing.
 
     Args:
         waypoints: Coordinates that define the route

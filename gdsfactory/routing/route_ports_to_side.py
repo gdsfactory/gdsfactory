@@ -73,6 +73,7 @@ def route_ports_to_side(
                 c.add_port(name=f"{side[0]}{i}", port=p)
 
         c.plot()
+
     """
 
     if not ports:

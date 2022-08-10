@@ -377,6 +377,7 @@ def add_ports_from_siepic_pins(
         port_layer_optical: layer for optical ports.
         pin_layer_electrical: layer for electrical pins.
         port_layer_electrical: layer for electrical ports.
+
     """
     pin_layers = {"optical": pin_layer_optical, "electrical": pin_layer_electrical}
 

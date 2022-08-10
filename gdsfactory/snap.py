@@ -1,4 +1,4 @@
-"""snaps values and coordinates to the GDS grid in nm"""
+"""snaps values and coordinates to the GDS grid in nm."""
 
 import numpy as np
 

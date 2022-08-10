@@ -44,7 +44,7 @@ def rename():
 
 
 def looploop(num_pts=1000):
-    """Simple limacon looping curve"""
+    """Simple limacon looping curve."""
     t = np.linspace(-np.pi, 0, num_pts)
     r = 20 + 25 * np.sin(t)
     x = r * np.cos(t)

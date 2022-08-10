@@ -1,5 +1,4 @@
-"""wires for electrical manhattan routes
-"""
+"""wires for electrical manhattan routes."""
 
 import gdsfactory as gf
 from gdsfactory.component import Component

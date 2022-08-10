@@ -1,12 +1,13 @@
-"""
-You can use component_sequence as a convenient function for cascading components,
-where you need to keep track of multiple tapers, doped sections, heaters etc...
+"""You can use component_sequence as a convenient function for cascading
+components, where you need to keep track of multiple tapers, doped sections,
+heaters etc...
 
 The idea is to associate one symbol per type of section.
 A section is uniquely defined by the component, input port name and output port name.
 
 The mapping between symbols and components is supplied by a dictionary.
 The actual chain of components is supplied by a string or a list
+
 """
 
 import gdsfactory as gf

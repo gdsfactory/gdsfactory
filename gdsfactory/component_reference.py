@@ -88,6 +88,7 @@ def _rotate_points(
         points: rotate points around center point.
         angle: in degrees.
         center: x, y.
+
     """
     # First check for common, easy values of angle
     p_arr = np.asarray(points)
@@ -113,7 +114,8 @@ def _rotate_points(
 
 
 class ComponentReference(DeviceReference):
-    """A ComponentReference is a pointer to a Component with x, y, rotation, mirror."""
+    """A ComponentReference is a pointer to a Component with x, y, rotation,
+    mirror."""
 
     def __init__(
         self,
@@ -177,7 +179,9 @@ class ComponentReference(DeviceReference):
     @property
     def bbox(self):
         """Return the bounding box of the ComponentReference.
+
         it snaps to 3 decimals in um (0.001um = 1nm precision)
+
         """
         bbox = self.get_bounding_box()
         if bbox is None:
@@ -190,15 +194,16 @@ class ComponentReference(DeviceReference):
 
     @classmethod
     def validate(cls, v):
-        """check with pydantic ComponentReference valid type"""
+        """check with pydantic ComponentReference valid type."""
         assert isinstance(
             v, ComponentReference
         ), f"TypeError, Got {type(v)}, expecting ComponentReference"
         return v
 
     def __getitem__(self, val):
-        """This allows you to access an alias from the reference's parent, and receive
-        a copy of the reference which is correctly rotated and translated"""
+        """This allows you to access an alias from the reference's parent, and
+        receive a copy of the reference which is correctly rotated and
+        translated."""
         try:
             alias_device = self.parent[val]
         except Exception as exc:
@@ -226,7 +231,7 @@ class ComponentReference(DeviceReference):
     @property
     def ports(self) -> Dict[str, Port]:
         """This property allows you to access myref.ports, and receive a copy
-        of the ports dict which is correctly rotated and translated"""
+        of the ports dict which is correctly rotated and translated."""
         for name, port in self.parent.ports.items():
             port = self.parent.ports[name]
             new_center, new_orientation = self._transform_port(
@@ -307,7 +312,7 @@ class ComponentReference(DeviceReference):
         rotation: Optional[int] = None,
         x_reflection: bool = False,
     ) -> ndarray:
-        """Apply GDS-type transformation to a point"""
+        """Apply GDS-type transformation to a point."""
         new_point = np.array(point)
 
         if x_reflection:
@@ -325,7 +330,8 @@ class ComponentReference(DeviceReference):
         destination: Optional[Union[Port, Coordinate, str]] = None,
         axis: Optional[str] = None,
     ) -> "ComponentReference":
-        """Move the ComponentReference from the origin point to the destination.
+        """Move the ComponentReference from the origin point to the
+        destination.
 
         Both origin and destination can be 1x2 array-like, Port, or a key
         corresponding to one of the Ports in this device_ref.
@@ -337,6 +343,7 @@ class ComponentReference(DeviceReference):
 
         Returns:
             ComponentReference.
+
         """
 
         # If only one set of coordinates is defined, make sure it's used to move things
@@ -400,11 +407,12 @@ class ComponentReference(DeviceReference):
         angle: float = 45,
         center: Coordinate = (0.0, 0.0),
     ) -> "ComponentReference":
-        """Return rotated ComponentReference
+        """Return rotated ComponentReference.
 
         Args:
             angle: in degrees
             center: x, y
+
         """
         if angle == 0:
             return self
@@ -423,7 +431,9 @@ class ComponentReference(DeviceReference):
         self, port_name: Optional[str] = None, x0: Optional[Coordinate] = None
     ) -> "ComponentReference":
         """Perform horizontal mirror using x0 or port as axis (default, x0=0).
+
         This is the default for mirror along X=x0 axis
+
         """
         if port_name is None and x0 is None:
             x0 = -self.x
@@ -452,7 +462,11 @@ class ComponentReference(DeviceReference):
         p1: Coordinate = (0.0, 1.0),
         p2: Coordinate = (0.0, 0.0),
     ) -> "ComponentReference":
-        """TODO. Delete this code and rely on phidl's mirror code."""
+        """TODO.
+
+        Delete this code and rely on phidl's mirror code.
+
+        """
         if isinstance(p1, Port):
             p1 = p1.center
         if isinstance(p2, Port):
@@ -496,6 +510,7 @@ class ComponentReference(DeviceReference):
 
         Returns:
             ComponentReference: with correct rotation to connect to destination.
+
         """
 
         # port can either be a string with the name or an actual Port
@@ -538,6 +553,7 @@ class ComponentReference(DeviceReference):
             layers_excluded: List of layers to exclude.
             port_type: optical, electrical, ...
             clockwise: if True, sort ports clockwise, False: counter-clockwise.
+
         """
         return list(select_ports(self.ports, **kwargs).values())
 
@@ -552,16 +568,17 @@ class ComponentReference(DeviceReference):
             layers_excluded: List of layers to exclude.
             port_type: optical, electrical, ...
             clockwise: if True, sort ports clockwise, False: counter-clockwise.
+
         """
         return select_ports(self.ports, **kwargs)
 
     @property
     def ports_layer(self) -> Dict[str, str]:
-        """Return a mapping from layer0_layer1_E0: portName"""
+        """Return a mapping from layer0_layer1_E0: portName."""
         return map_ports_layer_to_orientation(self.ports)
 
     def port_by_orientation_cw(self, key: str, **kwargs):
-        """Return port by indexing them clockwise"""
+        """Return port by indexing them clockwise."""
         m = map_ports_to_orientation_cw(self.ports, **kwargs)
         if key not in m:
             raise KeyError(f"{key} not in {list(m.keys())}")
@@ -569,7 +586,7 @@ class ComponentReference(DeviceReference):
         return self.ports[key2]
 
     def port_by_orientation_ccw(self, key: str, **kwargs):
-        """Return port by indexing them clockwise"""
+        """Return port by indexing them clockwise."""
         m = map_ports_to_orientation_ccw(self.ports, **kwargs)
         if key not in m:
             raise KeyError(f"{key} not in {list(m.keys())}")
@@ -581,17 +598,18 @@ class ComponentReference(DeviceReference):
             port.snap_to_grid(nm=nm)
 
     def get_ports_xsize(self, **kwargs) -> float:
-        """Return xdistance from east to west ports
+        """Return xdistance from east to west ports.
 
         Keyword Args:
             kwargs: orientation, port_type, layer.
+
         """
         ports_cw = self.get_ports_list(clockwise=True, **kwargs)
         ports_ccw = self.get_ports_list(clockwise=False, **kwargs)
         return snap_to_grid(ports_ccw[0].x - ports_cw[0].x)
 
     def get_ports_ysize(self, **kwargs) -> float:
-        """Returns ydistance from east to west ports"""
+        """Returns ydistance from east to west ports."""
         ports_cw = self.get_ports_list(clockwise=True, **kwargs)
         ports_ccw = self.get_ports_list(clockwise=False, **kwargs)
         return snap_to_grid(ports_ccw[0].y - ports_cw[0].y)

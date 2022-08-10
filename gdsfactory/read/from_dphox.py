@@ -11,6 +11,7 @@ def from_dphox(device: "dp.Device", foundry: "dp.foundry.Foundry") -> Component:
     Args:
         device: Dphox device.
         foundry: Dphox foundry object.
+
     """
 
     c = Component(device.name)

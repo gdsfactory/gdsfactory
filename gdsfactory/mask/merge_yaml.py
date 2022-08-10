@@ -14,7 +14,7 @@ def merge_yaml(
     yaml_path: Optional[PathType] = None,
     json_version: int = 6,
 ) -> Dict[str, Any]:
-    """Combine several YAML files
+    """Combine several YAML files.
 
     in the root of the mask directory, gets mask_name from there
 

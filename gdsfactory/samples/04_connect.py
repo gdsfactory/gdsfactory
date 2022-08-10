@@ -1,4 +1,4 @@
-""" based on phidl tutorial
+"""based on phidl tutorial.
 
 # Connecting devices with connect()
 

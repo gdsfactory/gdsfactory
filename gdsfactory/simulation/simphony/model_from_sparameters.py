@@ -46,6 +46,7 @@ def model_from_sparameters(
         sparameters: numpy nxn array.
         pins: list of port names.
         name: optional model name.
+
     """
     f = wl2freq(wavelengths)
     s = sparameters
@@ -83,6 +84,7 @@ def model_from_csv(
         name: optional model name.
         xkey: key for wavelengths in file.
         xunits: x units in um from the loaded file (um). 1 means 1um.
+
     """
 
     df = filepath if isinstance(filepath, pd.DataFrame) else pd.read_csv(filepath)

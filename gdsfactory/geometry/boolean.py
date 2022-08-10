@@ -17,8 +17,8 @@ def boolean(
     max_points: int = 4000,
     layer: Layer = (1, 0),
 ) -> Component:
-    """Performs boolean operations between 2 Component/Reference objects,
-    or lists of Devices/DeviceReferences.
+    """Performs boolean operations between 2 Component/Reference objects, or
+    lists of Devices/DeviceReferences.
 
     ``operation`` should be one of {'not', 'and', 'or', 'xor', 'A-B', 'B-A', 'A+B'}.
     Note that 'A+B' is equivalent to 'or', 'A-B' is equivalent to 'not', and
@@ -47,6 +47,7 @@ def boolean(
     'A+B' is equivalent to 'or'.
     'A-B' is equivalent to 'not'.
     'B-A' is equivalent to 'not' with the operands switched.
+
     """
 
     A = list(A) if isinstance(A, tuple) else A

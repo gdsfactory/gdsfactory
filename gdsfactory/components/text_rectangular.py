@@ -71,7 +71,7 @@ def text_rectangular_multi_layer(
     text_factory: ComponentSpec = text_rectangular,
     **kwargs,
 ) -> Component:
-    """Returns rectangular text in different layers
+    """Returns rectangular text in different layers.
 
     Args:
         text: string of text
@@ -83,6 +83,7 @@ def text_rectangular_multi_layer(
         position: coordinate
         justify: left, right or center
         font: function that returns dictionary of characters
+
     """
     func = gf.partial(
         copy_layers,

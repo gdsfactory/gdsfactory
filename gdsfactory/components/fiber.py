@@ -18,6 +18,7 @@ def fiber(
         cladding_diameter: in um.
         layer_core: layer spec for fiber core.
         layer_cladding: layer spec for fiber cladding.
+
     """
     c = Component()
 

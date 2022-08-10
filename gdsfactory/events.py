@@ -14,11 +14,11 @@ class Event:
         return self
 
     def add_handler(self, handler: Callable):
-        """
-        Adds a handler that will be executed when this event is fired.
+        """Adds a handler that will be executed when this event is fired.
 
         Args:
             handler: a function which matches the signature fired by this event
+
         """
         self._handlers.append(handler)
 
@@ -26,8 +26,6 @@ class Event:
         self._handlers.clear()
 
     def fire(self, *args, **kwargs):
-        """
-        Fires an event, calling all handlers with the passed arguments.
-        """
+        """Fires an event, calling all handlers with the passed arguments."""
         for eventhandler in self._handlers:
             eventhandler(*args, **kwargs)

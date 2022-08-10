@@ -14,8 +14,8 @@ def compass(
     port_inclusion: float = 0.0,
     port_orientations: Optional[Ints] = (180, 90, 0, -90),
 ) -> Component:
-    """Rectangular via_stack pad with centered ports on rectangle edges
-    (north, south, east, and west)
+    """Rectangular via_stack pad with centered ports on rectangle edges (north,
+    south, east, and west)
 
     Args:
         size: rectangle size.
@@ -23,6 +23,7 @@ def compass(
         port_type: optical, electrical.
         port_inclusion: from edge.
         port_orientations: list of port_orientations to add. None add one port only.
+
     """
     c = gf.Component()
     dx, dy = size

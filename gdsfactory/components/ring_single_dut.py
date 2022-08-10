@@ -25,9 +25,9 @@ def ring_single_dut(
     port_name: str = "o1",
     **kwargs
 ) -> Component:
-    """Single bus ring made of two couplers (ct: top, cb: bottom)
-    connected with two vertical straights (wyl: left, wyr: right)
-    (Device Under Test) in the middle to extract loss from quality factor
+    """Single bus ring made of two couplers (ct: top, cb: bottom) connected
+    with two vertical straights (wyl: left, wyr: right) (Device Under Test) in
+    the middle to extract loss from quality factor.
 
     Args:
         component: dut
@@ -55,6 +55,7 @@ def ring_single_dut(
          --==cb==-- gap
 
           length_x
+
     """
     component = call_if_func(component)
     assert_on_2nm_grid(gap)

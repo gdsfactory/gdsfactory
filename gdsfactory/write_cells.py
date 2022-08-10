@@ -34,6 +34,7 @@ def get_script(gdspath: PathType, module: Optional[str] = None) -> str:
     Args:
         gdspath: fixed cell gdspath.
         module: if any includes plot directive.
+
     """
     cell = clean_name(gdspath.stem)
     gdspath = gdspath.stem + gdspath.suffix
@@ -108,6 +109,7 @@ def write_cells_recursively(
 
     Returns:
         gdspaths: dict of cell name to gdspath.
+
     """
     dirpath = dirpath or pathlib.Path.cwd()
     gdspaths = {}
@@ -156,6 +158,7 @@ def write_cells(
 
     Returns:
         gdspaths: dict of cell name to gdspath.
+
     """
 
     gdsii_lib = gdspy.GdsLibrary()

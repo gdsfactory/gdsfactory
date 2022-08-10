@@ -30,6 +30,7 @@ def cdsem_straight(
         cross_section: for the lines.
         text: optional text for labels.
         spacing: edge to edge spacing.
+
     """
 
     lines = []

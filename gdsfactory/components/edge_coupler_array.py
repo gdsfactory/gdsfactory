@@ -81,6 +81,7 @@ def edge_coupler_array_with_loopback(
         right_loopback: adds right loopback.
         text: Optional text spec.
         text_offset: x, y.
+
     """
     c = Component()
     ec = edge_coupler_array(

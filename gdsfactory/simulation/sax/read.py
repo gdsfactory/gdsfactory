@@ -1,5 +1,4 @@
-"""read Sparameters from CSV file and returns sax model.
-"""
+"""read Sparameters from CSV file and returns sax model."""
 import pathlib
 from typing import Union
 
@@ -41,6 +40,7 @@ def model_from_csv(
         xkey: key for wavelengths in file.
         xunits: x units in um from the loaded file (um). 1 means 1um.
         prefix: for the sparameters column names in file.
+
     """
     df = filepath if isinstance(filepath, pd.DataFrame) else pd.read_csv(filepath)
     assert isinstance(df, pd.DataFrame)
@@ -94,6 +94,7 @@ def model_from_component(component, simulator: Simulator, **kwargs) -> Model:
         component: to simulate.
         simulator: meep, lumerical or tidy3d.
         kwargs: simulator settings.
+
     """
     simulators = ["lumerical", "meep", "tidy3d"]
 

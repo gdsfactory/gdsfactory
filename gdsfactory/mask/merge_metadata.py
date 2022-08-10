@@ -17,10 +17,10 @@ def merge_metadata(
     labels_prefix: str = "opt",
     layer_label: Tuple[int, int] = gf.LAYER.TEXT,
 ) -> DictConfig:
-    """Merges all mask metadata and returns test metadata
-    This function works well only when you define the mask in YAML
-    Exports YAML file with only components with a measurement label
-    This is the automatic version of write_labels combined with merge_test_metadata
+    """Merges all mask metadata and returns test metadata This function works
+    well only when you define the mask in YAML Exports YAML file with only
+    components with a measurement label This is the automatic version of
+    write_labels combined with merge_test_metadata.
 
     .. code::
 
@@ -34,6 +34,7 @@ def merge_metadata(
         gdspath: GDSpath
         labels_prefix
         layer_label: layer for the labels
+
     """
     mdpath = gdspath.with_suffix(".md")
     yaml_path = gdspath.with_suffix(".yml")

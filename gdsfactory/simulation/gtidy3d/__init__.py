@@ -1,6 +1,8 @@
-"""gdsfactory tidy3d plugin
+"""gdsfactory tidy3d plugin.
 
-[tidy3D is a fast GPU based commercial FDTD solver](https://simulation.cloud/)
+[tidy3D is a fast GPU based commercial FDTD
+solver](https://simulation.cloud/)
+
 """
 
 import tidy3d as td
