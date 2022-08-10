@@ -1,4 +1,4 @@
-"""spiral with grating couplers inside to save space."""
+"""Spiral with grating couplers inside to save space."""
 from typing import Optional, Tuple
 
 import numpy as np
@@ -34,7 +34,9 @@ def spiral_inner_io(
     cross_section_bend: Optional[CrossSectionSpec] = None,
     **kwargs
 ) -> Component:
-    """Returns Spiral with ports inside the spiral loop. You can add grating
+    """Returns Spiral with ports inside the spiral loop.
+
+    You can add grating
     couplers inside.
 
     Args:
@@ -53,7 +55,6 @@ def spiral_inner_io(
         cross_section: spec.
         cross_section_bend: for the bends.
         kwargs: cross_section settings.
-
     """
     dx = dy = waveguide_spacing
     cross_section_bend = cross_section_bend or cross_section
@@ -190,7 +191,6 @@ def spiral_inner_io_fiber_single(
         straight: straight spec.
         length: computes spiral length from simple interpolation.
         kwargs: cross_section settings.
-
     """
     c = Component()
     spiral = spiral_inner_io(

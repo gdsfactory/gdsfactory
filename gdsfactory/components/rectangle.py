@@ -22,7 +22,6 @@ def rectangle(
         centered: True sets center to (0, 0), False sets south-west to (0, 0).
         port_type: optical, electrical.
         port_orientations: list of port_orientations to add.
-
     """
     c = Component()
     ref = c << compass(

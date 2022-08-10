@@ -25,7 +25,6 @@ def bbox(
         bottom: south offset.
         left: west offset.
         right: east offset.
-
     """
     D = gf.Component()
     (xmin, ymin), (xmax, ymax) = bbox

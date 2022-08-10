@@ -14,7 +14,6 @@ def copy_layers(
         factory: component spec.
         layers: iterable of layers.
         kwargs: keyword arguments.
-
     """
     c = Component()
     for layer in layers:

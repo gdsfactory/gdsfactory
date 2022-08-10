@@ -32,7 +32,6 @@ def edge_coupler_array(
         v_mirror: vertical mirror.
         text: text spec.
         text_offset: from edge coupler.
-
     """
     edge_coupler = gf.get_component(edge_coupler)
 
@@ -81,7 +80,6 @@ def edge_coupler_array_with_loopback(
         right_loopback: adds right loopback.
         text: Optional text spec.
         text_offset: x, y.
-
     """
     c = Component()
     ec = edge_coupler_array(

@@ -1,4 +1,4 @@
-"""add_pin adss a Pin to a port, add_pins adds Pins to all ports:
+"""Add_pin adss a Pin to a port, add_pins adds Pins to all ports:
 
 - pins
 - outline
@@ -6,7 +6,6 @@
 Some functions modify a component without changing its name.
 Make sure these functions are inside a new Component or called as a decorator
 They without modifying the cell name
-
 """
 import json
 from functools import partial
@@ -73,7 +72,6 @@ def add_pin_triangle(
         port: Port.
         layer: for the pin marker.
         layer_label: for the label.
-
     """
     if port.orientation is not None:
         polygon, ptip = get_pin_triangle_polygon_tip(port=port)
@@ -114,7 +112,6 @@ def add_pin_rectangle_inside(
           |               |
           |      __       |
           |_______________|
-
     """
     p = port
     a = p.orientation
@@ -171,7 +168,6 @@ def add_pin_rectangle_double(
           |      __       |
           |_______________|
                  __
-
     """
     p = port
     a = p.orientation
@@ -233,7 +229,6 @@ def add_pin_rectangle(
         layer_label: for the label.
         port_margin: margin to port edge.
 
-
     .. code::
 
            _______________
@@ -246,7 +241,6 @@ def add_pin_rectangle(
           |      __       |
           |_______________|
                  __
-
     """
     p = port
     a = p.orientation
@@ -294,7 +288,6 @@ def add_pin_path(
         layer: for the pin marker.
         layer_label: optional layer label. Defaults to layer.
 
-
     .. code::
 
            _______________
@@ -307,7 +300,6 @@ def add_pin_path(
           |      __       |
           |_______________|
                  __
-
     """
     from gdsfactory.pdk import get_layer
 
@@ -355,7 +347,6 @@ def add_outline(
         bottom: padding.
         right: padding.
         left: padding.
-
     """
     from gdsfactory.add_padding import get_padding_points
 
@@ -388,7 +379,6 @@ def add_pins_siepic(
         port_type: optical, electrical, ...
         layer_pin: pin layer.
         pin_length: length of the pin marker for the port.
-
     """
 
     for p in component.get_ports_list(port_type=port_type):
@@ -414,7 +404,6 @@ def add_bbox_siepic(
         component: to add bbox.
         bbox_layer: bounding box.
         remove_layers: remove other layers.
-
     """
     from gdsfactory.pdk import get_layer
 
@@ -455,7 +444,6 @@ def add_pins_bbox_siepic(
         pin_length: in um.
         bbox_layer: bounding box layer.
         padding: around device.
-
     """
     component = component.copy()
     layers = component.get_layers()
@@ -498,7 +486,6 @@ def add_pins(
         function: to add each pin.
         select_ports: function to select_ports.
         kwargs: add pins function settings.
-
     """
     reference = reference or component
     ports = (
@@ -525,7 +512,6 @@ def add_settings_label(
         componnent: to add pins.
         reference: ComponentReference.
         layer_label: layer spec.
-
     """
     from gdsfactory.pdk import get_layer
 
@@ -584,7 +570,6 @@ def add_pins_and_outline(
         add_pins_function: to add pins to ports.
         add_settings_function: to add outline around the component.
         add_instance_label_function: labels each instance.
-
     """
     if add_outline_function:
         add_outline_function(component=component, reference=reference)

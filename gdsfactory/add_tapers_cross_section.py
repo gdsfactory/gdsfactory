@@ -35,7 +35,6 @@ def add_tapers(
         npoints: number of points.
         linear: shape of the transition, sine when False.
         kwargs: cross_section settings for section2.
-
     """
 
     c = gf.Component()

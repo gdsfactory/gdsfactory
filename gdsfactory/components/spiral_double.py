@@ -21,7 +21,6 @@ def spiral_double(
         npoints: points for the spiral.
         cross_section: cross-section to extrude the structure with.
         bend: factory for the bends in the middle of the double spiral.
-
     """
     component = gf.Component()
 

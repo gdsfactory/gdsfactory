@@ -1,139 +1,53 @@
-gdsfactory\add_labels.py:107 in public function `get_input_label_electrical`:
-        D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\add_labels.py:191 in public function `add_siepic_labels`:
-        D202: No blank lines allowed after function docstring (found 1)
 gdsfactory\add_loopback.py:23 in public function `add_loopback`:
         D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\add_padding.py:76 in public function `add_padding_container`:
+gdsfactory\add_padding.py:74 in public function `add_padding_container`:
         D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\add_padding.py:153 in public function `add_padding_to_size_container`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\add_padding.py:153 in public function `add_padding_to_size_container`:
-        D415: First line should end with a period, question mark, or exclamation point (not 's')
 gdsfactory\add_pins.py:1 at module level:
         D415: First line should end with a period, question mark, or exclamation point (not ':')
-gdsfactory\add_pins.py:376 in public function `add_pins_siepic`:
+gdsfactory\add_pins.py:367 in public function `add_pins_siepic`:
         D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\add_pins.py:549 in public function `add_instance_label`:
+gdsfactory\add_pins.py:535 in public function `add_instance_label`:
         D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\add_pins.py:573 in public function `add_pins_and_outline`:
+gdsfactory\add_pins.py:559 in public function `add_pins_and_outline`:
         D415: First line should end with a period, question mark, or exclamation point (not ':')
 gdsfactory\add_tapers.py:40 in public function `add_tapers`:
         D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\add_tapers.py:40 in public function `add_tapers`:
-        D403: First word of the first line should be properly capitalized ('Returns', not 'returns')
 gdsfactory\add_tapers_cross_section.py:22 in public function `add_tapers`:
         D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\cell.py:223 in public function `cell`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\cell.py:223 in public function `cell`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'r')
 gdsfactory\cell.py:254 in public function `wg`:
         D202: No blank lines allowed after function docstring (found 1)
 gdsfactory\cell.py:267 in public function `wg2`:
         D202: No blank lines allowed after function docstring (found 1)
 gdsfactory\cell.py:285 in public function `demo`:
         D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\component.py:77 in public class `Component`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\component.py:77 in public class `Component`:
-        D415: First line should end with a period, question mark, or exclamation point (not ',')
-gdsfactory\component.py:109 in public method `__init__`:
+gdsfactory\component.py:108 in public method `__init__`:
         D107: Missing docstring in __init__
-gdsfactory\component.py:138 in public method `unlock`:
-        D403: First word of the first line should be properly capitalized ('Only', not 'only')
-gdsfactory\component.py:151 in public method `__get_validators__`:
+gdsfactory\component.py:149 in public method `__get_validators__`:
         D105: Missing docstring in magic method
-gdsfactory\component.py:156 in public method `validate`:
+gdsfactory\component.py:154 in public method `validate`:
         D415: First line should end with a period, question mark, or exclamation point (not ':')
-gdsfactory\component.py:156 in public method `validate`:
-        D403: First word of the first line should be properly capitalized ('Pydantic', not 'pydantic')
-gdsfactory\component.py:330 in public method `get_netlist`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\component.py:330 in public method `get_netlist`:
-        D415: First line should end with a period, question mark, or exclamation point (not ',')
-gdsfactory\component.py:442 in public method `ref_center`:
-        D415: First line should end with a period, question mark, or exclamation point (not ')')
-gdsfactory\component.py:442 in public method `ref_center`:
-        D403: First word of the first line should be properly capitalized ('Returns', not 'returns')
-gdsfactory\component.py:451 in public method `__repr__`:
+gdsfactory\component.py:439 in public method `__repr__`:
         D105: Missing docstring in magic method
-gdsfactory\component.py:467 in public method `metadata_child`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\component.py:467 in public method `metadata_child`:
-        D209: Multi-line docstring closing quotes should be on a separate line
-gdsfactory\component.py:467 in public method `metadata_child`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'n')
-gdsfactory\component.py:703 in public method `size_info`:
-        D403: First word of the first line should be properly capitalized ('Size', not 'size')
-gdsfactory\component.py:773 in public method `flatten`:
+gdsfactory\component.py:755 in public method `flatten`:
         D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\component.py:1278 in public method `move`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\component.py:1278 in public method `move`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'l')
-gdsfactory\component.py:1308 in public method `rotate`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\component.py:1308 in public method `rotate`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'l')
-gdsfactory\component.py:1338 in public method `absorb`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\component.py:1338 in public method `absorb`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'e')
-gdsfactory\component.py:1399 in public function `recurse_structures`:
+gdsfactory\component.py:1368 in public function `recurse_structures`:
         D202: No blank lines allowed after function docstring (found 1)
 gdsfactory\component_reference.py:27 in public method `__init__`:
         D107: Missing docstring in __init__
 gdsfactory\component_reference.py:71 in public method `__str__`:
         D105: Missing docstring in magic method
-gdsfactory\component_reference.py:117 in public class `ComponentReference`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\component_reference.py:117 in public class `ComponentReference`:
-        D209: Multi-line docstring closing quotes should be on a separate line
-gdsfactory\component_reference.py:117 in public class `ComponentReference`:
-        D415: First line should end with a period, question mark, or exclamation point (not ',')
-gdsfactory\component_reference.py:120 in public method `__init__`:
+gdsfactory\component_reference.py:121 in public method `__init__`:
         D107: Missing docstring in __init__
-gdsfactory\component_reference.py:157 in public method `__repr__`:
+gdsfactory\component_reference.py:158 in public method `__repr__`:
         D105: Missing docstring in magic method
-gdsfactory\component_reference.py:166 in public method `__str__`:
+gdsfactory\component_reference.py:167 in public method `__str__`:
         D105: Missing docstring in magic method
 gdsfactory\component_reference.py:192 in public method `__get_validators__`:
         D105: Missing docstring in magic method
-gdsfactory\component_reference.py:197 in public method `validate`:
-        D403: First word of the first line should be properly capitalized ('Check', not 'check')
-gdsfactory\component_reference.py:204 in public method `__getitem__`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\component_reference.py:204 in public method `__getitem__`:
-        D209: Multi-line docstring closing quotes should be on a separate line
-gdsfactory\component_reference.py:204 in public method `__getitem__`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'd')
-gdsfactory\component_reference.py:233 in public method `ports`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\component_reference.py:233 in public method `ports`:
-        D209: Multi-line docstring closing quotes should be on a separate line
-gdsfactory\component_reference.py:233 in public method `ports`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'y')
-gdsfactory\component_reference.py:285 in private method `_transform_port`:
-        D415: First line should end with a period, question mark, or exclamation point (not ')')
-gdsfactory\component_reference.py:333 in public method `move`:
+gdsfactory\component_reference.py:337 in public method `move`:
         D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\component_reference.py:333 in public method `move`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\component_reference.py:333 in public method `move`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'e')
-gdsfactory\component_reference.py:504 in public method `connect`:
+gdsfactory\component_reference.py:505 in public method `connect`:
         D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\config.py:1 at module level:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\config.py:1 at module level:
-        D415: First line should end with a period, question mark, or exclamation point (not 'w')
-gdsfactory\config.py:182 in private function `call_if_func`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\config.py:182 in private function `call_if_func`:
-        D209: Multi-line docstring closing quotes should be on a separate line
-gdsfactory\config.py:182 in private function `call_if_func`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'm')
 gdsfactory\coord2.py:7 in public method `__init__`:
         D107: Missing docstring in __init__
 gdsfactory\coord2.py:10 in public method `__getitem__`:
@@ -148,24 +62,16 @@ gdsfactory\coord2.py:34 in public method `__str__`:
         D105: Missing docstring in magic method
 gdsfactory\coord2.py:37 in public method `__repr__`:
         D105: Missing docstring in magic method
-gdsfactory\cross_section.py:98 in public nested class `Config`:
+gdsfactory\cross_section.py:96 in public nested class `Config`:
         D106: Missing docstring in public nested class
-gdsfactory\cross_section.py:142 in public method `add_bbox_layers`:
+gdsfactory\cross_section.py:140 in public method `add_bbox_layers`:
         D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\cross_section.py:253 in public function `cross_section`:
+gdsfactory\cross_section.py:249 in public function `cross_section`:
         D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\cross_section.py:359 in public function `slot`:
+gdsfactory\cross_section.py:354 in public function `slot`:
         D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\cross_section.py:728 in public function `strip_heater_metal_undercut`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\cross_section.py:728 in public function `strip_heater_metal_undercut`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'h')
-gdsfactory\cross_section.py:1139 in public function `get_cross_section_factories`:
+gdsfactory\cross_section.py:1124 in public function `get_cross_section_factories`:
         D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\decorators.py:35 in public function `flatten_invalid_refs`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\decorators.py:35 in public function `flatten_invalid_refs`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'S')
 gdsfactory\events.py:5 in public method `__init__`:
         D107: Missing docstring in __init__
 gdsfactory\events.py:8 in public method `__iadd__`:
@@ -328,124 +234,56 @@ gdsfactory\watch.py:20 in public method `__init__`:
         D107: Missing docstring in __init__
 gdsfactory\write_cells.py:147 in public function `write_cells`:
         D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\components\add_fidutials.py:69 in public function `add_fidutials_offsets`:
+gdsfactory\components\add_fidutials.py:68 in public function `add_fidutials_offsets`:
         D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\components\array_with_fanout.py:31 in public function `array_with_fanout`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\components\array_with_fanout.py:31 in public function `array_with_fanout`:
-        D415: First line should end with a period, question mark, or exclamation point (not 's')
 gdsfactory\components\array_with_via.py:30 in public function `array_with_via`:
         D202: No blank lines allowed after function docstring (found 1)
 gdsfactory\components\awg.py:21 in public function `free_propagation_region`:
         D212: Multi-line docstring summary should start at the first line
 gdsfactory\components\awg.py:21 in public function `free_propagation_region`:
         D415: First line should end with a period, question mark, or exclamation point (not ':')
-gdsfactory\components\bend_circular_heater.py:22 in public function `bend_circular_heater`:
-        D415: First line should end with a period, question mark, or exclamation point (not '`')
-gdsfactory\components\bend_euler.py:22 in public function `bend_euler`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\components\bend_euler.py:22 in public function `bend_euler`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'o')
-gdsfactory\components\bezier.py:127 in private nested function `objective_func`:
+gdsfactory\components\bezier.py:125 in private nested function `objective_func`:
         D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\components\bezier.py:127 in private nested function `objective_func`:
+gdsfactory\components\bezier.py:125 in private nested function `objective_func`:
         D415: First line should end with a period, question mark, or exclamation point (not ':')
 gdsfactory\components\cdc.py:31 in public function `cdc`:
         D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\components\cdsem_all.py:31 in public function `cdsem_all`:
-        D403: First word of the first line should be properly capitalized ('Column', not 'column')
 gdsfactory\components\cdsem_coupler.py:25 in public function `cdsem_coupler`:
         D202: No blank lines allowed after function docstring (found 1)
 gdsfactory\components\cdsem_straight.py:25 in public function `cdsem_straight`:
         D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\components\compass.py:17 in public function `compass`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\components\compass.py:17 in public function `compass`:
-        D415: First line should end with a period, question mark, or exclamation point (not ',')
-gdsfactory\components\component_lattice.py:35 in public function `get_sequence_cross`:
-        D205: 1 blank line required between summary line and description (found 0)
 gdsfactory\components\component_lattice.py:35 in public function `get_sequence_cross`:
         D212: Multi-line docstring summary should start at the first line
 gdsfactory\components\component_lattice.py:35 in public function `get_sequence_cross`:
         D415: First line should end with a period, question mark, or exclamation point (not ':')
-gdsfactory\components\component_lattice.py:105 in public function `component_sequence_to_str`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\components\component_lattice.py:105 in public function `component_sequence_to_str`:
+gdsfactory\components\component_lattice.py:106 in public function `component_sequence_to_str`:
         D212: Multi-line docstring summary should start at the first line
-gdsfactory\components\component_lattice.py:105 in public function `component_sequence_to_str`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'm')
-gdsfactory\components\component_lattice.py:140 in public function `component_lattice`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\components\component_lattice.py:140 in public function `component_lattice`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'e')
 gdsfactory\components\component_sequence.py:16 in public method `__init__`:
         D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\components\component_sequence.py:51 in private function `_parse_component_name`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\components\component_sequence.py:51 in private function `_parse_component_name`:
-        D209: Multi-line docstring closing quotes should be on a separate line
-gdsfactory\components\component_sequence.py:51 in private function `_parse_component_name`:
-        D415: First line should end with a period, question mark, or exclamation point (not '"')
-gdsfactory\components\component_sequence.py:74 in public function `component_sequence`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\components\component_sequence.py:74 in public function `component_sequence`:
-        D415: First line should end with a period, question mark, or exclamation point (not 't')
 gdsfactory\components\coupler90.py:18 in public function `coupler90`:
         D403: First word of the first line should be properly capitalized ('Straight', not 'straight')
 gdsfactory\components\coupler90bend.py:15 in public function `coupler90bend`:
         D202: No blank lines allowed after function docstring (found 1)
 gdsfactory\components\coupler_adiabatic.py:26 in public function `coupler_adiabatic`:
         D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\components\coupler_asymmetric.py:18 in public function `coupler_asymmetric`:
-        D403: First word of the first line should be properly capitalized ('Bend', not 'bend')
 gdsfactory\components\coupler_full.py:25 in public function `coupler_full`:
         D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\components\coupler_full.py:25 in public function `coupler_full`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\components\coupler_full.py:25 in public function `coupler_full`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'l')
 gdsfactory\components\coupler_symmetric.py:17 in public function `coupler_symmetric`:
         D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\components\crossing_waveguide.py:242 in public function `crossing45`:
-        D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\components\crossing_waveguide.py:459 in private function `_demo`:
-        D403: First word of the first line should be properly capitalized ('Plot', not 'plot')
-gdsfactory\components\dbr.py:1 at module level:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\components\dbr.py:1 at module level:
-        D210: No whitespaces allowed surrounding docstring text
-gdsfactory\components\dbr_tapered.py:27 in public function `dbr_tapered`:
+gdsfactory\components\crossing_waveguide.py:240 in public function `crossing45`:
         D202: No blank lines allowed after function docstring (found 1)
 gdsfactory\components\dbr_tapered.py:27 in public function `dbr_tapered`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\components\dbr_tapered.py:27 in public function `dbr_tapered`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'a')
+        D202: No blank lines allowed after function docstring (found 1)
 gdsfactory\components\delay_snake3.py:20 in public function `delay_snake3`:
         D205: 1 blank line required between summary line and description (found 2)
 gdsfactory\components\delay_snake_sbend.py:22 in public function `delay_snake_sbend`:
         D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\components\die.py:25 in public function `die`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\components\die.py:25 in public function `die`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'e')
-gdsfactory\components\die_bbox_frame.py:23 in public function `die_bbox_frame`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\components\die_bbox_frame.py:23 in public function `die_bbox_frame`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'e')
 gdsfactory\components\disk.py:23 in public function `disk`:
         D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\components\extension.py:41 in private function `move_polar_rad_copy`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\components\extension.py:41 in private function `move_polar_rad_copy`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'n')
 gdsfactory\components\grating_coupler_elliptical_trenches.py:30 in public function `grating_coupler_elliptical_trenches`:
         D202: No blank lines allowed after function docstring (found 1)
 gdsfactory\components\grating_coupler_functions.py:15 in public function `get_grating_period_curved`:
         D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\components\grating_coupler_functions.py:15 in public function `get_grating_period_curved`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\components\grating_coupler_functions.py:15 in public function `get_grating_period_curved`:
-        D415: First line should end with a period, question mark, or exclamation point (not 's')
 gdsfactory\components\grating_coupler_loss.py:51 in public function `loss_deembedding_ch13_24`:
         D202: No blank lines allowed after function docstring (found 1)
 gdsfactory\components\grating_coupler_rectangular.py:29 in public function `grating_coupler_rectangular`:
@@ -456,90 +294,38 @@ gdsfactory\components\grating_coupler_rectangular_arbitrary_slab.py:30 in public
         D205: 1 blank line required between summary line and description (found 0)
 gdsfactory\components\litho_calipers.py:20 in public function `litho_calipers`:
         D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\components\litho_calipers.py:20 in public function `litho_calipers`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\components\litho_calipers.py:20 in public function `litho_calipers`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'e')
 gdsfactory\components\litho_ruler.py:16 in public function `litho_ruler`:
         D202: No blank lines allowed after function docstring (found 1)
 gdsfactory\components\loop_mirror.py:37 in public function `loop_mirror_with_delay`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\components\loop_mirror.py:37 in public function `loop_mirror_with_delay`:
         D212: Multi-line docstring summary should start at the first line
-gdsfactory\components\loop_mirror.py:37 in public function `loop_mirror_with_delay`:
-        D415: First line should end with a period, question mark, or exclamation point (not '2')
-gdsfactory\components\loop_mirror.py:37 in public function `loop_mirror_with_delay`:
-        D403: First word of the first line should be properly capitalized ('Delay', not 'delay')
-gdsfactory\components\mzi_pads_center.py:33 in public function `mzi_pads_center`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\components\mzi_pads_center.py:33 in public function `mzi_pads_center`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'd')
-gdsfactory\components\nxn.py:21 in public function `nxn`:
-        D415: First line should end with a period, question mark, or exclamation point (not ')')
-gdsfactory\components\nxn.py:21 in public function `nxn`:
-        D403: First word of the first line should be properly capitalized ('Returns', not 'returns')
 gdsfactory\components\resistance_meander.py:21 in public function `resistance_meander`:
         D202: No blank lines allowed after function docstring (found 1)
 gdsfactory\components\ring.py:16 in public function `ring`:
         D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\components\ring_single_dut.py:28 in public function `ring_single_dut`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\components\ring_single_dut.py:28 in public function `ring_single_dut`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'd')
 gdsfactory\components\seal_ring.py:22 in public function `seal_ring`:
         D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\components\seal_ring.py:22 in public function `seal_ring`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\components\seal_ring.py:22 in public function `seal_ring`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'e')
-gdsfactory\components\spiral_external_io.py:1 at module level:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\components\spiral_external_io.py:1 at module level:
-        D210: No whitespaces allowed surrounding docstring text
-gdsfactory\components\spiral_external_io.py:1 at module level:
-        D415: First line should end with a period, question mark, or exclamation point (not 'l')
-gdsfactory\components\spiral_external_io.py:35 in public function `spiral_external_io`:
+gdsfactory\components\spiral_external_io.py:36 in public function `spiral_external_io`:
         D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\components\spiral_inner_io.py:37 in public function `spiral_inner_io`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\components\spiral_inner_io.py:37 in public function `spiral_inner_io`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'g')
 gdsfactory\components\straight_array.py:14 in public function `straight_array`:
         D202: No blank lines allowed after function docstring (found 1)
 gdsfactory\components\straight_heater_doped_strip.py:1 at module level:
         D212: Multi-line docstring summary should start at the first line
 gdsfactory\components\straight_heater_doped_strip.py:1 at module level:
         D415: First line should end with a period, question mark, or exclamation point (not 'w')
-gdsfactory\components\switch_tree.py:1 at module level:
-        D415: First line should end with a period, question mark, or exclamation point (not '_')
-gdsfactory\components\taper.py:121 in public function `taper_strip_to_ridge`:
+gdsfactory\components\taper.py:120 in public function `taper_strip_to_ridge`:
         D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\components\taper.py:207 in public function `taper_strip_to_ridge_trenches`:
+gdsfactory\components\taper.py:206 in public function `taper_strip_to_ridge_trenches`:
         D202: No blank lines allowed after function docstring (found 1)
 gdsfactory\components\taper_cross_section.py:17 in public function `taper_cross_section`:
         D415: First line should end with a period, question mark, or exclamation point (not '2')
-gdsfactory\components\text_rectangular_font.py:304 in public function `rectangular_font`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\components\text_rectangular_font.py:304 in public function `rectangular_font`:
-        D209: Multi-line docstring closing quotes should be on a separate line
-gdsfactory\components\text_rectangular_font.py:304 in public function `rectangular_font`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'e')
 gdsfactory\components\version_stamp.py:48 in public function `version_stamp`:
         D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\components\via_corner.py:23 in public function `via_corner`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\components\via_corner.py:23 in public function `via_corner`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'o')
-gdsfactory\components\via_cutback.py:79 in public function `via_cutback`:
+gdsfactory\components\via_cutback.py:78 in public function `via_cutback`:
         D202: No blank lines allowed after function docstring (found 1)
 gdsfactory\components\via_stack.py:20 in public function `via_stack`:
         D202: No blank lines allowed after function docstring (found 1)
 gdsfactory\components\waveguide_template.py:16 in public function `strip`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\components\waveguide_template.py:16 in public function `strip`:
         D212: Multi-line docstring summary should start at the first line
-gdsfactory\components\waveguide_template.py:16 in public function `strip`:
-        D415: First line should end with a period, question mark, or exclamation point (not ')')
 gdsfactory\gdsdiff\gdsdiff.py:15 in public function `xor_polygons`:
         D202: No blank lines allowed after function docstring (found 1)
 gdsfactory\gdsdiff\gdsdiff.py:15 in public function `xor_polygons`:

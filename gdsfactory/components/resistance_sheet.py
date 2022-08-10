@@ -33,7 +33,6 @@ def resistance_sheet(
         ohms_per_square: optional sheet resistance to compute info.resistance.
         port_orientation1: in degrees.
         port_orientation2: in degrees.
-
     """
     c = Component()
 

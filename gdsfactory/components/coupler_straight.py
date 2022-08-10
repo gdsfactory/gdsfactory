@@ -18,7 +18,6 @@ def coupler_straight(
         gap: between straights.
         straight: straight waveguide function.
         kwargs: cross_section settings.
-
     """
     component = Component()
     straight_component = gf.get_component(straight, length=length, **kwargs)

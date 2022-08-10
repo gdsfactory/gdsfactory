@@ -61,7 +61,6 @@ def spiral_circular(
         min_bend_radius: in um.
         points: number of points.
         layer: layer spec.
-
     """
     layer = gf.get_layer(layer)
     wg_datatype = layer[1]

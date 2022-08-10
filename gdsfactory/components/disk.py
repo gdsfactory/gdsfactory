@@ -42,7 +42,6 @@ def disk(
        clad_datatype: gf.LAYER.WGCLAD[1].
        bend_radius: 10.
        cladding_offset: 3.
-
     """
 
     c = pc.Disk(

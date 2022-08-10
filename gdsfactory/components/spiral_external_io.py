@@ -1,4 +1,5 @@
-""" bends with grating couplers inside the spiral
+"""Bends with grating couplers inside the spiral.
+
 maybe: need to add grating coupler loopback as well
 """
 from typing import Optional, Tuple
@@ -45,7 +46,6 @@ def spiral_external_io(
         length: length in um, it is the approximates total length.
         cross_section: spec.
         kwargs: cross_section settings.
-
     """
 
     if length:

@@ -23,7 +23,6 @@ def add_keepout(
         target_layers: list of layers to read.
         keepout_layers: list of layers to add keepout.
         margin: offset from tareget to keepout_layers.
-
     """
     c = Component()
     c << component

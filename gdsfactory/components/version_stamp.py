@@ -49,7 +49,6 @@ def version_stamp(
 
     Args:
         labels: Iterable of labels
-
     """
 
     now = datetime.datetime.now()
