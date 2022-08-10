@@ -2,7 +2,7 @@
 
 ## [5.16.1](https://github.com/gdsfactory/gdsfactory/pull/580)
 
-- simplify write_sparameters code
+- simplify write_sparameters code [PR](https://github.com/gdsfactory/gdsfactory/pull/581)
 
 ## [5.16.0](https://github.com/gdsfactory/gdsfactory/pull/580)
 
