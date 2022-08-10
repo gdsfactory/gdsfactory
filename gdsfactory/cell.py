@@ -331,15 +331,6 @@ def straight_with_pins(**kwargs) -> Component:
     return c
 
 
-def test_import_gds_settings() -> None:
-    """Sometimes it fails for files imported from GDS."""
-    import gdsfactory as gf
-
-    gdspath = gf.CONFIG["gdsdir"] / "mzi2x2.gds"
-    c = gf.import_gds(gdspath)
-    assert gf.routing.add_fiber_single(c)
-
-
 if __name__ == "__main__":
     test_names()
     # test_import_gds_settings()
