@@ -20,7 +20,6 @@ def ring(
         width: of the ring.
         angle_resolution: number of points per degree.
         layer: layer.
-
     """
 
     D = gf.Component()

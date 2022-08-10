@@ -42,7 +42,6 @@ def array_with_via(
         port_orientation: 180: facing west.
         port_offset: Optional port movement in um.
         kwargs: cross_section settings.
-
     """
 
     c = Component()
@@ -109,7 +108,6 @@ def array_with_via_2d(
             straight_length: length of the straight at the end
             via_stack_port_name:
             **kwargs
-
     """
     row = array_with_via(columns=columns, spacing=spacing[0], **kwargs)
     return array(component=row, rows=rows, columns=1, spacing=(0, spacing[1]))

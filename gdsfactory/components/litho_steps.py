@@ -23,7 +23,6 @@ def litho_steps(
         line_spacing: in um.
         height: in um.
         layer: Specific layer to put the ruler geometry on.
-
     """
     D = gf.Component()
 

@@ -24,7 +24,6 @@ def via_stack_with_offset(
         sizes: for each via.
         offsets: for next layer.
         port_orientation: 180: W0, 0: E0, 90: N0, 270: S0.
-
     """
     c = Component()
     y0 = y1 = 0

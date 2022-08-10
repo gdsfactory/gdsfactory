@@ -16,7 +16,6 @@ modules:
     - routing
 
 isort:skip_file
-
 """
 from toolz import compose
 from functools import partial

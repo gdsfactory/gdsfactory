@@ -27,7 +27,6 @@ def straight(
 
         o1 -------------- o2
                 length
-
     """
     length = snap_to_grid(length)
     p = gf.path.straight(length=length, npoints=npoints)

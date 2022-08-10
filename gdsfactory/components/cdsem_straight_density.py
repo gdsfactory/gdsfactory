@@ -32,7 +32,6 @@ def cdsem_straight_density(
         label: defaults to widths[0] gaps[0].
         cross_section: spec.
         text: optional function for text.
-
     """
     c = Component()
     label = label or f"{int(widths[0]*1e3)} {int(gaps[0]*1e3)}"

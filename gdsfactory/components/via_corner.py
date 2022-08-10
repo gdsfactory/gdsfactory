@@ -20,7 +20,9 @@ def via_corner(
     layers_labels: Tuple[str, ...] = ("m2", "m3"),
     **kwargs,
 ) -> gf.Component:
-    """Returns Corner via. Use in place of wire_corner to route between two
+    """Returns Corner via.
+
+    Use in place of wire_corner to route between two
     layers.
 
     Args:
@@ -28,7 +30,6 @@ def via_corner(
         vias: vias to use to fill the rectangles.
         layers_labels: Labels to use for each layer.
         kwargs: cross_section settings
-
     """
     cross_sections = [gf.get_cross_section(x[0], **kwargs) for x in cross_section]
     port_orientations = [x[1] for x in cross_section]

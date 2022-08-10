@@ -19,7 +19,7 @@ def bend_circular_heater(
     cross_section: CrossSectionSpec = "strip",
     **kwargs
 ) -> Component:
-    """Creates an arc of arclength ``theta`` starting at angle ``start_angle``
+    """Creates an arc of arclength ``theta`` starting at angle ``start_angle``.
 
     Args:
         radius: in um.
@@ -31,7 +31,6 @@ def bend_circular_heater(
         with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
         kwargs: cross_section settings.
-
     """
     x = gf.get_cross_section(cross_section, radius=radius, **kwargs)
     width = x.width

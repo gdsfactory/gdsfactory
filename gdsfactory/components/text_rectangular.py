@@ -26,7 +26,6 @@ def text_rectangular(
         justify: left, right or center.
         layer: for text.
         font: function that returns dictionary of characters.
-
     """
     pixel_size = size
     xoffset = position[0]
@@ -83,7 +82,6 @@ def text_rectangular_multi_layer(
         position: coordinate
         justify: left, right or center
         font: function that returns dictionary of characters
-
     """
     func = gf.partial(
         copy_layers,

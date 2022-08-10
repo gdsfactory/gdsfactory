@@ -45,7 +45,6 @@ def straight_heater_metal_undercut(
         heater_taper_length: minimizes current concentrations from heater to via_stack.
         ohms_per_square: to calculate resistance.
         kwargs: cross_section common settings.
-
     """
     period = length_undercut + length_undercut_spacing
     n = int((length - 2 * length_straight_input) // period)

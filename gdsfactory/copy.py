@@ -13,7 +13,6 @@ def copy(
 
     Args:
         D: component.
-
     """
     D_copy = Component()
     D_copy.info = python_copy.deepcopy(D.info)

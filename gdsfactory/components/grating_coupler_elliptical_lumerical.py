@@ -117,7 +117,6 @@ def grating_coupler_elliptical_lumerical(
         fiber_marker_layer: in um.
         spiked: grating teeth include sharp spikes to avoid non-manhattan drc errors.
         cross_section: cross_section spec for waveguide port.
-
     """
     parameters = (
         parameters.strip().split() if isinstance(parameters, str) else parameters

@@ -19,7 +19,8 @@ def seal_ring(
     with_east: bool = True,
     with_west: bool = True,
 ) -> gf.Component:
-    """Returns a continuous seal ring boundary at the chip/die seal rings are
+    """Returns a continuous seal ring boundary at the chip/die seal rings are.
+
     useful to prevents cracks from spreading you can connect it to ground.
 
     Args:
@@ -31,7 +32,6 @@ def seal_ring(
         with_south: includes seal.
         with_east: includes seal.
         with_west: includes seal.
-
     """
 
     c = gf.Component()
