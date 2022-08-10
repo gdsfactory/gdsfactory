@@ -227,7 +227,7 @@ def cross_section(
     auto_widen: bool = False,
     auto_widen_minimum_length: float = 200.0,
     taper_length: float = 10.0,
-    radius: Optional[float] = 11.0,
+    radius: Optional[float] = 10.0,
     sections: Optional[Tuple[Section, ...]] = None,
     port_names: Tuple[str, str] = ("o1", "o2"),
     port_types: Tuple[str, str] = ("optical", "optical"),
