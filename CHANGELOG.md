@@ -6,6 +6,7 @@
 - clean code PR
     - remove unused Coord2
     - move gds folder into tests/gds
+    - move schemas folder into tests/schemas
 
 ## [5.16.0](https://github.com/gdsfactory/gdsfactory/pull/580)
 
