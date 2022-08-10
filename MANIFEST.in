@@ -1,4 +1,4 @@
-include gdsfactory/gds/alphabet.gds
+include gdsfactory/tests/gds/alphabet.gds
 include gdsfactory/components/csv_data/*.csv
 include gdsfactory/components/grating_coupler/csv_data/*.csv
 recursive-include gdsfactory/samples/*

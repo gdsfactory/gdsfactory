@@ -16,7 +16,7 @@ ports:
     center:
     - 1.234
     - 0.0
-    orientation: 0
+    orientation: 0.0
     layer:
     - 1
     - 0
@@ -38,7 +38,7 @@ cells:
     changed:
       length: 1.234
     default:
-      length: 10
+      length: 10.0
       npoints: 2
       with_bbox: true
       cross_section: strip
@@ -61,7 +61,7 @@ settings:
   changed:
     length: 1.234
   default:
-    length: 10
+    length: 10.0
     npoints: 2
     with_bbox: true
     cross_section: strip
