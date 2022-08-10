@@ -153,16 +153,12 @@ class ComponentReference(DeviceReference):
         self.ref_cell = value
 
     def __repr__(self) -> str:
-        return (
-            'ComponentReference (parent Component "%s", ports %s, origin %s, rotation %s,'
-            " x_reflection %s)"
-            % (
-                self.parent.name,
-                list(self.ports.keys()),
-                self.origin,
-                self.rotation,
-                self.x_reflection,
-            )
+        return 'ComponentReference (parent Component "%s", ports %s, origin %s, rotation %s,' " x_reflection %s)" % (
+            self.parent.name,
+            list(self.ports.keys()),
+            self.origin,
+            self.rotation,
+            self.x_reflection,
         )
 
     def __str__(self) -> str:

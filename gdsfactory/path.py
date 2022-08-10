@@ -146,7 +146,7 @@ def transition_exponential(y1, y2, exp=0.5):
         y2: end width in um.
         exp: exponent.
     """
-    return lambda t: y1 + (y2 - y1) * t**exp
+    return lambda t: y1 + (y2 - y1) * t ** exp
 
 
 def transition(
@@ -366,7 +366,7 @@ def extrude(
             # Compute lengths
             dx = np.diff(p.points[:, 0])
             dy = np.diff(p.points[:, 1])
-            lengths = np.cumsum(np.sqrt(dx**2 + dy**2))
+            lengths = np.cumsum(np.sqrt(dx ** 2 + dy ** 2))
             lengths = np.concatenate([[0], lengths])
             width = width(lengths / lengths[-1])
         dy = offset + width / 2
@@ -512,11 +512,11 @@ def _cut_path_with_ray(
     path_cmp = np.copy(path)
     # pad start
     dp = path[0] - path[1]
-    d_ext = far_distance / np.sqrt(np.sum(dp**2)) * np.array([dp[0], dp[1]])
+    d_ext = far_distance / np.sqrt(np.sum(dp ** 2)) * np.array([dp[0], dp[1]])
     path_cmp[0] += d_ext
     # pad end
     dp = path[-1] - path[-2]
-    d_ext = far_distance / np.sqrt(np.sum(dp**2)) * np.array([dp[0], dp[1]])
+    d_ext = far_distance / np.sqrt(np.sum(dp ** 2)) * np.array([dp[0], dp[1]])
     path_cmp[-1] += d_ext
 
     intersections = [sg.Point(path[0]), sg.Point(path[-1])]

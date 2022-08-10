@@ -123,7 +123,7 @@ class Mode(BaseModel):
     ) -> None:
         """Plot index profile."""
         plt.imshow(
-            self.eps**0.5,
+            self.eps ** 0.5,
             cmap=cmap,
             origin=origin,
             aspect="auto",
