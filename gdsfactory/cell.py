@@ -252,7 +252,6 @@ def cell(func: _F, *args, **kwargs) -> _F:
 @cell
 def wg(length: int = 3, layer: Tuple[int, int] = (1, 0)) -> Component:
     """Dummy component for testing."""
-
     c = Component("straight")
     width = 0.5
     w = width / 2
@@ -265,7 +264,6 @@ def wg(length: int = 3, layer: Tuple[int, int] = (1, 0)) -> Component:
 @cell
 def wg2(wg1=wg):
     """Dummy component for testing."""
-
     c = Component("straight")
     w = wg1()
     w1 = c << w
@@ -283,7 +281,6 @@ def test_set_name() -> None:
 @cell
 def demo(length: int = 3, wg_width: float = 0.5) -> Component:
     """Demo Dummy cell."""
-
     c = Component()
     w = length
     h = wg_width

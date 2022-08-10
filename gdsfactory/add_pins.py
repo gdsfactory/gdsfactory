@@ -1,4 +1,4 @@
-"""Add_pin adss a Pin to a port, add_pins adds Pins to all ports:
+"""Add_pin adss a Pin to a port, add_pins adds Pins to all ports.
 
 - pins
 - outline
@@ -380,7 +380,6 @@ def add_pins_siepic(
         layer_pin: pin layer.
         pin_length: length of the pin marker for the port.
     """
-
     for p in component.get_ports_list(port_type=port_type):
         function(component=component, port=p, layer=layer_pin, pin_length=pin_length)
 
@@ -533,7 +532,6 @@ def add_instance_label(
     layer: LayerSpec = "LABEL_INSTANCE",
 ) -> None:
     """Adds label to a reference in a component."""
-
     instance_name = (
         instance_name
         or f"{reference.parent.name},{int(reference.x)},{int(reference.y)}"
@@ -556,7 +554,7 @@ def add_pins_and_outline(
     add_settings_function: Optional[Callable] = add_settings_label,
     add_instance_label_function: Optional[Callable] = add_settings_label,
 ) -> None:
-    """Add markers:
+    """Add markers.
 
     - outline
     - pins for the ports
