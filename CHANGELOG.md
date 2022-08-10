@@ -7,6 +7,7 @@
     - remove unused Coord2
     - move gds folder into tests/gds
     - move schemas folder into tests/schemas
+    - move models to simulation/photonic_circuit_models
 
 ## [5.16.0](https://github.com/gdsfactory/gdsfactory/pull/580)
 
