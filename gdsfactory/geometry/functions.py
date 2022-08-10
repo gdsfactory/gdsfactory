@@ -1,9 +1,7 @@
-from typing import List, Optional, Union
+from typing import Optional, Union
 
 import numpy as np
 from numpy import cos, float64, ndarray, sin
-
-from gdsfactory.coord2 import Coord2
 
 RAD2DEG = 180.0 / np.pi
 DEG2RAD = 1 / RAD2DEG
@@ -134,9 +132,11 @@ def path_length(points: ndarray) -> float64:
 
 
 def snap_angle(a: float64) -> int:
-    """Snap angle to manhattan direction (0, 90, 180, 270)
-    a: angle in deg
-    Return angle snapped along manhattan angle
+    """Returns angle snapped along manhattan angle (0, 90, 180, 270).
+
+    Args:
+        a: angle in deg.
+
     """
     a = a % 360
     if -45 < a < 45:
@@ -163,7 +163,7 @@ def angles_deg(pts: ndarray) -> ndarray:
 
 
 def extrude_path(
-    points: Union[List[Coord2], ndarray],
+    points: ndarray,
     width: float,
     with_manhattan_facing_angles: bool = True,
     spike_length: Union[float64, int, float] = 0,
