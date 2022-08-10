@@ -152,7 +152,7 @@ class Component(Device):
 
     @classmethod
     def validate(cls, v):
-        """Pydantic assumes component is valid if:
+        """Pydantic assumes component is valid if the following are true.
 
         - name characters < MAX_NAME_LENGTH
         - is not empty (has references or polygons)

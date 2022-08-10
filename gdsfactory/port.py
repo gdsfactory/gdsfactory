@@ -71,7 +71,7 @@ class PortOrientationError(ValueError):
 
 
 class Port:
-    """Ports are useful to connect Components with each other. Extends phidl
+    """Ports are useful to connect Components with each other. Extends phidl \
     port with layer and cross_section.
 
     Args:
@@ -103,6 +103,7 @@ class Port:
         cross_section: Optional[CrossSection] = None,
         shear_angle: Optional[float] = None,
     ) -> None:
+        """Initializes the Port object."""
 
         if midpoint:
             warnings.warn(midpoint_deprecation, DeprecationWarning, stacklevel=2)
@@ -177,18 +178,19 @@ class Port:
         return OmegaConf.to_yaml(d)
 
     def __repr__(self) -> str:
+        """Return a string representation of the object."""
         s = f"Port (name {self.name}, center {self.center}, width {self.width}, orientation {self.orientation}, layer {self.layer}, port_type {self.port_type})"
         s += f" shear_angle {self.shear_angle}" if self.shear_angle else ""
         return s
 
     @classmethod
     def __get_validators__(cls):
+        """Get validators."""
         yield cls.validate
 
     @classmethod
     def validate(cls, v):
-        """For pydantic assumes Port is valid if has a name and a valid
-        type."""
+        """For pydantic assumes Port is valid if has a name and a valid type."""
         assert v.name, f"Port has no name, got `{v.name}`"
         # assert v.assert_on_grid(), f"port.center = {v.center} has off-grid points"
         assert isinstance(v, Port), f"TypeError, Got {type(v)}, expecting Port"
@@ -235,8 +237,7 @@ class Port:
         self.center = self.center + np.array(vector)
 
     def move_polar_copy(self, d: float, angle: float) -> Port:
-        """Returns a copy of the port with a distance (d) in um and angle
-        (deg)."""
+        """Returns a copy of the port with a distance (d) in um and angle (deg)."""
         port = self.copy()
         DEG2RAD = np.pi / 180
         dp = np.array((d * np.cos(DEG2RAD * angle), d * np.sin(DEG2RAD * angle)))
@@ -244,7 +245,7 @@ class Port:
         return port
 
     def flip(self, **kwargs) -> Port:
-        """flips port."""
+        """Flips port."""
         port = self.copy(**kwargs)
         if port.orientation is None:
             raise ValueError(f"port {self.name!r} has None orientation")
@@ -299,7 +300,7 @@ class Port:
         return self.center[1]
 
     def rotate(self, angle: float = 45, center: Optional[Float2] = None) -> Port:
-        """Rotates a Port around the specified center point, if no centerpoint
+        """Rotates a Port around the specified center point, if no centerpoint \
         specified will rotate around (0,0).
 
         Args:
@@ -446,7 +447,7 @@ def csv2port(csvpath) -> Dict[str, Port]:
 
 
 def sort_ports_clockwise(ports: Dict[str, Port]) -> Dict[str, Port]:
-    """.. code::
+    """.. code:: \
 
         3   4
         |___|_
@@ -488,7 +489,7 @@ def sort_ports_clockwise(ports: Dict[str, Port]) -> Dict[str, Port]:
 
 
 def sort_ports_counter_clockwise(ports: Dict[str, Port]) -> Dict[str, Port]:
-    """.. code::
+    """.. code:: \
 
         4   3
         |___|_
@@ -557,7 +558,6 @@ def select_ports(
         Dict containing the selected ports {port name: port}.
 
     """
-
     from gdsfactory.component import Component, ComponentReference
 
     # Make it accept Component or ComponentReference
@@ -716,7 +716,7 @@ def _rename_ports_counter_clockwise(direction_ports, prefix="") -> None:
 
 
 def _rename_ports_clockwise(direction_ports: PortsMap, prefix: str = "") -> None:
-    """Rename ports in the clockwise direction starting from the bottom left
+    """Rename ports in the clockwise direction starting from the bottom left \
     (west) corner."""
     east_ports = direction_ports["E"]
     east_ports.sort(key=lambda p: -p.y)  # sort north to south
@@ -740,7 +740,7 @@ def _rename_ports_clockwise(direction_ports: PortsMap, prefix: str = "") -> None
 def _rename_ports_clockwise_top_right(
     direction_ports: PortsMap, prefix: str = ""
 ) -> None:
-    """Rename ports in the clockwise direction starting from the top right
+    """Rename ports in the clockwise direction starting from the top right \
     corner."""
     east_ports = direction_ports["E"]
     east_ports.sort(key=lambda p: -p.y)  # sort north to south
@@ -767,8 +767,7 @@ def rename_ports_by_orientation(
     function=_rename_ports_facing_side,
     prefix: str = "o",
 ) -> Component:
-    """Returns Component with port names based on port orientation (E, N, W,
-    S).
+    """Returns Component with port names based on port orientation (E, N, W, S).
 
     Args:
         component: to rename ports.
@@ -880,7 +879,6 @@ def map_ports_layer_to_orientation(
             S0   S1
 
     """
-
     m = {}
     direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
     layers = {port.layer for port in ports.values()}
@@ -927,7 +925,6 @@ def map_ports_to_orientation_cw(
             S0   S1
 
     """
-
     direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
 
     ports = select_ports(ports, **kwargs)
