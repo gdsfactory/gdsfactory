@@ -12,7 +12,7 @@ def merge_json(
     doe_directory: PathType,
     json_version: int = 6,
 ) -> Dict[str, Any]:
-    """Returns combined dict with several JSON files from doe_directory
+    """Returns combined dict with several JSON files from doe_directory.
 
     Args:
         doe_directory: defaults to current working directory

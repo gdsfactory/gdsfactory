@@ -13,6 +13,7 @@ def is_valid_transformation(
         component: the component reference to check.
         grid_size: the GDS grid size, in um, defaults to active PDK.get_grid_size()
             any translations with higher resolution than this are considered invalid.
+
     """
     grid_size = grid_size or get_grid_size()
     nm = int(grid_size * 1e3)
@@ -31,7 +32,8 @@ def has_valid_transformations(component: Component) -> bool:
 
 
 def flatten_invalid_refs(component: Component, grid_size: Optional[float] = None):
-    """Flattens component references component with invalid GDS transformations.
+    """Flattens component references component with invalid GDS
+    transformations.
 
     (i.e. non-90 deg rotations or sub-grid translations).
 
@@ -42,6 +44,7 @@ def flatten_invalid_refs(component: Component, grid_size: Optional[float] = None
         component: the component to fix (in place).
         grid_size: the GDS grid size, in um, defaults to active PDK.get_grid_size()
             any translations with higher resolution than this are considered invalid.
+
     """
     grid_size = grid_size or get_grid_size()
     nm = int(grid_size * 1e3)

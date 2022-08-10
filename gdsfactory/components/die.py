@@ -1,4 +1,4 @@
-"""adapted from phidl.geometry """
+"""adapted from phidl.geometry."""
 
 from typing import Optional, Tuple
 
@@ -22,8 +22,8 @@ def die(
     draw_corners: bool = True,
     draw_dicing_lane: bool = True,
 ) -> gf.Component:
-    """Returns basic die with 4 right angle corners marking
-    the boundary of the chip/die and a label with the name of the die.
+    """Returns basic die with 4 right angle corners marking the boundary of the
+    chip/die and a label with the name of the die.
 
     Args:
         size: x, y dimensions of the die.

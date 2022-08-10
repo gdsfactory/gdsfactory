@@ -25,8 +25,8 @@ def write_sparameters_grating_coupler(
     overwrite: bool = False,
     **kwargs,
 ) -> pd.DataFrame:
-    """Get sparameter matrix from a gdsfactory grating coupler.
-    assumes grating coupler waveguide port is facing to the left (west)
+    """Get sparameter matrix from a gdsfactory grating coupler. assumes grating
+    coupler waveguide port is facing to the left (west)
 
     TODO: add a fiber model (more realistic than a gaussian_beam)
 

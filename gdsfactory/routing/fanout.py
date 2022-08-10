@@ -41,6 +41,7 @@ def fanout_component(
             component=c, port_names=tuple(c.get_ports_dict(orientation=0).keys())
         )
         cc.plot()
+
     """
 
     c = Component()
@@ -93,6 +94,7 @@ def fanout_ports(
         pitch: target port spacing for new component.
         dx: how far the fanout.
         kwargs: for route_basic.
+
     """
     routes = []
     ports1 = ports

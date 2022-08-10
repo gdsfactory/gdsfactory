@@ -74,6 +74,7 @@ def mzi(
                       |         |
                      b6__sxbot__b7
                           Lx
+
     """
     combiner = combiner or splitter
 

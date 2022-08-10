@@ -30,6 +30,7 @@ def pixelate_path(
         middle_offset: in um.
         theta_start: in degrees.
         theta_end: in degrees.
+
     """
 
     thetas0 = [
@@ -88,8 +89,7 @@ def _pixelate(
     min_pixel_size: float = 0.4,
     snap_res: float = 0.05,
 ) -> Coordinates:
-    """
-    Pixelates a shape (as 2d array) onto an NxN grid.
+    """Pixelates a shape (as 2d array) onto an NxN grid.
 
     Arguments:
         pts: The 2D array to be pixelated.
@@ -97,6 +97,7 @@ def _pixelate(
 
     Returns:
         A list of pixel bounding boxes
+
     """
 
     shape = points_to_shapely(pts)  # convert to shapely
@@ -158,10 +159,8 @@ def rect_to_coords(r):
 
 
 def pixelate(pts, N=100, margin=0.4, **kwargs):
-    """
-    pixelate shape defined by points
-    Return rectangles [Rect1, Rect2, ...] ready to go in the quad tree
-    """
+    """pixelate shape defined by points Return rectangles [Rect1, Rect2, ...]
+    ready to go in the quad tree."""
 
     pixels = _pixelate(pts, N=N, margin=margin, **kwargs)
     return [rect_to_coords(pixel) for pixel in pixels]

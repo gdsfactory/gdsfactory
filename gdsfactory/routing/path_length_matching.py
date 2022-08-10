@@ -25,10 +25,9 @@ def path_length_matched_points(
     cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
     **kwargs,
 ) -> List[ndarray]:
-    """
-    Several types of paths won't match correctly.
-    We do not try to handle all the corner cases here.
-    You will need to modify the input list of waypoints in some cases.
+    """Several types of paths won't match correctly. We do not try to handle
+    all the corner cases here. You will need to modify the input list of
+    waypoints in some cases.
 
     Args:
         list_of_waypoints:  [[p1, p2, p3,...], [q1, q2, q3,...], ...]

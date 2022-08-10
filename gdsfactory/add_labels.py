@@ -77,6 +77,7 @@ def get_input_label(
         layer_label: layer of the label.
         component_name: for the label.
         get_input_label_text_function: function to get input label.
+
     """
     text = get_input_label_text_function(
         port=port, gc=gc, gc_index=gc_index, component_name=component_name
@@ -114,6 +115,7 @@ def get_input_label_electrical(
         component_name: Optional component_name.
         layer_label: for label.
         gc: ignored.
+
     """
 
     if component_name:
@@ -199,6 +201,7 @@ def add_siepic_labels(
             Either pass in a dict with parameter, value pairs, or pass
             a list of values to extract from component info.
         label_spacing: separation distance between labels in um.
+
     """
 
     c = component

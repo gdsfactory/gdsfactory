@@ -90,7 +90,8 @@ def get_bundle_from_waypoints(
     path_length_match_modify_segment_i: int = -2,
     **kwargs,
 ) -> List[Route]:
-    """Returns list of routes that connect bundle of ports with bundle of routes.
+    """Returns list of routes that connect bundle of ports with bundle of
+    routes.
 
     Routes follow a list of waypoints.
     Take a look at get_bundle_from_steps for easier definition.

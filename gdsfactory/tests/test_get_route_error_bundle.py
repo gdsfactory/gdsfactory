@@ -5,7 +5,7 @@ from gdsfactory.routing.manhattan import RouteWarning
 
 
 def test_route_error_bundle():
-    """Ensures that an impossible route raises value Error"""
+    """Ensures that an impossible route raises value Error."""
     c = gf.Component("get_route_from_steps_sample")
 
     w = gf.components.array(

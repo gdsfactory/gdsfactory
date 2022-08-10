@@ -14,6 +14,7 @@ TODO:
 Maybe:
 
 - combine modes package, mpb and tidy3d APIs
+
 """
 
 import pathlib
@@ -233,6 +234,7 @@ class Waveguide(BaseModel):
         Args:
             Y: 2D array.
             Z: 2D array.
+
         """
 
         w = self.wg_width
@@ -433,6 +435,7 @@ class Waveguide(BaseModel):
 
         Args:
             wg: other waveguide.
+
         """
         wg1 = self
         wg2 = wg
@@ -501,6 +504,7 @@ class WaveguideCoupler(Waveguide):
         Args:
             Y: 2D array.
             Z: 2D array.
+
         """
 
         w1 = self.wg_width1
@@ -537,8 +541,8 @@ class WaveguideCoupler(Waveguide):
         return SETTINGS_COUPLER
 
     def find_coupling(self, power_ratio: float = 1.0) -> float:
-        """Returns the coupling length (um) of the directional coupler
-        to achieve power_ratio, where 1 means 100% power transfer."""
+        """Returns the coupling length (um) of the directional coupler to
+        achieve power_ratio, where 1 means 100% power transfer."""
         if not hasattr(self, "neffs"):
             self.compute_modes()
         neff1 = self.neffs[0]
@@ -577,6 +581,7 @@ def sweep_bend_loss(
         xmargin: margin from waveguide edge to each side (um).
         resolution: pixels/um.
         nmodes: number of modes to compute.
+
     """
 
     r = np.linspace(bend_radius_min, bend_radius_max, steps)
@@ -665,6 +670,7 @@ def group_index(
         resolution: pixels/um.
         nmodes: number of modes to compute.
         bend_radius: optional bend radius (um).
+
     """
 
     wc = Waveguide(wavelength=wavelength, **kwargs)
@@ -716,6 +722,7 @@ def plot_sweep_width(
         resolution: pixels/um.
         nmodes: number of modes to compute.
         bend_radius: optional bend radius (um).
+
     """
     width = np.linspace(width1, width2, steps)
     neff = {mode_number: [] for mode_number in range(nmodes)}

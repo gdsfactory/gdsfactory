@@ -49,7 +49,6 @@ def dbr_cell(
         _______
                |_________
 
-
     """
     l1 = gf.snap.snap_to_grid(l1)
     l2 = gf.snap.snap_to_grid(l2)
@@ -93,7 +92,6 @@ def dbr(
           w1       w2       ...  n times
         _______
                |_________
-
 
     """
     c = Component()

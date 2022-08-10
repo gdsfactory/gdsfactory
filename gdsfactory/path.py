@@ -5,6 +5,7 @@ A path can be extruded using any CrossSection returning a Component
 The CrossSection defines the layer numbers, widths and offsetts
 
 Based on phidl.path
+
 """
 
 import warnings
@@ -48,6 +49,7 @@ class Path(PathPhidl):
     Parameters:
         path: array-like[N][2], Path, or list of Paths.
             Points or Paths to append() initially.
+
     """
 
     @classmethod
@@ -91,6 +93,7 @@ class Path(PathPhidl):
             simplify: Tolerance value for the simplification algorithm.
               All points that can be removed without changing the resulting
               polygon by more than the value listed here will be removed.
+
         """
         return extrude(
             p=self,
@@ -145,6 +148,7 @@ def transition_exponential(y1, y2, exp=0.5):
         y1: start width in um.
         y2: end width in um.
         exp: exponent.
+
     """
     return lambda t: y1 + (y2 - y1) * t ** exp
 
@@ -275,6 +279,7 @@ def extrude(
           polygon by more than the value listed here will be removed.
         shear_angle_start: an optional angle to shear the starting face by (in degrees).
         shear_angle_end: an optional angle to shear the ending face by (in degrees).
+
     """
     from gdsfactory.pdk import (
         get_active_pdk,
@@ -568,6 +573,7 @@ def arc(radius: float = 10.0, angle: float = 90, npoints: int = 720) -> Path:
 
         p = gf.path.arc(radius=10, angle=45)
         p.plot()
+
     """
     return Path().from_phidl(path.arc(radius=radius, angle=angle, num_pts=npoints))
 
@@ -579,7 +585,8 @@ def euler(
     use_eff: bool = False,
     npoints: int = 720,
 ) -> Path:
-    """Returns an euler bend that adiabatically transitions from straight to curved.
+    """Returns an euler bend that adiabatically transitions from straight to
+    curved.
 
     `radius` is the minimum radius of curvature of the bend.
     However, if `use_eff` is set to True, `radius` corresponds to the effective
@@ -603,6 +610,7 @@ def euler(
 
         p = gf.path.euler(radius=10, angle=45, p=1, use_eff=True, npoints=720)
         p.plot()
+
     """
     return Path().from_phidl(
         path.euler(radius=radius, angle=angle, p=p, use_eff=use_eff, num_pts=npoints)
@@ -617,6 +625,7 @@ def straight(length: float = 10.0, npoints: int = 2) -> Path:
     Args:
         length: of straight.
         npoints: number of points.
+
     """
     if length < 0:
         raise ValueError(f"length = {length} needs to be > 0")
@@ -647,6 +656,7 @@ def spiral_archimedean(
 
         p = gf.path.spiral_archimedean(min_bend_radius=5, separation=2, number_of_loops=3, npoints=200)
         p.plot()
+
     """
     return Path(
         [
@@ -678,6 +688,7 @@ def smooth(
 
         p = gf.path.smooth(([0, 0], [0, 10], [10, 10]))
         p.plot()
+
     """
     return Path().from_phidl(
         smooth_phidl(points=points, radius=radius, corner_fun=bend, **kwargs)

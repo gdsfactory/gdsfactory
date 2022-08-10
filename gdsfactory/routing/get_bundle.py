@@ -364,7 +364,7 @@ def _get_bundle_waypoints(
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> List[ndarray]:
-    """Returns route coordinates List
+    """Returns route coordinates List.
 
     Args:
         ports1: list of starting ports.
@@ -375,6 +375,7 @@ def _get_bundle_waypoints(
         start_straight_length: length of straight.
         cross_section: CrossSection or function that returns a cross_section.
         kwargs: cross_section settings.
+
     """
 
     if not ports1 and not ports2:
@@ -500,9 +501,8 @@ def get_min_spacing(
     radius: float = 5.0,
     sort_ports: bool = True,
 ) -> float:
-    """
-    Returns the minimum amount of spacing in um required to create a fanout."
-    """
+    """Returns the minimum amount of spacing in um required to create a
+    fanout."."""
 
     axis = "X" if ports1[0].orientation in [0, 180] else "Y"
     j = 0

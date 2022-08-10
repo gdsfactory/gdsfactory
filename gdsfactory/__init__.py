@@ -1,4 +1,4 @@
-""" You can import gdsfactory.as gf
+"""You can import gdsfactory.as gf.
 
 functions:
     - import_gds(): returns a Component from a GDS
@@ -16,6 +16,7 @@ modules:
     - routing
 
 isort:skip_file
+
 """
 from toolz import compose
 from functools import partial

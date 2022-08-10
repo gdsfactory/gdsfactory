@@ -11,6 +11,7 @@ def from_phidl(component: Device, port_layer: Layer = (1, 0), **kwargs) -> Compo
     Args:
         component: phidl component.
         port_layer: to add to component ports.
+
     """
     device = call_if_func(component, **kwargs)
     component = Component(name=device.name)

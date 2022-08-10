@@ -43,7 +43,6 @@ def add_grating_couplers(
         component_name: optional component name.
 
     """
-
     c = Component()
     component = gf.get_component(component)
 
@@ -109,8 +108,8 @@ def add_grating_couplers_with_loopback_fiber_single(
         loopback_xspacing: in um.
         straight: straight spec.
         rotation: in degrees, 90 for North South devices, 0 for East-West.
-    """
 
+    """
     c = Component()
     component = gf.get_component(component)
 
@@ -247,6 +246,7 @@ def add_grating_couplers_with_loopback_fiber_array(
         cross_section: CrossSectionSpec.
         select_ports: function to select ports.
         kwargs: cross_section settings.
+
     """
     component = gf.get_component(component)
     x = gf.get_cross_section(cross_section, **kwargs)

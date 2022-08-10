@@ -20,6 +20,7 @@ def straight_array(
         spacing: edge to edge straight spacing.
         straight: straight straight Component or library.
         kwargs: straight settings.
+
     """
 
     c = Component()

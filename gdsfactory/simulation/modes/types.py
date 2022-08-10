@@ -48,14 +48,15 @@ class Mode(BaseModel):
         return f"Mode{self.mode_number}"
 
     def E_grid_interp(self, y_arr, z_arr, index):
-        """
-        Creates new attributes with scipy.interpolate.RectBivariateSpline objects
-        that can be used to interpolate the field on a new regular grid
+        """Creates new attributes with scipy.interpolate.RectBivariateSpline
+        objects that can be used to interpolate the field on a new regular
+        grid.
 
         Args:
             y_grid (np.array): y values where to evaluate, in increasing array.
             z_grid (np.array): z values where to evaluate, in increasing array.
             index: 0: x, 1: y, 2: z
+
         """
 
         if index not in [0, 1, 2]:
@@ -83,13 +84,15 @@ class Mode(BaseModel):
         return self.E_grid_interp(y_arr=y_arr, z_arr=z_arr, index=2)
 
     def H_grid_interp(self, y_arr, z_arr, index=0):
-        """Creates new attributes with scipy.interpolate.RectBivariateSpline objects
-        that can be used to interpolate the field on a new regular grid
+        """Creates new attributes with scipy.interpolate.RectBivariateSpline
+        objects that can be used to interpolate the field on a new regular
+        grid.
 
         Args:
             y_grid (np.array): y values where to evaluate, in increasing array.
             z_grid (np.array): z values where to evaluate, in increasing array.
             index: 0: x, 1: y, 2: z
+
         """
         if index not in [0, 1, 2]:
             raise ValueError(f"index = {index} needs to be (0: x, 1: y, 2: z)")
@@ -442,6 +445,7 @@ class Waveguide(BaseModel):
         resolution: int
         nmodes: int
         modes: Dict[Mode]
+
     """
 
     wg_width: float = 0.45

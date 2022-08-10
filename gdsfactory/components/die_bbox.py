@@ -1,4 +1,4 @@
-"""adapted from phidl.geometry """
+"""adapted from phidl.geometry."""
 from typing import Optional
 
 import numpy as np

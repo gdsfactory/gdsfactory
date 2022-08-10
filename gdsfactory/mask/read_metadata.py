@@ -10,6 +10,7 @@ def read_metadata(gdspath: PathType) -> DictConfig:
 
     Args:
         gdspath: GDSpath
+
     """
     yaml_path = Path(gdspath).with_suffix(".yml")
     return OmegaConf.load(yaml_path)

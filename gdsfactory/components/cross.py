@@ -19,6 +19,7 @@ def cross(
         width: float Width of the arms of the cross.
         layer: layer for geometry.
         port_type: None, optical, electrical.
+
     """
     layer = gf.get_layer(layer)
     c = gf.Component()

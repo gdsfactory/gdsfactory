@@ -152,13 +152,15 @@ def snap_angle(a: float64) -> int:
 
 
 def angles_rad(pts: ndarray) -> ndarray:
-    """returns the angles (radians) of the connection between each point and the next"""
+    """returns the angles (radians) of the connection between each point and
+    the next."""
     _pts = np.roll(pts, -1, 0)
     return np.arctan2(_pts[:, 1] - pts[:, 1], _pts[:, 0] - pts[:, 0])
 
 
 def angles_deg(pts: ndarray) -> ndarray:
-    """returns the angles (degrees) of the connection between each point and the next"""
+    """returns the angles (degrees) of the connection between each point and
+    the next."""
     return angles_rad(pts) * RAD2DEG
 
 
@@ -171,8 +173,8 @@ def extrude_path(
     end_angle: Optional[int] = None,
     grid: float = 0.001,
 ) -> ndarray:
-    """Deprecated. Use gf.path instead
-    Extrude a path of width `width` along a curve defined by `points`
+    """Deprecated. Use gf.path instead Extrude a path of width `width` along a
+    curve defined by `points`
 
     Args:
         points: numpy 2D array of shape (N, 2)
@@ -185,6 +187,7 @@ def extrude_path(
 
     Returns:
         numpy 2D array of shape (2*N, 2)
+
     """
 
     if isinstance(points, list):
@@ -231,9 +234,8 @@ def extrude_path(
 
 
 def polygon_grow(polygon: ndarray, offset: float) -> ndarray:
-    """Returns a grown polygon by an offset
-    polygon has to be a closed shape
-    """
+    """Returns a grown polygon by an offset polygon has to be a closed
+    shape."""
     s = remove_identicals(polygon)
     s = remove_flat_angles(s)
     s = np.vstack([s, s[0]])

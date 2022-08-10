@@ -20,10 +20,9 @@ def die_bbox_frame(
     layer: LayerSpec = "M3",
     padding: float = 10.0,
 ) -> gf.Component:
-    """Return boundary box frame. Perfect for defining dicing lanes.
-    the boundary of the chip/die
-    it can also add a label with the name of the die.
-    similar to die and bbox
+    """Return boundary box frame. Perfect for defining dicing lanes. the
+    boundary of the chip/die it can also add a label with the name of the die.
+    similar to die and bbox.
 
     adapted from phidl.geometry
 

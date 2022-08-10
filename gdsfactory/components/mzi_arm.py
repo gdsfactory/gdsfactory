@@ -39,7 +39,6 @@ def mzi_arm(
                   |      |
                   B      B
 
-
     """
     bend = bend(**kwargs)
     straight_y = straight_y or straight

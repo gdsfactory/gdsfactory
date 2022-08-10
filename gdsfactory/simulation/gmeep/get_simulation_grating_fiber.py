@@ -1,5 +1,4 @@
-"""
-Adapted from https://github.com/simbilod/option
+"""Adapted from https://github.com/simbilod/option.
 
 SMF specs from photonics.byu.edu/FiberOpticConnectors.parts/images/smf28.pdf
 
@@ -7,6 +6,7 @@ MFD:
 
 - 10.4 for Cband
 - 9.2 for Oband
+
 """
 
 import hashlib

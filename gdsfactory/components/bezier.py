@@ -23,6 +23,7 @@ def bezier_curve(t: ndarray, control_points: Coordinates) -> ndarray:
     Args:
         t: 1D array of points varying between 0 and 1.
         control_points:
+
     """
     xs = 0.0
     ys = 0.0
@@ -65,6 +66,7 @@ def bezier(
         start_angle: deg.
         end_angle: deg.
         grid: in um.
+
     """
     layer = gf.get_layer(layer)
 
@@ -122,10 +124,11 @@ def find_min_curv_bezier_control_points(
         return list(zip(xs, ys))
 
     def objective_func(p):
-        """
-        We want to minimize a combination of:
-            - max curvature
-            - negligible mismatch with start angle and end angle
+        """We want to minimize a combination of:
+
+        - max curvature
+        - negligible mismatch with start angle and end angle
+
         """
 
         ps = array_1d_to_cpts(p)

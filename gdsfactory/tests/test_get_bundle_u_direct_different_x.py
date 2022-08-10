@@ -7,17 +7,11 @@ from gdsfactory.component import Component
 def test_get_bundle_u_direct_different_x(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> Component:
-    """
+    """.. code::
 
-    .. code::
+    4----5              ________ 3----6     4|        |            3|
+    nxn   | 2----7     2|        |            1|________| 1----8
 
-       4----5
-                    ________
-       3----6     4|        |
-                  3|  nxn   |
-       2----7     2|        |
-                  1|________|
-       1----8
     """
 
     c = gf.Component("test_get_bundle_u_direct_different_x")

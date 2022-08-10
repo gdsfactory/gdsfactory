@@ -34,6 +34,7 @@ def get_material(
     Note:
         Using the built-in models can be problematic at low resolution.
         If fields are NaN or Inf, increase resolution or use a non-dispersive model.
+
     """
     material_name_to_meep_new = material_name_to_meep or {}
     material_name_to_meep = MATERIAL_NAME_TO_MEEP.copy()

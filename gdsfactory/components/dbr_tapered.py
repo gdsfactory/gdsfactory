@@ -24,9 +24,8 @@ def dbr_tapered(
     waveguide_template_dbr: Optional[ComponentSpec] = None,
     **kwargs
 ) -> Component:
-    """Distributed Bragg Reflector Cell class.
-    Tapers the input straight to a periodic straight structure with varying width
-    (1-D photonic crystal).
+    """Distributed Bragg Reflector Cell class. Tapers the input straight to a
+    periodic straight structure with varying width (1-D photonic crystal).
 
     Args:
        length: Length of the DBR region.
@@ -62,7 +61,6 @@ def dbr_tapered(
           w1       w2       ...  n times
         _______
                |_________
-
 
     """
 

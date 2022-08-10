@@ -1,5 +1,7 @@
 """Each component factory component returns a component.
+
 Make sure your components get imported here so the PDK registers them.
+
 """
 
 import sys

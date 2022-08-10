@@ -25,7 +25,7 @@ def straight_pin_slot(
     taper: Optional[ComponentSpec] = taper_strip_to_ridge,
     **kwargs,
 ) -> Component:
-    """Returns a PIN straight waveguide with slotted via
+    """Returns a PIN straight waveguide with slotted via.
 
     https://doi.org/10.1364/OE.26.029983
 

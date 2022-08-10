@@ -38,7 +38,8 @@ def line(
 
 
 def move_polar_rad_copy(pos: Coordinate, angle: float, length: float) -> ndarray:
-    """Returns the points of a position (pos) with angle, by shifted by certain length
+    """Returns the points of a position (pos) with angle, by shifted by certain
+    length.
 
     Args:
         pos: position.
@@ -59,6 +60,7 @@ def extend_port(port: Port, length: float, layer: Optional[Layer] = None) -> Com
         port: port to extend.
         length: extension length in um.
         layer: for the straight section.
+
     """
     c = Component()
     layer = layer or port.layer
@@ -121,6 +123,7 @@ def extend_ports(
         layers_excluded: List of layers to exclude.
         port_type: optical, electrical, ....
         clockwise: if True, sort ports clockwise, False: counter-clockwise.
+
     """
     c = gf.Component()
     component = gf.get_component(component)

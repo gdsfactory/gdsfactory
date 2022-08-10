@@ -29,6 +29,7 @@ def add_termination(
         port_name: for the terminator to connect to the component ports.
         port_type: of the ports that you want to terminate.
         **kwargs: for the ports you want to terminate (orientation, width).
+
     """
     terminator = gf.get_component(terminator)
     port_name = port_name or terminator.get_ports_list()[0].name
