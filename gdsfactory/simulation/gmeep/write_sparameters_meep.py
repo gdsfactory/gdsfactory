@@ -52,8 +52,7 @@ def remove_simulation_kwargs(d: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def parse_port_eigenmode_coeff(port_index: int, ports, sim_dict: Dict):
-    """Given a port and eigenmode coefficient result, returns the coefficients
-    relative to whether the wavevector is entering or exiting simulation.
+    """Given a port and eigenmode coefficient result, returns the coefficients relative to whether the wavevector is entering or exiting simulation.
 
     Args:
         port_index: index of port.
@@ -382,7 +381,6 @@ def write_sparameters_meep(
         **settings,
     ) -> Dict:
         """Return Sparameter dict."""
-
         sim_dict = get_simulation(
             component=component,
             port_source_name=f"o{monitor_indices[n]}",

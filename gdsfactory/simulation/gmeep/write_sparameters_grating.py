@@ -1,5 +1,4 @@
-"""SMF specs from
-photonics.byu.edu/FiberOpticConnectors.parts/images/smf28.pdf.
+"""SMF specs from photonics.byu.edu/FiberOpticConnectors.parts/images/smf28.pdf.
 
 MFD:
 
@@ -262,7 +261,6 @@ def write_sparameters_grating_mpi(
         verbosity (bool): progress messages.
 
     """
-
     # Save the component object to simulation for later retrieval
     temp_dir = temp_dir or pathlib.Path(__file__).parent / "temp"
     temp_dir = pathlib.Path(temp_dir)
@@ -311,8 +309,7 @@ def write_sparameters_grating_batch(
     delete_temp_files: bool = False,
     verbosity: bool = False,
 ) -> None:
-    """Write grating coupler Sparameters using multiple cores in batches of
-    simulations.
+    """Write grating coupler Sparameters using multiple cores in batches of simulations.
 
     Given a tuple of write_sparameters_meep keyword arguments (instances)
     launches parallel simulations each simulation is assigned "cores_per_instance" cores
