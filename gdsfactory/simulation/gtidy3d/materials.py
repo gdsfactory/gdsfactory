@@ -62,7 +62,6 @@ def get_index(
         material_name_to_medium: map name to medium.
 
     """
-
     eps_complex = get_epsilon(
         wavelength=wavelength,
         name_or_index=name_or_index,
@@ -83,7 +82,6 @@ def get_medium(
         material_name_to_medium: map name to medium.
 
     """
-
     name_or_index = (
         name_or_index.lower() if isinstance(name_or_index, str) else name_or_index
     )

@@ -8,7 +8,6 @@ tidy3d can:
 - compute mode overlaps.
 
 TODO:
-
 - calculate dispersion
 
 Maybe:
@@ -197,6 +196,7 @@ class Waveguide(BaseModel):
     filter_pol: Optional[FilterPol] = None
 
     class Config:
+        """Config for Waveguide."""
         extra = Extra.allow
 
     @property
@@ -236,7 +236,6 @@ class Waveguide(BaseModel):
             Z: 2D array.
 
         """
-
         w = self.wg_width
         ncore = self.get_ncore()
         nclad = self.get_nclad()
@@ -506,7 +505,6 @@ class WaveguideCoupler(Waveguide):
             Z: 2D array.
 
         """
-
         w1 = self.wg_width1
         w2 = self.wg_width2
         gap = self.gap
@@ -541,8 +539,7 @@ class WaveguideCoupler(Waveguide):
         return SETTINGS_COUPLER
 
     def find_coupling(self, power_ratio: float = 1.0) -> float:
-        """Returns the coupling length (um) of the directional coupler to
-        achieve power_ratio, where 1 means 100% power transfer."""
+        """Returns the coupling length (um) of the directional coupler to achieve power_ratio, where 1 means 100% power transfer."""
         if not hasattr(self, "neffs"):
             self.compute_modes()
         neff1 = self.neffs[0]
@@ -583,7 +580,6 @@ def sweep_bend_loss(
         nmodes: number of modes to compute.
 
     """
-
     r = np.linspace(bend_radius_min, bend_radius_max, steps)
     integral = np.zeros_like(r)
 
@@ -634,7 +630,6 @@ def sweep_width(
         bend_radius: optional bend radius (um).
 
     """
-
     width = np.linspace(width1, width2, steps)
     neff = {mode_number: [] for mode_number in range(1, nmodes + 1)}
     for wg_width in tqdm(width):
@@ -672,7 +667,6 @@ def group_index(
         bend_radius: optional bend radius (um).
 
     """
-
     wc = Waveguide(wavelength=wavelength, **kwargs)
     wf = Waveguide(
         wavelength=wavelength + wavelength_step,
