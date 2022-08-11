@@ -26,40 +26,23 @@ def bend_s(
         with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
         cross_section: spec.
         kwargs: cross_section settings.
-
     """
     c = Component()
     dx, dy = size
     x = gf.get_cross_section(cross_section, **kwargs)
-    width = x.width
 
-    for name, section in x.aliases.items():
-        width = section.width
-        layer = section.layer
-        bend = bezier(
-            width=width,
-            control_points=((0, 0), (dx / 2, 0), (dx / 2, dy), (dx, dy)),
-            npoints=nb_points,
-            layer=layer,
-        )
-        bend_ref = c << bend
-        c.add_ports(bend_ref.ports, prefix=str(name))
-
-    if x.cladding_layers and x.cladding_offsets:
-        for layer, offset in zip(x.cladding_layers, x.cladding_offsets):
-            bend = bezier(
-                width=width + 2 * offset,
-                control_points=((0, 0), (dx / 2, 0), (dx / 2, dy), (dx, dy)),
-                npoints=nb_points,
-                layer=layer,
-            )
-            bend_ref = c << bend
-
+    bend = bezier(
+        control_points=((0, 0), (dx / 2, 0), (dx / 2, dy), (dx, dy)),
+        npoints=nb_points,
+        cross_section=x,
+    )
+    bend_ref = c << bend
+    c.add_ports(bend_ref.ports)
     c.copy_child_info(bend)
-    c.info["start_angle"] = bend.info["start_angle"]
-    c.info["end_angle"] = bend.info["end_angle"]
     c.info["length"] = bend.info["length"]
     c.info["min_bend_radius"] = bend.info["min_bend_radius"]
+    c.info["start_angle"] = bend.info["start_angle"]
+    c.info["end_angle"] = bend.info["end_angle"]
 
     if x.info:
         c.info.update(x.info)
