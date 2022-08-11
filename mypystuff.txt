@@ -1,0 +1,1167 @@
+mypy gdsfactory --ignore-missing-imports
+gdsfactory\tech.py:161: error: Value expression in dictionary comprehension has incompatible type "Optional[str]"; expected type "str"
+gdsfactory\tech.py:169: error: Value expression in dictionary comprehension has incompatible type "float"; expected type "str"
+gdsfactory\tech.py:177: error: Missing return statement
+gdsfactory\async_utils.py:10: error: Argument 1 to "open" has incompatible type "Optional[Path]"; expected "Union[Union[str, bytes, PathLike[str], PathLike[bytes]], int]"
+gdsfactory\async_utils.py:33: error: Argument 1 to "handle_return" has incompatible type "Optional[StreamReader]"; expected "StreamReader"
+gdsfactory\async_utils.py:36: error: Argument 1 to "handle_return" has incompatible type "Optional[StreamReader]"; expected "StreamReader"
+gdsfactory\geometry\functions.py:48: error: Argument 1 to "vstack" has incompatible type "ndarray[Any, Any]"; expected "Sequence[Union[Sequence[Sequence[Sequence[Sequence[Sequence[Any]]]]], Union[Union[_SupportsArray[dtype[Any]], Sequence[_SupportsArray[dtype[Any]]], Sequence[Sequence[_SupportsArray[dtype[Any]]]], Sequence[Sequence[Sequence[_SupportsArray[dtype[Any]]]]], Sequence[Sequence[Sequence[Sequence[_SupportsArray[dtype[Any]]]]]]], Union[bool, int, float, complex, str, bytes, Sequence[Union[bool, int, float, complex, str, bytes]], Sequence[Sequence[Union[bool, int, float, complex, str, bytes]]], Sequence[Sequence[Sequence[Union[bool, int, float, complex, str, bytes]]]], Sequence[Sequence[Sequence[Sequence[Union[bool, int, float, complex, str, bytes]]]]]]]]]"
+gdsfactory\geometry\functions.py:247: error: Incompatible types in assignment (expression has type "floating[Union[_64Bit, Any]]", variable has type "float")
+gdsfactory\serialization.py:60: error: "Callable[..., Any]" has no attribute "func"
+gdsfactory\serialization.py:79: error: Argument 1 to "clean_dict" has incompatible type "Union[Dict[Union[str, int, Enum, float, bool], Any], List[Any], None, str]"; expected "Dict[str, Any]"
+gdsfactory\serialization.py:121: error: Cannot determine type of "straight"
+gdsfactory\quickplotter.py:1005: error: Module not callable
+gdsfactory\name.py:180: error: Cannot determine type of "crossing45"
+gdsfactory\name.py:181: error: Cannot determine type of "compensation_path"
+gdsfactory\name.py:182: error: Cannot determine type of "crossing45"
+gdsfactory\klive.py:37: error: Incompatible types in assignment (expression has type "Sequence[object]", variable has type "str")
+gdsfactory\klive.py:39: error: Argument 1 to "sendall" of "socket" has incompatible type "str"; expected "Union[bytes, Union[bytearray, memoryview, array[Any], mmap, _CData]]"
+gdsfactory\klive.py:48: error: Module not callable
+gdsfactory\add_pins.py:58: error: Incompatible types in assignment (expression has type "ndarray[Any, Any]", variable has type "List[Any]")
+gdsfactory\add_pins.py:415: error: Incompatible types in assignment (expression has type "Union[Tuple[Union[Tuple[int, int], str, int, None], ...], List[<nothing>]]", variable has type "Tuple[Union[Tuple[int, int], str, int, None], ...]")
+gdsfactory\add_pins.py:593: error: Module not callable
+gdsfactory\components\bbox.py:7: error: Function "numpy.array" is not valid as a type
+gdsfactory\components\bbox.py:7: note: Perhaps you need "Callable[...]" or a callback protocol?
+gdsfactory\components\bbox.py:30: error: array? object is not iterable
+gdsfactory\components\bbox.py:44: error: Cannot determine type of "L"
+gdsfactory\cross_section.py:105: error: Signature of "copy" incompatible with supertype "BaseModel"
+gdsfactory\cross_section.py:105: note:      Superclass:
+gdsfactory\cross_section.py:105: note:          def copy(self, *, include: Union[AbstractSet[Union[int, str]], Mapping[Union[int, str], Any], None] = ..., exclude: Union[AbstractSet[Union[int, str]], Mapping[Union[int, str], Any], None] = ..., update: Optional[Dict[str, Any]] = ..., deep: bool = ...) -> CrossSection
+gdsfactory\cross_section.py:105: note:      Subclass:
+gdsfactory\cross_section.py:105: note:          def copy(self, width: Optional[float] = ...) -> Any
+gdsfactory\cross_section.py:219: error: Incompatible types in assignment (expression has type "Union[float, Callable[..., Any], None]", base class "CrossSection" defined the type as "Union[float, Callable[..., Any]]")
+gdsfactory\cross_section.py:966: error: Incompatible types in assignment (expression has type "float", variable has type "int")
+gdsfactory\cross_section.py:969: error: Incompatible types in assignment (expression has type "float", variable has type "int")
+gdsfactory\config.py:84: error: Incompatible return value type (got "Union[DictConfig, ListConfig]", expected "DictConfig")
+gdsfactory\port.py:130: error: Item "None" of "Optional[CrossSection]" has no attribute "layer"
+gdsfactory\port.py:130: error: Incompatible types in assignment (expression has type "Union[Tuple[int, int], int, str, None, Any]", variable has type "Optional[Tuple[int, int]]")
+gdsfactory\port.py:133: error: Item "None" of "Optional[CrossSection]" has no attribute "width"
+gdsfactory\port.py:133: error: Incompatible types in assignment (expression has type "Union[float, Callable[..., Any], Any]", variable has type "Optional[float]")
+gdsfactory\port.py:138: error: Unsupported operand types for > ("int" and "None")
+gdsfactory\port.py:138: note: Left operand is of type "Optional[float]"
+gdsfactory\port.py:145: error: Incompatible return value type (got "ndarray[Any, Any]", expected "Tuple[float, float]")
+gdsfactory\port.py:150: error: Incompatible types in assignment (expression has type "Tuple[float, float]", variable has type "ndarray[Any, Any]")
+gdsfactory\port.py:168: error: Argument 1 to "float" has incompatible type "Optional[float]"; expected "Union[SupportsFloat, SupportsIndex, str, bytes]"
+gdsfactory\port.py:176: error: Incompatible types in assignment (expression has type "DictConfig", variable has type "Dict[str, Any]")
+gdsfactory\port.py:264: error: Unsupported operand types for / ("None" and "int")
+gdsfactory\port.py:264: note: Left operand is of type "Optional[float]"
+gdsfactory\port.py:265: error: Unsupported operand types for / ("None" and "int")
+gdsfactory\port.py:265: note: Left operand is of type "Optional[float]"
+gdsfactory\port.py:273: error: No return value expected
+gdsfactory\port.py:312: error: Incompatible types in assignment (expression has type "ndarray[Any, Any]", variable has type "Optional[Tuple[float, float]]")
+gdsfactory\port.py:326: error: Argument "center" to "Port" has incompatible type "ndarray[Any, Any]"; expected "Optional[Tuple[float, float]]"
+gdsfactory\port.py:354: error: Unsupported operand types for / ("None" and "int")
+gdsfactory\port.py:354: note: Left operand is of type "Optional[float]"
+gdsfactory\port.py:356: error: Item "None" of "Optional[Component]" has no attribute "name"
+gdsfactory\port.py:370: error: Unsupported operand types for / ("None" and "int")
+gdsfactory\port.py:370: note: Left operand is of type "Optional[float]"
+gdsfactory\port.py:377: error: Unsupported operand types for / ("None" and "int")
+gdsfactory\port.py:377: note: Left operand is of type "Optional[float]"
+gdsfactory\port.py:411: error: Incompatible types in assignment (expression has type "ndarray[Any, Any]", variable has type "Tuple[float, float]")
+gdsfactory\port.py:416: error: Unsupported operand types for * ("float" and "Tuple[float, float]")
+gdsfactory\port.py:445: error: Incompatible return value type (got "Dict[str, List[str]]", expected "Dict[str, Port]")
+gdsfactory\port.py:488: error: Incompatible types in assignment (expression has type "List[Port]", variable has type "Dict[str, Port]")
+gdsfactory\port.py:489: error: "str" has no attribute "name"
+gdsfactory\port.py:489: error: Value expression in dictionary comprehension has incompatible type "str"; expected type "Port"
+gdsfactory\port.py:532: error: Incompatible types in assignment (expression has type "List[Port]", variable has type "Dict[str, Port]")
+gdsfactory\port.py:533: error: "str" has no attribute "name"
+gdsfactory\port.py:533: error: Value expression in dictionary comprehension has incompatible type "str"; expected type "Port"
+gdsfactory\port.py:740: error: Incompatible types in assignment (expression has type "object", variable has type "str")
+gdsfactory\port.py:763: error: Incompatible types in assignment (expression has type "object", variable has type "str")
+gdsfactory\port.py:793: error: Incompatible types in assignment (expression has type "Union[Tuple[int, int], int, str, List[<nothing>]]", variable has type "Union[Tuple[int, int], int, str, None]")
+gdsfactory\port.py:799: error: Unsupported right operand type for in ("Union[Tuple[int, int], int, str, None]")
+gdsfactory\port.py:892: error: "Port" has no attribute "name_original"
+gdsfactory\port.py:903: error: Value of type "Optional[Tuple[int, int]]" is not indexable
+gdsfactory\port.py:904: error: "Port" has no attribute "name_original"
+gdsfactory\port.py:936: error: "Port" has no attribute "name_original"
+gdsfactory\port.py:947: error: "Port" has no attribute "name_original"
+gdsfactory\port.py:975: error: Need type annotation for "new_ports" (hint: "new_ports: Dict[<type>, <type>] = ...")
+gdsfactory\port.py:1025: error: Cannot determine type of "straight_heater_metal"
+gdsfactory\component_reference.py:70: error: Incompatible return value type (got "Tuple[Union[Tuple[Union[floating[_64Bit], signedinteger[_64Bit], float, int], Union[floating[_64Bit], signedinteger[_64Bit], float, int]], ndarray[Any, Any], List[Union[floating[_64Bit], signedinteger[_64Bit], float, int]]], Union[Tuple[Union[floating[_64Bit], signedinteger[_64Bit], float, int], Union[floating[_64Bit], signedinteger[_64Bit], float, int]], ndarray[Any, Any], List[Union[floating[_64Bit], signedinteger[_64Bit], float, int]]], Union[Tuple[Union[floating[_64Bit], signedinteger[_64Bit], float, int], Union[floating[_64Bit], signedinteger[_64Bit], float, int]], ndarray[Any, Any], List[Union[floating[_64Bit], signedinteger[_64Bit], float, int]]], Union[Tuple[Union[floating[_64Bit], signedinteger[_64Bit], float, int], Union[floating[_64Bit], signedinteger[_64Bit], float, int]], ndarray[Any, Any], List[Union[floating[_64Bit], signedinteger[_64Bit], float, int]]]]", expected "Tuple[Union[Tuple[Union[floating[_64Bit], signedinteger[_64Bit], float, int], Union[floating[_64Bit], signedinteger[_64Bit], float, int]], ndarray[Any, Any], List[Union[floating[_64Bit], signedinteger[_64Bit], float, int]]], Union[Tuple[Union[floating[_64Bit], signedinteger[_64Bit], float, int], Union[floating[_64Bit], signedinteger[_64Bit], float, int]], ndarray[Any, Any], List[Union[floating[_64Bit], signedinteger[_64Bit], float, int]]]]")
+gdsfactory\component_reference.py:166: error: Cannot determine type of "origin"
+gdsfactory\component_reference.py:167: error: Cannot determine type of "rotation"
+gdsfactory\component_reference.py:168: error: Cannot determine type of "x_reflection"
+gdsfactory\component_reference.py:250: error: Cannot determine type of "origin"
+gdsfactory\component_reference.py:251: error: Cannot determine type of "rotation"
+gdsfactory\component_reference.py:252: error: Cannot determine type of "x_reflection"
+gdsfactory\component_reference.py:374: error: Incompatible types in assignment (expression has type "Union[Port, Tuple[Union[floating[_64Bit], signedinteger[_64Bit], float, int], Union[floating[_64Bit], signedinteger[_64Bit], float, int]], ndarray[Any, Any], List[Union[floating[_64Bit], signedinteger[_64Bit], float, int]]]", variable has type "ndarray[Any, Any]")
+gdsfactory\component_reference.py:393: error: Incompatible types in assignment (expression has type "Union[Port, Tuple[Union[floating[_64Bit], signedinteger[_64Bit], float, int], Union[floating[_64Bit], signedinteger[_64Bit], float, int]], ndarray[Any, Any], List[Union[floating[_64Bit], signedinteger[_64Bit], float, int]]]", variable has type "ndarray[Any, Any]")
+gdsfactory\component_reference.py:404: error: Incompatible types in assignment (expression has type "Tuple[Any, Any]", variable has type "ndarray[Any, Any]")
+gdsfactory\component_reference.py:406: error: Incompatible types in assignment (expression has type "Tuple[Any, Any]", variable has type "ndarray[Any, Any]")
+gdsfactory\component_reference.py:410: error: Cannot determine type of "origin"
+gdsfactory\component_reference.py:432: error: Cannot determine type of "rotation"
+gdsfactory\component_reference.py:433: error: Cannot determine type of "rotation"
+gdsfactory\component_reference.py:450: error: Incompatible types in assignment (expression has type "float", variable has type "Union[Tuple[Union[floating[_64Bit], signedinteger[_64Bit], float, int], Union[floating[_64Bit], signedinteger[_64Bit], float, int]], ndarray[Any, Any], List[Union[floating[_64Bit], signedinteger[_64Bit], float, int]], None]")
+gdsfactory\component_reference.py:451: error: Argument 1 to "reflect" of "ComponentReference" has incompatible type "Tuple[Union[Tuple[Union[floating[_64Bit], signedinteger[_64Bit], float, int], Union[floating[_64Bit], signedinteger[_64Bit], float, int]], ndarray[Any, Any], List[Union[floating[_64Bit], signedinteger[_64Bit], float, int]], None], int]"; expected "Union[Tuple[Union[floating[_64Bit], signedinteger[_64Bit], float, int], Union[floating[_64Bit], signedinteger[_64Bit], float, int]], ndarray[Any, Any], List[Union[floating[_64Bit], signedinteger[_64Bit], float, int]]]"
+gdsfactory\component_reference.py:451: error: Argument 2 to "reflect" of "ComponentReference" has incompatible type "Tuple[Union[Tuple[Union[floating[_64Bit], signedinteger[_64Bit], float, int], Union[floating[_64Bit], signedinteger[_64Bit], float, int]], ndarray[Any, Any], List[Union[floating[_64Bit], signedinteger[_64Bit], float, int]], None], int]"; expected "Union[Tuple[Union[floating[_64Bit], signedinteger[_64Bit], float, int], Union[floating[_64Bit], signedinteger[_64Bit], float, int]], ndarray[Any, Any], List[Union[floating[_64Bit], signedinteger[_64Bit], float, int]]]"
+gdsfactory\component_reference.py:464: error: Argument 1 to "reflect" of "ComponentReference" has incompatible type "Tuple[int, Optional[float]]"; expected "Union[Tuple[Union[floating[_64Bit], signedinteger[_64Bit], float, int], Union[floating[_64Bit], signedinteger[_64Bit], float, int]], ndarray[Any, Any], List[Union[floating[_64Bit], signedinteger[_64Bit], float, int]]]"
+gdsfactory\component_reference.py:464: error: Argument 2 to "reflect" of "ComponentReference" has incompatible type "Tuple[int, Optional[float]]"; expected "Union[Tuple[Union[floating[_64Bit], signedinteger[_64Bit], float, int], Union[floating[_64Bit], signedinteger[_64Bit], float, int]], ndarray[Any, Any], List[Union[floating[_64Bit], signedinteger[_64Bit], float, int]]]"
+gdsfactory\component_reference.py:488: error: Cannot determine type of "rotation"
+gdsfactory\component_reference.py:491: error: Cannot determine type of "x_reflection"
+gdsfactory\component_reference.py:493: error: Cannot determine type of "rotation"
+gdsfactory\component_reference.py:522: error: Invalid index type "Union[str, Port]" for "Dict[str, Port]"; expected type "str"
+gdsfactory\component_reference.py:632: error: Cannot determine type of "mzi"
+gdsfactory\component_reference.py:633: error: Cannot determine type of "bend_euler"
+gdsfactory\routing\utils.py:15: error: Need type annotation for "direction_ports"
+gdsfactory\routing\utils.py:59: error: Incompatible return value type (got "float", expected "floating[_64Bit]")
+gdsfactory\routing\utils.py:65: error: Incompatible return value type (got "None", expected "Union[floating[_64Bit], int]")
+gdsfactory\routing\utils.py:74: error: Module not callable
+gdsfactory\routing\route_quad.py:64: error: Incompatible types in assignment (expression has type "List[Any]", variable has type "ndarray[Any, Any]")
+gdsfactory\routing\route_quad.py:70: error: Argument "center" to "add_port" of "Component" has incompatible type "ndarray[Any, Any]"; expected "Optional[Tuple[float, float]]"
+gdsfactory\routing\route_quad.py:77: error: Argument "center" to "add_port" of "Component" has incompatible type "ndarray[Any, Any]"; expected "Optional[Tuple[float, float]]"
+gdsfactory\routing\route_quad.py:104: error: Cannot determine type of "pad"
+gdsfactory\routing\route_quad.py:105: error: Cannot determine type of "pad"
+gdsfactory\component.py:116: error: Need type annotation for "__ports__" (hint: "__ports__: Dict[<type>, <type>] = ...")
+gdsfactory\component.py:117: error: Need type annotation for "aliases" (hint: "aliases: Dict[<type>, <type>] = ...")
+gdsfactory\component.py:345: error: Incompatible return value type (got "Union[Dict[Union[str, int, Enum, float, bool], Any], List[Any], None, str]", expected "Dict[str, Any]")
+gdsfactory\component.py:465: error: Incompatible types in assignment (expression has type "Optional[Any]", variable has type "Dict[str, Any]")
+gdsfactory\component.py:467: error: Argument 1 to "dict" has incompatible type "Dict[str, Any]"; expected "SupportsKeysAndGetItem[Union[str, Enum, float, Any], Any]"
+gdsfactory\component.py:471: error: Argument 1 to "dict" has incompatible type "Dict[str, Any]"; expected "SupportsKeysAndGetItem[Union[str, Enum, float, Any], Any]"
+gdsfactory\component.py:510: error: Incompatible types in assignment (expression has type "object", variable has type "str")
+gdsfactory\component.py:532: error: Argument "name" to "Port" has incompatible type "Union[str, int, object, None]"; expected "str"
+gdsfactory\component.py:542: error: Incompatible types in assignment (expression has type "object", variable has type "str")
+gdsfactory\component.py:560: error: Incompatible types in assignment (expression has type "Union[List[Port], dict_values[str, Port]]", variable has type "Union[List[Port], Dict[str, Port]]")
+gdsfactory\component.py:562: error: "object" has no attribute "name"
+gdsfactory\component.py:563: error: Argument "port" to "add_port" of "Component" has incompatible type "object"; expected "Optional[Port]"
+gdsfactory\component.py:571: error: Incompatible default for argument "layers" (default has type "Tuple[]", argument has type "Union[List[Tuple[int, int]], Tuple[int, int]]")
+gdsfactory\component.py:605: error: Need type annotation for "paths" (hint: "paths: List[<type>] = ...")
+gdsfactory\component.py:631: error: Incompatible default for argument "layers" (default has type "Tuple[]", argument has type "Union[List[Tuple[int, int]], Tuple[int, int]]")
+gdsfactory\component.py:695: error: "Dict[str, Any]" has no attribute "full"
+gdsfactory\component.py:781: error: Unexpected keyword argument "decorator" for "transformed"
+gdsfactory\component.py:791: error: Incompatible types in assignment (expression has type "Component", variable has type "None")
+gdsfactory\component.py:903: error: Incompatible types in assignment (expression has type "Union[List[<nothing>], Tuple[Tuple[int, int], ...]]", variable has type "Optional[Tuple[Tuple[int, int], ...]]")
+gdsfactory\component.py:906: error: Unsupported right operand type for in ("Optional[Tuple[Tuple[int, int], ...]]")
+gdsfactory\component.py:912: error: "LayerColors" has no attribute "_layers"; maybe "layers"?
+gdsfactory\component.py:954: error: Incompatible default for argument "port_marker_layer" (default has type "str", argument has type "Tuple[int, int]")
+gdsfactory\component.py:1102: error: Return value expected
+gdsfactory\component.py:1155: error: Incompatible types in assignment (expression has type "str", target has type "Dict[str, Dict[str, Any]]")
+gdsfactory\component.py:1156: error: Incompatible types in assignment (expression has type "str", target has type "Dict[str, Dict[str, Any]]")
+gdsfactory\component.py:1173: error: Need type annotation for "d" (hint: "d: Dict[<type>, <type>] = ...")
+gdsfactory\component.py:1174: error: Need type annotation for "polygons" (hint: "polygons: Dict[<type>, <type>] = ...")
+gdsfactory\component.py:1180: error: Argument 1 to "tuple" has incompatible type "float"; expected "Iterable[<nothing>]"
+gdsfactory\component.py:1180: error: Argument 1 to "tuple" has incompatible type "float"; expected "Iterable[Any]"
+gdsfactory\component.py:1185: error: "Dict[Any, Any]" has no attribute "info"
+gdsfactory\component.py:1186: error: "Dict[Any, Any]" has no attribute "polygons"
+gdsfactory\component.py:1187: error: "Dict[Any, Any]" has no attribute "ports"
+gdsfactory\functions.py:191: note: "transformed" defined here
+gdsfactory\types.py:104: error: Cannot assign multiple types to name "ComponentOrPath" without an explicit "Type[...]" annotation
+gdsfactory\types.py:279: error: Incompatible default for argument "model" (default has type "Type[NetlistModel]", argument has type "BaseModel")
+gdsfactory\cell.py:253: note: "wg" defined here
+gdsfactory\cell.py:259: error: Argument "center" to "add_port" of "Component" has incompatible type "List[int]"; expected "Optional[Tuple[float, float]]"
+gdsfactory\cell.py:260: error: Argument "center" to "add_port" of "Component" has incompatible type "List[int]"; expected "Optional[Tuple[float, float]]"
+gdsfactory\cell.py:277: error: Unexpected keyword argument "name" for "wg"
+gdsfactory\cell.py:282: note: "demo" defined here
+gdsfactory\cell.py:306: error: Incompatible types in assignment (expression has type "str", variable has type "Component")
+gdsfactory\cell.py:307: error: Incompatible types in assignment (expression has type "str", variable has type "Component")
+gdsfactory\cell.py:310: error: Unexpected keyword argument "prefix" for "demo"
+gdsfactory\cell.py:317: error: Argument "length" to "wg" has incompatible type "float"; expected "int"
+gdsfactory\cell.py:318: error: "Dict[str, Any]" has no attribute "changed"
+gdsfactory\read\from_dphox.py:34: error: Incompatible types in assignment (expression has type "Component", variable has type "None")
+gdsfactory\geometry\xor_diff.py:7: error: Module not callable
+gdsfactory\geometry\xor_diff.py:30: error: Module not callable
+gdsfactory\geometry\xor_diff.py:31: error: Module not callable
+gdsfactory\geometry\outline.py:7: error: Module not callable
+gdsfactory\geometry\outline.py:62: error: Module not callable
+gdsfactory\geometry\outline.py:63: error: Module not callable
+gdsfactory\geometry\check_width.py:68: error: Module not callable
+gdsfactory\write_cells.py:39: error: Item "str" of "Union[str, Path]" has no attribute "stem"
+gdsfactory\write_cells.py:40: error: Item "str" of "Union[str, Path]" has no attribute "stem"
+gdsfactory\write_cells.py:40: error: Item "str" of "Union[str, Path]" has no attribute "suffix"
+gdsfactory\write_cells.py:133: error: Argument 1 to "update" of "MutableMapping" has incompatible type "Dict[str, Path]"; expected "SupportsKeysAndGetItem[Any, str]"
+gdsfactory\write_cells.py:135: error: Incompatible return value type (got "Dict[Any, str]", expected "Dict[str, Path]")
+gdsfactory\write_cells.py:138: error: Missing return statement
+gdsfactory\write_cells.py:191: error: Argument 1 to "update" of "MutableMapping" has incompatible type "Dict[str, Path]"; expected "SupportsKeysAndGetItem[Any, str]"
+gdsfactory\write_cells.py:192: error: Incompatible return value type (got "Dict[Any, str]", expected "Dict[str, Path]")
+gdsfactory\write_cells.py:209: error: Module not callable
+gdsfactory\path.py:186: error: Argument 1 to "get_layer" has incompatible type "Union[int, str, None, Tuple[Union[int, Tuple[int, int], str, None], Union[int, Tuple[int, int], str, None]]]"; expected "Union[Tuple[int, int], int, str, None]"
+gdsfactory\path.py:187: error: Argument 1 to "get_layer" has incompatible type "Union[int, str, None, Tuple[Union[int, Tuple[int, int], str, None], Union[int, Tuple[int, int], str, None]]]"; expected "Union[Tuple[int, int], int, str, None]"
+gdsfactory\path.py:228: error: Argument 1 to "get_layer" has incompatible type "Union[int, str, None, Tuple[Union[int, Tuple[int, int], str, None], Union[int, Tuple[int, int], str, None]]]"; expected "Union[Tuple[int, int], int, str, None]"
+gdsfactory\path.py:229: error: Argument 1 to "get_layer" has incompatible type "Union[int, str, None, Tuple[Union[int, Tuple[int, int], str, None], Union[int, Tuple[int, int], str, None]]]"; expected "Union[Tuple[int, int], int, str, None]"
+gdsfactory\path.py:233: error: Incompatible types in assignment (expression has type "Tuple[int, int]", variable has type "Tuple[Tuple[int, int], Tuple[int, int]]")
+gdsfactory\path.py:233: error: Argument 1 to "get_layer" has incompatible type "Union[int, str, None, Tuple[Union[int, Tuple[int, int], str, None], Union[int, Tuple[int, int], str, None]]]"; expected "Union[Tuple[int, int], int, str, None]"
+gdsfactory\path.py:251: error: Value of type variable "SupportsRichComparisonT" of "max" cannot be "Union[float, Callable[..., Any]]"
+gdsfactory\path.py:310: error: Argument 1 to "get_cross_section" has incompatible type "Union[str, Callable[..., CrossSection], CrossSection, Dict[str, Any], None]"; expected "Union[str, Callable[..., CrossSection], CrossSection, Dict[str, Any]]"
+gdsfactory\path.py:338: error: Incompatible types in assignment (expression has type "Union[float, Callable[..., Any]]", variable has type "Optional[float]")
+gdsfactory\path.py:340: error: Argument 1 to "get_layer" has incompatible type "Union[int, str, None, Tuple[Union[int, Tuple[int, int], str, None], Union[int, Tuple[int, int], str, None]]]"; expected "Union[Tuple[int, int], int, str, None]"
+gdsfactory\path.py:377: error: Unsupported operand types for / ("None" and "int")
+gdsfactory\path.py:377: note: Left operand is of type "Union[float, Any, None]"
+gdsfactory\path.py:386: error: Unsupported operand types for / ("None" and "int")
+gdsfactory\path.py:386: note: Left operand is of type "Union[float, Any, None]"
+gdsfactory\path.py:444: error: Value of type "Union[float, Any, None]" is not indexable
+gdsfactory\path.py:450: error: Value of type "float" is not indexable
+gdsfactory\path.py:456: error: Argument 1 to "get_layer" has incompatible type "object"; expected "Union[Tuple[int, int], int, str, None]"
+gdsfactory\path.py:461: error: "CrossSection" has no attribute "cross_sections"
+gdsfactory\path.py:468: error: Value of type "Union[float, Any, None]" is not indexable
+gdsfactory\path.py:476: error: Value of type "float" is not indexable
+gdsfactory\path.py:481: error: Argument 1 to "get_layer" has incompatible type "object"; expected "Union[Tuple[int, int], int, str, None]"
+gdsfactory\path.py:486: error: "CrossSection" has no attribute "cross_sections"
+gdsfactory\path.py:705: error: "CrossSection" has no attribute "add"
+gdsfactory\path.py:706: error: "CrossSection" has no attribute "add"
+gdsfactory\path.py:707: error: "CrossSection" has no attribute "add"
+gdsfactory\path.py:711: error: "CrossSection" has no attribute "add"
+gdsfactory\path.py:712: error: "CrossSection" has no attribute "add"
+gdsfactory\path.py:713: error: "CrossSection" has no attribute "add"
+gdsfactory\pack.py:158: error: Incompatible types in assignment (expression has type "List[float]", variable has type "Tuple[Optional[float], Optional[float]]")
+gdsfactory\pack.py:159: error: Incompatible types in assignment (expression has type "ndarray[Any, Any]", variable has type "Tuple[Optional[float], Optional[float]]")
+gdsfactory\pack.py:160: error: Unsupported operand types for / ("Tuple[Optional[float], Optional[float]]" and "float")
+gdsfactory\pack.py:160: error: Incompatible types in assignment (expression has type "float", variable has type "Tuple[Optional[float], Optional[float]]")
+gdsfactory\pack.py:167: error: Item "str" of "Union[str, Component, Callable[..., Component], Dict[str, Any]]" has no attribute "size"
+gdsfactory\pack.py:167: error: Item "function" of "Union[str, Component, Callable[..., Component], Dict[str, Any]]" has no attribute "size"
+gdsfactory\pack.py:167: error: Item "Dict[str, Any]" of "Union[str, Component, Callable[..., Component], Dict[str, Any]]" has no attribute "size"
+gdsfactory\pack.py:171: error: Item "str" of "Union[str, Component, Callable[..., Component], Dict[str, Any]]" has no attribute "name"
+gdsfactory\pack.py:171: error: Item "function" of "Union[str, Component, Callable[..., Component], Dict[str, Any]]" has no attribute "name"
+gdsfactory\pack.py:171: error: Item "Dict[str, Any]" of "Union[str, Component, Callable[..., Component], Dict[str, Any]]" has no attribute "name"
+gdsfactory\pack.py:173: error: Unsupported operand types for * ("Tuple[Optional[float], Optional[float]]" and "float")
+gdsfactory\pack.py:182: error: Argument "max_size" to "_pack_single_bin" has incompatible type "Tuple[Optional[float], Optional[float]]"; expected "Tuple[float, float]"
+gdsfactory\pack.py:190: error: Incompatible types in assignment (expression has type "Dict[int, Tuple[Union[float, int], Union[float, int], Union[float, int], Union[float, int]]]", variable has type "Dict[int, Tuple[Any, Any]]")
+gdsfactory\pack.py:195: error: Need more than 2 values to unpack (4 expected)
+gdsfactory\pack.py:196: error: Cannot determine type of "x"
+gdsfactory\pack.py:197: error: Cannot determine type of "y"
+gdsfactory\pack.py:199: error: Item "str" of "Union[str, Component, Callable[..., Component], Dict[str, Any]]" has no attribute "ref"
+gdsfactory\pack.py:199: error: Item "function" of "Union[str, Component, Callable[..., Component], Dict[str, Any]]" has no attribute "ref"
+gdsfactory\pack.py:199: error: Item "Dict[str, Any]" of "Union[str, Component, Callable[..., Component], Dict[str, Any]]" has no attribute "ref"
+gdsfactory\pack.py:203: error: Item "str" of "Union[str, Component, Callable[..., Component], Dict[str, Any]]" has no attribute "name"
+gdsfactory\pack.py:203: error: Item "function" of "Union[str, Component, Callable[..., Component], Dict[str, Any]]" has no attribute "name"
+gdsfactory\pack.py:203: error: Item "Dict[str, Any]" of "Union[str, Component, Callable[..., Component], Dict[str, Any]]" has no attribute "name"
+gdsfactory\pack.py:203: error: Item "str" of "Union[str, Component, Callable[..., Component], Dict[str, Any]]" has no attribute "settings"
+gdsfactory\pack.py:203: error: Item "function" of "Union[str, Component, Callable[..., Component], Dict[str, Any]]" has no attribute "settings"
+gdsfactory\pack.py:203: error: Item "Dict[str, Any]" of "Union[str, Component, Callable[..., Component], Dict[str, Any]]" has no attribute "settings"
+gdsfactory\pack.py:206: error: Item "str" of "Union[str, Component, Callable[..., Component], Dict[str, Any]]" has no attribute "name"
+gdsfactory\pack.py:206: error: Item "function" of "Union[str, Component, Callable[..., Component], Dict[str, Any]]" has no attribute "name"
+gdsfactory\pack.py:206: error: Item "Dict[str, Any]" of "Union[str, Component, Callable[..., Component], Dict[str, Any]]" has no attribute "name"
+gdsfactory\pack.py:211: error: "str" not callable
+gdsfactory\pack.py:211: error: "Dict[str, Any]" not callable
+gdsfactory\pack.py:231: error: Argument "size" to "rectangle" has incompatible type "Tuple[Any, ...]"; expected "Tuple[float, float]"
+gdsfactory\pack.py:257: error: Argument 1 to "pack" has incompatible type "List[Component]"; expected "List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]"
+gdsfactory\pack.py:257: note: "List" is invariant -- see https://mypy.readthedocs.io/en/stable/common_issues.html#variance
+gdsfactory\pack.py:257: note: Consider using "Sequence" instead, which is covariant
+gdsfactory\pack.py:279: error: Cannot determine type of "straight"
+gdsfactory\pack.py:282: error: Cannot determine type of "text"
+gdsfactory\pack.py:285: error: Argument "text_anchors" to "pack" has incompatible type "List[str]"; expected "Tuple[Literal['ce', 'cw', 'nc', 'ne', 'nw', 'sc', 'se', 'sw', 'center', 'cc'], ...]"
+gdsfactory\pack.py:286: error: Argument "text_offsets" to "pack" has incompatible type "List[Tuple[int, int]]"; expected "Tuple[Tuple[float, float], ...]"
+gdsfactory\add_ports.py:43: error: Incompatible types in assignment (expression has type "Union[Tuple[str, ...], List[str]]", variable has type "Optional[Tuple[str, ...]]")
+gdsfactory\add_ports.py:48: error: Argument 1 to "zip" has incompatible type "Optional[Tuple[str, ...]]"; expected "Iterable[str]"
+gdsfactory\add_ports.py:245: error: Argument "layer" to "Port" has incompatible type "Union[Tuple[int, int], int, str, None]"; expected "Optional[Tuple[int, int]]"
+gdsfactory\add_ports.py:305: error: Need type annotation for "port_name_to_index" (hint: "port_name_to_index: Dict[<type>, <type>] = ...")
+gdsfactory\add_ports.py:311: error: Value of type "Union[Tuple[int, int], int, str]" is not indexable
+gdsfactory\add_ports.py:399: error: Value of type "Union[Tuple[int, int], int, str, None]" is not indexable
+gdsfactory\add_ports.py:402: error: Value of type "Union[Tuple[int, int], int, str, None]" is not indexable
+gdsfactory\add_ports.py:422: error: Argument "layer" to "Port" has incompatible type "Union[Tuple[int, int], int, str, None]"; expected "Optional[Tuple[int, int]]"
+gdsfactory\add_padding.py:33: error: List item 0 has incompatible type "List[Any]"; expected "float"
+gdsfactory\add_padding.py:34: error: List item 1 has incompatible type "List[Any]"; expected "float"
+gdsfactory\add_padding.py:35: error: List item 2 has incompatible type "List[Any]"; expected "float"
+gdsfactory\add_padding.py:36: error: List item 3 has incompatible type "List[Any]"; expected "float"
+gdsfactory\add_padding.py:184: error: Module not callable
+gdsfactory\add_padding.py:186: error: Argument "layers" to "add_padding" has incompatible type "List[str]"; expected "Tuple[Union[Tuple[int, int], int, str, None], ...]"
+gdsfactory\add_labels.py:43: error: Item "None" of "Optional[Component]" has no attribute "metadata_child"
+gdsfactory\add_labels.py:122: error: "None" has no attribute "ref_cell"
+gdsfactory\add_labels.py:218: error: Invalid index type "Union[Any, str]" for "Union[Dict[Any, Any], List[Any], str]"; expected type "SupportsIndex"
+gdsfactory\add_labels.py:218: error: Invalid index type "Union[Any, str]" for "Union[Dict[Any, Any], List[Any], str]"; expected type "Union[SupportsIndex, slice]"
+gdsfactory\add_labels.py:257: error: Argument "position" to "add_label" of "Component" has incompatible type "ndarray[Any, Any]"; expected "Tuple[float, float]"
+gdsfactory\add_labels.py:326: error: Cannot determine type of "pad"
+gdsfactory\read\import_gds.py:109: error: Incompatible types in assignment (expression has type "Component", variable has type "None")
+gdsfactory\read\import_gds.py:122: error: Incompatible types in assignment (expression has type "Component", variable has type "None")
+gdsfactory\read\import_gds.py:144: error: Incompatible types in assignment (expression has type "Union[Dict[Union[str, int, Enum, float, bool], Any], List[Any], None, str]", variable has type "Dict[str, Any]")
+gdsfactory\read\import_gds.py:154: error: Argument "layer" to "add_port" of "Component" has incompatible type "Tuple[Any, ...]"; expected "Union[str, int, Tuple[int, int], None]"
+gdsfactory\read\from_picwriter.py:28: error: "str" not callable
+gdsfactory\read\from_picwriter.py:28: error: "CrossSection" not callable
+gdsfactory\read\from_picwriter.py:28: error: "Dict[str, Any]" not callable
+gdsfactory\read\from_picwriter.py:36: error: Value of type "Union[Any, Tuple[int, int], int, str, None]" is not indexable
+gdsfactory\read\from_picwriter.py:37: error: Value of type "Union[Any, Tuple[int, int], int, str, None]" is not indexable
+gdsfactory\read\from_picwriter.py:38: error: Value of type "Union[Any, Tuple[int, int], int, str, None]" is not indexable
+gdsfactory\read\from_picwriter.py:39: error: Value of type "Union[Any, Tuple[int, int], int, str, None]" is not indexable
+gdsfactory\read\from_picwriter.py:98: error: Argument "center" to "add_port" of "Component" has incompatible type "List[Any]"; expected "Optional[Tuple[float, float]]"
+gdsfactory\read\from_picwriter.py:124: error: Module not callable
+gdsfactory\read\from_phidl.py:65: error: Module not callable
+gdsfactory\mask\read_metadata.py:16: error: Incompatible return value type (got "Union[DictConfig, ListConfig]", expected "DictConfig")
+gdsfactory\mask\merge_yaml.py:36: error: Item "List[Any]" of "Union[Dict[Union[str, int, Enum, float, bool], Any], List[Any], None, str]" has no attribute "get"
+gdsfactory\mask\merge_yaml.py:36: error: Item "None" of "Union[Dict[Union[str, int, Enum, float, bool], Any], List[Any], None, str]" has no attribute "get"
+gdsfactory\mask\merge_yaml.py:36: error: Item "str" of "Union[Dict[Union[str, int, Enum, float, bool], Any], List[Any], None, str]" has no attribute "get"
+gdsfactory\mask\merge_yaml.py:38: error: Incompatible types in assignment (expression has type "Dict[str, object]", variable has type "Union[DictConfig, ListConfig]")
+gdsfactory\mask\merge_yaml.py:47: error: Incompatible return value type (got "Union[DictConfig, ListConfig]", expected "Dict[str, Any]")
+gdsfactory\mask\merge_test_metadata.py:24: error: List comprehension has incompatible type List[List[str]]; expected List[str]
+gdsfactory\mask\merge_test_metadata.py:26: error: List comprehension has incompatible type List[List[str]]; expected List[str]
+gdsfactory\mask\merge_test_metadata.py:30: error: Incompatible return value type (got "List[str]", expected "List[List[str]]")
+gdsfactory\geometry\union.py:8: error: Module not callable
+gdsfactory\geometry\union.py:60: error: Module not callable
+gdsfactory\geometry\union.py:61: error: Module not callable
+gdsfactory\geometry\offset.py:18: error: Module not callable
+gdsfactory\geometry\offset.py:57: error: Incompatible types in assignment (expression has type "List[Component]", variable has type "Component")
+gdsfactory\geometry\offset.py:111: error: Module not callable
+gdsfactory\geometry\offset.py:113: error: Module not callable
+gdsfactory\geometry\compute_area.py:60: error: Generator has incompatible item type "floating[_64Bit]"; expected "int"
+gdsfactory\geometry\compute_area.py:63: error: Incompatible return value type (got "int", expected "floating[_64Bit]")
+gdsfactory\geometry\compute_area.py:90: error: Need type annotation for "cell_to_area" (hint: "cell_to_area: Dict[<type>, <type>] = ...")
+gdsfactory\geometry\compute_area.py:109: error: Incompatible types in assignment (expression has type "int", variable has type "floating[_64Bit]")
+gdsfactory\geometry\compute_area.py:136: error: Incompatible return value type (got "Dict[Any, Tuple[floating[_64Bit], Any]]", expected "Dict[str, Tuple[float, int]]")
+gdsfactory\geometry\check_space.py:83: error: Cannot determine type of "straight_array"
+gdsfactory\geometry\check_inclusion.py:75: error: Cannot determine type of "rectangle"
+gdsfactory\geometry\check_inclusion.py:76: error: Cannot determine type of "rectangle"
+gdsfactory\geometry\check_exclusion.py:74: error: Cannot determine type of "rectangle"
+gdsfactory\geometry\check_exclusion.py:75: error: Cannot determine type of "rectangle"
+gdsfactory\geometry\boolean_klayout.py:12: error: Module not callable
+gdsfactory\geometry\boolean_klayout.py:92: error: Incompatible types in assignment (expression has type "Path", variable has type "Component")
+gdsfactory\geometry\boolean_klayout.py:96: error: Incompatible types in assignment (expression has type "Path", variable has type "Component")
+gdsfactory\geometry\boolean_klayout.py:130: error: Module not callable
+gdsfactory\geometry\boolean_klayout.py:131: error: Module not callable
+gdsfactory\geometry\boolean.py:53: error: Incompatible types in assignment (expression has type "Union[List[Any], Component, ComponentReference]", variable has type "Union[Union[Component, ComponentReference], Tuple[Union[Component, ComponentReference], ...]]")
+gdsfactory\geometry\boolean.py:54: error: Incompatible types in assignment (expression has type "Union[List[Any], Component, ComponentReference]", variable has type "Union[Union[Component, ComponentReference], Tuple[Union[Component, ComponentReference], ...]]")
+gdsfactory\geometry\boolean.py:75: error: Argument "A" to "boolean" has incompatible type "List[Any]"; expected "Union[Union[Component, ComponentReference], Tuple[Union[Component, ComponentReference], ...]]"
+gdsfactory\geometry\boolean.py:81: error: Cannot determine type of "ellipse"
+gdsfactory\geometry\boolean.py:82: error: Cannot determine type of "ellipse"
+gdsfactory\geometry\boolean.py:83: error: Cannot determine type of "ellipse"
+gdsfactory\geometry\boolean.py:86: error: Argument "A" to "boolean" has incompatible type "List[Any]"; expected "Union[Union[Component, ComponentReference], Tuple[Union[Component, ComponentReference], ...]]"
+gdsfactory\export\to_stl.py:33: error: Incompatible types in assignment (expression has type "Path", variable has type "str")
+gdsfactory\export\to_stl.py:34: error: Incompatible types in assignment (expression has type "Union[Tuple[Tuple[int, int], ...], List[<nothing>]]", variable has type "Optional[Tuple[Tuple[int, int], ...]]")
+gdsfactory\export\to_stl.py:38: error: Unsupported right operand type for in ("Optional[Tuple[Tuple[int, int], ...]]")
+gdsfactory\export\to_stl.py:47: error: "str" has no attribute "parent"
+gdsfactory\export\to_stl.py:48: error: "str" has no attribute "stem"
+gdsfactory\export\to_stl.py:48: error: "str" has no attribute "suffix"
+gdsfactory\export\to_stl.py:63: error: Cannot determine type of "taper_strip_to_ridge"
+gdsfactory\export\to_np.py:38: error: Incompatible types in assignment (expression has type "Union[Tuple[float, ...], List[int]]", variable has type "Optional[Tuple[float, ...]]")
+gdsfactory\export\to_np.py:40: error: Argument 2 to "zip" has incompatible type "Optional[Tuple[float, ...]]"; expected "Iterable[float]"
+gdsfactory\export\to_np.py:59: error: Module not callable
+gdsfactory\export\to_np.py:60: error: Module not callable
+gdsfactory\dft\ehva.py:122: error: Cannot determine type of "straight"
+gdsfactory\dft\ehva.py:123: error: Cannot determine type of "mmi2x2"
+gdsfactory\dft\ehva.py:124: error: Cannot determine type of "add_fiber_array"
+gdsfactory\dft\ehva.py:125: error: Cannot determine type of "grating_coupler_te"
+gdsfactory\components\via.py:54: error: Incompatible types in assignment (expression has type "Union[Tuple[Tuple[int, int], ...], List[<nothing>]]", variable has type "Optional[Tuple[Tuple[int, int], ...]]")
+gdsfactory\components\via.py:57: error: Item "None" of "Optional[Tuple[Tuple[int, int], ...]]" has no attribute "__iter__" (not iterable)
+gdsfactory\components\verniers.py:6: error: Module not callable
+gdsfactory\components\verniers.py:19: error: Incompatible types in assignment (expression has type "float", variable has type "int")
+gdsfactory\components\verniers.py:22: error: Incompatible types in assignment (expression has type "float", variable has type "int")
+gdsfactory\components\taper_from_csv.py:15: error: Module not callable
+gdsfactory\components\spiral_circular.py:46: error: Module not callable
+gdsfactory\components\spiral_circular.py:182: error: Argument "center" to "add_port" of "Component" has incompatible type "Tuple[floating[_64Bit], floating[_64Bit]]"; expected "Optional[Tuple[float, float]]"
+gdsfactory\components\ring.py:9: error: Module not callable
+gdsfactory\components\ramp.py:8: error: Module not callable
+gdsfactory\components\ramp.py:32: error: Argument "center" to "add_port" of "Component" has incompatible type "List[float]"; expected "Optional[Tuple[float, float]]"
+gdsfactory\components\ramp.py:36: error: Argument "center" to "add_port" of "Component" has incompatible type "List[float]"; expected "Optional[Tuple[float, float]]"
+gdsfactory\components\nxn.py:8: error: Module not callable
+gdsfactory\components\nxn.py:58: error: Need type annotation for "yi"
+gdsfactory\components\nxn.py:58: error: Argument 1 to "enumerate" has incompatible type "object"; expected "Iterable[<nothing>]"
+gdsfactory\components\nxn.py:69: error: Incompatible types in assignment (expression has type "float", variable has type "int")
+gdsfactory\components\nxn.py:79: error: Argument 1 to "enumerate" has incompatible type "object"; expected "Iterable[<nothing>]"
+gdsfactory\components\nxn.py:92: error: Incompatible types in assignment (expression has type "object", variable has type "int")
+gdsfactory\components\nxn.py:100: error: Need type annotation for "xi"
+gdsfactory\components\nxn.py:100: error: Argument 1 to "enumerate" has incompatible type "int"; expected "Iterable[<nothing>]"
+gdsfactory\components\nxn.py:112: error: Incompatible types in assignment (expression has type "object", variable has type "int")
+gdsfactory\components\nxn.py:120: error: Argument 1 to "enumerate" has incompatible type "int"; expected "Iterable[<nothing>]"
+gdsfactory\components\litho_steps.py:9: error: Module not callable
+gdsfactory\components\litho_steps.py:39: error: Incompatible types in assignment (expression has type "float", variable has type "int")
+gdsfactory\components\litho_ruler.py:7: error: Module not callable
+gdsfactory\components\hline.py:6: error: Module not callable
+gdsfactory\components\grating_coupler_elliptical.py:169: error: Argument "wg_width" to "grating_taper_points" has incompatible type "Union[float, Callable[..., Any]]"; expected "float"
+gdsfactory\components\grating_coupler_elliptical.py:217: error: Unsupported operand types for / ("None" and "int")
+gdsfactory\components\grating_coupler_elliptical.py:217: note: Left operand is of type "Optional[float]"
+gdsfactory\components\grating_coupler_elliptical.py:225: error: Argument "width" to "add_port" of "Component" has incompatible type "Union[float, Callable[..., Any]]"; expected "Optional[float]"
+gdsfactory\components\extend_ports_list.py:30: error: Incompatible types in assignment (expression has type "Union[Tuple[str, ...], List[<nothing>]]", variable has type "Optional[Tuple[str, ...]]")
+gdsfactory\components\extend_ports_list.py:37: error: Unsupported right operand type for in ("Optional[Tuple[str, ...]]")
+gdsfactory\components\extend_ports_list.py:48: error: Cannot determine type of "taper"
+gdsfactory\components\ellipse.py:11: error: Module not callable
+gdsfactory\components\cross.py:8: error: Module not callable
+gdsfactory\components\component_sequence.py:116: error: Incompatible types in assignment (expression has type "List[str]", variable has type "str")
+gdsfactory\components\component_sequence.py:117: error: Need type annotation for "to_rm" (hint: "to_rm: List[<type>] = ...")
+gdsfactory\components\component_sequence.py:125: error: "str" has no attribute "pop"
+gdsfactory\components\component_sequence.py:139: error: Argument 1 to "add_ref" of "Component" has incompatible type "Union[str, Callable[..., Component], Component, Dict[str, Any]]"; expected "Component"
+gdsfactory\components\component_sequence.py:197: error: Cannot determine type of "bend_circular180"
+gdsfactory\components\component_sequence.py:198: error: Cannot determine type of "straight_pin"
+gdsfactory\components\component_sequence.py:199: error: Cannot determine type of "straight"
+gdsfactory\components\compass.py:41: error: Unsupported right operand type for in ("Optional[Tuple[int, ...]]")
+gdsfactory\components\compass.py:50: error: Unsupported right operand type for in ("Optional[Tuple[int, ...]]")
+gdsfactory\components\compass.py:59: error: Unsupported right operand type for in ("Optional[Tuple[int, ...]]")
+gdsfactory\components\compass.py:68: error: Unsupported right operand type for in ("Optional[Tuple[int, ...]]")
+gdsfactory\components\circle.py:9: error: Module not callable
+gdsfactory\components\bezier.py:44: error: Module not callable
+gdsfactory\components\bezier.py:98: error: Argument 1 to "snap_to_grid" has incompatible type "floating[_64Bit]"; expected "float"
+gdsfactory\components\awg.py:10: error: Module not callable
+gdsfactory\components\awg.py:35: error: "str" not callable
+gdsfactory\components\awg.py:35: error: "CrossSection" not callable
+gdsfactory\components\awg.py:35: error: "Dict[str, Any]" not callable
+gdsfactory\components\awg.py:55: error: Incompatible types in assignment (expression has type "float", variable has type "ndarray[Any, Any]")
+gdsfactory\components\awg.py:55: error: Argument 1 to "snap_to_grid" has incompatible type "ndarray[Any, Any]"; expected "float"
+gdsfactory\components\awg.py:66: error: Incompatible types in assignment (expression has type "float", variable has type "ndarray[Any, Any]")
+gdsfactory\components\awg.py:66: error: Argument 1 to "snap_to_grid" has incompatible type "ndarray[Any, Any]"; expected "float"
+gdsfactory\components\awg.py:84: error: Module not callable
+gdsfactory\components\awg.py:89: error: Module not callable
+gdsfactory\components\awg.py:98: error: Module not callable
+gdsfactory\components\L.py:8: error: Module not callable
+gdsfactory\components\C.py:8: error: Module not callable
+gdsfactory\routing\route_sharp.py:348: error: Value of type variable "SupportsRichComparisonT" of "max" cannot be "Optional[float]"
+gdsfactory\routing\route_sharp.py:384: error: Value of type "float" is not indexable
+gdsfactory\routing\route_sharp.py:385: error: Value of type "float" is not indexable
+gdsfactory\routing\route_sharp.py:391: error: Cannot determine type of "pad"
+gdsfactory\routing\route_sharp.py:392: error: Cannot determine type of "pad"
+gdsfactory\read\from_np.py:20: error: Unsupported left operand type for - ("_T")
+gdsfactory\read\from_np.py:66: error: Module not callable
+gdsfactory\read\from_np.py:67: error: Module not callable
+gdsfactory\read\from_np.py:68: error: Module not callable
+gdsfactory\read\from_np.py:69: error: Module not callable
+gdsfactory\read\from_gdspaths.py:34: error: Argument 1 to "from_gdspaths" has incompatible type "List[Path]"; expected "Tuple[Union[Union[str, Path], Component], ...]"
+gdsfactory\read\from_gdspaths.py:42: error: Argument 1 to "from_gdspaths" has incompatible type "Generator[Path, None, None]"; expected "Tuple[Union[Union[str, Path], Component], ...]"
+gdsfactory\geometry\invert.py:9: error: Module not callable
+gdsfactory\geometry\invert.py:77: error: Module not callable
+gdsfactory\components\via_stack_with_offset.py:31: error: Incompatible types in assignment (expression has type "Union[Tuple[float, ...], List[int]]", variable has type "Optional[Tuple[float, ...]]")
+gdsfactory\components\via_stack_with_offset.py:31: error: Argument 1 to "len" has incompatible type "Optional[Tuple[Union[Tuple[int, int], int, str, None], ...]]"; expected "Sized"
+gdsfactory\components\via_stack_with_offset.py:33: error: Argument 1 to "zip" has incompatible type "Optional[Tuple[Union[Tuple[int, int], int, str, None], ...]]"; expected "Iterable[Union[Tuple[int, int], int, str, None]]"
+gdsfactory\components\via_stack_with_offset.py:33: error: Argument 4 to "zip" has incompatible type "Optional[Tuple[float, ...]]"; expected "Iterable[float]"
+gdsfactory\components\via_stack_with_offset.py:37: error: Incompatible types in assignment (expression has type "float", variable has type "int")
+gdsfactory\components\via_stack_with_offset.py:64: error: Incompatible types in assignment (expression has type "float", variable has type "int")
+gdsfactory\components\via_stack_with_offset.py:65: error: Incompatible types in assignment (expression has type "float", variable has type "int")
+gdsfactory\components\via_stack_with_offset.py:81: error: Argument 1 to "list" has incompatible type "Optional[Tuple[Union[Tuple[int, int], int, str, None], ...]]"; expected "Iterable[Union[Tuple[int, int], int, str, None]]"
+gdsfactory\components\via_stack_slot.py:74: error: Value of type "Optional[Tuple[Union[Tuple[int, int], int, str, None], ...]]" is not indexable
+gdsfactory\components\via_stack_slot.py:82: error: Incompatible types in assignment (expression has type "List[float]", variable has type "Optional[Tuple[float, ...]]")
+gdsfactory\components\via_stack_slot.py:82: error: Argument 1 to "list" has incompatible type "Optional[Tuple[float, ...]]"; expected "Iterable[float]"
+gdsfactory\components\via_stack_slot.py:82: error: Argument 1 to "len" has incompatible type "Optional[Tuple[Union[Tuple[int, int], int, str, None], ...]]"; expected "Sized"
+gdsfactory\components\via_stack_slot.py:83: error: Incompatible types in assignment (expression has type "List[float]", variable has type "Optional[Tuple[float, ...]]")
+gdsfactory\components\via_stack_slot.py:83: error: Argument 1 to "list" has incompatible type "Optional[Tuple[float, ...]]"; expected "Iterable[float]"
+gdsfactory\components\via_stack_slot.py:83: error: Argument 1 to "len" has incompatible type "Optional[Tuple[Union[Tuple[int, int], int, str, None], ...]]"; expected "Sized"
+gdsfactory\components\via_stack_slot.py:85: error: Argument 1 to "zip" has incompatible type "Optional[Tuple[Union[Tuple[int, int], int, str, None], ...]]"; expected "Iterable[Union[Tuple[int, int], int, str, None]]"
+gdsfactory\components\via_stack_slot.py:85: error: Argument 2 to "zip" has incompatible type "Optional[Tuple[float, ...]]"; expected "Iterable[float]"
+gdsfactory\components\via_stack_slot.py:85: error: Argument 3 to "zip" has incompatible type "Optional[Tuple[float, ...]]"; expected "Iterable[float]"
+gdsfactory\components\via_stack.py:43: error: Incompatible types in assignment (expression has type "Union[Tuple[Union[Tuple[int, int], int, str, None], ...], List[<nothing>]]", variable has type "Optional[Tuple[Union[Tuple[int, int], int, str, None], ...]]")
+gdsfactory\components\via_stack.py:53: error: Item "None" of "Optional[Tuple[Union[Tuple[int, int], int, str, None], ...]]" has no attribute "__iter__" (not iterable)
+gdsfactory\components\via_stack.py:59: error: Incompatible types in assignment (expression has type "Union[Tuple[Union[str, Callable[..., Component], Component, Dict[str, Any], None], ...], List[<nothing>]]", variable has type "Optional[Tuple[Union[str, Callable[..., Component], Component, Dict[str, Any], None], ...]]")
+gdsfactory\components\via_stack.py:60: error: Item "None" of "Optional[Tuple[Union[str, Callable[..., Component], Component, Dict[str, Any], None], ...]]" has no attribute "__iter__" (not iterable)
+gdsfactory\components\via_corner.py:15: error: Incompatible default for argument "cross_section" (default has type "Tuple[Tuple[partial[CrossSection], Tuple[int, int]], Tuple[partial[CrossSection], Tuple[int, int]]]", argument has type "List[Tuple[Union[str, Callable[..., CrossSection], CrossSection, Dict[str, Any]], Tuple[int, ...]]]")
+gdsfactory\components\via_corner.py:40: error: Value of type variable "SupportsRichComparisonT" of "max" cannot be "Union[float, Callable[..., Any]]"
+gdsfactory\components\via_corner.py:41: error: Value of type variable "SupportsRichComparisonT" of "max" cannot be "Union[float, Callable[..., Any]]"
+gdsfactory\components\via_corner.py:42: error: Value of type variable "SupportsRichComparisonT" of "min" cannot be "Union[float, Callable[..., Any]]"
+gdsfactory\components\via_corner.py:43: error: Value of type variable "SupportsRichComparisonT" of "min" cannot be "Union[float, Callable[..., Any]]"
+gdsfactory\components\via_corner.py:45: error: Unsupported operand types for / ("Callable[..., Any]" and "int")
+gdsfactory\components\via_corner.py:45: note: Left operand is of type "Union[float, Callable[..., Any]]"
+gdsfactory\components\via_corner.py:46: error: Unsupported operand types for / ("Callable[..., Any]" and "int")
+gdsfactory\components\via_corner.py:46: note: Left operand is of type "Union[float, Callable[..., Any]]"
+gdsfactory\components\via_corner.py:50: error: Argument 1 to "float" has incompatible type "Union[float, Callable[..., Any]]"; expected "Union[SupportsFloat, SupportsIndex, str, bytes]"
+gdsfactory\components\via_corner.py:51: error: Value of type variable "SupportsRichComparisonT" of "max" cannot be "Union[float, Callable[..., Any]]"
+gdsfactory\components\via_corner.py:53: error: Argument "size" to "compass" has incompatible type "Tuple[Union[float, Callable[..., Any]], Union[float, Callable[..., Any]]]"; expected "Tuple[float, float]"
+gdsfactory\components\taper_parabolic.py:8: error: Module not callable
+gdsfactory\components\taper.py:262: error: Cannot determine type of "grid"
+gdsfactory\components\straight.py:9: error: Module not callable
+gdsfactory\components\spiral_double.py:6: error: Module not callable
+gdsfactory\components\spiral_double.py:13: error: Incompatible default for argument "bend" (default has type Module, argument has type "Union[str, Callable[..., Component], Component, Dict[str, Any]]")
+gdsfactory\components\spiral.py:11: error: Module not callable
+gdsfactory\components\pad.py:84: error: "Dict[str, Any]" has no attribute "full"
+gdsfactory\components\grating_coupler_elliptical_trenches.py:101: error: Unsupported operand types for / ("Callable[..., Any]" and "int")
+gdsfactory\components\grating_coupler_elliptical_trenches.py:101: note: Left operand is of type "Union[float, Callable[..., Any]]"
+gdsfactory\components\grating_coupler_elliptical_trenches.py:102: error: Incompatible types in assignment (expression has type "List[Tuple[Any, Any]]", variable has type "ndarray[Any, Any]")
+gdsfactory\components\grating_coupler_elliptical_trenches.py:103: error: Unsupported operand type for unary - ("Union[float, Callable[..., Any]]")
+gdsfactory\components\grating_coupler_elliptical_trenches.py:104: error: Unsupported operand types for / ("Callable[..., Any]" and "int")
+gdsfactory\components\grating_coupler_elliptical_trenches.py:104: note: Left operand is of type "Union[float, Callable[..., Any]]"
+gdsfactory\components\grating_coupler_elliptical_trenches.py:132: error: Argument "width" to "add_port" of "Component" has incompatible type "Union[float, Callable[..., Any]]"; expected "Optional[float]"
+gdsfactory\components\grating_coupler_elliptical_trenches.py:166: error: Cannot determine type of "add_fiber_array"
+gdsfactory\components\grating_coupler_elliptical_arbitrary.py:16: error: Module not callable
+gdsfactory\components\grating_coupler_elliptical_arbitrary.py:98: error: Incompatible types in assignment (expression has type "float", variable has type "Tuple[float, ...]")
+gdsfactory\components\grating_coupler_elliptical_arbitrary.py:98: error: Argument 1 to "snap_to_grid" has incompatible type "ndarray[Any, dtype[floating[Any]]]"; expected "float"
+gdsfactory\components\grating_coupler_elliptical_arbitrary.py:99: error: Incompatible types in assignment (expression has type "float", variable has type "Tuple[float, ...]")
+gdsfactory\components\grating_coupler_elliptical_arbitrary.py:99: error: Argument 1 to "snap_to_grid" has incompatible type "ndarray[Any, dtype[floating[Any]]]"; expected "float"
+gdsfactory\components\grating_coupler_elliptical_arbitrary.py:119: error: Argument "wg_width" to "grating_taper_points" has incompatible type "Union[float, Callable[..., Any]]"; expected "float"
+gdsfactory\components\grating_coupler_elliptical_arbitrary.py:137: error: Argument "width" to "add_port" of "Component" has incompatible type "Union[float, Callable[..., Any]]"; expected "Optional[float]"
+gdsfactory\components\grating_coupler_circular.py:89: error: Incompatible types in assignment (expression has type "Union[Tuple[float, ...], List[float]]", variable has type "Optional[Tuple[float, ...]]")
+gdsfactory\components\grating_coupler_circular.py:90: error: Incompatible types in assignment (expression has type "Union[Tuple[float, ...], List[float]]", variable has type "Optional[Tuple[float, ...]]")
+gdsfactory\components\grating_coupler_circular.py:92: error: Incompatible types in assignment (expression has type "ndarray[Any, dtype[floating[Any]]]", variable has type "Optional[Tuple[float, ...]]")
+gdsfactory\components\grating_coupler_circular.py:93: error: Incompatible types in assignment (expression has type "ndarray[Any, dtype[floating[Any]]]", variable has type "Optional[Tuple[float, ...]]")
+gdsfactory\components\grating_coupler_circular.py:94: error: Argument 1 to "zip" has incompatible type "Optional[Tuple[float, ...]]"; expected "Iterable[float]"
+gdsfactory\components\grating_coupler_circular.py:94: error: Argument 2 to "zip" has incompatible type "Optional[Tuple[float, ...]]"; expected "Iterable[float]"
+gdsfactory\components\grating_coupler_circular.py:155: error: Argument "widths" to "grating_coupler_circular" has incompatible type "List[float]"; expected "Optional[Tuple[float, ...]]"
+gdsfactory\components\grating_coupler_circular.py:156: error: Argument "gaps" to "grating_coupler_circular" has incompatible type "List[float]"; expected "Optional[Tuple[float, ...]]"
+gdsfactory\components\fiber.py:7: error: Module not callable
+gdsfactory\components\disk.py:12: error: Module not callable
+gdsfactory\components\dbr_tapered.py:11: error: Module not callable
+gdsfactory\components\dbr_tapered.py:67: error: "str" not callable
+gdsfactory\components\dbr_tapered.py:67: error: "Dict[str, Any]" not callable
+gdsfactory\components\coupler_full.py:12: error: Module not callable
+gdsfactory\components\coupler_adiabatic.py:11: error: Module not callable
+gdsfactory\components\copy_layers.py:19: error: Item "None" of "Optional[Tuple[Union[Tuple[int, int], int, str, None], ...]]" has no attribute "__iter__" (not iterable)
+gdsfactory\components\copy_layers.py:20: error: "str" not callable
+gdsfactory\components\copy_layers.py:20: error: "Dict[str, Any]" not callable
+gdsfactory\components\copy_layers.py:30: error: Argument 1 to "copy_layers" has incompatible type Module; expected "Union[str, Callable[..., Component], Component, Dict[str, Any]]"
+gdsfactory\components\cdc.py:11: error: Module not callable
+gdsfactory\components\bend_s.py:50: error: Unsupported operand types for + ("Callable[..., Any]" and "float")
+gdsfactory\components\bend_s.py:50: note: Left operand is of type "Union[float, Callable[..., Any]]"
+gdsfactory\components\bend_circular_heater.py:10: error: Module not callable
+gdsfactory\components\bend_circular_heater.py:39: error: Unsupported operand types for / ("Callable[..., Any]" and "int")
+gdsfactory\components\bend_circular_heater.py:39: note: Left operand is of type "Union[float, Callable[..., Any]]"
+gdsfactory\components\bend_circular.py:39: error: Argument "radius" to "arc" has incompatible type "Optional[float]"; expected "float"
+gdsfactory\components\bend_circular.py:48: error: Argument 1 to "float" has incompatible type "Optional[float]"; expected "Union[SupportsFloat, SupportsIndex, str, bytes]"
+gdsfactory\fill.py:44: error: Argument 1 to "zip" has incompatible type "Optional[Tuple[Union[Tuple[int, int], int, str, None], ...]]"; expected "Iterable[Union[Tuple[int, int], int, str, None]]"
+gdsfactory\fill.py:47: error: Argument "size" to "rectangle" has incompatible type "Tuple[Any, ...]"; expected "Tuple[float, float]"
+gdsfactory\fill.py:101: error: Argument 1 to "len" has incompatible type "Optional[Tuple[Union[Tuple[int, int], int, str, None], ...]]"; expected "Sized"
+gdsfactory\fill.py:101: error: Argument 1 to "len" has incompatible type "Union[float, Tuple[float, ...]]"; expected "Sized"
+gdsfactory\fill.py:107: error: Argument 1 to "len" has incompatible type "Optional[Tuple[Union[Tuple[int, int], int, str, None], ...]]"; expected "Sized"
+gdsfactory\fill.py:107: error: Argument 1 to "len" has incompatible type "bool"; expected "Sized"
+gdsfactory\fill.py:117: error: Argument "densities" to "fill_cell_rectangle" has incompatible type "Union[float, Tuple[float, ...]]"; expected "Tuple[float, ...]"
+gdsfactory\fill.py:125: error: Incompatible types in assignment (expression has type "List[Any]", variable has type "Optional[Tuple[Union[Tuple[int, int], int, str, None], ...]]")
+gdsfactory\fill.py:128: error: Unsupported right operand type for in ("Optional[Tuple[Union[Tuple[int, int], int, str, None], ...]]")
+gdsfactory\fill.py:135: error: Incompatible types in assignment (expression has type "List[Any]", variable has type "Optional[Tuple[Union[Tuple[int, int], int, str, None], ...]]")
+gdsfactory\fill.py:137: error: Incompatible types in assignment (expression has type "Dict[Any, Any]", variable has type "List[Any]")
+gdsfactory\fill.py:140: error: Incompatible types in assignment (expression has type "chain[Any]", variable has type "List[Any]")
+gdsfactory\fill.py:140: error: "List[Any]" has no attribute "values"
+gdsfactory\difftest.py:119: error: Module not callable
+gdsfactory\add_termination.py:55: error: Module not callable
+gdsfactory\add_tapers.py:25: error: Item "str" of "Union[str, Callable[..., Component], Component, Dict[str, Any]]" has no attribute "ref"
+gdsfactory\add_tapers.py:25: error: Item "function" of "Union[str, Callable[..., Component], Component, Dict[str, Any]]" has no attribute "ref"
+gdsfactory\add_tapers.py:25: error: Item "Dict[str, Any]" of "Union[str, Callable[..., Component], Component, Dict[str, Any]]" has no attribute "ref"
+gdsfactory\add_tapers.py:57: error: "str" not callable
+gdsfactory\add_tapers.py:57: error: "Dict[str, Any]" not callable
+gdsfactory\add_tapers.py:70: error: Module not callable
+gdsfactory\routing\get_route_sbend.py:79: error: Cannot determine type of "mmi1x2"
+gdsfactory\routing\get_route_sbend.py:80: error: Cannot determine type of "mmi1x2"
+gdsfactory\routing\get_bundle_sbend.py:25: error: Incompatible types in assignment (expression has type "List[Port]", variable has type "Port")
+gdsfactory\routing\get_bundle_sbend.py:25: error: Argument 1 to "sort_ports" has incompatible type "Port"; expected "List[Port]"
+gdsfactory\routing\get_bundle_sbend.py:25: error: Argument 2 to "sort_ports" has incompatible type "Port"; expected "List[Port]"
+gdsfactory\routing\get_bundle_sbend.py:31: error: No overload variant of "zip" matches argument types "Port", "Port"
+gdsfactory\routing\get_bundle_sbend.py:31: note: Possible overload variants:
+gdsfactory\routing\get_bundle_sbend.py:31: note:     def [_T_co, _T1] __new__(cls, Iterable[_T1]) -> zip[Tuple[_T1]]
+gdsfactory\routing\get_bundle_sbend.py:31: note:     def [_T_co, _T1, _T2] __new__(cls, Iterable[_T1], Iterable[_T2]) -> zip[Tuple[_T1, _T2]]
+gdsfactory\routing\get_bundle_sbend.py:31: note:     def [_T_co, _T1, _T2, _T3] __new__(cls, Iterable[_T1], Iterable[_T2], Iterable[_T3]) -> zip[Tuple[_T1, _T2, _T3]]
+gdsfactory\routing\get_bundle_sbend.py:31: note:     def [_T_co, _T1, _T2, _T3, _T4] __new__(cls, Iterable[_T1], Iterable[_T2], Iterable[_T3], Iterable[_T4]) -> zip[Tuple[_T1, _T2, _T3, _T4]]
+gdsfactory\routing\get_bundle_sbend.py:31: note:     def [_T_co, _T1, _T2, _T3, _T4, _T5] __new__(cls, Iterable[_T1], Iterable[_T2], Iterable[_T3], Iterable[_T4], Iterable[_T5]) -> zip[Tuple[_T1, _T2, _T3, _T4, _T5]]
+gdsfactory\routing\get_bundle_sbend.py:31: note:     def [_T_co] __new__(cls, Iterable[Any], Iterable[Any], Iterable[Any], Iterable[Any], Iterable[Any], Iterable[Any], *iterables: Iterable[Any]) -> zip[Tuple[Any, ...]]
+gdsfactory\routing\get_bundle_sbend.py:55: error: Argument 2 to "Port" has incompatible type "Tuple[int, float]"; expected "Optional[float]"
+gdsfactory\routing\get_bundle_sbend.py:55: error: Argument 3 to "Port" has incompatible type "float"; expected "Optional[Tuple[float, float]]"
+gdsfactory\routing\get_bundle_sbend.py:55: error: Argument 4 to "Port" has incompatible type "int"; expected "Optional[Tuple[float, float]]"
+gdsfactory\routing\get_bundle_sbend.py:58: error: Argument 2 to "Port" has incompatible type "Tuple[int, int]"; expected "Optional[float]"
+gdsfactory\routing\get_bundle_sbend.py:58: error: Argument 3 to "Port" has incompatible type "float"; expected "Optional[Tuple[float, float]]"
+gdsfactory\routing\get_bundle_sbend.py:58: error: Argument 4 to "Port" has incompatible type "int"; expected "Optional[Tuple[float, float]]"
+gdsfactory\routing\get_bundle_sbend.py:62: error: Argument 1 to "get_bundle_sbend" has incompatible type "List[Port]"; expected "Port"
+gdsfactory\routing\get_bundle_sbend.py:62: error: Argument 2 to "get_bundle_sbend" has incompatible type "List[Port]"; expected "Port"
+gdsfactory\routing\fanout2x2.py:12: error: Module not callable
+gdsfactory\routing\fanout2x2.py:93: error: Unsupported operand types for + ("Callable[..., Any]" and "float")
+gdsfactory\routing\fanout2x2.py:93: note: Left operand is of type "Union[float, Callable[..., Any]]"
+gdsfactory\routing\fanout2x2.py:124: error: Module not callable
+gdsfactory\routing\add_electrical_pads_top.py:10: error: Module not callable
+gdsfactory\routing\add_electrical_pads_top.py:76: error: Module not callable
+gdsfactory\routing\add_electrical_pads_top.py:78: error: Module not callable
+gdsfactory\routing\add_electrical_pads_shortest.py:9: error: Module not callable
+gdsfactory\routing\add_electrical_pads_shortest.py:86: error: Module not callable
+gdsfactory\components\wire.py:24: error: Unsupported operand types for / ("Callable[..., Any]" and "int")
+gdsfactory\components\wire.py:24: note: Left operand is of type "Union[float, Callable[..., Any]]"
+gdsfactory\components\wire.py:32: error: Argument "width" to "add_port" of "Component" has incompatible type "Union[float, Callable[..., Any]]"; expected "Optional[float]"
+gdsfactory\components\wire.py:40: error: Argument "width" to "add_port" of "Component" has incompatible type "Union[float, Callable[..., Any]]"; expected "Optional[float]"
+gdsfactory\components\via_cutback.py:98: error: "str" not callable
+gdsfactory\components\via_cutback.py:98: error: "Dict[str, Any]" not callable
+gdsfactory\components\via_cutback.py:102: error: "str" not callable
+gdsfactory\components\via_cutback.py:102: error: "Dict[str, Any]" not callable
+gdsfactory\components\via_cutback.py:103: error: "str" not callable
+gdsfactory\components\via_cutback.py:103: error: "Dict[str, Any]" not callable
+gdsfactory\components\via_cutback.py:155: error: "str" not callable
+gdsfactory\components\via_cutback.py:155: error: "Dict[str, Any]" not callable
+gdsfactory\components\via_cutback.py:160: error: "str" not callable
+gdsfactory\components\via_cutback.py:160: error: "Dict[str, Any]" not callable
+gdsfactory\components\text_rectangular.py:11: error: Module not callable
+gdsfactory\components\text_rectangular.py:88: error: Argument 1 to "partial" has incompatible type "Union[str, Callable[..., Component], Component, Dict[str, Any]]"; expected "Callable[..., Any]"
+gdsfactory\components\straight_pin_slot.py:79: error: "str" not callable
+gdsfactory\components\straight_pin_slot.py:79: error: "Dict[str, Any]" not callable
+gdsfactory\components\straight_pin_slot.py:82: error: "str" not callable
+gdsfactory\components\straight_pin_slot.py:82: error: "Dict[str, Any]" not callable
+gdsfactory\components\straight_pin_slot.py:98: error: "str" not callable
+gdsfactory\components\straight_pin_slot.py:98: error: "Dict[str, Any]" not callable
+gdsfactory\components\straight_pin_slot.py:105: error: "str" not callable
+gdsfactory\components\straight_pin_slot.py:105: error: "Dict[str, Any]" not callable
+gdsfactory\components\straight_pin.py:64: error: "str" not callable
+gdsfactory\components\straight_pin.py:64: error: "Dict[str, Any]" not callable
+gdsfactory\components\straight_pin.py:67: error: "str" not callable
+gdsfactory\components\straight_pin.py:67: error: "Dict[str, Any]" not callable
+gdsfactory\components\straight_heater_metal.py:97: error: Unsupported operand types for + ("float" and "None")
+gdsfactory\components\straight_heater_metal.py:97: note: Right operand is of type "Optional[float]"
+gdsfactory\components\straight_heater_meander.py:53: error: Argument "width" to "Port" has incompatible type "Union[float, Callable[..., Any]]"; expected "Optional[float]"
+gdsfactory\components\straight_heater_meander.py:56: error: Argument "width" to "Port" has incompatible type "Union[float, Callable[..., Any]]"; expected "Optional[float]"
+gdsfactory\components\straight_heater_meander.py:122: error: "str" not callable
+gdsfactory\components\straight_heater_meander.py:122: error: "Dict[str, Any]" not callable
+gdsfactory\components\straight_heater_meander.py:123: error: "str" not callable
+gdsfactory\components\straight_heater_meander.py:123: error: "Dict[str, Any]" not callable
+gdsfactory\components\straight_heater_meander.py:124: error: Unsupported operand types for + ("float" and "None")
+gdsfactory\components\straight_heater_meander.py:124: note: Both left and right operands are unions
+gdsfactory\components\straight_heater_doped_rib.py:98: error: Argument 1 to "partial" has incompatible type "Union[str, Callable[..., CrossSection], CrossSection, Dict[str, Any]]"; expected "Callable[..., CrossSection]"
+gdsfactory\components\straight_heater_doped_rib.py:111: error: Item "str" of "Union[Component, str, Dict[str, Any]]" has no attribute "get_ports_xsize"
+gdsfactory\components\straight_heater_doped_rib.py:111: error: Item "Dict[str, Any]" of "Union[Component, str, Dict[str, Any]]" has no attribute "get_ports_xsize"
+gdsfactory\components\straight_heater_doped_rib.py:139: error: "str" not callable
+gdsfactory\components\straight_heater_doped_rib.py:139: error: "Dict[str, Any]" not callable
+gdsfactory\components\straight_heater_doped_rib.py:160: error: "str" not callable
+gdsfactory\components\straight_heater_doped_rib.py:160: error: "Dict[str, Any]" not callable
+gdsfactory\components\straight_heater_doped_rib.py:164: error: "str" not callable
+gdsfactory\components\straight_heater_doped_rib.py:164: error: "Dict[str, Any]" not callable
+gdsfactory\components\straight_heater_doped_rib.py:169: error: Item "str" of "Union[str, Component, Callable[..., Component], Dict[str, Any]]" has no attribute "xmax"
+gdsfactory\components\straight_heater_doped_rib.py:169: error: Item "function" of "Union[str, Component, Callable[..., Component], Dict[str, Any]]" has no attribute "xmax"
+gdsfactory\components\straight_heater_doped_rib.py:169: error: Item "Dict[str, Any]" of "Union[str, Component, Callable[..., Component], Dict[str, Any]]" has no attribute "xmax"
+gdsfactory\components\straight_heater_doped_rib.py:172: error: Item "str" of "Union[str, Component, Callable[..., Component], Dict[str, Any]]" has no attribute "xmax"
+gdsfactory\components\straight_heater_doped_rib.py:172: error: Item "function" of "Union[str, Component, Callable[..., Component], Dict[str, Any]]" has no attribute "xmax"
+gdsfactory\components\straight_heater_doped_rib.py:172: error: Item "Dict[str, Any]" of "Union[str, Component, Callable[..., Component], Dict[str, Any]]" has no attribute "xmax"
+gdsfactory\components\straight_heater_doped_rib.py:177: error: "str" not callable
+gdsfactory\components\straight_heater_doped_rib.py:177: error: "Dict[str, Any]" not callable
+gdsfactory\components\straight_heater_doped_rib.py:180: error: "str" not callable
+gdsfactory\components\straight_heater_doped_rib.py:180: error: "Dict[str, Any]" not callable
+gdsfactory\components\straight_array.py:7: error: Module not callable
+gdsfactory\components\seal_ring.py:57: error: "str" not callable
+gdsfactory\components\seal_ring.py:57: error: "Dict[str, Any]" not callable
+gdsfactory\components\seal_ring.py:62: error: "str" not callable
+gdsfactory\components\seal_ring.py:62: error: "Dict[str, Any]" not callable
+gdsfactory\components\seal_ring.py:67: error: "str" not callable
+gdsfactory\components\seal_ring.py:67: error: "Dict[str, Any]" not callable
+gdsfactory\components\seal_ring.py:72: error: "str" not callable
+gdsfactory\components\seal_ring.py:72: error: "Dict[str, Any]" not callable
+gdsfactory\components\resistance_sheet.py:39: error: "str" not callable
+gdsfactory\components\resistance_sheet.py:39: error: "Dict[str, Any]" not callable
+gdsfactory\components\resistance_sheet.py:40: error: Unsupported operand types for - ("float" and "str")
+gdsfactory\components\resistance_sheet.py:40: note: Right operand is of type "Union[Any, str]"
+gdsfactory\components\resistance_sheet.py:40: error: Value of type "Union[Any, str, float]" is not indexable
+gdsfactory\components\resistance_sheet.py:45: error: Value of type "Optional[Tuple[Union[Tuple[int, int], int, str, None], ...]]" is not indexable
+gdsfactory\components\resistance_sheet.py:48: error: Value of type "Optional[Tuple[Union[Tuple[int, int], int, str, None], ...]]" is not indexable
+gdsfactory\components\resistance_sheet.py:60: error: Argument 1 to "list" has incompatible type "Optional[Tuple[Union[Tuple[int, int], int, str, None], ...]]"; expected "Iterable[Union[Tuple[int, int], int, str, None]]"
+gdsfactory\components\resistance_sheet.py:68: error: Argument 1 to "list" has incompatible type "Optional[Tuple[Union[Tuple[int, int], int, str, None], ...]]"; expected "Iterable[Union[Tuple[int, int], int, str, None]]"
+gdsfactory\components\pads_shorted.py:8: error: Module not callable
+gdsfactory\components\mmi2x2.py:9: error: Module not callable
+gdsfactory\components\mmi2x2.py:74: error: Argument 1 to "get_component" has incompatible type "Union[str, Callable[..., CrossSection], CrossSection, Dict[str, Any]]"; expected "Union[str, Callable[..., Component], Component, Dict[str, Any]]"
+gdsfactory\components\mmi1x2.py:9: error: Module not callable
+gdsfactory\components\mmi1x2.py:82: error: Argument "layer" to "Port" has incompatible type "Union[Tuple[int, int], int, str, None]"; expected "Optional[Tuple[int, int]]"
+gdsfactory\components\mmi1x2.py:90: error: Argument "layer" to "Port" has incompatible type "Union[Tuple[int, int], int, str, None]"; expected "Optional[Tuple[int, int]]"
+gdsfactory\components\mmi1x2.py:98: error: Argument "layer" to "Port" has incompatible type "Union[Tuple[int, int], int, str, None]"; expected "Optional[Tuple[int, int]]"
+gdsfactory\components\grating_coupler_rectangular_arbitrary_slab.py:92: error: Incompatible types in assignment (expression has type "float", variable has type "Tuple[float, ...]")
+gdsfactory\components\grating_coupler_rectangular_arbitrary_slab.py:92: error: Argument 1 to "snap_to_grid" has incompatible type "Tuple[float, ...]"; expected "float"
+gdsfactory\components\grating_coupler_rectangular_arbitrary_slab.py:93: error: Incompatible types in assignment (expression has type "float", variable has type "Tuple[float, ...]")
+gdsfactory\components\grating_coupler_rectangular_arbitrary_slab.py:93: error: Argument 1 to "snap_to_grid" has incompatible type "Tuple[float, ...]"; expected "float"
+gdsfactory\components\grating_coupler_rectangular_arbitrary_slab.py:99: error: Argument "size" to "rectangle" has incompatible type "List[float]"; expected "Tuple[float, float]"
+gdsfactory\components\grating_coupler_rectangular_arbitrary.py:15: error: Module not callable
+gdsfactory\components\grating_coupler_rectangular_arbitrary.py:97: error: Incompatible types in assignment (expression has type "float", variable has type "Tuple[float, ...]")
+gdsfactory\components\grating_coupler_rectangular_arbitrary.py:97: error: Argument 1 to "snap_to_grid" has incompatible type "Tuple[float, ...]"; expected "float"
+gdsfactory\components\grating_coupler_rectangular_arbitrary.py:98: error: Incompatible types in assignment (expression has type "float", variable has type "Tuple[float, ...]")
+gdsfactory\components\grating_coupler_rectangular_arbitrary.py:98: error: Argument 1 to "snap_to_grid" has incompatible type "Tuple[float, ...]"; expected "float"
+gdsfactory\components\grating_coupler_rectangular.py:12: error: Module not callable
+gdsfactory\components\grating_coupler_rectangular.py:85: error: Argument "width1" to "taper" has incompatible type "Union[float, Callable[..., Any]]"; expected "float"
+gdsfactory\components\grating_coupler_rectangular.py:139: error: Module not callable
+gdsfactory\components\grating_coupler_elliptical_lumerical.py:122: error: "Tuple[float, ...]" has no attribute "strip"
+gdsfactory\components\grating_coupler_elliptical_lumerical.py:130: error: Incompatible types in assignment (expression has type "List[float]", variable has type "Tuple[float, ...]")
+gdsfactory\components\grating_coupler_array.py:7: error: Module not callable
+gdsfactory\components\fiber_array.py:7: error: Module not callable
+gdsfactory\components\dbr.py:109: error: Incompatible types in assignment (expression has type "List[float]", variable has type "ndarray[Any, Any]")
+gdsfactory\components\crossing_waveguide.py:56: error: Unsupported operand types for / ("Callable[..., Any]" and "int")
+gdsfactory\components\crossing_waveguide.py:56: note: Left operand is of type "Union[float, Callable[..., Any]]"
+gdsfactory\components\crossing_waveguide.py:74: error: Argument "width" to "add_port" of "Component" has incompatible type "Union[float, Callable[..., Any]]"; expected "Optional[float]"
+gdsfactory\components\crossing_waveguide.py:83: error: Argument "width" to "add_port" of "Component" has incompatible type "Union[float, Callable[..., Any]]"; expected "Optional[float]"
+gdsfactory\components\crossing_waveguide.py:120: error: Need type annotation for "padding" (hint: "padding: List[<type>] = ...")
+gdsfactory\components\crossing_waveguide.py:442: error: Need type annotation for "padding" (hint: "padding: List[<type>] = ...")
+gdsfactory\components\coupler_symmetric.py:8: error: Module not callable
+gdsfactory\components\coupler_symmetric.py:44: error: Unsupported operand types for - ("float" and "Callable[..., Any]")
+gdsfactory\components\coupler_symmetric.py:44: note: Right operand is of type "Union[float, Callable[..., Any]]"
+gdsfactory\components\coupler_straight.py:7: error: Module not callable
+gdsfactory\components\coupler_asymmetric.py:8: error: Module not callable
+gdsfactory\components\coupler_asymmetric.py:42: error: Unsupported operand types for - ("float" and "Callable[..., Any]")
+gdsfactory\components\coupler_asymmetric.py:42: note: Right operand is of type "Union[float, Callable[..., Any]]"
+gdsfactory\components\coupler_asymmetric.py:52: error: Item "str" of "Union[str, Component, Dict[str, Any]]" has no attribute "ports"
+gdsfactory\components\coupler_asymmetric.py:52: error: Item "Dict[str, Any]" of "Union[str, Component, Dict[str, Any]]" has no attribute "ports"
+gdsfactory\components\coupler_asymmetric.py:56: error: Item "str" of "Union[str, Component, Dict[str, Any]]" has no attribute "ref"
+gdsfactory\components\coupler_asymmetric.py:56: error: Item "Dict[str, Any]" of "Union[str, Component, Dict[str, Any]]" has no attribute "ref"
+gdsfactory\components\coupler_asymmetric.py:57: error: Item "str" of "Union[str, Component, Dict[str, Any]]" has no attribute "ref"
+gdsfactory\components\coupler_asymmetric.py:57: error: Item "Dict[str, Any]" of "Union[str, Component, Dict[str, Any]]" has no attribute "ref"
+gdsfactory\components\bend_euler.py:61: error: Argument "radius" to "euler" has incompatible type "Optional[float]"; expected "float"
+gdsfactory\grid.py:69: error: Incompatible types in assignment (expression has type "Union[Tuple[Union[str, Callable[..., Component], Component, Dict[str, Any]], ...], List[Component]]", variable has type "Optional[Tuple[Union[str, Callable[..., Component], Component, Dict[str, Any]], ...]]")
+gdsfactory\grid.py:83: error: Incompatible types in assignment (expression has type "Tuple[int, ...]", variable has type "Optional[Tuple[int, int]]")
+gdsfactory\grid.py:86: error: Value of type "Optional[Tuple[int, int]]" is not indexable
+gdsfactory\grid.py:94: error: Value of type "Optional[Tuple[int, int]]" is not indexable
+gdsfactory\grid.py:103: error: Argument 2 to "reshape" has incompatible type "Optional[Tuple[int, int]]"; expected "Union[SupportsIndex, Sequence[SupportsIndex]]"
+gdsfactory\grid.py:212: error: "str" not callable
+gdsfactory\grid.py:212: error: "Dict[str, Any]" not callable
+gdsfactory\grid.py:232: error: Module not callable
+gdsfactory\grid.py:235: error: Argument 1 to "grid" has incompatible type "List[Any]"; expected "Optional[Tuple[Union[str, Callable[..., Component], Component, Dict[str, Any]], ...]]"
+gdsfactory\routing\manhattan.py:71: error: Invalid index type "float" for "Dict[int, str]"; expected type "int"
+gdsfactory\routing\manhattan.py:136: error: Incompatible types in assignment (expression has type "ndarray[Any, Any]", variable has type "Tuple[float, float]")
+gdsfactory\routing\manhattan.py:292: error: Incompatible types in assignment (expression has type "List[Any]", variable has type "ndarray[Any, Any]")
+gdsfactory\routing\manhattan.py:475: error: Argument "layer" to "_get_bend_ports" has incompatible type "Union[Tuple[int, int], List[Tuple[int, int]]]"; expected "Union[Tuple[int, int], Tuple[Tuple[int, int], ...]]"
+gdsfactory\routing\manhattan.py:513: error: Argument 1 to "vstack" has incompatible type "ndarray[Any, Any]"; expected "Sequence[Union[Sequence[Sequence[Sequence[Sequence[Sequence[Any]]]]], Union[Union[_SupportsArray[dtype[Any]], Sequence[_SupportsArray[dtype[Any]]], Sequence[Sequence[_SupportsArray[dtype[Any]]]], Sequence[Sequence[Sequence[_SupportsArray[dtype[Any]]]]], Sequence[Sequence[Sequence[Sequence[_SupportsArray[dtype[Any]]]]]]], Union[bool, int, float, complex, str, bytes, Sequence[Union[bool, int, float, complex, str, bytes]], Sequence[Sequence[Union[bool, int, float, complex, str, bytes]]], Sequence[Sequence[Sequence[Union[bool, int, float, complex, str, bytes]]]], Sequence[Sequence[Sequence[Sequence[Union[bool, int, float, complex, str, bytes]]]]]]]]]"
+gdsfactory\routing\manhattan.py:558: error: Argument "width" to "Port" has incompatible type "Union[float, Callable[..., Any]]"; expected "Optional[float]"
+gdsfactory\routing\manhattan.py:561: error: Argument "width" to "Port" has incompatible type "Union[float, Callable[..., Any]]"; expected "Optional[float]"
+gdsfactory\routing\manhattan.py:565: error: Unsupported operand types for * ("Callable[..., Any]" and "int")
+gdsfactory\routing\manhattan.py:565: note: Left operand is of type "Union[float, Callable[..., Any]]"
+gdsfactory\routing\manhattan.py:619: error: Item "function" of "Union[Union[str, Callable[..., CrossSection], CrossSection, Dict[str, Any]], List[Tuple[Union[str, Callable[..., CrossSection], CrossSection, Dict[str, Any]], Tuple[int, ...]]]]" has no attribute "__iter__" (not iterable)
+gdsfactory\routing\manhattan.py:622: error: Incompatible types in assignment (expression has type "CrossSection", variable has type "List[CrossSection]")
+gdsfactory\routing\manhattan.py:622: error: Argument 1 to "get_cross_section" has incompatible type "Union[Union[str, Callable[..., CrossSection], CrossSection, Dict[str, Any]], List[Tuple[Union[str, Callable[..., CrossSection], CrossSection, Dict[str, Any]], Tuple[int, ...]]]]"; expected "Union[str, Callable[..., CrossSection], CrossSection, Dict[str, Any]]"
+gdsfactory\routing\manhattan.py:623: error: "List[CrossSection]" has no attribute "layer"
+gdsfactory\routing\manhattan.py:625: error: Incompatible types in assignment (expression has type "Tuple[int, int]", variable has type "List[Union[Tuple[int, int], int, str, None]]")
+gdsfactory\routing\manhattan.py:625: error: Argument 1 to "get_layer" has incompatible type "List[Union[Tuple[int, int], int, str, None]]"; expected "Union[Tuple[int, int], int, str, None]"
+gdsfactory\routing\manhattan.py:627: error: Incompatible types in assignment (expression has type "object", variable has type "Tuple[Tuple[float, float], ...]")
+gdsfactory\routing\manhattan.py:627: error: Argument 1 to "snap_to_grid" has incompatible type "Tuple[Tuple[float, float], ...]"; expected "float"
+gdsfactory\routing\manhattan.py:640: error: "List[CrossSection]" has no attribute "auto_widen"
+gdsfactory\routing\manhattan.py:643: error: "List[CrossSection]" has no attribute "auto_widen_minimum_length"
+gdsfactory\routing\manhattan.py:648: error: "List[CrossSection]" has no attribute "taper_length"
+gdsfactory\routing\manhattan.py:650: error: "List[CrossSection]" has no attribute "width"
+gdsfactory\routing\manhattan.py:652: error: "List[CrossSection]" has no attribute "width_wide"
+gdsfactory\routing\manhattan.py:660: error: Argument "width1" to "taper" has incompatible type "List[Union[float, Callable[..., Any]]]"; expected "float"
+gdsfactory\routing\manhattan.py:661: error: Argument "width2" to "taper" has incompatible type "List[Optional[float]]"; expected "Optional[float]"
+gdsfactory\routing\manhattan.py:662: error: Argument "length" to "taper" has incompatible type "List[float]"; expected "float"
+gdsfactory\routing\manhattan.py:676: error: Incompatible types in assignment (expression has type "ndarray[Any, Any]", variable has type "Tuple[Tuple[float, float], ...]")
+gdsfactory\routing\manhattan.py:676: error: Argument 1 to "remove_flat_angles" has incompatible type "Tuple[Tuple[float, float], ...]"; expected "ndarray[Any, Any]"
+gdsfactory\routing\manhattan.py:677: error: Incompatible types in assignment (expression has type "ndarray[Any, Any]", variable has type "Tuple[Tuple[float, float], ...]")
+gdsfactory\routing\manhattan.py:690: error: Unsupported left operand type for - ("Tuple[float, float]")
+gdsfactory\routing\manhattan.py:692: error: Argument 1 to "_is_vertical" has incompatible type "Tuple[float, float]"; expected "ndarray[Any, Any]"
+gdsfactory\routing\manhattan.py:692: error: Argument 2 to "_is_vertical" has incompatible type "Tuple[float, float]"; expected "ndarray[Any, Any]"
+gdsfactory\routing\manhattan.py:697: error: Argument 1 to "_is_horizontal" has incompatible type "Tuple[float, float]"; expected "ndarray[Any, Any]"
+gdsfactory\routing\manhattan.py:697: error: Argument 2 to "_is_horizontal" has incompatible type "Tuple[float, float]"; expected "ndarray[Any, Any]"
+gdsfactory\routing\manhattan.py:711: error: Argument "layer" to "_get_bend_ports" has incompatible type "List[Union[Tuple[int, int], int, str, None]]"; expected "Union[Tuple[int, int], Tuple[Tuple[int, int], ...]]"
+gdsfactory\routing\manhattan.py:717: error: "Tuple[Tuple[float, float], ...]" has no attribute "shape"
+gdsfactory\routing\manhattan.py:724: error: "Tuple[Tuple[float, float], ...]" has no attribute "shape"
+gdsfactory\routing\manhattan.py:726: error: Argument 1 to "_get_bend_reference_parameters" has incompatible type "Tuple[float, float]"; expected "ndarray[Any, Any]"
+gdsfactory\routing\manhattan.py:726: error: Argument 2 to "_get_bend_reference_parameters" has incompatible type "Tuple[float, float]"; expected "ndarray[Any, Any]"
+gdsfactory\routing\manhattan.py:726: error: Argument 3 to "_get_bend_reference_parameters" has incompatible type "Tuple[float, float]"; expected "ndarray[Any, Any]"
+gdsfactory\routing\manhattan.py:726: error: Argument 5 to "_get_bend_reference_parameters" has incompatible type "List[Union[Tuple[int, int], int, str, None]]"; expected "Union[Tuple[int, int], List[Tuple[int, int]]]"
+gdsfactory\routing\manhattan.py:728: error: Argument 5 to "gen_sref" has incompatible type "ndarray[Any, Any]"; expected "Tuple[float, float]"
+gdsfactory\routing\manhattan.py:752: error: Argument 1 to "append" of "list" has incompatible type "ndarray[Any, Any]"; expected "Tuple[float, float]"
+gdsfactory\routing\manhattan.py:753: error: Argument 1 to "append" of "list" has incompatible type "ndarray[Any, Any]"; expected "Tuple[float, float]"
+gdsfactory\routing\manhattan.py:754: error: Incompatible types in assignment (expression has type "ndarray[Any, Any]", variable has type "Tuple[float, float]")
+gdsfactory\routing\manhattan.py:758: error: List item 0 has incompatible type "Tuple[Tuple[float, float], Optional[int], float]"; expected "Tuple[Tuple[float, float], int, float]"
+gdsfactory\routing\manhattan.py:761: error: Argument 1 to "get_straight_distance" has incompatible type "Tuple[float, float]"; expected "ndarray[Any, Any]"
+gdsfactory\routing\manhattan.py:772: error: Incompatible types in assignment (expression has type "ndarray[Any, Any]", variable has type "Tuple[float, float]")
+gdsfactory\routing\manhattan.py:779: error: List item 0 has incompatible type "Tuple[Tuple[float, float], Optional[int], float]"; expected "Tuple[Tuple[float, float], int, float]"
+gdsfactory\routing\manhattan.py:782: error: Argument 1 to "get_straight_distance" has incompatible type "Tuple[float, float]"; expected "ndarray[Any, Any]"
+gdsfactory\routing\manhattan.py:782: error: Argument 2 to "get_straight_distance" has incompatible type "Tuple[float, float]"; expected "ndarray[Any, Any]"
+gdsfactory\routing\manhattan.py:823: error: Incompatible types in assignment (expression has type "CrossSection", variable has type "List[CrossSection]")
+gdsfactory\routing\manhattan.py:828: error: Incompatible types in assignment (expression has type "float", variable has type "int")
+gdsfactory\routing\manhattan.py:837: error: Unsupported operand types for > ("float" and "List[float]")
+gdsfactory\routing\manhattan.py:840: error: Unsupported operand types for - ("float" and "List[float]")
+gdsfactory\routing\manhattan.py:844: error: Argument 1 to "_get_straight_ports" has incompatible type "Optional[Component]"; expected "Component"
+gdsfactory\routing\manhattan.py:844: error: Argument "layer" to "_get_straight_ports" has incompatible type "List[Union[Tuple[int, int], int, str, None]]"; expected "Tuple[int, int]"
+gdsfactory\routing\manhattan.py:846: error: Item "None" of "Optional[Component]" has no attribute "ref"
+gdsfactory\routing\manhattan.py:854: error: Incompatible types in assignment (expression has type "Union[ndarray[Any, Any], Any]", variable has type "Tuple[float, float]")
+gdsfactory\routing\manhattan.py:863: error: Item "str" of "Union[str, CrossSection, Dict[str, Any]]" has no attribute "copy"
+gdsfactory\routing\manhattan.py:863: error: Unexpected keyword argument "width" for "copy" of "dict"
+gdsfactory\routing\manhattan.py:863: error: Argument "width" to "copy" of "CrossSection" has incompatible type "List[Optional[float]]"; expected "Optional[float]"
+c:\users\12269\appdata\local\programs\python\python39\lib\site-packages\mypy\typeshed\stdlib\builtins.pyi:896: note: "copy" of "dict" defined here
+gdsfactory\routing\manhattan.py:863: error: Incompatible types in assignment (expression has type "Union[Any, Dict[str, Any]]", variable has type "partial[CrossSection]")
+gdsfactory\routing\manhattan.py:876: error: Argument "layer" to "_get_straight_ports" has incompatible type "List[Union[Tuple[int, int], int, str, None]]"; expected "Tuple[int, int]"
+gdsfactory\routing\manhattan.py:896: error: Incompatible types in assignment (expression has type "Port", variable has type "Tuple[float, float]")
+gdsfactory\routing\manhattan.py:898: error: Argument 1 to "_get_straight_ports" has incompatible type "Optional[Component]"; expected "Component"
+gdsfactory\routing\manhattan.py:898: error: Argument "layer" to "_get_straight_ports" has incompatible type "List[Union[Tuple[int, int], int, str, None]]"; expected "Tuple[int, int]"
+gdsfactory\routing\manhattan.py:901: error: Item "None" of "Optional[Component]" has no attribute "ref"
+gdsfactory\routing\manhattan.py:921: error: Argument "cross_section" to "get_route_error" has incompatible type "Optional[List[CrossSection]]"; expected "Optional[CrossSection]"
+gdsfactory\routing\manhattan.py:968: error: Incompatible types in assignment (expression has type "CrossSection", variable has type "List[CrossSection]")
+gdsfactory\routing\manhattan.py:969: error: "List[CrossSection]" has no attribute "min_length"
+gdsfactory\routing\manhattan.py:970: error: "List[CrossSection]" has no attribute "min_length"
+gdsfactory\routing\manhattan.py:971: error: "List[CrossSection]" has no attribute "min_length"
+gdsfactory\routing\manhattan.py:1017: error: Incompatible types in assignment (expression has type "CrossSection", variable has type "List[CrossSection]")
+gdsfactory\routing\manhattan.py:1018: error: "List[CrossSection]" has no attribute "min_length"
+gdsfactory\routing\manhattan.py:1019: error: "List[CrossSection]" has no attribute "min_length"
+gdsfactory\routing\manhattan.py:1020: error: "List[CrossSection]" has no attribute "min_length"
+gdsfactory\routing\manhattan.py:1029: error: Argument "cross_section" to "generate_manhattan_waypoints" has incompatible type "List[CrossSection]"; expected "Union[Union[str, Callable[..., CrossSection], CrossSection, Dict[str, Any]], List[Tuple[Union[str, Callable[..., CrossSection], CrossSection, Dict[str, Any]], Tuple[int, ...]]]]"
+gdsfactory\routing\manhattan.py:1032: error: Argument "points" to "round_corners" has incompatible type "ndarray[Any, Any]"; expected "Tuple[Tuple[float, float], ...]"
+gdsfactory\routing\manhattan.py:1036: error: Argument "cross_section" to "round_corners" has incompatible type "List[CrossSection]"; expected "Union[Union[str, Callable[..., CrossSection], CrossSection, Dict[str, Any]], List[Tuple[Union[str, Callable[..., CrossSection], CrossSection, Dict[str, Any]], Tuple[int, ...]]]]"
+gdsfactory\routing\get_routes_straight.py:39: error: "str" not callable
+gdsfactory\routing\get_routes_straight.py:39: error: "Dict[str, Any]" not callable
+gdsfactory\routing\get_routes_bend180.py:57: error: "str" not callable
+gdsfactory\routing\get_routes_bend180.py:57: error: "Dict[str, Any]" not callable
+gdsfactory\routing\get_routes_bend180.py:110: error: Argument 2 to "get_bundle" has incompatible type "Optional[List[Port]]"; expected "List[Port]"
+gdsfactory\routing\fanout.py:120: error: Argument "port_names" to "fanout_component" has incompatible type "List[Any]"; expected "Tuple[str, ...]"
+gdsfactory\routing\fanout.py:134: error: Module not callable
+gdsfactory\components\text.py:13: error: Module not callable
+gdsfactory\components\text.py:66: error: Module not callable
+gdsfactory\components\splitter_chain.py:8: error: Module not callable
+gdsfactory\components\mzi_arm.py:42: error: "str" not callable
+gdsfactory\components\mzi_arm.py:42: error: "Dict[str, Any]" not callable
+gdsfactory\components\mzi_arm.py:45: error: "str" not callable
+gdsfactory\components\mzi_arm.py:45: error: "Dict[str, Any]" not callable
+gdsfactory\components\mzi_arm.py:50: error: "str" not callable
+gdsfactory\components\mzi_arm.py:50: error: "Dict[str, Any]" not callable
+gdsfactory\components\mzi_arm.py:52: error: "str" not callable
+gdsfactory\components\mzi_arm.py:52: error: "Dict[str, Any]" not callable
+gdsfactory\components\mzi_arm.py:81: error: Argument "straight_x" to "mzi_arm" has incompatible type Module; expected "Union[str, Callable[..., Component], Component, Dict[str, Any], None]"
+gdsfactory\components\grating_coupler_tree.py:11: error: Module not callable
+gdsfactory\components\extension.py:25: error: Incompatible types in assignment (expression has type "ndarray[Any, Any]", variable has type "Union[Port, Tuple[float, float]]")
+gdsfactory\components\extension.py:28: error: Incompatible types in assignment (expression has type "ndarray[Any, Any]", variable has type "Union[Port, Tuple[float, float]]")
+gdsfactory\components\extension.py:31: error: Value of type "Union[Port, Tuple[float, float]]" is not indexable
+gdsfactory\components\extension.py:33: error: Argument 1 to "move_polar_rad_copy" has incompatible type "Union[Port, Tuple[float, float]]"; expected "Tuple[float, float]"
+gdsfactory\components\extension.py:33: error: Unsupported operand types for / ("None" and "int")
+gdsfactory\components\extension.py:33: note: Left operand is of type "Optional[float]"
+gdsfactory\components\extension.py:34: error: Argument 1 to "move_polar_rad_copy" has incompatible type "Union[Port, Tuple[float, float]]"; expected "Tuple[float, float]"
+gdsfactory\components\extension.py:34: error: Unsupported operand types for / ("None" and "int")
+gdsfactory\components\extension.py:34: note: Left operand is of type "Optional[float]"
+gdsfactory\components\extension.py:35: error: Argument 1 to "move_polar_rad_copy" has incompatible type "Union[Port, Tuple[float, float]]"; expected "Tuple[float, float]"
+gdsfactory\components\extension.py:35: error: Unsupported operand types for / ("None" and "int")
+gdsfactory\components\extension.py:35: note: Left operand is of type "Optional[float]"
+gdsfactory\components\extension.py:36: error: Argument 1 to "move_polar_rad_copy" has incompatible type "Union[Port, Tuple[float, float]]"; expected "Tuple[float, float]"
+gdsfactory\components\extension.py:36: error: Unsupported operand types for / ("None" and "int")
+gdsfactory\components\extension.py:36: note: Left operand is of type "Optional[float]"
+gdsfactory\components\extension.py:37: error: Incompatible return value type (got "Tuple[ndarray[Any, Any], ndarray[Any, Any], ndarray[Any, Any], ndarray[Any, Any]]", expected "Tuple[float, float, float, float]")
+gdsfactory\components\extension.py:70: error: Argument 1 to "move_polar_rad_copy" has incompatible type "ndarray[Any, Any]"; expected "Tuple[float, float]"
+gdsfactory\components\extension.py:73: error: Argument 1 to "line" has incompatible type "ndarray[Any, Any]"; expected "Union[Port, Tuple[float, float]]"
+gdsfactory\components\extension.py:73: error: Argument 2 to "line" has incompatible type "ndarray[Any, Any]"; expected "Union[Port, Tuple[float, float]]"
+gdsfactory\components\extension.py:140: error: Incompatible types in assignment (expression has type "Union[Tuple[str, ...], List[Any]]", variable has type "List[Any]")
+gdsfactory\components\extension.py:176: error: Unexpected keyword argument "prefix" for "add_port" of "Component"
+gdsfactory\component.py:473: note: "add_port" of "Component" defined here
+gdsfactory\components\extension.py:85: error: Module not callable
+gdsfactory\components\extension.py:231: error: Module not callable
+gdsfactory\components\extension.py:232: error: Module not callable
+gdsfactory\components\delay_snake_sbend.py:9: error: Module not callable
+gdsfactory\components\delay_snake_sbend.py:107: error: Module not callable
+gdsfactory\components\delay_snake2.py:49: error: "str" not callable
+gdsfactory\components\delay_snake2.py:49: error: "Dict[str, Any]" not callable
+gdsfactory\components\cutback_component.py:73: error: Argument "symbol_to_component" to "component_sequence" has incompatible type "Dict[str, Tuple[Component, str, str]]"; expected "Dict[str, Tuple[Union[str, Callable[..., Component], Component, Dict[str, Any]], str, str]]"
+gdsfactory\components\cutback_component.py:73: note: "Dict" is invariant -- see https://mypy.readthedocs.io/en/stable/common_issues.html#variance
+gdsfactory\components\cutback_component.py:73: note: Consider using "Mapping" instead, which is covariant in the value type
+gdsfactory\components\cutback_bend.py:70: error: Argument "symbol_to_component" to "component_sequence" has incompatible type "Dict[str, Tuple[Component, str, str]]"; expected "Dict[str, Tuple[Union[str, Callable[..., Component], Component, Dict[str, Any]], str, str]]"
+gdsfactory\components\cutback_bend.py:70: note: "Dict" is invariant -- see https://mypy.readthedocs.io/en/stable/common_issues.html#variance
+gdsfactory\components\cutback_bend.py:70: note: Consider using "Mapping" instead, which is covariant in the value type
+gdsfactory\components\cutback_bend.py:105: error: Incompatible types in assignment (expression has type "floating[Union[_64Bit, Any]]", variable has type "float")
+gdsfactory\components\cutback_bend.py:125: error: Argument "symbol_to_component" to "component_sequence" has incompatible type "Dict[str, Tuple[Component, str, str]]"; expected "Dict[str, Tuple[Union[str, Callable[..., Component], Component, Dict[str, Any]], str, str]]"
+gdsfactory\components\cutback_bend.py:125: note: "Dict" is invariant -- see https://mypy.readthedocs.io/en/stable/common_issues.html#variance
+gdsfactory\components\cutback_bend.py:125: note: Consider using "Mapping" instead, which is covariant in the value type
+gdsfactory\components\cutback_bend.py:153: error: "str" not callable
+gdsfactory\components\cutback_bend.py:153: error: "Dict[str, Any]" not callable
+gdsfactory\components\cutback_bend.py:154: error: "str" not callable
+gdsfactory\components\cutback_bend.py:154: error: "Dict[str, Any]" not callable
+gdsfactory\components\cutback_bend.py:229: error: Argument "symbol_to_component" to "component_sequence" has incompatible type "Dict[str, Tuple[Component, str, str]]"; expected "Dict[str, Tuple[Union[str, Callable[..., Component], Component, Dict[str, Any]], str, str]]"
+gdsfactory\components\cutback_bend.py:229: note: "Dict" is invariant -- see https://mypy.readthedocs.io/en/stable/common_issues.html#variance
+gdsfactory\components\cutback_bend.py:229: note: Consider using "Mapping" instead, which is covariant in the value type
+gdsfactory\components\coupler90bend.py:7: error: Module not callable
+gdsfactory\components\coupler90bend.py:40: error: Unsupported operand types for / ("Callable[..., Any]" and "int")
+gdsfactory\components\coupler90bend.py:40: note: Left operand is of type "Union[float, Callable[..., Any]]"
+gdsfactory\components\coupler.py:13: error: Module not callable
+gdsfactory\components\cdsem_straight_density.py:19: error: Incompatible default for argument "widths" (default has type "List[float]", argument has type "Tuple[float, ...]")
+gdsfactory\components\cdsem_straight_density.py:20: error: Incompatible default for argument "gaps" (default has type "List[float]", argument has type "Tuple[float, ...]")
+gdsfactory\components\cdsem_straight_density.py:45: error: Incompatible types in assignment (expression has type "float", variable has type "int")
+gdsfactory\components\cdsem_bend180.py:62: error: "str" not callable
+gdsfactory\components\cdsem_bend180.py:62: error: "Dict[str, Any]" not callable
+gdsfactory\add_grating_couplers.py:58: error: Incompatible types in assignment (expression has type "List[Port]", variable has type "Dict[str, Port]")
+gdsfactory\add_grating_couplers.py:62: error: Argument 2 to "connect" of "ComponentReference" has incompatible type "str"; expected "Port"
+gdsfactory\add_grating_couplers.py:124: error: Incompatible types in assignment (expression has type "List[Port]", variable has type "Dict[str, Port]")
+gdsfactory\add_grating_couplers.py:128: error: Argument 2 to "connect" of "ComponentReference" has incompatible type "str"; expected "Port"
+gdsfactory\add_grating_couplers.py:131: error: "str" has no attribute "name"
+gdsfactory\add_grating_couplers.py:131: error: Argument "port" to "add_port" of "Component" has incompatible type "str"; expected "Optional[Port]"
+gdsfactory\add_grating_couplers.py:142: error: Invalid index type "int" for "Dict[str, Port]"; expected type "str"
+gdsfactory\add_grating_couplers.py:143: error: Invalid index type "int" for "Dict[str, Port]"; expected type "str"
+gdsfactory\add_grating_couplers.py:182: error: Argument "position" to "add_label" of "Component" has incompatible type "Callable[[SupportsIndex, str], str]"; expected "Tuple[float, float]"
+gdsfactory\add_grating_couplers.py:193: error: Argument "position" to "add_label" of "Component" has incompatible type "Callable[[SupportsIndex, str], str]"; expected "Tuple[float, float]"
+gdsfactory\add_grating_couplers.py:313: error: Unsupported operand types for + ("None" and "float")
+gdsfactory\add_grating_couplers.py:313: note: Left operand is of type "Optional[float]"
+gdsfactory\add_grating_couplers.py:333: error: Argument "points" to "round_corners" has incompatible type "ndarray[Any, Any]"; expected "Tuple[Tuple[float, float], ...]"
+gdsfactory\add_grating_couplers.py:376: error: Cannot determine type of "mzi_phase_shifter"
+gdsfactory\routing\path_length_matching.py:204: error: Value of type variable "SupportsRichComparisonT" of "max" cannot be "floating[_64Bit]"
+gdsfactory\routing\get_route_from_steps.py:92: error: Incompatible types in assignment (expression has type "ndarray[Any, Any]", variable has type "List[Tuple[Any, Any]]")
+gdsfactory\routing\get_route_from_steps.py:100: error: Argument 1 to "get_component" has incompatible type "Union[str, Callable[..., Component], Component, Dict[str, Any], None]"; expected "Union[str, Callable[..., Component], Component, Dict[str, Any]]"
+gdsfactory\routing\get_route_from_steps.py:113: error: Argument "points" to "round_corners" has incompatible type "List[Tuple[Any, Any]]"; expected "Tuple[Tuple[float, float], ...]"
+gdsfactory\routing\get_route.py:245: error: Incompatible types in assignment (expression has type "ndarray[Any, Any]", variable has type "Tuple[Tuple[float, float], ...]")
+gdsfactory\components\version_stamp.py:12: error: Module not callable
+gdsfactory\components\version_stamp.py:13: error: Incompatible default for argument "size" (default has type "float", argument has type "int")
+gdsfactory\components\version_stamp.py:20: error: Module not callable
+gdsfactory\components\version_stamp.py:39: error: Module not callable
+gdsfactory\components\spiral_inner_io.py:122: error: Argument 1 to "round_corners" has incompatible type "List[ndarray[Any, Any]]"; expected "Tuple[Tuple[float, float], ...]"
+gdsfactory\components\spiral_inner_io.py:127: error: Argument "position" to "ref" of "Component" has incompatible type "Port"; expected "Union[Tuple[Union[floating[_64Bit], signedinteger[_64Bit], float, int], Union[floating[_64Bit], signedinteger[_64Bit], float, int]], ndarray[Any, Any], List[Union[floating[_64Bit], signedinteger[_64Bit], float, int]]]"
+gdsfactory\components\spiral_inner_io.py:150: error: Argument 1 to "round_corners" has incompatible type "List[ndarray[Any, Any]]"; expected "Tuple[Tuple[float, float], ...]"
+gdsfactory\components\spiral_inner_io.py:155: error: Unsupported operand types for + ("None" and "float")
+gdsfactory\components\spiral_inner_io.py:155: note: Left operand is of type "Optional[float]"
+gdsfactory\components\spiral_inner_io.py:229: error: "str" not callable
+gdsfactory\components\spiral_inner_io.py:229: error: "Dict[str, Any]" not callable
+gdsfactory\components\spiral_inner_io.py:232: error: "str" not callable
+gdsfactory\components\spiral_inner_io.py:232: error: "Dict[str, Any]" not callable
+gdsfactory\components\spiral_external_io.py:56: error: "str" not callable
+gdsfactory\components\spiral_external_io.py:56: error: "Dict[str, Any]" not callable
+gdsfactory\components\spiral_external_io.py:57: error: "str" not callable
+gdsfactory\components\spiral_external_io.py:57: error: "Dict[str, Any]" not callable
+gdsfactory\components\spiral_external_io.py:83: error: Incompatible types in assignment (expression has type "floating[Union[_64Bit, Any]]", variable has type "float")
+gdsfactory\components\spiral_external_io.py:119: error: Argument 1 to "round_corners" has incompatible type "List[ndarray[Any, Any]]"; expected "Tuple[Tuple[float, float], ...]"
+gdsfactory\components\pack_doe.py:53: error: Incompatible default for argument "settings" (default has type "Dict[str, object]", argument has type "Dict[str, List[Any]]")
+gdsfactory\components\pack_doe.py:87: error: Argument "component_list" to "pack" has incompatible type "List[Component]"; expected "List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]"
+gdsfactory\components\pack_doe.py:87: note: "List" is invariant -- see https://mypy.readthedocs.io/en/stable/common_issues.html#variance
+gdsfactory\components\pack_doe.py:87: note: Consider using "Sequence" instead, which is covariant
+gdsfactory\components\pack_doe.py:101: error: Incompatible default for argument "settings" (default has type "Dict[str, object]", argument has type "Dict[str, List[Any]]")
+gdsfactory\components\pack_doe.py:149: error: Argument 1 to "grid_with_text" has incompatible type "List[Component]"; expected "Optional[Tuple[Union[str, Callable[..., Component], Component, Dict[str, Any]], ...]]"
+gdsfactory\components\pack_doe.py:152: error: Argument 1 to "grid" has incompatible type "List[Component]"; expected "Optional[Tuple[Union[str, Callable[..., Component], Component, Dict[str, Any]], ...]]"
+gdsfactory\components\mzit.py:12: error: Module not callable
+gdsfactory\components\mzit.py:79: error: "str" not callable
+gdsfactory\components\mzit.py:79: error: "Dict[str, Any]" not callable
+gdsfactory\components\mzit.py:186: error: "str" not callable
+gdsfactory\components\mzit.py:186: error: "Dict[str, Any]" not callable
+gdsfactory\components\die.py:12: error: Module not callable
+gdsfactory\components\die.py:95: error: Unpacking a string is disallowed
+gdsfactory\components\delay_snake.py:12: error: Module not callable
+gdsfactory\components\delay_snake.py:76: error: Argument "points" to "round_corners" has incompatible type "List[Tuple[Any, int]]"; expected "Tuple[Tuple[float, float], ...]"
+gdsfactory\components\coupler_ring.py:15: error: Module not callable
+gdsfactory\components\component_lattice.py:52: error: Need type annotation for "sequence" (hint: "sequence: List[<type>] = ...")
+gdsfactory\components\component_lattice.py:129: error: Module not callable
+gdsfactory\components\component_lattice.py:212: error: Incompatible types in assignment (expression has type "int", variable has type "Component")
+gdsfactory\components\component_lattice.py:219: error: Unsupported operand types for * ("int" and "None")
+gdsfactory\components\component_lattice.py:219: note: Right operand is of type "Optional[float]"
+gdsfactory\components\component_lattice.py:255: error: Incompatible types in assignment (expression has type "floating[_64Bit]", variable has type "Component")
+gdsfactory\components\component_lattice.py:271: error: Need type annotation for "columns" (hint: "columns: Dict[<type>, <type>] = ...")
+gdsfactory\components\component_lattice.py:295: error: Module not callable
+gdsfactory\components\component_lattice.py:299: error: Module not callable
+gdsfactory\components\cdsem_straight.py:41: error: "str" not callable
+gdsfactory\components\cdsem_straight.py:41: error: "Dict[str, Any]" not callable
+gdsfactory\components\cdsem_straight.py:46: error: Argument 1 to "grid" has incompatible type "List[Any]"; expected "Optional[Tuple[Union[str, Callable[..., Component], Component, Dict[str, Any]], ...]]"
+gdsfactory\routing\route_south.py:67: error: Incompatible types in assignment (expression has type "Union[Tuple[str, ...], List[<nothing>]]", variable has type "Optional[Tuple[str, ...]]")
+gdsfactory\routing\route_south.py:74: error: Unsupported right operand type for in ("Optional[Tuple[str, ...]]")
+gdsfactory\routing\route_south.py:84: error: Incompatible return value type (got "Tuple[List[<nothing>], List[<nothing>]]", expected "Routes")
+gdsfactory\routing\route_south.py:266: error: Cannot determine type of "ring_double"
+gdsfactory\routing\route_south.py:269: error: Cannot determine type of "ring_double"
+gdsfactory\routing\route_ports_to_side.py:95: error: Incompatible types in assignment (expression has type "Callable[[List[Port], Union[float, str], float, float, float, float, float, Optional[float], Optional[float], Callable[..., Any], int, float, Optional[float], Optional[float], KwArg(Any)], Tuple[List[Route], List[Port]]]", variable has type "Callable[[List[Port], Union[float, str], float, float, Optional[float], Optional[float], float, float, float, Callable[..., Any], int, float, Optional[float], Optional[float], KwArg(Dict[Any, Any])], Tuple[List[Route], List[Port]]]")
+gdsfactory\routing\route_ports_to_side.py:99: error: Argument 2 has incompatible type "object"; expected "Union[float, str]"
+gdsfactory\routing\route_ports_to_side.py:233: error: Need type annotation for "routes" (hint: "routes: List[<type>] = ...")
+gdsfactory\routing\route_ports_to_side.py:234: error: Need type annotation for "ports" (hint: "ports: List[<type>] = ...")
+gdsfactory\routing\route_ports_to_side.py:241: error: Unsupported operand types for + ("str" and "float")
+gdsfactory\routing\route_ports_to_side.py:241: note: Left operand is of type "Union[float, str]"
+gdsfactory\routing\route_ports_to_side.py:417: error: Unsupported operand types for <= ("str" and "float")
+gdsfactory\routing\route_ports_to_side.py:417: note: Left operand is of type "Union[float, str]"
+gdsfactory\routing\route_ports_to_side.py:424: error: Unsupported operand types for >= ("str" and "float")
+gdsfactory\routing\route_ports_to_side.py:424: note: Left operand is of type "Union[float, str]"
+gdsfactory\routing\route_ports_to_side.py:445: error: Need type annotation for "routes" (hint: "routes: List[<type>] = ...")
+gdsfactory\routing\route_ports_to_side.py:446: error: Need type annotation for "ports" (hint: "ports: List[<type>] = ...")
+gdsfactory\routing\route_ports_to_side.py:516: error: Module not callable
+gdsfactory\routing\route_ports_to_side.py:546: error: Module not callable
+gdsfactory\routing\route_ports_to_side.py:565: error: Module not callable
+gdsfactory\routing\get_bundle_from_waypoints.py:35: error: Value of type "float" is not indexable
+gdsfactory\routing\get_bundle_from_waypoints.py:40: error: Value of type "float" is not indexable
+gdsfactory\routing\get_bundle_from_waypoints.py:43: error: Missing return statement
+gdsfactory\routing\get_bundle_from_waypoints.py:46: error: Value of type "float" is not indexable
+gdsfactory\routing\get_bundle_from_waypoints.py:49: error: Value of type "float" is not indexable
+gdsfactory\routing\get_bundle_from_waypoints.py:133: error: Incompatible types in assignment (expression has type "List[ndarray[Any, Any]]", variable has type "Tuple[Tuple[float, float], ...]")
+gdsfactory\routing\get_bundle_from_waypoints.py:133: error: Argument 1 to "list" has incompatible type "Tuple[Tuple[float, float], ...]"; expected "Iterable[ndarray[Any, Any]]"
+gdsfactory\routing\get_bundle_from_waypoints.py:175: error: Argument "waypoints" to "_generate_manhattan_bundle_waypoints" has incompatible type "List[Tuple[float, float]]"; expected "Tuple[Tuple[float, float], ...]"
+gdsfactory\routing\get_bundle_from_waypoints.py:197: error: Incompatible types in assignment (expression has type "None", variable has type "Union[str, Callable[..., Component], Component, Dict[str, Any]]")
+gdsfactory\routing\get_bundle_from_waypoints.py:200: error: Incompatible types in assignment (expression has type "List[ndarray[Any, Any]]", variable has type "Tuple[Tuple[float, float], ...]")
+gdsfactory\routing\get_bundle_from_waypoints.py:201: error: Incompatible types in assignment (expression has type "List[ndarray[Any, Any]]", variable has type "Tuple[Tuple[float, float], ...]")
+gdsfactory\routing\get_bundle_from_waypoints.py:202: error: Argument 1 to "path_length_matched_points" has incompatible type "Tuple[Tuple[float, float], ...]"; expected "List[ndarray[Any, Any]]"
+gdsfactory\routing\get_bundle_from_waypoints.py:212: error: Argument "points" to "round_corners" has incompatible type "Tuple[float, float]"; expected "Tuple[Tuple[float, float], ...]"
+gdsfactory\routing\get_bundle_from_waypoints.py:264: error: Incompatible types in assignment (expression has type "ndarray[Any, Any]", variable has type "Tuple[Tuple[float, float], ...]")
+gdsfactory\routing\get_bundle_from_waypoints.py:264: error: Argument 1 to "remove_flat_angles" has incompatible type "Tuple[Tuple[float, float], ...]"; expected "ndarray[Any, Any]"
+gdsfactory\routing\get_bundle_from_waypoints.py:362: error: Incompatible types in assignment (expression has type "List[Union[ndarray[Any, Any], Tuple[floating[_64Bit], floating[_64Bit]]]]", variable has type "List[ndarray[Any, Any]]")
+gdsfactory\routing\get_bundle_from_waypoints.py:362: error: Argument 1 to "snap_route_to_end_point_y" has incompatible type "List[ndarray[Any, Any]]"; expected "List[Union[ndarray[Any, Any], Tuple[floating[_64Bit], floating[_64Bit]]]]"
+gdsfactory\routing\get_bundle_from_waypoints.py:362: note: "List" is invariant -- see https://mypy.readthedocs.io/en/stable/common_issues.html#variance
+gdsfactory\routing\get_bundle_from_waypoints.py:362: note: Consider using "Sequence" instead, which is covariant
+gdsfactory\routing\get_bundle_from_waypoints.py:368: error: Incompatible return value type (got "List[List[ndarray[Any, Any]]]", expected "Tuple[Tuple[float, float], ...]")
+gdsfactory\routing\get_bundle_corner.py:263: error: Name "get_routes_bend180" already defined (by an import)
+gdsfactory\routing\get_bundle_corner.py:273: error: Module not callable
+gdsfactory\components\ring_single.py:8: error: Module not callable
+gdsfactory\components\ring_single.py:90: error: Module not callable
+gdsfactory\components\ring_double.py:12: error: Module not callable
+gdsfactory\components\mzit_lattice.py:9: error: Module not callable
+gdsfactory\components\loop_mirror.py:12: error: Module not callable
+gdsfactory\components\loop_mirror.py:33: error: Module not callable
+gdsfactory\components\grating_coupler_loss.py:39: error: Argument "points" to "round_corners" has incompatible type "List[ndarray[Any, Any]]"; expected "Tuple[Tuple[float, float], ...]"
+gdsfactory\components\grating_coupler_loss.py:87: error: Unsupported operand types for + ("None" and "float")
+gdsfactory\components\grating_coupler_loss.py:87: note: Left operand is of type "Optional[float]"
+gdsfactory\components\cdsem_all.py:81: error: Argument "widths" to "cdsem_straight_density" has incompatible type "List[float]"; expected "Tuple[float, ...]"
+gdsfactory\components\cdsem_all.py:82: error: Argument "gaps" to "cdsem_straight_density" has incompatible type "List[float]"; expected "Tuple[float, ...]"
+gdsfactory\routing\get_bundle_u.py:179: error: Argument 2 to "_groups" has incompatible type "float"; expected "floating[_64Bit]"
+gdsfactory\routing\get_bundle_u.py:461: error: Need type annotation for "dict_connections"
+gdsfactory\routing\get_bundle_u.py:486: error: Argument 4 to "route_ports_to_side" has incompatible type "**Dict[str, object]"; expected "Optional[float]"
+gdsfactory\routing\get_bundle_u.py:493: error: Argument 4 to "route_ports_to_side" has incompatible type "**Dict[str, object]"; expected "Optional[float]"
+gdsfactory\routing\get_bundle_u.py:500: error: Argument 3 to "route_ports_to_side" has incompatible type "**Dict[str, object]"; expected "Optional[float]"
+gdsfactory\routing\get_bundle_u.py:504: error: Argument 3 to "route_ports_to_side" has incompatible type "**Dict[str, object]"; expected "Optional[float]"
+gdsfactory\routing\get_bundle_u.py:510: error: Argument 1 to "update" of "MutableMapping" has incompatible type "Dict[str, object]"; expected "SupportsKeysAndGetItem[str, float]"
+gdsfactory\routing\get_bundle_u.py:518: error: Incompatible types in assignment (expression has type "List[ndarray[Any, Any]]", variable has type "List[Route]")
+gdsfactory\routing\get_bundle_u.py:519: error: Argument 3 to "_get_bundle_udirect_waypoints" has incompatible type "**Dict[str, float]"; expected "Callable[..., Any]"
+gdsfactory\routing\get_bundle_u.py:519: error: Argument 3 to "_get_bundle_udirect_waypoints" has incompatible type "**Dict[str, float]"; expected "Union[str, Callable[..., Component], Component, Dict[str, Any]]"
+gdsfactory\routing\get_bundle_u.py:519: note: "Dict" is invariant -- see https://mypy.readthedocs.io/en/stable/common_issues.html#variance
+gdsfactory\routing\get_bundle_u.py:519: note: Consider using "Mapping" instead, which is covariant in the value type
+gdsfactory\routing\get_bundle_u.py:523: error: Incompatible types in assignment (expression has type "List[ndarray[Any, Any]]", variable has type "List[Route]")
+gdsfactory\routing\get_bundle_u.py:524: error: Argument 3 to "_get_bundle_udirect_waypoints" has incompatible type "**Dict[str, float]"; expected "Callable[..., Any]"
+gdsfactory\routing\get_bundle_u.py:524: error: Argument 3 to "_get_bundle_udirect_waypoints" has incompatible type "**Dict[str, float]"; expected "Union[str, Callable[..., Component], Component, Dict[str, Any]]"
+gdsfactory\routing\get_bundle_u.py:524: note: "Dict" is invariant -- see https://mypy.readthedocs.io/en/stable/common_issues.html#variance
+gdsfactory\routing\get_bundle_u.py:524: note: Consider using "Mapping" instead, which is covariant in the value type
+gdsfactory\routing\get_bundle_from_steps.py:125: error: Incompatible types in assignment (expression has type "ndarray[Any, Any]", variable has type "List[Tuple[Any, Any]]")
+gdsfactory\routing\get_bundle_from_steps.py:133: error: Argument 1 to "get_component" has incompatible type "Union[str, Callable[..., Component], Component, Dict[str, Any], None]"; expected "Union[str, Callable[..., Component], Component, Dict[str, Any]]"
+gdsfactory\routing\get_bundle_from_steps.py:148: error: Argument "waypoints" to "get_bundle_from_waypoints" has incompatible type "List[Tuple[Any, Any]]"; expected "Tuple[Tuple[float, float], ...]"
+gdsfactory\routing\get_bundle_from_steps.py:151: error: Argument "taper" to "get_bundle_from_waypoints" has incompatible type "Optional[Component]"; expected "Union[str, Callable[..., Component], Component, Dict[str, Any]]"
+gdsfactory\components\ring_single_array.py:15: error: Module not callable
+gdsfactory\components\mzi_pads_center.py:31: error: Incompatible default for argument "cross_section_metal" (default has type "partial[CrossSection]", argument has type "Union[str, Callable[..., Component], Component, Dict[str, Any]]")
+gdsfactory\components\mzi_pads_center.py:62: error: "str" not callable
+gdsfactory\components\mzi_pads_center.py:62: error: "Dict[str, Any]" not callable
+gdsfactory\components\mzi_pads_center.py:128: error: Cannot determine type of "add_fiber_array"
+gdsfactory\components\mzi_pads_center.py:129: error: Cannot determine type of "add_fiber_single"
+gdsfactory\components\mzi_lattice.py:123: error: Argument "coupler_lengths" to "mzi_lattice" has incompatible type "List[int]"; expected "Tuple[float, ...]"
+gdsfactory\components\mzi_lattice.py:123: error: Argument "coupler_gaps" to "mzi_lattice" has incompatible type "List[float]"; expected "Tuple[float, ...]"
+gdsfactory\components\mzi_lattice.py:123: error: Argument "delta_lengths" to "mzi_lattice" has incompatible type "List[int]"; expected "Tuple[float, ...]"
+gdsfactory\routing\get_bundle.py:191: error: Argument 1 to "get_bundle_from_steps" has incompatible type "**Dict[str, object]"; expected "List[Port]"
+gdsfactory\routing\get_bundle.py:191: error: Argument 1 to "get_bundle_from_steps" has incompatible type "**Dict[str, object]"; expected "Optional[List[Dict[str, float]]]"
+gdsfactory\routing\get_bundle.py:191: error: Argument 1 to "get_bundle_from_steps" has incompatible type "**Dict[str, object]"; expected "Union[str, Callable[..., Component], Component, Dict[str, Any]]"
+gdsfactory\routing\get_bundle.py:191: note: "Dict" is invariant -- see https://mypy.readthedocs.io/en/stable/common_issues.html#variance
+gdsfactory\routing\get_bundle.py:191: note: Consider using "Mapping" instead, which is covariant in the value type
+gdsfactory\routing\get_bundle.py:191: error: Argument 1 to "get_bundle_from_steps" has incompatible type "**Dict[str, object]"; expected "Union[str, Callable[..., Component], Component, Dict[str, Any], None]"
+gdsfactory\routing\get_bundle.py:191: error: Argument 1 to "get_bundle_from_steps" has incompatible type "**Dict[str, object]"; expected "Union[Union[str, Callable[..., CrossSection], CrossSection, Dict[str, Any]], List[Tuple[Union[str, Callable[..., CrossSection], CrossSection, Dict[str, Any]], Tuple[int, ...]]]]"
+gdsfactory\routing\get_bundle.py:191: error: Argument 1 to "get_bundle_from_steps" has incompatible type "**Dict[str, object]"; expected "bool"
+gdsfactory\routing\get_bundle.py:191: error: Argument 1 to "get_bundle_from_steps" has incompatible type "**Dict[str, object]"; expected "Optional[float]"
+gdsfactory\routing\get_bundle.py:191: error: Argument 1 to "get_bundle_from_steps" has incompatible type "**Dict[str, object]"; expected "Optional[int]"
+gdsfactory\routing\get_bundle.py:191: error: Argument 1 to "get_bundle_from_steps" has incompatible type "**Dict[str, object]"; expected "float"
+gdsfactory\routing\get_bundle.py:191: error: Argument 1 to "get_bundle_from_steps" has incompatible type "**Dict[str, object]"; expected "int"
+gdsfactory\routing\get_bundle.py:194: error: Argument 1 to "get_bundle_from_waypoints" has incompatible type "**Dict[str, object]"; expected "List[Port]"
+gdsfactory\routing\get_bundle.py:194: error: Argument 1 to "get_bundle_from_waypoints" has incompatible type "**Dict[str, object]"; expected "Tuple[Tuple[float, float], ...]"
+gdsfactory\routing\get_bundle.py:194: error: Argument 1 to "get_bundle_from_waypoints" has incompatible type "**Dict[str, object]"; expected "Union[str, Callable[..., Component], Component, Dict[str, Any]]"
+gdsfactory\routing\get_bundle.py:194: note: "Dict" is invariant -- see https://mypy.readthedocs.io/en/stable/common_issues.html#variance
+gdsfactory\routing\get_bundle.py:194: note: Consider using "Mapping" instead, which is covariant in the value type
+gdsfactory\routing\get_bundle.py:194: error: Argument 1 to "get_bundle_from_waypoints" has incompatible type "**Dict[str, object]"; expected "bool"
+gdsfactory\routing\get_bundle.py:194: error: Argument 1 to "get_bundle_from_waypoints" has incompatible type "**Dict[str, object]"; expected "Union[Union[str, Callable[..., CrossSection], CrossSection, Dict[str, Any]], List[Tuple[Union[str, Callable[..., CrossSection], CrossSection, Dict[str, Any]], Tuple[int, ...]]]]"
+gdsfactory\routing\get_bundle.py:194: error: Argument 1 to "get_bundle_from_waypoints" has incompatible type "**Dict[str, object]"; expected "Optional[float]"
+gdsfactory\routing\get_bundle.py:194: error: Argument 1 to "get_bundle_from_waypoints" has incompatible type "**Dict[str, object]"; expected "Callable[..., Any]"
+gdsfactory\routing\get_bundle.py:194: error: Argument 1 to "get_bundle_from_waypoints" has incompatible type "**Dict[str, object]"; expected "Optional[int]"
+gdsfactory\routing\get_bundle.py:194: error: Argument 1 to "get_bundle_from_waypoints" has incompatible type "**Dict[str, object]"; expected "float"
+gdsfactory\routing\get_bundle.py:194: error: Argument 1 to "get_bundle_from_waypoints" has incompatible type "**Dict[str, object]"; expected "int"
+gdsfactory\routing\get_bundle.py:197: error: Argument 1 to "get_bundle_corner" has incompatible type "**Dict[str, object]"; expected "List[Port]"
+gdsfactory\routing\get_bundle.py:197: error: Argument 1 to "get_bundle_corner" has incompatible type "**Dict[str, object]"; expected "Callable[..., Route]"
+gdsfactory\routing\get_bundle.py:197: error: Argument 1 to "get_bundle_corner" has incompatible type "**Dict[str, object]"; expected "float"
+gdsfactory\routing\get_bundle.py:197: error: Argument 1 to "get_bundle_corner" has incompatible type "**Dict[str, object]"; expected "Optional[int]"
+gdsfactory\routing\get_bundle.py:197: error: Argument 1 to "get_bundle_corner" has incompatible type "**Dict[str, object]"; expected "int"
+gdsfactory\routing\get_bundle.py:213: error: Argument 1 to "get_bundle_same_axis" has incompatible type "**Dict[str, object]"; expected "List[Port]"
+gdsfactory\routing\get_bundle.py:213: error: Argument 1 to "get_bundle_same_axis" has incompatible type "**Dict[str, object]"; expected "float"
+gdsfactory\routing\get_bundle.py:213: error: Argument 1 to "get_bundle_same_axis" has incompatible type "**Dict[str, object]"; expected "Union[str, Callable[..., Component], Component, Dict[str, Any]]"
+gdsfactory\routing\get_bundle.py:213: note: "Dict" is invariant -- see https://mypy.readthedocs.io/en/stable/common_issues.html#variance
+gdsfactory\routing\get_bundle.py:213: note: Consider using "Mapping" instead, which is covariant in the value type
+gdsfactory\routing\get_bundle.py:213: error: Argument 1 to "get_bundle_same_axis" has incompatible type "**Dict[str, object]"; expected "bool"
+gdsfactory\routing\get_bundle.py:213: error: Argument 1 to "get_bundle_same_axis" has incompatible type "**Dict[str, object]"; expected "Optional[int]"
+gdsfactory\routing\get_bundle.py:213: error: Argument 1 to "get_bundle_same_axis" has incompatible type "**Dict[str, object]"; expected "int"
+gdsfactory\routing\get_bundle.py:213: error: Argument 1 to "get_bundle_same_axis" has incompatible type "**Dict[str, object]"; expected "Union[Union[str, Callable[..., CrossSection], CrossSection, Dict[str, Any]], List[Tuple[Union[str, Callable[..., CrossSection], CrossSection, Dict[str, Any]], Tuple[int, ...]]]]"
+gdsfactory\routing\get_bundle.py:217: error: Argument 1 to "get_bundle_udirect" has incompatible type "**Dict[str, object]"; expected "List[Port]"
+gdsfactory\routing\get_bundle.py:217: error: Argument 1 to "get_bundle_udirect" has incompatible type "**Dict[str, object]"; expected "Callable[..., Any]"
+gdsfactory\routing\get_bundle.py:217: error: Argument 1 to "get_bundle_udirect" has incompatible type "**Dict[str, object]"; expected "float"
+gdsfactory\routing\get_bundle.py:217: error: Argument 1 to "get_bundle_udirect" has incompatible type "**Dict[str, object]"; expected "Union[str, Callable[..., Component], Component, Dict[str, Any]]"
+gdsfactory\routing\get_bundle.py:217: note: "Dict" is invariant -- see https://mypy.readthedocs.io/en/stable/common_issues.html#variance
+gdsfactory\routing\get_bundle.py:217: note: Consider using "Mapping" instead, which is covariant in the value type
+gdsfactory\routing\get_bundle.py:217: error: Argument 1 to "get_bundle_udirect" has incompatible type "**Dict[str, object]"; expected "Optional[int]"
+gdsfactory\routing\get_bundle.py:217: error: Argument 1 to "get_bundle_udirect" has incompatible type "**Dict[str, object]"; expected "int"
+gdsfactory\routing\get_bundle.py:221: error: Argument 2 to "get_bundle_uindirect" has incompatible type "**Dict[str, object]"; expected "List[Port]"
+gdsfactory\routing\get_bundle.py:221: error: Argument 2 to "get_bundle_uindirect" has incompatible type "**Dict[str, object]"; expected "Callable[..., Any]"
+gdsfactory\routing\get_bundle.py:221: error: Argument 2 to "get_bundle_uindirect" has incompatible type "**Dict[str, object]"; expected "float"
+gdsfactory\routing\get_bundle.py:227: error: Incompatible return value type (got "Optional[float]", expected "Union[float, int]")
+gdsfactory\routing\get_bundle.py:330: error: Argument "cross_section" to "_get_bundle_waypoints" has incompatible type "Union[Union[str, Callable[..., CrossSection], CrossSection, Dict[str, Any]], List[Tuple[Union[str, Callable[..., CrossSection], CrossSection, Dict[str, Any]], Tuple[int, ...]]]]"; expected "Union[str, Callable[..., CrossSection], CrossSection, Dict[str, Any]]"
+gdsfactory\routing\get_bundle.py:348: error: Argument 1 to "get_route_from_waypoints" has incompatible type "ndarray[Any, Any]"; expected "Tuple[Tuple[float, float], ...]"
+gdsfactory\routing\get_bundle.py:349: error: Argument "bend" to "get_route_from_waypoints" has incompatible type "Union[str, Callable[..., Component], Component, Dict[str, Any]]"; expected "Callable[..., Any]"
+gdsfactory\routing\get_bundle.py:350: error: Argument "cross_section" to "get_route_from_waypoints" has incompatible type "Union[Union[str, Callable[..., CrossSection], CrossSection, Dict[str, Any]], List[Tuple[Union[str, Callable[..., CrossSection], CrossSection, Dict[str, Any]], Tuple[int, ...]]]]"; expected "Union[str, Callable[..., CrossSection], CrossSection, Dict[str, Any]]"
+gdsfactory\routing\get_bundle.py:406: error: Need type annotation for "end_straights_in_group" (hint: "end_straights_in_group: List[<type>] = ...")
+gdsfactory\routing\get_bundle.py:453: error: Incompatible types in assignment (expression has type "float", variable has type "int")
+gdsfactory\routing\get_bundle.py:455: error: Incompatible types in assignment (expression has type "float", variable has type "int")
+gdsfactory\routing\get_bundle.py:521: error: Argument 1 to "get_port_y" has incompatible type "List[Port]"; expected "Port"
+gdsfactory\routing\route_fiber_array.py:144: error: Incompatible return value type (got "Tuple[List[Union[ComponentReference, Label]], List[List[ComponentReference]], int]", expected "Tuple[List[Union[ComponentReference, Label]], List[List[ComponentReference]], List[Port]]")
+gdsfactory\routing\route_fiber_array.py:159: error: Item "str" of "Union[Union[str, Callable[..., Component], Component, Dict[str, Any]], List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]]" has no attribute "ports"
+gdsfactory\routing\route_fiber_array.py:159: error: Item "function" of "Union[Union[str, Callable[..., Component], Component, Dict[str, Any]], List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]]" has no attribute "ports"
+gdsfactory\routing\route_fiber_array.py:159: error: Item "Dict[str, Any]" of "Union[Union[str, Callable[..., Component], Component, Dict[str, Any]], List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]]" has no attribute "ports"
+gdsfactory\routing\route_fiber_array.py:159: error: Item "List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]" of "Union[Union[str, Callable[..., Component], Component, Dict[str, Any]], List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]]" has no attribute "ports"
+gdsfactory\routing\route_fiber_array.py:160: error: Item "str" of "Union[Union[str, Callable[..., Component], Component, Dict[str, Any]], List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]]" has no attribute "ports"
+gdsfactory\routing\route_fiber_array.py:160: error: Item "function" of "Union[Union[str, Callable[..., Component], Component, Dict[str, Any]], List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]]" has no attribute "ports"
+gdsfactory\routing\route_fiber_array.py:160: error: Item "Dict[str, Any]" of "Union[Union[str, Callable[..., Component], Component, Dict[str, Any]], List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]]" has no attribute "ports"
+gdsfactory\routing\route_fiber_array.py:160: error: Item "List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]" of "Union[Union[str, Callable[..., Component], Component, Dict[str, Any]], List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]]" has no attribute "ports"
+gdsfactory\routing\route_fiber_array.py:162: error: Item "str" of "Union[Union[str, Callable[..., Component], Component, Dict[str, Any]], List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]]" has no attribute "ports"
+gdsfactory\routing\route_fiber_array.py:162: error: Item "function" of "Union[Union[str, Callable[..., Component], Component, Dict[str, Any]], List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]]" has no attribute "ports"
+gdsfactory\routing\route_fiber_array.py:162: error: Item "Dict[str, Any]" of "Union[Union[str, Callable[..., Component], Component, Dict[str, Any]], List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]]" has no attribute "ports"
+gdsfactory\routing\route_fiber_array.py:162: error: Item "List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]" of "Union[Union[str, Callable[..., Component], Component, Dict[str, Any]], List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]]" has no attribute "ports"
+gdsfactory\routing\route_fiber_array.py:163: error: Item "str" of "Union[Union[str, Callable[..., Component], Component, Dict[str, Any]], List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]]" has no attribute "ports"
+gdsfactory\routing\route_fiber_array.py:163: error: Item "function" of "Union[Union[str, Callable[..., Component], Component, Dict[str, Any]], List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]]" has no attribute "ports"
+gdsfactory\routing\route_fiber_array.py:163: error: Item "Dict[str, Any]" of "Union[Union[str, Callable[..., Component], Component, Dict[str, Any]], List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]]" has no attribute "ports"
+gdsfactory\routing\route_fiber_array.py:163: error: Item "List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]" of "Union[Union[str, Callable[..., Component], Component, Dict[str, Any]], List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]]" has no attribute "ports"
+gdsfactory\routing\route_fiber_array.py:238: error: Item "str" of "Union[Union[str, Callable[..., Component], Component, Dict[str, Any]], List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]]" has no attribute "ports"
+gdsfactory\routing\route_fiber_array.py:238: error: Item "function" of "Union[Union[str, Callable[..., Component], Component, Dict[str, Any]], List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]]" has no attribute "ports"
+gdsfactory\routing\route_fiber_array.py:238: error: Item "Dict[str, Any]" of "Union[Union[str, Callable[..., Component], Component, Dict[str, Any]], List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]]" has no attribute "ports"
+gdsfactory\routing\route_fiber_array.py:238: error: Item "List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]" of "Union[Union[str, Callable[..., Component], Component, Dict[str, Any]], List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]]" has no attribute "ports"
+gdsfactory\routing\route_fiber_array.py:266: error: Item "str" of "Union[Union[str, Callable[..., Component], Component, Dict[str, Any]], List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]]" has no attribute "size_info"
+gdsfactory\routing\route_fiber_array.py:266: error: Item "function" of "Union[Union[str, Callable[..., Component], Component, Dict[str, Any]], List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]]" has no attribute "size_info"
+gdsfactory\routing\route_fiber_array.py:266: error: Item "Dict[str, Any]" of "Union[Union[str, Callable[..., Component], Component, Dict[str, Any]], List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]]" has no attribute "size_info"
+gdsfactory\routing\route_fiber_array.py:266: error: Item "List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]" of "Union[Union[str, Callable[..., Component], Component, Dict[str, Any]], List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]]" has no attribute "size_info"
+gdsfactory\routing\route_fiber_array.py:329: error: Argument "excluded_ports" to "route_south" has incompatible type "List[str]"; expected "Optional[Tuple[str, ...]]"
+gdsfactory\routing\route_fiber_array.py:399: error: Slice index must be an integer or None
+gdsfactory\routing\route_fiber_array.py:408: error: Slice index must be an integer or None
+gdsfactory\routing\route_fiber_array.py:412: error: Item "str" of "Union[Union[str, Callable[..., Component], Component, Dict[str, Any]], List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]]" has no attribute "ref"
+gdsfactory\routing\route_fiber_array.py:412: error: Item "function" of "Union[Union[str, Callable[..., Component], Component, Dict[str, Any]], List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]]" has no attribute "ref"
+gdsfactory\routing\route_fiber_array.py:412: error: Item "Dict[str, Any]" of "Union[Union[str, Callable[..., Component], Component, Dict[str, Any]], List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]]" has no attribute "ref"
+gdsfactory\routing\route_fiber_array.py:412: error: Item "List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]" of "Union[Union[str, Callable[..., Component], Component, Dict[str, Any]], List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]]" has no attribute "ref"
+gdsfactory\routing\route_fiber_array.py:428: error: Incompatible types in assignment (expression has type "Union[Any, ndarray[Any, Any]]", variable has type "Port")
+gdsfactory\routing\route_fiber_array.py:441: error: Unsupported left operand type for + ("Port")
+gdsfactory\routing\route_fiber_array.py:442: error: Unsupported left operand type for + ("Port")
+gdsfactory\routing\route_fiber_array.py:443: error: Unsupported left operand type for + ("Port")
+gdsfactory\routing\route_fiber_array.py:450: error: Argument "points" to "round_corners" has incompatible type "List[Any]"; expected "Tuple[Tuple[float, float], ...]"
+gdsfactory\routing\route_fiber_array.py:520: error: Incompatible types in assignment (expression has type "List[ComponentReference]", variable has type "Union[ComponentReference, Label]")
+gdsfactory\routing\route_fiber_array.py:555: error: Incompatible types in assignment (expression has type "List[List[ComponentReference]]", variable has type "Component")
+gdsfactory\routing\get_bundle_path_length_match.py:118: error: Argument "cross_section" to "_get_bundle_waypoints" has incompatible type "Union[Union[str, Callable[..., CrossSection], CrossSection, Dict[str, Any]], List[Tuple[Union[str, Callable[..., CrossSection], CrossSection, Dict[str, Any]], Tuple[int, ...]]]]"; expected "Union[str, Callable[..., CrossSection], CrossSection, Dict[str, Any]]"
+gdsfactory\routing\route_fiber_single.py:88: error: Incompatible types in assignment (expression has type "Union[Tuple[str, ...], List[<nothing>]]", variable has type "Optional[Tuple[str, ...]]")
+gdsfactory\routing\route_fiber_single.py:90: error: Unsupported right operand type for in ("Optional[Tuple[str, ...]]")
+gdsfactory\routing\route_fiber_single.py:101: error: Item "str" of "Union[str, Callable[..., Component], Component, Dict[str, Any]]" has no attribute "xsize"
+gdsfactory\routing\route_fiber_single.py:101: error: Item "function" of "Union[str, Callable[..., Component], Component, Dict[str, Any]]" has no attribute "xsize"
+gdsfactory\routing\route_fiber_single.py:101: error: Item "Dict[str, Any]" of "Union[str, Callable[..., Component], Component, Dict[str, Any]]" has no attribute "xsize"
+gdsfactory\routing\route_fiber_single.py:166: error: Incompatible return value type (got "Tuple[List[Union[ComponentReference, Label]], List[List[ComponentReference]]]", expected "Tuple[List[Union[ComponentReference, Label]], List[ComponentReference]]")
+gdsfactory\routing\route_fiber_single.py:191: error: Incompatible types in assignment (expression has type "List[ComponentReference]", variable has type "Component")
+gdsfactory\routing\route_fiber_single.py:193: error: Argument "grating_coupler" to "route_fiber_single" has incompatible type "List[Component]"; expected "Union[str, Callable[..., Component], Component, Dict[str, Any]]"
+gdsfactory\routing\add_fiber_array.py:223: error: Argument "gc_port_labels" to "add_fiber_array" has incompatible type "List[str]"; expected "Optional[Tuple[str, ...]]"
+gdsfactory\read\from_yaml.py:218: error: Argument "x0" to "reflect_h" of "ComponentReference" has incompatible type "Optional[float]"; expected "Union[Tuple[Union[floating[_64Bit], signedinteger[_64Bit], float, int], Union[floating[_64Bit], signedinteger[_64Bit], float, int]], ndarray[Any, Any], List[Union[floating[_64Bit], signedinteger[_64Bit], float, int]], None]"
+gdsfactory\read\from_yaml.py:218: error: Argument 2 to "_get_anchor_value_from_name" has incompatible type "Union[float, str]"; expected "str"
+gdsfactory\read\from_yaml.py:221: error: Argument "x0" to "reflect_h" of "ComponentReference" has incompatible type "Union[float, str]"; expected "Union[Tuple[Union[floating[_64Bit], signedinteger[_64Bit], float, int], Union[floating[_64Bit], signedinteger[_64Bit], float, int]], ndarray[Any, Any], List[Union[floating[_64Bit], signedinteger[_64Bit], float, int]], None]"
+gdsfactory\read\from_yaml.py:229: error: Argument "x0" to "reflect_h" of "ComponentReference" has incompatible type "float"; expected "Union[Tuple[Union[floating[_64Bit], signedinteger[_64Bit], float, int], Union[floating[_64Bit], signedinteger[_64Bit], float, int]], ndarray[Any, Any], List[Union[floating[_64Bit], signedinteger[_64Bit], float, int]], None]"
+gdsfactory\read\from_yaml.py:237: error: Argument 2 to "_get_anchor_point_from_name" has incompatible type "Union[float, str]"; expected "str"
+gdsfactory\read\from_yaml.py:354: error: Argument 1 to "rotate" of "ComponentReference" has incompatible type "Union[float, str]"; expected "float"
+gdsfactory\read\from_yaml.py:354: error: Argument "center" to "rotate" of "ComponentReference" has incompatible type "Optional[ndarray[Any, Any]]"; expected "Union[Tuple[Union[floating[_64Bit], signedinteger[_64Bit], float, int], Union[floating[_64Bit], signedinteger[_64Bit], float, int]], ndarray[Any, Any], List[Union[floating[_64Bit], signedinteger[_64Bit], float, int]]]"
+gdsfactory\read\from_yaml.py:354: error: Argument 2 to "_get_anchor_point_from_name" has incompatible type "Union[float, str]"; expected "str"
+gdsfactory\read\from_yaml.py:357: error: Argument 1 to "rotate" of "ComponentReference" has incompatible type "Union[float, str]"; expected "float"
+gdsfactory\read\from_yaml.py:357: error: Argument "center" to "rotate" of "ComponentReference" has incompatible type "Tuple[Union[float, str, None], Union[float, str, None]]"; expected "Union[Tuple[Union[floating[_64Bit], signedinteger[_64Bit], float, int], Union[floating[_64Bit], signedinteger[_64Bit], float, int]], ndarray[Any, Any], List[Union[floating[_64Bit], signedinteger[_64Bit], float, int]]]"
+gdsfactory\read\from_yaml.py:477: error: Incompatible default for argument "routing_strategy" (default has type "Dict[str, object]", argument has type "Dict[str, Callable[..., Any]]")
+gdsfactory\read\from_yaml.py:573: error: Argument 1 to "get" of "ListConfig" has incompatible type "str"; expected "int"
+gdsfactory\read\from_yaml.py:579: error: Invalid index type "str" for "Union[DictConfig, ListConfig]"; expected type "Union[int, slice]"
+gdsfactory\read\from_yaml.py:581: error: Unexpected keyword argument "prefix" for "_from_yaml"
+gdsfactory\read\from_yaml.py:581: error: Unexpected keyword argument "name" for "_from_yaml"
+gdsfactory\read\from_yaml.py:585: error: Argument 1 to "get" of "ListConfig" has incompatible type "str"; expected "int"
+gdsfactory\read\from_yaml.py:591: note: "_from_yaml" defined here
+gdsfactory\read\from_yaml.py:593: error: Incompatible default for argument "routing_strategy" (default has type "Dict[str, object]", argument has type "Dict[str, Callable[..., Any]]")
+gdsfactory\pdk.py:69: error: Cannot determine type of "containers"
+gdsfactory\pdk.py:383: error: Return value expected
+gdsfactory\pdk.py:468: error: Incompatible return value type (got "Union[str, Path]", expected "Path")
+gdsfactory\pdk.py:474: error: Incompatible return value type (got "Union[str, Path]", expected "Path")
+gdsfactory\functions.py:66: error: "str" not callable
+gdsfactory\functions.py:66: error: "Dict[str, Any]" not callable
+gdsfactory\functions.py:244: error: Incompatible types in assignment (expression has type "Union[Tuple[str, ...], List[<nothing>]]", variable has type "Optional[Tuple[str, ...]]")
+gdsfactory\functions.py:245: error: "Dict[str, Any]" has no attribute "changed"
+gdsfactory\functions.py:246: error: Incompatible types in assignment (expression has type "Set[Any]", variable has type "Optional[Tuple[str, ...]]")
+gdsfactory\functions.py:246: error: Argument 1 to "set" has incompatible type "Optional[Tuple[str, ...]]"; expected "Iterable[str]"
+gdsfactory\functions.py:246: error: Argument 1 to "set" has incompatible type "Optional[Tuple[str, ...]]"; expected "Iterable[Optional[Any]]"
+gdsfactory\mask\write_labels.py:85: error: Item "str" of "Union[str, Path]" has no attribute "absolute"
+gdsfactory\mask\write_labels.py:86: error: Incompatible return value type (got "Union[str, Path]", expected "Path")
+gdsfactory\get_netlist.py:107: error: Need type annotation for "instance" (hint: "instance: Dict[<type>, <type>] = ...")
+gdsfactory\get_netlist.py:134: error: Need type annotation for "port_locations" (hint: "port_locations: Dict[<type>, <type>] = ...")
+gdsfactory\get_netlist.py:161: error: Incompatible types in assignment (expression has type "Tuple[int, ...]", variable has type "List[int]")
+gdsfactory\get_netlist.py:260: error: Argument "coupler_lengths" to "mzi_lattice" has incompatible type "List[int]"; expected "Tuple[float, ...]"
+gdsfactory\get_netlist.py:261: error: Argument "coupler_gaps" to "mzi_lattice" has incompatible type "List[float]"; expected "Tuple[float, ...]"
+gdsfactory\get_netlist.py:262: error: Argument "delta_lengths" to "mzi_lattice" has incompatible type "List[int]"; expected "Tuple[float, ...]"
+gdsfactory\get_netlist.py:291: error: Argument "coupler_lengths" to "mzi_lattice" has incompatible type "List[int]"; expected "Tuple[float, ...]"
+gdsfactory\get_netlist.py:292: error: Argument "coupler_gaps" to "mzi_lattice" has incompatible type "List[float]"; expected "Tuple[float, ...]"
+gdsfactory\get_netlist.py:293: error: Argument "delta_lengths" to "mzi_lattice" has incompatible type "List[int]"; expected "Tuple[float, ...]"
+gdsfactory\copy.py:28: error: Incompatible types in assignment (expression has type "Component", variable has type "None")
+gdsfactory\watch.py:39: error: Argument 1 to "register_cells_yaml" of "Pdk" has incompatible type "**Dict[str, partial[Component]]"; expected "Union[str, Path, None]"
+gdsfactory\pixelate.py:69: error: Incompatible return value type (got "List[Any]", expected "Tuple[Tuple[float, float], ...]")
+gdsfactory\pixelate.py:103: error: Incompatible return value type (got "List[<nothing>]", expected "Tuple[Tuple[float, float], ...]")
+gdsfactory\pixelate.py:151: error: Incompatible return value type (got "List[Tuple[Any, Any, Any, Any]]", expected "Tuple[Tuple[float, float], ...]")
+gdsfactory\conftest.py:30: error: Argument 1 to "from_gdspaths" has incompatible type "Generator[Path, None, None]"; expected "Tuple[Union[Union[str, Path], Component], ...]"
+gdsfactory\add_tapers_cross_section.py:45: error: "str" not callable
+gdsfactory\add_tapers_cross_section.py:45: error: "Dict[str, Any]" not callable
+gdsfactory\add_loopback.py:62: error: Value of type "Port" is not indexable
+gdsfactory\add_loopback.py:66: error: Value of type "Port" is not indexable
+gdsfactory\add_loopback.py:71: error: Value of type "Port" is not indexable
+gdsfactory\add_loopback.py:81: error: "str" not callable
+gdsfactory\add_loopback.py:81: error: "Dict[str, Any]" not callable
+gdsfactory\add_loopback.py:103: error: Argument "points" to "round_corners" has incompatible type "List[Any]"; expected "Tuple[Tuple[float, float], ...]"
+gdsfactory\add_keepout.py:52: error: Argument "target_layers" to "add_keepout" has incompatible type "List[Tuple[int, int]]"; expected "Tuple[Tuple[int, int], ...]"
+gdsfactory\add_keepout.py:52: error: Argument "keepout_layers" to "add_keepout" has incompatible type "List[Tuple[int, int]]"; expected "Tuple[Tuple[int, int], ...]"
+gdsfactory\add_keepout.py:65: error: Argument 2 to "add_keepout" has incompatible type "List[Tuple[int, int]]"; expected "Tuple[Tuple[int, int], ...]"
+gdsfactory\add_keepout.py:65: error: Argument 3 to "add_keepout" has incompatible type "List[Tuple[int, int]]"; expected "Tuple[Tuple[int, int], ...]"
+gdsfactory\samples\big_device.py:42: error: Argument "center" to "Port" has incompatible type "ndarray[Any, dtype[floating[Any]]]"; expected "Optional[Tuple[float, float]]"
+gdsfactory\samples\big_device.py:52: error: Argument "center" to "Port" has incompatible type "ndarray[Any, dtype[floating[Any]]]"; expected "Optional[Tuple[float, float]]"
+gdsfactory\samples\big_device.py:62: error: Argument "center" to "Port" has incompatible type "ndarray[Any, dtype[floating[Any]]]"; expected "Optional[Tuple[float, float]]"
+gdsfactory\samples\big_device.py:72: error: Argument "center" to "Port" has incompatible type "ndarray[Any, dtype[floating[Any]]]"; expected "Optional[Tuple[float, float]]"
+gdsfactory\samples\01_component_pcell_with_pins.py:8: note: "straight_narrow" defined here
+gdsfactory\samples\01_component_pcell_with_pins.py:36: error: Unexpected keyword argument "decorator" for "straight_narrow"
+gdsfactory\samples\pdk\fab_a_with_pins.py:12: error: "partial[CrossSection]" has no attribute "__name__"; maybe "__new__"?
+gdsfactory\routing\test_route_ports_to_side.py:13: error: "test_sample_route_sides" does not return a value
+gdsfactory\routing\test_manhattan.py:71: error: Argument 1 to "round_corners" has incompatible type "List[List[float]]"; expected "Tuple[Tuple[float, float], ...]"
+gdsfactory\routing\test_manhattan.py:88: error: Argument 1 to "round_corners" has incompatible type "List[List[float]]"; expected "Tuple[Tuple[float, float], ...]"
+gdsfactory\routing\test_manhattan.py:104: error: Argument 1 to "round_corners" has incompatible type "List[List[float]]"; expected "Tuple[Tuple[float, float], ...]"
+gdsfactory\read\labels.py:39: error: Incompatible return value type (got "DictConfig", expected "Dict[str, DictConfig]")
+gdsfactory\klayout\drc\errors.py:72: error: Argument 1 to "pack" has incompatible type "List[Component]"; expected "List[Union[str, Callable[..., Component], Component, Dict[str, Any]]]"
+gdsfactory\klayout\drc\errors.py:72: note: "List" is invariant -- see https://mypy.readthedocs.io/en/stable/common_issues.html#variance
+gdsfactory\klayout\drc\errors.py:72: note: Consider using "Sequence" instead, which is covariant
+gdsfactory\geometry\write_drc.py:274: error: Item "str" of "Union[str, Path]" has no attribute "parent"
+gdsfactory\geometry\write_drc.py:295: error: Argument "layers" to "write_drc_deck_macro" has incompatible type "LayerMap"; expected "Dict[str, Tuple[int, int]]"
+gdsfactory\dft\siepic.py:37: error: Item "None" of "Optional[Any]" has no attribute "upper"
+gdsfactory\dft\siepic.py:40: error: Item "None" of "Optional[Any]" has no attribute "upper"
+gdsfactory\dft\siepic.py:45: error: Item "None" of "Optional[Component]" has no attribute "metadata_child"
+gdsfactory\dft\siepic.py:54: error: Item "None" of "Optional[Any]" has no attribute "upper"
+gdsfactory\dft\add_label_yaml.py:97: error: Need type annotation for "ports_info" (hint: "ports_info: List[<type>] = ...")
+gdsfactory\dft\add_label_yaml.py:104: error: Incompatible types in assignment (expression has type "List[str]", variable has type "str")
+gdsfactory\components\cdsem_coupler.py:49: error: Argument 1 to "grid" has incompatible type "List[Any]"; expected "Optional[Tuple[Union[str, Callable[..., Component], Component, Dict[str, Any]], ...]]"
+gdsfactory\gf.py:37: error: Argument 1 to "exists" has incompatible type "Optional[Path]"; expected "Union[Union[str, bytes, PathLike[str], PathLike[bytes]], int]"
+gdsfactory\gf.py:41: error: Argument 1 to "join" has incompatible type "Optional[Path]"; expected "Union[str, PathLike[str]]"
+gdsfactory\gf.py:135: error: Incompatible import of "watch" (imported name has type "Callable[[Any], None]", local name has type "Command")
+gdsfactory\klayout\drc\write_drc.py:32: error: Argument "layers" to "write_drc_deck_macro" has incompatible type "LayerMap"; expected "Dict[str, Tuple[int, int]]"
+gdsfactory\samples\23_reticle_passives.py:22: error: Argument 1 to "grid" has incompatible type "List[Component]"; expected "Optional[Tuple[Union[str, Callable[..., Component], Component, Dict[str, Any]], ...]]"
+Found 1082 errors in 206 files (checked 330 source files)

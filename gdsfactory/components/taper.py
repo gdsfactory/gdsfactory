@@ -143,7 +143,6 @@ def taper_strip_to_ridge(
                      \__________________________
 
     """
-
     taper_wg = taper(
         length=length,
         width1=width1,
@@ -214,7 +213,6 @@ def taper_strip_to_ridge_trenches(
         layer_wg: waveguide layer.
         trench_offset: after waveguide in um.
     """
-
     c = gf.Component()
     y0 = width / 2 + trench_width - trench_offset
     yL = width / 2 + trench_width - trench_offset + slab_offset

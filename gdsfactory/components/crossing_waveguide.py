@@ -260,7 +260,6 @@ def crossing45(
         ---    ----
 
     """
-
     crossing = gf.get_component(crossing)
 
     c = Component()

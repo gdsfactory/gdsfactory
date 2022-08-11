@@ -92,7 +92,6 @@ def via_cutback(
         via_layer: via.
         wire_pad_inclusion: in um.
     """
-
     c = gf.Component()
 
     pad_component = pad(size=pad_size)

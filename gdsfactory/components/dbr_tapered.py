@@ -64,7 +64,6 @@ def dbr_tapered(
         _______
                |_________
     """
-
     waveguide_template_dbr = waveguide_template_dbr or waveguide_template(wg_width=w2)
 
     c = pc.DBR(

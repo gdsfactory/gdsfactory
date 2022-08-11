@@ -33,7 +33,6 @@ def seal_ring(
         with_east: includes seal.
         with_west: includes seal.
     """
-
     c = gf.Component()
     (xmin, ymin), (xmax, ymax) = bbox
 
