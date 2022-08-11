@@ -1,6 +1,4 @@
-"""You can use component_sequence as a convenient function for cascading
-components, where you need to keep track of multiple tapers, doped sections,
-heaters etc...
+"""You can use component_sequence as a convenient function for cascading components, where you need to keep track of multiple tapers, doped sections, heaters etc...
 
 The idea is to associate one symbol per type of section.
 A section is uniquely defined by the component, input port name and output port name.
