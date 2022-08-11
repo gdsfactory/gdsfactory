@@ -1,11 +1,3 @@
-gdsfactory\read\from_dphox.py:5 in public function `from_dphox`:
-        D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\read\from_yaml.py:483 in public function `from_yaml`:
-        D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\read\from_yaml.py:596 in private function `_from_yaml`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\read\from_yaml.py:596 in private function `_from_yaml`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'd')
 gdsfactory\routing\add_electrical_pads_top_dc.py:23 in public function `add_electrical_pads_top_dc`:
         D205: 1 blank line required between summary line and description (found 0)
 gdsfactory\routing\add_electrical_pads_top_dc.py:23 in public function `add_electrical_pads_top_dc`:

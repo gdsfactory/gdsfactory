@@ -13,7 +13,6 @@ def from_dphox(device: "dp.Device", foundry: "dp.foundry.Foundry") -> Component:
         foundry: Dphox foundry object.
 
     """
-
     c = Component(device.name)
 
     for layer_name, shapely_multipolygon in device.layer_to_polys.items():
