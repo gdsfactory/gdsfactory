@@ -1,4 +1,4 @@
-"""FIXME: needs some work
+"""FIXME: needs some work.
 
 - figure out get_farfield outputs
 - add tutorial in docs/notebooks/plugins/meep/002_gratings.ipynb
@@ -332,8 +332,7 @@ def get_simulation_grating_farfield(
 
 
 def get_farfield(wavelength: float = 1.55, **kwargs):
-    """
-    FIXME: figure out outputs
+    """FIXME: figure out outputs.
 
     based on
     http://www.simpetus.com/projects.html#meep_outcoupler
@@ -374,9 +373,8 @@ def get_port_1D_eigenmode(
     band_num: int = 1,
     fiber_angle_deg: float = 15,
 ):
-    """
+    """Args are the following.
 
-    Args:
         sim_dict: simulation dict
         band_num: band number to solve for
         fiber_angle_deg
@@ -449,7 +447,7 @@ def get_port_1D_eigenmode(
 
 
 def plot(sim) -> None:
-    """sim: simulation object"""
+    """sim: simulation object."""
     sim.plot2D(eps_parameters={"contour": True})
     # plt.colorbar()
 

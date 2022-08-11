@@ -42,8 +42,7 @@ def write_sparameters_meep_batch(
     layer_stack: Optional[LayerStack] = None,
     **kwargs,
 ) -> List[Path]:
-    """Write Sparameters for a batch of jobs using MPI and returns results
-    filepaths.
+    """Write Sparameters for a batch of jobs using MPI and returns results filepaths.
 
     Given a list of write_sparameters_meep keyword arguments (the "jobs"),
     launches them in different cores using MPI
@@ -103,7 +102,6 @@ def write_sparameters_meep_batch(
             where `a` is the angle in radians and `m` the module
 
     """
-
     layer_stack = layer_stack or get_layer_stack()
 
     # Parse jobs
