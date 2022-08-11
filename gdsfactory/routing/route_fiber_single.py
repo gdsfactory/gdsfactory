@@ -22,8 +22,7 @@ def route_fiber_single(
     cross_section: CrossSectionSpec = strip,
     **kwargs,
 ) -> Tuple[List[Union[ComponentReference, Label]], List[ComponentReference]]:
-    """Returns route Tuple(references, grating couplers) for single fiber
-    input/output.
+    """Returns route Tuple(references, grating couplers) for single fiber input/output.
 
     Args:
         component: to add grating couplers.
