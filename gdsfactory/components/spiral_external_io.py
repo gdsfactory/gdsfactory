@@ -47,7 +47,6 @@ def spiral_external_io(
         cross_section: spec.
         kwargs: cross_section settings.
     """
-
     if length:
         x_inner_length_cutback = length / (4 * (N - 1))
 

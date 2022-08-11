@@ -59,7 +59,6 @@ def loss_deembedding_ch13_24(
         cross_section: spec.
         kwargs: cross_section settings.
     """
-
     gc = gf.get_component(grating_coupler)
     c = gf.Component()
     dx = pitch

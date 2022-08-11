@@ -32,7 +32,6 @@ def litho_calipers(
         layer1: layer.
         layer2: layer.
     """
-
     D = gf.Component()
     num_notches_total = num_notches * 2 + 1
     centre_notch = num_notches

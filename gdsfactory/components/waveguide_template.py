@@ -13,8 +13,7 @@ def strip(
     euler_bend: bool = True,
     wg_type: str = "strip",
 ) -> WaveguideTemplate:
-    """
-    Wg_type: strip, slot, and swg (subwavelength).
+    """Wg_type: strip, slot, and swg (subwavelength).
 
     resist: Specifies the type of photoresist used (+ or -)
     """

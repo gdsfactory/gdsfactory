@@ -14,7 +14,7 @@ def taper_cross_section(
     linear: bool = False,
     **kwargs
 ) -> Component:
-    r"""Returns taper transition between cross_section1 and cross_section2
+    r"""Returns taper transition between cross_section1 and cross_section2.
 
     Args:
         cross_section1: start cross_section factory.

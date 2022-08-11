@@ -43,7 +43,6 @@ def disk(
        bend_radius: 10.
        cladding_offset: 3.
     """
-
     c = pc.Disk(
         gf.call_if_func(waveguide_template, **kwargs),
         radius=radius,

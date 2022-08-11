@@ -27,7 +27,6 @@ def litho_ruler(
         num_marks: Total number of marks to generate.
         layer: Specific layer to put the ruler geometry on.
     """
-
     D = gf.Component("litho_ruler")
     for n in range(num_marks):
         h = height * scale[n % len(scale)]
