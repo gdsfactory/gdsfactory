@@ -1,15 +1,3 @@
-gdsfactory\simulation\lumerical\interconnect.py:109 in public function `send_to_interconnect`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\simulation\lumerical\interconnect.py:109 in public function `send_to_interconnect`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'o')
-gdsfactory\simulation\lumerical\interconnect.py:354 in public function `run_wavelength_sweep`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\simulation\lumerical\interconnect.py:354 in public function `run_wavelength_sweep`:
-        D212: Multi-line docstring summary should start at the first line
-gdsfactory\simulation\lumerical\interconnect.py:354 in public function `run_wavelength_sweep`:
-        D415: First line should end with a period, question mark, or exclamation point (not ':')
-gdsfactory\simulation\lumerical\read.py:94 in public function `read_sparameters_lumerical`:
-        D202: No blank lines allowed after function docstring (found 1)
 gdsfactory\simulation\modes\find_coupling_vs_gap.py:20 in public function `coupling_length`:
         D205: 1 blank line required between summary line and description (found 0)
 gdsfactory\simulation\modes\find_coupling_vs_gap.py:20 in public function `coupling_length`:
