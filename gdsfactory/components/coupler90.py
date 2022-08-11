@@ -15,7 +15,7 @@ def coupler90(
     bend_cross_section: Optional[CrossSectionSpec] = None,
     **kwargs
 ) -> Component:
-    r"""straight coupled to a bend.
+    r"""Straight coupled to a bend.
 
     Args:
         gap: um.

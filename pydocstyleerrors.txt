@@ -1,33 +1,3 @@
-gdsfactory\components\add_fidutials.py:68 in public function `add_fidutials_offsets`:
-        D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\components\array_with_via.py:30 in public function `array_with_via`:
-        D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\components\awg.py:21 in public function `free_propagation_region`:
-        D212: Multi-line docstring summary should start at the first line
-gdsfactory\components\awg.py:21 in public function `free_propagation_region`:
-        D415: First line should end with a period, question mark, or exclamation point (not ':')
-gdsfactory\components\bezier.py:125 in private nested function `objective_func`:
-        D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\components\bezier.py:125 in private nested function `objective_func`:
-        D415: First line should end with a period, question mark, or exclamation point (not ':')
-gdsfactory\components\cdc.py:31 in public function `cdc`:
-        D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\components\cdsem_coupler.py:25 in public function `cdsem_coupler`:
-        D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\components\cdsem_straight.py:25 in public function `cdsem_straight`:
-        D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\components\component_lattice.py:35 in public function `get_sequence_cross`:
-        D212: Multi-line docstring summary should start at the first line
-gdsfactory\components\component_lattice.py:35 in public function `get_sequence_cross`:
-        D415: First line should end with a period, question mark, or exclamation point (not ':')
-gdsfactory\components\component_lattice.py:106 in public function `component_sequence_to_str`:
-        D212: Multi-line docstring summary should start at the first line
-gdsfactory\components\component_sequence.py:16 in public method `__init__`:
-        D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\components\coupler90.py:18 in public function `coupler90`:
-        D403: First word of the first line should be properly capitalized ('Straight', not 'straight')
-gdsfactory\components\coupler90bend.py:15 in public function `coupler90bend`:
-        D202: No blank lines allowed after function docstring (found 1)
 gdsfactory\components\coupler_adiabatic.py:26 in public function `coupler_adiabatic`:
         D202: No blank lines allowed after function docstring (found 1)
 gdsfactory\components\coupler_full.py:25 in public function `coupler_full`:

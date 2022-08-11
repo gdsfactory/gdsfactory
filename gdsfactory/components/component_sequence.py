@@ -37,7 +37,6 @@ class SequenceGenerator:
         S: short straight waveguide
         L: long straight waveguide
         """
-
         self.start_sequence = start_sequence
         self.end_sequence = end_sequence
         self.repeated_sequence = repeated_sequence

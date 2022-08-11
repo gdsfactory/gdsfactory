@@ -72,7 +72,6 @@ def add_fidutials_offsets(
         fidutial: function to return fidutial.
         offsets: list of offsets.
     """
-
     c = Component()
     component = gf.get_component(component)
     fidutial = gf.get_component(fidutial)
