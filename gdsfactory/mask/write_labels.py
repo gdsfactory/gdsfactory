@@ -109,7 +109,6 @@ def write_labels_gdspy(
             the references they are from.
 
     """
-
     gdspath = pathlib.Path(gdspath)
     filepath = filepath or gdspath.with_suffix(".csv")
     filepath = pathlib.Path(filepath)
