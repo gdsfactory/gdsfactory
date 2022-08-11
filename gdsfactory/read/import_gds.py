@@ -51,6 +51,9 @@ def import_gds(
     top_level_cells = gdsii_lib.top_level()
     cellnames = [c.name for c in top_level_cells]
 
+    if not cellnames:
+        raise ValueError(f"no cells found in {str(gdspath)!r}")
+
     if cellname is not None:
         if cellname not in gdsii_lib.cells:
             raise ValueError(
@@ -132,6 +135,7 @@ def import_gds(
                     points_on_grid, layer=p.layers[0], datatype=p.datatypes[0]
                 )
             D.add_polygon(p)
+
     component = cell_to_device[topcell]
     cast(Component, component)
 
@@ -165,5 +169,6 @@ if __name__ == "__main__":
     # c = import_gds(gdspath, snap_to_grid_nm=5, flatten=True, name="TOP")
     # c.settings = {}
     # print(clean_value_name(c))
-    c = import_gds(gdspath, snap_to_grid_nm=5, flatten=False, polarization="te")
+    # c = import_gds(gdspath, snap_to_grid_nm=5, flatten=False, polarization="te")
+    c = import_gds("/home/jmatres/gdsfactory/gdsfactory/gdsdiff/gds_diff_git.py")
     c.show(show_ports=True)
