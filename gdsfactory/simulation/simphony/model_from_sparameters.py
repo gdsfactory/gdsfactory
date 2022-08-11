@@ -1,7 +1,5 @@
-"""
- [[-0.09051371-0.20581339j  0.00704022+0.1328474j
+"""[[-0.09051371-0.20581339j  0.00704022+0.1328474j \
     0.03733851+0.4879802j ]
-
 """
 
 from pathlib import PosixPath
@@ -86,7 +84,6 @@ def model_from_csv(
         xunits: x units in um from the loaded file (um). 1 means 1um.
 
     """
-
     df = filepath if isinstance(filepath, pd.DataFrame) else pd.read_csv(filepath)
 
     keys = list(df.keys())

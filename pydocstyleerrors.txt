@@ -1,22 +1,6 @@
-gdsfactory\simulation\simphony\model_from_sparameters.py:1 at module level:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\simulation\simphony\model_from_sparameters.py:1 at module level:
-        D208: Docstring is over-indented
-gdsfactory\simulation\simphony\model_from_sparameters.py:1 at module level:
-        D212: Multi-line docstring summary should start at the first line
-gdsfactory\simulation\simphony\model_from_sparameters.py:1 at module level:
-        D415: First line should end with a period, question mark, or exclamation point (not 'j')
-gdsfactory\simulation\simphony\model_from_sparameters.py:78 in public function `model_from_csv`:
-        D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\simulation\simphony\components\coupler.py:14 in public function `coupler`:
-        D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\simulation\simphony\components\coupler_ring.py:13 in public function `coupler_ring`:
-        D202: No blank lines allowed after function docstring (found 1)
 gdsfactory\simulation\simphony\components\mzi_thermal.py:5 in public function `delta_temperature`:
         D205: 1 blank line required between summary line and description (found 0)
 gdsfactory\simulation\simphony\components\mzi_thermal.py:5 in public function `delta_temperature`:
         D209: Multi-line docstring closing quotes should be on a separate line
 gdsfactory\simulation\simphony\components\mzi_thermal.py:5 in public function `delta_temperature`:
         D415: First line should end with a period, question mark, or exclamation point (not 'I')
-gdsfactory\simulation\simphony\components\ring_double.py:20 in public function `ring_double`:
-        D202: No blank lines allowed after function docstring (found 1)
