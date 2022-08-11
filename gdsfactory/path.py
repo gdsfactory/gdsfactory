@@ -76,6 +76,8 @@ class Path(PathPhidl):
         width: Optional[float] = None,
         widths: Optional[Float2] = None,
         simplify: Optional[float] = None,
+        shear_angle_start: Optional[float] = None,
+        shear_angle_end: Optional[float] = None,
     ) -> Component:
         """Returns Component by extruding a Path with a CrossSection.
 
@@ -91,6 +93,8 @@ class Path(PathPhidl):
             simplify: Tolerance value for the simplification algorithm.
               All points that can be removed without changing the resulting
               polygon by more than the value listed here will be removed.
+            shear_angle_start: an optional angle to shear the starting face by (in degrees).
+            shear_angle_end: an optional angle to shear the ending face by (in degrees).
         """
         return extrude(
             p=self,
@@ -99,6 +103,8 @@ class Path(PathPhidl):
             width=width,
             widths=widths,
             simplify=simplify,
+            shear_angle_start=shear_angle_start,
+            shear_angle_end=shear_angle_end,
         )
 
     def copy(self):
