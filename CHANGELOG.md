@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.16.1](https://github.com/gdsfactory/gdsfactory/pull/580)
+## [5.17.0](https://github.com/gdsfactory/gdsfactory/pull/583)
 
 - simplify write_sparameters code [PR](https://github.com/gdsfactory/gdsfactory/pull/581)
 - clean code [PR](https://github.com/gdsfactory/gdsfactory/pull/582)
