@@ -27,7 +27,7 @@ def offset(
     max_points: int = 4000,
     layer: LayerSpec = "WG",
 ) -> Component:
-    """Returns an element containing all polygons with an offset Shrinks or
+    """Returns an element containing all polygons with an offset Shrinks or \
     expands a polygon or set of polygons.
 
     adapted from phidl.geometry
