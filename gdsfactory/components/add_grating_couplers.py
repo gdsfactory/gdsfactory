@@ -9,7 +9,10 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
-from gdsfactory.components.spiral_inner_io import spiral_inner_io
+from gdsfactory.components.spiral_inner_io import (
+    spiral_inner_io,
+    spiral_inner_io_fiber_single,
+)
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports_optical
@@ -80,7 +83,7 @@ def add_grating_couplers(
 
 @cell
 def add_grating_couplers_with_loopback_fiber_single(
-    component: ComponentSpec = straight_function,
+    component: ComponentSpec = spiral_inner_io_fiber_single,
     grating_coupler: ComponentSpec = grating_coupler_te,
     layer_label: Optional[Tuple[int, int]] = (200, 0),
     gc_port_name: str = "o1",
@@ -124,8 +127,9 @@ def add_grating_couplers_with_loopback_fiber_single(
 
     io_gratings = []
     optical_ports = select_ports(component.ports)
+    optical_ports = list(optical_ports.values())
 
-    for port in optical_ports.values():
+    for port in optical_ports:
         gc_ref = grating_coupler.ref()
         gc_port = gc_ref.ports[gc_port_name]
         gc_ref.connect(gc_port, port)
@@ -135,7 +139,7 @@ def add_grating_couplers_with_loopback_fiber_single(
 
     labels = get_input_labels_function(
         io_gratings,
-        list(component.ports.values()),
+        optical_ports,
         component_name=component_name,
         layer_label=layer_label,
         gc_port_name=gc_port_name,
@@ -385,5 +389,6 @@ if __name__ == "__main__":
     # c = add_grating_couplers_with_loopback_fiber_array(component=c)
     # c = add_grating_couplers(c)
 
-    c = add_grating_couplers_with_loopback_fiber_array()
+    # c = add_grating_couplers_with_loopback_fiber_array()
+    c = add_grating_couplers_with_loopback_fiber_single()
     c.show(show_ports=True)
