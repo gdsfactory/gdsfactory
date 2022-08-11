@@ -41,6 +41,8 @@ def bend_s(
     c.copy_child_info(bend)
     c.info["length"] = bend.info["length"]
     c.info["min_bend_radius"] = bend.info["min_bend_radius"]
+    c.info["start_angle"] = bend.info["start_angle"]
+    c.info["end_angle"] = bend.info["end_angle"]
 
     if x.info:
         c.info.update(x.info)
