@@ -1,6 +1,6 @@
-"""Compute modes of a rectangular Si strip waveguide on top of oxide. Note that
-you should only pay attention, here, to the guided modes, which are the modes
-whose frequency falls under the light line -- that is, frequency < beta / 1.45,
+"""Compute modes of a rectangular Si strip waveguide on top of oxide. Note that \
+you should only pay attention, here, to the guided modes, which are the modes \
+whose frequency falls under the light line -- that is, frequency < beta / 1.45, \
 where 1.45 is the SiO2 index.
 
 Since there's no special lengthscale here, you can just
