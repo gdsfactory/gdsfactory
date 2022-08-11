@@ -37,6 +37,7 @@ from gdsfactory.cross_section import CrossSection, Section
 from gdsfactory.types import Label
 
 from gdsfactory import cross_section
+from gdsfactory import labels
 from gdsfactory import asserts
 from gdsfactory import components
 from gdsfactory import routing
@@ -47,7 +48,6 @@ from gdsfactory import tech
 from gdsfactory import read
 from gdsfactory import layers
 from gdsfactory import add_termination
-from gdsfactory import add_grating_couplers
 from gdsfactory import functions
 from gdsfactory import export
 from gdsfactory import geometry
@@ -80,19 +80,19 @@ from gdsfactory.cross_section import get_cross_section_factories
 c = components
 
 __all__ = (
-    "CONFIG",
     "CONF",
+    "CONFIG",
     "Component",
     "ComponentReference",
     "CrossSection",
-    "Section",
-    "compose",
     "Group",
     "LAYER",
+    "Label",
     "Path",
+    "Pdk",
     "Port",
+    "Section",
     "TECH",
-    "add_grating_couplers",
     "add_padding",
     "add_padding_container",
     "add_pins",
@@ -100,25 +100,34 @@ __all__ = (
     "add_tapers",
     "add_termination",
     "asserts",
-    "geometry",
     "c",
     "call_if_func",
     "cell",
     "cell_without_validator",
     "clear_cache",
     "components",
+    "compose",
     "cross_section",
     "export",
     "fill_rectangle",
     "functions",
+    "geometry",
+    "get_active_pdk",
+    "get_cell",
+    "get_cells",
+    "get_component",
+    "get_cross_section",
+    "get_cross_section_factories",
+    "get_layer",
     "get_padding_points",
     "grid",
     "grid_with_text",
     "import_gds",
+    "labels",
     "layers",
     "pack",
-    "path",
     "partial",
+    "path",
     "read",
     "routing",
     "show",
@@ -126,14 +135,5 @@ __all__ = (
     "tech",
     "types",
     "write_cells",
-    "Label",
-    "Pdk",
-    "get_active_pdk",
-    "get_component",
-    "get_cross_section",
-    "get_cell",
-    "get_cells",
-    "get_layer",
-    "get_cross_section_factories",
 )
 __version__ = "5.16.0"
