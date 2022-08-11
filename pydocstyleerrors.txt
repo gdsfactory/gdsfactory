@@ -1,13 +1,3 @@
-gdsfactory\simulation\get_effective_indices.py:18 in public function `get_effective_indices`:
-        D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\simulation\get_sparameters_path.py:29 in private function `_get_sparameters_path`:
-        D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\simulation\get_sparameters_path.py:29 in private function `_get_sparameters_path`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\simulation\get_sparameters_path.py:29 in private function `_get_sparameters_path`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'o')
-gdsfactory\simulation\plot.py:15 in public function `plot_sparameters`:
-        D202: No blank lines allowed after function docstring (found 1)
 gdsfactory\simulation\gmeep\get_port_eigenmode.py:64 in public function `get_port_2Dx_eigenmode`:
         D212: Multi-line docstring summary should start at the first line
 gdsfactory\simulation\gmeep\get_port_eigenmode.py:64 in public function `get_port_2Dx_eigenmode`:

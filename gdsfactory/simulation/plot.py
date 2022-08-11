@@ -29,7 +29,6 @@ def plot_sparameters(
         sim.plot.plot_sparameters(df, logscale=True)
 
     """
-
     w = df["wavelengths"] * 1e3
     keys = keys or [
         key for key in df.keys() if key.lower().startswith("s") and key.endswith("m")
