@@ -26,8 +26,7 @@ def _get_sparameters_path(
     dirpath: Optional[Path] = None,
     **kwargs,
 ) -> Path:
-    """Return Sparameters CSV filepath. hashes of all simulation settings to
-    get a consistent unique name.
+    """Return Sparameters CSV filepath. hashes of all simulation settings to get a consistent unique name.
 
     Args:
         component: component or component factory.
@@ -36,7 +35,6 @@ def _get_sparameters_path(
         kwargs: simulation settings.
 
     """
-
     dirpath = dirpath or get_sparameters_path()
     component = gf.get_component(component)
 
