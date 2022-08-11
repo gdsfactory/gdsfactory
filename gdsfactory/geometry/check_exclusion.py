@@ -15,7 +15,7 @@ def check_exclusion(
     min_projection: None = None,
     max_projection: None = None,
 ) -> int:
-    """Reads layer from top cell and returns a the area that violates min
+    """Reads layer from top cell and returns a the area that violates min \
     exclusion if 0 no area violates exclusion.
 
     Args:
