@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.17.0](https://github.com/gdsfactory/gdsfactory/pull/583)
+## 5.17.0
 
 - simplify write_sparameters code [PR](https://github.com/gdsfactory/gdsfactory/pull/581)
 - clean code [PR](https://github.com/gdsfactory/gdsfactory/pull/582)
@@ -8,7 +8,7 @@
     - move gds folder into tests/gds
     - move schemas folder into tests/schemas
     - move models to simulation/photonic_circuit_models
-- simpler bend_s and bezier. User cross_section instead extrude_path
+- simpler bend_s and bezier. User cross_section instead extrude_path [PR](https://github.com/gdsfactory/gdsfactory/pull/584)
 
 ## [5.16.0](https://github.com/gdsfactory/gdsfactory/pull/580)
 
