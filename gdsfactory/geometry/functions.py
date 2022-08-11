@@ -88,13 +88,13 @@ def curvature(points: ndarray, t: ndarray) -> ndarray:
     """
 
     Args:
-        points : numpy.array shape (n, 2)
-        t: numpy.array of size n
+        points : numpy.array shape (n, 2).
+        t: numpy.array of size n.
 
     Return:
-        The curvature at each point
+        The curvature at each point.
 
-    Computes the curvature at every point excluding the first and last point
+    Computes the curvature at every point excluding the first and last point.
 
     For a planar curve parametrized as P(t) = (x(t), y(t)), the curvature is given
     by (x' y'' - x'' y' ) / (x' **2 + y' **2)**(3/2)
@@ -123,7 +123,7 @@ def path_length(points: ndarray) -> float64:
     """Returns: The path length
 
     Args:
-        points: With shape (N, 2) representing N points with coordinates x, y
+        points: With shape (N, 2) representing N points with coordinates x, y.
     """
 
     dpts = points[1:, :] - points[:-1, :]
@@ -171,20 +171,21 @@ def extrude_path(
     end_angle: Optional[int] = None,
     grid: float = 0.001,
 ) -> ndarray:
-    """Deprecated. Use gf.path instead
-    Extrude a path of width `width` along a curve defined by `points`
+    """Deprecated. Use gf.path.Path.extrude() instead.
+
+    Extrude a path of `width` along a curve defined by `points`.
 
     Args:
-        points: numpy 2D array of shape (N, 2)
-        width: float
-        with_manhattan_facing_angles: bool
-        spike_length:
-        start_angle:
-        end_angle:
-        grid:
+        points: numpy 2D array of shape (N, 2).
+        width: of the path to extrude.
+        with_manhattan_facing_angles: snaps to manhattan angles.
+        spike_length: in um.
+        start_angle: in degrees.
+        end_angle: in degrees.
+        grid: in um.
 
     Returns:
-        numpy 2D array of shape (2*N, 2)
+        numpy 2D array of shape (2*N, 2).
     """
 
     if isinstance(points, list):
@@ -231,9 +232,7 @@ def extrude_path(
 
 
 def polygon_grow(polygon: ndarray, offset: float) -> ndarray:
-    """Returns a grown polygon by an offset
-    polygon has to be a closed shape
-    """
+    """Returns a grown closed shaped polygon by an offset."""
     s = remove_identicals(polygon)
     s = remove_flat_angles(s)
     s = np.vstack([s, s[0]])
