@@ -1,4 +1,4 @@
-"""Ports define where each port has:
+"""Ports define where each port has the follwoing properties.
 
 - name
 - center: (x, y)
@@ -25,7 +25,6 @@ def test_component_with_port(
         layer: layer.
 
     """
-
     y = width
     x = length
 

@@ -5,8 +5,7 @@ from gdsfactory.component import Component
 
 
 def test_pins_custom(**kwargs) -> Component:
-    """You can define the `pins_function` that we use to add markers to each
-    port."""
+    """You can define the `pins_function` that we use to add markers to each port."""
     return gf.components.straight(**kwargs, decorator=add_pins_triangle)
 
 
