@@ -12,9 +12,11 @@ def merge_markdown(
     mdpath: Path = CONFIG["mask_directory"] / "report.md",
     **kwargs,
 ) -> None:
-    """Merges all individual markdown reports (.md) into a single markdown you
-    can add a report:[Capacitors, Diodes...] in config.yml to define the merge
-    order."""
+    """
+    Merges all individual markdown reports (.md) into a single markdown you \
+    can add a report:[Capacitors, Diodes...] in config.yml to define the merge \
+    order.
+    """
     logger.info("Merging Markdown files:")
     configpath = mdpath.with_suffix(".yml")
     tech = dict(TECH)
