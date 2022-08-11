@@ -88,6 +88,7 @@ def centered_diff2(a: ndarray) -> ndarray:
 
 def curvature(points: ndarray, t: ndarray) -> ndarray:
     """Args are the points and the tangents at each point.
+
         points : numpy.array shape (n, 2)
         t: numpy.array of size n
 
@@ -168,8 +169,7 @@ def extrude_path(
     end_angle: Optional[int] = None,
     grid: float = 0.001,
 ) -> ndarray:
-    """Deprecated. Use gf.path instead Extrude a path of width `width` along a
-    curve defined by `points`
+    """Deprecated. Use gf.path instead Extrude a path of width `width` along a curve defined by `points`.
 
     Args:
         points: numpy 2D array of shape (N, 2)

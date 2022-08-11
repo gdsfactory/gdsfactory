@@ -209,10 +209,10 @@ def reverse_transform(
 ) -> ndarray:
     """Args are the following.
 
-        points (np.array of shape (N,2) ): points to be transformed.
-        translation (2d like array): translation vector.
-        angle_deg: rotation angle.
-        x_reflection: if True, mirror the shape across the x axis  (y -> -y).
+    points (np.array of shape (N,2) ): points to be transformed.
+    translation (2d like array): translation vector.
+    angle_deg: rotation angle.
+    x_reflection: if True, mirror the shape across the x axis  (y -> -y).
     """
     angle_deg = -angle_deg
 

@@ -80,7 +80,7 @@ def write_sparameters(
     overwrite: bool = False,
     **kwargs,
 ) -> pd.DataFrame:
-    """Get full sparameter matrix from a gdsfactory Component. Simulates each time using a different input port (by default, all of them) unless you specify port_symmetries:
+    """Get full sparameter matrix from a gdsfactory Component. Simulates each time using a different input port (by default, all of them) unless you specify port_symmetries.
 
     port_symmetries = {"o1":
             {
