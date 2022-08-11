@@ -61,7 +61,6 @@ def coupler_full(
         bend_radius: in um.
         cladding_offset: in um.
     """
-
     c = pc.FullCoupler(
         gf.call_if_func(waveguide_template, **kwargs),
         length=length,

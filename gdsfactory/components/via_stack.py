@@ -35,7 +35,6 @@ def via_stack(
         vias: vias to use to fill the rectangles.
         layer_port: if None assumes port is on the last layer.
     """
-
     width, height = size
     a = width / 2
     b = height / 2

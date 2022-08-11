@@ -30,7 +30,6 @@ def resistance_meander(
         pad_layer: pad layer.
         gnd_layer: ground layer.
     """
-
     x = pad_size[0]
     z = pad_size[1]
 

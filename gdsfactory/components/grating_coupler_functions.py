@@ -26,7 +26,6 @@ def get_grating_period_curved(
         n_slab: slab refractive index.
         n_clad: cladding refractive index.
     """
-
     DEG2RAD = pi / 180
     cos_fib_angle = sin(DEG2RAD * fiber_angle)
     n2_reduced = n_slab ** 2 - n_clad ** 2 * cos_fib_angle ** 2
