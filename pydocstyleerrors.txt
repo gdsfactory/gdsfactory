@@ -1,9 +1,3 @@
-gdsfactory\gdsdiff\gdsdiff.py:15 in public function `xor_polygons`:
-        D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\gdsdiff\gdsdiff.py:15 in public function `xor_polygons`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\gdsdiff\gdsdiff.py:15 in public function `xor_polygons`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'A')
 gdsfactory\geometry\boolean.py:20 in public function `boolean`:
         D202: No blank lines allowed after function docstring (found 1)
 gdsfactory\geometry\boolean.py:20 in public function `boolean`:
