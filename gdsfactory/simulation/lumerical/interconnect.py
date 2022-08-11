@@ -106,8 +106,7 @@ def send_to_interconnect(
     exclude_electrical: bool = True,
     **settings,
 ) -> object:
-    """Send netlist components to Interconnect and connect them according to
-    netlist.
+    """Send netlist components to Interconnect and connect them according to netlist.
 
     Args:
         component: component from which to extract netlist.
@@ -351,8 +350,8 @@ def run_wavelength_sweep(
     extra_ona_props: Optional[dict] = None,
     **kwargs,
 ) -> dict:
-    """
-    Args:
+    """Args are the following.
+
         component:
         session:
         setup_simulation: whether to send the component to interconnect before running the sweep.
