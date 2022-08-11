@@ -56,9 +56,8 @@ def bezier(
     path = gf.Path(path_points)
 
     if with_manhattan_facing_angles:
-        angles = angles_deg(path_points)
-        path.start_angle = snap_angle(angles[0])
-        path.end_angle = snap_angle(angles[-2])
+        path.start_angle = start_angle or snap_angle(path.start_angle)
+        path.end_angle = end_angle or snap_angle(path.end_angle)
 
     c = path.extrude(xs)
     curv = curvature(path_points, t)
@@ -66,6 +65,8 @@ def bezier(
     min_bend_radius = gf.snap.snap_to_grid(1 / max(np.abs(curv)))
     c.info["length"] = length
     c.info["min_bend_radius"] = min_bend_radius
+    c.info["start_angle"] = path.start_angle
+    c.info["end_angle"] = path.end_angle
     return c
 
 
