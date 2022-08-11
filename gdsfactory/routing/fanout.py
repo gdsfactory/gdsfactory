@@ -43,7 +43,6 @@ def fanout_component(
         cc.plot()
 
     """
-
     c = Component()
     comp = gf.get_component(component)
     ref = c.add_ref(comp)

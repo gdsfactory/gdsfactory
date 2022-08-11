@@ -319,7 +319,6 @@ def get_bundle_uindirect(
         '''
 
     """
-
     routes = _get_bundle_uindirect_waypoints(
         ports1,
         ports2,
@@ -468,7 +467,6 @@ def _get_bundle_uindirect_waypoints(
         are given (from beginning to end or vice versa)
 
         """
-
         end_prev_conns = [(k, v[-1][-1]) for k, v in dict_connections.items()]
         for c in conns:
             p = c[0]

@@ -91,7 +91,6 @@ def _get_bend_ports(
     facing north Returns these two ports in this order.
 
     """
-
     ports = bend.ports
 
     p_w = _get_unique_port_facing(ports=ports, orientation=180, layer=layer)
@@ -208,8 +207,8 @@ def reverse_transform(
     angle_deg: int = 0,
     x_reflection: bool = False,
 ) -> ndarray:
-    """
-    Args:
+    """Args are the following.
+
         points (np.array of shape (N,2) ): points to be transformed.
         translation (2d like array): translation vector.
         angle_deg: rotation angle.
@@ -256,7 +255,6 @@ def _generate_route_manhattan_points(
         min_straight_length: in um.
 
     """
-
     threshold = TOLERANCE
 
     # transform I/O to the case where output is at (0, 0) pointing east (180)
@@ -438,7 +436,6 @@ def _get_bend_reference_parameters(
     First mirror, Then rotate
 
     Returns:
-
     .. code::
 
        p2        p2
@@ -459,7 +456,6 @@ def _get_bend_reference_parameters(
        p2-<-p1->-p2
 
     """
-
     # is_horizontal(dp1), s1, s2 : transform (rotation, vertical mirror)
     transforms_map = {
         (True, 1, 1): (0, False),  # A No transform
