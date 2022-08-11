@@ -1,7 +1,3 @@
-gdsfactory\models\coupler.py:10 in public function `coupling_length`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\models\coupler.py:10 in public function `coupling_length`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'e')
 gdsfactory\read\from_dphox.py:5 in public function `from_dphox`:
         D202: No blank lines allowed after function docstring (found 1)
 gdsfactory\read\from_yaml.py:483 in public function `from_yaml`:
