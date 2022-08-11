@@ -1,17 +1,3 @@
-gdsfactory\serialization.py:35 in public function `clean_value_json`:
-        D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\show.py:9 in public function `show`:
-        D202: No blank lines allowed after function docstring (found 1)
-gdsfactory\types.py:71 in private method `validate`:
-        D403: First word of the first line should be properly capitalized ('Check', not 'check')
-gdsfactory\types.py:131 in public nested class `Config`:
-        D106: Missing docstring in public nested class
-gdsfactory\types.py:141 in public nested class `Config`:
-        D106: Missing docstring in public nested class
-gdsfactory\watch.py:20 in public method `__init__`:
-        D107: Missing docstring in __init__
-gdsfactory\write_cells.py:147 in public function `write_cells`:
-        D202: No blank lines allowed after function docstring (found 1)
 gdsfactory\components\add_fidutials.py:68 in public function `add_fidutials_offsets`:
         D202: No blank lines allowed after function docstring (found 1)
 gdsfactory\components\array_with_via.py:30 in public function `array_with_via`:

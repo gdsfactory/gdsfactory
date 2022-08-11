@@ -68,7 +68,7 @@ class Label(LabelPhidl):
 
     @classmethod
     def validate(cls, v):
-        """check with pydantic Label valid type."""
+        """Check with pydantic Label valid type."""
         assert isinstance(v, LabelPhidl), f"TypeError, Got {type(v)}, expecting Label"
         return v
 
@@ -129,6 +129,7 @@ class Route(BaseModel):
     length: float
 
     class Config:
+        """Config for Route."""
         extra = Extra.forbid
 
 
@@ -139,6 +140,7 @@ class Routes(BaseModel):
     bend_radius: Optional[List[float]] = None
 
     class Config:
+        """Config for Routes."""
         extra = Extra.forbid
 
 
