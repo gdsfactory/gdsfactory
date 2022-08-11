@@ -1,5 +1,5 @@
-"""Given a find_modes_waveguide function repeats the mode simulation with
-increasing hyperparameter value (`sy`, `sz`, and `resolution`) until the change
+"""Given a find_modes_waveguide function repeats the mode simulation with \
+increasing hyperparameter value (`sy`, `sz`, and `resolution`) until the change \
 in output is below some tolerance.
 
 Output the results of `find_modes_waveguide` and the smallest
@@ -25,9 +25,7 @@ def neff_domain_convergence_test(
     stdout: bool = False,
     **kwargs,
 ) -> Tuple[Dict[int, Mode], float, float, int]:
-    """Repeats a find_modes_waveguide increasing hyperparameters sy, sz, and
-    resolution until results are no longer affected by the choice (according to
-    conv_tol).
+    """Repeats a find_modes_waveguide increasing hyperparameters sy, sz, and resolution until results are no longer affected by the choice (according to conv_tol).
 
     Args:
         tol: tolerance when finding modes
@@ -131,9 +129,7 @@ def neff_resolution_convergence_test(
     stdout: bool = False,
     **kwargs,
 ) -> Tuple[Dict[int, Mode], float, float, int]:
-    """Repeats a find_modes_waveguide on a mode_solver, increasing
-    hyperparameter resolution until results are no longer affected by the
-    choice (according to conv_tol).
+    """Repeats a find_modes_waveguide on a mode_solver, increasing hyperparameter resolution until results are no longer affected by the choice (according to conv_tol).
 
     Args:
         tol: tolerance when finding modes

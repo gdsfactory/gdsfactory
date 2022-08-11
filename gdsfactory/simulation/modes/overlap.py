@@ -14,8 +14,7 @@ def innerprod_trapz(
     trapz_num_y: int = 2000,
     trapz_num_z: int = 2000,
 ):
-    """Compute the inner product of two modes as 1/4*int(E1* x H2 + E2 x H1*)_x
-    dydz.
+    """Compute the inner product of two modes as 1/4*int(E1* x H2 + E2 x H1*)_x dydz.
 
     with int double integral over y,z, x cross product, and _x x-projection
     Uses simple trapz numerical integration
@@ -34,7 +33,6 @@ def innerprod_trapz(
         trapz_num_z: number of points to resample the mode in z for integration.
 
     """
-
     # Form vector components
     yint = np.linspace(ymin, ymax, trapz_num_y)
     zint = np.linspace(zmin, zmax, trapz_num_z)
