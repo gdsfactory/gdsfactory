@@ -558,7 +558,6 @@ def from_yaml(
                     mmi_top,o3: mmi_bot,o1
 
     """
-
     yaml_str = (
         io.StringIO(yaml_str)
         if isinstance(yaml_str, str) and "\n" in yaml_str
@@ -593,8 +592,7 @@ def _from_yaml(
     routing_strategy: Dict[str, Callable] = routing_strategy_factories,
     label_instance_function: Callable = add_instance_label,
 ) -> Component:
-    """Returns component from YAML decorated with cell for caching and
-    autonaming.
+    """Returns component from YAML decorated with cell for caching and autonaming.
 
     Args:
         conf: dict.
