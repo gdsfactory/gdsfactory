@@ -33,7 +33,6 @@ def get_string(value: Any) -> str:
 
 def clean_value_json(value: Any) -> Any:
     """Return JSON serializable object."""
-
     if isinstance(value, pydantic.BaseModel):
         return value.dict()
 

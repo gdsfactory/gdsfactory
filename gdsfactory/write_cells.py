@@ -160,7 +160,6 @@ def write_cells(
         gdspaths: dict of cell name to gdspath.
 
     """
-
     gdsii_lib = gdspy.GdsLibrary()
     gdsii_lib.read_gds(gdspath)
     top_level_cells = gdsii_lib.top_level()
