@@ -377,7 +377,6 @@ def _get_bundle_waypoints(
         kwargs: cross_section settings.
 
     """
-
     if not ports1 and not ports2:
         return []
 
@@ -501,8 +500,8 @@ def get_min_spacing(
     radius: float = 5.0,
     sort_ports: bool = True,
 ) -> float:
-    """Returns the minimum amount of spacing in um required to create a
-    fanout."."""
+    """Returns the minimum amount of spacing in um required to create a \
+    fanout."""
 
     axis = "X" if ports1[0].orientation in [0, 180] else "Y"
     j = 0
@@ -596,7 +595,6 @@ def get_bundle_same_axis_no_grouping(
         a list of routes the connecting straights.
 
     """
-
     axis = "X" if ports1[0].orientation in [0, 180] else "Y"
     elems = []
     j = 0

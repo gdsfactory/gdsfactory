@@ -90,7 +90,7 @@ def get_bundle_from_waypoints(
     path_length_match_modify_segment_i: int = -2,
     **kwargs,
 ) -> List[Route]:
-    """Returns list of routes that connect bundle of ports with bundle of
+    """Returns list of routes that connect bundle of ports with bundle of \
     routes.
 
     Routes follow a list of waypoints.
@@ -253,8 +253,8 @@ def _generate_manhattan_bundle_waypoints(
     separation: Optional[float] = None,
     **kwargs,
 ) -> Coordinates:
-    """
-    Args:
+    """Args are the following.
+
         ports1: list of ports must face the same direction.
         ports2: list of ports must face the same direction.
         waypoints: from one point within the ports1 bank

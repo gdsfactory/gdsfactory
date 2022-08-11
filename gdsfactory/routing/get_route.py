@@ -68,9 +68,7 @@ def get_route(
     cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = "strip",
     **kwargs,
 ) -> Route:
-    """Returns a Manhattan Route between 2 ports. The references are straights,
-    bends and tapers. `get_route` is an automatic version of
-    `get_route_from_steps`
+    """Returns a Manhattan Route between 2 ports. The references are straights, bends and tapers. `get_route` is an automatic version of `get_route_from_steps`
 
     Args:
         input_port: start port.
@@ -99,7 +97,6 @@ def get_route(
         c.plot()
 
     """
-
     bend90 = (
         bend
         if isinstance(bend, Component)

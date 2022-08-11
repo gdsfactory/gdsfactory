@@ -40,7 +40,6 @@ def fanout2x2(
         cc.plot()
 
     """
-
     c = gf.Component()
 
     component = gf.get_component(component)

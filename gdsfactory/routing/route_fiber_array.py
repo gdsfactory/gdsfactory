@@ -61,8 +61,7 @@ def route_fiber_array(
 ) -> Tuple[
     List[Union[ComponentReference, Label]], List[List[ComponentReference]], List[Port]
 ]:
-    """Returns component I/O elements for adding grating couplers with a fiber
-    array Many components are fine with the defaults.
+    """Returns component I/O elements for adding grating couplers with a fiber array Many components are fine with the defaults.
 
     Args:
         component: component spec to connect to.
@@ -121,7 +120,6 @@ def route_fiber_array(
         list of ports: to connect to.
 
     """
-
     cross_section = x = gf.get_cross_section(cross_section, **kwargs)
     radius = x.radius
 
