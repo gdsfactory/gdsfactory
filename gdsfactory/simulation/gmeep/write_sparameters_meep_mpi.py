@@ -35,12 +35,12 @@ temp_dir_default = Path(sparameters_path) / "temp"
 
 
 def _python() -> str:
-    """select correct python executable from current activated environment."""
+    """Select correct python executable from current activated environment."""
     return sys.executable
 
 
 def _mpirun() -> str:
-    """select correct mpirun executable from current activated environment."""
+    """Select correct mpirun executable from current activated environment."""
     python = _python()
     path, ext = os.path.splitext(python)
     mpirun = re.sub("python$", "mpirun", path) + ext
@@ -61,8 +61,7 @@ def write_sparameters_meep_mpi(
     wait_to_finish: bool = True,
     **kwargs,
 ) -> Path:
-    """Write Sparameters using multiple cores and MPI and returns Sparameters
-    CSV filepath.
+    """Write Sparameters using multiple cores and MPI and returns Sparameters CSV filepath.
 
     Simulates each time using a different input port (by default, all of them)
     unless you specify port_symmetries:
