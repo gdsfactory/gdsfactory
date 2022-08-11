@@ -1,6 +1,5 @@
 """[[-0.09051371-0.20581339j  0.00704022+0.1328474j \
-    0.03733851+0.4879802j ]
-"""
+    0.03733851+0.4879802j ]."""
 
 from pathlib import PosixPath
 from typing import Tuple, Union

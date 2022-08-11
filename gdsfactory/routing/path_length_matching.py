@@ -150,8 +150,8 @@ def path_length_matched_points_add_waypoints(
     cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
     **kwargs,
 ) -> List[ndarray]:
-    """
-    Args:
+    """Args are the following.
+
         list_of_waypoints: a list of list_of_points:
             [[p1, p2, p3,...], [q1, q2, q3,...], ...]
             - the number of turns have to be identical

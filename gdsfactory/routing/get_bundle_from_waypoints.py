@@ -255,11 +255,11 @@ def _generate_manhattan_bundle_waypoints(
 ) -> Coordinates:
     """Args are the following.
 
-        ports1: list of ports must face the same direction.
-        ports2: list of ports must face the same direction.
-        waypoints: from one point within the ports1 bank
-            to another point within the ports2 bank.
-        separation: center to center, defaults to ports1 separation.
+    ports1: list of ports must face the same direction.
+    ports2: list of ports must face the same direction.
+    waypoints: from one point within the ports1 bank
+        to another point within the ports2 bank.
+    separation: center to center, defaults to ports1 separation.
     """
     waypoints = remove_flat_angles(waypoints)
     way_segments = list(zip(waypoints, waypoints[1:]))

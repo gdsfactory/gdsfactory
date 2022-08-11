@@ -1,6 +1,0 @@
-gdsfactory\simulation\simphony\components\mzi_thermal.py:5 in public function `delta_temperature`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\simulation\simphony\components\mzi_thermal.py:5 in public function `delta_temperature`:
-        D209: Multi-line docstring closing quotes should be on a separate line
-gdsfactory\simulation\simphony\components\mzi_thermal.py:5 in public function `delta_temperature`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'I')
