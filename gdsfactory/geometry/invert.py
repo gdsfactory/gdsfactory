@@ -15,7 +15,7 @@ def invert(
     max_points: int = 4000,
     layer: Layer = (1, 0),
 ):
-    """Creates an inverted version of the input shapes with an additional
+    """Creates an inverted version of the input shapes with an additional \
     border around the edges. adapted from phidl.geometry.invert.
 
     Args:

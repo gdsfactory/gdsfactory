@@ -1,5 +1,4 @@
 """Write DRC rule decks in klayout.
-
 TODO:
 
 - define derived layers (composed rules)
@@ -221,7 +220,6 @@ def write_drc_deck_macro(
         print(drc_rule_deck)
 
     """
-
     if mode not in modes:
         raise ValueError(f"{mode!r} not in {modes}")
 
