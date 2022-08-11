@@ -51,7 +51,6 @@ from gdsfactory import add_grating_couplers
 from gdsfactory import functions
 from gdsfactory import export
 from gdsfactory import geometry
-from gdsfactory import mask
 from gdsfactory import add_ports
 from gdsfactory import write_cells
 from gdsfactory import add_pins
@@ -117,7 +116,6 @@ __all__ = (
     "grid_with_text",
     "import_gds",
     "layers",
-    "mask",
     "pack",
     "path",
     "partial",
