@@ -22,7 +22,6 @@ def delete_tasks(status: str = "error") -> None:
         status: error, diverged, preprocess
 
     """
-
     for task in web.get_tasks():
         # print(task["status"], task["task_name"], task["task_id"])
         if task["status"] == status:

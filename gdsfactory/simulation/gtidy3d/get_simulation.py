@@ -432,8 +432,7 @@ def plot_simulation_yz(
     wavelength: Optional[float] = 1.55,
     figsize: Float2 = (11, 4),
 ):
-    """Returns Simulation visual representation. returns two views for 3D
-    component and one view for 2D.
+    """Returns Simulation visual representation. Returns two views for 3D component and one view for 2D.
 
     Args:
         sim: simulation object.
