@@ -32,8 +32,7 @@ def dist(i, wgs1, wgs2):
 def get_sequence_cross(
     straights_start, straights_end, iter_max: int = 100, symbols=("X", "-")
 ):
-    """
-    Args:
+    """Arguments for this function are as follows.
 
         straights_start : list of the input port indices
         straights_end : list of the output port indices
@@ -103,8 +102,7 @@ def get_sequence_cross(
 
 
 def component_sequence_to_str(sequence):
-    """
-    Transform a sequence of components (such as the one obtained from.
+    """Transform a sequence of components (such as the one obtained from.
 
     get_sequence_cross_str) into an ASCII block which can be used either as
     a cartoon or as an input for component_lattice(lattice = ...)

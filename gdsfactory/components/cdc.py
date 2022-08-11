@@ -55,7 +55,6 @@ def cdc(
         OR an angle (float, in radians).
        waveguide_template: Picwriter WaveguideTemplate function.
     """
-
     c = pc.ContraDirectionalCoupler(
         gf.call_if_func(waveguide_template, **kwargs),
         length=length,

@@ -18,7 +18,7 @@ def free_propagation_region(
     cross_section: CrossSectionSpec = strip,
     **kwargs,
 ) -> Component:
-    r"""
+    r"""Free propagation region.
 
     .. code::
 

@@ -32,7 +32,6 @@ def cdsem_coupler(
         text: optional text for labels.
         spacing: edge to edge spacing.
     """
-
     cross_section = gf.get_cross_section(cross_section, width=width)
 
     couplers = []
