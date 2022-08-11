@@ -104,7 +104,6 @@ class Port:
         shear_angle: Optional[float] = None,
     ) -> None:
         """Initializes the Port object."""
-
         if midpoint:
             warnings.warn(midpoint_deprecation, DeprecationWarning, stacklevel=2)
             center = midpoint
@@ -447,7 +446,9 @@ def csv2port(csvpath) -> Dict[str, Port]:
 
 
 def sort_ports_clockwise(ports: Dict[str, Port]) -> Dict[str, Port]:
-    """.. code:: \
+    """Sort and return ports in the clockwise direction.
+    
+    .. code::
 
         3   4
         |___|_
@@ -489,7 +490,9 @@ def sort_ports_clockwise(ports: Dict[str, Port]) -> Dict[str, Port]:
 
 
 def sort_ports_counter_clockwise(ports: Dict[str, Port]) -> Dict[str, Port]:
-    """.. code:: \
+    """Sort and return ports in the counter-clockwise direction.
+
+    .. code:: \
 
         4   3
         |___|_
@@ -787,7 +790,6 @@ def rename_ports_by_orientation(
             S0   S1
 
     """
-
     layers_excluded = layers_excluded or []
     direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
 

@@ -64,14 +64,14 @@ _quickplot_options = dict(
 
 
 def _zoom_factory(axis, scale_factor=1.4):
-    """returns zooming functionality to axis.
+    """Returns zooming functionality to axis.
 
     From https://gist.github.com/tacaswell/3144287
 
     """
 
     def zoom_fun(event, ax, scale):
-        """zoom when scrolling."""
+        """Zoom when scrolling."""
         if event.inaxes == axis:
             scale_factor = np.power(scale, -event.step)
             xdata = event.xdata
@@ -135,7 +135,7 @@ def set_quickplot_options(
     zoom_factor=None,
     interactive_zoom=None,
 ):
-    """Sets plotting options for quickplot()
+    """Sets plotting options for quickplot().
 
     Parameters
     ----------
@@ -175,9 +175,9 @@ def set_quickplot_options(
 
 
 def quickplot(items):  # noqa: C901
-    """Takes a list of devices/references/polygons or single one of those, and
-    plots them. Use `set_quickplot_options()` to modify the viewer behavior
-    (e.g. displaying ports, creating new windows, etc)
+    """Takes a list of devices/references/polygons or single one of those, and \
+    plots them. Use `set_quickplot_options()` to modify the viewer behavior \
+    (e.g. displaying ports, creating new windows, etc).
 
     Args:
         items: object or list of objects
@@ -319,7 +319,7 @@ def quickplot(items):  # noqa: C901
 
 
 def _use_interactive_zoom():
-    """Checks whether the current matplotlib backend is compatible with
+    """Checks whether the current matplotlib backend is compatible with \
     interactive zoom."""
     import matplotlib
 
@@ -467,6 +467,7 @@ def _draw_port_as_point(ax, port, **kwargs):
 
 class ViewerWindow(QMainWindow):
     def __init__(self):
+        """Initialize the object."""
         super().__init__()
 
         self.setGeometry(QRect(100, 100, 800, 600))
@@ -525,6 +526,7 @@ class ViewerWindow(QMainWindow):
 
 class Viewer(QGraphicsView):
     def __init__(self, gridsize_label, position_label, help_label):
+        """Initialize the object."""
         QGraphicsView.__init__(self)
 
         self.gridsize_label = gridsize_label

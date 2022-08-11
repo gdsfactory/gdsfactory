@@ -1,23 +1,3 @@
-gdsfactory\quickplotter.py:67 in private function `_zoom_factory`:
-        D403: First word of the first line should be properly capitalized ('Returns', not 'returns')
-gdsfactory\quickplotter.py:74 in private nested function `zoom_fun`:
-        D403: First word of the first line should be properly capitalized ('Zoom', not 'zoom')
-gdsfactory\quickplotter.py:138 in public function `set_quickplot_options`:
-        D415: First line should end with a period, question mark, or exclamation point (not ')')
-gdsfactory\quickplotter.py:178 in public function `quickplot` (skipping C901):
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\quickplotter.py:178 in public function `quickplot` (skipping C901):
-        D415: First line should end with a period, question mark, or exclamation point (not 'd')
-gdsfactory\quickplotter.py:322 in private function `_use_interactive_zoom`:
-        D205: 1 blank line required between summary line and description (found 0)
-gdsfactory\quickplotter.py:322 in private function `_use_interactive_zoom`:
-        D209: Multi-line docstring closing quotes should be on a separate line
-gdsfactory\quickplotter.py:322 in private function `_use_interactive_zoom`:
-        D415: First line should end with a period, question mark, or exclamation point (not 'h')
-gdsfactory\quickplotter.py:469 in public method `__init__`:
-        D107: Missing docstring in __init__
-gdsfactory\quickplotter.py:527 in public method `__init__`:
-        D107: Missing docstring in __init__
 gdsfactory\serialization.py:35 in public function `clean_value_json`:
         D202: No blank lines allowed after function docstring (found 1)
 gdsfactory\show.py:9 in public function `show`:
