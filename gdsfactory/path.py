@@ -5,6 +5,7 @@ A path can be extruded using any CrossSection returning a Component
 The CrossSection defines the layer numbers, widths and offsetts
 
 Based on phidl.path
+
 """
 
 import warnings
@@ -48,6 +49,7 @@ class Path(PathPhidl):
     Parameters:
         path: array-like[N][2], Path, or list of Paths.
             Points or Paths to append() initially.
+
     """
 
     @classmethod
@@ -151,8 +153,9 @@ def transition_exponential(y1, y2, exp=0.5):
         y1: start width in um.
         y2: end width in um.
         exp: exponent.
+
     """
-    return lambda t: y1 + (y2 - y1) * t**exp
+    return lambda t: y1 + (y2 - y1) * t ** exp
 
 
 def transition(
@@ -281,6 +284,7 @@ def extrude(
           polygon by more than the value listed here will be removed.
         shear_angle_start: an optional angle to shear the starting face by (in degrees).
         shear_angle_end: an optional angle to shear the ending face by (in degrees).
+
     """
     from gdsfactory.pdk import (
         get_active_pdk,
@@ -372,7 +376,7 @@ def extrude(
             # Compute lengths
             dx = np.diff(p.points[:, 0])
             dy = np.diff(p.points[:, 1])
-            lengths = np.cumsum(np.sqrt(dx**2 + dy**2))
+            lengths = np.cumsum(np.sqrt(dx ** 2 + dy ** 2))
             lengths = np.concatenate([[0], lengths])
             width = width(lengths / lengths[-1])
         dy = offset + width / 2
@@ -518,11 +522,11 @@ def _cut_path_with_ray(
     path_cmp = np.copy(path)
     # pad start
     dp = path[0] - path[1]
-    d_ext = far_distance / np.sqrt(np.sum(dp**2)) * np.array([dp[0], dp[1]])
+    d_ext = far_distance / np.sqrt(np.sum(dp ** 2)) * np.array([dp[0], dp[1]])
     path_cmp[0] += d_ext
     # pad end
     dp = path[-1] - path[-2]
-    d_ext = far_distance / np.sqrt(np.sum(dp**2)) * np.array([dp[0], dp[1]])
+    d_ext = far_distance / np.sqrt(np.sum(dp ** 2)) * np.array([dp[0], dp[1]])
     path_cmp[-1] += d_ext
 
     intersections = [sg.Point(path[0]), sg.Point(path[-1])]
@@ -574,6 +578,7 @@ def arc(radius: float = 10.0, angle: float = 90, npoints: int = 720) -> Path:
 
         p = gf.path.arc(radius=10, angle=45)
         p.plot()
+
     """
     return Path().from_phidl(path.arc(radius=radius, angle=angle, num_pts=npoints))
 
@@ -609,6 +614,7 @@ def euler(
 
         p = gf.path.euler(radius=10, angle=45, p=1, use_eff=True, npoints=720)
         p.plot()
+
     """
     return Path().from_phidl(
         path.euler(radius=radius, angle=angle, p=p, use_eff=use_eff, num_pts=npoints)
@@ -623,6 +629,7 @@ def straight(length: float = 10.0, npoints: int = 2) -> Path:
     Args:
         length: of straight.
         npoints: number of points.
+
     """
     if length < 0:
         raise ValueError(f"length = {length} needs to be > 0")
@@ -653,6 +660,7 @@ def spiral_archimedean(
 
         p = gf.path.spiral_archimedean(min_bend_radius=5, separation=2, number_of_loops=3, npoints=200)
         p.plot()
+
     """
     return Path(
         [
@@ -684,6 +692,7 @@ def smooth(
 
         p = gf.path.smooth(([0, 0], [0, 10], [10, 10]))
         p.plot()
+
     """
     return Path().from_phidl(
         smooth_phidl(points=points, radius=radius, corner_fun=bend, **kwargs)

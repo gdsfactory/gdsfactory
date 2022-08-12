@@ -53,7 +53,6 @@ def delay_snake_sbend(
 
         We adjust length2 and length3
     """
-
     c = Component()
 
     bend180_radius = (radius + waveguide_spacing) / 2

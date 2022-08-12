@@ -1,4 +1,4 @@
-"""test meep sparameters"""
+"""test meep sparameters."""
 
 import numpy as np
 import pandas as pd
@@ -12,7 +12,7 @@ RESOLUTION = 20
 
 
 def test_sparameters_straight(dataframe_regression) -> None:
-    """Checks Sparameters for a straight waveguide"""
+    """Checks Sparameters for a straight waveguide."""
     c = gf.components.straight(length=2)
     p = 3
     c = gf.add_padding_container(c, default=0, top=p, bottom=p)
@@ -29,7 +29,7 @@ def test_sparameters_straight(dataframe_regression) -> None:
 
 
 def test_sparameters_straight_symmetric(dataframe_regression) -> None:
-    """Checks Sparameters for a straight waveguide"""
+    """Checks Sparameters for a straight waveguide."""
     c = gf.components.straight(length=2)
     p = 3
     c = gf.add_padding_container(c, default=0, top=p, bottom=p)
@@ -59,7 +59,11 @@ def test_sparameters_straight_symmetric(dataframe_regression) -> None:
 
 
 def test_sparameters_crossing_symmetric(dataframe_regression) -> None:
-    """Checks Sparameters for a waveguide crossing. Exploits symmetries."""
+    """Checks Sparameters for a waveguide crossing.
+
+    Exploits symmetries.
+
+    """
     c = gf.components.crossing()
     port_symmetries = {
         "o1": {
@@ -82,7 +86,7 @@ def test_sparameters_crossing_symmetric(dataframe_regression) -> None:
 
 
 def test_sparameters_straight_mpi(dataframe_regression) -> None:
-    """Checks Sparameters for a straight waveguide using MPI"""
+    """Checks Sparameters for a straight waveguide using MPI."""
     c = gf.components.straight(length=2)
     p = 3
     c = gf.add_padding_container(c, default=0, top=p, bottom=p)
@@ -100,7 +104,7 @@ def test_sparameters_straight_mpi(dataframe_regression) -> None:
 
 
 def test_sparameters_straight_batch(dataframe_regression) -> None:
-    """Checks Sparameters for a straight waveguide using an MPI pool"""
+    """Checks Sparameters for a straight waveguide using an MPI pool."""
 
     components = []
     p = 3

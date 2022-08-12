@@ -21,7 +21,9 @@ def rectangle_with_slits(
     slit_spacing: Float2 = (20, 20),
     slit_enclosure: float = 10,
 ) -> Component:
-    """Returns a rectangle with slits. Metal slits reduce stress.
+    """Returns a rectangle with slits.
+
+    Metal slits reduce stress.
 
     Args:
         size: (tuple) Width and height of rectangle.
@@ -32,7 +34,6 @@ def rectangle_with_slits(
         slit_size: x, y slit size.
         slit_spacing: pitch_x, pitch_y for slits.
         slit_enclosure: from slit to rectangle edge.
-
 
     .. code::
 
@@ -55,8 +56,6 @@ def rectangle_with_slits(
         |            slit_size[0]           |
         |___________________________________|
                         size[0]
-
-
     """
     c = Component()
     layer = gf.get_layer(layer)

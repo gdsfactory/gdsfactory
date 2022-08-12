@@ -1,11 +1,11 @@
-"""
-Ports define where each port has:
+"""Ports define where each port has the follwoing properties.
 
 - name
 - center: (x, y)
 - width:
 - orientation: (deg) 0, 90, 180, 270.
     where 0 faces east, 90 (north), 180 (west), 270 (south)
+
 """
 
 import gdsfactory as gf
@@ -17,14 +17,14 @@ from gdsfactory.types import LayerSpec
 def test_component_with_port(
     length: float = 5.0, width: float = 0.5, layer: LayerSpec = "WG"
 ) -> Component:
-    """Returns a component with one port on the west side
+    """Returns a component with one port on the west side.
 
     Args:
         length: in um.
         width: waveguide width in um.
         layer: layer.
-    """
 
+    """
     y = width
     x = length
 

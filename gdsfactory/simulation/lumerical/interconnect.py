@@ -56,6 +56,7 @@ def add_interconnect_element(
         flip_horiz:
         rotation:
         extra_props:
+
     """
     props = OrderedDict(
         [
@@ -116,6 +117,7 @@ def send_to_interconnect(
             the prefix character.  (i.e. "c1_input" -> "input").
         component_distance_scaling: scaling factor for component distances when
             laying out Interconnect schematic.
+
     """
     if not session:
         import lumapi
@@ -348,18 +350,18 @@ def run_wavelength_sweep(
     extra_ona_props: Optional[dict] = None,
     **kwargs,
 ) -> dict:
-    """
-    Args:
-        component:
-        session:
-        setup_simulation: whether to send the component to interconnect before running the sweep.
-        ports_in: specify the port in the Interconnect model to attach the ONA output to.
-        ports_out: specify the ports in the Interconnect models to attach the ONA input to.
-        wavelength_range:
-        n_points:
-        results:
-        extra_ona_props:
-        kwargs:
+    """Args are the following.
+
+    component:
+    session:
+    setup_simulation: whether to send the component to interconnect before running the sweep.
+    ports_in: specify the port in the Interconnect model to attach the ONA output to.
+    ports_out: specify the ports in the Interconnect models to attach the ONA input to.
+    wavelength_range:
+    n_points:
+    results:
+    extra_ona_props:
+    kwargs:
     """
     if len(ports_in) > 1:
         raise ValueError("Only 1 input port is supported at this time")

@@ -1,5 +1,4 @@
-"""Routes bundles of ports (river routing).
-"""
+"""Routes bundles of ports (river routing)."""
 from typing import Callable, List, Optional, Union
 
 from gdsfactory.components.bend_euler import bend_euler

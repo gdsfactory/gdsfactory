@@ -1,6 +1,4 @@
-"""You can also connect a component with single fiber INPUT and
-OUTPUTS (no fiber array).
-"""
+"""You can also connect a component with single fiber INPUT and OUTPUTS (no fiber array)."""
 
 import gdsfactory as gf
 from gdsfactory.component import Component

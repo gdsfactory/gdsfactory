@@ -15,8 +15,8 @@ def invert(
     max_points: int = 4000,
     layer: Layer = (1, 0),
 ):
-    """Creates an inverted version of the input shapes with an additional
-    border around the edges. adapted from phidl.geometry.invert
+    """Creates an inverted version of the input shapes with an additional \
+    border around the edges. adapted from phidl.geometry.invert.
 
     Args:
         elements : Component(/Reference), list of Component(/Reference), or Polygon
@@ -39,6 +39,7 @@ def invert(
     Returns
         D: A Component containing the inverted version of the input shape(s) and the
         corresponding border(s).
+
     """
     Temp = Component()
     if type(elements) is not list:

@@ -1,4 +1,6 @@
-"""gdsfactory loads a configuration from 3 files, high priority overwrites low priority:
+"""Gdsfactory loads a configuration from 3 files, high priority overwrites low.
+
+priority:
 
 1. A config.yml found in the current working directory (highest priority)
 2. ~/.gdsfactory/config.yml specific for the machine
@@ -8,7 +10,6 @@
 `TECH` has all the useful info that we will store to have reproducible layouts.
 
 You can access the config dictionary with `print_config`
-
 """
 
 __version__ = "5.16.0"
@@ -144,7 +145,7 @@ CONFIG["mask_directory"].mkdir(exist_ok=True)
 
 
 def print_config(key: Optional[str] = None) -> None:
-    """Prints a key for the config or all the keys"""
+    """Prints a key for the config or all the keys."""
     if key:
         if CONFIG.get(key):
             print(CONFIG[key])
@@ -178,9 +179,9 @@ def write_tech(json_out_path: Path) -> None:
 
 
 def call_if_func(f: Any, **kwargs) -> Any:
-    """Calls function if it's a function
-    Useful to create objects from functions
-    if it's an object it just returns the object
+    """Calls function if it's a function Useful to create objects from.
+
+    functions if it's an object it just returns the object.
     """
     return f(**kwargs) if callable(f) else f
 
@@ -206,7 +207,7 @@ def set_plot_options(
     blocking: bool = False,
     zoom_factor: float = 1.4,
 ) -> None:
-    """Set plot options for matplotlib"""
+    """Set plot options for matplotlib."""
     set_quickplot_options(
         show_ports=show_ports,
         show_subports=show_subports,

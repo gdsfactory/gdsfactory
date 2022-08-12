@@ -1,4 +1,4 @@
-"""gdsfactory tidy3d plugin utils"""
+"""gdsfactory tidy3d plugin utils."""
 
 from functools import partial
 from typing import Optional
@@ -20,8 +20,8 @@ def delete_tasks(status: str = "error") -> None:
 
     Args:
         status: error, diverged, preprocess
-    """
 
+    """
     for task in web.get_tasks():
         # print(task["status"], task["task_name"], task["task_id"])
         if task["status"] == status:

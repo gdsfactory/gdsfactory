@@ -1,6 +1,7 @@
-"""write xsection script for klayout plugin
+"""write xsection script for klayout plugin.
 
 https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
+
 """
 
 import pathlib

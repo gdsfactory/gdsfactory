@@ -20,7 +20,7 @@ def disk(
     waveguide_template: ComponentSpec = strip,
     **kwargs
 ) -> Component:
-    """Disk Resonator
+    """Disk Resonator.
 
     Args:
        radius: disk resonator radius.
@@ -42,9 +42,7 @@ def disk(
        clad_datatype: gf.LAYER.WGCLAD[1].
        bend_radius: 10.
        cladding_offset: 3.
-
     """
-
     c = pc.Disk(
         gf.call_if_func(waveguide_template, **kwargs),
         radius=radius,

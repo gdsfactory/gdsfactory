@@ -40,6 +40,7 @@ def get_epsilon(
         name_or_index: material name or refractive index.
         wavelength: wavelength (um).
         material_name_to_medium: map name to medium.
+
     """
     medium = get_medium(
         name_or_index=name_or_index, material_name_to_medium=material_name_to_medium
@@ -59,8 +60,8 @@ def get_index(
         wavelength: wavelength (um).
         name_or_index: material name or refractive index.
         material_name_to_medium: map name to medium.
-    """
 
+    """
     eps_complex = get_epsilon(
         wavelength=wavelength,
         name_or_index=name_or_index,
@@ -74,19 +75,19 @@ def get_medium(
     name_or_index: Union[str, float],
     material_name_to_medium: Dict[str, PoleResidue] = MATERIAL_NAME_TO_MEDIUM,
 ) -> td.Medium:
-    """Return Medium from materials database
+    """Return Medium from materials database.
 
     Args:
         name_or_index: material name or refractive index.
         material_name_to_medium: map name to medium.
-    """
 
+    """
     name_or_index = (
         name_or_index.lower() if isinstance(name_or_index, str) else name_or_index
     )
 
     if isinstance(name_or_index, (int, float)):
-        m = td.Medium(permittivity=name_or_index**2)
+        m = td.Medium(permittivity=name_or_index ** 2)
     elif name_or_index in material_name_to_medium:
         m = material_name_to_medium[name_or_index]
     else:

@@ -56,6 +56,7 @@ def get_xsection_script(
     """Returns xsection script for klayout_pyxs plugin.
 
     https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
+
     """
     return f"""
 

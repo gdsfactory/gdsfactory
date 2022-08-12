@@ -36,7 +36,6 @@ def add_tapers(
         linear: shape of the transition, sine when False.
         kwargs: cross_section settings for section2.
     """
-
     c = gf.Component()
     ports_to_taper = select_ports(component.ports) if select_ports else component.ports
     ports_to_taper_names = [p.name for p in ports_to_taper.values()]

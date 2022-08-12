@@ -8,6 +8,7 @@ You can:
 LayerColors adapted from phidl.device_layout
 load_lyp, name_to_description, name_to_short_name adapted from phidl.utilities
 preview_layerset adapted from phidl.geometry
+
 """
 import pathlib
 from functools import partial
@@ -32,6 +33,7 @@ def preview_layerset(ls, size: float = 100.0, spacing: float = 100.0) -> object:
         ls: LayerColors.
         size: square size.
         spacing: spacing between each square.
+
     """
     import gdsfactory as gf
 
@@ -76,6 +78,7 @@ class LayerColor(BaseModel):
         alpha: Alpha parameter (opacity) for the Layer.
         dither: str KLayout dither parameter (texture) for the Layer
             (only used in phidl.utilities.write_lyp)
+
     """
 
     gds_layer: int = 0
@@ -147,8 +150,8 @@ class LayerColors(BaseModel):
             inverted: If true, inverts the Layer.
             alpha: layer opacity between 0 and 1 (0: invisible,  1: opaque).
             dither: KLayout dither style for phidl.utilities.write_lyp().
-        """
 
+        """
         new_layer = LayerColor(
             gds_layer=gds_layer,
             gds_datatype=gds_datatype,
@@ -188,6 +191,7 @@ class LayerColors(BaseModel):
 
         Returns:
             self.layers[val]: Accessed Layer in the LayerColors.
+
         """
         try:
             return self.layers[val]
@@ -265,6 +269,7 @@ def _add_layer(
         entry: layer entry.Entry is a dict of one element of 'properties'.
         lys: LayerColors map.
         shorten_names: if True takes the first part of the layer as its name.
+
     """
     info = entry["source"].split("@")[0]
 
@@ -314,7 +319,8 @@ def _add_layer(
 
 
 def load_lyp(filepath: Path) -> LayerColors:
-    """Returns a LayerColors object from a Klayout lyp file layer properties file."""
+    """Returns a LayerColors object from a Klayout lyp file layer properties \
+    file."""
     with open(filepath) as fx:
         lyp_dict = xmltodict.parse(fx.read(), process_namespaces=True)
 

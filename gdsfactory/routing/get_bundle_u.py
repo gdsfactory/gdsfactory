@@ -319,7 +319,6 @@ def get_bundle_uindirect(
         '''
 
     """
-
     routes = _get_bundle_uindirect_waypoints(
         ports1,
         ports2,
@@ -388,10 +387,11 @@ def _get_bundle_uindirect_waypoints(
         group2 = [p for p in ports1 if p.y > y_cut]
 
         if ports1[0].orientation == 0 and ports2[0].orientation == 180:
-            """
-                 X->
+            """X->
+
             <-D
                  X->
+
             """
             # To go back to a U bundle
             group1_route_directives = ["north", "west"]
@@ -462,11 +462,11 @@ def _get_bundle_uindirect_waypoints(
     def add_connections(conns) -> None:
         """Adds connections.
 
-        Ensures that each section in a batch of connection.
-        is added to the correct route. Also we don't know in which order the
-        routes are given (from beginning to end or vice versa)
-        """
+        Ensures that each section in a batch of connection. is added to
+        the correct route. Also we don't know in which order the routes
+        are given (from beginning to end or vice versa)
 
+        """
         end_prev_conns = [(k, v[-1][-1]) for k, v in dict_connections.items()]
         for c in conns:
             p = c[0]

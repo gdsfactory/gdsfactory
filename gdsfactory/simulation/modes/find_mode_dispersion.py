@@ -15,7 +15,7 @@ def find_mode_dispersion(
     mode_number: int = 1,
     **kwargs,
 ) -> Mode:
-    """Returns Mode with correct dispersion (ng)
+    """Returns Mode with correct dispersion (ng).
 
     group index comes from a finite difference approximation at 3 wavelengths
 

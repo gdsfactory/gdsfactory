@@ -22,9 +22,7 @@ def ring_single_sample(
     cross_section: CrossSectionSpec = strip,
     **kwargs
 ) -> Component:
-    """Single bus ring made of a ring coupler (cb: bottom)
-    connected with two vertical straights (wl: left, wr: right)
-    two bends (bl, br) and horizontal straight (wg: top)
+    """Single bus ring made of a ring coupler (cb: bottom) connected with two vertical straights (wl: left, wr: right) two bends (bl, br) and horizontal straight (wg: top).
 
     Args:
         gap: gap between for coupler.

@@ -59,7 +59,6 @@ def ring_double_heater(
          --==cb==-- gap
 
           length_x
-
     """
     assert_on_2nm_grid(gap)
 
