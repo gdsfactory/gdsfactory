@@ -209,7 +209,11 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info: {}
+          info:
+            grating_coupler:
+              period: 0.6759999999999999
+              polarization: te
+              wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
           name: mzi_delta_length10_add__413018bb
@@ -419,7 +423,11 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info: {}
+          info:
+            grating_coupler:
+              period: 0.6759999999999999
+              polarization: te
+              wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
           name: mzi_delta_length100_add_b6c954fc
@@ -580,7 +588,11 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info: {}
+          info:
+            grating_coupler:
+              period: 0.6759999999999999
+              polarization: te
+              wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
           name: ring_single_length_x1_r_07deb5f3
@@ -733,7 +745,11 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info: {}
+          info:
+            grating_coupler:
+              period: 0.6759999999999999
+              polarization: te
+              wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
           name: ring_single_length_x1_r_554fe677
@@ -886,7 +902,11 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info: {}
+          info:
+            grating_coupler:
+              period: 0.6759999999999999
+              polarization: te
+              wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
           name: ring_single_length_x1_r_60fdb14d
@@ -1039,7 +1059,11 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info: {}
+          info:
+            grating_coupler:
+              period: 0.6759999999999999
+              polarization: te
+              wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
           name: ring_single_length_x1_r_78660d65
@@ -1192,7 +1216,11 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info: {}
+          info:
+            grating_coupler:
+              period: 0.6759999999999999
+              polarization: te
+              wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
           name: ring_single_length_x2_r_2e5ac97f
@@ -1345,7 +1373,11 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info: {}
+          info:
+            grating_coupler:
+              period: 0.6759999999999999
+              polarization: te
+              wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
           name: ring_single_length_x2_r_3137a208
@@ -1498,7 +1530,11 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info: {}
+          info:
+            grating_coupler:
+              period: 0.6759999999999999
+              polarization: te
+              wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
           name: ring_single_length_x2_r_edd7ea6f
@@ -1651,7 +1687,11 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info: {}
+          info:
+            grating_coupler:
+              period: 0.6759999999999999
+              polarization: te
+              wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
           name: ring_single_length_x2_r_faeb062b
@@ -1804,7 +1844,11 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info: {}
+          info:
+            grating_coupler:
+              period: 0.6759999999999999
+              polarization: te
+              wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
           name: ring_single_length_x3_r_29cfb0e4
@@ -1957,7 +2001,11 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info: {}
+          info:
+            grating_coupler:
+              period: 0.6759999999999999
+              polarization: te
+              wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
           name: ring_single_length_x3_r_5cb87802
@@ -2110,7 +2158,11 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info: {}
+          info:
+            grating_coupler:
+              period: 0.6759999999999999
+              polarization: te
+              wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
           name: ring_single_length_x3_r_96ab2414
@@ -2263,7 +2315,11 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info: {}
+          info:
+            grating_coupler:
+              period: 0.6759999999999999
+              polarization: te
+              wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
           name: ring_single_length_x3_r_f0c4c752
