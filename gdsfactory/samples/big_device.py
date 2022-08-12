@@ -15,7 +15,7 @@ def big_device(
     layer: Tuple[int, int] = LAYER.WG,
     wg_width: float = 0.5,
 ) -> Component:
-    """Big component with N ports on each side
+    """Big component with N ports on each side.
 
     Args:
         size: x, y.
@@ -23,6 +23,7 @@ def big_device(
         spacing: in um.
         layer: spec.
         wg_width: waveguide width in um.
+
     """
     component = gf.Component()
     p0 = np.array((0, 0))

@@ -21,7 +21,6 @@ def straight_array(
         straight: straight straight Component or library.
         kwargs: straight settings.
     """
-
     c = Component()
     wg = gf.get_component(straight, **kwargs)
 

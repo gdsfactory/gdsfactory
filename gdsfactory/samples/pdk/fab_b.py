@@ -1,4 +1,4 @@
-"""Lets for example customize the default gf.PDK
+"""Lets for example customize the default gf.PDK.
 
 Fab B is mostly uses optical layers
 but the waveguides required many cladding layers to avoid tiling, dopants...

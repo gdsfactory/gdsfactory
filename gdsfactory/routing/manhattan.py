@@ -52,7 +52,7 @@ def _get_unique_port_facing(
     orientation: float = 0,
     layer: Union[Layer, Layers] = (1, 0),
 ) -> List[Port]:
-    """Ensures there is only one port"""
+    """Ensures there is only one port."""
     ports_selected = []
     if isinstance(layer, list):
         for _layer in layer:
@@ -87,10 +87,10 @@ def _get_bend_ports(
 ) -> List[Port]:
     """Returns West and North facing ports for bend.
 
-    Any standard bend/corner has two ports: one facing west and one facing north
-    Returns these two ports in this order.
-    """
+    Any standard bend/corner has two ports: one facing west and one
+    facing north Returns these two ports in this order.
 
+    """
     ports = bend.ports
 
     p_w = _get_unique_port_facing(ports=ports, orientation=180, layer=layer)
@@ -105,8 +105,9 @@ def _get_straight_ports(
 ) -> List[Port]:
     """Return West and east facing ports for straight waveguide.
 
-    Any standard straight wire/straight has two ports:
-    one facing west and one facing east
+    Any standard straight wire/straight has two ports: one facing west
+    and one facing east
+
     """
     ports = straight.ports
 
@@ -129,6 +130,7 @@ def gen_sref(
     - 1 Mirror
     - 2 Rotate
     - 3 Move
+
     """
     position = np.array(position)
 
@@ -178,6 +180,7 @@ def transform(
         translation (2d like array): translation vector.
         angle_deg: rotation angle.
         x_reflection (bool): if True, mirror the shape across the x axis  (y -> -y).
+
     """
     # Copy
     pts = points[:, :]
@@ -204,12 +207,12 @@ def reverse_transform(
     angle_deg: int = 0,
     x_reflection: bool = False,
 ) -> ndarray:
-    """
-    Args:
-        points (np.array of shape (N,2) ): points to be transformed.
-        translation (2d like array): translation vector.
-        angle_deg: rotation angle.
-        x_reflection: if True, mirror the shape across the x axis  (y -> -y).
+    """Args are the following.
+
+    points (np.array of shape (N,2) ): points to be transformed.
+    translation (2d like array): translation vector.
+    angle_deg: rotation angle.
+    x_reflection: if True, mirror the shape across the x axis  (y -> -y).
     """
     angle_deg = -angle_deg
 
@@ -250,8 +253,8 @@ def _generate_route_manhattan_points(
         start_straight_length: in um.
         end_straight_length: in um.
         min_straight_length: in um.
-    """
 
+    """
     threshold = TOLERANCE
 
     # transform I/O to the case where output is at (0, 0) pointing east (180)
@@ -433,7 +436,6 @@ def _get_bend_reference_parameters(
     First mirror, Then rotate
 
     Returns:
-
     .. code::
 
        p2        p2
@@ -454,7 +456,6 @@ def _get_bend_reference_parameters(
        p2-<-p1->-p2
 
     """
-
     # is_horizontal(dp1), s1, s2 : transform (rotation, vertical mirror)
     transforms_map = {
         (True, 1, 1): (0, False),  # A No transform
@@ -605,6 +606,7 @@ def round_corners(
         with_point_markers: add route points markers (easy for debugging).
         snap_to_grid_nm: nm to snap to grid.
         kwargs: cross_section settings.
+
     """
     from gdsfactory.pdk import get_layer
 
@@ -997,7 +999,10 @@ def route_manhattan(
     **kwargs,
 ) -> Route:
     """Generates the Manhattan waypoints for a route.
-    Then creates the straight, taper and bend references that define the route.
+
+    Then creates the straight, taper and bend references that define the
+    route.
+
     """
     if isinstance(cross_section, list):
         x = [gf.get_cross_section(xsection[0], **kwargs) for xsection in cross_section]

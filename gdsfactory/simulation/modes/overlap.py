@@ -31,8 +31,8 @@ def innerprod_trapz(
         zmax: upper z integration bound.
         trapz_num_y: number of points to resample the mode in y for integration.
         trapz_num_z: number of points to resample the mode in z for integration.
-    """
 
+    """
     # Form vector components
     yint = np.linspace(ymin, ymax, trapz_num_y)
     zint = np.linspace(zmin, zmax, trapz_num_z)

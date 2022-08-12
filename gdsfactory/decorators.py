@@ -31,7 +31,9 @@ def has_valid_transformations(component: Component) -> bool:
 
 
 def flatten_invalid_refs(component: Component, grid_size: Optional[float] = None):
-    """Flattens component references component with invalid GDS transformations.
+    """Flattens component references component with invalid GDS.
+
+    transformations.
 
     (i.e. non-90 deg rotations or sub-grid translations).
 

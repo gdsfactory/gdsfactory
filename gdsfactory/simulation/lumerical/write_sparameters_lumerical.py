@@ -40,6 +40,7 @@ def set_material(session, structure: str, material: MaterialSpec) -> None:
             a string from lumerical database materials.
             a float or int, representing refractive index.
             a complex for n, k materials.
+
     """
     if isinstance(material, str):
         session.setnamed(structure, "material", material)

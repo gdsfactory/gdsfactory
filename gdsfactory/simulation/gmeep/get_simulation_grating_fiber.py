@@ -1,5 +1,4 @@
-"""
-Adapted from https://github.com/simbilod/option
+"""Adapted from https://github.com/simbilod/option.
 
 SMF specs from photonics.byu.edu/FiberOpticConnectors.parts/images/smf28.pdf
 
@@ -7,6 +6,7 @@ MFD:
 
 - 10.4 for Cband
 - 9.2 for Oband
+
 """
 
 import hashlib
@@ -24,7 +24,7 @@ nSiO2 = 1.44
 
 
 def fiber_ncore(fiber_numerical_aperture, fiber_nclad):
-    return (fiber_numerical_aperture**2 + fiber_nclad**2) ** 0.5
+    return (fiber_numerical_aperture ** 2 + fiber_nclad ** 2) ** 0.5
 
 
 def get_simulation_grating_fiber(
@@ -62,6 +62,7 @@ def get_simulation_grating_fiber(
     xmargin: float = 10.0,
 ) -> Dict[str, Any]:
     r"""Returns simulation results from grating coupler with fiber.
+
     na**2 = ncore**2 - nclad**2
     ncore = sqrt(na**2 + ncore**2)
 
@@ -205,7 +206,7 @@ def get_simulation_grating_fiber(
     wg_material = mp.Medium(index=nwg)
     top_clad_material = mp.Medium(index=nclad)
     bottom_clad_material = mp.Medium(index=nbox)
-    fiber_ncore = (fiber_numerical_aperture**2 + fiber_nclad**2) ** 0.5
+    fiber_ncore = (fiber_numerical_aperture ** 2 + fiber_nclad ** 2) ** 0.5
     fiber_clad_material = mp.Medium(index=fiber_nclad)
     fiber_core_material = mp.Medium(index=fiber_ncore)
 
@@ -457,9 +458,8 @@ def get_port_1D_eigenmode(
     band_num: int = 1,
     fiber_angle_deg: float = 15.0,
 ):
-    """
+    """Args are the following.
 
-    Args:
         sim_dict: simulation dict
         band_num: band number to solve for
 
@@ -531,9 +531,7 @@ def get_port_1D_eigenmode(
 
 
 def plot(sim, eps_parameters=None) -> None:
-    """
-    sim: simulation object
-    """
+    """sim: simulation object."""
     sim.plot2D(eps_parameters=eps_parameters)
     # plt.colorbar()
 
@@ -545,7 +543,7 @@ if __name__ == "__main__":
     epsilons = [1, 1.43482, 1.44, 1.44427, 3.47]
 
     eps_parameters = {"contour": True, "levels": np.unique(epsilons)}
-    fiber_na = float(np.sqrt(1.44427**2 - 1.43482**2))
+    fiber_na = float(np.sqrt(1.44427 ** 2 - 1.43482 ** 2))
 
     sim_dict = get_simulation_grating_fiber(
         # grating parameters

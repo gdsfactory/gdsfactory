@@ -49,10 +49,9 @@ def get_effective_indices(
         )
 
     """
-
-    epsilon_core = ncore**2
-    epsilon_cladding = ncladding**2
-    epsilon_substrate = nsubstrate**2
+    epsilon_core = ncore ** 2
+    epsilon_cladding = ncladding ** 2
+    epsilon_substrate = nsubstrate ** 2
 
     thickness = thickness * 1e-6
     wavelength = wavelength * 1e-6

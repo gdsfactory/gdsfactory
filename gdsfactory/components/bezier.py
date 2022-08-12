@@ -22,7 +22,7 @@ def bezier_curve(t: ndarray, control_points: Coordinates) -> ndarray:
     ys = 0.0
     n = len(control_points) - 1
     for k in range(n + 1):
-        ank = binom(n, k) * (1 - t) ** (n - k) * t**k
+        ank = binom(n, k) * (1 - t) ** (n - k) * t ** k
         xs += ank * control_points[k][0]
         ys += ank * control_points[k][1]
 
@@ -87,12 +87,11 @@ def find_min_curv_bezier_control_points(
         return list(zip(xs, ys))
 
     def objective_func(p):
-        """
-        We want to minimize a combination of:
-            - max curvature
-            - negligible mismatch with start angle and end angle
-        """
+        """We want to minimize a combination of the following.
 
+        - max curvature
+        - negligible mismatch with start angle and end angle
+        """
         ps = array_1d_to_cpts(p)
         control_points = [start_point] + ps + [end_point]
         path_points = bezier_curve(t, control_points)

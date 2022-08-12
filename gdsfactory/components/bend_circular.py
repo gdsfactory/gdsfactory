@@ -32,7 +32,6 @@ def bend_circular(
                 /
                /
        o1_____/
-
     """
     x = gf.get_cross_section(cross_section, **kwargs)
     radius = x.radius

@@ -46,7 +46,6 @@ def ring_double(
          --==cb==-- gap
 
           length_x
-
     """
     assert_on_2nm_grid(gap)
 

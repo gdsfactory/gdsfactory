@@ -58,14 +58,13 @@ def grating_coupler_elliptical_trenches(
         WG  o1  ______________|
 
     """
-
     xs = gf.get_cross_section(cross_section, **kwargs)
     wg_width = xs.width
     layer = xs.layer
 
     # Compute some ellipse parameters
     sthc = np.sin(fiber_angle * DEG2RAD)
-    d = neff**2 - ncladding**2 * sthc**2
+    d = neff ** 2 - ncladding ** 2 * sthc ** 2
     a1 = wavelength * neff / d
     b1 = wavelength / np.sqrt(d)
     x1 = wavelength * ncladding * sthc / d

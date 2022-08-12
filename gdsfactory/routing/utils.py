@@ -35,7 +35,11 @@ def direction_ports_from_list_ports(optical_ports: List[Port]) -> Dict[str, List
 
 
 def check_ports_have_equal_spacing(list_ports: List[Port]) -> float64:
-    """Returns port separation. Raises error if not constant."""
+    """Returns port separation.
+
+    Raises error if not constant.
+
+    """
     if not isinstance(list_ports, list):
         raise ValueError(f"list_ports should be a list of ports, got {list_ports}")
     if not list_ports:

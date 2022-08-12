@@ -1,4 +1,5 @@
-""" bends with grating couplers inside the spiral
+"""Bends with grating couplers inside the spiral.
+
 maybe: need to add grating coupler loopback as well
 """
 from typing import Optional, Tuple
@@ -14,7 +15,7 @@ from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 def get_bend_port_distances(bend: Component) -> Tuple[float64, float64]:
-    """Returns distance between bend ports"""
+    """Returns distance between bend ports."""
     p0, p1 = bend.ports.values()
     return abs(p0.x - p1.x), abs(p0.y - p1.y)
 
@@ -45,9 +46,7 @@ def spiral_external_io(
         length: length in um, it is the approximates total length.
         cross_section: spec.
         kwargs: cross_section settings.
-
     """
-
     if length:
         x_inner_length_cutback = length / (4 * (N - 1))
 

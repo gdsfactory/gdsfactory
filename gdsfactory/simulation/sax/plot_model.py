@@ -38,6 +38,7 @@ def plot_model(
         import gdsfactory.simulation.sax as gs
 
         gs.plot_model(gs.models.straight, phase=True, port1="o1")
+
     """
     wavelengths = np.linspace(wavelength_start, wavelength_stop, wavelength_points)
     sdict = model(wl=wavelengths)

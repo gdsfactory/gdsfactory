@@ -34,6 +34,7 @@ def get_material(
     Note:
         Using the built-in models can be problematic at low resolution.
         If fields are NaN or Inf, increase resolution or use a non-dispersive model.
+
     """
     material_name_to_meep_new = material_name_to_meep or {}
     material_name_to_meep = MATERIAL_NAME_TO_MEEP.copy()
@@ -62,7 +63,7 @@ def get_material(
             return mp.Medium(epsilon=medium.epsilon(1 / wavelength)[0][0])
     else:
         index = name_or_index
-        return mp.Medium(epsilon=index**2)
+        return mp.Medium(epsilon=index ** 2)
 
 
 def get_index(
@@ -85,7 +86,7 @@ def get_index(
 
     epsilon_matrix = medium.epsilon(1 / wavelength)
     epsilon11 = epsilon_matrix[0][0]
-    return float(epsilon11.real**0.5)
+    return float(epsilon11.real ** 0.5)
 
 
 def test_index() -> None:

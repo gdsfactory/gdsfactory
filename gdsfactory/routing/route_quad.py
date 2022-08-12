@@ -1,4 +1,4 @@
-""" Route for electrical based on phidl.routing.route_quad. """
+"""Route for electrical based on phidl.routing.route_quad."""
 from typing import Optional
 
 import numpy as np
