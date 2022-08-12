@@ -73,9 +73,8 @@ def boolean_klayout(
 
 
 def _demo() -> None:
-    import klayout.db as pya
-
     import gdsfactory as gf
+    import klayout.db as pya
 
     gdspath1 = gf.Component("ellipse1")
     gdspath1.add_ref(gf.components.ellipse(radii=[10, 5], layer=(1, 0)))

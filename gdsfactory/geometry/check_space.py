@@ -72,9 +72,8 @@ def check_space(
 
 
 if __name__ == "__main__":
-    import klayout.db as pya
-
     import gdsfactory as gf
+    import klayout.db as pya
 
     space = 0.12
     min_space = 0.1
