@@ -240,7 +240,8 @@ def get_straight_length(
 
 
 if __name__ == "__main__":
-    c = spiral_inner_io(radius=20, width=0.2)
+    c = spiral_inner_io_fiber_single()
+    # c = spiral_inner_io(radius=20, width=0.2)
     # cross_section_wide = gf.partial(gf.cross_section.strip_auto_widen)
 
     # c = spiral_inner_io_fiber_single(

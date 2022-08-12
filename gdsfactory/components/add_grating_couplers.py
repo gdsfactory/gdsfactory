@@ -9,6 +9,10 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
+from gdsfactory.components.spiral_inner_io import (
+    spiral_inner_io,
+    spiral_inner_io_fiber_single,
+)
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports_optical
@@ -77,7 +81,7 @@ def add_grating_couplers(
 
 @cell
 def add_grating_couplers_with_loopback_fiber_single(
-    component: ComponentSpec = straight_function,
+    component: ComponentSpec = spiral_inner_io_fiber_single,
     grating_coupler: ComponentSpec = grating_coupler_te,
     layer_label: Optional[Tuple[int, int]] = (200, 0),
     gc_port_name: str = "o1",
@@ -114,14 +118,15 @@ def add_grating_couplers_with_loopback_fiber_single(
     c.component = component
     c.add_ref(component)
     grating_coupler = gf.get_component(grating_coupler)
+
     c.info["polarization"] = grating_coupler.info["polarization"]
     c.info["wavelength"] = grating_coupler.info["wavelength"]
-
     component_name = component_name or component.metadata_child.get("name")
 
     io_gratings = []
     optical_ports = select_ports(component.ports)
     optical_ports = list(optical_ports.values())
+
     for port in optical_ports:
         gc_ref = grating_coupler.ref()
         gc_port = gc_ref.ports[gc_port_name]
@@ -132,7 +137,7 @@ def add_grating_couplers_with_loopback_fiber_single(
 
     labels = get_input_labels_function(
         io_gratings,
-        list(component.ports.values()),
+        optical_ports,
         component_name=component_name,
         layer_label=layer_label,
         gc_port_name=gc_port_name,
@@ -143,7 +148,6 @@ def add_grating_couplers_with_loopback_fiber_single(
     p1 = optical_ports[-1]
 
     if with_loopback:
-
         if rotation in {0, 180}:
             length = abs(p2.x - p1.x)
             wg = c << gf.get_component(
@@ -201,7 +205,7 @@ def add_grating_couplers_with_loopback_fiber_single(
 
 @cell
 def add_grating_couplers_with_loopback_fiber_array(
-    component: ComponentSpec = straight_function,
+    component: ComponentSpec = spiral_inner_io,
     grating_coupler: ComponentSpec = grating_coupler_te,
     excluded_ports: Optional[List[str]] = None,
     grating_separation: float = 127.0,
@@ -214,11 +218,12 @@ def add_grating_couplers_with_loopback_fiber_array(
     layer_label: Tuple[int, int] = (200, 0),
     layer_label_loopback: Optional[Tuple[int, int]] = None,
     component_name: Optional[str] = None,
-    with_loopback: bool = True,
+    with_loopback: bool = False,
     nlabels_loopback: int = 2,
     get_input_labels_function: Callable = get_input_labels,
     cross_section: CrossSectionSpec = strip,
     select_ports: Callable = select_ports_optical,
+    loopback_yspacing: float = 4.0,
     **kwargs,
 ) -> Component:
     """Returns a component with grating_couplers and loopback.
@@ -243,6 +248,7 @@ def add_grating_couplers_with_loopback_fiber_array(
         get_input_labels_function: for getting test labels.
         cross_section: CrossSectionSpec.
         select_ports: function to select ports.
+        loopback_yspacing: in um.
         kwargs: cross_section settings.
     """
     component = gf.get_component(component)
@@ -253,6 +259,7 @@ def add_grating_couplers_with_loopback_fiber_array(
 
     direction = "S"
     component_name = component_name or component.metadata_child.get("name")
+
     c = Component()
     c.component = component
     c.info["polarization"] = gc.info["polarization"]
@@ -267,6 +274,7 @@ def add_grating_couplers_with_loopback_fiber_array(
     # List the optical ports to connect
     optical_ports = select_ports(component.ports)
     optical_ports = list(optical_ports.values())
+
     optical_ports = [p for p in optical_ports if p.name not in excluded_ports]
     optical_ports = direction_ports_from_list_ports(optical_ports)[direction]
 
@@ -295,7 +303,7 @@ def add_grating_couplers_with_loopback_fiber_array(
     c.add(labels)
 
     if with_loopback:
-        y0 = references[0].ports[gc_port_name].y
+        y0 = references[0].ports[gc_port_name].y - loopback_yspacing
         xs = [p.x for p in optical_ports]
         x0 = min(xs) - grating_separation
         x1 = max(xs) + grating_separation
@@ -373,10 +381,12 @@ if __name__ == "__main__":
     # print(c.wavelength)
     # print(c.get_property('wavelength'))
     # c = gf.components.straight()
-    c = gf.components.mzi_phase_shifter()
-    c = add_grating_couplers_with_loopback_fiber_single(component=c, rotation=0)
+    # c = gf.components.mzi_phase_shifter()
+    # c = add_grating_couplers_with_loopback_fiber_single(component=c, rotation=0)
     # c = gf.components.spiral_inner_io()
     # c = add_grating_couplers_with_loopback_fiber_array(component=c)
     # c = add_grating_couplers(c)
 
+    # c = add_grating_couplers_with_loopback_fiber_array()
+    c = add_grating_couplers_with_loopback_fiber_single()
     c.show(show_ports=True)
