@@ -11,13 +11,13 @@ def straight2a(
     cross_section2: CrossSectionSpec = gf.cross_section.pin,
     **kwargs
 ) -> gf.Component:
-    r"""Returns a contatentation of two cross_sections
+    """Returns a contatentation of two cross_sections.
 
     Args:
-        length1: for the first section
-        length1: for the second section
-        cross_section1: for the input
-        cross_section2: for the output
+        length1: for the first section.
+        length1: for the second section.
+        cross_section1: for the input.
+        cross_section2: for the output.
 
     """
     c = gf.Component()
