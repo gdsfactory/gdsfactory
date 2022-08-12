@@ -45,9 +45,7 @@ def add_grating_couplers(
         get_input_labels_function: function to get label.
         select_ports: for selecting optical_ports.
         component_name: optional component name.
-
     """
-
     c = Component()
     component = gf.get_component(component)
 

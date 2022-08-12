@@ -1,4 +1,4 @@
-"""FIXME: needs some work
+"""FIXME: needs some work.
 
 - figure out get_farfield outputs
 - add tutorial in docs/notebooks/plugins/meep/002_gratings.ipynb
@@ -20,7 +20,7 @@ nSiO2 = 1.44
 
 
 def fiber_ncore(fiber_numerical_aperture, fiber_nclad):
-    return (fiber_numerical_aperture**2 + fiber_nclad**2) ** 0.5
+    return (fiber_numerical_aperture ** 2 + fiber_nclad ** 2) ** 0.5
 
 
 def get_simulation_grating_farfield(
@@ -86,6 +86,7 @@ def get_simulation_grating_farfield(
 
     Some parameters are different from get_simulation_grating_fiber
         fiber_thickness: fiber_thickness.
+
     """
     wavelengths = np.linspace(wavelength_min, wavelength_max, wavelength_points)
     wavelength = np.mean(wavelengths)
@@ -179,7 +180,7 @@ def get_simulation_grating_farfield(
     fiber_clad = 120
     hfiber_geom = 100  # Some large number to make fiber extend into PML
 
-    fiber_ncore = (fiber_numerical_aperture**2 + fiber_nclad**2) ** 0.5
+    fiber_ncore = (fiber_numerical_aperture ** 2 + fiber_nclad ** 2) ** 0.5
     fiber_clad_material = mp.Medium(index=fiber_nclad)
     fiber_core_material = mp.Medium(index=fiber_ncore)
 
@@ -331,8 +332,7 @@ def get_simulation_grating_farfield(
 
 
 def get_farfield(wavelength: float = 1.55, **kwargs):
-    """
-    FIXME: figure out outputs
+    """FIXME: figure out outputs.
 
     based on
     http://www.simpetus.com/projects.html#meep_outcoupler
@@ -373,9 +373,8 @@ def get_port_1D_eigenmode(
     band_num: int = 1,
     fiber_angle_deg: float = 15,
 ):
-    """
+    """Args are the following.
 
-    Args:
         sim_dict: simulation dict
         band_num: band number to solve for
         fiber_angle_deg
@@ -448,7 +447,7 @@ def get_port_1D_eigenmode(
 
 
 def plot(sim) -> None:
-    """sim: simulation object"""
+    """sim: simulation object."""
     sim.plot2D(eps_parameters={"contour": True})
     # plt.colorbar()
 

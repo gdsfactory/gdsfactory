@@ -19,7 +19,9 @@ def bend_euler(
     cross_section: CrossSectionSpec = "strip",
     **kwargs
 ) -> Component:
-    """Returns an euler bend that adiabatically transitions from straight to curved.
+    """Returns an euler bend that adiabatically transitions from straight to.
+
+    curved.
 
     By default, `radius` corresponds to the minimum radius of curvature of the bend.
     However, if `with_arc_floorplan` is True, `radius` corresponds to the effective
@@ -42,7 +44,6 @@ def bend_euler(
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
         kwargs: cross_section settings.
 
-
     .. code::
 
                   o2
@@ -51,8 +52,6 @@ def bend_euler(
                 /
                /
        o1_____/
-
-
     """
     x = gf.get_cross_section(cross_section, **kwargs)
     radius = x.radius
@@ -136,8 +135,6 @@ def bend_straight_bend(
         direction: cw (clock-wise) or ccw (counter clock-wise).
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
         kwargs: cross_section settings.
-
-
     """
     c = Component()
     b = bend_euler(

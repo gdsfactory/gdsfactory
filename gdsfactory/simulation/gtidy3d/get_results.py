@@ -1,4 +1,4 @@
-"""Tidy3D """
+"""Tidy3D."""
 
 import concurrent.futures
 import hashlib
@@ -34,6 +34,7 @@ def _get_results(
         sim: tidy3d Simulation.
         dirpath: to store results locally.
         overwrite: overwrites the data even when path exists.
+
     """
     # task_name = sim_hash = get_sim_hash(sim)
     # sim_path = dirpath / f"{sim_hash}.hdf5"

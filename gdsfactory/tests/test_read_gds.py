@@ -20,7 +20,8 @@ def test_read_gds_hash() -> gf.Component:
 
 
 def test_read_gds_equivalent() -> None:
-    """Ensures we load Component from GDS + YAML and get the same component settings"""
+    """Ensures we load Component from GDS + YAML and get the same component
+    settings."""
     c1 = gf.components.straight(length=1.234)
     gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
 
@@ -37,8 +38,10 @@ def test_read_gds_equivalent() -> None:
 
 def test_mix_cells_from_gds_and_from_function() -> None:
     """Ensures not duplicated cell names.
-    when cells loaded from GDS and have the same name as a function
-    with @cell decorator
+
+    when cells loaded from GDS and have the same name as a function with
+    @cell decorator
+
     """
     gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
     c = gf.Component("test_mix_cells_from_gds_and_from_function")

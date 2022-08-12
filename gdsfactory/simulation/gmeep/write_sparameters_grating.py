@@ -1,4 +1,4 @@
-"""SMF specs from photonics.byu.edu/FiberOpticConnectors.parts/images/smf28.pdf
+"""SMF specs from photonics.byu.edu/FiberOpticConnectors.parts/images/smf28.pdf.
 
 MFD:
 
@@ -36,7 +36,7 @@ Floats = Tuple[float, ...]
 
 
 def fiber_ncore(fiber_numerical_aperture, fiber_nclad):
-    return (fiber_numerical_aperture**2 + fiber_nclad**2) ** 0.5
+    return (fiber_numerical_aperture ** 2 + fiber_nclad ** 2) ** 0.5
 
 
 def write_sparameters_grating(
@@ -259,8 +259,8 @@ def write_sparameters_grating_mpi(
         temp_dir (FilePath): temporary directory to hold simulation files.
         temp_file_str (str): names of temporary files in temp_dir.
         verbosity (bool): progress messages.
-    """
 
+    """
     # Save the component object to simulation for later retrieval
     temp_dir = temp_dir or pathlib.Path(__file__).parent / "temp"
     temp_dir = pathlib.Path(temp_dir)
@@ -323,6 +323,7 @@ def write_sparameters_grating_batch(
         temp_dir: temporary directory to hold simulation files.
         delete_temp_file: whether to delete temp_dir when done.
         verbosity: show progress messages.
+
     """
     # Save the component object to simulation for later retrieval
     temp_dir = temp_dir or pathlib.Path(__file__).parent / "temp"

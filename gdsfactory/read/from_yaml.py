@@ -167,6 +167,7 @@ def place(
         instance_name: instance_name to place.
         all_remaining_insts: list of all the remaining instances to place
             instances pop from this instrance as they are placed.
+
     """
     if not all_remaining_insts:
         return
@@ -557,7 +558,6 @@ def from_yaml(
                     mmi_top,o3: mmi_bot,o1
 
     """
-
     yaml_str = (
         io.StringIO(yaml_str)
         if isinstance(yaml_str, str) and "\n" in yaml_str
@@ -598,6 +598,7 @@ def _from_yaml(
         conf: dict.
         routing_strategy: for each route.
         label_instance_function: to label each instance.
+
     """
     from gdsfactory.pdk import GENERIC, get_active_pdk
 

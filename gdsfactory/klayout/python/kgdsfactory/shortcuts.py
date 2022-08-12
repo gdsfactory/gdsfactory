@@ -1,5 +1,4 @@
-"""Keybindings inspired by SiEPIC tools.
-"""
+"""Keybindings inspired by SiEPIC tools."""
 
 import pya
 

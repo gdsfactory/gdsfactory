@@ -37,8 +37,8 @@ def fanout2x2(
 
         cc = gf.routing.fanout2x2(component=c, port_spacing=20)
         cc.plot()
-    """
 
+    """
     c = gf.Component()
 
     component = gf.get_component(component)

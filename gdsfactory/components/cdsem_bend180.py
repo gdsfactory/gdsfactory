@@ -34,7 +34,6 @@ def cdsem_bend180(
         bend90: spec.
         cross_section: spec.
         text: spec.
-
     """
     c = Component()
     r = radius

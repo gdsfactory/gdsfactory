@@ -63,6 +63,7 @@ def get_mode_solver_rib(
           |__________________________
           <------------------------>
                         sy
+
     """
     material_core = mp.Medium(index=ncore)
     material_clad = mp.Medium(index=nclad)
@@ -161,7 +162,7 @@ if __name__ == "__main__":
     cmap = "binary"
     origin = "lower"
     plt.imshow(
-        eps.T**0.5,
+        eps.T ** 0.5,
         cmap=cmap,
         origin=origin,
         aspect="auto",

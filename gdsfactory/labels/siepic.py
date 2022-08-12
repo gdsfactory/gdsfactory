@@ -29,6 +29,7 @@ def get_input_label_text(
         gc_index: grating coupler index.
         component_name: optional component name.
         username: for the label.
+
     """
     polarization = gc.info.get("polarization")
     wavelength = gc.info.get("wavelength")
@@ -75,6 +76,7 @@ def get_input_labels(
         gc_port_name: grating_coupler port.
         port_index: index of the port.
         get_input_label_text_function: function.
+
     """
     gc = io_gratings[port_index]
     port = ordered_ports[1]
@@ -123,6 +125,7 @@ def add_fiber_array_siepic(
         grating_coupler: grating coupler instance, function or list of functions.
         cross_section: spec.
         layer_label: for label.
+
     """
     c = gf.Component()
 

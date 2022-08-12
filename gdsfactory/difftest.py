@@ -16,6 +16,7 @@ class GdsRegressionFixture(FileRegressionFixture):
             ):
         try:
             difftest(c)
+
 """
 import filecmp
 import pathlib
@@ -47,6 +48,7 @@ def difftest(
         test_name: used to store the GDS file.
         xor: runs xor if there is difference.
         dirpath: defaults to cwd refers to where the test is being invoked.
+
     """
     from lytest.kdb_xor import GeometryDifference, run_xor
 

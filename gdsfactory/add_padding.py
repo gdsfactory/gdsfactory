@@ -84,7 +84,6 @@ def add_padding_container(
         right: east padding in um.
         left: west padding in um.
     """
-
     component = gf.get_component(component)
 
     c = Component()
@@ -146,8 +145,9 @@ def add_padding_to_size_container(
     left: float = 0,
     bottom: float = 0,
 ) -> Component:
-    """Returns new component with padding layers on each side.
-    New size is multiple of grid size
+    """Returns new component with padding layers on each side. New size is.
+
+    multiple of grid size.
 
     Args:
         component: to add padding.

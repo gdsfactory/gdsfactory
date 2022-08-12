@@ -18,7 +18,7 @@ def nxn(
     wg_margin: float = 1.0,
     **kwargs,
 ) -> Component:
-    """returns a nxn component with nxn ports (west, east, north, south)
+    """Returns a nxn component with nxn ports (west, east, north, south).
 
     Args:
         west: number of west ports.
@@ -31,7 +31,6 @@ def nxn(
         wg_margin: margin from straight to component edge.
         kwargs: port_settings.
 
-
     .. code::
 
             3   4
@@ -41,7 +40,6 @@ def nxn(
         1 -|______|- 6
             |   |
             8   7
-
     """
     c = gf.Component()
     c << gf.components.rectangle(size=(xsize, ysize), layer=layer)

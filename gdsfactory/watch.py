@@ -20,6 +20,7 @@ class YamlEventHandler(FileSystemEventHandler):
     """Captures pic.yml file change events."""
 
     def __init__(self, logger=None, path: Optional[str] = None):
+        """Initialize the YAML event handler."""
         super().__init__()
 
         self.logger = logger or logging.root
@@ -30,6 +31,7 @@ class YamlEventHandler(FileSystemEventHandler):
         """Register new YAML file into active pdk.
 
         pdk.cells[filename] = partial(from_yaml, filepath)
+
         """
         pdk = get_active_pdk()
         filepath = pathlib.Path(src_path)

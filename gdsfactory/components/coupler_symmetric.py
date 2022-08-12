@@ -37,7 +37,6 @@ def coupler_symmetric(
                            E0
 
     """
-
     x = gf.get_cross_section(cross_section, **kwargs)
     width = x.width
     bend_component = gf.get_component(

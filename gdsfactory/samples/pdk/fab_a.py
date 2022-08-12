@@ -1,4 +1,4 @@
-"""Lets for example customize the default gdsfactory PDK
+"""Lets for example customize the default gdsfactory PDK.
 
 Fab A is mostly defined using wide layers in GDS layer (1, 0)
 

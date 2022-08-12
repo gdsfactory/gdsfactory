@@ -61,6 +61,7 @@ def route_south(
         for e in r.references:
             c.add(e)
         c.plot()
+
     """
     xs = gf.get_cross_section(cross_section)
     excluded_ports = excluded_ports or []

@@ -1,6 +1,7 @@
 """Returns Component from OASIS file.
 
 based on https://github.com/atait/phidl.git
+
 """
 
 import os
@@ -19,6 +20,7 @@ def import_oas(
         filename: filepath for oasis file.
         cellname: to import. Defaults to TOP cell.
         flatten: flattens hierarchy.
+
     """
     filename = str(filename)
 

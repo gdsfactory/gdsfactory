@@ -18,6 +18,7 @@ def model_from_gdsfactory(
         component: component factory or instance.
         dirpath: sparameters directory.
         kwargs: settings.
+
     """
     kwargs.pop("function_name", "")
     kwargs.pop("module", "")
