@@ -1,3 +1,4 @@
+import copy as python_copy
 import datetime
 import hashlib
 import itertools
@@ -676,17 +677,7 @@ class Component(Device):
 
         self.get_child_name = True
         self.child = component
-
-        polarization = component.info.get("polarization")
-        wavelength = component.info.get("wavelength")
-        interconnect = component.info.get("interconnect")
-
-        if polarization:
-            self.info["polarization"] = polarization
-        if wavelength:
-            self.info["wavelength"] = wavelength
-        if interconnect:
-            self.info["interconnect"] = interconnect
+        self.info.update(python_copy.deepcopy(component.info))
 
     @property
     def size_info(self) -> SizeInfo:
@@ -1483,68 +1474,8 @@ def test_bbox_component() -> None:
 
 
 if __name__ == "__main__":
-    # import gdsfactory as gf
-    # c = gf.Component("demo")
-    # c2 = gf.components.mmi1x2()
-    # c2.unlock()
-    # c2.add_label(text="a")
+    import gdsfactory as gf
 
-    # ref = c << c2
-    # ref.rotate(90)
-    # print(c.get_labels())
-
-    # test_extract()
-    c = test_get_layers()
-    c.show(show_ports=True)
-
-    # test_bbox_reference()
-    # test_bbox_component()
-
-    # import holoviews as hv
-    # from bokeh.plotting import output_file
-    # import gdsfactory as gf
-    # hv.extension("bokeh")
-    # output_file("plot.html")
-
-    # c = gf.components.rectangle(size=(4, 2), layer=(0, 0))
-    # c.show(show_ports=True)
-
-    # c = gf.components.straight(length=2, info=dict(ng=4.2, wavelength=1.55))
-    # p = c.ploth()
-    # show(p)
-
-    # c = gf.Component("component_with_offgrid_polygons")
-    # c1 = c << gf.components.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
-    # c2 = c << gf.components.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
-    # c2.xmin = c1.xmax
-    # c.show(show_ports=True)
-
-    # c = gf.Component("component_with_offgrid_polygons")
-    # c1 = c << gf.components.rectangle(size=(1.01e-3, 1.01e-3), port_type=None)
-    # c2 = c << gf.components.rectangle(size=(1.1e-3, 1.1e-3), port_type=None)
-    # print(c1.xmax)
-    # c2.xmin = c1.xmax
-    # c.show(show_ports=True)
-
-    # c2 = gf.components.mzi()
-    # c2.show(show_subports=True)
-    # c2.write_gds_with_metadata("a.gds")
-    # print(c)
-    # c = Component()
-    # print(c.metadata_child.get('name'))
-
-    # import toolz
-    # import gdsfactory as gf
-
-    # ring_te = toolz.compose(gf.routing.add_fiber_array, gf.components.ring_single)
-    # rings = gf.grid([ring_te(radius=r) for r in [10, 20, 50]])
-
-    # @gf.cell
-    # def mask(size=(1000, 1000)):
-    #     c = gf.Component()
-    #     c << gf.components.die(size=size)
-    #     c << rings
-    #     return c
-
-    # m = mask()
-    # gdspath = m.write_gds_with_metadata(gdspath="mask.gds")
+    c = gf.components.bend_euler()
+    c2 = c.mirror()
+    print(c2.info)

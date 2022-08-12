@@ -271,6 +271,7 @@ def add_fiber_single(
             )
 
     c.copy_child_info(component)
+    c.info["grating_coupler"] = gc.info
     return c
 
 
