@@ -856,7 +856,7 @@ def round_corners(
             if callable(cross_section):
                 cross_section_wide = gf.partial(cross_section, **kwargs_wide)
             else:
-                cross_section_wide = cross_section.copy(width=width_wide)
+                cross_section_wide = x.copy(width=width_wide)
             wg = gf.get_component(
                 straight, length=length, cross_section=cross_section_wide
             )
