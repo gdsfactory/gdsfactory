@@ -1,5 +1,8 @@
-"""__ _|  |_ __   | |  |_   _.
+"""Returns a switch_tree.
 
+          __
+        _|  |_
+  __   | |  |_   _
  |  |__| |__|    |
 _|  |__          |dy
  |__|  |  __     |
@@ -8,8 +11,8 @@ _|  |__          |dy
          |__|
 
    |<-dx->|
-"""
 
+"""
 
 import gdsfactory as gf
 from gdsfactory.components.mmi2x2 import mmi2x2

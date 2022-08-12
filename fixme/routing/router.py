@@ -1,7 +1,4 @@
-"""
-This router could save more routing space with a more direct algorithm
-
-"""
+"""This router could save more routing space with a more direct algorithm."""
 
 import gdsfactory as gf
 from gdsfactory.components.extend_ports_list import extend_ports_list

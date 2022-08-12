@@ -82,6 +82,51 @@ add_frame
 
 
 
+add_grating_couplers
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.add_grating_couplers
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.add_grating_couplers(layer_label=[200, 0], gc_port_name='o1')
+  c.plot()
+
+
+
+add_grating_couplers_with_loopback_fiber_array
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.add_grating_couplers_with_loopback_fiber_array
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.add_grating_couplers_with_loopback_fiber_array(grating_separation=127.0, gc_port_name='o1', gc_rotation=-90, straight_separation=5.0, layer_label=[200, 0], with_loopback=False, nlabels_loopback=2, loopback_yspacing=4.0)
+  c.plot()
+
+
+
+add_grating_couplers_with_loopback_fiber_single
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.add_grating_couplers_with_loopback_fiber_single
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.add_grating_couplers_with_loopback_fiber_single(layer_label=[200, 0], gc_port_name='o1', with_loopback=True, loopback_xspacing=5.0, rotation=90)
+  c.plot()
+
+
+
 align_wafer
 ----------------------------------------------------
 
@@ -2775,7 +2820,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='5.13.0', text_size=10)
+  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='5.16.0', text_size=10)
   c.plot()
 
 

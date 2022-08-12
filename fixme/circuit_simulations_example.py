@@ -1,16 +1,16 @@
-"""Demo of non-hierarchical circuit simulations.
-"""
+"""Demo of non-hierarchical circuit simulations."""
 import jax.numpy as jnp
 import sax
 import gdsfactory as gf
 
 
 def straight(wl=1.5, length=10.0, neff=2.4) -> sax.SDict:
+    """Straight model."""
     return sax.reciprocal({("o1", "o2"): jnp.exp(2j * jnp.pi * neff * length / wl)})
 
 
 def mmi1x2():
-    """Assumes a perfect 1x2 splitter"""
+    """Assumes a perfect 1x2 splitter."""
     return sax.reciprocal(
         {
             ("o1", "o2"): 0.5**0.5,
@@ -20,7 +20,7 @@ def mmi1x2():
 
 
 def bend_euler(wl=1.5, length=20.0):
-    """ "Let's assume a reduced transmission for the euler bend compared to a straight"""
+    """Assumes reduced transmission for the euler bend compared to a straight."""
     return {k: 0.99 * v for k, v in straight(wl=wl, length=length).items()}
 
 
