@@ -22,12 +22,6 @@ major:
 	python docs/write_components_doc.py
 
 plugins:
-	wget -P devsim https://github.com/devsim/devsim/releases/download/v2.1.0/devsim_linux_v2.1.0.tgz
-	tar zxvf devsim/devsim_linux_v2.1.0.tgz --directory devsim
-	python devsim/devsim_linux_v2.1.0/install.py
-	pip install -e devsim/devsim_linux_v2.1.0/lib # Works in this specific way
-	pip install mkl
-	mamba install pyvista -y
 	pip install -r requirements_sipann.txt
 	pip install sax jax jaxlib
 	mamba install pymeep=*=mpi_mpich_* -y
@@ -56,7 +50,7 @@ gdslib:
 	git clone https://github.com/gdsfactory/gdslib.git -b data
 
 test:
-	flake8
+	flake8 gdsfactory
 	pytest -s
 
 test-force:

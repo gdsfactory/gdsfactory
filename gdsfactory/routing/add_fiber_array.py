@@ -162,6 +162,7 @@ def add_fiber_array(
                 component_new.add_port(f"{port.name}_{i}{j}", port=port)
 
     component_new.copy_child_info(component)
+    component_new.info["grating_coupler"] = gc.info
     return component_new
 
 
@@ -207,7 +208,8 @@ if __name__ == "__main__":
     # c = gf.components.ring_single()
     # c = gf.components.straight_heater_metal()
     # c = gf.components.spiral(direction="NORTH")
-    c = gf.components.mzi()
+
+    c = gf.components.bend_euler(info=dict(doe="bends"))
     cc = add_fiber_array(
         component=c,
         # optical_routing_type=0,
@@ -222,5 +224,6 @@ if __name__ == "__main__":
         # layer=(2, 0),
         gc_port_labels=["loop_in", "in", "out", "loop_out"],
         cross_section=strip,
+        info=dict(a=1),
     )
     cc.show(show_ports=True)
