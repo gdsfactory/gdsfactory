@@ -1,4 +1,7 @@
-"""Returns simulation from cross-section."""
+"""Returns simulation from cross-section.
+
+isort:skip_file
+"""
 
 import numpy as np
 import pyvista as pv
