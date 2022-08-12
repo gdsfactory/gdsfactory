@@ -130,6 +130,7 @@ class Route(BaseModel):
 
     class Config:
         """Config for Route."""
+
         extra = Extra.forbid
 
 
@@ -141,6 +142,7 @@ class Routes(BaseModel):
 
     class Config:
         """Config for Routes."""
+
         extra = Extra.forbid
 
 

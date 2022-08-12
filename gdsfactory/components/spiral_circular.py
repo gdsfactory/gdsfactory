@@ -86,8 +86,8 @@ def spiral_circular(
     theta_1 = np.linspace(360.0 * inner_revs, 360.0 * (revolutions - 1) + 270, points)
     theta_2 = np.linspace(360.0 * inner_revs, 360.0 * revolutions, points)
     a = np.sqrt(spacing / 180.0)
-    radii_1 = a ** 2 * theta_1
-    radii_2 = -(a ** 2) * theta_2
+    radii_1 = a**2 * theta_1
+    radii_2 = -(a**2) * theta_2
     x_1, y_1 = pol_to_rect(radii_1, theta_1)
     x_1 = np.append(x_1, x_1[-1] + 0.03)
     y_1 = np.append(y_1, y_1[-1])

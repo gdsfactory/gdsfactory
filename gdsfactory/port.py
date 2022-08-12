@@ -281,7 +281,7 @@ class Port:
         self.center = (p1 + p2) / 2
         dx, dy = p2 - p1
         self.orientation = np.arctan2(dx, -dy) * 180 / np.pi
-        self.width = np.sqrt(dx ** 2 + dy ** 2)
+        self.width = np.sqrt(dx**2 + dy**2)
 
     @property
     def normal(self) -> ndarray:
@@ -449,7 +449,7 @@ def csv2port(csvpath) -> Dict[str, Port]:
 
 def sort_ports_clockwise(ports: Dict[str, Port]) -> Dict[str, Port]:
     """Sort and return ports in the clockwise direction.
-    
+
     .. code::
 
         3   4

@@ -10,7 +10,7 @@ import gdsfactory as gf
 
 
 @gf.cell
-def lidar(noutputs=2 ** 2, antenna_pitch=2.0, splitter_tree_spacing=(50.0, 70.0)):
+def lidar(noutputs=2**2, antenna_pitch=2.0, splitter_tree_spacing=(50.0, 70.0)):
     c = gf.Component("lidar")
 
     # power Splitter
@@ -49,5 +49,5 @@ def lidar(noutputs=2 ** 2, antenna_pitch=2.0, splitter_tree_spacing=(50.0, 70.0)
 
 
 if __name__ == "__main__":
-    c = lidar(noutputs=2 ** 4)
+    c = lidar(noutputs=2**4)
     c.show(show_ports=True)
