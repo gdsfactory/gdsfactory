@@ -38,12 +38,14 @@ class PINWaveguide(BaseModel):
                      <--->             <---->
                         p_offset n_offset
                              <-> <->
-                           _____|_____ _ _ _ _ _ _ _ _ _
-                          |  |     |  |                |
-          ________________|  |     |  |___________=====|
+         xcontact          _____|_____ _ _ _ _ _ _ _ _ _
+          <---->          |  |     |  |                |
+          ======__________|  |     |  |__________======|
           |          |       |     |         |         | wg_thickness
-          |   Ppp    |   P   |  i  |    N    |   Npp   |
+          |  Ppp+P   |   P   |  i  |    N    |  Npp+N  |
           |__________|_______|_____|_________|_________|
+          ^          ^       ^     ^         ^         ^
+      pp_res_x   pp_p_res     pn_res      pp_p_res  pp_res_x
           <-------------------------------------------->
                                w_sim
 
@@ -63,7 +65,13 @@ class PINWaveguide(BaseModel):
     ppp_conc: float = 1e18
     nnn_conc: float = 1e18
     xmargin: float = 0.5 * um
-    contact_bloat: float = 1 * um
+    xcontact: float = 0.25 * um
+    pp_res_x: float = 20 * nm
+    pp_p_res_x: float = 2 * nm
+    p_res_x: float = 10 * nm
+    pn_res_x: float = 1 * nm
+    coarse_res_y: float = 10 * nm
+    slab_res_y: float = 2 * nm
 
     class Config:
         extra = Extra.allow
@@ -79,6 +87,8 @@ class PINWaveguide(BaseModel):
     def Create2DMesh(self, device):
         xmin = -self.xmargin - self.ppp_offset - self.wg_width / 2
         xmax = self.xmargin + self.npp_offset + self.wg_width / 2
+        self.xppp = -self.ppp_offset - self.wg_width / 2
+        self.xnpp = self.npp_offset + self.wg_width / 2
         ymin = 0
         ymax = self.wg_thickness
         xmin_waveguide = -self.wg_width / 2
@@ -86,11 +96,16 @@ class PINWaveguide(BaseModel):
         yslab = self.slab_thickness
 
         devsim.create_2d_mesh(mesh="dio")
-        devsim.add_2d_mesh_line(mesh="dio", dir="x", pos=xmin, ps=20 * nm)
-        devsim.add_2d_mesh_line(mesh="dio", dir="x", pos=0, ps=1 * nm)
-        devsim.add_2d_mesh_line(mesh="dio", dir="x", pos=xmax, ps=20 * nm)
-        devsim.add_2d_mesh_line(mesh="dio", dir="y", pos=ymin, ps=10 * nm)
-        devsim.add_2d_mesh_line(mesh="dio", dir="y", pos=ymax, ps=10 * nm)
+        devsim.add_2d_mesh_line(mesh="dio", dir="x", pos=xmin, ps=self.pp_res_x)
+        devsim.add_2d_mesh_line(mesh="dio", dir="x", pos=self.xppp, ps=self.pp_p_res_x)
+        devsim.add_2d_mesh_line(mesh="dio", dir="x", pos=self.xppp / 2, ps=self.p_res_x)
+        devsim.add_2d_mesh_line(mesh="dio", dir="x", pos=0, ps=self.pn_res_x)
+        devsim.add_2d_mesh_line(mesh="dio", dir="x", pos=self.xnpp / 2, ps=self.p_res_x)
+        devsim.add_2d_mesh_line(mesh="dio", dir="x", pos=self.xnpp, ps=self.pp_p_res_x)
+        devsim.add_2d_mesh_line(mesh="dio", dir="x", pos=xmax, ps=self.pp_res_x)
+        devsim.add_2d_mesh_line(mesh="dio", dir="y", pos=ymin, ps=self.coarse_res_y)
+        devsim.add_2d_mesh_line(mesh="dio", dir="y", pos=yslab, ps=self.slab_res_y)
+        devsim.add_2d_mesh_line(mesh="dio", dir="y", pos=ymax, ps=self.coarse_res_y)
 
         devsim.add_2d_region(
             mesh="dio",
@@ -100,7 +115,6 @@ class PINWaveguide(BaseModel):
             xh=xmax,
             yl=ymin,
             yh=yslab,
-            bloat=5 * nm,
         )
         devsim.add_2d_region(
             mesh="dio",
@@ -110,10 +124,25 @@ class PINWaveguide(BaseModel):
             xh=xmax_waveguide,
             yl=yslab,
             yh=ymax,
-            bloat=5 * nm,
         )
-        # devsim.add_2d_region(mesh="dio", material="Oxide", region="left_clad", xl=xmin, xh=xmin_waveguide, yl=yslab, yh=ymax, bloat=10*nm)
-        # devsim.add_2d_region(mesh="dio", material="Oxide", region="right_clad", xl=xmax_waveguide, xh=xmax, yl=yslab, yh=ymax, bloat=10*nm)
+        devsim.add_2d_region(
+            mesh="dio",
+            material="Si",
+            region="left_contact",
+            xl=xmin,
+            xh=xmin + self.xcontact,
+            yl=yslab,
+            yh=yslab + 1 * nm,
+        )
+        devsim.add_2d_region(
+            mesh="dio",
+            material="Si",
+            region="right_contact",
+            xl=xmax - self.xcontact,
+            xh=xmax,
+            yl=yslab,
+            yh=yslab + 1 * nm,
+        )
 
         devsim.add_2d_interface(
             mesh="dio",
@@ -124,7 +153,6 @@ class PINWaveguide(BaseModel):
             xh=xmax_waveguide,
             yl=yslab,
             yh=yslab,
-            bloat=5 * nm,
         )
 
         devsim.add_2d_contact(
@@ -135,8 +163,7 @@ class PINWaveguide(BaseModel):
             yl=ymin,
             yh=yslab,
             xl=xmin,
-            xh=xmin,
-            bloat=self.contact_bloat,
+            xh=xmin + self.xmargin / 2,
         )
         devsim.add_2d_contact(
             mesh="dio",
@@ -146,8 +173,7 @@ class PINWaveguide(BaseModel):
             yl=ymin,
             yh=yslab,
             xl=xmax,
-            xh=xmax,
-            bloat=self.contact_bloat,
+            xh=xmax - self.xmargin / 2,
         )
         devsim.finalize_mesh(mesh="dio")
         devsim.create_device(mesh="dio", device=device)
@@ -158,6 +184,8 @@ class PINWaveguide(BaseModel):
         """
         simple_physics.SetSiliconParameters(device, "slab", 300)
         simple_physics.SetSiliconParameters(device, "core", 300)
+        simple_physics.SetSiliconParameters(device, "left_contact", 300)
+        simple_physics.SetSiliconParameters(device, "right_contact", 300)
         # SetOxideParameters(device, "left_clad", 300)
         # SetOxideParameters(device, "right_clad", 300)
 
@@ -169,13 +197,13 @@ class PINWaveguide(BaseModel):
             device,
             "slab",
             "Acceptors",
-            f"{self.p_conc:1.1e}*step(-x) + {self.ppp_conc:1.1e}*step(-{self.ppp_offset:1.1e}-x)",
+            f"{self.p_conc:1.3e}*step(-x) + {self.ppp_conc:1.3e}*step({self.xppp:1.3e}-x)",
         )
         model_create.CreateNodeModel(
             device,
             "slab",
             "Donors",
-            f"{self.n_conc:1.1e}*step(x) + {self.nnn_conc:1.1e}*step(x-{self.npp_offset:1.1e})",
+            f"{self.n_conc:1.3e}*step(x) + {self.nnn_conc:1.3e}*step(x-{self.xnpp:1.3e})",
         )
         model_create.CreateNodeModel(device, "slab", "NetDoping", "Donors-Acceptors")
         model_create.CreateNodeModel(
@@ -185,6 +213,8 @@ class PINWaveguide(BaseModel):
             device, "core", "Donors", f"{self.n_conc:1.1e}*step(x)"
         )
         model_create.CreateNodeModel(device, "core", "NetDoping", "Donors-Acceptors")
+        model_create.CreateNodeModel(device, "left_contact", "NetDoping", "0")
+        model_create.CreateNodeModel(device, "right_contact", "NetDoping", "0")
 
     def InitialSolution(self, device, region, circuit_contacts=None):
         # Create Potential, Potential@n0, Potential@n1
@@ -241,6 +271,8 @@ class PINWaveguide(BaseModel):
         model_create.CreateSolution(device, "core", "Potential")
         simple_physics.CreateSiliconPotentialOnly(device, "core")
         self.InitialSolution(device=device, region="slab")
+        self.InitialSolution(device=device, region="right_contact")
+        self.InitialSolution(device=device, region="left_contact")
 
         # model_create.CreateSolution(device, "left_clad", "Potential")
         # CreateOxidePotentialOnly(device, "left_clad")
