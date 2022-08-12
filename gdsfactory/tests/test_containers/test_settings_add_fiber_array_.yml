@@ -233,7 +233,11 @@ settings:
       settings:
         port_type: optical
   function_name: add_fiber_array
-  info: {}
+  info:
+    grating_coupler:
+      period: 0.6759999999999999
+      polarization: te
+      wavelength: 1.53
   info_version: 2
   module: gdsfactory.routing.add_fiber_array
   name: mzi_2e88f57c_add_fiber__ff79a4fe

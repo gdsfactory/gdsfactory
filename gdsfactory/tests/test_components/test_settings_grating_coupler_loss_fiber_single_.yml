@@ -63,6 +63,7 @@ settings:
         taper_angle: 35
   function_name: grating_coupler_loss_fiber_single
   info:
+    period: 0.6759999999999999
     polarization: te
     wavelength: 1.53
   info_version: 2
