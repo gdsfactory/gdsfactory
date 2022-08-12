@@ -1,3 +1,5 @@
+"""Serialize component settings into YAML or strings."""
+
 import copy
 import functools
 import hashlib

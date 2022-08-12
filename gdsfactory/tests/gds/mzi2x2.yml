@@ -190,6 +190,7 @@ cells:
       dy: 10.0
       radius_min: 7.061
       radius: 10.0
+      width: 0.5
     info_version: 2
     full:
       angle: 90.0
@@ -284,8 +285,8 @@ cells:
       with_bbox: true
       cross_section: strip
     child: null
-  straight_5d389797:
-    name: straight_5d389797
+  straight_cfd61eb8:
+    name: straight_cfd61eb8
     module: gdsfactory.components.straight
     function_name: straight
     info:
@@ -322,6 +323,7 @@ cells:
         snap_to_grid: null
         info: {}
         name: null
+        add_center_section: true
     changed:
       cross_section:
         layer: WG
@@ -349,6 +351,7 @@ cells:
         snap_to_grid: null
         info: {}
         name: null
+        add_center_section: true
       length: 0.09
     default:
       length: 10.0
@@ -356,8 +359,8 @@ cells:
       with_bbox: true
       cross_section: strip
     child: null
-  straight_e08fd4d2:
-    name: straight_e08fd4d2
+  straight_02201506:
+    name: straight_02201506
     module: gdsfactory.components.straight
     function_name: straight
     info:
@@ -394,6 +397,7 @@ cells:
         snap_to_grid: null
         info: {}
         name: null
+        add_center_section: true
     changed:
       cross_section:
         layer: WG
@@ -421,6 +425,7 @@ cells:
         snap_to_grid: null
         info: {}
         name: null
+        add_center_section: true
       length: 2.0
     default:
       length: 10.0
@@ -428,8 +433,8 @@ cells:
       with_bbox: true
       cross_section: strip
     child: null
-  straight_bfd4636d:
-    name: straight_bfd4636d
+  straight_d2b07adc:
+    name: straight_d2b07adc
     module: gdsfactory.components.straight
     function_name: straight
     info:
@@ -466,6 +471,7 @@ cells:
         snap_to_grid: null
         info: {}
         name: null
+        add_center_section: true
     changed:
       cross_section:
         layer: WG
@@ -493,6 +499,7 @@ cells:
         snap_to_grid: null
         info: {}
         name: null
+        add_center_section: true
       length: 0.01
     default:
       length: 10.0
@@ -500,8 +507,8 @@ cells:
       with_bbox: true
       cross_section: strip
     child: null
-  straight_2d1b2620:
-    name: straight_2d1b2620
+  straight_6613a245:
+    name: straight_6613a245
     module: gdsfactory.components.straight
     function_name: straight
     info:
@@ -538,6 +545,7 @@ cells:
         snap_to_grid: null
         info: {}
         name: null
+        add_center_section: true
     changed:
       cross_section:
         layer: WG
@@ -565,6 +573,7 @@ cells:
         snap_to_grid: null
         info: {}
         name: null
+        add_center_section: true
       length: 7.0
     default:
       length: 10.0

@@ -1,4 +1,4 @@
-"""Cell decorator."""
+"""Cell decorator for functions that return a Component."""
 import copy
 import functools
 import hashlib
@@ -327,15 +327,6 @@ def straight_with_pins(**kwargs) -> Component:
     c.add_ports(ref.ports)
     gf.add_pins.add_pins(c)
     return c
-
-
-def test_import_gds_settings() -> None:
-    """Sometimes it fails for files imported from GDS."""
-    import gdsfactory as gf
-
-    gdspath = gf.CONFIG["gdsdir"] / "mzi2x2.gds"
-    c = gf.import_gds(gdspath)
-    assert gf.routing.add_fiber_single(c)
 
 
 if __name__ == "__main__":

@@ -199,6 +199,7 @@ def test_write_cells():
 
 
 if __name__ == "__main__":
+    test_write_cells()
     import gdsfactory as gf
 
     # gdspath = CONFIG["gdsdir"] / "mzi2x2.gds"

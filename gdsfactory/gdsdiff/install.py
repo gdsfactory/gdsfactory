@@ -17,7 +17,7 @@ if __name__ == "__main__":
 
     if key not in config.sections():
         config.add_section(key)
-        config.set(key, "command", "python -m gf.gdsdiff.gds_diff_git")
+        config.set(key, "command", "python -m gdsfactory.gdsdiff.gds_diff_git")
         config.set(key, "binary", "True")
 
         with open(config_path, "w") as f:

@@ -65,8 +65,7 @@ def gdsdiff(
         xor: makes boolean operation.
 
     Returns:
-        Component with both cells (xor, common and diffs)
-
+        Component with both cells (xor, common and diffs).
     """
     if isinstance(component1, (str, pathlib.Path)):
         component1 = import_gds(str(component1), flatten=True, name=f"{name}_old")

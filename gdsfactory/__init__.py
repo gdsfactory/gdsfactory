@@ -17,8 +17,8 @@ modules:
 
 isort:skip_file
 """
-from toolz import compose
 from functools import partial
+from toolz import compose
 from phidl.device_layout import Group
 from gdsfactory.path import Path
 
