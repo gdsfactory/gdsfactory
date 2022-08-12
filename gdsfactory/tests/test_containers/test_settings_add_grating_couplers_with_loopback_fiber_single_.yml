@@ -132,7 +132,7 @@ settings:
     name: mzi_2e88f57c
   default:
     component:
-      function: straight
+      function: spiral_inner_io_fiber_single
     component_name: null
     cross_section:
       function: cross_section
@@ -277,6 +277,6 @@ settings:
     polarization: te
     wavelength: 1.53
   info_version: 2
-  module: gdsfactory.add_grating_couplers
+  module: gdsfactory.components.add_grating_couplers
   name: mzi_2e88f57c_add_gratin_f493dee2
 version: 0.0.1

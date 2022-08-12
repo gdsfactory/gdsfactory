@@ -56,13 +56,13 @@ def find_labels(
                 yield text.string, transformed.x * dbu, transformed.y * dbu
 
 
-def write_labels(
+def write_labels_klayout(
     gdspath: PathType,
     layer_label: Tuple[int, int] = LAYER.TEXT,
     filepath: Optional[PathType] = None,
     prefix: str = "opt_",
 ) -> Path:
-    """Load GDS and extracts label text and coordinates.
+    """Load GDS and extracts labels in klayout text and coordinates.
 
     Returns CSV filepath.
 
