@@ -197,6 +197,7 @@ class Waveguide(BaseModel):
 
     class Config:
         """Config for Waveguide."""
+
         extra = Extra.allow
 
     @property
@@ -325,7 +326,7 @@ class Waveguide(BaseModel):
         ((Ex, Ey, Ez), (Hx, Hy, Hz)), neffs = (
             x.squeeze()
             for x in compute_modes(
-                eps_cross=[nx ** 2, ny ** 2, nz ** 2],
+                eps_cross=[nx**2, ny**2, nz**2],
                 coords=[x, y],
                 freq=SPEED_OF_LIGHT / (wavelength * 1e-6),
                 mode_spec=SimpleNamespace(
@@ -596,7 +597,7 @@ def sweep_bend_loss(
             / wg.get_overlap(wg_bent, mode_index, mode_index)
         )
 
-    return r, integral ** 2
+    return r, integral**2
 
 
 def sweep_width(

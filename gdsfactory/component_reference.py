@@ -160,12 +160,16 @@ class ComponentReference(DeviceReference):
 
     def __repr__(self) -> str:
         """Return a string representation of the object."""
-        return 'ComponentReference (parent Component "%s", ports %s, origin %s, rotation %s,' " x_reflection %s)" % (
-            self.parent.name,
-            list(self.ports.keys()),
-            self.origin,
-            self.rotation,
-            self.x_reflection,
+        return (
+            'ComponentReference (parent Component "%s", ports %s, origin %s, rotation %s,'
+            " x_reflection %s)"
+            % (
+                self.parent.name,
+                list(self.ports.keys()),
+                self.origin,
+                self.rotation,
+                self.x_reflection,
+            )
         )
 
     def __str__(self) -> str:

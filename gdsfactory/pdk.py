@@ -81,6 +81,7 @@ class Pdk(BaseModel):
 
     class Config:
         """Configuration."""
+
         extra = "forbid"
         fields = {
             "cross_sections": {"exclude": True},
