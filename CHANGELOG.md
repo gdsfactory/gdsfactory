@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.17.1](https://github.com/gdsfactory/gdsfactory/pull/590)
+
+- copy_child_info updates component info
+- mirror also propagates info
+- add grating coupler info in add_fiber_single, add_fiber_array
+
 ## 5.17.0
 
 - simplify write_sparameters code [PR](https://github.com/gdsfactory/gdsfactory/pull/581)
