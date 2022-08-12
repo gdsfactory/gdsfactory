@@ -26,11 +26,7 @@ def grating_coupler_rectangular(
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
-    r"""Grating coupler uniform (grating with rectangular shape not elliptical).
-    Therefore it needs a longer taper.
-    Grating teeth are straight.
-    For a focusing grating take a look at grating_coupler_elliptical.
-
+    r"""Grating coupler uniform (grating with rectangular shape not elliptical). Therefore it needs a longer taper. Grating teeth are straight. For a focusing grating take a look at grating_coupler_elliptical.
 
     Args:
         n_periods: number of grating teeth.

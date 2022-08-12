@@ -58,7 +58,6 @@ def grating_coupler_elliptical_trenches(
         WG  o1  ______________|
 
     """
-
     xs = gf.get_cross_section(cross_section, **kwargs)
     wg_width = xs.width
     layer = xs.layer

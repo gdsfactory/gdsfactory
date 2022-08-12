@@ -15,7 +15,7 @@ def add_electrical_pads_top(
     select_ports=select_ports_electrical,
     layer: gf.types.LayerSpec = "M3",
 ) -> Component:
-    """Returns new component with electrical ports connected to top pad array
+    """Returns new component with electrical ports connected to top pad array.
 
     Args:
         component: to route.
@@ -32,6 +32,7 @@ def add_electrical_pads_top(
         c = gf.components.straight_heater_metal()
         cc = gf.routing.add_electrical_pads_top(component=c, spacing=(-150, 30))
         cc.plot()
+
     """
     c = Component()
     component = gf.get_component(component)

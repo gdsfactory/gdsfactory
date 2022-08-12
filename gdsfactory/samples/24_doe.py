@@ -1,5 +1,5 @@
-"""
-Lets pack a doe and export it with metadata
+"""Lets pack a doe and export it with metadata.
+
 by Jan-David Fischbach
 email: jan-david.fischbach@blacksemicon.de
 date: 26.06.22

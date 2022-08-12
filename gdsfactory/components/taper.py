@@ -33,7 +33,6 @@ def taper(
             False for terminator and edge coupler fiber interface.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
         kwargs: cross_section settings.
-
     """
     x = gf.get_cross_section(cross_section, **kwargs)
     layer = x.layer
@@ -144,7 +143,6 @@ def taper_strip_to_ridge(
                      \__________________________
 
     """
-
     taper_wg = taper(
         length=length,
         width1=width1,
@@ -214,9 +212,7 @@ def taper_strip_to_ridge_trenches(
         trench_layer: trench layer.
         layer_wg: waveguide layer.
         trench_offset: after waveguide in um.
-
     """
-
     c = gf.Component()
     y0 = width / 2 + trench_width - trench_offset
     yL = width / 2 + trench_width - trench_offset + slab_offset

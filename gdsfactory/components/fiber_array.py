@@ -13,7 +13,7 @@ def fiber_array(
     layer_core: LayerSpec = "WG",
     layer_cladding: LayerSpec = "WGCLAD",
 ) -> Component:
-    """Returns a fiber array
+    """Returns a fiber array.
 
     Args:
         n: number of fibers.
@@ -33,7 +33,6 @@ def fiber_array(
        |         | base
        |_________|
           length
-
     """
     c = Component()
     layer_core = gf.get_layer(layer_core)

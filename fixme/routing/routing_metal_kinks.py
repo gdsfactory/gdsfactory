@@ -1,6 +1,9 @@
-"""
-The current routing algorithm does not allow for small "kinks" in the wire.
-More precisely, for the current wiring algorithms (gf.routing.getroute() and gf.routing.get_bundle()), if the wire needs to make an S-bend, the lateral displacement of the wire must be GREATER than the wire width. This makes tight wiring and/or very painful.
+"""The current routing algorithm does not allow for small "kinks" in the wire.
+
+More precisely, for the current wiring algorithms
+gf.routing.get_route() and gf.routing.get_bundle()), if the wire needs to make an S-bend,
+the lateral displacement of the wire must be GREATER than the wire width.
+This makes tight wiring and/or very painful.
 """
 
 import gdsfactory as gf

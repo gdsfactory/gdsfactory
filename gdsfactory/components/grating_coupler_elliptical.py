@@ -30,7 +30,6 @@ def ellipse_arc(
         theta_min: in rad.
         theta_max: in rad.
         angle_step: in rad.
-
     """
     theta = np.arange(theta_min, theta_max + angle_step, angle_step) * DEG2RAD
     xs = a * np.cos(theta) + x0

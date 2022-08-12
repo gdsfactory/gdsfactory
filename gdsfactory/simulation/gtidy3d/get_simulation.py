@@ -432,8 +432,7 @@ def plot_simulation_yz(
     wavelength: Optional[float] = 1.55,
     figsize: Float2 = (11, 4),
 ):
-    """Returns Simulation visual representation.
-    returns two views for 3D component and one view for 2D
+    """Returns Simulation visual representation. Returns two views for 3D component and one view for 2D.
 
     Args:
         sim: simulation object.
@@ -441,6 +440,7 @@ def plot_simulation_yz(
         y: (um).
         wavelength: (um) for epsilon plot if None plot structures.
         figsize: figure size.
+
     """
     fig = plt.figure(figsize=figsize)
     if sim.size[2] > 0.1 and sim.size[1] > 0.1:
@@ -491,6 +491,7 @@ def plot_simulation_xz(
         z: (um).
         wavelength: (um) for epsilon plot if None plot structures.
         figsize: figure size.
+
     """
     fig = plt.figure(figsize=figsize)
     gs = mpl.gridspec.GridSpec(1, 2, figure=fig, width_ratios=[1, 1.4])

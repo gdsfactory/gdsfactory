@@ -9,10 +9,11 @@
     - move schemas folder into tests/schemas
     - move models to simulation/photonic_circuit_models
 - simpler bend_s and bezier. User cross_section instead extrude_path [PR](https://github.com/gdsfactory/gdsfactory/pull/584)
-- simplify code structure
+- simplify code structure [PR](https://github.com/gdsfactory/gdsfactory/pull/586)
     - rename dft folder to labels
     - move write_labels from mask folder to `labels`
     - delete mask folder
+- fix docstrings [PRs](https://github.com/gdsfactory/gdsfactory/pull/585) and apply pydocstyle pre-commit hook
 
 ## [5.16.0](https://github.com/gdsfactory/gdsfactory/pull/580)
 
@@ -553,7 +554,7 @@
 - bring back python3.7 compatibility [PR](https://github.com/gdsfactory/gdsfactory/pull/338)
 - rename `vars` to `settings` in `read.from_yaml` [PR](https://github.com/gdsfactory/gdsfactory/pull/339)
   - use settings combined with kwargs for getting component name
-- fix mirror isse in `gf.read.from_yaml` [PR](https://github.com/gdsfactory/gdsfactory/pull/341)
+- fix mirror issue in `gf.read.from_yaml` [PR](https://github.com/gdsfactory/gdsfactory/pull/341)
 
 ## [5.4.0](https://github.com/gdsfactory/gdsfactory/pull/337)
 

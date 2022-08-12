@@ -19,7 +19,6 @@ def delay_snake3(
 ) -> Component:
     r"""Snake input facing west.
 
-
     Args:
         length: total length.
         length0: initial offset.

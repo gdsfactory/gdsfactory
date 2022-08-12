@@ -14,8 +14,7 @@ def compass(
     port_inclusion: float = 0.0,
     port_orientations: Optional[Ints] = (180, 90, 0, -90),
 ) -> Component:
-    """Rectangular via_stack pad with centered ports on rectangle edges
-    (north, south, east, and west)
+    """Rectangle with ports on each edge (north, south, east, and west).
 
     Args:
         size: rectangle size.

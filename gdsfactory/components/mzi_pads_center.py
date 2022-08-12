@@ -31,7 +31,9 @@ def mzi_pads_center(
     cross_section_metal: ComponentSpec = metal3,
 ) -> gf.Component:
     """Return Mzi phase shifter with pads in the middle.
-    GND is the middle pad and is shared between top and bottom phase shifters.
+
+    GND is the middle pad
+    and is shared between top and bottom phase shifters.
 
     Args:
         ps_top: phase shifter top.

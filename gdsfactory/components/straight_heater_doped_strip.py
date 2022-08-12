@@ -1,5 +1,4 @@
-r"""
-top view
+r"""Top view.
 
 .. code::
 

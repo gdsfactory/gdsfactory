@@ -3,6 +3,7 @@
 Reproduce Yufei thesis results with MPB.
 
 https://www.photonics.intec.ugent.be/contact/people.asp?ID=332
+
 """
 
 import pathlib
@@ -105,8 +106,8 @@ def plot_neff_ng_dw_dh(
         thickness: waveguide thickness in um.
         wavelength: in um.
         mode_number: 1 is the fundamental first order mode.
-    """
 
+    """
     filepath = pathlib.Path(PATH.modes / "mpb_dw_dh_dispersion.csv")
     m = find_mode_dispersion(
         wg_width=width, wg_thickness=thickness, wavelength=wavelength

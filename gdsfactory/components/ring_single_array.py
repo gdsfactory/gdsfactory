@@ -36,7 +36,6 @@ def ring_single_array(
          --======-- spacing ----==gap==--
 
           length_x
-
     """
     list_of_dicts = list_of_dicts or _list_of_dicts
     c = Component()

@@ -62,9 +62,7 @@ def coupler_adiabatic(
        clad_datatype: gf.LAYER.WGCLAD[1].
        bend_radius: in um.
        cladding_offset: in um.
-
     """
-
     c = pc.AdiabaticCoupler(
         gf.call_if_func(waveguide_template, **kwargs),
         length1=length1,

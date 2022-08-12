@@ -112,7 +112,6 @@ def read_sparameters_lumerical(
     the Sparameters file have Lumerical format
     https://support.lumerical.com/hc/en-us/articles/360036107914-Optical-N-Port-S-Parameter-SPAR-INTERCONNECT-Element#toc_5
     """
-
     if component is None and filepath is None:
         raise ValueError("You need to define the filepath or the component")
 

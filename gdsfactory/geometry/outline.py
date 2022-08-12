@@ -6,8 +6,7 @@ from gdsfactory.component import Component
 
 @gf.cell
 def outline(elements, **kwargs) -> Component:
-    """
-    Returns Component containing the outlined polygon(s).
+    """Returns Component containing the outlined polygon(s).
 
     wraps phidl.geometry.outline
 

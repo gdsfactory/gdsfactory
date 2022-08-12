@@ -1,4 +1,4 @@
-"""FabC example """
+"""FabC example."""
 
 import pathlib
 from typing import Callable
@@ -32,7 +32,7 @@ select_ports_optical = gf.partial(select_ports, layers_excluded=((100, 0),))
 
 
 def get_layer_stack_fab_c(thickness: float = 350.0) -> LayerStack:
-    """Returns generic LayerStack"""
+    """Returns generic LayerStack."""
     return LayerStack(
         layers=dict(
             wg=LayerLevel(

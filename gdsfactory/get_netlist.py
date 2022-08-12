@@ -41,8 +41,8 @@ def get_instance_name(
         component: with labels.
         reference: reference that needs naming.
         layer_label: ignores layer_label[1].
-    """
 
+    """
     layer_label = get_layer(layer_label)
 
     x = snap_to_grid(reference.x)
@@ -77,19 +77,20 @@ def get_netlist(
 
     Assumes that ports with same width, x, y are connected.
 
-     Args:
-         component: to extract netlist.
-         full_settings: True returns all, false changed settings.
-         layer_label: label to read instanceNames from (if any).
-         tolerance: tolerance in nm to consider two ports connected.
-         exclude_port_types: a list of port types to exclude from netlisting (optional)
+    Args:
+        component: to extract netlist.
+        full_settings: True returns all, false changed settings.
+        layer_label: label to read instanceNames from (if any).
+        tolerance: tolerance in nm to consider two ports connected.
+        exclude_port_types: a list of port types to exclude from netlisting (optional)
 
-     Returns:
-         instances: Dict of instance name and settings.
-         connections: Dict of Instance1Name,portName: Instace2Name,portName.
-         placements: Dict of instance names and placements (x, y, rotation).
-         port: Dict portName: ComponentName,port.
-         name: name of component.
+    Returns:
+        instances: Dict of instance name and settings.
+        connections: Dict of Instance1Name,portName: Instace2Name,portName.
+        placements: Dict of instance names and placements (x, y, rotation).
+        port: Dict portName: ComponentName,port.
+        name: name of component.
+
     """
     placements = {}
     instances = {}
@@ -219,6 +220,7 @@ def get_netlist_recursive(
 
     Returns:
         Dictionary of netlists, keyed by the name of each component.
+
     """
     all_netlists = {}
 

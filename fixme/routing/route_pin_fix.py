@@ -1,16 +1,14 @@
-"""
-Problem
+"""Problem.
 
 - bends in routes flip the polarity in some cases
 
-temporary Solution / hack
+temporary Solution / hack:
 
 - create a smooth path and extrude it
 
 Problems:
 
-- extruding path removes the route elements (straight, bends),
-which makes circuit simulation harder
+- extruding path removes the route elements complicating simulation.
 
 """
 
@@ -24,7 +22,7 @@ if __name__ == "__main__":
     s1 = c << gf.components.straight(length=length)
     s2 = c << gf.components.straight(length=length)
 
-    xs_pin = gf.partial(gf.cross_section.pin, contact_width=3)
+    xs_pin = gf.partial(gf.cross_section.pin, via_stack_width=3)
 
     s2.move((100, 60))
     radius = 20

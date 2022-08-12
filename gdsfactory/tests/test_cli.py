@@ -5,7 +5,7 @@ from gdsfactory.gf import gf
 
 
 def test_cli() -> None:
-    """checks that the CLI returns the correct version"""
+    """checks that the CLI returns the correct version."""
     runner = CliRunner()
     result = runner.invoke(gf, ["--version"])
 

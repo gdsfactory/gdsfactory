@@ -10,13 +10,13 @@ def straight2a(
     cross_section1: CrossSectionSpec = gf.cross_section.strip,
     cross_section2: CrossSectionSpec = gf.cross_section.pin,
 ) -> gf.Component:
-    r"""Returns a contatentation of two cross_sections
+    """Returns a contatentation of two cross_sections.
 
     Args:
-        length1: for the first section
-        length1: for the second section
-        cross_section1: for the input
-        cross_section2: for the output
+        length1: for the first section.
+        length1: for the second section.
+        cross_section1: for the input.
+        cross_section2: for the output.
     """
     c = gf.Component()
 
@@ -38,4 +38,4 @@ straight2b = gf.partial(
 if __name__ == "__main__":
     c = straight2a()  # works
     # c = straight2b()  # FIXME: does not work
-    c.show(show_ports=True)()
+    c.show(show_ports=True)
