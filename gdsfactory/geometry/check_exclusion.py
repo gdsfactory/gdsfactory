@@ -32,7 +32,6 @@ def check_exclusion(
 
     """
     import klayout.db as pya
-
     from gdsfactory.component import Component
 
     if isinstance(gdspath, Component):

@@ -1,14 +1,10 @@
-"""Returns simulation from cross-section.
+"""Returns simulation from cross-section."""
 
-isort:skip_file
-"""
-
+import devsim
 import numpy as np
 import pyvista as pv
 from devsim.python_packages import model_create, simple_physics
 from pydantic import BaseModel, Extra
-
-import devsim
 
 nm = 1e-9
 um = 1e-6
