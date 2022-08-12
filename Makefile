@@ -21,7 +21,7 @@ major:
 	bumpversion major
 	python docs/write_components_doc.py
 
-plugins:
+plugins: devsim
 	pip install -r requirements_sipann.txt
 	pip install sax jax jaxlib
 	mamba install pymeep=*=mpi_mpich_* -y
@@ -160,5 +160,11 @@ link:
 spell:
 	codespell -i 3 -w -L TE,TE/TM,te,ba,FPR,fpr_spacing
 
+devsim:
+	wget -P devsim https://github.com/devsim/devsim/releases/download/v2.1.0/devsim_linux_v2.1.0.tgz
+	tar zxvf devsim/devsim_linux_v2.1.0.tgz --directory devsim
+	python devsim/devsim_linux_v2.1.0/install.py
+	pip install -e devsim/devsim_linux_v2.1.0/lib # Works in this specific way
+	pip install mkl pyvista
 
 .PHONY: gdsdiff build conda

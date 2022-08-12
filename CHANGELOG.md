@@ -14,7 +14,12 @@
     - move write_labels from mask folder to `labels`
     - delete mask folder
 - fix docstrings and apply pydocstyle pre-commit hook [PRs](https://github.com/gdsfactory/gdsfactory/pull/585)
-- replace assert_on_2nm_grid to snap to 2nm grid
+- replace assert_on_2nm_grid to snap to 2nm grid [PR](https://github.com/gdsfactory/gdsfactory/pull/589)
+- Add tcad cross-section simulation DEVSIM plugin [PR](https://github.com/gdsfactory/gdsfactory/pull/587)
+    - fully parametrized ridge PIN waveguide cross-section
+    - basic DC simulation and visualization
+    - example notebook, with DEVSIM installation instructions
+
 
 ## [5.16.0](https://github.com/gdsfactory/gdsfactory/pull/580)
 
