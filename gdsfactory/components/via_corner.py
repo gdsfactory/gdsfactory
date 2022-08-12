@@ -22,14 +22,13 @@ def via_corner(
 ) -> gf.Component:
     """Returns Corner via.
 
-    Use in place of wire_corner to route between two
-    layers.
+    Use in place of wire_corner to route between two layers.
 
     Args:
         cross_section: list of cross_section, orientation pairs.
         vias: vias to use to fill the rectangles.
         layers_labels: Labels to use for each layer.
-        kwargs: cross_section settings
+        kwargs: cross_section settings.
     """
     cross_sections = [gf.get_cross_section(x[0], **kwargs) for x in cross_section]
     port_orientations = [x[1] for x in cross_section]
