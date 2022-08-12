@@ -6,7 +6,6 @@ from gdsfactory.components.coupler_straight import (
 from gdsfactory.components.coupler_symmetric import (
     coupler_symmetric as coupler_symmetric_function,
 )
-from gdsfactory.snap import assert_on_2nm_grid, snap_to_grid
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
@@ -49,8 +48,8 @@ def coupler(
 
 
     """
-    length = snap_to_grid(length)
-    assert_on_2nm_grid(gap)
+    length = gf.snap.snap_to_grid(length)
+    gap = gf.snap.snap_to_grid(gap, nm=2)
     c = Component()
 
     sbend = gf.get_component(
@@ -96,5 +95,15 @@ if __name__ == "__main__":
     # layer = (2, 0)
     # c = coupler(gap=0.300, layer=layer)
     # c = coupler(cross_section="rib")
-    c = coupler()
-    c.show(show_ports=True)
+
+    nm = 1e-3
+
+    c = gf.Component()
+    coupler_ = c << gf.components.coupler(gap=101 * nm)
+    wg = c << gf.components.straight()
+    wg.connect("o1", coupler_.ports["o2"])
+    c.show()
+
+    # c = gf.components.coupler(gap=101 * nm)
+    # c2 = gf.routing.add_fiber_array(c, decorator=gf.decorators.flatten_invalid_refs)
+    # c2.show(show_ports=True)

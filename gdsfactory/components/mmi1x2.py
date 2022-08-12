@@ -53,8 +53,8 @@ def mmi1x2(
         length_taper
 
     """
-    gf.snap.assert_on_2nm_grid(gap_mmi)
     c = Component()
+    gap_mmi = gf.snap.snap_to_grid(gap_mmi, nm=2)
     w_mmi = width_mmi
     w_taper = width_taper
 
@@ -129,8 +129,8 @@ def mmi1x2(
 
 
 if __name__ == "__main__":
-    c = mmi1x2(cross_section=dict(cross_section="rib"))
-    # c = mmi1x2()
+    # c = mmi1x2(cross_section=dict(cross_section="rib"))
+    c = mmi1x2()
     c.show(show_ports=True)
 
     # c.pprint_ports()
