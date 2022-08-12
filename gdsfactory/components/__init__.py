@@ -5,6 +5,11 @@ Make sure your components get imported here so the PDK registers them.
 import sys
 
 from gdsfactory.components.add_fidutials import add_fidutials, add_fidutials_offsets
+from gdsfactory.components.add_grating_couplers import (
+    add_grating_couplers,
+    add_grating_couplers_with_loopback_fiber_array,
+    add_grating_couplers_with_loopback_fiber_single,
+)
 from gdsfactory.components.align import add_frame, align_wafer
 from gdsfactory.components.array_component import array
 from gdsfactory.components.array_with_fanout import (
@@ -276,6 +281,9 @@ __all__ = [
     "add_fidutials",
     "add_fidutials_offsets",
     "add_frame",
+    "add_grating_couplers",
+    "add_grating_couplers_with_loopback_fiber_array",
+    "add_grating_couplers_with_loopback_fiber_single",
     "align_wafer",
     "array",
     "array_with_fanout",
