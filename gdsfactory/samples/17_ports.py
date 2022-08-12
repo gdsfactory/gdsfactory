@@ -1,4 +1,4 @@
-"""Ports define where each port has the follwoing properties.
+"""Ports define where each port has the following properties.
 
 - name
 - center: (x, y)

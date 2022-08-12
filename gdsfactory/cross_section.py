@@ -95,6 +95,7 @@ class CrossSection(BaseModel):
 
     class Config:
         """Configuration."""
+
         extra = "forbid"
         fields = {
             "decorator": {"exclude": True},

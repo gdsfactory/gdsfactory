@@ -107,10 +107,10 @@ def curvature(points: ndarray, t: ndarray) -> ndarray:
     dx = dp[:, 0] / dt
     dy = dp[:, 1] / dt
 
-    dx2 = dp2[:, 0] / dt ** 2
-    dy2 = dp2[:, 1] / dt ** 2
+    dx2 = dp2[:, 0] / dt**2
+    dy2 = dp2[:, 1] / dt**2
 
-    return (dx * dy2 - dx2 * dy) / (dx ** 2 + dy ** 2) ** (3 / 2)
+    return (dx * dy2 - dx2 * dy) / (dx**2 + dy**2) ** (3 / 2)
 
 
 def radius_of_curvature(points, t):
@@ -124,7 +124,7 @@ def path_length(points: ndarray) -> float64:
         points: With shape (N, 2) representing N points with coordinates x, y.
     """
     dpts = points[1:, :] - points[:-1, :]
-    _d = dpts ** 2
+    _d = dpts**2
     return np.sum(np.sqrt(_d[:, 0] + _d[:, 1]))
 
 
