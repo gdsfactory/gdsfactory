@@ -1,10 +1,11 @@
 """Returns simulation from cross-section."""
 
-import devsim
 import numpy as np
 import pyvista as pv
 from devsim.python_packages import model_create, simple_physics
 from pydantic import BaseModel, Extra
+
+import devsim
 
 nm = 1e-9
 um = 1e-6
@@ -16,19 +17,24 @@ class PINWaveguide(BaseModel):
     Parameters:
         wg_width: waveguide width.
         wg_thickness: thickness waveguide (um).
-        p_offset: offset between waveguide center and P-doping (um, negative to push toward n-side)
-        n_offset: offset between waveguide center and N-doping (um, negative to push toward p-side)
-        ppp_offset: offset between waveguide center and Ppp-doping (um, negative to push toward n-side) NOT IMPLEMENTED
-        npp_offset: offset between waveguide center and Npp-doping (um, negative to push toward p-side) NOT IMPLEMENTED
+        p_offset: offset between waveguide center and P-doping in um
+            negative to push toward n-side.
+        n_offset: offset between waveguide center and N-doping in um
+            negative to push toward p-side).
+        ppp_offset: offset between waveguide center and Ppp-doping in um
+            negative to push toward n-side) NOT IMPLEMENTED.
+        npp_offset: offset between waveguide center and Npp-doping in um
+            negative to push toward p-side) NOT IMPLEMENTED.
         slab_thickness: thickness slab (um).
         t_box: thickness BOX (um).
         t_clad: thickness cladding (um).
-        p_conc: low-doping acceptor concentration (/cm3)
-        n_conc: low-doping donor concentration (/cm3)
-        ppp_conc: high-doping acceptor concentration (/cm3)
-        nnn_conc: high-doping donor concentration (/cm3)
-        xmargin: margin from waveguide edge to low doping regions
-        contact_bloat: controls which nodes are considered contacts; adjust if contacts are not found
+        p_conc: low-doping acceptor concentration (/cm3).
+        n_conc: low-doping donor concentration (/cm3).
+        ppp_conc: high-doping acceptor concentration (/cm3).
+        nnn_conc: high-doping donor concentration (/cm3).
+        xmargin: margin from waveguide edge to low doping regions.
+        contact_bloat: controls which nodes are considered contacts;
+            adjust if contacts are not found.
 
     ::
 
@@ -74,6 +80,8 @@ class PINWaveguide(BaseModel):
     slab_res_y: float = 2 * nm
 
     class Config:
+        """Enable adding new."""
+
         extra = Extra.allow
 
     @property
@@ -184,18 +192,14 @@ class PINWaveguide(BaseModel):
         devsim.create_device(mesh="dio", device=device)
 
     def SetParameters(self, device):
-        """
-        Set parameters for 300 K
-        """
+        """Set parameters for 300 K."""
         simple_physics.SetSiliconParameters(device, "slab", 300)
         simple_physics.SetSiliconParameters(device, "core", 300)
         simple_physics.SetSiliconParameters(device, "left_contact", 300)
         simple_physics.SetSiliconParameters(device, "right_contact", 300)
 
     def SetNetDoping(self, device):
-        """
-        NetDoping
-        """
+        """NetDoping."""
         model_create.CreateNodeModel(
             device,
             "slab",
