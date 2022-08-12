@@ -1,11 +1,9 @@
-"""
-FIXME: make sure routes do not intersect themselves
+"""FIXME: make sure routes do not intersect themselves.
 
 FIXME: enable Sbend routing when we have no space for a manhattan route
 
 Route manhattan sometimes does not fit a route.
 it would be nice to enable Sbend routing for those cases in route_manhattan
-
 """
 import gdsfactory as gf
 from gdsfactory.routing.manhattan import route_manhattan
