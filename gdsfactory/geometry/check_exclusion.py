@@ -15,8 +15,8 @@ def check_exclusion(
     min_projection: None = None,
     max_projection: None = None,
 ) -> int:
-    """Reads layer from top cell and returns a the area that violates min exclusion
-    if 0 no area violates exclusion
+    """Reads layer from top cell and returns a the area that violates min \
+    exclusion if 0 no area violates exclusion.
 
     Args:
         gdspath: path to GDS.
@@ -29,6 +29,7 @@ def check_exclusion(
         metrics: Specify the metrics type.
         min_projection: lower threshold of the projected length of one edge onto another.
         max_projection: upper limit of the projected length of one edge onto another.
+
     """
     import klayout.db as pya
 

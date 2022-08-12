@@ -1,4 +1,4 @@
-"""add_pin adss a Pin to a port, add_pins adds Pins to all ports:
+"""Add_pin adss a Pin to a port, add_pins adds Pins to all ports.
 
 - pins
 - outline
@@ -6,7 +6,6 @@
 Some functions modify a component without changing its name.
 Make sure these functions are inside a new Component or called as a decorator
 They without modifying the cell name
-
 """
 import json
 from functools import partial
@@ -34,7 +33,7 @@ def _rotate(v: ndarray, m: ndarray) -> ndarray:
 
 
 def get_pin_triangle_polygon_tip(port: Port) -> Tuple[List[float], Tuple[float, float]]:
-    """Returns triangle polygon and tip position"""
+    """Returns triangle polygon and tip position."""
     p = port
 
     orientation = p.orientation
@@ -66,7 +65,7 @@ def add_pin_triangle(
     layer: LayerSpec = "PORT",
     layer_label: LayerSpec = "TEXT",
 ) -> None:
-    """Add triangle pin with a right angle, pointing out of the port
+    """Add triangle pin with a right angle, pointing out of the port.
 
     Args:
         component: to add pin.
@@ -93,7 +92,7 @@ def add_pin_rectangle_inside(
     layer: LayerSpec = "PORT",
     layer_label: LayerSpec = "TEXT",
 ) -> None:
-    """Add square pin towards the inside of the port
+    """Add square pin towards the inside of the port.
 
     Args:
         component: to add pins.
@@ -113,8 +112,6 @@ def add_pin_rectangle_inside(
           |               |
           |      __       |
           |_______________|
-
-
     """
     p = port
     a = p.orientation
@@ -171,7 +168,6 @@ def add_pin_rectangle_double(
           |      __       |
           |_______________|
                  __
-
     """
     p = port
     a = p.orientation
@@ -233,7 +229,6 @@ def add_pin_rectangle(
         layer_label: for the label.
         port_margin: margin to port edge.
 
-
     .. code::
 
            _______________
@@ -246,7 +241,6 @@ def add_pin_rectangle(
           |      __       |
           |_______________|
                  __
-
     """
     p = port
     a = p.orientation
@@ -294,7 +288,6 @@ def add_pin_path(
         layer: for the pin marker.
         layer_label: optional layer label. Defaults to layer.
 
-
     .. code::
 
            _______________
@@ -307,7 +300,6 @@ def add_pin_path(
           |      __       |
           |_______________|
                  __
-
     """
     from gdsfactory.pdk import get_layer
 
@@ -387,9 +379,7 @@ def add_pins_siepic(
         port_type: optical, electrical, ...
         layer_pin: pin layer.
         pin_length: length of the pin marker for the port.
-
     """
-
     for p in component.get_ports_list(port_type=port_type):
         function(component=component, port=p, layer=layer_pin, pin_length=pin_length)
 
@@ -495,7 +485,6 @@ def add_pins(
         function: to add each pin.
         select_ports: function to select_ports.
         kwargs: add pins function settings.
-
     """
     reference = reference or component
     ports = (
@@ -516,13 +505,12 @@ def add_settings_label(
     reference: ComponentReference,
     layer_label: LayerSpec = "LABEL_SETTINGS",
 ) -> None:
-    """Add settings in label
+    """Add settings in label.
 
     Args:
         componnent: to add pins.
         reference: ComponentReference.
         layer_label: layer spec.
-
     """
     from gdsfactory.pdk import get_layer
 
@@ -544,7 +532,6 @@ def add_instance_label(
     layer: LayerSpec = "LABEL_INSTANCE",
 ) -> None:
     """Adds label to a reference in a component."""
-
     instance_name = (
         instance_name
         or f"{reference.parent.name},{int(reference.x)},{int(reference.y)}"
@@ -567,7 +554,7 @@ def add_pins_and_outline(
     add_settings_function: Optional[Callable] = add_settings_label,
     add_instance_label_function: Optional[Callable] = add_settings_label,
 ) -> None:
-    """Add markers:
+    """Add markers.
 
     - outline
     - pins for the ports
@@ -581,7 +568,6 @@ def add_pins_and_outline(
         add_pins_function: to add pins to ports.
         add_settings_function: to add outline around the component.
         add_instance_label_function: labels each instance.
-
     """
     if add_outline_function:
         add_outline_function(component=component, reference=reference)

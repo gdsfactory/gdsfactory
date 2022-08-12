@@ -32,7 +32,6 @@ def grating_coupler_tree(
         fanout_length: in um.
         layer_label: for layer.
         kwargs: cross_section settings.
-
     """
     c = straight_array(
         n=n,

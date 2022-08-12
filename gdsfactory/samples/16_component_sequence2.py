@@ -9,7 +9,7 @@ from gdsfactory.components.taper import taper_strip_to_ridge
 def test_cutback_phase(
     straight_length: float = 100.0, bend_radius: float = 12.0, n: int = 2
 ) -> Component:
-    """Modulator sections connected by bends"""
+    """Modulator sections connected by bends."""
     # Define sub components
     bend180 = gf.components.bend_circular180(radius=bend_radius)
     pm_wg = gf.components.straight_pin(length=straight_length, taper=None)

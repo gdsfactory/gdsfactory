@@ -1,4 +1,4 @@
-""" You can import gdsfactory.as gf
+"""You can import gdsfactory.as gf.
 
 functions:
     - import_gds(): returns a Component from a GDS

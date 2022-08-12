@@ -37,7 +37,6 @@ def add_loopback(
         inside: add loopback inside.
         kwargs: cross_section settings.
 
-
     .. code::
 
     inside = True
@@ -49,7 +48,6 @@ def add_loopback(
                |                    |       | south_waveguide_spacing
                |____________________|      _|_
 
-
     inside = False
                 ______                    _______
                |     |                   |      |
@@ -59,7 +57,6 @@ def add_loopback(
                |                                |       | south_waveguide_spacing
                |________________________________|      _|_
     """
-
     gc = gf.get_component(grating)
 
     y0 = port1.y if hasattr(port1, "y") else port1[1]

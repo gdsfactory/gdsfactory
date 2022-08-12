@@ -25,6 +25,7 @@ def write_sparameters_lumerical_components(
 
     Keyword Args:
         simulation settings
+
     """
     import lumapi
 

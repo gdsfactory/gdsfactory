@@ -13,7 +13,7 @@ def litho_steps(
     height: float = 100.0,
     layer: LayerSpec = "WG",
 ) -> Component:
-    """Positive + negative tone linewidth test
+    """Positive + negative tone linewidth test.
 
     used for lithography resolution test patterning
     adapted from phidl
@@ -23,7 +23,6 @@ def litho_steps(
         line_spacing: in um.
         height: in um.
         layer: Specific layer to put the ruler geometry on.
-
     """
     D = gf.Component()
 
