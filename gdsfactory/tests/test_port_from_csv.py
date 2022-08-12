@@ -6,5 +6,6 @@ def test_csv2port(data_regression) -> None:
 
     name = "straight"
     csvpath = gf.CONFIG["gdsdir"] / f"{name}.ports"
+
     ports = csv2port(csvpath)
     data_regression.check(ports)

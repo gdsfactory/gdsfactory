@@ -1,3 +1,5 @@
+"""Install Klayout and GIT plugins.
+"""
 import configparser
 import os
 import pathlib
