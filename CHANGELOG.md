@@ -13,6 +13,7 @@
     - rename dft folder to labels
     - move write_labels from mask folder to `labels`
     - delete mask folder
+- fix docstrings
 
 ## [5.16.0](https://github.com/gdsfactory/gdsfactory/pull/580)
 
