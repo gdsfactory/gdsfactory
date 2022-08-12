@@ -519,6 +519,7 @@ class Component(Device):
                 raise ValueError("Port needs width parameter (um).")
             if center is None:
                 raise ValueError("Port needs center parameter (x, y) um.")
+
             # half_width = width / 2
             # half_width_correct = snap_to_grid(half_width, nm=1)
             # if not np.isclose(half_width, half_width_correct):
@@ -528,9 +529,12 @@ class Component(Device):
             #         f"port {name}, {center}  {orientation} deg",
             #         stacklevel=3,
             #     )
+            # width = snap_to_grid(width)
+            # center = snap_to_grid(center)
+
             p = Port(
                 name=name,
-                center=(center[0], center[1]),
+                center=center,
                 width=width,
                 orientation=orientation,
                 parent=self,
