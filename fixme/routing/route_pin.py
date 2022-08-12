@@ -1,7 +1,6 @@
-"""
-FIXME,
+"""FIXME.
 
-- bends in routes flip the polarity in some cases
+- bends in routes flip the polarity in some cases.
 
 """
 

@@ -1,8 +1,6 @@
-"""
-Manhattan routes sometimes have unnecessary crossings
+"""Manhattan routes sometimes have unnecessary crossings.
 
-How can we detect this crossings?
-
+How can we detect this crossings?.
 """
 
 import gdsfactory as gf

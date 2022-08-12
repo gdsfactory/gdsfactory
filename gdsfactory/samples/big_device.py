@@ -75,6 +75,7 @@ def big_device(
             width=wg_width,
         )
         component.add_port(port)
+    component.auto_rename_ports()
     return component
 
 
