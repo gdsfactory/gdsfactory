@@ -13,7 +13,8 @@
     - rename dft folder to labels
     - move write_labels from mask folder to `labels`
     - delete mask folder
-- fix docstrings [PRs](https://github.com/gdsfactory/gdsfactory/pull/585) and apply pydocstyle pre-commit hook
+- fix docstrings and apply pydocstyle pre-commit hook [PRs](https://github.com/gdsfactory/gdsfactory/pull/585)
+- replace assert_on_2nm_grid to snap to 2nm grid
 
 ## [5.16.0](https://github.com/gdsfactory/gdsfactory/pull/580)
 
