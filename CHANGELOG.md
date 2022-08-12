@@ -9,7 +9,7 @@
     - move schemas folder into tests/schemas
     - move models to simulation/photonic_circuit_models
 - simpler bend_s and bezier. User cross_section instead extrude_path [PR](https://github.com/gdsfactory/gdsfactory/pull/584)
-- simplify code structure
+- simplify code structure [PR](https://github.com/gdsfactory/gdsfactory/pull/586)
     - rename dft folder to labels
     - move write_labels from mask folder to `labels`
     - delete mask folder
