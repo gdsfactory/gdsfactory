@@ -1,4 +1,4 @@
-"""FIXME!
+"""FIXME.
 
 How can we make sure that any port convention works for 3D FDTD.
 
@@ -15,7 +15,8 @@ wavelength |port_in | port_out | mode_in | mode_out |   magnitude  |   phase
 
 ```
 
-to query s12m and s12a we can write some convenience functions for each port naming convention
+you can write some convenience functions for each port naming convention
+to query s12m and s12a
 
 df.query("port_in=='o1' & port_out=='o2' ")
 
