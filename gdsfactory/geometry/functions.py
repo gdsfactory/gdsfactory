@@ -130,6 +130,7 @@ def path_length(points: ndarray) -> float64:
 
 def snap_angle(a: float64) -> int:
     """Returns angle snapped along manhattan angle (0, 90, 180, 270).
+
     a: angle in deg
     Return angle snapped along manhattan angle
     """

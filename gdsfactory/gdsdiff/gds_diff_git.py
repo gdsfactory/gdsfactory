@@ -28,7 +28,6 @@ def gds_diff_git(
         new_hex: ignore.
         new_mode: ignore.
     """
-
     diff = gdsdiff(curr_file, new_file, xor=False)
     show(diff)
     p = subprocess.Popen(["strmcmp", "-u", curr_file, new_file], stdin=subprocess.PIPE)
