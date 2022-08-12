@@ -43,7 +43,7 @@ def ring_single(
 
           length_x
     """
-    gf.snap.assert_on_2nm_grid(gap)
+    gap = gf.snap.snap_to_grid(gap, nm=2)
 
     c = gf.Component()
     cb = c << gf.get_component(
