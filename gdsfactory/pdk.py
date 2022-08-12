@@ -1,5 +1,4 @@
-"""PDK stores layers, cross_sections, cell functions ...
-"""
+"""PDK stores layers, cross_sections, cell functions ..."""
 
 import logging
 import pathlib

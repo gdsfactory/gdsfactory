@@ -1,5 +1,4 @@
-"""Add label YAML.
-"""
+"""Add label YAML."""
 from typing import List, Optional
 
 import flatdict
