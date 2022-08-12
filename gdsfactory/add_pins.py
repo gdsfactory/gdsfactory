@@ -444,7 +444,6 @@ def add_pins_bbox_siepic(
         bbox_layer: bounding box layer.
         padding: around device.
     """
-    component = component.copy()
     layers = component.get_layers()
     remove_layers = (layer_pin, bbox_layer)
 
