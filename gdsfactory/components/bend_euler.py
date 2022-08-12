@@ -19,9 +19,7 @@ def bend_euler(
     cross_section: CrossSectionSpec = "strip",
     **kwargs
 ) -> Component:
-    """Returns an euler bend that adiabatically transitions from straight to.
-
-    curved.
+    """Returns an euler bend that transitions from straight to curved.
 
     By default, `radius` corresponds to the minimum radius of curvature of the bend.
     However, if `with_arc_floorplan` is True, `radius` corresponds to the effective
