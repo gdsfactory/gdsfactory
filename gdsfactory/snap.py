@@ -9,12 +9,14 @@ def is_on_grid(x: float, nm: int = 1) -> bool:
 
 def assert_on_1nm_grid(x: float) -> None:
     x_grid = snap_to_grid(x)
-    assert np.isclose(x_grid, x), f"{x} needs to be on 1nm grid, try {x_grid}"
+    if not np.isclose(x_grid, x):
+        raise ValueError(f"{x} needs to be on 1nm grid, try {x_grid}")
 
 
 def assert_on_2nm_grid(x: float) -> None:
     x_grid = snap_to_2nm_grid(x)
-    assert np.isclose(x_grid, x), f"{x} needs to be on 2nm grid, try {x_grid}"
+    if not np.isclose(x_grid, x):
+        raise ValueError(f"{x} needs to be on 2nm grid, try {x_grid}")
 
 
 def snap_to_grid(x: float, nm: int = 1) -> float:
