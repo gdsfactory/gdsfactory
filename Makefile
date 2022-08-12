@@ -165,6 +165,7 @@ devsim:
 	tar zxvf devsim/devsim_linux_v2.1.0.tgz --directory devsim
 	python devsim/devsim_linux_v2.1.0/install.py
 	pip install -e devsim/devsim_linux_v2.1.0/lib # Works in this specific way
-	pip install mkl pyvista
+	pip install mkl
+	mamba install pyvista -y
 
 .PHONY: gdsdiff build conda
