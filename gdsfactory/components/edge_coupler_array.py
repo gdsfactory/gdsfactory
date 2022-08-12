@@ -32,7 +32,6 @@ def edge_coupler_array(
         v_mirror: vertical mirror.
         text: text spec.
         text_offset: from edge coupler.
-
     """
     edge_coupler = gf.get_component(edge_coupler)
 

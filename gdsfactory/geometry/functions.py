@@ -85,11 +85,10 @@ def centered_diff2(a: ndarray) -> ndarray:
 
 
 def curvature(points: ndarray, t: ndarray) -> ndarray:
-    """
+    """Args are the points and the tangents at each point.
 
-    Args:
-        points : numpy.array shape (n, 2).
-        t: numpy.array of size n.
+        points : numpy.array shape (n, 2)
+        t: numpy.array of size n
 
     Return:
         The curvature at each point.
@@ -100,7 +99,6 @@ def curvature(points: ndarray, t: ndarray) -> ndarray:
     by (x' y'' - x'' y' ) / (x' **2 + y' **2)**(3/2)
 
     """
-
     # Use centered difference for derivative
     dt = centered_diff(t)
     dp = centered_diff(points)
@@ -120,12 +118,11 @@ def radius_of_curvature(points, t):
 
 
 def path_length(points: ndarray) -> float64:
-    """Returns: The path length
+    """Returns: The path length.
 
     Args:
         points: With shape (N, 2) representing N points with coordinates x, y.
     """
-
     dpts = points[1:, :] - points[:-1, :]
     _d = dpts**2
     return np.sum(np.sqrt(_d[:, 0] + _d[:, 1]))
@@ -134,9 +131,8 @@ def path_length(points: ndarray) -> float64:
 def snap_angle(a: float64) -> int:
     """Returns angle snapped along manhattan angle (0, 90, 180, 270).
 
-    Args:
-        a: angle in deg.
-
+    a: angle in deg
+    Return angle snapped along manhattan angle
     """
     a = a % 360
     if -45 < a < 45:
@@ -152,13 +148,13 @@ def snap_angle(a: float64) -> int:
 
 
 def angles_rad(pts: ndarray) -> ndarray:
-    """returns the angles (radians) of the connection between each point and the next"""
+    """Returns the angles (radians) of the connection between each point and the next."""
     _pts = np.roll(pts, -1, 0)
     return np.arctan2(_pts[:, 1] - pts[:, 1], _pts[:, 0] - pts[:, 0])
 
 
 def angles_deg(pts: ndarray) -> ndarray:
-    """returns the angles (degrees) of the connection between each point and the next"""
+    """Returns the angles (degrees) of the connection between each point and the next."""
     return angles_rad(pts) * RAD2DEG
 
 
@@ -187,7 +183,6 @@ def extrude_path(
     Returns:
         numpy 2D array of shape (2*N, 2).
     """
-
     if isinstance(points, list):
         points = np.stack([(p[0], p[1]) for p in points], axis=0)
 

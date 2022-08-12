@@ -1,10 +1,4 @@
-"""
-
-- Geometric operations:
-- Booleans
-- DRC checks
-
-"""
+"""Geometric operations: Booleans, DRC checks."""
 
 from gdsfactory.geometry import functions
 from gdsfactory.geometry.boolean import boolean

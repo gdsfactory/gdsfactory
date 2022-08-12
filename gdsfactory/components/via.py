@@ -14,7 +14,9 @@ def via(
     bbox_layers: Optional[Tuple[Tuple[int, int], ...]] = None,
     bbox_offset: float = 0,
 ) -> Component:
-    """Rectangular via. Defaults to a square via.
+    """Rectangular via.
+
+    Defaults to a square via.
 
     Args:
         size: in x, y direction.
@@ -38,7 +40,6 @@ def via(
         |      <------------->                  |
         |         spacing[0]                    |
         |_______________________________________|
-
     """
     c = Component()
     c.info["spacing"] = spacing

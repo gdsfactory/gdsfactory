@@ -24,7 +24,9 @@ def spiral(
     radius: float = 10.0,
     **kwargs
 ) -> Component:
-    """Spiral. Based on picwriter.
+    """Spiral.
+
+    Based on picwriter.
 
     Args:
         port_spacing: distance between input/output ports.
@@ -40,7 +42,6 @@ def spiral(
         wg_width: 0.5.
         radius: 10.
         kwargs: cross_section settings.
-
     """
     layer = gf.get_layer(layer)
     layer_cladding = gf.get_layer(layer_cladding)

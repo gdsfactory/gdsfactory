@@ -33,6 +33,7 @@ def get_routes_straight(
         routes = gf.routing.get_routes_straight(ports=c1.get_ports_list(), length=200)
         c.add(routes.references)
         c.plot()
+
     """
     ports = list(ports.values()) if isinstance(ports, dict) else ports
     straight = straight(**kwargs)

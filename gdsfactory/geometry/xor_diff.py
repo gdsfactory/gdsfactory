@@ -6,9 +6,9 @@ from gdsfactory.component import Component
 
 @gf.cell
 def xor_diff(A, B, precision: float = 1e-4) -> Component:
-    """Given two Devices A and B, performs the layer-by-layer XOR
-    difference between A and B and returns polygons representing the
-    differences between A and B.
+    """Given two Devices A and B, performs the layer-by-layer XOR difference \
+    between A and B and returns polygons representing the differences between A \
+    and B.
 
     gdsfactory wrapper for phidl.geometry.xor_diff
 
@@ -20,6 +20,7 @@ def xor_diff(A, B, precision: float = 1e-4) -> Component:
     Returns
         Component: containing a polygon(s) defined by the XOR difference result
         between A and B.
+
     """
     phidl_component = pg.xor_diff(A, B, precision=precision)
     return gf.read.from_phidl(phidl_component)

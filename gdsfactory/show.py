@@ -19,7 +19,6 @@ def show(component: Union[Component, str, pathlib.Path], **kwargs) -> None:
         timestamp: Defaults to 2019-10-25. If None uses current time.
 
     """
-
     if isinstance(component, pathlib.Path):
         component = str(component)
         return klive.show(component)

@@ -1,8 +1,8 @@
 """Write DRC rule decks in klayout.
 
 TODO:
-
 - define derived layers (composed rules)
+
 """
 
 import pathlib
@@ -17,7 +17,7 @@ layer_name_to_min_width: Dict[str, float]
 
 
 def rule_width(value: float, layer: str, angle_limit: float = 90) -> str:
-    """Min feature size"""
+    """Min feature size."""
     category = "width"
     error = f"{layer} {category} {value}um"
     return (
@@ -27,7 +27,7 @@ def rule_width(value: float, layer: str, angle_limit: float = 90) -> str:
 
 
 def rule_space(value: float, layer: str, angle_limit: float = 90) -> str:
-    """Min Space between shapes of layer"""
+    """Min Space between shapes of layer."""
     category = "space"
     error = f"{layer} {category} {value}um"
     return (
@@ -37,7 +37,7 @@ def rule_space(value: float, layer: str, angle_limit: float = 90) -> str:
 
 
 def rule_separation(value: float, layer1: str, layer2: str) -> str:
-    """Min space between different layers"""
+    """Min space between different layers."""
     error = f"min {layer1} {layer2} separation {value}um"
     return f"{layer1}.separation({layer2}, {value})" f".output('{error}', '{error}')"
 
@@ -72,6 +72,7 @@ def rule_density(
     """Return script to ensure density of layer is within min and max.
 
     based on https://github.com/klayoutmatthias/si4all
+
     """
     return f"""
 min_density = {min_density}
@@ -124,6 +125,7 @@ def write_drc_deck(rules: List[str], layers: Dict[str, Layer]) -> str:
     Args:
         rules: list of rules.
         layers: layer definitions can be dict, dataclass or pydantic BaseModel.
+
     """
     script = []
     script += write_layer_definition(layers=layers)
@@ -218,7 +220,6 @@ def write_drc_deck_macro(
         print(drc_rule_deck)
 
     """
-
     if mode not in modes:
         raise ValueError(f"{mode!r} not in {modes}")
 

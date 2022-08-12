@@ -1,5 +1,4 @@
-"""PDK stores layers, cross_sections, cell functions ...
-"""
+"""PDK stores layers, cross_sections, cell functions ..."""
 
 import logging
 import pathlib
@@ -63,6 +62,7 @@ class Pdk(BaseModel):
         grid_size: in um. Defaults to 1nm.
         warn_off_grid_ports: raises warning when extruding paths with offgrid ports.
             For example, if you try to create a waveguide with 1.5nm length.
+
     """
 
     name: str
@@ -80,6 +80,8 @@ class Pdk(BaseModel):
     warn_off_grid_ports: bool = False
 
     class Config:
+        """Configuration."""
+
         extra = "forbid"
         fields = {
             "cross_sections": {"exclude": True},
@@ -263,7 +265,6 @@ class Pdk(BaseModel):
 
     def get_component(self, component: ComponentSpec, **kwargs) -> Component:
         """Returns component from a component spec."""
-
         cells_and_containers = set(self.cells.keys()).union(set(self.containers.keys()))
 
         if isinstance(component, Component):

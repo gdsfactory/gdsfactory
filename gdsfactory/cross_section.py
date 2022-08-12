@@ -1,4 +1,5 @@
 """You can define a path as list of points.
+
 To create a component you need to extrude the path with a cross-section.
 """
 import inspect
@@ -93,6 +94,8 @@ class CrossSection(BaseModel):
     add_center_section: bool = True
 
     class Config:
+        """Configuration."""
+
         extra = "forbid"
         fields = {
             "decorator": {"exclude": True},
@@ -145,7 +148,6 @@ class CrossSection(BaseModel):
             right: right padding.
             left: left padding.
         """
-
         from gdsfactory.add_padding import get_padding_points
 
         c = component
@@ -288,7 +290,6 @@ def cross_section(
         c = p.extrude(xs)
         c.plot()
     """
-
     return CrossSection(
         width=width,
         offset=offset,
@@ -395,7 +396,6 @@ def slot(
         c = p.extrude(xs)
         c.plot()
     """
-
     rail_width = (width - slot_width) / 2
     rail_offset = (rail_width + slot_width) / 2
     sections = [
@@ -606,7 +606,6 @@ def pn(
         bbox_layers: list of layers for rectangular bounding box.
         bbox_offsets: list of bounding box offsets.
 
-
     .. code::
 
                                    layer
@@ -634,7 +633,6 @@ def pn(
         p = gf.path.arc(radius=10, angle=45)
         c = p.extrude(xs)
         c.plot()
-
     """
     slab = Section(width=width_slab, offset=0, layer=layer_slab)
     sections = [slab]
@@ -717,7 +715,9 @@ def strip_heater_metal_undercut(
     layer_trench: LayerSpec = "DEEPTRENCH",
     **kwargs,
 ) -> CrossSection:
-    """Returns strip cross_section with top metal and undercut trenches on both sides.
+    """Returns strip cross_section with top metal and undercut trenches on both.
+
+    sides.
 
     dimensions from https://doi.org/10.1364/OE.18.020298
 
@@ -730,7 +730,6 @@ def strip_heater_metal_undercut(
         layer_heater: heater layer.
         layer_trench: tench layer.
         kwargs: cross_section settings.
-
 
     .. code::
 
@@ -759,7 +758,6 @@ def strip_heater_metal_undercut(
         p = gf.path.arc(radius=10, angle=45)
         c = p.extrude(xs)
         c.plot()
-
     """
     trench_offset = trench_gap + trench_width / 2 + width / 2
     info = dict(
@@ -817,7 +815,6 @@ def strip_heater_metal(
         p = gf.path.arc(radius=10, angle=45)
         c = p.extrude(xs)
         c.plot()
-
     """
     info = dict(
         width=width,
@@ -938,7 +935,6 @@ def rib_heater_doped(
 
     .. code::
 
-
                                     |<------width------>|
                                      ____________________  heater_gap           slab_gap
                                     |                   |<----------->|             <-->
@@ -960,7 +956,6 @@ def rib_heater_doped(
         p = gf.path.arc(radius=10, angle=45)
         c = p.extrude(xs)
         c.plot()
-
     """
     heater_offset = width / 2 + heater_gap + heater_width / 2
 
@@ -1131,7 +1126,6 @@ def get_cross_section_factories(
         modules: module or iterable of modules.
         verbose: prints in case any errors occur.
     """
-
     modules = modules if isinstance(modules, Iterable) else [modules]
 
     xs = {}

@@ -300,9 +300,9 @@ _
 
 @lru_cache(maxsize=None)
 def rectangular_font() -> Dict[str, str]:
-    """Returns a rectangular font dict
-    The keys of the dictionary are the characters
-    The values are the pixel representation of the character
+    """Returns a rectangular font dict The keys of the dictionary are the.
+
+    characters The values are the pixel representation of the character.
     """
     characters = {}
     lines = FONT.split("\n")

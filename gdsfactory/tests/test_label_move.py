@@ -11,7 +11,7 @@ def component_with_label() -> Component:
 
 
 def test_label_move() -> Component:
-    """test that when we move references their label also move"""
+    """test that when we move references their label also move."""
     c = gf.Component("component_with_label_move")
     ref = c << gf.components.rectangle()
     ref.movex(10)

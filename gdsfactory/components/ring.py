@@ -20,9 +20,7 @@ def ring(
         width: of the ring.
         angle_resolution: number of points per degree.
         layer: layer.
-
     """
-
     D = gf.Component()
     inner_radius = radius - width / 2
     outer_radius = radius + width / 2

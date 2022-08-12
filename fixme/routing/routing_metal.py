@@ -1,6 +1,4 @@
-"""
-FIXME: electrical connections should ignore port orientation
-"""
+"""FIXME: electrical connections should ignore port orientation."""
 
 import gdsfactory as gf
 

@@ -29,6 +29,7 @@ def find_labels(
         string: for the label.
         x: x position (um).
         y: y position (um).
+
     """
     import klayout.db as pya
 
@@ -106,8 +107,8 @@ def write_labels_gdspy(
         set_transform: bool
             If True, labels will include the transformations from
             the references they are from.
-    """
 
+    """
     gdspath = pathlib.Path(gdspath)
     filepath = filepath or gdspath.with_suffix(".csv")
     filepath = pathlib.Path(filepath)

@@ -29,7 +29,6 @@ def C(
         |  |___
         ||<---> size[0]
         |______ o2
-
     """
     layer = gf.get_layer(layer)
     c = Component()

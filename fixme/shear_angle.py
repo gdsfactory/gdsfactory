@@ -1,5 +1,4 @@
-"""Port marker would be nice to understand the Shear angle.
-"""
+"""Port marker would be nice to understand the Shear angle."""
 import gdsfactory as gf
 
 if __name__ == "__main__":

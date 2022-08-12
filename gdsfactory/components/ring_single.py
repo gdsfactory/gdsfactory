@@ -33,7 +33,6 @@ def ring_single(
         cross_section: cross_section spec.
         kwargs: cross_section settings.
 
-
     .. code::
 
           bl-st-br
@@ -43,7 +42,6 @@ def ring_single(
          --==cb==-- gap
 
           length_x
-
     """
     gf.snap.assert_on_2nm_grid(gap)
 

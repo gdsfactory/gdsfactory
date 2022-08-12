@@ -3,10 +3,11 @@ from typing import Union
 
 
 def check_duplicated_cells(gdspath: Union[Path, str]):
-    """Reads cell and checks for duplicated cells
+    """Reads cell and checks for duplicated cells.
 
     Args:
         gdspath: path to GDS or Component
+
     """
     import klayout.db as pya
 

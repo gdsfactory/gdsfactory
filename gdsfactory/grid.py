@@ -1,4 +1,4 @@
-"""pack a list of components into a grid """
+"""pack a list of components into a grid."""
 from typing import Optional, Tuple
 
 import numpy as np
@@ -64,6 +64,7 @@ def grid(
             spacing=(100, 100),
         )
         c.plot()
+
     """
     components = components or [triangle(x=i) for i in range(1, 10)]
     device_array = np.asarray(components)

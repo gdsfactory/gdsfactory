@@ -26,7 +26,9 @@ def cutback_bend(
     straight: ComponentSpec = straight_function,
     **kwargs
 ) -> Component:
-    """Deprecated. Use cutback_bend90 instead with smaller footprint.
+    """Deprecated.
+
+    Use cutback_bend90 instead with smaller footprint.
 
     Args:
         bend90: bend spec.
@@ -36,7 +38,6 @@ def cutback_bend(
         straight: straight spec.
         kwargs: cross_section settings.
 
-
     .. code::
 
         this is a column
@@ -45,7 +46,6 @@ def cutback_bend(
         _|
 
         _ this is a row
-
     """
     from gdsfactory.pdk import get_component
 
@@ -97,7 +97,6 @@ def cutback_bend90(
 
            _
         |_| |
-
     """
     from gdsfactory.pdk import get_component
 
@@ -148,7 +147,6 @@ def staircase(
         columns: number of columns.
         straight: straight spec.
         kwargs: cross_section settings.
-
     """
     bend90 = bend90(**kwargs) if callable(bend90) else bend90
 
@@ -200,7 +198,6 @@ def cutback_bend180(
         _| |_  this is a row
 
         _ this is a column
-
     """
     from gdsfactory.pdk import get_component
 

@@ -102,7 +102,6 @@ def write_sparameters_meep_batch(
             where `a` is the angle in radians and `m` the module
 
     """
-
     layer_stack = layer_stack or get_layer_stack()
 
     # Parse jobs

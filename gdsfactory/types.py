@@ -68,7 +68,7 @@ class Label(LabelPhidl):
 
     @classmethod
     def validate(cls, v):
-        """check with pydantic Label valid type"""
+        """Check with pydantic Label valid type."""
         assert isinstance(v, LabelPhidl), f"TypeError, Got {type(v)}, expecting Label"
         return v
 
@@ -129,6 +129,8 @@ class Route(BaseModel):
     length: float
 
     class Config:
+        """Config for Route."""
+
         extra = Extra.forbid
 
 
@@ -139,6 +141,8 @@ class Routes(BaseModel):
     bend_radius: Optional[List[float]] = None
 
     class Config:
+        """Config for Routes."""
+
         extra = Extra.forbid
 
 
@@ -189,6 +193,7 @@ class NetlistModel(BaseModel):
         settings: input variables.
         pdk: pdk module name.
         ports: exposed component ports.
+
     """
 
     instances: Dict[str, ComponentModel]
@@ -218,7 +223,7 @@ RouteFactory = Callable[..., Route]
 
 
 class TypedArray(np.ndarray):
-    """based on https://github.com/samuelcolvin/pydantic/issues/380"""
+    """based on https://github.com/samuelcolvin/pydantic/issues/380."""
 
     @classmethod
     def __get_validators__(cls):

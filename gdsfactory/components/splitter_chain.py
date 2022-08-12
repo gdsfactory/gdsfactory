@@ -26,11 +26,9 @@ def splitter_chain(
       o1 _|  |__o3
           |__o2
 
-
            __o2
       o1 _|
           |__o3
-
     """
     c = gf.Component()
     splitter_component = gf.get_component(splitter)

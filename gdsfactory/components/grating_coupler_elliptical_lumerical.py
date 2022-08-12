@@ -75,7 +75,7 @@ def grating_coupler_elliptical_lumerical(
     bias_gap: float = 0,
     **kwargs,
 ) -> Component:
-    """Returns a grating coupler from lumerical inverse design 3D optimization
+    """Returns a grating coupler from lumerical inverse design 3D optimization.
 
     this is a wrapper of components.grating_coupler_elliptical_arbitrary
     https://support.lumerical.com/hc/en-us/articles/1500000306621
@@ -117,7 +117,6 @@ def grating_coupler_elliptical_lumerical(
         fiber_marker_layer: in um.
         spiked: grating teeth include sharp spikes to avoid non-manhattan drc errors.
         cross_section: cross_section spec for waveguide port.
-
     """
     parameters = (
         parameters.strip().split() if isinstance(parameters, str) else parameters
