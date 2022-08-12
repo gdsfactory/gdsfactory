@@ -99,7 +99,12 @@ class PINWaveguide(BaseModel):
         devsim.add_2d_mesh_line(mesh="dio", dir="x", pos=xmin, ps=self.pp_res_x)
         devsim.add_2d_mesh_line(mesh="dio", dir="x", pos=self.xppp, ps=self.pp_p_res_x)
         devsim.add_2d_mesh_line(mesh="dio", dir="x", pos=self.xppp / 2, ps=self.p_res_x)
-        devsim.add_2d_mesh_line(mesh="dio", dir="x", pos=0, ps=self.pn_res_x)
+        devsim.add_2d_mesh_line(
+            mesh="dio", dir="x", pos=-self.p_offset, ps=self.pn_res_x
+        )
+        devsim.add_2d_mesh_line(
+            mesh="dio", dir="x", pos=self.n_offset, ps=self.pn_res_x
+        )
         devsim.add_2d_mesh_line(mesh="dio", dir="x", pos=self.xnpp / 2, ps=self.p_res_x)
         devsim.add_2d_mesh_line(mesh="dio", dir="x", pos=self.xnpp, ps=self.pp_p_res_x)
         devsim.add_2d_mesh_line(mesh="dio", dir="x", pos=xmax, ps=self.pp_res_x)
@@ -186,8 +191,6 @@ class PINWaveguide(BaseModel):
         simple_physics.SetSiliconParameters(device, "core", 300)
         simple_physics.SetSiliconParameters(device, "left_contact", 300)
         simple_physics.SetSiliconParameters(device, "right_contact", 300)
-        # SetOxideParameters(device, "left_clad", 300)
-        # SetOxideParameters(device, "right_clad", 300)
 
     def SetNetDoping(self, device):
         """
@@ -197,20 +200,23 @@ class PINWaveguide(BaseModel):
             device,
             "slab",
             "Acceptors",
-            f"{self.p_conc:1.3e}*step(-x) + {self.ppp_conc:1.3e}*step({self.xppp:1.3e}-x)",
+            f"{self.p_conc:1.3e}*step({-1*self.p_offset:1.3e}-x) + {self.ppp_conc:1.3e}*step({self.xppp:1.3e}-x)",
         )
         model_create.CreateNodeModel(
             device,
             "slab",
             "Donors",
-            f"{self.n_conc:1.3e}*step(x) + {self.nnn_conc:1.3e}*step(x-{self.xnpp:1.3e})",
+            f"{self.n_conc:1.3e}*step(x-{self.n_offset:1.3e}) + {self.nnn_conc:1.3e}*step(x-{self.xnpp:1.3e})",
         )
         model_create.CreateNodeModel(device, "slab", "NetDoping", "Donors-Acceptors")
         model_create.CreateNodeModel(
-            device, "core", "Acceptors", f"{self.p_conc:1.1e}*step(-x)"
+            device,
+            "core",
+            "Acceptors",
+            f"{self.p_conc:1.1e}*step({-1*self.p_offset:1.3e}-x)",
         )
         model_create.CreateNodeModel(
-            device, "core", "Donors", f"{self.n_conc:1.1e}*step(x)"
+            device, "core", "Donors", f"{self.n_conc:1.1e}*step(x-{self.n_offset:1.3e})"
         )
         model_create.CreateNodeModel(device, "core", "NetDoping", "Donors-Acceptors")
         model_create.CreateNodeModel(device, "left_contact", "NetDoping", "0")
@@ -296,7 +302,7 @@ class PINWaveguide(BaseModel):
     def ramp_voltage(self, V, dV):
         device = "MyDevice"
         v = 0.0
-        while np.abs(v) < np.abs(V):
+        while np.abs(v) <= np.abs(V):
             devsim.set_parameter(
                 device=device, name=simple_physics.GetContactBiasName("left"), value=v
             )
@@ -319,7 +325,14 @@ class PINWaveguide(BaseModel):
     def save_device(self, filepath):
         devsim.write_devices(file=filepath, type="tecplot")
 
-    def plot(self, tempfile="temp.dat", scalars=None, log_scale=False, cmap="RdBu"):
+    def plot(
+        self,
+        tempfile="temp.dat",
+        scalars=None,
+        log_scale=False,
+        cmap="RdBu",
+        jupyter_backend="None",
+    ):
         devsim.write_devices(file=tempfile, type="tecplot")
         reader = pv.get_reader(tempfile)
         mesh = reader.read()
@@ -330,7 +343,7 @@ class PINWaveguide(BaseModel):
         )  # , scalar_bar_args=sargs)
         _ = plotter.show_grid()
         _ = plotter.camera_position = "xy"
-        _ = plotter.show(jupyter_backend="None")
+        _ = plotter.show(jupyter_backend=jupyter_backend)
 
     def list_fields(self, tempfile="temp.dat"):
         devsim.write_devices(file=tempfile, type="tecplot")
@@ -347,7 +360,7 @@ if __name__ == "__main__":
     )
     c.ddsolver()
     # c.save_device("./test.dat")
-    c.ramp_voltage(1, 0.1)
+    c.ramp_voltage(1.0, 0.1)
 
     # # print(c.get_field_density(field_name="Holes"))
     c.save_device("./test.dat")
