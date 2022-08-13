@@ -91,6 +91,10 @@ def add_fiber_array(
         gc = grating_coupler
     gc = gf.get_component(gc)
 
+    if gc_port_name not in gc.ports:
+        gc_ports = list(gc.ports.keys())
+        raise ValueError(f"gc_port_name = {gc_port_name!r} not in {gc_ports}")
+
     orientation = gc.ports[gc_port_name].orientation
 
     grating_coupler = (
