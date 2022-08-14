@@ -82,7 +82,10 @@ def not_inside(
 
 @gf.cell
 def errors() -> Component:
-    components = [width_min(), gap_min(), separation(), enclosing(), not_inside()]
+    components = [width_min(), gap_min(), separation(), enclosing(), not_inside()] + [
+        width_min(),
+        gap_min(),
+    ] * 1
     c = gf.pack(components, spacing=1.5)
     return c[0]
 
