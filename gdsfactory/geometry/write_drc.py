@@ -269,6 +269,7 @@ def write_drc_deck_macro(
 # and https://gdsfactory.github.io/gdsfactory/api.html#klayout-drc
 
 report("{name} DRC")
+time_start = Time.now
 """
 
     if mode == "tiled":
@@ -287,7 +288,9 @@ deep
 
     script += write_drc_deck(rules=rules, layers=layers)
 
-    script += """
+    script += r"""
+time_end = Time.now
+print "run time #{(time_end-time_start).round(3)} seconds \n"
 </text>
 </klayout-macro>
 """
