@@ -1,0 +1,68 @@
+from typing import Any, Tuple
+import gdsfactory as gf
+from gdsfactory.types import CrossSectionSpec
+from gdspy import Path
+import numpy as np
+from scipy.special import binom
+
+
+@gf.cell
+def coupler_adiabatic(
+    length1: float = 20.0,
+    length2: float = 50.0,
+    length3: float = 30.0,
+    wg_sep: float = 1.0,
+    input_wg_sep: float = 3.0,
+    output_wg_sep: float = 3.0,
+    dw: float = 0.1,
+    port: Tuple[int, int] = (0, 0),
+    direction: str = "EAST",
+    cross_section: CrossSectionSpec = "strip",
+    wg_width: float = 0.5,
+    **kwargs):
+    control_points = [
+            (0, -input_wg_sep),
+            (length1 / 2.0, -input_wg_sep),
+            (length1 / 2.0, -input_wg_sep / 2.0 - wg_sep / 2.0),
+            (length1, -input_wg_sep / 2.0 - wg_sep / 2.0),]
+
+    def bezier_curve(t):
+        """Returns bezier coordinates.
+
+        Args:
+            t: 1D array of points varying between 0 and 1.
+            control_points:
+        """
+        xs = 0.0
+        ys = 0.0
+        n = len(control_points) - 1
+        for k in range(n + 1):
+            ank = binom(n, k) * (1 - t) ** (n - k) * t**k
+            xs += ank * control_points[k][0]
+            ys += ank * control_points[k][1]
+
+        return (xs, ys)
+
+    wg = Path(width=wg_width)
+
+    wg.parametric(bezier_curve, final_width=wg_width, max_points=199, layer=1, datatype=0)
+    c = gf.Component()
+
+    c.add(wg)
+
+    x = gf.get_cross_section(cross_section)
+
+    c << gf.path.extrude(wg, x)
+    # c.add_ports(ref.ports)
+    # if x.info:
+    #     c.info.update(x.info)
+    
+    # if x.add_bbox:
+    #     c = x.add_bbox(c)
+    # if x.add_pins:
+    #     c = x.add_pins(c)
+
+    return c
+
+coupler = coupler_adiabatic(length3=5)
+coupler.show()
