@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.18.0](https://github.com/gdsfactory/gdsfactory/pull/590)
+
+- include `rule_not_inside`, `rule_min_width_or_space` klayout DRC checks in gf.geometry.write_drc
+- fix install instructions for SAX in docs
+
 ## [5.17.1](https://github.com/gdsfactory/gdsfactory/pull/590)
 
 - copy_child_info updates component info
