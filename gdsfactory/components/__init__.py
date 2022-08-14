@@ -30,6 +30,7 @@ from gdsfactory.components.bend_euler import (
 )
 from gdsfactory.components.bend_port import bend_port
 from gdsfactory.components.bend_s import bend_s
+from gdsfactory.components.bezier import bezier
 from gdsfactory.components.C import C
 from gdsfactory.components.cavity import cavity
 from gdsfactory.components.cdc import cdc
@@ -302,6 +303,7 @@ __all__ = [
     "bend_port",
     "bend_s",
     "bend_straight_bend",
+    "bezier",
     "cavity",
     "cdsem_all",
     "circle",
