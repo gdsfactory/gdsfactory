@@ -21,4 +21,5 @@ exclude =
     gdslib,
     .tox,
     .mypy_cache,
-    venv
+    venv,
+    devsim

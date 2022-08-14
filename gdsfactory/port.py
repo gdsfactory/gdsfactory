@@ -25,7 +25,6 @@ You can also rename them with W,E,S,N prefix (west, east, south, north).
              |   |
             S0   S1
 
-
 """
 from __future__ import annotations
 
@@ -57,8 +56,6 @@ LayerSpecs = Tuple[LayerSpec, ...]
 Float2 = Tuple[float, float]
 
 midpoint_deprecation = "Port.midpoint is deprecated. Find and replace 'midpoint' by 'center' in all your code."
-# position_deprecation = "Port.position is deprecated. Change to Port.center to continue using it in the future."
-# angle_deprecation = "Port.angle is deprecated. Change to Port.orientation to continue using it in the future."
 
 
 class PortNotOnGridError(ValueError):
@@ -74,8 +71,8 @@ class PortOrientationError(ValueError):
 
 
 class Port:
-    """Ports are useful to connect Components with each other.
-    Extends phidl port with layer and cross_section
+    """Ports are useful to connect Components with each other. Extends phidl \
+    port with layer and cross_section.
 
     Args:
         name: we name ports clock-wise starting from bottom left.
@@ -88,6 +85,7 @@ class Port:
         parent: Component that port belongs to.
         cross_section: cross_section spec.
         shear_angle: an optional angle to shear port face in degrees.
+
     """
 
     _next_uid = 0
@@ -105,7 +103,7 @@ class Port:
         cross_section: Optional[CrossSection] = None,
         shear_angle: Optional[float] = None,
     ) -> None:
-
+        """Initializes the Port object."""
         if midpoint:
             warnings.warn(midpoint_deprecation, DeprecationWarning, stacklevel=2)
             center = midpoint
@@ -179,12 +177,14 @@ class Port:
         return OmegaConf.to_yaml(d)
 
     def __repr__(self) -> str:
+        """Return a string representation of the object."""
         s = f"Port (name {self.name}, center {self.center}, width {self.width}, orientation {self.orientation}, layer {self.layer}, port_type {self.port_type})"
         s += f" shear_angle {self.shear_angle}" if self.shear_angle else ""
         return s
 
     @classmethod
     def __get_validators__(cls):
+        """Get validators."""
         yield cls.validate
 
     @classmethod
@@ -197,7 +197,11 @@ class Port:
 
     @property
     def settings(self):
-        """TODO! delete this. Use to_dict instead"""
+        """TODO!
+
+        delete this. Use to_dict instead
+
+        """
         return dict(
             name=self.name,
             center=self.center,
@@ -206,27 +210,6 @@ class Port:
             layer=self.layer,
             port_type=self.port_type,
         )
-
-    # @property
-    # def angle(self):
-    #     """convenient alias for orientation."""
-    #     warnings.warn(angle_deprecation, DeprecationWarning, stacklevel=2)
-    #     return self.orientation
-
-    # @angle.setter
-    # def angle(self, a) -> None:
-    #     warnings.warn(angle_deprecation, DeprecationWarning, stacklevel=2)
-    #     self.orientation = a
-
-    # @property
-    # def position(self) -> Tuple[float, float]:
-    #     warnings.warn(position_deprecation, DeprecationWarning, stacklevel=2)
-    #     return self.center
-
-    # @position.setter
-    # def position(self, p) -> None:
-    #     warnings.warn(position_deprecation, DeprecationWarning, stacklevel=2)
-    #     self.center = np.array(p, dtype="float64")
 
     def move(self, vector) -> None:
         self.center = self.center + np.array(vector)
@@ -240,7 +223,7 @@ class Port:
         return port
 
     def flip(self, **kwargs) -> Port:
-        """flips port"""
+        """Flips port."""
         port = self.copy(**kwargs)
         if port.orientation is None:
             raise ValueError(f"port {self.name!r} has None orientation")
@@ -248,7 +231,7 @@ class Port:
         return port
 
     def _copy(self, new_uid: bool = True) -> Port:
-        """Keep this case for phidl compatibility"""
+        """Keep this case for phidl compatibility."""
         return self.copy(new_uid=new_uid)
 
     @property
@@ -295,12 +278,13 @@ class Port:
         return self.center[1]
 
     def rotate(self, angle: float = 45, center: Optional[Float2] = None) -> Port:
-        """Rotates a Port around the specified center point,
-        if no centerpoint specified will rotate around (0,0).
+        """Rotates a Port around the specified center point, if no centerpoint \
+        specified will rotate around (0,0).
 
         Args:
             angle: Angle to rotate the Port in degrees.
             center: array-like[2] or None center of the Port.
+
         """
         self.orientation = np.mod(self.orientation + angle, 360)
         if center is None:
@@ -314,6 +298,7 @@ class Port:
         Args:
             name: optional new name.
             new_uid: True creates a new port id.
+
         """
         new_port = Port(
             name=name or self.name,
@@ -350,7 +335,8 @@ class Port:
         component_name = self.parent.name
         if not np.isclose(half_width, half_width_correct):
             raise PortNotOnGridError(
-                f"{component_name}, port = {self.name!r}, center = {self.center} width = {self.width} will create off-grid points",
+                f"{component_name}, port = {self.name!r}, center = {self.center} "
+                f"width = {self.width} will create off-grid points",
                 f"you can fix it by changing width to {2*half_width_correct}",
             )
 
@@ -416,11 +402,12 @@ def port_array(
 
 
 def read_port_markers(component: object, layers: LayerSpecs = ((1, 10),)) -> Component:
-    """Loads a GDS and returns the extracted ports from layer markers
+    """Loads a GDS and returns the extracted ports from layer markers.
 
     Args:
         component: or Component
         layers: Iterable of GDS layers
+
     """
     from gdsfactory.pdk import get_layer
 
@@ -428,7 +415,7 @@ def read_port_markers(component: object, layers: LayerSpecs = ((1, 10),)) -> Com
 
 
 def csv2port(csvpath) -> Dict[str, Port]:
-    """Reads ports from a CSV file and returns a Dict"""
+    """Reads ports from a CSV file and returns a Dict."""
     ports = {}
     with open(csvpath) as csvfile:
         rows = csv.reader(csvfile, delimiter=",", quotechar="|")
@@ -439,17 +426,18 @@ def csv2port(csvpath) -> Dict[str, Port]:
 
 
 def sort_ports_clockwise(ports: Dict[str, Port]) -> Dict[str, Port]:
-    """
+    """Sort and return ports in the clockwise direction.
 
     .. code::
 
-             3   4
-             |___|_
-         2 -|      |- 5
-            |      |
-         1 -|______|- 6
-             |   |
-             8   7
+            3   4
+            |___|_
+        2 -|      |- 5
+           |      |
+        1 -|______|- 6
+            |   |
+            8   7
+
     """
     port_list = list(ports.values())
     direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
@@ -482,17 +470,18 @@ def sort_ports_clockwise(ports: Dict[str, Port]) -> Dict[str, Port]:
 
 
 def sort_ports_counter_clockwise(ports: Dict[str, Port]) -> Dict[str, Port]:
-    """
+    """Sort and return ports in the counter-clockwise direction.
 
     .. code::
 
-             4   3
-             |___|_
-         5 -|      |- 2
-            |      |
-         6 -|______|- 1
-             |   |
-             7   8
+            4   3
+            |___|_
+        5 -|      |- 2
+           |      |
+        6 -|______|- 1
+            |   |
+            7   8
+
     """
     port_list = list(ports.values())
     direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
@@ -550,8 +539,8 @@ def select_ports(
 
     Returns:
         Dict containing the selected ports {port name: port}.
-    """
 
+    """
     from gdsfactory.component import Component, ComponentReference
 
     # Make it accept Component or ComponentReference
@@ -653,7 +642,7 @@ def deco_rename_ports(component_factory: Callable) -> Callable:
 def _rename_ports_facing_side(
     direction_ports: Dict[str, List[Port]], prefix: str = ""
 ) -> None:
-    """Renames ports clockwise"""
+    """Renames ports clockwise."""
     for direction, list_ports in list(direction_ports.items()):
 
         if direction in ["E", "W"]:
@@ -673,7 +662,7 @@ def _rename_ports_facing_side(
 def _rename_ports_facing_side_ccw(
     direction_ports: Dict[str, List[Port]], prefix: str = ""
 ) -> None:
-    """Renames ports counter-clockwise"""
+    """Renames ports counter-clockwise."""
     for direction, list_ports in list(direction_ports.items()):
 
         if direction in ["E", "W"]:
@@ -710,7 +699,8 @@ def _rename_ports_counter_clockwise(direction_ports, prefix="") -> None:
 
 
 def _rename_ports_clockwise(direction_ports: PortsMap, prefix: str = "") -> None:
-    """Rename ports in the clockwise direction starting from the bottom left (west) corner."""
+    """Rename ports in the clockwise direction starting from the bottom left \
+    (west) corner."""
     east_ports = direction_ports["E"]
     east_ports.sort(key=lambda p: -p.y)  # sort north to south
 
@@ -733,7 +723,8 @@ def _rename_ports_clockwise(direction_ports: PortsMap, prefix: str = "") -> None
 def _rename_ports_clockwise_top_right(
     direction_ports: PortsMap, prefix: str = ""
 ) -> None:
-    """Rename ports in the clockwise direction starting from the top right corner."""
+    """Rename ports in the clockwise direction starting from the top right \
+    corner."""
     east_ports = direction_ports["E"]
     east_ports.sort(key=lambda p: -p.y)  # sort north to south
 
@@ -779,7 +770,6 @@ def rename_ports_by_orientation(
             S0   S1
 
     """
-
     layers_excluded = layers_excluded or []
     direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
 
@@ -828,6 +818,7 @@ def auto_rename_ports(
         select_ports_electrical: to select electrical ports.
         prefix_optical: prefix of optical ports.
         prefix_electrical: prefix of electrical ports.
+
     """
     rename_ports_by_orientation(
         component=component,
@@ -857,7 +848,7 @@ auto_rename_ports_orientation = partial(
 def map_ports_layer_to_orientation(
     ports: Dict[str, Port], function=_rename_ports_facing_side
 ) -> Dict[str, str]:
-    """Returns component or reference port mapping
+    """Returns component or reference port mapping.
 
     .. code::
 
@@ -870,7 +861,6 @@ def map_ports_layer_to_orientation(
             S0   S1
 
     """
-
     m = {}
     direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
     layers = {port.layer for port in ports.values()}
@@ -917,7 +907,6 @@ def map_ports_to_orientation_cw(
             S0   S1
 
     """
-
     direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
 
     ports = select_ports(ports, **kwargs)

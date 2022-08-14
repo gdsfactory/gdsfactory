@@ -24,7 +24,6 @@ def ellipse(
     The orientation of the ellipse is determined by the order of the radii variables;
     if the first element is larger, the ellipse will be horizontal and if the second
     element is larger, the ellipse will be vertical.
-
     """
     c = gf.Component()
     a = radii[0]

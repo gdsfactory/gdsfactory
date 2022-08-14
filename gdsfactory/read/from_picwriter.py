@@ -2,6 +2,7 @@
 
 https://picwriter.readthedocs.io/en/latest/component-documentation.html
 As it is based on gdspy it's easier to wrap picwriter components
+
 """
 import gdspy
 import numpy as np
@@ -45,8 +46,9 @@ def cross_section_to_waveguide_template(
 def direction_to_degree(direction: str) -> float:
     """Convert a 'direction' (as used in picwriter) to an angle in degrees.
 
-    picwriter 'direction's can be either a float (corresponding to an angle in radians)
-    or a string, corresponding to a cardinal direction
+    picwriter 'direction's can be either a float (corresponding to an
+    angle in radians) or a string, corresponding to a cardinal direction
+
     """
     if isinstance(direction, float):
         # direction is a float in radians, but rotation should be a float in degrees
@@ -62,6 +64,7 @@ def from_picwriter(
     Args:
         component: phidl component.
         port_layer: to add to component ports.
+
     """
     po = picwriter_object
     c = gf.Component(name=po.name_prefix)

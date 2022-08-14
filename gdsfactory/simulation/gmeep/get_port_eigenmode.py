@@ -61,8 +61,7 @@ def get_port_2Dx_eigenmode(
     y=0,
     z=0,
 ):
-    """
-    NOTE: currently only handles ports normal to x-direction
+    """NOTE: currently only handles ports normal to x-direction.
 
     Args:
         sim_dict: simulation dict

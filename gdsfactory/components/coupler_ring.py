@@ -8,7 +8,6 @@ from gdsfactory.components.coupler_straight import (
     coupler_straight as coupler_straight_function,
 )
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.snap import assert_on_2nm_grid
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
@@ -52,7 +51,7 @@ def coupler_ring(
     bend = bend or bend_euler
 
     c = Component()
-    assert_on_2nm_grid(gap)
+    gap = gf.snap.snap_to_grid(gap, nm=2)
 
     # define subcells
     coupler90_component = gf.get_component(

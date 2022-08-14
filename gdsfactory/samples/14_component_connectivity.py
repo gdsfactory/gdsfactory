@@ -6,7 +6,6 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler_ring import coupler_ring as coupler_ring_function
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.cross_section import strip
-from gdsfactory.snap import assert_on_2nm_grid
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
@@ -22,9 +21,10 @@ def ring_single_sample(
     cross_section: CrossSectionSpec = strip,
     **kwargs
 ) -> Component:
-    """Single bus ring made of a ring coupler (cb: bottom)
-    connected with two vertical straights (wl: left, wr: right)
-    two bends (bl, br) and horizontal straight (wg: top)
+    """Single bus ring made of a ring coupler.
+
+    (cb: bottom) connected with two vertical straights (wl: left, wr: right)
+    two bends (bl, br) and horizontal straight (wg: top).
 
     Args:
         gap: gap between for coupler.
@@ -49,10 +49,9 @@ def ring_single_sample(
           length_x
 
     """
-    assert_on_2nm_grid(gap)
-    from gdsfactory.pdk import get_component
+    gap = gf.snap.snap_to_grid(gap, nm=2)
 
-    coupler_ring_component = get_component(
+    coupler_ring_component = gf.get_component(
         coupler_ring,
         bend=bend,
         gap=gap,
@@ -61,15 +60,15 @@ def ring_single_sample(
         cross_section=cross_section,
         **kwargs
     )
-    straight_side = get_component(
+    straight_side = gf.get_component(
         straight, length=length_y, cross_section=cross_section, **kwargs
     )
-    straight_top = get_component(
+    straight_top = gf.get_component(
         straight, length=length_x, cross_section=cross_section, **kwargs
     )
 
     bend = bend or bend_euler
-    bend = get_component(bend, radius=radius, cross_section=cross_section, **kwargs)
+    bend = gf.get_component(bend, radius=radius, cross_section=cross_section, **kwargs)
 
     c = Component()
     cb = c << coupler_ring_component

@@ -1,6 +1,4 @@
-"""Lets add pins to each cell from the fab a PDK.
-
-"""
+"""Lets add pins to each cell from the fab a PDK."""
 
 import gdsfactory as gf
 from gdsfactory.add_pins import add_outline, add_pins

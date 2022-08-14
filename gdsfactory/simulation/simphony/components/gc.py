@@ -13,6 +13,7 @@ def gc1550te(filepath=sparameters_path / "gc2dte" / "gc1550.dat", numports=2):
 
         c = gc.gc1550te()
         gs.plot_model(c)
+
     """
     return model_from_filepath(filepath=filepath, numports=numports)
 

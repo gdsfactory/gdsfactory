@@ -7,8 +7,9 @@
 *.hdf5
 *.stl
 *.pkl
+test_mask_metadata.csv
+test_mask_metadata.yml
 .pyre_configuration
-gdsfactory/klayout/tech/layers.py
 poetry.lock
 mask.csv
 mask.yml
@@ -37,6 +38,7 @@ var
 sdist
 develop-eggs
 .installed.cfg
+devsim/
 lib/
 lib64
 docs/notebooks/playground_repo

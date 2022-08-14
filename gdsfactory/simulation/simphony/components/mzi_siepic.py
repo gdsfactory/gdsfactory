@@ -46,7 +46,6 @@ def mzi(L0=1, DL=100.0, L2=10.0, y_model_factory=mmi1x2, wg=siepic.Waveguide):
         c = gc.mzi()
         gs.plot_circuit(c)
 
-
     """
     y_splitter = y_model_factory() if callable(y_model_factory) else y_model_factory
     y_recombiner = y_model_factory() if callable(y_model_factory) else y_model_factory

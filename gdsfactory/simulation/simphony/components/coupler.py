@@ -57,7 +57,6 @@ def coupler(
         gs.plot_model(c)
 
     """
-
     # Simphony takes units in m
     width *= 1e-6
     thickness *= 1e-6

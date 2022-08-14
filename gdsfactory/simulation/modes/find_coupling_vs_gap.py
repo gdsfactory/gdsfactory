@@ -17,14 +17,14 @@ def coupling_length(
     power_ratio: float = 1.0,
     wavelength: float = 1.55,
 ) -> float:
-    """Returns the coupling length (um) of the directional coupler
-    to achieve power_ratio.
+    """Returns the coupling length (um) of the directional coupler to achieve power_ratio.
 
     Args:
         wavelength: in um.
         neff1: even supermode of the directional coupler..
         neff2: odd supermode of the directional coupler.
         power_ratio: p2/p1, where 1 means 100% power transfer.
+
     """
     dneff = (neff1 - neff2).real
     return wavelength / (np.pi * dneff) * np.arcsin(np.sqrt(power_ratio))
@@ -34,9 +34,7 @@ def coupling_length(
 def find_coupling(
     gap: float = 0.2, power_ratio: float = 1.0, wavelength: float = 1.55, **kwargs
 ) -> float:
-    """
-    Returns the coupling length (um) of the directional coupler
-    to achieve power_ratio, where 1 means 100% power transfer.
+    """Returns the coupling length (um) of the directional coupler to achieve power_ratio, where 1 means 100% power transfer.
 
     Args:
         gap: in um
@@ -46,6 +44,7 @@ def find_coupling(
     keyword Args:
         nmodes: number of modes
         parity: for symmetries
+
     """
     modes = find_modes_coupler(gaps=(gap,), wavelength=wavelength, **kwargs)
     ne = modes[1].neff
@@ -96,6 +95,7 @@ def find_coupling_vs_gap(
         nmodes: number of modes.
         sidewall_angles: waveguide sidewall angle (radians),
             tapers from wg_width at top of slab, upwards, to top of waveguide.
+
     """
     if filepath and not overwrite and pathlib.Path(filepath).exists():
         return pd.read_csv(filepath)

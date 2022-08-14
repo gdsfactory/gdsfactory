@@ -25,10 +25,7 @@ def path_length_matched_points(
     cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
     **kwargs,
 ) -> List[ndarray]:
-    """
-    Several types of paths won't match correctly.
-    We do not try to handle all the corner cases here.
-    You will need to modify the input list of waypoints in some cases.
+    """Several types of paths won't match correctly. We do not try to handle all the corner cases here. You will need to modify the input list of waypoints in some cases.
 
     Args:
         list_of_waypoints:  [[p1, p2, p3,...], [q1, q2, q3,...], ...]
@@ -54,7 +51,6 @@ def path_length_matched_points(
         - the number of turns are identical
 
     """
-
     if nb_loops >= 1:
         return path_length_matched_points_add_waypoints(
             list_of_waypoints=list_of_waypoints,
@@ -154,8 +150,8 @@ def path_length_matched_points_add_waypoints(
     cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
     **kwargs,
 ) -> List[ndarray]:
-    """
-    Args:
+    """Args are the following.
+
         list_of_waypoints: a list of list_of_points:
             [[p1, p2, p3,...], [q1, q2, q3,...], ...]
             - the number of turns have to be identical
@@ -193,7 +189,6 @@ def path_length_matched_points_add_waypoints(
          ___|  |___
 
     """
-
     if not isinstance(list_of_waypoints, list):
         raise ValueError(
             f"list_of_waypoints should be a list, got {type(list_of_waypoints)}"

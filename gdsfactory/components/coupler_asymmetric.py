@@ -15,7 +15,7 @@ def coupler_asymmetric(
     cross_section: CrossSectionSpec = "strip",
     **kwargs
 ) -> Component:
-    """bend coupled to straight waveguide
+    """Bend coupled to straight waveguide.
 
     Args:
         bend: spec.
@@ -35,7 +35,6 @@ def coupler_asymmetric(
                _____/          |
          gap o1____________    |  dy
                             o3
-
     """
     x = gf.get_cross_section(cross_section, **kwargs)
     width = x.width

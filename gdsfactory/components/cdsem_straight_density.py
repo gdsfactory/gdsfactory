@@ -23,7 +23,7 @@ def cdsem_straight_density(
     cross_section: CrossSectionSpec = "strip",
     text: Optional[ComponentSpec] = text_rectangular_mini,
 ) -> Component:
-    """Returns sweep of dense straight lines
+    """Returns sweep of dense straight lines.
 
     Args:
         widths: list of widths.

@@ -34,12 +34,11 @@ def loop_mirror(
 def loop_mirror_with_delay(
     loop_mirror: ComponentSpec = loop_mirror, spiral: ComponentSpec = spiral_external_io
 ) -> Component:
-    """
-    delay = 13e-12
+    """Delay = 13e-12.
+
     # delay = length/speed
     # length=delay*speed
     13e-12*3e8/4.2*1e6
-
     """
     c = Component()
     lm = c << gf.get_component(loop_mirror)

@@ -1,4 +1,4 @@
-""" based on phidl tutorial
+"""based on phidl tutorial.
 
 # Manipulating geometry 1 - Basic movement and rotation
 

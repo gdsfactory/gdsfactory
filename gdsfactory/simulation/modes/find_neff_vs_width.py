@@ -45,7 +45,6 @@ def find_neff_vs_width(
         resolution: resolution (pixels/um).
 
     """
-
     if filepath and not overwrite and pathlib.Path(filepath).exists():
         return pd.read_csv(filepath)
 

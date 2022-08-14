@@ -20,7 +20,6 @@ def extend_ports_list(
         extension: function for extension.
         extension_port_name: to connect extension.
         ignore_ports: list of port names to ignore.
-
     """
     from gdsfactory.pdk import get_component
 
