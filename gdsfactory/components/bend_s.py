@@ -1,5 +1,4 @@
 import gdsfactory as gf
-from gdsfactory.add_padding import get_padding_points
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import bezier
@@ -47,26 +46,12 @@ def bend_s(
     if x.info:
         c.info.update(x.info)
 
-    if with_bbox:
-        padding = []
-        for offset in x.bbox_offsets:
-            points = get_padding_points(
-                component=c,
-                default=0,
-                bottom=offset,
-                top=offset,
-            )
-            padding.append(points)
-
-        for layer, points in zip(x.bbox_layers, padding):
-            c.add_polygon(points, layer=layer)
-
     auto_rename_ports(c)
     return c
 
 
 if __name__ == "__main__":
-    c = bend_s(width=1)
+    c = bend_s(bbox_offsets=[0.5], bbox_layers=[(111, 0)])
     # c = bend_s(size=[10, 2.5])  # 10um bend radius
     # c = bend_s(size=[20, 3], cross_section="rib")  # 10um bend radius
     # c.pprint()
