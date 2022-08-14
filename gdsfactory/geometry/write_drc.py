@@ -239,7 +239,7 @@ def write_drc_deck_macro(
             rule_not_inside(layer="VIAC", not_inside="NPP"),
         ]
 
-        drc_rule_deck = write_drc_deck_macro(rules=rules, layers=gf.LAYER)
+        drc_rule_deck = write_drc_deck_macro(rules=rules, layers=gf.LAYER, mode="tiled")
         print(drc_rule_deck)
 
     """
@@ -316,5 +316,5 @@ if __name__ == "__main__":
         rule_not_inside(layer="VIAC", not_inside="NPP"),
     ]
 
-    drc_rule_deck = write_drc_deck_macro(rules=rules, layers=gf.LAYER)
+    drc_rule_deck = write_drc_deck_macro(rules=rules, layers=gf.LAYER, mode="tiled")
     print(drc_rule_deck)
