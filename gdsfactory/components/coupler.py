@@ -85,6 +85,8 @@ def coupler(
 
 
 if __name__ == "__main__":
+    c = coupler(bbox_offsets=[0.5], bbox_layers=[(111, 0)])
+    c.show()
 
     # c = gf.Component()
     # cp1 = c << coupler(gap=0.2)
@@ -96,13 +98,12 @@ if __name__ == "__main__":
     # c = coupler(gap=0.300, layer=layer)
     # c = coupler(cross_section="rib")
 
-    nm = 1e-3
-
-    c = gf.Component()
-    coupler_ = c << gf.components.coupler(gap=101 * nm)
-    wg = c << gf.components.straight()
-    wg.connect("o1", coupler_.ports["o2"])
-    c.show()
+    # nm = 1e-3
+    # c = gf.Component()
+    # coupler_ = c << gf.components.coupler(gap=101 * nm)
+    # wg = c << gf.components.straight()
+    # wg.connect("o1", coupler_.ports["o2"])
+    # c.show()
 
     # c = gf.components.coupler(gap=101 * nm)
     # c2 = gf.routing.add_fiber_array(c, decorator=gf.decorators.flatten_invalid_refs)
