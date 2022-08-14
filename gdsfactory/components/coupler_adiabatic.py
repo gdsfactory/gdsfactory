@@ -7,6 +7,37 @@ from gdsfactory.cross_section import strip
 from gdsfactory.types import CrossSectionSpec
 
 
+# Base bezier function
+def _bezier_curve(t, control_points):
+    """Returns bezier coordinates.
+
+    Args:
+        t: 1D array of points varying between 0 and 1.
+    """
+    xs = 0.0
+    ys = 0.0
+    n = len(control_points) - 1
+    for k in range(n + 1):
+        ank = binom(n, k) * (1 - t) ** (n - k) * t ** k
+        xs += ank * control_points[k][0]
+        ys += ank * control_points[k][1]
+
+    return (xs, ys)
+
+def _generate_S_bend(wg_width, bezier_function, final_width, layer, datatype):
+    # Top input S-bend
+    bend = Path(width=wg_width)
+    bend.parametric(
+        bezier_function,
+        max_points=199,
+        tolerance=0.00001,
+        final_width=final_width,
+        layer=layer,
+        datatype=datatype,
+    )
+
+    return bend
+
 @gf.cell
 def coupler_adiabatic(
     length1: float = 20.0,
@@ -94,24 +125,7 @@ def coupler_adiabatic(
             length1 + length2 + length3,
             -input_wg_sep / 2.0 - output_wg_sep / 2.0,
         ),
-    ]
-
-    # Base bezier function
-    def _bezier_curve(t, control_points):
-        """Returns bezier coordinates.
-
-        Args:
-            t: 1D array of points varying between 0 and 1.
-        """
-        xs = 0.0
-        ys = 0.0
-        n = len(control_points) - 1
-        for k in range(n + 1):
-            ank = binom(n, k) * (1 - t) ** (n - k) * t ** k
-            xs += ank * control_points[k][0]
-            ys += ank * control_points[k][1]
-
-        return (xs, ys)
+    ]    
 
     # Bend specific bezier functions
     def _bezier_inp_top(t):
@@ -132,63 +146,16 @@ def coupler_adiabatic(
 
     wg_width = x.width
 
-    # Top input S-bend
-    top_input = Path(width=wg_width)
-    top_input.parametric(
-        _bezier_inp_top,
-        max_points=199,
-        tolerance=0.00001,
-        final_width=wg_width + dw / 2.0,
-        layer=gf.get_layer(x.layer)[0],
-        datatype=gf.get_layer(x.layer)[1],
-    )
-    c.add(top_input)
+    c.add(_generate_S_bend(wg_width=wg_width, bezier_function=_bezier_inp_top, final_width=wg_width + dw / 2.0, layer=gf.get_layer(x.layer)[0], datatype=gf.get_layer(x.layer)[1]))
 
     # Bottom input S-bend
-    bot_input = Path(width=wg_width)
-    bot_input.parametric(
-        _bezier_inp_bottom,
-        max_points=199,
-        tolerance=0.00001,
-        final_width=wg_width - dw / 2.0,
-        layer=gf.get_layer(x.layer)[0],
-        datatype=gf.get_layer(x.layer)[1],
-    )
-    c.add(bot_input)
+    c.add(_generate_S_bend(wg_width=wg_width, bezier_function=_bezier_inp_bottom, final_width=wg_width - dw / 2.0, layer=gf.get_layer(x.layer)[0], datatype=gf.get_layer(x.layer)[1]))
 
     # Top output S-bend
-    top_output = Path(width=wg_width)
-    top_output.parametric(
-        _bezier_output_top,
-        max_points=199,
-        tolerance=0.00001,
-        layer=gf.get_layer(x.layer)[0],
-        datatype=gf.get_layer(x.layer)[1],
-    )
-    c.add(top_output)
+    c.add(_generate_S_bend(wg_width=wg_width, bezier_function=_bezier_output_top, final_width=wg_width, layer=gf.get_layer(x.layer)[0], datatype=gf.get_layer(x.layer)[1]))
 
     # Bottom output S-bend
-    bot_output = Path(width=wg_width)
-    bot_output.parametric(
-        _bezier_output_bottom,
-        max_points=199,
-        tolerance=0.00001,
-        layer=gf.get_layer(x.layer)[0],
-        datatype=gf.get_layer(x.layer)[1],
-    )
-    c.add(bot_output)
-
-    # Instantiate S-bend cladding objects
-    try:
-        top_input_cladding = Path(width=2 * x.cladding_offsets[0] + wg_width + dw / 2.0)
-        bot_input_cladding = Path(width=2 * x.cladding_offsets[0] + wg_width - dw / 2.0)
-        top_output_cladding = Path(width=2 * x.cladding_offsets[0] + wg_width)
-        bot_output_cladding = Path(width=2 * x.cladding_offsets[0] + wg_width)
-    except (TypeError, KeyError):
-        top_input_cladding = Path(width=2 * 2 + wg_width + dw / 2.0)
-        bot_input_cladding = Path(width=2 * 2 + wg_width - dw / 2.0)
-        top_output_cladding = Path(width=2 * 2 + wg_width + wg_width)
-        bot_output_cladding = Path(width=2 * 2 + wg_width + wg_width)
+    c.add(_generate_S_bend(wg_width=wg_width, bezier_function=_bezier_output_bottom, final_width=wg_width, layer=gf.get_layer(x.layer)[0], datatype=gf.get_layer(x.layer)[1]))
 
     # Get cladding layers
     try:
@@ -202,42 +169,17 @@ def coupler_adiabatic(
     except KeyError:
         kwargs["cladding_layers"] = (111, 0)
 
-    # Define cladding
-    top_input_cladding.parametric(
-        _bezier_inp_top,
-        max_points=199,
-        tolerance=0.00001,
-        layer=kwargs["cladding_layers"][0],
-        datatype=kwargs["cladding_layers"][1],
-    )
-    c.add(top_input_cladding)
-
-    bot_input_cladding.parametric(
-        _bezier_inp_bottom,
-        max_points=199,
-        tolerance=0.00001,
-        layer=kwargs["cladding_layers"][0],
-        datatype=kwargs["cladding_layers"][1],
-    )
-    c.add(bot_input_cladding)
-
-    top_output_cladding.parametric(
-        _bezier_output_top,
-        max_points=199,
-        tolerance=0.00001,
-        layer=kwargs["cladding_layers"][0],
-        datatype=kwargs["cladding_layers"][1],
-    )
-    c.add(top_output_cladding)
-
-    bot_output_cladding.parametric(
-        _bezier_output_bottom,
-        max_points=199,
-        tolerance=0.00001,
-        layer=kwargs["cladding_layers"][0],
-        datatype=kwargs["cladding_layers"][1],
-    )
-    c.add(bot_output_cladding)
+    # Instantiate S-bend cladding objects
+    try:
+        c.add(_generate_S_bend(wg_width=2 * x.cladding_offsets[0] + wg_width + dw / 2.0, bezier_function=_bezier_inp_top, final_width=2 * x.cladding_offsets[0] + wg_width + dw / 2.0, layer=kwargs["cladding_layers"][0], datatype=kwargs["cladding_layers"][1]))
+        c.add(_generate_S_bend(wg_width=2 * x.cladding_offsets[0] + wg_width - dw / 2.0, bezier_function=_bezier_inp_bottom, final_width=2 * x.cladding_offsets[0] + wg_width - dw / 2.0, layer=kwargs["cladding_layers"][0], datatype=kwargs["cladding_layers"][1]))
+        c.add(_generate_S_bend(wg_width=2 * x.cladding_offsets[0] + wg_width, bezier_function=_bezier_output_top, final_width=2 * x.cladding_offsets[0] + wg_width, layer=kwargs["cladding_layers"][0], datatype=kwargs["cladding_layers"][1]))
+        c.add(_generate_S_bend(wg_width=2 * x.cladding_offsets[0] + wg_width, bezier_function=_bezier_output_bottom, final_width=2 * x.cladding_offsets[0] + wg_width, layer=kwargs["cladding_layers"][0], datatype=kwargs["cladding_layers"][1]))
+    except (TypeError, KeyError):
+        c.add(_generate_S_bend(wg_width=2 * 2 + wg_width + dw / 2.0, bezier_function=_bezier_inp_top, final_width=2 * 2 + wg_width + dw / 2.0, layer=kwargs["cladding_layers"][0], datatype=kwargs["cladding_layers"][1]))
+        c.add(_generate_S_bend(wg_width=2 * 2 + wg_width - dw / 2.0, bezier_function=_bezier_inp_bottom, final_width=2 * 2 + wg_width + dw / 2.0, layer=kwargs["cladding_layers"][0], datatype=kwargs["cladding_layers"][1]))
+        c.add(_generate_S_bend(wg_width=2 * 2 + wg_width, bezier_function=_bezier_output_top, final_width=2 * 2 + wg_width, layer=kwargs["cladding_layers"][0], datatype=kwargs["cladding_layers"][1]))
+        c.add(_generate_S_bend(wg_width=2 * 2 + wg_width, bezier_function=_bezier_output_bottom, final_width=2 * 2 + wg_width, layer=kwargs["cladding_layers"][0], datatype=kwargs["cladding_layers"][1]))
 
     # Kwargs for top and bottom taper. Derive from input
     # kwargs, and then modify if necessary
