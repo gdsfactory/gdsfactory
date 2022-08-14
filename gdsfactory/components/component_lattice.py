@@ -32,8 +32,8 @@ def dist(i, wgs1, wgs2):
 def get_sequence_cross(
     straights_start, straights_end, iter_max: int = 100, symbols=("X", "-")
 ):
-    """
-    Args:
+    """Arguments for this function are as follows.
+
         straights_start : list of the input port indices
         straights_end : list of the output port indices
         iter_max: maximum iterations
@@ -102,8 +102,8 @@ def get_sequence_cross(
 
 
 def component_sequence_to_str(sequence):
-    """
-    Transform a sequence of components (such as the one obtained from
+    """Transform a sequence of components (such as the one obtained from.
+
     get_sequence_cross_str) into an ASCII block which can be used either as
     a cartoon or as an input for component_lattice(lattice = ...)
     """
@@ -137,9 +137,10 @@ def component_lattice(
     symbol_to_component: Dict[str, Component] = None,
     grid_per_unit: int = 1000,
 ) -> Component:
-    """Return a lattice Component of N inputs and outputs
-    Columns must have components with the same x spacing between input/output ports
-    Lines must have components with the same y spacing between input/output ports
+    """Return a lattice Component of N inputs and outputs Columns must have.
+
+    components with the same x spacing between input/output ports Lines must
+    have components with the same y spacing between input/output ports.
 
     Args:
         lattice: ASCII map with character:
@@ -169,7 +170,6 @@ def component_lattice(
       }
       c = gf.components.component_lattice(symbol_to_component=symbol_to_component)
       c.plot()
-
     """
     x = crossing45(port_spacing=40)
     symbol_to_component = symbol_to_component or {

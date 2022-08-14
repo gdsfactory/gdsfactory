@@ -33,3 +33,8 @@ exclude = [
 excludes = [
     "gdsfactory/__init__.py",
 ]
+
+[tool.isort]
+profile = "black"
+src_paths = ["gdsfactory"]
+skip = ['build', '.tox', 'venv']

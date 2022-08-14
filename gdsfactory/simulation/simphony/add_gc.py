@@ -22,6 +22,7 @@ def add_gc(circuit, gc=gc1550te, ci="o1", co="o2", gi="port 1", go="port 2"):
                    |       |
          gi-> gpo--|cpi cpo|--gpo <-gpi
                    |_______|
+
     """
     gc_input = gf.call_if_func(gc)
     gc_input.rename_pins(gi, go)
@@ -39,6 +40,7 @@ def add_gc_siepic(circuit, gc=siepic.GratingCoupler):
     Args:
         circuit: needs to have `o1` and `o2` pins.
         gc: grating coupler.
+
     """
     gci = gco = gc
     gci["n1"].connect(gco["n1"])

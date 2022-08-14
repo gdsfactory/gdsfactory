@@ -1,4 +1,4 @@
-"""spiral with grating couplers inside to save space"""
+"""Spiral with grating couplers inside to save space."""
 from typing import Optional, Tuple
 
 import numpy as np
@@ -35,7 +35,9 @@ def spiral_inner_io(
     **kwargs
 ) -> Component:
     """Returns Spiral with ports inside the spiral loop.
-    You can add grating couplers inside.
+
+    You can add grating
+    couplers inside.
 
     Args:
         N: number of loops.
@@ -53,7 +55,6 @@ def spiral_inner_io(
         cross_section: spec.
         cross_section_bend: for the bends.
         kwargs: cross_section settings.
-
     """
     dx = dy = waveguide_spacing
     cross_section_bend = cross_section_bend or cross_section
@@ -221,7 +222,7 @@ def spiral_inner_io_fiber_single(
 def get_straight_length(
     length: float, spiral_function: ComponentSpec, **kwargs
 ) -> float:
-    """Returns y_spiral to achieve a particular spiral length"""
+    """Returns y_spiral to achieve a particular spiral length."""
     x0 = 50
     x1 = 400
     kwargs.update({"x_straight_inner_left": x0})
@@ -239,7 +240,8 @@ def get_straight_length(
 
 
 if __name__ == "__main__":
-    c = spiral_inner_io(radius=20, width=0.2)
+    c = spiral_inner_io_fiber_single()
+    # c = spiral_inner_io(radius=20, width=0.2)
     # cross_section_wide = gf.partial(gf.cross_section.strip_auto_widen)
 
     # c = spiral_inner_io_fiber_single(

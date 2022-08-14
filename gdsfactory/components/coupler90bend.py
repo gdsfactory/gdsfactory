@@ -32,7 +32,6 @@ def coupler90bend(
         1_____/
 
     """
-
     c = Component()
 
     xi = gf.get_cross_section(cross_section_inner)

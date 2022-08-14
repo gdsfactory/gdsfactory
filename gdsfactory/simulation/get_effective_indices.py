@@ -49,7 +49,6 @@ def get_effective_indices(
         )
 
     """
-
     epsilon_core = ncore**2
     epsilon_cladding = ncladding**2
     epsilon_substrate = nsubstrate**2

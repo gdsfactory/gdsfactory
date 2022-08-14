@@ -61,8 +61,7 @@ def route_fiber_array(
 ) -> Tuple[
     List[Union[ComponentReference, Label]], List[List[ComponentReference]], List[Port]
 ]:
-    """Returns component I/O elements for adding grating couplers with a fiber array
-    Many components are fine with the defaults.
+    """Returns component I/O elements for adding grating couplers with a fiber array Many components are fine with the defaults.
 
     Args:
         component: component spec to connect to.
@@ -119,8 +118,8 @@ def route_fiber_array(
         elements: list of references.
         io_grating_lines: grating lines.
         list of ports: to connect to.
-    """
 
+    """
     cross_section = x = gf.get_cross_section(cross_section, **kwargs)
     radius = x.radius
 
@@ -291,13 +290,13 @@ def route_fiber_array(
         ports += [grating.ports[gc_port_name] for grating in io_gratings]
 
     if optical_routing_type == 0:
-        """
-        Basic optical routing, typically fine for small components
-        No heuristic to avoid collisions between connectors.
+        """Basic optical routing, typically fine for small components No
+        heuristic to avoid collisions between connectors.
 
-        If specified ports to connect in a specific order
-        (i.e if connected_port_names is not None and not empty)
-        then grab these ports
+        If specified ports to connect in a specific order (i.e if
+        connected_port_names is not None and not empty) then grab these
+        ports
+
         """
         if connected_port_names:
             ordered_ports = [component.ports[i] for i in connected_port_names]
@@ -340,11 +339,12 @@ def route_fiber_array(
         elements.extend(elems)
 
         if force_manhattan:
-            """
-            1) find the min x_distance between each grating port and
-            each component port.
-            2) If abs(min distance) < 2* bend radius
-                then offset io_gratings by -min_distance
+            """1) find the min x_distance between each grating port and each
+            component port.
+
+            2) If abs(min distance) < 2* bend radius     then offset
+            io_gratings by -min_distance
+
             """
             min_dist = 2 * dy + 10.0
             min_dist_threshold = 2 * dy + 1.0

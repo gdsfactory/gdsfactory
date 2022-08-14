@@ -27,8 +27,8 @@ def plot_sparameters(
 
         df = sim.get_sparameters_data_lumerical(component=gf.components.mmi1x2)
         sim.plot.plot_sparameters(df, logscale=True)
-    """
 
+    """
     w = df["wavelengths"] * 1e3
     keys = keys or [
         key for key in df.keys() if key.lower().startswith("s") and key.endswith("m")
@@ -53,6 +53,7 @@ def plot_imbalance2x2(df: DataFrame, port1: str = "s13m", port2: str = "s14m") -
         df: pandas DataFrame.
         port1: name.
         port2: name.
+
     """
     y1 = df[port1].values
     y2 = df[port2].values
@@ -71,6 +72,7 @@ def plot_loss2x2(df: DataFrame, port1: str = "s13m", port2: str = "s14m") -> Non
         df: pandas DataFrame.
         port1: name.
         port2: name.
+
     """
     y1 = df[port1].values
     y2 = df[port2].values

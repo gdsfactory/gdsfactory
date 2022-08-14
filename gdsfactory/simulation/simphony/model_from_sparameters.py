@@ -1,8 +1,5 @@
-"""
- [[-0.09051371-0.20581339j  0.00704022+0.1328474j
-    0.03733851+0.4879802j ]
-
-"""
+"""[[-0.09051371-0.20581339j  0.00704022+0.1328474j \
+    0.03733851+0.4879802j ]."""
 
 from pathlib import PosixPath
 from typing import Tuple, Union
@@ -46,6 +43,7 @@ def model_from_sparameters(
         sparameters: numpy nxn array.
         pins: list of port names.
         name: optional model name.
+
     """
     f = wl2freq(wavelengths)
     s = sparameters
@@ -83,8 +81,8 @@ def model_from_csv(
         name: optional model name.
         xkey: key for wavelengths in file.
         xunits: x units in um from the loaded file (um). 1 means 1um.
-    """
 
+    """
     df = filepath if isinstance(filepath, pd.DataFrame) else pd.read_csv(filepath)
 
     keys = list(df.keys())

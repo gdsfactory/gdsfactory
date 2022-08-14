@@ -1,5 +1,4 @@
-"""read Sparameters from CSV file and returns sax model.
-"""
+"""read Sparameters from CSV file and returns sax model."""
 import pathlib
 from typing import Union
 
@@ -41,6 +40,7 @@ def model_from_csv(
         xkey: key for wavelengths in file.
         xunits: x units in um from the loaded file (um). 1 means 1um.
         prefix: for the sparameters column names in file.
+
     """
     df = filepath if isinstance(filepath, pd.DataFrame) else pd.read_csv(filepath)
     assert isinstance(df, pd.DataFrame)
@@ -94,6 +94,7 @@ def model_from_component(component, simulator: Simulator, **kwargs) -> Model:
         component: to simulate.
         simulator: meep, lumerical or tidy3d.
         kwargs: simulator settings.
+
     """
     simulators = ["lumerical", "meep", "tidy3d"]
 
@@ -110,19 +111,18 @@ def model_from_component(component, simulator: Simulator, **kwargs) -> Model:
 
 model_from_component_lumerical = gf.partial(model_from_component, simulator="fdtd")
 
-mmi1x2 = gf.partial(model_from_component_lumerical, component=gf.components.mmi1x2)
-mmi2x2 = gf.partial(model_from_component_lumerical, component=gf.components.mmi2x2)
-
-grating_coupler_elliptical = model_from_csv(
-    filepath=sparameters_path / "grating_coupler_ellipti_9d85a0c6_18c08cac.csv"
-)
-
-model_factory = dict(
-    mmi1x2=mmi1x2, mmi2x2=mmi2x2, grating_coupler_elliptical=grating_coupler_elliptical
-)
-
 
 if __name__ == "__main__":
+    # mmi1x2 = gf.partial(model_from_component_lumerical, component=gf.components.mmi1x2)
+    # mmi2x2 = gf.partial(model_from_component_lumerical, component=gf.components.mmi2x2)
+
+    # grating_coupler_elliptical = model_from_csv(
+    #     filepath=sparameters_path / "grating_coupler_ellipti_9d85a0c6_18c08cac.csv"
+    # )
+
+    # model_factory = dict(
+    #     mmi1x2=mmi1x2, mmi2x2=mmi2x2, grating_coupler_elliptical=grating_coupler_elliptical
+    # )
 
     import matplotlib.pyplot as plt
     from plot_model import plot_model
@@ -152,7 +152,7 @@ if __name__ == "__main__":
     # )
     # this looks wrong
     coupler_fdtd = model_from_csv(
-        filepath=gf.config.sparameters_path / "coupler" / "coupler_G224n_L20_S220.csv",
+        filepath=sparameters_path / "coupler" / "coupler_G224n_L20_S220.csv",
         xkey="wavelength_nm",
         prefix="S",
         xunits=1e-3,

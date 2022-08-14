@@ -20,7 +20,7 @@ def test_simulation_hash() -> None:
 
 
 def test_simulation(overwrite: bool = False) -> None:
-    """export sim in JSON, and then load it again"""
+    """export sim in JSON, and then load it again."""
     component = gf.components.straight(length=3)
     sim = gt.get_simulation(component=component)
 

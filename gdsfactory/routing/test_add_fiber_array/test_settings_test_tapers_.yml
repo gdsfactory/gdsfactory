@@ -1,4 +1,4 @@
-name: straight_length20_width_232feb8c
+name: straight_length20_width_e929fb75
 settings:
   changed:
     component:
@@ -99,7 +99,9 @@ settings:
           taper_port_name1: o1
           taper_port_name2: o2
         function_name: add_tapers
-        info: {}
+        info:
+          length: 20.0
+          width: 2.0
         info_version: 2
         module: gdsfactory.add_tapers
         name: straight_length20_width_4d410313
@@ -201,7 +203,9 @@ settings:
       taper_port_name1: o1
       taper_port_name2: o2
     function_name: add_tapers
-    info: {}
+    info:
+      length: 20.0
+      width: 2.0
     info_version: 2
     module: gdsfactory.add_tapers
     name: straight_length20_width_4d410313
@@ -323,7 +327,9 @@ settings:
           taper_port_name1: o1
           taper_port_name2: o2
         function_name: add_tapers
-        info: {}
+        info:
+          length: 20.0
+          width: 2.0
         info_version: 2
         module: gdsfactory.add_tapers
         name: straight_length20_width_4d410313
@@ -346,8 +352,14 @@ settings:
       settings:
         port_type: optical
   function_name: add_fiber_array
-  info: {}
+  info:
+    grating_coupler:
+      period: 0.6759999999999999
+      polarization: te
+      wavelength: 1.53
+    length: 20.0
+    width: 2.0
   info_version: 2
   module: gdsfactory.routing.add_fiber_array
-  name: straight_length20_width_232feb8c
+  name: straight_length20_width_e929fb75
 version: 0.0.1

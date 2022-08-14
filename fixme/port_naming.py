@@ -1,6 +1,4 @@
-"""Port naming behaves weird in some cases
-
-"""
+"""Port naming behaves weird in some cases."""
 
 import gdsfactory as gf
 

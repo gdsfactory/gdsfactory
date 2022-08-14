@@ -5,7 +5,6 @@ from gdsfactory.component import Component
 from gdsfactory.components.coupler_ring import coupler_ring as coupler_ring_function
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.cross_section import strip
-from gdsfactory.snap import assert_on_2nm_grid
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
@@ -35,7 +34,7 @@ def ring_double(
         straight: straight spec.
         bend: bend spec.
         cross_section: cross_section spec.
-        kwargs: cross_section settings
+        kwargs: cross_section settings.
 
     .. code::
 
@@ -46,9 +45,8 @@ def ring_double(
          --==cb==-- gap
 
           length_x
-
     """
-    assert_on_2nm_grid(gap)
+    gap = gf.snap.snap_to_grid(gap, nm=2)
 
     coupler_component = gf.get_component(
         coupler_ring,

@@ -46,8 +46,6 @@ def delay_snake(
        |------------------->
 
        |        DL         |
-
-
     """
     epsilon = 0.1
     bend90 = gf.get_component(bend, width=wg_width, **kwargs)

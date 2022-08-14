@@ -34,7 +34,6 @@ def cutback_component(
         straight: waveguide spec to connect both sides.
         mirror: Flips component. Useful when 'o2' is the port that you want to route to.
         straight_length: length of the straight section between cutbacks.
-
     """
     component = gf.get_component(component)
     bendu = gf.get_component(bend180, radius=radius)

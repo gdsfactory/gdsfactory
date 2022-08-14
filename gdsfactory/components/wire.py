@@ -1,5 +1,4 @@
-"""wires for electrical manhattan routes
-"""
+"""Wires for electrical manhattan routes."""
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -16,7 +15,6 @@ def wire_corner(cross_section: CrossSectionSpec = "metal3", **kwargs) -> Compone
     Args:
         cross_section: spec.
         kwargs: cross_section settings.
-
     """
     x = gf.get_cross_section(cross_section, **kwargs)
     layer = x.layer

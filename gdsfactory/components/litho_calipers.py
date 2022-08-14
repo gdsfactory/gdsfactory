@@ -17,8 +17,9 @@ def litho_calipers(
     layer1: LayerSpec = "WG",
     layer2: LayerSpec = "SLAB150",
 ) -> Component:
-    """Vernier caliper structure to test lithography alignment
-    Only the middle finger is aligned and the rest are offset.
+    """Vernier caliper structure to test lithography alignment Only the middle.
+
+    finger is aligned and the rest are offset.
 
     adapted from phidl
 
@@ -30,9 +31,7 @@ def litho_calipers(
         row_spacing: 0
         layer1: layer.
         layer2: layer.
-
     """
-
     D = gf.Component()
     num_notches_total = num_notches * 2 + 1
     centre_notch = num_notches

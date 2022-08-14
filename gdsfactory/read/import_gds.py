@@ -39,6 +39,7 @@ def import_gds(
         read_metadata: loads metadata if it exists.
         hashed_name: appends a hash to a shortened component name.
         kwargs: extra to add to component.info (polarization, wavelength ...).
+
     """
     gdspath = Path(gdsdir) / Path(gdspath) if gdsdir else Path(gdspath)
     if not gdspath.exists():

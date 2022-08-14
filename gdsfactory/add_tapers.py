@@ -13,7 +13,7 @@ def get_ports_and_tapers(
     taper: ComponentSpec = taper_function,
     select_ports: Optional[Callable] = select_ports_optical,
 ) -> Tuple[List[Port], List[ComponentReference]]:
-    """Returns ports and taper elements for a component"""
+    """Returns ports and taper elements for a component."""
     elements = []
 
     taper = gf.call_if_func(taper)
@@ -37,7 +37,7 @@ def add_tapers(
     taper_port_name1: str = "o1",
     taper_port_name2: str = "o2",
 ) -> Component:
-    """returns new component with taper in all optical ports.
+    """Returns new component with taper in all optical ports.
 
     Args:
         component: spec for the component to add tapers to.
@@ -45,9 +45,7 @@ def add_tapers(
         select_ports: function to select ports.
         taper_port_name1: for input.
         taper_port_name2: for output.
-
     """
-
     c = gf.Component()
     component = gf.pdk.get_component(component)
 

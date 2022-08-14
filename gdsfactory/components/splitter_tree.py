@@ -36,7 +36,6 @@ def splitter_tree(
          |__        dy
 
           dx
-
     """
     c = gf.Component()
 
