@@ -3,6 +3,11 @@
 TODO:
 - define derived layers (composed rules)
 
+More DRC examples:
+- https://www.klayout.de/doc-qt5/about/drc_ref.html
+- http://klayout.de/doc/manual/drc_basic.html
+- https://github.com/usnistgov/SOEN-PDK/tree/master/tech/OLMAC
+- https://github.com/google/globalfoundries-pdk-libs-gf180mcu_fd_pr/tree/main/rules/klayout
 """
 
 import pathlib
@@ -14,6 +19,25 @@ from gdsfactory.install import get_klayout_path
 from gdsfactory.types import Dict, Layer, PathType
 
 layer_name_to_min_width: Dict[str, float]
+
+
+def rule_min_width_or_space(width: float, space: float, layer: str) -> str:
+    """Min width or space violations.
+
+    It's a more efficient check thanks to the universal DRC notation.
+    https://klayout.de/doc/manual/drc_runsets.html
+    """
+    error = f"{layer} min width {width}um or min space {space}um"
+    return (
+        f"{layer}.drc((width < {width}) | (space < {space}))"
+        f".output('{error}', '{error}')"
+    )
+
+
+def rule_not_inside(layer: str, not_inside: str) -> str:
+    """Checks for that a layer is not inside another layer."""
+    error = f"{layer} not inside {not_inside}"
+    return f"{layer}.not_inside({not_inside})" f".output('{error}', '{error}')"
 
 
 def rule_width(value: float, layer: str, angle_limit: float = 90) -> str:
@@ -205,15 +229,14 @@ def write_drc_deck_macro(
         rules = [
             rule_width(layer="WG", value=0.2),
             rule_space(layer="WG", value=0.2),
-            rule_width(layer="M1", value=1),
-            rule_width(layer="M2", value=2),
-            rule_space(layer="M2", value=2),
+            rule_min_width_or_space(layer="WG", width=0.2, space=0.2), # faster
             rule_separation(layer1="HEATER", layer2="M1", value=1.0),
             rule_enclosing(layer1="VIAC", layer2="M1", value=0.2),
             rule_area(layer="WG", min_area_um2=0.05),
             rule_density(
                 layer="WG", layer_floorplan="FLOORPLAN", min_density=0.5, max_density=0.6
             ),
+            rule_not_inside(layer="VIAC", not_inside="NPP"),
         ]
 
         drc_rule_deck = write_drc_deck_macro(rules=rules, layers=gf.LAYER)
@@ -243,10 +266,7 @@ def write_drc_deck_macro(
 
 # Read about Klayout DRC scripts in the User Manual under "Design Rule Check (DRC)"
 # Based on https://gdsfactory.github.io/gdsfactory/notebooks/_2_klayout.html#Klayout-DRC
-# More DRC examples:
-# - https://www.klayout.de/doc-qt5/about/drc_ref.html
-# - http://klayout.de/doc/manual/drc_basic.html
-# - https://github.com/usnistgov/SOEN-PDK/tree/master/tech/OLMAC
+# and https://gdsfactory.github.io/gdsfactory/api.html#klayout-drc
 
 report("{name} DRC")
 """
@@ -284,13 +304,13 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     rules = [
-        rule_width(layer="WG", value=0.2),
-        rule_space(layer="WG", value=0.2),
-        rule_width(layer="M1", value=1),
-        rule_width(layer="M2", value=2),
-        rule_space(layer="M2", value=2),
+        rule_min_width_or_space(layer="WG", width=0.2, space=0.2),
+        # rule_width(layer="WG", value=0.2),
+        # rule_space(layer="WG", value=0.2),
         rule_separation(layer1="HEATER", layer2="M1", value=1.0),
         rule_enclosing(layer1="VIAC", layer2="M1", value=0.2),
+        rule_area(layer="WG", min_area_um2=0.05),
+        rule_not_inside(layer="VIAC", not_inside="NPP"),
     ]
 
     drc_rule_deck = write_drc_deck_macro(rules=rules, layers=gf.LAYER)
