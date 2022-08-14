@@ -198,7 +198,7 @@ class NetlistModel(BaseModel):
 
     instances: Dict[str, ComponentModel]
     placements: Optional[Dict[str, PlacementModel]] = None
-    connections: Optional[List[Dict[str, str]]] = None
+    connections: Optional[Dict[str, str]] = None
     routes: Optional[Dict[str, RouteModel]] = None
     name: Optional[str] = None
     info: Optional[Dict[str, Any]] = None
@@ -279,16 +279,16 @@ __all__ = (
 
 
 def write_schema(model: BaseModel = NetlistModel) -> None:
+    from gdsfactory.config import CONFIG
+
     s = model.schema_json()
     d = OmegaConf.create(s)
 
-    dirpath = pathlib.Path(__file__).parent / "schemas"
+    schema_path_json = CONFIG["schema_netlist"]
+    schema_path_yaml = schema_path_json.with_suffix(".yaml")
 
-    f1 = dirpath / "netlist.yaml"
-    f1.write_text(OmegaConf.to_yaml(d))
-
-    f2 = dirpath / "netlist.json"
-    f2.write_text(json.dumps(OmegaConf.to_container(d)))
+    schema_path_yaml.write_text(OmegaConf.to_yaml(d))
+    schema_path_json.write_text(json.dumps(OmegaConf.to_container(d)))
 
 
 if __name__ == "__main__":

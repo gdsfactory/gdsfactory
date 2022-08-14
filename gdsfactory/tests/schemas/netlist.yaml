@@ -1,5 +1,5 @@
 title: NetlistModel
-description: "Netlist defined component.\n\nAttributes:\n    instances: dict of instances\
+description: "Netlist defined component.\n\nParameters:\n    instances: dict of instances\
   \ (name, settings, component).\n    placements: dict of placements.\n    connections:\
   \ dict of connections.\n    routes: dict of routes.\n    name: component name.\n\
   \    info: information (polarization, wavelength ...).\n    settings: input variables.\n\
@@ -18,11 +18,9 @@ properties:
       $ref: '#/definitions/PlacementModel'
   connections:
     title: Connections
-    type: array
-    items:
-      type: object
-      additionalProperties:
-        type: string
+    type: object
+    additionalProperties:
+      type: string
   routes:
     title: Routes
     type: object
