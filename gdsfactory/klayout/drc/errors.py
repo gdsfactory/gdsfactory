@@ -3,6 +3,7 @@ from gdsfactory.component import Component
 from gdsfactory.types import Float2, Layer
 
 layer = gf.LAYER.WG
+nm = 1e-3
 
 
 @gf.cell
@@ -82,10 +83,11 @@ def not_inside(
 
 @gf.cell
 def errors() -> Component:
-    components = [width_min(), gap_min(), separation(), enclosing(), not_inside()] + [
-        width_min(),
-        gap_min(),
-    ] * 1
+    components = (
+        [width_min(), gap_min(), separation(), enclosing(), not_inside()]
+        # + [width_min(size=(i * nm, i * nm)) for i in range(1, 199)]
+        # + [gap_min(i * nm) for i in range(199)]
+    )
     c = gf.pack(components, spacing=1.5)
     return c[0]
 
