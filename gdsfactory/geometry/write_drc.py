@@ -241,9 +241,12 @@ def write_drc_deck_macro(
  <dsl-interpreter-name>drc-dsl-xml</dsl-interpreter-name>
  <text># {name} DRC
 
-# Read about DRC scripts in the User Manual under "Design Rule Check (DRC)"
-# Based on SOEN pdk https://github.com/usnistgov/SOEN-PDK/tree/master/tech/OLMAC
-# http://klayout.de/doc/manual/drc_basic.html
+# Read about Klayout DRC scripts in the User Manual under "Design Rule Check (DRC)"
+# Based on https://gdsfactory.github.io/gdsfactory/notebooks/_2_klayout.html#Klayout-DRC
+# More DRC examples:
+# - https://www.klayout.de/doc-qt5/about/drc_ref.html
+# - http://klayout.de/doc/manual/drc_basic.html
+# - https://github.com/usnistgov/SOEN-PDK/tree/master/tech/OLMAC
 
 report("{name} DRC")
 """
