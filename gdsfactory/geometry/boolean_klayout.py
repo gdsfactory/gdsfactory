@@ -18,8 +18,7 @@ def boolean_klayout(
     layer3: Tuple[int, int] = (2, 0),
     operation: str = "xor",
 ) -> Component:
-    """Returns a boolean operation between two components
-    Uses klayout python API
+    """Returns a boolean operation between two components Uses klayout python API.
 
     Args:
         gdspath1: path to GDS or Component.
@@ -27,6 +26,7 @@ def boolean_klayout(
         layer1: tuple for gdspath1.
         layer2: tuple for gdspath2.
         layer3: for the result of the operation.
+
     """
     import klayout.db as pya
 
@@ -73,9 +73,8 @@ def boolean_klayout(
 
 
 def _demo() -> None:
-    import klayout.db as pya
-
     import gdsfactory as gf
+    import klayout.db as pya
 
     gdspath1 = gf.Component("ellipse1")
     gdspath1.add_ref(gf.components.ellipse(radii=[10, 5], layer=(1, 0)))

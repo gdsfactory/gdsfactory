@@ -20,7 +20,6 @@ def grating_coupler_array(
         n: number of pads.
         port_name: port name.
         rotation: rotation angle for each reference.
-
     """
     c = Component()
     grating_coupler = gf.get_component(grating_coupler)

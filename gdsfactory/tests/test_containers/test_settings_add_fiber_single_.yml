@@ -409,7 +409,11 @@ settings:
     with_loopback: true
     zero_port: o1
   function_name: add_fiber_single
-  info: {}
+  info:
+    grating_coupler:
+      period: 0.6759999999999999
+      polarization: te
+      wavelength: 1.53
   info_version: 2
   module: gdsfactory.routing.add_fiber_single
   name: mzi_2e88f57c_move_f41e2_a11d226b

@@ -21,7 +21,6 @@ def L(
         size: length and height of the base.
         layer: spec.
         port_type: for port.
-
     """
     D = Component()
     w = width / 2

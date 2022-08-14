@@ -1,4 +1,6 @@
-"""get_bundle_from_steps does not support ports with None orientation.
+"""get_bundle_from_steps needs fix.
+
+It does not work ports with None orientation.
 """
 
 

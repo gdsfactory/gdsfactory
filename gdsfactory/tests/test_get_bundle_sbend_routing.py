@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 def demo_get_bundle_sbend_routing(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> Component:
-    """FIXME"""
+    """FIXME."""
 
     lengths = {}
 

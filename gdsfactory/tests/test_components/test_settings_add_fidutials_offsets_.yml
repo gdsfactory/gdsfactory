@@ -49,7 +49,10 @@ settings:
     - - 0
       - -100
   function_name: add_fidutials_offsets
-  info: {}
+  info:
+    size:
+    - 100.0
+    - 100.0
   info_version: 2
   module: gdsfactory.components.add_fidutials
   name: pad_array_add_fidutials_offsets

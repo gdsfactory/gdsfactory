@@ -43,7 +43,6 @@ def array_with_via(
         port_offset: Optional port movement in um.
         kwargs: cross_section settings.
     """
-
     c = Component()
     component = gf.get_component(component)
     via_stack = gf.get_component(via_stack)

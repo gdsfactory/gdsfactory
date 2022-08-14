@@ -17,6 +17,7 @@ class LayerMap(BaseModel):
     Cambridge University Press 2015, page 353
 
     You will need to create a new LayerMap with your specific foundry layers.
+
     """
 
     WG: Layer = (1, 0)
@@ -119,6 +120,7 @@ class LayerLevel(BaseModel):
             doping_concentration: for implants.
             resistiviy: for metals.
             bias: in um for the etch.
+
     """
 
     layer: Tuple[int, int]
@@ -134,6 +136,7 @@ class LayerStack(BaseModel):
 
     Parameters:
         layers: dict of layer_levels.
+
     """
 
     layers: Dict[str, LayerLevel]
@@ -174,8 +177,9 @@ class LayerStack(BaseModel):
     def get_klayout_3d_script(self) -> str:
         """Prints script for 2.5 view klayout information.
 
-        You can add this information in your tech.lyt
-        take a look at gdsfactory/klayout/tech/tech.lyt
+        You can add this information in your tech.lyt take a look at
+        gdsfactory/klayout/tech/tech.lyt
+
         """
         for level in self.layers.values():
             print(
@@ -198,6 +202,7 @@ def get_layer_stack_generic(
         thickness_clad: cladding thickness in um.
         thickness_nitride: nitride thickness in um.
         gap_silicon_to_nitride: distance from silicon to nitride in um.
+
     """
     return LayerStack(
         layers=dict(
@@ -340,6 +345,7 @@ class SimulationSettingsLumericalFdtd(BaseModel):
         simulation_temperature: in kelvin (default = 300).
         frequency_dependent_profile: compute mode profiles for each wavelength.
         field_profile_samples: number of wavelengths to compute field profile.
+
     """
 
     background_material: str = "sio2"

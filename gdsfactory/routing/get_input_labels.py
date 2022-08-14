@@ -23,6 +23,7 @@ def get_input_labels(
         layer_label: layer spec for the label.
         gc_port_name: gc_port_name port name.
         get_input_label_function: function to get input label.
+
     """
     elements = []
     for i, g in enumerate(io_gratings):

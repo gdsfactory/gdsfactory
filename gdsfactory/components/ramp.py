@@ -12,14 +12,15 @@ def ramp(
     width2: Optional[float] = 8.0,
     layer: LayerSpec = "WG",
 ) -> Component:
-    """Return a ramp component. Based on phidl.
+    """Return a ramp component.
+
+    Based on phidl.
 
     Args:
         length: Length of the ramp section.
         width1: Width of the start of the ramp section.
         width2: Width of the end of the ramp section (defaults to width1).
         layer: Specific layer to put polygon geometry on.
-
     """
     if width2 is None:
         width2 = width1

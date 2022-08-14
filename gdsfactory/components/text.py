@@ -26,7 +26,6 @@ def text(
         position: x, y position.
         justify: left, right, center.
         layer: for the text.
-
     """
     scaling = size / 1000
     xoffset = position[0]
@@ -76,7 +75,6 @@ def text_lines(
         text: list of strings.
         size: text size.
         layer: text layer.
-
     """
     c = gf.Component()
 

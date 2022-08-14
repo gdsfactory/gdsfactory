@@ -531,15 +531,15 @@ def test_netlists(
     data_regression: DataRegressionFixture,
     check: bool = True,
 ) -> None:
-    """Write netlists for hierarchical circuits.
-    Checks that both netlists are the same
-    jsondiff does a hierarchical diff
-    Component -> netlist -> Component -> netlist
+    """Write netlists for hierarchical circuits. Checks that both netlists are
+    the same jsondiff does a hierarchical diff Component -> netlist ->
+    Component -> netlist.
 
     Args:
         yaml_key: to test.
         data_regression: for regression test.
         check: False, skips test.
+
     """
     yaml_string = yaml_strings[yaml_key]
     c = from_yaml(yaml_string)
@@ -558,7 +558,7 @@ def test_netlists(
 
 
 def _demo_netlist() -> None:
-    """path on the route"""
+    """path on the route."""
     import gdsfactory as gf
 
     # c = from_yaml(sample_2x2_connections)

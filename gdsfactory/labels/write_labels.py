@@ -29,6 +29,7 @@ def find_labels(
         string: for the label.
         x: x position (um).
         y: y position (um).
+
     """
     import klayout.db as pya
 
@@ -56,13 +57,13 @@ def find_labels(
                 yield text.string, transformed.x * dbu, transformed.y * dbu
 
 
-def write_labels(
+def write_labels_klayout(
     gdspath: PathType,
     layer_label: Tuple[int, int] = LAYER.TEXT,
     filepath: Optional[PathType] = None,
     prefix: str = "opt_",
 ) -> Path:
-    """Load GDS and extracts label text and coordinates.
+    """Load GDS and extracts labels in klayout text and coordinates.
 
     Returns CSV filepath.
 
@@ -106,8 +107,8 @@ def write_labels_gdspy(
         set_transform: bool
             If True, labels will include the transformations from
             the references they are from.
-    """
 
+    """
     gdspath = pathlib.Path(gdspath)
     filepath = filepath or gdspath.with_suffix(".csv")
     filepath = pathlib.Path(filepath)

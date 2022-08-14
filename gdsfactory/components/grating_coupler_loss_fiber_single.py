@@ -27,7 +27,6 @@ def grating_coupler_loss_fiber_single(
         optical_routing_type: None: autoselection, 0: no extension.
         get_input_label_text_function: for the grating couplers input label.
         get_input_label_text_loopback_function: for the loopacks input label.
-
     """
     c = gf.Component()
     grating_coupler = gf.get_component(grating_coupler)

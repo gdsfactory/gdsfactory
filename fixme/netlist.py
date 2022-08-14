@@ -45,6 +45,6 @@ if __name__ == "__main__":
     """FIXME"""
 
     mzi = gf.read.from_yaml(yaml)
+    mzi.show()
     n = mzi.get_netlist()
-    # mzi.show()
     # mzi.plot()

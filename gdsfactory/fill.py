@@ -40,7 +40,6 @@ def fill_cell_rectangle(
             Must be the same size as ``layers``.
 
     """
-
     D = Component()
     for layer, density, inv in zip(layers, densities, inverted):
         rectangle_size = np.array(size) * sqrt(density)

@@ -1,8 +1,4 @@
-"""
-
-when we auto_rename_ports_layer_orientation we get the wrong mapping
-
-"""
+"""When we auto_rename_ports_layer_orientation we get the wrong mapping."""
 
 from typing import Dict
 
@@ -10,7 +6,7 @@ from gdsfactory.types import Port
 
 
 def map_ports_layer_to_orientation(ports: Dict[str, Port]) -> Dict[str, str]:
-    """Returns ports mapping
+    """Returns ports mapping.
 
     {'1_0_W0': 1, '1_0_E0':2}
 
@@ -25,7 +21,6 @@ def map_ports_layer_to_orientation(ports: Dict[str, Port]) -> Dict[str, str]:
             S0   S1
 
     """
-
     m = {}
     layers = {port.layer for port in ports.values()}
 

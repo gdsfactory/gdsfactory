@@ -1,4 +1,5 @@
-""" DBR gratings.
+"""DBR gratings.
+
 wavelength = 2*period*neff
 period = wavelength/2/neff
 
@@ -48,8 +49,6 @@ def dbr_cell(
           w1       w2
         _______
                |_________
-
-
     """
     l1 = gf.snap.snap_to_grid(l1)
     l2 = gf.snap.snap_to_grid(l2)
@@ -93,8 +92,6 @@ def dbr(
           w1       w2       ...  n times
         _______
                |_________
-
-
     """
     c = Component()
     l1 = gf.snap.snap_to_grid(l1)

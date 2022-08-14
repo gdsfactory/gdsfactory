@@ -12,6 +12,7 @@ def from_gdspaths(cells: Tuple[ComponentOrPath, ...]) -> Component:
 
     Args:
         cells: List of gdspaths or Components.
+
     """
     component = Component("merged")
 
@@ -27,7 +28,7 @@ def from_gdspaths(cells: Tuple[ComponentOrPath, ...]) -> Component:
 
 
 def from_gdsdir(dirpath: PathType) -> Component:
-    """Merges GDS cells from a directory into a single Component"""
+    """Merges GDS cells from a directory into a single Component."""
     dirpath = pathlib.Path(dirpath)
     assert dirpath.exists(), f"{dirpath} does not exist"
     return from_gdspaths(list(dirpath.glob("*.gds")))

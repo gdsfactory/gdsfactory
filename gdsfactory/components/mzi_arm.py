@@ -38,8 +38,6 @@ def mzi_arm(
                   Ly     Lyr
                   |      |
                   B      B
-
-
     """
     bend = bend(**kwargs)
     straight_y = straight_y or straight

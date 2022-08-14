@@ -6,7 +6,6 @@ from gdsfactory.components.coupler_ring import coupler_ring as coupler_ring_func
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.via_stack import via_stack_heater_m3
 from gdsfactory.cross_section import strip
-from gdsfactory.snap import assert_on_2nm_grid
 from gdsfactory.types import ComponentSpec, CrossSectionSpec, Float2
 
 via_stack_heater_m3_mini = gf.partial(via_stack_heater_m3, size=(4, 4))
@@ -59,9 +58,8 @@ def ring_double_heater(
          --==cb==-- gap
 
           length_x
-
     """
-    assert_on_2nm_grid(gap)
+    gap = gf.snap.snap_to_grid(gap, nm=2)
 
     coupler_component = gf.get_component(
         coupler_ring,

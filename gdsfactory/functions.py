@@ -54,6 +54,7 @@ def add_text(
         text_offset: relative to component anchor. Defaults to center (cc).
         text_anchor: relative to component (ce cw nc ne nw sc se sw center cc).
         text_factory: function to add text labels.
+
     """
     from gdsfactory.pdk import get_component
 
@@ -87,6 +88,7 @@ def add_texts(
         text_offset: relative to component size info anchor. Defaults to center.
         text_anchor: relative to component (ce cw nc ne nw sc se sw center cc).
         text_factory: function to add text labels.
+
     """
     return [
         add_text(component, text=f"{prefix}{i + index0}", **kwargs)
@@ -107,6 +109,7 @@ def rotate(
         component: spec.
         angle: to rotate in degrees.
         recenter: recenter component after rotating.
+
     """
     from gdsfactory.pdk import get_component
 
@@ -126,7 +129,7 @@ def rotate(
         )
 
     component_new.add_ports(ref.ports)
-    component_new.info = component.info.copy()
+    component_new.copy_child_info(component)
     return component_new
 
 
@@ -145,6 +148,7 @@ def mirror(
         component: component spec.
         p1: first point to define mirror axis.
         p2: second point to define mirror axis.
+
     """
     from gdsfactory.pdk import get_component
 
@@ -154,7 +158,7 @@ def mirror(
     ref = component_new.add_ref(component)
     ref.mirror(p1=p1, p2=p2)
     component_new.add_ports(ref.ports)
-    component_new.info = component.info.copy()
+    component_new.copy_child_info(component)
     return component_new
 
 
@@ -172,6 +176,7 @@ def move(
         origin: of component.
         destination: Optional x, y.
         axis: x or y axis.
+
     """
     component_new = Component()
     component_new.component = component
@@ -184,7 +189,8 @@ def move(
 
 @cell
 def transformed(ref: ComponentReference):
-    """Returns a flattened cell with all transformations from the reference applied.
+    """Returns a flattened cell with all transformations from the reference \
+    applied.
 
     Args:
         ref: the reference to flatten into a new cell
@@ -200,6 +206,7 @@ def move_port_to_zero(component: Component, port_name: str = "o1"):
     """Return a container that contains a reference to the original component.
 
     The new component has port_name in (0, 0).
+
     """
     if port_name not in component.ports:
         raise ValueError(
@@ -221,7 +228,7 @@ def add_settings_label(
     settings: Optional[Strs] = None,
     ignore: Optional[Strs] = ("decorator",),
 ) -> Component:
-    """Add a settings label to a component.
+    """Add a settings label to a component. Use it as a decorator.
 
     Args:
         component: spec.

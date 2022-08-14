@@ -21,7 +21,6 @@ def pads_shorted(
         pad_spacing: in um
         layer_metal: for the short.
         metal_width: for the short.
-
     """
     c = Component()
     pad = gf.get_component(pad)

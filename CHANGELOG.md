@@ -1,6 +1,12 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.17.0](https://github.com/gdsfactory/gdsfactory/pull/583)
+## [5.17.1](https://github.com/gdsfactory/gdsfactory/pull/590)
+
+- copy_child_info updates component info
+- mirror also propagates info
+- add grating coupler info in add_fiber_single, add_fiber_array
+
+## 5.17.0
 
 - simplify write_sparameters code [PR](https://github.com/gdsfactory/gdsfactory/pull/581)
 - clean code [PR](https://github.com/gdsfactory/gdsfactory/pull/582)
@@ -8,7 +14,18 @@
     - move gds folder into tests/gds
     - move schemas folder into tests/schemas
     - move models to simulation/photonic_circuit_models
-- simpler bend_s and bezier. User cross_section instead extrude_path
+- simpler bend_s and bezier. User cross_section instead extrude_path [PR](https://github.com/gdsfactory/gdsfactory/pull/584)
+- simplify code structure [PR](https://github.com/gdsfactory/gdsfactory/pull/586)
+    - rename dft folder to labels
+    - move write_labels from mask folder to `labels`
+    - delete mask folder
+- fix docstrings and apply pydocstyle pre-commit hook [PRs](https://github.com/gdsfactory/gdsfactory/pull/585)
+- replace assert_on_2nm_grid to snap to 2nm grid [PR](https://github.com/gdsfactory/gdsfactory/pull/589)
+- Add tcad cross-section simulation DEVSIM plugin [PR](https://github.com/gdsfactory/gdsfactory/pull/587)
+    - fully parametrized ridge PIN waveguide cross-section
+    - basic DC simulation and visualization
+    - example notebook, with DEVSIM installation instructions
+
 
 ## [5.16.0](https://github.com/gdsfactory/gdsfactory/pull/580)
 
@@ -549,7 +566,7 @@
 - bring back python3.7 compatibility [PR](https://github.com/gdsfactory/gdsfactory/pull/338)
 - rename `vars` to `settings` in `read.from_yaml` [PR](https://github.com/gdsfactory/gdsfactory/pull/339)
   - use settings combined with kwargs for getting component name
-- fix mirror isse in `gf.read.from_yaml` [PR](https://github.com/gdsfactory/gdsfactory/pull/341)
+- fix mirror issue in `gf.read.from_yaml` [PR](https://github.com/gdsfactory/gdsfactory/pull/341)
 
 ## [5.4.0](https://github.com/gdsfactory/gdsfactory/pull/337)
 

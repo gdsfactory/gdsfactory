@@ -27,6 +27,7 @@ def union(
         join_first: before offsetting to avoid unnecessary joins in adjacent polygon
         max_points: The maximum number of vertices within the resulting polygon.
         layer: Specific layer to put polygon geometry on.
+
     """
     U = Component()
 

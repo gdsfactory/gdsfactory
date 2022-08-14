@@ -34,6 +34,7 @@ def plot_model(
 
         c = gc.mmi1x2()
         gs.plot_model(c)
+
     """
     m = model() if callable(model) else model
 

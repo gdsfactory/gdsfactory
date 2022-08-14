@@ -7,7 +7,7 @@ from gdsfactory.types import Routes
 def get_bundle_sbend(
     ports1: Port, ports2: Port, sort_ports: bool = True, **kwargs
 ) -> Routes:
-    """Returns a Dict with the routes from ports1 to ports2
+    """Returns a Dict with the routes from ports1 to ports2.
 
     Args:
         ports1: start ports.

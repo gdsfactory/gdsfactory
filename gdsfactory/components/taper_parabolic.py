@@ -14,7 +14,7 @@ def taper_parabolic(
     npoints: int = 100,
     layer: LayerSpec = "WG",
 ) -> gf.Component:
-    """Returns a parabolic_taper
+    """Returns a parabolic_taper.
 
     Args:
         length: in um.

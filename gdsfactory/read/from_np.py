@@ -11,7 +11,9 @@ def compute_area_signed(pr) -> float:
     """Return the signed area enclosed by a ring using the linear time.
 
     algorithm at http://www.cgafaq.info/wiki/Polygon_Area. A value >= 0
-    indicates a counter-clockwise oriented ring."""
+    indicates a counter-clockwise oriented ring.
+
+    """
     xs, ys = map(list, zip(*pr))
     xs.append(xs[1])
     ys.append(ys[1])

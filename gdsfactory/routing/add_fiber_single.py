@@ -271,11 +271,12 @@ def add_fiber_single(
             )
 
     c.copy_child_info(component)
+    c.info["grating_coupler"] = gc.info
     return c
 
 
 if __name__ == "__main__":
-    from gdsfactory.dft.ehva import add_label_ehva
+    from gdsfactory.labels.ehva import add_label_ehva
 
     # c = gf.components.crossing()
     # c = gf.components.mmi1x2()
