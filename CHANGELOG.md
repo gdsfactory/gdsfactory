@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.18.1](https://github.com/gdsfactory/gdsfactory/pull/594)
+
+- add kwargs to bezier and change coupler_adiabatic from picwriter to adiabatic coupler
+
 ## [5.18.0](https://github.com/gdsfactory/gdsfactory/pull/593)
 
 - include `rule_not_inside`, `rule_min_width_or_space` klayout DRC checks in gf.geometry.write_drc
