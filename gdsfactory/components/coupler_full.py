@@ -13,7 +13,7 @@ def coupler_full(
     dw: float = 0.1,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
-) ->  Component:
+) -> Component:
     """
     Adiabatic Full coupler.
 
@@ -34,7 +34,7 @@ def coupler_full(
         gap: Distance between the two straights.
         dw: Change in straight width. Top arm tapers to width - dw, bottom to width + dw.
         cross_section: cross-section spec.
-    
+
     Keyword Args:
         cross_section kwargs.
     """
@@ -76,7 +76,7 @@ def coupler_full(
 
     if x.add_bbox:
         c = x.add_bbox(c)
-    
+
     if x.info:
         c.info = x.info
 
@@ -84,7 +84,7 @@ def coupler_full(
     c.add_port("o2", port=bend_input_top.ports["o2"])
     c.add_port("o3", port=bend_output_top.ports["o1"])
     c.add_port("o4", port=bend_output_bottom.ports["o1"])
-    
+
     c = c.movex(origin=coupling_length / 2.0, destination=-coupling_length / 2.0)
 
     return c
