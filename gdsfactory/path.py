@@ -524,8 +524,7 @@ def _rotated_delta(
     sa = np.sin(orientation * np.pi / 180)
     rot_mat = np.array([[ca, -sa], [sa, ca]])
     delta = point - center
-    rotated_delta = np.dot(delta, rot_mat)
-    return rotated_delta
+    return np.dot(delta, rot_mat)
 
 
 def _cut_path_with_ray(
