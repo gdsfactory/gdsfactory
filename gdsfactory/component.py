@@ -305,7 +305,7 @@ class Component(Device):
     def get_netlist_yaml(self, **kwargs) -> Dict[str, Any]:
         from gdsfactory.get_netlist import get_netlist_yaml
 
-        return get_netlist_yaml(**kwargs)
+        return get_netlist_yaml(self, **kwargs)
 
     def write_netlist(self, filepath: str) -> None:
         """Write netlist in YAML."""
@@ -346,7 +346,7 @@ class Component(Device):
     def get_netlist_dict(self, **kwargs) -> Dict[str, Any]:
         from gdsfactory.get_netlist import get_netlist_dict
 
-        return get_netlist_dict(**kwargs)
+        return get_netlist_dict(dict, **kwargs)
 
     def get_netlist_recursive(self, **kwargs) -> Dict[str, DictConfig]:
         """Returns recursive netlist for a component and subcomponents.
