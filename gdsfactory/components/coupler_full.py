@@ -17,6 +17,11 @@ def coupler_full(
     """
     Adiabatic Full coupler.
 
+    Design based on asymmetric adiabatic full
+    coupler designs, such as the one reported in 'Integrated Optic Adiabatic
+    Devices on Silicon' by Y. Shani, et al (IEEE Journal of Quantum
+    Electronics, Vol. 27, No. 3 March 1991).
+
     1. is the first half of the input S-bend straight where the
     input straights widths taper by +dw and -dw,
     2. is the second half of the S-bend straight with constant,
