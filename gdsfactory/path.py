@@ -445,7 +445,7 @@ def extrude(
             port_width = width if np.isscalar(width) else width[0]
             port_orientation = (p.start_angle + 180) % 360
             center = points[0]
-            face = [points1[0], points2[0]]
+            face = [points1[0] - center, points2[0] - center]
 
             if warn_off_grid_ports:
                 center_snap = snap.snap_to_grid(center, snap_to_grid_nm)
@@ -471,7 +471,7 @@ def extrude(
             port_width = width if np.isscalar(width) else width[-1]
             port_orientation = (p.end_angle) % 360
             center = points[-1]
-            face = [points1[-1], points2[-1]]
+            face = [points1[-1] - center, points2[-1] - center]
 
             if warn_off_grid_ports:
 
