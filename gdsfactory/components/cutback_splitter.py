@@ -2,26 +2,26 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler180
 from gdsfactory.components.component_sequence import component_sequence
+from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.components.taper import taper
-from gdsfactory.components.taper_from_csv import taper_0p5_to_3_l36
 from gdsfactory.types import ComponentSpec, Optional
 
 
 @gf.cell
-def cutback_component(
-    component: ComponentSpec = taper_0p5_to_3_l36,
+def cutback_splitter(
+    component: ComponentSpec = mmi1x2,
     cols: int = 4,
     rows: int = 5,
     radius: float = 5.0,
     port1: str = "o1",
     port2: str = "o2",
+    port3: str = "o3",
     bend180: ComponentSpec = bend_euler180,
     straight: ComponentSpec = straight_function,
     mirror: bool = False,
     straight_length: Optional[float] = None,
 ) -> Component:
-    """Returns a daisy chain of components for measuring their loss.
+    """Returns a daisy chain of splitters for measuring their loss.
 
     Args:
         component: for cutback.
@@ -44,7 +44,7 @@ def cutback_component(
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
         "A": (component, port1, port2),
-        "B": (component, port2, port1),
+        "B": (component, port3, port1),
         "D": (bendu, "o1", "o2"),
         "C": (bendu, "o2", "o1"),
         "-": (straight_component, "o1", "o2"),
@@ -84,15 +84,6 @@ def cutback_component(
     return c
 
 
-# straight_wide = gf.partial(straight, width=3, length=20)
-# bend180_wide = gf.partial(bend_euler180, width=3)
-component_flipped = gf.partial(taper, width2=0.5, width1=3)
-straight_long = gf.partial(straight_function, length=20)
-cutback_component_mirror = gf.partial(cutback_component, mirror=True)
-
-
 if __name__ == "__main__":
-    c = cutback_component()
-    # c = cutback_component_mirror(component=component_flipped)
-    # c = gf.routing.add_fiber_single(c)
+    c = cutback_splitter()
     c.show(show_ports=True)
