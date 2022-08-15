@@ -449,13 +449,15 @@ def extrude(
             port_width = width if np.isscalar(width) else width[0]
             port_orientation = (p.start_angle + 180) % 360
             center = points[0]
+            face = [points1[0], points2[0]]
+            face = [_rotated_delta(point, center, port_orientation) for point in face]
 
             if warn_off_grid_ports:
                 center_snap = snap.snap_to_grid(center, snap_to_grid_nm)
                 if center[0] != center_snap[0] or center[1] != center_snap[1]:
                     warnings.warn(f"Port center {center} has off-grid ports")
 
-            c.add_port(
+            port1 = c.add_port(
                 port=Port(
                     name=port_names[0],
                     layer=get_layer(layers[0]),
@@ -469,10 +471,13 @@ def extrude(
                     shear_angle=shear_angle_start,
                 )
             )
+            port1.info["face"] = face
         if port_names[1] is not None:
             port_width = width if np.isscalar(width) else width[-1]
             port_orientation = (p.end_angle) % 360
             center = points[-1]
+            face = [points1[-1], points2[-1]]
+            face = [_rotated_delta(point, center, port_orientation) for point in face]
 
             if warn_off_grid_ports:
 
@@ -480,7 +485,7 @@ def extrude(
 
                 if center[0] != center_snap[0] or center[1] != center_snap[1]:
                     warnings.warn(f"Port center {center} has off-grid ports")
-            c.add_port(
+            port2 = c.add_port(
                 port=Port(
                     name=port_names[1],
                     layer=get_layer(layers[1]),
@@ -494,6 +499,7 @@ def extrude(
                     shear_angle=shear_angle_end,
                 )
             )
+            port2.info["face"] = face
 
     c.info["length"] = float(np.round(p.length(), 3))
 
@@ -504,6 +510,25 @@ def extrude(
         c = x.add_pins(c) or c
 
     return c
+
+
+def _rotated_delta(
+    point: np.ndarray, center: np.ndarray, orientation: float
+) -> np.ndarray:
+    """Gets the rotated distance of a point from a center
+
+    Args:
+        point: the initial point
+        center: a center point to use as a reference
+        orientation: the rotation, in degrees
+
+     Returns: the normalized delta between the point and center, accounting for rotation
+    """
+    ca = np.cos(orientation * np.pi / 180)
+    sa = np.sin(orientation * np.pi / 180)
+    rot_mat = np.array([[ca, -sa], [sa, ca]])
+    delta = point - center
+    return np.dot(delta, rot_mat)
 
 
 def _cut_path_with_ray(
