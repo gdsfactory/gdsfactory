@@ -3,31 +3,19 @@ settings:
   changed: {}
   child: null
   default:
-    angle: 0.5235987755982988
+    coupling_length: 40.0
     cross_section: strip
-    direction: EAST
     dw: 0.1
+    dx: 10.0
+    dy: 5.0
     gap: 0.5
-    length: 40.0
-    parity: 1
-    port:
-    - 0
-    - 0
-    waveguide_template:
-      function: strip
   full:
-    angle: 0.5235987755982988
+    coupling_length: 40.0
     cross_section: strip
-    direction: EAST
     dw: 0.1
+    dx: 10.0
+    dy: 5.0
     gap: 0.5
-    length: 40.0
-    parity: 1
-    port:
-    - 0
-    - 0
-    waveguide_template:
-      function: strip
   function_name: coupler_full
   info: {}
   info_version: 2
