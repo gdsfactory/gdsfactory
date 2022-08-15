@@ -35,6 +35,7 @@ def _rotate(v: ndarray, m: ndarray) -> ndarray:
 def get_pin_triangle_polygon_tip(port: Port) -> Tuple[List[float], Tuple[float, float]]:
     """Returns triangle polygon and tip position."""
     p = port
+    port_face = p.info.get("face", None)
 
     orientation = p.orientation
 
@@ -46,15 +47,22 @@ def get_pin_triangle_polygon_tip(port: Port) -> Tuple[List[float], Tuple[float, 
     rot_mat = np.array([[ca, -sa], [sa, ca]])
     d = p.width / 2
 
-    dbot = np.array([0, -d])
-    dtop = np.array([0, d])
     dtip = np.array([d, 0])
+
+    if port_face:
+        dtop = port_face[0]
+        dbot = port_face[-1]
+    else:
+        dbot = np.array([0, -d])
+        dtop = np.array([0, d])
 
     p0 = p.center + _rotate(dbot, rot_mat)
     p1 = p.center + _rotate(dtop, rot_mat)
+    port_face = [p0, p1]
+
     ptip = p.center + _rotate(dtip, rot_mat)
 
-    polygon = [p0, p1, ptip]
+    polygon = list(port_face) + [ptip]
     polygon = np.stack(polygon)
     return polygon, ptip
 
