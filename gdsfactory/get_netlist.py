@@ -330,13 +330,16 @@ if __name__ == "__main__":
 
     import gdsfactory as gf
 
-    coupler_lengths = [10, 20, 30, 40]
-    coupler_gaps = [0.1, 0.2, 0.4, 0.5]
-    delta_lengths = [10, 100, 200]
+    c = gf.components.mzi()
+    n = c.get_netlist_dict()
 
-    c = gf.components.mzi_lattice(
-        coupler_lengths=coupler_lengths,
-        coupler_gaps=coupler_gaps,
-        delta_lengths=delta_lengths,
-    )
-    n = c.get_netlist_recursive()
+    # coupler_lengths = [10, 20, 30, 40]
+    # coupler_gaps = [0.1, 0.2, 0.4, 0.5]
+    # delta_lengths = [10, 100, 200]
+
+    # c = gf.components.mzi_lattice(
+    #     coupler_lengths=coupler_lengths,
+    #     coupler_gaps=coupler_gaps,
+    #     delta_lengths=delta_lengths,
+    # )
+    # n = c.get_netlist_recursive()
