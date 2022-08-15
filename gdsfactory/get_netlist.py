@@ -66,6 +66,44 @@ def get_instance_name(
     return text
 
 
+def get_netlist_dict(
+    component: Component,
+    full_settings: bool = False,
+    layer_label: LayerSpec = "LABEL_INSTANCE",
+    tolerance: int = 1,
+    exclude_port_types: Optional[List] = None,
+) -> Dict:
+    """From a component returns instances, connections and placements dict."""
+    return omegaconf.OmegaConf.to_container(
+        get_netlist(
+            component=component,
+            full_settings=full_settings,
+            layer_label=layer_label,
+            tolerance=tolerance,
+            exclude_port_types=exclude_port_types,
+        )
+    )
+
+
+def get_netlist_yaml(
+    component: Component,
+    full_settings: bool = False,
+    layer_label: LayerSpec = "LABEL_INSTANCE",
+    tolerance: int = 1,
+    exclude_port_types: Optional[List] = None,
+) -> Dict:
+    """From a component returns instances, connections and placements yaml string content."""
+    return omegaconf.OmegaConf.to_yaml(
+        get_netlist(
+            component=component,
+            full_settings=full_settings,
+            layer_label=layer_label,
+            tolerance=tolerance,
+            exclude_port_types=exclude_port_types,
+        )
+    )
+
+
 def get_netlist(
     component: Component,
     full_settings: bool = False,
@@ -201,7 +239,7 @@ def get_netlist(
 
 def get_netlist_recursive(
     component: Component,
-    component_suffix: str = ".ba",
+    component_suffix: str = "",
     get_netlist_func: Callable = get_netlist,
     **kwargs,
 ) -> Dict[str, omegaconf.DictConfig]:
@@ -232,7 +270,12 @@ def get_netlist_recursive(
         # for each reference, expand the netlist
         for ref in component.references:
             rcell = ref.parent
-            grandchildren = get_netlist_recursive(rcell)
+            grandchildren = get_netlist_recursive(
+                component=rcell,
+                component_suffix=component_suffix,
+                get_netlist_func=get_netlist_func,
+                **kwargs,
+            )
             all_netlists.update(grandchildren)
             if ref.ref_cell.references:
                 inst_name = get_instance_name(component, ref)
