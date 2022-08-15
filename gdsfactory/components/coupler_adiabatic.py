@@ -15,7 +15,7 @@ def coupler_adiabatic(
     dw: float = 0.1,
     cross_section: CrossSectionSpec = "strip",
     **kwargs
-):
+) -> Component:
     """Returns 50/50 adiabatic coupler.
 
     Design based on asymmetric adiabatic 3dB coupler designs, such as those.
