@@ -445,7 +445,8 @@ def extrude(
             port_width = width if np.isscalar(width) else width[0]
             port_orientation = (p.start_angle + 180) % 360
             center = points[0]
-            face = [points1[0] - center, points2[0] - center]
+            face = [points1[0], points2[0]]
+            face = [_rotated_delta(point, center, port_orientation) for point in face]
 
             if warn_off_grid_ports:
                 center_snap = snap.snap_to_grid(center, snap_to_grid_nm)
@@ -471,7 +472,8 @@ def extrude(
             port_width = width if np.isscalar(width) else width[-1]
             port_orientation = (p.end_angle) % 360
             center = points[-1]
-            face = [points1[-1] - center, points2[-1] - center]
+            face = [points1[-1], points2[-1]]
+            face = [_rotated_delta(point, center, port_orientation) for point in face]
 
             if warn_off_grid_ports:
 
@@ -504,6 +506,26 @@ def extrude(
         c = x.add_pins(c) or c
 
     return c
+
+
+def _rotated_delta(
+    point: np.ndarray, center: np.ndarray, orientation: float
+) -> np.ndarray:
+    """Gets the rotated distance of a point from a center
+
+    Args:
+        point: the initial point
+        center: a center point to use as a reference
+        orientation: the rotation, in degrees
+
+     Returns: the normalized delta between the point and center, accounting for rotation
+    """
+    ca = np.cos(orientation * np.pi / 180)
+    sa = np.sin(orientation * np.pi / 180)
+    rot_mat = np.array([[ca, -sa], [sa, ca]])
+    delta = point - center
+    rotated_delta = np.dot(delta, rot_mat)
+    return rotated_delta
 
 
 def _cut_path_with_ray(
