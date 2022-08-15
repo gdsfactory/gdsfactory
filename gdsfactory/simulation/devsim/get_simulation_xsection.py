@@ -5,6 +5,7 @@ import numpy as np
 import pyvista as pv
 from devsim.python_packages import model_create, simple_physics
 from pydantic import BaseModel, Extra
+from wurlitzer import pipes
 
 nm = 1e-9
 um = 1e-6
@@ -346,7 +347,8 @@ class PINWaveguide(BaseModel):
         )  # , scalar_bar_args=sargs)
         _ = plotter.show_grid()
         _ = plotter.camera_position = "xy"
-        _ = plotter.show(jupyter_backend=jupyter_backend)
+        with pipes() as (out, err):
+            _ = plotter.show(jupyter_backend=jupyter_backend)
 
     def list_fields(self, tempfile="temp.dat"):
         devsim.write_devices(file=tempfile, type="tecplot")
