@@ -346,7 +346,7 @@ class Component(Device):
     def get_netlist_dict(self, **kwargs) -> Dict[str, Any]:
         from gdsfactory.get_netlist import get_netlist_dict
 
-        return get_netlist_dict(dict, **kwargs)
+        return get_netlist_dict(component=self, **kwargs)
 
     def get_netlist_recursive(self, **kwargs) -> Dict[str, DictConfig]:
         """Returns recursive netlist for a component and subcomponents.
