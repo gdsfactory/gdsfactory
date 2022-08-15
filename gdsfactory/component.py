@@ -302,9 +302,10 @@ class Component(Device):
         )
         return G
 
-    def get_netlist_yaml(self) -> str:
-        """Return YAML netlist."""
-        return OmegaConf.to_yaml(self.get_netlist())
+    def get_netlist_yaml(self, **kwargs) -> Dict[str, Any]:
+        from gdsfactory.get_netlist import get_netlist_yaml
+
+        return get_netlist_yaml(**kwargs)
 
     def write_netlist(self, filepath: str) -> None:
         """Write netlist in YAML."""
@@ -343,7 +344,9 @@ class Component(Device):
         return get_netlist(component=self, **kwargs)
 
     def get_netlist_dict(self, **kwargs) -> Dict[str, Any]:
-        return OmegaConf.to_container(self.get_netlist(**kwargs))
+        from gdsfactory.get_netlist import get_netlist_dict
+
+        return get_netlist_dict(**kwargs)
 
     def get_netlist_recursive(self, **kwargs) -> Dict[str, DictConfig]:
         """Returns recursive netlist for a component and subcomponents.
