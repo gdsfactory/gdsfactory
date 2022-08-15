@@ -14,8 +14,7 @@ def coupler_full(
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
-    """
-    Adiabatic Full coupler.
+    """Adiabatic Full coupler.
 
     Design based on asymmetric adiabatic full
     coupler designs, such as the one reported in 'Integrated Optic Adiabatic
