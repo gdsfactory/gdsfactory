@@ -70,6 +70,7 @@ from gdsfactory.components.cutback_component import (
     cutback_component,
     cutback_component_mirror,
 )
+from gdsfactory.components.cutback_splitter import cutback_splitter
 from gdsfactory.components.dbr import dbr
 from gdsfactory.components.dbr_tapered import dbr_tapered
 from gdsfactory.components.delay_snake import delay_snake
@@ -344,6 +345,7 @@ __all__ = [
     "cutback_bend90circular",
     "cutback_component",
     "cutback_component_mirror",
+    "cutback_splitter",
     "dbr",
     "dbr_tapered",
     "delay_snake",
