@@ -515,14 +515,14 @@ def extrude(
 def _rotated_delta(
     point: np.ndarray, center: np.ndarray, orientation: float
 ) -> np.ndarray:
-    """Gets the rotated distance of a point from a center
+    """Gets the rotated distance of a point from a center.
 
     Args:
-        point: the initial point
-        center: a center point to use as a reference
-        orientation: the rotation, in degrees
+        point: the initial point.
+        center: a center point to use as a reference.
+        orientation: the rotation, in degrees.
 
-     Returns: the normalized delta between the point and center, accounting for rotation
+    Returns: the normalized delta between the point and center, accounting for rotation
     """
     ca = np.cos(orientation * np.pi / 180)
     sa = np.sin(orientation * np.pi / 180)
