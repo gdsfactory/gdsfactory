@@ -5,6 +5,7 @@
 - Remove picwriter dependencies [issue](https://github.com/gdsfactory/gdsfactory/issues/471)
 - fix shear ports [PR](https://github.com/gdsfactory/gdsfactory/pull/596)
 - fix recursive_netlist [PR](https://github.com/gdsfactory/gdsfactory/pull/595)
+- add components.cutback_splitter
 
 ## [5.18.1](https://github.com/gdsfactory/gdsfactory/pull/594)
 
