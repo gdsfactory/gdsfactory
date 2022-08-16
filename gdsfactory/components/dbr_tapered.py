@@ -77,7 +77,7 @@ def dbr_tapered(
 
     num = (2 * taper_length + length) // period
     x_size = period * dc
-    start = (2 * taper_length + length - (num - 1) * (x_size + (period / 2.0))) / 2.0
+    start = (2 * taper_length + length - (num - 1) * (x_size + period / 2.0)) / 2.0
 
     for i in range(int(num)):
         x = start + i * period
