@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.18.4
+
+- fix AttributeError (component.info is sometimes None) [PR](https://github.com/gdsfactory/gdsfactory/pull/607)
+- adding ports and copying child info in transformed cell wrapper [PR](https://github.com/gdsfactory/gdsfactory/pull/604)
+
 ## [5.18.3](https://github.com/gdsfactory/gdsfactory/pull/594)
 
 - Remove picwriter dependencies [issue](https://github.com/gdsfactory/gdsfactory/issues/471)
