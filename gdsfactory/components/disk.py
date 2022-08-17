@@ -48,16 +48,14 @@ def _generate_bends(c, r_bend, wrap_angle_deg, xs_bend):
         return (c, None, None, None)
 
 
-def _generate_straights(c, bus_length, size_x, bend_input, bend_output, xs_bend):
+def _generate_straights(c, bus_length, size_x, bend_input, bend_output, cross_section):
 
     straight_left = c << gf.components.straight(
-        length=(bus_length - 4 * size_x) / 2.0,
-        cross_section=xs_bend.copy(width=xs_bend.width),
+        length=(bus_length - 4 * size_x) / 2.0, cross_section=cross_section
     )
 
     straight_right = c << gf.components.straight(
-        length=(bus_length - 4 * size_x) / 2.0,
-        cross_section=xs_bend.copy(width=xs_bend.width),
+        length=(bus_length - 4 * size_x) / 2.0, cross_section=cross_section
     )
 
     if None not in (bend_input, bend_output):
