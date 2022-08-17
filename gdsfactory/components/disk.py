@@ -6,6 +6,104 @@ from gdsfactory.cross_section import strip
 from gdsfactory.types import CrossSectionSpec
 
 
+def _compute_parameters(xs_bend, wrap_angle_deg, radius):
+
+    r_bend = xs_bend.radius
+    theta = wrap_angle_deg / 2.0
+    size_x, dy = r_bend * np.sin(theta * np.pi / 180), r_bend - r_bend * np.cos(
+        theta * np.pi / 180
+    )
+    bus_length = 2 * radius if (4 * size_x < 2 * radius) else 4 * size_x
+
+    return (r_bend, size_x, dy, bus_length)
+
+
+def _generate_bends(c, r_bend, wrap_angle_deg, xs_bend):
+
+    if wrap_angle_deg != 0:
+        input_arc = gf.path.arc(radius=r_bend, angle=-wrap_angle_deg / 2.0)
+
+        bend_input = c << input_arc.extrude(
+            cross_section=xs_bend.copy(width=xs_bend.width)
+        )
+
+        bend_middle_arc = gf.path.arc(radius=r_bend, angle=-wrap_angle_deg)
+
+        bend_middle = c << bend_middle_arc.extrude(
+            cross_section=xs_bend.copy(width=xs_bend.width)
+        )
+
+        bend_middle.rotate(180 + wrap_angle_deg / 2.0, center=c.center)
+
+        bend_input.connect("o2", bend_middle.ports["o2"])
+
+        bend_output = c << bend_input.parent.copy()
+
+        bend_output.x_reflection = True
+
+        bend_output.connect("o2", bend_middle.ports["o1"])
+
+        return (c, bend_input, bend_middle, bend_output)
+    else:
+        return (c, None, None, None)
+
+
+def _generate_straights(c, bus_length, size_x, bend_input, bend_output, xs_bend):
+
+    straight_left = c << gf.components.straight(
+        length=(bus_length - 4 * size_x) / 2.0,
+        cross_section=xs_bend.copy(width=xs_bend.width),
+    )
+
+    straight_right = c << gf.components.straight(
+        length=(bus_length - 4 * size_x) / 2.0,
+        cross_section=xs_bend.copy(width=xs_bend.width),
+    )
+
+    if None not in (bend_input, bend_output):
+        straight_left.connect("o2", bend_input.ports["o1"])
+
+        straight_right.connect("o1", bend_output.ports["o1"])
+    else:
+        straight_left.connect("o2", straight_right.ports["o1"])
+
+    return (c, straight_left, straight_right)
+
+
+def _generate_circles(c, radius, xs, bend_middle, straight_left, r_bend, dy):
+
+    circle = c << gf.components.circle(radius=radius, layer=xs.layer)
+
+    circle_cladding = c << gf.components.circle(
+        radius=radius + xs.cladding_offsets[0], layer=xs.cladding_layers[0]
+    )
+
+    if bend_middle is not None:
+        circle.move(
+            origin=circle.center,
+            destination=(
+                (bend_middle.ports["o1"].x + bend_middle.ports["o2"].x) / 2.0,
+                straight_left.ports["o2"].y - 2 * dy + r_bend,
+            ),
+        )
+    else:
+        circle.move(
+            origin=circle.center,
+            destination=(straight_left.ports["o2"].center + (0, r_bend),),
+        )
+
+    circle_cladding.move(origin=circle_cladding.center, destination=circle.center)
+
+    return (c, circle, circle_cladding)
+
+
+def _absorb(c, *refs):
+    for ref in list(refs):
+        if ref is not None:
+            c.absorb(ref)
+    return c
+
+
 @gf.cell
 def disk(
     radius: float = 10.0,
@@ -42,71 +140,34 @@ def disk(
     xs_bend = xs.copy()
     xs_bend.radius = radius + xs.width / 2.0 + gap
 
-    r_bend = xs_bend.radius
-    theta = wrap_angle_deg / 2.0
-    size_x, dy = r_bend * np.sin(theta * np.pi / 180), r_bend - r_bend * np.cos(
-        theta * np.pi / 180
-    )
-    bus_length = 2 * radius if (4 * size_x < 2 * radius) else 4 * size_x
-
-    input_arc = gf.path.arc(radius=r_bend, angle=-wrap_angle_deg / 2.0)
-
-    bend_input = c << input_arc.extrude(cross_section=xs_bend.copy(width=xs_bend.width))
-
-    bend_middle_arc = gf.path.arc(radius=r_bend, angle=-wrap_angle_deg)
-
-    bend_middle = c << bend_middle_arc.extrude(
-        cross_section=xs_bend.copy(width=xs_bend.width)
+    r_bend, size_x, dy, bus_length = _compute_parameters(
+        xs_bend, wrap_angle_deg, radius
     )
 
-    bend_middle.rotate(180 + wrap_angle_deg / 2.0, center=c.center)
-
-    bend_input.connect("o2", bend_middle.ports["o2"])
-
-    bend_output = c << bend_input.parent.copy()
-
-    bend_output.x_reflection = True
-
-    bend_output.connect("o2", bend_middle.ports["o1"])
-
-    straight_left = c << gf.components.straight(
-        length=(bus_length - 4 * size_x) / 2.0,
-        cross_section=xs_bend.copy(width=xs_bend.width),
+    c, bend_input, bend_middle, bend_output = _generate_bends(
+        c, r_bend, wrap_angle_deg, xs_bend
     )
 
-    straight_left.connect("o2", bend_input.ports["o1"])
-
-    straight_right = c << gf.components.straight(
-        length=(bus_length - 4 * size_x) / 2.0,
-        cross_section=xs_bend.copy(width=xs_bend.width),
+    c, straight_left, straight_right = _generate_straights(
+        c, bus_length, size_x, bend_input, bend_output, xs_bend
     )
 
-    straight_right.connect("o1", bend_output.ports["o1"])
-
-    circle = c << gf.components.circle(radius=radius, layer=xs.layer)
-
-    circle_cladding = c << gf.components.circle(
-        radius=radius + xs.cladding_offsets[0], layer=xs.cladding_layers[0]
+    c, circle, circle_cladding = _generate_circles(
+        c, radius, xs, bend_middle, straight_left, r_bend, dy
     )
 
-    circle.move(
-        origin=circle.center,
-        destination=(
-            (bend_middle.ports["o1"].x + bend_middle.ports["o2"].x) / 2.0,
-            straight_left.ports["o2"].y - 2 * dy + r_bend,
-        ),
+    c = _absorb(
+        c,
+        circle,
+        circle_cladding,
+        straight_left,
+        straight_right,
+        bend_input,
+        bend_middle,
+        bend_output,
     )
 
-    circle_cladding.move(origin=circle_cladding.center, destination=circle.center)
-
-    c.absorb(circle)
-    c.absorb(straight_left)
-    c.absorb(straight_right)
-    c.absorb(bend_input)
-    c.absorb(bend_middle)
-    c.absorb(bend_output)
-
-    c.add_port("o1", port=straight_left.ports["o1"])
+    c.add_port("o1", port=straight_left.ports["o1"], layer="PORT")
     c.add_port("o2", port=straight_right.ports["o2"])
 
     if xs.add_bbox:
@@ -126,4 +187,4 @@ def disk(
 if __name__ == "__main__":
 
     c = disk(wrap_angle_deg=30)
-    c.show(show_ports=True, show_subports=True)
+    c.show(show_ports=True)
