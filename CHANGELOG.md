@@ -1,5 +1,12 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## next release
+
+- Remove picwriter dependencies [issue](https://github.com/gdsfactory/gdsfactory/issues/471)
+- fix shear ports [PR](https://github.com/gdsfactory/gdsfactory/pull/596)
+- fix recursive_netlist [PR](https://github.com/gdsfactory/gdsfactory/pull/595)
+- add components.cutback_splitter
+
 ## [5.18.1](https://github.com/gdsfactory/gdsfactory/pull/594)
 
 - add kwargs to bezier and change coupler_adiabatic from picwriter to adiabatic coupler
