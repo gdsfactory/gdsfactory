@@ -1,11 +1,12 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## next release
+## [5.18.3](https://github.com/gdsfactory/gdsfactory/pull/594)
 
 - Remove picwriter dependencies [issue](https://github.com/gdsfactory/gdsfactory/issues/471)
 - fix shear ports [PR](https://github.com/gdsfactory/gdsfactory/pull/596)
 - fix recursive_netlist [PR](https://github.com/gdsfactory/gdsfactory/pull/595)
 - add components.cutback_splitter
+- adding ports and copying child info in transformed cell wrapper [PR](https://github.com/gdsfactory/gdsfactory/pull/604)
 
 ## [5.18.1](https://github.com/gdsfactory/gdsfactory/pull/594)
 
