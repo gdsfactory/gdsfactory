@@ -140,7 +140,7 @@ def cell_without_validator(func):
             and "kwargs" not in sig.parameters
             and "settings" not in sig.parameters
         ):
-            for key in kwargs.keys():
+            for key in kwargs:
                 if key not in sig.parameters.keys():
                     raise TypeError(
                         f"{func.__name__!r}() got invalid argument {key!r}\n"
@@ -184,6 +184,9 @@ def cell_without_validator(func):
 
         if autoname and not hasattr(component, "imported_gds"):
             component.name = component_name
+
+        if component.info is None:
+            component.info = {}
 
         component.info.update(**info)
 
