@@ -18,29 +18,22 @@ def _compute_parameters(xs_bend, wrap_angle_deg, radius):
     return (r_bend, size_x, dy, bus_length)
 
 
-def _generate_bends(c, r_bend, wrap_angle_deg, xs_bend):
+def _generate_bends(c, r_bend, wrap_angle_deg, cross_section):
 
     if wrap_angle_deg != 0:
         input_arc = gf.path.arc(radius=r_bend, angle=-wrap_angle_deg / 2.0)
-
-        bend_input = c << input_arc.extrude(
-            cross_section=xs_bend.copy(width=xs_bend.width)
-        )
-
         bend_middle_arc = gf.path.arc(radius=r_bend, angle=-wrap_angle_deg)
 
-        bend_middle = c << bend_middle_arc.extrude(
-            cross_section=xs_bend.copy(width=xs_bend.width)
-        )
+        bend_input_output = input_arc.extrude(cross_section=cross_section)
 
+        bend_input = c << bend_input_output
+        bend_middle = c << bend_middle_arc.extrude(cross_section=cross_section)
         bend_middle.rotate(180 + wrap_angle_deg / 2.0, center=c.center)
 
         bend_input.connect("o2", bend_middle.ports["o2"])
 
-        bend_output = c << bend_input.parent.copy()
-
-        bend_output.x_reflection = True
-
+        bend_output = c << bend_input_output
+        bend_output.mirror()
         bend_output.connect("o2", bend_middle.ports["o1"])
 
         return (c, bend_input, bend_middle, bend_output)
