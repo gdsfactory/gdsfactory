@@ -185,6 +185,9 @@ def cell_without_validator(func):
         if autoname and not hasattr(component, "imported_gds"):
             component.name = component_name
 
+        if component.info is None:
+            component.info = {}
+
         component.info.update(**info)
 
         if not hasattr(component, "imported_gds"):
