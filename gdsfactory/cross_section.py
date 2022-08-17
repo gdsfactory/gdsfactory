@@ -690,8 +690,21 @@ def pn(
 
     if layer_metal is not None:
         offset = width_high_doping / 2 + gap_high_doping
-        metal_top = Section(width=width_via, offset=+offset, layer=layer_metal)
-        metal_bot = Section(width=width_via, offset=-offset, layer=layer_metal)
+        port_types = ("electrical", "electrical")
+        metal_top = Section(
+            width=width_via,
+            offset=+offset,
+            layer=layer_metal,
+            port_types=port_types,
+            port_names=("e1_top", "e2_top"),
+        )
+        metal_bot = Section(
+            width=width_via,
+            offset=-offset,
+            layer=layer_metal,
+            port_types=port_types,
+            port_names=("e1_bot", "e2_bot"),
+        )
         sections.append(metal_top)
         sections.append(metal_bot)
 
