@@ -4,7 +4,7 @@ from gdsfactory.components.bend_euler import bend_euler180
 from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.types import ComponentSpec, Optional
+from gdsfactory.types import ComponentSpec, CrossSectionSpec, Optional
 
 
 @gf.cell
@@ -12,7 +12,6 @@ def cutback_splitter(
     component: ComponentSpec = mmi1x2,
     cols: int = 4,
     rows: int = 5,
-    radius: float = 5.0,
     port1: str = "o1",
     port2: str = "o2",
     port3: str = "o3",
@@ -20,6 +19,8 @@ def cutback_splitter(
     straight: ComponentSpec = straight_function,
     mirror: bool = False,
     straight_length: Optional[float] = None,
+    cross_section: CrossSectionSpec = "strip",
+    **kwargs
 ) -> Component:
     """Returns a daisy chain of splitters for measuring their loss.
 
@@ -27,18 +28,21 @@ def cutback_splitter(
         component: for cutback.
         cols: number of columns.
         rows: number of rows.
-        radius: for bend.
         port1: name of first optical port.
         port2: name of second optical port.
         bend180: ubend.
         straight: waveguide spec to connect both sides.
         mirror: Flips component. Useful when 'o2' is the port that you want to route to.
         straight_length: length of the straight section between cutbacks.
+        cross_section: specification (CrossSection, string or dict).
+        kwargs: cross_section settings.
     """
+    xs = gf.get_cross_section(cross_section, **kwargs)
+
     component = gf.get_component(component)
-    bendu = gf.get_component(bend180, radius=radius)
+    bendu = gf.get_component(bend180, cross_section=xs)
     straight_component = gf.get_component(
-        straight, length=straight_length or radius * 2
+        straight, length=straight_length or xs.radius * 2, cross_section=xs
     )
 
     # Define a map between symbols and (component, input port, output port)
@@ -79,8 +83,6 @@ def cutback_splitter(
     n = len(s) - 2
     c.copy_child_info(component)
     c.info["components"] = n
-
-    # c.info["parent_name"] = f"loopback_{component.metadata_child.get('name')}_{n}"
     return c
 
 
