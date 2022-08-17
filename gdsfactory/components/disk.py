@@ -33,13 +33,12 @@ def disk(
     if parity not in (1, -1):
         raise ValueError("parity must be 1 or -1")
 
-    if wrap_angle_deg < 0 or wrap_angle_deg > 180:
-        raise ValueError("wrap_angle_deg must be between 0 and 180")
+    if wrap_angle_deg < 0.0 or wrap_angle_deg > 180.0:
+        raise ValueError("wrap_angle_deg must be between 0.0 and 180.0")
 
     c = gf.Component()
 
-    xs = gf.get_cross_section(cross_section=cross_section, **kwargs)
-    xs.radius = radius
+    xs = gf.get_cross_section(cross_section=cross_section, radius=radius, **kwargs)
     xs_bend = xs.copy()
     xs_bend.radius = radius + xs.width / 2.0 + gap
 
