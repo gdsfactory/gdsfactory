@@ -576,6 +576,10 @@ def pn(
     layer_n: LayerSpec = "N",
     layer_np: LayerSpec = "NP",
     layer_npp: LayerSpec = "NPP",
+    layer_via: LayerSpec = None,
+    width_via: float = 1.0,
+    layer_metal: LayerSpec = None,
+    width_metal: float = 1.0,
     port_names: Tuple[str, str] = ("o1", "o2"),
     bbox_layers: Optional[List[Layer]] = None,
     bbox_offsets: Optional[List[float]] = None,
@@ -600,6 +604,10 @@ def pn(
         layer_n: n doping layer.
         layer_np: n+ doping layer.
         layer_npp: n++ doping layer.
+        layer_via: via layer.
+        width_via: via width in um.
+        layer_metal: metal layer.
+        width_metal: metal width in um.
         bbox_layers: list of layers for rectangular bounding box.
         bbox_offsets: list of bounding box offsets.
         port_names: for input and output ('o1', 'o2').
@@ -672,6 +680,20 @@ def pn(
         )
         sections.append(npp)
         sections.append(ppp)
+
+    if layer_via is not None:
+        offset = width_high_doping / 2 + gap_high_doping
+        via_top = Section(width=width_via, offset=+offset, layer=layer_via)
+        via_bot = Section(width=width_via, offset=-offset, layer=layer_via)
+        sections.append(via_top)
+        sections.append(via_bot)
+
+    if layer_metal is not None:
+        offset = width_high_doping / 2 + gap_high_doping
+        metal_top = Section(width=width_via, offset=+offset, layer=layer_metal)
+        metal_bot = Section(width=width_via, offset=-offset, layer=layer_metal)
+        sections.append(metal_top)
+        sections.append(metal_bot)
 
     bbox_layers = bbox_layers or []
     bbox_offsets = bbox_offsets or []
@@ -1156,57 +1178,7 @@ def test_copy():
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    # xs = gf.cross_section.pin(width=0.5, via_stack_gap=1, via_stack_width=1)
-    # xs = gf.cross_section.pn(width=0.5, gap_low_doping=0.25)
     xs = gf.cross_section.pn(width=0.5, gap_low_doping=0, width_doping=2.0)
     p = gf.path.straight()
     c = p.extrude(xs)
-    c.plot()
-
-    # copied_cs = gf.cross_section.slot().copy()
-    # c = gf.path.extrude(p, cross_section=copied_cs)
-    # c.show(show_ports=True)
-
-    # p = gf.path.straight()
-    # x = CrossSection(name="strip", layer=(1, 0), width=0.5)
-    # x = x.copy(width=3)
-    # c = p.extrude(x)
-    # c.show(show_ports=True)
-
-    # P = gf.path.euler(radius=10, use_eff=True)
-    # P = euler()
-    # P = gf.Path()
-    # P.append(gf.path.straight(length=5))
-    # P.append(gf.path.arc(radius=10, angle=90))
-    # P.append(gf.path.spiral())
-
-    # Create a blank CrossSection
-
-    # X = pin(width=0.5, width_i=0.5)
-    # x = strip(width=0.5)
-
-    # X = strip_heater_metal_undercut()
-    # X = metal1()
-    # X = pin(layer_via=LAYER.VIAC, via_offsets=(-2, 2))
-    # X = pin()
-    # X = strip_heater_doped()
-
-    # x1 = strip_rib_tip()
-    # x2 = rib_heater_doped_via_stack()
-    # X = gf.path.transition(x1, x2)
-    # P = gf.path.straight(npoints=100, length=10)
-
-    # X = CrossSection()
-
-    # X = rib_heater_doped(with_bot_heater=False, decorator=add_pins_siepic_optical)
-    # P = gf.path.straight(npoints=100, length=10)
-    # c = gf.path.extrude(P, X)
-
-    # print(x1.to_dict())
-    # print(x1.name)
-    # c = gf.path.component(P, strip(width=2, layer=LAYER.WG, cladding_offset=3))
-    # c = gf.add_pins(c)
-    # c << gf.components.bend_euler(radius=10)
-    # c << gf.components.bend_circular(radius=10)
-    # c.pprint_ports()
-    # c.show(show_ports=False)
+    c.show()
