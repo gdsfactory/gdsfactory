@@ -198,7 +198,8 @@ def transformed(ref: ComponentReference):
     """
     c = Component()
     c.add(ref)
-    c.info = ref.info.copy()
+    c.copy_child_info(ref.ref_cell)
+    c.add_ports(ref.ports)
     return c.flatten()
 
 
