@@ -21,13 +21,13 @@ def via_stack(
 
     You can use it to connect different metal layers or metals to silicon.
     You can use the naming convention via_stack_layerSource_layerDestination
+    contains 4 ports (e1, e2, e3, e4)
 
-    Via array / stack name is more common for via_stacking metal while
-    via_stack is used for via_stacking silicon
-
+    also know as Via array
     http://www.vlsi-expert.com/2017/12/vias.html
 
-    spacing and enclosure are taken from via.info['enclosure'] and via.info['spacing']
+    spacing = via.info['spacing']
+    enclosure = via.info['enclosure']
 
     Args:
         size: of the layers.

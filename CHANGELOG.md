@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.18.5
+
+- add layer_via and layer_metal to cross_section.pn. None by default.
+- fix yaml rotation [issue](https://github.com/gdsfactory/gdsfactory/issues/295)
+
 ## 5.18.4
 
 - fix AttributeError (component.info is sometimes None) [PR](https://github.com/gdsfactory/gdsfactory/pull/607)
