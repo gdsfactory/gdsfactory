@@ -1,9 +1,13 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## 5.18.5
+## [5.18.5](https://github.com/gdsfactory/gdsfactory/pull/613)
 
 - add layer_via and layer_metal to cross_section.pn. None by default.
 - fix yaml rotation [issue](https://github.com/gdsfactory/gdsfactory/issues/295)
+- add components.cutback_2x2
+- add components.cutback_splitter
+- make `pip install gdsfactory[tidy3d]` available instead of `pip install gdsfactory[full]`
+- upgrade notebooks to `sax==0.8.0` and pin `sax==0.8.0` in `pip install gdsfactory[full]`
 
 ## 5.18.4
 
