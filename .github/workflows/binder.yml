@@ -1,0 +1,16 @@
+---
+name: Build binder Notebook Container
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout files in repo
+        uses: actions/checkout@master
+
+      - name: update jupyter dependencies with repo2docker
+        uses: machine-learning-apps/repo2docker-action@master
+        with:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          MYBINDERORG_CACHE: true
