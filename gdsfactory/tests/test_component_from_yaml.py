@@ -615,7 +615,8 @@ if __name__ == "__main__":
     # c.show(show_ports=True)
 
     # yaml_key = "sample_mmis"
-    yaml_key = "sample_doe"
+    # yaml_key = "sample_doe"
+    yaml_key = "sample_doe_function"
     yaml_string = yaml_strings[yaml_key]
     c = from_yaml(yaml_string)
     n = c.get_netlist()
