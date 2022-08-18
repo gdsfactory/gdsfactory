@@ -50,7 +50,6 @@ gdsfactory/components/doc
 cml/
 mzi.yml
 *.out
-*.png
 mpb-sim/
 data/
 extrakdown-parser/

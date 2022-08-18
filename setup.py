@@ -49,6 +49,7 @@ setup(
     extras_require={
         "full": list(set(requirements + requirements_full)),
         "sipann": requirements_sipann,
+        "tidy3d": ["tidy3d-beta==1.5.0"],
         "dev": list(set(requirements + requirements_dev)),
         "exp": list(set(requirements + requirements_exp)),
     },

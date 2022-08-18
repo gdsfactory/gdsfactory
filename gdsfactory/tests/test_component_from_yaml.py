@@ -481,6 +481,30 @@ instances:
            width_mmi: [4, 10]
 """
 
+sample_rotation = """
+name: sample_rotation
+
+instances:
+  r1:
+    component: rectangle
+    settings:
+        size: [4, 2]
+  r2:
+    component: rectangle
+    settings:
+        size: [2, 4]
+
+placements:
+    r1:
+        xmin: 0
+        ymin: 0
+    r2:
+        rotation: -90
+        xmin: r1,east
+        ymin: 0
+
+"""
+
 # FIXME: Fix both unconmmented cases
 # yaml_fail should actually fail
 # sample_different_factory: returns a zero length straight that gives an error
@@ -501,6 +525,7 @@ yaml_strings = dict(
     sample_doe=sample_doe,
     # sample_doe_grid=sample_doe_grid,
     sample_doe_function=sample_doe_function,
+    sample_rotation=sample_rotation,
 )
 
 
@@ -615,7 +640,8 @@ if __name__ == "__main__":
     # c.show(show_ports=True)
 
     # yaml_key = "sample_mmis"
-    yaml_key = "sample_doe"
+    # yaml_key = "sample_doe"
+    yaml_key = "sample_doe_function"
     yaml_string = yaml_strings[yaml_key]
     c = from_yaml(yaml_string)
     n = c.get_netlist()
