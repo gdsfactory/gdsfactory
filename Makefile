@@ -22,7 +22,7 @@ major:
 	python docs/write_components_doc.py
 
 plugins:
-	pip install -r requirements_sipann.txt
+	pip install -e .[sipann]
 	pip install jax jaxlib
 	mamba install pymeep=*=mpi_mpich_* -y
 	mamba install numpy==1.22 -y
