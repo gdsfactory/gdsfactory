@@ -54,6 +54,7 @@ from typing import IO, Any, Callable, Dict, List, Optional, Union
 
 import numpy as np
 from omegaconf import OmegaConf
+from typing_extensions import Literal
 
 from gdsfactory.add_pins import add_instance_label
 from gdsfactory.cell import cell
@@ -148,6 +149,53 @@ def _get_anchor_value_from_name(
         raise ValueError("Expected x or y as return_value.")
 
 
+def _move_ref(
+    x: Union[str, float],
+    x_or_y: Literal["x", "y"],
+    placements_conf,
+    connections_by_transformed_inst,
+    instances,
+    encountered_insts,
+    all_remaining_insts,
+) -> float:
+    if isinstance(x, str):
+        if len(x.split(",")) != 2:
+            raise ValueError(
+                f"You can define {x_or_y} as `{x_or_y}: instaceName,portName` got `{x_or_y}: {x!r}`"
+            )
+        instance_name_ref, port_name = x.split(",")
+        if instance_name_ref in all_remaining_insts:
+            place(
+                placements_conf,
+                connections_by_transformed_inst,
+                instances,
+                encountered_insts,
+                instance_name_ref,
+                all_remaining_insts,
+            )
+        if instance_name_ref not in instances:
+            raise ValueError(
+                f"{instance_name_ref!r} not in {list(instances.keys())}."
+                f" You can define {x_or_y} as `{x_or_y}: instaceName,portName`, got {x_or_y}: {x!r}"
+            )
+        if (
+            port_name not in instances[instance_name_ref].ports
+            and port_name not in valid_anchor_keywords
+        ):
+            ports = list(instances[instance_name_ref].ports.keys())
+            raise ValueError(
+                f"port = {port_name!r} can be a port_name in {ports}, "
+                f"an anchor {valid_anchor_keywords} for {instance_name_ref!r}, "
+                f"or `{x_or_y}: instaceName,portName`, got `{x_or_y}: {x!r}`"
+            )
+
+        return _get_anchor_value_from_name(
+            instances[instance_name_ref], port_name, x_or_y
+        )
+    else:
+        return x
+
+
 def place(
     placements_conf: Dict[str, Dict[str, Union[int, float, str]]],
     connections_by_transformed_inst: Dict[str, Dict[str, str]],
@@ -205,8 +253,6 @@ def place(
         ymin = placement_settings.get("ymin")
         ymax = placement_settings.get("ymax")
 
-        # print(instance_name, ymin, ymax, xmin, xmax)
-
         dx = placement_settings.get("dx")
         dy = placement_settings.get("dy")
         port = placement_settings.get("port")
@@ -247,101 +293,30 @@ def place(
             ref.x -= a[0]
             ref.y -= a[1]
 
-        if x is not None or xmin is not None or xmax is not None:
-            xmin_or_xmax = xmin if xmin is not None else xmax
-            x = x if x is not None else xmin_or_xmax
-
-            if isinstance(x, str):
-                if len(x.split(",")) != 2:
-                    raise ValueError(
-                        f"You can define x as `x: instaceName,portName` got `x: {x!r}`"
-                    )
-                instance_name_ref, port_name = x.split(",")
-                if instance_name_ref in all_remaining_insts:
-                    place(
-                        placements_conf,
-                        connections_by_transformed_inst,
-                        instances,
-                        encountered_insts,
-                        instance_name_ref,
-                        all_remaining_insts,
-                    )
-                if instance_name_ref not in instances:
-                    raise ValueError(
-                        f"{instance_name_ref!r} not in {list(instances.keys())}."
-                        f" You can define x as `x: instaceName,portName`, got x: {x!r}"
-                    )
-                if (
-                    port_name not in instances[instance_name_ref].ports
-                    and port_name not in valid_anchor_keywords
-                ):
-                    ports = list(instances[instance_name_ref].ports.keys())
-                    raise ValueError(
-                        f"port = {port_name!r} can be a port_name in {ports}, "
-                        f"an anchor {valid_anchor_keywords} for {instance_name_ref!r}, "
-                        f"or `x: instaceName,portName`, got `x: {y!r}`"
-                    )
-
-                x = _get_anchor_value_from_name(
-                    instances[instance_name_ref], port_name, "x"
-                )
-            if xmin_or_xmax is not None:
-                if xmin is not None:
-                    ref.xmin = x
-                elif xmax is not None:
-                    ref.xmax = x
-            elif x is not None:
-                ref.x += x
+        if x is not None:
+            ref.x += _move_ref(
+                x,
+                x_or_y="x",
+                placements_conf=placements_conf,
+                connections_by_transformed_inst=connections_by_transformed_inst,
+                instances=instances,
+                encountered_insts=encountered_insts,
+                all_remaining_insts=all_remaining_insts,
+            )
 
         # print(instance_name, x, xmin, xmax, y, ymin, ymax)
         # print(ymin, y or ymin or ymax)
 
-        if y is not None or ymin is not None or ymax is not None:
-            ymin_or_ymax = ymin if ymin is not None else ymax
-            y = y if y is not None else ymin_or_ymax
-
-            if isinstance(y, str):
-                if len(y.split(",")) != 2:
-                    raise ValueError(
-                        f"You can define y as `y: instaceName,portName` got `y: {y!r}`"
-                    )
-                instance_name_ref, port_name = y.split(",")
-                if instance_name_ref in all_remaining_insts:
-                    place(
-                        placements_conf,
-                        connections_by_transformed_inst,
-                        instances,
-                        encountered_insts,
-                        instance_name_ref,
-                        all_remaining_insts,
-                    )
-                if instance_name_ref not in instances:
-                    raise ValueError(
-                        f"{instance_name_ref!r} not in {list(instances.keys())}, "
-                        f"you can define y as `y: instaceName,portName`, got `y: {y!r}`"
-                    )
-                if (
-                    port_name not in instances[instance_name_ref].ports
-                    and port_name not in valid_anchor_keywords
-                ):
-                    ports = list(instances[instance_name_ref].ports.keys())
-                    raise ValueError(
-                        f"port = {port_name!r} can be a port_name in {ports}, "
-                        f"an anchor {valid_anchor_keywords} for {instance_name_ref!r}, "
-                        f"or `y: instaceName,portName`, got `y: {y!r}`"
-                    )
-
-                y = _get_anchor_value_from_name(
-                    instances[instance_name_ref], port_name, "y"
-                )
-
-            if ymin_or_ymax is not None:
-                if ymin is not None:
-                    ref.ymin = y
-                elif ymax is not None:
-                    ref.ymax = y
-            elif y is not None:
-                ref.y += y
+        if y is not None:
+            ref.y += _move_ref(
+                y,
+                x_or_y="y",
+                placements_conf=placements_conf,
+                connections_by_transformed_inst=connections_by_transformed_inst,
+                instances=instances,
+                encountered_insts=encountered_insts,
+                all_remaining_insts=all_remaining_insts,
+            )
 
         if dx:
             ref.x += dx
@@ -356,6 +331,52 @@ def place(
                 x, y = ref.origin
                 ref.rotate(rotation, center=(x, y))
                 # ref.rotate(rotation, center=(ref.x, ref.y))
+
+        if ymin is not None and ymax is not None:
+            raise ValueError("You cannot set ymin and ymax")
+        elif ymax is not None:
+            ref.ymax = _move_ref(
+                ymax,
+                x_or_y="y",
+                placements_conf=placements_conf,
+                connections_by_transformed_inst=connections_by_transformed_inst,
+                instances=instances,
+                encountered_insts=encountered_insts,
+                all_remaining_insts=all_remaining_insts,
+            )
+        elif ymin is not None:
+            ref.ymin = _move_ref(
+                ymin,
+                x_or_y="y",
+                placements_conf=placements_conf,
+                connections_by_transformed_inst=connections_by_transformed_inst,
+                instances=instances,
+                encountered_insts=encountered_insts,
+                all_remaining_insts=all_remaining_insts,
+            )
+
+        if xmin is not None and xmax is not None:
+            raise ValueError("You cannot set xmin and xmax")
+        elif xmin is not None:
+            ref.xmin = _move_ref(
+                xmin,
+                x_or_y="x",
+                placements_conf=placements_conf,
+                connections_by_transformed_inst=connections_by_transformed_inst,
+                instances=instances,
+                encountered_insts=encountered_insts,
+                all_remaining_insts=all_remaining_insts,
+            )
+        elif xmax is not None:
+            ref.xmax = _move_ref(
+                xmax,
+                x_or_y="x",
+                placements_conf=placements_conf,
+                connections_by_transformed_inst=connections_by_transformed_inst,
+                instances=instances,
+                encountered_insts=encountered_insts,
+                all_remaining_insts=all_remaining_insts,
+            )
 
     if instance_name in connections_by_transformed_inst:
         conn_info = connections_by_transformed_inst[instance_name]
@@ -933,9 +954,9 @@ info:
 
 instances:
     yr:
-      component: y_splitter
+      component: ebeam_y_1550
     yl:
-      component: y_splitter
+      component: ebeam_y_1550
 
 placements:
     yr:
