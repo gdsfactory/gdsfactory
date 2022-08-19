@@ -141,7 +141,10 @@ settings:
       get_bundle_same_axis_no_grouping:
         function: get_bundle_same_axis_no_grouping
   function_name: _from_yaml
-  info: {}
+  info:
+    instances:
+    - r1
+    - r2
   info_version: 2
   module: gdsfactory.read.from_yaml
   name: sample_rotation_2b254e13

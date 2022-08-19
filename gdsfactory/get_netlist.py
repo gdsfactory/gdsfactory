@@ -28,7 +28,22 @@ from gdsfactory.snap import snap_to_grid
 from gdsfactory.types import LayerSpec
 
 
-def get_instance_name(
+def get_instance_name_from_alias(
+    component: Component,
+    reference: ComponentReference,
+) -> str:
+    """Returns the instance name from the label.
+
+    If no label returns to instanceName_x_y
+
+    Args:
+        component: with labels.
+        reference: reference that needs naming.
+    """
+    return reference.alias
+
+
+def get_instance_name_from_label(
     component: Component,
     reference: ComponentReference,
     layer_label: LayerSpec = "LABEL_INSTANCE",
@@ -41,7 +56,6 @@ def get_instance_name(
         component: with labels.
         reference: reference that needs naming.
         layer_label: ignores layer_label[1].
-
     """
     layer_label = get_layer(layer_label)
 
@@ -49,11 +63,12 @@ def get_instance_name(
     y = snap_to_grid(reference.y)
     labels = component.labels
 
-    # default instance name follows componetName_x_y
+    # default instance name follows component.aliases
     text = clean_name(f"{reference.parent.name}_{x}_{y}")
 
-    # text = f"{reference.parent.name}_X{int(x)}_Y{int(y)}"
-    # text = f"{reference.parent.name}_{reference.uid}"
+    for alias, ref in component.aliases.items():
+        if ref == reference:
+            text = alias
 
     # try to get the instance name from a label
     for label in labels:
@@ -69,18 +84,18 @@ def get_instance_name(
 def get_netlist_dict(
     component: Component,
     full_settings: bool = False,
-    layer_label: LayerSpec = "LABEL_INSTANCE",
     tolerance: int = 1,
     exclude_port_types: Optional[List] = None,
+    **kwargs,
 ) -> Dict:
     """From a component returns instances, connections and placements dict."""
     return omegaconf.OmegaConf.to_container(
         get_netlist(
             component=component,
             full_settings=full_settings,
-            layer_label=layer_label,
             tolerance=tolerance,
             exclude_port_types=exclude_port_types,
+            **kwargs,
         )
     )
 
@@ -88,18 +103,18 @@ def get_netlist_dict(
 def get_netlist_yaml(
     component: Component,
     full_settings: bool = False,
-    layer_label: LayerSpec = "LABEL_INSTANCE",
     tolerance: int = 1,
     exclude_port_types: Optional[List] = None,
+    **kwargs,
 ) -> Dict:
     """From a component returns instances, connections and placements yaml string content."""
     return omegaconf.OmegaConf.to_yaml(
         get_netlist(
             component=component,
             full_settings=full_settings,
-            layer_label=layer_label,
             tolerance=tolerance,
             exclude_port_types=exclude_port_types,
+            **kwargs,
         )
     )
 
@@ -107,9 +122,9 @@ def get_netlist_yaml(
 def get_netlist(
     component: Component,
     full_settings: bool = False,
-    layer_label: LayerSpec = "LABEL_INSTANCE",
     tolerance: int = 1,
     exclude_port_types: Optional[List] = None,
+    get_instance_name: Callable[..., str] = get_instance_name_from_alias,
 ) -> omegaconf.DictConfig:
     """From a component returns instances, connections and placements dict.
 
@@ -134,7 +149,6 @@ def get_netlist(
     instances = {}
     connections = {}
     top_ports = {}
-    layer_label = get_layer(layer_label)
 
     for reference in component.references:
         c = reference.parent
@@ -142,7 +156,8 @@ def get_netlist(
         x = float(snap_to_grid(origin[0]))
         y = float(snap_to_grid(origin[1]))
         reference_name = get_instance_name(
-            component, reference, layer_label=layer_label
+            component,
+            reference,
         )
 
         instance = {}
@@ -160,7 +175,6 @@ def get_netlist(
             )
 
         instances[reference_name] = instance
-
         placements[reference_name] = dict(
             x=x,
             y=y,
@@ -186,7 +200,8 @@ def get_netlist(
     for reference in component.references:
         for port in reference.ports.values():
             reference_name = get_instance_name(
-                component, reference, layer_label=layer_label
+                component,
+                reference,
             )
             src = f"{reference_name},{port.name}"
             name2port[src] = port
@@ -241,6 +256,7 @@ def get_netlist_recursive(
     component: Component,
     component_suffix: str = "",
     get_netlist_func: Callable = get_netlist,
+    get_instance_name: Callable[..., str] = get_instance_name_from_alias,
     **kwargs,
 ) -> Dict[str, omegaconf.DictConfig]:
     """Returns recursive netlist for a component and subcomponents.
@@ -330,8 +346,12 @@ if __name__ == "__main__":
 
     import gdsfactory as gf
 
-    c = gf.components.mzi()
-    n = c.get_netlist_dict()
+    c = gf.components.mzi(delta_length=10)
+    n = c.get_netlist()
+    print("\n".join(n.instances.keys()))
+
+    c = gf.read.from_yaml(c.get_netlist())
+    c.show()
 
     # coupler_lengths = [10, 20, 30, 40]
     # coupler_gaps = [0.1, 0.2, 0.4, 0.5]
