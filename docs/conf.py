@@ -3,6 +3,9 @@ release = "5.18.5"
 copyright = "2020, MIT License"
 
 html_theme = "sphinx_book_theme"
+html_theme_options = {"logo_only": True}
+html_logo = "logo.png"
+
 source_suffix = {
     ".rst": "restructuredtext",
     ".txt": "markdown",
