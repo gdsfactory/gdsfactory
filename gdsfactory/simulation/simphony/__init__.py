@@ -16,7 +16,9 @@ from gdsfactory.simulation.simphony import components
 from gdsfactory.simulation.simphony.add_gc import add_gc
 from gdsfactory.simulation.simphony.circuit import component_to_circuit
 from gdsfactory.simulation.simphony.components import model_factory
-from gdsfactory.simulation.simphony.model_from_gdsfactory import model_from_gdsfactory
+from gdsfactory.simulation.simphony.model_from_gdsfactory import (
+    GDSFactorySimphonyWrapper,
+)
 from gdsfactory.simulation.simphony.model_from_sparameters import (
     model_from_csv,
     model_from_filepath,
@@ -33,7 +35,7 @@ __all__ = [
     "component_to_circuit",
     "components",
     "model_factory",
-    "model_from_gdsfactory",
+    "GDSFactorySimphonyWrapper",
     "model_from_sparameters",
     "model_from_csv",
     "model_from_filepath",

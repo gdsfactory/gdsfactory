@@ -1,5 +1,7 @@
 import gdsfactory as gf
-from gdsfactory.simulation.simphony.model_from_gdsfactory import model_from_gdsfactory
+from gdsfactory.simulation.simphony.model_from_gdsfactory import (
+    GDSFactorySimphonyWrapper,
+)
 
 
 def mmi2x2(**kwargs):
@@ -52,7 +54,7 @@ def mmi2x2(**kwargs):
         c = gc.mmi2x2()
         gs.plot_model(c)
     """
-    return model_from_gdsfactory(gf.components.mmi2x2)
+    return GDSFactorySimphonyWrapper(component=gf.components.mmi2x2)
 
 
 if __name__ == "__main__":

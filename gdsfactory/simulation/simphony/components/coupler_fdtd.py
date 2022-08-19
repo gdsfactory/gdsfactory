@@ -1,5 +1,7 @@
 import gdsfactory as gf
-from gdsfactory.simulation.simphony.model_from_gdsfactory import model_from_gdsfactory
+from gdsfactory.simulation.simphony.model_from_gdsfactory import (
+    GDSFactorySimphonyWrapper,
+)
 
 
 def coupler_fdtd(c=gf.c.coupler, width=0.5, length=20, gap=0.224):
@@ -25,7 +27,7 @@ def coupler_fdtd(c=gf.c.coupler, width=0.5, length=20, gap=0.224):
     """
     if callable(c):
         c = c(width=width, length=length, gap=gap)
-    return model_from_gdsfactory(c)
+    return GDSFactorySimphonyWrapper(component=c)
 
 
 if __name__ == "__main__":
