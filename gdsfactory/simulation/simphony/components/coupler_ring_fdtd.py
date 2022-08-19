@@ -1,7 +1,9 @@
 from simphony import Model
 
 import gdsfactory as gf
-from gdsfactory.simulation.simphony.model_from_gdsfactory import model_from_gdsfactory
+from gdsfactory.simulation.simphony.model_from_gdsfactory import (
+    GDSFactorySimphonyWrapper,
+)
 
 
 def coupler_ring_fdtd(
@@ -32,7 +34,7 @@ def coupler_ring_fdtd(
         if callable(factory)
         else factory
     )
-    return model_from_gdsfactory(coupler)
+    return GDSFactorySimphonyWrapper(component=coupler)
 
 
 if __name__ == "__main__":
@@ -48,7 +50,7 @@ if __name__ == "__main__":
     plt.show()
 
     # f = 3e8 / wav
-    # s = c.s_parameters(freq=f)
+    # s = c.s_parameters(freqs=f)
     # plt.plot(wav, np.abs(s[:, 1] ** 2))
     # print(c.pins)
     # plt.show()
