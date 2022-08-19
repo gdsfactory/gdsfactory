@@ -157,6 +157,9 @@ settings:
   function_name: _from_yaml
   info:
     description: just a demo on adding metadata
+    instances:
+    - mmi_long
+    - mmi_short
     polarization: te
     wavelength: 1.55
   info_version: 2

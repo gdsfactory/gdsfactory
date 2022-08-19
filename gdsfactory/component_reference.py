@@ -140,6 +140,7 @@ class ComponentReference(DeviceReference):
             ignore_missing=False,
         )
         self.owner = None
+        self.alias = None
 
         # The ports of a ComponentReference have their own unique id (uid),
         # since two ComponentReferences of the same parent Component can be

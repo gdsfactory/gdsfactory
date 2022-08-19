@@ -147,7 +147,10 @@ settings:
       get_bundle_same_axis_no_grouping:
         function: get_bundle_same_axis_no_grouping
   function_name: _from_yaml
-  info: {}
+  info:
+    instances:
+    - mmi_long
+    - mmi_short
   info_version: 2
   module: gdsfactory.read.from_yaml
   name: dxdy_0f08c794

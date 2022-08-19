@@ -155,7 +155,12 @@ settings:
       get_bundle_same_axis_no_grouping:
         function: get_bundle_same_axis_no_grouping
   function_name: _from_yaml
-  info: {}
+  info:
+    instances:
+    - bl
+    - tl
+    - br
+    - tr
   info_version: 2
   module: gdsfactory.read.from_yaml
   name: sample_path_length_matc_80997953

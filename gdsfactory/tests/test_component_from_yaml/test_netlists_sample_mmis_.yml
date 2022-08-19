@@ -1,12 +1,12 @@
 connections:
-  bend_euler_115p144_5p5,o1: straight_length95p02_62p51_0p625,o2
-  bend_euler_115p144_5p5,o2: straight_length79p375_120p02_50p312,o1
-  bend_euler_115p144_95p124,o1: straight_length79p375_120p02_50p312,o2
-  bend_euler_115p144_95p124,o2: straight_length0p02_110p01_100p0,o1
-  mmi_long,o1: straight_length0p02_110p01_100p0,o2
-  mmi_short,o2: straight_length95p02_62p51_0p625,o1
+  bend_euler_0,o1: straight_0,o2
+  bend_euler_0,o2: straight_1,o1
+  bend_euler_1,o1: straight_1,o2
+  bend_euler_1,o2: straight_2,o1
+  mmi_long,o1: straight_2,o2
+  mmi_short,o2: straight_0,o1
 instances:
-  bend_euler_115p144_5p5:
+  bend_euler_0:
     component: bend_euler
     info:
       dy: 10.0
@@ -15,7 +15,7 @@ instances:
       radius_min: 7.061
       width: 0.5
     settings: {}
-  bend_euler_115p144_95p124:
+  bend_euler_1:
     component: bend_euler
     info:
       dy: 10.0
@@ -34,35 +34,35 @@ instances:
     settings:
       length_mmi: 5
       width_mmi: 4.5
-  straight_length0p02_110p01_100p0:
-    component: straight
-    info:
-      length: 0.02
-      width: 0.5
-    settings:
-      length: 0.02
-  straight_length79p375_120p02_50p312:
-    component: straight
-    info:
-      length: 79.375
-      width: 0.5
-    settings:
-      length: 79.375
-  straight_length95p02_62p51_0p625:
+  straight_0:
     component: straight
     info:
       length: 95.02
       width: 0.5
     settings:
       length: 95.02
+  straight_1:
+    component: straight
+    info:
+      length: 79.375
+      width: 0.5
+    settings:
+      length: 79.375
+  straight_2:
+    component: straight
+    info:
+      length: 0.02
+      width: 0.5
+    settings:
+      length: 0.02
 name: sample_mmis_8ba5a8e2
 placements:
-  bend_euler_115p144_5p5:
+  bend_euler_0:
     mirror: 0
     rotation: 0
     x: 110.02
     y: 0.625
-  bend_euler_115p144_95p124:
+  bend_euler_1:
     mirror: 0
     rotation: 90
     x: 120.02
@@ -77,21 +77,21 @@ placements:
     rotation: 0
     x: 0.0
     y: 0.0
-  straight_length0p02_110p01_100p0:
-    mirror: 0
-    rotation: 180
-    x: 110.02
-    y: 100.0
-  straight_length79p375_120p02_50p312:
-    mirror: 0
-    rotation: 90
-    x: 120.02
-    y: 10.625
-  straight_length95p02_62p51_0p625:
+  straight_0:
     mirror: 0
     rotation: 0
     x: 15.0
     y: 0.625
+  straight_1:
+    mirror: 0
+    rotation: 90
+    x: 120.02
+    y: 10.625
+  straight_2:
+    mirror: 0
+    rotation: 180
+    x: 110.02
+    y: 100.0
 ports:
   o1: mmi_short,o1
   o2: mmi_long,o2

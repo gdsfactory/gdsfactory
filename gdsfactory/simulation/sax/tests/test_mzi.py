@@ -1,6 +1,7 @@
 """Demo of non-hierarchical circuit simulations."""
 import jax.numpy as jnp
 import sax
+
 import gdsfactory as gf
 
 
@@ -30,14 +31,20 @@ models = {
     "straight": straight,
 }
 
+
+def module(S) -> None:
+    for k, v in S.items():
+        S[k] = np.abs(v) ** 2
+
+
 if __name__ == "__main__":
-    import numpy as np
     import matplotlib.pyplot as plt
+    import numpy as np
 
     c = gf.components.mzi()
     c.show(show_ports=True)
     netlist = c.get_netlist_dict()
-    circuit = sax.circuit_from_netlist(netlist=netlist, models=models)
+    circuit, _ = sax.circuit(netlist=netlist, models=models)
     wl = np.linspace(1.5, 1.6)
     S = circuit(wl=wl)
 
