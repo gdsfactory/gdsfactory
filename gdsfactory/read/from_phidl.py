@@ -55,11 +55,9 @@ def from_phidl(component: Device, port_layer: Layer = (1, 0), **kwargs) -> Compo
 if __name__ == "__main__":
     import phidl.geometry as pg
 
-    import gdsfactory as gf
-
     c = pg.rectangle()
     c = pg.snspd()
 
     c2 = from_phidl(component=c)
     print(c2.ports)
-    gf.show(c2)
+    c2.show(show_ports=True)
