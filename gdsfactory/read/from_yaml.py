@@ -862,8 +862,8 @@ def _from_yaml(
                 c.add_port(port_name, port=instance.ports[instance_port_name])
             else:
                 c.add_port(**instance_comma_port)
-    c.routes = routes
-    c.instances = instances
+    c.info["routes"] = routes
+    c.info["instances"] = instances
     return c
 
 
