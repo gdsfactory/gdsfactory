@@ -729,11 +729,11 @@ class Component(Device):
             MutabilityError: if component is locked.
         """
         self._add(element)
-        if isinstance(element, ComponentReference):
+        if isinstance(element, (gdspy.CellReference, gdspy.CellArray)):
             self._add_alias(element)
         if isinstance(element, Iterable):
             for i in element:
-                if isinstance(i, ComponentReference):
+                if isinstance(i, (gdspy.CellReference, gdspy.CellArray)):
                     self._add_alias(i)
 
     def add_array(
@@ -767,8 +767,7 @@ class Component(Device):
         )
         ref.owner = self
         self.add(ref)  # Add ComponentReference Component
-        if alias is not None:
-            self.aliases[alias] = ref
+        self._add_alias(reference=ref, alias=alias)
         return ref
 
     def flatten(self, single_layer: Optional[Tuple[int, int]] = None):
@@ -819,7 +818,8 @@ class Component(Device):
             i = 0
             prefix = (
                 component.settings.function_name
-                if hasattr(component.settings, "function_name")
+                if hasattr(component, "settings")
+                and hasattr(component.settings, "function_name")
                 else component.name
             )
             alias = f"{prefix}_{i}"
