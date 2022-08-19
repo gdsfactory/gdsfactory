@@ -11,7 +11,7 @@ from gdsfactory.routing.manhattan import route_manhattan
 
 
 if __name__ == "__main__":
-    c = gf.Component()
+    c = gf.Component("demo_sbend")
     length = 10
     c1 = c << gf.components.straight(length=length)
     c2 = c << gf.components.straight(length=length)
@@ -24,8 +24,7 @@ if __name__ == "__main__":
         input_port=c1.ports["o2"],
         output_port=c2.ports["o1"],
         radius=5.0,
-        with_point_markers=True,
-        s_bend=gf.routing.get_route_sbend,
+        with_sbend=False,
     )
 
     c.add(route.references)

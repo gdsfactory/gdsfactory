@@ -14,6 +14,7 @@ from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.cross_section import strip
 from gdsfactory.geometry.functions import angles_deg
 from gdsfactory.port import Port, select_ports_list
+from gdsfactory.routing.get_route_sbend import get_route_sbend
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.tech import LAYER
 from gdsfactory.types import (
@@ -786,14 +787,6 @@ def round_corners(
             references=references,
         )
 
-    # with_point_markers=True
-    # print()
-    # for i, point in enumerate(points):
-    #     print(i, point)
-    # print()
-    # for i, point in enumerate(bend_points):
-    #     print(i, point)
-
     # ensure bend connectivity
     for i, point in enumerate(points[:-1]):
         sx = np.sign(points[i + 1][0] - point[0])
@@ -994,7 +987,7 @@ def route_manhattan(
     end_straight_length: Optional[float] = None,
     min_straight_length: Optional[float] = None,
     bend: ComponentSpec = bend_euler,
-    s_bend: Optional[Callable] = None,
+    with_sbend: bool = True,
     cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
     with_point_markers: bool = False,
     **kwargs,
@@ -1003,6 +996,11 @@ def route_manhattan(
 
     Then creates the straight, taper and bend references that define the
     route, or create an SBend route.
+
+    Args:
+        input_port: input.
+        output_port: output.
+        straight: function.
 
     """
     if isinstance(cross_section, list):
@@ -1016,7 +1014,7 @@ def route_manhattan(
         end_straight_length = end_straight_length or x.min_length
         min_straight_length = min_straight_length or x.min_length
 
-    if not s_bend:
+    with warnings.catch_warnings(record=True) as w:
         points = generate_manhattan_waypoints(
             input_port,
             output_port,
@@ -1026,7 +1024,7 @@ def route_manhattan(
             bend=bend,
             cross_section=x,
         )
-        return round_corners(
+        route = round_corners(
             points=points,
             straight=straight,
             taper=taper,
@@ -1034,8 +1032,29 @@ def route_manhattan(
             cross_section=x,
             with_point_markers=with_point_markers,
         )
-    else:
-        return s_bend(input_port, output_port, cross_section=x)
+        if not w:
+            return route
+        if w and with_sbend:
+            return get_route_sbend(input_port, output_port, cross_section=x)
+
+    points = generate_manhattan_waypoints(
+        input_port,
+        output_port,
+        start_straight_length=start_straight_length,
+        end_straight_length=end_straight_length,
+        min_straight_length=min_straight_length,
+        bend=bend,
+        cross_section=x,
+    )
+    route = round_corners(
+        points=points,
+        straight=straight,
+        taper=taper,
+        bend=bend,
+        cross_section=x,
+        with_point_markers=with_point_markers,
+    )
+    return route
 
 
 if __name__ == "__main__":
