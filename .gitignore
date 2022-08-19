@@ -281,3 +281,4 @@ venv.bak/
 
 # lumerical interconnect
 *.ich
+docs/notebooks/plugins/sax/fdtd_vs_model.png
