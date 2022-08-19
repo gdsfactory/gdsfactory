@@ -1,20 +1,20 @@
 connections:
-  bend_euler_0f5b95a9_154p876_145p124,o1: straight_e8fb74e1_150p0_70p0,o2
-  bend_euler_0f5b95a9_154p876_145p124,o2: straight_d2434c44_350p0_150p0,o1
-  bend_euler_0f5b95a9_395p124_304p876,o1: straight_d2434c44_200p0_300p0,o2
-  bend_euler_0f5b95a9_395p124_304p876,o2: straight_7c200db3_400p0_350p0,o1
-  bend_euler_0f5b95a9_395p124_395p124,o1: straight_7c200db3_400p0_350p0,o2
-  bend_euler_0f5b95a9_395p124_395p124,o2: straight_40b4fefb_75p0_400p0,o1
-  bend_euler_0f5b95a9_4p876_295p124,o1: straight_9014c07d_0p0_145p0,o2
-  bend_euler_0f5b95a9_4p876_295p124,o2: straight_d2434c44_200p0_300p0,o1
-  bend_euler_0f5b95a9_545p124_154p876,o1: straight_d2434c44_350p0_150p0,o2
-  bend_euler_0f5b95a9_545p124_154p876,o2: straight_d2434c44_550p0_350p0,o1
-  bend_euler_0f5b95a9_545p124_545p124,o1: straight_d2434c44_550p0_350p0,o2
-  bend_euler_0f5b95a9_545p124_545p124,o2: straight_40b4fefb_225p0_550p0,o1
-  bend_euler_0f5b95a9_m245p124_404p876,o1: straight_40b4fefb_75p0_400p0,o2
-  bend_euler_0f5b95a9_m245p124_404p876,o2: straight_9e654160_m250p0_705p0,o1
-  bend_euler_0f5b95a9_m95p124_554p876,o1: straight_40b4fefb_225p0_550p0,o2
-  bend_euler_0f5b95a9_m95p124_554p876,o2: straight_e2779672_m100p0_780p0,o1
+  bend_euler_0,o1: straight_0,o2
+  bend_euler_0,o2: straight_1,o1
+  bend_euler_1,o1: straight_1,o2
+  bend_euler_1,o2: straight_2,o1
+  bend_euler_2,o1: straight_2,o2
+  bend_euler_2,o2: straight_3,o1
+  bend_euler_3,o1: straight_3,o2
+  bend_euler_3,o2: straight_4,o1
+  bend_euler_4,o1: straight_5,o2
+  bend_euler_4,o2: straight_6,o1
+  bend_euler_5,o1: straight_6,o2
+  bend_euler_5,o2: straight_7,o1
+  bend_euler_6,o1: straight_7,o2
+  bend_euler_6,o2: straight_8,o1
+  bend_euler_7,o1: straight_8,o2
+  bend_euler_7,o2: straight_9,o1
 instances:
   b:
     component: pad_array
@@ -24,7 +24,7 @@ instances:
       - 100.0
     settings:
       orientation: 90
-  bend_euler_0f5b95a9_154p876_145p124:
+  bend_euler_0:
     component: bend_euler
     info:
       dy: 10.0
@@ -47,7 +47,7 @@ instances:
           - DEVREC
           cladding_offsets:
           - 0
-  bend_euler_0f5b95a9_395p124_304p876:
+  bend_euler_1:
     component: bend_euler
     info:
       dy: 10.0
@@ -70,7 +70,7 @@ instances:
           - DEVREC
           cladding_offsets:
           - 0
-  bend_euler_0f5b95a9_395p124_395p124:
+  bend_euler_2:
     component: bend_euler
     info:
       dy: 10.0
@@ -93,7 +93,7 @@ instances:
           - DEVREC
           cladding_offsets:
           - 0
-  bend_euler_0f5b95a9_4p876_295p124:
+  bend_euler_3:
     component: bend_euler
     info:
       dy: 10.0
@@ -116,7 +116,7 @@ instances:
           - DEVREC
           cladding_offsets:
           - 0
-  bend_euler_0f5b95a9_545p124_154p876:
+  bend_euler_4:
     component: bend_euler
     info:
       dy: 10.0
@@ -139,7 +139,7 @@ instances:
           - DEVREC
           cladding_offsets:
           - 0
-  bend_euler_0f5b95a9_545p124_545p124:
+  bend_euler_5:
     component: bend_euler
     info:
       dy: 10.0
@@ -162,7 +162,7 @@ instances:
           - DEVREC
           cladding_offsets:
           - 0
-  bend_euler_0f5b95a9_m245p124_404p876:
+  bend_euler_6:
     component: bend_euler
     info:
       dy: 10.0
@@ -185,7 +185,7 @@ instances:
           - DEVREC
           cladding_offsets:
           - 0
-  bend_euler_0f5b95a9_m95p124_554p876:
+  bend_euler_7:
     component: bend_euler
     info:
       dy: 10.0
@@ -208,70 +208,7 @@ instances:
           - DEVREC
           cladding_offsets:
           - 0
-  straight_40b4fefb_225p0_550p0:
-    component: straight
-    info:
-      length: 630.0
-      width: 0.5
-    settings:
-      auto_widen: false
-      cross_section:
-        function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
-      length: 630.0
-  straight_40b4fefb_75p0_400p0:
-    component: straight
-    info:
-      length: 630.0
-      width: 0.5
-    settings:
-      auto_widen: false
-      cross_section:
-        function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
-      length: 630.0
-  straight_7c200db3_400p0_350p0:
-    component: straight
-    info:
-      length: 80.0
-      width: 0.5
-    settings:
-      auto_widen: false
-      cross_section:
-        function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
-      length: 80.0
-  straight_9014c07d_0p0_145p0:
+  straight_0:
     component: straight
     info:
       length: 290.0
@@ -292,7 +229,70 @@ instances:
           cladding_offsets:
           - 0
       length: 290.0
-  straight_9e654160_m250p0_705p0:
+  straight_1:
+    component: straight
+    info:
+      length: 380.0
+      width: 0.5
+    settings:
+      auto_widen: false
+      cross_section:
+        function: cross_section
+        settings:
+          add_bbox:
+            function: add_bbox_siepic
+          add_pins:
+            function: add_pins_siepic
+            settings:
+              pin_length: 0.002
+          cladding_layers:
+          - DEVREC
+          cladding_offsets:
+          - 0
+      length: 380.0
+  straight_2:
+    component: straight
+    info:
+      length: 80.0
+      width: 0.5
+    settings:
+      auto_widen: false
+      cross_section:
+        function: cross_section
+        settings:
+          add_bbox:
+            function: add_bbox_siepic
+          add_pins:
+            function: add_pins_siepic
+            settings:
+              pin_length: 0.002
+          cladding_layers:
+          - DEVREC
+          cladding_offsets:
+          - 0
+      length: 80.0
+  straight_3:
+    component: straight
+    info:
+      length: 630.0
+      width: 0.5
+    settings:
+      auto_widen: false
+      cross_section:
+        function: cross_section
+        settings:
+          add_bbox:
+            function: add_bbox_siepic
+          add_pins:
+            function: add_pins_siepic
+            settings:
+              pin_length: 0.002
+          cladding_layers:
+          - DEVREC
+          cladding_offsets:
+          - 0
+      length: 630.0
+  straight_4:
     component: straight
     info:
       length: 590.0
@@ -313,91 +313,7 @@ instances:
           cladding_offsets:
           - 0
       length: 590.0
-  straight_d2434c44_200p0_300p0:
-    component: straight
-    info:
-      length: 380.0
-      width: 0.5
-    settings:
-      auto_widen: false
-      cross_section:
-        function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
-      length: 380.0
-  straight_d2434c44_350p0_150p0:
-    component: straight
-    info:
-      length: 380.0
-      width: 0.5
-    settings:
-      auto_widen: false
-      cross_section:
-        function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
-      length: 380.0
-  straight_d2434c44_550p0_350p0:
-    component: straight
-    info:
-      length: 380.0
-      width: 0.5
-    settings:
-      auto_widen: false
-      cross_section:
-        function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
-      length: 380.0
-  straight_e2779672_m100p0_780p0:
-    component: straight
-    info:
-      length: 440.0
-      width: 0.5
-    settings:
-      auto_widen: false
-      cross_section:
-        function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
-      length: 440.0
-  straight_e8fb74e1_150p0_70p0:
+  straight_5:
     component: straight
     info:
       length: 140.0
@@ -418,6 +334,90 @@ instances:
           cladding_offsets:
           - 0
       length: 140.0
+  straight_6:
+    component: straight
+    info:
+      length: 380.0
+      width: 0.5
+    settings:
+      auto_widen: false
+      cross_section:
+        function: cross_section
+        settings:
+          add_bbox:
+            function: add_bbox_siepic
+          add_pins:
+            function: add_pins_siepic
+            settings:
+              pin_length: 0.002
+          cladding_layers:
+          - DEVREC
+          cladding_offsets:
+          - 0
+      length: 380.0
+  straight_7:
+    component: straight
+    info:
+      length: 380.0
+      width: 0.5
+    settings:
+      auto_widen: false
+      cross_section:
+        function: cross_section
+        settings:
+          add_bbox:
+            function: add_bbox_siepic
+          add_pins:
+            function: add_pins_siepic
+            settings:
+              pin_length: 0.002
+          cladding_layers:
+          - DEVREC
+          cladding_offsets:
+          - 0
+      length: 380.0
+  straight_8:
+    component: straight
+    info:
+      length: 630.0
+      width: 0.5
+    settings:
+      auto_widen: false
+      cross_section:
+        function: cross_section
+        settings:
+          add_bbox:
+            function: add_bbox_siepic
+          add_pins:
+            function: add_pins_siepic
+            settings:
+              pin_length: 0.002
+          cladding_layers:
+          - DEVREC
+          cladding_offsets:
+          - 0
+      length: 630.0
+  straight_9:
+    component: straight
+    info:
+      length: 440.0
+      width: 0.5
+    settings:
+      auto_widen: false
+      cross_section:
+        function: cross_section
+        settings:
+          add_bbox:
+            function: add_bbox_siepic
+          add_pins:
+            function: add_pins_siepic
+            settings:
+              pin_length: 0.002
+          cladding_layers:
+          - DEVREC
+          cladding_offsets:
+          - 0
+      length: 440.0
   t:
     component: pad_array
     info:
@@ -432,96 +432,96 @@ placements:
     rotation: 0
     x: 0.0
     y: 0.0
-  bend_euler_0f5b95a9_154p876_145p124:
-    mirror: true
-    rotation: 90
-    x: 150.0
-    y: 140.0
-  bend_euler_0f5b95a9_395p124_304p876:
-    mirror: 0
-    rotation: 0
-    x: 390.0
-    y: 300.0
-  bend_euler_0f5b95a9_395p124_395p124:
-    mirror: 0
-    rotation: 90
-    x: 400.0
-    y: 390.0
-  bend_euler_0f5b95a9_4p876_295p124:
+  bend_euler_0:
     mirror: true
     rotation: 90
     x: 0.0
     y: 290.0
-  bend_euler_0f5b95a9_545p124_154p876:
+  bend_euler_1:
     mirror: 0
     rotation: 0
-    x: 540.0
-    y: 150.0
-  bend_euler_0f5b95a9_545p124_545p124:
+    x: 390.0
+    y: 300.0
+  bend_euler_2:
     mirror: 0
     rotation: 90
-    x: 550.0
-    y: 540.0
-  bend_euler_0f5b95a9_m245p124_404p876:
+    x: 400.0
+    y: 390.0
+  bend_euler_3:
     mirror: true
     rotation: 180
     x: -240.0
     y: 400.0
-  bend_euler_0f5b95a9_m95p124_554p876:
+  bend_euler_4:
+    mirror: true
+    rotation: 90
+    x: 150.0
+    y: 140.0
+  bend_euler_5:
+    mirror: 0
+    rotation: 0
+    x: 540.0
+    y: 150.0
+  bend_euler_6:
+    mirror: 0
+    rotation: 90
+    x: 550.0
+    y: 540.0
+  bend_euler_7:
     mirror: true
     rotation: 180
     x: -90.0
     y: 550.0
-  straight_40b4fefb_225p0_550p0:
-    mirror: 0
-    rotation: 180
-    x: 540.0
-    y: 550.0
-  straight_40b4fefb_75p0_400p0:
-    mirror: 0
-    rotation: 180
-    x: 390.0
-    y: 400.0
-  straight_7c200db3_400p0_350p0:
-    mirror: 0
-    rotation: 90
-    x: 400.0
-    y: 310.0
-  straight_9014c07d_0p0_145p0:
+  straight_0:
     mirror: 0
     rotation: 90
     x: 0.0
     y: 0.0
-  straight_9e654160_m250p0_705p0:
-    mirror: 0
-    rotation: 90
-    x: -250.0
-    y: 410.0
-  straight_d2434c44_200p0_300p0:
+  straight_1:
     mirror: 0
     rotation: 0
     x: 10.0
     y: 300.0
-  straight_d2434c44_350p0_150p0:
-    mirror: 0
-    rotation: 0
-    x: 160.0
-    y: 150.0
-  straight_d2434c44_550p0_350p0:
+  straight_2:
     mirror: 0
     rotation: 90
-    x: 550.0
-    y: 160.0
-  straight_e2779672_m100p0_780p0:
+    x: 400.0
+    y: 310.0
+  straight_3:
+    mirror: 0
+    rotation: 180
+    x: 390.0
+    y: 400.0
+  straight_4:
     mirror: 0
     rotation: 90
-    x: -100.0
-    y: 560.0
-  straight_e8fb74e1_150p0_70p0:
+    x: -250.0
+    y: 410.0
+  straight_5:
     mirror: 0
     rotation: 90
     x: 150.0
     y: 0.0
+  straight_6:
+    mirror: 0
+    rotation: 0
+    x: 160.0
+    y: 150.0
+  straight_7:
+    mirror: 0
+    rotation: 90
+    x: 550.0
+    y: 160.0
+  straight_8:
+    mirror: 0
+    rotation: 180
+    x: 540.0
+    y: 550.0
+  straight_9:
+    mirror: 0
+    rotation: 90
+    x: -100.0
+    y: 560.0
   t:
     mirror: 0
     rotation: 0

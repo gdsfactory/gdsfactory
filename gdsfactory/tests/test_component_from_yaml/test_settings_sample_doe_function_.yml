@@ -175,7 +175,10 @@ settings:
       get_bundle_same_axis_no_grouping:
         function: get_bundle_same_axis_no_grouping
   function_name: _from_yaml
-  info: {}
+  info:
+    instances:
+    - rings
+    - mzis
   info_version: 2
   module: gdsfactory.read.from_yaml
   name: mask_compact_c65fc3af

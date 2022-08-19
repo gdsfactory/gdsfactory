@@ -121,7 +121,10 @@ settings:
       get_bundle_same_axis_no_grouping:
         function: get_bundle_same_axis_no_grouping
   function_name: _from_yaml
-  info: {}
+  info:
+    instances:
+    - s
+    - b
   info_version: 2
   module: gdsfactory.read.from_yaml
   name: sample_mirror_simple_1bddf846

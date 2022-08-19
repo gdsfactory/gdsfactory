@@ -2,7 +2,7 @@ import gdsfactory as gf
 
 
 def test_get_netlist_cell_array() -> None:
-    c = gf.c.array()
+    c = gf.components.array()
     n = c.get_netlist_dict()
     assert len(n.keys()) == 5
 
