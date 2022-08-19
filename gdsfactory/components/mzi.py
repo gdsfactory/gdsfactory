@@ -119,11 +119,13 @@ def mzi(
     b1 = c << bend
     b1.connect("o1", cp1.ports[port_e1_splitter])
 
-    sy = c << gf.get_component(straight_y, length=length_y, cross_section=cross_section)
-    sy.connect("o1", b1.ports["o2"])
+    sytl = c << gf.get_component(
+        straight_y, length=length_y, cross_section=cross_section
+    )
+    sytl.connect("o1", b1.ports["o2"])
 
     b2 = c << bend
-    b2.connect("o2", sy.ports["o2"])
+    b2.connect("o2", sytl.ports["o2"])
     straight_x_top = (
         gf.get_component(
             straight_x_top, length=length_x, cross_section=cross_section_x_top
@@ -153,6 +155,13 @@ def mzi(
         cross_section=cross_section,
     )
     c.add(route.references)
+
+    c.aliases["sytl"] = sytl
+    c.aliases["syl"] = syl
+    c.aliases["sxt"] = sxt
+    c.aliases["sxb"] = sxb
+    c.aliases["cp1"] = cp1
+    c.aliases["cp2"] = cp2
 
     if with_splitter:
         c.add_ports(cp1.get_ports_list(orientation=180), prefix="in")

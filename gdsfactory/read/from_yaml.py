@@ -53,7 +53,7 @@ import warnings
 from typing import IO, Any, Callable, Dict, List, Optional, Union
 
 import numpy as np
-from omegaconf import OmegaConf
+from omegaconf import DictConfig, OmegaConf
 from typing_extensions import Literal
 
 from gdsfactory.add_pins import add_instance_label
@@ -494,7 +494,7 @@ ports:
 
 
 def from_yaml(
-    yaml_str: Union[str, pathlib.Path, IO[Any]],
+    yaml_str: Union[str, pathlib.Path, IO[Any], Dict[str, Any], DictConfig],
     routing_strategy: Dict[str, Callable] = routing_strategy_factories,
     label_instance_function: Callable = add_instance_label,
     name: Optional[str] = None,
@@ -579,13 +579,20 @@ def from_yaml(
                     mmi_top,o3: mmi_bot,o1
 
     """
-    yaml_str = (
-        io.StringIO(yaml_str)
-        if isinstance(yaml_str, str) and "\n" in yaml_str
-        else yaml_str
-    )
+    if isinstance(yaml_str, (str, pathlib.Path, IO)):
+        yaml_str = (
+            io.StringIO(yaml_str)
+            if isinstance(yaml_str, str) and "\n" in yaml_str
+            else yaml_str
+        )
 
-    conf = OmegaConf.load(yaml_str)  # nicer loader than conf = yaml.safe_load(yaml_str)
+        conf = OmegaConf.load(
+            yaml_str
+        )  # nicer loader than conf = yaml.safe_load(yaml_str)
+
+    else:
+        conf = OmegaConf.create(yaml_str)
+
     for key in conf.keys():
         if key not in valid_top_level_keys:
             raise ValueError(f"{key!r} not in {list(valid_top_level_keys)}")

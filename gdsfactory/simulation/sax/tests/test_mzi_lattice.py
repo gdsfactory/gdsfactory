@@ -1,9 +1,10 @@
-"""Demo of hierarchical circuit simulations.
+"""Test hierarchical circuit simulations."""
+from typing import List
 
-FIXME!
-"""
 import jax.numpy as jnp
+import numpy as np
 import sax
+
 import gdsfactory as gf
 
 
@@ -45,22 +46,44 @@ models = {
     "straight": straight,
 }
 
+
+def module(S) -> List[float]:
+    for k, v in S.items():
+        S[k] = list(np.round(np.abs(v) ** 2), 3)
+    return S
+
+
+def test_mzi_lattice(data_regression, check: bool = True) -> None:
+    c = mzis()
+    # netlist = c.get_netlist_dict()
+    netlist = c.get_netlist_recursive()
+    circuit, _ = sax.circuit(netlist=netlist, models=models)
+    c.show(show_ports=True)
+    wl = np.linspace(1.5, 1.6, 3)
+    S = circuit(wl=wl)
+    S = module(S)
+    if check:
+        d = dict(S21=S["o1", "o2"], S11=S["o1", "o1"])
+        data_regression.check(d)
+
+
 if __name__ == "__main__":
-    import numpy as np
-    import matplotlib.pyplot as plt
 
     c = mzis()
     # netlist = c.get_netlist_dict()
     netlist = c.get_netlist_recursive()
-    circuit = sax.circuit_from_netlist(netlist=netlist, models=models)
+    circuit, _ = sax.circuit(netlist=netlist, models=models)
     c.show(show_ports=True)
-    wl = np.linspace(1.5, 1.6)
+    wl = np.linspace(1.5, 1.6, 3)
     S = circuit(wl=wl)
+    S = module(S)
+    d = dict(S21=S["o1", "o2"], S11=S["o1", "o1"])
 
-    plt.figure(figsize=(14, 4))
-    plt.title("MZI")
-    plt.plot(1e3 * wl, jnp.abs(S["o1", "o2"]) ** 2)
-    plt.xlabel("λ [nm]")
-    plt.ylabel("T")
-    plt.grid(True)
-    plt.show()
+    # import matplotlib.pyplot as plt
+    # plt.figure(figsize=(14, 4))
+    # plt.title("MZI")
+    # plt.plot(1e3 * wl, jnp.abs(S["o1", "o2"]) ** 2)
+    # plt.xlabel("λ [nm]")
+    # plt.ylabel("T")
+    # plt.grid(True)
+    # plt.show()
