@@ -40,9 +40,10 @@ def get_route_sbend(port1: Port, port2: Port, **kwargs) -> Route:
     bend_ref = bend.ref()
     bend_ref.connect("o1", port1)
 
-    if abs(abs(port1.orientation - port2.orientation) - 180) < 0.1:
+    ortogonality_error = abs(abs(port1.orientation - port2.orientation) - 180)
+    if ortogonality_error > 0.1:
         raise ValueError(
-            "Ports need to have orthogonal orientation"
+            f"Ports need to have orthogonal orientation {ortogonality_error}\n"
             f"port1 = {port1.orientation} deg and port2 = {port2.orientation}"
         )
 
