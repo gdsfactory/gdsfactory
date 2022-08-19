@@ -155,7 +155,7 @@ def _demo_manhattan_fail() -> Component:
 
 
 if __name__ == "__main__":
-    c = test_manhattan()
+    c = test_manhattan_sbend()
     # c = test_manhattan_fail()
     # c = test_manhattan_pass()
     # c = _demo_manhattan_fail()
