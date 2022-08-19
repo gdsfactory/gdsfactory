@@ -43,7 +43,6 @@ def get_instance_name(
         reference: reference that needs naming.
         layer_label: ignores layer_label[1].
         with_alias: use Component.aliases names for instances.
-
     """
     layer_label = get_layer(layer_label)
 
@@ -51,7 +50,7 @@ def get_instance_name(
     y = snap_to_grid(reference.y)
     labels = component.labels
 
-    # default instance name follows componetName_x_y
+    # default instance name follows component.name_x_y
     text = clean_name(f"{reference.parent.name}_{x}_{y}")
 
     if with_alias:
