@@ -25,6 +25,7 @@ if __name__ == "__main__":
         output_port=c2.ports["o1"],
         radius=5.0,
         with_point_markers=True,
+        s_bend=gf.routing.get_route_sbend,
     )
 
     c.add(route.references)
