@@ -7,6 +7,7 @@ import pathlib
 import tempfile
 import uuid
 import warnings
+from collections.abc import Iterable
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
@@ -702,7 +703,7 @@ class Component(Device):
                 + mutability_error_message
             )
 
-    def add(self, element) -> None:
+    def _add(self, element) -> None:
         """Add a new element or list of elements to this Component.
 
         Args:
@@ -715,6 +716,25 @@ class Component(Device):
         """
         self.is_unlocked()
         super().add(element)
+
+    def add(self, element) -> None:
+        """Add a new element or list of elements to this Component.
+
+        Args:
+            element: `PolygonSet`, `CellReference`, `CellArray` or iterable
+            The element or iterable of elements to be inserted in this
+            cell.
+
+        Raises:
+            MutabilityError: if component is locked.
+        """
+        self._add(element)
+        if isinstance(element, ComponentReference):
+            self._add_alias(element)
+        if isinstance(element, Iterable):
+            for i in element:
+                if isinstance(i, ComponentReference):
+                    self._add_alias(i)
 
     def add_array(
         self,
@@ -787,11 +807,33 @@ class Component(Device):
             raise TypeError(f"type = {type(Component)} needs to be a Component.")
         ref = ComponentReference(component)
         ref.owner = self
-        self.add(ref)
-
-        if alias is not None:
-            self.aliases[alias] = ref
+        self._add(ref)
+        self._add_alias(reference=ref, alias=alias)
         return ref
+
+    def _add_alias(
+        self, reference: ComponentReference, alias: Optional[str] = None
+    ) -> None:
+        component = reference.parent
+        if alias is None:
+            i = 0
+            prefix = (
+                component.settings.function_name
+                if hasattr(component.settings, "function_name")
+                else component.name
+            )
+            alias = f"{prefix}_{i}"
+
+            while alias in self.aliases:
+                alias = f"{prefix}_{i}"
+                i += 1
+        elif alias in self.aliases:
+            raise ValueError(
+                f"{alias} already in {list(self.aliases.keys())} in {self.name}"
+            )
+
+        self.aliases[alias] = reference
+        reference.alias = alias
 
     def get_layers(self) -> Union[Set[Tuple[int, int]], Set[Tuple[int64, int64]]]:
         """Return a set of (layer, datatype).
