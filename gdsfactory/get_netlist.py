@@ -32,6 +32,7 @@ def get_instance_name(
     component: Component,
     reference: ComponentReference,
     layer_label: LayerSpec = "LABEL_INSTANCE",
+    with_alias: bool = True,
 ) -> str:
     """Returns the instance name from the label.
 
@@ -41,6 +42,7 @@ def get_instance_name(
         component: with labels.
         reference: reference that needs naming.
         layer_label: ignores layer_label[1].
+        with_alias: use Component.aliases names for instances.
 
     """
     layer_label = get_layer(layer_label)
@@ -52,8 +54,10 @@ def get_instance_name(
     # default instance name follows componetName_x_y
     text = clean_name(f"{reference.parent.name}_{x}_{y}")
 
-    # text = f"{reference.parent.name}_X{int(x)}_Y{int(y)}"
-    # text = f"{reference.parent.name}_{reference.uid}"
+    if with_alias:
+        for alias, ref in component.aliases.items():
+            if ref == reference:
+                text = alias
 
     # try to get the instance name from a label
     for label in labels:
@@ -330,8 +334,12 @@ if __name__ == "__main__":
 
     import gdsfactory as gf
 
-    c = gf.components.mzi()
-    n = c.get_netlist_dict()
+    c = gf.components.mzi(delta_length=10)
+    n = c.get_netlist()
+    print("\n".join(n.instances.keys()))
+
+    c = gf.read.from_yaml(c.get_netlist())
+    c.show()
 
     # coupler_lengths = [10, 20, 30, 40]
     # coupler_gaps = [0.1, 0.2, 0.4, 0.5]
