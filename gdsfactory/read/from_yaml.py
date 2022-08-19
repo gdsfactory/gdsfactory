@@ -318,12 +318,6 @@ def place(
                 all_remaining_insts=all_remaining_insts,
             )
 
-        if dx:
-            ref.x += dx
-
-        if dy:
-            ref.y += dy
-
         if rotation:
             if port:
                 ref.rotate(rotation, center=_get_anchor_point_from_name(ref, port))
@@ -377,6 +371,11 @@ def place(
                 encountered_insts=encountered_insts,
                 all_remaining_insts=all_remaining_insts,
             )
+        if dx:
+            ref.x += dx
+
+        if dy:
+            ref.y += dy
 
     if instance_name in connections_by_transformed_inst:
         conn_info = connections_by_transformed_inst[instance_name]
