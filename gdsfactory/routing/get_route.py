@@ -62,7 +62,7 @@ def get_route(
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
     taper: Optional[ComponentSpec] = None,
-    s_bend: Optional[Route] = None,
+    s_bend: Optional[ComponentSpec] = None,
     start_straight_length: float = 0.01,
     end_straight_length: float = 0.01,
     min_straight_length: float = 0.01,

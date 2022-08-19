@@ -994,7 +994,7 @@ def route_manhattan(
     end_straight_length: Optional[float] = None,
     min_straight_length: Optional[float] = None,
     bend: ComponentSpec = bend_euler,
-    s_bend: Optional[Route] = None,
+    s_bend: Optional[Callable] = None,
     cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
     with_point_markers: bool = False,
     **kwargs,
