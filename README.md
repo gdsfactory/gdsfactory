@@ -86,4 +86,6 @@ Open source heroes:
 ## Links
 
 - [gdsfactory GitHub repo](https://github.com/gdsfactory/gdsfactory), [docs](https://gdsfactory.github.io/gdsfactory/) and [general updates](https://github.com/gdsfactory/gdsfactory/discussions/547)
+- [linkedIn page](https://www.linkedin.com/company/gdsfactory/posts)
+- [gdsfactory announcenments group](https://groups.google.com/g/gdsfactory)
 - [awesome photonics list](https://github.com/joamatab/awesome_photonics)
