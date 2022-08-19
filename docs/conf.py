@@ -62,6 +62,7 @@ html_theme_options = {
     "repository_url": "https://github.com/gdsfactory/gdsfactory",
     "repository_branch": "master",
     "launch_buttons": {
+        "notebook_interface": "jupyterlab",
         "binderhub_url": "https://mybinder.org/v2/gh/gdsfactory/gdsfactory/HEAD",
         "colab_url": "https://colab.research.google.com",
     },
