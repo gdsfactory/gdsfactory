@@ -1,5 +1,7 @@
 import gdsfactory as gf
-from gdsfactory.simulation.simphony.model_from_gdsfactory import model_from_gdsfactory
+from gdsfactory.simulation.simphony.model_from_gdsfactory import (
+    GDSFactorySimphonyWrapper,
+)
 
 
 def mmi2x2(**kwargs):
@@ -52,7 +54,7 @@ def mmi2x2(**kwargs):
         c = gc.mmi2x2()
         gs.plot_model(c)
     """
-    return model_from_gdsfactory(gf.components.mmi2x2)
+    return GDSFactorySimphonyWrapper(component=gf.components.mmi2x2)
 
 
 if __name__ == "__main__":
@@ -62,7 +64,7 @@ if __name__ == "__main__":
     wav = np.linspace(1520, 1570, 1024) * 1e-9
     f = 3e8 / wav
     c = mmi2x2()
-    s = c.s_parameters(freq=f)
+    s = c.s_parameters(freqs=f)
 
     plt.plot(wav, np.abs(s[:, 1] ** 2))
     print(c.pins)
