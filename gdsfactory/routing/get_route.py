@@ -62,6 +62,7 @@ def get_route(
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
     taper: Optional[ComponentSpec] = None,
+    s_bend: Optional[Route] = None,
     start_straight_length: float = 0.01,
     end_straight_length: float = 0.01,
     min_straight_length: float = 0.01,
@@ -124,18 +125,27 @@ def get_route(
             **kwargs,
         )
 
-    return route_manhattan(
-        input_port=input_port,
-        output_port=output_port,
-        straight=straight,
-        taper=taper,
-        start_straight_length=start_straight_length,
-        end_straight_length=end_straight_length,
-        min_straight_length=min_straight_length,
-        bend=bend90,
-        cross_section=cross_section,
-        **kwargs,
-    )
+    if s_bend:
+        return route_manhattan(
+            input_port=input_port,
+            output_port=output_port,
+            s_bend=s_bend,
+            cross_section=cross_section,
+            **kwargs,
+        )
+    else:
+        return route_manhattan(
+            input_port=input_port,
+            output_port=output_port,
+            straight=straight,
+            taper=taper,
+            start_straight_length=start_straight_length,
+            end_straight_length=end_straight_length,
+            min_straight_length=min_straight_length,
+            bend=bend90,
+            cross_section=cross_section,
+            **kwargs,
+        )
 
 
 get_route_electrical = partial(
