@@ -25,7 +25,7 @@ if __name__ == "__main__":
     wav = np.linspace(1520, 1570, 1024) * 1e-9
     f = 3e8 / wav
     c = gc1550te()
-    s = c.s_parameters(freq=f)
+    s = c.s_parameters(freqs=f)
 
     plt.plot(wav, np.abs(s[:, 1] ** 2))
     print(c.pins)
