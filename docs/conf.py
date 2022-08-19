@@ -3,7 +3,6 @@ release = "5.19.2"
 copyright = "2020, MIT License"
 
 html_theme = "sphinx_book_theme"
-html_theme_options = {"logo_only": True}
 html_logo = "logo.png"
 
 source_suffix = {
@@ -61,6 +60,7 @@ myst_html_meta = {
 
 
 html_theme_options = {
+    "logo_only": True,
     "path_to_docs": "docs",
     "repository_url": "https://github.com/gdsfactory/gdsfactory",
     "repository_branch": "master",
