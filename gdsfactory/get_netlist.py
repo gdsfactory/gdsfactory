@@ -84,18 +84,18 @@ def get_instance_name_from_label(
 def get_netlist_dict(
     component: Component,
     full_settings: bool = False,
-    layer_label: LayerSpec = "LABEL_INSTANCE",
     tolerance: int = 1,
     exclude_port_types: Optional[List] = None,
+    **kwargs,
 ) -> Dict:
     """From a component returns instances, connections and placements dict."""
     return omegaconf.OmegaConf.to_container(
         get_netlist(
             component=component,
             full_settings=full_settings,
-            layer_label=layer_label,
             tolerance=tolerance,
             exclude_port_types=exclude_port_types,
+            **kwargs,
         )
     )
 
@@ -103,18 +103,18 @@ def get_netlist_dict(
 def get_netlist_yaml(
     component: Component,
     full_settings: bool = False,
-    layer_label: LayerSpec = "LABEL_INSTANCE",
     tolerance: int = 1,
     exclude_port_types: Optional[List] = None,
+    **kwargs,
 ) -> Dict:
     """From a component returns instances, connections and placements yaml string content."""
     return omegaconf.OmegaConf.to_yaml(
         get_netlist(
             component=component,
             full_settings=full_settings,
-            layer_label=layer_label,
             tolerance=tolerance,
             exclude_port_types=exclude_port_types,
+            **kwargs,
         )
     )
 

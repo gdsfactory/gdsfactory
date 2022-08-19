@@ -660,7 +660,7 @@ def _from_yaml(
         settings = instance_conf.get("settings", {})
         component_spec = {"component": component, "settings": settings}
         component = pdk.get_component(component_spec)
-        ref = c << component
+        ref = c.add_ref(component, alias=instance_name)
         instances[instance_name] = ref
 
     placements_conf = dict() if placements_conf is None else placements_conf
@@ -862,8 +862,11 @@ def _from_yaml(
                 c.add_port(port_name, port=instance.ports[instance_port_name])
             else:
                 c.add_port(**instance_comma_port)
-    c.info["routes"] = routes
-    c.info["instances"] = instances
+
+    # FIXME
+    # c.info["routes"] = {k: [r.aliases.keys()] for k, r}
+    c.routes = routes
+    c.info["instances"] = list(instances.keys())
     return c
 
 
@@ -1280,7 +1283,7 @@ if __name__ == "__main__":
 
     # c = from_yaml(sample_mirror)
     # c = from_yaml(sample_doe_function)
-    c = from_yaml(sample_pdk_mzi_settings, dy=-500)
+    c = from_yaml(sample_pdk_mzi_settings, dy=-20)
     c.show(show_ports=True)
 
     # c = test_connections_regex()
