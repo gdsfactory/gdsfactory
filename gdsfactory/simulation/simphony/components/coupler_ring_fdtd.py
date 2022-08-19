@@ -50,7 +50,7 @@ if __name__ == "__main__":
     plt.show()
 
     # f = 3e8 / wav
-    # s = c.s_parameters(freq=f)
+    # s = c.s_parameters(freqs=f)
     # plt.plot(wav, np.abs(s[:, 1] ** 2))
     # print(c.pins)
     # plt.show()
