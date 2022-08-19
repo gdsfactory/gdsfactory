@@ -1,10 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.19.0](https://github.com/gdsfactory/gdsfactory/pull/615)
+## [5.19.0](https://github.com/gdsfactory/gdsfactory/pull/617)
 
 - add_ref adds default alias with incremental names.
 - get_netlist returns better instance names, uses aliases by default instead of labels.
 - gf.read.from_yaml accepts a dict and DictConfig as well as filepath and string.
+- Add s_bend option to gf.routing.get_route [PR](https://github.com/gdsfactory/gdsfactory/pull/617) closes [issue](https://github.com/gdsfactory/gdsfactory/issues/51)
 
 ## [5.18.5](https://github.com/gdsfactory/gdsfactory/pull/613)
 
