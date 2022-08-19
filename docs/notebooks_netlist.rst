@@ -1,4 +1,4 @@
-Netlist driven flow
+YAML driven flow
 ===================================
 
 
