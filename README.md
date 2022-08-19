@@ -49,7 +49,7 @@ You can also write components settings (for measurement and data analysis) or ne
 
 gdsfactory leverages phidl, gdspy and klayout python libraries.
 
-![](https://i.imgur.com/zMpvrWr.png)
+![](https://i.imgur.com/9Sh8Qav.png)
 
 
 ## Getting started
