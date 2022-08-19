@@ -3,6 +3,9 @@ release = "5.18.5"
 copyright = "2020, MIT License"
 
 html_theme = "sphinx_book_theme"
+html_theme_options = {"logo_only": True}
+html_logo = "logo.png"
+
 source_suffix = {
     ".rst": "restructuredtext",
     ".txt": "markdown",
@@ -62,6 +65,7 @@ html_theme_options = {
     "repository_url": "https://github.com/gdsfactory/gdsfactory",
     "repository_branch": "master",
     "launch_buttons": {
+        "notebook_interface": "jupyterlab",
         "binderhub_url": "https://mybinder.org/v2/gh/gdsfactory/gdsfactory/HEAD",
         "colab_url": "https://colab.research.google.com",
     },

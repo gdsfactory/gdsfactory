@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.19.0](https://github.com/gdsfactory/gdsfactory/pull/615)
+
+- add_ref adds default alias with incremental names.
+- get_netlist returns better instance names, uses aliases by default instead of labels.
+- gf.read.from_yaml accepts a dict and DictConfig as well as filepath and string.
+
 ## [5.18.5](https://github.com/gdsfactory/gdsfactory/pull/613)
 
 - add layer_via and layer_metal to cross_section.pn. None by default.
