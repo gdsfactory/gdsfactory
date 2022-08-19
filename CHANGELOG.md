@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.19.1](https://github.com/gdsfactory/gdsfactory/pull/620)
+
+- Rewrote model_from_gdsfactory to GDSFactorySimphonyWrapper. Similar to Simphony's SiPANN wrapper [PR](https://github.com/gdsfactory/gdsfactory/pull/619)
+- `gf.routing.get_route()` has `with_sbend` that allows failing routes to route using Sbend.
+
 ## [5.19.0](https://github.com/gdsfactory/gdsfactory/pull/617)
 
 - add_ref adds default alias with incremental names.
