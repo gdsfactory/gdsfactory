@@ -41,7 +41,7 @@ def _generate_bends(c, x_top, x_bot, dx, dy, gap):
     )
 
     input_bend_bottom = c << gf.components.bend_s(
-        size=(dx, dy), cross_section=x_bot.copy()
+        size=(dx, dy), cross_section=x_bot
     ).mirror().mirror(p1=(1, 0))
 
     dy = input_bend_bottom.ports["o2"].y - input_bend_top.ports["o2"].y
@@ -56,13 +56,9 @@ def _generate_bends(c, x_top, x_bot, dx, dy, gap):
 
 
 def _generate_straights(c, length, x_top, x_bot, input_bend_top, input_bend_bottom):
-    top_straight = c << gf.components.straight(
-        length=length, cross_section=x_top.copy()
-    )
+    top_straight = c << gf.components.straight(length=length, cross_section=x_top)
 
-    bottom_straight = c << gf.components.straight(
-        length=length, cross_section=x_bot.copy()
-    )
+    bottom_straight = c << gf.components.straight(length=length, cross_section=x_bot)
 
     top_straight.movey(destination=input_bend_top.ports["o2"].y)
 
@@ -74,7 +70,7 @@ def _generate_straights(c, length, x_top, x_bot, input_bend_top, input_bend_bott
 def _generate_gratings(c, length, period, dc, gap, x, bottom_straight, x_bot):
     num = length // period
     x_size = period * dc
-    start = length - (num - 1) * period / 2.0
+    start = length - (num - 1) * period
 
     for i in range(int(num)):
         x_start = start + i * period
@@ -189,6 +185,6 @@ def cdc(
 
 if __name__ == "__main__":
 
-    c = cdc()
+    c = cdc(fins=False)
     print(c.ports.keys())
     c.show(show_ports=True)

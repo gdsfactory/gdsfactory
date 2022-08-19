@@ -994,6 +994,7 @@ def route_manhattan(
     end_straight_length: Optional[float] = None,
     min_straight_length: Optional[float] = None,
     bend: ComponentSpec = bend_euler,
+    s_bend: Optional[Callable] = None,
     cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
     with_point_markers: bool = False,
     **kwargs,
@@ -1001,7 +1002,7 @@ def route_manhattan(
     """Generates the Manhattan waypoints for a route.
 
     Then creates the straight, taper and bend references that define the
-    route.
+    route, or create an SBend route.
 
     """
     if isinstance(cross_section, list):
@@ -1015,23 +1016,26 @@ def route_manhattan(
         end_straight_length = end_straight_length or x.min_length
         min_straight_length = min_straight_length or x.min_length
 
-    points = generate_manhattan_waypoints(
-        input_port,
-        output_port,
-        start_straight_length=start_straight_length,
-        end_straight_length=end_straight_length,
-        min_straight_length=min_straight_length,
-        bend=bend,
-        cross_section=x,
-    )
-    return round_corners(
-        points=points,
-        straight=straight,
-        taper=taper,
-        bend=bend,
-        cross_section=x,
-        with_point_markers=with_point_markers,
-    )
+    if not s_bend:
+        points = generate_manhattan_waypoints(
+            input_port,
+            output_port,
+            start_straight_length=start_straight_length,
+            end_straight_length=end_straight_length,
+            min_straight_length=min_straight_length,
+            bend=bend,
+            cross_section=x,
+        )
+        return round_corners(
+            points=points,
+            straight=straight,
+            taper=taper,
+            bend=bend,
+            cross_section=x,
+            with_point_markers=with_point_markers,
+        )
+    else:
+        return s_bend(input_port, output_port, cross_section=x)
 
 
 if __name__ == "__main__":
