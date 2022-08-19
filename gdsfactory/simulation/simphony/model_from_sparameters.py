@@ -123,7 +123,7 @@ if __name__ == "__main__":
 
     # wav = np.linspace(1520, 1570, 1024) * 1e-9
     # f = speed_of_light / wav
-    # s = c.s_parameters(freq=f)
+    # s = c.s_parameters(freqs=f)
     # wav = c.wavelengths
     # s = c.s
     # plt.plot(wav * 1e9, np.abs(s[:, 1] ** 2))

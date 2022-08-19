@@ -66,7 +66,7 @@ if __name__ == "__main__":
     f = 3e8 / wav
     c = mmi1x2()
 
-    # s = c.s_parameters(freq=f)
+    # s = c.s_parameters(freqs=f)
     # plt.plot(wav, np.abs(s[:, 1] ** 2))
     # print(c.pins)
     # print(c.settings)
