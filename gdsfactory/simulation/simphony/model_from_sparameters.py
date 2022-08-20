@@ -41,7 +41,7 @@ class SimphonyFromFile(Model):
         super().__init__(name)
 
         if pins:
-            self.rename_pins(pins)
+            self.rename_pins(*pins)
 
     def model_from_filepath(
         self,
