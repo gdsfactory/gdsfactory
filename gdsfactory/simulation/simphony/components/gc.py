@@ -1,5 +1,5 @@
 from gdsfactory.config import sparameters_path
-from gdsfactory.simulation.simphony.model_from_sparameters import model_from_filepath
+from gdsfactory.simulation.simphony.model_from_sparameters import SimphonyFromFile
 
 
 def gc1550te(filepath=sparameters_path / "gc2dte" / "gc1550.dat", numports=2):
@@ -15,7 +15,7 @@ def gc1550te(filepath=sparameters_path / "gc2dte" / "gc1550.dat", numports=2):
         gs.plot_model(c)
 
     """
-    return model_from_filepath(filepath=filepath, numports=numports)
+    return SimphonyFromFile(numports=numports).model_from_filepath(filepath=filepath)
 
 
 if __name__ == "__main__":

@@ -2,107 +2,105 @@
     0.03733851+0.4879802j ]."""
 
 from pathlib import PosixPath
-from typing import Tuple, Union
+from typing import Optional, Tuple, Union
 
 import numpy as np
 import pandas as pd
-from scipy.constants import speed_of_light
 from simphony import Model
-from simphony.pins import Pin, PinList
 from simphony.tools import freq2wl, interpolate, wl2freq
 
 import gdsfactory as gf
 from gdsfactory.simulation.lumerical.read import read_sparameters_file
 
 
-def model_from_filepath(
-    filepath: PosixPath, numports: int, name: str = "model"
-) -> Model:
-    """Returns simphony Model from lumerical .DAT sparameters.
+class SimphonyFromFile(Model):
+    """Take an s-parameter file path and return a Simphony Model from it."""
 
-    Args:
-        filepath: path to Sparameters in Lumerical interconnect format.
-        numports: number of ports.
-        name: model name.
+    def __init__(
+        self,
+        numports: Optional[int] = None,
+        pins: Optional[Tuple[str, ...]] = None,
+        name: str = "model",
+    ) -> None:
+        """Take an s-parameter file path and return a Simphony Model from it.
 
-    """
-    pins, f, s = read_sparameters_file(filepath=filepath, numports=numports)
-    wavelengths = freq2wl(f)
-    return model_from_sparameters(
-        wavelengths=wavelengths, sparameters=s, pins=pins, name=name
-    )
+        Uses numports if passed, else uses pins.
 
+        Args:
+            numports: number of ports.
+            pins: list of port names.
+            name: optional model name.
+        """
+        if numports:
+            __class__.pin_count = numports
+        elif pins:
+            __class__.pin_count = len(pins)
+        else:
+            raise ValueError("Either numports or pin must be defined.")
 
-def model_from_sparameters(
-    wavelengths, sparameters, pins: Tuple[str, ...] = ("E0", "W0"), name: str = "model"
-) -> Model:
-    """Returns simphony Model from wavelengths and Sparameters.
+        super().__init__(name)
 
-    Args:
-        wavelengths: 1D wavelength array.
-        sparameters: numpy nxn array.
-        pins: list of port names.
-        name: optional model name.
+        if pins:
+            self.rename_pins(*pins)
 
-    """
-    f = wl2freq(wavelengths)
-    s = sparameters
+    def model_from_filepath(
+        self,
+        filepath: PosixPath,
+    ) -> Model:
+        """Returns simphony Model from lumerical .DAT sparameters.
 
-    def interpolate_sp(freq):
-        return interpolate(freq, f, s)
+        Args:
+            filepath: path to Sparameters in Lumerical interconnect format.
 
-    Model.pin_count = len(pins)
-    m = Model()
-    m.pins = PinList([Pin(m, pname) for i, pname in enumerate(pins)])
-    m.s_params = (f, s)
-    m.s_parameters = interpolate_sp
-    m.freq_range = (min(f), max(f))
-    m.wavelength_range = (min(wavelengths), max(wavelengths))
-    m.wavelengths = speed_of_light / np.array(f)
-    m.s = s
-    m.name = name
-    m.__name__ = name
-    return m
+        """
+        numports = self.pin_count
+        pin_names, self.f, self.s = read_sparameters_file(
+            filepath=filepath, numports=numports
+        )
+        self.wavelengths = freq2wl(self.f)
 
+        self.rename_pins(*pin_names)
 
-def model_from_csv(
-    filepath: Union[str, PosixPath, pd.DataFrame],
-    pins: Tuple[str, ...],
-    name: str = "model",
-    xkey: str = "wavelengths",
-    xunits: float = 1,
-) -> Model:
-    """Returns simphony Model from Sparameters in CSV.
+        return self
 
-    Args:
-        filepath: CSV Sparameters path or pandas DataFrame.
-        sparameters: numpy nxn array.
-        pins: list of port names.
-        name: optional model name.
-        xkey: key for wavelengths in file.
-        xunits: x units in um from the loaded file (um). 1 means 1um.
+    def model_from_csv(
+        self,
+        filepath: Union[str, PosixPath, pd.DataFrame],
+        xkey: str = "wavelengths",
+        xunits: float = 1,
+    ) -> Model:
+        """Returns simphony Model from Sparameters in CSV.
 
-    """
-    df = filepath if isinstance(filepath, pd.DataFrame) else pd.read_csv(filepath)
+        Args:
+            filepath: CSV Sparameters path or pandas DataFrame.
+            xkey: key for wavelengths in file.
+            xunits: x units in um from the loaded file (um). 1 means 1um.
 
-    keys = list(df.keys())
+        """
+        df = filepath if isinstance(filepath, pd.DataFrame) else pd.read_csv(filepath)
 
-    if xkey not in df:
-        raise ValueError(f"{xkey!r} not in {keys}")
+        keys = list(df.keys())
 
-    wavelengths = df[xkey].values * 1e-6 * xunits
+        if xkey not in df:
+            raise ValueError(f"{xkey!r} not in {keys}")
 
-    numrows = len(wavelengths)
-    numports = len(pins)
-    S = np.zeros((numrows, numports, numports), dtype="complex128")
+        self.wavelengths = df[xkey].values * 1e-6 * xunits
 
-    for i in range(len(pins)):
-        for j in range(len(pins)):
-            S[:, i, j] = df[f"s{i+1}{j+1}m"] * np.exp(1j * df[f"s{i+1}{j+1}a"])
+        numrows = len(self.wavelengths)
+        numports = self.pin_count
+        self.s = np.zeros((numrows, numports, numports), dtype="complex128")
 
-    return model_from_sparameters(
-        wavelengths=wavelengths, sparameters=S, pins=pins, name=name
-    )
+        for i in range(numports):
+            for j in range(numports):
+                self.s[:, i, j] = df[f"s{i+1}{j+1}m"] * np.exp(1j * df[f"s{i+1}{j+1}a"])
+
+        self.f = wl2freq(self.wavelengths)
+        self.freq_range = (self.f[0], self.f[-1])
+
+        return self
+
+    def s_parameters(self, freqs: "np.array") -> "np.ndarray":
+        return interpolate(freqs, self.f, self.s)
 
 
 if __name__ == "__main__":
@@ -112,12 +110,12 @@ if __name__ == "__main__":
 
     filepath = gf.CONFIG["sparameters"] / "mmi1x2" / "mmi1x2_si220n.dat"
     numports = 3
-    c = model_from_filepath(filepath=filepath, numports=numports)
+    c = SimphonyFromFile(numports=numports).model_from_filepath(filepath=filepath)
 
     filepath_csv = gf.CONFIG["sparameters"] / "mmi1x2" / "mmi1x2_si220n.csv"
-    filepath_csv = "/home/jmatres/ubc/sparameters/ebeam_y_1550_20634f71.csv"
-    df = pd.read_csv(filepath_csv)
-    c = model_from_csv(df, pins=("o1", "o2", "o3"))
+    # filepath_csv = "/home/jmatres/ubc/sparameters/ebeam_y_1550_20634f71.csv"
+    # df = pd.read_csv(filepath_csv)
+    c = SimphonyFromFile(pins=("o1", "o2", "o3")).model_from_csv(filepath_csv)
     plot_model(c, pin_in="o1")
     plt.show()
 
