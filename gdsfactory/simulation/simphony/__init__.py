@@ -19,11 +19,7 @@ from gdsfactory.simulation.simphony.components import model_factory
 from gdsfactory.simulation.simphony.model_from_gdsfactory import (
     GDSFactorySimphonyWrapper,
 )
-from gdsfactory.simulation.simphony.model_from_sparameters import (
-    model_from_csv,
-    model_from_filepath,
-    model_from_sparameters,
-)
+from gdsfactory.simulation.simphony.model_from_sparameters import SimphonyFromFile
 from gdsfactory.simulation.simphony.plot_circuit import plot_circuit
 from gdsfactory.simulation.simphony.plot_circuit_montecarlo import (
     plot_circuit_montecarlo,
@@ -36,9 +32,7 @@ __all__ = [
     "components",
     "model_factory",
     "GDSFactorySimphonyWrapper",
-    "model_from_sparameters",
-    "model_from_csv",
-    "model_from_filepath",
+    "SimphonyFromFile",
     "plot_model",
     "plot_circuit",
     "plot_circuit_montecarlo",
