@@ -40,7 +40,7 @@ def get_instance_name_from_alias(
         component: with labels.
         reference: reference that needs naming.
     """
-    return reference.alias
+    return reference.name
 
 
 def get_instance_name_from_label(
@@ -65,10 +65,6 @@ def get_instance_name_from_label(
 
     # default instance name follows component.aliases
     text = clean_name(f"{reference.parent.name}_{x}_{y}")
-
-    for alias, ref in component.aliases.items():
-        if ref == reference:
-            text = alias
 
     # try to get the instance name from a label
     for label in labels:

@@ -1,4 +1,3 @@
-from itertools import count
 from typing import Dict, Optional, Tuple
 
 import gdsfactory as gf
@@ -124,19 +123,13 @@ def component_sequence(
     while to_rm:
         sequence.pop(to_rm.pop())
 
-    # To generate unique aliases for each instance
-    counters = {k: count(start=1) for k in symbol_to_component.keys()}
-
-    def _next_id(name) -> str:
-        return f"{name}{next(counters[name])}"
-
     component = Component()
 
     # Add first component reference and input port
     name_start_device, do_flip = _parse_component_name(sequence[0])
     _input_device, input_port, prev_port = symbol_to_component[name_start_device]
 
-    prev_device = component.add_ref(_input_device, alias=_next_id(name_start_device))
+    prev_device = component.add_ref(_input_device)
 
     if do_flip:
         prev_device = _flip_ref(prev_device, input_port)
@@ -157,7 +150,7 @@ def component_sequence(
 
         component_i, input_port, next_port = symbol_to_component[s]
         component_i = gf.get_component(component_i)
-        ref = component.add_ref(component_i, alias=_next_id(s))
+        ref = component.add_ref(component_i)
 
         if do_flip:
             ref = _flip_ref(ref, input_port)

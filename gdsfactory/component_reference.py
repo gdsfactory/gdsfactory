@@ -1,4 +1,5 @@
 import typing
+import warnings
 from typing import Any, Dict, List, Optional, Tuple, Union, cast
 
 import numpy as np
@@ -139,8 +140,8 @@ class ComponentReference(DeviceReference):
             x_reflection=x_reflection,
             ignore_missing=False,
         )
-        self.owner = None
-        self.alias = None
+        self._owner = None
+        self._name = None
 
         # The ports of a ComponentReference have their own unique id (uid),
         # since two ComponentReferences of the same parent Component can be
@@ -158,6 +159,42 @@ class ComponentReference(DeviceReference):
     @parent.setter
     def parent(self, value):
         self.ref_cell = value
+
+    @property
+    def owner(self):
+        return self._owner
+
+    @owner.setter
+    def owner(self, value):
+        if self._owner is None:
+            self._owner = value
+        elif value == self._owner:
+            pass
+        else:
+            raise ValueError(
+                f"Cannot reset owner of a reference once it has already been set! Reference: {self}. Current owner: {self._owner}. Attempting to re-assign to {value}"
+            )
+
+    @property
+    def name(self):
+        return self._name
+
+    @name.setter
+    def name(self, value: str):
+        if self.owner:
+            if value in self.owner.named_references:
+                raise ValueError(
+                    f"This reference's owner already has a reference with name '{value}'. Please choose another name."
+                )
+        self._name = value
+
+    @property
+    def alias(self):
+        warnings.warn(
+            "alias attribute is deprecated and may be removed in a future version of gdsfactory",
+            DeprecationWarning,
+        )
+        return self.name
 
     def __repr__(self) -> str:
         """Return a string representation of the object."""
