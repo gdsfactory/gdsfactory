@@ -59,5 +59,25 @@ def test_manhattan_sbend_fail() -> Component:
 
 
 if __name__ == "__main__":
-    c = test_manhattan_sbend_pass()
+    c = test_manhattan_sbend_fail()
     c.show(show_ports=True)
+
+    # c = gf.Component("demo_sbend")
+    # length = 10
+    # c1 = c << gf.components.straight(length=length)
+    # c2 = c << gf.components.straight(length=length)
+
+    # dy = 20.0
+    # dy = 4.0
+    # c2.y = dy
+    # c2.movex(length + 20)
+
+    # route = route_manhattan(
+    #     input_port=c1.ports["o2"],
+    #     output_port=c2.ports["o1"],
+    #     radius=5.0,
+    #     with_sbend=False,
+    # )
+
+    # c.add(route.references)
+    # c.show()
