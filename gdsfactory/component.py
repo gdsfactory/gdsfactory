@@ -116,7 +116,6 @@ class Component(Device):
     ) -> None:
         """Initialize the Component object."""
         self.__ports__ = {}
-        self.aliases = {}
         self.uid = str(uuid.uuid4())[:8]
         if "with_uuid" in kwargs or name == "Unnamed":
             name += f"_{self.uid}"
@@ -167,6 +166,25 @@ class Component(Device):
             len(v.name) <= MAX_NAME_LENGTH
         ), f"name `{v.name}` {len(v.name)} > {MAX_NAME_LENGTH} "
         return v
+
+    @property
+    def named_references(self):
+        return {ref.name: ref for ref in self.references}
+
+    @property
+    def aliases(self):
+        warnings.warn(
+            "aliases attribute has been renamed to named_references and may be deprecated in a future version of gdsfactory",
+            DeprecationWarning,
+        )
+        return self.named_references
+
+    @aliases.setter
+    def aliases(self, value):
+        warnings.warn(
+            "Setting aliases is no longer supported. aliases attribute has been renamed to named_references and may be deprecated in a future version of gdsfactory. This operation will have no effect.",
+            DeprecationWarning,
+        )
 
     def add_label(
         self,
@@ -444,7 +462,7 @@ class Component(Device):
 
     def __repr__(self) -> str:
         """Return a string representation of the object."""
-        return f"{self.name}: uid {self.uid}, ports {list(self.ports.keys())}, aliases {list(self.aliases.keys())}, {len(self.polygons)} polygons, {len(self.references)} references"
+        return f"{self.name}: uid {self.uid}, ports {list(self.ports.keys())}, references {list(self.named_references.keys())}, {len(self.polygons)} polygons"
 
     def pprint(self) -> None:
         """Prints component info."""
@@ -730,11 +748,11 @@ class Component(Device):
         """
         self._add(element)
         if isinstance(element, (gdspy.CellReference, gdspy.CellArray)):
-            self._add_alias(element)
+            self._register_reference(element)
         if isinstance(element, Iterable):
             for i in element:
                 if isinstance(i, (gdspy.CellReference, gdspy.CellArray)):
-                    self._add_alias(i)
+                    self._register_reference(i)
 
     def add_array(
         self,
@@ -765,9 +783,7 @@ class Component(Device):
             rows=int(round(rows)),
             spacing=spacing,
         )
-        ref.owner = self
         self.add(ref)  # Add ComponentReference Component
-        self._add_alias(reference=ref, alias=alias)
         return ref
 
     def flatten(self, single_layer: Optional[Tuple[int, int]] = None):
@@ -805,35 +821,33 @@ class Component(Device):
         if not isinstance(component, Device):
             raise TypeError(f"type = {type(Component)} needs to be a Component.")
         ref = ComponentReference(component)
-        ref.owner = self
         self._add(ref)
-        self._add_alias(reference=ref, alias=alias)
+        self._register_reference(reference=ref, alias=alias)
         return ref
 
-    def _add_alias(
+    def _register_reference(
         self, reference: ComponentReference, alias: Optional[str] = None
     ) -> None:
         component = reference.parent
+        reference.owner = self
+
         if alias is None:
-            i = 0
-            prefix = (
-                component.settings.function_name
-                if hasattr(component, "settings")
-                and hasattr(component.settings, "function_name")
-                else component.name
-            )
-            alias = f"{prefix}_{i}"
-
-            while alias in self.aliases:
+            if reference.name is not None:
+                alias = reference.name
+            else:
+                i = 0
+                prefix = (
+                    component.settings.function_name
+                    if hasattr(component, "settings")
+                    and hasattr(component.settings, "function_name")
+                    else component.name
+                )
                 alias = f"{prefix}_{i}"
-                i += 1
-        elif alias in self.aliases:
-            raise ValueError(
-                f"{alias} already in {list(self.aliases.keys())} in {self.name}"
-            )
 
-        self.aliases[alias] = reference
-        reference.alias = alias
+                while alias in self.named_references:
+                    i += 1
+                    alias = f"{prefix}_{i}"
+        reference.name = alias
 
     def get_layers(self) -> Union[Set[Tuple[int, int]], Set[Tuple[int64, int64]]]:
         """Return a set of (layer, datatype).
