@@ -168,9 +168,7 @@ class ComponentReference(DeviceReference):
     def owner(self, value):
         if self._owner is None:
             self._owner = value
-        elif value == self._owner:
-            pass
-        else:
+        elif value != self._owner:
             raise ValueError(
                 f"Cannot reset owner of a reference once it has already been set! Reference: {self}. Current owner: {self._owner}. Attempting to re-assign to {value}"
             )
@@ -182,11 +180,10 @@ class ComponentReference(DeviceReference):
     @name.setter
     def name(self, value: str):
         if value != self._name:
-            if self.owner:
-                if value in self.owner.named_references:
-                    raise ValueError(
-                        f"This reference's owner already has a reference with name '{value}'. Please choose another name."
-                    )
+            if self.owner and value in self.owner.named_references:
+                raise ValueError(
+                    f"This reference's owner already has a reference with name '{value}'. Please choose another name."
+                )
             self._name = value
 
     @property
