@@ -717,7 +717,7 @@ class Component(Device):
         """Raises error if Component is locked."""
         if self._locked:
             raise MutabilityError(
-                f"Component {self.name!r} cannot be modified as it is already on cache. "
+                f"Component {self.name!r} cannot be modified as it's already on cache. "
                 + mutability_error_message
             )
 
@@ -726,8 +726,7 @@ class Component(Device):
 
         Args:
             element: `PolygonSet`, `CellReference`, `CellArray` or iterable
-            The element or iterable of elements to be inserted in this
-            cell.
+            The element or iterable of elements to be inserted in this cell.
 
         Raises:
             MutabilityError: if component is locked.
@@ -740,8 +739,7 @@ class Component(Device):
 
         Args:
             element: `PolygonSet`, `CellReference`, `CellArray` or iterable
-            The element or iterable of elements to be inserted in this
-            cell.
+            The element or iterable of elements to be inserted in this cell.
 
         Raises:
             MutabilityError: if component is locked.
@@ -776,14 +774,16 @@ class Component(Device):
             a: CellArray containing references to the Component.
         """
         if not isinstance(component, Component):
-            raise TypeError("""add_array() needs a Component object. """)
+            raise TypeError("add_array() needs a Component object.")
         ref = CellArray(
             device=component,
             columns=int(round(columns)),
             rows=int(round(rows)),
             spacing=spacing,
         )
-        self.add(ref)  # Add ComponentReference Component
+        ref.name = None
+        self._add(ref)
+        self._register_reference(reference=ref, alias=alias)
         return ref
 
     def flatten(self, single_layer: Optional[Tuple[int, int]] = None):
