@@ -71,9 +71,8 @@ def splitter_tree(
         for row in range(ncouplers):
             x = col * dx
             y = y0 + (row + 0.5) * dy * 2 ** (cols - col - 1)
-            coupler_ref = c.add_ref(coupler)
+            coupler_ref = c.add_ref(coupler, alias=f"coupler_{col}_{row}")
             coupler_ref.move((x, y))
-            c.aliases[f"coupler_{col}_{row}"] = coupler_ref
             if col == 0:
                 for port in coupler_ref.get_ports_list():
                     if port.name not in [e0_port_name, e1_port_name]:
@@ -86,7 +85,9 @@ def splitter_tree(
                     port_name = e1_port_name
                 c.add(
                     gf.routing.get_route(
-                        c.aliases[f"coupler_{col-1}_{row//2}"].ports[port_name],
+                        c.named_references[f"coupler_{col-1}_{row//2}"].ports[
+                            port_name
+                        ],
                         coupler_ref.ports["o1"],
                         cross_section=cross_section,
                     ).references
