@@ -829,21 +829,24 @@ class Component(Device):
         self, reference: ComponentReference, alias: Optional[str] = None
     ) -> None:
         component = reference.parent
-        if alias is None:
-            i = 0
-            prefix = (
-                component.settings.function_name
-                if hasattr(component, "settings")
-                and hasattr(component.settings, "function_name")
-                else component.name
-            )
-            alias = f"{prefix}_{i}"
+        reference.owner = self
 
-            while alias in self.named_references:
-                i += 1
+        if alias is None:
+            if reference.name is not None:
+                alias = reference.name
+            else:
+                i = 0
+                prefix = (
+                    component.settings.function_name
+                    if hasattr(component, "settings")
+                    and hasattr(component.settings, "function_name")
+                    else component.name
+                )
                 alias = f"{prefix}_{i}"
 
-        reference.owner = self
+                while alias in self.named_references:
+                    i += 1
+                    alias = f"{prefix}_{i}"
         reference.name = alias
 
     def get_layers(self) -> Union[Set[Tuple[int, int]], Set[Tuple[int64, int64]]]:

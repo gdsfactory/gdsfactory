@@ -181,12 +181,13 @@ class ComponentReference(DeviceReference):
 
     @name.setter
     def name(self, value: str):
-        if self.owner:
-            if value in self.owner.named_references:
-                raise ValueError(
-                    f"This reference's owner already has a reference with name '{value}'. Please choose another name."
-                )
-        self._name = value
+        if value != self._name:
+            if self.owner:
+                if value in self.owner.named_references:
+                    raise ValueError(
+                        f"This reference's owner already has a reference with name '{value}'. Please choose another name."
+                    )
+            self._name = value
 
     @property
     def alias(self):
