@@ -10,7 +10,7 @@ from typing_extensions import Literal
 from gdsfactory.config import CONFIG
 from gdsfactory.types import Optional, PathType
 
-FileTypes = Literal["sparameters", "modes", "gds"]
+FileTypes = Literal["sparameters", "modes", "gds", "measurements"]
 
 
 class FileStorage(ABC):
