@@ -832,8 +832,6 @@ def _from_yaml(
             if isinstance(route_or_route_list, list):
                 for route_name, route_dict in zip(route_names, route_or_route_list):
                     c.add(route_dict.references)
-                    for ref in route_dict.references:
-                        ref.name = f"{route_name}_{ref.name}"
                     routes[route_name] = route_dict.length
             elif isinstance(route_or_route_list, Route):
                 c.add(route_or_route_list.references)
