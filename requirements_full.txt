@@ -1,4 +1,5 @@
 bokeh
+dvc[gs]
 holoviews
 ipympl
 ipywidgets
@@ -6,6 +7,7 @@ klayout
 lytest==0.0.20
 networkx
 pyglet
+qrcode
 sax==0.8.0
 scikit-image
 simphony==0.6.1
