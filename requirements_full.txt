@@ -1,5 +1,5 @@
 bokeh
-dvc[gs]
+google-cloud-storage
 holoviews
 ipympl
 ipywidgets
