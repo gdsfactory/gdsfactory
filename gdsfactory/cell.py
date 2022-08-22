@@ -211,15 +211,6 @@ def cell_without_validator(func):
         if flatten:
             component = component.flatten()
 
-        invalid_aliases = [
-            alias
-            for alias, ref in component.aliases.items()
-            if ref not in component.references
-        ]
-
-        for i in invalid_aliases:
-            component.aliases.pop(i)
-
         component.lock()
         CACHE[name] = component
         return component
