@@ -48,7 +48,7 @@ gds:
 	python gdsfactory/components/straight.py
 
 gdslib:
-	git clone https://github.com/gdsfactory/gdslib.git -b data
+	dvc pull
 
 test:
 	flake8 gdsfactory
