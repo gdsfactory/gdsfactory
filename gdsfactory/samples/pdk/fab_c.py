@@ -6,12 +6,10 @@ from typing import Callable
 from pydantic import BaseModel
 
 import gdsfactory as gf
-import gdsfactory.simulation as sim
 from gdsfactory.add_pins import add_pin_rectangle_inside
 from gdsfactory.component import Component
 from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports
-from gdsfactory.simulation import lumerical
 from gdsfactory.tech import LayerLevel, LayerStack
 from gdsfactory.types import Layer
 
@@ -158,26 +156,14 @@ cells = dict(
 LAYER_STACK = get_layer_stack_fab_c()
 SPARAMETERS_PATH = pathlib.Path.home() / "fabc"
 
-write_sparameters_lumerical = gf.partial(
-    lumerical.write_sparameters_lumerical,
-    layer_stack=LAYER_STACK,
-    dirpath=SPARAMETERS_PATH,
-)
-
-
-get_sparameters_path_lumerical = gf.partial(
-    sim.get_sparameters_data_lumerical,
-    layer_stack=LAYER_STACK,
-    dirpath=SPARAMETERS_PATH,
-)
-
 
 if __name__ == "__main__":
-    c = mmi1x2_nc()
-    c.show(show_ports=True)
+    # c = mmi1x2_nc()
+    # c.show(show_ports=True)
 
-    mzi = mzi_nc()
-    print(mzi.name)
+    c = mzi_nc()
+    print(c.name)
+    c.show()
 
     # mzi.show()
     # mzi_gc = gf.routing.add_fiber_single(
