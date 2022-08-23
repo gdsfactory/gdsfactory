@@ -21,18 +21,6 @@ settings:
           links:
             b,e11: t,e11
             b,e12: t,e12
-          routing_strategy: get_bundle_from_waypoints
-          settings:
-            auto_widen: false
-            waypoints:
-            - - 0
-              - 300
-            - - 400
-              - 300
-            - - 400
-              - 400
-            - - -250
-              - 400
   child: null
   default:
     label_instance_function:
@@ -101,18 +89,6 @@ settings:
           links:
             b,e11: t,e11
             b,e12: t,e12
-          routing_strategy: get_bundle_from_waypoints
-          settings:
-            auto_widen: false
-            waypoints:
-            - - 0
-              - 300
-            - - 400
-              - 300
-            - - 400
-              - 400
-            - - -250
-              - 400
     label_instance_function:
       function: add_instance_label
     routing_strategy:
