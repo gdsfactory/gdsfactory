@@ -27,10 +27,6 @@ settings:
           links:
             bl,e3: br,e1
             tl,e3: tr,e1
-          routing_strategy: get_bundle_path_length_match
-          settings:
-            extra_length: 500
-            radius: 10
   child: null
   default:
     label_instance_function:
@@ -105,10 +101,6 @@ settings:
           links:
             bl,e3: br,e1
             tl,e3: tr,e1
-          routing_strategy: get_bundle_path_length_match
-          settings:
-            extra_length: 500
-            radius: 10
     label_instance_function:
       function: add_instance_label
     routing_strategy:
