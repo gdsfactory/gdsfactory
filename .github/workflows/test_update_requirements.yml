@@ -25,6 +25,11 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
+      - id: auth
+        name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v0.8.0
+        with:
+          credentials_json: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -32,8 +37,5 @@ jobs:
           pur -r requirements.txt
           pip install -e .[dev]
       - name: Test with pytest
-        uses: google-github-actions/auth@v0.8.0
-        with:
-          credentials_json: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
         run: |
           pytest
