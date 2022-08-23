@@ -100,14 +100,12 @@ def fill_rectangle(
     fill_inverted = _loop_over(fill_inverted)
     if len(fill_layers) != len(fill_densities):
         raise ValueError(
-            "[PHIDL] phidl.geometry.fill_rectangle() "
-            "`fill_layers` and `fill_densities` parameters "
+            "fill_rectangle() `fill_layers` and `fill_densities` parameters "
             "must be lists of the same length"
         )
     if len(fill_layers) != len(fill_inverted):
         raise ValueError(
-            "[PHIDL] phidl.geometry.fill_rectangle() "
-            "`fill_layers` and `fill_inverted` parameters must "
+            "fill_rectangle() `fill_layers` and `fill_inverted` parameters must "
             "be lists of the same length"
         )
 
