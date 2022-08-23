@@ -808,12 +808,20 @@ class Component(Device):
         return component_flat
 
     def flatten_reference(self, ref: ComponentReference):
+        """From existing cell replaces reference with a flatten reference \
+        which has the transformations already applied.
+
+        Transformed reference keeps the original name.
+
+        Args:
+            ref: the reference to flatten into a new cell.
+
+        """
         from gdsfactory.functions import transformed
 
         self.remove(ref)
-        ref._owner = None
         new_component = transformed(ref, decorator=None)
-        self.add_ref(new_component)
+        self.add_ref(new_component, alias=ref.name)
 
     def add_ref(
         self, component: "Component", alias: Optional[str] = None
