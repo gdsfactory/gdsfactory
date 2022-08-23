@@ -1,6 +1,6 @@
-"""fill is now slower.
+"""Fill is now faster thanks to a counter to auto_name references.
 
-This code takes now 5 seconds to run.
+Before this code was quite slow.
 """
 
 if __name__ == "__main__":
@@ -13,14 +13,14 @@ if __name__ == "__main__":
     coupler_gaps = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
     delta_lengths = [10, 100, 200, 300, 400, 500, 500]
 
-    coupler_lengths = [10, 20]
-    coupler_gaps = [0.1, 0.2]
-    delta_lengths = [10]
+    # coupler_lengths = [10, 20]
+    # coupler_gaps = [0.1, 0.2]
+    # delta_lengths = [10]
 
-    n = 4
-    coupler_lengths = [10] * n
-    coupler_gaps = [0.2] * n
-    delta_lengths = [10] * (n - 1)
+    # n = 4
+    # coupler_lengths = [10] * n
+    # coupler_gaps = [0.2] * n
+    # delta_lengths = [10] * (n - 1)
 
     mzi = gf.components.mzi_lattice(
         coupler_lengths=coupler_lengths,
@@ -33,7 +33,7 @@ if __name__ == "__main__":
     layers = [(1, 0)]
     fill_size = [0.5, 0.5]
 
-    c << gf.fill_rectangle(
+    fill = gf.fill_rectangle(
         mzi,
         fill_size=fill_size,
         fill_layers=layers,
@@ -41,7 +41,10 @@ if __name__ == "__main__":
         fill_densities=[0.8] * len(layers),
         avoid_layers=layers,
     )
+    c.add_ref(fill)
     c << mzi
     c.show(show_ports=True)
     end = time.time()
     print(end - start)
+
+    print(len(fill.named_references))
