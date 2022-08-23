@@ -24,10 +24,7 @@ def is_valid_transformation(
 def has_valid_transformations(component: Component) -> bool:
     """Returns True if the component has valid transformations."""
     refs = component.references
-    for ref in refs:
-        if not is_valid_transformation(ref):
-            return False
-    return True
+    return all(is_valid_transformation(ref) for ref in refs)
 
 
 def flatten_invalid_refs(component: Component, grid_size: Optional[float] = None):
