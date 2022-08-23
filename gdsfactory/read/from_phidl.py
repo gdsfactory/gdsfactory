@@ -41,7 +41,7 @@ def from_phidl(component: Device, port_layer: Layer = (1, 0), **kwargs) -> Compo
         gdsdir = pathlib.Path(gdsdir)
         gdsdir.mkdir(exist_ok=True)
         gdspath = gdsdir / f"{device.name}.gds"
-        filepath = device.write_gds(gdspath)
+        filepath = device.write_gds(gdspath, cellname=device.name)
 
         component = import_gds(filepath)
         component.unlock()

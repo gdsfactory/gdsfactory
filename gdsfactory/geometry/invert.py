@@ -14,7 +14,7 @@ def invert(
     num_divisions: Union[int, Int2] = (1, 1),
     max_points: int = 4000,
     layer: Layer = (1, 0),
-):
+) -> Component:
     """Creates an inverted version of the input shapes with an additional \
     border around the edges. adapted from phidl.geometry.invert.
 
@@ -74,6 +74,7 @@ def test_invert() -> None:
 
 
 if __name__ == "__main__":
+    # test_invert()
     e1 = gf.components.ellipse(radii=(6, 6)).move((10, 10))
     c = invert(e1)
     c.show(show_ports=True)
