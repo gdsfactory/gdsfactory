@@ -1,6 +1,5 @@
 """Store files."""
 
-from abc import ABC
 from io import BytesIO
 
 import numpy as np
@@ -13,15 +12,15 @@ from gdsfactory.types import Optional, PathType
 FileTypes = Literal["sparameters", "modes", "gds", "measurements"]
 
 
-class FileStorage(ABC):
+class FileStorage(BaseModel):
     dirpath: Optional[PathType] = CONFIG["gdslib"]
     filetype: FileTypes
 
     def write(self, filename: str, data):
-        pass
+        raise NotImplementedError("need to implement")
 
     def read(self, filename: str) -> np.ndarray:
-        pass
+        raise NotImplementedError("need to implement")
 
     def _write_local_cache(self, filename: str, data):
         if not self.dirpath:
@@ -31,7 +30,7 @@ class FileStorage(ABC):
         with open(filepath, "wb") as file:
             np.savez_compressed(file, **data)
 
-    def _read_local_cache(self, filename: str, data) -> Optional[np.ndarray]:
+    def _read_local_cache(self, filename: str) -> Optional[np.ndarray]:
         if not self.dirpath:
             return
         filepath = self.dirpath / f"{self.filetype}/{filename}.npz"
@@ -39,31 +38,7 @@ class FileStorage(ABC):
             return np.load(filepath)
 
 
-class FileStorageDvc(BaseModel, FileStorage):
-    """DVC data versioning control.
-
-    The main issue is that it requires all the repo to be local.
-    """
-
-    bucket_name: str
-
-    def write(self, filename: str, data):
-        self._write_local_cache(filename=filename, data=data)
-
-    def read(self, filename: str) -> np.ndarray:
-        data = self._read_local_cache(filename=filename)
-        if data:
-            return data
-
-        import dvc.api
-
-        filepath = f"{self.filetype}/{filename}.npz"
-
-        with dvc.api.open(filepath, "rb") as file:
-            return np.load(file.read_bytes())
-
-
-class FileStorageGoogleCloud(BaseModel, FileStorage):
+class FileStorageGoogleCloud(FileStorage):
     bucket_name: str
 
     def write(self, filename: str, data) -> None:
@@ -92,16 +67,29 @@ class FileStorageGoogleCloud(BaseModel, FileStorage):
         return np.load(BytesIO(b))
 
 
-if __name__ == "__main__":
-    # s["o1@0", "o2@0"] = np.zeros_like(w)
-
+def test_google_cloud() -> None:
     w = np.linspace(1.5, 1.6, 3)
     s = dict(wavelengths=w)
     s["o1@0,o2@0"] = np.zeros_like(w)
 
-    f = FileStorageDvc(bucket_name="gdsfactory", filetype="modes")
-    # f = FileStorageGoogleCloud(bucket_name="gdsfactory", filetype="sparameters")
-    f.write("demo", s)
+    f = FileStorageGoogleCloud(bucket_name="gdsfactory", filetype="sparameters")
+    # f.write("demo", s)
 
-    # s2 = f.read("demo")
-    # print(s2["o1@0,o2@0"])
+    field = "o1@0,o2@0"
+    s2 = f.read("demo")
+    np.isclose(s[field], s2[field])
+
+
+if __name__ == "__main__":
+    test_google_cloud()
+
+    w = np.linspace(1.5, 1.6, 3)
+    s = dict(wavelengths=w)
+    field = "o1@0,o2@0"
+    s["o1@0,o2@0"] = np.zeros_like(w)
+
+    f = FileStorageGoogleCloud(bucket_name="gdsfactory", filetype="sparameters")
+    # f.write("demo", s)
+
+    s2 = f.read("demo")
+    print(s2["o1@0,o2@0"])

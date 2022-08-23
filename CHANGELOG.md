@@ -1,5 +1,12 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.20.0](https://github.com/gdsfactory/gdsfactory/pull/620)
+
+- add file storage class that can use local file cache and cloud buckets [PR](https://github.com/gdsfactory/gdsfactory/pull/626)
+- [PR](https://github.com/gdsfactory/gdsfactory/pull/624)
+    * make reference naming more reliable, by replacing the alias and aliases attributes with `named_references` property called name, which is guaranteed to always stay in sync with Component.references. Because name and owner are both changed to properties, we also guard against strange cases where either are changed midway through creating a component.
+    * add deprecation warning for alias/aliases
+
 ## [5.19.1](https://github.com/gdsfactory/gdsfactory/pull/620)
 
 - Rewrote model_from_gdsfactory to GDSFactorySimphonyWrapper. Similar to Simphony's SiPANN wrapper [PR](https://github.com/gdsfactory/gdsfactory/pull/619)

@@ -100,14 +100,12 @@ def fill_rectangle(
     fill_inverted = _loop_over(fill_inverted)
     if len(fill_layers) != len(fill_densities):
         raise ValueError(
-            "[PHIDL] phidl.geometry.fill_rectangle() "
-            "`fill_layers` and `fill_densities` parameters "
+            "fill_rectangle() `fill_layers` and `fill_densities` parameters "
             "must be lists of the same length"
         )
     if len(fill_layers) != len(fill_inverted):
         raise ValueError(
-            "[PHIDL] phidl.geometry.fill_rectangle() "
-            "`fill_layers` and `fill_inverted` parameters must "
+            "fill_rectangle() `fill_layers` and `fill_inverted` parameters must "
             "be lists of the same length"
         )
 
@@ -198,3 +196,30 @@ if __name__ == "__main__":
         # bbox=(100.0, 100.0),
     )
     c.show(show_ports=True)
+
+    # import gdsfactory as gf
+    # coupler_lengths = [10, 20, 30, 40, 50, 60, 70, 80]
+    # coupler_gaps = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
+    # delta_lengths = [10, 100, 200, 300, 400, 500, 500]
+
+    # mzi = gf.components.mzi_lattice(
+    #     coupler_lengths=coupler_lengths,
+    #     coupler_gaps=coupler_gaps,
+    #     delta_lengths=delta_lengths,
+    # )
+
+    # # Add fill
+    # c = gf.Component("component_with_fill")
+    # layers = [(1, 0)]
+    # fill_size = [0.5, 0.5]
+
+    # c << gf.fill_rectangle(
+    #     mzi,
+    #     fill_size=fill_size,
+    #     fill_layers=layers,
+    #     margin=5,
+    #     fill_densities=[0.8] * len(layers),
+    #     avoid_layers=layers,
+    # )
+    # c << mzi
+    # c.show(show_ports=True)
