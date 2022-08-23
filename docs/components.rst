@@ -362,7 +362,7 @@ bend_s
 
   import gdsfactory as gf
 
-  c = gf.components.bend_s(size=[10.0, 2.0], nb_points=99, with_bbox=True, cross_section='strip')
+  c = gf.components.bend_s(size=[10.0, 2.0], nb_points=99, cross_section='strip')
   c.plot()
 
 
@@ -378,6 +378,21 @@ bend_straight_bend
   import gdsfactory as gf
 
   c = gf.components.bend_straight_bend(straight_length=10.0, angle=90, p=0.5, with_arc_floorplan=True, npoints=720, direction='ccw')
+  c.plot()
+
+
+
+bezier
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.bezier
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.bezier(width=0.5, control_points=[[0.0, 0.0], [5.0, 0.0], [5.0, 2.0], [10.0, 2.0]], npoints=201, with_manhattan_facing_angles=True, cross_section='strip', with_bbox=True)
   c.plot()
 
 
@@ -407,7 +422,7 @@ cdc
 
   import gdsfactory as gf
 
-  c = gf.components.cdc(length=30.0, gap=0.5, period=0.22, dc=0.5, angle=0.5235987755982988, width_top=2.0, width_bot=0.75, input_bot=False, fins=False, fin_size=[0.2, 0.05], port_center=[0, 0], direction='EAST')
+  c = gf.components.cdc(length=30.0, gap=0.5, period=0.22, dc=0.5, dx=10.0, dy=5.0, width_top=2.0, width_bot=0.75, fins=False, fin_size=[0.2, 0.05])
   c.plot()
 
 
@@ -571,7 +586,7 @@ coupler_adiabatic
 
   import gdsfactory as gf
 
-  c = gf.components.coupler_adiabatic(length1=20.0, length2=50.0, length3=30.0, wg_sep=1.0, input_wg_sep=3.0, output_wg_sep=3.0, dw=0.1, port=[0, 0], direction='EAST', cross_section='strip')
+  c = gf.components.coupler_adiabatic(length1=20.0, length2=50.0, length3=30.0, wg_sep=1.0, input_wg_sep=3.0, output_wg_sep=3.0, dw=0.1, cross_section='strip')
   c.plot()
 
 
@@ -601,7 +616,7 @@ coupler_full
 
   import gdsfactory as gf
 
-  c = gf.components.coupler_full(length=40.0, gap=0.5, dw=0.1, angle=0.5235987755982988, parity=1, port=[0, 0], direction='EAST', cross_section='strip')
+  c = gf.components.coupler_full(coupling_length=40.0, dx=10.0, dy=5.0, gap=0.5, dw=0.1, cross_section='strip')
   c.plot()
 
 
@@ -826,7 +841,7 @@ cutback_component
 
   import gdsfactory as gf
 
-  c = gf.components.cutback_component(cols=4, rows=5, radius=5.0, port1='o1', port2='o2', mirror=False)
+  c = gf.components.cutback_component(cols=4, rows=5, port1='o1', port2='o2', mirror=False, cross_section='strip')
   c.plot()
 
 
@@ -841,7 +856,22 @@ cutback_component_mirror
 
   import gdsfactory as gf
 
-  c = gf.components.cutback_component_mirror(cols=4, rows=5, radius=5.0, port1='o1', port2='o2', mirror=True)
+  c = gf.components.cutback_component_mirror(cols=4, rows=5, port1='o1', port2='o2', mirror=True, cross_section='strip')
+  c.plot()
+
+
+
+cutback_splitter
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.cutback_splitter
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.cutback_splitter(cols=4, rows=5, port1='o1', port2='o2', port3='o3', mirror=False, cross_section='strip')
   c.plot()
 
 
@@ -871,7 +901,7 @@ dbr_tapered
 
   import gdsfactory as gf
 
-  c = gf.components.dbr_tapered(length=10.0, period=0.85, dc=0.5, w1=0.4, w2=1.0, taper_length=20.0, fins=False, fin_size=[0.2, 0.05], port=[0, 0], direction='EAST')
+  c = gf.components.dbr_tapered(length=10.0, period=0.85, dc=0.5, w1=0.4, w2=1.0, taper_length=20.0, fins=False, fin_size=[0.2, 0.05])
   c.plot()
 
 
@@ -1006,7 +1036,7 @@ disk
 
   import gdsfactory as gf
 
-  c = gf.components.disk(radius=10.0, gap=0.2, wrap_angle_deg=180.0, parity=1, port=[0, 0], direction='EAST')
+  c = gf.components.disk(radius=10.0, gap=0.2, wrap_angle_deg=180.0, parity=1)
   c.plot()
 
 
@@ -1141,21 +1171,6 @@ grating_coupler_array
   import gdsfactory as gf
 
   c = gf.components.grating_coupler_array(pitch=127.0, n=6, port_name='o1', rotation=0)
-  c.plot()
-
-
-
-grating_coupler_circular
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.grating_coupler_circular
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.grating_coupler_circular(taper_angle=30.0, taper_length=10.0, length=30.0, period=1.0, fill_factor=0.7, n_periods=30, bias_gap=0, port=[0.0, 0.0], layer_cladding='WGCLAD', direction='EAST', polarization='te', wavelength=1.55, fiber_marker_width=11.0, fiber_marker_layer='TE', cladding_offset=2.0, cross_section='strip')
   c.plot()
 
 
@@ -2135,36 +2150,6 @@ seal_ring
 
 
 
-spiral
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.spiral
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.spiral(port_spacing=500.0, length=10000.0, parity=1, port=[0, 0], direction='WEST', layer='WG', layer_cladding='WGCLAD', cladding_offset=3.0, wg_width=0.5, radius=10.0)
-  c.plot()
-
-
-
-spiral_circular
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.spiral_circular
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.spiral_circular(length=1000.0, wg_width=0.5, spacing=3.0, min_bend_radius=5.0, points=1000, layer='WG')
-  c.plot()
-
-
-
 spiral_double
 ----------------------------------------------------
 
@@ -2820,7 +2805,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='5.16.0', text_size=10)
+  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='5.20.0', text_size=10)
   c.plot()
 
 

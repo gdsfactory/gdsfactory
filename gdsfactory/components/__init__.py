@@ -93,7 +93,6 @@ from gdsfactory.components.extension import extend_port, extend_ports
 from gdsfactory.components.fiber import fiber
 from gdsfactory.components.fiber_array import fiber_array
 from gdsfactory.components.grating_coupler_array import grating_coupler_array
-from gdsfactory.components.grating_coupler_circular import grating_coupler_circular
 from gdsfactory.components.grating_coupler_elliptical import (
     ellipse_arc,
     grating_coupler_elliptical,
@@ -178,8 +177,6 @@ from gdsfactory.components.ring_single_array import ring_single_array
 from gdsfactory.components.ring_single_dut import ring_single_dut, taper2
 from gdsfactory.components.ring_single_heater import ring_single_heater
 from gdsfactory.components.seal_ring import seal_ring
-from gdsfactory.components.spiral import spiral
-from gdsfactory.components.spiral_circular import spiral_circular
 from gdsfactory.components.spiral_double import spiral_double
 from gdsfactory.components.spiral_external_io import spiral_external_io
 from gdsfactory.components.spiral_inner_io import (
@@ -243,7 +240,6 @@ from gdsfactory.components.via_stack import (
 )
 from gdsfactory.components.via_stack_slot import via_stack_slot, via_stack_slot_m1_m2
 from gdsfactory.components.via_stack_with_offset import via_stack_with_offset
-from gdsfactory.components.waveguide_template import strip
 from gdsfactory.components.wire import wire_corner, wire_straight
 from gdsfactory.components.wire_sbend import wire_sbend
 from gdsfactory.get_factories import get_cells
@@ -367,7 +363,6 @@ __all__ = [
     "text_lines",
     "generate_doe",
     "grating_coupler_array",
-    "grating_coupler_circular",
     "grating_coupler_elliptical",
     "grating_coupler_elliptical_arbitrary",
     "grating_coupler_elliptical_lumerical",
@@ -436,8 +431,6 @@ __all__ = [
     "ring_single_array",
     "ring_single_dut",
     "seal_ring",
-    "spiral",
-    "spiral_circular",
     "spiral_double",
     "spiral_external_io",
     "spiral_inner_io",
@@ -459,7 +452,6 @@ __all__ = [
     "straight_pn",
     "straight_rib",
     "straight_rib_tapered",
-    "strip",
     "switch_tree",
     "taper",
     "taper2",
