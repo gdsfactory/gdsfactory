@@ -158,42 +158,39 @@ def _move_ref(
     encountered_insts,
     all_remaining_insts,
 ) -> float:
-    if isinstance(x, str):
-        if len(x.split(",")) != 2:
-            raise ValueError(
-                f"You can define {x_or_y} as `{x_or_y}: instaceName,portName` got `{x_or_y}: {x!r}`"
-            )
-        instance_name_ref, port_name = x.split(",")
-        if instance_name_ref in all_remaining_insts:
-            place(
-                placements_conf,
-                connections_by_transformed_inst,
-                instances,
-                encountered_insts,
-                instance_name_ref,
-                all_remaining_insts,
-            )
-        if instance_name_ref not in instances:
-            raise ValueError(
-                f"{instance_name_ref!r} not in {list(instances.keys())}."
-                f" You can define {x_or_y} as `{x_or_y}: instaceName,portName`, got {x_or_y}: {x!r}"
-            )
-        if (
-            port_name not in instances[instance_name_ref].ports
-            and port_name not in valid_anchor_keywords
-        ):
-            ports = list(instances[instance_name_ref].ports.keys())
-            raise ValueError(
-                f"port = {port_name!r} can be a port_name in {ports}, "
-                f"an anchor {valid_anchor_keywords} for {instance_name_ref!r}, "
-                f"or `{x_or_y}: instaceName,portName`, got `{x_or_y}: {x!r}`"
-            )
-
-        return _get_anchor_value_from_name(
-            instances[instance_name_ref], port_name, x_or_y
-        )
-    else:
+    if not isinstance(x, str):
         return x
+    if len(x.split(",")) != 2:
+        raise ValueError(
+            f"You can define {x_or_y} as `{x_or_y}: instaceName,portName` got `{x_or_y}: {x!r}`"
+        )
+    instance_name_ref, port_name = x.split(",")
+    if instance_name_ref in all_remaining_insts:
+        place(
+            placements_conf,
+            connections_by_transformed_inst,
+            instances,
+            encountered_insts,
+            instance_name_ref,
+            all_remaining_insts,
+        )
+    if instance_name_ref not in instances:
+        raise ValueError(
+            f"{instance_name_ref!r} not in {list(instances.keys())}."
+            f" You can define {x_or_y} as `{x_or_y}: instaceName,portName`, got {x_or_y}: {x!r}"
+        )
+    if (
+        port_name not in instances[instance_name_ref].ports
+        and port_name not in valid_anchor_keywords
+    ):
+        ports = list(instances[instance_name_ref].ports.keys())
+        raise ValueError(
+            f"port = {port_name!r} can be a port_name in {ports}, "
+            f"an anchor {valid_anchor_keywords} for {instance_name_ref!r}, "
+            f"or `{x_or_y}: instaceName,portName`, got `{x_or_y}: {x!r}`"
+        )
+
+    return _get_anchor_value_from_name(instances[instance_name_ref], port_name, x_or_y)
 
 
 def place(
