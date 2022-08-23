@@ -811,6 +811,7 @@ class Component(Device):
         from gdsfactory.functions import transformed
 
         self.remove(ref)
+        ref._owner = None
         new_component = transformed(ref, decorator=None)
         self.add_ref(new_component)
 
