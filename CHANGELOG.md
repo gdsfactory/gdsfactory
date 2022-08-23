@@ -1,8 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.20.1](https://github.com/gdsfactory/gdsfactory/pull/631)
+## [5.21.0](https://github.com/gdsfactory/gdsfactory/pull/631)
 
 - Thanks to the counter `Component.add_array` has the same naming convention as `Component.add_ref` [PR](https://github.com/gdsfactory/gdsfactory/pull/630)
+- remove picwriter dependency and lazy load scipy functions from init
 
 ## [5.20.0](https://github.com/gdsfactory/gdsfactory/pull/628)
 
