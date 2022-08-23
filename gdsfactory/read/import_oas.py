@@ -39,7 +39,7 @@ def import_oas(
     if not filename.lower().endswith(".oas"):
         filename += ".oas"
     fileroot = os.path.splitext(filename)[0]
-    tempfilename = fileroot + "-tmp.gds"
+    tempfilename = f"{fileroot}-tmp.gds"
 
     layout = pya.Layout()
     layout.read(filename)

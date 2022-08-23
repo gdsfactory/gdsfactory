@@ -7,7 +7,7 @@ def set_shortcuts():
     config = pya.Application.instance().get_config("key-bindings")
     if config == "":
         print("WARNING: get_config(key-bindings) returned null")
-        mapping = dict()
+        mapping = {}
     else:
         mapping = dict(item.split(":") for item in config.split(";"))
 
