@@ -162,11 +162,14 @@ class ComponentReference(DeviceReference):
 
     @property
     def owner(self):
-        return self._owner
+        if self._owner is not None and self not in self._owner.references:
+            self._owner = None
+
+        return None
 
     @owner.setter
     def owner(self, value):
-        if self._owner is None:
+        if self.owner is None:
             self._owner = value
         elif value != self._owner:
             raise ValueError(
