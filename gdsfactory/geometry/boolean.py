@@ -21,15 +21,13 @@ def boolean(
     max_points: int = 4000,
     layer: Layer = (1, 0),
 ) -> Component:
-    """Performs boolean operations between 2 Component/Reference objects, or \
-    lists of Devices/DeviceReferences.
+    """Performs boolean operations between 2 Component/Reference/list objects.
 
     ``operation`` should be one of {'not', 'and', 'or', 'xor', 'A-B', 'B-A', 'A+B'}.
     Note that 'A+B' is equivalent to 'or', 'A-B' is equivalent to 'not', and
     'B-A' is equivalent to 'not' with the operands switched
 
-    gdsfactory wrapper for phidl.geometry.boolean
-
+    based on phidl.geometry.boolean
     You can also use gdsfactory.drc.boolean_klayout
 
     Args:
