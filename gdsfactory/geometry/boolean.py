@@ -85,44 +85,43 @@ def boolean(
         )
 
     # Check for trivial solutions
-    if ((len(A_polys) == 0) or (len(B_polys) == 0)) and (operation != "or"):
-        if operation == "not":
-            if len(A_polys) == 0:
-                p = None
-            elif len(B_polys) == 0:
-                p = A_polys
-        elif operation == "and":
+    if (not A_polys or not B_polys) and operation != "or":
+        if (
+            operation != "not"
+            and operation != "and"
+            and operation == "xor"
+            and not A_polys
+            and not B_polys
+            or operation != "not"
+            and operation == "and"
+        ):
             p = None
-        elif operation == "xor":
-            if (len(A_polys) == 0) and (len(B_polys) == 0):
-                p = None
-            elif len(A_polys) == 0:
-                p = B_polys
-            elif len(B_polys) == 0:
-                p = A_polys
-    elif (len(A_polys) == 0) and (len(B_polys) == 0) and (operation == "or"):
+        elif operation != "not" and operation == "xor" and not A_polys:
+            p = B_polys
+        elif operation != "not" and operation == "xor":
+            p = A_polys
+        elif operation == "not":
+            p = A_polys or None
+    elif not A_polys and not B_polys:
         p = None
+    elif all(np.array(num_divisions) == np.array([1, 1])):
+        p = gdspy.boolean(
+            operand1=A_polys,
+            operand2=B_polys,
+            operation=operation,
+            precision=precision,
+            max_points=max_points,
+            layer=gds_layer,
+            datatype=gds_datatype,
+        )
     else:
-        # If no trivial solutions, run boolean operation either in parallel or
-        # straight
-        if all(np.array(num_divisions) == np.array([1, 1])):
-            p = gdspy.boolean(
-                operand1=A_polys,
-                operand2=B_polys,
-                operation=operation,
-                precision=precision,
-                max_points=max_points,
-                layer=gds_layer,
-                datatype=gds_datatype,
-            )
-        else:
-            p = _boolean_polygons_parallel(
-                polygons_A=A_polys,
-                polygons_B=B_polys,
-                num_divisions=num_divisions,
-                operation=operation,
-                precision=precision,
-            )
+        p = _boolean_polygons_parallel(
+            polygons_A=A_polys,
+            polygons_B=B_polys,
+            num_divisions=num_divisions,
+            operation=operation,
+            precision=precision,
+        )
 
     if p is not None:
         polygons = D.add_polygon(p, layer=layer)
