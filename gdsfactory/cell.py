@@ -1,5 +1,4 @@
 """Cell decorator for functions that return a Component."""
-import copy
 import functools
 import hashlib
 import inspect
@@ -83,7 +82,7 @@ def cell_without_validator(func):
 
         sig = inspect.signature(func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), args))
-        args_as_kwargs.update(**copy.deepcopy(kwargs))
+        args_as_kwargs.update(kwargs)
 
         default = {
             p.name: p.default
@@ -92,11 +91,11 @@ def cell_without_validator(func):
         }
 
         changed = args_as_kwargs
-        full = copy.deepcopy(default)
+        full = default.copy()
         full.update(**args_as_kwargs)
 
-        default2 = copy.deepcopy(default)
-        changed2 = copy.deepcopy(changed)
+        default2 = default.copy()
+        changed2 = changed.copy()
 
         # list of default args as strings
         default_args_list = [

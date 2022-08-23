@@ -1,4 +1,3 @@
-import copy as python_copy
 import datetime
 import hashlib
 import itertools
@@ -701,7 +700,7 @@ class Component(Device):
 
         self.get_child_name = True
         self.child = component
-        self.info.update(python_copy.deepcopy(component.info))
+        self.info.update(component.info)
 
     @property
     def size_info(self) -> SizeInfo:
