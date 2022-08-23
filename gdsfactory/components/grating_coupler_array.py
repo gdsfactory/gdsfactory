@@ -1,12 +1,12 @@
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.grating_coupler_circular import grating_coupler_circular
+from gdsfactory.components.grating_coupler_elliptical import grating_coupler_elliptical
 from gdsfactory.types import ComponentSpec
 
 
 @gf.cell
 def grating_coupler_array(
-    grating_coupler: ComponentSpec = grating_coupler_circular,
+    grating_coupler: ComponentSpec = grating_coupler_elliptical,
     pitch: float = 127.0,
     n: int = 6,
     port_name: str = "o1",
@@ -35,9 +35,5 @@ def grating_coupler_array(
 
 
 if __name__ == "__main__":
-
-    # c = gf.components.grating_coupler_circular()
-    # c = gf.rotate(component=c, angle=90)
-    # c = grating_coupler_array(grating_coupler=c, port_name="o1", pitch=25.0)
     c = grating_coupler_array()
     c.show(show_ports=True)
