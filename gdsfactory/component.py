@@ -7,6 +7,7 @@ import pathlib
 import tempfile
 import uuid
 import warnings
+from collections import Counter
 from collections.abc import Iterable
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
@@ -129,6 +130,7 @@ class Component(Device):
         self.get_child_name = False
         self.version = version
         self.changelog = changelog
+        self._reference_names_counter = Counter()
 
     def __lshift__(self, element):
         """Convenience operator equivalent to add_ref()."""
@@ -845,18 +847,15 @@ class Component(Device):
             if reference.name is not None:
                 alias = reference.name
             else:
-                i = 0
                 prefix = (
                     component.settings.function_name
                     if hasattr(component, "settings")
                     and hasattr(component.settings, "function_name")
                     else component.name
                 )
-                alias = f"{prefix}_{i}"
+                self._reference_names_counter.update({prefix: 1})
+                alias = f"{prefix}_{self._reference_names_counter[prefix]}"
 
-                while alias in self.named_references:
-                    i += 1
-                    alias = f"{prefix}_{i}"
         reference.name = alias
 
     def get_layers(self) -> Union[Set[Tuple[int, int]], Set[Tuple[int64, int64]]]:
@@ -1545,6 +1544,7 @@ def test_bbox_component() -> None:
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.bend_euler()
-    c2 = c.mirror()
-    print(c2.info)
+    # c = gf.components.bend_euler()
+    # c2 = c.mirror()
+    # print(c2.info)
+    c = gf.c.mzi()

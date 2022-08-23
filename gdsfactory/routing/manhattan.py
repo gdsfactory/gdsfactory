@@ -536,6 +536,22 @@ def get_route_error(
     references: Optional[List[ComponentReference]] = None,
     with_sbend: bool = False,
 ) -> Route:
+    """Returns route with error markers.
+
+    Args:
+        points: route waypoints.
+        cross_section: Optional cross_section.
+        layer_path: for the error.
+        layer_label: for the labels.
+        layer_marker: for point markers.
+        references: optional list of references.
+        with_sbend: if True raises Error so we can use it in try, except
+            if False raises Warning.
+    """
+    layer_path = gf.get_layer(layer_path)
+    layer_label = gf.get_layer(layer_label)
+    layer_marker = gf.get_layer(layer_marker)
+
     width = cross_section.width if cross_section else 10
 
     if with_sbend:
@@ -588,7 +604,7 @@ def round_corners(
     on_route_error: Callable = get_route_error,
     with_point_markers: bool = False,
     snap_to_grid_nm: Optional[int] = 1,
-    with_sbend: bool = True,
+    with_sbend: bool = False,
     **kwargs,
 ) -> Route:
     """Returns Route.
@@ -770,6 +786,7 @@ def round_corners(
                 points=(p0_straight, bend_origin),
                 cross_section=x if not multi_cross_section else None,
                 references=references,
+                with_sbend=with_sbend,
             )
 
         p0_straight = bend_ref.ports[pname_north].center
@@ -791,6 +808,7 @@ def round_corners(
             points=(p0_straight, points[-1]),
             cross_section=x if not multi_cross_section else None,
             references=references,
+            with_sbend=with_sbend,
         )
 
     # ensure bend connectivity
@@ -804,6 +822,7 @@ def round_corners(
                 points=points,
                 cross_section=x if not multi_cross_section else None,
                 references=references,
+                with_sbend=with_sbend,
             )
 
     wg_refs = []
