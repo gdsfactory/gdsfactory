@@ -12,7 +12,7 @@ TODO:
 
 Maybe:
 
-- combine modes package, mpb and tidy3d APIs
+- combine modes package (based on modesolverpy), MPB and tidy3d APIs
 
 """
 
@@ -281,8 +281,14 @@ class Waveguide(BaseModel):
     def compute_modes(
         self,
         overwrite: bool = False,
+        with_fields: bool = True,
     ) -> None:
-        """Compute modes."""
+        """Compute modes.
+
+        Args:
+            overwrite: overwrite file cache.
+            with_fields: include field data.
+        """
         if hasattr(self, "neffs") and not overwrite:
             return
 
@@ -313,12 +319,14 @@ class Waveguide(BaseModel):
 
         if self.cache and self.filepath and self.filepath.exists():
             data = np.load(self.filepath)
-            self.Ex = data["Ex"]
-            self.Ey = data["Ey"]
-            self.Ez = data["Ez"]
-            self.Hx = data["Hx"]
-            self.Hy = data["Hy"]
-            self.Hz = data["Hz"]
+
+            if with_fields:
+                self.Ex = data["Ex"]
+                self.Ey = data["Ey"]
+                self.Ez = data["Ez"]
+                self.Hx = data["Hx"]
+                self.Hy = data["Hy"]
+                self.Hz = data["Hz"]
             self.neffs = data["neffs"]
             logger.info(f"load {self.filepath} mode data from file cache.")
             return
@@ -348,15 +356,18 @@ class Waveguide(BaseModel):
         self.Hx, self.Hy, self.Hz = Hx, Hy, Hz
         self.neffs = neffs
 
-        data = dict(
-            Ex=self.Ex,
-            Ey=self.Ey,
-            Ez=self.Ez,
-            Hx=self.Hx,
-            Hy=self.Hy,
-            Hz=self.Hz,
-            neffs=self.neffs,
-        )
+        if with_fields:
+            data = dict(
+                Ex=self.Ex,
+                Ey=self.Ey,
+                Ez=self.Ez,
+                Hx=self.Hx,
+                Hy=self.Hy,
+                Hz=self.Hz,
+                neffs=self.neffs,
+            )
+        else:
+            data = dict(neffs=self.neffs)
         if self.filepath:
             np.savez_compressed(self.filepath, **data)
             logger.info(f"write {self.filepath} mode data to file cache.")
