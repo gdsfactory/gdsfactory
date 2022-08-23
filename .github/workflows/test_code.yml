@@ -38,4 +38,8 @@ jobs:
         run: |
           flake8 .
       - name: Test with pytest
-        run: pytest
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: $HOME/gcs.json
+        run: |
+          echo ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }} > $HOME/gcs.json
+          pytest
