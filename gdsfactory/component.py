@@ -783,10 +783,9 @@ class Component(Device):
             rows=int(round(rows)),
             spacing=spacing,
         )
-        # ref.name = None
-        ref.name = f"{component.name}_{rows}_{columns}"
+        ref.name = None
         self._add(ref)
-        # self._register_reference(reference=ref, alias=alias)
+        self._register_reference(reference=ref, alias=alias)
         return ref
 
     def flatten(self, single_layer: Optional[Tuple[int, int]] = None):
