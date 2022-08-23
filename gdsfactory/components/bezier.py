@@ -2,8 +2,6 @@ from typing import Optional
 
 import numpy as np
 from numpy import ndarray
-from scipy.optimize import minimize
-from scipy.special import binom
 
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
@@ -19,6 +17,8 @@ def bezier_curve(t: ndarray, control_points: Coordinates) -> ndarray:
         t: 1D array of points varying between 0 and 1.
         control_points:
     """
+    from scipy.special import binom
+
     xs = 0.0
     ys = 0.0
     n = len(control_points) - 1
@@ -101,6 +101,8 @@ def find_min_curv_bezier_control_points(
     alpha: float = 0.05,
     nb_pts: int = 2,
 ) -> Coordinates:
+    from scipy.optimize import minimize
+
     t = np.linspace(0, 1, npoints)
 
     def array_1d_to_cpts(a):
