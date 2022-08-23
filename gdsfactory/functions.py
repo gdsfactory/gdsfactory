@@ -189,11 +189,10 @@ def move(
 
 @cell
 def transformed(ref: ComponentReference):
-    """Returns a flattened cell with all transformations from the reference \
-    applied.
+    """Returns flattened cell with reference transformations applied.
 
     Args:
-        ref: the reference to flatten into a new cell
+        ref: the reference to flatten into a new cell.
 
     """
     c = Component()

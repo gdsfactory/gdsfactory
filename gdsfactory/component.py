@@ -717,7 +717,7 @@ class Component(Device):
         """Raises error if Component is locked."""
         if self._locked:
             raise MutabilityError(
-                f"Component {self.name!r} cannot be modified as it is already on cache. "
+                f"Component {self.name!r} cannot be modified as it's already on cache. "
                 + mutability_error_message
             )
 
@@ -726,8 +726,7 @@ class Component(Device):
 
         Args:
             element: `PolygonSet`, `CellReference`, `CellArray` or iterable
-            The element or iterable of elements to be inserted in this
-            cell.
+            The element or iterable of elements to be inserted in this cell.
 
         Raises:
             MutabilityError: if component is locked.
@@ -740,8 +739,7 @@ class Component(Device):
 
         Args:
             element: `PolygonSet`, `CellReference`, `CellArray` or iterable
-            The element or iterable of elements to be inserted in this
-            cell.
+            The element or iterable of elements to be inserted in this cell.
 
         Raises:
             MutabilityError: if component is locked.
@@ -776,14 +774,17 @@ class Component(Device):
             a: CellArray containing references to the Component.
         """
         if not isinstance(component, Component):
-            raise TypeError("""add_array() needs a Component object. """)
+            raise TypeError("add_array() needs a Component object.")
         ref = CellArray(
             device=component,
             columns=int(round(columns)),
             rows=int(round(rows)),
             spacing=spacing,
         )
-        self.add(ref)  # Add ComponentReference Component
+        # ref.name = None
+        ref.name = f"{component.name}_{rows}_{columns}"
+        self._add(ref)
+        # self._register_reference(reference=ref, alias=alias)
         return ref
 
     def flatten(self, single_layer: Optional[Tuple[int, int]] = None):
@@ -808,11 +809,20 @@ class Component(Device):
         return component_flat
 
     def flatten_reference(self, ref: ComponentReference):
+        """From existing cell replaces reference with a flatten reference \
+        which has the transformations already applied.
+
+        Transformed reference keeps the original name.
+
+        Args:
+            ref: the reference to flatten into a new cell.
+
+        """
         from gdsfactory.functions import transformed
 
         self.remove(ref)
         new_component = transformed(ref, decorator=None)
-        self.add_ref(new_component)
+        self.add_ref(new_component, alias=ref.name)
 
     def add_ref(
         self, component: "Component", alias: Optional[str] = None
