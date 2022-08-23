@@ -1,9 +1,13 @@
 from typing import Tuple, Union
 
-import phidl.geometry as pg
+import gdspy
+import numpy as np
+from phidl.device_layout import Polygon, _parse_layer
+from phidl.geometry import _boolean_polygons_parallel
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.component_reference import ComponentReference
 from gdsfactory.types import ComponentOrReference, Int2, Layer
 
 
@@ -49,19 +53,84 @@ def boolean(
     'B-A' is equivalent to 'not' with the operands switched.
 
     """
-    A = list(A) if isinstance(A, tuple) else A
-    B = list(B) if isinstance(B, tuple) else B
+    D = Component()
+    A_polys = []
+    B_polys = []
+    A = list(A) if isinstance(A, (list, tuple)) else [A]
+    B = list(B) if isinstance(B, (list, tuple)) else [B]
 
-    c = pg.boolean(
-        A=A,
-        B=B,
-        operation=operation,
-        precision=precision,
-        num_divisions=num_divisions,
-        max_points=max_points,
-        layer=layer,
-    )
-    return gf.read.from_phidl(component=c)
+    for X, polys in ((A, A_polys), (B, B_polys)):
+        for e in X:
+            if isinstance(e, (Component, ComponentReference)):
+                polys.extend(e.get_polygons())
+            elif isinstance(e, Polygon):
+                polys.extend(e.polygons)
+
+    gds_layer, gds_datatype = _parse_layer(layer)
+
+    operation = operation.lower().replace(" ", "")
+    if operation == "a-b":
+        operation = "not"
+    elif operation == "b-a":
+        operation = "not"
+        A_polys, B_polys = B_polys, A_polys
+    elif operation == "a+b":
+        operation = "or"
+    elif operation not in ["not", "and", "or", "xor", "a-b", "b-a", "a+b"]:
+        raise ValueError(
+            "gdsfactory.geometry.boolean() `operation` "
+            "parameter not recognized, must be one of the "
+            "following:  'not', 'and', 'or', 'xor', 'A-B', "
+            "'B-A', 'A+B'"
+        )
+
+    # Check for trivial solutions
+    if ((len(A_polys) == 0) or (len(B_polys) == 0)) and (operation != "or"):
+        if operation == "not":
+            if len(A_polys) == 0:
+                p = None
+            elif len(B_polys) == 0:
+                p = A_polys
+        elif operation == "and":
+            p = None
+        elif operation == "xor":
+            if (len(A_polys) == 0) and (len(B_polys) == 0):
+                p = None
+            elif len(A_polys) == 0:
+                p = B_polys
+            elif len(B_polys) == 0:
+                p = A_polys
+    elif (len(A_polys) == 0) and (len(B_polys) == 0) and (operation == "or"):
+        p = None
+    else:
+        # If no trivial solutions, run boolean operation either in parallel or
+        # straight
+        if all(np.array(num_divisions) == np.array([1, 1])):
+            p = gdspy.boolean(
+                operand1=A_polys,
+                operand2=B_polys,
+                operation=operation,
+                precision=precision,
+                max_points=max_points,
+                layer=gds_layer,
+                datatype=gds_datatype,
+            )
+        else:
+            p = _boolean_polygons_parallel(
+                polygons_A=A_polys,
+                polygons_B=B_polys,
+                num_divisions=num_divisions,
+                operation=operation,
+                precision=precision,
+            )
+
+    if p is not None:
+        polygons = D.add_polygon(p, layer=layer)
+        [
+            polygon.fracture(max_points=max_points, precision=precision)
+            for polygon in polygons
+        ]
+    return D
 
 
 def test_boolean() -> None:

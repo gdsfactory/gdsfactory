@@ -534,12 +534,14 @@ def get_route_error(
     layer_label: Layer = LAYER.TEXT,
     layer_marker: Layer = LAYER.ERROR_MARKER,
     references: Optional[List[ComponentReference]] = None,
+    with_sbend: bool = False,
 ) -> Route:
     width = cross_section.width if cross_section else 10
-    warnings.warn(
-        f"Route error for points {points}",
-        RouteWarning,
-    )
+
+    if with_sbend:
+        raise RouteError(f"route error for points {points}")
+    else:
+        warnings.warn(f"Route error for points {points}", RouteWarning)
 
     c = Component(f"route_{uuid.uuid4()}"[:16])
     path = gdspy.FlexPath(
@@ -586,6 +588,7 @@ def round_corners(
     on_route_error: Callable = get_route_error,
     with_point_markers: bool = False,
     snap_to_grid_nm: Optional[int] = 1,
+    with_sbend: bool = True,
     **kwargs,
 ) -> Route:
     """Returns Route.
@@ -606,6 +609,7 @@ def round_corners(
         on_route_error: function to run when route fails.
         with_point_markers: add route points markers (easy for debugging).
         snap_to_grid_nm: nm to snap to grid.
+        with_sbend: add sbend in case there are routing errors.
         kwargs: cross_section settings.
 
     """
@@ -700,7 +704,9 @@ def round_corners(
     if bend_orientation is None:
         print(f"bend_orientation is None {p0_straight} {p1}")
         return on_route_error(
-            points=points, cross_section=x if not multi_cross_section else None
+            points=points,
+            cross_section=x if not multi_cross_section else None,
+            with_sbend=with_sbend,
         )
 
     try:
@@ -990,6 +996,7 @@ def route_manhattan(
     with_sbend: bool = True,
     cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
     with_point_markers: bool = False,
+    on_route_error: Callable = get_route_error,
     **kwargs,
 ) -> Route:
     """Generates the Manhattan waypoints for a route.
@@ -1001,6 +1008,15 @@ def route_manhattan(
         input_port: input.
         output_port: output.
         straight: function.
+        taper: add taper.
+        start_straight_length: in um.
+        end_straight_length: in um.
+        min_straight_length: min length of straight for any intermediate segment.
+        bend: bend spec.
+        with_sbend: add sbend in case there are routing errors.
+        cross_section: spec.
+        with_point_markers: add point markers in the route.
+        kwargs: cross_section settings.
 
     """
     if isinstance(cross_section, list):
@@ -1014,7 +1030,7 @@ def route_manhattan(
         end_straight_length = end_straight_length or x.min_length
         min_straight_length = min_straight_length or x.min_length
 
-    with warnings.catch_warnings(record=True) as w:
+    try:
         points = generate_manhattan_waypoints(
             input_port,
             output_port,
@@ -1031,30 +1047,15 @@ def route_manhattan(
             bend=bend,
             cross_section=x,
             with_point_markers=with_point_markers,
+            with_sbend=with_sbend,
         )
-        if not w:
-            return route
-        if w and with_sbend:
+        return route
+
+    except RouteError:
+        if with_sbend:
             return get_route_sbend(input_port, output_port, cross_section=x)
 
-    points = generate_manhattan_waypoints(
-        input_port,
-        output_port,
-        start_straight_length=start_straight_length,
-        end_straight_length=end_straight_length,
-        min_straight_length=min_straight_length,
-        bend=bend,
-        cross_section=x,
-    )
-    route = round_corners(
-        points=points,
-        straight=straight,
-        taper=taper,
-        bend=bend,
-        cross_section=x,
-        with_point_markers=with_point_markers,
-    )
-    return route
+    return get_route_error(points=points, with_sbend=False)
 
 
 if __name__ == "__main__":
