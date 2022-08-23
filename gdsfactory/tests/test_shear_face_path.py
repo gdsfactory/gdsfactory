@@ -352,6 +352,31 @@ def test_points_are_correct_multi_layer():
 
 
 if __name__ == "__main__":
+    test_mate_on_shear_xor_empty_curve()
+    # P = gf.path.euler()
+    # curve = gf.path.extrude(P, "strip")
+
+    # angle = 15
+    # P = gf.path.euler()
+    # curve_sheared1 = gf.path.extrude(P, "strip", shear_angle_end=angle)
+    # curve_sheared2 = gf.path.extrude(P, "strip", shear_angle_start=angle)
+
+    # two_straights = gf.Component()
+    # c1 = two_straights << curve
+    # c2 = two_straights << curve
+    # c2.connect("o1", c1.ports["o2"])
+
+    # two_shears = gf.Component()
+    # c1 = two_shears << curve_sheared1
+    # c2 = two_shears << curve_sheared2
+    # c2.connect("o1", c1.ports["o2"])
+
+    # xor = gf.geometry.xor_diff(two_straights, two_shears, precision=1e-2)
+    # assert not xor.layers, f"{xor.layers}"
+
+    # two_straights.show()
+    # two_shears.show()
+
     P = gf.path.euler()
     curve = gf.path.extrude(P, "strip")
 
@@ -371,7 +396,4 @@ if __name__ == "__main__":
     c2.connect("o1", c1.ports["o2"])
 
     xor = gf.geometry.xor_diff(two_straights, two_shears, precision=1e-2)
-    assert not xor.layers, f"{xor.layers}"
-
-    # two_straights.show()
-    two_shears.show()
+    xor.show()
