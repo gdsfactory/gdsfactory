@@ -157,12 +157,12 @@ def mzi(
     )
     c.add(route.references)
 
-    c.aliases["sytl"] = sytl
-    c.aliases["syl"] = syl
-    c.aliases["sxt"] = sxt
-    c.aliases["sxb"] = sxb
-    c.aliases["cp1"] = cp1
-    c.aliases["cp2"] = cp2
+    sytl.name = "sytl"
+    syl.name = "syl"
+    sxt.name = "sxt"
+    sxb.name = "sxb"
+    cp1.name = "cp1"
+    cp2.name = "cp2"
 
     if with_splitter:
         c.add_ports(cp1.get_ports_list(orientation=180), prefix="in")
