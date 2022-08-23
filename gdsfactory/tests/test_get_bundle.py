@@ -345,7 +345,7 @@ def test_get_bundle_u_indirect(
 
     xs1 = [-100, -90, -80, -55, -35] + [200, 210, 240]
 
-    axis = "X" if angle in [0, 180] else "Y"
+    axis = "X" if angle in {0, 180} else "Y"
 
     layer = (1, 0)
     pitch = 10.0
