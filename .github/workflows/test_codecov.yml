@@ -19,11 +19,12 @@ jobs:
       - name: Install dependencies
         run: |
           make install
+      - id: "auth"
+        name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v0.4.0"
+        with:
+          credentials_json: "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}"
       - name: Test with pytest
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: $HOME/.gcs.json
-        run: |
-          echo ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }} > $HOME/.gcs.json
           python -m pip install --upgrade pip
           pip install pytest klayout lytest scikit-image pytest-cov
           pytest --cov=gdsfactory --cov-report=xml --cov-config=.coveragerc gdsfactory

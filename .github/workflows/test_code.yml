@@ -18,7 +18,7 @@ jobs:
     strategy:
       max-parallel: 12
       matrix:
-        python-version: [3.7, 3.8, 3.9, '3.10']
+        python-version: [3.7, 3.8, 3.9, "3.10"]
         os: [ubuntu-latest]
 
     steps:
@@ -34,12 +34,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install flake8
           make install gdslib
+      - id: "auth"
+        name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v0.4.0"
+        with:
+          credentials_json: "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}"
       - name: Lint with flake8
         run: |
           flake8 .
       - name: Test with pytest
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: $HOME/gcs.json
         run: |
-          echo ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }} > $HOME/gcs.json
           pytest
