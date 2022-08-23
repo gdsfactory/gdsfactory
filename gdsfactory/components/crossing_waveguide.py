@@ -414,11 +414,7 @@ def compensation_path(
     y_bend = solution.root
     y_bend = snap_to_grid(y_bend)
 
-    if direction == "top":
-        v_mirror = False
-    else:
-        v_mirror = True
-
+    v_mirror = direction != "top"
     sbend = bezier(control_points=get_control_pts(x0, y_bend))
 
     c = Component()
