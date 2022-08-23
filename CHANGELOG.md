@@ -6,7 +6,8 @@
 - [PR](https://github.com/gdsfactory/gdsfactory/pull/624)
     * make reference naming more reliable, by replacing the alias and aliases attributes with `named_references` property called name, which is guaranteed to always stay in sync with Component.references. Because name and owner are both changed to properties, we also guard against strange cases where either are changed midway through creating a component.
     * add deprecation warning for alias/aliases
-- add import to gf.read.import_gdspy
+- add gf.read.import_gdspy
+- add_ref adds default alias with incremental names using a counter.
 
 ## [5.19.1](https://github.com/gdsfactory/gdsfactory/pull/620)
 
