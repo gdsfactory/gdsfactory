@@ -76,6 +76,6 @@ def test_flatten_invalid_refs():
 
 
 if __name__ == "__main__":
-    test_flatten_invalid_refs()
-    # c = _demo_non_manhattan(decorator=flatten_invalid_refs)
-    # c.show()
+    # test_flatten_invalid_refs()
+    c = _demo_non_manhattan(decorator=flatten_invalid_refs)
+    c.show()
