@@ -16,7 +16,7 @@ Assumes two ports are connected when they have same width, x, y
 
 """
 
-from typing import Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional
 
 import omegaconf
 
@@ -77,25 +77,6 @@ def get_instance_name_from_label(
     return text
 
 
-def get_netlist_dict(
-    component: Component,
-    full_settings: bool = False,
-    tolerance: int = 1,
-    exclude_port_types: Optional[List] = None,
-    **kwargs,
-) -> Dict:
-    """From a component returns instances, connections and placements dict."""
-    return omegaconf.OmegaConf.to_container(
-        get_netlist(
-            component=component,
-            full_settings=full_settings,
-            tolerance=tolerance,
-            exclude_port_types=exclude_port_types,
-            **kwargs,
-        )
-    )
-
-
 def get_netlist_yaml(
     component: Component,
     full_settings: bool = False,
@@ -103,7 +84,7 @@ def get_netlist_yaml(
     exclude_port_types: Optional[List] = None,
     **kwargs,
 ) -> Dict:
-    """From a component returns instances, connections and placements yaml string content."""
+    """Returns instances, connections and placements yaml string content."""
     return omegaconf.OmegaConf.to_yaml(
         get_netlist(
             component=component,
@@ -121,7 +102,7 @@ def get_netlist(
     tolerance: int = 1,
     exclude_port_types: Optional[List] = None,
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
-) -> omegaconf.DictConfig:
+) -> Dict[str, Any]:
     """From a component returns instances, connections and placements dict.
 
     Assumes that ports with same width, x, y are connected.
@@ -237,14 +218,12 @@ def get_netlist(
     connections_sorted = {k: connections[k] for k in sorted(list(connections.keys()))}
     placements_sorted = {k: placements[k] for k in sorted(list(placements.keys()))}
     instances_sorted = {k: instances[k] for k in sorted(list(instances.keys()))}
-    return omegaconf.DictConfig(
-        dict(
-            connections=connections_sorted,
-            instances=instances_sorted,
-            placements=placements_sorted,
-            ports=top_ports,
-            name=component.name,
-        )
+    return dict(
+        connections=connections_sorted,
+        instances=instances_sorted,
+        placements=placements_sorted,
+        ports=top_ports,
+        name=component.name,
     )
 
 
@@ -254,7 +233,7 @@ def get_netlist_recursive(
     get_netlist_func: Callable = get_netlist,
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
     **kwargs,
-) -> Dict[str, omegaconf.DictConfig]:
+) -> Dict[str, Any]:
     """Returns recursive netlist for a component and subcomponents.
 
     Args:
@@ -344,7 +323,7 @@ if __name__ == "__main__":
 
     c = gf.components.mzi(delta_length=10)
     n = c.get_netlist()
-    print("\n".join(n.instances.keys()))
+    print("\n".join(n["instances"].keys()))
 
     c = gf.read.from_yaml(c.get_netlist())
     c.show()
