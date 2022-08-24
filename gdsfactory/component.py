@@ -130,6 +130,7 @@ class Component(Device):
         self.version = version
         self.changelog = changelog
         self._reference_names_counter = Counter()
+        self._reference_names_used = set()
 
     def __lshift__(self, element):
         """Convenience operator equivalent to add_ref()."""
@@ -854,6 +855,10 @@ class Component(Device):
                 self._reference_names_counter.update({prefix: 1})
                 alias = f"{prefix}_{self._reference_names_counter[prefix]}"
 
+                while alias in self._reference_names_used:
+                    self._reference_names_counter.update({prefix: 1})
+                    alias = f"{prefix}_{self._reference_names_counter[prefix]}"
+
         reference.name = alias
 
     def get_layers(self) -> Union[Set[Tuple[int, int]], Set[Tuple[int64, int64]]]:
@@ -1391,6 +1396,38 @@ class Component(Device):
         self.add(reference.parent.labels)
         self.add(reference.parent.paths)
         self.remove(reference)
+        return self
+
+    def remove(self, items):
+        """Removes items from a Component, which can include Ports, PolygonSets \
+        CellReferences, ComponentReferences and Labels.
+
+        Args:
+            items: list of Items to be removed from the Component.
+        """
+        if not hasattr(items, "__iter__"):
+            items = [items]
+        for item in items:
+            if isinstance(item, Port):
+                try:
+                    self.ports = {k: v for k, v in self.ports.items() if v != item}
+                except Exception:
+                    raise ValueError(
+                        f"Component.remove() cannot find the item {item!r}"
+                    )
+            else:
+                if isinstance(item, gdspy.PolygonSet):
+                    self.polygons.remove(item)
+                elif isinstance(item, gdspy.CellReference):
+                    self.references.remove(item)
+                    item.owner = None
+                elif isinstance(item, gdspy.CellArray):
+                    self.references.remove(item)
+                    item.owner = None
+                elif isinstance(item, gdspy.Label):
+                    self.labels.remove(item)
+
+        self._bb_valid = False
         return self
 
 
