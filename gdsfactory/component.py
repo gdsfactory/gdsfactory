@@ -350,9 +350,7 @@ class Component(Device):
         write_dot(G, filepath)
 
     def get_netlist(self, **kwargs) -> DictConfig:
-        """Returns netlist dict config (instances, placements, connections,.
-
-        ports)
+        """Returns netlist (instances, placements, connections, ports).
 
         Keyword Args:
             component: to extract netlist.
@@ -370,11 +368,6 @@ class Component(Device):
         from gdsfactory.get_netlist import get_netlist
 
         return get_netlist(component=self, **kwargs)
-
-    def get_netlist_dict(self, **kwargs) -> Dict[str, Any]:
-        from gdsfactory.get_netlist import get_netlist_dict
-
-        return get_netlist_dict(component=self, **kwargs)
 
     def get_netlist_recursive(self, **kwargs) -> Dict[str, DictConfig]:
         """Returns recursive netlist for a component and subcomponents.
