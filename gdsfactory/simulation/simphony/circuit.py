@@ -58,7 +58,7 @@ def component_to_circuit(
         model_factory: dict of component_type.
 
     """
-    netlist = component.get_netlist_dict()
+    netlist = component.get_netlist()
     instances = netlist["instances"]
     connections = netlist["connections"]
     model_names = []
@@ -103,7 +103,7 @@ if __name__ == "__main__":
     import gdsfactory.simulation.simphony as gs
 
     c = gf.components.mzi()
-    n = c.get_netlist_dict()
+    n = c.get_netlist()
 
     cm = component_to_circuit(c)
     gs.plot_circuit(cm, pin_in=cm.pins[0].name, pins_out=[cm.pins[-1].name])
