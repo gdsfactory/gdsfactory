@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.22.0](https://github.com/gdsfactory/gdsfactory/pull/633)
+
+- more robust geometric_hash
+
 ## [5.21.1](https://github.com/gdsfactory/gdsfactory/pull/633)
 
 - reduce unnecessary usage of deepcopy
