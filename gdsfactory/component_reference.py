@@ -162,18 +162,17 @@ class ComponentReference(DeviceReference):
 
     @property
     def owner(self):
-        if self._owner is not None and self not in self._owner.references:
-            self._owner = None
-
-        return None
+        return self._owner
 
     @owner.setter
     def owner(self, value):
-        if self.owner is None:
+        if self.owner is None or value is None:
             self._owner = value
         elif value != self._owner:
             raise ValueError(
-                f"Cannot reset owner of a reference once it has already been set! Reference: {self}. Current owner: {self._owner}. Attempting to re-assign to {value}"
+                f"Cannot reset owner of a reference once it has already been set!"
+                f" Reference: {self}. Current owner: {self._owner}. "
+                f"Attempting to re-assign to {value!r}"
             )
 
     @property
@@ -185,9 +184,10 @@ class ComponentReference(DeviceReference):
         if value != self._name:
             if self.owner and value in self.owner.named_references:
                 raise ValueError(
-                    f"This reference's owner already has a reference with name '{value}'. Please choose another name."
+                    f"This reference's owner already has a reference with name {value!r}. Please choose another name."
                 )
             self._name = value
+            self.owner._reference_names_used.add(value)
 
     @property
     def alias(self):
