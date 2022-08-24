@@ -1410,17 +1410,13 @@ class Component(Device):
         for item in items:
             if isinstance(item, Port):
                 self.ports = {k: v for k, v in self.ports.items() if v != item}
-            else:
-                if isinstance(item, gdspy.PolygonSet):
-                    self.polygons.remove(item)
-                elif isinstance(item, gdspy.CellReference):
-                    self.references.remove(item)
-                    item.owner = None
-                elif isinstance(item, gdspy.CellArray):
-                    self.references.remove(item)
-                    item.owner = None
-                elif isinstance(item, gdspy.Label):
-                    self.labels.remove(item)
+            elif isinstance(item, gdspy.PolygonSet):
+                self.polygons.remove(item)
+            elif isinstance(item, (gdspy.CellReference, gdspy.CellArray)):
+                self.references.remove(item)
+                item.owner = None
+            elif isinstance(item, gdspy.Label):
+                self.labels.remove(item)
 
         self._bb_valid = False
         return self
