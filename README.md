@@ -57,7 +57,7 @@ gdsfactory leverages phidl, gdspy and klayout python libraries.
 - Run notebooks on [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/gdsfactory/binder-sandbox/HEAD)
 - [see slides](https://docs.google.com/presentation/d/1_ZmUxbaHWo_lQP17dlT1FWX-XD8D9w7-FcuEih48d_0/edit#slide=id.g11711f50935_0_5)
 - [read docs](https://gdsfactory.github.io/gdsfactory/)
-- [See YouTube videos](https://www.youtube.com/channel/UCp4ZA52J1pH4XI5gvLjgB_g)
+- [See YouTube videos](https://www.youtube.com/watch?v=KXq09GirynI&list=PLZ3ZVd41isDDnuCirqIhNa8vsaHmbmxqM)
 
 ## Acks
 
