@@ -2,20 +2,21 @@
 name: Bug report
 about: Create a report to help us improve
 title: ''
-labels: ''
+labels: 'bug'
 assignees: ''
 
 ---
 
 **Describe the bug**
-A clear and concise description of what the bug is.
+What's the bug?
 
 **To Reproduce**
-Code to reproduce the behavior.
-If applicable, add screenshots to help explain your problem.
+What's the code to reproduce the behavior? What commands or code did you write to get the error?
+You can add screenshots to help explain your problem.
+Adding the code in `fixme/` folder is also a great option for others to reproduce your issue.
 
 **Expected behavior**
-A clear and concise description of what you expected to happen.
+What would you like to happen?
 
 **Suggested fix**
-If you have a solution for it.
+How could we fix the bug?

@@ -2,8 +2,8 @@
 
 ## [5.22.0](https://github.com/gdsfactory/gdsfactory/pull/633)
 
-- more robust geometric_hash
-- `Component.get_netlist()` returns a Dict instead of OmegaConf.DictConfig
+- more robust geometric_hash [PR](https://github.com/amccaugh/phidl/pull/157)
+- `Component.get_netlist()` returns a Dict instead of OmegaConf.DictConfig (faster)
 - remove `Component.get_netlist_dict()` in favor of `Component.get_netlist()`
 
 ## [5.21.1](https://github.com/gdsfactory/gdsfactory/pull/633)
