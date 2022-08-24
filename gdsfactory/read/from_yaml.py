@@ -709,7 +709,8 @@ def _from_yaml(
             if routing_strategy_name not in routing_strategy:
                 routing_strategies = list(routing_strategy.keys())
                 raise ValueError(
-                    f"{routing_strategy_name!r} not in routing_strategy {routing_strategies}"
+                    f"{routing_strategy_name!r} is an invalid routing_strategy "
+                    f"{routing_strategies}"
                 )
 
             if "links" not in routes_dict:
@@ -859,8 +860,6 @@ def _from_yaml(
             else:
                 c.add_port(**instance_comma_port)
 
-    # FIXME
-    # c.info["routes"] = {k: [r.aliases.keys()] for k, r}
     c.routes = routes
     c.info["instances"] = list(instances.keys())
     return c
@@ -1261,45 +1260,10 @@ placements:
 
 
 if __name__ == "__main__":
-    # from gdsfactory.tests.test_component_from_yaml import sample_doe_grid
-    # for k in component_factories.keys():
-    #     print(k)
-    # print(c.settings["info"])
-    # c = from_yaml(yaml_anchor)
-    # c = from_yaml(sample_pdk_mzi)
-
-    # c = from_yaml(sample_rotation)
-    # c = from_yaml(sample2)
-    # c2 = c.get_netlist()
-    # c = from_yaml(sample_doe_grid)
-    # c = from_yaml(sample_yaml_xmin)
-    # n = c.get_netlist()
-    # print(n)
-    # c = from_yaml(sample_doe)
-
-    # c = from_yaml(sample_mirror)
-    # c = from_yaml(sample_doe_function)
-    c = from_yaml(sample_pdk_mzi_settings, dy=-20)
-    c.show(show_ports=True)
-
-    # c = test_connections_regex()
-    # c = from_yaml(sample_regex_connections)
-    # c = from_yaml(sample_regex_connections_backwards)
-    # c = test_docstring_sample()
-    # c = test_connections()
-    # c = from_yaml(sample_mirror_simple)
-    # c = test_connections_2x2()
-    # c = test_connections_different_factory()
-    # test_connections_different_link_factory()
-    # test_connections_waypoints()
-    # test_mirror()
-    # c = from_yaml(sample_different_link_factory)
-    # c = test_mirror()
-    # c = from_yaml(sample_waypoints)
-    # c = from_yaml(sample_2x2_connections)
-    # c = from_yaml(sample_connections)
-    # assert len(c.get_dependencies()) == 3
-    # test_component_from_yaml()
-    # test_component_from_yaml_with_routing()
-    # print(c.ports)
-    # c = gf.routing.add_fiber_array(c)
+    c = from_yaml(sample_doe_function)
+    c = from_yaml(sample_mmis)
+    n = c.get_netlist()
+    yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
+    c2 = from_yaml(yaml_str)
+    n2 = c2.get_netlist()
+    c2.show()

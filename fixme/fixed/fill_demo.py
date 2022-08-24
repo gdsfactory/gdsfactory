@@ -1,6 +1,7 @@
 """Fill is now faster thanks to a counter to auto_name references.
 
 Before this code was quite slow.
+
 """
 
 if __name__ == "__main__":
@@ -46,5 +47,4 @@ if __name__ == "__main__":
     c.show(show_ports=True)
     end = time.time()
     print(end - start)
-
     print(len(fill.named_references))

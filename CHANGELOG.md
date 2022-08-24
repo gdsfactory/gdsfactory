@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.22.0](https://github.com/gdsfactory/gdsfactory/pull/633)
+
+- more robust geometric_hash [PR](https://github.com/amccaugh/phidl/pull/157)
+- `Component.get_netlist()` returns a Dict instead of OmegaConf.DictConfig (faster)
+- remove `Component.get_netlist_dict()` in favor of `Component.get_netlist()`
+
 ## [5.21.1](https://github.com/gdsfactory/gdsfactory/pull/633)
 
 - reduce unnecessary usage of deepcopy
@@ -845,7 +851,7 @@
 
 ## 4.6.2
 
-- add Component.get_netlist_dict
+- add Component.get_netlist
 - document gdsfactory to sax
 
 ## [4.6.1](https://github.com/gdsfactory/gdsfactory/pull/261)
