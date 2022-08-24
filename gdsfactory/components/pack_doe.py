@@ -96,6 +96,7 @@ def pack_doe(
     return c
 
 
+@cell
 def pack_doe_grid(
     doe: ComponentSpec = _doe,
     settings: Dict[str, List[Any]] = _settings,
