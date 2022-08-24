@@ -13,7 +13,8 @@ def test_named_references():
 def test_named_references_with_alias():
     c = gf.Component("component_with_fill")
     c.add_ref(gf.components.straight(), alias="straight_1")
-    c.add_ref(gf.components.straight(), alias="straight_1")
+    with pytest.raises(ValueError):
+        c.add_ref(gf.components.straight(), alias="straight_1")
 
 
 def test_fail_when_alias_exists():
@@ -28,8 +29,8 @@ def test_fail_when_alias_exists():
 
 if __name__ == "__main__":
     # test_fail_when_alias_exists()
-    # test_named_references_with_alias()
-    test_named_references()
+    test_named_references_with_alias()
+    # test_named_references()
 
     # import gdsfactory as gf
 
