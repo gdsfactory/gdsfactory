@@ -1409,12 +1409,7 @@ class Component(Device):
             items = [items]
         for item in items:
             if isinstance(item, Port):
-                try:
-                    self.ports = {k: v for k, v in self.ports.items() if v != item}
-                except Exception:
-                    raise ValueError(
-                        f"Component.remove() cannot find the item {item!r}"
-                    )
+                self.ports = {k: v for k, v in self.ports.items() if v != item}
             else:
                 if isinstance(item, gdspy.PolygonSet):
                     self.polygons.remove(item)
