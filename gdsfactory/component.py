@@ -1,6 +1,7 @@
 import datetime
 import hashlib
 import itertools
+import math
 import os
 import pathlib
 import tempfile
@@ -75,6 +76,12 @@ _timestamp2019 = datetime.datetime.fromtimestamp(1572014192.8273)
 MAX_NAME_LENGTH = 32
 
 
+def _rnd(arr, precision=1e-4):
+    arr = np.ascontiguousarray(arr)
+    ndigits = round(-math.log10(precision))
+    return np.ascontiguousarray(arr.round(ndigits) / precision, dtype=np.int64)
+
+
 class Component(Device):
     """A Component is like an empty canvas, where you can add polygons,.
 
@@ -130,6 +137,7 @@ class Component(Device):
         self.version = version
         self.changelog = changelog
         self._reference_names_counter = Counter()
+        self._reference_names_used = set()
 
     def __lshift__(self, element):
         """Convenience operator equivalent to add_ref()."""
@@ -342,9 +350,7 @@ class Component(Device):
         write_dot(G, filepath)
 
     def get_netlist(self, **kwargs) -> DictConfig:
-        """Returns netlist dict config (instances, placements, connections,.
-
-        ports)
+        """Returns netlist (instances, placements, connections, ports).
 
         Keyword Args:
             component: to extract netlist.
@@ -362,11 +368,6 @@ class Component(Device):
         from gdsfactory.get_netlist import get_netlist
 
         return get_netlist(component=self, **kwargs)
-
-    def get_netlist_dict(self, **kwargs) -> Dict[str, Any]:
-        from gdsfactory.get_netlist import get_netlist_dict
-
-        return get_netlist_dict(component=self, **kwargs)
 
     def get_netlist_recursive(self, **kwargs) -> Dict[str, DictConfig]:
         """Returns recursive netlist for a component and subcomponents.
@@ -853,6 +854,10 @@ class Component(Device):
                 )
                 self._reference_names_counter.update({prefix: 1})
                 alias = f"{prefix}_{self._reference_names_counter[prefix]}"
+
+                while alias in self._reference_names_used:
+                    self._reference_names_counter.update({prefix: 1})
+                    alias = f"{prefix}_{self._reference_names_counter[prefix]}"
 
         reference.name = alias
 
@@ -1392,6 +1397,62 @@ class Component(Device):
         self.add(reference.parent.paths)
         self.remove(reference)
         return self
+
+    def remove(self, items):
+        """Removes items from a Component, which can include Ports, PolygonSets \
+        CellReferences, ComponentReferences and Labels.
+
+        Args:
+            items: list of Items to be removed from the Component.
+        """
+        if not hasattr(items, "__iter__"):
+            items = [items]
+        for item in items:
+            if isinstance(item, Port):
+                self.ports = {k: v for k, v in self.ports.items() if v != item}
+            else:
+                if isinstance(item, gdspy.PolygonSet):
+                    self.polygons.remove(item)
+                elif isinstance(item, gdspy.CellReference):
+                    self.references.remove(item)
+                    item.owner = None
+                elif isinstance(item, gdspy.CellArray):
+                    self.references.remove(item)
+                    item.owner = None
+                elif isinstance(item, gdspy.Label):
+                    self.labels.remove(item)
+
+        self._bb_valid = False
+        return self
+
+    def hash_geometry(self, precision: float = 1e-4) -> str:
+        """Returns an SHA1 hash of the geometry in the Component.
+
+        For each layer, each polygon is individually hashed and then the polygon hashes
+        are sorted, to ensure the hash stays constant regardless of the ordering
+        the polygons.  Similarly, the layers are sorted by (layer, datatype).
+
+        Args:
+            precision: Rounding precision for the the objects in the Component.
+                For instance, a precision of 1e-2 will round a point at
+                (0.124, 1.748) to (0.12, 1.75).
+
+        """
+        polygons_by_spec = self.get_polygons(by_spec=True)
+        layers = np.array(list(polygons_by_spec.keys()))
+        sorted_layers = layers[np.lexsort((layers[:, 0], layers[:, 1]))]
+
+        final_hash = hashlib.sha1()
+        for layer in sorted_layers:
+            layer_hash = hashlib.sha1(layer.astype(np.int64)).digest()
+            polygons = polygons_by_spec[tuple(layer)]
+            polygons = [_rnd(p, precision) for p in polygons]
+            polygon_hashes = np.sort([hashlib.sha1(p).digest() for p in polygons])
+            final_hash.update(layer_hash)
+            for ph in polygon_hashes:
+                final_hash.update(ph)
+
+        return final_hash.hexdigest()
 
 
 def test_get_layers() -> Component:

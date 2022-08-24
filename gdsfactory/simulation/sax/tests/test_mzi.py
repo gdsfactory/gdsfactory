@@ -43,7 +43,7 @@ if __name__ == "__main__":
 
     c = gf.components.mzi()
     c.show(show_ports=True)
-    netlist = c.get_netlist_dict()
+    netlist = c.get_netlist()
     circuit, _ = sax.circuit(netlist=netlist, models=models)
     wl = np.linspace(1.5, 1.6)
     S = circuit(wl=wl)

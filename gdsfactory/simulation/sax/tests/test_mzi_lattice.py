@@ -55,7 +55,7 @@ def module(S) -> List[float]:
 
 def test_mzi_lattice(data_regression, check: bool = True) -> None:
     c = mzis()
-    # netlist = c.get_netlist_dict()
+    # netlist = c.get_netlist()
     netlist = c.get_netlist_recursive()
     circuit, _ = sax.circuit(netlist=netlist, models=models)
     c.show(show_ports=True)
@@ -70,7 +70,7 @@ def test_mzi_lattice(data_regression, check: bool = True) -> None:
 if __name__ == "__main__":
 
     c = mzis()
-    # netlist = c.get_netlist_dict()
+    # netlist = c.get_netlist()
     netlist = c.get_netlist_recursive()
     circuit, _ = sax.circuit(netlist=netlist, models=models)
     c.show(show_ports=True)
