@@ -26,7 +26,7 @@ def copy(
                 x_reflection=ref.x_reflection,
             )
             new_ref.owner = D_copy
-            new_ref.name = ref.name
+            new_ref.name = ref.name if hasattr(ref, "name") else ref.parent.name
         elif isinstance(ref, gdspy.CellArray):
             new_ref = CellArray(
                 device=ref.parent,
@@ -38,7 +38,7 @@ def copy(
                 magnification=ref.magnification,
                 x_reflection=ref.x_reflection,
             )
-            new_ref.name = ref.name
+            new_ref.name = ref.name if hasattr(ref, "name") else ref.parent.name
         else:
             raise ValueError(f"Got a reference of non-standard type: {type(ref)}")
         D_copy.add(new_ref)
