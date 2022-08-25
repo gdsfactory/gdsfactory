@@ -48,6 +48,8 @@ def outline(elements, **kwargs) -> Component:
             Specific layer(s) to put polygon geometry on.)
 
     """
+    if "layer" in kwargs:
+        kwargs["layer"] = gf.get_layer(kwargs["layer"])
     return gf.read.from_phidl(component=pg.outline(elements, **kwargs))
 
 
