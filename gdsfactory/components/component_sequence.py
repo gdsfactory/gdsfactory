@@ -138,13 +138,13 @@ def component_sequence(
             f"not in {list(prev_device.ports.keys())}"
         ) from exc
 
-    for i in range(index, len(sequence)):
-        if index >= len(sequence):
-            continue
+    while index < len(sequence):
         s = sequence[index]
 
         if s == "!":
+            # if it's the last character skip
             if index + 1 >= len(sequence):
+                index += 1
                 continue
             s = sequence[index + 1]
             do_flip = True
@@ -208,9 +208,11 @@ if __name__ == "__main__":
     }
 
     # Each character in the sequence represents a component
-    sequence = "AB-H-H-H-H-BA"
-    sequence = "!HH"
     sequence = "AB"
+    sequence = "HH!"
+    sequence = "!HH"
+    sequence = "AB-H-H-H-H-BA"
+    sequence = "H"
     c = gf.components.component_sequence(
         sequence=sequence, symbol_to_component=symbol_to_component_map
     )
