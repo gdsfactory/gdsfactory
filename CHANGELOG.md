@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.22.2
+
+- fail difftest when passing n to reject changes [PR](https://github.com/gdsfactory/gdsfactory/pull/635)
+- don't cache import_gds in read.from_phidl. Add capability to pass a layer as a string to outline() [PR](https://github.com/gdsfactory/gdsfactory/pull/636)
+
 ## [5.22.0](https://github.com/gdsfactory/gdsfactory/pull/634)
 
 - more robust geometric_hash [PR](https://github.com/amccaugh/phidl/pull/157) rounds to 0.1nm by default
