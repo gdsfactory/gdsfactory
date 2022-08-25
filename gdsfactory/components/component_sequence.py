@@ -71,9 +71,7 @@ def component_sequence(
     port_name2: str = "o2",
     start_orientation: float = 0.0,
 ) -> Component:
-    """Returns component from a ASCII sequence and a dictionary to interpret.
-
-    each symbol.
+    """Returns component from ASCII sequence.
 
     Args:
         sequence: a string or a list of symbols.
@@ -149,8 +147,8 @@ def component_sequence(
         ) from exc
 
     # Generate and connect all elements from the sequence
-    for s in sequence[1:]:
-        s, do_flip = _parse_component_name(s)
+    for symbol in sequence[1:]:
+        s, do_flip = _parse_component_name(symbol)
         component_i, input_port, next_port = symbol_to_component[s]
         component_i = gf.get_component(component_i)
 
