@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.22.3](https://github.com/gdsfactory/gdsfactory/pull/637)
+
+- component_sequence has the same named scheme it used to have before adding named_references
+- add flip option to component_sequence
+
 ## 5.22.2
 
 - fail difftest when passing n to reject changes [PR](https://github.com/gdsfactory/gdsfactory/pull/635)
