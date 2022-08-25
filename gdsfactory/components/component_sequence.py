@@ -1,3 +1,4 @@
+from collections import Counter
 from typing import Dict, Optional, Tuple
 
 import gdsfactory as gf
@@ -18,7 +19,7 @@ class SequenceGenerator:
         such as serpentine, cutbacks etc...
         Component sequences have two ports by default.
         it adds aliases for the components forming the sequence.
-        They use the component local name and append a suffix index starting from 1,
+        They use the component symbol with a suffix index starting from 1,
         so you may access the ports from any subcomponent.
 
         Usually we can break these components in 3 parts:
@@ -109,6 +110,7 @@ def component_sequence(
         c = gf.components.component_sequence(sequence=s, symbol_to_component=symbol_to_component)
         c.plot()
     """
+    named_references_counter = Counter()
     ports_map = ports_map or {}
 
     # Remove all None devices from the sequence
@@ -129,7 +131,9 @@ def component_sequence(
     name_start_device, do_flip = _parse_component_name(sequence[0])
     _input_device, input_port, prev_port = symbol_to_component[name_start_device]
 
-    prev_device = component.add_ref(_input_device)
+    named_references_counter.update({name_start_device: 1})
+    alias = f"{name_start_device}{named_references_counter[name_start_device]}"
+    prev_device = component.add_ref(_input_device, alias=alias)
 
     if do_flip:
         prev_device = _flip_ref(prev_device, input_port)
@@ -140,17 +144,19 @@ def component_sequence(
         component.add_port(name=port_name1, port=prev_device.ports[input_port])
     except KeyError as exc:
         raise KeyError(
-            f"{prev_device.parent.name} input_port {input_port} "
+            f"{prev_device.parent.name!r} input_port {input_port!r} "
             f"not in {list(prev_device.ports.keys())}"
         ) from exc
 
     # Generate and connect all elements from the sequence
     for s in sequence[1:]:
         s, do_flip = _parse_component_name(s)
-
         component_i, input_port, next_port = symbol_to_component[s]
         component_i = gf.get_component(component_i)
-        ref = component.add_ref(component_i)
+
+        named_references_counter.update({s: 1})
+        alias = f"{s}{named_references_counter[s]}"
+        ref = component.add_ref(component_i, alias=alias)
 
         if do_flip:
             ref = _flip_ref(ref, input_port)
@@ -159,7 +165,7 @@ def component_sequence(
             ref.connect(input_port, prev_device.ports[prev_port])
         except KeyError as exc:
             raise KeyError(
-                f"{prev_device.parent.name} port {prev_port} "
+                f"{prev_device.parent.name!r} port {prev_port!r} "
                 f"not in {list(prev_device.ports.keys())}"
             ) from exc
 
@@ -204,5 +210,8 @@ if __name__ == "__main__":
     c = gf.components.component_sequence(
         sequence=sequence, symbol_to_component=symbol_to_component_map
     )
+    n = c.get_netlist()
+    c = gf.read.from_yaml(n)
     c.show(show_ports=True)
-    c.pprint()
+    # c.pprint()
+    print(c.named_references.keys())
