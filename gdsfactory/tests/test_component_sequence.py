@@ -4,7 +4,7 @@ from pytest_regressions.data_regression import DataRegressionFixture
 import gdsfactory as gf
 from gdsfactory.difftest import difftest
 
-sequences = ["ABHBA", "!HH", "AB", "HH!"]
+sequences = ["ABHBA", "!HH", "AB", "HH!", "H"]
 
 
 @pytest.mark.parametrize("index", range(len(sequences)))
