@@ -99,7 +99,7 @@ def difftest(
                 "Would you like to save current GDS as the new reference? [Y/n] "
             )
             if val.upper().startswith("N"):
-                return
+                raise
             logger.info(f"deleting file {str(ref_file)!r}")
             ref_file.unlink()
             shutil.copy(run_file, ref_file)
