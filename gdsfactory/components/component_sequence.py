@@ -73,6 +73,8 @@ def component_sequence(
 ) -> Component:
     """Returns component from ASCII sequence.
 
+    if you prefix a symbol with ! it mirrors the component
+
     Args:
         sequence: a string or a list of symbols.
         symbol_to_component: maps symbols to (component, input, output).
@@ -111,22 +113,12 @@ def component_sequence(
     named_references_counter = Counter()
     ports_map = ports_map or {}
 
-    # Remove all None devices from the sequence
-    sequence = list(sequence[:])
-    to_rm = []
-    for i, d in enumerate(sequence):
-        component_symbol, _ = parse_component_name(d)
-        component, _, _ = symbol_to_component[component_symbol]
-        if component is None:
-            to_rm += [i]
-
-    while to_rm:
-        sequence.pop(to_rm.pop())
-
     component = Component()
 
     # Add first component reference and input port
-    name_start_device, do_flip = parse_component_name(sequence[0])
+    symbol = sequence[0] if "!" not in sequence[0] else sequence[0:2]
+    index = 2 if "!" in sequence[0] else 1
+    name_start_device, do_flip = parse_component_name(symbol)
     component_input, input_port, prev_port = symbol_to_component[name_start_device]
 
     named_references_counter.update({name_start_device: 1})
@@ -146,9 +138,21 @@ def component_sequence(
             f"not in {list(prev_device.ports.keys())}"
         ) from exc
 
-    # Generate and connect all elements from the sequence
-    for symbol in sequence[1:]:
-        s, do_flip = parse_component_name(symbol)
+    for i in range(index, len(sequence)):
+        if index >= len(sequence):
+            continue
+        s = sequence[index]
+
+        if s == "!":
+            if index + 1 >= len(sequence):
+                continue
+            s = sequence[index + 1]
+            do_flip = True
+            index += 1
+        else:
+            do_flip = False
+
+        index += 1
         component_i, input_port, next_port = symbol_to_component[s]
         component_i = gf.get_component(component_i)
 
@@ -205,11 +209,13 @@ if __name__ == "__main__":
 
     # Each character in the sequence represents a component
     sequence = "AB-H-H-H-H-BA"
+    sequence = "!HH"
+    sequence = "AB"
     c = gf.components.component_sequence(
         sequence=sequence, symbol_to_component=symbol_to_component_map
     )
-    n = c.get_netlist()
-    c = gf.read.from_yaml(n)
+    # n = c.get_netlist()
+    # c = gf.read.from_yaml(n)
     c.show(show_ports=True)
     # c.pprint()
-    print(c.named_references.keys())
+    # print(c.named_references.keys())
