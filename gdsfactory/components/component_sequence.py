@@ -116,7 +116,7 @@ def component_sequence(
     component = Component()
 
     # Add first component reference and input port
-    symbol = sequence[0] if "!" not in sequence[0] else sequence[0:2]
+    symbol = sequence[0] if "!" not in sequence[0] else sequence[:2]
     index = 2 if "!" in sequence[0] else 1
     name_start_device, do_flip = parse_component_name(symbol)
     component_input, input_port, prev_port = symbol_to_component[name_start_device]
