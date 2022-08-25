@@ -45,7 +45,7 @@ class SequenceGenerator:
         return self.start_sequence + n * self.repeated_sequence + self.end_sequence
 
 
-def _parse_component_name(name: str) -> Tuple[str, bool]:
+def parse_component_name(name: str) -> Tuple[str, bool]:
     """If the component name has more than one character and starts with "!".
 
     then we need to flip along the axis given by the input port angle.
@@ -115,9 +115,9 @@ def component_sequence(
     sequence = list(sequence[:])
     to_rm = []
     for i, d in enumerate(sequence):
-        _name_device, _ = _parse_component_name(d)
-        _device, _, _ = symbol_to_component[_name_device]
-        if _device is None:
+        component_symbol, _ = parse_component_name(d)
+        component, _, _ = symbol_to_component[component_symbol]
+        if component is None:
             to_rm += [i]
 
     while to_rm:
@@ -126,12 +126,12 @@ def component_sequence(
     component = Component()
 
     # Add first component reference and input port
-    name_start_device, do_flip = _parse_component_name(sequence[0])
-    _input_device, input_port, prev_port = symbol_to_component[name_start_device]
+    name_start_device, do_flip = parse_component_name(sequence[0])
+    component_input, input_port, prev_port = symbol_to_component[name_start_device]
 
     named_references_counter.update({name_start_device: 1})
     alias = f"{name_start_device}{named_references_counter[name_start_device]}"
-    prev_device = component.add_ref(_input_device, alias=alias)
+    prev_device = component.add_ref(component_input, alias=alias)
 
     if do_flip:
         prev_device = _flip_ref(prev_device, input_port)
@@ -148,7 +148,7 @@ def component_sequence(
 
     # Generate and connect all elements from the sequence
     for symbol in sequence[1:]:
-        s, do_flip = _parse_component_name(symbol)
+        s, do_flip = parse_component_name(symbol)
         component_i, input_port, next_port = symbol_to_component[s]
         component_i = gf.get_component(component_i)
 
