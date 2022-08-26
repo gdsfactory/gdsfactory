@@ -190,10 +190,10 @@ def get_bundle(
     y_start = np.mean([p.y for p in ports1])
     y_end = np.mean([p.y for p in ports2])
 
-    if "steps" in kwargs.keys():
+    if "steps" in kwargs:
         return get_bundle_from_steps(**params)
 
-    elif "waypoints" in kwargs.keys():
+    elif "waypoints" in kwargs:
         return get_bundle_from_waypoints(**params)
 
     if start_axis != end_axis:
@@ -241,11 +241,7 @@ def are_decoupled(
 ) -> bool:
     if x2p + sep > x1:
         return False
-    if x2 < x1p + sep:
-        return False
-    if x2 < x1p - sep:
-        return False
-    return True
+    return False if x2 < x1p + sep else x2 >= x1p - sep
 
 
 def get_bundle_same_axis(
@@ -319,7 +315,7 @@ def get_bundle_same_axis(
     This method deals with different metal track/wg/wire widths too.
 
     """
-    if "straight" in kwargs.keys():
+    if "straight" in kwargs:
         _ = kwargs.pop("straight")
     assert len(ports1) == len(
         ports2
