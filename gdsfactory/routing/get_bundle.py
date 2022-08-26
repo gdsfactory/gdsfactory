@@ -27,6 +27,7 @@ from gdsfactory.port import Port
 from gdsfactory.routing.get_bundle_corner import get_bundle_corner
 from gdsfactory.routing.get_bundle_from_steps import get_bundle_from_steps
 from gdsfactory.routing.get_bundle_from_waypoints import get_bundle_from_waypoints
+from gdsfactory.routing.get_bundle_sbend import get_bundle_sbend
 from gdsfactory.routing.get_bundle_u import get_bundle_udirect, get_bundle_uindirect
 from gdsfactory.routing.get_route import get_route, get_route_from_waypoints
 from gdsfactory.routing.manhattan import generate_manhattan_waypoints
@@ -51,6 +52,7 @@ def get_bundle(
     extension_length: float = 0.0,
     straight: ComponentSpec = straight_function,
     bend: ComponentSpec = bend_euler,
+    with_sbend: bool = False,
     sort_ports: bool = True,
     cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = "strip",
     **kwargs,
@@ -66,6 +68,7 @@ def get_bundle(
         separation: bundle separation (center to center).
         extension_length: adds straight extension.
         bend: function for the bend. Defaults to euler.
+        with_sbend: use s_bend routing when there is no space for manhattan routing.
         sort_ports: sort port coordinates.
         cross_section: CrossSection or function that returns a cross_section.
 
@@ -210,6 +213,8 @@ def get_bundle(
         and y_start > y_end
     ):
         # print("get_bundle_same_axis")
+        if with_sbend:
+            return get_bundle_sbend(ports1, ports2, sort_ports, **kwargs)
         return get_bundle_same_axis(**params)
 
     elif start_angle == end_angle:
