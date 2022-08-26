@@ -18,7 +18,7 @@ sphinx-autodoc-typehints
 sphinx-book-theme==0.3.3
 sphinx-click
 sphinx-copybutton
-sphinx-markdown-tables==0.0.16
+sphinx-markdown-tables==0.0.17
 types-PyYAML
 types-waitress
 xdoctest
