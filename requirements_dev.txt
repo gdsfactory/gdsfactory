@@ -1,7 +1,7 @@
 autodoc_pydantic
 autotyping
 doc8
-docutils==0.17.1
+docutils==0.19
 flake8
 flake8-bugbear
 ipykernel
