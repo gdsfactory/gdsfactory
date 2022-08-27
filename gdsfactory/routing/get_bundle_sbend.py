@@ -50,17 +50,25 @@ if __name__ == "__main__":
     pitch = 2.0
     ys_left = [0, 10, 20]
     N = len(ys_left)
-    ys_right = [(i - N / 2) * pitch for i in range(N)]
+    y0 = -10
+    ys_right = [(i - N / 2) * pitch + y0 for i in range(N)]
 
     layer = (1, 0)
     right_ports = [
-        gf.Port(f"R_{i}", (0, ys_right[i]), 0.5, 180, layer=layer) for i in range(N)
+        gf.Port(
+            f"R_{i}", center=(0, ys_right[i]), width=0.5, orientation=180, layer=layer
+        )
+        for i in range(N)
     ]
     left_ports = [
-        gf.Port(f"L_{i}", (-50, ys_left[i]), 0.5, 0, layer=layer) for i in range(N)
+        gf.Port(
+            f"L_{i}", center=(-50, ys_left[i]), width=0.5, orientation=0, layer=layer
+        )
+        for i in range(N)
     ]
     left_ports.reverse()
 
-    routes = get_bundle_sbend(right_ports, left_ports)
-    c.add(routes.references)
+    routes = gf.routing.get_bundle(right_ports, left_ports, with_sbend=False)
+    for route in routes:
+        c.add(route.references)
     c.show(show_ports=True)
