@@ -1,13 +1,15 @@
+from typing import List
+
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.port import Port
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
-from gdsfactory.types import Routes
+from gdsfactory.types import Route
 
 
 def get_bundle_sbend(
     ports1: Port, ports2: Port, sort_ports: bool = True, **kwargs
-) -> Routes:
-    """Returns a Dict with the routes from ports1 to ports2.
+) -> List[Route]:
+    """Returns a list of routes from ports1 to ports2.
 
     Args:
         ports1: start ports.
@@ -16,17 +18,13 @@ def get_bundle_sbend(
         kwargs: cross_section settings.
 
     Returns:
-        references: List of route references.
-        lengths: list of floats.
-        bend_radius: list of min bend_radius.
+        list of routes.
 
     """
     if sort_ports:
         ports1, ports2 = sort_ports_function(ports1, ports2)
 
-    references = []
-    lengths = []
-    bend_radius = []
+    routes = []
 
     for p1, p2 in zip(ports1, ports2):
         ysize = p2.center[1] - p1.center[1]
@@ -34,11 +32,15 @@ def get_bundle_sbend(
         bend = bend_s(size=(xsize, ysize), **kwargs)
         sbend = bend.ref()
         sbend.connect("o1", p1)
-        references.append(sbend)
-        lengths.append(bend.info["length"])
-        bend_radius.append(bend.info["min_bend_radius"])
+        routes.append(
+            Route(
+                references=[sbend],
+                ports=tuple(sbend.get_ports_list()),
+                length=bend.info["length"],
+            )
+        )
 
-    return Routes(references=references, lengths=lengths, bend_radius=bend_radius)
+    return routes
 
 
 if __name__ == "__main__":
