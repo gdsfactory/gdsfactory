@@ -169,13 +169,11 @@ def get_simulation(
             at which the simulation will automatically terminate time stepping.
             prevents extraneous run time of simulations with fully decayed fields.
             Set to ``0`` to disable this feature.
-        subpixel: subpixel averaging.If ``True``, uses subpixel averaging of the permittivity
-            based on structure definition,
-            resulting in much higher accuracy for a given grid size.
-        courant: courant factor.
-            Courant stability factor, controls time step to spatial step ratio.
-            Lower values lead to more stable simulations for dispersive materials,
-            but result in longer simulation times.
+        subpixel: averaging. True uses permittivity subpixel averaging,
+            results in much higher accuracy for a given grid size.
+        courant: Courant stability factor, controls time step to spatial step ratio.
+            Lower values lead to more stable simulations for dispersive materials
+            but simulations take longer.
         version: String specifying the front end version number.
 
 

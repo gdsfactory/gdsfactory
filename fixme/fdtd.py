@@ -30,4 +30,5 @@ if __name__ == "__main__":
     c = gf.components.straight(length=2)
     c.unlock()
     c.auto_rename_ports_layer_orientation()
-    gt.write_sparameters(c, run=False)
+    # gt.write_sparameters(c, run=False)
+    sp = gt.write_sparameters(c, run=True)
