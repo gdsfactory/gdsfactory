@@ -97,11 +97,10 @@ def test_get_sparameters_path(test: bool = True) -> None:
 
 
 if __name__ == "__main__":
-    # import gdsfactory as gf
 
-    # c = gf.components.mmi1x2()
-    # p = get_sparameters_path_lumerical(c)
-    # print(p)
+    c = gf.components.mmi1x2()
+    p = get_sparameters_path_lumerical(c)
+    print(p)
 
-    test_get_sparameters_path(test=False)
-    test_get_sparameters_path(test=True)
+    # test_get_sparameters_path(test=False)
+    # test_get_sparameters_path(test=True)

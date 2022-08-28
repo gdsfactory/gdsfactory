@@ -11,7 +11,7 @@ def plot_sparameters(
     df: DataFrame,
     logscale: bool = True,
     keys: Optional[Tuple[str, ...]] = None,
-):
+) -> None:
     """Plots Sparameters from a pandas DataFrame.
 
     Args:
