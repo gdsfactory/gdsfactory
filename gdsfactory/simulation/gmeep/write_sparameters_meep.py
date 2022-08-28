@@ -353,6 +353,7 @@ def write_sparameters_meep(
     monitor_indices = []
     source_indices = []
     component_ref = component.ref()
+
     for port_name in component_ref.ports.keys():
         if component_ref.ports[port_name].port_type == "optical":
             monitor_indices.append(re.findall("[0-9]+", port_name)[0])

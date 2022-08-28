@@ -23,11 +23,15 @@ def write_sparameters_grating_coupler(
     component: ComponentSpec,
     dirpath: Optional[PathType] = None,
     overwrite: bool = False,
+    port_waveguide_name: str = "o1",
+    fiber_port_name: str = "vertical_te",
     **kwargs,
-) -> pd.DataFrame:
-    """Get sparameter matrix from a gdsfactory grating coupler. Assumes grating coupler waveguide port is facing to the left (west).
+) -> np.ndarray:
+    """Get sparameter matrix from a gdsfactory grating coupler.
 
-    TODO: add a fiber model (more realistic than a gaussian_beam)
+    Assumes grating coupler waveguide port is facing to the left (west).
+
+    TODO: add a fiber model (more realistic than a gaussian_beam).
 
     Args:
         component: grating coupler gdsfactory Component to simulate.
@@ -97,9 +101,14 @@ def write_sparameters_grating_coupler(
 
         else:
             logger.info(f"Simulation loaded from {filepath!r}")
-            return pd.read_csv(filepath)
+            return np.load(filepath)
     start = time.time()
-    sim = get_simulation_grating_coupler(component, **kwargs)
+    sim = get_simulation_grating_coupler(
+        component,
+        fiber_port_name=fiber_port_name,
+        port_waveguide_name=port_waveguide_name,
+        **kwargs,
+    )
     sim_data = get_results(sim)
     sim_data = sim_data.result()
 
@@ -116,24 +125,28 @@ def write_sparameters_grating_coupler(
         .values.flatten()
     )
     r = monitor_entering / monitor_exiting
-    ra = np.unwrap(np.angle(r))
-    rm = np.abs(r)
-
     t = monitor_exiting
-    ta = np.unwrap(np.angle(t))
-    tm = np.abs(t)
 
     freqs = sim_data.monitor_data["waveguide"].amps.sel(direction="+").f
     sp = {"wavelengths": td.constants.C_0 / freqs.values}
-    sp["s11a"] = sp["s22a"] = ra
-    sp["s11m"] = sp["s22m"] = rm
 
-    sp["s12a"] = sp["s21a"] = ta
-    sp["s12m"] = sp["s21m"] = tm
+    port_name_input = port_waveguide_name
+    port_name_output = fiber_port_name
+
+    key = f"s{port_name_input}@0,{port_name_input}@0"
+    sp[key] = r
+
+    key = f"s{port_name_output}@0,{port_name_output}@0"
+    sp[key] = r
+
+    key = f"s{port_name_input}@0,{port_name_output}@0"
+    sp[key] = t
+
+    key = f"s{port_name_output}@0,{port_name_input}@0"
+    sp[key] = t
 
     end = time.time()
-    df = pd.DataFrame(sp)
-    df.to_csv(filepath, index=False)
+    df = np.savez_compressed(sp)
     kwargs.update(compute_time_seconds=end - start)
     kwargs.update(compute_time_minutes=(end - start) / 60)
 
