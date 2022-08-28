@@ -26,7 +26,8 @@ def _get_sparameters_path(
     dirpath: Optional[Path] = None,
     **kwargs,
 ) -> Path:
-    """Return Sparameters CSV filepath. hashes of all simulation settings to get a consistent unique name.
+    """Return Sparameters npz filepath hashing simulation settings for \
+            a consistent unique name.
 
     Args:
         component: component or component factory.
@@ -45,7 +46,7 @@ def _get_sparameters_path(
         else dirpath
     )
     dirpath.mkdir(exist_ok=True, parents=True)
-    return dirpath / f"{component.name}_{get_kwargs_hash(**kwargs)}.csv"
+    return dirpath / f"{component.name}_{get_kwargs_hash(**kwargs)}.npz"
 
 
 def _get_sparameters_data(**kwargs) -> pd.DataFrame:
