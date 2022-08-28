@@ -27,7 +27,8 @@ from gdsfactory.types import (
 
 
 def parse_port_eigenmode_coeff(port_index: int, ports, sim_data: td.SimulationData):
-    """Given a port and eigenmode coefficient result, returns the coefficients relative to whether the wavevector is entering or exiting simulation.
+    """Given a port and eigenmode coefficient result, returns the coefficients \
+    relative to whether the wavevector is entering or exiting simulation.
 
     Args:
         port_index: index of port.
@@ -80,7 +81,10 @@ def write_sparameters(
     overwrite: bool = False,
     **kwargs,
 ) -> pd.DataFrame:
-    """Get full sparameter matrix from a gdsfactory Component. Simulates each time using a different input port (by default, all of them) unless you specify port_symmetries.
+    """Get full sparameter matrix from a gdsfactory Component.
+
+    Simulates each time using a different input port (by default, all of them)
+    unless you specify port_symmetries.
 
     port_symmetries = {"o1":
             {
@@ -248,7 +252,8 @@ def write_sparameters(
 
 
 def write_sparameters_batch(jobs: List[Dict[str, Any]], **kwargs) -> List[pd.DataFrame]:
-    """Returns Sparameters for a list of write_sparameters_grating_coupler kwargs where it runs each simulation in parallel.
+    """Returns Sparameters for a list of write_sparameters_grating_coupler kwargs \
+            where it runs each simulation in parallel.
 
     Args:
         jobs: list of kwargs for write_sparameters_grating_coupler.
