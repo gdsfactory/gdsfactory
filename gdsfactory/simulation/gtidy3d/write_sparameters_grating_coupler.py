@@ -193,8 +193,8 @@ if __name__ == "__main__":
     #     gaps=[0.345] * 25,
     # )
     # sp = write_sparameters_grating_coupler(c, is_3d=False)
-    # t = sp.s12m
+    # t = sp.o1@0,o2@0
     # print(f"Transmission = {t}")
 
-    # plt.plot(sp.wavelengths, sp.s12m)
+    # plt.plot(sp.wavelengths, sp.o1@0,o2@0)
     # plt.show()

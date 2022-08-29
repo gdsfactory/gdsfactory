@@ -19,10 +19,10 @@ def test_sparameters_straight(dataframe_regression) -> None:
     sp = gm.write_sparameters_meep(c, ymargin=0, overwrite=True, resolution=RESOLUTION)
 
     # Check reasonable reflection/transmission
-    assert np.allclose(sp["s12m"], 1, atol=1e-02), sp["s12m"]
-    assert np.allclose(sp["s21m"], 1, atol=1e-02), sp["s21m"]
-    assert np.allclose(sp["s11m"], 0, atol=5e-02), sp["s11m"]
-    assert np.allclose(sp["s22m"], 0, atol=5e-02), sp["s22m"]
+    assert np.allclose(sp["o1@0,o2@0"], 1, atol=1e-02), sp["o1@0,o2@0"]
+    assert np.allclose(sp["o2@0,o1@0"], 1, atol=1e-02), sp["o2@0,o1@0"]
+    assert np.allclose(sp["o1@0,o1@0"], 0, atol=5e-02), sp["o1@0,o1@0"]
+    assert np.allclose(sp["o2@0,o2@0"], 0, atol=5e-02), sp["o2@0,o2@0"]
 
     if dataframe_regression:
         dataframe_regression.check(sp)
@@ -49,10 +49,10 @@ def test_sparameters_straight_symmetric(dataframe_regression) -> None:
     )
 
     # Check reasonable reflection/transmission
-    assert np.allclose(sp["s12m"], 1, atol=1e-02), sp["s12m"]
-    assert np.allclose(sp["s21m"], 1, atol=1e-02), sp["s21m"]
-    assert np.allclose(sp["s11m"], 0, atol=5e-02), sp["s11m"]
-    assert np.allclose(sp["s22m"], 0, atol=5e-02), sp["s22m"]
+    assert np.allclose(sp["o1@0,o2@0"], 1, atol=1e-02), sp["o1@0,o2@0"]
+    assert np.allclose(sp["o2@0,o1@0"], 1, atol=1e-02), sp["o2@0,o1@0"]
+    assert np.allclose(sp["o1@0,o1@0"], 0, atol=5e-02), sp["o1@0,o1@0"]
+    assert np.allclose(sp["o2@0,o2@0"], 0, atol=5e-02), sp["o2@0,o2@0"]
 
     if dataframe_regression:
         dataframe_regression.check(sp)
@@ -94,10 +94,10 @@ def test_sparameters_straight_mpi(dataframe_regression) -> None:
     sp = pd.read_csv(filepath)
 
     # Check reasonable reflection/transmission
-    assert np.allclose(sp["s12m"], 1, atol=1e-02)
-    assert np.allclose(sp["s21m"], 1, atol=1e-02)
-    assert np.allclose(sp["s11m"], 0, atol=5e-02)
-    assert np.allclose(sp["s22m"], 0, atol=5e-02)
+    assert np.allclose(sp["o1@0,o2@0"], 1, atol=1e-02)
+    assert np.allclose(sp["o2@0,o1@0"], 1, atol=1e-02)
+    assert np.allclose(sp["o1@0,o1@0"], 0, atol=5e-02)
+    assert np.allclose(sp["o2@0,o2@0"], 0, atol=5e-02)
 
     if dataframe_regression:
         dataframe_regression.check(sp)
@@ -126,10 +126,10 @@ def test_sparameters_straight_batch(dataframe_regression) -> None:
     ), f"filepath returned {filepaths[0]} differs from {filepath2}"
 
     # Check reasonable reflection/transmission
-    assert np.allclose(sp["s12m"], 1, atol=1e-02)
-    assert np.allclose(sp["s21m"], 1, atol=1e-02)
-    assert np.allclose(sp["s11m"], 0, atol=5e-02)
-    assert np.allclose(sp["s22m"], 0, atol=5e-02)
+    assert np.allclose(sp["o1@0,o2@0"], 1, atol=1e-02)
+    assert np.allclose(sp["o2@0,o1@0"], 1, atol=1e-02)
+    assert np.allclose(sp["o1@0,o1@0"], 0, atol=5e-02)
+    assert np.allclose(sp["o2@0,o2@0"], 0, atol=5e-02)
 
     if dataframe_regression:
         dataframe_regression.check(sp)
