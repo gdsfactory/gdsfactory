@@ -234,9 +234,9 @@ def write_sparameters_grating(
 
     s["wavelengths"] = wavelengths
 
-    df = pd.DataFrame(s, index=wavelengths)
-    df.to_csv(filepath_csv, index=False)
-    return df
+    sp = pd.DataFrame(s, index=wavelengths)
+    sp.to_csv(filepath_csv, index=False)
+    return sp
 
 
 def write_sparameters_grating_mpi(
@@ -422,5 +422,5 @@ if __name__ == "__main__":
 
     from gdsfactory.simulation.plot import plot_sparameters
 
-    df = write_sparameters_grating(fiber_angle_deg=15)
-    plot_sparameters(df)
+    sp = write_sparameters_grating(fiber_angle_deg=15)
+    plot_sparameters(sp)
