@@ -1,7 +1,6 @@
 """test meep sparameters."""
 
 import numpy as np
-import pandas as pd
 
 import gdsfactory as gf
 import gdsfactory.simulation as sim
@@ -19,10 +18,10 @@ def test_sparameters_straight(dataframe_regression) -> None:
     sp = gm.write_sparameters_meep(c, ymargin=0, overwrite=True, resolution=RESOLUTION)
 
     # Check reasonable reflection/transmission
-    assert np.allclose(sp["o1@0,o2@0"], 1, atol=1e-02), sp["o1@0,o2@0"]
-    assert np.allclose(sp["o2@0,o1@0"], 1, atol=1e-02), sp["o2@0,o1@0"]
-    assert np.allclose(sp["o1@0,o1@0"], 0, atol=5e-02), sp["o1@0,o1@0"]
-    assert np.allclose(sp["o2@0,o2@0"], 0, atol=5e-02), sp["o2@0,o2@0"]
+    assert np.allclose(np.abs(sp["o1@0,o2@0"]), 1, atol=1e-02), np.abs(sp["o1@0,o2@0"])
+    assert np.allclose(np.abs(sp["o2@0,o1@0"]), 1, atol=1e-02), np.abs(sp["o2@0,o1@0"])
+    assert np.allclose(np.abs(sp["o1@0,o1@0"]), 0, atol=5e-02), np.abs(sp["o1@0,o1@0"])
+    assert np.allclose(np.abs(sp["o2@0,o2@0"]), 0, atol=5e-02), np.abs(sp["o2@0,o2@0"])
 
     if dataframe_regression:
         dataframe_regression.check(sp)
@@ -34,25 +33,19 @@ def test_sparameters_straight_symmetric(dataframe_regression) -> None:
     p = 3
     c = gf.add_padding_container(c, default=0, top=p, bottom=p)
     # port_symmetries for straight
-    port_symmetries = {
-        "o1": {
-            "s11": ["s22"],
-            "s21": ["s12"],
-        }
-    }
     sp = gm.write_sparameters_meep(
         c,
         overwrite=True,
         resolution=RESOLUTION,
-        port_symmetries=port_symmetries,
+        port_symmetries=sim.port_symmetries.port_symmetries_1x1,
         ymargin=0,
     )
 
     # Check reasonable reflection/transmission
-    assert np.allclose(sp["o1@0,o2@0"], 1, atol=1e-02), sp["o1@0,o2@0"]
-    assert np.allclose(sp["o2@0,o1@0"], 1, atol=1e-02), sp["o2@0,o1@0"]
-    assert np.allclose(sp["o1@0,o1@0"], 0, atol=5e-02), sp["o1@0,o1@0"]
-    assert np.allclose(sp["o2@0,o2@0"], 0, atol=5e-02), sp["o2@0,o2@0"]
+    assert np.allclose(np.abs(sp["o1@0,o2@0"]), 1, atol=1e-02), np.abs(sp["o1@0,o2@0"])
+    assert np.allclose(np.abs(sp["o2@0,o1@0"]), 1, atol=1e-02), np.abs(sp["o2@0,o1@0"])
+    assert np.allclose(np.abs(sp["o1@0,o1@0"]), 0, atol=5e-02), np.abs(sp["o1@0,o1@0"])
+    assert np.allclose(np.abs(sp["o2@0,o2@0"]), 0, atol=5e-02), np.abs(sp["o2@0,o2@0"])
 
     if dataframe_regression:
         dataframe_regression.check(sp)
@@ -65,19 +58,11 @@ def test_sparameters_crossing_symmetric(dataframe_regression) -> None:
 
     """
     c = gf.components.crossing()
-    port_symmetries = {
-        "o1": {
-            "s11": ["s22", "s33", "s44"],
-            "s21": ["s12", "s34", "s43"],
-            "s31": ["s13", "s24", "s42"],
-            "s41": ["s14", "s23", "s32"],
-        }
-    }
     sp = gm.write_sparameters_meep(
         c,
         overwrite=True,
         resolution=RESOLUTION,
-        port_symmetries=port_symmetries,
+        port_symmetries=sim.port_symmetries.port_symmetries_crossing,
         ymargin=0,
     )
 
@@ -91,13 +76,13 @@ def test_sparameters_straight_mpi(dataframe_regression) -> None:
     p = 3
     c = gf.add_padding_container(c, default=0, top=p, bottom=p)
     filepath = gm.write_sparameters_meep_mpi(c, ymargin=0, overwrite=True)
-    sp = pd.read_csv(filepath)
+    sp = np.load(filepath)
 
     # Check reasonable reflection/transmission
-    assert np.allclose(sp["o1@0,o2@0"], 1, atol=1e-02)
-    assert np.allclose(sp["o2@0,o1@0"], 1, atol=1e-02)
-    assert np.allclose(sp["o1@0,o1@0"], 0, atol=5e-02)
-    assert np.allclose(sp["o2@0,o2@0"], 0, atol=5e-02)
+    assert np.allclose(np.abs(sp["o1@0,o2@0"]), 1, atol=1e-02), np.abs(sp["o1@0,o2@0"])
+    assert np.allclose(np.abs(sp["o2@0,o1@0"]), 1, atol=1e-02), np.abs(sp["o2@0,o1@0"])
+    assert np.allclose(np.abs(sp["o1@0,o1@0"]), 0, atol=5e-02), np.abs(sp["o1@0,o1@0"])
+    assert np.allclose(np.abs(sp["o2@0,o2@0"]), 0, atol=5e-02), np.abs(sp["o2@0,o2@0"])
 
     if dataframe_regression:
         dataframe_regression.check(sp)
@@ -118,7 +103,7 @@ def test_sparameters_straight_batch(dataframe_regression) -> None:
     )
 
     filepath = filepaths[0]
-    sp = pd.read_csv(filepath)
+    sp = np.load(filepath)
 
     filepath2 = sim.get_sparameters_path_meep(component=c, layer_stack=LAYER_STACK)
     assert (
@@ -126,18 +111,18 @@ def test_sparameters_straight_batch(dataframe_regression) -> None:
     ), f"filepath returned {filepaths[0]} differs from {filepath2}"
 
     # Check reasonable reflection/transmission
-    assert np.allclose(sp["o1@0,o2@0"], 1, atol=1e-02)
-    assert np.allclose(sp["o2@0,o1@0"], 1, atol=1e-02)
-    assert np.allclose(sp["o1@0,o1@0"], 0, atol=5e-02)
-    assert np.allclose(sp["o2@0,o2@0"], 0, atol=5e-02)
+    assert np.allclose(np.abs(sp["o1@0,o2@0"]), 1, atol=1e-02), np.abs(sp["o1@0,o2@0"])
+    assert np.allclose(np.abs(sp["o2@0,o1@0"]), 1, atol=1e-02), np.abs(sp["o2@0,o1@0"])
+    assert np.allclose(np.abs(sp["o1@0,o1@0"]), 0, atol=5e-02), np.abs(sp["o1@0,o1@0"])
+    assert np.allclose(np.abs(sp["o2@0,o2@0"]), 0, atol=5e-02), np.abs(sp["o2@0,o2@0"])
 
     if dataframe_regression:
         dataframe_regression.check(sp)
 
 
 if __name__ == "__main__":
-    test_sparameters_straight(None)
+    # test_sparameters_straight(None)
     # test_sparameters_straight_symmetric(False)
-    # test_sparameters_straight_batch(None)
+    test_sparameters_straight_batch(None)
     # test_sparameters_straight_mpi(None)
     # test_sparameters_crossing_symmetric(False)
