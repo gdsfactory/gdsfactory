@@ -2,7 +2,6 @@ import time
 from typing import Any, Dict, Optional
 
 import numpy as np
-import pandas as pd
 import tidy3d as td
 from omegaconf import OmegaConf
 
@@ -158,7 +157,7 @@ def write_sparameters_grating_coupler(
 
 def write_sparameters_grating_coupler_batch(
     jobs: List[Dict[str, Any]], **kwargs
-) -> List[pd.DataFrame]:
+) -> List[np.ndarray]:
     """Returns Sparameters for a list of write_sparameters_grating_coupler settings where it simulation runs in parallel.
 
     Args:
