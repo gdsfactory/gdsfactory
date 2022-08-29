@@ -10,7 +10,7 @@ from gdsfactory.tech import LAYER_STACK
 RESOLUTION = 20
 
 
-def test_sparameters_straight(dataframe_regression) -> None:
+def test_sparameters_straight() -> None:
     """Checks Sparameters for a straight waveguide."""
     c = gf.components.straight(length=2)
     p = 3
@@ -23,11 +23,8 @@ def test_sparameters_straight(dataframe_regression) -> None:
     assert np.allclose(np.abs(sp["o1@0,o1@0"]), 0, atol=5e-02), np.abs(sp["o1@0,o1@0"])
     assert np.allclose(np.abs(sp["o2@0,o2@0"]), 0, atol=5e-02), np.abs(sp["o2@0,o2@0"])
 
-    if dataframe_regression:
-        dataframe_regression.check(sp)
 
-
-def test_sparameters_straight_symmetric(dataframe_regression) -> None:
+def test_sparameters_straight_symmetric() -> None:
     """Checks Sparameters for a straight waveguide."""
     c = gf.components.straight(length=2)
     p = 3
@@ -47,15 +44,11 @@ def test_sparameters_straight_symmetric(dataframe_regression) -> None:
     assert np.allclose(np.abs(sp["o1@0,o1@0"]), 0, atol=5e-02), np.abs(sp["o1@0,o1@0"])
     assert np.allclose(np.abs(sp["o2@0,o2@0"]), 0, atol=5e-02), np.abs(sp["o2@0,o2@0"])
 
-    if dataframe_regression:
-        dataframe_regression.check(sp)
 
-
-def test_sparameters_crossing_symmetric(dataframe_regression) -> None:
+def test_sparameters_crossing_symmetric() -> None:
     """Checks Sparameters for a waveguide crossing.
 
     Exploits symmetries.
-
     """
     c = gf.components.crossing()
     sp = gm.write_sparameters_meep(
@@ -65,12 +58,10 @@ def test_sparameters_crossing_symmetric(dataframe_regression) -> None:
         port_symmetries=sim.port_symmetries.port_symmetries_crossing,
         ymargin=0,
     )
-
-    if dataframe_regression:
-        dataframe_regression.check(sp)
+    assert sp
 
 
-def test_sparameters_straight_mpi(dataframe_regression) -> None:
+def test_sparameters_straight_mpi() -> None:
     """Checks Sparameters for a straight waveguide using MPI."""
     c = gf.components.straight(length=2)
     p = 3
@@ -84,11 +75,8 @@ def test_sparameters_straight_mpi(dataframe_regression) -> None:
     assert np.allclose(np.abs(sp["o1@0,o1@0"]), 0, atol=5e-02), np.abs(sp["o1@0,o1@0"])
     assert np.allclose(np.abs(sp["o2@0,o2@0"]), 0, atol=5e-02), np.abs(sp["o2@0,o2@0"])
 
-    if dataframe_regression:
-        dataframe_regression.check(sp)
 
-
-def test_sparameters_straight_batch(dataframe_regression) -> None:
+def test_sparameters_straight_batch() -> None:
     """Checks Sparameters for a straight waveguide using an MPI pool."""
 
     components = []
@@ -115,9 +103,6 @@ def test_sparameters_straight_batch(dataframe_regression) -> None:
     assert np.allclose(np.abs(sp["o2@0,o1@0"]), 1, atol=1e-02), np.abs(sp["o2@0,o1@0"])
     assert np.allclose(np.abs(sp["o1@0,o1@0"]), 0, atol=5e-02), np.abs(sp["o1@0,o1@0"])
     assert np.allclose(np.abs(sp["o2@0,o2@0"]), 0, atol=5e-02), np.abs(sp["o2@0,o2@0"])
-
-    if dataframe_regression:
-        dataframe_regression.check(sp)
 
 
 if __name__ == "__main__":
