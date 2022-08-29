@@ -18,7 +18,6 @@ import matplotlib.pyplot as plt
 import meep as mp
 import numpy as np
 import omegaconf
-import pandas as pd
 
 from gdsfactory.config import logger, sparameters_path
 from gdsfactory.serialization import clean_value_json, clean_value_name
@@ -49,7 +48,7 @@ def write_sparameters_grating(
     verbosity: int = 0,
     ncores: int = 1,
     **settings,
-) -> pd.DataFrame:
+) -> np.ndarray:
     """Write grating coupler with fiber Sparameters.
 
     Args:
@@ -130,12 +129,12 @@ def write_sparameters_grating(
     dirpath = pathlib.Path(dirpath)
     dirpath.mkdir(exist_ok=True, parents=True)
     filepath = dirpath / filename
-    filepath_csv = filepath.with_suffix(".csv")
+    filepath_npz = filepath.with_suffix(".csv")
     filepath_mp4 = filepath.with_suffix(".mp4")
 
-    if filepath_csv.exists() and not overwrite and not plot:
-        logger.info(f"sparameters loaded from {str(filepath_csv)!r}")
-        return pd.read_csv(filepath_csv)
+    if filepath_npz.exists() and not overwrite and not plot:
+        logger.info(f"sparameters loaded from {str(filepath_npz)!r}")
+        return np.load(filepath_npz)
 
     sim_dict = get_simulation_grating_fiber(**settings)
     sim = sim_dict["sim"]
@@ -226,16 +225,14 @@ def write_sparameters_grating(
     )
     filepath.write_text(omegaconf.OmegaConf.to_yaml(simulation))
 
-    r = dict(s11=s11, s12=s12, s21=s21, s22=s22, wavelengths=wavelengths)
-    keys = [key for key in r if key.startswith("s")]
-    s = {f"{key}a": list(np.unwrap(np.angle(r[key].flatten()))) for key in keys} | {
-        f"{key}m": list(np.abs(r[key].flatten())) for key in keys
+    sp = {
+        "o1@0,o1@0": s11,
+        "o1@0,o2@0": s12,
+        "o2@0,o1@0": s21,
+        "o2@0,o2@0": s22,
+        "wavelengths": wavelengths,
     }
-
-    s["wavelengths"] = wavelengths
-
-    sp = pd.DataFrame(s, index=wavelengths)
-    sp.to_csv(filepath_csv, index=False)
+    np.save_compressed(filepath_npz, **sp)
     return sp
 
 
@@ -317,7 +314,8 @@ def write_sparameters_grating_batch(
     then the overflow will be performed serially
 
     Args:
-        instances: list of Dicts. The keys must be parameters names of write_sparameters_meep, and entries the values.
+        instances: list of Dicts. The keys must be parameters names of write_sparameters_meep,
+            and entries the values.
         cores_per_instance: number of processors to assign to each instance.
         total_cores: total number of cores to use.
         temp_dir: temporary directory to hold simulation files.
