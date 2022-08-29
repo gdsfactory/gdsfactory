@@ -268,7 +268,7 @@ if __name__ == "__main__":
     sp = write_sparameters(c, is_3d=True, port_source_names=None, overwrite=False)
     sim.plot.plot_sparameters(sp)
 
-    # t = df.s12m
+    # t = sp.s12m
     # print(f"Transmission = {t}")
     # cs = [gf.c.straight(length=1.11 + i) for i in [1, 2]]
-    # dfs = write_sparameters_batch_1x1(cs)
+    # sps = write_sparameters_batch_1x1(cs)
