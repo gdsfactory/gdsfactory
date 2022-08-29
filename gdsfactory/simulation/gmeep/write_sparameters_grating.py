@@ -129,7 +129,7 @@ def write_sparameters_grating(
     dirpath = pathlib.Path(dirpath)
     dirpath.mkdir(exist_ok=True, parents=True)
     filepath = dirpath / filename
-    filepath_npz = filepath.with_suffix(".csv")
+    filepath_npz = filepath.with_suffix(".npz")
     filepath_mp4 = filepath.with_suffix(".mp4")
 
     if filepath_npz.exists() and not overwrite and not plot:
