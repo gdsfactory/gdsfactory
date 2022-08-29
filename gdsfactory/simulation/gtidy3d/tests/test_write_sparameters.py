@@ -1,3 +1,5 @@
+import numpy as np
+
 import gdsfactory as gf
 import gdsfactory.simulation.gtidy3d as gt
 
@@ -8,8 +10,8 @@ def test_sparameters_straight(overwrite=False) -> None:
     sp = gt.write_sparameters_1x1(c, overwrite=overwrite, is_3d=False)
 
     # Check reasonable reflection/transmission
-    assert sp["o1@0,o2@0"].min() > 0.89, sp["o1@0,o2@0"].min()
-    assert sp["o1@0,o1@0"].max() < 0.1, sp["o1@0,o1@0"].max()
+    assert np.abs(sp["o1@0,o2@0"]).min() > 0.89, np.abs(sp["o1@0,o2@0"]).min()
+    assert np.abs(sp["o1@0,o1@0"]).max() < 0.1, np.abs(sp["o1@0,o1@0"]).max()
 
     # assert np.allclose(sp["o2@0,o1@0"], 1, atol=1e-02), sp["o2@0,o1@0"]
     # assert np.allclose(sp["o1@0,o1@0"], 0, atol=5e-02), sp["o1@0,o1@0"]
