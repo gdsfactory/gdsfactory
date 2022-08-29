@@ -96,10 +96,10 @@ def write_sparameters(
         component: to simulate.
         port_source_names: list of ports to excite. Defaults to all.
         port_symmetries: Dict to specify port symmetries, to save number of simulations
-        dirpath: directory to store sparameters in CSV.
+        dirpath: directory to store sparameters in npz.
             Defaults to active Pdk.sparameters_path.
         run: runs simulation, if False, only plots simulation.
-        overwrite: overwrites stored Sparameter CSV results.
+        overwrite: overwrites stored Sparameter npz results.
 
     Keyword Args:
         port_extension: extend ports beyond the PML.
@@ -212,10 +212,10 @@ def write_sparameters(
             sp["wavelengths"] = get_wavelengths(port_name=port_name, sim_data=sim_data)
 
         if bool(port_symmetries):
-            for key in port_symmetries[port_name].keys():
-                values = port_symmetries[port_name][key]
-                for value in values:
-                    sp[value] = sp[key]
+            for key, symmetries in port_symmetries.items():
+                for sym in symmetries:
+                    if key in sp:
+                        sp[sym] = sp[key]
 
         return sp
 
@@ -265,8 +265,8 @@ if __name__ == "__main__":
     # c = gf.components.straight(length=2.1)
     c = gf.c.straight()
     c = gf.components.mmi1x2()
-    df = write_sparameters(c, is_3d=True, port_source_names=None, overwrite=False)
-    sim.plot.plot_sparameters(df)
+    sp = write_sparameters(c, is_3d=True, port_source_names=None, overwrite=False)
+    sim.plot.plot_sparameters(sp)
 
     # t = df.s12m
     # print(f"Transmission = {t}")
