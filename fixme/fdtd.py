@@ -16,7 +16,7 @@ wavelength |port_in | port_out | mode_in | mode_out |   magnitude  |   phase
 ```
 
 you can write some convenience functions for each port naming convention
-to query s12m and s12a
+to query o1@0,o2@0 and s12a
 
 df.query("port_in=='o1' & port_out=='o2' ")
 
