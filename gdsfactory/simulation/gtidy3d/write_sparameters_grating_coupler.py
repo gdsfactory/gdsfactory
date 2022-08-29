@@ -34,9 +34,9 @@ def write_sparameters_grating_coupler(
 
     Args:
         component: grating coupler gdsfactory Component to simulate.
-        dirpath: directory to store sparameters in CSV.
+        dirpath: directory to store sparameters in npz.
             Defaults to active Pdk.sparameters_path.
-        overwrite: overwrites stored Sparameter CSV results.
+        overwrite: overwrites stored Sparameter npz results.
 
     Keyword Args:
         port_extension: extend ports beyond the PML.
@@ -145,20 +145,22 @@ def write_sparameters_grating_coupler(
     sp[key] = t
 
     end = time.time()
-    df = np.savez_compressed(sp)
+    np.savez_compressed(filepath, sp)
     kwargs.update(compute_time_seconds=end - start)
     kwargs.update(compute_time_minutes=(end - start) / 60)
 
     filepath_sim_settings.write_text(OmegaConf.to_yaml(clean_value_json(kwargs)))
     logger.info(f"Write simulation results to {str(filepath)!r}")
     logger.info(f"Write simulation settings to {str(filepath_sim_settings)!r}")
-    return df
+    return sp
 
 
 def write_sparameters_grating_coupler_batch(
     jobs: List[Dict[str, Any]], **kwargs
 ) -> List[np.ndarray]:
-    """Returns Sparameters for a list of write_sparameters_grating_coupler settings where it simulation runs in parallel.
+    """Returns Sparameters for a list of write_sparameters_grating_coupler settings.
+
+    Each simulation runs in parallel.
 
     Args:
         jobs: list of kwargs for write_sparameters_grating_coupler.
@@ -177,22 +179,22 @@ if __name__ == "__main__":
     # import gdsfactory.simulation as sim
 
     c = gf.components.grating_coupler_elliptical_lumerical()  # inverse design grating
-    df = write_sparameters_grating_coupler(
+    sp = write_sparameters_grating_coupler(
         c,
         is_3d=False,
         fiber_angle_deg=-5,
         fiber_xoffset=+2,
     )
 
-    # sim.plot.plot_sparameters(df)
+    # sim.plot.plot_sparameters(sp)
 
     # c = gf.components.grating_coupler_elliptical_arbitrary(
     #     widths=[0.343] * 25,
     #     gaps=[0.345] * 25,
     # )
-    # df = write_sparameters_grating_coupler(c, is_3d=False)
-    # t = df.s12m
+    # sp = write_sparameters_grating_coupler(c, is_3d=False)
+    # t = sp.s12m
     # print(f"Transmission = {t}")
 
-    # plt.plot(df.wavelengths, df.s12m)
+    # plt.plot(sp.wavelengths, sp.s12m)
     # plt.show()
