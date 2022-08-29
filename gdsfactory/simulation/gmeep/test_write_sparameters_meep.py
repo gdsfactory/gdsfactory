@@ -105,6 +105,12 @@ def test_sparameters_straight_batch() -> None:
     assert np.allclose(np.abs(sp["o2@0,o2@0"]), 0, atol=5e-02), np.abs(sp["o2@0,o2@0"])
 
 
+def test_sparameters_grating_coupler() -> None:
+    """Checks Sparameters for a grating coupler."""
+    sp = gm.write_sparameters_grating()  # fiber_angle_deg = 20
+    assert sp
+
+
 if __name__ == "__main__":
     # test_sparameters_straight(None)
     # test_sparameters_straight_symmetric(False)
