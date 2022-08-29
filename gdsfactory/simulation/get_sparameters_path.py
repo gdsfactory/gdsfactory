@@ -5,7 +5,7 @@ from functools import partial
 from pathlib import Path
 from typing import Optional
 
-import pandas as pd
+import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.name import clean_value
@@ -49,7 +49,7 @@ def _get_sparameters_path(
     return dirpath / f"{component.name}_{get_kwargs_hash(**kwargs)}.npz"
 
 
-def _get_sparameters_data(**kwargs) -> pd.DataFrame:
+def _get_sparameters_data(**kwargs) -> np.ndarray:
     """Returns Sparameters data in a pandas DataFrame.
 
     Keyword Args:
@@ -59,7 +59,7 @@ def _get_sparameters_data(**kwargs) -> pd.DataFrame:
 
     """
     filepath = _get_sparameters_path(**kwargs)
-    return pd.read_csv(filepath)
+    return np.load(filepath)
 
 
 get_sparameters_path_meep = partial(_get_sparameters_path, tool="meep")
@@ -68,6 +68,7 @@ get_sparameters_path_tidy3d = partial(_get_sparameters_path, tool="tidy3d")
 
 get_sparameters_data_meep = partial(_get_sparameters_data, tool="meep")
 get_sparameters_data_lumerical = partial(_get_sparameters_data, tool="lumerical")
+get_sparameters_data_tidy3d = partial(_get_sparameters_data, tool="tidy3d")
 
 
 def test_get_sparameters_path(test: bool = True) -> None:

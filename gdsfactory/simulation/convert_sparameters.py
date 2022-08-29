@@ -1,15 +1,18 @@
+import pathlib
 import re
 
 import numpy as np
 import pandas as pd
+from tqdm.auto import tqdm
+
+from gdsfactory.types import PathType
 
 
-def csv_to_numpy(filepath, port_map=None):
+def pandas_to_numpy(df: pd.DataFrame, port_map=None) -> np.ndarray:
     """Converts a pandas CSV sparameters into a numpy array.
 
     Fundamental mode starts at 0.
     """
-    df = pd.read_csv(filepath)
     s_headers = sorted({c[:-1] for c in df.columns if c.lower().startswith("s")})
     idxs = sorted({idx for c in s_headers for idx in _s_header_to_port_idxs(c)})
 
@@ -41,6 +44,24 @@ def csv_to_numpy(filepath, port_map=None):
     return S
 
 
+def csv_to_npz(filepath: PathType) -> pathlib.Path:
+    df = pd.read_csv(filepath)
+    sp = pandas_to_numpy(df)
+    filepath_npz = pathlib.Path(filepath).with_suffix(".npz")
+    np.savez_compressed(filepath_npz, **sp)
+    return filepath_npz
+
+
+def convert_directory_csv_to_npz(dirpath: PathType) -> None:
+    dirpath = pathlib.Path(dirpath)
+    for filepath in tqdm(dirpath.glob("**/*.csv")):
+        try:
+            csv_to_npz(filepath)
+        except Exception as e:
+            print(filepath)
+            print(e)
+
+
 def _s_header_to_port_idxs(s):
     s = re.sub("[^0-9]", "", s)
     inp, out = (int(i) for i in s)
@@ -48,7 +69,7 @@ def _s_header_to_port_idxs(s):
 
 
 if __name__ == "__main__":
-    import matplotlib.pyplot as plt
+    # import matplotlib.pyplot as plt
 
     import gdsfactory as gf
 
@@ -56,7 +77,9 @@ if __name__ == "__main__":
     filepath = gf.CONFIG["sparameters"] / "mmi1x2_00cc8908.csv"
     filepath = gf.CONFIG["sparameters"] / "mmi1x2_1f90b7ca.csv"  # lumerical
 
-    s = csv_to_numpy(filepath)
-    plt.plot(s["wavelengths"], np.abs(s["o1@0,o2@0"]) ** 2)
-    plt.plot(s["wavelengths"], np.abs(s["o1@0,o3@0"]) ** 2)
-    plt.show()
+    convert_directory_csv_to_npz(gf.CONFIG["sparameters"])
+
+    # s = csv_to_npz(filepath)
+    # plt.plot(s["wavelengths"], np.abs(s["o1@0,o2@0"]) ** 2)
+    # plt.plot(s["wavelengths"], np.abs(s["o1@0,o3@0"]) ** 2)
+    # plt.show()

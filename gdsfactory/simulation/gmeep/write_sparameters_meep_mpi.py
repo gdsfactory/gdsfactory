@@ -61,7 +61,7 @@ def write_sparameters_meep_mpi(
     wait_to_finish: bool = True,
     **kwargs,
 ) -> Path:
-    """Write Sparameters using multiple cores and MPI and returns Sparameters CSV filepath.
+    """Write Sparameters using multiple cores and MPI and returns Sparameters filepath.
 
     Simulates each time using a different input port (by default, all of them)
     unless you specify port_symmetries:
