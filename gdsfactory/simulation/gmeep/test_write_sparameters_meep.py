@@ -16,16 +16,16 @@ def test_sparameters_straight(dataframe_regression) -> None:
     c = gf.components.straight(length=2)
     p = 3
     c = gf.add_padding_container(c, default=0, top=p, bottom=p)
-    df = gm.write_sparameters_meep(c, ymargin=0, overwrite=True, resolution=RESOLUTION)
+    sp = gm.write_sparameters_meep(c, ymargin=0, overwrite=True, resolution=RESOLUTION)
 
     # Check reasonable reflection/transmission
-    assert np.allclose(df["s12m"], 1, atol=1e-02), df["s12m"]
-    assert np.allclose(df["s21m"], 1, atol=1e-02), df["s21m"]
-    assert np.allclose(df["s11m"], 0, atol=5e-02), df["s11m"]
-    assert np.allclose(df["s22m"], 0, atol=5e-02), df["s22m"]
+    assert np.allclose(sp["s12m"], 1, atol=1e-02), sp["s12m"]
+    assert np.allclose(sp["s21m"], 1, atol=1e-02), sp["s21m"]
+    assert np.allclose(sp["s11m"], 0, atol=5e-02), sp["s11m"]
+    assert np.allclose(sp["s22m"], 0, atol=5e-02), sp["s22m"]
 
     if dataframe_regression:
-        dataframe_regression.check(df)
+        dataframe_regression.check(sp)
 
 
 def test_sparameters_straight_symmetric(dataframe_regression) -> None:
@@ -40,7 +40,7 @@ def test_sparameters_straight_symmetric(dataframe_regression) -> None:
             "s21": ["s12"],
         }
     }
-    df = gm.write_sparameters_meep(
+    sp = gm.write_sparameters_meep(
         c,
         overwrite=True,
         resolution=RESOLUTION,
@@ -49,13 +49,13 @@ def test_sparameters_straight_symmetric(dataframe_regression) -> None:
     )
 
     # Check reasonable reflection/transmission
-    assert np.allclose(df["s12m"], 1, atol=1e-02), df["s12m"]
-    assert np.allclose(df["s21m"], 1, atol=1e-02), df["s21m"]
-    assert np.allclose(df["s11m"], 0, atol=5e-02), df["s11m"]
-    assert np.allclose(df["s22m"], 0, atol=5e-02), df["s22m"]
+    assert np.allclose(sp["s12m"], 1, atol=1e-02), sp["s12m"]
+    assert np.allclose(sp["s21m"], 1, atol=1e-02), sp["s21m"]
+    assert np.allclose(sp["s11m"], 0, atol=5e-02), sp["s11m"]
+    assert np.allclose(sp["s22m"], 0, atol=5e-02), sp["s22m"]
 
     if dataframe_regression:
-        dataframe_regression.check(df)
+        dataframe_regression.check(sp)
 
 
 def test_sparameters_crossing_symmetric(dataframe_regression) -> None:
@@ -73,7 +73,7 @@ def test_sparameters_crossing_symmetric(dataframe_regression) -> None:
             "s41": ["s14", "s23", "s32"],
         }
     }
-    df = gm.write_sparameters_meep(
+    sp = gm.write_sparameters_meep(
         c,
         overwrite=True,
         resolution=RESOLUTION,
@@ -82,7 +82,7 @@ def test_sparameters_crossing_symmetric(dataframe_regression) -> None:
     )
 
     if dataframe_regression:
-        dataframe_regression.check(df)
+        dataframe_regression.check(sp)
 
 
 def test_sparameters_straight_mpi(dataframe_regression) -> None:
@@ -91,16 +91,16 @@ def test_sparameters_straight_mpi(dataframe_regression) -> None:
     p = 3
     c = gf.add_padding_container(c, default=0, top=p, bottom=p)
     filepath = gm.write_sparameters_meep_mpi(c, ymargin=0, overwrite=True)
-    df = pd.read_csv(filepath)
+    sp = pd.read_csv(filepath)
 
     # Check reasonable reflection/transmission
-    assert np.allclose(df["s12m"], 1, atol=1e-02)
-    assert np.allclose(df["s21m"], 1, atol=1e-02)
-    assert np.allclose(df["s11m"], 0, atol=5e-02)
-    assert np.allclose(df["s22m"], 0, atol=5e-02)
+    assert np.allclose(sp["s12m"], 1, atol=1e-02)
+    assert np.allclose(sp["s21m"], 1, atol=1e-02)
+    assert np.allclose(sp["s11m"], 0, atol=5e-02)
+    assert np.allclose(sp["s22m"], 0, atol=5e-02)
 
     if dataframe_regression:
-        dataframe_regression.check(df)
+        dataframe_regression.check(sp)
 
 
 def test_sparameters_straight_batch(dataframe_regression) -> None:
@@ -118,7 +118,7 @@ def test_sparameters_straight_batch(dataframe_regression) -> None:
     )
 
     filepath = filepaths[0]
-    df = pd.read_csv(filepath)
+    sp = pd.read_csv(filepath)
 
     filepath2 = sim.get_sparameters_path_meep(component=c, layer_stack=LAYER_STACK)
     assert (
@@ -126,13 +126,13 @@ def test_sparameters_straight_batch(dataframe_regression) -> None:
     ), f"filepath returned {filepaths[0]} differs from {filepath2}"
 
     # Check reasonable reflection/transmission
-    assert np.allclose(df["s12m"], 1, atol=1e-02)
-    assert np.allclose(df["s21m"], 1, atol=1e-02)
-    assert np.allclose(df["s11m"], 0, atol=5e-02)
-    assert np.allclose(df["s22m"], 0, atol=5e-02)
+    assert np.allclose(sp["s12m"], 1, atol=1e-02)
+    assert np.allclose(sp["s21m"], 1, atol=1e-02)
+    assert np.allclose(sp["s11m"], 0, atol=5e-02)
+    assert np.allclose(sp["s22m"], 0, atol=5e-02)
 
     if dataframe_regression:
-        dataframe_regression.check(df)
+        dataframe_regression.check(sp)
 
 
 if __name__ == "__main__":

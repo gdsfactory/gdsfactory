@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.24.0
+
+- write sparameters works with arbitrary port naming convention and injection port. `o1@0,o2@0` for meep and tidy3d
+
 ## [5.23.0](https://github.com/gdsfactory/gdsfactory/pull/641)
 
 -  extended get_bundle to enable s_bend routing when there is no space for Manhattan routing. fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/55) [PR](https://github.com/gdsfactory/gdsfactory/pull/639)
