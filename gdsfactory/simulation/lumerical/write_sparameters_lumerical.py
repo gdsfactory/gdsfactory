@@ -177,7 +177,7 @@ def write_sparameters_lumerical(
 
 
     Return:
-        Sparameters pandas DataFrame (wavelengths, s11m, s11a, s12a ...)
+        Sparameters np.ndarray (wavelengths, o1@0,o1@0, o1@0,o2@0 ...)
             suffix `a` for angle in radians and `m` for module.
 
     """

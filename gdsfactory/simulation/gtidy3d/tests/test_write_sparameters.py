@@ -8,12 +8,12 @@ def test_sparameters_straight(overwrite=False) -> None:
     sp = gt.write_sparameters_1x1(c, overwrite=overwrite, is_3d=False)
 
     # Check reasonable reflection/transmission
-    assert sp["s12m"].min() > 0.89, sp["s12m"].min()
-    assert sp["s11m"].max() < 0.1, sp["s11m"].max()
+    assert sp["o1@0,o2@0"].min() > 0.89, sp["o1@0,o2@0"].min()
+    assert sp["o1@0,o1@0"].max() < 0.1, sp["o1@0,o1@0"].max()
 
-    # assert np.allclose(sp["s21m"], 1, atol=1e-02), sp["s21m"]
-    # assert np.allclose(sp["s11m"], 0, atol=5e-02), sp["s11m"]
-    # assert np.allclose(sp["s22m"], 0, atol=5e-02), sp["s22m"]
+    # assert np.allclose(sp["o2@0,o1@0"], 1, atol=1e-02), sp["o2@0,o1@0"]
+    # assert np.allclose(sp["o1@0,o1@0"], 0, atol=5e-02), sp["o1@0,o1@0"]
+    # assert np.allclose(sp["o2@0,o2@0"], 0, atol=5e-02), sp["o2@0,o2@0"]
 
     # if dataframe_regression:
     #     dataframe_regression.check(sp)
@@ -26,7 +26,7 @@ if __name__ == "__main__":
     # sp = gt.write_sparameters_1x1(c, overwrite=True)
 
     # # Check reasonable reflection/transmission
-    # assert np.allclose(sp["s12m"], 1, atol=1e-02), sp["s12m"]
-    # assert np.allclose(sp["s21m"], 1, atol=1e-02), sp["s21m"]
-    # assert np.allclose(sp["s11m"], 0, atol=5e-02), sp["s11m"]
-    # assert np.allclose(sp["s22m"], 0, atol=5e-02), sp["s22m"]
+    # assert np.allclose(sp["o1@0,o2@0"], 1, atol=1e-02), sp["o1@0,o2@0"]
+    # assert np.allclose(sp["o2@0,o1@0"], 1, atol=1e-02), sp["o2@0,o1@0"]
+    # assert np.allclose(sp["o1@0,o1@0"], 0, atol=5e-02), sp["o1@0,o1@0"]
+    # assert np.allclose(sp["o2@0,o2@0"], 0, atol=5e-02), sp["o2@0,o2@0"]
