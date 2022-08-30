@@ -20,7 +20,6 @@ from collections import defaultdict
 from typing import Any, Callable, Dict, List, Optional
 
 import gdspy
-import numpy as np
 import omegaconf
 
 from gdsfactory import Port
@@ -265,48 +264,55 @@ def extract_optical_connections(
     ),
 ):
     angle_tolerance = 1  # degrees
-    by_xy_1nm = defaultdict(list)
     warnings = defaultdict(list)
 
-    for port_name in port_names:
-        port = ports[port_name]
-        by_xy_1nm[tuple(np.round(port.center, 3))].append(port_name)
-
-    unconnected_port_names = []
+    unconnected_port_names = list(port_names)
+    grids = [("fine", 1), ("coarse", 5)]
     connections = []
 
-    for xy, ports_at_xy in by_xy_1nm.items():
-        if len(ports_at_xy) == 1:
-            unconnected_port_names.append(ports_at_xy[0])
-            warnings["unconnected_ports"].append(ports_at_xy[0])
-        elif len(ports_at_xy) == 2:
-            port1 = ports[ports_at_xy[0]]
-            port2 = ports[ports_at_xy[1]]
+    for grid_name, grid_size in grids:
+        by_xy = defaultdict(list)
 
-            is_top_level = [("," not in pname) for pname in ports_at_xy]
-            if all(is_top_level):
-                raise ValueError(
-                    f"Two top-level ports appear to be connected: {ports_at_xy}"
-                )
+        for port_name in unconnected_port_names:
+            port = ports[port_name]
+            by_xy[tuple(snap_to_grid(port.center, nm=grid_size))].append(port_name)
 
-            # assert no angle mismatch
-            # assert no width mismatch
-            if port1.width != port2.width:
-                warnings["width_mismatch"].append(ports_at_xy)
-            if port1.shear_angle != port2.shear_angle:
-                warnings["shear_angle_mismatch"].append(ports_at_xy)
+        unconnected_port_names = []
 
-            if any(is_top_level):
-                if port1.orientation != port2.orientation:
+        for xy, ports_at_xy in by_xy.items():
+            if len(ports_at_xy) == 1:
+                unconnected_port_names.append(ports_at_xy[0])
+                warnings["unconnected_ports"].append(ports_at_xy[0])
+            elif len(ports_at_xy) == 2:
+                port1 = ports[ports_at_xy[0]]
+                port2 = ports[ports_at_xy[1]]
+
+                is_top_level = [("," not in pname) for pname in ports_at_xy]
+                if all(is_top_level):
+                    raise ValueError(
+                        f"Two top-level ports appear to be connected: {ports_at_xy}"
+                    )
+
+                if port1.width != port2.width:
+                    warnings["width_mismatch"].append(ports_at_xy)
+                if port1.shear_angle != port2.shear_angle:
+                    warnings["shear_angle_mismatch"].append(ports_at_xy)
+
+                if any(is_top_level):
+                    if port1.orientation != port2.orientation:
+                        warnings["orientation_mismatch"].append(ports_at_xy)
+                elif (
+                    abs(abs(port1.orientation - port2.orientation) - 180)
+                    > angle_tolerance
+                ):
                     warnings["orientation_mismatch"].append(ports_at_xy)
-            elif (
-                abs(abs(port1.orientation - port2.orientation) - 180) > angle_tolerance
-            ):
-                warnings["orientation_mismatch"].append(ports_at_xy)
-            connections.append(ports_at_xy)
-        else:
-            warnings["multiple_connections"].append(ports_at_xy)
-            raise ValueError(f"Found multiple connections at {xy}:{ports_at_xy}")
+                connections.append(ports_at_xy)
+
+                if grid_name == "coarse":
+                    warnings["offset_mismatch"].append(ports_at_xy)
+            else:
+                warnings["multiple_connections"].append(ports_at_xy)
+                raise ValueError(f"Found multiple connections at {xy}:{ports_at_xy}")
 
     critical_warnings = {
         w: warnings[w] for w in raise_error_for_warnings if warnings[w]
