@@ -60,7 +60,7 @@ def model_from_npz(
         S = {}
         zero = jnp.zeros_like(x)
 
-        for key in sp.keys():
+        for key in sp:
             if not key.startswith("wav"):
                 port_mode0, port_mode1 = key.split(",")
                 port0, mode0 = port_mode0.split("@")
