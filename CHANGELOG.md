@@ -1,8 +1,8 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## 5.24.0
+## [5.24.0](https://github.com/gdsfactory/gdsfactory/pull/644)
 
-- write sparameters works with arbitrary port naming convention and injection port. `o1@0,o2@0` for meep and tidy3d
+- write sparameters works with arbitrary port naming convention and different input modes. `o1@0,o2@0` for meep and tidy3d. where `o1` is in the input port `@0` is the first mode, and `o2@0` refers to `o2` port mode `0`
 
 
 ## [5.23.1](https://github.com/gdsfactory/gdsfactory/pull/642)
