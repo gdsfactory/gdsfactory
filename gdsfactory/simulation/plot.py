@@ -34,7 +34,7 @@ def plot_sparameters(
 
     """
     w = sp["wavelengths"] * 1e3
-    keys = keys or [key for key in sp.keys() if not key.lower().startswith("wav")]
+    keys = keys or [key for key in sp if not key.lower().startswith("wav")]
 
     for key in keys:
 
