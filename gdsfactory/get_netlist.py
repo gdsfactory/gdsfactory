@@ -255,15 +255,18 @@ def extract_connections(port_names: List[str], ports: Dict[str, Port], port_type
         return extract_electrical_connections(port_names, ports)
 
 
-def extract_optical_connections(port_names: List[str], ports: Dict[str, Port]):
+def extract_optical_connections(
+    port_names: List[str],
+    ports: Dict[str, Port],
+    raise_error_for_warnings=(
+        "width_mismatch",
+        "shear_angle_mismatch",
+        "orientation_mismatch",
+    ),
+):
+    angle_tolerance = 1  # degrees
     by_xy_1nm = defaultdict(list)
-    warnings = {
-        "width_mismatch": [],
-        "angle_mismatch": [],
-        "offset": [],
-        "multiple_connections": [],
-        "unconnected_ports": [],
-    }
+    warnings = defaultdict(list)
 
     for port_name in port_names:
         port = ports[port_name]
@@ -277,13 +280,42 @@ def extract_optical_connections(port_names: List[str], ports: Dict[str, Port]):
             unconnected_port_names.append(ports_at_xy[0])
             warnings["unconnected_ports"].append(ports_at_xy[0])
         elif len(ports_at_xy) == 2:
+            port1 = ports[ports_at_xy[0]]
+            port2 = ports[ports_at_xy[1]]
+
+            is_top_level = [("," not in pname) for pname in ports_at_xy]
+            if all(is_top_level):
+                raise ValueError(
+                    f"Two top-level ports appear to be connected: {ports_at_xy}"
+                )
+
             # assert no angle mismatch
             # assert no width mismatch
+            if port1.width != port2.width:
+                warnings["width_mismatch"].append(ports_at_xy)
+            if port1.shear_angle != port2.shear_angle:
+                warnings["shear_angle_mismatch"].append(ports_at_xy)
+
+            if any(is_top_level):
+                if port1.orientation != port2.orientation:
+                    warnings["orientation_mismatch"].append(ports_at_xy)
+            elif (
+                abs(abs(port1.orientation - port2.orientation) - 180) > angle_tolerance
+            ):
+                warnings["orientation_mismatch"].append(ports_at_xy)
             connections.append(ports_at_xy)
         else:
             warnings["multiple_connections"].append(ports_at_xy)
             raise ValueError(f"Found multiple connections at {xy}:{ports_at_xy}")
 
+    critical_warnings = {
+        w: warnings[w] for w in raise_error_for_warnings if warnings[w]
+    }
+
+    if critical_warnings:
+        raise ValueError(
+            f"Found warnings while extracting netlist: {critical_warnings}"
+        )
     return connections, warnings
 
 
