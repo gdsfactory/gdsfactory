@@ -63,7 +63,6 @@ c.add_ref(gf.components.bend_euler())
 c.add_ref(gf.components.mzi())
 """
 
-
 PathType = Union[str, Path]
 Float2 = Tuple[float, float]
 Layer = Tuple[int, int]
@@ -1134,7 +1133,7 @@ class Component(Device):
                     f"on_duplicate_cell: {on_duplicate_cell!r} not in (None, warn, error, overwrite)"
                 )
 
-        all_cells = [self] + list(cells)
+        all_cells = [self] + sorted(cells, key=lambda cc: cc.name)
 
         no_name_cells = [
             cell.name for cell in all_cells if cell.name.startswith("Unnamed")
