@@ -104,7 +104,7 @@ Coordinates = Tuple[Coordinate, ...]
 ComponentOrPath = Union[Component, PathType]
 CrossSectionFactory = Callable[..., CrossSection]
 CrossSectionOrFactory = Union[CrossSection, Callable[..., CrossSection]]
-PortSymmetries = Dict[str, Dict[str, List[str]]]
+PortSymmetries = Dict[str, List[str]]
 PortsDict = Dict[str, Port]
 PortsList = Dict[str, Port]
 
