@@ -457,7 +457,7 @@ class ComponentReference(DeviceReference):
     def rotate(
         self,
         angle: float = 45,
-        center: Coordinate = (0.0, 0.0),
+        center: Union[Coordinate, str, int] = (0.0, 0.0),
     ) -> "ComponentReference":
         """Return rotated ComponentReference.
 
