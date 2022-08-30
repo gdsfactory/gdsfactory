@@ -16,10 +16,14 @@ Assumes two ports are connected when they have same width, x, y
 
 """
 
+from collections import defaultdict
 from typing import Any, Callable, Dict, List, Optional
 
+import gdspy
+import numpy as np
 import omegaconf
 
+from gdsfactory import Port
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.name import clean_name
 from gdsfactory.pdk import get_layer
@@ -127,6 +131,14 @@ def get_netlist(
     connections = {}
     top_ports = {}
 
+    # store where ports are located
+    name2port = {}
+
+    # TOP level ports
+    ports = component.get_ports(depth=0)
+    ports_by_type = defaultdict(list)
+    top_ports_list = set()
+
     for reference in component.references:
         c = reference.parent
         origin = reference.origin
@@ -136,6 +148,12 @@ def get_netlist(
             component,
             reference,
         )
+        if isinstance(reference, gdspy.CellArray):
+            is_array = True
+            base_reference_name = reference_name
+            reference_name += "__1_1"
+        else:
+            is_array = False
 
         instance = {}
 
@@ -158,16 +176,31 @@ def get_netlist(
             rotation=int(reference.rotation or 0),
             mirror=reference.x_reflection or 0,
         )
+        if is_array:
+            for i in range(reference.rows):
+                for j in range(reference.columns):
+                    reference_name = base_reference_name + f"__{i + 1}_{j + 1}"
+                    xj = x + j * reference.spacing[0]
+                    yi = y + i * reference.spacing[1]
+                    instances[reference_name] = instance
+                    placements[reference_name] = dict(
+                        x=xj,
+                        y=yi,
+                        rotation=int(reference.rotation or 0),
+                        mirror=reference.x_reflection or 0,
+                    )
+                    parent_ports = c.ports
+                    for parent_port_name in parent_ports:
+                        top_name = f"{parent_port_name}_{i + 1}_{j + 1}"
+                        lower_name = f"{reference_name},{parent_port_name}"
+                        # a bit of a hack... get the top-level port for the ComponentArray, by our known naming convention. I hope no one renames these ports!
+                        parent_port = component.ports[top_name]
+                        name2port[top_name] = parent_port
+                        name2port[lower_name] = parent_port
+                        top_ports_list.add(top_name)
+                        ports_by_type[parent_port.port_type].append(top_name)
+                        ports_by_type[parent_port.port_type].append(lower_name)
 
-    # store where ports are located
-    name2port = {}
-
-    # Initialize a dict of port locations to Instance1Name,PortNames
-    port_locations = {}
-
-    # TOP level ports
-    ports = component.get_ports(depth=0)
-    top_ports_list = set()
     for port in ports:
         src = port.name
         name2port[src] = port
@@ -175,45 +208,33 @@ def get_netlist(
 
     # lower level ports
     for reference in component.references:
-        for port in reference.ports.values():
-            reference_name = get_instance_name(
-                component,
-                reference,
-            )
-            src = f"{reference_name},{port.name}"
-            name2port[src] = port
+        if isinstance(reference, gdspy.CellArray):
+            pass
+        else:
+            for port in reference.ports.values():
+                reference_name = get_instance_name(
+                    component,
+                    reference,
+                )
+                src = f"{reference_name},{port.name}"
+                name2port[src] = port
+                ports_by_type[port.port_type].append(src)
 
-    # build connectivity port_locations = Dict[Tuple(x,y,width), set of portNames]
-    for name, port in name2port.items():
-        if exclude_port_types and port.port_type in exclude_port_types:
-            continue
-        xywt = [
-            round(1000 * snap_to_grid(v, nm=tolerance))
-            for v in (port.x, port.y, port.width)
-        ] + [port.port_type]
-        xywt = tuple(xywt)
-        if xywt not in port_locations:
-            port_locations[xywt] = set()
-        port_locations[xywt].add(name)
+    for port_type, port_names in ports_by_type.items():
+        connections_t, warnings_t = extract_connections(
+            port_names, name2port, port_type
+        )
 
-    for xywt, names_set in port_locations.items():
-        if len(names_set) > 2:
-            x, y, w, t = xywt
-            raise ValueError(
-                "more than 2 connections at "
-                f"{x / 1000, y / 1000} {list(names_set)}, width  = {w / 1000} "
-            )
-        if len(names_set) == 2:
-            names_list = list(names_set)
-            src = names_list[0]
-            dst = names_list[1]
-            if src in top_ports_list:
-                top_ports[src] = dst
-            elif dst in top_ports_list:
-                top_ports[dst] = src
-            else:
-                src_dest = sorted([src, dst])
-                connections[src_dest[0]] = src_dest[1]
+        for connection in connections_t:
+            if len(connection) == 2:
+                src, dst = connection
+                if src in top_ports_list:
+                    top_ports[src] = dst
+                elif dst in top_ports_list:
+                    top_ports[dst] = src
+                else:
+                    src_dest = sorted([src, dst])
+                    connections[src_dest[0]] = src_dest[1]
 
     connections_sorted = {k: connections[k] for k in sorted(list(connections.keys()))}
     placements_sorted = {k: placements[k] for k in sorted(list(placements.keys()))}
@@ -225,6 +246,51 @@ def get_netlist(
         ports=top_ports,
         name=component.name,
     )
+
+
+def extract_connections(port_names: List[str], ports: Dict[str, Port], port_type: str):
+    if port_type == "optical":
+        return extract_optical_connections(port_names, ports)
+    elif port_type == "electrical":
+        return extract_electrical_connections(port_names, ports)
+
+
+def extract_optical_connections(port_names: List[str], ports: Dict[str, Port]):
+    by_xy_1nm = defaultdict(list)
+    warnings = {
+        "width_mismatch": [],
+        "angle_mismatch": [],
+        "offset": [],
+        "multiple_connections": [],
+        "unconnected_ports": [],
+    }
+
+    for port_name in port_names:
+        port = ports[port_name]
+        by_xy_1nm[tuple(np.round(port.center, 3))].append(port_name)
+
+    unconnected_port_names = []
+    connections = []
+
+    for xy, ports_at_xy in by_xy_1nm.items():
+        if len(ports_at_xy) == 1:
+            unconnected_port_names.append(ports_at_xy[0])
+            warnings["unconnected_ports"].append(ports_at_xy[0])
+        elif len(ports_at_xy) == 2:
+            # assert no angle mismatch
+            # assert no width mismatch
+            connections.append(ports_at_xy)
+        else:
+            warnings["multiple_connections"].append(ports_at_xy)
+            raise ValueError(f"Found multiple connections at {xy}:{ports_at_xy}")
+
+    return connections, warnings
+
+
+def extract_electrical_connections(port_names: List[str], ports: Dict[str, Port]):
+    # for port_name in port_names:
+    #     port = ports[port_name]
+    raise NotImplementedError()
 
 
 def get_netlist_recursive(
