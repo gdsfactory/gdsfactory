@@ -5,7 +5,6 @@ from typing import Dict, Optional
 
 import numpy as np
 import omegaconf
-import pandas as pd
 
 import gdsfactory as gf
 from gdsfactory.config import __version__, logger
@@ -80,16 +79,16 @@ def write_sparameters_lumerical(
     material_name_to_lumerical: Optional[Dict[str, MaterialSpec]] = None,
     delete_fsp_files: bool = True,
     **settings,
-) -> pd.DataFrame:
+) -> np.ndarray:
     r"""Returns and writes component Sparameters using Lumerical FDTD.
 
     If simulation exists it returns the Sparameters directly unless overwrite=True
     which forces a re-run of the simulation
 
-    Writes Sparameters both in .CSV and .DAT (interconnect format) as well as
+    Writes Sparameters both in .npz and .DAT (interconnect format) as well as
     simulation settings in .YAML
 
-    In the CSV format you can see `S12m` where `m` stands for magnitude
+    In the npz format you can see `S12m` where `m` stands for magnitude
     and `S12a` where `a` stands for angle in radians
 
     Your components need to have ports, that will extend over the PML.
@@ -113,7 +112,7 @@ def write_sparameters_lumerical(
         session: you can pass a session=lumapi.FDTD() or it will create one.
         run: True runs Lumerical, False only draws simulation.
         overwrite: run even if simulation results already exists.
-        dirpath: directory to store sparameters in CSV.
+        dirpath: directory to store sparameters in npz.
             Defaults to active Pdk.sparameters_path.
         layer_stack: contains layer to thickness, zmin and material.
             Defaults to active pdk.layer_stack.
@@ -178,7 +177,7 @@ def write_sparameters_lumerical(
 
 
     Return:
-        Sparameters pandas DataFrame (wavelengths, s11m, s11a, s12a ...)
+        Sparameters np.ndarray (wavelengths, o1@0,o1@0, o1@0,o2@0 ...)
             suffix `a` for angle in radians and `m` for module.
 
     """
@@ -199,7 +198,7 @@ def write_sparameters_lumerical(
     for setting in settings.keys():
         if setting not in sim_settings:
             raise ValueError(
-                f"Invalid setting `{setting}` not in ({list(sim_settings.keys())})"
+                f"Invalid setting {setting!r} not in ({list(sim_settings.keys())})"
             )
 
     sim_settings.update(**settings)
@@ -222,25 +221,25 @@ def write_sparameters_lumerical(
     c.name = "top"
     gdspath = c.write_gds()
 
-    filepath_csv = get_sparameters_path(
+    filepath_npz = get_sparameters_path(
         component=component,
         dirpath=dirpath,
         layer_stack=layer_stack,
         **settings,
     )
-    filepath = filepath_csv.with_suffix(".dat")
+    filepath = filepath_npz.with_suffix(".dat")
     filepath_sim_settings = filepath.with_suffix(".yml")
     filepath_fsp = filepath.with_suffix(".fsp")
     fspdir = filepath.parent / f"{filepath.stem}_s-parametersweep"
 
-    if run and filepath_csv.exists() and not overwrite:
-        logger.info(f"Reading Sparameters from {filepath_csv}")
-        return pd.read_csv(filepath_csv)
+    if run and filepath_npz.exists() and not overwrite:
+        logger.info(f"Reading Sparameters from {filepath_npz}")
+        return np.load(filepath_npz)
 
     if not run and session is None:
         print(run_false_warning)
 
-    logger.info(f"Writing Sparameters to {filepath_csv}")
+    logger.info(f"Writing Sparameters to {filepath_npz}")
     x_min = (component.xmin - ss.xmargin) * 1e-6
     x_max = (component.xmax + ss.xmargin) * 1e-6
     y_min = (component.ymin - ss.ymargin) * 1e-6
@@ -439,21 +438,22 @@ def write_sparameters_lumerical(
         s.exportsweep("s-parameter sweep", str(filepath))
         logger.info(f"wrote sparameters to {filepath}")
 
-        keys = [key for key in sp.keys() if key.startswith("S")]
-        ra = {
-            f"{key.lower()}a": list(np.unwrap(np.angle(sp[key].flatten())))
-            for key in keys
-        }
-        rm = {f"{key.lower()}m": list(np.abs(sp[key].flatten())) for key in keys}
-        wavelengths = sp["lambda"].flatten() * 1e6
+        sp["wavelengths"] = sp.pop("lambda").flatten() * 1e6
+        np.savez_compressed(filepath, **sp)
 
-        results = {"wavelengths": wavelengths}
-        results.update(ra)
-        results.update(rm)
-        df = pd.DataFrame(results, index=wavelengths)
+        # keys = [key for key in sp.keys() if key.startswith("S")]
+        # ra = {
+        #     f"{key.lower()}a": list(np.unwrap(np.angle(sp[key].flatten())))
+        #     for key in keys
+        # }
+        # rm = {f"{key.lower()}m": list(np.abs(sp[key].flatten())) for key in keys}
+        # results = {"wavelengths": wavelengths}
+        # results.update(ra)
+        # results.update(rm)
+        # df = pd.DataFrame(results, index=wavelengths)
+        # df.to_csv(filepath_npz, index=False)
 
         end = time.time()
-        df.to_csv(filepath_csv, index=False)
         sim_settings.update(compute_time_seconds=end - start)
         sim_settings.update(compute_time_minutes=(end - start) / 60)
         filepath_sim_settings.write_text(omegaconf.OmegaConf.to_yaml(sim_settings))
@@ -464,7 +464,7 @@ def write_sparameters_lumerical(
                 "To keep them, use delete_fsp_files=False flag"
             )
 
-        return df
+        return sp
 
     filepath_sim_settings.write_text(omegaconf.OmegaConf.to_yaml(sim_settings))
     return s

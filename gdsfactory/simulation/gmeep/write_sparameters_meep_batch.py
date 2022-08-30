@@ -98,7 +98,7 @@ def write_sparameters_meep_batch(
         port_monitor_offset: offset between monitor GDS port and monitor MEEP port.
 
     Returns:
-        filepath list for sparameters CSV (wavelengths, s11a, s12m, ...)
+        filepath list for sparameters CSV (wavelengths, s11a, o1@0,o2@0, ...)
             where `a` is the angle in radians and `m` the module
 
     """
