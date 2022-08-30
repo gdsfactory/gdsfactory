@@ -4,6 +4,12 @@
 
 - write sparameters works with arbitrary port naming convention and injection port. `o1@0,o2@0` for meep and tidy3d
 
+
+## [5.23.1](https://github.com/gdsfactory/gdsfactory/pull/642)
+
+- sort cells by name before writing gds to get a binary equivalent.
+
+
 ## [5.23.0](https://github.com/gdsfactory/gdsfactory/pull/641)
 
 -  extended get_bundle to enable s_bend routing when there is no space for Manhattan routing. fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/55) [PR](https://github.com/gdsfactory/gdsfactory/pull/639)
