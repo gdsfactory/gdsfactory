@@ -1,10 +1,27 @@
+import pytest
+
 import gdsfactory as gf
 
 
 def test_get_netlist_cell_array() -> None:
-    c = gf.components.array()
+    c = gf.components.array(
+        gf.components.straight(length=10), spacing=(0, 100), columns=1, rows=5
+    )
     n = c.get_netlist()
-    assert len(n.keys()) == 5
+    assert len(c.ports) == 10
+    assert not n["connections"]
+    assert len(n["instances"]) == 1
+
+
+def test_get_netlist_cell_array_connecting() -> None:
+    c = gf.components.array(
+        gf.components.straight(length=100), spacing=(100, 0), columns=5, rows=1
+    )
+    c.show()
+    n = c.get_netlist()
+    assert len(c.ports) == 10
+    assert len(n["connections"]) == 4
+    assert len(n["instances"]) == 1
 
 
 def test_get_netlist_simple():
@@ -21,6 +38,76 @@ def test_get_netlist_simple():
     extracted_port_pair = set(cpairs[0])
     expected_port_pair = {"i2,o2", "i1,o1"}
     assert extracted_port_pair == expected_port_pair
+
+
+def test_get_netlist_close_enough():
+    c = gf.Component()
+    i1 = c.add_ref(gf.components.straight(), "i1")
+    i2 = c.add_ref(gf.components.straight(), "i2")
+    i2.move("o2", destination=i1.ports["o1"])
+    i2.movex(0.001)
+    netlist = c.get_netlist(tolerance=2)
+    connections = netlist["connections"]
+    assert len(connections) == 1
+    cpairs = list(connections.items())
+    extracted_port_pair = set(cpairs[0])
+    expected_port_pair = {"i2,o2", "i1,o1"}
+    assert extracted_port_pair == expected_port_pair
+
+
+def test_get_netlist_close_enough_orthogonal():
+    c = gf.Component()
+    i1 = c.add_ref(gf.components.straight(), "i1")
+    i2 = c.add_ref(gf.components.straight(), "i2")
+    i2.move("o2", destination=i1.ports["o1"])
+    i2.movey(0.001)
+    netlist = c.get_netlist(tolerance=2)
+    connections = netlist["connections"]
+    assert len(connections) == 1
+    cpairs = list(connections.items())
+    extracted_port_pair = set(cpairs[0])
+    expected_port_pair = {"i2,o2", "i1,o1"}
+    assert extracted_port_pair == expected_port_pair
+
+
+def test_get_netlist_close_enough_both():
+    c = gf.Component()
+    i1 = c.add_ref(gf.components.straight(), "i1")
+    i2 = c.add_ref(gf.components.straight(), "i2")
+    i2.move("o2", destination=i1.ports["o1"])
+    i2.move((0.001, 0.001))
+    netlist = c.get_netlist(tolerance=2)
+    connections = netlist["connections"]
+    assert len(connections) == 1
+    cpairs = list(connections.items())
+    extracted_port_pair = set(cpairs[0])
+    expected_port_pair = {"i2,o2", "i1,o1"}
+    assert extracted_port_pair == expected_port_pair
+
+
+def test_get_netlist_close_enough_rotated():
+    c = gf.Component()
+    i1 = c.add_ref(gf.components.straight(), "i1")
+    i2 = c.add_ref(gf.components.straight(), "i2")
+    i2.move("o2", destination=i1.ports["o1"])
+    i2.rotate(angle=0.01, center="o2")
+    netlist = c.get_netlist(tolerance=2)
+    connections = netlist["connections"]
+    assert len(connections) == 1
+    cpairs = list(connections.items())
+    extracted_port_pair = set(cpairs[0])
+    expected_port_pair = {"i2,o2", "i1,o1"}
+    assert extracted_port_pair == expected_port_pair
+
+
+def test_get_netlist_throws_error_bad_rotation():
+    c = gf.Component()
+    i1 = c.add_ref(gf.components.straight(), "i1")
+    i2 = c.add_ref(gf.components.straight(), "i2")
+    i2.move("o2", destination=i1.ports["o1"])
+    i2.rotate(angle=90, center="o2")
+    with pytest.raises(ValueError):
+        c.get_netlist(tolerance=2)
 
 
 def test_get_netlist_tiny():
