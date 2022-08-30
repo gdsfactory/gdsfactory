@@ -10,18 +10,18 @@ def test_get_netlist_cell_array() -> None:
     n = c.get_netlist()
     assert len(c.ports) == 10
     assert not n["connections"]
-    assert len(n["instances"]) == 1
+    assert len(n["ports"]) == 10
+    assert len(n["instances"]) == 5
 
 
 def test_get_netlist_cell_array_connecting() -> None:
     c = gf.components.array(
         gf.components.straight(length=100), spacing=(100, 0), columns=5, rows=1
     )
-    c.show()
-    n = c.get_netlist()
-    assert len(c.ports) == 10
-    assert len(n["connections"]) == 4
-    assert len(n["instances"]) == 1
+    with pytest.raises(ValueError):
+        # because the component-array has automatic external ports, we assume no internal self-connections
+        # we expect a ValueError to be thrown where the serendipitous connections are
+        c.get_netlist()
 
 
 def test_get_netlist_simple():
