@@ -111,7 +111,36 @@ def test_sparameters_grating_coupler() -> None:
     assert sp
 
 
+def test_sparameterslazy_parallelism() -> None:
+    """Checks that the Sparameters computed using MPI and lazy_parallelism flag give the same results as the serial calculation."""
+    c = gf.components.straight(length=2)
+    p = 3
+    c = gf.add_padding_container(c, default=0, top=p, bottom=p)
+    print("PARALLEL")
+    filepath_parallel = gm.write_sparameters_meep_mpi(
+        c, ymargin=0, overwrite=True, lazy_parallelism=True
+    )
+    sp_parallel = np.load(filepath_parallel)
+    print("SERIAL")
+    filepath_serial = gm.write_sparameters_meep_mpi(
+        c, ymargin=0, overwrite=True, lazy_parallelism=False
+    )
+    sp_serial = np.load(filepath_serial)
+
+    # Check matching reflection/transmission
+    assert np.allclose(sp_parallel["o1@0,o1@0"], sp_serial["o1@0,o1@0"], atol=1e-2)
+    assert np.allclose(sp_parallel["o2@0,o1@0"], sp_serial["o2@0,o1@0"], atol=1e-2)
+    assert np.allclose(sp_parallel["o1@0,o2@0"], sp_serial["o1@0,o2@0"], atol=1e-2)
+    assert np.allclose(sp_parallel["o2@0,o2@0"], sp_serial["o2@0,o2@0"], atol=1e-2)
+
+
 if __name__ == "__main__":
+    # test_sparameters_straight(None)
+    # test_sparameters_straight_symmetric(False)
+    # test_sparameters_straight_batch(None)
+    # test_sparameters_straight_mpi(None)
+    # test_sparameters_crossing_symmetric(False)
+    # test_sparameterslazy_parallelism()
     # test_sparameters_straight()
     # test_sparameters_straight_symmetric()
     test_sparameters_straight_batch()
