@@ -20,6 +20,7 @@ from collections import defaultdict
 from typing import Any, Callable, Dict, List, Optional
 
 import gdspy
+import numpy as np
 import omegaconf
 
 from gdsfactory import Port
@@ -29,6 +30,10 @@ from gdsfactory.pdk import get_layer
 from gdsfactory.serialization import clean_value_json
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.types import LayerSpec
+
+
+def get_default_connection_validators():
+    return {"optical": validate_optical_connection, "electrical": _null_validator}
 
 
 def get_instance_name_from_alias(
@@ -83,7 +88,7 @@ def get_instance_name_from_label(
 def get_netlist_yaml(
     component: Component,
     full_settings: bool = False,
-    tolerance: int = 1,
+    tolerance: int = 5,
     exclude_port_types: Optional[List] = None,
     **kwargs,
 ) -> Dict:
@@ -102,7 +107,7 @@ def get_netlist_yaml(
 def get_netlist(
     component: Component,
     full_settings: bool = False,
-    tolerance: int = 1,
+    tolerance: int = 5,
     exclude_port_types: Optional[List] = None,
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
 ) -> Dict[str, Any]:
@@ -219,10 +224,15 @@ def get_netlist(
                 name2port[src] = port
                 ports_by_type[port.port_type].append(src)
 
+    warnings = {}
     for port_type, port_names in ports_by_type.items():
+        if exclude_port_types and port_type in exclude_port_types:
+            continue
         connections_t, warnings_t = extract_connections(
-            port_names, name2port, port_type
+            port_names, name2port, port_type, tolerance=tolerance
         )
+        if warnings_t:
+            warnings[port_type] = warnings_t
 
         for connection in connections_t:
             if len(connection) == 2:
@@ -244,30 +254,54 @@ def get_netlist(
         placements=placements_sorted,
         ports=top_ports,
         name=component.name,
+        warnings=warnings,
     )
 
 
-def extract_connections(port_names: List[str], ports: Dict[str, Port], port_type: str):
-    if port_type == "optical":
-        return extract_optical_connections(port_names, ports)
-    elif port_type == "electrical":
-        return extract_electrical_connections(port_names, ports)
-
-
-def extract_optical_connections(
+def extract_connections(
     port_names: List[str],
     ports: Dict[str, Port],
-    raise_error_for_warnings=(
-        "width_mismatch",
-        "shear_angle_mismatch",
-        "orientation_mismatch",
-    ),
+    port_type: str,
+    tolerance: int = 5,
+    validators: Optional[Dict[str, Callable]] = None,
 ):
-    angle_tolerance = 1  # degrees
+    if validators is None:
+        validators = DEFAULT_CONNECTION_VALIDATORS
+
+    validator = validators.get(port_type, _null_validator)
+    return _extract_connections_two_sweep(
+        port_names,
+        ports,
+        port_type,
+        tolerance=tolerance,
+        connection_validator=validator,
+    )
+
+
+def _extract_connections_two_sweep(
+    port_names: List[str],
+    ports: Dict[str, Port],
+    port_type: str,
+    connection_validator: Callable,
+    tolerance: int,
+    raise_error_for_warnings: Optional[List[str]] = None,
+):
     warnings = defaultdict(list)
+    if raise_error_for_warnings is None:
+        raise_error_for_warnings = DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES.get(
+            port_type, []
+        )
 
     unconnected_port_names = list(port_names)
-    grids = [("fine", 1), ("coarse", 5)]
+    if tolerance < 0:
+        raise ValueError(f"Cannot have a tolerance less than zero. Got {tolerance}")
+    elif tolerance <= 1:
+        # if tolerance is 0 or 1, do only one sweep with that tolerance
+        grids = [("fine", tolerance)]
+    else:
+        # default: do one fine sweep with a 1nm tolerance, then a coarse sweep with the given tolerance to connect any remaining ports which are not perfectly aligned
+        grids = [("fine", 1), ("coarse", tolerance)]
+
     connections = []
 
     for grid_name, grid_size in grids:
@@ -282,37 +316,32 @@ def extract_optical_connections(
         for xy, ports_at_xy in by_xy.items():
             if len(ports_at_xy) == 1:
                 unconnected_port_names.append(ports_at_xy[0])
-                warnings["unconnected_ports"].append(ports_at_xy[0])
+
             elif len(ports_at_xy) == 2:
                 port1 = ports[ports_at_xy[0]]
                 port2 = ports[ports_at_xy[1]]
-
-                is_top_level = [("," not in pname) for pname in ports_at_xy]
-                if all(is_top_level):
-                    raise ValueError(
-                        f"Two top-level ports appear to be connected: {ports_at_xy}"
-                    )
-
-                if port1.width != port2.width:
-                    warnings["width_mismatch"].append(ports_at_xy)
-                if port1.shear_angle != port2.shear_angle:
-                    warnings["shear_angle_mismatch"].append(ports_at_xy)
-
-                if any(is_top_level):
-                    if port1.orientation != port2.orientation:
-                        warnings["orientation_mismatch"].append(ports_at_xy)
-                elif (
-                    abs(abs(port1.orientation - port2.orientation) - 180)
-                    > angle_tolerance
-                ):
-                    warnings["orientation_mismatch"].append(ports_at_xy)
+                connection_validator(port1, port2, ports_at_xy, warnings)
                 connections.append(ports_at_xy)
 
-                if grid_name == "coarse":
-                    warnings["offset_mismatch"].append(ports_at_xy)
             else:
                 warnings["multiple_connections"].append(ports_at_xy)
                 raise ValueError(f"Found multiple connections at {xy}:{ports_at_xy}")
+
+    if unconnected_port_names:
+        unconnected_non_top_level = [
+            pname for pname in unconnected_port_names if ("," in pname)
+        ]
+        if unconnected_non_top_level:
+            unconnected_xys = [
+                ports[pname].center for pname in unconnected_non_top_level
+            ]
+            warnings["unconnected_ports"].append(
+                _make_warning(
+                    ports=unconnected_non_top_level,
+                    values=unconnected_xys,
+                    message=f"{len(unconnected_non_top_level)} unconnected {port_type} ports!",
+                )
+            )
 
     critical_warnings = {
         w: warnings[w] for w in raise_error_for_warnings if warnings[w]
@@ -325,10 +354,78 @@ def extract_optical_connections(
     return connections, warnings
 
 
-def extract_electrical_connections(port_names: List[str], ports: Dict[str, Port]):
-    # for port_name in port_names:
-    #     port = ports[port_name]
-    raise NotImplementedError()
+def _make_warning(ports: List[str], values: Any, message: str) -> Dict[str, Any]:
+    return {
+        "ports": ports,
+        "values": values,
+        "message": message,
+    }
+
+
+def _null_validator(port1: Port, port2: Port, port_names, warnings):
+    pass
+
+
+def validate_optical_connection(
+    port1: Port,
+    port2: Port,
+    port_names,
+    warnings,
+    angle_tolerance=0.01,
+    offset_tolerance=0.001,
+):
+    is_top_level = [("," not in pname) for pname in port_names]
+
+    if all(is_top_level):
+        raise ValueError(f"Two top-level ports appear to be connected: {port_names}")
+
+    if port1.width != port2.width:
+        warnings["width_mismatch"].append(
+            _make_warning(
+                port_names,
+                values=[port1.width, port2.width],
+                message=f"Widths of ports {port_names[0]} and {port_names[1]} not equal. Difference of {abs(port1.width - port2.width)} um",
+            )
+        )
+    if port1.shear_angle != port2.shear_angle:
+        warnings["shear_angle_mismatch"].append(
+            _make_warning(
+                port_names,
+                values=[port1.shear_angle, port2.shear_angle],
+                message=f"Shear angle of {port_names[0]} and {port_names[1]} not equal. Difference of {abs(port1.shear_angle - port2.shear_angle)} deg",
+            )
+        )
+
+    if any(is_top_level):
+        if port1.orientation != port2.orientation:
+            top_port, lower_port = port_names if is_top_level[0] else port_names[::-1]
+            warnings["orientation_mismatch"].append(
+                _make_warning(
+                    port_names,
+                    values=[port1.orientation, port2.orientation],
+                    message=f"{lower_port} was promoted to {top_port} but orientations do not match! Difference of {(abs(port1.orientation - port2.orientation))} deg",
+                )
+            )
+    else:
+        angle_misalignment = abs(abs(port1.orientation - port2.orientation) - 180)
+        if angle_misalignment > angle_tolerance:
+            warnings["orientation_mismatch"].append(
+                _make_warning(
+                    port_names,
+                    values=[port1.orientation, port2.orientation],
+                    message=f"{port_names[0]} and {port_names[1]} are misaligned by {angle_misalignment} deg",
+                )
+            )
+
+    offset_mismatch = np.sqrt(np.sum(np.square(port2.center - port1.center)))
+    if offset_mismatch > offset_tolerance:
+        warnings["offset_mismatch"].append(
+            _make_warning(
+                port_names,
+                values=[port1.center, port2.center],
+                message=f"{port_names[0]} and {port_names[1]} are offset by {offset_mismatch} um",
+            )
+        )
 
 
 def get_netlist_recursive(
@@ -405,6 +502,13 @@ def _demo_mzi_lattice() -> None:
     )
     c.get_netlist()
     print(c.get_netlist_yaml())
+
+
+DEFAULT_CONNECTION_VALIDATORS = get_default_connection_validators()
+
+DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES = {
+    "optical": ["width_mismatch", "shear_angle_mismatch", "orientation_mismatch"]
+}
 
 
 if __name__ == "__main__":
