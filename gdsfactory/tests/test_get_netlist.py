@@ -45,6 +45,31 @@ def test_get_netlist_simple():
     assert len(unconnected_optical_port_warnings[0]["ports"]) == 4
 
 
+def test_get_netlist_promoted():
+    c = gf.Component()
+    i1 = c.add_ref(gf.components.straight(), "i1")
+    i2 = c.add_ref(gf.components.straight(), "i2")
+    i3 = c.add_ref(gf.components.straight(), "i3")
+    i2.connect("o2", i1.ports["o1"])
+    i3.movey(-100)
+    c.add_port("t1", port=i1.ports["o2"])
+    c.add_port("t2", port=i2.ports["o1"])
+    c.add_port("t3", port=i3.ports["o1"])
+    c.add_port("t4", port=i3.ports["o2"])
+    netlist = c.get_netlist()
+    connections = netlist["connections"]
+    ports = netlist["ports"]
+    expected_ports = {"t1": "i1,o2", "t2": "i2,o1", "t3": "i3,o1", "t4": "i3,o2"}
+
+    assert len(connections) == 1
+    assert ports == expected_ports
+    cpairs = list(connections.items())
+    extracted_port_pair = set(cpairs[0])
+    expected_port_pair = {"i2,o2", "i1,o1"}
+    assert extracted_port_pair == expected_port_pair
+    assert not netlist["warnings"]
+
+
 def test_get_netlist_close_enough():
     c = gf.Component()
     i1 = c.add_ref(gf.components.straight(), "i1")
