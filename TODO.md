@@ -2,6 +2,7 @@
 
 - flake8-bugbear
 - more explicit Sparameter data format. Consider TE/TM modes.
+- add examples for TE to TM conversion
 
 ## Plugins
 
