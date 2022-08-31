@@ -417,7 +417,7 @@ def write_sparameters_meep(
         rank = comm.Get_rank()
 
         sp = sparameter_calculation(
-            port_source_name=port_names[n],
+            port_source_name=port_source_names[n],
             component=component,
             port_symmetries=port_symmetries,
             wavelength_start=wavelength_start,
