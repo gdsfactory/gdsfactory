@@ -27,7 +27,7 @@ from gdsfactory import Port
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.name import clean_name
 from gdsfactory.pdk import get_layer
-from gdsfactory.serialization import clean_value_json
+from gdsfactory.serialization import clean_dict, clean_value_json
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.types import LayerSpec
 
@@ -344,22 +344,23 @@ def _extract_connections_two_sweep(
             )
 
     critical_warnings = {
-        w: warnings[w] for w in raise_error_for_warnings if warnings[w]
+        w: warnings[w] for w in raise_error_for_warnings if w in warnings
     }
 
     if critical_warnings:
         raise ValueError(
             f"Found warnings while extracting netlist: {critical_warnings}"
         )
-    return connections, warnings
+    return connections, dict(warnings)
 
 
 def _make_warning(ports: List[str], values: Any, message: str) -> Dict[str, Any]:
-    return {
+    w = {
         "ports": ports,
         "values": values,
         "message": message,
     }
+    return clean_dict(w)
 
 
 def _null_validator(port1: Port, port2: Port, port_names, warnings):
