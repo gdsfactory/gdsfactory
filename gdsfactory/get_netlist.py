@@ -199,16 +199,15 @@ def get_netlist(
                         lower_name = f"{reference_name},{parent_port_name}"
                         # a bit of a hack... get the top-level port for the ComponentArray, by our known naming convention. I hope no one renames these ports!
                         parent_port = component.ports[top_name]
-                        name2port[top_name] = parent_port
                         name2port[lower_name] = parent_port
                         top_ports_list.add(top_name)
-                        ports_by_type[parent_port.port_type].append(top_name)
                         ports_by_type[parent_port.port_type].append(lower_name)
 
     for port in ports:
         src = port.name
         name2port[src] = port
         top_ports_list.add(src)
+        ports_by_type[port.port_type].append(src)
 
     # lower level ports
     for reference in component.references:
@@ -374,13 +373,14 @@ def validate_optical_connection(
     warnings,
     angle_tolerance=0.01,
     offset_tolerance=0.001,
+    width_tolerance=0.001,
 ):
     is_top_level = [("," not in pname) for pname in port_names]
 
     if all(is_top_level):
         raise ValueError(f"Two top-level ports appear to be connected: {port_names}")
 
-    if port1.width != port2.width:
+    if abs(port1.width - port2.width) > width_tolerance:
         warnings["width_mismatch"].append(
             _make_warning(
                 port_names,
@@ -388,14 +388,31 @@ def validate_optical_connection(
                 message=f"Widths of ports {port_names[0]} and {port_names[1]} not equal. Difference of {abs(port1.width - port2.width)} um",
             )
         )
-    if port1.shear_angle != port2.shear_angle:
+    if port1.shear_angle and not port2.shear_angle:
         warnings["shear_angle_mismatch"].append(
             _make_warning(
                 port_names,
                 values=[port1.shear_angle, port2.shear_angle],
-                message=f"Shear angle of {port_names[0]} and {port_names[1]} not equal. Difference of {abs(port1.shear_angle - port2.shear_angle)} deg",
+                message=f"{port_names[0]} has a shear angle but {port_names[1]} does not! Shear angle is {port1.shear_angle} deg",
             )
         )
+    elif not port1.shear_angle and port2.shear_angle:
+        warnings["shear_angle_mismatch"].append(
+            _make_warning(
+                port_names,
+                values=[port1.shear_angle, port2.shear_angle],
+                message=f"{port_names[1]} has a shear angle but {port_names[0]} does not! Shear angle is {port2.shear_angle} deg",
+            )
+        )
+    elif port1.shear_angle and port2.shear_angle:
+        if abs(port1.shear_angle - port2.shear_angle) > angle_tolerance:
+            warnings["shear_angle_mismatch"].append(
+                _make_warning(
+                    port_names,
+                    values=[port1.shear_angle, port2.shear_angle],
+                    message=f"Shear angle of {port_names[0]} and {port_names[1]} not equal. Difference of {abs(port1.shear_angle - port2.shear_angle)} deg",
+                )
+            )
 
     if any(is_top_level):
         if port1.orientation != port2.orientation:
