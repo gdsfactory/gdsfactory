@@ -67,7 +67,7 @@ def test_get_netlist_promoted():
     extracted_port_pair = set(cpairs[0])
     expected_port_pair = {"i2,o2", "i1,o1"}
     assert extracted_port_pair == expected_port_pair
-    assert not netlist["warnings"]
+    assert "warnings" not in netlist
 
 
 def test_get_netlist_close_enough():

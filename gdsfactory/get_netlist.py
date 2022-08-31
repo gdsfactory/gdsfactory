@@ -247,14 +247,16 @@ def get_netlist(
     connections_sorted = {k: connections[k] for k in sorted(list(connections.keys()))}
     placements_sorted = {k: placements[k] for k in sorted(list(placements.keys()))}
     instances_sorted = {k: instances[k] for k in sorted(list(instances.keys()))}
-    return dict(
+    netlist = dict(
         connections=connections_sorted,
         instances=instances_sorted,
         placements=placements_sorted,
         ports=top_ports,
         name=component.name,
-        warnings=warnings,
     )
+    if warnings:
+        netlist["warnings"] = warnings
+    return netlist
 
 
 def extract_connections(
@@ -348,7 +350,7 @@ def _extract_connections_two_sweep(
 
     if critical_warnings:
         raise ValueError(
-            f"Found warnings while extracting netlist: {critical_warnings}"
+            f"Found critical warnings while extracting netlist: {critical_warnings}"
         )
     return connections, dict(warnings)
 
@@ -405,7 +407,10 @@ def validate_optical_connection(
             )
         )
     elif port1.shear_angle and port2.shear_angle:
-        if abs(port1.shear_angle - port2.shear_angle) > angle_tolerance:
+        if (
+            abs(difference_between_angles(port1.shear_angle, port2.shear_angle))
+            > angle_tolerance
+        ):
             warnings["shear_angle_mismatch"].append(
                 _make_warning(
                     port_names,
@@ -415,7 +420,10 @@ def validate_optical_connection(
             )
 
     if any(is_top_level):
-        if port1.orientation != port2.orientation:
+        if (
+            abs(difference_between_angles(port1.orientation, port2.orientation))
+            > angle_tolerance
+        ):
             top_port, lower_port = port_names if is_top_level[0] else port_names[::-1]
             warnings["orientation_mismatch"].append(
                 _make_warning(
@@ -425,7 +433,9 @@ def validate_optical_connection(
                 )
             )
     else:
-        angle_misalignment = abs(abs(port1.orientation - port2.orientation) - 180)
+        angle_misalignment = abs(
+            abs(difference_between_angles(port1.orientation, port2.orientation)) - 180
+        )
         if angle_misalignment > angle_tolerance:
             warnings["orientation_mismatch"].append(
                 _make_warning(
@@ -444,6 +454,15 @@ def validate_optical_connection(
                 message=f"{port_names[0]} and {port_names[1]} are offset by {offset_mismatch} um",
             )
         )
+
+
+def difference_between_angles(angle2: float, angle1: float):
+    diff = angle2 - angle1
+    while diff < 180:
+        diff += 360
+    while diff > 180:
+        diff -= 360
+    return diff
 
 
 def get_netlist_recursive(
