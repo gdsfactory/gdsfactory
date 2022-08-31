@@ -206,6 +206,15 @@ def write_sparameters_meep(
             outputs during computation. The name of the file is the source index.
         lazy_parallelism: toggles the flag "meep.divide_parallel_processes" to
             perform the simulations with different sources in parallel.
+            By default MPI just runs the same copy of the Python script everywhere,
+            with the C++ under MEEP actually being parallelized.
+            divide_parallel_processes allows us to logically split this one calculation
+            into (in this case "cores") subdivisions.
+            The only difference in the scripts is that a different integer n
+            is returned depending on the subdivision it is running in.
+            So we use that n to select different sources, and each subdivision calculates
+            its own Sparams independently. Afterwards, we collect all
+            results in one of the subdivisions (if rank == 0).
         run: runs simulation, if False, only plots simulation.
         dispersive: use dispersive models for materials (requires higher resolution).
         xmargin: left and right distance from component to PML.
