@@ -416,8 +416,13 @@ def write_sparameters_meep(
         size = comm.Get_size()
         rank = comm.Get_rank()
 
+        # Map port names to integers
+        port_source_dict = {}
+        for number, name in enumerate(port_source_names):
+            port_source_dict[number] = name
+
         sp = sparameter_calculation(
-            port_source_name=port_source_names[n],
+            port_source_name=port_source_dict[n],
             component=component,
             port_symmetries=port_symmetries,
             wavelength_start=wavelength_start,
