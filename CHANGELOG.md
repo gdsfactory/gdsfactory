@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.25.0](https://github.com/gdsfactory/gdsfactory/pull/651)
+
+- rewrite get_netlist() to be more robust and to warn about more issues in optical routing. [PR](https://github.com/gdsfactory/gdsfactory/pull/651)
+- documentation improvements
+
 ## [5.24.1](https://github.com/gdsfactory/gdsfactory/pull/650)
 
 - fix lazy parallelism with new sparameter port naming conventions [PR](https://github.com/gdsfactory/gdsfactory/pull/649)
