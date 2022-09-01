@@ -93,3 +93,21 @@ placements:
     x: 81.99
     y: -39.375
 ports: {}
+warnings:
+  optical:
+    unconnected_ports:
+    - message: 4 unconnected optical ports!
+      ports:
+      - mmi_bot,o2
+      - mmi_bot,o3
+      - mmi_top,o1
+      - mmi_top,o2
+      values:
+      - - 113.0
+        - -38.75
+      - - 113.0
+        - -40.0
+      - - 0.0
+        - 0.0
+      - - 42.0
+        - 0.625

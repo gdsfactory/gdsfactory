@@ -1532,7 +1532,7 @@ def test_netlist_simple() -> None:
     import gdsfactory as gf
 
     c = gf.Component()
-    c1 = c << gf.components.straight(length=1, width=1)
+    c1 = c << gf.components.straight(length=1, width=2)
     c2 = c << gf.components.straight(length=2, width=2)
     c2.connect(port="o1", destination=c1.ports["o2"])
     c.add_port("o1", port=c1.ports["o1"])
@@ -1540,6 +1540,21 @@ def test_netlist_simple() -> None:
     netlist = c.get_netlist()
     # print(netlist.pretty())
     assert len(netlist["instances"]) == 2
+
+
+def test_netlist_simple_width_mismatch_throws_error() -> None:
+    import pytest
+
+    import gdsfactory as gf
+
+    c = gf.Component()
+    c1 = c << gf.components.straight(length=1, width=1)
+    c2 = c << gf.components.straight(length=2, width=2)
+    c2.connect(port="o1", destination=c1.ports["o2"])
+    c.add_port("o1", port=c1.ports["o1"])
+    c.add_port("o2", port=c2.ports["o2"])
+    with pytest.raises(ValueError):
+        c.get_netlist()
 
 
 def test_netlist_complex() -> None:
