@@ -498,11 +498,12 @@ def from_yaml(
     prefix: Optional[str] = None,
     **kwargs,
 ) -> Component:
-    """Returns a Component defined in YAML syntax.
+    """Returns Component from YAML string or file.
+
+    YAML includes instances, placements, routes, ports and connections.
 
     Args:
-        yaml: YAML file or string.
-          (instances, placements, routes, ports, connections, names).
+        yaml: YAML string or file.
         routing_strategy: for each route.
         label_instance_function: to label each instance.
         name: Optional name.

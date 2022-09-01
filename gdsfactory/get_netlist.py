@@ -115,12 +115,29 @@ def get_netlist(
 
     Assumes that ports with same width, x, y are connected.
 
+    Does two sweeps over the connections:
+
+    1. first tries to connect everything assuming perfect connections at each port.
+    2. Then gathers ports which did not perfectly connect to anything and try to find imperfect connections, by grouping ports on a coarse grid.
+
+    warnings collected during netlisting are reported back into the netlist.
+    These include warnings about mismatched port widths, orientations, shear angles, excessive offsets, etc.
+    You can also configure warning types which should throw an error when encountered by modifying DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES.
+    Validators, which will produce warnings for each port type, can be overridden with DEFAULT_CONNECTION_VALIDATORS
+    A key difference in this algorithm is that we group each port type independently.
+    This allows us to use different logic to determine i.e. if an electrical port is properly connected vs an optical port.
+    In this function, the core logic is the same, but we employ extra validation for optical ports.
+    snap_to_grid() allows a value of 0, which will return the original value,
+    is more efficient when the value is 1, and will throw a more descriptive error when the value is <0
+    the default value of tolerance is 5nm because it should allow better performance with the two-grid-sweep approach.
+
+
     Args:
         component: to extract netlist.
         full_settings: True returns all, false changed settings.
-        layer_label: label to read instanceNames from (if any).
         tolerance: tolerance in nm to consider two ports connected.
-        exclude_port_types: a list of port types to exclude from netlisting (optional)
+        exclude_port_types: optional list of port types to exclude from netlisting.
+        get_instance_name: function to get instance name.
 
     Returns:
         instances: Dict of instance name and settings.
@@ -128,6 +145,7 @@ def get_netlist(
         placements: Dict of instance names and placements (x, y, rotation).
         port: Dict portName: ComponentName,port.
         name: name of component.
+        warnings: warning messages (disconnected pins).
 
     """
     placements = {}
@@ -303,7 +321,7 @@ def _extract_connections_two_sweep(
 
     connections = []
 
-    for grid_name, grid_size in grids:
+    for _grid_name, grid_size in grids:
         by_xy = defaultdict(list)
 
         for port_name in unconnected_port_names:
@@ -566,7 +584,7 @@ if __name__ == "__main__":
 
     c = gf.components.mzi(delta_length=10)
     n = c.get_netlist()
-    print("\n".join(n["instances"].keys()))
+    print(c.get_netlist_yaml())
 
     c = gf.read.from_yaml(c.get_netlist())
     c.show()
