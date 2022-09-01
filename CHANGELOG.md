@@ -3,7 +3,7 @@
 ## [5.25.0](https://github.com/gdsfactory/gdsfactory/pull/651)
 
 - rewrite get_netlist() to be more robust and to warn about more issues in optical routing. [PR](https://github.com/gdsfactory/gdsfactory/pull/651)
-- documentation improvements
+- documentation improvements [PR](https://github.com/gdsfactory/gdsfactory/pull/654)
 
 ## [5.24.1](https://github.com/gdsfactory/gdsfactory/pull/650)
 
