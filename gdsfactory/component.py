@@ -82,13 +82,16 @@ def _rnd(arr, precision=1e-4):
 
 
 class Component(Device):
-    """A Component is like an empty canvas, where you can add polygons,.
+    """A Component is an empty canvas where you add polygons, references and ports \
+            (to connect to other components).
 
-    references to other Components and ports (to connect to other components).
-
-    - get/write YAML metadata
-    - get ports by type (optical, electrical ...)
-    - set data_analysis and test_protocols
+    - stores settings that you use to build the component
+    - stores info that you want to use
+    - can return ports by type (optical, electrical ...)
+    - can return netlist for circuit simulation
+    - can write to GDS, OASIS
+    - can show in klayout, matplotlib, 3D, QT viewer, holoviews
+    - can return copy, mirror, flattened (no references)
 
     Args:
         name: component_name. Use @cell decorator for auto-naming.
@@ -97,6 +100,7 @@ class Component(Device):
 
     Keyword Args:
         with_uuid: adds unique identifier.
+        any
 
     Properties:
         info: dictionary that includes
@@ -118,12 +122,12 @@ class Component(Device):
         name: str = "Unnamed",
         version: str = "0.0.1",
         changelog: str = "",
-        **kwargs,
+        with_uuid: bool = False,
     ) -> None:
         """Initialize the Component object."""
         self.__ports__ = {}
         self.uid = str(uuid.uuid4())[:8]
-        if "with_uuid" in kwargs or name == "Unnamed":
+        if with_uuid or name == "Unnamed":
             name += f"_{self.uid}"
 
         super().__init__(name=name, exclude_from_current=True)
