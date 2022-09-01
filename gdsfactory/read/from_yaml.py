@@ -87,6 +87,7 @@ valid_top_level_keys = [
     "settings",
     "info",
     "pdk",
+    "warnings",
 ]
 
 valid_anchor_point_keywords = [
