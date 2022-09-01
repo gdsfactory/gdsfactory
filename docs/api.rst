@@ -109,6 +109,21 @@ Pack
    grid
    grid_with_text
 
+
+*********************
+Netlist
+*********************
+
+.. currentmodule:: gdsfactory.get_netlist
+
+.. rubric:: get_netlist
+
+.. autosummary::
+   :toctree: _autosummary/
+
+   get_netlist
+
+
 *********************
 Klayout DRC
 *********************
