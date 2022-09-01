@@ -183,7 +183,7 @@ def get_netlist(
         if is_array:
             for i in range(reference.rows):
                 for j in range(reference.columns):
-                    reference_name = base_reference_name + f"__{i + 1}_{j + 1}"
+                    reference_name = f"{base_reference_name}__{i + 1}_{j + 1}"
                     xj = x + j * reference.spacing[0]
                     yi = y + i * reference.spacing[1]
                     instances[reference_name] = instance
@@ -211,9 +211,7 @@ def get_netlist(
 
     # lower level ports
     for reference in component.references:
-        if isinstance(reference, gdspy.CellArray):
-            pass
-        else:
+        if not isinstance(reference, gdspy.CellArray):
             for port in reference.ports.values():
                 reference_name = get_instance_name(
                     component,
@@ -406,7 +404,7 @@ def validate_optical_connection(
                 message=f"{port_names[1]} has a shear angle but {port_names[0]} does not! Shear angle is {port2.shear_angle} deg",
             )
         )
-    elif port1.shear_angle and port2.shear_angle:
+    elif port1.shear_angle:
         if (
             abs(difference_between_angles(port1.shear_angle, port2.shear_angle))
             > angle_tolerance
