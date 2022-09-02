@@ -352,14 +352,16 @@ class Component(Device):
         G = self.plot_netlist()
         write_dot(G, filepath)
 
-    def get_netlist(self, **kwargs) -> DictConfig:
-        """Returns netlist (instances, placements, connections, ports).
+    def get_netlist(self, **kwargs) -> Dict[str, Any]:
+        """From Component returns instances, connections and placements dict.
 
         Keyword Args:
             component: to extract netlist.
             full_settings: True returns all, false changed settings.
             layer_label: label to read instanceNames from (if any).
             tolerance: tolerance in nm to consider two ports connected.
+            exclude_port_types: optional list of port types to exclude from netlisting.
+            get_instance_name: function to get instance name.
 
         Returns:
             instances: Dict of instance name and settings.

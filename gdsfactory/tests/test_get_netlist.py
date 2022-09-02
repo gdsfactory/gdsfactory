@@ -279,6 +279,24 @@ def test_get_netlist_electrical_allowable_offset() -> gf.Component:
     return c
 
 
+@gf.cell
+def test_get_netlist_electrical_different_widths() -> gf.Component:
+    """Move connection 1nm inwards."""
+    c = gf.Component()
+    i1 = c.add_ref(gf.components.straight(width=1, cross_section="metal1"), "i1")
+    i2 = c.add_ref(gf.components.straight(width=10, cross_section="metal1"), "i2")
+    i2.move("e2", destination=i1.ports["e1"])
+    i2.movex(0.001)
+    netlist = c.get_netlist(tolerance=2)
+    connections = netlist["connections"]
+    assert len(connections) == 1
+    cpairs = list(connections.items())
+    extracted_port_pair = set(cpairs[0])
+    expected_port_pair = {"i2,e2", "i1,e1"}
+    assert extracted_port_pair == expected_port_pair
+    return c
+
+
 if __name__ == "__main__":
     # c = gf.c.array()
     # n = c.get_netlist()
@@ -294,6 +312,7 @@ if __name__ == "__main__":
     # c = test_get_netlist_close_enough_both()
     # c = test_get_netlist_close_enough_rotated()
     # c = test_get_netlist_throws_error_bad_rotation()
-    c = test_get_netlist_tiny()
-
+    # c = test_get_netlist_tiny()
+    # c = test_get_netlist_metal()
+    c = test_get_netlist_electrical_different_widths()
     c.show()
