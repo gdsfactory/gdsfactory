@@ -111,9 +111,7 @@ def get_netlist(
     exclude_port_types: Optional[List] = None,
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
 ) -> Dict[str, Any]:
-    """From a component returns instances, connections and placements dict.
-
-    Assumes that ports with same width, x, y are connected.
+    """From Component returns instances, connections and placements dict.
 
     Does two sweeps over the connections:
 
