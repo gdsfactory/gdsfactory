@@ -1,3 +1,5 @@
+"""FIXME."""
+
 import gdsfactory as gf
 
 yaml = """
@@ -42,7 +44,6 @@ ports:
 """
 
 if __name__ == "__main__":
-    """FIXME"""
 
     mzi = gf.read.from_yaml(yaml)
     mzi.show()
