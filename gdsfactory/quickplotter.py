@@ -4,6 +4,7 @@ based on phidl.quickplotter.
 """
 
 import sys
+from typing import Optional
 
 import gdspy
 import numpy as np
@@ -131,34 +132,29 @@ def _rectangle_selector_factory(fig, ax):
 
 
 def set_quickplot_options(
-    show_ports=None,
-    show_subports=None,
-    label_aliases=None,
-    new_window=None,
-    blocking=None,
-    zoom_factor=None,
-    interactive_zoom=None,
+    show_ports: Optional[bool] = None,
+    show_subports: Optional[bool] = None,
+    label_aliases: Optional[bool] = None,
+    new_window: Optional[bool] = None,
+    blocking: Optional[bool] = None,
+    zoom_factor: Optional[bool] = None,
+    interactive_zoom: Optional[bool] = None,
+    fontsize: Optional[int] = None,
 ) -> None:
     """Sets plotting options for quickplot().
 
     Args:
-        show_ports : bool
-            Sets whether ports are drawn
-        show_subports : bool
-            Sets whether subports (ports that belong to references) are drawn
-        label_aliases : bool
-            Sets whether aliases are labeled with a text name
-        new_window : bool
-            If True, each call to quickplot() will generate a separate window
-        blocking : bool
-            If True, calling quickplot() will pause execution of ("block") the
-            remainder of the python code until the quickplot() window is closed.  If
-            False, the window will be opened and code will continue to run.
-        zoom_factor : float
-            Sets the scaling factor when zooming the quickplot window with the
-            mousewheel/trackpad
-        interactive_zoom : bool
-            Enables/disables the ability to use mousewheel/trackpad to zoom
+        show_ports: Sets whether ports are drawn.
+        show_subports: Sets whether subports (ports that belong to references) are drawn.
+        label_aliases: Sets whether aliases are labeled with a text name.
+        new_window: If True, each call to quickplot() will generate a separate window.
+        blocking: If True, calling quickplot() will pause execution of ("block") the
+            remainder of the python code until the quickplot() window is closed.
+            If False, the window will be opened and code will continue to run.
+        zoom_factor: Sets the scaling factor when zooming the quickplot window with the
+            mousewheel/trackpad.
+        interactive_zoom: Enables using mousewheel/trackpad to zoom.
+        fontsize: for labels.
 
     """
     if show_ports is not None:
@@ -175,6 +171,8 @@ def set_quickplot_options(
         _quickplot_options["zoom_factor"] = zoom_factor
     if interactive_zoom is not None:
         _quickplot_options["interactive_zoom"] = interactive_zoom
+    if fontsize is not None:
+        _quickplot_options["fontsize"] = fontsize
 
 
 def quickplot(items, **kwargs):  # noqa: C901
@@ -184,6 +182,19 @@ def quickplot(items, **kwargs):  # noqa: C901
 
     Args:
         items: object or list of objects to plot.
+
+    Kwargs:
+        show_ports: Sets whether ports are drawn.
+        show_subports: Sets whether subports (ports that belong to references) are drawn.
+        label_aliases: Sets whether aliases are labeled with a text name.
+        new_window: If True, each call to quickplot() will generate a separate window.
+        blocking: If True, calling quickplot() will pause execution of ("block") the
+            remainder of the python code until the quickplot() window is closed.
+            If False, the window will be opened and code will continue to run.
+        zoom_factor: Sets the scaling factor when zooming the quickplot window with the
+            mousewheel/trackpad.
+        interactive_zoom: Enables using mousewheel/trackpad to zoom.
+        fontsize: for labels.
 
 
     Examples
@@ -942,6 +953,7 @@ class Viewer(QGraphicsView):
 
 
 def quickplot2(item_list, *args, **kwargs):
+    """QT plot."""
     if not qt_imported:
         raise ImportError(
             "quickplot2 tried to import PyQt5 but it failed. gdsfactory will"
