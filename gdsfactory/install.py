@@ -5,7 +5,6 @@ import pathlib
 import shutil
 import subprocess
 import sys
-from pathlib import Path
 
 
 def make_link(src, dest):
@@ -91,10 +90,17 @@ def copy(src: pathlib.Path, dest: pathlib.Path) -> None:
     print(f"{src} copied to {dest}")
 
 
-def make_symlink(src: Path, dest: Path) -> None:
+def make_symlink(src: pathlib.Path, dest: pathlib.Path) -> None:
     """Creates symbolic link from src to dest."""
     if dest.exists():
-        os.remove(dest)
+        if dest.is_symlink() and (src == dest.readlink()):
+            print("Nothing to do, symlink already exists:\n" + f"{src} -> {dest}")
+            return
+        print(f"removing {dest} already installed")
+        if dest.is_dir():
+            shutil.rmtree(dest)
+        else:
+            os.remove(dest)
     make_link(src, dest)
     print("Symlink made:")
     print(f"From: {src}")
