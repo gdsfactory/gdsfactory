@@ -905,9 +905,9 @@ class Component(Device):
         plotter = plotter or CONF.get("plotter", "matplotlib")
 
         if plotter == "matplotlib":
-            from gdsfactory.quickplotter import quickplot as plot
+            from gdsfactory.quickplotter import quickplot
 
-            return plot(self)
+            return quickplot(self, **kwargs)
         elif plotter == "holoviews":
             try:
                 import holoviews as hv
