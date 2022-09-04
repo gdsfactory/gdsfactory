@@ -897,7 +897,18 @@ class Component(Device):
         Args:
             plotter: backend ('holoviews', 'matplotlib', 'qt').
 
-        KeyError Args:
+        Keyword Args:
+            show_ports: Sets whether ports are drawn.
+            show_subports: Sets whether subports (ports that belong to references) are drawn.
+            label_aliases: Sets whether aliases are labeled with a text name.
+            new_window: If True, each call to quickplot() will generate a separate window.
+            blocking: If True, calling quickplot() will pause execution of ("block") the
+                remainder of the python code until the quickplot() window is closed.
+                If False, the window will be opened and code will continue to run.
+            zoom_factor: Sets the scaling factor when zooming the quickplot window with the
+                mousewheel/trackpad.
+            interactive_zoom: Enables using mousewheel/trackpad to zoom.
+            fontsize: for labels.
             layers_excluded: list of layers to exclude.
             layer_colors: layer_colors colors loaded from Klayout.
             min_aspect: minimum aspect ratio.
@@ -905,9 +916,9 @@ class Component(Device):
         plotter = plotter or CONF.get("plotter", "matplotlib")
 
         if plotter == "matplotlib":
-            from gdsfactory.quickplotter import quickplot as plot
+            from gdsfactory.quickplotter import quickplot
 
-            return plot(self)
+            return quickplot(self, **kwargs)
         elif plotter == "holoviews":
             try:
                 import holoviews as hv
