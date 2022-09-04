@@ -26,7 +26,6 @@ plugins:
 	pip install -e .[tidy3d]
 	pip install jax jaxlib
 	mamba install pymeep=*=mpi_mpich_* -y
-	mamba install numpy==1.22 -y
 
 meep:
 	mamba install pymeep=*=mpi_mpich_* -y
