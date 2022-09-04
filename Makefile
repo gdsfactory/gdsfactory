@@ -26,6 +26,7 @@ plugins:
 	pip install jax jaxlib
 	mamba install pymeep=*=mpi_mpich_* -y
 	pip install -r requirements_sipann.txt
+	pip install --upgrade "protobuf<=3.20.1"
 
 meep:
 	mamba install pymeep=*=mpi_mpich_* -y
