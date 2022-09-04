@@ -1,8 +1,8 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.25.1](https://github.com/gdsfactory/gdsfactory/pull/652)
+## [5.25.1](https://github.com/gdsfactory/gdsfactory/pull/655)
 
-- Component.plot() takes kwargs to configure the settings
+- Component.plot() takes kwargs to configure the settings for matplotlib
 
 
 ## [5.25.0](https://github.com/gdsfactory/gdsfactory/pull/651)
