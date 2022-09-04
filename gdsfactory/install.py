@@ -117,8 +117,8 @@ def _install_to_klayout(
 
     """
     klayout_folder = "KLayout" if sys.platform == "win32" else ".klayout"
-    subdir = pathlib.Path.home() / klayout_folder / str(klayout_subdir_name)
-    dest = subdir / str(package_name)
+    subdir = pathlib.Path.home() / klayout_folder / klayout_subdir_name
+    dest = subdir / package_name
     subdir.mkdir(exist_ok=True, parents=True)
     make_symlink(src, dest)
 
@@ -140,7 +140,7 @@ def install_klayout_technology(tech_dir: pathlib.Path, tech_name: Optional[str] 
     _install_to_klayout(
         src=tech_dir,
         klayout_subdir_name="tech",
-        package_name=tech_name if tech_name else tech_dir.name,
+        package_name=tech_name or tech_dir.name,
     )
 
 
