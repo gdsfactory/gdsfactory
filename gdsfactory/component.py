@@ -1,3 +1,4 @@
+import copy as python_copy
 import datetime
 import hashlib
 import itertools
@@ -692,8 +693,6 @@ class Component(Device):
         return super().add_polygon(points=points, layer=get_layer(layer))
 
     def copy(self) -> "Component":
-        from gdsfactory.copy import copy
-
         return copy(self)
 
     def copy_child_info(self, component: "Component") -> None:
@@ -1465,6 +1464,56 @@ class Component(Device):
                 final_hash.update(ph)
 
         return final_hash.hexdigest()
+
+
+def copy(D: Component) -> Component:
+    """Returns a Component copy.
+
+    Args:
+        D: component to copy.
+    """
+    D_copy = Component()
+    D_copy.info = python_copy.deepcopy(D.info)
+    for ref in D.references:
+        if isinstance(ref, gdspy.CellReference):
+            new_ref = ComponentReference(
+                ref.parent,
+                origin=ref.origin,
+                rotation=ref.rotation,
+                magnification=ref.magnification,
+                x_reflection=ref.x_reflection,
+            )
+            new_ref.owner = D_copy
+            new_ref.name = ref.name if hasattr(ref, "name") else ref.parent.name
+        elif isinstance(ref, gdspy.CellArray):
+            new_ref = CellArray(
+                device=ref.parent,
+                columns=ref.columns,
+                rows=ref.rows,
+                spacing=ref.spacing,
+                origin=ref.origin,
+                rotation=ref.rotation,
+                magnification=ref.magnification,
+                x_reflection=ref.x_reflection,
+            )
+            new_ref.name = ref.name if hasattr(ref, "name") else ref.parent.name
+        else:
+            raise ValueError(f"Got a reference of non-standard type: {type(ref)}")
+        D_copy.add(new_ref)
+
+    for port in D.ports.values():
+        D_copy.add_port(port=port)
+    for poly in D.polygons:
+        D_copy.add_polygon(poly)
+    for path in D.paths:
+        D_copy.add(path)
+    for label in D.labels:
+        D_copy.add_label(
+            text=label.text,
+            position=label.position,
+            layer=(label.layer, label.texttype),
+        )
+    return D_copy
 
 
 def test_get_layers() -> Component:
