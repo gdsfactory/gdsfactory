@@ -63,6 +63,7 @@ _quickplot_options = dict(
     blocking=False,
     zoom_factor=1.4,
     interactive_zoom=None,
+    fontsize=14,
 )
 
 
@@ -137,28 +138,27 @@ def set_quickplot_options(
     blocking=None,
     zoom_factor=None,
     interactive_zoom=None,
-):
+) -> None:
     """Sets plotting options for quickplot().
 
-    Parameters
-    ----------
-    show_ports : bool
-        Sets whether ports are drawn
-    show_subports : bool
-        Sets whether subports (ports that belong to references) are drawn
-    label_aliases : bool
-        Sets whether aliases are labeled with a text name
-    new_window : bool
-        If True, each call to quickplot() will generate a separate window
-    blocking : bool
-        If True, calling quickplot() will pause execution of ("block") the
-        remainder of the python code until the quickplot() window is closed.  If
-        False, the window will be opened and code will continue to run.
-    zoom_factor : float
-        Sets the scaling factor when zooming the quickplot window with the
-        mousewheel/trackpad
-    interactive_zoom : bool
-        Enables/disables the ability to use mousewheel/trackpad to zoom
+    Args:
+        show_ports : bool
+            Sets whether ports are drawn
+        show_subports : bool
+            Sets whether subports (ports that belong to references) are drawn
+        label_aliases : bool
+            Sets whether aliases are labeled with a text name
+        new_window : bool
+            If True, each call to quickplot() will generate a separate window
+        blocking : bool
+            If True, calling quickplot() will pause execution of ("block") the
+            remainder of the python code until the quickplot() window is closed.  If
+            False, the window will be opened and code will continue to run.
+        zoom_factor : float
+            Sets the scaling factor when zooming the quickplot window with the
+            mousewheel/trackpad
+        interactive_zoom : bool
+            Enables/disables the ability to use mousewheel/trackpad to zoom
 
     """
     if show_ports is not None:
@@ -177,14 +177,14 @@ def set_quickplot_options(
         _quickplot_options["interactive_zoom"] = interactive_zoom
 
 
-def quickplot(items):  # noqa: C901
+def quickplot(items, **kwargs):  # noqa: C901
     """Takes a list of devices/references/polygons or single one of those, and \
     plots them. Use `set_quickplot_options()` to modify the viewer behavior \
     (e.g. displaying ports, creating new windows, etc).
 
     Args:
-        items: object or list of objects
-            The item(s) which are to be plotted
+        items: object or list of objects to plot.
+
 
     Examples
     --------
@@ -198,12 +198,15 @@ def quickplot(items):  # noqa: C901
     """
     from matplotlib import pyplot as plt
 
-    # Override default options with _quickplot_options
-    show_ports = _quickplot_options["show_ports"]
-    show_subports = _quickplot_options["show_subports"]
-    label_aliases = _quickplot_options["label_aliases"]
-    new_window = _quickplot_options["new_window"]
-    blocking = _quickplot_options["blocking"]
+    quickplot_options = _quickplot_options.copy()
+    quickplot_options.update(**kwargs)
+
+    # Override default options with quickplot_options
+    show_ports = quickplot_options["show_ports"]
+    show_subports = quickplot_options["show_subports"]
+    label_aliases = quickplot_options["label_aliases"]
+    new_window = quickplot_options["new_window"]
+    blocking = quickplot_options["blocking"]
 
     if new_window:
         fig, ax = plt.subplots(1)
@@ -270,9 +273,8 @@ def quickplot(items):  # noqa: C901
                         style="italic",
                         color="blue",
                         weight="bold",
-                        size="large",
                         ha="center",
-                        fontsize=14,
+                        fontsize=quickplot_options["fontsize"],
                     )
         elif isinstance(item, Polygon):
             polygons = item.polygons
@@ -307,7 +309,7 @@ def quickplot(items):  # noqa: C901
     # When using inline Jupyter notebooks, this may fail so allow it to fail gracefully
     try:
         if _use_interactive_zoom():
-            _zoom_factory(ax, scale_factor=_quickplot_options["zoom_factor"])
+            _zoom_factory(ax, scale_factor=quickplot_options["zoom_factor"])
         # Need to hang on to RectangleSelector so it doesn't get garbage collected
         _qp_objects["rectangle_selector"] = _rectangle_selector_factory(fig, ax)
         # Update matplotlib toolbar so the Home button works
@@ -1005,6 +1007,8 @@ def quickplot2(item_list, *args, **kwargs):
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.pad()
+    # set_quickplot_options(label_aliases=True, show_ports=False, show_subports=False)
+    c = gf.components.mzi()
     # c.plotqt()
-    c.plot()
+    # c.plot()
+    quickplot(c, show_ports=False, show_subports=False, label_aliases=True)
