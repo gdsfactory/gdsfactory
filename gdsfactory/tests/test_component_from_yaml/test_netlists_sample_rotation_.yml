@@ -27,9 +27,9 @@ placements:
     y: 2.0
 ports: {}
 warnings:
-  electrical:
+  placement:
     unconnected_ports:
-    - message: 6 unconnected electrical ports!
+    - message: 6 unconnected placement ports!
       ports:
       - r1,e1
       - r1,e2
