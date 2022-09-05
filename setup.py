@@ -25,6 +25,11 @@ with open("requirements_sipann.txt") as f:
         line.strip() for line in f.readlines() if not line.strip().startswith("-")
     ]
 
+with open("requirements_tidy3d.txt") as f:
+    requirements_tidy3d = [
+        line.strip() for line in f.readlines() if not line.strip().startswith("-")
+    ]
+
 with open("README.md") as f:
     long_description = f.read()
 
@@ -49,7 +54,7 @@ setup(
     extras_require={
         "full": list(set(requirements + requirements_full)),
         "sipann": requirements_sipann,
-        "tidy3d": ["tidy3d-beta==1.5.0"],
+        "tidy3d": requirements_tidy3d,
         "dev": list(set(requirements + requirements_dev)),
         "exp": list(set(requirements + requirements_exp)),
     },
