@@ -398,10 +398,10 @@ def get_simulation(
         if is_3d:
             fig, axs = plt.subplots(num_modes, 2, figsize=(12, 12))
             for mode_ind in range(num_modes):
-                modes.plot_field(
+                ms.plot_field(
                     "Ey", "abs", freq=freq0, mode_index=mode_ind, ax=axs[mode_ind, 0]
                 )
-                modes.plot_field(
+                ms.plot_field(
                     "Ez", "abs", freq=freq0, mode_index=mode_ind, ax=axs[mode_ind, 1]
                 )
         else:
@@ -515,12 +515,13 @@ if __name__ == "__main__":
     # c = gf.components.crossing()
     # c = gf.c.straight_rib()
 
-    # c = gf.c.straight(length=3)
-    # sim = get_simulation(c, plot_modes=True, is_3d=True, sidewall_angle_deg=30)
+    c = gf.c.straight(length=3)
+    sim = get_simulation(c, plot_modes=True, is_3d=True, sidewall_angle_deg=30)
+
     # sim = get_simulation(c, dilation=-0.2, is_3d=False)
 
-    sim = get_simulation(c, is_3d=True)
-    plot_simulation(sim)
+    # sim = get_simulation(c, is_3d=True)
+    # plot_simulation(sim)
 
     # filepath = pathlib.Path(__file__).parent / "extra" / "wg2d.json"
     # filepath.write_text(sim.json())
