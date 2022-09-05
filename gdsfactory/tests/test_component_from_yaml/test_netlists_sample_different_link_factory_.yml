@@ -680,9 +680,26 @@ placements:
     y: 600.0
 ports: {}
 warnings:
-  electrical:
+  optical:
     unconnected_ports:
-    - message: 16 unconnected electrical ports!
+    - message: 4 unconnected optical ports!
+      ports:
+      - straight_1,o1
+      - straight_5,o2
+      - straight_6,o1
+      - straight_10,o2
+      values:
+      - - 50.0
+        - 0.0
+      - - 850.0
+        - 400.0
+      - - 50.0
+        - 200.0
+      - - 850.0
+        - 600.0
+  placement:
+    unconnected_ports:
+    - message: 16 unconnected placement ports!
       ports:
       - bl,e1
       - bl,e2
@@ -733,23 +750,6 @@ warnings:
         - 600.0
       - - 900.0
         - 550.0
-  optical:
-    unconnected_ports:
-    - message: 4 unconnected optical ports!
-      ports:
-      - straight_1,o1
-      - straight_5,o2
-      - straight_6,o1
-      - straight_10,o2
-      values:
-      - - 50.0
-        - 0.0
-      - - 850.0
-        - 400.0
-      - - 50.0
-        - 200.0
-      - - 850.0
-        - 600.0
   vertical_dc:
     unconnected_ports:
     - message: 4 unconnected vertical_dc ports!
