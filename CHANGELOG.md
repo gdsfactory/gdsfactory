@@ -2,7 +2,7 @@
 
 ## [5.25.2](https://github.com/gdsfactory/gdsfactory/pull/661)
 
-- via_stack has `port_type=placement` for intermediate ports
+- via_stack has `port_type=placement` for intermediate ports and compass has default `port_type=placement`
 - move gdsfactory.copy to Component.copy [PR](https://github.com/gdsfactory/gdsfactory/pull/660)
 - clean install.py [PR](https://github.com/gdsfactory/gdsfactory/pull/657)
     - Fix a bug where calling make_symlink on an already-existing install would raise an error
