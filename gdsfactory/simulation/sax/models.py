@@ -19,12 +19,12 @@ def straight(
     based on sax.models
 
     Args:
-        wl: wavelength
-        wl0: center wavelength
-        neff: effective index
-        ng: group index
-        length: um
-        loss: in dB/um
+        wl: wavelength.
+        wl0: center wavelength.
+        neff: effective index.
+        ng: group index.
+        length: um.
+        loss: in dB/um.
 
     .. code::
 
@@ -51,7 +51,7 @@ def attenuator(*, loss: float = 0.0) -> SDict:
     based on sax.models
 
     Args:
-        loss: in dB
+        loss: in dB.
 
     .. code::
 
@@ -82,11 +82,11 @@ def grating_coupler(
     https://github.com/flaport/photontorch/blob/master/photontorch/components/gratingcouplers.py
 
     Args:
-        wl0: center wavelength
-        loss: in dB
+        wl0: center wavelength.
+        loss: in dB.
         reflection: from waveguide side.
         reflection_fiber: from fiber side.
-        bandwidth: 3dB bandwidth (um)
+        bandwidth: 3dB bandwidth (um).
 
     .. code::
 
