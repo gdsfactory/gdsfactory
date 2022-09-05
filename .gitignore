@@ -17,6 +17,7 @@ gdsfactory/simulation/gtidy3d/sim_run.yam
 gdsfactory/schema.yaml
 sim_run.yaml
 docs/notebooks/ring.yml
+.ruff_cache/
 
 # Packages
 *.egg

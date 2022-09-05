@@ -1,5 +1,13 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.25.2](https://github.com/gdsfactory/gdsfactory/pull/661)
+
+- via_stack has `port_type=placement` for intermediate ports
+- move gdsfactory.copy to Component.copy [PR](https://github.com/gdsfactory/gdsfactory/pull/660)
+- clean install.py [PR](https://github.com/gdsfactory/gdsfactory/pull/657)
+    - Fix a bug where calling make_symlink on an already-existing install would raise an error
+    - Generalizes installing things to KLayout, and provides a new method for installing custom PDKs/technology to KLayout
+
 ## [5.25.1](https://github.com/gdsfactory/gdsfactory/pull/655)
 
 - Component.plot() takes kwargs to configure the settings for matplotlib
