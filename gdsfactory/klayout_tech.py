@@ -20,7 +20,7 @@ class KLayoutLayerProperty(BaseModel):
     https://www.klayout.de/lyp_format.html
 
     Parameters:
-        layer: GDSII layer
+        layer: GDSII layer.
         name: Name of the Layer.
         width: This is the line width of the frame in pixels (or empty for the default which is 1).
         line_style: This is the number of the line style used to draw the shape boundaries.
@@ -39,7 +39,7 @@ class KLayoutLayerProperty(BaseModel):
         marked: Whether the entry is marked (drawn with small crosses).
         transparent: Whether the entry is transparent.
         visible: Whether the entry is visible.
-        valid: Whether the entry is valid. Invalid layers are drawn but shapes on those layers can't be selected.
+        valid: Whether the entry is valid. Invalid layers are drawn but you can't select shapes on those layers.
     """
 
     layer: Optional[Layer] = None
@@ -73,7 +73,6 @@ class KLayoutLayerProperty(BaseModel):
                 if len(color) != 7:
                     raise ValueError
                 int(color[1:], 16)  # Will throw error if not hex format
-                color = color
             else:  # in named format 'gold'
                 color = CSS4_COLORS[color.lower()]
         except Exception as error:
@@ -135,7 +134,7 @@ class KLayoutLayerProperties(BaseModel):
 
         Args:
             klayout_layer_props: Add layer from existing KLayoutLayerProperty, overrides all other args.
-            layer: GDSII layer
+            layer: GDSII layer.
             name: Name of the Layer.
             width: This is the line width of the frame in pixels (or empty for the default which is 1).
             line_style: This is the number of the line style used to draw the shape boundaries.
@@ -259,7 +258,7 @@ class KLayoutLayerProperties(BaseModel):
             )
         self.groups[name] = new_group
         if isinstance(members, dict):
-            for member_name, member_props in members.items():
+            for member_props in members.values():
                 self.add_layer(klayout_layer_props=member_props)
 
     def __str__(self):
@@ -292,7 +291,7 @@ class KLayoutLayerProperties(BaseModel):
             val: Layer name to access within the KLayoutLayerProperties.
 
         Returns:
-            self.layers[val]: Accessed KLayoutLayerProperty in the KLayoutLayerProperties.
+            self.layers[val]: KLayoutLayerProperty in the KLayoutLayerProperties.
 
         """
         try:
@@ -365,7 +364,7 @@ class KLayoutLayerProperties(BaseModel):
         """Write all layer properties to a KLayout .lyp file.
 
         Args:
-            filepath: Where to write the .lyp file to (will append .lyp extension if not present)
+            filepath: to write the .lyp file to (appends .lyp extension if not present)
             overwrite: Whether to overwrite an existing file located at the filepath.
         """
         if not filepath.endswith(".lyp"):
