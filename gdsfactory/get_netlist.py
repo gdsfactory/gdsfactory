@@ -497,8 +497,9 @@ def get_netlist_recursive(
 
     Keyword Args:
         full_settings: True returns all, false changed settings.
-        layer_label: label to read instanceNames from (if any).
         tolerance: tolerance in nm to consider two ports connected.
+        exclude_port_types: optional list of port types to exclude from netlisting.
+        get_instance_name: function to get instance name.
 
     Returns:
         Dictionary of netlists, keyed by the name of each component.
