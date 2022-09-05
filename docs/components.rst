@@ -467,7 +467,7 @@ compass
 
   import gdsfactory as gf
 
-  c = gf.components.compass(size=[4.0, 2.0], layer='WG', port_type='electrical', port_inclusion=0.0, port_orientations=[180, 90, 0, -90])
+  c = gf.components.compass(size=[4.0, 2.0], layer='WG', port_type='placement', port_inclusion=0.0, port_orientations=[180, 90, 0, -90])
   c.plot()
 
 
@@ -1265,6 +1265,21 @@ grating_coupler_elliptical_trenches
 
 
 
+grating_coupler_elliptical_uniform
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.grating_coupler_elliptical_uniform
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.grating_coupler_elliptical_uniform(n_periods=20, period=0.75, fill_factor=0.5)
+  c.plot()
+
+
+
 grating_coupler_loss_fiber_array
 ----------------------------------------------------
 
@@ -1980,7 +1995,7 @@ rectangle
 
   import gdsfactory as gf
 
-  c = gf.components.rectangle(size=[4.0, 2.0], layer='WG', centered=False, port_type='electrical', port_orientations=[180, 90, 0, -90])
+  c = gf.components.rectangle(size=[4.0, 2.0], layer='WG', centered=False, port_type='placement', port_orientations=[180, 90, 0, -90])
   c.plot()
 
 
@@ -2805,7 +2820,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='5.20.0', text_size=10)
+  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='5.25.1', text_size=10)
   c.plot()
 
 

@@ -45,6 +45,12 @@ def straight(
     )
 
 
+def bend(wl: float = 1.5, length: float = 20.0, loss: float = 0.0) -> SDict:
+    """Returns bend Sparameters."""
+    amplitude = jnp.asarray(10 ** (-loss * length / 20), dtype=complex)
+    return {k: amplitude * v for k, v in straight(wl=wl, length=length).items()}
+
+
 def attenuator(*, loss: float = 0.0) -> SDict:
     """Attenuator model.
 
@@ -65,6 +71,34 @@ def attenuator(*, loss: float = 0.0) -> SDict:
             ("o1", "o2"): transmission,
         }
     )
+
+
+def phase_shifter(
+    wl: float = 1.55,
+    neff: float = 2.34,
+    voltage: float = 0,
+    length: float = 10,
+    loss: float = 0.0,
+) -> SDict:
+    """Returns simple phase shifter model.
+
+    Args:
+        wl: wavelength in um.
+        neff: effective index.
+        voltage: voltage per PI phase shift.
+        length: in um.
+        loss: in dB.
+    """
+    deltaphi = voltage * jnp.pi
+    phase = 2 * jnp.pi * neff * length / wl + deltaphi
+    amplitude = jnp.asarray(10 ** (-loss * length / 20), dtype=complex)
+    transmission = amplitude * jnp.exp(1j * phase)
+    sdict = reciprocal(
+        {
+            ("o1", "o2"): transmission,
+        }
+    )
+    return sdict
 
 
 def grating_coupler(
@@ -205,6 +239,47 @@ def coupler_single_wavelength(*, coupling: float = 0.5) -> SDict:
             ("o2", "o3"): tau,
         }
     )
+
+
+def mmi1x2() -> SDict:
+    """Returns an ideal 1x2 splitter."""
+    return reciprocal(
+        {
+            ("o1", "o2"): 0.5**0.5,
+            ("o1", "o3"): 0.5**0.5,
+        }
+    )
+
+
+def mmi2x2(*, coupling: float = 0.5) -> SDict:
+    """Returns an ideal 2x2 splitter.
+
+    Args:
+        coupling: power coupling coefficient.
+    """
+    kappa = coupling**0.5
+    tau = (1 - coupling) ** 0.5
+    return reciprocal(
+        {
+            ("o1", "o4"): tau,
+            ("o1", "o3"): 1j * kappa,
+            ("o2", "o4"): 1j * kappa,
+            ("o2", "o3"): tau,
+        }
+    )
+
+
+models = dict(
+    straight=straight,
+    bend_euler=bend,
+    mmi1x2=mmi1x2,
+    mmi2x2=mmi2x2,
+    attenuator=attenuator,
+    taper=straight,
+    phase_shifter=phase_shifter,
+    grating_coupler=grating_coupler,
+    coupler=coupler,
+)
 
 
 if __name__ == "__main__":
