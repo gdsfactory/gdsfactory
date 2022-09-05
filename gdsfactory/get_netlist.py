@@ -198,6 +198,7 @@ def get_netlist(
             mirror=reference.x_reflection or 0,
         )
         if is_array:
+            parent_ports = c.ports
             for i in range(reference.rows):
                 for j in range(reference.columns):
                     reference_name = f"{base_reference_name}__{i + 1}_{j + 1}"
@@ -210,7 +211,6 @@ def get_netlist(
                         rotation=int(reference.rotation or 0),
                         mirror=reference.x_reflection or 0,
                     )
-                    parent_ports = c.ports
                     for parent_port_name in parent_ports:
                         top_name = f"{parent_port_name}_{i + 1}_{j + 1}"
                         lower_name = f"{reference_name},{parent_port_name}"
