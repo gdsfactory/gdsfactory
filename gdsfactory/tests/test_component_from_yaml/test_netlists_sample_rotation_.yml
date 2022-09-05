@@ -1,5 +1,4 @@
-connections:
-  r1,e3: r2,e4
+connections: {}
 instances:
   r1:
     component: rectangle
@@ -26,27 +25,3 @@ placements:
     x: 4.0
     y: 2.0
 ports: {}
-warnings:
-  placement:
-    unconnected_ports:
-    - message: 6 unconnected placement ports!
-      ports:
-      - r1,e1
-      - r1,e2
-      - r1,e4
-      - r2,e1
-      - r2,e2
-      - r2,e3
-      values:
-      - - 0.0
-        - 1.0
-      - - 2.0
-        - 2.0
-      - - 2.0
-        - 0.0
-      - - 6.0
-        - 1.9999999999999996
-      - - 8.0
-        - 0.9999999999999993
-      - - 6.0
-        - -4.440892098500626e-16
