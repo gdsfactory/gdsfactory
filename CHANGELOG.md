@@ -4,6 +4,7 @@
 
 - generate KLayout technology files (.lyp) from the gdsfactory LayerColors, add structures that let you write (almost) all of the properties that .lyp files can take, including groups of layer properties. [PR](https://github.com/gdsfactory/gdsfactory/pull/662)
 - via_stack has `port_type=placement` for intermediate ports and compass has default `port_type=placement` [PR](https://github.com/gdsfactory/gdsfactory/pull/661)
+- get_netlist ignores ports with port_type='placement' [PR](https://github.com/gdsfactory/gdsfactory/pull/666)
 - move gdsfactory.copy to Component.copy [PR](https://github.com/gdsfactory/gdsfactory/pull/660)
 - clean install.py [PR](https://github.com/gdsfactory/gdsfactory/pull/657)
     - Fix a bug where calling make_symlink on an already-existing install would raise an error
