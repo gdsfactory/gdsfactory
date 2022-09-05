@@ -38,12 +38,13 @@ def mmi2x2(*, coupling: float = 0.5) -> sax.SDict:
     )
 
 
-def bend_euler(wl=1.5, length=20.0) -> sax.SDict:
-    """Returns bend Sparameters with reduced transmission compared to a straight."""
-    return {k: 0.99 * v for k, v in straight(wl=wl, length=length).items()}
+def bend_euler(wl: float = 1.5, length: float = 20.0, loss: float = 50e-3) -> sax.SDict:
+    """Returns bend Sparameters."""
+    amplitude = jnp.asarray(10 ** (-loss * length / 20), dtype=complex)
+    return {k: amplitude * v for k, v in straight(wl=wl, length=length).items()}
 
 
-def phase_shifter_heater(
+def phase_shifter(
     wl: float = 1.55,
     neff: float = 2.34,
     voltage: float = 0,
@@ -77,15 +78,17 @@ models = {
     "mmi2x2": mmi2x2,
     "straight": straight,
     "taper": straight,
-    "straight_heater_metal_undercut": phase_shifter_heater,
+    "straight_heater_metal_undercut": phase_shifter,
 }
 
 
 if __name__ == "__main__":
     c = gf.components.switch_tree(bend_s=None)
-    n = c.get_netlist_recursive()
-
-    netlist = c.get_netlist_recursive(exclude_port_types=("electrical", "placement"))
+    c.show(show_ports=True)
+    n = netlist = c.get_netlist_recursive(
+        exclude_port_types=("electrical", "placement")
+    )
+    # netlist.pop(list(n.keys())[0])
     mzi_circuit, _ = sax.circuit(netlist=netlist, models=models)
     S = mzi_circuit(wl=1.55)
     wl = np.linspace(1.5, 1.6, 256)
