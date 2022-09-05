@@ -374,7 +374,7 @@ class KLayoutLayerProperties(BaseModel):
 
         if os.path.exists(filepath) and not overwrite:
             raise OSError("File exists, cannot write.")
-
+        # TODO: Sort layers and groups beforehand
         with open(filepath, "w+") as file:
             file.write('<?xml version="1.0" encoding="utf-8"?>\n')
             file.write("<layer-properties>\n")
