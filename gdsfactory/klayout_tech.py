@@ -257,11 +257,10 @@ class KLayoutLayerProperties(BaseModel):
             raise ValueError(
                 f"Adding {name!r} already defined {list(self.groups.keys())}"
             )
-        else:
-            self.groups[name] = new_group
-            if isinstance(members, dict):
-                for member_name, member_props in members.items():
-                    self.add_layer(klayout_layer_props=member_props)
+        self.groups[name] = new_group
+        if isinstance(members, dict):
+            for member_name, member_props in members.items():
+                self.add_layer(klayout_layer_props=member_props)
 
     def __str__(self):
         """Prints the number of KLayoutLayerProperty objects in the KLayoutLayerProperties object."""
@@ -370,7 +369,7 @@ class KLayoutLayerProperties(BaseModel):
             overwrite: Whether to overwrite an existing file located at the filepath.
         """
         if not filepath.endswith(".lyp"):
-            filepath = filepath + ".lyp"
+            filepath += ".lyp"
 
         if os.path.exists(filepath) and not overwrite:
             raise OSError("File exists, cannot write.")
