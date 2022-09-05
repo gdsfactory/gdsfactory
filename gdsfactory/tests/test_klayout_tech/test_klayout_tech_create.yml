@@ -1,0 +1,1560 @@
+groups:
+  Doping:
+    animation: 0
+    dither_pattern: null
+    fill_brightness: 0
+    fill_color: null
+    frame_brightness: 0
+    frame_color: null
+    layer: null
+    line_style: null
+    marked: false
+    members:
+    - N
+    - NP
+    - NPP
+    - P
+    - PP
+    - PPP
+    - PDPP
+    - GENPP
+    - GEPPP
+    name: unnamed
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  Simulation:
+    animation: 0
+    dither_pattern: null
+    fill_brightness: 0
+    fill_color: null
+    frame_brightness: 0
+    frame_color: null
+    layer: null
+    line_style: null
+    marked: false
+    members:
+    - SIM_REGION
+    - MONITOR
+    - SOURCE
+    name: unnamed
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+layers:
+  '1_12_1':
+    animation: 0
+    dither_pattern: I5
+    fill_brightness: 0
+    fill_color: '#ff80a8'
+    frame_brightness: 0
+    frame_color: '#ff80a8'
+    layer:
+    - 1
+    - 12
+    line_style: null
+    marked: false
+    name: '1_12_1'
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  '31_0_1':
+    animation: 0
+    dither_pattern: I9
+    fill_brightness: 0
+    fill_color: '#008050'
+    frame_brightness: 0
+    frame_color: '#008050'
+    layer:
+    - 31
+    - 0
+    line_style: null
+    marked: false
+    name: '31_0_1'
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  '99_0_1':
+    animation: 0
+    dither_pattern: I5
+    fill_brightness: 0
+    fill_color: '#ddff00'
+    frame_brightness: 0
+    frame_color: '#ddff00'
+    layer:
+    - 99
+    - 0
+    line_style: null
+    marked: false
+    name: '99_0_1'
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  CAPACITOR:
+    animation: 0
+    dither_pattern: I2
+    fill_brightness: 0
+    fill_color: '#805000'
+    frame_brightness: 0
+    frame_color: '#805000'
+    layer:
+    - 42
+    - 0
+    line_style: null
+    marked: false
+    name: CAPACITOR
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  DEEPETCH:
+    animation: 0
+    dither_pattern: I3
+    fill_brightness: 0
+    fill_color: '#cc0000'
+    frame_brightness: 0
+    frame_color: '#cc0000'
+    layer:
+    - 3
+    - 6
+    line_style: null
+    marked: false
+    name: DEEPETCH
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  DEEPTRENCH:
+    animation: 0
+    dither_pattern: I9
+    fill_brightness: 0
+    fill_color: '#9999cc'
+    frame_brightness: 0
+    frame_color: '#9999cc'
+    layer:
+    - 4
+    - 0
+    line_style: null
+    marked: false
+    name: DEEPTRENCH
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  DICING:
+    animation: 0
+    dither_pattern: I3
+    fill_brightness: 0
+    fill_color: '#cc0000'
+    frame_brightness: 0
+    frame_color: '#cc0000'
+    layer:
+    - 65
+    - 0
+    line_style: null
+    marked: false
+    name: DICING
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  DRC_EXCLUDE:
+    animation: 0
+    dither_pattern: I1
+    fill_brightness: 0
+    fill_color: '#000000'
+    frame_brightness: 0
+    frame_color: '#000000'
+    layer:
+    - 67
+    - 0
+    line_style: null
+    marked: false
+    name: DRC_EXCLUDE
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  DRC_MARKER:
+    animation: 0
+    dither_pattern: I0
+    fill_brightness: 0
+    fill_color: '#ff0000'
+    frame_brightness: 0
+    frame_color: '#ff0000'
+    layer:
+    - 205
+    - 0
+    line_style: null
+    marked: false
+    name: DRC_MARKER
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  DevRec:
+    animation: 0
+    dither_pattern: I1
+    fill_brightness: 0
+    fill_color: '#004080'
+    frame_brightness: 0
+    frame_color: '#004080'
+    layer:
+    - 68
+    - 0
+    line_style: null
+    marked: false
+    name: DevRec
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  ERROR_MARKER:
+    animation: 0
+    dither_pattern: I0
+    fill_brightness: 0
+    fill_color: '#ff0000'
+    frame_brightness: 0
+    frame_color: '#ff0000'
+    layer:
+    - 207
+    - 0
+    line_style: null
+    marked: false
+    name: ERROR_MARKER
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  Errors:
+    animation: 0
+    dither_pattern: I1
+    fill_brightness: 0
+    fill_color: '#0000ff'
+    frame_brightness: 0
+    frame_color: '#0000ff'
+    layer:
+    - 69
+    - 0
+    line_style: null
+    marked: false
+    name: Errors
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  FLOORPLAN:
+    animation: 0
+    dither_pattern: I1
+    fill_brightness: 0
+    fill_color: '#000000'
+    frame_brightness: 0
+    frame_color: '#000000'
+    layer:
+    - 64
+    - 0
+    line_style: null
+    marked: false
+    name: FLOORPLAN
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  FbrTgt:
+    animation: 0
+    dither_pattern: I9
+    fill_brightness: 0
+    fill_color: '#004080'
+    frame_brightness: 0
+    frame_color: '#004080'
+    layer:
+    - 81
+    - 0
+    line_style: null
+    marked: false
+    name: FbrTgt
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  GE:
+    animation: 0
+    dither_pattern: I2
+    fill_brightness: 0
+    fill_color: '#ff00ff'
+    frame_brightness: 0
+    frame_color: '#ff00ff'
+    layer:
+    - 5
+    - 0
+    line_style: null
+    marked: false
+    name: GE
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  GENPP:
+    animation: 0
+    dither_pattern: I21
+    fill_brightness: 0
+    fill_color: '#cc00cc'
+    frame_brightness: 0
+    frame_color: '#cc00cc'
+    layer:
+    - 26
+    - 0
+    line_style: null
+    marked: false
+    name: GENPP
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  GEPPP:
+    animation: 0
+    dither_pattern: I21
+    fill_brightness: 0
+    fill_color: '#cc00cc'
+    frame_brightness: 0
+    frame_color: '#cc00cc'
+    layer:
+    - 29
+    - 0
+    line_style: null
+    marked: false
+    name: GEPPP
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  LABEL:
+    animation: 0
+    dither_pattern: I1
+    fill_brightness: 0
+    fill_color: '#0000ff'
+    frame_brightness: 0
+    frame_color: '#0000ff'
+    layer:
+    - 201
+    - 0
+    line_style: null
+    marked: false
+    name: LABEL
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  LABEL_INSTANCES:
+    animation: 0
+    dither_pattern: I5
+    fill_brightness: 0
+    fill_color: '#0000ff'
+    frame_brightness: 0
+    frame_color: '#0000ff'
+    layer:
+    - 206
+    - 0
+    line_style: null
+    marked: false
+    name: LABEL_INSTANCES
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  LABEL_SETTINGS:
+    animation: 0
+    dither_pattern: I1
+    fill_brightness: 0
+    fill_color: '#ff00ff'
+    frame_brightness: 0
+    frame_color: '#ff00ff'
+    layer:
+    - 202
+    - 0
+    line_style: null
+    marked: false
+    name: LABEL_SETTINGS
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  Lumerical:
+    animation: 0
+    dither_pattern: I1
+    fill_brightness: 0
+    fill_color: '#800057'
+    frame_brightness: 0
+    frame_color: '#800057'
+    layer:
+    - 733
+    - 0
+    line_style: null
+    marked: false
+    name: Lumerical
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  M1:
+    animation: 0
+    dither_pattern: I8
+    fill_brightness: 0
+    fill_color: '#01ff6b'
+    frame_brightness: 0
+    frame_color: '#01ff6b'
+    layer:
+    - 41
+    - 0
+    line_style: null
+    marked: false
+    name: M1
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  M1TILES:
+    animation: 0
+    dither_pattern: I3
+    fill_brightness: 0
+    fill_color: '#91ff00'
+    frame_brightness: 0
+    frame_color: '#91ff00'
+    layer:
+    - 191
+    - 0
+    line_style: null
+    marked: false
+    name: M1TILES
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  M2:
+    animation: 0
+    dither_pattern: I8
+    fill_brightness: 0
+    fill_color: '#008050'
+    frame_brightness: 0
+    frame_color: '#008050'
+    layer:
+    - 45
+    - 0
+    line_style: null
+    marked: false
+    name: M2
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  M3:
+    animation: 0
+    dither_pattern: I8
+    fill_brightness: 0
+    fill_color: '#800057'
+    frame_brightness: 0
+    frame_color: '#800057'
+    layer:
+    - 49
+    - 0
+    line_style: null
+    marked: false
+    name: M3
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  METALOPEN:
+    animation: 0
+    dither_pattern: I12
+    fill_brightness: 0
+    fill_color: '#606060'
+    frame_brightness: 0
+    frame_color: '#606060'
+    layer:
+    - 46
+    - 0
+    line_style: null
+    marked: false
+    name: METALOPEN
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  MH:
+    animation: 0
+    dither_pattern: I15
+    fill_brightness: 0
+    fill_color: '#ff8000'
+    frame_brightness: 0
+    frame_color: '#ff8000'
+    layer:
+    - 47
+    - 0
+    line_style: null
+    marked: false
+    name: MH
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  MONITOR:
+    animation: 0
+    dither_pattern: I1
+    fill_brightness: 0
+    fill_color: '#0000ff'
+    frame_brightness: 0
+    frame_color: '#0000ff'
+    layer:
+    - 101
+    - 0
+    line_style: null
+    marked: false
+    name: MONITOR
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  N:
+    animation: 0
+    dither_pattern: I5
+    fill_brightness: 0
+    fill_color: '#ff0000'
+    frame_brightness: 0
+    frame_color: '#ff0000'
+    layer:
+    - 20
+    - 0
+    line_style: null
+    marked: false
+    name: N
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  NOTILE_M1:
+    animation: 0
+    dither_pattern: I3
+    fill_brightness: 0
+    fill_color: '#808080'
+    frame_brightness: 0
+    frame_color: '#808080'
+    layer:
+    - 71
+    - 0
+    line_style: null
+    marked: false
+    name: NOTILE_M1
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  NOTILE_M2:
+    animation: 0
+    dither_pattern: I3
+    fill_brightness: 0
+    fill_color: '#808080'
+    frame_brightness: 0
+    frame_color: '#808080'
+    layer:
+    - 72
+    - 0
+    line_style: null
+    marked: false
+    name: NOTILE_M2
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  NOTILE_M3:
+    animation: 0
+    dither_pattern: I3
+    fill_brightness: 0
+    fill_color: '#606060'
+    frame_brightness: 0
+    frame_color: '#606060'
+    layer:
+    - 73
+    - 0
+    line_style: null
+    marked: false
+    name: NOTILE_M3
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  NP:
+    animation: 0
+    dither_pattern: I5
+    fill_brightness: 0
+    fill_color: '#ff0000'
+    frame_brightness: 0
+    frame_color: '#ff0000'
+    layer:
+    - 22
+    - 0
+    line_style: null
+    marked: false
+    name: NP
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  NPP:
+    animation: 0
+    dither_pattern: I6
+    fill_brightness: 0
+    fill_color: '#ff0000'
+    frame_brightness: 0
+    frame_color: '#ff0000'
+    layer:
+    - 24
+    - 0
+    line_style: null
+    marked: false
+    name: NPP
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  OXIDE_ETCH:
+    animation: 0
+    dither_pattern: I6
+    fill_brightness: 0
+    fill_color: '#000000'
+    frame_brightness: 0
+    frame_color: '#000000'
+    layer:
+    - 6
+    - 0
+    line_style: null
+    marked: false
+    name: OXIDE_ETCH
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  P:
+    animation: 0
+    dither_pattern: I5
+    fill_brightness: 0
+    fill_color: '#0000ff'
+    frame_brightness: 0
+    frame_color: '#0000ff'
+    layer:
+    - 21
+    - 0
+    line_style: null
+    marked: false
+    name: P
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  PDPP:
+    animation: 0
+    dither_pattern: I13
+    fill_brightness: 0
+    fill_color: '#ccb27f'
+    frame_brightness: 0
+    frame_color: '#ccb27f'
+    layer:
+    - 27
+    - 0
+    line_style: null
+    marked: false
+    name: PDPP
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  PP:
+    animation: 0
+    dither_pattern: I5
+    fill_brightness: 0
+    fill_color: '#0000ff'
+    frame_brightness: 0
+    frame_color: '#0000ff'
+    layer:
+    - 23
+    - 0
+    line_style: null
+    marked: false
+    name: PP
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  PPP:
+    animation: 0
+    dither_pattern: I6
+    fill_brightness: 0
+    fill_color: '#0000ff'
+    frame_brightness: 0
+    frame_color: '#0000ff'
+    layer:
+    - 25
+    - 0
+    line_style: null
+    marked: false
+    name: PPP
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  PinRec:
+    animation: 0
+    dither_pattern: I1
+    fill_brightness: 0
+    fill_color: '#404040'
+    frame_brightness: 0
+    frame_color: '#404040'
+    layer:
+    - 1
+    - 10
+    line_style: null
+    marked: false
+    name: PinRec
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  PinRecM:
+    animation: 0
+    dither_pattern: I1
+    fill_brightness: 0
+    fill_color: '#004080'
+    frame_brightness: 0
+    frame_color: '#004080'
+    layer:
+    - 1
+    - 11
+    line_style: null
+    marked: false
+    name: PinRecM
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  SHALLOWETCH:
+    animation: 0
+    dither_pattern: I3
+    fill_brightness: 0
+    fill_color: '#0000ff'
+    frame_brightness: 0
+    frame_color: '#0000ff'
+    layer:
+    - 2
+    - 6
+    line_style: null
+    marked: false
+    name: SHALLOWETCH
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  SILICIDE:
+    animation: 0
+    dither_pattern: I11
+    fill_brightness: 0
+    fill_color: '#cc4c00'
+    frame_brightness: 0
+    frame_color: '#cc4c00'
+    layer:
+    - 39
+    - 0
+    line_style: null
+    marked: false
+    name: SILICIDE
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  SIM_REGION:
+    animation: 0
+    dither_pattern: I1
+    fill_brightness: 0
+    fill_color: '#000000'
+    frame_brightness: 0
+    frame_color: '#000000'
+    layer:
+    - 100
+    - 0
+    line_style: null
+    marked: false
+    name: SIM_REGION
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  SITILES:
+    animation: 0
+    dither_pattern: I3
+    fill_brightness: 0
+    fill_color: '#000000'
+    frame_brightness: 0
+    frame_color: '#000000'
+    layer:
+    - 190
+    - 0
+    line_style: null
+    marked: false
+    name: SITILES
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  SLAB150:
+    animation: 0
+    dither_pattern: I3
+    fill_brightness: 0
+    fill_color: '#00ffff'
+    frame_brightness: 0
+    frame_color: '#00ffff'
+    layer:
+    - 2
+    - 0
+    line_style: null
+    marked: false
+    name: SLAB150
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  SLAB150CLAD:
+    animation: 0
+    dither_pattern: I3
+    fill_brightness: 0
+    fill_color: '#80a8ff'
+    frame_brightness: 0
+    frame_color: '#80a8ff'
+    layer:
+    - 2
+    - 9
+    line_style: null
+    marked: false
+    name: SLAB150CLAD
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  SLAB90:
+    animation: 0
+    dither_pattern: I3
+    fill_brightness: 0
+    fill_color: '#805000'
+    frame_brightness: 0
+    frame_color: '#805000'
+    layer:
+    - 3
+    - 0
+    line_style: null
+    marked: false
+    name: SLAB90
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  SLAB90CLAD:
+    animation: 0
+    dither_pattern: I1
+    fill_brightness: 0
+    fill_color: '#80a8ff'
+    frame_brightness: 0
+    frame_color: '#80a8ff'
+    layer:
+    - 3
+    - 1
+    line_style: null
+    marked: false
+    name: SLAB90CLAD
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  SOURCE:
+    animation: 0
+    dither_pattern: I1
+    fill_brightness: 0
+    fill_color: '#ff0000'
+    frame_brightness: 0
+    frame_color: '#ff0000'
+    layer:
+    - 110
+    - 0
+    line_style: null
+    marked: false
+    name: SOURCE
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  TE:
+    animation: 0
+    dither_pattern: I0
+    fill_brightness: 0
+    fill_color: '#0000ff'
+    frame_brightness: 0
+    frame_color: '#0000ff'
+    layer:
+    - 203
+    - 0
+    line_style: null
+    marked: false
+    name: TE
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  TM:
+    animation: 0
+    dither_pattern: I0
+    fill_brightness: 0
+    fill_color: '#ff0000'
+    frame_brightness: 0
+    frame_color: '#ff0000'
+    layer:
+    - 204
+    - 0
+    line_style: null
+    marked: false
+    name: TM
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  Text:
+    animation: 0
+    dither_pattern: I1
+    fill_brightness: 0
+    fill_color: '#0000ff'
+    frame_brightness: 0
+    frame_color: '#0000ff'
+    layer:
+    - 66
+    - 0
+    line_style: null
+    marked: false
+    name: Text
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  VIA1:
+    animation: 0
+    dither_pattern: I2
+    fill_brightness: 0
+    fill_color: '#808080'
+    frame_brightness: 0
+    frame_color: '#808080'
+    layer:
+    - 44
+    - 0
+    line_style: null
+    marked: false
+    name: VIA1
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  VIA2:
+    animation: 0
+    dither_pattern: I2
+    fill_brightness: 0
+    fill_color: '#805000'
+    frame_brightness: 0
+    frame_color: '#805000'
+    layer:
+    - 43
+    - 0
+    line_style: null
+    marked: false
+    name: VIA2
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  VIAC:
+    animation: 0
+    dither_pattern: I2
+    fill_brightness: 0
+    fill_color: '#cc4c00'
+    frame_brightness: 0
+    frame_color: '#cc4c00'
+    layer:
+    - 40
+    - 0
+    line_style: null
+    marked: false
+    name: VIAC
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  WGCLAD:
+    animation: 0
+    dither_pattern: I3
+    fill_brightness: 0
+    fill_color: '#c0c0c0'
+    frame_brightness: 0
+    frame_color: '#c0c0c0'
+    layer:
+    - 111
+    - 0
+    line_style: null
+    marked: false
+    name: WGCLAD
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  WGN:
+    animation: 0
+    dither_pattern: I4
+    fill_brightness: 0
+    fill_color: '#ff8000'
+    frame_brightness: 0
+    frame_color: '#ff8000'
+    layer:
+    - 34
+    - 0
+    line_style: null
+    marked: false
+    name: WGN
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  WGNCLAD:
+    animation: 0
+    dither_pattern: I3
+    fill_brightness: 0
+    fill_color: '#c0c0c0'
+    frame_brightness: 0
+    frame_color: '#c0c0c0'
+    layer:
+    - 36
+    - 0
+    line_style: null
+    marked: false
+    name: WGNCLAD
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  Waveguide:
+    animation: 0
+    dither_pattern: I2
+    fill_brightness: 0
+    fill_color: '#000000'
+    frame_brightness: 0
+    frame_color: '#000000'
+    layer:
+    - 1
+    - 0
+    line_style: null
+    marked: false
+    name: Waveguide
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  XS_BOX:
+    animation: 0
+    dither_pattern: I0
+    fill_brightness: 0
+    fill_color: '#f3ff80'
+    frame_brightness: 0
+    frame_color: '#f3ff80'
+    layer:
+    - 300
+    - 0
+    line_style: null
+    marked: false
+    name: XS_BOX
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  XS_GE:
+    animation: 0
+    dither_pattern: I0
+    fill_brightness: 0
+    fill_color: '#004ca5'
+    frame_brightness: 0
+    frame_color: '#004ca5'
+    layer:
+    - 315
+    - 0
+    line_style: null
+    marked: false
+    name: XS_GE
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  XS_M1:
+    animation: 0
+    dither_pattern: I0
+    fill_brightness: 0
+    fill_color: '#008000'
+    frame_brightness: 0
+    frame_color: '#008000'
+    layer:
+    - 304
+    - 0
+    line_style: null
+    marked: false
+    name: XS_M1
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  XS_M2:
+    animation: 0
+    dither_pattern: I0
+    fill_brightness: 0
+    fill_color: '#805000'
+    frame_brightness: 0
+    frame_color: '#805000'
+    layer:
+    - 399
+    - 0
+    line_style: null
+    marked: false
+    name: XS_M2
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  XS_MH:
+    animation: 0
+    dither_pattern: I0
+    fill_brightness: 0
+    fill_color: '#008000'
+    frame_brightness: 0
+    frame_color: '#008000'
+    layer:
+    - 306
+    - 0
+    line_style: null
+    marked: false
+    name: XS_MH
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  XS_N:
+    animation: 0
+    dither_pattern: I0
+    fill_brightness: 0
+    fill_color: '#008ca5'
+    frame_brightness: 0
+    frame_color: '#008ca5'
+    layer:
+    - 320
+    - 0
+    line_style: null
+    marked: false
+    name: XS_N
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  XS_NPP:
+    animation: 0
+    dither_pattern: I0
+    fill_brightness: 0
+    fill_color: '#004ca5'
+    frame_brightness: 0
+    frame_color: '#004ca5'
+    layer:
+    - 321
+    - 0
+    line_style: null
+    marked: false
+    name: XS_NPP
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  XS_OVERLAY:
+    animation: 0
+    dither_pattern: I0
+    fill_brightness: 0
+    fill_color: '#0000ff'
+    frame_brightness: 0
+    frame_color: '#0000ff'
+    layer:
+    - 311
+    - 0
+    line_style: null
+    marked: false
+    name: XS_OVERLAY
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  XS_OXIDE_M1:
+    animation: 0
+    dither_pattern: I0
+    fill_brightness: 0
+    fill_color: '#f3ff80'
+    frame_brightness: 0
+    frame_color: '#f3ff80'
+    layer:
+    - 305
+    - 0
+    line_style: null
+    marked: false
+    name: XS_OXIDE_M1
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  XS_OXIDE_M2:
+    animation: 0
+    dither_pattern: I0
+    fill_brightness: 0
+    fill_color: '#f3ff80'
+    frame_brightness: 0
+    frame_color: '#f3ff80'
+    layer:
+    - 307
+    - 0
+    line_style: null
+    marked: false
+    name: XS_OXIDE_M2
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  XS_OXIDE_M3:
+    animation: 0
+    dither_pattern: I0
+    fill_brightness: 0
+    fill_color: '#f3ff80'
+    frame_brightness: 0
+    frame_color: '#f3ff80'
+    layer:
+    - 311
+    - 0
+    line_style: null
+    marked: false
+    name: XS_OXIDE_M3
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  XS_OXIDE_MH:
+    animation: 0
+    dither_pattern: I0
+    fill_brightness: 0
+    fill_color: '#f3ff80'
+    frame_brightness: 0
+    frame_color: '#f3ff80'
+    layer:
+    - 317
+    - 0
+    line_style: null
+    marked: false
+    name: XS_OXIDE_MH
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  XS_OXIDE_ML:
+    animation: 0
+    dither_pattern: I0
+    fill_brightness: 0
+    fill_color: '#f3ff80'
+    frame_brightness: 0
+    frame_color: '#f3ff80'
+    layer:
+    - 309
+    - 0
+    line_style: null
+    marked: false
+    name: XS_OXIDE_ML
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  XS_OX_SI:
+    animation: 0
+    dither_pattern: I0
+    fill_brightness: 0
+    fill_color: '#f3ff80'
+    frame_brightness: 0
+    frame_color: '#f3ff80'
+    layer:
+    - 302
+    - 0
+    line_style: null
+    marked: false
+    name: XS_OX_SI
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  XS_P:
+    animation: 0
+    dither_pattern: I0
+    fill_brightness: 0
+    fill_color: '#00f233'
+    frame_brightness: 0
+    frame_color: '#00f233'
+    layer:
+    - 330
+    - 0
+    line_style: null
+    marked: false
+    name: XS_P
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  XS_PDPP:
+    animation: 0
+    dither_pattern: I0
+    fill_brightness: 0
+    fill_color: '#00f233'
+    frame_brightness: 0
+    frame_color: '#00f233'
+    layer:
+    - 327
+    - 0
+    line_style: null
+    marked: false
+    name: XS_PDPP
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  XS_PPP:
+    animation: 0
+    dither_pattern: I0
+    fill_brightness: 0
+    fill_color: '#00b233'
+    frame_brightness: 0
+    frame_color: '#00b233'
+    layer:
+    - 331
+    - 0
+    line_style: null
+    marked: false
+    name: XS_PPP
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  XS_SI:
+    animation: 0
+    dither_pattern: I0
+    fill_brightness: 0
+    fill_color: '#000000'
+    frame_brightness: 0
+    frame_color: '#000000'
+    layer:
+    - 301
+    - 0
+    line_style: null
+    marked: false
+    name: XS_SI
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  XS_SIN:
+    animation: 0
+    dither_pattern: I0
+    fill_brightness: 0
+    fill_color: '#000000'
+    frame_brightness: 0
+    frame_color: '#000000'
+    layer:
+    - 319
+    - 0
+    line_style: null
+    marked: false
+    name: XS_SIN
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  XS_SIN2:
+    animation: 0
+    dither_pattern: I0
+    fill_brightness: 0
+    fill_color: '#805000'
+    frame_brightness: 0
+    frame_color: '#805000'
+    layer:
+    - 305
+    - 0
+    line_style: null
+    marked: false
+    name: XS_SIN2
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  XS_SI_SLAB:
+    animation: 0
+    dither_pattern: I0
+    fill_brightness: 0
+    fill_color: '#80a8ff'
+    frame_brightness: 0
+    frame_color: '#80a8ff'
+    layer:
+    - 313
+    - 0
+    line_style: null
+    marked: false
+    name: XS_SI_SLAB
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  XS_VIA1:
+    animation: 0
+    dither_pattern: I0
+    fill_brightness: 0
+    fill_color: '#808080'
+    frame_brightness: 0
+    frame_color: '#808080'
+    layer:
+    - 308
+    - 0
+    line_style: null
+    marked: false
+    name: XS_VIA1
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  XS_VIA2:
+    animation: 0
+    dither_pattern: I0
+    fill_brightness: 0
+    fill_color: '#808080'
+    frame_brightness: 0
+    frame_color: '#808080'
+    layer:
+    - 310
+    - 0
+    line_style: null
+    marked: false
+    name: XS_VIA2
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  XS_VIAC:
+    animation: 0
+    dither_pattern: I0
+    fill_brightness: 0
+    fill_color: '#808080'
+    frame_brightness: 0
+    frame_color: '#808080'
+    layer:
+    - 303
+    - 0
+    line_style: null
+    marked: false
+    name: XS_VIAC
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
