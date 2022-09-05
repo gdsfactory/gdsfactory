@@ -359,17 +359,17 @@ class Component(Device):
         Keyword Args:
             component: to extract netlist.
             full_settings: True returns all, false changed settings.
-            layer_label: label to read instanceNames from (if any).
             tolerance: tolerance in nm to consider two ports connected.
             exclude_port_types: optional list of port types to exclude from netlisting.
             get_instance_name: function to get instance name.
 
         Returns:
-            instances: Dict of instance name and settings.
-            connections: Dict of Instance1Name,portName: Instace2Name,portName.
-            placements: Dict of instance names and placements (x, y, rotation).
-            port: Dict portName: ComponentName,port.
-            name: name of component.
+            Netlist dict (instances, connections, placements, ports)
+                instances: Dict of instance name and settings.
+                connections: Dict of Instance1Name,portName: Instace2Name,portName.
+                placements: Dict of instance names and placements (x, y, rotation).
+                ports: Dict portName: ComponentName,port.
+                name: name of component.
         """
         from gdsfactory.get_netlist import get_netlist
 
@@ -384,8 +384,9 @@ class Component(Device):
                 useful if to save and reload a back-annotated netlist.
             get_netlist_func: function to extract individual netlists.
             full_settings: True returns all, false changed settings.
-            layer_label: label to read instanceNames from (if any).
             tolerance: tolerance in nm to consider two ports connected.
+            exclude_port_types: optional list of port types to exclude from netlisting.
+            get_instance_name: function to get instance name.
 
         Returns:
             Dictionary of netlists, keyed by the name of each component.

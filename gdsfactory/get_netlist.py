@@ -17,7 +17,7 @@ Assumes two ports are connected when they have same width, x, y
 """
 
 from collections import defaultdict
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 import gdspy
 import numpy as np
@@ -108,7 +108,7 @@ def get_netlist(
     component: Component,
     full_settings: bool = False,
     tolerance: int = 5,
-    exclude_port_types: Optional[List] = None,
+    exclude_port_types: Optional[Union[List[str], Tuple[str]]] = ("placement",),
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
 ) -> Dict[str, Any]:
     """From Component returns instances, connections and placements dict.
@@ -116,7 +116,8 @@ def get_netlist(
     Does two sweeps over the connections:
 
     1. first tries to connect everything assuming perfect connections at each port.
-    2. Then gathers ports which did not perfectly connect to anything and try to find imperfect connections, by grouping ports on a coarse grid.
+    2. Then gathers ports which did not perfectly connect to anything and tries \
+            to find imperfect connections, by grouping ports on a coarse grid.
 
     warnings collected during netlisting are reported back into the netlist.
     These include warnings about mismatched port widths, orientations, shear angles, excessive offsets, etc.
@@ -496,8 +497,9 @@ def get_netlist_recursive(
 
     Keyword Args:
         full_settings: True returns all, false changed settings.
-        layer_label: label to read instanceNames from (if any).
         tolerance: tolerance in nm to consider two ports connected.
+        exclude_port_types: optional list of port types to exclude from netlisting.
+        get_instance_name: function to get instance name.
 
     Returns:
         Dictionary of netlists, keyed by the name of each component.
