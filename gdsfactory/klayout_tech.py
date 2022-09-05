@@ -381,6 +381,8 @@ class KLayoutLayerProperties(BaseModel):
 
             grouped_layers = []
             for group_name, group in self.groups.items():
+                if group_name != group.name:
+                    group.name = group_name
                 file.write(" <properties>\n")
                 members = group.members
 
@@ -410,11 +412,31 @@ class KLayoutLayerProperties(BaseModel):
 
 
 if __name__ == "__main__":
-    lyp = KLayoutLayerProperties()
-    wg = KLayoutLayerProperty(name="wg", layer=(1, 0))
-    lyp.add_layer(layer=(1, 0), name="wg")
-    lyp.add_layer(layer=(1, 10), name="wg-2")
-    lyp.add_layer(layer=(2, 0), name="wg-3")
-    lyp.create_group(members=["wg", "wg-2"], frame_color="blue")
+    from gdsfactory.layers import LAYER_COLORS, LayerColors
+
+    lc: LayerColors = LAYER_COLORS
+
+    lyp = KLayoutLayerProperties(
+        layers={
+            layer.name: KLayoutLayerProperty(
+                layer=(layer.gds_layer, layer.gds_datatype),
+                name=layer.name,
+                fill_color=layer.color,
+                frame_color=layer.color,
+                dither_pattern=layer.dither,
+            )
+            for layer in lc.layers.values()
+        },
+        groups={
+            "Doping": KLayoutGroupProperty(
+                members=["N", "NP", "NPP", "P", "PP", "PPP", "PDPP", "GENPP", "GEPPP"]
+            ),
+            "Simulation": KLayoutGroupProperty(
+                members=["SIM_REGION", "MONITOR", "SOURCE"]
+            ),
+        },
+    )
+
+    #    lyp.create_group(members=["wg", "wg-2"], frame_color="blue")
     print(lyp)
     lyp.to_lyp("test_lyp")
