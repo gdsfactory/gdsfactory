@@ -10,6 +10,44 @@ from wurlitzer import pipes
 nm = 1e-9
 um = 1e-6
 
+"""
+Phenomenological wavelength-dependent index and absorption perturbation from free carriers
+Use quadratic fits for wavelengths, or better-characterized models at 1550 and 1310
+
+From Chrostowski, L., & Hochberg, M. (2015). Silicon Photonics Design: From Devices to Systems. Cambridge University Press. doi: 10.1017/CBO9781316084168
+Citing:
+(1) R. Soref and B. Bennett, "Electrooptical effects in silicon," in IEEE Journal of Quantum Electronics, vol. 23, no. 1, pp. 123-129, January 1987, doi: 10.1109/JQE.1987.1073206.
+(2) Reed, G. T., Mashanovich, G., Gardes, F. Y., & Thomson, D. J. (2010). Silicon optical modulators. Nature Photonics, 4(8), 518–526. doi: 10.1038/nphoton.2010.179
+(3) M. Nedeljkovic, R. Soref and G. Z. Mashanovich, "Free-Carrier Electrorefraction and Electroabsorption Modulation Predictions for Silicon Over the 1–14- $\mu\hbox{m}$ Infrared Wavelength Range," in IEEE Photonics Journal, vol. 3, no. 6, pp. 1171-1180, Dec. 2011, doi: 10.1109/JPHOT.2011.2171930.
+
+Parameters:
+    wavelength: (um)
+    dN: excess electrons (/cm^3)
+    dP: excess holes (/cm^3)
+
+Returns:
+    dn: change in refractive index
+    or
+    dalpha: change in absorption coefficient (/cm)
+"""
+
+def dn_carriers(wavelength, dN, dP):
+    if wavelength == 1.55:
+        return -5.4*1E-22*dN**1.011 - 1.53*1E-18*dP**0.838
+    elif wavelength == 1.31:
+        return -2.98*1E-22*dN**1.016 - 1.25*1E-18*dP**0.835
+    else:
+        wavelength = wavelength * 1E-6 # convert to m
+        return -3.64*1E-10*wavelength**2*dN - 3.51*1E-6*wavelength**2*dP**0.8
+
+def dalpha_carriers(wavelength, dN, dP):
+    if wavelength == 1.55:
+        return 8.88*1E-21*dN**1.167 + 5.84*1E-20*dP**1.109
+    elif wavelength == 1.31:
+        return 3.48*1E-22*dN**1.229 + 1.02*1E-19*dP**1.089
+    else:
+        wavelength = wavelength * 1E-6 # convert to m
+        return 3.52*1E-6*wavelength**2*dN + 2.4*1E-6*wavelength**2*dP
 
 class PINWaveguide(BaseModel):
     """Silicon PIN junction waveguide Model.
