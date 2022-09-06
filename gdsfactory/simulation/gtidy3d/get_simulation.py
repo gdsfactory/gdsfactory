@@ -335,7 +335,6 @@ def get_simulation(
         direction="-" if int(angle) in {0, 90} else "+",
     )
 
-
     # Add port monitors
     monitors = {}
     ports = sort_ports_x(sort_ports_y(component_ref.get_ports_list()))
