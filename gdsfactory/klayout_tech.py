@@ -4,16 +4,18 @@ This module will enable conversion between gdsfactory settings and KLayout techn
 """
 
 import os
-from typing import Dict, List, Optional, TextIO, Tuple, Union
+import re
+from typing import Dict, Optional, TextIO, Tuple
 
 import numpy as np
+from lxml import etree
 from matplotlib.colors import CSS4_COLORS
 from pydantic import BaseModel, Field, validator
 
 from gdsfactory.types import Layer
 
 
-class KLayoutLayerProperty(BaseModel):
+class LayerView(BaseModel):
     """KLayout layer properties.
 
     Docstrings copied from KLayout documentation:
@@ -57,6 +59,18 @@ class KLayoutLayerProperty(BaseModel):
     marked: bool = False
     xfill: bool = False
     animation: int = 0
+    group_members: Optional[Dict[str, "LayerView"]] = None
+
+    def __init__(self, **data):
+        """Initialize LayerView object."""
+        super().__init__(**data)
+        for key, val in self.dict().items():
+            if key not in LayerView.__fields__.keys():
+                if self.group_members is None:
+                    self.group_members = {}
+                if val["name"] != key:
+                    val["name"] = key
+                self.group_members[key] = LayerView(**val)
 
     @validator("frame_color", "fill_color")
     def color_is_valid(cls, color):
@@ -86,7 +100,7 @@ class KLayoutLayerProperty(BaseModel):
 
     def __str__(self):
         """Returns a formatted view of properties and their values."""
-        return "<KLayoutLayerProperty>:\n\t" + "\n\t".join(
+        return "LayerView:\n\t" + "\n\t".join(
             [f"{k}: {v}" for k, v in self.dict().items()]
         )
 
@@ -95,8 +109,81 @@ class KLayoutLayerProperty(BaseModel):
         return self.__str__()
 
 
-class KLayoutGroupProperty(KLayoutLayerProperty):
-    members: List[str]
+class DitherPattern(BaseModel):
+    """Custom dither pattern."""
+
+    name: str
+    order: int
+    pattern: str
+
+
+class LineStyle(BaseModel):
+    """Custom line style."""
+
+    name: str
+    order: int
+    pattern: str
+
+
+_layer_re = re.compile("([0-9]+|\\*)/([0-9]+|\\*)")
+
+
+def _process_name(name: str) -> Optional[str]:
+    """Strip layer info from name if it exists.
+
+    Args:
+        name: XML-formatted name entry
+    """
+    if not name:
+        return None
+    match = re.search(_layer_re, name)
+    if match:
+        return name[: match.start()].strip()
+    return name
+
+
+def _process_layer(layer: str) -> Optional[Layer]:
+    """Convert .lyp XML layer entry to a Layer.
+
+    Args:
+        layer: XML-formatted layer entry
+    """
+    match = re.search(_layer_re, layer)
+    if not match:
+        raise OSError(f"Could not read layer {layer}!")
+    v = match.group().split("/")
+    if v == ["*", "*"]:
+        return None
+    return int(v[0]), int(v[1])
+
+
+def _properties_to_layerview(element, tag: Optional[str] = None) -> Optional[LayerView]:
+    """Read properties from .lyp XML and generate LayerViews from them.
+
+    Args:
+        tag: Optional tag to iterate over.
+    """
+    prop_dict = {}
+    for prop in element.iterchildren(tag=tag):
+        prop_tag = prop.tag
+        if prop_tag == "name":
+            val = _process_name(prop.text)
+            if val is None:
+                return None
+        elif prop_tag == "source":
+            val = _process_layer(prop.text)
+            prop_tag = "layer"
+        elif prop_tag == "group-members":
+            props = [
+                _properties_to_layerview(e)
+                for e in element.iterchildren("group-members")
+            ]
+            val = {p.name: p for p in props}
+        else:
+            val = prop.text
+        prop_tag = "_".join(prop_tag.split("-"))
+        prop_dict[prop_tag] = val
+    return LayerView(**prop_dict)
 
 
 class KLayoutLayerProperties(BaseModel):
@@ -105,12 +192,25 @@ class KLayoutLayerProperties(BaseModel):
     Experimental, only accepts a single level of grouping.
     """
 
-    layers: Dict[str, KLayoutLayerProperty] = Field(default_factory=dict)
-    groups: Dict[str, KLayoutGroupProperty] = Field(default_factory=dict)
+    layer_views: Dict[str, LayerView] = Field(default_factory=dict)
+    custom_dither_patterns: Optional[Dict[str, DitherPattern]] = None
+    custom_line_styles: Optional[Dict[str, LineStyle]] = None
+
+    def __init__(self, **data):
+        """Initialize KLayoutLayerProperties object."""
+        super().__init__(**data)
+
+        for key, val in self.dict().items():
+
+            if key not in self.__fields__:
+                if val["name"] != key:
+                    val["name"] = key
+                    setattr(self, key, LayerView(**val))
+                self.add_layer(**val)
 
     def add_layer(
         self,
-        klayout_layer_props: Optional[KLayoutLayerProperty] = None,
+        klayout_layer_props: Optional[LayerView] = None,
         layer: Optional[Layer] = None,
         name: str = "unnamed",
         valid: bool = True,
@@ -126,6 +226,7 @@ class KLayoutLayerProperties(BaseModel):
         dither_pattern: Optional[str] = None,
         line_style: Optional[str] = None,
         width: Optional[int] = None,
+        group_members: Optional[Dict[str, LayerView]] = None,
     ) -> None:
         """Adds a layer to KLayoutLayerProperties.
 
@@ -154,9 +255,9 @@ class KLayoutLayerProperties(BaseModel):
             transparent: Whether the entry is transparent.
             visible: Whether the entry is visible.
             valid: Whether the entry is valid. Invalid layers are drawn but shapes on those layers can't be selected.
-
+            group_members: Optional dict of LayerViews to group beneath this LayerView.
         """
-        new_layer = klayout_layer_props or KLayoutLayerProperty(
+        new_layer = klayout_layer_props or LayerView(
             layer=layer,
             name=name,
             valid=valid,
@@ -172,108 +273,51 @@ class KLayoutLayerProperties(BaseModel):
             dither_pattern=dither_pattern,
             line_style=line_style,
             width=width,
+            group_members=group_members,
         )
-        if name in self.layers:
+        if name in self.layer_views:
             raise ValueError(
-                f"Adding {name!r} already defined {list(self.layers.keys())}"
+                f"Adding {name!r} already defined {list(self.layer_views.keys())}"
             )
         else:
-            self.layers[name] = new_layer
+            self.layer_views[name] = new_layer
 
-    def create_group(
-        self,
-        members: Optional[Union[List[str], Dict[str, KLayoutLayerProperty]]] = None,
-        klayout_group_props: Optional[KLayoutGroupProperty] = None,
-        name: str = "unnamed",
-        valid: bool = True,
-        visible: bool = True,
-        transparent: bool = False,
-        marked: bool = False,
-        xfill: bool = False,
-        frame_brightness: int = 0,
-        fill_brightness: int = 0,
-        animation: int = 0,
-        frame_color: Optional[str] = None,
-        fill_color: Optional[str] = None,
-        dither_pattern: Optional[str] = None,
-        line_style: Optional[str] = None,
-        width: Optional[int] = None,
-    ) -> None:
-        """Adds a group to KLayoutLayerProperties.
-
-        Similar to adding a layer, but with no Layer and must include "members".
-
-        Docstrings copied from KLayout documentation:
-        https://www.klayout.de/lyp_format.html
+    def get_layer_views(self, exclude_groups: bool = False) -> Dict[str, LayerView]:
+        """Return all LayerViews.
 
         Args:
-            members: Layers to add to the group.
-                Can either be a list of names of layers added previously or a dict of name, KLayoutLayerProperty pairs
-            klayout_group_props: Add group from existing KLayoutGroupProperty, overrides all other args.
-            name: Name of the Layer.
-            width: This is the line width of the frame in pixels (or empty for the default which is 1).
-            line_style: This is the number of the line style used to draw the shape boundaries.
-                An empty string is "solid line". The values are "Ix" for one of the built-in styles
-                where "I0" is "solid", "I1" is "dotted" etc.
-            dither_pattern: This is the number of the dither pattern used to fill the shapes.
-                The values are "Ix" for one of the built-in pattern where "I0" is "solid" and "I1" is "clear".
-            frame_color: The color of the frames.
-            fill_color: The color of the fill pattern inside the shapes.
-            animation: This is a value indicating the animation mode.
-                0 is "none", 1 is "scrolling", 2 is "blinking" and 3 is "inverse blinking".
-            fill_brightness: This value modifies the brightness of the fill color. See "frame-brightness".
-            frame_brightness: This value modifies the brightness of the frame color.
-                0 is unmodified, -100 roughly adds 50% black to the color which +100 roughly adds 50% white.
-            xfill: Whether boxes are drawn with a diagonal cross.
-            marked: Whether the entry is marked (drawn with small crosses).
-            transparent: Whether the entry is transparent.
-            visible: Whether the entry is visible.
-            valid: Whether the entry is valid. Invalid layers are drawn but shapes on those layers can't be selected.
-
+            exclude_groups: Whether to exclude LayerViews that contain other LayerViews.
         """
-        if klayout_group_props is None and members is None:
-            raise ValueError(
-                "Either a KLayoutGroupProperty or a list/dict of members must be specified!"
-            )
-        new_group = klayout_group_props or KLayoutGroupProperty(
-            name=name,
-            valid=valid,
-            visible=visible,
-            transparent=transparent,
-            marked=marked,
-            xfill=xfill,
-            frame_brightness=frame_brightness,
-            fill_brightness=fill_brightness,
-            animation=animation,
-            frame_color=frame_color,
-            fill_color=fill_color,
-            dither_pattern=dither_pattern,
-            line_style=line_style,
-            width=width,
-            members=members if isinstance(members, list) else list(members.keys()),
-        )
-        if name in self.groups:
-            raise ValueError(
-                f"Adding {name!r} already defined {list(self.groups.keys())}"
-            )
-        self.groups[name] = new_group
-        if isinstance(members, dict):
-            for member_props in members.values():
-                self.add_layer(klayout_layer_props=member_props)
+        layers = {}
+        for name, view in self.layer_views.items():
+            if view.group_members is None:
+                layers[name] = view
+            elif not exclude_groups:
+                for member_name, member_view in view.group_members.items():
+                    layers[member_name] = member_view
+        return layers
+
+    def get_layer_view_groups(self) -> Dict[str, LayerView]:
+        """Return the LayerViews that contain other LayerViews."""
+        layers = {}
+        for name, view in self.layer_views.items():
+            if view.group_members is not None:
+                layers[name] = view
+        return layers
 
     def __str__(self):
         """Prints the number of KLayoutLayerProperty objects in the KLayoutLayerProperties object."""
-        if len(self.groups) == 0:
-            return (
-                f"KLayoutLayerProperties ({len(self.layers)} layers total) \n"
-                f"{list(self.layers)}"
-            )
+        # if len(self.groups) == 0:
+        #     return (
+        #         f"KLayoutLayerProperties ({len(self.layers)} layers total) \n"
+        #         f"{list(self.layers)}"
+        #     )
         return (
-            f"KLayoutLayerProperties ({len(self.layers)} layers total, {len(self.groups)} groups) \n"
-            f"{list(self.layers)}"
+            f"KLayoutLayerProperties ({len(self.get_layer_views())} layers total, {len(self.get_layer_view_groups())} groups) \n"
+            f"{self.get_layer_views()}"
         )
 
-    def get(self, name: str) -> KLayoutLayerProperty:
+    def get(self, name: str) -> LayerView:
         """Returns Layer from name.
 
         Args:
@@ -301,7 +345,7 @@ class KLayoutLayerProperties(BaseModel):
                 f"Layer {val!r} not in LayerColors {list(self.layers.keys())}"
             ) from error
 
-    def get_from_tuple(self, layer_tuple: Tuple[int, int]) -> KLayoutLayerProperty:
+    def get_from_tuple(self, layer_tuple: Tuple[int, int]) -> LayerView:
         """Returns KLayoutLayerProperty from layer tuple.
 
         Args:
@@ -330,7 +374,7 @@ class KLayoutLayerProperties(BaseModel):
     @staticmethod
     def _write_props(
         file: TextIO,
-        props: Union[KLayoutLayerProperty, KLayoutGroupProperty],
+        props: LayerView,
         level: int = 0,
     ) -> None:
         """Write properties to xml file.
@@ -373,6 +417,7 @@ class KLayoutLayerProperties(BaseModel):
         if os.path.exists(filepath) and not overwrite:
             raise OSError("File exists, cannot write.")
         # TODO: Sort layers and groups beforehand
+        # TODO: Write line styles and dither patterns
         with open(filepath, "w+") as file:
             file.write('<?xml version="1.0" encoding="utf-8"?>\n')
             file.write("<layer-properties>\n")
@@ -402,39 +447,127 @@ class KLayoutLayerProperties(BaseModel):
                 file.write(" </properties>\n")
             file.write("</layer-properties>\n")
 
-    def from_lyp(self):
-        raise NotImplementedError()
+    @staticmethod
+    def from_lyp(filepath: str) -> "KLayoutLayerProperties":
+        """Write all layer properties to a KLayout .lyp file.
+
+        Args:
+            filepath: to write the .lyp file to (appends .lyp extension if not present)
+        """
+        if not filepath.endswith(".lyp"):
+            filepath += ".lyp"
+
+        if not os.path.exists(filepath):
+            raise OSError("File not found!")
+
+        tree = etree.parse(filepath)
+        root = tree.getroot()
+        if not root.tag == "layer-properties":
+            raise OSError("Layer properties file incorrectly formatted, cannot read.")
+
+        layer_views = {}
+        for layer_block in root.iter("properties"):
+            lv = _properties_to_layerview(layer_block)
+            if lv is not None:
+                layer_views[lv.name] = lv
+
+        custom_dither_patterns = {}
+        for dither_block in root.iterchildren("custom-dither-pattern"):
+            name = dither_block.find("name").text
+            if name is None:
+                continue
+            custom_dither_patterns[name] = DitherPattern(
+                name=name,
+                order=dither_block.find("order").text,
+                pattern="\n".join(
+                    [line.text for line in dither_block.find("pattern").iterchildren()]
+                ),
+            )
+        custom_line_styles = {}
+        for line_block in root.iterchildren("custom-line-style"):
+            name = line_block.find("name").text
+            if name is None:
+                continue
+            custom_line_styles[name] = LineStyle(
+                name=name,
+                order=line_block.find("order").text,
+                pattern="\n".join(
+                    [line.text for line in line_block.find("pattern").iterchildren()]
+                ),
+            )
+        return KLayoutLayerProperties(
+            layer_views=layer_views,
+            custom_dither_patterns=custom_dither_patterns,
+            custom_line_styles=custom_line_styles,
+        )
 
 
 # TODO: Write to .lyt technology file
 
 
 if __name__ == "__main__":
-    from gdsfactory.layers import LAYER_COLORS, LayerColors
 
-    lc: LayerColors = LAYER_COLORS
+    # lc: LayerColors = LAYER_COLORS
+    # # class LayerViewGroup(LayerView):
+    #
+    # class DefaultProperties(KLayoutLayerProperties):
+    #     WG = LayerView(layer=(1, 0))
+    #     WGCLAD = LayerView(layer=(111, 0))
+    #     SLAB150 = LayerView(layer=(2, 0))
+    #     SLAB90 = LayerView(layer=(3, 0))
+    #     DEEPTRENCH = LayerView(layer=(4, 0))
+    #     GE = LayerView(layer=(5, 0))
+    #     WGN = LayerView(layer=(34, 0))
+    #     WGN_CLAD = LayerView(layer=(36, 0))
+    #
+    #     class DopingGroup(LayerView):
+    #         N = LayerView(layer=(20, 0))
+    #         NP = LayerView(layer=(22, 0))
+    #         NPP = LayerView(layer=(24, 0))
+    #         P = LayerView(layer=(21, 0))
+    #         PP = LayerView(layer=(23, 0))
+    #         PPP = LayerView(layer=(25, 0))
+    #         GEN = LayerView(layer=(26, 0))
+    #         GEP = LayerView(layer=(27, 0))
+    #     Doping = DopingGroup()
+    #
+    #     HEATER = LayerView(layer=(47, 0))
+    #     M1 = LayerView(layer=(41, 0))
+    #     M2 = LayerView(layer=(45, 0))
+    #     M3 = LayerView(layer=(49, 0))
+    #     VIAC = LayerView(layer=(40, 0))
+    #     VIA1 = LayerView(layer=(44, 0))
+    #     VIA2 = LayerView(layer=(43, 0))
+    #     PADOPEN = LayerView(layer=(46, 0))
+    #
+    #     DICING = LayerView(layer=(100, 0))
+    #     NO_TILE_SI = LayerView(layer=(71, 0))
+    #     PADDING = LayerView(layer=(67, 0))
+    #     DEVREC = LayerView(layer=(68, 0))
+    #     FLOORPLAN = LayerView(layer=(64, 0))
+    #     TEXT = LayerView(layer=(66, 0))
+    #     PORT = LayerView(layer=(1, 10))
+    #     PORTE = LayerView(layer=(1, 11))
+    #     PORTH = LayerView(layer=(70, 0))
+    #     SHOW_PORTS = LayerView(layer=(1, 12))
+    #     LABEL = LayerView(layer=(201, 0))
+    #     LABEL_SETTINGS = LayerView(layer=(202, 0))
+    #     TE = LayerView(layer=(203, 0))
+    #     TM = LayerView(layer=(204, 0))
+    #     DRC_MARKER = LayerView(layer=(205, 0))
+    #     LABEL_INSTANCE = LayerView(layer=(206, 0))
+    #     ERROR_MARKER = LayerView(layer=(207, 0))
+    #     ERROR_PATH = LayerView(layer=(208, 0))
+    #
+    #     class SimulationGroup(LayerView):
+    #         SOURCE = LayerView(layer=(110, 0))
+    #         MONITOR = LayerView(layer=(101, 0))
+    #     Simulation = SimulationGroup()
+    #
+    # lyp = DefaultProperties()
 
-    lyp = KLayoutLayerProperties(
-        layers={
-            layer.name: KLayoutLayerProperty(
-                layer=(layer.gds_layer, layer.gds_datatype),
-                name=layer.name,
-                fill_color=layer.color,
-                frame_color=layer.color,
-                dither_pattern=layer.dither,
-            )
-            for layer in lc.layers.values()
-        },
-        groups={
-            "Doping": KLayoutGroupProperty(
-                members=["N", "NP", "NPP", "P", "PP", "PPP", "PDPP", "GENPP", "GEPPP"]
-            ),
-            "Simulation": KLayoutGroupProperty(
-                members=["SIM_REGION", "MONITOR", "SOURCE"]
-            ),
-        },
-    )
+    # print(lyp)
+    # lyp.to_lyp("test_lyp")
 
-    #    lyp.create_group(members=["wg", "wg-2"], frame_color="blue")
-    print(lyp)
-    lyp.to_lyp("test_lyp")
+    filepath = "/home/thomas/layout/gdsfactory/gdsfactory/klayout/tech/layers.lyp"
+    lyp = KLayoutLayerProperties.from_lyp(filepath)
