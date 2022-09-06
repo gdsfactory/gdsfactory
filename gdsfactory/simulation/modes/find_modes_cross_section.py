@@ -19,8 +19,8 @@ import numpy as np
 from meep import mpb
 
 from gdsfactory.config import CONFIG
+from gdsfactory.simulation.disable_print import disable_print, enable_print
 from gdsfactory.simulation.get_sparameters_path import get_kwargs_hash
-from gdsfactory.simulation.modes.disable_print import disable_print, enable_print
 from gdsfactory.simulation.modes.get_mode_solver_cross_section import (
     get_mode_solver_cross_section,
 )
