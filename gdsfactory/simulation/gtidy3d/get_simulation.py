@@ -277,10 +277,7 @@ def get_simulation(
             zmin = layer_to_zmin[layer] if is_3d else 0
             zmax = zmin + thickness if is_3d else 0
 
-            if (
-                layer in layer_to_material
-                and layer_to_material[layer] in material_name_to_tidy3d
-            ):
+            if layer_to_material[layer] in material_name_to_tidy3d:
                 name_or_index = material_name_to_tidy3d[layer_to_material[layer]]
                 medium = get_medium(name_or_index=name_or_index)
                 index = get_index(name_or_index=name_or_index)
@@ -304,7 +301,7 @@ def get_simulation(
                     structures.append(geometry)
             elif layer not in layer_to_material:
                 logger.debug(f"Layer {layer} not in {list(layer_to_material.keys())}")
-            elif layer_to_material[layer] not in material_name_to_tidy3d:
+            else:
                 materials = list(material_name_to_tidy3d.keys())
                 logger.debug(f"material {layer_to_material[layer]} not in {materials}")
 
@@ -335,8 +332,9 @@ def get_simulation(
         size=source_size,
         center=source_center,
         source_time=td.GaussianPulse(freq0=freq0, fwidth=fwidth),
-        direction="-" if int(angle) in [0, 90] else "+",
+        direction="-" if int(angle) in {0, 90} else "+",
     )
+
 
     # Add port monitors
     monitors = {}
