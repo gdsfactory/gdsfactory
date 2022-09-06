@@ -18,7 +18,7 @@ Maybe:
 
 import pathlib
 from types import SimpleNamespace
-from typing import Callable, List, Optional, Tuple, Union
+from typing import Callable, List, Optional, Tuple, Union, Dict
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -33,7 +33,9 @@ from typing_extensions import Literal
 from gdsfactory.config import CONFIG, logger
 from gdsfactory.serialization import get_hash
 from gdsfactory.simulation.gtidy3d.materials import si, sin, sio2
-from gdsfactory.types import PathType
+from gdsfactory.types import PathType, TypedArray
+
+from scipy.interpolate import griddata
 
 nm = 1e-3
 
@@ -147,6 +149,7 @@ class Waveguide(BaseModel):
         wg_thickness: thickness waveguide (um).
         ncore: core refractive index.
         nclad: cladding refractive index.
+        dn_dict: unstructured mesh array with columns field "x", "y", "dn" of local index perturbations to be interpolated.
         slab_thickness: thickness slab (um).
         t_box: thickness BOX (um).
         t_clad: thickness cladding (um).
@@ -184,6 +187,7 @@ class Waveguide(BaseModel):
     wg_thickness: float
     ncore: Union[float, Callable[[str], float]]
     nclad: Union[float, Callable[[str], float]]
+    dn_dict: Optional[Dict] = None
     slab_thickness: float
     t_box: float = 2.0
     t_clad: float = 2.0
@@ -259,6 +263,10 @@ class Waveguide(BaseModel):
         n[(Z >= t_box) & (Z <= t_box + slab_thickness)] = (
             ncore if slab_thickness else nclad
         )
+
+        if self.dn_dict is not None:
+            n += griddata((self.dn_dict["x"], self.dn_dict["y"]), self.dn_dict["dn"], (Y, Z), method='cubic')
+
         return n
 
     def plot_index(self) -> None:
@@ -764,25 +772,32 @@ __all__ = (
 )
 
 if __name__ == "__main__":
-    c = Waveguide(
-        wavelength=1.55,
-        wg_width=500 * nm,
-        wg_thickness=220 * nm,
-        slab_thickness=0 * nm,
-        ncore=si,
-        nclad=sio2,
+
+    c = modes_from_doping_si(wavelength=1.55,
+    slab_thickness=0.0,
+    ncore=gt.modes.si,
+    nclad=gt.modes.sio2
     )
-    c = WaveguideCoupler(
-        wavelength=1.55,
-        wg_width1=500 * nm,
-        wg_width2=500 * nm,
-        gap=200 * nm,
-        wg_thickness=220 * nm,
-        slab_thickness=100 * nm,
-        ncore=si,
-        nclad=sio2,
-    )
-    print(c.find_coupling())
+
+    # c = Waveguide(
+    #     wavelength=1.55,
+    #     wg_width=500 * nm,
+    #     wg_thickness=220 * nm,
+    #     slab_thickness=0 * nm,
+    #     ncore=si,
+    #     nclad=sio2,
+    # )
+    # c = WaveguideCoupler(
+    #     wavelength=1.55,
+    #     wg_width1=500 * nm,
+    #     wg_width2=500 * nm,
+    #     gap=200 * nm,
+    #     wg_thickness=220 * nm,
+    #     slab_thickness=100 * nm,
+    #     ncore=si,
+    #     nclad=sio2,
+    # )
+    # print(c.find_coupling())
     # c.plot_index()
 
     # mode_areas, te, tm = c.compute_mode_properties()
