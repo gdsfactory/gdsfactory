@@ -1,11 +1,14 @@
 """Returns simulation from cross-section."""
 
+from typing import Optional
+
 import devsim
 import numpy as np
 import pyvista as pv
 from devsim.python_packages import model_create, simple_physics
 from pydantic import BaseModel, Extra
-from wurlitzer import pipes
+
+from gdsfactory.simulation.disable_print import disable_print, enable_print
 
 nm = 1e-9
 um = 1e-6
@@ -92,7 +95,8 @@ class PINWaveguide(BaseModel):
     def w_sim(self):
         return 2 * self.xmargin + self.ppp_offset + self.npp_offset
 
-    def Create2DMesh(self, device):
+    def create_2d_mesh(self, device) -> None:
+        """Creates a 2D mesh."""
         xmin = -self.xmargin - self.ppp_offset - self.wg_width / 2
         xmax = self.xmargin + self.npp_offset + self.wg_width / 2
         self.xppp = -self.ppp_offset - self.wg_width / 2
@@ -191,14 +195,14 @@ class PINWaveguide(BaseModel):
         devsim.finalize_mesh(mesh="dio")
         devsim.create_device(mesh="dio", device=device)
 
-    def SetParameters(self, device):
+    def set_parameters(self, device) -> None:
         """Set parameters for 300 K."""
         simple_physics.SetSiliconParameters(device, "slab", 300)
         simple_physics.SetSiliconParameters(device, "core", 300)
         simple_physics.SetSiliconParameters(device, "left_contact", 300)
         simple_physics.SetSiliconParameters(device, "right_contact", 300)
 
-    def SetNetDoping(self, device):
+    def set_net_doping(self, device) -> None:
         """NetDoping."""
         model_create.CreateNodeModel(
             device,
@@ -226,7 +230,7 @@ class PINWaveguide(BaseModel):
         model_create.CreateNodeModel(device, "left_contact", "NetDoping", "0")
         model_create.CreateNodeModel(device, "right_contact", "NetDoping", "0")
 
-    def InitialSolution(self, device, region, circuit_contacts=None):
+    def initial_solution(self, device, region, circuit_contacts=None) -> None:
         # Create Potential, Potential@n0, Potential@n1
         model_create.CreateSolution(device, region, "Potential")
 
@@ -246,7 +250,7 @@ class PINWaveguide(BaseModel):
                 )
                 simple_physics.CreateSiliconPotentialOnlyContact(device, region, i)
 
-    def DriftDiffusionInitialSolution(self, device, region, circuit_contacts=None):
+    def drift_difussion_initial_solution(self, device, region, circuit_contacts=None):
         # drift diffusion solution variables
         model_create.CreateSolution(device, region, "Electrons")
         model_create.CreateSolution(device, region, "Holes")
@@ -272,28 +276,29 @@ class PINWaveguide(BaseModel):
             else:
                 simple_physics.CreateSiliconDriftDiffusionAtContact(device, region, i)
 
-    def ddsolver(self):
+    def ddsolver(self) -> None:
+        """Initialize mesh and solver."""
         device = "MyDevice"
-        self.Create2DMesh(device)
-        self.SetParameters(device=device)
-        self.SetNetDoping(device=device)
+        self.create_2d_mesh(device)
+        self.set_parameters(device=device)
+        self.set_net_doping(device=device)
 
         model_create.CreateSolution(device, "core", "Potential")
         simple_physics.CreateSiliconPotentialOnly(device, "core")
-        self.InitialSolution(device=device, region="slab")
-        self.InitialSolution(device=device, region="right_contact")
-        self.InitialSolution(device=device, region="left_contact")
+        self.initial_solution(device=device, region="slab")
+        self.initial_solution(device=device, region="right_contact")
+        self.initial_solution(device=device, region="left_contact")
 
         # model_create.CreateSolution(device, "left_clad", "Potential")
         # CreateOxidePotentialOnly(device, "left_clad")
-        # self.InitialSolution(device=device, region="left_clad")
+        # self.initial_solution(device=device, region="left_clad")
 
         # model_create.CreateSolution(device, "right_clad", "Potential")
         # CreateOxidePotentialOnly(device, "right_clad")
-        # self.InitialSolution(device=device, region="right_clad")
+        # self.initial_solution(device=device, region="right_clad")
 
         for region in devsim.get_region_list(device=device):
-            self.DriftDiffusionInitialSolution(device=device, region=region)
+            self.drift_difussion_initial_solution(device=device, region=region)
         for interface in devsim.get_interface_list(device=device):
             simple_physics.CreateSiliconSiliconInterface(
                 device=device, interface=interface
@@ -303,7 +308,7 @@ class PINWaveguide(BaseModel):
             type="dc", absolute_error=1e10, relative_error=1e-8, maximum_iterations=30
         )
 
-    def ramp_voltage(self, V, dV):
+    def ramp_voltage(self, V: float, dV: float) -> None:
         device = "MyDevice"
         v = 0.0
         while np.abs(v) <= np.abs(V):
@@ -326,31 +331,44 @@ class PINWaveguide(BaseModel):
     #     y = get_node_model_values(device=device, region=region, name=field_name)
     #     return y
 
-    def save_device(self, filepath):
+    def save_device(self, filepath) -> None:
+        """Save Device to a tecplot filepath that you can open with Paraview."""
         devsim.write_devices(file=filepath, type="tecplot")
 
     def plot(
         self,
-        tempfile="temp.dat",
-        scalars=None,
-        log_scale=False,
-        cmap="RdBu",
-        jupyter_backend="None",
-    ):
+        tempfile: str = "temp.dat",
+        scalars: Optional[str] = None,
+        logscale: bool = False,
+        cmap: str = "RdBu",
+        jupyter_backend: str = "None",
+    ) -> None:
+        """Shows the geometry.
+
+        Args:
+            tempfile: tempfile path.
+            scalars: optional string to plot a field as color over the mesh.
+                For instance, acceptor concentration and donor concentration for the PN junction.
+            logscale: plots in logscale.
+            cmap: color map.
+            jupyter_backend: for the jupyter notebook.
+        """
         devsim.write_devices(file=tempfile, type="tecplot")
         reader = pv.get_reader(tempfile)
         mesh = reader.read()
         # sargs = dict(height=0.25, vertical=True, position_x=0.05, position_y=0.05)
         plotter = pv.Plotter(notebook=True)
         _ = plotter.add_mesh(
-            mesh, scalars=scalars, log_scale=log_scale, cmap=cmap
+            mesh, scalars=scalars, logscale=logscale, cmap=cmap
         )  # , scalar_bar_args=sargs)
         _ = plotter.show_grid()
         _ = plotter.camera_position = "xy"
-        with pipes() as (out, err):
-            _ = plotter.show(jupyter_backend=jupyter_backend)
+        disable_print()
+        _ = plotter.show(jupyter_backend=jupyter_backend)
+        enable_print()
 
     def list_fields(self, tempfile="temp.dat"):
+        """Returns the header of the mesh, which lists all possible fields."""
         devsim.write_devices(file=tempfile, type="tecplot")
         reader = pv.get_reader(tempfile)
         mesh = reader.read()
