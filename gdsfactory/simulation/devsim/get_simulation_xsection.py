@@ -7,6 +7,21 @@ from devsim.python_packages import model_create, simple_physics
 from pydantic import BaseModel, Extra
 from wurlitzer import pipes
 
+import matplotlib.pyplot as plt
+
+from gdsfactory.config import CONFIG, logger
+import pathlib
+from types import SimpleNamespace
+from typing import Callable, List, Optional, Tuple, Union
+from gdsfactory.config import CONFIG, logger
+from gdsfactory.serialization import get_hash
+from gdsfactory.simulation.gtidy3d.materials import si, sin, sio2
+from gdsfactory.types import PathType, TypedArray
+
+from gdsfactory.simulation.gtidy3d.modes import Precision, FilterPol, Waveguide
+
+import pdb 
+
 nm = 1e-9
 um = 1e-6
 
@@ -33,12 +48,12 @@ Returns:
 
 def dn_carriers(wavelength, dN, dP):
     if wavelength == 1.55:
-        return -5.4*1E-22*dN**1.011 - 1.53*1E-18*dP**0.838
+        return -5.4*1E-22*np.power(dN, 1.011) - 1.53*1E-18*np.power(dP, 0.838)
     elif wavelength == 1.31:
-        return -2.98*1E-22*dN**1.016 - 1.25*1E-18*dP**0.835
+        return -2.98*1E-22*np.power(dN, 1.016) - 1.25*1E-18*np.power(dP, 0.835)
     else:
         wavelength = wavelength * 1E-6 # convert to m
-        return -3.64*1E-10*wavelength**2*dN - 3.51*1E-6*wavelength**2*dP**0.8
+        return -3.64*1E-10*wavelength**2*dN - 3.51*1E-6*wavelength**2*np.poewr(dP, 0.8)
 
 def dalpha_carriers(wavelength, dN, dP):
     if wavelength == 1.55:
@@ -73,6 +88,9 @@ class PINWaveguide(BaseModel):
         xmargin: margin from waveguide edge to low doping regions.
         contact_bloat: controls which nodes are considered contacts;
             adjust if contacts are not found.
+        atol: tolerance for iterative solver
+        rtol: tolerance for iterative solver
+        max_iter: maximum number of iterations of iterative solver
 
     ::
 
@@ -104,18 +122,21 @@ class PINWaveguide(BaseModel):
     slab_thickness: float
     t_box: float = 2.0 * um
     t_clad: float = 2.0 * um
-    p_conc: float = 1e17
-    n_conc: float = 1e17
-    ppp_conc: float = 1e18
-    nnn_conc: float = 1e18
+    p_conc: float = 1e18
+    n_conc: float = 1e18
+    ppp_conc: float = 1e20
+    nnn_conc: float = 1e20
     xmargin: float = 0.5 * um
     xcontact: float = 0.25 * um
     pp_res_x: float = 20 * nm
-    pp_p_res_x: float = 2 * nm
-    p_res_x: float = 10 * nm
+    pp_p_res_x: float = 5 * nm
+    p_res_x: float = 2 * nm
     pn_res_x: float = 1 * nm
     coarse_res_y: float = 10 * nm
     slab_res_y: float = 2 * nm
+    atol: float = 1E8
+    rtol: float = 1E-8
+    max_iter: int = 60
 
     class Config:
         """Enable adding new."""
@@ -338,7 +359,7 @@ class PINWaveguide(BaseModel):
             )
 
         devsim.solve(
-            type="dc", absolute_error=1e10, relative_error=1e-8, maximum_iterations=30
+            type="dc", absolute_error=self.atol, relative_error=self.rtol, maximum_iterations=self.max_iter
         )
 
     def ramp_voltage(self, V, dV):
@@ -350,19 +371,18 @@ class PINWaveguide(BaseModel):
             )
             devsim.solve(
                 type="dc",
-                absolute_error=1e10,
-                relative_error=1e-10,
-                maximum_iterations=30,
+                absolute_error=self.atol,
+                relative_error=self.rtol,
+                maximum_iterations=self.max_iter,
             )
-            simple_physics.PrintCurrents(device, "left")
-            simple_physics.PrintCurrents(device, "right")
+            # simple_physics.PrintCurrents(device, "left")
+            # simple_physics.PrintCurrents(device, "right")
             v += dV
 
-    # def get_field_density(self, field_name="Electrons"):
-    #     device = "MyDevice"
-    #     region = "MyRegion"
-    #     y = get_node_model_values(device=device, region=region, name=field_name)
-    #     return y
+    def get_field(self, region_name="core", field_name="Electrons"):
+        device = "MyDevice"
+        y = devsim.get_node_model_values(device=device, region=region_name, name=field_name)
+        return y
 
     def save_device(self, filepath):
         devsim.write_devices(file=filepath, type="tecplot")
