@@ -5,7 +5,7 @@ This module will enable conversion between gdsfactory settings and KLayout techn
 
 import os
 import re
-from typing import Dict, Optional, TextIO, Tuple
+from typing import Dict, Literal, Optional, Tuple
 
 import numpy as np
 from lxml import etree
@@ -108,21 +108,71 @@ class LayerView(BaseModel):
         """Returns a formatted view of properties and their values."""
         return self.__str__()
 
+    def _get_xml_element(self, tag: str) -> etree.Element:
+        """Get XML Element from attributes."""
+        prop_keys = [
+            "frame-color",
+            "fill-color",
+            "frame-brightness",
+            "fill-brightness",
+            "dither-pattern",
+            "line-style",
+            "valid",
+            "visible",
+            "transparent",
+            "width",
+            "marked",
+            "xfill",
+            "animation",
+            "name",
+            "source",
+        ]
+        el = etree.Element(tag)
+        for prop_name in prop_keys:
+            if prop_name == "source":
+                layer = self.layer
+                prop_val = f"{layer[0]}/{layer[1]}@1" if layer else "*/*@*"
+            else:
+                prop_val = getattr(self, "_".join(prop_name.split("-")), None)
+                if isinstance(prop_val, bool):
+                    prop_val = f"{prop_val}".lower()
+            subel = etree.SubElement(el, prop_name)
+            if prop_val is not None:
+                subel.text = str(prop_val)
+        return el
 
-class DitherPattern(BaseModel):
-    """Custom dither pattern."""
+    def to_xml(self) -> etree.Element:
+        """Return an XML representation of the LayerView."""
+        props = self._get_xml_element("properties")
+
+        if self.group_members is not None:
+            for gm in self.group_members.values():
+                props.append(gm._get_xml_element("group-members"))
+        return props
+
+
+class CustomPattern(BaseModel):
+    """Custom pattern."""
 
     name: str
     order: int
     pattern: str
+    pattern_type: Literal["dither", "line"]
 
+    def to_xml(self) -> etree.Element:
+        el = etree.Element(f"custom-{self.pattern_type}-pattern")
 
-class LineStyle(BaseModel):
-    """Custom line style."""
+        subel = etree.SubElement(el, "pattern")
+        lines = self.pattern.split("\n")
+        if len(lines) == 1:
+            subel.text = lines[0]
+        else:
+            for line in lines:
+                etree.SubElement(subel, "line").text = line
 
-    name: str
-    order: int
-    pattern: str
+        etree.SubElement(el, "order").text = str(self.order)
+        etree.SubElement(el, "name").text = self.name
+        return el
 
 
 _layer_re = re.compile("([0-9]+|\\*)/([0-9]+|\\*)")
@@ -187,14 +237,11 @@ def _properties_to_layerview(element, tag: Optional[str] = None) -> Optional[Lay
 
 
 class KLayoutLayerProperties(BaseModel):
-    """A container for layer properties for KLayout layer property (.lyp) files.
-
-    Experimental, only accepts a single level of grouping.
-    """
+    """A container for layer properties for KLayout layer property (.lyp) files."""
 
     layer_views: Dict[str, LayerView] = Field(default_factory=dict)
-    custom_dither_patterns: Optional[Dict[str, DitherPattern]] = None
-    custom_line_styles: Optional[Dict[str, LineStyle]] = None
+    custom_dither_patterns: Optional[Dict[str, CustomPattern]] = None
+    custom_line_styles: Optional[Dict[str, CustomPattern]] = None
 
     def __init__(self, **data):
         """Initialize KLayoutLayerProperties object."""
@@ -323,10 +370,10 @@ class KLayoutLayerProperties(BaseModel):
         Args:
             name: Name of layer.
         """
-        if name not in self.layers:
-            raise ValueError(f"Layer {name!r} not in {list(self.layers.keys())}")
+        if name not in self.layer_views:
+            raise ValueError(f"Layer {name!r} not in {list(self.layer_views.keys())}")
         else:
-            return self.layers[name]
+            return self.layer_views[name]
 
     def __getitem__(self, val):
         """Allows accessing to the layer names like ls['gold2'].
@@ -339,10 +386,10 @@ class KLayoutLayerProperties(BaseModel):
 
         """
         try:
-            return self.layers[val]
+            return self.layer_views[val]
         except Exception as error:
             raise ValueError(
-                f"Layer {val!r} not in LayerColors {list(self.layers.keys())}"
+                f"Layer {val!r} not in LayerColors {list(self.layer_views.keys())}"
             ) from error
 
     def get_from_tuple(self, layer_tuple: Tuple[int, int]) -> LayerView:
@@ -354,55 +401,18 @@ class KLayoutLayerProperties(BaseModel):
         Returns:
             KLayoutLayerProperty
         """
-        tuple_to_name = {v.layer: k for k, v in self.layers.items()}
+        tuple_to_name = {v.layer: k for k, v in self.layer_views.items()}
         if layer_tuple not in tuple_to_name:
             raise ValueError(
                 f"Layer color {layer_tuple} not in {list(tuple_to_name.keys())}"
             )
 
         name = tuple_to_name[layer_tuple]
-        return self.layers[name]
+        return self.layer_views[name]
 
     def get_layer_tuples(self):
         """Returns a tuple for each layer."""
-        return {layer.layer for layer in self.layers.values()}
-
-    def clear(self) -> None:
-        """Deletes all layers in the LayerColors."""
-        self.layers = {}
-
-    @staticmethod
-    def _write_props(
-        file: TextIO,
-        props: LayerView,
-        level: int = 0,
-    ) -> None:
-        """Write properties to xml file.
-
-        Args:
-            file: Open file to write to.
-            props: KLayoutLayerProperty or KLayoutGroupProperty object to write to file.
-            level: Indentation level.
-        """
-        props_dict = props.dict()
-
-        name = props_dict.pop("name")
-        layer = props_dict.pop("layer")
-        source = f"{layer[0]}/{layer[1]}@1" if layer else "*/*@*"
-        props_dict.update({"name": name, "source": source})
-
-        for prop, val in props_dict.items():
-            if prop == "members":
-                continue
-            prop_str = "-".join(prop.split("_"))
-            if isinstance(val, bool):
-                val = f"{val}".lower()
-            sp = level * " "
-            file.write(
-                f"{sp}<{prop_str}>{val}</{prop_str}>\n"
-                if val is not None
-                else f"{sp}<{prop_str}/>\n"
-            )
+        return {layer.layer for layer in self.get_layer_views().values()}
 
     def to_lyp(self, filepath: str, overwrite: bool = True) -> None:
         """Write all layer properties to a KLayout .lyp file.
@@ -416,36 +426,24 @@ class KLayoutLayerProperties(BaseModel):
 
         if os.path.exists(filepath) and not overwrite:
             raise OSError("File exists, cannot write.")
-        # TODO: Sort layers and groups beforehand
-        # TODO: Write line styles and dither patterns
-        with open(filepath, "w+") as file:
-            file.write('<?xml version="1.0" encoding="utf-8"?>\n')
-            file.write("<layer-properties>\n")
 
-            grouped_layers = []
-            for group_name, group in self.groups.items():
-                if group_name != group.name:
-                    group.name = group_name
-                file.write(" <properties>\n")
-                members = group.members
+        root = etree.Element("layer-properties")
 
-                self._write_props(file, group, level=2)
+        for lv in self.layer_views.values():
+            root.append(lv.to_xml())
 
-                for member in members:
-                    file.write("  <group-members>\n")
-                    self._write_props(file, self.layers[member], level=3)
-                    file.write("  </group-members>\n")
-                    grouped_layers.append(member)
-                file.write(" </properties>\n")
+        for dp in self.custom_dither_patterns.values():
+            root.append(dp.to_xml())
 
-            for layer_name, layer_props in self.layers.items():
-                if layer_name in grouped_layers:
-                    continue
+        for ls in self.custom_line_styles.values():
+            root.append(ls.to_xml())
 
-                file.write(" <properties>\n")
-                self._write_props(file, layer_props, level=2)
-                file.write(" </properties>\n")
-            file.write("</layer-properties>\n")
+        with open(filepath, "wb") as file:
+            file.write(
+                etree.tostring(
+                    root, encoding="utf-8", pretty_print=True, xml_declaration=True
+                )
+            )
 
     @staticmethod
     def from_lyp(filepath: str) -> "KLayoutLayerProperties":
@@ -476,7 +474,8 @@ class KLayoutLayerProperties(BaseModel):
             name = dither_block.find("name").text
             if name is None:
                 continue
-            custom_dither_patterns[name] = DitherPattern(
+            custom_dither_patterns[name] = CustomPattern(
+                pattern_type="dither",
                 name=name,
                 order=dither_block.find("order").text,
                 pattern="\n".join(
@@ -488,7 +487,8 @@ class KLayoutLayerProperties(BaseModel):
             name = line_block.find("name").text
             if name is None:
                 continue
-            custom_line_styles[name] = LineStyle(
+            custom_line_styles[name] = CustomPattern(
+                pattern_type="line",
                 name=name,
                 order=line_block.find("order").text,
                 pattern="\n".join(
@@ -571,3 +571,4 @@ if __name__ == "__main__":
 
     filepath = "/home/thomas/layout/gdsfactory/gdsfactory/klayout/tech/layers.lyp"
     lyp = KLayoutLayerProperties.from_lyp(filepath)
+    lyp.to_lyp("test_lyp.lyp")
