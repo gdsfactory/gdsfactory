@@ -8,12 +8,12 @@ from gdsfactory import Port
 from gdsfactory.component import Component
 from gdsfactory.routing import get_route_from_waypoints
 from gdsfactory.routing.manhattan import route_manhattan
-from gdsfactory.types import CrossSectionSpec
+from gdsfactory.types import CrossSectionSpec, Route
 
 
 class Node:
     def __init__(self, parent=None, position: tuple = ()):
-        """A node class for A* Pathfinding."""
+        """Initializes a node. A node is a point on the grid."""
         self.parent = parent  # parent node of current node
         self.position = position  # position of current node
 
@@ -29,21 +29,36 @@ def astar_routing(
     resolution: float = 1,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
-):
+) -> Route:
+    """A* routing function. Finds a route avoiding components in a component `c` between two ports.
+
+    Args:
+        c: Component the route, and ports belong to.
+        input_port: input.
+        output_port: output.
+        resolution: discretization resolution. A lower resolution can help avoid accidental overlapping between
+                    the route and components, but can result in large number of turns.
+        cross_section: spec.
+        kwargs: cross_section settings.
+    """
     cross_section = gf.get_cross_section(cross_section, **kwargs)
     grid, x, y = _generate_grid(c, resolution)
 
+    # Tell the algorithm which start and end directions to follow based on port orientation
     input_orientation = {
         0.0: (resolution, 0),
         90.0: (0, resolution),
         180.0: (-resolution, 0),
         270.0: (0, -resolution),
+        None: (0, 0),
     }[input_port.orientation]
+
     output_orientation = {
         0.0: (resolution, 0),
         90.0: (0, resolution),
         180.0: (-resolution, 0),
         270.0: (0, -resolution),
+        None: (0, 0),
     }[output_port.orientation]
 
     # Instantiate nodes
@@ -55,6 +70,7 @@ def astar_routing(
         ),
     )
     start_node.g = start_node.h = start_node.f = 0
+
     end_node = Node(
         None,
         (
@@ -66,38 +82,43 @@ def astar_routing(
 
     # Add the start node
     open_list = [start_node]
-    closed_list = []
+    closed = []
 
-    # Loop until you find the end
     while open_list:
-        # Get the current node
+        # Current node
         current_index = 0
         for index in range(len(open_list)):
             if open_list[index].f < open_list[current_index].f:
                 current_index = index
 
-        # Pop current off open list, add to closed list
+        # Pop current off open_list list, add to closed list
         current_node = open_list[current_index]
-        closed_list.append(open_list.pop(current_index))
+        closed.append(open_list.pop(current_index))
 
-        # Found the goal
+        # Reached end port
         if (
             current_node.position[0] == end_node.position[0]
             and current_node.position[1] == end_node.position[1]
         ):
-            path = []
+            points = []
             current = current_node
+
+            # trace back path from end node to start node
             while current is not None:
-                path.append(current.position)
+                points.append(current.position)
                 current = current.parent
-            path = path[::-1]
-            path.insert(0, input_port.center)
-            path.append(output_port.center)
+            # reverse to get true path
+            points = points[::-1]
 
-            return get_route_from_waypoints(path, cross_section=cross_section)
+            # add the start and end ports
+            points.insert(0, input_port.center)
+            points.append(output_port.center)
 
-        # Generate children
-        children = _generate_children(
+            # return route from points
+            return get_route_from_waypoints(points, cross_section=cross_section)
+
+        # Generate neighbours
+        neighbours = _generate_neighbours(
             grid=grid,
             x=x,
             y=y,
@@ -105,35 +126,34 @@ def astar_routing(
             resolution=resolution,
         )
 
-        # Loop through children
-        for child in children:
+        # Loop through neighbours
+        for neighbour in neighbours:
 
-            # Child is on the closed list
-            for closed_child in closed_list:
-                if child == closed_child:
+            for closed_neighbour in closed:
+                if neighbour == closed_neighbour:
                     continue
 
-            # Create the f, g, and h values
-            child.g = current_node.g + resolution
-            child.h = ((child.position[0] - end_node.position[0]) ** 2) + (
-                (child.position[1] - end_node.position[1]) ** 2
+            # Compute f, g, h
+            neighbour.g = current_node.g + resolution
+            neighbour.h = ((neighbour.position[0] - end_node.position[0]) ** 2) + (
+                (neighbour.position[1] - end_node.position[1]) ** 2
             )
-            child.f = child.g + child.h
+            neighbour.f = neighbour.g + neighbour.h
 
-            # Child is already in the open list
-            for open_node in open_list:
-                if child == open_node and child.g > open_node.g:
+            # neighbour is already in the open_list
+            for open_list_node in open_list:
+                if neighbour == open_list_node and neighbour.g > open_list_node.g:
                     continue
 
-            # Add the child to the open list
-            open_list.append(child)
+            # Add the neighbour to open_list
+            open_list.append(neighbour)
 
     warn("A* algorithm failed, resorting to Manhattan routing. Watch for overlaps.")
-    x = gf.get_cross_section(cross_section, **kwargs)
     return route_manhattan(input_port, output_port, cross_section=cross_section)
 
 
 def _generate_grid(c: Component, resolution: float = 0.5) -> np.ndarray:
+    """Generate discretization grid that the algorithm will step through."""
     bbox = c.bbox
     x, y = np.meshgrid(
         np.linspace(
@@ -167,14 +187,15 @@ def _generate_grid(c: Component, resolution: float = 0.5) -> np.ndarray:
     return np.ndarray.round(grid, 3), np.ndarray.round(x, 3), np.ndarray.round(y, 3)
 
 
-def _generate_children(
+def _generate_neighbours(
     current_node: Node,
     grid,
     x: np.ndarray,
     y: np.ndarray,
     resolution: float,
 ) -> List[Node]:
-    children = []
+    """Generate neighbours of a node."""
+    neighbours = []
 
     for new_position in [
         (0, -resolution),
@@ -220,9 +241,9 @@ def _generate_children(
         new_node = Node(current_node, node_position)
 
         # Append
-        children.append(new_node)
+        neighbours.append(new_node)
 
-    return children
+    return neighbours
 
 
 if __name__ == "__main__":
@@ -232,6 +253,8 @@ if __name__ == "__main__":
     # mzi_2 = c << gf.components.mzi()
 
     # mzi_2.move(destination=(100, -10))
+    # rect3 = c << gf.components.rectangle(size=(7.5, 9))
+    # rect3.move(destination=(82.5, -9.5))
     rect1 = c << gf.components.rectangle()
     rect2 = c << gf.components.rectangle()
     rect3 = c << gf.components.rectangle((2, 2))
