@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.26.2](https://github.com/gdsfactory/gdsfactory/pull/675)
+
+- devsim TCAD improvements
+    * remove wurlitzer
+    * change devsim example classes CamelCase by snake_case
+
 ## 5.26.0
 
 - add grating_coupler_elliptical uniform [PR](https://github.com/gdsfactory/gdsfactory/pull/668)
