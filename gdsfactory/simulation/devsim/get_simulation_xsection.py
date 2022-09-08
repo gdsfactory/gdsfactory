@@ -496,8 +496,8 @@ if __name__ == "__main__":
     c.ddsolver()
     c.save_device("./test.dat")
 
-    voltage_solver_step = -0.1
-    # voltages = np.arange(0,-1,voltage_solver_step)
+    voltage_solver_step = 0.1
+    voltages = np.arange(0,1,voltage_solver_step)
     # voltages = [-0.1]
 
     voltages = [0]
