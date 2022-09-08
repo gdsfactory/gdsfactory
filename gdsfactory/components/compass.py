@@ -10,7 +10,7 @@ from gdsfactory.types import Ints, LayerSpec
 def compass(
     size: Tuple[float, float] = (4.0, 2.0),
     layer: LayerSpec = "WG",
-    port_type: Optional[str] = "electrical",
+    port_type: Optional[str] = "placement",
     port_inclusion: float = 0.0,
     port_orientations: Optional[Ints] = (180, 90, 0, -90),
 ) -> Component:

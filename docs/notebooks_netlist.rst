@@ -7,4 +7,4 @@ YAML driven flow
    :titlesonly:
    :caption: Contents:
 
-   notebooks/06_yaml_component.ipynb
+   notebooks/10_yaml_component.ipynb

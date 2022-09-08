@@ -1,3 +1,4 @@
+import copy as python_copy
 import datetime
 import hashlib
 import itertools
@@ -63,7 +64,6 @@ c.add_ref(gf.components.bend_euler())
 c.add_ref(gf.components.mzi())
 """
 
-
 PathType = Union[str, Path]
 Float2 = Tuple[float, float]
 Layer = Tuple[int, int]
@@ -83,13 +83,16 @@ def _rnd(arr, precision=1e-4):
 
 
 class Component(Device):
-    """A Component is like an empty canvas, where you can add polygons,.
+    """A Component is an empty canvas where you add polygons, references and ports \
+            (to connect to other components).
 
-    references to other Components and ports (to connect to other components).
-
-    - get/write YAML metadata
-    - get ports by type (optical, electrical ...)
-    - set data_analysis and test_protocols
+    - stores settings that you use to build the component
+    - stores info that you want to use
+    - can return ports by type (optical, electrical ...)
+    - can return netlist for circuit simulation
+    - can write to GDS, OASIS
+    - can show in klayout, matplotlib, 3D, QT viewer, holoviews
+    - can return copy, mirror, flattened (no references)
 
     Args:
         name: component_name. Use @cell decorator for auto-naming.
@@ -98,6 +101,7 @@ class Component(Device):
 
     Keyword Args:
         with_uuid: adds unique identifier.
+        any
 
     Properties:
         info: dictionary that includes
@@ -119,12 +123,12 @@ class Component(Device):
         name: str = "Unnamed",
         version: str = "0.0.1",
         changelog: str = "",
-        **kwargs,
+        with_uuid: bool = False,
     ) -> None:
         """Initialize the Component object."""
         self.__ports__ = {}
         self.uid = str(uuid.uuid4())[:8]
-        if "with_uuid" in kwargs or name == "Unnamed":
+        if with_uuid or name == "Unnamed":
             name += f"_{self.uid}"
 
         super().__init__(name=name, exclude_from_current=True)
@@ -349,21 +353,23 @@ class Component(Device):
         G = self.plot_netlist()
         write_dot(G, filepath)
 
-    def get_netlist(self, **kwargs) -> DictConfig:
-        """Returns netlist (instances, placements, connections, ports).
+    def get_netlist(self, **kwargs) -> Dict[str, Any]:
+        """From Component returns instances, connections and placements dict.
 
         Keyword Args:
             component: to extract netlist.
             full_settings: True returns all, false changed settings.
-            layer_label: label to read instanceNames from (if any).
             tolerance: tolerance in nm to consider two ports connected.
+            exclude_port_types: optional list of port types to exclude from netlisting.
+            get_instance_name: function to get instance name.
 
         Returns:
-            instances: Dict of instance name and settings.
-            connections: Dict of Instance1Name,portName: Instace2Name,portName.
-            placements: Dict of instance names and placements (x, y, rotation).
-            port: Dict portName: ComponentName,port.
-            name: name of component.
+            Netlist dict (instances, connections, placements, ports)
+                instances: Dict of instance name and settings.
+                connections: Dict of Instance1Name,portName: Instace2Name,portName.
+                placements: Dict of instance names and placements (x, y, rotation).
+                ports: Dict portName: ComponentName,port.
+                name: name of component.
         """
         from gdsfactory.get_netlist import get_netlist
 
@@ -378,8 +384,9 @@ class Component(Device):
                 useful if to save and reload a back-annotated netlist.
             get_netlist_func: function to extract individual netlists.
             full_settings: True returns all, false changed settings.
-            layer_label: label to read instanceNames from (if any).
             tolerance: tolerance in nm to consider two ports connected.
+            exclude_port_types: optional list of port types to exclude from netlisting.
+            get_instance_name: function to get instance name.
 
         Returns:
             Dictionary of netlists, keyed by the name of each component.
@@ -687,8 +694,6 @@ class Component(Device):
         return super().add_polygon(points=points, layer=get_layer(layer))
 
     def copy(self) -> "Component":
-        from gdsfactory.copy import copy
-
         return copy(self)
 
     def copy_child_info(self, component: "Component") -> None:
@@ -892,7 +897,18 @@ class Component(Device):
         Args:
             plotter: backend ('holoviews', 'matplotlib', 'qt').
 
-        KeyError Args:
+        Keyword Args:
+            show_ports: Sets whether ports are drawn.
+            show_subports: Sets whether subports (ports that belong to references) are drawn.
+            label_aliases: Sets whether aliases are labeled with a text name.
+            new_window: If True, each call to quickplot() will generate a separate window.
+            blocking: If True, calling quickplot() will pause execution of ("block") the
+                remainder of the python code until the quickplot() window is closed.
+                If False, the window will be opened and code will continue to run.
+            zoom_factor: Sets the scaling factor when zooming the quickplot window with the
+                mousewheel/trackpad.
+            interactive_zoom: Enables using mousewheel/trackpad to zoom.
+            fontsize: for labels.
             layers_excluded: list of layers to exclude.
             layer_colors: layer_colors colors loaded from Klayout.
             min_aspect: minimum aspect ratio.
@@ -900,9 +916,9 @@ class Component(Device):
         plotter = plotter or CONF.get("plotter", "matplotlib")
 
         if plotter == "matplotlib":
-            from gdsfactory.quickplotter import quickplot as plot
+            from gdsfactory.quickplotter import quickplot
 
-            return plot(self)
+            return quickplot(self, **kwargs)
         elif plotter == "holoviews":
             try:
                 import holoviews as hv
@@ -1134,7 +1150,7 @@ class Component(Device):
                     f"on_duplicate_cell: {on_duplicate_cell!r} not in (None, warn, error, overwrite)"
                 )
 
-        all_cells = [self] + list(cells)
+        all_cells = [self] + sorted(cells, key=lambda cc: cc.name)
 
         no_name_cells = [
             cell.name for cell in all_cells if cell.name.startswith("Unnamed")
@@ -1241,8 +1257,8 @@ class Component(Device):
         layer_to_polygons = self.get_polygons(by_spec=True)
 
         for layer, polygons_layer in layer_to_polygons.items():
+            layer_name = f"{layer[0]}_{layer[1]}"
             for polygon in polygons_layer:
-                layer_name = f"{layer[0]}_{layer[1]}"
                 polygons[layer_name] = [tuple(snap_to_grid(v)) for v in polygon]
 
         ports = {port.name: port.settings for port in self.get_ports_list()}
@@ -1410,17 +1426,13 @@ class Component(Device):
         for item in items:
             if isinstance(item, Port):
                 self.ports = {k: v for k, v in self.ports.items() if v != item}
-            else:
-                if isinstance(item, gdspy.PolygonSet):
-                    self.polygons.remove(item)
-                elif isinstance(item, gdspy.CellReference):
-                    self.references.remove(item)
-                    item.owner = None
-                elif isinstance(item, gdspy.CellArray):
-                    self.references.remove(item)
-                    item.owner = None
-                elif isinstance(item, gdspy.Label):
-                    self.labels.remove(item)
+            elif isinstance(item, gdspy.PolygonSet):
+                self.polygons.remove(item)
+            elif isinstance(item, (gdspy.CellReference, gdspy.CellArray)):
+                self.references.remove(item)
+                item.owner = None
+            elif isinstance(item, gdspy.Label):
+                self.labels.remove(item)
 
         self._bb_valid = False
         return self
@@ -1453,6 +1465,56 @@ class Component(Device):
                 final_hash.update(ph)
 
         return final_hash.hexdigest()
+
+
+def copy(D: Component) -> Component:
+    """Returns a Component copy.
+
+    Args:
+        D: component to copy.
+    """
+    D_copy = Component()
+    D_copy.info = python_copy.deepcopy(D.info)
+    for ref in D.references:
+        if isinstance(ref, gdspy.CellReference):
+            new_ref = ComponentReference(
+                ref.parent,
+                origin=ref.origin,
+                rotation=ref.rotation,
+                magnification=ref.magnification,
+                x_reflection=ref.x_reflection,
+            )
+            new_ref.owner = D_copy
+            new_ref.name = ref.name if hasattr(ref, "name") else ref.parent.name
+        elif isinstance(ref, gdspy.CellArray):
+            new_ref = CellArray(
+                device=ref.parent,
+                columns=ref.columns,
+                rows=ref.rows,
+                spacing=ref.spacing,
+                origin=ref.origin,
+                rotation=ref.rotation,
+                magnification=ref.magnification,
+                x_reflection=ref.x_reflection,
+            )
+            new_ref.name = ref.name if hasattr(ref, "name") else ref.parent.name
+        else:
+            raise ValueError(f"Got a reference of non-standard type: {type(ref)}")
+        D_copy.add(new_ref)
+
+    for port in D.ports.values():
+        D_copy.add_port(port=port)
+    for poly in D.polygons:
+        D_copy.add_polygon(poly)
+    for path in D.paths:
+        D_copy.add(path)
+    for label in D.labels:
+        D_copy.add_label(
+            text=label.text,
+            position=label.position,
+            layer=(label.layer, label.texttype),
+        )
+    return D_copy
 
 
 def test_get_layers() -> Component:
@@ -1537,7 +1599,7 @@ def test_netlist_simple() -> None:
     import gdsfactory as gf
 
     c = gf.Component()
-    c1 = c << gf.components.straight(length=1, width=1)
+    c1 = c << gf.components.straight(length=1, width=2)
     c2 = c << gf.components.straight(length=2, width=2)
     c2.connect(port="o1", destination=c1.ports["o2"])
     c.add_port("o1", port=c1.ports["o1"])
@@ -1545,6 +1607,21 @@ def test_netlist_simple() -> None:
     netlist = c.get_netlist()
     # print(netlist.pretty())
     assert len(netlist["instances"]) == 2
+
+
+def test_netlist_simple_width_mismatch_throws_error() -> None:
+    import pytest
+
+    import gdsfactory as gf
+
+    c = gf.Component()
+    c1 = c << gf.components.straight(length=1, width=1)
+    c2 = c << gf.components.straight(length=2, width=2)
+    c2.connect(port="o1", destination=c1.ports["o2"])
+    c.add_port("o1", port=c1.ports["o1"])
+    c.add_port("o2", port=c2.ports["o2"])
+    with pytest.raises(ValueError):
+        c.get_netlist()
 
 
 def test_netlist_complex() -> None:
