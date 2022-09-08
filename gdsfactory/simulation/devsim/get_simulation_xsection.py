@@ -1,72 +1,78 @@
-"""Returns simulation from cross-section."""
+r"""Returns simulation from cross-section.
 
-from xmlrpc.client import Boolean
+From Chrostowski, L., & Hochberg, M. (2015). Silicon Photonics Design: From Devices to Systems. Cambridge University Press. doi: 10.1017/CBO9781316084168
+    Citing:
+    (1) R. Soref and B. Bennett, "Electrooptical effects in silicon," in IEEE Journal of Quantum Electronics, vol. 23, no. 1, pp. 123-129, January 1987, doi: 10.1109/JQE.1987.1073206.
+    (2) Reed, G. T., Mashanovich, G., Gardes, F. Y., & Thomson, D. J. (2010). Silicon optical modulators. Nature Photonics, 4(8), 518–526. doi: 10.1038/nphoton.2010.179
+    (3) M. Nedeljkovic, R. Soref and G. Z. Mashanovich, "Free-Carrier Electrorefraction and Electroabsorption Modulation Predictions for Silicon Over the 1–14- $\mu\hbox{m}$ Infrared Wavelength Range," in IEEE Photonics Journal, vol. 3, no. 6, pp. 1171-1180, Dec. 2011, doi: 10.1109/JPHOT.2011.2171930.
+
+"""
+
 from typing import Optional
 
 import devsim
+import matplotlib.pyplot as plt
 import numpy as np
 import pyvista as pv
 from devsim.python_packages import model_create, simple_physics
 from pydantic import BaseModel, Extra
 
+from gdsfactory.config import CONFIG
 from gdsfactory.simulation.disable_print import disable_print, enable_print
-
-import matplotlib.pyplot as plt
-
-from gdsfactory.config import CONFIG, logger
-import pathlib
-from types import SimpleNamespace
-from typing import Callable, List, Optional, Tuple, Union
-from gdsfactory.config import CONFIG, logger
-from gdsfactory.serialization import get_hash
-from gdsfactory.simulation.gtidy3d.materials import si, sin, sio2
-from gdsfactory.types import PathType, TypedArray
-
-from gdsfactory.simulation.gtidy3d.modes import Precision, FilterPol, Waveguide
-
-import pdb 
+from gdsfactory.simulation.gtidy3d.materials import si, sio2
+from gdsfactory.simulation.gtidy3d.modes import FilterPol, Precision, Waveguide
+from gdsfactory.types import PathType
 
 nm = 1e-9
 um = 1e-6
 
-"""
-Phenomenological wavelength-dependent index and absorption perturbation from free carriers
-Use quadratic fits for wavelengths, or better-characterized models at 1550 and 1310
 
-From Chrostowski, L., & Hochberg, M. (2015). Silicon Photonics Design: From Devices to Systems. Cambridge University Press. doi: 10.1017/CBO9781316084168
-Citing:
-(1) R. Soref and B. Bennett, "Electrooptical effects in silicon," in IEEE Journal of Quantum Electronics, vol. 23, no. 1, pp. 123-129, January 1987, doi: 10.1109/JQE.1987.1073206.
-(2) Reed, G. T., Mashanovich, G., Gardes, F. Y., & Thomson, D. J. (2010). Silicon optical modulators. Nature Photonics, 4(8), 518–526. doi: 10.1038/nphoton.2010.179
-(3) M. Nedeljkovic, R. Soref and G. Z. Mashanovich, "Free-Carrier Electrorefraction and Electroabsorption Modulation Predictions for Silicon Over the 1–14- $\mu\hbox{m}$ Infrared Wavelength Range," in IEEE Photonics Journal, vol. 3, no. 6, pp. 1171-1180, Dec. 2011, doi: 10.1109/JPHOT.2011.2171930.
+def dn_carriers(wavelength: float, dN: float, dP: float) -> float:
+    """Phenomenological wavelength-dependent index perturbation from free carriers.
 
-Parameters:
-    wavelength: (um)
-    dN: excess electrons (/cm^3)
-    dP: excess holes (/cm^3)
+    Use quadratic fits for wavelengths, or better-characterized models at 1550 and 1310.
 
-Returns:
-    dn: change in refractive index
-    or
-    dalpha: change in absorption coefficient (/cm)
-"""
+    Args:
+        wavelength: (um).
+        dN: excess electrons (/cm^3).
+        dP: excess holes (/cm^3).
 
-def dn_carriers(wavelength, dN, dP):
+    Returns:
+        dalpha: change in absorption coefficient (/cm)
+    """
     if wavelength == 1.55:
-        return -5.4*1E-22*np.power(dN, 1.011) - 1.53*1E-18*np.power(dP, 0.838)
+        return -5.4 * 1e-22 * np.power(dN, 1.011) - 1.53 * 1e-18 * np.power(dP, 0.838)
     elif wavelength == 1.31:
-        return -2.98*1E-22*np.power(dN, 1.016) - 1.25*1E-18*np.power(dP, 0.835)
+        return -2.98 * 1e-22 * np.power(dN, 1.016) - 1.25 * 1e-18 * np.power(dP, 0.835)
     else:
-        wavelength = wavelength * 1E-6 # convert to m
-        return -3.64*1E-10*wavelength**2*dN - 3.51*1E-6*wavelength**2*np.poewr(dP, 0.8)
+        wavelength = wavelength * 1e-6  # convert to m
+        return (
+            -3.64 * 1e-10 * wavelength**2 * dN
+            - 3.51 * 1e-6 * wavelength**2 * np.poewr(dP, 0.8)
+        )
 
-def dalpha_carriers(wavelength, dN, dP):
+
+def dalpha_carriers(wavelength: float, dN: float, dP: float) -> float:
+    """Phenomenological wavelength-dependent absorption perturbation from free carriers.
+
+    Use quadratic fits for wavelengths, or better-characterized models at 1550 and 1310.
+
+    Args:
+        wavelength: (um).
+        dN: excess electrons (/cm^3).
+        dP: excess holes (/cm^3).
+
+    Returns:
+        dn: change in refractive index.
+    """
     if wavelength == 1.55:
-        return 8.88*1E-21*dN**1.167 + 5.84*1E-20*dP**1.109
+        return 8.88 * 1e-21 * dN**1.167 + 5.84 * 1e-20 * dP**1.109
     elif wavelength == 1.31:
-        return 3.48*1E-22*dN**1.229 + 1.02*1E-19*dP**1.089
+        return 3.48 * 1e-22 * dN**1.229 + 1.02 * 1e-19 * dP**1.089
     else:
-        wavelength = wavelength * 1E-6 # convert to m
-        return 3.52*1E-6*wavelength**2*dN + 2.4*1E-6*wavelength**2*dP
+        wavelength = wavelength * 1e-6  # convert to m
+        return 3.52 * 1e-6 * wavelength**2 * dN + 2.4 * 1e-6 * wavelength**2 * dP
+
 
 class PINWaveguide(BaseModel):
     """Silicon PIN junction waveguide Model.
@@ -92,9 +98,9 @@ class PINWaveguide(BaseModel):
         xmargin: margin from waveguide edge to low doping regions.
         contact_bloat: controls which nodes are considered contacts;
             adjust if contacts are not found.
-        atol: tolerance for iterative solver
-        rtol: tolerance for iterative solver
-        max_iter: maximum number of iterations of iterative solver
+        atol: tolerance for iterative solver.
+        rtol: tolerance for iterative solver.
+        max_iter: maximum number of iterations of iterative solver.
 
     ::
 
@@ -110,7 +116,7 @@ class PINWaveguide(BaseModel):
           |          |       |     |         |         | |
           |  Ppp+P   |   P   |  i  |    N    |  Npp+N  | | slab_thickness
           |__________|_______|_____|_________|_________| |
-          ^          ^       ^     ^         ^         ^ 
+          ^          ^       ^     ^         ^         ^
       pp_res_x   pp_p_res     pn_res      pp_p_res  pp_res_x
           <-------------------------------------------->
                                w_sim
@@ -138,8 +144,8 @@ class PINWaveguide(BaseModel):
     pn_res_x: float = 1 * nm
     coarse_res_y: float = 10 * nm
     slab_res_y: float = 2 * nm
-    atol: float = 1E8
-    rtol: float = 1E-8
+    atol: float = 1e8
+    rtol: float = 1e-8
     max_iter: int = 60
 
     class Config:
@@ -365,7 +371,10 @@ class PINWaveguide(BaseModel):
             )
 
         devsim.solve(
-            type="dc", absolute_error=self.atol, relative_error=self.rtol, maximum_iterations=self.max_iter
+            type="dc",
+            absolute_error=self.atol,
+            relative_error=self.rtol,
+            maximum_iterations=self.max_iter,
         )
 
     def ramp_voltage(self, V: float, dV: float) -> None:
@@ -434,39 +443,40 @@ class PINWaveguide(BaseModel):
         mesh = reader.read()
         return mesh[0]
 
-    def make_waveguide(self, 
-                    wavelength: float,
-                    t_box: float = 2.0,
-                    t_clad: float = 2.0,
-                    resolution: int = 200,
-                    perturb: Boolean = True,
-                    nmodes: int = 4,
-                    bend_radius: Optional[float] = None,
-                    cache: Optional[PathType] = CONFIG["modes"],
-                    precision: Precision = "double",
-                    filter_pol: Optional[FilterPol] = None,
-    ):
-        """Converts the FEM model to a Waveguide object
-            - Rescales lengths to um
-            - Adjusts origin to match Waveguide object convention
+    def make_waveguide(
+        self,
+        wavelength: float,
+        t_box: float = 2.0,
+        t_clad: float = 2.0,
+        resolution: int = 200,
+        perturb: bool = True,
+        nmodes: int = 4,
+        bend_radius: Optional[float] = None,
+        cache: Optional[PathType] = CONFIG["modes"],
+        precision: Precision = "double",
+        filter_pol: Optional[FilterPol] = None,
+    ) -> Waveguide:
+        """Converts the FEM model to a Waveguide object.
 
-        Parameters:
+        - Rescales lengths to um
+        - Adjusts origin to match Waveguide object convention
+
+        Args:
             wavelength: (um).
-            t_box: thickness BOX (um). 
+            t_box: thickness BOX (um).
             t_clad: thickness cladding (um).
-            xmargin: margin from waveguide edge to each side (um). 
+            xmargin: margin from waveguide edge to each side (um).
             resolution: pixels/um.
             nmodes: number of modes to compute.
             bend_radius: optional bend radius (um).
             cache: filepath for caching modes. If None does not use file cache.
             precision: single or double.
-            filter_pol: te, tm or None.W
+            filter_pol: te, tm or None.
 
         Returns:
             A tidy3d Waveguide object
 
         """
-
         # Create index perturbation
         x_fem = []
         y_fem = []
@@ -474,10 +484,20 @@ class PINWaveguide(BaseModel):
         dP_fem = []
 
         for region_name in ["core", "slab"]:
-            x_fem.append(np.array(self.get_field(region_name=region_name, field_name="x")))
-            y_fem.append(np.array(self.get_field(region_name=region_name, field_name="y")))
-            dN_fem.append(np.array(self.get_field(region_name=region_name, field_name="Electrons")))
-            dP_fem.append(np.array(self.get_field(region_name=region_name, field_name="Holes")))
+            x_fem.append(
+                np.array(self.get_field(region_name=region_name, field_name="x"))
+            )
+            y_fem.append(
+                np.array(self.get_field(region_name=region_name, field_name="y"))
+            )
+            dN_fem.append(
+                np.array(
+                    self.get_field(region_name=region_name, field_name="Electrons")
+                )
+            )
+            dP_fem.append(
+                np.array(self.get_field(region_name=region_name, field_name="Holes"))
+            )
 
         x_fem = np.concatenate(x_fem)
         y_fem = np.concatenate(y_fem)
@@ -485,24 +505,27 @@ class PINWaveguide(BaseModel):
         dP_fem = np.concatenate(dP_fem)
 
         dn_fem = dn_carriers(wavelength, dN_fem, dP_fem)
-        dn_dict = {"x": x_fem/um, "y":y_fem/um + t_box, "dn": dn_fem} if perturb else None
+        dn_dict = (
+            {"x": x_fem / um, "y": y_fem / um + t_box, "dn": dn_fem}
+            if perturb
+            else None
+        )
 
         # Create perturbed waveguide, handle like regular mode
         return Waveguide(
             wavelength=wavelength,
-            wg_width=self.wg_width/um,
-            wg_thickness=self.wg_thickness/um,
-            slab_thickness=self.slab_thickness/um,
+            wg_width=self.wg_width / um,
+            wg_thickness=self.wg_thickness / um,
+            slab_thickness=self.slab_thickness / um,
             ncore=si,
             nclad=sio2,
-            xmargin=(self.ppp_offset+self.xmargin)/um,
+            xmargin=(self.ppp_offset + self.xmargin) / um,
             resolution=resolution,
             dn_dict=dn_dict,
             cache=None,
             precision=precision,
             filter_pol=filter_pol,
         )
-
 
 
 if __name__ == "__main__":
@@ -516,7 +539,7 @@ if __name__ == "__main__":
     c.save_device("./test.dat")
 
     voltage_solver_step = 0.1
-    voltages = np.arange(0,1,voltage_solver_step)
+    voltages = np.arange(0, 1, voltage_solver_step)
     # voltages = [-0.1]
 
     voltages = [0]
@@ -524,13 +547,13 @@ if __name__ == "__main__":
     neffs_doped = []
     indices_doped = []
 
-    c_control = c.make_waveguide(wavelength=1.55, perturb=False, precision='double')
+    c_control = c.make_waveguide(wavelength=1.55, perturb=False, precision="double")
     c_control.compute_modes()
     indices_control = [c_control.nx]
     neffs_control = [c_control.neffs[0]]
     for voltage in voltages:
         c.ramp_voltage(voltage, voltage_solver_step)
-        c_doped = c.make_waveguide(wavelength=1.55, precision='double')
+        c_doped = c.make_waveguide(wavelength=1.55, precision="double")
         c_doped.compute_modes()
         indices_doped.append(c_doped.nx)
         # c2.plot_index()
@@ -547,7 +570,9 @@ if __name__ == "__main__":
     plt.savefig("neff_test_shift.png")
 
     plt.figure()
-    plt.imshow(np.log10(np.abs(indices_doped[0].T - indices_control[0].T)), origin='lower')
+    plt.imshow(
+        np.log10(np.abs(indices_doped[0].T - indices_control[0].T)), origin="lower"
+    )
     plt.colorbar()
     plt.savefig("indices_test_shift.png")
 
@@ -566,5 +591,5 @@ if __name__ == "__main__":
     #     filepath = f'./02_reverse/test_v_{voltage}_electrons.dat'
 
     #     dbfile = open(filepath, 'ab')
-    #     pickle.dump(electrons, dbfile)                     
+    #     pickle.dump(electrons, dbfile)
     #     dbfile.close()
