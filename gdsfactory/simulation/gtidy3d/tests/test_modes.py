@@ -1,6 +1,9 @@
 import numpy as np
 
+import gdsfactory.simulation.gtidy3d as gt
 from gdsfactory.simulation.gtidy3d.modes import Waveguide, group_index, si, sio2
+
+nm = 1e-3
 
 
 def test_neff_cached():
@@ -44,6 +47,23 @@ def test_ng_no_cache():
     )
     ng = group_index(**wg_settings)
     assert np.isclose(ng, 4.169, rtol=0.01), ng
+
+
+def test_sweep_width(dataframe_regression) -> None:
+    df = gt.modes.sweep_width(
+        width1=200 * nm,
+        width2=1000 * nm,
+        steps=1,
+        wavelength=1.55,
+        wg_thickness=220 * nm,
+        slab_thickness=0 * nm,
+        ncore=gt.modes.si,
+        nclad=gt.modes.sio2,
+        cache=None,
+    )
+
+    if dataframe_regression:
+        dataframe_regression.check(df)
 
 
 if __name__ == "__main__":
