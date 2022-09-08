@@ -1,5 +1,12 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.26.3](https://github.com/gdsfactory/gdsfactory/pull/675)
+
+- fix tidy3d mode solver sweep width [PR](https://github.com/gdsfactory/gdsfactory/pull/682)
+- devsim improvements. Add Modes with doping index perturbation [PR](https://github.com/gdsfactory/gdsfactory/pull/679)
+    - Modify gtidy3D mode solver to handle local index perturbations.
+    - New function to generate a Waveguide for mode solving from PIN semiconductor simulation.
+
 ## [5.26.2](https://github.com/gdsfactory/gdsfactory/pull/675)
 
 - devsim TCAD improvements
