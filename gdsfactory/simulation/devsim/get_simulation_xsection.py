@@ -387,8 +387,9 @@ class PINWaveguide(BaseModel):
 
     def get_field(self, region_name="core", field_name="Electrons"):
         device = "MyDevice"
-        y = devsim.get_node_model_values(device=device, region=region_name, name=field_name)
-        return y
+        return devsim.get_node_model_values(
+            device=device, region=region_name, name=field_name
+        )
 
     def save_device(self, filepath) -> None:
         """Save Device to a tecplot filepath that you can open with Paraview."""
@@ -485,7 +486,7 @@ class PINWaveguide(BaseModel):
 
         dn_fem = dn_carriers(wavelength, dN_fem, dP_fem)
         dn_dict = {"x": x_fem/um, "y":y_fem/um + t_box, "dn": dn_fem} if perturb else None
-                
+
         # Create perturbed waveguide, handle like regular mode
         return Waveguide(
             wavelength=wavelength,
@@ -523,14 +524,10 @@ if __name__ == "__main__":
     neffs_doped = []
     indices_doped = []
 
-    neffs_control = []
-    indices_control = []
-
     c_control = c.make_waveguide(wavelength=1.55, perturb=False, precision='double')
     c_control.compute_modes()
-    indices_control.append(c_control.nx)
-    neffs_control.append(c_control.neffs[0])
-
+    indices_control = [c_control.nx]
+    neffs_control = [c_control.neffs[0]]
     for voltage in voltages:
         c.ramp_voltage(voltage, voltage_solver_step)
         c_doped = c.make_waveguide(wavelength=1.55, precision='double')
