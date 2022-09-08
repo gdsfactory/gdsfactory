@@ -22,11 +22,11 @@ major:
 	python docs/write_components_doc.py
 
 plugins:
-	pip install -r requirements_sipann.txt
 	pip install -e .[tidy3d]
 	pip install jax jaxlib
 	mamba install pymeep=*=mpi_mpich_* -y
-	mamba install numpy==1.22 -y
+	pip install -r requirements_sipann.txt
+	pip install --upgrade "protobuf<=3.20.1"
 
 meep:
 	mamba install pymeep=*=mpi_mpich_* -y
@@ -167,7 +167,6 @@ devsim:
 	python devsim/devsim_linux_v2.1.0/install.py
 	pip install -e devsim/devsim_linux_v2.1.0/lib # Works in this specific way
 	pip install mkl
-	pip install wurlitzer
 	mamba install pyvista -y
 
 .PHONY: gdsdiff build conda

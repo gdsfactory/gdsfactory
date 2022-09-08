@@ -18,7 +18,7 @@ Maybe:
 
 import pathlib
 from types import SimpleNamespace
-from typing import Callable, List, Optional, Tuple, Union
+from typing import Callable, List, Optional, Tuple, Union, Dict
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -33,7 +33,9 @@ from typing_extensions import Literal
 from gdsfactory.config import CONFIG, logger
 from gdsfactory.serialization import get_hash
 from gdsfactory.simulation.gtidy3d.materials import si, sin, sio2
-from gdsfactory.types import PathType
+from gdsfactory.types import PathType, TypedArray
+
+from scipy.interpolate import griddata
 
 nm = 1e-3
 
@@ -147,6 +149,7 @@ class Waveguide(BaseModel):
         wg_thickness: thickness waveguide (um).
         ncore: core refractive index.
         nclad: cladding refractive index.
+        dn_dict: unstructured mesh array with columns field "x", "y", "dn" of local index perturbations to be interpolated.
         slab_thickness: thickness slab (um).
         t_box: thickness BOX (um).
         t_clad: thickness cladding (um).
@@ -184,6 +187,7 @@ class Waveguide(BaseModel):
     wg_thickness: float
     ncore: Union[float, Callable[[str], float]]
     nclad: Union[float, Callable[[str], float]]
+    dn_dict: Optional[Dict] = None
     slab_thickness: float
     t_box: float = 2.0
     t_clad: float = 2.0
@@ -245,6 +249,9 @@ class Waveguide(BaseModel):
         slab_thickness = self.slab_thickness
         t_clad = self.t_clad
 
+        inds_core = (-w / 2 <= Y) & (Y <= w / 2) & (Z >= t_box) & (Z <= t_box + wg_thickness)
+        inds_slab = (Z >= t_box) & (Z <= t_box + slab_thickness)
+
         n = np.ones_like(Y) * nclad
         n[
             (-w / 2 - t_clad / 2 <= Y)
@@ -253,12 +260,14 @@ class Waveguide(BaseModel):
             & (Z <= t_box + wg_thickness + t_clad)
         ] = nclad
         n[(Z <= 1.0 + slab_thickness + t_clad)] = nclad
-        n[
-            (-w / 2 <= Y) & (Y <= w / 2) & (Z >= t_box) & (Z <= t_box + wg_thickness)
-        ] = ncore
-        n[(Z >= t_box) & (Z <= t_box + slab_thickness)] = (
-            ncore if slab_thickness else nclad
-        )
+        n[inds_core] = ncore
+        n[inds_slab] = (ncore if slab_thickness else nclad)
+
+        if self.dn_dict is not None:
+            dn = griddata((self.dn_dict["x"], self.dn_dict["y"]), self.dn_dict["dn"], (Y, Z), method='cubic', fill_value=0)
+            n[inds_core] += dn[inds_core]
+            n[inds_slab] += dn[inds_slab]
+
         return n
 
     def plot_index(self) -> None:
@@ -648,7 +657,7 @@ def sweep_width(
         wg = Waveguide(nmodes=nmodes, wg_width=wg_width, **kwargs)
         wg.compute_modes()
         for mode_number in range(1, nmodes + 1):
-            neff[mode_number].append(np.real(wg.neffs[mode_number]))
+            neff[mode_number].append(np.real(wg.neffs[mode_number - 1]))
 
     df = pd.DataFrame(neff)
     df["width"] = width
@@ -764,6 +773,7 @@ __all__ = (
 )
 
 if __name__ == "__main__":
+
     c = Waveguide(
         wavelength=1.55,
         wg_width=500 * nm,
@@ -772,17 +782,17 @@ if __name__ == "__main__":
         ncore=si,
         nclad=sio2,
     )
-    c = WaveguideCoupler(
-        wavelength=1.55,
-        wg_width1=500 * nm,
-        wg_width2=500 * nm,
-        gap=200 * nm,
-        wg_thickness=220 * nm,
-        slab_thickness=100 * nm,
-        ncore=si,
-        nclad=sio2,
-    )
-    print(c.find_coupling())
+    # c = WaveguideCoupler(
+    #     wavelength=1.55,
+    #     wg_width1=500 * nm,
+    #     wg_width2=500 * nm,
+    #     gap=200 * nm,
+    #     wg_thickness=220 * nm,
+    #     slab_thickness=100 * nm,
+    #     ncore=si,
+    #     nclad=sio2,
+    # )
+    # print(c.find_coupling())
     # c.plot_index()
 
     # mode_areas, te, tm = c.compute_mode_properties()

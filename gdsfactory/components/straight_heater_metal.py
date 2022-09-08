@@ -35,8 +35,9 @@ def straight_heater_metal_undercut(
         length_undercut_spacing: from undercut regions.
         length_undercut: length of each undercut section.
         length_straight_input: from input port to where trenches start.
-        cross_section_waveguide_heater: for heated sections.
+        heater_width: in um.
         cross_section_heater: for heated sections. heater metal only.
+        cross_section_waveguide_heater: for heated sections.
         cross_section_heater_undercut: for heated sections with undercut.
         with_undercut: isolation trenches for higher efficiency.
         via_stack: via stack.
@@ -44,6 +45,7 @@ def straight_heater_metal_undercut(
         port_orientation2: right via stack port orientation.
         heater_taper_length: minimizes current concentrations from heater to via_stack.
         ohms_per_square: to calculate resistance.
+        cross_section: for waveguide ports.
         kwargs: cross_section common settings.
     """
     period = length_undercut + length_undercut_spacing
@@ -158,7 +160,8 @@ if __name__ == "__main__":
     # c = straight_heater_metal(heater_width=5, length=50.0)
 
     c = straight_heater_metal_undercut()
-    c.write_gds("/home/jmatres/demo/a.gds")
+    n = c.get_netlist()
+    # c.write_gds("/home/jmatres/demo/a.gds")
     c.show(show_ports=True)
     # scene = gf.to_trimesh(c, layer_colors=gf.layers.LAYER_COLORS)
     # scene.show()

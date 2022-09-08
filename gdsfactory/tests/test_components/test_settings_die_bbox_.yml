@@ -15,7 +15,7 @@ settings:
       - 90
       - 0
       - -90
-      port_type: electrical
+      port_type: placement
       size:
       - 4.0
       - 2.0
@@ -27,7 +27,7 @@ settings:
       - 90
       - 0
       - -90
-      port_type: electrical
+      port_type: placement
       size:
       - 1300
       - 2600

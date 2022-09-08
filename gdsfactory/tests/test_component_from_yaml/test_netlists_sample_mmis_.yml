@@ -96,3 +96,12 @@ ports:
   o1: mmi_short,o1
   o2: mmi_long,o2
   o3: mmi_long,o3
+warnings:
+  optical:
+    unconnected_ports:
+    - message: 1 unconnected optical ports!
+      ports:
+      - mmi_short,o3
+      values:
+      - - 15.0
+        - -0.625

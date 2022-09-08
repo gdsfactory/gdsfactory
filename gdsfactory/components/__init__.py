@@ -103,6 +103,7 @@ from gdsfactory.components.grating_coupler_elliptical import (
 )
 from gdsfactory.components.grating_coupler_elliptical_arbitrary import (
     grating_coupler_elliptical_arbitrary,
+    grating_coupler_elliptical_uniform,
 )
 from gdsfactory.components.grating_coupler_elliptical_lumerical import (
     grating_coupler_elliptical_lumerical,
@@ -365,6 +366,7 @@ __all__ = [
     "grating_coupler_array",
     "grating_coupler_elliptical",
     "grating_coupler_elliptical_arbitrary",
+    "grating_coupler_elliptical_uniform",
     "grating_coupler_elliptical_lumerical",
     "grating_coupler_elliptical_te",
     "grating_coupler_elliptical_tm",
