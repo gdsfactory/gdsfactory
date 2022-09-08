@@ -1,4 +1,7 @@
-"""FIXME."""
+"""FIXME.
+
+Where is the light going?
+"""
 import numpy as np
 import matplotlib.pyplot as plt
 import jax.numpy as jnp
@@ -78,6 +81,8 @@ models = {
     "straight": straight,
     "taper": straight,
     "straight_heater_metal_undercut": phase_shifter,
+    "compass": sax.models.passthru(10),
+    "via": sax.models.passthru(10),
 }
 
 
@@ -95,7 +100,11 @@ if __name__ == "__main__":
 
     plt.figure(figsize=(14, 4))
     plt.title("MZI")
-    plt.plot(1e3 * wl, jnp.abs(S["o1", "o2"]) ** 2)
+
+    plt.plot(1e3 * wl, jnp.abs(S["o1_0_0", "o2_1_9"]) ** 2)
+    plt.plot(1e3 * wl, jnp.abs(S["o1_0_0", "o3_1_6"]) ** 2)
+    plt.plot(1e3 * wl, jnp.abs(S["o1_0_0", "o2_1_5"]) ** 2)
+    plt.plot(1e3 * wl, jnp.abs(S["o1_0_0", "o3_1_10"]) ** 2)
     plt.xlabel("λ [nm]")
     plt.ylabel("T")
     plt.grid(True)

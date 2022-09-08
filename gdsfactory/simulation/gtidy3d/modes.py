@@ -657,7 +657,7 @@ def sweep_width(
         wg = Waveguide(nmodes=nmodes, wg_width=wg_width, **kwargs)
         wg.compute_modes()
         for mode_number in range(1, nmodes + 1):
-            neff[mode_number].append(np.real(wg.neffs[mode_number]))
+            neff[mode_number].append(np.real(wg.neffs[mode_number - 1]))
 
     df = pd.DataFrame(neff)
     df["width"] = width
