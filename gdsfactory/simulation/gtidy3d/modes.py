@@ -249,6 +249,9 @@ class Waveguide(BaseModel):
         slab_thickness = self.slab_thickness
         t_clad = self.t_clad
 
+        inds_core = (-w / 2 <= Y) & (Y <= w / 2) & (Z >= t_box) & (Z <= t_box + wg_thickness)
+        inds_slab = (Z >= t_box) & (Z <= t_box + slab_thickness)
+
         n = np.ones_like(Y) * nclad
         n[
             (-w / 2 - t_clad / 2 <= Y)
@@ -257,15 +260,13 @@ class Waveguide(BaseModel):
             & (Z <= t_box + wg_thickness + t_clad)
         ] = nclad
         n[(Z <= 1.0 + slab_thickness + t_clad)] = nclad
-        n[
-            (-w / 2 <= Y) & (Y <= w / 2) & (Z >= t_box) & (Z <= t_box + wg_thickness)
-        ] = ncore
-        n[(Z >= t_box) & (Z <= t_box + slab_thickness)] = (
-            ncore if slab_thickness else nclad
-        )
+        n[inds_core] = ncore
+        n[inds_slab] = (ncore if slab_thickness else nclad)
 
         if self.dn_dict is not None:
-            n += griddata((self.dn_dict["x"], self.dn_dict["y"]), self.dn_dict["dn"], (Y, Z), method='cubic')
+            dn = griddata((self.dn_dict["x"], self.dn_dict["y"]), self.dn_dict["dn"], (Y, Z), method='cubic', fill_value=0)
+            n[inds_core] += dn[inds_core]
+            n[inds_slab] += dn[inds_slab]
 
         return n
 
@@ -773,20 +774,14 @@ __all__ = (
 
 if __name__ == "__main__":
 
-    c = modes_from_doping_si(wavelength=1.55,
-    slab_thickness=0.0,
-    ncore=gt.modes.si,
-    nclad=gt.modes.sio2
+    c = Waveguide(
+        wavelength=1.55,
+        wg_width=500 * nm,
+        wg_thickness=220 * nm,
+        slab_thickness=0 * nm,
+        ncore=si,
+        nclad=sio2,
     )
-
-    # c = Waveguide(
-    #     wavelength=1.55,
-    #     wg_width=500 * nm,
-    #     wg_thickness=220 * nm,
-    #     slab_thickness=0 * nm,
-    #     ncore=si,
-    #     nclad=sio2,
-    # )
     # c = WaveguideCoupler(
     #     wavelength=1.55,
     #     wg_width1=500 * nm,
