@@ -1,15 +1,72 @@
 """Returns simulation from cross-section."""
 
+from xmlrpc.client import Boolean
+from typing import Optional
+
 import devsim
 import numpy as np
 import pyvista as pv
 from devsim.python_packages import model_create, simple_physics
 from pydantic import BaseModel, Extra
-from wurlitzer import pipes
+
+from gdsfactory.simulation.disable_print import disable_print, enable_print
+
+import matplotlib.pyplot as plt
+
+from gdsfactory.config import CONFIG, logger
+import pathlib
+from types import SimpleNamespace
+from typing import Callable, List, Optional, Tuple, Union
+from gdsfactory.config import CONFIG, logger
+from gdsfactory.serialization import get_hash
+from gdsfactory.simulation.gtidy3d.materials import si, sin, sio2
+from gdsfactory.types import PathType, TypedArray
+
+from gdsfactory.simulation.gtidy3d.modes import Precision, FilterPol, Waveguide
+
+import pdb 
 
 nm = 1e-9
 um = 1e-6
 
+"""
+Phenomenological wavelength-dependent index and absorption perturbation from free carriers
+Use quadratic fits for wavelengths, or better-characterized models at 1550 and 1310
+
+From Chrostowski, L., & Hochberg, M. (2015). Silicon Photonics Design: From Devices to Systems. Cambridge University Press. doi: 10.1017/CBO9781316084168
+Citing:
+(1) R. Soref and B. Bennett, "Electrooptical effects in silicon," in IEEE Journal of Quantum Electronics, vol. 23, no. 1, pp. 123-129, January 1987, doi: 10.1109/JQE.1987.1073206.
+(2) Reed, G. T., Mashanovich, G., Gardes, F. Y., & Thomson, D. J. (2010). Silicon optical modulators. Nature Photonics, 4(8), 518–526. doi: 10.1038/nphoton.2010.179
+(3) M. Nedeljkovic, R. Soref and G. Z. Mashanovich, "Free-Carrier Electrorefraction and Electroabsorption Modulation Predictions for Silicon Over the 1–14- $\mu\hbox{m}$ Infrared Wavelength Range," in IEEE Photonics Journal, vol. 3, no. 6, pp. 1171-1180, Dec. 2011, doi: 10.1109/JPHOT.2011.2171930.
+
+Parameters:
+    wavelength: (um)
+    dN: excess electrons (/cm^3)
+    dP: excess holes (/cm^3)
+
+Returns:
+    dn: change in refractive index
+    or
+    dalpha: change in absorption coefficient (/cm)
+"""
+
+def dn_carriers(wavelength, dN, dP):
+    if wavelength == 1.55:
+        return -5.4*1E-22*np.power(dN, 1.011) - 1.53*1E-18*np.power(dP, 0.838)
+    elif wavelength == 1.31:
+        return -2.98*1E-22*np.power(dN, 1.016) - 1.25*1E-18*np.power(dP, 0.835)
+    else:
+        wavelength = wavelength * 1E-6 # convert to m
+        return -3.64*1E-10*wavelength**2*dN - 3.51*1E-6*wavelength**2*np.poewr(dP, 0.8)
+
+def dalpha_carriers(wavelength, dN, dP):
+    if wavelength == 1.55:
+        return 8.88*1E-21*dN**1.167 + 5.84*1E-20*dP**1.109
+    elif wavelength == 1.31:
+        return 3.48*1E-22*dN**1.229 + 1.02*1E-19*dP**1.089
+    else:
+        wavelength = wavelength * 1E-6 # convert to m
+        return 3.52*1E-6*wavelength**2*dN + 2.4*1E-6*wavelength**2*dP
 
 class PINWaveguide(BaseModel):
     """Silicon PIN junction waveguide Model.
@@ -35,6 +92,9 @@ class PINWaveguide(BaseModel):
         xmargin: margin from waveguide edge to low doping regions.
         contact_bloat: controls which nodes are considered contacts;
             adjust if contacts are not found.
+        atol: tolerance for iterative solver
+        rtol: tolerance for iterative solver
+        max_iter: maximum number of iterations of iterative solver
 
     ::
 
@@ -45,12 +105,12 @@ class PINWaveguide(BaseModel):
                         p_offset n_offset
                              <-> <->
          xcontact          _____|_____ _ _ _ _ _ _ _ _ _
-          <---->          |  |     |  |                |
-          ======__________|  |     |  |__________======|
-          |          |       |     |         |         | wg_thickness
-          |  Ppp+P   |   P   |  i  |    N    |  Npp+N  |
-          |__________|_______|_____|_________|_________|
-          ^          ^       ^     ^         ^         ^
+          <---->          |  |     |  |                | wg_thickness
+          ======__________|  |     |  |__________======| _
+          |          |       |     |         |         | |
+          |  Ppp+P   |   P   |  i  |    N    |  Npp+N  | | slab_thickness
+          |__________|_______|_____|_________|_________| |
+          ^          ^       ^     ^         ^         ^ 
       pp_res_x   pp_p_res     pn_res      pp_p_res  pp_res_x
           <-------------------------------------------->
                                w_sim
@@ -68,16 +128,19 @@ class PINWaveguide(BaseModel):
     t_clad: float = 2.0 * um
     p_conc: float = 1e17
     n_conc: float = 1e17
-    ppp_conc: float = 1e18
-    nnn_conc: float = 1e18
+    ppp_conc: float = 1e20
+    nnn_conc: float = 1e20
     xmargin: float = 0.5 * um
     xcontact: float = 0.25 * um
     pp_res_x: float = 20 * nm
-    pp_p_res_x: float = 2 * nm
-    p_res_x: float = 10 * nm
+    pp_p_res_x: float = 5 * nm
+    p_res_x: float = 2 * nm
     pn_res_x: float = 1 * nm
     coarse_res_y: float = 10 * nm
     slab_res_y: float = 2 * nm
+    atol: float = 1E8
+    rtol: float = 1E-8
+    max_iter: int = 60
 
     class Config:
         """Enable adding new."""
@@ -92,7 +155,8 @@ class PINWaveguide(BaseModel):
     def w_sim(self):
         return 2 * self.xmargin + self.ppp_offset + self.npp_offset
 
-    def Create2DMesh(self, device):
+    def create_2d_mesh(self, device) -> None:
+        """Creates a 2D mesh."""
         xmin = -self.xmargin - self.ppp_offset - self.wg_width / 2
         xmax = self.xmargin + self.npp_offset + self.wg_width / 2
         self.xppp = -self.ppp_offset - self.wg_width / 2
@@ -191,14 +255,14 @@ class PINWaveguide(BaseModel):
         devsim.finalize_mesh(mesh="dio")
         devsim.create_device(mesh="dio", device=device)
 
-    def SetParameters(self, device):
+    def set_parameters(self, device) -> None:
         """Set parameters for 300 K."""
         simple_physics.SetSiliconParameters(device, "slab", 300)
         simple_physics.SetSiliconParameters(device, "core", 300)
         simple_physics.SetSiliconParameters(device, "left_contact", 300)
         simple_physics.SetSiliconParameters(device, "right_contact", 300)
 
-    def SetNetDoping(self, device):
+    def set_net_doping(self, device) -> None:
         """NetDoping."""
         model_create.CreateNodeModel(
             device,
@@ -226,7 +290,7 @@ class PINWaveguide(BaseModel):
         model_create.CreateNodeModel(device, "left_contact", "NetDoping", "0")
         model_create.CreateNodeModel(device, "right_contact", "NetDoping", "0")
 
-    def InitialSolution(self, device, region, circuit_contacts=None):
+    def initial_solution(self, device, region, circuit_contacts=None) -> None:
         # Create Potential, Potential@n0, Potential@n1
         model_create.CreateSolution(device, region, "Potential")
 
@@ -246,7 +310,7 @@ class PINWaveguide(BaseModel):
                 )
                 simple_physics.CreateSiliconPotentialOnlyContact(device, region, i)
 
-    def DriftDiffusionInitialSolution(self, device, region, circuit_contacts=None):
+    def drift_difussion_initial_solution(self, device, region, circuit_contacts=None):
         # drift diffusion solution variables
         model_create.CreateSolution(device, region, "Electrons")
         model_create.CreateSolution(device, region, "Holes")
@@ -272,38 +336,39 @@ class PINWaveguide(BaseModel):
             else:
                 simple_physics.CreateSiliconDriftDiffusionAtContact(device, region, i)
 
-    def ddsolver(self):
+    def ddsolver(self) -> None:
+        """Initialize mesh and solver."""
         device = "MyDevice"
-        self.Create2DMesh(device)
-        self.SetParameters(device=device)
-        self.SetNetDoping(device=device)
+        self.create_2d_mesh(device)
+        self.set_parameters(device=device)
+        self.set_net_doping(device=device)
 
         model_create.CreateSolution(device, "core", "Potential")
         simple_physics.CreateSiliconPotentialOnly(device, "core")
-        self.InitialSolution(device=device, region="slab")
-        self.InitialSolution(device=device, region="right_contact")
-        self.InitialSolution(device=device, region="left_contact")
+        self.initial_solution(device=device, region="slab")
+        self.initial_solution(device=device, region="right_contact")
+        self.initial_solution(device=device, region="left_contact")
 
         # model_create.CreateSolution(device, "left_clad", "Potential")
         # CreateOxidePotentialOnly(device, "left_clad")
-        # self.InitialSolution(device=device, region="left_clad")
+        # self.initial_solution(device=device, region="left_clad")
 
         # model_create.CreateSolution(device, "right_clad", "Potential")
         # CreateOxidePotentialOnly(device, "right_clad")
-        # self.InitialSolution(device=device, region="right_clad")
+        # self.initial_solution(device=device, region="right_clad")
 
         for region in devsim.get_region_list(device=device):
-            self.DriftDiffusionInitialSolution(device=device, region=region)
+            self.drift_difussion_initial_solution(device=device, region=region)
         for interface in devsim.get_interface_list(device=device):
             simple_physics.CreateSiliconSiliconInterface(
                 device=device, interface=interface
             )
 
         devsim.solve(
-            type="dc", absolute_error=1e10, relative_error=1e-8, maximum_iterations=30
+            type="dc", absolute_error=self.atol, relative_error=self.rtol, maximum_iterations=self.max_iter
         )
 
-    def ramp_voltage(self, V, dV):
+    def ramp_voltage(self, V: float, dV: float) -> None:
         device = "MyDevice"
         v = 0.0
         while np.abs(v) <= np.abs(V):
@@ -312,60 +377,194 @@ class PINWaveguide(BaseModel):
             )
             devsim.solve(
                 type="dc",
-                absolute_error=1e10,
-                relative_error=1e-10,
-                maximum_iterations=30,
+                absolute_error=self.atol,
+                relative_error=self.rtol,
+                maximum_iterations=self.max_iter,
             )
-            simple_physics.PrintCurrents(device, "left")
-            simple_physics.PrintCurrents(device, "right")
+            # simple_physics.PrintCurrents(device, "left")
+            # simple_physics.PrintCurrents(device, "right")
             v += dV
 
-    # def get_field_density(self, field_name="Electrons"):
-    #     device = "MyDevice"
-    #     region = "MyRegion"
-    #     y = get_node_model_values(device=device, region=region, name=field_name)
-    #     return y
+    def get_field(self, region_name="core", field_name="Electrons"):
+        device = "MyDevice"
+        return devsim.get_node_model_values(
+            device=device, region=region_name, name=field_name
+        )
 
-    def save_device(self, filepath):
+    def save_device(self, filepath) -> None:
+        """Save Device to a tecplot filepath that you can open with Paraview."""
         devsim.write_devices(file=filepath, type="tecplot")
 
     def plot(
         self,
-        tempfile="temp.dat",
-        scalars=None,
-        log_scale=False,
-        cmap="RdBu",
-        jupyter_backend="None",
-    ):
+        tempfile: str = "temp.dat",
+        scalars: Optional[str] = None,
+        logscale: bool = False,
+        cmap: str = "RdBu",
+        jupyter_backend: str = "None",
+    ) -> None:
+        """Shows the geometry.
+
+        Args:
+            tempfile: tempfile path.
+            scalars: optional string to plot a field as color over the mesh.
+                For instance, acceptor concentration and donor concentration for the PN junction.
+            logscale: plots in logscale.
+            cmap: color map.
+            jupyter_backend: for the jupyter notebook.
+        """
         devsim.write_devices(file=tempfile, type="tecplot")
         reader = pv.get_reader(tempfile)
         mesh = reader.read()
         # sargs = dict(height=0.25, vertical=True, position_x=0.05, position_y=0.05)
         plotter = pv.Plotter(notebook=True)
         _ = plotter.add_mesh(
-            mesh, scalars=scalars, log_scale=log_scale, cmap=cmap
+            mesh, scalars=scalars, logscale=logscale, cmap=cmap
         )  # , scalar_bar_args=sargs)
         _ = plotter.show_grid()
         _ = plotter.camera_position = "xy"
-        with pipes() as (out, err):
-            _ = plotter.show(jupyter_backend=jupyter_backend)
+        disable_print()
+        _ = plotter.show(jupyter_backend=jupyter_backend)
+        enable_print()
 
     def list_fields(self, tempfile="temp.dat"):
+        """Returns the header of the mesh, which lists all possible fields."""
         devsim.write_devices(file=tempfile, type="tecplot")
         reader = pv.get_reader(tempfile)
         mesh = reader.read()
         return mesh[0]
 
+    def make_waveguide(self, 
+                    wavelength: float,
+                    t_box: float = 2.0,
+                    t_clad: float = 2.0,
+                    resolution: int = 200,
+                    perturb: Boolean = True,
+                    nmodes: int = 4,
+                    bend_radius: Optional[float] = None,
+                    cache: Optional[PathType] = CONFIG["modes"],
+                    precision: Precision = "double",
+                    filter_pol: Optional[FilterPol] = None,
+    ):
+        """Converts the FEM model to a Waveguide object
+            - Rescales lengths to um
+            - Adjusts origin to match Waveguide object convention
+
+        Parameters:
+            wavelength: (um).
+            t_box: thickness BOX (um). 
+            t_clad: thickness cladding (um).
+            xmargin: margin from waveguide edge to each side (um). 
+            resolution: pixels/um.
+            nmodes: number of modes to compute.
+            bend_radius: optional bend radius (um).
+            cache: filepath for caching modes. If None does not use file cache.
+            precision: single or double.
+            filter_pol: te, tm or None.W
+
+        Returns:
+            A tidy3d Waveguide object
+
+        """
+
+        # Create index perturbation
+        x_fem = []
+        y_fem = []
+        dN_fem = []
+        dP_fem = []
+
+        for region_name in ["core", "slab"]:
+            x_fem.append(np.array(self.get_field(region_name=region_name, field_name="x")))
+            y_fem.append(np.array(self.get_field(region_name=region_name, field_name="y")))
+            dN_fem.append(np.array(self.get_field(region_name=region_name, field_name="Electrons")))
+            dP_fem.append(np.array(self.get_field(region_name=region_name, field_name="Holes")))
+
+        x_fem = np.concatenate(x_fem)
+        y_fem = np.concatenate(y_fem)
+        dN_fem = np.concatenate(dN_fem)
+        dP_fem = np.concatenate(dP_fem)
+
+        dn_fem = dn_carriers(wavelength, dN_fem, dP_fem)
+        dn_dict = {"x": x_fem/um, "y":y_fem/um + t_box, "dn": dn_fem} if perturb else None
+
+        # Create perturbed waveguide, handle like regular mode
+        return Waveguide(
+            wavelength=wavelength,
+            wg_width=self.wg_width/um,
+            wg_thickness=self.wg_thickness/um,
+            slab_thickness=self.slab_thickness/um,
+            ncore=si,
+            nclad=sio2,
+            xmargin=(self.ppp_offset+self.xmargin)/um,
+            resolution=resolution,
+            dn_dict=dn_dict,
+            cache=None,
+            precision=precision,
+            filter_pol=filter_pol,
+        )
+
+
 
 if __name__ == "__main__":
+
     c = PINWaveguide(
         wg_width=500 * nm,
         wg_thickness=220 * nm,
         slab_thickness=90 * nm,
     )
     c.ddsolver()
-    # c.save_device("./test.dat")
-    c.ramp_voltage(1.0, 0.1)
-
-    # # print(c.get_field_density(field_name="Holes"))
     c.save_device("./test.dat")
+
+    voltage_solver_step = 0.1
+    voltages = np.arange(0,1,voltage_solver_step)
+    # voltages = [-0.1]
+
+    voltages = [0]
+
+    neffs_doped = []
+    indices_doped = []
+
+    c_control = c.make_waveguide(wavelength=1.55, perturb=False, precision='double')
+    c_control.compute_modes()
+    indices_control = [c_control.nx]
+    neffs_control = [c_control.neffs[0]]
+    for voltage in voltages:
+        c.ramp_voltage(voltage, voltage_solver_step)
+        c_doped = c.make_waveguide(wavelength=1.55, precision='double')
+        c_doped.compute_modes()
+        indices_doped.append(c_doped.nx)
+        # c2.plot_index()
+        neffs_doped.append(c_doped.neffs[0])
+        # c2.plot_Ex()
+
+        # plt.savefig(f"test_v_{voltage}.png")
+
+        c.save_device(f"./test_v_{voltage}.dat")
+
+    plt.plot(voltages, neffs_doped[0] - neffs_control[0])
+    plt.xlabel("Voltage (V)")
+    plt.ylabel("delta neff")
+    plt.savefig("neff_test_shift.png")
+
+    plt.figure()
+    plt.imshow(np.log10(np.abs(indices_doped[0].T - indices_control[0].T)), origin='lower')
+    plt.colorbar()
+    plt.savefig("indices_test_shift.png")
+
+    # import pickle
+
+    # diffs = []
+
+    # for voltage in [0.0, -0.3, -0.6]:
+    #     filepath = f'./02_reverse/test_v_{voltage}.dat'
+    #     devsim.load_devices(file=filepath)
+    #     electrons = []
+    #     for region_name in ["core", "slab"]:
+    #         electrons.append(devsim.get_node_model_values(device='MyDevice', region=region_name, name="Electrons"))
+    #         electrons.append(devsim.get_node_model_values(device='MyDevice', region=region_name, name="Electrons"))
+
+    #     filepath = f'./02_reverse/test_v_{voltage}_electrons.dat'
+
+    #     dbfile = open(filepath, 'ab')
+    #     pickle.dump(electrons, dbfile)                     
+    #     dbfile.close()

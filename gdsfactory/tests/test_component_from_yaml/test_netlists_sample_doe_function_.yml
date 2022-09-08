@@ -1931,3 +1931,177 @@ placements:
     x: 44.953
     y: 0.0
 ports: {}
+warnings:
+  vertical_te:
+    unconnected_ports:
+    - message: 56 unconnected vertical_te ports!
+      ports:
+      - rings,ring_single_length_x1_r_60fdb14d_0_vertical_te_00
+      - rings,ring_single_length_x1_r_60fdb14d_0_vertical_te_01
+      - rings,ring_single_length_x1_r_60fdb14d_0_vertical_te_10
+      - rings,ring_single_length_x1_r_60fdb14d_0_vertical_te_20
+      - rings,ring_single_length_x2_r_edd7ea6f_1_vertical_te_00
+      - rings,ring_single_length_x2_r_edd7ea6f_1_vertical_te_01
+      - rings,ring_single_length_x2_r_edd7ea6f_1_vertical_te_10
+      - rings,ring_single_length_x2_r_edd7ea6f_1_vertical_te_20
+      - rings,ring_single_length_x3_r_96ab2414_2_vertical_te_00
+      - rings,ring_single_length_x3_r_96ab2414_2_vertical_te_01
+      - rings,ring_single_length_x3_r_96ab2414_2_vertical_te_10
+      - rings,ring_single_length_x3_r_96ab2414_2_vertical_te_20
+      - rings,ring_single_length_x1_r_07deb5f3_3_vertical_te_00
+      - rings,ring_single_length_x1_r_07deb5f3_3_vertical_te_01
+      - rings,ring_single_length_x1_r_07deb5f3_3_vertical_te_10
+      - rings,ring_single_length_x1_r_07deb5f3_3_vertical_te_20
+      - rings,ring_single_length_x2_r_2e5ac97f_4_vertical_te_00
+      - rings,ring_single_length_x2_r_2e5ac97f_4_vertical_te_01
+      - rings,ring_single_length_x2_r_2e5ac97f_4_vertical_te_10
+      - rings,ring_single_length_x2_r_2e5ac97f_4_vertical_te_20
+      - rings,ring_single_length_x3_r_29cfb0e4_5_vertical_te_00
+      - rings,ring_single_length_x3_r_29cfb0e4_5_vertical_te_01
+      - rings,ring_single_length_x3_r_29cfb0e4_5_vertical_te_10
+      - rings,ring_single_length_x3_r_29cfb0e4_5_vertical_te_20
+      - rings,ring_single_length_x1_r_78660d65_6_vertical_te_00
+      - rings,ring_single_length_x1_r_78660d65_6_vertical_te_01
+      - rings,ring_single_length_x1_r_78660d65_6_vertical_te_10
+      - rings,ring_single_length_x1_r_78660d65_6_vertical_te_20
+      - rings,ring_single_length_x2_r_faeb062b_7_vertical_te_00
+      - rings,ring_single_length_x2_r_faeb062b_7_vertical_te_01
+      - rings,ring_single_length_x2_r_faeb062b_7_vertical_te_10
+      - rings,ring_single_length_x2_r_faeb062b_7_vertical_te_20
+      - rings,ring_single_length_x3_r_5cb87802_8_vertical_te_00
+      - rings,ring_single_length_x3_r_5cb87802_8_vertical_te_01
+      - rings,ring_single_length_x3_r_5cb87802_8_vertical_te_10
+      - rings,ring_single_length_x3_r_5cb87802_8_vertical_te_20
+      - rings,ring_single_length_x1_r_554fe677_9_vertical_te_00
+      - rings,ring_single_length_x1_r_554fe677_9_vertical_te_01
+      - rings,ring_single_length_x1_r_554fe677_9_vertical_te_10
+      - rings,ring_single_length_x1_r_554fe677_9_vertical_te_20
+      - rings,ring_single_length_x2_r_3137a208_10_vertical_te_00
+      - rings,ring_single_length_x2_r_3137a208_10_vertical_te_01
+      - rings,ring_single_length_x2_r_3137a208_10_vertical_te_10
+      - rings,ring_single_length_x2_r_3137a208_10_vertical_te_20
+      - rings,ring_single_length_x3_r_f0c4c752_11_vertical_te_00
+      - rings,ring_single_length_x3_r_f0c4c752_11_vertical_te_01
+      - rings,ring_single_length_x3_r_f0c4c752_11_vertical_te_10
+      - rings,ring_single_length_x3_r_f0c4c752_11_vertical_te_20
+      - mzis,mzi_delta_length10_add__413018bb_(0,0)_vertical_te_00
+      - mzis,mzi_delta_length10_add__413018bb_(0,0)_vertical_te_01
+      - mzis,mzi_delta_length10_add__413018bb_(0,0)_vertical_te_10
+      - mzis,mzi_delta_length10_add__413018bb_(0,0)_vertical_te_20
+      - mzis,mzi_delta_length100_add_b6c954fc_(1,0)_vertical_te_00
+      - mzis,mzi_delta_length100_add_b6c954fc_(1,0)_vertical_te_01
+      - mzis,mzi_delta_length100_add_b6c954fc_(1,0)_vertical_te_10
+      - mzis,mzi_delta_length100_add_b6c954fc_(1,0)_vertical_te_20
+      values:
+      - - 189.973
+        - 24.58250000000004
+      - - 316.97299999999996
+        - 24.58250000000004
+      - - 62.97300000000001
+        - 24.58250000000004
+      - - 443.97299999999996
+        - 24.58250000000004
+      - - 189.973
+        - 398.6325
+      - - 316.97299999999996
+        - 398.6325
+      - - 62.97300000000001
+        - 398.6325
+      - - 443.97299999999996
+        - 398.6325
+      - - 189.973
+        - 772.6825000000001
+      - - 316.97299999999996
+        - 772.6825000000001
+      - - 62.97300000000001
+        - 772.6825000000001
+      - - 443.97299999999996
+        - 772.6825000000001
+      - - 189.973
+        - 1146.7325
+      - - 316.97299999999996
+        - 1146.7325
+      - - 62.97300000000001
+        - 1146.7325
+      - - 443.97299999999996
+        - 1146.7325
+      - - 606.913
+        - 24.58250000000004
+      - - 733.913
+        - 24.58250000000004
+      - - 479.913
+        - 24.58250000000004
+      - - 860.913
+        - 24.58250000000004
+      - - 606.913
+        - 378.6325
+      - - 733.913
+        - 378.6325
+      - - 479.913
+        - 378.6325
+      - - 860.913
+        - 378.6325
+      - - 606.913
+        - 732.6825000000001
+      - - 733.913
+        - 732.6825000000001
+      - - 479.913
+        - 732.6825000000001
+      - - 860.913
+        - 732.6825000000001
+      - - 606.913
+        - 1066.7325
+      - - 733.913
+        - 1066.7325
+      - - 479.913
+        - 1066.7325
+      - - 860.913
+        - 1066.7325
+      - - 1023.8530000000001
+        - 24.58250000000004
+      - - 1150.853
+        - 24.58250000000004
+      - - 896.8530000000001
+        - 24.58250000000004
+      - - 1277.853
+        - 24.58250000000004
+      - - 1023.8530000000001
+        - 358.6325
+      - - 1150.853
+        - 358.6325
+      - - 896.8530000000001
+        - 358.6325
+      - - 1277.853
+        - 358.6325
+      - - 1023.8530000000001
+        - 672.6825000000001
+      - - 1150.853
+        - 672.6825000000001
+      - - 896.8530000000001
+        - 672.6825000000001
+      - - 1277.853
+        - 672.6825000000001
+      - - 1023.8530000000001
+        - 986.7325000000001
+      - - 1150.853
+        - 986.7325000000001
+      - - 896.8530000000001
+        - 986.7325000000001
+      - - 1277.853
+        - 986.7325000000001
+      - - 1430.799
+        - -81.5685
+      - - 1557.799
+        - -81.5685
+      - - 1303.799
+        - -81.5685
+      - - 1684.799
+        - -81.5685
+      - - 1430.799
+        - -126.5685
+      - - 1557.799
+        - -126.5685
+      - - 1303.799
+        - -126.5685
+      - - 1684.799
+        - -126.5685

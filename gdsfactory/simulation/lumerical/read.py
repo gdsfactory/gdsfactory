@@ -29,13 +29,13 @@ def read_sparameters_file(
     r"""Returns Sparameters from Lumerical interconnect export file.
 
     Args:
-        filepath: Sparameters filepath (interconnect format)
-        numports: number of ports
+        filepath: Sparameters filepath (interconnect format).
+        numports: number of ports.
 
     Returns:
-        port_names: list of port labels
-        F: frequency 1d np.array
-        S: Sparameters np.ndarray matrix
+        port_names: list of port labels.
+        F: frequency 1d np.array.
+        S: Sparameters np.ndarray matrix.
 
     """
     F = []
@@ -94,19 +94,19 @@ def read_sparameters_lumerical(
     r"""Returns Sparameters from Lumerical interconnect .DAT file.
 
     Args:
-        component: Component
-        layer_stack:
-        filepath:
-        numports: number of ports
-        dirpath: path where to look for the Sparameters
+        component: Component.
+        layer_stack: layer thickness and material.
+        filepath: for file.
+        numports: number of ports.
+        dirpath: path where to look for the Sparameters.
 
     Keyword Args:
-        simulation_settings
+        simulation_settings.
 
     Returns:
-        port_names: list of port labels
-        F: frequency 1d np.array
-        S: Sparameters np.ndarray matrix
+        port_names: list of port labels.
+        F: frequency 1d np.array.
+        S: Sparameters np.ndarray matrix.
 
 
     the Sparameters file have Lumerical format

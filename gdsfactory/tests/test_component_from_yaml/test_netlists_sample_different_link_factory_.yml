@@ -679,3 +679,38 @@ placements:
     x: 900.0
     y: 600.0
 ports: {}
+warnings:
+  optical:
+    unconnected_ports:
+    - message: 4 unconnected optical ports!
+      ports:
+      - straight_1,o1
+      - straight_5,o2
+      - straight_6,o1
+      - straight_10,o2
+      values:
+      - - 50.0
+        - 0.0
+      - - 850.0
+        - 400.0
+      - - 50.0
+        - 200.0
+      - - 850.0
+        - 600.0
+  vertical_dc:
+    unconnected_ports:
+    - message: 4 unconnected vertical_dc ports!
+      ports:
+      - bl,pad
+      - tl,pad
+      - br,pad
+      - tr,pad
+      values:
+      - - 0.0
+        - 0.0
+      - - 0.0
+        - 200.0
+      - - 900.0
+        - 400.0
+      - - 900.0
+        - 600.0

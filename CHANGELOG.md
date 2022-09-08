@@ -1,5 +1,47 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.26.2](https://github.com/gdsfactory/gdsfactory/pull/675)
+
+- devsim TCAD improvements
+    * remove wurlitzer
+    * change devsim example classes CamelCase by snake_case
+
+## 5.26.0
+
+- add grating_coupler_elliptical uniform [PR](https://github.com/gdsfactory/gdsfactory/pull/668)
+- generate KLayout technology files (.lyp) from the gdsfactory LayerColors, add structures that let you write (almost) all of the properties that .lyp files can take, including groups of layer properties. [PR](https://github.com/gdsfactory/gdsfactory/pull/662)
+- via_stack has `port_type=placement` for intermediate ports and compass has default `port_type=placement` [PR](https://github.com/gdsfactory/gdsfactory/pull/661)
+- get_netlist ignores ports with port_type='placement' [PR](https://github.com/gdsfactory/gdsfactory/pull/666)
+- move gdsfactory.copy to Component.copy [PR](https://github.com/gdsfactory/gdsfactory/pull/660)
+- clean install.py [PR](https://github.com/gdsfactory/gdsfactory/pull/657)
+    - Fix a bug where calling make_symlink on an already-existing install would raise an error
+    - Generalizes installing things to KLayout, and provides a new method for installing custom PDKs/technology to KLayout
+
+## [5.25.1](https://github.com/gdsfactory/gdsfactory/pull/655)
+
+- Component.plot() takes kwargs to configure the settings for matplotlib
+
+
+## [5.25.0](https://github.com/gdsfactory/gdsfactory/pull/651)
+
+- rewrite get_netlist() to be more robust and to warn about more issues in optical routing. [PR](https://github.com/gdsfactory/gdsfactory/pull/651)
+- documentation improvements [PR](https://github.com/gdsfactory/gdsfactory/pull/654)
+
+## [5.24.1](https://github.com/gdsfactory/gdsfactory/pull/650)
+
+- fix lazy parallelism with new sparameter port naming conventions [PR](https://github.com/gdsfactory/gdsfactory/pull/649)
+
+## [5.24.0](https://github.com/gdsfactory/gdsfactory/pull/644)
+
+- write sparameters works with arbitrary port naming convention and different input modes. `o1@0,o2@0` for meep and tidy3d. where `o1` is in the input port `@0` is the first mode, and `o2@0` refers to `o2` port mode `0`
+- add `csv_to_npz` function in `gf.simulation.convert_sparameters.py` to convert old sims into new ones.
+
+
+## [5.23.1](https://github.com/gdsfactory/gdsfactory/pull/642)
+
+- sort cells by name before writing gds to get a binary equivalent.
+
+
 ## [5.23.0](https://github.com/gdsfactory/gdsfactory/pull/641)
 
 -  extended get_bundle to enable s_bend routing when there is no space for Manhattan routing. fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/55) [PR](https://github.com/gdsfactory/gdsfactory/pull/639)

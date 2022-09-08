@@ -67,21 +67,21 @@ class FileStorageGoogleCloud(FileStorage):
         return np.load(BytesIO(b))
 
 
-def test_google_cloud() -> None:
-    w = np.linspace(1.5, 1.6, 3)
-    s = dict(wavelengths=w)
-    s["o1@0,o2@0"] = np.zeros_like(w)
+# def test_google_cloud() -> None:
+#     w = np.linspace(1.5, 1.6, 3)
+#     s = dict(wavelengths=w)
+#     s["o1@0,o2@0"] = np.zeros_like(w)
 
-    f = FileStorageGoogleCloud(bucket_name="gdsfactory", filetype="sparameters")
-    # f.write("demo", s)
+#     f = FileStorageGoogleCloud(bucket_name="gdsfactory", filetype="sparameters")
+#     # f.write("demo", s)
 
-    field = "o1@0,o2@0"
-    s2 = f.read("demo")
-    np.isclose(s[field], s2[field])
+#     field = "o1@0,o2@0"
+#     s2 = f.read("demo")
+#     np.isclose(s[field], s2[field])
 
 
 if __name__ == "__main__":
-    test_google_cloud()
+    # test_google_cloud()
 
     w = np.linspace(1.5, 1.6, 3)
     s = dict(wavelengths=w)
