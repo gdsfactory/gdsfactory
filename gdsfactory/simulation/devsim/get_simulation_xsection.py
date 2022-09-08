@@ -1,5 +1,6 @@
 """Returns simulation from cross-section."""
 
+from xmlrpc.client import Boolean
 import devsim
 import numpy as np
 import pyvista as pv
@@ -101,12 +102,12 @@ class PINWaveguide(BaseModel):
                         p_offset n_offset
                              <-> <->
          xcontact          _____|_____ _ _ _ _ _ _ _ _ _
-          <---->          |  |     |  |                |
-          ======__________|  |     |  |__________======|
-          |          |       |     |         |         | wg_thickness
-          |  Ppp+P   |   P   |  i  |    N    |  Npp+N  |
-          |__________|_______|_____|_________|_________|
-          ^          ^       ^     ^         ^         ^
+          <---->          |  |     |  |                | wg_thickness
+          ======__________|  |     |  |__________======| _
+          |          |       |     |         |         | |
+          |  Ppp+P   |   P   |  i  |    N    |  Npp+N  | | slab_thickness
+          |__________|_______|_____|_________|_________| |
+          ^          ^       ^     ^         ^         ^ 
       pp_res_x   pp_p_res     pn_res      pp_p_res  pp_res_x
           <-------------------------------------------->
                                w_sim
@@ -122,8 +123,8 @@ class PINWaveguide(BaseModel):
     slab_thickness: float
     t_box: float = 2.0 * um
     t_clad: float = 2.0 * um
-    p_conc: float = 1e18
-    n_conc: float = 1e18
+    p_conc: float = 1e17
+    n_conc: float = 1e17
     ppp_conc: float = 1e20
     nnn_conc: float = 1e20
     xmargin: float = 0.5 * um
@@ -414,16 +415,141 @@ class PINWaveguide(BaseModel):
         mesh = reader.read()
         return mesh[0]
 
+    def make_waveguide(self, 
+                    wavelength: float,
+                    t_box: float = 2.0,
+                    t_clad: float = 2.0,
+                    resolution: int = 200,
+                    perturb: Boolean = True,
+                    nmodes: int = 4,
+                    bend_radius: Optional[float] = None,
+                    cache: Optional[PathType] = CONFIG["modes"],
+                    precision: Precision = "double",
+                    filter_pol: Optional[FilterPol] = None,
+    ):
+        """Converts the FEM model to a Waveguide object
+            - Rescales lengths to um
+            - Adjusts origin to match Waveguide object convention
+
+        Parameters:
+            wavelength: (um).
+            t_box: thickness BOX (um). 
+            t_clad: thickness cladding (um).
+            xmargin: margin from waveguide edge to each side (um). 
+            resolution: pixels/um.
+            nmodes: number of modes to compute.
+            bend_radius: optional bend radius (um).
+            cache: filepath for caching modes. If None does not use file cache.
+            precision: single or double.
+            filter_pol: te, tm or None.W
+
+        Returns:
+            A tidy3d Waveguide object
+
+        """
+
+        # Create index perturbation
+        x_fem = []
+        y_fem = []
+        dN_fem = []
+        dP_fem = []
+
+        for region_name in ["core", "slab"]:
+            x_fem.append(np.array(self.get_field(region_name=region_name, field_name="x")))
+            y_fem.append(np.array(self.get_field(region_name=region_name, field_name="y")))
+            dN_fem.append(np.array(self.get_field(region_name=region_name, field_name="Electrons")))
+            dP_fem.append(np.array(self.get_field(region_name=region_name, field_name="Holes")))
+
+        x_fem = np.concatenate(x_fem)
+        y_fem = np.concatenate(y_fem)
+        dN_fem = np.concatenate(dN_fem)
+        dP_fem = np.concatenate(dP_fem)
+
+        dn_fem = dn_carriers(wavelength, dN_fem, dP_fem)
+        dn_dict = {"x": x_fem/um, "y":y_fem/um + t_box, "dn": dn_fem} if perturb else None
+                
+        # Create perturbed waveguide, handle like regular mode
+        return Waveguide(
+            wavelength=wavelength,
+            wg_width=self.wg_width/um,
+            wg_thickness=self.wg_thickness/um,
+            slab_thickness=self.slab_thickness/um,
+            ncore=si,
+            nclad=sio2,
+            xmargin=(self.ppp_offset+self.xmargin)/um,
+            resolution=resolution,
+            dn_dict=dn_dict,
+            cache=None,
+            precision=precision,
+            filter_pol=filter_pol,
+        )
+
+
 
 if __name__ == "__main__":
+
     c = PINWaveguide(
         wg_width=500 * nm,
         wg_thickness=220 * nm,
         slab_thickness=90 * nm,
     )
     c.ddsolver()
-    # c.save_device("./test.dat")
-    c.ramp_voltage(1.0, 0.1)
-
-    # # print(c.get_field_density(field_name="Holes"))
     c.save_device("./test.dat")
+
+    voltage_solver_step = -0.1
+    # voltages = np.arange(0,-1,voltage_solver_step)
+    # voltages = [-0.1]
+
+    voltages = [0]
+
+    neffs_doped = []
+    indices_doped = []
+
+    neffs_control = []
+    indices_control = []
+
+    c_control = c.make_waveguide(wavelength=1.55, perturb=False, precision='double')
+    c_control.compute_modes()
+    indices_control.append(c_control.nx)
+    neffs_control.append(c_control.neffs[0])
+
+    for voltage in voltages:
+        c.ramp_voltage(voltage, voltage_solver_step)
+        c_doped = c.make_waveguide(wavelength=1.55, precision='double')
+        c_doped.compute_modes()
+        indices_doped.append(c_doped.nx)
+        # c2.plot_index()
+        neffs_doped.append(c_doped.neffs[0])
+        # c2.plot_Ex()
+
+        # plt.savefig(f"test_v_{voltage}.png")
+
+        c.save_device(f"./test_v_{voltage}.dat")
+
+    plt.plot(voltages, neffs_doped[0] - neffs_control[0])
+    plt.xlabel("Voltage (V)")
+    plt.ylabel("delta neff")
+    plt.savefig("neff_test_shift.png")
+
+    plt.figure()
+    plt.imshow(np.log10(np.abs(indices_doped[0].T - indices_control[0].T)), origin='lower')
+    plt.colorbar()
+    plt.savefig("indices_test_shift.png")
+
+    # import pickle
+
+    # diffs = []
+
+    # for voltage in [0.0, -0.3, -0.6]:
+    #     filepath = f'./02_reverse/test_v_{voltage}.dat'
+    #     devsim.load_devices(file=filepath)
+    #     electrons = []
+    #     for region_name in ["core", "slab"]:
+    #         electrons.append(devsim.get_node_model_values(device='MyDevice', region=region_name, name="Electrons"))
+    #         electrons.append(devsim.get_node_model_values(device='MyDevice', region=region_name, name="Electrons"))
+
+    #     filepath = f'./02_reverse/test_v_{voltage}_electrons.dat'
+
+    #     dbfile = open(filepath, 'ab')
+    #     pickle.dump(electrons, dbfile)                     
+    #     dbfile.close()
