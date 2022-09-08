@@ -18,7 +18,7 @@ Maybe:
 
 import pathlib
 from types import SimpleNamespace
-from typing import Callable, List, Optional, Tuple, Union, Dict
+from typing import Callable, Dict, List, Optional, Tuple, Union
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -26,6 +26,7 @@ import pandas as pd
 from matplotlib import colors
 from pydantic import BaseModel, Extra
 from scipy.constants import c as SPEED_OF_LIGHT
+from scipy.interpolate import griddata
 from tidy3d.plugins.mode.solver import compute_modes
 from tqdm.auto import tqdm
 from typing_extensions import Literal
@@ -33,9 +34,7 @@ from typing_extensions import Literal
 from gdsfactory.config import CONFIG, logger
 from gdsfactory.serialization import get_hash
 from gdsfactory.simulation.gtidy3d.materials import si, sin, sio2
-from gdsfactory.types import PathType, TypedArray
-
-from scipy.interpolate import griddata
+from gdsfactory.types import PathType
 
 nm = 1e-3
 
@@ -249,7 +248,9 @@ class Waveguide(BaseModel):
         slab_thickness = self.slab_thickness
         t_clad = self.t_clad
 
-        inds_core = (-w / 2 <= Y) & (Y <= w / 2) & (Z >= t_box) & (Z <= t_box + wg_thickness)
+        inds_core = (
+            (-w / 2 <= Y) & (Y <= w / 2) & (Z >= t_box) & (Z <= t_box + wg_thickness)
+        )
         inds_slab = (Z >= t_box) & (Z <= t_box + slab_thickness)
 
         n = np.ones_like(Y) * nclad
@@ -261,10 +262,16 @@ class Waveguide(BaseModel):
         ] = nclad
         n[(Z <= 1.0 + slab_thickness + t_clad)] = nclad
         n[inds_core] = ncore
-        n[inds_slab] = (ncore if slab_thickness else nclad)
+        n[inds_slab] = ncore if slab_thickness else nclad
 
         if self.dn_dict is not None:
-            dn = griddata((self.dn_dict["x"], self.dn_dict["y"]), self.dn_dict["dn"], (Y, Z), method='cubic', fill_value=0)
+            dn = griddata(
+                (self.dn_dict["x"], self.dn_dict["y"]),
+                self.dn_dict["dn"],
+                (Y, Z),
+                method="cubic",
+                fill_value=0,
+            )
             n[inds_core] += dn[inds_core]
             n[inds_slab] += dn[inds_slab]
 
