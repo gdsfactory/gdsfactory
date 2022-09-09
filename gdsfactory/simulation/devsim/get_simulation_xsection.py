@@ -396,12 +396,13 @@ class PINWaveguide(BaseModel):
             maximum_iterations=self.max_iter,
         )
 
-    def ramp_voltage(self, V: float, dV: float) -> None:
+    def ramp_voltage(self, Vfinal: float, Vstep: float, Vinit: float = 0.0) -> None:
+        """Ramps the solution from Vi to Vf."""
         device = "MyDevice"
-        v = 0.0
-        while np.abs(v) <= np.abs(V):
+        V = Vinit
+        while np.abs(V) <= np.abs(Vfinal):
             devsim.set_parameter(
-                device=device, name=simple_physics.GetContactBiasName("left"), value=v
+                device=device, name=simple_physics.GetContactBiasName("left"), value=V
             )
             devsim.solve(
                 type="dc",
@@ -409,9 +410,7 @@ class PINWaveguide(BaseModel):
                 relative_error=self.rtol,
                 maximum_iterations=self.max_iter,
             )
-            # simple_physics.PrintCurrents(device, "left")
-            # simple_physics.PrintCurrents(device, "right")
-            v += dV
+            V += Vstep
 
     def get_field(self, region_name="core", field_name="Electrons"):
         device = "MyDevice"
