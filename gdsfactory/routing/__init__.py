@@ -33,6 +33,7 @@ from gdsfactory.routing.get_route import (
     get_route_from_waypoints_electrical,
     get_route_from_waypoints_electrical_multilayer,
 )
+from gdsfactory.routing.get_route_astar import get_route_astar
 from gdsfactory.routing.get_route_from_steps import (
     get_route_from_steps,
     get_route_from_steps_electrical,
@@ -63,6 +64,7 @@ __all__ = [
     "get_bundle_from_waypoints_electrical",
     "get_bundle_from_waypoints_electrical_multilayer",
     "get_route",
+    "get_route_astar",
     "get_route_electrical",
     "get_route_electrical_multilayer",
     "get_routes_bend180",
