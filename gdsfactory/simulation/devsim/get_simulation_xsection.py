@@ -427,7 +427,7 @@ class PINWaveguide(BaseModel):
         self,
         tempfile: str = "temp.dat",
         scalars: Optional[str] = None,
-        logscale: bool = False,
+        log_scale: bool = False,
         cmap: str = "RdBu",
         jupyter_backend: str = "None",
     ) -> None:
@@ -447,7 +447,7 @@ class PINWaveguide(BaseModel):
         # sargs = dict(height=0.25, vertical=True, position_x=0.05, position_y=0.05)
         plotter = pv.Plotter(notebook=True)
         _ = plotter.add_mesh(
-            mesh, scalars=scalars, logscale=logscale, cmap=cmap
+            mesh, scalars=scalars, log_scale=log_scale, cmap=cmap
         )  # , scalar_bar_args=sargs)
         _ = plotter.show_grid()
         _ = plotter.camera_position = "xy"
