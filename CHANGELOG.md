@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.27.1](https://github.com/gdsfactory/gdsfactory/pull/686)
+
+- fix devsim TCAD units and examples.
+
 ## [5.27.0](https://github.com/gdsfactory/gdsfactory/pull/684)
 
 - add A* router [PR](https://github.com/gdsfactory/gdsfactory/pull/683)
