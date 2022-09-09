@@ -1,4 +1,5 @@
-"""How can we leverage routing with different metal layers?."""
+"""FIXME. How can we leverage routing with different metal layers?"""
+
 
 import gdsfactory as gf
 from gdsfactory.components.extend_ports_list import extend_ports_list
@@ -87,5 +88,5 @@ if __name__ == "__main__":
             for metal_route in metal_routes:
                 c.add(metal_route.references)
 
-    c.write_gds(name)
+    # c.write_gds(name)
     c.show(show_ports=True)
