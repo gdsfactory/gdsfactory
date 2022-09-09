@@ -25,6 +25,7 @@ from gdsfactory.types import PathType
 
 nm = 1e-9
 um = 1e-6
+cm = 1e-2
 
 
 def dn_carriers(wavelength: float, dN: float, dP: float) -> float:
@@ -134,13 +135,13 @@ class PINWaveguide(BaseModel):
     t_clad: float = 2.0 * um
     p_conc: float = 1e17
     n_conc: float = 1e17
-    ppp_conc: float = 1e20
-    nnn_conc: float = 1e20
+    ppp_conc: float = 1e17
+    nnn_conc: float = 1e17
     xmargin: float = 0.5 * um
     xcontact: float = 0.25 * um
     pp_res_x: float = 20 * nm
-    pp_p_res_x: float = 5 * nm
-    p_res_x: float = 2 * nm
+    pp_p_res_x: float = 2 * nm
+    p_res_x: float = 5 * nm
     pn_res_x: float = 1 * nm
     coarse_res_y: float = 10 * nm
     slab_res_y: float = 2 * nm
@@ -153,42 +154,54 @@ class PINWaveguide(BaseModel):
 
         extra = Extra.allow
 
-    @property
-    def t_sim(self):
-        return self.t_box + self.wg_thickness + self.t_clad
+    # @property
+    # def t_sim(self):
+    #     return self.t_box + self.wg_thickness + self.t_clad
 
-    @property
-    def w_sim(self):
-        return 2 * self.xmargin + self.ppp_offset + self.npp_offset
+    # @property
+    # def w_sim(self):
+    #     return 2 * self.xmargin + self.ppp_offset + self.npp_offset
 
     def create_2d_mesh(self, device) -> None:
         """Creates a 2D mesh."""
-        xmin = -self.xmargin - self.ppp_offset - self.wg_width / 2
-        xmax = self.xmargin + self.npp_offset + self.wg_width / 2
+        xmin = (-self.xmargin - self.ppp_offset - self.wg_width / 2) / cm
+        xmax = (self.xmargin + self.npp_offset + self.wg_width / 2) / cm
         self.xppp = -self.ppp_offset - self.wg_width / 2
         self.xnpp = self.npp_offset + self.wg_width / 2
-        ymin = 0
-        ymax = self.wg_thickness
-        xmin_waveguide = -self.wg_width / 2
-        xmax_waveguide = self.wg_width / 2
-        yslab = self.slab_thickness
+        ymin = 0 / cm
+        ymax = (self.wg_thickness) / cm
+        xmin_waveguide = (-self.wg_width / 2) / cm
+        xmax_waveguide = (self.wg_width / 2) / cm
+        yslab = (self.slab_thickness) / cm
 
         devsim.create_2d_mesh(mesh="dio")
-        devsim.add_2d_mesh_line(mesh="dio", dir="x", pos=xmin, ps=self.pp_res_x)
-        devsim.add_2d_mesh_line(mesh="dio", dir="x", pos=self.xppp, ps=self.pp_p_res_x)
-        devsim.add_2d_mesh_line(mesh="dio", dir="x", pos=self.xppp / 2, ps=self.p_res_x)
+        devsim.add_2d_mesh_line(mesh="dio", dir="x", pos=xmin, ps=self.pp_res_x / cm)
         devsim.add_2d_mesh_line(
-            mesh="dio", dir="x", pos=-self.p_offset, ps=self.pn_res_x
+            mesh="dio", dir="x", pos=self.xppp / cm, ps=self.pp_p_res_x / cm
         )
         devsim.add_2d_mesh_line(
-            mesh="dio", dir="x", pos=self.n_offset, ps=self.pn_res_x
+            mesh="dio", dir="x", pos=self.xppp / cm / 2, ps=self.p_res_x / cm
         )
-        devsim.add_2d_mesh_line(mesh="dio", dir="x", pos=self.xnpp / 2, ps=self.p_res_x)
-        devsim.add_2d_mesh_line(mesh="dio", dir="x", pos=self.xnpp, ps=self.pp_p_res_x)
-        devsim.add_2d_mesh_line(mesh="dio", dir="x", pos=xmax, ps=self.pp_res_x)
-        devsim.add_2d_mesh_line(mesh="dio", dir="y", pos=ymin, ps=self.coarse_res_y)
-        devsim.add_2d_mesh_line(mesh="dio", dir="y", pos=yslab, ps=self.slab_res_y)
-        devsim.add_2d_mesh_line(mesh="dio", dir="y", pos=ymax, ps=self.coarse_res_y)
+        devsim.add_2d_mesh_line(
+            mesh="dio", dir="x", pos=-self.p_offset / cm, ps=self.pn_res_x / cm
+        )
+        devsim.add_2d_mesh_line(
+            mesh="dio", dir="x", pos=self.n_offset / cm, ps=self.pn_res_x / cm
+        )
+        devsim.add_2d_mesh_line(
+            mesh="dio", dir="x", pos=self.xnpp / cm / 2, ps=self.p_res_x / cm
+        )
+        devsim.add_2d_mesh_line(
+            mesh="dio", dir="x", pos=self.xnpp / cm, ps=self.pp_p_res_x / cm
+        )
+        devsim.add_2d_mesh_line(mesh="dio", dir="x", pos=xmax, ps=self.pp_res_x / cm)
+        devsim.add_2d_mesh_line(
+            mesh="dio", dir="y", pos=ymin, ps=self.coarse_res_y / cm
+        )
+        devsim.add_2d_mesh_line(mesh="dio", dir="y", pos=yslab, ps=self.slab_res_y / cm)
+        devsim.add_2d_mesh_line(
+            mesh="dio", dir="y", pos=ymax, ps=self.coarse_res_y / cm
+        )
 
         devsim.add_2d_region(
             mesh="dio",
@@ -213,18 +226,18 @@ class PINWaveguide(BaseModel):
             material="Si",
             region="left_contact",
             xl=xmin,
-            xh=xmin + self.xcontact,
+            xh=xmin + self.xcontact / cm,
             yl=yslab,
-            yh=yslab + 1 * nm,
+            yh=yslab + 5 * nm / cm,
         )
         devsim.add_2d_region(
             mesh="dio",
             material="Si",
             region="right_contact",
-            xl=xmax - self.xcontact,
+            xl=xmax - self.xcontact / cm,
             xh=xmax,
             yl=yslab,
-            yh=yslab + 1 * nm,
+            yh=yslab + 5 * nm / cm,
         )
 
         devsim.add_2d_interface(
@@ -246,7 +259,7 @@ class PINWaveguide(BaseModel):
             yl=ymin,
             yh=yslab,
             xl=xmin,
-            xh=xmin + self.xmargin / 2,
+            xh=xmin + self.xmargin / cm / 2,
         )
         devsim.add_2d_contact(
             mesh="dio",
@@ -256,10 +269,11 @@ class PINWaveguide(BaseModel):
             yl=ymin,
             yh=yslab,
             xl=xmax,
-            xh=xmax - self.xmargin / 2,
+            xh=xmax - self.xmargin / cm / 2,
         )
         devsim.finalize_mesh(mesh="dio")
         devsim.create_device(mesh="dio", device=device)
+        self.save_device("test.dat")
 
     def set_parameters(self, device) -> None:
         """Set parameters for 300 K."""
@@ -274,27 +288,32 @@ class PINWaveguide(BaseModel):
             device,
             "slab",
             "Acceptors",
-            f"{self.p_conc:1.3e}*step({-1*self.p_offset:1.3e}-x) + {self.ppp_conc:1.3e}*step({self.xppp:1.3e}-x)",
+            f"{self.p_conc:1.3e}*step({-1*self.p_offset / cm:1.3e}-x) + {self.ppp_conc:1.3e}*step({self.xppp / cm:1.3e}-x)",
         )
         model_create.CreateNodeModel(
             device,
             "slab",
             "Donors",
-            f"{self.n_conc:1.3e}*step(x-{self.n_offset:1.3e}) + {self.nnn_conc:1.3e}*step(x-{self.xnpp:1.3e})",
+            f"{self.n_conc:1.3e}*step(x-{self.n_offset / cm:1.3e}) + {self.nnn_conc:1.3e}*step(x-{self.xnpp / cm:1.3e})",
         )
         model_create.CreateNodeModel(device, "slab", "NetDoping", "Donors-Acceptors")
         model_create.CreateNodeModel(
             device,
             "core",
             "Acceptors",
-            f"{self.p_conc:1.1e}*step({-1*self.p_offset:1.3e}-x)",
+            f"{self.p_conc:1.1e}*step({-1*self.p_offset / cm:1.6e}-x)",
         )
         model_create.CreateNodeModel(
-            device, "core", "Donors", f"{self.n_conc:1.1e}*step(x-{self.n_offset:1.3e})"
+            device,
+            "core",
+            "Donors",
+            f"{self.n_conc:1.1e}*step(x-{self.n_offset / cm:1.6e})",
         )
         model_create.CreateNodeModel(device, "core", "NetDoping", "Donors-Acceptors")
         model_create.CreateNodeModel(device, "left_contact", "NetDoping", "0")
         model_create.CreateNodeModel(device, "right_contact", "NetDoping", "0")
+
+        self.save_device("test_doping.dat")
 
     def initial_solution(self, device, region, circuit_contacts=None) -> None:
         # Create Potential, Potential@n0, Potential@n1
@@ -506,7 +525,7 @@ class PINWaveguide(BaseModel):
 
         dn_fem = dn_carriers(wavelength, dN_fem, dP_fem)
         dn_dict = (
-            {"x": x_fem / um, "y": y_fem / um + t_box, "dn": dn_fem}
+            {"x": x_fem * cm / um, "y": y_fem * cm / um + t_box, "dn": dn_fem}
             if perturb
             else None
         )
@@ -517,6 +536,8 @@ class PINWaveguide(BaseModel):
             wg_width=self.wg_width / um,
             wg_thickness=self.wg_thickness / um,
             slab_thickness=self.slab_thickness / um,
+            t_box=t_box,
+            t_clad=t_clad,
             ncore=si,
             nclad=sio2,
             xmargin=(self.ppp_offset + self.xmargin) / um,
@@ -536,21 +557,28 @@ if __name__ == "__main__":
         slab_thickness=90 * nm,
     )
     c.ddsolver()
-    c.save_device("./test.dat")
+    c.save_device("test.dat")
 
-    voltage_solver_step = 0.1
-    voltages = np.arange(0, 1, voltage_solver_step)
+    import os
+    import shutil
+
+    foldername = "03_reverse_scale"
+    if os.path.exists(foldername) and os.path.isdir(foldername):
+        shutil.rmtree(foldername)
+    os.mkdir(foldername)
+
+    voltage_solver_step = -0.2
+    voltages = np.arange(0, -1, voltage_solver_step)
     # voltages = [-0.1]
-
-    voltages = [0]
+    # voltages = [0]
 
     neffs_doped = []
     indices_doped = []
 
     c_control = c.make_waveguide(wavelength=1.55, perturb=False, precision="double")
     c_control.compute_modes()
-    indices_control = [c_control.nx]
-    neffs_control = [c_control.neffs[0]]
+    indices_control = c_control.nx
+    neffs_control = c_control.neffs[0]
     for voltage in voltages:
         c.ramp_voltage(voltage, voltage_solver_step)
         c_doped = c.make_waveguide(wavelength=1.55, precision="double")
@@ -559,22 +587,23 @@ if __name__ == "__main__":
         # c2.plot_index()
         neffs_doped.append(c_doped.neffs[0])
         # c2.plot_Ex()
+        c.save_device(f"./{foldername}/test_v_{voltage}.dat")
 
-        # plt.savefig(f"test_v_{voltage}.png")
-
-        c.save_device(f"./test_v_{voltage}.dat")
-
-    plt.plot(voltages, neffs_doped[0] - neffs_control[0])
-    plt.xlabel("Voltage (V)")
-    plt.ylabel("delta neff")
-    plt.savefig("neff_test_shift.png")
+        plt.figure()
+        plt.imshow(
+            np.log10(np.abs(c_doped.nx.T - indices_control.T)),
+            origin="lower",
+            vmin=-14,
+            vmax=-3,
+        )
+        plt.colorbar()
+        plt.savefig(f"./{foldername}/indices_test_shift_{voltage}.png")
 
     plt.figure()
-    plt.imshow(
-        np.log10(np.abs(indices_doped[0].T - indices_control[0].T)), origin="lower"
-    )
-    plt.colorbar()
-    plt.savefig("indices_test_shift.png")
+    plt.plot(voltages, np.array(neffs_doped) - neffs_control)
+    plt.xlabel("Voltage (V)")
+    plt.ylabel("delta neff")
+    plt.savefig(f"./{foldername}/neff_test_shift.png")
 
     # import pickle
 
