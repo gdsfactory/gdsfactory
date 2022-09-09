@@ -1,11 +1,8 @@
-"""Some manhattan routes have disconnected waveguides.
+"""FIXME. Some manhattan routes have disconnected waveguides.
 
 Now we raise a warning.
 
-ideally we also enable:
-
-- sbend routing.
-- 180 deg routing.
+ideally we also enable 180 deg routing.
 
 """
 
