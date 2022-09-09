@@ -5,12 +5,13 @@ This module will enable conversion between gdsfactory settings and KLayout techn
 
 import os
 import re
-from typing import Dict, Literal, Optional, Tuple
+from typing import Dict, Optional, Tuple
 
 import numpy as np
 from lxml import etree
 from matplotlib.colors import CSS4_COLORS
 from pydantic import BaseModel, Field, validator
+from typing_extensions import Literal
 
 from gdsfactory.types import Layer
 

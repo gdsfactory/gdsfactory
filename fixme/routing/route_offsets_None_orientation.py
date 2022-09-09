@@ -1,7 +1,4 @@
-"""get_bundle_from_steps needs fix.
-
-It does not work ports with None orientation.
-"""
+"""get_bundle_from_steps does not work ports with None orientation. FIXME."""
 
 
 if __name__ == "__main__":

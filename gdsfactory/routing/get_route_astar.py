@@ -22,27 +22,28 @@ class Node:
         self.f = self.g + self.h  # cost of the node (sum of g and h)
 
 
-def astar_routing(
-    c: Component,
-    input_port: Port,
-    output_port: Port,
+def get_route_astar(
+    component: Component,
+    port1: Port,
+    port2: Port,
     resolution: float = 1,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Route:
-    """A* routing function. Finds a route avoiding components in a component `c` between two ports.
+    """A* routing function. Finds a route between two ports avoiding obstacles.
 
     Args:
-        c: Component the route, and ports belong to.
-        input_port: input.
-        output_port: output.
-        resolution: discretization resolution. A lower resolution can help avoid accidental overlapping between
-                    the route and components, but can result in large number of turns.
+        component: Component the route, and ports belong to.
+        port1: input.
+        port2: output.
+        resolution: discretization resolution.
+            Lower resolution can help avoid accidental overlapping between route
+            and components, but adds more bends.
         cross_section: spec.
         kwargs: cross_section settings.
     """
     cross_section = gf.get_cross_section(cross_section, **kwargs)
-    grid, x, y = _generate_grid(c, resolution)
+    grid, x, y = _generate_grid(component, resolution)
 
     # Tell the algorithm which start and end directions to follow based on port orientation
     input_orientation = {
@@ -51,7 +52,7 @@ def astar_routing(
         180.0: (-resolution, 0),
         270.0: (0, -resolution),
         None: (0, 0),
-    }[input_port.orientation]
+    }[port1.orientation]
 
     output_orientation = {
         0.0: (resolution, 0),
@@ -59,14 +60,14 @@ def astar_routing(
         180.0: (-resolution, 0),
         270.0: (0, -resolution),
         None: (0, 0),
-    }[output_port.orientation]
+    }[port2.orientation]
 
     # Instantiate nodes
     start_node = Node(
         None,
         (
-            round(input_port.x + input_orientation[0]),
-            round(input_port.y + input_orientation[1]),
+            round(port1.x + input_orientation[0]),
+            round(port1.y + input_orientation[1]),
         ),
     )
     start_node.g = start_node.h = start_node.f = 0
@@ -74,8 +75,8 @@ def astar_routing(
     end_node = Node(
         None,
         (
-            round(output_port.x + output_orientation[0]),
-            round(output_port.y + output_orientation[1]),
+            round(port2.x + output_orientation[0]),
+            round(port2.y + output_orientation[1]),
         ),
     )
     end_node.g = end_node.h = end_node.f = 0
@@ -111,8 +112,8 @@ def astar_routing(
             points = points[::-1]
 
             # add the start and end ports
-            points.insert(0, input_port.center)
-            points.append(output_port.center)
+            points.insert(0, port1.center)
+            points.append(port2.center)
 
             # return route from points
             return get_route_from_waypoints(points, cross_section=cross_section)
@@ -149,7 +150,7 @@ def astar_routing(
             open_list.append(neighbour)
 
     warn("A* algorithm failed, resorting to Manhattan routing. Watch for overlaps.")
-    return route_manhattan(input_port, output_port, cross_section=cross_section)
+    return route_manhattan(port1, port2, cross_section=cross_section)
 
 
 def _generate_grid(c: Component, resolution: float = 0.5) -> np.ndarray:
@@ -257,7 +258,7 @@ if __name__ == "__main__":
     # rect3.move(destination=(82.5, -9.5))
     rect1 = c << gf.components.rectangle()
     rect2 = c << gf.components.rectangle()
-    rect3 = c << gf.components.rectangle((2, 2))
+    rect3 = c << gf.components.rectangle((2, 2), layer=(2, 0))
     rect2.move(destination=(8, 4))
     rect3.move(destination=(5.5, 1.5))
 
@@ -270,9 +271,10 @@ if __name__ == "__main__":
     c.add_ports([port1, port2])
     c.show(show_ports=True)
 
-    route = astar_routing(c, port1, port2, radius=0.5, width=0.5)
+    route = get_route_astar(c, port1, port2, radius=0.5, width=0.5)
+
     # route = route_manhattan(port1, port2, radius=0.5, width=0.5)
-    # route = astar_routing(c, mzi_.ports["o2"], mzi_2.ports["o1"], radius=0.5)
+    # route = get_route_astar(c, mzi_.ports["o2"], mzi_2.ports["o1"], radius=0.5)
     # route = route_manhattan(mzi_.ports["o2"], mzi_2.ports["o1"], radius=0.5)
     c.add(route.references)
 

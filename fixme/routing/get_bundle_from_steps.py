@@ -1,3 +1,6 @@
+"""FIXME, only first route looks good."""
+
+
 if __name__ == "__main__":
     import gdsfactory as gf
 
