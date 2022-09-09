@@ -167,6 +167,6 @@ devsim:
 	python devsim/devsim_linux_v2.1.0/install.py
 	pip install -e devsim/devsim_linux_v2.1.0/lib # Works in this specific way
 	pip install mkl
-	mamba install pyvista -y
+	mamba install -c conda-forge pyvista -y
 
 .PHONY: gdsdiff build conda
