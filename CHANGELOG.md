@@ -1,6 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.26.3](https://github.com/gdsfactory/gdsfactory/pull/675)
+## [5.27.0](https://github.com/gdsfactory/gdsfactory/pull/684)
+
+- add A* router [PR](https://github.com/gdsfactory/gdsfactory/pull/683)
+
+## 5.26.3
 
 - fix tidy3d mode solver sweep width [PR](https://github.com/gdsfactory/gdsfactory/pull/682)
 - devsim improvements. Add Modes with doping index perturbation [PR](https://github.com/gdsfactory/gdsfactory/pull/679)
