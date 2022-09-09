@@ -21,9 +21,8 @@ def import_inductor_gds(input_file, topcell) -> gf.Component:
     """
     inductor_in = gf.import_gds(input_file, cellname=topcell, flatten=True)
     print("Inductor object : ", inductor_in)
-    ind_comp = gf.Component("Inductor Top")
     # lc = ind_comp << inductor_in
-    return ind_comp
+    return gf.Component("Inductor Top")
 
 
 def extract_shapes() -> dict:
@@ -57,13 +56,13 @@ def test_polygon():
     for k, v in poly_dict.items():
         for i in v:
             if len(i) != 4:
-                if k not in npoly_dict.keys():
-                    npoly_dict[k] = [i]
-                else:
+                if k in npoly_dict:
                     npoly_dict[k].append(i)
-            # assert len(i) == 4, plot_polygon(k, i)
-            # f'{len(i)}\t{i}\tThese are not rectangles'; plot_polygon(k, i)
-            # assert len(i) == 4,  ;(i, k)
+                else:
+                    npoly_dict[k] = [i]
+                    # assert len(i) == 4, plot_polygon(k, i)
+                    # f'{len(i)}\t{i}\tThese are not rectangles'; plot_polygon(k, i)
+                    # assert len(i) == 4,  ;(i, k)
     plot_shapes(npoly_dict)
 
 
