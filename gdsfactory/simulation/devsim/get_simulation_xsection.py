@@ -46,7 +46,7 @@ def dn_carriers(wavelength: float, dN: float, dP: float) -> float:
     elif wavelength == 1.31:
         return -2.98 * 1e-22 * np.power(dN, 1.016) - 1.25 * 1e-18 * np.power(dP, 0.835)
     else:
-        wavelength = wavelength * 1e-6  # convert to m
+        wavelength *= 1e-6
         return (
             -3.64 * 1e-10 * wavelength**2 * dN
             - 3.51 * 1e-6 * wavelength**2 * np.poewr(dP, 0.8)
@@ -71,7 +71,7 @@ def dalpha_carriers(wavelength: float, dN: float, dP: float) -> float:
     elif wavelength == 1.31:
         return 3.48 * 1e-22 * dN**1.229 + 1.02 * 1e-19 * dP**1.089
     else:
-        wavelength = wavelength * 1e-6  # convert to m
+        wavelength *= 1e-6
         return 3.52 * 1e-6 * wavelength**2 * dN + 2.4 * 1e-6 * wavelength**2 * dP
 
 
