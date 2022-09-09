@@ -1,7 +1,4 @@
-"""FIXME.
-
-allow diagonal route for electrical connections
-"""
+"""FIXME."""
 
 import gdsfactory as gf
 
