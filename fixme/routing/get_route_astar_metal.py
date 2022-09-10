@@ -25,8 +25,8 @@ routes = gf.routing.get_route_astar(
     port1=port1,
     port2=port2,
     cross_section="metal1",
-    resolution=5,
-    distance=5,
+    resolution=10,
+    distance=7,
 )
 c.add(routes.references)
 c.show()
