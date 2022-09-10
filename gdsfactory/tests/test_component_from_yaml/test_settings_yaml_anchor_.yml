@@ -47,6 +47,7 @@ settings:
               port_types:
               - electrical
               - electrical
+              radius: null
               width: 10.0
       get_bundle_from_steps:
         function: get_bundle_from_steps
@@ -65,6 +66,7 @@ settings:
               port_types:
               - electrical
               - electrical
+              radius: null
               width: 10.0
       get_bundle_from_waypoints:
         function: get_bundle_from_waypoints
@@ -117,6 +119,7 @@ settings:
               port_types:
               - electrical
               - electrical
+              radius: null
               width: 10.0
       get_bundle_from_steps:
         function: get_bundle_from_steps
@@ -135,6 +138,7 @@ settings:
               port_types:
               - electrical
               - electrical
+              radius: null
               width: 10.0
       get_bundle_from_waypoints:
         function: get_bundle_from_waypoints

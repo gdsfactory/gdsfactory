@@ -1,6 +1,6 @@
 """FIXME.
 
-has some issues
+it's very slow.
 """
 
 import gdsfactory as gf
