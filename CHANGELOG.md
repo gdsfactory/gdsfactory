@@ -1,5 +1,12 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.28.0](https://github.com/gdsfactory/gdsfactory/pull/686)
+
+- Add avoid_layers, distance, and cost addition for turns for routing.get_route_astar [PR](https://github.com/gdsfactory/gdsfactory/pull/690)
+- cross_sections `metal1`, `metal2`, `metal3` have `radius = None`
+- routing.get_bundle uses `wire_corner` if `cross_section.radius=None`
+- routing.get_route_astar uses `wire_corner` if `cross_section.radius=None`
+
 ## [5.27.1](https://github.com/gdsfactory/gdsfactory/pull/686)
 
 - fix devsim TCAD units and examples.
