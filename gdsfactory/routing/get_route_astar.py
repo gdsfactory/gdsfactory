@@ -39,11 +39,12 @@ def get_route_astar(
         component: Component the route, and ports belong to.
         port1: input.
         port2: output.
-        resolution: discretization resolution.
+        resolution: discretization resolution in um.
             Lower resolution can help avoid accidental overlapping between route
-            and components, but adds more bends.
+            and components but adds more bends.
+            The resolution decides how many "leaps/hops" the algorithm has to do.
         avoid_layers: list of layers to avoid.
-        distance: distance from obstacles.
+        distance: distance from obstacles in um.
         cross_section: spec.
         kwargs: cross_section settings.
     """

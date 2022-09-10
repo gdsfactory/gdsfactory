@@ -1,8 +1,3 @@
-"""FIXME.
-
-it's very slow.
-"""
-
 import gdsfactory as gf
 
 c = gf.Component("get_route_astar")
@@ -24,6 +19,9 @@ routes = gf.routing.get_route_astar(
     component=c,
     port1=port1,
     port2=port2,
+    resolution=5,
+    distance=5.5,
+    radius=5,
 )
 c.add(routes.references)
 c.show()
