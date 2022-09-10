@@ -188,9 +188,7 @@ def _process_name(name: str) -> Optional[str]:
     if not name:
         return None
     match = re.search(_layer_re, name)
-    if match:
-        return name[: match.start()].strip()
-    return name
+    return name[: match.start()].strip() if match else name
 
 
 def _process_layer(layer: str) -> Optional[Layer]:
@@ -203,9 +201,7 @@ def _process_layer(layer: str) -> Optional[Layer]:
     if not match:
         raise OSError(f"Could not read layer {layer}!")
     v = match.group().split("/")
-    if v == ["*", "*"]:
-        return None
-    return int(v[0]), int(v[1])
+    return None if v == ["*", "*"] else (int(v[0]), int(v[1]))
 
 
 def _properties_to_layerview(element, tag: Optional[str] = None) -> Optional[LayerView]:
@@ -347,11 +343,11 @@ class KLayoutLayerProperties(BaseModel):
 
     def get_layer_view_groups(self) -> Dict[str, LayerView]:
         """Return the LayerViews that contain other LayerViews."""
-        layers = {}
-        for name, view in self.layer_views.items():
-            if view.group_members is not None:
-                layers[name] = view
-        return layers
+        return {
+            name: view
+            for name, view in self.layer_views.items()
+            if view.group_members is not None
+        }
 
     def __str__(self):
         """Prints the number of KLayoutLayerProperty objects in the KLayoutLayerProperties object."""
@@ -461,7 +457,7 @@ class KLayoutLayerProperties(BaseModel):
 
         tree = etree.parse(filepath)
         root = tree.getroot()
-        if not root.tag == "layer-properties":
+        if root.tag != "layer-properties":
             raise OSError("Layer properties file incorrectly formatted, cannot read.")
 
         layer_views = {}
