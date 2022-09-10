@@ -8,7 +8,7 @@ from gdsfactory import Port
 from gdsfactory.component import Component
 from gdsfactory.routing import get_route_from_waypoints
 from gdsfactory.routing.manhattan import route_manhattan
-from gdsfactory.types import CrossSectionSpec, Route
+from gdsfactory.types import CrossSectionSpec, LayerSpec, Route
 
 
 class Node:
@@ -27,6 +27,8 @@ def get_route_astar(
     port1: Port,
     port2: Port,
     resolution: float = 1,
+    avoid_layers: List[LayerSpec] = None,
+    distance: float = 1,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Route:
@@ -39,11 +41,14 @@ def get_route_astar(
         resolution: discretization resolution.
             Lower resolution can help avoid accidental overlapping between route
             and components, but adds more bends.
+        avoid_layers: list of layers to avoid.
+        distance: distance from obstacles.
         cross_section: spec.
         kwargs: cross_section settings.
     """
     cross_section = gf.get_cross_section(cross_section, **kwargs)
-    grid, x, y = _generate_grid(component, resolution)
+
+    grid, x, y = _generate_grid(component, resolution, avoid_layers, distance)
 
     # Tell the algorithm which start and end directions to follow based on port orientation
     input_orientation = {
@@ -136,10 +141,14 @@ def get_route_astar(
 
             # Compute f, g, h
             neighbour.g = current_node.g + resolution
+            # print(neighbour.g)
             neighbour.h = ((neighbour.position[0] - end_node.position[0]) ** 2) + (
                 (neighbour.position[1] - end_node.position[1]) ** 2
             )
             neighbour.f = neighbour.g + neighbour.h
+
+            if current_node.parent is not None and (neighbour.position[0] - current_node.parent.position[0], neighbour.position[1] - current_node.parent.position[1]) in [(resolution, -resolution), (-resolution, resolution), (resolution, resolution), (-resolution, -resolution)]:
+                neighbour.f *= 1.1  # penalize for turns
 
             # neighbour is already in the open_list
             for open_list_node in open_list:
@@ -153,7 +162,7 @@ def get_route_astar(
     return route_manhattan(port1, port2, cross_section=cross_section)
 
 
-def _generate_grid(c: Component, resolution: float = 0.5) -> np.ndarray:
+def _generate_grid(c: Component, resolution: float = 0.5, avoid_layers: List[LayerSpec] = None, distance: float = 1) -> np.ndarray:
     """Generate discretization grid that the algorithm will step through."""
     bbox = c.bbox
     x, y = np.meshgrid(
@@ -176,14 +185,28 @@ def _generate_grid(c: Component, resolution: float = 0.5) -> np.ndarray:
     )  # mapping from gdsfactory's x-, y- coordinate to grid vertex
 
     # assign 1 for obstacles
-    for ref in c.references:
-        bbox = ref.bbox
-        xmin = np.abs(x - bbox[0][0]).argmin()
-        xmax = np.abs(x - bbox[1][0]).argmin()
-        ymin = np.abs(y - bbox[0][1]).argmin()
-        ymax = np.abs(y - bbox[1][1]).argmin()
+    if avoid_layers is None:
+        for ref in c.references:
+            bbox = ref.bbox
+            xmin = np.abs(x - bbox[0][0] + distance).argmin()
+            xmax = np.abs(x - bbox[1][0] - distance).argmin()
+            ymin = np.abs(y - bbox[0][1] + distance).argmin()
+            ymax = np.abs(y - bbox[1][1] - distance).argmin()
 
-        grid[xmin:xmax, ymin:ymax] = 1
+            grid[xmin:xmax, ymin:ymax] = 1
+    else:
+        for layer in avoid_layers:
+            layer = gf.get_layer(layer)
+            for ref in c.references:
+                for component_layer in ref.parent.layers:
+                    if component_layer == layer:
+                        bbox = ref.bbox
+                        xmin = np.abs(x - bbox[0][0] + distance).argmin()
+                        xmax = np.abs(x - bbox[1][0] - distance).argmin()
+                        ymin = np.abs(y - bbox[0][1] + distance).argmin()
+                        ymax = np.abs(y - bbox[1][1] - distance).argmin()
+
+                        grid[xmin:xmax, ymin:ymax] = 1
 
     return np.ndarray.round(grid, 3), np.ndarray.round(x, 3), np.ndarray.round(y, 3)
 
@@ -225,13 +248,13 @@ def _generate_neighbours(
                 next(
                     i
                     for i, _ in enumerate(x)
-                    if np.isclose(_, node_position[0], atol=1)
+                    if np.isclose(_, node_position[0], atol=resolution)
                 )
             ][
                 next(
                     i
                     for i, _ in enumerate(y)
-                    if np.isclose(_, node_position[1], atol=1)
+                    if np.isclose(_, node_position[1], atol=resolution)
                 )
             ]
             == 1.0
@@ -248,34 +271,26 @@ def _generate_neighbours(
 
 
 if __name__ == "__main__":
-    c = gf.Component()
 
-    # mzi_ = c << gf.components.mzi()
-    # mzi_2 = c << gf.components.mzi()
+    cross_section = gf.get_cross_section("metal1", width=3, radius=1)
 
-    # mzi_2.move(destination=(100, -10))
-    # rect3 = c << gf.components.rectangle(size=(7.5, 9))
-    # rect3.move(destination=(82.5, -9.5))
-    rect1 = c << gf.components.rectangle()
-    rect2 = c << gf.components.rectangle()
-    rect3 = c << gf.components.rectangle((2, 2), layer=(2, 0))
-    rect2.move(destination=(8, 4))
-    rect3.move(destination=(5.5, 1.5))
+    c = gf.Component("get_route_astar")
+    w = gf.components.straight(cross_section=cross_section)
 
-    port1 = Port(
-        "o1", 0, rect1.center + (0, 3), cross_section=gf.get_cross_section("strip")
-    )
-    port2 = port1.copy("o2")
-    port2.orientation = 180
-    port2.center = rect2.center + (0, -3)
-    c.add_ports([port1, port2])
-    c.show(show_ports=True)
+    left = c << w
+    right = c << w
+    right.move((100, 80))
 
-    route = get_route_astar(c, port1, port2, radius=0.5, width=0.5)
+    obstacle = gf.components.rectangle(size=(100, 3), layer="M1")
+    obstacle1 = c << obstacle
+    obstacle2 = c << obstacle
+    obstacle1.ymin = 40
+    obstacle2.xmin = 25
 
-    # route = route_manhattan(port1, port2, radius=0.5, width=0.5)
-    # route = get_route_astar(c, mzi_.ports["o2"], mzi_2.ports["o1"], radius=0.5)
-    # route = route_manhattan(mzi_.ports["o2"], mzi_2.ports["o1"], radius=0.5)
-    c.add(route.references)
+    port1 = left.ports["e2"]
+    port2 = right.ports["e2"]
 
-    c.show(show_ports=True)
+    routes = get_route_astar(component=c, port1=port1, port2=port2, cross_section=cross_section, resolution=5, distance=6.5)
+
+    c.add(routes.references)
+    c.show()
