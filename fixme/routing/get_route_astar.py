@@ -1,6 +1,6 @@
 """FIXME.
 
-allow diagonal route for electrical connections
+has some issues
 """
 
 import gdsfactory as gf
