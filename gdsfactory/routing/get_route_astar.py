@@ -148,7 +148,7 @@ def get_route_astar(
             neighbour.f = neighbour.g + neighbour.h
 
             if current_node.parent is not None and (neighbour.position[0] - current_node.parent.position[0], neighbour.position[1] - current_node.parent.position[1]) in [(resolution, -resolution), (-resolution, resolution), (resolution, resolution), (-resolution, -resolution)]:
-                neighbour.f *= 1.1 # penalize for turns
+                neighbour.f *= 1.1  # penalize for turns
 
             # neighbour is already in the open_list
             for open_list_node in open_list:
