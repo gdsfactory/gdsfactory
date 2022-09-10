@@ -41,6 +41,8 @@ def get_route_astar(
         resolution: discretization resolution.
             Lower resolution can help avoid accidental overlapping between route
             and components, but adds more bends.
+        avoid_layers: list of layers to avoid.
+        distance: distance from obstacles.
         cross_section: spec.
         kwargs: cross_section settings.
     """
