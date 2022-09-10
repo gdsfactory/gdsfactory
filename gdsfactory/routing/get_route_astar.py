@@ -6,6 +6,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory import Port
 from gdsfactory.component import Component
+from gdsfactory.components.wire import wire_corner
 from gdsfactory.routing import get_route_from_waypoints
 from gdsfactory.routing.manhattan import route_manhattan
 from gdsfactory.types import CrossSectionSpec, LayerSpec, Route
@@ -121,7 +122,12 @@ def get_route_astar(
             points.append(port2.center)
 
             # return route from points
-            return get_route_from_waypoints(points, cross_section=cross_section)
+            if cross_section.radius:
+                return get_route_from_waypoints(points, cross_section=cross_section)
+            else:
+                return get_route_from_waypoints(
+                    points, cross_section=cross_section, bend=wire_corner
+                )
 
         # Generate neighbours
         neighbours = _generate_neighbours(
@@ -147,7 +153,15 @@ def get_route_astar(
             )
             neighbour.f = neighbour.g + neighbour.h
 
-            if current_node.parent is not None and (neighbour.position[0] - current_node.parent.position[0], neighbour.position[1] - current_node.parent.position[1]) in [(resolution, -resolution), (-resolution, resolution), (resolution, resolution), (-resolution, -resolution)]:
+            if current_node.parent is not None and (
+                neighbour.position[0] - current_node.parent.position[0],
+                neighbour.position[1] - current_node.parent.position[1],
+            ) in [
+                (resolution, -resolution),
+                (-resolution, resolution),
+                (resolution, resolution),
+                (-resolution, -resolution),
+            ]:
                 neighbour.f *= 1.1  # penalize for turns
 
             # neighbour is already in the open_list
@@ -162,7 +176,12 @@ def get_route_astar(
     return route_manhattan(port1, port2, cross_section=cross_section)
 
 
-def _generate_grid(c: Component, resolution: float = 0.5, avoid_layers: List[LayerSpec] = None, distance: float = 1) -> np.ndarray:
+def _generate_grid(
+    c: Component,
+    resolution: float = 0.5,
+    avoid_layers: List[LayerSpec] = None,
+    distance: float = 1,
+) -> np.ndarray:
     """Generate discretization grid that the algorithm will step through."""
     bbox = c.bbox
     x, y = np.meshgrid(
@@ -272,7 +291,7 @@ def _generate_neighbours(
 
 if __name__ == "__main__":
 
-    cross_section = gf.get_cross_section("metal1", width=3, radius=1)
+    cross_section = gf.get_cross_section("metal1", width=3)
 
     c = gf.Component("get_route_astar")
     w = gf.components.straight(cross_section=cross_section)
@@ -290,7 +309,14 @@ if __name__ == "__main__":
     port1 = left.ports["e2"]
     port2 = right.ports["e2"]
 
-    routes = get_route_astar(component=c, port1=port1, port2=port2, cross_section=cross_section, resolution=5, distance=6.5)
+    routes = get_route_astar(
+        component=c,
+        port1=port1,
+        port2=port2,
+        cross_section=cross_section,
+        resolution=5,
+        distance=6.5,
+    )
 
     c.add(routes.references)
     c.show()
