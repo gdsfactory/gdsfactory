@@ -426,6 +426,7 @@ metal1 = partial(
     width=10.0,
     port_names=port_names_electrical,
     port_types=port_types_electrical,
+    radius=None,
 )
 metal2 = partial(
     metal1,
@@ -440,6 +441,8 @@ heater_metal = partial(
     width=2.5,
     layer="HEATER",
 )
+
+metal3_with_bend = partial(metal1, layer="M3", radius=10)
 
 
 @pydantic.validate_arguments
