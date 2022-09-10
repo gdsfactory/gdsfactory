@@ -13,6 +13,7 @@ from matplotlib.colors import CSS4_COLORS
 from pydantic import BaseModel, Field, validator
 from typing_extensions import Literal
 
+import klayout.db as db
 from gdsfactory.types import Layer
 
 
@@ -502,6 +503,37 @@ class KLayoutLayerProperties(BaseModel):
 # TODO: Write to .lyt technology file
 
 
+class KLayoutTechnology(BaseModel):
+    name: str
+    dbu: float = 1e-3
+    layer_properties: KLayoutLayerProperties
+    tech: db.Technology = Field(default_factory=db.Technology)
+
+    def export(
+        self,
+        tech_dir: str,
+        lyp_name: Optional[str] = None,
+        lyt_name: Optional[str] = None,
+    ):
+        # Write lyp to file
+        lyp_path = f"{tech_dir}/{lyp_name}"
+        self.layer_properties.to_lyp(lyp_path)
+
+        # Use KLayout API to write lyt
+        # The rest of the parameters can be set directly on self.tech, but we require these three:
+        self.tech.layer_properties_file = lyp_path
+        self.tech.name = self.name
+        self.tech.dbu = self.dbu
+
+        # Also need to write the 2.5d info at the end of the lyt file?
+        # Also interop with xs scripts
+
+    class Config:
+        """Allow db.Technology type."""
+
+        arbitrary_types_allowed = True
+
+
 if __name__ == "__main__":
 
     # lc: LayerColors = LAYER_COLORS
@@ -565,7 +597,11 @@ if __name__ == "__main__":
 
     # print(lyp)
     # lyp.to_lyp("test_lyp")
+    from gdsfactory.config import PATH
 
-    filepath = "/home/thomas/layout/gdsfactory/gdsfactory/klayout/tech/layers.lyp"
+    filepath = str(PATH.klayout_lyp)
     lyp = KLayoutLayerProperties.from_lyp(filepath)
     lyp.to_lyp("test_lyp.lyp")
+
+    # tech = db.Technology()
+    # tech.to_xml("test_lyt.lyt")
