@@ -509,7 +509,16 @@ class LayerDisplayProperties(BaseModel):
         )
 
 
-class KLayoutTech(BaseModel):
+class KLayoutTechnology(BaseModel):
+    """A container for working with KLayout technologies.
+
+    Useful for importing/exporting Layer Properties (.lyp) and Technology (.lyt) files.
+
+    Properties:
+        layer_properties: Defines all the layer display properties needed for a .lyp file from LayerView objects
+        technology: KLayout Technology object from the KLayout API. Set name, dbu, etc.
+    """
+
     layer_properties: Optional[LayerDisplayProperties] = None
     technology: db.Technology = Field(default_factory=db.Technology)
 
@@ -616,6 +625,6 @@ if __name__ == "__main__":
     str_xml = open(PATH.klayout_tech / "tech.lyt").read()
     new_tech = db.Technology.technology_from_xml(str_xml)
 
-    generic_tech = KLayoutTech(layer_properties=lyp, technology=new_tech)
+    generic_tech = KLayoutTechnology(layer_properties=lyp, technology=new_tech)
 
     generic_tech.export_technology_files(tech_dir=str(PATH.module / "test_tech"))
