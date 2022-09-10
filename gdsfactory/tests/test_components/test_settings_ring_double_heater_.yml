@@ -29,6 +29,7 @@ settings:
         port_types:
         - electrical
         - electrical
+        radius: null
         width: 2.5
     cross_section_waveguide_heater:
       function: strip_heater_metal
@@ -90,6 +91,7 @@ settings:
         port_types:
         - electrical
         - electrical
+        radius: null
         width: 2.5
     cross_section_waveguide_heater:
       function: strip_heater_metal
