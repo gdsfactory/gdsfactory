@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.28.0](https://github.com/gdsfactory/gdsfactory/pull/686)
+## [5.28.0](https://github.com/gdsfactory/gdsfactory/pull/691)
 
 - Add avoid_layers, distance, and cost addition for turns for routing.get_route_astar [PR](https://github.com/gdsfactory/gdsfactory/pull/690)
 - cross_sections `metal1`, `metal2`, `metal3` have `radius = None`
