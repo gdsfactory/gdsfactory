@@ -1,4 +1,4 @@
-"""Technology .
+"""Classes and utilities for working with KLayout technology files (.lyp, .lyt).
 
 This module will enable conversion between gdsfactory settings and KLayout technology.
 """
