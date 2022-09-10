@@ -14,7 +14,19 @@ from pydantic import BaseModel, Field, validator
 from typing_extensions import Literal
 
 import klayout.db as db
+from gdsfactory.tech import LayerStack
 from gdsfactory.types import Layer
+
+
+def append_file_extension(filename: str, extension: str) -> str:
+    """Try appending extension to file."""
+    # Handle whether given with '.'
+    if "." not in extension:
+        extension = f".{extension}"
+
+    if not filename.endswith(extension):
+        filename += extension
+    return filename
 
 
 class LayerView(BaseModel):
@@ -419,8 +431,7 @@ class KLayoutLayerProperties(BaseModel):
             filepath: to write the .lyp file to (appends .lyp extension if not present)
             overwrite: Whether to overwrite an existing file located at the filepath.
         """
-        if not filepath.endswith(".lyp"):
-            filepath += ".lyp"
+        filepath = append_file_extension(filepath, ".lyp")
 
         if os.path.exists(filepath) and not overwrite:
             raise OSError("File exists, cannot write.")
@@ -450,8 +461,7 @@ class KLayoutLayerProperties(BaseModel):
         Args:
             filepath: to write the .lyp file to (appends .lyp extension if not present)
         """
-        if not filepath.endswith(".lyp"):
-            filepath += ".lyp"
+        filepath = append_file_extension(filepath, ".lyp")
 
         if not os.path.exists(filepath):
             raise OSError("File not found!")
@@ -500,33 +510,38 @@ class KLayoutLayerProperties(BaseModel):
         )
 
 
-# TODO: Write to .lyt technology file
+class KLayoutTech(BaseModel):
+    layer_properties: Optional[KLayoutLayerProperties] = None
+    technology: db.Technology = Field(default_factory=db.Technology)
+    layer_stack: Optional[LayerStack] = None
 
-
-class KLayoutTechnology(BaseModel):
-    name: str
-    dbu: float = 1e-3
-    layer_properties: KLayoutLayerProperties
-    tech: db.Technology = Field(default_factory=db.Technology)
-
-    def export(
+    def export_technology_files(
         self,
         tech_dir: str,
-        lyp_name: Optional[str] = None,
-        lyt_name: Optional[str] = None,
+        lyp_filename: str = "layers",
+        lyt_filename: str = "tech",
     ):
-        # Write lyp to file
-        lyp_path = f"{tech_dir}/{lyp_name}"
-        self.layer_properties.to_lyp(lyp_path)
+        """Write technology files into 'tech_dir'."""
+        # Format file names if necessary
+        lyp_filename = append_file_extension(lyp_filename, ".lyp")
+        lyt_filename = append_file_extension(lyt_filename, ".lyt")
 
-        # Use KLayout API to write lyt
-        # The rest of the parameters can be set directly on self.tech, but we require these three:
-        self.tech.layer_properties_file = lyp_path
-        self.tech.name = self.name
-        self.tech.dbu = self.dbu
+        lyp_path = f"{tech_dir}/{lyp_filename}"
+        lyt_path = f"{tech_dir}/{lyt_filename}"
+
+        # Specify relative file name for layer properties file
+        # This is the only modification that should be made to the Technology during export
+        self.technology.layer_properties_file = lyp_filename
 
         # Also need to write the 2.5d info at the end of the lyt file?
         # Also interop with xs scripts
+
+        # Write lyp to file
+        self.layer_properties.to_lyp(lyp_path)
+
+        # Write lyt to file
+        with open(lyt_path, "w") as file:
+            file.write(self.technology.to_xml())
 
     class Config:
         """Allow db.Technology type."""
@@ -535,6 +550,7 @@ class KLayoutTechnology(BaseModel):
 
 
 if __name__ == "__main__":
+    from gdsfactory.config import PATH
 
     # lc: LayerColors = LAYER_COLORS
     # # class LayerViewGroup(LayerView):
@@ -594,14 +610,16 @@ if __name__ == "__main__":
     #     Simulation = SimulationGroup()
     #
     # lyp = DefaultProperties()
-
     # print(lyp)
     # lyp.to_lyp("test_lyp")
-    from gdsfactory.config import PATH
 
     filepath = str(PATH.klayout_lyp)
     lyp = KLayoutLayerProperties.from_lyp(filepath)
     lyp.to_lyp("test_lyp.lyp")
 
-    # tech = db.Technology()
-    # tech.to_xml("test_lyt.lyt")
+    str_xml = open(PATH.klayout_tech / "tech.lyt").read()
+    new_tech = db.Technology.technology_from_xml(str_xml)
+
+    generic_tech = KLayoutTech(layer_properties=lyp, technology=new_tech)
+
+    generic_tech.export_technology_files(tech_dir=str(PATH.module / "test_tech"))
