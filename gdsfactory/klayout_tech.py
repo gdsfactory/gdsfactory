@@ -1,4 +1,4 @@
-"""Classes for KLayout-specific layer settings.
+"""Technology .
 
 This module will enable conversion between gdsfactory settings and KLayout technology.
 """
@@ -14,8 +14,9 @@ from pydantic import BaseModel, Field, validator
 from typing_extensions import Literal
 
 import klayout.db as db
-from gdsfactory.tech import LayerStack
-from gdsfactory.types import Layer
+from gdsfactory.config import PATH
+
+Layer = Tuple[int, int]
 
 
 def append_file_extension(filename: str, extension: str) -> str:
@@ -32,7 +33,7 @@ def append_file_extension(filename: str, extension: str) -> str:
 class LayerView(BaseModel):
     """KLayout layer properties.
 
-    Docstrings copied from KLayout documentation:
+    Docstrings copied from KLayout documentation (with some modifications):
     https://www.klayout.de/lyp_format.html
 
     Parameters:
@@ -105,7 +106,7 @@ class LayerView(BaseModel):
                 color = CSS4_COLORS[color.lower()]
         except Exception as error:
             raise ValueError(
-                "KLayoutLayerProperty color must be specified as a "
+                "LayerView color must be specified as a "
                 "0-1 RGB triplet, (e.g. [0.5, 0.1, 0.9]), an HTML hex color string "
                 "(e.g. '#a31df4'), or a CSS3 color name (e.g. 'gold' or "
                 "see http://www.w3schools.com/colors/colors_names.asp )"
@@ -246,15 +247,18 @@ def _properties_to_layerview(element, tag: Optional[str] = None) -> Optional[Lay
     return LayerView(**prop_dict)
 
 
-class KLayoutLayerProperties(BaseModel):
+LayerViews = Dict[str, LayerView]
+
+
+class LayerDisplayProperties(BaseModel):
     """A container for layer properties for KLayout layer property (.lyp) files."""
 
-    layer_views: Dict[str, LayerView] = Field(default_factory=dict)
+    layer_views: LayerViews = Field(default_factory=LayerViews)
     custom_dither_patterns: Optional[Dict[str, CustomPattern]] = None
     custom_line_styles: Optional[Dict[str, CustomPattern]] = None
 
     def __init__(self, **data):
-        """Initialize KLayoutLayerProperties object."""
+        """Initialize LayerDisplayProperties object."""
         super().__init__(**data)
 
         for key, val in self.dict().items():
@@ -267,7 +271,7 @@ class KLayoutLayerProperties(BaseModel):
 
     def add_layer(
         self,
-        klayout_layer_props: Optional[LayerView] = None,
+        layer_display_props: Optional[LayerView] = None,
         layer: Optional[Layer] = None,
         name: str = "unnamed",
         valid: bool = True,
@@ -285,13 +289,13 @@ class KLayoutLayerProperties(BaseModel):
         width: Optional[int] = None,
         group_members: Optional[Dict[str, LayerView]] = None,
     ) -> None:
-        """Adds a layer to KLayoutLayerProperties.
+        """Adds a layer to LayerDisplayProperties.
 
         Docstrings copied from KLayout documentation:
         https://www.klayout.de/lyp_format.html
 
         Args:
-            klayout_layer_props: Add layer from existing KLayoutLayerProperty, overrides all other args.
+            layer_display_props: Add layer from existing LayerDisplayProperties, overrides all other args.
             layer: GDSII layer.
             name: Name of the Layer.
             width: This is the line width of the frame in pixels (or empty for the default which is 1).
@@ -314,7 +318,7 @@ class KLayoutLayerProperties(BaseModel):
             valid: Whether the entry is valid. Invalid layers are drawn but shapes on those layers can't be selected.
             group_members: Optional dict of LayerViews to group beneath this LayerView.
         """
-        new_layer = klayout_layer_props or LayerView(
+        new_layer = layer_display_props or LayerView(
             layer=layer,
             name=name,
             valid=valid,
@@ -363,14 +367,9 @@ class KLayoutLayerProperties(BaseModel):
         }
 
     def __str__(self):
-        """Prints the number of KLayoutLayerProperty objects in the KLayoutLayerProperties object."""
-        # if len(self.groups) == 0:
-        #     return (
-        #         f"KLayoutLayerProperties ({len(self.layers)} layers total) \n"
-        #         f"{list(self.layers)}"
-        #     )
+        """Prints the number of LayerView objects in the LayerDisplayProperties object."""
         return (
-            f"KLayoutLayerProperties ({len(self.get_layer_views())} layers total, {len(self.get_layer_view_groups())} groups) \n"
+            f"LayerDisplayProperties ({len(self.get_layer_views())} layers total, {len(self.get_layer_view_groups())} groups) \n"
             f"{self.get_layer_views()}"
         )
 
@@ -389,32 +388,32 @@ class KLayoutLayerProperties(BaseModel):
         """Allows accessing to the layer names like ls['gold2'].
 
         Args:
-            val: Layer name to access within the KLayoutLayerProperties.
+            val: Layer name to access within the LayerDisplayProperties.
 
         Returns:
-            self.layers[val]: KLayoutLayerProperty in the KLayoutLayerProperties.
+            self.layers[val]: LayerView in the LayerDisplayProperties.
 
         """
         try:
             return self.layer_views[val]
         except Exception as error:
             raise ValueError(
-                f"Layer {val!r} not in LayerColors {list(self.layer_views.keys())}"
+                f"LayerView {val!r} not in LayerDisplayProperties {list(self.layer_views.keys())}"
             ) from error
 
-    def get_from_tuple(self, layer_tuple: Tuple[int, int]) -> LayerView:
-        """Returns KLayoutLayerProperty from layer tuple.
+    def get_from_tuple(self, layer_tuple: Layer) -> LayerView:
+        """Returns LayerView from layer tuple.
 
         Args:
             layer_tuple: Tuple of (gds_layer, gds_datatype).
 
         Returns:
-            KLayoutLayerProperty
+            LayerView
         """
         tuple_to_name = {v.layer: k for k, v in self.layer_views.items()}
         if layer_tuple not in tuple_to_name:
             raise ValueError(
-                f"Layer color {layer_tuple} not in {list(tuple_to_name.keys())}"
+                f"LayerView {layer_tuple} not in {list(tuple_to_name.keys())}"
             )
 
         name = tuple_to_name[layer_tuple]
@@ -455,7 +454,7 @@ class KLayoutLayerProperties(BaseModel):
             )
 
     @staticmethod
-    def from_lyp(filepath: str) -> "KLayoutLayerProperties":
+    def from_lyp(filepath: str) -> "LayerDisplayProperties":
         """Write all layer properties to a KLayout .lyp file.
 
         Args:
@@ -503,7 +502,7 @@ class KLayoutLayerProperties(BaseModel):
                     [line.text for line in line_block.find("pattern").iterchildren()]
                 ),
             )
-        return KLayoutLayerProperties(
+        return LayerDisplayProperties(
             layer_views=layer_views,
             custom_dither_patterns=custom_dither_patterns,
             custom_line_styles=custom_line_styles,
@@ -511,9 +510,8 @@ class KLayoutLayerProperties(BaseModel):
 
 
 class KLayoutTech(BaseModel):
-    layer_properties: Optional[KLayoutLayerProperties] = None
+    layer_properties: Optional[LayerDisplayProperties] = None
     technology: db.Technology = Field(default_factory=db.Technology)
-    layer_stack: Optional[LayerStack] = None
 
     def export_technology_files(
         self,
@@ -549,13 +547,14 @@ class KLayoutTech(BaseModel):
         arbitrary_types_allowed = True
 
 
+LAYER_PROPERTIES = LayerDisplayProperties.from_lyp(str(PATH.klayout_lyp))
+
 if __name__ == "__main__":
-    from gdsfactory.config import PATH
 
     # lc: LayerColors = LAYER_COLORS
     # # class LayerViewGroup(LayerView):
     #
-    # class DefaultProperties(KLayoutLayerProperties):
+    # class DefaultProperties(LayerDisplayProperties):
     #     WG = LayerView(layer=(1, 0))
     #     WGCLAD = LayerView(layer=(111, 0))
     #     SLAB150 = LayerView(layer=(2, 0))
@@ -610,12 +609,9 @@ if __name__ == "__main__":
     #     Simulation = SimulationGroup()
     #
     # lyp = DefaultProperties()
-    # print(lyp)
-    # lyp.to_lyp("test_lyp")
 
-    filepath = str(PATH.klayout_lyp)
-    lyp = KLayoutLayerProperties.from_lyp(filepath)
-    lyp.to_lyp("test_lyp.lyp")
+    lyp_filepath = str(PATH.klayout_lyp)
+    lyp = LayerDisplayProperties.from_lyp(lyp_filepath)
 
     str_xml = open(PATH.klayout_tech / "tech.lyt").read()
     new_tech = db.Technology.technology_from_xml(str_xml)
