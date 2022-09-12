@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.28.1
+
+- upgrade to tidy3d-beta 1.6.2
+- add functions to write a complete technology package for KLayout using the KLayoutTechnology class [PR](https://github.com/gdsfactory/gdsfactory/pull/696)
+
 ## [5.28.0](https://github.com/gdsfactory/gdsfactory/pull/691)
 
 - Add avoid_layers, distance, and cost addition for turns for routing.get_route_astar [PR](https://github.com/gdsfactory/gdsfactory/pull/690)
