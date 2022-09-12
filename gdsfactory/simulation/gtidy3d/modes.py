@@ -276,15 +276,25 @@ class Waveguide(BaseModel):
         n[inds_slab] = ncore if slab_thickness else nclad
 
         if self.dn_dict is not None:
+            print("appending perturbation")
+            print(n.dtype, self.dn_dict["dn"].dtype)
             dn = griddata(
                 (self.dn_dict["x"], self.dn_dict["y"]),
                 self.dn_dict["dn"],
                 (Y, Z),
                 method="cubic",
-                fill_value=0,
+                fill_value=0.0,
             )
-            n[inds_core] += dn[inds_core]
-            n[inds_slab] += dn[inds_slab]
+            # dk = 1E-7*np.ones_like(dn)
+            # dk = griddata(
+            #     (self.dn_dict["x"], self.dn_dict["y"]),
+            #     self.dn_dict["dk"],
+            #     (Y, Z),
+            #     method="cubic",
+            #     fill_value=0,
+            # )
+            n[inds_core] += dn[inds_core]  # + 1j*dk[inds_core]
+            n[inds_slab] += dn[inds_slab]  # + 1j*dk[inds_slab]
 
         return n
 
@@ -797,7 +807,7 @@ if __name__ == "__main__":
         wg_width=500 * nm,
         wg_thickness=220 * nm,
         slab_thickness=0 * nm,
-        ncore=lambda x: 3.45 + 1e-5j,
+        ncore=lambda x: 3.45 + 1e-1j,
         nclad=sio2,
         cache=None,
     )
