@@ -253,7 +253,18 @@ class Waveguide(BaseModel):
         )
         inds_slab = (Z >= t_box) & (Z <= t_box + slab_thickness)
 
-        n = np.ones_like(Y) * nclad
+        complex_solver = False
+        if isinstance(ncore, complex) or isinstance(nclad, complex):
+            complex_solver = True
+        elif self.dn_dict is not None:
+            complex_solver = True
+        if complex_solver:
+            mat_dtype = np.complex128 if self.precision == "double" else np.complex64
+        else:
+            if self.precision == "double":
+                mat_dtype = np.float64
+
+        n = np.ones_like(Y, dtype=mat_dtype) * nclad
         n[
             (-w / 2 - t_clad / 2 <= Y)
             & (Y <= w / 2 + t_clad / 2)
@@ -786,9 +797,12 @@ if __name__ == "__main__":
         wg_width=500 * nm,
         wg_thickness=220 * nm,
         slab_thickness=0 * nm,
-        ncore=si,
+        ncore=lambda x: 3.45 + 1e-5j,
         nclad=sio2,
+        cache=None,
     )
+    c.compute_modes()
+    print(c.neffs)
     # c = WaveguideCoupler(
     #     wavelength=1.55,
     #     wg_width1=500 * nm,
