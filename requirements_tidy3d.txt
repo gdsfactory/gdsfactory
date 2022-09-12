@@ -1,1 +1,1 @@
-tidy3d-beta==1.6.1
+tidy3d-beta==1.6.2

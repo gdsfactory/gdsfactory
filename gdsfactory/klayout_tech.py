@@ -427,7 +427,7 @@ class LayerDisplayProperties(BaseModel):
         """Write all layer properties to a KLayout .lyp file.
 
         Args:
-            filepath: to write the .lyp file to (appends .lyp extension if not present)
+            filepath: to write the .lyp file to (appends .lyp extension if not present).
             overwrite: Whether to overwrite an existing file located at the filepath.
         """
         filepath = append_file_extension(filepath, ".lyp")
@@ -515,7 +515,7 @@ class KLayoutTechnology(BaseModel):
     Useful for importing/exporting Layer Properties (.lyp) and Technology (.lyt) files.
 
     Properties:
-        layer_properties: Defines all the layer display properties needed for a .lyp file from LayerView objects
+        layer_properties: Defines all the layer display properties needed for a .lyp file from LayerView objects.
         technology: KLayout Technology object from the KLayout API. Set name, dbu, etc.
     """
 
@@ -626,5 +626,7 @@ if __name__ == "__main__":
     new_tech = db.Technology.technology_from_xml(str_xml)
 
     generic_tech = KLayoutTechnology(layer_properties=lyp, technology=new_tech)
+    tech_dir = PATH.repo / "extra" / "test_tech"
+    tech_dir.mkdir(exist_ok=True, parents=True)
 
-    generic_tech.export_technology_files(tech_dir=str(PATH.module / "test_tech"))
+    generic_tech.export_technology_files(tech_dir=tech_dir)
