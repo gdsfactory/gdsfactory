@@ -16,7 +16,12 @@ Maybe:
 
 """
 
+
 import pathlib
+import subprocess
+import sys
+import time
+from pathlib import Path
 from types import SimpleNamespace
 from typing import Callable, Dict, List, Optional, Tuple, Union
 
@@ -35,10 +40,6 @@ from gdsfactory.config import CONFIG, logger
 from gdsfactory.serialization import get_hash
 from gdsfactory.simulation.gtidy3d.materials import si, sin, sio2
 from gdsfactory.types import PathType
-from pathlib import Path
-import subprocess
-
-
 
 nm = 1e-3
 
@@ -369,7 +370,7 @@ class Waveguide(BaseModel):
         if isolate:
             # TODO: make a package that does this automatically
             import pickle
-            import multiprocessing
+
             # Setup paths
             temp_dir = Path.cwd() / "temp"
             temp_dir.mkdir(exist_ok=True, parents=True)
@@ -391,15 +392,15 @@ class Waveguide(BaseModel):
                 "SPEED_OF_LIGHT": SPEED_OF_LIGHT,
                 "wavelength": wavelength,
                 "nmodes": self.nmodes,
-                "bend_radius":self.bend_radius,
-                "bend_axis":1,
-                "angle_theta":0.0,
-                "angle_phi":0.0,
-                "num_pml":(0, 0),
-                "target_neff":self.get_ncore(wavelength),
-                "sort_by":"largest_neff",
-                "precision":self.precision,
-                "filter_pol":self.filter_pol,
+                "bend_radius": self.bend_radius,
+                "bend_axis": 1,
+                "angle_theta": 0.0,
+                "angle_phi": 0.0,
+                "num_pml": (0, 0),
+                "target_neff": self.get_ncore(wavelength),
+                "sort_by": "largest_neff",
+                "precision": self.precision,
+                "filter_pol": self.filter_pol,
             }
             with open(argsfile, "wb") as outp:
                 pickle.dump(arguments_dict, outp, pickle.HIGHEST_PROTOCOL)
@@ -416,47 +417,54 @@ class Waveguide(BaseModel):
             script_lines.extend(
                 f'\t{key} = arguments_dict["{key}"]\n' for key in arguments_dict
             )
-            script_lines.extend([
-                "\t((Ex, Ey, Ez), (Hx, Hy, Hz)), neffs = (\n",
-                "\t    x.squeeze()\n",
-                "\t    for x in compute_modes(\n",
-                f"\t        eps_cross=[nx**2, ny**2, nz**2],\n",
-                f"\t        coords=[x, y],\n",
-                f"\t        freq=SPEED_OF_LIGHT / (wavelength * 1e-6),\n",
-                "\t        mode_spec=SimpleNamespace(\n",
-                f"\t            num_modes=nmodes,\n",
-                f"\t            bend_radius=bend_radius,\n",
-                f"\t            bend_axis=bend_axis,\n",
-                f"\t            angle_theta=angle_theta,\n",
-                f"\t            angle_phi=angle_phi,\n",
-                f"\t            num_pml=num_pml,\n",
-                f"\t            target_neff=target_neff,\n",
-                f"\t            sort_by=sort_by,\n",
-                f"\t            precision=precision,\n",
-                f"\t            filter_pol=filter_pol,\n",
-                "\t        ),\n",
-                "\t    )\n",
-                "\t)\n"
-            ])
-            script_lines.extend([
-                f"\toutputsfile = \"{outputsfile}\"\n",
-                "\toutputs_dict = {\n",
-                "\t\t    \"Ex\": Ex,\n",
-                "\t\t    \"Ey\": Ey,\n",
-                "\t\t    \"Ez\": Ez,\n",
-                "\t\t    \"Hx\": Hx,\n",
-                "\t\t    \"Hy\": Hy,\n",
-                "\t\t    \"Hz\": Hz,\n",
-                "\t\t    \"neffs\": neffs,\n",
-                "\t\t}\n",
-                "\twith open(outputsfile, \"wb\") as outp:\n",
-                "\t\t    pickle.dump(outputs_dict, outp, pickle.HIGHEST_PROTOCOL)\n",
-            ])
+            script_lines.extend(
+                [
+                    "\t((Ex, Ey, Ez), (Hx, Hy, Hz)), neffs = (\n",
+                    "\t    x.squeeze()\n",
+                    "\t    for x in compute_modes(\n",
+                    "\t        eps_cross=[nx**2, ny**2, nz**2],\n",
+                    "\t        coords=[x, y],\n",
+                    "\t        freq=SPEED_OF_LIGHT / (wavelength * 1e-6),\n",
+                    "\t        mode_spec=SimpleNamespace(\n",
+                    "\t            num_modes=nmodes,\n",
+                    "\t            bend_radius=bend_radius,\n",
+                    "\t            bend_axis=bend_axis,\n",
+                    "\t            angle_theta=angle_theta,\n",
+                    "\t            angle_phi=angle_phi,\n",
+                    "\t            num_pml=num_pml,\n",
+                    "\t            target_neff=target_neff,\n",
+                    "\t            sort_by=sort_by,\n",
+                    "\t            precision=precision,\n",
+                    "\t            filter_pol=filter_pol,\n",
+                    "\t        ),\n",
+                    "\t    )\n",
+                    "\t)\n",
+                ]
+            )
+            script_lines.extend(
+                [
+                    f'\toutputsfile = "{outputsfile}"\n',
+                    "\toutputs_dict = {\n",
+                    '\t\t    "Ex": Ex,\n',
+                    '\t\t    "Ey": Ey,\n',
+                    '\t\t    "Ez": Ez,\n',
+                    '\t\t    "Hx": Hx,\n',
+                    '\t\t    "Hy": Hy,\n',
+                    '\t\t    "Hz": Hz,\n',
+                    '\t\t    "neffs": neffs,\n',
+                    "\t\t}\n",
+                    '\twith open(outputsfile, "wb") as outp:\n',
+                    "\t\t    pickle.dump(outputs_dict, outp, pickle.HIGHEST_PROTOCOL)\n",
+                ]
+            )
             with open(scriptfile, "w") as script_file_obj:
                 script_file_obj.writelines(script_lines)
-            with subprocess.Popen(["python", scriptfile], stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,) as proc:
+            with subprocess.Popen(
+                ["python", scriptfile],
+                stdin=subprocess.PIPE,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            ) as proc:
                 if not proc.stderr:
                     while not outputsfile.exists():
                         print(proc.stdout.read().decode())
@@ -466,7 +474,7 @@ class Waveguide(BaseModel):
                         time.sleep(1)
                 logger.info(f"python {scriptfile}")
 
-            with open(outputsfile, 'rb') as inp:
+            with open(outputsfile, "rb") as inp:
                 outputs_dict = pickle.load(inp)
 
             Ex = outputs_dict["Ex"]
@@ -478,9 +486,10 @@ class Waveguide(BaseModel):
             neffs = outputs_dict["neffs"]
 
             import shutil
+
             shutil.rmtree(temp_dir)
 
-        else: # legacy
+        else:  # legacy
             ((Ex, Ey, Ez), (Hx, Hy, Hz)), neffs = (
                 x.squeeze()
                 for x in compute_modes(
