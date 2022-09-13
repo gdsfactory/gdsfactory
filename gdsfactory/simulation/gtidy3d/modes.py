@@ -370,12 +370,19 @@ class Waveguide(BaseModel):
             # TODO: make a package that does this automatically
             import pickle
             import multiprocessing
-            temp_dir = Path.cwd()
+            # Setup paths
+            temp_dir = Path.cwd() / "temp"
             temp_dir.mkdir(exist_ok=True, parents=True)
-            temp_file_str = "temp"
-            tempfile = temp_dir / temp_file_str
-            parameters_file = tempfile.with_suffix(".pkl")
-            parameters_dict = {
+            args_file_str = "args"
+            argsfile = temp_dir / args_file_str
+            argsfile = argsfile.with_suffix(".pkl")
+            script_file_str = "script"
+            scriptfile = temp_dir / script_file_str
+            scriptfile = scriptfile.with_suffix(".py")
+            outputs_file_str = "outputs"
+            outputsfile = temp_dir / outputs_file_str
+            outputsfile = outputsfile.with_suffix(".pkl")
+            arguments_dict = {
                 "nx": nx,
                 "ny": ny,
                 "nz": nz,
@@ -394,8 +401,8 @@ class Waveguide(BaseModel):
                 "precision":self.precision,
                 "filter_pol":self.filter_pol,
             }
-            with open(parameters_file, "wb") as outp:
-                pickle.dump(parameters_dict, outp, pickle.HIGHEST_PROTOCOL)
+            with open(argsfile, "wb") as outp:
+                pickle.dump(arguments_dict, outp, pickle.HIGHEST_PROTOCOL)
             # Write execution file
             script_lines = [
                 "import pickle\n",
@@ -403,11 +410,11 @@ class Waveguide(BaseModel):
                 "from types import SimpleNamespace\n",
                 "from tidy3d.plugins.mode.solver import compute_modes\n\n",
                 'if __name__ == "__main__":\n\n',
-                f"\twith open(\"{parameters_file}\", 'rb') as inp:\n",
-                "\t\tparameters_dict = pickle.load(inp)\n\n",
+                f"\twith open(\"{argsfile}\", 'rb') as inp:\n",
+                "\t\targuments_dict = pickle.load(inp)\n\n",
             ]
             script_lines.extend(
-                f'\t{key} = parameters_dict["{key}"]\n' for key in parameters_dict
+                f'\t{key} = arguments_dict["{key}"]\n' for key in arguments_dict
             )
             script_lines.extend([
                 "\t((Ex, Ey, Ez), (Hx, Hy, Hz)), neffs = (\n",
@@ -432,7 +439,7 @@ class Waveguide(BaseModel):
                 "\t)\n"
             ])
             script_lines.extend([
-                "\toutputs_file = \"outputs.pkl\"\n",
+                f"\toutputsfile = \"{outputsfile}\"\n",
                 "\toutputs_dict = {\n",
                 "\t\t    \"Ex\": Ex,\n",
                 "\t\t    \"Ey\": Ey,\n",
@@ -442,16 +449,24 @@ class Waveguide(BaseModel):
                 "\t\t    \"Hz\": Hz,\n",
                 "\t\t    \"neffs\": neffs,\n",
                 "\t\t}\n",
-                "\twith open(outputs_file, \"wb\") as outp:\n",
+                "\twith open(outputsfile, \"wb\") as outp:\n",
                 "\t\t    pickle.dump(outputs_dict, outp, pickle.HIGHEST_PROTOCOL)\n",
             ])
-            script_file = tempfile.with_suffix(".py")
-            with open(script_file, "w") as script_file_obj:
+            with open(scriptfile, "w") as script_file_obj:
                 script_file_obj.writelines(script_lines)
-            subprocess.Popen(["python", script_file])
-            logger.info(f"python {script_file}")
+            with subprocess.Popen(["python", scriptfile], stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,) as proc:
+                if not proc.stderr:
+                    while not outputsfile.exists():
+                        print(proc.stdout.read().decode())
+                        print(proc.stderr.read().decode())
+                        sys.stdout.flush()
+                        sys.stderr.flush()
+                        time.sleep(1)
+                logger.info(f"python {scriptfile}")
 
-            with open("outputs.pkl", 'rb') as inp:
+            with open(outputsfile, 'rb') as inp:
                 outputs_dict = pickle.load(inp)
 
             Ex = outputs_dict["Ex"]
@@ -462,7 +477,10 @@ class Waveguide(BaseModel):
             Hz = outputs_dict["Hz"]
             neffs = outputs_dict["neffs"]
 
-        else:
+            import shutil
+            shutil.rmtree(temp_dir)
+
+        else: # legacy
             ((Ex, Ey, Ez), (Hx, Hy, Hz)), neffs = (
                 x.squeeze()
                 for x in compute_modes(
