@@ -478,7 +478,7 @@ class PINWaveguide(BaseModel):
         nmodes: int = 4,
         bend_radius: Optional[float] = None,
         cache: Optional[PathType] = CONFIG["modes"],
-        precision: Precision = "double",
+        precision: Precision = "single",
         filter_pol: Optional[FilterPol] = None,
     ) -> Waveguide:
         """Converts the FEM model to a Waveguide object.
@@ -536,10 +536,14 @@ class PINWaveguide(BaseModel):
         dP_fem = np.concatenate(dP_fem)
 
         dn_fem = dn_carriers(wavelength, dN_fem, dP_fem)
-        dk_fem = alpha_to_k(dalpha_carriers(wavelength, dN_fem, dP_fem), wavelength)
-        dnc_fem = np.array(dn_fem + 1j * dk_fem, dtype=np.complex128)
+        # dk_fem = alpha_to_k(dalpha_carriers(wavelength, dN_fem, dP_fem), wavelength)
+        # dnc_fem = np.array(dn_fem + 1j * dk_fem, dtype=np.complex128)
         dn_dict = (
-            {"x": x_fem * cm / um, "y": y_fem * cm / um + t_box, "dn": dnc_fem}
+            {
+                "x": x_fem * cm / um,
+                "y": y_fem * cm / um + t_box,
+                "dn": dn_fem + 1j * 7e-7,
+            }
             if perturb
             else None
         )
@@ -589,13 +593,13 @@ if __name__ == "__main__":
     neffs_doped = []
     indices_doped = []
 
-    c_control = c.make_waveguide(wavelength=1.55, perturb=False, precision="double")
+    c_control = c.make_waveguide(wavelength=1.55, perturb=False, precision="single")
     c_control.compute_modes()
     indices_control = c_control.nx
     neffs_control = c_control.neffs[0]
     for voltage in voltages:
         c.ramp_voltage(voltage, voltage_solver_step)
-        c_doped = c.make_waveguide(wavelength=1.55, precision="double")
+        c_doped = c.make_waveguide(wavelength=1.55, precision="single")
         print("Computing modes w/ complex index")
         c_doped.compute_modes()
         print("Computed modes")
