@@ -254,11 +254,13 @@ class Waveguide(BaseModel):
         inds_slab = (Z >= t_box) & (Z <= t_box + slab_thickness)
 
         complex_solver = False
+        mat_dtype = np.float32
         if isinstance(ncore, complex) or isinstance(nclad, complex):
             complex_solver = True
         elif self.dn_dict is not None:
             complex_solver = True
         if complex_solver:
+            print("precision: ", self.precision)
             mat_dtype = np.complex128 if self.precision == "double" else np.complex64
         else:
             if self.precision == "double":
@@ -367,6 +369,14 @@ class Waveguide(BaseModel):
             self.neffs = data["neffs"]
             logger.info(f"load {self.filepath} mode data from file cache.")
             return
+
+        print("Saving inputs")
+        np.save("nx", nx)
+        np.save("ny", ny)
+        np.save("nz", nz)
+        np.save("x", x)
+        np.save("y", y)
+        print("Saved inputs")
 
         ((Ex, Ey, Ez), (Hx, Hy, Hz)), neffs = (
             x.squeeze()
