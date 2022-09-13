@@ -81,6 +81,11 @@ def alpha_to_k(alpha, wavelength):
     alpha = alpha * 1e2  # convert to /m
     return alpha * wavelength / (4 * np.pi)
 
+def k_to_alpha(k, wavelength):
+    """Converts extinction coefficient (unitless) to absorption coefficient (/cm), given wavelength (um)."""
+    wavelength = wavelength * 1e-6  # convert to m
+    alpha = 4 * np.pi * k / wavelength
+    return alpha * 1e-2 # convert to /cm
 
 class PINWaveguide(BaseModel):
     """Silicon PIN junction waveguide Model.
@@ -478,7 +483,7 @@ class PINWaveguide(BaseModel):
         nmodes: int = 4,
         bend_radius: Optional[float] = None,
         cache: Optional[PathType] = CONFIG["modes"],
-        precision: Precision = "single",
+        precision: Precision = "double",
         filter_pol: Optional[FilterPol] = None,
     ) -> Waveguide:
         """Converts the FEM model to a Waveguide object.
@@ -536,13 +541,12 @@ class PINWaveguide(BaseModel):
         dP_fem = np.concatenate(dP_fem)
 
         dn_fem = dn_carriers(wavelength, dN_fem, dP_fem)
-        # dk_fem = alpha_to_k(dalpha_carriers(wavelength, dN_fem, dP_fem), wavelength)
-        # dnc_fem = np.array(dn_fem + 1j * dk_fem, dtype=np.complex128)
+        dk_fem = alpha_to_k(dalpha_carriers(wavelength, dN_fem, dP_fem), wavelength)
         dn_dict = (
             {
                 "x": x_fem * cm / um,
                 "y": y_fem * cm / um + t_box,
-                "dn": dn_fem + 1j * 7e-7,
+                "dn": dn_fem + 1j * dk_fem,
             }
             if perturb
             else None
@@ -593,23 +597,20 @@ if __name__ == "__main__":
     neffs_doped = []
     indices_doped = []
 
-    c_control = c.make_waveguide(wavelength=1.55, perturb=False, precision="single")
+    c_control = c.make_waveguide(wavelength=1.55, perturb=False, precision="double")
     c_control.compute_modes()
     indices_control = c_control.nx
     neffs_control = c_control.neffs[0]
     for voltage in voltages:
         c.ramp_voltage(voltage, voltage_solver_step)
-        c_doped = c.make_waveguide(wavelength=1.55, precision="single")
-        print("Computing modes w/ complex index")
-        c_doped.compute_modes()
-        print("Computed modes")
+        c_doped = c.make_waveguide(wavelength=1.55, precision="double")
+        c_doped.compute_modes(isolate=True)
         indices_doped.append(c_doped.nx)
         # c2.plot_index()
         neffs_doped.append(c_doped.neffs[0])
         # c2.plot_Ex()
         # c.save_device(f"./{foldername}/test_v_{voltage}.dat")
 
-        print("Plotting")
         plt.figure()
         plt.imshow(
             np.log10(np.abs(c_doped.nx.T - indices_control.T)),
@@ -625,6 +626,13 @@ if __name__ == "__main__":
     plt.xlabel("Voltage (V)")
     plt.ylabel("delta neff")
     plt.savefig(f"./{foldername}/neff_test_shift.png")
+
+
+    plt.figure()
+    plt.plot(voltages, np.imag(neffs_doped))
+    plt.xlabel("Voltage (V)")
+    plt.ylabel("delta abs")
+    plt.savefig(f"./{foldername}/neff_test_abs.png")
 
     # import pickle
 

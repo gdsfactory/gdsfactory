@@ -35,6 +35,10 @@ from gdsfactory.config import CONFIG, logger
 from gdsfactory.serialization import get_hash
 from gdsfactory.simulation.gtidy3d.materials import si, sin, sio2
 from gdsfactory.types import PathType
+from pathlib import Path
+import subprocess
+
+
 
 nm = 1e-3
 
@@ -260,7 +264,6 @@ class Waveguide(BaseModel):
         elif self.dn_dict is not None:
             complex_solver = True
         if complex_solver:
-            print("precision: ", self.precision)
             mat_dtype = np.complex128 if self.precision == "double" else np.complex64
         else:
             if self.precision == "double":
@@ -278,8 +281,6 @@ class Waveguide(BaseModel):
         n[inds_slab] = ncore if slab_thickness else nclad
 
         if self.dn_dict is not None:
-            print("appending perturbation")
-            print(n.dtype, self.dn_dict["dn"].dtype)
             dn = griddata(
                 (self.dn_dict["x"], self.dn_dict["y"]),
                 self.dn_dict["dn"],
@@ -287,16 +288,8 @@ class Waveguide(BaseModel):
                 method="cubic",
                 fill_value=0.0,
             )
-            # dk = 1E-7*np.ones_like(dn)
-            # dk = griddata(
-            #     (self.dn_dict["x"], self.dn_dict["y"]),
-            #     self.dn_dict["dk"],
-            #     (Y, Z),
-            #     method="cubic",
-            #     fill_value=0,
-            # )
-            n[inds_core] += dn[inds_core]  # + 1j*dk[inds_core]
-            n[inds_slab] += dn[inds_slab]  # + 1j*dk[inds_slab]
+            n[inds_core] += dn[inds_core]
+            n[inds_slab] += dn[inds_slab]
 
         return n
 
@@ -321,12 +314,15 @@ class Waveguide(BaseModel):
         self,
         overwrite: bool = False,
         with_fields: bool = True,
+        isolate: bool = False,
     ) -> None:
         """Compute modes.
 
         Args:
             overwrite: overwrite file cache.
             with_fields: include field data.
+            isolate: whether to run the solver in this interpreter (False) or a separate one (True)
+            temp_dir: if isolate, which directory to save temporary files to
         """
         if hasattr(self, "neffs") and not overwrite:
             return
@@ -370,34 +366,123 @@ class Waveguide(BaseModel):
             logger.info(f"load {self.filepath} mode data from file cache.")
             return
 
-        print("Saving inputs")
-        np.save("nx", nx)
-        np.save("ny", ny)
-        np.save("nz", nz)
-        np.save("x", x)
-        np.save("y", y)
-        print("Saved inputs")
-
-        ((Ex, Ey, Ez), (Hx, Hy, Hz)), neffs = (
-            x.squeeze()
-            for x in compute_modes(
-                eps_cross=[nx**2, ny**2, nz**2],
-                coords=[x, y],
-                freq=SPEED_OF_LIGHT / (wavelength * 1e-6),
-                mode_spec=SimpleNamespace(
-                    num_modes=self.nmodes,
-                    bend_radius=self.bend_radius,
-                    bend_axis=1,
-                    angle_theta=0.0,
-                    angle_phi=0.0,
-                    num_pml=(0, 0),
-                    target_neff=self.get_ncore(wavelength),
-                    sort_by="largest_neff",
-                    precision=self.precision,
-                    filter_pol=self.filter_pol,
-                ),
+        if isolate:
+            # TODO: make a package that does this automatically
+            import pickle
+            import multiprocessing
+            temp_dir = Path.cwd()
+            temp_dir.mkdir(exist_ok=True, parents=True)
+            temp_file_str = "temp"
+            tempfile = temp_dir / temp_file_str
+            parameters_file = tempfile.with_suffix(".pkl")
+            parameters_dict = {
+                "nx": nx,
+                "ny": ny,
+                "nz": nz,
+                "x": x,
+                "y": y,
+                "SPEED_OF_LIGHT": SPEED_OF_LIGHT,
+                "wavelength": wavelength,
+                "nmodes": self.nmodes,
+                "bend_radius":self.bend_radius,
+                "bend_axis":1,
+                "angle_theta":0.0,
+                "angle_phi":0.0,
+                "num_pml":(0, 0),
+                "target_neff":self.get_ncore(wavelength),
+                "sort_by":"largest_neff",
+                "precision":self.precision,
+                "filter_pol":self.filter_pol,
+            }
+            with open(parameters_file, "wb") as outp:
+                pickle.dump(parameters_dict, outp, pickle.HIGHEST_PROTOCOL)
+            # Write execution file
+            script_lines = [
+                "import pickle\n",
+                "import numpy as np\n",
+                "from types import SimpleNamespace\n",
+                "from tidy3d.plugins.mode.solver import compute_modes\n\n",
+                'if __name__ == "__main__":\n\n',
+                f"\twith open(\"{parameters_file}\", 'rb') as inp:\n",
+                "\t\tparameters_dict = pickle.load(inp)\n\n",
+            ]
+            script_lines.extend(
+                f'\t{key} = parameters_dict["{key}"]\n' for key in parameters_dict
             )
-        )
+            script_lines.extend([
+                "\t((Ex, Ey, Ez), (Hx, Hy, Hz)), neffs = (\n",
+                "\t    x.squeeze()\n",
+                "\t    for x in compute_modes(\n",
+                f"\t        eps_cross=[nx**2, ny**2, nz**2],\n",
+                f"\t        coords=[x, y],\n",
+                f"\t        freq=SPEED_OF_LIGHT / (wavelength * 1e-6),\n",
+                "\t        mode_spec=SimpleNamespace(\n",
+                f"\t            num_modes=nmodes,\n",
+                f"\t            bend_radius=bend_radius,\n",
+                f"\t            bend_axis=bend_axis,\n",
+                f"\t            angle_theta=angle_theta,\n",
+                f"\t            angle_phi=angle_phi,\n",
+                f"\t            num_pml=num_pml,\n",
+                f"\t            target_neff=target_neff,\n",
+                f"\t            sort_by=sort_by,\n",
+                f"\t            precision=precision,\n",
+                f"\t            filter_pol=filter_pol,\n",
+                "\t        ),\n",
+                "\t    )\n",
+                "\t)\n"
+            ])
+            script_lines.extend([
+                "\toutputs_file = \"outputs.pkl\"\n",
+                "\toutputs_dict = {\n",
+                "\t\t    \"Ex\": Ex,\n",
+                "\t\t    \"Ey\": Ey,\n",
+                "\t\t    \"Ez\": Ez,\n",
+                "\t\t    \"Hx\": Hx,\n",
+                "\t\t    \"Hy\": Hy,\n",
+                "\t\t    \"Hz\": Hz,\n",
+                "\t\t    \"neffs\": neffs,\n",
+                "\t\t}\n",
+                "\twith open(outputs_file, \"wb\") as outp:\n",
+                "\t\t    pickle.dump(outputs_dict, outp, pickle.HIGHEST_PROTOCOL)\n",
+            ])
+            script_file = tempfile.with_suffix(".py")
+            with open(script_file, "w") as script_file_obj:
+                script_file_obj.writelines(script_lines)
+            subprocess.Popen(["python", script_file])
+            logger.info(f"python {script_file}")
+
+            with open("outputs.pkl", 'rb') as inp:
+                outputs_dict = pickle.load(inp)
+
+            Ex = outputs_dict["Ex"]
+            Ey = outputs_dict["Ey"]
+            Ez = outputs_dict["Ez"]
+            Hx = outputs_dict["Hx"]
+            Hy = outputs_dict["Hy"]
+            Hz = outputs_dict["Hz"]
+            neffs = outputs_dict["neffs"]
+
+        else:
+            ((Ex, Ey, Ez), (Hx, Hy, Hz)), neffs = (
+                x.squeeze()
+                for x in compute_modes(
+                    eps_cross=[nx**2, ny**2, nz**2],
+                    coords=[x, y],
+                    freq=SPEED_OF_LIGHT / (wavelength * 1e-6),
+                    mode_spec=SimpleNamespace(
+                        num_modes=self.nmodes,
+                        bend_radius=self.bend_radius,
+                        bend_axis=1,
+                        angle_theta=0.0,
+                        angle_phi=0.0,
+                        num_pml=(0, 0),
+                        target_neff=self.get_ncore(wavelength),
+                        sort_by="largest_neff",
+                        precision=self.precision,
+                        filter_pol=self.filter_pol,
+                    ),
+                )
+            )
 
         self.Ex, self.Ey, self.Ez = Ex, Ey, Ez
         self.Hx, self.Hy, self.Hz = Hx, Hy, Hz
