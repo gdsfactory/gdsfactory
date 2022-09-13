@@ -8,6 +8,7 @@ From Chrostowski, L., & Hochberg, M. (2015). Silicon Photonics Design: From Devi
 
 """
 
+
 from typing import Optional
 
 import devsim
@@ -81,11 +82,13 @@ def alpha_to_k(alpha, wavelength):
     alpha = alpha * 1e2  # convert to /m
     return alpha * wavelength / (4 * np.pi)
 
+
 def k_to_alpha(k, wavelength):
     """Converts extinction coefficient (unitless) to absorption coefficient (/cm), given wavelength (um)."""
     wavelength = wavelength * 1e-6  # convert to m
     alpha = 4 * np.pi * k / wavelength
-    return alpha * 1e-2 # convert to /cm
+    return alpha * 1e-2  # convert to /cm
+
 
 class PINWaveguide(BaseModel):
     """Silicon PIN junction waveguide Model.
@@ -626,7 +629,6 @@ if __name__ == "__main__":
     plt.xlabel("Voltage (V)")
     plt.ylabel("delta neff")
     plt.savefig(f"./{foldername}/neff_test_shift.png")
-
 
     plt.figure()
     plt.plot(voltages, np.imag(neffs_doped))
