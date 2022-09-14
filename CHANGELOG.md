@@ -7,6 +7,8 @@
     - DEVSIM PIN waveguides now return imaginary neff
     - Changes to tidy3D mode solver to allow running in a different interpreter for compatibility
 - Added support for None orientation ports for get_bundle_from_steps. [PR](https://github.com/gdsfactory/gdsfactory/pull/702)
+- bend_euler returns wire_corner if radius = None
+- upgrade to tidy3d-beta 1.6.3
 
 ## [5.28.1](https://github.com/gdsfactory/gdsfactory/pull/698)
 
