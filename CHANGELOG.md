@@ -1,5 +1,13 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.29.0](https://github.com/gdsfactory/gdsfactory/pull/704)
+
+- add sweep_neff, sweep_width, sweep_group_index gtidy3d.modes and ring model
+- Absorption from DEVSIM [PR](https://github.com/gdsfactory/gdsfactory/pull/701)
+    - DEVSIM PIN waveguides now return imaginary neff
+    - Changes to tidy3D mode solver to allow running in a different interpreter for compatibility
+- Added support for None orientation ports for get_bundle_from_steps. [PR](https://github.com/gdsfactory/gdsfactory/pull/702)
+
 ## [5.28.1](https://github.com/gdsfactory/gdsfactory/pull/698)
 
 - upgrade to tidy3d-beta 1.6.2
