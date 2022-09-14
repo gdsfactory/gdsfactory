@@ -18,6 +18,10 @@ Maybe:
 
 import itertools as it
 import pathlib
+import subprocess
+import sys
+import time
+from pathlib import Path
 from types import SimpleNamespace
 from typing import Callable, Dict, List, Optional, Tuple, Union
 
@@ -254,7 +258,19 @@ class Waveguide(BaseModel):
         )
         inds_slab = (Z >= t_box) & (Z <= t_box + slab_thickness)
 
-        n = np.ones_like(Y) * nclad
+        complex_solver = False
+        mat_dtype = np.float32
+        if isinstance(ncore, complex) or isinstance(nclad, complex):
+            complex_solver = True
+        elif self.dn_dict is not None:
+            complex_solver = True
+        if complex_solver:
+            mat_dtype = np.complex128 if self.precision == "double" else np.complex64
+        else:
+            if self.precision == "double":
+                mat_dtype = np.float64
+
+        n = np.ones_like(Y, dtype=mat_dtype) * nclad
         n[
             (-w / 2 - t_clad / 2 <= Y)
             & (Y <= w / 2 + t_clad / 2)
@@ -271,7 +287,7 @@ class Waveguide(BaseModel):
                 self.dn_dict["dn"],
                 (Y, Z),
                 method="cubic",
-                fill_value=0,
+                fill_value=0.0,
             )
             n[inds_core] += dn[inds_core]
             n[inds_slab] += dn[inds_slab]
@@ -299,12 +315,15 @@ class Waveguide(BaseModel):
         self,
         overwrite: bool = False,
         with_fields: bool = True,
+        isolate: bool = False,
     ) -> None:
         """Compute modes.
 
         Args:
             overwrite: overwrite file cache.
             with_fields: include field data.
+            isolate: whether to run the solver in this interpreter (False) or a separate one (True)
+            temp_dir: if isolate, which directory to save temporary files to
         """
         if hasattr(self, "neffs") and not overwrite:
             return
@@ -348,26 +367,149 @@ class Waveguide(BaseModel):
             logger.info(f"load {self.filepath} mode data from file cache.")
             return
 
-        ((Ex, Ey, Ez), (Hx, Hy, Hz)), neffs = (
-            x.squeeze()
-            for x in compute_modes(
-                eps_cross=[nx**2, ny**2, nz**2],
-                coords=[x, y],
-                freq=SPEED_OF_LIGHT / (wavelength * 1e-6),
-                mode_spec=SimpleNamespace(
-                    num_modes=self.nmodes,
-                    bend_radius=self.bend_radius,
-                    bend_axis=1,
-                    angle_theta=0.0,
-                    angle_phi=0.0,
-                    num_pml=(0, 0),
-                    target_neff=self.get_ncore(wavelength),
-                    sort_by="largest_neff",
-                    precision=self.precision,
-                    filter_pol=self.filter_pol,
-                ),
+        if isolate:
+            # TODO: make a package that does this automatically
+            import pickle
+
+            # Setup paths
+            temp_dir = Path.cwd() / "temp"
+            temp_dir.mkdir(exist_ok=True, parents=True)
+            args_file_str = "args"
+            argsfile = temp_dir / args_file_str
+            argsfile = argsfile.with_suffix(".pkl")
+            script_file_str = "script"
+            scriptfile = temp_dir / script_file_str
+            scriptfile = scriptfile.with_suffix(".py")
+            outputs_file_str = "outputs"
+            outputsfile = temp_dir / outputs_file_str
+            outputsfile = outputsfile.with_suffix(".pkl")
+            arguments_dict = {
+                "nx": nx,
+                "ny": ny,
+                "nz": nz,
+                "x": x,
+                "y": y,
+                "SPEED_OF_LIGHT": SPEED_OF_LIGHT,
+                "wavelength": wavelength,
+                "nmodes": self.nmodes,
+                "bend_radius": self.bend_radius,
+                "bend_axis": 1,
+                "angle_theta": 0.0,
+                "angle_phi": 0.0,
+                "num_pml": (0, 0),
+                "target_neff": self.get_ncore(wavelength),
+                "sort_by": "largest_neff",
+                "precision": self.precision,
+                "filter_pol": self.filter_pol,
+            }
+            with open(argsfile, "wb") as outp:
+                pickle.dump(arguments_dict, outp, pickle.HIGHEST_PROTOCOL)
+            # Write execution file
+            script_lines = [
+                "import pickle\n",
+                "import numpy as np\n",
+                "from types import SimpleNamespace\n",
+                "from tidy3d.plugins.mode.solver import compute_modes\n\n",
+                'if __name__ == "__main__":\n\n',
+                f"\twith open(\"{argsfile}\", 'rb') as inp:\n",
+                "\t\targuments_dict = pickle.load(inp)\n\n",
+            ]
+            script_lines.extend(
+                f'\t{key} = arguments_dict["{key}"]\n' for key in arguments_dict
             )
-        )
+            script_lines.extend(
+                [
+                    "\t((Ex, Ey, Ez), (Hx, Hy, Hz)), neffs = (\n",
+                    "\t    x.squeeze()\n",
+                    "\t    for x in compute_modes(\n",
+                    "\t        eps_cross=[nx**2, ny**2, nz**2],\n",
+                    "\t        coords=[x, y],\n",
+                    "\t        freq=SPEED_OF_LIGHT / (wavelength * 1e-6),\n",
+                    "\t        mode_spec=SimpleNamespace(\n",
+                    "\t            num_modes=nmodes,\n",
+                    "\t            bend_radius=bend_radius,\n",
+                    "\t            bend_axis=bend_axis,\n",
+                    "\t            angle_theta=angle_theta,\n",
+                    "\t            angle_phi=angle_phi,\n",
+                    "\t            num_pml=num_pml,\n",
+                    "\t            target_neff=target_neff,\n",
+                    "\t            sort_by=sort_by,\n",
+                    "\t            precision=precision,\n",
+                    "\t            filter_pol=filter_pol,\n",
+                    "\t        ),\n",
+                    "\t    )\n",
+                    "\t)\n",
+                ]
+            )
+            script_lines.extend(
+                [
+                    f'\toutputsfile = "{outputsfile}"\n',
+                    "\toutputs_dict = {\n",
+                    '\t\t    "Ex": Ex,\n',
+                    '\t\t    "Ey": Ey,\n',
+                    '\t\t    "Ez": Ez,\n',
+                    '\t\t    "Hx": Hx,\n',
+                    '\t\t    "Hy": Hy,\n',
+                    '\t\t    "Hz": Hz,\n',
+                    '\t\t    "neffs": neffs,\n',
+                    "\t\t}\n",
+                    '\twith open(outputsfile, "wb") as outp:\n',
+                    "\t\t    pickle.dump(outputs_dict, outp, pickle.HIGHEST_PROTOCOL)\n",
+                ]
+            )
+            with open(scriptfile, "w") as script_file_obj:
+                script_file_obj.writelines(script_lines)
+            with subprocess.Popen(
+                ["python", scriptfile],
+                stdin=subprocess.PIPE,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            ) as proc:
+                if not proc.stderr:
+                    while not outputsfile.exists():
+                        print(proc.stdout.read().decode())
+                        print(proc.stderr.read().decode())
+                        sys.stdout.flush()
+                        sys.stderr.flush()
+                        time.sleep(1)
+                logger.info(f"python {scriptfile}")
+
+            with open(outputsfile, "rb") as inp:
+                outputs_dict = pickle.load(inp)
+
+            Ex = outputs_dict["Ex"]
+            Ey = outputs_dict["Ey"]
+            Ez = outputs_dict["Ez"]
+            Hx = outputs_dict["Hx"]
+            Hy = outputs_dict["Hy"]
+            Hz = outputs_dict["Hz"]
+            neffs = outputs_dict["neffs"]
+
+            import shutil
+
+            shutil.rmtree(temp_dir)
+
+        else:  # legacy
+            ((Ex, Ey, Ez), (Hx, Hy, Hz)), neffs = (
+                x.squeeze()
+                for x in compute_modes(
+                    eps_cross=[nx**2, ny**2, nz**2],
+                    coords=[x, y],
+                    freq=SPEED_OF_LIGHT / (wavelength * 1e-6),
+                    mode_spec=SimpleNamespace(
+                        num_modes=self.nmodes,
+                        bend_radius=self.bend_radius,
+                        bend_axis=1,
+                        angle_theta=0.0,
+                        angle_phi=0.0,
+                        num_pml=(0, 0),
+                        target_neff=self.get_ncore(wavelength),
+                        sort_by="largest_neff",
+                        precision=self.precision,
+                        filter_pol=self.filter_pol,
+                    ),
+                )
+            )
 
         self.Ex, self.Ey, self.Ez = Ex, Ey, Ez
         self.Hx, self.Hy, self.Hz = Hx, Hy, Hz
@@ -878,14 +1020,10 @@ __all__ = (
 )
 
 if __name__ == "__main__":
-
     widths = np.arange(400, 601, 50) * 1e-3
-
     widths = np.array([500]) * nm
     thicknesses = np.array([210, 220, 230]) * nm
-
     widths = np.array([490, 500, 510]) * nm
-
     widths = np.array([495, 500, 505]) * nm
     thicknesses = np.array([220]) * nm
 
@@ -897,7 +1035,7 @@ if __name__ == "__main__":
         widths=widths,
     )
 
-    neffs = df.neffs.values
+    neffs = df.neff.values
 
     # df = sweep_group_index(
     #     ncore=si,
@@ -914,6 +1052,17 @@ if __name__ == "__main__":
     #     ncore=si,
     #     nclad=sio2,
     # )
+    c = Waveguide(
+        wavelength=1.55,
+        wg_width=500 * nm,
+        wg_thickness=220 * nm,
+        slab_thickness=0 * nm,
+        ncore=lambda x: 3.45 + 1e-1j,
+        nclad=sio2,
+        cache=None,
+    )
+    c.compute_modes()
+    print(c.neffs)
     # c = WaveguideCoupler(
     #     wavelength=1.55,
     #     wg_width1=500 * nm,
