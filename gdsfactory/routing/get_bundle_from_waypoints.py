@@ -11,7 +11,6 @@ from gdsfactory.components.via_corner import via_corner
 from gdsfactory.components.wire import wire_corner
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
-import gdsfactory.routing.manhattan as manhattan
 from gdsfactory.routing.manhattan import (
     RouteError,
     get_route_error,
@@ -152,7 +151,7 @@ def get_bundle_from_waypoints(
     start_angle = ports1[0].orientation
     end_angle = ports2[0].orientation
 
-    if sort_ports:    
+    if sort_ports:
         # Sort the ports such that the bundle connect the correct corresponding ports.
         angles_to_sorttypes = {
             (0, 180): ("Y", "Y"),
