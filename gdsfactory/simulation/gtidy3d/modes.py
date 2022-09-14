@@ -16,7 +16,7 @@ Maybe:
 
 """
 
-
+import itertools as it
 import pathlib
 import subprocess
 import sys
@@ -814,6 +814,56 @@ def sweep_width(
     return df
 
 
+def sweep_neff(
+    wavelength: float = 1.55,
+    thicknesses: Tuple[float, ...] = (220 * nm,),
+    widths: Tuple[float, ...] = (500 * nm,),
+    mode_index: int = 0,
+    **kwargs,
+) -> pd.DataFrame:
+    """Sweep waveguide width and compute effective index.
+
+    Args:
+        wavelength: (um).
+        thicknesses: in um.
+        widths: in um.
+        mode_index: integer, where 0 is the fundamental mode.
+
+    Keyword Args:
+        mode_index: integer.
+        ncore: core refractive index.
+        nclad: cladding refractive index.
+        slab_thickness: thickness slab (um).
+        t_box: thickness BOX (um).
+        t_clad: thickness cladding (um).
+        xmargin: margin from waveguide edge to each side (um).
+        resolution: pixels/um.
+        nmodes: number of modes to compute.
+        bend_radius: optional bend radius (um).
+
+    """
+    widths_thicknesses = list(it.product(widths, thicknesses))
+
+    neff = np.zeros(len(widths_thicknesses))
+    w = np.zeros(len(widths_thicknesses))
+    t = np.zeros(len(widths_thicknesses))
+
+    for i, (wg_width, wg_thickness) in enumerate(tqdm(widths_thicknesses)):
+        wg = Waveguide(
+            wg_width=wg_width,
+            wg_thickness=wg_thickness,
+            wavelength=wavelength,
+            **kwargs,
+        )
+        wg.compute_modes()
+        wg.compute_mode_properties()
+        neff[i] = np.real(wg.neffs[mode_index])
+        w[i] = wg_width
+        t[i] = wg_thickness
+
+    return pd.DataFrame(dict(neff=neff, widths=w, thickness=t))
+
+
 def group_index(
     wavelength: float, wavelength_step: float = 0.01, mode_index: int = 0, **kwargs
 ) -> float:
@@ -822,7 +872,7 @@ def group_index(
     Args:
         wavelength: (um).
         wavelength_step: in um.
-        mode_index: integer.
+        mode_index: integer, where 0 is the fundamental mode.
 
     Keyword Args:
         wg_width: waveguide width.
@@ -855,6 +905,51 @@ def group_index(
     nb = np.real(wb.neffs[mode_index])
     nf = np.real(wf.neffs[mode_index])
     return nc - wavelength * (nf - nb) / (2 * wavelength_step)
+
+
+def sweep_group_index(
+    wavelength: float = 1.55,
+    thicknesses: Tuple[float, ...] = (220 * nm,),
+    widths: Tuple[float, ...] = (500 * nm,),
+    **kwargs,
+) -> pd.DataFrame:
+    """Sweep waveguide width and compute group index.
+
+    Args:
+        wavelength: (um).
+        thicknesses: in um.
+        widths: in um.
+
+    Keyword Args:
+        mode_index: integer.
+        ncore: core refractive index.
+        nclad: cladding refractive index.
+        slab_thickness: thickness slab (um).
+        t_box: thickness BOX (um).
+        t_clad: thickness cladding (um).
+        xmargin: margin from waveguide edge to each side (um).
+        resolution: pixels/um.
+        nmodes: number of modes to compute.
+        bend_radius: optional bend radius (um).
+
+    """
+    widths_thicknesses = list(it.product(widths, thicknesses))
+
+    ng = np.zeros(len(widths_thicknesses))
+    w = np.zeros(len(widths_thicknesses))
+    t = np.zeros(len(widths_thicknesses))
+
+    for i, (wg_width, wg_thickness) in enumerate(tqdm(widths_thicknesses)):
+        ng[i] = group_index(
+            wavelength=wavelength,
+            wg_width=wg_width,
+            wg_thickness=wg_thickness,
+            **kwargs,
+        )
+        w[i] = wg_width
+        t[i] = wg_thickness
+
+    return pd.DataFrame(dict(ng=ng, widths=w, thickness=t))
 
 
 def plot_sweep_width(
@@ -919,11 +1014,44 @@ __all__ = (
     "sio2",
     "sweep_bend_loss",
     "sweep_width",
+    "sweep_neff",
+    "sweep_group_index",
     "group_index",
 )
 
 if __name__ == "__main__":
+    widths = np.arange(400, 601, 50) * 1e-3
+    widths = np.array([500]) * nm
+    thicknesses = np.array([210, 220, 230]) * nm
+    widths = np.array([490, 500, 510]) * nm
+    widths = np.array([495, 500, 505]) * nm
+    thicknesses = np.array([220]) * nm
 
+    df = sweep_neff(
+        ncore=si,
+        nclad=sio2,
+        slab_thickness=0 * nm,
+        thicknesses=thicknesses,
+        widths=widths,
+    )
+
+    neffs = df.neff.values
+
+    # df = sweep_group_index(
+    #     ncore=si,
+    #     nclad=sio2,
+    #     slab_thickness=0 * nm,
+    #     thicknesses=np.array([220]) * nm,
+    #     widths=widths,
+    # )
+    # c = Waveguide(
+    #     wavelength=1.55,
+    #     wg_width=500 * nm,
+    #     wg_thickness=220 * nm,
+    #     slab_thickness=0 * nm,
+    #     ncore=si,
+    #     nclad=sio2,
+    # )
     c = Waveguide(
         wavelength=1.55,
         wg_width=500 * nm,

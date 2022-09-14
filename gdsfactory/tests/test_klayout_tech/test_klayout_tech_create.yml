@@ -10879,6 +10879,25 @@ layer_views:
     visible: true
     width: null
     xfill: false
+  SHOW_PORTS:
+    animation: 0
+    dither_pattern: I5
+    fill_brightness: 0
+    fill_color: '#ff80a8'
+    frame_brightness: 0
+    frame_color: '#ff80a8'
+    group_members: null
+    layer:
+    - 1
+    - 12
+    line_style: null
+    marked: false
+    name: SHOW_PORTS
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
   SILICIDE:
     animation: 0
     dither_pattern: I11
