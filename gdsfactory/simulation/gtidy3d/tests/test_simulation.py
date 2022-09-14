@@ -13,7 +13,7 @@ def test_simulation_hash() -> None:
     sim = gt.get_simulation(component=component)
     sim_hash = get_sim_hash(sim)
 
-    sim_hash_reference = "20e57066bc3c7f2b090132bcb9a08a5b"
+    sim_hash_reference = "04734dd6d20fd1afd508d74c949de8f0"
 
     # print(f"assert hash == {sim_hash!r}")
     assert sim_hash == sim_hash_reference, f"sim_hash_reference = {sim_hash!r}"
