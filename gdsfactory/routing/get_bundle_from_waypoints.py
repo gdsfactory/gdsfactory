@@ -11,6 +11,7 @@ from gdsfactory.components.via_corner import via_corner
 from gdsfactory.components.wire import wire_corner
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
+import gdsfactory.routing.manhattan as manhattan
 from gdsfactory.routing.manhattan import (
     RouteError,
     get_route_error,
@@ -121,49 +122,67 @@ def get_bundle_from_waypoints(
         Got {len(ports1)} {len(ports2)}"
         )
 
+    waypoints = [ports1[0].center] + list(waypoints) + [ports2[0].center]
     for p in ports1:
+        # if ports1 orientation is None, guess it from the first two waypoints
+        if p.orientation is None:
+            if np.subtract(waypoints[1], waypoints[0])[0] > 0:
+                p.orientation = 0
+            elif np.subtract(waypoints[1], waypoints[0])[0] < 0:
+                p.orientation = 180
+            elif np.subtract(waypoints[1], waypoints[0])[1] > 0:
+                p.orientation = 90
+            elif np.subtract(waypoints[1], waypoints[0])[1] < 0:
+                p.orientation = 270
         p.orientation = int(p.orientation) % 360 if p.orientation else p.orientation
 
     for p in ports2:
+        # if ports2 orientation is None, guess it from the last two waypoints
+        if p.orientation is None:
+            if np.subtract(waypoints[-1], waypoints[-2])[0] > 0:
+                p.orientation = 180
+            elif np.subtract(waypoints[-1], waypoints[-2])[0] < 0:
+                p.orientation = 0
+            elif np.subtract(waypoints[-1], waypoints[-2])[1] > 0:
+                p.orientation = 90
+            elif np.subtract(waypoints[-1], waypoints[-2])[1] < 0:
+                p.orientation = 270
         p.orientation = int(p.orientation) % 360 if p.orientation else p.orientation
 
     start_angle = ports1[0].orientation
     end_angle = ports2[0].orientation
-    waypoints = [ports1[0].center] + list(waypoints) + [ports2[0].center]
 
-    # Sort the ports such that the bundle connect the correct corresponding ports.
-    angles_to_sorttypes = {
-        (0, 180): ("Y", "Y"),
-        (0, 90): ("Y", "X"),
-        (0, 0): ("Y", "-Y"),
-        (0, 270): ("Y", "-X"),
-        (90, 0): ("X", "Y"),
-        (90, 90): ("X", "-X"),
-        (90, 180): ("X", "-Y"),
-        (90, 270): ("X", "X"),
-        (180, 90): ("Y", "-X"),
-        (180, 0): ("Y", "Y"),
-        (180, 270): ("Y", "X"),
-        (180, 180): ("Y", "-Y"),
-        (270, 90): ("X", "X"),
-        (270, 270): ("X", "-X"),
-        (270, 0): ("X", "-Y"),
-        (270, 180): ("X", "Y"),
-        # (None, None): ("Y", "X"),
-    }
+    if sort_ports:    
+        # Sort the ports such that the bundle connect the correct corresponding ports.
+        angles_to_sorttypes = {
+            (0, 180): ("Y", "Y"),
+            (0, 90): ("Y", "X"),
+            (0, 0): ("Y", "-Y"),
+            (0, 270): ("Y", "-X"),
+            (90, 0): ("X", "Y"),
+            (90, 90): ("X", "-X"),
+            (90, 180): ("X", "-Y"),
+            (90, 270): ("X", "X"),
+            (180, 90): ("Y", "-X"),
+            (180, 0): ("Y", "Y"),
+            (180, 270): ("Y", "X"),
+            (180, 180): ("Y", "-Y"),
+            (270, 90): ("X", "X"),
+            (270, 270): ("X", "-X"),
+            (270, 0): ("X", "-Y"),
+            (270, 180): ("X", "Y"),
+        }
 
-    dict_sorts = {
-        "X": lambda p: p.x,
-        "Y": lambda p: p.y,
-        "-X": lambda p: -p.x,
-        "-Y": lambda p: -p.y,
-    }
-    key = (start_angle, end_angle)
-    sp_st, ep_st = angles_to_sorttypes[key]
-    start_port_sort = dict_sorts[sp_st]
-    end_port_sort = dict_sorts[ep_st]
-
-    if sort_ports:
+        dict_sorts = {
+            "X": lambda p: p.x,
+            "Y": lambda p: p.y,
+            "-X": lambda p: -p.x,
+            "-Y": lambda p: -p.y,
+        }
+        key = (start_angle, end_angle)
+        sp_st, ep_st = angles_to_sorttypes[key]
+        start_port_sort = dict_sorts[sp_st]
+        end_port_sort = dict_sorts[ep_st]
         ports1.sort(key=start_port_sort)
         ports2.sort(key=end_port_sort)
 
