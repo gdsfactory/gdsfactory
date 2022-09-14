@@ -9,6 +9,7 @@ w = gf.components.straight(cross_section=cross_section)
 
 left = c << w
 right = c << w
+left.movex(-40)
 right.move((100, 80))
 
 obstacle = gf.components.rectangle(size=(100, 10), layer="M2")
