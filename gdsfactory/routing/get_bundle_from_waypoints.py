@@ -148,9 +148,6 @@ def get_bundle_from_waypoints(
                 p.orientation = 270
         p.orientation = int(p.orientation) % 360 if p.orientation else p.orientation
 
-    start_angle = ports1[0].orientation
-    end_angle = ports2[0].orientation
-
     if sort_ports:
         # Sort the ports such that the bundle connect the correct corresponding ports.
         angles_to_sorttypes = {
@@ -178,6 +175,9 @@ def get_bundle_from_waypoints(
             "-X": lambda p: -p.x,
             "-Y": lambda p: -p.y,
         }
+        start_angle = ports1[0].orientation
+        end_angle = ports2[0].orientation
+
         key = (start_angle, end_angle)
         sp_st, ep_st = angles_to_sorttypes[key]
         start_port_sort = dict_sorts[sp_st]
