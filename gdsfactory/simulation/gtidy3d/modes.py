@@ -266,9 +266,8 @@ class Waveguide(BaseModel):
             complex_solver = True
         if complex_solver:
             mat_dtype = np.complex128 if self.precision == "double" else np.complex64
-        else:
-            if self.precision == "double":
-                mat_dtype = np.float64
+        elif self.precision == "double":
+            mat_dtype = np.float64
 
         n = np.ones_like(Y, dtype=mat_dtype) * nclad
         n[
