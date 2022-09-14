@@ -10,6 +10,7 @@ from gdsfactory.components.via_corner import via_corner
 from gdsfactory.components.wire import wire_corner
 from gdsfactory.port import Port
 from gdsfactory.routing.get_bundle_from_waypoints import get_bundle_from_waypoints
+from gdsfactory.routing.manhattan import _is_horizontal, _is_vertical
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
 from gdsfactory.types import (
     ComponentSpec,
@@ -114,11 +115,14 @@ def get_bundle_from_steps(
     port2 = ports2[0]
     x2, y2 = port2.center
     orientation = port2.orientation
-
-    # if orientation is None:
-    #     waypoints += [(x2, y2)]
-
-    if int(orientation) in {0, 180}:
+    if orientation is None:
+        p1 = waypoints[-2]
+        p0 = waypoints[-1]
+        if _is_vertical(p0, p1):
+            waypoints += [(y2, y)]
+        elif _is_horizontal(p0, p1):
+            waypoints += [(x, x2)]
+    elif int(orientation) in {0, 180}:
         waypoints += [(x, y2)]
     elif int(orientation) in {90, 270}:
         waypoints += [(x2, y)]
