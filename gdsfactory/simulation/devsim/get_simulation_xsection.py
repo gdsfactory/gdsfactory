@@ -8,6 +8,7 @@ From Chrostowski, L., & Hochberg, M. (2015). Silicon Photonics Design: From Devi
 
 """
 
+
 from typing import Optional
 
 import devsim
@@ -64,7 +65,7 @@ def dalpha_carriers(wavelength: float, dN: float, dP: float) -> float:
         dP: excess holes (/cm^3).
 
     Returns:
-        dn: change in refractive index.
+        dalpha: change of absorption coefficient (/cm).
     """
     if wavelength == 1.55:
         return 8.88 * 1e-21 * dN**1.167 + 5.84 * 1e-20 * dP**1.109
@@ -73,6 +74,20 @@ def dalpha_carriers(wavelength: float, dN: float, dP: float) -> float:
     else:
         wavelength *= 1e-6
         return 3.52 * 1e-6 * wavelength**2 * dN + 2.4 * 1e-6 * wavelength**2 * dP
+
+
+def alpha_to_k(alpha, wavelength):
+    """Converts absorption coefficient (/cm) to extinction coefficient (unitless), given wavelength (um)."""
+    wavelength = wavelength * 1e-6  # convert to m
+    alpha = alpha * 1e2  # convert to /m
+    return alpha * wavelength / (4 * np.pi)
+
+
+def k_to_alpha(k, wavelength):
+    """Converts extinction coefficient (unitless) to absorption coefficient (/cm), given wavelength (um)."""
+    wavelength = wavelength * 1e-6  # convert to m
+    alpha = 4 * np.pi * k / wavelength
+    return alpha * 1e-2  # convert to /cm
 
 
 class PINWaveguide(BaseModel):
@@ -140,8 +155,8 @@ class PINWaveguide(BaseModel):
     xmargin: float = 0.5 * um
     xcontact: float = 0.25 * um
     pp_res_x: float = 20 * nm
-    pp_p_res_x: float = 2 * nm
-    p_res_x: float = 5 * nm
+    pp_p_res_x: float = 5 * nm
+    p_res_x: float = 10 * nm
     pn_res_x: float = 1 * nm
     coarse_res_y: float = 10 * nm
     slab_res_y: float = 2 * nm
@@ -501,6 +516,8 @@ class PINWaveguide(BaseModel):
         dN_fem = []
         dP_fem = []
 
+        mat_dtype = np.float64 if precision == "double" else np.float32
+
         for region_name in ["core", "slab"]:
             x_fem.append(
                 np.array(self.get_field(region_name=region_name, field_name="x"))
@@ -510,11 +527,15 @@ class PINWaveguide(BaseModel):
             )
             dN_fem.append(
                 np.array(
-                    self.get_field(region_name=region_name, field_name="Electrons")
+                    self.get_field(region_name=region_name, field_name="Electrons"),
+                    dtype=mat_dtype,
                 )
             )
             dP_fem.append(
-                np.array(self.get_field(region_name=region_name, field_name="Holes"))
+                np.array(
+                    self.get_field(region_name=region_name, field_name="Holes"),
+                    dtype=mat_dtype,
+                )
             )
 
         x_fem = np.concatenate(x_fem)
@@ -523,8 +544,13 @@ class PINWaveguide(BaseModel):
         dP_fem = np.concatenate(dP_fem)
 
         dn_fem = dn_carriers(wavelength, dN_fem, dP_fem)
+        dk_fem = alpha_to_k(dalpha_carriers(wavelength, dN_fem, dP_fem), wavelength)
         dn_dict = (
-            {"x": x_fem * cm / um, "y": y_fem * cm / um + t_box, "dn": dn_fem}
+            {
+                "x": x_fem * cm / um,
+                "y": y_fem * cm / um + t_box,
+                "dn": dn_fem + 1j * dk_fem,
+            }
             if perturb
             else None
         )
@@ -561,7 +587,7 @@ if __name__ == "__main__":
     import os
     import shutil
 
-    foldername = "03_reverse_scale"
+    foldername = "04_wabsorption"
     if os.path.exists(foldername) and os.path.isdir(foldername):
         shutil.rmtree(foldername)
     os.mkdir(foldername)
@@ -581,12 +607,12 @@ if __name__ == "__main__":
     for voltage in voltages:
         c.ramp_voltage(voltage, voltage_solver_step)
         c_doped = c.make_waveguide(wavelength=1.55, precision="double")
-        c_doped.compute_modes()
+        c_doped.compute_modes(isolate=True)
         indices_doped.append(c_doped.nx)
         # c2.plot_index()
         neffs_doped.append(c_doped.neffs[0])
         # c2.plot_Ex()
-        c.save_device(f"./{foldername}/test_v_{voltage}.dat")
+        # c.save_device(f"./{foldername}/test_v_{voltage}.dat")
 
         plt.figure()
         plt.imshow(
@@ -603,6 +629,12 @@ if __name__ == "__main__":
     plt.xlabel("Voltage (V)")
     plt.ylabel("delta neff")
     plt.savefig(f"./{foldername}/neff_test_shift.png")
+
+    plt.figure()
+    plt.plot(voltages, np.imag(neffs_doped))
+    plt.xlabel("Voltage (V)")
+    plt.ylabel("delta abs")
+    plt.savefig(f"./{foldername}/neff_test_abs.png")
 
     # import pickle
 
