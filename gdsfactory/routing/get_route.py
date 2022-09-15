@@ -154,6 +154,16 @@ get_route_electrical = partial(
     min_straight_length=2.0,
 )
 
+get_route_electrical_m2 = partial(
+    get_route,
+    bend=wire_corner,
+    start_straight_length=25,
+    end_straight_length=25,
+    cross_section=metal2,
+    taper=None,
+    min_straight_length=2.0,
+)
+
 get_route_electrical_multilayer = partial(
     get_route_electrical,
     bend=via_corner,
@@ -260,6 +270,10 @@ def get_route_from_waypoints(
 
 get_route_from_waypoints_electrical = gf.partial(
     get_route_from_waypoints, bend=wire_corner, cross_section=metal3
+)
+
+get_route_from_waypoints_electrical_m2 = gf.partial(
+    get_route_from_waypoints, bend=wire_corner, cross_section=metal2
 )
 
 get_route_from_waypoints_electrical_multilayer = gf.partial(
