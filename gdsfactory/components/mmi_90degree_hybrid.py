@@ -5,11 +5,13 @@ from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
-# Default values are taken from Watanabe et al., "Coherent few mode demultiplexer realized as a
+# Default values are taken from Watanabe et al.,
+# "Coherent few mode demultiplexer realized as a
 # 2D grating coupler array in silicon", Optics Express 28(24), 2020
 
-# It could be interesting to consider the design in Guan et al., "Compact and low loss 90°
-# optical hybrid on a silicon-on-insulator platform", Optics Express 25(23), 2017
+# It could be interesting to consider the design in Guan et al.,
+#  "Compact and low loss 90° optical hybrid on a silicon-on-insulator
+#  platform", Optics Express 25(23), 2017
 
 
 @gf.cell
@@ -91,12 +93,24 @@ def mmi_90degree_hybrid(
     )
 
     y_signal_in = gap_mmi * 3 / 2 + width_taper * 3 / 2
-    y_lo_in = - gap_mmi / 2 - width_taper / 2
+    y_lo_in = -gap_mmi / 2 - width_taper / 2
 
     ports = [
         # Inputs
-        gf.Port("signal_in", orientation=180, center=(0, y_signal_in), width=w_taper, cross_section=x),
-        gf.Port("LO_in", orientation=180, center=(0, y_lo_in), width=w_taper, cross_section=x),
+        gf.Port(
+            "signal_in",
+            orientation=180,
+            center=(0, y_signal_in),
+            width=w_taper,
+            cross_section=x,
+        ),
+        gf.Port(
+            "LO_in",
+            orientation=180,
+            center=(0, y_lo_in),
+            width=w_taper,
+            cross_section=x,
+        ),
         # Outputs
         gf.Port(
             "I_out1",

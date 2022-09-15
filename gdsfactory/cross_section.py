@@ -1178,15 +1178,16 @@ def pn_ge_detector_si_contacts(
     cladding_layers: Optional[Layers] = cladding_layers_optical,
     cladding_offsets: Optional[Floats] = cladding_offsets_optical,
 ) -> CrossSection:
+    """ Linear Ge detector cross section based on a lateral p(i)n junction.
 
-    """
-    Linear Ge detector cross section based on a lateral p(i)n junction with silicon contacts (no contact on the Ge).
-    The contacts need to be created in the component generating function (they can't be created here).
+    It has silicon contacts (no contact on the Ge). The contacts need to be
+    created in the component generating function (they can't be created here).
 
-    See Chen et al., "High-Responsivity Low-Voltage 28-Gb/s Ge p-i-n Photodetector With Silicon Contacts", Journal
-    of Lightwave Technology 33(4), 2015.
+    See Chen et al., "High-Responsivity Low-Voltage 28-Gb/s Ge p-i-n Photodetector
+    With Silicon Contacts", Journal of Lightwave Technology 33(4), 2015.
 
-    Notice it is possible to have dopings going beyond the ridge waveguide. This is fine, and it is to account for the
+    Notice it is possible to have dopings going beyond the ridge waveguide. This
+    is fine, and it is to account for the
     presence of the contacts. Such contacts can be subwavelength or not.
 
     Args:
@@ -1198,7 +1199,8 @@ def pn_ge_detector_si_contacts(
         gap_medium_doping: from waveguide center to medium doping.
             None removes medium doping.
         gap_high_doping: from center to high doping. None removes it.
-        width_doping: distance from the waveguide center to the edge of the p (or n) dopings in um.
+        width_doping: distance from the waveguide center to the edge
+            of the p (or n) dopings in um.
         layer_p: p doping layer.
         layer_pp: p+ doping layer.
         layer_ppp: p++ doping layer.
@@ -1251,7 +1253,6 @@ def pn_ge_detector_si_contacts(
         c = p.extrude(xs)
         c.plot()
     """
-
     sections = []
     width_low_doping = width_doping - gap_low_doping
     offset_low_doping = width_low_doping / 2 + gap_low_doping
