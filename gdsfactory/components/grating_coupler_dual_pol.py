@@ -89,7 +89,7 @@ def grating_coupler_dual_pol(
 
     # Base layer
     base = c << rectangle(size=(x_span, y_span), layer=base_layer, centered=True, port_type=None)
-    
+
     # Photonic crystal
     num_x = int(np.floor(x_span/period_x))
     num_y = int(np.floor(y_span/period_y))
