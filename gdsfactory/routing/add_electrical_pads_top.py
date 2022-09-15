@@ -9,7 +9,7 @@ from gdsfactory.types import ComponentSpec, Float2
 
 @gf.cell
 def add_electrical_pads_top(
-    direction: str = 'top',
+    direction: str = "top",
     component: ComponentSpec = straight,
     spacing: Float2 = (0.0, 100.0),
     pad_array: ComponentSpec = pad_array_function,
@@ -44,11 +44,11 @@ def add_electrical_pads_top(
     ports_electrical = select_ports(ref.ports)
     ports_electrical = list(ports_electrical.values())
 
-    if direction == 'top':
+    if direction == "top":
         pads = c << gf.get_component(
             pad_array, columns=len(ports_electrical), rows=1, orientation=270
         )
-    elif direction == 'right':
+    elif direction == "right":
         pads = c << gf.get_component(
             pad_array, columns=1, rows=len(ports_electrical), orientation=270
         )
