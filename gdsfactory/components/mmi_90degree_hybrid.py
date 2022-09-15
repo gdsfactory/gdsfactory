@@ -27,7 +27,7 @@ def mmi_90degree_hybrid(
     with_bbox: bool = True,
     cross_section: CrossSectionSpec = "strip",
 ) -> Component:
-    r"""90 degree hybrid based on a 4x4 MMI
+    r"""90 degree hybrid based on a 4x4 MMI.
 
     Args:
         width: input and output straight width.
@@ -69,9 +69,7 @@ def mmi_90degree_hybrid(
 
                  <->
             length_taper
-
     """
-
     c = gf.Component()
 
     gap_mmi = gf.snap.snap_to_grid(gap_mmi, nm=2)
