@@ -522,6 +522,7 @@ def select_ports(
     width: Optional[float] = None,
     layers_excluded: Optional[Tuple[Tuple[int, int], ...]] = None,
     port_type: Optional[str] = None,
+    names: Optional[List[str]] = None,
     clockwise: bool = True,
 ) -> Dict[str, Port]:
     """Returns a dict of ports from a dict of ports.
@@ -570,6 +571,8 @@ def select_ports(
         ports = {p_name: p for p_name, p in ports.items() if p.width == width}
     if port_type:
         ports = {p_name: p for p_name, p in ports.items() if p.port_type == port_type}
+    if names:
+        ports = {p_name: p for p_name, p in ports.items() if p_name in names}
 
     if clockwise:
         ports = sort_ports_clockwise(ports)
