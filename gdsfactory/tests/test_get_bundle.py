@@ -8,7 +8,9 @@ from gdsfactory.difftest import difftest
 from gdsfactory.routing.get_bundle import get_bundle
 
 
-def test_get_bundle(data_regression: DataRegressionFixture, check: bool = True):
+def test_get_bundle(
+    data_regression: DataRegressionFixture, check: bool = True
+) -> Component:
     xs_top = [-100, -90, -80, 0, 10, 20, 40, 50, 80, 90, 100, 105, 110, 115]
     pitch = 127.0
     layer = (1, 0)
@@ -269,7 +271,7 @@ def test_connect_corner(
 
 def test_get_bundle_udirect(
     data_regression: DataRegressionFixture, check: bool = True, dy=200, angle=270
-):
+) -> Component:
     xs1 = [-100, -90, -80, -55, -35, 24, 0] + [200, 210, 240]
     axis = "X" if angle in [0, 180] else "Y"
 
@@ -341,7 +343,7 @@ def test_get_bundle_udirect(
 @pytest.mark.parametrize("angle", [0, 90, 180, 270])
 def test_get_bundle_u_indirect(
     data_regression: DataRegressionFixture, angle: int, check: bool = True, dy=-200
-):
+) -> Component:
 
     xs1 = [-100, -90, -80, -55, -35] + [200, 210, 240]
 
@@ -412,7 +414,7 @@ def test_get_bundle_u_indirect(
 def test_facing_ports(
     data_regression: DataRegressionFixture,
     check: bool = True,
-):
+) -> Component:
 
     dy = 200.0
     xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
