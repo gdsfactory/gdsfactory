@@ -9,6 +9,8 @@ from gdsfactory.components.via_stack import via_stack_slab_m3
 from gdsfactory.cross_section import pn_ge_detector_si_contacts
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
+default_taper = partial(taper, length=20.0, width1=0.5, width2=0.8, cross_section="strip")
+
 
 @gf.cell
 def ge_detector_straight_si_contacts(
@@ -17,15 +19,15 @@ def ge_detector_straight_si_contacts(
     via_stack: ComponentSpec = via_stack_slab_m3,
     via_stack_width: float = 10.0,
     via_stack_spacing: float = 5.0,
-    taper: Optional[ComponentSpec] = partial(taper, length = 20.0, width1 = 0.5, width2 = 0.8, cross_section = "strip",),
+    taper: Optional[ComponentSpec] = default_taper,
     **kwargs,
 ) -> Component:
 
     """
     Returns a straight Ge on Si detector with silicon contacts (no contacts on the Ge).
-    
+
     These detectors could have lower dark current and sensitivity compared to those with
-    contacts in the Ge. See Chen et al., "High-Responsivity Low-Voltage 28-Gb/s Ge p-i-n 
+    contacts in the Ge. See Chen et al., "High-Responsivity Low-Voltage 28-Gb/s Ge p-i-n
     Photodetector With Silicon Contacts", Journal of Lightwave Technology 33(4), 2015.
 
     https://doi.org/10.1109/JLT.2014.2367134
@@ -76,6 +78,7 @@ def ge_detector_straight_si_contacts(
     c.add_ports(via_stack_bot.ports, prefix="bot_")
     c.add_ports(via_stack_top.ports, prefix="top_")
     return c
+
 
 if __name__ == "__main__":
     c = ge_detector_straight_si_contacts(length=40)

@@ -13,10 +13,12 @@ from gdsfactory.types import ComponentSpec, CrossSectionSpec, LayerSpec
 # The defalt values are loosely based on Taillaert et al, "A Compact Two-Dimensional Grating Coupler Used
 # as a Polarization Splitter", IEEE Phot. Techn. Lett. 15(9), 2003
 
+rectangle_unit_cell = partial(rectangle, size=(0.3, 0.3), layer="SLAB150", centered=True, port_type=None)
+
 
 @gf.cell
 def grating_coupler_dual_pol(
-    unit_cell: ComponentSpec = partial(rectangle, size=(0.3, 0.3), layer = "SLAB150", centered = True, port_type=None), 
+    unit_cell: ComponentSpec = rectangle_unit_cell,
     period_x: float = 0.58,
     period_y: float = 0.58,
     x_span: float = 11,
@@ -65,19 +67,19 @@ def grating_coupler_dual_pol(
             o1  ______________|
 
 
-        top view     
-        
+        top view
+
                    -------------
                /  | o   o   o  |
         o1 __ /   | o   o   o  |
               \   | o   o   o  |
                \  | o   o   o  |
                    -------------
-                   \           / 
+                   \           /
                     \         /
                          |
                          o2
-    
+
     """
     xs = gf.get_cross_section(cross_section, **kwargs)
     wg_width = xs.width
@@ -88,13 +90,13 @@ def grating_coupler_dual_pol(
     # ---------- First draw the grating coupler itself -----
 
     # Base layer
-    base = c << rectangle(size=(x_span, y_span), layer=base_layer, centered=True, port_type=None)
-    
+    c << rectangle(size=(x_span, y_span), layer=base_layer, centered=True, port_type=None)
+
     # Photonic crystal
-    num_x = int(np.floor(x_span/period_x))
-    num_y = int(np.floor(y_span/period_y))
-    x_start = -(num_x*period_x)/2
-    y_start = -(num_y*period_y)/2
+    num_x = int(np.floor(x_span / period_x))
+    num_y = int(np.floor(y_span / period_y))
+    x_start = -(num_x * period_x) / 2
+    y_start = -(num_y * period_y) / 2
     x_end = -x_start
     y_end = -y_start
     x = np.linspace(x_start, x_end, num_x)
@@ -129,7 +131,7 @@ def grating_coupler_dual_pol(
         layer=layer,
     )
 
-    taper1.xmax = -x_span/2
+    taper1.xmax = - x_span / 2
     taper1.y = 0
     c.add_port(port=taper1.ports["o1"], name="o1")
 
@@ -144,7 +146,7 @@ def grating_coupler_dual_pol(
     taper2.rotate(90)
 
     taper2.x = 0
-    taper2.ymax = -y_span/2
+    taper2.ymax = - y_span / 2
     c.add_port(port=taper2.ports["o1"], name="o2")
 
     gf.asserts.grating_coupler(c)

@@ -8,8 +8,9 @@ from gdsfactory.types import ComponentSpec, CrossSectionSpec
 # Default values are taken from Watanabe et al., "Coherent few mode demultiplexer realized as a
 # 2D grating coupler array in silicon", Optics Express 28(24), 2020
 
-# It could be interesting to consider the design in Guan et al., "Compact and low loss 90° 
+# It could be interesting to consider the design in Guan et al., "Compact and low loss 90°
 # optical hybrid on a silicon-on-insulator platform", Optics Express 25(23), 2017
+
 
 @gf.cell
 def mmi_90degree_hybrid(
@@ -89,8 +90,8 @@ def mmi_90degree_hybrid(
         straight, length=length_mmi, width=w_mmi, cross_section=cross_section
     )
 
-    y_signal_in = gap_mmi * 3/ 2 + width_taper * 3 / 2
-    y_lo_in = - gap_mmi / 2 - width_taper  / 2
+    y_signal_in = gap_mmi * 3 / 2 + width_taper * 3 / 2
+    y_lo_in = - gap_mmi / 2 - width_taper / 2
 
     ports = [
         # Inputs
@@ -111,14 +112,14 @@ def mmi_90degree_hybrid(
             width=w_taper,
             cross_section=x,
         ),
-         gf.Port(
+        gf.Port(
             "Q_out2",
             orientation=0,
             center=(length_mmi, y_lo_in),
             width=w_taper,
             cross_section=x,
         ),
-         gf.Port(
+        gf.Port(
             "I_out2",
             orientation=0,
             center=(length_mmi, y_lo_in - gap_mmi - w_taper),
