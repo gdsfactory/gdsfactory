@@ -9,7 +9,7 @@ from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.types import ComponentSpec, CrossSectionSpec, LayerSpec
 
-# The defalt values are loosely based on Taillaert et al,
+# The default values are loosely based on Taillaert et al,
 #  "A Compact Two-Dimensional Grating Coupler Used
 # as a Polarization Splitter", IEEE Phot. Techn. Lett. 15(9), 2003
 
@@ -35,7 +35,6 @@ def grating_coupler_dual_pol(
     fiber_marker_layer: LayerSpec = "TE",
     **kwargs,
 ) -> Component:
-
     r"""2 dimensional, dual polarization grating coupler.
 
     Based on a photonic crystal with a unit cell that is usually an ellipse,
@@ -73,13 +72,13 @@ def grating_coupler_dual_pol(
         top view
 
                    -------------
-               /  | o   o   o  |
-        o1 __ /   | o   o   o  |
-              \   | o   o   o  |
-               \  | o   o   o  |
+               // | o   o   o  |
+        o1 __ //  | o   o   o  |
+              \\  | o   o   o  |
+               \\ | o   o   o  |
                    -------------
-                   \           /
-                    \         /
+                   \\         //
+                    \\       //
                          |
                          o2
 

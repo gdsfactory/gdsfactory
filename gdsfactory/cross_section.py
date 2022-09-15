@@ -1178,7 +1178,7 @@ def pn_ge_detector_si_contacts(
     cladding_layers: Optional[Layers] = cladding_layers_optical,
     cladding_offsets: Optional[Floats] = cladding_offsets_optical,
 ) -> CrossSection:
-    """ Linear Ge detector cross section based on a lateral p(i)n junction.
+    """Linear Ge detector cross section based on a lateral p(i)n junction.
 
     It has silicon contacts (no contact on the Ge). The contacts need to be
     created in the component generating function (they can't be created here).

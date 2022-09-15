@@ -24,11 +24,11 @@ def ge_detector_straight_si_contacts(
     taper: Optional[ComponentSpec] = default_taper,
     **kwargs,
 ) -> Component:
-    """Returns a straight Ge on Si detector with silicon contacts
-    (no contacts on the Ge).
+    """Returns a straight Ge on Si detector with silicon contacts.
 
-    These detectors could have lower dark current and sensitivity compared to those with
-    contacts in the Ge. See Chen et al., "High-Responsivity Low-Voltage 28-Gb/s Ge p-i-n
+    There are no contacts on the Ge. These detectors could have lower
+    dark current and sensitivity compared to those with contacts in the
+    Ge. See Chen et al., "High-Responsivity Low-Voltage 28-Gb/s Ge p-i-n
     Photodetector With Silicon Contacts", Journal of Lightwave Technology 33(4), 2015.
 
     https://doi.org/10.1109/JLT.2014.2367134
