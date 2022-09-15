@@ -168,10 +168,6 @@ def get_bundle(
     if len(start_port_angles) > 1:
         raise ValueError(f"All start port angles {start_port_angles} must be equal")
 
-    xs = gf.get_cross_section(cross_section)
-    if xs.radius is None:
-        bend = wire_corner
-
     params = {
         "ports1": ports1,
         "ports2": ports2,
@@ -723,8 +719,12 @@ if __name__ == "__main__":
     pb = c << gf.components.pad_array(orientation=None, columns=3)
     pt.move((100, 200))
 
-    routes = gf.routing.get_bundle_electrical(
-        pb.ports, pt.ports, end_straight_length=60, separation=30
+    routes = gf.routing.get_bundle_electrical_multilayer(
+        pb.ports,
+        pt.ports,
+        start_straight_length=1,
+        end_straight_length=10,
+        separation=30,
     )
 
     for route in routes:
