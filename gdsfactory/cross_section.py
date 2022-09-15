@@ -1151,11 +1151,12 @@ def rib_heater_doped_via_stack(
         **kwargs,
     )
 
+
 @pydantic.validate_arguments
 def pn_ge_detector_si_contacts(
     width_si: float = 6.0,
     layer_si: LayerSpec = "WG",
-    width_ge: float = 3.0, 
+    width_ge: float = 3.0,
     layer_ge: LayerSpec = "GE",
     gap_low_doping: float = 0.6,
     gap_medium_doping: Optional[float] = 0.9,
@@ -1185,7 +1186,7 @@ def pn_ge_detector_si_contacts(
     See Chen et al., "High-Responsivity Low-Voltage 28-Gb/s Ge p-i-n Photodetector With Silicon Contacts", Journal
     of Lightwave Technology 33(4), 2015.
 
-    Notice it is possible to have dopings going beyond the ridge waveguide. This is fine, and it is to account for the 
+    Notice it is possible to have dopings going beyond the ridge waveguide. This is fine, and it is to account for the
     presence of the contacts. Such contacts can be subwavelength or not.
 
     Args:
@@ -1221,7 +1222,7 @@ def pn_ge_detector_si_contacts(
 
                                   layer_ge
                               |<--width_ge->|
-                               ______________ 
+                               ______________
                               |             |
                             __|_____________|___
                            |     |       |     |
@@ -1323,11 +1324,9 @@ def pn_ge_detector_si_contacts(
             width=width_si + 2 * cladding_offset, offset=0, layer=layer_cladding
         )
         sections.append(s)
-    
+
     # Add the Ge
-    s = Section(
-            width=width_ge, offset=0, layer=layer_ge
-        )
+    s = Section(width=width_ge, offset=0, layer=layer_ge)
     sections.append(s)
 
     info = dict(
