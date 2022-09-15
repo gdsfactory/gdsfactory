@@ -30,8 +30,7 @@ def ring(
     out /= 1 - np.sqrt(transmission) * 10 ** (-loss * ring_length / 20.0) * np.exp(
         2j * np.pi * neff_wl * ring_length / wl
     )
-    power = abs(out) ** 2
-    return power
+    return abs(out) ** 2
 
 
 if __name__ == "__main__":

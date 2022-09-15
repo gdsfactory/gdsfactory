@@ -291,34 +291,34 @@ if __name__ == "__main__":
     # cc = c.add(route.references)
     # cc.show(show_ports=True)
 
-    # c = gf.Component()
-    # p1 = c << gf.components.pad_array()
-    # p2 = c << gf.components.pad_array()
+    c = gf.Component("multi-layer")
+    ptop = c << gf.components.pad_array()
+    pbot = c << gf.components.pad_array(orientation=90)
 
-    # p1.movex(300)
-    # p1.movey(300)
-    # route = get_route_electrical(
-    #     p2.ports["e11"],
-    #     p1.ports["e11"],
-    #     # cross_section=gf.cross_section.strip(auto_widen=True, width_wide=2),
-    #     bend="wire_corner",
-    # )
-    # c.add(route.references)
-    # c.plot()
-
-    import gdsfactory as gf
-
-    c = gf.Component("sample_connect")
-    mmi1 = c << gf.components.mmi1x2()
-    mmi2 = c << gf.components.mmi1x2()
-    mmi2.move((200, 50))
-
-    route = gf.routing.get_route(
-        mmi1.ports["o3"],
-        mmi2.ports["o1"],
-        cross_section=gf.cross_section.strip,
-        auto_widen=True,
-        width_wide=2,
-        auto_widen_minimum_length=100,
+    ptop.movex(300)
+    ptop.movey(300)
+    route = get_route_electrical_multilayer(
+        ptop.ports["e11"],
+        pbot.ports["e11"],
+        end_straight_length=100,
     )
     c.add(route.references)
+    c.show()
+
+    # import gdsfactory as gf
+
+    # c = gf.Component("sample_connect")
+    # mmi1 = c << gf.components.mmi1x2()
+    # mmi2 = c << gf.components.mmi1x2()
+    # mmi2.move((200, 50))
+
+    # route = gf.routing.get_route(
+    #     mmi1.ports["o3"],
+    #     mmi2.ports["o1"],
+    #     cross_section=gf.cross_section.strip,
+    #     auto_widen=True,
+    #     width_wide=2,
+    #     auto_widen_minimum_length=100,
+    # )
+    # c.add(route.references)
+    # c.show()

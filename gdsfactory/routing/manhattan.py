@@ -973,7 +973,8 @@ def generate_manhattan_waypoints(
         if isinstance(bend, Component)
         else gf.get_component(bend, cross_section=cross_section, **kwargs)
     )
-    if isinstance(cross_section, list):
+
+    if isinstance(cross_section, (tuple, list)):
         x = [gf.get_cross_section(xsection[0], **kwargs) for xsection in cross_section]
         start_straight_length = start_straight_length or min(_x.min_length for _x in x)
         end_straight_length = end_straight_length or min(_x.min_length for _x in x)
@@ -983,6 +984,7 @@ def generate_manhattan_waypoints(
         start_straight_length = start_straight_length or x.min_length
         end_straight_length = end_straight_length or x.min_length
         min_straight_length = min_straight_length or x.min_length
+
     bsx = bsy = _get_bend_size(bend90)
     points = _generate_route_manhattan_points(
         input_port,
@@ -1038,11 +1040,12 @@ def route_manhattan(
         kwargs: cross_section settings.
 
     """
-    if isinstance(cross_section, list):
+    if isinstance(cross_section, (tuple, list)):
         x = [gf.get_cross_section(xsection[0], **kwargs) for xsection in cross_section]
         start_straight_length = start_straight_length or min(_x.min_length for _x in x)
         end_straight_length = end_straight_length or min(_x.min_length for _x in x)
         min_straight_length = min_straight_length or min(_x.min_length for _x in x)
+        x = cross_section
     else:
         x = gf.get_cross_section(cross_section, **kwargs)
         start_straight_length = start_straight_length or x.min_length
@@ -1057,14 +1060,14 @@ def route_manhattan(
             end_straight_length=end_straight_length,
             min_straight_length=min_straight_length,
             bend=bend,
-            cross_section=cross_section,
+            cross_section=x,
         )
         route = round_corners(
             points=points,
             straight=straight,
             taper=taper,
             bend=bend,
-            cross_section=cross_section,
+            cross_section=x,
             with_point_markers=with_point_markers,
             with_sbend=with_sbend,
         )
