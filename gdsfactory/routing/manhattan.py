@@ -58,13 +58,13 @@ def _get_unique_port_facing(
     if isinstance(layer, list):
         for _layer in layer:
             ports_selected = select_ports_list(
-                ports=ports, orientation=orientation, layer=_layer
+                ports=ports, orientation=orientation, layer=gf.get_layer(_layer)
             )
             if ports_selected:
                 break
     else:
         ports_selected = select_ports_list(
-            ports=ports, orientation=orientation, layer=layer
+            ports=ports, orientation=orientation, layer=gf.get_layer(layer)
         )
 
     if len(ports_selected) > 1:
