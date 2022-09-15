@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.30.0
+
+- Fix multilayer routing [PR](https://github.com/gdsfactory/gdsfactory/pull/707)
+- Add tests and examples for multilayer routing [PR](https://github.com/gdsfactory/gdsfactory/pull/714)
+
 ## [5.29.0](https://github.com/gdsfactory/gdsfactory/pull/704)
 
 - add sweep_neff, sweep_width, sweep_group_index gtidy3d.modes and ring model
