@@ -1,15 +1,17 @@
 """Straight Ge photodetector."""
-from typing import Optional
 from functools import partial
+from typing import Optional
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.taper import taper
+from gdsfactory.components.taper import taper as taper_func
 from gdsfactory.components.via_stack import via_stack_slab_m3
 from gdsfactory.cross_section import pn_ge_detector_si_contacts
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
-default_taper = partial(taper, length=20.0, width1=0.5, width2=0.8, cross_section="strip")
+default_taper = partial(
+    taper_func, length=20.0, width1=0.5, width2=0.8, cross_section="strip"
+)
 
 
 @gf.cell
@@ -22,9 +24,8 @@ def ge_detector_straight_si_contacts(
     taper: Optional[ComponentSpec] = default_taper,
     **kwargs,
 ) -> Component:
-
-    """
-    Returns a straight Ge on Si detector with silicon contacts (no contacts on the Ge).
+    """Returns a straight Ge on Si detector with silicon contacts
+    (no contacts on the Ge).
 
     These detectors could have lower dark current and sensitivity compared to those with
     contacts in the Ge. See Chen et al., "High-Responsivity Low-Voltage 28-Gb/s Ge p-i-n
@@ -38,10 +39,10 @@ def ge_detector_straight_si_contacts(
         via_stack: for the via_stacks.
         via_stack_width: width of the via_stack.
         via_stack_spacing: spacing between via_stacks.
-        taper: optional taper to transition from the waveguide into the absorption region.
+        taper: optional taper to transition from the input waveguide
+            into the absorption region.
         kwargs: cross_section settings.
     """
-
     c = Component()
     if taper:
         taper = gf.get_component(taper)
@@ -81,6 +82,6 @@ def ge_detector_straight_si_contacts(
 
 
 if __name__ == "__main__":
-    c = ge_detector_straight_si_contacts(length=40)
+    comp = ge_detector_straight_si_contacts(length=40)
     # print(c.ports.keys())
-    c.show(show_ports=True)
+    comp.show(show_ports=True)

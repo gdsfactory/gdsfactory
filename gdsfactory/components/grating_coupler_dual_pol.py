@@ -1,5 +1,5 @@
-from typing import Optional
 from functools import partial
+from typing import Optional
 
 import numpy as np
 
@@ -9,11 +9,13 @@ from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.types import ComponentSpec, CrossSectionSpec, LayerSpec
 
-
-# The defalt values are loosely based on Taillaert et al, "A Compact Two-Dimensional Grating Coupler Used
+# The defalt values are loosely based on Taillaert et al,
+#  "A Compact Two-Dimensional Grating Coupler Used
 # as a Polarization Splitter", IEEE Phot. Techn. Lett. 15(9), 2003
 
-rectangle_unit_cell = partial(rectangle, size=(0.3, 0.3), layer="SLAB150", centered=True, port_type=None)
+rectangle_unit_cell = partial(
+    rectangle, size=(0.3, 0.3), layer="SLAB150", centered=True, port_type=None
+)
 
 
 @gf.cell
@@ -46,11 +48,12 @@ def grating_coupler_dual_pol(
         x_span: full x span of the photonic crystal.
         y_span: full y span of the photonic crystal.
         length_taper: taper length [um].
-        width_taper: width of the taper at the side that contacts the coupler itself [um].
+        width_taper: width of the taper at the grating coupler side [um].
         polarization: polarizatino of the grating coupler.
         wavelength: operation wavelength [um]
         taper: function to generate the tapers.
-        base_layer: layer to draw over the whole photonic crystal (necessary if the unit cells are etched into a base layer).
+        base_layer: layer to draw over the whole photonic crystal
+            (necessary if the unit cells are etched into a base layer).
         cross_section: for the routing waveguides.
         kwargs: cross_section settings.
 
@@ -90,7 +93,9 @@ def grating_coupler_dual_pol(
     # ---------- First draw the grating coupler itself -----
 
     # Base layer
-    c << rectangle(size=(x_span, y_span), layer=base_layer, centered=True, port_type=None)
+    _ = c << rectangle(
+        size=(x_span, y_span), layer=base_layer, centered=True, port_type=None
+    )
 
     # Photonic crystal
     num_x = int(np.floor(x_span / period_x))
@@ -131,7 +136,7 @@ def grating_coupler_dual_pol(
         layer=layer,
     )
 
-    taper1.xmax = - x_span / 2
+    taper1.xmax = -x_span / 2
     taper1.y = 0
     c.add_port(port=taper1.ports["o1"], name="o1")
 
@@ -146,7 +151,7 @@ def grating_coupler_dual_pol(
     taper2.rotate(90)
 
     taper2.x = 0
-    taper2.ymax = - y_span / 2
+    taper2.ymax = -y_span / 2
     c.add_port(port=taper2.ports["o1"], name="o2")
 
     gf.asserts.grating_coupler(c)
