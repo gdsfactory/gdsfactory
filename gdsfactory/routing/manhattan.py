@@ -1057,14 +1057,14 @@ def route_manhattan(
             end_straight_length=end_straight_length,
             min_straight_length=min_straight_length,
             bend=bend,
-            cross_section=x,
+            cross_section=cross_section,
         )
         route = round_corners(
             points=points,
             straight=straight,
             taper=taper,
             bend=bend,
-            cross_section=x,
+            cross_section=cross_section,
             with_point_markers=with_point_markers,
             with_sbend=with_sbend,
         )
