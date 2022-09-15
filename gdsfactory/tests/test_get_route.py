@@ -16,9 +16,9 @@ def test_get_route(data_regression: DataRegressionFixture, check: bool = True) -
         bend=gf.components.wire_corner,
     )
     c.add(route.references)
-    lengths = dict(length=route.length)
-
     if check:
+        lengths = dict(length=route.length)
+
         data_regression.check(lengths)
         difftest(c)
 
@@ -38,9 +38,9 @@ def test_get_route_electrical_multilayer(
         end_straight_length=100,
     )
     c.add(route.references)
-    lengths = dict(length=route.length)
-
     if check:
+        lengths = dict(length=route.length)
+
         data_regression.check(lengths)
         difftest(c)
 

@@ -223,7 +223,7 @@ def route_ports_to_x(
     forward_ports.sort(key=sort_key_south_to_north)
 
     backward_ports.sort(key=sort_key_south_to_north)
-    backward_ports_thru_south = backward_ports[0:backward_port_side_split_index]
+    backward_ports_thru_south = backward_ports[:backward_port_side_split_index]
     backward_ports_thru_north = backward_ports[backward_port_side_split_index:]
     backward_ports_thru_south.sort(key=sort_key_south_to_north)
     backward_ports_thru_north.sort(key=sort_key_north_to_south)
@@ -406,10 +406,6 @@ def route_ports_to_y(
         )
     elif isinstance(y, (float, int)):
         pass
-    else:
-        pass
-        # raise ValueError('``y`` should be a float or "north" or "south"')
-
     if y <= min(ys):
         sort_key_east = sort_key_south_to_north
         sort_key_west = sort_key_south_to_north
@@ -432,7 +428,7 @@ def route_ports_to_y(
     backward_ports.sort(key=sort_key_east_to_west)
 
     backward_ports.sort(key=sort_key_west_to_east)
-    backward_ports_thru_west = backward_ports[0:backward_port_side_split_index]
+    backward_ports_thru_west = backward_ports[:backward_port_side_split_index]
     backward_ports_thru_east = backward_ports[backward_port_side_split_index:]
 
     backward_ports_thru_west.sort(key=sort_key_west_to_east)
