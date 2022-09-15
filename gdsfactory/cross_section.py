@@ -1253,15 +1253,12 @@ def pn_ge_detector_si_contacts(
         c = p.extrude(xs)
         c.plot()
     """
-    sections = []
     width_low_doping = width_doping - gap_low_doping
     offset_low_doping = width_low_doping / 2 + gap_low_doping
 
     n = Section(width=width_low_doping, offset=+offset_low_doping, layer=layer_n)
     p = Section(width=width_low_doping, offset=-offset_low_doping, layer=layer_p)
-    sections.append(n)
-    sections.append(p)
-
+    sections = [n, p]
     if gap_medium_doping is not None:
         width_medium_doping = width_doping - gap_medium_doping
         offset_medium_doping = width_medium_doping / 2 + gap_medium_doping
@@ -1276,9 +1273,7 @@ def pn_ge_detector_si_contacts(
             offset=-offset_medium_doping,
             layer=layer_pp,
         )
-        sections.append(np)
-        sections.append(pp)
-
+        sections.extend((np, pp))
     if gap_high_doping is not None:
         width_high_doping = width_doping - gap_high_doping
         offset_high_doping = width_high_doping / 2 + gap_high_doping
@@ -1288,16 +1283,12 @@ def pn_ge_detector_si_contacts(
         ppp = Section(
             width=width_high_doping, offset=-offset_high_doping, layer=layer_ppp
         )
-        sections.append(npp)
-        sections.append(ppp)
-
+        sections.extend((npp, ppp))
     if layer_via is not None:
         offset = width_high_doping / 2 + gap_high_doping
         via_top = Section(width=width_via, offset=+offset, layer=layer_via)
         via_bot = Section(width=width_via, offset=-offset, layer=layer_via)
-        sections.append(via_top)
-        sections.append(via_bot)
-
+        sections.extend((via_top, via_bot))
     if layer_metal is not None:
         offset = width_high_doping / 2 + gap_high_doping
         port_types = ("electrical", "electrical")
@@ -1315,9 +1306,7 @@ def pn_ge_detector_si_contacts(
             port_types=port_types,
             port_names=("e1_bot", "e2_bot"),
         )
-        sections.append(metal_top)
-        sections.append(metal_bot)
-
+        sections.extend((metal_top, metal_bot))
     bbox_layers = bbox_layers or []
     bbox_offsets = bbox_offsets or []
     for layer_cladding, cladding_offset in zip(bbox_layers, bbox_offsets):
