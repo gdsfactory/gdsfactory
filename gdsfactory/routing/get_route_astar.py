@@ -149,7 +149,7 @@ def get_route_astar(
             # Compute f, g, h
             neighbour.g = current_node.g + resolution
             # print(neighbour.g)
-            neighbour.h = ((neighbour.position[0] - end_node.position[0]) ** 2) + (
+            neighbour.h = np.sqrt((neighbour.position[0] - end_node.position[0]) ** 2) + (
                 (neighbour.position[1] - end_node.position[1]) ** 2
             )
             neighbour.f = neighbour.g + neighbour.h
