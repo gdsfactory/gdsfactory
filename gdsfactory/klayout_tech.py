@@ -39,6 +39,7 @@ class LayerView(BaseModel):
     Parameters:
         layer: GDSII layer.
         name: Name of the Layer.
+        layer_in_name: Whether to display the name as 'name layer/datatype' rather than just the layer.
         width: This is the line width of the frame in pixels (or empty for the default which is 1).
         line_style: This is the number of the line style used to draw the shape boundaries.
             An empty string is "solid line". The values are "Ix" for one of the built-in styles
@@ -61,6 +62,7 @@ class LayerView(BaseModel):
 
     layer: Optional[Layer] = None
     name: str = "unnamed"
+    layer_in_name: bool = False
     frame_color: Optional[str] = None
     fill_color: Optional[str] = None
     frame_brightness: Optional[int] = 0
@@ -147,6 +149,8 @@ class LayerView(BaseModel):
             if prop_name == "source":
                 layer = self.layer
                 prop_val = f"{layer[0]}/{layer[1]}@1" if layer else "*/*@*"
+            elif prop_name == "name" and self.layer_in_name:
+                prop_val = f"{self.name} {self.layer[0]}/{self.layer[1]}"
             else:
                 prop_val = getattr(self, "_".join(prop_name.split("-")), None)
                 if isinstance(prop_val, bool):
@@ -193,7 +197,7 @@ class CustomPattern(BaseModel):
 _layer_re = re.compile("([0-9]+|\\*)/([0-9]+|\\*)")
 
 
-def _process_name(name: str) -> Optional[str]:
+def _process_name(name: str) -> Optional[Tuple[str, bool]]:
     """Strip layer info from name if it exists.
 
     Args:
@@ -201,8 +205,12 @@ def _process_name(name: str) -> Optional[str]:
     """
     if not name:
         return None
+    layer_in_name = False
     match = re.search(_layer_re, name)
-    return name[: match.start()].strip() if match else name
+    if match:
+        name = name[: match.start()].strip()
+        layer_in_name = True
+    return name, layer_in_name
 
 
 def _process_layer(layer: str) -> Optional[Layer]:
@@ -224,13 +232,16 @@ def _properties_to_layerview(element, tag: Optional[str] = None) -> Optional[Lay
     Args:
         tag: Optional tag to iterate over.
     """
-    prop_dict = {}
+    prop_dict = {"layer_in_name": False}
     for prop in element.iterchildren(tag=tag):
         prop_tag = prop.tag
         if prop_tag == "name":
             val = _process_name(prop.text)
             if val is None:
                 return None
+            if isinstance(val, tuple):
+                val, layer_in_name = val
+                prop_dict["layer_in_name"] = layer_in_name
         elif prop_tag == "source":
             val = _process_layer(prop.text)
             prop_tag = "layer"
