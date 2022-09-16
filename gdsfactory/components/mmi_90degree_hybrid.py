@@ -5,14 +5,6 @@ from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
-# Default values are taken from Watanabe et al.,
-# "Coherent few mode demultiplexer realized as a
-# 2D grating coupler array in silicon", Optics Express 28(24), 2020
-
-# It could be interesting to consider the design in Guan et al.,
-#  "Compact and low loss 90° optical hybrid on a silicon-on-insulator
-#  platform", Optics Express 25(23), 2017
-
 
 @gf.cell
 def mmi_90degree_hybrid(
@@ -29,6 +21,14 @@ def mmi_90degree_hybrid(
 ) -> Component:
     r"""90 degree hybrid based on a 4x4 MMI.
 
+    Default values from Watanabe et al.,
+    "Coherent few mode demultiplexer realized as a
+    2D grating coupler array in silicon", Optics Express 28(24), 2020
+
+    It could be interesting to consider the design in Guan et al.,
+    "Compact and low loss 90° optical hybrid on a silicon-on-insulator
+    platform", Optics Express 25(23), 2017
+
     Args:
         width: input and output straight width.
         width_taper: interface between input straights and mmi region.
@@ -38,7 +38,7 @@ def mmi_90degree_hybrid(
         gap_mmi: (width_taper + gap between tapered wg)/2.
         taper: taper function.
         straight: straight function.
-        with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
+        with_bbox: box in bbox_layers and bbox_offsets avoid DRC sharp edges.
         cross_section: spec.
 
 
@@ -167,3 +167,8 @@ def mmi_90degree_hybrid(
     if x.add_pins:
         c = x.add_pins(c)
     return c
+
+
+if __name__ == "__main__":
+    c = mmi_90degree_hybrid()
+    c.show()

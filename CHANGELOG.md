@@ -1,5 +1,13 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.31.0
+
+- add new Pcells [PR](https://github.com/gdsfactory/gdsfactory/pull/717)
+    * Dual polarization grating coupler
+    * Straight Ge detector with contacts in the Si
+    * MMI-based 90 degree hybrid
+
+
 ## 5.30.0
 
 - Fix multilayer routing [PR](https://github.com/gdsfactory/gdsfactory/pull/707)

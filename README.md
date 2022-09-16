@@ -75,6 +75,7 @@ gdsfactory top contributors:
 - Alex Sludds (MIT): for tiling fixes.
 - Skandan Chandrasekar (BYU): for simphony and SiPANN plugins.
 - Helge Gehring (Google): for simulation plugins, improving code quality and new components (spiral paths).
+- Marc de Cea (MIT): for ge_detector, grating_coupler_dual, and mmi_90degree_hybrid
 
 Open source heroes:
 
