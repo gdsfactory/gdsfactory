@@ -82,6 +82,6 @@ def ge_detector_straight_si_contacts(
 
 
 if __name__ == "__main__":
-    comp = ge_detector_straight_si_contacts(length=40)
+    comp = ge_detector_straight_si_contacts()
     # print(c.ports.keys())
     comp.show(show_ports=True)
