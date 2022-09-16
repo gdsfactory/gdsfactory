@@ -149,9 +149,9 @@ def get_route_astar(
             # Compute f, g, h
             neighbour.g = current_node.g + resolution
             # print(neighbour.g)
-            neighbour.h = ((neighbour.position[0] - end_node.position[0]) ** 2) + (
-                (neighbour.position[1] - end_node.position[1]) ** 2
-            )
+            neighbour.h = np.sqrt(
+                (neighbour.position[0] - end_node.position[0]) ** 2
+            ) + ((neighbour.position[1] - end_node.position[1]) ** 2)
             neighbour.f = neighbour.g + neighbour.h
 
             if current_node.parent is not None and (
@@ -175,6 +175,11 @@ def get_route_astar(
 
     warn("A* algorithm failed, resorting to Manhattan routing. Watch for overlaps.")
     return route_manhattan(port1, port2, cross_section=cross_section)
+
+
+def _extract_all_bbox(c: Component, avoid_layers: List[LayerSpec] = None):
+    """Extract all polygons whose layer is in `avoid_layers`."""
+    return [c.get_polygons(layer) for layer in avoid_layers]
 
 
 def _generate_grid(
@@ -215,18 +220,14 @@ def _generate_grid(
 
             grid[xmin:xmax, ymin:ymax] = 1
     else:
-        for layer in avoid_layers:
-            layer = gf.get_layer(layer)
-            for ref in c.references:
-                for component_layer in ref.parent.layers:
-                    if component_layer == layer:
-                        bbox = ref.bbox
-                        xmin = np.abs(x - bbox[0][0] + distance).argmin()
-                        xmax = np.abs(x - bbox[1][0] - distance).argmin()
-                        ymin = np.abs(y - bbox[0][1] + distance).argmin()
-                        ymax = np.abs(y - bbox[1][1] - distance).argmin()
-
-                        grid[xmin:xmax, ymin:ymax] = 1
+        all_refs = _extract_all_bbox(c, avoid_layers)
+        for layer in all_refs:
+            for bbox in layer:
+                xmin = np.abs(x - bbox[0][0] + distance).argmin()
+                xmax = np.abs(x - bbox[2][0] - distance).argmin()
+                ymin = np.abs(y - bbox[0][1] + distance).argmin()
+                ymax = np.abs(y - bbox[2][1] - distance).argmin()
+                grid[xmin:xmax, ymin:ymax] = 1
 
     return np.ndarray.round(grid, 3), np.ndarray.round(x, 3), np.ndarray.round(y, 3)
 
