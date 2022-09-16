@@ -6,7 +6,7 @@
     * Dual polarization grating coupler
     * Straight Ge detector with contacts in the Si
     * MMI-based 90 degree hybrid
-
+- add tests to new Pcells [PR](https://github.com/gdsfactory/gdsfactory/pull/720)
 
 ## 5.30.0
 
