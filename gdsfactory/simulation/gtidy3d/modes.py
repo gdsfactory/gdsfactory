@@ -158,9 +158,7 @@ class Waveguide(BaseModel):
         t_box: thickness BOX (um).
         t_clad: thickness cladding (um).
         xmargin: margin from waveguide edge to each side (um).
-        resolution: pixels/um.
-        resolution_x: Optional x resolution in pixels/um. Defaults to resolution.
-        resolution_y: Optional x resolution in pixels/um. Defaults to resolution.
+        resolution: pixels/um. Can be a single number or tuple (x, y).
         nmodes: number of modes to compute.
         bend_radius: optional bend radius (um).
         cache: filepath for caching modes. If None does not use file cache.
@@ -198,9 +196,7 @@ class Waveguide(BaseModel):
     t_box: float = 2.0
     t_clad: float = 2.0
     xmargin: float = 1.0
-    resolution: int = 100
-    resolution_x: Optional[int] = None
-    resolution_y: Optional[int] = None
+    resolution: Union[int, Tuple[int, int]] = 100
     nmodes: int = 4
     bend_radius: Optional[float] = None
     cache: Optional[PathType] = CONFIG["modes"]
@@ -303,8 +299,12 @@ class Waveguide(BaseModel):
             0.0,
             +self.w_sim / 2,
             self.t_sim,
-            self.resolution_x or self.resolution,
-            self.resolution_y or self.resolution,
+            self.resolution[0]
+            if isinstance(self.resolution, tuple)
+            else self.resolution,
+            self.resolution[1]
+            if isinstance(self.resolution, tuple)
+            else self.resolution,
         )
 
         nx = self.get_n(
@@ -337,8 +337,12 @@ class Waveguide(BaseModel):
             0.0,
             +self.w_sim / 2,
             self.t_sim,
-            self.resolution_x or self.resolution,
-            self.resolution_y or self.resolution,
+            self.resolution[0]
+            if isinstance(self.resolution, tuple)
+            else self.resolution,
+            self.resolution[1]
+            if isinstance(self.resolution, tuple)
+            else self.resolution,
         )
 
         nx = self.get_n(
@@ -638,9 +642,7 @@ class WaveguideCoupler(Waveguide):
         t_box: thickness BOX (um).
         t_clad: thickness cladding (um).
         xmargin: margin from waveguide edge to each side (um).
-        resolution: pixels/um.
-        resolution_x: Optional x resolution in pixels/um. Defaults to resolution.
-        resolution_y: Optional x resolution in pixels/um. Defaults to resolution.
+        resolution: pixels/um. Can be a single number or tuple (x, y).
         nmodes: number of modes to compute.
         bend_radius: optional bend radius (um).
         cache: filepath for caching modes. If None does not use file cache.
@@ -984,7 +986,7 @@ def plot_sweep_width(
         t_box: thickness BOX (um).
         t_clad: thickness cladding (um).
         xmargin: margin from waveguide edge to each side (um).
-        resolution: pixels/um.
+        resolution: pixels/um. Can be a single number or tuple (x, y).
         nmodes: number of modes to compute.
         bend_radius: optional bend radius (um).
 
