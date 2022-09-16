@@ -7,7 +7,7 @@ install: gdslib
 	bash install.sh
 
 mamba:
-	mamba install pymeep=*=mpi_mpich_* gdspy -y
+	bash mamba.sh
 
 patch:
 	bumpversion patch
