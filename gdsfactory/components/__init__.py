@@ -92,7 +92,11 @@ from gdsfactory.components.extend_ports_list import extend_ports_list
 from gdsfactory.components.extension import extend_port, extend_ports
 from gdsfactory.components.fiber import fiber
 from gdsfactory.components.fiber_array import fiber_array
+from gdsfactory.components.ge_detector_straight_si_contacts import (
+    ge_detector_straight_si_contacts,
+)
 from gdsfactory.components.grating_coupler_array import grating_coupler_array
+from gdsfactory.components.grating_coupler_dual_pol import grating_coupler_dual_pol
 from gdsfactory.components.grating_coupler_elliptical import (
     ellipse_arc,
     grating_coupler_elliptical,
@@ -142,6 +146,7 @@ from gdsfactory.components.logo import logo
 from gdsfactory.components.loop_mirror import loop_mirror
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mmi2x2 import mmi2x2
+from gdsfactory.components.mmi_90degree_hybrid import mmi_90degree_hybrid
 from gdsfactory.components.mzi import mzi, mzi1x2_2x2, mzi2x2_2x2, mzi_coupler
 from gdsfactory.components.mzi_arm import mzi_arm
 from gdsfactory.components.mzi_arms import mzi_arms
@@ -362,6 +367,7 @@ __all__ = [
     "fiber",
     "fiber_array",
     "text_lines",
+    "ge_detector_straight_si_contacts",
     "generate_doe",
     "grating_coupler_array",
     "grating_coupler_elliptical",
@@ -380,6 +386,7 @@ __all__ = [
     "grating_coupler_te",
     "grating_coupler_tm",
     "grating_coupler_tree",
+    "grating_coupler_dual_pol",
     "grating_taper_points",
     "grating_tooth_points",
     "hline",
@@ -391,6 +398,8 @@ __all__ = [
     "loss_deembedding_ch12_34",
     "loss_deembedding_ch13_24",
     "loss_deembedding_ch14_23",
+    "mmi_90degree_hybrid",
+    "mmi1x2",
     "mmi1x2",
     "mmi2x2",
     "mzi",

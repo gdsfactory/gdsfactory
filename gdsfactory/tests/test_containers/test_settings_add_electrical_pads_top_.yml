@@ -133,6 +133,7 @@ settings:
   default:
     component:
       function: straight
+    direction: top
     layer: M3
     pad_array:
       function: pad_array
@@ -210,6 +211,7 @@ settings:
         module: gdsfactory.components.mzi
         name: mzi_2e88f57c
       version: 0.0.1
+    direction: top
     layer: M3
     pad_array:
       function: pad_array
