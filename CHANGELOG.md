@@ -6,7 +6,8 @@
     * Dual polarization grating coupler
     * Straight Ge detector with contacts in the Si
     * MMI-based 90 degree hybrid
-
+- add tests to new Pcells [PR](https://github.com/gdsfactory/gdsfactory/pull/720)
+- add resolution_x and resolution_y Optional parameters to tidy3d modesolver. Fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/719)
 
 ## 5.30.0
 
