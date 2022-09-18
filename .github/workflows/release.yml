@@ -45,6 +45,7 @@ jobs:
           asset_path: gdsfactory-5.31.0_MacOsX-x86_64.pkg
           asset_name: gdsfactory-5.31.0_MacOsX-x86_64.pkg
           asset_content_type: text/x-shellscript
+      - name: constructor installer and upload release
         run: |
           mamba install constructor
           constructor .
@@ -78,6 +79,7 @@ jobs:
           asset_path: gdsfactory-5.31.0_Windows-x86_64.exe
           asset_name: gdsfactory-5.31.0_Windows-x86_64.exe
           asset_content_type: application/x-msdownload
+      - name: constructor installer and upload release
         run: |
           mamba install constructor
           constructor .
@@ -111,6 +113,6 @@ jobs:
           asset_path: gdsfactory-5.31.0_Linux-x86_64.sh
           asset_name: gdsfactory-5.31.0_Linux-x86_64.sh
           asset_content_type: text/x-shellscript
+      - name: constructor installer and upload release
         run: |
           mamba install constructor
-          constructor .
