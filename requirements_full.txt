@@ -5,6 +5,7 @@ ipympl
 ipywidgets
 klayout
 lytest==0.0.20
+mapbox_earcut
 networkx
 pyglet
 sax==0.8.1
