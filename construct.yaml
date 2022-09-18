@@ -1,0 +1,11 @@
+name: gdsfactory
+version: 5.31.0
+installer_type: all
+
+channels:
+  - https://conda.anaconda.org/conda-forge
+
+specs:
+  - python
+  - mamba
+  - gdsfactory
