@@ -46,8 +46,8 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: gdsfactory_5.30.0_MacOs-x86_64.sh
-          asset_name: gdsfactory_5.30.0_MacOs-x86_64.sh
+          asset_path: gdsfactory-5.31.0_MacOsX-x86_64.pkg
+          asset_name: gdsfactory-5.31.0_MacOsX-x86_64.pkg
           asset_content_type: text/x-shellscript
 
   release_add_windows:
@@ -80,8 +80,8 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: gdsfactory_5.30.0_Windows-x86_64.exe
-          asset_name: gdsfactory_5.30.0_Windows-x86_64.exe
+          asset_path: gdsfactory-5.31.0_Windows-x86_64.exe
+          asset_name: gdsfactory-5.31.0_Windows-x86_64.exe
           asset_content_type: application/x-msdownload
   release_add_linux:
     runs-on: linux-latest
@@ -112,6 +112,6 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: gdsfactory_5.30.0_Linux-x86_64.sh
-          asset_name: gdsfactory_5.30.0_Linux-x86_64.sh
+          asset_path: gdsfactory-5.31.0_Linux-x86_64.sh
+          asset_name: gdsfactory-5.31.0_Linux-x86_64.sh
           asset_content_type: text/x-shellscript
