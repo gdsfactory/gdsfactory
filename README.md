@@ -41,7 +41,7 @@ gdsfactory provides you with functions that you can use to:
 
 
 As input, you write python or YAML code.
-As output you write a GDSII or OASIS file that can send to your CMOS foundry.
+As output you write a GDSII or OASIS file that can send to your foundry.
 You can also write components settings (for measurement and data analysis) or netlists (for circuit simulations).
 
 ![](https://i.imgur.com/XbhWJDz.png)
