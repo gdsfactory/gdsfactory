@@ -1,4 +1,4 @@
-name: release installer
+name: release gdsfactory installer
 on: push
 
 jobs:
