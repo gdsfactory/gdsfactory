@@ -45,6 +45,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            gdsfactory-5.31.0_Linux-x86_64.sh
-            gdsfactory-5.31.0_Windows-x86_64.exe
-            gdsfactory-5.31.0_MacOsX-x86_64.pkg
+            gdsfactory-5.31.1_Linux-x86_64.sh
+            gdsfactory-5.31.1_Windows-x86_64.exe
+            gdsfactory-5.31.1_MacOsX-x86_64.pkg
