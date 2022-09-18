@@ -10,8 +10,6 @@ jobs:
       matrix:
         python-version: ["3.10"]
         os: [ubuntu-latest, macos-latest, windows-latest]
-    needs:
-      - release
     steps:
       - name: Cancel Workflow Action
         uses: styfle/cancel-workflow-action@0.10.0
