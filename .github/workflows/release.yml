@@ -38,6 +38,6 @@ jobs:
         with:
           fail_on_unmatched_files: false
           files: |
-            gdsfactory/gdsfactory-5.31.2_Linux-x86_64.sh
-            gdsfactory/gdsfactory-5.31.2_Windows-x86_64.exe
-            gdsfactory/gdsfactory-5.31.2_MacOsX-x86_64.pkg
+            gdsfactory/gdsfactory-5.31.3_Linux-x86_64.sh
+            gdsfactory/gdsfactory-5.31.3_Windows-x86_64.exe
+            gdsfactory/gdsfactory-5.31.3_MacOsX-x86_64.pkg
