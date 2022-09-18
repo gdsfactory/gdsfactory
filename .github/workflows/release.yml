@@ -13,7 +13,7 @@ jobs:
         with:
           draft: false
           prerelease: false
-          release_name: gdsfactory v${{ github.ref_name }}
+          release_name: gdsfactory release${{ github.ref_name }}
           tag_name: ${{ github.ref_name }}
 
   release_add_macos:
