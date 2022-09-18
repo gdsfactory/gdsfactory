@@ -2,26 +2,16 @@ name: release gdsfactory installer
 on: push
 
 jobs:
-  release:
-    runs-on: ubuntu-latest
-    steps:
-      - name: create release
-        uses: actions/create-release@v1
-        id: create_release
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          draft: false
-          prerelease: false
-          release_name: gdsfactory 5.31.0
-          tag_name: ${{ github.ref_name }}
-
-  release_add_macos:
-    runs-on: macos-latest
-    needs:
-      - release
+  release_add:
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: true
+      max-parallel: 12
+      matrix:
+        python-version: ["3.10"]
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    needs:
+      - release
     steps:
       - name: Cancel Workflow Action
         uses: styfle/cancel-workflow-action@0.10.0
@@ -36,83 +26,23 @@ jobs:
       - name: Add conda to system path
         run: |
           echo $CONDA/bin >> $GITHUB_PATH
-      - name: build constructor installer and upload release
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: gdsfactory-5.31.0_MacOsX-x86_64.pkg
-          asset_name: gdsfactory-5.31.0_MacOsX-x86_64.pkg
-          asset_content_type: text/x-shellscript
-      - name: constructor installer and upload release
+      - name: constructor build
         run: |
           mamba install constructor
           constructor .
 
-  release_add_windows:
-    runs-on: windows-latest
-    needs:
-      - release
-    strategy:
-      fail-fast: true
-    steps:
-      - name: Cancel Workflow Action
-        uses: styfle/cancel-workflow-action@0.10.0
-      - uses: actions/checkout@v3
-      - uses: conda-incubator/setup-miniconda@v2
-        with:
-          python-version: "3.10"
-          mamba-version: "*"
-          channels: conda-forge,defaults
-          channel-priority: true
-          activate-environment: anaconda-client-env
-      - name: Add conda to system path
-        run: |
-          echo $CONDA/bin >> $GITHUB_PATH
-      - name: upload release
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: gdsfactory-5.31.0_Windows-x86_64.exe
-          asset_name: gdsfactory-5.31.0_Windows-x86_64.exe
-          asset_content_type: application/x-msdownload
-      - name: constructor installer and upload release
-        run: |
-          mamba install constructor
-          constructor .
-  release_add_linux:
+  release_upload:
     runs-on: linux-latest
     needs:
-      - release
-    strategy:
-      fail-fast: true
+      - release_add
     steps:
-      - name: Cancel Workflow Action
-        uses: styfle/cancel-workflow-action@0.10.0
-      - uses: actions/checkout@v3
-      - uses: conda-incubator/setup-miniconda@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
-          python-version: "3.10"
-          mamba-version: "*"
-          channels: conda-forge,defaults
-          channel-priority: true
-          activate-environment: anaconda-client-env
-      - name: Add conda to system path
-        run: |
-          echo $CONDA/bin >> $GITHUB_PATH
-      - name: build constructor installer
-      - name: upload release
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: gdsfactory-5.31.0_Linux-x86_64.sh
-          asset_name: gdsfactory-5.31.0_Linux-x86_64.sh
-          asset_content_type: text/x-shellscript
-      - name: constructor installer and upload release
-        run: |
-          mamba install constructor
+          files: |
+            gdsfactory-5.31.0_Linux-x86_64.sh
+            gdsfactory-5.31.0_Windows-x86_64.exe
+            gdsfactory-5.31.0_MacOsX-x86_64.pkg
