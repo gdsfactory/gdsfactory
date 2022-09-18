@@ -1,26 +1,7 @@
-name: main
+name: release installer
 on: push
 
 jobs:
-  build-linux:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Cancel Workflow Action
-        uses: styfle/cancel-workflow-action@0.10.0
-      - uses: actions/checkout@v3
-      - uses: conda-incubator/setup-miniconda@v2
-        with:
-          python-version: "3.10"
-          mamba-version: "*"
-          channels: conda-forge,defaults
-          channel-priority: true
-          activate-environment: anaconda-client-env
-      - name: Add conda to system path
-        run: |
-          echo $CONDA/bin >> $GITHUB_PATH
-          mamba install constructor
-
   release:
     runs-on: ubuntu-latest
     steps:
@@ -42,8 +23,22 @@ jobs:
     strategy:
       fail-fast: true
     steps:
+      - name: Cancel Workflow Action
+        uses: styfle/cancel-workflow-action@0.10.0
+      - uses: actions/checkout@v3
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          python-version: "3.10"
+          mamba-version: "*"
+          channels: conda-forge,defaults
+          channel-priority: true
+          activate-environment: anaconda-client-env
+      - name: Add conda to system path
+        run: |
+          echo $CONDA/bin >> $GITHUB_PATH
       - name: build constructor installer
         run: |
+          mamba install constructor
           constructor .
       - name: upload release
         uses: actions/upload-release-asset@v1
@@ -62,8 +57,22 @@ jobs:
     strategy:
       fail-fast: true
     steps:
+      - name: Cancel Workflow Action
+        uses: styfle/cancel-workflow-action@0.10.0
+      - uses: actions/checkout@v3
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          python-version: "3.10"
+          mamba-version: "*"
+          channels: conda-forge,defaults
+          channel-priority: true
+          activate-environment: anaconda-client-env
+      - name: Add conda to system path
+        run: |
+          echo $CONDA/bin >> $GITHUB_PATH
       - name: build constructor installer
         run: |
+          mamba install constructor
           constructor .
       - name: upload release
         uses: actions/upload-release-asset@v1
@@ -81,6 +90,19 @@ jobs:
     strategy:
       fail-fast: true
     steps:
+      - name: Cancel Workflow Action
+        uses: styfle/cancel-workflow-action@0.10.0
+      - uses: actions/checkout@v3
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          python-version: "3.10"
+          mamba-version: "*"
+          channels: conda-forge,defaults
+          channel-priority: true
+          activate-environment: anaconda-client-env
+      - name: Add conda to system path
+        run: |
+          echo $CONDA/bin >> $GITHUB_PATH
       - name: build constructor installer
         run: |
           constructor .
