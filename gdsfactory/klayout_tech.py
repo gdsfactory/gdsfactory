@@ -15,6 +15,7 @@ from typing_extensions import Literal
 
 import klayout.db as db
 from gdsfactory.config import PATH
+from gdsfactory.tech import LayerStack
 
 Layer = Tuple[int, int]
 
@@ -528,10 +529,12 @@ class KLayoutTechnology(BaseModel):
     Properties:
         layer_properties: Defines all the layer display properties needed for a .lyp file from LayerView objects.
         technology: KLayout Technology object from the KLayout API. Set name, dbu, etc.
+        layer_stack: gdsfactory LayerStack for writing LayerLevels to the technology files for 2.5D view.
     """
 
     layer_properties: Optional[LayerDisplayProperties] = None
     technology: db.Technology = Field(default_factory=db.Technology)
+    layer_stack: LayerStack
 
     def export_technology_files(
         self,
@@ -551,15 +554,35 @@ class KLayoutTechnology(BaseModel):
         # This is the only modification that should be made to the Technology during export
         self.technology.layer_properties_file = lyp_filename
 
-        # Also need to write the 2.5d info at the end of the lyt file?
-        # Also interop with xs scripts
+        # TODO: Also interop with xs scripts?
 
         # Write lyp to file
         self.layer_properties.to_lyp(lyp_path)
 
+        # KLayout 0.27.x won't have a way to read/write the 2.5D info for technologies, so add manually
+        # Should be easier in 0.28.x
+        root = etree.XML(self.technology.to_xml().encode("utf-8"))
+
+        d25_element = [e for e in list(root) if e.tag == "d25"]
+        if not len(d25_element) == 1:
+            raise KeyError("Could not get a single index for the d25 element.")
+        d25_element = d25_element[0]
+
+        src_element = [e for e in list(d25_element) if e.tag == "src"]
+        if not len(src_element) == 1:
+            raise KeyError("Could not get a single index for the src element.")
+        src_element = src_element[0]
+
+        for layer_level in self.layer_stack.layers.values():
+            src_element.text += f"{layer_level.layer[0]}/{layer_level.layer[1]}: {layer_level.zmin} {layer_level.thickness}\n"
+
         # Write lyt to file
-        with open(lyt_path, "w") as file:
-            file.write(self.technology.to_xml())
+        with open(lyt_path, "wb") as file:
+            file.write(
+                etree.tostring(
+                    root, encoding="utf-8", pretty_print=True, xml_declaration=True
+                )
+            )
 
     class Config:
         """Allow db.Technology type."""
@@ -629,14 +652,19 @@ if __name__ == "__main__":
     #     Simulation = SimulationGroup()
     #
     # lyp = DefaultProperties()
+    from gdsfactory.tech import LAYER_STACK
 
     lyp_filepath = str(PATH.klayout_lyp)
     lyp = LayerDisplayProperties.from_lyp(lyp_filepath)
 
     str_xml = open(PATH.klayout_tech / "tech.lyt").read()
-    new_tech = db.Technology.technology_from_xml(str_xml)
 
-    generic_tech = KLayoutTechnology(layer_properties=lyp, technology=new_tech)
+    #     new_tech = db.Technology.technology_from_xml(str_xml)
+    new_tech = db.Technology()
+
+    generic_tech = KLayoutTechnology(
+        layer_properties=lyp, technology=new_tech, layer_stack=LAYER_STACK
+    )
     tech_dir = PATH.repo / "extra" / "test_tech"
     tech_dir.mkdir(exist_ok=True, parents=True)
 
