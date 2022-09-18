@@ -30,7 +30,7 @@ jobs:
           constructor .
 
   release_upload:
-    runs-on: linux-latest
+    runs-on: ubuntu-latest
     needs:
       - release_add
     steps:
