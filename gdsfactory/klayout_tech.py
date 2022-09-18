@@ -534,15 +534,23 @@ class KLayoutTechnology(BaseModel):
 
     layer_properties: Optional[LayerDisplayProperties] = None
     technology: db.Technology = Field(default_factory=db.Technology)
-    layer_stack: LayerStack
+    layer_stack: Optional[LayerStack] = None
 
     def export_technology_files(
         self,
         tech_dir: str,
         lyp_filename: str = "layers",
         lyt_filename: str = "tech",
+        write_25d: bool = False,
     ):
-        """Write technology files into 'tech_dir'."""
+        """Write technology files into 'tech_dir'.
+
+        Args:
+            tech_dir: Where to write the technology files to.
+            lyp_filename: Name of the layer properties file.
+            lyt_filename: Name of the layer technology file.
+            write_25d: Whether to write a 2.5D section in the technology file based on the LayerStack.
+        """
         # Format file names if necessary
         lyp_filename = append_file_extension(lyp_filename, ".lyp")
         lyt_filename = append_file_extension(lyt_filename, ".lyt")
@@ -551,7 +559,6 @@ class KLayoutTechnology(BaseModel):
         lyt_path = f"{tech_dir}/{lyt_filename}"
 
         # Specify relative file name for layer properties file
-        # This is the only modification that should be made to the Technology during export
         self.technology.layer_properties_file = lyp_filename
 
         # TODO: Also interop with xs scripts?
@@ -559,22 +566,27 @@ class KLayoutTechnology(BaseModel):
         # Write lyp to file
         self.layer_properties.to_lyp(lyp_path)
 
-        # KLayout 0.27.x won't have a way to read/write the 2.5D info for technologies, so add manually
-        # Should be easier in 0.28.x
         root = etree.XML(self.technology.to_xml().encode("utf-8"))
 
-        d25_element = [e for e in list(root) if e.tag == "d25"]
-        if not len(d25_element) == 1:
-            raise KeyError("Could not get a single index for the d25 element.")
-        d25_element = d25_element[0]
+        if write_25d:
+            if self.layer_stack is None:
+                raise KeyError(
+                    "A LayerStack is required to write 2.5D info to a .lyt file."
+                )
+            # KLayout 0.27.x won't have a way to read/write the 2.5D info for technologies, so add manually
+            # Should be easier in 0.28.x
+            d25_element = [e for e in list(root) if e.tag == "d25"]
+            if not len(d25_element) == 1:
+                raise KeyError("Could not get a single index for the d25 element.")
+            d25_element = d25_element[0]
 
-        src_element = [e for e in list(d25_element) if e.tag == "src"]
-        if not len(src_element) == 1:
-            raise KeyError("Could not get a single index for the src element.")
-        src_element = src_element[0]
+            src_element = [e for e in list(d25_element) if e.tag == "src"]
+            if not len(src_element) == 1:
+                raise KeyError("Could not get a single index for the src element.")
+            src_element = src_element[0]
 
-        for layer_level in self.layer_stack.layers.values():
-            src_element.text += f"{layer_level.layer[0]}/{layer_level.layer[1]}: {layer_level.zmin} {layer_level.thickness}\n"
+            for layer_level in self.layer_stack.layers.values():
+                src_element.text += f"{layer_level.layer[0]}/{layer_level.layer[1]}: {layer_level.zmin} {layer_level.thickness}\n"
 
         # Write lyt to file
         with open(lyt_path, "wb") as file:
@@ -594,9 +606,6 @@ LAYER_PROPERTIES = LayerDisplayProperties.from_lyp(str(PATH.klayout_lyp))
 
 if __name__ == "__main__":
 
-    # lc: LayerColors = LAYER_COLORS
-    # # class LayerViewGroup(LayerView):
-    #
     # class DefaultProperties(LayerDisplayProperties):
     #     WG = LayerView(layer=(1, 0))
     #     WGCLAD = LayerView(layer=(111, 0))
@@ -652,14 +661,13 @@ if __name__ == "__main__":
     #     Simulation = SimulationGroup()
     #
     # lyp = DefaultProperties()
+
     from gdsfactory.tech import LAYER_STACK
 
-    lyp_filepath = str(PATH.klayout_lyp)
-    lyp = LayerDisplayProperties.from_lyp(lyp_filepath)
+    lyp = LayerDisplayProperties.from_lyp(str(PATH.klayout_lyp))
 
-    str_xml = open(PATH.klayout_tech / "tech.lyt").read()
-
-    #     new_tech = db.Technology.technology_from_xml(str_xml)
+    # str_xml = open(PATH.klayout_tech / "tech.lyt").read()
+    # new_tech = db.Technology.technology_from_xml(str_xml)
     new_tech = db.Technology()
 
     generic_tech = KLayoutTechnology(
