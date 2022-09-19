@@ -33,11 +33,13 @@ jobs:
         run: |
           mamba install constructor
           constructor .
+          pwd
+          ls
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           fail_on_unmatched_files: false
           files: |
-            gdsfactory/gdsfactory-5.31.3_Linux-x86_64.sh
-            gdsfactory/gdsfactory-5.31.3_Windows-x86_64.exe
-            gdsfactory/gdsfactory-5.31.3_MacOsX-x86_64.pkg
+            gdsfactory-5.31.3-Linux-x86_64.sh
+            gdsfactory-5.31.3-Windows-x86_64.exe
+            gdsfactory-5.31.3-MacOSX-x86_64.pkg
