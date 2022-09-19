@@ -3,7 +3,7 @@ repos:
     rev: 98c88b23b7ea9a42f920adc1d7c8790f39772021
     hooks:
       - id: check-yaml
-        exclude: ^(conda\.recipe/meta\.yaml|conda_build/templates/.*\.yaml|docs/click/meta\.yaml|conda/meta\.yaml)
+        exclude: ^(conda\.recipe/meta\.yaml|conda_build/templates/.*\.yaml|docs/click/meta\.yaml|conda/meta\.yaml|construct.yaml)
       - id: end-of-file-fixer
       - id: trailing-whitespace
       - id: requirements-txt-fixer
