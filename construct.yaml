@@ -5,6 +5,7 @@ installer_type: all
 channels:
   - https://conda.anaconda.org/conda-forge
   - https://conda.anaconda.org/flaport
+  - http://repo.anaconda.com/pkgs/main/
 
 specs:
   - python
@@ -24,8 +25,8 @@ specs:
   - scikit-image
   - triangle
   - trimesh
-  - klayout
-  - klayout-gui
+  - klayout # [unix]
+  - klayout-gui # [unix]
   - console_shortcut # [win]
 
 post_install: install.sh  # [unix]
