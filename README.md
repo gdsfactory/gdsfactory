@@ -52,6 +52,10 @@ gdsfactory leverages phidl, gdspy and klayout python libraries.
 ![](https://i.imgur.com/9Sh8Qav.png)
 
 
+## Installation
+
+[Download the latest installer](https://github.com/gdsfactory/gdsfactory/releases)
+
 ## Getting started
 
 - Run notebooks on [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/gdsfactory/binder-sandbox/HEAD)
