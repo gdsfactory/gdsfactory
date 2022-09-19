@@ -10,7 +10,6 @@ jobs:
   release_add:
     runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: true
       max-parallel: 12
       matrix:
         python-version: ["3.8"]
