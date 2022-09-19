@@ -15,6 +15,7 @@ from typing_extensions import Literal
 
 import klayout.db as db
 from gdsfactory.config import PATH
+from gdsfactory.tech import LayerStack
 
 Layer = Tuple[int, int]
 
@@ -39,6 +40,7 @@ class LayerView(BaseModel):
     Parameters:
         layer: GDSII layer.
         name: Name of the Layer.
+        layer_in_name: Whether to display the name as 'name layer/datatype' rather than just the layer.
         width: This is the line width of the frame in pixels (or empty for the default which is 1).
         line_style: This is the number of the line style used to draw the shape boundaries.
             An empty string is "solid line". The values are "Ix" for one of the built-in styles
@@ -61,6 +63,7 @@ class LayerView(BaseModel):
 
     layer: Optional[Layer] = None
     name: str = "unnamed"
+    layer_in_name: bool = False
     frame_color: Optional[str] = None
     fill_color: Optional[str] = None
     frame_brightness: Optional[int] = 0
@@ -147,6 +150,8 @@ class LayerView(BaseModel):
             if prop_name == "source":
                 layer = self.layer
                 prop_val = f"{layer[0]}/{layer[1]}@1" if layer else "*/*@*"
+            elif prop_name == "name" and self.layer_in_name:
+                prop_val = f"{self.name} {self.layer[0]}/{self.layer[1]}"
             else:
                 prop_val = getattr(self, "_".join(prop_name.split("-")), None)
                 if isinstance(prop_val, bool):
@@ -193,7 +198,7 @@ class CustomPattern(BaseModel):
 _layer_re = re.compile("([0-9]+|\\*)/([0-9]+|\\*)")
 
 
-def _process_name(name: str) -> Optional[str]:
+def _process_name(name: str) -> Optional[Tuple[str, bool]]:
     """Strip layer info from name if it exists.
 
     Args:
@@ -201,8 +206,12 @@ def _process_name(name: str) -> Optional[str]:
     """
     if not name:
         return None
+    layer_in_name = False
     match = re.search(_layer_re, name)
-    return name[: match.start()].strip() if match else name
+    if match:
+        name = name[: match.start()].strip()
+        layer_in_name = True
+    return name, layer_in_name
 
 
 def _process_layer(layer: str) -> Optional[Layer]:
@@ -224,13 +233,16 @@ def _properties_to_layerview(element, tag: Optional[str] = None) -> Optional[Lay
     Args:
         tag: Optional tag to iterate over.
     """
-    prop_dict = {}
+    prop_dict = {"layer_in_name": False}
     for prop in element.iterchildren(tag=tag):
         prop_tag = prop.tag
         if prop_tag == "name":
             val = _process_name(prop.text)
             if val is None:
                 return None
+            if isinstance(val, tuple):
+                val, layer_in_name = val
+                prop_dict["layer_in_name"] = layer_in_name
         elif prop_tag == "source":
             val = _process_layer(prop.text)
             prop_tag = "layer"
@@ -517,18 +529,28 @@ class KLayoutTechnology(BaseModel):
     Properties:
         layer_properties: Defines all the layer display properties needed for a .lyp file from LayerView objects.
         technology: KLayout Technology object from the KLayout API. Set name, dbu, etc.
+        layer_stack: gdsfactory LayerStack for writing LayerLevels to the technology files for 2.5D view.
     """
 
     layer_properties: Optional[LayerDisplayProperties] = None
     technology: db.Technology = Field(default_factory=db.Technology)
+    layer_stack: Optional[LayerStack] = None
 
     def export_technology_files(
         self,
         tech_dir: str,
         lyp_filename: str = "layers",
         lyt_filename: str = "tech",
+        write_25d: bool = False,
     ):
-        """Write technology files into 'tech_dir'."""
+        """Write technology files into 'tech_dir'.
+
+        Args:
+            tech_dir: Where to write the technology files to.
+            lyp_filename: Name of the layer properties file.
+            lyt_filename: Name of the layer technology file.
+            write_25d: Whether to write a 2.5D section in the technology file based on the LayerStack.
+        """
         # Format file names if necessary
         lyp_filename = append_file_extension(lyp_filename, ".lyp")
         lyt_filename = append_file_extension(lyt_filename, ".lyt")
@@ -537,18 +559,42 @@ class KLayoutTechnology(BaseModel):
         lyt_path = f"{tech_dir}/{lyt_filename}"
 
         # Specify relative file name for layer properties file
-        # This is the only modification that should be made to the Technology during export
         self.technology.layer_properties_file = lyp_filename
 
-        # Also need to write the 2.5d info at the end of the lyt file?
-        # Also interop with xs scripts
+        # TODO: Also interop with xs scripts?
 
         # Write lyp to file
         self.layer_properties.to_lyp(lyp_path)
 
+        root = etree.XML(self.technology.to_xml().encode("utf-8"))
+
+        if write_25d:
+            if self.layer_stack is None:
+                raise KeyError(
+                    "A LayerStack is required to write 2.5D info to a .lyt file."
+                )
+            # KLayout 0.27.x won't have a way to read/write the 2.5D info for technologies, so add manually
+            # Should be easier in 0.28.x
+            d25_element = [e for e in list(root) if e.tag == "d25"]
+            if not len(d25_element) == 1:
+                raise KeyError("Could not get a single index for the d25 element.")
+            d25_element = d25_element[0]
+
+            src_element = [e for e in list(d25_element) if e.tag == "src"]
+            if not len(src_element) == 1:
+                raise KeyError("Could not get a single index for the src element.")
+            src_element = src_element[0]
+
+            for layer_level in self.layer_stack.layers.values():
+                src_element.text += f"{layer_level.layer[0]}/{layer_level.layer[1]}: {layer_level.zmin} {layer_level.thickness}\n"
+
         # Write lyt to file
-        with open(lyt_path, "w") as file:
-            file.write(self.technology.to_xml())
+        with open(lyt_path, "wb") as file:
+            file.write(
+                etree.tostring(
+                    root, encoding="utf-8", pretty_print=True, xml_declaration=True
+                )
+            )
 
     class Config:
         """Allow db.Technology type."""
@@ -560,9 +606,6 @@ LAYER_PROPERTIES = LayerDisplayProperties.from_lyp(str(PATH.klayout_lyp))
 
 if __name__ == "__main__":
 
-    # lc: LayerColors = LAYER_COLORS
-    # # class LayerViewGroup(LayerView):
-    #
     # class DefaultProperties(LayerDisplayProperties):
     #     WG = LayerView(layer=(1, 0))
     #     WGCLAD = LayerView(layer=(111, 0))
@@ -619,13 +662,17 @@ if __name__ == "__main__":
     #
     # lyp = DefaultProperties()
 
-    lyp_filepath = str(PATH.klayout_lyp)
-    lyp = LayerDisplayProperties.from_lyp(lyp_filepath)
+    from gdsfactory.tech import LAYER_STACK
 
-    str_xml = open(PATH.klayout_tech / "tech.lyt").read()
-    new_tech = db.Technology.technology_from_xml(str_xml)
+    lyp = LayerDisplayProperties.from_lyp(str(PATH.klayout_lyp))
 
-    generic_tech = KLayoutTechnology(layer_properties=lyp, technology=new_tech)
+    # str_xml = open(PATH.klayout_tech / "tech.lyt").read()
+    # new_tech = db.Technology.technology_from_xml(str_xml)
+    new_tech = db.Technology()
+
+    generic_tech = KLayoutTechnology(
+        layer_properties=lyp, technology=new_tech, layer_stack=LAYER_STACK
+    )
     tech_dir = PATH.repo / "extra" / "test_tech"
     tech_dir.mkdir(exist_ok=True, parents=True)
 
