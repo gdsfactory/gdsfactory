@@ -1,5 +1,14 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.32.0
+
+- Read/write layer files (.lyp) and specify whether the layer number is displayed in KLayout [issue](https://github.com/gdsfactory/gdsfactory/issues/695) [PR](https://github.com/gdsfactory/gdsfactory/pull/724)
+    - Read/write technology files (.lyt)
+    - Requires the klayout.db module
+    - 2.5D layer stacks can only be written due to incomplete API in 0.27.x (#1153)
+- Bump sax from 0.8.1 to 0.8.2
+
+
 ## 5.31.0
 
 - add new Pcells [PR](https://github.com/gdsfactory/gdsfactory/pull/717)
