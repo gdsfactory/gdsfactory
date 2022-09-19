@@ -37,7 +37,7 @@ with open("README.md") as f:
 setup(
     name="gdsfactory",
     url="https://github.com/gdsfactory/gdsfactory",
-    version="5.32.1",
+    version="5.32.2",
     author="gdsfactory community",
     description="python library to generate GDS layouts",
     long_description=long_description,
