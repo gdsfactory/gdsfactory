@@ -4,8 +4,29 @@ installer_type: all
 
 channels:
   - https://conda.anaconda.org/conda-forge
+  - https://conda.anaconda.org/flaport
 
 specs:
   - python
   - mamba
   - gdsfactory
+  - spyder
+  - jupyterlab
+  - networkx
+  - bokeh
+  - google-cloud-storage
+  - holoviews
+  - ipympl
+  - ipywidgets
+  - lytest==0.0.20
+  - networkx
+  - pyglet
+  - sax==0.8.2
+  - scikit-image
+  - simphony==0.6.1
+  - sklearn
+  - triangle
+  - trimesh
+  - klayout
+  - klayout-gui
+  - pymeep=*=mpi_mpich_* -y
