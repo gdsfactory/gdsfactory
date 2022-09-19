@@ -25,8 +25,6 @@ specs:
   - scikit-image
   - triangle
   - trimesh
-  - klayout # [unix]
-  - klayout-gui # [unix]
   - console_shortcut # [win]
 
 post_install: install.sh  # [unix]
