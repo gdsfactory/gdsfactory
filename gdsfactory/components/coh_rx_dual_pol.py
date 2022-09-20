@@ -1,4 +1,3 @@
-from functools import partial
 from typing import Optional
 
 import gdsfactory as gf
@@ -10,8 +9,6 @@ from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.routing.get_route import get_route, get_route_from_waypoints
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
-default_single_pol_coh_rx = partial(coh_rx_single_pol)
-
 
 @cell
 def coh_rx_dual_pol(
@@ -20,7 +17,7 @@ def coh_rx_dual_pol(
     cross_section: CrossSectionSpec = "strip",
     lo_splitter: ComponentSpec = "mmi1x2",
     signal_splitter: Optional[ComponentSpec] = None,
-    spol_coh_rx: ComponentSpec = default_single_pol_coh_rx,
+    spol_coh_rx: ComponentSpec = coh_rx_single_pol,
     single_pol_rx_spacing: float = 50.0,
     splitter_coh_rx_spacing: float = 40.0,
     lo_input_coupler: Optional[ComponentSpec] = None,
@@ -34,11 +31,11 @@ def coh_rx_dual_pol(
         cross_section: for routing (splitter to mzms and mzms to combiners).
         lo_splitter: splitter function for the LO input.
         signal_splitter: splitter function for the signal input.
-        spol_coh_rx: function generating a coherent rx for a single polarization
-        single_pol_coh_rx_spacing: vertical spacing between each single polarization coherent receiver
-        splitter_coh_rx_spacing: horizontal spacing between the signal splitter and the single pol coh rxs
-        lo_input_coupler: Optional coupler to add before the LO splitter
-        signal_input_coupler: Optional coupler to add before the signal splitter
+        spol_coh_rx: function generating a coherent rx for a single polarization.
+        single_pol_rx_spacing: vertical spacing between each single polarization coherent receiver.
+        splitter_coh_rx_spacing: horizontal spacing between the signal splitter and the single pol coh rxs.
+        lo_input_coupler: Optional coupler to add before the LO splitter.
+        signal_input_coupler: Optional coupler to add before the signal splitter.
     """
     bend_spec = bend
     bend = gf.get_component(bend, cross_section=cross_section)
@@ -87,7 +84,6 @@ def coh_rx_dual_pol(
         c.add(route.references)
 
     if signal_input_coupler is not None:
-
         signal_coupler = gf.get_component(signal_input_coupler)
         signal_coup = c << signal_coupler
         signal_coup.mirror((0, 1))
@@ -172,9 +168,14 @@ def coh_rx_dual_pol(
         lo_coup.connect("o1", lo_split.ports["o1"])
 
     # ------ Extract electrical ports (if no pads) -------
-
     c.add_ports(single_rx_1.get_ports_list(port_type="electrical"), prefix="pol1")
     c.add_ports(single_rx_2.get_ports_list(port_type="electrical"), prefix="pol2")
     c.auto_rename_ports()
 
     return c
+
+
+if __name__ == "__main__":
+    # c = coh_rx_dual_pol()
+    c = coh_rx_single_pol()
+    c.show(show_ports=True)
