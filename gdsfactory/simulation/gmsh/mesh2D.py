@@ -184,7 +184,6 @@ def mesh2D(
     # Add layers
     blocks = []
     for layer in component.get_layers():
-        i = 0
         if (
             layer not in exclude_layers
             and layer in layer_to_thickness
@@ -192,7 +191,7 @@ def mesh2D(
         ):
             if bounds_dict[layer] == []:
                 continue
-            for bounds in bounds_dict[layer]:
+            for i, bounds in enumerate(bounds_dict[layer]):
                 points = [
                     [bounds["umin"], bounds["zmin"]],
                     [bounds["umin"], bounds["zmax"]],
@@ -207,8 +206,6 @@ def mesh2D(
                 )
                 model.add_physical(polygon, f"{layer}_{i}")
                 blocks.append(polygon)
-                i += 1
-
     # Mesh background without blocks
     plane_surface = model.add_plane_surface(channel_loop, holes=blocks)
 
@@ -257,12 +254,11 @@ if __name__ == "__main__":
         cells = mesh.get_cells_type(cell_type)
         cell_data = mesh.get_cell_data("gmsh:physical", cell_type)
         points = mesh.points[:, :2] if prune_z else mesh.points
-        out_mesh = meshio.Mesh(
+        return meshio.Mesh(
             points=points,
             cells={cell_type: cells},
             cell_data={"name_to_read": [cell_data]},
         )
-        return out_mesh
 
     line_mesh = create_mesh(mesh_from_file, "line", prune_z=True)
     meshio.write("facet_mesh.xdmf", line_mesh)
