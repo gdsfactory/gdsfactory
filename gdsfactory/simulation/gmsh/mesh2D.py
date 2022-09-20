@@ -15,17 +15,19 @@ def get_xsection_bounds_inplane(
     line_layer: Optional[Layer] = 99,
     line_width: Optional[float] = 0.01,
 ):
-    """Given a component c and two coordinates (x1,y1), (x2,y2), computes the bounding box(es) of each layer in the xsection coordinate system (u).
+    """Given a component c and two coordinates (x1,y1), (x2,y2), computes the \
+        bounding box(es) of each layer in the xsection coordinate system (u).
 
     Uses gdsfactory boolean and component.extract
 
     Args:
-        c: Component(/Reference)
-        xsection_bounds: ( (x1,y1), (x2,y2) ), with x1,y1 beginning point of cross-sectional line and x2,y2 the end
-        line_layer: (dummy) layer to put the extraction line on
-        line_width: (dummy) thickness of extraction line. Cannot be 0, should be small (near dbu) for accuracy
+        component: Component or ComponentReference.
+        xsection_bounds: ( (x1,y1), (x2,y2) ), with x1,y1 beginning point of cross-sectional line and x2,y2 the end.
+        line_layer: (dummy) layer to put the extraction line on.
+        line_width: (dummy) thickness of extraction line. Cannot be 0, should be small (near dbu) for accuracy.
 
-    Returns: Dict containing layer: list pairs, with list a list of bounding box coordinates (u1,u2) in xsection line coordinates
+    Returns: Dict containing layer(list pairs, with list a list of bounding box coordinates (u1,u2))
+        in xsection line coordinates.
     """
     # Create line component for bool
     P = gf.Path(xsection_bounds)
@@ -69,13 +71,14 @@ def get_xsection_bounds(
     layer_stack: Optional[LayerStack] = None,
     exclude_layers: Optional[Tuple[Layer, ...]] = None,
 ):
-    """Given a component and layer stack, computes the bounding box(es) of each layer in the xsection coordinate system (u,z).
+    """Given a component and layer stack, computes the bounding box(es) of each \
+            layer in the xsection coordinate system (u,z).
 
     Args:
-        c: Component(/Reference)
+        component: Component or ComponentReference.
         xsection_bounds: ( (x1,y1), (x2,y2) ), with x1,y1 beginning point of cross-sectional line and x2,y2 the end
-        line_layer: (dummy) layer to put the extraction line on
-        line_width: (dummy) thickness of extraction line. Cannot be 0, should be small (near dbu) for accuracy
+        line_layer: (dummy) layer to put the extraction line on.
+        line_width: (dummy) thickness of extraction line. Cannot be 0, should be small (near dbu) for accuracy.
 
     Returns: Dict containing layer: list pairs, with list a list of bounding box coordinates (u1,u2) in xsection line coordinates
     """
@@ -123,16 +126,15 @@ def mesh2D(
     layer_stack: Optional[LayerStack] = None,
     exclude_layers: Optional[Tuple[Layer, ...]] = None,
 ):
-    """Performs 2D meshing of component along cross-sectional line (x1,y1), (x2,y2).
+    """Returns gmsh 2D geometry of component along cross-sectional line (x1,y1), (x2,y2).
 
     Args:
-        c: Component(/Reference)
-        xsection_bounds: ( (x1,y1), (x2,y2) ), with x1,y1 beginning point of cross-sectional line and x2,y2 the end
-        base_resolution: background mesh resolution (um)
-        refine_resolution: feature mesh resolution (um); layer dependent via a dict (default to base_resolution)
-        padding: amount (left, right, bottom, up) to enlarge simulation region beyond features (um)
+        component: Component or ComponentReference.
+        xsection_bounds: ( (x1,y1), (x2,y2) ), with x1,y1 beginning point of cross-sectional line and x2,y2 the end.
+        base_resolution: background mesh resolution (um).
+        refine_resolution: feature mesh resolution (um); layer dependent via a dict (default to base_resolution).
+        padding: amount (left, right, bottom, up) to enlarge simulation region beyond features (um).
 
-    Returns: gmsh geometry
     """
     layer_stack = layer_stack or get_layer_stack()
     layer_to_thickness = layer_stack.get_layer_to_thickness()
@@ -149,8 +151,8 @@ def mesh2D(
     zmin = np.inf
     zmax = -np.inf
     bounds_dict = get_xsection_bounds(component, xsection_bounds)
-    for key, list in bounds_dict.items():
-        for polygon in list:
+    for polygons in bounds_dict.values():
+        for polygon in polygons:
             uleft = polygon["umin"]
             uright = polygon["umax"]
             zbot = polygon["zmin"]
