@@ -81,11 +81,10 @@ def coh_rx_single_pol(
         else:
             in_coup_lo.connect("o1", hybrid.ports["LO_in"])
 
+    elif in_wg_length > 0.0:
+        c.add_port("LO_in", port=lo_in.ports["o1"])
     else:
-        if in_wg_length > 0.0:
-            c.add_port("LO_in", port=lo_in.ports["o1"])
-        else:
-            c.add_port("LO_in", port=hybrid.ports["LO_in"])
+        c.add_port("LO_in", port=hybrid.ports["LO_in"])
 
     if signal_input_coupler is not None:
         signal_in_coupler = gf.get_component(signal_input_coupler)
@@ -96,11 +95,10 @@ def coh_rx_single_pol(
         else:
             in_coup_signal.connect("o1", hybrid.ports["signal_in"])
 
+    elif in_wg_length > 0.0:
+        c.add_port("signal_in", port=signal_in.ports["o1"])
     else:
-        if in_wg_length > 0.0:
-            c.add_port("signal_in", port=signal_in.ports["o1"])
-        else:
-            c.add_port("signal_in", port=hybrid.ports["signal_in"])
+        c.add_port("signal_in", port=hybrid.ports["signal_in"])
 
     # ---- Draw photodetectors -----
 
@@ -121,19 +119,16 @@ def coh_rx_single_pol(
     # of the 90 degree hybrid to avoid crossings
     hybrid_ports = {"I_out1": pd_i1, "I_out2": pd_i2, "Q_out1": pd_q1, "Q_out2": pd_q2}
 
-    ports_y_pos = list()
     port_names = hybrid_ports.keys()
-    for port_name in port_names:
-        ports_y_pos.append(hybrid.ports[port_name].y)
-
+    ports_y_pos = [hybrid.ports[port_name].y for port_name in port_names]
     inds = np.argsort(ports_y_pos)
     port_names = list(port_names)
     port_names = [port_names[i] for i in inds]
 
     y_pos = hybrid.y - 1.5 * det_spacing[1]
 
-    det_ports = list()
-    ports_hybrid = list()
+    det_ports = []
+    ports_hybrid = []
     for port_name in port_names:
         det = hybrid_ports[port_name]
         det.y = y_pos
