@@ -1,4 +1,3 @@
-from functools import partial
 from typing import Optional, Tuple
 
 import numpy as np
@@ -14,17 +13,14 @@ from gdsfactory.components.mmi_90degree_hybrid import mmi_90degree_hybrid
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
-default_90degree_hybrid = partial(mmi_90degree_hybrid)
-default_det = partial(ge_detector_straight_si_contacts)
-
 
 @cell
 def coh_rx_single_pol(
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
     cross_section: CrossSectionSpec = "strip",
-    hybrid_90deg: ComponentSpec = default_90degree_hybrid,
-    detector: ComponentSpec = default_det,
+    hybrid_90deg: ComponentSpec = mmi_90degree_hybrid,
+    detector: ComponentSpec = ge_detector_straight_si_contacts,
     det_spacing: Tuple[float, float] = (60.0, 50.0),
     with_pads: bool = True,
     pad_det_spacing: float = 80.0,
@@ -39,14 +35,14 @@ def coh_rx_single_pol(
         straight: straight function.
         cross_section: for routing.
         hybrid_90deg: generates the 90 degree hybrid.
-        detector: generates the detector
-        det_spacing: tuple with the first number being the spacing between the 90 degree hybrid and the detector, and
-            the second number being the vertical spacing between detectors.
+        detector: generates the detector.
+        det_spacing: spacing between 90 degree hybrid and detector and
+           vertical spacing between detectors.
         with_pads: if True, it draws pads for the balanced detectors.
-        pad_det_spacing: spacing between the pads and the detectors (if with_pads=True)
-        in_wg_length: length of the straight waveguides at the input of the 90 deg hybrid
-        lo_input_coupler: Optional coupler for the LO
-        signal_input_coupler: Optional coupler for the signal
+        pad_det_spacing: spacing between the pads and the detectors (if with_pads=True).
+        in_wg_length: length of the straight waveguides at the input of the 90 deg hybrid.
+        lo_input_coupler: Optional coupler for the LO.
+        signal_input_coupler: Optional coupler for the signal.
 
     .. code::
 
@@ -285,3 +281,8 @@ def coh_rx_single_pol(
         )
 
     return c
+
+
+if __name__ == "__main__":
+    c = coh_rx_single_pol(with_pads=False)
+    c.show(show_ports=True)

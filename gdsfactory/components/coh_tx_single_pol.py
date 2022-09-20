@@ -4,28 +4,22 @@ from typing import Optional
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.pad import pad_array as pad_array_func
-from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.components.straight_pin import straight_pin
-from gdsfactory.cross_section import pin
 from gdsfactory.port import select_ports
 from gdsfactory.routing.get_route import get_route
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
-default_mzm = partial(
-    gf.components.mzi,
-    straight_x_top=straight_pin,
-    cross_section_x_top=pin,
-    delta_length=10.0,
+default_mzm = dict(
+    component="mzi",
+    settings=dict(
+        straight_x_top="straight_pin",
+        cross_section_x_top="pin",
+        delta_length=10.0,
+    ),
 )
 
 
 @cell
 def coh_tx_single_pol(
-    bend: ComponentSpec = bend_euler,
-    straight: ComponentSpec = straight_function,
-    cross_section: CrossSectionSpec = "strip",
     balanced_phase_shifters: bool = False,
     mzm_y_spacing: float = 50.0,
     phase_shifter: ComponentSpec = "straight_pin",
@@ -35,31 +29,35 @@ def coh_tx_single_pol(
     combiner: Optional[ComponentSpec] = None,
     mzm: ComponentSpec = default_mzm,
     mzm_length: float = 200.0,
-    splitter_mzm_x_spacing: float = 40.0,
     with_pads: bool = True,
+    xspacing: float = 40.0,
     input_coupler: Optional[ComponentSpec] = None,
     output_coupler: Optional[ComponentSpec] = None,
+    pad_array: ComponentSpec = "pad_array",
+    cross_section: CrossSectionSpec = "strip",
+    **kwargs
 ) -> Component:
     """MZM-based single polarization coherent transmitter.
 
     Args:
-        bend: 90 degrees bend library.
-        straight: straight function.
-        cross_section: for routing (splitter to mzms and mzms to combiners).
-        balanced_phase_shifters: set to True for having phase sifters after the MZM at both the I and Q arms.
-            If False, only the Q arm has a phase shifter.
+        balanced_phase_shifters: True adds phase sifters after the MZM at both the I and Q arms.
+            False, only adds Q arm has a phase shifter.
         mzm_y_spacing: vertical spacing between the bottom of the I MZM and the top of the Q MZM.
-        phase_shifter: phase_shifter function.
-        phase_shifter_length: length of the phase shifter
-        mzm_ps_spacing: spacing between the end of the mzm and the phase shifter
-        splitter: splitter function.
-        combiner: combiner function.
-        mzm: Mach-Zehnder modulator function
-        mzm_length: length of the MZMs
+        phase_shifter: phase_shifter spec.
+        phase_shifter_length: length of the phase shifter.
+        mzm_ps_spacing: spacing between the end of the mzm and the phase shifter.
+        splitter: splitter spec.
+        combiner: combiner spec.
+        mzm: Mach-Zehnder modulator spec.
+        mzm_length: length of the MZMs.
         with_pads: if True, we draw pads for all the electrical contacts.
-        splitter_mzm_x_spacing: horizontal spacing between the splitter and combiner and the mzm
-        input_coupler: Optional coupler to add before the splitter
-        output_coupler: Optioncal coupler to add after the combiner
+        xspacing: horizontal spacing between the splitter and combiner and the mzm.
+        input_coupler: Optional coupler to add before the splitter.
+        output_coupler: Optioncal coupler to add after the combiner.
+        pad_array: array of pads spec.
+        cross_section: for routing (splitter to mzms and mzms to combiners).
+        kwargs: cross_section settings.
+
     .. code::
 
                                 ___ mzm_i __ ps_i__
@@ -71,29 +69,28 @@ def coh_tx_single_pol(
                                 |                  |
                                 |___ mzm_q __ ps_q_|
     """
-    combiner = combiner or splitter
+    from gdsfactory.components.straight import straight as straight_function
 
-    bend_spec = bend
-    bend = gf.get_component(bend, cross_section=cross_section)
-    straight_spec = straight
+    combiner = combiner or splitter
+    pad_array = dict(component=pad_array, settings=dict(columns=1, rows=1))
 
     # ----- Draw MZIs -----
     c = Component()
 
     if with_pads:
         mzm_mod = gf.routing.add_electrical_pads_top(
-            component=mzm(length_x=mzm_length),
+            component=gf.get_component(mzm, length_x=mzm_length),
             direction="right",
             spacing=(-100, -136),
             select_ports=partial(select_ports, names=["e1", "e2"]),
-            pad_array=partial(pad_array_func, columns=1, rows=1),
+            pad_array=pad_array,
         )
         mzm_mod_p = gf.routing.add_electrical_pads_top(
             component=mzm_mod,
             direction="right",
             spacing=(100, -250),
             select_ports=partial(select_ports, names=["e3", "e4"], clockwise=False),
-            pad_array=partial(pad_array_func, columns=1, rows=1),
+            pad_array=pad_array,
         )
     else:
         mzm_mod_p = mzm(length_x=mzm_length)
@@ -114,7 +111,7 @@ def coh_tx_single_pol(
             direction="right",
             spacing=(50, -136),
             select_ports=partial(select_ports, names=["bot_e2", "top_e2"]),
-            pad_array=partial(pad_array_func, columns=1, rows=1),
+            pad_array=pad_array,
         )
     else:
         ps_w_pads = phase_shifter
@@ -125,7 +122,9 @@ def coh_tx_single_pol(
 
     else:
         # only the q arm has a phase shifter
-        straight = gf.get_component(straight_spec, length=phase_shifter_length)
+        straight = straight_function(
+            length=phase_shifter_length, cross_section=cross_section, **kwargs
+        )
         ps_i = c << straight
         ps_q = c << ps_w_pads
 
@@ -134,7 +133,9 @@ def coh_tx_single_pol(
         ps_i.connect("o1", mzm_i.ports["o2"])
         ps_q.connect("o1", mzm_q.ports["o2"])
     else:
-        straight_conn = gf.get_component(straight_spec, length=mzm_ps_spacing)
+        straight_conn = straight_function(
+            length=mzm_ps_spacing, cross_section=cross_section, **kwargs
+        )
         straight_i = c << straight_conn
         straight_q = c << straight_conn
         straight_i.connect("o1", mzm_i.ports["o2"])
@@ -146,26 +147,24 @@ def coh_tx_single_pol(
 
     splitter = gf.get_component(splitter)
     sp = c << splitter
-    sp.x = mzm_q.xmin - splitter_mzm_x_spacing
+    sp.x = mzm_q.xmin - xspacing
     sp.y = (mzm_i.ports["o1"].y + mzm_q.ports["o1"].y) / 2
 
     route = get_route(
         sp.ports["o2"],
         mzm_i.ports["o1"],
-        straight=straight_spec,
-        bend=bend_spec,
         cross_section=cross_section,
         with_sbend=False,
+        **kwargs
     )
     c.add(route.references)
 
     route = get_route(
         sp.ports["o3"],
         mzm_q.ports["o1"],
-        straight=straight_spec,
-        bend=bend_spec,
         cross_section=cross_section,
         with_sbend=False,
+        **kwargs
     )
     c.add(route.references)
 
@@ -173,26 +172,24 @@ def coh_tx_single_pol(
     comb = c << combiner
     comb.mirror()
 
-    comb.x = ps_q.xmax + splitter_mzm_x_spacing
+    comb.x = ps_q.xmax + xspacing
     comb.y = (mzm_i.ports["o2"].y + mzm_q.ports["o2"].y) / 2
 
     route = get_route(
         comb.ports["o2"],
         ps_i.ports["o2"],
-        straight=straight_spec,
-        bend=bend_spec,
         cross_section=cross_section,
         with_sbend=False,
+        **kwargs
     )
     c.add(route.references)
 
     route = get_route(
         comb.ports["o3"],
         ps_q.ports["o2"],
-        straight=straight_spec,
-        bend=bend_spec,
         cross_section=cross_section,
         with_sbend=False,
+        **kwargs
     )
     c.add(route.references)
 
@@ -224,3 +221,8 @@ def coh_tx_single_pol(
         c.auto_rename_ports()
 
     return c
+
+
+if __name__ == "__main__":
+    c = coh_tx_single_pol(with_pads=True)
+    c.show(show_ports=True)
