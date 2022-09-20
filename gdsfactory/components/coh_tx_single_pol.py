@@ -118,15 +118,13 @@ def coh_tx_single_pol(
 
     if balanced_phase_shifters:
         ps_i = c << ps_w_pads
-        ps_q = c << ps_w_pads
-
     else:
         # only the q arm has a phase shifter
         straight = straight_function(
             length=phase_shifter_length, cross_section=cross_section, **kwargs
         )
         ps_i = c << straight
-        ps_q = c << ps_w_pads
+    ps_q = c << ps_w_pads
 
     # Connect to the right ports
     if mzm_ps_spacing <= 0.0:
