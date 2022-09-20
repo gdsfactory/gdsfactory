@@ -36,6 +36,10 @@ from gdsfactory.components.cavity import cavity
 from gdsfactory.components.cdc import cdc
 from gdsfactory.components.cdsem_all import cdsem_all
 from gdsfactory.components.circle import circle
+from gdsfactory.components.coh_rx_dual_pol import coh_rx_dual_pol
+from gdsfactory.components.coh_rx_single_pol import coh_rx_single_pol
+from gdsfactory.components.coh_tx_dual_pol import coh_tx_dual_pol
+from gdsfactory.components.coh_tx_single_pol import coh_tx_single_pol
 from gdsfactory.components.compass import compass
 from gdsfactory.components.component_lattice import component_lattice
 from gdsfactory.components.component_sequence import component_sequence
@@ -324,6 +328,10 @@ __all__ = [
     "via_stack_slot_m1_m2",
     "via_stack_with_offset",
     "copy_layers",
+    "coh_tx_dual_pol",
+    "coh_tx_single_pol",
+    "coh_rx_dual_pol",
+    "coh_rx_single_pol",
     "coupler",
     "coupler90",
     "coupler90bend",
