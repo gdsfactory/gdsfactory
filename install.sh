@@ -1,10 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 
-pip install -r requirements_full.txt
-pip install -e .
-pre-commit install
-gf tool install
-make plugins
+mamba install pymeep=*=mpi_mpich_* -y
+
+pip install gdsfactory[tidy3d]
+pip install lytest simphony sax sklearn
+pip install jax jaxlib
 
 
 if [[ $(uname -s) == Linux ]]; then
