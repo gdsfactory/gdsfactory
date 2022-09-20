@@ -457,6 +457,66 @@ circle
 
 
 
+coh_rx_dual_pol
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.coh_rx_dual_pol
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.coh_rx_dual_pol(cross_section='strip', lo_splitter='mmi1x2', single_pol_rx_spacing=50.0, splitter_coh_rx_spacing=40.0)
+  c.plot()
+
+
+
+coh_rx_single_pol
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.coh_rx_single_pol
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.coh_rx_single_pol(cross_section='strip', det_spacing=[60.0, 50.0], with_pads=True, pad_det_spacing=80.0, in_wg_length=20.0)
+  c.plot()
+
+
+
+coh_tx_dual_pol
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.coh_tx_dual_pol
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.coh_tx_dual_pol(splitter='mmi1x2', spol_coh_tx='coh_tx_single_pol', yspacing=10.0, xspacing=40.0, cross_section='strip')
+  c.plot()
+
+
+
+coh_tx_single_pol
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.coh_tx_single_pol
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.coh_tx_single_pol(balanced_phase_shifters=False, mzm_y_spacing=50.0, phase_shifter='straight_pin', phase_shifter_length=100.0, mzm_ps_spacing=40.0, splitter='mmi1x2', mzm_length=200.0, with_pads=True, xspacing=40.0, pad_array='pad_array', cross_section='strip')
+  c.plot()
+
+
+
 compass
 ----------------------------------------------------
 
@@ -2865,7 +2925,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='5.30.0', text_size=10)
+  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='5.32.5', text_size=10)
   c.plot()
 
 
