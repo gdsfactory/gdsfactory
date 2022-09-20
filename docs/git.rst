@@ -1,5 +1,5 @@
- Installation and Getting started
-===================================
+Installation
+===================
 
 
 .. toctree::
