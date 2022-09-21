@@ -8,7 +8,7 @@ channels:
   - http://repo.anaconda.com/pkgs/main/
 
 specs:
-  - python==3.9.14
+  - python==3.9.13
   - mamba
   - pip
   - gdsfactory
