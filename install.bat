@@ -1,1 +1,1 @@
-pip install lytest simphony sax sklearn
+pip install lytest simphony sax sklearn klayout
