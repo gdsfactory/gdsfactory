@@ -1,4 +1,6 @@
+
 pip install lytest simphony sax sklearn klayout
+pip install gdsfactory==5.33.8
 gf tool install
 
 if exist "%USERPROFILE%\gdsfactory" (goto SKIP_INSTALL)
