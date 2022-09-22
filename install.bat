@@ -1,5 +1,6 @@
 
-pip install lytest simphony sax sklearn klayout
+set PIP_FIND_LINKS="https://whls.blob.core.windows.net/unstable/index.html"
+pip install lytest simphony sax jax jaxlib sklearn klayout
 pip install gdsfactory==5.33.10
 gf tool install
 
