@@ -5,7 +5,7 @@ pip install gdsfactory[full] --upgrade
 pip install gdsfactory==5.33.10
 gf tool install
 
-[ ! -d $HOME/gdsfactory ] && git clone https://github.com/gdsfactory/gdsfactory.git $HOME/gdsfactory
+[ ! -d $HOME/Desktop/gdsfactory ] && git clone https://github.com/gdsfactory/gdsfactory.git $HOME/Desktop/gdsfactory
 
 # if [[ $(uname -s) == Linux ]]; then
 #     if [[ ${INSTALLER_PLAT} != linux-* ]]; then
