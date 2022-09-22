@@ -2,7 +2,7 @@
 
 pip install gdsfactory[tidy3d]
 pip install gdsfactory[full] --upgrade
-pip install gdsfactory==5.33.9
+pip install gdsfactory==5.33.10
 gf tool install
 
 [ ! -d $HOME/gdsfactory ] && git clone https://github.com/gdsfactory/gdsfactory.git $HOME/gdsfactory
