@@ -1,12 +1,11 @@
 #!/bin/bash
 
-mamba install pymeep=*=mpi_mpich_* -y
-
-pip install jax jaxlib
 pip install gdsfactory[tidy3d]
 pip install gdsfactory[full] --upgrade
-
+pip install gdsfactory==5.33.11
 gf tool install
+
+[ ! -d $HOME/Desktop/gdsfactory ] && git clone https://github.com/gdsfactory/gdsfactory.git $HOME/Desktop/gdsfactory
 
 # if [[ $(uname -s) == Linux ]]; then
 #     if [[ ${INSTALLER_PLAT} != linux-* ]]; then
