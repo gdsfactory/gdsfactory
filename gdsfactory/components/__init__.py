@@ -220,6 +220,7 @@ from gdsfactory.components.taper import (
 )
 from gdsfactory.components.taper_cross_section import (
     taper_cross_section_linear,
+    taper_cross_section_parabolic,
     taper_cross_section_sine,
 )
 from gdsfactory.components.taper_from_csv import (
@@ -270,6 +271,7 @@ _factory_passives = dict(
     crossing45=crossing45,
     taper_cross_section_linear=taper_cross_section_linear,
     taper_cross_section_sine=taper_cross_section_sine,
+    taper_cross_section_parabolic=taper_cross_section_parabolic,
     taper=taper,
     taper2=taper2,
     taper_0p5_to_3_l36=taper_0p5_to_3_l36,
