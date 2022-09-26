@@ -8,7 +8,7 @@ from phidl.geometry import _boolean_polygons_parallel
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.component_reference import ComponentReference
-from gdsfactory.types import ComponentOrReference, Int2, Layer
+from gdsfactory.types import ComponentOrReference, Int2, LayerSpec
 
 
 @gf.cell
@@ -19,7 +19,7 @@ def boolean(
     precision: float = 1e-4,
     num_divisions: Union[int, Int2] = (1, 1),
     max_points: int = 4000,
-    layer: Layer = (1, 0),
+    layer: LayerSpec = (1, 0),
 ) -> Component:
     """Performs boolean operations between 2 Component/Reference/list objects.
 
@@ -64,6 +64,7 @@ def boolean(
             elif isinstance(e, Polygon):
                 polys.extend(e.polygons)
 
+    layer = gf.pdk.get_layer(layer)
     gds_layer, gds_datatype = _parse_layer(layer)
 
     operation = operation.lower().replace(" ", "")
