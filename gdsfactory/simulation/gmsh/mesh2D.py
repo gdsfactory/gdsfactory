@@ -147,30 +147,12 @@ def mesh2D(
     model = geometry.__enter__()
 
     # Find extremal coordinates
-    umin = np.inf
-    umax = -np.inf
-    zmin = np.inf
-    zmax = -np.inf
     bounds_dict = get_xsection_bounds(component, xsection_bounds)
-    for polygons in bounds_dict.values():
-        for polygon in polygons:
-            uleft = polygon["umin"]
-            uright = polygon["umax"]
-            zbot = polygon["zmin"]
-            ztop = polygon["zmax"]
-            if uleft < umin:
-                umin = uleft
-            if uright > umax:
-                umax = uright
-            if zbot < zmin:
-                zmin = zbot
-            if ztop > zmax:
-                zmax = ztop
-
-    umin -= padding[0]
-    umax += padding[1]
-    zmin -= padding[2]
-    zmax += padding[3]
+    polygons = [polygon for polygons in bounds_dict.values() for polygon in polygons]
+    umin = min(polygon["umin"] for polygon in polygons) - padding[0]
+    umax = max(polygon["umax"] for polygon in polygons) + padding[1]
+    zmin = min(polygon["zmin"] for polygon in polygons) - padding[2]
+    zmax = max(polygon["zmax"] for polygon in polygons) + padding[3]
 
     # Background oxide
     points = [
