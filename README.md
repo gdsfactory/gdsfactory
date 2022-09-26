@@ -15,13 +15,12 @@
 [![black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/gdsfactory/binder-sandbox/HEAD)
 
-![](https://i.imgur.com/v4wpHpg.png)
+![logo](https://i.imgur.com/v4wpHpg.png)
 
-gdsfactory is an EDA (electronics design automation) tool for Integrated Circuits.
+gdsfactory is an EDA (electronics design automation) tool for Silicon Photonic Integrated Circuits
 It combines a code driven flow (python or YAML) with visualization and simulation plugins.
 
-
-Multiple foundries have gdsfactory PDKs available. Talk to your foundry to access their gdsfactory PDK.
+Multiple Silicon Photonics foundries have gdsfactory PDKs available. Talk to your foundry to access their gdsfactory PDK.
 
 You can also access:
 
@@ -44,12 +43,15 @@ As input, you write python or YAML code.
 As output you write a GDSII or OASIS file that can send to your foundry.
 You can also write components settings (for measurement and data analysis) or netlists (for circuit simulations).
 
-![](https://i.imgur.com/XbhWJDz.png)
+![flow](https://i.imgur.com/XbhWJDz.png)
 
 
-gdsfactory leverages phidl, gdspy and klayout python libraries.
+gdsfactory provides you a common syntax for layout (klayout, gdspy, phidl), simulation (Lumerical, tidy3d, MEEP, MPB, DEVSIM, simphony, SAX, ...) and data analysis libraries.
 
-![](https://i.imgur.com/9Sh8Qav.png)
+![tool interfaces](https://i.imgur.com/9Sh8Qav.png)
+
+![layout_to_components](https://i.imgur.com/JLsvpLv.png)
+
 
 
 ## Installation
