@@ -402,11 +402,11 @@ def port_array(
 
 
 def read_port_markers(component: object, layers: LayerSpecs = ("PORT",)) -> Component:
-    """Loads a GDS and returns the extracted ports from layer markers
+    """Returns extracted polygons from component layers.
 
     Args:
-        component: or Component
-        layers: Iterable of GDS layers
+        component: Component to extract markers.
+        layers: GDS layer specs.
 
     """
     from gdsfactory.pdk import get_layer
