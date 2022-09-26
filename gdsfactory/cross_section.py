@@ -19,14 +19,14 @@ from gdsfactory.tech import TECH, Section
 LAYER = TECH.layer
 Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
-WidthTypes = Literal["sine", "linear"]
+WidthTypes = Literal["sine", "linear", "parabolic"]
 
 LayerSpec = Union[Layer, int, str, None]
 LayerSpecs = Union[List[LayerSpec], Tuple[LayerSpec, ...]]
 Floats = Tuple[float, ...]
 port_names_electrical = ("e1", "e2")
 port_types_electrical = ("electrical", "electrical")
-cladding_layers_optical = ((68, 0),)  # for SiEPIC verification
+cladding_layers_optical = ("DEVREC",)  # for SiEPIC verification
 cladding_offsets_optical = (0,)  # for SiEPIC verification
 
 
