@@ -213,10 +213,10 @@ def mesh2D(
     plane_surface = model.add_plane_surface(channel_loop, holes=blocks)
 
     model.add_physical(plane_surface, "oxide")
-    model.add_physical([channel_lines[0]], "bottom")
-    model.add_physical([channel_lines[1]], "right")
-    model.add_physical([channel_lines[2]], "top")
-    model.add_physical([channel_lines[3]], "left")
+    model.add_physical([channel_lines[0]], "left")
+    model.add_physical([channel_lines[1]], "bottom")
+    model.add_physical([channel_lines[2]], "right")
+    model.add_physical([channel_lines[3]], "top")
 
     geometry.generate_mesh(dim=2, verbose=True)
 
