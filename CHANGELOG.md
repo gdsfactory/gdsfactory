@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.34.0
+
+- bump sax from 0.8.2 to 0.8.4
+- add fixes for snapping to the grid, add parabolic_transition [PR](https://github.com/gdsfactory/gdsfactory/pull/733)
+- add [installer for Windows, MacOs and Linux](https://github.com/gdsfactory/gdsfactory/releases)
+
 ## 5.33.0
 
 - FEM mesher. Given component, line defined by (x_init, y_init), (x_final, y_final), and LayerStack, generate simple mesh of component cross-section. Mesh returned separately labels non-touching elements on different layers (for use in different solvers). Can provide dict with different resolution for different layers [PR](https://github.com/gdsfactory/gdsfactory/pull/729)

@@ -64,6 +64,8 @@ def from_picwriter(
     import gdspy
     import picwriter.toolkit as pt
 
+    import gdsfactory as gf
+
     gdspy.current_library = gdspy.GdsLibrary()
 
     po = picwriter_object

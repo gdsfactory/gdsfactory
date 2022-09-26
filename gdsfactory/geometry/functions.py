@@ -165,9 +165,9 @@ def extrude_path(
     spike_length: Union[float64, int, float] = 0,
     start_angle: Optional[int] = None,
     end_angle: Optional[int] = None,
-    grid: float = 0.005,
+    grid: Optional[float] = None,
 ) -> ndarray:
-    """Deprecated. Use gf.path.Path.extrude() instead.
+    """Deprecated. Use gdsfactory.path.Path.extrude() instead.
 
     Extrude a path of `width` along a curve defined by `points`.
 
@@ -183,6 +183,10 @@ def extrude_path(
     Returns:
         numpy 2D array of shape (2*N, 2).
     """
+    from gdsfactory.pdk import get_grid_size
+
+    grid = grid or get_grid_size()
+
     if isinstance(points, list):
         points = np.stack([(p[0], p[1]) for p in points], axis=0)
 
