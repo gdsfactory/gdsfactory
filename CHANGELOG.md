@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## 5.34.1
+## 5.35.0
 
 - [PR](https://github.com/gdsfactory/gdsfactory/pull/736)
 
