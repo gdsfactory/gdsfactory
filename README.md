@@ -17,8 +17,9 @@
 
 ![logo](https://i.imgur.com/v4wpHpg.png)
 
-gdsfactory is an EDA (electronics design automation) tool for Silicon Photonic Integrated Circuits
-It combines a code driven flow (python or YAML) with visualization and simulation plugins.
+GDSfactory is a design automation tool for photonics and analog circuits.
+
+You can describe your circuits with a code driven flow (python or YAML), verify them (DRC, simulation) and analyze them.
 
 Multiple Silicon Photonics foundries have gdsfactory PDKs available. Talk to your foundry to access their gdsfactory PDK.
 
@@ -32,26 +33,26 @@ You can also access:
 
 
 
-gdsfactory provides you with functions that you can use to:
+You can:
 
-- define Pcells in python or YAML.
+- define parametric cells (PCells) in python or YAML.
 - define routes between components.
-- test settings, ports and geometry for components to avoid regressions.
+- Test component settings, ports and geometry to avoid regressions.
 
 
 As input, you write python or YAML code.
+
 As output you write a GDSII or OASIS file that can send to your foundry.
-You can also write components settings (for measurement and data analysis) or netlists (for circuit simulations).
+It also exports component settings (for measurement and data analysis) and netlists (for circuit simulations).
+
+![layout_to_components](https://i.imgur.com/JLsvpLv.png)
 
 ![flow](https://i.imgur.com/XbhWJDz.png)
 
 
-gdsfactory provides you a common syntax for layout (klayout, gdspy, phidl), simulation (Lumerical, tidy3d, MEEP, MPB, DEVSIM, simphony, SAX, ...) and data analysis libraries.
+It provides you a common syntax for layout (klayout, gdspy, phidl), simulation (Lumerical, tidy3d, MEEP, MPB, DEVSIM, simphony, SAX, ...) and data analysis libraries.
 
 ![tool interfaces](https://i.imgur.com/9Sh8Qav.png)
-
-![layout_to_components](https://i.imgur.com/JLsvpLv.png)
-
 
 
 ## Installation
@@ -68,7 +69,7 @@ gdsfactory provides you a common syntax for layout (klayout, gdspy, phidl), simu
 
 ## Acks
 
-gdsfactory top contributors:
+top contributors:
 
 - Joaquin Matres (Google): maintainer.
 - Damien Bonneau (PsiQ): cell decorator, Component routing functions, Klayout placer.
