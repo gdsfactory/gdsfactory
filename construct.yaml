@@ -1,5 +1,5 @@
 name: gdsfactory
-version: 5.33.11
+version: 5.34.0
 installer_type: all
 
 channels:
