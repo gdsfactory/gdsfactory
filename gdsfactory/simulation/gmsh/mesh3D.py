@@ -221,11 +221,15 @@ def mesh3D(
         zmax=1,
         resolution=0.1,
     )
+    print()
     i = 0
-    for surface in channel_surfaces:
-        print(surface)
-        model.add_physical(surface, f"oxide_{i}")
-        i += 1
+    # for surface in channel_surfaces:
+    #     print(surface)
+    #     model.add_physical(surface, f"oxide_{i}")
+    #     i += 1
+
+    cell_volume = model.add_volume(surface_loop)#, holes=blocks)
+    model.add_physical(cell_volume, "oxide_vol")
 
     # for coords in [[
     #                 [xmin_cell, ymin_cell, zmin_cell],
