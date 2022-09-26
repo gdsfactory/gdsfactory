@@ -58,6 +58,7 @@ settings:
     length: 10
     linear: false
     npoints: 100
+    width_type: sine
   full:
     cross_section1:
       function: cross_section
@@ -112,6 +113,7 @@ settings:
     length: 10
     linear: true
     npoints: 2
+    width_type: sine
   function_name: taper_cross_section
   info: {}
   info_version: 2

@@ -1,7 +1,8 @@
-name: taper_cross_section_npoints101
+name: taper_cross_section_4a5f6ea9
 settings:
   changed:
     npoints: 101
+    width_type: parabolic
   child: null
   default:
     cross_section1:
@@ -112,10 +113,10 @@ settings:
     length: 10
     linear: false
     npoints: 101
-    width_type: sine
+    width_type: parabolic
   function_name: taper_cross_section
   info: {}
   info_version: 2
   module: gdsfactory.components.taper_cross_section
-  name: taper_cross_section_npoints101
+  name: taper_cross_section_4a5f6ea9
 version: 0.0.1

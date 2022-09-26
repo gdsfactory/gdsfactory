@@ -1,4 +1,4 @@
-name: component_sequence_2cafe736
+name: component_sequence_fb6a61bd
 settings:
   changed:
     sequence: HH!
@@ -36,36 +36,12 @@ settings:
           child: null
           default:
             angle: 90.0
-            cross_section:
-              function: cross_section
-              settings:
-                add_bbox:
-                  function: add_bbox_siepic
-                add_pins:
-                  function: add_pins_siepic
-                  settings:
-                    pin_length: 0.002
-                cladding_layers:
-                - DEVREC
-                cladding_offsets:
-                - 0
+            cross_section: strip
             npoints: 720
             with_bbox: true
           full:
             angle: 180
-            cross_section:
-              function: cross_section
-              settings:
-                add_bbox:
-                  function: add_bbox_siepic
-                add_pins:
-                  function: add_pins_siepic
-                  settings:
-                    pin_length: 0.002
-                cladding_layers:
-                - DEVREC
-                cladding_offsets:
-                - 0
+            cross_section: strip
             npoints: 720
             with_bbox: true
           function_name: bend_circular
@@ -87,36 +63,12 @@ settings:
           child: null
           default:
             angle: 90.0
-            cross_section:
-              function: cross_section
-              settings:
-                add_bbox:
-                  function: add_bbox_siepic
-                add_pins:
-                  function: add_pins_siepic
-                  settings:
-                    pin_length: 0.002
-                cladding_layers:
-                - DEVREC
-                cladding_offsets:
-                - 0
+            cross_section: strip
             npoints: 720
             with_bbox: true
           full:
             angle: 180
-            cross_section:
-              function: cross_section
-              settings:
-                add_bbox:
-                  function: add_bbox_siepic
-                add_pins:
-                  function: add_pins_siepic
-                  settings:
-                    pin_length: 0.002
-                cladding_layers:
-                - DEVREC
-                cladding_offsets:
-                - 0
+            cross_section: strip
             npoints: 720
             with_bbox: true
           function_name: bend_circular
@@ -252,36 +204,12 @@ settings:
           child: null
           default:
             angle: 90.0
-            cross_section:
-              function: cross_section
-              settings:
-                add_bbox:
-                  function: add_bbox_siepic
-                add_pins:
-                  function: add_pins_siepic
-                  settings:
-                    pin_length: 0.002
-                cladding_layers:
-                - DEVREC
-                cladding_offsets:
-                - 0
+            cross_section: strip
             npoints: 720
             with_bbox: true
           full:
             angle: 180
-            cross_section:
-              function: cross_section
-              settings:
-                add_bbox:
-                  function: add_bbox_siepic
-                add_pins:
-                  function: add_pins_siepic
-                  settings:
-                    pin_length: 0.002
-                cladding_layers:
-                - DEVREC
-                cladding_offsets:
-                - 0
+            cross_section: strip
             npoints: 720
             with_bbox: true
           function_name: bend_circular
@@ -303,36 +231,12 @@ settings:
           child: null
           default:
             angle: 90.0
-            cross_section:
-              function: cross_section
-              settings:
-                add_bbox:
-                  function: add_bbox_siepic
-                add_pins:
-                  function: add_pins_siepic
-                  settings:
-                    pin_length: 0.002
-                cladding_layers:
-                - DEVREC
-                cladding_offsets:
-                - 0
+            cross_section: strip
             npoints: 720
             with_bbox: true
           full:
             angle: 180
-            cross_section:
-              function: cross_section
-              settings:
-                add_bbox:
-                  function: add_bbox_siepic
-                add_pins:
-                  function: add_pins_siepic
-                  settings:
-                    pin_length: 0.002
-                cladding_layers:
-                - DEVREC
-                cladding_offsets:
-                - 0
+            cross_section: strip
             npoints: 720
             with_bbox: true
           function_name: bend_circular
@@ -426,5 +330,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.component_sequence
-  name: component_sequence_2cafe736
+  name: component_sequence_fb6a61bd
 version: 0.0.1
