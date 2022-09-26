@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.34.1
+
+- [PR](https://github.com/gdsfactory/gdsfactory/pull/736)
+
 ## 5.34.0
 
 - bump sax from 0.8.2 to 0.8.4
