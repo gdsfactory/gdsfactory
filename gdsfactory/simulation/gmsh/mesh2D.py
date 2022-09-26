@@ -194,6 +194,7 @@ def mesh2D(
         ):
             if bounds_dict[layer] == []:
                 continue
+            blocks_layer = []
             for i, bounds in enumerate(bounds_dict[layer]):
                 points = [
                     [bounds["umin"], bounds["zmin"]],
@@ -209,7 +210,8 @@ def mesh2D(
                 )
                 model.add_physical(polygon, f"{layer}_{i}")
                 blocks.append(polygon)
-    # Mesh background without blocks
+                blocks_layer.append(polygon)
+            model.add_physical(blocks_layer, f"{layer}")
     plane_surface = model.add_plane_surface(channel_loop, holes=blocks)
 
     model.add_physical(plane_surface, "oxide")
