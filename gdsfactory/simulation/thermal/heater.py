@@ -1,7 +1,10 @@
 from typing import Dict, Iterator, Tuple
 
+import matplotlib.pyplot as plt
 import numpy as np
 import skfem
+from matplotlib.animation import FuncAnimation
+from scipy.sparse.linalg import splu
 from skfem import (
     Basis,
     BilinearForm,
@@ -14,6 +17,7 @@ from skfem import (
     solve,
 )
 from skfem.helpers import dot, grad
+from skfem.visuals.matplotlib import draw, plot
 
 
 def solve_thermal(
@@ -76,8 +80,6 @@ def solve_thermal(
         )
     )
 
-    from skfem.visuals.matplotlib import draw, plot
-
     ax = draw(mesh)
     ax.show()
 
@@ -89,15 +91,20 @@ def solve_thermal(
     ax.show()
 
     ax = draw(mesh, boundaries_only=True)
+    plot(basis, joule_heating_rhs, ax=ax, colorbar=True, shading="gouraud")
+    ax.figure.set_size_inches(10, 7)
+    ax.set_axis_on()
+    ax.figure.tight_layout()
+    ax.show()
+
+    ax = draw(mesh, boundaries_only=True)
     plot(basis, temperature, ax=ax, colorbar=True, shading="gouraud")
     ax.figure.set_size_inches(10, 7)
     ax.set_axis_on()
     ax.figure.tight_layout()
     ax.show()
-    from scipy.sparse.linalg import splu
 
-    print("max temp steady", np.max(temperature))
-    u_init = temperature * 0.01
+    print("max temp steady", np.max(temperature), np.mean(temperature))
 
     thermal_diffusivity_p0 = basis0.zeros()
     for domain in thermal_diffusivity.keys():
@@ -109,19 +116,11 @@ def solve_thermal(
 
     @BilinearForm
     def diffusivity_laplace(u, v, w):
-        print(
-            "factor-laplace",
-            np.unique(w["thermal_diffusivity"] / w["thermal_conductivity"]),
-        )
-        return (
-            dot(grad(u) * w["thermal_conductivity"], grad(v))
-            * w["thermal_diffusivity"]
-            / w["thermal_conductivity"]
-        )
+        return dot(grad(u) * w["thermal_conductivity"], grad(v))
 
     @BilinearForm
-    def mass(u, v, _):
-        return u * v
+    def mass(u, v, w):
+        return u * v / (w["thermal_diffusivity"] / w["thermal_conductivity"])
 
     @LinearForm
     def pre_factor(_, v, w):
@@ -133,39 +132,32 @@ def solve_thermal(
         thermal_diffusivity=basis0.interpolate(thermal_diffusivity_p0),
         thermal_conductivity=basis0.interpolate(thermal_conductivity_p0),
     )
-    M = asm(mass, basis)
+    M = asm(
+        mass,
+        basis,
+        thermal_diffusivity=basis0.interpolate(thermal_diffusivity_p0),
+        thermal_conductivity=basis0.interpolate(thermal_conductivity_p0),
+    )
 
-    dt = 0.2e-6
-    print("dt =", dt)
+    dt = 0.1e-6
     theta = 0.5  # Crank–Nicolson
+    steps = 200
+
     L0, M0 = penalize(L, M, D=basis.get_dofs(mesh.boundaries["bottom"]))
     A = M0 + theta * L0 * dt
     B = M0 - (1 - theta) * L0 * dt
 
     backsolve = splu(A.T).solve  # .T as splu prefers CSC
 
-    def evolve(t: float, u: np.ndarray) -> Iterator[Tuple[float, np.ndarray]]:
+    def evolve(
+        t: float, u: np.ndarray, heating: np.ndarray
+    ) -> Iterator[Tuple[float, np.ndarray]]:
+        i = 0
         while True:
-            # print(np.linalg.norm(u, np.inf))
+            t_temperature[i] = t, np.mean(u)
+            i += 1
             yield t, u
-            t, u = t + dt, backsolve(
-                B @ u
-                + thermal_diffusivity["(47, 0)"]
-                / thermal_conductivity["(47, 0)"]
-                * 1e24
-                * joule_heating_rhs
-                * dt
-            )
-            print("max temp step", np.max(u))
-            print(
-                "factor",
-                thermal_diffusivity["(47, 0)"] / thermal_conductivity["(47, 0)"] * 1e24,
-            )
-
-    from pathlib import Path
-
-    from matplotlib.animation import FuncAnimation
-    from skfem.visuals.matplotlib import plot
+            t, u = t + dt, backsolve(B @ u + heating * dt)
 
     ax = draw(mesh, boundaries_only=True)
     ax.set_axis_on()
@@ -184,11 +176,37 @@ def solve_thermal(
         title.set_text(f"$t$ = {t * 1e6:.2f}us")
         field.set_array(u)
 
+    t_temperature = np.zeros((steps + 2, 2))
+    u_init = temperature * 0.01
     animation = FuncAnimation(
-        fig, update, evolve(0.0, u_init), repeat=False, interval=30, save_count=200
+        fig,
+        update,
+        evolve(0.0, u_init, joule_heating_rhs),
+        repeat=False,
+        interval=30,
+        save_count=steps,
     )
+    animation.save("heater_up.gif", "imagemagick")
+    t_temperature_up = t_temperature
 
-    animation.save(str(Path(__file__).with_suffix(".gif")), "imagemagick")
+    t_temperature = np.zeros((steps + 2, 2))
+    u_init = temperature
+    animation = FuncAnimation(
+        fig, update, evolve(0.0, u_init, 0), repeat=False, interval=30, save_count=steps
+    )
+    animation.save("heater_down.gif", "imagemagick")
+    t_temperature_down = t_temperature
+
+    plt.figure()
+    plt.plot(t_temperature[:-1, 0] * 1e6, t_temperature_up[:-1, 1])
+    plt.plot(t_temperature[:-1, 0] * 1e6, t_temperature_down[:-1, 1])
+    plt.plot(
+        t_temperature[:-1, 0] * 1e6, t_temperature[:-1, 1] * 0 + np.mean(temperature)
+    )
+    plt.xlabel("Time [us]")
+    plt.ylabel("Average temperature offset [T]")
+    plt.savefig("heater.svg", bbox_inches="tight")
+    plt.show()
 
 
 if __name__ == "__main__":
@@ -216,7 +234,7 @@ if __name__ == "__main__":
         base_resolution=0.4,
         exclude_layers=((1, 10),),
         padding=(10, 10, 1, 1),
-        refine_resolution={(1, 0): 0.1, (47, 0): 0.1},
+        refine_resolution={(1, 0): 0.01, (47, 0): 0.005},
     )
 
     import gmsh
