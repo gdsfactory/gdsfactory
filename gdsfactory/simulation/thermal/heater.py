@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import skfem
 from matplotlib.animation import FuncAnimation
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 from scipy.sparse.linalg import splu
 from skfem import (
     Basis,
@@ -104,7 +105,8 @@ def solve_thermal(
     ax.figure.tight_layout()
     ax.show()
 
-    print("max temp steady", np.max(temperature), np.mean(temperature))
+    print("max temp steady", np.max(temperature))
+    print("average team steady", np.mean(temperature))
 
     thermal_diffusivity_p0 = basis0.zeros()
     for domain in thermal_diffusivity.keys():
@@ -121,10 +123,6 @@ def solve_thermal(
     @BilinearForm
     def mass(u, v, w):
         return u * v / (w["thermal_diffusivity"] / w["thermal_conductivity"])
-
-    @LinearForm
-    def pre_factor(_, v, w):
-        return w["thermal_diffusivity"] / w["thermal_conductivity"] * v
 
     L = asm(
         diffusivity_laplace,
@@ -165,7 +163,6 @@ def solve_thermal(
     title = ax.set_title("t = 0.00")
     field = ax.get_children()[1]  # vertex-based temperature-colour
     fig = ax.get_figure()
-    from mpl_toolkits.axes_grid1 import make_axes_locatable
 
     divider = make_axes_locatable(ax)
     cax = divider.append_axes("right", size="5%", pad=0.05)
@@ -177,11 +174,10 @@ def solve_thermal(
         field.set_array(u)
 
     t_temperature = np.zeros((steps + 2, 2))
-    u_init = temperature * 0.01
     animation = FuncAnimation(
         fig,
         update,
-        evolve(0.0, u_init, joule_heating_rhs),
+        evolve(0.0, temperature * 0.01, joule_heating_rhs),
         repeat=False,
         interval=30,
         save_count=steps,
@@ -190,9 +186,13 @@ def solve_thermal(
     t_temperature_up = t_temperature
 
     t_temperature = np.zeros((steps + 2, 2))
-    u_init = temperature
     animation = FuncAnimation(
-        fig, update, evolve(0.0, u_init, 0), repeat=False, interval=30, save_count=steps
+        fig,
+        update,
+        evolve(0.0, temperature, 0),
+        repeat=False,
+        interval=30,
+        save_count=steps,
     )
     animation.save("heater_down.gif", "imagemagick")
     t_temperature_down = t_temperature
@@ -210,6 +210,8 @@ def solve_thermal(
 
 
 if __name__ == "__main__":
+    import gmsh
+
     import gdsfactory as gf
     from gdsfactory.simulation.gmsh.mesh2D import mesh2D
 
@@ -236,8 +238,6 @@ if __name__ == "__main__":
         padding=(10, 10, 1, 1),
         refine_resolution={(1, 0): 0.01, (47, 0): 0.005},
     )
-
-    import gmsh
 
     gmsh.write("mesh.msh")
     gmsh.clear()
