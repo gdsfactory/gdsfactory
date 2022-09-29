@@ -162,12 +162,9 @@ class Component(gdspy.Cell, _GeometryHelper):
 
         """
         try:
-            return self.aliases[key]
-        except Exception:
-            raise ValueError(
-                '[PHIDL] Tried to access alias "%s" in Component '
-                '"%s", which does not exist' % (key, self.name)
-            )
+            return self.named_references[key]
+        except KeyError as e:
+            raise KeyError(f"{key} not in {self.named_references.keys()}") from e
 
     def __lshift__(self, element):
         """Convenience operator equivalent to add_ref()."""
@@ -343,40 +340,6 @@ class Component(gdspy.Cell, _GeometryHelper):
         ports_cw = self.get_ports_list(clockwise=True, **kwargs)
         ports_ccw = self.get_ports_list(clockwise=False, **kwargs)
         return snap_to_grid(ports_ccw[0].y - ports_cw[0].y)
-
-    def remap_layers(self, layermap={}, include_labels=True):
-        """Moves all polygons in the Component from one layer to another
-        according to the layermap argument.
-
-        Parameters
-        ----------
-        layermap : dict
-            Dictionary of values in format {layer_from : layer_to}
-        include_labels : bool
-            Selects whether to move Labels along with polygons
-        """
-        layermap = {_parse_layer(k): _parse_layer(v) for k, v in layermap.items()}
-
-        all_D = list(self.get_dependencies(True))
-        all_D.append(self)
-        for D in all_D:
-            for p in D.polygons:
-                for n, layer in enumerate(p.layers):
-                    original_layer = (p.layers[n], p.datatypes[n])
-                    original_layer = _parse_layer(original_layer)
-                    if original_layer in layermap.keys():
-                        new_layer = layermap[original_layer]
-                        p.layers[n] = new_layer[0]
-                        p.datatypes[n] = new_layer[1]
-            if include_labels:
-                for label in D.labels:
-                    original_layer = (label.layer, label.texttype)
-                    original_layer = _parse_layer(original_layer)
-                    if original_layer in layermap.keys():
-                        new_layer = layermap[original_layer]
-                        label.layer = new_layer[0]
-                        label.texttype = new_layer[1]
-        return self
 
     def plot_netlist(self, with_labels: bool = True, font_weight: str = "normal"):
         """Plots a netlist graph with networkx.
@@ -1710,6 +1673,37 @@ class Component(gdspy.Cell, _GeometryHelper):
         for D in D_list:
             info_list.append(D.info.copy())
         return info_list
+
+    def remap_layers(self, layermap, include_labels: bool = True):
+        """Moves all polygons in the Component from one layer to another
+        according to the layermap argument.
+
+        Args:
+            layermap: Dictionary of values in format {layer_from : layer_to}.
+            include_labels: Selects whether to move Labels along with polygons.
+        """
+        layermap = {_parse_layer(k): _parse_layer(v) for k, v in layermap.items()}
+
+        all_D = list(self.get_dependencies(True))
+        all_D.append(self)
+        for D in all_D:
+            for p in D.polygons:
+                for n, _layer in enumerate(p.layers):
+                    original_layer = (p.layers[n], p.datatypes[n])
+                    original_layer = _parse_layer(original_layer)
+                    if original_layer in layermap.keys():
+                        new_layer = layermap[original_layer]
+                        p.layers[n] = new_layer[0]
+                        p.datatypes[n] = new_layer[1]
+            if include_labels:
+                for label in D.labels:
+                    original_layer = (label.layer, label.texttype)
+                    original_layer = _parse_layer(original_layer)
+                    if original_layer in layermap.keys():
+                        new_layer = layermap[original_layer]
+                        label.layer = new_layer[0]
+                        label.texttype = new_layer[1]
+        return self
 
 
 def copy(D: Component) -> Component:
