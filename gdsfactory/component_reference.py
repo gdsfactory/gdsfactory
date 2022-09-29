@@ -116,10 +116,7 @@ def _rotate_points(
 
 
 class ComponentReference(DeviceReference):
-    """A ComponentReference is a pointer to a Component with x, y, rotation,.
-
-    mirror.
-    """
+    """Pointer to a Component with x, y, rotation, mirror."""
 
     def __init__(
         self,

@@ -5,7 +5,6 @@ from typing import Optional, Union
 import gdspy
 import numpy as np
 from numpy import sqrt
-from phidl.device_layout import _parse_layer
 from phidl.geometry import (
     _expand_raster,
     _loop_over,
@@ -15,6 +14,7 @@ from phidl.geometry import (
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
+from gdsfactory.component_layout import _parse_layer
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.types import Float2, Floats, LayerSpecs
 
