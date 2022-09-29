@@ -5,8 +5,8 @@ from typing import Any, Dict, List, Optional, Tuple, Union, cast
 import numpy as np
 from gdspy import CellReference
 from numpy import cos, float64, int64, mod, ndarray, pi, sin
-from phidl.device_layout import DeviceReference
 
+from gdsfactory.component_layout import _GeometryHelper
 from gdsfactory.port import (
     Port,
     map_ports_layer_to_orientation,
@@ -115,7 +115,7 @@ def _rotate_points(
     return displacement * ca + perpendicular * sa + c0
 
 
-class ComponentReference(DeviceReference):
+class ComponentReference(CellReference, _GeometryHelper):
     """Pointer to a Component with x, y, rotation, mirror."""
 
     def __init__(
@@ -207,10 +207,6 @@ class ComponentReference(DeviceReference):
                 self.x_reflection,
             )
         )
-
-    def __str__(self) -> str:
-        """Return a string representation of the object."""
-        return self.__repr__()
 
     def to_dict(self):
         d = self.parent.to_dict()
@@ -504,14 +500,16 @@ class ComponentReference(DeviceReference):
         self.reflect((1, y0), (0, y0))
         return self
 
-    def reflect(
+    def mirror(
         self,
         p1: Coordinate = (0.0, 1.0),
         p2: Coordinate = (0.0, 0.0),
     ) -> "ComponentReference":
-        """TODO.
+        """Mirrors.
 
-        Delete this code and rely on phidl's mirror code.
+        Args:
+            p1: point 1.
+            p2: point 2.
         """
         if isinstance(p1, Port):
             p1 = p1.center
@@ -540,6 +538,13 @@ class ComponentReference(DeviceReference):
 
         self._bb_valid = False
         return self
+
+    def reflect(self, *args, **kwargs):
+        warnings.warn(
+            "reflect is deprecated and may be removed in a future version of gdsfactory. Use mirror instead.",
+            DeprecationWarning,
+        )
+        return self.mirror(*args, **kwargs)
 
     def connect(
         self,
