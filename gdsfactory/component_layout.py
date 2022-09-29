@@ -911,6 +911,15 @@ class Label(gdspy.Label, _GeometryHelper):
         super().__init__(*args, **kwargs)
         self.position = np.array(self.position, dtype="float64")
 
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
+
+    @classmethod
+    def validate(cls, v):
+        """Check with pydantic Label valid type."""
+        return v
+
     @property
     def bbox(self):
         """Returns the bounding box of the Label."""
