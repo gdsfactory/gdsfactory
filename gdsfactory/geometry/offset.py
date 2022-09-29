@@ -461,7 +461,7 @@ def offset(
             tolerance=tolerance,
         )
 
-    component = gf.Component("offset")
+    component = gf.Component()
     polygons = component.add_polygon(p, layer=layer)
     [
         polygon.fracture(max_points=max_points, precision=precision)

@@ -101,10 +101,9 @@ class Path(_GeometryHelper):
         will be automatically rotated and translated such that it continues
         smoothly from the previous segment.
 
-        Parameters
-        ----------
-        path : Path, array-like[N][2], or list of Paths
-            The input path that will be appended
+        Args:
+            path : Path, array-like[N][2], or list of Paths
+                The input path that will be appended
         """
         # If appending another Path, load relevant variables
         if isinstance(path, Path):
@@ -129,8 +128,8 @@ class Path(_GeometryHelper):
             return self
         else:
             raise ValueError(
-                'Path.append() the "path" argument must be either '
-                + "a Path object, an array-like[N][2] list of points, or a list of these"
+                "Path.append() the `path` argument must be either "
+                "a Path object, an array-like[N][2] list of points, or a list of these"
             )
 
         # Connect beginning of new points with old points
@@ -435,15 +434,6 @@ class Path(_GeometryHelper):
         p.points = np.array(self.points)
         p.start_angle = self.start_angle
         p.end_angle = self.end_angle
-        return p
-
-    def from_phidl(self, path_phidl):
-        """Returns a path from a phidl path."""
-        p = Path()
-        p.info = path_phidl.info.copy()
-        p.points = np.array(path_phidl.points)
-        p.start_angle = path_phidl.start_angle
-        p.end_angle = path_phidl.end_angle
         return p
 
 
@@ -1068,6 +1058,7 @@ def euler(
     points *= scale
 
     P = Path()
+
     # Manually add points & adjust start and end angles
     P.points = points
     P.start_angle = start_angle
@@ -1153,7 +1144,7 @@ def smooth(
     Args:
         points: array-like[N][2] List of waypoints for the path to follow.
         radius: radius of curvature, passed to `bend`.
-        bend: bend function to round corners.
+        bend: bend function that returns a path that round corners.
         kwargs: Extra keyword arguments that will be passed to `bend`.
 
     .. plot::
@@ -1180,7 +1171,6 @@ def smooth(
             "--turns cannot be computed when going forwards then exactly backwards."
         )
 
-    # FIXME add caching
     # Create arcs
     paths = []
     radii = []
@@ -1308,95 +1298,22 @@ def _demo_variable_offset() -> None:
 
 
 if __name__ == "__main__":
+    import numpy as np
+
     import gdsfactory as gf
 
-    # p = gf.path.euler(radius=25, angle=45, p=0.5, use_eff=False)
-    # s1 = gf.Section(width=2, offset=2, layer=(2, 0))
-    # s2 = gf.Section(width=2, offset=-2, layer=(2, 0))
-    # x = gf.CrossSection(
-    #     width=1, offset=0, layer=(1, 0), ports=("in", "out"), sections=[s1, s2]
-    # )
-    # c1 = gf.path.extrude(p, cross_section=x)
-    # p = gf.path.straight()
-    # c2 = gf.path.extrude(p, cross_section=x)
-    # c2.show()
-    # Create our first CrossSection
-    # s1 = gf.Section(width=2.2, offset=0, layer=(3, 0), name="etch")
-    # s2 = gf.Section(width=1.1, offset=3, layer=(1, 0), name="wg2")
-    # X1 = gf.CrossSection(
-    #     width=1.2,
-    #     offset=0,
-    #     layer=(2, 0),
-    #     name="wg",
-    #     ports=("o1", "o2"),
-    #     sections=[s1, s2],
-    # )
-    # # Create the second CrossSection that we want to transition to
-    # s1 = gf.Section(width=3.5, offset=0, layer=(3, 0), name="etch")
-    # s2 = gf.Section(width=3, offset=5, layer=(1, 0), name="wg2")
-    # X2 = gf.CrossSection(
-    #     width=1,
-    #     offset=0,
-    #     layer=(2, 0),
-    #     name="wg",
-    #     ports=("o1", "o2"),
-    #     sections=[s1, s2],
-    # )
-    # # To show the cross-sections, let's create two Paths and
-    # # create Components by extruding them
-    # P1 = gf.path.straight(length=5)
-    # P2 = gf.path.straight(length=5)
-    # wg1 = gf.path.extrude(P1, X1)
-    # wg2 = gf.path.extrude(P2, X2)
-    # # Place both cross-section Components and quickplot them
-    # c = gf.Component()
-    # wg1ref = c << wg1
-    # wg2ref = c << wg2
-    # wg2ref.movex(7.5)
-    # # Create the transitional CrossSection
-    # Xtrans = gf.path.transition(cross_section1=X1, cross_section2=X2, width_type="sine")
-    # # Create a Path for the transitional CrossSection to follow
-    # P3 = gf.path.straight(length=15, npoints=100)
-    # # Use the transitional CrossSection to create a Component
-    # straight_transition = gf.path.extrude(P3, Xtrans)
-    # straight_transition.show()
+    points = np.array([(20, 10), (40, 10), (20, 40), (50, 40), (50, 20), (70, 20)])
 
-    P = gf.path.straight(length=10, npoints=101)
-    # c = gf.path.extrude(P, layer=(1, 0), widths=(1, 3))
-    # c.show(show_ports=True)
+    p = gf.path.smooth(
+        points=points,
+        radius=2,
+        bend=gf.path.euler,
+        use_eff=False,
+    )
 
-    # s = gf.Section(width=3, offset=0, layer=gf.LAYER.SLAB90, name="slab")
-    # X1 = gf.CrossSection(
-    #     width=1,
-    #     offset=0,
-    #     layer=gf.LAYER.WG,
-    #     name="core",
-    #     port_names=("o1", "o2"),
-    #     sections=[s],
-    # )
-    # c = gf.path.extrude(P, X1)
+    # p = straight()
+    # p.plot()
 
-    # s = gf.Section(width=0.1, offset=0, layer=gf.LAYER.SLAB90, name="slab")
-    # X2 = gf.CrossSection(
-    #     width=3,
-    #     offset=0,
-    #     layer=gf.LAYER.WG,
-    #     name="core",
-    #     port_names=("o1", "o2"),
-    #     sections=[s],
-    # )
-    # c2 = gf.path.extrude(P, X2)
-
-    # T = gf.path.transition(X1, X2)
-    # c3 = gf.path.extrude(P, T)
-    # c3.show()
-
-    # c = gf.Component("bend")
-    # b = c << gf.components.bend_circular(angle=40)
-    # s = c << gf.components.straight(length=5)
-    # s.connect("o1", b.ports["o2"])
-    # c = c.flatten()
-    # c.show(show_ports=True, precision=1e-9)
-
-    P3 = euler()
-    P3.plot()
+    c = p.extrude(layer=(1, 0), width=0.1)
+    # c = gf.read.from_phidl(c)
+    c.show()
