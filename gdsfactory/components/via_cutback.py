@@ -77,7 +77,7 @@ def via_cutback(
 ) -> Component:
     """Via cutback to extract via resistance.
 
-    adapted from phidl.geometry
+    based on phidl.geometry
 
     Args:
         num_vias: total requested vias needs to be even.

@@ -32,6 +32,9 @@ plugins:
 	pip install -r requirements_sipann.txt
 	pip install --upgrade "protobuf<=3.20.1"
 
+thermal:
+	mamba install python-gmsh
+
 meep:
 	mamba install pymeep=*=mpi_mpich_* -y
 

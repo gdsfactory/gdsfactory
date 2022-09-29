@@ -147,7 +147,7 @@ def coh_rx_single_pol(
     )
     c.add(route.references)
 
-    # Add a port at the midpoint
+    # Add a port at the center
     x_max = -np.inf
     for ref in route.references:
         if ref.xmax > x_max:

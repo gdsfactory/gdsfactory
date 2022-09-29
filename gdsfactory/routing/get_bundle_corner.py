@@ -1,8 +1,8 @@
 from typing import Callable, List
 
 import numpy as np
-from phidl.device_layout import _rotate_points
 
+from gdsfactory.component_layout import _rotate_points
 from gdsfactory.port import Port
 from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.manhattan import generate_manhattan_waypoints
@@ -115,7 +115,7 @@ def get_bundle_corner(
 
 
     """
-    if "straight" in kwargs.keys():
+    if "straight" in kwargs:
         _ = kwargs.pop("straight")
 
     routes = _get_bundle_corner_waypoints(
