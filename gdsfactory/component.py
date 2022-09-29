@@ -191,7 +191,7 @@ class Component(gdspy.Cell, _GeometryHelper):
 
         """
         if isinstance(element, (ComponentReference, Polygon, CellArray)):
-            self.aliases[key] = element
+            self.named_references[key] = element
         else:
             raise ValueError(
                 '[PHIDL] Tried to assign alias "%s" in '
@@ -779,51 +779,57 @@ class Component(gdspy.Cell, _GeometryHelper):
 
         layer = get_layer(layer)
 
-        if isinstance(points, Polygon):
-            # if layer is unspecified or matches original polygon, just add it as-is
-            polygon = points
-            if layer is np.nan or (
-                isinstance(layer, tuple) and (polygon.layer, polygon.datatype) == layer
-            ):
-                polygon = Polygon(
-                    polygon.points, polygon.layer, polygon.datatype, parent=self
-                )
-                self.add(polygon)
-            else:
-                layer, datatype = _parse_layer(layer)
-                polygon = Polygon(polygon.points, layer, datatype, parent=self)
-                self.add(polygon)
-            return polygon
+        if layer is None:
+            return None
 
-        points = np.asarray(points)
-        if points.ndim == 1 and isinstance(points[0], Polygon):
-            polygons = [self.add_polygon(poly, layer=layer) for poly in points]
+        # Check if input a list of polygons by seeing if it's 3 levels deep
+        try:
+            points[0][0][0]  # Try to access first x point
+            return [self.add_polygon(p, layer) for p in points]
+        except Exception:
+            pass  # Verified points is not a list of polygons, continue on
+
+        if isinstance(points, gdspy.PolygonSet):
+            if layer is np.nan:
+                layers = zip(points.layers, points.datatypes)
+            else:
+                layers = [layer] * len(points.polygons)
+
+            polygons = []
+            for p, layer in zip(points.polygons, layers):
+                new_polygon = self.add_polygon(p, layer)
+                new_polygon.properties = points.properties
+                polygons.append(new_polygon)
             return polygons
 
         if layer is np.nan:
             layer = 0
 
-        if points.ndim == 2:
-            # add single polygon from points
-            if len(points[0]) > 2:
-                # Convert to form [[1,2],[3,4],[5,6]]
-                points = np.column_stack(points)
-            layer, datatype = _parse_layer(layer)
-            polygon = Polygon(
-                points, gds_layer=layer, gds_datatype=datatype, parent=self
-            )
-            self.add(polygon)
-            return polygon
-        elif points.ndim == 3:
-            layer, datatype = _parse_layer(layer)
-            polygons = [
-                Polygon(ppoints, gds_layer=layer, gds_datatype=datatype, parent=self)
-                for ppoints in points
-            ]
-            self.add(*polygons)
-            return polygons
-        else:
-            raise ValueError(f"Unable to add {points.ndim}-dimensional points object")
+        # Check if layer is actually a list of Layer objects
+        try:
+            if isinstance(layer, set):
+                return [self.add_polygon(points, ly) for ly in layer]
+            elif all([isinstance(ly, (Layer)) for ly in layer]):
+                return [self.add_polygon(points, ly) for ly in layer]
+            elif len(layer) > 2:  # Someone wrote e.g. layer = [1,4,5]
+                raise ValueError(
+                    """ [PHIDL] If specifying multiple layers
+                you must use set notation, e.g. {1,5,8} """
+                )
+        except Exception:
+            pass
+
+        # If in the form [[1,3,5],[2,4,6]]
+        if len(points[0]) > 2:
+            # Convert to form [[1,2],[3,4],[5,6]]
+            points = np.column_stack(points)
+
+        gds_layer, gds_datatype = _parse_layer(layer)
+        polygon = Polygon(
+            points=points, gds_layer=gds_layer, gds_datatype=gds_datatype, parent=self
+        )
+        self.add(polygon)
+        return polygon
 
     def copy(self) -> "Component":
         return copy(self)
@@ -1047,6 +1053,11 @@ class Component(gdspy.Cell, _GeometryHelper):
                     alias = f"{prefix}_{self._reference_names_counter[prefix]}"
 
         reference.name = alias
+
+    @property
+    def layers(self):
+        """Returns a set of the Layers in the Device."""
+        return self.get_layers()
 
     def get_layers(self) -> Union[Set[Tuple[int, int]], Set[Tuple[int64, int64]]]:
         """Return a set of (layer, datatype).
@@ -1923,4 +1934,6 @@ if __name__ == "__main__":
     # c2 = c.mirror()
     # print(c2.info)
     c = gf.c.mzi()
+    # c.hash_geometry()
+    print(c.get_polygons(by_spec=True))
     c.show(show_ports=True)
