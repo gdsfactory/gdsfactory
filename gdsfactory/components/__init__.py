@@ -238,6 +238,7 @@ from gdsfactory.components.taper_from_csv import (
 )
 from gdsfactory.components.taper_parabolic import taper_parabolic
 from gdsfactory.components.text import text, text_lines
+from gdsfactory.components.text_freetype import text_freetype
 from gdsfactory.components.text_rectangular import (
     text_rectangular,
     text_rectangular_multi_layer,
@@ -496,6 +497,7 @@ __all__ = [
     "taper_w11_l200",
     "taper_w12_l200",
     "text",
+    "text_freetype",
     "text_rectangular",
     "text_rectangular_multi_layer",
     "triangle",
