@@ -13,7 +13,6 @@ skip_test = {
     "pack_doe",
     "pack_doe_grid",
     "crossing",
-    "text_freetype",
 }
 
 cells_to_test = set(cells.keys()) - skip_test
