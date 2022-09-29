@@ -37,7 +37,7 @@ def preview_layerset(ls, size: float = 100.0, spacing: float = 100.0) -> object:
     """
     import gdsfactory as gf
 
-    D = gf.Component(name="layerset")
+    D = gf.Component(name="layerset", with_uuid=True)
     scale = size / 100
     num_layers = len(ls.layers)
     matrix_size = int(np.ceil(np.sqrt(num_layers)))
@@ -402,7 +402,7 @@ except Exception:
 
 
 if __name__ == "__main__":
-    LAYER_COLORS = load_lyp_generic()
+    # LAYER_COLORS = load_lyp_generic()
     # import gdsfactory as gf
 
     # c = gf.components.rectangle(layer=(123, 0))
@@ -415,8 +415,8 @@ if __name__ == "__main__":
     # print(layer)
 
     # lys = test_load_lyp()
-    # c = preview_layerset(LAYER_COLORS)
-    # c.show(show_ports=True)
+    c = preview_layerset(LAYER_COLORS)
+    c.show(show_ports=True)
     # print(LAYERS_OPTICAL)
     # print(layer("wgcore"))
     # print(layer("wgclad"))

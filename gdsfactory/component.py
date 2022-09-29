@@ -106,10 +106,7 @@ class Component(gdspy.Cell, _GeometryHelper):
         name: component_name. Use @cell decorator for auto-naming.
         version: component version.
         changelog: changes from the last version.
-
-    Keyword Args:
         with_uuid: adds unique identifier.
-        any
 
     Properties:
         info: dictionary that includes
@@ -151,6 +148,7 @@ class Component(gdspy.Cell, _GeometryHelper):
 
         self.ports = {}
         self.aliases = {}
+
         super().__init__(name=name)
 
     def __getitem__(self, key):
