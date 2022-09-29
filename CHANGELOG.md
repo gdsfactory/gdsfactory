@@ -1,8 +1,12 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.36.0
+
+- Add thermal solver [PR](https://github.com/gdsfactory/gdsfactory/pull/739)
+
 ## 5.35.0
 
-- [PR](https://github.com/gdsfactory/gdsfactory/pull/736)
+- Mesh2D renames boundaries [PR](https://github.com/gdsfactory/gdsfactory/pull/736)
 
 ## 5.34.0
 
