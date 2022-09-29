@@ -3,11 +3,11 @@
 from typing import Callable, List, Optional, Tuple
 
 from phidl import device_layout as pd
-from phidl.device_layout import Label
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
+from gdsfactory.component_layout import Label
 from gdsfactory.components import grating_coupler_te
 from gdsfactory.components.straight import straight
 from gdsfactory.port import Port

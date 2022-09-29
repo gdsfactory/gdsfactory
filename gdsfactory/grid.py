@@ -2,10 +2,10 @@
 from typing import Optional, Tuple
 
 import numpy as np
-from phidl.device_layout import Group
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
+from gdsfactory.component_layout import Group
 from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.components.triangles import triangle
 from gdsfactory.difftest import difftest

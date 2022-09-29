@@ -4,10 +4,10 @@ from typing import Optional, Union, cast
 import gdspy
 import numpy as np
 from omegaconf import OmegaConf
-from phidl.device_layout import CellArray
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
+from gdsfactory.component_layout import CellArray
 from gdsfactory.component_reference import ComponentReference
 from gdsfactory.config import CONFIG, logger
 from gdsfactory.name import get_name_short

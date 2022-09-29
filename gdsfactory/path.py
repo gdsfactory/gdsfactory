@@ -5,12 +5,11 @@ A path can be extruded using any CrossSection returning a Component
 The CrossSection defines the layer numbers, widths and offsetts
 
 Based on phidl.path
-
 """
 
 import warnings
 from collections.abc import Iterable
-from typing import Optional
+from typing import Callable, Optional
 
 import numpy as np
 import shapely.ops
@@ -28,7 +27,6 @@ from gdsfactory.types import (
     CrossSectionSpec,
     Float2,
     LayerSpec,
-    PathFactory,
     WidthTypes,
 )
 
@@ -126,6 +124,9 @@ class Path(PathPhidl):
         p.start_angle = path_phidl.start_angle
         p.end_angle = path_phidl.end_angle
         return p
+
+
+PathFactory = Callable[..., Path]
 
 
 def _sinusoidal_transition(y1, y2):
