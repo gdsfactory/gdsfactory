@@ -12,6 +12,7 @@ specs:
   - mamba
   - pip
   - gdsfactory
+  - freetype-py
   - spyder
   - jupyterlab
   - networkx
