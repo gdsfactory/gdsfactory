@@ -61,7 +61,7 @@ def solve_thermal(
 
     basis0 = basis.with_element(ElementTriP0())
     thermal_conductivity_p0 = basis0.zeros()
-    for domain in thermal_conductivity.keys():
+    for domain in thermal_conductivity:
         thermal_conductivity_p0[
             basis0.get_dofs(elements=domain)
         ] = thermal_conductivity[domain]
@@ -109,7 +109,7 @@ def solve_thermal(
     print("average team steady", np.mean(temperature))
 
     thermal_diffusivity_p0 = basis0.zeros()
-    for domain in thermal_diffusivity.keys():
+    for domain in thermal_diffusivity:
         thermal_diffusivity_p0[basis0.get_dofs(elements=domain)] = thermal_diffusivity[
             domain
         ]
