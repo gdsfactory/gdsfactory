@@ -150,7 +150,6 @@ class Component(gdspy.Cell, _GeometryHelper):
         self._reference_names_used = set()
 
         self.ports = {}
-        self.info = {}
         self.aliases = {}
         super().__init__(name=name)
 

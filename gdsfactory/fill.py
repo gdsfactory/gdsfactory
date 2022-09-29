@@ -57,7 +57,7 @@ def _rasterize_polygons(polygons, bounds=([-100, -100], [100, 100]), dx=1, dy=1)
     # Initialize the raster matrix we'll be writing to
     xsize = int(np.ceil(bounds[1][0] - bounds[0][0]) / dx)
     ysize = int(np.ceil(bounds[1][1] - bounds[0][1]) / dy)
-    raster = np.zeros((ysize, xsize), dtype=np.bool)
+    raster = np.zeros((ysize, xsize), dtype=bool)
 
     # TODO: Replace polygon_perimeter with the supercover version
     for n in range(len(xpts)):
@@ -93,9 +93,7 @@ def _expand_raster(raster, distance=(4, 2)):
         return raster
 
     num_pixels = np.array(np.ceil(distance), dtype=int)
-    neighborhood = np.zeros(
-        (num_pixels[1] * 2 + 1, num_pixels[0] * 2 + 1), dtype=np.bool
-    )
+    neighborhood = np.zeros((num_pixels[1] * 2 + 1, num_pixels[0] * 2 + 1), dtype=bool)
     rr, cc = draw.ellipse(
         num_pixels[1], num_pixels[0], distance[1] + 0.5, distance[0] + 0.5
     )

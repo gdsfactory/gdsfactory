@@ -64,7 +64,7 @@ def snspd(
 
     num_meanders = int(np.ceil(ysize / wire_pitch))
 
-    D = Component(name="snspd")
+    D = Component()
     hairpin = optimal_hairpin(
         width=wire_width,
         pitch=wire_pitch,
