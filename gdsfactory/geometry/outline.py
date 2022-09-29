@@ -10,7 +10,7 @@ def outline(
     elements,
     distance=1,
     precision=1e-4,
-    num_divisions=[1, 1],
+    num_divisions=(1, 1),
     join="miter",
     tolerance=2,
     join_first=True,
