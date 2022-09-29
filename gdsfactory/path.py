@@ -10,7 +10,7 @@ Based on phidl.path
 import hashlib
 import warnings
 from collections.abc import Iterable
-from typing import Callable, Optional
+from typing import Callable, Optional, Union
 
 import numpy as np
 import shapely.ops
@@ -80,8 +80,8 @@ class Path(_GeometryHelper):
                 self.append(path)
             else:
                 raise ValueError(
-                    'Path() the "path" argument must be either '
-                    + "blank, a Path object, an array-like[N][2] list of points, or a list of these"
+                    "Path() the `path` argument must be either "
+                    "blank, a Path object, an array-like[N][2] list of points, or a list of these"
                 )
 
     def __len__(self):
@@ -145,15 +145,13 @@ class Path(_GeometryHelper):
 
         return self
 
-    def offset(self, offset=0):
+    def offset(self, offset: Union[float, Callable[..., float]] = 0):
         """Offsets the Path so that it follows the Path centerline plus
         an offset.  The offset can either be a fixed value, or a function
         of the form my_offset(t) where t goes from 0->1
 
-        Parameters
-        ----------
-        offset : int or float, callable
-            Magnitude of the offset
+        Args:
+            offset: int or float, callable. Magnitude of the offset
         """
         if offset == 0:
             points = self.points
@@ -201,14 +199,10 @@ class Path(_GeometryHelper):
         destination. Both origin and destination can be 1x2 array-like
         or a Port.
 
-        Parameters
-        ----------
-        origin : array-like[2], Port
-            Origin point of the move.
-        destination : array-like[2], Port
-            Destination point of the move.
-        axis : {'x', 'y'}
-            Direction of move.
+        Args:
+            origin : array-like[2], Port Origin point of the move.
+            destination : array-like[2], Port Destination point of the move.
+            axis : {'x', 'y'} Direction of move.
 
         """
         dx, dy = _parse_move(origin, destination, axis)
@@ -216,16 +210,13 @@ class Path(_GeometryHelper):
 
         return self
 
-    def rotate(self, angle=45, center=(0, 0)):
-        """Rotates all Polygons in the Device around the specified
+    def rotate(self, angle: float = 45, center: Optional[Float2] = (0, 0)):
+        """Rotates all Polygons in the Component around the specified
         center point. If no center point specified will rotate around (0,0).
 
-        Parameters
-        ----------
-        angle : int or float
-            Angle to rotate the Device in degrees.
-        center : array-like[2] or None
-            Midpoint of the Device.
+        Args:
+            angle: Angle to rotate the Component in degrees.
+            center: array-like[2] or None. component of the Component.
         """
         if angle == 0:
             return self
@@ -236,17 +227,14 @@ class Path(_GeometryHelper):
             self.end_angle = mod(self.end_angle + angle, 360)
         return self
 
-    def mirror(self, p1=(0, 1), p2=(0, 0)):
+    def mirror(self, p1: Float2 = (0, 1), p2: Float2 = (0, 0)):
         """Mirrors the Path across the line formed between the two
         specified points. ``points`` may be input as either single points
         [1,2] or array-like[N][2], and will return in kind.
 
-        Parameters
-        ----------
-        p1 : array-like[N][2]
-            First point of the line.
-        p2 : array-like[N][2]
-            Second point of the line.
+        Args:
+            p1: First point of the line.
+            p2: Second point of the line.
         """
         self.points = _reflect_points(self.points, p1, p2)
         angle = np.arctan2((p2[1] - p1[1]), (p2[0] - p1[0])) * 180 / pi
@@ -301,13 +289,7 @@ class Path(_GeometryHelper):
         return np.array([x_offset, y_offset]).T
 
     def length(self):
-        """Computes the cumulative length (arc length) of the path.
-
-        Returns
-        -------
-        float
-            The length of the Path
-        """
+        """Returns the cumulative length (arc length) of the path."""
         x = self.points[:, 0]
         y = self.points[:, 1]
         dx = np.diff(x)
@@ -349,11 +331,9 @@ class Path(_GeometryHelper):
         """Computes an SHA1 hash of the points in the Path and the start_angle
         and end_angle
 
-        Parameters
-        ----------
-        precision : float
-            Roudning precision for the the objects in the Device.  For instance,
-            a precision of 1e-2 will round a point at (0.124, 1.748) to (0.12, 1.75)
+        Args:
+            precision: Roudning precision for the the objects in the Component.  For instance,
+                a precision of 1e-2 will round a point at (0.124, 1.748) to (0.12, 1.75)
 
         Returns
         -------
@@ -1196,8 +1176,8 @@ def smooth(
 
     if np.any(np.abs(np.abs(dtheta) - 180) < 1e-6):
         raise ValueError(
-            "smooth() received points which double-back on themselves"
-            + "--turns cannot be computed when going forwards then exactly backwards."
+            "smooth() received points which double-back on themselves. "
+            "--turns cannot be computed when going forwards then exactly backwards."
         )
 
     # FIXME add caching
@@ -1216,7 +1196,8 @@ def smooth(
     encroachment = np.concatenate([[0], d]) + np.concatenate([d, [0]])
     if np.any(encroachment > ds):
         raise ValueError(
-            "smooth(): Not enough distance between points to to fit curves.  Try reducing the radius or spacing the points out farther"
+            "smooth(): Not enough distance between points to to fit curves. "
+            "Try reducing the radius or spacing the points out farther"
         )
     p1 = points[1:-1, :] - normals[:-1, :] * d[:, np.newaxis]
 
@@ -1225,7 +1206,7 @@ def smooth(
     new_points.append([points[0, :]])
     for n, dt in enumerate(dtheta):
         P = paths[n]
-        P.rotate(theta[n] - 0)
+        P.rotate(dt - 0)
         P.move(p1[n])
         new_points.append(P.points)
     new_points.append([points[-1, :]])
