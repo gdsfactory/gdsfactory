@@ -84,9 +84,7 @@ def resistance_meander(
     # Creating pads
     P = Component()
     pad1 = rectangle(size=(x, z), layer=pad_layer)
-    pad2 = rectangle(size=(x + 5, z), layer=pad_layer)
-    gnd1 = offset(pad1, distance=-5, layer=gnd_layer)
-    gnd2 = offset(pad2, distance=-5, layer=gnd_layer)
+    gnd1 = gnd2 = offset(pad1, distance=-5, layer=gnd_layer)
     pad1_ref = P.add_ref(pad1)
     pad1_ref.movex(-x - width)
     pad2_ref = P.add_ref(pad1)
