@@ -1,10 +1,9 @@
-"""Add labels to component ports."""
+"""Add Label to each component port."""
 
 from typing import Callable, Dict, List, Optional, Union
 
-import phidl.device_layout as pd
-
 import gdsfactory as gf
+import gdsfactory.component_layout as _parse_layer
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.port import Port
 from gdsfactory.types import ComponentOrReference, Label, LayerSpec
@@ -85,7 +84,7 @@ def get_input_label(
         gc_port_name = list(gc.ports.values())[0].name
 
     layer_label = gf.get_layer(layer_label)
-    layer, texttype = pd._parse_layer(layer_label)
+    layer, texttype = _parse_layer(layer_label)
     return Label(
         text=text,
         position=gc.ports[gc_port_name].center,
@@ -123,7 +122,7 @@ def get_input_label_electrical(
 
     text = f"elec_{gc_index}_({name})_{port.name}"
     layer_label = gf.get_layer(layer_label)
-    layer, texttype = pd._parse_layer(layer_label)
+    layer, texttype = _parse_layer(layer_label)
     return Label(
         text=text,
         position=port.center,
