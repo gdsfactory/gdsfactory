@@ -2,11 +2,11 @@ from typing import Tuple, Union
 
 import gdspy
 import numpy as np
-from phidl.device_layout import Polygon, _parse_layer
 from phidl.geometry import _boolean_polygons_parallel
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.component_layout import Polygon, _parse_layer
 from gdsfactory.component_reference import ComponentReference
 from gdsfactory.types import ComponentOrReference, Int2, LayerSpec
 
