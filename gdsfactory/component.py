@@ -149,7 +149,7 @@ class Component(gdspy.Cell, _GeometryHelper):
         self.ports = {}
         self.aliases = {}
 
-        super().__init__(name=name)
+        super().__init__(name=name, exclude_from_current=True)
 
     def __getitem__(self, key):
         """Allows you to access aliases D['arc2'].
