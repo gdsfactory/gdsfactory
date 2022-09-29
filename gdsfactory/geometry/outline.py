@@ -59,7 +59,7 @@ def outline(
     layer = gf.get_layer(layer)
     gds_layer, gds_datatype = layer
 
-    D = Component("outline")
+    D = Component()
     if not isinstance(elements, list):
         elements = [elements]
     port_list = []
