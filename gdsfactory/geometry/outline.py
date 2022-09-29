@@ -1,23 +1,31 @@
-import phidl.geometry as pg
-
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components.compass import compass
+from gdsfactory.geometry.boolean import boolean
+from gdsfactory.geometry.offset import offset
 
 
 @gf.cell
-def outline(elements, **kwargs) -> Component:
+def outline(
+    elements,
+    distance=1,
+    precision=1e-4,
+    num_divisions=[1, 1],
+    join="miter",
+    tolerance=2,
+    join_first=True,
+    max_points=4000,
+    open_ports=False,
+    layer=0,
+) -> Component:
     """Returns Component containing the outlined polygon(s).
 
-    wraps phidl.geometry.outline
-
     Creates an outline around all the polygons passed in the `elements`
-    argument. `elements` may be a Device, Polygon, or list of Devices.
+    argument. `elements` may be a Component, Polygon, or list of Devices.
 
     Args:
-        elements: Device(/Reference), list of Device(/Reference), or Polygon
-            Polygons to outline or Device containing polygons to outline.
-
-    Keyword Args:
+        elements: Component(/Reference), list of Component(/Reference), or Polygon
+            Polygons to outline or Component containing polygons to outline.
         distance: int or float
             Distance to offset polygons. Positive values expand, negative shrink.
         precision: float
@@ -48,9 +56,56 @@ def outline(elements, **kwargs) -> Component:
             Specific layer(s) to put polygon geometry on.)
 
     """
-    if "layer" in kwargs:
-        kwargs["layer"] = gf.get_layer(kwargs["layer"])
-    return gf.read.from_phidl(component=pg.outline(elements, **kwargs))
+    layer = gf.get_layer(layer)
+    gds_layer, gds_datatype = layer
+
+    D = Component("outline")
+    if not isinstance(elements, list):
+        elements = [elements]
+    port_list = []
+    for e in elements:
+        if isinstance(e, Component):
+            D.add_ref(e)
+            port_list += list(e.ports.values())
+        else:
+            D.add(e)
+
+    D_bloated = offset(
+        D,
+        distance=distance,
+        join_first=join_first,
+        num_divisions=num_divisions,
+        precision=precision,
+        max_points=max_points,
+        join=join,
+        tolerance=tolerance,
+        layer=layer,
+    )
+
+    Trim = Component()
+    if open_ports is not False:
+        if open_ports is True:
+            trim_width = 0
+        else:
+            trim_width = open_ports * 2
+        for port in port_list:
+            trim = compass(size=(distance + 6 * precision, port.width + trim_width))
+            trim_ref = Trim << trim
+            trim_ref.connect("E", port, overlap=2 * precision)
+
+    Outline = boolean(
+        A=D_bloated,
+        B=[D, Trim],
+        operation="A-B" if distance > 0 else "B-A",
+        num_divisions=num_divisions,
+        max_points=max_points,
+        precision=precision,
+        layer=layer,
+    )
+    if open_ports is not False and len(elements) == 1:
+        for port in port_list:
+            Outline.add_port(port=port)
+    return Outline
 
 
 def test_outline() -> None:

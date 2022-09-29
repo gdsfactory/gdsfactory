@@ -2,13 +2,141 @@ from typing import Tuple, Union
 
 import gdspy
 import numpy as np
-from phidl.geometry import _boolean_polygons_parallel
+from gdspy import clipper
 
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.component_layout import Polygon, _parse_layer
 from gdsfactory.component_reference import ComponentReference
+from gdsfactory.geometry.offset import _crop_edge_polygons, _polygons_to_bboxes
 from gdsfactory.types import ComponentOrReference, Int2, LayerSpec
+
+
+def _boolean_region(
+    all_polygons_A,
+    all_polygons_B,
+    bboxes_A,
+    bboxes_B,
+    left,
+    bottom,
+    right,
+    top,
+    operation="and",
+    precision=1e-4,
+):
+    """Taking a region of e.g. size (x, y) which needs to be booleaned,
+    this function crops out a region (x, y) large from each set of polygons
+    (A and B), booleans that cropped region and returns the result.
+
+    Parameters
+    ----------
+    all_polygons_A : PolygonSet or list of polygons
+        Set or list of polygons to be booleaned.
+    all_polygons_B : PolygonSet or list of polygons
+        Set or list of polygons to be booleaned.
+    bboxes_A : list
+        List of all polygon bboxes in all_polygons_A
+    bboxes_B : list
+        List of all polygon bboxes in all_polygons_B
+    left : int or float
+        The x-coordinate of the lefthand boundary.
+    bottom : int or float
+        The y-coordinate of the bottom boundary.
+    right : int or float
+        The x-coordinate of the righthand boundary.
+    top : int or float
+        The y-coordinate of the top boundary.
+    operation : {'not', 'and', 'or', 'xor', 'A-B', 'B-A', 'A+B'}
+        Boolean operation to perform.
+    precision : float
+        Desired precision for rounding vertex coordinates.
+
+    Returns
+    -------
+    polygons_boolean : PolygonSet or list of polygons
+        Set or list of polygons with boolean operation applied.
+    """
+
+    polygons_to_boolean_A = _crop_edge_polygons(
+        all_polygons_A, bboxes_A, left, bottom, right, top, precision
+    )
+    polygons_to_boolean_B = _crop_edge_polygons(
+        all_polygons_B, bboxes_B, left, bottom, right, top, precision
+    )
+    polygons_boolean = clipper.clip(
+        polygons_to_boolean_A, polygons_to_boolean_B, operation, 1 / precision
+    )
+    return polygons_boolean
+
+
+def _boolean_polygons_parallel(
+    polygons_A, polygons_B, num_divisions=[10, 10], operation="and", precision=1e-4
+):
+    """Performs the boolean function on a list of subsections of the original
+    geometry
+
+    Args:
+        polygons_A : PolygonSet or list of polygons
+            Set or list of polygons to be booleaned.
+        polygons_B : PolygonSet or list of polygons
+            Set or list of polygons to be booleaned.
+        num_divisions : array-like[2] of int
+            The number of divisions with which the geometry is divided into
+            multiple rectangular regions. This allows for each region to be
+            processed sequentially, which is more computationally efficient.
+        operation : {'not', 'and', 'or', 'xor', 'A-B', 'B-A', 'A+B'}
+            Boolean operation to perform.
+        precision : float
+            Desired precision for rounding vertex coordinates.
+
+    Returns
+    -------
+    boolean_polygons : list of polygons
+        All the booleaned polygons from each of the subsections
+
+    """
+    # Build bounding boxes
+    polygons_A = np.asarray(polygons_A)
+    polygons_B = np.asarray(polygons_B)
+    bboxes_A = _polygons_to_bboxes(polygons_A)
+    bboxes_B = _polygons_to_bboxes(polygons_B)
+
+    xmin, ymin = np.min(
+        [np.min(bboxes_A[:, 0:2], axis=0), np.min(bboxes_B[:, 0:2], axis=0)], axis=0
+    )
+    xmax, ymax = np.max(
+        [np.max(bboxes_A[:, 2:4], axis=0), np.max(bboxes_B[:, 2:4], axis=0)], axis=0
+    )
+
+    xsize = xmax - xmin
+    ysize = ymax - ymin
+    xdelta = xsize / num_divisions[0]
+    ydelta = ysize / num_divisions[1]
+    xcorners = xmin + np.arange(num_divisions[0]) * xdelta
+    ycorners = ymin + np.arange(num_divisions[1]) * ydelta
+
+    boolean_polygons = []
+    for n, xc in enumerate(xcorners):
+        for m, yc in enumerate(ycorners):
+            left = xc
+            right = xc + xdelta
+            bottom = yc
+            top = yc + ydelta
+            _boolean_region_polygons = _boolean_region(
+                polygons_A,
+                polygons_B,
+                bboxes_A,
+                bboxes_B,
+                left,
+                bottom,
+                right,
+                top,
+                operation=operation,
+                precision=precision,
+            )
+            boolean_polygons += _boolean_region_polygons
+
+    return boolean_polygons
 
 
 @gf.cell
