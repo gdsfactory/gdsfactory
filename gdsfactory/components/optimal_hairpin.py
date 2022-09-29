@@ -66,9 +66,9 @@ def optimal_hairpin(
         y = y + wy * dl
         xpts.append(x)
         ypts.append(y)
-        n = n + 1
+        n += 1
     ypts[-1] = 0  # Set last point be on the x=0 axis for sake of cleanliness
-    ds_factor = int(len(xpts) / num_pts)  # Downsample the total number of points
+    ds_factor = len(xpts) // num_pts
     xpts = xpts[::-ds_factor]
     xpts = xpts[::-1]  # This looks confusing, but it's just flipping the arrays around
     ypts = ypts[::-ds_factor]

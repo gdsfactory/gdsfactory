@@ -61,10 +61,9 @@ def _boolean_region(
     polygons_to_boolean_B = _crop_edge_polygons(
         all_polygons_B, bboxes_B, left, bottom, right, top, precision
     )
-    polygons_boolean = clipper.clip(
+    return clipper.clip(
         polygons_to_boolean_A, polygons_to_boolean_B, operation, 1 / precision
     )
-    return polygons_boolean
 
 
 def _boolean_polygons_parallel(
