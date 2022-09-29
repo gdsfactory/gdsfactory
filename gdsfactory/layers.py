@@ -17,9 +17,9 @@ from typing import Dict, Optional, Tuple, Union
 
 import numpy as np
 import xmltodict
-from phidl.device_layout import _CSS3_NAMES_TO_HEX
 from pydantic import BaseModel, Field, validator
 
+from gdsfactory.constants import _CSS3_NAMES_TO_HEX
 from gdsfactory.name import clean_name
 
 module_path = pathlib.Path(__file__).parent.absolute()
