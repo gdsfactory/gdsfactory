@@ -22,38 +22,36 @@ def _boolean_region(
     right,
     top,
     operation="and",
-    precision=1e-4,
+    precision: float = 1e-4,
 ):
     """Taking a region of e.g. size (x, y) which needs to be booleaned,
     this function crops out a region (x, y) large from each set of polygons
     (A and B), booleans that cropped region and returns the result.
 
-    Parameters
-    ----------
-    all_polygons_A : PolygonSet or list of polygons
-        Set or list of polygons to be booleaned.
-    all_polygons_B : PolygonSet or list of polygons
-        Set or list of polygons to be booleaned.
-    bboxes_A : list
-        List of all polygon bboxes in all_polygons_A
-    bboxes_B : list
-        List of all polygon bboxes in all_polygons_B
-    left : int or float
-        The x-coordinate of the lefthand boundary.
-    bottom : int or float
-        The y-coordinate of the bottom boundary.
-    right : int or float
-        The x-coordinate of the righthand boundary.
-    top : int or float
-        The y-coordinate of the top boundary.
-    operation : {'not', 'and', 'or', 'xor', 'A-B', 'B-A', 'A+B'}
-        Boolean operation to perform.
-    precision : float
-        Desired precision for rounding vertex coordinates.
+    Args:
+        all_polygons_A : PolygonSet or list of polygons
+            Set or list of polygons to be booleaned.
+        all_polygons_B : PolygonSet or list of polygons
+            Set or list of polygons to be booleaned.
+        bboxes_A : list
+            List of all polygon bboxes in all_polygons_A
+        bboxes_B : list
+            List of all polygon bboxes in all_polygons_B
+        left : int or float
+            The x-coordinate of the lefthand boundary.
+        bottom : int or float
+            The y-coordinate of the bottom boundary.
+        right : int or float
+            The x-coordinate of the righthand boundary.
+        top : int or float
+            The y-coordinate of the top boundary.
+        operation : {'not', 'and', 'or', 'xor', 'A-B', 'B-A', 'A+B'}
+            Boolean operation to perform.
+        precision : float
+            Desired precision for rounding vertex coordinates.
 
     Returns
-    -------
-    polygons_boolean : PolygonSet or list of polygons
+        polygons_boolean : PolygonSet or list of polygons
         Set or list of polygons with boolean operation applied.
     """
 
@@ -70,10 +68,11 @@ def _boolean_region(
 
 
 def _boolean_polygons_parallel(
-    polygons_A, polygons_B, num_divisions=[10, 10], operation="and", precision=1e-4
+    polygons_A, polygons_B, num_divisions=(10, 10), operation="and", precision=1e-4
 ):
-    """Performs the boolean function on a list of subsections of the original
-    geometry
+    """Performs the boolean function on a list of subsections of the original geometry.
+
+    Returns list of polygons, with all the booleaned polygons from each of the subsections
 
     Args:
         polygons_A : PolygonSet or list of polygons
@@ -89,10 +88,6 @@ def _boolean_polygons_parallel(
         precision : float
             Desired precision for rounding vertex coordinates.
 
-    Returns
-    -------
-    boolean_polygons : list of polygons
-        All the booleaned polygons from each of the subsections
 
     """
     # Build bounding boxes
@@ -116,8 +111,8 @@ def _boolean_polygons_parallel(
     ycorners = ymin + np.arange(num_divisions[1]) * ydelta
 
     boolean_polygons = []
-    for n, xc in enumerate(xcorners):
-        for m, yc in enumerate(ycorners):
+    for xc in xcorners:
+        for yc in ycorners:
             left = xc
             right = xc + xdelta
             bottom = yc
