@@ -472,14 +472,14 @@ class Component(gdspy.Cell, _GeometryHelper):
                 ref_ports_transformed = []
                 for rp in ref_ports:
                     new_port = rp._copy(new_uid=False)
-                    new_midpoint, new_orientation = r._transform_port(
-                        rp.midpoint,
+                    new_center, new_orientation = r._transform_port(
+                        rp.center,
                         rp.orientation,
                         r.origin,
                         r.rotation,
                         r.x_reflection,
                     )
-                    new_port.midpoint = new_midpoint
+                    new_port.center = new_center
                     new_port.new_orientation = new_orientation
                     ref_ports_transformed.append(new_port)
                 port_list += ref_ports_transformed
