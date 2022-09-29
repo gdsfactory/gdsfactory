@@ -252,7 +252,7 @@ class Path(_GeometryHelper):
         dx = np.diff(points[:, 0])
         dy = np.diff(points[:, 1])
         theta = np.arctan2(dy, dx)
-        theta = np.concatenate([theta[0:1], theta, theta[-1:]])
+        theta = np.concatenate([theta[:1], theta, theta[-1:]])
         theta_mid = (np.pi + theta[1:] + theta[:-1]) / 2  # Mean angle between segments
         dtheta_int = np.pi + theta[:-1] - theta[1:]  # Internal angle between segments
         offset_distance = offset_distance / np.sin(dtheta_int / 2)
@@ -956,7 +956,7 @@ def _fresnel(R0, s, num_pts, n_iter=8):
     x = np.zeros(num_pts)
     y = np.zeros(num_pts)
 
-    for n in range(0, n_iter):
+    for n in range(n_iter):
         x += (-1) ** n * t ** (4 * n + 1) / (np.math.factorial(2 * n) * (4 * n + 1))
         y += (-1) ** n * t ** (4 * n + 3) / (np.math.factorial(2 * n + 1) * (4 * n + 3))
 
@@ -1051,10 +1051,7 @@ def euler(
         Reff = points[-1][1] / 2
 
     # Scale curve to either match Reff or Rmin
-    if use_eff:
-        scale = radius / Reff
-    else:
-        scale = radius / Rmin
+    scale = radius / Reff if use_eff else radius / Rmin
     points *= scale
 
     P = Path()

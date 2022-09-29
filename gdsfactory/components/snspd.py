@@ -74,9 +74,9 @@ def snspd(
         layer=layer,
     )
 
-    if (terminals_same_side is False) and ((num_meanders % 2) == 0):
+    if not terminals_same_side and (num_meanders % 2) == 0:
         num_meanders += 1
-    elif (terminals_same_side is True) and ((num_meanders % 2) == 1):
+    elif terminals_same_side and (num_meanders % 2) == 1:
         num_meanders += 1
 
     start_nw = D.add_ref(compass(size=[xsize / 2, wire_width], layer=layer))
@@ -88,10 +88,9 @@ def snspd(
         hp = D.add_ref(hairpin)
         if alternate:
             hp.connect("e2", hp_prev.ports["e2"])
-            last_port = hp.ports["e1"]
         else:
             hp.connect("e1", hp_prev.ports["e1"])
-            last_port = hp.ports["e1"]
+        last_port = hp.ports["e1"]
         hp_prev = hp
         alternate = not alternate
 

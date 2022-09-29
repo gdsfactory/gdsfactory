@@ -48,7 +48,7 @@ def optimal_step(
         W = complex(W)
         a = complex(a)
 
-        gamma = (a * a + W * W) / (a * a - W * W)
+        gamma = (a**2 + W**2) / (a**2 - W**2)
 
         w = np.exp(1j * eta)
 
@@ -132,7 +132,7 @@ def optimal_step(
             xpts.append(xpts[0])
             ypts.append(0)
         else:
-            xpts += [x for x in xpts[::-1]]
+            xpts += list(xpts[::-1])
             ypts += [-y for y in ypts[::-1]]
             xpts = [x / 2 for x in xpts]
             ypts = [y / 2 for y in ypts]
@@ -143,7 +143,7 @@ def optimal_step(
         # short as it could be
         xpts = (np.array(xpts) * anticrowding_factor).tolist()
 
-        if reverse is True:
+        if reverse:
             xpts = (-np.array(xpts)).tolist()
             start_width, end_width = end_width, start_width
 
