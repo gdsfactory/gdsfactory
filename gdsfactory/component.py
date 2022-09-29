@@ -459,10 +459,7 @@ class Component(gdspy.Cell, _GeometryHelper):
 
         if depth is None or depth > 0:
             for r in self.references:
-                if depth is None:
-                    new_depth = None
-                else:
-                    new_depth = depth - 1
+                new_depth = None if depth is None else depth - 1
                 ref_ports = r.parent.get_ports(depth=new_depth)
 
                 # Transform ports that came from a reference
@@ -806,7 +803,7 @@ class Component(gdspy.Cell, _GeometryHelper):
         try:
             if isinstance(layer, set):
                 return [self.add_polygon(points, ly) for ly in layer]
-            elif all([isinstance(ly, (Layer)) for ly in layer]):
+            elif all(isinstance(ly, (Layer)) for ly in layer):
                 return [self.add_polygon(points, ly) for ly in layer]
             elif len(layer) > 2:  # Someone wrote e.g. layer = [1,4,5]
                 raise ValueError(
@@ -1677,10 +1674,7 @@ class Component(gdspy.Cell, _GeometryHelper):
             List of the ".info" property dictionaries from all sub-Components
         """
         D_list = self.get_dependencies(recursive=True)
-        info_list = []
-        for D in D_list:
-            info_list.append(D.info.copy())
-        return info_list
+        return [D.info.copy() for D in D_list]
 
     def remap_layers(self, layermap, include_labels: bool = True):
         """Moves all polygons in the Component from one layer to another
@@ -1699,7 +1693,7 @@ class Component(gdspy.Cell, _GeometryHelper):
                 for n, _layer in enumerate(p.layers):
                     original_layer = (p.layers[n], p.datatypes[n])
                     original_layer = _parse_layer(original_layer)
-                    if original_layer in layermap.keys():
+                    if original_layer in layermap:
                         new_layer = layermap[original_layer]
                         p.layers[n] = new_layer[0]
                         p.datatypes[n] = new_layer[1]
@@ -1707,7 +1701,7 @@ class Component(gdspy.Cell, _GeometryHelper):
                 for label in D.labels:
                     original_layer = (label.layer, label.texttype)
                     original_layer = _parse_layer(original_layer)
-                    if original_layer in layermap.keys():
+                    if original_layer in layermap:
                         new_layer = layermap[original_layer]
                         label.layer = new_layer[0]
                         label.texttype = new_layer[1]

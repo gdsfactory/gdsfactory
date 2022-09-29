@@ -239,7 +239,7 @@ class Group(_GeometryHelper):
 
     def __repr__(self):
         """Prints the number of elements in the Group."""
-        return "Group (%s elements total)" % (len(self.elements))
+        return f"Group ({len(self.elements)} elements total)"
 
     def __len__(self):
         """Returns the number of elements in the Group."""
@@ -651,15 +651,13 @@ def _simplify(points, tolerance=0):
     index = np.argmax(dists)
     dmax = dists[index]
 
-    if dmax > tolerance:
-        result1 = _simplify(M[: index + 1], tolerance)
-        result2 = _simplify(M[index:], tolerance)
+    if dmax <= tolerance:
+        return np.array([start, end])
 
-        result = np.vstack((result1[:-1], result2))
-    else:
-        result = np.array([start, end])
+    result1 = _simplify(M[: index + 1], tolerance)
+    result2 = _simplify(M[index:], tolerance)
 
-    return result
+    return np.vstack((result1[:-1], result2))
 
 
 class Polygon(gdspy.Polygon, _GeometryHelper):
