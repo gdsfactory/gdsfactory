@@ -1192,7 +1192,7 @@ def smooth(
     # Move arcs into position
     new_points = []
     new_points.append([points[0, :]])
-    for n, dt in enumerate(dtheta):
+    for n in range(len(dtheta)):
         P = paths[n]
         P.rotate(theta[n] - 0)
         P.move(p1[n])
