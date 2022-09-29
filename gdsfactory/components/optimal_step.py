@@ -93,7 +93,7 @@ def optimal_step(
     else:
         reverse = False
 
-    D = Component(name="step")
+    D = Component()
     if start_width == end_width:  # Just return a square
         if symmetric:
             ypts = [
@@ -147,8 +147,8 @@ def optimal_step(
             xpts = (-np.array(xpts)).tolist()
             start_width, end_width = end_width, start_width
 
-        D.info["num_squares"] = np.sum(
-            np.diff(x_num_sq) / ((y_num_sq[:-1] + y_num_sq[1:]) / 2)
+        D.info["num_squares"] = np.round(
+            np.sum(np.diff(x_num_sq) / ((y_num_sq[:-1] + y_num_sq[1:]) / 2)), 3
         )
 
     # ==========================================================================
@@ -192,4 +192,7 @@ def optimal_step(
 
 if __name__ == "__main__":
     c = optimal_step()
+    # print(c.to_dict())
+    # c = optimal_step()
+    # print(c.to_dict())
     c.show(show_ports=True)

@@ -257,7 +257,7 @@ bend_circular
 
   import gdsfactory as gf
 
-  c = gf.components.bend_circular(angle=90.0, npoints=720, with_bbox=True)
+  c = gf.components.bend_circular(angle=90.0, npoints=720, with_bbox=True, cross_section='strip')
   c.plot()
 
 
@@ -272,7 +272,7 @@ bend_circular180
 
   import gdsfactory as gf
 
-  c = gf.components.bend_circular180(angle=180, npoints=720, with_bbox=True)
+  c = gf.components.bend_circular180(angle=180, npoints=720, with_bbox=True, cross_section='strip')
   c.plot()
 
 
@@ -1880,6 +1880,51 @@ nxn
 
 
 
+optimal_90deg
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.optimal_90deg
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.optimal_90deg(width=100, num_pts=15, length_adjust=1, layer=[1, 0])
+  c.plot()
+
+
+
+optimal_hairpin
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.optimal_hairpin
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.optimal_hairpin(width=0.2, pitch=0.6, length=10, turn_ratio=4, num_pts=50, layer=[1, 0])
+  c.plot()
+
+
+
+optimal_step
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.optimal_step
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.optimal_step(start_width=10, end_width=22, num_pts=50, width_tol=0.001, anticrowding_factor=1.2, symmetric=False, layer=[1, 0])
+  c.plot()
+
+
+
 pack_doe
 ----------------------------------------------------
 
@@ -2190,7 +2235,7 @@ ring_double_heater
 
   import gdsfactory as gf
 
-  c = gf.components.ring_double_heater(gap=0.2, radius=10.0, length_x=0.01, length_y=0.01, port_orientation=90, via_stack_offset=[0, 0])
+  c = gf.components.ring_double_heater(gap=0.2, radius=10.0, length_x=0.01, length_y=0.01, cross_section_heater='heater_metal', cross_section_waveguide_heater='strip_heater_metal', cross_section='strip', port_orientation=90, via_stack_offset=[0, 0])
   c.plot()
 
 
@@ -2250,7 +2295,7 @@ ring_single_heater
 
   import gdsfactory as gf
 
-  c = gf.components.ring_single_heater(gap=0.2, radius=10.0, length_x=4.0, length_y=0.6, port_orientation=90, via_stack_offset=[0, 0])
+  c = gf.components.ring_single_heater(gap=0.2, radius=10.0, length_x=4.0, length_y=0.6, cross_section_waveguide_heater='strip_heater_metal', cross_section='strip', port_orientation=90, via_stack_offset=[0, 0])
   c.plot()
 
 
@@ -2266,6 +2311,21 @@ seal_ring
   import gdsfactory as gf
 
   c = gf.components.seal_ring(bbox=[[-1.0, -1.0], [3.0, 4.0]], width=10, padding=10.0, with_north=True, with_south=True, with_east=True, with_west=True)
+  c.plot()
+
+
+
+snspd
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.snspd
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.snspd(wire_width=0.2, wire_pitch=0.6, size=[10, 8], turn_ratio=4, terminals_same_side=False, layer=[1, 0])
   c.plot()
 
 
@@ -2655,7 +2715,22 @@ taper_cross_section_linear
 
   import gdsfactory as gf
 
-  c = gf.components.taper_cross_section_linear(length=10, npoints=2, linear=True)
+  c = gf.components.taper_cross_section_linear(length=10, npoints=2, linear=True, width_type='sine')
+  c.plot()
+
+
+
+taper_cross_section_parabolic
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.taper_cross_section_parabolic
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.taper_cross_section_parabolic(length=10, npoints=101, linear=False, width_type='parabolic')
   c.plot()
 
 
@@ -2670,7 +2745,7 @@ taper_cross_section_sine
 
   import gdsfactory as gf
 
-  c = gf.components.taper_cross_section_sine(length=10, npoints=101, linear=False)
+  c = gf.components.taper_cross_section_sine(length=10, npoints=101, linear=False, width_type='sine')
   c.plot()
 
 
@@ -2925,7 +3000,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='5.32.5', text_size=10)
+  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='5.35.0', text_size=10)
   c.plot()
 
 
