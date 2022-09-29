@@ -25,10 +25,7 @@ def _loop_over(var):
 
     """
 
-    if hasattr(var, "__iter__"):
-        return var
-    else:
-        return [var]
+    return var if hasattr(var, "__iter__") else [var]
 
 
 def _rasterize_polygons(polygons, bounds=([-100, -100], [100, 100]), dx=1, dy=1):
