@@ -54,7 +54,10 @@ update-pre:
 gds:
 	python gdsfactory/components/straight.py
 
-gdslib:
+fonts:
+	sudo apt-get install ttf-mscorefonts-installer
+
+gdslib: fonts
 	git clone https://github.com/gdsfactory/gdslib.git -b data
 
 test:
