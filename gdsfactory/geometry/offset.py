@@ -1,3 +1,4 @@
+"""based on phidl.geometry"""
 from typing import Tuple
 
 import gdspy
@@ -12,17 +13,14 @@ from gdsfactory.types import Component, ComponentReference, LayerSpec
 def _merge_nearby_floating_points(x, tol=1e-10):
     """Takes an array `x` and merges any values within the tolerance `tol`.
 
-    Parameters
-    ----------
-    x : list of int or float
-        Array of values with floating point errors.
-    tol : float
-        Tolerance within which points will be merged.
+    Args:
+        x : list of int or float
+            Array of values with floating point errors.
+        tol : float
+            Tolerance within which points will be merged.
 
     Returns
-    -------
-    xsort : list of int or float
-        Corrected and sorted array.
+        xsort : list of int or float Corrected and sorted array.
 
     Examples
     --------
@@ -49,17 +47,14 @@ def _merge_floating_point_errors(polygons, tol=1e-10):
     within the tolerance `tol`. See _merge_nearby_floating_points for
     specifics.
 
-    Parameters
-    ----------
-    polygons : PolygonSet or list of polygons
-        Set of polygons with floating point errors.
-    tol : float
-        Tolerance within which points will be merged.
+    Args:
+        polygons : PolygonSet or list of polygons
+            Set of polygons with floating point errors.
+        tol : float
+            Tolerance within which points will be merged.
 
     Returns
-    -------
-    polygons_fixed : PolygonSet
-        Set of corrected polygons.
+        polygons_fixed : PolygonSet Set of corrected polygons.
     """
     stacked_polygons = np.vstack(polygons)
     x = stacked_polygons[:, 0]
@@ -78,20 +73,19 @@ def _crop_region(polygons, left, bottom, right, top, precision):
     takes a list of polygons and cuts them at the boundary, discarding parts
     of the polygons outside the rectangle.
 
-    Parameters
-    ----------
-    polygons : PolygonSet or list of polygons
-        Set or list of polygons to be cropped.
-    left : int or float
-        The x-coordinate of the lefthand boundary.
-    bottom : int or float
-        The y-coordinate of the bottom boundary.
-    right : int or float
-        The x-coordinate of the righthand boundary.
-    top : int or float
-        The y-coordinate of the top boundary.
-    precision : float
-        Desired precision for rounding vertex coordinates.
+    Args:
+        polygons : PolygonSet or list of polygons
+            Set or list of polygons to be cropped.
+        left : int or float
+            The x-coordinate of the lefthand boundary.
+        bottom : int or float
+            The y-coordinate of the bottom boundary.
+        right : int or float
+            The x-coordinate of the righthand boundary.
+        top : int or float
+            The y-coordinate of the top boundary.
+        precision : float
+            Desired precision for rounding vertex coordinates.
 
     Returns
     -------
@@ -321,42 +315,36 @@ def _polygons_to_bboxes(polygons):
 def _offset_polygons_parallel(
     polygons,
     distance=5,
-    num_divisions=[10, 10],
+    num_divisions=(10, 10),
     join_first=True,
     precision=1e-4,
     join="miter",
     tolerance=2,
 ):
     """Performs the offset function on a list of subsections of the original
-    geometry
+    geometry and returns the offset polygons
 
-    Parameters
-    ----------
-    polygons : PolygonSet or list of polygons
-
-    distance : int or float
-        Distance to offset polygons. Positive values expand, negative shrink.
-    num_divisions : array-like[2] of int
-        The number of divisions with which the geometry is divided into
-        multiple rectangular regions. This allows for each region to be
-        processed sequentially, which is more computationally efficient.
-    join_first : bool
-        Join all paths before offsetting to avoid unnecessary joins in
-        adjacent polygon sides.
-    precision : float
-        Desired precision for rounding vertex coordinates.
-    join : {'miter', 'bevel', 'round'}
-        Type of join used to create the offset polygon.
-    tolerance : int or float
-        For miter joints, this number must be at least 2 and it represents the
-        maximal distance in multiples of offset between new vertices and their
-        original position before beveling to avoid spikes at acute joints. For
-        round joints, it indicates the curvature resolution in number of
-        points per full circle.
-
-    Returns
-    -------
-    offset_polygons :
+    Args:
+        polygons : PolygonSet or list of polygons
+        distance : int or float
+            Distance to offset polygons. Positive values expand, negative shrink.
+        num_divisions : array-like[2] of int
+            The number of divisions with which the geometry is divided into
+            multiple rectangular regions. This allows for each region to be
+            processed sequentially, which is more computationally efficient.
+        join_first : bool
+            Join all paths before offsetting to avoid unnecessary joins in
+            adjacent polygon sides.
+        precision : float
+            Desired precision for rounding vertex coordinates.
+        join : {'miter', 'bevel', 'round'}
+            Type of join used to create the offset polygon.
+        tolerance : int or float
+            For miter joints, this number must be at least 2 and it represents the
+            maximal distance in multiples of offset between new vertices and their
+            original position before beveling to avoid spikes at acute joints. For
+            round joints, it indicates the curvature resolution in number of
+            points per full circle.
 
     """
     # Build bounding boxes
@@ -374,8 +362,8 @@ def _offset_polygons_parallel(
     ycorners = ymin + np.arange(num_divisions[1]) * ydelta
 
     offset_polygons = []
-    for n, xc in enumerate(xcorners):
-        for m, yc in enumerate(ycorners):
+    for xc in xcorners:
+        for yc in ycorners:
             left = xc
             right = xc + xdelta
             bottom = yc
@@ -412,8 +400,6 @@ def offset(
 ) -> Component:
     """Returns an element containing all polygons with an offset Shrinks or \
     expands a polygon or set of polygons.
-
-    adapted from phidl.geometry
 
     Args:
         elements: Component(/Reference), list of Component(/Reference), or Polygon
