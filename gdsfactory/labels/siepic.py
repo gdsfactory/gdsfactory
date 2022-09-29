@@ -46,18 +46,7 @@ def get_input_label_text(
     ), f"{wavelength} is Not valid 1000 < wavelength < 2000"
 
     name = component_name or port.parent.metadata_child.get("name")
-    # name = component_name
-    # elif type(port.parent) == Component:
-    # name = port.parent.name
-    # else:
-    # name = port.parent.ref_cell.name
-    # name = name.replace("_", "-")
-
-    label = (
-        f"opt_in_{polarization.upper()}_{int(wavelength*1e3)}_device_"
-        f"{username}_({name})-{gc_index}-{port.name}"
-    )
-    return label
+    return f"opt_in_{polarization.upper()}_{int(wavelength * 1000.0)}_device_{username}_({name})-{gc_index}-{port.name}"
 
 
 def get_input_labels(

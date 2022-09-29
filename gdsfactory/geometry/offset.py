@@ -64,8 +64,7 @@ def _merge_floating_point_errors(polygons, tol=1e-10):
     xfixed = _merge_nearby_floating_points(x, tol=tol)
     yfixed = _merge_nearby_floating_points(y, tol=tol)
     stacked_polygons_fixed = np.vstack([xfixed, yfixed]).T
-    polygons_fixed = np.vsplit(stacked_polygons_fixed, polygon_indices[:-1])
-    return polygons_fixed
+    return np.vsplit(stacked_polygons_fixed, polygon_indices[:-1])
 
 
 def _crop_region(polygons, left, bottom, right, top, precision):
@@ -141,9 +140,7 @@ def _crop_edge_polygons(all_polygons, bboxes, left, bottom, right, top, precisio
     polygons_edge_cropped = _crop_region(
         polygons_edge, left, bottom, right, top, precision=precision
     )
-    polygons_to_process = polygons_in_rect_no_edge + polygons_edge_cropped
-
-    return polygons_to_process
+    return polygons_in_rect_no_edge + polygons_edge_cropped
 
 
 def _find_bboxes_in_rect(bboxes, left, bottom, right, top):
@@ -169,13 +166,12 @@ def _find_bboxes_in_rect(bboxes, left, bottom, right, top):
     result : list
         List of all polygon bboxes that overlap with the defined rectangle.
     """
-    result = (
+    return (
         (bboxes[:, 0] <= right)
         & (bboxes[:, 2] >= left)
         & (bboxes[:, 1] <= top)
         & (bboxes[:, 3] >= bottom)
     )
-    return result
 
 
 # _find_bboxes_on_rect_edge
@@ -207,8 +203,7 @@ def _find_bboxes_on_rect_edge(bboxes, left, bottom, right, top):
     bboxes_right = _find_bboxes_in_rect(bboxes, right, bottom, right, top)
     bboxes_top = _find_bboxes_in_rect(bboxes, left, top, right, top)
     bboxes_bottom = _find_bboxes_in_rect(bboxes, left, bottom, right, bottom)
-    result = bboxes_left | bboxes_right | bboxes_top | bboxes_bottom
-    return result
+    return bboxes_left | bboxes_right | bboxes_top | bboxes_bottom
 
 
 def _offset_region(
@@ -283,11 +278,9 @@ def _offset_region(
     polygons_offset = clipper.offset(
         polygons_to_offset, distance, join, tolerance, 1 / precision, int(join_first)
     )
-    polygons_offset_cropped = _crop_region(
+    return _crop_region(
         polygons_offset, left, bottom, right, top, precision=precision
     )
-
-    return polygons_offset_cropped
 
 
 def _polygons_to_bboxes(polygons):

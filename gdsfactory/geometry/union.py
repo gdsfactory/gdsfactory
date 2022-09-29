@@ -26,10 +26,13 @@ def _union_polygons(polygons, precision=1e-4, max_points=4000):
         PolygonSet.
     """
     polygons = _merge_floating_point_errors(polygons, tol=precision / 1000)
-    unioned = gdspy.boolean(
-        polygons, [], operation="or", precision=precision, max_points=max_points
+    return gdspy.boolean(
+        polygons,
+        [],
+        operation="or",
+        precision=precision,
+        max_points=max_points,
     )
-    return unioned
 
 
 @gf.cell

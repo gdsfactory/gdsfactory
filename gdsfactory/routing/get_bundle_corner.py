@@ -115,7 +115,7 @@ def get_bundle_corner(
 
 
     """
-    if "straight" in kwargs.keys():
+    if "straight" in kwargs:
         _ = kwargs.pop("straight")
 
     routes = _get_bundle_corner_waypoints(
