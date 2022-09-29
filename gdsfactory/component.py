@@ -754,7 +754,7 @@ class Component(gdspy.Cell, _GeometryHelper):
     ) -> "Component":
         """Extract polygons from a Component and returns a new Component.
 
-        Adapted from phidl.geometry.
+        based on phidl.geometry.
         """
         from gdsfactory.name import clean_value
 

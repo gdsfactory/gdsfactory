@@ -5,9 +5,9 @@ You can:
 - Load LayerColors from Klayout XML file (.lyp) (recommended)
 - Define your layers in a Pydantic BaseModel
 
-LayerColors adapted from phidl.device_layout
-load_lyp, name_to_description, name_to_short_name adapted from phidl.utilities
-preview_layerset adapted from phidl.geometry
+LayerColors based on phidl.device_layout
+load_lyp, name_to_description, name_to_short_name based on phidl.utilities
+preview_layerset based on phidl.geometry
 
 """
 import pathlib

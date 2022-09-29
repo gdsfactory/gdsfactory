@@ -17,7 +17,7 @@ def litho_ruler(
 
     Includes marks of varying scales to allow for easy reading by eye.
 
-    adapted from phidl.geometry
+    based on phidl.geometry
 
     Args:
         height: Height of the ruling marks in um.

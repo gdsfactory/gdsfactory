@@ -16,7 +16,7 @@ def litho_steps(
     """Positive + negative tone linewidth test.
 
     used for lithography resolution test patterning
-    adapted from phidl
+    based on phidl
 
     Args:
         line_widths: in um.

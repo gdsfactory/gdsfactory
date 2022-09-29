@@ -43,7 +43,7 @@ def union(
 ) -> Component:
     """Returns inverted union of Component polygons.
 
-    adapted from phidl.geometry.invert
+    based on phidl.geometry.invert
 
     Args:
         component: Component(/Reference), list of Component(/Reference), or Polygon
