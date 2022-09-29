@@ -8,7 +8,9 @@ lytest==0.0.20
 mapbox_earcut
 networkx
 pyglet
+pygmsh
 sax==0.8.4
+scikit-fem
 scikit-image
 simphony==0.6.1
 sklearn
