@@ -278,9 +278,7 @@ def _offset_region(
     polygons_offset = clipper.offset(
         polygons_to_offset, distance, join, tolerance, 1 / precision, int(join_first)
     )
-    return _crop_region(
-        polygons_offset, left, bottom, right, top, precision=precision
-    )
+    return _crop_region(polygons_offset, left, bottom, right, top, precision=precision)
 
 
 def _polygons_to_bboxes(polygons):
