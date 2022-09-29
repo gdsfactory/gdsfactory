@@ -70,7 +70,7 @@ bend_circular180 = gf.partial(bend_circular, angle=180)
 
 if __name__ == "__main__":
     c = bend_circular(
-        width=2, layer=gf.LAYER.M1, angle=90, cross_section="rib", with_bbox=True
+        width=2, layer=(0, 0), angle=90, cross_section="rib", with_bbox=True
     )
     # c = bend_circular()
     # c = bend_circular(cross_section=gf.cross_section.pin, radius=5)

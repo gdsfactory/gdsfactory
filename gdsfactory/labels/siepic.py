@@ -2,16 +2,19 @@
 
 from typing import Callable, List, Optional, Tuple
 
-from phidl import device_layout as pd
-from phidl.device_layout import Label
-
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
+from gdsfactory.component_layout import Label
 from gdsfactory.components import grating_coupler_te
 from gdsfactory.components.straight import straight
 from gdsfactory.port import Port
-from gdsfactory.types import ComponentReference, ComponentSpec, CrossSectionSpec, Layer
+from gdsfactory.types import (
+    ComponentReference,
+    ComponentSpec,
+    CrossSectionSpec,
+    LayerSpec,
+)
 
 
 def get_input_label_text(
@@ -43,18 +46,7 @@ def get_input_label_text(
     ), f"{wavelength} is Not valid 1000 < wavelength < 2000"
 
     name = component_name or port.parent.metadata_child.get("name")
-    # name = component_name
-    # elif type(port.parent) == Component:
-    # name = port.parent.name
-    # else:
-    # name = port.parent.ref_cell.name
-    # name = name.replace("_", "-")
-
-    label = (
-        f"opt_in_{polarization.upper()}_{int(wavelength*1e3)}_device_"
-        f"{username}_({name})-{gc_index}-{port.name}"
-    )
-    return label
+    return f"opt_in_{polarization.upper()}_{int(wavelength * 1000.0)}_device_{username}_({name})-{gc_index}-{port.name}"
 
 
 def get_input_labels(
@@ -84,8 +76,8 @@ def get_input_labels(
     text = get_input_label_text(
         port=port, gc=gc, gc_index=port_index, component_name=component_name
     )
-    layer, texttype = pd._parse_layer(layer_label)
-    label = pd.Label(
+    layer, texttype = gf.get_layer(layer_label)
+    label = Label(
         text=text,
         position=gc.ports[gc_port_name].center,
         anchor="o",
@@ -106,7 +98,7 @@ def add_fiber_array_siepic(
     fanout_length: float = 0.0,
     grating_coupler: ComponentSpec = grating_coupler_te,
     cross_section: CrossSectionSpec = "strip",
-    layer_label: Layer = (10, 0),
+    layer_label: LayerSpec = (10, 0),
     **kwargs,
 ) -> Component:
     """Returns component with grating couplers and labels on each port.
