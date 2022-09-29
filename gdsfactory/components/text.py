@@ -1,11 +1,11 @@
 from typing import Tuple
 
 import numpy as np
-from phidl.geometry import _glyph, _indent, _width
 
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.text_rectangular import text_rectangular
+from gdsfactory.constants import _glyph, _indent, _width
 from gdsfactory.name import clean_name
 from gdsfactory.types import Coordinate, LayerSpec
 
