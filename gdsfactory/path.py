@@ -1164,10 +1164,11 @@ def smooth(
 
     if np.any(np.abs(np.abs(dtheta) - 180) < 1e-6):
         raise ValueError(
-            "smooth() received points which double-back on themselves. "
-            "--turns cannot be computed when going forwards then exactly backwards."
+            "smooth() received points which double-back on themselves"
+            + "--turns cannot be computed when going forwards then exactly backwards."
         )
 
+    # FIXME add caching
     # Create arcs
     paths = []
     radii = []
@@ -1183,7 +1184,7 @@ def smooth(
     encroachment = np.concatenate([[0], d]) + np.concatenate([d, [0]])
     if np.any(encroachment > ds):
         raise ValueError(
-            "smooth(): Not enough distance between points to to fit curves. "
+            "smooth(): Not enough distance between points to to fit curves."
             "Try reducing the radius or spacing the points out farther"
         )
     p1 = points[1:-1, :] - normals[:-1, :] * d[:, np.newaxis]
@@ -1193,7 +1194,7 @@ def smooth(
     new_points.append([points[0, :]])
     for n, dt in enumerate(dtheta):
         P = paths[n]
-        P.rotate(dt - 0)
+        P.rotate(theta[n] - 0)
         P.move(p1[n])
         new_points.append(P.points)
     new_points.append([points[-1, :]])
@@ -1297,20 +1298,28 @@ def _demo_variable_offset() -> None:
 if __name__ == "__main__":
     import numpy as np
 
-    import gdsfactory as gf
-
     points = np.array([(20, 10), (40, 10), (20, 40), (50, 40), (50, 20), (70, 20)])
+    from phidl.path import euler
 
-    p = gf.path.smooth(
+    p = smooth(
         points=points,
         radius=2,
-        bend=gf.path.euler,
+        bend=euler,
         use_eff=False,
     )
+    c = p.extrude(layer=(1, 0), width=0.1)
 
     # p = straight()
     # p.plot()
 
-    c = p.extrude(layer=(1, 0), width=0.1)
+    # from phidl.path import smooth
+    # p = smooth(
+    #     points=points,
+    #     radius=2,
+    #     # bend=gf.path.euler,
+    #     use_eff=False,
+    # )
+
+    # c = p.extrude(layer=(1, 0), width=0.1)
     # c = gf.read.from_phidl(c)
     c.show()
