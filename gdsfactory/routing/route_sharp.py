@@ -2,13 +2,13 @@
 from typing import Optional, Tuple
 
 import numpy as np
-from phidl.routing import _get_rotated_basis
 
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.path import Path, transition
 from gdsfactory.port import Port
+from gdsfactory.routing.route_quad import _get_rotated_basis
 from gdsfactory.types import CrossSectionSpec, LayerSpec
 
 
