@@ -8,7 +8,6 @@ from typing import Optional
 
 import gdspy
 import numpy as np
-import phidl
 
 from gdsfactory.component import Component
 from gdsfactory.component_layout import CellArray, Polygon, _rotate_points
@@ -996,10 +995,10 @@ def quickplot2(item_list, *args, **kwargs):
                     viewer.add_port(port)
                     viewer.add_aliases(element.aliases)
             # If element is a ComponentReference, draw ports as subports
-            if isinstance(element, phidl.device_layout.ComponentReference):
+            if isinstance(element, ComponentReference):
                 for port in element.ports.values():
                     viewer.add_port(port, is_subport=True)
-        elif isinstance(element, (phidl.device_layout.Polygon)):
+        elif isinstance(element, (Polygon)):
             layerprop = _get_layerprop(
                 layer=element.layers[0], datatype=element.datatypes[0]
             )
