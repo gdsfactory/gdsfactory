@@ -163,6 +163,9 @@ from gdsfactory.components.mzi_phase_shifter import (
 from gdsfactory.components.mzit import mzit
 from gdsfactory.components.mzit_lattice import mzit_lattice
 from gdsfactory.components.nxn import nxn
+from gdsfactory.components.optimal_90deg import optimal_90deg
+from gdsfactory.components.optimal_hairpin import optimal_hairpin
+from gdsfactory.components.optimal_step import optimal_step
 from gdsfactory.components.pack_doe import generate_doe, pack_doe, pack_doe_grid
 from gdsfactory.components.pad import (
     pad,
@@ -187,6 +190,7 @@ from gdsfactory.components.ring_single_array import ring_single_array
 from gdsfactory.components.ring_single_dut import ring_single_dut, taper2
 from gdsfactory.components.ring_single_heater import ring_single_heater
 from gdsfactory.components.seal_ring import seal_ring
+from gdsfactory.components.snspd import snspd
 from gdsfactory.components.spiral_double import spiral_double
 from gdsfactory.components.spiral_external_io import spiral_external_io
 from gdsfactory.components.spiral_inner_io import (
@@ -425,6 +429,10 @@ __all__ = [
     "mzit",
     "mzit_lattice",
     "nxn",
+    "optimal_90deg",
+    "optimal_hairpin",
+    "optimal_step",
+    "snspd",
     "pack_doe_grid",
     "pack_doe",
     "pad",
