@@ -1056,7 +1056,7 @@ class Component(gdspy.Cell, _GeometryHelper):
 
     @property
     def layers(self):
-        """Returns a set of the Layers in the Device."""
+        """Returns a set of the Layers in the Component."""
         return self.get_layers()
 
     def get_layers(self) -> Union[Set[Tuple[int, int]], Set[Tuple[int64, int64]]]:

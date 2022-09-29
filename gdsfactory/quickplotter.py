@@ -985,7 +985,7 @@ def quickplot2(item_list, *args, **kwargs):
                 viewer.add_polygons(
                     polygons, color=layerprop["color"], alpha=layerprop["alpha"]
                 )
-            # If element is a Device, draw ports and aliases
+            # If element is a Component, draw ports and aliases
             if isinstance(element, Component):
                 for ref in element.references:
                     if not isinstance(ref, gdspy.CellArray):

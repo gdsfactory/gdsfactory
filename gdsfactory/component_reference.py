@@ -253,7 +253,7 @@ class ComponentReference(CellReference, _GeometryHelper):
         except Exception as exc:
             raise ValueError(
                 '[PHIDL] Tried to access alias "%s" from parent '
-                'Device "%s", which does not exist' % (val, self.parent.name)
+                'Component "%s", which does not exist' % (val, self.parent.name)
             ) from exc
         new_reference = ComponentReference(
             alias_device.parent,

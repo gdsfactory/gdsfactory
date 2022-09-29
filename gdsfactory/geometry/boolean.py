@@ -165,7 +165,7 @@ def boolean(
         layer: Specific layer to put polygon geometry on.
 
     Returns: Component with polygon(s) of the boolean operations between
-      the 2 input Devices performed.
+      the 2 input Components performed.
 
     Notes
     -----
