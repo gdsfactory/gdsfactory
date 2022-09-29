@@ -40,8 +40,8 @@ import numpy as np
 import phidl.geometry as pg
 from numpy import ndarray
 from omegaconf import OmegaConf
-from phidl.device_layout import _rotate_points
 
+from gdsfactory.component_layout import _rotate_points
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.serialization import clean_value_json
 from gdsfactory.snap import snap_to_grid
