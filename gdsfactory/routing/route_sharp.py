@@ -1,4 +1,4 @@
-"""Adapted from phidl.routing."""
+"""based on phidl.routing."""
 from typing import Optional, Tuple
 
 import numpy as np

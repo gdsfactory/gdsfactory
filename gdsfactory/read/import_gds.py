@@ -26,7 +26,7 @@ def import_gds(
 ) -> Component:
     """Returns a Componenent from a GDS file.
 
-    Adapted from phidl/geometry.py
+    based on phidl/geometry.py
 
     if any cell names are found on the component CACHE we append a $ with a
     number to the name
