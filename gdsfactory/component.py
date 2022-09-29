@@ -138,7 +138,7 @@ class Component(gdspy.Cell, _GeometryHelper):
         if with_uuid or name == "Unnamed":
             name += f"_{self.uid}"
 
-        self.name = name  # overwrite PHIDL's incremental naming convention
+        self.name = name
         self.info: Dict[str, Any] = {}
 
         self.settings: Dict[str, Any] = {}
