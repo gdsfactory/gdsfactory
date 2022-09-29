@@ -3,13 +3,13 @@ settings:
   changed: {}
   child: null
   default:
-    font: Arial
+    font: DEPLOF
     justify: left
     layer: WG
     size: 10
     text: abcd
   full:
-    font: Arial
+    font: DEPLOF
     justify: left
     layer: WG
     size: 10

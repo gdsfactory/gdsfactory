@@ -15,7 +15,7 @@ def text_freetype(
     size: int = 10,
     justify: str = "left",
     layer: LayerSpec = "WG",
-    font: str = "Arial",
+    font: str = "DEPLOF",
 ) -> Component:
     """Returns text Component.
 
