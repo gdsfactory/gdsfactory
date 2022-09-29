@@ -20,7 +20,7 @@ def resistance_meander(
 ) -> Component:
     """Return meander to test resistance.
 
-    adapted from phidl.geometry
+    based on phidl.geometry
 
     Args:
         pad_size: Size of the two matched impedance pads (microns).
