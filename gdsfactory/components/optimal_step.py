@@ -78,12 +78,12 @@ def optimal_step(
 
         try:
             from scipy.optimize import fminbound
-        except Exception:
+        except Exception as e:
             raise ImportError(
                 "To run the optimal-curve geometry "
                 "functions you need scipy, please install "
                 "it with `pip install scipy`"
-            )
+            ) from e
         found_eta = fminbound(fh, x1=0, x2=np.pi, args=())
         return step_points(found_eta, W=W, a=a)
 

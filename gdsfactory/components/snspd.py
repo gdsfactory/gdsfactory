@@ -84,7 +84,7 @@ def snspd(
     hp_prev = D.add_ref(hairpin)
     hp_prev.connect("e1", start_nw.ports["e3"])
     alternate = True
-    for n in range(2, num_meanders):
+    for _n in range(2, num_meanders):
         hp = D.add_ref(hairpin)
         if alternate:
             hp.connect("e2", hp_prev.ports["e2"])
