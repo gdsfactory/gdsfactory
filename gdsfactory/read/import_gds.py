@@ -97,7 +97,7 @@ def import_gds(
         D_list += [D]
 
     for D in D_list:
-        # First convert each reference so it points to the right Device
+        # First convert each reference so it points to the right Component
         converted_references = []
         for e in D.references:
             ref_device = cell_to_device[e.ref_cell]
