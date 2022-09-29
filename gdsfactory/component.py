@@ -18,9 +18,17 @@ import numpy as np
 import yaml
 from numpy import int64
 from omegaconf import DictConfig, OmegaConf
-from phidl.device_layout import CellArray, Device, Label, _parse_layer
 from typing_extensions import Literal
 
+from gdsfactory.component_layout import (
+    CellArray,
+    Label,
+    Polygon,
+    _align,
+    _distribute,
+    _GeometryHelper,
+    _parse_layer,
+)
 from gdsfactory.component_reference import ComponentReference, Coordinate, SizeInfo
 from gdsfactory.config import CONF, logger
 from gdsfactory.cross_section import CrossSection
@@ -82,7 +90,7 @@ def _rnd(arr, precision=1e-4):
     return np.ascontiguousarray(arr.round(ndigits) / precision, dtype=np.int64)
 
 
-class Component(Device):
+class Component(gdspy.Cell, _GeometryHelper):
     """A Component is an empty canvas where you add polygons, references and ports \
             (to connect to other components).
 
@@ -98,10 +106,7 @@ class Component(Device):
         name: component_name. Use @cell decorator for auto-naming.
         version: component version.
         changelog: changes from the last version.
-
-    Keyword Args:
         with_uuid: adds unique identifier.
-        any
 
     Properties:
         info: dictionary that includes
@@ -126,13 +131,11 @@ class Component(Device):
         with_uuid: bool = False,
     ) -> None:
         """Initialize the Component object."""
-        self.__ports__ = {}
         self.uid = str(uuid.uuid4())[:8]
         if with_uuid or name == "Unnamed":
             name += f"_{self.uid}"
 
-        super().__init__(name=name, exclude_from_current=True)
-        self.name = name  # overwrite PHIDL's incremental naming convention
+        self.name = name
         self.info: Dict[str, Any] = {}
 
         self.settings: Dict[str, Any] = {}
@@ -142,6 +145,23 @@ class Component(Device):
         self.changelog = changelog
         self._reference_names_counter = Counter()
         self._reference_names_used = set()
+
+        self.ports = {}
+        self.aliases = {}
+
+        super().__init__(name=name, exclude_from_current=True)
+
+    def __getitem__(self, key):
+        """Allows you to access aliases D['arc2'].
+
+        Args:
+            key: Element name to access within the Component.
+
+        """
+        try:
+            return self.named_references[key]
+        except KeyError as e:
+            raise KeyError(f"{key} not in {self.named_references.keys()}") from e
 
     def __lshift__(self, element):
         """Convenience operator equivalent to add_ref()."""
@@ -158,6 +178,23 @@ class Component(Device):
         ensure one component does not change others
         """
         self._locked = True
+
+    def __setitem__(self, key, element):
+        """Allow adding polygons and cell references like D['arc3'] = pg.arc()
+
+        Args:
+            key: Alias name
+            element: Object that will be accessible by alias name
+
+        """
+        if isinstance(element, (ComponentReference, Polygon, CellArray)):
+            self.named_references[key] = element
+        else:
+            raise ValueError(
+                '[PHIDL] Tried to assign alias "%s" in '
+                'Component "%s", but failed because the item was '
+                "not a ComponentReference" % (key, self.name)
+            )
 
     @classmethod
     def __get_validators__(cls):
@@ -399,6 +436,49 @@ class Component(Device):
         """Asserts that all ports are on grid."""
         for port in self.ports.values():
             port.assert_on_grid(nm=nm)
+
+    def get_ports(self, depth=None):
+        """Returns copies of all the ports of the Component, rotated and
+        translated so that they're in their top-level position. The Ports
+        returned are copies of the originals, but each copy has the same
+        ``uid`` as the original so that they can be traced back to the
+        original if needed.
+
+        Parameters
+        ----------
+        depth : int or None
+            If not None, defines from how many reference levels to
+            retrieve Ports from.
+
+        Returns
+        -------
+        port_list : list of Port
+            List of all Ports in the Component.
+        """
+        port_list = [p._copy(new_uid=False) for p in self.ports.values()]
+
+        if depth is None or depth > 0:
+            for r in self.references:
+                new_depth = None if depth is None else depth - 1
+                ref_ports = r.parent.get_ports(depth=new_depth)
+
+                # Transform ports that came from a reference
+                ref_ports_transformed = []
+                for rp in ref_ports:
+                    new_port = rp._copy(new_uid=False)
+                    new_center, new_orientation = r._transform_port(
+                        rp.center,
+                        rp.orientation,
+                        r.origin,
+                        r.rotation,
+                        r.x_reflection,
+                    )
+                    new_port.center = new_center
+                    new_port.new_orientation = new_orientation
+                    ref_ports_transformed.append(new_port)
+                port_list += ref_ports_transformed
+
+        return port_list
 
     def get_ports_dict(self, **kwargs) -> Dict[str, Port]:
         """Returns a dict of ports.
@@ -668,7 +748,7 @@ class Component(Device):
     ) -> "Component":
         """Extract polygons from a Component and returns a new Component.
 
-        Adapted from phidl.geometry.
+        based on phidl.geometry.
         """
         from gdsfactory.name import clean_value
 
@@ -691,7 +771,59 @@ class Component(Device):
         """
         from gdsfactory.pdk import get_layer
 
-        return super().add_polygon(points=points, layer=get_layer(layer))
+        layer = get_layer(layer)
+
+        if layer is None:
+            return None
+
+        # Check if input a list of polygons by seeing if it's 3 levels deep
+        try:
+            points[0][0][0]  # Try to access first x point
+            return [self.add_polygon(p, layer) for p in points]
+        except Exception:
+            pass  # Verified points is not a list of polygons, continue on
+
+        if isinstance(points, gdspy.PolygonSet):
+            if layer is np.nan:
+                layers = zip(points.layers, points.datatypes)
+            else:
+                layers = [layer] * len(points.polygons)
+
+            polygons = []
+            for p, layer in zip(points.polygons, layers):
+                new_polygon = self.add_polygon(p, layer)
+                new_polygon.properties = points.properties
+                polygons.append(new_polygon)
+            return polygons
+
+        if layer is np.nan:
+            layer = 0
+
+        # Check if layer is actually a list of Layer objects
+        try:
+            if isinstance(layer, set):
+                return [self.add_polygon(points, ly) for ly in layer]
+            elif all(isinstance(ly, (Layer)) for ly in layer):
+                return [self.add_polygon(points, ly) for ly in layer]
+            elif len(layer) > 2:  # Someone wrote e.g. layer = [1,4,5]
+                raise ValueError(
+                    """ [PHIDL] If specifying multiple layers
+                you must use set notation, e.g. {1,5,8} """
+                )
+        except Exception:
+            pass
+
+        # If in the form [[1,3,5],[2,4,6]]
+        if len(points[0]) > 2:
+            # Convert to form [[1,2],[3,4],[5,6]]
+            points = np.column_stack(points)
+
+        gds_layer, gds_datatype = _parse_layer(layer)
+        polygon = Polygon(
+            points=points, gds_layer=gds_layer, gds_datatype=gds_datatype, parent=self
+        )
+        self.add(polygon)
+        return polygon
 
     def copy(self) -> "Component":
         return copy(self)
@@ -793,6 +925,56 @@ class Component(Device):
         self._register_reference(reference=ref, alias=alias)
         return ref
 
+    def distribute(
+        self, elements="all", direction="x", spacing=100, separation=True, edge="center"
+    ):
+        """Distributes the specified elements in the Component.
+
+        Parameters
+        ----------
+        elements : array-like of PHIDL objects or 'all'
+            Elements to distribute.
+        direction : {'x', 'y'}
+            Direction of distribution; either a line in the x-direction or
+            y-direction.
+        spacing : int or float
+            Distance between elements.
+        separation : bool
+            If True, guarantees elements are separated with a fixed spacing
+            between; if  False, elements are spaced evenly along a grid.
+        edge : {'x', 'xmin', 'xmax', 'y', 'ymin', 'ymax'}
+            Which edge to perform the distribution along (unused if
+            separation == True)
+
+        """
+        if elements == "all":
+            elements = self.polygons + self.references
+        _distribute(
+            elements=elements,
+            direction=direction,
+            spacing=spacing,
+            separation=separation,
+            edge=edge,
+        )
+        return self
+
+    def align(self, elements="all", alignment="ymax"):
+        """Align elements in the Component
+
+        Parameters
+        ----------
+        elements : array-like of PHIDL objects, or 'all'
+            Elements in the Component to align.
+        alignment : {'x', 'y', 'xmin', 'xmax', 'ymin', 'ymax'}
+            Which edge to align along (e.g. 'ymax' will move the elements such
+            that all of their topmost points are aligned)
+
+        """
+        if elements == "all":
+            elements = self.polygons + self.references
+        _align(elements, alignment=alignment)
+        return self
+
     def flatten(self, single_layer: Optional[Tuple[int, int]] = None):
         """Returns a flattened copy of the component.
 
@@ -834,7 +1016,7 @@ class Component(Device):
         self, component: "Component", alias: Optional[str] = None
     ) -> "ComponentReference":
         """Add ComponentReference to the current Component."""
-        if not isinstance(component, Device):
+        if not isinstance(component, Component):
             raise TypeError(f"type = {type(Component)} needs to be a Component.")
         ref = ComponentReference(component)
         self._add(ref)
@@ -865,6 +1047,11 @@ class Component(Device):
                     alias = f"{prefix}_{self._reference_names_counter[prefix]}"
 
         reference.name = alias
+
+    @property
+    def layers(self):
+        """Returns a set of the Layers in the Component."""
+        return self.get_layers()
 
     def get_layers(self) -> Union[Set[Tuple[int, int]], Set[Tuple[int64, int64]]]:
         """Return a set of (layer, datatype).
@@ -1470,6 +1657,56 @@ class Component(Device):
 
         return final_hash.hexdigest()
 
+    # Deprecated
+    def get_info(self):
+        """Gathers the .info dictionaries from every sub-Component and returns
+        them in a list.
+
+        Parameters
+        ----------
+        depth : int or None
+            If not None, defines from how many reference levels to
+            retrieve Ports from.
+
+        Returns
+        -------
+        list of dictionaries
+            List of the ".info" property dictionaries from all sub-Components
+        """
+        D_list = self.get_dependencies(recursive=True)
+        return [D.info.copy() for D in D_list]
+
+    def remap_layers(self, layermap, include_labels: bool = True):
+        """Moves all polygons in the Component from one layer to another
+        according to the layermap argument.
+
+        Args:
+            layermap: Dictionary of values in format {layer_from : layer_to}.
+            include_labels: Selects whether to move Labels along with polygons.
+        """
+        layermap = {_parse_layer(k): _parse_layer(v) for k, v in layermap.items()}
+
+        all_D = list(self.get_dependencies(True))
+        all_D.append(self)
+        for D in all_D:
+            for p in D.polygons:
+                for n, _layer in enumerate(p.layers):
+                    original_layer = (p.layers[n], p.datatypes[n])
+                    original_layer = _parse_layer(original_layer)
+                    if original_layer in layermap:
+                        new_layer = layermap[original_layer]
+                        p.layers[n] = new_layer[0]
+                        p.datatypes[n] = new_layer[1]
+            if include_labels:
+                for label in D.labels:
+                    original_layer = (label.layer, label.texttype)
+                    original_layer = _parse_layer(original_layer)
+                    if original_layer in layermap:
+                        new_layer = layermap[original_layer]
+                        label.layer = new_layer[0]
+                        label.texttype = new_layer[1]
+        return self
+
 
 def copy(D: Component) -> Component:
     """Returns a Component copy.
@@ -1688,3 +1925,6 @@ if __name__ == "__main__":
     # c2 = c.mirror()
     # print(c2.info)
     c = gf.c.mzi()
+    # c.hash_geometry()
+    print(c.get_polygons(by_spec=True))
+    c.show(show_ports=True)

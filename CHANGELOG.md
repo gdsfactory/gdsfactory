@@ -3,6 +3,9 @@
 ## 5.36.0
 
 - Add thermal solver [PR](https://github.com/gdsfactory/gdsfactory/pull/739)
+- remove phidl dependency
+- remove incremental naming from phidl
+- remove Port.midpoint as it was deprecated since 5.14.0
 
 ## 5.35.0
 
