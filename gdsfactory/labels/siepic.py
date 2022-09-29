@@ -2,8 +2,6 @@
 
 from typing import Callable, List, Optional, Tuple
 
-from phidl import device_layout as pd
-
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
@@ -11,7 +9,12 @@ from gdsfactory.component_layout import Label
 from gdsfactory.components import grating_coupler_te
 from gdsfactory.components.straight import straight
 from gdsfactory.port import Port
-from gdsfactory.types import ComponentReference, ComponentSpec, CrossSectionSpec, Layer
+from gdsfactory.types import (
+    ComponentReference,
+    ComponentSpec,
+    CrossSectionSpec,
+    LayerSpec,
+)
 
 
 def get_input_label_text(
@@ -84,8 +87,8 @@ def get_input_labels(
     text = get_input_label_text(
         port=port, gc=gc, gc_index=port_index, component_name=component_name
     )
-    layer, texttype = pd._parse_layer(layer_label)
-    label = pd.Label(
+    layer, texttype = gf.get_layer(layer_label)
+    label = Label(
         text=text,
         position=gc.ports[gc_port_name].center,
         anchor="o",
@@ -106,7 +109,7 @@ def add_fiber_array_siepic(
     fanout_length: float = 0.0,
     grating_coupler: ComponentSpec = grating_coupler_te,
     cross_section: CrossSectionSpec = "strip",
-    layer_label: Layer = (10, 0),
+    layer_label: LayerSpec = (10, 0),
     **kwargs,
 ) -> Component:
     """Returns component with grating couplers and labels on each port.
