@@ -3,8 +3,8 @@
 from typing import Callable, Dict, List, Optional, Union
 
 import gdsfactory as gf
-import gdsfactory.component_layout as _parse_layer
 from gdsfactory.component import Component, ComponentReference
+from gdsfactory.component_layout import _parse_layer
 from gdsfactory.port import Port
 from gdsfactory.types import ComponentOrReference, Label, LayerSpec
 
