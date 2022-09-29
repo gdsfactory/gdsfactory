@@ -217,7 +217,7 @@ class _GeometryHelper:
 
         Parameters
         ----------
-        element : Device, DeviceReference, Port, Polygon, CellArray, Label, or Group
+        element : Component, ComponentReference, Port, Polygon, CellArray, Label, or Group
             Element to add.
         """
         if isinstance(self, Group):
@@ -250,7 +250,7 @@ class Group(_GeometryHelper):
 
         Parameters
         ----------
-        element : Device, DeviceReference, Port, Polygon, CellArray, Label, or Group
+        element : Component, ComponentReference, Port, Polygon, CellArray, Label, or Group
             Element to be added.
         """
         return self.add(element)
@@ -275,7 +275,7 @@ class Group(_GeometryHelper):
 
         Parameters
         ----------
-        element : Device, DeviceReference, Port, Polygon, CellArray, Label, or Group
+        element : Component, ComponentReference, Port, Polygon, CellArray, Label, or Group
             Element to add.
         """
         from gdsfactory.component import Component
@@ -293,7 +293,7 @@ class Group(_GeometryHelper):
             raise ValueError(
                 "[PHIDL] add() Could not add element to Group, the only "
                 "allowed element types are "
-                "(Device, DeviceReference, Polygon, CellArray, Label, Group)"
+                "(Component, ComponentReference, Polygon, CellArray, Label, Group)"
             )
         # Remove non-unique entries
         used = set()
@@ -547,7 +547,7 @@ def _distribute(elements, direction="x", spacing=100, separation=True, edge=None
 
     Returns
     -------
-    elements : Device, DeviceReference, Port, Polygon, CellArray, Label, or Group
+    elements : Component, ComponentReference, Port, Polygon, CellArray, Label, or Group
         Distributed elements.
     """
     if len(elements) == 0:
@@ -767,8 +767,8 @@ class CellArray(gdspy.CellArray, _GeometryHelper):
 
     Parameters
     ----------
-    device : Device
-        The referenced Device.
+    device : Component
+        The referenced Component.
     columns : int
         Number of columns in the array.
     rows : int

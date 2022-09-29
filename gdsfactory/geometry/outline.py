@@ -21,7 +21,7 @@ def outline(
     """Returns Component containing the outlined polygon(s).
 
     Creates an outline around all the polygons passed in the `elements`
-    argument. `elements` may be a Component, Polygon, or list of Devices.
+    argument. `elements` may be a Component, Polygon, or list of Components.
 
     Args:
         elements: Component(/Reference), list of Component(/Reference), or Polygon
