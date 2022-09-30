@@ -99,13 +99,11 @@ def text_freetype(
 
     justify = justify.lower()
     for ref in t.references:
-        if justify == "left":
-            pass
-        if justify == "right":
-            ref.xmax = 0
         if justify == "center":
             ref.move(origin=ref.center, destination=(0, 0), axis="x")
 
+        elif justify == "right":
+            ref.xmax = 0
     t.flatten()
     return t
 
