@@ -1,7 +1,7 @@
 
 set PIP_FIND_LINKS="https://whls.blob.core.windows.net/unstable/index.html"
 pip install lytest simphony sax jax jaxlib sklearn klayout
-pip install gdsfactory==5.35.0
+pip install gdsfactory==5.36.0
 gf tool install
 
 if exist "%USERPROFILE%\Desktop\gdsfactory" (goto SKIP_INSTALL)
