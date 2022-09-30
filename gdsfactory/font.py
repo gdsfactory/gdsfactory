@@ -58,7 +58,7 @@ def _get_font_by_name(name):
     return _get_font_by_file(font_file)
 
 
-def _get_glyph(font, letter):    # noqa: C901
+def _get_glyph(font, letter):  # noqa: C901
     """
     Get a block reference to the given letter
     """
@@ -171,8 +171,8 @@ def _get_glyph(font, letter):    # noqa: C901
 
                 p1 = points[cpoint]
                 p2 = points[cpoint_1]
-                    # If we are at the beginning, this is a special case,
-                    # we need to reset the starting position
+                # If we are at the beginning, this is a special case,
+                # we need to reset the starting position
                 if cpoint == start:
                     p0 = points[end]
                     if tags[end] & 1 == 0:

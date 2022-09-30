@@ -576,12 +576,12 @@ class KLayoutTechnology(BaseModel):
             # KLayout 0.27.x won't have a way to read/write the 2.5D info for technologies, so add manually
             # Should be easier in 0.28.x
             d25_element = [e for e in list(root) if e.tag == "d25"]
-            if not len(d25_element) == 1:
+            if len(d25_element) != 1:
                 raise KeyError("Could not get a single index for the d25 element.")
             d25_element = d25_element[0]
 
             src_element = [e for e in list(d25_element) if e.tag == "src"]
-            if not len(src_element) == 1:
+            if len(src_element) != 1:
                 raise KeyError("Could not get a single index for the src element.")
             src_element = src_element[0]
 
