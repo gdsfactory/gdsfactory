@@ -2915,6 +2915,21 @@ text
 
 
 
+text_freetype
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.text_freetype
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.text_freetype(text='abcd', size=10, justify='left', layer='WG', font='Arial')
+  c.plot()
+
+
+
 text_lines
 ----------------------------------------------------
 
