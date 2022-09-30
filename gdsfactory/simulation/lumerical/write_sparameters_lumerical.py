@@ -195,7 +195,7 @@ def write_sparameters_lumerical(
         logger.info(
             f"Updating {component.name!r} sim settings {component.simulation_settings}"
         )
-    for setting in settings.keys():
+    for setting in settings:
         if setting not in sim_settings:
             raise ValueError(
                 f"Invalid setting {setting!r} not in ({list(sim_settings.keys())})"

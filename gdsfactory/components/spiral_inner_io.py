@@ -225,10 +225,10 @@ def get_straight_length(
     """Returns y_spiral to achieve a particular spiral length."""
     x0 = 50
     x1 = 400
-    kwargs.update({"x_straight_inner_left": x0})
+    kwargs["x_straight_inner_left"] = x0
     spiral0 = spiral_function(**kwargs)
 
-    kwargs.update({"x_straight_inner_left": x1})
+    kwargs["x_straight_inner_left"] = x1
     spiral1 = spiral_function(**kwargs)
     p = np.polyfit(
         np.array([x0, x1]),
