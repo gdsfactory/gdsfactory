@@ -6,7 +6,7 @@
 - remove phidl dependency [PR](https://github.com/gdsfactory/gdsfactory/pull/741)
 - remove incremental naming from phidl
 - remove Port.midpoint as it was deprecated since 5.14.0
-- add freetype-py for using text with font and add components.text_freetype
+- add freetype-py for using text with font and add components.text_freetype [PR](https://github.com/gdsfactory/gdsfactory/pull/743)
 
 ## 5.35.0
 
