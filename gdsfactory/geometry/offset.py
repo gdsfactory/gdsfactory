@@ -14,7 +14,7 @@ def _merge_nearby_floating_points(x, tol=1e-10):
     """Takes an array `x` and merges any values within the tolerance `tol`.
 
     Args:
-        x : list of int or float
+        x: list of int or float
             Array of values with floating point errors.
         tol : float
             Tolerance within which points will be merged.
@@ -43,14 +43,13 @@ def _merge_nearby_floating_points(x, tol=1e-10):
 
 
 def _merge_floating_point_errors(polygons, tol=1e-10):
-    """Fixes floating point errors in the input polygon(s) by merging values
-    within the tolerance `tol`. See _merge_nearby_floating_points for
-    specifics.
+    """Fixes floating point errors in the input polygons by merging values \
+    within `tol` tolerance. See _merge_nearby_floating_points for specifics.
 
     Args:
-        polygons : PolygonSet or list of polygons
+        polygons: PolygonSet or list of polygons
             Set of polygons with floating point errors.
-        tol : float
+        tol: float
             Tolerance within which points will be merged.
 
     Returns
@@ -68,8 +67,8 @@ def _merge_floating_point_errors(polygons, tol=1e-10):
 
 
 def _crop_region(polygons, left, bottom, right, top, precision):
-    """Given a rectangular boundary defined by left/bottom/right/top, this
-    takes a list of polygons and cuts them at the boundary, discarding parts
+    """Given a rectangular boundary defined by left/bottom/right/top, this \
+    takes a list of polygons and cuts them at the boundary, discarding parts \
     of the polygons outside the rectangle.
 
     Args:
@@ -86,11 +85,10 @@ def _crop_region(polygons, left, bottom, right, top, precision):
         precision : float
             Desired precision for rounding vertex coordinates.
 
-    Returns
-    -------
-    cropped_polygons : PolygonSet or list of polygons
-        Set or list of polygons that are cropped according to the specified
-        boundary.
+    Returns:
+        cropped_polygons : PolygonSet or list of polygons
+            Set or list of polygons that are cropped according to the specified
+            boundary.
     """
     cropped_polygons = []
     for p in polygons:
@@ -103,31 +101,29 @@ def _crop_region(polygons, left, bottom, right, top, precision):
 
 
 def _crop_edge_polygons(all_polygons, bboxes, left, bottom, right, top, precision):
-    """Parses out which polygons are along the edge of the rectangle and need
-    to be cropped and which are deep inside the rectangle region and can be
+    """Parses out which polygons are along the edge of the rectangle and need \
+    to be cropped and which are deep inside the rectangle region and can be \
     left alone, then crops only those polygons along the edge.
 
-    Parameters
-    ----------
-    all_polygons : PolygonSet or list of polygons
-        Set or list of polygons to be cropped.
-    bboxes : list
-        List of all polygon bboxes in all_polygons.
-    left : int or float
-        The x-coordinate of the lefthand boundary.
-    bottom : int or float
-        The y-coordinate of the bottom boundary.
-    right : int or float
-        The x-coordinate of the righthand boundary.
-    top : int or float
-        The y-coordinate of the top boundary.
-    precision : float
-        Desired precision for rounding vertex coordinates.
+    Args:
+        all_polygons : PolygonSet or list of polygons
+            Set or list of polygons to be cropped.
+        bboxes : list
+            List of all polygon bboxes in all_polygons.
+        left : int or float
+            The x-coordinate of the lefthand boundary.
+        bottom : int or float
+            The y-coordinate of the bottom boundary.
+        right : int or float
+            The x-coordinate of the righthand boundary.
+        top : int or float
+            The y-coordinate of the top boundary.
+        precision : float
+            Desired precision for rounding vertex coordinates.
 
-    Returns
-    -------
-    polygons_to_process : PolygonSet or list of polygons
-        Set or list of polygons with crop applied to edge polygons.
+    Returns:
+        polygons_to_process : PolygonSet or list of polygons
+            Set or list of polygons with crop applied to edge polygons.
     """
     polygons_in_rect_i = _find_bboxes_in_rect(bboxes, left, bottom, right, top)
     polygons_edge_i = _find_bboxes_on_rect_edge(bboxes, left, bottom, right, top)
@@ -144,27 +140,25 @@ def _crop_edge_polygons(all_polygons, bboxes, left, bottom, right, top, precisio
 
 
 def _find_bboxes_in_rect(bboxes, left, bottom, right, top):
-    """Given a list of polygon bounding boxes and a rectangle defined by
-    left/bottom/right/top, this function returns those polygons which overlap
+    """Given a list of polygon bounding boxes and a rectangle defined by \
+    left/bottom/right/top, this function returns those polygons which overlap \
     the rectangle.
 
-    Parameters
-    ----------
-    bboxes : list
-        List of all polygon bboxes.
-    left : int or float
-        The x-coordinate of the lefthand boundary.
-    bottom : int or float
-        The y-coordinate of the bottom boundary.
-    right : int or float
-        The x-coordinate of the righthand boundary.
-    top : int or float
-        The y-coordinate of the top boundary.
+    Args:
+        bboxes : list
+            List of all polygon bboxes.
+        left : int or float
+            The x-coordinate of the lefthand boundary.
+        bottom : int or float
+            The y-coordinate of the bottom boundary.
+        right : int or float
+            The x-coordinate of the righthand boundary.
+        top : int or float
+            The y-coordinate of the top boundary.
 
     Returns
-    -------
-    result : list
-        List of all polygon bboxes that overlap with the defined rectangle.
+        result : list
+            List of all polygon bboxes that overlap with the defined rectangle.
     """
     return (
         (bboxes[:, 0] <= right)
@@ -176,28 +170,25 @@ def _find_bboxes_in_rect(bboxes, left, bottom, right, top):
 
 # _find_bboxes_on_rect_edge
 def _find_bboxes_on_rect_edge(bboxes, left, bottom, right, top):
-    """Given a list of polygon bounding boxes and a rectangular boundary
-    defined by left/bottom/right/top, this function returns those polygons
+    """Given a list of polygon bounding boxes and a rectangular boundary \
+    defined by left/bottom/right/top, this function returns those polygons \
     which intersect the rectangular boundary.
 
-    Parameters
-    ----------
-    bboxes : list
-        List of all polygon bboxes.
-    left : int or float
-        The x-coordinate of the lefthand boundary.
-    bottom : int or float
-        The y-coordinate of the bottom boundary.
-    right : int or float
-        The x-coordinate of the righthand boundary.
-    top : int or float
-        The y-coordinate of the top boundary.
+    Args:
+        bboxes : list
+            List of all polygon bboxes.
+        left : int or float
+            The x-coordinate of the lefthand boundary.
+        bottom : int or float
+            The y-coordinate of the bottom boundary.
+        right : int or float
+            The x-coordinate of the righthand boundary.
+        top : int or float
+            The y-coordinate of the top boundary.
 
-    Returns
-    -------
-    result : list
-        List of all polygon bboxes that intersect the defined rectangular
-        boundary.
+    Returns:
+        result: List of all polygon bboxes that intersect the defined
+            rectangular boundary.
     """
     bboxes_left = _find_bboxes_in_rect(bboxes, left, bottom, left, top)
     bboxes_right = _find_bboxes_in_rect(bboxes, right, bottom, right, top)
@@ -219,45 +210,43 @@ def _offset_region(
     join="miter",
     tolerance=2,
 ):
-    """Taking a region of e.g. size (x, y) which needs to be offset by
-    distance d, this function crops out a region (x+2*d, y+2*d) large, offsets
+    """Taking a region of e.g. size (x, y) which needs to be offset by \
+    distance d, this function crops out a region (x+2*d, y+2*d) large, offsets \
     that region, then crops it back to size (x, y) to create a valid result.
 
-    Parameters
-    ----------
-    all_polygons : PolygonSet or list of polygons
-        Set or list of polygons to be cropped and offset.
-    bboxes : list
-        List of all polygon bboxes in all_polygons.
-    left : int or float
-        The x-coordinate of the lefthand boundary.
-    bottom : int or float
-        The y-coordinate of the bottom boundary.
-    right : int or float
-        The x-coordinate of the righthand boundary.
-    top : int or float
-        The y-coordinate of the top boundary.
-    distance : int or float
-        Distance to offset polygons. Positive values expand, negative shrink.
-    join_first : bool
-        Join all paths before offsetting to avoid unnecessary joins in
-        adjacent polygon sides.
-    precision : float
-        Desired precision for rounding vertex coordinates.
-    join : {'miter', 'bevel', 'round'}
-        Type of join used to create the offset polygon.
-    tolerance : int or float
-        For miter joints, this number must be at least 2 and it represents the
-        maximal distance in multiples of offset between new vertices and their
-        original position before beveling to avoid spikes at acute joints. For
-        round joints, it indicates the curvature resolution in number of
-        points per full circle.
+    Args:
+        all_polygons : PolygonSet or list of polygons
+            Set or list of polygons to be cropped and offset.
+        bboxes : list
+            List of all polygon bboxes in all_polygons.
+        left : int or float
+            The x-coordinate of the lefthand boundary.
+        bottom : int or float
+            The y-coordinate of the bottom boundary.
+        right : int or float
+            The x-coordinate of the righthand boundary.
+        top : int or float
+            The y-coordinate of the top boundary.
+        distance : int or float
+            Distance to offset polygons. Positive values expand, negative shrink.
+        join_first : bool
+            Join all paths before offsetting to avoid unnecessary joins in
+            adjacent polygon sides.
+        precision : float
+            Desired precision for rounding vertex coordinates.
+        join : {'miter', 'bevel', 'round'}
+            Type of join used to create the offset polygon.
+        tolerance : int or float
+            For miter joints, this number must be at least 2 and it represents the
+            maximal distance in multiples of offset between new vertices and their
+            original position before beveling to avoid spikes at acute joints. For
+            round joints, it indicates the curvature resolution in number of
+            points per full circle.
 
-    Returns
-    -------
-    polygons_offset_cropped :
-        The resulting input polygons that are cropped to be between the
-        coordinates (left, bottom, right, top)
+    Returns:
+        polygons_offset_cropped :
+            The resulting input polygons that are cropped to be between the
+            coordinates (left, bottom, right, top)
 
     """
 
@@ -284,15 +273,13 @@ def _offset_region(
 def _polygons_to_bboxes(polygons):
     """Generates the bboxes of all input polygons.
 
-    Parameters
-    ----------
-    polygons : PolygonSet or list of polygons
-        Set or list of polygons to generate bboxes of.
+    Args:
+        polygons : PolygonSet or list of polygons
+            Set or list of polygons to generate bboxes of.
 
-    Returns
-    -------
-    bboxes : list
-        List of all polygon bboxes in polygons.
+    Returns:
+        bboxes : list
+            List of all polygon bboxes in polygons.
     """
     #    Build bounding boxes
     bboxes = np.empty([len(polygons), 4])
@@ -312,8 +299,7 @@ def _offset_polygons_parallel(
     join="miter",
     tolerance=2,
 ):
-    """Performs the offset function on a list of subsections of the original
-    geometry and returns the offset polygons
+    """Offsets a list of subsections and returns the offset polygons.
 
     Args:
         polygons : PolygonSet or list of polygons
