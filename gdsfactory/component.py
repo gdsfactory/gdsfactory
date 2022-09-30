@@ -444,8 +444,7 @@ class Component(gdspy.Cell, _GeometryHelper):
         ``uid`` as the original so that they can be traced back to the
         original if needed.
 
-        Parameters
-        ----------
+        Args:
         depth : int or None
             If not None, defines from how many reference levels to
             retrieve Ports from.
@@ -878,7 +877,7 @@ class Component(gdspy.Cell, _GeometryHelper):
 
         Args:
             element: `PolygonSet`, `CellReference`, `CellArray` or iterable
-            The element or iterable of elements to be inserted in this cell.
+                The element or iterable of elements to be inserted in this cell.
 
         Raises:
             MutabilityError: if component is locked.
@@ -930,21 +929,20 @@ class Component(gdspy.Cell, _GeometryHelper):
     ):
         """Distributes the specified elements in the Component.
 
-        Parameters
-        ----------
-        elements : array-like of PHIDL objects or 'all'
-            Elements to distribute.
-        direction : {'x', 'y'}
-            Direction of distribution; either a line in the x-direction or
-            y-direction.
-        spacing : int or float
-            Distance between elements.
-        separation : bool
-            If True, guarantees elements are separated with a fixed spacing
-            between; if  False, elements are spaced evenly along a grid.
-        edge : {'x', 'xmin', 'xmax', 'y', 'ymin', 'ymax'}
-            Which edge to perform the distribution along (unused if
-            separation == True)
+        Args:
+            elements : array-like of PHIDL objects or 'all'
+                Elements to distribute.
+            direction : {'x', 'y'}
+                Direction of distribution; either a line in the x-direction or
+                y-direction.
+            spacing : int or float
+                Distance between elements.
+            separation : bool
+                If True, guarantees elements are separated with a fixed spacing
+                between; if  False, elements are spaced evenly along a grid.
+            edge : {'x', 'xmin', 'xmax', 'y', 'ymin', 'ymax'}
+                Which edge to perform the distribution along (unused if
+                separation == True)
 
         """
         if elements == "all":
@@ -961,13 +959,12 @@ class Component(gdspy.Cell, _GeometryHelper):
     def align(self, elements="all", alignment="ymax"):
         """Align elements in the Component
 
-        Parameters
-        ----------
-        elements : array-like of PHIDL objects, or 'all'
-            Elements in the Component to align.
-        alignment : {'x', 'y', 'xmin', 'xmax', 'ymin', 'ymax'}
-            Which edge to align along (e.g. 'ymax' will move the elements such
-            that all of their topmost points are aligned)
+        Args:
+            elements : array-like of PHIDL objects, or 'all'
+                Elements in the Component to align.
+            alignment : {'x', 'y', 'xmin', 'xmax', 'ymin', 'ymax'}
+                Which edge to align along (e.g. 'ymax' will move the elements such
+                that all of their topmost points are aligned)
 
         """
         if elements == "all":
@@ -1662,8 +1659,7 @@ class Component(gdspy.Cell, _GeometryHelper):
         """Gathers the .info dictionaries from every sub-Component and returns
         them in a list.
 
-        Parameters
-        ----------
+        Args:
         depth : int or None
             If not None, defines from how many reference levels to
             retrieve Ports from.

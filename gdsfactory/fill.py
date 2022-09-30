@@ -14,9 +14,11 @@ from gdsfactory.types import Float2, Floats, LayerSpecs
 
 
 def _loop_over(var):
-    """Checks if a variable is in the form of an iterable (list/tuple)
-    and if not, returns it as a list.  Useful for allowing argument
-    inputs to be either lists (e.g. [1, 3, 4]) or single-valued (e.g. 3).
+    """Checks if a variable is in the form of an iterable (list/tuple)\
+    and if not, returns it as a list.
+
+    Useful for allowing argument inputs to be either lists
+    (e.g. [1, 3, 4]) or single-valued (e.g. 3).
     Returns list Variable converted to list if single-valued input.
 
     Args:
@@ -29,7 +31,7 @@ def _loop_over(var):
 
 
 def _rasterize_polygons(polygons, bounds=([-100, -100], [100, 100]), dx=1, dy=1):
-    """Converts polygons to a black/white (1/0) matrix"""
+    """Converts polygons to a black/white (1/0) matrix."""
     try:
         from skimage import draw
     except ImportError as e:
@@ -69,14 +71,14 @@ def _rasterize_polygons(polygons, bounds=([-100, -100], [100, 100]), dx=1, dy=1)
 
 
 def _raster_index_to_coords(i, j, bounds=([-100, -100], [100, 100]), dx=1, dy=1):
-    """Converts (i,j) index of raster matrix to real coordinates"""
+    """Converts (i,j) index of raster matrix to real coordinates."""
     x = (j + 0.5) * dx + bounds[0][0]
     y = (i + 0.5) * dy + bounds[0][1]
     return x, y
 
 
 def _expand_raster(raster, distance=(4, 2)):
-    """Expands all black (1) pixels in the raster"""
+    """Expands all black (1) pixels in the raster."""
     try:
         from skimage import draw, morphology
     except ImportError as e:

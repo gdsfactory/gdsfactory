@@ -24,7 +24,9 @@ def _boolean_region(
     operation="and",
     precision: float = 1e-4,
 ):
-    """Taking a region of e.g. size (x, y) which needs to be booleaned,
+    """Returns boolean for a region.
+
+    Taking a region of e.g. size (x, y) which needs to be booleaned,
     this function crops out a region (x, y) large from each set of polygons
     (A and B), booleans that cropped region and returns the result.
 
@@ -50,7 +52,7 @@ def _boolean_region(
         precision : float
             Desired precision for rounding vertex coordinates.
 
-    Returns
+    Returns:
         polygons_boolean : PolygonSet or list of polygons
         Set or list of polygons with boolean operation applied.
     """
@@ -69,9 +71,9 @@ def _boolean_region(
 def _boolean_polygons_parallel(
     polygons_A, polygons_B, num_divisions=(10, 10), operation="and", precision=1e-4
 ):
-    """Performs the boolean function on a list of subsections of the original geometry.
+    """Returns boolean on a list of subsections of the original geometry.
 
-    Returns list of polygons, with all the booleaned polygons from each of the subsections
+    Returns list of polygons, with all the booleaned polygons from each subsection.
 
     Args:
         polygons_A : PolygonSet or list of polygons

@@ -24,8 +24,7 @@ except ImportError as e:
 
 
 def _get_font_by_file(file):
-    """
-    Load a given font file.
+    """Load font file.
 
     Args:
         file [str, BinaryIO]: Load a font face from a given file
@@ -41,8 +40,7 @@ def _get_font_by_file(file):
 
 
 def _get_font_by_name(name):
-    """
-    Try and load a system font by name.
+    """Try to load a system font by name.
 
     Args:
         name [str]: Load a system font
@@ -59,9 +57,7 @@ def _get_font_by_name(name):
 
 
 def _get_glyph(font, letter):  # noqa: C901
-    """
-    Get a block reference to the given letter
-    """
+    """Get a block reference to the given letter."""
     if not isinstance(letter, str) and len(letter) == 1:
         raise TypeError(f"Letter must be a string of length 1. Got: {letter!r}")
 

@@ -8,7 +8,7 @@ from gdsfactory.port import Port
 
 
 def _get_rotated_basis(theta):
-    """Returns basis vectors rotated CCW by theta (in degrees)"""
+    """Returns basis vectors rotated CCW by theta (in degrees)."""
     theta = np.radians(theta)
     e1 = np.array([np.cos(theta), np.sin(theta)])
     e2 = np.array([-1 * np.sin(theta), np.cos(theta)])
