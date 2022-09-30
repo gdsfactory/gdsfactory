@@ -10,15 +10,12 @@ def _parse_layer(layer):
     """Check if the variable layer is a Layer object, a 2-element list like
     [0, 1] representing layer = 0 and datatype = 1, or just a layer number.
 
-    Parameters
-    ----------
-    layer : int, array-like[2], or set
-        Variable to check.
+    Args:
+        layer: int, array-like[2], or set Variable to check.
 
     Returns
-    -------
-    (gds_layer, gds_datatype) : array-like[2]
-        The layer number and datatype of the input.
+        (gds_layer, gds_datatype) : array-like[2]
+            The layer number and datatype of the input.
     """
     if hasattr(layer, "gds_layer"):
         gds_layer, gds_datatype = layer.gds_layer, layer.gds_datatype
@@ -32,7 +29,7 @@ def _parse_layer(layer):
         gds_layer, gds_datatype = layer, 0
     else:
         raise ValueError(
-            """[PHIDL] _parse_layer() was passed something
+            """_parse_layer() was passed something
             that could not be interpreted as a layer: layer = %s"""
             % layer
         )
@@ -57,10 +54,8 @@ class _GeometryHelper:
     def center(self, destination):
         """Sets the center of the bounding box.
 
-        Parameters
-        ----------
-        destination : array-like[2]
-            Coordinates of the new bounding box center.
+        Args:
+            destination : array-like[2] Coordinates of the new bounding box center.
         """
         self.move(destination=destination, origin=self.center)
 
@@ -73,10 +68,8 @@ class _GeometryHelper:
     def x(self, destination):
         """Sets the x-coordinate of the center of the bounding box.
 
-        Parameters
-        ----------
-        destination : int or float
-            x-coordinate of the bbox center.
+        Args:
+            destination : int or float x-coordinate of the bbox center.
         """
         destination = (destination, self.center[1])
         self.move(destination=destination, origin=self.center, axis="x")
@@ -90,8 +83,7 @@ class _GeometryHelper:
     def y(self, destination):
         """Sets the y-coordinate of the center of the bounding box.
 
-        Parameters
-        ----------
+        Args:
         destination : int or float
             y-coordinate of the bbox center.
         """
@@ -107,8 +99,7 @@ class _GeometryHelper:
     def xmax(self, destination):
         """Sets the x-coordinate of the maximum edge of the bounding box.
 
-        Parameters
-        ----------
+        Args:
         destination : int or float
             x-coordinate of the maximum edge of the bbox.
         """
@@ -123,10 +114,8 @@ class _GeometryHelper:
     def ymax(self, destination):
         """Sets the y-coordinate of the maximum edge of the bounding box.
 
-        Parameters
-        ----------
-        destination : int or float
-            y-coordinate of the maximum edge of the bbox.
+        Args:
+            destination : int or float y-coordinate of the maximum edge of the bbox.
         """
         self.move(destination=(0, destination), origin=self.bbox[1], axis="y")
 
@@ -139,10 +128,8 @@ class _GeometryHelper:
     def xmin(self, destination):
         """Sets the x-coordinate of the minimum edge of the bounding box.
 
-        Parameters
-        ----------
-        destination : int or float
-            x-coordinate of the minimum edge of the bbox.
+        Args:
+            destination : int or float x-coordinate of the minimum edge of the bbox.
         """
         self.move(destination=(destination, 0), origin=self.bbox[0], axis="x")
 
@@ -155,10 +142,8 @@ class _GeometryHelper:
     def ymin(self, destination):
         """Sets the y-coordinate of the minimum edge of the bounding box.
 
-        Parameters
-        ----------
-        destination : int or float
-            y-coordinate of the minimum edge of the bbox.
+        Args:
+            destination : int or float y-coordinate of the minimum edge of the bbox.
         """
         self.move(destination=(0, destination), origin=self.bbox[0], axis="y")
 
@@ -183,12 +168,9 @@ class _GeometryHelper:
     def movex(self, origin=0, destination=None):
         """Moves an object by a specified x-distance.
 
-        Parameters
-        ----------
-        origin : array-like[2], Port, or key
-            Origin point of the move.
-        destination : array-like[2], Port, key, or None
-            Destination point of the move.
+        Args:
+            origin : array-like[2], Port, or key Origin point of the move.
+            destination : array-like[2], Port, key, or None Destination point of the move.
         """
         if destination is None:
             destination = origin
@@ -199,12 +181,9 @@ class _GeometryHelper:
     def movey(self, origin=0, destination=None):
         """Moves an object by a specified y-distance.
 
-        Parameters
-        ----------
-        origin : array-like[2], Port, or key
-            Origin point of the move.
-        destination : array-like[2], Port, or key
-            Destination point of the move.
+        Args:
+            origin : array-like[2], Port, or key Origin point of the move.
+            destination : array-like[2], Port, or key Destination point of the move.
         """
         if destination is None:
             destination = origin
@@ -215,10 +194,8 @@ class _GeometryHelper:
     def __add__(self, element):
         """Adds an element to a Group.
 
-        Parameters
-        ----------
-        element : Component, ComponentReference, Port, Polygon, CellArray, Label, or Group
-            Element to add.
+        Args:
+            element : Component, ComponentReference, Port, Polygon, CellArray, Label, or Group Element to add.
         """
         if isinstance(self, Group):
             G = Group()
@@ -248,10 +225,9 @@ class Group(_GeometryHelper):
     def __iadd__(self, element):
         """Adds an element to the Group.
 
-        Parameters
-        ----------
-        element : Component, ComponentReference, Port, Polygon, CellArray, Label, or Group
-            Element to be added.
+        Args:
+            element : Component, ComponentReference, Port, Polygon, CellArray, Label, or Group
+                Element to be added.
         """
         return self.add(element)
 
@@ -259,7 +235,7 @@ class Group(_GeometryHelper):
     def bbox(self):
         """Returns the bounding boxes of the Group."""
         if len(self.elements) == 0:
-            raise ValueError("[PHIDL] Group is empty, no bbox is available")
+            raise ValueError("Group is empty, no bbox is available")
         bboxes = np.empty([len(self.elements), 4])
         for n, e in enumerate(self.elements):
             bboxes[n] = e.bbox.flatten()
@@ -273,8 +249,7 @@ class Group(_GeometryHelper):
     def add(self, element):
         """Adds an element to the Group.
 
-        Parameters
-        ----------
+        Args:
         element : Component, ComponentReference, Port, Polygon, CellArray, Label, or Group
             Element to add.
         """
@@ -291,7 +266,7 @@ class Group(_GeometryHelper):
             self.elements.append(element)
         else:
             raise ValueError(
-                "[PHIDL] add() Could not add element to Group, the only "
+                "add() Could not add element to Group, the only "
                 "allowed element types are "
                 "(Component, ComponentReference, Polygon, CellArray, Label, Group)"
             )
@@ -305,12 +280,11 @@ class Group(_GeometryHelper):
     def rotate(self, angle=45, center=(0, 0)):
         """Rotates all elements in a Group around the specified centerpoint.
 
-        Parameters
-        ----------
-        angle : int or float
-            Angle to rotate the Group in degrees.
-        center : array-like[2] or None
-            center of the Group.
+        Args:
+            angle : int or float
+                Angle to rotate the Group in degrees.
+            center : array-like[2] or None
+                center of the Group.
         """
         for e in self.elements:
             e.rotate(angle=angle, center=center)
@@ -321,14 +295,13 @@ class Group(_GeometryHelper):
         origin and destination can be 1x2 array-like, Port, or a key
         corresponding to one of the Ports in this Group.
 
-        Parameters
-        ----------
-        origin : array-like[2], Port, or key
-            Origin point of the move.
-        destination : array-like[2], Port, or key
-            Destination point of the move.
-        axis : {'x', 'y'}
-            Direction of the move.
+        Args:
+            origin : array-like[2], Port, or key
+                Origin point of the move.
+            destination : array-like[2], Port, or key
+                Destination point of the move.
+            axis : {'x', 'y'}
+                Direction of the move.
         """
         for e in self.elements:
             e.move(origin=origin, destination=destination, axis=axis)
@@ -339,12 +312,11 @@ class Group(_GeometryHelper):
         specified points. ``points`` may be input as either single points
         [1,2] or array-like[N][2], and will return in kind.
 
-        Parameters
-        ----------
-        p1 : array-like[N][2]
-            First point of the line.
-        p2 : array-like[N][2]
-            Second point of the line.
+        Args:
+            p1 : array-like[N][2]
+                First point of the line.
+            p2 : array-like[N][2]
+                Second point of the line.
         """
         for e in self.elements:
             e.mirror(p1=p1, p2=p2)
@@ -353,19 +325,18 @@ class Group(_GeometryHelper):
     def distribute(self, direction="x", spacing=100, separation=True, edge="center"):
         """Distributes the elements in the Group.
 
-        Parameters
-        ----------
-        direction : {'x', 'y'}
-            Direction of distribution; either a line in the x-direction or
-            y-direction.
-        spacing : int or float
-            Distance between elements.
-        separation : bool
-            If True, guarantees elements are separated with a fixed spacing
-            between; if False, elements are spaced evenly along a grid.
-        edge : {'x', 'xmin', 'xmax', 'y', 'ymin', 'ymax'}
-            Which edge to perform the distribution along (unused if
-            separation == True)
+        Args:
+            direction : {'x', 'y'}
+                Direction of distribution; either a line in the x-direction or
+                y-direction.
+            spacing : int or float
+                Distance between elements.
+            separation : bool
+                If True, guarantees elements are separated with a fixed spacing
+                between; if False, elements are spaced evenly along a grid.
+            edge : {'x', 'xmin', 'xmax', 'y', 'ymin', 'ymax'}
+                Which edge to perform the distribution along (unused if
+                separation == True)
         """
         _distribute(
             elements=self.elements,
@@ -379,11 +350,10 @@ class Group(_GeometryHelper):
     def align(self, alignment="ymax"):
         """Aligns the elements in the Group.
 
-        Parameters
-        ----------
-        alignment : {'x', 'y', 'xmin', 'xmax', 'ymin', 'ymax'}
-            Which edge to align along (e.g. 'ymax' will align move the elements
-            such that all of their topmost points are aligned)
+        Args:
+            alignment : {'x', 'y', 'xmin', 'xmax', 'ymin', 'ymax'}
+                Which edge to align along (e.g. 'ymax' will align move the elements
+                such that all of their topmost points are aligned)
         """
         _align(elements=self.elements, alignment=alignment)
         return self
@@ -394,18 +364,16 @@ def _rotate_points(points, angle=45, center=(0, 0)):
     may be input as either single points [1,2] or array-like[N][2], and will
     return in kind.
 
-    Parameters
-    ----------
-    points : array-like[N][2]
-        Coordinates of the element to be rotated.
-    angle : int or float
-        Angle to rotate the points.
-    center : array-like[2]
-        Centerpoint of rotation.
+    Args:
+        points : array-like[N][2]
+            Coordinates of the element to be rotated.
+        angle : int or float
+            Angle to rotate the points.
+        center : array-like[2]
+            Centerpoint of rotation.
 
-    Returns
-    -------
-    A new set of points that are rotated around ``center``.
+    Returns:
+        A new set of points that are rotated around ``center``.
     """
     if angle == 0:
         return points
@@ -424,18 +392,16 @@ def _reflect_points(points, p1=(0, 0), p2=(1, 0)):
     """Reflects points across the line formed by p1 and p2.  ``points`` may be
     input as either single points [1,2] or array-like[N][2], and will return in kind.
 
-    Parameters
-    ----------
-    points : array-like[N][2]
-        Coordinates of the element to be reflected.
-    p1 : array-like[2]
-        Coordinates of the start of the reflecting line.
-    p2 : array-like[2]
-        Coordinates of the end of the reflecting line.
+    Args:
+        points : array-like[N][2]
+            Coordinates of the element to be reflected.
+        p1 : array-like[2]
+            Coordinates of the start of the reflecting line.
+        p2 : array-like[2]
+            Coordinates of the end of the reflecting line.
 
-    Returns
-    -------
-    A new set of points that are reflected across ``p1`` and ``p2``.
+    Returns:
+        A new set of points that are reflected across ``p1`` and ``p2``.
     """
     # From http://math.stackexchange.com/questions/11515/point-reflection-across-a-line
     points = np.array(points)
@@ -459,10 +425,8 @@ def _reflect_points(points, p1=(0, 0), p2=(1, 0)):
 def _is_iterable(items):
     """Checks if the passed variable is iterable.
 
-    Parameters
-    ----------
-    items : any
-        Item to check for iterability.
+    Args:
+        items: any Item to check for iterability.
     """
     return isinstance(items, (list, tuple, set, np.ndarray))
 
@@ -470,15 +434,13 @@ def _is_iterable(items):
 def _parse_coordinate(c):
     """Translates various inputs (lists, tuples, Ports) to an (x,y) coordinate.
 
-    Parameters
-    ----------
-    c : array-like[N] or Port
-        Input to translate into a coordinate.
+    Args:
+        c: array-like[N] or Port
+            Input to translate into a coordinate.
 
-    Returns
-    -------
-    c : array-like[2]
-        Parsed coordinate.
+    Returns:
+        c : array-like[2]
+            Parsed coordinate.
     """
     if hasattr(c, "center"):
         return c.center
@@ -486,7 +448,7 @@ def _parse_coordinate(c):
         return c
     else:
         raise ValueError(
-            "[PHIDL] Could not parse coordinate, input should be array-like (e.g. [1.5,2.3] or a Port"
+            "Could not parse coordinate, input should be array-like (e.g. [1.5,2.3] or a Port"
         )
 
 
@@ -494,21 +456,18 @@ def _parse_move(origin, destination, axis):
     """Translates various input coordinates to changes in position in the x-
     and y-directions.
 
-    Parameters
-    ----------
-    origin : array-like[2] of int or float, Port, or key
-        Origin point of the move.
-    destination : array-like[2] of int or float, Port, key, or None
-        Destination point of the move.
-    axis : {'x', 'y'}
-        Direction of move.
+    Args:
+        origin : array-like[2] of int or float, Port, or key
+            Origin point of the move.
+        destination : array-like[2] of int or float, Port, key, or None
+            Destination point of the move.
+        axis : {'x', 'y'} Direction of move.
 
-    Returns
-    -------
-    dx : int or float
-        Change in position in the x-direction.
-    dy : int or float
-        Change in position in the y-direction.
+    Returns:
+        dx : int or float
+            Change in position in the x-direction.
+        dy : int or float
+            Change in position in the y-direction.
     """
     # If only one set of coordinates is defined, make sure it's used to move things
     if destination is None:
@@ -527,43 +486,39 @@ def _parse_move(origin, destination, axis):
 
 
 def _distribute(elements, direction="x", spacing=100, separation=True, edge=None):
-    """Takes a list of elements and distributes them either equally along a
+    """Takes a list of elements and distributes them either equally along a \
     grid or with a fixed spacing between them.
 
-    Parameters
-    ----------
-    elements : array-like of PHIDL objects
-        Elements to distribute.
-    direction : {'x', 'y'}
-        Direction of distribution; either a line in the x-direction or
-        y-direction.
-    spacing : int or float
-        Distance between elements.
-    separation : bool
-        If True, guarantees elements are separated with a fixed spacing between; if False, elements are spaced evenly along a grid.
-    edge : {'x', 'xmin', 'xmax', 'y', 'ymin', 'ymax'}
-        Which edge to perform the distribution along (unused if
-        separation == True)
+    Args:
+        elements : array-like of gdsfactory objects
+            Elements to distribute.
+        direction : {'x', 'y'}
+            Direction of distribution; either a line in the x-direction or
+            y-direction.
+        spacing : int or float
+            Distance between elements.
+        separation : bool
+            If True, guarantees elements are separated with a fixed spacing between; if False, elements are spaced evenly along a grid.
+        edge : {'x', 'xmin', 'xmax', 'y', 'ymin', 'ymax'}
+            Which edge to perform the distribution along (unused if
+            separation == True)
 
-    Returns
-    -------
-    elements : Component, ComponentReference, Port, Polygon, CellArray, Label, or Group
-        Distributed elements.
+    Returns:
+        elements : Component, ComponentReference, Port, Polygon, CellArray, Label, or Group
+            Distributed elements.
     """
     if len(elements) == 0:
         return elements
     if direction not in ({"x", "y"}):
-        raise ValueError(
-            "[PHIDL] distribute(): 'direction' argument must be either 'x' or'y'"
-        )
+        raise ValueError("distribute(): 'direction' argument must be either 'x' or'y'")
     if (
         (direction == "x")
         and (edge not in ({"x", "xmin", "xmax"}))
         and (not separation)
     ):
         raise ValueError(
-            "[PHIDL] distribute(): When `separation` == False and direction == 'x',"
-            + " the `edge` argument must be one of {'x', 'xmin', 'xmax'}"
+            "distribute(): When `separation` == False and direction == 'x',"
+            " the `edge` argument must be one of {'x', 'xmin', 'xmax'}"
         )
     if (
         (direction == "y")
@@ -571,8 +526,8 @@ def _distribute(elements, direction="x", spacing=100, separation=True, edge=None
         and (not separation)
     ):
         raise ValueError(
-            "[PHIDL] distribute(): When `separation` == False and direction == 'y',"
-            + " the `edge` argument must be one of {'y', 'ymin', 'ymax'}"
+            "distribute(): When `separation` == False and direction == 'y',"
+            " the `edge` argument must be one of {'y', 'ymin', 'ymax'}"
         )
 
     if direction == "y":
@@ -599,27 +554,25 @@ def _distribute(elements, direction="x", spacing=100, separation=True, edge=None
 
 
 def _align(elements, alignment="ymax"):
-    """Aligns lists of PHIDL elements
+    """Aligns lists of gdsfactory elements
 
-    Parameters
-    ----------
-    elements : array-like of PHIDL objects
-        Elements to align.
-    alignment : {'x', 'y', 'xmin', 'xmax', 'ymin', 'ymax'}
-        Which edge to align along (e.g. 'ymax' will align move the elements such
-        that all of their topmost points are aligned)
+    Args:
+        elements : array-like of gdsfactory objects
+            Elements to align.
+        alignment : {'x', 'y', 'xmin', 'xmax', 'ymin', 'ymax'}
+            Which edge to align along (e.g. 'ymax' will align move the elements such
+            that all of their topmost points are aligned)
 
 
     Returns
-    -------
-    elements : array-like of PHIDL objects
-        Aligned elements.
+        elements : array-like of gdsfactory objects
+            Aligned elements.
     """
     if len(elements) == 0:
         return elements
     if alignment not in (["x", "y", "xmin", "xmax", "ymin", "ymax"]):
         raise ValueError(
-            "[PHIDL] 'alignment' argument must be one of 'x','y','xmin', 'xmax', 'ymin','ymax'"
+            "'alignment' argument must be one of 'x','y','xmin', 'xmax', 'ymin','ymax'"
         )
     value = Group(elements).__getattribute__(alignment)
     for e in elements:
@@ -637,10 +590,11 @@ def _line_distances(points, start, end):
 
 
 def _simplify(points, tolerance=0):
-    """Ramer–Douglas–Peucker algorithm for line simplification. Takes an
-    array of points of shape (N,2) and removes excess points in the line. The
-    remaining points form a identical line to within `tolerance` from the
-    original"""
+    """Ramer–Douglas–Peucker algorithm for line simplification.
+
+    Takes an array of points of shape (N,2) and removes excess points in the line.
+    The remaining points form a identical line to within `tolerance` from the original
+    """
     # From https://github.com/fhirschmann/rdp/issues/7
     # originally written by Kirill Konevets https://github.com/kkonevets
 
@@ -663,15 +617,14 @@ def _simplify(points, tolerance=0):
 class Polygon(gdspy.Polygon, _GeometryHelper):
     """Polygonal geometric object.
 
-    Parameters
-    ----------
-    points : array-like[N][2]
-        Coordinates of the vertices of the Polygon.
-    gds_layer : int
-        GDSII layer of the Polygon.
-    gds_datatype : int
-        GDSII datatype of the Polygon.
-    parent :
+    Args:
+        points : array-like[N][2]
+            Coordinates of the vertices of the Polygon.
+        gds_layer : int
+            GDSII layer of the Polygon.
+        gds_datatype : int
+            GDSII datatype of the Polygon.
+        parent : cell that polygon belongs to.
 
     """
 
@@ -687,12 +640,11 @@ class Polygon(gdspy.Polygon, _GeometryHelper):
     def rotate(self, angle=45, center=(0, 0)):
         """Rotates a Polygon by the specified angle.
 
-        Parameters
-        ----------
-        angle : int or float
-            Angle to rotate the Polygon in degrees.
-        center : array-like[2] or None
-            center of the Polygon.
+        Args:
+            angle : int or float
+                Angle to rotate the Polygon in degrees.
+            center : array-like[2] or None
+                center of the Polygon.
         """
         super().rotate(angle=angle * pi / 180, center=center)
         if self.parent is not None:
@@ -704,14 +656,13 @@ class Polygon(gdspy.Polygon, _GeometryHelper):
         destination. Both origin and destination can be 1x2 array-like, Port,
         or a key corresponding to one of the Ports in this device.
 
-        Parameters
-        ----------
-        origin : array-like[2], Port, or key
-            Origin point of the move.
-        destination : array-like[2], Port, or key
-            Destination point of the move.
-        axis : {'x', 'y'}
-            Direction of move.
+        Args:
+            origin : array-like[2], Port, or key
+                Origin point of the move.
+            destination : array-like[2], Port, or key
+                Destination point of the move.
+            axis : {'x', 'y'}
+                Direction of move.
 
         """
         dx, dy = _parse_move(origin, destination, axis)
@@ -722,16 +673,16 @@ class Polygon(gdspy.Polygon, _GeometryHelper):
         return self
 
     def mirror(self, p1=(0, 1), p2=(0, 0)):
-        """Mirrors a Polygon across the line formed between the two
-        specified points. ``points`` may be input as either single points
+        """Mirrors a Polygon across the line formed between two points.
+
+        ``points`` may be input as either single points
         [1,2] or array-like[N][2], and will return in kind.
 
-        Parameters
-        ----------
-        p1 : array-like[N][2]
-            First point of the line.
-        p2 : array-like[N][2]
-            Second point of the line.
+        Args:
+            p1 : array-like[N][2]
+                First point of the line.
+            p2 : array-like[N][2]
+                Second point of the line.
         """
         for n, points in enumerate(self.polygons):
             self.polygons[n] = _reflect_points(points, p1, p2)
@@ -744,13 +695,12 @@ class Polygon(gdspy.Polygon, _GeometryHelper):
         shape by more than `tolerance` from the original. Uses the
         Ramer-Douglas-Peucker algorithm.
 
-        Parameters
-        ----------
-        tolerance : float
-            Tolerance value for the simplification algorithm.  All points that
-            can be removed without changing the resulting polygon by more than
-            the value listed here will be removed. Also known as `epsilon` here
-            https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm
+        Args:
+            tolerance : float
+                Tolerance value for the simplification algorithm.  All points that
+                can be removed without changing the resulting polygon by more than
+                the value listed here will be removed. Also known as `epsilon` here
+                https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm
         """
 
         for n, points in enumerate(self.polygons):
@@ -763,25 +713,24 @@ class Polygon(gdspy.Polygon, _GeometryHelper):
 class CellArray(gdspy.CellArray, _GeometryHelper):
     """Multiple references to an existing cell in an array format.
 
-    Parameters
-    ----------
-    device : Component
-        The referenced Component.
-    columns : int
-        Number of columns in the array.
-    rows : int
-        Number of rows in the array.
-    spacing : array-like[2] of int or float
-        Distances between adjacent columns and adjacent rows.
-    origin : array-like[2] of int or float
-        Position where the cell is inserted.
-    rotation : int or float
-        Angle of rotation of the reference (in `degrees`).
-    magnification : int or float
-        Magnification factor for the reference.
-    x_reflection : bool
-        If True, the reference is reflected parallel to the x direction
-        before being rotated.
+    Args:
+        device : Component
+            The referenced Component.
+        columns : int
+            Number of columns in the array.
+        rows : int
+            Number of rows in the array.
+        spacing : array-like[2] of int or float
+            Distances between adjacent columns and adjacent rows.
+        origin : array-like[2] of int or float
+            Position where the cell is inserted.
+        rotation : int or float
+            Angle of rotation of the reference (in `degrees`).
+        magnification : int or float
+            Magnification factor for the reference.
+        x_reflection : bool
+            If True, the reference is reflected parallel to the x direction
+            before being rotated.
     """
 
     def __init__(
@@ -822,14 +771,13 @@ class CellArray(gdspy.CellArray, _GeometryHelper):
         origin and destination can be 1x2 array-like, Port, or a key
         corresponding to one of the Ports in this CellArray.
 
-        Parameters
-        ----------
-        origin : array-like[2], Port, or key
-            Origin point of the move.
-        destination : array-like[2], Port, or key
-            Destination point of the move.
-        axis : {'x', 'y'}
-            Direction of the move.
+        Args:
+            origin : array-like[2], Port, or key
+                Origin point of the move.
+            destination : array-like[2], Port, or key
+                Destination point of the move.
+            axis : {'x', 'y'}
+                Direction of the move.
         """
         dx, dy = _parse_move(origin, destination, axis)
         self.origin = np.array(self.origin) + np.array((dx, dy))
@@ -842,12 +790,11 @@ class CellArray(gdspy.CellArray, _GeometryHelper):
         """Rotates all elements in the CellArray around the specified
         centerpoint.
 
-        Parameters
-        ----------
-        angle : int or float
-            Angle to rotate the CellArray in degrees.
-        center : array-like[2], Port, or None
-            center of the CellArray.
+        Args:
+            angle : int or float
+                Angle to rotate the CellArray in degrees.
+            center : array-like[2], Port, or None
+                center of the CellArray.
         """
         if angle == 0:
             return self
@@ -863,12 +810,11 @@ class CellArray(gdspy.CellArray, _GeometryHelper):
         """Mirrors a CellArray across the line formed between the two
         specified points.
 
-        Parameters
-        ----------
-        p1 : array-like[N][2]
-            First point of the line.
-        p2 : array-like[N][2]
-            Second point of the line.
+        Args:
+            p1 : array-like[N][2]
+                First point of the line.
+            p2 : array-like[N][2]
+                Second point of the line.
         """
         if hasattr(p1, "center"):
             p1 = p1.center
@@ -900,8 +846,9 @@ class CellArray(gdspy.CellArray, _GeometryHelper):
 
 
 class Label(gdspy.Label, _GeometryHelper):
-    """Text that can be used to label parts of the geometry or display
-    messages. The text does not create additional geometry, it’s meant for
+    """Text that can be used to label parts of the geometry or display messages.
+
+    The text does not create additional geometry, it’s meant for
     display and labeling purposes only.
     """
 
@@ -928,12 +875,11 @@ class Label(gdspy.Label, _GeometryHelper):
     def rotate(self, angle=45, center=(0, 0)):
         """Rotates Label around the specified centerpoint.
 
-        Parameters
-        ----------
-        angle : int or float
-            Angle to rotate the Label in degrees.
-        center : array-like[2] or None
-            center of the Label.
+        Args:
+            angle : int or float
+                Angle to rotate the Label in degrees.
+            center : array-like[2] or None
+                center of the Label.
         """
         self.position = _rotate_points(self.position, angle=angle, center=center)
         return self
@@ -943,14 +889,13 @@ class Label(gdspy.Label, _GeometryHelper):
         origin and destination can be 1x2 array-like, Port, or a key
         corresponding to one of the Ports in this Label.
 
-        Parameters
-        ----------
-        origin : array-like[2], Port, or key
-            Origin point of the move.
-        destination : array-like[2], Port, or key
-            Destination point of the move.
-        axis : {'x', 'y'}
-            Direction of the move.
+        Args:
+            origin : array-like[2], Port, or key
+                Origin point of the move.
+            destination : array-like[2], Port, or key
+                Destination point of the move.
+            axis : {'x', 'y'}
+                Direction of the move.
         """
         dx, dy = _parse_move(origin, destination, axis)
         self.position += np.asarray((dx, dy))
@@ -961,12 +906,9 @@ class Label(gdspy.Label, _GeometryHelper):
         specified points. ``points`` may be input as either single points
         [1,2] or array-like[N][2], and will return in kind.
 
-        Parameters
-        ----------
-        p1 : array-like[N][2]
-            First point of the line.
-        p2 : array-like[N][2]
-            Second point of the line.
+        Args:
+            p1 : array-like[N][2] First point of the line.
+            p2 : array-like[N][2] Second point of the line.
         """
         self.position = _reflect_points(self.position, p1, p2)
         return self

@@ -55,6 +55,7 @@ class Path(_GeometryHelper):
     """
 
     def __init__(self, path=None):
+        """Creates an empty path."""
         self.points = np.array([[0, 0]], dtype=np.float64)
         self.start_angle = 0
         self.end_angle = 0
@@ -85,6 +86,7 @@ class Path(_GeometryHelper):
                 )
 
     def __len__(self):
+        """Returns path points."""
         return len(self.points)
 
     @property
@@ -97,8 +99,8 @@ class Path(_GeometryHelper):
         return np.array(bbox)
 
     def append(self, path):
-        """Attaches the input path to the end of this object.  The input path
-        will be automatically rotated and translated such that it continues
+        """Attach input path to the end of this object.
+        The input path automatically rotates and translates such that it continues
         smoothly from the previous segment.
 
         Args:
@@ -145,8 +147,9 @@ class Path(_GeometryHelper):
         return self
 
     def offset(self, offset: Union[float, Callable[..., float]] = 0):
-        """Offsets the Path so that it follows the Path centerline plus
-        an offset.  The offset can either be a fixed value, or a function
+        """Offsets Path so that it follows the Path centerline plus an offset.
+
+        The offset can either be a fixed value, or a function
         of the form my_offset(t) where t goes from 0->1
 
         Args:
@@ -194,9 +197,9 @@ class Path(_GeometryHelper):
         return self
 
     def move(self, origin=(0, 0), destination=None, axis=None):
-        """Moves the Path from the origin point to the
-        destination. Both origin and destination can be 1x2 array-like
-        or a Port.
+        """Moves the Path from the origin point to the destination.
+
+        Both origin and destination can be 1x2 array-like or a Port.
 
         Args:
             origin : array-like[2], Port Origin point of the move.
@@ -210,8 +213,9 @@ class Path(_GeometryHelper):
         return self
 
     def rotate(self, angle: float = 45, center: Optional[Float2] = (0, 0)):
-        """Rotates all Polygons in the Component around the specified
-        center point. If no center point specified will rotate around (0,0).
+        """Rotates all Polygons in the Component around the specified center point.
+
+        If no center point specified will rotate around (0,0).
 
         Args:
             angle: Angle to rotate the Component in degrees.
@@ -227,9 +231,9 @@ class Path(_GeometryHelper):
         return self
 
     def mirror(self, p1: Float2 = (0, 1), p2: Float2 = (0, 0)):
-        """Mirrors the Path across the line formed between the two
-        specified points. ``points`` may be input as either single points
-        [1,2] or array-like[N][2], and will return in kind.
+        """Mirrors the Path across the line formed between the two specified points.
+        ``points`` may be input as either single points [1,2]
+        or array-like[N][2], and will return in kind.
 
         Args:
             p1: First point of the line.
@@ -246,7 +250,7 @@ class Path(_GeometryHelper):
     def _centerpoint_offset_curve(
         self, points, offset_distance, start_angle, end_angle
     ):
-        """Creates a offset curve (but does not account for cusps etc)
+        """Creates a offset curve (but does not account for cusps etc)\
         by computing the centerpoint offset of the supplied x and y points"""
         new_points = np.array(points, dtype=np.float64)
         dx = np.diff(points[:, 0])
@@ -271,7 +275,7 @@ class Path(_GeometryHelper):
         return new_points
 
     def _parametric_offset_curve(self, points, offset_distance, start_angle, end_angle):
-        """Creates a parametric offset (does not account for cusps etc)
+        """Creates a parametric offset (does not account for cusps etc) \
         by using gradient of the supplied x and y points"""
         x = points[:, 0]
         y = points[:, 1]
@@ -296,18 +300,18 @@ class Path(_GeometryHelper):
         return np.sum(np.sqrt((dx) ** 2 + (dy) ** 2))
 
     def curvature(self):
-        """Calculates the curvature of the Path. Note this curvature is
-        numerically computed so areas where the curvature jumps instantaneously
-        (such as between an arc and a straight segment) will be slightly
-        interpolated, and sudden changes in point density along the curve can
-        cause discontinuities.
+        """Calculates the curvature of the Path.
+
+        The curvature is numerically computed so areas where the curvature
+        jumps instantaneously (such as between an arc and a straight segment)
+        will be slightly interpolated, and sudden changes in point density
+        along the curve can cause discontinuities.
 
         Returns
-        -------
-        s : array-like[N]
-            The arc-length of the Path
-        K : array-like[N]
-            The curvature of the Path
+            s : array-like[N]
+                The arc-length of the Path
+            K : array-like[N]
+                The curvature of the Path
         """
         x = self.points[:, 0]
         y = self.points[:, 1]
@@ -327,17 +331,14 @@ class Path(_GeometryHelper):
         return s, K
 
     def hash_geometry(self, precision=1e-4):
-        """Computes an SHA1 hash of the points in the Path and the start_angle
-        and end_angle
+        """Computes an SHA1 hash of the points in the Path and the start_angle and end_angle.
 
         Args:
             precision: Roudning precision for the the objects in the Component.  For instance,
                 a precision of 1e-2 will round a point at (0.124, 1.748) to (0.12, 1.75)
 
-        Returns
-        -------
-        str
-            Hash result in the form of an SHA1 hex digest string
+        Returns:
+            str Hash result in the form of an SHA1 hex digest string.
 
         Notes
         -----
