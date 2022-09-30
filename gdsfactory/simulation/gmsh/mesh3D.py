@@ -56,17 +56,16 @@ def mesh3D(
     ymax_cell = -np.inf
 
     # Create element resolution dict
-    refine_dict = {}
-    for layer in component.get_layers():
-        if layer in refine_resolution.keys():
-            refine_dict[layer] = refine_resolution[layer]
-        else:
-            refine_dict[layer] = base_resolution
+    refine_dict = {
+        layer: refine_resolution[layer]
+        if layer in refine_resolution.keys()
+        else base_resolution
+        for layer in component.get_layers()
+    }
 
     # Features
     all_blocks = []
     for layer, polygons in component.get_polygons(by_spec=True).items():
-        layer_blocks = []
         if (
             layer not in exclude_layers
             and layer in layer_to_thickness
@@ -81,8 +80,8 @@ def mesh3D(
             if zmax_layer > zmax_cell:
                 zmax_cell = zmax_layer
 
-            i = 0
-            for polygon in polygons:
+            layer_blocks = []
+            for i, polygon in enumerate(polygons):
                 xmin_block = np.min(polygon[:, 0])
                 xmax_block = np.max(polygon[:, 0])
                 ymin_block = np.min(polygon[:, 1])
@@ -115,8 +114,6 @@ def mesh3D(
                 )
                 model.add_physical(polygon_volume, f"{layer}_{i}")
                 layer_blocks.append(polygon_volume)
-                i += 1
-
             # Recursively compute boolean fragments to eliminate overlaps
             for block_index, block in enumerate(layer_blocks):
                 if block_index == 0:
