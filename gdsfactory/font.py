@@ -58,7 +58,7 @@ def _get_font_by_name(name):
     return _get_font_by_file(font_file)
 
 
-def _get_glyph(font, letter):  # noqa: C901
+def _get_glyph(font, letter):    # noqa: C901
     """
     Get a block reference to the given letter
     """
@@ -156,48 +156,44 @@ def _get_glyph(font, letter):  # noqa: C901
                     curve.Q(p1[0], p1[1], p2[0], p2[1])
                     cpoint += 2
             else:
-                # We are looking at a control point
-                if not tags[cpoint] & 2:
-                    # We are at a quadratic sequential control point.
-                    # Check if we're at the end of the segment
-                    if cpoint == end:
-                        cpoint_1 = start
-                        end_tag = tags[start]
-                    else:
-                        cpoint_1 = cpoint + 1
-                        end_tag = tags[cpoint_1]
-
-                    # If we are at the beginning, this is a special case,
-                    # we need to reset the starting position
-                    if cpoint == start:
-                        p0 = points[end]
-                        p1 = points[cpoint]
-                        p2 = points[cpoint_1]
-                        if tags[end] & 1 == 0:
-                            # If the last point is also a control point, then the end is actually
-                            # halfway between here and the last point
-                            p0 = (p0 + p1) / 2
-                        # And reset the starting position of the spline
-                        curve = gdspy.Curve(*p0, tolerance=0.001)
-                    else:
-                        # The first control point is at the midpoint of this control point and the
-                        # previous control point
-                        p0 = points[cpoint - 1]
-                        p1 = points[cpoint]
-                        p2 = points[cpoint_1]
-                        p0 = (p0 + p1) / 2
-
-                    # Check if we are at a sequential control point again
-                    if end_tag & 1 == 0:
-                        p2 = (p1 + p2) / 2
-
-                    # And add the segment
-                    curve.Q(p1[0], p1[1], p2[0], p2[1])
-                    cpoint += 1
-                else:
+                if tags[cpoint] & 2:
                     raise ValueError(
                         "Sequential control points not valid for cubic splines."
                     )
+                # We are at a quadratic sequential control point.
+                # Check if we're at the end of the segment
+                if cpoint == end:
+                    cpoint_1 = start
+                    end_tag = tags[start]
+                else:
+                    cpoint_1 = cpoint + 1
+                    end_tag = tags[cpoint_1]
+
+                p1 = points[cpoint]
+                p2 = points[cpoint_1]
+                    # If we are at the beginning, this is a special case,
+                    # we need to reset the starting position
+                if cpoint == start:
+                    p0 = points[end]
+                    if tags[end] & 1 == 0:
+                        # If the last point is also a control point, then the end is actually
+                        # halfway between here and the last point
+                        p0 = (p0 + p1) / 2
+                    # And reset the starting position of the spline
+                    curve = gdspy.Curve(*p0, tolerance=0.001)
+                else:
+                    # The first control point is at the midpoint of this control point and the
+                    # previous control point
+                    p0 = points[cpoint - 1]
+                    p0 = (p0 + p1) / 2
+
+                # Check if we are at a sequential control point again
+                if end_tag & 1 == 0:
+                    p2 = (p1 + p2) / 2
+
+                # And add the segment
+                curve.Q(p1[0], p1[1], p2[0], p2[1])
+                cpoint += 1
         polylines.append(gdspy.Polygon(curve.get_points()))
 
     # Construct the component
