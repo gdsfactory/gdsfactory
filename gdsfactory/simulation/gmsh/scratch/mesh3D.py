@@ -58,9 +58,7 @@ def surface_loop_from_vertices(model, xmin, xmax, ymin, ymax, zmin, zmax, resolu
             [xmax, ymin, zmax],
         ],
     ]:
-        points = []
-        for coord in coords:
-            points.append(model.add_point(coord, mesh_size=resolution))
+        points = [model.add_point(coord, mesh_size=resolution) for coord in coords]
         channel_lines = [
             model.add_line(points[i], points[i + 1]) for i in range(-1, len(points) - 1)
         ]
@@ -118,12 +116,12 @@ def mesh3D(
     ymax_cell = bbox[1][1] + padding[3]
 
     # Create element resolution dict
-    refine_dict = {}
-    for layer in component.get_layers():
-        if layer in refine_resolution.keys():
-            refine_dict[layer] = refine_resolution[layer]
-        else:
-            refine_dict[layer] = base_resolution
+    refine_dict = {
+        layer: refine_resolution[layer]
+        if layer in refine_resolution.keys()
+        else base_resolution
+        for layer in component.get_layers()
+    }
 
     # Features
     # blocks = []
