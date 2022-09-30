@@ -116,12 +116,12 @@ def mesh3D(
     ymax_cell = bbox[1][1] + padding[3]
 
     # Create element resolution dict
-    refine_dict = {
-        layer: refine_resolution[layer]
-        if layer in refine_resolution.keys()
-        else base_resolution
-        for layer in component.get_layers()
-    }
+    # refine_dict = {
+    #     layer: refine_resolution[layer]
+    #     if layer in refine_resolution.keys()
+    #     else base_resolution
+    #     for layer in component.get_layers()
+    # }
 
     # Features
     # blocks = []
