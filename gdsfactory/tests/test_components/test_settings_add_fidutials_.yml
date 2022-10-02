@@ -62,4 +62,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.add_fidutials
   name: pad_array_add_fidutials
-version: 0.0.1

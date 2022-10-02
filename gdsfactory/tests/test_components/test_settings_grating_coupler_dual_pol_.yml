@@ -55,4 +55,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.grating_coupler_dual_pol
   name: grating_coupler_dual_pol
-version: 0.0.1

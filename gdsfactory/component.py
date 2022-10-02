@@ -104,8 +104,6 @@ class Component(gdspy.Cell, _GeometryHelper):
 
     Args:
         name: component_name. Use @cell decorator for auto-naming.
-        version: component version.
-        changelog: changes from the last version.
         with_uuid: adds unique identifier.
 
     Properties:
@@ -126,8 +124,6 @@ class Component(gdspy.Cell, _GeometryHelper):
     def __init__(
         self,
         name: str = "Unnamed",
-        version: str = "0.0.1",
-        changelog: str = "",
         with_uuid: bool = False,
     ) -> None:
         """Initialize the Component object."""
@@ -141,8 +137,6 @@ class Component(gdspy.Cell, _GeometryHelper):
         self.settings: Dict[str, Any] = {}
         self._locked = False
         self.get_child_name = False
-        self.version = version
-        self.changelog = changelog
         self._reference_names_counter = Counter()
         self._reference_names_used = set()
 
@@ -191,9 +185,8 @@ class Component(gdspy.Cell, _GeometryHelper):
             self.named_references[key] = element
         else:
             raise ValueError(
-                '[PHIDL] Tried to assign alias "%s" in '
-                'Component "%s", but failed because the item was '
-                "not a ComponentReference" % (key, self.name)
+                f"Tried to assign alias {key!r} in Component {self.name!r},"
+                "but failed because the item was not a ComponentReference"
             )
 
     @classmethod
@@ -449,10 +442,8 @@ class Component(gdspy.Cell, _GeometryHelper):
             If not None, defines from how many reference levels to
             retrieve Ports from.
 
-        Returns
-        -------
-        port_list : list of Port
-            List of all Ports in the Component.
+        Returns:
+            port_list : list of Port List of all Ports in the Component.
         """
         port_list = [p._copy(new_uid=False) for p in self.ports.values()]
 
@@ -631,18 +622,6 @@ class Component(gdspy.Cell, _GeometryHelper):
             if center is None:
                 raise ValueError("Port needs center parameter (x, y) um.")
 
-            # half_width = width / 2
-            # half_width_correct = snap_to_grid(half_width, nm=1)
-            # if not np.isclose(half_width, half_width_correct):
-            #     warnings.warn(
-            #         f"port width = {width} will create off-grid points.\n"
-            #         f"You can fix it by changing width to {2*half_width_correct}\n"
-            #         f"port {name}, {center}  {orientation} deg",
-            #         stacklevel=3,
-            #     )
-            # width = snap_to_grid(width)
-            # center = snap_to_grid(center)
-
             p = Port(
                 name=name,
                 center=center,
@@ -806,8 +785,7 @@ class Component(gdspy.Cell, _GeometryHelper):
                 return [self.add_polygon(points, ly) for ly in layer]
             elif len(layer) > 2:  # Someone wrote e.g. layer = [1,4,5]
                 raise ValueError(
-                    """ [PHIDL] If specifying multiple layers
-                you must use set notation, e.g. {1,5,8} """
+                    "If you specify multiple layers you must use set notation, e.g. {1,5,8} "
                 )
         except Exception:
             pass
@@ -930,7 +908,7 @@ class Component(gdspy.Cell, _GeometryHelper):
         """Distributes the specified elements in the Component.
 
         Args:
-            elements : array-like of PHIDL objects or 'all'
+            elements : array-like of objects or 'all'
                 Elements to distribute.
             direction : {'x', 'y'}
                 Direction of distribution; either a line in the x-direction or
@@ -960,7 +938,7 @@ class Component(gdspy.Cell, _GeometryHelper):
         """Align elements in the Component
 
         Args:
-            elements : array-like of PHIDL objects, or 'all'
+            elements : array-like of objects, or 'all'
                 Elements in the Component to align.
             alignment : {'x', 'y', 'xmin', 'xmax', 'ymin', 'ymax'}
                 Which edge to align along (e.g. 'ymax' will move the elements such
@@ -1423,7 +1401,6 @@ class Component(gdspy.Cell, _GeometryHelper):
             d["cells"] = clean_dict(cells)
 
         d["name"] = self.name
-        d["version"] = self.version
         d["settings"] = dict(self.settings)
         return d
 
@@ -1589,9 +1566,7 @@ class Component(gdspy.Cell, _GeometryHelper):
         """
         if reference not in self.references:
             raise ValueError(
-                """[PHIDL] Component.absorb() failed -
-                the reference it was asked to absorb does not
-                exist in this Component. """
+                "The reference you asked to absorb does not exist in this Component."
             )
         ref_polygons = reference.get_polygons(by_spec=True)
         for (layer, polys) in ref_polygons.items():
@@ -1660,14 +1635,13 @@ class Component(gdspy.Cell, _GeometryHelper):
         them in a list.
 
         Args:
-        depth : int or None
-            If not None, defines from how many reference levels to
-            retrieve Ports from.
+            depth: int or None
+                If not None, defines from how many reference levels to
+                retrieve Ports from.
 
-        Returns
-        -------
-        list of dictionaries
-            List of the ".info" property dictionaries from all sub-Components
+        Returns:
+            list of dictionaries
+                List of the ".info" property dictionaries from all sub-Components
         """
         D_list = self.get_dependencies(recursive=True)
         return [D.info.copy() for D in D_list]

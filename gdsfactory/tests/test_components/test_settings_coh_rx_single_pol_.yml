@@ -43,4 +43,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.coh_rx_single_pol
   name: coh_rx_single_pol
-version: 0.0.1

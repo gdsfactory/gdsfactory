@@ -20,4 +20,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.straight
   name: straight_cross_sectionmetal3
-version: 0.0.1
