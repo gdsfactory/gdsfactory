@@ -30,4 +30,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.cutback_bend
   name: cutback_bend180
-version: 0.0.1

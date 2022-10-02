@@ -23,4 +23,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.taper
   name: taper_strip_to_ridge_trenches
-version: 0.0.1

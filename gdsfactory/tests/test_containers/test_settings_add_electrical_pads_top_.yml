@@ -1,4 +1,4 @@
-name: mzi_2e88f57c_add_electr_060b3c55
+name: mzi_2e88f57c_add_electr_4706fd7d
 settings:
   changed:
     component:
@@ -66,7 +66,6 @@ settings:
         info_version: 2
         module: gdsfactory.components.mzi
         name: mzi_2e88f57c
-      version: 0.0.1
   child:
     changed:
       combiner:
@@ -210,7 +209,6 @@ settings:
         info_version: 2
         module: gdsfactory.components.mzi
         name: mzi_2e88f57c
-      version: 0.0.1
     direction: top
     layer: M3
     pad_array:
@@ -226,5 +224,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_electrical_pads_top
-  name: mzi_2e88f57c_add_electr_060b3c55
-version: 0.0.1
+  name: mzi_2e88f57c_add_electr_4706fd7d

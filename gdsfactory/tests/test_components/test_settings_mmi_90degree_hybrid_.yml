@@ -33,4 +33,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.mmi_90degree_hybrid
   name: mmi_90degree_hybrid
-version: 0.0.1

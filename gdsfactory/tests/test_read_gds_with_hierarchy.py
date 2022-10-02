@@ -71,7 +71,7 @@ def _write() -> None:
 
 
 if __name__ == "__main__":
-    # _write()
+    _write()
     # test_read_gds_equivalent2()
 
     c = test_read_gds_hash2()

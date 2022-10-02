@@ -49,4 +49,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.coh_tx_single_pol
   name: coh_tx_single_pol
-version: 0.0.1
