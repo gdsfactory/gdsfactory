@@ -2,7 +2,7 @@
 
 ## 5.37.0
 
-- remove Component.version and Component.changelog, change tutorial to recommend keeping Pcell changelog in the docstring.
+- remove Component.version and Component.changelog, change tutorial to recommend keeping Pcell changelog in the docstring. [PR](https://github.com/gdsfactory/gdsfactory/pull/752)
 
 ## 5.36.0
 
