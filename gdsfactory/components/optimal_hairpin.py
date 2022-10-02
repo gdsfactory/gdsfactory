@@ -14,9 +14,11 @@ def optimal_hairpin(
     num_pts: int = 50,
     layer: LayerSpec = (1, 0),
 ) -> Component:
-    """Returns an optimally-rounded hairpin geometry, with a 180 degree turn
-    on the right end of the polygon connected to two prongs extending towards
-    ports on the left end. based on phidl.geometry
+    """Returns an optimally-rounded hairpin geometry, with a 180 degree turn \
+    on the right end of the polygon connected to two prongs extending towards \
+    ports on the left end.
+
+    based on phidl.geometry
 
     Args:
         width : int or float
@@ -34,13 +36,12 @@ def optimal_hairpin(
         layer : int, array-like[2], or set
             Specific layer(s) to put polygon geometry on.
 
-    Notes
-    -----
-    Hairpin pitch must be greater than width.
+    Notes:
+        Hairpin pitch must be greater than width.
 
-    Optimal structure from https://doi.org/10.1103/PhysRevB.84.174510
-    Clem, J., & Berggren, K. (2011). Geometry-dependent critical currents in
-    superconducting nanocircuits. Physical Review B, 84(17), 1–27.
+        Optimal structure from https://doi.org/10.1103/PhysRevB.84.174510
+        Clem, J., & Berggren, K. (2011). Geometry-dependent critical currents in
+        superconducting nanocircuits. Physical Review B, 84(17), 1–27.
     """
     # ==========================================================================
     #  Create the basic geometry

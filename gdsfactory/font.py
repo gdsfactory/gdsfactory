@@ -1,4 +1,4 @@
-""" Support for font rendering in GDS files."""
+"""Support for font rendering in GDS files."""
 
 
 import gdspy

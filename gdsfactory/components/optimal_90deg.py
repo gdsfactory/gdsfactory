@@ -12,8 +12,7 @@ def optimal_90deg(
     length_adjust: float = 1,
     layer: LayerSpec = (1, 0),
 ) -> Component:
-    """Returns an optimally-rounded 90 degree bend that is sharp on the outer
-    corner.
+    """Returns optimally-rounded 90 degree bend that is sharp on the outer corner.
 
     Args:
         width: Width of the ports on either side of the bend.
@@ -21,11 +20,10 @@ def optimal_90deg(
         length_adjust: Adjusts the length of the non-curved portion of the bend.
         layer: Specific layer(s) to put polygon geometry on.
 
-    Notes
-    -----
-    Optimal structure from https://doi.org/10.1103/PhysRevB.84.174510
-    Clem, J., & Berggren, K. (2011). Geometry-dependent critical currents in
-    superconducting nanocircuits. Physical Review B, 84(17), 1–27.
+    Notes:
+        Optimal structure from https://doi.org/10.1103/PhysRevB.84.174510
+        Clem, J., & Berggren, K. (2011). Geometry-dependent critical currents in
+        superconducting nanocircuits. Physical Review B, 84(17), 1–27.
     """
     D = Component()
 
