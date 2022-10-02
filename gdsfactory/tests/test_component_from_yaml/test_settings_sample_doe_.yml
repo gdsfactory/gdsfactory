@@ -137,4 +137,3 @@ settings:
   info_version: 2
   module: gdsfactory.read.from_yaml
   name: mask_c9e6af3d
-version: 0.0.1

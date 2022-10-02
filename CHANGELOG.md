@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.37.0
+
+- remove Component.version and Component.changelog, change tutorial to recommend keeping Pcell changelog in the docstring.
+
 ## 5.36.0
 
 - Add thermal solver [PR](https://github.com/gdsfactory/gdsfactory/pull/739)

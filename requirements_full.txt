@@ -8,7 +8,7 @@ klayout
 lytest==0.0.20
 mapbox_earcut
 networkx
-phidl==1.6.2
+phidl
 pyglet
 pygmsh
 sax==0.8.4

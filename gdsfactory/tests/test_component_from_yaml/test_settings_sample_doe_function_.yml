@@ -186,4 +186,3 @@ settings:
   info_version: 2
   module: gdsfactory.read.from_yaml
   name: mask_compact_c65fc3af
-version: 0.0.1
