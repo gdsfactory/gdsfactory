@@ -43,6 +43,7 @@ def enclosing(
     enclosing: float = 0.1, layer1: Layer = gf.LAYER.VIAC, layer2: Layer = gf.LAYER.M1
 ) -> Component:
     """Layer1 must be enclosed by layer2 by value.
+
     checks if layer1 encloses (is bigger than) layer2 by value
     """
     w1 = 1

@@ -7,13 +7,13 @@ from numpy.linalg import norm
 
 
 def _parse_layer(layer):
-    """Check if the variable layer is a Layer object, a 2-element list like
+    """Check if the variable layer is a Layer object, a 2-element list like \
     [0, 1] representing layer = 0 and datatype = 1, or just a layer number.
 
     Args:
         layer: int, array-like[2], or set Variable to check.
 
-    Returns
+    Returns:
         (gds_layer, gds_datatype) : array-like[2]
             The layer number and datatype of the input.
     """
@@ -37,12 +37,11 @@ def _parse_layer(layer):
 
 
 class _GeometryHelper:
-    """This is a helper class. It can be added to any other class which has
-    the functions move() and the property ``bbox`` (as in self.bbox). It uses
-    that function+property to enable you to do things like check what the
-    center of the bounding box is (self.center), and also to do things like
-    move the bounding box such that its maximum x value is 5.2
-    (self.xmax = 5.2).
+    """Helper class for a class with functions move() and the property bbox.
+
+    It uses that function+property to enable you to do things like check what the
+    center of the bounding box is (self.center), and also to do things like move
+    the bounding box such that its maximum x value is 5.2 (self.xmax = 5.2).
     """
 
     @property
@@ -169,8 +168,8 @@ class _GeometryHelper:
         """Moves an object by a specified x-distance.
 
         Args:
-            origin : array-like[2], Port, or key Origin point of the move.
-            destination : array-like[2], Port, key, or None Destination point of the move.
+            origin: array-like[2], Port, or key Origin point of the move.
+            destination: array-like[2], Port, key, or None Destination point of the move.
         """
         if destination is None:
             destination = origin
@@ -195,7 +194,8 @@ class _GeometryHelper:
         """Adds an element to a Group.
 
         Args:
-            element : Component, ComponentReference, Port, Polygon, CellArray, Label, or Group Element to add.
+            element: Component, ComponentReference, Port, Polygon, CellArray,
+                Label, or Group to add.
         """
         if isinstance(self, Group):
             G = Group()
@@ -207,27 +207,29 @@ class _GeometryHelper:
 
 
 class Group(_GeometryHelper):
-    """Groups objects together so they can be manipulated as though
-    they were a single object (move/rotate/mirror)."""
+    """Group objects together so you can manipulate them as a single object \
+            (move/rotate/mirror)."""
 
     def __init__(self, *args):
+        """Initialize Group."""
         self.elements = []
         self.add(args)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Prints the number of elements in the Group."""
         return f"Group ({len(self.elements)} elements total)"
 
-    def __len__(self):
+    def __len__(self) -> float:
         """Returns the number of elements in the Group."""
         return len(self.elements)
 
-    def __iadd__(self, element):
+    def __iadd__(self, element) -> "Group":
         """Adds an element to the Group.
 
         Args:
-            element : Component, ComponentReference, Port, Polygon, CellArray, Label, or Group
-                Element to be added.
+            element: Component, ComponentReference, Port, Polygon, CellArray,
+                Label, or Group to add.
+
         """
         return self.add(element)
 
@@ -246,12 +248,12 @@ class Group(_GeometryHelper):
         )
         return np.array(bbox)
 
-    def add(self, element):
+    def add(self, element) -> "Group":
         """Adds an element to the Group.
 
         Args:
-        element : Component, ComponentReference, Port, Polygon, CellArray, Label, or Group
-            Element to add.
+            element: Component, ComponentReference, Port, Polygon, CellArray,
+                Label, or Group to add.
         """
         from gdsfactory.component import Component
         from gdsfactory.component_reference import ComponentReference
@@ -277,7 +279,7 @@ class Group(_GeometryHelper):
         ]
         return self
 
-    def rotate(self, angle=45, center=(0, 0)):
+    def rotate(self, angle=45, center=(0, 0)) -> "Group":
         """Rotates all elements in a Group around the specified centerpoint.
 
         Args:
@@ -290,9 +292,10 @@ class Group(_GeometryHelper):
             e.rotate(angle=angle, center=center)
         return self
 
-    def move(self, origin=(0, 0), destination=None, axis=None):
-        """Moves the Group from the origin point to the destination. Both
-        origin and destination can be 1x2 array-like, Port, or a key
+    def move(self, origin=(0, 0), destination=None, axis=None) -> "Group":
+        """Moves the Group from the origin point to the destination.
+
+        Both origin and destination can be 1x2 array-like, Port, or a key
         corresponding to one of the Ports in this Group.
 
         Args:
@@ -307,9 +310,10 @@ class Group(_GeometryHelper):
             e.move(origin=origin, destination=destination, axis=axis)
         return self
 
-    def mirror(self, p1=(0, 1), p2=(0, 0)):
-        """Mirrors a Group across the line formed between the two
-        specified points. ``points`` may be input as either single points
+    def mirror(self, p1=(0, 1), p2=(0, 0)) -> "Group":
+        """Mirrors a Group across the line formed between the two specified points.
+
+        ``points`` may be input as either single points
         [1,2] or array-like[N][2], and will return in kind.
 
         Args:
@@ -322,7 +326,9 @@ class Group(_GeometryHelper):
             e.mirror(p1=p1, p2=p2)
         return self
 
-    def distribute(self, direction="x", spacing=100, separation=True, edge="center"):
+    def distribute(
+        self, direction="x", spacing=100, separation=True, edge="center"
+    ) -> "Group":
         """Distributes the elements in the Group.
 
         Args:
@@ -347,7 +353,7 @@ class Group(_GeometryHelper):
         )
         return self
 
-    def align(self, alignment="ymax"):
+    def align(self, alignment="ymax") -> "Group":
         """Aligns the elements in the Group.
 
         Args:
@@ -360,9 +366,10 @@ class Group(_GeometryHelper):
 
 
 def _rotate_points(points, angle=45, center=(0, 0)):
-    """Rotates points around a centerpoint defined by ``center``.  ``points``
-    may be input as either single points [1,2] or array-like[N][2], and will
-    return in kind.
+    """Rotates points around a centerpoint defined by ``center``.
+
+    ``points`` may be input as either single points [1,2] or array-like[N][2],
+    and will return in kind.
 
     Args:
         points : array-like[N][2]
@@ -389,8 +396,10 @@ def _rotate_points(points, angle=45, center=(0, 0)):
 
 
 def _reflect_points(points, p1=(0, 0), p2=(1, 0)):
-    """Reflects points across the line formed by p1 and p2.  ``points`` may be
-    input as either single points [1,2] or array-like[N][2], and will return in kind.
+    """Reflects points across the line formed by p1 and p2.
+
+    ``points`` may be input as either single points [1,2] or array-like[N][2],
+    and will return in kind.
 
     Args:
         points : array-like[N][2]
@@ -453,8 +462,7 @@ def _parse_coordinate(c):
 
 
 def _parse_move(origin, destination, axis):
-    """Translates various input coordinates to changes in position in the x-
-    and y-directions.
+    """Translates input coordinates to changes in position in the x and y directions.
 
     Args:
         origin : array-like[2] of int or float, Port, or key
@@ -554,7 +562,7 @@ def _distribute(elements, direction="x", spacing=100, separation=True, edge=None
 
 
 def _align(elements, alignment="ymax"):
-    """Aligns lists of gdsfactory elements
+    """Aligns lists of gdsfactory elements.
 
     Args:
         elements : array-like of gdsfactory objects
@@ -629,6 +637,7 @@ class Polygon(gdspy.Polygon, _GeometryHelper):
     """
 
     def __init__(self, points, gds_layer, gds_datatype, parent):
+        """Initialize polygon."""
         self.parent = parent
         super().__init__(points=points, layer=gds_layer, datatype=gds_datatype)
 
@@ -652,8 +661,9 @@ class Polygon(gdspy.Polygon, _GeometryHelper):
         return self
 
     def move(self, origin=(0, 0), destination=None, axis=None):
-        """Moves elements of the Component from the origin point to the
-        destination. Both origin and destination can be 1x2 array-like, Port,
+        """Moves elements of the Component from the origin point to the destination.
+
+        Both origin and destination can be 1x2 array-like, Port,
         or a key corresponding to one of the Ports in this device.
 
         Args:
@@ -691,9 +701,9 @@ class Polygon(gdspy.Polygon, _GeometryHelper):
         return self
 
     def simplify(self, tolerance=1e-3):
-        """Removes points from the polygon but does not change the polygon
-        shape by more than `tolerance` from the original. Uses the
-        Ramer-Douglas-Peucker algorithm.
+        """Removes points from the polygon but does not change the polygon \
+            shape by more than `tolerance` from the original using the \
+            Ramer-Douglas-Peucker algorithm.
 
         Args:
             tolerance : float
@@ -702,7 +712,6 @@ class Polygon(gdspy.Polygon, _GeometryHelper):
                 the value listed here will be removed. Also known as `epsilon` here
                 https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm
         """
-
         for n, points in enumerate(self.polygons):
             self.polygons[n] = _simplify(points, tolerance=tolerance)
         if self.parent is not None:
@@ -744,6 +753,7 @@ class CellArray(gdspy.CellArray, _GeometryHelper):
         magnification=None,
         x_reflection=False,
     ):
+        """Initialize CellArray."""
         super().__init__(
             columns=columns,
             rows=rows,
@@ -767,8 +777,9 @@ class CellArray(gdspy.CellArray, _GeometryHelper):
         return np.array(bbox)
 
     def move(self, origin=(0, 0), destination=None, axis=None):
-        """Moves the CellArray from the origin point to the destination. Both
-        origin and destination can be 1x2 array-like, Port, or a key
+        """Moves the CellArray from the origin point to the destination.
+
+        Both origin and destination can be 1x2 array-like, Port, or a key
         corresponding to one of the Ports in this CellArray.
 
         Args:
@@ -787,8 +798,7 @@ class CellArray(gdspy.CellArray, _GeometryHelper):
         return self
 
     def rotate(self, angle=45, center=(0, 0)):
-        """Rotates all elements in the CellArray around the specified
-        centerpoint.
+        """Rotates all elements in the CellArray around the specified centerpoint.
 
         Args:
             angle : int or float
@@ -807,8 +817,7 @@ class CellArray(gdspy.CellArray, _GeometryHelper):
         return self
 
     def mirror(self, p1=(0, 1), p2=(0, 0)):
-        """Mirrors a CellArray across the line formed between the two
-        specified points.
+        """Mirrors a CellArray across the line formed between the two specified points.
 
         Args:
             p1 : array-like[N][2]
@@ -846,18 +855,16 @@ class CellArray(gdspy.CellArray, _GeometryHelper):
 
 
 class Label(gdspy.Label, _GeometryHelper):
-    """Text that can be used to label parts of the geometry or display messages.
-
-    The text does not create additional geometry, it’s meant for
-    display and labeling purposes only.
-    """
+    """Text to label parts or display messages. Does not add geometry."""
 
     def __init__(self, *args, **kwargs):
+        """Initialize label."""
         super().__init__(*args, **kwargs)
         self.position = np.array(self.position, dtype="float64")
 
     @classmethod
     def __get_validators__(cls):
+        """For pydantic."""
         yield cls.validate
 
     @classmethod
@@ -885,8 +892,9 @@ class Label(gdspy.Label, _GeometryHelper):
         return self
 
     def move(self, origin=(0, 0), destination=None, axis=None):
-        """Moves the Label from the origin point to the destination. Both
-        origin and destination can be 1x2 array-like, Port, or a key
+        """Moves the Label from the origin point to the destination.
+
+        Both origin and destination can be 1x2 array-like, Port, or a key
         corresponding to one of the Ports in this Label.
 
         Args:
@@ -902,8 +910,9 @@ class Label(gdspy.Label, _GeometryHelper):
         return self
 
     def mirror(self, p1=(0, 1), p2=(0, 0)):
-        """Mirrors a Label across the line formed between the two
-        specified points. ``points`` may be input as either single points
+        """Mirrors a Label across the line formed between the two specified points.
+
+        ``points`` may be input as either single points
         [1,2] or array-like[N][2], and will return in kind.
 
         Args:

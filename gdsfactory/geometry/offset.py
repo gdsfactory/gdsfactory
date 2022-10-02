@@ -1,4 +1,4 @@
-"""based on phidl.geometry"""
+"""Based on phidl.geometry."""
 from typing import Tuple
 
 import gdspy
@@ -156,7 +156,7 @@ def _find_bboxes_in_rect(bboxes, left, bottom, right, top):
         top : int or float
             The y-coordinate of the top boundary.
 
-    Returns
+    Returns:
         result : list
             List of all polygon bboxes that overlap with the defined rectangle.
     """
@@ -244,12 +244,11 @@ def _offset_region(
             points per full circle.
 
     Returns:
-        polygons_offset_cropped :
+        polygons_offset_cropped:
             The resulting input polygons that are cropped to be between the
             coordinates (left, bottom, right, top)
 
     """
-
     # Mark out a region slightly larger than the final desired region
     d = distance * 1.01
 
@@ -395,7 +394,7 @@ def offset(
         max_points: The maximum number of vertices within the resulting polygon.
         layer: Specific layer to put polygon geometry on.
 
-    Returns
+    Returns:
         Component containing a polygon(s) with the specified offset applied.
 
     """

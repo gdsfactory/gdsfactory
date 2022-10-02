@@ -174,11 +174,13 @@ class Component(gdspy.Cell, _GeometryHelper):
         self._locked = True
 
     def __setitem__(self, key, element):
-        """Allow adding polygons and cell references like D['arc3'] = pg.arc()
+        """Allow adding polygons and cell references.
+
+        like D['arc3'] = pg.arc()
 
         Args:
-            key: Alias name
-            element: Object that will be accessible by alias name
+            key: Alias name.
+            element: Object that will be accessible by alias name.
 
         """
         if isinstance(element, (ComponentReference, Polygon, CellArray)):
@@ -431,16 +433,16 @@ class Component(gdspy.Cell, _GeometryHelper):
             port.assert_on_grid(nm=nm)
 
     def get_ports(self, depth=None):
-        """Returns copies of all the ports of the Component, rotated and
-        translated so that they're in their top-level position. The Ports
-        returned are copies of the originals, but each copy has the same
-        ``uid`` as the original so that they can be traced back to the
-        original if needed.
+        """Returns copies of all the ports of the Component, rotated and \
+                translated so that they're in their top-level position.
+
+        The Ports returned are copies of the originals, but each copy has the same
+        ``uid`` as the original so that they can be traced back to the original if needed.
 
         Args:
-        depth : int or None
-            If not None, defines from how many reference levels to
-            retrieve Ports from.
+            depth : int or None
+                If not None, defines from how many reference levels to
+                retrieve Ports from.
 
         Returns:
             port_list : list of Port List of all Ports in the Component.
@@ -935,7 +937,7 @@ class Component(gdspy.Cell, _GeometryHelper):
         return self
 
     def align(self, elements="all", alignment="ymax"):
-        """Align elements in the Component
+        """Align elements in the Component.
 
         Args:
             elements : array-like of objects, or 'all'
@@ -1631,8 +1633,7 @@ class Component(gdspy.Cell, _GeometryHelper):
 
     # Deprecated
     def get_info(self):
-        """Gathers the .info dictionaries from every sub-Component and returns
-        them in a list.
+        """Gathers the .info dictionaries from every sub-Component and returns them in a list.
 
         Args:
             depth: int or None
@@ -1647,8 +1648,7 @@ class Component(gdspy.Cell, _GeometryHelper):
         return [D.info.copy() for D in D_list]
 
     def remap_layers(self, layermap, include_labels: bool = True):
-        """Moves all polygons in the Component from one layer to another
-        according to the layermap argument.
+        """Moves all polygons in the Component from one layer to another according to the layermap argument.
 
         Args:
             layermap: Dictionary of values in format {layer_from : layer_to}.

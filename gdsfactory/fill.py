@@ -24,9 +24,7 @@ def _loop_over(var):
     Args:
         var : int or float or list
             Variable to check for iterability.
-
     """
-
     return var if hasattr(var, "__iter__") else [var]
 
 
