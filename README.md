@@ -66,7 +66,6 @@ It provides you a common syntax for layout (klayout, gdspy), simulation (Lumeric
 - [Read docs](https://gdsfactory.github.io/gdsfactory/)
 - [![Video Tutorials](https://img.shields.io/badge/youtube-Video_Tutorials-red.svg?logo=youtube)](https://www.youtube.com/watch?v=KXq09GirynI&list=PLZ3ZVd41isDDnuCirqIhNa8vsaHmbmxqM)
 - See announcenments on [GitHub](https://github.com/gdsfactory/gdsfactory/discussions/547), [google-groups](https://groups.google.com/g/gdsfactory) or [LinkedIn](https://www.linkedin.com/company/gdsfactory)
-- [awesome photonics list](https://github.com/joamatab/awesome_photonics)
 
 ## Acks
 
