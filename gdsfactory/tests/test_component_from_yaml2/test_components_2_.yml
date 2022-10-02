@@ -141,4 +141,3 @@ settings:
   info_version: 2
   module: gdsfactory.read.from_yaml
   name: rotation_ce57982f
-version: 0.0.1

@@ -68,4 +68,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.add_grating_couplers
   name: straight_add_grating_couplers
-version: 0.0.1

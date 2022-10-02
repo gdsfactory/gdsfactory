@@ -77,4 +77,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.grating_coupler_rectangular_arbitrary
   name: grating_coupler_rectang_0b571e8d
-version: 0.0.1

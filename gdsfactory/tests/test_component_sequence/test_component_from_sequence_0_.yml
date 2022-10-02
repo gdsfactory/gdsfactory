@@ -1,4 +1,4 @@
-name: component_sequence_6547e7d3
+name: component_sequence_3c225400
 settings:
   changed:
     sequence: ABHBA
@@ -25,7 +25,6 @@ settings:
           info_version: 2
           module: gdsfactory.components.straight
           name: straight
-        version: 0.0.1
       - o1
       - o2
       A:
@@ -52,7 +51,6 @@ settings:
           info_version: 2
           module: gdsfactory.components.bend_circular
           name: bend_circular_angle180
-        version: 0.0.1
       - o1
       - o2
       B:
@@ -79,7 +77,6 @@ settings:
           info_version: 2
           module: gdsfactory.components.bend_circular
           name: bend_circular_angle180
-        version: 0.0.1
       - o2
       - o1
       H:
@@ -155,7 +152,6 @@ settings:
           info_version: 2
           module: gdsfactory.components.straight_pin
           name: straight_pin_length40
-        version: 0.0.1
       - o1
       - o2
   child: null
@@ -193,7 +189,6 @@ settings:
           info_version: 2
           module: gdsfactory.components.straight
           name: straight
-        version: 0.0.1
       - o1
       - o2
       A:
@@ -220,7 +215,6 @@ settings:
           info_version: 2
           module: gdsfactory.components.bend_circular
           name: bend_circular_angle180
-        version: 0.0.1
       - o1
       - o2
       B:
@@ -247,7 +241,6 @@ settings:
           info_version: 2
           module: gdsfactory.components.bend_circular
           name: bend_circular_angle180
-        version: 0.0.1
       - o2
       - o1
       H:
@@ -323,12 +316,10 @@ settings:
           info_version: 2
           module: gdsfactory.components.straight_pin
           name: straight_pin_length40
-        version: 0.0.1
       - o1
       - o2
   function_name: component_sequence
   info: {}
   info_version: 2
   module: gdsfactory.components.component_sequence
-  name: component_sequence_6547e7d3
-version: 0.0.1
+  name: component_sequence_3c225400

@@ -1,4 +1,4 @@
-name: coupler_gap0p244_length_4912d421
+name: coupler_gap0p244_length_5ce2ffa4
 settings:
   changed:
     component:
@@ -35,7 +35,6 @@ settings:
         info_version: 2
         module: gdsfactory.components.coupler
         name: coupler_gap0p244_length5p67
-      version: 0.0.1
     optical_routing_type: 2
   child:
     changed:
@@ -123,7 +122,6 @@ settings:
         info_version: 2
         module: gdsfactory.components.coupler
         name: coupler_gap0p244_length5p67
-      version: 0.0.1
     component_name: null
     cross_section: strip
     gc_port_labels: null
@@ -151,5 +149,4 @@ settings:
     min_bend_radius: 9.465
   info_version: 2
   module: gdsfactory.routing.add_fiber_array
-  name: coupler_gap0p244_length_4912d421
-version: 0.0.1
+  name: coupler_gap0p244_length_5ce2ffa4

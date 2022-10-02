@@ -25,4 +25,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.coh_tx_dual_pol
   name: coh_tx_dual_pol
-version: 0.0.1
