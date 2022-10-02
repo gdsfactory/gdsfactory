@@ -79,4 +79,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.ge_detector_straight_si_contacts
   name: ge_detector_straight_si_contacts
-version: 0.0.1

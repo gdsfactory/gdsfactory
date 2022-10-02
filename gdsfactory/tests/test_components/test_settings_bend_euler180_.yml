@@ -29,4 +29,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.bend_euler
   name: bend_euler_angle180
-version: 0.0.1

@@ -53,4 +53,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.ring_double
   name: ring_double
-version: 0.0.1

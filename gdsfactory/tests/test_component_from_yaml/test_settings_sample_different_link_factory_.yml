@@ -160,4 +160,3 @@ settings:
   info_version: 2
   module: gdsfactory.read.from_yaml
   name: sample_path_length_matc_80997953
-version: 0.0.1
