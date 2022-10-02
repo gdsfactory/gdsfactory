@@ -51,4 +51,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.mzi_lattice
   name: mzi_lattice
-version: 0.0.1

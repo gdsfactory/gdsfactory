@@ -83,4 +83,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.via_corner
   name: via_corner
-version: 0.0.1

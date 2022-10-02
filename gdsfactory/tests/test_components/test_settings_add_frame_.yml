@@ -19,4 +19,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.align
   name: add_frame
-version: 0.0.1

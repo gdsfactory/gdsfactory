@@ -189,4 +189,3 @@ settings:
   info_version: 2
   module: gdsfactory.read.from_yaml
   name: component_yaml_ports_d51e1091
-version: 0.0.1
