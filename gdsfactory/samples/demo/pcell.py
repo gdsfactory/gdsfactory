@@ -3,6 +3,7 @@ import gdsfactory as gf
 
 @gf.cell
 def mzi_with_bend(radius: float = 10):
+    """Returns MZI interferometer with bend."""
     c = gf.Component()
     mzi = c.add_ref(gf.components.mzi())
     bend = c.add_ref(gf.components.bend_euler(radius=radius))
@@ -14,5 +15,4 @@ def mzi_with_bend(radius: float = 10):
 
 if __name__ == "__main__":
     c = mzi_with_bend(radius=100)
-    c = gf.routing.add_fiber_array(c)
     c.show(show_ports=True)
