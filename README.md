@@ -69,7 +69,7 @@ It provides you a common syntax for layout (klayout, gdspy), simulation (Lumeric
 
 ## Acks
 
-Contributors:
+Contributors (in chronological order):
 
 - Joaquin Matres (Google): maintainer.
 - Damien Bonneau (PsiQuantum): cell decorator, Component routing functions, Klayout placer.
@@ -79,6 +79,7 @@ Contributors:
 - Alec Hammond (Facebook Reality Labs): Meep and MPB interface.
 - Simon Bilodeau (Princeton): Meep FDTD write Sparameters, TCAD device simulator.
 - Thomas Dorch (Freedom Photonics): for Meep's material database access, MPB sidewall angles, and add_pin_path.
+- Jan-David Fischbach (Black semiconductor): for improvements in pack_doe.
 - Igal Bayn (Google): for documentation improvements and suggestions.
 - Alex Sludds (MIT): for tiling fixes.
 - Momchil Minkov (Flexcompute): for tidy3d plugin.
@@ -98,3 +99,4 @@ Open source heroes:
 - Adam McCaughan (NIST): for phidl. Inpiration for geometry manipulation.
 - Alex Tait (Queens University): for lytest
 - Thomas Ferreira de Lima (NEC): for `pip install klayout` python API.
+- Juan Sanchez: for DEVSIM

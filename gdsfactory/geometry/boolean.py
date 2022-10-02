@@ -56,7 +56,6 @@ def _boolean_region(
         polygons_boolean : PolygonSet or list of polygons
         Set or list of polygons with boolean operation applied.
     """
-
     polygons_to_boolean_A = _crop_edge_polygons(
         all_polygons_A, bboxes_A, left, bottom, right, top, precision
     )
@@ -88,7 +87,6 @@ def _boolean_polygons_parallel(
             Boolean operation to perform.
         precision : float
             Desired precision for rounding vertex coordinates.
-
 
     """
     # Build bounding boxes

@@ -1,9 +1,7 @@
 """You can define a path with a list of points combined with a cross-section.
 
 A path can be extruded using any CrossSection returning a Component
-
 The CrossSection defines the layer numbers, widths and offsetts
-
 Based on phidl.path
 """
 
@@ -81,8 +79,8 @@ class Path(_GeometryHelper):
                 self.append(path)
             else:
                 raise ValueError(
-                    "Path() the `path` argument must be either "
-                    "blank, a Path object, an array-like[N][2] list of points, or a list of these"
+                    "Path() the `path` argument must be either blank, a path Object, "
+                    "an array-like[N][2] list of points, or a list of these"
                 )
 
     def __len__(self):
@@ -99,13 +97,14 @@ class Path(_GeometryHelper):
         return np.array(bbox)
 
     def append(self, path):
-        """Attach input path to the end of this object.
+        """Attach Path to the end of this Path.
+
         The input path automatically rotates and translates such that it continues
         smoothly from the previous segment.
 
         Args:
             path : Path, array-like[N][2], or list of Paths
-                The input path that will be appended
+                The input path that will be appended.
         """
         # If appending another Path, load relevant variables
         if isinstance(path, Path):
@@ -232,6 +231,7 @@ class Path(_GeometryHelper):
 
     def mirror(self, p1: Float2 = (0, 1), p2: Float2 = (0, 0)):
         """Mirrors the Path across the line formed between the two specified points.
+
         ``points`` may be input as either single points [1,2]
         or array-like[N][2], and will return in kind.
 
@@ -251,7 +251,7 @@ class Path(_GeometryHelper):
         self, points, offset_distance, start_angle, end_angle
     ):
         """Creates a offset curve (but does not account for cusps etc)\
-        by computing the centerpoint offset of the supplied x and y points"""
+        by computing the centerpoint offset of the supplied x and y points."""
         new_points = np.array(points, dtype=np.float64)
         dx = np.diff(points[:, 0])
         dy = np.diff(points[:, 1])
@@ -276,7 +276,7 @@ class Path(_GeometryHelper):
 
     def _parametric_offset_curve(self, points, offset_distance, start_angle, end_angle):
         """Creates a parametric offset (does not account for cusps etc) \
-        by using gradient of the supplied x and y points"""
+        by using gradient of the supplied x and y points."""
         x = points[:, 0]
         y = points[:, 1]
         dxdt = np.gradient(x)
@@ -291,8 +291,8 @@ class Path(_GeometryHelper):
         y_offset = y - offset_distance * dxdt / np.sqrt(dydt**2 + dxdt**2)
         return np.array([x_offset, y_offset]).T
 
-    def length(self):
-        """Returns the cumulative length (arc length) of the path."""
+    def length(self) -> float:
+        """Return cumulative length."""
         x = self.points[:, 0]
         y = self.points[:, 1]
         dx = np.diff(x)
@@ -300,14 +300,14 @@ class Path(_GeometryHelper):
         return np.sum(np.sqrt((dx) ** 2 + (dy) ** 2))
 
     def curvature(self):
-        """Calculates the curvature of the Path.
+        """Calculates Path curvature.
 
         The curvature is numerically computed so areas where the curvature
         jumps instantaneously (such as between an arc and a straight segment)
         will be slightly interpolated, and sudden changes in point density
         along the curve can cause discontinuities.
 
-        Returns
+        Returns:
             s : array-like[N]
                 The arc-length of the Path
             K : array-like[N]
@@ -330,19 +330,15 @@ class Path(_GeometryHelper):
         K = np.gradient(theta, s, edge_order=2)
         return s, K
 
-    def hash_geometry(self, precision=1e-4):
+    def hash_geometry(self, precision: float = 1e-4) -> str:
         """Computes an SHA1 hash of the points in the Path and the start_angle and end_angle.
 
         Args:
-            precision: Roudning precision for the the objects in the Component.  For instance,
+            precision: Rounding precision for the the objects in the Component.  For instance,
                 a precision of 1e-2 will round a point at (0.124, 1.748) to (0.12, 1.75)
 
         Returns:
             str Hash result in the form of an SHA1 hex digest string.
-
-        Notes
-        -----
-        Algorithm:
 
         .. code::
 
@@ -373,11 +369,12 @@ class Path(_GeometryHelper):
 
     @classmethod
     def __get_validators__(cls):
+        """For pydantic."""
         yield cls._validate
 
     @classmethod
     def _validate(cls, v):
-        """Pydantic path validator."""
+        """Pydantic Path validator."""
         assert isinstance(v, Path), f"TypeError, Got {type(v)}, expecting Path"
         return v
 
@@ -385,7 +382,16 @@ class Path(_GeometryHelper):
         return self.hash_geometry()
 
     def plot(self) -> None:
-        """Plot path in matplotlib."""
+        """Plot path in matplotlib.
+
+        .. plot::
+            :include-source:
+
+            import gdsfactory as gf
+
+            p = gf.path.euler(radius=10)
+            p.plot()
+        """
         from gdsfactory.quickplotter import quickplot
 
         return quickplot(self)
@@ -416,6 +422,15 @@ class Path(_GeometryHelper):
               polygon by more than the value listed here will be removed.
             shear_angle_start: an optional angle to shear the starting face by (in degrees).
             shear_angle_end: an optional angle to shear the ending face by (in degrees).
+
+        .. plot::
+            :include-source:
+
+            import gdsfactory as gf
+
+            p = gf.path.euler(radius=10)
+            c = p.extrude(layer=(1, 0), width=0.5)
+            c.plot()
         """
         return extrude(
             p=self,
@@ -506,8 +521,8 @@ def transition(
 
     if not X1.aliases or not X2.aliases:
         raise ValueError(
-            """transition() found no named sections in one
-        or both inputs (cross_section1/cross_section2)."""
+            "transition() found no named sections in one "
+            "or both inputs (cross_section1/cross_section2)."
         )
 
     layers1 = {get_layer(section.layer) for section in X1.sections}
@@ -946,13 +961,13 @@ def arc(radius: float = 10.0, angle: float = 90, npoints: int = 720) -> Path:
 
 
 def _cumtrapz(x):
-    """Numpy-based implementation of the cumulative trapezoidal integration
-    function usually found in scipy (scipy.integrate.cumtrapz)"""
+    """Numpy-based implementation of the cumulative trapezoidal integration \
+    function usually found in scipy (scipy.integrate.cumtrapz)."""
     return np.cumsum((x[1:] + x[:-1]) / 2)
 
 
 def _fresnel(R0, s, num_pts, n_iter=8):
-    """Fresnel integral using a series expansion"""
+    """Fresnel integral using a series expansion."""
     t = np.linspace(0, s / (np.sqrt(2) * R0), num_pts)
     x = np.zeros(num_pts)
     y = np.zeros(num_pts)
@@ -1299,13 +1314,14 @@ def _demo_variable_offset() -> None:
 if __name__ == "__main__":
     import numpy as np
 
+    import gdsfactory as gf
+
     points = np.array([(20, 10), (40, 10), (20, 40), (50, 40), (50, 20), (70, 20)])
-    from phidl.path import euler
 
     p = smooth(
         points=points,
         radius=2,
-        bend=euler,
+        bend=gf.path.euler,
         use_eff=False,
     )
     c = p.extrude(layer=(1, 0), width=0.1)

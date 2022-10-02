@@ -67,8 +67,7 @@ class PortOrientationError(ValueError):
 
 
 class Port:
-    """Ports are useful to connect Components with each other. Extends phidl \
-    port with layer and cross_section.
+    """Ports are useful to connect Components with each other.
 
     Args:
         name: we name ports clock-wise starting from bottom left.
@@ -97,8 +96,7 @@ class Port:
         cross_section: Optional[CrossSection] = None,
         shear_angle: Optional[float] = None,
     ) -> None:
-        """Initializes the Port object."""
-
+        """Initializes Port object."""
         self.name = name
         self.center = np.array(center, dtype="float64")
         self.orientation = np.mod(orientation, 360) if orientation else orientation
