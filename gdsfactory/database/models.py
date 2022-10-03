@@ -425,8 +425,10 @@ if __name__ == "__main__":
 
     with Session(engine) as session:
 
-        w1 = Wafer(name="sky1", serial_number="ABC")
-        w2 = Wafer(name="sky2", serial_number="ABC")
+        w1 = Wafer(name="12", serial_number="ABC")
+        r1 = Reticle(name="sky1", wafer_id=w1.id, wafer=w1)
+        d1 = Die(name="d00", reticle_id=r1.id, reticle=r1)
+        c1 = Circuit(name="straight_te", die_id=d1.id, die=d1)
 
-        session.add_all([w1, w2])
+        session.add_all([w1, r1, d1, c1])
         session.commit()
