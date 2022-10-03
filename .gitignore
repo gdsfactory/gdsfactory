@@ -10,6 +10,7 @@
 *.msh
 *.xdmf
 *.svg
+*.db
 test_mask_metadata.csv
 test_mask_metadata.yml
 .pyre_configuration

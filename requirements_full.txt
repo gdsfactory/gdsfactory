@@ -16,5 +16,7 @@ scikit-fem
 scikit-image
 simphony==0.6.1
 sklearn
+sqlalchemy
+sqlalchemy-utils
 triangle
 trimesh
