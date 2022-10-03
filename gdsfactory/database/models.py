@@ -1,5 +1,5 @@
 from sqlalchemy import TIMESTAMP, Column, Float, ForeignKey, Integer, String, text
-from sqlalchemy.dialects.mysql import LONGTEXT, TINYINT
+from sqlalchemy.dialects.mysql import BOOLEAN, TEXT
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
@@ -16,9 +16,7 @@ class Process(Base):
         TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     updated = Column(
-        TIMESTAMP,
-        nullable=False,
-        server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"),
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     name = Column(String(200), nullable=False)
     process = Column(String(200), nullable=False)
@@ -38,9 +36,7 @@ class Unit(Base):
         TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     updated = Column(
-        TIMESTAMP,
-        nullable=False,
-        server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"),
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     name = Column(String(200), nullable=False)
     quantity = Column(String(200), nullable=False)
@@ -57,9 +53,7 @@ class Wafer(Base):
         TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     updated = Column(
-        TIMESTAMP,
-        nullable=False,
-        server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"),
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     serial_number = Column(String(200), nullable=False)
     name = Column(String(200))
@@ -77,16 +71,14 @@ class ComputedResult(Base):
         TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     updated = Column(
-        TIMESTAMP,
-        nullable=False,
-        server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"),
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     name = Column(String(200), nullable=False)
     type = Column(String(50), nullable=False)
     unit_id = Column(ForeignKey("unit.id"), index=True)
     domain_unit_id = Column(ForeignKey("unit.id"), index=True)
-    value = Column(LONGTEXT, nullable=False)
-    domain = Column(LONGTEXT)
+    value = Column(TEXT, nullable=False)
+    domain = Column(TEXT)
     description = Column(String(200))
 
     domain_unit = relationship(
@@ -104,16 +96,14 @@ class Result(Base):
         TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     updated = Column(
-        TIMESTAMP,
-        nullable=False,
-        server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"),
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     name = Column(String(200), nullable=False)
     type = Column(String(50), nullable=False)
     unit_id = Column(ForeignKey("unit.id"), index=True)
     domain_unit_id = Column(ForeignKey("unit.id"), index=True)
-    value = Column(LONGTEXT, nullable=False)
-    domain = Column(LONGTEXT)
+    value = Column(TEXT, nullable=False)
+    domain = Column(TEXT)
     description = Column(String(200))
 
     domain_unit = relationship("Unit", primaryjoin="Result.domain_unit_id == Unit.id")
@@ -129,9 +119,7 @@ class Reticle(Base):
         TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     updated = Column(
-        TIMESTAMP,
-        nullable=False,
-        server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"),
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     name = Column(String(200), nullable=False)
     position = Column(
@@ -158,9 +146,7 @@ class ComputedResultSelfRelation(Base):
         TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     updated = Column(
-        TIMESTAMP,
-        nullable=False,
-        server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"),
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     computed_result1_id = Column(
         ForeignKey("computed_result.id"), nullable=False, index=True
@@ -188,9 +174,7 @@ class Die(Base):
         TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     updated = Column(
-        TIMESTAMP,
-        nullable=False,
-        server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"),
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     reticle_id = Column(ForeignKey("reticle.id"), nullable=False, index=True)
     name = Column(String(200), nullable=False)
@@ -212,9 +196,7 @@ class ResultComputedResultRelation(Base):
         TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     updated = Column(
-        TIMESTAMP,
-        nullable=False,
-        server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"),
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     result_id = Column(ForeignKey("result.id"), nullable=False, index=True)
     computed_result_id = Column(
@@ -236,9 +218,7 @@ class ResultInfo(Base):
         TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     updated = Column(
-        TIMESTAMP,
-        nullable=False,
-        server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"),
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     name = Column(String(200), nullable=False)
     value = Column(String(200), nullable=False)
@@ -265,9 +245,7 @@ class ResultProcessRelation(Base):
         TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     updated = Column(
-        TIMESTAMP,
-        nullable=False,
-        server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"),
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     result_id = Column(ForeignKey("result.id"), nullable=False, index=True)
     process_id = Column(ForeignKey("process.id"), nullable=False, index=True)
@@ -287,9 +265,7 @@ class ResultSelfRelation(Base):
         TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     updated = Column(
-        TIMESTAMP,
-        nullable=False,
-        server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"),
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     result1_id = Column(ForeignKey("result.id"), nullable=False, index=True)
     result2_id = Column(ForeignKey("result.id"), nullable=False, index=True)
@@ -311,9 +287,7 @@ class Circuit(Base):
         TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     updated = Column(
-        TIMESTAMP,
-        nullable=False,
-        server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"),
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     die_id = Column(ForeignKey("die.id"), nullable=False, index=True)
     name = Column(String(250), nullable=False)
@@ -331,17 +305,15 @@ class Port(Base):
         TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     updated = Column(
-        TIMESTAMP,
-        nullable=False,
-        server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"),
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     circuit_id = Column(ForeignKey("circuit.id"), nullable=False, index=True)
     name = Column(String(200), server_default=text("''"))
     is_electrical = Column(
-        TINYINT, nullable=False, comment="Boolean. if the port is electrical."
+        BOOLEAN, nullable=False, comment="Boolean. if the port is electrical."
     )
     is_optical = Column(
-        TINYINT, nullable=False, comment="Boolean. if the port is optical."
+        BOOLEAN, nullable=False, comment="Boolean. if the port is optical."
     )
     position = Column(String(50), nullable=False)
     orientation = Column(Float(asdecimal=True), nullable=False)
@@ -361,9 +333,7 @@ class ComponentInfo(Base):
         TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     updated = Column(
-        TIMESTAMP,
-        nullable=False,
-        server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"),
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     circuit_id = Column(ForeignKey("circuit.id"), index=True)
     die_id = Column(ForeignKey("die.id"), index=True)
@@ -392,9 +362,7 @@ class ResultComponentRelation(Base):
         TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     updated = Column(
-        TIMESTAMP,
-        nullable=False,
-        server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"),
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     result_id = Column(ForeignKey("result.id"), nullable=False, index=True)
     circuit_id = Column(ForeignKey("circuit.id"), index=True)
@@ -422,9 +390,7 @@ class RelationInfo(Base):
         TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     updated = Column(
-        TIMESTAMP,
-        nullable=False,
-        server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"),
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     computed_result_self_relation_id = Column(
         ForeignKey("computed_result_self_relation.id"), index=True
@@ -459,12 +425,8 @@ if __name__ == "__main__":
 
     with Session(engine) as session:
 
-        w1 = Wafer(
-            name="sky1",
-        )
-        w2 = Wafer(
-            name="sky2",
-        )
+        w1 = Wafer(name="sky1", serial_number="ABC")
+        w2 = Wafer(name="sky2", serial_number="ABC")
 
         session.add_all([w1, w2])
         session.commit()
