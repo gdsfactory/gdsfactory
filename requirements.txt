@@ -4,6 +4,7 @@ flatdict
 gdspy
 jsondiff
 loguru
+lxml
 matplotlib
 numpy
 omegaconf
