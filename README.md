@@ -76,7 +76,7 @@ Contributors (in chronological order):
 - Pete Shadbolt (PsiQuantum): Klayout auto-placer, Klayout GDS interface (klive).
 - Troy Tamas (Rockley): get_route_from_steps, netlist driven flow (from_yaml).
 - Floris Laporte (Rockley): netlist extraction and circuit simulation interface with SAX.
-- Alec Hammond (Facebook Reality Labs): Meep and MPB interface.
+- Alec Hammond (Meta Reality Labs Research): Meep and MPB interface.
 - Simon Bilodeau (Princeton): Meep FDTD write Sparameters, TCAD device simulator.
 - Thomas Dorch (Freedom Photonics): for Meep's material database access, MPB sidewall angles, and add_pin_path.
 - Jan-David Fischbach (Black semiconductor): for improvements in pack_doe.
