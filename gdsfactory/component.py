@@ -1,4 +1,3 @@
-import copy as python_copy
 import datetime
 import hashlib
 import itertools
@@ -90,7 +89,7 @@ def _rnd(arr, precision=1e-4):
     return np.ascontiguousarray(arr.round(ndigits) / precision, dtype=np.int64)
 
 
-class Component(gdspy.Cell, _GeometryHelper):
+class Component(_GeometryHelper):
     """A Component is an empty canvas where you add polygons, references and ports \
             (to connect to other components).
 
@@ -131,6 +130,7 @@ class Component(gdspy.Cell, _GeometryHelper):
         if with_uuid or name == "Unnamed":
             name += f"_{self.uid}"
 
+        self._cell = gdspy.Cell(name=name, exclude_from_current=True)
         self.name = name
         self.info: Dict[str, Any] = {}
 
@@ -143,7 +143,77 @@ class Component(gdspy.Cell, _GeometryHelper):
         self.ports = {}
         self.aliases = {}
 
-        super().__init__(name=name, exclude_from_current=True)
+    @property
+    def references(self):
+        return self._cell.references
+
+    @property
+    def polygons(self):
+        return self._cell.polygons
+
+    @property
+    def labels(self):
+        return self._cell.labels
+
+    @property
+    def paths(self):
+        return self._cell.paths
+
+    @property
+    def name(self):
+        return self._cell.name
+
+    @paths.setter
+    def paths(self, value):
+        self._cell.paths = value
+
+    @labels.setter
+    def labels(self, value):
+        self._cell.labels = value
+
+    @name.setter
+    def name(self, value):
+        self._cell.name = value
+
+    def get_polygons(self, by_spec=False, depth=None):
+        """Return a list of polygons in this cell.
+
+        Args:
+            by_spec: bool or tuple
+                If True, the return value is a dictionary with the
+                polygons of each individual pair (layer, datatype), which
+                are used as keys.  If set to a tuple of (layer, datatype),
+                only polygons with that specification are returned.
+            depth: integer or None
+                If not None, defines from how many reference levels to
+                retrieve polygons.  References below this level will result
+                in a bounding box.  If `by_spec` is True the key will be the
+                name of this cell.
+
+        Returns
+            out : list of array-like[N][2] or dictionary
+                List containing the coordinates of the vertices of each
+                polygon, or dictionary with with the list of polygons (if
+                `by_spec` is True).
+
+        Note:
+            Instances of `FlexPath` and `RobustPath` are also included in
+            the result by computing their polygonal boundary.
+        """
+        return self._cell.get_polygons(by_spec=by_spec, depth=depth)
+
+    def get_dependencies(self, recursive=False):
+        """Return a set of the cells included in this cell as references.
+
+        Args:
+            recursive : bool
+                If True returns cascading dependencies.
+
+        Returns:
+            out : set of `Cell`
+                Set of the cells referenced by this cell.
+        """
+        return self._cell.get_dependencies(recursive=recursive)
 
     def __getitem__(self, key):
         """Allows you to access aliases D['arc2'].
@@ -277,7 +347,7 @@ class Component(gdspy.Cell, _GeometryHelper):
 
         it snaps to 3 decimals in um (0.001um = 1nm precision)
         """
-        bbox = self.get_bounding_box()
+        bbox = self._cell.get_bounding_box()
         if bbox is None:
             bbox = ((0, 0), (0, 0))
         return np.round(bbox, 3)
@@ -850,7 +920,7 @@ class Component(gdspy.Cell, _GeometryHelper):
             MutabilityError: if component is locked.
         """
         self.is_unlocked()
-        super().add(element)
+        self._cell.add(element)
 
     def add(self, element) -> None:
         """Add a new element or list of elements to this Component.
@@ -1318,8 +1388,10 @@ class Component(gdspy.Cell, _GeometryHelper):
                     f"on_duplicate_cell: {on_duplicate_cell!r} not in (None, warn, error, overwrite)"
                 )
 
-        all_cells = [self] + sorted(cells, key=lambda cc: cc.name)
+        all_cells = [self._cell] + sorted(cells, key=lambda cc: cc.name)
 
+        for cell in all_cells:
+            print(cell.name)
         no_name_cells = [
             cell.name for cell in all_cells if cell.name.startswith("Unnamed")
         ]
@@ -1685,7 +1757,9 @@ def copy(D: Component) -> Component:
         D: component to copy.
     """
     D_copy = Component()
-    D_copy.info = python_copy.deepcopy(D.info)
+    D_copy.info = D.info
+    D_copy._cell = D._cell.copy(name=D_copy.name)
+
     for ref in D.references:
         if isinstance(ref, gdspy.CellReference):
             new_ref = ComponentReference(
@@ -1891,10 +1965,17 @@ def test_bbox_component() -> None:
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    # c = gf.components.bend_euler()
+    c = Component()
+    # length = 10
+    # width = 0.5
+    # layer = (1, 0)
+    # c.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
+
+    c = gf.components.bend_euler()
     # c2 = c.mirror()
     # print(c2.info)
-    c = gf.c.mzi()
+    # c = gf.c.mzi()
     # c.hash_geometry()
-    print(c.get_polygons(by_spec=True))
-    c.show(show_ports=True)
+    # print(c.get_polygons(by_spec=True))
+    # c.show(show_ports=True)
+    c.show()
