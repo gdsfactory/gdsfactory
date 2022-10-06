@@ -547,14 +547,13 @@ class KLayoutTechnology(BaseModel):
 
     layer_properties: Optional[LayerDisplayProperties] = None
     technology: db.Technology = Field(default_factory=db.Technology)
-    layer_stack: Optional[LayerStack] = None
 
     def export_technology_files(
         self,
         tech_dir: str,
         lyp_filename: str = "layers",
         lyt_filename: str = "tech",
-        write_25d: bool = False,
+        layer_stack: Optional[LayerStack] = None,
     ):
         """Write technology files into 'tech_dir'.
 
@@ -562,7 +561,7 @@ class KLayoutTechnology(BaseModel):
             tech_dir: Where to write the technology files to.
             lyp_filename: Name of the layer properties file.
             lyt_filename: Name of the layer technology file.
-            write_25d: Whether to write a 2.5D section in the technology file based on the LayerStack.
+            layer_stack: If specified, write a 2.5D section in the technology file based on the LayerStack.
         """
         # Format file names if necessary
         lyp_filename = append_file_extension(lyp_filename, ".lyp")
@@ -581,11 +580,7 @@ class KLayoutTechnology(BaseModel):
 
         root = etree.XML(self.technology.to_xml().encode("utf-8"))
 
-        if write_25d:
-            if self.layer_stack is None:
-                raise KeyError(
-                    "A LayerStack is required to write 2.5D info to a .lyt file."
-                )
+        if layer_stack is not None:
             # KLayout 0.27.x won't have a way to read/write the 2.5D info for technologies, so add manually
             # Should be easier in 0.28.x
             d25_element = [e for e in list(root) if e.tag == "d25"]
@@ -598,7 +593,7 @@ class KLayoutTechnology(BaseModel):
                 raise KeyError("Could not get a single index for the src element.")
             src_element = src_element[0]
 
-            for layer_level in self.layer_stack.layers.values():
+            for layer_level in layer_stack.layers.values():
                 src_element.text += f"{layer_level.layer[0]}/{layer_level.layer[1]}: {layer_level.zmin} {layer_level.thickness}\n"
 
         # Write lyt to file
@@ -625,8 +620,8 @@ if __name__ == "__main__":
     # str_xml = open(PATH.klayout_tech / "tech.lyt").read()
     # new_tech = db.Technology.technology_from_xml(str_xml)
 
-    generic_tech = KLayoutTechnology(layer_properties=lyp, layer_stack=LAYER_STACK)
+    generic_tech = KLayoutTechnology(layer_properties=lyp)
     tech_dir = PATH.repo / "extra" / "test_tech"
     tech_dir.mkdir(exist_ok=True, parents=True)
 
-    generic_tech.export_technology_files(tech_dir=tech_dir)
+    generic_tech.export_technology_files(tech_dir=tech_dir, layer_stack=LAYER_STACK)
