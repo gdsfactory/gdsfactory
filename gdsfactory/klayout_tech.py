@@ -5,7 +5,7 @@ This module will enable conversion between gdsfactory settings and KLayout techn
 
 import os
 import re
-from typing import Dict, Literal, Optional, Tuple, Union
+from typing import Dict, Literal, Optional, Set, Tuple, Union
 
 from lxml import etree
 from pydantic import BaseModel, Field, validator
@@ -384,7 +384,7 @@ class LayerDisplayProperties(BaseModel):
             if view.group_members is not None
         }
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Prints the number of LayerView objects in the LayerDisplayProperties object."""
         return (
             f"LayerDisplayProperties ({len(self.get_layer_views())} layers total, {len(self.get_layer_view_groups())} groups) \n"
@@ -437,7 +437,7 @@ class LayerDisplayProperties(BaseModel):
         name = tuple_to_name[layer_tuple]
         return self.layer_views[name]
 
-    def get_layer_tuples(self):
+    def get_layer_tuples(self) -> Set[Layer]:
         """Returns a tuple for each layer."""
         return {layer.layer for layer in self.get_layer_views().values()}
 
@@ -554,7 +554,7 @@ class KLayoutTechnology(BaseModel):
         lyp_filename: str = "layers",
         lyt_filename: str = "tech",
         layer_stack: Optional[LayerStack] = None,
-    ):
+    ) -> None:
         """Write technology files into 'tech_dir'.
 
         Args:
