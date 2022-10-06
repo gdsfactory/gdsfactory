@@ -13,7 +13,6 @@ from matplotlib.colors import CSS4_COLORS
 from pydantic import BaseModel, Field, validator
 from typing_extensions import Literal
 
-import klayout.db as db
 from gdsfactory.config import PATH
 from gdsfactory.tech import LayerStack
 
@@ -534,7 +533,7 @@ class LayerDisplayProperties(BaseModel):
 
 
 class KLayoutTechnology(BaseModel):
-    """A container for working with KLayout technologies.
+    """A container for working with KLayout technologies (requires klayout Python package).
 
     Useful for importing/exporting Layer Properties (.lyp) and Technology (.lyt) files.
 
@@ -543,6 +542,8 @@ class KLayoutTechnology(BaseModel):
         technology: KLayout Technology object from the KLayout API. Set name, dbu, etc.
         layer_stack: gdsfactory LayerStack for writing LayerLevels to the technology files for 2.5D view.
     """
+
+    import klayout.db as db
 
     layer_properties: Optional[LayerDisplayProperties] = None
     technology: db.Technology = Field(default_factory=db.Technology)
@@ -623,11 +624,8 @@ if __name__ == "__main__":
 
     # str_xml = open(PATH.klayout_tech / "tech.lyt").read()
     # new_tech = db.Technology.technology_from_xml(str_xml)
-    new_tech = db.Technology()
 
-    generic_tech = KLayoutTechnology(
-        layer_properties=lyp, technology=new_tech, layer_stack=LAYER_STACK
-    )
+    generic_tech = KLayoutTechnology(layer_properties=lyp, layer_stack=LAYER_STACK)
     tech_dir = PATH.repo / "extra" / "test_tech"
     tech_dir.mkdir(exist_ok=True, parents=True)
 
