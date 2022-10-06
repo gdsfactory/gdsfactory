@@ -5,13 +5,10 @@ This module will enable conversion between gdsfactory settings and KLayout techn
 
 import os
 import re
-from typing import Dict, Optional, Tuple, Union
+from typing import Dict, Literal, Optional, Tuple, Union
 
-import numpy as np
 from lxml import etree
-from matplotlib.colors import CSS4_COLORS
 from pydantic import BaseModel, Field, validator
-from typing_extensions import Literal
 
 from gdsfactory.config import PATH
 from gdsfactory.tech import LayerStack
@@ -91,6 +88,9 @@ class LayerView(BaseModel):
 
     @validator("frame_color", "fill_color")
     def color_is_valid(cls, color):
+        import numpy as np
+        from matplotlib.colors import CSS4_COLORS
+
         try:
             if color is None:  # not specified
                 color = None
