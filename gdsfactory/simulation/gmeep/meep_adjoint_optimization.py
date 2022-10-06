@@ -21,7 +21,7 @@ def get_meep_adjoint_optimizer(
     design_regions: List[DesignRegion],
     design_variables: List[MaterialGrid],
     design_update: np.ndarray,
-    TE_mode: int = 1,
+    TE_mode_number: int = 1,
     resolution: int = 30,
     cell_size: Optional[Tuple] = None,
     extend_ports_length: Optional[float] = 10.0,
@@ -44,6 +44,41 @@ def get_meep_adjoint_optimizer(
     material_name_to_meep: Optional[Dict[str, Union[str, float]]] = None,
     **settings,
 ):
+    """Return a Meep `OptimizationProblem` object.
+    Args:
+        component: gdsfactory component
+        objective_function: functions must be composed of "field functions" that transform the recorded fields
+        design_regions: list of DesignRegion objects
+        design_variables: list of MaterialGrid objects
+        design_update: ndarray to intializethe optimization
+        TE_mode_number: TE mode number
+        resolution: in pixels/um (20: for coarse, 120: for fine)
+        cell_size: tuple of Simulation object dimensions in um
+        extend_ports_length: to extend ports beyond the PML.
+        layer_stack: contains layer to thickness, zmin and material.
+            Defaults to active pdk.layer_stack.
+        zmargin_top: thickness for cladding above core.
+        zmargin_bot: thickness for cladding below core.
+        tpml: PML thickness (um).
+        clad_material: material for cladding.
+        is_3d: if True runs in 3D.
+        wavelength_start: wavelength min (um).
+        wavelength_stop: wavelength max (um).
+        wavelength_points: wavelength steps.
+        dfcen: delta frequency.
+        port_source_name: input port name.
+        port_margin: margin on each side of the port.
+        distance_source_to_monitors: in (um) source goes before.
+        port_source_offset: offset between source GDS port and source MEEP port.
+        port_monitor_offset: offset between monitor GDS port and monitor MEEP port.
+        dispersive: use dispersive material models (requires higher resolution).
+        material_name_to_meep: map layer_stack names with meep material database name
+            or refractive index. dispersive materials have a wavelength dependent index.
+    Keyword Args:
+        settings: extra simulation settings (resolution, symmetries, etc.)
+    Returns:
+        opt: OptimizationProblem object
+    """
     sim_dict = get_simulation(
         component,
         resolution=resolution,
@@ -90,7 +125,7 @@ def get_meep_adjoint_optimizer(
                 center=monitor.regions[0].center,
                 size=monitor.regions[0].size,
             ),
-            TE_mode,
+            TE_mode_number,
         )
         for monitor in monitors.values()
     ]
@@ -206,6 +241,7 @@ def _get_component_from_sim(
 
     Args:
         sim: Meep Simulation object
+        fcen: center frequency of the source
         upscale_factor: upscale factor for the optimization's grid
         threshold_offset_from_max: threshold offset from max eps value
         layer: layer to apply to the optimized component
