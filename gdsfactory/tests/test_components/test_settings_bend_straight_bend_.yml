@@ -47,4 +47,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.bend_euler
   name: bend_straight_bend
-version: 0.0.1

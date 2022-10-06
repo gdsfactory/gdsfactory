@@ -59,13 +59,13 @@ def test_path_transitions():
     )
 
     # To show the cross-sections, let's create two Paths and
-    # create Devices by extruding them
+    # create Components by extruding them
     P1 = gf.path.straight(length=5)
     P2 = gf.path.straight(length=5)
     wg1 = gf.path.extrude(P1, X1)
     wg2 = gf.path.extrude(P2, X2)
 
-    # Place both cross-section Devices and quickplot them
+    # Place both cross-section Components and quickplot them
     c = gf.Component()
     c << wg1
     wg2ref = c << wg2

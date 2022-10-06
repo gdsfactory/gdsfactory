@@ -4,12 +4,12 @@ flatdict
 gdspy
 jsondiff
 loguru
+lxml
 matplotlib
 numpy
 omegaconf
 orjson
 pandas
-phidl==1.6.2
 pydantic
 pytest
 pytest-regressions

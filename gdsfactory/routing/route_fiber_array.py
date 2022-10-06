@@ -192,12 +192,9 @@ def route_fiber_array(
         or (component.xsize > fiber_spacing)
     )
     if optical_routing_type is None:
-        if not is_big_component:
-            optical_routing_type = 0
-        else:
-            optical_routing_type = 1
-
+        optical_routing_type = 1 if is_big_component else 0
     # choose the default length if the default fanout distance is not set
+
     def has_p(side):
         return len(direction_ports[side]) > 0
 
@@ -209,9 +206,10 @@ def route_fiber_array(
 
     is_one_sided_horizontal = False
     for side1, side2 in [("E", "W"), ("W", "E")]:
-        if len(direction_ports[side1]) >= 2:
-            if all([len(direction_ports[side]) == 0 for side in ["N", "S", side2]]):
-                is_one_sided_horizontal = True
+        if len(direction_ports[side1]) >= 2 and all(
+            len(direction_ports[side]) == 0 for side in ["N", "S", side2]
+        ):
+            is_one_sided_horizontal = True
 
     # Compute fanout length if not specified
     if fanout_length is None:
@@ -249,7 +247,7 @@ def route_fiber_array(
 
     ports = []
     north_ports = direction_ports["N"]
-    north_start = north_ports[0 : len(north_ports) // 2]
+    north_start = north_ports[: len(north_ports) // 2]
     north_finish = north_ports[len(north_ports) // 2 :]
 
     west_ports = direction_ports["W"]

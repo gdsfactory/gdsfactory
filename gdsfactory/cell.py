@@ -254,7 +254,7 @@ def cell(func: _F, *args, **kwargs) -> _F:
 @cell
 def wg(length: int = 3, layer: Tuple[int, int] = (1, 0)) -> Component:
     """Dummy component for testing."""
-    c = Component("straight")
+    c = Component()
     width = 0.5
     w = width / 2
     c.add_polygon([(0, -w), (length, -w), (length, w), (0, w)], layer=layer)
@@ -266,7 +266,7 @@ def wg(length: int = 3, layer: Tuple[int, int] = (1, 0)) -> Component:
 @cell
 def wg2(wg1=wg):
     """Dummy component for testing."""
-    c = Component("straight")
+    c = Component()
     w = wg1()
     w1 = c << w
     w1.rotate(90)
@@ -333,6 +333,7 @@ def straight_with_pins(**kwargs) -> Component:
 
 if __name__ == "__main__":
     test_names()
+    c = wg()
     # test_import_gds_settings()
 
     # import gdsfactory as gf

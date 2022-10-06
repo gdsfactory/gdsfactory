@@ -1,4 +1,4 @@
-name: component_sequence_99d1b3d1
+name: component_sequence_b838d164
 settings:
   changed:
     sequence: H
@@ -25,7 +25,6 @@ settings:
           info_version: 2
           module: gdsfactory.components.straight
           name: straight
-        version: 0.0.1
       - o1
       - o2
       A:
@@ -36,36 +35,12 @@ settings:
           child: null
           default:
             angle: 90.0
-            cross_section:
-              function: cross_section
-              settings:
-                add_bbox:
-                  function: add_bbox_siepic
-                add_pins:
-                  function: add_pins_siepic
-                  settings:
-                    pin_length: 0.002
-                cladding_layers:
-                - DEVREC
-                cladding_offsets:
-                - 0
+            cross_section: strip
             npoints: 720
             with_bbox: true
           full:
             angle: 180
-            cross_section:
-              function: cross_section
-              settings:
-                add_bbox:
-                  function: add_bbox_siepic
-                add_pins:
-                  function: add_pins_siepic
-                  settings:
-                    pin_length: 0.002
-                cladding_layers:
-                - DEVREC
-                cladding_offsets:
-                - 0
+            cross_section: strip
             npoints: 720
             with_bbox: true
           function_name: bend_circular
@@ -76,7 +51,6 @@ settings:
           info_version: 2
           module: gdsfactory.components.bend_circular
           name: bend_circular_angle180
-        version: 0.0.1
       - o1
       - o2
       B:
@@ -87,36 +61,12 @@ settings:
           child: null
           default:
             angle: 90.0
-            cross_section:
-              function: cross_section
-              settings:
-                add_bbox:
-                  function: add_bbox_siepic
-                add_pins:
-                  function: add_pins_siepic
-                  settings:
-                    pin_length: 0.002
-                cladding_layers:
-                - DEVREC
-                cladding_offsets:
-                - 0
+            cross_section: strip
             npoints: 720
             with_bbox: true
           full:
             angle: 180
-            cross_section:
-              function: cross_section
-              settings:
-                add_bbox:
-                  function: add_bbox_siepic
-                add_pins:
-                  function: add_pins_siepic
-                  settings:
-                    pin_length: 0.002
-                cladding_layers:
-                - DEVREC
-                cladding_offsets:
-                - 0
+            cross_section: strip
             npoints: 720
             with_bbox: true
           function_name: bend_circular
@@ -127,7 +77,6 @@ settings:
           info_version: 2
           module: gdsfactory.components.bend_circular
           name: bend_circular_angle180
-        version: 0.0.1
       - o2
       - o1
       H:
@@ -203,7 +152,6 @@ settings:
           info_version: 2
           module: gdsfactory.components.straight_pin
           name: straight_pin_length40
-        version: 0.0.1
       - o1
       - o2
   child: null
@@ -241,7 +189,6 @@ settings:
           info_version: 2
           module: gdsfactory.components.straight
           name: straight
-        version: 0.0.1
       - o1
       - o2
       A:
@@ -252,36 +199,12 @@ settings:
           child: null
           default:
             angle: 90.0
-            cross_section:
-              function: cross_section
-              settings:
-                add_bbox:
-                  function: add_bbox_siepic
-                add_pins:
-                  function: add_pins_siepic
-                  settings:
-                    pin_length: 0.002
-                cladding_layers:
-                - DEVREC
-                cladding_offsets:
-                - 0
+            cross_section: strip
             npoints: 720
             with_bbox: true
           full:
             angle: 180
-            cross_section:
-              function: cross_section
-              settings:
-                add_bbox:
-                  function: add_bbox_siepic
-                add_pins:
-                  function: add_pins_siepic
-                  settings:
-                    pin_length: 0.002
-                cladding_layers:
-                - DEVREC
-                cladding_offsets:
-                - 0
+            cross_section: strip
             npoints: 720
             with_bbox: true
           function_name: bend_circular
@@ -292,7 +215,6 @@ settings:
           info_version: 2
           module: gdsfactory.components.bend_circular
           name: bend_circular_angle180
-        version: 0.0.1
       - o1
       - o2
       B:
@@ -303,36 +225,12 @@ settings:
           child: null
           default:
             angle: 90.0
-            cross_section:
-              function: cross_section
-              settings:
-                add_bbox:
-                  function: add_bbox_siepic
-                add_pins:
-                  function: add_pins_siepic
-                  settings:
-                    pin_length: 0.002
-                cladding_layers:
-                - DEVREC
-                cladding_offsets:
-                - 0
+            cross_section: strip
             npoints: 720
             with_bbox: true
           full:
             angle: 180
-            cross_section:
-              function: cross_section
-              settings:
-                add_bbox:
-                  function: add_bbox_siepic
-                add_pins:
-                  function: add_pins_siepic
-                  settings:
-                    pin_length: 0.002
-                cladding_layers:
-                - DEVREC
-                cladding_offsets:
-                - 0
+            cross_section: strip
             npoints: 720
             with_bbox: true
           function_name: bend_circular
@@ -343,7 +241,6 @@ settings:
           info_version: 2
           module: gdsfactory.components.bend_circular
           name: bend_circular_angle180
-        version: 0.0.1
       - o2
       - o1
       H:
@@ -419,12 +316,10 @@ settings:
           info_version: 2
           module: gdsfactory.components.straight_pin
           name: straight_pin_length40
-        version: 0.0.1
       - o1
       - o2
   function_name: component_sequence
   info: {}
   info_version: 2
   module: gdsfactory.components.component_sequence
-  name: component_sequence_99d1b3d1
-version: 0.0.1
+  name: component_sequence_b838d164

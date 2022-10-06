@@ -1,5 +1,86 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.37.1
+
+- fix is_on_grid [PR](https://github.com/gdsfactory/gdsfactory/pull/754)
+
+## 5.37.0
+
+- remove Component.version and Component.changelog, change tutorial to recommend keeping Pcell changelog in the docstring. [PR](https://github.com/gdsfactory/gdsfactory/pull/752)
+
+## 5.36.0
+
+- Add thermal solver [PR](https://github.com/gdsfactory/gdsfactory/pull/739)
+- remove phidl dependency [PR](https://github.com/gdsfactory/gdsfactory/pull/741)
+- remove incremental naming from phidl
+- remove Port.midpoint as it was deprecated since 5.14.0
+- add freetype-py for using text with font and add components.text_freetype [PR](https://github.com/gdsfactory/gdsfactory/pull/743)
+
+## 5.35.0
+
+- Mesh2D renames boundaries [PR](https://github.com/gdsfactory/gdsfactory/pull/736)
+
+## 5.34.0
+
+- bump sax from 0.8.2 to 0.8.4
+- add fixes for snapping to the grid, add parabolic_transition [PR](https://github.com/gdsfactory/gdsfactory/pull/733)
+- add [installer for Windows, MacOs and Linux](https://github.com/gdsfactory/gdsfactory/releases)
+
+## 5.33.0
+
+- FEM mesher. Given component, line defined by (x_init, y_init), (x_final, y_final), and LayerStack, generate simple mesh of component cross-section. Mesh returned separately labels non-touching elements on different layers (for use in different solvers). Can provide dict with different resolution for different layers [PR](https://github.com/gdsfactory/gdsfactory/pull/729)
+- add Coherent receiver (single and dual pol) Coherent transmitter (single and dual pol) [PR](https://github.com/gdsfactory/gdsfactory/pull/731)
+
+## 5.32.0
+
+- Read/write layer files (.lyp) and specify whether the layer number is displayed in KLayout [issue](https://github.com/gdsfactory/gdsfactory/issues/695) [PR](https://github.com/gdsfactory/gdsfactory/pull/724)
+    - Read/write technology files (.lyt)
+    - Requires the klayout.db module
+    - 2.5D layer stacks can only be written due to incomplete API in 0.27.x (#1153)
+- Bump sax from 0.8.1 to 0.8.2
+
+
+## 5.31.0
+
+- add new Pcells [PR](https://github.com/gdsfactory/gdsfactory/pull/717)
+    * Dual polarization grating coupler
+    * Straight Ge detector with contacts in the Si
+    * MMI-based 90 degree hybrid
+- add tests to new Pcells [PR](https://github.com/gdsfactory/gdsfactory/pull/720)
+- add resolution_x and resolution_y Optional parameters to tidy3d modesolver. Fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/719) [PR](https://github.com/gdsfactory/gdsfactory/pull/721)
+
+## 5.30.0
+
+- Fix multilayer routing [PR](https://github.com/gdsfactory/gdsfactory/pull/707)
+- Add tests and examples for multilayer routing [PR](https://github.com/gdsfactory/gdsfactory/pull/714)
+
+## [5.29.0](https://github.com/gdsfactory/gdsfactory/pull/704)
+
+- add sweep_neff, sweep_width, sweep_group_index gtidy3d.modes and ring model
+- Absorption from DEVSIM [PR](https://github.com/gdsfactory/gdsfactory/pull/701)
+    - DEVSIM PIN waveguides now return imaginary neff
+    - Changes to tidy3D mode solver to allow running in a different interpreter for compatibility
+- Added support for None orientation ports for get_bundle_from_steps. [PR](https://github.com/gdsfactory/gdsfactory/pull/702)
+- bend_euler returns wire_corner if radius = None
+- upgrade to tidy3d-beta 1.6.3
+
+## [5.28.1](https://github.com/gdsfactory/gdsfactory/pull/698)
+
+- upgrade to tidy3d-beta 1.6.2
+- add functions to write a complete technology package for KLayout using the KLayoutTechnology class [PR](https://github.com/gdsfactory/gdsfactory/pull/696)
+- remove unnamed layers
+
+## [5.28.0](https://github.com/gdsfactory/gdsfactory/pull/691)
+
+- Add avoid_layers, distance, and cost addition for turns for routing.get_route_astar [PR](https://github.com/gdsfactory/gdsfactory/pull/690)
+- cross_sections `metal1`, `metal2`, `metal3` have `radius = None`
+- routing.get_bundle uses `wire_corner` if `cross_section.radius=None`
+- routing.get_route_astar uses `wire_corner` if `cross_section.radius=None`
+
+## [5.27.1](https://github.com/gdsfactory/gdsfactory/pull/686)
+
+- fix devsim TCAD units and examples.
+
 ## [5.27.0](https://github.com/gdsfactory/gdsfactory/pull/684)
 
 - add A* router [PR](https://github.com/gdsfactory/gdsfactory/pull/683)

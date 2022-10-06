@@ -26,6 +26,7 @@ settings:
         port_types:
         - electrical
         - electrical
+        radius: null
         width: 10.0
     delta_length: 40.0
     end_straight_length: 5
@@ -77,6 +78,7 @@ settings:
         port_types:
         - electrical
         - electrical
+        radius: null
         width: 10.0
     delta_length: 40.0
     end_straight_length: 5
@@ -109,4 +111,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.mzi_pads_center
   name: mzi_pads_center
-version: 0.0.1

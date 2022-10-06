@@ -257,7 +257,7 @@ bend_circular
 
   import gdsfactory as gf
 
-  c = gf.components.bend_circular(angle=90.0, npoints=720, with_bbox=True)
+  c = gf.components.bend_circular(angle=90.0, npoints=720, with_bbox=True, cross_section='strip')
   c.plot()
 
 
@@ -272,7 +272,7 @@ bend_circular180
 
   import gdsfactory as gf
 
-  c = gf.components.bend_circular180(angle=180, npoints=720, with_bbox=True)
+  c = gf.components.bend_circular180(angle=180, npoints=720, with_bbox=True, cross_section='strip')
   c.plot()
 
 
@@ -347,7 +347,7 @@ bend_port
 
   import gdsfactory as gf
 
-  c = gf.components.bend_port(port_name='e1', port_name2='e2', cross_section='metal3', angle=180)
+  c = gf.components.bend_port(port_name='e1', port_name2='e2', cross_section='metal3_with_bend', angle=180)
   c.plot()
 
 
@@ -453,6 +453,66 @@ circle
   import gdsfactory as gf
 
   c = gf.components.circle(radius=10.0, angle_resolution=2.5, layer='WG')
+  c.plot()
+
+
+
+coh_rx_dual_pol
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.coh_rx_dual_pol
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.coh_rx_dual_pol(cross_section='strip', lo_splitter='mmi1x2', single_pol_rx_spacing=50.0, splitter_coh_rx_spacing=40.0)
+  c.plot()
+
+
+
+coh_rx_single_pol
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.coh_rx_single_pol
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.coh_rx_single_pol(cross_section='strip', det_spacing=[60.0, 50.0], with_pads=True, pad_det_spacing=80.0, in_wg_length=20.0)
+  c.plot()
+
+
+
+coh_tx_dual_pol
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.coh_tx_dual_pol
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.coh_tx_dual_pol(splitter='mmi1x2', spol_coh_tx='coh_tx_single_pol', yspacing=10.0, xspacing=40.0, cross_section='strip')
+  c.plot()
+
+
+
+coh_tx_single_pol
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.coh_tx_single_pol
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.coh_tx_single_pol(balanced_phase_shifters=False, mzm_y_spacing=50.0, phase_shifter='straight_pin', phase_shifter_length=100.0, mzm_ps_spacing=40.0, splitter='mmi1x2', mzm_length=200.0, with_pads=True, xspacing=40.0, pad_array='pad_array', cross_section='strip')
   c.plot()
 
 
@@ -1160,6 +1220,21 @@ fiber_array
 
 
 
+ge_detector_straight_si_contacts
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.ge_detector_straight_si_contacts
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.ge_detector_straight_si_contacts(length=80.0, via_stack_width=10.0, via_stack_spacing=5.0)
+  c.plot()
+
+
+
 grating_coupler_array
 ----------------------------------------------------
 
@@ -1171,6 +1246,21 @@ grating_coupler_array
   import gdsfactory as gf
 
   c = gf.components.grating_coupler_array(pitch=127.0, n=6, port_name='o1', rotation=0)
+  c.plot()
+
+
+
+grating_coupler_dual_pol
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.grating_coupler_dual_pol
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.grating_coupler_dual_pol(period_x=0.58, period_y=0.58, x_span=11, y_span=11, length_taper=150.0, width_taper=10.0, polarization='dual', wavelength=1.55, base_layer='WG', cross_section='strip', fiber_marker_layer='TE')
   c.plot()
 
 
@@ -1580,6 +1670,21 @@ mmi2x2
 
 
 
+mmi_90degree_hybrid
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.mmi_90degree_hybrid
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.mmi_90degree_hybrid(width=0.5, width_taper=1.7, length_taper=40.0, length_mmi=175.0, width_mmi=10.0, gap_mmi=0.8, with_bbox=True, cross_section='strip')
+  c.plot()
+
+
+
 mzi
 ----------------------------------------------------
 
@@ -1771,6 +1876,51 @@ nxn
   import gdsfactory as gf
 
   c = gf.components.nxn(west=1, east=4, north=0, south=0, xsize=8.0, ysize=8.0, wg_width=0.5, layer='WG', wg_margin=1.0)
+  c.plot()
+
+
+
+optimal_90deg
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.optimal_90deg
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.optimal_90deg(width=100, num_pts=15, length_adjust=1, layer=[1, 0])
+  c.plot()
+
+
+
+optimal_hairpin
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.optimal_hairpin
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.optimal_hairpin(width=0.2, pitch=0.6, length=10, turn_ratio=4, num_pts=50, layer=[1, 0])
+  c.plot()
+
+
+
+optimal_step
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.optimal_step
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.optimal_step(start_width=10, end_width=22, num_pts=50, width_tol=0.001, anticrowding_factor=1.2, symmetric=False, layer=[1, 0])
   c.plot()
 
 
@@ -2085,7 +2235,7 @@ ring_double_heater
 
   import gdsfactory as gf
 
-  c = gf.components.ring_double_heater(gap=0.2, radius=10.0, length_x=0.01, length_y=0.01, port_orientation=90, via_stack_offset=[0, 0])
+  c = gf.components.ring_double_heater(gap=0.2, radius=10.0, length_x=0.01, length_y=0.01, cross_section_heater='heater_metal', cross_section_waveguide_heater='strip_heater_metal', cross_section='strip', port_orientation=90, via_stack_offset=[0, 0])
   c.plot()
 
 
@@ -2145,7 +2295,7 @@ ring_single_heater
 
   import gdsfactory as gf
 
-  c = gf.components.ring_single_heater(gap=0.2, radius=10.0, length_x=4.0, length_y=0.6, port_orientation=90, via_stack_offset=[0, 0])
+  c = gf.components.ring_single_heater(gap=0.2, radius=10.0, length_x=4.0, length_y=0.6, cross_section_waveguide_heater='strip_heater_metal', cross_section='strip', port_orientation=90, via_stack_offset=[0, 0])
   c.plot()
 
 
@@ -2161,6 +2311,21 @@ seal_ring
   import gdsfactory as gf
 
   c = gf.components.seal_ring(bbox=[[-1.0, -1.0], [3.0, 4.0]], width=10, padding=10.0, with_north=True, with_south=True, with_east=True, with_west=True)
+  c.plot()
+
+
+
+snspd
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.snspd
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.snspd(wire_width=0.2, wire_pitch=0.6, size=[10, 8], turn_ratio=4, terminals_same_side=False, layer=[1, 0])
   c.plot()
 
 
@@ -2550,7 +2715,22 @@ taper_cross_section_linear
 
   import gdsfactory as gf
 
-  c = gf.components.taper_cross_section_linear(length=10, npoints=2, linear=True)
+  c = gf.components.taper_cross_section_linear(length=10, npoints=2, linear=True, width_type='sine')
+  c.plot()
+
+
+
+taper_cross_section_parabolic
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.taper_cross_section_parabolic
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.taper_cross_section_parabolic(length=10, npoints=101, linear=False, width_type='parabolic')
   c.plot()
 
 
@@ -2565,7 +2745,7 @@ taper_cross_section_sine
 
   import gdsfactory as gf
 
-  c = gf.components.taper_cross_section_sine(length=10, npoints=101, linear=False)
+  c = gf.components.taper_cross_section_sine(length=10, npoints=101, linear=False, width_type='sine')
   c.plot()
 
 
@@ -2735,6 +2915,21 @@ text
 
 
 
+text_freetype
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.text_freetype
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.text_freetype(text='abcd', size=10, justify='left', layer='WG', font='Arial')
+  c.plot()
+
+
+
 text_lines
 ----------------------------------------------------
 
@@ -2820,7 +3015,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='5.25.1', text_size=10)
+  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='5.35.0', text_size=10)
   c.plot()
 
 
@@ -2880,7 +3075,7 @@ via_corner
 
   import gdsfactory as gf
 
-  c = gf.components.via_corner(cross_section=[[{'function': 'cross_section', 'settings': {'layer': 'M2', 'width': 10.0, 'port_names': ['e1', 'e2'], 'port_types': ['electrical', 'electrical']}}, [0, 180]], [{'function': 'cross_section', 'settings': {'layer': 'M3', 'width': 10.0, 'port_names': ['e1', 'e2'], 'port_types': ['electrical', 'electrical']}}, [90, 270]]], layers_labels=['m2', 'm3'])
+  c = gf.components.via_corner(cross_section=[[{'function': 'cross_section', 'settings': {'layer': 'M2', 'width': 10.0, 'port_names': ['e1', 'e2'], 'port_types': ['electrical', 'electrical'], 'radius': None}}, [0, 180]], [{'function': 'cross_section', 'settings': {'layer': 'M3', 'width': 10.0, 'port_names': ['e1', 'e2'], 'port_types': ['electrical', 'electrical'], 'radius': None}}, [90, 270]]], layers_labels=['m2', 'm3'])
   c.plot()
 
 

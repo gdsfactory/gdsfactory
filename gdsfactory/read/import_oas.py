@@ -44,7 +44,7 @@ def import_oas(
     layout = pya.Layout()
     layout.read(filename)
 
-    # We want to end up with one Device. If the imported layout has multiple top cells,
+    # We want to end up with one Component. If the imported layout has multiple top cells,
     # a new toplevel is created, and they go into the second level
     if len(layout.top_cells()) > 1:
         topcell = layout.create_cell("toplevel")

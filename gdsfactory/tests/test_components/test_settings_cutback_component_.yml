@@ -57,4 +57,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.cutback_component
   name: taper_from_csv_cutback_component
-version: 0.0.1

@@ -63,7 +63,7 @@ def test_sweep_width(dataframe_regression) -> None:
     )
 
     if dataframe_regression:
-        dataframe_regression.check(df)
+        dataframe_regression.check(df, default_tolerance=dict(atol=1e-3, rtol=1e-3))
 
 
 if __name__ == "__main__":

@@ -27,4 +27,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.litho_calipers
   name: litho_calipers
-version: 0.0.1

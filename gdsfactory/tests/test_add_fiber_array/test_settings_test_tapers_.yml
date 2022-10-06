@@ -1,8 +1,8 @@
-name: straight_length20_width_e929fb75
+name: straight_length20_width_d36c6f69
 settings:
   changed:
     component:
-      name: straight_length20_width_4d410313
+      name: straight_length20_width_91398301
       settings:
         changed:
           component:
@@ -30,7 +30,6 @@ settings:
               info_version: 2
               module: gdsfactory.components.straight
               name: straight_length20_width2
-            version: 0.0.1
         child:
           changed:
             length: 20
@@ -89,7 +88,6 @@ settings:
               info_version: 2
               module: gdsfactory.components.straight
               name: straight_length20_width2
-            version: 0.0.1
           select_ports:
             function: select_ports
             settings:
@@ -104,8 +102,7 @@ settings:
           width: 2.0
         info_version: 2
         module: gdsfactory.add_tapers
-        name: straight_length20_width_4d410313
-      version: 0.0.1
+        name: straight_length20_width_91398301
     optical_routing_type: 0
   child:
     changed:
@@ -134,7 +131,6 @@ settings:
           info_version: 2
           module: gdsfactory.components.straight
           name: straight_length20_width2
-        version: 0.0.1
     child:
       changed:
         length: 20
@@ -193,7 +189,6 @@ settings:
           info_version: 2
           module: gdsfactory.components.straight
           name: straight_length20_width2
-        version: 0.0.1
       select_ports:
         function: select_ports
         settings:
@@ -208,7 +203,7 @@ settings:
       width: 2.0
     info_version: 2
     module: gdsfactory.add_tapers
-    name: straight_length20_width_4d410313
+    name: straight_length20_width_91398301
   default:
     component:
       function: straight
@@ -230,7 +225,7 @@ settings:
         port_type: optical
   full:
     component:
-      name: straight_length20_width_4d410313
+      name: straight_length20_width_91398301
       settings:
         changed:
           component:
@@ -258,7 +253,6 @@ settings:
               info_version: 2
               module: gdsfactory.components.straight
               name: straight_length20_width2
-            version: 0.0.1
         child:
           changed:
             length: 20
@@ -317,7 +311,6 @@ settings:
               info_version: 2
               module: gdsfactory.components.straight
               name: straight_length20_width2
-            version: 0.0.1
           select_ports:
             function: select_ports
             settings:
@@ -332,8 +325,7 @@ settings:
           width: 2.0
         info_version: 2
         module: gdsfactory.add_tapers
-        name: straight_length20_width_4d410313
-      version: 0.0.1
+        name: straight_length20_width_91398301
     component_name: null
     cross_section: strip
     gc_port_labels: null
@@ -361,5 +353,4 @@ settings:
     width: 2.0
   info_version: 2
   module: gdsfactory.routing.add_fiber_array
-  name: straight_length20_width_e929fb75
-version: 0.0.1
+  name: straight_length20_width_d36c6f69
