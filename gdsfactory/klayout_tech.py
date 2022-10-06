@@ -5,15 +5,11 @@ This module will enable conversion between gdsfactory settings and KLayout techn
 
 import os
 import re
-from typing import Dict, Optional, Tuple
+from typing import Dict, Literal, Optional, Tuple, Union
 
-import numpy as np
 from lxml import etree
-from matplotlib.colors import CSS4_COLORS
 from pydantic import BaseModel, Field, validator
-from typing_extensions import Literal
 
-import klayout.db as db
 from gdsfactory.config import PATH
 from gdsfactory.tech import LayerStack
 
@@ -92,6 +88,9 @@ class LayerView(BaseModel):
 
     @validator("frame_color", "fill_color")
     def color_is_valid(cls, color):
+        import numpy as np
+        from matplotlib.colors import CSS4_COLORS
+
         try:
             if color is None:  # not specified
                 color = None
@@ -195,60 +194,67 @@ class CustomPattern(BaseModel):
         return el
 
 
-_layer_re = re.compile("([0-9]+|\\*)/([0-9]+|\\*)")
-
-
-def _process_name(name: str) -> Optional[Tuple[str, bool]]:
-    """Strip layer info from name if it exists.
+def _process_name(
+    name: str, layer_pattern: Union[str, re.Pattern]
+) -> Optional[Tuple[str, bool]]:
+    r"""Strip layer info from name if it exists.
 
     Args:
-        name: XML-formatted name entry
+        name: XML-formatted name entry.
+        layer_pattern: Regex pattern to match layers with. Defaults to r'(\d+|\*)/(\d+|\*)'.
     """
     if not name:
         return None
     layer_in_name = False
-    match = re.search(_layer_re, name)
+    match = re.search(layer_pattern, name)
     if match:
         name = name[: match.start()].strip()
         layer_in_name = True
     return name, layer_in_name
 
 
-def _process_layer(layer: str) -> Optional[Layer]:
-    """Convert .lyp XML layer entry to a Layer.
+def _process_layer(
+    layer: str, layer_pattern: Union[str, re.Pattern]
+) -> Optional[Layer]:
+    r"""Convert .lyp XML layer entry to a Layer.
 
     Args:
-        layer: XML-formatted layer entry
+        layer: XML-formatted layer entry.
+        layer_pattern: Regex pattern to match layers with. Defaults to r'(\d+|\*)/(\d+|\*)'.
     """
-    match = re.search(_layer_re, layer)
+    match = re.search(layer_pattern, layer)
     if not match:
         raise OSError(f"Could not read layer {layer}!")
     v = match.group().split("/")
     return None if v == ["*", "*"] else (int(v[0]), int(v[1]))
 
 
-def _properties_to_layerview(element, tag: Optional[str] = None) -> Optional[LayerView]:
-    """Read properties from .lyp XML and generate LayerViews from them.
+def _properties_to_layerview(
+    element, layer_pattern: Union[str, re.Pattern]
+) -> Optional[LayerView]:
+    r"""Read properties from .lyp XML and generate LayerViews from them.
 
     Args:
+        element: XML Element to iterate over.
         tag: Optional tag to iterate over.
+        layer_pattern: Regex pattern to match layers with. Defaults to r'(\d+|\*)/(\d+|\*)'.
     """
     prop_dict = {"layer_in_name": False}
-    for prop in element.iterchildren(tag=tag):
+    for prop in element.iterchildren():
         prop_tag = prop.tag
         if prop_tag == "name":
-            val = _process_name(prop.text)
+            val = _process_name(prop.text, layer_pattern)
             if val is None:
                 return None
             if isinstance(val, tuple):
                 val, layer_in_name = val
                 prop_dict["layer_in_name"] = layer_in_name
         elif prop_tag == "source":
-            val = _process_layer(prop.text)
+            val = _process_layer(prop.text, layer_pattern)
             prop_tag = "layer"
         elif prop_tag == "group-members":
             props = [
-                _properties_to_layerview(e)
+                _properties_to_layerview(e, layer_pattern)
                 for e in element.iterchildren("group-members")
             ]
             val = {p.name: p for p in props}
@@ -466,12 +472,17 @@ class LayerDisplayProperties(BaseModel):
             )
 
     @staticmethod
-    def from_lyp(filepath: str) -> "LayerDisplayProperties":
-        """Write all layer properties to a KLayout .lyp file.
+    def from_lyp(
+        filepath: str, layer_pattern: Optional[Union[str, re.Pattern]] = None
+    ) -> "LayerDisplayProperties":
+        r"""Write all layer properties to a KLayout .lyp file.
 
         Args:
-            filepath: to write the .lyp file to (appends .lyp extension if not present)
+            filepath: to write the .lyp file to (appends .lyp extension if not present).
+            layer_pattern: Regex pattern to match layers with. Defaults to r'(\d+|\*)/(\d+|\*)'.
         """
+        layer_pattern = re.compile(layer_pattern or r"(\d+|\*)/(\d+|\*)")
+
         filepath = append_file_extension(filepath, ".lyp")
 
         if not os.path.exists(filepath):
@@ -484,7 +495,7 @@ class LayerDisplayProperties(BaseModel):
 
         layer_views = {}
         for layer_block in root.iter("properties"):
-            lv = _properties_to_layerview(layer_block)
+            lv = _properties_to_layerview(layer_block, layer_pattern=layer_pattern)
             if lv is not None:
                 layer_views[lv.name] = lv
 
@@ -522,7 +533,7 @@ class LayerDisplayProperties(BaseModel):
 
 
 class KLayoutTechnology(BaseModel):
-    """A container for working with KLayout technologies.
+    """A container for working with KLayout technologies (requires klayout Python package).
 
     Useful for importing/exporting Layer Properties (.lyp) and Technology (.lyt) files.
 
@@ -532,16 +543,17 @@ class KLayoutTechnology(BaseModel):
         layer_stack: gdsfactory LayerStack for writing LayerLevels to the technology files for 2.5D view.
     """
 
+    import klayout.db as db
+
     layer_properties: Optional[LayerDisplayProperties] = None
     technology: db.Technology = Field(default_factory=db.Technology)
-    layer_stack: Optional[LayerStack] = None
 
     def export_technology_files(
         self,
         tech_dir: str,
         lyp_filename: str = "layers",
         lyt_filename: str = "tech",
-        write_25d: bool = False,
+        layer_stack: Optional[LayerStack] = None,
     ):
         """Write technology files into 'tech_dir'.
 
@@ -549,7 +561,7 @@ class KLayoutTechnology(BaseModel):
             tech_dir: Where to write the technology files to.
             lyp_filename: Name of the layer properties file.
             lyt_filename: Name of the layer technology file.
-            write_25d: Whether to write a 2.5D section in the technology file based on the LayerStack.
+            layer_stack: If specified, write a 2.5D section in the technology file based on the LayerStack.
         """
         # Format file names if necessary
         lyp_filename = append_file_extension(lyp_filename, ".lyp")
@@ -568,11 +580,7 @@ class KLayoutTechnology(BaseModel):
 
         root = etree.XML(self.technology.to_xml().encode("utf-8"))
 
-        if write_25d:
-            if self.layer_stack is None:
-                raise KeyError(
-                    "A LayerStack is required to write 2.5D info to a .lyt file."
-                )
+        if layer_stack is not None:
             # KLayout 0.27.x won't have a way to read/write the 2.5D info for technologies, so add manually
             # Should be easier in 0.28.x
             d25_element = [e for e in list(root) if e.tag == "d25"]
@@ -585,7 +593,7 @@ class KLayoutTechnology(BaseModel):
                 raise KeyError("Could not get a single index for the src element.")
             src_element = src_element[0]
 
-            for layer_level in self.layer_stack.layers.values():
+            for layer_level in layer_stack.layers.values():
                 src_element.text += f"{layer_level.layer[0]}/{layer_level.layer[1]}: {layer_level.zmin} {layer_level.thickness}\n"
 
         # Write lyt to file
@@ -605,75 +613,15 @@ class KLayoutTechnology(BaseModel):
 LAYER_PROPERTIES = LayerDisplayProperties.from_lyp(str(PATH.klayout_lyp))
 
 if __name__ == "__main__":
-
-    # class DefaultProperties(LayerDisplayProperties):
-    #     WG = LayerView(layer=(1, 0))
-    #     WGCLAD = LayerView(layer=(111, 0))
-    #     SLAB150 = LayerView(layer=(2, 0))
-    #     SLAB90 = LayerView(layer=(3, 0))
-    #     DEEPTRENCH = LayerView(layer=(4, 0))
-    #     GE = LayerView(layer=(5, 0))
-    #     WGN = LayerView(layer=(34, 0))
-    #     WGN_CLAD = LayerView(layer=(36, 0))
-    #
-    #     class DopingGroup(LayerView):
-    #         N = LayerView(layer=(20, 0))
-    #         NP = LayerView(layer=(22, 0))
-    #         NPP = LayerView(layer=(24, 0))
-    #         P = LayerView(layer=(21, 0))
-    #         PP = LayerView(layer=(23, 0))
-    #         PPP = LayerView(layer=(25, 0))
-    #         GEN = LayerView(layer=(26, 0))
-    #         GEP = LayerView(layer=(27, 0))
-    #     Doping = DopingGroup()
-    #
-    #     HEATER = LayerView(layer=(47, 0))
-    #     M1 = LayerView(layer=(41, 0))
-    #     M2 = LayerView(layer=(45, 0))
-    #     M3 = LayerView(layer=(49, 0))
-    #     VIAC = LayerView(layer=(40, 0))
-    #     VIA1 = LayerView(layer=(44, 0))
-    #     VIA2 = LayerView(layer=(43, 0))
-    #     PADOPEN = LayerView(layer=(46, 0))
-    #
-    #     DICING = LayerView(layer=(100, 0))
-    #     NO_TILE_SI = LayerView(layer=(71, 0))
-    #     PADDING = LayerView(layer=(67, 0))
-    #     DEVREC = LayerView(layer=(68, 0))
-    #     FLOORPLAN = LayerView(layer=(64, 0))
-    #     TEXT = LayerView(layer=(66, 0))
-    #     PORT = LayerView(layer=(1, 10))
-    #     PORTE = LayerView(layer=(1, 11))
-    #     PORTH = LayerView(layer=(70, 0))
-    #     SHOW_PORTS = LayerView(layer=(1, 12))
-    #     LABEL = LayerView(layer=(201, 0))
-    #     LABEL_SETTINGS = LayerView(layer=(202, 0))
-    #     TE = LayerView(layer=(203, 0))
-    #     TM = LayerView(layer=(204, 0))
-    #     DRC_MARKER = LayerView(layer=(205, 0))
-    #     LABEL_INSTANCE = LayerView(layer=(206, 0))
-    #     ERROR_MARKER = LayerView(layer=(207, 0))
-    #     ERROR_PATH = LayerView(layer=(208, 0))
-    #
-    #     class SimulationGroup(LayerView):
-    #         SOURCE = LayerView(layer=(110, 0))
-    #         MONITOR = LayerView(layer=(101, 0))
-    #     Simulation = SimulationGroup()
-    #
-    # lyp = DefaultProperties()
-
     from gdsfactory.tech import LAYER_STACK
 
     lyp = LayerDisplayProperties.from_lyp(str(PATH.klayout_lyp))
 
     # str_xml = open(PATH.klayout_tech / "tech.lyt").read()
     # new_tech = db.Technology.technology_from_xml(str_xml)
-    new_tech = db.Technology()
 
-    generic_tech = KLayoutTechnology(
-        layer_properties=lyp, technology=new_tech, layer_stack=LAYER_STACK
-    )
+    generic_tech = KLayoutTechnology(layer_properties=lyp)
     tech_dir = PATH.repo / "extra" / "test_tech"
     tech_dir.mkdir(exist_ok=True, parents=True)
 
-    generic_tech.export_technology_files(tech_dir=tech_dir)
+    generic_tech.export_technology_files(tech_dir=tech_dir, layer_stack=LAYER_STACK)
