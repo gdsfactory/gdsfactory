@@ -2925,7 +2925,7 @@ text_freetype
 
   import gdsfactory as gf
 
-  c = gf.components.text_freetype(text='abcd', size=10, justify='left', layer='WG', font='Arial')
+  c = gf.components.text_freetype(text='abcd', size=10, justify='left', layer='WG', font='DEPLOF')
   c.plot()
 
 
@@ -3015,7 +3015,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='5.35.0', text_size=10)
+  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='5.37.1', text_size=10)
   c.plot()
 
 
@@ -3196,6 +3196,21 @@ viac
   import gdsfactory as gf
 
   c = gf.components.viac(size=[0.7, 0.7], spacing=[2.0, 2.0], enclosure=1.0, layer='VIAC', bbox_offset=0)
+  c.plot()
+
+
+
+wafer
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.wafer
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.wafer(reticle='die', cols=[2, 6, 6, 8, 8, 6, 6, 2])
   c.plot()
 
 
