@@ -10151,6 +10151,7 @@ layer_views:
     layer:
     - 42
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: CAPACITOR
@@ -10170,6 +10171,7 @@ layer_views:
     layer:
     - 3
     - 6
+    layer_in_name: true
     line_style: null
     marked: false
     name: DEEPETCH
@@ -10189,6 +10191,7 @@ layer_views:
     layer:
     - 4
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: DEEPTRENCH
@@ -10208,6 +10211,7 @@ layer_views:
     layer:
     - 65
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: DICING
@@ -10227,6 +10231,7 @@ layer_views:
     layer:
     - 67
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: DRC_EXCLUDE
@@ -10246,6 +10251,7 @@ layer_views:
     layer:
     - 205
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: DRC_MARKER
@@ -10265,6 +10271,7 @@ layer_views:
     layer:
     - 68
     - 0
+    layer_in_name: false
     line_style: null
     marked: false
     name: DevRec
@@ -10292,6 +10299,7 @@ layer_views:
         layer:
         - 26
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: GENPP
@@ -10311,6 +10319,7 @@ layer_views:
         layer:
         - 29
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: GEPPP
@@ -10330,6 +10339,7 @@ layer_views:
         layer:
         - 20
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: N
@@ -10349,6 +10359,7 @@ layer_views:
         layer:
         - 22
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: NP
@@ -10368,6 +10379,7 @@ layer_views:
         layer:
         - 24
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: NPP
@@ -10387,6 +10399,7 @@ layer_views:
         layer:
         - 21
         - 0
+        layer_in_name: false
         line_style: null
         marked: false
         name: P 21.0
@@ -10406,6 +10419,7 @@ layer_views:
         layer:
         - 27
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: PDPP
@@ -10425,6 +10439,7 @@ layer_views:
         layer:
         - 23
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: PP
@@ -10444,6 +10459,7 @@ layer_views:
         layer:
         - 25
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: PPP
@@ -10453,6 +10469,7 @@ layer_views:
         width: 1
         xfill: false
     layer: null
+    layer_in_name: false
     line_style: null
     marked: false
     name: Doping
@@ -10472,6 +10489,7 @@ layer_views:
     layer:
     - 207
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: ERROR_MARKER
@@ -10491,6 +10509,7 @@ layer_views:
     layer:
     - 69
     - 0
+    layer_in_name: false
     line_style: null
     marked: false
     name: Errors
@@ -10510,6 +10529,7 @@ layer_views:
     layer:
     - 64
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: FLOORPLAN
@@ -10529,6 +10549,7 @@ layer_views:
     layer:
     - 81
     - 0
+    layer_in_name: false
     line_style: null
     marked: false
     name: FbrTgt
@@ -10548,6 +10569,7 @@ layer_views:
     layer:
     - 5
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: GE
@@ -10567,6 +10589,7 @@ layer_views:
     layer:
     - 201
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: LABEL OPTICAL IO
@@ -10586,6 +10609,7 @@ layer_views:
     layer:
     - 206
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: LABEL_INSTANCES
@@ -10605,6 +10629,7 @@ layer_views:
     layer:
     - 202
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: LABEL_SETTINGS
@@ -10624,6 +10649,7 @@ layer_views:
     layer:
     - 733
     - 0
+    layer_in_name: false
     line_style: null
     marked: false
     name: Lumerical
@@ -10643,6 +10669,7 @@ layer_views:
     layer:
     - 41
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: M1
@@ -10662,6 +10689,7 @@ layer_views:
     layer:
     - 191
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: M1TILES
@@ -10681,6 +10709,7 @@ layer_views:
     layer:
     - 45
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: M2
@@ -10700,6 +10729,7 @@ layer_views:
     layer:
     - 49
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: M3
@@ -10719,6 +10749,7 @@ layer_views:
     layer:
     - 46
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: METALOPEN
@@ -10738,6 +10769,7 @@ layer_views:
     layer:
     - 47
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: MH
@@ -10757,6 +10789,7 @@ layer_views:
     layer:
     - 71
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: NOTILE_M1
@@ -10776,6 +10809,7 @@ layer_views:
     layer:
     - 72
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: NOTILE_M2
@@ -10795,6 +10829,7 @@ layer_views:
     layer:
     - 73
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: NOTILE_M3
@@ -10814,6 +10849,7 @@ layer_views:
     layer:
     - 6
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: OXIDE_ETCH
@@ -10833,6 +10869,7 @@ layer_views:
     layer:
     - 1
     - 10
+    layer_in_name: false
     line_style: null
     marked: false
     name: PinRec
@@ -10852,6 +10889,7 @@ layer_views:
     layer:
     - 1
     - 11
+    layer_in_name: false
     line_style: null
     marked: false
     name: PinRecM
@@ -10871,9 +10909,30 @@ layer_views:
     layer:
     - 2
     - 6
+    layer_in_name: true
     line_style: null
     marked: false
     name: SHALLOWETCH
+    transparent: false
+    valid: true
+    visible: true
+    width: null
+    xfill: false
+  SHOW_PORTS:
+    animation: 0
+    dither_pattern: I5
+    fill_brightness: 0
+    fill_color: '#ff80a8'
+    frame_brightness: 0
+    frame_color: '#ff80a8'
+    group_members: null
+    layer:
+    - 1
+    - 12
+    layer_in_name: true
+    line_style: null
+    marked: false
+    name: SHOW_PORTS
     transparent: false
     valid: true
     visible: true
@@ -10890,6 +10949,7 @@ layer_views:
     layer:
     - 39
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: SILICIDE
@@ -10909,6 +10969,7 @@ layer_views:
     layer:
     - 190
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: SITILES
@@ -10928,6 +10989,7 @@ layer_views:
     layer:
     - 2
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: SLAB150
@@ -10947,6 +11009,7 @@ layer_views:
     layer:
     - 2
     - 9
+    layer_in_name: true
     line_style: null
     marked: false
     name: SLAB150CLAD
@@ -10966,6 +11029,7 @@ layer_views:
     layer:
     - 3
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: SLAB90
@@ -10985,6 +11049,7 @@ layer_views:
     layer:
     - 3
     - 1
+    layer_in_name: true
     line_style: null
     marked: false
     name: SLAB90CLAD
@@ -11004,6 +11069,7 @@ layer_views:
     layer:
     - 203
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: TE
@@ -11023,6 +11089,7 @@ layer_views:
     layer:
     - 204
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: TM
@@ -11042,6 +11109,7 @@ layer_views:
     layer:
     - 66
     - 0
+    layer_in_name: false
     line_style: null
     marked: false
     name: Text
@@ -11061,6 +11129,7 @@ layer_views:
     layer:
     - 44
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: VIA1
@@ -11080,6 +11149,7 @@ layer_views:
     layer:
     - 43
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: VIA2
@@ -11099,6 +11169,7 @@ layer_views:
     layer:
     - 40
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: VIAC
@@ -11118,6 +11189,7 @@ layer_views:
     layer:
     - 111
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: WGCLAD
@@ -11137,6 +11209,7 @@ layer_views:
     layer:
     - 34
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: WGN Nitride
@@ -11156,6 +11229,7 @@ layer_views:
     layer:
     - 36
     - 0
+    layer_in_name: true
     line_style: null
     marked: false
     name: WGNCLAD
@@ -11175,6 +11249,7 @@ layer_views:
     layer:
     - 1
     - 0
+    layer_in_name: false
     line_style: null
     marked: false
     name: Waveguide
@@ -11202,6 +11277,7 @@ layer_views:
         layer:
         - 300
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: XS_BOX
@@ -11221,6 +11297,7 @@ layer_views:
         layer:
         - 315
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: XS_GE
@@ -11240,6 +11317,7 @@ layer_views:
         layer:
         - 304
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: XS_M1
@@ -11259,6 +11337,7 @@ layer_views:
         layer:
         - 399
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: XS_M2
@@ -11278,6 +11357,7 @@ layer_views:
         layer:
         - 306
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: XS_MH
@@ -11297,6 +11377,7 @@ layer_views:
         layer:
         - 320
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: XS_N
@@ -11316,6 +11397,7 @@ layer_views:
         layer:
         - 321
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: XS_NPP
@@ -11335,6 +11417,7 @@ layer_views:
         layer:
         - 311
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: XS_OVERLAY
@@ -11354,6 +11437,7 @@ layer_views:
         layer:
         - 305
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: XS_OXIDE_M1
@@ -11373,6 +11457,7 @@ layer_views:
         layer:
         - 307
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: XS_OXIDE_M2
@@ -11392,6 +11477,7 @@ layer_views:
         layer:
         - 311
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: XS_OXIDE_M3
@@ -11411,6 +11497,7 @@ layer_views:
         layer:
         - 317
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: XS_OXIDE_MH
@@ -11430,6 +11517,7 @@ layer_views:
         layer:
         - 309
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: XS_OXIDE_ML
@@ -11449,6 +11537,7 @@ layer_views:
         layer:
         - 302
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: XS_OX_SI
@@ -11468,6 +11557,7 @@ layer_views:
         layer:
         - 330
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: XS_P
@@ -11487,6 +11577,7 @@ layer_views:
         layer:
         - 327
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: XS_PDPP
@@ -11506,6 +11597,7 @@ layer_views:
         layer:
         - 331
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: XS_PPP
@@ -11525,6 +11617,7 @@ layer_views:
         layer:
         - 301
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: XS_SI
@@ -11544,6 +11637,7 @@ layer_views:
         layer:
         - 319
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: XS_SIN
@@ -11563,6 +11657,7 @@ layer_views:
         layer:
         - 305
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: XS_SIN2
@@ -11582,6 +11677,7 @@ layer_views:
         layer:
         - 313
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: XS_SI_SLAB
@@ -11601,6 +11697,7 @@ layer_views:
         layer:
         - 308
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: XS_VIA1
@@ -11620,6 +11717,7 @@ layer_views:
         layer:
         - 310
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: XS_VIA2
@@ -11639,6 +11737,7 @@ layer_views:
         layer:
         - 303
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: XS_VIAC
@@ -11648,6 +11747,7 @@ layer_views:
         width: 1
         xfill: false
     layer: null
+    layer_in_name: false
     line_style: null
     marked: false
     name: XSECTION
@@ -11675,6 +11775,7 @@ layer_views:
         layer:
         - 101
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: MONITOR
@@ -11694,6 +11795,7 @@ layer_views:
         layer:
         - 100
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: SIM_REGION
@@ -11713,6 +11815,7 @@ layer_views:
         layer:
         - 110
         - 0
+        layer_in_name: true
         line_style: null
         marked: false
         name: SOURCE
@@ -11722,6 +11825,7 @@ layer_views:
         width: null
         xfill: false
     layer: null
+    layer_in_name: false
     line_style: null
     marked: false
     name: simulation

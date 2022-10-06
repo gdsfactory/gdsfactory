@@ -23,4 +23,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.awg
   name: awg
-version: 0.0.1

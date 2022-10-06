@@ -15,4 +15,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.version_stamp
   name: qrcode
-version: 0.0.1

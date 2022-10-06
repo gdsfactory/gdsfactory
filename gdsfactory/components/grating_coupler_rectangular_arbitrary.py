@@ -4,7 +4,6 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.types import ComponentSpec, CrossSectionSpec, Floats, LayerSpec
 
@@ -96,18 +95,20 @@ def grating_coupler_rectangular_arbitrary(
     gaps = gf.snap.snap_to_grid(gaps)
 
     for width, gap in zip(widths, gaps):
-        xi += gap + width / 2
-        cgrating = c.add_ref(
-            rectangle(
-                size=(width, width_grating),
-                layer=layer,
-                port_type=None,
-                centered=True,
-            )
+        xi += gap
+        cgrating = c.add_polygon(
+            [
+                (0.0, 0.0),
+                (0.0, width_grating),
+                (width, width_grating),
+                (width, 0.0),
+            ],
+            layer,
         )
-        cgrating.x = gf.snap.snap_to_grid(xi)
-        cgrating.y = 0
-        xi += width / 2
+        cgrating.move(
+            (gf.snap.snap_to_grid(xi), gf.snap.snap_to_grid(-0.5 * width_grating))
+        )
+        xi += width
 
     if layer_slab:
         slab_xmin += length_taper

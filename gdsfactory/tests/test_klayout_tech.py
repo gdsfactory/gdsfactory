@@ -1,14 +1,14 @@
 from pytest_regressions.data_regression import DataRegressionFixture
 
 from gdsfactory.config import PATH
-from gdsfactory.klayout_tech import KLayoutLayerProperties
+from gdsfactory.klayout_tech import LayerDisplayProperties
 
 
 def test_klayout_tech_create(
     data_regression: DataRegressionFixture, check: bool = True
-) -> KLayoutLayerProperties:
+) -> LayerDisplayProperties:
 
-    lyp = KLayoutLayerProperties.from_lyp(str(PATH.klayout_lyp))
+    lyp = LayerDisplayProperties.from_lyp(str(PATH.klayout_lyp))
 
     if check:
         data_regression.check(lyp.dict())

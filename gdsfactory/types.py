@@ -33,12 +33,11 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 from omegaconf import OmegaConf
-from phidl.device_layout import Label as LabelPhidl
-from phidl.device_layout import Path
 from pydantic import BaseModel, Extra
 from typing_extensions import Literal
 
 from gdsfactory.component import Component, ComponentReference
+from gdsfactory.component_layout import Label
 from gdsfactory.cross_section import CrossSection, Section
 from gdsfactory.layers import LayerColor, LayerColors
 from gdsfactory.port import Port
@@ -58,19 +57,7 @@ Anchor = Literal[
 ]
 Axis = Literal["x", "y"]
 NSEW = Literal["N", "S", "E", "W"]
-WidthTypes = Literal["sine", "linear"]
-
-
-class Label(LabelPhidl):
-    @classmethod
-    def __get_validators__(cls):
-        yield cls.validate
-
-    @classmethod
-    def validate(cls, v):
-        """Check with pydantic Label valid type."""
-        assert isinstance(v, LabelPhidl), f"TypeError, Got {type(v)}, expecting Label"
-        return v
+WidthTypes = Literal["sine", "linear", "parabolic"]
 
 
 Float2 = Tuple[float, float]
@@ -91,7 +78,6 @@ LayerSpec = Union[Layer, int, str, None]
 LayerSpecs = Optional[Tuple[LayerSpec, ...]]
 ComponentFactory = Callable[..., Component]
 ComponentFactoryDict = Dict[str, ComponentFactory]
-PathFactory = Callable[..., Path]
 PathType = Union[str, pathlib.Path]
 PathTypes = Tuple[PathType, ...]
 

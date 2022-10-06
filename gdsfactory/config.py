@@ -12,7 +12,7 @@ priority:
 You can access the config dictionary with `print_config`
 """
 
-__version__ = "5.27.0"
+__version__ = "5.37.1"
 import io
 import json
 import os
@@ -28,7 +28,6 @@ import omegaconf
 from loguru import logger
 from omegaconf import OmegaConf
 
-from gdsfactory.quickplotter import set_quickplot_options
 from gdsfactory.tech import TECH
 
 PathType = Union[str, pathlib.Path]
@@ -208,6 +207,8 @@ def set_plot_options(
     zoom_factor: float = 1.4,
 ) -> None:
     """Set plot options for matplotlib."""
+    from gdsfactory.quickplotter import set_quickplot_options
+
     set_quickplot_options(
         show_ports=show_ports,
         show_subports=show_subports,

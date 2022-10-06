@@ -28,9 +28,11 @@ from gdsfactory.routing.get_bundle_sbend import get_bundle_sbend
 from gdsfactory.routing.get_route import (
     get_route,
     get_route_electrical,
+    get_route_electrical_m2,
     get_route_electrical_multilayer,
     get_route_from_waypoints,
     get_route_from_waypoints_electrical,
+    get_route_from_waypoints_electrical_m2,
     get_route_from_waypoints_electrical_multilayer,
 )
 from gdsfactory.routing.get_route_astar import get_route_astar
@@ -66,6 +68,7 @@ __all__ = [
     "get_route",
     "get_route_astar",
     "get_route_electrical",
+    "get_route_electrical_m2",
     "get_route_electrical_multilayer",
     "get_routes_bend180",
     "get_routes_straight",
@@ -73,6 +76,7 @@ __all__ = [
     "get_bundle_sbend",
     "get_route_from_waypoints",
     "get_route_from_waypoints_electrical",
+    "get_route_from_waypoints_electrical_m2",
     "get_route_from_waypoints_electrical_multilayer",
     "get_route_from_steps",
     "get_route_from_steps_electrical",
