@@ -52,4 +52,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.via_stack_slot
   name: via_stack_slot
-version: 0.0.1

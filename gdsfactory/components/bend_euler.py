@@ -2,6 +2,7 @@ import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
+from gdsfactory.components.wire import wire_corner
 from gdsfactory.cross_section import strip
 from gdsfactory.path import euler, extrude
 from gdsfactory.snap import snap_to_grid
@@ -53,6 +54,9 @@ def bend_euler(
     """
     x = gf.get_cross_section(cross_section, **kwargs)
     radius = x.radius
+
+    if radius is None:
+        return wire_corner(cross_section=x)
 
     c = Component()
     p = euler(

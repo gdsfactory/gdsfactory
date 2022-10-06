@@ -1,7 +1,6 @@
-from phidl.device_layout import _parse_layer
-
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
+from gdsfactory.component_layout import _parse_layer
 from gdsfactory.geometry.functions import polygon_grow
 from gdsfactory.tech import LAYER
 from gdsfactory.types import Layers

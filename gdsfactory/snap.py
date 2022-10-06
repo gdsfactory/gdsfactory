@@ -1,11 +1,11 @@
 """snaps values and coordinates to the GDS grid in nm."""
-from typing import Tuple, Union
+from typing import Optional, Tuple, Union
 
 import numpy as np
 
 
 def is_on_grid(x: float, nm: int = 1) -> bool:
-    return np.isclose(snap_to_grid(x, nm=nm), x)
+    return np.array_equal(snap_to_grid(x, nm=nm), np.round(x, 6))
 
 
 def assert_on_1nm_grid(x: float) -> None:
@@ -21,13 +21,19 @@ def assert_on_2nm_grid(x: float) -> None:
 
 
 def snap_to_grid(
-    x: Union[float, Tuple, np.ndarray], nm: int = 1
+    x: Union[float, Tuple, np.ndarray], nm: Optional[int] = None
 ) -> Union[float, Tuple, np.ndarray]:
-    if nm == 0:
+
+    if nm is None:
+        from gdsfactory.pdk import get_grid_size
+
+        nm = int(get_grid_size() * 1000)
+    elif nm == 0:
         return x
     elif nm < 0:
         raise ValueError("nm must be an integer tolerance value greater than zero")
-    elif nm == 1:
+
+    if nm == 1:
         y = np.round(np.asarray(x, dtype=float), 3)
     else:
         y = nm * np.round(np.asarray(x, dtype=float) * 1e3 / nm) / 1e3

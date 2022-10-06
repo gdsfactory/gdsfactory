@@ -93,12 +93,11 @@ def phase_shifter(
     phase = 2 * jnp.pi * neff * length / wl + deltaphi
     amplitude = jnp.asarray(10 ** (-loss * length / 20), dtype=complex)
     transmission = amplitude * jnp.exp(1j * phase)
-    sdict = reciprocal(
+    return reciprocal(
         {
             ("o1", "o2"): transmission,
         }
     )
-    return sdict
 
 
 def grating_coupler(

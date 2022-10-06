@@ -69,4 +69,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.grating_coupler_loss_fiber_single
   name: grating_coupler_ellipti_7645ee14
-version: 0.0.1

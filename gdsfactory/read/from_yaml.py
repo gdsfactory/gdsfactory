@@ -740,7 +740,7 @@ def _from_yaml(
 
                     if src1 > src0:
                         ports1names = [
-                            f"{port_src_name}{i}" for i in range(src0, src1 + 1, 1)
+                            f"{port_src_name}{i}" for i in range(src0, src1 + 1)
                         ]
                     else:
                         ports1names = [
@@ -749,7 +749,7 @@ def _from_yaml(
 
                     if dst1 > dst0:
                         ports2names = [
-                            f"{port_dst_name}{i}" for i in range(dst0, dst1 + 1, 1)
+                            f"{port_dst_name}{i}" for i in range(dst0, dst1 + 1)
                         ]
                     else:
                         ports2names = [

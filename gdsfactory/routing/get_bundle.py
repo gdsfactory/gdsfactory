@@ -719,8 +719,12 @@ if __name__ == "__main__":
     pb = c << gf.components.pad_array(orientation=None, columns=3)
     pt.move((100, 200))
 
-    routes = gf.routing.get_bundle_electrical(
-        pb.ports, pt.ports, end_straight_length=60, separation=30
+    routes = gf.routing.get_bundle_electrical_multilayer(
+        pb.ports,
+        pt.ports,
+        start_straight_length=1,
+        end_straight_length=10,
+        separation=30,
     )
 
     for route in routes:
