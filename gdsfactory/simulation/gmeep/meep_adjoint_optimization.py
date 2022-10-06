@@ -17,11 +17,11 @@ from gdsfactory.types import Layer
 
 def get_meep_adjoint_optimizer(
     component: Component,
-    objective_function: List[Callable],
+    objective_function: Callable,
     design_regions: List[DesignRegion],
     design_variables: List[MaterialGrid],
     design_update: np.ndarray,
-    TE_mode_number: int = 1,
+    TE_mode: int = 1,
     resolution: int = 30,
     cell_size: Optional[Tuple] = None,
     extend_ports_length: Optional[float] = 10.0,
@@ -43,45 +43,7 @@ def get_meep_adjoint_optimizer(
     dispersive: bool = False,
     material_name_to_meep: Optional[Dict[str, Union[str, float]]] = None,
     **settings,
-) -> OptimizationProblem:
-    """Return a Meep `OptimizationProblem` object.
-
-    Args:
-        component: gdsfactory component
-        objective_function: functions must be composed of "field functions" that transform the recorded fields
-        design_regions: list of DesignRegion objects
-        design_variables: list of MaterialGrid objects
-        design_update: ndarray to intializethe optimization
-        TE_mode_number: TE mode number
-        resolution: in pixels/um (20: for coarse, 120: for fine)
-        cell_size: tuple of Simulation object dimensions in um
-        extend_ports_length: to extend ports beyond the PML.
-        layer_stack: contains layer to thickness, zmin and material.
-            Defaults to active pdk.layer_stack.
-        zmargin_top: thickness for cladding above core.
-        zmargin_bot: thickness for cladding below core.
-        tpml: PML thickness (um).
-        clad_material: material for cladding.
-        is_3d: if True runs in 3D.
-        wavelength_start: wavelength min (um).
-        wavelength_stop: wavelength max (um).
-        wavelength_points: wavelength steps.
-        dfcen: delta frequency.
-        port_source_name: input port name.
-        port_margin: margin on each side of the port.
-        distance_source_to_monitors: in (um) source goes before.
-        port_source_offset: offset between source GDS port and source MEEP port.
-        port_monitor_offset: offset between monitor GDS port and monitor MEEP port.
-        dispersive: use dispersive material models (requires higher resolution).
-        material_name_to_meep: map layer_stack names with meep material database name
-            or refractive index. dispersive materials have a wavelength dependent index.
-
-    Keyword Args:
-        settings: extra simulation settings (resolution, symmetries, etc.)
-
-    Returns:
-        opt: OptimizationProblem object
-    """
+):
     sim_dict = get_simulation(
         component,
         resolution=resolution,
@@ -99,7 +61,7 @@ def get_meep_adjoint_optimizer(
         port_source_name=port_source_name,
         port_margin=port_margin,
         distance_source_to_monitors=distance_source_to_monitors,
-        port_source_offset=port_source_offset,
+        port_source_offset= port_source_offset,
         port_monitor_offset=port_monitor_offset,
         dispersive=dispersive,
         material_name_to_meep=material_name_to_meep,
@@ -107,7 +69,19 @@ def get_meep_adjoint_optimizer(
     )
     sim = sim_dict["sim"]
 
-    # Instantiate objective arguments
+    design_regions_geoms = []
+    for design_region, design_variable in zip(design_regions, design_variables):
+        design_regions_geoms.append(
+            Block(
+                center=design_region.center, size=design_region.size, material=design_variable
+            )
+        )
+
+    for design_region_geom in design_regions_geoms:
+        sim.geometry.append(design_region_geom)
+
+    cell_thickness = sim.cell_size[2]
+
     monitors = sim_dict["monitors"]
     ob_list = [
         EigenmodeCoefficient(
@@ -116,34 +90,28 @@ def get_meep_adjoint_optimizer(
                 center=monitor.regions[0].center,
                 size=monitor.regions[0].size,
             ),
-            TE_mode_number,
+            TE_mode,
         )
         for monitor in monitors.values()
     ]
 
-    # Instantiate design regions and add to simulation. Extend Component to include the design regions
     c = component.copy()
     for design_region, design_variable in zip(design_regions, design_variables):
         sim.geometry.append(
             Block(design_region.size, design_region.center, material=design_variable)
         )
-        block = c << gf.components.rectangle(
-            (design_region.size[0], design_region.size[1])
-        )
+        block = c << gf.components.rectangle((design_region.size[0], design_region.size[1]))
         block.center = (design_region.center[0], design_region.center[1])
 
-    # Extend simulation cell size to include the design regions
-    cell_thickness = sim.cell_size[2]
     if not cell_size:
         sim.cell_size = Vector3(
             c.xsize + 2 * sim.boundary_layers[0].thickness,
             c.ysize + 2 * sim.boundary_layers[0].thickness,
-            cell_thickness,
+            cell_thickness
         )
     else:
         sim.cell_size = Vector3(*cell_size)
 
-    # Redefine source to work with OptimizationProblem
     source = [
         EigenModeSource(
             sim.sources[0].src,
@@ -154,18 +122,19 @@ def get_meep_adjoint_optimizer(
             center=sim.sources[0].center,
         )
     ]
+
     sim.sources = source
 
     opt = OptimizationProblem(
         simulation=sim,
-        objective_functions=objective_function,
+        objective_functions=[objective_function],
         objective_arguments=ob_list,
         design_regions=design_regions,
         frequencies=sim_dict["freqs"],
         decay_by=1e-5,
     )
-    opt.update_design([design_update])
 
+    opt.update_design([design_update])
     opt.plot2D(True)
 
     return opt
