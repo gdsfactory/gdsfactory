@@ -169,6 +169,7 @@ def run_meep_adjoint_optimizer(
         opt: OptimizationProblem object used for the optimization. Used only if get_optimized_component is True.
 
     Keyword Args:
+        fcen: center frequency of the source
         upscale_factor: upscale factor for the optimization's grid
         threshold_offset_from_max: threshold offset from max eps value
         layer: layer to apply to the optimized component
@@ -196,6 +197,7 @@ def run_meep_adjoint_optimizer(
 
 def _get_component_from_sim(
     sim: Simulation,
+    fcen: float = 1 / 1.55,
     upscale_factor: int = 2,
     threshold_offset_from_max: float = 0.01,
     layer: Layer = (1, 0),
@@ -222,7 +224,7 @@ def _get_component_from_sim(
     xtics = np.linspace(xmin, xmax, Nx)
     ytics = np.linspace(ymin, ymax, Ny)
     ztics = np.array([sim_center.z])
-    eps_data = np.real(sim.get_epsilon_grid(xtics, ytics, ztics, frequency=sim.fcen))
+    eps_data = np.real(sim.get_epsilon_grid(xtics, ytics, ztics, frequency=fcen))
     return gf.read.from_np(
         eps_data,
         nm_per_pixel=1e3 / grid_resolution,
