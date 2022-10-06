@@ -164,8 +164,9 @@ def get_meep_adjoint_optimizer(
         frequencies=sim_dict["freqs"],
         decay_by=1e-5,
     )
-    opt.plot2D(True)
     opt.update_design([design_update])
+
+    opt.plot2D(True)
 
     return opt
 
