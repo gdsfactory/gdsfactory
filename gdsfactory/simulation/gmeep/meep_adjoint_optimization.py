@@ -107,15 +107,16 @@ def get_meep_adjoint_optimizer(
     )
     sim = sim_dict["sim"]
 
-    design_regions_geoms = []
-    for design_region, design_variable in zip(design_regions, design_variables):
-        design_regions_geoms.append(
-            Block(
-                center=design_region.center,
-                size=design_region.size,
-                material=design_variable,
-            )
+    design_regions_geoms = [
+        Block(
+            center=design_region.center,
+            size=design_region.size,
+            material=design_variable,
         )
+        for design_region, design_variable in zip(
+            design_regions, design_variables
+        )
+    ]
 
     for design_region_geom in design_regions_geoms:
         sim.geometry.append(design_region_geom)
@@ -145,14 +146,15 @@ def get_meep_adjoint_optimizer(
         )
         block.center = (design_region.center[0], design_region.center[1])
 
-    if not cell_size:
-        sim.cell_size = Vector3(
+    sim.cell_size = (
+        Vector3(*cell_size)
+        if cell_size
+        else Vector3(
             c.xsize + 2 * sim.boundary_layers[0].thickness,
             c.ysize + 2 * sim.boundary_layers[0].thickness,
             cell_thickness,
         )
-    else:
-        sim.cell_size = Vector3(*cell_size)
+    )
 
     source = [
         EigenModeSource(
