@@ -7746,7 +7746,7 @@ custom_dither_patterns:
   stipple0:
     name: stipple0
     order: 46
-    pattern: ''
+    pattern: '*'
     pattern_type: dither
   stipple1:
     name: stipple1
@@ -9988,7 +9988,157 @@ custom_dither_patterns:
 
       .**......**.....'
     pattern_type: dither
-custom_line_styles: {}
+custom_line_styles:
+  DHDashed:
+    name: DHDashed
+    order: 27
+    pattern: ''
+    pattern_type: line
+  L0:
+    name: L0
+    order: 21
+    pattern: ''
+    pattern_type: line
+  L1:
+    name: L1
+    order: 22
+    pattern: ''
+    pattern_type: line
+  L2:
+    name: L2
+    order: 23
+    pattern: ''
+    pattern_type: line
+  dashDot:
+    name: dashDot
+    order: 4
+    pattern: ''
+    pattern_type: line
+  dashed:
+    name: dashed
+    order: 2
+    pattern: ''
+    pattern_type: line
+  dashed3h2:
+    name: dashed3h2
+    order: 16
+    pattern: ''
+    pattern_type: line
+  dots:
+    name: dots
+    order: 3
+    pattern: ''
+    pattern_type: line
+  doubleDash:
+    name: doubleDash
+    order: 6
+    pattern: ''
+    pattern_type: line
+  hidden:
+    name: hidden
+    order: 7
+    pattern: ''
+    pattern_type: line
+  lineStyle1:
+    name: lineStyle1
+    order: 9
+    pattern: ''
+    pattern_type: line
+  lineStyle10:
+    name: lineStyle10
+    order: 24
+    pattern: ''
+    pattern_type: line
+  lineStyle2:
+    name: lineStyle2
+    order: 12
+    pattern: ''
+    pattern_type: line
+  lineStyle3:
+    name: lineStyle3
+    order: 10
+    pattern: ''
+    pattern_type: line
+  lineStyle4:
+    name: lineStyle4
+    order: 13
+    pattern: ''
+    pattern_type: line
+  lineStyle7:
+    name: lineStyle7
+    order: 11
+    pattern: ''
+    pattern_type: line
+  lineStyle8:
+    name: lineStyle8
+    order: 26
+    pattern: ''
+    pattern_type: line
+  lineStyle9:
+    name: lineStyle9
+    order: 25
+    pattern: ''
+    pattern_type: line
+  line_w2:
+    name: line_w2
+    order: 20
+    pattern: ''
+    pattern_type: line
+  longdash0h2:
+    name: longdash0h2
+    order: 17
+    pattern: ''
+    pattern_type: line
+  mCurb:
+    name: mCurb
+    order: 29
+    pattern: ''
+    pattern_type: line
+  manyDashed:
+    name: manyDashed
+    order: 28
+    pattern: ''
+    pattern_type: line
+  medDashed:
+    name: medDashed
+    order: 19
+    pattern: ''
+    pattern_type: line
+  shortDash:
+    name: shortDash
+    order: 5
+    pattern: ''
+    pattern_type: line
+  shortdash2h3:
+    name: shortdash2h3
+    order: 18
+    pattern: ''
+    pattern_type: line
+  snadashed:
+    name: snadashed
+    order: 14
+    pattern: ''
+    pattern_type: line
+  solid:
+    name: solid
+    order: 1
+    pattern: ''
+    pattern_type: line
+  thick3Dash:
+    name: thick3Dash
+    order: 15
+    pattern: ''
+    pattern_type: line
+  thickLine:
+    name: thickLine
+    order: 8
+    pattern: ''
+    pattern_type: line
+  track:
+    name: track
+    order: 30
+    pattern: ''
+    pattern_type: line
 layer_views:
   CAPACITOR:
     animation: 0
