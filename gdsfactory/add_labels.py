@@ -1,5 +1,6 @@
 """Add Label to each component port."""
 
+from functools import partial
 from typing import Callable, Dict, List, Optional, Union
 
 import gdsfactory as gf
@@ -258,13 +259,13 @@ def add_labels_to_ports(
     return component
 
 
-add_labels_to_ports_electrical = gf.partial(
+add_labels_to_ports_electrical = partial(
     add_labels_to_ports, port_type="electrical", prefix="elec-"
 )
-add_labels_to_ports_optical = gf.partial(
+add_labels_to_ports_optical = partial(
     add_labels_to_ports, port_type="optical", prefix="opt-"
 )
-add_labels_to_ports_vertical_dc = gf.partial(
+add_labels_to_ports_vertical_dc = partial(
     add_labels_to_ports, port_type="vertical_dc", prefix="elec-"
 )
 
@@ -284,6 +285,7 @@ def get_labels(
         get_label_function: function to get label.
         layer_label: layer_label.
         gc: Optional grating coupler.
+        component_name: optional component name.
 
     keyword Args:
         layer: port GDS layer.

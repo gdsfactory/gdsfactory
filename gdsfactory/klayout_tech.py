@@ -4,8 +4,9 @@ This module will enable conversion between gdsfactory settings and KLayout techn
 """
 
 import os
+import pathlib
 import re
-from typing import Dict, Literal, Optional, Set, Tuple, Union
+from typing import Dict, List, Literal, Optional, Set, Tuple, Union
 
 from lxml import etree
 from pydantic import BaseModel, Field, validator
@@ -14,16 +15,20 @@ from gdsfactory.config import PATH
 from gdsfactory.tech import LayerStack
 
 Layer = Tuple[int, int]
+ConductorViaConductorName = Tuple[str, str, str]
 
 
-def append_file_extension(filename: str, extension: str) -> str:
+def append_file_extension(filename: Union[str, pathlib.Path], extension: str) -> str:
     """Try appending extension to file."""
     # Handle whether given with '.'
     if "." not in extension:
         extension = f".{extension}"
 
-    if not filename.endswith(extension):
+    if isinstance(filename, str) and not filename.endswith(extension):
         filename += extension
+
+    if isinstance(filename, pathlib.Path) and not str(filename).endswith(extension):
+        filename = filename.with_suffix(extension)
     return filename
 
 
@@ -448,6 +453,7 @@ class LayerDisplayProperties(BaseModel):
             filepath: to write the .lyp file to (appends .lyp extension if not present).
             overwrite: Whether to overwrite an existing file located at the filepath.
         """
+        filepath = pathlib.Path(filepath)
         filepath = append_file_extension(filepath, ".lyp")
 
         if os.path.exists(filepath) and not overwrite:
@@ -540,13 +546,14 @@ class KLayoutTechnology(BaseModel):
     Properties:
         layer_properties: Defines all the layer display properties needed for a .lyp file from LayerView objects.
         technology: KLayout Technology object from the KLayout API. Set name, dbu, etc.
-        layer_stack: gdsfactory LayerStack for writing LayerLevels to the technology files for 2.5D view.
+        connectivity: List of layer names connectivity for netlist tracing.
     """
 
     import klayout.db as db
 
     layer_properties: Optional[LayerDisplayProperties] = None
     technology: db.Technology = Field(default_factory=db.Technology)
+    connectivity: Optional[List[ConductorViaConductorName]] = None
 
     def export_technology_files(
         self,
@@ -567,8 +574,9 @@ class KLayoutTechnology(BaseModel):
         lyp_filename = append_file_extension(lyp_filename, ".lyp")
         lyt_filename = append_file_extension(lyt_filename, ".lyt")
 
-        lyp_path = f"{tech_dir}/{lyp_filename}"
-        lyt_path = f"{tech_dir}/{lyt_filename}"
+        tech_path = pathlib.Path(tech_dir)
+        lyp_path = tech_path / lyp_filename
+        lyt_path = tech_path / lyt_filename
 
         # Specify relative file name for layer properties file
         self.technology.layer_properties_file = lyp_filename
@@ -596,13 +604,39 @@ class KLayoutTechnology(BaseModel):
             for layer_level in layer_stack.layers.values():
                 src_element.text += f"{layer_level.layer[0]}/{layer_level.layer[1]}: {layer_level.zmin} {layer_level.thickness}\n"
 
-        # Write lyt to file
-        with open(lyt_path, "wb") as file:
-            file.write(
-                etree.tostring(
-                    root, encoding="utf-8", pretty_print=True, xml_declaration=True
+        # root['connectivity']['connection']= '41/0,44/0,45/0'
+        if connectivity is not None:
+            src_element = [e for e in list(root) if e.tag == "connectivity"]
+            if len(src_element) != 1:
+                raise KeyError("Could not get a single index for the src element.")
+            src_element = src_element[0]
+            for layer_name_c1, layer_name_via, layer_name_c2 in self.connectivity:
+                layer_c1 = self.layer_properties.layer_views[layer_name_c1].layer
+                layer_via = self.layer_properties.layer_views[layer_name_via].layer
+                layer_c2 = self.layer_properties.layer_views[layer_name_c2].layer
+                connection = ",".join(
+                    [
+                        f"{layer[0]}/{layer[1]}"
+                        for layer in [layer_c1, layer_via, layer_c2]
+                    ]
                 )
-            )
+                src_element.text += f"<connection> {connection} </connection>\n"
+
+        from html import unescape
+
+        script = unescape(
+            etree.tostring(
+                root,
+                encoding="utf-8",
+                pretty_print=True,
+                xml_declaration=True,
+            ).decode("utf8")
+        )
+
+        print(script)
+
+        # Write lyt to file
+        lyt_path.write_text(script)
 
     class Config:
         """Allow db.Technology type."""
@@ -620,8 +654,13 @@ if __name__ == "__main__":
     # str_xml = open(PATH.klayout_tech / "tech.lyt").read()
     # new_tech = db.Technology.technology_from_xml(str_xml)
 
-    generic_tech = KLayoutTechnology(layer_properties=lyp)
-    tech_dir = PATH.repo / "extra" / "test_tech"
+    connectivity = [("M1", "VIA1", "M2"), ("M2", "VIA2", "M3")]
+
+    c = generic_tech = KLayoutTechnology(
+        layer_properties=lyp, connectivity=connectivity
+    )
+    # tech_dir = PATH.repo / "extra" / "test_tech"
+    tech_dir = pathlib.Path("/home/jmatres/.klayout/salt/gdsfactory/tech/")
     tech_dir.mkdir(exist_ok=True, parents=True)
 
     generic_tech.export_technology_files(tech_dir=tech_dir, layer_stack=LAYER_STACK)
