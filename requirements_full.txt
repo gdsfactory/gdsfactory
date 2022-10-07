@@ -1,3 +1,4 @@
+autograd
 bokeh
 freetype-py
 google-cloud-storage
@@ -8,6 +9,7 @@ klayout
 lytest==0.0.20
 mapbox_earcut
 networkx
+nlopt
 phidl
 pyglet
 pygmsh
