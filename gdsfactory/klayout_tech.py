@@ -39,7 +39,7 @@ class LayerView(BaseModel):
     Docstrings copied from KLayout documentation (with some modifications):
     https://www.klayout.de/lyp_format.html
 
-    Parameters:
+    Attributes:
         layer: GDSII layer.
         name: Name of the Layer.
         layer_in_name: Whether to display the name as 'name layer/datatype' rather than just the layer.
@@ -61,10 +61,11 @@ class LayerView(BaseModel):
         transparent: Whether the entry is transparent.
         visible: Whether the entry is visible.
         valid: Whether the entry is valid. Invalid layers are drawn but you can't select shapes on those layers.
+        group_members: Add a list of group members to the LayerView.
     """
 
     layer: Optional[Layer] = None
-    name: str = "unnamed"
+    name: Optional[str] = None
     layer_in_name: bool = False
     frame_color: Optional[str] = None
     fill_color: Optional[str] = None
@@ -79,18 +80,18 @@ class LayerView(BaseModel):
     marked: bool = False
     xfill: bool = False
     animation: int = 0
-    group_members: Optional[Dict[str, "LayerView"]] = None
+    group_members: List["LayerView"] = Field(default_factory=list)
 
     def __init__(self, **data):
         """Initialize LayerView object."""
         super().__init__(**data)
-        for key, val in self.dict().items():
-            if key not in LayerView.__fields__.keys():
-                if self.group_members is None:
-                    self.group_members = {}
-                if val["name"] != key:
-                    val["name"] = key
-                self.group_members[key] = LayerView(**val)
+
+        # Iterate through all items, adding group members as needed
+        for name, field in self.__fields__.items():
+            default = field.get_default()
+            if isinstance(default, LayerView):
+                default.name = field.name
+                self.group_members.append(default)
 
     @validator("frame_color", "fill_color")
     def color_is_valid(cls, color):
@@ -169,15 +170,20 @@ class LayerView(BaseModel):
     def to_xml(self) -> etree.Element:
         """Return an XML representation of the LayerView."""
         props = self._get_xml_element("properties")
-
-        if self.group_members is not None:
-            for gm in self.group_members.values():
-                props.append(gm._get_xml_element("group-members"))
+        for gm in self.group_members:
+            props.append(gm._get_xml_element("group-members"))
         return props
 
 
 class CustomPattern(BaseModel):
-    """Custom pattern."""
+    """Custom dither or line pattern. See KLayout documentation for more info.
+
+    Attributes:
+        name: Pattern name.
+        order: Order of pattern.
+        pattern: Pattern to use.
+        pattern_type: Either 'dither' or 'line'.
+    """
 
     name: str
     order: int
@@ -203,11 +209,11 @@ class CustomPattern(BaseModel):
 def _process_name(
     name: str, layer_pattern: Union[str, re.Pattern]
 ) -> Optional[Tuple[str, bool]]:
-    r"""Strip layer info from name if it exists.
+    """Strip layer info from name if it exists.
 
     Args:
         name: XML-formatted name entry.
-        layer_pattern: Regex pattern to match layers with. Defaults to r'(\d+|\*)/(\d+|\*)'.
+        layer_pattern: Regex pattern to match layers with.
     """
     if not name:
         return None
@@ -222,11 +228,11 @@ def _process_name(
 def _process_layer(
     layer: str, layer_pattern: Union[str, re.Pattern]
 ) -> Optional[Layer]:
-    r"""Convert .lyp XML layer entry to a Layer.
+    """Convert .lyp XML layer entry to a Layer.
 
     Args:
         layer: XML-formatted layer entry.
-        layer_pattern: Regex pattern to match layers with. Defaults to r'(\d+|\*)/(\d+|\*)'.
+        layer_pattern: Regex pattern to match layers with.
     """
     match = re.search(layer_pattern, layer)
     if not match:
@@ -238,12 +244,11 @@ def _process_layer(
 def _properties_to_layerview(
     element, layer_pattern: Union[str, re.Pattern]
 ) -> Optional[LayerView]:
-    r"""Read properties from .lyp XML and generate LayerViews from them.
+    """Read properties from .lyp XML and generate LayerViews from them.
 
     Args:
         element: XML Element to iterate over.
-        tag: Optional tag to iterate over.
-        layer_pattern: Regex pattern to match layers with. Defaults to r'(\d+|\*)/(\d+|\*)'.
+        layer_pattern: Regex pattern to match layers with.
     """
     prop_dict = {"layer_in_name": False}
     for prop in element.iterchildren():
@@ -259,11 +264,10 @@ def _properties_to_layerview(
             val = _process_layer(prop.text, layer_pattern)
             prop_tag = "layer"
         elif prop_tag == "group-members":
-            props = [
+            val = [
                 _properties_to_layerview(e, layer_pattern)
                 for e in element.iterchildren("group-members")
             ]
-            val = {p.name: p for p in props}
         else:
             val = prop.text
         prop_tag = "_".join(prop_tag.split("-"))
@@ -271,101 +275,43 @@ def _properties_to_layerview(
     return LayerView(**prop_dict)
 
 
-LayerViews = Dict[str, LayerView]
-
-
 class LayerDisplayProperties(BaseModel):
-    """A container for layer properties for KLayout layer property (.lyp) files."""
+    """A container for layer properties for KLayout layer property (.lyp) files.
 
-    layer_views: LayerViews = Field(default_factory=LayerViews)
-    custom_dither_patterns: Optional[Dict[str, CustomPattern]] = None
-    custom_line_styles: Optional[Dict[str, CustomPattern]] = None
+    Attributes:
+        layer_views: List of LayerViews describing how to display gds layers.
+        custom_dither_patterns: List of custom dither patterns.
+        custom_line_styles: List of custom line styles.
+    """
+
+    layer_views: Dict[str, LayerView] = Field(default_factory=dict)
+    custom_dither_patterns: Optional[List[CustomPattern]] = Field(default_factory=list)
+    custom_line_styles: Optional[List[CustomPattern]] = Field(default_factory=list)
 
     def __init__(self, **data):
         """Initialize LayerDisplayProperties object."""
         super().__init__(**data)
 
-        for key, val in self.dict().items():
+        for field in self.dict():
+            val = getattr(self, field)
+            if isinstance(val, LayerView):
+                if val.name is None:
+                    val.name = field
+                self.add_layer_view(val)
 
-            if key not in self.__fields__:
-                if val["name"] != key:
-                    val["name"] = key
-                    setattr(self, key, LayerView(**val))
-                self.add_layer(**val)
-
-    def add_layer(
-        self,
-        layer_display_props: Optional[LayerView] = None,
-        layer: Optional[Layer] = None,
-        name: str = "unnamed",
-        valid: bool = True,
-        visible: bool = True,
-        transparent: bool = False,
-        marked: bool = False,
-        xfill: bool = False,
-        frame_brightness: int = 0,
-        fill_brightness: int = 0,
-        animation: int = 0,
-        frame_color: Optional[str] = None,
-        fill_color: Optional[str] = None,
-        dither_pattern: Optional[str] = None,
-        line_style: Optional[str] = None,
-        width: Optional[int] = None,
-        group_members: Optional[Dict[str, LayerView]] = None,
-    ) -> None:
+    def add_layer_view(self, layer_view: Optional[LayerView]) -> None:
         """Adds a layer to LayerDisplayProperties.
 
-        Docstrings copied from KLayout documentation:
-        https://www.klayout.de/lyp_format.html
-
         Args:
-            layer_display_props: Add layer from existing LayerDisplayProperties, overrides all other args.
-            layer: GDSII layer.
-            name: Name of the Layer.
-            width: This is the line width of the frame in pixels (or empty for the default which is 1).
-            line_style: This is the number of the line style used to draw the shape boundaries.
-                An empty string is "solid line". The values are "Ix" for one of the built-in styles
-                where "I0" is "solid", "I1" is "dotted" etc.
-            dither_pattern: This is the number of the dither pattern used to fill the shapes.
-                The values are "Ix" for one of the built-in pattern where "I0" is "solid" and "I1" is "clear".
-            frame_color: The color of the frames.
-            fill_color: The color of the fill pattern inside the shapes.
-            animation: This is a value indicating the animation mode.
-                0 is "none", 1 is "scrolling", 2 is "blinking" and 3 is "inverse blinking".
-            fill_brightness: This value modifies the brightness of the fill color. See "frame-brightness".
-            frame_brightness: This value modifies the brightness of the frame color.
-                0 is unmodified, -100 roughly adds 50% black to the color which +100 roughly adds 50% white.
-            xfill: Whether boxes are drawn with a diagonal cross.
-            marked: Whether the entry is marked (drawn with small crosses).
-            transparent: Whether the entry is transparent.
-            visible: Whether the entry is visible.
-            valid: Whether the entry is valid. Invalid layers are drawn but shapes on those layers can't be selected.
-            group_members: Optional dict of LayerViews to group beneath this LayerView.
+            layer_view: LayerView to add.
         """
-        new_layer = layer_display_props or LayerView(
-            layer=layer,
-            name=name,
-            valid=valid,
-            visible=visible,
-            transparent=transparent,
-            marked=marked,
-            xfill=xfill,
-            frame_brightness=frame_brightness,
-            fill_brightness=fill_brightness,
-            animation=animation,
-            frame_color=frame_color,
-            fill_color=fill_color,
-            dither_pattern=dither_pattern,
-            line_style=line_style,
-            width=width,
-            group_members=group_members,
-        )
+        name = layer_view.name
         if name in self.layer_views:
             raise ValueError(
                 f"Adding {name!r} already defined {list(self.layer_views.keys())}"
             )
         else:
-            self.layer_views[name] = new_layer
+            self.layer_views[name] = layer_view
 
     def get_layer_views(self, exclude_groups: bool = False) -> Dict[str, LayerView]:
         """Return all LayerViews.
@@ -375,26 +321,22 @@ class LayerDisplayProperties(BaseModel):
         """
         layers = {}
         for name, view in self.layer_views.items():
-            if view.group_members is None:
-                layers[name] = view
-            elif not exclude_groups:
-                for member_name, member_view in view.group_members.items():
-                    layers[member_name] = member_view
+            if view.group_members and not exclude_groups:
+                for member in view.group_members:
+                    layers[member.name] = member
+                continue
+            layers[name] = view
         return layers
 
     def get_layer_view_groups(self) -> Dict[str, LayerView]:
         """Return the LayerViews that contain other LayerViews."""
-        return {
-            name: view
-            for name, view in self.layer_views.items()
-            if view.group_members is not None
-        }
+        return {lv.name: lv for lv in self.layer_views.values() if lv.group_members}
 
     def __str__(self) -> str:
         """Prints the number of LayerView objects in the LayerDisplayProperties object."""
         return (
             f"LayerDisplayProperties ({len(self.get_layer_views())} layers total, {len(self.get_layer_view_groups())} groups) \n"
-            f"{self.get_layer_views()}"
+            f"{self.get_layer_views()}\n"
         )
 
     def get(self, name: str) -> LayerView:
@@ -465,10 +407,10 @@ class LayerDisplayProperties(BaseModel):
         for lv in self.layer_views.values():
             root.append(lv.to_xml())
 
-        for dp in self.custom_dither_patterns.values():
+        for dp in self.custom_dither_patterns:
             root.append(dp.to_xml())
 
-        for ls in self.custom_line_styles.values():
+        for ls in self.custom_line_styles:
             root.append(ls.to_xml())
 
         with open(filepath, "wb") as file:
