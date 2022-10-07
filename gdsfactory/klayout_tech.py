@@ -662,8 +662,8 @@ if __name__ == "__main__":
     c = generic_tech = KLayoutTechnology(
         name="generic", layer_properties=lyp, connectivity=connectivity
     )
-    # tech_dir = PATH.repo / "extra" / "test_tech"
-    tech_dir = pathlib.Path("/home/jmatres/.klayout/salt/gdsfactory/tech/")
+    tech_dir = PATH.repo / "extra" / "test_tech"
+    # tech_dir = pathlib.Path("/home/jmatres/.klayout/salt/gdsfactory/tech/")
     tech_dir.mkdir(exist_ok=True, parents=True)
 
     generic_tech.export_technology_files(tech_dir=tech_dir, layer_stack=LAYER_STACK)
