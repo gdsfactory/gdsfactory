@@ -31,8 +31,7 @@ settings:
   default:
     component:
       function: pad_array
-    fidutial:
-      function: cross
+    fidutial: cross
     offsets:
     - - 0
       - 100
@@ -41,8 +40,7 @@ settings:
   full:
     component:
       function: pad_array
-    fidutial:
-      function: cross
+    fidutial: cross
     offsets:
     - - 0
       - 100
