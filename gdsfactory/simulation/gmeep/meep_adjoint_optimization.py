@@ -113,9 +113,7 @@ def get_meep_adjoint_optimizer(
             size=design_region.size,
             material=design_variable,
         )
-        for design_region, design_variable in zip(
-            design_regions, design_variables
-        )
+        for design_region, design_variable in zip(design_regions, design_variables)
     ]
 
     for design_region_geom in design_regions_geoms:
