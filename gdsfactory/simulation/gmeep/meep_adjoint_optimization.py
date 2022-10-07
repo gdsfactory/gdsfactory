@@ -3,10 +3,10 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 import nlopt
 import numpy as np
-from numpy import ndarray
 from meep import Block, EigenModeSource, MaterialGrid, Simulation, Vector3, Volume
 from meep.adjoint import DesignRegion, EigenmodeCoefficient, OptimizationProblem
 from meep.visualization import get_2D_dimensions
+from numpy import ndarray
 
 import gdsfactory as gf
 from gdsfactory import Component
@@ -45,6 +45,7 @@ def get_meep_adjoint_optimizer(
     **settings,
 ):
     """Return a Meep `OptimizationProblem` object.
+
     Args:
         component: gdsfactory component
         objective_function: functions must be composed of "field functions" that transform the recorded fields
@@ -74,8 +75,10 @@ def get_meep_adjoint_optimizer(
         dispersive: use dispersive material models (requires higher resolution).
         material_name_to_meep: map layer_stack names with meep material database name
             or refractive index. dispersive materials have a wavelength dependent index.
+
     Keyword Args:
         settings: extra simulation settings (resolution, symmetries, etc.)
+
     Returns:
         opt: OptimizationProblem object
     """
@@ -96,7 +99,7 @@ def get_meep_adjoint_optimizer(
         port_source_name=port_source_name,
         port_margin=port_margin,
         distance_source_to_monitors=distance_source_to_monitors,
-        port_source_offset= port_source_offset,
+        port_source_offset=port_source_offset,
         port_monitor_offset=port_monitor_offset,
         dispersive=dispersive,
         material_name_to_meep=material_name_to_meep,
@@ -108,7 +111,9 @@ def get_meep_adjoint_optimizer(
     for design_region, design_variable in zip(design_regions, design_variables):
         design_regions_geoms.append(
             Block(
-                center=design_region.center, size=design_region.size, material=design_variable
+                center=design_region.center,
+                size=design_region.size,
+                material=design_variable,
             )
         )
 
@@ -135,14 +140,16 @@ def get_meep_adjoint_optimizer(
         sim.geometry.append(
             Block(design_region.size, design_region.center, material=design_variable)
         )
-        block = c << gf.components.rectangle((design_region.size[0], design_region.size[1]))
+        block = c << gf.components.rectangle(
+            (design_region.size[0], design_region.size[1])
+        )
         block.center = (design_region.center[0], design_region.center[1])
 
     if not cell_size:
         sim.cell_size = Vector3(
             c.xsize + 2 * sim.boundary_layers[0].thickness,
             c.ysize + 2 * sim.boundary_layers[0].thickness,
-            cell_thickness
+            cell_thickness,
         )
     else:
         sim.cell_size = Vector3(*cell_size)
