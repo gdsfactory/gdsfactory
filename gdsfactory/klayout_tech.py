@@ -6,10 +6,11 @@ This module will enable conversion between gdsfactory settings and KLayout techn
 import os
 import pathlib
 import re
-from typing import Dict, List, Literal, Optional, Set, Tuple, Union
+from typing import Dict, List, Optional, Set, Tuple, Union
 
 from lxml import etree
 from pydantic import BaseModel, Field, validator
+from typing_extensions import Literal
 
 from gdsfactory.config import PATH
 from gdsfactory.tech import LayerStack
