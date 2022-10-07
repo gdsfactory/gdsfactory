@@ -220,12 +220,13 @@ def run_meep_adjoint_optimizer(
     update_variable[:] = solver.optimize(update_variable)
 
     if get_optimized_component:
+        fcen = kwargs.get("fcen", 1 / 1.55)
         upscale_factor = kwargs.get("upscale_factor", 2)
         threshold_offset_from_max = kwargs.get("threshold_offset_from_max", 0.01)
         layer = kwargs.get("layer", (1, 0))
 
         return _get_component_from_sim(
-            opt.sim, upscale_factor, threshold_offset_from_max, layer
+            opt.sim, fcen, upscale_factor, threshold_offset_from_max, layer
         )
     return update_variable
 
