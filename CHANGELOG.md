@@ -1,5 +1,14 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.37.2
+
+- remove `__init__` from klayout
+- move klayout.get_xsection_script to geometry.get_xsection_script
+- improve klayout technology [PR](https://github.com/gdsfactory/gdsfactory/pull/757)
+    * Allow users to set layer_pattern regex
+    * Remove LayerStack from KLayoutTechnology and take as argument for export_technology_files instead.
+
+
 ## 5.37.1
 
 - fix is_on_grid [PR](https://github.com/gdsfactory/gdsfactory/pull/754)
