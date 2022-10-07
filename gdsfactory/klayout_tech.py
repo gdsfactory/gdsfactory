@@ -551,6 +551,7 @@ class KLayoutTechnology(BaseModel):
 
     import klayout.db as db
 
+    name: str
     layer_properties: Optional[LayerDisplayProperties] = None
     technology: db.Technology = Field(default_factory=db.Technology)
     connectivity: Optional[List[ConductorViaConductorName]] = None
@@ -587,6 +588,8 @@ class KLayoutTechnology(BaseModel):
         self.layer_properties.to_lyp(lyp_path)
 
         root = etree.XML(self.technology.to_xml().encode("utf-8"))
+        subelement = etree.SubElement(root, "name")
+        subelement.text = self.name
 
         if layer_stack is not None:
             # KLayout 0.27.x won't have a way to read/write the 2.5D info for technologies, so add manually
@@ -614,26 +617,25 @@ class KLayoutTechnology(BaseModel):
                 layer_c1 = self.layer_properties.layer_views[layer_name_c1].layer
                 layer_via = self.layer_properties.layer_views[layer_name_via].layer
                 layer_c2 = self.layer_properties.layer_views[layer_name_c2].layer
-                connection = ",".join(
-                    [
-                        f"{layer[0]}/{layer[1]}"
-                        for layer in [layer_c1, layer_via, layer_c2]
-                    ]
+                connection = (
+                    ",".join(
+                        [
+                            f"{layer[0]}/{layer[1]}"
+                            for layer in [layer_c1, layer_via, layer_c2]
+                        ]
+                    )
+                    + "\n"
                 )
-                src_element.text += f"<connection> {connection} </connection>\n"
 
-        from html import unescape
+                subelement = etree.SubElement(src_element, "connection")
+                subelement.text = connection
 
-        script = unescape(
-            etree.tostring(
-                root,
-                encoding="utf-8",
-                pretty_print=True,
-                xml_declaration=True,
-            ).decode("utf8")
-        )
-
-        print(script)
+        script = etree.tostring(
+            root,
+            encoding="utf-8",
+            pretty_print=True,
+            xml_declaration=True,
+        ).decode("utf8")
 
         # Write lyt to file
         lyt_path.write_text(script)
@@ -657,7 +659,7 @@ if __name__ == "__main__":
     connectivity = [("M1", "VIA1", "M2"), ("M2", "VIA2", "M3")]
 
     c = generic_tech = KLayoutTechnology(
-        layer_properties=lyp, connectivity=connectivity
+        name="generic", layer_properties=lyp, connectivity=connectivity
     )
     # tech_dir = PATH.repo / "extra" / "test_tech"
     tech_dir = pathlib.Path("/home/jmatres/.klayout/salt/gdsfactory/tech/")
