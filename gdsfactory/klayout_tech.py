@@ -653,22 +653,22 @@ class KLayoutTechnology(BaseModel):
         root = etree.XML(self.technology.to_xml().encode("utf-8"))
 
         # KLayout tech doesn't include mebes config, so add it after lefdef config:
-        # if not mebes_config:
-        mebes_config = {
-            "invert": False,
-            "subresolution": True,
-            "produce-boundary": True,
-            "num-stripes-per-cell": 64,
-            "num-shapes-per-cell": 0,
-            "data-layer": 1,
-            "data-datatype": 0,
-            "data-name": "DATA",
-            "boundary-layer": 0,
-            "boundary-datatype": 0,
-            "boundary-name": "BORDER",
-            "layer-map": "layer_map()",
-            "create-other-layers": True,
-        }
+        if not mebes_config:
+            mebes_config = {
+                "invert": False,
+                "subresolution": True,
+                "produce-boundary": True,
+                "num-stripes-per-cell": 64,
+                "num-shapes-per-cell": 0,
+                "data-layer": 1,
+                "data-datatype": 0,
+                "data-name": "DATA",
+                "boundary-layer": 0,
+                "boundary-datatype": 0,
+                "boundary-name": "BORDER",
+                "layer-map": "layer_map()",
+                "create-other-layers": True,
+            }
         mebes = etree.Element("mebes")
         for k, v in mebes_config.items():
             if isinstance(v, bool):
