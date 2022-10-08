@@ -32,6 +32,14 @@ plugins:
 	pip install -r requirements_sipann.txt
 	pip install --upgrade "protobuf<=3.20.1"
 
+plugins-debian:
+	sudo apt get install libgl1 -y
+	pip install -e .[tidy3d]
+	pip install jax jaxlib
+	mamba install pymeep=*=mpi_mpich_* -y
+	pip install -r requirements_sipann.txt
+	pip install --upgrade "protobuf<=3.20.1"
+
 thermal:
 	mamba install python-gmsh
 
