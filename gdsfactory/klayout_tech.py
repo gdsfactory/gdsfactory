@@ -672,10 +672,7 @@ class KLayoutTechnology(BaseModel):
             }
         mebes = etree.Element("mebes")
         for k, v in mebes_config.items():
-            if isinstance(v, bool):
-                v = str(v).lower()
-            else:
-                v = str(v)
+            v = str(v).lower() if isinstance(v, bool) else str(v)
             etree.SubElement(mebes, k).text = v
 
         reader_opts = root.find("reader-options")
