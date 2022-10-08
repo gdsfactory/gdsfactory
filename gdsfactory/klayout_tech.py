@@ -640,14 +640,15 @@ class KLayoutTechnology(BaseModel):
         # Specify relative file name for layer properties file
         self.technology.layer_properties_file = lyp_filename
 
+        if not self.technology.name:
+            self.technology.name = self.name
+
         # TODO: Also interop with xs scripts?
 
         # Write lyp to file
         self.layer_properties.to_lyp(lyp_path)
 
         root = etree.XML(self.technology.to_xml().encode("utf-8"))
-        subelement = etree.SubElement(root, "name")
-        subelement.text = self.name
 
         if layer_stack is not None:
             # KLayout 0.27.x won't have a way to read/write the 2.5D info for technologies, so add manually
@@ -729,7 +730,7 @@ if __name__ == "__main__":
 
     lyp = LayerDisplayProperties.from_lyp(str(PATH.klayout_lyp))
 
-    yaml_test()
+    # yaml_test()
     # str_xml = open(PATH.klayout_tech / "tech.lyt").read()
     # new_tech = db.Technology.technology_from_xml(str_xml)
     # generic_tech = KLayoutTechnology(layer_properties=lyp)
