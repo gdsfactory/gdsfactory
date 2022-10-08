@@ -86,7 +86,7 @@ class LayerView(BaseModel):
         super().__init__(**data)
 
         # Iterate through all items, adding group members as needed
-        for name, field in self.__fields__.items():
+        for field in self.__fields__.values():
             default = field.get_default()
             if isinstance(default, LayerView):
                 default.name = field.name

@@ -1,5 +1,16 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.40.0
+
+- KLayout technology module improvements:
+  - Added CustomPatterns class, which contains lists of CustomDitherPatterns and CustomLineStyles
+  - Added yaml import/export for CustomPatterns and LayerDisplayProperties
+  - LayerView group members are stored in a list rather than a dict
+  - Added mebes reader options to KLayoutTechnology export since they aren't created by the KLayout API
+  - Fixed some formatting issues when writing .lyt files
+  - 2.5D section of .lyt now uses zmin, zmax as it should, rather than zmin, thickness as it did
+
+
 ## 5.39.0
 
 - upgrade tidy3d to 1.7.0
