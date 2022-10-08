@@ -1,7 +1,6 @@
 autograd
 bokeh
 freetype-py
-google-cloud-storage
 holoviews
 ipympl
 ipywidgets
