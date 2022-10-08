@@ -31,14 +31,14 @@ def solve_thermal(
     """Thermal simulation.
 
     Args:
-        mesh_filename: Name of the mesh to load
-        thermal_conductivity: thermal conductivity in W/m‧K
-        specific_conductivity: specific conductivity in S/m
+        mesh_filename: Name of the mesh to load.
+        thermal_conductivity: thermal conductivity in W/m‧K.
+        specific_conductivity: specific conductivity in S/m.
         thermal_diffusivity:
-        currents: current flowing through the layer in A
+        currents: current flowing through the layer in A.
 
     Returns:
-        nothing yet, WIP
+        nothing yet, WIP.
     """
     mesh = skfem.Mesh.load(mesh_filename)
 
