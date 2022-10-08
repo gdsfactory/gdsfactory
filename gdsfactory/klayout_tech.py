@@ -695,7 +695,9 @@ class KLayoutTechnology(BaseModel):
             src_element = src_element[0]
 
             for layer_level in layer_stack.layers.values():
-                src_element.text += f"{layer_level.layer[0]}/{layer_level.layer[1]}: {layer_level.zmin} {layer_level.thickness}\n"
+                # Round the float based on the database unit (dbu) to not end up with numbers like: 2.0700000000000003
+                rounding_place = len(str(self.technology.dbu).split(".")[-1])
+                src_element.text += f"{layer_level.layer[0]}/{layer_level.layer[1]}: {round(layer_level.zmin, rounding_place)} {round(layer_level.thickness, rounding_place)}\n"
 
         # root['connectivity']['connection']= '41/0,44/0,45/0'
         if connectivity is not None:
