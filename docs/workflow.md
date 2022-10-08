@@ -9,7 +9,7 @@ You'll need 2 windows:
 Make sure you also ran `gf tool install` from the terminal to install the `gdsfactory` to `klayout` interface.
 
 
-## 1. Python driven flow
+## 1. The standard Python flow
 
 1. You write your Pcells in python.
 2. You execute the python code.
@@ -18,7 +18,7 @@ Make sure you also ran `gf tool install` from the terminal to install the `gdsfa
 ![windows](https://i.imgur.com/ZHEAotn.png)
 
 
-## 2. YAML driven flow
+## 2. YAML Place and AutoRoute flow
 
 For building complex circuits and assemble your reticle DOEs (design of experiment) you can also use the YAML driven flow.
 
