@@ -111,8 +111,8 @@ def merge_gds(
 
 
 @click.group()
-def yaml() -> None:
-    """Define components/circuits/masks in YAML."""
+def watch() -> None:
+    """Watch YAML or python files."""
     pass
 
 
@@ -130,8 +130,8 @@ def yaml() -> None:
 
 
 @click.argument("path", type=click.Path(exists=True), required=False, default=cwd)
-@click.command()
-def watch(path=cwd) -> None:
+@click.command(name="yaml")
+def watch_yaml(path=cwd) -> None:
     """Filewatch YAML file."""
     from gdsfactory.watch import watch
 
@@ -201,11 +201,11 @@ tool.add_command(run_tests)
 tool.add_command(install)
 
 # yaml.add_command(webapp)
-yaml.add_command(watch)
+watch.add_command(watch_yaml)
 
 gf.add_command(gds)
 gf.add_command(tool)
-gf.add_command(yaml)
+gf.add_command(watch)
 
 
 if __name__ == "__main__":
