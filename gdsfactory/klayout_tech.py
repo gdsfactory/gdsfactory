@@ -707,21 +707,22 @@ class KLayoutTechnology(BaseModel):
                 layer_c1 = self.layer_properties.layer_views[layer_name_c1].layer
                 layer_via = self.layer_properties.layer_views[layer_name_via].layer
                 layer_c2 = self.layer_properties.layer_views[layer_name_c2].layer
-                connection = (
-                    ",".join(
-                        [
-                            f"{layer[0]}/{layer[1]}"
-                            for layer in [layer_c1, layer_via, layer_c2]
-                        ]
-                    )
-                    + "\n"
+                connection = ",".join(
+                    [
+                        f"{layer[0]}/{layer[1]}"
+                        for layer in [layer_c1, layer_via, layer_c2]
+                    ]
                 )
 
-                subelement = etree.SubElement(src_element, "connection")
-                subelement.text = connection
+                etree.SubElement(src_element, "connection").text = connection
+
+        # The indentation can easily get messed up when adding elements to existing XML objects, so we need to filter it
+        # by passing it through another parser that strips it of any whitespace and then using pretty_print to re-format
+        # the indentation.
+        parser = etree.XMLParser(remove_blank_text=True)
 
         script = etree.tostring(
-            root,
+            etree.XML(etree.tostring(root), parser),
             encoding="utf-8",
             pretty_print=True,
             xml_declaration=True,
