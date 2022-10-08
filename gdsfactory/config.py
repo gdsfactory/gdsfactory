@@ -12,7 +12,7 @@ priority:
 You can access the config dictionary with `print_config`
 """
 
-__version__ = "5.38.1"
+__version__ = "5.39.0"
 import io
 import json
 import os
