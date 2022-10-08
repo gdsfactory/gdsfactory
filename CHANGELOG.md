@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.39.0
+
+- upgrade tidy3d to 1.7.0
+
 ## 5.38.0
 
 - add inverse design capabilities with Meep [PR](https://github.com/gdsfactory/gdsfactory/pull/761)
