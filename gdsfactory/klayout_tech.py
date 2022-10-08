@@ -10,7 +10,6 @@ from typing import Dict, List, Optional, Set, Tuple, Union
 
 from lxml import etree
 from pydantic import BaseModel, Field, validator
-from typing_extensions import Literal
 
 from gdsfactory.config import PATH
 from gdsfactory.tech import LayerStack
@@ -694,10 +693,10 @@ class KLayoutTechnology(BaseModel):
             encoding="utf-8",
             pretty_print=True,
             xml_declaration=True,
-        ).decode("utf8")
+        )
 
         # Write lyt to file
-        lyt_path.write_text(script)
+        lyt_path.write_bytes(script)
 
     class Config:
         """Allow db.Technology type."""
@@ -730,7 +729,7 @@ if __name__ == "__main__":
 
     lyp = LayerDisplayProperties.from_lyp(str(PATH.klayout_lyp))
 
-    # yaml_test()
+    yaml_test()
     # str_xml = open(PATH.klayout_tech / "tech.lyt").read()
     # new_tech = db.Technology.technology_from_xml(str_xml)
     # generic_tech = KLayoutTechnology(layer_properties=lyp)
