@@ -620,6 +620,7 @@ class KLayoutTechnology(BaseModel):
         lyp_filename: str = "layers",
         lyt_filename: str = "tech",
         layer_stack: Optional[LayerStack] = None,
+        mebes_config: Optional[dict] = None,
     ) -> None:
         """Write technology files into 'tech_dir'.
 
@@ -628,6 +629,7 @@ class KLayoutTechnology(BaseModel):
             lyp_filename: Name of the layer properties file.
             lyt_filename: Name of the layer technology file.
             layer_stack: If specified, write a 2.5D section in the technology file based on the LayerStack.
+            mebes_config: A dictionary specifying the KLayout mebes reader config.
         """
         # Format file names if necessary
         lyp_filename = append_file_extension(lyp_filename, ".lyp")
@@ -649,6 +651,35 @@ class KLayoutTechnology(BaseModel):
         self.layer_properties.to_lyp(lyp_path)
 
         root = etree.XML(self.technology.to_xml().encode("utf-8"))
+
+        # KLayout tech doesn't include mebes config, so add it after lefdef config:
+        # if not mebes_config:
+        mebes_config = {
+            "invert": False,
+            "subresolution": True,
+            "produce-boundary": True,
+            "num-stripes-per-cell": 64,
+            "num-shapes-per-cell": 0,
+            "data-layer": 1,
+            "data-datatype": 0,
+            "data-name": "DATA",
+            "boundary-layer": 0,
+            "boundary-datatype": 0,
+            "boundary-name": "BORDER",
+            "layer-map": "layer_map()",
+            "create-other-layers": True,
+        }
+        mebes = etree.Element("mebes")
+        for k, v in mebes_config.items():
+            if isinstance(v, bool):
+                v = str(v).lower()
+            else:
+                v = str(v)
+            etree.SubElement(mebes, k).text = v
+
+        reader_opts = root.find("reader-options")
+        lefdef_idx = reader_opts.index(reader_opts.find("lefdef"))
+        reader_opts.insert(lefdef_idx + 1, mebes)
 
         if layer_stack is not None:
             # KLayout 0.27.x won't have a way to read/write the 2.5D info for technologies, so add manually
