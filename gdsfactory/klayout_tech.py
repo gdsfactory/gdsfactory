@@ -64,8 +64,8 @@ class LayerView(BaseModel):
         group_members: Add a list of group members to the LayerView.
     """
 
-    layer: Optional[Layer] = None
     name: Optional[str] = None
+    layer: Optional[Layer] = None
     layer_in_name: bool = False
     frame_color: Optional[str] = None
     fill_color: Optional[str] = None
@@ -175,23 +175,21 @@ class LayerView(BaseModel):
         return props
 
 
-class CustomPattern(BaseModel):
-    """Custom dither or line pattern. See KLayout documentation for more info.
+class CustomDitherPattern(BaseModel):
+    """Custom dither pattern. See KLayout documentation for more info.
 
     Attributes:
         name: Pattern name.
         order: Order of pattern.
         pattern: Pattern to use.
-        pattern_type: Either 'dither' or 'line'.
     """
 
     name: str
     order: int
     pattern: str
-    pattern_type: Literal["dither", "line"]
 
     def to_xml(self) -> etree.Element:
-        el = etree.Element(f"custom-{self.pattern_type}-pattern")
+        el = etree.Element("custom-dither-pattern")
 
         subel = etree.SubElement(el, "pattern")
         lines = self.pattern.split("\n")
@@ -204,6 +202,75 @@ class CustomPattern(BaseModel):
         etree.SubElement(el, "order").text = str(self.order)
         etree.SubElement(el, "name").text = self.name
         return el
+
+
+class CustomLineStyle(BaseModel):
+    """Custom line style. See KLayout documentation for more info.
+
+    Attributes:
+        name: Pattern name.
+        order: Order of pattern.
+        pattern: Pattern to use.
+    """
+
+    name: str
+    order: int
+    pattern: str
+
+    def to_xml(self) -> etree.Element:
+        el = etree.Element("custom-line-pattern")
+
+        etree.SubElement(el, "pattern").text = self.pattern
+        etree.SubElement(el, "order").text = str(self.order)
+        etree.SubElement(el, "name").text = self.name
+        return el
+
+
+class CustomPatterns(BaseModel):
+    dither_patterns: List[CustomDitherPattern] = Field(default_factory=list)
+    line_styles: List[CustomLineStyle] = Field(default_factory=list)
+
+    def to_yaml(self, filename: str) -> None:
+        """Export custom patterns to a yaml file.
+
+        Args:
+            filename: Name of output file.
+        """
+        import yaml
+
+        def _str_presenter(dumper: yaml.Dumper, data: str) -> yaml.ScalarNode:
+            if "\n" in data:  # check for multiline string
+                return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")
+            return dumper.represent_scalar("tag:yaml.org,2002:str", data)
+
+        append_file_extension(filename, ".yml")
+
+        yaml.add_representer(str, _str_presenter)
+        yaml.representer.SafeRepresenter.add_representer(str, _str_presenter)
+
+        with open(filename, "w") as file:
+            file.write(yaml.safe_dump_all([self.dict()], indent=2))
+
+    @staticmethod
+    def from_yaml(filename: str) -> "CustomPatterns":
+        """Import a CustomPatterns object from a yaml file.
+
+        Args:
+            filename: Name of output file.
+        """
+        from omegaconf import OmegaConf
+
+        with open(filename) as file:
+            loaded_yml = OmegaConf.to_container(OmegaConf.load(file))
+        if not (
+            "dither_patterns" in loaded_yml.keys() or "line_styles" in loaded_yml.keys()
+        ):
+            raise KeyError("The yaml file is not properly formatted.")
+        return CustomPatterns(**loaded_yml)
+
+    def __str__(self):
+        """Prints the number of each type of custom pattern."""
+        return f"CustomPatterns: {len(self.dither_patterns)} dither patterns, {len(self.line_styles)} line styles"
 
 
 def _process_name(
@@ -280,13 +347,11 @@ class LayerDisplayProperties(BaseModel):
 
     Attributes:
         layer_views: List of LayerViews describing how to display gds layers.
-        custom_dither_patterns: List of custom dither patterns.
-        custom_line_styles: List of custom line styles.
+        custom_patterns: CustomPatterns object containing custom dither patterns and line styles.
     """
 
     layer_views: Dict[str, LayerView] = Field(default_factory=dict)
-    custom_dither_patterns: Optional[List[CustomPattern]] = Field(default_factory=list)
-    custom_line_styles: Optional[List[CustomPattern]] = Field(default_factory=list)
+    custom_patterns: Optional[CustomPatterns] = None
 
     def __init__(self, **data):
         """Initialize LayerDisplayProperties object."""
@@ -334,9 +399,11 @@ class LayerDisplayProperties(BaseModel):
 
     def __str__(self) -> str:
         """Prints the number of LayerView objects in the LayerDisplayProperties object."""
+        lvs = self.get_layer_views()
+        groups = self.get_layer_view_groups()
         return (
-            f"LayerDisplayProperties ({len(self.get_layer_views())} layers total, {len(self.get_layer_view_groups())} groups) \n"
-            f"{self.get_layer_views()}\n"
+            f"LayerDisplayProperties: {len(lvs)} layers ({len(groups)} groups)\n"
+            f"\t{self.custom_patterns}"
         )
 
     def get(self, name: str) -> LayerView:
@@ -407,10 +474,10 @@ class LayerDisplayProperties(BaseModel):
         for lv in self.layer_views.values():
             root.append(lv.to_xml())
 
-        for dp in self.custom_dither_patterns:
+        for dp in self.custom_patterns.dither_patterns:
             root.append(dp.to_xml())
 
-        for ls in self.custom_line_styles:
+        for ls in self.custom_patterns.line_styles:
             root.append(ls.to_xml())
 
         with open(filepath, "wb") as file:
@@ -448,37 +515,86 @@ class LayerDisplayProperties(BaseModel):
             if lv is not None:
                 layer_views[lv.name] = lv
 
-        custom_dither_patterns = {}
+        custom_dither_patterns = []
         for dither_block in root.iterchildren("custom-dither-pattern"):
             name = dither_block.find("name").text
             if name is None:
                 continue
-            custom_dither_patterns[name] = CustomPattern(
-                pattern_type="dither",
-                name=name,
-                order=dither_block.find("order").text,
-                pattern="\n".join(
-                    [line.text for line in dither_block.find("pattern").iterchildren()]
-                ),
+
+            custom_dither_patterns.append(
+                CustomDitherPattern(
+                    name=name,
+                    order=dither_block.find("order").text,
+                    pattern="\n".join(
+                        [
+                            line.text
+                            for line in dither_block.find("pattern").iterchildren()
+                        ]
+                    ),
+                )
             )
-        custom_line_styles = {}
+        custom_line_styles = []
         for line_block in root.iterchildren("custom-line-style"):
             name = line_block.find("name").text
             if name is None:
                 continue
-            custom_line_styles[name] = CustomPattern(
-                pattern_type="line",
-                name=name,
-                order=line_block.find("order").text,
-                pattern="\n".join(
-                    [line.text for line in line_block.find("pattern").iterchildren()]
-                ),
+            custom_line_styles.append(
+                CustomLineStyle(
+                    name=name,
+                    order=line_block.find("order").text,
+                    pattern=line_block.find("pattern").text,
+                )
             )
-        return LayerDisplayProperties(
-            layer_views=layer_views,
-            custom_dither_patterns=custom_dither_patterns,
-            custom_line_styles=custom_line_styles,
+        custom_patterns = CustomPatterns(
+            dither_patterns=custom_dither_patterns, line_styles=custom_line_styles
         )
+
+        return LayerDisplayProperties(
+            layer_views=layer_views, custom_patterns=custom_patterns
+        )
+
+    def to_yaml(self, layer_file: str, pattern_file: Optional[str] = None) -> None:
+        """Export layer properties to two yaml files.
+
+        Args:
+            layer_file: Name of the file to write LayerViews to.
+            pattern_file: Name of the file to write custom dither patterns and line styles to.
+        """
+        import yaml
+
+        append_file_extension(layer_file, ".yml")
+
+        with open(layer_file, "w") as lf:
+            lvs = [lv.dict() for lv in self.layer_views.values()]
+            lf.write(yaml.safe_dump_all([lvs], indent=2, sort_keys=False))
+
+        if pattern_file:
+            append_file_extension(pattern_file, ".yml")
+            self.custom_patterns.to_yaml(pattern_file)
+
+    @staticmethod
+    def from_yaml(
+        layer_file: str = None, pattern_file: Optional[str] = None
+    ) -> "LayerDisplayProperties":
+        """Import layer properties from two yaml files.
+
+        Args:
+            layer_file: Name of the file to read LayerViews from.
+            pattern_file: Name of the file to read custom dither patterns and line styles from.
+        """
+        from omegaconf import OmegaConf
+
+        append_file_extension(layer_file, ".yml")
+
+        with open(layer_file) as lf:
+            layers = OmegaConf.to_container(OmegaConf.load(lf))
+        props = LayerDisplayProperties(
+            layer_views={lv["name"]: LayerView(**lv) for lv in layers}
+        )
+        if pattern_file:
+            append_file_extension(pattern_file, ".yml")
+            props.custom_patterns = CustomPatterns.from_yaml(pattern_file)
+        return props
 
 
 class KLayoutTechnology(BaseModel):
@@ -591,13 +707,33 @@ class KLayoutTechnology(BaseModel):
 
 LAYER_PROPERTIES = LayerDisplayProperties.from_lyp(str(PATH.klayout_lyp))
 
+
+def yaml_test():
+    tech_dir = PATH.repo / "extra" / "test_tech"
+
+    # Load from existing layer properties file
+    lyp = LayerDisplayProperties.from_lyp(str(PATH.klayout_lyp))
+
+    # Export layer properties to yaml files
+    layer_yaml = str(tech_dir / "layers.yml")
+    pattern_yaml = str(tech_dir / "patterns.yml")
+    lyp.to_yaml(layer_yaml, pattern_yaml)
+
+    # Load layer properties from yaml files and check that they're the same
+    lyp_loaded = LayerDisplayProperties.from_yaml(layer_yaml, pattern_yaml)
+    print(lyp)
+    assert lyp_loaded == lyp
+
+
 if __name__ == "__main__":
     from gdsfactory.tech import LAYER_STACK
 
     lyp = LayerDisplayProperties.from_lyp(str(PATH.klayout_lyp))
 
+    # yaml_test()
     # str_xml = open(PATH.klayout_tech / "tech.lyt").read()
     # new_tech = db.Technology.technology_from_xml(str_xml)
+    # generic_tech = KLayoutTechnology(layer_properties=lyp)
 
     connectivity = [("M1", "VIA1", "M2"), ("M2", "VIA2", "M3")]
 
