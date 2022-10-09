@@ -40,7 +40,6 @@ class LayerView(BaseModel):
 
     Attributes:
         layer: GDSII layer.
-        name: Name of the Layer.
         layer_in_name: Whether to display the name as 'name layer/datatype' rather than just the layer.
         width: This is the line width of the frame in pixels (or empty for the default which is 1).
         line_style: This is the number of the line style used to draw the shape boundaries.
@@ -63,7 +62,6 @@ class LayerView(BaseModel):
         group_members: Add a list of group members to the LayerView.
     """
 
-    name: Optional[str] = None
     layer: Optional[Layer] = None
     layer_in_name: bool = False
     frame_color: Optional[str] = None
@@ -79,18 +77,17 @@ class LayerView(BaseModel):
     marked: bool = False
     xfill: bool = False
     animation: int = 0
-    group_members: List["LayerView"] = Field(default_factory=list)
+    group_members: Dict[str, "LayerView"] = Field(default_factory=dict)
 
     def __init__(self, **data):
         """Initialize LayerView object."""
         super().__init__(**data)
 
         # Iterate through all items, adding group members as needed
-        for field in self.__fields__.values():
+        for name, field in self.__fields__.items():
             default = field.get_default()
             if isinstance(default, LayerView):
-                default.name = field.name
-                self.group_members.append(default)
+                self.group_members[name] = default
 
     @validator("frame_color", "fill_color")
     def color_is_valid(cls, color):
@@ -131,7 +128,7 @@ class LayerView(BaseModel):
         """Returns a formatted view of properties and their values."""
         return self.__str__()
 
-    def _get_xml_element(self, tag: str) -> etree.Element:
+    def _get_xml_element(self, tag: str, name: str) -> etree.Element:
         """Get XML Element from attributes."""
         prop_keys = [
             "frame-color",
@@ -155,8 +152,10 @@ class LayerView(BaseModel):
             if prop_name == "source":
                 layer = self.layer
                 prop_val = f"{layer[0]}/{layer[1]}@1" if layer else "*/*@*"
-            elif prop_name == "name" and self.layer_in_name:
-                prop_val = f"{self.name} {self.layer[0]}/{self.layer[1]}"
+            elif prop_name == "name":
+                prop_val = name
+                if self.layer_in_name:
+                    prop_val += f"{self.layer[0]}/{self.layer[1]}"
             else:
                 prop_val = getattr(self, "_".join(prop_name.split("-")), None)
                 if isinstance(prop_val, bool):
@@ -166,11 +165,11 @@ class LayerView(BaseModel):
                 subel.text = str(prop_val)
         return el
 
-    def to_xml(self) -> etree.Element:
+    def to_xml(self, name: str) -> etree.Element:
         """Return an XML representation of the LayerView."""
-        props = self._get_xml_element("properties")
-        for gm in self.group_members:
-            props.append(gm._get_xml_element("group-members"))
+        props = self._get_xml_element("properties", name=name)
+        for member_name, member in self.group_members.items():
+            props.append(member._get_xml_element("group-members", name=member_name))
         return props
 
 
@@ -178,16 +177,14 @@ class CustomDitherPattern(BaseModel):
     """Custom dither pattern. See KLayout documentation for more info.
 
     Attributes:
-        name: Pattern name.
         order: Order of pattern.
         pattern: Pattern to use.
     """
 
-    name: str
     order: int
     pattern: str
 
-    def to_xml(self) -> etree.Element:
+    def to_xml(self, name: str) -> etree.Element:
         el = etree.Element("custom-dither-pattern")
 
         subel = etree.SubElement(el, "pattern")
@@ -199,7 +196,7 @@ class CustomDitherPattern(BaseModel):
                 etree.SubElement(subel, "line").text = line
 
         etree.SubElement(el, "order").text = str(self.order)
-        etree.SubElement(el, "name").text = self.name
+        etree.SubElement(el, "name").text = name
         return el
 
 
@@ -207,27 +204,25 @@ class CustomLineStyle(BaseModel):
     """Custom line style. See KLayout documentation for more info.
 
     Attributes:
-        name: Pattern name.
         order: Order of pattern.
         pattern: Pattern to use.
     """
 
-    name: str
     order: int
     pattern: str
 
-    def to_xml(self) -> etree.Element:
+    def to_xml(self, name: str) -> etree.Element:
         el = etree.Element("custom-line-pattern")
 
         etree.SubElement(el, "pattern").text = self.pattern
         etree.SubElement(el, "order").text = str(self.order)
-        etree.SubElement(el, "name").text = self.name
+        etree.SubElement(el, "name").text = name
         return el
 
 
 class CustomPatterns(BaseModel):
-    dither_patterns: List[CustomDitherPattern] = Field(default_factory=list)
-    line_styles: List[CustomLineStyle] = Field(default_factory=list)
+    dither_patterns: Dict[str, CustomDitherPattern] = Field(default_factory=dict)
+    line_styles: Dict[str, CustomLineStyle] = Field(default_factory=dict)
 
     def to_yaml(self, filename: str) -> None:
         """Export custom patterns to a yaml file.
@@ -248,7 +243,7 @@ class CustomPatterns(BaseModel):
         yaml.representer.SafeRepresenter.add_representer(str, _str_presenter)
 
         with open(filename, "w") as file:
-            file.write(yaml.safe_dump_all([self.dict()], indent=2))
+            file.write(yaml.safe_dump_all([self.dict()], indent=2, sort_keys=False))
 
     @staticmethod
     def from_yaml(filename: str) -> "CustomPatterns":
@@ -309,7 +304,7 @@ def _process_layer(
 
 def _properties_to_layerview(
     element, layer_pattern: Union[str, re.Pattern]
-) -> Optional[LayerView]:
+) -> Optional[Tuple[str, LayerView]]:
     """Read properties from .lyp XML and generate LayerViews from them.
 
     Args:
@@ -317,15 +312,16 @@ def _properties_to_layerview(
         layer_pattern: Regex pattern to match layers with.
     """
     prop_dict = {"layer_in_name": False}
+    name = ""
     for prop in element.iterchildren():
         prop_tag = prop.tag
         if prop_tag == "name":
-            val = _process_name(prop.text, layer_pattern)
-            if val is None:
+            name = _process_name(prop.text, layer_pattern)
+            if name is None:
                 return None
-            if isinstance(val, tuple):
-                val, layer_in_name = val
-                prop_dict["layer_in_name"] = layer_in_name
+            name, layer_in_name = name
+            prop_dict["layer_in_name"] = layer_in_name
+            continue
         elif prop_tag == "source":
             val = _process_layer(prop.text, layer_pattern)
             prop_tag = "layer"
@@ -338,14 +334,14 @@ def _properties_to_layerview(
             val = prop.text
         prop_tag = "_".join(prop_tag.split("-"))
         prop_dict[prop_tag] = val
-    return LayerView(**prop_dict)
+    return name, LayerView(**prop_dict)
 
 
 class LayerDisplayProperties(BaseModel):
     """A container for layer properties for KLayout layer property (.lyp) files.
 
     Attributes:
-        layer_views: List of LayerViews describing how to display gds layers.
+        layer_views: Dictionary of LayerViews describing how to display gds layers.
         custom_patterns: CustomPatterns object containing custom dither patterns and line styles.
     """
 
@@ -363,13 +359,13 @@ class LayerDisplayProperties(BaseModel):
                     val.name = field
                 self.add_layer_view(val)
 
-    def add_layer_view(self, layer_view: Optional[LayerView]) -> None:
+    def add_layer_view(self, name: str, layer_view: Optional[LayerView]) -> None:
         """Adds a layer to LayerDisplayProperties.
 
         Args:
+            name: Name of the LayerView.
             layer_view: LayerView to add.
         """
-        name = layer_view.name
         if name in self.layer_views:
             raise ValueError(
                 f"Adding {name!r} already defined {list(self.layer_views.keys())}"
@@ -386,15 +382,15 @@ class LayerDisplayProperties(BaseModel):
         layers = {}
         for name, view in self.layer_views.items():
             if view.group_members and not exclude_groups:
-                for member in view.group_members:
-                    layers[member.name] = member
+                for member_name, member in view.group_members.items():
+                    layers[member_name] = member
                 continue
             layers[name] = view
         return layers
 
     def get_layer_view_groups(self) -> Dict[str, LayerView]:
         """Return the LayerViews that contain other LayerViews."""
-        return {lv.name: lv for lv in self.layer_views.values() if lv.group_members}
+        return {name: lv for name, lv in self.layer_views.items() if lv.group_members}
 
     def __str__(self) -> str:
         """Prints the number of LayerView objects in the LayerDisplayProperties object."""
@@ -416,7 +412,7 @@ class LayerDisplayProperties(BaseModel):
         else:
             return self.layer_views[name]
 
-    def __getitem__(self, val):
+    def __getitem__(self, val: str):
         """Allows accessing to the layer names like ls['gold2'].
 
         Args:
@@ -470,14 +466,14 @@ class LayerDisplayProperties(BaseModel):
 
         root = etree.Element("layer-properties")
 
-        for lv in self.layer_views.values():
-            root.append(lv.to_xml())
+        for name, lv in self.layer_views.items():
+            root.append(lv.to_xml(name))
 
-        for dp in self.custom_patterns.dither_patterns:
-            root.append(dp.to_xml())
+        for name, dp in self.custom_patterns.dither_patterns.items():
+            root.append(dp.to_xml(name))
 
-        for ls in self.custom_patterns.line_styles:
-            root.append(ls.to_xml())
+        for name, ls in self.custom_patterns.line_styles.items():
+            root.append(ls.to_xml(name))
 
         with open(filepath, "wb") as file:
             file.write(
@@ -510,39 +506,32 @@ class LayerDisplayProperties(BaseModel):
 
         layer_views = {}
         for layer_block in root.iter("properties"):
-            lv = _properties_to_layerview(layer_block, layer_pattern=layer_pattern)
-            if lv is not None:
-                layer_views[lv.name] = lv
+            name, lv = _properties_to_layerview(
+                layer_block, layer_pattern=layer_pattern
+            )
+            if lv:
+                layer_views[name] = lv
 
-        custom_dither_patterns = []
+        custom_dither_patterns = {}
         for dither_block in root.iterchildren("custom-dither-pattern"):
             name = dither_block.find("name").text
             if name is None:
                 continue
 
-            custom_dither_patterns.append(
-                CustomDitherPattern(
-                    name=name,
-                    order=dither_block.find("order").text,
-                    pattern="\n".join(
-                        [
-                            line.text
-                            for line in dither_block.find("pattern").iterchildren()
-                        ]
-                    ),
-                )
+            custom_dither_patterns[name] = CustomDitherPattern(
+                order=dither_block.find("order").text,
+                pattern="\n".join(
+                    [line.text for line in dither_block.find("pattern").iterchildren()]
+                ),
             )
-        custom_line_styles = []
+        custom_line_styles = {}
         for line_block in root.iterchildren("custom-line-style"):
             name = line_block.find("name").text
             if name is None:
                 continue
-            custom_line_styles.append(
-                CustomLineStyle(
-                    name=name,
-                    order=line_block.find("order").text,
-                    pattern=line_block.find("pattern").text,
-                )
+            custom_line_styles[name] = CustomLineStyle(
+                order=line_block.find("order").text,
+                pattern=line_block.find("pattern").text,
             )
         custom_patterns = CustomPatterns(
             dither_patterns=custom_dither_patterns, line_styles=custom_line_styles
@@ -562,9 +551,8 @@ class LayerDisplayProperties(BaseModel):
         import yaml
 
         append_file_extension(layer_file, ".yml")
-
+        lvs = {name: lv.dict() for name, lv in self.layer_views.items()}
         with open(layer_file, "w") as lf:
-            lvs = [lv.dict() for lv in self.layer_views.values()]
             lf.write(yaml.safe_dump_all([lvs], indent=2, sort_keys=False))
 
         if pattern_file:
@@ -588,7 +576,7 @@ class LayerDisplayProperties(BaseModel):
         with open(layer_file) as lf:
             layers = OmegaConf.to_container(OmegaConf.load(lf))
         props = LayerDisplayProperties(
-            layer_views={lv["name"]: LayerView(**lv) for lv in layers}
+            layer_views={name: LayerView(**lv) for name, lv in layers.items()}
         )
         if pattern_file:
             append_file_extension(pattern_file, ".yml")
@@ -702,7 +690,7 @@ class KLayoutTechnology(BaseModel):
                 )
 
         # root['connectivity']['connection']= '41/0,44/0,45/0'
-        if connectivity is not None:
+        if self.connectivity is not None:
             src_element = [e for e in list(root) if e.tag == "connectivity"]
             if len(src_element) != 1:
                 raise KeyError("Could not get a single index for the src element.")
@@ -749,6 +737,7 @@ def yaml_test():
 
     # Load from existing layer properties file
     lyp = LayerDisplayProperties.from_lyp(str(PATH.klayout_lyp))
+    print("Loaded from .lyp", lyp)
 
     # Export layer properties to yaml files
     layer_yaml = str(tech_dir / "layers.yml")
@@ -757,7 +746,8 @@ def yaml_test():
 
     # Load layer properties from yaml files and check that they're the same
     lyp_loaded = LayerDisplayProperties.from_yaml(layer_yaml, pattern_yaml)
-    print(lyp)
+    print("Loaded from .yaml", lyp_loaded)
+
     assert lyp_loaded == lyp
 
 
@@ -766,11 +756,10 @@ if __name__ == "__main__":
 
     lyp = LayerDisplayProperties.from_lyp(str(PATH.klayout_lyp))
 
-    # yaml_test()
     # str_xml = open(PATH.klayout_tech / "tech.lyt").read()
     # new_tech = db.Technology.technology_from_xml(str_xml)
     # generic_tech = KLayoutTechnology(layer_properties=lyp)
-
+    #
     connectivity = [("M1", "VIA1", "M2"), ("M2", "VIA2", "M3")]
 
     c = generic_tech = KLayoutTechnology(
@@ -781,3 +770,5 @@ if __name__ == "__main__":
     tech_dir.mkdir(exist_ok=True, parents=True)
 
     generic_tech.export_technology_files(tech_dir=tech_dir, layer_stack=LAYER_STACK)
+
+    yaml_test()
