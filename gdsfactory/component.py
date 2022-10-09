@@ -447,7 +447,7 @@ class Component(gdspy.Cell, _GeometryHelper):
         Returns:
             port_list : list of Port List of all Ports in the Component.
         """
-        port_list = [p._copy(new_uid=False) for p in self.ports.values()]
+        port_list = [p._copy() for p in self.ports.values()]
 
         if depth is None or depth > 0:
             for r in self.references:
@@ -457,7 +457,7 @@ class Component(gdspy.Cell, _GeometryHelper):
                 # Transform ports that came from a reference
                 ref_ports_transformed = []
                 for rp in ref_ports:
-                    new_port = rp._copy(new_uid=False)
+                    new_port = rp._copy()
                     new_center, new_orientation = r._transform_port(
                         rp.center,
                         rp.orientation,
@@ -609,13 +609,13 @@ class Component(gdspy.Cell, _GeometryHelper):
         if port:
             if not isinstance(port, Port):
                 raise ValueError(f"add_port() needs a Port, got {type(port)}")
-            p = port.copy(new_uid=True)
+            p = port.copy()
             if name is not None:
                 p.name = name
             p.parent = self
 
         elif isinstance(name, Port):
-            p = name.copy(new_uid=True)
+            p = name.copy()
             p.parent = self
             name = p.name
         else:

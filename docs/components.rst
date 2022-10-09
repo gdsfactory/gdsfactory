@@ -47,7 +47,7 @@ add_fidutials
 
   import gdsfactory as gf
 
-  c = gf.components.add_fidutials(gap=50, offset=[0, 0])
+  c = gf.components.add_fidutials(gap=50, left='cross', right='cross', offset=[0, 0])
   c.plot()
 
 
@@ -62,7 +62,7 @@ add_fidutials_offsets
 
   import gdsfactory as gf
 
-  c = gf.components.add_fidutials_offsets(offsets=[[0, 100], [0, -100]])
+  c = gf.components.add_fidutials_offsets(fidutial='cross', offsets=[[0, 100], [0, -100]])
   c.plot()
 
 
@@ -152,7 +152,7 @@ array
 
   import gdsfactory as gf
 
-  c = gf.components.array(spacing=[150.0, 150.0], columns=6, rows=1)
+  c = gf.components.array(spacing=[150.0, 150.0], columns=6, rows=1, add_ports=True)
   c.plot()
 
 
@@ -3015,7 +3015,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='5.37.1', text_size=10)
+  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='5.41.0', text_size=10)
   c.plot()
 
 
