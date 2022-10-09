@@ -82,8 +82,6 @@ class Port:
         shear_angle: an optional angle to shear port face in degrees.
     """
 
-    _next_uid = 0
-
     def __init__(
         self,
         name: str,
@@ -102,7 +100,6 @@ class Port:
         self.orientation = np.mod(orientation, 360) if orientation else orientation
         self.parent = parent
         self.info: Dict[str, Any] = {}
-        self.uid = Port._next_uid
         self.port_type = port_type
         self.cross_section = cross_section
         self.shear_angle = shear_angle
@@ -124,7 +121,6 @@ class Port:
 
         if self.width < 0:
             raise ValueError(f"Port width must be >=0. Got {self.width}")
-        Port._next_uid += 1
 
     def to_dict(self) -> Dict[str, Any]:
         d = dict(
