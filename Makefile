@@ -33,9 +33,9 @@ plugins:
 	pip install --upgrade "protobuf<=3.20.1"
 
 plugins-debian:
-	sudo apt install ffmpeg libsm6 libxext6 python3-opencv -y
+	sudo apt install libgl1-mesa-glx -y
 	pip install -e .[tidy3d]
-	pip install jax jaxlib opencv-python
+	pip install jax jaxlib
 	mamba install pymeep=*=mpi_mpich_* -y
 	pip install -r requirements_sipann.txt
 	pip install --upgrade "protobuf<=3.20.1"
