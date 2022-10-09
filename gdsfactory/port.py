@@ -31,7 +31,6 @@ from __future__ import annotations
 import csv
 import functools
 import typing
-from copy import deepcopy
 from functools import partial
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
@@ -203,9 +202,9 @@ class Port:
         port.orientation = (port.orientation + 180) % 360
         return port
 
-    def _copy(self, new_uid: bool = True) -> Port:
+    def _copy(self) -> Port:
         """Keep this case for phidl compatibility."""
-        return self.copy(new_uid=new_uid)
+        return self.copy()
 
     @property
     def endpoints(self) -> None:
@@ -265,12 +264,11 @@ class Port:
         self.center = _rotate_points(self.center, angle=angle, center=center)
         return self
 
-    def copy(self, name: Optional[str] = None, new_uid: bool = True) -> Port:
+    def copy(self, name: Optional[str] = None) -> Port:
         """Returns a copy of the port.
 
         Args:
             name: optional new name.
-            new_uid: True creates a new port id.
 
         """
         new_port = Port(
@@ -284,10 +282,7 @@ class Port:
             cross_section=self.cross_section,
             shear_angle=self.shear_angle,
         )
-        new_port.info = deepcopy(self.info)
-        if not new_uid:
-            new_port.uid = self.uid
-            Port._next_uid -= 1
+        new_port.info = self.info
         return new_port
 
     def get_extended_center(self, length: float = 1.0) -> ndarray:
