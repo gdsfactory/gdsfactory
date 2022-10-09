@@ -43,7 +43,7 @@ def _transform_port(
 def _transform_ports(ports, rotation, origin=(0, 0), x_reflection=False):
     ports_transformed = []
     for p in ports:
-        new_port = p.copy(new_uid=False)
+        new_port = p.copy()
         new_center, new_orientation = _transform_port(
             p.center, p.orientation, origin, rotation, x_reflection
         )
