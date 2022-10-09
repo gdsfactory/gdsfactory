@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.41.1
+
+- remove Port.uid
+- add gf.components.array(add_ports=True)
+
 ## 5.41.0
 
 - `gf watch` watches python files as well as `pic.yml` [PR](https://github.com/gdsfactory/gdsfactory/pull/767)
