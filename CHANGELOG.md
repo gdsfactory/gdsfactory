@@ -2,8 +2,8 @@
 
 ## 5.41.1
 
-- remove Port.uid
-- add gf.components.array(add_ports=True)
+- remove Port.uid [PR](https://github.com/gdsfactory/gdsfactory/pull/768)
+    - add gf.components.array(add_ports=True)
 
 ## 5.41.0
 
