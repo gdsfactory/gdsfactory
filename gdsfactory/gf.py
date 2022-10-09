@@ -107,15 +107,10 @@ def merge_gds(
     c.show(show_ports=True)
 
 
-# netlist driven flow in YAML
-
-
-@click.group()
-def watch() -> None:
-    """Watch YAML or python files."""
-    pass
-
-
+# @click.group()
+# def watch() -> None:
+#     """Watch YAML or python files."""
+#     pass
 # @click.option("--debug", "-d", default=False, help="debug", is_flag=True)
 # @click.command()
 # def webapp(debug: bool = False) -> None:
@@ -130,8 +125,8 @@ def watch() -> None:
 
 
 @click.argument("path", type=click.Path(exists=True), required=False, default=cwd)
-@click.command(name="yaml")
-def watch_yaml(path=cwd) -> None:
+@click.command()
+def watch(path=cwd) -> None:
     """Filewatch YAML file."""
     from gdsfactory.watch import watch
 
@@ -201,7 +196,7 @@ tool.add_command(run_tests)
 tool.add_command(install)
 
 # yaml.add_command(webapp)
-watch.add_command(watch_yaml)
+# watch.add_command(watch_yaml)
 
 gf.add_command(gds)
 gf.add_command(tool)
