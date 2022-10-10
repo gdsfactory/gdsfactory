@@ -49,7 +49,7 @@ setup(
     license="MIT",
     entry_points="""
         [console_scripts]
-        gf=gdsfactory.gf:gf
+        gf=gdsfactory.cli:cli
     """,
     extras_require={
         "full": list(set(requirements + requirements_full)),
