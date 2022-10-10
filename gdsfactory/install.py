@@ -13,7 +13,7 @@ def make_link(src, dest, overwrite: bool = True) -> None:
     if dest.exists() and not overwrite:
         print(f"{dest} already exists")
         return
-    else:
+    elif dest.exists():
         os.remove(dest)
 
     try:
