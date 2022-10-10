@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.42.0
+
+- fix gf tool install when file already exists [PR](https://github.com/gdsfactory/gdsfactory/pull/769)
+
 ## 5.41.1
 
 - remove Port.uid [PR](https://github.com/gdsfactory/gdsfactory/pull/768)
