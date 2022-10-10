@@ -11,7 +11,6 @@ from click.core import Context, Option
 
 import gdsfactory
 from gdsfactory.config import CONFIG, cwd, print_config
-from gdsfactory.gdsdiff.gdsdiff import gdsdiff
 from gdsfactory.install import install_gdsdiff, install_klayout_package
 from gdsfactory.layers import lyp_to_dataclass
 from gdsfactory.tech import LAYER
@@ -149,6 +148,8 @@ def show(filename: str) -> None:
 @click.option("--xor", "-x", default=False, help="include xor", is_flag=True)
 def diff(gdspath1: str, gdspath2: str, xor: bool = False) -> None:
     """Show boolean difference between two GDS files."""
+    from gdsfactory.gdsdiff.gdsdiff import gdsdiff
+
     diff = gdsdiff(gdspath1, gdspath2, xor=xor)
     diff.show()
 
@@ -181,7 +182,7 @@ def run_tests() -> None:
     is_eager=True,
     help="Show the version number.",
 )
-def gf() -> None:
+def cli(name="gf") -> None:
     """`gf` is the gdsfactory command line tool."""
 
 
@@ -198,10 +199,10 @@ tool.add_command(install)
 # yaml.add_command(webapp)
 # watch.add_command(watch_yaml)
 
-gf.add_command(gds)
-gf.add_command(tool)
-gf.add_command(watch)
+cli.add_command(gds)
+cli.add_command(tool)
+cli.add_command(watch)
 
 
 if __name__ == "__main__":
-    gf()
+    cli()
