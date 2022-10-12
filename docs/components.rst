@@ -816,6 +816,21 @@ crossing_from_taper
 
 
 
+cutback_2x2
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.cutback_2x2
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.cutback_2x2(cols=4, port1='o1', port2='o2', port3='o3', port4='o4')
+  c.plot()
+
+
+
 cutback_bend
 ----------------------------------------------------
 
@@ -3015,7 +3030,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='5.41.0', text_size=10)
+  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='5.42.1', text_size=10)
   c.plot()
 
 
