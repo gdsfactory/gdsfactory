@@ -62,6 +62,7 @@ from gdsfactory.components.crossing_waveguide import (
     crossing_etched,
     crossing_from_taper,
 )
+from gdsfactory.components.cutback_2x2 import cutback_2x2
 from gdsfactory.components.cutback_bend import (
     cutback_bend,
     cutback_bend90,
@@ -364,6 +365,7 @@ __all__ = [
     "cutback_component",
     "cutback_component_mirror",
     "cutback_splitter",
+    "cutback_2x2",
     "dbr",
     "dbr_tapered",
     "delay_snake",
