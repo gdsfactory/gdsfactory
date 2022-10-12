@@ -143,9 +143,11 @@ class Component(_GeometryHelper):
         self.ports = {}
         self.aliases = {}
 
+        self._references = []
+
     @property
     def references(self):
-        return self._cell.references
+        return self._references
 
     @property
     def polygons(self):
@@ -920,7 +922,11 @@ class Component(_GeometryHelper):
             MutabilityError: if component is locked.
         """
         self.is_unlocked()
-        self._cell.add(element)
+        if isinstance(element, ComponentReference):
+            self._cell.add(element._reference)
+            self._references.append(element)
+        else:
+            self._cell.add(element)
 
     def add(self, element) -> None:
         """Add a new element or list of elements to this Component.
@@ -932,13 +938,15 @@ class Component(_GeometryHelper):
         Raises:
             MutabilityError: if component is locked.
         """
-        self._add(element)
-        if isinstance(element, (gdspy.CellReference, gdspy.CellArray)):
+        # if isinstance(element, (gdspy.CellReference, gdspy.CellArray)):
+        if isinstance(element, ComponentReference):
             self._register_reference(element)
-        if isinstance(element, Iterable):
-            for i in element:
-                if isinstance(i, (gdspy.CellReference, gdspy.CellArray)):
-                    self._register_reference(i)
+            self._add(element)
+        elif isinstance(element, Iterable):
+            for subelement in element:
+                self.add(subelement)
+        else:
+            self._add(element)
 
     def add_array(
         self,
@@ -1381,7 +1389,7 @@ class Component(_GeometryHelper):
                     warnings.warn(
                         f"Duplicated cell names in {self.name!r}:  {cell_names}",
                     )
-                cells_dict = {cell.name: cell for cell in cells}
+                cells_dict = {cell.name: cell._cell for cell in cells}
                 cells = cells_dict.values()
             elif on_duplicate_cell is not None:
                 raise ValueError(
@@ -1390,8 +1398,6 @@ class Component(_GeometryHelper):
 
         all_cells = [self._cell] + sorted(cells, key=lambda cc: cc.name)
 
-        for cell in all_cells:
-            print(cell.name)
         no_name_cells = [
             cell.name for cell in all_cells if cell.name.startswith("Unnamed")
         ]
@@ -1401,7 +1407,11 @@ class Component(_GeometryHelper):
                 f"Component {self.name!r} contains {len(no_name_cells)} Unnamed cells"
             )
 
+        # for cell in all_cells:
+        #     print(cell.name, type(cell))
+
         lib = gdspy.GdsLibrary(unit=unit, precision=precision)
+
         lib.write_gds(gdspath, cells=all_cells, timestamp=timestamp)
         self.path = gdspath
         if logging:
@@ -1965,13 +1975,20 @@ def test_bbox_component() -> None:
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = Component()
+    # c = Component("parent")
+    # c2 = Component("child")
+    # length = 10
+    # width = 0.5
+    # layer = (1, 0)
+    # c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
+    # c << c2
+    # c.show()
     # length = 10
     # width = 0.5
     # layer = (1, 0)
     # c.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
 
-    c = gf.components.bend_euler()
+    c = gf.components.mzi()
     # c2 = c.mirror()
     # print(c2.info)
     # c = gf.c.mzi()
