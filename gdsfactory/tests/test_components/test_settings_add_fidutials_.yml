@@ -33,26 +33,22 @@ settings:
     component:
       function: pad_array
     gap: 50
-    left:
-      function: cross
+    left: cross
     offset:
     - 0
     - 0
-    right:
-      function: cross
+    right: cross
     top: null
   full:
     bottom: null
     component:
       function: pad_array
     gap: 50
-    left:
-      function: cross
+    left: cross
     offset:
     - 0
     - 0
-    right:
-      function: cross
+    right: cross
     top: null
   function_name: add_fidutials
   info:

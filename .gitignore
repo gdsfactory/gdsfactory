@@ -9,6 +9,7 @@
 *.pkl
 *.msh
 *.xdmf
+*.db
 *.svg
 test_mask_metadata.csv
 test_mask_metadata.yml

@@ -37,7 +37,7 @@ with open("README.md") as f:
 setup(
     name="gdsfactory",
     url="https://github.com/gdsfactory/gdsfactory",
-    version="5.37.1",
+    version="5.42.1",
     author="gdsfactory community",
     description="python library to generate GDS layouts",
     long_description=long_description,
@@ -49,7 +49,7 @@ setup(
     license="MIT",
     entry_points="""
         [console_scripts]
-        gf=gdsfactory.gf:gf
+        gf=gdsfactory.cli:cli
     """,
     extras_require={
         "full": list(set(requirements + requirements_full)),

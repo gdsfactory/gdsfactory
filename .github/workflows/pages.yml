@@ -33,7 +33,7 @@ jobs:
           sudo wget https://github.com/jgm/pandoc/releases/download/1.16.0.2/pandoc-1.16.0.2-1-amd64.deb
           sudo dpkg -i pandoc-1.16.0.2-1-amd64.deb
           #sudo apt install pandoc
-          make gdslib plugins
+          make gdslib plugins-debian
           pip install -r requirements_sipann.txt
           pip install -r requirements_dev.txt
       - name: Running the Sphinx to gh-pages Action
