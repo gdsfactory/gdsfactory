@@ -1041,14 +1041,13 @@ class Component(_GeometryHelper):
         Args:
             single_layer: move all polygons are moved to the specified (optional).
         """
-        component_flat = self.copy()
-        component_flat.polygons = []
-        component_flat.references = []
+        component_flat = Component()
 
         poly_dict = self.get_polygons(by_spec=True)
         for layer, polys in poly_dict.items():
             component_flat.add_polygon(polys, layer=single_layer or layer)
 
+        component_flat.info = self.info.copy()
         return component_flat
 
     def flatten_reference(self, ref: ComponentReference):
@@ -1771,7 +1770,7 @@ def copy(D: Component) -> Component:
     D_copy._cell = D._cell.copy(name=D_copy.name)
 
     for ref in D.references:
-        if isinstance(ref, gdspy.CellReference):
+        if isinstance(ref, ComponentReference):
             new_ref = ComponentReference(
                 ref.parent,
                 origin=ref.origin,
