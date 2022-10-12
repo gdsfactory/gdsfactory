@@ -1,5 +1,46 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.42.0
+
+- fix gf tool install when file already exists [PR](https://github.com/gdsfactory/gdsfactory/pull/769)
+
+## 5.41.1
+
+- remove Port.uid [PR](https://github.com/gdsfactory/gdsfactory/pull/768)
+    - add gf.components.array(add_ports=True)
+
+## 5.41.0
+
+- `gf watch` watches python files as well as `pic.yml` [PR](https://github.com/gdsfactory/gdsfactory/pull/767)
+
+## 5.40.0
+
+- KLayout technology module improvements:
+  - Added CustomPatterns class, which contains lists of CustomDitherPatterns and CustomLineStyles
+  - Added yaml import/export for CustomPatterns and LayerDisplayProperties
+  - LayerView group members are stored in a list rather than a dict
+  - Added mebes reader options to KLayoutTechnology export since they aren't created by the KLayout API
+  - Fixed some formatting issues when writing .lyt files
+  - 2.5D section of .lyt now uses zmin, zmax as it should, rather than zmin, thickness as it did
+
+
+## 5.39.0
+
+- upgrade tidy3d to 1.7.0
+
+## 5.38.0
+
+- add inverse design capabilities with Meep [PR](https://github.com/gdsfactory/gdsfactory/pull/761)
+
+## 5.37.2
+
+- remove `__init__` from klayout
+- move klayout.get_xsection_script to geometry.get_xsection_script
+- improve klayout technology [PR](https://github.com/gdsfactory/gdsfactory/pull/757)
+    * Allow users to set layer_pattern regex
+    * Remove LayerStack from KLayoutTechnology and take as argument for export_technology_files instead.
+
+
 ## 5.37.1
 
 - fix is_on_grid [PR](https://github.com/gdsfactory/gdsfactory/pull/754)

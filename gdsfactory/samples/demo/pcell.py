@@ -1,3 +1,5 @@
+"""Pcell demo."""
+
 import gdsfactory as gf
 
 
@@ -14,5 +16,6 @@ def mzi_with_bend(radius: float = 10):
 
 
 if __name__ == "__main__":
-    c = mzi_with_bend(radius=100)
-    c.show(show_ports=True)
+    c = mzi_with_bend(radius=5)
+    cc = gf.routing.add_fiber_single(c)
+    cc.show(show_ports=True)
