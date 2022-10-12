@@ -144,7 +144,7 @@ class ComponentReference(CellReference, _GeometryHelper):
         # since two ComponentReferences of the same parent Component can be
         # in different locations and thus do not represent the same port
         self._local_ports = {
-            name: port._copy(new_uid=True) for name, port in component.ports.items()
+            name: port._copy() for name, port in component.ports.items()
         }
         self.visual_label = visual_label
         # self.uid = str(uuid.uuid4())[:8]

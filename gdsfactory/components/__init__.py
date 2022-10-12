@@ -62,6 +62,7 @@ from gdsfactory.components.crossing_waveguide import (
     crossing_etched,
     crossing_from_taper,
 )
+from gdsfactory.components.cutback_2x2 import cutback_2x2
 from gdsfactory.components.cutback_bend import (
     cutback_bend,
     cutback_bend90,
@@ -256,6 +257,7 @@ from gdsfactory.components.via_stack import (
 )
 from gdsfactory.components.via_stack_slot import via_stack_slot, via_stack_slot_m1_m2
 from gdsfactory.components.via_stack_with_offset import via_stack_with_offset
+from gdsfactory.components.wafer import wafer
 from gdsfactory.components.wire import wire_corner, wire_straight
 from gdsfactory.components.wire_sbend import wire_sbend
 from gdsfactory.get_factories import get_cells
@@ -363,6 +365,7 @@ __all__ = [
     "cutback_component",
     "cutback_component_mirror",
     "cutback_splitter",
+    "cutback_2x2",
     "dbr",
     "dbr_tapered",
     "delay_snake",
@@ -511,6 +514,7 @@ __all__ = [
     "via_cutback",
     "viac",
     "via_corner",
+    "wafer",
     "wire_corner",
     "wire_sbend",
     "wire_straight",
