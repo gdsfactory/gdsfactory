@@ -831,7 +831,7 @@ class Component(gdspy.Cell, _GeometryHelper):
             or self.metadata_child.get(setting)
         )
 
-    def is_unlocked(self) -> None:
+    def _check_unlocked(self) -> None:
         """Raises error if Component is locked."""
         if self._locked:
             raise MutabilityError(
@@ -849,7 +849,7 @@ class Component(gdspy.Cell, _GeometryHelper):
         Raises:
             MutabilityError: if component is locked.
         """
-        self.is_unlocked()
+        self._check_unlocked()
         super().add(element)
 
     def add(self, element) -> None:
@@ -1456,15 +1456,15 @@ class Component(gdspy.Cell, _GeometryHelper):
                  |   |
                  8   7
         """
-        self.is_unlocked()
+        self._check_unlocked()
         auto_rename_ports(self, **kwargs)
 
     def auto_rename_ports_counter_clockwise(self, **kwargs) -> None:
-        self.is_unlocked()
+        self._check_unlocked()
         auto_rename_ports_counter_clockwise(self, **kwargs)
 
     def auto_rename_ports_layer_orientation(self, **kwargs) -> None:
-        self.is_unlocked()
+        self._check_unlocked()
         auto_rename_ports_layer_orientation(self, **kwargs)
 
     def auto_rename_ports_orientation(self, **kwargs) -> None:
@@ -1487,7 +1487,7 @@ class Component(gdspy.Cell, _GeometryHelper):
                  |   |
                 S0   S1
         """
-        self.is_unlocked()
+        self._check_unlocked()
         auto_rename_ports_orientation(self, **kwargs)
 
     def move(
