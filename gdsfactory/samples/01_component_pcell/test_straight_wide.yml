@@ -19,4 +19,3 @@ settings:
   info_version: 2
   module: gdsfactory.samples.01_component_pcell
   name: straight_wide
-version: 0.0.1

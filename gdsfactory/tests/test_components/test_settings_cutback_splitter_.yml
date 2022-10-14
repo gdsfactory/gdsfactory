@@ -39,11 +39,11 @@ settings:
     cols: 4
     component:
       function: mmi1x2
+    cross_section: strip
     mirror: false
     port1: o1
     port2: o2
     port3: o3
-    radius: 5.0
     rows: 5
     straight:
       function: straight
@@ -56,11 +56,11 @@ settings:
     cols: 4
     component:
       function: mmi1x2
+    cross_section: strip
     mirror: false
     port1: o1
     port2: o2
     port3: o3
-    radius: 5.0
     rows: 5
     straight:
       function: straight
@@ -71,4 +71,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.cutback_splitter
   name: mmi1x2_cutback_splitter
-version: 0.0.1

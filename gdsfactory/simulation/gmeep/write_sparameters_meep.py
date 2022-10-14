@@ -3,14 +3,12 @@
 import inspect
 import multiprocessing
 import pathlib
-import re
 import time
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 import meep as mp
 import numpy as np
-import pandas as pd
 import pydantic
 from omegaconf import OmegaConf
 from tqdm.auto import tqdm
@@ -28,7 +26,7 @@ from gdsfactory.simulation.gmeep.get_simulation import (
     settings_get_simulation,
 )
 from gdsfactory.tech import LayerStack
-from gdsfactory.types import ComponentSpec, PathType, PortSymmetries
+from gdsfactory.types import ComponentSpec, PathType, Port, PortSymmetries
 
 ncores = multiprocessing.cpu_count()
 
@@ -37,7 +35,6 @@ def remove_simulation_kwargs(d: Dict[str, Any]) -> Dict[str, Any]:
     """Returns a copy of dict with only simulation settings.
 
     removes all flags for the simulator itself
-
     """
     d = d.copy()
     d.pop("run", None)
@@ -51,8 +48,9 @@ def remove_simulation_kwargs(d: Dict[str, Any]) -> Dict[str, Any]:
     return d
 
 
-def parse_port_eigenmode_coeff(port_index: int, ports, sim_dict: Dict):
-    """Given a port and eigenmode coefficient result, returns the coefficients relative to whether the wavevector is entering or exiting simulation.
+def parse_port_eigenmode_coeff(port_name: str, ports: Dict[str, Port], sim_dict: Dict):
+    """Returns the coefficients relative to whether the wavevector is entering or \
+            exiting simulation.
 
     Args:
         port_index: index of port.
@@ -60,65 +58,44 @@ def parse_port_eigenmode_coeff(port_index: int, ports, sim_dict: Dict):
         sim_dict: simulation dict.
 
     """
-    if f"o{port_index}" not in ports:
-        raise ValueError(
-            f"port = 'o{port_index}' not in {list(ports.keys())}. "
-            "You can rename ports with Component.auto_rename_ports()"
-        )
+    if port_name not in ports:
+        raise ValueError(f"port = {port_name!r} not in {list(ports.keys())}.")
+
+    orientation = ports[port_name].orientation
 
     # Inputs
     sim = sim_dict["sim"]
     monitors = sim_dict["monitors"]
 
-    # Direction of port (pointing away from the simulation)
-
-    # angle_rad = np.radians(ports[f"o{port_index}"].orientation)
-    # kpoint = mp.Vector3(x=1).rotate(mp.Vector3(z=1), angle_rad)
-
-    # # Get port coeffs
-    # monitor_coeff = sim.get_eigenmode_coefficients(
-    #     monitors[f"o{port_index}"], [1], kpoint_func=lambda f, n: kpoint
-    # )
-
-    # Get port logical orientation
-    # kdom = monitor_coeff.kdom[0] # Pick one wavelength, assume behaviour similar across others
-
-    # get_eigenmode_coeff.alpha[:,:,idx] with ind being the forward or backward wave according to cell coordinates.
+    # get_eigenmode_coeff.alpha[:,:,idx]
+    # with ind being the forward or backward wave according to cell coordinates.
     # Figure out if that is exiting the simulation or not
     # depending on the port orientation (assuming it's near PMLs)
-    if ports[f"o{port_index}"].orientation == 0:  # east
+    if orientation == 0:  # east
         kpoint = mp.Vector3(x=1)
         idx_in = 1
         idx_out = 0
-    elif ports[f"o{port_index}"].orientation == 90:  # north
+    elif orientation == 90:  # north
         kpoint = mp.Vector3(y=1)
         idx_in = 1
         idx_out = 0
-    elif ports[f"o{port_index}"].orientation == 180:  # west
+    elif orientation == 180:  # west
         kpoint = mp.Vector3(x=1)
         idx_in = 0
         idx_out = 1
-    elif ports[f"o{port_index}"].orientation == 270:  # south
+    elif orientation == 270:  # south
         kpoint = mp.Vector3(y=1)
         idx_in = 0
         idx_out = 1
     else:
-        raise ValueError("Port orientation is not 0, 90, 180, or 270 degrees!")
+        raise ValueError(
+            f"Port orientation {orientation!r} not in 0, 90, 180, or 270 degrees!"
+        )
 
     # Get port coeffs
     monitor_coeff = sim.get_eigenmode_coefficients(
-        monitors[f"o{port_index}"], [1], kpoint_func=lambda f, n: kpoint
+        monitors[port_name], [1], kpoint_func=lambda f, n: kpoint
     )
-
-    # # Adjust according to whatever the monitor decided was positive
-    # idx_out = 1 - (kdom*kpoint > 0) # if true 1 - 1, outgoing wave is the forward (0) wave
-    # idx_in = 1 - idx_out
-    # print('monitor_n = ', port_index)
-    # print('kangle = ', kpoint)
-    # print('kdom = ', kdom)
-    # print('kdom*kpoint', kdom*kpoint)
-    # print('idx (outgoing wave) = ', idx_out)
-    # print('idx (ingoing wave) = ', idx_in)
 
     coeff_in = monitor_coeff.alpha[
         0, :, idx_in
@@ -133,6 +110,7 @@ def parse_port_eigenmode_coeff(port_index: int, ports, sim_dict: Dict):
 @pydantic.validate_arguments
 def write_sparameters_meep(
     component: ComponentSpec,
+    port_source_names: Optional[List[str]] = None,
     port_symmetries: Optional[PortSymmetries] = None,
     resolution: int = 30,
     wavelength_start: float = 1.5,
@@ -156,31 +134,23 @@ def write_sparameters_meep(
     ymargin_top: float = 0,
     ymargin_bot: float = 0,
     **settings,
-) -> pd.DataFrame:
-    r"""Returns Sparameters and writes them to CSV filepath.
+) -> np.ndarray:
+    r"""Returns Sparameters and writes them to npz filepath.
 
     Simulates each time using a different input port (by default, all of them)
     unless you specify port_symmetries:
 
-    port_symmetries = {"o1":
-            {
-                "s11": ["s22","s33","s44"],
-                "s21": ["s21","s34","s43"],
-                "s31": ["s13","s24","s42"],
-                "s41": ["s14","s23","s32"],
-            }
-        }
+    port_symmetries_crossing = {
+        "o1@0,o1@0": ["o2@0,o2@0", "o3@0,o3@0", "o4@0,o4@0"],
+        "o2@0,o1@0": ["o1@0,o2@0", "o3@0,o4@0", "o4@0,o3@0"],
+        "o3@0,o1@0": ["o1@0,o3@0", "o2@0,o4@0", "o4@0,o2@0"],
+        "o4@0,o1@0": ["o1@0,o4@0", "o2@0,o3@0", "o3@0,o2@0"],
+    }
     - Only simulations using the outer key port names will be run
     - The associated value is another dict whose keys are the S-parameters computed
         when this source is active
     - The values of this inner Dict are lists of s-parameters whose values are copied
 
-    This allows you doing less simulations
-
-    TODO: automate this for common component types
-    (geometrical symmetries, reciprocal materials, etc.)
-
-    TODO: enable other port naming conventions, such as (in0, in1, out0, out1)
 
 
     .. code::
@@ -218,10 +188,10 @@ def write_sparameters_meep(
              |_______|_______________________|
 
 
-
     Args:
         component: to simulate.
         resolution: in pixels/um (30: for coarse, 100: for fine).
+        port_source_names: list of ports to excite. Defaults to all.
         port_symmetries: Dict to specify port symmetries, to save number of simulations.
         dirpath: directory to store Sparameters.
         layer_stack: contains layer to thickness, zmin and material.
@@ -229,13 +199,22 @@ def write_sparameters_meep(
         port_margin: margin on each side of the port.
         port_monitor_offset: offset between Component and monitor port in um.
         port_source_offset: offset between Component and source port in um.
-        filepath: to store pandas Dataframe with Sparameters in CSV format.
-            Defaults to dirpath/component_.csv.
-        overwrite: overwrites stored Sparameter CSV results.
+        filepath: to store pandas Dataframe with Sparameters in npz format.
+            Defaults to dirpath/component_.npz.
+        overwrite: overwrites stored Sparameter npz results.
         animate: saves a MP4 images of the simulation for inspection, and also
             outputs during computation. The name of the file is the source index.
         lazy_parallelism: toggles the flag "meep.divide_parallel_processes" to
             perform the simulations with different sources in parallel.
+            By default MPI just runs the same copy of the Python script everywhere,
+            with the C++ under MEEP actually being parallelized.
+            divide_parallel_processes allows us to logically split this one calculation
+            into (in this case "cores") subdivisions.
+            The only difference in the scripts is that a different integer n
+            is returned depending on the subdivision it is running in.
+            So we use that n to select different sources, and each subdivision calculates
+            its own Sparams independently. Afterwards, we collect all
+            results in one of the subdivisions (if rank == 0).
         run: runs simulation, if False, only plots simulation.
         dispersive: use dispersive models for materials (requires higher resolution).
         xmargin: left and right distance from component to PML.
@@ -265,7 +244,7 @@ def write_sparameters_meep(
             or refractive index. dispersive materials have a wavelength dependent index.
 
     Returns:
-        sparameters in a pandas Dataframe (wavelengths, s11a, s12m, ...)
+        sparameters in a pandas Dataframe (wavelengths, s11a, o1@0,o2@0, ...)
             where `a` is the angle in radians and `m` the module.
 
     """
@@ -345,33 +324,25 @@ def write_sparameters_meep(
     if filepath.exists():
         if not overwrite:
             logger.info(f"Simulation loaded from {filepath!r}")
-            return pd.read_csv(filepath)
+            return np.load(filepath)
         elif overwrite:
             filepath.unlink()
 
-    # Parse ports (default)
-    monitor_indices = []
-    source_indices = []
     component_ref = component.ref()
-    for port_name in component_ref.ports.keys():
-        if component_ref.ports[port_name].port_type == "optical":
-            monitor_indices.append(re.findall("[0-9]+", port_name)[0])
-    if bool(port_symmetries):  # user-specified
-        for port_name in port_symmetries.keys():
-            source_indices.append(re.findall("[0-9]+", port_name)[0])
-    else:  # otherwise cycle through all
-        source_indices = monitor_indices
+    ports = component_ref.ports
+    port_names = [port.name for port in list(ports.values())]
+    port_source_names = port_source_names or port_names
+    num_sims = len(port_source_names) - len(port_symmetries)
 
-    # Create S-parameter storage object
-    sp = {}
+    sp = {}  # Sparameters dict
     start = time.time()
 
     @pydantic.validate_arguments
     def sparameter_calculation(
-        n,
+        port_source_name: str,
         component: Component,
         port_symmetries: Optional[PortSymmetries] = port_symmetries,
-        monitor_indices: List[str] = monitor_indices,
+        port_names: List[str] = port_names,
         wavelength_start: float = wavelength_start,
         wavelength_stop: float = wavelength_stop,
         wavelength_points: int = wavelength_points,
@@ -383,7 +354,7 @@ def write_sparameters_meep(
         """Return Sparameter dict."""
         sim_dict = get_simulation(
             component=component,
-            port_source_name=f"o{monitor_indices[n]}",
+            port_source_name=port_source_name,
             resolution=resolution,
             wavelength_start=wavelength_start,
             wavelength_stop=wavelength_stop,
@@ -419,58 +390,55 @@ def write_sparameters_meep(
                 normalize=True,
             )
             sim.run(mp.at_every(1, animate), until_after_sources=termination)
-            animate.to_mp4(30, f"{monitor_indices[n]}.mp4")
+            animate.to_mp4(30, f"{component.name}_{port_source_name}.mp4")
         else:
             sim.run(until_after_sources=termination)
 
         # Calculate mode overlaps
         # Get source monitor results
-        component_ref = component.ref()
         source_entering, source_exiting = parse_port_eigenmode_coeff(
-            monitor_indices[n], component_ref.ports, sim_dict
+            port_source_name, component.ports, sim_dict
         )
         # Get coefficients
-        for monitor_index in monitor_indices:
-            j = monitor_indices[n]
-            i = monitor_index
+        for port_name in port_names:
             monitor_entering, monitor_exiting = parse_port_eigenmode_coeff(
-                monitor_index, component_ref.ports, sim_dict
+                port_name, component.ports, sim_dict
             )
-            sij = monitor_exiting / source_entering
-            sp[f"s{i}{j}a"] = np.unwrap(np.angle(sij))
-            sp[f"s{i}{j}m"] = np.abs(sij)
+            key = f"{port_name}@0,{port_source_name}@0"
+            sp[key] = monitor_exiting / source_entering
 
         if bool(port_symmetries):
-            for key in port_symmetries[f"o{monitor_indices[n]}"].keys():
-                values = port_symmetries[f"o{monitor_indices[n]}"][key]
-                for value in values:
-                    sp[f"{value}m"] = sp[f"{key}m"]
-                    sp[f"{value}a"] = sp[f"{key}a"]
+            for key, symmetries in port_symmetries.items():
+                for sym in symmetries:
+                    if key in sp:
+                        sp[sym] = sp[key]
 
         return sp
 
-    # Since source is defined upon sim object instantiation, loop here
-    # for port_index in monitor_indices:
-
-    num_sims = len(port_symmetries.keys()) or len(source_indices)
     if lazy_parallelism:
         from mpi4py import MPI
 
         cores = min([num_sims, multiprocessing.cpu_count()])
+
         n = mp.divide_parallel_processes(cores)
         comm = MPI.COMM_WORLD
         size = comm.Get_size()
         rank = comm.Get_rank()
 
+        # Map port names to integers
+        port_source_dict = {}
+        for number, name in enumerate(port_source_names):
+            port_source_dict[number] = name
+
         sp = sparameter_calculation(
-            n,
+            port_source_name=port_source_dict[n],
             component=component,
             port_symmetries=port_symmetries,
             wavelength_start=wavelength_start,
             wavelength_stop=wavelength_stop,
             wavelength_points=wavelength_points,
             animate=animate,
-            monitor_indices=monitor_indices,
+            port_names=port_names,
             **settings,
         )
         # Synchronize dicts
@@ -479,40 +447,36 @@ def write_sparameters_meep(
                 data = comm.recv(source=i, tag=11)
                 sp.update(data)
 
-            df = pd.DataFrame(sp)
-            df["wavelengths"] = np.linspace(
+            sp["wavelengths"] = np.linspace(
                 wavelength_start, wavelength_stop, wavelength_points
             )
-            df["freqs"] = 1 / df["wavelengths"]
-            df.to_csv(filepath, index=False)
+            np.savez_compressed(filepath, **sp)
             logger.info(f"Write simulation results to {filepath!r}")
             filepath_sim_settings.write_text(OmegaConf.to_yaml(sim_settings))
             logger.info(f"Write simulation settings to {filepath_sim_settings!r}")
-            return df
+            return sp
         else:
             comm.send(sp, dest=0, tag=11)
 
     else:
-        for n in tqdm(range(num_sims)):
+        for port_source_name in tqdm(port_source_names):
             sp.update(
                 sparameter_calculation(
-                    n,
+                    port_source_name,
                     component=component,
                     port_symmetries=port_symmetries,
                     wavelength_start=wavelength_start,
                     wavelength_stop=wavelength_stop,
                     wavelength_points=wavelength_points,
                     animate=animate,
-                    monitor_indices=monitor_indices,
+                    port_names=port_names,
                     **settings,
                 )
             )
-        df = pd.DataFrame(sp)
-        df["wavelengths"] = np.linspace(
+        sp["wavelengths"] = np.linspace(
             wavelength_start, wavelength_stop, wavelength_points
         )
-        df["freqs"] = 1 / df["wavelengths"]
-        df.to_csv(filepath, index=False)
+        np.savez_compressed(filepath, **sp)
 
         end = time.time()
         sim_settings.update(compute_time_seconds=end - start)
@@ -520,7 +484,7 @@ def write_sparameters_meep(
         logger.info(f"Write simulation results to {filepath!r}")
         filepath_sim_settings.write_text(OmegaConf.to_yaml(sim_settings))
         logger.info(f"Write simulation settings to {filepath_sim_settings!r}")
-        return df
+        return sp
 
 
 write_sparameters_meep_1x1 = gf.partial(
@@ -541,14 +505,16 @@ settings_write_sparameters_meep = set(sig.parameters.keys()).union(
 )
 
 if __name__ == "__main__":
+    # from gdsfactory.simulation.add_simulation_markers import add_simulation_markers
+    import gdsfactory.simulation as sim
+
     c = gf.components.straight(length=2)
 
-    from gdsfactory.simulation.add_simulation_markers import add_simulation_markers
+    # c = gf.components.bend_euler(radius=3)
+    # c = add_simulation_markers(c)
 
-    c = gf.components.bend_euler(radius=3)
-    c = add_simulation_markers(c)
-
-    write_sparameters_meep_1x1(c, run=False)
+    sp = write_sparameters_meep_1x1(c, run=True, is_3d=False)
+    sim.plot.plot_sparameters(sp)
 
     # import matplotlib.pyplot as plt
     # plt.show()

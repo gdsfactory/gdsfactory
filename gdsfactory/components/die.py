@@ -1,4 +1,4 @@
-"""Adapted from phidl.geometry."""
+"""based on phidl.geometry."""
 
 from typing import Optional, Tuple
 

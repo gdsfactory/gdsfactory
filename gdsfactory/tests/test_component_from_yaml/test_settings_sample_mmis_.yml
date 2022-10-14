@@ -4,6 +4,9 @@ settings:
     conf:
       info:
         description: just a demo on adding metadata
+        instances:
+        - mmi_long
+        - mmi_short
         polarization: te
         wavelength: 1.55
       instances:
@@ -53,6 +56,7 @@ settings:
               port_types:
               - electrical
               - electrical
+              radius: null
               width: 10.0
       get_bundle_from_steps:
         function: get_bundle_from_steps
@@ -71,6 +75,7 @@ settings:
               port_types:
               - electrical
               - electrical
+              radius: null
               width: 10.0
       get_bundle_from_waypoints:
         function: get_bundle_from_waypoints
@@ -82,6 +87,9 @@ settings:
     conf:
       info:
         description: just a demo on adding metadata
+        instances:
+        - mmi_long
+        - mmi_short
         polarization: te
         wavelength: 1.55
       instances:
@@ -129,6 +137,7 @@ settings:
               port_types:
               - electrical
               - electrical
+              radius: null
               width: 10.0
       get_bundle_from_steps:
         function: get_bundle_from_steps
@@ -147,6 +156,7 @@ settings:
               port_types:
               - electrical
               - electrical
+              radius: null
               width: 10.0
       get_bundle_from_waypoints:
         function: get_bundle_from_waypoints
@@ -157,9 +167,11 @@ settings:
   function_name: _from_yaml
   info:
     description: just a demo on adding metadata
+    instances:
+    - mmi_long
+    - mmi_short
     polarization: te
     wavelength: 1.55
   info_version: 2
   module: gdsfactory.read.from_yaml
   name: sample_mmis_8ba5a8e2
-version: 0.0.1

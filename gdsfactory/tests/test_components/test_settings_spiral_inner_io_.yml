@@ -46,4 +46,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.spiral_inner_io
   name: spiral_inner_io
-version: 0.0.1

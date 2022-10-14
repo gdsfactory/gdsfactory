@@ -148,7 +148,7 @@ def awg(
 
 
 if __name__ == "__main__":
-    c = free_propagation_region(inputs=2, outputs=4)
+    # c = free_propagation_region(inputs=2, outputs=4)
     # print(c.ports.keys())
     c = awg()
     c.show(show_ports=True)

@@ -1,5 +1,252 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.42.0
+
+- fix gf tool install when file already exists [PR](https://github.com/gdsfactory/gdsfactory/pull/769)
+
+## 5.41.1
+
+- remove Port.uid [PR](https://github.com/gdsfactory/gdsfactory/pull/768)
+    - add gf.components.array(add_ports=True)
+
+## 5.41.0
+
+- `gf watch` watches python files as well as `pic.yml` [PR](https://github.com/gdsfactory/gdsfactory/pull/767)
+
+## 5.40.0
+
+- KLayout technology module improvements:
+  - Added CustomPatterns class, which contains lists of CustomDitherPatterns and CustomLineStyles
+  - Added yaml import/export for CustomPatterns and LayerDisplayProperties
+  - LayerView group members are stored in a list rather than a dict
+  - Added mebes reader options to KLayoutTechnology export since they aren't created by the KLayout API
+  - Fixed some formatting issues when writing .lyt files
+  - 2.5D section of .lyt now uses zmin, zmax as it should, rather than zmin, thickness as it did
+
+
+## 5.39.0
+
+- upgrade tidy3d to 1.7.0
+
+## 5.38.0
+
+- add inverse design capabilities with Meep [PR](https://github.com/gdsfactory/gdsfactory/pull/761)
+
+## 5.37.2
+
+- remove `__init__` from klayout
+- move klayout.get_xsection_script to geometry.get_xsection_script
+- improve klayout technology [PR](https://github.com/gdsfactory/gdsfactory/pull/757)
+    * Allow users to set layer_pattern regex
+    * Remove LayerStack from KLayoutTechnology and take as argument for export_technology_files instead.
+
+
+## 5.37.1
+
+- fix is_on_grid [PR](https://github.com/gdsfactory/gdsfactory/pull/754)
+
+## 5.37.0
+
+- remove Component.version and Component.changelog, change tutorial to recommend keeping Pcell changelog in the docstring. [PR](https://github.com/gdsfactory/gdsfactory/pull/752)
+
+## 5.36.0
+
+- Add thermal solver [PR](https://github.com/gdsfactory/gdsfactory/pull/739)
+- remove phidl dependency [PR](https://github.com/gdsfactory/gdsfactory/pull/741)
+- remove incremental naming from phidl
+- remove Port.midpoint as it was deprecated since 5.14.0
+- add freetype-py for using text with font and add components.text_freetype [PR](https://github.com/gdsfactory/gdsfactory/pull/743)
+
+## 5.35.0
+
+- Mesh2D renames boundaries [PR](https://github.com/gdsfactory/gdsfactory/pull/736)
+
+## 5.34.0
+
+- bump sax from 0.8.2 to 0.8.4
+- add fixes for snapping to the grid, add parabolic_transition [PR](https://github.com/gdsfactory/gdsfactory/pull/733)
+- add [installer for Windows, MacOs and Linux](https://github.com/gdsfactory/gdsfactory/releases)
+
+## 5.33.0
+
+- FEM mesher. Given component, line defined by (x_init, y_init), (x_final, y_final), and LayerStack, generate simple mesh of component cross-section. Mesh returned separately labels non-touching elements on different layers (for use in different solvers). Can provide dict with different resolution for different layers [PR](https://github.com/gdsfactory/gdsfactory/pull/729)
+- add Coherent receiver (single and dual pol) Coherent transmitter (single and dual pol) [PR](https://github.com/gdsfactory/gdsfactory/pull/731)
+
+## 5.32.0
+
+- Read/write layer files (.lyp) and specify whether the layer number is displayed in KLayout [issue](https://github.com/gdsfactory/gdsfactory/issues/695) [PR](https://github.com/gdsfactory/gdsfactory/pull/724)
+    - Read/write technology files (.lyt)
+    - Requires the klayout.db module
+    - 2.5D layer stacks can only be written due to incomplete API in 0.27.x (#1153)
+- Bump sax from 0.8.1 to 0.8.2
+
+
+## 5.31.0
+
+- add new Pcells [PR](https://github.com/gdsfactory/gdsfactory/pull/717)
+    * Dual polarization grating coupler
+    * Straight Ge detector with contacts in the Si
+    * MMI-based 90 degree hybrid
+- add tests to new Pcells [PR](https://github.com/gdsfactory/gdsfactory/pull/720)
+- add resolution_x and resolution_y Optional parameters to tidy3d modesolver. Fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/719) [PR](https://github.com/gdsfactory/gdsfactory/pull/721)
+
+## 5.30.0
+
+- Fix multilayer routing [PR](https://github.com/gdsfactory/gdsfactory/pull/707)
+- Add tests and examples for multilayer routing [PR](https://github.com/gdsfactory/gdsfactory/pull/714)
+
+## [5.29.0](https://github.com/gdsfactory/gdsfactory/pull/704)
+
+- add sweep_neff, sweep_width, sweep_group_index gtidy3d.modes and ring model
+- Absorption from DEVSIM [PR](https://github.com/gdsfactory/gdsfactory/pull/701)
+    - DEVSIM PIN waveguides now return imaginary neff
+    - Changes to tidy3D mode solver to allow running in a different interpreter for compatibility
+- Added support for None orientation ports for get_bundle_from_steps. [PR](https://github.com/gdsfactory/gdsfactory/pull/702)
+- bend_euler returns wire_corner if radius = None
+- upgrade to tidy3d-beta 1.6.3
+
+## [5.28.1](https://github.com/gdsfactory/gdsfactory/pull/698)
+
+- upgrade to tidy3d-beta 1.6.2
+- add functions to write a complete technology package for KLayout using the KLayoutTechnology class [PR](https://github.com/gdsfactory/gdsfactory/pull/696)
+- remove unnamed layers
+
+## [5.28.0](https://github.com/gdsfactory/gdsfactory/pull/691)
+
+- Add avoid_layers, distance, and cost addition for turns for routing.get_route_astar [PR](https://github.com/gdsfactory/gdsfactory/pull/690)
+- cross_sections `metal1`, `metal2`, `metal3` have `radius = None`
+- routing.get_bundle uses `wire_corner` if `cross_section.radius=None`
+- routing.get_route_astar uses `wire_corner` if `cross_section.radius=None`
+
+## [5.27.1](https://github.com/gdsfactory/gdsfactory/pull/686)
+
+- fix devsim TCAD units and examples.
+
+## [5.27.0](https://github.com/gdsfactory/gdsfactory/pull/684)
+
+- add A* router [PR](https://github.com/gdsfactory/gdsfactory/pull/683)
+
+## 5.26.3
+
+- fix tidy3d mode solver sweep width [PR](https://github.com/gdsfactory/gdsfactory/pull/682)
+- devsim improvements. Add Modes with doping index perturbation [PR](https://github.com/gdsfactory/gdsfactory/pull/679)
+    - Modify gtidy3D mode solver to handle local index perturbations.
+    - New function to generate a Waveguide for mode solving from PIN semiconductor simulation.
+
+## [5.26.2](https://github.com/gdsfactory/gdsfactory/pull/675)
+
+- devsim TCAD improvements
+    * remove wurlitzer
+    * change devsim example classes CamelCase by snake_case
+
+## 5.26.0
+
+- add grating_coupler_elliptical uniform [PR](https://github.com/gdsfactory/gdsfactory/pull/668)
+- generate KLayout technology files (.lyp) from the gdsfactory LayerColors, add structures that let you write (almost) all of the properties that .lyp files can take, including groups of layer properties. [PR](https://github.com/gdsfactory/gdsfactory/pull/662)
+- via_stack has `port_type=placement` for intermediate ports and compass has default `port_type=placement` [PR](https://github.com/gdsfactory/gdsfactory/pull/661)
+- get_netlist ignores ports with port_type='placement' [PR](https://github.com/gdsfactory/gdsfactory/pull/666)
+- move gdsfactory.copy to Component.copy [PR](https://github.com/gdsfactory/gdsfactory/pull/660)
+- clean install.py [PR](https://github.com/gdsfactory/gdsfactory/pull/657)
+    - Fix a bug where calling make_symlink on an already-existing install would raise an error
+    - Generalizes installing things to KLayout, and provides a new method for installing custom PDKs/technology to KLayout
+
+## [5.25.1](https://github.com/gdsfactory/gdsfactory/pull/655)
+
+- Component.plot() takes kwargs to configure the settings for matplotlib
+
+
+## [5.25.0](https://github.com/gdsfactory/gdsfactory/pull/651)
+
+- rewrite get_netlist() to be more robust and to warn about more issues in optical routing. [PR](https://github.com/gdsfactory/gdsfactory/pull/651)
+- documentation improvements [PR](https://github.com/gdsfactory/gdsfactory/pull/654)
+
+## [5.24.1](https://github.com/gdsfactory/gdsfactory/pull/650)
+
+- fix lazy parallelism with new sparameter port naming conventions [PR](https://github.com/gdsfactory/gdsfactory/pull/649)
+
+## [5.24.0](https://github.com/gdsfactory/gdsfactory/pull/644)
+
+- write sparameters works with arbitrary port naming convention and different input modes. `o1@0,o2@0` for meep and tidy3d. where `o1` is in the input port `@0` is the first mode, and `o2@0` refers to `o2` port mode `0`
+- add `csv_to_npz` function in `gf.simulation.convert_sparameters.py` to convert old sims into new ones.
+
+
+## [5.23.1](https://github.com/gdsfactory/gdsfactory/pull/642)
+
+- sort cells by name before writing gds to get a binary equivalent.
+
+
+## [5.23.0](https://github.com/gdsfactory/gdsfactory/pull/641)
+
+-  extended get_bundle to enable s_bend routing when there is no space for Manhattan routing. fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/55) [PR](https://github.com/gdsfactory/gdsfactory/pull/639)
+
+## [5.22.3](https://github.com/gdsfactory/gdsfactory/pull/637)
+
+- component_sequence has the same named scheme it used to have before adding named_references
+- add flip option to component_sequence
+
+## 5.22.2
+
+- fail difftest when passing n to reject changes [PR](https://github.com/gdsfactory/gdsfactory/pull/635)
+- don't cache import_gds in read.from_phidl. Add capability to pass a layer as a string to outline() [PR](https://github.com/gdsfactory/gdsfactory/pull/636)
+
+## [5.22.0](https://github.com/gdsfactory/gdsfactory/pull/634)
+
+- more robust geometric_hash [PR](https://github.com/amccaugh/phidl/pull/157) rounds to 0.1nm by default
+- `Component.get_netlist()` returns a Dict instead of OmegaConf.DictConfig (faster)
+- remove `Component.get_netlist_dict()` in favor of `Component.get_netlist()`
+
+## [5.21.1](https://github.com/gdsfactory/gdsfactory/pull/633)
+
+- reduce unnecessary usage of deepcopy
+
+## [5.21.0](https://github.com/gdsfactory/gdsfactory/pull/631)
+
+- Thanks to the counter `Component.add_array` has the same naming convention as `Component.add_ref` [PR](https://github.com/gdsfactory/gdsfactory/pull/630)
+- remove picwriter dependency and lazy load scipy functions from init
+
+## [5.20.0](https://github.com/gdsfactory/gdsfactory/pull/628)
+
+- add file storage class that can use local file cache and cloud buckets [PR](https://github.com/gdsfactory/gdsfactory/pull/626)
+- [PR](https://github.com/gdsfactory/gdsfactory/pull/624)
+    * make reference naming more reliable, by replacing the alias and aliases attributes with `named_references` property called name, which is guaranteed to always stay in sync with Component.references. Because name and owner are both changed to properties, we also guard against strange cases where either are changed midway through creating a component.
+    * add deprecation warning for alias/aliases
+- add gf.read.import_gdspy
+- add_ref adds default alias with incremental names using a counter.
+
+## [5.19.1](https://github.com/gdsfactory/gdsfactory/pull/620)
+
+- Rewrote model_from_gdsfactory to GDSFactorySimphonyWrapper. Similar to Simphony's SiPANN wrapper [PR](https://github.com/gdsfactory/gdsfactory/pull/619)
+- `gf.routing.get_route()` has `with_sbend` that allows failing routes to route using Sbend.
+
+## [5.19.0](https://github.com/gdsfactory/gdsfactory/pull/617)
+
+- add_ref adds default alias with incremental names.
+- get_netlist returns better instance names, uses aliases by default instead of labels.
+- gf.read.from_yaml accepts a dict and DictConfig as well as filepath and string.
+- Add s_bend option to gf.routing.get_route [PR](https://github.com/gdsfactory/gdsfactory/pull/616) closes [issue](https://github.com/gdsfactory/gdsfactory/issues/51)
+
+## [5.18.5](https://github.com/gdsfactory/gdsfactory/pull/613)
+
+- add layer_via and layer_metal to cross_section.pn. None by default.
+- fix yaml rotation [issue](https://github.com/gdsfactory/gdsfactory/issues/295)
+- add components.cutback_2x2
+- add components.cutback_splitter
+- make `pip install gdsfactory[tidy3d]` available instead of `pip install gdsfactory[full]`
+- upgrade notebooks to `sax==0.8.0` and pin `sax==0.8.0` in `pip install gdsfactory[full]`
+
+## 5.18.4
+
+- fix AttributeError (component.info is sometimes None) [PR](https://github.com/gdsfactory/gdsfactory/pull/607)
+- adding ports and copying child info in transformed cell wrapper [PR](https://github.com/gdsfactory/gdsfactory/pull/604)
+
+## [5.18.3](https://github.com/gdsfactory/gdsfactory/pull/594)
+
+- Remove picwriter dependencies [issue](https://github.com/gdsfactory/gdsfactory/issues/471)
+- fix shear ports [PR](https://github.com/gdsfactory/gdsfactory/pull/596)
+- fix recursive_netlist [PR](https://github.com/gdsfactory/gdsfactory/pull/595)
+- add components.cutback_splitter
+- adding ports and copying child info in transformed cell wrapper [PR](https://github.com/gdsfactory/gdsfactory/pull/604)
+
 ## [5.18.1](https://github.com/gdsfactory/gdsfactory/pull/594)
 
 - add kwargs to bezier and change coupler_adiabatic from picwriter to adiabatic coupler
@@ -793,7 +1040,7 @@
 
 ## 4.6.2
 
-- add Component.get_netlist_dict
+- add Component.get_netlist
 - document gdsfactory to sax
 
 ## [4.6.1](https://github.com/gdsfactory/gdsfactory/pull/261)

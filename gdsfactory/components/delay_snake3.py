@@ -1,7 +1,5 @@
 import warnings
 
-import numpy as np
-
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler180
@@ -70,22 +68,6 @@ def delay_snake3(
     return gf.components.component_sequence(
         sequence=sequence, symbol_to_component=symbol_to_component
     )
-
-
-def test_delay_snake3_length() -> Component:
-    length = 200.0
-    c = delay_snake3(
-        n=2,
-        length=length,
-    )
-    length_measured = (
-        c.aliases[")1"].parent.info["length"] * 2
-        + c.aliases["-1"].parent.info["length"] * 3
-    )
-    assert np.isclose(
-        length, length_measured
-    ), f"length measured = {length_measured} != {length}"
-    return c
 
 
 if __name__ == "__main__":

@@ -61,7 +61,7 @@ def write_sparameters_meep_mpi(
     wait_to_finish: bool = True,
     **kwargs,
 ) -> Path:
-    """Write Sparameters using multiple cores and MPI and returns Sparameters CSV filepath.
+    """Write Sparameters using multiple cores and MPI and returns Sparameters filepath.
 
     Simulates each time using a different input port (by default, all of them)
     unless you specify port_symmetries:
@@ -129,7 +129,7 @@ def write_sparameters_meep_mpi(
         port_monitor_offset: offset between monitor GDS port and monitor MEEP port.
 
     Returns:
-        filepath for sparameters CSV (wavelengths, s11a, s12m, ...)
+        filepath for sparameters CSV (wavelengths, s11a, o1@0,o2@0, ...)
             where `a` is the angle in radians and `m` the module.
 
     TODO:

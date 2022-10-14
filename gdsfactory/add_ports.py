@@ -299,16 +299,16 @@ def add_ports_from_labels(
     """
     port_name_prefix_default = "o" if port_type == "optical" else "e"
     port_name_prefix = port_name_prefix or port_name_prefix_default
-    xc = xcenter or component.x
     yc = component.y
 
     port_name_to_index = {}
 
+    xc = xcenter or component.x
     for i, label in enumerate(component.labels):
         x, y = label.position
 
-        if layer_label and not (
-            layer_label[0] == label.layer and layer_label[1] == label.texttype
+        if layer_label and (
+            layer_label[0] != label.layer or layer_label[1] != label.texttype
         ):
             continue
 
