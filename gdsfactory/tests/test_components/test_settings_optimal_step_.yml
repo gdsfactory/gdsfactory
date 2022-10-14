@@ -1,0 +1,30 @@
+name: optimal_step
+settings:
+  changed: {}
+  child: null
+  default:
+    anticrowding_factor: 1.2
+    end_width: 22
+    layer:
+    - 1
+    - 0
+    num_pts: 50
+    start_width: 10
+    symmetric: false
+    width_tol: 0.001
+  full:
+    anticrowding_factor: 1.2
+    end_width: 22
+    layer:
+    - 1
+    - 0
+    num_pts: 50
+    start_width: 10
+    symmetric: false
+    width_tol: 0.001
+  function_name: optimal_step
+  info:
+    num_squares: 7.986
+  info_version: 2
+  module: gdsfactory.components.optimal_step
+  name: optimal_step

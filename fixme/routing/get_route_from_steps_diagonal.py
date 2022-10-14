@@ -1,6 +1,6 @@
 """FIXME.
 
-shall we allow diagonal route for electrical connections?
+allow diagonal route for electrical connections
 """
 
 if __name__ == "__main__":

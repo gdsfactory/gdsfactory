@@ -3,47 +3,55 @@ settings:
   changed: {}
   child: null
   default:
-    angle: 0.5235987755982988
-    contradc_wgt: null
+    cross_section:
+      function: cross_section
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
+        cladding_layers:
+        - DEVREC
+        cladding_offsets:
+        - 0
     dc: 0.5
-    direction: EAST
-    dw_bot: null
-    dw_top: null
+    dx: 10.0
+    dy: 5.0
     fin_size:
     - 0.2
     - 0.05
     fins: false
     gap: 0.5
-    input_bot: false
     length: 30.0
     period: 0.22
-    port_center:
-    - 0
-    - 0
-    waveguide_template:
-      function: strip
     width_bot: 0.75
     width_top: 2.0
   full:
-    angle: 0.5235987755982988
-    contradc_wgt: null
+    cross_section:
+      function: cross_section
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
+        cladding_layers:
+        - DEVREC
+        cladding_offsets:
+        - 0
     dc: 0.5
-    direction: EAST
-    dw_bot: null
-    dw_top: null
+    dx: 10.0
+    dy: 5.0
     fin_size:
     - 0.2
     - 0.05
     fins: false
     gap: 0.5
-    input_bot: false
     length: 30.0
     period: 0.22
-    port_center:
-    - 0
-    - 0
-    waveguide_template:
-      function: strip
     width_bot: 0.75
     width_top: 2.0
   function_name: cdc
@@ -51,4 +59,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.cdc
   name: cdc
-version: 0.0.1

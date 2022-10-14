@@ -1,11 +1,12 @@
 import typing
+import warnings
 from typing import Any, Dict, List, Optional, Tuple, Union, cast
 
 import numpy as np
 from gdspy import CellReference
 from numpy import cos, float64, int64, mod, ndarray, pi, sin
-from phidl.device_layout import DeviceReference
 
+from gdsfactory.component_layout import _GeometryHelper
 from gdsfactory.port import (
     Port,
     map_ports_layer_to_orientation,
@@ -114,11 +115,8 @@ def _rotate_points(
     return displacement * ca + perpendicular * sa + c0
 
 
-class ComponentReference(DeviceReference):
-    """A ComponentReference is a pointer to a Component with x, y, rotation,.
-
-    mirror.
-    """
+class ComponentReference(CellReference, _GeometryHelper):
+    """Pointer to a Component with x, y, rotation, mirror."""
 
     def __init__(
         self,
@@ -139,13 +137,14 @@ class ComponentReference(DeviceReference):
             x_reflection=x_reflection,
             ignore_missing=False,
         )
-        self.owner = None
+        self._owner = None
+        self._name = None
 
         # The ports of a ComponentReference have their own unique id (uid),
         # since two ComponentReferences of the same parent Component can be
         # in different locations and thus do not represent the same port
         self._local_ports = {
-            name: port._copy(new_uid=True) for name, port in component.ports.items()
+            name: port._copy() for name, port in component.ports.items()
         }
         self.visual_label = visual_label
         # self.uid = str(uuid.uuid4())[:8]
@@ -157,6 +156,43 @@ class ComponentReference(DeviceReference):
     @parent.setter
     def parent(self, value):
         self.ref_cell = value
+
+    @property
+    def owner(self):
+        return self._owner
+
+    @owner.setter
+    def owner(self, value):
+        if self.owner is None or value is None:
+            self._owner = value
+        elif value != self._owner:
+            raise ValueError(
+                f"Cannot reset owner of a reference once it has already been set!"
+                f" Reference: {self}. Current owner: {self._owner}. "
+                f"Attempting to re-assign to {value!r}"
+            )
+
+    @property
+    def name(self):
+        return self._name
+
+    @name.setter
+    def name(self, value: str):
+        if value != self._name:
+            if self.owner and value in self.owner.named_references:
+                raise ValueError(
+                    f"This reference's owner already has a reference with name {value!r}. Please choose another name."
+                )
+            self._name = value
+            self.owner._reference_names_used.add(value)
+
+    @property
+    def alias(self):
+        warnings.warn(
+            "alias attribute is deprecated and may be removed in a future version of gdsfactory",
+            DeprecationWarning,
+        )
+        return self.name
 
     def __repr__(self) -> str:
         """Return a string representation of the object."""
@@ -171,10 +207,6 @@ class ComponentReference(DeviceReference):
                 self.x_reflection,
             )
         )
-
-    def __str__(self) -> str:
-        """Return a string representation of the object."""
-        return self.__repr__()
 
     def to_dict(self):
         d = self.parent.to_dict()
@@ -221,7 +253,7 @@ class ComponentReference(DeviceReference):
         except Exception as exc:
             raise ValueError(
                 '[PHIDL] Tried to access alias "%s" from parent '
-                'Device "%s", which does not exist' % (val, self.parent.name)
+                'Component "%s", which does not exist' % (val, self.parent.name)
             ) from exc
         new_reference = ComponentReference(
             alias_device.parent,
@@ -418,7 +450,7 @@ class ComponentReference(DeviceReference):
     def rotate(
         self,
         angle: float = 45,
-        center: Coordinate = (0.0, 0.0),
+        center: Union[Coordinate, str, int] = (0.0, 0.0),
     ) -> "ComponentReference":
         """Return rotated ComponentReference.
 
@@ -468,14 +500,16 @@ class ComponentReference(DeviceReference):
         self.reflect((1, y0), (0, y0))
         return self
 
-    def reflect(
+    def mirror(
         self,
         p1: Coordinate = (0.0, 1.0),
         p2: Coordinate = (0.0, 0.0),
     ) -> "ComponentReference":
-        """TODO.
+        """Mirrors.
 
-        Delete this code and rely on phidl's mirror code.
+        Args:
+            p1: point 1.
+            p2: point 2.
         """
         if isinstance(p1, Port):
             p1 = p1.center
@@ -504,6 +538,13 @@ class ComponentReference(DeviceReference):
 
         self._bb_valid = False
         return self
+
+    def reflect(self, *args, **kwargs):
+        warnings.warn(
+            "reflect is deprecated and may be removed in a future version of gdsfactory. Use mirror instead.",
+            DeprecationWarning,
+        )
+        return self.mirror(*args, **kwargs)
 
     def connect(
         self,

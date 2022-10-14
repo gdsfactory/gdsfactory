@@ -27,10 +27,6 @@ settings:
           links:
             bl,e3: br,e1
             tl,e3: tr,e1
-          routing_strategy: get_bundle_path_length_match
-          settings:
-            extra_length: 500
-            radius: 10
   child: null
   default:
     label_instance_function:
@@ -53,6 +49,7 @@ settings:
               port_types:
               - electrical
               - electrical
+              radius: null
               width: 10.0
       get_bundle_from_steps:
         function: get_bundle_from_steps
@@ -71,6 +68,7 @@ settings:
               port_types:
               - electrical
               - electrical
+              radius: null
               width: 10.0
       get_bundle_from_waypoints:
         function: get_bundle_from_waypoints
@@ -105,10 +103,6 @@ settings:
           links:
             bl,e3: br,e1
             tl,e3: tr,e1
-          routing_strategy: get_bundle_path_length_match
-          settings:
-            extra_length: 500
-            radius: 10
     label_instance_function:
       function: add_instance_label
     routing_strategy:
@@ -129,6 +123,7 @@ settings:
               port_types:
               - electrical
               - electrical
+              radius: null
               width: 10.0
       get_bundle_from_steps:
         function: get_bundle_from_steps
@@ -147,6 +142,7 @@ settings:
               port_types:
               - electrical
               - electrical
+              radius: null
               width: 10.0
       get_bundle_from_waypoints:
         function: get_bundle_from_waypoints
@@ -155,8 +151,12 @@ settings:
       get_bundle_same_axis_no_grouping:
         function: get_bundle_same_axis_no_grouping
   function_name: _from_yaml
-  info: {}
+  info:
+    instances:
+    - bl
+    - tl
+    - br
+    - tr
   info_version: 2
   module: gdsfactory.read.from_yaml
   name: sample_path_length_matc_80997953
-version: 0.0.1

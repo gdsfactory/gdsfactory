@@ -2,11 +2,14 @@ import copy as python_copy
 import datetime
 import hashlib
 import itertools
+import math
 import os
 import pathlib
 import tempfile
 import uuid
 import warnings
+from collections import Counter
+from collections.abc import Iterable
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
@@ -15,9 +18,17 @@ import numpy as np
 import yaml
 from numpy import int64
 from omegaconf import DictConfig, OmegaConf
-from phidl.device_layout import CellArray, Device, Label, _parse_layer
 from typing_extensions import Literal
 
+from gdsfactory.component_layout import (
+    CellArray,
+    Label,
+    Polygon,
+    _align,
+    _distribute,
+    _GeometryHelper,
+    _parse_layer,
+)
 from gdsfactory.component_reference import ComponentReference, Coordinate, SizeInfo
 from gdsfactory.config import CONF, logger
 from gdsfactory.cross_section import CrossSection
@@ -61,7 +72,6 @@ c.add_ref(gf.components.bend_euler())
 c.add_ref(gf.components.mzi())
 """
 
-
 PathType = Union[str, Path]
 Float2 = Tuple[float, float]
 Layer = Tuple[int, int]
@@ -74,21 +84,26 @@ _timestamp2019 = datetime.datetime.fromtimestamp(1572014192.8273)
 MAX_NAME_LENGTH = 32
 
 
-class Component(Device):
-    """A Component is like an empty canvas, where you can add polygons,.
+def _rnd(arr, precision=1e-4):
+    arr = np.ascontiguousarray(arr)
+    ndigits = round(-math.log10(precision))
+    return np.ascontiguousarray(arr.round(ndigits) / precision, dtype=np.int64)
 
-    references to other Components and ports (to connect to other components).
 
-    - get/write YAML metadata
-    - get ports by type (optical, electrical ...)
-    - set data_analysis and test_protocols
+class Component(gdspy.Cell, _GeometryHelper):
+    """A Component is an empty canvas where you add polygons, references and ports \
+            (to connect to other components).
+
+    - stores settings that you use to build the component
+    - stores info that you want to use
+    - can return ports by type (optical, electrical ...)
+    - can return netlist for circuit simulation
+    - can write to GDS, OASIS
+    - can show in klayout, matplotlib, 3D, QT viewer, holoviews
+    - can return copy, mirror, flattened (no references)
 
     Args:
         name: component_name. Use @cell decorator for auto-naming.
-        version: component version.
-        changelog: changes from the last version.
-
-    Keyword Args:
         with_uuid: adds unique identifier.
 
     Properties:
@@ -109,26 +124,38 @@ class Component(Device):
     def __init__(
         self,
         name: str = "Unnamed",
-        version: str = "0.0.1",
-        changelog: str = "",
-        **kwargs,
+        with_uuid: bool = False,
     ) -> None:
         """Initialize the Component object."""
-        self.__ports__ = {}
-        self.aliases = {}
         self.uid = str(uuid.uuid4())[:8]
-        if "with_uuid" in kwargs or name == "Unnamed":
+        if with_uuid or name == "Unnamed":
             name += f"_{self.uid}"
 
-        super().__init__(name=name, exclude_from_current=True)
-        self.name = name  # overwrite PHIDL's incremental naming convention
+        self.name = name
         self.info: Dict[str, Any] = {}
 
         self.settings: Dict[str, Any] = {}
         self._locked = False
         self.get_child_name = False
-        self.version = version
-        self.changelog = changelog
+        self._reference_names_counter = Counter()
+        self._reference_names_used = set()
+
+        self.ports = {}
+        self.aliases = {}
+
+        super().__init__(name=name, exclude_from_current=True)
+
+    def __getitem__(self, key):
+        """Allows you to access aliases D['arc2'].
+
+        Args:
+            key: Element name to access within the Component.
+
+        """
+        try:
+            return self.named_references[key]
+        except KeyError as e:
+            raise KeyError(f"{key} not in {self.named_references.keys()}") from e
 
     def __lshift__(self, element):
         """Convenience operator equivalent to add_ref()."""
@@ -145,6 +172,24 @@ class Component(Device):
         ensure one component does not change others
         """
         self._locked = True
+
+    def __setitem__(self, key, element):
+        """Allow adding polygons and cell references.
+
+        like D['arc3'] = pg.arc()
+
+        Args:
+            key: Alias name.
+            element: Object that will be accessible by alias name.
+
+        """
+        if isinstance(element, (ComponentReference, Polygon, CellArray)):
+            self.named_references[key] = element
+        else:
+            raise ValueError(
+                f"Tried to assign alias {key!r} in Component {self.name!r},"
+                "but failed because the item was not a ComponentReference"
+            )
 
     @classmethod
     def __get_validators__(cls):
@@ -166,6 +211,25 @@ class Component(Device):
             len(v.name) <= MAX_NAME_LENGTH
         ), f"name `{v.name}` {len(v.name)} > {MAX_NAME_LENGTH} "
         return v
+
+    @property
+    def named_references(self):
+        return {ref.name: ref for ref in self.references}
+
+    @property
+    def aliases(self):
+        warnings.warn(
+            "aliases attribute has been renamed to named_references and may be deprecated in a future version of gdsfactory",
+            DeprecationWarning,
+        )
+        return self.named_references
+
+    @aliases.setter
+    def aliases(self, value):
+        warnings.warn(
+            "Setting aliases is no longer supported. aliases attribute has been renamed to named_references and may be deprecated in a future version of gdsfactory. This operation will have no effect.",
+            DeprecationWarning,
+        )
 
     def add_label(
         self,
@@ -321,32 +385,27 @@ class Component(Device):
         G = self.plot_netlist()
         write_dot(G, filepath)
 
-    def get_netlist(self, **kwargs) -> DictConfig:
-        """Returns netlist dict config (instances, placements, connections,.
-
-        ports)
+    def get_netlist(self, **kwargs) -> Dict[str, Any]:
+        """From Component returns instances, connections and placements dict.
 
         Keyword Args:
             component: to extract netlist.
             full_settings: True returns all, false changed settings.
-            layer_label: label to read instanceNames from (if any).
             tolerance: tolerance in nm to consider two ports connected.
+            exclude_port_types: optional list of port types to exclude from netlisting.
+            get_instance_name: function to get instance name.
 
         Returns:
-            instances: Dict of instance name and settings.
-            connections: Dict of Instance1Name,portName: Instace2Name,portName.
-            placements: Dict of instance names and placements (x, y, rotation).
-            port: Dict portName: ComponentName,port.
-            name: name of component.
+            Netlist dict (instances, connections, placements, ports)
+                instances: Dict of instance name and settings.
+                connections: Dict of Instance1Name,portName: Instace2Name,portName.
+                placements: Dict of instance names and placements (x, y, rotation).
+                ports: Dict portName: ComponentName,port.
+                name: name of component.
         """
         from gdsfactory.get_netlist import get_netlist
 
         return get_netlist(component=self, **kwargs)
-
-    def get_netlist_dict(self, **kwargs) -> Dict[str, Any]:
-        from gdsfactory.get_netlist import get_netlist_dict
-
-        return get_netlist_dict(component=self, **kwargs)
 
     def get_netlist_recursive(self, **kwargs) -> Dict[str, DictConfig]:
         """Returns recursive netlist for a component and subcomponents.
@@ -357,8 +416,9 @@ class Component(Device):
                 useful if to save and reload a back-annotated netlist.
             get_netlist_func: function to extract individual netlists.
             full_settings: True returns all, false changed settings.
-            layer_label: label to read instanceNames from (if any).
             tolerance: tolerance in nm to consider two ports connected.
+            exclude_port_types: optional list of port types to exclude from netlisting.
+            get_instance_name: function to get instance name.
 
         Returns:
             Dictionary of netlists, keyed by the name of each component.
@@ -371,6 +431,46 @@ class Component(Device):
         """Asserts that all ports are on grid."""
         for port in self.ports.values():
             port.assert_on_grid(nm=nm)
+
+    def get_ports(self, depth=None):
+        """Returns copies of all the ports of the Component, rotated and \
+                translated so that they're in their top-level position.
+
+        The Ports returned are copies of the originals, but each copy has the same
+        ``uid`` as the original so that they can be traced back to the original if needed.
+
+        Args:
+            depth : int or None
+                If not None, defines from how many reference levels to
+                retrieve Ports from.
+
+        Returns:
+            port_list : list of Port List of all Ports in the Component.
+        """
+        port_list = [p._copy() for p in self.ports.values()]
+
+        if depth is None or depth > 0:
+            for r in self.references:
+                new_depth = None if depth is None else depth - 1
+                ref_ports = r.parent.get_ports(depth=new_depth)
+
+                # Transform ports that came from a reference
+                ref_ports_transformed = []
+                for rp in ref_ports:
+                    new_port = rp._copy()
+                    new_center, new_orientation = r._transform_port(
+                        rp.center,
+                        rp.orientation,
+                        r.origin,
+                        r.rotation,
+                        r.x_reflection,
+                    )
+                    new_port.center = new_center
+                    new_port.new_orientation = new_orientation
+                    ref_ports_transformed.append(new_port)
+                port_list += ref_ports_transformed
+
+        return port_list
 
     def get_ports_dict(self, **kwargs) -> Dict[str, Port]:
         """Returns a dict of ports.
@@ -443,7 +543,7 @@ class Component(Device):
 
     def __repr__(self) -> str:
         """Return a string representation of the object."""
-        return f"{self.name}: uid {self.uid}, ports {list(self.ports.keys())}, aliases {list(self.aliases.keys())}, {len(self.polygons)} polygons, {len(self.references)} references"
+        return f"{self.name}: uid {self.uid}, ports {list(self.ports.keys())}, references {list(self.named_references.keys())}, {len(self.polygons)} polygons"
 
     def pprint(self) -> None:
         """Prints component info."""
@@ -509,13 +609,13 @@ class Component(Device):
         if port:
             if not isinstance(port, Port):
                 raise ValueError(f"add_port() needs a Port, got {type(port)}")
-            p = port.copy(new_uid=True)
+            p = port.copy()
             if name is not None:
                 p.name = name
             p.parent = self
 
         elif isinstance(name, Port):
-            p = name.copy(new_uid=True)
+            p = name.copy()
             p.parent = self
             name = p.name
         else:
@@ -523,18 +623,6 @@ class Component(Device):
                 raise ValueError("Port needs width parameter (um).")
             if center is None:
                 raise ValueError("Port needs center parameter (x, y) um.")
-
-            # half_width = width / 2
-            # half_width_correct = snap_to_grid(half_width, nm=1)
-            # if not np.isclose(half_width, half_width_correct):
-            #     warnings.warn(
-            #         f"port width = {width} will create off-grid points.\n"
-            #         f"You can fix it by changing width to {2*half_width_correct}\n"
-            #         f"port {name}, {center}  {orientation} deg",
-            #         stacklevel=3,
-            #     )
-            # width = snap_to_grid(width)
-            # center = snap_to_grid(center)
 
             p = Port(
                 name=name,
@@ -640,7 +728,7 @@ class Component(Device):
     ) -> "Component":
         """Extract polygons from a Component and returns a new Component.
 
-        Adapted from phidl.geometry.
+        based on phidl.geometry.
         """
         from gdsfactory.name import clean_value
 
@@ -663,11 +751,60 @@ class Component(Device):
         """
         from gdsfactory.pdk import get_layer
 
-        return super().add_polygon(points=points, layer=get_layer(layer))
+        layer = get_layer(layer)
+
+        if layer is None:
+            return None
+
+        # Check if input a list of polygons by seeing if it's 3 levels deep
+        try:
+            points[0][0][0]  # Try to access first x point
+            return [self.add_polygon(p, layer) for p in points]
+        except Exception:
+            pass  # Verified points is not a list of polygons, continue on
+
+        if isinstance(points, gdspy.PolygonSet):
+            if layer is np.nan:
+                layers = zip(points.layers, points.datatypes)
+            else:
+                layers = [layer] * len(points.polygons)
+
+            polygons = []
+            for p, layer in zip(points.polygons, layers):
+                new_polygon = self.add_polygon(p, layer)
+                new_polygon.properties = points.properties
+                polygons.append(new_polygon)
+            return polygons
+
+        if layer is np.nan:
+            layer = 0
+
+        # Check if layer is actually a list of Layer objects
+        try:
+            if isinstance(layer, set):
+                return [self.add_polygon(points, ly) for ly in layer]
+            elif all(isinstance(ly, (Layer)) for ly in layer):
+                return [self.add_polygon(points, ly) for ly in layer]
+            elif len(layer) > 2:  # Someone wrote e.g. layer = [1,4,5]
+                raise ValueError(
+                    "If you specify multiple layers you must use set notation, e.g. {1,5,8} "
+                )
+        except Exception:
+            pass
+
+        # If in the form [[1,3,5],[2,4,6]]
+        if len(points[0]) > 2:
+            # Convert to form [[1,2],[3,4],[5,6]]
+            points = np.column_stack(points)
+
+        gds_layer, gds_datatype = _parse_layer(layer)
+        polygon = Polygon(
+            points=points, gds_layer=gds_layer, gds_datatype=gds_datatype, parent=self
+        )
+        self.add(polygon)
+        return polygon
 
     def copy(self) -> "Component":
-        from gdsfactory.copy import copy
-
         return copy(self)
 
     def copy_child_info(self, component: "Component") -> None:
@@ -680,7 +817,7 @@ class Component(Device):
 
         self.get_child_name = True
         self.child = component
-        self.info.update(python_copy.deepcopy(component.info))
+        self.info.update(component.info)
 
     @property
     def size_info(self) -> SizeInfo:
@@ -694,27 +831,44 @@ class Component(Device):
             or self.metadata_child.get(setting)
         )
 
-    def is_unlocked(self) -> None:
+    def _check_unlocked(self) -> None:
         """Raises error if Component is locked."""
         if self._locked:
             raise MutabilityError(
-                f"Component {self.name!r} cannot be modified as it is already on cache. "
+                f"Component {self.name!r} cannot be modified as it's already on cache. "
                 + mutability_error_message
             )
+
+    def _add(self, element) -> None:
+        """Add a new element or list of elements to this Component.
+
+        Args:
+            element: `PolygonSet`, `CellReference`, `CellArray` or iterable
+            The element or iterable of elements to be inserted in this cell.
+
+        Raises:
+            MutabilityError: if component is locked.
+        """
+        self._check_unlocked()
+        super().add(element)
 
     def add(self, element) -> None:
         """Add a new element or list of elements to this Component.
 
         Args:
             element: `PolygonSet`, `CellReference`, `CellArray` or iterable
-            The element or iterable of elements to be inserted in this
-            cell.
+                The element or iterable of elements to be inserted in this cell.
 
         Raises:
             MutabilityError: if component is locked.
         """
-        self.is_unlocked()
-        super().add(element)
+        self._add(element)
+        if isinstance(element, (gdspy.CellReference, gdspy.CellArray)):
+            self._register_reference(element)
+        if isinstance(element, Iterable):
+            for i in element:
+                if isinstance(i, (gdspy.CellReference, gdspy.CellArray)):
+                    self._register_reference(i)
 
     def add_array(
         self,
@@ -738,18 +892,65 @@ class Component(Device):
             a: CellArray containing references to the Component.
         """
         if not isinstance(component, Component):
-            raise TypeError("""add_array() needs a Component object. """)
+            raise TypeError("add_array() needs a Component object.")
         ref = CellArray(
             device=component,
             columns=int(round(columns)),
             rows=int(round(rows)),
             spacing=spacing,
         )
-        ref.owner = self
-        self.add(ref)  # Add ComponentReference Component
-        if alias is not None:
-            self.aliases[alias] = ref
+        ref.name = None
+        self._add(ref)
+        self._register_reference(reference=ref, alias=alias)
         return ref
+
+    def distribute(
+        self, elements="all", direction="x", spacing=100, separation=True, edge="center"
+    ):
+        """Distributes the specified elements in the Component.
+
+        Args:
+            elements : array-like of objects or 'all'
+                Elements to distribute.
+            direction : {'x', 'y'}
+                Direction of distribution; either a line in the x-direction or
+                y-direction.
+            spacing : int or float
+                Distance between elements.
+            separation : bool
+                If True, guarantees elements are separated with a fixed spacing
+                between; if  False, elements are spaced evenly along a grid.
+            edge : {'x', 'xmin', 'xmax', 'y', 'ymin', 'ymax'}
+                Which edge to perform the distribution along (unused if
+                separation == True)
+
+        """
+        if elements == "all":
+            elements = self.polygons + self.references
+        _distribute(
+            elements=elements,
+            direction=direction,
+            spacing=spacing,
+            separation=separation,
+            edge=edge,
+        )
+        return self
+
+    def align(self, elements="all", alignment="ymax"):
+        """Align elements in the Component.
+
+        Args:
+            elements : array-like of objects, or 'all'
+                Elements in the Component to align.
+            alignment : {'x', 'y', 'xmin', 'xmax', 'ymin', 'ymax'}
+                Which edge to align along (e.g. 'ymax' will move the elements such
+                that all of their topmost points are aligned)
+
+        """
+        if elements == "all":
+            elements = self.polygons + self.references
+        _align(elements, alignment=alignment)
+        return self
 
     def flatten(self, single_layer: Optional[Tuple[int, int]] = None):
         """Returns a flattened copy of the component.
@@ -773,25 +974,61 @@ class Component(Device):
         return component_flat
 
     def flatten_reference(self, ref: ComponentReference):
+        """From existing cell replaces reference with a flatten reference \
+        which has the transformations already applied.
+
+        Transformed reference keeps the original name.
+
+        Args:
+            ref: the reference to flatten into a new cell.
+
+        """
         from gdsfactory.functions import transformed
 
         self.remove(ref)
         new_component = transformed(ref, decorator=None)
-        self.add_ref(new_component)
+        self.add_ref(new_component, alias=ref.name)
 
     def add_ref(
         self, component: "Component", alias: Optional[str] = None
     ) -> "ComponentReference":
         """Add ComponentReference to the current Component."""
-        if not isinstance(component, Device):
+        if not isinstance(component, Component):
             raise TypeError(f"type = {type(Component)} needs to be a Component.")
         ref = ComponentReference(component)
-        ref.owner = self
-        self.add(ref)
-
-        if alias is not None:
-            self.aliases[alias] = ref
+        self._add(ref)
+        self._register_reference(reference=ref, alias=alias)
         return ref
+
+    def _register_reference(
+        self, reference: ComponentReference, alias: Optional[str] = None
+    ) -> None:
+        component = reference.parent
+        reference.owner = self
+
+        if alias is None:
+            if reference.name is not None:
+                alias = reference.name
+            else:
+                prefix = (
+                    component.settings.function_name
+                    if hasattr(component, "settings")
+                    and hasattr(component.settings, "function_name")
+                    else component.name
+                )
+                self._reference_names_counter.update({prefix: 1})
+                alias = f"{prefix}_{self._reference_names_counter[prefix]}"
+
+                while alias in self._reference_names_used:
+                    self._reference_names_counter.update({prefix: 1})
+                    alias = f"{prefix}_{self._reference_names_counter[prefix]}"
+
+        reference.name = alias
+
+    @property
+    def layers(self):
+        """Returns a set of the Layers in the Component."""
+        return self.get_layers()
 
     def get_layers(self) -> Union[Set[Tuple[int, int]], Set[Tuple[int64, int64]]]:
         """Return a set of (layer, datatype).
@@ -824,7 +1061,18 @@ class Component(Device):
         Args:
             plotter: backend ('holoviews', 'matplotlib', 'qt').
 
-        KeyError Args:
+        Keyword Args:
+            show_ports: Sets whether ports are drawn.
+            show_subports: Sets whether subports (ports that belong to references) are drawn.
+            label_aliases: Sets whether aliases are labeled with a text name.
+            new_window: If True, each call to quickplot() will generate a separate window.
+            blocking: If True, calling quickplot() will pause execution of ("block") the
+                remainder of the python code until the quickplot() window is closed.
+                If False, the window will be opened and code will continue to run.
+            zoom_factor: Sets the scaling factor when zooming the quickplot window with the
+                mousewheel/trackpad.
+            interactive_zoom: Enables using mousewheel/trackpad to zoom.
+            fontsize: for labels.
             layers_excluded: list of layers to exclude.
             layer_colors: layer_colors colors loaded from Klayout.
             min_aspect: minimum aspect ratio.
@@ -832,9 +1080,9 @@ class Component(Device):
         plotter = plotter or CONF.get("plotter", "matplotlib")
 
         if plotter == "matplotlib":
-            from gdsfactory.quickplotter import quickplot as plot
+            from gdsfactory.quickplotter import quickplot
 
-            return plot(self)
+            return quickplot(self, **kwargs)
         elif plotter == "holoviews":
             try:
                 import holoviews as hv
@@ -1012,7 +1260,7 @@ class Component(Device):
         gdspath: Optional[PathType] = None,
         gdsdir: Optional[PathType] = None,
         unit: float = 1e-6,
-        precision: float = 1e-9,
+        precision: Optional[float] = None,
         timestamp: Optional[datetime.datetime] = _timestamp2019,
         logging: bool = True,
         on_duplicate_cell: Optional[str] = "warn",
@@ -1033,6 +1281,10 @@ class Component(Device):
                 "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
                 None: do not try to resolve (at your own risk!)
         """
+        from gdsfactory.pdk import get_grid_size
+
+        precision = precision or get_grid_size() * 1e-6
+
         gdsdir = (
             gdsdir or pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
         )
@@ -1066,7 +1318,7 @@ class Component(Device):
                     f"on_duplicate_cell: {on_duplicate_cell!r} not in (None, warn, error, overwrite)"
                 )
 
-        all_cells = [self] + list(cells)
+        all_cells = [self] + sorted(cells, key=lambda cc: cc.name)
 
         no_name_cells = [
             cell.name for cell in all_cells if cell.name.startswith("Unnamed")
@@ -1151,7 +1403,6 @@ class Component(Device):
             d["cells"] = clean_dict(cells)
 
         d["name"] = self.name
-        d["version"] = self.version
         d["settings"] = dict(self.settings)
         return d
 
@@ -1173,8 +1424,8 @@ class Component(Device):
         layer_to_polygons = self.get_polygons(by_spec=True)
 
         for layer, polygons_layer in layer_to_polygons.items():
+            layer_name = f"{layer[0]}_{layer[1]}"
             for polygon in polygons_layer:
-                layer_name = f"{layer[0]}_{layer[1]}"
                 polygons[layer_name] = [tuple(snap_to_grid(v)) for v in polygon]
 
         ports = {port.name: port.settings for port in self.get_ports_list()}
@@ -1205,15 +1456,15 @@ class Component(Device):
                  |   |
                  8   7
         """
-        self.is_unlocked()
+        self._check_unlocked()
         auto_rename_ports(self, **kwargs)
 
     def auto_rename_ports_counter_clockwise(self, **kwargs) -> None:
-        self.is_unlocked()
+        self._check_unlocked()
         auto_rename_ports_counter_clockwise(self, **kwargs)
 
     def auto_rename_ports_layer_orientation(self, **kwargs) -> None:
-        self.is_unlocked()
+        self._check_unlocked()
         auto_rename_ports_layer_orientation(self, **kwargs)
 
     def auto_rename_ports_orientation(self, **kwargs) -> None:
@@ -1236,7 +1487,7 @@ class Component(Device):
                  |   |
                 S0   S1
         """
-        self.is_unlocked()
+        self._check_unlocked()
         auto_rename_ports_orientation(self, **kwargs)
 
     def move(
@@ -1317,9 +1568,7 @@ class Component(Device):
         """
         if reference not in self.references:
             raise ValueError(
-                """[PHIDL] Component.absorb() failed -
-                the reference it was asked to absorb does not
-                exist in this Component. """
+                "The reference you asked to absorb does not exist in this Component."
             )
         ref_polygons = reference.get_polygons(by_spec=True)
         for (layer, polys) in ref_polygons.items():
@@ -1329,6 +1578,154 @@ class Component(Device):
         self.add(reference.parent.paths)
         self.remove(reference)
         return self
+
+    def remove(self, items):
+        """Removes items from a Component, which can include Ports, PolygonSets \
+        CellReferences, ComponentReferences and Labels.
+
+        Args:
+            items: list of Items to be removed from the Component.
+        """
+        if not hasattr(items, "__iter__"):
+            items = [items]
+        for item in items:
+            if isinstance(item, Port):
+                self.ports = {k: v for k, v in self.ports.items() if v != item}
+            elif isinstance(item, gdspy.PolygonSet):
+                self.polygons.remove(item)
+            elif isinstance(item, (gdspy.CellReference, gdspy.CellArray)):
+                self.references.remove(item)
+                item.owner = None
+            elif isinstance(item, gdspy.Label):
+                self.labels.remove(item)
+
+        self._bb_valid = False
+        return self
+
+    def hash_geometry(self, precision: float = 1e-4) -> str:
+        """Returns an SHA1 hash of the geometry in the Component.
+
+        For each layer, each polygon is individually hashed and then the polygon hashes
+        are sorted, to ensure the hash stays constant regardless of the ordering
+        the polygons.  Similarly, the layers are sorted by (layer, datatype).
+
+        Args:
+            precision: Rounding precision for the the objects in the Component.
+                For instance, a precision of 1e-2 will round a point at
+                (0.124, 1.748) to (0.12, 1.75).
+
+        """
+        polygons_by_spec = self.get_polygons(by_spec=True)
+        layers = np.array(list(polygons_by_spec.keys()))
+        sorted_layers = layers[np.lexsort((layers[:, 0], layers[:, 1]))]
+
+        final_hash = hashlib.sha1()
+        for layer in sorted_layers:
+            layer_hash = hashlib.sha1(layer.astype(np.int64)).digest()
+            polygons = polygons_by_spec[tuple(layer)]
+            polygons = [_rnd(p, precision) for p in polygons]
+            polygon_hashes = np.sort([hashlib.sha1(p).digest() for p in polygons])
+            final_hash.update(layer_hash)
+            for ph in polygon_hashes:
+                final_hash.update(ph)
+
+        return final_hash.hexdigest()
+
+    # Deprecated
+    def get_info(self):
+        """Gathers the .info dictionaries from every sub-Component and returns them in a list.
+
+        Args:
+            depth: int or None
+                If not None, defines from how many reference levels to
+                retrieve Ports from.
+
+        Returns:
+            list of dictionaries
+                List of the ".info" property dictionaries from all sub-Components
+        """
+        D_list = self.get_dependencies(recursive=True)
+        return [D.info.copy() for D in D_list]
+
+    def remap_layers(self, layermap, include_labels: bool = True):
+        """Moves all polygons in the Component from one layer to another according to the layermap argument.
+
+        Args:
+            layermap: Dictionary of values in format {layer_from : layer_to}.
+            include_labels: Selects whether to move Labels along with polygons.
+        """
+        layermap = {_parse_layer(k): _parse_layer(v) for k, v in layermap.items()}
+
+        all_D = list(self.get_dependencies(True))
+        all_D.append(self)
+        for D in all_D:
+            for p in D.polygons:
+                for n, _layer in enumerate(p.layers):
+                    original_layer = (p.layers[n], p.datatypes[n])
+                    original_layer = _parse_layer(original_layer)
+                    if original_layer in layermap:
+                        new_layer = layermap[original_layer]
+                        p.layers[n] = new_layer[0]
+                        p.datatypes[n] = new_layer[1]
+            if include_labels:
+                for label in D.labels:
+                    original_layer = (label.layer, label.texttype)
+                    original_layer = _parse_layer(original_layer)
+                    if original_layer in layermap:
+                        new_layer = layermap[original_layer]
+                        label.layer = new_layer[0]
+                        label.texttype = new_layer[1]
+        return self
+
+
+def copy(D: Component) -> Component:
+    """Returns a Component copy.
+
+    Args:
+        D: component to copy.
+    """
+    D_copy = Component()
+    D_copy.info = python_copy.deepcopy(D.info)
+    for ref in D.references:
+        if isinstance(ref, gdspy.CellReference):
+            new_ref = ComponentReference(
+                ref.parent,
+                origin=ref.origin,
+                rotation=ref.rotation,
+                magnification=ref.magnification,
+                x_reflection=ref.x_reflection,
+            )
+            new_ref.owner = D_copy
+            new_ref.name = ref.name if hasattr(ref, "name") else ref.parent.name
+        elif isinstance(ref, gdspy.CellArray):
+            new_ref = CellArray(
+                device=ref.parent,
+                columns=ref.columns,
+                rows=ref.rows,
+                spacing=ref.spacing,
+                origin=ref.origin,
+                rotation=ref.rotation,
+                magnification=ref.magnification,
+                x_reflection=ref.x_reflection,
+            )
+            new_ref.name = ref.name if hasattr(ref, "name") else ref.parent.name
+        else:
+            raise ValueError(f"Got a reference of non-standard type: {type(ref)}")
+        D_copy.add(new_ref)
+
+    for port in D.ports.values():
+        D_copy.add_port(port=port)
+    for poly in D.polygons:
+        D_copy.add_polygon(poly)
+    for path in D.paths:
+        D_copy.add(path)
+    for label in D.labels:
+        D_copy.add_label(
+            text=label.text,
+            position=label.position,
+            layer=(label.layer, label.texttype),
+        )
+    return D_copy
 
 
 def test_get_layers() -> Component:
@@ -1413,7 +1810,7 @@ def test_netlist_simple() -> None:
     import gdsfactory as gf
 
     c = gf.Component()
-    c1 = c << gf.components.straight(length=1, width=1)
+    c1 = c << gf.components.straight(length=1, width=2)
     c2 = c << gf.components.straight(length=2, width=2)
     c2.connect(port="o1", destination=c1.ports["o2"])
     c.add_port("o1", port=c1.ports["o1"])
@@ -1421,6 +1818,21 @@ def test_netlist_simple() -> None:
     netlist = c.get_netlist()
     # print(netlist.pretty())
     assert len(netlist["instances"]) == 2
+
+
+def test_netlist_simple_width_mismatch_throws_error() -> None:
+    import pytest
+
+    import gdsfactory as gf
+
+    c = gf.Component()
+    c1 = c << gf.components.straight(length=1, width=1)
+    c2 = c << gf.components.straight(length=2, width=2)
+    c2.connect(port="o1", destination=c1.ports["o2"])
+    c.add_port("o1", port=c1.ports["o1"])
+    c.add_port("o2", port=c2.ports["o2"])
+    with pytest.raises(ValueError):
+        c.get_netlist()
 
 
 def test_netlist_complex() -> None:
@@ -1479,6 +1891,10 @@ def test_bbox_component() -> None:
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.bend_euler()
-    c2 = c.mirror()
-    print(c2.info)
+    # c = gf.components.bend_euler()
+    # c2 = c.mirror()
+    # print(c2.info)
+    c = gf.c.mzi()
+    # c.hash_geometry()
+    print(c.get_polygons(by_spec=True))
+    c.show(show_ports=True)

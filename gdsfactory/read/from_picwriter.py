@@ -4,17 +4,9 @@ https://picwriter.readthedocs.io/en/latest/component-documentation.html
 As it is based on gdspy it's easier to wrap picwriter components
 
 """
-import gdspy
 import numpy as np
-import picwriter.components as pc
-import picwriter.toolkit as pt
-from picwriter.components.waveguide import WaveguideTemplate
-from picwriter.toolkit import Component
 
-import gdsfactory as gf
-from gdsfactory.types import CrossSectionSpec, Layer
-
-gdspy.current_library = gdspy.GdsLibrary()
+from gdsfactory.types import Component, CrossSectionSpec, Layer
 
 direction_to_orientation = dict(EAST=0.0, NORTH=90.0, WEST=180.0, SOUTH=270.0)
 
@@ -24,7 +16,10 @@ def cross_section_to_waveguide_template(
     euler_bend: bool = True,
     wg_type: str = "strip",
     **kwargs
-) -> WaveguideTemplate:
+):
+
+    import picwriter.components as pc
+
     x = cross_section(**kwargs)
 
     layer = x.layer
@@ -57,7 +52,7 @@ def direction_to_degree(direction: str) -> float:
 
 
 def from_picwriter(
-    picwriter_object: pt.Component, port_layer: Layer = (1, 0)
+    picwriter_object: "Component", port_layer: Layer = (1, 0)
 ) -> Component:
     """Returns Gdsfactory Component from a picwriter component.
 
@@ -66,8 +61,15 @@ def from_picwriter(
         port_layer: to add to component ports.
 
     """
+    import gdspy
+    import picwriter.toolkit as pt
+
+    import gdsfactory as gf
+
+    gdspy.current_library = gdspy.GdsLibrary()
+
     po = picwriter_object
-    c = gf.Component(name=po.name_prefix)
+    c = Component(name=po.name_prefix)
 
     # Extract the relevant cells from the picwriter global cell list
     po_cell = pt.CURRENT_CELLS[po.cell_hash]
@@ -79,9 +81,10 @@ def from_picwriter(
         datatypes = poly.datatypes
 
         for polygon, layer, datatype in zip(polygons, layers, datatypes):
+            polygon = gf.snap.snap_to_grid(polygon)
             c.add_polygon(polygon, layer=(layer, datatype))
 
-    c2 = gf.Component()
+    c2 = Component(c.name)
     ref = c2.add_ref(c)
 
     translate_by = po.port
@@ -107,6 +110,7 @@ def from_picwriter(
 
 
 if __name__ == "__main__":
+    import picwriter.components as pc
 
     wgt = pc.WaveguideTemplate(
         bend_radius=50.0,
@@ -121,4 +125,4 @@ if __name__ == "__main__":
     gc = pc.GratingCoupler(wgt, port=(10, 20), direction=0.0)
     gcc = from_picwriter(gc)
 
-    gf.show(gcc)
+    gcc.show()

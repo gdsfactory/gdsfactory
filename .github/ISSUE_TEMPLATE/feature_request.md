@@ -2,13 +2,18 @@
 name: Feature request
 about: Suggest an idea for this project
 title: ''
-labels: ''
+labels: 'enhancement'
 assignees: ''
 
 ---
 
 **Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Example: I'm always frustrated when [...]
+What's the problem? Example: I'm always frustrated when [...]
+You can add screenshots to help explain your problem.
+Adding the code in `fixme/` folder is also a great option for others to reproduce your issue.
 
 **Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+What would you like to happen?
+
+**Suggested fix**
+How could we fix the bug?

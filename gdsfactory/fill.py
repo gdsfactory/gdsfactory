@@ -5,18 +5,98 @@ from typing import Optional, Union
 import gdspy
 import numpy as np
 from numpy import sqrt
-from phidl.device_layout import _parse_layer
-from phidl.geometry import (
-    _expand_raster,
-    _loop_over,
-    _raster_index_to_coords,
-    _rasterize_polygons,
-)
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
+from gdsfactory.component_layout import _parse_layer
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.types import Float2, Floats, LayerSpecs
+
+
+def _loop_over(var):
+    """Checks if a variable is in the form of an iterable (list/tuple)\
+    and if not, returns it as a list.
+
+    Useful for allowing argument inputs to be either lists
+    (e.g. [1, 3, 4]) or single-valued (e.g. 3).
+    Returns list Variable converted to list if single-valued input.
+
+    Args:
+        var : int or float or list
+            Variable to check for iterability.
+    """
+    return var if hasattr(var, "__iter__") else [var]
+
+
+def _rasterize_polygons(polygons, bounds=([-100, -100], [100, 100]), dx=1, dy=1):
+    """Converts polygons to a black/white (1/0) matrix."""
+    try:
+        from skimage import draw
+    except ImportError as e:
+        raise ImportError(
+            "The fill function requires the module "
+            '"scikit-image" to operate.  Please retry '
+            "after installing scikit-image:\n\n"
+            "$ pip install --upgrade scikit-image"
+        ) from e
+
+    # Prepare polygon array by shifting all points into the first quadrant and
+    # separating points into x and y lists
+    xpts = []
+    ypts = []
+    for p in polygons:
+        p_array = np.asarray(p)
+        x = p_array[:, 0]
+        y = p_array[:, 1]
+        xpts.append((x - bounds[0][0]) / dx - 0.5)
+        ypts.append((y - bounds[0][1]) / dy - 0.5)
+
+    # Initialize the raster matrix we'll be writing to
+    xsize = int(np.ceil(bounds[1][0] - bounds[0][0]) / dx)
+    ysize = int(np.ceil(bounds[1][1] - bounds[0][1]) / dy)
+    raster = np.zeros((ysize, xsize), dtype=bool)
+
+    # TODO: Replace polygon_perimeter with the supercover version
+    for n in range(len(xpts)):
+        rr, cc = draw.polygon(ypts[n], xpts[n], shape=raster.shape)
+        rrp, ccp = draw.polygon_perimeter(
+            ypts[n], xpts[n], shape=raster.shape, clip=False
+        )
+        raster[rr, cc] = 1
+        raster[rrp, ccp] = 1
+
+    return raster
+
+
+def _raster_index_to_coords(i, j, bounds=([-100, -100], [100, 100]), dx=1, dy=1):
+    """Converts (i,j) index of raster matrix to real coordinates."""
+    x = (j + 0.5) * dx + bounds[0][0]
+    y = (i + 0.5) * dy + bounds[0][1]
+    return x, y
+
+
+def _expand_raster(raster, distance=(4, 2)):
+    """Expands all black (1) pixels in the raster."""
+    try:
+        from skimage import draw, morphology
+    except ImportError as e:
+        raise ImportError(
+            "The fill function requires the module "
+            '"scikit-image" to operate.  Please retry '
+            "after installing scikit-image:\n\n"
+            "$ pip install --upgrade scikit-image"
+        ) from e
+    if distance[0] <= 0.5 and distance[1] <= 0.5:
+        return raster
+
+    num_pixels = np.array(np.ceil(distance), dtype=int)
+    neighborhood = np.zeros((num_pixels[1] * 2 + 1, num_pixels[0] * 2 + 1), dtype=bool)
+    rr, cc = draw.ellipse(
+        num_pixels[1], num_pixels[0], distance[1] + 0.5, distance[0] + 0.5
+    )
+    neighborhood[rr, cc] = 1
+
+    return morphology.binary_dilation(image=raster, selem=neighborhood)
 
 
 @cell
@@ -100,14 +180,12 @@ def fill_rectangle(
     fill_inverted = _loop_over(fill_inverted)
     if len(fill_layers) != len(fill_densities):
         raise ValueError(
-            "[PHIDL] phidl.geometry.fill_rectangle() "
-            "`fill_layers` and `fill_densities` parameters "
+            "fill_rectangle() `fill_layers` and `fill_densities` parameters "
             "must be lists of the same length"
         )
     if len(fill_layers) != len(fill_inverted):
         raise ValueError(
-            "[PHIDL] phidl.geometry.fill_rectangle() "
-            "`fill_layers` and `fill_inverted` parameters must "
+            "fill_rectangle() `fill_layers` and `fill_inverted` parameters must "
             "be lists of the same length"
         )
 
@@ -198,3 +276,30 @@ if __name__ == "__main__":
         # bbox=(100.0, 100.0),
     )
     c.show(show_ports=True)
+
+    # import gdsfactory as gf
+    # coupler_lengths = [10, 20, 30, 40, 50, 60, 70, 80]
+    # coupler_gaps = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
+    # delta_lengths = [10, 100, 200, 300, 400, 500, 500]
+
+    # mzi = gf.components.mzi_lattice(
+    #     coupler_lengths=coupler_lengths,
+    #     coupler_gaps=coupler_gaps,
+    #     delta_lengths=delta_lengths,
+    # )
+
+    # # Add fill
+    # c = gf.Component("component_with_fill")
+    # layers = [(1, 0)]
+    # fill_size = [0.5, 0.5]
+
+    # c << gf.fill_rectangle(
+    #     mzi,
+    #     fill_size=fill_size,
+    #     fill_layers=layers,
+    #     margin=5,
+    #     fill_densities=[0.8] * len(layers),
+    #     avoid_layers=layers,
+    # )
+    # c << mzi
+    # c.show(show_ports=True)

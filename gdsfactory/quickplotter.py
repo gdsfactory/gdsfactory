@@ -4,18 +4,14 @@ based on phidl.quickplotter.
 """
 
 import sys
+from typing import Optional
 
 import gdspy
 import numpy as np
-import phidl
-from phidl.device_layout import (
-    CellArray,
-    Device,
-    DeviceReference,
-    Path,
-    Polygon,
-    _rotate_points,
-)
+
+from gdsfactory.component import Component
+from gdsfactory.component_layout import CellArray, Polygon, _rotate_points
+from gdsfactory.component_reference import ComponentReference
 
 _SUBPORT_RGB = (0, 120, 120)
 _PORT_RGB = (190, 0, 0)
@@ -63,6 +59,7 @@ _quickplot_options = dict(
     blocking=False,
     zoom_factor=1.4,
     interactive_zoom=None,
+    fontsize=14,
 )
 
 
@@ -130,35 +127,29 @@ def _rectangle_selector_factory(fig, ax):
 
 
 def set_quickplot_options(
-    show_ports=None,
-    show_subports=None,
-    label_aliases=None,
-    new_window=None,
-    blocking=None,
-    zoom_factor=None,
-    interactive_zoom=None,
-):
+    show_ports: Optional[bool] = None,
+    show_subports: Optional[bool] = None,
+    label_aliases: Optional[bool] = None,
+    new_window: Optional[bool] = None,
+    blocking: Optional[bool] = None,
+    zoom_factor: Optional[bool] = None,
+    interactive_zoom: Optional[bool] = None,
+    fontsize: Optional[int] = None,
+) -> None:
     """Sets plotting options for quickplot().
 
-    Parameters
-    ----------
-    show_ports : bool
-        Sets whether ports are drawn
-    show_subports : bool
-        Sets whether subports (ports that belong to references) are drawn
-    label_aliases : bool
-        Sets whether aliases are labeled with a text name
-    new_window : bool
-        If True, each call to quickplot() will generate a separate window
-    blocking : bool
-        If True, calling quickplot() will pause execution of ("block") the
-        remainder of the python code until the quickplot() window is closed.  If
-        False, the window will be opened and code will continue to run.
-    zoom_factor : float
-        Sets the scaling factor when zooming the quickplot window with the
-        mousewheel/trackpad
-    interactive_zoom : bool
-        Enables/disables the ability to use mousewheel/trackpad to zoom
+    Args:
+        show_ports: Sets whether ports are drawn.
+        show_subports: Sets whether subports (ports that belong to references) are drawn.
+        label_aliases: Sets whether aliases are labeled with a text name.
+        new_window: If True, each call to quickplot() will generate a separate window.
+        blocking: If True, calling quickplot() will pause execution of ("block") the
+            remainder of the python code until the quickplot() window is closed.
+            If False, the window will be opened and code will continue to run.
+        zoom_factor: Sets the scaling factor when zooming the quickplot window with the
+            mousewheel/trackpad.
+        interactive_zoom: Enables using mousewheel/trackpad to zoom.
+        fontsize: for labels.
 
     """
     if show_ports is not None:
@@ -175,16 +166,31 @@ def set_quickplot_options(
         _quickplot_options["zoom_factor"] = zoom_factor
     if interactive_zoom is not None:
         _quickplot_options["interactive_zoom"] = interactive_zoom
+    if fontsize is not None:
+        _quickplot_options["fontsize"] = fontsize
 
 
-def quickplot(items):  # noqa: C901
+def quickplot(items, **kwargs):  # noqa: C901
     """Takes a list of devices/references/polygons or single one of those, and \
     plots them. Use `set_quickplot_options()` to modify the viewer behavior \
     (e.g. displaying ports, creating new windows, etc).
 
     Args:
-        items: object or list of objects
-            The item(s) which are to be plotted
+        items: object or list of objects to plot.
+
+    Kwargs:
+        show_ports: Sets whether ports are drawn.
+        show_subports: Sets whether subports (ports that belong to references) are drawn.
+        label_aliases: Sets whether aliases are labeled with a text name.
+        new_window: If True, each call to quickplot() will generate a separate window.
+        blocking: If True, calling quickplot() will pause execution of ("block") the
+            remainder of the python code until the quickplot() window is closed.
+            If False, the window will be opened and code will continue to run.
+        zoom_factor: Sets the scaling factor when zooming the quickplot window with the
+            mousewheel/trackpad.
+        interactive_zoom: Enables using mousewheel/trackpad to zoom.
+        fontsize: for labels.
+
 
     Examples
     --------
@@ -198,12 +204,17 @@ def quickplot(items):  # noqa: C901
     """
     from matplotlib import pyplot as plt
 
-    # Override default options with _quickplot_options
-    show_ports = _quickplot_options["show_ports"]
-    show_subports = _quickplot_options["show_subports"]
-    label_aliases = _quickplot_options["label_aliases"]
-    new_window = _quickplot_options["new_window"]
-    blocking = _quickplot_options["blocking"]
+    from gdsfactory.path import Path
+
+    quickplot_options = _quickplot_options.copy()
+    quickplot_options.update(**kwargs)
+
+    # Override default options with quickplot_options
+    show_ports = quickplot_options["show_ports"]
+    show_subports = quickplot_options["show_subports"]
+    label_aliases = quickplot_options["label_aliases"]
+    new_window = quickplot_options["new_window"]
+    blocking = quickplot_options["blocking"]
 
     if new_window:
         fig, ax = plt.subplots(1)
@@ -221,11 +232,11 @@ def quickplot(items):  # noqa: C901
     ax.axvline(x=0, color="k", alpha=0.2, linewidth=1)
     bbox = None
 
-    # Iterate through each each Device/DeviceReference/Polygon
+    # Iterate through each each Component/ComponentReference/Polygon
     if not isinstance(items, list):
         items = [items]
     for item in items:
-        if isinstance(item, (Device, DeviceReference, CellArray)):
+        if isinstance(item, (Component, ComponentReference, CellArray)):
             polygons_spec = item.get_polygons(by_spec=True, depth=None)
             for key in sorted(polygons_spec):
                 polygons = polygons_spec[key]
@@ -238,8 +249,8 @@ def quickplot(items):  # noqa: C901
                     alpha=layerprop["alpha"],
                 )
                 bbox = _update_bbox(bbox, new_bbox)
-            # If item is a Device or DeviceReference, draw ports
-            if isinstance(item, (Device, DeviceReference)) and show_ports is True:
+            # If item is a Component or ComponentReference, draw ports
+            if isinstance(item, (Component, ComponentReference)) and show_ports is True:
                 for port in item.ports.values():
                     if (
                         (port.width is None)
@@ -250,7 +261,7 @@ def quickplot(items):  # noqa: C901
                     else:
                         new_bbox = _draw_port(ax, port, is_subport=False, color="r")
                     bbox = _update_bbox(bbox, new_bbox)
-            if isinstance(item, Device) and show_subports is True:
+            if isinstance(item, Component) and show_subports is True:
                 for sd in item.references:
                     if not isinstance(sd, (gdspy.CellArray)):
                         for port in sd.ports.values():
@@ -261,7 +272,7 @@ def quickplot(items):  # noqa: C901
                                 color=np.array(_SUBPORT_RGB) / 255,
                             )
                             bbox = _update_bbox(bbox, new_bbox)
-            if isinstance(item, Device) and label_aliases is True:
+            if isinstance(item, Component) and label_aliases is True:
                 for name, ref in item.aliases.items():
                     ax.text(
                         ref.x,
@@ -270,9 +281,8 @@ def quickplot(items):  # noqa: C901
                         style="italic",
                         color="blue",
                         weight="bold",
-                        size="large",
                         ha="center",
-                        fontsize=14,
+                        fontsize=quickplot_options["fontsize"],
                     )
         elif isinstance(item, Polygon):
             polygons = item.polygons
@@ -307,7 +317,7 @@ def quickplot(items):  # noqa: C901
     # When using inline Jupyter notebooks, this may fail so allow it to fail gracefully
     try:
         if _use_interactive_zoom():
-            _zoom_factory(ax, scale_factor=_quickplot_options["zoom_factor"])
+            _zoom_factory(ax, scale_factor=quickplot_options["zoom_factor"])
         # Need to hang on to RectangleSelector so it doesn't get garbage collected
         _qp_objects["rectangle_selector"] = _rectangle_selector_factory(fig, ax)
         # Update matplotlib toolbar so the Home button works
@@ -940,6 +950,7 @@ class Viewer(QGraphicsView):
 
 
 def quickplot2(item_list, *args, **kwargs):
+    """QT plot."""
     if not qt_imported:
         raise ImportError(
             "quickplot2 tried to import PyQt5 but it failed. gdsfactory will"
@@ -961,8 +972,8 @@ def quickplot2(item_list, *args, **kwargs):
         if isinstance(
             element,
             (
-                phidl.device_layout.Device,
-                phidl.device_layout.DeviceReference,
+                Component,
+                ComponentReference,
                 gdspy.CellArray,
             ),
         ):
@@ -974,8 +985,8 @@ def quickplot2(item_list, *args, **kwargs):
                 viewer.add_polygons(
                     polygons, color=layerprop["color"], alpha=layerprop["alpha"]
                 )
-            # If element is a Device, draw ports and aliases
-            if isinstance(element, phidl.device_layout.Device):
+            # If element is a Component, draw ports and aliases
+            if isinstance(element, Component):
                 for ref in element.references:
                     if not isinstance(ref, gdspy.CellArray):
                         for port in ref.ports.values():
@@ -983,11 +994,11 @@ def quickplot2(item_list, *args, **kwargs):
                 for port in element.ports.values():
                     viewer.add_port(port)
                     viewer.add_aliases(element.aliases)
-            # If element is a DeviceReference, draw ports as subports
-            if isinstance(element, phidl.device_layout.DeviceReference):
+            # If element is a ComponentReference, draw ports as subports
+            if isinstance(element, ComponentReference):
                 for port in element.ports.values():
                     viewer.add_port(port, is_subport=True)
-        elif isinstance(element, (phidl.device_layout.Polygon)):
+        elif isinstance(element, (Polygon)):
             layerprop = _get_layerprop(
                 layer=element.layers[0], datatype=element.datatypes[0]
             )
@@ -1005,6 +1016,8 @@ def quickplot2(item_list, *args, **kwargs):
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.pad()
+    # set_quickplot_options(label_aliases=True, show_ports=False, show_subports=False)
+    c = gf.components.mzi()
     # c.plotqt()
-    c.plot()
+    # c.plot()
+    quickplot(c, show_ports=False, show_subports=False, label_aliases=True)
