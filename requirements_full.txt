@@ -1,5 +1,6 @@
 autograd
 bokeh
+devsim
 freetype-py
 holoviews
 ipympl
@@ -7,6 +8,7 @@ ipywidgets
 klayout
 lytest==0.0.20
 mapbox_earcut
+mkl
 networkx
 nlopt
 phidl
