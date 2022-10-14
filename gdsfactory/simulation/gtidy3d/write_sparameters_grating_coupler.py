@@ -2,7 +2,6 @@ import time
 from typing import Any, Dict, Optional
 
 import numpy as np
-import pandas as pd
 import tidy3d as td
 from omegaconf import OmegaConf
 
@@ -23,17 +22,21 @@ def write_sparameters_grating_coupler(
     component: ComponentSpec,
     dirpath: Optional[PathType] = None,
     overwrite: bool = False,
+    port_waveguide_name: str = "o1",
+    fiber_port_name: str = "vertical_te",
     **kwargs,
-) -> pd.DataFrame:
-    """Get sparameter matrix from a gdsfactory grating coupler. Assumes grating coupler waveguide port is facing to the left (west).
+) -> np.ndarray:
+    """Get sparameter matrix from a gdsfactory grating coupler.
 
-    TODO: add a fiber model (more realistic than a gaussian_beam)
+    Assumes grating coupler waveguide port is facing to the left (west).
+
+    TODO: add a fiber model (more realistic than a gaussian_beam).
 
     Args:
         component: grating coupler gdsfactory Component to simulate.
-        dirpath: directory to store sparameters in CSV.
+        dirpath: directory to store sparameters in npz.
             Defaults to active Pdk.sparameters_path.
-        overwrite: overwrites stored Sparameter CSV results.
+        overwrite: overwrites stored Sparameter npz results.
 
     Keyword Args:
         port_extension: extend ports beyond the PML.
@@ -97,9 +100,14 @@ def write_sparameters_grating_coupler(
 
         else:
             logger.info(f"Simulation loaded from {filepath!r}")
-            return pd.read_csv(filepath)
+            return np.load(filepath)
     start = time.time()
-    sim = get_simulation_grating_coupler(component, **kwargs)
+    sim = get_simulation_grating_coupler(
+        component,
+        fiber_port_name=fiber_port_name,
+        port_waveguide_name=port_waveguide_name,
+        **kwargs,
+    )
     sim_data = get_results(sim)
     sim_data = sim_data.result()
 
@@ -116,37 +124,40 @@ def write_sparameters_grating_coupler(
         .values.flatten()
     )
     r = monitor_entering / monitor_exiting
-    ra = np.unwrap(np.angle(r))
-    rm = np.abs(r)
-
     t = monitor_exiting
-    ta = np.unwrap(np.angle(t))
-    tm = np.abs(t)
 
     freqs = sim_data.monitor_data["waveguide"].amps.sel(direction="+").f
-    sp = {"wavelengths": td.constants.C_0 / freqs.values}
-    sp["s11a"] = sp["s22a"] = ra
-    sp["s11m"] = sp["s22m"] = rm
+    port_name_input = port_waveguide_name
+    port_name_output = fiber_port_name
 
-    sp["s12a"] = sp["s21a"] = ta
-    sp["s12m"] = sp["s21m"] = tm
+    key = f"s{port_name_input}@0,{port_name_input}@0"
+    sp = {"wavelengths": td.constants.C_0 / freqs.values, key: r}
+    key = f"s{port_name_output}@0,{port_name_output}@0"
+    sp[key] = r
+
+    key = f"s{port_name_input}@0,{port_name_output}@0"
+    sp[key] = t
+
+    key = f"s{port_name_output}@0,{port_name_input}@0"
+    sp[key] = t
 
     end = time.time()
-    df = pd.DataFrame(sp)
-    df.to_csv(filepath, index=False)
+    np.savez_compressed(filepath, sp)
     kwargs.update(compute_time_seconds=end - start)
     kwargs.update(compute_time_minutes=(end - start) / 60)
 
     filepath_sim_settings.write_text(OmegaConf.to_yaml(clean_value_json(kwargs)))
     logger.info(f"Write simulation results to {str(filepath)!r}")
     logger.info(f"Write simulation settings to {str(filepath_sim_settings)!r}")
-    return df
+    return sp
 
 
 def write_sparameters_grating_coupler_batch(
     jobs: List[Dict[str, Any]], **kwargs
-) -> List[pd.DataFrame]:
-    """Returns Sparameters for a list of write_sparameters_grating_coupler settings where it simulation runs in parallel.
+) -> List[np.ndarray]:
+    """Returns Sparameters for a list of write_sparameters_grating_coupler settings.
+
+    Each simulation runs in parallel.
 
     Args:
         jobs: list of kwargs for write_sparameters_grating_coupler.
@@ -165,22 +176,22 @@ if __name__ == "__main__":
     # import gdsfactory.simulation as sim
 
     c = gf.components.grating_coupler_elliptical_lumerical()  # inverse design grating
-    df = write_sparameters_grating_coupler(
+    sp = write_sparameters_grating_coupler(
         c,
         is_3d=False,
         fiber_angle_deg=-5,
         fiber_xoffset=+2,
     )
 
-    # sim.plot.plot_sparameters(df)
+    # sim.plot.plot_sparameters(sp)
 
     # c = gf.components.grating_coupler_elliptical_arbitrary(
     #     widths=[0.343] * 25,
     #     gaps=[0.345] * 25,
     # )
-    # df = write_sparameters_grating_coupler(c, is_3d=False)
-    # t = df.s12m
+    # sp = write_sparameters_grating_coupler(c, is_3d=False)
+    # t = sp.o1@0,o2@0
     # print(f"Transmission = {t}")
 
-    # plt.plot(df.wavelengths, df.s12m)
+    # plt.plot(sp.wavelengths, sp.o1@0,o2@0)
     # plt.show()

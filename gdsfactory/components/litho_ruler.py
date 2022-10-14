@@ -17,7 +17,7 @@ def litho_ruler(
 
     Includes marks of varying scales to allow for easy reading by eye.
 
-    adapted from phidl.geometry
+    based on phidl.geometry
 
     Args:
         height: Height of the ruling marks in um.
@@ -27,7 +27,7 @@ def litho_ruler(
         num_marks: Total number of marks to generate.
         layer: Specific layer to put the ruler geometry on.
     """
-    D = gf.Component("litho_ruler")
+    D = gf.Component()
     for n in range(num_marks):
         h = height * scale[n % len(scale)]
         D << gf.components.rectangle(size=(width, h), layer=layer)

@@ -65,10 +65,10 @@ def route_south(
     """
     xs = gf.get_cross_section(cross_section)
     excluded_ports = excluded_ports or []
-    assert optical_routing_type in [
+    assert optical_routing_type in {
         1,
         2,
-    ], f"optical_routing_type = {optical_routing_type}, not supported "
+    }, f"optical_routing_type = {optical_routing_type}, not supported "
 
     optical_ports = list(select_ports(component.ports).values())
     optical_ports = [p for p in optical_ports if p.name not in excluded_ports]
@@ -101,7 +101,7 @@ def route_south(
     direction_ports = direction_ports_from_list_ports(optical_ports)
 
     north_ports = direction_ports["N"]
-    north_start = north_ports[0 : len(north_ports) // 2]
+    north_start = north_ports[: len(north_ports) // 2]
     north_finish = north_ports[len(north_ports) // 2 :]
 
     west_ports = direction_ports["W"]

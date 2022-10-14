@@ -1,7 +1,6 @@
 from typing import Optional
 
 import numpy as np
-import scipy.optimize as so
 from numpy import float64
 
 import gdsfactory as gf
@@ -346,7 +345,6 @@ def compensation_path(
             needs to have .info["components"] with bends and crossing.
         direction: the direction in which the bend should go "top" / "bottom".
 
-
     .. code::
 
           ----       ----
@@ -369,6 +367,8 @@ def compensation_path(
 
 
     """
+    import scipy.optimize as so
+
     x = gf.get_cross_section(cross_section)
 
     # Get total path length taken by the bends
@@ -414,11 +414,7 @@ def compensation_path(
     y_bend = solution.root
     y_bend = snap_to_grid(y_bend)
 
-    if direction == "top":
-        v_mirror = False
-    else:
-        v_mirror = True
-
+    v_mirror = direction != "top"
     sbend = bezier(control_points=get_control_pts(x0, y_bend))
 
     c = Component()

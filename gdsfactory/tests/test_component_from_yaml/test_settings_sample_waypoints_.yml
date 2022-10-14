@@ -21,18 +21,6 @@ settings:
           links:
             b,e11: t,e11
             b,e12: t,e12
-          routing_strategy: get_bundle_from_waypoints
-          settings:
-            auto_widen: false
-            waypoints:
-            - - 0
-              - 300
-            - - 400
-              - 300
-            - - 400
-              - 400
-            - - -250
-              - 400
   child: null
   default:
     label_instance_function:
@@ -55,6 +43,7 @@ settings:
               port_types:
               - electrical
               - electrical
+              radius: null
               width: 10.0
       get_bundle_from_steps:
         function: get_bundle_from_steps
@@ -73,6 +62,7 @@ settings:
               port_types:
               - electrical
               - electrical
+              radius: null
               width: 10.0
       get_bundle_from_waypoints:
         function: get_bundle_from_waypoints
@@ -101,18 +91,6 @@ settings:
           links:
             b,e11: t,e11
             b,e12: t,e12
-          routing_strategy: get_bundle_from_waypoints
-          settings:
-            auto_widen: false
-            waypoints:
-            - - 0
-              - 300
-            - - 400
-              - 300
-            - - 400
-              - 400
-            - - -250
-              - 400
     label_instance_function:
       function: add_instance_label
     routing_strategy:
@@ -133,6 +111,7 @@ settings:
               port_types:
               - electrical
               - electrical
+              radius: null
               width: 10.0
       get_bundle_from_steps:
         function: get_bundle_from_steps
@@ -151,6 +130,7 @@ settings:
               port_types:
               - electrical
               - electrical
+              radius: null
               width: 10.0
       get_bundle_from_waypoints:
         function: get_bundle_from_waypoints
@@ -159,8 +139,10 @@ settings:
       get_bundle_same_axis_no_grouping:
         function: get_bundle_same_axis_no_grouping
   function_name: _from_yaml
-  info: {}
+  info:
+    instances:
+    - t
+    - b
   info_version: 2
   module: gdsfactory.read.from_yaml
   name: sample_waypoints_51e45344
-version: 0.0.1

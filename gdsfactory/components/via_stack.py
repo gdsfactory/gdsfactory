@@ -21,13 +21,13 @@ def via_stack(
 
     You can use it to connect different metal layers or metals to silicon.
     You can use the naming convention via_stack_layerSource_layerDestination
+    contains 4 ports (e1, e2, e3, e4)
 
-    Via array / stack name is more common for via_stacking metal while
-    via_stack is used for via_stacking silicon
-
+    also know as Via array
     http://www.vlsi-expert.com/2017/12/vias.html
 
-    spacing and enclosure are taken from via.info['enclosure'] and via.info['spacing']
+    spacing = via.info['spacing']
+    enclosure = via.info['enclosure']
 
     Args:
         size: of the layers.
@@ -50,10 +50,13 @@ def via_stack(
     c.info["layer"] = layer_port
 
     for layer in layers:
-        ref = c << compass(size=(width, height), layer=layer)
-
         if layer == layer_port:
+            ref = c << compass(
+                size=(width, height), layer=layer, port_type="electrical"
+            )
             c.add_ports(ref.ports)
+        else:
+            ref = c << compass(size=(width, height), layer=layer, port_type="placement")
 
     vias = vias or []
     for via in vias:
@@ -109,5 +112,5 @@ via_stack_heater_m3 = gf.partial(
 
 
 if __name__ == "__main__":
-    c = via_stack()
+    c = via_stack_m1_m3()
     c.show(show_ports=True)

@@ -51,4 +51,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.mzi
   name: mzi
-version: 0.0.1

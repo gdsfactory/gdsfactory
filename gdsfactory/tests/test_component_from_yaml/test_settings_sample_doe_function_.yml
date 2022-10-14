@@ -63,6 +63,7 @@ settings:
               port_types:
               - electrical
               - electrical
+              radius: null
               width: 10.0
       get_bundle_from_steps:
         function: get_bundle_from_steps
@@ -81,6 +82,7 @@ settings:
               port_types:
               - electrical
               - electrical
+              radius: null
               width: 10.0
       get_bundle_from_waypoints:
         function: get_bundle_from_waypoints
@@ -149,6 +151,7 @@ settings:
               port_types:
               - electrical
               - electrical
+              radius: null
               width: 10.0
       get_bundle_from_steps:
         function: get_bundle_from_steps
@@ -167,6 +170,7 @@ settings:
               port_types:
               - electrical
               - electrical
+              radius: null
               width: 10.0
       get_bundle_from_waypoints:
         function: get_bundle_from_waypoints
@@ -175,8 +179,10 @@ settings:
       get_bundle_same_axis_no_grouping:
         function: get_bundle_same_axis_no_grouping
   function_name: _from_yaml
-  info: {}
+  info:
+    instances:
+    - rings
+    - mzis
   info_version: 2
   module: gdsfactory.read.from_yaml
   name: mask_compact_c65fc3af
-version: 0.0.1

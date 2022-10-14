@@ -4,14 +4,14 @@ settings:
   child: null
   default:
     grating_coupler:
-      function: grating_coupler_circular
+      function: grating_coupler_elliptical
     n: 6
     pitch: 127.0
     port_name: o1
     rotation: 0
   full:
     grating_coupler:
-      function: grating_coupler_circular
+      function: grating_coupler_elliptical
     n: 6
     pitch: 127.0
     port_name: o1
@@ -21,4 +21,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.grating_coupler_array
   name: grating_coupler_array
-version: 0.0.1

@@ -1,7 +1,6 @@
 """test meep sparameters."""
 
 import numpy as np
-import pandas as pd
 
 import gdsfactory as gf
 import gdsfactory.simulation as sim
@@ -11,99 +10,73 @@ from gdsfactory.tech import LAYER_STACK
 RESOLUTION = 20
 
 
-def test_sparameters_straight(dataframe_regression) -> None:
+def test_sparameters_straight() -> None:
     """Checks Sparameters for a straight waveguide."""
     c = gf.components.straight(length=2)
     p = 3
     c = gf.add_padding_container(c, default=0, top=p, bottom=p)
-    df = gm.write_sparameters_meep(c, ymargin=0, overwrite=True, resolution=RESOLUTION)
+    sp = gm.write_sparameters_meep(c, ymargin=0, overwrite=True, resolution=RESOLUTION)
 
     # Check reasonable reflection/transmission
-    assert np.allclose(df["s12m"], 1, atol=1e-02), df["s12m"]
-    assert np.allclose(df["s21m"], 1, atol=1e-02), df["s21m"]
-    assert np.allclose(df["s11m"], 0, atol=5e-02), df["s11m"]
-    assert np.allclose(df["s22m"], 0, atol=5e-02), df["s22m"]
-
-    if dataframe_regression:
-        dataframe_regression.check(df)
+    assert np.allclose(np.abs(sp["o1@0,o2@0"]), 1, atol=1e-02), np.abs(sp["o1@0,o2@0"])
+    assert np.allclose(np.abs(sp["o2@0,o1@0"]), 1, atol=1e-02), np.abs(sp["o2@0,o1@0"])
+    assert np.allclose(np.abs(sp["o1@0,o1@0"]), 0, atol=5e-02), np.abs(sp["o1@0,o1@0"])
+    assert np.allclose(np.abs(sp["o2@0,o2@0"]), 0, atol=5e-02), np.abs(sp["o2@0,o2@0"])
 
 
-def test_sparameters_straight_symmetric(dataframe_regression) -> None:
+def test_sparameters_straight_symmetric() -> None:
     """Checks Sparameters for a straight waveguide."""
     c = gf.components.straight(length=2)
     p = 3
     c = gf.add_padding_container(c, default=0, top=p, bottom=p)
     # port_symmetries for straight
-    port_symmetries = {
-        "o1": {
-            "s11": ["s22"],
-            "s21": ["s12"],
-        }
-    }
-    df = gm.write_sparameters_meep(
+    sp = gm.write_sparameters_meep(
         c,
         overwrite=True,
         resolution=RESOLUTION,
-        port_symmetries=port_symmetries,
+        port_symmetries=sim.port_symmetries.port_symmetries_1x1,
         ymargin=0,
     )
 
     # Check reasonable reflection/transmission
-    assert np.allclose(df["s12m"], 1, atol=1e-02), df["s12m"]
-    assert np.allclose(df["s21m"], 1, atol=1e-02), df["s21m"]
-    assert np.allclose(df["s11m"], 0, atol=5e-02), df["s11m"]
-    assert np.allclose(df["s22m"], 0, atol=5e-02), df["s22m"]
-
-    if dataframe_regression:
-        dataframe_regression.check(df)
+    assert np.allclose(np.abs(sp["o1@0,o2@0"]), 1, atol=1e-02), np.abs(sp["o1@0,o2@0"])
+    assert np.allclose(np.abs(sp["o2@0,o1@0"]), 1, atol=1e-02), np.abs(sp["o2@0,o1@0"])
+    assert np.allclose(np.abs(sp["o1@0,o1@0"]), 0, atol=5e-02), np.abs(sp["o1@0,o1@0"])
+    assert np.allclose(np.abs(sp["o2@0,o2@0"]), 0, atol=5e-02), np.abs(sp["o2@0,o2@0"])
 
 
-def test_sparameters_crossing_symmetric(dataframe_regression) -> None:
+def test_sparameters_crossing_symmetric() -> None:
     """Checks Sparameters for a waveguide crossing.
 
     Exploits symmetries.
-
     """
     c = gf.components.crossing()
-    port_symmetries = {
-        "o1": {
-            "s11": ["s22", "s33", "s44"],
-            "s21": ["s12", "s34", "s43"],
-            "s31": ["s13", "s24", "s42"],
-            "s41": ["s14", "s23", "s32"],
-        }
-    }
-    df = gm.write_sparameters_meep(
+    sp = gm.write_sparameters_meep(
         c,
         overwrite=True,
         resolution=RESOLUTION,
-        port_symmetries=port_symmetries,
+        port_symmetries=sim.port_symmetries.port_symmetries_crossing,
         ymargin=0,
     )
-
-    if dataframe_regression:
-        dataframe_regression.check(df)
+    assert sp
 
 
-def test_sparameters_straight_mpi(dataframe_regression) -> None:
+def test_sparameters_straight_mpi() -> None:
     """Checks Sparameters for a straight waveguide using MPI."""
     c = gf.components.straight(length=2)
     p = 3
     c = gf.add_padding_container(c, default=0, top=p, bottom=p)
     filepath = gm.write_sparameters_meep_mpi(c, ymargin=0, overwrite=True)
-    df = pd.read_csv(filepath)
+    sp = np.load(filepath)
 
     # Check reasonable reflection/transmission
-    assert np.allclose(df["s12m"], 1, atol=1e-02)
-    assert np.allclose(df["s21m"], 1, atol=1e-02)
-    assert np.allclose(df["s11m"], 0, atol=5e-02)
-    assert np.allclose(df["s22m"], 0, atol=5e-02)
-
-    if dataframe_regression:
-        dataframe_regression.check(df)
+    assert np.allclose(np.abs(sp["o1@0,o2@0"]), 1, atol=1e-02), np.abs(sp["o1@0,o2@0"])
+    assert np.allclose(np.abs(sp["o2@0,o1@0"]), 1, atol=1e-02), np.abs(sp["o2@0,o1@0"])
+    assert np.allclose(np.abs(sp["o1@0,o1@0"]), 0, atol=5e-02), np.abs(sp["o1@0,o1@0"])
+    assert np.allclose(np.abs(sp["o2@0,o2@0"]), 0, atol=5e-02), np.abs(sp["o2@0,o2@0"])
 
 
-def test_sparameters_straight_batch(dataframe_regression) -> None:
+def test_sparameters_straight_batch() -> None:
     """Checks Sparameters for a straight waveguide using an MPI pool."""
 
     components = []
@@ -118,7 +91,7 @@ def test_sparameters_straight_batch(dataframe_regression) -> None:
     )
 
     filepath = filepaths[0]
-    df = pd.read_csv(filepath)
+    sp = np.load(filepath)
 
     filepath2 = sim.get_sparameters_path_meep(component=c, layer_stack=LAYER_STACK)
     assert (
@@ -126,18 +99,50 @@ def test_sparameters_straight_batch(dataframe_regression) -> None:
     ), f"filepath returned {filepaths[0]} differs from {filepath2}"
 
     # Check reasonable reflection/transmission
-    assert np.allclose(df["s12m"], 1, atol=1e-02)
-    assert np.allclose(df["s21m"], 1, atol=1e-02)
-    assert np.allclose(df["s11m"], 0, atol=5e-02)
-    assert np.allclose(df["s22m"], 0, atol=5e-02)
+    assert np.allclose(np.abs(sp["o1@0,o2@0"]), 1, atol=1e-02), np.abs(sp["o1@0,o2@0"])
+    assert np.allclose(np.abs(sp["o2@0,o1@0"]), 1, atol=1e-02), np.abs(sp["o2@0,o1@0"])
+    assert np.allclose(np.abs(sp["o1@0,o1@0"]), 0, atol=5e-02), np.abs(sp["o1@0,o1@0"])
+    assert np.allclose(np.abs(sp["o2@0,o2@0"]), 0, atol=5e-02), np.abs(sp["o2@0,o2@0"])
 
-    if dataframe_regression:
-        dataframe_regression.check(df)
+
+def test_sparameters_grating_coupler() -> None:
+    """Checks Sparameters for a grating coupler."""
+    sp = gm.write_sparameters_grating()  # fiber_angle_deg = 20
+    assert sp
+
+
+def test_sparameterslazy_parallelism() -> None:
+    """Checks that the Sparameters computed using MPI and lazy_parallelism flag give the same results as the serial calculation."""
+    c = gf.components.straight(length=2)
+    p = 3
+    c = gf.add_padding_container(c, default=0, top=p, bottom=p)
+    print("PARALLEL")
+    filepath_parallel = gm.write_sparameters_meep_mpi(
+        c, ymargin=0, overwrite=True, lazy_parallelism=True
+    )
+    sp_parallel = np.load(filepath_parallel)
+    print("SERIAL")
+    filepath_serial = gm.write_sparameters_meep_mpi(
+        c, ymargin=0, overwrite=True, lazy_parallelism=False
+    )
+    sp_serial = np.load(filepath_serial)
+
+    # Check matching reflection/transmission
+    assert np.allclose(sp_parallel["o1@0,o1@0"], sp_serial["o1@0,o1@0"], atol=1e-2)
+    assert np.allclose(sp_parallel["o2@0,o1@0"], sp_serial["o2@0,o1@0"], atol=1e-2)
+    assert np.allclose(sp_parallel["o1@0,o2@0"], sp_serial["o1@0,o2@0"], atol=1e-2)
+    assert np.allclose(sp_parallel["o2@0,o2@0"], sp_serial["o2@0,o2@0"], atol=1e-2)
 
 
 if __name__ == "__main__":
-    test_sparameters_straight(None)
+    # test_sparameters_straight(None)
     # test_sparameters_straight_symmetric(False)
     # test_sparameters_straight_batch(None)
     # test_sparameters_straight_mpi(None)
     # test_sparameters_crossing_symmetric(False)
+    # test_sparameterslazy_parallelism()
+    # test_sparameters_straight()
+    # test_sparameters_straight_symmetric()
+    test_sparameters_straight_batch()
+    # test_sparameters_straight_mpi()
+    # test_sparameters_crossing_symmetric()

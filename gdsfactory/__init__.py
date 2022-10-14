@@ -19,7 +19,7 @@ isort:skip_file
 """
 from functools import partial
 from toolz import compose
-from phidl.device_layout import Group
+from gdsfactory.component_layout import Group
 from gdsfactory.path import Path
 
 
@@ -138,4 +138,4 @@ __all__ = (
     "types",
     "write_cells",
 )
-__version__ = "5.18.2"
+__version__ = "5.42.2"

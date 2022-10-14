@@ -2,10 +2,7 @@
 
 Now we raise a warning
 
-ideally we also enable:
-
-- sbend routing.
-- 180 deg routing.
+ideally we also enable 180 deg routing.
 
 """
 
