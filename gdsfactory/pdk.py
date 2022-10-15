@@ -314,11 +314,6 @@ class Pdk(BaseModel):
                 else self.containers[cell_name]
             )
             component = cell(**settings)
-            component = (
-                self.default_decorator(component) or component
-                if self.default_decorator
-                else component
-            )
             return component
         else:
             raise ValueError(
