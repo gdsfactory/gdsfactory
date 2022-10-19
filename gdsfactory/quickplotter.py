@@ -10,8 +10,8 @@ import gdspy
 import numpy as np
 
 from gdsfactory.component import Component
-from gdsfactory.component_layout import CellArray, Polygon, _rotate_points
-from gdsfactory.component_reference import ComponentReference
+from gdsfactory.component_layout import Polygon, _rotate_points
+from gdsfactory.component_reference import CellArray, ComponentReference
 
 _SUBPORT_RGB = (0, 120, 120)
 _PORT_RGB = (190, 0, 0)

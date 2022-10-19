@@ -7,8 +7,7 @@ from omegaconf import OmegaConf
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.component_layout import CellArray
-from gdsfactory.component_reference import ComponentReference
+from gdsfactory.component_reference import CellArray, ComponentReference
 from gdsfactory.config import CONFIG, logger
 from gdsfactory.name import get_name_short
 from gdsfactory.snap import snap_to_grid
