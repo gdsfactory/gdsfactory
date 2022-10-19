@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.43.2
+
+- add `gf.cross_section.metal_routing`
+
 ## 5.43.1
 
 - upgrade tidy3d-beta from 1.7.0 to 1.7.1
