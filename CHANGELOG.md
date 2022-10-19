@@ -1,5 +1,22 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.43.2
+
+- add `gf.cross_section.metal_routing`
+- Component.remove_layers returns flat copy when hierarchical=True
+
+## 5.43.1
+
+- upgrade tidy3d-beta from 1.7.0 to 1.7.1
+- straight_heater_meander accepts straight_widths
+
+## 5.43.0
+
+- add devsim from pypi [PR](https://github.com/gdsfactory/gdsfactory/pull/776)
+- dbr_tapered rewrite [PR](https://github.com/gdsfactory/gdsfactory/pull/775)
+- Recursively netlist transformed (flattened) references [PR](https://github.com/gdsfactory/gdsfactory/pull/772) enables recursive netlisting of references which have been transformed and flattened via the flatten_invalid_refs decorator, such that they can be properly simulated, i.e. with sax.
+- Don't re-apply PDK decorator in get_component [PR](https://github.com/gdsfactory/gdsfactory/pull/773)
+
 ## 5.42.0
 
 - fix gf tool install when file already exists [PR](https://github.com/gdsfactory/gdsfactory/pull/769)
