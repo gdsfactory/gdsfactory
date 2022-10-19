@@ -20,7 +20,6 @@ from omegaconf import DictConfig, OmegaConf
 from typing_extensions import Literal
 
 from gdsfactory.component_layout import (
-    CellArray,
     Label,
     Polygon,
     _align,
@@ -28,7 +27,12 @@ from gdsfactory.component_layout import (
     _GeometryHelper,
     _parse_layer,
 )
-from gdsfactory.component_reference import ComponentReference, Coordinate, SizeInfo
+from gdsfactory.component_reference import (
+    CellArray,
+    ComponentReference,
+    Coordinate,
+    SizeInfo,
+)
 from gdsfactory.config import CONF, logger
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.layers import LAYER_COLORS, LayerColor, LayerColors
@@ -152,6 +156,14 @@ class Component(_GeometryHelper):
     @property
     def polygons(self):
         return self._cell.polygons
+
+    @polygons.setter
+    def polygons(self, value):
+        self._cell.polygons = value
+
+    @property
+    def area(self):
+        return self._cell.area
 
     @property
     def labels(self):
@@ -972,7 +984,7 @@ class Component(_GeometryHelper):
         if not isinstance(component, Component):
             raise TypeError("add_array() needs a Component object.")
         ref = CellArray(
-            device=component,
+            component=component,
             columns=int(round(columns)),
             rows=int(round(rows)),
             spacing=spacing,
@@ -1448,7 +1460,7 @@ class Component(_GeometryHelper):
         layout = pya.Layout()
         layout.read(tempfilename)
 
-        # there can only be one top_cell because we only wrote one device
+        # there can only be one top_cell because we only wrote one component
         topcell = layout.top_cell()
         topcell.write(filename)
         os.remove(tempfilename)
@@ -1782,7 +1794,7 @@ def copy(D: Component) -> Component:
             new_ref.name = ref.name if hasattr(ref, "name") else ref.parent.name
         elif isinstance(ref, gdspy.CellArray):
             new_ref = CellArray(
-                device=ref.parent,
+                component=ref.parent,
                 columns=ref.columns,
                 rows=ref.rows,
                 spacing=ref.spacing,
