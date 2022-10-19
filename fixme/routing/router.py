@@ -17,7 +17,7 @@ if __name__ == "__main__":
     pad_pitch = 150.0 * 2
     metal_width = 5.0
     metal_spacing = 10.0
-    cross_section = gf.cross_section.metal3
+    cross_section = "metal_routing"
     length = 200
     dy = 100
 
