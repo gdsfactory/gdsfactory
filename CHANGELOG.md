@@ -3,6 +3,7 @@
 ## 5.43.2
 
 - add `gf.cross_section.metal_routing`
+- Component.remove_layers returns flat copy when hierarchical=True
 
 ## 5.43.1
 
