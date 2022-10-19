@@ -443,6 +443,7 @@ heater_metal = partial(
 )
 
 metal3_with_bend = partial(metal1, layer="M3", radius=10)
+metal_routing = metal3
 
 
 @pydantic.validate_arguments
