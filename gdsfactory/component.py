@@ -749,50 +749,50 @@ class Component(_GeometryHelper):
             invert_selection: removes all layers except layers specified.
             recursive: operate on the cells included in this cell.
         """
-        from gdsfactory.pdk import get_layer
+        if recursive and self.references:
+            D = self.flatten()
 
-        layers = [_parse_layer(get_layer(layer)) for layer in layers]
-        all_D = list(self.get_dependencies(recursive))
-        all_D += [self]
-        for D in all_D:
-            for polygonset in D.polygons:
-                polygon_layers = zip(polygonset.layers, polygonset.datatypes)
-                polygons_to_keep = [(pl in layers) for pl in polygon_layers]
-                if not invert_selection:
-                    polygons_to_keep = [(not p) for p in polygons_to_keep]
-                polygonset.polygons = [
-                    p for p, keep in zip(polygonset.polygons, polygons_to_keep) if keep
-                ]
-                polygonset.layers = [
-                    p for p, keep in zip(polygonset.layers, polygons_to_keep) if keep
-                ]
-                polygonset.datatypes = [
-                    p for p, keep in zip(polygonset.datatypes, polygons_to_keep) if keep
-                ]
+        else:
+            D = self
 
-            paths = []
-            for path in D.paths:
-                paths.extend(
-                    path
-                    for layer in zip(path.layers, path.datatypes)
-                    if layer not in layers
-                )
+        for polygonset in D.polygons:
+            polygon_layers = zip(polygonset.layers, polygonset.datatypes)
+            polygons_to_keep = [(pl in layers) for pl in polygon_layers]
+            if not invert_selection:
+                polygons_to_keep = [(not p) for p in polygons_to_keep]
+            polygonset.polygons = [
+                p for p, keep in zip(polygonset.polygons, polygons_to_keep) if keep
+            ]
+            polygonset.layers = [
+                p for p, keep in zip(polygonset.layers, polygons_to_keep) if keep
+            ]
+            polygonset.datatypes = [
+                p for p, keep in zip(polygonset.datatypes, polygons_to_keep) if keep
+            ]
 
-            D.paths = paths
+        paths = []
+        for path in D.paths:
+            paths.extend(
+                path
+                for layer in zip(path.layers, path.datatypes)
+                if layer not in layers
+            )
 
-            if include_labels:
-                new_labels = []
-                for label in D.labels:
-                    original_layer = (label.layer, label.texttype)
-                    original_layer = _parse_layer(original_layer)
-                    if invert_selection:
-                        keep_layer = original_layer in layers
-                    else:
-                        keep_layer = original_layer not in layers
-                    if keep_layer:
-                        new_labels += [label]
-                D.labels = new_labels
-        return self
+        D.paths = paths
+
+        if include_labels:
+            new_labels = []
+            for label in D.labels:
+                original_layer = (label.layer, label.texttype)
+                original_layer = _parse_layer(original_layer)
+                if invert_selection:
+                    keep_layer = original_layer in layers
+                else:
+                    keep_layer = original_layer not in layers
+                if keep_layer:
+                    new_labels += [label]
+            D.labels = new_labels
+        return D
 
     def extract(
         self,
