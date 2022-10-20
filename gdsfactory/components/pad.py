@@ -10,7 +10,7 @@ from gdsfactory.types import ComponentSpec, LayerSpec
 
 @cell
 def pad(
-    size: Tuple[float, float] = (80.0, 80.0),
+    size: Tuple[float, float] = (100.0, 100.0),
     layer: LayerSpec = "M3",
     bbox_layers: Optional[Tuple[LayerSpec, ...]] = None,
     bbox_offsets: Optional[Tuple[float, ...]] = None,

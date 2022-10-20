@@ -22,6 +22,7 @@ settings:
     pad_gnd_top: e2_1_2
     pad_sig_bot: e1_1_1
     pad_sig_top: e3_1_3
+    pad_spacing: 150.0
     ps_bot:
       function: straight_heater_metal_undercut
       settings:
@@ -51,6 +52,7 @@ settings:
     pad_gnd_top: e2_1_2
     pad_sig_bot: e1_1_1
     pad_sig_top: e3_1_3
+    pad_spacing: 150.0
     ps_bot:
       function: straight_heater_metal_undercut
       settings:

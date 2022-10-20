@@ -28,7 +28,7 @@ def mzi_pads_center(
     metal_route_width: float = 10,
     cross_section: CrossSectionSpec = "strip",
     cross_section_metal: CrossSectionSpec = "metal_routing",
-    pad_spacing: float = 100.0,
+    pad_spacing: float = 150.0,
 ) -> gf.Component:
     """Return Mzi phase shifter with pads in the middle.
 
