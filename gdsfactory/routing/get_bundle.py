@@ -21,7 +21,6 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.via_corner import via_corner
 from gdsfactory.components.wire import wire_corner
-from gdsfactory.config import TECH
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
 from gdsfactory.routing.get_bundle_corner import get_bundle_corner
@@ -41,8 +40,6 @@ from gdsfactory.types import (
     Number,
     Route,
 )
-
-METAL_MIN_SEPARATION = TECH.metal_spacing
 
 
 def get_bundle(
@@ -237,8 +234,10 @@ def are_decoupled(
     x1p: Number,
     x2: Number,
     x2p: Number,
-    sep: float = METAL_MIN_SEPARATION,
+    sep: Union[str, float] = "metal_spacing",
 ) -> bool:
+
+    sep = gf.get_constant(sep)
     if x2p + sep > x1:
         return False
     return False if x2 < x1p + sep else x2 >= x1p - sep

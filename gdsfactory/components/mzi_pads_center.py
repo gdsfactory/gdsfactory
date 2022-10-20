@@ -27,7 +27,8 @@ def mzi_pads_center(
     start_straight_length: float = 5,
     metal_route_width: float = 10,
     cross_section: CrossSectionSpec = "strip",
-    cross_section_metal: ComponentSpec = "metal_routing",
+    cross_section_metal: CrossSectionSpec = "metal_routing",
+    pad_spacing: float = 100.0,
 ) -> gf.Component:
     """Return Mzi phase shifter with pads in the middle.
 
@@ -55,6 +56,7 @@ def mzi_pads_center(
         metal_route_width: for routing metal.
         cross_section: for the mzi.
         cross_section_metal: for routing metal.
+        pad_spacing: pad pitch in um.
     """
     c = gf.Component()
 
@@ -73,7 +75,9 @@ def mzi_pads_center(
             raise ValueError(f"port {port_name!r} not in {port_names}")
 
     m = c << mzi_ps
-    pads = c << gf.components.array(component=pad, columns=3, rows=1)
+    pads = c << gf.components.array(
+        component=pad, columns=3, rows=1, spacing=(pad_spacing, pad_spacing)
+    )
     pads.x = m.x
     pads.y = m.y
 
