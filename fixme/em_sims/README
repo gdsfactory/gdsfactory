@@ -1,0 +1,7 @@
+# Collaborate to simulate CMOS passives in opensource em tools (ASITIC, meep, pyems etc)
+# 1. Provide an interface with basic em simulation with minimal settings such as meshing and accuracy and provide
+# reasonable defaults
+# 2. Write output s-parameters or simulatable brodaband spice model that can be plugged in ngpice/Xyce
+# 3. Compare with ASITIC created s-parameters for fine tuning ()
+# 4. Current example set on skywater130, once proven extend to gf180 and sky90(when available)
+# 5. Corrleate with hardware if possible

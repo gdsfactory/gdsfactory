@@ -1,4 +1,4 @@
-name: mzi_2e88f57c_add_termin_76234048
+name: mzi_2e88f57c_add_termin_919e9f27
 settings:
   changed:
     component:
@@ -66,7 +66,6 @@ settings:
         info_version: 2
         module: gdsfactory.components.mzi
         name: mzi_2e88f57c
-      version: 0.0.1
   child:
     changed:
       combiner:
@@ -204,7 +203,6 @@ settings:
         info_version: 2
         module: gdsfactory.components.mzi
         name: mzi_2e88f57c
-      version: 0.0.1
     port_name: null
     port_type: optical
     ports: null
@@ -216,5 +214,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.add_termination
-  name: mzi_2e88f57c_add_termin_76234048
-version: 0.0.1
+  name: mzi_2e88f57c_add_termin_919e9f27

@@ -4,7 +4,7 @@ import logging
 import pathlib
 import warnings
 from functools import partial
-from typing import Callable, Optional
+from typing import Any, Callable, Optional
 
 import numpy as np
 from omegaconf import DictConfig
@@ -37,6 +37,8 @@ logger = logging.root
 component_settings = ["function", "component", "settings"]
 cross_section_settings = ["function", "cross_section", "settings"]
 layers_required = ["DEVREC", "PORT", "PORTE"]
+
+constants = dict(fiber_array_spacing=127.0)
 
 
 class Pdk(BaseModel):
@@ -78,6 +80,7 @@ class Pdk(BaseModel):
     interconnect_cml_path: Optional[PathType] = None
     grid_size: float = 0.001
     warn_off_grid_ports: bool = False
+    constants: Dict[str, Any] = constants
 
     class Config:
         """Configuration."""
@@ -311,11 +314,6 @@ class Pdk(BaseModel):
                 else self.containers[cell_name]
             )
             component = cell(**settings)
-            component = (
-                self.default_decorator(component) or component
-                if self.default_decorator
-                else component
-            )
             return component
         else:
             raise ValueError(
@@ -398,6 +396,12 @@ class Pdk(BaseModel):
         if self.layer_stack is None:
             raise ValueError(f"layer_stack for Pdk {self.name!r} is None")
         return self.layer_stack
+
+    def get_constant(self, key: str) -> Any:
+        if key not in self.constants:
+            constants = list(self.constants.keys())
+            raise ValueError(f"{key!r} not in {constants}")
+        return self.constants[key]
 
     # _on_cell_registered = Event()
     # _on_container_registered: Event = Event()

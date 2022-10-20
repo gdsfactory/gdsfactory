@@ -43,4 +43,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.disk
   name: disk
-version: 0.0.1

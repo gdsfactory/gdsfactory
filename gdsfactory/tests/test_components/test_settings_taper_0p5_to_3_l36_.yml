@@ -13,4 +13,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.taper_from_csv
   name: taper_from_csv
-version: 0.0.1

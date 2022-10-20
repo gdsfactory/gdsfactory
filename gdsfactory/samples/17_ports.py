@@ -1,4 +1,4 @@
-"""Ports define where each port has the following properties.
+"""Ports define where each port has the follow properties.
 
 - name
 - center: (x, y)
@@ -31,7 +31,6 @@ def test_component_with_port(
     c = gf.Component()
     c.add_polygon([(0, 0), (x, 0), (x, y), (0, y)], layer=layer)
     c.add_port(name="o1", center=(0, y / 2), width=y, orientation=180, layer=layer)
-
     assert len(c.ports) == 1
     return c
 

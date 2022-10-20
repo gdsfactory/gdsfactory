@@ -37,17 +37,7 @@ settings:
         settings:
           bend:
             function: wire_corner
-          cross_section:
-            function: cross_section
-            settings:
-              layer: M3
-              port_names:
-              - e1
-              - e2
-              port_types:
-              - electrical
-              - electrical
-              width: 10.0
+          cross_section: metal_routing
       get_bundle_from_steps:
         function: get_bundle_from_steps
       get_bundle_from_steps_electrical:
@@ -55,17 +45,7 @@ settings:
         settings:
           bend:
             function: wire_corner
-          cross_section:
-            function: cross_section
-            settings:
-              layer: M3
-              port_names:
-              - e1
-              - e2
-              port_types:
-              - electrical
-              - electrical
-              width: 10.0
+          cross_section: metal_routing
       get_bundle_from_waypoints:
         function: get_bundle_from_waypoints
       get_bundle_path_length_match:
@@ -107,17 +87,7 @@ settings:
         settings:
           bend:
             function: wire_corner
-          cross_section:
-            function: cross_section
-            settings:
-              layer: M3
-              port_names:
-              - e1
-              - e2
-              port_types:
-              - electrical
-              - electrical
-              width: 10.0
+          cross_section: metal_routing
       get_bundle_from_steps:
         function: get_bundle_from_steps
       get_bundle_from_steps_electrical:
@@ -125,17 +95,7 @@ settings:
         settings:
           bend:
             function: wire_corner
-          cross_section:
-            function: cross_section
-            settings:
-              layer: M3
-              port_names:
-              - e1
-              - e2
-              port_types:
-              - electrical
-              - electrical
-              width: 10.0
+          cross_section: metal_routing
       get_bundle_from_waypoints:
         function: get_bundle_from_waypoints
       get_bundle_path_length_match:
@@ -150,4 +110,3 @@ settings:
   info_version: 2
   module: gdsfactory.read.from_yaml
   name: yaml_anchor_4d75d577
-version: 0.0.1

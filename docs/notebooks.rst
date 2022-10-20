@@ -1,4 +1,4 @@
-Python driven flow
+Layout tutorial
 ===================================
 
 
@@ -22,3 +22,4 @@ Python driven flow
    notebooks/09_pdk_import.ipynb
    notebooks/common_mistakes.ipynb
    notebooks/11_get_netlist.ipynb
+   notebooks/10_yaml_component.ipynb

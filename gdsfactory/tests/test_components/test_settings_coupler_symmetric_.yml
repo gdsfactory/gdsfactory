@@ -47,4 +47,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.coupler_symmetric
   name: coupler_symmetric
-version: 0.0.1

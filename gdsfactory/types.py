@@ -33,12 +33,11 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 from omegaconf import OmegaConf
-from phidl.device_layout import Label as LabelPhidl
-from phidl.device_layout import Path
 from pydantic import BaseModel, Extra
 from typing_extensions import Literal
 
 from gdsfactory.component import Component, ComponentReference
+from gdsfactory.component_layout import Label
 from gdsfactory.cross_section import CrossSection, Section
 from gdsfactory.layers import LayerColor, LayerColors
 from gdsfactory.port import Port
@@ -58,19 +57,7 @@ Anchor = Literal[
 ]
 Axis = Literal["x", "y"]
 NSEW = Literal["N", "S", "E", "W"]
-WidthTypes = Literal["sine", "linear"]
-
-
-class Label(LabelPhidl):
-    @classmethod
-    def __get_validators__(cls):
-        yield cls.validate
-
-    @classmethod
-    def validate(cls, v):
-        """Check with pydantic Label valid type."""
-        assert isinstance(v, LabelPhidl), f"TypeError, Got {type(v)}, expecting Label"
-        return v
+WidthTypes = Literal["sine", "linear", "parabolic"]
 
 
 Float2 = Tuple[float, float]
@@ -91,7 +78,6 @@ LayerSpec = Union[Layer, int, str, None]
 LayerSpecs = Optional[Tuple[LayerSpec, ...]]
 ComponentFactory = Callable[..., Component]
 ComponentFactoryDict = Dict[str, ComponentFactory]
-PathFactory = Callable[..., Path]
 PathType = Union[str, pathlib.Path]
 PathTypes = Tuple[PathType, ...]
 
@@ -191,32 +177,21 @@ class NetlistModel(BaseModel):
         name: component name.
         info: information (polarization, wavelength ...).
         settings: input variables.
-        pdk: pdk module name.
         ports: exposed component ports.
 
     """
 
-    instances: Dict[str, ComponentModel]
+    instances: Optional[Dict[str, ComponentModel]] = None
     placements: Optional[Dict[str, PlacementModel]] = None
     connections: Optional[Dict[str, str]] = None
     routes: Optional[Dict[str, RouteModel]] = None
     name: Optional[str] = None
     info: Optional[Dict[str, Any]] = None
     settings: Optional[Dict[str, Any]] = None
-    pdk: Optional[str] = None
     ports: Optional[Dict[str, str]] = None
 
     class Config:
         extra = Extra.forbid
-
-    # factory: Dict[str, ComponentFactory] = {}
-    # def add_instance(self, name: str, component: str, **settings) -> None:
-    #     assert component in self.factory.keys()
-    #     component_model = ComponentModel(component=component, settings=settings)
-    #     self.instances[name] = component_model
-
-    # def add_route(self, port1: Port, port2: Port, **settings) -> None:
-    #     self.routes = component_model
 
 
 RouteFactory = Callable[..., Route]
@@ -291,7 +266,7 @@ def write_schema(model: BaseModel = NetlistModel) -> None:
     schema_path_json.write_text(json.dumps(OmegaConf.to_container(d)))
 
 
-if __name__ == "__main__":
+def _demo():
     write_schema()
 
     import jsonschema
@@ -353,3 +328,7 @@ ports:
     # from gdsfactory.components import factory
     # c = NetlistModel(factory=factory)
     # c.add_instance("mmi1", "mmi1x2", length=13.3)
+
+
+if __name__ == "__main__":
+    _demo()
