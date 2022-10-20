@@ -24,7 +24,7 @@ from gdsfactory.serialization import clean_value_json, clean_value_name
 from gdsfactory.simulation.gmeep.get_simulation_grating_fiber import (
     get_simulation_grating_fiber,
 )
-from gdsfactory.simulation.gmeep.write_sparameters_meep_mpi import _mpirun, _python
+from gdsfactory.simulation.gmeep.write_sparameters_meep_mpi import _python
 from gdsfactory.types import PathType
 
 nm = 1e-3
@@ -284,7 +284,7 @@ def write_sparameters_grating_mpi(
     with open(script_file, "w") as script_file_obj:
         script_file_obj.writelines(script_lines)
     # Exec string
-    command = f"{_mpirun()} -np {cores} {_python()} {script_file}"
+    command = f"mpirun -np {cores} {_python()} {script_file}"
 
     # Launch simulation
     if verbosity:
