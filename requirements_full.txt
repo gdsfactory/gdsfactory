@@ -1,6 +1,5 @@
 autograd
 bokeh
-devsim
 freetype-py
 holoviews
 ipympl
