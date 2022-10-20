@@ -81,7 +81,7 @@ def add_interconnect_element(
 def get_interconnect_settings(instance):
     info = instance.info.copy()
     if "interconnect" not in info.keys():
-        return dict()
+        return {}
     settings = info["interconnect"]
     if "properties" not in settings:
         settings["properties"] = []

@@ -1,6 +1,6 @@
 """pack a list of components into as few components as possible.
 
-adapted from phidl.geometry.
+based on phidl.geometry.
 
 """
 
@@ -108,7 +108,7 @@ def pack(
 ) -> List[Component]:
     """Pack a list of components into as few Components as possible.
 
-    Adapted from phidl.geometry
+    based on phidl.geometry
 
     Args:
         component_list: list or tuple.

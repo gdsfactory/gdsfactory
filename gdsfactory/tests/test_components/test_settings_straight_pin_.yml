@@ -69,4 +69,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.straight_pin
   name: straight_pin
-version: 0.0.1

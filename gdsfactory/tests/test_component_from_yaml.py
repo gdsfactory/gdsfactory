@@ -1,5 +1,3 @@
-from pprint import pprint
-
 import jsondiff
 import numpy as np
 import pytest
@@ -152,7 +150,7 @@ routes:
         settings:
             separation: 20
             cross_section:
-                cross_section: metal3
+                cross_section: metal3_with_bend
                 settings:
                     layer: [31, 0]
                     width: 10
@@ -600,15 +598,18 @@ def _demo_netlist() -> None:
 
 
 if __name__ == "__main__":
+    c = test_connections_different_factory()
+    c.show()
+
     # c = test_netlists("sample_mmis", None, False)
-    yaml_key = "sample_doe_function"
-    yaml_key = "sample_mmis"
-    yaml_string = yaml_strings[yaml_key]
-    c = from_yaml(yaml_string)
-    n = c.get_netlist()
-    yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    c2 = from_yaml(yaml_str)
-    n2 = c2.get_netlist()
-    d = jsondiff.diff(n, n2)
-    pprint(d)
-    c2.show()
+    # yaml_key = "sample_doe_function"
+    # yaml_key = "sample_mmis"
+    # yaml_string = yaml_strings[yaml_key]
+    # c = from_yaml(yaml_string)
+    # n = c.get_netlist()
+    # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
+    # c2 = from_yaml(yaml_str)
+    # n2 = c2.get_netlist()
+    # d = jsondiff.diff(n, n2)
+    # pprint(d)
+    # c2.show()

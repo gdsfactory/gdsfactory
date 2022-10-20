@@ -1,0 +1,81 @@
+name: ge_detector_straight_si_contacts
+settings:
+  changed: {}
+  child: null
+  default:
+    cross_section:
+      function: pn_ge_detector_si_contacts
+    length: 80.0
+    taper:
+      function: taper
+      settings:
+        cross_section: strip
+        length: 20.0
+        width1: 0.5
+        width2: 0.8
+    via_stack:
+      function: via_stack
+      settings:
+        layers:
+        - - 3
+          - 0
+        - - 41
+          - 0
+        - - 45
+          - 0
+        - - 49
+          - 0
+        vias:
+        - function: via
+          settings:
+            layer: VIAC
+        - function: via
+          settings:
+            enclosure: 2
+            layer: VIA1
+        - function: via
+          settings:
+            layer: VIA2
+    via_stack_spacing: 5.0
+    via_stack_width: 10.0
+  full:
+    cross_section:
+      function: pn_ge_detector_si_contacts
+    length: 80.0
+    taper:
+      function: taper
+      settings:
+        cross_section: strip
+        length: 20.0
+        width1: 0.5
+        width2: 0.8
+    via_stack:
+      function: via_stack
+      settings:
+        layers:
+        - - 3
+          - 0
+        - - 41
+          - 0
+        - - 45
+          - 0
+        - - 49
+          - 0
+        vias:
+        - function: via
+          settings:
+            layer: VIAC
+        - function: via
+          settings:
+            enclosure: 2
+            layer: VIA1
+        - function: via
+          settings:
+            layer: VIA2
+    via_stack_spacing: 5.0
+    via_stack_width: 10.0
+  function_name: ge_detector_straight_si_contacts
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.ge_detector_straight_si_contacts
+  name: ge_detector_straight_si_contacts

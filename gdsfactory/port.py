@@ -31,17 +31,14 @@ from __future__ import annotations
 import csv
 import functools
 import typing
-import warnings
-from copy import deepcopy
 from functools import partial
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 import numpy as np
-import phidl.geometry as pg
 from numpy import ndarray
 from omegaconf import OmegaConf
-from phidl.device_layout import _rotate_points
 
+from gdsfactory.component_layout import _rotate_points
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.serialization import clean_value_json
 from gdsfactory.snap import snap_to_grid
@@ -54,8 +51,6 @@ Layers = Tuple[Layer, ...]
 LayerSpec = Union[Layer, int, str, None]
 LayerSpecs = Tuple[LayerSpec, ...]
 Float2 = Tuple[float, float]
-
-midpoint_deprecation = "Port.midpoint is deprecated. Find and replace 'midpoint' by 'center' in all your code."
 
 
 class PortNotOnGridError(ValueError):
@@ -71,8 +66,7 @@ class PortOrientationError(ValueError):
 
 
 class Port:
-    """Ports are useful to connect Components with each other. Extends phidl \
-    port with layer and cross_section.
+    """Ports are useful to connect Components with each other.
 
     Args:
         name: we name ports clock-wise starting from bottom left.
@@ -85,17 +79,13 @@ class Port:
         parent: Component that port belongs to.
         cross_section: cross_section spec.
         shear_angle: an optional angle to shear port face in degrees.
-
     """
-
-    _next_uid = 0
 
     def __init__(
         self,
         name: str,
         orientation: Optional[float],
-        center: Optional[Tuple[float, float]] = None,
-        midpoint: Optional[Tuple[float, float]] = None,
+        center: Tuple[float, float],
         width: Optional[float] = None,
         layer: Optional[Tuple[int, int]] = None,
         port_type: str = "optical",
@@ -103,19 +93,12 @@ class Port:
         cross_section: Optional[CrossSection] = None,
         shear_angle: Optional[float] = None,
     ) -> None:
-        """Initializes the Port object."""
-        if midpoint:
-            warnings.warn(midpoint_deprecation, DeprecationWarning, stacklevel=2)
-            center = midpoint
-        if midpoint is None and center is None:
-            raise ValueError("You need to define port center.")
-
+        """Initializes Port object."""
         self.name = name
         self.center = np.array(center, dtype="float64")
         self.orientation = np.mod(orientation, 360) if orientation else orientation
         self.parent = parent
         self.info: Dict[str, Any] = {}
-        self.uid = Port._next_uid
         self.port_type = port_type
         self.cross_section = cross_section
         self.shear_angle = shear_angle
@@ -137,17 +120,6 @@ class Port:
 
         if self.width < 0:
             raise ValueError(f"Port width must be >=0. Got {self.width}")
-        Port._next_uid += 1
-
-    @property
-    def midpoint(self) -> Float2:
-        warnings.warn(midpoint_deprecation, DeprecationWarning, stacklevel=2)
-        return self.center
-
-    @midpoint.setter
-    def midpoint(self, value: Float2):
-        warnings.warn(midpoint_deprecation, DeprecationWarning, stacklevel=2)
-        self.center = value
 
     def to_dict(self) -> Dict[str, Any]:
         d = dict(
@@ -230,9 +202,9 @@ class Port:
         port.orientation = (port.orientation + 180) % 360
         return port
 
-    def _copy(self, new_uid: bool = True) -> Port:
+    def _copy(self) -> Port:
         """Keep this case for phidl compatibility."""
-        return self.copy(new_uid=new_uid)
+        return self.copy()
 
     @property
     def endpoints(self) -> None:
@@ -292,12 +264,11 @@ class Port:
         self.center = _rotate_points(self.center, angle=angle, center=center)
         return self
 
-    def copy(self, name: Optional[str] = None, new_uid: bool = True) -> Port:
+    def copy(self, name: Optional[str] = None) -> Port:
         """Returns a copy of the port.
 
         Args:
             name: optional new name.
-            new_uid: True creates a new port id.
 
         """
         new_port = Port(
@@ -311,10 +282,7 @@ class Port:
             cross_section=self.cross_section,
             shear_angle=self.shear_angle,
         )
-        new_port.info = deepcopy(self.info)
-        if not new_uid:
-            new_port.uid = self.uid
-            Port._next_uid -= 1
+        new_port.info = self.info
         return new_port
 
     def get_extended_center(self, length: float = 1.0) -> ndarray:
@@ -401,17 +369,18 @@ def port_array(
     ]
 
 
-def read_port_markers(component: object, layers: LayerSpecs = ((1, 10),)) -> Component:
-    """Loads a GDS and returns the extracted ports from layer markers.
+def read_port_markers(component: object, layers: LayerSpecs = ("PORT",)) -> Component:
+    """Returns extracted polygons from component layers.
 
     Args:
-        component: or Component
-        layers: Iterable of GDS layers
+        component: Component to extract markers.
+        layers: GDS layer specs.
 
     """
     from gdsfactory.pdk import get_layer
 
-    return pg.extract(component, layers=[get_layer(layer) for layer in layers])
+    layers = [get_layer(layer) for layer in layers]
+    return component.extract(layers=layers)
 
 
 def csv2port(csvpath) -> Dict[str, Port]:
@@ -522,6 +491,7 @@ def select_ports(
     width: Optional[float] = None,
     layers_excluded: Optional[Tuple[Tuple[int, int], ...]] = None,
     port_type: Optional[str] = None,
+    names: Optional[List[str]] = None,
     clockwise: bool = True,
 ) -> Dict[str, Port]:
     """Returns a dict of ports from a dict of ports.
@@ -570,6 +540,8 @@ def select_ports(
         ports = {p_name: p for p_name, p in ports.items() if p.width == width}
     if port_type:
         ports = {p_name: p for p_name, p in ports.items() if p.port_type == port_type}
+    if names:
+        ports = {p_name: p for p_name, p in ports.items() if p_name in names}
 
     if clockwise:
         ports = sort_ports_clockwise(ports)
@@ -1012,4 +984,4 @@ if __name__ == "__main__":
     # p0 = c.get_ports_list(orientation=0, clockwise=False)[0]
     # print(p0)
     # print(type(p0.to_dict()["center"][0]))
-    p = Port("o1", orientation=0, midpoint=(9, 0), layer=(1, 0), width=10)
+    p = Port("o1", orientation=0, center=(9, 0), layer=(1, 0), width=10)

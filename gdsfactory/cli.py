@@ -11,14 +11,13 @@ from click.core import Context, Option
 
 import gdsfactory
 from gdsfactory.config import CONFIG, cwd, print_config
-from gdsfactory.gdsdiff.gdsdiff import gdsdiff
 from gdsfactory.install import install_gdsdiff, install_klayout_package
 from gdsfactory.layers import lyp_to_dataclass
 from gdsfactory.tech import LAYER
 from gdsfactory.types import PathType
 from gdsfactory.write_cells import write_cells as write_cells_to_separate_gds
 
-VERSION = "5.27.0"
+VERSION = "5.43.2"
 log_directory = CONFIG.get("log_directory")
 LAYER_LABEL = LAYER.LABEL
 
@@ -107,15 +106,10 @@ def merge_gds(
     c.show(show_ports=True)
 
 
-# netlist driven flow in YAML
-
-
-@click.group()
-def yaml() -> None:
-    """Define components/circuits/masks in YAML."""
-    pass
-
-
+# @click.group()
+# def watch() -> None:
+#     """Watch YAML or python files."""
+#     pass
 # @click.option("--debug", "-d", default=False, help="debug", is_flag=True)
 # @click.command()
 # def webapp(debug: bool = False) -> None:
@@ -154,6 +148,8 @@ def show(filename: str) -> None:
 @click.option("--xor", "-x", default=False, help="include xor", is_flag=True)
 def diff(gdspath1: str, gdspath2: str, xor: bool = False) -> None:
     """Show boolean difference between two GDS files."""
+    from gdsfactory.gdsdiff.gdsdiff import gdsdiff
+
     diff = gdsdiff(gdspath1, gdspath2, xor=xor)
     diff.show()
 
@@ -186,7 +182,7 @@ def run_tests() -> None:
     is_eager=True,
     help="Show the version number.",
 )
-def gf() -> None:
+def cli(name="gf") -> None:
     """`gf` is the gdsfactory command line tool."""
 
 
@@ -201,12 +197,12 @@ tool.add_command(run_tests)
 tool.add_command(install)
 
 # yaml.add_command(webapp)
-yaml.add_command(watch)
+# watch.add_command(watch_yaml)
 
-gf.add_command(gds)
-gf.add_command(tool)
-gf.add_command(yaml)
+cli.add_command(gds)
+cli.add_command(tool)
+cli.add_command(watch)
 
 
 if __name__ == "__main__":
-    gf()
+    cli()

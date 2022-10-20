@@ -3,30 +3,8 @@ settings:
   changed: {}
   child: null
   default:
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - DEVREC
-        cladding_offsets:
-        - 0
-    cross_section_metal:
-      function: cross_section
-      settings:
-        layer: M3
-        port_names:
-        - e1
-        - e2
-        port_types:
-        - electrical
-        - electrical
-        width: 10.0
+    cross_section: strip
+    cross_section_metal: metal_routing
     delta_length: 40.0
     end_straight_length: 5
     length_x: 500
@@ -54,30 +32,8 @@ settings:
         with_undercut: false
     start_straight_length: 5
   full:
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - DEVREC
-        cladding_offsets:
-        - 0
-    cross_section_metal:
-      function: cross_section
-      settings:
-        layer: M3
-        port_names:
-        - e1
-        - e2
-        port_types:
-        - electrical
-        - electrical
-        width: 10.0
+    cross_section: strip
+    cross_section_metal: metal_routing
     delta_length: 40.0
     end_straight_length: 5
     length_x: 500
@@ -109,4 +65,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.mzi_pads_center
   name: mzi_pads_center
-version: 0.0.1

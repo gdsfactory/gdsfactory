@@ -74,7 +74,7 @@ def assert_first_letters_are_different(**kwargs):
     the same hash.
 
     """
-    first_letters = [join_first_letters(k) for k in kwargs.keys()]
+    first_letters = [join_first_letters(k) for k in kwargs]
     if len(set(first_letters)) != len(first_letters):
         raise ValueError(
             f"Possible name collision! {kwargs.keys()} repeats first letters {first_letters}",
@@ -85,7 +85,7 @@ def assert_first_letters_are_different(**kwargs):
 
 def print_first_letters_warning(**kwargs) -> None:
     """Prints kwargs that have same cell."""
-    first_letters = [join_first_letters(k) for k in kwargs.keys()]
+    first_letters = [join_first_letters(k) for k in kwargs]
     if len(set(first_letters)) != len(first_letters):
         print(
             f"Possible name collision! {kwargs.keys()} "
