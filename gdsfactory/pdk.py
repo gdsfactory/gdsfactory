@@ -38,7 +38,12 @@ component_settings = ["function", "component", "settings"]
 cross_section_settings = ["function", "cross_section", "settings"]
 layers_required = ["DEVREC", "PORT", "PORTE"]
 
-constants = dict(fiber_array_spacing=127.0)
+constants = dict(
+    fiber_array_spacing=127.0,
+    fiber_spacing=50.0,
+    fiber_input_to_output_spacing=200.0,
+    metal_spacing=10.0,
+)
 
 
 class Pdk(BaseModel):
@@ -398,6 +403,8 @@ class Pdk(BaseModel):
         return self.layer_stack
 
     def get_constant(self, key: str) -> Any:
+        if not isinstance(key, str):
+            return key
         if key not in self.constants:
             constants = list(self.constants.keys())
             raise ValueError(f"{key!r} not in {constants}")
@@ -467,6 +474,11 @@ def get_active_pdk() -> Pdk:
 
 def get_grid_size() -> float:
     return _ACTIVE_PDK.grid_size
+
+
+def get_constant(constant_name: Any) -> Any:
+    """If constant_name is a string returns a the value from the dict."""
+    return _ACTIVE_PDK.get_constant(constant_name)
 
 
 def get_sparameters_path() -> pathlib.Path:
