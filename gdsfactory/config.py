@@ -174,8 +174,6 @@ def set_plot_options(
 
 
 if __name__ == "__main__":
-    # print(TECH.layer.WG)
-    # print(TECH)
     # print_config("gdslib")
     # print(CONFIG["git_hash"])
     # print(CONFIG["sparameters"])

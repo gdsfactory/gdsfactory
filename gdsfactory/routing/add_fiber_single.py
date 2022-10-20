@@ -317,6 +317,6 @@ if __name__ == "__main__":
     cc.show(show_ports=True)
 
     # c = gf.components.straight(length=20)
-    # gc = gf.components.grating_coupler_elliptical_te(layer=gf.TECH.layer.WGN)
+    # gc = gf.components.grating_coupler_elliptical_te(layer="WGN")
     # cc = add_fiber_single(component=c, grating_coupler=gc, with_loopback=True, )
     # cc.show(show_ports=True)
