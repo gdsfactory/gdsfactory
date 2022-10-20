@@ -7,7 +7,6 @@ priority:
 3. the yamlpath_default in gdsfactory.tech.yml (lowest priority)
 
 `CONFIG` has all your computer specific paths that we do not care to store
-`TECH` has all the useful info that we will store to have reproducible layouts.
 
 You can access the config dictionary with `print_config`
 """
@@ -19,7 +18,6 @@ import os
 import pathlib
 import subprocess
 import tempfile
-from dataclasses import asdict
 from pathlib import Path
 from pprint import pprint
 from typing import Any, Iterable, Optional, Union
@@ -27,8 +25,6 @@ from typing import Any, Iterable, Optional, Union
 import omegaconf
 from loguru import logger
 from omegaconf import OmegaConf
-
-from gdsfactory.tech import TECH
 
 PathType = Union[str, pathlib.Path]
 
@@ -112,7 +108,6 @@ else:
     mask_config_directory = dirpath_build
 
 
-# CONFIG["custom_components"] = TECH.custom_components
 CONFIG["gdslib"] = repo_path / "gdslib"
 CONFIG["gdsdiff"] = repo_path / "gdslib" / "gds"
 CONFIG["modes"] = repo_path / "gdslib" / "modes"
@@ -152,7 +147,6 @@ def print_config(key: Optional[str] = None) -> None:
             print(f"`{key}` key not found in {CONFIG.keys()}")
     else:
         pprint(CONFIG)
-        print(OmegaConf.to_yaml(asdict(TECH)))
 
 
 def complex_encoder(z):
@@ -169,12 +163,6 @@ def write_config(config: Any, json_out_path: Path) -> None:
     """Write config to a JSON file."""
     with open(json_out_path, "w") as f:
         json.dump(config, f, indent=2, sort_keys=True, default=complex_encoder)
-
-
-def write_tech(json_out_path: Path) -> None:
-    """Write config to a JSON file."""
-    with open(json_out_path, "w") as f:
-        json.dump(asdict(TECH), f, indent=2, sort_keys=True, default=complex_encoder)
 
 
 def call_if_func(f: Any, **kwargs) -> Any:
@@ -217,9 +205,6 @@ def set_plot_options(
         blocking=blocking,
         zoom_factor=zoom_factor,
     )
-
-
-__all__ = ["logger", "PATH", "CONFIG", "get_git_hash", "write_tech"]
 
 
 if __name__ == "__main__":
