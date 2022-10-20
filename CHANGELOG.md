@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.43.2
+
+- add `gf.cross_section.metal_routing` and use `metal_routing` string instead of function for metal routing functions [PR](https://github.com/gdsfactory/gdsfactory/pull/778)
+- Component.remove_layers returns flat copy when hierarchical=True
+
 ## 5.43.1
 
 - upgrade tidy3d-beta from 1.7.0 to 1.7.1
