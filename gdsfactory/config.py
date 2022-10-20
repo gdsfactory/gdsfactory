@@ -17,7 +17,6 @@ import json
 import os
 import pathlib
 import subprocess
-import tempfile
 from pathlib import Path
 from pprint import pprint
 from typing import Any, Iterable, Optional, Union
@@ -41,8 +40,6 @@ yamlpath_default = module_path / "config.yml"
 yamlpath_home = home_path / "config.yml"
 layer_path = module_path / "klayout" / "tech" / "layers.lyp"
 
-dirpath_build = pathlib.Path(tempfile.TemporaryDirectory().name)
-dirpath_test = pathlib.Path(tempfile.TemporaryDirectory().name)
 MAX_NAME_LENGTH = 32
 
 logger.info(f"Load {str(module_path)!r} {__version__}")
@@ -93,49 +90,18 @@ CONFIG = dict(
     cwd=cwd,
 )
 
-mask_name = "notDefined"
-
-
-if "mask" in CONF:
-    mask_name = CONF.mask.name
-    mask_config_directory = cwd
-    build_directory = mask_config_directory / "build"
-    CONFIG["devices_directory"] = mask_config_directory / "devices"
-    CONFIG["mask_gds"] = mask_config_directory / "build" / "mask" / f"{mask_name}.gds"
-else:
-    dirpath_build.mkdir(exist_ok=True)
-    build_directory = dirpath_build
-    mask_config_directory = dirpath_build
-
-
 CONFIG["gdslib"] = repo_path / "gdslib"
 CONFIG["gdsdiff"] = repo_path / "gdslib" / "gds"
 CONFIG["modes"] = repo_path / "gdslib" / "modes"
 CONFIG["sparameters"] = CONFIG["gdslib"] / "sp"
-sparameters_path = CONFIG["sparameters"]
 CONFIG["interconnect"] = CONFIG["gdslib"] / "interconnect"
-
-CONFIG["build_directory"] = build_directory
-CONFIG["gds_directory"] = build_directory / "devices"
-CONFIG["cache_directory"] = CONF.get("cache", build_directory / "cache")
-CONFIG["cache_doe_directory"] = build_directory / "cache_doe"
-CONFIG["doe_directory"] = build_directory / "sweep"
-CONFIG["mask_directory"] = build_directory / "mask"
-CONFIG["mask_gds"] = build_directory / "mask" / f"{mask_name}.gds"
-CONFIG["mask_config_directory"] = mask_config_directory
 CONFIG["samples_path"] = module_path / "samples"
 CONFIG["netlists"] = module_path / "samples" / "netlists"
 CONFIG["components_path"] = module_path / "components"
 CONFIG["schemas"] = module_path / "tests" / "schemas"
 CONFIG["schema_netlist"] = module_path / "tests" / "schemas" / "netlist.json"
 
-if "gds_resources" in CONFIG:
-    CONFIG["gds_resources"] = CONFIG["masks_path"] / CONFIG["gds_resources"]
-
-build_directory.mkdir(exist_ok=True)
-CONFIG["gds_directory"].mkdir(exist_ok=True)
-CONFIG["doe_directory"].mkdir(exist_ok=True)
-CONFIG["mask_directory"].mkdir(exist_ok=True)
+sparameters_path = CONFIG["sparameters"]
 
 
 def print_config(key: Optional[str] = None) -> None:

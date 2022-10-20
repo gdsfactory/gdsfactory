@@ -37,7 +37,6 @@ from gdsfactory.types import (
     ComponentSpec,
     CrossSectionSpec,
     MultiCrossSectionAngleSpec,
-    Number,
     Route,
 )
 
@@ -230,10 +229,10 @@ def get_port_width(port: Port) -> Union[float, int]:
 
 
 def are_decoupled(
-    x1: Number,
-    x1p: Number,
-    x2: Number,
-    x2p: Number,
+    x1: float,
+    x1p: float,
+    x2: float,
+    x2p: float,
     sep: Union[str, float] = "metal_spacing",
 ) -> bool:
 
@@ -478,7 +477,7 @@ def _get_bundle_waypoints(
     ]
 
 
-def compute_ports_max_displacement(ports1: List[Port], ports2: List[Port]) -> Number:
+def compute_ports_max_displacement(ports1: List[Port], ports2: List[Port]) -> float:
     if ports1[0].orientation in [0, 180]:
         a1 = [p.y for p in ports1]
         a2 = [p.y for p in ports2]
@@ -489,7 +488,7 @@ def compute_ports_max_displacement(ports1: List[Port], ports2: List[Port]) -> Nu
     return max(abs(max(a1) - min(a2)), abs(min(a1) - max(a2)))
 
 
-def sign(x: Number) -> int:
+def sign(x: float) -> int:
     return 1 if x > 0 else -1
 
 
