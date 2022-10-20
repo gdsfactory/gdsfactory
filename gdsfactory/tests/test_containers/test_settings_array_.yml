@@ -1,4 +1,4 @@
-name: array_f391cef3
+name: array_fd3b297b
 settings:
   changed:
     component:
@@ -66,9 +66,9 @@ settings:
         info_version: 2
         module: gdsfactory.components.mzi
         name: mzi_2e88f57c
-      version: 0.0.1
   child: null
   default:
+    add_ports: true
     columns: 6
     component:
       function: straight
@@ -77,6 +77,7 @@ settings:
     - 150.0
     - 150.0
   full:
+    add_ports: true
     columns: 6
     component:
       name: mzi_2e88f57c
@@ -143,7 +144,6 @@ settings:
         info_version: 2
         module: gdsfactory.components.mzi
         name: mzi_2e88f57c
-      version: 0.0.1
     rows: 1
     spacing:
     - 150.0
@@ -152,5 +152,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.array_component
-  name: array_f391cef3
-version: 0.0.1
+  name: array_fd3b297b

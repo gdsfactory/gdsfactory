@@ -7,6 +7,10 @@
 *.hdf5
 *.stl
 *.pkl
+*.msh
+*.xdmf
+*.db
+*.svg
 test_mask_metadata.csv
 test_mask_metadata.yml
 .pyre_configuration

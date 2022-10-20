@@ -56,7 +56,7 @@ if __name__ == "__main__":
     # This can be thought of as the straight_wide() function creating another GDS cell,
     # only this one has some geometry inside it.
     #
-    # Let's create two of these Devices by calling the straight_wide() function
+    # Let's create two of these Components by calling the straight_wide() function
     WG1 = straight_wide(length=10, width=1)
     WG2 = straight_wide(length=12, width=2)
 

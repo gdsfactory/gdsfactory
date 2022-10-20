@@ -235,6 +235,7 @@ def get_simulation(
     )
 
     component_extended = component_extended.flatten()
+    component_extended.name = component.name
     gf.show(component_extended)
 
     component_ref = component_padding.ref()

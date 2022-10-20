@@ -41,4 +41,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.litho_ruler
   name: litho_ruler
-version: 0.0.1
