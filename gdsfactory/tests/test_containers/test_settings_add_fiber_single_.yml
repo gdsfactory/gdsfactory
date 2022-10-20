@@ -284,7 +284,7 @@ settings:
       function: straight
     component_name: null
     cross_section: strip
-    fiber_spacing: 50.0
+    fiber_spacing: 50
     gc_port_name: o1
     get_input_label_text_function:
       function: get_input_label_text
@@ -379,7 +379,7 @@ settings:
         name: mzi_2e88f57c
     component_name: null
     cross_section: strip
-    fiber_spacing: 50.0
+    fiber_spacing: 50
     gc_port_name: o1
     get_input_label_text_function:
       function: get_input_label_text
