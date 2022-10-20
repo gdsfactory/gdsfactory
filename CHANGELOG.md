@@ -3,6 +3,7 @@
 ## 5.44.0
 
 - remove TECH, use gf.get_constant instead
+- Add optional decay cutoff argument to write_sparameters_meep [issue](https://github.com/gdsfactory/gdsfactory/issues/779)
 
 ## 5.43.2
 
