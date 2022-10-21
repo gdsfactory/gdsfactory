@@ -132,7 +132,7 @@ def set_quickplot_options(
     label_aliases: Optional[bool] = None,
     new_window: Optional[bool] = None,
     blocking: Optional[bool] = None,
-    zoom_factor: Optional[bool] = None,
+    zoom_factor: Optional[float] = None,
     interactive_zoom: Optional[bool] = None,
     fontsize: Optional[int] = None,
 ) -> None:

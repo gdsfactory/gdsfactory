@@ -133,6 +133,7 @@ def write_sparameters_meep(
     xmargin_right: float = 0,
     ymargin_top: float = 0,
     ymargin_bot: float = 0,
+    decay_by: float = 1e-3,
     **settings,
 ) -> np.ndarray:
     r"""Returns Sparameters and writes them to npz filepath.
@@ -346,9 +347,9 @@ def write_sparameters_meep(
         wavelength_start: float = wavelength_start,
         wavelength_stop: float = wavelength_stop,
         wavelength_points: int = wavelength_points,
-        dirpath: Path = dirpath,
         animate: bool = animate,
         dispersive: bool = dispersive,
+        decay_by: float = decay_by,
         **settings,
     ) -> Dict:
         """Return Sparameter dict."""
@@ -373,7 +374,7 @@ def write_sparameters_meep(
         # print(sim.resolution)
 
         # Terminate when the area in the whole area decayed
-        termination = [mp.stop_when_energy_decayed(dt=50, decay_by=1e-3)]
+        termination = [mp.stop_when_energy_decayed(dt=50, decay_by=decay_by)]
 
         if animate:
             sim.use_output_directory()
@@ -396,12 +397,12 @@ def write_sparameters_meep(
 
         # Calculate mode overlaps
         # Get source monitor results
-        source_entering, source_exiting = parse_port_eigenmode_coeff(
+        source_entering, _ = parse_port_eigenmode_coeff(
             port_source_name, component.ports, sim_dict
         )
         # Get coefficients
         for port_name in port_names:
-            monitor_entering, monitor_exiting = parse_port_eigenmode_coeff(
+            _, monitor_exiting = parse_port_eigenmode_coeff(
                 port_name, component.ports, sim_dict
             )
             key = f"{port_name}@0,{port_source_name}@0"

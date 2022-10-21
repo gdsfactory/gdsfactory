@@ -189,9 +189,18 @@ class LayerStack(BaseModel):
 
 def get_layer_stack_generic(
     thickness_wg: float = 220 * nm,
+    thickness_slab_deep_etch: float = 90 * nm,
     thickness_clad: float = 3.0,
     thickness_nitride: float = 350 * nm,
+    thickness_ge: float = 500 * nm,
     gap_silicon_to_nitride: float = 100 * nm,
+    zmin_heater: float = 1.1,
+    zmin_metal1: float = 1.1,
+    thickness_metal1: float = 700 * nm,
+    zmin_metal2: float = 2.3,
+    thickness_metal2: float = 700 * nm,
+    zmin_metal3: float = 3.2,
+    thickness_metal3: float = 2000 * nm,
 ) -> LayerStack:
     """Returns generic LayerStack.
 
@@ -199,9 +208,18 @@ def get_layer_stack_generic(
 
     Args:
         thickness_wg: waveguide thickness in um.
+        thickness_slab_deep_etch: for deep etched slab.
         thickness_clad: cladding thickness in um.
         thickness_nitride: nitride thickness in um.
+        thickness_ge: germanium thickness.
         gap_silicon_to_nitride: distance from silicon to nitride in um.
+        zmin_heater: TiN heater.
+        zmin_metal1: metal1.
+        thickness_metal1: metal1 thickness.
+        zmin_metal2: metal2.
+        thickness_metal2: metal2 thickness.
+        zmin_metal3: metal3.
+        thickness_metal3: metal3 thickness.
 
     """
     return LayerStack(
@@ -226,7 +244,7 @@ def get_layer_stack_generic(
             ),
             slab90=LayerLevel(
                 layer=LAYER.SLAB90,
-                thickness=90e-3,
+                thickness=thickness_slab_deep_etch,
                 zmin=0.0,
                 material="si",
             ),
@@ -238,38 +256,50 @@ def get_layer_stack_generic(
             ),
             ge=LayerLevel(
                 layer=LAYER.GE,
-                thickness=500e-3,
+                thickness=thickness_ge,
                 zmin=thickness_wg,
                 material="ge",
             ),
             via_contact=LayerLevel(
                 layer=LAYER.VIAC,
-                thickness=1100e-3,
-                zmin=90e-3,
+                thickness=zmin_metal1 - thickness_slab_deep_etch,
+                zmin=thickness_slab_deep_etch,
                 material="Aluminum",
             ),
             metal1=LayerLevel(
                 layer=LAYER.M1,
-                thickness=750e-3,
-                zmin=thickness_wg + 1100e-3,
+                thickness=thickness_metal1,
+                zmin=zmin_metal1,
                 material="Aluminum",
             ),
             heater=LayerLevel(
                 layer=LAYER.HEATER,
                 thickness=750e-3,
-                zmin=thickness_wg + 1100e-3,
+                zmin=zmin_heater,
                 material="TiN",
             ),
-            viac=LayerLevel(
+            via1=LayerLevel(
                 layer=LAYER.VIA1,
-                thickness=1500e-3,
-                zmin=thickness_wg + 1100e-3 + 750e-3,
+                thickness=zmin_metal2 - (zmin_metal1 + thickness_metal1),
+                zmin=zmin_metal1 + thickness_metal1,
                 material="Aluminum",
             ),
             metal2=LayerLevel(
                 layer=LAYER.M2,
-                thickness=2000e-3,
-                zmin=thickness_wg + 1100e-3 + 750e-3 + 1.5,
+                thickness=thickness_metal2,
+                zmin=zmin_metal2,
+                material="Aluminum",
+            ),
+            via2=LayerLevel(
+                layer=LAYER.VIA2,
+                thickness=zmin_metal3 - (zmin_metal2 + thickness_metal2),
+                zmin=zmin_metal2 + thickness_metal2,
+                material="Aluminum",
+            ),
+            metal3=LayerLevel(
+                layer=LAYER.M3,
+                thickness=thickness_metal3,
+                zmin=zmin_metal3,
                 material="Aluminum",
             ),
         )
@@ -384,19 +414,6 @@ def assert_callable(function):
             f"Error: function = {function} with type {type(function)} is not callable"
         )
 
-
-class Tech(BaseModel):
-    name: str = "generic"
-    layer: LayerMap = LAYER
-
-    fiber_spacing: float = 50.0
-    fiber_array_spacing: float = 127.0
-    fiber_input_to_output_spacing: float = 200.0
-    layer_label: Layer = LAYER.LABEL
-    metal_spacing: float = 10.0
-
-
-TECH = Tech()
 
 if __name__ == "__main__":
     # import gdsfactory as gf
