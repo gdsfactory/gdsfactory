@@ -173,7 +173,7 @@ def get_meep_adjoint_optimizer(
         objective_arguments=ob_list,
         design_regions=design_regions,
         frequencies=sim_dict["freqs"],
-        decay_by=1e-5,
+        decay_by=settings["decay_by"] or 1e-5,
     )
 
     opt.update_design([design_update])
