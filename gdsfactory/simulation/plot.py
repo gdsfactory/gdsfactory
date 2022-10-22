@@ -1,3 +1,4 @@
+from functools import partial
 from typing import Dict, Optional, Tuple
 
 import matplotlib.pyplot as plt
@@ -100,8 +101,8 @@ def plot_loss2x2(
     plt.ylabel("excess loss (dB)")
 
 
-plot_loss1x2 = gf.partial(plot_loss2x2, port1="s13m", port2="o1@0,o2@0")
-plot_imbalance1x2 = gf.partial(plot_imbalance2x2, port1="s13m", port2="o1@0,o2@0")
+plot_loss1x2 = partial(plot_loss2x2, port1="s13m", port2="o1@0,o2@0")
+plot_imbalance1x2 = partial(plot_imbalance2x2, port1="s13m", port2="o1@0,o2@0")
 
 
 if __name__ == "__main__":
