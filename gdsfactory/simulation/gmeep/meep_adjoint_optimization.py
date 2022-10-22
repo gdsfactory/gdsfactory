@@ -173,7 +173,7 @@ def get_meep_adjoint_optimizer(
         objective_arguments=ob_list,
         design_regions=design_regions,
         frequencies=sim_dict["freqs"],
-        decay_by=settings["decay_by"] or 1e-5,
+        decay_by=settings.get("decay_by", 1e-5),
     )
 
     opt.update_design([design_update])
@@ -198,23 +198,23 @@ def run_meep_adjoint_optimizer(
     """Run adjoint optimization using Meep.
 
     Args:
-        number_of_params: number of parameters to optimize (usually resolution_in_x * resolution_in_y)
-        cost_function: cost function to optimize
-        update_variable: variable to update the optimization with
-        maximize_cost_function: if True, maximize the cost function, else minimize it
-        algorithm: nlopt algorithm to use (default: nlopt.LD_MMA)
-        lower_bound: lower bound for the optimization
-        upper_bound: upper bound for the optimization
-        maxeval: maximum number of evaluations
+        number_of_params: number of parameters to optimize (usually resolution_in_x * resolution_in_y).
+        cost_function: cost function to optimize.
+        update_variable: variable to update the optimization with.
+        maximize_cost_function: if True, maximize the cost function, else minimize it.
+        algorithm: nlopt algorithm to use (default: nlopt.LD_MMA).
+        lower_bound: lower bound for the optimization.
+        upper_bound: upper bound for the optimization.
+        maxeval: maximum number of evaluations.
         get_optimized_component: if True, returns the optimized gdsfactory Component.
             If this is True, the O  ptimization object used for the optimization must be passed as an argument.
         opt: OptimizationProblem object used for the optimization. Used only if get_optimized_component is True.
 
     Keyword Args:
-        fcen: center frequency of the source
-        upscale_factor: upscale factor for the optimization's grid
-        threshold_offset_from_max: threshold offset from max eps value
-        layer: layer to apply to the optimized component
+        fcen: center frequency of the source.
+        upscale_factor: upscale factor for the optimization's grid.
+        threshold_offset_from_max: threshold offset from max eps value.
+        layer: layer to apply to the optimized component.
     """
     solver = nlopt.opt(algorithm, number_of_params)
     solver.set_lower_bounds(lower_bound)
@@ -248,14 +248,14 @@ def _get_component_from_sim(
     """Get gdsfactory Component from Meep Simulation object.
 
     Args:
-        sim: Meep Simulation object
-        fcen: center frequency of the source
-        upscale_factor: upscale factor for the optimization's grid
-        threshold_offset_from_max: threshold offset from max eps value
-        layer: layer to apply to the optimized component
+        sim: Meep Simulation object.
+        fcen: center frequency of the source.
+        upscale_factor: upscale factor for the optimization's grid.
+        threshold_offset_from_max: threshold offset from max eps value.
+        layer: layer to apply to the optimized component.
 
     Returns:
-        gdsfactory Component
+        gdsfactory Component.
     """
     grid_resolution = upscale_factor * sim.resolution
     sim_center, sim_size = get_2D_dimensions(sim, output_plane=None)
