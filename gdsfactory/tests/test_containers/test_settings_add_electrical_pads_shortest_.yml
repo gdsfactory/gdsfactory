@@ -1,4 +1,4 @@
-name: mzi_2e88f57c_add_electr_0dc20de3
+name: mzi_2e88f57c_add_electr_e31c99d1
 settings:
   changed:
     component:
@@ -66,7 +66,6 @@ settings:
         info_version: 2
         module: gdsfactory.components.mzi
         name: mzi_2e88f57c
-      version: 0.0.1
   child:
     changed:
       combiner:
@@ -207,7 +206,6 @@ settings:
         info_version: 2
         module: gdsfactory.components.mzi
         name: mzi_2e88f57c
-      version: 0.0.1
     layer: M3
     pad: pad
     pad_port_spacing: 50.0
@@ -220,5 +218,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_electrical_pads_shortest
-  name: mzi_2e88f57c_add_electr_0dc20de3
-version: 0.0.1
+  name: mzi_2e88f57c_add_electr_e31c99d1

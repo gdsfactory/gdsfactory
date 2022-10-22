@@ -29,4 +29,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.taper
   name: taper_abf5825d
-version: 0.0.1

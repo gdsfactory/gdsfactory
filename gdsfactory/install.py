@@ -8,7 +8,14 @@ import sys
 from typing import Optional
 
 
-def make_link(src, dest):
+def make_link(src, dest, overwrite: bool = True) -> None:
+    dest = pathlib.Path(dest)
+    if dest.exists() and not overwrite:
+        print(f"{dest} already exists")
+        return
+    elif dest.exists():
+        os.remove(dest)
+
     try:
         os.symlink(src, dest)
     except OSError as err:
@@ -20,6 +27,9 @@ def make_link(src, dest):
             proc = subprocess.check_call(f"mklink /J {dest} {src}", shell=True)
             if proc != 0:
                 print("Could not create link!")
+    print("Symlink made:")
+    print(f"From: {src}")
+    print(f"To:   {dest}")
 
 
 def install_gdsdiff() -> None:
@@ -91,23 +101,6 @@ def copy(src: pathlib.Path, dest: pathlib.Path) -> None:
     print(f"{src} copied to {dest}")
 
 
-def make_symlink(src: pathlib.Path, dest: pathlib.Path) -> None:
-    """Creates symbolic link from src to dest."""
-    if dest.exists():
-        if dest.is_symlink() and (src == dest.readlink()):
-            print("Nothing to do, symlink already exists:\n" + f"{src} -> {dest}")
-            return
-        print(f"removing {dest} already installed")
-        if dest.is_dir():
-            shutil.rmtree(dest)
-        else:
-            os.remove(dest)
-    make_link(src, dest)
-    print("Symlink made:")
-    print(f"From: {src}")
-    print(f"To:   {dest}")
-
-
 def _install_to_klayout(
     src: pathlib.Path, klayout_subdir_name: str, package_name: str
 ) -> None:
@@ -120,7 +113,7 @@ def _install_to_klayout(
     subdir = pathlib.Path.home() / klayout_folder / klayout_subdir_name
     dest = subdir / package_name
     subdir.mkdir(exist_ok=True, parents=True)
-    make_symlink(src, dest)
+    make_link(src, dest)
 
 
 def install_klayout_package() -> None:

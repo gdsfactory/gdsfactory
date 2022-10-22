@@ -95,7 +95,7 @@ def get_bundle_udirect(
                                   |
                            X------/
     """
-    if "straight" in kwargs.keys():
+    if "straight" in kwargs:
         _ = kwargs.pop("straight")
     routes = _get_bundle_udirect_waypoints(
         ports1,
@@ -372,11 +372,7 @@ def _get_bundle_uindirect_waypoints(
     ys_end = [p.y for p in ports2]
 
     # Compute the bundle axis
-    if ports1[0].orientation in [0, 180]:
-        axis = "X"
-    else:
-        axis = "Y"
-
+    axis = "X" if ports1[0].orientation in [0, 180] else "Y"
     # Split start ports in two groups:
     #    - the ones on the south/west of end ports (depending on bundle axis)
     #    - the ones on the north/east of end ports (depending on bundle axis)
