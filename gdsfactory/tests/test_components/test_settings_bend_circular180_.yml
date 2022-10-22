@@ -5,36 +5,12 @@ settings:
   child: null
   default:
     angle: 90.0
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - DEVREC
-        cladding_offsets:
-        - 0
+    cross_section: strip
     npoints: 720
     with_bbox: true
   full:
     angle: 180
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - DEVREC
-        cladding_offsets:
-        - 0
+    cross_section: strip
     npoints: 720
     with_bbox: true
   function_name: bend_circular
@@ -45,4 +21,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.bend_circular
   name: bend_circular_angle180
-version: 0.0.1

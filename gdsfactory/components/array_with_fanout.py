@@ -136,7 +136,7 @@ if __name__ == "__main__":
     #     columns=3,
     #     waveguide_pitch=20,
     #     bend=gf.components.wire_corner,
-    #     cross_section=gf.cross_section.metal3,
+    #     cross_section='metal_routing',
     #     layer=(2, 0),
     #     width=10,
     #     radius=11,

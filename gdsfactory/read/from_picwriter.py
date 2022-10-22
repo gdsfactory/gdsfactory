@@ -64,6 +64,8 @@ def from_picwriter(
     import gdspy
     import picwriter.toolkit as pt
 
+    import gdsfactory as gf
+
     gdspy.current_library = gdspy.GdsLibrary()
 
     po = picwriter_object
@@ -79,6 +81,7 @@ def from_picwriter(
         datatypes = poly.datatypes
 
         for polygon, layer, datatype in zip(polygons, layers, datatypes):
+            polygon = gf.snap.snap_to_grid(polygon)
             c.add_polygon(polygon, layer=(layer, datatype))
 
     c2 = Component(c.name)

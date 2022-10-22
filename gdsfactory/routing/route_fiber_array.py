@@ -7,7 +7,6 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.config import TECH
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port, select_ports_optical
 from gdsfactory.routing.get_bundle import get_bundle, get_min_spacing
@@ -27,7 +26,7 @@ from gdsfactory.types import (
 
 def route_fiber_array(
     component: Component,
-    fiber_spacing: float = TECH.fiber_array_spacing,
+    fiber_spacing: Union[str, float] = "fiber_array_spacing",
     grating_coupler: ComponentSpecOrList = grating_coupler_te,
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
@@ -65,7 +64,7 @@ def route_fiber_array(
 
     Args:
         component: component spec to connect to.
-        fiber_spacing: the wanted spacing between the optical I/O.
+        fiber_spacing: spacing between the optical fibers.
         grating_coupler: grating coupler instance, function or list of functions.
         bend: for bends.
         straight: straight.
@@ -120,6 +119,7 @@ def route_fiber_array(
         list of ports: to connect to.
 
     """
+    fiber_spacing = gf.get_constant(fiber_spacing)
     cross_section = x = gf.get_cross_section(cross_section, **kwargs)
     radius = x.radius
 
@@ -153,12 +153,10 @@ def route_fiber_array(
         grating_coupler = gf.call_if_func(grating_coupler)
         grating_couplers = [grating_coupler] * N
 
-    assert (
-        gc_port_name in grating_coupler.ports
-    ), f"{gc_port_name} not in {list(grating_coupler.ports.keys())}"
-
     if gc_port_name not in grating_coupler.ports:
-        raise ValueError(f"{gc_port_name} not in {list(grating_coupler.ports.keys())}")
+        raise ValueError(
+            f"{gc_port_name!r} not in {list(grating_coupler.ports.keys())}"
+        )
 
     # Now:
     # - grating_coupler is a single grating coupler
@@ -192,12 +190,9 @@ def route_fiber_array(
         or (component.xsize > fiber_spacing)
     )
     if optical_routing_type is None:
-        if not is_big_component:
-            optical_routing_type = 0
-        else:
-            optical_routing_type = 1
-
+        optical_routing_type = 1 if is_big_component else 0
     # choose the default length if the default fanout distance is not set
+
     def has_p(side):
         return len(direction_ports[side]) > 0
 
@@ -209,9 +204,10 @@ def route_fiber_array(
 
     is_one_sided_horizontal = False
     for side1, side2 in [("E", "W"), ("W", "E")]:
-        if len(direction_ports[side1]) >= 2:
-            if all([len(direction_ports[side]) == 0 for side in ["N", "S", side2]]):
-                is_one_sided_horizontal = True
+        if len(direction_ports[side1]) >= 2 and all(
+            len(direction_ports[side]) == 0 for side in ["N", "S", side2]
+        ):
+            is_one_sided_horizontal = True
 
     # Compute fanout length if not specified
     if fanout_length is None:
@@ -249,7 +245,7 @@ def route_fiber_array(
 
     ports = []
     north_ports = direction_ports["N"]
-    north_start = north_ports[0 : len(north_ports) // 2]
+    north_start = north_ports[: len(north_ports) // 2]
     north_finish = north_ports[len(north_ports) // 2 :]
 
     west_ports = direction_ports["W"]

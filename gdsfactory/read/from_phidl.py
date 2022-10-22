@@ -3,7 +3,6 @@ import tempfile
 from functools import lru_cache
 
 import gdspy
-from phidl.device_layout import Device
 
 from gdsfactory.component import Component, Port
 from gdsfactory.read.import_gds import import_gds
@@ -34,7 +33,7 @@ def from_gdspy(cell: gdspy.Cell, **kwargs) -> Component:
 
 
 @lru_cache(maxsize=None)
-def from_phidl(component: Device, port_layer: Layer = (1, 0), **kwargs) -> Component:
+def from_phidl(component, port_layer: Layer = (1, 0), **kwargs) -> Component:
     """Returns gdsfactory Component from a phidl Device or function.
 
     Args:
