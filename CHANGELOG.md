@@ -3,6 +3,7 @@
 ## 5.45.0
 
 - add devsim and mkl to `pip install gdsfactory[full]`
+- tidy3d modesolver sweep width computes also fraction_te [PR](https://github.com/gdsfactory/gdsfactory/pull/784)
 
 ## 5.44.0
 
