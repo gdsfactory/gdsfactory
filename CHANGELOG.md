@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.45.0
+
+- add devsim and mkl to `pip install gdsfactory[full]`
+
 ## 5.44.0
 
 - remove TECH, use gf.get_constant instead

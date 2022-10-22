@@ -47,14 +47,14 @@ def get_meep_adjoint_optimizer(
     """Return a Meep `OptimizationProblem` object.
 
     Args:
-        component: gdsfactory component
-        objective_function: functions must be composed of "field functions" that transform the recorded fields
-        design_regions: list of DesignRegion objects
-        design_variables: list of MaterialGrid objects
-        design_update: ndarray to intializethe optimization
-        TE_mode_number: TE mode number
-        resolution: in pixels/um (20: for coarse, 120: for fine)
-        cell_size: tuple of Simulation object dimensions in um
+        component: gdsfactory component.
+        objective_function: functions must be composed of "field functions" that transform the recorded fields.
+        design_regions: list of DesignRegion objects.
+        design_variables: list of MaterialGrid objects.
+        design_update: ndarray to intializethe optimization.
+        TE_mode_number: TE mode number.
+        resolution: in pixels/um (20: for coarse, 120: for fine).
+        cell_size: tuple of Simulation object dimensions in um.
         extend_ports_length: to extend ports beyond the PML.
         layer_stack: contains layer to thickness, zmin and material.
             Defaults to active pdk.layer_stack.
