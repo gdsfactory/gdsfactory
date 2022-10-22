@@ -380,6 +380,7 @@ def get_simulation(
         monitors=monitors,
         run_time=run_time_ps * 1e-12,
         boundary_spec=boundary_spec,
+        grid_spec=grid_spec,
         **kwargs,
     )
 
