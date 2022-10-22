@@ -2,10 +2,17 @@
 from typing import Optional
 
 import numpy as np
-import phidl.routing as pr
 
 import gdsfactory as gf
 from gdsfactory.port import Port
+
+
+def _get_rotated_basis(theta):
+    """Returns basis vectors rotated CCW by theta (in degrees)."""
+    theta = np.radians(theta)
+    e1 = np.array([np.cos(theta), np.sin(theta)])
+    e2 = np.array([-1 * np.sin(theta), np.cos(theta)])
+    return e1, e2
 
 
 @gf.cell
@@ -47,7 +54,7 @@ def route_quad(
     """
 
     def get_port_edges(port, width):
-        _, e1 = pr._get_rotated_basis(port.orientation)
+        _, e1 = _get_rotated_basis(port.orientation)
         pt1 = port.center + e1 * width / 2
         pt2 = port.center - e1 * width / 2
         return pt1, pt2
@@ -100,7 +107,7 @@ if __name__ == "__main__":
 
     # c.show(show_ports=True)
 
-    c = gf.Component()
+    c = gf.Component("route")
     pad1 = c << gf.components.pad(size=(50, 50))
     pad2 = c << gf.components.pad(size=(10, 10))
     pad2.movex(100)

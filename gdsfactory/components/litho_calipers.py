@@ -21,7 +21,7 @@ def litho_calipers(
 
     finger is aligned and the rest are offset.
 
-    adapted from phidl
+    based on phidl
 
     Args:
         notch_size: [xwidth, yheight].

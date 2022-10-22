@@ -3,9 +3,9 @@ from typing import Dict, Optional
 import numpy as np
 import pandas as pd
 from omegaconf import DictConfig, OmegaConf
-from phidl.device_layout import _rotate_points
 
 import gdsfactory as gf
+from gdsfactory.component_layout import _rotate_points
 from gdsfactory.name import clean_name
 from gdsfactory.types import PathType
 

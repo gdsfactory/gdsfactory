@@ -57,7 +57,7 @@ def flatten_invalid_refs(component: Component, grid_size: Optional[float] = None
 @gf.cell
 def _demo_non_manhattan() -> Component:
     """Returns component with Manhattan snapping issues."""
-    c = Component("bend")
+    c = Component()
     b = c << gf.components.bend_circular(angle=30)
     s = c << gf.components.straight(length=5)
     s.connect("o1", b.ports["o2"])
@@ -73,6 +73,6 @@ def test_flatten_invalid_refs():
 
 
 if __name__ == "__main__":
-    # test_flatten_invalid_refs()
-    c = _demo_non_manhattan(decorator=flatten_invalid_refs)
-    c.show()
+    test_flatten_invalid_refs()
+    # c = _demo_non_manhattan(decorator=flatten_invalid_refs)
+    # c.show()

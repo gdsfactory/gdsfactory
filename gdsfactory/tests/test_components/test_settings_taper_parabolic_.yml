@@ -21,4 +21,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.taper_parabolic
   name: taper_parabolic
-version: 0.0.1

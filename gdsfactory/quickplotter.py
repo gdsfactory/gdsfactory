@@ -8,15 +8,10 @@ from typing import Optional
 
 import gdspy
 import numpy as np
-import phidl
-from phidl.device_layout import (
-    CellArray,
-    Device,
-    DeviceReference,
-    Path,
-    Polygon,
-    _rotate_points,
-)
+
+from gdsfactory.component import Component
+from gdsfactory.component_layout import CellArray, Polygon, _rotate_points
+from gdsfactory.component_reference import ComponentReference
 
 _SUBPORT_RGB = (0, 120, 120)
 _PORT_RGB = (190, 0, 0)
@@ -137,7 +132,7 @@ def set_quickplot_options(
     label_aliases: Optional[bool] = None,
     new_window: Optional[bool] = None,
     blocking: Optional[bool] = None,
-    zoom_factor: Optional[bool] = None,
+    zoom_factor: Optional[float] = None,
     interactive_zoom: Optional[bool] = None,
     fontsize: Optional[int] = None,
 ) -> None:
@@ -209,6 +204,8 @@ def quickplot(items, **kwargs):  # noqa: C901
     """
     from matplotlib import pyplot as plt
 
+    from gdsfactory.path import Path
+
     quickplot_options = _quickplot_options.copy()
     quickplot_options.update(**kwargs)
 
@@ -235,11 +232,11 @@ def quickplot(items, **kwargs):  # noqa: C901
     ax.axvline(x=0, color="k", alpha=0.2, linewidth=1)
     bbox = None
 
-    # Iterate through each each Device/DeviceReference/Polygon
+    # Iterate through each each Component/ComponentReference/Polygon
     if not isinstance(items, list):
         items = [items]
     for item in items:
-        if isinstance(item, (Device, DeviceReference, CellArray)):
+        if isinstance(item, (Component, ComponentReference, CellArray)):
             polygons_spec = item.get_polygons(by_spec=True, depth=None)
             for key in sorted(polygons_spec):
                 polygons = polygons_spec[key]
@@ -252,8 +249,8 @@ def quickplot(items, **kwargs):  # noqa: C901
                     alpha=layerprop["alpha"],
                 )
                 bbox = _update_bbox(bbox, new_bbox)
-            # If item is a Device or DeviceReference, draw ports
-            if isinstance(item, (Device, DeviceReference)) and show_ports is True:
+            # If item is a Component or ComponentReference, draw ports
+            if isinstance(item, (Component, ComponentReference)) and show_ports is True:
                 for port in item.ports.values():
                     if (
                         (port.width is None)
@@ -264,7 +261,7 @@ def quickplot(items, **kwargs):  # noqa: C901
                     else:
                         new_bbox = _draw_port(ax, port, is_subport=False, color="r")
                     bbox = _update_bbox(bbox, new_bbox)
-            if isinstance(item, Device) and show_subports is True:
+            if isinstance(item, Component) and show_subports is True:
                 for sd in item.references:
                     if not isinstance(sd, (gdspy.CellArray)):
                         for port in sd.ports.values():
@@ -275,7 +272,7 @@ def quickplot(items, **kwargs):  # noqa: C901
                                 color=np.array(_SUBPORT_RGB) / 255,
                             )
                             bbox = _update_bbox(bbox, new_bbox)
-            if isinstance(item, Device) and label_aliases is True:
+            if isinstance(item, Component) and label_aliases is True:
                 for name, ref in item.aliases.items():
                     ax.text(
                         ref.x,
@@ -975,8 +972,8 @@ def quickplot2(item_list, *args, **kwargs):
         if isinstance(
             element,
             (
-                phidl.device_layout.Device,
-                phidl.device_layout.DeviceReference,
+                Component,
+                ComponentReference,
                 gdspy.CellArray,
             ),
         ):
@@ -988,8 +985,8 @@ def quickplot2(item_list, *args, **kwargs):
                 viewer.add_polygons(
                     polygons, color=layerprop["color"], alpha=layerprop["alpha"]
                 )
-            # If element is a Device, draw ports and aliases
-            if isinstance(element, phidl.device_layout.Device):
+            # If element is a Component, draw ports and aliases
+            if isinstance(element, Component):
                 for ref in element.references:
                     if not isinstance(ref, gdspy.CellArray):
                         for port in ref.ports.values():
@@ -997,11 +994,11 @@ def quickplot2(item_list, *args, **kwargs):
                 for port in element.ports.values():
                     viewer.add_port(port)
                     viewer.add_aliases(element.aliases)
-            # If element is a DeviceReference, draw ports as subports
-            if isinstance(element, phidl.device_layout.DeviceReference):
+            # If element is a ComponentReference, draw ports as subports
+            if isinstance(element, ComponentReference):
                 for port in element.ports.values():
                     viewer.add_port(port, is_subport=True)
-        elif isinstance(element, (phidl.device_layout.Polygon)):
+        elif isinstance(element, (Polygon)):
             layerprop = _get_layerprop(
                 layer=element.layers[0], datatype=element.datatypes[0]
             )

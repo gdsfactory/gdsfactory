@@ -1,4 +1,4 @@
-name: mzi_2e88f57c_move_f41e2_a11d226b
+name: mzi_2e88f57c_move_2ee23_14ef5f99
 settings:
   changed:
     component:
@@ -66,7 +66,6 @@ settings:
         info_version: 2
         module: gdsfactory.components.mzi
         name: mzi_2e88f57c
-      version: 0.0.1
   child:
     changed:
       component:
@@ -134,7 +133,6 @@ settings:
           info_version: 2
           module: gdsfactory.components.mzi
           name: mzi_2e88f57c
-        version: 0.0.1
       origin: '[10.0,0.625]'
     child:
       changed:
@@ -272,14 +270,13 @@ settings:
           info_version: 2
           module: gdsfactory.components.mzi
           name: mzi_2e88f57c
-        version: 0.0.1
       destination: null
       origin: '[10.0,0.625]'
     function_name: move
     info: {}
     info_version: 2
     module: gdsfactory.functions
-    name: mzi_2e88f57c_move_f41e2ee0
+    name: mzi_2e88f57c_move_2ee233d6
   default:
     bend:
       function: bend_euler
@@ -287,7 +284,7 @@ settings:
       function: straight
     component_name: null
     cross_section: strip
-    fiber_spacing: 50.0
+    fiber_spacing: 50
     gc_port_name: o1
     get_input_label_text_function:
       function: get_input_label_text
@@ -380,10 +377,9 @@ settings:
         info_version: 2
         module: gdsfactory.components.mzi
         name: mzi_2e88f57c
-      version: 0.0.1
     component_name: null
     cross_section: strip
-    fiber_spacing: 50.0
+    fiber_spacing: 50
     gc_port_name: o1
     get_input_label_text_function:
       function: get_input_label_text
@@ -416,5 +412,4 @@ settings:
       wavelength: 1.53
   info_version: 2
   module: gdsfactory.routing.add_fiber_single
-  name: mzi_2e88f57c_move_f41e2_a11d226b
-version: 0.0.1
+  name: mzi_2e88f57c_move_2ee23_14ef5f99

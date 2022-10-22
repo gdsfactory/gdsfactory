@@ -25,4 +25,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.coupler_adiabatic
   name: coupler_adiabatic
-version: 0.0.1

@@ -36,6 +36,10 @@ from gdsfactory.components.cavity import cavity
 from gdsfactory.components.cdc import cdc
 from gdsfactory.components.cdsem_all import cdsem_all
 from gdsfactory.components.circle import circle
+from gdsfactory.components.coh_rx_dual_pol import coh_rx_dual_pol
+from gdsfactory.components.coh_rx_single_pol import coh_rx_single_pol
+from gdsfactory.components.coh_tx_dual_pol import coh_tx_dual_pol
+from gdsfactory.components.coh_tx_single_pol import coh_tx_single_pol
 from gdsfactory.components.compass import compass
 from gdsfactory.components.component_lattice import component_lattice
 from gdsfactory.components.component_sequence import component_sequence
@@ -58,6 +62,7 @@ from gdsfactory.components.crossing_waveguide import (
     crossing_etched,
     crossing_from_taper,
 )
+from gdsfactory.components.cutback_2x2 import cutback_2x2
 from gdsfactory.components.cutback_bend import (
     cutback_bend,
     cutback_bend90,
@@ -92,7 +97,11 @@ from gdsfactory.components.extend_ports_list import extend_ports_list
 from gdsfactory.components.extension import extend_port, extend_ports
 from gdsfactory.components.fiber import fiber
 from gdsfactory.components.fiber_array import fiber_array
+from gdsfactory.components.ge_detector_straight_si_contacts import (
+    ge_detector_straight_si_contacts,
+)
 from gdsfactory.components.grating_coupler_array import grating_coupler_array
+from gdsfactory.components.grating_coupler_dual_pol import grating_coupler_dual_pol
 from gdsfactory.components.grating_coupler_elliptical import (
     ellipse_arc,
     grating_coupler_elliptical,
@@ -142,6 +151,7 @@ from gdsfactory.components.logo import logo
 from gdsfactory.components.loop_mirror import loop_mirror
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mmi2x2 import mmi2x2
+from gdsfactory.components.mmi_90degree_hybrid import mmi_90degree_hybrid
 from gdsfactory.components.mzi import mzi, mzi1x2_2x2, mzi2x2_2x2, mzi_coupler
 from gdsfactory.components.mzi_arm import mzi_arm
 from gdsfactory.components.mzi_arms import mzi_arms
@@ -154,6 +164,9 @@ from gdsfactory.components.mzi_phase_shifter import (
 from gdsfactory.components.mzit import mzit
 from gdsfactory.components.mzit_lattice import mzit_lattice
 from gdsfactory.components.nxn import nxn
+from gdsfactory.components.optimal_90deg import optimal_90deg
+from gdsfactory.components.optimal_hairpin import optimal_hairpin
+from gdsfactory.components.optimal_step import optimal_step
 from gdsfactory.components.pack_doe import generate_doe, pack_doe, pack_doe_grid
 from gdsfactory.components.pad import (
     pad,
@@ -178,6 +191,7 @@ from gdsfactory.components.ring_single_array import ring_single_array
 from gdsfactory.components.ring_single_dut import ring_single_dut, taper2
 from gdsfactory.components.ring_single_heater import ring_single_heater
 from gdsfactory.components.seal_ring import seal_ring
+from gdsfactory.components.snspd import snspd
 from gdsfactory.components.spiral_double import spiral_double
 from gdsfactory.components.spiral_external_io import spiral_external_io
 from gdsfactory.components.spiral_inner_io import (
@@ -211,6 +225,7 @@ from gdsfactory.components.taper import (
 )
 from gdsfactory.components.taper_cross_section import (
     taper_cross_section_linear,
+    taper_cross_section_parabolic,
     taper_cross_section_sine,
 )
 from gdsfactory.components.taper_from_csv import (
@@ -224,6 +239,7 @@ from gdsfactory.components.taper_from_csv import (
 )
 from gdsfactory.components.taper_parabolic import taper_parabolic
 from gdsfactory.components.text import text, text_lines
+from gdsfactory.components.text_freetype import text_freetype
 from gdsfactory.components.text_rectangular import (
     text_rectangular,
     text_rectangular_multi_layer,
@@ -241,6 +257,7 @@ from gdsfactory.components.via_stack import (
 )
 from gdsfactory.components.via_stack_slot import via_stack_slot, via_stack_slot_m1_m2
 from gdsfactory.components.via_stack_with_offset import via_stack_with_offset
+from gdsfactory.components.wafer import wafer
 from gdsfactory.components.wire import wire_corner, wire_straight
 from gdsfactory.components.wire_sbend import wire_sbend
 from gdsfactory.get_factories import get_cells
@@ -261,6 +278,7 @@ _factory_passives = dict(
     crossing45=crossing45,
     taper_cross_section_linear=taper_cross_section_linear,
     taper_cross_section_sine=taper_cross_section_sine,
+    taper_cross_section_parabolic=taper_cross_section_parabolic,
     taper=taper,
     taper2=taper2,
     taper_0p5_to_3_l36=taper_0p5_to_3_l36,
@@ -319,6 +337,10 @@ __all__ = [
     "via_stack_slot_m1_m2",
     "via_stack_with_offset",
     "copy_layers",
+    "coh_tx_dual_pol",
+    "coh_tx_single_pol",
+    "coh_rx_dual_pol",
+    "coh_rx_single_pol",
     "coupler",
     "coupler90",
     "coupler90bend",
@@ -343,6 +365,7 @@ __all__ = [
     "cutback_component",
     "cutback_component_mirror",
     "cutback_splitter",
+    "cutback_2x2",
     "dbr",
     "dbr_tapered",
     "delay_snake",
@@ -362,6 +385,7 @@ __all__ = [
     "fiber",
     "fiber_array",
     "text_lines",
+    "ge_detector_straight_si_contacts",
     "generate_doe",
     "grating_coupler_array",
     "grating_coupler_elliptical",
@@ -380,6 +404,7 @@ __all__ = [
     "grating_coupler_te",
     "grating_coupler_tm",
     "grating_coupler_tree",
+    "grating_coupler_dual_pol",
     "grating_taper_points",
     "grating_tooth_points",
     "hline",
@@ -391,6 +416,8 @@ __all__ = [
     "loss_deembedding_ch12_34",
     "loss_deembedding_ch13_24",
     "loss_deembedding_ch14_23",
+    "mmi_90degree_hybrid",
+    "mmi1x2",
     "mmi1x2",
     "mmi2x2",
     "mzi",
@@ -406,6 +433,10 @@ __all__ = [
     "mzit",
     "mzit_lattice",
     "nxn",
+    "optimal_90deg",
+    "optimal_hairpin",
+    "optimal_step",
+    "snspd",
     "pack_doe_grid",
     "pack_doe",
     "pad",
@@ -469,6 +500,7 @@ __all__ = [
     "taper_w11_l200",
     "taper_w12_l200",
     "text",
+    "text_freetype",
     "text_rectangular",
     "text_rectangular_multi_layer",
     "triangle",
@@ -482,6 +514,7 @@ __all__ = [
     "via_cutback",
     "viac",
     "via_corner",
+    "wafer",
     "wire_corner",
     "wire_sbend",
     "wire_straight",
