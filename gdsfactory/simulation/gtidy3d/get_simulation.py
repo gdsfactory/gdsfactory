@@ -397,10 +397,10 @@ def get_simulation(
             fig, axs = plt.subplots(num_modes, 2, figsize=(12, 12))
             for mode_ind in range(num_modes):
                 ms.plot_field(
-                    "Ey", "abs", freq=freq0, mode_index=mode_ind, ax=axs[mode_ind, 0]
+                    "Ey", "abs", f=freq0, mode_index=mode_ind, ax=axs[mode_ind, 0]
                 )
                 ms.plot_field(
-                    "Ez", "abs", freq=freq0, mode_index=mode_ind, ax=axs[mode_ind, 1]
+                    "Ez", "abs", f=freq0, mode_index=mode_ind, ax=axs[mode_ind, 1]
                 )
         else:
             fig, axs = plt.subplots(num_modes, 3, figsize=(12, 12))
