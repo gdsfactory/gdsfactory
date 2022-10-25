@@ -1,9 +1,10 @@
 """Based on phidl tutorial.
 
-We'll start by assuming we have a function straight() which already exists
-and makes us a simple straight waveguide. Many functions like this
-exist in the gdsfactory.components library and are ready-for-use.
-We write this one out fully just so it's explicitly clear what's happening
+We'll start by assuming we have a function straight() which already
+exists and makes us a simple straight waveguide. Many functions like
+this exist in the gdsfactory.components library and are ready-for-use.
+We write this one out fully just so it's explicitly clear what's
+happening
 
 """
 
@@ -21,6 +22,7 @@ def straight_wide(
         length: of the straight.
         width: in um.
         layer: layer spec
+
     """
     wg = gf.Component("straight_sample")
     wg.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
@@ -54,7 +56,7 @@ if __name__ == "__main__":
     # This can be thought of as the straight_wide() function creating another GDS cell,
     # only this one has some geometry inside it.
     #
-    # Let's create two of these Devices by calling the straight_wide() function
+    # Let's create two of these Components by calling the straight_wide() function
     WG1 = straight_wide(length=10, width=1)
     WG2 = straight_wide(length=12, width=2)
 

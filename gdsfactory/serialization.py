@@ -1,3 +1,5 @@
+"""Serialize component settings into YAML or strings."""
+
 import copy
 import functools
 import hashlib
@@ -10,7 +12,6 @@ import orjson
 import pydantic
 import toolz
 from omegaconf import DictConfig, OmegaConf
-from phidl.device_layout import Path as PathPhidl
 
 
 def clean_dict(d: Dict[str, Any]) -> Dict[str, Any]:
@@ -33,6 +34,7 @@ def get_string(value: Any) -> str:
 
 def clean_value_json(value: Any) -> Any:
     """Return JSON serializable object."""
+    from gdsfactory.path import Path
 
     if isinstance(value, pydantic.BaseModel):
         return value.dict()
@@ -69,7 +71,7 @@ def clean_value_json(value: Any) -> Any:
         ]
     elif callable(value) and hasattr(value, "__name__"):
         value = dict(function=value.__name__)
-    elif isinstance(value, PathPhidl):
+    elif isinstance(value, Path):
         value = value.hash_geometry()
     elif isinstance(value, pathlib.Path):
         value = value.stem

@@ -1,6 +1,7 @@
 """pack a list of components into as few components as possible.
 
-adapted from phidl.geometry.
+based on phidl.geometry.
+
 """
 
 import warnings
@@ -38,6 +39,7 @@ def _pack_single_bin(
     Returns:
         packed rectangles dict {id:(x,y,w,h)}.
         dict of remaining unpacked rectangles.
+
     """
     import rectpack
 
@@ -106,7 +108,7 @@ def pack(
 ) -> List[Component]:
     """Pack a list of components into as few Components as possible.
 
-    Adapted from phidl.geometry
+    based on phidl.geometry
 
     Args:
         component_list: list or tuple.

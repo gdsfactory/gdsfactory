@@ -4,10 +4,14 @@ help:
 	@echo 'make test-force:       Rebuilds regression test'
 
 install: gdslib
-	bash install.sh
+	pip install -r requirements_dev.txt
+	pip install -r requirements_full.txt
+	pip install -e .
+	pre-commit install
+	gf tool install
 
 mamba:
-	mamba install pymeep=*=mpi_mpich_* gdspy -y
+	bash mamba.sh
 
 patch:
 	bumpversion patch
@@ -22,16 +26,28 @@ major:
 	python docs/write_components_doc.py
 
 plugins:
-	pip install -r requirements_sipann.txt
-	pip install sax jax jaxlib
+	pip install -e .[tidy3d]
+	pip install jax jaxlib
 	mamba install pymeep=*=mpi_mpich_* -y
-	mamba install numpy==1.22 -y
+	pip install -r requirements_sipann.txt
+	pip install --upgrade "protobuf<=3.20.1"
+
+plugins-debian:
+	sudo apt install libgl1-mesa-glx -y
+	pip install -e .[tidy3d]
+	pip install jax jaxlib
+	mamba install pymeep=*=mpi_mpich_* -y
+	pip install -r requirements_sipann.txt
+	pip install --upgrade "protobuf<=3.20.1"
+
+thermal:
+	mamba install python-gmsh
 
 meep:
 	mamba install pymeep=*=mpi_mpich_* -y
 
 sax:
-	pip install sax jax jaxlib
+	pip install jax jaxlib
 
 update:
 	pur
@@ -50,7 +66,7 @@ gdslib:
 	git clone https://github.com/gdsfactory/gdslib.git -b data
 
 test:
-	flake8
+	flake8 gdsfactory
 	pytest -s
 
 test-force:
@@ -160,5 +176,12 @@ link:
 spell:
 	codespell -i 3 -w -L TE,TE/TM,te,ba,FPR,fpr_spacing
 
+devsim:
+	wget -P devsim https://github.com/devsim/devsim/releases/download/v2.1.0/devsim_linux_v2.1.0.tgz
+	tar zxvf devsim/devsim_linux_v2.1.0.tgz --directory devsim
+	python devsim/devsim_linux_v2.1.0/install.py
+	pip install -e devsim/devsim_linux_v2.1.0/lib # Works in this specific way
+	pip install mkl
+	mamba install -c conda-forge pyvista -y
 
 .PHONY: gdsdiff build conda

@@ -5,7 +5,7 @@ from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper
 from gdsfactory.components.taper_from_csv import taper_0p5_to_3_l36
-from gdsfactory.types import ComponentSpec, Optional
+from gdsfactory.types import ComponentSpec, CrossSectionSpec, Optional
 
 
 @gf.cell
@@ -13,13 +13,14 @@ def cutback_component(
     component: ComponentSpec = taper_0p5_to_3_l36,
     cols: int = 4,
     rows: int = 5,
-    radius: float = 5.0,
     port1: str = "o1",
     port2: str = "o2",
     bend180: ComponentSpec = bend_euler180,
     straight: ComponentSpec = straight_function,
     mirror: bool = False,
     straight_length: Optional[float] = None,
+    cross_section: CrossSectionSpec = "strip",
+    **kwargs
 ) -> Component:
     """Returns a daisy chain of components for measuring their loss.
 
@@ -27,19 +28,21 @@ def cutback_component(
         component: for cutback.
         cols: number of columns.
         rows: number of rows.
-        radius: for bend.
         port1: name of first optical port.
         port2: name of second optical port.
         bend180: ubend.
         straight: waveguide spec to connect both sides.
         mirror: Flips component. Useful when 'o2' is the port that you want to route to.
         straight_length: length of the straight section between cutbacks.
-
+        cross_section: specification (CrossSection, string or dict).
+        kwargs: cross_section settings.
     """
+    xs = gf.get_cross_section(cross_section, **kwargs)
+
     component = gf.get_component(component)
-    bendu = gf.get_component(bend180, radius=radius)
+    bendu = gf.get_component(bend180, cross_section=xs)
     straight_component = gf.get_component(
-        straight, length=straight_length or radius * 2
+        straight, length=straight_length or xs.radius * 2, cross_section=xs
     )
 
     # Define a map between symbols and (component, input port, output port)
@@ -80,8 +83,6 @@ def cutback_component(
     n = len(s) - 2
     c.copy_child_info(component)
     c.info["components"] = n
-
-    # c.info["parent_name"] = f"loopback_{component.metadata_child.get('name')}_{n}"
     return c
 
 
@@ -89,8 +90,6 @@ def cutback_component(
 # bend180_wide = gf.partial(bend_euler180, width=3)
 component_flipped = gf.partial(taper, width2=0.5, width1=3)
 straight_long = gf.partial(straight_function, length=20)
-
-
 cutback_component_mirror = gf.partial(cutback_component, mirror=True)
 
 

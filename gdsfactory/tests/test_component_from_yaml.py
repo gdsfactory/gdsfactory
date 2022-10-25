@@ -1,5 +1,3 @@
-from pprint import pprint
-
 import jsondiff
 import numpy as np
 import pytest
@@ -152,7 +150,7 @@ routes:
         settings:
             separation: 20
             cross_section:
-                cross_section: metal3
+                cross_section: metal3_with_bend
                 settings:
                     layer: [31, 0]
                     width: 10
@@ -481,6 +479,30 @@ instances:
            width_mmi: [4, 10]
 """
 
+sample_rotation = """
+name: sample_rotation
+
+instances:
+  r1:
+    component: rectangle
+    settings:
+        size: [4, 2]
+  r2:
+    component: rectangle
+    settings:
+        size: [2, 4]
+
+placements:
+    r1:
+        xmin: 0
+        ymin: 0
+    r2:
+        rotation: -90
+        xmin: r1,east
+        ymin: 0
+
+"""
+
 # FIXME: Fix both unconmmented cases
 # yaml_fail should actually fail
 # sample_different_factory: returns a zero length straight that gives an error
@@ -501,6 +523,7 @@ yaml_strings = dict(
     sample_doe=sample_doe,
     # sample_doe_grid=sample_doe_grid,
     sample_doe_function=sample_doe_function,
+    sample_rotation=sample_rotation,
 )
 
 
@@ -531,21 +554,21 @@ def test_netlists(
     data_regression: DataRegressionFixture,
     check: bool = True,
 ) -> None:
-    """Write netlists for hierarchical circuits.
-    Checks that both netlists are the same
-    jsondiff does a hierarchical diff
-    Component -> netlist -> Component -> netlist
+    """Write netlists for hierarchical circuits. Checks that both netlists are
+    the same jsondiff does a hierarchical diff Component -> netlist ->
+    Component -> netlist.
 
     Args:
         yaml_key: to test.
         data_regression: for regression test.
         check: False, skips test.
+
     """
     yaml_string = yaml_strings[yaml_key]
     c = from_yaml(yaml_string)
     n = c.get_netlist()
     if check:
-        data_regression.check(OmegaConf.to_container(n))
+        data_regression.check(n)
 
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
 
@@ -558,7 +581,7 @@ def test_netlists(
 
 
 def _demo_netlist() -> None:
-    """path on the route"""
+    """path on the route."""
     import gdsfactory as gf
 
     # c = from_yaml(sample_2x2_connections)
@@ -575,55 +598,18 @@ def _demo_netlist() -> None:
 
 
 if __name__ == "__main__":
-    # c = from_yaml(sample_2x2_connections)
-    # c = from_yaml(sample_different_factory)
-    # c = test_sample()
-    # c = test_netlists("sample_docstring", None, check=False)
-    # c.show(show_ports=True)
+    c = test_connections_different_factory()
+    c.show()
 
-    # c = test_connections_regex()
-    # c = test_connections_regex_backwargs()
-    # c = test_mirror()
-    # c = test_connections()
-    # c = test_connections_different_factory()
-
-    # c = test_sample()
-    # c = test_connections_2x2()
-    # c = test_connections_different_factory()
-    # c = test_connections_different_link_factory()
-    # c = test_connections_waypoints()
-    # c = test_docstring_sample()
-
-    # c = test_settings("yaml_anchor", None, False)
-    # c = test_netlists("yaml_anchor", None, False)
-    # c = test_netlists("sample_waypoints", None, False)
-    # c = from_yaml(sample_docstring)
-    # c = from_yaml(sample_different_link_factory)
-    # c = from_yaml(sample_mirror_simple)
-    # c = from_yaml(sample_waypoints)
-
-    # c = from_yaml(sample_different_factory)
-    # c = from_yaml(sample_different_link_factory)
-    # c = from_yaml(sample_waypoints)
-    # c = from_yaml(sample_docstring)
-    # c = from_yaml(sample_regex_connections)
-    # c = from_yaml(sample_regex_connections_backwards)
-
-    # c = test_netlists("sample_doe", None, check=False)
-
-    # c = from_yaml(sample_different_factory)
-    # c.show(show_ports=True)
-
+    # c = test_netlists("sample_mmis", None, False)
+    # yaml_key = "sample_doe_function"
     # yaml_key = "sample_mmis"
-    yaml_key = "sample_doe"
-    yaml_string = yaml_strings[yaml_key]
-    c = from_yaml(yaml_string)
-    n = c.get_netlist()
-
-    yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    print(yaml_str)
-    c2 = from_yaml(yaml_str)
-    n2 = c2.get_netlist()
-    d = jsondiff.diff(n, n2)
-    pprint(d)
-    c2.show()
+    # yaml_string = yaml_strings[yaml_key]
+    # c = from_yaml(yaml_string)
+    # n = c.get_netlist()
+    # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
+    # c2 = from_yaml(yaml_str)
+    # n2 = c2.get_netlist()
+    # d = jsondiff.diff(n, n2)
+    # pprint(d)
+    # c2.show()

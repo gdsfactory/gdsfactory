@@ -4,7 +4,6 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.components.via_corner import via_corner
-from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
 from gdsfactory.routing.manhattan import round_corners
 from gdsfactory.types import (
@@ -21,7 +20,7 @@ def get_route_from_steps(
     steps: Optional[List[Dict[str, float]]] = None,
     bend: ComponentSpec = "bend_euler",
     taper: Optional[ComponentSpec] = "taper",
-    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
+    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = "strip",
     **kwargs
 ) -> Route:
     """Returns a route formed by the given waypoints steps.
@@ -114,6 +113,7 @@ def get_route_from_steps(
         bend=bend,
         taper=taper,
         cross_section=cross_section,
+        with_sbend=False,
         **kwargs,
     )
 
@@ -128,7 +128,7 @@ get_route_from_steps_electrical_multilayer = gf.partial(
     taper=None,
     cross_section=[
         (gf.cross_section.metal2, (90, 270)),
-        (gf.cross_section.metal3, (0, 180)),
+        ("metal_routing", (0, 180)),
     ],
 )
 
@@ -214,7 +214,7 @@ if __name__ == "__main__":
         steps=[
             {"y": 200},
         ],
-        # cross_section=gf.cross_section.metal3,
+        # cross_section='metal_routing',
         # bend=gf.components.wire_corner,
     )
     c.add(route.references)

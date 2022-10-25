@@ -8,8 +8,8 @@ def grating_coupler(gc: Component) -> None:
     if not gc.info.get("polarization"):
         raise ValueError(f"{gc.name} does not have polarization")
 
-    if gc.info.get("polarization") not in ["te", "tm"]:
-        raise ValueError(f"{gc.name} polarization not 'te' or 'tm'")
+    if gc.info.get("polarization") not in ["te", "tm", "dual"]:
+        raise ValueError(f"{gc.name} polarization not 'te' or 'tm' or 'dual")
 
     if not gc.info.get("wavelength"):
         raise ValueError(f"{gc.name} wavelength does not have wavelength")

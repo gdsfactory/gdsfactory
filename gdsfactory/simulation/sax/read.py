@@ -1,5 +1,4 @@
-"""read Sparameters from CSV file and returns sax model.
-"""
+"""read Sparameters from CSV file and returns sax model."""
 import pathlib
 from typing import Union
 
@@ -11,7 +10,6 @@ from sax.typing_ import Float, Model
 from typing_extensions import Literal
 
 import gdsfactory as gf
-from gdsfactory.config import sparameters_path
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_lumerical,
     get_sparameters_path_meep,
@@ -23,6 +21,55 @@ wl_cband = np.linspace(1.500, 1.600, 128)
 PathType = Union[str, pathlib.Path]
 
 Simulator = Literal["lumerical", "meep", "tidy3d"]
+
+
+def model_from_npz(
+    filepath: Union[PathType, np.ndarray],
+    xkey: str = "wavelengths",
+    xunits: float = 1,
+    prefix: str = "s",
+) -> Model:
+    """Returns a SAX Sparameters Model from a npz file.
+
+    The SAX Model is a function that returns a SAX SDict interpolated over wavelength.
+
+    Args:
+        filepath: CSV Sparameters path or pandas DataFrame.
+        wl: wavelength to interpolate (um).
+        xkey: key for wavelengths in file.
+        xunits: x units in um from the loaded file (um). 1 means 1um.
+        prefix: for the sparameters column names in file.
+
+    """
+    sp = filepath if isinstance(filepath, np.ndarray) else np.load(filepath)
+    keys = list(sp.keys())
+
+    if xkey not in keys:
+        raise ValueError(f"{xkey!r} not in {keys}")
+
+    x = jnp.asarray(sp[xkey] * xunits)
+    wl = jnp.asarray(wl_cband)
+
+    # make sure x is sorted from low to high
+    idxs = jnp.argsort(x)
+    x = x[idxs]
+    sp = {k: v[idxs] for k, v in sp.items()}
+
+    @jax.jit
+    def model(wl: Float = wl):
+        S = {}
+        zero = jnp.zeros_like(x)
+
+        for key in sp:
+            if not key.startswith("wav"):
+                port_mode0, port_mode1 = key.split(",")
+                port0, mode0 = port_mode0.split("@")
+                port1, mode1 = port_mode1.split("@")
+                S[(port0, port1)] = jnp.interp(wl, x, sp.get(key, zero))
+
+        return S
+
+    return model
 
 
 def model_from_csv(
@@ -94,6 +141,7 @@ def model_from_component(component, simulator: Simulator, **kwargs) -> Model:
         component: to simulate.
         simulator: meep, lumerical or tidy3d.
         kwargs: simulator settings.
+
     """
     simulators = ["lumerical", "meep", "tidy3d"]
 
@@ -110,19 +158,19 @@ def model_from_component(component, simulator: Simulator, **kwargs) -> Model:
 
 model_from_component_lumerical = gf.partial(model_from_component, simulator="fdtd")
 
-mmi1x2 = gf.partial(model_from_component_lumerical, component=gf.components.mmi1x2)
-mmi2x2 = gf.partial(model_from_component_lumerical, component=gf.components.mmi2x2)
-
-grating_coupler_elliptical = model_from_csv(
-    filepath=sparameters_path / "grating_coupler_ellipti_9d85a0c6_18c08cac.csv"
-)
-
-model_factory = dict(
-    mmi1x2=mmi1x2, mmi2x2=mmi2x2, grating_coupler_elliptical=grating_coupler_elliptical
-)
-
 
 if __name__ == "__main__":
+    # mmi1x2 = gf.partial(model_from_component_lumerical, component=gf.components.mmi1x2)
+    # mmi2x2 = gf.partial(model_from_component_lumerical, component=gf.components.mmi2x2)
+
+    # grating_coupler_elliptical = model_from_csv(
+    #     filepath=sparameters_path / "grating_coupler_ellipti_9d85a0c6_18c08cac.csv"
+    # )
+
+    # model_factory = dict(
+    #     mmi1x2=mmi1x2, mmi2x2=mmi2x2, grating_coupler_elliptical=grating_coupler_elliptical
+    # )
+    # from gdsfactory.config import sparameters_path
 
     import matplotlib.pyplot as plt
     from plot_model import plot_model
@@ -151,11 +199,19 @@ if __name__ == "__main__":
     #     xunits=1e-3,
     # )
     # this looks wrong
-    coupler_fdtd = model_from_csv(
-        filepath=gf.config.sparameters_path / "coupler" / "coupler_G224n_L20_S220.csv",
-        xkey="wavelength_nm",
-        prefix="S",
-        xunits=1e-3,
-    )
+    # coupler_fdtd = model_from_csv(
+    #     filepath=sparameters_path / "coupler" / "coupler_G224n_L20_S220.csv",
+    #     xkey="wavelength_nm",
+    #     prefix="S",
+    #     xunits=1e-3,
+    # )
+    # coupler_fdtd = model_from_npz(
+    #     filepath=sparameters_path / "coupler" / "coupler_G224n_L20_S220.npz",
+    #     xkey="wavelength_nm",
+    #     prefix="S",
+    #     xunits=1e-3,
+    # )
+    filepath = get_sparameters_path_tidy3d(gf.c.mmi1x2)
+    coupler_fdtd = model_from_npz(filepath)
     plot_model(coupler_fdtd)
     plt.show()

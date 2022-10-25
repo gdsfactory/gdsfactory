@@ -27,11 +27,10 @@ settings:
   function_name: splitter_tree
   info:
     bend_s:
-      end_angle: 0.155
+      end_angle: 0
       length: 91.103
       min_bend_radius: 129.147
-      start_angle: 0.155
+      start_angle: 0
   info_version: 2
   module: gdsfactory.components.splitter_tree
   name: splitter_tree
-version: 0.0.1

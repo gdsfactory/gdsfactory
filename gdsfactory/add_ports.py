@@ -1,4 +1,4 @@
-"""add ports from pin markers or labels."""
+"""Add ports from pin markers or labels."""
 from functools import partial
 from typing import Optional, Tuple
 
@@ -36,7 +36,6 @@ def add_ports_from_markers_square(
         port_names: names of the ports (defaults to {i}).
         port_name_prefix: defaults to 'o' for optical and 'e' for electrical.
         port_type: optical, electrical.
-
     """
     port_name_prefix_default = "o" if port_type == "optical" else "e"
     port_name_prefix = port_name_prefix or port_name_prefix_default
@@ -118,7 +117,6 @@ def add_ports_from_markers_center(
           |_____|__|______|
                 |__|
 
-
     For inside=True all the pin is inside the port
 
     .. code::
@@ -132,8 +130,6 @@ def add_ports_from_markers_center(
           |      __       |
           |_____|__|______|
 
-
-
     dx < dy: port is east or west
         x > xc: east
         x < xc: west
@@ -145,7 +141,6 @@ def add_ports_from_markers_center(
     dx = dy
         x > xc: east
         x < xc: west
-
     """
     xc = xcenter or component.x
     yc = ycenter or component.y
@@ -301,20 +296,19 @@ def add_ports_from_labels(
             if False adds incremental suffix (1, 2 ...) to port name.
         port_orientation: None for electrical ports.
         guess_port_orientation: assumes right: 0, left: 180, top: 90, bot: 270.
-
     """
     port_name_prefix_default = "o" if port_type == "optical" else "e"
     port_name_prefix = port_name_prefix or port_name_prefix_default
-    xc = xcenter or component.x
     yc = component.y
 
     port_name_to_index = {}
 
+    xc = xcenter or component.x
     for i, label in enumerate(component.labels):
         x, y = label.position
 
-        if layer_label and not (
-            layer_label[0] == label.layer and layer_label[1] == label.texttype
+        if layer_label and (
+            layer_label[0] != label.layer or layer_label[1] != label.texttype
         ):
             continue
 

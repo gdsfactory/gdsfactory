@@ -1,8 +1,6 @@
-import re
 import time
 
 import numpy as np
-import pandas as pd
 import tidy3d as td
 from omegaconf import OmegaConf
 
@@ -22,30 +20,29 @@ from gdsfactory.types import (
     List,
     Optional,
     PathType,
+    Port,
     PortSymmetries,
+    Tuple,
 )
 
 
-def parse_port_eigenmode_coeff(port_index: int, ports, sim_data: td.SimulationData):
-    """Given a port and eigenmode coefficient result, returns the coefficients
-    relative to whether the wavevector is entering or exiting simulation
+def parse_port_eigenmode_coeff(
+    port_name: str, ports: Dict[str, Port], sim_data: td.SimulationData
+) -> Tuple[np.ndarray]:
+    """Given a port and eigenmode coefficient result, returns the coefficients \
+    relative to whether the wavevector is entering or exiting simulation.
 
     Args:
-        port_index: index of port.
+        port_name: port name.
         ports: component_ref.ports.
         sim_data: simulation data.
     """
-    if f"o{port_index}" not in ports:
-        raise ValueError(
-            f"port = 'o{port_index}' not in {list(ports.keys())}. "
-            "You can rename ports with Component.auto_rename_ports()"
-        )
-
     # Direction of port (pointing away from the simulation)
     # Figure out if that is exiting the simulation or not
     # depending on the port orientation (assuming it's near PMLs)
 
-    orientation = ports[f"o{port_index}"].orientation
+    orientation = ports[port_name].orientation
+
     if orientation in [0, 90]:  # east
         direction_inp = "-"
         direction_out = "+"
@@ -57,17 +54,13 @@ def parse_port_eigenmode_coeff(port_index: int, ports, sim_data: td.SimulationDa
             "Port orientation = {orientation} is not 0, 90, 180, or 270 degrees"
         )
 
-    coeff_inp = sim_data.monitor_data[f"o{port_index}"].amps.sel(
-        direction=direction_inp
-    )
-    coeff_out = sim_data.monitor_data[f"o{port_index}"].amps.sel(
-        direction=direction_out
-    )
+    coeff_inp = sim_data.monitor_data[port_name].amps.sel(direction=direction_inp)
+    coeff_out = sim_data.monitor_data[port_name].amps.sel(direction=direction_out)
     return coeff_inp.values.flatten(), coeff_out.values.flatten()
 
 
-def get_wavelengths(port_index, sim_data: td.SimulationData):
-    coeff_inp = sim_data.monitor_data[f"o{port_index}"].amps.sel(direction="+")
+def get_wavelengths(port_name: str, sim_data: td.SimulationData) -> np.ndarray:
+    coeff_inp = sim_data.monitor_data[port_name].amps.sel(direction="+")
     freqs = coeff_inp.f
     return td.constants.C_0 / freqs.values
 
@@ -75,14 +68,16 @@ def get_wavelengths(port_index, sim_data: td.SimulationData):
 def write_sparameters(
     component: ComponentSpec,
     port_symmetries: Optional[PortSymmetries] = None,
+    port_source_names: Optional[List[str]] = None,
     dirpath: Optional[PathType] = None,
     run: bool = True,
     overwrite: bool = False,
     **kwargs,
-) -> pd.DataFrame:
+) -> np.ndarray:
     """Get full sparameter matrix from a gdsfactory Component.
+
     Simulates each time using a different input port (by default, all of them)
-    unless you specify port_symmetries:
+    unless you specify port_symmetries.
 
     port_symmetries = {"o1":
             {
@@ -99,11 +94,12 @@ def write_sparameters(
 
     Args:
         component: to simulate.
+        port_source_names: list of ports to excite. Defaults to all.
         port_symmetries: Dict to specify port symmetries, to save number of simulations
-        dirpath: directory to store sparameters in CSV.
+        dirpath: directory to store sparameters in npz.
             Defaults to active Pdk.sparameters_path.
         run: runs simulation, if False, only plots simulation.
-        overwrite: overwrites stored Sparameter CSV results.
+        overwrite: overwrites stored Sparameter npz results.
 
     Keyword Args:
         port_extension: extend ports beyond the PML.
@@ -118,7 +114,6 @@ def write_sparameters(
         ymargin_bot: bottom distance from component to PML.
         zmargin: thickness for cladding above and below core.
         clad_material: material for cladding.
-        port_source_name: input port name.
         port_margin: margin on each side of the port.
         distance_source_to_monitors: in (um) source goes before monitors.
         wavelength_start: in (um).
@@ -164,113 +159,88 @@ def write_sparameters(
     filepath_sim_settings = filepath.with_suffix(".yml")
     if filepath.exists() and not overwrite and run:
         logger.info(f"Simulation loaded from {filepath!r}")
-        return pd.read_csv(filepath)
+        return np.load(filepath)
 
     port_symmetries = port_symmetries or {}
-    monitor_indices = []
-    source_indices = []
     component_ref = component.ref()
+    ports = component_ref.ports
+    port_names = [port.name for port in list(ports.values())]
 
-    for port_name in component_ref.ports.keys():
-        if component_ref.ports[port_name].port_type == "optical":
-            monitor_indices.append(re.findall("[0-9]+", port_name)[0])
-    if bool(port_symmetries):  # user-specified
-        for port_name in port_symmetries.keys():
-            source_indices.append(re.findall("[0-9]+", port_name)[0])
-    else:  # otherwise cycle through all
-        source_indices = monitor_indices
-
-    num_sims = len(port_symmetries.keys()) or len(source_indices)
+    sims = []
     sp = {}
 
-    def get_sparameter(
-        n: int,
-        sim_data: td.SimulationData,
-        port_symmetries=port_symmetries,
-        monitor_indices=monitor_indices,
-        **kwargs,
-    ) -> np.ndarray:
-        """Return Component sparameter for a particular port Index n
+    port_source_names = port_source_names or port_names
 
-        Args:
-            n: port_index.
-            port_symmetries: to save simulations.
-            monitor_indices: for the ports.
-            kwargs: simulation settings.
+    for port_name in port_source_names:
+        if port_name not in port_symmetries:
+            sim = get_simulation(component, port_source_name=port_name, **kwargs)
+            sims.append(sim)
 
-        """
-        source_entering, source_exiting = parse_port_eigenmode_coeff(
-            monitor_indices[n], component_ref.ports, sim_data
-        )
-
-        for monitor_index in monitor_indices:
-            j = monitor_indices[n]
-            i = monitor_index
-            if monitor_index == j:
-                sii = source_exiting / source_entering
-
-                siia = np.unwrap(np.angle(sii))
-                siim = np.abs(sii)
-
-                sp[f"s{i}{i}a"] = siia
-                sp[f"s{i}{i}m"] = siim
-            else:
-                monitor_entering, monitor_exiting = parse_port_eigenmode_coeff(
-                    monitor_index, component_ref.ports, sim_data
-                )
-                sij = monitor_exiting / source_entering
-                sija = np.unwrap(np.angle(sij))
-                sijm = np.abs(sij)
-                sp[f"s{i}{j}a"] = sija
-                sp[f"s{i}{j}m"] = sijm
-                sij = monitor_entering / source_entering
-                sija = np.unwrap(np.angle(sij))
-                sijm = np.abs(sij)
-
-        if bool(port_symmetries):
-            for key in port_symmetries[f"o{monitor_indices[n]}"].keys():
-                values = port_symmetries[f"o{monitor_indices[n]}"][key]
-                for value in values:
-                    sp[f"{value}m"] = sp[f"{key}m"]
-                    sp[f"{value}a"] = sp[f"{key}a"]
-
-        sp["wavelengths"] = get_wavelengths(port_index=monitor_index, sim_data=sim_data)
-        return sp
-
-    # Run all simulations
-    sims = [
-        get_simulation(component, port_source_name=f"o{monitor_indices[n]}", **kwargs)
-        for n in range(num_sims)
-    ]
     if not run:
         sim = sims[0]
-        return plot_simulation(sim)
+        plot_simulation(sim)
+        return sp
 
     start = time.time()
     batch_data = get_results(sims, overwrite=overwrite)
-    for isim, (_sim_name, sim_data) in enumerate(batch_data.items()):
-        sp.update(get_sparameter(isim, sim_data))
+
+    def get_sparameter(
+        port_name_source: str,
+        sim_data: td.SimulationData,
+        port_symmetries=port_symmetries,
+        **kwargs,
+    ) -> np.ndarray:
+        """Return Component sparameter for a particular port Index n.
+
+        Args:
+            port_name: source port name.
+            sim_data: simulation data.
+            port_symmetries: to save simulations.
+            kwargs: simulation settings.
+        """
+        source_entering, source_exiting = parse_port_eigenmode_coeff(
+            port_name=port_name_source, ports=component_ref.ports, sim_data=sim_data
+        )
+
+        for port_name in port_names:
+            monitor_entering, monitor_exiting = parse_port_eigenmode_coeff(
+                port_name=port_name, ports=ports, sim_data=sim_data
+            )
+            sij = monitor_exiting / source_entering
+            key = f"{port_name}@0,{port_name_source}@0"
+            sp[key] = sij
+            sp["wavelengths"] = get_wavelengths(port_name=port_name, sim_data=sim_data)
+
+        if bool(port_symmetries):
+            for key, symmetries in port_symmetries.items():
+                for sym in symmetries:
+                    if key in sp:
+                        sp[sym] = sp[key]
+
+        return sp
+
+    for port_source_name, (_sim_name, sim_data) in zip(
+        port_source_names, batch_data.items()
+    ):
+        sp.update(get_sparameter(port_source_name, sim_data))
 
     end = time.time()
-    df = pd.DataFrame(sp)
-    df.to_csv(filepath, index=False)
+    np.savez_compressed(filepath, **sp)
     kwargs.update(compute_time_seconds=end - start)
     kwargs.update(compute_time_minutes=(end - start) / 60)
-
     filepath_sim_settings.write_text(OmegaConf.to_yaml(clean_value_json(kwargs)))
     logger.info(f"Write simulation results to {str(filepath)!r}")
     logger.info(f"Write simulation settings to {str(filepath_sim_settings)!r}")
-    return df
+    return sp
 
 
-def write_sparameters_batch(jobs: List[Dict[str, Any]], **kwargs) -> List[pd.DataFrame]:
-    """Returns Sparameters for a list of write_sparameters_grating_coupler
-    kwargs where it runs each simulation in parallel.
+def write_sparameters_batch(jobs: List[Dict[str, Any]], **kwargs) -> List[np.ndarray]:
+    """Returns Sparameters for a list of write_sparameters_grating_coupler kwargs \
+            where it runs each simulation in parallel.
 
     Args:
         jobs: list of kwargs for write_sparameters_grating_coupler.
         kwargs: simulation settings.
-
     """
     sp = [_executor.submit(write_sparameters, **job, **kwargs) for job in jobs]
     return [spi.result() for spi in sp]
@@ -293,11 +263,12 @@ if __name__ == "__main__":
     import gdsfactory.simulation as sim
 
     # c = gf.components.straight(length=2.1)
-    c = gf.components.mmi2x2()
-    df = write_sparameters(c, is_3d=False, overwrite=False)
-    sim.plot.plot_sparameters(df)
+    c = gf.c.straight()
+    c = gf.components.mmi1x2()
+    sp = write_sparameters(c, is_3d=True, port_source_names=None, overwrite=False)
+    sim.plot.plot_sparameters(sp)
 
-    # t = df.s12m
+    # t = sp.o1@0,o2@0
     # print(f"Transmission = {t}")
     # cs = [gf.c.straight(length=1.11 + i) for i in [1, 2]]
-    # dfs = write_sparameters_batch_1x1(cs)
+    # sps = write_sparameters_batch_1x1(cs)

@@ -7,18 +7,16 @@ tidy3d can:
 - compute bend modes.
 - compute mode overlaps.
 
-TODO:
-
-- calculate dispersion
-
-Maybe:
-
-- combine modes package, mpb and tidy3d APIs
 """
 
+import itertools as it
 import pathlib
+import subprocess
+import sys
+import time
+from pathlib import Path
 from types import SimpleNamespace
-from typing import Callable, List, Optional, Tuple, Union
+from typing import Callable, Dict, List, Optional, Tuple, Union
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -26,6 +24,7 @@ import pandas as pd
 from matplotlib import colors
 from pydantic import BaseModel, Extra
 from scipy.constants import c as SPEED_OF_LIGHT
+from scipy.interpolate import griddata
 from tidy3d.plugins.mode.solver import compute_modes
 from tqdm.auto import tqdm
 from typing_extensions import Literal
@@ -147,11 +146,12 @@ class Waveguide(BaseModel):
         wg_thickness: thickness waveguide (um).
         ncore: core refractive index.
         nclad: cladding refractive index.
+        dn_dict: unstructured mesh array with columns field "x", "y", "dn" of local index perturbations to be interpolated.
         slab_thickness: thickness slab (um).
         t_box: thickness BOX (um).
         t_clad: thickness cladding (um).
         xmargin: margin from waveguide edge to each side (um).
-        resolution: pixels/um.
+        resolution: pixels/um. Can be a single number or tuple (x, y).
         nmodes: number of modes to compute.
         bend_radius: optional bend radius (um).
         cache: filepath for caching modes. If None does not use file cache.
@@ -184,11 +184,12 @@ class Waveguide(BaseModel):
     wg_thickness: float
     ncore: Union[float, Callable[[str], float]]
     nclad: Union[float, Callable[[str], float]]
+    dn_dict: Optional[Dict] = None
     slab_thickness: float
     t_box: float = 2.0
     t_clad: float = 2.0
     xmargin: float = 1.0
-    resolution: int = 100
+    resolution: Union[int, Tuple[int, int]] = 100
     nmodes: int = 4
     bend_radius: Optional[float] = None
     cache: Optional[PathType] = CONFIG["modes"]
@@ -196,6 +197,8 @@ class Waveguide(BaseModel):
     filter_pol: Optional[FilterPol] = None
 
     class Config:
+        """Config for Waveguide."""
+
         extra = Extra.allow
 
     @property
@@ -233,8 +236,8 @@ class Waveguide(BaseModel):
         Args:
             Y: 2D array.
             Z: 2D array.
-        """
 
+        """
         w = self.wg_width
         ncore = self.get_ncore()
         nclad = self.get_nclad()
@@ -243,7 +246,23 @@ class Waveguide(BaseModel):
         slab_thickness = self.slab_thickness
         t_clad = self.t_clad
 
-        n = np.ones_like(Y) * nclad
+        inds_core = (
+            (-w / 2 <= Y) & (Y <= w / 2) & (Z >= t_box) & (Z <= t_box + wg_thickness)
+        )
+        inds_slab = (Z >= t_box) & (Z <= t_box + slab_thickness)
+
+        complex_solver = False
+        mat_dtype = np.float32
+        if isinstance(ncore, complex) or isinstance(nclad, complex):
+            complex_solver = True
+        elif self.dn_dict is not None:
+            complex_solver = True
+        if complex_solver:
+            mat_dtype = np.complex128 if self.precision == "double" else np.complex64
+        elif self.precision == "double":
+            mat_dtype = np.float64
+
+        n = np.ones_like(Y, dtype=mat_dtype) * nclad
         n[
             (-w / 2 - t_clad / 2 <= Y)
             & (Y <= w / 2 + t_clad / 2)
@@ -251,12 +270,20 @@ class Waveguide(BaseModel):
             & (Z <= t_box + wg_thickness + t_clad)
         ] = nclad
         n[(Z <= 1.0 + slab_thickness + t_clad)] = nclad
-        n[
-            (-w / 2 <= Y) & (Y <= w / 2) & (Z >= t_box) & (Z <= t_box + wg_thickness)
-        ] = ncore
-        n[(Z >= t_box) & (Z <= t_box + slab_thickness)] = (
-            ncore if slab_thickness else nclad
-        )
+        n[inds_core] = ncore
+        n[inds_slab] = ncore if slab_thickness else nclad
+
+        if self.dn_dict is not None:
+            dn = griddata(
+                (self.dn_dict["x"], self.dn_dict["y"]),
+                self.dn_dict["dn"],
+                (Y, Z),
+                method="cubic",
+                fill_value=0.0,
+            )
+            n[inds_core] += dn[inds_core]
+            n[inds_slab] += dn[inds_slab]
+
         return n
 
     def plot_index(self) -> None:
@@ -265,8 +292,12 @@ class Waveguide(BaseModel):
             0.0,
             +self.w_sim / 2,
             self.t_sim,
-            self.resolution,
-            self.resolution,
+            self.resolution[0]
+            if isinstance(self.resolution, tuple)
+            else self.resolution,
+            self.resolution[1]
+            if isinstance(self.resolution, tuple)
+            else self.resolution,
         )
 
         nx = self.get_n(
@@ -279,8 +310,17 @@ class Waveguide(BaseModel):
     def compute_modes(
         self,
         overwrite: bool = False,
+        with_fields: bool = True,
+        isolate: bool = False,
     ) -> None:
-        """Compute modes."""
+        """Compute modes.
+
+        Args:
+            overwrite: overwrite file cache.
+            with_fields: include field data.
+            isolate: whether to run the solver in this interpreter (False) or a separate one (True)
+            temp_dir: if isolate, which directory to save temporary files to
+        """
         if hasattr(self, "neffs") and not overwrite:
             return
 
@@ -290,8 +330,12 @@ class Waveguide(BaseModel):
             0.0,
             +self.w_sim / 2,
             self.t_sim,
-            self.resolution,
-            self.resolution,
+            self.resolution[0]
+            if isinstance(self.resolution, tuple)
+            else self.resolution,
+            self.resolution[1]
+            if isinstance(self.resolution, tuple)
+            else self.resolution,
         )
 
         nx = self.get_n(
@@ -311,50 +355,178 @@ class Waveguide(BaseModel):
 
         if self.cache and self.filepath and self.filepath.exists():
             data = np.load(self.filepath)
-            self.Ex = data["Ex"]
-            self.Ey = data["Ey"]
-            self.Ez = data["Ez"]
-            self.Hx = data["Hx"]
-            self.Hy = data["Hy"]
-            self.Hz = data["Hz"]
+
+            if with_fields:
+                self.Ex = data["Ex"]
+                self.Ey = data["Ey"]
+                self.Ez = data["Ez"]
+                self.Hx = data["Hx"]
+                self.Hy = data["Hy"]
+                self.Hz = data["Hz"]
             self.neffs = data["neffs"]
             logger.info(f"load {self.filepath} mode data from file cache.")
             return
 
-        ((Ex, Ey, Ez), (Hx, Hy, Hz)), neffs = (
-            x.squeeze()
-            for x in compute_modes(
-                eps_cross=[nx**2, ny**2, nz**2],
-                coords=[x, y],
-                freq=SPEED_OF_LIGHT / (wavelength * 1e-6),
-                mode_spec=SimpleNamespace(
-                    num_modes=self.nmodes,
-                    bend_radius=self.bend_radius,
-                    bend_axis=1,
-                    angle_theta=0.0,
-                    angle_phi=0.0,
-                    num_pml=(0, 0),
-                    target_neff=self.get_ncore(wavelength),
-                    sort_by="largest_neff",
-                    precision=self.precision,
-                    filter_pol=self.filter_pol,
-                ),
+        if isolate:
+            # TODO: make a package that does this automatically
+            import pickle
+
+            # Setup paths
+            temp_dir = Path.cwd() / "temp"
+            temp_dir.mkdir(exist_ok=True, parents=True)
+            args_file_str = "args"
+            argsfile = temp_dir / args_file_str
+            argsfile = argsfile.with_suffix(".pkl")
+            script_file_str = "script"
+            scriptfile = temp_dir / script_file_str
+            scriptfile = scriptfile.with_suffix(".py")
+            outputs_file_str = "outputs"
+            outputsfile = temp_dir / outputs_file_str
+            outputsfile = outputsfile.with_suffix(".pkl")
+            arguments_dict = {
+                "nx": nx,
+                "ny": ny,
+                "nz": nz,
+                "x": x,
+                "y": y,
+                "SPEED_OF_LIGHT": SPEED_OF_LIGHT,
+                "wavelength": wavelength,
+                "nmodes": self.nmodes,
+                "bend_radius": self.bend_radius,
+                "bend_axis": 1,
+                "angle_theta": 0.0,
+                "angle_phi": 0.0,
+                "num_pml": (0, 0),
+                "target_neff": self.get_ncore(wavelength),
+                "sort_by": "largest_neff",
+                "precision": self.precision,
+                "filter_pol": self.filter_pol,
+            }
+            with open(argsfile, "wb") as outp:
+                pickle.dump(arguments_dict, outp, pickle.HIGHEST_PROTOCOL)
+            # Write execution file
+            script_lines = [
+                "import pickle\n",
+                "import numpy as np\n",
+                "from types import SimpleNamespace\n",
+                "from tidy3d.plugins.mode.solver import compute_modes\n\n",
+                'if __name__ == "__main__":\n\n',
+                f"\twith open(\"{argsfile}\", 'rb') as inp:\n",
+                "\t\targuments_dict = pickle.load(inp)\n\n",
+            ]
+            script_lines.extend(
+                f'\t{key} = arguments_dict["{key}"]\n' for key in arguments_dict
             )
-        )
+            script_lines.extend(
+                [
+                    "\t((Ex, Ey, Ez), (Hx, Hy, Hz)), neffs = (\n",
+                    "\t    x.squeeze()\n",
+                    "\t    for x in compute_modes(\n",
+                    "\t        eps_cross=[nx**2, ny**2, nz**2],\n",
+                    "\t        coords=[x, y],\n",
+                    "\t        freq=SPEED_OF_LIGHT / (wavelength * 1e-6),\n",
+                    "\t        mode_spec=SimpleNamespace(\n",
+                    "\t            num_modes=nmodes,\n",
+                    "\t            bend_radius=bend_radius,\n",
+                    "\t            bend_axis=bend_axis,\n",
+                    "\t            angle_theta=angle_theta,\n",
+                    "\t            angle_phi=angle_phi,\n",
+                    "\t            num_pml=num_pml,\n",
+                    "\t            target_neff=target_neff,\n",
+                    "\t            sort_by=sort_by,\n",
+                    "\t            precision=precision,\n",
+                    "\t            filter_pol=filter_pol,\n",
+                    "\t        ),\n",
+                    "\t    )\n",
+                    "\t)\n",
+                ]
+            )
+            script_lines.extend(
+                [
+                    f'\toutputsfile = "{outputsfile}"\n',
+                    "\toutputs_dict = {\n",
+                    '\t\t    "Ex": Ex,\n',
+                    '\t\t    "Ey": Ey,\n',
+                    '\t\t    "Ez": Ez,\n',
+                    '\t\t    "Hx": Hx,\n',
+                    '\t\t    "Hy": Hy,\n',
+                    '\t\t    "Hz": Hz,\n',
+                    '\t\t    "neffs": neffs,\n',
+                    "\t\t}\n",
+                    '\twith open(outputsfile, "wb") as outp:\n',
+                    "\t\t    pickle.dump(outputs_dict, outp, pickle.HIGHEST_PROTOCOL)\n",
+                ]
+            )
+            with open(scriptfile, "w") as script_file_obj:
+                script_file_obj.writelines(script_lines)
+            with subprocess.Popen(
+                ["python", scriptfile],
+                stdin=subprocess.PIPE,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            ) as proc:
+                if not proc.stderr:
+                    while not outputsfile.exists():
+                        print(proc.stdout.read().decode())
+                        print(proc.stderr.read().decode())
+                        sys.stdout.flush()
+                        sys.stderr.flush()
+                        time.sleep(1)
+                logger.info(f"python {scriptfile}")
+
+            with open(outputsfile, "rb") as inp:
+                outputs_dict = pickle.load(inp)
+
+            Ex = outputs_dict["Ex"]
+            Ey = outputs_dict["Ey"]
+            Ez = outputs_dict["Ez"]
+            Hx = outputs_dict["Hx"]
+            Hy = outputs_dict["Hy"]
+            Hz = outputs_dict["Hz"]
+            neffs = outputs_dict["neffs"]
+
+            import shutil
+
+            shutil.rmtree(temp_dir)
+
+        else:  # legacy
+            ((Ex, Ey, Ez), (Hx, Hy, Hz)), neffs = (
+                x.squeeze()
+                for x in compute_modes(
+                    eps_cross=[nx**2, ny**2, nz**2],
+                    coords=[x, y],
+                    freq=SPEED_OF_LIGHT / (wavelength * 1e-6),
+                    mode_spec=SimpleNamespace(
+                        num_modes=self.nmodes,
+                        bend_radius=self.bend_radius,
+                        bend_axis=1,
+                        angle_theta=0.0,
+                        angle_phi=0.0,
+                        num_pml=(0, 0),
+                        target_neff=self.get_ncore(wavelength),
+                        sort_by="largest_neff",
+                        precision=self.precision,
+                        filter_pol=self.filter_pol,
+                    ),
+                )
+            )
 
         self.Ex, self.Ey, self.Ez = Ex, Ey, Ez
         self.Hx, self.Hy, self.Hz = Hx, Hy, Hz
         self.neffs = neffs
 
-        data = dict(
-            Ex=self.Ex,
-            Ey=self.Ey,
-            Ez=self.Ez,
-            Hx=self.Hx,
-            Hy=self.Hy,
-            Hz=self.Hz,
-            neffs=self.neffs,
-        )
+        if with_fields:
+            data = dict(
+                Ex=self.Ex,
+                Ey=self.Ey,
+                Ez=self.Ez,
+                Hx=self.Hx,
+                Hy=self.Hy,
+                Hz=self.Hz,
+                neffs=self.neffs,
+            )
+        else:
+            data = dict(neffs=self.neffs)
         if self.filepath:
             np.savez_compressed(self.filepath, **data)
             logger.info(f"write {self.filepath} mode data to file cache.")
@@ -433,6 +605,7 @@ class Waveguide(BaseModel):
 
         Args:
             wg: other waveguide.
+
         """
         wg1 = self
         wg2 = wg
@@ -462,7 +635,7 @@ class WaveguideCoupler(Waveguide):
         t_box: thickness BOX (um).
         t_clad: thickness cladding (um).
         xmargin: margin from waveguide edge to each side (um).
-        resolution: pixels/um.
+        resolution: pixels/um. Can be a single number or tuple (x, y).
         nmodes: number of modes to compute.
         bend_radius: optional bend radius (um).
         cache: filepath for caching modes. If None does not use file cache.
@@ -501,8 +674,8 @@ class WaveguideCoupler(Waveguide):
         Args:
             Y: 2D array.
             Z: 2D array.
-        """
 
+        """
         w1 = self.wg_width1
         w2 = self.wg_width2
         gap = self.gap
@@ -537,8 +710,7 @@ class WaveguideCoupler(Waveguide):
         return SETTINGS_COUPLER
 
     def find_coupling(self, power_ratio: float = 1.0) -> float:
-        """Returns the coupling length (um) of the directional coupler
-        to achieve power_ratio, where 1 means 100% power transfer."""
+        """Returns the coupling length (um) of the directional coupler to achieve power_ratio, where 1 means 100% power transfer."""
         if not hasattr(self, "neffs"):
             self.compute_modes()
         neff1 = self.neffs[0]
@@ -577,8 +749,8 @@ def sweep_bend_loss(
         xmargin: margin from waveguide edge to each side (um).
         resolution: pixels/um.
         nmodes: number of modes to compute.
-    """
 
+    """
     r = np.linspace(bend_radius_min, bend_radius_max, steps)
     integral = np.zeros_like(r)
 
@@ -598,26 +770,23 @@ def sweep_bend_loss(
     return r, integral**2
 
 
-def sweep_width(
-    width1: float = 200 * nm,
-    width2: float = 1000 * nm,
-    steps: int = 12,
-    nmodes: int = 4,
+def sweep_neff(
+    wavelength: float = 1.55,
+    thicknesses: Tuple[float, ...] = (220 * nm,),
+    widths: Tuple[float, ...] = (500 * nm,),
+    mode_index: int = 0,
     **kwargs,
 ) -> pd.DataFrame:
     """Sweep waveguide width and compute effective index.
 
     Args:
-        width1: starting waveguide width in um.
-        width2: end waveguide width in um.
-        steps: number of points.
-        nmodes: number of modes to compute.
-
+        wavelength: (um).
+        thicknesses: in um.
+        widths: in um.
+        mode_index: integer, where 0 is the fundamental mode.
 
     Keyword Args:
-        wavelength: (um).
-        wg_width: waveguide width in um.
-        wg_thickness: thickness waveguide (um).
+        mode_index: integer.
         ncore: core refractive index.
         nclad: cladding refractive index.
         slab_thickness: thickness slab (um).
@@ -629,18 +798,26 @@ def sweep_width(
         bend_radius: optional bend radius (um).
 
     """
+    widths_thicknesses = list(it.product(widths, thicknesses))
 
-    width = np.linspace(width1, width2, steps)
-    neff = {mode_number: [] for mode_number in range(1, nmodes + 1)}
-    for wg_width in tqdm(width):
-        wg = Waveguide(nmodes=nmodes, wg_width=wg_width, **kwargs)
+    neff = np.zeros(len(widths_thicknesses))
+    w = np.zeros(len(widths_thicknesses))
+    t = np.zeros(len(widths_thicknesses))
+
+    for i, (wg_width, wg_thickness) in enumerate(tqdm(widths_thicknesses)):
+        wg = Waveguide(
+            wg_width=wg_width,
+            wg_thickness=wg_thickness,
+            wavelength=wavelength,
+            **kwargs,
+        )
         wg.compute_modes()
-        for mode_number in range(1, nmodes + 1):
-            neff[mode_number].append(np.real(wg.neffs[mode_number]))
+        wg.compute_mode_properties()
+        neff[i] = np.real(wg.neffs[mode_index])
+        w[i] = wg_width
+        t[i] = wg_thickness
 
-    df = pd.DataFrame(neff)
-    df["width"] = width
-    return df
+    return pd.DataFrame(dict(neff=neff, widths=w, thickness=t))
 
 
 def group_index(
@@ -651,7 +828,7 @@ def group_index(
     Args:
         wavelength: (um).
         wavelength_step: in um.
-        mode_index: integer.
+        mode_index: integer, where 0 is the fundamental mode.
 
     Keyword Args:
         wg_width: waveguide width.
@@ -665,8 +842,8 @@ def group_index(
         resolution: pixels/um.
         nmodes: number of modes to compute.
         bend_radius: optional bend radius (um).
-    """
 
+    """
     wc = Waveguide(wavelength=wavelength, **kwargs)
     wf = Waveguide(
         wavelength=wavelength + wavelength_step,
@@ -686,6 +863,106 @@ def group_index(
     return nc - wavelength * (nf - nb) / (2 * wavelength_step)
 
 
+def sweep_group_index(
+    wavelength: float = 1.55,
+    thicknesses: Tuple[float, ...] = (220 * nm,),
+    widths: Tuple[float, ...] = (500 * nm,),
+    **kwargs,
+) -> pd.DataFrame:
+    """Sweep waveguide width and compute group index.
+
+    Args:
+        wavelength: (um).
+        thicknesses: in um.
+        widths: in um.
+
+    Keyword Args:
+        mode_index: integer.
+        ncore: core refractive index.
+        nclad: cladding refractive index.
+        slab_thickness: thickness slab (um).
+        t_box: thickness BOX (um).
+        t_clad: thickness cladding (um).
+        xmargin: margin from waveguide edge to each side (um).
+        resolution: pixels/um.
+        nmodes: number of modes to compute.
+        bend_radius: optional bend radius (um).
+
+    """
+    widths_thicknesses = list(it.product(widths, thicknesses))
+
+    ng = np.zeros(len(widths_thicknesses))
+    w = np.zeros(len(widths_thicknesses))
+    t = np.zeros(len(widths_thicknesses))
+
+    for i, (wg_width, wg_thickness) in enumerate(tqdm(widths_thicknesses)):
+        ng[i] = group_index(
+            wavelength=wavelength,
+            wg_width=wg_width,
+            wg_thickness=wg_thickness,
+            **kwargs,
+        )
+        w[i] = wg_width
+        t[i] = wg_thickness
+
+    return pd.DataFrame(dict(ng=ng, widths=w, thickness=t))
+
+
+def sweep_width(
+    width1: float = 200 * nm,
+    width2: float = 1000 * nm,
+    steps: int = 12,
+    nmodes: int = 4,
+    **kwargs,
+) -> pd.DataFrame:
+    """Sweep waveguide width and compute effective index.
+
+    Returns pandas dataframe with effective index (neff) and fraction_te.
+
+    Args:
+        width1: starting waveguide width in um.
+        width2: end waveguide width in um.
+        steps: number of points.
+        nmodes: number of modes to compute.
+
+
+    Keyword Args:
+        wavelength: (um).
+        wg_width: waveguide width in um.
+        wg_thickness: thickness waveguide (um).
+        ncore: core refractive index.
+        nclad: cladding refractive index.
+        slab_thickness: thickness slab (um).
+        t_box: thickness BOX (um).
+        t_clad: thickness cladding (um).
+        xmargin: margin from waveguide edge to each side (um).
+        resolution: pixels/um.
+        nmodes: number of modes to compute.
+        bend_radius: optional bend radius (um).
+
+    """
+    width = np.linspace(width1, width2, steps)
+    neff = {}
+    for mode_number in range(nmodes):
+        neff[f"neff{mode_number}"] = []
+        neff[f"fraction_te{mode_number}"] = []
+
+    for wg_width in tqdm(width):
+        wg = Waveguide(nmodes=nmodes, wg_width=wg_width, **kwargs)
+        wg.compute_modes()
+        wg.compute_mode_properties()
+
+        for mode_number in range(nmodes):
+            n = np.real(wg.neffs[mode_number])
+            fraction_te = wg.fraction_te[mode_number]
+            neff[f"neff{mode_number}"].append(n)
+            neff[f"fraction_te{mode_number}"].append(fraction_te)
+
+    df = pd.DataFrame(neff)
+    df["width"] = width
+    return df
+
+
 def plot_sweep_width(
     width1: float = 200 * nm,
     width2: float = 1000 * nm,
@@ -693,8 +970,10 @@ def plot_sweep_width(
     nmodes: int = 4,
     cmap: str = "magma",
     **kwargs,
-) -> None:
+) -> pd.DataFrame:
     """Sweep waveguide width and compute effective index.
+
+    Returns pandas dataframe with effective index (neff) and fraction_te.
 
     Args:
         width1: starting waveguide width in um.
@@ -713,12 +992,16 @@ def plot_sweep_width(
         t_box: thickness BOX (um).
         t_clad: thickness cladding (um).
         xmargin: margin from waveguide edge to each side (um).
-        resolution: pixels/um.
+        resolution: pixels/um. Can be a single number or tuple (x, y).
         nmodes: number of modes to compute.
         bend_radius: optional bend radius (um).
+
     """
     width = np.linspace(width1, width2, steps)
-    neff = {mode_number: [] for mode_number in range(nmodes)}
+    neff = {}
+    for mode_number in range(nmodes):
+        neff[f"neff{mode_number}"] = []
+        neff[f"fraction_te{mode_number}"] = []
 
     for wg_width in tqdm(width):
         wg = Waveguide(nmodes=nmodes, wg_width=wg_width, **kwargs)
@@ -726,17 +1009,21 @@ def plot_sweep_width(
         wg.compute_mode_properties()
         for mode_number in range(nmodes):
             n = np.real(wg.neffs[mode_number])
-            neff[mode_number].append(n)
-
             fraction_te = wg.fraction_te[mode_number]
             plt.scatter(wg_width, n, c=fraction_te, vmin=0, vmax=1, cmap=cmap)
 
+            neff[f"neff{mode_number}"].append(n)
+            neff[f"fraction_te{mode_number}"].append(fraction_te)
+
     for mode_number in range(nmodes):
-        plt.plot(width, neff[mode_number], c="gray")
+        plt.plot(width, neff[f"neff{mode_number}"], c="gray")
 
     plt.colorbar().set_label("TE-Fraction")
     plt.xlabel("width (um)")
     plt.ylabel("neff")
+    df = pd.DataFrame(neff)
+    df["width"] = width
+    return df
 
 
 __all__ = (
@@ -747,91 +1034,24 @@ __all__ = (
     "sio2",
     "sweep_bend_loss",
     "sweep_width",
+    "sweep_neff",
+    "sweep_group_index",
     "group_index",
 )
 
 if __name__ == "__main__":
-    c = Waveguide(
+    widths = np.arange(400, 601, 50) * 1e-3
+    widths = np.array([500]) * nm
+    thicknesses = np.array([210, 220, 230]) * nm
+    widths = np.array([490, 500, 510]) * nm
+    widths = np.array([495, 500, 505]) * nm
+    thicknesses = np.array([220]) * nm
+
+    df = plot_sweep_width(
+        steps=3,
         wavelength=1.55,
-        wg_width=500 * nm,
         wg_thickness=220 * nm,
         slab_thickness=0 * nm,
         ncore=si,
         nclad=sio2,
     )
-    c = WaveguideCoupler(
-        wavelength=1.55,
-        wg_width1=500 * nm,
-        wg_width2=500 * nm,
-        gap=200 * nm,
-        wg_thickness=220 * nm,
-        slab_thickness=100 * nm,
-        ncore=si,
-        nclad=sio2,
-    )
-    print(c.find_coupling())
-    # c.plot_index()
-
-    # mode_areas, te, tm = c.compute_mode_properties()
-    # c.plot_Ex(0)
-    # nitride = find_modes(wavelength=1.55, wg_width=1.0, wg_thickness=0.4, ncore=2.0)
-    # nitride.plot_index()
-
-    # c = pickle_load("strip.pkl")
-
-    # c0 = Waveguide(slab_thickness=0)
-    # c0.plot_Ex(index=0)
-    # c0.pickle_dump("strip.pkl")
-
-    # c1 = Waveguide(slab_thickness=0, bend_radius=5)
-    # c1.plot_Ex()
-    # c1.pickle_dump("strip_bend5.pkl")
-
-    # c = Waveguide(slab_thickness=90e-3, bend_radius=5)
-    # c.plot_index()
-
-    # r, integral = sweep_bend_loss(
-    #     wavelength=1.55,
-    #     wg_width=0.5,
-    #     wg_thickness=0.22,
-    #     slab_thickness=0.0,
-    #     ncore=si,
-    #     nclad=sio2,
-    # )
-    # plt.plot(r, integral / max(integral), ".")
-    # plt.xlabel("bend radius (um)")
-    # plt.show()
-
-    # rib = find_modes(
-    #     wavelength=1.55, wg_width=0.5, wg_thickness=0.22, slab_thickness=0.15, ncore=3.4, nclad=1.44
-    # )
-    # nitride = find_modes(
-    #     wavelength=1.55,
-    #     wg_width=1.0,
-    #     wg_thickness=0.4,
-    #     ncore=2.0,
-    #     nclad=sio2,
-    # )
-
-    # nitride.plot_index()
-    # nitride.plot_Ex(index=0)
-
-    # plot_sweep_width(
-    #     steps=3,
-    #     wavelength=1.55,
-    #     wg_thickness=220 * nm,
-    #     slab_thickness=0 * nm,
-    #     ncore=si,
-    #     nclad=sio2,
-    # )
-    # plt.show()
-    # ng = group_index(
-    #     wg_width=500 * nm,
-    #     wavelength=1.55,
-    #     wg_thickness=220 * nm,
-    #     slab_thickness=0 * nm,
-    #     ncore=si,
-    #     nclad=sio2,
-    # )
-    # print(ng)
-    # plt.show()

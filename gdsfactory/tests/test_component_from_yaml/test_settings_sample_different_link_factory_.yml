@@ -27,10 +27,6 @@ settings:
           links:
             bl,e3: br,e1
             tl,e3: tr,e1
-          routing_strategy: get_bundle_path_length_match
-          settings:
-            extra_length: 500
-            radius: 10
   child: null
   default:
     label_instance_function:
@@ -43,17 +39,7 @@ settings:
         settings:
           bend:
             function: wire_corner
-          cross_section:
-            function: cross_section
-            settings:
-              layer: M3
-              port_names:
-              - e1
-              - e2
-              port_types:
-              - electrical
-              - electrical
-              width: 10.0
+          cross_section: metal_routing
       get_bundle_from_steps:
         function: get_bundle_from_steps
       get_bundle_from_steps_electrical:
@@ -61,17 +47,7 @@ settings:
         settings:
           bend:
             function: wire_corner
-          cross_section:
-            function: cross_section
-            settings:
-              layer: M3
-              port_names:
-              - e1
-              - e2
-              port_types:
-              - electrical
-              - electrical
-              width: 10.0
+          cross_section: metal_routing
       get_bundle_from_waypoints:
         function: get_bundle_from_waypoints
       get_bundle_path_length_match:
@@ -105,10 +81,6 @@ settings:
           links:
             bl,e3: br,e1
             tl,e3: tr,e1
-          routing_strategy: get_bundle_path_length_match
-          settings:
-            extra_length: 500
-            radius: 10
     label_instance_function:
       function: add_instance_label
     routing_strategy:
@@ -119,17 +91,7 @@ settings:
         settings:
           bend:
             function: wire_corner
-          cross_section:
-            function: cross_section
-            settings:
-              layer: M3
-              port_names:
-              - e1
-              - e2
-              port_types:
-              - electrical
-              - electrical
-              width: 10.0
+          cross_section: metal_routing
       get_bundle_from_steps:
         function: get_bundle_from_steps
       get_bundle_from_steps_electrical:
@@ -137,17 +99,7 @@ settings:
         settings:
           bend:
             function: wire_corner
-          cross_section:
-            function: cross_section
-            settings:
-              layer: M3
-              port_names:
-              - e1
-              - e2
-              port_types:
-              - electrical
-              - electrical
-              width: 10.0
+          cross_section: metal_routing
       get_bundle_from_waypoints:
         function: get_bundle_from_waypoints
       get_bundle_path_length_match:
@@ -155,8 +107,12 @@ settings:
       get_bundle_same_axis_no_grouping:
         function: get_bundle_same_axis_no_grouping
   function_name: _from_yaml
-  info: {}
+  info:
+    instances:
+    - bl
+    - tl
+    - br
+    - tr
   info_version: 2
   module: gdsfactory.read.from_yaml
   name: sample_path_length_matc_80997953
-version: 0.0.1

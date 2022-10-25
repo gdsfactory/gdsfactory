@@ -1,11 +1,12 @@
-"""write xsection script for klayout plugin
+"""write xsection script for klayout plugin.
 
 https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
+
 """
 
 import pathlib
 
-from gdsfactory.klayout.get_xsection_script import get_xsection_script
+from gdsfactory.geometry.get_xsection_script import get_xsection_script
 from gdsfactory.tech import LAYER
 
 nm = 1e-3

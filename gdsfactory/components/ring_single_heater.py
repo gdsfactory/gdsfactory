@@ -19,8 +19,8 @@ def ring_single_heater(
     coupler_ring: ComponentSpec = _coupler_ring,
     straight: ComponentSpec = _straight,
     bend: ComponentSpec = bend_euler,
-    cross_section_waveguide_heater: CrossSectionSpec = gf.cross_section.strip_heater_metal,
-    cross_section: CrossSectionSpec = gf.cross_section.strip,
+    cross_section_waveguide_heater: CrossSectionSpec = "strip_heater_metal",
+    cross_section: CrossSectionSpec = "strip",
     via_stack: ComponentSpec = via_stack_heater_m3_mini,
     port_orientation: Optional[float] = 90,
     via_stack_offset: Float2 = (0, 0),
@@ -30,7 +30,6 @@ def ring_single_heater(
 
     ring coupler (cb: bottom) connects to two vertical straights (sl: left, sr: right),
     two bends (bl, br) and horizontal straight (wg: top)
-
 
     Args:
         gap: gap between for coupler.
@@ -47,7 +46,6 @@ def ring_single_heater(
         via_stack_offset: x,y offset for via_stack.
         kwargs: cross_section settings.
 
-
     .. code::
 
           bl-st-br
@@ -57,9 +55,8 @@ def ring_single_heater(
          --==cb==-- gap
 
           length_x
-
     """
-    gf.snap.assert_on_2nm_grid(gap)
+    gap = gf.snap.snap_to_grid(gap, nm=2)
 
     coupler_ring = gf.get_component(
         coupler_ring,

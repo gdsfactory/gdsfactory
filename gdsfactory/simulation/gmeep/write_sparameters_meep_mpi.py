@@ -1,10 +1,8 @@
 """Compute and write Sparameters using Meep in MPI."""
 
 import multiprocessing
-import os
 import pathlib
 import pickle
-import re
 import shlex
 import subprocess
 import sys
@@ -35,16 +33,8 @@ temp_dir_default = Path(sparameters_path) / "temp"
 
 
 def _python() -> str:
-    """select correct python executable from current activated environment"""
+    """Select correct python executable from current activated environment."""
     return sys.executable
-
-
-def _mpirun() -> str:
-    """select correct mpirun executable from current activated environment"""
-    python = _python()
-    path, ext = os.path.splitext(python)
-    mpirun = re.sub("python$", "mpirun", path) + ext
-    return mpirun if os.path.exists(mpirun) else "mpirun"
 
 
 @pydantic.validate_arguments
@@ -61,8 +51,7 @@ def write_sparameters_meep_mpi(
     wait_to_finish: bool = True,
     **kwargs,
 ) -> Path:
-    """Write Sparameters using multiple cores and MPI
-    and returns Sparameters CSV filepath.
+    """Write Sparameters using multiple cores and MPI and returns Sparameters filepath.
 
     Simulates each time using a different input port (by default, all of them)
     unless you specify port_symmetries:
@@ -130,11 +119,12 @@ def write_sparameters_meep_mpi(
         port_monitor_offset: offset between monitor GDS port and monitor MEEP port.
 
     Returns:
-        filepath for sparameters CSV (wavelengths, s11a, s12m, ...)
+        filepath for sparameters CSV (wavelengths, s11a, o1@0,o2@0, ...)
             where `a` is the angle in radians and `m` the module.
 
     TODO:
         write stdout to file, maybe simulation logs too.
+
     """
     for setting in kwargs:
         if setting not in settings_write_sparameters_meep:
@@ -195,7 +185,7 @@ def write_sparameters_meep_mpi(
     script_file = tempfile.with_suffix(".py")
     with open(script_file, "w") as script_file_obj:
         script_file_obj.writelines(script_lines)
-    command = f"{_mpirun()} -np {cores} {_python()} {script_file}"
+    command = f"mpirun -np {cores} {_python()} {script_file}"
     logger.info(command)
     logger.info(str(filepath))
 

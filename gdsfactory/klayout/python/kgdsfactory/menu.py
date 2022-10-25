@@ -1,5 +1,4 @@
-"""menu inspired by SiEPIC tools.
-"""
+"""menu inspired by SiEPIC tools."""
 
 import pya
 

@@ -1,0 +1,70 @@
+name: straight_add_grating_couplers
+settings:
+  changed: {}
+  child:
+    changed: {}
+    child: null
+    default:
+      cross_section: strip
+      length: 10.0
+      npoints: 2
+      with_bbox: true
+    full:
+      cross_section: strip
+      length: 10.0
+      npoints: 2
+      with_bbox: true
+    function_name: straight
+    info:
+      length: 10.0
+      width: 0.5
+    info_version: 2
+    module: gdsfactory.components.straight
+    name: straight
+  default:
+    component:
+      function: straight
+    component_name: null
+    gc_port_name: o1
+    get_input_labels_function:
+      function: get_input_labels
+    grating_coupler:
+      function: grating_coupler_elliptical_trenches
+      settings:
+        polarization: te
+        taper_angle: 35
+    layer_label:
+    - 200
+    - 0
+    select_ports:
+      function: select_ports
+      settings:
+        port_type: optical
+  full:
+    component:
+      function: straight
+    component_name: null
+    gc_port_name: o1
+    get_input_labels_function:
+      function: get_input_labels
+    grating_coupler:
+      function: grating_coupler_elliptical_trenches
+      settings:
+        polarization: te
+        taper_angle: 35
+    layer_label:
+    - 200
+    - 0
+    select_ports:
+      function: select_ports
+      settings:
+        port_type: optical
+  function_name: add_grating_couplers
+  info:
+    length: 10.0
+    polarization: te
+    wavelength: 1.53
+    width: 0.5
+  info_version: 2
+  module: gdsfactory.components.add_grating_couplers
+  name: straight_add_grating_couplers

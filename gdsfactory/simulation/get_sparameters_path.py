@@ -5,7 +5,7 @@ from functools import partial
 from pathlib import Path
 from typing import Optional
 
-import pandas as pd
+import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.name import clean_value
@@ -26,16 +26,16 @@ def _get_sparameters_path(
     dirpath: Optional[Path] = None,
     **kwargs,
 ) -> Path:
-    """Return Sparameters CSV filepath.
-    hashes of all simulation settings to get a consistent unique name.
+    """Return Sparameters npz filepath hashing simulation settings for \
+            a consistent unique name.
 
     Args:
         component: component or component factory.
         dirpath: directory to store sparameters in CSV.
             Defaults to active Pdk.sparameters_path.
         kwargs: simulation settings.
-    """
 
+    """
     dirpath = dirpath or get_sparameters_path()
     component = gf.get_component(component)
 
@@ -46,19 +46,20 @@ def _get_sparameters_path(
         else dirpath
     )
     dirpath.mkdir(exist_ok=True, parents=True)
-    return dirpath / f"{component.name}_{get_kwargs_hash(**kwargs)}.csv"
+    return dirpath / f"{component.name}_{get_kwargs_hash(**kwargs)}.npz"
 
 
-def _get_sparameters_data(**kwargs) -> pd.DataFrame:
+def _get_sparameters_data(**kwargs) -> np.ndarray:
     """Returns Sparameters data in a pandas DataFrame.
 
     Keyword Args:
         component: component.
         dirpath: directory path to store sparameters.
         kwargs: simulation settings.
+
     """
     filepath = _get_sparameters_path(**kwargs)
-    return pd.read_csv(filepath)
+    return np.load(filepath)
 
 
 get_sparameters_path_meep = partial(_get_sparameters_path, tool="meep")
@@ -67,6 +68,7 @@ get_sparameters_path_tidy3d = partial(_get_sparameters_path, tool="tidy3d")
 
 get_sparameters_data_meep = partial(_get_sparameters_data, tool="meep")
 get_sparameters_data_lumerical = partial(_get_sparameters_data, tool="lumerical")
+get_sparameters_data_tidy3d = partial(_get_sparameters_data, tool="tidy3d")
 
 
 def test_get_sparameters_path(test: bool = True) -> None:
@@ -97,11 +99,10 @@ def test_get_sparameters_path(test: bool = True) -> None:
 
 
 if __name__ == "__main__":
-    # import gdsfactory as gf
 
-    # c = gf.components.mmi1x2()
-    # p = get_sparameters_path_lumerical(c)
-    # print(p)
+    c = gf.components.mmi1x2()
+    p = get_sparameters_path_lumerical(c)
+    print(p)
 
-    test_get_sparameters_path(test=False)
-    test_get_sparameters_path(test=True)
+    # test_get_sparameters_path(test=False)
+    # test_get_sparameters_path(test=True)

@@ -70,7 +70,7 @@ def pad_array(
     rows: int = 1,
     orientation: Optional[float] = 270,
 ) -> Component:
-    """Returns 2D array of pads
+    """Returns 2D array of pads.
 
     Args:
         pad: pad element.

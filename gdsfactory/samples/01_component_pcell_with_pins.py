@@ -14,6 +14,7 @@ def straight_narrow(
         length: of the straight.
         width: in um.
         layer: layer spec
+
     """
     wg = gf.Component("straight_sample")
     wg.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)

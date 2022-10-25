@@ -50,8 +50,17 @@ def mzi_lattice(
                                  |______|
 
     """
-    assert len(coupler_lengths) == len(coupler_gaps)
-    assert len(coupler_lengths) == len(delta_lengths) + 1
+    if len(coupler_lengths) != len(coupler_gaps):
+        raise ValueError(
+            f"Got {len(coupler_lengths)} coupler_lengths and "
+            f"{len(coupler_gaps)} coupler_gaps"
+        )
+    if len(coupler_lengths) != len(delta_lengths) + 1:
+        raise ValueError(
+            f"Got {len(coupler_lengths)} coupler_lengths and "
+            f"{len(delta_lengths)} delta_lengths. "
+            "You need one more coupler_length than delta_lengths "
+        )
 
     c = Component()
 

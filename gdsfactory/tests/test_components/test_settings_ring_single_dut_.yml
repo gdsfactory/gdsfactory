@@ -64,8 +64,10 @@ settings:
       function: straight
     with_component: true
   function_name: ring_single_dut
-  info: {}
+  info:
+    length: 10.0
+    width1: 0.5
+    width2: 3.0
   info_version: 2
   module: gdsfactory.components.ring_single_dut
   name: taper_width23_ring_single_dut
-version: 0.0.1

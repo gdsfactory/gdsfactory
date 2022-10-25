@@ -31,7 +31,6 @@ def cdsem_straight(
         text: optional text for labels.
         spacing: edge to edge spacing.
     """
-
     lines = []
     for width in widths:
         line = straight_function(

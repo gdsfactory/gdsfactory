@@ -1,4 +1,4 @@
-"""adapted from phidl.geometry """
+"""based on phidl.geometry."""
 from typing import Optional
 
 import numpy as np
@@ -28,7 +28,6 @@ def die_bbox(
     it can also add a label with the name of the die.
     similar to die and bbox.
 
-
     Args:
         component: to frame.
         street_width: Width of the boundary box.
@@ -38,7 +37,6 @@ def die_bbox(
         text_anchor: {'nw', 'nc', 'ne', 'sw', 'sc', 'se'} text location.
         layer: Specific layer(s) to put polygon geometry on.
         padding: adds padding.
-
     """
     D = gf.Component()
     component = gf.get_component(component)

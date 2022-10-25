@@ -9,7 +9,7 @@ Gdsfactory
    git
    workflow
    notebooks
-   notebooks_netlist
+   plugins_process
    plugins_mode_solver
    plugins_fdtd
    plugins_circuits

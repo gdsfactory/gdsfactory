@@ -1,4 +1,4 @@
-"""SMF specs from photonics.byu.edu/FiberOpticConnectors.parts/images/smf28.pdf
+"""SMF specs from photonics.byu.edu/FiberOpticConnectors.parts/images/smf28.pdf.
 
 MFD:
 
@@ -18,14 +18,13 @@ import matplotlib.pyplot as plt
 import meep as mp
 import numpy as np
 import omegaconf
-import pandas as pd
 
 from gdsfactory.config import logger, sparameters_path
 from gdsfactory.serialization import clean_value_json, clean_value_name
 from gdsfactory.simulation.gmeep.get_simulation_grating_fiber import (
     get_simulation_grating_fiber,
 )
-from gdsfactory.simulation.gmeep.write_sparameters_meep_mpi import _mpirun, _python
+from gdsfactory.simulation.gmeep.write_sparameters_meep_mpi import _python
 from gdsfactory.types import PathType
 
 nm = 1e-3
@@ -47,9 +46,8 @@ def write_sparameters_grating(
     dirpath: Optional[PathType] = sparameters_path,
     decay_by: float = 1e-3,
     verbosity: int = 0,
-    ncores: int = 1,
     **settings,
-) -> pd.DataFrame:
+) -> np.ndarray:
     """Write grating coupler with fiber Sparameters.
 
     Args:
@@ -89,6 +87,7 @@ def write_sparameters_grating(
         wavelength_min: min wavelength (um).
         wavelength_max: max wavelength (um).
         wavelength_points: wavelength points.
+        decay_by: field decay to stop simulation = 1e-3.
         eps_averaging: epsilon averaging.
         fiber_port_y_offset_from_air: y_offset from fiber to air (um).
         waveguide_port_x_offset_from_grating_start: in um.
@@ -130,12 +129,12 @@ def write_sparameters_grating(
     dirpath = pathlib.Path(dirpath)
     dirpath.mkdir(exist_ok=True, parents=True)
     filepath = dirpath / filename
-    filepath_csv = filepath.with_suffix(".csv")
+    filepath_npz = filepath.with_suffix(".npz")
     filepath_mp4 = filepath.with_suffix(".mp4")
 
-    if filepath_csv.exists() and not overwrite and not plot:
-        logger.info(f"sparameters loaded from {str(filepath_csv)!r}")
-        return pd.read_csv(filepath_csv)
+    if filepath_npz.exists() and not overwrite and not plot:
+        logger.info(f"sparameters loaded from {str(filepath_npz)!r}")
+        return np.load(filepath_npz)
 
     sim_dict = get_simulation_grating_fiber(**settings)
     sim = sim_dict["sim"]
@@ -148,7 +147,7 @@ def write_sparameters_grating(
         plt.show()
         return
 
-    termination = [mp.stop_when_energy_decayed(dt=50, decay_by=1e-3)]
+    termination = [mp.stop_when_energy_decayed(dt=50, decay_by=decay_by)]
 
     if animate:
         # Run while saving fields
@@ -226,17 +225,15 @@ def write_sparameters_grating(
     )
     filepath.write_text(omegaconf.OmegaConf.to_yaml(simulation))
 
-    r = dict(s11=s11, s12=s12, s21=s21, s22=s22, wavelengths=wavelengths)
-    keys = [key for key in r if key.startswith("s")]
-    s = {f"{key}a": list(np.unwrap(np.angle(r[key].flatten()))) for key in keys} | {
-        f"{key}m": list(np.abs(r[key].flatten())) for key in keys
+    sp = {
+        "o1@0,o1@0": s11,
+        "o1@0,o2@0": s12,
+        "o2@0,o1@0": s21,
+        "o2@0,o2@0": s22,
+        "wavelengths": wavelengths,
     }
-
-    s["wavelengths"] = wavelengths
-
-    df = pd.DataFrame(s, index=wavelengths)
-    df.to_csv(filepath_csv, index=False)
-    return df
+    np.savez_compressed(filepath_npz, **sp)
+    return sp
 
 
 def write_sparameters_grating_mpi(
@@ -259,8 +256,8 @@ def write_sparameters_grating_mpi(
         temp_dir (FilePath): temporary directory to hold simulation files.
         temp_file_str (str): names of temporary files in temp_dir.
         verbosity (bool): progress messages.
-    """
 
+    """
     # Save the component object to simulation for later retrieval
     temp_dir = temp_dir or pathlib.Path(__file__).parent / "temp"
     temp_dir = pathlib.Path(temp_dir)
@@ -287,7 +284,7 @@ def write_sparameters_grating_mpi(
     with open(script_file, "w") as script_file_obj:
         script_file_obj.writelines(script_lines)
     # Exec string
-    command = f"{_mpirun()} -np {cores} {_python()} {script_file}"
+    command = f"mpirun -np {cores} {_python()} {script_file}"
 
     # Launch simulation
     if verbosity:
@@ -317,12 +314,14 @@ def write_sparameters_grating_batch(
     then the overflow will be performed serially
 
     Args:
-        instances: list of Dicts. The keys must be parameters names of write_sparameters_meep, and entries the values.
+        instances: list of Dicts. The keys must be parameters names of write_sparameters_meep,
+            and entries the values.
         cores_per_instance: number of processors to assign to each instance.
         total_cores: total number of cores to use.
         temp_dir: temporary directory to hold simulation files.
         delete_temp_file: whether to delete temp_dir when done.
         verbosity: show progress messages.
+
     """
     # Save the component object to simulation for later retrieval
     temp_dir = temp_dir or pathlib.Path(__file__).parent / "temp"
@@ -421,5 +420,5 @@ if __name__ == "__main__":
 
     from gdsfactory.simulation.plot import plot_sparameters
 
-    df = write_sparameters_grating(fiber_angle_deg=15)
-    plot_sparameters(df)
+    sp = write_sparameters_grating(fiber_angle_deg=15)
+    plot_sparameters(sp)

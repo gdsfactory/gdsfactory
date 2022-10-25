@@ -332,10 +332,7 @@ def get_simulation_grating_coupler(
             thickness = layer_to_thickness[layer]
             zmin = layer_to_zmin[layer]
             zmax = zmin + thickness
-            if (
-                layer in layer_to_material
-                and layer_to_material[layer] in material_name_to_tidy3d
-            ):
+            if layer_to_material[layer] in material_name_to_tidy3d:
                 name_or_index = material_name_to_tidy3d[layer_to_material[layer]]
                 medium = get_medium(name_or_index=name_or_index)
                 index = get_index(name_or_index=name_or_index)
@@ -362,7 +359,7 @@ def get_simulation_grating_coupler(
                     structures.append(geometry)
             elif layer not in layer_to_material:
                 logger.debug(f"Layer {layer} not in {layer_to_material.keys()}")
-            elif layer_to_material[layer] not in material_name_to_tidy3d:
+            else:
                 materials = list(material_name_to_tidy3d.keys())
                 logger.debug(f"material {layer_to_material[layer]} not in {materials}")
 
@@ -449,6 +446,7 @@ def get_simulation_grating_coupler(
         monitors=monitors,
         run_time=run_time_ps * 1e-12,
         boundary_spec=boundary_spec,
+        grid_spec=grid_spec,
         **kwargs,
     )
 

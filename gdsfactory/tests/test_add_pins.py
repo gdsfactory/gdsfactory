@@ -6,9 +6,8 @@ from gdsfactory.tech import LAYER
 
 @pytest.mark.parametrize("optical_routing_type", [0, 1])
 def test_add_pins_with_routes(optical_routing_type) -> gf.Component:
-    """Add grating couplers to a straight
-    ensure that all the routes have pins
-    """
+    """Add grating couplers to a straight ensure that all the routes have
+    pins."""
     c = gf.components.straight(length=11.0)
     gc = gf.components.grating_coupler_elliptical_te()
     cc = gf.routing.add_fiber_single(
@@ -23,7 +22,7 @@ def test_add_pins_with_routes(optical_routing_type) -> gf.Component:
 
 
 def test_add_pins() -> None:
-    """ensure that all the waveguide has 2 pins"""
+    """ensure that all the waveguide has 2 pins."""
     c = gf.components.straight(length=11.0)
     pins_component = c.extract(layers=(LAYER.PORT,))
     pins_component.name = "test_add_pins_component"
@@ -31,7 +30,7 @@ def test_add_pins() -> None:
 
 
 if __name__ == "__main__":
-    test_add_pins()
+    # test_add_pins()
     # c = test_add_pins_with_routes(0)
     # c.show(show_ports=True)
 
@@ -48,3 +47,6 @@ if __name__ == "__main__":
     # cc.show(show_ports=True)
     # pins_component = cc.extract(layers=(LAYER.PIN,))
     # print(len(pins_component.polygons))
+
+    c = gf.components.straight(length=11.0)
+    c2 = c.extract(layers=(LAYER.PORT,))

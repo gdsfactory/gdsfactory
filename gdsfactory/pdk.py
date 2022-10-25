@@ -1,8 +1,10 @@
+"""PDK stores layers, cross_sections, cell functions ..."""
+
 import logging
 import pathlib
 import warnings
 from functools import partial
-from typing import Callable, Optional
+from typing import Any, Callable, Optional
 
 import numpy as np
 from omegaconf import DictConfig
@@ -36,9 +38,17 @@ component_settings = ["function", "component", "settings"]
 cross_section_settings = ["function", "cross_section", "settings"]
 layers_required = ["DEVREC", "PORT", "PORTE"]
 
+constants = dict(
+    fiber_array_spacing=127.0,
+    fiber_spacing=50.0,
+    fiber_input_to_output_spacing=200.0,
+    metal_spacing=10.0,
+)
+
 
 class Pdk(BaseModel):
     """Store layers, cross_sections, cell functions, simulation_settings ...
+
     only one Pdk can be active at a given time.
 
     Parameters:
@@ -48,15 +58,18 @@ class Pdk(BaseModel):
         containers: dict of pcells that contain other cells.
         base_pdk: a pdk to copy from and extend.
         default_decorator: decorate all cells, if not otherwise defined on the cell.
-        layers: maps name to gdslayer/datatype. For example dict(si=(1, 0), sin=(34, 0)).
+        layers: maps name to gdslayer/datatype.
+            For example dict(si=(1, 0), sin=(34, 0)).
         layer_stack: maps name to layer numbers, thickness, zmin, sidewall_angle.
-            if can also contain material properties (refractive index, nonlinear coefficient, sheet resistance ...).
+            if can also contain material properties
+            (refractive index, nonlinear coefficient, sheet resistance ...).
         layer_colors: includes layer name to color, opacity and pattern.
         sparameters_path: to store Sparameters simulations.
         interconnect_cml_path: path to interconnect CML (optional).
         grid_size: in um. Defaults to 1nm.
         warn_off_grid_ports: raises warning when extruding paths with offgrid ports.
             For example, if you try to create a waveguide with 1.5nm length.
+
     """
 
     name: str
@@ -72,8 +85,11 @@ class Pdk(BaseModel):
     interconnect_cml_path: Optional[PathType] = None
     grid_size: float = 0.001
     warn_off_grid_ports: bool = False
+    constants: Dict[str, Any] = constants
 
     class Config:
+        """Configuration."""
+
         extra = "forbid"
         fields = {
             "cross_sections": {"exclude": True},
@@ -95,6 +111,10 @@ class Pdk(BaseModel):
 
     def activate(self) -> None:
         """Set current pdk to as the active pdk."""
+        from gdsfactory.cell import clear_cache
+
+        clear_cache()
+
         if self.base_pdk:
             cross_sections = self.base_pdk.cross_sections
             cross_sections.update(self.cross_sections)
@@ -253,7 +273,6 @@ class Pdk(BaseModel):
 
     def get_component(self, component: ComponentSpec, **kwargs) -> Component:
         """Returns component from a component spec."""
-
         cells_and_containers = set(self.cells.keys()).union(set(self.containers.keys()))
 
         if isinstance(component, Component):
@@ -300,11 +319,6 @@ class Pdk(BaseModel):
                 else self.containers[cell_name]
             )
             component = cell(**settings)
-            component = (
-                self.default_decorator(component) or component
-                if self.default_decorator
-                else component
-            )
             return component
         else:
             raise ValueError(
@@ -388,6 +402,14 @@ class Pdk(BaseModel):
             raise ValueError(f"layer_stack for Pdk {self.name!r} is None")
         return self.layer_stack
 
+    def get_constant(self, key: str) -> Any:
+        if not isinstance(key, str):
+            return key
+        if key not in self.constants:
+            constants = list(self.constants.keys())
+            raise ValueError(f"{key!r} not in {constants}")
+        return self.constants[key]
+
     # _on_cell_registered = Event()
     # _on_container_registered: Event = Event()
     # _on_yaml_cell_registered: Event = Event()
@@ -452,6 +474,11 @@ def get_active_pdk() -> Pdk:
 
 def get_grid_size() -> float:
     return _ACTIVE_PDK.grid_size
+
+
+def get_constant(constant_name: Any) -> Any:
+    """If constant_name is a string returns a the value from the dict."""
+    return _ACTIVE_PDK.get_constant(constant_name)
 
 
 def get_sparameters_path() -> pathlib.Path:

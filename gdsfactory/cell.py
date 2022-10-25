@@ -1,5 +1,4 @@
-"""cell decorator"""
-import copy
+"""Cell decorator for functions that return a Component."""
 import functools
 import hashlib
 import inspect
@@ -83,7 +82,7 @@ def cell_without_validator(func):
 
         sig = inspect.signature(func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), args))
-        args_as_kwargs.update(**copy.deepcopy(kwargs))
+        args_as_kwargs.update(kwargs)
 
         default = {
             p.name: p.default
@@ -92,11 +91,11 @@ def cell_without_validator(func):
         }
 
         changed = args_as_kwargs
-        full = copy.deepcopy(default)
+        full = default.copy()
         full.update(**args_as_kwargs)
 
-        default2 = copy.deepcopy(default)
-        changed2 = copy.deepcopy(changed)
+        default2 = default.copy()
+        changed2 = changed.copy()
 
         # list of default args as strings
         default_args_list = [
@@ -113,8 +112,9 @@ def cell_without_validator(func):
 
         # if any args were different from default, append a hash of those args.
         # else, keep only the base name
+        named_args_string = "_".join(changed_arg_list)
+
         if changed_arg_list:
-            named_args_string = "_".join(changed_arg_list)
             named_args_string = (
                 hashlib.md5(named_args_string.encode()).hexdigest()[:8]
                 if with_hash
@@ -140,7 +140,7 @@ def cell_without_validator(func):
             and "kwargs" not in sig.parameters
             and "settings" not in sig.parameters
         ):
-            for key in kwargs.keys():
+            for key in kwargs:
                 if key not in sig.parameters.keys():
                     raise TypeError(
                         f"{func.__name__!r}() got invalid argument {key!r}\n"
@@ -185,6 +185,9 @@ def cell_without_validator(func):
         if autoname and not hasattr(component, "imported_gds"):
             component.name = component_name
 
+        if component.info is None:
+            component.info = {}
+
         component.info.update(**info)
 
         if not hasattr(component, "imported_gds"):
@@ -220,7 +223,9 @@ _F = TypeVar("_F", bound=Callable)
 
 def cell(func: _F, *args, **kwargs) -> _F:
     """Decorator for Component functions.
-    Wraps cell_without_validator Validates type annotations with pydantic.
+
+    Wraps cell_without_validator
+    Validates type annotations with pydantic.
 
     Implements a cache so that if a component has already been build
     it will return the component from the cache directly.
@@ -243,7 +248,6 @@ def cell(func: _F, *args, **kwargs) -> _F:
         prefix: name_prefix, defaults to function name.
         max_name_length: truncates name beyond some characters (32) with a hash.
         decorator: function to run over the component.
-
     """
     return cell_without_validator(validate_arguments(func), *args, **kwargs)
 
@@ -251,8 +255,7 @@ def cell(func: _F, *args, **kwargs) -> _F:
 @cell
 def wg(length: int = 3, layer: Tuple[int, int] = (1, 0)) -> Component:
     """Dummy component for testing."""
-
-    c = Component("straight")
+    c = Component()
     width = 0.5
     w = width / 2
     c.add_polygon([(0, -w), (length, -w), (length, w), (0, w)], layer=layer)
@@ -264,8 +267,7 @@ def wg(length: int = 3, layer: Tuple[int, int] = (1, 0)) -> Component:
 @cell
 def wg2(wg1=wg):
     """Dummy component for testing."""
-
-    c = Component("straight")
+    c = Component()
     w = wg1()
     w1 = c << w
     w1.rotate(90)
@@ -281,8 +283,7 @@ def test_set_name() -> None:
 
 @cell
 def demo(length: int = 3, wg_width: float = 0.5) -> Component:
-    """Demo Dummy cell"""
-
+    """Demo Dummy cell."""
     c = Component()
     w = length
     h = wg_width
@@ -331,17 +332,9 @@ def straight_with_pins(**kwargs) -> Component:
     return c
 
 
-def test_import_gds_settings() -> None:
-    """Sometimes it fails for files imported from GDS."""
-    import gdsfactory as gf
-
-    gdspath = gf.CONFIG["gdsdir"] / "mzi2x2.gds"
-    c = gf.import_gds(gdspath)
-    assert gf.routing.add_fiber_single(c)
-
-
 if __name__ == "__main__":
     test_names()
+    c = wg()
     # test_import_gds_settings()
 
     # import gdsfactory as gf

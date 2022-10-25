@@ -4,10 +4,10 @@ from typing import Optional, Union, cast
 import gdspy
 import numpy as np
 from omegaconf import OmegaConf
-from phidl.device_layout import CellArray
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
+from gdsfactory.component_layout import CellArray
 from gdsfactory.component_reference import ComponentReference
 from gdsfactory.config import CONFIG, logger
 from gdsfactory.name import get_name_short
@@ -26,7 +26,7 @@ def import_gds(
 ) -> Component:
     """Returns a Componenent from a GDS file.
 
-    Adapted from phidl/geometry.py
+    based on phidl/geometry.py
 
     if any cell names are found on the component CACHE we append a $ with a
     number to the name
@@ -39,6 +39,7 @@ def import_gds(
         read_metadata: loads metadata if it exists.
         hashed_name: appends a hash to a shortened component name.
         kwargs: extra to add to component.info (polarization, wavelength ...).
+
     """
     gdspath = Path(gdsdir) / Path(gdspath) if gdsdir else Path(gdspath)
     if not gdspath.exists():
@@ -50,6 +51,9 @@ def import_gds(
     gdsii_lib.read_gds(str(gdspath))
     top_level_cells = gdsii_lib.top_level()
     cellnames = [c.name for c in top_level_cells]
+
+    if not cellnames:
+        raise ValueError(f"no cells found in {str(gdspath)!r}")
 
     if cellname is not None:
         if cellname not in gdsii_lib.cells:
@@ -93,7 +97,7 @@ def import_gds(
         D_list += [D]
 
     for D in D_list:
-        # First convert each reference so it points to the right Device
+        # First convert each reference so it points to the right Component
         converted_references = []
         for e in D.references:
             ref_device = cell_to_device[e.ref_cell]
@@ -132,6 +136,7 @@ def import_gds(
                     points_on_grid, layer=p.layers[0], datatype=p.datatypes[0]
                 )
             D.add_polygon(p)
+
     component = cell_to_device[topcell]
     cast(Component, component)
 
@@ -165,5 +170,6 @@ if __name__ == "__main__":
     # c = import_gds(gdspath, snap_to_grid_nm=5, flatten=True, name="TOP")
     # c.settings = {}
     # print(clean_value_name(c))
-    c = import_gds(gdspath, snap_to_grid_nm=5, flatten=False, polarization="te")
+    # c = import_gds(gdspath, snap_to_grid_nm=5, flatten=False, polarization="te")
+    c = import_gds("/home/jmatres/gdsfactory/gdsfactory/gdsdiff/gds_diff_git.py")
     c.show(show_ports=True)

@@ -1,429 +1,15 @@
 connections: {}
 instances:
   mzis:
-    component: grid
+    component: pack_doe_grid
     settings:
-      components:
-      - name: mzi_delta_length10_add__413018bb
-        settings:
-          changed:
-            component:
-              name: mzi_delta_length10
-              settings:
-                changed:
-                  delta_length: 10
-                child: null
-                default:
-                  bend:
-                    function: bend_euler
-                  combiner: null
-                  cross_section: strip
-                  cross_section_x_bot: null
-                  cross_section_x_top: null
-                  delta_length: 10.0
-                  length_x: 0.1
-                  length_y: 2.0
-                  nbends: 2
-                  port_e0_combiner: o3
-                  port_e0_splitter: o3
-                  port_e1_combiner: o2
-                  port_e1_splitter: o2
-                  splitter: mmi1x2
-                  straight:
-                    function: straight
-                  straight_x_bot: null
-                  straight_x_top: null
-                  straight_y: null
-                  with_splitter: true
-                full:
-                  bend:
-                    function: bend_euler
-                  combiner: null
-                  cross_section: strip
-                  cross_section_x_bot: null
-                  cross_section_x_top: null
-                  delta_length: 10
-                  length_x: 0.1
-                  length_y: 2.0
-                  nbends: 2
-                  port_e0_combiner: o3
-                  port_e0_splitter: o3
-                  port_e1_combiner: o2
-                  port_e1_splitter: o2
-                  splitter: mmi1x2
-                  straight:
-                    function: straight
-                  straight_x_bot: null
-                  straight_x_top: null
-                  straight_y: null
-                  with_splitter: true
-                function_name: mzi
-                info: {}
-                info_version: 2
-                module: gdsfactory.components.mzi
-                name: mzi_delta_length10
-              version: 0.0.1
-          child:
-            changed:
-              delta_length: 10
-            child: null
-            default:
-              bend:
-                function: bend_euler
-              combiner: null
-              cross_section: strip
-              cross_section_x_bot: null
-              cross_section_x_top: null
-              delta_length: 10.0
-              length_x: 0.1
-              length_y: 2.0
-              nbends: 2
-              port_e0_combiner: o3
-              port_e0_splitter: o3
-              port_e1_combiner: o2
-              port_e1_splitter: o2
-              splitter: mmi1x2
-              straight:
-                function: straight
-              straight_x_bot: null
-              straight_x_top: null
-              straight_y: null
-              with_splitter: true
-            full:
-              bend:
-                function: bend_euler
-              combiner: null
-              cross_section: strip
-              cross_section_x_bot: null
-              cross_section_x_top: null
-              delta_length: 10
-              length_x: 0.1
-              length_y: 2.0
-              nbends: 2
-              port_e0_combiner: o3
-              port_e0_splitter: o3
-              port_e1_combiner: o2
-              port_e1_splitter: o2
-              splitter: mmi1x2
-              straight:
-                function: straight
-              straight_x_bot: null
-              straight_x_top: null
-              straight_y: null
-              with_splitter: true
-            function_name: mzi
-            info: {}
-            info_version: 2
-            module: gdsfactory.components.mzi
-            name: mzi_delta_length10
-          default:
-            component:
-              function: straight
-            component_name: null
-            cross_section: strip
-            gc_port_labels: null
-            gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
-            grating_coupler:
-              function: grating_coupler_elliptical_trenches
-              settings:
-                polarization: te
-                taper_angle: 35
-            layer_label: TEXT
-            select_ports:
-              function: select_ports
-              settings:
-                port_type: optical
-          full:
-            component:
-              name: mzi_delta_length10
-              settings:
-                changed:
-                  delta_length: 10
-                child: null
-                default:
-                  bend:
-                    function: bend_euler
-                  combiner: null
-                  cross_section: strip
-                  cross_section_x_bot: null
-                  cross_section_x_top: null
-                  delta_length: 10.0
-                  length_x: 0.1
-                  length_y: 2.0
-                  nbends: 2
-                  port_e0_combiner: o3
-                  port_e0_splitter: o3
-                  port_e1_combiner: o2
-                  port_e1_splitter: o2
-                  splitter: mmi1x2
-                  straight:
-                    function: straight
-                  straight_x_bot: null
-                  straight_x_top: null
-                  straight_y: null
-                  with_splitter: true
-                full:
-                  bend:
-                    function: bend_euler
-                  combiner: null
-                  cross_section: strip
-                  cross_section_x_bot: null
-                  cross_section_x_top: null
-                  delta_length: 10
-                  length_x: 0.1
-                  length_y: 2.0
-                  nbends: 2
-                  port_e0_combiner: o3
-                  port_e0_splitter: o3
-                  port_e1_combiner: o2
-                  port_e1_splitter: o2
-                  splitter: mmi1x2
-                  straight:
-                    function: straight
-                  straight_x_bot: null
-                  straight_x_top: null
-                  straight_y: null
-                  with_splitter: true
-                function_name: mzi
-                info: {}
-                info_version: 2
-                module: gdsfactory.components.mzi
-                name: mzi_delta_length10
-              version: 0.0.1
-            component_name: null
-            cross_section: strip
-            gc_port_labels: null
-            gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
-            grating_coupler:
-              function: grating_coupler_elliptical_trenches
-              settings:
-                polarization: te
-                taper_angle: 35
-            layer_label: TEXT
-            select_ports:
-              function: select_ports
-              settings:
-                port_type: optical
-          function_name: add_fiber_array
-          info: {}
-          info_version: 2
-          module: gdsfactory.routing.add_fiber_array
-          name: mzi_delta_length10_add__413018bb
-        version: 0.0.1
-      - name: mzi_delta_length100_add_b6c954fc
-        settings:
-          changed:
-            component:
-              name: mzi_delta_length100
-              settings:
-                changed:
-                  delta_length: 100
-                child: null
-                default:
-                  bend:
-                    function: bend_euler
-                  combiner: null
-                  cross_section: strip
-                  cross_section_x_bot: null
-                  cross_section_x_top: null
-                  delta_length: 10.0
-                  length_x: 0.1
-                  length_y: 2.0
-                  nbends: 2
-                  port_e0_combiner: o3
-                  port_e0_splitter: o3
-                  port_e1_combiner: o2
-                  port_e1_splitter: o2
-                  splitter: mmi1x2
-                  straight:
-                    function: straight
-                  straight_x_bot: null
-                  straight_x_top: null
-                  straight_y: null
-                  with_splitter: true
-                full:
-                  bend:
-                    function: bend_euler
-                  combiner: null
-                  cross_section: strip
-                  cross_section_x_bot: null
-                  cross_section_x_top: null
-                  delta_length: 100
-                  length_x: 0.1
-                  length_y: 2.0
-                  nbends: 2
-                  port_e0_combiner: o3
-                  port_e0_splitter: o3
-                  port_e1_combiner: o2
-                  port_e1_splitter: o2
-                  splitter: mmi1x2
-                  straight:
-                    function: straight
-                  straight_x_bot: null
-                  straight_x_top: null
-                  straight_y: null
-                  with_splitter: true
-                function_name: mzi
-                info: {}
-                info_version: 2
-                module: gdsfactory.components.mzi
-                name: mzi_delta_length100
-              version: 0.0.1
-          child:
-            changed:
-              delta_length: 100
-            child: null
-            default:
-              bend:
-                function: bend_euler
-              combiner: null
-              cross_section: strip
-              cross_section_x_bot: null
-              cross_section_x_top: null
-              delta_length: 10.0
-              length_x: 0.1
-              length_y: 2.0
-              nbends: 2
-              port_e0_combiner: o3
-              port_e0_splitter: o3
-              port_e1_combiner: o2
-              port_e1_splitter: o2
-              splitter: mmi1x2
-              straight:
-                function: straight
-              straight_x_bot: null
-              straight_x_top: null
-              straight_y: null
-              with_splitter: true
-            full:
-              bend:
-                function: bend_euler
-              combiner: null
-              cross_section: strip
-              cross_section_x_bot: null
-              cross_section_x_top: null
-              delta_length: 100
-              length_x: 0.1
-              length_y: 2.0
-              nbends: 2
-              port_e0_combiner: o3
-              port_e0_splitter: o3
-              port_e1_combiner: o2
-              port_e1_splitter: o2
-              splitter: mmi1x2
-              straight:
-                function: straight
-              straight_x_bot: null
-              straight_x_top: null
-              straight_y: null
-              with_splitter: true
-            function_name: mzi
-            info: {}
-            info_version: 2
-            module: gdsfactory.components.mzi
-            name: mzi_delta_length100
-          default:
-            component:
-              function: straight
-            component_name: null
-            cross_section: strip
-            gc_port_labels: null
-            gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
-            grating_coupler:
-              function: grating_coupler_elliptical_trenches
-              settings:
-                polarization: te
-                taper_angle: 35
-            layer_label: TEXT
-            select_ports:
-              function: select_ports
-              settings:
-                port_type: optical
-          full:
-            component:
-              name: mzi_delta_length100
-              settings:
-                changed:
-                  delta_length: 100
-                child: null
-                default:
-                  bend:
-                    function: bend_euler
-                  combiner: null
-                  cross_section: strip
-                  cross_section_x_bot: null
-                  cross_section_x_top: null
-                  delta_length: 10.0
-                  length_x: 0.1
-                  length_y: 2.0
-                  nbends: 2
-                  port_e0_combiner: o3
-                  port_e0_splitter: o3
-                  port_e1_combiner: o2
-                  port_e1_splitter: o2
-                  splitter: mmi1x2
-                  straight:
-                    function: straight
-                  straight_x_bot: null
-                  straight_x_top: null
-                  straight_y: null
-                  with_splitter: true
-                full:
-                  bend:
-                    function: bend_euler
-                  combiner: null
-                  cross_section: strip
-                  cross_section_x_bot: null
-                  cross_section_x_top: null
-                  delta_length: 100
-                  length_x: 0.1
-                  length_y: 2.0
-                  nbends: 2
-                  port_e0_combiner: o3
-                  port_e0_splitter: o3
-                  port_e1_combiner: o2
-                  port_e1_splitter: o2
-                  splitter: mmi1x2
-                  straight:
-                    function: straight
-                  straight_x_bot: null
-                  straight_x_top: null
-                  straight_y: null
-                  with_splitter: true
-                function_name: mzi
-                info: {}
-                info_version: 2
-                module: gdsfactory.components.mzi
-                name: mzi_delta_length100
-              version: 0.0.1
-            component_name: null
-            cross_section: strip
-            gc_port_labels: null
-            gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
-            grating_coupler:
-              function: grating_coupler_elliptical_trenches
-              settings:
-                polarization: te
-                taper_angle: 35
-            layer_label: TEXT
-            select_ports:
-              function: select_ports
-              settings:
-                port_type: optical
-          function_name: add_fiber_array
-          info: {}
-          info_version: 2
-          module: gdsfactory.routing.add_fiber_array
-          name: mzi_delta_length100_add_b6c954fc
-        version: 0.0.1
+      do_permutations: true
+      doe: mzi
+      function: add_fiber_array
+      settings:
+        delta_length:
+        - 10
+        - 100
       spacing:
       - 10
       - 10
@@ -431,160 +17,7 @@ instances:
     component: pack_doe
     info:
       components:
-        ring_single_length_x1_r_07deb5f3:
-          changed:
-            component:
-              name: ring_single_length_x1_radius40
-              settings:
-                changed:
-                  length_x: 1
-                  radius: 40
-                child: null
-                default:
-                  bend:
-                    function: bend_euler
-                  coupler_ring:
-                    function: coupler_ring
-                  cross_section: strip
-                  gap: 0.2
-                  length_x: 4.0
-                  length_y: 0.6
-                  radius: 10.0
-                  straight:
-                    function: straight
-                full:
-                  bend:
-                    function: bend_euler
-                  coupler_ring:
-                    function: coupler_ring
-                  cross_section: strip
-                  gap: 0.2
-                  length_x: 1
-                  length_y: 0.6
-                  radius: 40
-                  straight:
-                    function: straight
-                function_name: ring_single
-                info: {}
-                info_version: 2
-                module: gdsfactory.components.ring_single
-                name: ring_single_length_x1_radius40
-              version: 0.0.1
-            fanout_length: 200
-          child:
-            changed:
-              length_x: 1
-              radius: 40
-            child: null
-            default:
-              bend:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: strip
-              gap: 0.2
-              length_x: 4.0
-              length_y: 0.6
-              radius: 10.0
-              straight:
-                function: straight
-            full:
-              bend:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: strip
-              gap: 0.2
-              length_x: 1
-              length_y: 0.6
-              radius: 40
-              straight:
-                function: straight
-            function_name: ring_single
-            info: {}
-            info_version: 2
-            module: gdsfactory.components.ring_single
-            name: ring_single_length_x1_radius40
-          default:
-            component:
-              function: straight
-            component_name: null
-            cross_section: strip
-            gc_port_labels: null
-            gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
-            grating_coupler:
-              function: grating_coupler_elliptical_trenches
-              settings:
-                polarization: te
-                taper_angle: 35
-            layer_label: TEXT
-            select_ports:
-              function: select_ports
-              settings:
-                port_type: optical
-          full:
-            component:
-              name: ring_single_length_x1_radius40
-              settings:
-                changed:
-                  length_x: 1
-                  radius: 40
-                child: null
-                default:
-                  bend:
-                    function: bend_euler
-                  coupler_ring:
-                    function: coupler_ring
-                  cross_section: strip
-                  gap: 0.2
-                  length_x: 4.0
-                  length_y: 0.6
-                  radius: 10.0
-                  straight:
-                    function: straight
-                full:
-                  bend:
-                    function: bend_euler
-                  coupler_ring:
-                    function: coupler_ring
-                  cross_section: strip
-                  gap: 0.2
-                  length_x: 1
-                  length_y: 0.6
-                  radius: 40
-                  straight:
-                    function: straight
-                function_name: ring_single
-                info: {}
-                info_version: 2
-                module: gdsfactory.components.ring_single
-                name: ring_single_length_x1_radius40
-              version: 0.0.1
-            component_name: null
-            cross_section: strip
-            fanout_length: 200
-            gc_port_labels: null
-            gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
-            grating_coupler:
-              function: grating_coupler_elliptical_trenches
-              settings:
-                polarization: te
-                taper_angle: 35
-            layer_label: TEXT
-            select_ports:
-              function: select_ports
-              settings:
-                port_type: optical
-          function_name: add_fiber_array
-          info: {}
-          info_version: 2
-          module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x1_r_07deb5f3
-        ring_single_length_x1_r_554fe677:
+        ring_single_length_x1_r_5f03a4c9:
           changed:
             component:
               name: ring_single_length_x1_radius20
@@ -622,7 +55,6 @@ instances:
                 info_version: 2
                 module: gdsfactory.components.ring_single
                 name: ring_single_length_x1_radius20
-              version: 0.0.1
             fanout_length: 200
           child:
             changed:
@@ -714,7 +146,6 @@ instances:
                 info_version: 2
                 module: gdsfactory.components.ring_single
                 name: ring_single_length_x1_radius20
-              version: 0.0.1
             component_name: null
             cross_section: strip
             fanout_length: 200
@@ -733,11 +164,170 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info: {}
+          info:
+            grating_coupler:
+              period: 0.6759999999999999
+              polarization: te
+              wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x1_r_554fe677
-        ring_single_length_x1_r_60fdb14d:
+          name: ring_single_length_x1_r_5f03a4c9
+        ring_single_length_x1_r_8afbe158:
+          changed:
+            component:
+              name: ring_single_length_x1_radius40
+              settings:
+                changed:
+                  length_x: 1
+                  radius: 40
+                child: null
+                default:
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
+                  cross_section: strip
+                  gap: 0.2
+                  length_x: 4.0
+                  length_y: 0.6
+                  radius: 10.0
+                  straight:
+                    function: straight
+                full:
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
+                  cross_section: strip
+                  gap: 0.2
+                  length_x: 1
+                  length_y: 0.6
+                  radius: 40
+                  straight:
+                    function: straight
+                function_name: ring_single
+                info: {}
+                info_version: 2
+                module: gdsfactory.components.ring_single
+                name: ring_single_length_x1_radius40
+            fanout_length: 200
+          child:
+            changed:
+              length_x: 1
+              radius: 40
+            child: null
+            default:
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
+              cross_section: strip
+              gap: 0.2
+              length_x: 4.0
+              length_y: 0.6
+              radius: 10.0
+              straight:
+                function: straight
+            full:
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
+              cross_section: strip
+              gap: 0.2
+              length_x: 1
+              length_y: 0.6
+              radius: 40
+              straight:
+                function: straight
+            function_name: ring_single
+            info: {}
+            info_version: 2
+            module: gdsfactory.components.ring_single
+            name: ring_single_length_x1_radius40
+          default:
+            component:
+              function: straight
+            component_name: null
+            cross_section: strip
+            gc_port_labels: null
+            gc_port_name: o1
+            get_input_labels_function:
+              function: get_input_labels
+            grating_coupler:
+              function: grating_coupler_elliptical_trenches
+              settings:
+                polarization: te
+                taper_angle: 35
+            layer_label: TEXT
+            select_ports:
+              function: select_ports
+              settings:
+                port_type: optical
+          full:
+            component:
+              name: ring_single_length_x1_radius40
+              settings:
+                changed:
+                  length_x: 1
+                  radius: 40
+                child: null
+                default:
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
+                  cross_section: strip
+                  gap: 0.2
+                  length_x: 4.0
+                  length_y: 0.6
+                  radius: 10.0
+                  straight:
+                    function: straight
+                full:
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
+                  cross_section: strip
+                  gap: 0.2
+                  length_x: 1
+                  length_y: 0.6
+                  radius: 40
+                  straight:
+                    function: straight
+                function_name: ring_single
+                info: {}
+                info_version: 2
+                module: gdsfactory.components.ring_single
+                name: ring_single_length_x1_radius40
+            component_name: null
+            cross_section: strip
+            fanout_length: 200
+            gc_port_labels: null
+            gc_port_name: o1
+            get_input_labels_function:
+              function: get_input_labels
+            grating_coupler:
+              function: grating_coupler_elliptical_trenches
+              settings:
+                polarization: te
+                taper_angle: 35
+            layer_label: TEXT
+            select_ports:
+              function: select_ports
+              settings:
+                port_type: optical
+          function_name: add_fiber_array
+          info:
+            grating_coupler:
+              period: 0.6759999999999999
+              polarization: te
+              wavelength: 1.53
+          info_version: 2
+          module: gdsfactory.routing.add_fiber_array
+          name: ring_single_length_x1_r_8afbe158
+        ring_single_length_x1_r_f1e81df5:
           changed:
             component:
               name: ring_single_length_x1_radius50
@@ -775,7 +365,6 @@ instances:
                 info_version: 2
                 module: gdsfactory.components.ring_single
                 name: ring_single_length_x1_radius50
-              version: 0.0.1
             fanout_length: 200
           child:
             changed:
@@ -867,7 +456,6 @@ instances:
                 info_version: 2
                 module: gdsfactory.components.ring_single
                 name: ring_single_length_x1_radius50
-              version: 0.0.1
             component_name: null
             cross_section: strip
             fanout_length: 200
@@ -886,11 +474,15 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info: {}
+          info:
+            grating_coupler:
+              period: 0.6759999999999999
+              polarization: te
+              wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x1_r_60fdb14d
-        ring_single_length_x1_r_78660d65:
+          name: ring_single_length_x1_r_f1e81df5
+        ring_single_length_x1_r_f9ad5dd2:
           changed:
             component:
               name: ring_single_length_x1_radius30
@@ -928,7 +520,6 @@ instances:
                 info_version: 2
                 module: gdsfactory.components.ring_single
                 name: ring_single_length_x1_radius30
-              version: 0.0.1
             fanout_length: 200
           child:
             changed:
@@ -1020,7 +611,6 @@ instances:
                 info_version: 2
                 module: gdsfactory.components.ring_single
                 name: ring_single_length_x1_radius30
-              version: 0.0.1
             component_name: null
             cross_section: strip
             fanout_length: 200
@@ -1039,317 +629,15 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info: {}
+          info:
+            grating_coupler:
+              period: 0.6759999999999999
+              polarization: te
+              wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x1_r_78660d65
-        ring_single_length_x2_r_2e5ac97f:
-          changed:
-            component:
-              name: ring_single_length_x2_radius40
-              settings:
-                changed:
-                  length_x: 2
-                  radius: 40
-                child: null
-                default:
-                  bend:
-                    function: bend_euler
-                  coupler_ring:
-                    function: coupler_ring
-                  cross_section: strip
-                  gap: 0.2
-                  length_x: 4.0
-                  length_y: 0.6
-                  radius: 10.0
-                  straight:
-                    function: straight
-                full:
-                  bend:
-                    function: bend_euler
-                  coupler_ring:
-                    function: coupler_ring
-                  cross_section: strip
-                  gap: 0.2
-                  length_x: 2
-                  length_y: 0.6
-                  radius: 40
-                  straight:
-                    function: straight
-                function_name: ring_single
-                info: {}
-                info_version: 2
-                module: gdsfactory.components.ring_single
-                name: ring_single_length_x2_radius40
-              version: 0.0.1
-            fanout_length: 200
-          child:
-            changed:
-              length_x: 2
-              radius: 40
-            child: null
-            default:
-              bend:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: strip
-              gap: 0.2
-              length_x: 4.0
-              length_y: 0.6
-              radius: 10.0
-              straight:
-                function: straight
-            full:
-              bend:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: strip
-              gap: 0.2
-              length_x: 2
-              length_y: 0.6
-              radius: 40
-              straight:
-                function: straight
-            function_name: ring_single
-            info: {}
-            info_version: 2
-            module: gdsfactory.components.ring_single
-            name: ring_single_length_x2_radius40
-          default:
-            component:
-              function: straight
-            component_name: null
-            cross_section: strip
-            gc_port_labels: null
-            gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
-            grating_coupler:
-              function: grating_coupler_elliptical_trenches
-              settings:
-                polarization: te
-                taper_angle: 35
-            layer_label: TEXT
-            select_ports:
-              function: select_ports
-              settings:
-                port_type: optical
-          full:
-            component:
-              name: ring_single_length_x2_radius40
-              settings:
-                changed:
-                  length_x: 2
-                  radius: 40
-                child: null
-                default:
-                  bend:
-                    function: bend_euler
-                  coupler_ring:
-                    function: coupler_ring
-                  cross_section: strip
-                  gap: 0.2
-                  length_x: 4.0
-                  length_y: 0.6
-                  radius: 10.0
-                  straight:
-                    function: straight
-                full:
-                  bend:
-                    function: bend_euler
-                  coupler_ring:
-                    function: coupler_ring
-                  cross_section: strip
-                  gap: 0.2
-                  length_x: 2
-                  length_y: 0.6
-                  radius: 40
-                  straight:
-                    function: straight
-                function_name: ring_single
-                info: {}
-                info_version: 2
-                module: gdsfactory.components.ring_single
-                name: ring_single_length_x2_radius40
-              version: 0.0.1
-            component_name: null
-            cross_section: strip
-            fanout_length: 200
-            gc_port_labels: null
-            gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
-            grating_coupler:
-              function: grating_coupler_elliptical_trenches
-              settings:
-                polarization: te
-                taper_angle: 35
-            layer_label: TEXT
-            select_ports:
-              function: select_ports
-              settings:
-                port_type: optical
-          function_name: add_fiber_array
-          info: {}
-          info_version: 2
-          module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x2_r_2e5ac97f
-        ring_single_length_x2_r_3137a208:
-          changed:
-            component:
-              name: ring_single_length_x2_radius20
-              settings:
-                changed:
-                  length_x: 2
-                  radius: 20
-                child: null
-                default:
-                  bend:
-                    function: bend_euler
-                  coupler_ring:
-                    function: coupler_ring
-                  cross_section: strip
-                  gap: 0.2
-                  length_x: 4.0
-                  length_y: 0.6
-                  radius: 10.0
-                  straight:
-                    function: straight
-                full:
-                  bend:
-                    function: bend_euler
-                  coupler_ring:
-                    function: coupler_ring
-                  cross_section: strip
-                  gap: 0.2
-                  length_x: 2
-                  length_y: 0.6
-                  radius: 20
-                  straight:
-                    function: straight
-                function_name: ring_single
-                info: {}
-                info_version: 2
-                module: gdsfactory.components.ring_single
-                name: ring_single_length_x2_radius20
-              version: 0.0.1
-            fanout_length: 200
-          child:
-            changed:
-              length_x: 2
-              radius: 20
-            child: null
-            default:
-              bend:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: strip
-              gap: 0.2
-              length_x: 4.0
-              length_y: 0.6
-              radius: 10.0
-              straight:
-                function: straight
-            full:
-              bend:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: strip
-              gap: 0.2
-              length_x: 2
-              length_y: 0.6
-              radius: 20
-              straight:
-                function: straight
-            function_name: ring_single
-            info: {}
-            info_version: 2
-            module: gdsfactory.components.ring_single
-            name: ring_single_length_x2_radius20
-          default:
-            component:
-              function: straight
-            component_name: null
-            cross_section: strip
-            gc_port_labels: null
-            gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
-            grating_coupler:
-              function: grating_coupler_elliptical_trenches
-              settings:
-                polarization: te
-                taper_angle: 35
-            layer_label: TEXT
-            select_ports:
-              function: select_ports
-              settings:
-                port_type: optical
-          full:
-            component:
-              name: ring_single_length_x2_radius20
-              settings:
-                changed:
-                  length_x: 2
-                  radius: 20
-                child: null
-                default:
-                  bend:
-                    function: bend_euler
-                  coupler_ring:
-                    function: coupler_ring
-                  cross_section: strip
-                  gap: 0.2
-                  length_x: 4.0
-                  length_y: 0.6
-                  radius: 10.0
-                  straight:
-                    function: straight
-                full:
-                  bend:
-                    function: bend_euler
-                  coupler_ring:
-                    function: coupler_ring
-                  cross_section: strip
-                  gap: 0.2
-                  length_x: 2
-                  length_y: 0.6
-                  radius: 20
-                  straight:
-                    function: straight
-                function_name: ring_single
-                info: {}
-                info_version: 2
-                module: gdsfactory.components.ring_single
-                name: ring_single_length_x2_radius20
-              version: 0.0.1
-            component_name: null
-            cross_section: strip
-            fanout_length: 200
-            gc_port_labels: null
-            gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
-            grating_coupler:
-              function: grating_coupler_elliptical_trenches
-              settings:
-                polarization: te
-                taper_angle: 35
-            layer_label: TEXT
-            select_ports:
-              function: select_ports
-              settings:
-                port_type: optical
-          function_name: add_fiber_array
-          info: {}
-          info_version: 2
-          module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x2_r_3137a208
-        ring_single_length_x2_r_edd7ea6f:
+          name: ring_single_length_x1_r_f9ad5dd2
+        ring_single_length_x2_r_03c3c879:
           changed:
             component:
               name: ring_single_length_x2_radius50
@@ -1387,7 +675,6 @@ instances:
                 info_version: 2
                 module: gdsfactory.components.ring_single
                 name: ring_single_length_x2_radius50
-              version: 0.0.1
             fanout_length: 200
           child:
             changed:
@@ -1479,7 +766,6 @@ instances:
                 info_version: 2
                 module: gdsfactory.components.ring_single
                 name: ring_single_length_x2_radius50
-              version: 0.0.1
             component_name: null
             cross_section: strip
             fanout_length: 200
@@ -1498,11 +784,170 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info: {}
+          info:
+            grating_coupler:
+              period: 0.6759999999999999
+              polarization: te
+              wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x2_r_edd7ea6f
-        ring_single_length_x2_r_faeb062b:
+          name: ring_single_length_x2_r_03c3c879
+        ring_single_length_x2_r_8349584a:
+          changed:
+            component:
+              name: ring_single_length_x2_radius40
+              settings:
+                changed:
+                  length_x: 2
+                  radius: 40
+                child: null
+                default:
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
+                  cross_section: strip
+                  gap: 0.2
+                  length_x: 4.0
+                  length_y: 0.6
+                  radius: 10.0
+                  straight:
+                    function: straight
+                full:
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
+                  cross_section: strip
+                  gap: 0.2
+                  length_x: 2
+                  length_y: 0.6
+                  radius: 40
+                  straight:
+                    function: straight
+                function_name: ring_single
+                info: {}
+                info_version: 2
+                module: gdsfactory.components.ring_single
+                name: ring_single_length_x2_radius40
+            fanout_length: 200
+          child:
+            changed:
+              length_x: 2
+              radius: 40
+            child: null
+            default:
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
+              cross_section: strip
+              gap: 0.2
+              length_x: 4.0
+              length_y: 0.6
+              radius: 10.0
+              straight:
+                function: straight
+            full:
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
+              cross_section: strip
+              gap: 0.2
+              length_x: 2
+              length_y: 0.6
+              radius: 40
+              straight:
+                function: straight
+            function_name: ring_single
+            info: {}
+            info_version: 2
+            module: gdsfactory.components.ring_single
+            name: ring_single_length_x2_radius40
+          default:
+            component:
+              function: straight
+            component_name: null
+            cross_section: strip
+            gc_port_labels: null
+            gc_port_name: o1
+            get_input_labels_function:
+              function: get_input_labels
+            grating_coupler:
+              function: grating_coupler_elliptical_trenches
+              settings:
+                polarization: te
+                taper_angle: 35
+            layer_label: TEXT
+            select_ports:
+              function: select_ports
+              settings:
+                port_type: optical
+          full:
+            component:
+              name: ring_single_length_x2_radius40
+              settings:
+                changed:
+                  length_x: 2
+                  radius: 40
+                child: null
+                default:
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
+                  cross_section: strip
+                  gap: 0.2
+                  length_x: 4.0
+                  length_y: 0.6
+                  radius: 10.0
+                  straight:
+                    function: straight
+                full:
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
+                  cross_section: strip
+                  gap: 0.2
+                  length_x: 2
+                  length_y: 0.6
+                  radius: 40
+                  straight:
+                    function: straight
+                function_name: ring_single
+                info: {}
+                info_version: 2
+                module: gdsfactory.components.ring_single
+                name: ring_single_length_x2_radius40
+            component_name: null
+            cross_section: strip
+            fanout_length: 200
+            gc_port_labels: null
+            gc_port_name: o1
+            get_input_labels_function:
+              function: get_input_labels
+            grating_coupler:
+              function: grating_coupler_elliptical_trenches
+              settings:
+                polarization: te
+                taper_angle: 35
+            layer_label: TEXT
+            select_ports:
+              function: select_ports
+              settings:
+                port_type: optical
+          function_name: add_fiber_array
+          info:
+            grating_coupler:
+              period: 0.6759999999999999
+              polarization: te
+              wavelength: 1.53
+          info_version: 2
+          module: gdsfactory.routing.add_fiber_array
+          name: ring_single_length_x2_r_8349584a
+        ring_single_length_x2_r_a87ec13f:
           changed:
             component:
               name: ring_single_length_x2_radius30
@@ -1540,7 +985,6 @@ instances:
                 info_version: 2
                 module: gdsfactory.components.ring_single
                 name: ring_single_length_x2_radius30
-              version: 0.0.1
             fanout_length: 200
           child:
             changed:
@@ -1632,7 +1076,6 @@ instances:
                 info_version: 2
                 module: gdsfactory.components.ring_single
                 name: ring_single_length_x2_radius30
-              version: 0.0.1
             component_name: null
             cross_section: strip
             fanout_length: 200
@@ -1651,18 +1094,22 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info: {}
+          info:
+            grating_coupler:
+              period: 0.6759999999999999
+              polarization: te
+              wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x2_r_faeb062b
-        ring_single_length_x3_r_29cfb0e4:
+          name: ring_single_length_x2_r_a87ec13f
+        ring_single_length_x2_r_ba40cfeb:
           changed:
             component:
-              name: ring_single_length_x3_radius40
+              name: ring_single_length_x2_radius20
               settings:
                 changed:
-                  length_x: 3
-                  radius: 40
+                  length_x: 2
+                  radius: 20
                 child: null
                 default:
                   bend:
@@ -1683,22 +1130,21 @@ instances:
                     function: coupler_ring
                   cross_section: strip
                   gap: 0.2
-                  length_x: 3
+                  length_x: 2
                   length_y: 0.6
-                  radius: 40
+                  radius: 20
                   straight:
                     function: straight
                 function_name: ring_single
                 info: {}
                 info_version: 2
                 module: gdsfactory.components.ring_single
-                name: ring_single_length_x3_radius40
-              version: 0.0.1
+                name: ring_single_length_x2_radius20
             fanout_length: 200
           child:
             changed:
-              length_x: 3
-              radius: 40
+              length_x: 2
+              radius: 20
             child: null
             default:
               bend:
@@ -1719,16 +1165,16 @@ instances:
                 function: coupler_ring
               cross_section: strip
               gap: 0.2
-              length_x: 3
+              length_x: 2
               length_y: 0.6
-              radius: 40
+              radius: 20
               straight:
                 function: straight
             function_name: ring_single
             info: {}
             info_version: 2
             module: gdsfactory.components.ring_single
-            name: ring_single_length_x3_radius40
+            name: ring_single_length_x2_radius20
           default:
             component:
               function: straight
@@ -1750,11 +1196,11 @@ instances:
                 port_type: optical
           full:
             component:
-              name: ring_single_length_x3_radius40
+              name: ring_single_length_x2_radius20
               settings:
                 changed:
-                  length_x: 3
-                  radius: 40
+                  length_x: 2
+                  radius: 20
                 child: null
                 default:
                   bend:
@@ -1775,17 +1221,16 @@ instances:
                     function: coupler_ring
                   cross_section: strip
                   gap: 0.2
-                  length_x: 3
+                  length_x: 2
                   length_y: 0.6
-                  radius: 40
+                  radius: 20
                   straight:
                     function: straight
                 function_name: ring_single
                 info: {}
                 info_version: 2
                 module: gdsfactory.components.ring_single
-                name: ring_single_length_x3_radius40
-              version: 0.0.1
+                name: ring_single_length_x2_radius20
             component_name: null
             cross_section: strip
             fanout_length: 200
@@ -1804,317 +1249,15 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info: {}
+          info:
+            grating_coupler:
+              period: 0.6759999999999999
+              polarization: te
+              wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x3_r_29cfb0e4
-        ring_single_length_x3_r_5cb87802:
-          changed:
-            component:
-              name: ring_single_length_x3_radius30
-              settings:
-                changed:
-                  length_x: 3
-                  radius: 30
-                child: null
-                default:
-                  bend:
-                    function: bend_euler
-                  coupler_ring:
-                    function: coupler_ring
-                  cross_section: strip
-                  gap: 0.2
-                  length_x: 4.0
-                  length_y: 0.6
-                  radius: 10.0
-                  straight:
-                    function: straight
-                full:
-                  bend:
-                    function: bend_euler
-                  coupler_ring:
-                    function: coupler_ring
-                  cross_section: strip
-                  gap: 0.2
-                  length_x: 3
-                  length_y: 0.6
-                  radius: 30
-                  straight:
-                    function: straight
-                function_name: ring_single
-                info: {}
-                info_version: 2
-                module: gdsfactory.components.ring_single
-                name: ring_single_length_x3_radius30
-              version: 0.0.1
-            fanout_length: 200
-          child:
-            changed:
-              length_x: 3
-              radius: 30
-            child: null
-            default:
-              bend:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: strip
-              gap: 0.2
-              length_x: 4.0
-              length_y: 0.6
-              radius: 10.0
-              straight:
-                function: straight
-            full:
-              bend:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: strip
-              gap: 0.2
-              length_x: 3
-              length_y: 0.6
-              radius: 30
-              straight:
-                function: straight
-            function_name: ring_single
-            info: {}
-            info_version: 2
-            module: gdsfactory.components.ring_single
-            name: ring_single_length_x3_radius30
-          default:
-            component:
-              function: straight
-            component_name: null
-            cross_section: strip
-            gc_port_labels: null
-            gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
-            grating_coupler:
-              function: grating_coupler_elliptical_trenches
-              settings:
-                polarization: te
-                taper_angle: 35
-            layer_label: TEXT
-            select_ports:
-              function: select_ports
-              settings:
-                port_type: optical
-          full:
-            component:
-              name: ring_single_length_x3_radius30
-              settings:
-                changed:
-                  length_x: 3
-                  radius: 30
-                child: null
-                default:
-                  bend:
-                    function: bend_euler
-                  coupler_ring:
-                    function: coupler_ring
-                  cross_section: strip
-                  gap: 0.2
-                  length_x: 4.0
-                  length_y: 0.6
-                  radius: 10.0
-                  straight:
-                    function: straight
-                full:
-                  bend:
-                    function: bend_euler
-                  coupler_ring:
-                    function: coupler_ring
-                  cross_section: strip
-                  gap: 0.2
-                  length_x: 3
-                  length_y: 0.6
-                  radius: 30
-                  straight:
-                    function: straight
-                function_name: ring_single
-                info: {}
-                info_version: 2
-                module: gdsfactory.components.ring_single
-                name: ring_single_length_x3_radius30
-              version: 0.0.1
-            component_name: null
-            cross_section: strip
-            fanout_length: 200
-            gc_port_labels: null
-            gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
-            grating_coupler:
-              function: grating_coupler_elliptical_trenches
-              settings:
-                polarization: te
-                taper_angle: 35
-            layer_label: TEXT
-            select_ports:
-              function: select_ports
-              settings:
-                port_type: optical
-          function_name: add_fiber_array
-          info: {}
-          info_version: 2
-          module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x3_r_5cb87802
-        ring_single_length_x3_r_96ab2414:
-          changed:
-            component:
-              name: ring_single_length_x3_radius50
-              settings:
-                changed:
-                  length_x: 3
-                  radius: 50
-                child: null
-                default:
-                  bend:
-                    function: bend_euler
-                  coupler_ring:
-                    function: coupler_ring
-                  cross_section: strip
-                  gap: 0.2
-                  length_x: 4.0
-                  length_y: 0.6
-                  radius: 10.0
-                  straight:
-                    function: straight
-                full:
-                  bend:
-                    function: bend_euler
-                  coupler_ring:
-                    function: coupler_ring
-                  cross_section: strip
-                  gap: 0.2
-                  length_x: 3
-                  length_y: 0.6
-                  radius: 50
-                  straight:
-                    function: straight
-                function_name: ring_single
-                info: {}
-                info_version: 2
-                module: gdsfactory.components.ring_single
-                name: ring_single_length_x3_radius50
-              version: 0.0.1
-            fanout_length: 200
-          child:
-            changed:
-              length_x: 3
-              radius: 50
-            child: null
-            default:
-              bend:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: strip
-              gap: 0.2
-              length_x: 4.0
-              length_y: 0.6
-              radius: 10.0
-              straight:
-                function: straight
-            full:
-              bend:
-                function: bend_euler
-              coupler_ring:
-                function: coupler_ring
-              cross_section: strip
-              gap: 0.2
-              length_x: 3
-              length_y: 0.6
-              radius: 50
-              straight:
-                function: straight
-            function_name: ring_single
-            info: {}
-            info_version: 2
-            module: gdsfactory.components.ring_single
-            name: ring_single_length_x3_radius50
-          default:
-            component:
-              function: straight
-            component_name: null
-            cross_section: strip
-            gc_port_labels: null
-            gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
-            grating_coupler:
-              function: grating_coupler_elliptical_trenches
-              settings:
-                polarization: te
-                taper_angle: 35
-            layer_label: TEXT
-            select_ports:
-              function: select_ports
-              settings:
-                port_type: optical
-          full:
-            component:
-              name: ring_single_length_x3_radius50
-              settings:
-                changed:
-                  length_x: 3
-                  radius: 50
-                child: null
-                default:
-                  bend:
-                    function: bend_euler
-                  coupler_ring:
-                    function: coupler_ring
-                  cross_section: strip
-                  gap: 0.2
-                  length_x: 4.0
-                  length_y: 0.6
-                  radius: 10.0
-                  straight:
-                    function: straight
-                full:
-                  bend:
-                    function: bend_euler
-                  coupler_ring:
-                    function: coupler_ring
-                  cross_section: strip
-                  gap: 0.2
-                  length_x: 3
-                  length_y: 0.6
-                  radius: 50
-                  straight:
-                    function: straight
-                function_name: ring_single
-                info: {}
-                info_version: 2
-                module: gdsfactory.components.ring_single
-                name: ring_single_length_x3_radius50
-              version: 0.0.1
-            component_name: null
-            cross_section: strip
-            fanout_length: 200
-            gc_port_labels: null
-            gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
-            grating_coupler:
-              function: grating_coupler_elliptical_trenches
-              settings:
-                polarization: te
-                taper_angle: 35
-            layer_label: TEXT
-            select_ports:
-              function: select_ports
-              settings:
-                port_type: optical
-          function_name: add_fiber_array
-          info: {}
-          info_version: 2
-          module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x3_r_96ab2414
-        ring_single_length_x3_r_f0c4c752:
+          name: ring_single_length_x2_r_ba40cfeb
+        ring_single_length_x3_r_157ef38a:
           changed:
             component:
               name: ring_single_length_x3_radius20
@@ -2152,7 +1295,6 @@ instances:
                 info_version: 2
                 module: gdsfactory.components.ring_single
                 name: ring_single_length_x3_radius20
-              version: 0.0.1
             fanout_length: 200
           child:
             changed:
@@ -2244,7 +1386,6 @@ instances:
                 info_version: 2
                 module: gdsfactory.components.ring_single
                 name: ring_single_length_x3_radius20
-              version: 0.0.1
             component_name: null
             cross_section: strip
             fanout_length: 200
@@ -2263,10 +1404,479 @@ instances:
               settings:
                 port_type: optical
           function_name: add_fiber_array
-          info: {}
+          info:
+            grating_coupler:
+              period: 0.6759999999999999
+              polarization: te
+              wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x3_r_f0c4c752
+          name: ring_single_length_x3_r_157ef38a
+        ring_single_length_x3_r_2efff2ea:
+          changed:
+            component:
+              name: ring_single_length_x3_radius30
+              settings:
+                changed:
+                  length_x: 3
+                  radius: 30
+                child: null
+                default:
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
+                  cross_section: strip
+                  gap: 0.2
+                  length_x: 4.0
+                  length_y: 0.6
+                  radius: 10.0
+                  straight:
+                    function: straight
+                full:
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
+                  cross_section: strip
+                  gap: 0.2
+                  length_x: 3
+                  length_y: 0.6
+                  radius: 30
+                  straight:
+                    function: straight
+                function_name: ring_single
+                info: {}
+                info_version: 2
+                module: gdsfactory.components.ring_single
+                name: ring_single_length_x3_radius30
+            fanout_length: 200
+          child:
+            changed:
+              length_x: 3
+              radius: 30
+            child: null
+            default:
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
+              cross_section: strip
+              gap: 0.2
+              length_x: 4.0
+              length_y: 0.6
+              radius: 10.0
+              straight:
+                function: straight
+            full:
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
+              cross_section: strip
+              gap: 0.2
+              length_x: 3
+              length_y: 0.6
+              radius: 30
+              straight:
+                function: straight
+            function_name: ring_single
+            info: {}
+            info_version: 2
+            module: gdsfactory.components.ring_single
+            name: ring_single_length_x3_radius30
+          default:
+            component:
+              function: straight
+            component_name: null
+            cross_section: strip
+            gc_port_labels: null
+            gc_port_name: o1
+            get_input_labels_function:
+              function: get_input_labels
+            grating_coupler:
+              function: grating_coupler_elliptical_trenches
+              settings:
+                polarization: te
+                taper_angle: 35
+            layer_label: TEXT
+            select_ports:
+              function: select_ports
+              settings:
+                port_type: optical
+          full:
+            component:
+              name: ring_single_length_x3_radius30
+              settings:
+                changed:
+                  length_x: 3
+                  radius: 30
+                child: null
+                default:
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
+                  cross_section: strip
+                  gap: 0.2
+                  length_x: 4.0
+                  length_y: 0.6
+                  radius: 10.0
+                  straight:
+                    function: straight
+                full:
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
+                  cross_section: strip
+                  gap: 0.2
+                  length_x: 3
+                  length_y: 0.6
+                  radius: 30
+                  straight:
+                    function: straight
+                function_name: ring_single
+                info: {}
+                info_version: 2
+                module: gdsfactory.components.ring_single
+                name: ring_single_length_x3_radius30
+            component_name: null
+            cross_section: strip
+            fanout_length: 200
+            gc_port_labels: null
+            gc_port_name: o1
+            get_input_labels_function:
+              function: get_input_labels
+            grating_coupler:
+              function: grating_coupler_elliptical_trenches
+              settings:
+                polarization: te
+                taper_angle: 35
+            layer_label: TEXT
+            select_ports:
+              function: select_ports
+              settings:
+                port_type: optical
+          function_name: add_fiber_array
+          info:
+            grating_coupler:
+              period: 0.6759999999999999
+              polarization: te
+              wavelength: 1.53
+          info_version: 2
+          module: gdsfactory.routing.add_fiber_array
+          name: ring_single_length_x3_r_2efff2ea
+        ring_single_length_x3_r_c6b07cbc:
+          changed:
+            component:
+              name: ring_single_length_x3_radius40
+              settings:
+                changed:
+                  length_x: 3
+                  radius: 40
+                child: null
+                default:
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
+                  cross_section: strip
+                  gap: 0.2
+                  length_x: 4.0
+                  length_y: 0.6
+                  radius: 10.0
+                  straight:
+                    function: straight
+                full:
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
+                  cross_section: strip
+                  gap: 0.2
+                  length_x: 3
+                  length_y: 0.6
+                  radius: 40
+                  straight:
+                    function: straight
+                function_name: ring_single
+                info: {}
+                info_version: 2
+                module: gdsfactory.components.ring_single
+                name: ring_single_length_x3_radius40
+            fanout_length: 200
+          child:
+            changed:
+              length_x: 3
+              radius: 40
+            child: null
+            default:
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
+              cross_section: strip
+              gap: 0.2
+              length_x: 4.0
+              length_y: 0.6
+              radius: 10.0
+              straight:
+                function: straight
+            full:
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
+              cross_section: strip
+              gap: 0.2
+              length_x: 3
+              length_y: 0.6
+              radius: 40
+              straight:
+                function: straight
+            function_name: ring_single
+            info: {}
+            info_version: 2
+            module: gdsfactory.components.ring_single
+            name: ring_single_length_x3_radius40
+          default:
+            component:
+              function: straight
+            component_name: null
+            cross_section: strip
+            gc_port_labels: null
+            gc_port_name: o1
+            get_input_labels_function:
+              function: get_input_labels
+            grating_coupler:
+              function: grating_coupler_elliptical_trenches
+              settings:
+                polarization: te
+                taper_angle: 35
+            layer_label: TEXT
+            select_ports:
+              function: select_ports
+              settings:
+                port_type: optical
+          full:
+            component:
+              name: ring_single_length_x3_radius40
+              settings:
+                changed:
+                  length_x: 3
+                  radius: 40
+                child: null
+                default:
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
+                  cross_section: strip
+                  gap: 0.2
+                  length_x: 4.0
+                  length_y: 0.6
+                  radius: 10.0
+                  straight:
+                    function: straight
+                full:
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
+                  cross_section: strip
+                  gap: 0.2
+                  length_x: 3
+                  length_y: 0.6
+                  radius: 40
+                  straight:
+                    function: straight
+                function_name: ring_single
+                info: {}
+                info_version: 2
+                module: gdsfactory.components.ring_single
+                name: ring_single_length_x3_radius40
+            component_name: null
+            cross_section: strip
+            fanout_length: 200
+            gc_port_labels: null
+            gc_port_name: o1
+            get_input_labels_function:
+              function: get_input_labels
+            grating_coupler:
+              function: grating_coupler_elliptical_trenches
+              settings:
+                polarization: te
+                taper_angle: 35
+            layer_label: TEXT
+            select_ports:
+              function: select_ports
+              settings:
+                port_type: optical
+          function_name: add_fiber_array
+          info:
+            grating_coupler:
+              period: 0.6759999999999999
+              polarization: te
+              wavelength: 1.53
+          info_version: 2
+          module: gdsfactory.routing.add_fiber_array
+          name: ring_single_length_x3_r_c6b07cbc
+        ring_single_length_x3_r_fa4b9f20:
+          changed:
+            component:
+              name: ring_single_length_x3_radius50
+              settings:
+                changed:
+                  length_x: 3
+                  radius: 50
+                child: null
+                default:
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
+                  cross_section: strip
+                  gap: 0.2
+                  length_x: 4.0
+                  length_y: 0.6
+                  radius: 10.0
+                  straight:
+                    function: straight
+                full:
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
+                  cross_section: strip
+                  gap: 0.2
+                  length_x: 3
+                  length_y: 0.6
+                  radius: 50
+                  straight:
+                    function: straight
+                function_name: ring_single
+                info: {}
+                info_version: 2
+                module: gdsfactory.components.ring_single
+                name: ring_single_length_x3_radius50
+            fanout_length: 200
+          child:
+            changed:
+              length_x: 3
+              radius: 50
+            child: null
+            default:
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
+              cross_section: strip
+              gap: 0.2
+              length_x: 4.0
+              length_y: 0.6
+              radius: 10.0
+              straight:
+                function: straight
+            full:
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
+              cross_section: strip
+              gap: 0.2
+              length_x: 3
+              length_y: 0.6
+              radius: 50
+              straight:
+                function: straight
+            function_name: ring_single
+            info: {}
+            info_version: 2
+            module: gdsfactory.components.ring_single
+            name: ring_single_length_x3_radius50
+          default:
+            component:
+              function: straight
+            component_name: null
+            cross_section: strip
+            gc_port_labels: null
+            gc_port_name: o1
+            get_input_labels_function:
+              function: get_input_labels
+            grating_coupler:
+              function: grating_coupler_elliptical_trenches
+              settings:
+                polarization: te
+                taper_angle: 35
+            layer_label: TEXT
+            select_ports:
+              function: select_ports
+              settings:
+                port_type: optical
+          full:
+            component:
+              name: ring_single_length_x3_radius50
+              settings:
+                changed:
+                  length_x: 3
+                  radius: 50
+                child: null
+                default:
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
+                  cross_section: strip
+                  gap: 0.2
+                  length_x: 4.0
+                  length_y: 0.6
+                  radius: 10.0
+                  straight:
+                    function: straight
+                full:
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
+                  cross_section: strip
+                  gap: 0.2
+                  length_x: 3
+                  length_y: 0.6
+                  radius: 50
+                  straight:
+                    function: straight
+                function_name: ring_single
+                info: {}
+                info_version: 2
+                module: gdsfactory.components.ring_single
+                name: ring_single_length_x3_radius50
+            component_name: null
+            cross_section: strip
+            fanout_length: 200
+            gc_port_labels: null
+            gc_port_name: o1
+            get_input_labels_function:
+              function: get_input_labels
+            grating_coupler:
+              function: grating_coupler_elliptical_trenches
+              settings:
+                polarization: te
+                taper_angle: 35
+            layer_label: TEXT
+            select_ports:
+              function: select_ports
+              settings:
+                port_type: optical
+          function_name: add_fiber_array
+          info:
+            grating_coupler:
+              period: 0.6759999999999999
+              polarization: te
+              wavelength: 1.53
+          info_version: 2
+          module: gdsfactory.routing.add_fiber_array
+          name: ring_single_length_x3_r_fa4b9f20
     settings:
       do_permutations: true
       doe: ring_single
@@ -2297,3 +1907,177 @@ placements:
     x: 44.953
     y: 0.0
 ports: {}
+warnings:
+  vertical_te:
+    unconnected_ports:
+    - message: 56 unconnected vertical_te ports!
+      ports:
+      - rings,ring_single_length_x1_r_f1e81df5_0_vertical_te_00
+      - rings,ring_single_length_x1_r_f1e81df5_0_vertical_te_01
+      - rings,ring_single_length_x1_r_f1e81df5_0_vertical_te_10
+      - rings,ring_single_length_x1_r_f1e81df5_0_vertical_te_20
+      - rings,ring_single_length_x2_r_03c3c879_1_vertical_te_00
+      - rings,ring_single_length_x2_r_03c3c879_1_vertical_te_01
+      - rings,ring_single_length_x2_r_03c3c879_1_vertical_te_10
+      - rings,ring_single_length_x2_r_03c3c879_1_vertical_te_20
+      - rings,ring_single_length_x3_r_fa4b9f20_2_vertical_te_00
+      - rings,ring_single_length_x3_r_fa4b9f20_2_vertical_te_01
+      - rings,ring_single_length_x3_r_fa4b9f20_2_vertical_te_10
+      - rings,ring_single_length_x3_r_fa4b9f20_2_vertical_te_20
+      - rings,ring_single_length_x1_r_8afbe158_3_vertical_te_00
+      - rings,ring_single_length_x1_r_8afbe158_3_vertical_te_01
+      - rings,ring_single_length_x1_r_8afbe158_3_vertical_te_10
+      - rings,ring_single_length_x1_r_8afbe158_3_vertical_te_20
+      - rings,ring_single_length_x2_r_8349584a_4_vertical_te_00
+      - rings,ring_single_length_x2_r_8349584a_4_vertical_te_01
+      - rings,ring_single_length_x2_r_8349584a_4_vertical_te_10
+      - rings,ring_single_length_x2_r_8349584a_4_vertical_te_20
+      - rings,ring_single_length_x3_r_c6b07cbc_5_vertical_te_00
+      - rings,ring_single_length_x3_r_c6b07cbc_5_vertical_te_01
+      - rings,ring_single_length_x3_r_c6b07cbc_5_vertical_te_10
+      - rings,ring_single_length_x3_r_c6b07cbc_5_vertical_te_20
+      - rings,ring_single_length_x1_r_f9ad5dd2_6_vertical_te_00
+      - rings,ring_single_length_x1_r_f9ad5dd2_6_vertical_te_01
+      - rings,ring_single_length_x1_r_f9ad5dd2_6_vertical_te_10
+      - rings,ring_single_length_x1_r_f9ad5dd2_6_vertical_te_20
+      - rings,ring_single_length_x2_r_a87ec13f_7_vertical_te_00
+      - rings,ring_single_length_x2_r_a87ec13f_7_vertical_te_01
+      - rings,ring_single_length_x2_r_a87ec13f_7_vertical_te_10
+      - rings,ring_single_length_x2_r_a87ec13f_7_vertical_te_20
+      - rings,ring_single_length_x3_r_2efff2ea_8_vertical_te_00
+      - rings,ring_single_length_x3_r_2efff2ea_8_vertical_te_01
+      - rings,ring_single_length_x3_r_2efff2ea_8_vertical_te_10
+      - rings,ring_single_length_x3_r_2efff2ea_8_vertical_te_20
+      - rings,ring_single_length_x1_r_5f03a4c9_9_vertical_te_00
+      - rings,ring_single_length_x1_r_5f03a4c9_9_vertical_te_01
+      - rings,ring_single_length_x1_r_5f03a4c9_9_vertical_te_10
+      - rings,ring_single_length_x1_r_5f03a4c9_9_vertical_te_20
+      - rings,ring_single_length_x2_r_ba40cfeb_10_vertical_te_00
+      - rings,ring_single_length_x2_r_ba40cfeb_10_vertical_te_01
+      - rings,ring_single_length_x2_r_ba40cfeb_10_vertical_te_10
+      - rings,ring_single_length_x2_r_ba40cfeb_10_vertical_te_20
+      - rings,ring_single_length_x3_r_157ef38a_11_vertical_te_00
+      - rings,ring_single_length_x3_r_157ef38a_11_vertical_te_01
+      - rings,ring_single_length_x3_r_157ef38a_11_vertical_te_10
+      - rings,ring_single_length_x3_r_157ef38a_11_vertical_te_20
+      - mzis,mzi_delta_length10_add__e53a7c31_(0,0)_vertical_te_00
+      - mzis,mzi_delta_length10_add__e53a7c31_(0,0)_vertical_te_01
+      - mzis,mzi_delta_length10_add__e53a7c31_(0,0)_vertical_te_10
+      - mzis,mzi_delta_length10_add__e53a7c31_(0,0)_vertical_te_20
+      - mzis,mzi_delta_length100_add_6a163e72_(1,0)_vertical_te_00
+      - mzis,mzi_delta_length100_add_6a163e72_(1,0)_vertical_te_01
+      - mzis,mzi_delta_length100_add_6a163e72_(1,0)_vertical_te_10
+      - mzis,mzi_delta_length100_add_6a163e72_(1,0)_vertical_te_20
+      values:
+      - - 189.973
+        - 24.58250000000004
+      - - 316.97299999999996
+        - 24.58250000000004
+      - - 62.97300000000001
+        - 24.58250000000004
+      - - 443.97299999999996
+        - 24.58250000000004
+      - - 189.973
+        - 398.6325
+      - - 316.97299999999996
+        - 398.6325
+      - - 62.97300000000001
+        - 398.6325
+      - - 443.97299999999996
+        - 398.6325
+      - - 189.973
+        - 772.6825000000001
+      - - 316.97299999999996
+        - 772.6825000000001
+      - - 62.97300000000001
+        - 772.6825000000001
+      - - 443.97299999999996
+        - 772.6825000000001
+      - - 189.973
+        - 1146.7325
+      - - 316.97299999999996
+        - 1146.7325
+      - - 62.97300000000001
+        - 1146.7325
+      - - 443.97299999999996
+        - 1146.7325
+      - - 606.913
+        - 24.58250000000004
+      - - 733.913
+        - 24.58250000000004
+      - - 479.913
+        - 24.58250000000004
+      - - 860.913
+        - 24.58250000000004
+      - - 606.913
+        - 378.6325
+      - - 733.913
+        - 378.6325
+      - - 479.913
+        - 378.6325
+      - - 860.913
+        - 378.6325
+      - - 606.913
+        - 732.6825000000001
+      - - 733.913
+        - 732.6825000000001
+      - - 479.913
+        - 732.6825000000001
+      - - 860.913
+        - 732.6825000000001
+      - - 606.913
+        - 1066.7325
+      - - 733.913
+        - 1066.7325
+      - - 479.913
+        - 1066.7325
+      - - 860.913
+        - 1066.7325
+      - - 1023.8530000000001
+        - 24.58250000000004
+      - - 1150.853
+        - 24.58250000000004
+      - - 896.8530000000001
+        - 24.58250000000004
+      - - 1277.853
+        - 24.58250000000004
+      - - 1023.8530000000001
+        - 358.6325
+      - - 1150.853
+        - 358.6325
+      - - 896.8530000000001
+        - 358.6325
+      - - 1277.853
+        - 358.6325
+      - - 1023.8530000000001
+        - 672.6825000000001
+      - - 1150.853
+        - 672.6825000000001
+      - - 896.8530000000001
+        - 672.6825000000001
+      - - 1277.853
+        - 672.6825000000001
+      - - 1023.8530000000001
+        - 986.7325000000001
+      - - 1150.853
+        - 986.7325000000001
+      - - 896.8530000000001
+        - 986.7325000000001
+      - - 1277.853
+        - 986.7325000000001
+      - - 1430.799
+        - -81.5685
+      - - 1557.799
+        - -81.5685
+      - - 1303.799
+        - -81.5685
+      - - 1684.799
+        - -81.5685
+      - - 1430.799
+        - -126.5685
+      - - 1557.799
+        - -126.5685
+      - - 1303.799
+        - -126.5685
+      - - 1684.799
+        - -126.5685

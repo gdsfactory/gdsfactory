@@ -2,6 +2,7 @@ import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
+from gdsfactory.components.wire import wire_corner
 from gdsfactory.cross_section import strip
 from gdsfactory.path import euler, extrude
 from gdsfactory.snap import snap_to_grid
@@ -19,7 +20,7 @@ def bend_euler(
     cross_section: CrossSectionSpec = "strip",
     **kwargs
 ) -> Component:
-    """Returns an euler bend that adiabatically transitions from straight to curved.
+    """Returns an euler bend that transitions from straight to curved.
 
     By default, `radius` corresponds to the minimum radius of curvature of the bend.
     However, if `with_arc_floorplan` is True, `radius` corresponds to the effective
@@ -42,7 +43,6 @@ def bend_euler(
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
         kwargs: cross_section settings.
 
-
     .. code::
 
                   o2
@@ -51,11 +51,12 @@ def bend_euler(
                 /
                /
        o1_____/
-
-
     """
     x = gf.get_cross_section(cross_section, **kwargs)
     radius = x.radius
+
+    if radius is None:
+        return wire_corner(cross_section=x)
 
     c = Component()
     p = euler(
@@ -136,8 +137,6 @@ def bend_straight_bend(
         direction: cw (clock-wise) or ccw (counter clock-wise).
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
         kwargs: cross_section settings.
-
-
     """
     c = Component()
     b = bend_euler(

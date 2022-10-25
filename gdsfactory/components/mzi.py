@@ -119,11 +119,13 @@ def mzi(
     b1 = c << bend
     b1.connect("o1", cp1.ports[port_e1_splitter])
 
-    sy = c << gf.get_component(straight_y, length=length_y, cross_section=cross_section)
-    sy.connect("o1", b1.ports["o2"])
+    sytl = c << gf.get_component(
+        straight_y, length=length_y, cross_section=cross_section
+    )
+    sytl.connect("o1", b1.ports["o2"])
 
     b2 = c << bend
-    b2.connect("o2", sy.ports["o2"])
+    b2.connect("o2", sytl.ports["o2"])
     straight_x_top = (
         gf.get_component(
             straight_x_top, length=length_x, cross_section=cross_section_x_top
@@ -143,6 +145,7 @@ def mzi(
         straight=straight,
         bend=bend_spec,
         cross_section=cross_section,
+        with_sbend=False,
     )
     c.add(route.references)
     route = get_route(
@@ -153,6 +156,13 @@ def mzi(
         cross_section=cross_section,
     )
     c.add(route.references)
+
+    sytl.name = "sytl"
+    syl.name = "syl"
+    sxt.name = "sxt"
+    sxb.name = "sxb"
+    cp1.name = "cp1"
+    cp2.name = "cp2"
 
     if with_splitter:
         c.add_ports(cp1.get_ports_list(orientation=180), prefix="in")
@@ -192,68 +202,5 @@ mzi_coupler = partial(
 
 
 if __name__ == "__main__":
-    # from gdsfactory.cross_section import heater_metal
-    # c = mzi(cross_section=heater_metal)
-    # from gdsfactory.cross_section import strip_heater_metal
-    # c = mzi(cross_section_x_top=strip_heater_metal, length_x=100)
-
-    c = mzi()
+    c = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
     c.show(show_ports=True)
-
-    # WIDTH = 2
-    # LAYER = (34, 0)
-    # xs_metal = gf.partial(strip, width=WIDTH, layer=LAYER)
-    # mmi1x2 = gf.partial(
-    #     gf.components.mmi1x2,
-    #     cross_section=xs_metal,
-    #     width=WIDTH,
-    #     width_taper=WIDTH,
-    #     width_mmi=3 * WIDTH,
-    # )
-    # mzi = gf.partial(gf.components.mzi, cross_section=xs_metal, splitter=mmi1x2)
-    # c = mzi()
-
-    # c = gf.c.mzi2x2_2x2(straight_x_top="straight_heater_metal")
-    # c.show(show_ports=True)
-
-    # extend_ports2 = gf.partial(gf.components.extend_ports, length=10)
-
-    # straigth_extended2 = gf.compose(
-    #     extend_ports2, gf.partial(gf.components.straight, width=0.9)
-    # )
-    # c = straigth_extended2()
-    # c.show(show_ports=True)
-
-    # delta_length = 116.8 / 2
-    # print(delta_length)
-    # c = mzi(delta_length=delta_length, with_splitter=False)
-    # c.pprint_netlist()
-    # mmi2x2 = gf.partial(gf.components.mmi2x2, width_mmi=5, gap_mmi=2)
-    # c = mzi(delta_length=10, combiner=gf.components.mmi1x2, splitter=mmi2x2)
-
-    # c = mzi1x2_2x2()
-    # c = mzi_coupler(length_x=5)
-    # c = mzi2x2()
-
-    # c = mzi2x2_2x2(straight_x_top="straight_heater_metal")
-    # c.show(show_ports=True)
-
-    # c = mzi(
-    #     delta_length=100,
-    #     straight_x_top="straight_pin",
-    #     # straight_x_top=gf.components.straight_heater_meander,
-    #     # straight_x_bot=gf.components.straight_heater_meander,
-    #     # straight_x_top=gf.components.straight_heater_metal,
-    #     # straight_x_bot=gf.components.straight_heater_metal,
-    #     # length_x=None,
-    #     length_x=300,
-    #     length_y=200.8,
-    #     # with_splitter=False,
-    #     splitter="mmi1x2",
-    # )
-    # c.show(show_ports=False)
-    # c.show(show_subports=True)
-    # c.pprint()
-    # n = c.get_netlist()
-    # c.plot()
-    # print(c.settings)
