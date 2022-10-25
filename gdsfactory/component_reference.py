@@ -1,11 +1,12 @@
 import typing
+import warnings
 from typing import Any, Dict, List, Optional, Tuple, Union, cast
 
 import numpy as np
 from gdspy import CellReference
 from numpy import cos, float64, int64, mod, ndarray, pi, sin
-from phidl.device_layout import DeviceReference
 
+from gdsfactory.component_layout import _GeometryHelper
 from gdsfactory.port import (
     Port,
     map_ports_layer_to_orientation,
@@ -25,6 +26,7 @@ Coordinates = Union[List[Coordinate], ndarray, List[Number], Tuple[Number, ...]]
 
 class SizeInfo:
     def __init__(self, bbox: ndarray) -> None:
+        """Initialize this object."""
         self.west = bbox[0, 0]
         self.east = bbox[1, 0]
         self.south = bbox[0, 1]
@@ -69,6 +71,7 @@ class SizeInfo:
         return self.get_rect()
 
     def __str__(self) -> str:
+        """Return a string representation of the object."""
         return f"w: {self.west}\ne: {self.east}\ns: {self.south}\nn: {self.north}\n"
 
 
@@ -112,8 +115,8 @@ def _rotate_points(
     return displacement * ca + perpendicular * sa + c0
 
 
-class ComponentReference(DeviceReference):
-    """A ComponentReference is a pointer to a Component with x, y, rotation, mirror."""
+class ComponentReference(CellReference, _GeometryHelper):
+    """Pointer to a Component with x, y, rotation, mirror."""
 
     def __init__(
         self,
@@ -124,6 +127,7 @@ class ComponentReference(DeviceReference):
         x_reflection: bool = False,
         visual_label: str = "",
     ) -> None:
+        """Initialize the ComponentReference object."""
         CellReference.__init__(
             self,
             ref_cell=component,
@@ -133,13 +137,14 @@ class ComponentReference(DeviceReference):
             x_reflection=x_reflection,
             ignore_missing=False,
         )
-        self.owner = None
+        self._owner = None
+        self._name = None
 
         # The ports of a ComponentReference have their own unique id (uid),
         # since two ComponentReferences of the same parent Component can be
         # in different locations and thus do not represent the same port
         self._local_ports = {
-            name: port._copy(new_uid=True) for name, port in component.ports.items()
+            name: port._copy() for name, port in component.ports.items()
         }
         self.visual_label = visual_label
         # self.uid = str(uuid.uuid4())[:8]
@@ -152,7 +157,45 @@ class ComponentReference(DeviceReference):
     def parent(self, value):
         self.ref_cell = value
 
+    @property
+    def owner(self):
+        return self._owner
+
+    @owner.setter
+    def owner(self, value):
+        if self.owner is None or value is None:
+            self._owner = value
+        elif value != self._owner:
+            raise ValueError(
+                f"Cannot reset owner of a reference once it has already been set!"
+                f" Reference: {self}. Current owner: {self._owner}. "
+                f"Attempting to re-assign to {value!r}"
+            )
+
+    @property
+    def name(self):
+        return self._name
+
+    @name.setter
+    def name(self, value: str):
+        if value != self._name:
+            if self.owner and value in self.owner.named_references:
+                raise ValueError(
+                    f"This reference's owner already has a reference with name {value!r}. Please choose another name."
+                )
+            self._name = value
+            self.owner._reference_names_used.add(value)
+
+    @property
+    def alias(self):
+        warnings.warn(
+            "alias attribute is deprecated and may be removed in a future version of gdsfactory",
+            DeprecationWarning,
+        )
+        return self.name
+
     def __repr__(self) -> str:
+        """Return a string representation of the object."""
         return (
             'ComponentReference (parent Component "%s", ports %s, origin %s, rotation %s,'
             " x_reflection %s)"
@@ -164,9 +207,6 @@ class ComponentReference(DeviceReference):
                 self.x_reflection,
             )
         )
-
-    def __str__(self) -> str:
-        return self.__repr__()
 
     def to_dict(self):
         d = self.parent.to_dict()
@@ -181,6 +221,7 @@ class ComponentReference(DeviceReference):
     @property
     def bbox(self):
         """Return the bounding box of the ComponentReference.
+
         it snaps to 3 decimals in um (0.001um = 1nm precision)
         """
         bbox = self.get_bounding_box()
@@ -190,25 +231,29 @@ class ComponentReference(DeviceReference):
 
     @classmethod
     def __get_validators__(cls):
+        """Get validators."""
         yield cls.validate
 
     @classmethod
     def validate(cls, v):
-        """check with pydantic ComponentReference valid type"""
+        """Check with pydantic ComponentReference valid type."""
         assert isinstance(
             v, ComponentReference
         ), f"TypeError, Got {type(v)}, expecting ComponentReference"
         return v
 
     def __getitem__(self, val):
-        """This allows you to access an alias from the reference's parent, and receive
-        a copy of the reference which is correctly rotated and translated"""
+        """This allows you to access an alias from the reference's parent, and.
+
+        receive a copy of the reference which is correctly rotated and
+        translated.
+        """
         try:
             alias_device = self.parent[val]
         except Exception as exc:
             raise ValueError(
                 '[PHIDL] Tried to access alias "%s" from parent '
-                'Device "%s", which does not exist' % (val, self.parent.name)
+                'Component "%s", which does not exist' % (val, self.parent.name)
             ) from exc
         new_reference = ComponentReference(
             alias_device.parent,
@@ -229,8 +274,10 @@ class ComponentReference(DeviceReference):
 
     @property
     def ports(self) -> Dict[str, Port]:
-        """This property allows you to access myref.ports, and receive a copy
-        of the ports dict which is correctly rotated and translated"""
+        """This property allows you to access myref.ports, and receive a copy.
+
+        of the ports dict which is correctly rotated and translated.
+        """
         for name, port in self.parent.ports.items():
             port = self.parent.ports[name]
             new_center, new_orientation = self._transform_port(
@@ -281,7 +328,7 @@ class ComponentReference(DeviceReference):
         rotation: Optional[int] = None,
         x_reflection: bool = False,
     ) -> Tuple[ndarray, float]:
-        """Apply GDS-type transformation to a port (x_ref)"""
+        """Apply GDS-type transformation to a port (x_ref)."""
         new_point = np.array(point)
         new_orientation = orientation
 
@@ -311,7 +358,7 @@ class ComponentReference(DeviceReference):
         rotation: Optional[int] = None,
         x_reflection: bool = False,
     ) -> ndarray:
-        """Apply GDS-type transformation to a point"""
+        """Apply GDS-type transformation to a point."""
         new_point = np.array(point)
 
         if x_reflection:
@@ -329,7 +376,9 @@ class ComponentReference(DeviceReference):
         destination: Optional[Union[Port, Coordinate, str]] = None,
         axis: Optional[str] = None,
     ) -> "ComponentReference":
-        """Move the ComponentReference from the origin point to the destination.
+        """Move the ComponentReference from the origin point to the.
+
+        destination.
 
         Both origin and destination can be 1x2 array-like, Port, or a key
         corresponding to one of the Ports in this device_ref.
@@ -342,7 +391,6 @@ class ComponentReference(DeviceReference):
         Returns:
             ComponentReference.
         """
-
         # If only one set of coordinates is defined, make sure it's used to move things
         if destination is None:
             destination = origin
@@ -402,9 +450,9 @@ class ComponentReference(DeviceReference):
     def rotate(
         self,
         angle: float = 45,
-        center: Coordinate = (0.0, 0.0),
+        center: Union[Coordinate, str, int] = (0.0, 0.0),
     ) -> "ComponentReference":
-        """Return rotated ComponentReference
+        """Return rotated ComponentReference.
 
         Args:
             angle: in degrees
@@ -427,6 +475,7 @@ class ComponentReference(DeviceReference):
         self, port_name: Optional[str] = None, x0: Optional[Coordinate] = None
     ) -> "ComponentReference":
         """Perform horizontal mirror using x0 or port as axis (default, x0=0).
+
         This is the default for mirror along X=x0 axis
         """
         if port_name is None and x0 is None:
@@ -451,12 +500,17 @@ class ComponentReference(DeviceReference):
         self.reflect((1, y0), (0, y0))
         return self
 
-    def reflect(
+    def mirror(
         self,
         p1: Coordinate = (0.0, 1.0),
         p2: Coordinate = (0.0, 0.0),
     ) -> "ComponentReference":
-        """TODO. Delete this code and rely on phidl's mirror code."""
+        """Mirrors.
+
+        Args:
+            p1: point 1.
+            p2: point 2.
+        """
         if isinstance(p1, Port):
             p1 = p1.center
         if isinstance(p2, Port):
@@ -485,6 +539,13 @@ class ComponentReference(DeviceReference):
         self._bb_valid = False
         return self
 
+    def reflect(self, *args, **kwargs):
+        warnings.warn(
+            "reflect is deprecated and may be removed in a future version of gdsfactory. Use mirror instead.",
+            DeprecationWarning,
+        )
+        return self.mirror(*args, **kwargs)
+
     def connect(
         self,
         port: Union[str, Port],
@@ -501,7 +562,6 @@ class ComponentReference(DeviceReference):
         Returns:
             ComponentReference: with correct rotation to connect to destination.
         """
-
         # port can either be a string with the name or an actual Port
         if port in self.ports:  # Then ``port`` is a key for the ports dict
             p = self.ports[port]
@@ -561,11 +621,11 @@ class ComponentReference(DeviceReference):
 
     @property
     def ports_layer(self) -> Dict[str, str]:
-        """Return a mapping from layer0_layer1_E0: portName"""
+        """Return a mapping from layer0_layer1_E0: portName."""
         return map_ports_layer_to_orientation(self.ports)
 
     def port_by_orientation_cw(self, key: str, **kwargs):
-        """Return port by indexing them clockwise"""
+        """Return port by indexing them clockwise."""
         m = map_ports_to_orientation_cw(self.ports, **kwargs)
         if key not in m:
             raise KeyError(f"{key} not in {list(m.keys())}")
@@ -573,7 +633,7 @@ class ComponentReference(DeviceReference):
         return self.ports[key2]
 
     def port_by_orientation_ccw(self, key: str, **kwargs):
-        """Return port by indexing them clockwise"""
+        """Return port by indexing them clockwise."""
         m = map_ports_to_orientation_ccw(self.ports, **kwargs)
         if key not in m:
             raise KeyError(f"{key} not in {list(m.keys())}")
@@ -585,7 +645,7 @@ class ComponentReference(DeviceReference):
             port.snap_to_grid(nm=nm)
 
     def get_ports_xsize(self, **kwargs) -> float:
-        """Return xdistance from east to west ports
+        """Return xdistance from east to west ports.
 
         Keyword Args:
             kwargs: orientation, port_type, layer.
@@ -595,7 +655,7 @@ class ComponentReference(DeviceReference):
         return snap_to_grid(ports_ccw[0].x - ports_cw[0].x)
 
     def get_ports_ysize(self, **kwargs) -> float:
-        """Returns ydistance from east to west ports"""
+        """Returns ydistance from east to west ports."""
         ports_cw = self.get_ports_list(clockwise=True, **kwargs)
         ports_ccw = self.get_ports_list(clockwise=False, **kwargs)
         return snap_to_grid(ports_ccw[0].y - ports_cw[0].y)

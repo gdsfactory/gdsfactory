@@ -69,18 +69,18 @@ def compute_area_hierarchical(
     func_check_to_flatten=None,
     keep_zero_area_cells: bool = False,
 ) -> Dict[str, Tuple[float, int]]:
-    """Compute area of the component on a given layer
-    Faster than `compute_area` but need to be careful if the cells overlap
-    Can pass a list of cells to flatten
-    Returns Dict[key of each cell, Tuple[area, rank (position in hierarchy)]
+    """Compute area of the component on a given layer Faster than \
+    `compute_area` but need to be careful if the cells overlap Can pass a list \
+    of cells to flatten Returns Dict[key of each cell, Tuple[area, rank \
+    (position in hierarchy)].
 
     Args:
         component:
         layer:
         func_check_to_flatten:
         keep_zero_area_cells:removes zero area cells
-    """
 
+    """
     all_cells = component.get_dependencies(recursive=True)
     all_cells.update([component])
     cells_by_rank = bucket_cells_by_rank(all_cells)

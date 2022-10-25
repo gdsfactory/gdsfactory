@@ -1,12 +1,11 @@
 from typing import Tuple
 
 import numpy as np
-from phidl.geometry import _glyph, _indent, _width
 
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.text_rectangular import text_rectangular
-from gdsfactory.name import clean_name
+from gdsfactory.constants import _glyph, _indent, _width
 from gdsfactory.types import Coordinate, LayerSpec
 
 
@@ -26,15 +25,14 @@ def text(
         position: x, y position.
         justify: left, right, center.
         layer: for the text.
-
     """
     scaling = size / 1000
     xoffset = position[0]
     yoffset = position[1]
-    t = gf.Component(f"{clean_name(text)}_{int(position[0])}_{int(position[1])}")
+    t = gf.Component()
 
-    for i, line in enumerate(text.split("\n")):
-        label = gf.Component(f"{t.name}_{i}")
+    for line in text.split("\n"):
+        label = gf.Component()
         for c in line:
             ascii_val = ord(c)
             if c == " ":
@@ -76,7 +74,6 @@ def text_lines(
         text: list of strings.
         size: text size.
         layer: text layer.
-
     """
     c = gf.Component()
 
@@ -88,13 +85,15 @@ def text_lines(
 
 
 if __name__ == "__main__":
-    c = text(
-        text=".[,ABCDEFGHIKKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789:/",
-        size=4.0,
-        justify="right",
-        position=(120.5, 3),
-    )
+    c1 = gf.components.text("hello", size=10, layer=(1, 0))
+    c2 = gf.components.text("hello")
+    # c = text(
+    #     text=".[,ABCDEFGHIKKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789:/",
+    #     size=4.0,
+    #     justify="right",
+    #     position=(120.5, 3),
+    # )
     # c = text_lines(text=["a", "b"], size=10)
     # c = text_lines()
-    c.show(show_ports=True)
-    c.plot()
+    c2.show(show_ports=True)
+    # c.plot()

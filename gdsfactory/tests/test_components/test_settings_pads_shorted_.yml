@@ -21,4 +21,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.pads_shorted
   name: pads_shorted
-version: 0.0.1

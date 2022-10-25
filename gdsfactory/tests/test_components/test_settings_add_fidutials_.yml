@@ -33,30 +33,28 @@ settings:
     component:
       function: pad_array
     gap: 50
-    left:
-      function: cross
+    left: cross
     offset:
     - 0
     - 0
-    right:
-      function: cross
+    right: cross
     top: null
   full:
     bottom: null
     component:
       function: pad_array
     gap: 50
-    left:
-      function: cross
+    left: cross
     offset:
     - 0
     - 0
-    right:
-      function: cross
+    right: cross
     top: null
   function_name: add_fidutials
-  info: {}
+  info:
+    size:
+    - 100.0
+    - 100.0
   info_version: 2
   module: gdsfactory.components.add_fidutials
   name: pad_array_add_fidutials
-version: 0.0.1

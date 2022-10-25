@@ -11,10 +11,11 @@ on:
 
 jobs:
   docker:
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Workflow Action
-        uses: styfle/cancel-workflow-action@0.10.0
+        uses: styfle/cancel-workflow-action@0.10.1
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
@@ -29,5 +30,5 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: joamatab/gdsfactory:latest,joamatab/gdsfactory:5.15.3
+          tags: joamatab/gdsfactory:latest,joamatab/gdsfactory:5.45.1
           file: Dockerfile.dev

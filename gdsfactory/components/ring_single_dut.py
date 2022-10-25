@@ -25,9 +25,10 @@ def ring_single_dut(
     port_name: str = "o1",
     **kwargs
 ) -> Component:
-    """Single bus ring made of two couplers (ct: top, cb: bottom)
-    connected with two vertical straights (wyl: left, wyr: right)
-    (Device Under Test) in the middle to extract loss from quality factor
+    """Single bus ring made of two couplers (ct: top, cb: bottom) connected.
+
+    with two vertical straights (wyl: left, wyr: right) (Component Under Test) in
+    the middle to extract loss from quality factor.
 
     Args:
         component: dut
@@ -41,7 +42,6 @@ def ring_single_dut(
         with_component:
         port_name:
         kwargs: cross_section settings
-
 
     Args:
         with_component: if False changes component for just a straight

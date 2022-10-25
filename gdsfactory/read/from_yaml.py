@@ -53,7 +53,8 @@ import warnings
 from typing import IO, Any, Callable, Dict, List, Optional, Union
 
 import numpy as np
-from omegaconf import OmegaConf
+from omegaconf import DictConfig, OmegaConf
+from typing_extensions import Literal
 
 from gdsfactory.add_pins import add_instance_label
 from gdsfactory.cell import cell
@@ -86,6 +87,7 @@ valid_top_level_keys = [
     "settings",
     "info",
     "pdk",
+    "warnings",
 ]
 
 valid_anchor_point_keywords = [
@@ -148,6 +150,50 @@ def _get_anchor_value_from_name(
         raise ValueError("Expected x or y as return_value.")
 
 
+def _move_ref(
+    x: Union[str, float],
+    x_or_y: Literal["x", "y"],
+    placements_conf,
+    connections_by_transformed_inst,
+    instances,
+    encountered_insts,
+    all_remaining_insts,
+) -> float:
+    if not isinstance(x, str):
+        return x
+    if len(x.split(",")) != 2:
+        raise ValueError(
+            f"You can define {x_or_y} as `{x_or_y}: instaceName,portName` got `{x_or_y}: {x!r}`"
+        )
+    instance_name_ref, port_name = x.split(",")
+    if instance_name_ref in all_remaining_insts:
+        place(
+            placements_conf,
+            connections_by_transformed_inst,
+            instances,
+            encountered_insts,
+            instance_name_ref,
+            all_remaining_insts,
+        )
+    if instance_name_ref not in instances:
+        raise ValueError(
+            f"{instance_name_ref!r} not in {list(instances.keys())}."
+            f" You can define {x_or_y} as `{x_or_y}: instaceName,portName`, got {x_or_y}: {x!r}"
+        )
+    if (
+        port_name not in instances[instance_name_ref].ports
+        and port_name not in valid_anchor_keywords
+    ):
+        ports = list(instances[instance_name_ref].ports.keys())
+        raise ValueError(
+            f"port = {port_name!r} can be a port_name in {ports}, "
+            f"an anchor {valid_anchor_keywords} for {instance_name_ref!r}, "
+            f"or `{x_or_y}: instaceName,portName`, got `{x_or_y}: {x!r}`"
+        )
+
+    return _get_anchor_value_from_name(instances[instance_name_ref], port_name, x_or_y)
+
+
 def place(
     placements_conf: Dict[str, Dict[str, Union[int, float, str]]],
     connections_by_transformed_inst: Dict[str, Dict[str, str]],
@@ -167,6 +213,7 @@ def place(
         instance_name: instance_name to place.
         all_remaining_insts: list of all the remaining instances to place
             instances pop from this instrance as they are placed.
+
     """
     if not all_remaining_insts:
         return
@@ -203,8 +250,6 @@ def place(
         y = placement_settings.get("y")
         ymin = placement_settings.get("ymin")
         ymax = placement_settings.get("ymax")
-
-        # print(instance_name, ymin, ymax, xmin, xmax)
 
         dx = placement_settings.get("dx")
         dy = placement_settings.get("dy")
@@ -246,107 +291,30 @@ def place(
             ref.x -= a[0]
             ref.y -= a[1]
 
-        if x is not None or xmin is not None or xmax is not None:
-            xmin_or_xmax = xmin if xmin is not None else xmax
-            x = x if x is not None else xmin_or_xmax
-
-            if isinstance(x, str):
-                if len(x.split(",")) != 2:
-                    raise ValueError(
-                        f"You can define x as `x: instaceName,portName` got `x: {x!r}`"
-                    )
-                instance_name_ref, port_name = x.split(",")
-                if instance_name_ref in all_remaining_insts:
-                    place(
-                        placements_conf,
-                        connections_by_transformed_inst,
-                        instances,
-                        encountered_insts,
-                        instance_name_ref,
-                        all_remaining_insts,
-                    )
-                if instance_name_ref not in instances:
-                    raise ValueError(
-                        f"{instance_name_ref!r} not in {list(instances.keys())}."
-                        f" You can define x as `x: instaceName,portName`, got x: {x!r}"
-                    )
-                if (
-                    port_name not in instances[instance_name_ref].ports
-                    and port_name not in valid_anchor_keywords
-                ):
-                    ports = list(instances[instance_name_ref].ports.keys())
-                    raise ValueError(
-                        f"port = {port_name!r} can be a port_name in {ports}, "
-                        f"an anchor {valid_anchor_keywords} for {instance_name_ref!r}, "
-                        f"or `x: instaceName,portName`, got `x: {y!r}`"
-                    )
-
-                x = _get_anchor_value_from_name(
-                    instances[instance_name_ref], port_name, "x"
-                )
-            if xmin_or_xmax is not None:
-                if xmin is not None:
-                    ref.xmin = x
-                elif xmax is not None:
-                    ref.xmax = x
-            elif x is not None:
-                ref.x += x
+        if x is not None:
+            ref.x += _move_ref(
+                x,
+                x_or_y="x",
+                placements_conf=placements_conf,
+                connections_by_transformed_inst=connections_by_transformed_inst,
+                instances=instances,
+                encountered_insts=encountered_insts,
+                all_remaining_insts=all_remaining_insts,
+            )
 
         # print(instance_name, x, xmin, xmax, y, ymin, ymax)
         # print(ymin, y or ymin or ymax)
 
-        if y is not None or ymin is not None or ymax is not None:
-            ymin_or_ymax = ymin if ymin is not None else ymax
-            y = y if y is not None else ymin_or_ymax
-
-            if isinstance(y, str):
-                if len(y.split(",")) != 2:
-                    raise ValueError(
-                        f"You can define y as `y: instaceName,portName` got `y: {y!r}`"
-                    )
-                instance_name_ref, port_name = y.split(",")
-                if instance_name_ref in all_remaining_insts:
-                    place(
-                        placements_conf,
-                        connections_by_transformed_inst,
-                        instances,
-                        encountered_insts,
-                        instance_name_ref,
-                        all_remaining_insts,
-                    )
-                if instance_name_ref not in instances:
-                    raise ValueError(
-                        f"{instance_name_ref!r} not in {list(instances.keys())}, "
-                        f"you can define y as `y: instaceName,portName`, got `y: {y!r}`"
-                    )
-                if (
-                    port_name not in instances[instance_name_ref].ports
-                    and port_name not in valid_anchor_keywords
-                ):
-                    ports = list(instances[instance_name_ref].ports.keys())
-                    raise ValueError(
-                        f"port = {port_name!r} can be a port_name in {ports}, "
-                        f"an anchor {valid_anchor_keywords} for {instance_name_ref!r}, "
-                        f"or `y: instaceName,portName`, got `y: {y!r}`"
-                    )
-
-                y = _get_anchor_value_from_name(
-                    instances[instance_name_ref], port_name, "y"
-                )
-
-            if ymin_or_ymax is not None:
-                if ymin is not None:
-                    ref.ymin = y
-                elif ymax is not None:
-                    ref.ymax = y
-            elif y is not None:
-                ref.y += y
-
-        if dx:
-            ref.x += dx
-
-        if dy:
-            ref.y += dy
+        if y is not None:
+            ref.y += _move_ref(
+                y,
+                x_or_y="y",
+                placements_conf=placements_conf,
+                connections_by_transformed_inst=connections_by_transformed_inst,
+                instances=instances,
+                encountered_insts=encountered_insts,
+                all_remaining_insts=all_remaining_insts,
+            )
 
         if rotation:
             if port:
@@ -355,6 +323,57 @@ def place(
                 x, y = ref.origin
                 ref.rotate(rotation, center=(x, y))
                 # ref.rotate(rotation, center=(ref.x, ref.y))
+
+        if ymin is not None and ymax is not None:
+            raise ValueError("You cannot set ymin and ymax")
+        elif ymax is not None:
+            ref.ymax = _move_ref(
+                ymax,
+                x_or_y="y",
+                placements_conf=placements_conf,
+                connections_by_transformed_inst=connections_by_transformed_inst,
+                instances=instances,
+                encountered_insts=encountered_insts,
+                all_remaining_insts=all_remaining_insts,
+            )
+        elif ymin is not None:
+            ref.ymin = _move_ref(
+                ymin,
+                x_or_y="y",
+                placements_conf=placements_conf,
+                connections_by_transformed_inst=connections_by_transformed_inst,
+                instances=instances,
+                encountered_insts=encountered_insts,
+                all_remaining_insts=all_remaining_insts,
+            )
+
+        if xmin is not None and xmax is not None:
+            raise ValueError("You cannot set xmin and xmax")
+        elif xmin is not None:
+            ref.xmin = _move_ref(
+                xmin,
+                x_or_y="x",
+                placements_conf=placements_conf,
+                connections_by_transformed_inst=connections_by_transformed_inst,
+                instances=instances,
+                encountered_insts=encountered_insts,
+                all_remaining_insts=all_remaining_insts,
+            )
+        elif xmax is not None:
+            ref.xmax = _move_ref(
+                xmax,
+                x_or_y="x",
+                placements_conf=placements_conf,
+                connections_by_transformed_inst=connections_by_transformed_inst,
+                instances=instances,
+                encountered_insts=encountered_insts,
+                all_remaining_insts=all_remaining_insts,
+            )
+        if dx:
+            ref.x += dx
+
+        if dy:
+            ref.y += dy
 
     if instance_name in connections_by_transformed_inst:
         conn_info = connections_by_transformed_inst[instance_name]
@@ -472,18 +491,19 @@ ports:
 
 
 def from_yaml(
-    yaml_str: Union[str, pathlib.Path, IO[Any]],
+    yaml_str: Union[str, pathlib.Path, IO[Any], Dict[str, Any], DictConfig],
     routing_strategy: Dict[str, Callable] = routing_strategy_factories,
     label_instance_function: Callable = add_instance_label,
     name: Optional[str] = None,
     prefix: Optional[str] = None,
     **kwargs,
 ) -> Component:
-    """Returns a Component defined in YAML syntax.
+    """Returns Component from YAML string or file.
+
+    YAML includes instances, placements, routes, ports and connections.
 
     Args:
-        yaml: YAML file or string.
-          (instances, placements, routes, ports, connections, names).
+        yaml: YAML string or file.
         routing_strategy: for each route.
         label_instance_function: to label each instance.
         name: Optional name.
@@ -557,14 +577,20 @@ def from_yaml(
                     mmi_top,o3: mmi_bot,o1
 
     """
+    if isinstance(yaml_str, (str, pathlib.Path, IO)):
+        yaml_str = (
+            io.StringIO(yaml_str)
+            if isinstance(yaml_str, str) and "\n" in yaml_str
+            else yaml_str
+        )
 
-    yaml_str = (
-        io.StringIO(yaml_str)
-        if isinstance(yaml_str, str) and "\n" in yaml_str
-        else yaml_str
-    )
+        conf = OmegaConf.load(
+            yaml_str
+        )  # nicer loader than conf = yaml.safe_load(yaml_str)
 
-    conf = OmegaConf.load(yaml_str)  # nicer loader than conf = yaml.safe_load(yaml_str)
+    else:
+        conf = OmegaConf.create(yaml_str)
+
     for key in conf.keys():
         if key not in valid_top_level_keys:
             raise ValueError(f"{key!r} not in {list(valid_top_level_keys)}")
@@ -598,6 +624,7 @@ def _from_yaml(
         conf: dict.
         routing_strategy: for each route.
         label_instance_function: to label each instance.
+
     """
     from gdsfactory.pdk import GENERIC, get_active_pdk
 
@@ -631,7 +658,7 @@ def _from_yaml(
         settings = instance_conf.get("settings", {})
         component_spec = {"component": component, "settings": settings}
         component = pdk.get_component(component_spec)
-        ref = c << component
+        ref = c.add_ref(component, alias=instance_name)
         instances[instance_name] = ref
 
     placements_conf = dict() if placements_conf is None else placements_conf
@@ -684,7 +711,8 @@ def _from_yaml(
             if routing_strategy_name not in routing_strategy:
                 routing_strategies = list(routing_strategy.keys())
                 raise ValueError(
-                    f"{routing_strategy_name!r} not in routing_strategy {routing_strategies}"
+                    f"{routing_strategy_name!r} is an invalid routing_strategy "
+                    f"{routing_strategies}"
                 )
 
             if "links" not in routes_dict:
@@ -712,7 +740,7 @@ def _from_yaml(
 
                     if src1 > src0:
                         ports1names = [
-                            f"{port_src_name}{i}" for i in range(src0, src1 + 1, 1)
+                            f"{port_src_name}{i}" for i in range(src0, src1 + 1)
                         ]
                     else:
                         ports1names = [
@@ -721,7 +749,7 @@ def _from_yaml(
 
                     if dst1 > dst0:
                         ports2names = [
-                            f"{port_dst_name}{i}" for i in range(dst0, dst1 + 1, 1)
+                            f"{port_dst_name}{i}" for i in range(dst0, dst1 + 1)
                         ]
                     else:
                         ports2names = [
@@ -833,8 +861,9 @@ def _from_yaml(
                 c.add_port(port_name, port=instance.ports[instance_port_name])
             else:
                 c.add_port(**instance_comma_port)
+
     c.routes = routes
-    c.instances = instances
+    c.info["instances"] = list(instances.keys())
     return c
 
 
@@ -932,9 +961,9 @@ info:
 
 instances:
     yr:
-      component: y_splitter
+      component: ebeam_y_1550
     yl:
-      component: y_splitter
+      component: ebeam_y_1550
 
 placements:
     yr:
@@ -1233,45 +1262,10 @@ placements:
 
 
 if __name__ == "__main__":
-    # from gdsfactory.tests.test_component_from_yaml import sample_doe_grid
-    # for k in component_factories.keys():
-    #     print(k)
-    # print(c.settings["info"])
-    # c = from_yaml(yaml_anchor)
-    # c = from_yaml(sample_pdk_mzi)
-
-    # c = from_yaml(sample_rotation)
-    # c = from_yaml(sample2)
-    # c2 = c.get_netlist()
-    # c = from_yaml(sample_doe_grid)
-    # c = from_yaml(sample_yaml_xmin)
-    # n = c.get_netlist()
-    # print(n)
-    # c = from_yaml(sample_doe)
-
-    # c = from_yaml(sample_mirror)
-    # c = from_yaml(sample_doe_function)
-    c = from_yaml(sample_pdk_mzi_settings, dy=-500)
-    c.show(show_ports=True)
-
-    # c = test_connections_regex()
-    # c = from_yaml(sample_regex_connections)
-    # c = from_yaml(sample_regex_connections_backwards)
-    # c = test_docstring_sample()
-    # c = test_connections()
-    # c = from_yaml(sample_mirror_simple)
-    # c = test_connections_2x2()
-    # c = test_connections_different_factory()
-    # test_connections_different_link_factory()
-    # test_connections_waypoints()
-    # test_mirror()
-    # c = from_yaml(sample_different_link_factory)
-    # c = test_mirror()
-    # c = from_yaml(sample_waypoints)
-    # c = from_yaml(sample_2x2_connections)
-    # c = from_yaml(sample_connections)
-    # assert len(c.get_dependencies()) == 3
-    # test_component_from_yaml()
-    # test_component_from_yaml_with_routing()
-    # print(c.ports)
-    # c = gf.routing.add_fiber_array(c)
+    c = from_yaml(sample_doe_function)
+    c = from_yaml(sample_mmis)
+    n = c.get_netlist()
+    yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
+    c2 = from_yaml(yaml_str)
+    n2 = c2.get_netlist()
+    c2.show()

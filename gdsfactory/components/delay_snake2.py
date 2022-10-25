@@ -1,7 +1,5 @@
 import warnings
 
-import numpy as np
-
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler180
@@ -41,8 +39,6 @@ def delay_snake2(
        |------------------->
 
        |   delta_length    |
-
-
     """
     if n % 2:
         warnings.warn(f"rounding {n} to {n//2 *2}", stacklevel=3)
@@ -76,23 +72,10 @@ def delay_snake2(
     )
 
 
-def test_delay_snake2_length() -> Component:
-    length = 500.0
-    n = 6
-    c = delay_snake2(n=n, length=length, layer=(2, 0))
-    length_measured = (
-        c.aliases[")1"].parent.info["length"] * n
-        + c.aliases["-1"].parent.info["length"] * n
-        + c.aliases["_1"].parent.info["length"]
-    )
-    assert np.isclose(
-        length, length_measured
-    ), f"length measured = {length_measured} != {length}"
-    return c
-
-
 if __name__ == "__main__":
     # c = test_delay_snake2_length()
     # c.show(show_ports=True)
-    c = delay_snake2(n=2, length=500, layer=(2, 0), length0=100)
+    # c = delay_snake2(n=2, length=500, layer=(2, 0), length0=100)
+
+    c = delay_snake2()
     c.show(show_ports=True)

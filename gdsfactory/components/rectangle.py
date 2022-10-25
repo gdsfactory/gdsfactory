@@ -11,7 +11,7 @@ def rectangle(
     size: Tuple[float, float] = (4.0, 2.0),
     layer: LayerSpec = "WG",
     centered: bool = False,
-    port_type: Optional[str] = "electrical",
+    port_type: Optional[str] = "placement",
     port_orientations: Optional[Ints] = (180, 90, 0, -90),
 ) -> Component:
     """Returns a rectangle.
@@ -22,7 +22,6 @@ def rectangle(
         centered: True sets center to (0, 0), False sets south-west to (0, 0).
         port_type: optical, electrical.
         port_orientations: list of port_orientations to add.
-
     """
     c = Component()
     ref = c << compass(

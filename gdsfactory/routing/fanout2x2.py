@@ -1,9 +1,8 @@
 from typing import Callable, Optional
 
 import gdsfactory as gf
-from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
-from gdsfactory.components.bezier import bezier
+from gdsfactory.components.bend_s import bend_s
 from gdsfactory.components.straight import straight
 from gdsfactory.port import select_ports_optical
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
@@ -38,8 +37,8 @@ def fanout2x2(
 
         cc = gf.routing.fanout2x2(component=c, port_spacing=20)
         cc.plot()
-    """
 
+    """
     c = gf.Component()
 
     component = gf.get_component(component)
@@ -61,40 +60,8 @@ def fanout2x2(
 
     dy = y - y0
 
-    control_points = [(0, 0), (dx / 2, 0), (dx / 2, dy), (dx, dy)]
-
     x = gf.get_cross_section(cross_section, **kwargs)
-    width = x.width
-    layer = x.layer
-
-    bend = bezier(
-        control_points=control_points,
-        npoints=npoints,
-        start_angle=0,
-        end_angle=0,
-        width=width,
-        layer=layer,
-    )
-    for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
-        bend.unlock()
-        points = get_padding_points(
-            component=bend,
-            default=0,
-            bottom=offset,
-            top=offset,
-        )
-        c.add_polygon(points, layer=layer)
-
-    if x.cladding_layers and x.cladding_offsets:
-        bend.unlock()
-        for layer, offset in zip(x.cladding_layers, x.cladding_offsets):
-            bend << bezier(
-                width=width + 2 * offset,
-                control_points=((0, 0), (dx / 2, 0), (dx / 2, dy), (dx, dy)),
-                npoints=npoints,
-                layer=layer,
-            )
-    bend.lock()
+    bend = bend_s(size=(dx, dy), nb_points=npoints, cross_section=x)
 
     b_tr = bend.ref(port_id="o1", position=p_e1)
     b_br = bend.ref(port_id="o1", position=p_e0, v_mirror=True)

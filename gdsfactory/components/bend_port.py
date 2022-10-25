@@ -13,7 +13,7 @@ def bend_port(
     port_name2: str = "e2",
     port_name1_bend: Optional[str] = None,
     port_name2_bend: Optional[str] = None,
-    cross_section: CrossSectionSpec = "metal3",
+    cross_section: CrossSectionSpec = "metal3_with_bend",
     bend: ComponentSpec = bend_circular,
     angle: float = 180,
     extension_length: Optional[float] = None,

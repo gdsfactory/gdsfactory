@@ -1,5 +1,4 @@
-"""Define names, clean values for names.
-"""
+"""Define names, clean values for names."""
 import hashlib
 from typing import Any
 
@@ -21,6 +20,7 @@ def join_first_letters(name: str) -> str:
     """Join the first letter of a name separated with underscores.
 
     taper_length -> TL
+
     """
     return "".join([x[0] for x in name.split("_") if x])
 
@@ -69,9 +69,12 @@ def dict2name(prefix: str = "", **kwargs) -> str:
 
 def assert_first_letters_are_different(**kwargs):
     """Assert that the first letters for each key are different.
-    Avoids different args that start with the same first letter getting the same hash.
+
+    Avoids different args that start with the same first letter getting
+    the same hash.
+
     """
-    first_letters = [join_first_letters(k) for k in kwargs.keys()]
+    first_letters = [join_first_letters(k) for k in kwargs]
     if len(set(first_letters)) != len(first_letters):
         raise ValueError(
             f"Possible name collision! {kwargs.keys()} repeats first letters {first_letters}",
@@ -82,7 +85,7 @@ def assert_first_letters_are_different(**kwargs):
 
 def print_first_letters_warning(**kwargs) -> None:
     """Prints kwargs that have same cell."""
-    first_letters = [join_first_letters(k) for k in kwargs.keys()]
+    first_letters = [join_first_letters(k) for k in kwargs]
     if len(set(first_letters)) != len(first_letters):
         print(
             f"Possible name collision! {kwargs.keys()} "
@@ -99,6 +102,7 @@ def clean_name(name: str, remove_dots: bool = False) -> str:
 
     FIXME: only a few characters are currently replaced.
         This function has been updated only on case-by-case basis
+
     """
     replace_map = {
         " ": "_",

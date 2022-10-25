@@ -21,12 +21,12 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.via_corner import via_corner
 from gdsfactory.components.wire import wire_corner
-from gdsfactory.config import TECH
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
 from gdsfactory.routing.get_bundle_corner import get_bundle_corner
 from gdsfactory.routing.get_bundle_from_steps import get_bundle_from_steps
 from gdsfactory.routing.get_bundle_from_waypoints import get_bundle_from_waypoints
+from gdsfactory.routing.get_bundle_sbend import get_bundle_sbend
 from gdsfactory.routing.get_bundle_u import get_bundle_udirect, get_bundle_uindirect
 from gdsfactory.routing.get_route import get_route, get_route_from_waypoints
 from gdsfactory.routing.manhattan import generate_manhattan_waypoints
@@ -37,11 +37,8 @@ from gdsfactory.types import (
     ComponentSpec,
     CrossSectionSpec,
     MultiCrossSectionAngleSpec,
-    Number,
     Route,
 )
-
-METAL_MIN_SEPARATION = TECH.metal_spacing
 
 
 def get_bundle(
@@ -51,6 +48,7 @@ def get_bundle(
     extension_length: float = 0.0,
     straight: ComponentSpec = straight_function,
     bend: ComponentSpec = bend_euler,
+    with_sbend: bool = False,
     sort_ports: bool = True,
     cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = "strip",
     **kwargs,
@@ -66,6 +64,7 @@ def get_bundle(
         separation: bundle separation (center to center).
         extension_length: adds straight extension.
         bend: function for the bend. Defaults to euler.
+        with_sbend: use s_bend routing when there is no space for manhattan routing.
         sort_ports: sort port coordinates.
         cross_section: CrossSection or function that returns a cross_section.
 
@@ -187,10 +186,10 @@ def get_bundle(
     y_start = np.mean([p.y for p in ports1])
     y_end = np.mean([p.y for p in ports2])
 
-    if "steps" in kwargs.keys():
+    if "steps" in kwargs:
         return get_bundle_from_steps(**params)
 
-    elif "waypoints" in kwargs.keys():
+    elif "waypoints" in kwargs:
         return get_bundle_from_waypoints(**params)
 
     if start_axis != end_axis:
@@ -210,6 +209,8 @@ def get_bundle(
         and y_start > y_end
     ):
         # print("get_bundle_same_axis")
+        if with_sbend:
+            return get_bundle_sbend(ports1, ports2, sort_ports=sort_ports, **kwargs)
         return get_bundle_same_axis(**params)
 
     elif start_angle == end_angle:
@@ -228,19 +229,17 @@ def get_port_width(port: Port) -> Union[float, int]:
 
 
 def are_decoupled(
-    x1: Number,
-    x1p: Number,
-    x2: Number,
-    x2p: Number,
-    sep: float = METAL_MIN_SEPARATION,
+    x1: float,
+    x1p: float,
+    x2: float,
+    x2p: float,
+    sep: Union[str, float] = "metal_spacing",
 ) -> bool:
+
+    sep = gf.get_constant(sep)
     if x2p + sep > x1:
         return False
-    if x2 < x1p + sep:
-        return False
-    if x2 < x1p - sep:
-        return False
-    return True
+    return False if x2 < x1p + sep else x2 >= x1p - sep
 
 
 def get_bundle_same_axis(
@@ -314,7 +313,7 @@ def get_bundle_same_axis(
     This method deals with different metal track/wg/wire widths too.
 
     """
-    if "straight" in kwargs.keys():
+    if "straight" in kwargs:
         _ = kwargs.pop("straight")
     assert len(ports1) == len(
         ports2
@@ -364,7 +363,7 @@ def _get_bundle_waypoints(
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> List[ndarray]:
-    """Returns route coordinates List
+    """Returns route coordinates List.
 
     Args:
         ports1: list of starting ports.
@@ -375,8 +374,8 @@ def _get_bundle_waypoints(
         start_straight_length: length of straight.
         cross_section: CrossSection or function that returns a cross_section.
         kwargs: cross_section settings.
-    """
 
+    """
     if not ports1 and not ports2:
         return []
 
@@ -478,7 +477,7 @@ def _get_bundle_waypoints(
     ]
 
 
-def compute_ports_max_displacement(ports1: List[Port], ports2: List[Port]) -> Number:
+def compute_ports_max_displacement(ports1: List[Port], ports2: List[Port]) -> float:
     if ports1[0].orientation in [0, 180]:
         a1 = [p.y for p in ports1]
         a2 = [p.y for p in ports2]
@@ -489,7 +488,7 @@ def compute_ports_max_displacement(ports1: List[Port], ports2: List[Port]) -> Nu
     return max(abs(max(a1) - min(a2)), abs(min(a1) - max(a2)))
 
 
-def sign(x: Number) -> int:
+def sign(x: float) -> int:
     return 1 if x > 0 else -1
 
 
@@ -500,10 +499,8 @@ def get_min_spacing(
     radius: float = 5.0,
     sort_ports: bool = True,
 ) -> float:
-    """
-    Returns the minimum amount of spacing in um required to create a fanout."
-    """
-
+    """Returns the minimum amount of spacing in um required to create a \
+    fanout."""
     axis = "X" if ports1[0].orientation in [0, 180] else "Y"
     j = 0
     min_j = 0
@@ -596,7 +593,6 @@ def get_bundle_same_axis_no_grouping(
         a list of routes the connecting straights.
 
     """
-
     axis = "X" if ports1[0].orientation in [0, 180] else "Y"
     elems = []
     j = 0
@@ -672,7 +668,7 @@ def get_bundle_same_axis_no_grouping(
 
 
 get_bundle_electrical = partial(
-    get_bundle, bend=wire_corner, cross_section=gf.cross_section.metal3
+    get_bundle, bend=wire_corner, cross_section="metal_routing"
 )
 
 get_bundle_electrical_multilayer = gf.partial(
@@ -680,7 +676,7 @@ get_bundle_electrical_multilayer = gf.partial(
     bend=via_corner,
     cross_section=[
         (gf.cross_section.metal2, (90, 270)),
-        (gf.cross_section.metal3, (0, 180)),
+        ("metal_routing", (0, 180)),
     ],
 )
 
@@ -721,8 +717,12 @@ if __name__ == "__main__":
     pb = c << gf.components.pad_array(orientation=None, columns=3)
     pt.move((100, 200))
 
-    routes = gf.routing.get_bundle_electrical(
-        pb.ports, pt.ports, end_straight_length=60, separation=30
+    routes = gf.routing.get_bundle_electrical_multilayer(
+        pb.ports,
+        pt.ports,
+        start_straight_length=1,
+        end_straight_length=10,
+        separation=30,
     )
 
     for route in routes:

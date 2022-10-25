@@ -25,10 +25,10 @@ settings:
       function: taper_from_csv
       settings:
         filepath: taper_strip_0p5_3_36
+    cross_section: strip
     mirror: false
     port1: o1
     port2: o2
-    radius: 5.0
     rows: 5
     straight:
       function: straight
@@ -43,10 +43,10 @@ settings:
       function: taper_from_csv
       settings:
         filepath: taper_strip_0p5_3_36
+    cross_section: strip
     mirror: false
     port1: o1
     port2: o2
-    radius: 5.0
     rows: 5
     straight:
       function: straight
@@ -57,4 +57,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.cutback_component
   name: taper_from_csv_cutback_component
-version: 0.0.1

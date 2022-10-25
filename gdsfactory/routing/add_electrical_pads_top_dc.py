@@ -20,7 +20,8 @@ def add_electrical_pads_top_dc(
     get_bundle_function: Callable = get_bundle_electrical,
     **kwargs,
 ) -> Component:
-    """Returns new component with electrical ports connected to a pad array at the top.
+    """Returns new component with electrical ports connected to a pad array at \
+    the top.
 
     Args:
         component: component spec to connect to.

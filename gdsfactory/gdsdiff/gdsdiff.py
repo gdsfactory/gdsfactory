@@ -12,11 +12,12 @@ COUNTER = itertools.count()
 
 
 def xor_polygons(A: Component, B: Component, hash_geometry: bool = True):
-    """Given two devices A and B, performs a layer-by-layer XOR diff between
-    A and B, and returns polygons representing the differences between A and B.
-    Adapted from lytest/kdb_xor.py
-    """
+    """Given two devices A and B, performs a layer-by-layer XOR diff between A \
+    and B, and returns polygons representing the differences between A and B.
 
+    Adapted from lytest/kdb_xor.py
+
+    """
     # first do a geometry hash to vastly speed up if they are equal
     if hash_geometry and (A.hash_geometry() == B.hash_geometry()):
         return Component()
@@ -64,7 +65,7 @@ def gdsdiff(
         xor: makes boolean operation.
 
     Returns:
-        Component with both cells (xor, common and diffs)
+        Component with both cells (xor, common and diffs).
     """
     if isinstance(component1, (str, pathlib.Path)):
         component1 = import_gds(str(component1), flatten=True, name=f"{name}_old")

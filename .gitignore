@@ -2,14 +2,18 @@
 
 # C extensions
 *.so
-*.ports
 *.properties
 *.sqlite3
 *.hdf5
 *.stl
 *.pkl
+*.msh
+*.xdmf
+*.db
+*.svg
+test_mask_metadata.csv
+test_mask_metadata.yml
 .pyre_configuration
-gdsfactory/klayout/tech/layers.py
 poetry.lock
 mask.csv
 mask.yml
@@ -17,6 +21,7 @@ gdsfactory/simulation/gtidy3d/sim_run.yam
 gdsfactory/schema.yaml
 sim_run.yaml
 docs/notebooks/ring.yml
+.ruff_cache/
 
 # Packages
 *.egg
@@ -38,6 +43,7 @@ var
 sdist
 develop-eggs
 .installed.cfg
+devsim/
 lib/
 lib64
 docs/notebooks/playground_repo
@@ -49,7 +55,6 @@ gdsfactory/components/doc
 cml/
 mzi.yml
 *.out
-*.png
 mpb-sim/
 data/
 extrakdown-parser/
@@ -61,6 +66,7 @@ pip-log.txt
 .coverage
 .tox
 nosetests.xml
+*.obtained.*
 
 # Translations
 *.mo
@@ -281,3 +287,6 @@ venv.bak/
 
 # lumerical interconnect
 *.ich
+docs/notebooks/plugins/sax/fdtd_vs_model.png
+gdsfactory/klayout/tech/layers.py
+/gdslib

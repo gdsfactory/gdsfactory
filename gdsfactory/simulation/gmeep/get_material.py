@@ -34,6 +34,7 @@ def get_material(
     Note:
         Using the built-in models can be problematic at low resolution.
         If fields are NaN or Inf, increase resolution or use a non-dispersive model.
+
     """
     material_name_to_meep_new = material_name_to_meep or {}
     material_name_to_meep = MATERIAL_NAME_TO_MEEP.copy()
@@ -50,19 +51,17 @@ def get_material(
             f"name = {name!r} not in material_name_to_meep {valid_materials}"
         )
 
-    if isinstance(name_or_index, str):
-        name = name_or_index.lower()
-        if name not in materials:
-            raise ValueError(f"material, name = {name!r} not in {MATERIALS}")
-        name = MATERIALS[materials.index(name)]
-        medium = getattr(mat, name)
-        if dispersive:
-            return medium
-        else:
-            return mp.Medium(epsilon=medium.epsilon(1 / wavelength)[0][0])
+    if not isinstance(name_or_index, str):
+        return mp.Medium(epsilon=name_or_index**2)
+    name = name_or_index.lower()
+    if name not in materials:
+        raise ValueError(f"material, name = {name!r} not in {MATERIALS}")
+    name = MATERIALS[materials.index(name)]
+    medium = getattr(mat, name)
+    if dispersive:
+        return medium
     else:
-        index = name_or_index
-        return mp.Medium(epsilon=index**2)
+        return mp.Medium(epsilon=medium.epsilon(1 / wavelength)[0][0])
 
 
 def get_index(

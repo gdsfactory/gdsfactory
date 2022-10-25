@@ -1,7 +1,7 @@
-"""Compute modes of a rectangular Si strip waveguide on top of oxide.
-Note that you should only pay attention, here, to the guided modes,
-which are the modes whose frequency falls under the light line --
-that is, frequency < beta / 1.45, where 1.45 is the SiO2 index.
+"""Compute modes of a rectangular Si strip waveguide on top of oxide. Note that \
+you should only pay attention, here, to the guided modes, which are the modes \
+whose frequency falls under the light line -- that is, frequency < beta / 1.45, \
+where 1.45 is the SiO2 index.
 
 Since there's no special lengthscale here, you can just
 use microns. In general, if you use units of x, the frequencies
@@ -20,8 +20,8 @@ import numpy as np
 from meep import mpb
 
 from gdsfactory.config import CONFIG
+from gdsfactory.simulation.disable_print import disable_print, enable_print
 from gdsfactory.simulation.get_sparameters_path import get_kwargs_hash
-from gdsfactory.simulation.modes.disable_print import disable_print, enable_print
 from gdsfactory.simulation.modes.get_mode_solver_coupler import get_mode_solver_coupler
 from gdsfactory.simulation.modes.get_mode_solver_rib import get_mode_solver_rib
 from gdsfactory.simulation.modes.types import Mode
@@ -135,6 +135,7 @@ def find_modes_waveguide(
     beta for a given omega -- for example, you might want to find the
     modes and wavevectors at a fixed wavelength of 1.55 microns. You
     can do that using the find_k function:
+
     """
     modes = {}
     mode_solver = (

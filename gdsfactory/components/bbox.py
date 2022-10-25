@@ -4,7 +4,8 @@ from numpy import array
 
 import gdsfactory as gf
 
-Coordinate = Union[Tuple[float, float], array]
+Float2 = Tuple[float, float]
+Coordinate = Union[Tuple[Float2, Float2], array]
 
 
 @gf.cell_without_validator
@@ -25,7 +26,6 @@ def bbox(
         bottom: south offset.
         left: west offset.
         right: east offset.
-
     """
     D = gf.Component()
     (xmin, ymin), (xmax, ymax) = bbox
@@ -40,9 +40,8 @@ def bbox(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
 
-    c = gf.components.L()
-    c << bbox(bbox=c.bbox, top=10, left=5, right=-2)
-    # c = bbox()
+    c = gf.Component()
+    a = c << gf.components.L()
+    c << bbox(bbox=a.bbox, top=10, left=5, right=-2)
     c.show(show_ports=True)

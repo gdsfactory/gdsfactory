@@ -122,8 +122,9 @@ settings:
     port_names: null
     port_type: optical
   function_name: extend_ports
-  info: {}
+  info:
+    length: 10.0
+    width: 0.5
   info_version: 2
   module: gdsfactory.components.extension
   name: straight_d1e9c63d_exten_7c9ddc51
-version: 0.0.1

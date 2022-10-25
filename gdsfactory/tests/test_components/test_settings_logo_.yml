@@ -11,4 +11,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.logo
   name: logo
-version: 0.0.1

@@ -44,10 +44,9 @@ def write_sparameters_meep_batch(
 ) -> List[Path]:
     """Write Sparameters for a batch of jobs using MPI and returns results filepaths.
 
-    Given a list of write_sparameters_meep keyword arguments (the "jobs"),
-    launches them in different cores using MPI
-    where each simulation runs with "cores_per_run" cores
-    If there are more simulations than cores each batch runs sequentially
+    Given a list of write_sparameters_meep keyword arguments `jobs` launches them in
+    different cores using MPI where each simulation runs with `cores_per_run` cores.
+    If there are more simulations than cores each batch runs sequentially.
 
 
     Args
@@ -98,11 +97,9 @@ def write_sparameters_meep_batch(
         port_monitor_offset: offset between monitor GDS port and monitor MEEP port.
 
     Returns:
-        filepath list for sparameters CSV (wavelengths, s11a, s12m, ...)
-            where `a` is the angle in radians and `m` the module
+        filepath list for sparameters numpy saved files (wavelengths, o1@0,o2@0, ...).
 
     """
-
     layer_stack = layer_stack or get_layer_stack()
 
     # Parse jobs

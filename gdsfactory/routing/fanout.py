@@ -41,8 +41,8 @@ def fanout_component(
             component=c, port_names=tuple(c.get_ports_dict(orientation=0).keys())
         )
         cc.plot()
-    """
 
+    """
     c = Component()
     comp = gf.get_component(component)
     ref = c.add_ref(comp)
@@ -93,6 +93,7 @@ def fanout_ports(
         pitch: target port spacing for new component.
         dx: how far the fanout.
         kwargs: for route_basic.
+
     """
     routes = []
     ports1 = ports
@@ -123,19 +124,19 @@ def test_fanout_ports() -> Component:
 
 
 if __name__ == "__main__":
-    # c = test_fanout_ports()
-    # c.show(show_ports=True)
+    c = test_fanout_ports()
+    c.show(show_ports=True)
 
     # c =gf.components.coupler(gap=1.0)
     # c = gf.components.nxn(west=4)
     # c = gf.components.nxn(west=4, layer=gf.LAYER.SLAB90)
     c = gf.components.mmi2x2()
 
-    cc = fanout_component(
-        component=c, port_names=tuple(c.get_ports_dict(orientation=0).keys())
-    )
-    print(len(cc.ports))
-    cc.show(show_ports=True)
+    # cc = fanout_component(
+    #     component=c, port_names=tuple(c.get_ports_dict(orientation=0).keys())
+    # )
+    # print(len(cc.ports))
+    # cc.show(show_ports=True)
 
     # c = gf.components.nxn(west=4, layer=gf.LAYER.SLAB90)
     # routes = fanout_ports(ports=c.get_ports_list(orientation=180))

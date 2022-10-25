@@ -1,5 +1,4 @@
-"""
-Adapted from https://github.com/simbilod/option
+"""Adapted from https://github.com/simbilod/option.
 
 SMF specs from photonics.byu.edu/FiberOpticConnectors.parts/images/smf28.pdf
 
@@ -7,6 +6,7 @@ MFD:
 
 - 10.4 for Cband
 - 9.2 for Oband
+
 """
 
 import hashlib
@@ -55,6 +55,7 @@ def get_simulation_grating_fiber(
     wavelength_start: float = 1.4,
     wavelength_stop: float = 1.7,
     wavelength_points: int = 150,
+    decay_by: float = 1e-3,
     eps_averaging: bool = False,
     fiber_port_y_offset_from_air: float = 1,
     waveguide_port_x_offset_from_grating_start: float = 10,
@@ -62,6 +63,7 @@ def get_simulation_grating_fiber(
     xmargin: float = 10.0,
 ) -> Dict[str, Any]:
     r"""Returns simulation results from grating coupler with fiber.
+
     na**2 = ncore**2 - nclad**2
     ncore = sqrt(na**2 + ncore**2)
 
@@ -160,6 +162,7 @@ def get_simulation_grating_fiber(
         wavelength_start=wavelength_start,
         wavelength_stop=wavelength_stop,
         wavelength_points=wavelength_points,
+        decay_by=decay_by,
         eps_averaging=eps_averaging,
         fiber_port_y_offset_from_air=fiber_port_y_offset_from_air,
         waveguide_port_x_offset_from_grating_start=waveguide_port_x_offset_from_grating_start,
@@ -457,9 +460,8 @@ def get_port_1D_eigenmode(
     band_num: int = 1,
     fiber_angle_deg: float = 15.0,
 ):
-    """
+    """Args are the following.
 
-    Args:
         sim_dict: simulation dict
         band_num: band number to solve for
 
@@ -531,9 +533,7 @@ def get_port_1D_eigenmode(
 
 
 def plot(sim, eps_parameters=None) -> None:
-    """
-    sim: simulation object
-    """
+    """sim: simulation object."""
     sim.plot2D(eps_parameters=eps_parameters)
     # plt.colorbar()
 

@@ -1,0 +1,27 @@
+name: coh_tx_dual_pol
+settings:
+  changed: {}
+  child: null
+  default:
+    combiner: null
+    cross_section: strip
+    input_coupler: null
+    output_coupler: null
+    splitter: mmi1x2
+    spol_coh_tx: coh_tx_single_pol
+    xspacing: 40.0
+    yspacing: 10.0
+  full:
+    combiner: null
+    cross_section: strip
+    input_coupler: null
+    output_coupler: null
+    splitter: mmi1x2
+    spol_coh_tx: coh_tx_single_pol
+    xspacing: 40.0
+    yspacing: 10.0
+  function_name: coh_tx_dual_pol
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.coh_tx_dual_pol
+  name: coh_tx_dual_pol

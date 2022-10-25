@@ -36,18 +36,18 @@ def test_netlists(
     component_factory=components,
 ) -> None:
     """Write netlists for hierarchical circuits.
-    Checks that both netlists are the same
-    jsondiff does a hierarchical diff
+
+    Checks that both netlists are the same jsondiff does a hierarchical diff.
 
     Component -> netlist -> Component -> netlist
+
     """
     c = component_factory[component_type]()
     n = c.get_netlist()
     if check:
-        data_regression.check(OmegaConf.to_container(n))
+        data_regression.check(n)
 
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    # print(yaml_str)
     c2 = gf.read.from_yaml(yaml_str, name=c.name)
     n2 = c2.get_netlist()
 
@@ -61,8 +61,7 @@ def test_netlists(
 
 def demo_netlist(component_type) -> None:
     c1 = components[component_type]()
-    n = c1.get_netlist()
-    yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
+    yaml_str = c1.get_netlist_yaml()
     c2 = gf.read.from_yaml(yaml_str, name=c1.name)
     gf.show(c2)
 
