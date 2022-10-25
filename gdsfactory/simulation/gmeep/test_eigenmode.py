@@ -1,6 +1,5 @@
-"""
-Compares the modes of a gdsfactory + MEEP waveguide cross-section vs a direct MPB calculation
-"""
+"""Compares the modes of a gdsfactory + MEEP waveguide cross-section vs a
+direct MPB calculation."""
 
 import h5py
 import matplotlib.pyplot as plt
@@ -27,6 +26,7 @@ def lumerical_parser(E_1D, H_1D, y_1D, z_1D, res=50, z_offset=0.11 * 1e-6):
         z_1D: z array from Lumerical.
         res: desired resolution.
         z_offset: z offset to move the fields.
+
     """
     # Make regular grid from resolution and range of domain
     y_1D = y_1D[...].flatten()

@@ -128,7 +128,6 @@ def get_simulation(
         gm.write_sparameters_meep(c, run=False)
 
     """
-
     for setting in settings:
         if setting not in settings_meep:
             raise ValueError(f"{setting!r} not in {settings_meep}")

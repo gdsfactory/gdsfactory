@@ -53,9 +53,8 @@ def mmi2x2(
             length_taper
 
     """
-    gf.snap.assert_on_2nm_grid(gap_mmi)
-
     c = gf.Component()
+    gap_mmi = gf.snap.snap_to_grid(gap_mmi, nm=2)
     w_mmi = width_mmi
     w_taper = width_taper
 

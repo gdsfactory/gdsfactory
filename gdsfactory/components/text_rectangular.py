@@ -26,7 +26,6 @@ def text_rectangular(
         justify: left, right or center.
         layer: for text.
         font: function that returns dictionary of characters.
-
     """
     pixel_size = size
     xoffset = position[0]
@@ -71,7 +70,7 @@ def text_rectangular_multi_layer(
     text_factory: ComponentSpec = text_rectangular,
     **kwargs,
 ) -> Component:
-    """Returns rectangular text in different layers
+    """Returns rectangular text in different layers.
 
     Args:
         text: string of text

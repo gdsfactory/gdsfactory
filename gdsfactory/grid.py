@@ -1,11 +1,11 @@
-"""pack a list of components into a grid """
+"""pack a list of components into a grid."""
 from typing import Optional, Tuple
 
 import numpy as np
-from phidl.device_layout import Group
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
+from gdsfactory.component_layout import Group
 from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.components.triangles import triangle
 from gdsfactory.difftest import difftest
@@ -28,7 +28,7 @@ def grid(
 ) -> Component:
     """Returns Component with a 1D or 2D grid of components.
 
-    Adapted from phidl.geometry
+    based on phidl.geometry
 
     Args:
         components: Iterable to be placed onto a grid. (can be 1D or 2D).
@@ -64,6 +64,7 @@ def grid(
             spacing=(100, 100),
         )
         c.plot()
+
     """
     components = components or [triangle(x=i) for i in range(1, 10)]
     device_array = np.asarray(components)

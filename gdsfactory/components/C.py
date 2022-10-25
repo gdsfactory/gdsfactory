@@ -13,7 +13,7 @@ def C(
 ) -> Component:
     """C geometry with ports on both ends.
 
-    Adapted from phidl.
+    based on phidl.
 
     Args:
         width: of the line.
@@ -29,7 +29,6 @@ def C(
         |  |___
         ||<---> size[0]
         |______ o2
-
     """
     layer = gf.get_layer(layer)
     c = Component()

@@ -8,7 +8,7 @@ import gdsfactory as gf
 def test_read_gds_hash() -> gf.Component:
     gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
     c = gf.import_gds(gdspath)
-    h = "3c03925d5918cbd6458f995c7703b298920d98e4"
+    h = "c8b69d8eb2f61eeb2a6600c27d83c227d1c3ce62"
     assert c.hash_geometry() == h, f"h = {c.hash_geometry()!r}"
     return c
 
@@ -20,7 +20,8 @@ def test_read_gds_hash() -> gf.Component:
 
 
 def test_read_gds_equivalent() -> None:
-    """Ensures we load Component from GDS + YAML and get the same component settings"""
+    """Ensures we load Component from GDS + YAML and get the same component
+    settings."""
     c1 = gf.components.straight(length=1.234)
     gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
 
@@ -37,8 +38,9 @@ def test_read_gds_equivalent() -> None:
 
 def test_mix_cells_from_gds_and_from_function() -> None:
     """Ensures not duplicated cell names.
-    when cells loaded from GDS and have the same name as a function
-    with @cell decorator
+
+    when cells loaded from GDS and have the same name as a function with
+    @cell decorator
     """
     gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
     c = gf.Component("test_mix_cells_from_gds_and_from_function")
@@ -56,10 +58,10 @@ def _write() -> None:
 
 
 if __name__ == "__main__":
-    _write()
+    # _write()
 
     # test_mix_cells_from_gds_and_from_function()
-    test_read_gds_equivalent()
+    # test_read_gds_equivalent()
     test_read_gds_hash()
 
     # c1 = gf.components.straight(length=1.234)

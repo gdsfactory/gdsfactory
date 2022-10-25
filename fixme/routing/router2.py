@@ -1,7 +1,5 @@
-"""
-This router could save more routing space leveraging routing with different metal layers
+"""FIXME. How can we leverage routing with different metal layers?"""
 
-"""
 
 import gdsfactory as gf
 from gdsfactory.components.extend_ports_list import extend_ports_list
@@ -38,7 +36,7 @@ if __name__ == "__main__":
         length=length,
         port_orientation1=180,
         port_orientation2=0,
-        contact=via_stack_heater_m3,
+        via_stack=via_stack_heater_m3,
     )
 
     ps = c << extend_ports_list(
@@ -90,5 +88,5 @@ if __name__ == "__main__":
             for metal_route in metal_routes:
                 c.add(metal_route.references)
 
-    c.write_gds(name)
+    # c.write_gds(name)
     c.show(show_ports=True)

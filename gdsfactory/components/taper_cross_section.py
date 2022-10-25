@@ -12,9 +12,10 @@ def taper_cross_section(
     length: float = 10,
     npoints: int = 100,
     linear: bool = False,
+    width_type: str = "sine",
     **kwargs
 ) -> Component:
-    r"""Returns taper transition between cross_section1 and cross_section2
+    r"""Returns taper transition between cross_section1 and cross_section2.
 
     Args:
         cross_section1: start cross_section factory.
@@ -22,6 +23,7 @@ def taper_cross_section(
         length: transition length.
         npoints: number of points.
         linear: shape of the transition, sine when False.
+        width_type: shape of the transition ONLY IF linear is False
         kwargs: cross_section settings for section2.
 
 
@@ -42,7 +44,7 @@ def taper_cross_section(
     transition = gf.path.transition(
         cross_section1=gf.get_cross_section(cross_section1),
         cross_section2=gf.get_cross_section(cross_section2, **kwargs),
-        width_type="linear" if linear else "sine",
+        width_type="linear" if linear else width_type,
     )
     taper_path = gf.path.straight(length=length, npoints=npoints)
 
@@ -54,6 +56,9 @@ def taper_cross_section(
 
 taper_cross_section_linear = gf.partial(taper_cross_section, linear=True, npoints=2)
 taper_cross_section_sine = gf.partial(taper_cross_section, linear=False, npoints=101)
+taper_cross_section_parabolic = gf.partial(
+    taper_cross_section, linear=False, width_type="parabolic", npoints=101
+)
 
 
 if __name__ == "__main__":

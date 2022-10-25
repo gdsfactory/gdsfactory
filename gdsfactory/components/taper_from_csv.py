@@ -1,5 +1,4 @@
-"""Adiabatic tapers from CSV files
-"""
+"""Adiabatic tapers from CSV files."""
 import pathlib
 from functools import partial
 from pathlib import Path

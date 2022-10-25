@@ -29,7 +29,7 @@ info:
 
 
 def test_components_ports() -> None:
-    """Make sure the same component gets the same UID"""
+    """Make sure the same component gets the same UID."""
     c1 = gf.read.from_yaml(mirror_port)
     c2 = gf.read.from_yaml(mirror_port)
     # print(c1.uid)

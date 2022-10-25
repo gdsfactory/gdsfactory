@@ -1,4 +1,4 @@
-""" From phidl tutorial
+"""From phidl tutorial.
 
 # Flattening a Component
 

@@ -73,8 +73,8 @@ def route_ports_to_side(
                 c.add_port(name=f"{side[0]}{i}", port=p)
 
         c.plot()
-    """
 
+    """
     if not ports:
         return [], []
 
@@ -167,7 +167,6 @@ def route_ports_to_x(
     4. north ports
 
     """
-
     north_ports = [p for p in list_ports if p.orientation == 90]
     south_ports = [p for p in list_ports if p.orientation == 270]
     east_ports = [p for p in list_ports if p.orientation == 0]
@@ -224,7 +223,7 @@ def route_ports_to_x(
     forward_ports.sort(key=sort_key_south_to_north)
 
     backward_ports.sort(key=sort_key_south_to_north)
-    backward_ports_thru_south = backward_ports[0:backward_port_side_split_index]
+    backward_ports_thru_south = backward_ports[:backward_port_side_split_index]
     backward_ports_thru_north = backward_ports[backward_port_side_split_index:]
     backward_ports_thru_south.sort(key=sort_key_south_to_north)
     backward_ports_thru_north.sort(key=sort_key_north_to_south)
@@ -325,9 +324,8 @@ def route_ports_to_y(
     dy_start: float = None,
     **routing_func_args: Dict[Any, Any],
 ) -> Tuple[List[Route], List[Port]]:
-    """
+    """Args are the following.
 
-    Args:
         list_ports: reasonably well behaved list of ports.
            ports facing north ports are norther than any other ports
            ports facing south ports are souther ...
@@ -357,7 +355,6 @@ def route_ports_to_y(
     then the front ports
     then the north ports
     """
-
     if y == "south" and extension_length > 0:
         extension_length = -extension_length
 
@@ -409,10 +406,6 @@ def route_ports_to_y(
         )
     elif isinstance(y, (float, int)):
         pass
-    else:
-        pass
-        # raise ValueError('``y`` should be a float or "north" or "south"')
-
     if y <= min(ys):
         sort_key_east = sort_key_south_to_north
         sort_key_west = sort_key_south_to_north
@@ -435,7 +428,7 @@ def route_ports_to_y(
     backward_ports.sort(key=sort_key_east_to_west)
 
     backward_ports.sort(key=sort_key_west_to_east)
-    backward_ports_thru_west = backward_ports[0:backward_port_side_split_index]
+    backward_ports_thru_west = backward_ports[:backward_port_side_split_index]
     backward_ports_thru_east = backward_ports[backward_port_side_split_index:]
 
     backward_ports_thru_west.sort(key=sort_key_west_to_east)
@@ -551,7 +544,7 @@ def _sample_route_sides() -> Component:
     for pos, side in zip(positions, sides):
         dummy_ref = dummy.ref(position=pos)
         c.add(dummy_ref)
-        routes, ports = route_ports_to_side(dummy_ref, side, layer=(2, 0))
+        routes, ports = route_ports_to_side(dummy_ref, side, layer=(1, 0))
         for route in routes:
             c.add(route.references)
         for i, p in enumerate(ports):

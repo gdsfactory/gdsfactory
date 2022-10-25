@@ -3,44 +3,55 @@ settings:
   changed: {}
   child: null
   default:
+    cross_section:
+      function: cross_section
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
+        cladding_layers:
+        - DEVREC
+        cladding_offsets:
+        - 0
     dc: 0.5
-    direction: EAST
     fin_size:
     - 0.2
     - 0.05
     fins: false
     length: 10.0
     period: 0.85
-    port:
-    - 0
-    - 0
     taper_length: 20.0
     w1: 0.4
     w2: 1.0
-    waveguide_template:
-      function: strip
-    waveguide_template_dbr: null
   full:
+    cross_section:
+      function: cross_section
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
+        cladding_layers:
+        - DEVREC
+        cladding_offsets:
+        - 0
     dc: 0.5
-    direction: EAST
     fin_size:
     - 0.2
     - 0.05
     fins: false
     length: 10.0
     period: 0.85
-    port:
-    - 0
-    - 0
     taper_length: 20.0
     w1: 0.4
     w2: 1.0
-    waveguide_template:
-      function: strip
-    waveguide_template_dbr: null
   function_name: dbr_tapered
   info: {}
   info_version: 2
   module: gdsfactory.components.dbr_tapered
   name: dbr_tapered
-version: 0.0.1

@@ -77,7 +77,7 @@ def via_cutback(
 ) -> Component:
     """Via cutback to extract via resistance.
 
-    adapted from phidl.geometry
+    based on phidl.geometry
 
     Args:
         num_vias: total requested vias needs to be even.
@@ -91,9 +91,7 @@ def via_cutback(
         layer2: bottom wiring.
         via_layer: via.
         wire_pad_inclusion: in um.
-
     """
-
     c = gf.Component()
 
     pad_component = pad(size=pad_size)

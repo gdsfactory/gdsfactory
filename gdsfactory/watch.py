@@ -1,3 +1,5 @@
+"""FileWatcher based on watchdog. Looks for changes in files with .pic.yml extension."""
+
 import logging
 import pathlib
 import sys
@@ -18,6 +20,7 @@ class YamlEventHandler(FileSystemEventHandler):
     """Captures pic.yml file change events."""
 
     def __init__(self, logger=None, path: Optional[str] = None):
+        """Initialize the YAML event handler."""
         super().__init__()
 
         self.logger = logger or logging.root
@@ -28,6 +31,7 @@ class YamlEventHandler(FileSystemEventHandler):
         """Register new YAML file into active pdk.
 
         pdk.cells[filename] = partial(from_yaml, filepath)
+
         """
         pdk = get_active_pdk()
         filepath = pathlib.Path(src_path)
@@ -72,7 +76,11 @@ class YamlEventHandler(FileSystemEventHandler):
         super().on_modified(event)
 
         what = "directory" if event.is_directory else "file"
-        if what == "file" and event.src_path.endswith(".pic.yml"):
+        if (
+            what == "file"
+            and event.src_path.endswith(".pic.yml")
+            or event.src_path.endswith(".py")
+        ):
             self.logger.info("Modified %s: %s", what, event.src_path)
             self.get_component(event.src_path)
 
@@ -80,11 +88,18 @@ class YamlEventHandler(FileSystemEventHandler):
         try:
             filepath = pathlib.Path(filepath)
             if filepath.exists():
-                c = from_yaml(filepath)
-                self.update_cell(filepath, update=True)
-                c.show(show_ports=True)
-                # on_yaml_cell_modified.fire(c)
-                return c
+                if str(filepath).endswith(".pic.yml"):
+                    c = from_yaml(filepath)
+                    self.update_cell(filepath, update=True)
+                    c.show(show_ports=True)
+                    # on_yaml_cell_modified.fire(c)
+                    return c
+                elif str(filepath).endswith(".py"):
+                    d = dict(locals(), **globals())
+                    d.update(__name__="__main__")
+                    exec(filepath.read_text(), d, d)
+                else:
+                    print("Changed file {filepath} ignored (not .pic.yml or .py)")
         except Exception as e:
             traceback.print_exc(file=sys.stdout)
             print(e)

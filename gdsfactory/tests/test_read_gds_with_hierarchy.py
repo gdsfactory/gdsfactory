@@ -11,9 +11,9 @@ gdspath = gf.CONFIG["gdsdir"] / "mzi2x2.gds"
 
 def test_read_gds_hash2() -> gf.Component:
     c = gf.import_gds(gdspath)
-    assert (
-        c.hash_geometry() == "021d5b67cc60a49ff09fe5f1a91e116cccb75284"
-    ), c.hash_geometry()
+
+    h = "779f69657f4d1ac80cb1352c3a1e8e78e41c6db1"
+    assert c.hash_geometry() == h, f"h = {c.hash_geometry()!r}"
     return c
 
 
@@ -23,7 +23,8 @@ def test_read_gds_with_settings2(data_regression: DataRegressionFixture) -> None
 
 
 def test_read_gds_equivalent2() -> None:
-    """Ensures we can load it from GDS + YAML and get the same component settings"""
+    """Ensures we can load it from GDS + YAML and get the same component
+    settings."""
     splitter = gf.components.mmi1x2(cross_section=cross_section)
     c1 = gf.components.mzi(splitter=splitter, cross_section=cross_section)
     c2 = gf.import_gds(gdspath)
@@ -50,8 +51,10 @@ def test_read_gds_equivalent2() -> None:
 
 def test_mix_cells_from_gds_and_from_function2() -> None:
     """Ensures not duplicated cell names.
-    when cells loaded from GDS and have the same name as a function
-    with @cell decorator
+
+    when cells loaded from GDS and have the same name as a function with
+    @cell decorator
+
     """
     c = gf.Component("test_mix_cells_from_gds_and_from_function")
     c << gf.components.mzi()
@@ -69,9 +72,9 @@ def _write() -> None:
 
 if __name__ == "__main__":
     _write()
-    test_read_gds_equivalent2()
+    # test_read_gds_equivalent2()
 
-    # c = test_read_gds_hash2()
+    c = test_read_gds_hash2()
     # c.show(show_ports=True)
     # test_mix_cells_from_gds_and_from_function2()
 

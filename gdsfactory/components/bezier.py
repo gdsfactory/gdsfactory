@@ -2,19 +2,12 @@ from typing import Optional
 
 import numpy as np
 from numpy import ndarray
-from scipy.optimize import minimize
-from scipy.special import binom
 
 import gdsfactory as gf
+from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
-from gdsfactory.geometry.functions import (
-    angles_deg,
-    curvature,
-    extrude_path,
-    path_length,
-    snap_angle,
-)
-from gdsfactory.types import Coordinate, Coordinates, LayerSpec, Number
+from gdsfactory.geometry.functions import angles_deg, curvature, path_length, snap_angle
+from gdsfactory.types import Coordinate, Coordinates, CrossSectionSpec
 
 
 def bezier_curve(t: ndarray, control_points: Coordinates) -> ndarray:
@@ -24,6 +17,8 @@ def bezier_curve(t: ndarray, control_points: Coordinates) -> ndarray:
         t: 1D array of points varying between 0 and 1.
         control_points:
     """
+    from scipy.special import binom
+
     xs = 0.0
     ys = 0.0
     n = len(control_points) - 1
@@ -35,73 +30,65 @@ def bezier_curve(t: ndarray, control_points: Coordinates) -> ndarray:
     return np.column_stack([xs, ys])
 
 
-def bezier_points(control_points: Coordinates, width: Number, npoints: int = 101):
-    t = np.linspace(0, 1, npoints)
-    points = bezier_curve(t, control_points)
-    return extrude_path(points, width)
-
-
 @gf.cell
 def bezier(
     width: float = 0.5,
     control_points: Coordinates = ((0.0, 0.0), (5.0, 0.0), (5.0, 2.0), (10.0, 2.0)),
     npoints: int = 201,
-    layer: LayerSpec = "WG",
     with_manhattan_facing_angles: bool = True,
-    spike_length: float = 0.0,
     start_angle: Optional[int] = None,
     end_angle: Optional[int] = None,
-    grid: float = 0.001,
+    cross_section: CrossSectionSpec = "strip",
+    with_bbox: bool = True,
+    **kwargs
 ) -> Component:
     """Returns Bezier bend.
 
     Args:
-        width: straight width (um)
+        width: straight width (um).
         control_points: list of points.
         npoints: number of points varying between 0 and 1.
-        layer: layer spec.
         with_manhattan_facing_angles: bool.
-        spike_length: um.
-        start_angle: deg.
-        end_angle: deg.
-        grid: in um.
+        start_angle: optional start angle in deg.
+        end_angle: optional end angle in deg.
+        cross_section: spec.
+        with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
     """
-    layer = gf.get_layer(layer)
-
-    c = gf.Component()
+    xs = gf.get_cross_section(cross_section, **kwargs)
     t = np.linspace(0, 1, npoints)
     path_points = bezier_curve(t, control_points)
-    polygon_points = extrude_path(
-        path_points,
-        width=width,
-        with_manhattan_facing_angles=with_manhattan_facing_angles,
-        spike_length=spike_length,
-        start_angle=start_angle,
-        end_angle=end_angle,
-        grid=grid,
-    )
-    angles = angles_deg(path_points)
+    path = gf.Path(path_points)
 
-    a0 = angles[0] + 180
-    a1 = angles[-2]
+    if with_manhattan_facing_angles:
+        path.start_angle = start_angle or snap_angle(path.start_angle)
+        path.end_angle = end_angle or snap_angle(path.end_angle)
 
-    a0 = snap_angle(a0)
-    a1 = snap_angle(a1)
-
-    p0 = path_points[0]
-    p1 = path_points[-1]
-    c.add_polygon(polygon_points, layer=layer)
-    c.add_port(name="o1", center=p0, width=width, orientation=a0, layer=layer)
-    c.add_port(name="o2", center=p1, width=width, orientation=a1, layer=layer)
-
+    c = Component()
+    bend = path.extrude(xs)
+    bend_ref = c << bend
+    c.add_ports(bend_ref.ports)
+    c.absorb(bend_ref)
     curv = curvature(path_points, t)
     length = gf.snap.snap_to_grid(path_length(path_points))
     min_bend_radius = gf.snap.snap_to_grid(1 / max(np.abs(curv)))
-
-    c.info["start_angle"] = gf.snap.snap_to_grid(angles[0])
-    c.info["end_angle"] = gf.snap.snap_to_grid(angles[-2])
     c.info["length"] = length
     c.info["min_bend_radius"] = min_bend_radius
+    c.info["start_angle"] = path.start_angle
+    c.info["end_angle"] = path.end_angle
+
+    if with_bbox:
+        padding = []
+        for offset in xs.bbox_offsets:
+            points = get_padding_points(
+                component=c,
+                default=0,
+                bottom=offset,
+                top=offset,
+            )
+            padding.append(points)
+
+        for layer, points in zip(xs.bbox_layers, padding):
+            c.add_polygon(points, layer=layer)
     return c
 
 
@@ -114,6 +101,8 @@ def find_min_curv_bezier_control_points(
     alpha: float = 0.05,
     nb_pts: int = 2,
 ) -> Coordinates:
+    from scipy.optimize import minimize
+
     t = np.linspace(0, 1, npoints)
 
     def array_1d_to_cpts(a):
@@ -122,12 +111,11 @@ def find_min_curv_bezier_control_points(
         return list(zip(xs, ys))
 
     def objective_func(p):
-        """
-        We want to minimize a combination of:
-            - max curvature
-            - negligible mismatch with start angle and end angle
-        """
+        """We want to minimize a combination of the following.
 
+        - max curvature
+        - negligible mismatch with start angle and end angle
+        """
         ps = array_1d_to_cpts(p)
         control_points = [start_point] + ps + [end_point]
         path_points = bezier_curve(t, control_points)
@@ -158,10 +146,31 @@ def find_min_curv_bezier_control_points(
 
 
 if __name__ == "__main__":
-    control_points = ((0.0, 0.0), (5.0, 0.0), (5.0, 5.0), (10.0, 5.0))
-    c = bezier(control_points=control_points)
-    c.pprint()
+    # control_points = ((0.0, 0.0), (5.0, 0.0), (5.0, 5.0), (10.0, 5.0))
+    # cross_section = gf.get_cross_section(
+    #     "strip", bbox_offsets=[0.5], bbox_layers=[(111, 0)]
+    # )
+    # npoints = 201
+    # with_manhattan_facing_angles = True
+    # xs = gf.get_cross_section(
+    #     cross_section,
+    # )
+    # t = np.linspace(0, 1, npoints)
+    # path_points = bezier_curve(t, control_points)
+    # path = gf.Path(path_points)
+
+    # if with_manhattan_facing_angles:
+    #     angles = angles_deg(path_points)
+    #     path.start_angle = snap_angle(angles[0])
+    #     path.end_angle = snap_angle(angles[-2])
+    # c = path.extrude(xs)
+
+    # points = ((0.0, 0.0), (5.0, 0.0), (5.0, 5.0), (10.0, 5.0))
+    # c = bezier(control_points=points)
+    # c.pprint()
     # print(c.ports)
     # print(c.ports["0"].y - c.ports["1"].y)
     # c.write_gds()
+
+    c = bezier(bbox_offsets=[0.5], bbox_layers=[(111, 0)])
     c.show(show_ports=True)

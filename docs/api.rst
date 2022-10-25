@@ -109,6 +109,21 @@ Pack
    grid
    grid_with_text
 
+
+*********************
+Netlist
+*********************
+
+.. currentmodule:: gdsfactory.get_netlist
+
+.. rubric:: get_netlist
+
+.. autosummary::
+   :toctree: _autosummary/
+
+   get_netlist
+
+
 *********************
 Klayout DRC
 *********************
@@ -123,13 +138,12 @@ Klayout DRC
    write_drc_deck_macro
    rule_width
    rule_space
-   rule_width
-   rule_width
-   rule_space
+   rule_min_width_or_space
    rule_separation
    rule_enclosing
    rule_area
    rule_density
+   rule_not_inside
 
 
 ************************

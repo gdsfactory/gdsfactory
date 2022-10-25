@@ -1,4 +1,4 @@
-name: mzi_6bc7cdfa
+name: mzi_3f2640c0
 settings:
   changed:
     cross_section:
@@ -38,7 +38,6 @@ settings:
         info_version: 2
         module: gdsfactory.components.mmi1x2
         name: mmi1x2_be5e636a
-      version: 0.0.1
   child: null
   default:
     bend:
@@ -113,7 +112,6 @@ settings:
         info_version: 2
         module: gdsfactory.components.mmi1x2
         name: mmi1x2_be5e636a
-      version: 0.0.1
     straight:
       function: straight
     straight_x_bot: null
@@ -124,5 +122,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mzi
-  name: mzi_6bc7cdfa
-version: 0.0.1
+  name: mzi_3f2640c0

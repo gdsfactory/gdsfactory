@@ -1,7 +1,7 @@
 """Write a sample reticle together with GDS file."""
 
 import gdsfactory as gf
-from gdsfactory.dft import add_label_yaml
+from gdsfactory.labels import add_label_yaml
 from gdsfactory.read.labels import add_port_markers
 from gdsfactory.types import Component
 
@@ -29,8 +29,9 @@ def test_mask() -> Component:
         ]
     )
     gdspath = c.write_gds("mask.gds")
-    csvpath = gf.mask.write_labels_gdspy(gdspath, prefix="component_name")
-
+    csvpath = gf.labels.write_labels.write_labels_gdspy(
+        gdspath, prefix="component_name"
+    )
     return add_port_markers(gdspath=gdspath, csvpath=csvpath, marker_size=40)
 
 

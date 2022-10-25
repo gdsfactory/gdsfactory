@@ -18,7 +18,7 @@ def nxn(
     wg_margin: float = 1.0,
     **kwargs,
 ) -> Component:
-    """returns a nxn component with nxn ports (west, east, north, south)
+    """Returns a nxn component with nxn ports (west, east, north, south).
 
     Args:
         west: number of west ports.
@@ -31,7 +31,6 @@ def nxn(
         wg_margin: margin from straight to component edge.
         kwargs: port_settings.
 
-
     .. code::
 
             3   4
@@ -41,7 +40,6 @@ def nxn(
         1 -|______|- 6
             |   |
             8   7
-
     """
     c = gf.Component()
     c << gf.components.rectangle(size=(xsize, ysize), layer=layer)
@@ -56,6 +54,7 @@ def nxn(
             )
         )
         orientation = 180
+        y = gf.snap.snap_to_grid(y)
 
         for i, yi in enumerate(y):
             c.add_port(
@@ -77,6 +76,7 @@ def nxn(
             )
         )
         orientation = 0
+        y = gf.snap.snap_to_grid(y)
 
         for i, yi in enumerate(y):
             c.add_port(
@@ -98,6 +98,7 @@ def nxn(
             )
         )
         orientation = 90
+        x = gf.snap.snap_to_grid(x)
 
         for i, xi in enumerate(x):
             c.add_port(
@@ -118,6 +119,7 @@ def nxn(
             )
         )
         orientation = 270
+        x = gf.snap.snap_to_grid(x)
 
         for i, xi in enumerate(x):
             c.add_port(
@@ -134,6 +136,7 @@ def nxn(
 
 
 if __name__ == "__main__":
-    c = nxn(north=1.3, south=3)
+    # c = nxn(north=1.3, south=3)
+    c = nxn()
     # c = gf.components.extension.extend_ports(component=c)
     c.show(show_ports=True)

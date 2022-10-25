@@ -18,7 +18,7 @@ def free_propagation_region(
     cross_section: CrossSectionSpec = strip,
     **kwargs,
 ) -> Component:
-    r"""
+    r"""Free propagation region.
 
     .. code::
 
@@ -111,7 +111,6 @@ def awg(
         free_propagation_region_input_function: for input.
         free_propagation_region_output_function: for output.
         fpr_spacing: x separation between input/output free popagation region.
-
     """
     c = Component()
     fpr_in = free_propagation_region_input_function(
@@ -149,7 +148,7 @@ def awg(
 
 
 if __name__ == "__main__":
-    c = free_propagation_region(inputs=2, outputs=4)
+    # c = free_propagation_region(inputs=2, outputs=4)
     # print(c.ports.keys())
     c = awg()
     c.show(show_ports=True)

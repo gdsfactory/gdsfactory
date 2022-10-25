@@ -4,19 +4,19 @@ from gdsfactory.component import Component
 
 @gf.cell
 def test_netlist_yaml() -> Component:
-    """
+    """Test netlist yaml.
 
     .. code::
 
-           arm_top
-            _____
-           |     |
-       CP1=       =CP2=
-           |_____|
+        arm_top
+         _____
+        |     |
+    CP1=       =CP2=
+        |_____|
 
-            arm_bot
+         arm_bot
+
     """
-
     yaml = """
     instances:
         mmi_long:

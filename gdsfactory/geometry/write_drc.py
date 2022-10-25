@@ -1,8 +1,13 @@
 """Write DRC rule decks in klayout.
 
 TODO:
-
 - define derived layers (composed rules)
+
+More DRC examples:
+- https://www.klayout.de/doc-qt5/about/drc_ref.html
+- http://klayout.de/doc/manual/drc_basic.html
+- https://github.com/usnistgov/SOEN-PDK/tree/master/tech/OLMAC
+- https://github.com/google/globalfoundries-pdk-libs-gf180mcu_fd_pr/tree/main/rules/klayout
 """
 
 import pathlib
@@ -16,8 +21,27 @@ from gdsfactory.types import Dict, Layer, PathType
 layer_name_to_min_width: Dict[str, float]
 
 
+def rule_min_width_or_space(width: float, space: float, layer: str) -> str:
+    """Min width or space violations.
+
+    It's a more efficient check thanks to the universal DRC notation.
+    https://klayout.de/doc/manual/drc_runsets.html
+    """
+    error = f"{layer} min width {width}um or min space {space}um"
+    return (
+        f"{layer}.drc((width < {width}) | (space < {space}))"
+        f".output('{error}', '{error}')"
+    )
+
+
+def rule_not_inside(layer: str, not_inside: str) -> str:
+    """Checks for that a layer is not inside another layer."""
+    error = f"{layer} not inside {not_inside}"
+    return f"{layer}.not_inside({not_inside})" f".output('{error}', '{error}')"
+
+
 def rule_width(value: float, layer: str, angle_limit: float = 90) -> str:
-    """Min feature size"""
+    """Min feature size."""
     category = "width"
     error = f"{layer} {category} {value}um"
     return (
@@ -27,7 +51,7 @@ def rule_width(value: float, layer: str, angle_limit: float = 90) -> str:
 
 
 def rule_space(value: float, layer: str, angle_limit: float = 90) -> str:
-    """Min Space between shapes of layer"""
+    """Min Space between shapes of layer."""
     category = "space"
     error = f"{layer} {category} {value}um"
     return (
@@ -37,7 +61,7 @@ def rule_space(value: float, layer: str, angle_limit: float = 90) -> str:
 
 
 def rule_separation(value: float, layer1: str, layer2: str) -> str:
-    """Min space between different layers"""
+    """Min space between different layers."""
     error = f"min {layer1} {layer2} separation {value}um"
     return f"{layer1}.separation({layer2}, {value})" f".output('{error}', '{error}')"
 
@@ -72,6 +96,7 @@ def rule_density(
     """Return script to ensure density of layer is within min and max.
 
     based on https://github.com/klayoutmatthias/si4all
+
     """
     return f"""
 min_density = {min_density}
@@ -124,6 +149,7 @@ def write_drc_deck(rules: List[str], layers: Dict[str, Layer]) -> str:
     Args:
         rules: list of rules.
         layers: layer definitions can be dict, dataclass or pydantic BaseModel.
+
     """
     script = []
     script += write_layer_definition(layers=layers)
@@ -203,22 +229,20 @@ def write_drc_deck_macro(
         rules = [
             rule_width(layer="WG", value=0.2),
             rule_space(layer="WG", value=0.2),
-            rule_width(layer="M1", value=1),
-            rule_width(layer="M2", value=2),
-            rule_space(layer="M2", value=2),
+            rule_min_width_or_space(layer="WG", width=0.2, space=0.2), # faster
             rule_separation(layer1="HEATER", layer2="M1", value=1.0),
             rule_enclosing(layer1="VIAC", layer2="M1", value=0.2),
             rule_area(layer="WG", min_area_um2=0.05),
             rule_density(
                 layer="WG", layer_floorplan="FLOORPLAN", min_density=0.5, max_density=0.6
             ),
+            rule_not_inside(layer="VIAC", not_inside="NPP"),
         ]
 
-        drc_rule_deck = write_drc_deck_macro(rules=rules, layers=gf.LAYER)
+        drc_rule_deck = write_drc_deck_macro(rules=rules, layers=gf.LAYER, mode="tiled")
         print(drc_rule_deck)
 
     """
-
     if mode not in modes:
         raise ValueError(f"{mode!r} not in {modes}")
 
@@ -240,11 +264,12 @@ def write_drc_deck_macro(
  <dsl-interpreter-name>drc-dsl-xml</dsl-interpreter-name>
  <text># {name} DRC
 
-# Read about DRC scripts in the User Manual under "Design Rule Check (DRC)"
-# Based on SOEN pdk https://github.com/usnistgov/SOEN-PDK/tree/master/tech/OLMAC
-# http://klayout.de/doc/manual/drc_basic.html
+# Read about Klayout DRC scripts in the User Manual under "Design Rule Check (DRC)"
+# Based on https://gdsfactory.github.io/gdsfactory/notebooks/_2_klayout.html#Klayout-DRC
+# and https://gdsfactory.github.io/gdsfactory/api.html#klayout-drc
 
 report("{name} DRC")
+time_start = Time.now
 """
 
     if mode == "tiled":
@@ -263,7 +288,9 @@ deep
 
     script += write_drc_deck(rules=rules, layers=layers)
 
-    script += """
+    script += r"""
+time_end = Time.now
+print "run time #{(time_end-time_start).round(3)} seconds \n"
 </text>
 </klayout-macro>
 """
@@ -280,14 +307,14 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     rules = [
-        rule_width(layer="WG", value=0.2),
-        rule_space(layer="WG", value=0.2),
-        rule_width(layer="M1", value=1),
-        rule_width(layer="M2", value=2),
-        rule_space(layer="M2", value=2),
+        rule_min_width_or_space(layer="WG", width=0.2, space=0.2),
+        # rule_width(layer="WG", value=0.2),
+        # rule_space(layer="WG", value=0.2),
         rule_separation(layer1="HEATER", layer2="M1", value=1.0),
         rule_enclosing(layer1="VIAC", layer2="M1", value=0.2),
+        rule_area(layer="WG", min_area_um2=0.05),
+        rule_not_inside(layer="VIAC", not_inside="NPP"),
     ]
 
-    drc_rule_deck = write_drc_deck_macro(rules=rules, layers=gf.LAYER)
+    drc_rule_deck = write_drc_deck_macro(rules=rules, layers=gf.LAYER, mode="tiled")
     print(drc_rule_deck)

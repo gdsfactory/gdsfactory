@@ -1,7 +1,6 @@
 from typing import Optional
 
 import numpy as np
-import scipy.optimize as so
 from numpy import float64
 
 import gdsfactory as gf
@@ -20,7 +19,7 @@ from gdsfactory.types import ComponentSpec, CrossSectionSpec, LayerSpec
 
 
 def snap_to_grid(p: float, grid_per_unit: int = 1000) -> float64:
-    """round"""
+    """Round."""
     return np.round(p * grid_per_unit) / grid_per_unit
 
 
@@ -132,7 +131,9 @@ def crossing(
 
 @cell
 def crossing_from_taper(taper=lambda: taper(width2=2.5, length=3.0)) -> Component:
-    """Returns Crossing based on a taper. The default is a dummy taper
+    """Returns Crossing based on a taper.
+
+    The default is a dummy taper.
 
     Args:
         taper: taper function.
@@ -160,8 +161,8 @@ def crossing_etched(
     layer_wg: LayerSpec = "WG",
     layer_slab: LayerSpec = "SLAB150",
 ) -> Component:
-    """
-    Waveguide crossing.
+    """Waveguide crossing.
+
     - The full crossing has to be on WG layer (to start with a 220nm slab)
     - Then we etch the ellipses down to 150nm slabs and we keep linear taper at 220nm.
     What we write is what we etch on this step
@@ -258,7 +259,6 @@ def crossing45(
         ---    ----
 
     """
-
     crossing = gf.get_component(crossing)
 
     c = Component()
@@ -295,7 +295,9 @@ def crossing45(
     )
 
     tol = 1e-2
-    assert abs(bend.info["start_angle"] - start_angle) < tol, bend.info["start_angle"]
+    assert abs(bend.info["start_angle"] - start_angle) < tol, print(
+        f"{bend.info['start_angle']} differs from {start_angle}"
+    )
     assert abs(bend.info["end_angle"] - end_angle) < tol, bend.info["end_angle"]
 
     b_tr = bend.ref(position=p_e, port_id="o1")
@@ -343,7 +345,6 @@ def compensation_path(
             needs to have .info["components"] with bends and crossing.
         direction: the direction in which the bend should go "top" / "bottom".
 
-
     .. code::
 
           ----       ----
@@ -366,6 +367,8 @@ def compensation_path(
 
 
     """
+    import scipy.optimize as so
+
     x = gf.get_cross_section(cross_section)
 
     # Get total path length taken by the bends
@@ -411,11 +414,7 @@ def compensation_path(
     y_bend = solution.root
     y_bend = snap_to_grid(y_bend)
 
-    if direction == "top":
-        v_mirror = False
-    else:
-        v_mirror = True
-
+    v_mirror = direction != "top"
     sbend = bezier(control_points=get_control_pts(x0, y_bend))
 
     c = Component()
@@ -452,7 +451,7 @@ def compensation_path(
 
 
 def _demo() -> None:
-    """plot curvature of bends"""
+    """Plot curvature of bends."""
     from matplotlib import pyplot as plt
 
     c = crossing45(port_spacing=20.0, dx=15)

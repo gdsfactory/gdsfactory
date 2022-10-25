@@ -13,14 +13,14 @@ def test_simulation_hash() -> None:
     sim = gt.get_simulation(component=component)
     sim_hash = get_sim_hash(sim)
 
-    sim_hash_reference = "c118b7ae64eeffb55021a3553979aee8"
+    sim_hash_reference = "c74de15b5bc67d44c1a92168b43b6e7e"
 
     # print(f"assert hash == {sim_hash!r}")
     assert sim_hash == sim_hash_reference, f"sim_hash_reference = {sim_hash!r}"
 
 
 def test_simulation(overwrite: bool = False) -> None:
-    """export sim in JSON, and then load it again"""
+    """export sim in JSON, and then load it again."""
     component = gf.components.straight(length=3)
     sim = gt.get_simulation(component=component)
 

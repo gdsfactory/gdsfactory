@@ -1,7 +1,4 @@
-"""
-Some manhattan routes have disconnected waveguides
-
-"""
+"""Some manhattan routes have disconnected waveguides."""
 
 import gdsfactory as gf
 

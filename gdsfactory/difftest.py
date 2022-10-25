@@ -16,6 +16,7 @@ class GdsRegressionFixture(FileRegressionFixture):
             ):
         try:
             difftest(c)
+
 """
 import filecmp
 import pathlib
@@ -47,6 +48,7 @@ def difftest(
         test_name: used to store the GDS file.
         xor: runs xor if there is difference.
         dirpath: defaults to cwd refers to where the test is being invoked.
+
     """
     from lytest.kdb_xor import GeometryDifference, run_xor
 
@@ -88,7 +90,7 @@ def difftest(
         diff.show(show_ports=False)
         print(
             f"\ngds_run {filename!r} changed from gds_ref {str(ref_file)!r}\n"
-            "You can check the differences in Klayout GUI or run XOR with"
+            "You can check the differences in Klayout GUI or run XOR with\n"
             f"gf gds diff --xor {ref_file} {run_file}\n"
         )
 
@@ -97,7 +99,7 @@ def difftest(
                 "Would you like to save current GDS as the new reference? [Y/n] "
             )
             if val.upper().startswith("N"):
-                return
+                raise
             logger.info(f"deleting file {str(ref_file)!r}")
             ref_file.unlink()
             shutil.copy(run_file, ref_file)

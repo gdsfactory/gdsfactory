@@ -1,9 +1,7 @@
-from typing import List, Optional, Union
+from typing import Optional, Union
 
 import numpy as np
 from numpy import cos, float64, ndarray, sin
-
-from gdsfactory.coord2 import Coord2
 
 RAD2DEG = 180.0 / np.pi
 DEG2RAD = 1 / RAD2DEG
@@ -87,22 +85,20 @@ def centered_diff2(a: ndarray) -> ndarray:
 
 
 def curvature(points: ndarray, t: ndarray) -> ndarray:
-    """
+    """Args are the points and the tangents at each point.
 
-    Args:
         points : numpy.array shape (n, 2)
         t: numpy.array of size n
 
     Return:
-        The curvature at each point
+        The curvature at each point.
 
-    Computes the curvature at every point excluding the first and last point
+    Computes the curvature at every point excluding the first and last point.
 
     For a planar curve parametrized as P(t) = (x(t), y(t)), the curvature is given
     by (x' y'' - x'' y' ) / (x' **2 + y' **2)**(3/2)
 
     """
-
     # Use centered difference for derivative
     dt = centered_diff(t)
     dp = centered_diff(points)
@@ -122,19 +118,19 @@ def radius_of_curvature(points, t):
 
 
 def path_length(points: ndarray) -> float64:
-    """Returns: The path length
+    """Returns: The path length.
 
     Args:
-        points: With shape (N, 2) representing N points with coordinates x, y
+        points: With shape (N, 2) representing N points with coordinates x, y.
     """
-
     dpts = points[1:, :] - points[:-1, :]
     _d = dpts**2
     return np.sum(np.sqrt(_d[:, 0] + _d[:, 1]))
 
 
 def snap_angle(a: float64) -> int:
-    """Snap angle to manhattan direction (0, 90, 180, 270)
+    """Returns angle snapped along manhattan angle (0, 90, 180, 270).
+
     a: angle in deg
     Return angle snapped along manhattan angle
     """
@@ -152,40 +148,44 @@ def snap_angle(a: float64) -> int:
 
 
 def angles_rad(pts: ndarray) -> ndarray:
-    """returns the angles (radians) of the connection between each point and the next"""
+    """Returns the angles (radians) of the connection between each point and the next."""
     _pts = np.roll(pts, -1, 0)
     return np.arctan2(_pts[:, 1] - pts[:, 1], _pts[:, 0] - pts[:, 0])
 
 
 def angles_deg(pts: ndarray) -> ndarray:
-    """returns the angles (degrees) of the connection between each point and the next"""
+    """Returns the angles (degrees) of the connection between each point and the next."""
     return angles_rad(pts) * RAD2DEG
 
 
 def extrude_path(
-    points: Union[List[Coord2], ndarray],
+    points: ndarray,
     width: float,
     with_manhattan_facing_angles: bool = True,
     spike_length: Union[float64, int, float] = 0,
     start_angle: Optional[int] = None,
     end_angle: Optional[int] = None,
-    grid: float = 0.001,
+    grid: Optional[float] = None,
 ) -> ndarray:
-    """Deprecated. Use gf.path instead
-    Extrude a path of width `width` along a curve defined by `points`
+    """Deprecated. Use gdsfactory.path.Path.extrude() instead.
+
+    Extrude a path of `width` along a curve defined by `points`.
 
     Args:
-        points: numpy 2D array of shape (N, 2)
-        width: float
-        with_manhattan_facing_angles: bool
-        spike_length:
-        start_angle:
-        end_angle:
-        grid:
+        points: numpy 2D array of shape (N, 2).
+        width: of the path to extrude.
+        with_manhattan_facing_angles: snaps to manhattan angles.
+        spike_length: in um.
+        start_angle: in degrees.
+        end_angle: in degrees.
+        grid: in um.
 
     Returns:
-        numpy 2D array of shape (2*N, 2)
+        numpy 2D array of shape (2*N, 2).
     """
+    from gdsfactory.pdk import get_grid_size
+
+    grid = grid or get_grid_size()
 
     if isinstance(points, list):
         points = np.stack([(p[0], p[1]) for p in points], axis=0)
@@ -231,9 +231,7 @@ def extrude_path(
 
 
 def polygon_grow(polygon: ndarray, offset: float) -> ndarray:
-    """Returns a grown polygon by an offset
-    polygon has to be a closed shape
-    """
+    """Returns a grown closed shaped polygon by an offset."""
     s = remove_identicals(polygon)
     s = remove_flat_angles(s)
     s = np.vstack([s, s[0]])

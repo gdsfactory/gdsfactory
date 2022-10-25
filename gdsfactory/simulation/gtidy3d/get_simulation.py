@@ -169,13 +169,11 @@ def get_simulation(
             at which the simulation will automatically terminate time stepping.
             prevents extraneous run time of simulations with fully decayed fields.
             Set to ``0`` to disable this feature.
-        subpixel: subpixel averaging.If ``True``, uses subpixel averaging of the permittivity
-            based on structure definition,
-            resulting in much higher accuracy for a given grid size.
-        courant: courant factor.
-            Courant stability factor, controls time step to spatial step ratio.
-            Lower values lead to more stable simulations for dispersive materials,
-            but result in longer simulation times.
+        subpixel: averaging. True uses permittivity subpixel averaging,
+            results in much higher accuracy for a given grid size.
+        courant: Courant stability factor, controls time step to spatial step ratio.
+            Lower values lead to more stable simulations for dispersive materials
+            but simulations take longer.
         version: String specifying the front end version number.
 
 
@@ -237,6 +235,7 @@ def get_simulation(
     )
 
     component_extended = component_extended.flatten()
+    component_extended.name = component.name
     gf.show(component_extended)
 
     component_ref = component_padding.ref()
@@ -279,10 +278,7 @@ def get_simulation(
             zmin = layer_to_zmin[layer] if is_3d else 0
             zmax = zmin + thickness if is_3d else 0
 
-            if (
-                layer in layer_to_material
-                and layer_to_material[layer] in material_name_to_tidy3d
-            ):
+            if layer_to_material[layer] in material_name_to_tidy3d:
                 name_or_index = material_name_to_tidy3d[layer_to_material[layer]]
                 medium = get_medium(name_or_index=name_or_index)
                 index = get_index(name_or_index=name_or_index)
@@ -306,7 +302,7 @@ def get_simulation(
                     structures.append(geometry)
             elif layer not in layer_to_material:
                 logger.debug(f"Layer {layer} not in {list(layer_to_material.keys())}")
-            elif layer_to_material[layer] not in material_name_to_tidy3d:
+            else:
                 materials = list(material_name_to_tidy3d.keys())
                 logger.debug(f"material {layer_to_material[layer]} not in {materials}")
 
@@ -337,7 +333,7 @@ def get_simulation(
         size=source_size,
         center=source_center,
         source_time=td.GaussianPulse(freq0=freq0, fwidth=fwidth),
-        direction="-" if int(angle) in [0, 90] else "+",
+        direction="-" if int(angle) in {0, 90} else "+",
     )
 
     # Add port monitors
@@ -385,6 +381,7 @@ def get_simulation(
         monitors=monitors,
         run_time=run_time_ps * 1e-12,
         boundary_spec=boundary_spec,
+        grid_spec=grid_spec,
         **kwargs,
     )
 
@@ -400,11 +397,11 @@ def get_simulation(
         if is_3d:
             fig, axs = plt.subplots(num_modes, 2, figsize=(12, 12))
             for mode_ind in range(num_modes):
-                modes.plot_field(
-                    "Ey", "abs", freq=freq0, mode_index=mode_ind, ax=axs[mode_ind, 0]
+                ms.plot_field(
+                    "Ey", "abs", f=freq0, mode_index=mode_ind, ax=axs[mode_ind, 0]
                 )
-                modes.plot_field(
-                    "Ez", "abs", freq=freq0, mode_index=mode_ind, ax=axs[mode_ind, 1]
+                ms.plot_field(
+                    "Ez", "abs", f=freq0, mode_index=mode_ind, ax=axs[mode_ind, 1]
                 )
         else:
             fig, axs = plt.subplots(num_modes, 3, figsize=(12, 12))
@@ -432,8 +429,7 @@ def plot_simulation_yz(
     wavelength: Optional[float] = 1.55,
     figsize: Float2 = (11, 4),
 ):
-    """Returns Simulation visual representation.
-    returns two views for 3D component and one view for 2D
+    """Returns Simulation visual representation. Returns two views for 3D component and one view for 2D.
 
     Args:
         sim: simulation object.
@@ -441,6 +437,7 @@ def plot_simulation_yz(
         y: (um).
         wavelength: (um) for epsilon plot if None plot structures.
         figsize: figure size.
+
     """
     fig = plt.figure(figsize=figsize)
     if sim.size[2] > 0.1 and sim.size[1] > 0.1:
@@ -491,6 +488,7 @@ def plot_simulation_xz(
         z: (um).
         wavelength: (um) for epsilon plot if None plot structures.
         figsize: figure size.
+
     """
     fig = plt.figure(figsize=figsize)
     gs = mpl.gridspec.GridSpec(1, 2, figure=fig, width_ratios=[1, 1.4])
@@ -516,12 +514,13 @@ if __name__ == "__main__":
     # c = gf.components.crossing()
     # c = gf.c.straight_rib()
 
-    # c = gf.c.straight(length=3)
-    # sim = get_simulation(c, plot_modes=True, is_3d=True, sidewall_angle_deg=30)
+    c = gf.c.straight(length=3)
+    sim = get_simulation(c, plot_modes=True, is_3d=True, sidewall_angle_deg=30)
+
     # sim = get_simulation(c, dilation=-0.2, is_3d=False)
 
-    sim = get_simulation(c, is_3d=True)
-    plot_simulation(sim)
+    # sim = get_simulation(c, is_3d=True)
+    # plot_simulation(sim)
 
     # filepath = pathlib.Path(__file__).parent / "extra" / "wg2d.json"
     # filepath.write_text(sim.json())
