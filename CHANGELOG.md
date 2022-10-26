@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.46.0
+
+- add spiral heater phase shifter [PR](https://github.com/gdsfactory/gdsfactory/pull/786)
+
 ## 5.45.0
 
 - add devsim and mkl to `pip install gdsfactory[full]`
