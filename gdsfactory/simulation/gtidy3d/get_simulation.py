@@ -381,6 +381,7 @@ def get_simulation(
         monitors=monitors,
         run_time=run_time_ps * 1e-12,
         boundary_spec=boundary_spec,
+        grid_spec=grid_spec,
         **kwargs,
     )
 
@@ -397,10 +398,10 @@ def get_simulation(
             fig, axs = plt.subplots(num_modes, 2, figsize=(12, 12))
             for mode_ind in range(num_modes):
                 ms.plot_field(
-                    "Ey", "abs", freq=freq0, mode_index=mode_ind, ax=axs[mode_ind, 0]
+                    "Ey", "abs", f=freq0, mode_index=mode_ind, ax=axs[mode_ind, 0]
                 )
                 ms.plot_field(
-                    "Ez", "abs", freq=freq0, mode_index=mode_ind, ax=axs[mode_ind, 1]
+                    "Ez", "abs", f=freq0, mode_index=mode_ind, ax=axs[mode_ind, 1]
                 )
         else:
             fig, axs = plt.subplots(num_modes, 3, figsize=(12, 12))

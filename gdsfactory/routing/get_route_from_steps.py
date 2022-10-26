@@ -128,7 +128,7 @@ get_route_from_steps_electrical_multilayer = gf.partial(
     taper=None,
     cross_section=[
         (gf.cross_section.metal2, (90, 270)),
-        (gf.cross_section.metal3, (0, 180)),
+        ("metal_routing", (0, 180)),
     ],
 )
 
@@ -214,7 +214,7 @@ if __name__ == "__main__":
         steps=[
             {"y": 200},
         ],
-        # cross_section=gf.cross_section.metal3,
+        # cross_section='metal_routing',
         # bend=gf.components.wire_corner,
     )
     c.add(route.references)
