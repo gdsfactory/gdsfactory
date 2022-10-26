@@ -14,9 +14,10 @@ from omegaconf import DictConfig, OmegaConf
 
 def clean_dict(d: Dict[str, Any]) -> Dict[str, Any]:
     """Cleans dictionary recursively."""
+    d_new = dict()
     for k, v in d.items():
-        d[k] = clean_dict(dict(v)) if isinstance(v, dict) else clean_value_json(v)
-    return d
+        d_new[k] = clean_dict(dict(v)) if isinstance(v, dict) else clean_value_json(v)
+    return d_new
 
 
 def get_string(value: Any) -> str:
@@ -36,6 +37,9 @@ def clean_value_json(value: Any) -> Any:
 
     if isinstance(value, pydantic.BaseModel):
         return value.dict()
+
+    elif hasattr(value, "get_component_spec"):
+        return value.get_component_spec()
 
     elif isinstance(value, bool):
         return value
