@@ -10,7 +10,7 @@ import numpy as np
 
 from gdsfactory.component import Component
 from gdsfactory.component_layout import Polygon, _rotate_points
-from gdsfactory.component_reference import CellArray, ComponentReference
+from gdsfactory.component_reference import ComponentReference
 
 _SUBPORT_RGB = (0, 120, 120)
 _PORT_RGB = (190, 0, 0)
@@ -235,7 +235,7 @@ def quickplot(items, **kwargs):  # noqa: C901
     if not isinstance(items, list):
         items = [items]
     for item in items:
-        if isinstance(item, (Component, ComponentReference, CellArray)):
+        if isinstance(item, (Component, ComponentReference)):
             polygons_spec = item.get_polygons(by_spec=True, depth=None)
             for key in sorted(polygons_spec):
                 polygons = polygons_spec[key]
