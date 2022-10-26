@@ -828,7 +828,7 @@ class CellArray(ComponentReference):
             spacing=spacing,
             cell=component._cell,
             origin=origin,
-            rotation=rotation,
+            rotation=np.deg2rad(rotation),
             magnification=magnification,
             x_reflection=x_reflection,
         )
