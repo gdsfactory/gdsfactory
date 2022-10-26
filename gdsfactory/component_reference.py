@@ -580,8 +580,8 @@ class ComponentReference(_GeometryHelper):
         """Return rotated ComponentReference.
 
         Args:
-            angle: in degrees
-            center: x, y
+            angle: in degrees.
+            center: x, y.
         """
         if angle == 0:
             return self
