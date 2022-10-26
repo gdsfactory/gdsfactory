@@ -1,4 +1,4 @@
-import gdspy as gp
+import gdstk
 from numpy import float64
 
 from gdsfactory.component import Component
@@ -16,7 +16,7 @@ def bucket_cells_by_rank(cells):
         classified_cells = set()
         to_rm = []
         for i, c in enumerate(cells):
-            _cells = c.get_dependencies(recursive=False)
+            _cells = set(c.get_dependencies(recursive=False))
             unclassified_subcells = _cells - all_classified_cells
             if len(unclassified_subcells) == 0:
                 classified_cells.update([c])
@@ -54,7 +54,7 @@ def compute_area(component: Component, layer: Layer) -> float64:
     for layer_polygons, polys in polys_by_spec.items():
         # print(layer)
         if layer_polygons == layer:
-            joined_polys = gp.boolean(polys, None, operation="or")
+            joined_polys = gdstk.boolean(polys, None, operation="or")
             # print(joined_polys)
             try:
                 _area += sum(abs(area(p)) for p in joined_polys.polygons)
@@ -75,14 +75,14 @@ def compute_area_hierarchical(
     (position in hierarchy)].
 
     Args:
-        component:
-        layer:
+        component: to compute area.
+        layer: for area.
         func_check_to_flatten:
         keep_zero_area_cells:removes zero area cells
 
     """
-    all_cells = component.get_dependencies(recursive=True)
-    all_cells.update([component])
+    all_cells = set(component.get_dependencies(recursive=True))
+    all_cells.add(component)
     cells_by_rank = bucket_cells_by_rank(all_cells)
     # print("Found the hierarchy...")
 
