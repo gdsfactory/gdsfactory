@@ -19,7 +19,6 @@ Assumes two ports are connected when they have same width, x, y
 from collections import defaultdict
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
-import gdspy
 import numpy as np
 import omegaconf
 
@@ -171,7 +170,11 @@ def get_netlist(
             component,
             reference,
         )
-        if isinstance(reference, gdspy.CellArray):
+        if (
+            isinstance(reference, ComponentReference)
+            and hasattr(reference, "cols")
+            and (reference.cols > 1 or reference.rows > 1)
+        ):
             is_array = True
             base_reference_name = reference_name
             reference_name += "__1_1"
@@ -230,7 +233,7 @@ def get_netlist(
 
     # lower level ports
     for reference in references:
-        if not isinstance(reference, gdspy.CellArray):
+        if not isinstance(reference, ComponentReference):
             for port in reference.ports.values():
                 reference_name = get_instance_name(
                     component,
