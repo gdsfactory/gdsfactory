@@ -2,7 +2,7 @@
 import itertools
 from typing import Optional, Union
 
-import gdspy
+import gdstk
 import numpy as np
 from numpy import sqrt
 
@@ -132,7 +132,7 @@ def fill_cell_rectangle(
             A.center = (0, 0)
             A = A.get_polygons()
             B = R.get_polygons()
-            p = gdspy.boolean(A, B, operation="not")
+            p = gdstk.boolean(A, B, operation="not")
             D.add_polygon(p, layer=layer)
         else:
             D.add_ref(R)
@@ -234,9 +234,6 @@ def fill_rectangle(
         for s in sub_rasters:
             if s[0] == 0:
                 x, y = _raster_index_to_coords(i, j, bbox, fill_size[0], fill_size[1])
-                # F.add(gdspy.CellArray(ref_cell = fill_cell,
-                #                       columns = len(s), rows = 1,
-                #                       spacing = fill_size, ))
                 a = F.add_array(fill_cell, columns=len(s), rows=1, spacing=fill_size)
                 a.move((x, y))
             j += len(s)

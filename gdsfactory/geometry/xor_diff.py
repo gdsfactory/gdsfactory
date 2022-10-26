@@ -1,4 +1,4 @@
-import gdspy
+import gdstk
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -32,12 +32,11 @@ def xor_diff(A, B, precision: float = 1e-4) -> Component:
     all_layers.update(B_layers)
     for layer in all_layers:
         if (layer in A_layers) and (layer in B_layers):
-            p = gdspy.boolean(
+            p = gdstk.boolean(
                 operand1=A_polys[layer],
                 operand2=B_polys[layer],
                 operation="xor",
                 precision=precision,
-                max_points=4000,
                 layer=layer[0],
                 datatype=layer[1],
             )

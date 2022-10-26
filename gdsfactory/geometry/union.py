@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.types import Layer
 
 
-def _union_polygons(polygons, precision=1e-4, max_points=4000):
+def _union_polygons(polygons, precision: float = 1e-4, max_points: int = 4000):
     """Performs union of polygons within PolygonSet or list of polygons.
 
     Args:
