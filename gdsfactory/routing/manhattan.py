@@ -912,17 +912,11 @@ def round_corners(
                 rotation=angle + 180,
                 v_mirror=True,
             )
-            # references += [
-            #     gf.Label(
-            #         text=f"a{angle}",
-            #         position=taper_ref.center,
-            #         layer=2,
-            #         texttype=0,
-            #     )
-            # ]
             references.append(taper_ref)
             wg_refs += [taper_ref]
             port_index_out = 0
+
+    labels = []
 
     if with_point_markers:
         route = get_route_error(
@@ -930,11 +924,17 @@ def round_corners(
         )
 
         references += route.references
+        labels += route.labels
 
     port_input = list(wg_refs[0].ports.values())[0]
     port_output = list(wg_refs[-1].ports.values())[port_index_out]
     length = snap_to_grid(float(total_length))
-    return Route(references=references, ports=(port_input, port_output), length=length)
+    return Route(
+        references=references,
+        ports=(port_input, port_output),
+        length=length,
+        labels=labels,
+    )
 
 
 def generate_manhattan_waypoints(

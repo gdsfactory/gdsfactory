@@ -15,7 +15,7 @@ def add_keepout(
 ) -> Component:
     """Adds keepout after looking up all polygons in a cell.
 
-    You can also use add_padding.
+    You can also use add_padding for rectangular keepout.
 
     Args:
         component: to add keepout.
@@ -30,10 +30,11 @@ def add_keepout(
         if polygons:
             for ko_layer in keepout_layers:
                 ko_layer = _parse_layer(ko_layer)
-                polygon_keepout = [
-                    polygon_grow(polygon, margin) for polygon in polygons
-                ]
-                c.add_polygon(polygon_keepout, ko_layer)
+
+                for polygon in polygons:
+                    polygon_keepout = polygon_grow(polygon.points, margin)
+                    c.add_polygon(points=polygon_keepout, layer=ko_layer)
+
     return c
 
 

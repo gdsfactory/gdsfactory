@@ -261,7 +261,7 @@ class Component(_GeometryHelper):
             )
 
     def __getitem__(self, key):
-        """Allows you to access aliases D['arc2'].
+        """Allows you to access named_references D['arc2'].
 
         Args:
             key: Element name to access within the Component.
@@ -614,7 +614,7 @@ class Component(_GeometryHelper):
         self,
         position: Coordinate = (0, 0),
         port_id: Optional[str] = None,
-        rotation: int = 0,
+        rotation: float = 0,
         h_mirror: bool = False,
         v_mirror: bool = False,
     ) -> "ComponentReference":
@@ -2015,14 +2015,15 @@ def test_bbox_component() -> None:
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
 
     # c = Component("parent")
-    # c2 = Component("child")
-    # length = 10
-    # width = 0.5
-    # layer = (1, 0)
-    # c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
+    c2 = Component("child")
+    length = 10
+    width = 0.5
+    layer = (1, 0)
+    c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
+    c2.show()
+
     # c << c2
     # c.show()
     # length = 10
@@ -2030,11 +2031,11 @@ if __name__ == "__main__":
     # layer = (1, 0)
     # c.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
 
-    c = gf.components.mzi()
+    # c = gf.components.mzi()
     # c2 = c.mirror()
     # print(c2.info)
     # c = gf.c.mzi()
     # c.hash_geometry()
     # print(c.get_polygons(by_spec=True))
     # c.show(show_ports=True)
-    c.show()
+    # c.show()

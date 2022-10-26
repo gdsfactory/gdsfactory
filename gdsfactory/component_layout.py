@@ -729,12 +729,12 @@ class Label(gdstk.Label, _GeometryHelper):
         self,
         text: str = "",
         position=(0, 0),
-        anchor="o",
-        rotation=0,
-        magnification=1,
-        x_reflection=False,
-        layer=0,
-        texttype=0,
+        anchor: str = "o",
+        rotation: float = 0,
+        magnification: float = 1,
+        x_reflection: bool = False,
+        layer: int = 0,
+        texttype: int = 0,
     ):
         """Initialize label."""
         super().__init__(
