@@ -116,7 +116,24 @@ def _rotate_points(
 
 
 class ComponentReference(_GeometryHelper):
-    """Pointer to a Component with x, y, rotation, mirror."""
+    """Pointer to a Component with x, y, rotation, mirror.
+
+    Args:
+        component: Component The referenced Component.
+        columns: Number of columns in the array.
+        rows: Number of rows in the array.
+        spacing: Distances between adjacent columns and adjacent rows.
+        origin: array-like[2] of int or float
+            Position where the cell is inserted.
+        rotation : int or float
+            Angle of rotation of the reference (in `degrees`).
+        magnification : int or float
+            Magnification factor for the reference.
+        x_reflection : bool
+            If True, the reference is reflected parallel to the x direction
+            before being rotated.
+
+    """
 
     def __init__(
         self,
@@ -126,6 +143,9 @@ class ComponentReference(_GeometryHelper):
         magnification: float = 1,
         x_reflection: bool = False,
         visual_label: str = "",
+        columns: int = 1,
+        rows: int = 1,
+        spacing=None,
     ) -> None:
         """Initialize the ComponentReference object."""
         self._reference = gdstk.Reference(
@@ -140,6 +160,10 @@ class ComponentReference(_GeometryHelper):
         self.ref_cell = component
         self._owner = None
         self._name = None
+
+        self.rows = rows
+        self.columns = columns
+        self.spacing = spacing
 
         # The ports of a ComponentReference have their own unique id (uid),
         # since two ComponentReferences of the same parent Component can be
@@ -785,145 +809,6 @@ class ComponentReference(_GeometryHelper):
         ports_cw = self.get_ports_list(clockwise=True, **kwargs)
         ports_ccw = self.get_ports_list(clockwise=False, **kwargs)
         return snap_to_grid(ports_ccw[0].y - ports_cw[0].y)
-
-
-class CellArray(ComponentReference):
-    """Multiple references to an existing cell in an array format.
-
-    Args:
-        component : Component
-            The referenced Component.
-        columns : int
-            Number of columns in the array.
-        rows : int
-            Number of rows in the array.
-        spacing : array-like[2] of int or float
-            Distances between adjacent columns and adjacent rows.
-        origin : array-like[2] of int or float
-            Position where the cell is inserted.
-        rotation : int or float
-            Angle of rotation of the reference (in `degrees`).
-        magnification : int or float
-            Magnification factor for the reference.
-        x_reflection : bool
-            If True, the reference is reflected parallel to the x direction
-            before being rotated.
-    """
-
-    def __init__(
-        self,
-        component,
-        columns,
-        rows,
-        spacing,
-        origin=(0, 0),
-        rotation: float = 0,
-        magnification: float = 1,
-        x_reflection=False,
-    ):
-        """Initialize CellArray."""
-        self._reference = gdstk.Reference(
-            columns=columns,
-            rows=rows,
-            spacing=spacing,
-            cell=component._cell,
-            origin=origin,
-            rotation=np.deg2rad(rotation),
-            magnification=magnification,
-            x_reflection=x_reflection,
-        )
-        self.ref_cell = component
-        self._owner = None
-        self._name = None
-
-        self.rows = rows
-        self.columns = columns
-        self.spacing = spacing
-
-    # @property
-    # def bbox(self):
-    #     """Returns the bounding box of the CellArray."""
-    #     bbox = self.get_bounding_box()
-    #     if bbox is None:
-    #         bbox = ((0, 0), (0, 0))
-    #     return np.array(bbox)
-
-    # def move(self, origin=(0, 0), destination=None, axis=None):
-    #     """Moves the CellArray from the origin point to the destination.
-
-    #     Both origin and destination can be 1x2 array-like, Port, or a key
-    #     corresponding to one of the Ports in this CellArray.
-
-    #     Args:
-    #         origin : array-like[2], Port, or key
-    #             Origin point of the move.
-    #         destination : array-like[2], Port, or key
-    #             Destination point of the move.
-    #         axis : {'x', 'y'}
-    #             Direction of the move.
-    #     """
-    #     dx, dy = _parse_move(origin, destination, axis)
-    #     self.origin = np.array(self.origin) + np.array((dx, dy))
-
-    #     if self.owner is not None:
-    #         self.owner._bb_valid = False
-    #     return self
-
-    # def rotate(self, angle=45, center=(0, 0)):
-    #     """Rotates all elements in the CellArray around the specified centerpoint.
-
-    #     Args:
-    #         angle : int or float
-    #             Angle to rotate the CellArray in degrees.
-    #         center : array-like[2], Port, or None
-    #             center of the CellArray.
-    #     """
-    #     if angle == 0:
-    #         return self
-    #     if hasattr(center, "center"):
-    #         center = center.center
-    #     self.rotation += angle
-    #     self.origin = _rotate_points(self.origin, angle, center)
-    #     if self.owner is not None:
-    #         self.owner._bb_valid = False
-    #     return self
-
-    # def mirror(self, p1=(0, 1), p2=(0, 0)):
-    #     """Mirrors a CellArray across the line formed between the two specified points.
-
-    #     Args:
-    #         p1 : array-like[N][2]
-    #             First point of the line.
-    #         p2 : array-like[N][2]
-    #             Second point of the line.
-    #     """
-    #     if hasattr(p1, "center"):
-    #         p1 = p1.center
-    #     if hasattr(p2, "center"):
-    #         p2 = p2.center
-    #     p1 = np.array(p1)
-    #     p2 = np.array(p2)
-    #     # Translate so reflection axis passes through origin
-    #     self.origin = self.origin - p1
-
-    #     # Rotate so reflection axis aligns with x-axis
-    #     angle = np.arctan2((p2[1] - p1[1]), (p2[0] - p1[0])) * 180 / pi
-    #     self.origin = _rotate_points(self.origin, angle=-angle, center=[0, 0])
-    #     self.rotation -= angle
-
-    #     # Reflect across x-axis
-    #     self.x_reflection = not self.x_reflection
-    #     self.origin[1] = -self.origin[1]
-    #     self.rotation = -self.rotation
-
-    #     # Un-rotate and un-translate
-    #     self.origin = _rotate_points(self.origin, angle=angle, center=[0, 0])
-    #     self.rotation += angle
-    #     self.origin = self.origin + p1
-
-    #     if self.owner is not None:
-    #         self.owner._bb_valid = False
-    #     return self
 
 
 def test_move():

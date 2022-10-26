@@ -25,12 +25,7 @@ from gdsfactory.component_layout import (
     _GeometryHelper,
     _parse_layer,
 )
-from gdsfactory.component_reference import (
-    CellArray,
-    ComponentReference,
-    Coordinate,
-    SizeInfo,
-)
+from gdsfactory.component_reference import ComponentReference, Coordinate, SizeInfo
 from gdsfactory.config import CONF, logger
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.layers import LAYER_COLORS, LayerColor, LayerColors
@@ -298,7 +293,7 @@ class Component(_GeometryHelper):
             element: Object that will be accessible by alias name.
 
         """
-        if isinstance(element, (ComponentReference, Polygon, CellArray)):
+        if isinstance(element, (ComponentReference, Polygon)):
             self.named_references[key] = element
         else:
             raise ValueError(
@@ -964,8 +959,8 @@ class Component(_GeometryHelper):
         """Add a new element or list of elements to this Component.
 
         Args:
-            element: `PolygonSet`, `CellReference`, `CellArray` or iterable
-            The element or iterable of elements to be inserted in this cell.
+            element: Polygon, ComponentReference or iterable
+                The element or iterable of elements to be inserted in this cell.
 
         Raises:
             MutabilityError: if component is locked.
@@ -981,13 +976,12 @@ class Component(_GeometryHelper):
         """Add a new element or list of elements to this Component.
 
         Args:
-            element: `PolygonSet`, `CellReference`, `CellArray` or iterable
+            element: Polygon, ComponentReference or iterable
                 The element or iterable of elements to be inserted in this cell.
 
         Raises:
             MutabilityError: if component is locked.
         """
-        # if isinstance(element, (gdstk.CellReference, gdstk.CellArray)):
         if isinstance(element, ComponentReference):
             self._register_reference(element)
             self._add(element)
@@ -1004,8 +998,8 @@ class Component(_GeometryHelper):
         rows: int = 2,
         spacing: Tuple[float, float] = (100, 100),
         alias: Optional[str] = None,
-    ) -> CellArray:
-        """Creates a CellArray reference to a Component.
+    ) -> ComponentReference:
+        """Creates a ComponentReference reference to a Component.
 
         Args:
             component: The referenced component.
@@ -1016,11 +1010,11 @@ class Component(_GeometryHelper):
             alias: str or None. Alias of the referenced Component.
 
         Returns
-            a: CellArray containing references to the Component.
+            a: ComponentReference containing references to the Component.
         """
         if not isinstance(component, Component):
             raise TypeError("add_array() needs a Component object.")
-        ref = CellArray(
+        ref = ComponentReference(
             component=component,
             columns=int(round(columns)),
             rows=int(round(rows)),
@@ -1811,30 +1805,18 @@ def copy(D: Component) -> Component:
     D_copy._cell = D._cell.copy(name=D_copy.name)
 
     for ref in D.references:
-        if isinstance(ref, CellArray):
-            new_ref = CellArray(
-                component=ref.parent,
-                columns=ref.columns,
-                rows=ref.rows,
-                spacing=ref.spacing,
-                origin=ref.origin,
-                rotation=ref.rotation,
-                magnification=ref.magnification,
-                x_reflection=ref.x_reflection,
-            )
-            new_ref.name = ref.name if hasattr(ref, "name") else ref.parent.name
-        elif isinstance(ref, ComponentReference):
-            new_ref = ComponentReference(
-                ref.parent,
-                origin=ref.origin,
-                rotation=ref.rotation,
-                magnification=ref.magnification,
-                x_reflection=ref.x_reflection,
-            )
-            new_ref.owner = D_copy
-            new_ref.name = ref.name if hasattr(ref, "name") else ref.parent.name
-        else:
-            raise ValueError(f"Got a reference of non-standard type: {type(ref)}")
+        new_ref = ComponentReference(
+            component=ref.parent,
+            columns=ref.columns,
+            rows=ref.rows,
+            spacing=ref.spacing,
+            origin=ref.origin,
+            rotation=ref.rotation,
+            magnification=ref.magnification,
+            x_reflection=ref.x_reflection,
+        )
+        new_ref.name = ref.name if hasattr(ref, "name") else ref.parent.name
+        new_ref.owner = D_copy
         D_copy.add(new_ref)
 
     for port in D.ports.values():

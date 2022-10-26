@@ -7,7 +7,7 @@ from omegaconf import OmegaConf
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.component_reference import CellArray
+from gdsfactory.component_reference import ComponentReference
 from gdsfactory.config import CONFIG, logger
 from gdsfactory.name import get_name_short
 
@@ -95,7 +95,7 @@ def import_gds(
         converted_references = []
         for e in D.references:
             ref_device = cell_to_device[e.ref_cell]
-            dr = CellArray(component=ref_device)
+            dr = ComponentReference(component=ref_device)
             dr.owner = D
             dr._reference = e
             converted_references.append(dr)
