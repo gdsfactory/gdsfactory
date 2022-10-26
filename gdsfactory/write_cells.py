@@ -98,10 +98,10 @@ def write_cells_recursively(
     timestamp: Optional[datetime.datetime] = _timestamp2019,
     dirpath: Optional[pathlib.Path] = None,
 ) -> Dict[str, Path]:
-    """Write gdspy cells recursively.
+    """Write gdstk cells recursively.
 
     Args:
-        cell: gdspy cell.
+        cell: gdstk cell.
         unit: unit size for objects in library. 1um by default.
         precision: for library dimensions (m). 1nm by default.
         timestamp: Defaults to 2019-10-25. If None uses current time.
