@@ -56,6 +56,12 @@ class MutabilityError(ValueError):
     pass
 
 
+def _get_dependencies(component, references_set):
+    for ref in component.references:
+        references_set.add(ref.ref_cell)
+        _get_dependencies(ref.ref_cell, references_set)
+
+
 mutability_error_message = """
 You cannot modify a Component after creation as it will affect all of its instances.
 
@@ -228,25 +234,31 @@ class Component(_GeometryHelper):
                 depth=depth, layer=by_spec[0], datatype=by_spec[1]
             )
 
-    def get_dependencies(self, recursive: bool = False):
+    def get_dependencies(self, recursive: bool = False) -> List["Component"]:
         """Return a set of the cells included in this cell as references.
 
         Args:
-            recursive : bool
-                If True returns cascading dependencies.
+            recursive: If True returns dependencies recursively.
 
         Returns:
-            out : set of `Cell`
-                Set of the cells referenced by this cell.
+            out: list of Components referenced by this Component.
         """
-        return self._cell.dependencies(recursive)
+        if not recursive:
+            return self.references.copy()
+        else:
+            references_set = set()
+            _get_dependencies(self, references_set=references_set)
+            return list(references_set)
 
     def get_component_spec(self):
         if not self.settings:
-            raise ValueError("no settings in component")
-        return dict(
-            component=self.settings.function_name, settings=self.settings.changed
-        )
+            return dict(component=self.name, settings=dict())
+
+        else:
+
+            return dict(
+                component=self.settings.function_name, settings=self.settings.changed
+            )
 
     def __getitem__(self, key):
         """Allows you to access aliases D['arc2'].
@@ -1440,10 +1452,9 @@ class Component(_GeometryHelper):
 
         lib = gdstk.Library(unit=unit, precision=precision)
         lib.add(self._cell)
-        for parent in self.get_dependencies(True):
-            lib.add(parent)
+        lib.add(*self._cell.dependencies(True))
 
-        self.path = gdspath
+        # self.path = gdspath
         lib.write_gds(gdspath)
         if logging:
             logger.info(f"Write GDS to {str(gdspath)!r}")
