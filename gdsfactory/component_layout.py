@@ -194,7 +194,7 @@ class _GeometryHelper:
         """Adds an element to a Group.
 
         Args:
-            element: Component, ComponentReference, Port, Polygon, CellArray,
+            element: Component, ComponentReference, Port, Polygon,
                 Label, or Group to add.
         """
         if isinstance(self, Group):
@@ -227,7 +227,7 @@ class Group(_GeometryHelper):
         """Adds an element to the Group.
 
         Args:
-            element: Component, ComponentReference, Port, Polygon, CellArray,
+            element: Component, ComponentReference, Port, Polygon,
                 Label, or Group to add.
 
         """
@@ -252,25 +252,25 @@ class Group(_GeometryHelper):
         """Adds an element to the Group.
 
         Args:
-            element: Component, ComponentReference, Port, Polygon, CellArray,
+            element: Component, ComponentReference, Port, Polygon,
                 Label, or Group to add.
         """
         from gdsfactory.component import Component
-        from gdsfactory.component_reference import CellArray, ComponentReference
+        from gdsfactory.component_reference import ComponentReference
 
         if _is_iterable(element):
             [self.add(e) for e in element]
         elif element is None:
             return self
         elif isinstance(
-            element, (Component, ComponentReference, Polygon, CellArray, Label, Group)
+            element, (Component, ComponentReference, Polygon, Label, Group)
         ):
             self.elements.append(element)
         else:
             raise ValueError(
                 "add() Could not add element to Group, the only "
                 "allowed element types are "
-                "(Component, ComponentReference, Polygon, CellArray, Label, Group)"
+                "(Component, ComponentReference, Polygon, Label, Group)"
             )
         # Remove non-unique entries
         used = set()
@@ -512,7 +512,7 @@ def _distribute(elements, direction="x", spacing=100, separation=True, edge=None
             separation == True)
 
     Returns:
-        elements : Component, ComponentReference, Port, Polygon, CellArray, Label, or Group
+        elements : Component, ComponentReference, Port, Polygon, Label, or Group
             Distributed elements.
     """
     if len(elements) == 0:
