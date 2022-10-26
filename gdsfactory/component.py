@@ -241,6 +241,13 @@ class Component(_GeometryHelper):
         """
         return self._cell.dependencies(recursive)
 
+    def get_component_spec(self):
+        if not self.settings:
+            raise ValueError("no settings in component")
+        return dict(
+            component=self.settings.function_name, settings=self.settings.changed
+        )
+
     def __getitem__(self, key):
         """Allows you to access aliases D['arc2'].
 
