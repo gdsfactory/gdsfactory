@@ -1,6 +1,7 @@
 import typing
 import warnings
 from typing import Any, Dict, List, Optional, Tuple, Union, cast
+from itertools import islice
 
 import numpy as np
 from gdspy import CellReference
@@ -302,6 +303,23 @@ class ComponentReference(CellReference, _GeometryHelper):
                 self._local_ports.pop(name)
         return self._local_ports
 
+    def p(self, val: Union[int, str]) -> Port:
+        """
+        Access a reference's port by name or by index.
+
+        Args:
+            val: The integer index of string name of the port.
+
+        Returns:
+            port: The local port referenced by the value. 
+        """
+        if isinstance(val, int):
+            return next(islice(self.ports.values(), val, None))
+        elif isinstance(val, str):
+            return self.ports[val]
+        else:
+            raise ValueError(f"value {val} is not an int or string")
+
     @property
     def info(self) -> Dict[str, Any]:
         return self.parent.info
@@ -548,25 +566,27 @@ class ComponentReference(CellReference, _GeometryHelper):
 
     def connect(
         self,
-        port: Union[str, Port],
+        port: Union[str, int, Port],
         destination: Port,
         overlap: float = 0.0,
     ) -> "ComponentReference":
         """Return ComponentReference where port connects to a destination.
 
         Args:
-            port: origin (port or port_name) to connect.
+            port: origin (port, port name, or port index) to connect.
             destination: destination port.
             overlap: how deep does the port go inside.
 
         Returns:
             ComponentReference: with correct rotation to connect to destination.
         """
-        # port can either be a string with the name or an actual Port
+        # port can either be a string with the name, port index, or an actual Port
         if port in self.ports:  # Then ``port`` is a key for the ports dict
             p = self.ports[port]
         elif isinstance(port, Port):
             p = port
+        elif isinstance(port, int):
+            p = self.p(port)
         else:
             ports = list(self.ports.keys())
             raise ValueError(
