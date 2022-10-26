@@ -15,7 +15,7 @@ placements:
   mmi_long:
     mirror: 0
     rotation: 0
-    x: 20.001
+    x: 20.0
     y: 12.875
   mmi_short:
     mirror: 0
@@ -23,27 +23,3 @@ placements:
     x: -15.0
     y: 0.625
 ports: {}
-warnings:
-  optical:
-    unconnected_ports:
-    - message: 6 unconnected optical ports!
-      ports:
-      - mmi_long,o1
-      - mmi_long,o2
-      - mmi_long,o3
-      - mmi_short,o1
-      - mmi_short,o2
-      - mmi_short,o3
-      values:
-      - - 10.000999999999998
-        - 12.875
-      - - 40.001
-        - 13.5
-      - - 40.001
-        - 12.25
-      - - -25.0
-        - 0.625
-      - - 0.0
-        - 1.25
-      - - 0.0
-        - 0.0

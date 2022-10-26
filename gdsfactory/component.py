@@ -1678,14 +1678,9 @@ class Component(_GeometryHelper):
         return add_padding(component=self, **kwargs)
 
     def absorb(self, reference) -> "Component":
-        """Flattens and absorbs polygons from  ComponentReference into the.
+        """Absorbs polygons from ComponentReference into Component.
 
-        Component.
-
-        It destroys the reference in the process but keeping the polygon geometry.
-
-        remove when PR gets approved and there is a new release
-        https://github.com/amccaugh/phidl/pull/135
+        Destroys the reference in the process but keeping the polygon geometry.
 
         Args:
             reference: ComponentReference to be absorbed into the Component.
@@ -1722,6 +1717,9 @@ class Component(_GeometryHelper):
                 item.owner = None
             elif isinstance(item, gdstk.Label):
                 self.labels.remove(item)
+            elif isinstance(item, ComponentReference):
+                self.references.remove(item)
+                item.owner = None
 
         self._bb_valid = False
         return self
