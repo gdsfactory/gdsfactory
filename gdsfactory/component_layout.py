@@ -1,6 +1,6 @@
 import numbers
 
-import gdspy
+import gdstk
 import numpy as np
 from numpy import cos, pi, sin
 from numpy.linalg import norm
@@ -622,7 +622,7 @@ def _simplify(points, tolerance=0):
     return np.vstack((result1[:-1], result2))
 
 
-class Polygon(gdspy.Polygon, _GeometryHelper):
+class Polygon(gdstk.Polygon, _GeometryHelper):
     """Polygonal geometric object.
 
     Args:
@@ -719,13 +719,35 @@ class Polygon(gdspy.Polygon, _GeometryHelper):
         return self
 
 
-class Label(gdspy.Label, _GeometryHelper):
-    """Text to label parts or display messages. Does not add geometry."""
+class Label(gdstk.Label, _GeometryHelper):
+    """Text to label parts or display messages. Does not add geometry.
 
-    def __init__(self, *args, **kwargs):
+    TODO: rename position to origin
+    """
+
+    def __init__(
+        self,
+        text: str = "",
+        position=(0, 0),
+        anchor="o",
+        rotation=0,
+        magnification=1,
+        x_reflection=False,
+        layer=0,
+        texttype=0,
+    ):
         """Initialize label."""
-        super().__init__(*args, **kwargs)
-        self.position = np.array(self.position, dtype="float64")
+        super().__init__(
+            text=text,
+            origin=position,
+            anchor=anchor,
+            rotation=rotation,
+            magnification=magnification,
+            x_reflection=x_reflection,
+            layer=layer,
+            texttype=texttype,
+        )
+        self.position = np.array(position, dtype="float64")
 
     @classmethod
     def __get_validators__(cls):

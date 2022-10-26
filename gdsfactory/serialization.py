@@ -1,6 +1,4 @@
 """Serialize component settings into YAML or strings."""
-
-import copy
 import functools
 import hashlib
 import inspect
@@ -76,7 +74,6 @@ def clean_value_json(value: Any) -> Any:
     elif isinstance(value, pathlib.Path):
         value = value.stem
     elif isinstance(value, dict):
-        value = copy.deepcopy(value)
         value = clean_dict(value)
     elif isinstance(value, DictConfig):
         value = clean_dict(OmegaConf.to_container(value))

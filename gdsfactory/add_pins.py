@@ -11,7 +11,7 @@ import json
 from functools import partial
 from typing import TYPE_CHECKING, Callable, List, Optional, Tuple, Union
 
-import gdspy
+import gdstk
 import numpy as np
 from numpy import ndarray
 from omegaconf import OmegaConf
@@ -330,8 +330,12 @@ def add_pin_path(
 
     points = [p0, p1]
     layer = get_layer(layer)
-    path = gdspy.FlexPath(
-        points=points, width=p.width, layer=layer[0], datatype=layer[1], gdsii_path=True
+    path = gdstk.FlexPath(
+        points=points,
+        width=p.width,
+        layer=layer[0],
+        datatype=layer[1],
+        simple_path=True,
     )
     component.add(path)
 
