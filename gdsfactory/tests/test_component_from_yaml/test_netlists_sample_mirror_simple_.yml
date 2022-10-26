@@ -1,5 +1,4 @@
-connections:
-  b,o1: s,o2
+connections: {}
 instances:
   b:
     component: bend_circular
@@ -27,15 +26,3 @@ placements:
     x: 0.0
     y: 0.0
 ports: {}
-warnings:
-  optical:
-    unconnected_ports:
-    - message: 2 unconnected optical ports!
-      ports:
-      - s,o1
-      - b,o2
-      values:
-      - - 0.0
-        - 0.0
-      - - 20.0
-        - -10.0

@@ -1,20 +1,4 @@
-connections:
-  bend_euler_1,o1: straight_1,o2
-  bend_euler_1,o2: straight_2,o1
-  bend_euler_2,o1: straight_2,o2
-  bend_euler_2,o2: straight_3,o1
-  bend_euler_3,o1: straight_3,o2
-  bend_euler_3,o2: straight_4,o1
-  bend_euler_4,o1: straight_4,o2
-  bend_euler_4,o2: straight_5,o1
-  bend_euler_5,o1: straight_6,o2
-  bend_euler_5,o2: straight_7,o1
-  bend_euler_6,o1: straight_7,o2
-  bend_euler_6,o2: straight_8,o1
-  bend_euler_7,o1: straight_8,o2
-  bend_euler_7,o2: straight_9,o1
-  bend_euler_8,o1: straight_9,o2
-  bend_euler_8,o2: straight_10,o1
+connections: {}
 instances:
   b:
     component: pad_array
@@ -528,62 +512,3 @@ placements:
     x: -250.0
     y: 1000.0
 ports: {}
-warnings:
-  electrical:
-    unconnected_ports:
-    - message: 12 unconnected electrical ports!
-      ports:
-      - t,e11
-      - t,e12
-      - t,e13
-      - t,e14
-      - t,e15
-      - t,e16
-      - b,e11
-      - b,e12
-      - b,e13
-      - b,e14
-      - b,e15
-      - b,e16
-      values:
-      - - -250.0
-        - 1000.0
-      - - -100.0
-        - 1000.0
-      - - 50.0
-        - 1000.0
-      - - 200.0
-        - 1000.0
-      - - 350.0
-        - 1000.0
-      - - 500.0
-        - 1000.0
-      - - 0.0
-        - 0.0
-      - - 150.0
-        - 0.0
-      - - 300.0
-        - 0.0
-      - - 450.0
-        - 0.0
-      - - 600.0
-        - 0.0
-      - - 750.0
-        - 0.0
-  optical:
-    unconnected_ports:
-    - message: 4 unconnected optical ports!
-      ports:
-      - straight_1,o1
-      - straight_5,o2
-      - straight_6,o1
-      - straight_10,o2
-      values:
-      - - 0.0
-        - 0.0
-      - - -249.99999999999997
-        - 1000.0
-      - - 150.0
-        - 0.0
-      - - -99.99999999999997
-        - 1000.0
