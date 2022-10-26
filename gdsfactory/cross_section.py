@@ -14,9 +14,8 @@ from pydantic import BaseModel, Field
 from typing_extensions import Literal
 
 from gdsfactory.add_pins import add_bbox_siepic, add_pins_siepic_optical_2nm
-from gdsfactory.tech import TECH, Section
+from gdsfactory.tech import Section
 
-LAYER = TECH.layer
 Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
 WidthTypes = Literal["sine", "linear", "parabolic"]
@@ -326,6 +325,7 @@ strip = partial(
     cladding_offsets=(0,),  # for SiEPIC verification
 )
 strip_auto_widen = partial(strip, width_wide=0.9, auto_widen=True)
+npp = partial(strip, layer="NPP")
 
 # Rib with rectangular slab
 rib = partial(
@@ -950,7 +950,7 @@ def strip_heater_doped(
 
 strip_heater_doped_via_stack = partial(
     strip_heater_doped,
-    layers_heater=(LAYER.WG, LAYER.NPP, LAYER.VIAC),
+    layers_heater=("WG", "NPP", "VIAC"),
     bbox_offsets_heater=(0, 0.1, -0.2),
 )
 

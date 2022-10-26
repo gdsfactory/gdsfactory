@@ -7,7 +7,6 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.config import TECH
 from gdsfactory.functions import move_port_to_zero
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_input_labels import get_input_labels
@@ -26,7 +25,7 @@ def add_fiber_single(
     component: ComponentSpec = straight_function,
     grating_coupler: ComponentSpecOrList = grating_coupler_te,
     layer_label: LayerSpec = "LABEL",
-    fiber_spacing: float = TECH.fiber_spacing,
+    fiber_spacing: float = 50,
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
     route_filter: Callable = get_route_from_waypoints,
@@ -318,6 +317,6 @@ if __name__ == "__main__":
     cc.show(show_ports=True)
 
     # c = gf.components.straight(length=20)
-    # gc = gf.components.grating_coupler_elliptical_te(layer=gf.TECH.layer.WGN)
+    # gc = gf.components.grating_coupler_elliptical_te(layer="WGN")
     # cc = add_fiber_single(component=c, grating_coupler=gc, with_loopback=True, )
     # cc.show(show_ports=True)
