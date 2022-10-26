@@ -1,8 +1,7 @@
-import gdspy
+import gdstk
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.geometry.offset import _merge_floating_point_errors
 from gdsfactory.types import Layer
 
 
@@ -21,8 +20,7 @@ def _union_polygons(polygons, precision=1e-4, max_points=4000):
         unioned: polygon The result of the union of all the polygons
             within the input PolygonSet.
     """
-    polygons = _merge_floating_point_errors(polygons, tol=precision / 1000)
-    return gdspy.boolean(
+    return gdstk.boolean(
         polygons,
         [],
         operation="or",
