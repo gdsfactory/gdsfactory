@@ -3,7 +3,11 @@ from typing import Tuple
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.types import ComponentFactory, CrossSection
+from gdsfactory.component import Component
+from gdsfactory.components.bend_euler import bend_euler
+from gdsfactory.components.bend_s import bend_s
+from gdsfactory.components.straight import straight
+from gdsfactory.types import ComponentFactory, CrossSectionSpec
 
 
 @gf.cell
@@ -11,24 +15,21 @@ def spiral_racetrack(
     min_radius: float,
     straight_length: float,
     spacings: Tuple[float, ...],
-    straight_factory: ComponentFactory = gf.components.straight,
-    bend_factory: ComponentFactory = gf.components.bend_euler,
-    bend_s_factory: ComponentFactory = gf.components.bend_s,
-    cross_section: CrossSection = gf.cross_section.strip,
-):
-    """Racetrack-Spiral.
+    straight_factory: ComponentFactory = straight,
+    bend_factory: ComponentFactory = bend_euler,
+    bend_s_factory: ComponentFactory = bend_s,
+    cross_section: CrossSectionSpec = gf.cross_section.strip,
+) -> Component:
+    """Returns Racetrack-Spiral.
 
     Args:
-        min_radius: smallest radius
-        straight_length: length of the straight segments
-        spacings: space between the center of neighboring waveguides
-        straight_factory: factory to generate the straight segments
-        bend_factory: factory to generate the bend segments
-        bend_s_factory: factory to generate the s-bend segments
-        cross_section: cross-section of the waveguides
-
-    Returns:
-        Spiral racetrack
+        min_radius: smallest radius in um.
+        straight_length: length of the straight segments in um.
+        spacings: space between the center of neighboring waveguides in um.
+        straight_factory: factory to generate the straight segments.
+        bend_factory: factory to generate the bend segments.
+        bend_s_factory: factory to generate the s-bend segments.
+        cross_section: cross-section of the waveguides.
 
     """
     c = gf.Component()
@@ -66,26 +67,26 @@ def spiral_racetrack_heater_metal(
     straight_length: float,
     spacing: float,
     num: int,
-    straight_factory: ComponentFactory = gf.components.straight,
-    bend_factory: ComponentFactory = gf.components.bend_euler,
-    bend_s_factory: ComponentFactory = gf.components.bend_s,
-    waveguide_cross_section=gf.cross_section.strip,
-    heater_cross_section=gf.cross_section.heater_metal,
-):
-    """Design like shown in https://doi.org/10.1364/OL.400230 .
+    straight_factory: ComponentFactory = straight,
+    bend_factory: ComponentFactory = bend_euler,
+    bend_s_factory: ComponentFactory = bend_s,
+    waveguide_cross_section: CrossSectionSpec = gf.cross_section.strip,
+    heater_cross_section: CrossSectionSpec = gf.cross_section.heater_metal,
+) -> Component:
+    """Returns spiral racetrack with a heater above.
+
+    based on https://doi.org/10.1364/OL.400230 .
 
     Args:
-        min_radius: smallest radius
-        straight_length: length of the straight segments
-        spacing: space between the center of neighboring waveguides
-        straight_factory: factory to generate the straight segments
-        bend_factory: factory to generate the bend segments
-        bend_s_factory: factory to generate the s-bend segments
-        waveguide_cross_section: cross-section of the waveguides
-        heater_cross_section: cross-section of the heater
-
-    Returns:
-        Spiral racetrack with a heater above
+        min_radius: smallest radius.
+        straight_length: length of the straight segments.
+        spacing: space between the center of neighboring waveguides.
+        num: number.
+        straight_factory: factory to generate the straight segments.
+        bend_factory: factory to generate the bend segments.
+        bend_s_factory: factory to generate the s-bend segments.
+        waveguide_cross_section: cross-section of the waveguides.
+        heater_cross_section: cross-section of the heater.
 
     """
     c = gf.Component()
@@ -125,43 +126,47 @@ def spiral_racetrack_heater_metal(
     return c
 
 
-def spiral_racetrack_heater_silicon(
+@gf.cell
+def spiral_racetrack_heater_doped(
     min_radius: float,
     straight_length: float,
     spacing: float,
     num: int,
-    straight_factory: ComponentFactory = gf.components.straight,
-    bend_factory: ComponentFactory = gf.components.bend_euler,
-    bend_s_factory: ComponentFactory = gf.components.bend_s,
-    waveguide_cross_section=gf.cross_section.strip,
-    heater_cross_section=gf.partial(gf.cross_section.strip, layer=(0, 0)),
-):
-    """Like https://doi.org/10.1364/OL.400230 but with the heater between the loops.
+    straight_factory: ComponentFactory = straight,
+    bend_factory: ComponentFactory = bend_euler,
+    bend_s_factory: ComponentFactory = bend_s,
+    waveguide_cross_section: CrossSectionSpec = gf.cross_section.strip,
+    heater_cross_section: CrossSectionSpec = gf.cross_section.npp,
+) -> Component:
+    """Returns spiral racetrack with a heater between the loops.
+
+    based on https://doi.org/10.1364/OL.400230 but with the heater between the loops.
 
     Args:
-        min_radius: smallest radius
-        straight_length: length of the straight segments
-        spacing: space between the center of neighboring waveguides
-        straight_factory: factory to generate the straight segments
-        bend_factory: factory to generate the bend segments
-        bend_s_factory: factory to generate the s-bend segments
-        waveguide_cross_section: cross-section of the waveguides
-        heater_cross_section: cross-section of the heater
+        min_radius: smallest radius in um.
+        straight_length: length of the straight segments in um.
+        spacing: space between the center of neighboring waveguides in um.
+        num: number.
+        straight_factory: factory to generate the straight segments.
+        bend_factory: factory to generate the bend segments.
+        bend_s_factory: factory to generate the s-bend segments.
+        waveguide_cross_section: cross-section of the waveguides.
+        heater_cross_section: cross-section of the heater.
 
-    Returns:
-        Spiral racetrack with a heater between the loops
 
     """
     c = gf.Component()
 
     spiral = c << spiral_racetrack(
-        min_radius,
-        straight_length,
-        (spacing,) * (num // 2) + (spacing + 1,) * 2 + (spacing,) * (num // 2 - 2),
-        straight_factory,
-        bend_factory,
-        bend_s_factory,
-        waveguide_cross_section,
+        min_radius=min_radius,
+        straight_length=straight_length,
+        spacings=(spacing,) * (num // 2)
+        + (spacing + 1,) * 2
+        + (spacing,) * (num // 2 - 2),
+        straight_factory=straight_factory,
+        bend_factory=bend_factory,
+        bend_s_factory=bend_s_factory,
+        cross_section=waveguide_cross_section,
     )
 
     heater_straight = c << gf.components.straight(
@@ -182,11 +187,15 @@ def spiral_racetrack_heater_silicon(
 
 
 if __name__ == "__main__":
-    heater = spiral_racetrack(3.0, 30.0, (2, 2, 3, 3, 2, 2))
-    heater.show()
+    # heater = spiral_racetrack(
+    #     min_radius=3.0, straight_length=30.0, spacings=(2, 2, 3, 3, 2, 2)
+    # )
+    # heater.show()
 
-    heater = spiral_racetrack_heater_metal(3, 30, 2, 5)
-    heater.show()
+    # heater = spiral_racetrack_heater_metal(3, 30, 2, 5)
+    # heater.show()
 
-    heater = spiral_racetrack_heater_silicon(3, 30, 2, 8)
+    heater = spiral_racetrack_heater_doped(
+        min_radius=3, straight_length=30, spacing=2, num=8
+    )
     heater.show()
