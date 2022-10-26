@@ -86,7 +86,7 @@ def write_labels_klayout(
     return filepath
 
 
-def write_labels_gdspy(
+def write_labels_gdstk(
     gdspath: Path,
     prefix: str = "opt_",
     layer_label: Optional[Tuple[int, int]] = LAYER.TEXT,
