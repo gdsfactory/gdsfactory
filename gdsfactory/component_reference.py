@@ -131,7 +131,7 @@ class ComponentReference(_GeometryHelper):
         self._reference = gdstk.Reference(
             cell=component._cell,
             origin=origin,
-            rotation=rotation,
+            rotation=np.deg2rad(rotation),
             magnification=magnification,
             x_reflection=x_reflection,
             # ignore_missing=False,
@@ -171,12 +171,12 @@ class ComponentReference(_GeometryHelper):
         self._reference.magnification = value
 
     @property
-    def rotation(self):
-        return self._reference.rotation
+    def rotation(self) -> float:
+        return np.rad2deg(self._reference.rotation)
 
     @rotation.setter
     def rotation(self, value):
-        self._reference.rotation = value
+        self._reference.rotation = np.deg2rad(value)
 
     @property
     def x_reflection(self):
