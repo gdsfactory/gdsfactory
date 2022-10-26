@@ -154,7 +154,9 @@ class ComponentReference(_GeometryHelper):
             rotation=np.deg2rad(rotation),
             magnification=magnification,
             x_reflection=x_reflection,
-            # ignore_missing=False,
+            columns=columns,
+            rows=rows,
+            spacing=spacing,
         )
 
         self.ref_cell = component
