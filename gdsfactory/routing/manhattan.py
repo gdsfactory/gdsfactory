@@ -2,7 +2,7 @@ import uuid
 import warnings
 from typing import Callable, Dict, List, Optional, Tuple, Union
 
-import gdspy
+import gdstk
 import numpy as np
 from numpy import bool_, ndarray
 
@@ -560,10 +560,10 @@ def get_route_error(
         warnings.warn(f"Route error for points {points}", RouteWarning)
 
     c = Component(f"route_{uuid.uuid4()}"[:16])
-    path = gdspy.FlexPath(
+    path = gdstk.FlexPath(
         points,
         width=width,
-        gdsii_path=True,
+        simple_path=True,
         layer=layer_path[0],
         datatype=layer_path[1],
     )

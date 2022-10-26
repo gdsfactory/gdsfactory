@@ -2,7 +2,7 @@ import typing
 import warnings
 from typing import Any, Dict, List, Optional, Tuple, Union, cast
 
-import gdspy
+import gdstk
 import numpy as np
 from numpy import cos, float64, int64, mod, ndarray, pi, sin
 
@@ -123,18 +123,18 @@ class ComponentReference(_GeometryHelper):
         component: "Component",
         origin: Coordinate = (0, 0),
         rotation: float = 0,
-        magnification: None = None,
+        magnification: float = 1,
         x_reflection: bool = False,
         visual_label: str = "",
     ) -> None:
         """Initialize the ComponentReference object."""
-        self._reference = gdspy.CellReference(
-            ref_cell=component._cell,
+        self._reference = gdstk.Reference(
+            cell=component._cell,
             origin=origin,
             rotation=rotation,
             magnification=magnification,
             x_reflection=x_reflection,
-            ignore_missing=False,
+            # ignore_missing=False,
         )
 
         self.ref_cell = component
@@ -215,7 +215,21 @@ class ComponentReference(_GeometryHelper):
             Instances of `FlexPath` and `RobustPath` are also included in
             the result by computing their polygonal boundary.
         """
-        return self._reference.get_polygons(by_spec=by_spec, depth=depth)
+        if not by_spec:
+            return self._reference.get_polygons(depth=depth)
+        elif by_spec is True:
+            layers = self.parent.get_layers()
+            return {
+                layer: self._reference.get_polygons(
+                    depth=depth, layer=layer[0], datatype=layer[1]
+                )
+                for layer in layers
+            }
+
+        else:
+            return self._reference.get_polygons(
+                depth=depth, layer=by_spec[0], datatype=by_spec[1]
+            )
 
     def get_labels(self, depth=None, set_transform=False):
         """Return the list of labels created by this reference.
@@ -235,7 +249,7 @@ class ComponentReference(_GeometryHelper):
         return self._reference.get_labels(depth=depth, set_transform=set_transform)
 
     def get_bounding_box(self):
-        return self._reference.get_bounding_box()
+        return self._reference.bounding_box()
 
     def get_paths(self, depth=None):
         """Return the list of paths created by this reference.
@@ -638,7 +652,8 @@ class ComponentReference(_GeometryHelper):
 
         # Reflect across x-axis
         self.x_reflection = not self.x_reflection
-        self.origin[1] = -1 * self.origin[1]
+        self.origin = (self.origin[0], -1 * self.origin[1])
+
         self.rotation = -1 * self.rotation
 
         # Un-rotate and un-translate
@@ -802,21 +817,20 @@ class CellArray(ComponentReference):
         rows,
         spacing,
         origin=(0, 0),
-        rotation=0,
-        magnification=None,
+        rotation: float = 0,
+        magnification: float = 1,
         x_reflection=False,
     ):
         """Initialize CellArray."""
-        self._reference = gdspy.CellArray(
+        self._reference = gdstk.Reference(
             columns=columns,
             rows=rows,
             spacing=spacing,
-            ref_cell=component._cell,
+            cell=component._cell,
             origin=origin,
             rotation=rotation,
             magnification=magnification,
             x_reflection=x_reflection,
-            ignore_missing=False,
         )
         self.ref_cell = component
         self._owner = None
