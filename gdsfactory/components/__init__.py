@@ -194,6 +194,11 @@ from gdsfactory.components.seal_ring import seal_ring
 from gdsfactory.components.snspd import snspd
 from gdsfactory.components.spiral_double import spiral_double
 from gdsfactory.components.spiral_external_io import spiral_external_io
+from gdsfactory.components.spiral_heater import (
+    spiral_racetrack,
+    spiral_racetrack_heater_doped,
+    spiral_racetrack_heater_metal,
+)
 from gdsfactory.components.spiral_inner_io import (
     spiral_inner_io,
     spiral_inner_io_fiber_single,
@@ -486,6 +491,9 @@ __all__ = [
     "straight_rib",
     "straight_rib_tapered",
     "switch_tree",
+    "spiral_racetrack",
+    "spiral_racetrack_heater_metal",
+    "spiral_racetrack_heater_doped",
     "taper",
     "taper2",
     "taper_0p5_to_3_l36",
