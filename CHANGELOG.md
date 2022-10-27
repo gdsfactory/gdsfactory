@@ -2,6 +2,12 @@
 
 ## 5.46.0
 
+- meep plot2D improvements [PR](https://github.com/gdsfactory/gdsfactory/pull/792)
+- fix show_subports causes error with CellArray references [issue](https://github.com/gdsfactory/gdsfactory/issues/791)
+- access reference ports more easily [PR]()
+
+## 5.45.1
+
 - add spiral heater phase shifter [PR](https://github.com/gdsfactory/gdsfactory/pull/786)
 
 ## 5.45.0

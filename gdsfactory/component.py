@@ -576,7 +576,7 @@ class Component(gdspy.Cell, _GeometryHelper):
 
     def add_port(
         self,
-        name: Optional[Union[str, int, object]] = None,
+        name: Optional[Union[str, object]] = None,
         center: Optional[Tuple[float, float]] = None,
         width: Optional[float] = None,
         orientation: Optional[float] = None,
@@ -1224,11 +1224,12 @@ class Component(gdspy.Cell, _GeometryHelper):
             component = self.copy()
             component.name = self.name
             for reference in component.references:
-                add_pins_triangle(
-                    component=component,
-                    reference=reference,
-                    layer=port_marker_layer,
-                )
+                if isinstance(component, ComponentReference):
+                    add_pins_triangle(
+                        component=component,
+                        reference=reference,
+                        layer=port_marker_layer,
+                    )
 
         elif show_ports:
             component = self.copy()
