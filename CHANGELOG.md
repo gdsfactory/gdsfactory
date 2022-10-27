@@ -2,6 +2,10 @@
 
 ## 5.46.0
 
+- meep plot2D improvements [PR](https://github.com/gdsfactory/gdsfactory/pull/792)
+
+## 5.45.1
+
 - add spiral heater phase shifter [PR](https://github.com/gdsfactory/gdsfactory/pull/786)
 
 ## 5.45.0
