@@ -87,6 +87,7 @@ valid_top_level_keys = [
     "settings",
     "info",
     "pdk",
+    "warnings",
 ]
 
 valid_anchor_point_keywords = [
@@ -497,11 +498,12 @@ def from_yaml(
     prefix: Optional[str] = None,
     **kwargs,
 ) -> Component:
-    """Returns a Component defined in YAML syntax.
+    """Returns Component from YAML string or file.
+
+    YAML includes instances, placements, routes, ports and connections.
 
     Args:
-        yaml: YAML file or string.
-          (instances, placements, routes, ports, connections, names).
+        yaml: YAML string or file.
         routing_strategy: for each route.
         label_instance_function: to label each instance.
         name: Optional name.
@@ -738,7 +740,7 @@ def _from_yaml(
 
                     if src1 > src0:
                         ports1names = [
-                            f"{port_src_name}{i}" for i in range(src0, src1 + 1, 1)
+                            f"{port_src_name}{i}" for i in range(src0, src1 + 1)
                         ]
                     else:
                         ports1names = [
@@ -747,7 +749,7 @@ def _from_yaml(
 
                     if dst1 > dst0:
                         ports2names = [
-                            f"{port_dst_name}{i}" for i in range(dst0, dst1 + 1, 1)
+                            f"{port_dst_name}{i}" for i in range(dst0, dst1 + 1)
                         ]
                     else:
                         ports2names = [

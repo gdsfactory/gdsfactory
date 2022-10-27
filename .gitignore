@@ -7,6 +7,10 @@
 *.hdf5
 *.stl
 *.pkl
+*.msh
+*.xdmf
+*.db
+*.svg
 test_mask_metadata.csv
 test_mask_metadata.yml
 .pyre_configuration
@@ -17,6 +21,7 @@ gdsfactory/simulation/gtidy3d/sim_run.yam
 gdsfactory/schema.yaml
 sim_run.yaml
 docs/notebooks/ring.yml
+.ruff_cache/
 
 # Packages
 *.egg
@@ -61,6 +66,7 @@ pip-log.txt
 .coverage
 .tox
 nosetests.xml
+*.obtained.*
 
 # Translations
 *.mo
@@ -282,4 +288,5 @@ venv.bak/
 # lumerical interconnect
 *.ich
 docs/notebooks/plugins/sax/fdtd_vs_model.png
+gdsfactory/klayout/tech/layers.py
 /gdslib

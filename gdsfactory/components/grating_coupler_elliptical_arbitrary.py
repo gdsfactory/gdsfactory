@@ -45,8 +45,8 @@ def grating_coupler_elliptical_arbitrary(
         taper_angle: grating flare angle.
         wavelength: grating transmission central wavelength (um).
         fiber_angle: fibre angle in degrees determines ellipticity.
-        neff: tooth effective index.
-        nclad: cladding effective index.
+        neff: tooth effective index to compute ellipticity.
+        nclad: cladding effective index to compute ellipticity.
         layer_slab: Optional slab.
         slab_xmin: where 0 is at the start of the taper.
         polarization: te or tm.
@@ -168,8 +168,62 @@ def grating_coupler_elliptical_arbitrary(
     return c
 
 
+@gf.cell
+def grating_coupler_elliptical_uniform(
+    n_periods: int = 20,
+    period: float = 0.75,
+    fill_factor: float = 0.5,
+    **kwargs,
+) -> Component:
+    r"""Grating coupler with parametrization based on Lumerical FDTD simulation.
+
+    The ellipticity is derived from Lumerical knowdledge base
+    it depends on fiber_angle (degrees), neff, and nclad
+
+    Args:
+        n_periods: number of grating periods.
+        period: grating pitch in um.
+        fill_factor: ratio of grating width vs gap.
+
+    Keyword Args:
+        taper_length: taper length from input.
+        taper_angle: grating flare angle.
+        wavelength: grating transmission central wavelength (um).
+        fiber_angle: fibre angle in degrees determines ellipticity.
+        neff: tooth effective index to compute ellipticity.
+        nclad: cladding effective index to compute ellipticity.
+        layer_slab: Optional slab.
+        slab_xmin: where 0 is at the start of the taper.
+        polarization: te or tm.
+        fiber_marker_width: in um.
+        fiber_marker_layer: Optional marker.
+        spiked: grating teeth have spikes to avoid drc errors..
+        bias_gap: etch gap (um).
+            Positive bias increases gap and reduces width to keep period constant.
+        cross_section: cross_section spec for waveguide port.
+        kwargs: cross_section settings.
+
+
+    .. code::
+
+                      fiber
+
+                   /  /  /  /
+                  /  /  /  /
+
+                _|-|_|-|_|-|___ layer
+                   layer_slab |
+            o1  ______________|
+
+    """
+    widths = [period * fill_factor] * n_periods
+    gaps = [period * (1 - fill_factor)] * n_periods
+    return grating_coupler_elliptical_arbitrary(gaps=gaps, widths=widths, **kwargs)
+
+
 if __name__ == "__main__":
-    c = grating_coupler_elliptical_arbitrary()
+    # c = grating_coupler_elliptical_arbitrary()
+    c = grating_coupler_elliptical_uniform(n_periods=3, fill_factor=0.1)
     # c = grating_coupler_elliptical_arbitrary(fiber_angle=8, bias_gap=-0.05)
     # c = gf.routing.add_fiber_array(grating_coupler=grating_coupler_elliptical_arbitrary)
     c.show(show_ports=True)

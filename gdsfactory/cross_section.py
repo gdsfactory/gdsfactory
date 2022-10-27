@@ -14,19 +14,18 @@ from pydantic import BaseModel, Field
 from typing_extensions import Literal
 
 from gdsfactory.add_pins import add_bbox_siepic, add_pins_siepic_optical_2nm
-from gdsfactory.tech import TECH, Section
+from gdsfactory.tech import Section
 
-LAYER = TECH.layer
 Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
-WidthTypes = Literal["sine", "linear"]
+WidthTypes = Literal["sine", "linear", "parabolic"]
 
 LayerSpec = Union[Layer, int, str, None]
 LayerSpecs = Union[List[LayerSpec], Tuple[LayerSpec, ...]]
 Floats = Tuple[float, ...]
 port_names_electrical = ("e1", "e2")
 port_types_electrical = ("electrical", "electrical")
-cladding_layers_optical = ((68, 0),)  # for SiEPIC verification
+cladding_layers_optical = ("DEVREC",)  # for SiEPIC verification
 cladding_offsets_optical = (0,)  # for SiEPIC verification
 
 
@@ -326,6 +325,7 @@ strip = partial(
     cladding_offsets=(0,),  # for SiEPIC verification
 )
 strip_auto_widen = partial(strip, width_wide=0.9, auto_widen=True)
+npp = partial(strip, layer="NPP")
 
 # Rib with rectangular slab
 rib = partial(
@@ -426,6 +426,7 @@ metal1 = partial(
     width=10.0,
     port_names=port_names_electrical,
     port_types=port_types_electrical,
+    radius=None,
 )
 metal2 = partial(
     metal1,
@@ -440,6 +441,9 @@ heater_metal = partial(
     width=2.5,
     layer="HEATER",
 )
+
+metal3_with_bend = partial(metal1, layer="M3", radius=10)
+metal_routing = metal3
 
 
 @pydantic.validate_arguments
@@ -946,7 +950,7 @@ def strip_heater_doped(
 
 strip_heater_doped_via_stack = partial(
     strip_heater_doped,
-    layers_heater=(LAYER.WG, LAYER.NPP, LAYER.VIAC),
+    layers_heater=("WG", "NPP", "VIAC"),
     bbox_offsets_heater=(0, 0.1, -0.2),
 )
 
@@ -1146,6 +1150,196 @@ def rib_heater_doped_via_stack(
         width=width,
         layer=layer,
         **kwargs,
+    )
+
+
+@pydantic.validate_arguments
+def pn_ge_detector_si_contacts(
+    width_si: float = 6.0,
+    layer_si: LayerSpec = "WG",
+    width_ge: float = 3.0,
+    layer_ge: LayerSpec = "GE",
+    gap_low_doping: float = 0.6,
+    gap_medium_doping: Optional[float] = 0.9,
+    gap_high_doping: Optional[float] = 1.1,
+    width_doping: float = 8.0,
+    layer_p: LayerSpec = "P",
+    layer_pp: LayerSpec = "PP",
+    layer_ppp: LayerSpec = "PPP",
+    layer_n: LayerSpec = "N",
+    layer_np: LayerSpec = "NP",
+    layer_npp: LayerSpec = "NPP",
+    layer_via: LayerSpec = None,
+    width_via: float = 1.0,
+    layer_metal: LayerSpec = None,
+    width_metal: float = 1.0,
+    port_names: Tuple[str, str] = ("o1", "o2"),
+    bbox_layers: Optional[List[Layer]] = None,
+    bbox_offsets: Optional[List[float]] = None,
+    cladding_layers: Optional[Layers] = cladding_layers_optical,
+    cladding_offsets: Optional[Floats] = cladding_offsets_optical,
+) -> CrossSection:
+    """Linear Ge detector cross section based on a lateral p(i)n junction.
+
+    It has silicon contacts (no contact on the Ge). The contacts need to be
+    created in the component generating function (they can't be created here).
+
+    See Chen et al., "High-Responsivity Low-Voltage 28-Gb/s Ge p-i-n Photodetector
+    With Silicon Contacts", Journal of Lightwave Technology 33(4), 2015.
+
+    Notice it is possible to have dopings going beyond the ridge waveguide. This
+    is fine, and it is to account for the
+    presence of the contacts. Such contacts can be subwavelength or not.
+
+    Args:
+        width_si: width of the full etch si in um.
+        layer_si: si ridge layer.
+        width_ge: width of the ge in um.
+        layer_ge: ge layer.
+        gap_low_doping: from waveguide center to low doping.
+        gap_medium_doping: from waveguide center to medium doping.
+            None removes medium doping.
+        gap_high_doping: from center to high doping. None removes it.
+        width_doping: distance from the waveguide center to the edge
+            of the p (or n) dopings in um.
+        layer_p: p doping layer.
+        layer_pp: p+ doping layer.
+        layer_ppp: p++ doping layer.
+        layer_n: n doping layer.
+        layer_np: n+ doping layer.
+        layer_npp: n++ doping layer.
+        layer_via: via layer.
+        width_via: via width in um.
+        layer_metal: metal layer.
+        width_metal: metal width in um.
+        bbox_layers: list of layers for rectangular bounding box.
+        bbox_offsets: list of bounding box offsets.
+        port_names: for input and output ('o1', 'o2').
+        bbox_layers: list of layers for rectangular bounding box.
+        bbox_offsets: list of bounding box offsets.
+
+    .. code::
+
+                                   layer_si
+                           |<------width_si---->|
+
+                                  layer_ge
+                              |<--width_ge->|
+                               ______________
+                              |             |
+                            __|_____________|___
+                           |     |       |     |
+                           |     |       |     |
+                    P      |     |       |     |         N                |
+                 width_p   |_____|_______|_____|           width_n        |
+        <----------------------->|       |<------------------------------>|
+                                     |<->|
+                                     gap_low_doping
+                                     |         |        N+                |
+                                     |         |     width_np             |
+                                     |         |<------------------------>|
+                                     |<------->|
+                                     |     gap_medium_doping
+                                     |
+                                     |<---------------------------------->|
+                                                width_doping
+
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        xs = gf.cross_section.pn()
+        p = gf.path.arc(radius=10, angle=45)
+        c = p.extrude(xs)
+        c.plot()
+    """
+    width_low_doping = width_doping - gap_low_doping
+    offset_low_doping = width_low_doping / 2 + gap_low_doping
+
+    n = Section(width=width_low_doping, offset=+offset_low_doping, layer=layer_n)
+    p = Section(width=width_low_doping, offset=-offset_low_doping, layer=layer_p)
+    sections = [n, p]
+    if gap_medium_doping is not None:
+        width_medium_doping = width_doping - gap_medium_doping
+        offset_medium_doping = width_medium_doping / 2 + gap_medium_doping
+
+        np = Section(
+            width=width_medium_doping,
+            offset=+offset_medium_doping,
+            layer=layer_np,
+        )
+        pp = Section(
+            width=width_medium_doping,
+            offset=-offset_medium_doping,
+            layer=layer_pp,
+        )
+        sections.extend((np, pp))
+    if gap_high_doping is not None:
+        width_high_doping = width_doping - gap_high_doping
+        offset_high_doping = width_high_doping / 2 + gap_high_doping
+        npp = Section(
+            width=width_high_doping, offset=+offset_high_doping, layer=layer_npp
+        )
+        ppp = Section(
+            width=width_high_doping, offset=-offset_high_doping, layer=layer_ppp
+        )
+        sections.extend((npp, ppp))
+    if layer_via is not None:
+        offset = width_high_doping / 2 + gap_high_doping
+        via_top = Section(width=width_via, offset=+offset, layer=layer_via)
+        via_bot = Section(width=width_via, offset=-offset, layer=layer_via)
+        sections.extend((via_top, via_bot))
+    if layer_metal is not None:
+        offset = width_high_doping / 2 + gap_high_doping
+        port_types = ("electrical", "electrical")
+        metal_top = Section(
+            width=width_via,
+            offset=+offset,
+            layer=layer_metal,
+            port_types=port_types,
+            port_names=("e1_top", "e2_top"),
+        )
+        metal_bot = Section(
+            width=width_via,
+            offset=-offset,
+            layer=layer_metal,
+            port_types=port_types,
+            port_names=("e1_bot", "e2_bot"),
+        )
+        sections.extend((metal_top, metal_bot))
+    bbox_layers = bbox_layers or []
+    bbox_offsets = bbox_offsets or []
+    for layer_cladding, cladding_offset in zip(bbox_layers, bbox_offsets):
+        s = Section(
+            width=width_si + 2 * cladding_offset, offset=0, layer=layer_cladding
+        )
+        sections.append(s)
+
+    # Add the Ge
+    s = Section(width=width_ge, offset=0, layer=layer_ge)
+    sections.append(s)
+
+    info = dict(
+        width=width_si,
+        layer=layer_si,
+        bbox_layers=bbox_layers,
+        bbox_offsets=bbox_offsets,
+        gap_low_doping=gap_low_doping,
+        gap_medium_doping=gap_medium_doping,
+        gap_high_doping=gap_high_doping,
+        width_doping=width_doping,
+        width_slab=0.0,
+    )
+    return CrossSection(
+        width=width_si,
+        offset=0,
+        layer=layer_si,
+        port_names=port_names,
+        info=info,
+        sections=sections,
+        cladding_offsets=cladding_offsets,
+        cladding_layers=cladding_layers,
     )
 
 

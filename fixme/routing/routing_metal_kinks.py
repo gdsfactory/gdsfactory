@@ -1,5 +1,7 @@
 """The current routing algorithm does not allow for small "kinks" in the wire.
 
+FIXME.
+
 More precisely, for the current wiring algorithms
 gf.routing.get_route() and gf.routing.get_bundle()), if the wire needs to make an S-bend,
 the lateral displacement of the wire must be GREATER than the wire width.
@@ -27,6 +29,7 @@ if __name__ == "__main__":
         cross_section=gf.cross_section.metal1,
         width=50,
         bend=gf.components.wire_corner,
+        with_sbend=True,
     )
     c.add(route.references)
 
