@@ -50,10 +50,13 @@ def via_stack(
     c.info["layer"] = layer_port
 
     for layer in layers:
-        ref = c << compass(size=(width, height), layer=layer)
-
         if layer == layer_port:
+            ref = c << compass(
+                size=(width, height), layer=layer, port_type="electrical"
+            )
             c.add_ports(ref.ports)
+        else:
+            ref = c << compass(size=(width, height), layer=layer, port_type="placement")
 
     vias = vias or []
     for via in vias:
@@ -109,5 +112,5 @@ via_stack_heater_m3 = gf.partial(
 
 
 if __name__ == "__main__":
-    c = via_stack()
+    c = via_stack_m1_m3()
     c.show(show_ports=True)

@@ -24,7 +24,7 @@ from gdsfactory.serialization import clean_value_json, clean_value_name
 from gdsfactory.simulation.gmeep.get_simulation_grating_fiber import (
     get_simulation_grating_fiber,
 )
-from gdsfactory.simulation.gmeep.write_sparameters_meep_mpi import _mpirun, _python
+from gdsfactory.simulation.gmeep.write_sparameters_meep_mpi import _python
 from gdsfactory.types import PathType
 
 nm = 1e-3
@@ -46,7 +46,6 @@ def write_sparameters_grating(
     dirpath: Optional[PathType] = sparameters_path,
     decay_by: float = 1e-3,
     verbosity: int = 0,
-    ncores: int = 1,
     **settings,
 ) -> np.ndarray:
     """Write grating coupler with fiber Sparameters.
@@ -88,6 +87,7 @@ def write_sparameters_grating(
         wavelength_min: min wavelength (um).
         wavelength_max: max wavelength (um).
         wavelength_points: wavelength points.
+        decay_by: field decay to stop simulation = 1e-3.
         eps_averaging: epsilon averaging.
         fiber_port_y_offset_from_air: y_offset from fiber to air (um).
         waveguide_port_x_offset_from_grating_start: in um.
@@ -147,7 +147,7 @@ def write_sparameters_grating(
         plt.show()
         return
 
-    termination = [mp.stop_when_energy_decayed(dt=50, decay_by=1e-3)]
+    termination = [mp.stop_when_energy_decayed(dt=50, decay_by=decay_by)]
 
     if animate:
         # Run while saving fields
@@ -232,7 +232,7 @@ def write_sparameters_grating(
         "o2@0,o2@0": s22,
         "wavelengths": wavelengths,
     }
-    np.save_compressed(filepath_npz, **sp)
+    np.savez_compressed(filepath_npz, **sp)
     return sp
 
 
@@ -284,7 +284,7 @@ def write_sparameters_grating_mpi(
     with open(script_file, "w") as script_file_obj:
         script_file_obj.writelines(script_lines)
     # Exec string
-    command = f"{_mpirun()} -np {cores} {_python()} {script_file}"
+    command = f"mpirun -np {cores} {_python()} {script_file}"
 
     # Launch simulation
     if verbosity:

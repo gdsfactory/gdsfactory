@@ -1,5 +1,4 @@
-connections:
-  r1,e3: r2,e4
+connections: {}
 instances:
   r1:
     component: rectangle

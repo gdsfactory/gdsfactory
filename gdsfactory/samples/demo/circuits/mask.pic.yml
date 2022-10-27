@@ -1,0 +1,39 @@
+name: mask_compact
+pdk: ubcpdk
+
+
+instances:
+  rings:
+    component: pack_doe
+    settings:
+      doe: ring_single
+      settings:
+        radius: [30, 50, 20]
+        length_x: [1, 2, 3]
+      do_permutations: True
+      function:
+        function: add_fiber_array
+        settings:
+            fanout_length: 200
+
+  mzis:
+    component: pack_doe_grid
+    settings:
+      doe: mzi
+      settings:
+        delta_length: [10, 20, 30, 40]
+      do_permutations: True
+      spacing: [10, 10]
+      function: add_fiber_single
+
+
+placements:
+  rings:
+    x: 50
+    y: 50
+
+  mzis:
+    xmin: rings,east
+    ymin: rings,south
+    dx: 100
+    dy: 00

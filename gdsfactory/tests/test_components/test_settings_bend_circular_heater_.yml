@@ -7,9 +7,7 @@ settings:
     cross_section: strip
     heater_to_wg_distance: 1.2
     heater_width: 0.5
-    layer_heater:
-    - 47
-    - 0
+    layer_heater: HEATER
     npoints: 720
     radius: 10
     with_bbox: true
@@ -18,9 +16,7 @@ settings:
     cross_section: strip
     heater_to_wg_distance: 1.2
     heater_width: 0.5
-    layer_heater:
-    - 47
-    - 0
+    layer_heater: HEATER
     npoints: 720
     radius: 10
     with_bbox: true
@@ -30,4 +26,3 @@ settings:
   info_version: 2
   module: gdsfactory.components.bend_circular_heater
   name: bend_circular_heater
-version: 0.0.1

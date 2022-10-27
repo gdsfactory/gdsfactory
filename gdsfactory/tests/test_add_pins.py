@@ -30,7 +30,7 @@ def test_add_pins() -> None:
 
 
 if __name__ == "__main__":
-    test_add_pins()
+    # test_add_pins()
     # c = test_add_pins_with_routes(0)
     # c.show(show_ports=True)
 
@@ -47,3 +47,6 @@ if __name__ == "__main__":
     # cc.show(show_ports=True)
     # pins_component = cc.extract(layers=(LAYER.PIN,))
     # print(len(pins_component.polygons))
+
+    c = gf.components.straight(length=11.0)
+    c2 = c.extract(layers=(LAYER.PORT,))

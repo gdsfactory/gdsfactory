@@ -133,6 +133,9 @@ def write_sparameters_meep(
     xmargin_right: float = 0,
     ymargin_top: float = 0,
     ymargin_bot: float = 0,
+    decay_by: float = 1e-3,
+    is_3d: bool = False,
+    z: float = 0,
     **settings,
 ) -> np.ndarray:
     r"""Returns Sparameters and writes them to npz filepath.
@@ -206,6 +209,15 @@ def write_sparameters_meep(
             outputs during computation. The name of the file is the source index.
         lazy_parallelism: toggles the flag "meep.divide_parallel_processes" to
             perform the simulations with different sources in parallel.
+            By default MPI just runs the same copy of the Python script everywhere,
+            with the C++ under MEEP actually being parallelized.
+            divide_parallel_processes allows us to logically split this one calculation
+            into (in this case "cores") subdivisions.
+            The only difference in the scripts is that a different integer n
+            is returned depending on the subdivision it is running in.
+            So we use that n to select different sources, and each subdivision calculates
+            its own Sparams independently. Afterwards, we collect all
+            results in one of the subdivisions (if rank == 0).
         run: runs simulation, if False, only plots simulation.
         dispersive: use dispersive models for materials (requires higher resolution).
         xmargin: left and right distance from component to PML.
@@ -214,6 +226,8 @@ def write_sparameters_meep(
         ymargin: top and bottom distance from component to PML.
         ymargin_top: north distance from component to PML.
         ymargin_bot: south distance from component to PML.
+        is_3d: if True runs in 3D (much slower).
+        z: for 2D plot.
 
     keyword Args:
         extend_ports_length: to extend ports beyond the PML (um).
@@ -221,7 +235,6 @@ def write_sparameters_meep(
         zmargin_bot: thickness for cladding below core (um).
         tpml: PML thickness (um).
         clad_material: material for cladding.
-        is_3d: if True runs in 3D (much slower).
         wavelength_start: wavelength min (um).
         wavelength_stop: wavelength max (um).
         wavelength_points: wavelength steps.
@@ -268,6 +281,7 @@ def write_sparameters_meep(
         ymargin_bot=ymargin_bot,
         xmargin_left=xmargin_left,
         xmargin_right=xmargin_right,
+        is_3d=is_3d,
         **settings,
     )
 
@@ -307,10 +321,20 @@ def write_sparameters_meep(
             port_margin=port_margin,
             port_monitor_offset=port_monitor_offset,
             port_source_offset=port_source_offset,
+            is_3d=is_3d,
             **settings,
         )
-        sim_dict["sim"].plot2D(plot_eps_flag=True)
-        return
+        sim = sim_dict["sim"]
+        if is_3d:
+            sim.plot2D(
+                output_plane=mp.Volume(
+                    size=mp.Vector3(sim.cell_size.x, sim.cell_size.y, 0),
+                    center=mp.Vector3(0, 0, z),
+                )
+            )
+        else:
+            sim.plot2D(plot_eps_flag=True)
+        return sim
 
     if filepath.exists():
         if not overwrite:
@@ -337,9 +361,9 @@ def write_sparameters_meep(
         wavelength_start: float = wavelength_start,
         wavelength_stop: float = wavelength_stop,
         wavelength_points: int = wavelength_points,
-        dirpath: Path = dirpath,
         animate: bool = animate,
         dispersive: bool = dispersive,
+        decay_by: float = decay_by,
         **settings,
     ) -> Dict:
         """Return Sparameter dict."""
@@ -355,6 +379,7 @@ def write_sparameters_meep(
             port_source_offset=port_source_offset,
             dispersive=dispersive,
             layer_stack=layer_stack,
+            is_3d=is_3d,
             **settings,
         )
 
@@ -364,7 +389,7 @@ def write_sparameters_meep(
         # print(sim.resolution)
 
         # Terminate when the area in the whole area decayed
-        termination = [mp.stop_when_energy_decayed(dt=50, decay_by=1e-3)]
+        termination = [mp.stop_when_energy_decayed(dt=50, decay_by=decay_by)]
 
         if animate:
             sim.use_output_directory()
@@ -387,12 +412,12 @@ def write_sparameters_meep(
 
         # Calculate mode overlaps
         # Get source monitor results
-        source_entering, source_exiting = parse_port_eigenmode_coeff(
+        source_entering, _ = parse_port_eigenmode_coeff(
             port_source_name, component.ports, sim_dict
         )
         # Get coefficients
         for port_name in port_names:
-            monitor_entering, monitor_exiting = parse_port_eigenmode_coeff(
+            _, monitor_exiting = parse_port_eigenmode_coeff(
                 port_name, component.ports, sim_dict
             )
             key = f"{port_name}@0,{port_source_name}@0"
@@ -416,8 +441,13 @@ def write_sparameters_meep(
         size = comm.Get_size()
         rank = comm.Get_rank()
 
+        # Map port names to integers
+        port_source_dict = {}
+        for number, name in enumerate(port_source_names):
+            port_source_dict[number] = name
+
         sp = sparameter_calculation(
-            port_source_name=port_names[n],
+            port_source_name=port_source_dict[n],
             component=component,
             port_symmetries=port_symmetries,
             wavelength_start=wavelength_start,
@@ -491,16 +521,18 @@ settings_write_sparameters_meep = set(sig.parameters.keys()).union(
 )
 
 if __name__ == "__main__":
+    c = gf.components.mmi1x2(cross_section=gf.cross_section.nitride)
+    sp = write_sparameters_meep(c, run=False, is_3d=False)
+
     # from gdsfactory.simulation.add_simulation_markers import add_simulation_markers
-    import gdsfactory.simulation as sim
+    # import gdsfactory.simulation as sim
 
-    c = gf.components.straight(length=2)
-
+    # c = gf.components.straight(length=2)
     # c = gf.components.bend_euler(radius=3)
     # c = add_simulation_markers(c)
 
-    sp = write_sparameters_meep_1x1(c, run=True, is_3d=False)
-    sim.plot.plot_sparameters(sp)
+    # sp = write_sparameters_meep_1x1(c, run=True, is_3d=False)
+    # sim.plot.plot_sparameters(sp)
 
     # import matplotlib.pyplot as plt
     # plt.show()

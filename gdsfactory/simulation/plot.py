@@ -1,3 +1,4 @@
+from functools import partial
 from typing import Dict, Optional, Tuple
 
 import matplotlib.pyplot as plt
@@ -34,7 +35,7 @@ def plot_sparameters(
 
     """
     w = sp["wavelengths"] * 1e3
-    keys = keys or [key for key in sp.keys() if not key.lower().startswith("wav")]
+    keys = keys or [key for key in sp if not key.lower().startswith("wav")]
 
     for key in keys:
 
@@ -61,7 +62,7 @@ def plot_sparameters(
 
 
 def plot_imbalance2x2(
-    sp: Dict[str, np.ndarray], port1: str = "s13m", port2: str = "s14m"
+    sp: Dict[str, np.ndarray], port1: str = "o1@0,o3@0", port2: str = "o1@0,o4@0"
 ) -> None:
     """Plots imbalance in % for 2x2 coupler.
 
@@ -71,8 +72,8 @@ def plot_imbalance2x2(
         port2: name.
 
     """
-    y1 = sp[port1].values
-    y2 = sp[port2].values
+    y1 = np.abs(sp[port1])
+    y2 = np.abs(sp[port2])
     imbalance = y1 / y2
     x = sp["wavelengths"] * 1e3
     plt.plot(x, 100 * abs(imbalance))
@@ -82,26 +83,26 @@ def plot_imbalance2x2(
 
 
 def plot_loss2x2(
-    sp: Dict[str, np.ndarray], port1: str = "s13m", port2: str = "s14m"
+    sp: Dict[str, np.ndarray], port1: str = "o1@0,", port2: str = "o1@0"
 ) -> None:
     """Plots imbalance in % for 2x2 coupler.
 
     Args:
         sp: sparameters dict np.ndarray.
-        port1: name.
-        port2: name.
+        port1: port name @ mode index. o1@0 is the fundamental mode for o1 port.
+        port2: port name @ mode index. o1@0 is the fundamental mode for o1 port.
 
     """
-    y1 = sp[port1].values
-    y2 = sp[port2].values
+    y1 = np.abs(sp[port1])
+    y2 = np.abs(sp[port2])
     x = sp["wavelengths"] * 1e3
     plt.plot(x, abs(10 * np.log10(y1**2 + y2**2)))
     plt.xlabel("wavelength (nm)")
     plt.ylabel("excess loss (dB)")
 
 
-plot_loss1x2 = gf.partial(plot_loss2x2, port1="s13m", port2="o1@0,o2@0")
-plot_imbalance1x2 = gf.partial(plot_imbalance2x2, port1="s13m", port2="o1@0,o2@0")
+plot_loss1x2 = partial(plot_loss2x2, port1="o1@0,o2@0", port2="o1@0,o3@0")
+plot_imbalance1x2 = partial(plot_imbalance2x2, port1="o1@0,o2@0", port2="o1@0,o3@0")
 
 
 if __name__ == "__main__":

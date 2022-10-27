@@ -150,3 +150,45 @@ placements:
     x: 0.0
     y: 0.0
 ports: {}
+warnings:
+  optical:
+    unconnected_ports:
+    - message: 12 unconnected optical ports!
+      ports:
+      - mmi1x2_sweep,mmi1x2_length_mmi100_width_mmi10_0_o1
+      - mmi1x2_sweep,mmi1x2_length_mmi100_width_mmi10_0_o2
+      - mmi1x2_sweep,mmi1x2_length_mmi100_width_mmi10_0_o3
+      - mmi1x2_sweep,mmi1x2_length_mmi100_width_mmi4_1_o1
+      - mmi1x2_sweep,mmi1x2_length_mmi100_width_mmi4_1_o2
+      - mmi1x2_sweep,mmi1x2_length_mmi100_width_mmi4_1_o3
+      - mmi1x2_sweep,mmi1x2_length_mmi2_width_mmi10_2_o1
+      - mmi1x2_sweep,mmi1x2_length_mmi2_width_mmi10_2_o2
+      - mmi1x2_sweep,mmi1x2_length_mmi2_width_mmi10_2_o3
+      - mmi1x2_sweep,mmi1x2_length_mmi2_width_mmi4_3_o1
+      - mmi1x2_sweep,mmi1x2_length_mmi2_width_mmi4_3_o2
+      - mmi1x2_sweep,mmi1x2_length_mmi2_width_mmi4_3_o3
+      values:
+      - - 50.5
+        - 55.5
+      - - 170.5
+        - 56.125
+      - - 170.5
+        - 54.875
+      - - 50.5
+        - 162.5
+      - - 170.5
+        - 163.125
+      - - 170.5
+        - 161.875
+      - - 50.5
+        - 269.5
+      - - 72.5
+        - 270.125
+      - - 72.5
+        - 268.875
+      - - 172.5
+        - 266.5
+      - - 194.5
+        - 267.125
+      - - 194.5
+        - 265.875
