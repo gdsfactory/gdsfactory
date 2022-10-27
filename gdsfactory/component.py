@@ -681,12 +681,7 @@ class Component(gdspy.Cell, _GeometryHelper):
 
         layers = [_parse_layer(get_layer(layer)) for layer in layers]
 
-        if recursive and self.references:
-            D = self.flatten()
-
-        else:
-            D = self
-
+        D = self.flatten() if recursive and self.references else self
         for polygonset in D.polygons:
             polygon_layers = zip(polygonset.layers, polygonset.datatypes)
             polygons_to_keep = [(pl in layers) for pl in polygon_layers]
