@@ -576,7 +576,7 @@ class Component(gdspy.Cell, _GeometryHelper):
 
     def add_port(
         self,
-        name: Optional[Union[str, int, object]] = None,
+        name: Optional[Union[str, object]] = None,
         center: Optional[Tuple[float, float]] = None,
         width: Optional[float] = None,
         orientation: Optional[float] = None,
