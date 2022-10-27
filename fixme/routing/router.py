@@ -1,4 +1,4 @@
-"""This router could save more routing space with a more direct algorithm."""
+"""FIXME.This router could save more routing space with a more direct algorithm."""
 
 import gdsfactory as gf
 from gdsfactory.components.extend_ports_list import extend_ports_list
@@ -17,7 +17,7 @@ if __name__ == "__main__":
     pad_pitch = 150.0 * 2
     metal_width = 5.0
     metal_spacing = 10.0
-    cross_section = gf.cross_section.metal3
+    cross_section = "metal_routing"
     length = 200
     dy = 100
 
@@ -34,7 +34,7 @@ if __name__ == "__main__":
         length=length,
         port_orientation1=180,
         port_orientation2=0,
-        contact=via_stack_heater_m3,
+        via_stack=via_stack_heater_m3,
     )
 
     ps = c << extend_ports_list(

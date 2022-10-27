@@ -26,7 +26,7 @@ def die_bbox_frame(
     boundary of the chip/die it can also add a label with the name of the die.
     similar to die and bbox.
 
-    adapted from phidl.geometry
+    based on phidl.geometry
 
     Args:
         bbox: bounding box to frame.

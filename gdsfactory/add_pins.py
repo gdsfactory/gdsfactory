@@ -15,13 +15,13 @@ import gdspy
 import numpy as np
 from numpy import ndarray
 from omegaconf import OmegaConf
-from phidl.device_layout import DeviceReference as ComponentReference
-from phidl.device_layout import Port
 
 from gdsfactory.snap import snap_to_grid
 
 if TYPE_CHECKING:
     from gdsfactory.component import Component
+    from gdsfactory.component_reference import ComponentReference
+    from gdsfactory.port import Port
 
 Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
@@ -34,7 +34,9 @@ def _rotate(v: ndarray, m: ndarray) -> ndarray:
     return np.dot(m, v)
 
 
-def get_pin_triangle_polygon_tip(port: Port) -> Tuple[List[float], Tuple[float, float]]:
+def get_pin_triangle_polygon_tip(
+    port: "Port",
+) -> Tuple[List[float], Tuple[float, float]]:
     """Returns triangle polygon and tip position."""
     p = port
     port_face = p.info.get("face", None)
@@ -71,7 +73,7 @@ def get_pin_triangle_polygon_tip(port: Port) -> Tuple[List[float], Tuple[float, 
 
 def add_pin_triangle(
     component: "Component",
-    port: Port,
+    port: "Port",
     layer: LayerSpec = "PORT",
     layer_label: LayerSpec = "TEXT",
 ) -> None:
@@ -97,7 +99,7 @@ def add_pin_triangle(
 
 def add_pin_rectangle_inside(
     component: "Component",
-    port: Port,
+    port: "Port",
     pin_length: float = 0.1,
     layer: LayerSpec = "PORT",
     layer_label: LayerSpec = "TEXT",
@@ -152,7 +154,7 @@ def add_pin_rectangle_inside(
 
 def add_pin_rectangle_double(
     component: "Component",
-    port: Port,
+    port: "Port",
     pin_length: float = 0.1,
     layer: LayerSpec = "PORT",
     layer_label: LayerSpec = "TEXT",
@@ -223,7 +225,7 @@ def add_pin_rectangle_double(
 
 def add_pin_rectangle(
     component: "Component",
-    port: Port,
+    port: "Port",
     pin_length: float = 0.1,
     layer: LayerSpec = "PORT",
     layer_label: LayerSpec = "TEXT",
@@ -282,7 +284,7 @@ def add_pin_rectangle(
 
 def add_pin_path(
     component: "Component",
-    port: Port,
+    port: "Port",
     pin_length: float = 2 * nm,
     layer: LayerSpec = "PORT",
     layer_label: LayerSpec = None,
@@ -340,7 +342,7 @@ def add_pin_path(
 
 def add_outline(
     component: "Component",
-    reference: Optional[ComponentReference] = None,
+    reference: Optional["ComponentReference"] = None,
     layer: LayerSpec = "DEVREC",
     **kwargs,
 ) -> None:
@@ -479,7 +481,7 @@ add_pins_bbox_siepic_2nm = partial(add_pins_bbox_siepic, pin_length=2 * nm)
 
 def add_pins(
     component: "Component",
-    reference: Optional[ComponentReference] = None,
+    reference: Optional["ComponentReference"] = None,
     function: Callable = add_pin_rectangle_inside,
     select_ports: Optional[Callable] = None,
     **kwargs,
@@ -511,7 +513,7 @@ add_pins_triangle = partial(add_pins, function=add_pin_triangle)
 
 def add_settings_label(
     component: "Component",
-    reference: ComponentReference,
+    reference: "ComponentReference",
     layer_label: LayerSpec = "LABEL_SETTINGS",
 ) -> None:
     """Add settings in label.
@@ -536,7 +538,7 @@ def add_settings_label(
 
 def add_instance_label(
     component: "Component",
-    reference: ComponentReference,
+    reference: "ComponentReference",
     instance_name: Optional[str] = None,
     layer: LayerSpec = "LABEL_INSTANCE",
 ) -> None:
@@ -557,7 +559,7 @@ def add_instance_label(
 
 def add_pins_and_outline(
     component: "Component",
-    reference: ComponentReference,
+    reference: "ComponentReference",
     add_outline_function: Optional[Callable] = add_outline,
     add_pins_function: Optional[Callable] = add_pins,
     add_settings_function: Optional[Callable] = add_settings_label,

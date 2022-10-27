@@ -19,7 +19,7 @@ isort:skip_file
 """
 from functools import partial
 from toolz import compose
-from phidl.device_layout import Group
+from gdsfactory.component_layout import Group
 from gdsfactory.path import Path
 
 
@@ -56,7 +56,6 @@ from gdsfactory import add_ports
 from gdsfactory import write_cells
 from gdsfactory import add_pins
 
-from gdsfactory.tech import TECH
 from gdsfactory.add_tapers import add_tapers
 from gdsfactory.add_padding import (
     add_padding,
@@ -73,6 +72,7 @@ from gdsfactory.pdk import (
     get_layer,
     get_active_pdk,
     get_cell,
+    get_constant,
 )
 from gdsfactory.get_factories import get_cells
 from gdsfactory.cross_section import get_cross_section_factories
@@ -93,7 +93,6 @@ __all__ = (
     "Pdk",
     "Port",
     "Section",
-    "TECH",
     "add_padding",
     "add_padding_container",
     "add_pins",
@@ -118,6 +117,7 @@ __all__ = (
     "get_cell",
     "get_cells",
     "get_component",
+    "get_constant",
     "get_cross_section",
     "get_cross_section_factories",
     "get_layer",
@@ -138,4 +138,4 @@ __all__ = (
     "types",
     "write_cells",
 )
-__version__ = "5.23.1"
+__version__ = "5.45.1"

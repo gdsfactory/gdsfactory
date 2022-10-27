@@ -22,8 +22,8 @@ ports:
     - 0
     port_type: optical
 cells:
-  mzi_6bc7cdfa:
-    name: mzi_6bc7cdfa
+  mzi_3f2640c0:
+    name: mzi_3f2640c0
     module: gdsfactory.components.mzi
     function_name: mzi
     info: {}
@@ -41,7 +41,6 @@ cells:
       straight_x_bot: null
       splitter:
         name: mmi1x2_be5e636a
-        version: 0.0.1
         settings:
           name: mmi1x2_be5e636a
           module: gdsfactory.components.mmi1x2
@@ -91,7 +90,6 @@ cells:
         function: cross_section
       splitter:
         name: mmi1x2_be5e636a
-        version: 0.0.1
         settings:
           name: mmi1x2_be5e636a
           module: gdsfactory.components.mmi1x2
@@ -581,10 +579,9 @@ cells:
       with_bbox: true
       cross_section: strip
     child: null
-name: mzi_6bc7cdfa
-version: 0.0.1
+name: mzi_3f2640c0
 settings:
-  name: mzi_6bc7cdfa
+  name: mzi_3f2640c0
   module: gdsfactory.components.mzi
   function_name: mzi
   info: {}
@@ -602,7 +599,6 @@ settings:
     straight_x_bot: null
     splitter:
       name: mmi1x2_be5e636a
-      version: 0.0.1
       settings:
         name: mmi1x2_be5e636a
         module: gdsfactory.components.mmi1x2
@@ -652,7 +648,6 @@ settings:
       function: cross_section
     splitter:
       name: mmi1x2_be5e636a
-      version: 0.0.1
       settings:
         name: mmi1x2_be5e636a
         module: gdsfactory.components.mmi1x2

@@ -27,7 +27,7 @@ def ring_single_dut(
 ) -> Component:
     """Single bus ring made of two couplers (ct: top, cb: bottom) connected.
 
-    with two vertical straights (wyl: left, wyr: right) (Device Under Test) in
+    with two vertical straights (wyl: left, wyr: right) (Component Under Test) in
     the middle to extract loss from quality factor.
 
     Args:

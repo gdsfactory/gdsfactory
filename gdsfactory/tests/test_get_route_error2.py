@@ -13,7 +13,7 @@ def test_route_error2():
         steps=[
             {"y": 100},
         ],
-        cross_section=gf.cross_section.metal3,
+        cross_section="metal_routing",
         bend=gf.components.wire_corner,
     )
     c.add(route.references)
