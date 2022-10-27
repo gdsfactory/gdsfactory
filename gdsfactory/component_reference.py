@@ -526,7 +526,7 @@ class ComponentReference(CellReference, _GeometryHelper):
 
     def connect(
         self,
-        port: Union[str, int, Port],
+        port: Union[str, Port],
         destination: Port,
         overlap: float = 0.0,
     ) -> "ComponentReference":

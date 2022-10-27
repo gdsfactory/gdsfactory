@@ -1229,11 +1229,12 @@ class Component(gdspy.Cell, _GeometryHelper):
             component = self.copy()
             component.name = self.name
             for reference in component.references:
-                add_pins_triangle(
-                    component=component,
-                    reference=reference,
-                    layer=port_marker_layer,
-                )
+                if isinstance(component, ComponentReference):
+                    add_pins_triangle(
+                        component=component,
+                        reference=reference,
+                        layer=port_marker_layer,
+                    )
 
         elif show_ports:
             component = self.copy()
