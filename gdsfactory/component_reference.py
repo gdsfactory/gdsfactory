@@ -1,7 +1,6 @@
 import typing
 import warnings
 from typing import Any, Dict, List, Optional, Tuple, Union, cast
-from itertools import islice
 
 import numpy as np
 from gdspy import CellReference
@@ -243,35 +242,13 @@ class ComponentReference(CellReference, _GeometryHelper):
         ), f"TypeError, Got {type(v)}, expecting ComponentReference"
         return v
 
-    def __getitem__(self, val):
-        """This allows you to access an alias from the reference's parent, and.
+    def __getitem__(self, key):
+        """Access reference ports."""
+        if key not in self.ports:
+            ports = list(self.ports.keys())
+            raise ValueError(f"{key!r} not in {ports}")
 
-        receive a copy of the reference which is correctly rotated and
-        translated.
-        """
-        try:
-            alias_device = self.parent[val]
-        except Exception as exc:
-            raise ValueError(
-                '[PHIDL] Tried to access alias "%s" from parent '
-                'Component "%s", which does not exist' % (val, self.parent.name)
-            ) from exc
-        new_reference = ComponentReference(
-            alias_device.parent,
-            origin=alias_device.origin,
-            rotation=alias_device.rotation,
-            magnification=alias_device.magnification,
-            x_reflection=alias_device.x_reflection,
-        )
-
-        if self.x_reflection:
-            new_reference.reflect((1, 0))
-        if self.rotation is not None:
-            new_reference.rotate(self.rotation)
-        if self.origin is not None:
-            new_reference.move(self.origin)
-
-        return new_reference
+        return self.ports[key]
 
     @property
     def ports(self) -> Dict[str, Port]:
@@ -302,23 +279,6 @@ class ComponentReference(CellReference, _GeometryHelper):
             if name not in parent_names:
                 self._local_ports.pop(name)
         return self._local_ports
-
-    def p(self, val: Union[int, str]) -> Port:
-        """
-        Access a reference's port by name or by index.
-
-        Args:
-            val: The integer index of string name of the port.
-
-        Returns:
-            port: The local port referenced by the value. 
-        """
-        if isinstance(val, int):
-            return next(islice(self.ports.values(), val, None))
-        elif isinstance(val, str):
-            return self.ports[val]
-        else:
-            raise ValueError(f"value {val} is not an int or string")
 
     @property
     def info(self) -> Dict[str, Any]:
@@ -573,7 +533,7 @@ class ComponentReference(CellReference, _GeometryHelper):
         """Return ComponentReference where port connects to a destination.
 
         Args:
-            port: origin (port, port name, or port index) to connect.
+            port: origin (port, or port name) to connect.
             destination: destination port.
             overlap: how deep does the port go inside.
 
@@ -581,12 +541,10 @@ class ComponentReference(CellReference, _GeometryHelper):
             ComponentReference: with correct rotation to connect to destination.
         """
         # port can either be a string with the name, port index, or an actual Port
-        if port in self.ports:  # Then ``port`` is a key for the ports dict
+        if port in self.ports:
             p = self.ports[port]
         elif isinstance(port, Port):
             p = port
-        elif isinstance(port, int):
-            p = self.p(port)
         else:
             ports = list(self.ports.keys())
             raise ValueError(
