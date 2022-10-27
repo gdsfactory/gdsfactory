@@ -242,35 +242,13 @@ class ComponentReference(CellReference, _GeometryHelper):
         ), f"TypeError, Got {type(v)}, expecting ComponentReference"
         return v
 
-    def __getitem__(self, val):
-        """This allows you to access an alias from the reference's parent, and.
+    def __getitem__(self, key):
+        """Access reference ports."""
+        if key not in self.ports:
+            ports = list(self.ports.keys())
+            raise ValueError(f"{key!r} not in {ports}")
 
-        receive a copy of the reference which is correctly rotated and
-        translated.
-        """
-        try:
-            alias_device = self.parent[val]
-        except Exception as exc:
-            raise ValueError(
-                '[PHIDL] Tried to access alias "%s" from parent '
-                'Component "%s", which does not exist' % (val, self.parent.name)
-            ) from exc
-        new_reference = ComponentReference(
-            alias_device.parent,
-            origin=alias_device.origin,
-            rotation=alias_device.rotation,
-            magnification=alias_device.magnification,
-            x_reflection=alias_device.x_reflection,
-        )
-
-        if self.x_reflection:
-            new_reference.reflect((1, 0))
-        if self.rotation is not None:
-            new_reference.rotate(self.rotation)
-        if self.origin is not None:
-            new_reference.move(self.origin)
-
-        return new_reference
+        return self.ports[key]
 
     @property
     def ports(self) -> Dict[str, Port]:
@@ -555,15 +533,15 @@ class ComponentReference(CellReference, _GeometryHelper):
         """Return ComponentReference where port connects to a destination.
 
         Args:
-            port: origin (port or port_name) to connect.
+            port: origin (port, or port name) to connect.
             destination: destination port.
             overlap: how deep does the port go inside.
 
         Returns:
             ComponentReference: with correct rotation to connect to destination.
         """
-        # port can either be a string with the name or an actual Port
-        if port in self.ports:  # Then ``port`` is a key for the ports dict
+        # port can either be a string with the name, port index, or an actual Port
+        if port in self.ports:
             p = self.ports[port]
         elif isinstance(port, Port):
             p = port
