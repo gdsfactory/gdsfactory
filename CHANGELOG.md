@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.47.0
+
+- integrate flayout to add all of generic components into KLayout [PR](https://github.com/gdsfactory/gdsfactory/pull/797)
+
 ## 5.46.0
 
 - meep plot2D improvements [PR](https://github.com/gdsfactory/gdsfactory/pull/792)
