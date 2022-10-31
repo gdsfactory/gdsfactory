@@ -11,8 +11,8 @@ def plot_sparameters(
     sp: Dict[str, np.ndarray],
     logscale: bool = True,
     keys: Optional[Tuple[str, ...]] = None,
-    with_sparameter_labels: bool = True,
-    with_sparameter_keys: bool = False,
+    with_simpler_input_keys: bool = False,
+    with_simpler_labels: bool = True,
 ) -> None:
     """Plots Sparameters from a dict of np.ndarrays.
 
@@ -20,9 +20,8 @@ def plot_sparameters(
         sp: Sparameters np.ndarray.
         logscale: plots 20*log10(S).
         keys: list of keys to plot, plots all by default.
-        with_sparameter_labels: uses S11, S12 in plot labels.
-        with_sparameter_keys: use Sparameter keys.
-            Assumes mode 0 and o1, o2, o3 port naming.
+        with_simpler_input_keys: You can use S12 keys instead of o1@0,o2@0.
+        with_simpler_labels: uses S11, S12 in plot labels instead of o1@0,o2@0.
 
     .. plot::
         :include-source:
@@ -38,11 +37,12 @@ def plot_sparameters(
     keys = keys or [key for key in sp if not key.lower().startswith("wav")]
 
     for key in keys:
-
-        if with_sparameter_keys:
+        if with_simpler_input_keys:
             key = f"o{key[1]}@0,o{key[2]}@0"
+            if key not in sp:
+                raise ValueError(f"{key!r} not in {list(sp.keys())}")
 
-        if with_sparameter_labels and "o" in key and "@" in key:
+        if with_simpler_labels and "o" in key and "@" in key:
             port_mode1_port_mode2 = key.split(",")
             if len(port_mode1_port_mode2) != 2:
                 raise ValueError(f"{key!r} needs to be 'portin@mode,portout@mode'")
