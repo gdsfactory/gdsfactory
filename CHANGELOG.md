@@ -3,6 +3,7 @@
 ## 5.47.0
 
 - integrate flayout to add all of generic components into KLayout [PR](https://github.com/gdsfactory/gdsfactory/pull/797)
+- group gdsfactory klayout plugin items in a single menu [PR](https://github.com/gdsfactory/gdsfactory/pull/801)
 
 ## 5.46.0
 
