@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <klayout-macro>
  <description/>
- <description>0_link_gdsfactory_python</description>
+ <description>link_gdsfactory_python</description>
  <version/>
  <category>pymacros</category>
  <prolog/>
@@ -12,7 +12,7 @@
  <shortcut/>
  <show-in-menu>true</show-in-menu>
  <group-name/>
- <menu-path>gdsfactory.begin</menu-path>
+ <menu-path>gdsfactory.end</menu-path>
  <interpreter>python</interpreter>
  <dsl-interpreter-name/>
  <text>
