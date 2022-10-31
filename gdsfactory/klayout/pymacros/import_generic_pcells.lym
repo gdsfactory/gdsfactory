@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <klayout-macro>
- <description>1_import_generic_pcell</description>
+ <description>import_generic_PCells</description>
  <version/>
  <category>pymacros</category>
  <prolog/>
