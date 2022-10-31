@@ -1,3 +1,3 @@
-from kgdsfactory import menu, shortcuts
+from kgdsfactory.shortcuts import set_shortcuts
 
-__all__ = ("menu", "shortcuts")
+__all__ = ("set_shortcuts",)
