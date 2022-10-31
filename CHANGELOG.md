@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.47.1
+
+- improve simulation.plot.plot_sparameter kwargs
+    - replace with_sparameter_labels with  with_simpler_input_keys
+
 ## 5.47.0
 
 - integrate flayout to add all of generic components into KLayout [PR](https://github.com/gdsfactory/gdsfactory/pull/797)
