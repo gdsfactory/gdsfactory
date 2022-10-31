@@ -1,6 +1,7 @@
 -e .
 click
 flatdict
+flayout
 gdspy
 jsondiff
 loguru
