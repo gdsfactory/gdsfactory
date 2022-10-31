@@ -1,4 +1,4 @@
-"""Calculate the effective refractive index for a 1D mode."""
+"""Calculate effective index for a 1D mode."""
 
 from typing import List
 
