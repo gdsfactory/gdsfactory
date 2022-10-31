@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <klayout-macro>
- <description/>
+ <description>1_import_generic_pcell</description>
  <version/>
  <category>pymacros</category>
  <prolog/>
@@ -11,7 +11,7 @@
  <shortcut/>
  <show-in-menu>true</show-in-menu>
  <group-name/>
- <menu-path/>
+ <menu-path>gdsfactory.begin</menu-path>
  <interpreter>python</interpreter>
  <dsl-interpreter-name/>
  <text>
