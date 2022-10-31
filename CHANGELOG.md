@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.47.2
+
+- make package install work on Windows [PR](https://github.com/gdsfactory/gdsfactory/pull/805)
+
 ## 5.47.1
 
 - improve simulation.plot.plot_sparameter kwargs [PR](https://github.com/gdsfactory/gdsfactory/pull/804)
