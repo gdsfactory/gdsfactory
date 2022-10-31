@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<klayout-macro>
+ <description/>
+ <version/>
+ <category>pymacros</category>
+ <prolog/>
+ <epilog/>
+ <doc/>
+ <autorun>false</autorun>
+ <autorun-early>false</autorun-early>
+ <shortcut/>
+ <show-in-menu>true</show-in-menu>
+ <group-name/>
+ <menu-path/>
+ <interpreter>python</interpreter>
+ <dsl-interpreter-name/>
+ <text>
+
+import flayout as fl
+import gdsfactory.components as gfc
+from gdsfactory.types import ComponentOrReference
+
+# FIXME: Often, deleting KLayout cells imported this way will crash KLayout
+
+gf_pcells = []
+for name, cell in gfc.cells.items():
+    # Would be nice to add SiEPIC pins to all of these
+    try:
+      gf_pcells.append(fl.pcell(cell, on_error="ignore"))
+    except:
+      # Currently, pcells defined with partial don't work due to a missing __name__ attribute
+      pass
+
+# Cell
+generic_lib = fl.library(
+    "generic",
+    pcells=gf_pcells,
+    cells=[],
+    description="GDSFactory Generic PCell Library",
+)
+</text>
+</klayout-macro>
