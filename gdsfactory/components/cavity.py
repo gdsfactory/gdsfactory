@@ -1,7 +1,6 @@
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.coupler import coupler as coupler_function
 from gdsfactory.components.dbr import dbr
 from gdsfactory.types import ComponentSpec
 
@@ -9,7 +8,7 @@ from gdsfactory.types import ComponentSpec
 @cell
 def cavity(
     component: ComponentSpec = dbr,
-    coupler: ComponentSpec = coupler_function,
+    coupler: ComponentSpec = "coupler",
     length: float = 0.1,
     gap: float = 0.2,
     **kwargs

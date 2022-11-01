@@ -13,8 +13,7 @@ settings:
     polarization: te
     slab_offset: 1.0
     slab_xmin: -1.0
-    taper:
-      function: taper
+    taper: taper
     wavelength: 1.55
     width_grating: 11.0
   full:
@@ -28,8 +27,7 @@ settings:
     polarization: te
     slab_offset: 1.0
     slab_xmin: -1.0
-    taper:
-      function: taper
+    taper: taper
     wavelength: 1.55
     width_grating: 11.0
   function_name: grating_coupler_rectangular
