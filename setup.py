@@ -30,6 +30,11 @@ with open("requirements_tidy3d.txt") as f:
         line.strip() for line in f.readlines() if not line.strip().startswith("-")
     ]
 
+with open("requirements_devsim.txt") as f:
+    requirements_devsim = [
+        line.strip() for line in f.readlines() if not line.strip().startswith("-")
+    ]
+
 with open("README.md") as f:
     long_description = f.read()
 
@@ -55,6 +60,7 @@ setup(
         "full": list(set(requirements + requirements_full)),
         "sipann": requirements_sipann,
         "tidy3d": requirements_tidy3d,
+        "devsim": requirements_devsim,
         "dev": list(set(requirements + requirements_dev)),
         "exp": list(set(requirements + requirements_exp)),
     },
