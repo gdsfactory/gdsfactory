@@ -3,29 +3,21 @@ settings:
   changed: {}
   child: null
   default:
-    bend:
-      function: bend_euler
-    coupler_ring:
-      function: coupler_ring
+    bend: bend_euler
+    coupler_ring: coupler_ring
     cross_section: strip
     gap: 0.2
     length_x: 4.0
     length_y: 0.6
     radius: 10.0
-    straight:
-      function: straight
   full:
-    bend:
-      function: bend_euler
-    coupler_ring:
-      function: coupler_ring
+    bend: bend_euler
+    coupler_ring: coupler_ring
     cross_section: strip
     gap: 0.2
     length_x: 4.0
     length_y: 0.6
     radius: 10.0
-    straight:
-      function: straight
   function_name: ring_single
   info: {}
   info_version: 2
