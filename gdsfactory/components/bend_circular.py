@@ -1,7 +1,7 @@
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
-from gdsfactory.path import arc, extrude
+from gdsfactory.path import arc
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.types import CrossSectionSpec
 
@@ -37,7 +37,7 @@ def bend_circular(
 
     p = arc(radius=radius, angle=angle, npoints=npoints)
     c = Component()
-    path = extrude(p, x)
+    path = p.extrude(x)
     ref = c << path
     c.add_ports(ref.ports)
 

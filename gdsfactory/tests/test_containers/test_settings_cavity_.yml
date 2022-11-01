@@ -132,8 +132,7 @@ settings:
   default:
     component:
       function: dbr
-    coupler:
-      function: coupler
+    coupler: coupler
     gap: 0.2
     length: 0.1
   full:
@@ -202,8 +201,7 @@ settings:
         info_version: 2
         module: gdsfactory.components.mzi
         name: mzi_2e88f57c
-    coupler:
-      function: coupler
+    coupler: coupler
     gap: 0.2
     length: 0.1
   function_name: cavity

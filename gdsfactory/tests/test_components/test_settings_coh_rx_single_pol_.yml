@@ -3,8 +3,7 @@ settings:
   changed: {}
   child: null
   default:
-    bend:
-      function: bend_euler
+    bend: bend_euler
     cross_section: strip
     det_spacing:
     - 60.0
@@ -17,12 +16,9 @@ settings:
     lo_input_coupler: null
     pad_det_spacing: 80.0
     signal_input_coupler: null
-    straight:
-      function: straight
     with_pads: true
   full:
-    bend:
-      function: bend_euler
+    bend: bend_euler
     cross_section: strip
     det_spacing:
     - 60.0
@@ -35,8 +31,6 @@ settings:
     lo_input_coupler: null
     pad_det_spacing: 80.0
     signal_input_coupler: null
-    straight:
-      function: straight
     with_pads: true
   function_name: coh_rx_single_pol
   info: {}

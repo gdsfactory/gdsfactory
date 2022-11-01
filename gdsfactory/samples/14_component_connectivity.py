@@ -1,11 +1,5 @@
-from typing import Optional
-
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.coupler_ring import coupler_ring as coupler_ring_function
-from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.cross_section import strip
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
@@ -15,10 +9,10 @@ def ring_single_sample(
     radius: float = 10.0,
     length_x: float = 4.0,
     length_y: float = 0.010,
-    coupler_ring: ComponentSpec = coupler_ring_function,
-    straight: ComponentSpec = straight_function,
-    bend: Optional[ComponentSpec] = None,
-    cross_section: CrossSectionSpec = strip,
+    coupler_ring: ComponentSpec = "coupler_ring",
+    straight: ComponentSpec = "straight",
+    bend: ComponentSpec = "bend_euler",
+    cross_section: CrossSectionSpec = "strip",
     **kwargs
 ) -> Component:
     """Single bus ring made of a ring coupler.
@@ -67,7 +61,6 @@ def ring_single_sample(
         straight, length=length_x, cross_section=cross_section, **kwargs
     )
 
-    bend = bend or bend_euler
     bend = gf.get_component(bend, radius=radius, cross_section=cross_section, **kwargs)
 
     c = Component()

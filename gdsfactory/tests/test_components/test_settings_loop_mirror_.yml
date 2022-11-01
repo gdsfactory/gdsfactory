@@ -3,13 +3,11 @@ settings:
   changed: {}
   child: null
   default:
-    bend90:
-      function: bend_euler
+    bend90: bend_euler
     component:
       function: mmi1x2
   full:
-    bend90:
-      function: bend_euler
+    bend90: bend_euler
     component:
       function: mmi1x2
   function_name: loop_mirror
