@@ -3,9 +3,8 @@ settings:
   changed: {}
   child: null
   default:
-    bend: null
-    coupler_ring:
-      function: coupler_ring
+    bend: bend_euler
+    coupler_ring: coupler_ring
     cross_section: strip
     cross_section_heater: heater_metal
     cross_section_waveguide_heater: strip_heater_metal
@@ -14,8 +13,7 @@ settings:
     length_y: 0.01
     port_orientation: 90
     radius: 10.0
-    straight:
-      function: straight
+    straight: straight
     via_stack:
       function: via_stack
       settings:
@@ -41,9 +39,8 @@ settings:
     - 0
     - 0
   full:
-    bend: null
-    coupler_ring:
-      function: coupler_ring
+    bend: bend_euler
+    coupler_ring: coupler_ring
     cross_section: strip
     cross_section_heater: heater_metal
     cross_section_waveguide_heater: strip_heater_metal
@@ -52,8 +49,7 @@ settings:
     length_y: 0.01
     port_orientation: 90
     radius: 10.0
-    straight:
-      function: straight
+    straight: straight
     via_stack:
       function: via_stack
       settings:

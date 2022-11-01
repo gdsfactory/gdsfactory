@@ -130,14 +130,12 @@ settings:
     module: gdsfactory.components.mzi
     name: mzi_2e88f57c
   default:
-    bend:
-      function: bend_euler
+    bend: bend_euler
     component:
       function: taper
       settings:
         width2: 3
-    coupler:
-      function: coupler_ring
+    coupler: coupler_ring
     gap: 0.2
     length_x: 4
     length_y: 0
@@ -147,8 +145,7 @@ settings:
       function: straight
     with_component: true
   full:
-    bend:
-      function: bend_euler
+    bend: bend_euler
     component:
       name: mzi_2e88f57c
       settings:
@@ -214,8 +211,7 @@ settings:
         info_version: 2
         module: gdsfactory.components.mzi
         name: mzi_2e88f57c
-    coupler:
-      function: coupler_ring
+    coupler: coupler_ring
     gap: 0.2
     length_x: 4
     length_y: 0

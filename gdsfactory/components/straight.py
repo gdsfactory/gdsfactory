@@ -33,7 +33,7 @@ def straight(
     x = gf.get_cross_section(cross_section, **kwargs)
 
     c = Component()
-    path = gf.path.extrude(p, x)
+    path = p.extrude(x)
     ref = c << path
     c.add_ports(ref.ports)
     c.info["length"] = length

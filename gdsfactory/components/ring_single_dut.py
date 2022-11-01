@@ -1,10 +1,7 @@
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.coupler_ring import coupler_ring
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper
-from gdsfactory.config import call_if_func
 from gdsfactory.snap import assert_on_2nm_grid
 from gdsfactory.types import ComponentSpec
 
@@ -18,9 +15,9 @@ def ring_single_dut(
     length_x: float = 4,
     length_y: float = 0,
     radius: float = 5.0,
-    coupler: ComponentSpec = coupler_ring,
+    coupler: ComponentSpec = "coupler_ring",
     straight: ComponentSpec = straight_function,
-    bend: ComponentSpec = bend_euler,
+    bend: ComponentSpec = "bend_euler",
     with_component: bool = True,
     port_name: str = "o1",
     **kwargs
@@ -31,7 +28,7 @@ def ring_single_dut(
     the middle to extract loss from quality factor.
 
     Args:
-        component: dut
+        component: dut.
         gap:
         length:
         length_y:
@@ -41,7 +38,7 @@ def ring_single_dut(
         bend: bend function
         with_component:
         port_name:
-        kwargs: cross_section settings
+        kwargs: cross_section settings.
 
     Args:
         with_component: if False changes component for just a straight
@@ -56,13 +53,17 @@ def ring_single_dut(
 
           length_x
     """
-    component = call_if_func(component)
+    component = gf.get_component(component)
     assert_on_2nm_grid(gap)
 
-    coupler = call_if_func(coupler, gap=gap, length_x=length_x, radius=radius, **kwargs)
-    straight_side = call_if_func(straight, length=length_y + component.xsize, **kwargs)
-    straight_top = call_if_func(straight, length=length_x, **kwargs)
-    bend = call_if_func(bend, radius=radius, **kwargs)
+    coupler = gf.get_component(
+        coupler, gap=gap, length_x=length_x, radius=radius, **kwargs
+    )
+    straight_side = gf.get_component(
+        straight, length=length_y + component.xsize, **kwargs
+    )
+    straight_top = gf.get_component(straight, length=length_x, **kwargs)
+    bend = gf.get_component(bend, radius=radius, **kwargs)
 
     c = Component()
     c.component = component
