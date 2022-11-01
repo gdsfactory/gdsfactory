@@ -175,5 +175,5 @@ link:
 
 spell:
 	codespell -i 3 -w -L TE,TE/TM,te,ba,FPR,fpr_spacing
-	
+
 .PHONY: gdsdiff build conda
