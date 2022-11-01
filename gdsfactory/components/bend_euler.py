@@ -4,7 +4,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
 from gdsfactory.components.wire import wire_corner
 from gdsfactory.cross_section import strip
-from gdsfactory.path import euler, extrude
+from gdsfactory.path import euler
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.types import CrossSectionSpec
 
@@ -62,7 +62,7 @@ def bend_euler(
     p = euler(
         radius=radius, angle=angle, p=p, use_eff=with_arc_floorplan, npoints=npoints
     )
-    ref = c << extrude(p, x)
+    ref = c << p.extrude(x)
     c.add_ports(ref.ports)
     c.info["length"] = snap_to_grid(p.length())
     c.info["dy"] = snap_to_grid(abs(float(p.points[0][0] - p.points[-1][0])))

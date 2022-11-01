@@ -1,7 +1,7 @@
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
-from gdsfactory.path import arc, extrude
+from gdsfactory.path import arc
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.types import CrossSectionSpec, LayerSpec
 
@@ -51,7 +51,7 @@ def bend_circular_heater(
     )
 
     p = arc(radius=radius, angle=angle, npoints=npoints)
-    c = extrude(p, x)
+    c = p.extrude(x)
     c.length = snap_to_grid(p.length())
     c.dx = abs(p.points[0][0] - p.points[-1][0])
     c.dy = abs(p.points[0][0] - p.points[-1][0])

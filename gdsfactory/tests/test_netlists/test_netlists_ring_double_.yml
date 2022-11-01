@@ -7,37 +7,11 @@ instances:
   coupler_ring_1:
     component: coupler_ring
     settings:
-      cross_section:
-        function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       length_x: 0.01
       radius: 10.0
   coupler_ring_2:
     component: coupler_ring
     settings:
-      cross_section:
-        function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       length_x: 0.01
       radius: 10.0
   straight_1:
@@ -46,19 +20,6 @@ instances:
       length: 0.01
       width: 0.5
     settings:
-      cross_section:
-        function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       length: 0.01
   straight_2:
     component: straight
@@ -66,19 +27,6 @@ instances:
       length: 0.01
       width: 0.5
     settings:
-      cross_section:
-        function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       length: 0.01
 name: ring_double
 placements:
