@@ -17,7 +17,7 @@ instances:
     component: pack_doe
     info:
       components:
-        ring_single_length_x1_r_0263c034:
+        ring_single_length_x1_r_1e505475:
           changed:
             component:
               name: ring_single_length_x1_radius40
@@ -27,16 +27,20 @@ instances:
                   radius: 40
                 child: null
                 default:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 4.0
                   length_y: 0.6
                   radius: 10.0
                 full:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 1
@@ -54,16 +58,20 @@ instances:
               radius: 40
             child: null
             default:
-              bend: bend_euler
-              coupler_ring: coupler_ring
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
               cross_section: strip
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
               radius: 10.0
             full:
-              bend: bend_euler
-              coupler_ring: coupler_ring
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
               cross_section: strip
               gap: 0.2
               length_x: 1
@@ -102,16 +110,20 @@ instances:
                   radius: 40
                 child: null
                 default:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 4.0
                   length_y: 0.6
                   radius: 10.0
                 full:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 1
@@ -147,139 +159,8 @@ instances:
               wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x1_r_0263c034
-        ring_single_length_x1_r_2f295980:
-          changed:
-            component:
-              name: ring_single_length_x1_radius50
-              settings:
-                changed:
-                  length_x: 1
-                  radius: 50
-                child: null
-                default:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
-                  cross_section: strip
-                  gap: 0.2
-                  length_x: 4.0
-                  length_y: 0.6
-                  radius: 10.0
-                full:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
-                  cross_section: strip
-                  gap: 0.2
-                  length_x: 1
-                  length_y: 0.6
-                  radius: 50
-                function_name: ring_single
-                info: {}
-                info_version: 2
-                module: gdsfactory.components.ring_single
-                name: ring_single_length_x1_radius50
-            fanout_length: 200
-          child:
-            changed:
-              length_x: 1
-              radius: 50
-            child: null
-            default:
-              bend: bend_euler
-              coupler_ring: coupler_ring
-              cross_section: strip
-              gap: 0.2
-              length_x: 4.0
-              length_y: 0.6
-              radius: 10.0
-            full:
-              bend: bend_euler
-              coupler_ring: coupler_ring
-              cross_section: strip
-              gap: 0.2
-              length_x: 1
-              length_y: 0.6
-              radius: 50
-            function_name: ring_single
-            info: {}
-            info_version: 2
-            module: gdsfactory.components.ring_single
-            name: ring_single_length_x1_radius50
-          default:
-            component:
-              function: straight
-            component_name: null
-            cross_section: strip
-            gc_port_labels: null
-            gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
-            grating_coupler:
-              function: grating_coupler_elliptical_trenches
-              settings:
-                polarization: te
-                taper_angle: 35
-            layer_label: TEXT
-            select_ports:
-              function: select_ports
-              settings:
-                port_type: optical
-          full:
-            component:
-              name: ring_single_length_x1_radius50
-              settings:
-                changed:
-                  length_x: 1
-                  radius: 50
-                child: null
-                default:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
-                  cross_section: strip
-                  gap: 0.2
-                  length_x: 4.0
-                  length_y: 0.6
-                  radius: 10.0
-                full:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
-                  cross_section: strip
-                  gap: 0.2
-                  length_x: 1
-                  length_y: 0.6
-                  radius: 50
-                function_name: ring_single
-                info: {}
-                info_version: 2
-                module: gdsfactory.components.ring_single
-                name: ring_single_length_x1_radius50
-            component_name: null
-            cross_section: strip
-            fanout_length: 200
-            gc_port_labels: null
-            gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
-            grating_coupler:
-              function: grating_coupler_elliptical_trenches
-              settings:
-                polarization: te
-                taper_angle: 35
-            layer_label: TEXT
-            select_ports:
-              function: select_ports
-              settings:
-                port_type: optical
-          function_name: add_fiber_array
-          info:
-            grating_coupler:
-              period: 0.6759999999999999
-              polarization: te
-              wavelength: 1.53
-          info_version: 2
-          module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x1_r_2f295980
-        ring_single_length_x1_r_60a24453:
+          name: ring_single_length_x1_r_1e505475
+        ring_single_length_x1_r_936990ff:
           changed:
             component:
               name: ring_single_length_x1_radius30
@@ -289,16 +170,20 @@ instances:
                   radius: 30
                 child: null
                 default:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 4.0
                   length_y: 0.6
                   radius: 10.0
                 full:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 1
@@ -316,16 +201,20 @@ instances:
               radius: 30
             child: null
             default:
-              bend: bend_euler
-              coupler_ring: coupler_ring
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
               cross_section: strip
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
               radius: 10.0
             full:
-              bend: bend_euler
-              coupler_ring: coupler_ring
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
               cross_section: strip
               gap: 0.2
               length_x: 1
@@ -364,16 +253,20 @@ instances:
                   radius: 30
                 child: null
                 default:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 4.0
                   length_y: 0.6
                   radius: 10.0
                 full:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 1
@@ -409,8 +302,8 @@ instances:
               wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x1_r_60a24453
-        ring_single_length_x1_r_6a1c0f26:
+          name: ring_single_length_x1_r_936990ff
+        ring_single_length_x1_r_983db35a:
           changed:
             component:
               name: ring_single_length_x1_radius20
@@ -420,16 +313,20 @@ instances:
                   radius: 20
                 child: null
                 default:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 4.0
                   length_y: 0.6
                   radius: 10.0
                 full:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 1
@@ -447,16 +344,20 @@ instances:
               radius: 20
             child: null
             default:
-              bend: bend_euler
-              coupler_ring: coupler_ring
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
               cross_section: strip
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
               radius: 10.0
             full:
-              bend: bend_euler
-              coupler_ring: coupler_ring
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
               cross_section: strip
               gap: 0.2
               length_x: 1
@@ -495,16 +396,20 @@ instances:
                   radius: 20
                 child: null
                 default:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 4.0
                   length_y: 0.6
                   radius: 10.0
                 full:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 1
@@ -540,64 +445,72 @@ instances:
               wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x1_r_6a1c0f26
-        ring_single_length_x2_r_2c67188e:
+          name: ring_single_length_x1_r_983db35a
+        ring_single_length_x1_r_a7ff7e55:
           changed:
             component:
-              name: ring_single_length_x2_radius40
+              name: ring_single_length_x1_radius50
               settings:
                 changed:
-                  length_x: 2
-                  radius: 40
+                  length_x: 1
+                  radius: 50
                 child: null
                 default:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 4.0
                   length_y: 0.6
                   radius: 10.0
                 full:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
-                  length_x: 2
+                  length_x: 1
                   length_y: 0.6
-                  radius: 40
+                  radius: 50
                 function_name: ring_single
                 info: {}
                 info_version: 2
                 module: gdsfactory.components.ring_single
-                name: ring_single_length_x2_radius40
+                name: ring_single_length_x1_radius50
             fanout_length: 200
           child:
             changed:
-              length_x: 2
-              radius: 40
+              length_x: 1
+              radius: 50
             child: null
             default:
-              bend: bend_euler
-              coupler_ring: coupler_ring
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
               cross_section: strip
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
               radius: 10.0
             full:
-              bend: bend_euler
-              coupler_ring: coupler_ring
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
               cross_section: strip
               gap: 0.2
-              length_x: 2
+              length_x: 1
               length_y: 0.6
-              radius: 40
+              radius: 50
             function_name: ring_single
             info: {}
             info_version: 2
             module: gdsfactory.components.ring_single
-            name: ring_single_length_x2_radius40
+            name: ring_single_length_x1_radius50
           default:
             component:
               function: straight
@@ -619,33 +532,37 @@ instances:
                 port_type: optical
           full:
             component:
-              name: ring_single_length_x2_radius40
+              name: ring_single_length_x1_radius50
               settings:
                 changed:
-                  length_x: 2
-                  radius: 40
+                  length_x: 1
+                  radius: 50
                 child: null
                 default:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 4.0
                   length_y: 0.6
                   radius: 10.0
                 full:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
-                  length_x: 2
+                  length_x: 1
                   length_y: 0.6
-                  radius: 40
+                  radius: 50
                 function_name: ring_single
                 info: {}
                 info_version: 2
                 module: gdsfactory.components.ring_single
-                name: ring_single_length_x2_radius40
+                name: ring_single_length_x1_radius50
             component_name: null
             cross_section: strip
             fanout_length: 200
@@ -671,8 +588,8 @@ instances:
               wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x2_r_2c67188e
-        ring_single_length_x2_r_34460bc2:
+          name: ring_single_length_x1_r_a7ff7e55
+        ring_single_length_x2_r_1b50b0c6:
           changed:
             component:
               name: ring_single_length_x2_radius30
@@ -682,16 +599,20 @@ instances:
                   radius: 30
                 child: null
                 default:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 4.0
                   length_y: 0.6
                   radius: 10.0
                 full:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 2
@@ -709,16 +630,20 @@ instances:
               radius: 30
             child: null
             default:
-              bend: bend_euler
-              coupler_ring: coupler_ring
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
               cross_section: strip
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
               radius: 10.0
             full:
-              bend: bend_euler
-              coupler_ring: coupler_ring
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
               cross_section: strip
               gap: 0.2
               length_x: 2
@@ -757,16 +682,20 @@ instances:
                   radius: 30
                 child: null
                 default:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 4.0
                   length_y: 0.6
                   radius: 10.0
                 full:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 2
@@ -802,8 +731,8 @@ instances:
               wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x2_r_34460bc2
-        ring_single_length_x2_r_63f34f20:
+          name: ring_single_length_x2_r_1b50b0c6
+        ring_single_length_x2_r_9c620c83:
           changed:
             component:
               name: ring_single_length_x2_radius50
@@ -813,16 +742,20 @@ instances:
                   radius: 50
                 child: null
                 default:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 4.0
                   length_y: 0.6
                   radius: 10.0
                 full:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 2
@@ -840,16 +773,20 @@ instances:
               radius: 50
             child: null
             default:
-              bend: bend_euler
-              coupler_ring: coupler_ring
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
               cross_section: strip
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
               radius: 10.0
             full:
-              bend: bend_euler
-              coupler_ring: coupler_ring
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
               cross_section: strip
               gap: 0.2
               length_x: 2
@@ -888,16 +825,20 @@ instances:
                   radius: 50
                 child: null
                 default:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 4.0
                   length_y: 0.6
                   radius: 10.0
                 full:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 2
@@ -933,8 +874,8 @@ instances:
               wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x2_r_63f34f20
-        ring_single_length_x2_r_ed54cb09:
+          name: ring_single_length_x2_r_9c620c83
+        ring_single_length_x2_r_a7313680:
           changed:
             component:
               name: ring_single_length_x2_radius20
@@ -944,16 +885,20 @@ instances:
                   radius: 20
                 child: null
                 default:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 4.0
                   length_y: 0.6
                   radius: 10.0
                 full:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 2
@@ -971,16 +916,20 @@ instances:
               radius: 20
             child: null
             default:
-              bend: bend_euler
-              coupler_ring: coupler_ring
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
               cross_section: strip
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
               radius: 10.0
             full:
-              bend: bend_euler
-              coupler_ring: coupler_ring
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
               cross_section: strip
               gap: 0.2
               length_x: 2
@@ -1019,16 +968,20 @@ instances:
                   radius: 20
                 child: null
                 default:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 4.0
                   length_y: 0.6
                   radius: 10.0
                 full:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 2
@@ -1064,64 +1017,72 @@ instances:
               wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x2_r_ed54cb09
-        ring_single_length_x3_r_0be36615:
+          name: ring_single_length_x2_r_a7313680
+        ring_single_length_x2_r_d8d2b339:
           changed:
             component:
-              name: ring_single_length_x3_radius20
+              name: ring_single_length_x2_radius40
               settings:
                 changed:
-                  length_x: 3
-                  radius: 20
+                  length_x: 2
+                  radius: 40
                 child: null
                 default:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 4.0
                   length_y: 0.6
                   radius: 10.0
                 full:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
-                  length_x: 3
+                  length_x: 2
                   length_y: 0.6
-                  radius: 20
+                  radius: 40
                 function_name: ring_single
                 info: {}
                 info_version: 2
                 module: gdsfactory.components.ring_single
-                name: ring_single_length_x3_radius20
+                name: ring_single_length_x2_radius40
             fanout_length: 200
           child:
             changed:
-              length_x: 3
-              radius: 20
+              length_x: 2
+              radius: 40
             child: null
             default:
-              bend: bend_euler
-              coupler_ring: coupler_ring
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
               cross_section: strip
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
               radius: 10.0
             full:
-              bend: bend_euler
-              coupler_ring: coupler_ring
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
               cross_section: strip
               gap: 0.2
-              length_x: 3
+              length_x: 2
               length_y: 0.6
-              radius: 20
+              radius: 40
             function_name: ring_single
             info: {}
             info_version: 2
             module: gdsfactory.components.ring_single
-            name: ring_single_length_x3_radius20
+            name: ring_single_length_x2_radius40
           default:
             component:
               function: straight
@@ -1143,33 +1104,37 @@ instances:
                 port_type: optical
           full:
             component:
-              name: ring_single_length_x3_radius20
+              name: ring_single_length_x2_radius40
               settings:
                 changed:
-                  length_x: 3
-                  radius: 20
+                  length_x: 2
+                  radius: 40
                 child: null
                 default:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 4.0
                   length_y: 0.6
                   radius: 10.0
                 full:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
-                  length_x: 3
+                  length_x: 2
                   length_y: 0.6
-                  radius: 20
+                  radius: 40
                 function_name: ring_single
                 info: {}
                 info_version: 2
                 module: gdsfactory.components.ring_single
-                name: ring_single_length_x3_radius20
+                name: ring_single_length_x2_radius40
             component_name: null
             cross_section: strip
             fanout_length: 200
@@ -1195,8 +1160,8 @@ instances:
               wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x3_r_0be36615
-        ring_single_length_x3_r_2edc969a:
+          name: ring_single_length_x2_r_d8d2b339
+        ring_single_length_x3_r_16a44737:
           changed:
             component:
               name: ring_single_length_x3_radius50
@@ -1206,16 +1171,20 @@ instances:
                   radius: 50
                 child: null
                 default:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 4.0
                   length_y: 0.6
                   radius: 10.0
                 full:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 3
@@ -1233,16 +1202,20 @@ instances:
               radius: 50
             child: null
             default:
-              bend: bend_euler
-              coupler_ring: coupler_ring
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
               cross_section: strip
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
               radius: 10.0
             full:
-              bend: bend_euler
-              coupler_ring: coupler_ring
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
               cross_section: strip
               gap: 0.2
               length_x: 3
@@ -1281,16 +1254,20 @@ instances:
                   radius: 50
                 child: null
                 default:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 4.0
                   length_y: 0.6
                   radius: 10.0
                 full:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 3
@@ -1326,8 +1303,151 @@ instances:
               wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x3_r_2edc969a
-        ring_single_length_x3_r_d5003d5d:
+          name: ring_single_length_x3_r_16a44737
+        ring_single_length_x3_r_36aeaebb:
+          changed:
+            component:
+              name: ring_single_length_x3_radius20
+              settings:
+                changed:
+                  length_x: 3
+                  radius: 20
+                child: null
+                default:
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
+                  cross_section: strip
+                  gap: 0.2
+                  length_x: 4.0
+                  length_y: 0.6
+                  radius: 10.0
+                full:
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
+                  cross_section: strip
+                  gap: 0.2
+                  length_x: 3
+                  length_y: 0.6
+                  radius: 20
+                function_name: ring_single
+                info: {}
+                info_version: 2
+                module: gdsfactory.components.ring_single
+                name: ring_single_length_x3_radius20
+            fanout_length: 200
+          child:
+            changed:
+              length_x: 3
+              radius: 20
+            child: null
+            default:
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
+              cross_section: strip
+              gap: 0.2
+              length_x: 4.0
+              length_y: 0.6
+              radius: 10.0
+            full:
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
+              cross_section: strip
+              gap: 0.2
+              length_x: 3
+              length_y: 0.6
+              radius: 20
+            function_name: ring_single
+            info: {}
+            info_version: 2
+            module: gdsfactory.components.ring_single
+            name: ring_single_length_x3_radius20
+          default:
+            component:
+              function: straight
+            component_name: null
+            cross_section: strip
+            gc_port_labels: null
+            gc_port_name: o1
+            get_input_labels_function:
+              function: get_input_labels
+            grating_coupler:
+              function: grating_coupler_elliptical_trenches
+              settings:
+                polarization: te
+                taper_angle: 35
+            layer_label: TEXT
+            select_ports:
+              function: select_ports
+              settings:
+                port_type: optical
+          full:
+            component:
+              name: ring_single_length_x3_radius20
+              settings:
+                changed:
+                  length_x: 3
+                  radius: 20
+                child: null
+                default:
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
+                  cross_section: strip
+                  gap: 0.2
+                  length_x: 4.0
+                  length_y: 0.6
+                  radius: 10.0
+                full:
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
+                  cross_section: strip
+                  gap: 0.2
+                  length_x: 3
+                  length_y: 0.6
+                  radius: 20
+                function_name: ring_single
+                info: {}
+                info_version: 2
+                module: gdsfactory.components.ring_single
+                name: ring_single_length_x3_radius20
+            component_name: null
+            cross_section: strip
+            fanout_length: 200
+            gc_port_labels: null
+            gc_port_name: o1
+            get_input_labels_function:
+              function: get_input_labels
+            grating_coupler:
+              function: grating_coupler_elliptical_trenches
+              settings:
+                polarization: te
+                taper_angle: 35
+            layer_label: TEXT
+            select_ports:
+              function: select_ports
+              settings:
+                port_type: optical
+          function_name: add_fiber_array
+          info:
+            grating_coupler:
+              period: 0.6759999999999999
+              polarization: te
+              wavelength: 1.53
+          info_version: 2
+          module: gdsfactory.routing.add_fiber_array
+          name: ring_single_length_x3_r_36aeaebb
+        ring_single_length_x3_r_78a9e39e:
           changed:
             component:
               name: ring_single_length_x3_radius40
@@ -1337,16 +1457,20 @@ instances:
                   radius: 40
                 child: null
                 default:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 4.0
                   length_y: 0.6
                   radius: 10.0
                 full:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 3
@@ -1364,16 +1488,20 @@ instances:
               radius: 40
             child: null
             default:
-              bend: bend_euler
-              coupler_ring: coupler_ring
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
               cross_section: strip
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
               radius: 10.0
             full:
-              bend: bend_euler
-              coupler_ring: coupler_ring
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
               cross_section: strip
               gap: 0.2
               length_x: 3
@@ -1412,16 +1540,20 @@ instances:
                   radius: 40
                 child: null
                 default:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 4.0
                   length_y: 0.6
                   radius: 10.0
                 full:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 3
@@ -1457,8 +1589,8 @@ instances:
               wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x3_r_d5003d5d
-        ring_single_length_x3_r_d8d3c29f:
+          name: ring_single_length_x3_r_78a9e39e
+        ring_single_length_x3_r_fe72efeb:
           changed:
             component:
               name: ring_single_length_x3_radius30
@@ -1468,16 +1600,20 @@ instances:
                   radius: 30
                 child: null
                 default:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 4.0
                   length_y: 0.6
                   radius: 10.0
                 full:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 3
@@ -1495,16 +1631,20 @@ instances:
               radius: 30
             child: null
             default:
-              bend: bend_euler
-              coupler_ring: coupler_ring
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
               cross_section: strip
               gap: 0.2
               length_x: 4.0
               length_y: 0.6
               radius: 10.0
             full:
-              bend: bend_euler
-              coupler_ring: coupler_ring
+              bend:
+                function: bend_euler
+              coupler_ring:
+                function: coupler_ring
               cross_section: strip
               gap: 0.2
               length_x: 3
@@ -1543,16 +1683,20 @@ instances:
                   radius: 30
                 child: null
                 default:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 4.0
                   length_y: 0.6
                   radius: 10.0
                 full:
-                  bend: bend_euler
-                  coupler_ring: coupler_ring
+                  bend:
+                    function: bend_euler
+                  coupler_ring:
+                    function: coupler_ring
                   cross_section: strip
                   gap: 0.2
                   length_x: 3
@@ -1588,7 +1732,7 @@ instances:
               wavelength: 1.53
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
-          name: ring_single_length_x3_r_d8d3c29f
+          name: ring_single_length_x3_r_fe72efeb
     settings:
       do_permutations: true
       doe: ring_single
@@ -1624,54 +1768,54 @@ warnings:
     unconnected_ports:
     - message: 56 unconnected vertical_te ports!
       ports:
-      - rings,ring_single_length_x1_r_2f295980_0_vertical_te_00
-      - rings,ring_single_length_x1_r_2f295980_0_vertical_te_01
-      - rings,ring_single_length_x1_r_2f295980_0_vertical_te_10
-      - rings,ring_single_length_x1_r_2f295980_0_vertical_te_20
-      - rings,ring_single_length_x2_r_63f34f20_1_vertical_te_00
-      - rings,ring_single_length_x2_r_63f34f20_1_vertical_te_01
-      - rings,ring_single_length_x2_r_63f34f20_1_vertical_te_10
-      - rings,ring_single_length_x2_r_63f34f20_1_vertical_te_20
-      - rings,ring_single_length_x3_r_2edc969a_2_vertical_te_00
-      - rings,ring_single_length_x3_r_2edc969a_2_vertical_te_01
-      - rings,ring_single_length_x3_r_2edc969a_2_vertical_te_10
-      - rings,ring_single_length_x3_r_2edc969a_2_vertical_te_20
-      - rings,ring_single_length_x1_r_0263c034_3_vertical_te_00
-      - rings,ring_single_length_x1_r_0263c034_3_vertical_te_01
-      - rings,ring_single_length_x1_r_0263c034_3_vertical_te_10
-      - rings,ring_single_length_x1_r_0263c034_3_vertical_te_20
-      - rings,ring_single_length_x2_r_2c67188e_4_vertical_te_00
-      - rings,ring_single_length_x2_r_2c67188e_4_vertical_te_01
-      - rings,ring_single_length_x2_r_2c67188e_4_vertical_te_10
-      - rings,ring_single_length_x2_r_2c67188e_4_vertical_te_20
-      - rings,ring_single_length_x3_r_d5003d5d_5_vertical_te_00
-      - rings,ring_single_length_x3_r_d5003d5d_5_vertical_te_01
-      - rings,ring_single_length_x3_r_d5003d5d_5_vertical_te_10
-      - rings,ring_single_length_x3_r_d5003d5d_5_vertical_te_20
-      - rings,ring_single_length_x1_r_60a24453_6_vertical_te_00
-      - rings,ring_single_length_x1_r_60a24453_6_vertical_te_01
-      - rings,ring_single_length_x1_r_60a24453_6_vertical_te_10
-      - rings,ring_single_length_x1_r_60a24453_6_vertical_te_20
-      - rings,ring_single_length_x2_r_34460bc2_7_vertical_te_00
-      - rings,ring_single_length_x2_r_34460bc2_7_vertical_te_01
-      - rings,ring_single_length_x2_r_34460bc2_7_vertical_te_10
-      - rings,ring_single_length_x2_r_34460bc2_7_vertical_te_20
-      - rings,ring_single_length_x3_r_d8d3c29f_8_vertical_te_00
-      - rings,ring_single_length_x3_r_d8d3c29f_8_vertical_te_01
-      - rings,ring_single_length_x3_r_d8d3c29f_8_vertical_te_10
-      - rings,ring_single_length_x3_r_d8d3c29f_8_vertical_te_20
-      - rings,ring_single_length_x1_r_6a1c0f26_9_vertical_te_00
-      - rings,ring_single_length_x1_r_6a1c0f26_9_vertical_te_01
-      - rings,ring_single_length_x1_r_6a1c0f26_9_vertical_te_10
-      - rings,ring_single_length_x1_r_6a1c0f26_9_vertical_te_20
-      - rings,ring_single_length_x2_r_ed54cb09_10_vertical_te_00
-      - rings,ring_single_length_x2_r_ed54cb09_10_vertical_te_01
-      - rings,ring_single_length_x2_r_ed54cb09_10_vertical_te_10
-      - rings,ring_single_length_x2_r_ed54cb09_10_vertical_te_20
-      - rings,ring_single_length_x3_r_0be36615_11_vertical_te_00
-      - rings,ring_single_length_x3_r_0be36615_11_vertical_te_01
-      - rings,ring_single_length_x3_r_0be36615_11_vertical_te_10
-      - rings,ring_single_length_x3_r_0be36615_11_vertical_te_20
+      - rings,ring_single_length_x1_r_a7ff7e55_0_vertical_te_00
+      - rings,ring_single_length_x1_r_a7ff7e55_0_vertical_te_01
+      - rings,ring_single_length_x1_r_a7ff7e55_0_vertical_te_10
+      - rings,ring_single_length_x1_r_a7ff7e55_0_vertical_te_20
+      - rings,ring_single_length_x2_r_9c620c83_1_vertical_te_00
+      - rings,ring_single_length_x2_r_9c620c83_1_vertical_te_01
+      - rings,ring_single_length_x2_r_9c620c83_1_vertical_te_10
+      - rings,ring_single_length_x2_r_9c620c83_1_vertical_te_20
+      - rings,ring_single_length_x3_r_16a44737_2_vertical_te_00
+      - rings,ring_single_length_x3_r_16a44737_2_vertical_te_01
+      - rings,ring_single_length_x3_r_16a44737_2_vertical_te_10
+      - rings,ring_single_length_x3_r_16a44737_2_vertical_te_20
+      - rings,ring_single_length_x1_r_1e505475_3_vertical_te_00
+      - rings,ring_single_length_x1_r_1e505475_3_vertical_te_01
+      - rings,ring_single_length_x1_r_1e505475_3_vertical_te_10
+      - rings,ring_single_length_x1_r_1e505475_3_vertical_te_20
+      - rings,ring_single_length_x2_r_d8d2b339_4_vertical_te_00
+      - rings,ring_single_length_x2_r_d8d2b339_4_vertical_te_01
+      - rings,ring_single_length_x2_r_d8d2b339_4_vertical_te_10
+      - rings,ring_single_length_x2_r_d8d2b339_4_vertical_te_20
+      - rings,ring_single_length_x3_r_78a9e39e_5_vertical_te_00
+      - rings,ring_single_length_x3_r_78a9e39e_5_vertical_te_01
+      - rings,ring_single_length_x3_r_78a9e39e_5_vertical_te_10
+      - rings,ring_single_length_x3_r_78a9e39e_5_vertical_te_20
+      - rings,ring_single_length_x1_r_936990ff_6_vertical_te_00
+      - rings,ring_single_length_x1_r_936990ff_6_vertical_te_01
+      - rings,ring_single_length_x1_r_936990ff_6_vertical_te_10
+      - rings,ring_single_length_x1_r_936990ff_6_vertical_te_20
+      - rings,ring_single_length_x2_r_1b50b0c6_7_vertical_te_00
+      - rings,ring_single_length_x2_r_1b50b0c6_7_vertical_te_01
+      - rings,ring_single_length_x2_r_1b50b0c6_7_vertical_te_10
+      - rings,ring_single_length_x2_r_1b50b0c6_7_vertical_te_20
+      - rings,ring_single_length_x3_r_fe72efeb_8_vertical_te_00
+      - rings,ring_single_length_x3_r_fe72efeb_8_vertical_te_01
+      - rings,ring_single_length_x3_r_fe72efeb_8_vertical_te_10
+      - rings,ring_single_length_x3_r_fe72efeb_8_vertical_te_20
+      - rings,ring_single_length_x1_r_983db35a_9_vertical_te_00
+      - rings,ring_single_length_x1_r_983db35a_9_vertical_te_01
+      - rings,ring_single_length_x1_r_983db35a_9_vertical_te_10
+      - rings,ring_single_length_x1_r_983db35a_9_vertical_te_20
+      - rings,ring_single_length_x2_r_a7313680_10_vertical_te_00
+      - rings,ring_single_length_x2_r_a7313680_10_vertical_te_01
+      - rings,ring_single_length_x2_r_a7313680_10_vertical_te_10
+      - rings,ring_single_length_x2_r_a7313680_10_vertical_te_20
+      - rings,ring_single_length_x3_r_36aeaebb_11_vertical_te_00
+      - rings,ring_single_length_x3_r_36aeaebb_11_vertical_te_01
+      - rings,ring_single_length_x3_r_36aeaebb_11_vertical_te_10
+      - rings,ring_single_length_x3_r_36aeaebb_11_vertical_te_20
       - mzis,mzi_delta_length10_add__e53a7c31_(0,0)_vertical_te_00
       - mzis,mzi_delta_length10_add__e53a7c31_(0,0)_vertical_te_01
       - mzis,mzi_delta_length10_add__e53a7c31_(0,0)_vertical_te_10
