@@ -3,7 +3,8 @@ settings:
   changed: {}
   child: null
   default:
-    bend: bend_euler
+    bend:
+      function: bend_euler
     coupler_ring:
       function: coupler_ring
     cross_section: strip
@@ -11,9 +12,11 @@ settings:
     length_x: 0.01
     length_y: 0.01
     radius: 10.0
-    straight: straight
+    straight:
+      function: straight
   full:
-    bend: bend_euler
+    bend:
+      function: bend_euler
     coupler_ring:
       function: coupler_ring
     cross_section: strip
@@ -21,7 +24,8 @@ settings:
     length_x: 0.01
     length_y: 0.01
     radius: 10.0
-    straight: straight
+    straight:
+      function: straight
   function_name: ring_double
   info: {}
   info_version: 2
