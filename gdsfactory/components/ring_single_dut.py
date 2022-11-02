@@ -1,5 +1,7 @@
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components.bend_euler import bend_euler
+from gdsfactory.components.coupler_ring import coupler_ring
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper
 from gdsfactory.snap import assert_on_2nm_grid
@@ -15,9 +17,9 @@ def ring_single_dut(
     length_x: float = 4,
     length_y: float = 0,
     radius: float = 5.0,
-    coupler: ComponentSpec = "coupler_ring",
+    coupler: ComponentSpec = coupler_ring,
     straight: ComponentSpec = straight_function,
-    bend: ComponentSpec = "bend_euler",
+    bend: ComponentSpec = bend_euler,
     with_component: bool = True,
     port_name: str = "o1",
     **kwargs

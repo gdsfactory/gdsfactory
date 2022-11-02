@@ -5,12 +5,14 @@ settings:
   default:
     cross_section: strip
     list_of_dicts: null
-    ring: ring_single
+    ring:
+      function: ring_single
     spacing: 5.0
   full:
     cross_section: strip
     list_of_dicts: null
-    ring: ring_single
+    ring:
+      function: ring_single
     spacing: 5.0
   function_name: ring_single_array
   info: {}
