@@ -1,0 +1,35 @@
+name: spiral_racetrack_heater_doped
+settings:
+  changed: {}
+  child: null
+  default:
+    bend_factory:
+      function: bend_euler
+    bend_s_factory:
+      function: bend_s
+    heater_cross_section: npp
+    min_radius: null
+    num: 8
+    spacing: 2
+    straight_factory:
+      function: straight
+    straight_length: 30
+    waveguide_cross_section: strip
+  full:
+    bend_factory:
+      function: bend_euler
+    bend_s_factory:
+      function: bend_s
+    heater_cross_section: npp
+    min_radius: null
+    num: 8
+    spacing: 2
+    straight_factory:
+      function: straight
+    straight_length: 30
+    waveguide_cross_section: strip
+  function_name: spiral_racetrack_heater_doped
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.spiral_heater
+  name: spiral_racetrack_heater_doped

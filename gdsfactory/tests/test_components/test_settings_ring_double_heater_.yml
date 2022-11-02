@@ -3,7 +3,8 @@ settings:
   changed: {}
   child: null
   default:
-    bend: null
+    bend:
+      function: bend_euler
     coupler_ring:
       function: coupler_ring
     cross_section: strip
@@ -41,7 +42,8 @@ settings:
     - 0
     - 0
   full:
-    bend: null
+    bend:
+      function: bend_euler
     coupler_ring:
       function: coupler_ring
     cross_section: strip

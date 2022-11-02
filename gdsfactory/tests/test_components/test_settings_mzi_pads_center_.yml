@@ -3,31 +3,8 @@ settings:
   changed: {}
   child: null
   default:
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - DEVREC
-        cladding_offsets:
-        - 0
-    cross_section_metal:
-      function: cross_section
-      settings:
-        layer: M3
-        port_names:
-        - e1
-        - e2
-        port_types:
-        - electrical
-        - electrical
-        radius: null
-        width: 10.0
+    cross_section: strip
+    cross_section_metal: metal_routing
     delta_length: 40.0
     end_straight_length: 5
     length_x: 500
@@ -45,6 +22,7 @@ settings:
     pad_gnd_top: e2_1_2
     pad_sig_bot: e1_1_1
     pad_sig_top: e3_1_3
+    pad_spacing: 150.0
     ps_bot:
       function: straight_heater_metal_undercut
       settings:
@@ -55,31 +33,8 @@ settings:
         with_undercut: false
     start_straight_length: 5
   full:
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - DEVREC
-        cladding_offsets:
-        - 0
-    cross_section_metal:
-      function: cross_section
-      settings:
-        layer: M3
-        port_names:
-        - e1
-        - e2
-        port_types:
-        - electrical
-        - electrical
-        radius: null
-        width: 10.0
+    cross_section: strip
+    cross_section_metal: metal_routing
     delta_length: 40.0
     end_straight_length: 5
     length_x: 500
@@ -97,6 +52,7 @@ settings:
     pad_gnd_top: e2_1_2
     pad_sig_bot: e1_1_1
     pad_sig_top: e3_1_3
+    pad_spacing: 150.0
     ps_bot:
       function: straight_heater_metal_undercut
       settings:

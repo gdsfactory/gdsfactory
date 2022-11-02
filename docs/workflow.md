@@ -9,7 +9,7 @@ You'll need 2 windows:
 Make sure you also ran `gf tool install` from the terminal to install the `gdsfactory` to `klayout` interface.
 
 
-## 1. Python driven flow
+## 1. Standard Python flow
 
 1. You write your Pcells in python.
 2. You execute the python code.
@@ -18,15 +18,12 @@ Make sure you also ran `gf tool install` from the terminal to install the `gdsfa
 ![windows](https://i.imgur.com/ZHEAotn.png)
 
 
-## 2. YAML driven flow
+## 2. File-watcher flow
 
-For building complex circuits and assemble your reticle DOEs (design of experiment) you can also use the YAML driven flow.
+For building large components can use a file-watcher and see your updates in klayout.
 
-With a file watcher you can see your changes live in klayout.
+1. You execute the file watcher `gf watch FolderName` or in the current working directory `gf watch`
+2. The file-watcher re-runs any python file `.py` or YAML `.pic.yaml`.
+3. Thanks to the `cell` cache you can review faster your new component changes in Klayout.
 
-
-1. You execute the file watcher `gf yaml watch FolderName`.
-2. You write your component or circuit in YAML as Place and Auto-Route.
-3. You visualize the GDS Layout in Klayout.
-
-![yaml](https://i.imgur.com/h1ABhJ9.png)
+![filewatcher](https://i.imgur.com/WWUHQNe.png)

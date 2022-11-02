@@ -42,7 +42,10 @@ class FileStorageGoogleCloud(FileStorage):
     bucket_name: str
 
     def write(self, filename: str, data) -> None:
-        from google.cloud import storage
+        try:
+            from google.cloud import storage
+        except ImportError as e:
+            raise ImportError("pip install google-cloud-storage") from e
 
         filepath = f"{self.filetype}/{filename}.npz"
         storage_client = storage.Client()
@@ -57,7 +60,10 @@ class FileStorageGoogleCloud(FileStorage):
         if data:
             return data
 
-        from google.cloud import storage
+        try:
+            from google.cloud import storage
+        except ImportError as e:
+            raise ImportError("pip install google-cloud-storage") from e
 
         filepath = f"{self.filetype}/{filename}.npz"
         storage_client = storage.Client()

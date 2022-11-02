@@ -22,11 +22,7 @@ def die_bbox_frame(
 ) -> gf.Component:
     """Return boundary box frame.
 
-    Perfect for defining dicing lanes. the
-    boundary of the chip/die it can also add a label with the name of the die.
-    similar to die and bbox.
-
-    based on phidl.geometry
+    The chip/die boundary can include a label with the name of the die.
 
     Args:
         bbox: bounding box to frame.
