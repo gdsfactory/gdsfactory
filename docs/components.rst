@@ -2415,7 +2415,7 @@ spiral_racetrack
 
   import gdsfactory as gf
 
-  c = gf.components.spiral_racetrack()
+  c = gf.components.spiral_racetrack(cross_section='strip')
   c.plot()
 
 
@@ -2430,7 +2430,7 @@ spiral_racetrack_heater_doped
 
   import gdsfactory as gf
 
-  c = gf.components.spiral_racetrack_heater_doped()
+  c = gf.components.spiral_racetrack_heater_doped(straight_length=30, spacing=2, num=8, waveguide_cross_section='strip', heater_cross_section='npp')
   c.plot()
 
 
@@ -2445,7 +2445,7 @@ spiral_racetrack_heater_metal
 
   import gdsfactory as gf
 
-  c = gf.components.spiral_racetrack_heater_metal()
+  c = gf.components.spiral_racetrack_heater_metal(straight_length=30, spacing=2, num=8, waveguide_cross_section='strip', heater_cross_section='heater_metal')
   c.plot()
 
 
@@ -3075,7 +3075,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='5.49.0', text_size=10)
+  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='5.50.0', text_size=10)
   c.plot()
 
 
