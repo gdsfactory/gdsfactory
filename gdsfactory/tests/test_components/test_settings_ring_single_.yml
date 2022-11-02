@@ -3,16 +3,20 @@ settings:
   changed: {}
   child: null
   default:
-    bend: bend_euler
-    coupler_ring: coupler_ring
+    bend:
+      function: bend_euler
+    coupler_ring:
+      function: coupler_ring
     cross_section: strip
     gap: 0.2
     length_x: 4.0
     length_y: 0.6
     radius: 10.0
   full:
-    bend: bend_euler
-    coupler_ring: coupler_ring
+    bend:
+      function: bend_euler
+    coupler_ring:
+      function: coupler_ring
     cross_section: strip
     gap: 0.2
     length_x: 4.0

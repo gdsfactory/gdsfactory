@@ -30,12 +30,14 @@ settings:
     module: gdsfactory.components.taper
     name: taper_width23
   default:
-    bend: bend_euler
+    bend:
+      function: bend_euler
     component:
       function: taper
       settings:
         width2: 3
-    coupler: coupler_ring
+    coupler:
+      function: coupler_ring
     gap: 0.2
     length_x: 4
     length_y: 0
@@ -45,12 +47,14 @@ settings:
       function: straight
     with_component: true
   full:
-    bend: bend_euler
+    bend:
+      function: bend_euler
     component:
       function: taper
       settings:
         width2: 3
-    coupler: coupler_ring
+    coupler:
+      function: coupler_ring
     gap: 0.2
     length_x: 4
     length_y: 0
