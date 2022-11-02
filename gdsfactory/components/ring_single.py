@@ -1,4 +1,6 @@
 import gdsfactory as gf
+from gdsfactory.components.bend_euler import bend_euler
+from gdsfactory.components.coupler_ring import coupler_ring
 from gdsfactory.components.straight import straight
 from gdsfactory.types import ComponentSpec
 
@@ -9,8 +11,8 @@ def ring_single(
     radius: float = 10.0,
     length_x: float = 4.0,
     length_y: float = 0.6,
-    coupler_ring: ComponentSpec = "coupler_ring",
-    bend: ComponentSpec = "bend_euler",
+    coupler_ring: ComponentSpec = coupler_ring,
+    bend: ComponentSpec = bend_euler,
     cross_section: ComponentSpec = "strip",
     **kwargs
 ) -> gf.Component:

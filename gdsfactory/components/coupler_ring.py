@@ -2,6 +2,10 @@ from typing import Optional
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components.bend_euler import bend_euler
+from gdsfactory.components.coupler90 import coupler90
+from gdsfactory.components.coupler_straight import coupler_straight
+from gdsfactory.components.straight import straight
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
@@ -10,10 +14,10 @@ def coupler_ring(
     gap: float = 0.2,
     radius: float = 5.0,
     length_x: float = 4.0,
-    coupler90: ComponentSpec = "coupler90",
-    bend: ComponentSpec = "bend_euler",
-    straight: ComponentSpec = "straight",
-    coupler_straight: ComponentSpec = "coupler_straight",
+    coupler90: ComponentSpec = coupler90,
+    bend: ComponentSpec = bend_euler,
+    straight: ComponentSpec = straight,
+    coupler_straight: ComponentSpec = coupler_straight,
     cross_section: CrossSectionSpec = "strip",
     bend_cross_section: Optional[CrossSectionSpec] = None,
     **kwargs
