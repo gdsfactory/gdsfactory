@@ -325,7 +325,6 @@ strip = partial(
     cladding_offsets=(0,),  # for SiEPIC verification
 )
 strip_auto_widen = partial(strip, width_wide=0.9, auto_widen=True)
-npp = partial(strip, layer="NPP")
 
 # Rib with rectangular slab
 rib = partial(
@@ -444,6 +443,7 @@ heater_metal = partial(
 
 metal3_with_bend = partial(metal1, layer="M3", radius=10)
 metal_routing = metal3
+npp = partial(metal1, layer="NPP", width=0.5)
 
 
 @pydantic.validate_arguments
