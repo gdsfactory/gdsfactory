@@ -2,6 +2,10 @@
 
 ## 5.49.0
 
+- sanitize generic pdk args [PR](https://github.com/gdsfactory/gdsfactory/pull/808)
+
+## 5.49.0
+
 - fix devsim [PR](https://github.com/gdsfactory/gdsfactory/pull/806)
 
 ## 5.47.2
