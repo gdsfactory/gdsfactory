@@ -2,7 +2,6 @@ import warnings
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_euler import bend_euler180
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
@@ -11,7 +10,7 @@ def delay_snake2(
     length: float = 1600.0,
     length0: float = 0.0,
     n: int = 2,
-    bend180: ComponentSpec = bend_euler180,
+    bend180: ComponentSpec = "bend_euler180",
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
@@ -44,7 +43,7 @@ def delay_snake2(
         warnings.warn(f"rounding {n} to {n//2 *2}", stacklevel=3)
         n = n // 2 * 2
 
-    bend180 = bend180(cross_section=cross_section, **kwargs)
+    bend180 = gf.get_component(bend180, cross_section=cross_section, **kwargs)
 
     delta_length = (length - length0 - n * bend180.info["length"]) / (n + 1)
     length1 = delta_length - length0

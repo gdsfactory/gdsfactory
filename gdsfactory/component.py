@@ -447,7 +447,7 @@ class Component(gdspy.Cell, _GeometryHelper):
         Returns:
             port_list : list of Port List of all Ports in the Component.
         """
-        port_list = [p._copy(new_uid=False) for p in self.ports.values()]
+        port_list = [p._copy() for p in self.ports.values()]
 
         if depth is None or depth > 0:
             for r in self.references:
@@ -457,7 +457,7 @@ class Component(gdspy.Cell, _GeometryHelper):
                 # Transform ports that came from a reference
                 ref_ports_transformed = []
                 for rp in ref_ports:
-                    new_port = rp._copy(new_uid=False)
+                    new_port = rp._copy()
                     new_center, new_orientation = r._transform_port(
                         rp.center,
                         rp.orientation,
@@ -576,7 +576,7 @@ class Component(gdspy.Cell, _GeometryHelper):
 
     def add_port(
         self,
-        name: Optional[Union[str, int, object]] = None,
+        name: Optional[Union[str, object]] = None,
         center: Optional[Tuple[float, float]] = None,
         width: Optional[float] = None,
         orientation: Optional[float] = None,
@@ -609,13 +609,13 @@ class Component(gdspy.Cell, _GeometryHelper):
         if port:
             if not isinstance(port, Port):
                 raise ValueError(f"add_port() needs a Port, got {type(port)}")
-            p = port.copy(new_uid=True)
+            p = port.copy()
             if name is not None:
                 p.name = name
             p.parent = self
 
         elif isinstance(name, Port):
-            p = name.copy(new_uid=True)
+            p = name.copy()
             p.parent = self
             name = p.name
         else:
@@ -675,52 +675,51 @@ class Component(gdspy.Cell, _GeometryHelper):
             layers: list of layers to remove.
             include_labels: remove labels on those layers.
             invert_selection: removes all layers except layers specified.
-            recursive: operate on the cells included in this cell.
+            recursive: operate on the cells included in this cell. Flatten cells if True.
         """
         from gdsfactory.pdk import get_layer
 
         layers = [_parse_layer(get_layer(layer)) for layer in layers]
-        all_D = list(self.get_dependencies(recursive))
-        all_D += [self]
-        for D in all_D:
-            for polygonset in D.polygons:
-                polygon_layers = zip(polygonset.layers, polygonset.datatypes)
-                polygons_to_keep = [(pl in layers) for pl in polygon_layers]
-                if not invert_selection:
-                    polygons_to_keep = [(not p) for p in polygons_to_keep]
-                polygonset.polygons = [
-                    p for p, keep in zip(polygonset.polygons, polygons_to_keep) if keep
-                ]
-                polygonset.layers = [
-                    p for p, keep in zip(polygonset.layers, polygons_to_keep) if keep
-                ]
-                polygonset.datatypes = [
-                    p for p, keep in zip(polygonset.datatypes, polygons_to_keep) if keep
-                ]
 
-            paths = []
-            for path in D.paths:
-                paths.extend(
-                    path
-                    for layer in zip(path.layers, path.datatypes)
-                    if layer not in layers
-                )
+        D = self.flatten() if recursive and self.references else self
+        for polygonset in D.polygons:
+            polygon_layers = zip(polygonset.layers, polygonset.datatypes)
+            polygons_to_keep = [(pl in layers) for pl in polygon_layers]
+            if not invert_selection:
+                polygons_to_keep = [(not p) for p in polygons_to_keep]
+            polygonset.polygons = [
+                p for p, keep in zip(polygonset.polygons, polygons_to_keep) if keep
+            ]
+            polygonset.layers = [
+                p for p, keep in zip(polygonset.layers, polygons_to_keep) if keep
+            ]
+            polygonset.datatypes = [
+                p for p, keep in zip(polygonset.datatypes, polygons_to_keep) if keep
+            ]
 
-            D.paths = paths
+        paths = []
+        for path in D.paths:
+            paths.extend(
+                path
+                for layer in zip(path.layers, path.datatypes)
+                if layer not in layers
+            )
 
-            if include_labels:
-                new_labels = []
-                for label in D.labels:
-                    original_layer = (label.layer, label.texttype)
-                    original_layer = _parse_layer(original_layer)
-                    if invert_selection:
-                        keep_layer = original_layer in layers
-                    else:
-                        keep_layer = original_layer not in layers
-                    if keep_layer:
-                        new_labels += [label]
-                D.labels = new_labels
-        return self
+        D.paths = paths
+
+        if include_labels:
+            new_labels = []
+            for label in D.labels:
+                original_layer = (label.layer, label.texttype)
+                original_layer = _parse_layer(original_layer)
+                if invert_selection:
+                    keep_layer = original_layer in layers
+                else:
+                    keep_layer = original_layer not in layers
+                if keep_layer:
+                    new_labels += [label]
+            D.labels = new_labels
+        return D
 
     def extract(
         self,
@@ -831,7 +830,7 @@ class Component(gdspy.Cell, _GeometryHelper):
             or self.metadata_child.get(setting)
         )
 
-    def is_unlocked(self) -> None:
+    def _check_unlocked(self) -> None:
         """Raises error if Component is locked."""
         if self._locked:
             raise MutabilityError(
@@ -849,7 +848,7 @@ class Component(gdspy.Cell, _GeometryHelper):
         Raises:
             MutabilityError: if component is locked.
         """
-        self.is_unlocked()
+        self._check_unlocked()
         super().add(element)
 
     def add(self, element) -> None:
@@ -1225,11 +1224,12 @@ class Component(gdspy.Cell, _GeometryHelper):
             component = self.copy()
             component.name = self.name
             for reference in component.references:
-                add_pins_triangle(
-                    component=component,
-                    reference=reference,
-                    layer=port_marker_layer,
-                )
+                if isinstance(component, ComponentReference):
+                    add_pins_triangle(
+                        component=component,
+                        reference=reference,
+                        layer=port_marker_layer,
+                    )
 
         elif show_ports:
             component = self.copy()
@@ -1456,15 +1456,15 @@ class Component(gdspy.Cell, _GeometryHelper):
                  |   |
                  8   7
         """
-        self.is_unlocked()
+        self._check_unlocked()
         auto_rename_ports(self, **kwargs)
 
     def auto_rename_ports_counter_clockwise(self, **kwargs) -> None:
-        self.is_unlocked()
+        self._check_unlocked()
         auto_rename_ports_counter_clockwise(self, **kwargs)
 
     def auto_rename_ports_layer_orientation(self, **kwargs) -> None:
-        self.is_unlocked()
+        self._check_unlocked()
         auto_rename_ports_layer_orientation(self, **kwargs)
 
     def auto_rename_ports_orientation(self, **kwargs) -> None:
@@ -1487,7 +1487,7 @@ class Component(gdspy.Cell, _GeometryHelper):
                  |   |
                 S0   S1
         """
-        self.is_unlocked()
+        self._check_unlocked()
         auto_rename_ports_orientation(self, **kwargs)
 
     def move(
@@ -1896,5 +1896,7 @@ if __name__ == "__main__":
     # print(c2.info)
     c = gf.c.mzi()
     # c.hash_geometry()
-    print(c.get_polygons(by_spec=True))
+    # print(c.get_polygons(by_spec=True))
+
+    c = c.remove_layers(layers=((68, 0),))
     c.show(show_ports=True)

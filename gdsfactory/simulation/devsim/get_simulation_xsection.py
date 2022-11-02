@@ -50,7 +50,7 @@ def dn_carriers(wavelength: float, dN: float, dP: float) -> float:
         wavelength *= 1e-6
         return (
             -3.64 * 1e-10 * wavelength**2 * dN
-            - 3.51 * 1e-6 * wavelength**2 * np.poewr(dP, 0.8)
+            - 3.51 * 1e-6 * wavelength**2 * np.power(dP, 0.8)
         )
 
 

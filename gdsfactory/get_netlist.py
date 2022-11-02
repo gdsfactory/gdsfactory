@@ -160,7 +160,9 @@ def get_netlist(
     ports_by_type = defaultdict(list)
     top_ports_list = set()
 
-    for reference in component.references:
+    references = _get_references_to_netlist(component)
+
+    for reference in references:
         c = reference.parent
         origin = reference.origin
         x = float(snap_to_grid(origin[0]))
@@ -227,7 +229,7 @@ def get_netlist(
         ports_by_type[port.port_type].append(src)
 
     # lower level ports
-    for reference in component.references:
+    for reference in references:
         if not isinstance(reference, gdspy.CellArray):
             for port in reference.ports.values():
                 reference_name = get_instance_name(
@@ -480,6 +482,25 @@ def difference_between_angles(angle2: float, angle1: float):
     return diff
 
 
+def _get_references_to_netlist(component: Component) -> List[ComponentReference]:
+    from gdsfactory.cell import CACHE
+
+    references = component.references
+    if not references and "transformed_cell" in component.info:
+        # expand transformed, flattened cells
+        ref = component.settings.full["ref"]
+        original_cell = CACHE[component.info["transformed_cell"]]
+        references = [
+            ComponentReference(
+                original_cell,
+                origin=ref["origin"],
+                rotation=ref["rotation"],
+                x_reflection=ref["x_reflection"],
+            )
+        ]
+    return references
+
+
 def get_netlist_recursive(
     component: Component,
     component_suffix: str = "",
@@ -508,12 +529,14 @@ def get_netlist_recursive(
     all_netlists = {}
 
     # only components with references (subcomponents) warrant a netlist
-    if component.references:
+    references = _get_references_to_netlist(component)
+
+    if references:
         netlist = get_netlist_func(component, **kwargs)
         all_netlists[f"{component.name}{component_suffix}"] = netlist
 
         # for each reference, expand the netlist
-        for ref in component.references:
+        for ref in references:
             rcell = ref.parent
             grandchildren = get_netlist_recursive(
                 component=rcell,
@@ -522,7 +545,10 @@ def get_netlist_recursive(
                 **kwargs,
             )
             all_netlists.update(grandchildren)
-            if ref.ref_cell.references:
+
+            child_references = _get_references_to_netlist(ref.ref_cell)
+
+            if child_references:
                 inst_name = get_instance_name(component, ref)
                 netlist_dict = {"component": f"{rcell.name}{component_suffix}"}
                 if hasattr(rcell, "settings") and hasattr(rcell.settings, "full"):

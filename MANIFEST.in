@@ -10,6 +10,7 @@ include requirements_dev.txt
 include requirements_exp.txt
 include requirements_sipann.txt
 include requirements_tidy3d.txt
+include requirements_devsim.txt
 include gdsfactory/klayout/pymacros/klive.lym
 include gdsfactory/klayout/drc/generic.lydrc
 include gdsfactory/klayout/tech/generic.layerstack

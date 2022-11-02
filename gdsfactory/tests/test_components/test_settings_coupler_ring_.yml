@@ -3,7 +3,8 @@ settings:
   changed: {}
   child: null
   default:
-    bend: null
+    bend:
+      function: bend_euler
     bend_cross_section: null
     coupler90:
       function: coupler90
@@ -16,7 +17,8 @@ settings:
     straight:
       function: straight
   full:
-    bend: null
+    bend:
+      function: bend_euler
     bend_cross_section: null
     coupler90:
       function: coupler90
