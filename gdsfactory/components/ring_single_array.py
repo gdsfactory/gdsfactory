@@ -2,6 +2,7 @@ from typing import Dict, Optional, Tuple
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components.ring_single import ring_single
 from gdsfactory.components.straight import straight
 from gdsfactory.types import ComponentFactory, CrossSectionSpec
 
@@ -13,7 +14,7 @@ _list_of_dicts = (
 
 @gf.cell
 def ring_single_array(
-    ring: ComponentFactory = "ring_single",
+    ring: ComponentFactory = ring_single,
     spacing: float = 5.0,
     list_of_dicts: Optional[Tuple[Dict[str, float], ...]] = None,
     cross_section: CrossSectionSpec = "strip",

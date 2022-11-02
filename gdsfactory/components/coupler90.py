@@ -1,6 +1,8 @@
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular
+from gdsfactory.components.bend_euler import bend_euler
+from gdsfactory.components.straight import straight
 from gdsfactory.types import ComponentSpec, CrossSectionSpec, Optional
 
 
@@ -8,8 +10,8 @@ from gdsfactory.types import ComponentSpec, CrossSectionSpec, Optional
 def coupler90(
     gap: float = 0.2,
     radius: float = 10.0,
-    bend: ComponentSpec = "bend_euler",
-    straight: ComponentSpec = "straight",
+    bend: ComponentSpec = bend_euler,
+    straight: ComponentSpec = straight,
     cross_section: CrossSectionSpec = "strip",
     bend_cross_section: Optional[CrossSectionSpec] = None,
     **kwargs
