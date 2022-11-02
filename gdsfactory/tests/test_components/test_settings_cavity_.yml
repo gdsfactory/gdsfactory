@@ -5,19 +5,17 @@ settings:
     changed: {}
     child: null
     default:
+      cross_section: strip
       l1: 0.159
       l2: 0.159
       n: 10
-      straight:
-        function: straight
       w1: 0.475
       w2: 0.525
     full:
+      cross_section: strip
       l1: 0.159
       l2: 0.159
       n: 10
-      straight:
-        function: straight
       w1: 0.475
       w2: 0.525
     function_name: dbr
@@ -28,15 +26,13 @@ settings:
   default:
     component:
       function: dbr
-    coupler:
-      function: coupler
+    coupler: coupler
     gap: 0.2
     length: 0.1
   full:
     component:
       function: dbr
-    coupler:
-      function: coupler
+    coupler: coupler
     gap: 0.2
     length: 0.1
   function_name: cavity

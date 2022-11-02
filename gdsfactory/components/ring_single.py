@@ -1,7 +1,7 @@
 import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.coupler_ring import coupler_ring as _coupler_ring
-from gdsfactory.components.straight import straight as _straight
+from gdsfactory.components.coupler_ring import coupler_ring
+from gdsfactory.components.straight import straight
 from gdsfactory.types import ComponentSpec
 
 
@@ -11,8 +11,7 @@ def ring_single(
     radius: float = 10.0,
     length_x: float = 4.0,
     length_y: float = 0.6,
-    coupler_ring: ComponentSpec = _coupler_ring,
-    straight: ComponentSpec = _straight,
+    coupler_ring: ComponentSpec = coupler_ring,
     bend: ComponentSpec = bend_euler,
     cross_section: ComponentSpec = "strip",
     **kwargs
@@ -28,7 +27,6 @@ def ring_single(
         length_x: ring coupler length.
         length_y: vertical straight length.
         coupler_ring: ring coupler spec.
-        straight: straight spec.
         bend: 90 degrees bend spec.
         cross_section: cross_section spec.
         kwargs: cross_section settings.
@@ -49,20 +47,15 @@ def ring_single(
     cb = c << gf.get_component(
         coupler_ring,
         bend=bend,
-        straight=straight,
         gap=gap,
         radius=radius,
         length_x=length_x,
         cross_section=cross_section,
         **kwargs
     )
-    sy = gf.get_component(
-        straight, length=length_y, cross_section=cross_section, **kwargs
-    )
+    sy = straight(length=length_y, cross_section=cross_section, **kwargs)
     b = gf.get_component(bend, cross_section=cross_section, radius=radius, **kwargs)
-    sx = gf.get_component(
-        straight, length=length_x, cross_section=cross_section, **kwargs
-    )
+    sx = straight(length=length_x, cross_section=cross_section, **kwargs)
     sl = c << sy
     sr = c << sy
     bl = c << b
@@ -87,7 +80,8 @@ if __name__ == "__main__":
     # c = ring_single(width=2, gap=1, layer=(2, 0), radius=7, length_y=1)
     # print(c.ports)
 
-    c = gf.routing.add_fiber_array(ring_single)
+    # c = gf.routing.add_fiber_array(ring_single)
+    c = ring_single(cross_section="rib", width=2)
     c.show(show_ports=True)
 
     # cc = gf.add_pins(c)

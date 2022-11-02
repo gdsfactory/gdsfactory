@@ -14,9 +14,8 @@ from pydantic import BaseModel, Field
 from typing_extensions import Literal
 
 from gdsfactory.add_pins import add_bbox_siepic, add_pins_siepic_optical_2nm
-from gdsfactory.tech import TECH, Section
+from gdsfactory.tech import Section
 
-LAYER = TECH.layer
 Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
 WidthTypes = Literal["sine", "linear", "parabolic"]
@@ -443,6 +442,8 @@ heater_metal = partial(
 )
 
 metal3_with_bend = partial(metal1, layer="M3", radius=10)
+metal_routing = metal3
+npp = partial(metal1, layer="NPP", width=0.5)
 
 
 @pydantic.validate_arguments
@@ -949,7 +950,7 @@ def strip_heater_doped(
 
 strip_heater_doped_via_stack = partial(
     strip_heater_doped,
-    layers_heater=(LAYER.WG, LAYER.NPP, LAYER.VIAC),
+    layers_heater=("WG", "NPP", "VIAC"),
     bbox_offsets_heater=(0, 0.1, -0.2),
 )
 

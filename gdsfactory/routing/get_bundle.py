@@ -21,7 +21,6 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.via_corner import via_corner
 from gdsfactory.components.wire import wire_corner
-from gdsfactory.config import TECH
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
 from gdsfactory.routing.get_bundle_corner import get_bundle_corner
@@ -38,11 +37,8 @@ from gdsfactory.types import (
     ComponentSpec,
     CrossSectionSpec,
     MultiCrossSectionAngleSpec,
-    Number,
     Route,
 )
-
-METAL_MIN_SEPARATION = TECH.metal_spacing
 
 
 def get_bundle(
@@ -233,12 +229,14 @@ def get_port_width(port: Port) -> Union[float, int]:
 
 
 def are_decoupled(
-    x1: Number,
-    x1p: Number,
-    x2: Number,
-    x2p: Number,
-    sep: float = METAL_MIN_SEPARATION,
+    x1: float,
+    x1p: float,
+    x2: float,
+    x2p: float,
+    sep: Union[str, float] = "metal_spacing",
 ) -> bool:
+
+    sep = gf.get_constant(sep)
     if x2p + sep > x1:
         return False
     return False if x2 < x1p + sep else x2 >= x1p - sep
@@ -479,7 +477,7 @@ def _get_bundle_waypoints(
     ]
 
 
-def compute_ports_max_displacement(ports1: List[Port], ports2: List[Port]) -> Number:
+def compute_ports_max_displacement(ports1: List[Port], ports2: List[Port]) -> float:
     if ports1[0].orientation in [0, 180]:
         a1 = [p.y for p in ports1]
         a2 = [p.y for p in ports2]
@@ -490,7 +488,7 @@ def compute_ports_max_displacement(ports1: List[Port], ports2: List[Port]) -> Nu
     return max(abs(max(a1) - min(a2)), abs(min(a1) - max(a2)))
 
 
-def sign(x: Number) -> int:
+def sign(x: float) -> int:
     return 1 if x > 0 else -1
 
 
@@ -670,7 +668,7 @@ def get_bundle_same_axis_no_grouping(
 
 
 get_bundle_electrical = partial(
-    get_bundle, bend=wire_corner, cross_section=gf.cross_section.metal3
+    get_bundle, bend=wire_corner, cross_section="metal_routing"
 )
 
 get_bundle_electrical_multilayer = gf.partial(
@@ -678,7 +676,7 @@ get_bundle_electrical_multilayer = gf.partial(
     bend=via_corner,
     cross_section=[
         (gf.cross_section.metal2, (90, 270)),
-        (gf.cross_section.metal3, (0, 180)),
+        ("metal_routing", (0, 180)),
     ],
 )
 
