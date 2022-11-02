@@ -14,8 +14,6 @@ skip_test = {
     "pack_doe_grid",
     "crossing",
     "spiral_racetrack",
-    "spiral_racetrack_heater_metal",
-    "spiral_racetrack_heater_doped",
 }
 
 cells_to_test = set(cells.keys()) - skip_test
