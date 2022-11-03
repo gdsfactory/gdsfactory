@@ -1,8 +1,14 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## 5.49.0
+## 5.51.0
+
+- add devsim installation to installer
+
+## 5.50.0
 
 - sanitize generic pdk args [PR](https://github.com/gdsfactory/gdsfactory/pull/808)
+- fix spiral racetrack [PR](https://github.com/gdsfactory/gdsfactory/pull/809)
+- update meep adjoint default values [PR](https://github.com/gdsfactory/gdsfactory/pull/811)
 
 ## 5.49.0
 

@@ -2,6 +2,7 @@
 
 pip install gdsfactory[tidy3d]
 pip install gdsfactory[full] --upgrade
+pip install devsim
 pip install gdsfactory==5.50.3
 gf tool install
 
