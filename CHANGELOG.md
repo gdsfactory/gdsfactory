@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## 5.52.0
+## 5.53.0
 
 - get_material from meep can also use tidy3d database [PR](https://github.com/gdsfactory/gdsfactory/pull/813)
 
