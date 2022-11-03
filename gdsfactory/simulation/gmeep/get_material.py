@@ -67,12 +67,11 @@ def get_material(
     medium = getattr(mat, name)
     if dispersive:
         return medium
-    else:
-        try:
-            return mp.Medium(epsilon=medium.epsilon(1 / wavelength)[0][0])
-        except ValueError as e:
-            print(f"material = {name!r} wavelength={wavelength}")
-            raise e
+    try:
+        return mp.Medium(epsilon=medium.epsilon(1 / wavelength)[0][0])
+    except ValueError as e:
+        print(f"material = {name!r} wavelength={wavelength}")
+        raise e
 
 
 def get_index(
