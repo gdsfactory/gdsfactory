@@ -521,8 +521,13 @@ settings_write_sparameters_meep = set(sig.parameters.keys()).union(
 )
 
 if __name__ == "__main__":
-    c = gf.components.mmi1x2(cross_section=gf.cross_section.nitride)
-    sp = write_sparameters_meep(c, run=False, is_3d=False)
+    wavelength_start = 1.26
+    wavelength_stop = 1.36
+    sim_settings = dict(
+        wavelength_start=wavelength_start, wavelength_stop=wavelength_stop
+    )
+    c = gf.components.mmi1x2(cross_section=gf.cross_section.strip)
+    sp = write_sparameters_meep(c, run=False, is_3d=False, **sim_settings)
 
     # from gdsfactory.simulation.add_simulation_markers import add_simulation_markers
     # import gdsfactory.simulation as sim
