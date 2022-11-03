@@ -26,6 +26,8 @@ specs:
   - scikit-image
   - triangle
   - trimesh
+  - pyvista
+  - mkl
   - console_shortcut # [win]
   - anaconda-navigator
   - pymeep # [unix]

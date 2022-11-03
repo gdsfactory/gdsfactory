@@ -16,11 +16,18 @@
  <dsl-interpreter-name/>
  <text>
 
-import flayout as fl
-import gdsfactory.components as gfc
-from gdsfactory.types import ComponentOrReference
+try:
+    import flayout as fl
+    import gdsfactory.components as gfc
+    from gdsfactory.types import ComponentOrReference
+except ImportError:
+    import pya
+    pya.MessageBox.info('ubcpdk message',
+                        ('ubcpdk has not been installed. So ubcpdk pcells will not be available.\n' +
+                         'To use these, go into terminal/command line anywhere and type\n\n' +
+                         'pip install ubcpdk'),
+                        pya.MessageBox.Ok)
 
-# FIXME: Often, deleting KLayout cells imported this way will crash KLayout
 
 gf_pcells = []
 for name, cell in gfc.cells.items():

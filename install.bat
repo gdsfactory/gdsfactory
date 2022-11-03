@@ -1,6 +1,6 @@
 
 set PIP_FIND_LINKS="https://whls.blob.core.windows.net/unstable/index.html"
-pip install lytest simphony sax jax sklearn klayout
+pip install lytest simphony sax jax sklearn klayout devsim
 pip install "jaxlib[cuda111]" -f https://whls.blob.core.windows.net/unstable/index.html --use-deprecated legacy-resolver
 pip install gdsfactory==5.50.3
 gf tool install
