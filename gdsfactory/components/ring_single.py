@@ -1,7 +1,7 @@
 import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.coupler_ring import coupler_ring
-from gdsfactory.components.straight import straight
+from gdsfactory.components.coupler_ring import coupler_ring as coupler_ring_function
+from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.types import ComponentSpec
 
 
@@ -11,7 +11,8 @@ def ring_single(
     radius: float = 10.0,
     length_x: float = 4.0,
     length_y: float = 0.6,
-    coupler_ring: ComponentSpec = coupler_ring,
+    coupler_ring: ComponentSpec = coupler_ring_function,
+    straight: ComponentSpec = straight_function,
     bend: ComponentSpec = bend_euler,
     cross_section: ComponentSpec = "strip",
     **kwargs
@@ -27,6 +28,7 @@ def ring_single(
         length_x: ring coupler length.
         length_y: vertical straight length.
         coupler_ring: ring coupler spec.
+        straight: straight spec.
         bend: 90 degrees bend spec.
         cross_section: cross_section spec.
         kwargs: cross_section settings.
