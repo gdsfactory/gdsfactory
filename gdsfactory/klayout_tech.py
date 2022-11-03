@@ -155,7 +155,7 @@ class LayerView(BaseModel):
             elif prop_name == "name":
                 prop_val = name
                 if self.layer_in_name:
-                    prop_val += f"{self.layer[0]}/{self.layer[1]}"
+                    prop_val += f" {self.layer[0]}/{self.layer[1]}"
             else:
                 prop_val = getattr(self, "_".join(prop_name.split("-")), None)
                 if isinstance(prop_val, bool):
