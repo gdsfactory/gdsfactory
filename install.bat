@@ -4,12 +4,13 @@ pip install lytest simphony sax jax sklearn klayout devsim
 pip install "jaxlib[cuda111]" -f https://whls.blob.core.windows.net/unstable/index.html --use-deprecated legacy-resolver
 pip install gdsfactory==5.53.0
 gf tool install
-python -c "import menuinst; menuinst.install('spyder.json')"
+set GF_PATH=%cd%
 
 if exist "%USERPROFILE%\Desktop\gdsfactory" (goto SKIP_INSTALL)
 cd %USERPROFILE%\Desktop
 git clone https://github.com/gdsfactory/gdsfactory.git
 cd gdsfactory
+%GF_PATH%/python shortcuts.py %GF_PATH%
 
 :SKIP_INSTALL
 echo gdsfactory installed
