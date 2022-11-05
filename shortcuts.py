@@ -3,15 +3,16 @@ import sys
 
 import menuinst
 
+
 spyder_settings = """
 {
-    "menu_name": "Spyder",
+    "menu_name": "gdsfactory Spyder",
     "menu_items":
         [
             {
                 "script": "${PREFIX}/Scripts/spyder.exe",
                 "scriptarguments": [],
-                "name": "Spyder",
+                "name": "gdsfactory Spyder",
                 "workdir": "${PREFIX}",
                 "icon": "${MENU_DIR}/spyder.ico",
                 "desktop": true,
@@ -24,13 +25,13 @@ spyder_settings = """
 
 jupyter_lab_settings = """
 {
-    "menu_name": "JupyterLab",
+    "menu_name": "gdsfactory JupyterLab",
     "menu_items":
         [
             {
                 "script": "${PREFIX}/Scripts/jupyter-lab.exe",
                 "scriptarguments": [],
-                "name": "JupyterLab",
+                "name": "gdsfactory JupyterLab",
                 "workdir": "${PREFIX}",
                 "icon": "${PREFIX}/Lib/site-packages/nbclassic/static/base/images/favicon.ico",
                 "desktop": true,
@@ -41,15 +42,15 @@ jupyter_lab_settings = """
 """
 
 
-ananconda_navigator_settings = """
+anaconda_navigator_settings = """
 {
-    "menu_name": "Anaconda Navigator",
+    "menu_name": "gdsfactory Anaconda Navigator",
     "menu_items":
         [
             {
                 "script": "${PREFIX}/Scripts/anaconda-navigator.exe",
                 "scriptarguments": [],
-                "name": "Anaconda Navigator",
+                "name": "gdsfactory Anaconda Navigator",
                 "workdir": "${PREFIX}",
                 "icon": "${MENU_DIR}/anaconda-navigator.ico",
                 "desktop": true,
@@ -61,12 +62,12 @@ ananconda_navigator_settings = """
 
 
 def shortcuts(settings: str):
-    with open(f"{sys.prefix}/settings.json", "w") as f:
+    with open(f"{sys.argv[1]}/settings.json", "w") as f:
         json.dump(json.loads(settings), f)
-    menuinst.install("settings.json", prefix=f"{sys.argv[1]}")
+    menuinst.install(f"{sys.argv[1]}/settings.json", prefix=f"{sys.argv[1]}")
 
 
 if __name__ == "__main__":
-    icons = [spyder_settings, jupyter_lab_settings, ananconda_navigator_settings]
+    icons = [spyder_settings, jupyter_lab_settings, anaconda_navigator_settings]
     for icon in icons:
         shortcuts(icon)
