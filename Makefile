@@ -176,12 +176,4 @@ link:
 spell:
 	codespell -i 3 -w -L TE,TE/TM,te,ba,FPR,fpr_spacing
 
-devsim:
-	wget -P devsim https://github.com/devsim/devsim/releases/download/v2.1.0/devsim_linux_v2.1.0.tgz
-	tar zxvf devsim/devsim_linux_v2.1.0.tgz --directory devsim
-	python devsim/devsim_linux_v2.1.0/install.py
-	pip install -e devsim/devsim_linux_v2.1.0/lib # Works in this specific way
-	pip install mkl
-	mamba install -c conda-forge pyvista -y
-
 .PHONY: gdsdiff build conda

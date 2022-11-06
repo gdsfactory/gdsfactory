@@ -4,8 +4,6 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.array_component import array
-from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.pad import pad
 from gdsfactory.components.straight import straight
 from gdsfactory.port import auto_rename_ports
 from gdsfactory.routing.sort_ports import sort_ports_x
@@ -14,7 +12,7 @@ from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 @cell
 def array_with_fanout(
-    component: ComponentSpec = pad,
+    component: ComponentSpec = "pad",
     columns: int = 3,
     pitch: float = 150.0,
     waveguide_pitch: float = 10.0,
@@ -22,7 +20,7 @@ def array_with_fanout(
     end_straight_length: float = 40.0,
     radius: float = 5.0,
     component_port_name: str = "e4",
-    bend: ComponentSpec = bend_euler,
+    bend: ComponentSpec = "bend_euler",
     bend_port_name1: Optional[str] = None,
     bend_port_name2: Optional[str] = None,
     cross_section: CrossSectionSpec = "strip",
