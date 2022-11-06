@@ -1,9 +1,8 @@
-from typing import Optional
-
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.coupler_ring import coupler_ring as coupler_ring_function
-from gdsfactory.components.straight import straight as straight_function
+from gdsfactory.components.bend_euler import bend_euler
+from gdsfactory.components.coupler_ring import coupler_ring
+from gdsfactory.components.straight import straight
 from gdsfactory.components.via_stack import via_stack_heater_m3
 from gdsfactory.types import ComponentSpec, CrossSectionSpec, Float2
 
@@ -16,9 +15,9 @@ def ring_double_heater(
     radius: float = 10.0,
     length_x: float = 0.01,
     length_y: float = 0.01,
-    coupler_ring: ComponentSpec = coupler_ring_function,
-    straight: ComponentSpec = straight_function,
-    bend: Optional[ComponentSpec] = None,
+    coupler_ring: ComponentSpec = coupler_ring,
+    straight: ComponentSpec = straight,
+    bend: ComponentSpec = bend_euler,
     cross_section_heater: CrossSectionSpec = "heater_metal",
     cross_section_waveguide_heater: CrossSectionSpec = "strip_heater_metal",
     cross_section: CrossSectionSpec = "strip",
