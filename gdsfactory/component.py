@@ -774,7 +774,7 @@ class Component(_GeometryHelper):
 
     def remove_layers(
         self,
-        layers: Union[List[Tuple[int, int]], Tuple[int, int]] = (),
+        layers: Union[List[Tuple[int, int]], Tuple[int, int]],
         include_labels: bool = True,
         invert_selection: bool = False,
         recursive: bool = True,
@@ -793,24 +793,14 @@ class Component(_GeometryHelper):
         else:
             D = self
 
-        polygons = [
-            polygon
-            for polygon in self.polygons
-            if (polygon.layer, polygon.datatype) not in layers
-        ]
+        for polygon in D.polygons:
+            if (polygon.layer, polygon.datatype) in layers:
+                D._cell.remove(polygon)
 
-        paths = []
         for path in D.paths:
-            paths.extend(
-                path
-                for layer in zip(path.layers, path.datatypes)
-                if layer not in layers
+            D._cell.remove(
+                path for layer in zip(path.layers, path.datatypes) if layer in layers
             )
-
-        D.paths.clear()
-        D.paths.extend(paths)
-        D.polygons.clear()
-        D.polygons.extend(polygons)
 
         if include_labels:
             new_labels = []
@@ -1998,13 +1988,15 @@ def test_bbox_component() -> None:
 if __name__ == "__main__":
 
     # c = Component("parent")
-    c2 = Component("child")
+    c = Component("child")
     length = 10
     width = 0.5
     layer = (1, 0)
-    c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
-    c2.show()
+    c.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
+    c.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=(2, 0))
+    c = c.remove_layers([(1, 0)])
 
+    # c2.show()
     # c << c2
     # c.show()
     # length = 10
