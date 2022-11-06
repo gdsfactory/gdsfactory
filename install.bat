@@ -12,7 +12,6 @@ cd %USERPROFILE%\Desktop
 git clone https://github.com/gdsfactory/gdsfactory.git
 
 cd gdsfactory
-copy shortcuts.py .
 %GF_PATH%\python shortcuts.py %GF_PATH%
 
 :SKIP_INSTALL
