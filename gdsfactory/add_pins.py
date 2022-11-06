@@ -15,7 +15,7 @@ import numpy as np
 from numpy import ndarray
 from omegaconf import OmegaConf
 
-from gdsfactory.components import rectangle
+import gdsfactory as gf
 from gdsfactory.snap import snap_to_grid
 
 if TYPE_CHECKING:
@@ -316,7 +316,7 @@ def add_pin_path(
     layer_label = layer_label or layer
     p = port
 
-    pin = component << rectangle((pin_length, p.width), layer=layer)
+    pin = component << gf.components.rectangle((pin_length, p.width), layer=layer)
     pin.move(pin.center, p.center)
     pin.rotate(p.orientation, center=p.center)
 
@@ -576,7 +576,7 @@ def add_pins_and_outline(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
+    # import gdsfactory as gf
 
     # c = test_add_pins()
     # c.show(show_ports=True)
