@@ -636,7 +636,7 @@ class Polygon(gdstk.Polygon, _GeometryHelper):
 
     """
 
-    def __init__(self, points, gds_layer, gds_datatype, parent):
+    def __init__(self, points, gds_layer, gds_datatype, parent=None):
         """Initialize polygon."""
         self.parent = parent
         super().__init__(points=points, layer=gds_layer, datatype=gds_datatype)
