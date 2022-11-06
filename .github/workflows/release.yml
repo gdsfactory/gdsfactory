@@ -17,7 +17,7 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
       - name: Cancel Workflow Action
-        uses: styfle/cancel-workflow-action@0.10.1
+        uses: styfle/cancel-workflow-action@0.11.0
       - uses: actions/checkout@v3
       - uses: conda-incubator/setup-miniconda@v2
         with:
@@ -40,6 +40,6 @@ jobs:
         with:
           fail_on_unmatched_files: false
           files: |
-            gdsfactory-5.45.1-Linux-x86_64.sh
-            gdsfactory-5.45.1-Windows-x86_64.exe
-            gdsfactory-5.45.1-MacOSX-x86_64.pkg
+            gdsfactory-5.54.0-Linux-x86_64.sh
+            gdsfactory-5.54.0-Windows-x86_64.exe
+            gdsfactory-5.54.0-MacOSX-x86_64.pkg

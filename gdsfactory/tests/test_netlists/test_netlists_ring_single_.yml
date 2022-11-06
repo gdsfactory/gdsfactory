@@ -29,8 +29,6 @@ instances:
   coupler_ring_1:
     component: coupler_ring
     settings:
-      bend:
-        function: bend_euler
       radius: 10.0
   straight_1:
     component: straight

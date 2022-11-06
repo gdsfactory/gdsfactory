@@ -1,6 +1,48 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.54.0
+
+- Add shortcut during installation [PR](https://github.com/gdsfactory/gdsfactory/pull/817/files)
+
+## 5.53.0
+
+- get_material from meep can also use tidy3d database [PR](https://github.com/gdsfactory/gdsfactory/pull/813)
+
+## 5.51.0
+
+- add devsim installation to installer
+
+## 5.50.0
+
+- sanitize generic pdk args [PR](https://github.com/gdsfactory/gdsfactory/pull/808)
+- fix spiral racetrack [PR](https://github.com/gdsfactory/gdsfactory/pull/809)
+- update meep adjoint default values [PR](https://github.com/gdsfactory/gdsfactory/pull/811)
+
+## 5.49.0
+
+- fix devsim [PR](https://github.com/gdsfactory/gdsfactory/pull/806)
+
+## 5.47.2
+
+- make package install work on Windows [PR](https://github.com/gdsfactory/gdsfactory/pull/805)
+
+## 5.47.1
+
+- improve simulation.plot.plot_sparameter kwargs [PR](https://github.com/gdsfactory/gdsfactory/pull/804)
+    - replace with_sparameter_labels with with_simpler_input_keys
+
+## 5.47.0
+
+- integrate flayout to add all of generic components into KLayout [PR](https://github.com/gdsfactory/gdsfactory/pull/797)
+- group gdsfactory klayout plugin items in a single menu [PR](https://github.com/gdsfactory/gdsfactory/pull/801)
+
 ## 5.46.0
+
+- meep plot2D improvements [PR](https://github.com/gdsfactory/gdsfactory/pull/792)
+- fix show_subports causes error with CellArray references [issue](https://github.com/gdsfactory/gdsfactory/issues/791)
+- access reference ports more easily [PR](https://github.com/gdsfactory/gdsfactory/pull/794)
+
+## 5.45.1
 
 - add spiral heater phase shifter [PR](https://github.com/gdsfactory/gdsfactory/pull/786)
 
