@@ -11,12 +11,11 @@ import json
 from functools import partial
 from typing import TYPE_CHECKING, Callable, List, Optional, Tuple, Union
 
-import gdspy
 import numpy as np
 from numpy import ndarray
 from omegaconf import OmegaConf
 
-import gdsfactory as gf
+from gdsfactory.components import rectangle
 from gdsfactory.snap import snap_to_grid
 
 if TYPE_CHECKING:
@@ -314,12 +313,10 @@ def add_pin_path(
           |_______________|
                  __
     """
-    from gdsfactory.pdk import get_layer
-
     layer_label = layer_label or layer
     p = port
 
-    pin = component << gf.components.rectangle((pin_length, p.width), layer=layer)
+    pin = component << rectangle((pin_length, p.width), layer=layer)
     pin.move(pin.center, p.center)
     pin.rotate(p.orientation, center=p.center)
 
