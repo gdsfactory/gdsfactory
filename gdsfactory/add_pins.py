@@ -16,6 +16,7 @@ import numpy as np
 from numpy import ndarray
 from omegaconf import OmegaConf
 
+import gdsfactory as gf
 from gdsfactory.snap import snap_to_grid
 
 if TYPE_CHECKING:
@@ -317,23 +318,10 @@ def add_pin_path(
 
     layer_label = layer_label or layer
     p = port
-    a = p.orientation
-    ca = np.cos(a * np.pi / 180)
-    sa = np.sin(a * np.pi / 180)
-    rot_mat = np.array([[ca, -sa], [sa, ca]])
 
-    d0 = np.array([-pin_length / 2, 0])
-    d1 = np.array([+pin_length / 2, 0])
-
-    p0 = p.center + _rotate(d0, rot_mat)
-    p1 = p.center + _rotate(d1, rot_mat)
-
-    points = [p0, p1]
-    layer = get_layer(layer)
-    path = gdspy.FlexPath(
-        points=points, width=p.width, layer=layer[0], datatype=layer[1], gdsii_path=True
-    )
-    component.add(path)
+    pin = component << gf.components.rectangle((pin_length, p.width), layer=layer)
+    pin.move(pin.center, p.center)
+    pin.rotate(p.orientation, center=p.center)
 
     component.add_label(
         text=str(p.name), position=p.center, layer=layer_label, anchor="sw"
