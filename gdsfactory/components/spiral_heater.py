@@ -35,7 +35,8 @@ def spiral_racetrack(
     c = gf.Component()
 
     bend_s = c << bend_s_factory(
-        (straight_length, -min_radius * 2 - spacings[0]), cross_section=cross_section
+        (straight_length, -min_radius * 2 + 1 * spacings[0]),
+        cross_section=cross_section,
     )
 
     ports = []
@@ -43,7 +44,7 @@ def spiral_racetrack(
         for i in range(len(spacings)):
             bend = c << bend_factory(
                 angle=180,
-                radius=min_radius + np.sum(spacings[: i + 1]),
+                radius=min_radius + np.sum(spacings[:i]),
                 p=0,
                 cross_section=cross_section,
             )
@@ -184,11 +185,11 @@ def spiral_racetrack_heater_doped(
     heater_bot = c << heater_straight
 
     heater_bot.connect("e1", spiral.ports["o1"].copy().rotate(180)).movey(
-        -spacing * (num // 2)
+        -spacing * (num // 2 - 1)
     )
 
     heater_top.connect("e1", spiral.ports["o2"].copy().rotate(180)).movey(
-        spacing * (num // 2)
+        spacing * (num // 2 - 1)
     )
 
     c.add_ports(spiral.ports)
