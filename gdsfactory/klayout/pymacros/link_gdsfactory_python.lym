@@ -7,7 +7,7 @@
  <prolog/>
  <epilog/>
  <doc/>
- <autorun>false</autorun>
+ <autorun>true</autorun>
  <autorun-early>false</autorun-early>
  <shortcut/>
  <show-in-menu>true</show-in-menu>
@@ -18,81 +18,96 @@
  <text>
 import pya
 import sys
-import json
+import subprocess
+import pathlib
 import importlib
-from pathlib import Path
+import os
+import json
 
-python_base_dir = pya.FileDialog.ask_existing_dir("Select directory of Python environment to link:", "")
-
-import_packages = [
-    'click',
-    'flatdict',
-    'gdspy',
-    'jsondiff',
-    'loguru',
-    'lxml',
-    'matplotlib',
-    'numpy',
-    'omegaconf',
-    'orjson',
-    'pandas',
-    'pydantic',
-    'pytest',
-    'pytest-regressions',
-    'pyyaml',
-    'qrcode',
-    'rectpack',
-    'scipy',
-    'shapely',
-    'toolz',
-    'tqdm',
-    'types-PyYAML',
-    'typing_extensions',
-    'watchdog',
-    'xmltodict',
+check_packages = [
     'gdsfactory',
     'flayout'
 ]
 
-external_site_packages = list(Path(python_base_dir).glob("**/site-packages"))
+config_file = os.path.expanduser("~/.gdsfactory/gf-config.json")
 
-if len(external_site_packages) > 1 or len(external_site_packages) == 0:
-    raise ImportError("The specified directory should contain exactly one 'site-packages' folder.")
-
-python_lib_path = external_site_packages[0]
-
-# Add path to import all extra modules
-sys.path.append(str(python_lib_path))
-
-for package in import_packages:
-  package_info_dir =  list(python_lib_path.glob(f"{package}-*dist-info*"))
-
-  if len(package_info_dir) == 0:
-    continue
-
-  if len(package_info_dir) > 1:
-    print(f"Multiple info directories for {package} found! :\n{package_info_dir}")
-    continue
-
-  package_info_file = package_info_dir[0] / "direct_url.json"
-
-  if not package_info_file.exists():
-    continue
-
-  with open(package_info_file, 'r') as f:
-    # Should be in format: "file:///path/to/local/package"
+with open(config_file, "r") as f:
     try:
-        package_import_path = json.load(f)["url"][7:]
-        print("found package: ", package_import_path)
-    except Exception as err:
-        print(err)
+        cfg = json.load(f)
+    except:
+        cfg = {}
 
-  if package_import_path not in sys.path:
-    sys.path.append(package_import_path)
+    if "conda-env" not in cfg.keys():
+        env_dir_str = pya.FileDialog.ask_existing_dir("Select directory of Python environment to link:", "")
 
-  # importlib.import_module(package)
+        if env_dir_str is None:
+            quit()
 
-# sys.path.remove(package_import_path)
+        cfg["conda-env"] = env_dir_str
 
+with open(config_file, "w") as f:
+    json.dump(cfg, f, sort_keys=True, indent=4)
+
+env_dir = pathlib.Path(cfg["conda-env"])
+
+conda_exe = list(env_dir.glob("../../bin/conda"))
+
+if not len(conda_exe) == 1:
+    raise OSError("Could not find conda bin dir")
+
+conda_exe = conda_exe[0]
+print(f"Found {conda_exe}")
+
+py_cmd = f"""
+import sys
+import importlib
+import pathlib
+import site
+import json
+import platform
+
+paths = set(sys.path)
+site_packages_dir = pathlib.Path(site.getsitepackages()[0])
+
+# Need to trace the imports of editible installs
+for package in {check_packages}:
+    package_info_dir =  list(site_packages_dir.glob(package + "-*.dist-info"))
+
+    package_info_file = package_info_dir[0] / "direct_url.json"
+
+    with open(package_info_file, 'r') as f:
+        # Should be in format: "file:///path/to/local/package"
+        file_info = json.load(f)
+
+        if not file_info["dir_info"]["editable"]:
+            continue
+
+        url = file_info["url"]
+        package_import_path = str(pathlib.Path(url).as_posix()).lstrip("file:")
+
+        if platform.system == "Windows":
+            package_import_path = package_import_path[1:]
+
+        paths.add(package_import_path)
+
+print(','.join([p for p in paths if p != '']))
+"""
+
+process = subprocess.run(
+    args=[
+        str(conda_exe), "run", "-n", env_dir.name,
+        "python", "-c", py_cmd
+    ],
+    capture_output=True
+)
+print(process.stderr)
+
+paths = process.stdout.decode("utf-8").strip().split(",")
+print(f"Adding conda env paths: {paths}")
+
+sys.path = [*sys.path, *paths]
+
+for package in check_packages:
+    importlib.import_module(package)
 </text>
 </klayout-macro>

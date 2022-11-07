@@ -155,7 +155,7 @@ class LayerView(BaseModel):
             elif prop_name == "name":
                 prop_val = name
                 if self.layer_in_name:
-                    prop_val += f"{self.layer[0]}/{self.layer[1]}"
+                    prop_val += f" {self.layer[0]}/{self.layer[1]}"
             else:
                 prop_val = getattr(self, "_".join(prop_name.split("-")), None)
                 if isinstance(prop_val, bool):
@@ -355,9 +355,7 @@ class LayerDisplayProperties(BaseModel):
         for field in self.dict():
             val = getattr(self, field)
             if isinstance(val, LayerView):
-                if val.name is None:
-                    val.name = field
-                self.add_layer_view(val)
+                self.add_layer_view(name=field, layer_view=val)
 
     def add_layer_view(self, name: str, layer_view: Optional[LayerView]) -> None:
         """Adds a layer to LayerDisplayProperties.
@@ -469,11 +467,12 @@ class LayerDisplayProperties(BaseModel):
         for name, lv in self.layer_views.items():
             root.append(lv.to_xml(name))
 
-        for name, dp in self.custom_patterns.dither_patterns.items():
-            root.append(dp.to_xml(name))
+        if self.custom_patterns is not None:
+            for name, dp in self.custom_patterns.dither_patterns.items():
+                root.append(dp.to_xml(name))
 
-        for name, ls in self.custom_patterns.line_styles.items():
-            root.append(ls.to_xml(name))
+            for name, ls in self.custom_patterns.line_styles.items():
+                root.append(ls.to_xml(name))
 
         with open(filepath, "wb") as file:
             file.write(
