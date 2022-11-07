@@ -1,4 +1,5 @@
 from collections import OrderedDict
+from typing import Dict, Optional
 
 from gdsfactory.simulation.gmsh.mesh import mesh_from_polygons
 from gdsfactory.simulation.gmsh.parse_gds import fuse_component_layer
@@ -14,6 +15,9 @@ def xy_xsection_mesh(
     component: ComponentOrReference,
     z: float,
     layerstack: LayerStack,
+    resolutions: Optional[Dict],
+    default_resolution_min: float = 0.01,
+    default_resolution_max: float = 0.5,
 ):
 
     # Find layers present at this z-level
@@ -35,7 +39,13 @@ def xy_xsection_mesh(
         shapes[layer] = layer_polygons_dict[layer]
 
     # Mesh
-    return mesh_from_polygons(shapes, filename="mesh.msh")
+    return mesh_from_polygons(
+        shapes,
+        resolutions=resolutions,
+        filename="mesh.msh",
+        default_resolution_min=default_resolution_min,
+        default_resolution_max=default_resolution_max,
+    )
 
 
 if __name__ == "__main__":
@@ -59,10 +69,15 @@ if __name__ == "__main__":
         }
     )
 
+    resolutions = {}
+    resolutions["core"] = {"resolution": 0.05, "distance": 0.1}
+    resolutions["via_contact"] = {"resolution": 0.1, "distance": 0}
+
     geometry = xy_xsection_mesh(
         component=waveguide,
         z=0.09,
         layerstack=filtered_layerstack,
+        resolutions=resolutions,
     )
     # print(geometry)
 
