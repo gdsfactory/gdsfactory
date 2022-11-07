@@ -27,7 +27,7 @@ def make_link(src, dest, overwrite: bool = True) -> None:
         print(f"removing {dest} already installed")
         remove_path_or_dir(dest)
     try:
-        os.symlink(src, dest)
+        os.symlink(src, dest, target_is_directory=True)
     except OSError as err:
         print("Could not create symlink!")
         print("     Error: ", err)
