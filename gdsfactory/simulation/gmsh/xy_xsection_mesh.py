@@ -21,11 +21,10 @@ def xy_xsection_mesh(
 
     # Fuse and cleanup polygons of same layer in case user overlapped them
     layer_dict = layerstack.to_dict()
-    filtered_layerdict = {key: layer_dict[key] for key in layers}
     layer_polygons_dict = {}
-    for layername, layer in filtered_layerdict.items():
+    for layername in layers:  # filtered_layerdict.items():
         layer_polygons_dict[layername] = fuse_component_layer(
-            component, layername, layer
+            component, layername, layer_dict[layername]
         )
 
     # Reorder polygons according to meshorder
@@ -34,9 +33,6 @@ def xy_xsection_mesh(
     shapes = OrderedDict()
     for layer in ordered_layers:
         shapes[layer] = layer_polygons_dict[layer]
-
-    # for key, item in shapes.items():
-    #     print(key, item)
 
     # Mesh
     return mesh_from_polygons(shapes, filename="mesh.msh")
@@ -47,7 +43,7 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     # T  = gf.Component()
-    waveguide = gf.components.straight_pin(length=10, taper=None)  # .extract((3,0))
+    waveguide = gf.components.straight_pin(length=10, taper=None)
     waveguide.show()
 
     from gdsfactory.tech import get_layer_stack_generic
@@ -59,13 +55,13 @@ if __name__ == "__main__":
                 "slab90",
                 "core",
                 "via_contact",
-            )  # "slab90", "via_contact")#"via_contact") # "slab90", "core"
+            )
         }
     )
 
     geometry = xy_xsection_mesh(
         component=waveguide,
-        z=1,
+        z=0.09,
         layerstack=filtered_layerstack,
     )
     # print(geometry)
@@ -90,11 +86,8 @@ if __name__ == "__main__":
             cell_data={"name_to_read": [cell_data]},
         )
 
-    # # line_mesh = create_mesh(mesh_from_file, "line", prune_z=True)
-    # # meshio.write("facet_mesh.xdmf", line_mesh)
-
-    # # triangle_mesh = create_mesh(mesh_from_file, "tetra", prune_z=False)
-    # # meshio.write("mesh.xdmf", triangle_mesh)
+    line_mesh = create_mesh(mesh_from_file, "line", prune_z=True)
+    meshio.write("facet_mesh.xdmf", line_mesh)
 
     triangle_mesh = create_mesh(mesh_from_file, "triangle", prune_z=True)
     meshio.write("mesh.xdmf", triangle_mesh)
