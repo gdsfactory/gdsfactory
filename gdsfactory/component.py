@@ -1575,7 +1575,7 @@ class Component(gdspy.Cell, _GeometryHelper):
             [self.add_polygon(points=p, layer=layer) for p in polys]
 
         self.add(reference.parent.labels)
-        self.add(reference.parent.paths)
+        self.add(reference.get_paths())
         self.remove(reference)
         return self
 
