@@ -211,6 +211,9 @@ def uz_xsection_mesh(
     component: ComponentOrReference,
     xsection_bounds: Tuple[Tuple[float, float], Tuple[float, float]],
     layerstack: LayerStack,
+    resolutions: Optional[Dict],
+    default_resolution_min: float = 0.01,
+    default_resolution_max: float = 0.5,
 ):
 
     # Find coordinates
@@ -239,7 +242,13 @@ def uz_xsection_mesh(
         print(key, value)
 
     # Mesh
-    return mesh_from_polygons(shapes, filename="mesh.msh")
+    return mesh_from_polygons(
+        shapes,
+        resolutions=resolutions,
+        filename="mesh.msh",
+        default_resolution_min=default_resolution_min,
+        default_resolution_max=default_resolution_max,
+    )
 
 
 if __name__ == "__main__":
@@ -260,10 +269,15 @@ if __name__ == "__main__":
         }
     )
 
+    resolutions = {}
+    resolutions["core"] = {"resolution": 0.05, "distance": 2}
+    resolutions["via_contact"] = {"resolution": 0.1, "distance": 1}
+
     geometry = uz_xsection_mesh(
         waveguide,
         [(4, -10), (4, 10)],
         filtered_layerstack,
+        resolutions=resolutions,
     )
 
     import meshio
