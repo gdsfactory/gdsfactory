@@ -1696,12 +1696,12 @@ class Component(_GeometryHelper):
             if isinstance(item, Port):
                 self.ports = {k: v for k, v in self.ports.items() if v != item}
             elif isinstance(item, gdstk.Polygon):
-                self.polygons.remove(item)
+                self._cell.remove(item)
             elif isinstance(item, gdstk.Reference):
-                self.references.remove(item)
+                self._cell.remove(item)
                 item.owner = None
             elif isinstance(item, gdstk.Label):
-                self.labels.remove(item)
+                self._cell.remove(item)
             elif isinstance(item, ComponentReference):
                 self.references.remove(item)
                 item.owner = None
@@ -1995,8 +1995,8 @@ if __name__ == "__main__":
     c.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
     c.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=(2, 0))
     c = c.remove_layers([(1, 0)])
+    c.show()
 
-    # c2.show()
     # c << c2
     # c.show()
     # length = 10
