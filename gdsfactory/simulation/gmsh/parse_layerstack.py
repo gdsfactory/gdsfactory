@@ -92,7 +92,7 @@ def order_layerstack(layerstack: LayerStack):
     """
     layers = layerstack.to_dict()
     mesh_orders = []
-    for key, value in layers.items():
+    for value in layers.values():
         if "mesh_order" in value["info"].keys():
             mesh_orders.append(value["info"]["mesh_order"])
     ordered_layers = [x for _, x in sorted(zip(mesh_orders, layers))]

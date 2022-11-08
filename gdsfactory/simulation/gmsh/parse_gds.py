@@ -1,7 +1,5 @@
-from collections import OrderedDict
-
 import shapely
-from shapely.geometry import MultiPolygon, Polygon
+from shapely.geometry import LineString, MultiPolygon, Polygon
 from shapely.ops import linemerge, split
 
 
@@ -42,9 +40,17 @@ def to_polygons(geometries):
             yield from geometry
 
 
+def to_lines(geometries):
+    for geometry in geometries:
+        if isinstance(geometry, LineString):
+            yield geometry
+        else:
+            yield from geometry
+
+
 def tile_shapes(shapes_dict):
     """Break up shapes in order so that plane is tiled with non-overlapping layers."""
-    shapes_tiled_dict = OrderedDict()
+    shapes_tiled_dict = {}
     for lower_index, (lower_name, lower_shapes) in reversed(
         list(enumerate(shapes_dict.items()))
     ):
@@ -63,7 +69,12 @@ def tile_shapes(shapes_dict):
                 ):
                     diff_shape = diff_shape.difference(higher_shape)
             tiled_lower_shapes.append(diff_shape)
-        shapes_tiled_dict[lower_name] = MultiPolygon(to_polygons(tiled_lower_shapes))
+        if lower_shape.type == "Polygon" or lower_shape.type == "MultiPolygon":
+            shapes_tiled_dict[lower_name] = MultiPolygon(
+                to_polygons(tiled_lower_shapes)
+            )
+        else:
+            shapes_tiled_dict[lower_name] = MultiPolygon(to_lines(tiled_lower_shapes))
 
     return shapes_tiled_dict
 
