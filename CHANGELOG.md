@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.55.0
+
+- fix path defined port issues when absorbing [issue](https://github.com/gdsfactory/gdsfactory/issues/816)
+- minor spiral fixes [PR](https://github.com/gdsfactory/gdsfactory/pull/822)
+- klayout tech fixes [PR](https://github.com/gdsfactory/gdsfactory/pull/824)
+
 ## 5.54.0
 
 - Add shortcut during installation [PR](https://github.com/gdsfactory/gdsfactory/pull/817/files)
