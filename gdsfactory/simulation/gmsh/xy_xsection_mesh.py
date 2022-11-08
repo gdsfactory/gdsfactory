@@ -1,5 +1,8 @@
 from collections import OrderedDict
-from typing import Dict, Optional
+from typing import Dict, Optional, Tuple
+
+from shapely.geometry import Polygon
+from shapely.ops import unary_union
 
 from gdsfactory.simulation.gmsh.mesh import mesh_from_polygons
 from gdsfactory.simulation.gmsh.parse_gds import fuse_component_layer
@@ -18,8 +21,21 @@ def xy_xsection_mesh(
     resolutions: Optional[Dict],
     default_resolution_min: float = 0.01,
     default_resolution_max: float = 0.5,
+    background_tag: Optional[str] = None,
+    background_padding: Tuple[float, float, float, float] = (2.0, 2.0, 2.0, 2.0),
 ):
+    """Mesh xy cross-section of component at height z.
 
+    Args:
+        component (Component): gdsfactory component to mesh
+        z (float): z-coordinate at which to sample the LayerStack
+        layerstack (LayerStack): gdsfactory LayerStack to parse
+        resolutions (Dict): Pairs {"layername": {"resolution": float, "distance": "float}} to roughly control mesh refinement
+        default_resolution_min (float): gmsh minimal edge length
+        default_resolution_max (float): gmsh maximal edge length
+        background_tag (str): name of the background layer to add (default: no background added)
+        background_padding (Tuple): [xleft, ydown, xright, yup] distances to add to the components and to fill with background_tag
+    """
     # Find layers present at this z-level
     layers = get_layers_at_z(layerstack, z)
 
@@ -37,6 +53,18 @@ def xy_xsection_mesh(
     shapes = OrderedDict()
     for layer in ordered_layers:
         shapes[layer] = layer_polygons_dict[layer]
+
+    # Add background polygon
+    if background_tag is not None:
+        bounds = unary_union([shape for shape in shapes.values()]).bounds
+        shapes[background_tag] = Polygon(
+            [
+                [bounds[0] - background_padding[0], bounds[1] - background_padding[1]],
+                [bounds[0] - background_padding[0], bounds[3] + background_padding[3]],
+                [bounds[2] + background_padding[2], bounds[3] + background_padding[3]],
+                [bounds[2] + background_padding[2], bounds[1] - background_padding[1]],
+            ]
+        )
 
     # Mesh
     return mesh_from_polygons(
@@ -78,6 +106,7 @@ if __name__ == "__main__":
         z=0.09,
         layerstack=filtered_layerstack,
         resolutions=resolutions,
+        background_tag="Oxide",
     )
     # print(geometry)
 

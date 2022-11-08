@@ -4,6 +4,7 @@ from typing import Dict, Optional, Tuple
 import numpy as np
 import pygmsh
 from shapely.geometry import MultiPolygon, Polygon
+from shapely.ops import unary_union
 
 import gdsfactory as gf
 from gdsfactory.geometry.boolean import boolean
@@ -214,6 +215,8 @@ def uz_xsection_mesh(
     resolutions: Optional[Dict],
     default_resolution_min: float = 0.01,
     default_resolution_max: float = 0.5,
+    background_tag: Optional[str] = None,
+    background_padding: Tuple[float, float, float, float] = (2.0, 2.0, 2.0, 2.0),
 ):
 
     # Find coordinates
@@ -236,10 +239,17 @@ def uz_xsection_mesh(
             layer_shapes.append(Polygon(points))
         shapes[layer] = MultiPolygon(to_polygons(layer_shapes))
 
-    print(shapes)
-
-    for key, value in shapes.items():
-        print(key, value)
+    # Add background polygon
+    if background_tag is not None:
+        bounds = unary_union([shape for shape in shapes.values()]).bounds
+        shapes[background_tag] = Polygon(
+            [
+                [bounds[0] - background_padding[0], bounds[1] - background_padding[1]],
+                [bounds[0] - background_padding[0], bounds[3] + background_padding[3]],
+                [bounds[2] + background_padding[2], bounds[3] + background_padding[3]],
+                [bounds[2] + background_padding[2], bounds[1] - background_padding[1]],
+            ]
+        )
 
     # Mesh
     return mesh_from_polygons(
@@ -271,6 +281,7 @@ if __name__ == "__main__":
 
     resolutions = {}
     resolutions["core"] = {"resolution": 0.05, "distance": 2}
+    resolutions["slab90"] = {"resolution": 0.03, "distance": 1}
     resolutions["via_contact"] = {"resolution": 0.1, "distance": 1}
 
     geometry = uz_xsection_mesh(
@@ -278,6 +289,7 @@ if __name__ == "__main__":
         [(4, -10), (4, 10)],
         filtered_layerstack,
         resolutions=resolutions,
+        background_tag="Oxide",
     )
 
     import meshio
