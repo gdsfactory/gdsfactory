@@ -123,95 +123,6 @@ def get_xsection_bound_polygons(
     return outplane_bounds_dict
 
 
-# def mesh2D(
-#     component: ComponentOrReference,
-#     xsection_bounds: Tuple[Tuple[float, float], Tuple[float, float]],
-#     base_resolution: float = 0.2,
-#     refine_resolution: Optional[Dict[Layer, float]] = None,
-#     padding: Tuple[float, float, float, float] = (2.0, 2.0, 2.0, 2.0),
-#     layer_stack: Optional[LayerStack] = None,
-#     exclude_layers: Optional[Tuple[Layer, ...]] = None,
-# ):
-#     """Returns gmsh 2D geometry of component along cross-sectional line (x1,y1), (x2,y2).
-
-#     Args:
-#         component: Component or ComponentReference.
-#         xsection_bounds: ( (x1,y1), (x2,y2) ), with x1,y1 beginning point of cross-sectional line and x2,y2 the end.
-#         base_resolution: background mesh resolution (um).
-#         refine_resolution: feature mesh resolution (um); layer dependent via a dict (default to base_resolution).
-#         padding: amount (left, right, bottom, up) to enlarge simulation region beyond features (um).
-
-#     """
-#     layer_stack = layer_stack or get_layer_stack()
-#     layer_to_thickness = layer_stack.get_layer_to_thickness()
-#     layer_to_zmin = layer_stack.get_layer_to_zmin()
-#     exclude_layers = exclude_layers or ()
-
-#     geometry = pygmsh.geo.Geometry()
-
-#     model = geometry.__enter__()
-
-#     # Find extremal coordinates
-#     bounds_dict = get_xsection_bound_polygons(component, xsection_bounds)
-#     polygons = [polygon for polygons in bounds_dict.values() for polygon in polygons]
-#     umin = min(polygon["umin"] for polygon in polygons) - padding[0]
-#     umax = max(polygon["umax"] for polygon in polygons) + padding[1]
-#     zmin = min(polygon["zmin"] for polygon in polygons) - padding[2]
-#     zmax = max(polygon["zmax"] for polygon in polygons) + padding[3]
-
-#     # Background oxide polygon
-#     points = [
-#         model.add_point([umin, zmin], mesh_size=base_resolution),
-#         model.add_point([umax, zmin], mesh_size=base_resolution),
-#         model.add_point([umax, zmax], mesh_size=base_resolution),
-#         model.add_point([umin, zmax], mesh_size=base_resolution),
-#     ]
-#     channel_lines = [
-#         model.add_line(points[i], points[i + 1]) for i in range(-1, len(points) - 1)
-#     ]
-#     channel_loop = model.add_curve_loop(channel_lines)
-
-#     # Add layers
-#     blocks = []
-#     for layer in component.get_layers():
-#         if (
-#             layer not in exclude_layers
-#             and layer in layer_to_thickness
-#             and layer in layer_to_zmin
-#         ):
-#             if bounds_dict[layer] == []:
-#                 continue
-#             blocks_layer = []
-#             for i, bounds in enumerate(bounds_dict[layer]):
-#                 points = [
-#                     [bounds["umin"], bounds["zmin"]],
-#                     [bounds["umin"], bounds["zmax"]],
-#                     [bounds["umax"], bounds["zmax"]],
-#                     [bounds["umax"], bounds["zmin"]],
-#                 ]
-#                 polygon = model.add_polygon(
-#                     points,
-#                     mesh_size=refine_resolution[layer]
-#                     if refine_resolution
-#                     else base_resolution,
-#                 )
-#                 model.add_physical(polygon, f"{layer}_{i}")
-#                 blocks.append(polygon)
-#                 blocks_layer.append(polygon)
-#             model.add_physical(blocks_layer, f"{layer}")
-#     plane_surface = model.add_plane_surface(channel_loop, holes=blocks)
-
-#     model.add_physical(plane_surface, "oxide")
-#     model.add_physical([channel_lines[0]], "left")
-#     model.add_physical([channel_lines[1]], "bottom")
-#     model.add_physical([channel_lines[2]], "right")
-#     model.add_physical([channel_lines[3]], "top")
-
-#     geometry.generate_mesh(dim=2, verbose=True)
-
-#     return geometry
-
-
 def uz_xsection_mesh(
     component: ComponentOrReference,
     xsection_bounds: Tuple[Tuple[float, float], Tuple[float, float]],
@@ -227,19 +138,14 @@ def uz_xsection_mesh(
     bounds_dict = get_xsection_bound_polygons(component, xsection_bounds, layerstack)
 
     # Create polygons from bounds and layers
-    layer_dict = layerstack.to_dict()
     layer_order = order_layerstack(layerstack)
     shapes = OrderedDict()
-    ordered_layers = [value for value in layer_order if value in set(layer_dict.keys())]
-    ordered_layers = set(ordered_layers).intersection(bounds_dict.keys())
+    ordered_layers = set(layer_order).intersection(bounds_dict.keys())
     for layer in ordered_layers:
         layer_shapes = []
         for polygon in bounds_dict[layer]:
             layer_shapes.append(polygon)
         shapes[layer] = MultiPolygon(to_polygons(layer_shapes))
-
-    for key, value in shapes.items():
-        print(key, value)
 
     # Add background polygon
     if background_tag is not None:
