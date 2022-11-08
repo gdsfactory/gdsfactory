@@ -32,13 +32,13 @@ def mesh_from_polygons(
         # Break up lines and polygon edges so that plane is tiled with no partially overlapping line segments
         polygons_broken_dict = OrderedDict()
         lines_broken_dict = OrderedDict()
-        for _first_index, (first_name, first_shape) in enumerate(
-            shapes_tiled_dict.items()
+        for _first_index, (first_name, _init_first_shapes) in enumerate(
+            shapes_dict.items()
         ):
-            # first_shape = shapes_tiled_dict[first_name]
+            first_shapes = shapes_tiled_dict[first_name]
             broken_shapes = []
             for first_shape in (
-                first_shape.geoms if hasattr(first_shape, "geoms") else [first_shape]
+                first_shapes.geoms if hasattr(first_shapes, "geoms") else [first_shapes]
             ):
                 # First line exterior
                 first_exterior_line = (
