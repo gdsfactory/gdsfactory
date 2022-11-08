@@ -6,6 +6,9 @@ help:
 install: gdslib
 	pip install -r requirements_dev.txt
 	pip install -r requirements_full.txt
+	pip install -r requirements_devsim.txt
+	pip install -r requirements_tidy3.txt
+	pip install -r requirements_sipann.txt
 	pip install -e .
 	pre-commit install
 	gf tool install
