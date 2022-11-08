@@ -11,7 +11,7 @@ from gdsfactory.simulation.gmsh.parse_gds import break_line, tile_shapes
 
 def mesh_from_polygons(
     shapes_dict: OrderedDict,
-    resolutions: Optional[Dict[str, float]] = {},
+    resolutions: Optional[Dict[str, float]] = None,
     default_resolution_min: float = 0.01,
     default_resolution_max: float = 0.5,
     filename: Optional[str] = None,
@@ -32,8 +32,10 @@ def mesh_from_polygons(
         # Break up lines and polygon edges so that plane is tiled with no partially overlapping line segments
         polygons_broken_dict = OrderedDict()
         lines_broken_dict = OrderedDict()
-        for first_index, (first_name, first_shape) in enumerate(shapes_dict.items()):
-            first_shape = shapes_tiled_dict[first_name]
+        for _first_index, (first_name, first_shape) in enumerate(
+            shapes_tiled_dict.items()
+        ):
+            # first_shape = shapes_tiled_dict[first_name]
             broken_shapes = []
             for first_shape in (
                 first_shape.geoms if hasattr(first_shape, "geoms") else [first_shape]
@@ -44,7 +46,7 @@ def mesh_from_polygons(
                     if first_shape.type == "Polygon"
                     else first_shape
                 )
-                for second_index, (second_name, second_shapes) in enumerate(
+                for _second_index, (second_name, second_shapes) in enumerate(
                     shapes_dict.items()
                 ):
                     # Do not compare to itself
@@ -81,7 +83,7 @@ def mesh_from_polygons(
                     first_shape_interiors = []
                     for first_interior_line in first_shape.interiors:
                         first_interior_line = LineString(first_interior_line)
-                        for second_index, (second_name, second_shapes) in enumerate(
+                        for _second_index, (second_name, second_shapes) in enumerate(
                             shapes_dict.items()
                         ):
                             if second_name == first_name:

@@ -227,6 +227,7 @@ def uz_xsection_mesh(
     layer_order = order_layerstack(layerstack)
     shapes = OrderedDict()
     ordered_layers = [value for value in layer_order if value in set(layer_dict.keys())]
+    ordered_layers = set(ordered_layers).intersection(bounds_dict.keys())
     for layer in ordered_layers:
         layer_shapes = []
         for bounds in bounds_dict[layer]:
@@ -275,6 +276,7 @@ if __name__ == "__main__":
                 "slab90",
                 "core",
                 "via_contact",
+                # "metal2",
             )  # "slab90", "via_contact")#"via_contact") # "slab90", "core"
         }
     )
@@ -286,7 +288,7 @@ if __name__ == "__main__":
 
     geometry = uz_xsection_mesh(
         waveguide,
-        [(4, -10), (4, 10)],
+        [(4, -15), (4, 15)],
         filtered_layerstack,
         resolutions=resolutions,
         background_tag="Oxide",
