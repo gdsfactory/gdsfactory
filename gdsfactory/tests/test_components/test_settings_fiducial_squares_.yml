@@ -1,0 +1,25 @@
+name: fiducial_squares
+settings:
+  changed: {}
+  child: null
+  default:
+    layers:
+    - - 1
+      - 0
+    offset: 0.14
+    size:
+    - 5
+    - 5
+  full:
+    layers:
+    - - 1
+      - 0
+    offset: 0.14
+    size:
+    - 5
+    - 5
+  function_name: fiducial_squares
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.fiducial_squares
+  name: fiducial_squares
