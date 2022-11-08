@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.56.0
+
+- rename add_fidutials to add_fiducials (it was misspelled before) [PR](https://github.com/gdsfactory/gdsfactory/pull/827)
+
 ## 5.55.0
 
 - fix path defined port issues when absorbing [issue](https://github.com/gdsfactory/gdsfactory/issues/816)
