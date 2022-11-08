@@ -50,6 +50,7 @@ def xy_xsection_mesh(
     # Reorder polygons according to meshorder
     layer_order = order_layerstack(layerstack)
     ordered_layers = [value for value in layer_order if value in set(layer_dict.keys())]
+    ordered_layers = set(ordered_layers).intersection(layers)
     shapes = OrderedDict()
     for layer in ordered_layers:
         shapes[layer] = layer_polygons_dict[layer]

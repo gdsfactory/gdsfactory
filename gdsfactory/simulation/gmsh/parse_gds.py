@@ -53,7 +53,7 @@ def tile_shapes(shapes_dict):
             lower_shapes.geoms if hasattr(lower_shapes, "geoms") else [lower_shapes]
         ):
             diff_shape = lower_shape
-            for higher_index, (higher_name, higher_shapes) in reversed(
+            for _higher_index, (_higher_name, higher_shapes) in reversed(
                 list(enumerate(shapes_dict.items()))[:lower_index]
             ):
                 for higher_shape in (
