@@ -248,6 +248,7 @@ def get_layer_stack_generic(
                 thickness=thickness_slab_deep_etch,
                 zmin=0.0,
                 material="si",
+                info={"mesh_order": 2},
             ),
             nitride=LayerLevel(
                 layer=LAYER.WGN,
