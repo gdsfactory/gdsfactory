@@ -365,7 +365,7 @@ class Group(_GeometryHelper):
         return self
 
 
-def _rotate_points(points, angle=45, center=(0, 0)):
+def _rotate_points(points, angle: float = 45, center=(0, 0)):
     """Rotates points around a centerpoint defined by ``center``.
 
     ``points`` may be input as either single points [1,2] or array-like[N][2],
