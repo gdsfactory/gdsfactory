@@ -188,7 +188,12 @@ class Component(_GeometryHelper):
     def name(self, value):
         self._cell.name = value
 
-    def get_polygons(self, by_spec: bool = False, depth=None):
+    def get_polygons(
+        self,
+        by_spec: bool = False,
+        depth: Optional[int] = None,
+        include_paths: bool = True,
+    ):
         """Return a list of polygons in this cell.
 
         Args:
@@ -203,6 +208,8 @@ class Component(_GeometryHelper):
                 in a bounding box.  If `by_spec` is True the key will be the
                 name of this cell.
 
+            include_paths: If True, polygonal representation of paths are also included in the result.
+
         Returns
             out : list of array-like[N][2] or dictionary
                 List containing the coordinates of the vertices of each
@@ -214,19 +221,25 @@ class Component(_GeometryHelper):
             the result by computing their polygonal boundary.
         """
         if not by_spec:
-            return self._cell.get_polygons(depth=depth)
+            return self._cell.get_polygons(depth=depth, include_paths=include_paths)
         elif by_spec is True:
             layers = self.get_layers()
             return {
                 layer: self._cell.get_polygons(
-                    depth=depth, layer=layer[0], datatype=layer[1]
+                    depth=depth,
+                    layer=layer[0],
+                    datatype=layer[1],
+                    include_paths=include_paths,
                 )
                 for layer in layers
             }
 
         else:
             return self._cell.get_polygons(
-                depth=depth, layer=by_spec[0], datatype=by_spec[1]
+                depth=depth,
+                layer=by_spec[0],
+                datatype=by_spec[1],
+                include_paths=include_paths,
             )
 
     def get_dependencies(self, recursive: bool = False) -> List["Component"]:
@@ -1074,9 +1087,12 @@ class Component(_GeometryHelper):
         """
         component_flat = Component()
 
-        poly_dict = self.get_polygons(by_spec=True)
+        poly_dict = self.get_polygons(by_spec=True, include_paths=False)
         for layer, polys in poly_dict.items():
             component_flat.add_polygon(polys, layer=single_layer or layer)
+
+        for path in self._cell.get_paths():
+            component_flat.add(path)
 
         component_flat.info = self.info.copy()
         return component_flat

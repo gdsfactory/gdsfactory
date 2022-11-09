@@ -1,21 +1,4 @@
-connections:
-  bend_euler_1,o1: bend_euler_2,o2
-  bend_euler_1,o2: taper_2,o1
-  bend_euler_2,o1: taper_1,o2
-  bend_euler_3,o1: straight_3,o2
-  bend_euler_3,o2: straight_4,o1
-  bend_euler_4,o1: straight_2,o2
-  bend_euler_4,o2: straight_3,o1
-  coupler_1,o3: taper_1,o1
-  coupler_1,o4: taper_4,o1
-  coupler_2,o3: taper_6,o2
-  coupler_2,o4: taper_3,o2
-  straight_1,o1: taper_2,o2
-  straight_1,o2: taper_3,o1
-  straight_2,o1: taper_4,o2
-  straight_4,o2: taper_5,o1
-  straight_5,o1: taper_5,o2
-  straight_5,o2: taper_6,o1
+connections: {}
 instances:
   bend_euler_1:
     component: bend_euler
@@ -260,8 +243,4 @@ placements:
     rotation: 180
     x: 19.0
     y: 23.4
-ports:
-  o1: coupler_1,o1
-  o2: coupler_1,o2
-  o3: coupler_2,o1
-  o4: coupler_2,o2
+ports: {}

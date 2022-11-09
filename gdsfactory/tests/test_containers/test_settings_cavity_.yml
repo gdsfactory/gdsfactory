@@ -79,8 +79,7 @@ settings:
   default:
     component:
       function: dbr
-    coupler:
-      function: coupler
+    coupler: coupler
     gap: 0.2
     length: 0.1
   full:
@@ -96,8 +95,7 @@ settings:
         splitter:
           function: mmi2x2
         straight_x_top: straight_heater_metal
-    coupler:
-      function: coupler
+    coupler: coupler
     gap: 0.2
     length: 0.1
   function_name: cavity
