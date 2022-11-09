@@ -835,22 +835,25 @@ class Component(_GeometryHelper):
 
     def extract(
         self,
-        layers: Union[List[Tuple[int, int]], Tuple[int, int]] = (),
+        layers: List[Union[Tuple[int, int], str]],
     ) -> "Component":
         """Extract polygons from a Component and returns a new Component.
 
         based on phidl.geometry.
         """
-        from gdsfactory.name import clean_value
-
-        component = Component(f"{self.name}_{clean_value(layers)}")
+        component = Component()
         if type(layers) not in (list, tuple):
-            raise ValueError("layers needs to be a list or tuple")
+            raise ValueError(f"layers {layers!r} needs to be a list or tuple")
         poly_dict = self.get_polygons(by_spec=True)
         parsed_layer_list = [_parse_layer(layer) for layer in layers]
         for layer, polys in poly_dict.items():
             if _parse_layer(layer) in parsed_layer_list:
                 component.add_polygon(polys, layer=layer)
+
+        for layer in layers:
+            for path in self._cell.get_paths(layer=layer):
+                component.add(path)
+
         return component
 
     def add_polygon(self, points, layer=np.nan):
