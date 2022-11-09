@@ -349,6 +349,7 @@ class Component(_GeometryHelper):
         rotation: float = 0,
         anchor: str = "o",
         layer="TEXT",
+        x_reflection=False,
     ) -> Label:
         """Adds Label to the Component.
 
@@ -360,6 +361,7 @@ class Component(_GeometryHelper):
             anchor: {'n', 'e', 's', 'w', 'o', 'ne', 'nw', ...}
                 Position of the anchor relative to the text.
             layer: Specific layer(s) to put Label on.
+            x_reflection: If True, the label is reflected across the horizontal axis before rotation.
         """
         from gdsfactory.pdk import get_layer
 
@@ -371,12 +373,13 @@ class Component(_GeometryHelper):
             text = text
         label = Label(
             text=text,
-            position=position,
+            origin=position,
             anchor=anchor,
             magnification=magnification,
             rotation=rotation,
             layer=gds_layer,
             texttype=gds_datatype,
+            x_reflection=x_reflection,
         )
         self.add(label)
         return label
@@ -798,7 +801,7 @@ class Component(_GeometryHelper):
                 D._cell.remove(polygon)
 
         for path in D.paths:
-            D._cell.remove(
+            D.remove(
                 path for layer in zip(path.layers, path.datatypes) if layer in layers
             )
 
@@ -1697,6 +1700,8 @@ class Component(_GeometryHelper):
                 item.owner = None
             elif isinstance(item, gdstk.Label):
                 self.labels.remove(item)
+            elif isinstance(item, (gdstk.FlexPath, gdstk.RobustPath)):
+                self.paths.remove(item)
             elif isinstance(item, ComponentReference):
                 self.references.remove(item)
                 item.owner = None
@@ -1788,7 +1793,7 @@ def copy(D: Component) -> Component:
     """
     D_copy = Component()
     D_copy.info = D.info
-    D_copy._cell = D._cell.copy(name=D_copy.name)
+    # D_copy._cell = D._cell.copy(name=D_copy.name)
 
     for ref in D.references:
         new_ref = ComponentReference(
