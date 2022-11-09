@@ -16,7 +16,6 @@ def test_add_pins_with_routes(optical_routing_type) -> gf.Component:
         optical_routing_type=optical_routing_type,
     )
     pins_component = cc.extract(layers=(LAYER.PORT,))
-    pins_component.name = "test_add_pins_with_routes_component"
     assert len(pins_component.polygons) == 20, len(pins_component.polygons)
     return cc
 
@@ -25,7 +24,6 @@ def test_add_pins() -> None:
     """ensure that all the waveguide has 2 pins."""
     c = gf.components.straight(length=11.0)
     pins_component = c.extract(layers=(LAYER.PORT,))
-    pins_component.name = "test_add_pins_component"
     assert len(pins_component.polygons) == 4, len(pins_component.polygons)
 
 
@@ -50,3 +48,4 @@ if __name__ == "__main__":
 
     c = gf.components.straight(length=11.0)
     c2 = c.extract(layers=(LAYER.PORT,))
+    c2.show()
