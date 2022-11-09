@@ -77,7 +77,7 @@ def import_gds(
                 rotation = 0
             label_ref = D.add_label(
                 text=label.text,
-                position=np.asfarray(label.position),
+                position=np.asfarray(label.origin),
                 magnification=label.magnification,
                 rotation=rotation * 180 / np.pi,
                 layer=(label.layer, label.texttype),
@@ -135,4 +135,5 @@ if __name__ == "__main__":
     # print(clean_value_name(c))
     c = import_gds(gdspath, flatten=False, polarization="te")
     # c = import_gds("/home/jmatres/gdsfactory/gdsfactory/gdsdiff/gds_diff_git.py")
+    print(c.hash_geometry())
     c.show(show_ports=True)

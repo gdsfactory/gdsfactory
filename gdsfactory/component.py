@@ -798,7 +798,7 @@ class Component(_GeometryHelper):
 
         for polygon in D.polygons:
             if (polygon.layer, polygon.datatype) in layers:
-                D._cell.remove(polygon)
+                D.remove(polygon)
 
         for path in D.paths:
             D.remove(
@@ -1727,7 +1727,7 @@ class Component(_GeometryHelper):
         for layer in sorted_layers:
             layer_hash = hashlib.sha1(layer.astype(np.int64)).digest()
             polygons = polygons_by_spec[tuple(layer)]
-            polygons = [_rnd(p, precision) for p in polygons]
+            polygons = [_rnd(p.points, precision) for p in polygons]
             polygon_hashes = np.sort([hashlib.sha1(p).digest() for p in polygons])
             final_hash.update(layer_hash)
             for ph in polygon_hashes:
@@ -1851,7 +1851,7 @@ def test_get_layers() -> Component:
         add_bbox=None,
     )
     assert c.get_layers() == {(2, 0), (111, 0)}, c.get_layers()
-    c.remove_layers((111, 0))
+    c = c.remove_layers([(111, 0)])
     assert c.get_layers() == {(2, 0)}, c.get_layers()
     return c
 
@@ -1997,8 +1997,9 @@ def test_bbox_component() -> None:
 
 
 if __name__ == "__main__":
+    # test_get_layers()
 
-    # c = Component("parent")
+    c = Component("parent")
     c = Component("child")
     length = 10
     width = 0.5
@@ -2007,6 +2008,7 @@ if __name__ == "__main__":
     c.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=(2, 0))
     c = c.remove_layers([(1, 0)])
     c.show()
+    print(c.hash_geometry())
 
     # c << c2
     # c.show()
