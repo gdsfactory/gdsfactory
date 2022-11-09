@@ -1735,6 +1735,20 @@ class Component(_GeometryHelper):
 
         return final_hash.hexdigest()
 
+    def get_labels(self, apply_repetitions=True, depth=None, layer=None):
+        from gdsfactory.pdk import get_layer
+
+        if layer:
+            layer, texttype = get_layer(layer)
+        else:
+            texttype = None
+        return self._cell.get_labels(
+            apply_repetitions=apply_repetitions,
+            depth=depth,
+            layer=layer,
+            texttype=texttype,
+        )
+
     # Deprecated
     def get_info(self):
         """Gathers the .info dictionaries from every sub-Component and returns them in a list.
