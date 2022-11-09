@@ -313,7 +313,7 @@ if __name__ == "__main__":
     )
 
     add_label_ehva(cc, die="demo")
-    print(cc.get_labels())
+    # print(cc.get_labels())
     cc.show(show_ports=True)
 
     # c = gf.components.straight(length=20)
