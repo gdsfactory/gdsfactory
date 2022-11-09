@@ -2,6 +2,7 @@ import numbers
 
 import gdstk
 import numpy as np
+from gdstk import Polygon
 from numpy import cos, pi, sin
 from numpy.linalg import norm
 
@@ -620,103 +621,6 @@ def _simplify(points, tolerance=0):
     result2 = _simplify(M[index:], tolerance)
 
     return np.vstack((result1[:-1], result2))
-
-
-class Polygon(gdstk.Polygon, _GeometryHelper):
-    """Polygonal geometric object.
-
-    Args:
-        points : array-like[N][2]
-            Coordinates of the vertices of the Polygon.
-        gds_layer : int
-            GDSII layer of the Polygon.
-        gds_datatype : int
-            GDSII datatype of the Polygon.
-        parent : cell that polygon belongs to.
-
-    """
-
-    def __init__(self, points, gds_layer, gds_datatype, parent=None):
-        """Initialize polygon."""
-        self.parent = parent
-        super().__init__(points=points, layer=gds_layer, datatype=gds_datatype)
-
-    @property
-    def bbox(self):
-        """Returns the bounding box of the Polygon."""
-        return self.get_bounding_box()
-
-    def rotate(self, angle=45, center=(0, 0)):
-        """Rotates a Polygon by the specified angle.
-
-        Args:
-            angle : int or float
-                Angle to rotate the Polygon in degrees.
-            center : array-like[2] or None
-                center of the Polygon.
-        """
-        super().rotate(angle=angle * pi / 180, center=center)
-        if self.parent is not None:
-            self.parent._bb_valid = False
-        return self
-
-    def move(self, origin=(0, 0), destination=None, axis=None):
-        """Moves elements of the Component from the origin point to the destination.
-
-        Both origin and destination can be 1x2 array-like, Port,
-        or a key corresponding to one of the Ports in this device.
-
-        Args:
-            origin : array-like[2], Port, or key
-                Origin point of the move.
-            destination : array-like[2], Port, or key
-                Destination point of the move.
-            axis : {'x', 'y'}
-                Direction of move.
-
-        """
-        dx, dy = _parse_move(origin, destination, axis)
-
-        super().translate(dx, dy)
-        if self.parent is not None:
-            self.parent._bb_valid = False
-        return self
-
-    def mirror(self, p1=(0, 1), p2=(0, 0)):
-        """Mirrors a Polygon across the line formed between two points.
-
-        ``points`` may be input as either single points
-        [1,2] or array-like[N][2], and will return in kind.
-
-        Args:
-            p1 : array-like[N][2]
-                First point of the line.
-            p2 : array-like[N][2]
-                Second point of the line.
-        """
-        for n, points in enumerate(self.polygons):
-            self.polygons[n] = _reflect_points(points, p1, p2)
-        if self.parent is not None:
-            self.parent._bb_valid = False
-        return self
-
-    def simplify(self, tolerance=1e-3):
-        """Removes points from the polygon but does not change the polygon \
-            shape by more than `tolerance` from the original using the \
-            Ramer-Douglas-Peucker algorithm.
-
-        Args:
-            tolerance : float
-                Tolerance value for the simplification algorithm.  All points that
-                can be removed without changing the resulting polygon by more than
-                the value listed here will be removed. Also known as `epsilon` here
-                https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm
-        """
-        for n, points in enumerate(self.polygons):
-            self.polygons[n] = _simplify(points, tolerance=tolerance)
-        if self.parent is not None:
-            self.parent._bb_valid = False
-        return self
 
 
 class Label(gdstk.Label, _GeometryHelper):

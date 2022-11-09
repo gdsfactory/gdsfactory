@@ -870,13 +870,11 @@ class Component(_GeometryHelper):
             if layer is np.nan or (
                 isinstance(layer, tuple) and (polygon.layer, polygon.datatype) == layer
             ):
-                polygon = Polygon(
-                    polygon.points, polygon.layer, polygon.datatype, parent=self
-                )
+                polygon = Polygon(polygon.points, polygon.layer, polygon.datatype)
                 self.add(polygon)
             else:
                 layer, datatype = _parse_layer(layer)
-                polygon = Polygon(polygon.points, layer, datatype, parent=self)
+                polygon = Polygon(polygon.points, layer, datatype)
                 self.add(polygon)
             return polygon
 
@@ -894,16 +892,13 @@ class Component(_GeometryHelper):
                 # Convert to form [[1,2],[3,4],[5,6]]
                 points = np.column_stack(points)
             layer, datatype = _parse_layer(layer)
-            polygon = Polygon(
-                points, gds_layer=layer, gds_datatype=datatype, parent=self
-            )
+            polygon = Polygon(points, layer=layer, datatype=datatype)
             self.add(polygon)
             return polygon
         elif points.ndim == 3:
             layer, datatype = _parse_layer(layer)
             polygons = [
-                Polygon(ppoints, gds_layer=layer, gds_datatype=datatype, parent=self)
-                for ppoints in points
+                Polygon(ppoints, layer=layer, datatype=datatype) for ppoints in points
             ]
             self.add(*polygons)
             return polygons
