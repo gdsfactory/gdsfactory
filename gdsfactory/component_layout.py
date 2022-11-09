@@ -1,8 +1,7 @@
 import numbers
 
-import gdstk
 import numpy as np
-from gdstk import Polygon
+from gdstk import Label, Polygon
 from numpy import cos, pi, sin
 from numpy.linalg import norm
 
@@ -621,94 +620,3 @@ def _simplify(points, tolerance=0):
     result2 = _simplify(M[index:], tolerance)
 
     return np.vstack((result1[:-1], result2))
-
-
-class Label(gdstk.Label, _GeometryHelper):
-    """Text to label parts or display messages. Does not add geometry.
-
-    TODO: rename position to origin
-    """
-
-    def __init__(
-        self,
-        text: str = "",
-        position=(0, 0),
-        anchor: str = "o",
-        rotation: float = 0,
-        magnification: float = 1,
-        x_reflection: bool = False,
-        layer: int = 0,
-        texttype: int = 0,
-    ):
-        """Initialize label."""
-        super().__init__(
-            text=text,
-            origin=position,
-            anchor=anchor,
-            rotation=rotation,
-            magnification=magnification,
-            x_reflection=x_reflection,
-            layer=layer,
-            texttype=texttype,
-        )
-        self.position = np.array(position, dtype="float64")
-
-    @classmethod
-    def __get_validators__(cls):
-        """For pydantic."""
-        yield cls.validate
-
-    @classmethod
-    def validate(cls, v):
-        """Check with pydantic Label valid type."""
-        return v
-
-    @property
-    def bbox(self):
-        """Returns the bounding box of the Label."""
-        return np.array(
-            [[self.position[0], self.position[1]], [self.position[0], self.position[1]]]
-        )
-
-    def rotate(self, angle=45, center=(0, 0)):
-        """Rotates Label around the specified centerpoint.
-
-        Args:
-            angle : int or float
-                Angle to rotate the Label in degrees.
-            center : array-like[2] or None
-                center of the Label.
-        """
-        self.position = _rotate_points(self.position, angle=angle, center=center)
-        return self
-
-    def move(self, origin=(0, 0), destination=None, axis=None):
-        """Moves the Label from the origin point to the destination.
-
-        Both origin and destination can be 1x2 array-like, Port, or a key
-        corresponding to one of the Ports in this Label.
-
-        Args:
-            origin : array-like[2], Port, or key
-                Origin point of the move.
-            destination : array-like[2], Port, or key
-                Destination point of the move.
-            axis : {'x', 'y'}
-                Direction of the move.
-        """
-        dx, dy = _parse_move(origin, destination, axis)
-        self.position += np.asarray((dx, dy))
-        return self
-
-    def mirror(self, p1=(0, 1), p2=(0, 0)):
-        """Mirrors a Label across the line formed between the two specified points.
-
-        ``points`` may be input as either single points
-        [1,2] or array-like[N][2], and will return in kind.
-
-        Args:
-            p1 : array-like[N][2] First point of the line.
-            p2 : array-like[N][2] Second point of the line.
-        """
-        self.position = _reflect_points(self.position, p1, p2)
-        return self
