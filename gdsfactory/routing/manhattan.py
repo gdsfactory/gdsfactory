@@ -582,7 +582,7 @@ def get_route_error(
     point_markers = [point_marker.ref(position=point) for point in points] + [ref]
     labels = [
         gf.Label(
-            text=str(i), position=point, layer=layer_label[0], texttype=layer_label[1]
+            text=str(i), origin=point, layer=layer_label[0], texttype=layer_label[1]
         )
         for i, point in enumerate(points)
     ]

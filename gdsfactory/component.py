@@ -1454,7 +1454,7 @@ class Component(_GeometryHelper):
         lib.add(*self._cell.dependencies(True))
 
         # self.path = gdspath
-        lib.write_gds(gdspath)
+        lib.write_gds(gdspath, timestamp=timestamp)
         if logging:
             logger.info(f"Write GDS to {str(gdspath)!r}")
         return gdspath
