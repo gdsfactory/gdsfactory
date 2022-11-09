@@ -25,7 +25,7 @@ def _test_hash_array_file() -> None:
     c.add_array(wg)
     gdspath = c.write_gds()
     h = hash_file(gdspath)
-    href = "d8cd464778b3f52c33454af5d7335415"
+    href = "ed41db2253d80bb337510965bec6e422"
     assert h == href, f"href = {h!r}"
 
 
@@ -34,11 +34,11 @@ def _test_hash_file() -> None:
     c = gf.components.straight()
     gdspath = c.write_gds()
     h = hash_file(gdspath)
-    href = "d8cd464778b3f52c33454af5d7335415"
+    href = "120dd914e80c9a1f5bb30b8743e3f836"
     assert h == href, f"href = {h!r}"
 
 
 if __name__ == "__main__":
     # test_hash_geometry()
-    # _test_hash_file()
-    _test_hash_array_file()
+    _test_hash_file()
+    # _test_hash_array_file()

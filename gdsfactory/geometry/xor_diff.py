@@ -45,7 +45,8 @@ def xor_diff(A, B, precision: float = 1e-4) -> Component:
         elif layer in B_layers:
             p = B_polys[layer]
         if p is not None:
-            D.add_polygon(p, layer=layer)
+            for polygon in p:
+                D.add_polygon(p, layer=layer)
     return D
 
 
