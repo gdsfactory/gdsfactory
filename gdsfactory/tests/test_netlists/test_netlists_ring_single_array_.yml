@@ -1,6 +1,4 @@
-connections:
-  ring_single_1,o2: straight_1,o1
-  ring_single_2,o1: straight_1,o2
+connections: {}
 instances:
   ring_single_1:
     component: ring_single
@@ -35,6 +33,4 @@ placements:
     rotation: 0
     x: 5.0
     y: 0.0
-ports:
-  o1: ring_single_1,o1
-  o2: ring_single_2,o2
+ports: {}

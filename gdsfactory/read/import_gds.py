@@ -128,12 +128,12 @@ def import_gds(
 
 
 if __name__ == "__main__":
-
     gdspath = CONFIG["gdsdir"] / "mzi2x2.gds"
     # c = import_gds(gdspath, flatten=True, name="TOP")
     # c.settings = {}
     # print(clean_value_name(c))
+
     c = import_gds(gdspath, flatten=False, polarization="te")
     # c = import_gds("/home/jmatres/gdsfactory/gdsfactory/gdsdiff/gds_diff_git.py")
-    print(c.hash_geometry())
+    # print(c.hash_geometry())
     c.show(show_ports=True)
