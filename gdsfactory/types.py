@@ -33,13 +33,13 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 import gdstk
 import numpy as np
+from gdstk import Label
 from omegaconf import OmegaConf
 from pydantic import BaseModel, Extra
 from typing_extensions import Literal
 
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.cross_section import CrossSection, Section
-from gdsfactory.layers import LayerColor, LayerColors
+from gdsfactory.cross_section import CrossSection
 from gdsfactory.port import Port
 from gdsfactory.tech import LayerLevel, LayerStack
 
@@ -237,6 +237,7 @@ __all__ = (
     "Int3",
     "Ints",
     "Layer",
+    "Label",
     "Layers",
     "NameToFunctionDict",
     "Number",
@@ -246,11 +247,8 @@ __all__ = (
     "RouteFactory",
     "Routes",
     "Strs",
-    "LayerColors",
-    "LayerColor",
     "LayerStack",
     "LayerLevel",
-    "Section",
 )
 
 

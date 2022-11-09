@@ -1693,18 +1693,15 @@ class Component(_GeometryHelper):
         for item in items:
             if isinstance(item, Port):
                 self.ports = {k: v for k, v in self.ports.items() if v != item}
-            elif isinstance(item, gdstk.Polygon):
-                self.polygons.remove(item)
             elif isinstance(item, gdstk.Reference):
-                self.references.remove(item)
+                self._cell.remove(item)
                 item.owner = None
-            elif isinstance(item, gdstk.Label):
-                self.labels.remove(item)
-            elif isinstance(item, (gdstk.FlexPath, gdstk.RobustPath)):
-                self.paths.remove(item)
             elif isinstance(item, ComponentReference):
                 self.references.remove(item)
+                self._cell.remove(item._reference)
                 item.owner = None
+            else:
+                self._cell.remove(item)
 
         self._bb_valid = False
         return self
@@ -1819,7 +1816,7 @@ def copy(D: Component) -> Component:
     for label in D.labels:
         D_copy.add_label(
             text=label.text,
-            position=label.position,
+            position=label.origin,
             layer=(label.layer, label.texttype),
         )
     return D_copy
@@ -1995,8 +1992,8 @@ if __name__ == "__main__":
     c.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
     c.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=(2, 0))
     c = c.remove_layers([(1, 0)])
+    c.show()
 
-    # c2.show()
     # c << c2
     # c.show()
     # length = 10
