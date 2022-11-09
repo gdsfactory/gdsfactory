@@ -1672,7 +1672,7 @@ class Component(_GeometryHelper):
             raise ValueError(
                 "The reference you asked to absorb does not exist in this Component."
             )
-        ref_polygons = reference.get_polygons(by_spec=True)
+        ref_polygons = reference.get_polygons(by_spec=True, include_paths=False)
         for (layer, polys) in ref_polygons.items():
             [self.add_polygon(points=p, layer=layer) for p in polys]
 

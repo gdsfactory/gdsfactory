@@ -216,7 +216,7 @@ class ComponentReference(_GeometryHelper):
     def parent(self, value):
         self.ref_cell = value
 
-    def get_polygons(self, by_spec=False, depth=None):
+    def get_polygons(self, by_spec=False, depth=None, include_paths: bool = True):
         """Return the list of polygons created by this reference.
 
         Args:
@@ -230,6 +230,7 @@ class ComponentReference(_GeometryHelper):
                 retrieve polygons.  References below this level will result
                 in a bounding box.  If `by_spec` is True the key will be the
                 name of the referenced cell.
+            include_paths: If True, polygonal representation of paths are also included in the result.
 
         Returns
             out : list of array-like[N][2] or dictionary
@@ -242,19 +243,27 @@ class ComponentReference(_GeometryHelper):
             the result by computing their polygonal boundary.
         """
         if not by_spec:
-            return self._reference.get_polygons(depth=depth)
+            return self._reference.get_polygons(
+                depth=depth, include_paths=include_paths
+            )
         elif by_spec is True:
             layers = self.parent.get_layers()
             return {
                 layer: self._reference.get_polygons(
-                    depth=depth, layer=layer[0], datatype=layer[1]
+                    depth=depth,
+                    layer=layer[0],
+                    datatype=layer[1],
+                    include_paths=include_paths,
                 )
                 for layer in layers
             }
 
         else:
             return self._reference.get_polygons(
-                depth=depth, layer=by_spec[0], datatype=by_spec[1]
+                depth=depth,
+                layer=by_spec[0],
+                datatype=by_spec[1],
+                include_paths=include_paths,
             )
 
     def get_labels(self, depth=None, set_transform=False):
