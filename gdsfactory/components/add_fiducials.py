@@ -6,7 +6,7 @@ from gdsfactory.types import ComponentSpec, Coordinates, Float2, Optional
 
 
 @cell
-def add_fidutials(
+def add_fiducials(
     component: ComponentSpec = pad_array,
     gap: float = 50,
     left: Optional[ComponentSpec] = "cross",
@@ -16,17 +16,17 @@ def add_fidutials(
     offset: Float2 = (0, 0),
     **kwargs
 ) -> Component:
-    """Return component with fidutials.
+    """Return component with fiducials.
 
     Args:
         component: component to add to the new component.
-        gap: from component to fidutial edge.
-        left: optional left fidutial.
-        right: optional right fidutial.
-        top: optional top fidutial.
-        bottom: optional bottom fidutial.
+        gap: from component to fiducial edge.
+        left: optional left fiducial.
+        right: optional right fiducial.
+        top: optional top fiducial.
+        bottom: optional bottom fiducial.
         offset: component offset coordinate (x, y).
-        kwargs: fidutial settings.
+        kwargs: fiducial settings.
     """
     c = Component()
     component = gf.get_component(component, **kwargs)
@@ -59,33 +59,33 @@ def add_fidutials(
 
 
 @cell
-def add_fidutials_offsets(
+def add_fiducials_offsets(
     component: ComponentSpec = pad_array,
-    fidutial: ComponentSpec = "cross",
+    fiducial: ComponentSpec = "cross",
     offsets: Coordinates = ((0, 100), (0, -100)),
 ) -> Component:
-    """Returns new component with fidutials from a list of offsets.
+    """Returns new component with fiducials from a list of offsets.
 
     Args:
         component: add reference to component to the new Component.
-        fidutial: function to return fidutial.
+        fiducial: function to return fiducial.
         offsets: list of offsets.
     """
     c = Component()
     component = gf.get_component(component)
-    fidutial = gf.get_component(fidutial)
+    fiducial = gf.get_component(fiducial)
     r = c << component
     c.add_ports(r.ports)
     c.copy_child_info(component)
 
     for offset in offsets:
-        f = c << fidutial
+        f = c << fiducial
         f.move(offset)
 
     return c
 
 
 if __name__ == "__main__":
-    # c = add_fidutials(top='cross')
-    c = add_fidutials_offsets()
+    # c = add_fiducials(top='cross')
+    c = add_fiducials_offsets()
     c.show(show_ports=True)

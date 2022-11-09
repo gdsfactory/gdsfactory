@@ -10,6 +10,12 @@ install: gdslib
 	pre-commit install
 	gf tool install
 
+full: install
+	pip install -r requirements_tidy3d.txt
+	pip install -r requirements_sipann.txt
+	pip install -r requirements_devsim.txt
+
+
 mamba:
 	bash mamba.sh
 
