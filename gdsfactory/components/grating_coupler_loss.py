@@ -97,7 +97,7 @@ def loss_deembedding_ch13_24(
         label = get_input_label(
             gc_ports[index], gc, i, component_name=inspect.stack()[0][3]
         )
-        label.position = gc_ports[index].center
+        label.origin = gc_ports[index].center
         c.add(label)
 
     return c
@@ -146,7 +146,7 @@ def loss_deembedding_ch12_34(
         label = get_input_label(
             gc_ports[index], gc, i, component_name=inspect.stack()[0][3]
         )
-        label.center = gc_ports[index].center
+        label.origin = gc_ports[index].center
         c.add(label)
     return c
 
@@ -194,7 +194,7 @@ def loss_deembedding_ch14_23(
         label = get_input_label(
             gc_ports[index], gc, i, component_name=inspect.stack()[0][3]
         )
-        label.position = gc_ports[index].center
+        label.origin = gc_ports[index].center
         c.add(label)
     return c
 
@@ -235,7 +235,7 @@ def grating_coupler_loss_fiber_array(
         label = get_input_label(
             gc_ports[index], gc, i, component_name=inspect.stack()[0][3]
         )
-        label.position = gc_ports[index].center
+        label.origin = gc_ports[index].center
         c.add(label)
     return c
 

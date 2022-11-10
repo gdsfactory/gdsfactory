@@ -26,9 +26,7 @@ def array_with_fanout(
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
-    """Returns an array of components in X axis with west facing waveguides.
-
-    fanout.
+    """Returns component array in X axis with west facing waveguides.
 
     Args:
         component: to replicate.
@@ -98,13 +96,13 @@ def array_with_fanout_2d(
         rows: number of rows.
 
     keyword args:
-        component: to replicate
-        pitch: float
-        waveguide_pitch: for fanout
-        start_straight_length: length of the start of the straight
-        end_straight_length: length of the straight at the end
-        radius: bend radius
-        cross_section: cross_section factory
+        component: to replicate.
+        pitch: in um.
+        waveguide_pitch: for fanout in um.
+        start_straight_length: length of the start of the straight in um.
+        end_straight_length: length of the straight at the end in um.
+        radius: bend radius in um.
+        cross_section: cross_section factory.
         component_port_name:
         bend_port_name1:
         bend_port_name2:
