@@ -843,21 +843,24 @@ class Component(_GeometryHelper):
         """
         from gdsfactory.pdk import get_layer
 
-        component = Component()
+        component = self.copy()
+
         if type(layers) not in (list, tuple):
             raise ValueError(f"layers {layers!r} needs to be a list or tuple")
 
-        # poly_dict = self.get_polygons(by_spec=True, include_paths=False)
-        poly_dict = self._cell.get_polygons(include_paths=False)
         layers = [get_layer(layer) for layer in layers]
+        component._cell.filter(spec=layers, remove=False)
 
-        for poly in poly_dict:
-            if poly.layer in layers:
-                component.add_polygon(poly.points, layer=(poly.layer, poly.datatype))
+        # # poly_dict = self.get_polygons(by_spec=True, include_paths=False)
+        # poly_dict = self._cell.get_polygons(include_paths=False)
 
-        for layer in layers:
-            for path in self._cell.get_paths(layer=layer):
-                component.add(path)
+        # for poly in poly_dict:
+        #     if poly.layer in layers:
+        #         component.add_polygon(poly.points, layer=(poly.layer, poly.datatype))
+
+        # for layer in layers:
+        #     for path in self._cell.get_paths(layer=layer):
+        #         component.add(path)
 
         return component
 
@@ -1994,7 +1997,7 @@ def test_extract() -> None:
         length=10,
         width=0.5,
         bbox_layers=[gf.LAYER.WGCLAD],
-        bbox_offsets=[0],
+        bbox_offsets=[3],
         with_bbox=True,
         cladding_layers=None,
         add_pins=None,
@@ -2032,8 +2035,11 @@ def test_bbox_component() -> None:
 
 
 if __name__ == "__main__":
+    test_extract()
+    # c.show()
+
     # test_get_layers()
-    test_netlist_simple_width_mismatch_throws_error()
+    # test_netlist_simple_width_mismatch_throws_error()
 
     # c = Component("parent")
     # c = Component("child")
