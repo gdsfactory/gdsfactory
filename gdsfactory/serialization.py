@@ -17,6 +17,7 @@ def clean_dict(d: Dict[str, Any]) -> Dict[str, Any]:
     d_new = dict()
     for k, v in d.items():
         d_new[k] = clean_dict(dict(v)) if isinstance(v, dict) else clean_value_json(v)
+
     return d_new
 
 
@@ -81,6 +82,9 @@ def clean_value_json(value: Any) -> Any:
         value = clean_dict(value)
     elif isinstance(value, DictConfig):
         value = clean_dict(OmegaConf.to_container(value))
+
+    elif isinstance(value, (list, tuple, set)):
+        value = [clean_value_json(i) for i in value]
     else:
         try:
             value_json = orjson.dumps(
