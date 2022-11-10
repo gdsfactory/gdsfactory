@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.types import Layer
 
 
-def _union_polygons(polygons, precision: float = 1e-4, max_points: int = 4000):
+def _union_polygons(polygons, precision: float = 1e-4):
     """Performs union of polygons within PolygonSet or list of polygons.
 
     Args:
@@ -25,7 +25,6 @@ def _union_polygons(polygons, precision: float = 1e-4, max_points: int = 4000):
         [],
         operation="or",
         precision=precision,
-        max_points=max_points,
     )
 
 
@@ -35,7 +34,6 @@ def union(
     by_layer: bool = False,
     precision: float = 1e-4,
     join_first: bool = True,
-    max_points: int = 4000,
     layer: Layer = (1, 0),
 ) -> Component:
     """Returns inverted union of Component polygons.
@@ -50,7 +48,6 @@ def union(
         precision: Desired precision for rounding vertex coordinates.
         join_first: before offsetting to avoid unnecessary joins
             in adjacent polygons.
-        max_points: maximum number of vertices within the resulting polygon.
         layer: Specific layer to put polygon geometry on.
 
     """
@@ -60,13 +57,15 @@ def union(
         all_polygons = component.get_polygons(by_spec=True)
         for layer, polygons in all_polygons.items():
             unioned_polygons = _union_polygons(
-                polygons, precision=precision, max_points=max_points
+                polygons,
+                precision=precision,
             )
             U.add_polygon(unioned_polygons, layer=layer)
     else:
         all_polygons = component.get_polygons(by_spec=False)
         unioned_polygons = _union_polygons(
-            all_polygons, precision=precision, max_points=max_points
+            all_polygons,
+            precision=precision,
         )
         U.add_polygon(unioned_polygons, layer=layer)
     return U
@@ -81,6 +80,7 @@ def test_union() -> None:
 
 
 if __name__ == "__main__":
+    test_union()
     c = Component()
     c << gf.components.ellipse(radii=(6, 6)).move((12, 10))
     c << gf.components.ellipse(radii=(10, 4))
