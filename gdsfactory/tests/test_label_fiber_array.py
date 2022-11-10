@@ -74,8 +74,8 @@ def test_labels_fiber_array(num_regression) -> None:
     labels = {
         label.text: np.array(
             [
-                label.position[0],
-                label.position[1],
+                label.origin[0],
+                label.origin[1],
                 label.layer,
             ]
         )
