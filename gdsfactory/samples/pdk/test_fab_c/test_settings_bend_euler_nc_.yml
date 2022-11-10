@@ -1,4 +1,4 @@
-name: bend_euler_7e4ad031
+name: bend_euler_c80f6a22
 settings:
   changed:
     cross_section:
@@ -66,4 +66,4 @@ settings:
     width: 1.0
   info_version: 2
   module: gdsfactory.components.bend_euler
-  name: bend_euler_7e4ad031
+  name: bend_euler_c80f6a22

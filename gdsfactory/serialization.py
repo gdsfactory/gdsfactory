@@ -58,7 +58,7 @@ def clean_value_json(value: Any) -> Any:
         sig = inspect.signature(value.func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), value.args))
         args_as_kwargs.update(**value.keywords)
-        clean_dict(args_as_kwargs)
+        args_as_kwargs = clean_dict(args_as_kwargs)
         args_as_kwargs.pop("function", None)
 
         func = value.func
@@ -111,7 +111,6 @@ def clean_value_json(value: Any) -> Any:
 def clean_value_name(value: Any) -> str:
     """Returns a string representation of an object."""
     # value1 = clean_value_json(value)
-    # print(type(value), value, value1, str(value1))
     return str(clean_value_json(value))
 
 
