@@ -1813,12 +1813,13 @@ class Component(_GeometryHelper):
 
             if include_paths:
                 for path in D.paths:
-                    original_layer = (path.layer, path.texttype)
-                    original_layer = _parse_layer(original_layer)
-                    if original_layer in layermap:
-                        new_layer = layermap[original_layer]
-                        path.layer = new_layer[0]
-                        path.datatype = new_layer[1]
+                    for layer, datatype in zip(path.layers, path.datatypes):
+                        original_layer = (layer, datatype)
+                        original_layer = _parse_layer(original_layer)
+                        if original_layer in layermap:
+                            new_layer = layermap[original_layer]
+                            path.layer = new_layer[0]
+                            path.datatype = new_layer[1]
         return self
 
 
@@ -2023,23 +2024,36 @@ def test_bbox_component() -> None:
     assert c.xsize == 2e-3
 
 
+def test_remap_layers():
+    import gdsfactory as gf
+
+    c = gf.components.straight(layer=(2, 0))
+    remap = c.remap_layers(layermap={(2, 0): gf.LAYER.WGN})
+    assert remap.hash_geometry() == "1c12fcddd61dc167c80c847abe371b3f8af84a1b"
+
+
 if __name__ == "__main__":
+    import gdsfactory as gf
+
+    c = gf.components.straight(layer=(2, 0))
+    remap = c.remap_layers(layermap={(2, 0): gf.LAYER.WGN})
+    remap.show()
     # c = test_extract()
     # c.show()
 
     # test_get_layers()
     # test_netlist_simple_width_mismatch_throws_error()
 
-    c = Component("parent")
-    c2 = Component("child")
-    length = 10
-    width = 0.5
-    layer = (1, 0)
-    c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
-    c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=(2, 0))
+    # c = Component("parent")
+    # c2 = Component("child")
+    # length = 10
+    # width = 0.5
+    # layer = (1, 0)
+    # c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
+    # c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=(2, 0))
 
-    c << c2
-    c.show()
+    # c << c2
+    # c.show()
 
     # length = 10
     # width = 0.5
