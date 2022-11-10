@@ -8,7 +8,7 @@ import gdsfactory as gf
 def test_read_gds_hash() -> gf.Component:
     gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
     c = gf.import_gds(gdspath)
-    h = "c8b69d8eb2f61eeb2a6600c27d83c227d1c3ce62"
+    h = "0dd0a38fede933b12d2288b87d31027b70c56bc3"
     assert c.hash_geometry() == h, f"h = {c.hash_geometry()!r}"
     return c
 
@@ -20,8 +20,7 @@ def test_read_gds_hash() -> gf.Component:
 
 
 def test_read_gds_equivalent() -> None:
-    """Ensures we load Component from GDS + YAML and get the same component
-    settings."""
+    """Ensures Component from GDS + YAML loads same component settings."""
     c1 = gf.components.straight(length=1.234)
     gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
 
@@ -60,9 +59,9 @@ def _write() -> None:
 if __name__ == "__main__":
     # _write()
 
-    # test_mix_cells_from_gds_and_from_function()
+    test_mix_cells_from_gds_and_from_function()
     # test_read_gds_equivalent()
-    test_read_gds_hash()
+    # test_read_gds_hash()
 
     # c1 = gf.components.straight(length=1.234)
     # gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
