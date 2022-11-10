@@ -1,4 +1,4 @@
-name: straight_a67212cd
+name: straight_ecb6b4d0
 settings:
   changed:
     cross_section:
@@ -51,4 +51,4 @@ settings:
     width: 0.5
   info_version: 2
   module: gdsfactory.components.straight
-  name: straight_a67212cd
+  name: straight_ecb6b4d0
