@@ -144,7 +144,7 @@ def gen_sref(
 
     if x_reflection:  # Vertical mirror: Reflection across x-axis
         y0 = port_position[1]
-        ref.reflect(p1=(0, y0), p2=(1, y0))
+        ref.mirror(p1=(0, y0), p2=(1, y0))
 
     ref.rotate(rotation_angle, center=port_position)
     ref.move(port_position, position)
