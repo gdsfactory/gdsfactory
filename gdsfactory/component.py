@@ -1751,7 +1751,9 @@ class Component(_GeometryHelper):
 
         return final_hash.hexdigest()
 
-    def get_labels(self, apply_repetitions=True, depth=None, layer=None):
+    def get_labels(
+        self, apply_repetitions=True, depth: Optional[int] = None, layer=None
+    ) -> List[Label]:
         from gdsfactory.pdk import get_layer
 
         if layer:
@@ -1764,6 +1766,14 @@ class Component(_GeometryHelper):
             layer=layer,
             texttype=texttype,
         )
+
+    def remove_labels(
+        self, apply_repetitions=True, depth: Optional[int] = None, layer=None
+    ) -> None:
+        labels = self.get_labels(
+            apply_repetitions=apply_repetitions, depth=depth, layer=layer
+        )
+        self._cell.remove(*labels)
 
     # Deprecated
     def get_info(self):
@@ -2024,7 +2034,7 @@ def test_bbox_component() -> None:
     assert c.xsize == 2e-3
 
 
-def test_remap_layers():
+def test_remap_layers() -> None:
     import gdsfactory as gf
 
     c = gf.components.straight(layer=(2, 0))
@@ -2032,12 +2042,35 @@ def test_remap_layers():
     assert remap.hash_geometry() == "1c12fcddd61dc167c80c847abe371b3f8af84a1b"
 
 
-if __name__ == "__main__":
+def test_remove_labels() -> None:
     import gdsfactory as gf
 
-    c = gf.components.straight(layer=(2, 0))
-    remap = c.remap_layers(layermap={(2, 0): gf.LAYER.WGN})
-    remap.show()
+    c = gf.c.straight()
+    c.remove_labels(depth=0)
+
+    assert len(c.labels) == 0
+
+
+def test_import_gds_settings():
+    import gdsfactory as gf
+
+    c = gf.components.mzi()
+    gdspath = c.write_gds_with_metadata()
+    c2 = gf.import_gds(gdspath, name="mzi_sample")
+    c3 = gf.routing.add_fiber_single(c2)
+    assert c3
+
+
+if __name__ == "__main__":
+    pass
+
+    # c = gf.c.straight()
+    # c.remove_labels(depth=0)
+    # print(c.labels)
+
+    # c = gf.components.straight(layer=(2, 0))
+    # remap = c.remap_layers(layermap={(2, 0): gf.LAYER.WGN})
+    # remap.show()
     # c = test_extract()
     # c.show()
 
