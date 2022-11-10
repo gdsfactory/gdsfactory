@@ -111,13 +111,16 @@ def grid(
             ref = d.ref(rotation=rotation, h_mirror=h_mirror, v_mirror=v_mirror)
             D.add(ref)
             ref_array[idx] = ref
-            prefix = f"{ref.parent.name}_{idx}_"
+            prefix = f"{ref.parent.name}_{idx}"
             prefix = prefix.replace(" ", "")
-            D.add_ports(ref.ports, prefix=prefix)
+            prefix = prefix.replace(",", "_")
+            prefix = prefix.replace("(", "")
+            prefix = prefix.replace(")", "")
+            D.add_ports(ref.ports, prefix=prefix + "_")
+            ref.name = prefix
 
         else:
             ref_array[idx] = D << dummy  # Create dummy devices
-        D.aliases[idx] = ref_array[idx]
 
     rows = [Group(ref_array[n, :]) for n in range(ref_array.shape[0])]
     cols = [Group(ref_array[:, n]) for n in range(ref_array.shape[1])]
@@ -229,11 +232,11 @@ if __name__ == "__main__":
     # components = [gf.components.rectangle(size=(i, i)) for i in range(40, 66, 5)]
     # components = [gf.components.rectangle(size=(i, i)) for i in range(40, 66, 5)]
     # c = [gf.components.triangle(x=i) for i in range(1, 10)]
-    c = [gf.components.straight(length=i) for i in [1, 1, 1]]
-    print(len(c))
+    c = [gf.components.straight(length=i) for i in range(4)]
+    # print(len(c))
     c = grid(
         c,
-        shape=(1, len(c)),
+        shape=(2, 2),
         rotation=0,
         h_mirror=False,
         v_mirror=True,
