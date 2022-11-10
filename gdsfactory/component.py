@@ -1736,6 +1736,13 @@ class Component(_GeometryHelper):
     def get_labels(
         self, apply_repetitions=True, depth: Optional[int] = None, layer=None
     ) -> List[Label]:
+        """Return labels.
+
+        Args:
+            apply_repetitions:.
+            depth: None returns all labels and 0 top level.
+            layer: layerspec.
+        """
         from gdsfactory.pdk import get_layer
 
         if layer:
@@ -1749,13 +1756,9 @@ class Component(_GeometryHelper):
             texttype=texttype,
         )
 
-    def remove_labels(
-        self, apply_repetitions=False, depth: Optional[int] = None, layer=None
-    ) -> None:
-        labels = self.get_labels(
-            apply_repetitions=apply_repetitions, depth=depth, layer=layer
-        )
-        self._cell.remove(*labels)
+    def remove_labels(self) -> None:
+        """Remove labels."""
+        self._cell.remove(*self.labels)
 
     # Deprecated
     def get_info(self):
@@ -1775,7 +1778,7 @@ class Component(_GeometryHelper):
 
     def remap_layers(
         self, layermap, include_labels: bool = True, include_paths: bool = True
-    ):
+    ) -> "Component":
         """Moves all polygons in the Component from one layer to another according to the layermap argument.
 
         Args:
@@ -2024,14 +2027,13 @@ def test_remap_layers() -> None:
     assert remap.hash_geometry() == "1c12fcddd61dc167c80c847abe371b3f8af84a1b"
 
 
-# FIXME
-# def test_remove_labels() -> None:
-#     import gdsfactory as gf
+def test_remove_labels() -> None:
+    import gdsfactory as gf
 
-#     c = gf.c.straight()
-#     c.remove_labels(depth=0)
+    c = gf.c.straight()
+    c.remove_labels()
 
-#     assert len(c.labels) == 0
+    assert len(c.labels) == 0
 
 
 def test_import_gds_settings():
