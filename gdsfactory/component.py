@@ -142,7 +142,7 @@ class Component(_GeometryHelper):
         self.get_child_name = False
         self._reference_names_counter = Counter()
         self._reference_names_used = set()
-        self._named_references = dict()
+        self._named_references = {}
         self._references = []
 
         self.ports = {}
@@ -221,25 +221,16 @@ class Component(_GeometryHelper):
         """
         if not by_spec:
             return self._cell.get_polygons(depth=depth, include_paths=include_paths)
-        elif by_spec is True:
-            layers = self.get_layers()
-            return {
-                layer: self._cell.get_polygons(
-                    depth=depth,
-                    layer=layer[0],
-                    datatype=layer[1],
-                    include_paths=include_paths,
-                )
-                for layer in layers
-            }
-
-        else:
-            return self._cell.get_polygons(
+        layers = self.get_layers()
+        return {
+            layer: self._cell.get_polygons(
                 depth=depth,
-                layer=by_spec[0],
-                datatype=by_spec[1],
+                layer=layer[0],
+                datatype=layer[1],
                 include_paths=include_paths,
             )
+            for layer in layers
+        }
 
     def get_dependencies(self, recursive: bool = False) -> List["Component"]:
         """Return a set of the cells included in this cell as references.
@@ -253,20 +244,19 @@ class Component(_GeometryHelper):
         if not recursive:
             return list({ref.parent for ref in self.references})
 
-        else:
-            references_set = set()
-            _get_dependencies(self, references_set=references_set)
-            return list(references_set)
+        references_set = set()
+        _get_dependencies(self, references_set=references_set)
+        return list(references_set)
 
     def get_component_spec(self):
-        if not self.settings:
-            return dict(component=self.name, settings=dict())
-
-        else:
-
-            return dict(
-                component=self.settings.function_name, settings=self.settings.changed
+        return (
+            dict(
+                component=self.settings.function_name,
+                settings=self.settings.changed,
             )
+            if self.settings
+            else dict(component=self.name, settings={})
+        )
 
     def __getitem__(self, key):
         """Allows you to access named_references D['arc2'].
@@ -788,12 +778,7 @@ class Component(_GeometryHelper):
             invert_selection: removes all layers except layers specified.
             recursive: operate on the cells included in this cell.
         """
-        if recursive and self.references:
-            D = self.flatten()
-
-        else:
-            D = self
-
+        D = self.flatten() if recursive and self.references else self
         for polygon in D.polygons:
             if (polygon.layer, polygon.datatype) in layers:
                 D.remove(polygon)
@@ -867,7 +852,7 @@ class Component(_GeometryHelper):
         try:
             if isinstance(layer, set):
                 return [self.add_polygon(points, ly) for ly in layer]
-            elif all([isinstance(ly, (Layer)) for ly in layer]):
+            elif all(isinstance(ly, (Layer)) for ly in layer):
                 return [self.add_polygon(points, ly) for ly in layer]
             elif len(layer) > 2:  # Someone wrote e.g. layer = [1,4,5]
                 raise ValueError(
@@ -884,18 +869,15 @@ class Component(_GeometryHelper):
                 isinstance(layer, tuple) and (polygon.layer, polygon.datatype) == layer
             ):
                 polygon = Polygon(polygon.points, polygon.layer, polygon.datatype)
-                self.add(polygon)
             else:
                 layer, datatype = _parse_layer(layer)
                 polygon = Polygon(polygon.points, layer, datatype)
-                self.add(polygon)
+            self.add(polygon)
             return polygon
 
         points = np.asarray(points)
         if points.ndim == 1 and isinstance(points[0], gdstk.Polygon):
-            polygons = [self.add_polygon(poly, layer=layer) for poly in points]
-            return polygons
-
+            return [self.add_polygon(poly, layer=layer) for poly in points]
         if layer is np.nan:
             layer = 0
 
