@@ -45,7 +45,8 @@ def xor_polygons(A: Component, B: Component, hash_geometry: bool = True):
         elif layer in B_layers:
             p = B_polys[layer]
         if p is not None:
-            D.add_polygon(p, layer=layer)
+            for polygon in p:
+                D.add_polygon(polygon, layer=layer)
     return D
 
 
