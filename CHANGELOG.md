@@ -5,7 +5,7 @@
 - implement native compatibility read/write from/to OASIS
 - removed named_references
 
-## 6.0.0
+## [6.0.0](https://github.com/gdsfactory/gdsfactory/pull/833)
 
 - port gdsfactory from gdspy to gdstk. Gained more than huge speedup, faster booleans, loading and writing GDS.
 - remove Inheritance of Component, ComponentReference, Polygon, Label from gdspy
