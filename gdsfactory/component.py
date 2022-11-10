@@ -841,14 +841,19 @@ class Component(_GeometryHelper):
 
         based on phidl.geometry.
         """
+        from gdsfactory.pdk import get_layer
+
         component = Component()
         if type(layers) not in (list, tuple):
             raise ValueError(f"layers {layers!r} needs to be a list or tuple")
-        poly_dict = self.get_polygons(by_spec=True)
-        parsed_layer_list = [_parse_layer(layer) for layer in layers]
-        for layer, polys in poly_dict.items():
-            if _parse_layer(layer) in parsed_layer_list:
-                component.add_polygon(polys, layer=layer)
+
+        # poly_dict = self.get_polygons(by_spec=True, include_paths=False)
+        poly_dict = self._cell.get_polygons(include_paths=False)
+        layers = [get_layer(layer) for layer in layers]
+
+        for poly in poly_dict:
+            if poly.layer in layers:
+                component.add_polygon(poly.points, layer=(poly.layer, poly.datatype))
 
         for layer in layers:
             for path in self._cell.get_paths(layer=layer):
