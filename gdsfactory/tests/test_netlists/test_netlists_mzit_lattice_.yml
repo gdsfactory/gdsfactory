@@ -12,4 +12,8 @@ placements:
     rotation: 0
     x: 0.0
     y: 0.0
-ports: {}
+ports:
+  o1: mzit_1,o1
+  o2: mzit_1,o2
+  o3: mzit_1,o3
+  o4: mzit_1,o4

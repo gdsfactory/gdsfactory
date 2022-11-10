@@ -1,4 +1,8 @@
-connections: {}
+connections:
+  coupler_ring_1,o2: straight_1,o1
+  coupler_ring_1,o3: straight_2,o1
+  coupler_ring_2,o2: straight_2,o2
+  coupler_ring_2,o3: straight_1,o2
 instances:
   coupler_ring_1:
     component: coupler_ring
@@ -46,4 +50,8 @@ placements:
     rotation: 90
     x: 10.0
     y: 10.7
-ports: {}
+ports:
+  o1: coupler_ring_1,o1
+  o2: coupler_ring_1,o4
+  o3: coupler_ring_2,o4
+  o4: coupler_ring_2,o1
