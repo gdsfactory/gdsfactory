@@ -1,4 +1,4 @@
-name: mmi1x2_3325f8fb
+name: mmi1x2_fa6b84ea
 settings:
   changed:
     cross_section:
@@ -68,4 +68,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mmi1x2
-  name: mmi1x2_3325f8fb
+  name: mmi1x2_fa6b84ea

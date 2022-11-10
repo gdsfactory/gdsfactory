@@ -122,6 +122,7 @@ def ring_single_heater(
 if __name__ == "__main__":
     c = ring_single_heater(width=0.5, gap=1, layer=(2, 0), radius=10, length_y=1)
     print(c.to_yaml())
+    # print(c.to_dict())
     c.show(show_subports=False)
     # c.pprint_ports()
 
