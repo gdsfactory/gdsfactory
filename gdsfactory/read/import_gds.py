@@ -94,9 +94,9 @@ def import_gds(
         for e in c.references:
             ref_device = cell_to_device[e.cell]
             ref = ComponentReference(component=ref_device)
-            D._references.append(ref)
 
-            ref.owner = D
+            D._register_reference(ref)
+            D._references.append(ref)
             ref._reference = e
 
     component = cell_to_device[topcell]
