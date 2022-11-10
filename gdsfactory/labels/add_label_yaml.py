@@ -110,7 +110,7 @@ settings:
     component.unlock()
     label = gf.Label(
         text=text,
-        position=(0, 0),
+        origin=(0, 0),
         anchor="o",
         layer=layer[0],
         texttype=layer[1],

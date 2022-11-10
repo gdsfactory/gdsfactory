@@ -6,11 +6,10 @@ based on phidl.quickplotter.
 import sys
 from typing import Optional
 
-import gdspy
 import numpy as np
 
 from gdsfactory.component import Component
-from gdsfactory.component_layout import CellArray, Polygon, _rotate_points
+from gdsfactory.component_layout import Polygon, _rotate_points
 from gdsfactory.component_reference import ComponentReference
 
 _SUBPORT_RGB = (0, 120, 120)
@@ -236,7 +235,7 @@ def quickplot(items, **kwargs):  # noqa: C901
     if not isinstance(items, list):
         items = [items]
     for item in items:
-        if isinstance(item, (Component, ComponentReference, CellArray)):
+        if isinstance(item, (Component, ComponentReference)):
             polygons_spec = item.get_polygons(by_spec=True, depth=None)
             for key in sorted(polygons_spec):
                 polygons = polygons_spec[key]
@@ -263,15 +262,14 @@ def quickplot(items, **kwargs):  # noqa: C901
                     bbox = _update_bbox(bbox, new_bbox)
             if isinstance(item, Component) and show_subports is True:
                 for sd in item.references:
-                    if not isinstance(sd, (gdspy.CellArray)):
-                        for port in sd.ports.values():
-                            new_bbox = _draw_port(
-                                ax,
-                                port,
-                                is_subport=True,
-                                color=np.array(_SUBPORT_RGB) / 255,
-                            )
-                            bbox = _update_bbox(bbox, new_bbox)
+                    for port in sd.ports.values():
+                        new_bbox = _draw_port(
+                            ax,
+                            port,
+                            is_subport=True,
+                            color=np.array(_SUBPORT_RGB) / 255,
+                        )
+                        bbox = _update_bbox(bbox, new_bbox)
             if isinstance(item, Component) and label_aliases is True:
                 for name, ref in item.aliases.items():
                     ax.text(
@@ -974,7 +972,6 @@ def quickplot2(item_list, *args, **kwargs):
             (
                 Component,
                 ComponentReference,
-                gdspy.CellArray,
             ),
         ):
             # Draw polygons in the element
@@ -988,9 +985,8 @@ def quickplot2(item_list, *args, **kwargs):
             # If element is a Component, draw ports and aliases
             if isinstance(element, Component):
                 for ref in element.references:
-                    if not isinstance(ref, gdspy.CellArray):
-                        for port in ref.ports.values():
-                            viewer.add_port(port, is_subport=True)
+                    for port in ref.ports.values():
+                        viewer.add_port(port, is_subport=True)
                 for port in element.ports.values():
                     viewer.add_port(port)
                     viewer.add_aliases(element.aliases)
