@@ -57,7 +57,7 @@ def to_3d(
             color_rgb = matplotlib.colors.to_rgb(color_hex)
 
             for polygon in polygons:
-                p = shapely.geometry.Polygon(polygon)
+                p = shapely.geometry.Polygon(polygon.points)
                 mesh = extrude_polygon(p, height=height)
                 mesh.apply_translation((0, 0, zmin))
                 mesh.visual.face_colors = (*color_rgb, 0.5)
