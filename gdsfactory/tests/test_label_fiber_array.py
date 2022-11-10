@@ -74,8 +74,8 @@ def test_labels_fiber_array(num_regression) -> None:
     labels = {
         label.text: np.array(
             [
-                label.position[0],
-                label.position[1],
+                label.origin[0],
+                label.origin[1],
                 label.layer,
             ]
         )
@@ -94,21 +94,21 @@ def test_labels_fiber_single(num_regression) -> None:
     labels = {
         label.text: np.array(
             [
-                label.position[0],
-                label.position[1],
+                label.origin[0],
+                label.origin[1],
                 label.layer,
             ]
         )
         for label in cte.labels
     }
-    if labels:
+    if num_regression:
         num_regression.check(labels)
 
 
 if __name__ == "__main__":
-    # c = test_label_fiber_array()
-    # c = test_label_fiber_array()
-    c = test_label_fiber_single_loopback()
+    c = test_label_fiber_array()
+    # test_labels_fiber_single(None)
+    # c = test_label_fiber_single_loopback()
     c.show(show_ports=True)
 
     # c = gf.components.straight()
