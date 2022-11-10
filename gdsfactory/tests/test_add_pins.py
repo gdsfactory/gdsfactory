@@ -16,19 +16,19 @@ def test_add_pins_with_routes(optical_routing_type) -> gf.Component:
         optical_routing_type=optical_routing_type,
     )
     pins_component = cc.extract(layers=(LAYER.PORT,))
-    assert len(pins_component.polygons) == 20, len(pins_component.polygons)
+    assert len(pins_component.paths) == 12, len(pins_component.paths)
     return cc
 
 
 def test_add_pins() -> None:
-    """ensure that all the waveguide has 2 pins."""
+    """Ensure that all the waveguide has 2 pins."""
     c = gf.components.straight(length=11.0)
     pins_component = c.extract(layers=(LAYER.PORT,))
-    assert len(pins_component.polygons) == 4, len(pins_component.polygons)
+    assert len(pins_component.paths) == 2, len(pins_component.paths)
 
 
 if __name__ == "__main__":
-    # test_add_pins()
+    test_add_pins()
     # c = test_add_pins_with_routes(0)
     # c.show(show_ports=True)
 
@@ -46,8 +46,17 @@ if __name__ == "__main__":
     # pins_component = cc.extract(layers=(LAYER.PIN,))
     # print(len(pins_component.polygons))
 
-    c = gf.components.straight(length=11.0)
-    c2 = c.extract(layers=(LAYER.PORT,))
-    print(c2.paths)
-    print(c2.polygons)
-    c2.show()
+    # c = gf.components.straight(length=11.0)
+    # c2 = c.extract(layers=(LAYER.PORT,))
+    # print(c2.paths)
+    # print(c2.polygons)
+    # c2.show()
+
+    # c = gf.components.straight(length=11.0)
+    # gc = gf.components.grating_coupler_elliptical_te()
+    # cc = gf.routing.add_fiber_single(
+    #     c,
+    #     grating_coupler=[gc, gf.components.grating_coupler_tm],
+    #     optical_routing_type=0,
+    # )
+    # cc.show()

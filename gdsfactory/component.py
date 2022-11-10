@@ -278,7 +278,7 @@ class Component(_GeometryHelper):
         try:
             return self.named_references[key]
         except KeyError as e:
-            raise KeyError(f"{key} not in {self.named_references.keys()}") from e
+            raise KeyError(f"{key!r} not in {self.named_references.keys()}") from e
 
     def __lshift__(self, element):
         """Convenience operator equivalent to add_ref()."""
