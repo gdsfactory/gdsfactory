@@ -593,13 +593,40 @@ DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES = {
 
 if __name__ == "__main__":
     import gdsfactory as gf
+    from gdsfactory.decorators import flatten_invalid_refs
 
-    c = gf.components.array(
-        gf.components.straight(length=10), spacing=(0, 100), columns=1, rows=5
-    )
-    n = c.get_netlist()
-    c.show()
-    assert len(c.ports) == 10
-    assert not n["connections"]
-    assert len(n["ports"]) == 10
-    assert len(n["instances"]) == 5
+    rotation_value = 35
+    cname = "test_get_netlist_transformed"
+    c = gf.Component(cname)
+    i1 = c.add_ref(gf.components.straight(), "i1")
+    i2 = c.add_ref(gf.components.straight(), "i2")
+    i1.rotate(rotation_value)
+    i2.connect("o2", i1.ports["o1"])
+
+    # flatten the oddly rotated refs
+    c = flatten_invalid_refs(c)
+
+    # perform the initial sanity checks on the netlist
+    netlist = c.get_netlist()
+    connections = netlist["connections"]
+    assert len(connections) == 1, len(connections)
+    cpairs = list(connections.items())
+    extracted_port_pair = set(cpairs[0])
+    expected_port_pair = {"i2,o2", "i1,o1"}
+    assert extracted_port_pair == expected_port_pair
+
+    recursive_netlist = get_netlist_recursive(c)
+    top_netlist = recursive_netlist[cname]
+    # the recursive netlist should have 3 entries, for the top level and two rotated straights
+    assert len(recursive_netlist) == 3
+    # confirm that the child netlists have reference attributes properly set
+
+    i1_cell_name = top_netlist["instances"]["i1"]["component"]
+    i1_netlist = recursive_netlist[i1_cell_name]
+    # currently for transformed netlists, the instance name of the inner cell is None
+    assert i1_netlist["placements"][None]["rotation"] == rotation_value
+
+    i2_cell_name = top_netlist["instances"]["i2"]["component"]
+    i2_netlist = recursive_netlist[i2_cell_name]
+    # currently for transformed netlists, the instance name of the inner cell is None
+    assert i2_netlist["placements"][None]["rotation"] == rotation_value
