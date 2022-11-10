@@ -2033,17 +2033,18 @@ def test_bbox_component() -> None:
 
 if __name__ == "__main__":
     # test_get_layers()
+    test_netlist_simple_width_mismatch_throws_error()
 
-    c = Component("parent")
-    c = Component("child")
-    length = 10
-    width = 0.5
-    layer = (1, 0)
-    c.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
-    c.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=(2, 0))
-    c = c.remove_layers([(1, 0)])
-    c.show()
-    print(c.hash_geometry())
+    # c = Component("parent")
+    # c = Component("child")
+    # length = 10
+    # width = 0.5
+    # layer = (1, 0)
+    # c.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
+    # c.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=(2, 0))
+    # c = c.remove_layers([(1, 0)])
+    # c.show()
+    # print(c.hash_geometry())
 
     # c << c2
     # c.show()
