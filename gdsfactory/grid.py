@@ -202,12 +202,12 @@ def grid_with_text(
     g = grid(components=components, **kwargs)
     c << g
     if text:
-        for i, ref in enumerate(g.aliases.values()):
+        for i, ref in enumerate(g.named_references.values()):
             for text_offset, text_anchor in zip(text_offsets, text_anchors):
                 if labels:
                     if len(labels) > i:
                         label = labels[i]
-                    # grid will add dummy components so don't add labels for these
+                    # skip labels for dummy components
                     else:
                         continue
                 else:
