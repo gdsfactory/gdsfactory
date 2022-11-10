@@ -339,7 +339,7 @@ class Waveguide(BaseModel):
             Xx,
             Yx,
         )
-        if func == None:
+        if func is None:
             plot(Xx, Yx, nx)
         else:
             plot(Xx, Yx, func(nx))
