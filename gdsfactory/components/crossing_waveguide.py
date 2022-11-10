@@ -209,7 +209,7 @@ def crossing_etched(
     # tapers_poly = c.add_polygon(taper_cross_pts, layer=layer_wg)
     # b = a - 0.1  # To make sure we get 4 distinct polygons when doing bool ops
     # tmp_polygon = [(-b, b), (b, b), (b, -b), (-b, -b)]
-    # polys_etch = gdspy.fast_boolean([tmp_polygon], tapers_poly, "not", layer=layer_slab)
+    # polys_etch = gdstk.fast_boolean([tmp_polygon], tapers_poly, "not", layer=layer_slab)
     # c.add(polys_etch)
 
     positions = [(a, 0), (0, a), (-a, 0), (0, -a)]

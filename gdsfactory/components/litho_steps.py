@@ -32,6 +32,7 @@ def litho_steps(
     )
 
     D.add_ref(T1).rotate(90).movex(-height / 10)
+
     R1 = pc.rectangle(size=(line_spacing, height), layer=layer)
     D.add_ref(R1).movey(-height)
     count = 0

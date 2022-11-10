@@ -64,6 +64,10 @@ if __name__ == "__main__":
     # c2 = array(rows=2, columns=2, spacing=(100, 100))
     c2 = array(pad, rows=2, spacing=(200, 200), columns=1)
 
+    # c3 = c2.copy()
+
     # nports = len(c2.get_ports_list(orientation=0))
     # assert nports == 2, nports
+    # c2.show(show_ports=True)
+    # c2.show(show_subports=True)
     c2.show(show_ports=True)

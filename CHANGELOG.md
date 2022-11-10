@@ -1,5 +1,18 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## TODO
+
+- implement native compatibility read/write from/to OASIS
+- removed named_references
+
+## 6.0.0
+
+- port gdsfactory from gdspy to gdstk. Gained more than huge speedup, faster booleans, loading and writing GDS.
+- remove Inheritance of Component, ComponentReference, Polygon, Label from gdspy
+    - use gdstk.Label and gdstk.Polygon directly (no inheritance)
+    - Label.origin instead of Label.position
+- ComponentReference, has rows and columns to represent removed `CellArray`
+
 ## 5.56.0
 
 - rename add_fidutials to add_fiducials (it was misspelled before) [PR](https://github.com/gdsfactory/gdsfactory/pull/827)
