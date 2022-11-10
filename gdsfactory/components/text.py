@@ -58,7 +58,9 @@ def text(
         elif justify == "center":
             label.move(origin=label.center, destination=position, axis="x")
         else:
-            raise ValueError(f"justify = {justify} not in ('center', 'right', 'left')")
+            raise ValueError(
+                f"justify = {justify!r} not in ('center', 'right', 'left')"
+            )
     return t
 
 
@@ -85,8 +87,8 @@ def text_lines(
 
 
 if __name__ == "__main__":
-    c1 = gf.components.text("hello", size=10, layer=(1, 0))
-    c2 = gf.components.text("hello")
+    # c1 = gf.components.text("hello", size=10, layer=(1, 0))
+    c2 = gf.components.text("10.0")
     # c = text(
     #     text=".[,ABCDEFGHIKKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789:/",
     #     size=4.0,

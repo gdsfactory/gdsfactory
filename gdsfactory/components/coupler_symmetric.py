@@ -70,9 +70,9 @@ def coupler_symmetric(
 
 if __name__ == "__main__":
     c = coupler_symmetric(gap=0.2, width=0.9)
-    c.show(show_ports=True)
-    c.pprint()
+    c.show(show_ports=False)
+    # c.pprint()
 
-    for dyi in [2, 3, 4, 5]:
-        c = coupler_symmetric(gap=0.2, width=0.5, dy=dyi, dx=10.0, layer=(2, 0))
-        print(f"dy={dyi}, min_bend_radius = {c.info['min_bend_radius']}")
+    # for dyi in [2, 3, 4, 5]:
+    #     c = coupler_symmetric(gap=0.2, width=0.5, dy=dyi, dx=10.0, layer=(2, 0))
+    #     print(f"dy={dyi}, min_bend_radius = {c.info['min_bend_radius']}")

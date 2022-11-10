@@ -88,7 +88,7 @@ def get_input_label(
     layer, texttype = _parse_layer(layer_label)
     return Label(
         text=text,
-        position=gc.ports[gc_port_name].center,
+        origin=gc.ports[gc_port_name].center,
         anchor="o",
         layer=layer,
         texttype=texttype,
@@ -126,7 +126,7 @@ def get_input_label_electrical(
     layer, texttype = _parse_layer(layer_label)
     return Label(
         text=text,
-        position=port.center,
+        origin=port.center,
         anchor="o",
         layer=layer,
         texttype=texttype,
