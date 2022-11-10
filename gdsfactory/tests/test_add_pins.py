@@ -48,4 +48,6 @@ if __name__ == "__main__":
 
     c = gf.components.straight(length=11.0)
     c2 = c.extract(layers=(LAYER.PORT,))
+    print(c2.paths)
+    print(c2.polygons)
     c2.show()

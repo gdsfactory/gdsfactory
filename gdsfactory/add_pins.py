@@ -331,11 +331,12 @@ def add_pin_path(
     points = [p0, p1]
     layer = get_layer(layer)
     path = gdstk.FlexPath(
-        points=points,
+        points,
         width=p.width,
         layer=layer[0],
         datatype=layer[1],
         simple_path=True,
+        tolerance=1e-3,
     )
     component.add(path)
 
