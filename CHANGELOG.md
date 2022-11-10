@@ -12,6 +12,7 @@
     - use gdstk.Label and gdstk.Polygon directly (no inheritance)
     - Label.origin instead of Label.position
 - ComponentReference, has rows and columns to represent removed `CellArray`
+- add loss model for modesolver [PR](https://github.com/gdsfactory/gdsfactory/pull/831)
 
 ## 5.56.0
 
