@@ -13,6 +13,11 @@
     - Label.origin instead of Label.position
 - ComponentReference, has rows and columns to represent removed `CellArray`
 - add loss model for modesolver [PR](https://github.com/gdsfactory/gdsfactory/pull/831)
+- fixes [PR](https://github.com/gdsfactory/gdsfactory/pull/835)
+    * remove deprecated aliases
+    * fix to_3d
+    * fix quickplo
+- Fix gmeep get_simulation center issue [PR](https://github.com/gdsfactory/gdsfactory/pull/834)
 
 ## 5.56.0
 
