@@ -252,7 +252,8 @@ class Component(_GeometryHelper):
             out: list of Components referenced by this Component.
         """
         if not recursive:
-            return self.references.copy()
+            return list({ref.parent for ref in self.references})
+
         else:
             references_set = set()
             _get_dependencies(self, references_set=references_set)
