@@ -31,10 +31,9 @@ def add_keepout(
             for ko_layer in keepout_layers:
                 ko_layer = _parse_layer(ko_layer)
 
-                for polygon_list in polygons.values():
-                    for polygon in polygon_list:
-                        polygon_keepout = polygon_grow(polygon.points, margin)
-                        c.add_polygon(points=polygon_keepout, layer=ko_layer)
+                for polygon in polygons:
+                    polygon_keepout = polygon_grow(polygon.points, margin)
+                    c.add_polygon(points=polygon_keepout, layer=ko_layer)
 
     return c
 

@@ -262,7 +262,7 @@ def test_points_are_correct(shear_waveguide_symmetric):
     )
 
     layer = (1, 0)
-    poly_actual = shear_waveguide_symmetric.get_polygons(by_spec=layer)[layer][0].points
+    poly_actual = shear_waveguide_symmetric.get_polygons(by_spec=layer)[0].points
     assert_polygon_equals(points_expected, poly_actual)
 
 
@@ -283,7 +283,7 @@ def test_points_are_correct_wide():
         length=length, width=wg_width, shear_angle=shear_angle
     )
     layer = (1, 0)
-    poly_actual = shear_waveguide_symmetric.get_polygons(by_spec=layer)[layer][0].points
+    poly_actual = shear_waveguide_symmetric.get_polygons(by_spec=layer)[0].points
     assert_polygon_equals(points_expected, poly_actual)
 
 
@@ -304,7 +304,7 @@ def test_points_are_correct_short():
         length=length, width=wg_width, shear_angle=shear_angle
     )
     layer = (1, 0)
-    poly_actual = shear_waveguide_symmetric.get_polygons(by_spec=layer)[layer][0].points
+    poly_actual = shear_waveguide_symmetric.get_polygons(by_spec=layer)[0].points
     assert_polygon_equals(points_expected, poly_actual)
 
 
@@ -325,7 +325,7 @@ def test_points_are_correct_long():
         length=length, width=wg_width, shear_angle=shear_angle
     )
     layer = (1, 0)
-    poly_actual = shear_waveguide_symmetric.get_polygons(by_spec=layer)[layer][0].points
+    poly_actual = shear_waveguide_symmetric.get_polygons(by_spec=layer)[0].points
     assert_polygon_equals(points_expected, poly_actual)
 
 
@@ -351,9 +351,7 @@ def test_points_are_correct_multi_layer():
         points_expected = get_expected_shear_shape(
             length=length, width=wg_width, shear_angle=shear_angle
         )
-        poly_actual = shear_waveguide_symmetric.get_polygons(by_spec=layer)[layer][
-            0
-        ].points
+        poly_actual = shear_waveguide_symmetric.get_polygons(by_spec=layer)[0].points
         assert_polygon_equals(points_expected, poly_actual)
 
 
