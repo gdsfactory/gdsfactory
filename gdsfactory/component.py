@@ -1107,6 +1107,7 @@ class Component(_GeometryHelper):
             component_flat.add(path)
 
         component_flat.info = self.info.copy()
+        component_flat.add_ports(self.ports)
         return component_flat
 
     def flatten_reference(self, ref: ComponentReference):
