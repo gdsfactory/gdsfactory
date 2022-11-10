@@ -2042,8 +2042,6 @@ def test_import_gds_settings():
     c3 = gf.routing.add_fiber_single(c2)
     assert c3
 
-
-
     # c = gf.c.straight()
     # c.remove_labels(depth=0)
     # print(c.labels)

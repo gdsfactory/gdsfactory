@@ -347,12 +347,15 @@ def test_points_are_correct_multi_layer():
         points_expected = get_expected_shear_shape(
             length=length, width=wg_width, shear_angle=shear_angle
         )
-        poly_actual = shear_waveguide_symmetric.get_polygons(by_spec=layer)[0].points
+        poly_actual = shear_waveguide_symmetric.get_polygons(by_spec=layer)[layer][
+            0
+        ].points
         assert_polygon_equals(points_expected, poly_actual)
 
 
 if __name__ == "__main__":
-    test_points_are_correct_multi_layer()
+    # test_points_are_correct_multi_layer()
+    test_points_are_correct(shear_waveguide_symmetric)
     # test_mate_on_shear_xor_empty_curve()
     # P = gf.path.euler()
     # curve = gf.path.extrude(P, "strip")
