@@ -14,11 +14,10 @@ from omegaconf import DictConfig, OmegaConf
 
 def clean_dict(d: Dict[str, Any]) -> Dict[str, Any]:
     """Cleans dictionary recursively."""
-    d_new = dict()
-    for k, v in d.items():
-        d_new[k] = clean_dict(dict(v)) if isinstance(v, dict) else clean_value_json(v)
-
-    return d_new
+    return {
+        k: clean_dict(dict(v)) if isinstance(v, dict) else clean_value_json(v)
+        for k, v in d.items()
+    }
 
 
 def get_string(value: Any) -> str:

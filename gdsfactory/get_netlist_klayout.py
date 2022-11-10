@@ -12,9 +12,7 @@ def get_netlist_klayout(gdspath: ComponentOrPath) -> None:
 
     layout = pya.Layout()
     layout.read(str(gdspath))
-    cell = layout.top_cell()
-
-    return cell
+    return layout.top_cell()
 
 
 if __name__ == "__main__":
