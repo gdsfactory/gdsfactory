@@ -121,8 +121,9 @@ def ring_single_heater(
 
 if __name__ == "__main__":
     c = ring_single_heater(width=0.5, gap=1, layer=(2, 0), radius=10, length_y=1)
+    print(c.to_yaml())
     c.show(show_subports=False)
-    c.pprint_ports()
+    # c.pprint_ports()
 
     # cc = gf.add_pins(c)
     # print(c.settings)
