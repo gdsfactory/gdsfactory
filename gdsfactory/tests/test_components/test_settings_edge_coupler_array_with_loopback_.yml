@@ -11,7 +11,6 @@ settings:
         width2: 0.2
         with_two_ports: false
     extension_length: 1.0
-    h_mirror: false
     n: 8
     pitch: 127.0
     radius: 30
@@ -21,7 +20,7 @@ settings:
     text_offset:
     - 0
     - 0
-    v_mirror: false
+    x_reflection: false
   full:
     cross_section: strip
     edge_coupler:
@@ -31,7 +30,6 @@ settings:
         width2: 0.2
         with_two_ports: false
     extension_length: 1.0
-    h_mirror: false
     n: 8
     pitch: 127.0
     radius: 30
@@ -41,7 +39,7 @@ settings:
     text_offset:
     - 0
     - 0
-    v_mirror: false
+    x_reflection: false
   function_name: edge_coupler_array_with_loopback
   info: {}
   info_version: 2
