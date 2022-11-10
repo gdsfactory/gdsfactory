@@ -174,16 +174,22 @@ class LayerStack(BaseModel):
     def to_dict(self) -> Dict[str, Dict[str, Any]]:
         return {level_name: dict(level) for level_name, level in self.layers.items()}
 
-    def get_klayout_3d_script(self) -> str:
+    def get_klayout_3d_script(self, klayout28: bool = True) -> str:
         """Prints script for 2.5 view klayout information.
 
         You can add this information in your tech.lyt take a look at
         gdsfactory/klayout/tech/tech.lyt
         """
         for level in self.layers.values():
-            print(
-                f"{level.layer[0]}/{level.layer[1]}: {level.zmin} {level.zmin+level.thickness}"
-            )
+            layer = level.layer
+            if klayout28:
+                print(
+                    f"z(input({layer[0]}, {layer[1]}), zstart: {level.zmin}, height: {level.zmin+level.thickness})"
+                )
+            else:
+                print(
+                    f"{level.layer[0]}/{level.layer[1]}: {level.zmin} {level.zmin+level.thickness}"
+                )
 
 
 def get_layer_stack_generic(
