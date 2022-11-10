@@ -5,13 +5,19 @@
 - implement native compatibility read/write from/to OASIS
 - removed named_references
 
-## 6.0.0
+## [6.0.0](https://github.com/gdsfactory/gdsfactory/pull/833)
 
 - port gdsfactory from gdspy to gdstk. Gained more than huge speedup, faster booleans, loading and writing GDS.
 - remove Inheritance of Component, ComponentReference, Polygon, Label from gdspy
     - use gdstk.Label and gdstk.Polygon directly (no inheritance)
     - Label.origin instead of Label.position
 - ComponentReference, has rows and columns to represent removed `CellArray`
+- add loss model for modesolver [PR](https://github.com/gdsfactory/gdsfactory/pull/831)
+- fixes [PR](https://github.com/gdsfactory/gdsfactory/pull/835)
+    * remove deprecated aliases
+    * fix to_3d
+    * fix quickplo
+- Fix gmeep get_simulation center issue [PR](https://github.com/gdsfactory/gdsfactory/pull/834)
 
 ## 5.56.0
 
