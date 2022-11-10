@@ -12,18 +12,13 @@ from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.route_fiber_single import route_fiber_single
-from gdsfactory.types import (
-    ComponentSpec,
-    ComponentSpecOrList,
-    CrossSectionSpec,
-    LayerSpec,
-)
+from gdsfactory.types import ComponentSpec, CrossSectionSpec, LayerSpec
 
 
 @cell
 def add_fiber_single(
     component: ComponentSpec = straight_function,
-    grating_coupler: ComponentSpecOrList = grating_coupler_te,
+    grating_coupler=grating_coupler_te,
     layer_label: LayerSpec = "LABEL",
     fiber_spacing: float = 50,
     bend: ComponentSpec = bend_euler,
