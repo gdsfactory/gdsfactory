@@ -287,25 +287,38 @@ class Waveguide(BaseModel):
 
         if self.loss_model:
             inds_top = (
-                (Z >= t_box + wg_thickness - self.top_sigma/2) & (Z <= t_box + wg_thickness + self.top_sigma/2) & (-w / 2 <= Y) & (Y <= w / 2)
+                (Z >= t_box + wg_thickness - self.top_sigma / 2)
+                & (Z <= t_box + wg_thickness + self.top_sigma / 2)
+                & (-w / 2 <= Y)
+                & (Y <= w / 2)
             )
             inds_top_slab_left = (
-                (Z >= t_box + slab_thickness - self.top_sigma/2) & (Z <= t_box + slab_thickness + self.top_sigma/2) & (-w / 2 >= Y)
+                (Z >= t_box + slab_thickness - self.top_sigma / 2)
+                & (Z <= t_box + slab_thickness + self.top_sigma / 2)
+                & (-w / 2 >= Y)
             )
             inds_top_slab_right = (
-                (Z >= t_box + slab_thickness - self.top_sigma/2) & (Z <= t_box + slab_thickness + self.top_sigma/2) & (Y >= w / 2)
+                (Z >= t_box + slab_thickness - self.top_sigma / 2)
+                & (Z <= t_box + slab_thickness + self.top_sigma / 2)
+                & (Y >= w / 2)
             )
             inds_sidewall_left = (
-                (Z >= t_box + slab_thickness) & (Z <= t_box + wg_thickness) & (Y >= -w / 2 - self.sidewall_sigma/2) & (Y <= -w / 2 + self.sidewall_sigma/2)
+                (Z >= t_box + slab_thickness)
+                & (Z <= t_box + wg_thickness)
+                & (Y >= -w / 2 - self.sidewall_sigma / 2)
+                & (Y <= -w / 2 + self.sidewall_sigma / 2)
             )
             inds_sidewall_right = (
-                (Z >= t_box + slab_thickness) & (Z <= t_box + wg_thickness) & (Y >= w / 2 - self.sidewall_sigma/2) & (Y <= w / 2 + self.sidewall_sigma/2)
+                (Z >= t_box + slab_thickness)
+                & (Z <= t_box + wg_thickness)
+                & (Y >= w / 2 - self.sidewall_sigma / 2)
+                & (Y <= w / 2 + self.sidewall_sigma / 2)
             )
-            n[inds_top] += 1j*self.top_k
-            n[inds_top_slab_left] += 1j*self.top_k
-            n[inds_top_slab_right] += 1j*self.top_k
-            n[inds_sidewall_left] += 1j*self.sidewall_k
-            n[inds_sidewall_right] += 1j*self.sidewall_k
+            n[inds_top] += 1j * self.top_k
+            n[inds_top_slab_left] += 1j * self.top_k
+            n[inds_top_slab_right] += 1j * self.top_k
+            n[inds_sidewall_left] += 1j * self.sidewall_k
+            n[inds_sidewall_right] += 1j * self.sidewall_k
 
         if self.dn_dict is not None:
             dn = griddata(
@@ -319,7 +332,6 @@ class Waveguide(BaseModel):
             n[inds_slab] += dn[inds_slab]
 
         return n
-
 
     def plot_index(self, func=None) -> None:
         x, y, Xx, Yx, Xy, Yy, Xz, Yz = create_mesh(
@@ -339,7 +351,7 @@ class Waveguide(BaseModel):
             Xx,
             Yx,
         )
-        if func == None:
+        if func is None:
             plot(Xx, Yx, nx)
         else:
             plot(Xx, Yx, func(nx))
@@ -640,6 +652,7 @@ class Waveguide(BaseModel):
         self, wg: "Waveguide", mode_index1: int = 0, mode_index2: int = 0
     ) -> float:
         """Returns mode overlap integral.
+
         Args:
             wg: other waveguide.
         """
@@ -657,15 +670,17 @@ class Waveguide(BaseModel):
         )
 
     def get_loss(self):
-        """Returns loss for computed modes in dB/cm"""
+        """Returns loss for computed modes in dB/cm."""
         if not hasattr(self, "neffs"):
             self.compute_modes()
         wavelength = self.wavelength * 1e-6  # convert to m
-        alphas = 4 * np.pi * np.imag(self.neffs) / wavelength # lin/m loss
-        return 10*np.log10(np.exp(1)) * alphas * 1e-2 # dB/cm loss
+        alphas = 4 * np.pi * np.imag(self.neffs) / wavelength  # lin/m loss
+        return 10 * np.log10(np.exp(1)) * alphas * 1e-2  # dB/cm loss
+
 
 class WaveguideCoupler(Waveguide):
     """Waveguide coupler Model.
+
     Parameters:
         wavelength: (um).
         wg_width1: left waveguide width in um.
@@ -708,6 +723,7 @@ class WaveguideCoupler(Waveguide):
 
     def get_n(self, Y, Z):
         """Return index matrix for a waveguide coupler.
+
         Args:
             Y: 2D array.
             Z: 2D array.
@@ -763,13 +779,16 @@ def sweep_bend_loss(
     **kwargs,
 ) -> Tuple[np.ndarray, np.ndarray]:
     """Returns overlap integral squared for the bend mode mismatch loss.
+
     The loss is squared because you hit the bend loss twice
     (from bend to straight and from straight to bend).
+
     Args:
         bend_radius_min: min bend radius (um).
         bend_radius_max: max bend radius (um).
         steps: number of steps.
         mode_index: where 0 is the fundamental mode.
+
     Keyword Args:
         wavelength: (um).
         wg_width: waveguide width in um.
@@ -810,11 +829,13 @@ def sweep_neff(
     **kwargs,
 ) -> pd.DataFrame:
     """Sweep waveguide width and compute effective index.
+
     Args:
         wavelength: (um).
         thicknesses: in um.
         widths: in um.
         mode_index: integer, where 0 is the fundamental mode.
+
     Keyword Args:
         mode_index: integer.
         ncore: core refractive index.
@@ -853,10 +874,12 @@ def group_index(
     wavelength: float, wavelength_step: float = 0.01, mode_index: int = 0, **kwargs
 ) -> float:
     """Returns group_index.
+
     Args:
         wavelength: (um).
         wavelength_step: in um.
         mode_index: integer, where 0 is the fundamental mode.
+
     Keyword Args:
         wg_width: waveguide width.
         wg_thickness: thickness waveguide (um).
@@ -896,10 +919,12 @@ def sweep_group_index(
     **kwargs,
 ) -> pd.DataFrame:
     """Sweep waveguide width and compute group index.
+
     Args:
         wavelength: (um).
         thicknesses: in um.
         widths: in um.
+
     Keyword Args:
         mode_index: integer.
         ncore: core refractive index.
@@ -939,12 +964,15 @@ def sweep_width(
     **kwargs,
 ) -> pd.DataFrame:
     """Sweep waveguide width and compute effective index.
+
     Returns pandas dataframe with effective index (neff) and fraction_te.
+
     Args:
         width1: starting waveguide width in um.
         width2: end waveguide width in um.
         steps: number of points.
         nmodes: number of modes to compute.
+
     Keyword Args:
         wavelength: (um).
         wg_width: waveguide width in um.
@@ -990,13 +1018,16 @@ def plot_sweep_width(
     **kwargs,
 ) -> pd.DataFrame:
     """Sweep waveguide width and compute effective index.
+
     Returns pandas dataframe with effective index (neff) and fraction_te.
+
     Args:
         width1: starting waveguide width in um.
         width2: end waveguide width in um.
         steps: number of points.
         nmodes: number of modes to compute.
         cmap: colormap for the TE fraction.
+
     Keyword Args:
         wavelength: (um).
         wg_width: waveguide width in um.
@@ -1056,22 +1087,23 @@ __all__ = (
 
 if __name__ == "__main__":
 
-    wg = Waveguide(nmodes=2, 
-                    wg_width=500*nm, 
-                    wavelength=1.55, 
-                    wg_thickness=220 * nm, 
-                    slab_thickness=90 * nm, 
-                    ncore=si, 
-                    nclad=sio2,
-                    loss_model=True,
-                    sidewall_k = 1E-4,
-                    top_k = 1E-4,
-                    sidewall_sigma = 20*nm,
-                    top_sigma = 20*nm,
-                    resolution = 400,
-                    cache=None,
-                    precision='double'
-                    )
+    wg = Waveguide(
+        nmodes=2,
+        wg_width=500 * nm,
+        wavelength=1.55,
+        wg_thickness=220 * nm,
+        slab_thickness=90 * nm,
+        ncore=si,
+        nclad=sio2,
+        loss_model=True,
+        sidewall_k=1e-4,
+        top_k=1e-4,
+        sidewall_sigma=20 * nm,
+        top_sigma=20 * nm,
+        resolution=400,
+        cache=None,
+        precision="double",
+    )
     wg.plot_index()
     wg.plot_index(func=np.imag)
     wg.compute_mode_properties()
@@ -1083,7 +1115,7 @@ if __name__ == "__main__":
     #     n = np.real(wg.neffs[mode_number])
     #     fraction_te = wg.fraction_te[mode_number]
     #     plt.scatter(wg_width, n, c=fraction_te, vmin=0, vmax=1, cmap=cmap)
-            # n[inds_top_slab_left] += self.top_k
-            # n[inds_top_slab_right] += self.top_k
-            # n[inds_sidewall_left] += self.sidewall_k
-            # n[inds_sidewall_right] += self.sidewall_k
+    # n[inds_top_slab_left] += self.top_k
+    # n[inds_top_slab_right] += self.top_k
+    # n[inds_sidewall_left] += self.sidewall_k
+    # n[inds_sidewall_right] += self.sidewall_k
