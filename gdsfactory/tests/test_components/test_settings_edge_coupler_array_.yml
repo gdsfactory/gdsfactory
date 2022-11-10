@@ -9,7 +9,6 @@ settings:
         length: 100
         width2: 0.2
         with_two_ports: false
-    h_mirror: false
     n: 5
     pitch: 127.0
     text:
@@ -17,7 +16,7 @@ settings:
     text_offset:
     - 10
     - 20
-    v_mirror: false
+    x_reflection: false
   full:
     edge_coupler:
       function: taper
@@ -25,7 +24,6 @@ settings:
         length: 100
         width2: 0.2
         with_two_ports: false
-    h_mirror: false
     n: 5
     pitch: 127.0
     text:
@@ -33,7 +31,7 @@ settings:
     text_offset:
     - 10
     - 20
-    v_mirror: false
+    x_reflection: false
   function_name: edge_coupler_array
   info: {}
   info_version: 2
