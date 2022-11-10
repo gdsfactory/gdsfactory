@@ -69,8 +69,8 @@ def outline(
     )
 
     Trim = Component()
-    if open_ports is not False:
-        trim_width = 0 if open_ports is True else open_ports * 2
+    if open_ports:
+        trim_width = 0 if open_ports else open_ports * 2
         for port in port_list:
             trim = compass(size=(distance + 6 * precision, port.width + trim_width))
             trim_ref = Trim << trim
@@ -83,7 +83,7 @@ def outline(
         precision=precision,
         layer=layer,
     )
-    if open_ports is not False and len(elements) == 1:
+    if open_ports and len(elements) == 1:
         for port in port_list:
             Outline.add_port(port=port)
     return Outline
