@@ -90,15 +90,14 @@ def import_gds(
         cell_to_device[c] = D
         D_list += [D]
 
-    for D in D_list:
-        # First convert each reference so it points to the right Component
-        converted_references = []
-        for e in D.references:
-            ref_device = cell_to_device[e.ref_cell]
-            dr = ComponentReference(component=ref_device)
-            dr.owner = D
-            dr._reference = e
-            converted_references.append(dr)
+    for c, D in cell_to_device.items():
+        for e in c.references:
+            ref_device = cell_to_device[e.cell]
+            ref = ComponentReference(component=ref_device)
+            D._references.append(ref)
+
+            ref.owner = D
+            ref._reference = e
 
     component = cell_to_device[topcell]
     cast(Component, component)
