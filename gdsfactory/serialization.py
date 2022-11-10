@@ -59,7 +59,7 @@ def clean_value_json(value: Any) -> Any:
         args_as_kwargs = dict(zip(sig.parameters.keys(), value.args))
         args_as_kwargs.update(**value.keywords)
         args_as_kwargs = clean_dict(args_as_kwargs)
-        args_as_kwargs.pop("function", None)
+        # args_as_kwargs.pop("function", None)
 
         func = value.func
         while hasattr(func, "func"):
@@ -79,7 +79,7 @@ def clean_value_json(value: Any) -> Any:
     elif isinstance(value, pathlib.Path):
         value = value.stem
     elif isinstance(value, dict):
-        value = clean_dict(value)
+        value = clean_dict(value.copy())
     elif isinstance(value, DictConfig):
         value = clean_dict(OmegaConf.to_container(value))
 
