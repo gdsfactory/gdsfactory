@@ -233,15 +233,14 @@ def get_netlist(
 
     # lower level ports
     for reference in references:
-        if not isinstance(reference, ComponentReference):
-            for port in reference.ports.values():
-                reference_name = get_instance_name(
-                    component,
-                    reference,
-                )
-                src = f"{reference_name},{port.name}"
-                name2port[src] = port
-                ports_by_type[port.port_type].append(src)
+        for port in reference.ports.values():
+            reference_name = get_instance_name(
+                component,
+                reference,
+            )
+            src = f"{reference_name},{port.name}"
+            name2port[src] = port
+            ports_by_type[port.port_type].append(src)
 
     warnings = {}
     for port_type, port_names in ports_by_type.items():
@@ -611,12 +610,21 @@ if __name__ == "__main__":
 
     import gdsfactory as gf
 
-    c = gf.components.mzi(delta_length=10)
-    n = c.get_netlist()
-    print(c.get_netlist_yaml())
-
-    c = gf.read.from_yaml(c.get_netlist())
+    c = gf.Component("demo")
+    c1 = c << gf.components.straight(length=1, width=1)
+    c2 = c << gf.components.straight(length=2, width=2)
+    c2.connect(port="o1", destination=c1.ports["o2"])
+    c.add_port("o1", port=c1.ports["o1"])
+    c.add_port("o2", port=c2.ports["o2"])
+    print(c.get_netlist())
     c.show()
+
+    # c = gf.components.mzi(delta_length=10)
+    # n = c.get_netlist()
+    # print(c.get_netlist_yaml())
+
+    # c = gf.read.from_yaml(c.get_netlist())
+    # c.show()
 
     # coupler_lengths = [10, 20, 30, 40]
     # coupler_gaps = [0.1, 0.2, 0.4, 0.5]
