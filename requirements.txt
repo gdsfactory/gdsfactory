@@ -1,7 +1,7 @@
 -e .
 click
 flatdict
-gdspy
+gdstk
 jsondiff
 loguru
 lxml

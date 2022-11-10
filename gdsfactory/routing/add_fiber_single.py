@@ -12,18 +12,13 @@ from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.route_fiber_single import route_fiber_single
-from gdsfactory.types import (
-    ComponentSpec,
-    ComponentSpecOrList,
-    CrossSectionSpec,
-    LayerSpec,
-)
+from gdsfactory.types import ComponentSpec, CrossSectionSpec, LayerSpec
 
 
 @cell
 def add_fiber_single(
     component: ComponentSpec = straight_function,
-    grating_coupler: ComponentSpecOrList = grating_coupler_te,
+    grating_coupler=grating_coupler_te,
     layer_label: LayerSpec = "LABEL",
     fiber_spacing: float = 50,
     bend: ComponentSpec = bend_euler,
@@ -275,48 +270,9 @@ def add_fiber_single(
 
 
 if __name__ == "__main__":
-    from gdsfactory.labels.ehva import add_label_ehva
+    from gdsfactory.samples.big_device import big_device
 
-    # c = gf.components.crossing()
-    # c = gf.components.mmi1x2()
-    # c = gf.components.rectangle()
-    # c = gf.components.mzi()
-    # c = gf.components.straight(length=500)
-    # gc = gf.components.grating_coupler_elliptical_te
-    # gc = gf.components.grating_coupler_circular
-    # gc = gf.components.grating_coupler_te
-    # gc = gf.components.grating_coupler_rectangular
-
-    @gf.cell
-    def component_with_offset(**kwargs):
-        c = gf.Component()
-        ref = c << gf.components.mmi1x2(**kwargs)
-        ref.movey(1)
-        c.add_ports(ref.ports)
-        return c
-
-    # c = gf.components.ring_single(length_x=167)
-    # c = gf.components.spiral(direction="NORTH")
-    # c = gf.components.spiral_inner_io_fiber_single()
-    # c = 'mmi2x2'
-    cc = add_fiber_single(
-        # component=gf.components.straight_heater_metal(width=2),
-        component="mmi2x2",
-        auto_widen=False,
-        with_loopback=True,
-        layer=(1, 0),
-        zero_port="o2",
-        # loopback_xspacing=-50,
-        # grating_coupler=[gf.components.grating_coupler_te, gf.components.grating_coupler_tm],
-        get_input_label_text_function=None,
-        radius=20,
-    )
-
-    add_label_ehva(cc, die="demo")
-    print(cc.get_labels())
-    cc.show(show_ports=True)
-
-    # c = gf.components.straight(length=20)
-    # gc = gf.components.grating_coupler_elliptical_te(layer="WGN")
-    # cc = add_fiber_single(component=c, grating_coupler=gc, with_loopback=True, )
-    # cc.show(show_ports=True)
+    w = h = 18 * 50
+    c = big_device(spacing=50.0, size=(w, h))
+    c = gf.routing.add_fiber_single(component=c)
+    c.show(show_ports=True)

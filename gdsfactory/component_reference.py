@@ -2,8 +2,8 @@ import typing
 import warnings
 from typing import Any, Dict, List, Optional, Tuple, Union, cast
 
+import gdstk
 import numpy as np
-from gdspy import CellReference
 from numpy import cos, float64, int64, mod, ndarray, pi, sin
 
 from gdsfactory.component_layout import _GeometryHelper
@@ -115,30 +115,57 @@ def _rotate_points(
     return displacement * ca + perpendicular * sa + c0
 
 
-class ComponentReference(CellReference, _GeometryHelper):
-    """Pointer to a Component with x, y, rotation, mirror."""
+class ComponentReference(_GeometryHelper):
+    """Pointer to a Component with x, y, rotation, mirror.
+
+    Args:
+        component: Component The referenced Component.
+        columns: Number of columns in the array.
+        rows: Number of rows in the array.
+        spacing: Distances between adjacent columns and adjacent rows.
+        origin: array-like[2] of int or float
+            Position where the cell is inserted.
+        rotation : int or float
+            Angle of rotation of the reference (in `degrees`).
+        magnification : int or float
+            Magnification factor for the reference.
+        x_reflection : bool
+            If True, the reference is reflected parallel to the x direction
+            before being rotated.
+
+    """
 
     def __init__(
         self,
         component: "Component",
         origin: Coordinate = (0, 0),
         rotation: float = 0,
-        magnification: None = None,
+        magnification: float = 1,
         x_reflection: bool = False,
         visual_label: str = "",
+        columns: int = 1,
+        rows: int = 1,
+        spacing=None,
     ) -> None:
         """Initialize the ComponentReference object."""
-        CellReference.__init__(
-            self,
-            ref_cell=component,
+        self._reference = gdstk.Reference(
+            cell=component._cell,
             origin=origin,
-            rotation=rotation,
+            rotation=np.deg2rad(rotation),
             magnification=magnification,
             x_reflection=x_reflection,
-            ignore_missing=False,
+            columns=columns,
+            rows=rows,
+            spacing=spacing,
         )
+
+        self.ref_cell = component
         self._owner = None
         self._name = None
+
+        self.rows = rows
+        self.columns = columns
+        self.spacing = spacing
 
         # The ports of a ComponentReference have their own unique id (uid),
         # since two ComponentReferences of the same parent Component can be
@@ -153,9 +180,142 @@ class ComponentReference(CellReference, _GeometryHelper):
     def parent(self):
         return self.ref_cell
 
+    @property
+    def origin(self):
+        return self._reference.origin
+
+    @origin.setter
+    def origin(self, value):
+        self._reference.origin = value
+
+    @property
+    def magnification(self):
+        return self._reference.magnification
+
+    @magnification.setter
+    def magnification(self, value):
+        self._reference.magnification = value
+
+    @property
+    def rotation(self) -> float:
+        return np.rad2deg(self._reference.rotation)
+
+    @rotation.setter
+    def rotation(self, value):
+        self._reference.rotation = np.deg2rad(value)
+
+    @property
+    def x_reflection(self):
+        return self._reference.x_reflection
+
+    @x_reflection.setter
+    def x_reflection(self, value):
+        self._reference.x_reflection = value
+
     @parent.setter
     def parent(self, value):
         self.ref_cell = value
+
+    def get_polygons(self, by_spec=False, depth=None, include_paths: bool = True):
+        """Return the list of polygons created by this reference.
+
+        Args:
+            by_spec : bool or tuple
+                If True, the return value is a dictionary with the
+                polygons of each individual pair (layer, datatype).
+                If set to a tuple of (layer, datatype), only polygons
+                with that specification are returned.
+            depth : integer or None
+                If not None, defines from how many reference levels to
+                retrieve polygons.  References below this level will result
+                in a bounding box.  If `by_spec` is True the key will be the
+                name of the referenced cell.
+            include_paths: If True, polygonal representation of paths are also included in the result.
+
+        Returns
+            out : list of array-like[N][2] or dictionary
+                List containing the coordinates of the vertices of each
+                polygon, or dictionary with the list of polygons (if
+                `by_spec` is True).
+
+        Note:
+            Instances of `FlexPath` and `RobustPath` are also included in
+            the result by computing their polygonal boundary.
+        """
+        if not by_spec:
+            return self._reference.get_polygons(
+                depth=depth, include_paths=include_paths
+            )
+        elif by_spec is True:
+            layers = self.parent.get_layers()
+            return {
+                layer: self._reference.get_polygons(
+                    depth=depth,
+                    layer=layer[0],
+                    datatype=layer[1],
+                    include_paths=include_paths,
+                )
+                for layer in layers
+            }
+
+        else:
+            return self._reference.get_polygons(
+                depth=depth,
+                layer=by_spec[0],
+                datatype=by_spec[1],
+                include_paths=include_paths,
+            )
+
+    def get_labels(self, depth=None, set_transform=False):
+        """Return the list of labels created by this reference.
+
+        Args:
+            depth : integer or None
+                If not None, defines from how many reference levels to
+                retrieve labels from.
+            set_transform : bool
+                If True, labels will include the transformations from
+                the reference.
+
+        Returns:
+            out : list of `Label`
+                List containing the labels in this cell and its references.
+        """
+        return self._reference.get_labels(depth=depth, set_transform=set_transform)
+
+    def get_bounding_box(self):
+        return self._reference.bounding_box()
+
+    def get_paths(self, depth=None):
+        """Return the list of paths created by this reference.
+
+        Args:
+            depth : integer or None
+                If not None, defines from how many reference levels to
+                retrieve paths from.
+
+        Returns:
+            list of `FlexPath` or `RobustPath`
+                List containing the paths in this cell and its references.
+        """
+        return self._reference.get_paths(depth=depth)
+
+    def translate(self, dx, dy):
+        return self._reference.translate(dx, dy)
+
+    def area(self, by_spec=False):
+        """Calculate total area.
+
+        Args:
+            by_spec : bool
+                If True, the return value is a dictionary with the areas
+                of each individual pair (layer, datatype).
+
+        Returns:
+            out : number, dictionary
+                Area of this cell.
+        """
+        return self._reference.area(by_spec=by_spec)
 
     @property
     def owner(self):
@@ -183,8 +343,9 @@ class ComponentReference(CellReference, _GeometryHelper):
                 raise ValueError(
                     f"This reference's owner already has a reference with name {value!r}. Please choose another name."
                 )
+            self.owner._named_references.pop(self._name, None)
             self._name = value
-            self.owner._reference_names_used.add(value)
+            self.owner._named_references[value] = self
 
     @property
     def alias(self):
@@ -433,8 +594,8 @@ class ComponentReference(CellReference, _GeometryHelper):
         """Return rotated ComponentReference.
 
         Args:
-            angle: in degrees
-            center: x, y
+            angle: in degrees.
+            center: x, y.
         """
         if angle == 0:
             return self
@@ -505,7 +666,8 @@ class ComponentReference(CellReference, _GeometryHelper):
 
         # Reflect across x-axis
         self.x_reflection = not self.x_reflection
-        self.origin[1] = -1 * self.origin[1]
+        self.origin = (self.origin[0], -1 * self.origin[1])
+
         self.rotation = -1 * self.rotation
 
         # Un-rotate and un-translate
@@ -651,9 +813,22 @@ def test_move():
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.Component()
-    mzi = c.add_ref(gf.components.mzi())
-    bend = c.add_ref(gf.components.bend_euler())
-    bend.move("o1", mzi.ports["o2"])
-    bend.move("o1", "o2")
+    # c = gf.Component("parent")
+    # c2 = gf.Component("child")
+    # length = 10
+    # width = 0.5
+    # layer = (1, 0)
+    # c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
+    # c << c2
+
+    c = gf.c.dbr()
+    c.show()
+
+    # import gdsfactory as gf
+
+    # c = gf.Component()
+    # mzi = c.add_ref(gf.components.mzi())
+    # bend = c.add_ref(gf.components.bend_euler())
+    # bend.move("o1", mzi.ports["o2"])
+    # bend.move("o1", "o2")
     # c.show()

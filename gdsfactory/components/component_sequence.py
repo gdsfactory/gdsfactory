@@ -211,8 +211,8 @@ if __name__ == "__main__":
     sequence = "AB"
     sequence = "HH!"
     sequence = "!HH"
-    sequence = "AB-H-H-H-H-BA"
     sequence = "H"
+    sequence = "AB-H-H-H-H-BA"
     c = gf.components.component_sequence(
         sequence=sequence, symbol_to_component=symbol_to_component_map
     )

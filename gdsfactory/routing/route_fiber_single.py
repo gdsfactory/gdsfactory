@@ -1,7 +1,11 @@
 from typing import Callable, List, Optional, Tuple, Union
 
+import gdstk
+import numpy as np
+
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
+from gdsfactory.component_layout import _rotate_points
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports_optical
@@ -154,9 +158,28 @@ def route_fiber_single(
     for e in elements_north:
         if isinstance(e, list):
             for ei in e:
-                elements_south.append(ei.rotate(180))
+                if isinstance(ei, gdstk.Label):
+                    ei.rotation = np.mod(ei.rotation + np.pi, 2 * np.pi)
+                    print(ei.rotation)
+                    ei.origin = _rotate_points(
+                        ei.origin,
+                        angle=np.rad2deg(ei.rotation),
+                    )
+
+                    elements_south.append(ei)
+                else:
+                    elements_south.append(ei.rotate(180))
         else:
-            elements_south.append(e.rotate(180))
+            if isinstance(e, gdstk.Label):
+                ei = e
+                ei.rotation = np.mod(ei.rotation + np.pi, 2 * np.pi)
+                ei.origin = _rotate_points(
+                    ei.origin,
+                    angle=np.rad2deg(ei.rotation),
+                )
+                elements_south.append(e)
+            else:
+                elements_south.append(e.rotate(180))
 
     if len(gratings_north) > 0:
         for io in gratings_north[0]:

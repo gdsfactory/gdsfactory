@@ -598,7 +598,8 @@ def _demo_netlist() -> None:
 
 
 if __name__ == "__main__":
-    c = test_connections_different_factory()
+    # c = test_connections_different_factory()
+    c = test_sample()
     c.show()
 
     # c = test_netlists("sample_mmis", None, False)
