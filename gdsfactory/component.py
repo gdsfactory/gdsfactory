@@ -1790,12 +1790,15 @@ class Component(_GeometryHelper):
         D_list = self.get_dependencies(recursive=True)
         return [D.info.copy() for D in D_list]
 
-    def remap_layers(self, layermap, include_labels: bool = True):
+    def remap_layers(
+        self, layermap, include_labels: bool = True, include_paths: bool = True
+    ):
         """Moves all polygons in the Component from one layer to another according to the layermap argument.
 
         Args:
             layermap: Dictionary of values in format {layer_from : layer_to}.
             include_labels: Selects whether to move Labels along with polygons.
+            include_paths: Selects whether to move Paths along with polygons.
         """
         layermap = {_parse_layer(k): _parse_layer(v) for k, v in layermap.items()}
 
@@ -1803,13 +1806,11 @@ class Component(_GeometryHelper):
         all_D.append(self)
         for D in all_D:
             for p in D.polygons:
-                for n, _layer in enumerate(p.layers):
-                    original_layer = (p.layers[n], p.datatypes[n])
-                    original_layer = _parse_layer(original_layer)
-                    if original_layer in layermap:
-                        new_layer = layermap[original_layer]
-                        p.layers[n] = new_layer[0]
-                        p.datatypes[n] = new_layer[1]
+                layer = (p.layer, p.datatype)
+                if layer in layermap:
+                    new_layer = layermap[layer]
+                    p.layer = new_layer[0]
+                    p.datatype = new_layer[1]
             if include_labels:
                 for label in D.labels:
                     original_layer = (label.layer, label.texttype)
@@ -1818,6 +1819,15 @@ class Component(_GeometryHelper):
                         new_layer = layermap[original_layer]
                         label.layer = new_layer[0]
                         label.texttype = new_layer[1]
+
+            if include_paths:
+                for path in D.paths:
+                    original_layer = (path.layer, path.texttype)
+                    original_layer = _parse_layer(original_layer)
+                    if original_layer in layermap:
+                        new_layer = layermap[original_layer]
+                        path.layer = new_layer[0]
+                        path.datatype = new_layer[1]
         return self
 
 
