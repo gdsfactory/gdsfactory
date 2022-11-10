@@ -1529,7 +1529,7 @@ class Component(_GeometryHelper):
             d["cells"] = clean_dict(cells)
 
         d["name"] = self.name
-        d["settings"] = dict(self.settings)
+        d["settings"] = clean_dict(dict(self.settings))
         return d
 
     def to_yaml(self, **kwargs) -> str:
@@ -1888,7 +1888,7 @@ def recurse_structures(
     ignore_components_prefix: Optional[List[str]] = None,
     ignore_functions_prefix: Optional[List[str]] = None,
 ) -> Dict[str, Any]:
-    """Recurse component and its components recursively.
+    """Recurse component and components references recursively.
 
     Args:
         component: component to recurse.

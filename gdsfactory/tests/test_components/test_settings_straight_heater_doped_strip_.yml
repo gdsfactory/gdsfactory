@@ -1,4 +1,4 @@
-name: straight_heater_doped_r_ed747bfb
+name: straight_heater_doped_r_e9b283e2
 settings:
   changed:
     cross_section_heater:
@@ -184,4 +184,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.straight_heater_doped_rib
-  name: straight_heater_doped_r_ed747bfb
+  name: straight_heater_doped_r_e9b283e2
