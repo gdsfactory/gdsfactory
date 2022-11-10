@@ -1,4 +1,10 @@
-connections: {}
+connections:
+  bend_euler_1,o1: straight_3,o2
+  bend_euler_1,o2: straight_1,o2
+  bend_euler_2,o1: straight_2,o1
+  bend_euler_2,o2: straight_3,o1
+  coupler_ring_1,o2: straight_1,o1
+  coupler_ring_1,o3: straight_2,o2
 instances:
   bend_euler_1:
     component: bend_euler
@@ -77,4 +83,6 @@ placements:
     rotation: 180
     x: 0.0
     y: 21.3
-ports: {}
+ports:
+  o1: coupler_ring_1,o1
+  o2: coupler_ring_1,o4

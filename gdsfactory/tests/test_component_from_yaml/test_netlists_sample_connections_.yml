@@ -1,4 +1,5 @@
-connections: {}
+connections:
+  wgn,o2: wgw,o1
 instances:
   wgn:
     component: straight
@@ -27,3 +28,13 @@ placements:
     x: 0.5
     y: 0.0
 ports: {}
+warnings:
+  optical:
+    unconnected_ports:
+    - message: 2 unconnected optical ports!
+      ports:
+      - wgw,o2
+      - wgn,o1
+      values:
+      - '[1.5,0.0]'
+      - '[0.0,0.0]'

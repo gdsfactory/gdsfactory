@@ -844,24 +844,23 @@ class Component(_GeometryHelper):
         """
         from gdsfactory.pdk import get_layer
 
-        component = self.copy()
-
         if type(layers) not in (list, tuple):
             raise ValueError(f"layers {layers!r} needs to be a list or tuple")
 
         layers = [get_layer(layer) for layer in layers]
-        component._cell.filter(spec=layers, remove=False)
+        # component = self.copy()
+        # component._cell.filter(spec=layers, remove=False)
 
-        # # poly_dict = self.get_polygons(by_spec=True, include_paths=False)
-        # poly_dict = self._cell.get_polygons(include_paths=False)
+        component = Component()
+        poly_dict = self._cell.get_polygons(include_paths=False)
 
-        # for poly in poly_dict:
-        #     if poly.layer in layers:
-        #         component.add_polygon(poly.points, layer=(poly.layer, poly.datatype))
+        for poly in poly_dict:
+            if poly.layer in layers:
+                component.add_polygon(poly.points, layer=(poly.layer, poly.datatype))
 
-        # for layer in layers:
-        #     for path in self._cell.get_paths(layer=layer):
-        #         component.add(path)
+        for layer in layers:
+            for path in self._cell.get_paths(layer=layer):
+                component.add(path)
 
         return component
 
