@@ -116,7 +116,7 @@ def grid(
             prefix = prefix.replace(",", "_")
             prefix = prefix.replace("(", "")
             prefix = prefix.replace(")", "")
-            D.add_ports(ref.ports, prefix=prefix + "_")
+            D.add_ports(ref.ports, prefix=f"{prefix}_")
             ref.name = prefix
 
         else:
