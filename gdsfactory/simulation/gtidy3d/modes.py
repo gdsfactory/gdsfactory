@@ -640,10 +640,8 @@ class Waveguide(BaseModel):
         self, wg: "Waveguide", mode_index1: int = 0, mode_index2: int = 0
     ) -> float:
         """Returns mode overlap integral.
-
         Args:
             wg: other waveguide.
-
         """
         wg1 = self
         wg2 = wg
@@ -683,11 +681,8 @@ class WaveguideCoupler(Waveguide):
         nmodes: number of modes to compute.
         bend_radius: optional bend radius (um).
         cache: filepath for caching modes. If None does not use file cache.
-
     ::
-
         -w1-gap/2
-
             wg_width1     wg_width2
             <------->     <------->
              _______   |   _______   __
@@ -700,7 +695,6 @@ class WaveguideCoupler(Waveguide):
                       gap
             <--------------------->
                      w_sim
-
     """
 
     wg_width: Optional[float] = None
@@ -714,11 +708,9 @@ class WaveguideCoupler(Waveguide):
 
     def get_n(self, Y, Z):
         """Return index matrix for a waveguide coupler.
-
         Args:
             Y: 2D array.
             Z: 2D array.
-
         """
         w1 = self.wg_width1
         w2 = self.wg_width2
@@ -771,16 +763,13 @@ def sweep_bend_loss(
     **kwargs,
 ) -> Tuple[np.ndarray, np.ndarray]:
     """Returns overlap integral squared for the bend mode mismatch loss.
-
     The loss is squared because you hit the bend loss twice
     (from bend to straight and from straight to bend).
-
     Args:
         bend_radius_min: min bend radius (um).
         bend_radius_max: max bend radius (um).
         steps: number of steps.
         mode_index: where 0 is the fundamental mode.
-
     Keyword Args:
         wavelength: (um).
         wg_width: waveguide width in um.
@@ -793,7 +782,6 @@ def sweep_bend_loss(
         xmargin: margin from waveguide edge to each side (um).
         resolution: pixels/um.
         nmodes: number of modes to compute.
-
     """
     r = np.linspace(bend_radius_min, bend_radius_max, steps)
     integral = np.zeros_like(r)
@@ -822,13 +810,11 @@ def sweep_neff(
     **kwargs,
 ) -> pd.DataFrame:
     """Sweep waveguide width and compute effective index.
-
     Args:
         wavelength: (um).
         thicknesses: in um.
         widths: in um.
         mode_index: integer, where 0 is the fundamental mode.
-
     Keyword Args:
         mode_index: integer.
         ncore: core refractive index.
@@ -840,7 +826,6 @@ def sweep_neff(
         resolution: pixels/um.
         nmodes: number of modes to compute.
         bend_radius: optional bend radius (um).
-
     """
     widths_thicknesses = list(it.product(widths, thicknesses))
 
@@ -868,12 +853,10 @@ def group_index(
     wavelength: float, wavelength_step: float = 0.01, mode_index: int = 0, **kwargs
 ) -> float:
     """Returns group_index.
-
     Args:
         wavelength: (um).
         wavelength_step: in um.
         mode_index: integer, where 0 is the fundamental mode.
-
     Keyword Args:
         wg_width: waveguide width.
         wg_thickness: thickness waveguide (um).
@@ -886,7 +869,6 @@ def group_index(
         resolution: pixels/um.
         nmodes: number of modes to compute.
         bend_radius: optional bend radius (um).
-
     """
     wc = Waveguide(wavelength=wavelength, **kwargs)
     wf = Waveguide(
@@ -914,12 +896,10 @@ def sweep_group_index(
     **kwargs,
 ) -> pd.DataFrame:
     """Sweep waveguide width and compute group index.
-
     Args:
         wavelength: (um).
         thicknesses: in um.
         widths: in um.
-
     Keyword Args:
         mode_index: integer.
         ncore: core refractive index.
@@ -931,7 +911,6 @@ def sweep_group_index(
         resolution: pixels/um.
         nmodes: number of modes to compute.
         bend_radius: optional bend radius (um).
-
     """
     widths_thicknesses = list(it.product(widths, thicknesses))
 
@@ -960,16 +939,12 @@ def sweep_width(
     **kwargs,
 ) -> pd.DataFrame:
     """Sweep waveguide width and compute effective index.
-
     Returns pandas dataframe with effective index (neff) and fraction_te.
-
     Args:
         width1: starting waveguide width in um.
         width2: end waveguide width in um.
         steps: number of points.
         nmodes: number of modes to compute.
-
-
     Keyword Args:
         wavelength: (um).
         wg_width: waveguide width in um.
@@ -983,7 +958,6 @@ def sweep_width(
         resolution: pixels/um.
         nmodes: number of modes to compute.
         bend_radius: optional bend radius (um).
-
     """
     width = np.linspace(width1, width2, steps)
     neff = {}
@@ -1016,16 +990,13 @@ def plot_sweep_width(
     **kwargs,
 ) -> pd.DataFrame:
     """Sweep waveguide width and compute effective index.
-
     Returns pandas dataframe with effective index (neff) and fraction_te.
-
     Args:
         width1: starting waveguide width in um.
         width2: end waveguide width in um.
         steps: number of points.
         nmodes: number of modes to compute.
         cmap: colormap for the TE fraction.
-
     Keyword Args:
         wavelength: (um).
         wg_width: waveguide width in um.
@@ -1039,7 +1010,6 @@ def plot_sweep_width(
         resolution: pixels/um. Can be a single number or tuple (x, y).
         nmodes: number of modes to compute.
         bend_radius: optional bend radius (um).
-
     """
     width = np.linspace(width1, width2, steps)
     neff = {}
@@ -1095,9 +1065,9 @@ if __name__ == "__main__":
                     nclad=sio2,
                     loss_model=True,
                     sidewall_k = 1E-4,
-                    top_k = 0,
+                    top_k = 1E-4,
                     sidewall_sigma = 20*nm,
-                    top_sigma = 0,
+                    top_sigma = 20*nm,
                     resolution = 400,
                     cache=None,
                     precision='double'
