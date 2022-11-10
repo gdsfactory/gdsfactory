@@ -1,5 +1,4 @@
 import typing
-import warnings
 from typing import Any, Dict, List, Optional, Tuple, Union, cast
 
 import gdstk
@@ -347,14 +346,6 @@ class ComponentReference(_GeometryHelper):
             self._name = value
             self.owner._named_references[value] = self
 
-    @property
-    def alias(self):
-        warnings.warn(
-            "alias attribute is deprecated and may be removed in a future version of gdsfactory",
-            DeprecationWarning,
-        )
-        return self.name
-
     def __repr__(self) -> str:
         """Return a string representation of the object."""
         return (
@@ -623,7 +614,7 @@ class ComponentReference(_GeometryHelper):
         if port_name is not None:
             position = self.ports[port_name]
             x0 = position.x
-        self.reflect((x0, 1), (x0, 0))
+        self.mirror((x0, 1), (x0, 0))
         return self
 
     def reflect_v(
@@ -636,7 +627,7 @@ class ComponentReference(_GeometryHelper):
         if port_name is not None:
             position = self.ports[port_name]
             y0 = position.y
-        self.reflect((1, y0), (0, y0))
+        self.mirror((1, y0), (0, y0))
         return self
 
     def mirror(
@@ -678,13 +669,6 @@ class ComponentReference(_GeometryHelper):
 
         self._bb_valid = False
         return self
-
-    def reflect(self, *args, **kwargs):
-        warnings.warn(
-            "reflect is deprecated and may be removed in a future version of gdsfactory. Use mirror instead.",
-            DeprecationWarning,
-        )
-        return self.mirror(*args, **kwargs)
 
     def connect(
         self,
