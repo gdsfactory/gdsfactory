@@ -17,7 +17,7 @@ def test_add_pins_with_routes(optical_routing_type) -> gf.Component:
     )
     pins_component = cc.extract(layers=(LAYER.PORT,))
     assert len(pins_component.paths) == 12, len(pins_component.paths)
-    return cc
+    return pins_component
 
 
 def test_add_pins() -> None:
@@ -28,9 +28,9 @@ def test_add_pins() -> None:
 
 
 if __name__ == "__main__":
-    test_add_pins()
-    # c = test_add_pins_with_routes(0)
-    # c.show(show_ports=True)
+    # test_add_pins()
+    c = test_add_pins_with_routes(0)
+    c.show(show_ports=True)
 
     # test_add_pins_with_routes(1)
 

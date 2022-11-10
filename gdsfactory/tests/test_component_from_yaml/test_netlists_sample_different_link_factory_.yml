@@ -1,4 +1,24 @@
-connections: {}
+connections:
+  bend_euler_1,o1: straight_1,o2
+  bend_euler_1,o2: straight_2,o1
+  bend_euler_10,o1: bend_euler_9,o2
+  bend_euler_10,o2: straight_9,o1
+  bend_euler_11,o1: straight_9,o2
+  bend_euler_11,o2: bend_euler_12,o1
+  bend_euler_12,o2: straight_10,o1
+  bend_euler_2,o1: straight_2,o2
+  bend_euler_2,o2: straight_3,o1
+  bend_euler_3,o1: straight_3,o2
+  bend_euler_3,o2: bend_euler_4,o1
+  bend_euler_4,o2: straight_4,o1
+  bend_euler_5,o1: straight_4,o2
+  bend_euler_5,o2: bend_euler_6,o1
+  bend_euler_6,o2: straight_5,o1
+  bend_euler_7,o1: straight_6,o2
+  bend_euler_7,o2: straight_7,o1
+  bend_euler_8,o1: straight_7,o2
+  bend_euler_8,o2: straight_8,o1
+  bend_euler_9,o1: straight_8,o2
 instances:
   bend_euler_1:
     component: bend_euler
@@ -659,3 +679,30 @@ placements:
     x: 900.0
     y: 600.0
 ports: {}
+warnings:
+  optical:
+    unconnected_ports:
+    - message: 4 unconnected optical ports!
+      ports:
+      - straight_1,o1
+      - straight_5,o2
+      - straight_6,o1
+      - straight_10,o2
+      values:
+      - '[50.0,0.0]'
+      - '[850.0,400.0]'
+      - '[50.0,200.0]'
+      - '[850.0,600.0]'
+  vertical_dc:
+    unconnected_ports:
+    - message: 4 unconnected vertical_dc ports!
+      ports:
+      - bl,pad
+      - tl,pad
+      - br,pad
+      - tr,pad
+      values:
+      - '[0.0,0.0]'
+      - '[0.0,200.0]'
+      - '[900.0,400.0]'
+      - '[900.0,600.0]'
