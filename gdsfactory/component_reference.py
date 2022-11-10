@@ -343,8 +343,9 @@ class ComponentReference(_GeometryHelper):
                 raise ValueError(
                     f"This reference's owner already has a reference with name {value!r}. Please choose another name."
                 )
+            self.owner._named_references.pop(self._name, None)
             self._name = value
-            self.owner._reference_names_used.add(value)
+            self.owner._named_references[value] = self
 
     @property
     def alias(self):

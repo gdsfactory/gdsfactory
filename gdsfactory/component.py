@@ -142,6 +142,7 @@ class Component(_GeometryHelper):
         self.get_child_name = False
         self._reference_names_counter = Counter()
         self._reference_names_used = set()
+        self._named_references = dict()
 
         self.ports = {}
         self.aliases = {}
@@ -338,7 +339,7 @@ class Component(_GeometryHelper):
 
     @property
     def named_references(self):
-        return {ref.name: ref for ref in self.references}
+        return self._named_references
 
     @property
     def aliases(self):
@@ -1158,11 +1159,12 @@ class Component(_GeometryHelper):
                 self._reference_names_counter.update({prefix: 1})
                 alias = f"{prefix}_{self._reference_names_counter[prefix]}"
 
-                while alias in self._reference_names_used:
+                while alias in self._named_references:
                     self._reference_names_counter.update({prefix: 1})
                     alias = f"{prefix}_{self._reference_names_counter[prefix]}"
 
         reference.name = alias
+        self._named_references[alias] = reference
 
     @property
     def layers(self):
@@ -1731,6 +1733,7 @@ class Component(_GeometryHelper):
                 self.references.remove(item)
                 self._cell.remove(item._reference)
                 item.owner = None
+                self._named_references.pop(item.name)
             else:
                 self._cell.remove(item)
 
@@ -2039,25 +2042,23 @@ def test_bbox_component() -> None:
 
 
 if __name__ == "__main__":
-    c = test_extract()
-    c.show()
+    # c = test_extract()
+    # c.show()
 
     # test_get_layers()
     # test_netlist_simple_width_mismatch_throws_error()
 
-    # c = Component("parent")
-    # c = Component("child")
-    # length = 10
-    # width = 0.5
-    # layer = (1, 0)
-    # c.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
-    # c.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=(2, 0))
-    # c = c.remove_layers([(1, 0)])
-    # c.show()
-    # print(c.hash_geometry())
+    c = Component("parent")
+    c2 = Component("child")
+    length = 10
+    width = 0.5
+    layer = (1, 0)
+    c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
+    c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=(2, 0))
 
-    # c << c2
-    # c.show()
+    c << c2
+    c.show()
+
     # length = 10
     # width = 0.5
     # layer = (1, 0)
