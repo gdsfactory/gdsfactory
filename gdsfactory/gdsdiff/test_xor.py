@@ -33,9 +33,9 @@ def test_no_differences() -> None:
 
 
 if __name__ == "__main__":
-    test_no_differences()
-    test_differences()
-    # c1 = gf.components.straight(length=2)
-    # c2 = gf.components.straight(length=2)
-    # c = xor_polygons(c1, c2, hash_geometry=False)
-    # c.show(show_ports=True)
+    # test_no_differences()
+    # test_differences()
+    c1 = gf.components.mzi(length_x=3)
+    c2 = gf.components.mzi(length_x=2)
+    c = xor_polygons(c1, c2, hash_geometry=False)
+    c.show(show_ports=True)
