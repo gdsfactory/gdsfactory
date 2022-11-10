@@ -143,11 +143,9 @@ class Component(_GeometryHelper):
         self._reference_names_counter = Counter()
         self._reference_names_used = set()
         self._named_references = dict()
+        self._references = []
 
         self.ports = {}
-        self.aliases = {}
-
-        self._references = []
 
     @property
     def references(self):
@@ -341,21 +339,6 @@ class Component(_GeometryHelper):
     def named_references(self):
         return self._named_references
 
-    @property
-    def aliases(self):
-        warnings.warn(
-            "aliases attribute has been renamed to named_references and may be deprecated in a future version of gdsfactory",
-            DeprecationWarning,
-        )
-        return self.named_references
-
-    @aliases.setter
-    def aliases(self, value):
-        warnings.warn(
-            "Setting aliases is no longer supported. aliases attribute has been renamed to named_references and may be deprecated in a future version of gdsfactory. This operation will have no effect.",
-            DeprecationWarning,
-        )
-
     def add_label(
         self,
         text: str = "hello",
@@ -376,7 +359,7 @@ class Component(_GeometryHelper):
             anchor: {'n', 'e', 's', 'w', 'o', 'ne', 'nw', ...}
                 Position of the anchor relative to the text.
             layer: Specific layer(s) to put Label on.
-            x_reflection: If True, the label is reflected across the horizontal axis before rotation.
+            x_reflection: True reflects across the horizontal axis before rotation.
         """
         from gdsfactory.pdk import get_layer
 
@@ -1080,8 +1063,7 @@ class Component(_GeometryHelper):
                 Elements in the Component to align.
             alignment : {'x', 'y', 'xmin', 'xmax', 'ymin', 'ymax'}
                 Which edge to align along (e.g. 'ymax' will move the elements such
-                that all of their topmost points are aligned)
-
+                that all of their topmost points are aligned).
         """
         if elements == "all":
             elements = self.polygons + self.references
@@ -1130,12 +1112,12 @@ class Component(_GeometryHelper):
         self.add_ref(new_component, alias=ref.name)
 
     def add_ref(
-        self, component: "Component", alias: Optional[str] = None
+        self, component: "Component", alias: Optional[str] = None, **kwargs
     ) -> "ComponentReference":
         """Add ComponentReference to the current Component."""
         if not isinstance(component, Component):
             raise TypeError(f"type = {type(Component)} needs to be a Component.")
-        ref = ComponentReference(component)
+        ref = ComponentReference(component, **kwargs)
         self._add(ref)
         self._register_reference(reference=ref, alias=alias)
         return ref

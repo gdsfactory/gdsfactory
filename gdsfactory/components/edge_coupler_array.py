@@ -38,9 +38,11 @@ def edge_coupler_array(
     c = Component()
     for i in range(n):
         ref = edge_coupler.ref(h_mirror=h_mirror, v_mirror=v_mirror)
-        c.aliases[i] = ref
+        c.add(ref)
         ref.y = i * pitch
         c.add(ref)
+        # ref.name = f"ec_{i}"
+
         for port in ref.get_ports_list():
             c.add_port(f"{port.name}_{i}", port=port)
 
