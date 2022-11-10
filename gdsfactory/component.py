@@ -852,11 +852,13 @@ class Component(_GeometryHelper):
         # component._cell.filter(spec=layers, remove=False)
 
         component = Component()
-        poly_dict = self._cell.get_polygons(include_paths=False)
+        poly_dict = self.get_polygons(by_spec=True, include_paths=False)
 
-        for poly in poly_dict:
-            if poly.layer in layers:
-                component.add_polygon(poly.points, layer=(poly.layer, poly.datatype))
+        for layer in layers:
+            if layer in poly_dict:
+                polygons = poly_dict[layer]
+                for polygon in polygons:
+                    component.add_polygon(polygon)
 
         for layer in layers:
             for path in self._cell.get_paths(layer=layer):
@@ -2008,6 +2010,7 @@ def test_extract() -> None:
 
     assert len(c.polygons) == 2, len(c.polygons)
     assert len(c2.polygons) == 1, len(c2.polygons)
+    return c2
 
 
 def hash_file(filepath):
@@ -2036,8 +2039,8 @@ def test_bbox_component() -> None:
 
 
 if __name__ == "__main__":
-    test_extract()
-    # c.show()
+    c = test_extract()
+    c.show()
 
     # test_get_layers()
     # test_netlist_simple_width_mismatch_throws_error()
