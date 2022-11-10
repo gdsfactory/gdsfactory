@@ -1097,7 +1097,8 @@ class Component(_GeometryHelper):
 
         poly_dict = self.get_polygons(by_spec=True, include_paths=False)
         for layer, polys in poly_dict.items():
-            component_flat.add_polygon(polys, layer=single_layer or layer)
+            if polys:
+                component_flat.add_polygon(polys, layer=single_layer or layer)
 
         for path in self._cell.get_paths():
             component_flat.add(path)
