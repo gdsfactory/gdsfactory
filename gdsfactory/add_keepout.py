@@ -26,7 +26,7 @@ def add_keepout(
     c = Component()
     c << component
     for layer in target_layers:
-        polygons = component.get_polygons(by_spec=layer)
+        polygons = component.get_polygons(by_spec=layer, as_array=False)
         if polygons:
             for ko_layer in keepout_layers:
                 ko_layer = _parse_layer(ko_layer)
