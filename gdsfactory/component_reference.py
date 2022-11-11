@@ -1,4 +1,5 @@
 import typing
+from collections import defaultdict
 from typing import Any, Dict, List, Optional, Tuple, Union, cast
 
 import gdstk
@@ -215,7 +216,13 @@ class ComponentReference(_GeometryHelper):
     def parent(self, value):
         self.ref_cell = value
 
-    def get_polygons(self, by_spec=False, depth=None, include_paths: bool = True):
+    def get_polygons(
+        self,
+        by_spec=False,
+        depth=None,
+        include_paths: bool = True,
+        as_array: bool = True,
+    ):
         """Return the list of polygons created by this reference.
 
         Args:
@@ -230,6 +237,7 @@ class ComponentReference(_GeometryHelper):
                 in a bounding box.  If `by_spec` is True the key will be the
                 name of the referenced cell.
             include_paths: If True, polygonal representation of paths are also included in the result.
+            as_array: when as_array=false, return the Polygon objects instead. polygon objects have more information (especially when by_spec=False) and will be faster to retrieve.
 
         Returns
             out : list of array-like[N][2] or dictionary
@@ -242,12 +250,12 @@ class ComponentReference(_GeometryHelper):
             the result by computing their polygonal boundary.
         """
         if not by_spec:
-            return self._reference.get_polygons(
+            polygons = self._reference.get_polygons(
                 depth=depth, include_paths=include_paths
             )
         elif by_spec is True:
             layers = self.parent.get_layers()
-            return {
+            polygons = {
                 layer: self._reference.get_polygons(
                     depth=depth,
                     layer=layer[0],
@@ -258,12 +266,24 @@ class ComponentReference(_GeometryHelper):
             }
 
         else:
-            return self._reference.get_polygons(
+            polygons = self._reference.get_polygons(
                 depth=depth,
                 layer=by_spec[0],
                 datatype=by_spec[1],
                 include_paths=include_paths,
             )
+
+        if as_array:
+            if by_spec:
+                layer_to_polygons = defaultdict(list)
+                for layer, polygons_list in polygons.items():
+                    for polygon in polygons_list:
+                        layer_to_polygons[layer].append(polygon.points)
+                return layer_to_polygons
+            else:
+                return [polygon.points for polygon in polygons]
+        else:
+            return polygons
 
     def get_labels(self, depth=None, set_transform=False):
         """Return the list of labels created by this reference.
