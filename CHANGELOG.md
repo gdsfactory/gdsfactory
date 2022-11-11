@@ -18,6 +18,9 @@
     * fix to_3d
     * fix quickplo
 - Fix gmeep get_simulation center issue [PR](https://github.com/gdsfactory/gdsfactory/pull/834)
+- get_polygons [PR](https://github.com/gdsfactory/gdsfactory/pull/846)
+- replace deprecated reflect by mirror [PR](https://github.com/gdsfactory/gdsfactory/pull/838)
+- remove aliases [PR](https://github.com/gdsfactory/gdsfactory/pull/835)
 
 ## 5.56.0
 
