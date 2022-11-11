@@ -273,17 +273,15 @@ class ComponentReference(_GeometryHelper):
                 include_paths=include_paths,
             )
 
-        if as_array:
-            if by_spec:
-                layer_to_polygons = defaultdict(list)
-                for layer, polygons_list in polygons.items():
-                    for polygon in polygons_list:
-                        layer_to_polygons[layer].append(polygon.points)
-                return layer_to_polygons
-            else:
-                return [polygon.points for polygon in polygons]
-        else:
+        if not as_array:
             return polygons
+        if not by_spec:
+            return [polygon.points for polygon in polygons]
+        layer_to_polygons = defaultdict(list)
+        for layer, polygons_list in polygons.items():
+            for polygon in polygons_list:
+                layer_to_polygons[layer].append(polygon.points)
+        return layer_to_polygons
 
     def get_labels(self, depth=None, set_transform=False):
         """Return the list of labels created by this reference.
