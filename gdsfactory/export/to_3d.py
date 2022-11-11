@@ -44,7 +44,7 @@ def to_3d(
 
     has_polygons = False
 
-    for layer, polygons in component.get_polygons(by_spec=True).items():
+    for layer, polygons in component.get_polygons(by_spec=True, as_array=False).items():
         if (
             layer not in exclude_layers
             and layer in layer_to_thickness
