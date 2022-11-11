@@ -44,7 +44,7 @@ jupyter_lab_settings = """
 
 anaconda_navigator_settings = """
 {
-    "menu_name": "gdsfactory Anaconda Navigator",
+    "menu_name": "gdsfactory Navigator",
     "menu_items":
         [
             {
