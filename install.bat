@@ -4,17 +4,15 @@ pip install lytest simphony sax jax sklearn klayout devsim
 pip install "jaxlib[cuda111]" -f https://whls.blob.core.windows.net/unstable/index.html --use-deprecated legacy-resolver
 pip install gdsfactory==5.54.0
 gf tool install
-cd ..
-set GF_PATH=%cd%
 
+call ..\condabin\conda activate
+call ..\conda install -c conda-forge git -y
 if exist "%USERPROFILE%\Desktop\gdsfactory" (goto SKIP_INSTALL)
 cd %USERPROFILE%\Desktop
-call %GF_PATH%\condabin\conda activate
-call conda install -c conda-forge git -y
 call git clone https://github.com/gdsfactory/gdsfactory.git
 
 cd gdsfactory
-%GF_PATH%\python shortcuts.py %GF_PATH%
+python shortcuts.py
 
 :SKIP_INSTALL
 echo gdsfactory installed
