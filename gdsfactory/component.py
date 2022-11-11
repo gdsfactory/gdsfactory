@@ -155,10 +155,6 @@ class Component(_GeometryHelper):
     def polygons(self):
         return self._cell.polygons
 
-    @polygons.setter
-    def polygons(self, value):
-        self._cell.polygons = value
-
     @property
     def area(self):
         return self._cell.area
@@ -175,25 +171,19 @@ class Component(_GeometryHelper):
     def name(self):
         return self._cell.name
 
-    @paths.setter
-    def paths(self, value):
-        self._cell.paths = value
-
-    @labels.setter
-    def labels(self, value):
-        self._cell.labels = value
-
     @name.setter
     def name(self, value):
         self._cell.name = value
 
     def get_polygons(
         self,
-        by_spec: bool = False,
+        by_spec: Union[bool, Tuple[int, int]] = False,
         depth: Optional[int] = None,
         include_paths: bool = True,
-    ):
+    ) -> Union[List[Polygon], Dict[Tuple[int, int], List[Polygon]]]:
         """Return a list of polygons in this cell.
+
+        if by_spec is
 
         Args:
             by_spec: bool or tuple
@@ -219,18 +209,31 @@ class Component(_GeometryHelper):
             Instances of `FlexPath` and `RobustPath` are also included in
             the result by computing their polygonal boundary.
         """
-        if not by_spec:
+        import gdsfactory as gf
+
+        if by_spec is True:
+            layers = self.get_layers()
+            return {
+                layer: self._cell.get_polygons(
+                    depth=depth,
+                    layer=layer[0],
+                    datatype=layer[1],
+                    include_paths=include_paths,
+                )
+                for layer in layers
+            }
+
+        elif not by_spec:
             return self._cell.get_polygons(depth=depth, include_paths=include_paths)
-        layers = self.get_layers()
-        return {
-            layer: self._cell.get_polygons(
+
+        else:
+            layer = gf.get_layer(by_spec)
+            return self._cell.get_polygons(
                 depth=depth,
                 layer=layer[0],
                 datatype=layer[1],
                 include_paths=include_paths,
             )
-            for layer in layers
-        }
 
     def get_dependencies(self, recursive: bool = False) -> List["Component"]:
         """Return a set of the cells included in this cell as references.
@@ -1736,6 +1739,13 @@ class Component(_GeometryHelper):
     def get_labels(
         self, apply_repetitions=True, depth: Optional[int] = None, layer=None
     ) -> List[Label]:
+        """Return labels.
+
+        Args:
+            apply_repetitions:.
+            depth: None returns all labels and 0 top level.
+            layer: layerspec.
+        """
         from gdsfactory.pdk import get_layer
 
         if layer:
@@ -1749,13 +1759,9 @@ class Component(_GeometryHelper):
             texttype=texttype,
         )
 
-    def remove_labels(
-        self, apply_repetitions=True, depth: Optional[int] = None, layer=None
-    ) -> None:
-        labels = self.get_labels(
-            apply_repetitions=apply_repetitions, depth=depth, layer=layer
-        )
-        self._cell.remove(*labels)
+    def remove_labels(self) -> None:
+        """Remove labels."""
+        self._cell.remove(*self.labels)
 
     # Deprecated
     def get_info(self):
@@ -1775,7 +1781,7 @@ class Component(_GeometryHelper):
 
     def remap_layers(
         self, layermap, include_labels: bool = True, include_paths: bool = True
-    ):
+    ) -> "Component":
         """Moves all polygons in the Component from one layer to another according to the layermap argument.
 
         Args:
@@ -2024,14 +2030,13 @@ def test_remap_layers() -> None:
     assert remap.hash_geometry() == "1c12fcddd61dc167c80c847abe371b3f8af84a1b"
 
 
-# FIXME
-# def test_remove_labels() -> None:
-#     import gdsfactory as gf
+def test_remove_labels() -> None:
+    import gdsfactory as gf
 
-#     c = gf.c.straight()
-#     c.remove_labels(depth=0)
+    c = gf.c.straight()
+    c.remove_labels()
 
-#     assert len(c.labels) == 0
+    assert len(c.labels) == 0
 
 
 def test_import_gds_settings():
@@ -2043,9 +2048,13 @@ def test_import_gds_settings():
     c3 = gf.routing.add_fiber_single(c2)
     assert c3
 
-    # c = gf.c.straight()
-    # c.remove_labels(depth=0)
-    # print(c.labels)
+
+if __name__ == "__main__":
+    import gdsfactory as gf
+
+    c = gf.c.straight()
+    c.remove_labels()
+    print(c.labels)
 
     # c = gf.components.straight(layer=(2, 0))
     # remap = c.remap_layers(layermap={(2, 0): gf.LAYER.WGN})
