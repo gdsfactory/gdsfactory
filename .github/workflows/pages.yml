@@ -33,8 +33,6 @@ jobs:
           # sudo dpkg -i pandoc-1.16.0.2-1-amd64.deb
           sudo apt install pandoc
           make gdslib plugins-debian full
-          pip install -r requirements_sipann.txt
-          pip install -r requirements_dev.txt
       - name: Running the Sphinx to gh-pages Action
         uses: uibcdf/action-sphinx-docs-to-gh-pages@v1.0-beta.2
         env:
