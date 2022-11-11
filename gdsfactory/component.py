@@ -209,6 +209,8 @@ class Component(_GeometryHelper):
             Instances of `FlexPath` and `RobustPath` are also included in
             the result by computing their polygonal boundary.
         """
+        import gdsfactory as gf
+
         if by_spec is True:
             layers = self.get_layers()
             return {
@@ -225,10 +227,11 @@ class Component(_GeometryHelper):
             return self._cell.get_polygons(depth=depth, include_paths=include_paths)
 
         else:
+            layer = gf.get_layer(by_spec)
             return self._cell.get_polygons(
                 depth=depth,
-                layer=by_spec[0],
-                datatype=by_spec[1],
+                layer=layer[0],
+                datatype=layer[1],
                 include_paths=include_paths,
             )
 
