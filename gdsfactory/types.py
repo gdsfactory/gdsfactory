@@ -40,6 +40,7 @@ from typing_extensions import Literal
 
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.cross_section import CrossSection
+from gdsfactory.layers import LayerColor, LayerColors
 from gdsfactory.port import Port
 from gdsfactory.tech import LayerLevel, LayerStack
 
@@ -249,6 +250,8 @@ __all__ = (
     "Strs",
     "LayerStack",
     "LayerLevel",
+    "LayerColor",
+    "LayerColors",
 )
 
 
