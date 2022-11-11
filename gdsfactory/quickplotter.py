@@ -271,7 +271,7 @@ def quickplot(items, **kwargs):  # noqa: C901
                         )
                         bbox = _update_bbox(bbox, new_bbox)
             if isinstance(item, Component) and label_aliases is True:
-                for name, ref in item.aliases.items():
+                for name, ref in item.named_references.items():
                     ax.text(
                         ref.x,
                         ref.y,
@@ -988,7 +988,7 @@ def quickplot2(item_list, *args, **kwargs):
                         viewer.add_port(port, is_subport=True)
                 for port in element.ports.values():
                     viewer.add_port(port)
-                    viewer.add_aliases(element.aliases)
+                    viewer.add_aliases(element.named_references)
             # If element is a ComponentReference, draw ports as subports
             if isinstance(element, ComponentReference):
                 for port in element.ports.values():
