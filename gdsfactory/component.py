@@ -213,27 +213,51 @@ class Component(_GeometryHelper):
 
         if by_spec is True:
             layers = self.get_layers()
-            return {
-                layer: self._cell.get_polygons(
+            polygon_dict = {}
+            for layer in layers:
+                polygon = self._cell.get_polygons(
                     depth=depth,
                     layer=layer[0],
                     datatype=layer[1],
                     include_paths=include_paths,
                 )
-                for layer in layers
-            }
+                polygon_dict[layer] = np.asarray(
+                        [
+                            [polygon[0], polygon[0]],
+                            [polygon[0], polygon[1]],
+                            [polygon[1], polygon[0]],
+                            [polygon[1], polygon[1]],
+                        ]
+                    )
+            return polygon_dict
 
         elif not by_spec:
-            return self._cell.get_polygons(depth=depth, include_paths=include_paths)
+            polygon = self._cell.get_polygons(depth=depth, include_paths=include_paths)
+            return np.asarray(
+                        [
+                            [polygon[0], polygon[0]],
+                            [polygon[0], polygon[1]],
+                            [polygon[1], polygon[0]],
+                            [polygon[1], polygon[1]],
+                        ]
+                    )
 
         else:
             layer = gf.get_layer(by_spec)
-            return self._cell.get_polygons(
+            polygon = self._cell.get_polygons(
                 depth=depth,
                 layer=layer[0],
                 datatype=layer[1],
                 include_paths=include_paths,
             )
+            return np.asarray(
+                        [
+                            [polygon[0], polygon[0]],
+                            [polygon[0], polygon[1]],
+                            [polygon[1], polygon[0]],
+                            [polygon[1], polygon[1]],
+                        ]
+                    )
 
     def get_dependencies(self, recursive: bool = False) -> List["Component"]:
         """Return a set of the cells included in this cell as references.
