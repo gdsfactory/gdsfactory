@@ -2087,12 +2087,11 @@ def test_import_gds_settings():
 
 
 if __name__ == "__main__":
-    # import gdsfactory as gf
-    test_remap_layers()
+    import gdsfactory as gf
 
-    # c = gf.c.mzi()
-    # c = c.flatten()
-    # c.show()
+    c = gf.c.mzi()
+    c = c.flatten()
+    c.show()
 
     # c.remove_labels()
     # print(c.labels)
