@@ -198,7 +198,7 @@ def fill_rectangle(
     F = Component()
 
     avoid_layers = [_parse_layer(layer) for layer in _loop_over(avoid_layers)]
-    exclude_polys = D.get_polygons(by_spec=True, depth=None)
+    exclude_polys = D.get_polygons(by_spec=True, depth=None, as_array=False)
 
     if avoid_layers:
         exclude_polys = {

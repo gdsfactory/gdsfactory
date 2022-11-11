@@ -1,12 +1,13 @@
 import datetime
 import hashlib
+import itertools
 import math
 import os
 import pathlib
 import tempfile
 import uuid
 import warnings
-from collections import Counter
+from collections import Counter, defaultdict
 from collections.abc import Iterable
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
@@ -175,18 +176,21 @@ class Component(_GeometryHelper):
     def name(self, value):
         self._cell.name = value
 
+    def __iter__(self):
+        """You can iterate over polygons, paths, labels and references."""
+        return itertools.chain(self.polygons, self.paths, self.labels, self.references)
+
     def get_polygons(
         self,
         by_spec: Union[bool, Tuple[int, int]] = False,
         depth: Optional[int] = None,
         include_paths: bool = True,
+        as_array: bool = True,
     ) -> Union[List[Polygon], Dict[Tuple[int, int], List[Polygon]]]:
         """Return a list of polygons in this cell.
 
-        if by_spec is
-
         Args:
-            by_spec: bool or tuple
+            by_spec: bool or layer
                 If True, the return value is a dictionary with the
                 polygons of each individual pair (layer, datatype), which
                 are used as keys.  If set to a tuple of (layer, datatype),
@@ -196,11 +200,11 @@ class Component(_GeometryHelper):
                 retrieve polygons.  References below this level will result
                 in a bounding box.  If `by_spec` is True the key will be the
                 name of this cell.
-
             include_paths: If True, polygonal representation of paths are also included in the result.
+            as_array: when as_array=false, return the Polygon objects instead. polygon objects have more information (especially when by_spec=False) and will be faster to retrieve.
 
         Returns
-            out : list of array-like[N][2] or dictionary
+            out: list of array-like[N][2] or dictionary
                 List containing the coordinates of the vertices of each
                 polygon, or dictionary with with the list of polygons (if
                 `by_spec` is True).
@@ -213,27 +217,60 @@ class Component(_GeometryHelper):
 
         if by_spec is True:
             layers = self.get_layers()
-            return {
-                layer: self._cell.get_polygons(
+
+            layer_to_polygons = defaultdict(list)
+
+            if as_array:
+                for layer in layers:
+                    for polygon in self._cell.get_polygons(
+                        depth=depth,
+                        layer=layer[0],
+                        datatype=layer[1],
+                        include_paths=include_paths,
+                    ):
+                        layer_to_polygons[layer].append(polygon.points)
+            else:
+                for layer in layers:
+                    for polygon in self._cell.get_polygons(
+                        depth=depth,
+                        layer=layer[0],
+                        datatype=layer[1],
+                        include_paths=include_paths,
+                    ):
+                        layer_to_polygons[layer].append(polygon)
+            return layer_to_polygons
+
+        elif not by_spec:
+            if as_array:
+                return [
+                    polygon.points
+                    for polygon in self._cell.get_polygons(
+                        depth=depth, include_paths=include_paths
+                    )
+                ]
+
+            else:
+                return self._cell.get_polygons(depth=depth, include_paths=include_paths)
+
+        else:
+            layer = gf.get_layer(by_spec)
+            if as_array:
+                return [
+                    polygon.points
+                    for polygon in self._cell.get_polygons(
+                        depth=depth,
+                        layer=layer[0],
+                        datatype=layer[1],
+                        include_paths=include_paths,
+                    )
+                ]
+            else:
+                return self._cell.get_polygons(
                     depth=depth,
                     layer=layer[0],
                     datatype=layer[1],
                     include_paths=include_paths,
                 )
-                for layer in layers
-            }
-
-        elif not by_spec:
-            return self._cell.get_polygons(depth=depth, include_paths=include_paths)
-
-        else:
-            layer = gf.get_layer(by_spec)
-            return self._cell.get_polygons(
-                depth=depth,
-                layer=layer[0],
-                datatype=layer[1],
-                include_paths=include_paths,
-            )
 
     def get_dependencies(self, recursive: bool = False) -> List["Component"]:
         """Return a set of the cells included in this cell as references.
@@ -1068,7 +1105,7 @@ class Component(_GeometryHelper):
         """
         component_flat = Component()
 
-        poly_dict = self.get_polygons(by_spec=True, include_paths=False)
+        poly_dict = self.get_polygons(by_spec=True, include_paths=False, as_array=False)
         for layer, polys in poly_dict.items():
             if polys:
                 component_flat.add_polygon(polys, layer=single_layer or layer)
@@ -1720,7 +1757,7 @@ class Component(_GeometryHelper):
                 (0.124, 1.748) to (0.12, 1.75).
 
         """
-        polygons_by_spec = self.get_polygons(by_spec=True)
+        polygons_by_spec = self.get_polygons(by_spec=True, as_array=False)
         layers = np.array(list(polygons_by_spec.keys()))
         sorted_layers = layers[np.lexsort((layers[:, 0], layers[:, 1]))]
 
@@ -2050,11 +2087,15 @@ def test_import_gds_settings():
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
+    # import gdsfactory as gf
+    test_remap_layers()
 
-    c = gf.c.straight()
-    c.remove_labels()
-    print(c.labels)
+    # c = gf.c.mzi()
+    # c = c.flatten()
+    # c.show()
+
+    # c.remove_labels()
+    # print(c.labels)
 
     # c = gf.components.straight(layer=(2, 0))
     # remap = c.remap_layers(layermap={(2, 0): gf.LAYER.WGN})
