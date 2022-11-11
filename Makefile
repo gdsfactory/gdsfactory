@@ -3,18 +3,20 @@ help:
 	@echo 'make test:             Run tests with pytest'
 	@echo 'make test-force:       Rebuilds regression test'
 
+full: gdslib
+	pip install -r requirements_dev.txt
+	pip install -r requirements_full.txt
+	pip install -e .
+	pip install -r requirements_tidy3d.txt
+	pip install -r requirements_sipann.txt
+	pip install -r requirements_devsim.txt
+
 install: gdslib
 	pip install -r requirements_dev.txt
 	pip install -r requirements_full.txt
 	pip install -e .
 	pre-commit install
 	gf tool install
-
-full: install
-	pip install -r requirements_tidy3d.txt
-	pip install -r requirements_sipann.txt
-	pip install -r requirements_devsim.txt
-
 
 mamba:
 	bash mamba.sh
