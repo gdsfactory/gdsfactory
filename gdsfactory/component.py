@@ -222,25 +222,25 @@ class Component(_GeometryHelper):
                     include_paths=include_paths,
                 )
                 polygon_dict[layer] = np.asarray(
-                        [
-                            [polygon[0], polygon[0]],
-                            [polygon[0], polygon[1]],
-                            [polygon[1], polygon[0]],
-                            [polygon[1], polygon[1]],
-                        ]
-                    )
+                    [
+                        [polygon[0], polygon[0]],
+                        [polygon[0], polygon[1]],
+                        [polygon[1], polygon[0]],
+                        [polygon[1], polygon[1]],
+                    ]
+                )
             return polygon_dict
 
         elif not by_spec:
             polygon = self._cell.get_polygons(depth=depth, include_paths=include_paths)
             return np.asarray(
-                        [
-                            [polygon[0], polygon[0]],
-                            [polygon[0], polygon[1]],
-                            [polygon[1], polygon[0]],
-                            [polygon[1], polygon[1]],
-                        ]
-                    )
+                [
+                    [polygon[0], polygon[0]],
+                    [polygon[0], polygon[1]],
+                    [polygon[1], polygon[0]],
+                    [polygon[1], polygon[1]],
+                ]
+            )
 
         else:
             layer = gf.get_layer(by_spec)
@@ -251,13 +251,13 @@ class Component(_GeometryHelper):
                 include_paths=include_paths,
             )
             return np.asarray(
-                        [
-                            [polygon[0], polygon[0]],
-                            [polygon[0], polygon[1]],
-                            [polygon[1], polygon[0]],
-                            [polygon[1], polygon[1]],
-                        ]
-                    )
+                [
+                    [polygon[0], polygon[0]],
+                    [polygon[0], polygon[1]],
+                    [polygon[1], polygon[0]],
+                    [polygon[1], polygon[1]],
+                ]
+            )
 
     def get_dependencies(self, recursive: bool = False) -> List["Component"]:
         """Return a set of the cells included in this cell as references.
