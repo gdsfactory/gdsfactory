@@ -344,7 +344,7 @@ if __name__ == "__main__":
         port1=port1,
         port2=port2,
         cross_section=cross_section,
-        resolution=5,
+        resolution=10,
         distance=6.5,
         avoid_layers=("M1",),
     )
