@@ -62,9 +62,9 @@ anaconda_navigator_settings = """
 
 
 def shortcuts(settings: str):
-    with open(f"{sys.argv[1]}/settings.json", "w") as f:
+    with open("settings.json", "w") as f:
         json.dump(json.loads(settings), f)
-    menuinst.install(f"{sys.argv[1]}/settings.json", prefix=f"{sys.argv[1]}")
+    menuinst.install("settings.json", prefix=sys.executable.strip("python.exe"))
 
 
 if __name__ == "__main__":
