@@ -220,23 +220,16 @@ class Component(_GeometryHelper):
 
             layer_to_polygons = defaultdict(list)
 
-            if as_array:
-                for layer in layers:
-                    for polygon in self._cell.get_polygons(
+            for layer in layers:
+                for polygon in self._cell.get_polygons(
                         depth=depth,
                         layer=layer[0],
                         datatype=layer[1],
                         include_paths=include_paths,
                     ):
+                    if as_array:
                         layer_to_polygons[layer].append(polygon.points)
-            else:
-                for layer in layers:
-                    for polygon in self._cell.get_polygons(
-                        depth=depth,
-                        layer=layer[0],
-                        datatype=layer[1],
-                        include_paths=include_paths,
-                    ):
+                    else:
                         layer_to_polygons[layer].append(polygon)
             return layer_to_polygons
 
