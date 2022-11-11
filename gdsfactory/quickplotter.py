@@ -285,7 +285,7 @@ def quickplot(items, **kwargs):  # noqa: C901
         elif isinstance(item, Polygon):
             layerprop = _get_layerprop(item.layer, item.datatype)
             new_bbox = _draw_polygons(
-                item,
+                item.points,
                 ax,
                 facecolor=layerprop["color"],
                 edgecolor="k",
@@ -391,8 +391,6 @@ def _get_layerprop(layer, datatype):
 
 def _draw_polygons(polygons, ax, **kwargs):
     from matplotlib.collections import PolyCollection
-
-    polygons = [polygon.points for polygon in polygons]
 
     coll = PolyCollection(polygons, **kwargs)
     ax.add_collection(coll)
