@@ -222,11 +222,11 @@ class Component(_GeometryHelper):
 
             for layer in layers:
                 for polygon in self._cell.get_polygons(
-                        depth=depth,
-                        layer=layer[0],
-                        datatype=layer[1],
-                        include_paths=include_paths,
-                    ):
+                    depth=depth,
+                    layer=layer[0],
+                    datatype=layer[1],
+                    include_paths=include_paths,
+                ):
                     if as_array:
                         layer_to_polygons[layer].append(polygon.points)
                     else:
