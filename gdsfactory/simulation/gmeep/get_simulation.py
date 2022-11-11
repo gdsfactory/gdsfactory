@@ -204,7 +204,7 @@ def get_simulation(
     frequency_width = dfcen * fcen
 
     # Add source
-    port = component_extended.ports[port_source_name]
+    port = component_ref.ports[port_source_name]
     angle_rad = np.radians(port.orientation)
     width = port.width + 2 * port_margin
     size_x = width * abs(np.sin(angle_rad))
@@ -262,7 +262,7 @@ def get_simulation(
     # Add port monitors dict
     monitors = {}
     for port_name in component_ref.ports.keys():
-        port = component_extended.ports[port_name]
+        port = component_ref.ports[port_name]
         angle_rad = np.radians(port.orientation)
         width = port.width + 2 * port_margin
         size_x = width * abs(np.sin(angle_rad))

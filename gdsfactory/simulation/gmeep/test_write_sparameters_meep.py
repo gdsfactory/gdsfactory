@@ -46,10 +46,7 @@ def test_sparameters_straight_symmetric() -> None:
 
 
 def test_sparameters_crossing_symmetric() -> None:
-    """Checks Sparameters for a waveguide crossing.
-
-    Exploits symmetries.
-    """
+    """Checks Sparameters for a waveguide crossing exploiting symmetries."""
     c = gf.components.crossing()
     sp = gm.write_sparameters_meep(
         c,
@@ -142,13 +139,11 @@ def test_sparameters_lazy_parallelism() -> None:
 
 
 if __name__ == "__main__":
-    # test_sparameters_straight(None)
-    # test_sparameters_straight_symmetric(False)
+    test_sparameters_straight()
     # test_sparameters_straight_mpi(None)
     # test_sparameters_crossing_symmetric(False)
     # test_sparameterslazy_parallelism()
-    # test_sparameters_straight()
     # test_sparameters_straight_symmetric()
-    test_sparameters_straight_batch()
+    # test_sparameters_straight_batch()
     # test_sparameters_straight_mpi()
     # test_sparameters_crossing_symmetric()
