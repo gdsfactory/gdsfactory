@@ -10,13 +10,14 @@ def check_width(
     min_width: float = 0.150,
     dbu: float = 1e3,
 ) -> int:
-    """Reads layer from top cell and returns a number of edges violating min width
+    """Reads layer from top cell and returns a number of edges violating min width.
 
     Args:
-        gdspath: path to GDS or Component
-        layer: tuple (int, int)
-        min_width: in um
-        dbu: database units (1000 um/nm)
+        gdspath: path to GDS or Component.
+        layer: tuple (int, int).
+        min_width: in um.
+        dbu: database units (1000 um/nm).
+
     """
     import klayout.db as pya
 
@@ -34,7 +35,7 @@ def check_width(
     return len(region.width_check(min_width * dbu))
 
 
-def demo():
+def demo() -> None:
     import klayout.db as pya
 
     a = pya.Region()

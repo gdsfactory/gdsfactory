@@ -1,9 +1,10 @@
+import pathlib
+import tempfile
 import uuid
 from typing import Tuple
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.config import dirpath_build
 from gdsfactory.types import ComponentOrPath
 
 valid_operations = ("xor", "not", "and", "or")
@@ -18,15 +19,15 @@ def boolean_klayout(
     layer3: Tuple[int, int] = (2, 0),
     operation: str = "xor",
 ) -> Component:
-    """Returns a boolean operation between two components
-    Uses klayout python API
+    """Returns a boolean operation between two components Uses klayout python API.
 
     Args:
-        gdspath1: path to GDS or Component
-        gdspath2: path to GDS or Component
-        layer1: tuple for gdspath1
-        layer2: tuple for gdspath2
-        layer3: for the result of the operation
+        gdspath1: path to GDS or Component.
+        gdspath2: path to GDS or Component.
+        layer1: tuple for gdspath1.
+        layer2: tuple for gdspath2.
+        layer3: for the result of the operation.
+
     """
     import klayout.db as pya
 
@@ -67,12 +68,14 @@ def boolean_klayout(
 
     layout3_top.shapes(layout3.layer(layer3[0], layer3[1])).insert(result)
 
+    dirpath_build = pathlib.Path(tempfile.TemporaryDirectory().name)
+    dirpath_build.mkdir(exist_ok=True, parents=True)
     gdspath = str(dirpath_build / f"{cellname}.gds")
     layout3.write(gdspath)
     return gf.import_gds(gdspath)
 
 
-def _demo():
+def _demo() -> None:
     import klayout.db as pya
 
     import gdsfactory as gf
@@ -115,7 +118,7 @@ def _demo():
     gf.show("boolean.gds")
 
 
-def _show_shapes():
+def _show_shapes() -> None:
     c1 = gf.components.ellipse(radii=[8, 8], layer=(1, 0))
     c2 = gf.components.ellipse(radii=[11, 4], layer=(1, 0))
     c3 = gf.Component()
@@ -129,4 +132,4 @@ if __name__ == "__main__":
     c1 = gf.components.ellipse(radii=[8, 8], layer=(1, 0))
     c2 = gf.components.ellipse(radii=[11, 4], layer=(1, 0))
     c = boolean_klayout(c1, c2, operation="not")
-    c.show()
+    c.show(show_ports=True)

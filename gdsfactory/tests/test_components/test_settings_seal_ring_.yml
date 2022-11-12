@@ -1,357 +1,37 @@
-cells:
-  compass_15ee2b40:
-    changed:
-      layer:
-      - 49
-      - 0
-      size:
-      - 10
-      - 2620
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 49
-      - 0
-      port_type: electrical
-      size:
-      - 10
-      - 2620
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_15ee2b40
-  compass_3cd46b3c:
-    changed:
-      layer:
-      - 45
-      - 0
-      size:
-      - 10
-      - 2620
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 45
-      - 0
-      port_type: electrical
-      size:
-      - 10
-      - 2620
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_3cd46b3c
-  compass_66656d48:
-    changed:
-      layer:
-      - 41
-      - 0
-      size:
-      - 1340
-      - 10
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 41
-      - 0
-      port_type: electrical
-      size:
-      - 1340
-      - 10
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_66656d48
-  compass_8c3f8867:
-    changed:
-      layer:
-      - 49
-      - 0
-      size:
-      - 1340
-      - 10
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 49
-      - 0
-      port_type: electrical
-      size:
-      - 1340
-      - 10
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_8c3f8867
-  compass_91e624c6:
-    changed:
-      layer:
-      - 41
-      - 0
-      size:
-      - 10
-      - 2620
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 41
-      - 0
-      port_type: electrical
-      size:
-      - 10
-      - 2620
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_91e624c6
-  compass_d2826c31:
-    changed:
-      layer:
-      - 45
-      - 0
-      size:
-      - 1340
-      - 10
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 45
-      - 0
-      port_type: electrical
-      size:
-      - 1340
-      - 10
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_d2826c31
-  contact_1decffff:
-    changed:
-      size:
-      - 1340
-      - 10
-    default:
-      layer_port: null
-      layers:
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 11
-      - 11
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    full:
-      layer_port: null
-      layers:
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 1340
-      - 10
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    function_name: contact
-    info_version: 1
-    layer:
-    - 49
-    - 0
-    module: gdsfactory.components.contact
-    name: contact_1decffff
-    size:
-    - 1340
-    - 10
-  contact_2be49dce:
-    changed:
-      size:
-      - 10
-      - 2620
-    default:
-      layer_port: null
-      layers:
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 11
-      - 11
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    full:
-      layer_port: null
-      layers:
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 10
-      - 2620
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    function_name: contact
-    info_version: 1
-    layer:
-    - 49
-    - 0
-    module: gdsfactory.components.contact
-    name: contact_2be49dce
-    size:
-    - 10
-    - 2620
-  seal_ring_d41d8cd9:
-    changed: {}
-    default:
-      component:
-        function: rectangle
-        size:
-        - 1300
-        - 2600
-      padding: 10
-      seal:
-        function: contact
-      width: 10
-      with_east: true
-      with_north: true
-      with_south: true
-      with_west: true
-    full:
-      component:
-        function: rectangle
-        size:
-        - 1300
-        - 2600
-      padding: 10
-      seal:
-        function: contact
-      width: 10
-      with_east: true
-      with_north: true
-      with_south: true
-      with_west: true
-    function_name: seal_ring
-    info_version: 1
-    module: gdsfactory.components.seal_ring
-    name: seal_ring_d41d8cd9
-info:
+name: seal_ring
+settings:
   changed: {}
+  child: null
   default:
-    component:
-      function: rectangle
-      size:
-      - 1300
-      - 2600
-    padding: 10
+    bbox:
+    - - -1.0
+      - -1.0
+    - - 3.0
+      - 4.0
+    padding: 10.0
     seal:
-      function: contact
+      function: via_stack
     width: 10
     with_east: true
     with_north: true
     with_south: true
     with_west: true
   full:
-    component:
-      function: rectangle
-      size:
-      - 1300
-      - 2600
-    padding: 10
+    bbox:
+    - - -1.0
+      - -1.0
+    - - 3.0
+      - 4.0
+    padding: 10.0
     seal:
-      function: contact
+      function: via_stack
     width: 10
     with_east: true
     with_north: true
     with_south: true
     with_west: true
   function_name: seal_ring
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.seal_ring
-  name: seal_ring_d41d8cd9
-ports: {}
-version: 1
+  name: seal_ring

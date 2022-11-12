@@ -3,32 +3,36 @@ from pytest_regressions.data_regression import DataRegressionFixture
 import gdsfactory as gf
 
 yaml_str = """
+name: component_yaml_ports
 
 ports:
   o1:
     name: o1
-    midpoint:
+    center:
         - -0.5
         - 0.225
     width: 0.45
     orientation: 180
     port_type: optical
+    layer: WG
   o2:
     name: o2
-    midpoint:
+    center:
         - 13
         - 3.675
     width: 0.45
     orientation: 0
     port_type: optical
+    layer: [1, 0]
   o3:
     name: o3
-    midpoint:
+    center:
         - 13
         - -3.225
     width: 0.45
     orientation: 0
     port_type: optical
+    layer: [1, 0]
 
 instances:
     mmi_bot:
@@ -43,12 +47,11 @@ instances:
 def test_component_from_yaml_ports(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
-    c = gf.read.from_yaml(yaml_str)
     if check:
+        c = gf.read.from_yaml(yaml_str)
         data_regression.check(c.to_dict())
 
 
 if __name__ == "__main__":
-    from omegaconf import OmegaConf
-
-    d = OmegaConf.create(yaml_str)
+    # test_component_from_yaml_ports(None, check=False)
+    c = gf.read.from_yaml(yaml_str)

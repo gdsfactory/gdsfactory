@@ -1,93 +1,54 @@
-cells:
-  straight_59648496:
-    changed:
-      cross_section:
-        cladding_offset: 0
-        function: cross_section
-        layers_cladding:
-        - - 3
-          - 0
-        sections:
-        - slab
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        cladding_offset: 0
-        function: cross_section
-        layers_cladding:
-        - - 3
-          - 0
-        sections:
-        - slab
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 10
-    module: gdsfactory.components.straight
-    name: straight_59648496
-    width: 0.5
-info:
+name: straight_d1e9c63d
+settings:
   changed:
     cross_section:
-      cladding_offset: 0
       function: cross_section
-      layers_cladding:
-      - - 3
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
+        bbox_layers:
+        - SLAB90
+        bbox_offsets:
+        - 3
+        cladding_layers:
+        - DEVREC
+        cladding_offsets:
         - 0
-      sections:
-      - slab
+  child: null
   default:
-    cross_section:
-      function: cross_section
-    length: 10
+    cross_section: strip
+    length: 10.0
     npoints: 2
-    with_cladding_box: true
+    with_bbox: true
   full:
     cross_section:
-      cladding_offset: 0
       function: cross_section
-      layers_cladding:
-      - - 3
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
+        bbox_layers:
+        - SLAB90
+        bbox_offsets:
+        - 3
+        cladding_layers:
+        - DEVREC
+        cladding_offsets:
         - 0
-      sections:
-      - slab
-    length: 10
+    length: 10.0
     npoints: 2
-    with_cladding_box: true
+    with_bbox: true
   function_name: straight
-  info_version: 1
-  length: 10
+  info:
+    length: 10.0
+    width: 0.5
+  info_version: 2
   module: gdsfactory.components.straight
-  name: straight_59648496
-  width: 0.5
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 10
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 0.5
-version: 1
+  name: straight_d1e9c63d

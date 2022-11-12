@@ -5,9 +5,17 @@ from gdsfactory.component import Component
 
 LENGTH = 0.5
 
+straight = gf.partial(
+    gf.components.straight,
+    with_bbox=True,
+    cladding_layers=None,
+    add_pins=None,
+    add_bbox=None,
+)
+
 
 def test_label_fiber_array(length=LENGTH) -> Component:
-    c = gf.components.straight(length=LENGTH)
+    c = straight(length=LENGTH)
     cell_name = c.name
 
     assert len(c.labels) == 0, len(c.labels)
@@ -34,7 +42,7 @@ def test_label_fiber_array(length=LENGTH) -> Component:
 
 def test_label_fiber_single_loopback(length=LENGTH) -> Component:
     """Test that adds the correct label for measurements."""
-    c = gf.components.straight(length=length)
+    c = straight(length=length)
     cell_name = c.name
 
     assert len(c.labels) == 0, len(c.labels)
@@ -56,8 +64,8 @@ def test_label_fiber_single_loopback(length=LENGTH) -> Component:
     return c
 
 
-def test_labels_fiber_array(num_regression):
-    c = gf.components.straight(length=3)
+def test_labels_fiber_array(num_regression) -> None:
+    c = straight(length=3)
     assert len(c.labels) == 0, len(c.labels)
 
     # Loopback does not have labels
@@ -66,8 +74,8 @@ def test_labels_fiber_array(num_regression):
     labels = {
         label.text: np.array(
             [
-                label.position[0],
-                label.position[1],
+                label.origin[0],
+                label.origin[1],
                 label.layer,
             ]
         )
@@ -77,8 +85,8 @@ def test_labels_fiber_array(num_regression):
         num_regression.check(labels)
 
 
-def test_labels_fiber_single(num_regression):
-    c = gf.components.straight(length=3)
+def test_labels_fiber_single(num_regression) -> None:
+    c = straight(length=3)
     assert len(c.labels) == 0, len(c.labels)
 
     cte = gf.routing.add_fiber_single(component=c, with_loopback=True)
@@ -86,26 +94,26 @@ def test_labels_fiber_single(num_regression):
     labels = {
         label.text: np.array(
             [
-                label.position[0],
-                label.position[1],
+                label.origin[0],
+                label.origin[1],
                 label.layer,
             ]
         )
         for label in cte.labels
     }
-    if labels:
+    if num_regression:
         num_regression.check(labels)
 
 
 if __name__ == "__main__":
-    # c = test_label_fiber_array()
-    # c = test_label_fiber_array()
-    c = test_label_fiber_single_loopback()
-    c.show()
+    c = test_label_fiber_array()
+    # test_labels_fiber_single(None)
+    # c = test_label_fiber_single_loopback()
+    c.show(show_ports=True)
 
     # c = gf.components.straight()
     # assert len(c.labels) == 0
 
     # c = gf.routing.add_fiber_array(component=c, with_loopback=True)
     # print(len(c.labels))
-    # c.show()
+    # c.show(show_ports=True)

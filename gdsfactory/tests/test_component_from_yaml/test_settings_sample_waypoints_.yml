@@ -1,269 +1,104 @@
-cells:
-  bend_euler_93ab05a3:
-    changed:
-      auto_widen: false
-      cross_section:
-        function: cross_section
-    default:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    dy: 10
-    full:
-      angle: 90
-      auto_widen: false
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    function_name: bend_euler
-    info_version: 1
-    length: 16.637
-    module: gdsfactory.components.bend_euler
-    name: bend_euler_93ab05a3
-    radius: 10
-    radius_min: 7.061
-  pad_array_b84950ef:
-    changed:
-      orientation: 90
-    default:
-      columns: 6
-      orientation: 270
-      pad:
-        function: pad
-      rows: 1
-      spacing:
-      - 150
-      - 150
-    full:
-      columns: 6
-      orientation: 90
-      pad:
-        function: pad
-      rows: 1
-      spacing:
-      - 150
-      - 150
-    function_name: pad_array
-    info_version: 1
-    module: gdsfactory.components.pad
-    name: pad_array_b84950ef
-    size:
-    - 100
-    - 100
-  pad_array_fe55c938:
-    changed:
-      orientation: 270
-    default:
-      columns: 6
-      orientation: 270
-      pad:
-        function: pad
-      rows: 1
-      spacing:
-      - 150
-      - 150
-    full:
-      columns: 6
-      orientation: 270
-      pad:
-        function: pad
-      rows: 1
-      spacing:
-      - 150
-      - 150
-    function_name: pad_array
-    info_version: 1
-    module: gdsfactory.components.pad
-    name: pad_array_fe55c938
-    size:
-    - 100
-    - 100
-  sample_waypoints: {}
-  straight_0e209496:
-    changed:
-      auto_widen: false
-      cross_section:
-        function: cross_section
-      length: 140
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      auto_widen: false
-      cross_section:
-        function: cross_section
-      length: 140
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 140
-    module: gdsfactory.components.straight
-    name: straight_0e209496
-    width: 0.5
-  straight_1a997572:
-    changed:
-      auto_widen: false
-      cross_section:
-        function: cross_section
-      length: 630
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      auto_widen: false
-      cross_section:
-        function: cross_section
-      length: 630
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 630
-    module: gdsfactory.components.straight
-    name: straight_1a997572
-    width: 0.5
-  straight_27026560:
-    changed:
-      auto_widen: false
-      cross_section:
-        function: cross_section
-      length: 290
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      auto_widen: false
-      cross_section:
-        function: cross_section
-      length: 290
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 290
-    module: gdsfactory.components.straight
-    name: straight_27026560
-    width: 0.5
-  straight_61c245c0:
-    changed:
-      auto_widen: false
-      cross_section:
-        function: cross_section
-      length: 80
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      auto_widen: false
-      cross_section:
-        function: cross_section
-      length: 80
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 80
-    module: gdsfactory.components.straight
-    name: straight_61c245c0
-    width: 0.5
-  straight_9dca303a:
-    changed:
-      auto_widen: false
-      cross_section:
-        function: cross_section
-      length: 590
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      auto_widen: false
-      cross_section:
-        function: cross_section
-      length: 590
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 590
-    module: gdsfactory.components.straight
-    name: straight_9dca303a
-    width: 0.5
-  straight_b169702d:
-    changed:
-      auto_widen: false
-      cross_section:
-        function: cross_section
-      length: 380
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      auto_widen: false
-      cross_section:
-        function: cross_section
-      length: 380
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 380
-    module: gdsfactory.components.straight
-    name: straight_b169702d
-    width: 0.5
-  straight_d04bc13d:
-    changed:
-      auto_widen: false
-      cross_section:
-        function: cross_section
-      length: 440
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      auto_widen: false
-      cross_section:
-        function: cross_section
-      length: 440
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 440
-    module: gdsfactory.components.straight
-    name: straight_d04bc13d
-    width: 0.5
-info:
-  name: sample_waypoints
-ports: {}
-version: 1
+name: sample_waypoints_51e45344
+settings:
+  changed:
+    conf:
+      instances:
+        b:
+          component: pad_array
+          settings:
+            orientation: 90
+        t:
+          component: pad_array
+          settings:
+            orientation: 270
+      name: sample_waypoints
+      placements:
+        t:
+          x: -250
+          y: 1000
+      routes:
+        route1:
+          links:
+            b,e11: t,e11
+            b,e12: t,e12
+  child: null
+  default:
+    label_instance_function:
+      function: add_instance_label
+    routing_strategy:
+      get_bundle:
+        function: get_bundle
+      get_bundle_electrical:
+        function: get_bundle
+        settings:
+          bend:
+            function: wire_corner
+          cross_section: metal_routing
+      get_bundle_from_steps:
+        function: get_bundle_from_steps
+      get_bundle_from_steps_electrical:
+        function: get_bundle_from_steps
+        settings:
+          bend:
+            function: wire_corner
+          cross_section: metal_routing
+      get_bundle_from_waypoints:
+        function: get_bundle_from_waypoints
+      get_bundle_path_length_match:
+        function: get_bundle_path_length_match
+      get_bundle_same_axis_no_grouping:
+        function: get_bundle_same_axis_no_grouping
+  full:
+    conf:
+      instances:
+        b:
+          component: pad_array
+          settings:
+            orientation: 90
+        t:
+          component: pad_array
+          settings:
+            orientation: 270
+      name: sample_waypoints
+      placements:
+        t:
+          x: -250
+          y: 1000
+      routes:
+        route1:
+          links:
+            b,e11: t,e11
+            b,e12: t,e12
+    label_instance_function:
+      function: add_instance_label
+    routing_strategy:
+      get_bundle:
+        function: get_bundle
+      get_bundle_electrical:
+        function: get_bundle
+        settings:
+          bend:
+            function: wire_corner
+          cross_section: metal_routing
+      get_bundle_from_steps:
+        function: get_bundle_from_steps
+      get_bundle_from_steps_electrical:
+        function: get_bundle_from_steps
+        settings:
+          bend:
+            function: wire_corner
+          cross_section: metal_routing
+      get_bundle_from_waypoints:
+        function: get_bundle_from_waypoints
+      get_bundle_path_length_match:
+        function: get_bundle_path_length_match
+      get_bundle_same_axis_no_grouping:
+        function: get_bundle_same_axis_no_grouping
+  function_name: _from_yaml
+  info:
+    instances:
+    - t
+    - b
+  info_version: 2
+  module: gdsfactory.read.from_yaml
+  name: sample_waypoints_51e45344

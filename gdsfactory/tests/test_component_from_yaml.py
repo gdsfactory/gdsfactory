@@ -1,5 +1,3 @@
-import itertools as it
-
 import jsondiff
 import numpy as np
 import pytest
@@ -8,7 +6,7 @@ from pytest_regressions.data_regression import DataRegressionFixture
 
 from gdsfactory.component import Component
 from gdsfactory.difftest import difftest
-from gdsfactory.read.from_yaml import from_yaml, sample_mmis
+from gdsfactory.read.from_yaml import from_yaml, sample_doe_function, sample_mmis
 
 sample_connections = """
 name: sample_connections
@@ -103,7 +101,10 @@ routes:
             mmi_bottom,o3: mmi_top,o2
 
         settings:
-            layer: [2, 0]
+            cross_section:
+                cross_section: strip
+                settings:
+                    layer: [2, 0]
 
 """
 
@@ -114,7 +115,7 @@ def test_connections_2x2() -> Component:
     assert len(c.ports) == 0, len(c.ports)
 
     length = c.routes["mmi_bottom,o3:mmi_top,o2"]
-    assert np.isclose(length, 165.774), length
+    assert np.isclose(length, 168.274), length
     return c
 
 
@@ -148,14 +149,20 @@ routes:
     electrical:
         settings:
             separation: 20
-            layer: [31, 0]
-            width: 10
+            cross_section:
+                cross_section: metal3_with_bend
+                settings:
+                    layer: [31, 0]
+                    width: 10
         links:
             tl,e3: tr,e1
             bl,e3: br,e1
     optical:
         settings:
-            radius: 100
+            cross_section:
+                cross_section: strip
+                settings:
+                    radius: 100
         links:
             bl,e4: br,e3
 
@@ -441,6 +448,61 @@ placements:
         dy: 10
 """
 
+sample_doe = """
+name: mask
+
+instances:
+    mmi1x2_sweep:
+       component: pack_doe
+       settings:
+         doe: mmi1x2
+         do_permutations: True
+         spacing: 100
+         settings:
+           length_mmi: [2, 100]
+           width_mmi: [4, 10]
+"""
+
+sample_doe_grid = """
+name: mask_grid
+
+instances:
+    mmi1x2_sweep:
+       component: pack_doe_grid
+       settings:
+         doe: mmi1x2
+         do_permutations: True
+         spacing: [100, 100]
+         shape: [2, 2]
+         settings:
+           length_mmi: [2, 100]
+           width_mmi: [4, 10]
+"""
+
+sample_rotation = """
+name: sample_rotation
+
+instances:
+  r1:
+    component: rectangle
+    settings:
+        size: [4, 2]
+  r2:
+    component: rectangle
+    settings:
+        size: [2, 4]
+
+placements:
+    r1:
+        xmin: 0
+        ymin: 0
+    r2:
+        rotation: -90
+        xmin: r1,east
+        ymin: 0
+
+"""
+
 # FIXME: Fix both unconmmented cases
 # yaml_fail should actually fail
 # sample_different_factory: returns a zero length straight that gives an error
@@ -458,6 +520,10 @@ yaml_strings = dict(
     sample_mirror_simple=sample_mirror_simple,
     sample_connections=sample_connections,
     sample_mmis=sample_mmis,
+    sample_doe=sample_doe,
+    # sample_doe_grid=sample_doe_grid,
+    sample_doe_function=sample_doe_function,
+    sample_rotation=sample_rotation,
 )
 
 
@@ -482,84 +548,71 @@ def test_settings(
     return c
 
 
-@pytest.mark.parametrize(
-    "yaml_key,full_settings", it.product(yaml_strings.keys(), [True, False])
-)
+@pytest.mark.parametrize("yaml_key", yaml_strings.keys())
 def test_netlists(
     yaml_key: str,
-    full_settings: bool,
     data_regression: DataRegressionFixture,
     check: bool = True,
 ) -> None:
-    """Write netlists for hierarchical circuits.
-    Checks that both netlists are the same
-    jsondiff does a hierarchical diff
+    """Write netlists for hierarchical circuits. Checks that both netlists are
+    the same jsondiff does a hierarchical diff Component -> netlist ->
+    Component -> netlist.
 
-    Component -> netlist -> Component -> netlist
+    Args:
+        yaml_key: to test.
+        data_regression: for regression test.
+        check: False, skips test.
+
     """
     yaml_string = yaml_strings[yaml_key]
     c = from_yaml(yaml_string)
-    n = c.get_netlist(full_settings=full_settings)
+    n = c.get_netlist()
     if check:
-        data_regression.check(OmegaConf.to_container(n))
+        data_regression.check(n)
 
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
+
     # print(yaml_str)
-    c2 = from_yaml(yaml_str)
-    n2 = c2.get_netlist(full_settings=full_settings)
-    d = jsondiff.diff(n, n2)
-    assert len(d) == 0, print(d)
-    return c2
+    c2 = from_yaml(yaml_str, name=c.name)
+    n2 = c2.get_netlist()
+    # pprint(d)
+    # assert len(d) == 0, pprint(d)
+    return jsondiff.diff(n, n2)
 
 
-def _demo_netlist():
-    """path on the route"""
+def _demo_netlist() -> None:
+    """path on the route."""
     import gdsfactory as gf
 
     # c = from_yaml(sample_2x2_connections)
     c = from_yaml(sample_waypoints)
     c = from_yaml(sample_different_factory)
-    c.show()
-    full_settings = True
-    n = c.get_netlist(full_settings=full_settings)
+    c.show(show_ports=True)
+    n = c.get_netlist()
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
     c2 = from_yaml(yaml_str)
-    n2 = c2.get_netlist(full_settings=full_settings)
+    n2 = c2.get_netlist()
     d = jsondiff.diff(n, n2)
     assert len(d) == 0
     gf.show(c2)
 
 
 if __name__ == "__main__":
-    # c = from_yaml(sample_2x2_connections)
-    # c = from_yaml(sample_different_factory)
-    # c = test_sample()
-    # c = test_netlists("sample_mmis", True, None, check=False)
-    # c = test_connections_regex()
-    # c = test_connections_regex_backwargs()
-    # c = test_mirror()
-    # c = test_connections()
     # c = test_connections_different_factory()
-
     # c = test_sample()
-    # c = test_connections_2x2()
-    # c = test_connections_different_factory()
-    # c = test_connections_different_link_factory()
-    # c = test_connections_waypoints()
-    # c = test_docstring_sample()
-    # c = test_settings("yaml_anchor", None, False)
-    # c = test_netlists("yaml_anchor", True, None, False)
-    # c = test_netlists("sample_waypoints", True, None, False)
-    # c = from_yaml(sample_docstring)
-    # c = from_yaml(sample_different_link_factory)
-    # c = from_yaml(sample_mirror_simple)
-    # c = from_yaml(sample_waypoints)
-    c = test_netlists("sample_different_link_factory", True, None, check=False)
+    # c = test_sa
 
-    # c = from_yaml(sample_different_factory)
-    # c = from_yaml(sample_different_link_factory)
-    # c = from_yaml(sample_waypoints)
-    # c = from_yaml(sample_docstring)
-    # c = from_yaml(sample_regex_connections)
-    # c = from_yaml(sample_regex_connections_backwards)
+    # c = test_netlists("sample_mmis", None, False)
+    yaml_key = "sample_doe_function"
+    # yaml_key = "sample_mmis"
+    yaml_string = yaml_strings[yaml_key]
+    c = from_yaml(yaml_string)
+    # n = c.get_netlist()
+    # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
+    # c2 = from_yaml(yaml_str)
+    # n2 = c2.get_netlist()
+    # d = jsondiff.diff(n, n2)
+    # pprint(d)
+    # c2.show()
+
     c.show()

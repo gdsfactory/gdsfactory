@@ -12,7 +12,7 @@ def component_with_straight(component: gf.Component) -> gf.Component:
     return c
 
 
-def test_validator_pass():
+def test_validator_pass() -> None:
     component = gf.components.straight(length=10)
     component_with_straight(component=component)
 
@@ -23,7 +23,7 @@ def test_validator_pass():
 #         component_with_straight(component=component)
 
 
-def test_validator_fail_name_too_long():
+def test_validator_fail_name_too_long() -> None:
     component = gf.Component(name="a" * 200)
 
     # component_with_straight(component=component)

@@ -1,0 +1,40 @@
+connections:
+  ring_single_1,o2: straight_1,o1
+  ring_single_2,o1: straight_1,o2
+instances:
+  ring_single_1:
+    component: ring_single
+    settings:
+      length_x: 10.0
+      radius: 5.0
+  ring_single_2:
+    component: ring_single
+    settings:
+      length_x: 20.0
+  straight_1:
+    component: straight
+    info:
+      length: 5.0
+      width: 0.5
+    settings:
+      length: 5.0
+name: ring_single_array
+placements:
+  ring_single_1:
+    mirror: 0
+    rotation: 0
+    x: 0.0
+    y: 0.0
+  ring_single_2:
+    mirror: 0
+    rotation: 0
+    x: 40.0
+    y: 0.0
+  straight_1:
+    mirror: 0
+    rotation: 0
+    x: 5.0
+    y: 0.0
+ports:
+  o1: ring_single_1,o1
+  o2: ring_single_2,o2

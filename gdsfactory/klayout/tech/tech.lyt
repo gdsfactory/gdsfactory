@@ -2,40 +2,221 @@
 <technology>
  <name>generic</name>
  <description/>
- <original-base-path/>
+ <group/>
+ <dbu>0.001</dbu>
+ <base-path/>
+ <original-base-path>/home/jmatres/gdsfactory/gdsfactory/klayout/tech</original-base-path>
  <layer-properties_file>layers.lyp</layer-properties_file>
  <add-other-layers>true</add-other-layers>
- <layer-map/>
- <create-other-layers>true</create-other-layers>
- <lef-def-import>
-  <read-all-layers>true</read-all-layers>
-  <layer-map/>
-  <dbu>0.001</dbu>
-  <produce-net-names>true</produce-net-names>
-  <net-property-name>#1</net-property-name>
-  <produce-cell-outlines>true</produce-cell-outlines>
-  <cell-outline-layer>OUTLINE</cell-outline-layer>
-  <produce-placement-blockages>true</produce-placement-blockages>
-  <placement-blockage-layer>PLACEMENT_BLK</placement-blockage-layer>
-  <produce-via-geometry>true</produce-via-geometry>
-  <via-geometry-suffix/>
-  <via-geometry-datatype>0</via-geometry-datatype>
-  <produce-pins>true</produce-pins>
-  <pins-suffix>.PIN</pins-suffix>
-  <pins-datatype>2</pins-datatype>
-  <produce-obstructions>true</produce-obstructions>
-  <obstructions-suffix>.OBS</obstructions-suffix>
-  <obstructions-datatype>3</obstructions-datatype>
-  <produce-blockages>true</produce-blockages>
-  <blockages-suffix>.BLK</blockages-suffix>
-  <blockages-datatype>4</blockages-datatype>
-  <produce-labels>true</produce-labels>
-  <labels-suffix>.LABEL</labels-suffix>
-  <labels-datatype>1</labels-datatype>
-  <produce-routing>true</produce-routing>
-  <routing-suffix/>
-  <routing-datatype>0</routing-datatype>
- </lef-def-import>
+ <reader-options>
+  <gds2>
+   <box-mode>1</box-mode>
+   <allow-big-records>true</allow-big-records>
+   <allow-multi-xy-records>true</allow-multi-xy-records>
+  </gds2>
+  <common>
+   <create-other-layers>true</create-other-layers>
+   <layer-map>layer_map()</layer-map>
+   <enable-properties>true</enable-properties>
+   <enable-text-objects>true</enable-text-objects>
+  </common>
+  <lefdef>
+   <read-all-layers>true</read-all-layers>
+   <layer-map>layer_map()</layer-map>
+   <dbu>0.001</dbu>
+   <produce-net-names>true</produce-net-names>
+   <net-property-name>#1</net-property-name>
+   <produce-inst-names>true</produce-inst-names>
+   <inst-property-name>#1</inst-property-name>
+   <produce-pin-names>false</produce-pin-names>
+   <pin-property-name>#1</pin-property-name>
+   <produce-cell-outlines>true</produce-cell-outlines>
+   <cell-outline-layer>OUTLINE</cell-outline-layer>
+   <produce-placement-blockages>true</produce-placement-blockages>
+   <placement-blockage-layer>PLACEMENT_BLK</placement-blockage-layer>
+   <produce-regions>true</produce-regions>
+   <region-layer>REGIONS</region-layer>
+   <produce-via-geometry>true</produce-via-geometry>
+   <via_geometry-suffix-string/>
+   <via_geometry-datatype-string>0</via_geometry-datatype-string>
+   <produce-pins>true</produce-pins>
+   <pins-suffix-string>.PIN</pins-suffix-string>
+   <pins-datatype-string>2</pins-datatype-string>
+   <produce-lef-pins>true</produce-lef-pins>
+   <lef_pins-suffix-string>.PIN</lef_pins-suffix-string>
+   <lef_pins-datatype-string>2</lef_pins-datatype-string>
+   <produce-fills>true</produce-fills>
+   <fills-suffix-string>.FILL</fills-suffix-string>
+   <fills-datatype-string>5</fills-datatype-string>
+   <produce-obstructions>true</produce-obstructions>
+   <obstructions-suffix>.OBS</obstructions-suffix>
+   <obstructions-datatype>3</obstructions-datatype>
+   <produce-blockages>true</produce-blockages>
+   <blockages-suffix>.BLK</blockages-suffix>
+   <blockages-datatype>4</blockages-datatype>
+   <produce-labels>true</produce-labels>
+   <labels-suffix>.LABEL</labels-suffix>
+   <labels-datatype>1</labels-datatype>
+   <produce-lef-labels>true</produce-lef-labels>
+   <lef-labels-suffix>.LABEL</lef-labels-suffix>
+   <lef-labels-datatype>1</lef-labels-datatype>
+   <produce-routing>true</produce-routing>
+   <routing-suffix-string/>
+   <routing-datatype-string>0</routing-datatype-string>
+   <produce-special-routing>true</produce-special-routing>
+   <special-routing-suffix-string/>
+   <special-routing-datatype-string>0</special-routing-datatype-string>
+   <via-cellname-prefix>VIA_</via-cellname-prefix>
+   <read-lef-with-def>true</read-lef-with-def>
+   <macro-resolution-mode>default</macro-resolution-mode>
+   <separate-groups>false</separate-groups>
+   <map-file/>
+  </lefdef>
+  <mebes>
+   <invert>false</invert>
+   <subresolution>true</subresolution>
+   <produce-boundary>true</produce-boundary>
+   <num-stripes-per-cell>64</num-stripes-per-cell>
+   <num-shapes-per-cell>0</num-shapes-per-cell>
+   <data-layer>1</data-layer>
+   <data-datatype>0</data-datatype>
+   <data-name>DATA</data-name>
+   <boundary-layer>0</boundary-layer>
+   <boundary-datatype>0</boundary-datatype>
+   <boundary-name>BORDER</boundary-name>
+   <layer-map>layer_map()</layer-map>
+   <create-other-layers>true</create-other-layers>
+  </mebes>
+  <dxf>
+   <dbu>0.001</dbu>
+   <unit>1</unit>
+   <text-scaling>100</text-scaling>
+   <circle-points>100</circle-points>
+   <circle-accuracy>0</circle-accuracy>
+   <contour-accuracy>0</contour-accuracy>
+   <polyline-mode>0</polyline-mode>
+   <render-texts-as-polygons>false</render-texts-as-polygons>
+   <keep-other-cells>false</keep-other-cells>
+   <keep-layer-names>false</keep-layer-names>
+   <create-other-layers>true</create-other-layers>
+   <layer-map>layer_map()</layer-map>
+  </dxf>
+  <cif>
+   <wire-mode>0</wire-mode>
+   <dbu>0.001</dbu>
+   <layer-map>layer_map()</layer-map>
+   <create-other-layers>true</create-other-layers>
+   <keep-layer-names>false</keep-layer-names>
+  </cif>
+  <mag>
+   <lambda>1</lambda>
+   <dbu>0.001</dbu>
+   <layer-map>layer_map()</layer-map>
+   <create-other-layers>true</create-other-layers>
+   <keep-layer-names>false</keep-layer-names>
+   <merge>true</merge>
+   <lib-paths>
+   </lib-paths>
+  </mag>
+ </reader-options>
+ <writer-options>
+  <format>GDS2</format>
+  <gds2>
+   <write-timestamps>true</write-timestamps>
+   <write-cell-properties>false</write-cell-properties>
+   <write-file-properties>false</write-file-properties>
+   <no-zero-length-paths>false</no-zero-length-paths>
+   <multi-xy-records>false</multi-xy-records>
+   <resolve-skew-arrays>false</resolve-skew-arrays>
+   <max-vertex-count>8000</max-vertex-count>
+   <max-cellname-length>32000</max-cellname-length>
+   <libname>LIB</libname>
+  </gds2>
+  <oasis>
+   <compression-level>2</compression-level>
+   <write-cblocks>false</write-cblocks>
+   <strict-mode>false</strict-mode>
+   <write-std-properties>1</write-std-properties>
+   <subst-char>*</subst-char>
+   <permissive>false</permissive>
+  </oasis>
+  <cif>
+   <polygon-mode>0</polygon-mode>
+  </cif>
+  <cif>
+   <dummy-calls>false</dummy-calls>
+   <blank-separator>false</blank-separator>
+  </cif>
+  <mag>
+   <lambda>0</lambda>
+   <tech/>
+   <write-timestamp>true</write-timestamp>
+  </mag>
+ </writer-options>
+ <d25>
+  <src># Provide z stack information here
+#
+# Each line is one layer. The specification consists of a layer specification, a colon and arguments.
+# The arguments are named (like "x=...") or in serial. Parameters are separated by comma or blanks.
+# Named arguments are:
+#
+#   zstart   The lower z position of the extruded layer in µm
+#   zstop    The upper z position of the extruded layer in µm
+#   height   The height of the extruded layer in µm
+#
+# 'height', 'zstart' and 'zstop' can be used in any combination. If no value is given for 'zstart',
+# the upper level of the previous layer will be used.
+#
+# If a single unnamed parameter is given, it corresponds to 'height'. Two parameters correspond to
+# 'zstart' and 'zstop'.
+#
+# Examples:
+#   1: 0.5 1.5                    # extrude layer 1/0 from 0.5 to 1.5 vertically
+#   1/0: 0.5 1.5                  # same with explicit datatype
+#   1: zstop=1.5, zstart=0.5      # same with named parameters
+#   1: height=1.0, zstop=1.5      # same with z stop minus height
+#   1: 1.0 zstop=1.5              # same with height as unnamed parameter
+#
+# VARIABLES
+#
+# You can declare variables with:
+#   var name = value
+#
+# You can use variables inside numeric expressions.
+# Example:
+#   var hmetal = 0.48
+#   7/0: 0.5 0.5+hmetal*2        # 2x thick metal
+#
+# You cannot use variables inside layer specifications currently.
+#
+# CONDITIONALS
+#
+# You can enable or disable branches of the table using 'if', 'else', 'elseif' and 'end':
+# Example:
+#   var thick_m1 = true
+#   if thickm1
+#     1: 0.5 1.5
+#   else
+#     1: 0.5 1.2
+#   end
+
+1/0: 0.0 0.22
+111/0: 0.0 3.0
+2/0: 0.0 0.15
+3/0: 0.0 0.09
+34/0: 0.32 0.67
+5/0: 0.22 0.72
+40/0: 0.09 1.1
+41/0: 1.1 1.8000000000000003
+47/0: 1.1 1.85
+44/0: 1.8000000000000003 2.3
+45/0: 2.3 3.0
+43/0: 3.0 3.2
+49/0: 3.2 5.2
+ </src>
+ </d25>
  <connectivity>
- </connectivity>
+ <connection>41/0,44/0,45/0
+</connection><connection>45/0,43/0,49/0
+</connection></connectivity>
 </technology>

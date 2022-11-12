@@ -1,20 +1,18 @@
 from typing import Optional
 
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.array import array
-from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.pad import pad
+from gdsfactory.components.array_component import array
 from gdsfactory.components.straight import straight
-from gdsfactory.cross_section import strip
 from gdsfactory.port import auto_rename_ports
 from gdsfactory.routing.sort_ports import sort_ports_x
-from gdsfactory.types import ComponentFactory, ComponentOrFactory, CrossSectionFactory
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @cell
 def array_with_fanout(
-    component: ComponentOrFactory = pad,
+    component: ComponentSpec = "pad",
     columns: int = 3,
     pitch: float = 150.0,
     waveguide_pitch: float = 10.0,
@@ -22,33 +20,32 @@ def array_with_fanout(
     end_straight_length: float = 40.0,
     radius: float = 5.0,
     component_port_name: str = "e4",
-    bend: ComponentFactory = bend_euler,
+    bend: ComponentSpec = "bend_euler",
     bend_port_name1: Optional[str] = None,
     bend_port_name2: Optional[str] = None,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
-    """Returns an array of components in X axis
-    with fanout waveguides facing west
+    """Returns component array in X axis with west facing waveguides.
 
     Args:
         component: to replicate.
         columns: number of components.
         pitch: for waveguides.
         waveguide_pitch: for output waveguides.
-        start_straight_length: length of the start of the straight
-        end_straight_length: lenght of the straight at the end
-        radius: bend radius
-        component_port_name:
-        bend:
-        bend_port_name1:
-        bend_port_name2:
-        cross_section: cross_section definition
-        kwargs: cross_section settings
+        start_straight_length: length of the start of the straight.
+        end_straight_length: length of the straight at the end.
+        radius: bend radius.
+        component_port_name: for fanout.
+        bend: spec.
+        bend_port_name1: optional port name.
+        bend_port_name2: optional port name.
+        cross_section: cross_section spec.
+        kwargs: cross_section settings.
     """
     c = Component()
-    component = component() if callable(component) else component
-    bend = bend(radius=radius, cross_section=cross_section, **kwargs)
+    component = gf.get_component(component)
+    bend = gf.get_component(bend, radius=radius, cross_section=cross_section, **kwargs)
 
     bend_ports = bend.get_ports_list()
     bend_ports = sort_ports_x(bend_ports)
@@ -92,23 +89,23 @@ def array_with_fanout_2d(
     """Returns 2D array with fanout waveguides facing west.
 
     Args:
-        pitch: 2D pitch
-        pitch_x: defaults to pitch
-        pitch_y: defaults to pitch
-        columns:
-        rows:
-        kwargs:
-            component: to replicate
-            pitch: float
-            waveguide_pitch: for fanout
-            start_straight_length: length of the start of the straight
-            end_straight_length: length of the straight at the end
-            radius: bend radius
-            cross_section: cross_section factory
-            component_port_name:
-            bend_port_name1:
-            bend_port_name2:
-            **kwargs
+        pitch: 2D pitch.
+        pitch_x: defaults to pitch.
+        pitch_y: defaults to pitch.
+        columns: number of columns.
+        rows: number of rows.
+
+    keyword args:
+        component: to replicate.
+        pitch: in um.
+        waveguide_pitch: for fanout in um.
+        start_straight_length: length of the start of the straight in um.
+        end_straight_length: length of the straight at the end in um.
+        radius: bend radius in um.
+        cross_section: cross_section factory.
+        component_port_name:
+        bend_port_name1:
+        bend_port_name2:
     """
     pitch_y = pitch_y or pitch
     pitch_x = pitch_x or pitch
@@ -116,12 +113,12 @@ def array_with_fanout_2d(
     return array(component=row, rows=rows, columns=1, spacing=(0, pitch_y))
 
 
-def test_array_with_fanout():
+def test_array_with_fanout() -> None:
     c1 = array_with_fanout_2d(columns=2, rows=2)
     assert len(c1.ports) == 4
 
 
-def test_array():
+def test_array() -> None:
     c1 = array_with_fanout_2d(columns=2, rows=2)
     assert len(c1.ports) == 4
 
@@ -135,7 +132,7 @@ if __name__ == "__main__":
     #     columns=3,
     #     waveguide_pitch=20,
     #     bend=gf.components.wire_corner,
-    #     cross_section=gf.cross_section.metal3,
+    #     cross_section='metal_routing',
     #     layer=(2, 0),
     #     width=10,
     #     radius=11,

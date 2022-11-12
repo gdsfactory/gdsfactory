@@ -1,415 +1,35 @@
-cells:
-  circle_602e85fd:
-    changed:
-      layer:
-      - 203
-      - 0
-      radius: 5.5
-    default:
-      angle_resolution: 2.5
-      layer:
-      - 1
-      - 0
-      radius: 10
-    full:
-      angle_resolution: 2.5
-      layer:
-      - 203
-      - 0
-      radius: 5.5
-    function_name: circle
-    info_version: 1
-    module: gdsfactory.components.circle
-    name: circle_602e85fd
-  grating_coupler_ellipti_8fb40385:
-    changed: {}
-    child:
-      changed:
-        polarization: te
-        taper_angle: 35
-      default:
-        end_straight_length: 0.2
-        fiber_angle: 15
-        fiber_marker_layer:
-        - 203
-        - 0
-        fiber_marker_width: 11
-        grating_line_width: 0.343
-        layer:
-        - 1
-        - 0
-        layer_trench:
-        - 2
-        - 0
-        n_periods: 30
-        ncladding: 1.443
-        neff: 2.638
-        p_start: 26
-        polarization: te
-        taper_angle: 30
-        taper_length: 16.6
-        trenches_extra_angle: 9
-        wavelength: 1.53
-        wg_width: 0.5
-      full:
-        end_straight_length: 0.2
-        fiber_angle: 15
-        fiber_marker_layer:
-        - 203
-        - 0
-        fiber_marker_width: 11
-        grating_line_width: 0.343
-        layer:
-        - 1
-        - 0
-        layer_trench:
-        - 2
-        - 0
-        n_periods: 30
-        ncladding: 1.443
-        neff: 2.638
-        p_start: 26
-        polarization: te
-        taper_angle: 35
-        taper_length: 16.6
-        trenches_extra_angle: 9
-        wavelength: 1.53
-        wg_width: 0.5
-      function_name: grating_coupler_elliptical_trenches
-      info_version: 1
-      module: gdsfactory.components.grating_coupler_elliptical_trenches
-      name: grating_coupler_ellipti_b632d295
-      period: 0.6759999999999999
-      polarization: te
-      wavelength: 1.53
-    default:
-      cross_section:
-        function: cross_section
-      grating_coupler:
-        function: grating_coupler_elliptical_trenches
-        polarization: te
-        taper_angle: 35
-    full:
-      cross_section:
-        function: cross_section
-      grating_coupler:
-        function: grating_coupler_elliptical_trenches
-        polarization: te
-        taper_angle: 35
-    function_name: grating_coupler_loss_fiber_single
-    info_version: 1
-    module: gdsfactory.components.grating_coupler_loss_fiber_single
-    name: grating_coupler_ellipti_8fb40385
-  grating_coupler_ellipti_b632d295:
-    changed:
-      polarization: te
-      taper_angle: 35
-    default:
-      end_straight_length: 0.2
-      fiber_angle: 15
-      fiber_marker_layer:
-      - 203
-      - 0
-      fiber_marker_width: 11
-      grating_line_width: 0.343
-      layer:
-      - 1
-      - 0
-      layer_trench:
-      - 2
-      - 0
-      n_periods: 30
-      ncladding: 1.443
-      neff: 2.638
-      p_start: 26
-      polarization: te
-      taper_angle: 30
-      taper_length: 16.6
-      trenches_extra_angle: 9
-      wavelength: 1.53
-      wg_width: 0.5
-    full:
-      end_straight_length: 0.2
-      fiber_angle: 15
-      fiber_marker_layer:
-      - 203
-      - 0
-      fiber_marker_width: 11
-      grating_line_width: 0.343
-      layer:
-      - 1
-      - 0
-      layer_trench:
-      - 2
-      - 0
-      n_periods: 30
-      ncladding: 1.443
-      neff: 2.638
-      p_start: 26
-      polarization: te
-      taper_angle: 35
-      taper_length: 16.6
-      trenches_extra_angle: 9
-      wavelength: 1.53
-      wg_width: 0.5
-    function_name: grating_coupler_elliptical_trenches
-    info_version: 1
-    module: gdsfactory.components.grating_coupler_elliptical_trenches
-    name: grating_coupler_ellipti_b632d295
-    period: 0.6759999999999999
-    polarization: te
-    wavelength: 1.53
-  straight_1da190e0:
-    changed:
-      cross_section:
-        function: cross_section
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 10
-    module: gdsfactory.components.straight
-    name: straight_1da190e0
-    width: 0.5
-  straight_1da190e0_add_f_feca92a5:
-    changed:
-      component: straight_1da190e0
-      component_name: grating_coupler_ellipti_b632d295
-      cross_section:
-        function: cross_section
-      grating_coupler: grating_coupler_ellipti_b632d295
-      with_loopback: false
-    child:
-      changed:
-        component: straight_1da190e0
-        origin:
-        - 0
-        - 0
-      child:
-        changed:
-          cross_section:
-            function: cross_section
-        default:
-          cross_section:
-            function: cross_section
-          length: 10
-          npoints: 2
-          with_cladding_box: true
-        full:
-          cross_section:
-            function: cross_section
-          length: 10
-          npoints: 2
-          with_cladding_box: true
-        function_name: straight
-        info_version: 1
-        length: 10
-        module: gdsfactory.components.straight
-        name: straight_1da190e0
-        width: 0.5
-      default:
-        axis: null
-        destination: null
-        origin:
-        - 0
-        - 0
-      full:
-        axis: null
-        component: straight_1da190e0
-        destination: null
-        origin:
-        - 0
-        - 0
-      function_name: move
-      info_version: 1
-      module: gdsfactory.functions
-      name: straight_1da190e0_move_bb3832a3
-    default:
-      bend:
-        function: bend_circular
-      component_name: null
-      cross_section:
-        function: cross_section
-      fiber_spacing: 50
-      gc_port_name: o1
-      get_input_label_text_function:
-        function: get_input_label_text
-      get_input_label_text_loopback_function:
-        function: get_input_label_text_loopback
-      grating_coupler:
-        function: grating_coupler_elliptical_trenches
-        polarization: te
-        taper_angle: 35
-      layer_label:
-      - 201
-      - 0
-      min_input_to_output_spacing: 200
-      optical_routing_type: 2
-      route_filter:
-        function: get_route_from_waypoints
-      select_ports:
-        function: select_ports
-        port_type: optical
-      straight:
-        function: straight
-      with_loopback: true
-      zero_port: o1
-    full:
-      bend:
-        function: bend_circular
-      component: straight_1da190e0
-      component_name: grating_coupler_ellipti_b632d295
-      cross_section:
-        function: cross_section
-      fiber_spacing: 50
-      gc_port_name: o1
-      get_input_label_text_function:
-        function: get_input_label_text
-      get_input_label_text_loopback_function:
-        function: get_input_label_text_loopback
-      grating_coupler: grating_coupler_ellipti_b632d295
-      layer_label:
-      - 201
-      - 0
-      min_input_to_output_spacing: 200
-      optical_routing_type: 2
-      route_filter:
-        function: get_route_from_waypoints
-      select_ports:
-        function: select_ports
-        port_type: optical
-      straight:
-        function: straight
-      with_loopback: false
-      zero_port: o1
-    function_name: add_fiber_single
-    info_version: 1
-    module: gdsfactory.routing.add_fiber_single
-    name: straight_1da190e0_add_f_feca92a5
-  straight_1da190e0_move_bb3832a3:
-    changed:
-      component: straight_1da190e0
-      origin:
-      - 0
-      - 0
-    child:
-      changed:
-        cross_section:
-          function: cross_section
-      default:
-        cross_section:
-          function: cross_section
-        length: 10
-        npoints: 2
-        with_cladding_box: true
-      full:
-        cross_section:
-          function: cross_section
-        length: 10
-        npoints: 2
-        with_cladding_box: true
-      function_name: straight
-      info_version: 1
-      length: 10
-      module: gdsfactory.components.straight
-      name: straight_1da190e0
-      width: 0.5
-    default:
-      axis: null
-      destination: null
-      origin:
-      - 0
-      - 0
-    full:
-      axis: null
-      component: straight_1da190e0
-      destination: null
-      origin:
-      - 0
-      - 0
-    function_name: move
-    info_version: 1
-    module: gdsfactory.functions
-    name: straight_1da190e0_move_bb3832a3
-  straight_681f557c:
-    changed:
-      auto_widen: false
-      cross_section:
-        function: cross_section
-      length: 91.4
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      auto_widen: false
-      cross_section:
-        function: cross_section
-      length: 91.4
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 91.4
-    module: gdsfactory.components.straight
-    name: straight_681f557c
-    width: 0.5
-info:
+name: grating_coupler_ellipti_7645ee14
+settings:
   changed: {}
   child:
     changed:
-      polarization: te
       taper_angle: 35
+    child: null
     default:
+      cross_section: strip
       end_straight_length: 0.2
-      fiber_angle: 15
-      fiber_marker_layer:
-      - 203
-      - 0
-      fiber_marker_width: 11
+      fiber_angle: 15.0
+      fiber_marker_layer: TE
+      fiber_marker_width: 11.0
       grating_line_width: 0.343
-      layer:
-      - 1
-      - 0
-      layer_trench:
-      - 2
-      - 0
+      layer_trench: SLAB150
       n_periods: 30
       ncladding: 1.443
       neff: 2.638
       p_start: 26
       polarization: te
-      taper_angle: 30
+      taper_angle: 30.0
       taper_length: 16.6
-      trenches_extra_angle: 9
+      trenches_extra_angle: 9.0
       wavelength: 1.53
-      wg_width: 0.5
     full:
+      cross_section: strip
       end_straight_length: 0.2
-      fiber_angle: 15
-      fiber_marker_layer:
-      - 203
-      - 0
-      fiber_marker_width: 11
+      fiber_angle: 15.0
+      fiber_marker_layer: TE
+      fiber_marker_width: 11.0
       grating_line_width: 0.343
-      layer:
-      - 1
-      - 0
-      layer_trench:
-      - 2
-      - 0
+      layer_trench: SLAB150
       n_periods: 30
       ncladding: 1.443
       neff: 2.638
@@ -417,33 +37,35 @@ info:
       polarization: te
       taper_angle: 35
       taper_length: 16.6
-      trenches_extra_angle: 9
+      trenches_extra_angle: 9.0
       wavelength: 1.53
-      wg_width: 0.5
     function_name: grating_coupler_elliptical_trenches
-    info_version: 1
+    info:
+      period: 0.6759999999999999
+      polarization: te
+      wavelength: 1.53
+    info_version: 2
     module: gdsfactory.components.grating_coupler_elliptical_trenches
-    name: grating_coupler_ellipti_b632d295
+    name: grating_coupler_ellipti_dd7f7af4
+  default:
+    cross_section: strip
+    grating_coupler:
+      function: grating_coupler_elliptical_trenches
+      settings:
+        polarization: te
+        taper_angle: 35
+  full:
+    cross_section: strip
+    grating_coupler:
+      function: grating_coupler_elliptical_trenches
+      settings:
+        polarization: te
+        taper_angle: 35
+  function_name: grating_coupler_loss_fiber_single
+  info:
     period: 0.6759999999999999
     polarization: te
     wavelength: 1.53
-  default:
-    cross_section:
-      function: cross_section
-    grating_coupler:
-      function: grating_coupler_elliptical_trenches
-      polarization: te
-      taper_angle: 35
-  full:
-    cross_section:
-      function: cross_section
-    grating_coupler:
-      function: grating_coupler_elliptical_trenches
-      polarization: te
-      taper_angle: 35
-  function_name: grating_coupler_loss_fiber_single
-  info_version: 1
+  info_version: 2
   module: gdsfactory.components.grating_coupler_loss_fiber_single
-  name: grating_coupler_ellipti_8fb40385
-ports: {}
-version: 1
+  name: grating_coupler_ellipti_7645ee14

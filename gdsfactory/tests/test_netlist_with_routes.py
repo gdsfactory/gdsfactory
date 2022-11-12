@@ -4,7 +4,7 @@ from gdsfactory.component import Component
 
 @gf.cell
 def test_netlist_with_routes() -> Component:
-    """ """
+    """"""
     c = gf.Component()
     w = c << gf.components.straight(length=3)
     b = c << gf.components.bend_circular()
@@ -29,4 +29,4 @@ def test_netlist_with_routes() -> Component:
 
 if __name__ == "__main__":
     c = test_netlist_with_routes()
-    c.show()
+    c.show(show_ports=True)

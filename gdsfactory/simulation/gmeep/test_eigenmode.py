@@ -1,6 +1,5 @@
-"""
-Compares the modes of a gdsfactory + MEEP waveguide cross-section vs a direct MPB calculation
-"""
+"""Compares the modes of a gdsfactory + MEEP waveguide cross-section vs a
+direct MPB calculation."""
 
 import h5py
 import matplotlib.pyplot as plt
@@ -8,26 +7,26 @@ import numpy as np
 from scipy.interpolate import griddata
 
 import gdsfactory as gf
-from gdsfactory import add_padding
 from gdsfactory.components import straight
 from gdsfactory.simulation.gmeep import get_simulation
 from gdsfactory.simulation.gmeep.get_port_eigenmode import get_port_2Dx_eigenmode
-from gdsfactory.simulation.modes import find_modes, get_mode_solver_rib
+from gdsfactory.simulation.modes import find_modes_waveguide, get_mode_solver_rib
 from gdsfactory.simulation.modes.types import Mode
 
 
 def lumerical_parser(E_1D, H_1D, y_1D, z_1D, res=50, z_offset=0.11 * 1e-6):
-    """
+    """Converts 1D arrays of fields to 2D arrays according to positions.
+
     Lumerical data is in 1D arrays, and over a nonregular mesh
-    Converts 1D arrays of fields to 2D arrays according to positions
 
     Args
-        E_1D: E array from Lumerical
-        H_1D: H array from Lumerical
-        y_1D: y array from Lumerical
-        z_1D: z array from Lumerical
-        res: desired resolution
-        z_offset: z offset to move the fields
+        E_1D: E array from Lumerical.
+        H_1D: H array from Lumerical.
+        y_1D: y array from Lumerical.
+        z_1D: z array from Lumerical.
+        res: desired resolution.
+        z_offset: z offset to move the fields.
+
     """
     # Make regular grid from resolution and range of domain
     y_1D = y_1D[...].flatten()
@@ -92,13 +91,13 @@ def lumerical_parser(E_1D, H_1D, y_1D, z_1D, res=50, z_offset=0.11 * 1e-6):
 
 def MPB_eigenmode():
     ms = get_mode_solver_rib(wg_width=0.45, sy=6, sz=6)
-    modes = find_modes(mode_solver=ms, res=50)
+    modes = find_modes_waveguide(mode_solver=ms, res=50)
     m1_MPB = modes[1]
     m2_MPB = modes[2]
     return m1_MPB, m2_MPB
 
 
-def MPB_eigenmode_toDisk():
+def MPB_eigenmode_toDisk() -> None:
     m1_MPB, m2_MPB = MPB_eigenmode()
     np.save("test_data/stripWG_mpb/neff1.npy", m1_MPB.neff)
     np.save("test_data/stripWG_mpb/E1.npy", m1_MPB.E)
@@ -112,7 +111,7 @@ def MPB_eigenmode_toDisk():
     np.save("test_data/stripWG_mpb/z2.npy", m2_MPB.z)
 
 
-def test_eigenmode(plot=False):
+def compare_mpb_lumerical(plot=False) -> None:
     """
     WARNING: Segmentation fault occurs if both ms object above and sim object exist in memory at the same time
     Instead load results from separate MPB run
@@ -120,7 +119,7 @@ def test_eigenmode(plot=False):
     Same namespace run does not work
     # MPB mode
     # ms = get_mode_solver_rib(wg_width=0.5)
-    # modes = find_modes(mode_solver=ms, res=50)
+    # modes = find_modes_waveguide(mode_solver=ms, res=50)
     # m1_MPB = modes[1]
 
     separate namespace run does not work either
@@ -201,15 +200,16 @@ def test_eigenmode(plot=False):
 
     # MEEP calculation
     c = straight(length=2, width=0.45)
-    c = add_padding(c.copy(), default=0, bottom=4, top=4, layers=[(100, 0)])
+    c = c.copy()
+    c = c.add_padding(default=0, bottom=4, top=4, layers=[(100, 0)])
 
     sim_dict = get_simulation(
         c,
         is_3d=True,
-        res=50,
         port_source_offset=-0.1,
-        port_field_monitor_offset=-0.1,
+        port_monitor_offset=-0.1,
         port_margin=3,
+        resolution=50,
     )
 
     m1_MEEP = get_port_2Dx_eigenmode(
@@ -229,7 +229,7 @@ def test_eigenmode(plot=False):
         # M1, E-field
         plt.figure(figsize=(10, 8), dpi=100)
         plt.suptitle(
-            "MEEP get_eigenmode / MPB find_modes / Lumerical (manual)",
+            "MEEP get_eigenmode / MPB find_modes_waveguide / Lumerical (manual)",
             y=1.05,
             fontsize=18,
         )
@@ -267,7 +267,7 @@ def test_eigenmode(plot=False):
         # M1, H-field
         plt.figure(figsize=(10, 8), dpi=100)
         plt.suptitle(
-            "MEEP get_eigenmode / MPB find_modes / Lumerical (manual)",
+            "MEEP get_eigenmode / MPB find_modes_waveguide / Lumerical (manual)",
             y=1.05,
             fontsize=18,
         )
@@ -383,4 +383,4 @@ def test_eigenmode(plot=False):
 
 if __name__ == "__main__":
     # MPB_eigenmode_toDisk()
-    test_eigenmode(plot=False)
+    compare_mpb_lumerical(plot=False)

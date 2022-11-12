@@ -1,0 +1,41 @@
+name: mzi_ubcpdk
+pdk: ubcpdk
+
+settings:
+  dy: -300
+
+info:
+  polarization: te
+  wavelength: 1.55
+  description: mzi for ubcpdk
+
+instances:
+  yr:
+    component: ebeam_y_1550
+  yl:
+    component: ebeam_y_1550
+
+placements:
+  yr:
+    rotation: 180
+    x: 100
+    y: 0
+
+
+routes:
+  route_top:
+    links:
+      yl,opt2: yr,opt3
+    settings:
+      cross_section: strip
+  route_bot:
+    links:
+      yl,opt3: yr,opt2
+    routing_strategy: get_bundle_from_steps
+    settings:
+      steps: [dx: 30, dy: "${settings.dy}", dx: 20]
+      cross_section: strip
+
+ports:
+  o1: yl,opt1
+  o2: yr,opt1

@@ -1,217 +1,10 @@
-cells:
-  array_62d6385d:
-    changed:
-      columns: 1
-      component: pad_d41d8cd9
-      rows: 3
-      spacing:
-      - 0
-      - 150
-    default:
-      columns: 6
-      component:
-        function: straight
-      rows: 1
-      spacing:
-      - 150
-      - 150
-    full:
-      columns: 1
-      component: pad_d41d8cd9
-      rows: 3
-      spacing:
-      - 0
-      - 150
-    function_name: array
-    info_version: 1
-    module: gdsfactory.components.array
-    name: array_62d6385d
-  compass_83a2e6d6:
-    changed:
-      layer:
-      - 49
-      - 0
-      port_type: electrical
-      size:
-      - 22
-      - 7
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 49
-      - 0
-      port_type: electrical
-      size:
-      - 22
-      - 7
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_83a2e6d6
-  pad_gsg_short_d41d8cd9:
-    changed: {}
-    default:
-      contact:
-        function: rectangle
-        layer:
-        - 49
-        - 0
-      layer_metal:
-      - 49
-      - 0
-      metal_spacing: 5
-      pad:
-        function: pad
-      pad_spacing: 150
-      short: true
-      size:
-      - 22
-      - 7
-    full:
-      contact:
-        function: rectangle
-        layer:
-        - 49
-        - 0
-      layer_metal:
-      - 49
-      - 0
-      metal_spacing: 5
-      pad:
-        function: pad
-      pad_spacing: 150
-      short: true
-      size:
-      - 22
-      - 7
-    function_name: pad_gsg_short
-    info_version: 1
-    module: gdsfactory.components.pad_gsg
-    name: pad_gsg_short_d41d8cd9
-  rectangle_53d34c22:
-    changed:
-      layer:
-      - 49
-      - 0
-      size:
-      - 22
-      - 7
-    default:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      centered: false
-      layer:
-      - 49
-      - 0
-      port_type: electrical
-      size:
-      - 22
-      - 7
-    function_name: rectangle
-    info_version: 1
-    module: gdsfactory.components.rectangle
-    name: rectangle_53d34c22
-  route_quad_6af5ef5d:
-    changed:
-      layer:
-      - 49
-      - 0
-      port1: e3
-      port2: e1_2_1
-    default:
-      layer:
-      - 31
-      - 0
-      width1: null
-      width2: null
-    full:
-      layer:
-      - 49
-      - 0
-      port1: e3
-      port2: e1_2_1
-      width1: null
-      width2: null
-    function_name: route_quad
-    info_version: 1
-    module: gdsfactory.routing.route_quad
-    name: route_quad_6af5ef5d
-  route_quad_6fe3da35:
-    changed:
-      layer:
-      - 49
-      - 0
-      port1: e2
-      port2: e1_3_1
-    default:
-      layer:
-      - 31
-      - 0
-      width1: null
-      width2: null
-    full:
-      layer:
-      - 49
-      - 0
-      port1: e2
-      port2: e1_3_1
-      width1: null
-      width2: null
-    function_name: route_quad
-    info_version: 1
-    module: gdsfactory.routing.route_quad
-    name: route_quad_6fe3da35
-  route_quad_98332987:
-    changed:
-      layer:
-      - 49
-      - 0
-      port1: e4
-      port2: e1_1_1
-    default:
-      layer:
-      - 31
-      - 0
-      width1: null
-      width2: null
-    full:
-      layer:
-      - 49
-      - 0
-      port1: e4
-      port2: e1_1_1
-      width1: null
-      width2: null
-    function_name: route_quad
-    info_version: 1
-    module: gdsfactory.routing.route_quad
-    name: route_quad_98332987
-info:
+name: pad_gsg_short
+settings:
   changed: {}
+  child: null
   default:
-    contact:
-      function: rectangle
-      layer:
-      - 49
-      - 0
-    layer_metal:
-    - 49
-    - 0
-    metal_spacing: 5
+    layer_metal: M3
+    metal_spacing: 5.0
     pad:
       function: pad
     pad_spacing: 150
@@ -219,16 +12,15 @@ info:
     size:
     - 22
     - 7
+    via_stack:
+      function: rectangle
+      settings:
+        layer:
+        - 49
+        - 0
   full:
-    contact:
-      function: rectangle
-      layer:
-      - 49
-      - 0
-    layer_metal:
-    - 49
-    - 0
-    metal_spacing: 5
+    layer_metal: M3
+    metal_spacing: 5.0
     pad:
       function: pad
     pad_spacing: 150
@@ -236,9 +28,14 @@ info:
     size:
     - 22
     - 7
+    via_stack:
+      function: rectangle
+      settings:
+        layer:
+        - 49
+        - 0
   function_name: pad_gsg_short
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.pad_gsg
-  name: pad_gsg_short_d41d8cd9
-ports: {}
-version: 1
+  name: pad_gsg_short

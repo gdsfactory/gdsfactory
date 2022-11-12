@@ -1,15 +1,14 @@
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.coupler import coupler as coupler_function
 from gdsfactory.components.dbr import dbr
-from gdsfactory.types import ComponentOrFactory
+from gdsfactory.types import ComponentSpec
 
 
 @cell
 def cavity(
-    component: ComponentOrFactory = dbr,
-    coupler: ComponentOrFactory = coupler_function,
+    component: ComponentSpec = dbr,
+    coupler: ComponentSpec = "coupler",
     length: float = 0.1,
     gap: float = 0.2,
     **kwargs
@@ -20,11 +19,11 @@ def cavity(
     creating a resonant cavity
 
     Args:
-        component: mirror
-        coupler: coupler library
-        length: coupler length
-        gap: coupler gap
-        kwargs: coupler_settings
+        component: mirror.
+        coupler: coupler library.
+        length: coupler length.
+        gap: coupler gap.
+        kwargs: coupler_settings.
 
     .. code::
 
@@ -37,10 +36,8 @@ def cavity(
          o1  o1    length      o4    o2
 
     """
-    mirror = component() if callable(component) else component
-    coupler = (
-        coupler(length=length, gap=gap, **kwargs) if callable(coupler) else coupler
-    )
+    mirror = gf.get_component(component)
+    coupler = gf.get_component(coupler, length=length, gap=gap, **kwargs)
 
     c = gf.Component()
     c.component = mirror
@@ -60,4 +57,4 @@ if __name__ == "__main__":
     from gdsfactory.components.dbr import dbr
 
     c = cavity(component=dbr())
-    c.show()
+    c.show(show_ports=True)

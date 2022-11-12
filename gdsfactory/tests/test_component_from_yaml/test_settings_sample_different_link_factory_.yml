@@ -1,246 +1,118 @@
-cells:
-  bend_euler_4725f0ef:
-    changed:
-      cross_section:
-        function: cross_section
-      radius: 10
-    default:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    dy: 10
-    full:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      radius: 10
-      with_arc_floorplan: true
-      with_cladding_box: true
-    function_name: bend_euler
-    info_version: 1
-    length: 16.637
-    module: gdsfactory.components.bend_euler
-    name: bend_euler_4725f0ef
-    radius: 10
-    radius_min: 7.061
-  compass_a0b38c11:
-    changed:
-      layer:
-      - 49
-      - 0
-      size:
-      - 100
-      - 100
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 49
-      - 0
-      port_type: electrical
-      size:
-      - 100
-      - 100
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_a0b38c11
-  pad_d41d8cd9:
-    changed: {}
-    default:
-      cladding_offsets: null
-      layer:
-      - 49
-      - 0
-      layers_cladding: null
-      size:
-      - 100
-      - 100
-    full:
-      cladding_offsets: null
-      layer:
-      - 49
-      - 0
-      layers_cladding: null
-      size:
-      - 100
-      - 100
-    function_name: pad
-    info_version: 1
-    layer:
-    - 49
-    - 0
-    module: gdsfactory.components.pad
-    name: pad_d41d8cd9
-    size:
-    - 100
-    - 100
-  sample_path_length_matching: {}
-  straight_3bc3129a:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 200
-      radius: 10
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 200
-      npoints: 2
-      radius: 10
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 200
-    module: gdsfactory.components.straight
-    name: straight_3bc3129a
-    width: 0.5
-  straight_7b1e3316:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 580
-      radius: 10
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 580
-      npoints: 2
-      radius: 10
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 580
-    module: gdsfactory.components.straight
-    name: straight_7b1e3316
-    width: 0.5
-  straight_95cf111d:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 340
-      radius: 10
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 340
-      npoints: 2
-      radius: 10
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 340
-    module: gdsfactory.components.straight
-    name: straight_95cf111d
-    width: 0.5
-  straight_99672b3b:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 250
-      radius: 10
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 250
-      npoints: 2
-      radius: 10
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 250
-    module: gdsfactory.components.straight
-    name: straight_99672b3b
-    width: 0.5
-  straight_ab370e58:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 170
-      radius: 10
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 170
-      npoints: 2
-      radius: 10
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 170
-    module: gdsfactory.components.straight
-    name: straight_ab370e58
-    width: 0.5
-  straight_b28806b6:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 610
-      radius: 10
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 610
-      npoints: 2
-      radius: 10
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 610
-    module: gdsfactory.components.straight
-    name: straight_b28806b6
-    width: 0.5
-info:
-  name: sample_path_length_matching
-ports: {}
-version: 1
+name: sample_path_length_matc_80997953
+settings:
+  changed:
+    conf:
+      instances:
+        bl:
+          component: pad
+        br:
+          component: pad
+        tl:
+          component: pad
+        tr:
+          component: pad
+      name: sample_path_length_matching
+      placements:
+        br:
+          x: 900
+          y: 400
+        tl:
+          x: 0
+          y: 200
+        tr:
+          x: 900
+          y: 600
+      routes:
+        route1:
+          links:
+            bl,e3: br,e1
+            tl,e3: tr,e1
+  child: null
+  default:
+    label_instance_function:
+      function: add_instance_label
+    routing_strategy:
+      get_bundle:
+        function: get_bundle
+      get_bundle_electrical:
+        function: get_bundle
+        settings:
+          bend:
+            function: wire_corner
+          cross_section: metal_routing
+      get_bundle_from_steps:
+        function: get_bundle_from_steps
+      get_bundle_from_steps_electrical:
+        function: get_bundle_from_steps
+        settings:
+          bend:
+            function: wire_corner
+          cross_section: metal_routing
+      get_bundle_from_waypoints:
+        function: get_bundle_from_waypoints
+      get_bundle_path_length_match:
+        function: get_bundle_path_length_match
+      get_bundle_same_axis_no_grouping:
+        function: get_bundle_same_axis_no_grouping
+  full:
+    conf:
+      instances:
+        bl:
+          component: pad
+        br:
+          component: pad
+        tl:
+          component: pad
+        tr:
+          component: pad
+      name: sample_path_length_matching
+      placements:
+        br:
+          x: 900
+          y: 400
+        tl:
+          x: 0
+          y: 200
+        tr:
+          x: 900
+          y: 600
+      routes:
+        route1:
+          links:
+            bl,e3: br,e1
+            tl,e3: tr,e1
+    label_instance_function:
+      function: add_instance_label
+    routing_strategy:
+      get_bundle:
+        function: get_bundle
+      get_bundle_electrical:
+        function: get_bundle
+        settings:
+          bend:
+            function: wire_corner
+          cross_section: metal_routing
+      get_bundle_from_steps:
+        function: get_bundle_from_steps
+      get_bundle_from_steps_electrical:
+        function: get_bundle_from_steps
+        settings:
+          bend:
+            function: wire_corner
+          cross_section: metal_routing
+      get_bundle_from_waypoints:
+        function: get_bundle_from_waypoints
+      get_bundle_path_length_match:
+        function: get_bundle_path_length_match
+      get_bundle_same_axis_no_grouping:
+        function: get_bundle_same_axis_no_grouping
+  function_name: _from_yaml
+  info:
+    instances:
+    - bl
+    - tl
+    - br
+    - tr
+  info_version: 2
+  module: gdsfactory.read.from_yaml
+  name: sample_path_length_matc_80997953

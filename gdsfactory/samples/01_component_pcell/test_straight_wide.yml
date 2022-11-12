@@ -1,0 +1,21 @@
+name: straight_wide
+settings:
+  changed: {}
+  child: null
+  default:
+    layer:
+    - 2
+    - 0
+    length: 5.0
+    width: 1.0
+  full:
+    layer:
+    - 2
+    - 0
+    length: 5.0
+    width: 1.0
+  function_name: straight_wide
+  info: {}
+  info_version: 2
+  module: gdsfactory.samples.01_component_pcell
+  name: straight_wide

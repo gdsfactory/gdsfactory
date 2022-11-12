@@ -3,37 +3,41 @@ from functools import partial
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
-from gdsfactory.components.contact import contact_slab_npp_m3
-from gdsfactory.tech import LAYER
-from gdsfactory.types import ComponentFactory, Floats, Layers, Optional
+from gdsfactory.components.via_stack import via_stack_slab_npp_m3
+from gdsfactory.types import ComponentSpec, Floats, LayerSpecs, Optional
 
-pad_contact_slab_npp = partial(contact_slab_npp_m3, size=(80, 80))
+pad_via_stack_slab_npp = partial(via_stack_slab_npp_m3, size=(80, 80))
 
 
 @cell
 def resistance_sheet(
     width: float = 10,
-    layers: Layers = (LAYER.SLAB90, LAYER.NPP),
+    layers: LayerSpecs = ("SLAB90", "NPP"),
     layer_offsets: Floats = (0, 0.2),
-    pad: ComponentFactory = pad_contact_slab_npp,
+    pad: ComponentSpec = pad_via_stack_slab_npp,
     pad_pitch: float = 100.0,
     ohms_per_square: Optional[float] = None,
+    port_orientation1: int = 180,
+    port_orientation2: int = 0,
 ) -> Component:
-    """Sheet resistance.
+    """Returns Sheet resistance.
+
     keeps connectivity for pads and first layer in layers
 
     Args:
-        width:
-        layers: for the middle part
-        layer_offsets: from edge, positive: over, negative: inclusion
-        pad: function to create a pad
-        pad_pitch:
-        ohms_per_square: optional sheet resistance to compute info.resistance
+        width: in um.
+        layers: for the middle part.
+        layer_offsets: from edge, positive: over, negative: inclusion.
+        pad: function to create a pad.
+        pad_pitch: in um.
+        ohms_per_square: optional sheet resistance to compute info.resistance.
+        port_orientation1: in degrees.
+        port_orientation2: in degrees.
     """
     c = Component()
 
     pad = pad()
-    length = pad_pitch - pad.info_child.size[0]
+    length = pad_pitch - pad.get_setting("size")[0]
 
     pad1 = c << pad
     pad2 = c << pad
@@ -42,20 +46,41 @@ def resistance_sheet(
     )
 
     for layer, offset in zip(layers[1:], layer_offsets[1:]):
-        c << compass(size=(length + offset, width + offset), layer=layer)
+        c << compass(size=(length + 2 * offset, width + 2 * offset), layer=layer)
 
     pad1.connect("e3", r0.ports["e1"])
     pad2.connect("e1", r0.ports["e3"])
 
-    c.info_child.resistance = (
-        ohms_per_square * width * length if ohms_per_square else None
-    )
+    c.info["resistance"] = ohms_per_square * width * length if ohms_per_square else None
 
-    c.add_port("pad1", port_type="vertical_dc", midpoint=pad1.center)
-    c.add_port("pad2", port_type="vertical_dc", midpoint=pad2.center)
+    c.add_port(
+        "pad1",
+        port_type="vertical_dc",
+        center=pad1.center,
+        layer=list(layers)[-1],
+        width=width,
+        orientation=port_orientation1,
+    )
+    c.add_port(
+        "pad2",
+        port_type="vertical_dc",
+        center=pad2.center,
+        layer=list(layers)[-1],
+        width=width,
+        orientation=port_orientation2,
+    )
     return c
 
 
 if __name__ == "__main__":
+    # import gdsfactory as gf
+    # sweep = [resistance_sheet(width=width, layers=((1,0), (1,1))) for width in [1, 10, 100]]
+    # c = gf.pack(sweep)[0]
+
     c = resistance_sheet(width=40)
-    c.show()
+    c.show(show_ports=True)
+
+    # import gdsfactory as gf
+    # sweep_resistance = list(map(resistance_sheet, (5, 10, 80)))
+    # c = gf.grid(sweep_resistance)
+    # c.show(show_ports=True)

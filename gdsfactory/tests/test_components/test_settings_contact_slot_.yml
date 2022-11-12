@@ -1,120 +1,13 @@
-cells:
-  compass_225d333d:
-    changed:
-      layer:
-      - 45
-      - 0
-      size:
-      - 13
-      - 13
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 45
-      - 0
-      port_type: electrical
-      size:
-      - 13
-      - 13
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_225d333d
-  compass_ef690c07:
-    changed:
-      layer:
-      - 41
-      - 0
-      size:
-      - 11
-      - 11
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 41
-      - 0
-      port_type: electrical
-      size:
-      - 11
-      - 11
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_ef690c07
-  contact_slot_d41d8cd9:
-    changed: {}
-    default:
-      enclosure: 1
-      layer_offsets:
-      - 0
-      - 1
-      layer_port: null
-      layers:
-      - - 41
-        - 0
-      - - 45
-        - 0
-      size:
-      - 11
-      - 11
-      via:
-        enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      ysize: 0.5
-      yspacing: 2
-    full:
-      enclosure: 1
-      layer_offsets:
-      - 0
-      - 1
-      layer_port: null
-      layers:
-      - - 41
-        - 0
-      - - 45
-        - 0
-      size:
-      - 11
-      - 11
-      via:
-        enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      ysize: 0.5
-      yspacing: 2
-    function_name: contact_slot
-    info_version: 1
-    module: gdsfactory.components.contact_slot
-    name: contact_slot_d41d8cd9
-    size:
-    - 11
-    - 11
-info:
+settings:
   changed: {}
+  child: null
   default:
     enclosure: 1
     layer_offsets:
     - 0
-    - 1
+    - 1.0
+    layer_offsetsx: null
+    layer_offsetsy: null
     layer_port: null
     layers:
     - - 41
@@ -122,21 +15,24 @@ info:
     - - 45
       - 0
     size:
-    - 11
-    - 11
+    - 11.0
+    - 11.0
     via:
-      enclosure: 2
       function: via
-      layer:
-      - 44
-      - 0
+      settings:
+        enclosure: 2
+        layer:
+        - 44
+        - 0
     ysize: 0.5
     yspacing: 2
   full:
     enclosure: 1
     layer_offsets:
     - 0
-    - 1
+    - 1.0
+    layer_offsetsx: null
+    layer_offsetsy: null
     layer_port: null
     layers:
     - - 41
@@ -144,66 +40,23 @@ info:
     - - 45
       - 0
     size:
-    - 11
-    - 11
+    - 11.0
+    - 11.0
     via:
-      enclosure: 2
       function: via
-      layer:
-      - 44
-      - 0
+      settings:
+        enclosure: 2
+        layer:
+        - 44
+        - 0
     ysize: 0.5
     yspacing: 2
   function_name: contact_slot
-  info_version: 1
+  info:
+    size:
+    - 11.0
+    - 11.0
+  info_version: 2
   module: gdsfactory.components.contact_slot
-  name: contact_slot_d41d8cd9
-  size:
-  - 11
-  - 11
-ports:
-  e1:
-    layer:
-    - 45
-    - 0
-    midpoint:
-    - -6.5
-    - 0
-    name: e1
-    orientation: 180
-    port_type: electrical
-    width: 13
-  e2:
-    layer:
-    - 45
-    - 0
-    midpoint:
-    - 0
-    - 6.5
-    name: e2
-    orientation: 90
-    port_type: electrical
-    width: 13
-  e3:
-    layer:
-    - 45
-    - 0
-    midpoint:
-    - 6.5
-    - 0
-    name: e3
-    orientation: 0
-    port_type: electrical
-    width: 13
-  e4:
-    layer:
-    - 45
-    - 0
-    midpoint:
-    - 0
-    - -6.5
-    name: e4
-    orientation: 270
-    port_type: electrical
-    width: 13
-version: 1
+  name: contact_slot
+version: 0.0.1

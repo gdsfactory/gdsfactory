@@ -4,19 +4,19 @@ from gdsfactory.component import Component
 
 @gf.cell
 def test_netlist_yaml() -> Component:
-    """
+    """Test netlist yaml.
 
     .. code::
 
-           arm_top
-            _____
-           |     |
-       CP1=       =CP2=
-           |_____|
+        arm_top
+         _____
+        |     |
+    CP1=       =CP2=
+        |_____|
 
-            arm_bot
+         arm_bot
+
     """
-
     yaml = """
     instances:
         mmi_long:
@@ -46,10 +46,9 @@ def test_netlist_yaml() -> Component:
         o1: mmi_long,o1
     """
 
-    c = gf.read.from_yaml(yaml)
-    return c
+    return gf.read.from_yaml(yaml)
 
 
 if __name__ == "__main__":
     c = test_netlist_yaml()
-    c.show()
+    c.show(show_ports=True)

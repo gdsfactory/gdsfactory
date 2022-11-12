@@ -1,0 +1,31 @@
+name: pad_array_3ceac6aa
+settings:
+  changed:
+    columns: 1
+    orientation: 0
+    rows: 3
+  child: null
+  default:
+    columns: 6
+    orientation: 270
+    pad: pad
+    rows: 1
+    spacing:
+    - 150.0
+    - 150.0
+  full:
+    columns: 1
+    orientation: 0
+    pad: pad
+    rows: 3
+    spacing:
+    - 150.0
+    - 150.0
+  function_name: pad_array
+  info:
+    size:
+    - 100.0
+    - 100.0
+  info_version: 2
+  module: gdsfactory.components.pad
+  name: pad_array_3ceac6aa

@@ -1,4 +1,7 @@
-"""FIXME. Tests are failing for python3.7
+"""FIXME.
+
+Tests are failing for python3.7
+
 """
 
 
@@ -15,28 +18,27 @@ def test_hash_geometry() -> None:
     assert h1 != h2
 
 
-def _test_hash_array_file():
+def _test_hash_array_file() -> None:
     """Test hash of a component with an array of references."""
-    gf.clear_cache()
     c = gf.Component("array")
     wg = gf.components.straight(length=3.2)
     c.add_array(wg)
     gdspath = c.write_gds()
     h = hash_file(gdspath)
-    assert h == "71d476075cf081b4099c1eea1c8984a1", h
+    href = "ed41db2253d80bb337510965bec6e422"
+    assert h == href, f"href = {h!r}"
 
 
-def _test_hash_file():
+def _test_hash_file() -> None:
     """Test hash of the saved GDS file."""
-    gf.clear_cache()
     c = gf.components.straight()
-    c.add_label("hi")
     gdspath = c.write_gds()
     h = hash_file(gdspath)
-    assert h == "f2228aed8141f447e601ce93a6219415", h
+    href = "120dd914e80c9a1f5bb30b8743e3f836"
+    assert h == href, f"href = {h!r}"
 
 
 if __name__ == "__main__":
     # test_hash_geometry()
     _test_hash_file()
-    _test_hash_array_file()
+    # _test_hash_array_file()

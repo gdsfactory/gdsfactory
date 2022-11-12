@@ -1,0 +1,267 @@
+connections:
+  bend_euler_1,o1: bend_euler_2,o2
+  bend_euler_1,o2: taper_2,o1
+  bend_euler_2,o1: taper_1,o2
+  bend_euler_3,o1: straight_3,o2
+  bend_euler_3,o2: straight_4,o1
+  bend_euler_4,o1: straight_2,o2
+  bend_euler_4,o2: straight_3,o1
+  coupler_1,o3: taper_1,o1
+  coupler_1,o4: taper_4,o1
+  coupler_2,o3: taper_6,o2
+  coupler_2,o4: taper_3,o2
+  straight_1,o1: taper_2,o2
+  straight_1,o2: taper_3,o1
+  straight_2,o1: taper_4,o2
+  straight_4,o2: taper_5,o1
+  straight_5,o1: taper_5,o2
+  straight_5,o2: taper_6,o1
+instances:
+  bend_euler_1:
+    component: bend_euler
+    info:
+      dy: 10.0
+      length: 16.637
+      radius: 10.0
+      radius_min: 7.061
+      width: 0.45
+    settings:
+      width: 0.45
+  bend_euler_2:
+    component: bend_euler
+    info:
+      dy: 10.0
+      length: 16.637
+      radius: 10.0
+      radius_min: 7.061
+      width: 0.45
+    settings:
+      width: 0.45
+  bend_euler_3:
+    component: bend_euler
+    info:
+      dy: 10.0
+      length: 16.637
+      radius: 10.0
+      radius_min: 7.061
+      width: 0.55
+    settings:
+      width: 0.55
+  bend_euler_4:
+    component: bend_euler
+    info:
+      dy: 10.0
+      length: 16.637
+      radius: 10.0
+      radius_min: 7.061
+      width: 0.55
+    settings:
+      width: 0.55
+  coupler_1:
+    component: coupler
+    info:
+      length: 10.026
+      min_bend_radius: 30.486
+    settings:
+      dy: 2.0
+      gap: 0.3
+      length: 10.0
+  coupler_2:
+    component: coupler
+    info:
+      length: 10.03
+      min_bend_radius: 28.187
+    settings:
+      dy: 2.0
+      gap: 0.2
+      length: 5.0
+  straight_1:
+    component: straight
+    info:
+      length: 1.0
+      width: 0.55
+    settings:
+      length: 1.0
+      width: 0.55
+  straight_2:
+    component: straight
+    info:
+      length: 3.0
+      width: 0.55
+    settings:
+      length: 3.0
+      width: 0.55
+  straight_3:
+    component: straight
+    info:
+      length: 4.0
+      width: 0.55
+    settings:
+      length: 4.0
+      width: 0.55
+  straight_4:
+    component: straight
+    info:
+      length: 3.0
+      width: 0.55
+    settings:
+      length: 3.0
+      width: 0.55
+  straight_5:
+    component: straight
+    info:
+      length: 1.0
+      width: 0.45
+    settings:
+      length: 1.0
+      width: 0.45
+  taper_1:
+    component: taper
+    info:
+      length: 5.0
+      width1: 0.5
+      width2: 0.45
+    settings:
+      length: 5.0
+      width2: 0.45
+  taper_2:
+    component: taper
+    info:
+      length: 5.0
+      width1: 0.45
+      width2: 0.55
+    settings:
+      length: 5.0
+      width1: 0.45
+      width2: 0.55
+  taper_3:
+    component: taper
+    info:
+      length: 5.0
+      width1: 0.55
+      width2: 0.5
+    settings:
+      length: 5.0
+      width1: 0.55
+      width2: 0.5
+  taper_4:
+    component: taper
+    info:
+      length: 5.0
+      width1: 0.5
+      width2: 0.55
+    settings:
+      length: 5.0
+      width2: 0.55
+  taper_5:
+    component: taper
+    info:
+      length: 5.0
+      width1: 0.55
+      width2: 0.45
+    settings:
+      length: 5.0
+      width1: 0.55
+      width2: 0.45
+  taper_6:
+    component: taper
+    info:
+      length: 5.0
+      width1: 0.45
+      width2: 0.5
+    settings:
+      length: 5.0
+      width1: 0.45
+      width2: 0.5
+name: mzit
+placements:
+  bend_euler_1:
+    mirror: 0
+    rotation: 90
+    x: 35.0
+    y: 11.4
+  bend_euler_2:
+    mirror: 0
+    rotation: 0
+    x: 25.0
+    y: 1.4
+  bend_euler_3:
+    mirror: 0
+    rotation: 90
+    x: 38.0
+    y: 13.4
+  bend_euler_4:
+    mirror: 0
+    rotation: 0
+    x: 28.0
+    y: -0.6
+  coupler_1:
+    mirror: 0
+    rotation: 0
+    x: 0.0
+    y: 0.0
+  coupler_2:
+    mirror: 0
+    rotation: 0
+    x: -1.0
+    y: 22.05
+  straight_1:
+    mirror: 0
+    rotation: 180
+    x: 20.0
+    y: 21.4
+  straight_2:
+    mirror: 0
+    rotation: 0
+    x: 25.0
+    y: -0.6
+  straight_3:
+    mirror: 0
+    rotation: 90
+    x: 38.0
+    y: 9.4
+  straight_4:
+    mirror: 0
+    rotation: 180
+    x: 28.0
+    y: 23.4
+  straight_5:
+    mirror: 0
+    rotation: 180
+    x: 20.0
+    y: 23.4
+  taper_1:
+    mirror: 0
+    rotation: 0
+    x: 20.0
+    y: 1.4
+  taper_2:
+    mirror: 0
+    rotation: 180
+    x: 25.0
+    y: 21.4
+  taper_3:
+    mirror: 0
+    rotation: 180
+    x: 19.0
+    y: 21.4
+  taper_4:
+    mirror: 0
+    rotation: 0
+    x: 20.0
+    y: -0.6
+  taper_5:
+    mirror: 0
+    rotation: 180
+    x: 25.0
+    y: 23.4
+  taper_6:
+    mirror: 0
+    rotation: 180
+    x: 19.0
+    y: 23.4
+ports:
+  o1: coupler_1,o1
+  o2: coupler_1,o2
+  o3: coupler_2,o1
+  o4: coupler_2,o2

@@ -1,0 +1,148 @@
+name: spiral_inner_io_add_gra_f2760628
+settings:
+  changed: {}
+  child:
+    changed: {}
+    child: null
+    default:
+      N: 6
+      bend180:
+        function: bend_euler
+        settings:
+          angle: 180
+      bend90:
+        function: bend_euler
+      cross_section: strip
+      cross_section_bend: null
+      grating_spacing: 127.0
+      length: null
+      straight:
+        function: straight
+      waveguide_spacing: 3.0
+      x_straight_inner_left: 50.0
+      x_straight_inner_right: 150.0
+      y_straight_inner_bottom: 10.0
+      y_straight_inner_top: 50.0
+    full:
+      N: 6
+      bend180:
+        function: bend_euler
+        settings:
+          angle: 180
+      bend90:
+        function: bend_euler
+      cross_section: strip
+      cross_section_bend: null
+      grating_spacing: 127.0
+      length: null
+      straight:
+        function: straight
+      waveguide_spacing: 3.0
+      x_straight_inner_left: 50.0
+      x_straight_inner_right: 150.0
+      y_straight_inner_bottom: 10.0
+      y_straight_inner_top: 50.0
+    function_name: spiral_inner_io
+    info:
+      length: 11584.394
+    info_version: 2
+    module: gdsfactory.components.spiral_inner_io
+    name: spiral_inner_io
+  default:
+    bend:
+      function: bend_euler
+    bend_radius_loopback: null
+    component:
+      function: spiral_inner_io
+    component_name: null
+    cross_section:
+      function: cross_section
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
+        cladding_layers:
+        - DEVREC
+        cladding_offsets:
+        - 0
+    excluded_ports: null
+    gc_port_name: o1
+    gc_rotation: -90
+    get_input_labels_function:
+      function: get_input_labels
+    grating_coupler:
+      function: grating_coupler_elliptical_trenches
+      settings:
+        polarization: te
+        taper_angle: 35
+    grating_separation: 127.0
+    layer_label:
+    - 200
+    - 0
+    layer_label_loopback: null
+    loopback_yspacing: 4.0
+    nlabels_loopback: 2
+    select_ports:
+      function: select_ports
+      settings:
+        port_type: optical
+    straight:
+      function: straight
+    straight_separation: 5.0
+    with_loopback: false
+  full:
+    bend:
+      function: bend_euler
+    bend_radius_loopback: null
+    component:
+      function: spiral_inner_io
+    component_name: null
+    cross_section:
+      function: cross_section
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
+        cladding_layers:
+        - DEVREC
+        cladding_offsets:
+        - 0
+    excluded_ports: null
+    gc_port_name: o1
+    gc_rotation: -90
+    get_input_labels_function:
+      function: get_input_labels
+    grating_coupler:
+      function: grating_coupler_elliptical_trenches
+      settings:
+        polarization: te
+        taper_angle: 35
+    grating_separation: 127.0
+    layer_label:
+    - 200
+    - 0
+    layer_label_loopback: null
+    loopback_yspacing: 4.0
+    nlabels_loopback: 2
+    select_ports:
+      function: select_ports
+      settings:
+        port_type: optical
+    straight:
+      function: straight
+    straight_separation: 5.0
+    with_loopback: false
+  function_name: add_grating_couplers_with_loopback_fiber_array
+  info:
+    length: 11584.394
+    polarization: te
+    wavelength: 1.53
+  info_version: 2
+  module: gdsfactory.components.add_grating_couplers
+  name: spiral_inner_io_add_gra_f2760628

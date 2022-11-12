@@ -4,14 +4,14 @@ import gdsfactory as gf
 @gf.cell
 def straight_with_pins(**kwargs):
     c = gf.Component()
-    ref = c << gf.c.straight()
+    ref = c << gf.components.straight()
     c.add_ports(ref.ports)
     return c
 
 
 def test_name_with_decorator():
     c = gf.Component("test_name_with_decorator")
-    c1 = c << straight_with_pins(decorator=gf.add_padding_container)
+    c1 = c << straight_with_pins(decorator=gf.add_padding)
     c2 = c << straight_with_pins()
 
     c1.movey(-10)
@@ -35,15 +35,15 @@ def test_name_with_decorator():
 
     no_name_cells = [cell.name for cell in all_cells if cell.name.startswith("Unnamed")]
     assert (
-        len(no_name_cells) == 0
+        not no_name_cells
     ), f"Component {c.name!r} contains {len(no_name_cells)} Unnamed cells"
 
 
 if __name__ == "__main__":
     c = gf.Component("test_name_with_decorator")
-    c1 = c << straight_with_pins(decorator=gf.add_padding_container)
-    c2 = c << straight_with_pins()
+    c1 = c << straight_with_pins(decorator=gf.add_padding)
     c1.movey(-10)
+    c2 = c << straight_with_pins()
     c2.movey(100)
 
     cells = c.get_dependencies()
@@ -63,6 +63,7 @@ if __name__ == "__main__":
     all_cells = [c] + referenced_cells
 
     no_name_cells = [cell.name for cell in all_cells if cell.name.startswith("Unnamed")]
-    assert (
-        len(no_name_cells) == 0
-    ), f"Component {c.name!r} contains {len(no_name_cells)} Unnamed cells"
+    # assert (
+    #     not no_name_cells
+    # ), f"Component {c.name!r} contains {len(no_name_cells)} Unnamed cells"
+    c.show(show_ports=True)

@@ -1,511 +1,79 @@
-cells:
-  bend_euler_4196e3b7:
-    changed:
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 0.9
-      decorator:
-        function: add_pins
-    default:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    dy: 10
-    full:
-      angle: 90
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 0.9
-      decorator:
-        function: add_pins
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    function_name: bend_euler
-    info_version: 1
-    length: 16.637
-    module: gdsfactory.components.bend_euler
-    name: bend_euler_4196e3b7
-    radius: 10
-    radius_min: 7.061
-  mmi1x2_4e81d408:
-    changed:
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 0.9
-      decorator:
-        function: add_pins
-      width: 0.9
-    default:
-      cross_section:
-        function: cross_section
-      gap_mmi: 0.25
-      length_mmi: 5.5
-      length_taper: 10
-      taper:
-        function: taper
-      width: 0.5
-      width_mmi: 2.5
-      width_taper: 1
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 0.9
-      decorator:
-        function: add_pins
-      gap_mmi: 0.25
-      length_mmi: 5.5
-      length_taper: 10
-      taper:
-        function: taper
-      width: 0.9
-      width_mmi: 2.5
-      width_taper: 1
-      with_cladding_box: true
-    function_name: mmi1x2
-    info_version: 1
-    module: gdsfactory.components.mmi1x2
-    name: mmi1x2_4e81d408
-  mzi_ab885bdb:
-    changed:
-      bend:
-        cross_section:
-          function: cross_section
-          layer:
-          - 34
-          - 0
-          layers_cladding:
-          - - 36
-            - 0
-          width: 0.9
-        decorator:
-          function: add_pins
-        function: bend_euler
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 0.9
-      decorator:
-        function: add_pins
-      splitter:
-        cross_section:
-          function: cross_section
-          layer:
-          - 34
-          - 0
-          layers_cladding:
-          - - 36
-            - 0
-          width: 0.9
-        decorator:
-          function: add_pins
-        function: mmi1x2
-        width: 0.9
-      straight:
-        cross_section:
-          function: cross_section
-          layer:
-          - 34
-          - 0
-          layers_cladding:
-          - - 36
-            - 0
-          width: 0.9
-        decorator:
-          function: add_pins
-        function: straight
-    default:
-      bend:
-        function: bend_euler
-      combiner: null
-      cross_section:
-        function: cross_section
-      delta_length: 10
-      length_x: 0.1
-      length_y: 2
-      nbends: 2
-      port_e0_combiner: o3
-      port_e0_splitter: o3
-      port_e1_combiner: o2
-      port_e1_splitter: o2
-      splitter:
-        function: mmi1x2
-      straight:
-        function: straight
-      straight_x_bot: null
-      straight_x_top: null
-      straight_y: null
-      with_splitter: true
-    full:
-      bend:
-        cross_section:
-          function: cross_section
-          layer:
-          - 34
-          - 0
-          layers_cladding:
-          - - 36
-            - 0
-          width: 0.9
-        decorator:
-          function: add_pins
-        function: bend_euler
-      combiner: null
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 0.9
-      decorator:
-        function: add_pins
-      delta_length: 10
-      length_x: 0.1
-      length_y: 2
-      nbends: 2
-      port_e0_combiner: o3
-      port_e0_splitter: o3
-      port_e1_combiner: o2
-      port_e1_splitter: o2
-      splitter:
-        cross_section:
-          function: cross_section
-          layer:
-          - 34
-          - 0
-          layers_cladding:
-          - - 36
-            - 0
-          width: 0.9
-        decorator:
-          function: add_pins
-        function: mmi1x2
-        width: 0.9
-      straight:
-        cross_section:
-          function: cross_section
-          layer:
-          - 34
-          - 0
-          layers_cladding:
-          - - 36
-            - 0
-          width: 0.9
-        decorator:
-          function: add_pins
-        function: straight
-      straight_x_bot: null
-      straight_x_top: null
-      straight_y: null
-      with_splitter: true
-    function_name: mzi
-    info_version: 1
-    module: gdsfactory.components.mzi
-    name: mzi_ab885bdb
-  straight_65276dc9:
-    changed:
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 0.9
-      decorator:
-        function: add_pins
-      length: 0.01
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 0.9
-      decorator:
-        function: add_pins
-      length: 0.01
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 0.01
-    module: gdsfactory.components.straight
-    name: straight_65276dc9
-    width: 0.9
-  straight_79ad5022:
-    changed:
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 0.9
-      decorator:
-        function: add_pins
-      length: 2
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 0.9
-      decorator:
-        function: add_pins
-      length: 2
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 2
-    module: gdsfactory.components.straight
-    name: straight_79ad5022
-    width: 0.9
-  straight_9d5365bf:
-    changed:
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 0.9
-      decorator:
-        function: add_pins
-      length: 0.09
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 0.9
-      decorator:
-        function: add_pins
-      length: 0.09
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 0.09
-    module: gdsfactory.components.straight
-    name: straight_9d5365bf
-    width: 0.9
-  straight_b96a1fbe:
-    changed:
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 0.9
-      decorator:
-        function: add_pins
-      length: 0.1
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 0.9
-      decorator:
-        function: add_pins
-      length: 0.1
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 0.1
-    module: gdsfactory.components.straight
-    name: straight_b96a1fbe
-    width: 0.9
-  straight_d2d623c6:
-    changed:
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 0.9
-      decorator:
-        function: add_pins
-      length: 7
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 0.9
-      decorator:
-        function: add_pins
-      length: 7
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 7
-    module: gdsfactory.components.straight
-    name: straight_d2d623c6
-    width: 0.9
-info:
+settings:
   changed:
     bend:
-      cross_section:
-        function: cross_section
+      function: bend_euler
+      settings:
+        cross_section:
+          function: cross_section
+          settings:
+            bbox_layers:
+            - - 36
+              - 0
+            bbox_offsets:
+            - 3
+            layer:
+            - 34
+            - 0
+            width: 0.9
+        decorator:
+          function: add_pins
+    cross_section:
+      function: cross_section
+      settings:
+        bbox_layers:
+        - - 36
+          - 0
+        bbox_offsets:
+        - 3
         layer:
         - 34
         - 0
-        layers_cladding:
-        - - 36
-          - 0
         width: 0.9
-      decorator:
-        function: add_pins
-      function: bend_euler
-    cross_section:
-      function: cross_section
-      layer:
-      - 34
-      - 0
-      layers_cladding:
-      - - 36
-        - 0
-      width: 0.9
     decorator:
       function: add_pins
     splitter:
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 0.9
-      decorator:
-        function: add_pins
       function: mmi1x2
-      width: 0.9
-    straight:
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
+      settings:
+        cross_section:
+          function: cross_section
+          settings:
+            bbox_layers:
+            - - 36
+              - 0
+            bbox_offsets:
+            - 3
+            layer:
+            - 34
+            - 0
+            width: 0.9
+        decorator:
+          function: add_pins
         width: 0.9
-      decorator:
-        function: add_pins
+    straight:
       function: straight
+      settings:
+        cross_section:
+          function: cross_section
+          settings:
+            bbox_layers:
+            - - 36
+              - 0
+            bbox_offsets:
+            - 3
+            layer:
+            - 34
+            - 0
+            width: 0.9
+        decorator:
+          function: add_pins
+  child: null
   default:
     bend:
       function: bend_euler
     combiner: null
     cross_section:
       function: cross_section
+      settings: {}
     delta_length: 10
     length_x: 0.1
     length_y: 2
@@ -524,28 +92,35 @@ info:
     with_splitter: true
   full:
     bend:
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 0.9
-      decorator:
-        function: add_pins
       function: bend_euler
+      settings:
+        cross_section:
+          function: cross_section
+          settings:
+            bbox_layers:
+            - - 36
+              - 0
+            bbox_offsets:
+            - 3
+            layer:
+            - 34
+            - 0
+            width: 0.9
+        decorator:
+          function: add_pins
     combiner: null
     cross_section:
       function: cross_section
-      layer:
-      - 34
-      - 0
-      layers_cladding:
-      - - 36
+      settings:
+        bbox_layers:
+        - - 36
+          - 0
+        bbox_offsets:
+        - 3
+        layer:
+        - 34
         - 0
-      width: 0.9
+        width: 0.9
     decorator:
       function: add_pins
     delta_length: 10
@@ -557,61 +132,47 @@ info:
     port_e1_combiner: o2
     port_e1_splitter: o2
     splitter:
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 0.9
-      decorator:
-        function: add_pins
       function: mmi1x2
-      width: 0.9
-    straight:
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
+      settings:
+        cross_section:
+          function: cross_section
+          settings:
+            bbox_layers:
+            - - 36
+              - 0
+            bbox_offsets:
+            - 3
+            layer:
+            - 34
+            - 0
+            width: 0.9
+        decorator:
+          function: add_pins
         width: 0.9
-      decorator:
-        function: add_pins
+    straight:
       function: straight
+      settings:
+        cross_section:
+          function: cross_section
+          settings:
+            bbox_layers:
+            - - 36
+              - 0
+            bbox_offsets:
+            - 3
+            layer:
+            - 34
+            - 0
+            width: 0.9
+        decorator:
+          function: add_pins
     straight_x_bot: null
     straight_x_top: null
     straight_y: null
     with_splitter: true
   function_name: mzi
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.mzi
-  name: mzi_ab885bdb
-ports:
-  o1:
-    layer:
-    - 34
-    - 0
-    midpoint:
-    - -12.75
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.9
-  o2:
-    layer:
-    - 34
-    - 0
-    midpoint:
-    - 78.45
-    - 1.5614246689128753e-15
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 0.9
-version: 1
+  name: mzi_d502274f
+version: 0.0.1

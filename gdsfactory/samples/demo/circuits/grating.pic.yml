@@ -1,0 +1,42 @@
+name: sample_different_factory
+
+settings:
+   taper_length: -50
+
+instances:
+    bl:
+      component: pad
+    tl:
+      component: pad
+    br:
+      component: pad
+    tr:
+      component: pad
+
+placements:
+    tl:
+        x: 0
+        y: 200
+
+    br:
+        x: 400
+        y: 400
+
+    tr:
+        x: 400
+        y: 600
+
+routes:
+    electrical:
+        settings:
+            separation: 20
+            layer: [31, 0]
+            width: 10
+        links:
+            tl,e3: tr,e1
+            bl,e3: br,e1
+    optical:
+        settings:
+            radius: 100
+        links:
+            bl,e4: br,e3

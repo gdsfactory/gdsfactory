@@ -1,11 +1,11 @@
-from functools import partial
 from typing import Tuple
 
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.coupler import coupler as coupler_function
 from gdsfactory.components.mzi import mzi_coupler
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentSpec
 
 
 @cell
@@ -13,28 +13,28 @@ def mzi_lattice(
     coupler_lengths: Tuple[float, ...] = (10.0, 20.0),
     coupler_gaps: Tuple[float, ...] = (0.2, 0.3),
     delta_lengths: Tuple[float, ...] = (10.0,),
-    mzi: ComponentFactory = mzi_coupler,
-    splitter: ComponentFactory = coupler_function,
+    mzi: ComponentSpec = mzi_coupler,
+    splitter: ComponentSpec = coupler_function,
     **kwargs,
 ) -> Component:
     r"""Mzi lattice filter.
 
     Args:
-        coupler_lengths: list of length for each coupler
-        coupler_gaps: list of coupler gaps
-        delta_lengths: list of length differences
-        mzi: function for the mzi
-        splitter: splitter function
+        coupler_lengths: list of length for each coupler.
+        coupler_gaps: list of coupler gaps.
+        delta_lengths: list of length differences.
+        mzi: function for the mzi.
+        splitter: splitter function.
 
     keyword Args:
-        length_y: vertical length for both and top arms
-        length_x: horizontal length
-        bend: 90 degrees bend library
-        straight: straight function
-        straight_y: straight for length_y and delta_length
-        straight_x_top: top straight for length_x
-        straight_x_bot: bottom straight for length_x
-        cross_section: for routing (sxtop/sxbot to combiner)
+        length_y: vertical length for both and top arms.
+        length_x: horizontal length.
+        bend: 90 degrees bend library.
+        straight: straight function.
+        straight_y: straight for length_y and delta_length.
+        straight_x_top: top straight for length_x.
+        straight_x_bot: bottom straight for length_x.
+        cross_section: for routing (sxtop/sxbot to combiner).
 
     .. code::
 
@@ -50,20 +50,28 @@ def mzi_lattice(
                                  |______|
 
     """
-    assert len(coupler_lengths) == len(coupler_gaps)
-    assert len(coupler_lengths) == len(delta_lengths) + 1
+    if len(coupler_lengths) != len(coupler_gaps):
+        raise ValueError(
+            f"Got {len(coupler_lengths)} coupler_lengths and "
+            f"{len(coupler_gaps)} coupler_gaps"
+        )
+    if len(coupler_lengths) != len(delta_lengths) + 1:
+        raise ValueError(
+            f"Got {len(coupler_lengths)} coupler_lengths and "
+            f"{len(delta_lengths)} delta_lengths. "
+            "You need one more coupler_length than delta_lengths "
+        )
 
     c = Component()
 
     splitter_settings = dict(gap=coupler_gaps[0], length=coupler_lengths[0])
     combiner_settings = dict(gap=coupler_gaps[1], length=coupler_lengths[1])
 
-    splitter1 = partial(splitter, **splitter_settings)
-    combiner1 = partial(splitter, **combiner_settings)
+    cp1 = splitter1 = gf.get_component(splitter, **splitter_settings)
+    combiner1 = gf.get_component(splitter, **combiner_settings)
 
-    cp1 = splitter1()
-
-    sprevious = c << mzi(
+    sprevious = c << gf.get_component(
+        mzi,
         splitter=splitter1,
         combiner=combiner1,
         with_splitter=True,
@@ -80,10 +88,11 @@ def mzi_lattice(
 
         splitter_settings = dict(gap=coupler_gaps[1], length=coupler_lengths[1])
         combiner_settings = dict(length=length, gap=gap)
-        splitter1 = partial(splitter, **splitter_settings)
-        combiner1 = partial(splitter, **combiner_settings)
+        splitter1 = gf.get_component(splitter, **splitter_settings)
+        combiner1 = gf.get_component(splitter, **combiner_settings)
 
-        stage = c << mzi(
+        stage = c << gf.get_component(
+            mzi,
             splitter=splitter1,
             combiner=combiner1,
             with_splitter=False,
@@ -123,4 +132,4 @@ if __name__ == "__main__":
         coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0, length_x=1
     )
     c = mzi_lattice(delta_lengths=(20,))
-    c.show()
+    c.show(show_ports=True)

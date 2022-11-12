@@ -1,0 +1,377 @@
+center:
+- 0.0
+- 0.0
+- 0.0
+courant: 0.9
+grid_size: null
+grid_spec:
+    grid_x:
+        max_scale: 1.4
+        mesher:
+            type: GradedMesher
+        min_steps_per_wvl: 10.0
+        type: AutoGrid
+    grid_y:
+        max_scale: 1.4
+        mesher:
+            type: GradedMesher
+        min_steps_per_wvl: 10.0
+        type: AutoGrid
+    grid_z:
+        max_scale: 1.4
+        mesher:
+            type: GradedMesher
+        min_steps_per_wvl: 10.0
+        type: AutoGrid
+    override_structures: []
+    type: GridSpec
+    wavelength: null
+medium:
+    conductivity: 0.0
+    frequency_range: null
+    name: null
+    permittivity: 1.0
+    type: Medium
+monitors:
+-   center:
+    - -1.3
+    - -2.4492935982947065e-17
+    - 0.0
+    freqs:
+        data_list:
+        - 199861639053964.53
+        - 199590087913945.56
+        - 199319273683397.47
+        - 199049193366753.28
+        - 198779843984660.25
+        - 198511222573870.2
+        - 198243326187130.84
+        - 197976151893078.1
+        - 197709696776129.12
+        - 197443957936376.25
+        - 197178932489481.78
+        - 196914617566573.62
+        - 196651010314141.8
+        - 196388107893935.72
+        - 196125907482862.38
+        - 195864406272885.25
+        - 195603601470924.03
+        - 195343490298755.25
+        - 195084069992913.6
+        - 194825337804594.1
+        - 194567290999554.88
+        - 194309926858021.06
+        - 194053242674589.06
+        - 193797235758131.84
+        - 193541903431704.78
+        - 193287243032452.56
+        - 193033251911516.34
+        - 192779927433942.2
+        - 192527266978589.7
+        - 192275267938041.8
+        - 192023927718514.94
+        - 191773243739770.16
+        - 191523213435024.7
+        - 191273834250864.5
+        - 191025103647157.25
+        - 190777019096966.16
+        - 190529578086464.25
+        - 190282778114849.66
+        - 190036616694261.25
+        - 189791091349695.0
+        - 189546199618921.2
+        - 189301939052401.97
+        - 189058307213209.7
+        - 188815301676945.9
+        - 188572920031661.0
+        - 188331159877774.28
+        - 188090018827994.8
+        - 187849494507242.88
+        - 187609584552572.06
+        - 187370286613091.75
+    mode_spec:
+        angle_phi: 0.0
+        angle_theta: 0.0
+        bend_axis: null
+        bend_radius: null
+        num_modes: 1
+        num_pml:
+        - 0
+        - 0
+        sort_by: largest_neff
+        target_neff: null
+        type: ModeSpec
+    name: o1
+    size:
+    - 0.0
+    - 1.5
+    - 2.2199999999999998
+    type: ModeMonitor
+-   center:
+    - 1.5
+    - 0.0
+    - 0.0
+    freqs:
+        data_list:
+        - 199861639053964.53
+        - 199590087913945.56
+        - 199319273683397.47
+        - 199049193366753.28
+        - 198779843984660.25
+        - 198511222573870.2
+        - 198243326187130.84
+        - 197976151893078.1
+        - 197709696776129.12
+        - 197443957936376.25
+        - 197178932489481.78
+        - 196914617566573.62
+        - 196651010314141.8
+        - 196388107893935.72
+        - 196125907482862.38
+        - 195864406272885.25
+        - 195603601470924.03
+        - 195343490298755.25
+        - 195084069992913.6
+        - 194825337804594.1
+        - 194567290999554.88
+        - 194309926858021.06
+        - 194053242674589.06
+        - 193797235758131.84
+        - 193541903431704.78
+        - 193287243032452.56
+        - 193033251911516.34
+        - 192779927433942.2
+        - 192527266978589.7
+        - 192275267938041.8
+        - 192023927718514.94
+        - 191773243739770.16
+        - 191523213435024.7
+        - 191273834250864.5
+        - 191025103647157.25
+        - 190777019096966.16
+        - 190529578086464.25
+        - 190282778114849.66
+        - 190036616694261.25
+        - 189791091349695.0
+        - 189546199618921.2
+        - 189301939052401.97
+        - 189058307213209.7
+        - 188815301676945.9
+        - 188572920031661.0
+        - 188331159877774.28
+        - 188090018827994.8
+        - 187849494507242.88
+        - 187609584552572.06
+        - 187370286613091.75
+    mode_spec:
+        angle_phi: 0.0
+        angle_theta: 0.0
+        bend_axis: null
+        bend_radius: null
+        num_modes: 1
+        num_pml:
+        - 0
+        - 0
+        sort_by: largest_neff
+        target_neff: null
+        type: ModeSpec
+    name: o2
+    size:
+    - 0.0
+    - 1.5
+    - 2.2199999999999998
+    type: ModeMonitor
+pml_layers:
+-   num_layers: 12
+    parameters:
+        alpha_max: 0.0
+        alpha_min: 0.0
+        alpha_order: 1
+        kappa_max: 3.0
+        kappa_min: 1.0
+        kappa_order: 3
+        sigma_max: 1.5
+        sigma_min: 0.0
+        sigma_order: 3
+        type: PMLParams
+    type: PML
+-   num_layers: 12
+    parameters:
+        alpha_max: 0.0
+        alpha_min: 0.0
+        alpha_order: 1
+        kappa_max: 3.0
+        kappa_min: 1.0
+        kappa_order: 3
+        sigma_max: 1.5
+        sigma_min: 0.0
+        sigma_order: 3
+        type: PMLParams
+    type: PML
+-   num_layers: 12
+    parameters:
+        alpha_max: 0.0
+        alpha_min: 0.0
+        alpha_order: 1
+        kappa_max: 3.0
+        kappa_min: 1.0
+        kappa_order: 3
+        sigma_max: 1.5
+        sigma_min: 0.0
+        sigma_order: 3
+        type: PMLParams
+    type: PML
+run_time: 1.0340486931104608e-11
+shutoff: 1.0e-05
+size:
+- 5.0
+- 2.5
+- 4.22
+sources:
+-   center:
+    - -1.5
+    - 0.0
+    - 0.0
+    direction: +
+    mode_index: 0
+    mode_spec:
+        angle_phi: 0.0
+        angle_theta: 0.0
+        bend_axis: null
+        bend_radius: null
+        num_modes: 1
+        num_pml:
+        - 0
+        - 0
+        sort_by: largest_neff
+        target_neff: null
+        type: ModeSpec
+    name: null
+    size:
+    - 0.0
+    - 1.5
+    - 2.2199999999999998
+    source_time:
+        amplitude: 1.0
+        freq0: 193414489407062.47
+        fwidth: 19341448940706.246
+        offset: 5.0
+        phase: 0.0
+        type: GaussianPulse
+    type: ModeSource
+structures:
+-   geometry:
+        center:
+        - 0.0
+        - 0.0
+        - 0.0
+        size:
+        - Infinity
+        - Infinity
+        - Infinity
+        type: Box
+    medium:
+        conductivity: 0.0
+        frequency_range: null
+        name: null
+        permittivity: 2.0736
+        type: Medium
+    name: null
+    type: Structure
+-   geometry:
+        axis: 2
+        center:
+        - -3.5
+        - 2.4054832200211723e-16
+        - 0.11
+        dilation: 0.0
+        length: 0.22
+        sidewall_angle: 0.0
+        slab_bounds:
+        - 0.0
+        - 0.22
+        type: PolySlab
+        vertices:
+        -   - -1.5
+            - 0.25
+        -   - -5.5
+            - 0.2500000000000005
+        -   - -5.5
+            - -0.2499999999999995
+        -   - -1.5
+            - -0.25
+    medium:
+        conductivity: 0.0
+        frequency_range: null
+        name: null
+        permittivity: 12.0409
+        type: Medium
+    name: null
+    type: Structure
+-   geometry:
+        axis: 2
+        center:
+        - 3.5
+        - -0.0
+        - 0.11
+        dilation: 0.0
+        length: 0.22
+        sidewall_angle: 0.0
+        slab_bounds:
+        - 0.0
+        - 0.22
+        type: PolySlab
+        vertices:
+        -   - 1.5
+            - -0.25
+        -   - 5.5
+            - -0.25
+        -   - 5.5
+            - 0.25
+        -   - 1.5
+            - 0.25
+    medium:
+        conductivity: 0.0
+        frequency_range: null
+        name: null
+        permittivity: 12.0409
+        type: Medium
+    name: null
+    type: Structure
+-   geometry:
+        axis: 2
+        center:
+        - -0.0
+        - -0.0
+        - 0.11
+        dilation: 0.0
+        length: 0.22
+        sidewall_angle: 0.0
+        slab_bounds:
+        - 0.0
+        - 0.22
+        type: PolySlab
+        vertices:
+        -   - -1.5
+            - -0.25
+        -   - 1.5
+            - -0.25
+        -   - 1.5
+            - 0.25
+        -   - -1.5
+            - 0.25
+    medium:
+        conductivity: 0.0
+        frequency_range: null
+        name: null
+        permittivity: 12.0409
+        type: Medium
+    name: null
+    type: Structure
+subpixel: true
+symmetry:
+- 0
+- 0
+- 0
+type: Simulation
+version: 1.3.2

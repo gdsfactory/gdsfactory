@@ -1,582 +1,77 @@
-cells:
-  array_d995c19f:
-    changed:
-      columns: 1
-      component: straight_568cb457_exten_2872a9d7
-      rows: 3
-      spacing:
-      - 0
-      - 2
-    default:
-      columns: 6
-      component:
-        function: straight
-      rows: 1
-      spacing:
-      - 150
-      - 150
-    full:
-      columns: 1
-      component: straight_568cb457_exten_2872a9d7
-      rows: 3
-      spacing:
-      - 0
-      - 2
-    function_name: array
-    info_version: 1
-    module: gdsfactory.components.array
-    name: array_d995c19f
-  bend_euler_a519ff2d:
-    changed:
-      cross_section:
-        function: cross_section
-      radius: 5
-    default:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    dy: 5
-    full:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      radius: 5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    function_name: bend_euler
-    info_version: 1
-    length: 8.318
-    module: gdsfactory.components.bend_euler
-    name: bend_euler_a519ff2d
-    radius: 5
-    radius_min: 3.53
-  compass_164fc476:
-    changed:
-      layer:
-      - 47
-      - 0
-      size:
-      - 11
-      - 11
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 47
-      - 0
-      port_type: electrical
-      size:
-      - 11
-      - 11
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_164fc476
-  compass_280a2d8b:
-    changed:
-      layer:
-      - 45
-      - 0
-      size:
-      - 11
-      - 11
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 45
-      - 0
-      port_type: electrical
-      size:
-      - 11
-      - 11
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_280a2d8b
-  compass_8e661824:
-    changed:
-      layer:
-      - 49
-      - 0
-      size:
-      - 11
-      - 11
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 49
-      - 0
-      port_type: electrical
-      size:
-      - 11
-      - 11
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_8e661824
-  contact_46068602:
-    changed:
-      layers:
-      - - 47
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    default:
-      layer_port: null
-      layers:
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 11
-      - 11
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    full:
-      layer_port: null
-      layers:
-      - - 47
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 11
-      - 11
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    function_name: contact
-    info_version: 1
-    layer:
-    - 49
-    - 0
-    module: gdsfactory.components.contact
-    name: contact_46068602
-    size:
-    - 11
-    - 11
-  straight_1427c4e9:
-    changed:
-      cross_section:
-        function: cross_section
-        layer:
-        - 47
-        - 0
-        width: 2.5
-      length: 69.779
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-        layer:
-        - 47
-        - 0
-        width: 2.5
-      length: 69.779
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 69.779
-    module: gdsfactory.components.straight
-    name: straight_1427c4e9
-    width: 2.5
-  straight_396b7705:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 15
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 15
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 15
-    module: gdsfactory.components.straight
-    name: straight_396b7705
-    width: 0.5
-  straight_763c11c2:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 0.01
-      radius: 5
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 0.01
-      npoints: 2
-      radius: 5
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 0.01
-    module: gdsfactory.components.straight
-    name: straight_763c11c2
-    width: 0.5
-  straight_c5b20cce:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 10.02
-      radius: 5
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 10.02
-      npoints: 2
-      radius: 5
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 10.02
-    module: gdsfactory.components.straight
-    name: straight_c5b20cce
-    width: 0.5
-  straight_dbc1e874:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 2.01
-      radius: 5
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 2.01
-      npoints: 2
-      radius: 5
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 2.01
-    module: gdsfactory.components.straight
-    name: straight_dbc1e874
-    width: 0.5
-  straight_heater_meander_d41d8cd9:
-    changed: {}
-    default:
-      contact:
-        function: contact
-        layers:
-        - - 47
-          - 0
-        - - 45
-          - 0
-        - - 49
-          - 0
-        vias:
-        - enclosure: 2
-          function: via
-          layer:
-          - 44
-          - 0
-        - function: via
-          layer:
-          - 43
-          - 0
-      cross_section:
-        function: cross_section
-      extension_length: 15
-      heater_taper_length: 10
-      heater_width: 2.5
-      layer_heater:
-      - 47
-      - 0
-      length: 300
-      port_orientation1: 180
-      port_orientation2: 0
-      radius: 5
-      spacing: 2
-      straight_width: 0.9
-      taper_length: 10
-    full:
-      contact:
-        function: contact
-        layers:
-        - - 47
-          - 0
-        - - 45
-          - 0
-        - - 49
-          - 0
-        vias:
-        - enclosure: 2
-          function: via
-          layer:
-          - 44
-          - 0
-        - function: via
-          layer:
-          - 43
-          - 0
-      cross_section:
-        function: cross_section
-      extension_length: 15
-      heater_taper_length: 10
-      heater_width: 2.5
-      layer_heater:
-      - 47
-      - 0
-      length: 300
-      port_orientation1: 180
-      port_orientation2: 0
-      radius: 5
-      spacing: 2
-      straight_width: 0.9
-      taper_length: 10
-    function_name: straight_heater_meander
-    info_version: 1
-    module: gdsfactory.components.straight_heater_meander
-    name: straight_heater_meander_d41d8cd9
-  taper_d31ba445:
-    changed:
-      cross_section:
-        function: cross_section
-        layer:
-        - 47
-        - 0
-        width: 2.5
-      length: 10
-      width1: 11
-      width2: 2.5
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      port: null
-      width1: 0.5
-      width2: null
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-        layer:
-        - 47
-        - 0
-        width: 2.5
-      length: 10
-      port: null
-      width1: 11
-      width2: 2.5
-      with_cladding_box: true
-    function_name: taper
-    info_version: 1
-    length: 10
-    module: gdsfactory.components.taper
-    name: taper_d31ba445
-    width1: 11
-    width2: 2.5
-info:
+name: straight_heater_meander
+settings:
   changed: {}
+  child: null
   default:
-    contact:
-      function: contact
-      layers:
-      - - 47
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    cross_section:
-      function: cross_section
-    extension_length: 15
-    heater_taper_length: 10
+    cross_section: strip
+    extension_length: 15.0
+    heater_taper_length: 10.0
     heater_width: 2.5
-    layer_heater:
-    - 47
-    - 0
-    length: 300
+    layer_heater: HEATER
+    length: 300.0
     port_orientation1: 180
     port_orientation2: 0
-    radius: 5
-    spacing: 2
-    straight_width: 0.9
+    radius: 5.0
+    spacing: 2.0
+    straight_widths:
+    - 0.8
+    - 0.9
+    - 0.8
     taper_length: 10
+    via_stack:
+      function: via_stack
+      settings:
+        layers:
+        - - 47
+          - 0
+        - - 45
+          - 0
+        - - 49
+          - 0
+        vias:
+        - function: via
+          settings:
+            enclosure: 2
+            layer: VIA1
+        - function: via
+          settings:
+            layer: VIA2
   full:
-    contact:
-      function: contact
-      layers:
-      - - 47
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    cross_section:
-      function: cross_section
-    extension_length: 15
-    heater_taper_length: 10
+    cross_section: strip
+    extension_length: 15.0
+    heater_taper_length: 10.0
     heater_width: 2.5
-    layer_heater:
-    - 47
-    - 0
-    length: 300
+    layer_heater: HEATER
+    length: 300.0
     port_orientation1: 180
     port_orientation2: 0
-    radius: 5
-    spacing: 2
-    straight_width: 0.9
+    radius: 5.0
+    spacing: 2.0
+    straight_widths:
+    - 0.8
+    - 0.9
+    - 0.8
     taper_length: 10
+    via_stack:
+      function: via_stack
+      settings:
+        layers:
+        - - 47
+          - 0
+        - - 45
+          - 0
+        - - 49
+          - 0
+        vias:
+        - function: via
+          settings:
+            enclosure: 2
+            layer: VIA1
+        - function: via
+          settings:
+            layer: VIA2
   function_name: straight_heater_meander
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.straight_heater_meander
-  name: straight_heater_meander_d41d8cd9
-ports:
-  e1:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - -21
-    - 2
-    name: e1
-    orientation: 180
-    port_type: electrical
-    width: 11
-  e2:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 90.779
-    - 2
-    name: e2
-    orientation: 0
-    port_type: electrical
-    width: 11
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - -25
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 74.779
-    - 4
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 0.5
-version: 1
+  name: straight_heater_meander

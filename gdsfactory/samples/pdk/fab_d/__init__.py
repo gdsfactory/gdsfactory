@@ -1,4 +1,4 @@
-from fab_d.phase_shifters import (
+from .phase_shifters import (
     LAYER,
     ps_heater_doped,
     ps_heater_metal,
@@ -16,7 +16,6 @@ factory = dict(
 
 __all__ = [
     "LAYER",
-    "phase_shifters",
     "ps_heater_doped",
     "ps_heater_metal",
     "ps_pin",

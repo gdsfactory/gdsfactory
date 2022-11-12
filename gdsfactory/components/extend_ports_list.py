@@ -3,29 +3,28 @@ from typing import List, Optional
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.port import Port
-from gdsfactory.types import ComponentOrFactory, Strs
+from gdsfactory.types import ComponentSpec, Strs
 
 
 @cell
 def extend_ports_list(
     ports: List[Port],
-    extension_factory: ComponentOrFactory,
+    extension: ComponentSpec,
     extension_port_name: Optional[str] = None,
     ignore_ports: Optional[Strs] = None,
 ) -> Component:
     """Returns a component with the extensions for a list of ports.
 
     Args:
-        ports: list of ports
-        extension_factory: function for extension
-        extension_port_name: to connect extension
-        ignore_ports: list of port names to ignore
-
+        ports: list of ports.
+        extension: function for extension.
+        extension_port_name: to connect extension.
+        ignore_ports: list of port names to ignore.
     """
+    from gdsfactory.pdk import get_component
+
     c = Component()
-    extension = (
-        extension_factory() if callable(extension_factory) else extension_factory
-    )
+    extension = get_component(extension)
 
     extension_port_name = extension_port_name or list(extension.ports.keys())[0]
     ignore_ports = ignore_ports or []
@@ -45,11 +44,20 @@ def extend_ports_list(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.mmi1x2()
-    t = gf.partial(gf.c.taper, width2=0.1)
+    c = gf.Component("taper_extended")
+    c0 = gf.components.taper(width2=10)
+    e = extend_ports_list(c0.get_ports_list(), extension="straight")
+    c << c0
+    c << e
+    c.show(show_ports=True)
 
-    cr = extend_ports_list(
-        ports=c.get_ports_list(), extension_factory=t, extension_port_name="o1"
-    )
-    c.add_ref(cr)
-    c.show()
+    # c = gf.Component("mmi_extended")
+    # m = gf.components.mmi1x2()
+    # t = gf.partial(gf.components.taper, width2=0.1)
+    # e = extend_ports_list(
+    #     ports=m.get_ports_list(), extension=t, extension_port_name="o1"
+    # )
+
+    # c << m
+    # c << e
+    # c.show(show_ports=True)

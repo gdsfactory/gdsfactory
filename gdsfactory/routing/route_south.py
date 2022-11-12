@@ -1,17 +1,17 @@
 from typing import Callable, List, Optional, Tuple
 
 import numpy as np
-import phidl.device_layout as pd
 
+import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.straight import straight
+from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.cross_section import strip
-from gdsfactory.port import select_ports_optical
+from gdsfactory.port import Port, select_ports_optical
 from gdsfactory.routing.get_route import get_route
 from gdsfactory.routing.utils import direction_ports_from_list_ports, flip
-from gdsfactory.types import ComponentFactory, CrossSectionFactory, Number, Routes
+from gdsfactory.types import ComponentSpec, CrossSectionSpec, Number, Routes
 
 
 def route_south(
@@ -20,45 +20,55 @@ def route_south(
     excluded_ports: Optional[Tuple[str, ...]] = None,
     straight_separation: Number = 4.0,
     io_gratings_lines: Optional[List[List[ComponentReference]]] = None,
-    gc_port_name: str = 1,
-    bend: ComponentFactory = bend_euler,
-    straight: ComponentFactory = straight,
-    taper: Optional[ComponentFactory] = taper_function,
-    auto_widen: bool = True,
+    gc_port_name: str = "o1",
+    bend: ComponentSpec = bend_euler,
+    straight: ComponentSpec = straight_function,
+    taper: Optional[ComponentSpec] = taper_function,
     select_ports: Callable = select_ports_optical,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     **kwargs,
 ) -> Routes:
-    """Returns Routes
+    """Returns Routes to route a component ports to the south.
 
     Args:
-        component: component to route
+        component: component to route.
         optical_routing_type: routing heuristic `1` or `2`
             `1` uses the component size info to estimate the box size.
-            `2` only looks at the optical port positions to estimate the size
-        excluded_ports=[]: list of port names to NOT route
-        straight_separation
+            `2` only looks at the optical port positions to estimate the size.
+        excluded_ports: list of port names to NOT route.
+        straight_separation: in um.
         io_gratings_lines: list of ports to which the ports produced by this
             function will be connected. Supplying this information helps
-            avoiding straight collisions
-
-        gc_port_name: grating port name
-
-    Returns:
-        list of references, list of ports
+            avoiding straight collisions.
+        gc_port_name: grating coupler port name.
 
 
-    Works well if the component looks rougly like a rectangular box with
-        north ports on the north of the box
-        south ports on the south of the box
-        east ports on the east of the box
-        west ports on the west of the box
+    Works well if the component looks roughly like a rectangular box with:
+        north ports on the north of the box.
+        south ports on the south of the box.
+        east ports on the east of the box.
+        west ports on the west of the box.
+
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        c = gf.components.ring_double()
+        c = gf.Component()
+        ref = c << gf.components.ring_double()
+        r = gf.routing.route_south(ref)
+        for e in r.references:
+            c.add(e)
+        c.plot()
+
     """
+    xs = gf.get_cross_section(cross_section)
     excluded_ports = excluded_ports or []
-    assert optical_routing_type in [
+    assert optical_routing_type in {
         1,
         2,
-    ], f"optical_routing_type = {optical_routing_type}, not supported "
+    }, f"optical_routing_type = {optical_routing_type}, not supported "
 
     optical_ports = list(select_ports(component.ports).values())
     optical_ports = [p for p in optical_ports if p.name not in excluded_ports]
@@ -66,7 +76,8 @@ def route_south(
     references = []
     lengths = []
     bend90 = bend(cross_section=cross_section, **kwargs) if callable(bend) else bend
-    dy = abs(bend90.info.dy)
+    bend90 = gf.get_component(bend90)
+    dy = abs(bend90.info["dy"])
 
     # Handle empty list gracefully
     if not optical_ports:
@@ -76,7 +87,6 @@ def route_south(
         bend=bend,
         straight=straight,
         taper=taper,
-        auto_widen=auto_widen,
         cross_section=cross_section,
         **kwargs,
     )
@@ -91,7 +101,7 @@ def route_south(
     direction_ports = direction_ports_from_list_ports(optical_ports)
 
     north_ports = direction_ports["N"]
-    north_start = north_ports[0 : len(north_ports) // 2]
+    north_start = north_ports[: len(north_ports) // 2]
     north_finish = north_ports[len(north_ports) // 2 :]
 
     west_ports = direction_ports["W"]
@@ -105,14 +115,18 @@ def route_south(
     def get_index_port_closest_to_x(x, list_ports):
         return np.array([abs(x - p.ports[gc_port_name].x) for p in list_ports]).argmin()
 
-    def gen_port_from_port(x, y, p):
-        new_p = pd.Port(name=p.name, midpoint=(x, y), orientation=90.0, width=p.width)
-
-        return new_p
+    def gen_port_from_port(x, y, p, cross_section):
+        return Port(
+            name=p.name,
+            center=(x, y),
+            orientation=90.0,
+            width=p.width,
+            cross_section=cross_section,
+        )
 
     west_ports.reverse()
 
-    y0 = min([p.y for p in ordered_ports]) - dy - 0.5
+    y0 = min(p.y for p in ordered_ports) - dy - 0.5
 
     ports_to_route = []
 
@@ -133,7 +147,9 @@ def route_south(
         # use optical port to know how far to route
         x = x_optical_min - dy - 1
     else:
-        raise ValueError("Invalid optical routing type")
+        raise ValueError(
+            f"Invalid optical routing type {optical_routing_type!r} not in [1, 2]"
+        )
 
     # First route the ports facing west
     # In case we have to connect these ports to a line of gratings,
@@ -149,7 +165,7 @@ def route_south(
                 elif x < x_gr:
                     x = x_gr - delta_gr_min
 
-        tmp_port = gen_port_from_port(x, y0, p)
+        tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
         ports_to_route.append(tmp_port)
         route = get_route(input_port=p, output_port=tmp_port, **conn_params)
         references.extend(route.references)
@@ -163,9 +179,9 @@ def route_south(
     # This ensures that north ports are routed above the top west one
     north_start.reverse()  # We need them from left to right
     if len(north_start) > 0:
-        y_max = max([p.y for p in west_ports + north_start])
+        y_max = max(p.y for p in west_ports + north_start)
         for p in north_start:
-            tmp_port = gen_port_from_port(x, y0, p)
+            tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
 
             route = get_route(
                 input_port=p,
@@ -208,7 +224,7 @@ def route_south(
                 elif x > x_gr:
                     x = x_gr + delta_gr_min
 
-        tmp_port = gen_port_from_port(x, y0, p)
+        tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
         route = get_route(
             p, tmp_port, start_straight_length=start_straight_length, **conn_params
         )
@@ -223,9 +239,9 @@ def route_south(
     # Route the remaining north ports
     start_straight_length = 0.5
     if len(north_finish) > 0:
-        y_max = max([p.y for p in east_ports + north_finish])
+        y_max = max(p.y for p in east_ports + north_finish)
         for p in north_finish:
-            tmp_port = gen_port_from_port(x, y0, p)
+            tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
             ports_to_route.append(tmp_port)
             route = get_route(
                 input_port=p,
@@ -244,21 +260,16 @@ def route_south(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
     # c = gf.components.mmi2x2()
     # c = gf.components.ring_single()
-    c = gf.components.ring_double()
 
+    c = gf.components.ring_double()
     layer = (2, 0)
-    c = gf.components.ring_double(layer=layer)
-    r = route_south(c, bend=gf.components.bend_euler, layer=layer)
+    c = gf.Component()
+    ref = c << gf.components.ring_double(layer=layer)
+    r = route_south(ref, bend=gf.components.bend_euler, layer=layer)
     for e in r.references:
-        if isinstance(e, list):
-            print(len(e))
-            print(e)
-        # print(e)
         c.add(e)
 
     print(r.lengths)
-    c.show()
+    c.show(show_ports=True)

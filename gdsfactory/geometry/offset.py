@@ -1,36 +1,24 @@
-from typing import Tuple
+"""Based on phidl.geometry."""
 
-import gdspy
-import numpy as np
-from phidl.geometry import (
-    Device,
-    DeviceReference,
-    Polygon,
-    _merge_floating_point_errors,
-    _offset_polygons_parallel,
-    _parse_layer,
-)
+import gdstk
 
 import gdsfactory as gf
-from gdsfactory.types import Component, Layer
+from gdsfactory.component_layout import Polygon, _parse_layer
+from gdsfactory.types import Component, ComponentReference, LayerSpec
 
 
 @gf.cell
 def offset(
     elements: Component,
     distance: float = 0.1,
-    join_first: bool = True,
+    use_union: bool = True,
     precision: float = 1e-4,
-    num_divisions: Tuple[int, int] = (1, 1),
     join: str = "miter",
     tolerance: int = 2,
-    max_points: int = 4000,
-    layer: Layer = (1, 0),
+    layer: LayerSpec = "WG",
 ) -> Component:
-    """Returns an element containing all polygons with an offset
-    Shrinks or expands a polygon or set of polygons.
-
-    adapted from phidl.geometry
+    """Returns an element containing all polygons with an offset Shrinks or \
+    expands a polygon or set of polygons.
 
     Args:
         elements: Component(/Reference), list of Component(/Reference), or Polygon
@@ -46,10 +34,9 @@ def offset(
           original position before beveling to avoid spikes at acute joints. For
           round joints, it indicates the curvature resolution in number of
           points per full circle.
-        max_points: The maximum number of vertices within the resulting polygon.
         layer: Specific layer to put polygon geometry on.
 
-    Returns
+    Returns:
         Component containing a polygon(s) with the specified offset applied.
 
     """
@@ -57,49 +44,33 @@ def offset(
         elements = [elements]
     polygons_to_offset = []
     for e in elements:
-        if isinstance(e, (Device, DeviceReference)):
+        if isinstance(e, (Component, ComponentReference)):
             polygons_to_offset += e.get_polygons(by_spec=False)
-        elif isinstance(e, (Polygon, gdspy.Polygon)):
+        elif isinstance(e, (Polygon, gdstk.Polygon)):
             polygons_to_offset.append(e)
     if len(polygons_to_offset) == 0:
         return gf.Component("offset")
-    polygons_to_offset = _merge_floating_point_errors(
-        polygons_to_offset, tol=precision / 1000
-    )
-    gds_layer, gds_datatype = _parse_layer(layer)
-    if all(np.array(num_divisions) == np.array([1, 1])):
-        p = gdspy.offset(
-            polygons_to_offset,
-            distance=distance,
-            join=join,
-            tolerance=tolerance,
-            precision=precision,
-            join_first=join_first,
-            max_points=max_points,
-            layer=gds_layer,
-            datatype=gds_datatype,
-        )
-    else:
-        p = _offset_polygons_parallel(
-            polygons_to_offset,
-            distance=distance,
-            num_divisions=num_divisions,
-            join_first=join_first,
-            precision=precision,
-            join=join,
-            tolerance=tolerance,
-        )
 
-    component = gf.Component("offset")
+    layer = gf.get_layer(layer)
+    gds_layer, gds_datatype = _parse_layer(layer)
+    p = gdstk.offset(
+        polygons_to_offset,
+        distance=distance,
+        join=join,
+        tolerance=tolerance,
+        precision=precision,
+        use_union=use_union,
+        layer=gds_layer,
+        datatype=gds_datatype,
+    )
+
+    component = gf.Component()
     polygons = component.add_polygon(p, layer=layer)
-    [
-        polygon.fracture(max_points=max_points, precision=precision)
-        for polygon in polygons
-    ]
+    [polygon.fracture(precision=precision) for polygon in polygons]
     return component
 
 
-def test_offset():
+def test_offset() -> None:
     c = gf.components.ring()
     co = offset(c, distance=0.5)
     assert int(co.area()) == 94
@@ -108,4 +79,4 @@ def test_offset():
 if __name__ == "__main__":
     c = gf.components.ring()
     co = offset(c, distance=0.5)
-    gf.show(co)
+    co.show()

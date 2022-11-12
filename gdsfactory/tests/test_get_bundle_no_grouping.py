@@ -39,4 +39,4 @@ def test_link_optical_ports_no_grouping(
 
 if __name__ == "__main__":
     c = test_link_optical_ports_no_grouping(None, check=False)
-    c.show()
+    c.show(show_ports=True)

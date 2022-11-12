@@ -1,19 +1,19 @@
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.cross import cross
-from gdsfactory.types import ComponentFactory, Layers
+from gdsfactory.types import ComponentSpec, LayerSpecs
 
 
 @cell
 def copy_layers(
-    factory: ComponentFactory = cross, layers: Layers = ((1, 0), (2, 0)), **kwargs
+    factory: ComponentSpec = cross, layers: LayerSpecs = ((1, 0), (2, 0)), **kwargs
 ) -> Component:
     """Returns a component with the geometry copied in different layers.
 
     Args:
-        factory: component factory / function
-        layers: iterable of layers
-        kwargs: keyword arguments
+        factory: component spec.
+        layers: iterable of layers.
+        kwargs: keyword arguments.
     """
     c = Component()
     for layer in layers:
@@ -28,4 +28,4 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = copy_layers(gf.components.rectangle)
-    c.show()
+    c.show(show_ports=True)

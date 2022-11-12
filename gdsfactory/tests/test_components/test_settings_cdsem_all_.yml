@@ -1,0 +1,53 @@
+name: cdsem_all
+settings:
+  changed: {}
+  child: null
+  default:
+    bend90: bend_circular
+    cross_section: strip
+    dense_lines_gap: 0.3
+    dense_lines_labels:
+    - DL
+    - DM
+    - DH
+    dense_lines_width: 0.3
+    dense_lines_width_difference: 0.02
+    straight: straight
+    text:
+      function: text_rectangular
+      settings:
+        size: 1
+    widths:
+    - 0.4
+    - 0.45
+    - 0.5
+    - 0.6
+    - 0.8
+    - 1.0
+  full:
+    bend90: bend_circular
+    cross_section: strip
+    dense_lines_gap: 0.3
+    dense_lines_labels:
+    - DL
+    - DM
+    - DH
+    dense_lines_width: 0.3
+    dense_lines_width_difference: 0.02
+    straight: straight
+    text:
+      function: text_rectangular
+      settings:
+        size: 1
+    widths:
+    - 0.4
+    - 0.45
+    - 0.5
+    - 0.6
+    - 0.8
+    - 1.0
+  function_name: cdsem_all
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.cdsem_all
+  name: cdsem_all

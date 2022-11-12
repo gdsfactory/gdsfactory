@@ -1,5 +1,4 @@
-""" ensures gdslibrary exists
-"""
+"""ensures gdslibrary exists."""
 
 import gdsfactory as gf
 

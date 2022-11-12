@@ -1,0 +1,68 @@
+ports:
+  o1:
+    name: o1
+    width: 0.5
+    center:
+    - 0.0
+    - 0.0
+    orientation: 180
+    layer:
+    - 1
+    - 0
+    port_type: optical
+  o2:
+    name: o2
+    width: 0.5
+    center:
+    - 1.234
+    - 0.0
+    orientation: 0.0
+    layer:
+    - 1
+    - 0
+    port_type: optical
+cells:
+  straight_length1p234:
+    name: straight_length1p234
+    module: gdsfactory.components.straight
+    function_name: straight
+    info:
+      length: 1.234
+      width: 0.5
+    info_version: 2
+    full:
+      length: 1.234
+      npoints: 2
+      with_bbox: true
+      cross_section: strip
+    changed:
+      length: 1.234
+    default:
+      length: 10.0
+      npoints: 2
+      with_bbox: true
+      cross_section: strip
+    child: null
+name: straight_length1p234
+version: 0.0.1
+settings:
+  name: straight_length1p234
+  module: gdsfactory.components.straight
+  function_name: straight
+  info:
+    length: 1.234
+    width: 0.5
+  info_version: 2
+  full:
+    length: 1.234
+    npoints: 2
+    with_bbox: true
+    cross_section: strip
+  changed:
+    length: 1.234
+  default:
+    length: 10.0
+    npoints: 2
+    with_bbox: true
+    cross_section: strip
+  child: null

@@ -1,14 +1,12 @@
 from typing import Tuple
 
 import numpy as np
-from phidl.geometry import _glyph, _indent, _width
 
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.text_rectangular import text_rectangular
-from gdsfactory.name import clean_name
-from gdsfactory.tech import LAYER
-from gdsfactory.types import Coordinate, Layer
+from gdsfactory.constants import _glyph, _indent, _width
+from gdsfactory.types import Coordinate, LayerSpec
 
 
 @gf.cell
@@ -17,25 +15,24 @@ def text(
     size: float = 10.0,
     position: Coordinate = (0, 0),
     justify: str = "left",
-    layer: Tuple[int, int] = LAYER.TEXT,
+    layer: LayerSpec = "WG",
 ) -> Component:
     """Text shapes.
 
     Args:
-        text:
-        size:
-        position:
-        justify: left, right, center
-        layer:
-
+        text: string.
+        size: in um.
+        position: x, y position.
+        justify: left, right, center.
+        layer: for the text.
     """
     scaling = size / 1000
     xoffset = position[0]
     yoffset = position[1]
-    t = gf.Component(f"{clean_name(text)}_{int(position[0])}_{int(position[1])}")
+    t = gf.Component()
 
-    for i, line in enumerate(text.split("\n")):
-        label = gf.Component(f"{t.name}_{i}")
+    for line in text.split("\n"):
+        label = gf.Component()
         for c in line:
             ascii_val = ord(c)
             if c == " ":
@@ -47,7 +44,7 @@ def text(
                     label.add_polygon([xpts + xoffset, ypts + yoffset], layer=layer)
                 xoffset += (_width[ascii_val] + _indent[ascii_val]) * scaling
             else:
-                ValueError(f"[PHIDL] text(): No character with ascii value {ascii_val}")
+                raise ValueError(f"No character with ascii value {ascii_val!r}")
         ref = t.add_ref(label)
         t.absorb(ref)
         yoffset -= 1500 * scaling
@@ -61,53 +58,44 @@ def text(
         elif justify == "center":
             label.move(origin=label.center, destination=position, axis="x")
         else:
-            raise ValueError(f"justify = {justify} not in ('center', 'right', 'left')")
+            raise ValueError(
+                f"justify = {justify!r} not in ('center', 'right', 'left')"
+            )
     return t
 
 
 @gf.cell
-def githash(
-    text: Tuple[str, ...] = ("",),
+def text_lines(
+    text: Tuple[str, ...] = ("Chip", "01"),
     size: float = 0.4,
-    hash_length: int = 6,
-    layer: Layer = LAYER.WG,
+    layer: LayerSpec = "WG",
 ) -> Component:
-    """Returns the repo git hash
-    allows a list of text, that will print on separate lines
+    """Returns a Component from a text lines.
 
     Args:
-        text:
-        size:
-        hash_length:
-        layer:
-
+        text: list of strings.
+        size: text size.
+        layer: text layer.
     """
-    try:
-
-        git_hash = gf.CONFIG["repo"][:hash_length]
-        git_hash = f"gf_{git_hash}"
-    except Exception:
-        git_hash = f"gf_{gf.__version__}"
-
     c = gf.Component()
-    t = text_rectangular(text=git_hash, size=size, layer=layer)
-    tref = c.add_ref(t)
-    c.absorb(tref)
 
     for i, texti in enumerate(text):
         t = text_rectangular(text=texti, size=size, layer=layer)
         tref = c.add_ref(t)
         tref.movey(-6 * size * (i + 1))
-        c.absorb(tref)
     return c
 
 
 if __name__ == "__main__":
-    c = text(
-        text=".[,ABCDEFGHIKKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789:/",
-        size=4.0,
-        justify="right",
-        position=(120.5, 3),
-    )
-    # c = githash(text=["a", "b"], size=10)
-    c.show()
+    # c1 = gf.components.text("hello", size=10, layer=(1, 0))
+    c2 = gf.components.text("10.0")
+    # c = text(
+    #     text=".[,ABCDEFGHIKKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789:/",
+    #     size=4.0,
+    #     justify="right",
+    #     position=(120.5, 3),
+    # )
+    # c = text_lines(text=["a", "b"], size=10)
+    # c = text_lines()
+    c2.show(show_ports=True)
+    # c.plot()

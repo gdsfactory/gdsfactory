@@ -1,62 +1,77 @@
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.pad import pad as pad_function
+from gdsfactory.components.straight import straight
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_quad import route_quad
-from gdsfactory.types import ComponentOrFactory
+from gdsfactory.types import ComponentSpec
 
 
 @gf.cell
 def add_electrical_pads_shortest(
-    component: Component,
-    pad: ComponentOrFactory = pad_function,
+    component: ComponentSpec = straight,
+    pad: ComponentSpec = "pad",
     pad_port_spacing: float = 50.0,
     select_ports=select_ports_electrical,
-    port_orientation: int = 90,
-    layer: gf.types.Layer = (31, 0),
-    **kwargs,
+    port_orientation: float = 90,
+    layer: gf.types.LayerSpec = "M3",
 ) -> Component:
-    """Add pad to each closest electrical port.
+    """Returns new Component with a pad by each electrical port.
 
     Args:
-        component:
-        pad: pad element or function
-        pad_port_spacing: between pad and port
-        select_ports: function
-        port_orientation
-        layer: for the routing
-        **kwargs: pad_settings
+        component: to route.
+        pad: pad element or function.
+        pad_port_spacing: spacing between pad and port.
+        select_ports: function.
+        port_orientation: in degrees.
+        layer: for the routing.
+
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+        c = gf.components.straight_heater_metal(length=100)
+        c = gf.routing.add_electrical_pads_shortest(c, port_orientation=270)
+        c.plot()
 
     """
     c = Component()
+    component = gf.get_component(component)
+    pad = gf.get_component(pad)
+
     c.component = component
     ref = c << component
     ports = select_ports(ref.ports)
     ports = list(ports.values())
 
-    pad = pad(**kwargs) if callable(pad) else pad
-    pad_port_spacing += pad.info_child.full["size"][0] / 2
+    pad_port_spacing += pad.metadata_child["full"]["size"][0] / 2
 
-    for port in ports:
+    for i, port in enumerate(ports):
         p = c << pad
+
         if port_orientation == 0:
             p.x = port.x + pad_port_spacing
             p.y = port.y
-            c.add(route_quad(port, p.ports["e1"], layer=layer))
+            c.add_ref(route_quad(port, p.ports["e1"], layer=layer))
         elif port_orientation == 180:
             p.x = port.x - pad_port_spacing
             p.y = port.y
-            c.add(route_quad(port, p.ports["e3"], layer=layer))
+            c.add_ref(route_quad(port, p.ports["e3"], layer=layer))
         elif port_orientation == 90:
             p.y = port.y + pad_port_spacing
             p.x = port.x
-            c.add(route_quad(port, p.ports["e4"], layer=layer))
+            c.add_ref(route_quad(port, p.ports["e4"], layer=layer))
         elif port_orientation == 270:
             p.y = port.y - pad_port_spacing
             p.x = port.x
-            c.add(route_quad(port, p.ports["e2"], layer=layer))
+            c.add_ref(route_quad(port, p.ports["e2"], layer=layer))
 
+        # add pad ports
+        c.add_ports(p.ports, prefix=f"pad{i+1}_")
+
+    # add component ports
     c.add_ports(ref.ports)
+
+    # remove electrical ports
     for port in ports:
         c.ports.pop(port.name)
     c.copy_child_info(component)
@@ -64,10 +79,8 @@ def add_electrical_pads_shortest(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
-    c = gf.components.cross(length=100, layer=gf.LAYER.M3)
-    c = gf.components.mzi_phase_shifter()
-    c = gf.components.straight_heater_metal()
-    cc = add_electrical_pads_shortest(component=c)
-    cc.show()
+    # c = gf.components.cross(length=100, layer=gf.LAYER.M3)
+    # c = gf.components.mzi_phase_shifter()
+    c = gf.components.straight_heater_metal(length=100)
+    c = add_electrical_pads_shortest(component=c, port_orientation=270)
+    c.show(show_ports=True)

@@ -1,8 +1,8 @@
-""" based on phidl tutorial
+"""based on phidl tutorial.
 
 # Connecting devices with connect()
 
-The connect command allows you to connect DeviceReference ports together like
+The connect command allows you to connect ComponentReference ports together like
 Lego blocks.
 
 There is an optional parameter called ``overlap`` which is
@@ -24,4 +24,4 @@ if __name__ == "__main__":
     wg2.connect(port="o1", destination=wg1.ports["o2"])
     wg3.connect(port="o1", destination=wg2.ports["o2"], overlap=1)
 
-    c.show()  # show it in klayout
+    c.show(show_ports=True)  # show it in klayout

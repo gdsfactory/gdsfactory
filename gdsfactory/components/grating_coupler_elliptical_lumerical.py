@@ -7,8 +7,7 @@ from gdsfactory.components.grating_coupler_elliptical_arbitrary import (
     grating_coupler_elliptical_arbitrary,
 )
 from gdsfactory.config import CONFIG
-from gdsfactory.tech import LAYER
-from gdsfactory.types import Floats, Layer
+from gdsfactory.types import Floats, LayerSpec
 
 parameters = (
     -2.4298362615732447,
@@ -67,16 +66,16 @@ parameters = (
 @cell
 def grating_coupler_elliptical_lumerical(
     parameters: Floats = parameters,
-    layer: Layer = (1, 0),
-    layer_slab: Optional[Layer] = LAYER.SLAB150,
+    layer: LayerSpec = "WG",
+    layer_slab: LayerSpec = "SLAB150",
     taper_angle: float = 55,
     taper_length: float = 12.24 + 0.36,
     fiber_angle: float = 5,
-    info: Dict[str, Any] = None,
+    info: Optional[Dict[str, Any]] = None,
     bias_gap: float = 0,
     **kwargs,
 ) -> Component:
-    """Returns a grating coupler from lumerical inverse design 3D optimization
+    """Returns a grating coupler from lumerical inverse design 3D optimization.
 
     this is a wrapper of components.grating_coupler_elliptical_arbitrary
     https://support.lumerical.com/hc/en-us/articles/1500000306621
@@ -94,33 +93,30 @@ def grating_coupler_elliptical_lumerical(
         etch_depth=80e-9 # etch depth
         theta_fib_mat = 5 # Angle of the fiber mode in material
         theta_taper=30
-        efficiency=0.55
+        efficiency=0.55 # 5.2 dB
 
     Args:
         parameters: xinput, gap1, width1, gap2, width2 ...
-        layer:
-        layer_slab:
-        taper_angle:
-        taper_length:
-        fiber_angle: used to compute ellipticity
-        info: optional simulation settings
-        bias_gap: gap/trenches bias (um) to compensate for etching bias
+        layer: for waveguide.
+        layer_slab: for slab.
+        taper_angle: in deg.
+        taper_length: in um.
+        fiber_angle: used to compute ellipticity.
+        info: optional simulation settings.
+        bias_gap: gap/trenches bias (um) to compensate for etching bias.
 
     keyword Args:
-        wg_width: waveguide width
-        taper_length: taper length from input
-        taper_angle: grating flare angle
-        layer: LAYER.WG
-        wavelength: grating transmission central wavelength (um)
-        fiber_angle: fibre angle in degrees determines ellipticity
-        neff: tooth effective index
-        nclad: cladding effective index
-        layer_slab: Optional slab
-        polarization: te or tm
-        fiber_marker_width
-        fiber_marker_layer
-        spiked: grating teeth have sharp spikes to avoid non-manhattan drc errors
-
+        taper_length: taper length from input in um.
+        taper_angle: grating flare angle in degrees.
+        wavelength: grating transmission central wavelength (um).
+        fiber_angle: fibre angle in degrees determines ellipticity.
+        neff: tooth effective index.
+        nclad: cladding effective index.
+        polarization: te or tm.
+        fiber_marker_width: in um.
+        fiber_marker_layer: in um.
+        spiked: grating teeth include sharp spikes to avoid non-manhattan drc errors.
+        cross_section: cross_section spec for waveguide port.
     """
     parameters = (
         parameters.strip().split() if isinstance(parameters, str) else parameters
@@ -131,7 +127,7 @@ def grating_coupler_elliptical_lumerical(
     gaps = teeth_list[::2]
     widths = teeth_list[1::2]
     info = info or {}
-    gaps = list(gap + bias_gap for gap in gaps)
+    gaps = [gap + bias_gap for gap in gaps]
 
     return grating_coupler_elliptical_arbitrary(
         gaps=gaps,
@@ -175,4 +171,4 @@ def _compare() -> Component:
 if __name__ == "__main__":
     # c = _compare()
     c = grating_coupler_elliptical_lumerical_etch70()
-    c.show()
+    c.show(show_ports=True)

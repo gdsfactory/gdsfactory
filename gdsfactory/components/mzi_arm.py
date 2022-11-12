@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.types import ComponentFactory, ComponentOrFactory
+from gdsfactory.types import ComponentSpec
 
 
 @cell
@@ -13,23 +13,23 @@ def mzi_arm(
     length_y_left: float = 0.8,
     length_y_right: float = 0.8,
     length_x: float = 0.1,
-    bend: ComponentOrFactory = bend_euler,
-    straight: ComponentFactory = straight_function,
-    straight_x: Optional[ComponentFactory] = None,
-    straight_y: Optional[ComponentFactory] = None,
+    bend: ComponentSpec = bend_euler,
+    straight: ComponentSpec = straight_function,
+    straight_x: Optional[ComponentSpec] = None,
+    straight_y: Optional[ComponentSpec] = None,
     **kwargs,
 ) -> Component:
     """Mzi.
 
     Args:
-        length_y_left: vertical length
-        length_y_rigth: vertical length
-        length_x: horizontal length
-        bend: 90 degrees bend library
-        straight: straight function
-        straight_x: straight for length_x
-        straight_y: straight for length_y
-        kwargs: cross_section settings
+        length_y_left: vertical length.
+        length_y_rigth: vertical length.
+        length_x: horizontal length.
+        bend: 90 degrees bend library.
+        straight: straight function.
+        straight_x: straight for length_x.
+        straight_y: straight for length_y.
+        kwargs: cross_section settings.
 
     .. code::
 
@@ -38,8 +38,6 @@ def mzi_arm(
                   Ly     Lyr
                   |      |
                   B      B
-
-
     """
     bend = bend(**kwargs)
     straight_y = straight_y or straight
@@ -66,20 +64,20 @@ def mzi_arm(
     sequence = "bLB-BRb"
     c = component_sequence(sequence=sequence, symbol_to_component=symbol_to_component)
 
-    # Add any electrical ports from aliases
-
-    for ref_name, ref in c.aliases.items():
+    # Add any electrical ports from references
+    for ref_name, ref in c.named_references.items():
         c.add_ports(ref.get_ports_list(port_type="electrical"), prefix=ref_name)
 
+    c.unlock()
     c.auto_rename_ports()
-    c.info.length_x = float(length_x)
-    c.info.length_xsize = straight_x.get_ports_xsize()
+    c.info["length_x"] = length_x
+    c.info["length_xsize"] = straight_x.get_ports_xsize()
     return c
 
 
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = mzi_arm(straight_x=gf.c.straight_heater_metal)
+    c = mzi_arm(straight_x=gf.components.straight_heater_metal)
     c.pprint_ports()
-    c.show()
+    c.show(show_ports=True)

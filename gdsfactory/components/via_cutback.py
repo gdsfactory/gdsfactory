@@ -1,24 +1,32 @@
 """Via cutback."""
 
-from typing import Tuple
-
 import gdsfactory as gf
+from gdsfactory.add_pins import LayerSpec
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
-from gdsfactory.components.contact import contact_heater_m3
-from gdsfactory.types import ComponentFactory, Float2
+from gdsfactory.components.via_stack import via_stack_heater_m3
+from gdsfactory.types import ComponentSpec, Float2
 
 
 @gf.cell
 def _via_iterable(
     via_spacing: float,
     wire_width: float,
-    layer1: Tuple[int, int],
-    layer2: Tuple[int, int],
-    via_layer: Tuple[int, int],
+    layer1: LayerSpec,
+    layer2: LayerSpec,
+    via_layer: LayerSpec,
     via_width: float,
 ) -> Component:
-    """Via"""
+    """Via chain.
+
+    Args:
+        via_spacing: via_spacing (um).
+        wire_width: width of wire.
+        layer1: top wiring.
+        layer2: bottom wiring.
+        via_layer: via.
+        via_width: width of via.
+    """
     c = gf.Component()
     wire1 = c.add_ref(compass(size=(via_spacing, wire_width), layer=layer1))
     wire2 = c.add_ref(compass(size=(via_spacing, wire_width), layer=layer2))
@@ -31,21 +39,23 @@ def _via_iterable(
     via1.connect(
         port="e1", destination=wire2.ports["e3"], overlap=(wire_width + via_width) / 2
     )
-    c.add_port(name="e1", port=wire1.ports["e1"], port_type="electrical")
-    c.add_port(name="e3", port=wire2.ports["e3"], port_type="electrical")
+    c.add_port(name="e1", port=wire1.ports["e1"], port_type="electrical", layer=layer1)
+    c.add_port(name="e3", port=wire2.ports["e3"], port_type="electrical", layer=layer2)
     c.add_port(
         name="e4",
-        midpoint=[(1 * wire_width) + wire_width / 2, -wire_width / 2],
+        center=((1 * wire_width) + wire_width / 2, -wire_width / 2),
         width=wire_width,
         orientation=-90,
         port_type="electrical",
+        layer=layer2,
     )
     c.add_port(
         name="e2",
-        midpoint=[(1 * wire_width) + wire_width / 2, wire_width / 2],
+        center=((1 * wire_width) + wire_width / 2, wire_width / 2),
         width=wire_width,
         orientation=90,
         port_type="electrical",
+        layer=layer2,
     )
 
     return c
@@ -58,32 +68,30 @@ def via_cutback(
     via_width: float = 5.0,
     via_spacing: float = 40.0,
     min_pad_spacing: float = 0.0,
-    pad: ComponentFactory = contact_heater_m3,
+    pad: ComponentSpec = via_stack_heater_m3,
     pad_size: Float2 = (150, 150),
-    layer1: Tuple[int, int] = gf.LAYER.HEATER,
-    layer2: Tuple[int, int] = gf.LAYER.M1,
-    via_layer: Tuple[int, int] = gf.LAYER.VIAC,
+    layer1: LayerSpec = "HEATER",
+    layer2: LayerSpec = "M1",
+    via_layer: LayerSpec = "VIAC",
     wire_pad_inclusion: float = 12.0,
 ) -> Component:
-    """Via cutback to extract via resistance
+    """Via cutback to extract via resistance.
 
-    adapted from phidl.geometry
+    based on phidl.geometry
 
     Args:
-        num_vias: total requested vias needs to be even
-        wire_width: width of wire
-        via_width: width of via
-        via_spacing: via_spacing
-        pad_size: (width, height)
-        min_pad_spacing
-        pad_layer
-        layer1: top wiring
-        layer2: bottom wiring
-        via_layer
-        wire_pad_inclusion:
-
+        num_vias: total requested vias needs to be even.
+        wire_width: width of wire.
+        via_width: width of via.
+        via_spacing: via_spacing.
+        pad_size: (width, height).
+        min_pad_spacing.
+        pad_layer.
+        layer1: top wiring.
+        layer2: bottom wiring.
+        via_layer: via.
+        wire_pad_inclusion: in um.
     """
-
     c = gf.Component()
 
     pad_component = pad(size=pad_size)
@@ -135,7 +143,7 @@ def via_cutback(
             up = True
             down = False
             edge = True
-        count = count + 2
+        count += 2
         obj_old = obj
 
     if (
@@ -163,4 +171,4 @@ def via_cutback(
 
 if __name__ == "__main__":
     c = via_cutback()
-    c.show()
+    c.show(show_ports=True)

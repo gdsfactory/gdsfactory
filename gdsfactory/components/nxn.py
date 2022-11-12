@@ -1,9 +1,8 @@
-from typing import Tuple
-
 import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.types import LayerSpec
 
 
 @gf.cell
@@ -15,23 +14,22 @@ def nxn(
     xsize: float = 8.0,
     ysize: float = 8.0,
     wg_width: float = 0.5,
-    layer: Tuple[int, int] = gf.LAYER.WG,
+    layer: LayerSpec = "WG",
     wg_margin: float = 1.0,
     **kwargs,
 ) -> Component:
-    """returns a nxn component with nxn ports (west, east, north, south)
+    """Returns a nxn component with nxn ports (west, east, north, south).
 
     Args:
-        west: number of west ports
-        east: number of east ports
-        north: number of north ports
-        south: number of south ports
-        xsize: size in X
-        ysize: size in Y
-        wg_width: width of the straight ports
-        wg_margin: margin from straight to component edge
-        **kwargs: port_settings
-
+        west: number of west ports.
+        east: number of east ports.
+        north: number of north ports.
+        south: number of south ports.
+        xsize: size in X.
+        ysize: size in Y.
+        wg_width: width of the straight ports.
+        wg_margin: margin from straight to component edge.
+        kwargs: port_settings.
 
     .. code::
 
@@ -42,7 +40,6 @@ def nxn(
         1 -|______|- 6
             |   |
             8   7
-
     """
     c = gf.Component()
     c << gf.components.rectangle(size=(xsize, ysize), layer=layer)
@@ -56,13 +53,13 @@ def nxn(
                 wg_margin + wg_width / 2, ysize - wg_margin - wg_width / 2, west
             )
         )
-        y = gf.snap.snap_to_grid(y)
         orientation = 180
+        y = gf.snap.snap_to_grid(y)
 
-        for i, y in enumerate(y):
+        for i, yi in enumerate(y):
             c.add_port(
                 f"W{i}",
-                midpoint=(x, y),
+                center=(x, yi),
                 width=wg_width,
                 orientation=orientation,
                 layer=layer,
@@ -78,13 +75,13 @@ def nxn(
                 wg_margin + wg_width / 2, ysize - wg_margin - wg_width / 2, east
             )
         )
-        y = gf.snap.snap_to_grid(y)
         orientation = 0
+        y = gf.snap.snap_to_grid(y)
 
-        for i, y in enumerate(y):
+        for i, yi in enumerate(y):
             c.add_port(
                 f"E{i}",
-                midpoint=(x, y),
+                center=(x, yi),
                 width=wg_width,
                 orientation=orientation,
                 layer=layer,
@@ -100,13 +97,13 @@ def nxn(
                 wg_margin + wg_width / 2, xsize - wg_margin - wg_width / 2, north
             )
         )
-        x = gf.snap.snap_to_grid(x)
         orientation = 90
+        x = gf.snap.snap_to_grid(x)
 
-        for i, x in enumerate(x):
+        for i, xi in enumerate(x):
             c.add_port(
                 f"N{i}",
-                midpoint=(x, y),
+                center=(xi, y),
                 width=wg_width,
                 orientation=orientation,
                 layer=layer,
@@ -121,13 +118,13 @@ def nxn(
                 wg_margin + wg_width / 2, xsize - wg_margin - wg_width / 2, south
             )
         )
-        x = gf.snap.snap_to_grid(x)
         orientation = 270
+        x = gf.snap.snap_to_grid(x)
 
-        for i, x in enumerate(x):
+        for i, xi in enumerate(x):
             c.add_port(
                 f"S{i}",
-                midpoint=(x, y),
+                center=(xi, y),
                 width=wg_width,
                 orientation=orientation,
                 layer=layer,
@@ -139,6 +136,7 @@ def nxn(
 
 
 if __name__ == "__main__":
-    c = nxn(north=1.3, south=3)
+    # c = nxn(north=1.3, south=3)
+    c = nxn()
     # c = gf.components.extension.extend_ports(component=c)
-    c.show()
+    c.show(show_ports=True)

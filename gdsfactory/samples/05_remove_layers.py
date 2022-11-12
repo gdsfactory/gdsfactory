@@ -5,6 +5,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 
 
+@gf.cell
 def test_remove_layers() -> Component:
     c = gf.Component("test_remove_layers")
 
@@ -14,7 +15,7 @@ def test_remove_layers() -> Component:
 
     assert len(c.layers) == 3
 
-    c.remove_layers(layers=[gf.LAYER.SLAB90, gf.LAYER.SLAB150])
+    c = c.remove_layers(layers=[gf.LAYER.SLAB90, gf.LAYER.SLAB150])
 
     assert len(c.layers) == 1
     return c
@@ -22,4 +23,4 @@ def test_remove_layers() -> Component:
 
 if __name__ == "__main__":
     c = test_remove_layers()
-    c.show()
+    c.show(show_ports=True)

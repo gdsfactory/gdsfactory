@@ -1,41 +1,15 @@
-cells:
-  taper_0p5_to_3_l36_d41d8cd9:
-    changed: {}
-    default: {}
-    full: {}
-    function_name: taper_0p5_to_3_l36
-    info_version: 1
-    module: gdsfactory.components.taper_from_csv
-    name: taper_0p5_to_3_l36_d41d8cd9
-info:
+name: taper_from_csv
+settings:
   changed: {}
-  default: {}
-  full: {}
-  function_name: taper_0p5_to_3_l36
-  info_version: 1
+  child: null
+  default:
+    cross_section: strip
+    filepath: taper_strip_0p5_3_36
+  full:
+    cross_section: strip
+    filepath: taper_strip_0p5_3_36
+  function_name: taper_from_csv
+  info: {}
+  info_version: 2
   module: gdsfactory.components.taper_from_csv
-  name: taper_0p5_to_3_l36_d41d8cd9
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 35.23
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 3
-version: 1
+  name: taper_from_csv

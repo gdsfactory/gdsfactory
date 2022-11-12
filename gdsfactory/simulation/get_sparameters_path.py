@@ -1,31 +1,44 @@
+import hashlib
 import pathlib
+from copy import deepcopy
+from functools import partial
 from pathlib import Path
-from typing import Dict, Tuple
+from typing import Optional
 
-from gdsfactory.component import Component
-from gdsfactory.config import CONFIG
-from gdsfactory.name import dict2name, get_name_short
-from gdsfactory.tech import LAYER
+import numpy as np
+
+import gdsfactory as gf
+from gdsfactory.name import clean_value
+from gdsfactory.pdk import get_sparameters_path
+from gdsfactory.tech import LAYER_STACK
+from gdsfactory.types import ComponentSpec
 
 
-def get_sparameters_path(
-    component: Component,
-    layer_to_material: Dict[Tuple[int, int], str],
-    layer_to_thickness: Dict[Tuple[int, int], int],
-    dirpath: Path = CONFIG["sparameters"],
+def get_kwargs_hash(**kwargs) -> str:
+    """Returns kwargs parameters hash."""
+    kwargs_list = [f"{key}={clean_value(kwargs[key])}" for key in sorted(kwargs.keys())]
+    kwargs_string = "_".join(kwargs_list)
+    return hashlib.md5(kwargs_string.encode()).hexdigest()[:8]
+
+
+def _get_sparameters_path(
+    component: ComponentSpec,
+    dirpath: Optional[Path] = None,
     **kwargs,
 ) -> Path:
-    """Returns Sparameters filepath.
-
-    it only includes the layers that are present in the component
+    """Return Sparameters npz filepath hashing simulation settings for \
+            a consistent unique name.
 
     Args:
-        component:
-        layer_to_material: GDSlayer tuple to material alias
-        layer_to_thickness: GDSlayer tuple to thickness (nm)
-        dirpath:
-        kwargs: simulation settings
+        component: component or component factory.
+        dirpath: directory to store sparameters in CSV.
+            Defaults to active Pdk.sparameters_path.
+        kwargs: simulation settings.
+
     """
+    dirpath = dirpath or get_sparameters_path()
+    component = gf.get_component(component)
+
     dirpath = pathlib.Path(dirpath)
     dirpath = (
         dirpath / component.function_name
@@ -33,50 +46,63 @@ def get_sparameters_path(
         else dirpath
     )
     dirpath.mkdir(exist_ok=True, parents=True)
-    material_to_thickness = {
-        layer_to_material[layer]: layer_to_thickness[layer]
-        for layer in layer_to_thickness.keys()
-        if tuple(layer) in component.get_layers()
-    }
-    material_to_thickness.update(**kwargs)
-    suffix = get_name_short(dict2name(**material_to_thickness))
-    return dirpath / f"{component.name}_{suffix}.dat"
+    return dirpath / f"{component.name}_{get_kwargs_hash(**kwargs)}.npz"
 
 
-def test_get_sparameters_path() -> None:
+def _get_sparameters_data(**kwargs) -> np.ndarray:
+    """Returns Sparameters data in a pandas DataFrame.
+
+    Keyword Args:
+        component: component.
+        dirpath: directory path to store sparameters.
+        kwargs: simulation settings.
+
+    """
+    filepath = _get_sparameters_path(**kwargs)
+    return np.load(filepath)
+
+
+get_sparameters_path_meep = partial(_get_sparameters_path, tool="meep")
+get_sparameters_path_lumerical = partial(_get_sparameters_path, tool="lumerical")
+get_sparameters_path_tidy3d = partial(_get_sparameters_path, tool="tidy3d")
+
+get_sparameters_data_meep = partial(_get_sparameters_data, tool="meep")
+get_sparameters_data_lumerical = partial(_get_sparameters_data, tool="lumerical")
+get_sparameters_data_tidy3d = partial(_get_sparameters_data, tool="tidy3d")
+
+
+def test_get_sparameters_path(test: bool = True) -> None:
     import gdsfactory as gf
 
-    layer_to_thickness_sample = {
-        LAYER.WG: 220e-3,
-        LAYER.SLAB90: 90e-3,
-    }
-    layer_to_material_sample = {
-        LAYER.WG: "si",
-        LAYER.SLAB90: "si",
-    }
+    nm = 1e-3
+    layer_stack2 = deepcopy(LAYER_STACK)
+    layer_stack2.layers["core"].thickness = 230 * nm
 
     c = gf.components.straight()
-    p = get_sparameters_path(
-        component=c,
-        layer_to_thickness=layer_to_thickness_sample,
-        layer_to_material=layer_to_material_sample,
-    )
-    assert p.stem == f"{c.name}_si220n", p.stem
 
-    c = gf.components.straight(layer=LAYER.SLAB90)
-    p = get_sparameters_path(
-        c,
-        layer_to_thickness=layer_to_thickness_sample,
-        layer_to_material=layer_to_material_sample,
-    )
-    cell_name = f"{c.name}_si90n"
-    assert p.stem == cell_name, p.stem
+    p1 = get_sparameters_path_lumerical(component=c)
+    p2 = get_sparameters_path_lumerical(component=c, layer_stack=layer_stack2)
+    p3 = get_sparameters_path_lumerical(c, material_name_to_lumerical=dict(si=3.6))
+
+    if test:
+        name1 = "straight_1f90b7ca"
+        name2 = "straight_9b7c7e58"
+        name3 = "straight_c752dd0a"
+
+        assert p1.stem == name1, p1.stem
+        assert p2.stem == name2, p2.stem
+        assert p3.stem == name3, p3.stem
+    else:
+        print(f"name1 = {p1.stem!r}")
+        print(f"name2 = {p2.stem!r}")
+        print(f"name3 = {p3.stem!r}")
 
 
 if __name__ == "__main__":
-    # import gdsfactory as gf
-    # c = gf.components.straight()
-    # p = get_sparameters_path(c)
-    # print(p)
 
-    test_get_sparameters_path()
+    c = gf.components.mmi1x2()
+    p = get_sparameters_path_lumerical(c)
+    print(p)
+
+    # test_get_sparameters_path(test=False)
+    # test_get_sparameters_path(test=True)

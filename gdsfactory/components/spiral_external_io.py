@@ -1,4 +1,5 @@
-""" bends with grating couplers inside the spiral
+"""Bends with grating couplers inside the spiral.
+
 maybe: need to add grating coupler loopback as well
 """
 from typing import Optional, Tuple
@@ -6,16 +7,15 @@ from typing import Optional, Tuple
 import numpy as np
 from numpy import float64
 
-import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.routing.manhattan import round_corners
-from gdsfactory.types import ComponentFactory, CrossSectionFactory
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 def get_bend_port_distances(bend: Component) -> Tuple[float64, float64]:
-    """Returns distance between bend ports"""
+    """Returns distance between bend ports."""
     p0, p1 = bend.ports.values()
     return abs(p0.x - p1.x), abs(p0.y - p1.y)
 
@@ -28,27 +28,25 @@ def spiral_external_io(
     y_straight_inner_top: float = 0.0,
     xspacing: float = 3.0,
     yspacing: float = 3.0,
-    bend: ComponentFactory = bend_euler,
+    bend: ComponentSpec = bend_euler,
     length: Optional[float] = None,
-    cross_section: CrossSectionFactory = gf.cross_section.strip,
+    cross_section: CrossSectionSpec = "strip",
     **kwargs
 ) -> Component:
-    """Returns a Spiral with input and output ports outside the spiral
+    """Returns spiral with input and output ports outside the spiral.
 
     Args:
-        N: number of loops
-        x_inner_length_cutback:
-        x_inner_offset:
-        y_straight_inner_top:
-        xspacing: center to center x-spacing
-        yspacing: center to center y-spacing
-        bend: function
-        length: length in um, it is the approximates total length
-        cross_section:
-        kwargs: cross_section settings
-
+        N: number of loops.
+        x_inner_length_cutback: x inner length.
+        x_inner_offset: x inner offset.
+        y_straight_inner_top: y straight inner top.
+        xspacing: center to center x-spacing.
+        yspacing: center to center y-spacing.
+        bend: function.
+        length: length in um, it is the approximates total length.
+        cross_section: spec.
+        kwargs: cross_section settings.
     """
-
     if length:
         x_inner_length_cutback = length / (4 * (N - 1))
 
@@ -57,7 +55,7 @@ def spiral_external_io(
     _bend180 = bend(angle=180, cross_section=cross_section, **kwargs)
     _bend90 = bend(angle=90, cross_section=cross_section, **kwargs)
 
-    bend_radius = _bend90.info.radius
+    bend_radius = _bend90.info["radius"]
     rx, ry = get_bend_port_distances(_bend90)
     _, rx180 = get_bend_port_distances(_bend180)  # rx180, second arg since we rotate
 
@@ -128,12 +126,12 @@ def spiral_external_io(
     component.add_port("o1", port=route.ports[1])
 
     length = route.length
-    component.info.length = length
+    component.info["length"] = length
     return component
 
 
 if __name__ == "__main__":
     c = spiral_external_io(auto_widen=True, width_wide=2.0, length=10e3, N=15)
-    # print(c.info.length)
-    # print(c.info.length / 1e4, "cm")
+    # print(c.info['length'])
+    # print(c.info['length'] / 1e4, "cm")
     c.show(show_ports=True)

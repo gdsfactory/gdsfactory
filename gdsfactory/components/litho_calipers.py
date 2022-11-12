@@ -1,41 +1,43 @@
 from typing import Tuple
 
 import gdsfactory as gf
-from gdsfactory import components as pc
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
+from gdsfactory.components.rectangle import rectangle
+from gdsfactory.types import LayerSpec
 
 
-@gf.cell
+@cell
 def litho_calipers(
     notch_size: Tuple[float, float] = (2.0, 5.0),
     notch_spacing: float = 2.0,
     num_notches: int = 11,
     offset_per_notch: float = 0.1,
     row_spacing: float = 0.0,
-    layer1: Tuple[int, int] = (1, 0),
-    layer2: Tuple[int, int] = (2, 0),
+    layer1: LayerSpec = "WG",
+    layer2: LayerSpec = "SLAB150",
 ) -> Component:
-    """Vernier caliper structure to test lithography alignment
+    """Vernier caliper structure to test lithography alignment.
+
     Only the middle finger is aligned and the rest are offset.
 
-    adapted from phidl
+    based on phidl
 
     Args:
-        notch_size: [xwidth, yheight]
-        notch_spacing: 2
-        num_notches: 11
-        offset_per_notch: 0.1
+        notch_size: [xwidth, yheight].
+        notch_spacing: in um.
+        num_notches: number of notches.
+        offset_per_notch: in um.
         row_spacing: 0
-        layer1: 1
-        layer2: 2
-
+        layer1: layer.
+        layer2: layer.
     """
-
     D = gf.Component()
     num_notches_total = num_notches * 2 + 1
     centre_notch = num_notches
-    R1 = pc.rectangle(size=notch_size, layer=layer1)
-    R2 = pc.rectangle(size=notch_size, layer=layer2)
+    R1 = rectangle(size=notch_size, layer=layer1)
+    R2 = rectangle(size=notch_size, layer=layer2)
+
     for i in range(num_notches_total):
         if i == centre_notch:
             D.add_ref(R1).movex(i * (notch_size[0] + notch_spacing)).movey(
@@ -55,4 +57,4 @@ def litho_calipers(
 
 if __name__ == "__main__":
     c = litho_calipers()
-    c.show()
+    c.show(show_ports=True)

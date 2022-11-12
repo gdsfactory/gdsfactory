@@ -4,7 +4,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.cross_section import strip
-from gdsfactory.types import CrossSectionFactory
+from gdsfactory.types import CrossSectionSpec
 
 
 @gf.cell
@@ -15,10 +15,10 @@ def free_propagation_region(
     wg_width: float = 0.5,
     inputs: int = 1,
     outputs: int = 10,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     **kwargs,
 ) -> Component:
-    r"""
+    r"""Free propagation region.
 
     .. code::
 
@@ -33,9 +33,8 @@ def free_propagation_region(
     y1 = width1 / 2
     y2 = width2 / 2
     x = cross_section(**kwargs)
-    o = x.info["cladding_offset"]
-    layers_cladding = x.info["layers_cladding"] or []
-    layer = x.info["layer"]
+    o = 0
+    layer = x.layer
 
     xpts = [0, length, length, 0]
     ypts = [y1, y2, -y2, -y1]
@@ -46,7 +45,7 @@ def free_propagation_region(
     if inputs == 1:
         c.add_port(
             "o1",
-            midpoint=(0, 0),
+            center=(0, 0),
             width=wg_width,
             orientation=180,
             layer=layer,
@@ -54,10 +53,10 @@ def free_propagation_region(
     else:
         y = np.linspace(-width1 / 2 + wg_width / 2, width1 / 2 - wg_width / 2, inputs)
         y = gf.snap.snap_to_grid(y)
-        for i, y in enumerate(y):
+        for i, yi in enumerate(y):
             c.add_port(
                 f"W{i}",
-                midpoint=(0, y),
+                center=(0, yi),
                 width=wg_width,
                 orientation=0,
                 layer=layer,
@@ -65,19 +64,16 @@ def free_propagation_region(
 
     y = np.linspace(-width2 / 2 + wg_width / 2, width2 / 2 - wg_width / 2, outputs)
     y = gf.snap.snap_to_grid(y)
-    for i, y in enumerate(y):
+    for i, yi in enumerate(y):
         c.add_port(
             f"E{i}",
-            midpoint=(length, y),
+            center=(length, yi),
             width=wg_width,
             orientation=0,
             layer=layer,
         )
 
     ypts = [y1 + o, y2 + o, -y2 - o, -y1 - o]
-
-    for layer in layers_cladding:
-        c.add_polygon((xpts, ypts), layer=layer)
 
     c.info["length"] = length
     c.info["width1"] = width1
@@ -110,12 +106,11 @@ def awg(
     """Returns a basic Arrayed Waveguide grating.
 
     Args:
-        arms: number of arms
-        outputs: number of outputs
-        free_propagation_region_input_function: for input
-        free_propagation_region_output_function: for output
-        fpr_spacing: x separation between input/output FPR
-
+        arms: number of arms.
+        outputs: number of outputs.
+        free_propagation_region_input_function: for input.
+        free_propagation_region_output_function: for output.
+        fpr_spacing: x separation between input/output free popagation region.
     """
     c = Component()
     fpr_in = free_propagation_region_input_function(
@@ -153,7 +148,7 @@ def awg(
 
 
 if __name__ == "__main__":
-    c = free_propagation_region(inputs=2, outputs=4)
+    # c = free_propagation_region(inputs=2, outputs=4)
     # print(c.ports.keys())
     c = awg()
-    c.show()
+    c.show(show_ports=True)

@@ -1,58 +1,86 @@
-from omegaconf import OmegaConf
-from phidl.device_layout import Device
+import pathlib
+import tempfile
+from functools import lru_cache
 
-from gdsfactory.component import Component, ComponentReference, Port
-from gdsfactory.config import call_if_func
+import gdstk
+
+from gdsfactory.component import Component, Port
+from gdsfactory.read.import_gds import import_gds
+from gdsfactory.types import Layer
 
 
-def from_phidl(component: Device, **kwargs) -> Component:
-    """Returns gf.Component from a phidl Device or function"""
-    device = call_if_func(component, **kwargs)
-    component = Component(name=device.name)
-    component.info = OmegaConf.create(device.info)
-    for ref in device.references:
-        new_ref = ComponentReference(
-            component=ref.parent,
-            origin=ref.origin,
-            rotation=ref.rotation,
-            magnification=ref.magnification,
-            x_reflection=ref.x_reflection,
-        )
-        new_ref.owner = component
-        component.add(new_ref)
-        for alias_name, alias_ref in device.aliases.items():
-            if alias_ref == ref:
-                component.aliases[alias_name] = new_ref
+@lru_cache(maxsize=None)
+def from_gdstk(cell: gdstk.Cell, **kwargs) -> Component:
+    """Returns gdsfactory Component from a gdstk cell.
+
+    Args:
+        cell: gdstk cell.
+
+    Keyword Args:
+        cellname: cell of the name to import (None) imports top cell.
+        snap_to_grid_nm: snap to different nm grid (does not snap if False).
+        gdsdir: optional GDS directory.
+        read_metadata: loads metadata if it exists.
+        hashed_name: appends a hash to a shortened component name.
+        kwargs: extra to add to component.info (polarization, wavelength ...).
+    """
+    with tempfile.TemporaryDirectory() as gdsdir:
+        gdsdir = pathlib.Path(gdsdir)
+        gdsdir.mkdir(exist_ok=True)
+        gdspath = gdsdir / f"{cell.name}.gds"
+        filepath = cell.write_gds(gdspath)
+        return import_gds(filepath, **kwargs)
+
+
+@lru_cache(maxsize=None)
+def from_phidl(component, port_layer: Layer = (1, 0), **kwargs) -> Component:
+    """Returns gdsfactory Component from a phidl Device or function.
+
+    Args:
+        component: phidl component.
+        port_layer: to add to component ports.
+
+    Keyword Args:
+        cellname: cell of the name to import (None) imports top cell.
+        snap_to_grid_nm: snap to different nm grid (does not snap if False).
+        gdsdir: optional GDS directory.
+        read_metadata: loads metadata if it exists.
+        hashed_name: appends a hash to a shortened component name.
+        kwargs: extra to add to component.info (polarization, wavelength ...).
+    """
+    device = component() if callable(component) else component
+
+    with tempfile.TemporaryDirectory() as gdsdir:
+        gdsdir = pathlib.Path(gdsdir)
+        gdsdir.mkdir(exist_ok=True)
+        gdspath = gdsdir / f"{device.name}.gds"
+        filepath = device.write_gds(gdspath, cellname=device.name)
+
+        component = import_gds(filepath, cache=False, **kwargs)
+        component.unlock()
 
     for p in device.ports.values():
-        component.add_port(
-            port=Port(
-                name=p.name,
-                midpoint=p.midpoint,
-                width=p.width,
-                orientation=p.orientation,
-                parent=p.parent,
+        if p.name not in component.ports:
+            component.add_port(
+                port=Port(
+                    name=p.name,
+                    center=p.midpoint,
+                    width=p.width,
+                    orientation=p.orientation,
+                    parent=p.parent,
+                    layer=port_layer,
+                )
             )
-        )
-    for poly in device.polygons:
-        component.add_polygon(poly)
-    for label in device.labels:
-        component.add_label(
-            text=label.text,
-            position=label.position,
-            layer=(label.layer, label.texttype),
-        )
+    component.lock()
     return component
 
 
 if __name__ == "__main__":
     import phidl.geometry as pg
 
-    import gdsfactory as gf
-
     c = pg.rectangle()
-    c = pg.snspd()
 
+    c = pg.snspd()
     c2 = from_phidl(component=c)
-    print(c2.ports)
-    gf.show(c2)
+    c3 = from_phidl(component=c)
+    c2.show(show_ports=True)

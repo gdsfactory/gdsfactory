@@ -1,65 +1,147 @@
-cells:
-  Unnamed_85f74110: {}
-  compass_b3c54927:
-    changed:
-      port_type: None
-      size:
-      - 13.5
-      - 7
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 1
-      - 0
-      port_type: None
-      size:
-      - 13.5
-      - 7
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_b3c54927
-info:
-  name: Unnamed_85f74110
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - -0.5
-    - 0.225
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.45
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 13
-    - 3.675
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 0.45
-  o3:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 13
-    - -3.225
-    name: o3
-    orientation: 0
-    port_type: optical
-    width: 0.45
-version: 1
+name: component_yaml_ports_d51e1091
+settings:
+  changed:
+    conf:
+      instances:
+        mmi_bot:
+          component: compass
+          settings:
+            port_type: None
+            size:
+            - 13.5
+            - 7
+      name: component_yaml_ports
+      ports:
+        o1:
+          center:
+          - -0.5
+          - 0.225
+          layer: WG
+          name: o1
+          orientation: 180
+          port_type: optical
+          width: 0.45
+        o2:
+          center:
+          - 13
+          - 3.675
+          layer:
+          - 1
+          - 0
+          name: o2
+          orientation: 0
+          port_type: optical
+          width: 0.45
+        o3:
+          center:
+          - 13
+          - -3.225
+          layer:
+          - 1
+          - 0
+          name: o3
+          orientation: 0
+          port_type: optical
+          width: 0.45
+  child: null
+  default:
+    label_instance_function:
+      function: add_instance_label
+    routing_strategy:
+      get_bundle:
+        function: get_bundle
+      get_bundle_electrical:
+        function: get_bundle
+        settings:
+          bend:
+            function: wire_corner
+          cross_section: metal_routing
+      get_bundle_from_steps:
+        function: get_bundle_from_steps
+      get_bundle_from_steps_electrical:
+        function: get_bundle_from_steps
+        settings:
+          bend:
+            function: wire_corner
+          cross_section: metal_routing
+      get_bundle_from_waypoints:
+        function: get_bundle_from_waypoints
+      get_bundle_path_length_match:
+        function: get_bundle_path_length_match
+      get_bundle_same_axis_no_grouping:
+        function: get_bundle_same_axis_no_grouping
+  full:
+    conf:
+      instances:
+        mmi_bot:
+          component: compass
+          settings:
+            port_type: None
+            size:
+            - 13.5
+            - 7
+      name: component_yaml_ports
+      ports:
+        o1:
+          center:
+          - -0.5
+          - 0.225
+          layer: WG
+          name: o1
+          orientation: 180
+          port_type: optical
+          width: 0.45
+        o2:
+          center:
+          - 13
+          - 3.675
+          layer:
+          - 1
+          - 0
+          name: o2
+          orientation: 0
+          port_type: optical
+          width: 0.45
+        o3:
+          center:
+          - 13
+          - -3.225
+          layer:
+          - 1
+          - 0
+          name: o3
+          orientation: 0
+          port_type: optical
+          width: 0.45
+    label_instance_function:
+      function: add_instance_label
+    routing_strategy:
+      get_bundle:
+        function: get_bundle
+      get_bundle_electrical:
+        function: get_bundle
+        settings:
+          bend:
+            function: wire_corner
+          cross_section: metal_routing
+      get_bundle_from_steps:
+        function: get_bundle_from_steps
+      get_bundle_from_steps_electrical:
+        function: get_bundle_from_steps
+        settings:
+          bend:
+            function: wire_corner
+          cross_section: metal_routing
+      get_bundle_from_waypoints:
+        function: get_bundle_from_waypoints
+      get_bundle_path_length_match:
+        function: get_bundle_path_length_match
+      get_bundle_same_axis_no_grouping:
+        function: get_bundle_same_axis_no_grouping
+  function_name: _from_yaml
+  info:
+    instances:
+    - mmi_bot
+  info_version: 2
+  module: gdsfactory.read.from_yaml
+  name: component_yaml_ports_d51e1091
