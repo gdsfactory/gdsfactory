@@ -564,7 +564,7 @@ def add_instance_label(
 
 def add_pins_and_outline(
     component: "Component",
-    reference: "ComponentReference",
+    reference: Optional["ComponentReference"] = None,
     add_outline_function: Optional[Callable] = add_outline,
     add_pins_function: Optional[Callable] = add_pins,
     add_settings_function: Optional[Callable] = add_settings_label,
@@ -606,7 +606,7 @@ if __name__ == "__main__":
     # p2 = len(c2.get_polygons())
     # assert p2 == p1 + 2
     # c1 = gf.components.straight_heater_metal(length=2)
-    c = gf.components.ring_single()
+    c = gf.components.straight(decorator=add_pins)
     # cc.show(show_ports=False)
     c.show(show_subports=True)
     c.show(show_ports=True)
