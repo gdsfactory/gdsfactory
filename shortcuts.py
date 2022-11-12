@@ -50,7 +50,7 @@ anaconda_navigator_settings = """
             {
                 "script": "${PREFIX}/Scripts/anaconda-navigator.exe",
                 "scriptarguments": [],
-                "name": "gdsfactory Anaconda Navigator",
+                "name": "gdsfactory Navigator",
                 "workdir": "${PREFIX}",
                 "icon": "${MENU_DIR}/anaconda-navigator.ico",
                 "desktop": true,
