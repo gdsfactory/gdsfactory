@@ -4,6 +4,13 @@
 
 - implement native compatibility read/write from/to OASIS
 - removed named_references
+-
+
+## 6.0.1
+
+- fix import ports from siepic pins [PR](https://github.com/gdsfactory/gdsfactory/pull/854)
+- add adiabatic taper [PR](https://github.com/gdsfactory/gdsfactory/pull/853)
+- Fix shortcut installation script [PR](https://github.com/gdsfactory/gdsfactory/pull/851)
 
 ## [6.0.0](https://github.com/gdsfactory/gdsfactory/pull/833)
 
