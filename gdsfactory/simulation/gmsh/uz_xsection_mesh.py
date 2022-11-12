@@ -132,6 +132,7 @@ def uz_xsection_mesh(
     default_resolution_max: float = 0.5,
     background_tag: Optional[str] = None,
     background_padding: Tuple[float, float, float, float] = (2.0, 2.0, 2.0, 2.0),
+    filename: Optional[str] = None,
 ):
 
     # Find coordinates
@@ -163,7 +164,7 @@ def uz_xsection_mesh(
     return mesh_from_polygons(
         shapes,
         resolutions=resolutions,
-        filename="mesh.msh",
+        filename=filename,
         default_resolution_min=default_resolution_min,
         default_resolution_max=default_resolution_max,
     )
