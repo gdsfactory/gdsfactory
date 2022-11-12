@@ -1,13 +1,9 @@
-from typing import Optional
-
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler_ring import coupler_ring as coupler_ring_function
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.config import call_if_func
-from gdsfactory.cross_section import strip
-from gdsfactory.snap import assert_on_2nm_grid
-from gdsfactory.types import ComponentFactory, CrossSectionFactory
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -16,24 +12,27 @@ def ring_double(
     radius: float = 10.0,
     length_x: float = 0.01,
     length_y: float = 0.01,
-    coupler_ring: ComponentFactory = coupler_ring_function,
-    straight: ComponentFactory = straight_function,
-    bend: Optional[ComponentFactory] = None,
-    cross_section: CrossSectionFactory = strip,
+    coupler_ring: ComponentSpec = coupler_ring_function,
+    straight: ComponentSpec = straight_function,
+    bend: ComponentSpec = bend_euler,
+    cross_section: CrossSectionSpec = "strip",
     **kwargs
 ) -> Component:
-    """Double bus ring made of two couplers (ct: top, cb: bottom)
+    """Returns a double bus ring.
+
+    two couplers (ct: top, cb: bottom)
     connected with two vertical straights (sl: left, sr: right)
 
     Args:
-        gap: gap between for coupler
-        radius: for the bend and coupler
-        length_x: ring coupler length
-        length_y: vertical straight length
-        coupler: ring coupler function
-        straight: straight function
-        bend: bend function
-        **kwargs: cross_section settings
+        gap: gap between for coupler.
+        radius: for the bend and coupler.
+        length_x: ring coupler length.
+        length_y: vertical straight length.
+        coupler: ring coupler spec.
+        straight: straight spec.
+        bend: bend spec.
+        cross_section: cross_section spec.
+        kwargs: cross_section settings.
 
     .. code::
 
@@ -44,23 +43,20 @@ def ring_double(
          --==cb==-- gap
 
           length_x
-
     """
-    assert_on_2nm_grid(gap)
+    gap = gf.snap.snap_to_grid(gap, nm=2)
 
-    coupler_component = (
-        coupler_ring(
-            gap=gap,
-            radius=radius,
-            length_x=length_x,
-            bend=bend,
-            cross_section=cross_section,
-            **kwargs
-        )
-        if callable(coupler_ring)
-        else coupler_ring
+    coupler_component = gf.get_component(
+        coupler_ring,
+        gap=gap,
+        radius=radius,
+        length_x=length_x,
+        bend=bend,
+        straight=straight,
+        cross_section=cross_section,
+        **kwargs
     )
-    straight_component = call_if_func(
+    straight_component = gf.get_component(
         straight, length=length_y, cross_section=cross_section, **kwargs
     )
 

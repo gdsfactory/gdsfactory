@@ -25,10 +25,15 @@ def cleandir(request: SubRequest) -> None:
         shutil.rmtree(build_folder)
 
 
+@pytest.fixture
+def datadir(original_datadir, tmpdir):
+    return original_datadir
+
+
 @pytest.fixture(scope="session")
 def show_diffs(request: SubRequest) -> None:
     c = gf.read.from_gdspaths(diff_path.glob("*.gds"))
-    c.show()
+    c.show(show_ports=True)
 
 
 collect_ignore = ["difftest.py"]

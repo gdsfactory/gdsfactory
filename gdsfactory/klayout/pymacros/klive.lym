@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <klayout-macro>
- <description>klive server</description>
+ <description>klive</description>
  <version/>
  <category>pymacros</category>
  <prolog/>
@@ -11,7 +11,7 @@
  <shortcut/>
  <show-in-menu>false</show-in-menu>
  <group-name/>
- <menu-path/>
+ <menu-path>gdsfactory.begin</menu-path>
  <interpreter>python</interpreter>
  <dsl-interpreter-name/>
  <text>from __future__ import print_function
@@ -20,9 +20,12 @@ import re
 import json
 import sys
 import tempfile
-import pathlib
+import os
 
+
+klayout_version = pya.Application.instance().version()
 is_python3 = sys.version_info.major==3
+temp = tempfile.TemporaryDirectory().name
 
 
 if is_python3:
@@ -53,7 +56,7 @@ class MyServer(pya.QTcpServer):
                     if is_python3:
                         pass
                     else:
-                        line = line .decode("utf-8")
+                        line = line.decode("utf-8")
                     data = json.loads(line)
                 else:
                     connection.waitForReadyRead(100)
@@ -66,9 +69,12 @@ class MyServer(pya.QTcpServer):
             current_view = window.current_view()
             previous_view = current_view.box() if current_view else None
 
-            temp = pathlib.Path(tempfile.TemporaryDirectory().name)
-            temp.mkdir(exist_ok=True)
-            filepath_layers = temp / 'klayout_layers.lyp'
+            # temp = pathlib.Path(tempfile.TemporaryDirectory().name)
+            # temp.mkdir(exist_ok=True)
+            # filepath_layers = temp / 'klayout_layers.lyp'
+
+            filepath_layers = os.path.join(temp, 'klayout_layers.lyp')
+            os.makedirs(temp, exist_ok=True)
 
             if current_view:
                 current_view.save_layer_props(str(filepath_layers))
@@ -76,8 +82,8 @@ class MyServer(pya.QTcpServer):
             # Load the new layout
             window.load_layout(gds_path, 0)
 
-            if current_view and filepath_layers.exists():
-                current_view.load_layer_props(str(filepath_layers))
+            if current_view and os.path.exists(filepath_layers):
+                current_view.load_layer_props(str(filepath_layers), True)
 
             # Restore the previous position
             view = window.current_view()
@@ -119,8 +125,7 @@ class MyServer(pya.QTcpServer):
 
 # Start the server
 server = MyServer()
-print("klive v0.0.7 is running")
-
+print("klive 6.0.0 is running inside klayout {} with python {}".format(klayout_version, sys.version))
 
 </text>
 </klayout-macro>

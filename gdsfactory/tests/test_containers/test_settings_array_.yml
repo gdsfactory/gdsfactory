@@ -1,0 +1,49 @@
+name: array_564dd830
+settings:
+  changed:
+    component:
+      component: mzi
+      settings:
+        combiner:
+          function: mmi2x2
+        port_e0_combiner: o4
+        port_e0_splitter: o4
+        port_e1_combiner: o3
+        port_e1_splitter: o3
+        splitter:
+          function: mmi2x2
+        straight_x_top: straight_heater_metal
+  child: null
+  default:
+    add_ports: true
+    columns: 6
+    component:
+      function: straight
+    rows: 1
+    spacing:
+    - 150.0
+    - 150.0
+  full:
+    add_ports: true
+    columns: 6
+    component:
+      component: mzi
+      settings:
+        combiner:
+          function: mmi2x2
+        port_e0_combiner: o4
+        port_e0_splitter: o4
+        port_e1_combiner: o3
+        port_e1_splitter: o3
+        splitter:
+          function: mmi2x2
+        straight_x_top: straight_heater_metal
+    rows: 1
+    spacing:
+    - 150.0
+    - 150.0
+  function_name: array
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.array_component
+  name: array_564dd830

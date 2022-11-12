@@ -1,67 +1,22 @@
-cells:
-  bend_circular_d41d8cd9:
-    changed: {}
-    default:
-      angle: 90
-      cross_section:
-        function: cross_section
-      npoints: 720
-      with_cladding_box: true
-    dy: 10
-    full:
-      angle: 90
-      cross_section:
-        function: cross_section
-      npoints: 720
-      with_cladding_box: true
-    function_name: bend_circular
-    info_version: 1
-    length: 15.708
-    module: gdsfactory.components.bend_circular
-    name: bend_circular_d41d8cd9
-    radius: 10
-info:
+name: bend_circular
+settings:
   changed: {}
+  child: null
   default:
-    angle: 90
-    cross_section:
-      function: cross_section
+    angle: 90.0
+    cross_section: strip
     npoints: 720
-    with_cladding_box: true
-  dy: 10
+    with_bbox: true
   full:
-    angle: 90
-    cross_section:
-      function: cross_section
+    angle: 90.0
+    cross_section: strip
     npoints: 720
-    with_cladding_box: true
+    with_bbox: true
   function_name: bend_circular
-  info_version: 1
-  length: 15.708
+  info:
+    dy: 10.0
+    length: 15.708
+    radius: 10.0
+  info_version: 2
   module: gdsfactory.components.bend_circular
-  name: bend_circular_d41d8cd9
-  radius: 10
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 6.123233995736766e-16
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 10
-    - 10
-    name: o2
-    orientation: 90
-    port_type: optical
-    width: 0.5
-version: 1
+  name: bend_circular

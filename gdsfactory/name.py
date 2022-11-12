@@ -1,18 +1,8 @@
-"""Define names, clean values for names.
-"""
-import functools
+"""Define names, clean values for names."""
 import hashlib
-import inspect
-from typing import Any, Iterable
+from typing import Any
 
-import numpy as np
 import pydantic
-import toolz
-from phidl import Device, Port
-from phidl.device_layout import Path as PathPhidl
-
-from gdsfactory.hash_points import hash_points
-from gdsfactory.snap import snap_to_grid
 
 MAX_NAME_LENGTH = 32
 
@@ -30,6 +20,7 @@ def join_first_letters(name: str) -> str:
     """Join the first letter of a name separated with underscores.
 
     taper_length -> TL
+
     """
     return "".join([x[0] for x in name.split("_") if x])
 
@@ -40,12 +31,11 @@ component_type_to_name = dict(phidl="phidl")
 
 def get_component_name(component_type: str, *args, **kwargs) -> str:
     """Returns concatenated kwargs Key_Value."""
-    name = component_type
-    name += "_".join([clean_value(a) for a in args])
+    name = component_type + "_".join([clean_value(a) for a in args])
     for k, v in component_type_to_name.items():
         name = name.replace(k, v)
     if kwargs:
-        name += "_" + dict2name(**kwargs)
+        name += f"_{dict2name(**kwargs)}"
     return name
 
 
@@ -80,10 +70,12 @@ def dict2name(prefix: str = "", **kwargs) -> str:
 def assert_first_letters_are_different(**kwargs):
     """Assert that the first letters for each key are different.
 
-    Avoids name collisions of different args that start with the same first letter.
+    Avoids different args that start with the same first letter getting
+    the same hash.
+
     """
-    first_letters = [join_first_letters(k) for k in kwargs.keys()]
-    if not len(set(first_letters)) == len(first_letters):
+    first_letters = [join_first_letters(k) for k in kwargs]
+    if len(set(first_letters)) != len(first_letters):
         raise ValueError(
             f"Possible name collision! {kwargs.keys()} repeats first letters {first_letters}",
             "you can separate your arguments with underscores",
@@ -91,10 +83,10 @@ def assert_first_letters_are_different(**kwargs):
         )
 
 
-def print_first_letters_warning(**kwargs):
+def print_first_letters_warning(**kwargs) -> None:
     """Prints kwargs that have same cell."""
-    first_letters = [join_first_letters(k) for k in kwargs.keys()]
-    if not len(set(first_letters)) == len(first_letters):
+    first_letters = [join_first_letters(k) for k in kwargs]
+    if len(set(first_letters)) != len(first_letters):
         print(
             f"Possible name collision! {kwargs.keys()} "
             f"repeats first letters {first_letters}"
@@ -103,13 +95,14 @@ def print_first_letters_warning(**kwargs):
         )
 
 
-def clean_name(name: str) -> str:
+def clean_name(name: str, remove_dots: bool = False) -> str:
     """Return a string with correct characters for a cell name.
 
     [a-zA-Z0-9]
 
     FIXME: only a few characters are currently replaced.
         This function has been updated only on case-by-case basis
+
     """
     replace_map = {
         " ": "_",
@@ -129,76 +122,29 @@ def clean_name(name: str) -> str:
         "@": "_",
         "[": "",
         "]": "",
+        "{": "",
+        "}": "",
+        "$": "",
     }
+
+    if remove_dots:
+        replace_map["."] = ""
     for k, v in list(replace_map.items()):
         name = name.replace(k, v)
     return name
 
 
 def clean_value(value: Any) -> str:
-    """returns more readable value (integer)
-    if number is < 1:
-        returns number units in nm (integer)
+    from gdsfactory.serialization import clean_value_json
 
-    units are in um by default. Therefore when we multiply by 1e3 we get nm.
-    """
-
-    if isinstance(value, int):
-        value = str(value)
-    elif isinstance(value, (float, np.float64)):
-        if 1 > value > 1e-3:
-            value = f"{int(value*1e3)}n"
-        elif int(value) == value:
-            value = str(int(value))
-        elif 1e-6 < value < 1e-3:
-            value = f"{snap_to_grid(value*1e6)}u"
-        elif 1e-9 < value < 1e-6:
-            value = f"{snap_to_grid(value*1e9)}n"
-        elif 1e-12 < value < 1e-9:
-            value = f"{snap_to_grid(value*1e12)}p"
-        else:  # Any unit < 1pm will disappear
-            value = str(snap_to_grid(value)).replace(".", "p")
-    elif isinstance(value, Device):
-        value = clean_name(value.name)
-    elif isinstance(value, str):
-        value = value.strip()
-    elif isinstance(value, dict):
-        value = dict2name(**value)
-        # value = [f"{k}={v!r}" for k, v in value.items()]
-    elif isinstance(value, Port):
-        value = f"{value.name}_{value.width}_{value.x}_{value.y}"
-    elif isinstance(value, PathPhidl):
-        value = f"path_{hash_points(value.points)}"
-    elif (
-        isinstance(value, object)
-        and hasattr(value, "name")
-        and isinstance(value.name, str)
-    ):
-        value = clean_name(value.name)
-    elif callable(value) and isinstance(value, functools.partial):
-        sig = inspect.signature(value.func)
-        args_as_kwargs = dict(zip(sig.parameters.keys(), value.args))
-        args_as_kwargs.update(**value.keywords)
-        value = value.func.__name__ + dict2name(**args_as_kwargs)
-    elif callable(value) and isinstance(value, toolz.functoolz.Compose):
-        value = "_".join(
-            [clean_value(v) for v in value.funcs] + [clean_value(value.first)]
-        )
-    elif callable(value) and hasattr(value, "__name__"):
-        value = value.__name__
-    elif hasattr(value, "get_name"):
-        value = value.get_name()
-    elif isinstance(value, Iterable):
-        value = "_".join(clean_value(v) for v in value)
-
-    return str(value)
+    return str(clean_value_json(value))
 
 
-def test_clean_value() -> None:
-    assert clean_value(0.5) == "500n"
-    assert clean_value(5) == "5"
-    assert clean_value(5.0) == "5"
-    assert clean_value(11.001) == "11p001"
+# def testclean_value_json() -> None:
+#     assert clean_value(0.5) == "500n"
+#     assert clean_value(5) == "5"
+#     assert clean_value(5.0) == "5"
+#     assert clean_value(11.001) == "11p001"
 
 
 def test_clean_name() -> None:
@@ -207,21 +153,19 @@ def test_clean_name() -> None:
 
 if __name__ == "__main__":
     # test_cell()
-    test_clean_value()
-    import gdsfactory as gf
+    # testclean_value_json()
+    # import gdsfactory as gf
 
     # print(clean_value(gf.components.straight))
     # c = gf.components.straight(polarization="TMeraer")
     # print(c.settings["polarization"])
     # print(clean_value(11.001))
-    # layers_cladding = (gf.LAYER.WGCLAD, gf.LAYER.NO_TILE_SI)
-    # layers_cladding = (gf.LAYER.WGCLAD,)
-    c = gf.components.straight(length=10)
-    c = gf.components.straight(length=10)
+    # c = gf.components.straight(length=10)
+    # c = gf.components.straight(length=10)
 
     # print(c.name)
     # print(c)
-    # c.show()
+    # c.show(show_ports=True)
 
     # print(clean_name("Waveguidenol1_(:_=_2852"))
     # print(clean_value(1.2))
@@ -230,3 +174,13 @@ if __name__ == "__main__":
     # print(clean_value([1, 2.4324324, 3]))
     # print(clean_value((0.001, 24)))
     # print(clean_value({"a": 1, "b": 2}))
+    import gdsfactory as gf
+
+    d = {
+        "X": gf.components.crossing45(port_spacing=40.0),
+        "-": gf.components.compensation_path(
+            crossing45=gf.components.crossing45(port_spacing=40.0)
+        ),
+    }
+    d2 = clean_value(d)
+    print(d2)

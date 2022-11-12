@@ -3,7 +3,7 @@ import pytest
 import gdsfactory as gf
 
 
-def test_duplicated_cells_error():
+def test_duplicated_cells_error() -> None:
     w = h = 10
     points = [
         [-w / 2.0, -h / 2.0],
@@ -30,7 +30,7 @@ def test_duplicated_cells_error():
     c3 << c2
 
     with pytest.raises(ValueError):
-        c3.write_gds("rectangles.gds")
+        c3.write_gds("rectangles.gds", on_duplicate_cell="error")
 
 
 if __name__ == "__main__":

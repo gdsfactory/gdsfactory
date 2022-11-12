@@ -1,0 +1,26 @@
+name: spiral_double
+settings:
+  changed: {}
+  child: null
+  default:
+    bend:
+      function: bend_circular
+    cross_section: strip
+    min_bend_radius: 10.0
+    npoints: 1000
+    number_of_loops: 3
+    separation: 2.0
+  full:
+    bend:
+      function: bend_circular
+    cross_section: strip
+    min_bend_radius: 10.0
+    npoints: 1000
+    number_of_loops: 3
+    separation: 2.0
+  function_name: spiral_double
+  info:
+    length: 635.0944965875375
+  info_version: 2
+  module: gdsfactory.components.spiral_double
+  name: spiral_double

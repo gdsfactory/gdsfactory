@@ -1,7 +1,7 @@
 import gdsfactory as gf
 
 
-def test_partial_cross_section():
+def test_partial_cross_section() -> None:
     strip200 = gf.partial(gf.cross_section.strip, width=0.2)
     strip400 = gf.partial(gf.cross_section.strip, width=0.4)
     c200 = gf.components.straight(cross_section=strip200)

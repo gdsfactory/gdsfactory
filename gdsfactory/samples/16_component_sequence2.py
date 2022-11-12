@@ -9,13 +9,13 @@ from gdsfactory.components.taper import taper_strip_to_ridge
 def test_cutback_phase(
     straight_length: float = 100.0, bend_radius: float = 12.0, n: int = 2
 ) -> Component:
-    """Modulator sections connected by bends"""
+    """Modulator sections connected by bends."""
     # Define sub components
     bend180 = gf.components.bend_circular180(radius=bend_radius)
-    pm_wg = gf.c.straight_pin(length=straight_length, taper=None)
+    pm_wg = gf.components.straight_pin(length=straight_length, taper=None)
     wg_short = straight(length=1.0)
     wg_short2 = straight(length=2.0)
-    wg_heater = gf.c.straight_pin(length=10.0, taper=None)
+    wg_heater = gf.components.straight_pin(length=10.0, taper=None)
     taper = taper_strip_to_ridge()
 
     # Define a map between symbols and (component, input port, output port)
@@ -37,12 +37,11 @@ def test_cutback_phase(
     repeated_sequence = "SIPOSASIPOSB"
     heater_seq = "-H-H-H-H-"
     sequence = repeated_sequence * n + "SIPO" + heater_seq
-    component = component_sequence(
+    return component_sequence(
         sequence=sequence, symbol_to_component=symbol_to_component
     )
-    return component
 
 
 if __name__ == "__main__":
     c = test_cutback_phase(n=1)
-    c.show()
+    c.show(show_ports=True)

@@ -1,0 +1,121 @@
+name: taper_cross_section_4a5f6ea9
+settings:
+  changed:
+    npoints: 101
+    width_type: parabolic
+  child: null
+  default:
+    cross_section1:
+      function: cross_section
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
+        cladding_layers:
+        - DEVREC
+        cladding_offsets:
+        - 0
+        sections:
+        - hidden: false
+          layer: SLAB90
+          name: slab
+          offset: 0
+          port_names:
+          - null
+          - null
+          port_types:
+          - optical
+          - optical
+          width: 0.2
+    cross_section2:
+      function: cross_section
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
+        cladding_layers:
+        - DEVREC
+        cladding_offsets:
+        - 0
+        sections:
+        - hidden: false
+          layer: SLAB90
+          name: slab
+          offset: 0
+          port_names:
+          - null
+          - null
+          port_types:
+          - optical
+          - optical
+          width: 6.0
+    length: 10
+    linear: false
+    npoints: 100
+    width_type: sine
+  full:
+    cross_section1:
+      function: cross_section
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
+        cladding_layers:
+        - DEVREC
+        cladding_offsets:
+        - 0
+        sections:
+        - hidden: false
+          layer: SLAB90
+          name: slab
+          offset: 0
+          port_names:
+          - null
+          - null
+          port_types:
+          - optical
+          - optical
+          width: 0.2
+    cross_section2:
+      function: cross_section
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
+        cladding_layers:
+        - DEVREC
+        cladding_offsets:
+        - 0
+        sections:
+        - hidden: false
+          layer: SLAB90
+          name: slab
+          offset: 0
+          port_names:
+          - null
+          - null
+          port_types:
+          - optical
+          - optical
+          width: 6.0
+    length: 10
+    linear: false
+    npoints: 101
+    width_type: parabolic
+  function_name: taper_cross_section
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.taper_cross_section
+  name: taper_cross_section_4a5f6ea9

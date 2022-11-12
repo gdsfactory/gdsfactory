@@ -1,19 +1,18 @@
+"""Returns a switch_tree.
+
+          __
+        _|  |_
+  __   | |  |_   _
+ |  |__| |__|    |
+_|  |__          |dy
+ |__|  |  __     |
+       |_|  |_   |
+         |  |_   -
+         |__|
+
+   |<-dx->|
+
 """
-                  __
-                _|  |_
-          __   | |  |_   _
-         |  |__| |__|    |
-        _|  |__          |dy
-         |__|  |  __     |
-               |_|  |_   |
-                 |  |_   -
-                 |__|
-
-
-           |<-dx->|
-
-"""
-
 
 import gdsfactory as gf
 from gdsfactory.components.mmi2x2 import mmi2x2
@@ -35,4 +34,4 @@ switch_tree = gf.partial(splitter_tree, coupler=mzi, spacing=(500, 100))
 if __name__ == "__main__":
     # c = mzi()
     c = switch_tree(noutputs=16)
-    c.show()
+    c.show(show_ports=True)

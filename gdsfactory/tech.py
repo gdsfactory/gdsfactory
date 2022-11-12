@@ -1,26 +1,20 @@
+"""Technology settings."""
 import pathlib
-from dataclasses import asdict, field
-from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+from typing import Any, Callable, Dict, Optional, Tuple, Union
 
-import pydantic
-from phidl.device_layout import Device as Component
-
-from gdsfactory.name import clean_value, get_name_short
+from pydantic import BaseModel
 
 module_path = pathlib.Path(__file__).parent.absolute()
 Layer = Tuple[int, int]
+LayerSpec = Union[int, Layer, str, None]
+nm = 1e-3
 
 
-def make_empty_dict() -> Dict[str, Callable]:
-    return {}
+class LayerMap(BaseModel):
+    """Generic layermap based on book.
 
-
-@pydantic.dataclasses.dataclass(frozen=True)
-class LayerMap:
-    """Generic layermap based on Textbook:
     Lukas Chrostowski, Michael Hochberg, "Silicon Photonics Design",
     Cambridge University Press 2015, page 353
-
     You will need to create a new LayerMap with your specific foundry layers.
     """
 
@@ -51,14 +45,16 @@ class LayerMap:
     VIA2: Layer = (43, 0)
     PADOPEN: Layer = (46, 0)
 
+    DICING: Layer = (100, 0)
     NO_TILE_SI: Layer = (71, 0)
     PADDING: Layer = (67, 0)
     DEVREC: Layer = (68, 0)
-    FLOORPLAN: Layer = (99, 0)
+    FLOORPLAN: Layer = (64, 0)
     TEXT: Layer = (66, 0)
     PORT: Layer = (1, 10)
-    PORTE: Layer = (69, 0)
+    PORTE: Layer = (1, 11)
     PORTH: Layer = (70, 0)
+    SHOW_PORTS: Layer = (1, 12)
     LABEL: Layer = (201, 0)
     LABEL_SETTINGS: Layer = (202, 0)
     TE: Layer = (203, 0)
@@ -67,6 +63,15 @@ class LayerMap:
     LABEL_INSTANCE: Layer = (206, 0)
     ERROR_MARKER: Layer = (207, 0)
     ERROR_PATH: Layer = (208, 0)
+
+    SOURCE: Layer = (110, 0)
+    MONITOR: Layer = (101, 0)
+
+    class Config:
+        """pydantic config."""
+
+        frozen = True
+        extra = "forbid"
 
 
 LAYER = LayerMap()
@@ -91,191 +96,299 @@ PORT_LAYER_TO_TYPE = {
 PORT_TYPE_TO_MARKER_LAYER = {v: k for k, v in PORT_MARKER_LAYER_TO_TYPE.items()}
 
 
-@pydantic.dataclasses.dataclass
-class LayerLevel:
-    """Layer For 3D LayerStack.
+class LayerLevel(BaseModel):
+    """Level for 3D LayerStack.
 
-    Args:
-        layer: (GDSII Layer number, GDSII datatype)
-        thickness: layer thickness
-        zmin: height position where material starts
-        material: material name
-        sidewall_angle: in degrees with respect to normal
+    Parameters:
+        layer: (GDSII Layer number, GDSII datatype).
+        thickness: layer thickness in um.
+        zmin: height position where material starts in um.
+        material: material name.
+        sidewall_angle: in degrees with respect to normal.
+        info: simulation_info and other types of metadata.
+            mesh_order: lower mesh order (1) will have priority over higher
+                mesh order (2) in the regions where materials overlap.
+            refractive_index: refractive_index
+                can be int, complex or function that depends on wavelength (um).
+            type: grow, etch, implant, or background.
+            mode: octagon, taper, round.
+                https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
+            into: etch into another layer.
+                https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
+            doping_concentration: for implants.
+            resistiviy: for metals.
+            bias: in um for the etch.
     """
 
     layer: Tuple[int, int]
-    thickness: Optional[float] = None
-    zmin: Optional[float] = None
+    thickness: float
+    zmin: float
     material: Optional[str] = None
     sidewall_angle: float = 0
+    info: Dict[str, Any] = {}
 
 
-class LayerStack(dict):
-    """For simulation and trimesh 3D rendering"""
+class LayerStack(BaseModel):
+    """For simulation and 3D rendering.
+
+    Parameters:
+        layers: dict of layer_levels.
+    """
+
+    layers: Dict[str, LayerLevel]
 
     def get_layer_to_thickness(self) -> Dict[Tuple[int, int], float]:
         """Returns layer tuple to thickness (um)."""
         return {
-            level.layer: level.thickness for level in self.values() if level.thickness
+            level.layer: level.thickness
+            for level in self.layers.values()
+            if level.thickness
         }
 
     def get_layer_to_zmin(self) -> Dict[Tuple[int, int], float]:
         """Returns layer tuple to z min position (um)."""
-        return {level.layer: level.zmin for level in self.values() if level.thickness}
+        return {
+            level.layer: level.zmin for level in self.layers.values() if level.thickness
+        }
 
     def get_layer_to_material(self) -> Dict[Tuple[int, int], str]:
         """Returns layer tuple to material name."""
         return {
-            level.layer: level.material for level in self.values() if level.thickness
+            level.layer: level.material
+            for level in self.layers.values()
+            if level.thickness
         }
 
     def get_layer_to_sidewall_angle(self) -> Dict[Tuple[int, int], str]:
         """Returns layer tuple to material name."""
         return {
             level.layer: level.sidewall_angle
-            for level in self.values()
+            for level in self.layers.values()
             if level.thickness
         }
 
+    def get_layer_to_info(self) -> Dict[Tuple[int, int], Dict]:
+        """Returns layer tuple to info dict."""
+        return {level.layer: level.info for level in self.layers.values()}
+
     def to_dict(self) -> Dict[str, Dict[str, Any]]:
-        return {level_name: asdict(level) for level_name, level in self.items()}
+        return {level_name: dict(level) for level_name, level in self.layers.items()}
+
+    def get_klayout_3d_script(self, klayout28: bool = True) -> str:
+        """Prints script for 2.5 view klayout information.
+
+        You can add this information in your tech.lyt take a look at
+        gdsfactory/klayout/tech/tech.lyt
+        """
+        for level in self.layers.values():
+            layer = level.layer
+            if klayout28:
+                print(
+                    f"z(input({layer[0]}, {layer[1]}), zstart: {level.zmin}, height: {level.zmin+level.thickness})"
+                )
+            else:
+                print(
+                    f"{level.layer[0]}/{level.layer[1]}: {level.zmin} {level.zmin+level.thickness}"
+                )
 
 
-def get_layer_stack_generic(thickness_silicon_core: float = 220e-3) -> LayerStack:
+def get_layer_stack_generic(
+    thickness_wg: float = 220 * nm,
+    thickness_slab_deep_etch: float = 90 * nm,
+    thickness_clad: float = 3.0,
+    thickness_nitride: float = 350 * nm,
+    thickness_ge: float = 500 * nm,
+    gap_silicon_to_nitride: float = 100 * nm,
+    zmin_heater: float = 1.1,
+    zmin_metal1: float = 1.1,
+    thickness_metal1: float = 700 * nm,
+    zmin_metal2: float = 2.3,
+    thickness_metal2: float = 700 * nm,
+    zmin_metal3: float = 3.2,
+    thickness_metal3: float = 2000 * nm,
+) -> LayerStack:
     """Returns generic LayerStack.
+
     based on paper https://www.degruyter.com/document/doi/10.1515/nanoph-2013-0034/html
+
+    Args:
+        thickness_wg: waveguide thickness in um.
+        thickness_slab_deep_etch: for deep etched slab.
+        thickness_clad: cladding thickness in um.
+        thickness_nitride: nitride thickness in um.
+        thickness_ge: germanium thickness.
+        gap_silicon_to_nitride: distance from silicon to nitride in um.
+        zmin_heater: TiN heater.
+        zmin_metal1: metal1.
+        thickness_metal1: metal1 thickness.
+        zmin_metal2: metal2.
+        thickness_metal2: metal2 thickness.
+        zmin_metal3: metal3.
+        thickness_metal3: metal3 thickness.
     """
-    layer_stack = LayerStack(
-        core=LayerLevel(
-            layer=LAYER.WG,
-            thickness=thickness_silicon_core,
-            zmin=0.0,
-            material="si",
-        ),
-        clad=LayerLevel(
-            layer=LAYER.WGCLAD,
-            zmin=0.0,
-            material="sio2",
-        ),
-        slab150=LayerLevel(
-            layer=LAYER.SLAB150,
-            thickness=150e-3,
-            zmin=0,
-            material="si",
-        ),
-        slab90=LayerLevel(
-            layer=LAYER.SLAB90,
-            thickness=150e-3,
-            zmin=0.0,
-            material="si",
-        ),
-        nitride=LayerLevel(
-            layer=LAYER.WGN,
-            thickness=350e-3,
-            zmin=220e-3 + 100e-3,
-            material="sin",
-        ),
-        ge=LayerLevel(
-            layer=LAYER.GE,
-            thickness=500e-3,
-            zmin=220e-3,
-            material="ge",
-        ),
-        via_contact=LayerLevel(
-            layer=LAYER.VIAC,
-            thickness=1100e-3,
-            zmin=90e-3,
-            material="Aluminum",
-        ),
-        metal1=LayerLevel(
-            layer=LAYER.M1,
-            thickness=750e-3,
-            zmin=220e-3 + 1100e-3,
-            material="Aluminum",
-        ),
-        heater=LayerLevel(
-            layer=LAYER.HEATER,
-            thickness=750e-3,
-            zmin=220e-3 + 1100e-3,
-            material="TiN",
-        ),
-        viac=LayerLevel(
-            layer=LAYER.VIA1,
-            thickness=1500e-3,
-            zmin=220e-3 + 1100e-3 + 750e-3,
-            material="Aluminum",
-        ),
-        metal2=LayerLevel(
-            layer=LAYER.M2,
-            thickness=2000e-3,
-            zmin=220e-3 + 1100e-3 + 750e-3 + 1.5,
-            material="Aluminum",
-        ),
+    return LayerStack(
+        layers=dict(
+            core=LayerLevel(
+                layer=LAYER.WG,
+                thickness=thickness_wg,
+                zmin=0.0,
+                material="si",
+                info={"mesh_order": 1},
+            ),
+            clad=LayerLevel(
+                layer=LAYER.WGCLAD,
+                zmin=0.0,
+                material="sio2",
+                thickness=thickness_clad,
+                info={"mesh_order": 10},
+            ),
+            slab150=LayerLevel(
+                layer=LAYER.SLAB150,
+                thickness=150e-3,
+                zmin=0,
+                material="si",
+                info={"mesh_order": 3},
+            ),
+            slab90=LayerLevel(
+                layer=LAYER.SLAB90,
+                thickness=thickness_slab_deep_etch,
+                zmin=0.0,
+                material="si",
+                info={"mesh_order": 2},
+            ),
+            nitride=LayerLevel(
+                layer=LAYER.WGN,
+                thickness=thickness_nitride,
+                zmin=thickness_wg + gap_silicon_to_nitride,
+                material="sin",
+                info={"mesh_order": 2},
+            ),
+            ge=LayerLevel(
+                layer=LAYER.GE,
+                thickness=thickness_ge,
+                zmin=thickness_wg,
+                material="ge",
+                info={"mesh_order": 1},
+            ),
+            via_contact=LayerLevel(
+                layer=LAYER.VIAC,
+                thickness=zmin_metal1 - thickness_slab_deep_etch,
+                zmin=thickness_slab_deep_etch,
+                material="Aluminum",
+                info={"mesh_order": 1},
+            ),
+            metal1=LayerLevel(
+                layer=LAYER.M1,
+                thickness=thickness_metal1,
+                zmin=zmin_metal1,
+                material="Aluminum",
+                info={"mesh_order": 2},
+            ),
+            heater=LayerLevel(
+                layer=LAYER.HEATER,
+                thickness=750e-3,
+                zmin=zmin_heater,
+                material="TiN",
+                info={"mesh_order": 1},
+            ),
+            via1=LayerLevel(
+                layer=LAYER.VIA1,
+                thickness=zmin_metal2 - (zmin_metal1 + thickness_metal1),
+                zmin=zmin_metal1 + thickness_metal1,
+                material="Aluminum",
+                info={"mesh_order": 2},
+            ),
+            metal2=LayerLevel(
+                layer=LAYER.M2,
+                thickness=thickness_metal2,
+                zmin=zmin_metal2,
+                material="Aluminum",
+                info={"mesh_order": 2},
+            ),
+            via2=LayerLevel(
+                layer=LAYER.VIA2,
+                thickness=zmin_metal3 - (zmin_metal2 + thickness_metal2),
+                zmin=zmin_metal2 + thickness_metal2,
+                material="Aluminum",
+                info={"mesh_order": 1},
+            ),
+            metal3=LayerLevel(
+                layer=LAYER.M3,
+                thickness=thickness_metal3,
+                zmin=zmin_metal3,
+                material="Aluminum",
+                info={"mesh_order": 2},
+            ),
+        )
     )
-    return layer_stack
 
 
 LAYER_STACK = get_layer_stack_generic()
 
 
-@pydantic.dataclasses.dataclass
-class Section:
-    """
-    Args:
-        width: of the section
-        offset: center to center
-        layer:
-        ports: optional name of the ports
-        name: optional section name
-        port_types:
+class Section(BaseModel):
+    """CrossSection to extrude a path with a waveguide.
+
+    Parameters:
+        width: of the section (um) or parameterized function from 0 to 1.
+             the width at t==0 is the width at the beginning of the Path.
+             the width at t==1 is the width at the end.
+        offset: center offset (um) or function parameterized function from 0 to 1.
+             the offset at t==0 is the offset at the beginning of the Path.
+             the offset at t==1 is the offset at the end.
+        layer: layer spec.
+        port_names: Optional port names.
+        port_types: optical, electrical, ...
+        name: Optional Section name.
+        hidden: hide layer.
+    .. code::
+          0   offset
+          |<-------------->|
+          |              _____
+          |             |     |
+          |             |layer|
+          |             |_____|
+          |              <---->
+                         width
     """
 
-    width: float
-    offset: float = 0
-    layer: Layer = (1, 0)
-    ports: Tuple[Optional[str], Optional[str]] = (None, None)
-    name: Optional[str] = None
+    width: Union[float, Callable]
+    offset: Union[float, Callable] = 0
+    layer: Union[LayerSpec, Tuple[LayerSpec, LayerSpec]]
+    port_names: Tuple[Optional[str], Optional[str]] = (None, None)
     port_types: Tuple[str, str] = ("optical", "optical")
+    name: Optional[str] = None
+    hidden: bool = False
 
-    def __repr__(self):
-        return "_".join(
-            [
-                f"{i}"
-                for i in [
-                    self.name,
-                    int(self.width * 1e3),
-                    self.layer[0],
-                    self.layer[1],
-                    self.ports[0],
-                    self.ports[1],
-                    self.port_types[0],
-                    self.port_types[1],
-                ]
-                if i is not None
-            ]
-        )
+    class Config:
+        """pydantic basemodel config."""
+
+        extra = "forbid"
 
 
-@pydantic.dataclasses.dataclass
-class SimulationSettings:
-    """
-    Args:
-        background_material: for the background
-        port_margin: on both sides of the port width (um)
-        port_height: port height (um)
-        port_extension: port extension (um)
-        mesh_accuracy: 2 (1: coarse, 2: fine, 3: superfine)
-        zmargin: for the FDTD region (um)
-        ymargin: for the FDTD region (um)
-        xmargin: for the FDTD region (um)
-        wavelength_start: 1.2 (um)
-        wavelength_stop: 1.6 (um)
-        wavelength_points: 500
-        simulation_time: (s) related to max path length 3e8/2.4*10e-12*1e6 = 1.25mm
-        simulation_temperature: in kelvin (default = 300)
-        frequency_dependendent_profile: computes mode profiles for different wavelengths
-        field_profile_samples: number of wavelengths to compute field profile
+MaterialSpec = Union[str, float, complex, Tuple[float, float]]
 
+
+class SimulationSettingsLumericalFdtd(BaseModel):
+    """Lumerical FDTD simulation_settings.
+
+    Parameters:
+        background_material: for the background.
+        port_margin: on both sides of the port width (um).
+        port_height: port height (um).
+        port_extension: port extension (um).
+        mesh_accuracy: 2 (1: coarse, 2: fine, 3: superfine).
+        zmargin: for the FDTD region (um).
+        ymargin: for the FDTD region (um).
+        xmargin: for the FDTD region (um).
+        wavelength_start: 1.2 (um).
+        wavelength_stop: 1.6 (um).
+        wavelength_points: 500.
+        simulation_time: (s) related to max path length
+            3e8/2.4*10e-12*1e6 = 1.25mm.
+        simulation_temperature: in kelvin (default = 300).
+        frequency_dependent_profile: compute mode profiles for each wavelength.
+        field_profile_samples: number of wavelengths to compute field profile.
     """
 
     background_material: str = "sio2"
@@ -290,19 +403,22 @@ class SimulationSettings:
     wavelength_points: int = 500
     simulation_time: float = 10e-12
     simulation_temperature: float = 300
-    frequency_dependendent_profile: bool = True
+    frequency_dependent_profile: bool = True
     field_profile_samples: int = 15
-
-    mode_index: int = 0
-    n_modes: int = 2
-    thickness_pml: float = 1.0
-    port_source_name: str = "o1"
     distance_source_to_monitors: float = 0.2
-    mesh_step: float = 40e-3
-    wavelength: float = 1.55
+    material_name_to_lumerical: Dict[str, MaterialSpec] = {
+        "si": "Si (Silicon) - Palik",
+        "sio2": "SiO2 (Glass) - Palik",
+        "sin": "Si3N4 (Silicon Nitride) - Phillip",
+    }
+
+    class Config:
+        """pydantic basemodel config."""
+
+        arbitrary_types_allowed = True
 
 
-SIMULATION_SETTINGS = SimulationSettings()
+SIMULATION_SETTINGS_LUMERICAL_FDTD = SimulationSettingsLumericalFdtd()
 
 
 def assert_callable(function):
@@ -312,124 +428,20 @@ def assert_callable(function):
         )
 
 
-@pydantic.dataclasses.dataclass
-class Library:
-    """Stores component factories for testing purposes.
-
-    Args:
-        name: of the factory
-        factory: component name to function dict
-        post_init: Optional function to run over component
-
-    """
-
-    name: str
-    factory: Dict[str, Callable] = field(default_factory=make_empty_dict)
-    post_init: Optional[Callable[[], None]] = None
-
-    def __str__(self):
-        return self.name
-
-    def __repr__(self):
-        return self.name
-
-    def get_component_names(self):
-        return list(self.factory.keys())
-
-    def register(
-        self,
-        function_or_function_list: Optional[
-            Union[List[Callable[[], None]], Callable[[], None]]
-        ] = None,
-        **kwargs,
-    ) -> None:
-        """Registers component_factory function or functions into the factory."""
-        function_or_function_list = function_or_function_list or []
-
-        if not hasattr(function_or_function_list, "__iter__"):
-            function = function_or_function_list
-            assert_callable(function)
-            self.factory[function.__name__] = function
-
-        else:
-            for function in function_or_function_list:
-                assert_callable(function)
-                self.factory[get_name_short(clean_value(function))] = function
-
-        for function_name, function in kwargs.items():
-            assert_callable(function)
-            self.factory[function_name] = function
-
-    def get_component(
-        self,
-        component: Union[str, Dict],
-        **settings,
-    ) -> Component:
-        """Returns Component from library.
-        Takes default settings from self.settings
-        settings can be overwriten with kwargs
-        runs any post_init functions over the component before it returns it.
-
-        Priority (from lower to higher)
-        - default in dataclass
-        - component in case it's a dic
-        - **settings
-
-        Args:
-            component:
-            **settings
-        """
-        if isinstance(component, str):
-            component = component
-            component_settings = {}
-        elif isinstance(component, dict):
-            component_settings = component.copy()
-            if "component" not in component_settings:
-                raise ValueError(f"{component} is missing `component` key")
-
-            component = component_settings.pop("component")
-        else:
-            raise ValueError(
-                f"{component} needs to be a string or dict, got {type(component)}"
-            )
-
-        if component not in self.factory:
-            raise ValueError(f"{component} not in {list(self.factory.keys())}")
-        component = self.factory[component](**settings)
-        if self.post_init and not hasattr(component, "_initialized"):
-            self.post_init(component)
-            component._initialized = True
-        return component
-
-
-@pydantic.dataclasses.dataclass
-class Tech:
-    name: str = "generic"
-    layer: LayerMap = LAYER
-
-    fiber_spacing: float = 50.0
-    fiber_array_spacing: float = 127.0
-    fiber_input_to_output_spacing: float = 200.0
-    layer_label: Layer = LAYER.LABEL
-    metal_spacing: float = 10.0
-
-    sparameters_path: str = str(module_path / "gdslib" / "sparameters")
-    simulation_settings: SimulationSettings = SIMULATION_SETTINGS
-
-
-TECH = Tech()
-LIBRARY = Library("generic_components")
-
 if __name__ == "__main__":
-    import gdsfactory as gf
+    # import gdsfactory as gf
+    # from gdsfactory.serialization import clean_value_json
 
-    def mmi1x2_longer(length_mmi: float = 25.0, **kwargs):
-        return gf.components.mmi1x2(length_mmi=length_mmi, **kwargs)
+    # d = clean_value_json(SIMULATION_SETTINGS_LUMERICAL_FDTD)
 
-    def mzi_longer(**kwargs):
-        return gf.components.mzi(splitter=mmi1x2_longer, **kwargs)
+    # def mmi1x2_longer(length_mmi: float = 25.0, **kwargs):
+    #     return gf.components.mmi1x2(length_mmi=length_mmi, **kwargs)
+
+    # def mzi_longer(**kwargs):
+    #     return gf.components.mzi(splitter=mmi1x2_longer, **kwargs)
 
     ls = LAYER_STACK
+    ls.get_klayout_3d_script()
     # print(ls.get_layer_to_material())
     # print(ls.get_layer_to_thickness())
 

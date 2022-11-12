@@ -1,930 +1,187 @@
-cells:
-  compass_3c3280cc:
-    changed:
-      layer:
-      - 1
-      - 0
-      size:
-      - 10
-      - 10
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 10
-      - 10
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_3c3280cc
-  compass_44af43f4:
-    changed:
-      layer:
-      - 24
-      - 0
-      size:
-      - 10
-      - 10
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 24
-      - 0
-      port_type: electrical
-      size:
-      - 10
-      - 10
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_44af43f4
-  compass_5903820c:
-    changed:
-      layer:
-      - 49
-      - 0
-      size:
-      - 10
-      - 10
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 49
-      - 0
-      port_type: electrical
-      size:
-      - 10
-      - 10
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_5903820c
-  compass_67c6df50:
-    changed:
-      layer:
-      - 41
-      - 0
-      size:
-      - 10
-      - 10
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 41
-      - 0
-      port_type: electrical
-      size:
-      - 10
-      - 10
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_67c6df50
-  compass_70bcd629:
-    changed:
-      layer:
-      - 49
-      - 0
-      size:
-      - 310
-      - 10
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 49
-      - 0
-      port_type: electrical
-      size:
-      - 310
-      - 10
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_70bcd629
-  compass_a7656554:
-    changed:
-      layer:
-      - 41
-      - 0
-      size:
-      - 310
-      - 10
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 41
-      - 0
-      port_type: electrical
-      size:
-      - 310
-      - 10
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_a7656554
-  compass_cfeb36a5:
-    changed:
-      layer:
-      - 45
-      - 0
-      size:
-      - 310
-      - 10
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 45
-      - 0
-      port_type: electrical
-      size:
-      - 310
-      - 10
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_cfeb36a5
-  compass_e429d7e7:
-    changed:
-      layer:
-      - 45
-      - 0
-      size:
-      - 10
-      - 10
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 45
-      - 0
-      port_type: electrical
-      size:
-      - 10
-      - 10
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_e429d7e7
-  contact_016afa8d:
-    changed:
-      layers:
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 310
-      - 10
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    default:
-      layer_port: null
-      layers:
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 11
-      - 11
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    full:
-      layer_port: null
-      layers:
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 310
-      - 10
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    function_name: contact
-    info_version: 1
-    layer:
-    - 49
-    - 0
-    module: gdsfactory.components.contact
-    name: contact_016afa8d
-    size:
-    - 310
-    - 10
-  contact_32dac979:
-    changed:
-      layers:
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 10
-      - 10
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    default:
-      layer_port: null
-      layers:
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 11
-      - 11
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    full:
-      layer_port: null
-      layers:
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 10
-      - 10
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    function_name: contact
-    info_version: 1
-    layer:
-    - 49
-    - 0
-    module: gdsfactory.components.contact
-    name: contact_32dac979
-    size:
-    - 10
-    - 10
-  contact_5fef78eb:
-    changed:
-      layers:
-      - - 1
-        - 0
-      - - 24
-        - 0
-      - - 41
-        - 0
-      size:
-      - 10
-      - 10
-      vias:
-      - null
-      - null
-      - function: via
-        layer:
-        - 40
-        - 0
-    default:
-      layer_port: null
-      layers:
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 11
-      - 11
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    full:
-      layer_port: null
-      layers:
-      - - 1
-        - 0
-      - - 24
-        - 0
-      - - 41
-        - 0
-      size:
-      - 10
-      - 10
-      vias:
-      - null
-      - null
-      - function: via
-        layer:
-        - 40
-        - 0
-    function_name: contact
-    info_version: 1
-    layer:
-    - 41
-    - 0
-    module: gdsfactory.components.contact
-    name: contact_5fef78eb
-    size:
-    - 10
-    - 10
-  extrude_94545d1a:
-    changed:
-      cross_section: {}
-      p: path_df9f9721565520dc57f5cb1446179439
-    default:
-      cross_section: null
-      layer: null
-      simplify: null
-      width: null
-      widths: null
-    full:
-      cross_section: {}
-      layer: null
-      p: path_df9f9721565520dc57f5cb1446179439
-      simplify: null
-      width: null
-      widths: null
-    function_name: extrude
-    info_version: 1
-    length: 10
-    module: gdsfactory.path
-    name: extrude_94545d1a
-  straight_6fffabef:
-    changed:
-      cross_section:
-        function: strip_heater_doped
-        heater_gap: 0.8
-        heater_width: 2
-        width: 0.5
-      length: 300
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: strip_heater_doped
-        heater_gap: 0.8
-        heater_width: 2
-        width: 0.5
-      length: 300
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 300
-    module: gdsfactory.components.straight
-    name: straight_6fffabef
-    width: 0.5
-  straight_heater_doped_r_3a183396:
-    changed:
-      contact:
-        function: contact
-        layers:
-        - - 1
-          - 0
-        - - 24
-          - 0
-        - - 41
-          - 0
-        vias:
-        - null
-        - null
-        - function: via
-          layer:
-          - 40
-          - 0
-      cross_section_heater:
-        function: strip_heater_doped
-    default:
-      contact:
-        function: contact
-        layers:
-        - - 3
-          - 0
-        - - 24
-          - 0
-        - - 41
-          - 0
-        vias:
-        - null
-        - null
-        - function: via
-          layer:
-          - 40
-          - 0
-      contact_metal:
-        function: contact
-        layers:
-        - - 41
-          - 0
-        - - 45
-          - 0
-        - - 49
-          - 0
-        vias:
-        - enclosure: 2
-          function: via
-          layer:
-          - 44
-          - 0
-        - function: via
-          layer:
-          - 43
-          - 0
-      contact_metal_size:
-      - 10
-      - 10
-      contact_size:
-      - 10
-      - 10
-      cross_section:
-        function: cross_section
-        sections:
-        - slab
-      cross_section_heater:
-        function: rib_heater_doped
-      heater_gap: 0.8
-      heater_width: 2
-      length: 320
-      nsections: 3
-      taper:
-        function: taper_cross_section
-      width: 0.5
-      with_bot_contact: true
-      with_top_contact: true
-    full:
-      contact:
-        function: contact
-        layers:
-        - - 1
-          - 0
-        - - 24
-          - 0
-        - - 41
-          - 0
-        vias:
-        - null
-        - null
-        - function: via
-          layer:
-          - 40
-          - 0
-      contact_metal:
-        function: contact
-        layers:
-        - - 41
-          - 0
-        - - 45
-          - 0
-        - - 49
-          - 0
-        vias:
-        - enclosure: 2
-          function: via
-          layer:
-          - 44
-          - 0
-        - function: via
-          layer:
-          - 43
-          - 0
-      contact_metal_size:
-      - 10
-      - 10
-      contact_size:
-      - 10
-      - 10
-      cross_section:
-        function: cross_section
-        sections:
-        - slab
-      cross_section_heater:
-        function: strip_heater_doped
-      heater_gap: 0.8
-      heater_width: 2
-      length: 320
-      nsections: 3
-      taper:
-        function: taper_cross_section
-      width: 0.5
-      with_bot_contact: true
-      with_top_contact: true
-    function_name: straight_heater_doped_rib
-    info_version: 1
-    module: gdsfactory.components.straight_heater_doped_rib
-    name: straight_heater_doped_r_3a183396
-  taper_cross_section_bc4ced8f:
-    changed:
-      cross_section1:
-        function: cross_section
-        sections:
-        - slab
-      cross_section2:
-        function: strip_heater_doped
-        heater_gap: 0.8
-        heater_width: 2
-        width: 0.5
-    default:
-      cross_section1:
-        function: cross_section
-        sections:
-        - slab
-      cross_section2:
-        cladding_offset: 0
-        function: cross_section
-        layers_cladding:
-        - - 3
-          - 0
-        sections:
-        - slab
-      length: 10
-      linear: false
-      npoints: 100
-    full:
-      cross_section1:
-        function: cross_section
-        sections:
-        - slab
-      cross_section2:
-        function: strip_heater_doped
-        heater_gap: 0.8
-        heater_width: 2
-        width: 0.5
-      length: 10
-      linear: false
-      npoints: 100
-    function_name: taper_cross_section
-    info_version: 1
-    module: gdsfactory.components.taper_cross_section
-    name: taper_cross_section_bc4ced8f
-info:
+name: straight_heater_doped_r_ed747bfb
+settings:
   changed:
-    contact:
-      function: contact
-      layers:
-      - - 1
-        - 0
-      - - 24
-        - 0
-      - - 41
-        - 0
-      vias:
-      - null
-      - null
-      - function: via
-        layer:
-        - 40
-        - 0
     cross_section_heater:
       function: strip_heater_doped
+    via_stack:
+      function: via_stack
+      settings:
+        layers:
+        - - 1
+          - 0
+        - - 24
+          - 0
+        - - 41
+          - 0
+        vias:
+        - null
+        - null
+        - function: via
+          settings:
+            layer: VIAC
+  child: null
   default:
-    contact:
-      function: contact
-      layers:
-      - - 3
-        - 0
-      - - 24
-        - 0
-      - - 41
-        - 0
-      vias:
-      - null
-      - null
-      - function: via
-        layer:
-        - 40
-        - 0
-    contact_metal:
-      function: contact
-      layers:
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    contact_metal_size:
-    - 10
-    - 10
-    contact_size:
-    - 10
-    - 10
     cross_section:
       function: cross_section
-      sections:
-      - slab
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
+        cladding_layers:
+        - DEVREC
+        cladding_offsets:
+        - 0
+        sections:
+        - hidden: false
+          layer: SLAB90
+          name: slab
+          offset: 0
+          port_names:
+          - null
+          - null
+          port_types:
+          - optical
+          - optical
+          width: 0.2
     cross_section_heater:
       function: rib_heater_doped
     heater_gap: 0.8
-    heater_width: 2
-    length: 320
+    heater_width: 2.0
+    length: 320.0
     nsections: 3
     taper:
       function: taper_cross_section
+    via_stack:
+      function: via_stack
+      settings:
+        layers:
+        - - 3
+          - 0
+        - - 24
+          - 0
+        - - 41
+          - 0
+        vias:
+        - null
+        - null
+        - function: via
+          settings:
+            layer: VIAC
+    via_stack_gap: 0.0
+    via_stack_metal:
+      function: via_stack
+      settings:
+        layers:
+        - - 41
+          - 0
+        - - 45
+          - 0
+        - - 49
+          - 0
+        vias:
+        - function: via
+          settings:
+            enclosure: 2
+            layer: VIA1
+        - function: via
+          settings:
+            layer: VIA2
+    via_stack_metal_size:
+    - 10.0
+    - 10.0
+    via_stack_size:
+    - 10.0
+    - 10.0
     width: 0.5
-    with_bot_contact: true
-    with_top_contact: true
+    with_taper1: true
+    with_taper2: true
+    xoffset_tip1: 0.2
+    xoffset_tip2: 0.4
   full:
-    contact:
-      function: contact
-      layers:
-      - - 1
-        - 0
-      - - 24
-        - 0
-      - - 41
-        - 0
-      vias:
-      - null
-      - null
-      - function: via
-        layer:
-        - 40
-        - 0
-    contact_metal:
-      function: contact
-      layers:
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    contact_metal_size:
-    - 10
-    - 10
-    contact_size:
-    - 10
-    - 10
     cross_section:
       function: cross_section
-      sections:
-      - slab
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
+        cladding_layers:
+        - DEVREC
+        cladding_offsets:
+        - 0
+        sections:
+        - hidden: false
+          layer: SLAB90
+          name: slab
+          offset: 0
+          port_names:
+          - null
+          - null
+          port_types:
+          - optical
+          - optical
+          width: 0.2
     cross_section_heater:
       function: strip_heater_doped
     heater_gap: 0.8
-    heater_width: 2
-    length: 320
+    heater_width: 2.0
+    length: 320.0
     nsections: 3
     taper:
       function: taper_cross_section
+    via_stack:
+      function: via_stack
+      settings:
+        layers:
+        - - 1
+          - 0
+        - - 24
+          - 0
+        - - 41
+          - 0
+        vias:
+        - null
+        - null
+        - function: via
+          settings:
+            layer: VIAC
+    via_stack_gap: 0.0
+    via_stack_metal:
+      function: via_stack
+      settings:
+        layers:
+        - - 41
+          - 0
+        - - 45
+          - 0
+        - - 49
+          - 0
+        vias:
+        - function: via
+          settings:
+            enclosure: 2
+            layer: VIA1
+        - function: via
+          settings:
+            layer: VIA2
+    via_stack_metal_size:
+    - 10.0
+    - 10.0
+    via_stack_size:
+    - 10.0
+    - 10.0
     width: 0.5
-    with_bot_contact: true
-    with_top_contact: true
+    with_taper1: true
+    with_taper2: true
+    xoffset_tip1: 0.2
+    xoffset_tip2: 0.4
   function_name: straight_heater_doped_rib
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.straight_heater_doped_rib
-  name: straight_heater_doped_r_3a183396
-ports:
-  bot_e1:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 0
-    - -20
-    name: bot_e1
-    orientation: 180
-    port_type: electrical
-    width: 10
-  bot_e2:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 155
-    - -15
-    name: bot_e2
-    orientation: 90
-    port_type: electrical
-    width: 310
-  bot_e3:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 310
-    - -20
-    name: bot_e3
-    orientation: 0
-    port_type: electrical
-    width: 10
-  bot_e4:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 155
-    - -25
-    name: bot_e4
-    orientation: 270
-    port_type: electrical
-    width: 310
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - -10
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 310
-    - 1.2246467991473533e-15
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 0.5
-  top_e1:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 0
-    - 20
-    name: top_e1
-    orientation: 180
-    port_type: electrical
-    width: 10
-  top_e2:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 155
-    - 25
-    name: top_e2
-    orientation: 90
-    port_type: electrical
-    width: 310
-  top_e3:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 310
-    - 20
-    name: top_e3
-    orientation: 0
-    port_type: electrical
-    width: 10
-  top_e4:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 155
-    - 15
-    name: top_e4
-    orientation: 270
-    port_type: electrical
-    width: 310
-version: 1
+  name: straight_heater_doped_r_ed747bfb

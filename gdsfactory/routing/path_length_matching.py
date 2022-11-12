@@ -1,8 +1,9 @@
-from typing import List
+from typing import List, Union
 
 import numpy as np
 from numpy import ndarray
 
+import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.cross_section import strip
 from gdsfactory.geometry.functions import path_length
@@ -11,7 +12,7 @@ from gdsfactory.routing.manhattan import (
     _is_vertical,
     remove_flat_angles,
 )
-from gdsfactory.types import ComponentFactory, CrossSectionFactory
+from gdsfactory.types import ComponentSpec, CrossSectionSpec, MultiCrossSectionAngleSpec
 
 
 def path_length_matched_points(
@@ -20,14 +21,11 @@ def path_length_matched_points(
     modify_segment_i: int = -2,
     extra_length: float = 0.0,
     nb_loops: int = 1,
-    bend: ComponentFactory = bend_euler,
-    cross_section: CrossSectionFactory = strip,
+    bend: ComponentSpec = bend_euler,
+    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
     **kwargs,
 ) -> List[ndarray]:
-    """
-    Several types of paths won't match correctly.
-    We do not try to handle all the corner cases here.
-    You will need to modify the input list of waypoints in some cases.
+    """Several types of paths won't match correctly. We do not try to handle all the corner cases here. You will need to modify the input list of waypoints in some cases.
 
     Args:
         list_of_waypoints:  [[p1, p2, p3,...], [q1, q2, q3,...], ...]
@@ -36,14 +34,14 @@ def path_length_matched_points(
             exception is if there are some flat angles)
         margin: some extra space to budget for in addition to the bend radius
             in most cases, the default is fine
-        modify_segment_i: index of the segment which accomodates the new turns
+        modify_segment_i: index of the segment which accommodates the new turns
             default is next to last segment (-2)
         extra_length: distance added to all path length compensation.
             Useful is we want to add space for extra taper on all branches
         nb_loops: number of extra loops added in the path
             if nb_loops==0, no extra loop is added, instead, in each route,
             the segment indexed by `modify_segment_i` is elongated to match
-            the longuest route in `list_of_waypoints`
+            the longest route in `list_of_waypoints`
         bend: bend function
         cross_section: cross_section factory
         **kwargs
@@ -53,7 +51,6 @@ def path_length_matched_points(
         - the number of turns are identical
 
     """
-
     if nb_loops >= 1:
         return path_length_matched_points_add_waypoints(
             list_of_waypoints=list_of_waypoints,
@@ -80,8 +77,9 @@ def path_length_matched_points_modify_segment(
 ):
     if not isinstance(list_of_waypoints, list):
         raise ValueError(
-            "list_of_waypoints should be a list, got {}".format(type(list_of_waypoints))
+            f"list_of_waypoints should be a list, got {type(list_of_waypoints)}"
         )
+
     list_of_waypoints = [
         remove_flat_angles(waypoints) for waypoints in list_of_waypoints
     ]
@@ -120,7 +118,7 @@ def path_length_matched_points_modify_segment(
         # Additional fixed length
         dL = dL + extra_length
 
-        # Modify the segment to accomodate for path length matching
+        # Modify the segment to accommodate for path length matching
         # Two cases: vertical or horizontal segment
         if _is_vertical(p_s0, p_s1):
             sx = np.sign(p_next[0] - p_s1[0])
@@ -145,21 +143,21 @@ def path_length_matched_points_modify_segment(
 def path_length_matched_points_add_waypoints(
     list_of_waypoints: List[ndarray],
     modify_segment_i: int = -2,
-    bend: ComponentFactory = bend_euler,
+    bend: ComponentSpec = bend_euler,
     margin: float = 0.0,
     extra_length: float = 0.0,
     nb_loops: int = 1,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
     **kwargs,
 ) -> List[ndarray]:
-    """
-    Args:
+    """Args are the following.
+
         list_of_waypoints: a list of list_of_points:
             [[p1, p2, p3,...], [q1, q2, q3,...], ...]
             - the number of turns have to be identical
                 (usually means same number of points. exception is if there are
                 some flat angles)
-        modify_segment_i: index of the segment which accomodates the new turns
+        modify_segment_i: index of the segment which accommodates the new turns
             default is next to last segment
         bend: for bends
         margin: some extra space to budget for in addition to the bend radius
@@ -191,7 +189,6 @@ def path_length_matched_points_add_waypoints(
          ___|  |___
 
     """
-
     if not isinstance(list_of_waypoints, list):
         raise ValueError(
             f"list_of_waypoints should be a list, got {type(list_of_waypoints)}"
@@ -214,9 +211,9 @@ def path_length_matched_points_add_waypoints(
         )
 
     # Get the points for the segment we need to modify
-    bend90 = bend(cross_section=cross_section, **kwargs)
+    bend90 = gf.get_component(bend, cross_section=cross_section, **kwargs)
 
-    a = margin + bend90.info.dy
+    a = margin + bend90.info["dy"]
     if modify_segment_i < 0:
         modify_segment_i = modify_segment_i + N + 1
     list_new_waypoints = []
@@ -284,8 +281,6 @@ def path_length_matched_points_add_waypoints(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
     c = gf.Component()
     c1 = c << gf.components.straight_array(n=4, spacing=50)
     c2 = c << gf.components.straight_array(n=4, spacing=20)
@@ -301,4 +296,4 @@ if __name__ == "__main__":
     )
     for route in routes:
         c.add(route.references)
-    c.show()
+    c.show(show_ports=True)

@@ -15,8 +15,8 @@ def test_route_south(
     lengths = {}
     for i, reference in enumerate(references):
         c.add(reference)
-        route_length = reference.parent.info.length
-        lengths[i] = route_length
+        route_length = reference.parent.info["length"]
+        lengths[i] = float(route_length)
     if check:
         data_regression.check(lengths)
     return c
@@ -24,4 +24,4 @@ def test_route_south(
 
 if __name__ == "__main__":
     c = test_route_south(None, check=False)
-    c.show()
+    c.show(show_ports=True)

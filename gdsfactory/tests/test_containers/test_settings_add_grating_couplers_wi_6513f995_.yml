@@ -63,6 +63,7 @@ cells:
       layer:
       - 1
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 4
@@ -71,6 +72,7 @@ cells:
       layer:
       - 47
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 11
@@ -91,6 +93,7 @@ cells:
       layer:
       - 1
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 4
@@ -99,6 +102,7 @@ cells:
       layer:
       - 45
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 11
@@ -119,6 +123,7 @@ cells:
       layer:
       - 1
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 4
@@ -127,6 +132,7 @@ cells:
       layer:
       - 49
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 11
@@ -311,7 +317,7 @@ cells:
     period: 0.6759999999999999
     polarization: te
     wavelength: 1.53
-  mmi2x2_d41d8cd9:
+  mmi2x2:
     changed: {}
     default:
       cross_section:
@@ -338,7 +344,7 @@ cells:
     function_name: mmi2x2
     info_version: 1
     module: gdsfactory.components.mmi2x2
-    name: mmi2x2_d41d8cd9
+    name: mmi2x2
   mzi_d275fe52:
     changed:
       length_x: null
@@ -1021,4 +1027,4 @@ info:
   module: gdsfactory.add_grating_couplers
   name: mzi_d275fe52_add_gratin_45b84cde
 ports: {}
-version: 1
+version: 0.0.1

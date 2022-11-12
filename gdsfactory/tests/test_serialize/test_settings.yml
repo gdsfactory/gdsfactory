@@ -1,0 +1,39 @@
+name: demo_cross_section_setting
+settings:
+  changed: {}
+  child: null
+  default:
+    cross_section:
+      function: cross_section
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
+        cladding_layers:
+        - DEVREC
+        cladding_offsets:
+        - 0
+  full:
+    cross_section:
+      function: cross_section
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
+        cladding_layers:
+        - DEVREC
+        cladding_offsets:
+        - 0
+  function_name: demo_cross_section_setting
+  info:
+    length: 10.0
+    width: 0.5
+  info_version: 2
+  module: gdsfactory.tests.test_serialize
+  name: demo_cross_section_setting

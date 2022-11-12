@@ -5,7 +5,7 @@ from gdsfactory.routing.manhattan import RouteWarning
 
 
 def test_route_error():
-    """Ensures that an impossible route raises value Error"""
+    """Ensures that an impossible route raises RouteWarning."""
     c = gf.Component("test_route_error")
     w = gf.components.straight()
     left = c << w
@@ -27,9 +27,10 @@ def test_route_error():
             ],
         )
         c.add(route.references)
+        c.add(route.labels)
     return c
 
 
 if __name__ == "__main__":
     c = test_route_error()
-    c.show()
+    c.show(show_ports=True)

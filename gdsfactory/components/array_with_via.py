@@ -2,56 +2,50 @@ from typing import Optional
 
 import numpy as np
 
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.array import array
-from gdsfactory.components.contact import contact as contact_factory
+from gdsfactory.components.array_component import array
 from gdsfactory.components.pad import pad
 from gdsfactory.components.straight import straight
+from gdsfactory.components.via_stack import via_stack as via_stack_factory
 from gdsfactory.cross_section import metal2
-from gdsfactory.types import (
-    ComponentFactory,
-    ComponentOrFactory,
-    CrossSectionFactory,
-    Float2,
-)
+from gdsfactory.types import ComponentSpec, CrossSectionSpec, Float2
 
 
 @cell
 def array_with_via(
-    component: ComponentOrFactory = pad,
+    component: ComponentSpec = pad,
     columns: int = 3,
     spacing: float = 150.0,
     via_spacing: float = 10.0,
     straight_length: float = 60.0,
-    cross_section: Optional[CrossSectionFactory] = metal2,
-    contact: ComponentFactory = contact_factory,
-    contact_dy: float = 0,
-    port_orientation: int = 180,
+    cross_section: Optional[CrossSectionSpec] = metal2,
+    via_stack: ComponentSpec = via_stack_factory,
+    via_stack_dy: float = 0,
+    port_orientation: float = 180,
     port_offset: Optional[Float2] = None,
     **kwargs,
 ) -> Component:
-    """Returns an array of components in X axis
-    with fanout waveguides facing west
+    """Returns an array of vias in X axis with fanout waveguides facing west.
 
     Args:
-        component: to replicate in the array
-        columns: number of components
-        spacing: for the array
-        via_spacing: for fanout
-        straight_length: lenght of the straight at the end
-        waveguide: waveguide definition
-        cross_section:
-        contact:
-        contact_dy: contact offset
-        port_orientation: 180: facing west
-        port_offset: Optional port movement
-        kwargs: cross_section settings
+        component: to replicate in the array.
+        columns: number of components.
+        spacing: for the array in um.
+        via_spacing: for fanout in um.
+        straight_length: length of the straight at the end in um.
+        waveguide: waveguide definition.
+        cross_section: spec.
+        via_stack: spec.
+        via_stack_dy: via_stack offset in um.
+        port_orientation: 180: facing west.
+        port_offset: Optional port movement in um.
+        kwargs: cross_section settings.
     """
-
     c = Component()
-    component = component() if callable(component) else component
-    contact = contact()
+    component = gf.get_component(component)
+    via_stack = gf.get_component(via_stack)
 
     for col in range(columns):
         ref = component.ref()
@@ -74,9 +68,9 @@ def array_with_via(
                 "180: west, 0: east, 90: north, 270: south",
             )
 
-        contact_ref = c << contact
-        contact_ref.x = col * spacing
-        contact_ref.y = col * via_spacing + contact_dy
+        via_stack_ref = c << via_stack
+        via_stack_ref.x = col * spacing
+        via_stack_ref.y = col * via_spacing + via_stack_dy
 
         if cross_section:
             port_name = f"e{col}"
@@ -84,7 +78,7 @@ def array_with_via(
                 length=xlength, cross_section=cross_section, **kwargs
             )
             straightx_ref.connect(
-                "e2", contact_ref.get_ports_list(orientation=port_orientation)[0]
+                "e2", via_stack_ref.get_ports_list(orientation=port_orientation)[0]
             )
             c.add_port(port_name, port=straightx_ref.ports["e1"])
             if port_offset:
@@ -110,8 +104,8 @@ def array_with_via_2d(
             columns: number of components
             spacing: float
             via_spacing: for fanout
-            straight_length: lenght of the straight at the end
-            contact_port_name:
+            straight_length: length of the straight at the end
+            via_stack_port_name:
             **kwargs
     """
     row = array_with_via(columns=columns, spacing=spacing[0], **kwargs)
@@ -119,9 +113,7 @@ def array_with_via_2d(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
-    contact_big = gf.partial(contact_factory, size=(30, 20))
+    via_stack_big = gf.partial(via_stack_factory, size=(30, 20))
     # c = array_with_via(columns=3, width=10, via_spacing=20, port_orientation=90)
     c = array_with_via_2d(
         columns=2,
@@ -130,9 +122,9 @@ if __name__ == "__main__":
         spacing=(150, 218),
         port_orientation=270,
         straight_length=0,
-        contact=contact_big,
-        contact_dy=-50 + 10,
+        via_stack=via_stack_big,
+        via_stack_dy=-50 + 10,
         port_offset=(0, 10),
     )
     # c.auto_rename_ports()
-    c.show()
+    c.show(show_ports=True)

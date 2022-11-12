@@ -1,51 +1,93 @@
----
-image: python3
+image: python:3.9
 
 before_script:
-    - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-    - chmod 644 ~/.ssh/known_hosts
-    - pyenv shell 3.7.2
-    - virtualenv venv
-    - source venv/bin/activate
-    - pip install -r requirements.txt --upgrade
-    - python setup.py develop
-    - pip list
-    - python -V # Print out python version for debugging
-    - which python # Print out which python for debugging
-
+  - pip list
+  - python -V # Print out python version for debugging
+  - which python # Print out which python for debugging
+  - pip install -r requirements.txt --upgrade
+  - pip install -r requirements_full.txt --upgrade
+  - pip install -r requirements_pip.txt --upgrade
+  - pip install -r requirements_dev.txt --upgrade
+  - python setup.py develop
 
 stages:
-    - linter
-    - test
-    - release
+  - test
+  - release
+  - docs
 
-linter:
-    stage: linter
-    script:
-        - pip install pyflakes
-        - pyflakes gdsfactory
+pre-commit:
+  stage: test
+  script:
+    - pip install pre-commit
+    - pre-commit install
+    - pre-commit run -a
 
 test:
-    stage: test
-    script:
-        - pytest
+  stage: test
+  script:
+    - pytest
 
-docs:
-    stage: test
-    script:
-        - pip install sphinx sphinx_rtd_theme recommonmark sphinx-markdown-tables
-        - cd docs
-        - make clean html upload
-    only:
-        - master
+pages:
+  stage: docs
+  script:
+    - pip install -r requirements_dev.txt
+    - mkdir public
+    - cd docs
+    - make html
+    - cp -r build/html/* ../public
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
+    - /docs/
 
-release:
-    stage: release
-    script:
-        - make clean build release
-    only:
-        - master
+
+# python37:
+#   image: python:3.7
+#   stage: test
+#   script:
+#     - python -m pip install tox
+#     - python -m tox -e py37
+
+# python38:
+#   image: python:3.8
+#   stage: test
+#   script:
+#     - python -m pip install tox
+#     - python -m tox -e py38
+
+# python39:
+#   image: python:3.9
+#   stage: test
+#   script:
+#     - python -m pip install tox
+#     - python -m tox -e py39
+
+
+# doctest:
+#   stage: test
+#   script:
+#     - python -m pip install tox
+#     - python -m tox -e docs
+
+flake8:
+  stage: test
+  script:
+    - python -m pip install tox
+    - python -m tox -e flake8
+
+# mypy:
+#   stage: test
+#   script:
+#     - python -m pip install tox
+#     - python -m tox -e mypy
+
+
+# docs:
+#   stage: release
+#   script:
+#     - cd docs
+#     - make install clean html upload
+#   only:
+#     - release

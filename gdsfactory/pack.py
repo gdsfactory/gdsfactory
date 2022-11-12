@@ -1,23 +1,19 @@
 """pack a list of components into as few components as possible.
-adapted from phidl.geometry.
+
+based on phidl.geometry.
+
 """
 
 import warnings
 from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
-import rectpack
 from pydantic import validate_arguments
 
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.name import get_name_short
-from gdsfactory.types import (
-    Anchor,
-    ComponentFactory,
-    ComponentOrFactory,
-    Float2,
-    Number,
-)
+from gdsfactory.types import Anchor, ComponentSpec, Float2, Number
 
 
 def _pack_single_bin(
@@ -27,37 +23,34 @@ def _pack_single_bin(
     sort_by_area: bool,
     density: float,
 ) -> Tuple[Dict[int, Tuple[Number, Number, Number, Number]], Dict[Any, Any]]:
-    """Packs a dict of rectangles {id:(w,h)} and tries to
-    pack it into a bin as small as possible with aspect ratio `aspect_ratio`
+    """Packs a dict of rectangles {id:(w,h)} and tries to.
+
+    Pack it into a bin as small as possible with aspect ratio `aspect_ratio`
     Will iteratively grow the bin size until everything fits or the bin size
     reaches `max_size`.
 
     Args:
-        rect_dict: dict of rectangles {id: (w, h)} to pack
-        aspect_ratio:
-        max_size: tuple of max X, Y size
-        sort_by_area: sorts components by area
-        density: of packing, closer to 1 packs tighter (more compute heavy)
+        rect_dict: dict of rectangles {id: (w, h)} to pack.
+        aspect_ratio: x, y.
+        max_size: tuple of max X, Y size.
+        sort_by_area: sorts components by area.
+        density: of packing, closer to 1 packs tighter (more compute heavy).
 
     Returns:
-        packed rectangles dict {id:(x,y,w,h)}
-        dict of remaining unpacked rectangles
+        packed rectangles dict {id:(x,y,w,h)}.
+        dict of remaining unpacked rectangles.
+
     """
+    import rectpack
 
     # Compute total area and use it for an initial estimate of the bin size
-    total_area = 0
-    for r in rect_dict.values():
-        total_area += r[0] * r[1]
+    total_area = sum(r[0] * r[1] for r in rect_dict.values())
     aspect_ratio = np.asarray(aspect_ratio) / np.linalg.norm(aspect_ratio)  # Normalize
 
     # Setup variables
     box_size = np.asarray(aspect_ratio * np.sqrt(total_area), dtype=np.float64)
     box_size = np.clip(box_size, None, max_size)
-    if sort_by_area:
-        rp_sort = rectpack.SORT_AREA
-    else:
-        rp_sort = rectpack.SORT_NONE
-
+    rp_sort = rectpack.SORT_AREA if sort_by_area else rectpack.SORT_NONE
     # Repeatedly run the rectangle-packing algorithm with increasingly larger
     # areas until everything fits or we've reached the maximum size
     while True:
@@ -88,24 +81,23 @@ def _pack_single_bin(
 
     # Separate packed from unpacked rectangles, make dicts of form {id:(x,y,w,h)}
     packed_rect_dict = {r[-1]: r[:-1] for r in rect_packer[0].rect_list()}
-    unpacked_rect_dict = {}
-    for k, v in rect_dict.items():
-        if k not in packed_rect_dict:
-            unpacked_rect_dict[k] = v
+    unpacked_rect_dict = {
+        k: v for k, v in rect_dict.items() if k not in packed_rect_dict
+    }
 
     return packed_rect_dict, unpacked_rect_dict
 
 
 @validate_arguments
 def pack(
-    component_list: List[ComponentOrFactory],
+    component_list: List[ComponentSpec],
     spacing: float = 10.0,
     aspect_ratio: Float2 = (1.0, 1.0),
     max_size: Tuple[Optional[float], Optional[float]] = (None, None),
     sort_by_area: bool = True,
     density: float = 1.1,
     precision: float = 1e-2,
-    text: Optional[ComponentFactory] = None,
+    text: Optional[ComponentSpec] = None,
     text_prefix: str = "",
     text_offsets: Tuple[Float2, ...] = ((0, 0),),
     text_anchors: Tuple[Anchor, ...] = ("cc",),
@@ -116,25 +108,45 @@ def pack(
 ) -> List[Component]:
     """Pack a list of components into as few Components as possible.
 
-    Adapted from phidl.geometry
+    based on phidl.geometry
 
     Args:
-        component_list: list or tuple
-        spacing: Minimum distance between adjacent shapes
-        aspect_ratio: (width, height) ratio of the rectangular bin
-        max_size: Limits the size into which the shapes will be packed
-        sort_by_area: Pre-sorts the shapes by area
-        density: Values closer to 1 pack tighter but require more computation
+        component_list: list or tuple.
+        spacing: Minimum distance between adjacent shapes.
+        aspect_ratio: (width, height) ratio of the rectangular bin.
+        max_size: Limits the size into which the shapes will be packed.
+        sort_by_area: Pre-sorts the shapes by area.
+        density: Values closer to 1 pack tighter but require more computation.
         precision: Desired precision for rounding vertex coordinates.
         text: Optional function to add text labels.
         text_prefix: for labels. For example. 'A' will produce 'A1', 'A2', ...
         text_offsets: relative to component size info anchor. Defaults to center.
         text_anchors: relative to component (ce cw nc ne nw sc se sw center cc).
         name_prefix: for each packed component (avoids the Unnamed cells warning).
-            Note that the suffix contains a uuid so the name will not be deterministic
-        rotation: for each component in degrees
+            Note that the suffix contains a uuid so the name will not be deterministic.
+        rotation: for each component in degrees.
         h_mirror: horizontal mirror in y axis (x, 1) (1, 0). This is the most common.
-        v_mirror: vertical mirror using x axis (1, y) (0, y)
+        v_mirror: vertical mirror using x axis (1, y) (0, y).
+
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        components = [gf.components.triangle(x=i) for i in range(1, 10)]
+        c = gf.pack(
+            components,
+            spacing=20.0,
+            max_size=(100, 100),
+            text=gf.partial(gf.components.text, justify="center"),
+            text_prefix="R",
+            name_prefix="demo",
+            text_anchors=["nc"],
+            text_offsets=[(-10, 0)],
+            v_mirror=True,
+        )
+        c[0].plot()
+
     """
     if density < 1.01:
         raise ValueError(
@@ -142,15 +154,12 @@ def pack(
             "The density argument must be >= 1.01"
         )
 
-    # Santize max_size variable
+    # Sanitize max_size variable
     max_size = [np.inf if v is None else v for v in max_size]
     max_size = np.asarray(max_size, dtype=np.float64)  # In case it's integers
     max_size = max_size / precision
 
-    component_list = [
-        component() if callable(component) else component
-        for component in component_list
-    ]
+    component_list = [gf.get_component(component) for component in component_list]
 
     # Convert Components to rectangles
     rect_dict = {}
@@ -166,7 +175,7 @@ def pack(
         rect_dict[n] = (w, h)
 
     packed_list = []
-    while len(rect_dict) > 0:
+    while rect_dict:
         (packed_rect_dict, rect_dict) = _pack_single_bin(
             rect_dict,
             aspect_ratio=aspect_ratio,
@@ -189,17 +198,20 @@ def pack(
             component = component_list[n]
             d = component.ref(rotation=rotation, h_mirror=h_mirror, v_mirror=v_mirror)
             packed.add(d)
+
             if hasattr(component, "settings"):
-                packed.info["components"][component.name] = component.settings
+                packed.info["components"][component.name] = dict(component.settings)
             d.center = (xcenter * precision, ycenter * precision)
+
+            packed.add_ports(d.ports, prefix=f"{component.name}_{index}_")
+            index += 1
 
             if text:
                 for text_offset, text_anchor in zip(text_offsets, text_anchors):
                     label = packed << text(f"{text_prefix}{index}")
                     label.move(
-                        (np.array(text_offset) + getattr(d.size_info, text_anchor))
+                        np.array(text_offset) + getattr(d.size_info, text_anchor)
                     )
-                index += 1
 
         components_packed_list.append(packed)
 
@@ -211,8 +223,7 @@ def pack(
 
 
 def test_pack() -> Component:
-    import gdsfactory as gf
-
+    """Test packing function."""
     component_list = [
         gf.components.ellipse(radii=tuple(np.random.rand(2) * n + 2)) for n in range(2)
     ]
@@ -234,8 +245,7 @@ def test_pack() -> Component:
 
 
 def test_pack_with_settings() -> Component:
-    import gdsfactory as gf
-
+    """Test packing function with custom settings."""
     component_list = [
         gf.components.rectangle(size=(i, i), port_type=None) for i in range(1, 10)
     ]
@@ -253,32 +263,29 @@ def test_pack_with_settings() -> Component:
         sort_by_area=True,  # Pre-sorts the shapes by area
         precision=1e-3,
     )
-    c = components_packed_list[0]
-    # print(len(c.get_dependencies()))
-    return c
+    return components_packed_list[0]
 
 
 if __name__ == "__main__":
     # test_pack()
-    import gdsfactory as gf
 
     # c = test_pack_with_settings()
     # c = test_pack()
-    # c.show()
+    # c.show(show_ports=True)
     # c.pprint()
     # c.write_gds_with_metadata("mask.gds")
 
     p = pack(
-        [gf.components.triangle(x=i) for i in range(1, 10)],
+        [gf.components.straight(length=i) for i in [1, 1]],
         spacing=20.0,
         max_size=(100, 100),
-        text=gf.partial(gf.c.text, justify="center"),
+        text=gf.partial(gf.components.text, justify="center"),
         text_prefix="R",
         name_prefix="demo",
-        text_anchor="nc",
-        text_offset=(-10, 0),
+        text_anchors=["nc"],
+        text_offsets=[(-10, 0)],
         v_mirror=True,
     )
     c = p[0]
     print(c.name)
-    c.show()
+    c.show(show_ports=True)

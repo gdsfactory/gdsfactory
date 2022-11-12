@@ -1,0 +1,94 @@
+name: coupler_gap0p2_length5p_13b79348
+settings:
+  changed:
+    component:
+      component: coupler
+      settings:
+        gap: 0.2
+        length: 5.0
+    optical_routing_type: 1
+  child:
+    changed:
+      gap: 0.2
+      length: 5.0
+    child: null
+    default:
+      coupler_straight:
+        function: coupler_straight
+      coupler_symmetric:
+        function: coupler_symmetric
+      cross_section: strip
+      dx: 10.0
+      dy: 5.0
+      gap: 0.236
+      length: 20.0
+    full:
+      coupler_straight:
+        function: coupler_straight
+      coupler_symmetric:
+        function: coupler_symmetric
+      cross_section: strip
+      dx: 10.0
+      dy: 5.0
+      gap: 0.2
+      length: 5.0
+    function_name: coupler
+    info:
+      length: 10.319
+      min_bend_radius: 9.387
+    info_version: 2
+    module: gdsfactory.components.coupler
+    name: coupler_gap0p2_length5p0
+  default:
+    component:
+      function: straight
+    component_name: null
+    cross_section: strip
+    gc_port_labels: null
+    gc_port_name: o1
+    get_input_labels_function:
+      function: get_input_labels
+    grating_coupler:
+      function: grating_coupler_elliptical_trenches
+      settings:
+        polarization: te
+        taper_angle: 35
+    layer_label: TEXT
+    select_ports:
+      function: select_ports
+      settings:
+        port_type: optical
+  full:
+    component:
+      component: coupler
+      settings:
+        gap: 0.2
+        length: 5.0
+    component_name: null
+    cross_section: strip
+    gc_port_labels: null
+    gc_port_name: o1
+    get_input_labels_function:
+      function: get_input_labels
+    grating_coupler:
+      function: grating_coupler_elliptical_trenches
+      settings:
+        polarization: te
+        taper_angle: 35
+    layer_label: TEXT
+    optical_routing_type: 1
+    select_ports:
+      function: select_ports
+      settings:
+        port_type: optical
+  function_name: add_fiber_array
+  info:
+    grating_coupler:
+      period: 0.6759999999999999
+      polarization: te
+      wavelength: 1.53
+    length: 10.319
+    min_bend_radius: 9.387
+  info_version: 2
+  module: gdsfactory.routing.add_fiber_array
+  name: coupler_gap0p2_length5p_13b79348

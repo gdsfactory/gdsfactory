@@ -3,15 +3,66 @@ help:
 	@echo 'make test:             Run tests with pytest'
 	@echo 'make test-force:       Rebuilds regression test'
 
+full: gdslib
+	pip install -r requirements_dev.txt
+	pip install -r requirements_full.txt
+	pip install -e .
+	pip install -r requirements_tidy3d.txt
+	pip install -r requirements_sipann.txt
+	pip install -r requirements_devsim.txt
+
 install: gdslib
-	bash install.sh
+	pip install -r requirements_dev.txt
+	pip install -r requirements_full.txt
+	pip install -e .
+	pre-commit install
+	gf tool install
+
+mamba:
+	bash mamba.sh
+
+patch:
+	bumpversion patch
+	python docs/write_components_doc.py
+
+minor:
+	bumpversion minor
+	python docs/write_components_doc.py
+
+major:
+	bumpversion major
+	python docs/write_components_doc.py
+
+plugins:
+	pip install -e .[tidy3d]
+	pip install jax jaxlib
+	mamba install pymeep=*=mpi_mpich_* -y
+	pip install -r requirements_sipann.txt
+	pip install --upgrade "protobuf<=3.20.1"
+
+plugins-debian:
+	sudo apt install libgl1-mesa-glx -y
+	pip install -e .[tidy3d]
+	pip install jax jaxlib
+	mamba install pymeep=*=mpi_mpich_* -y
+	pip install -r requirements_sipann.txt
+	pip install --upgrade "protobuf<=3.20.1"
+
+thermal:
+	mamba install python-gmsh
 
 meep:
-	conda install -c conda-forge pymeep
+	mamba install pymeep=*=mpi_mpich_* -y
+
+sax:
+	pip install jax jaxlib
 
 update:
 	pur
 	pur -r requirements_dev.txt
+
+publish:
+	anaconda upload environment.yml
 
 update-pre:
 	pre-commit autoupdate --bleeding-edge
@@ -20,31 +71,32 @@ gds:
 	python gdsfactory/components/straight.py
 
 gdslib:
-	git clone https://github.com/gdsfactory/gdslib.git
+	git clone https://github.com/gdsfactory/gdslib.git -b data
 
 test:
-	tox -e flake8
+	flake8 gdsfactory
 	pytest -s
 
 test-force:
 	echo 'Regenerating component metadata for regression test. Make sure there are not any unwanted regressions because this will overwrite them'
-	rm -rf gds_ref
-	rm -rf gdsfactory/tests/test_components.gds
+	rm -rf gdslib/gds/gds_ref
 	rm -rf gdsfactory/samples/pdk/test_fab_c.gds
 	pytest --force-regen
 
+test-meep:
+	pytest gdsfactory/simulation/gmeep
+
+test-tidy3d:
+	pytest gdsfactory/simulation/gtidy3d
+
 test-plugins:
-	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes
-
-retest:
-	echo 'Regenerating component metadata for regression test. Make sure there are not any unwanted regressions because this will overwrite them'
-	pytest --lf --force-regen
-
-diff:
-	python gdsfactory/merge_cells.py
+	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes gdsfactory/simulation/lumerical gdsfactory/simulation/simphony gdsfactory/simulation/gtidy3d
 
 test-notebooks:
 	py.test --nbval notebooks
+
+diff:
+	python gdsfactory/merge_cells.py
 
 cov:
 	pytest --cov=gdsfactory
@@ -87,11 +139,16 @@ mypy:
 build:
 	python setup.py sdist bdist_wheel
 
-devpi-release:
+upload-devpi:
 	pip install devpi-client wheel
 	devpi upload --format=bdist_wheel,sdist.tgz
 
+upload-twine: build
+	pip install twine
+	twine upload dist/*
+
 release:
+	git push
 	git push origin --tags
 
 lint:
@@ -103,7 +160,7 @@ pylint:
 lintdocs:
 	flake8 --select RST
 
-lintdocs2:
+pydocstyle:
 	pydocstyle gdsfactory
 
 doc8:
@@ -118,5 +175,13 @@ codestyle:
 doc:
 	python docs/write_components_doc.py
 
+git-rm-merged:
+	git branch -D `git branch --merged | grep -v \* | xargs`
+
+link:
+	lygadgets_link gdsfactory/klayout
+
+spell:
+	codespell -i 3 -w -L TE,TE/TM,te,ba,FPR,fpr_spacing
 
 .PHONY: gdsdiff build conda

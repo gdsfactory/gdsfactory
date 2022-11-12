@@ -1,0 +1,51 @@
+name: coh_tx_single_pol
+settings:
+  changed: {}
+  child: null
+  default:
+    balanced_phase_shifters: false
+    combiner: null
+    cross_section: strip
+    input_coupler: null
+    mzm:
+      component: mzi
+      settings:
+        cross_section_x_top: pin
+        delta_length: 10.0
+        straight_x_top: straight_pin
+    mzm_length: 200.0
+    mzm_ps_spacing: 40.0
+    mzm_y_spacing: 50.0
+    output_coupler: null
+    pad_array: pad_array
+    phase_shifter: straight_pin
+    phase_shifter_length: 100.0
+    splitter: mmi1x2
+    with_pads: true
+    xspacing: 40.0
+  full:
+    balanced_phase_shifters: false
+    combiner: null
+    cross_section: strip
+    input_coupler: null
+    mzm:
+      component: mzi
+      settings:
+        cross_section_x_top: pin
+        delta_length: 10.0
+        straight_x_top: straight_pin
+    mzm_length: 200.0
+    mzm_ps_spacing: 40.0
+    mzm_y_spacing: 50.0
+    output_coupler: null
+    pad_array: pad_array
+    phase_shifter: straight_pin
+    phase_shifter_length: 100.0
+    splitter: mmi1x2
+    with_pads: true
+    xspacing: 40.0
+  function_name: coh_tx_single_pol
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.coh_tx_single_pol
+  name: coh_tx_single_pol

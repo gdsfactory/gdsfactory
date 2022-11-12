@@ -1,0 +1,88 @@
+name: grating_coupler_ellipti_7740eed5
+settings:
+  changed:
+    cross_section:
+      function: cross_section
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins
+        bbox_layers:
+        - - 36
+          - 0
+        bbox_offsets:
+        - 3
+        cladding_layers:
+        - DEVREC
+        cladding_offsets:
+        - 0
+        layer:
+        - 34
+        - 0
+        width: 1.0
+    grating_line_width: 0.6
+    layer_slab: null
+  child: null
+  default:
+    big_last_tooth: false
+    cross_section: strip
+    fiber_angle: 15.0
+    fiber_marker_layer: TE
+    fiber_marker_width: 11.0
+    grating_line_width: 0.343
+    layer_slab: SLAB150
+    n_periods: 30
+    nclad: 1.443
+    neff: 2.638
+    polarization: te
+    slab_offset: 2.0
+    slab_xmin: -1.0
+    spiked: true
+    taper_angle: 40.0
+    taper_length: 16.6
+    wavelength: 1.554
+  full:
+    big_last_tooth: false
+    cross_section:
+      function: cross_section
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins
+        bbox_layers:
+        - - 36
+          - 0
+        bbox_offsets:
+        - 3
+        cladding_layers:
+        - DEVREC
+        cladding_offsets:
+        - 0
+        layer:
+        - 34
+        - 0
+        width: 1.0
+    fiber_angle: 15.0
+    fiber_marker_layer: TE
+    fiber_marker_width: 11.0
+    grating_line_width: 0.6
+    layer_slab: null
+    n_periods: 30
+    nclad: 1.443
+    neff: 2.638
+    polarization: te
+    slab_offset: 2.0
+    slab_xmin: -1.0
+    spiked: true
+    taper_angle: 40.0
+    taper_length: 16.6
+    wavelength: 1.554
+  function_name: grating_coupler_elliptical
+  info:
+    polarization: te
+    wavelength: 1.554
+  info_version: 2
+  module: gdsfactory.components.grating_coupler_elliptical
+  name: grating_coupler_ellipti_7740eed5

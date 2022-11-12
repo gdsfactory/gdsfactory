@@ -1,0 +1,33 @@
+name: coh_rx_dual_pol
+settings:
+  changed: {}
+  child: null
+  default:
+    bend:
+      function: bend_euler
+    cross_section: strip
+    lo_input_coupler: null
+    lo_splitter: mmi1x2
+    signal_input_coupler: null
+    signal_splitter: null
+    single_pol_rx_spacing: 50.0
+    splitter_coh_rx_spacing: 40.0
+    spol_coh_rx:
+      function: coh_rx_single_pol
+  full:
+    bend:
+      function: bend_euler
+    cross_section: strip
+    lo_input_coupler: null
+    lo_splitter: mmi1x2
+    signal_input_coupler: null
+    signal_splitter: null
+    single_pol_rx_spacing: 50.0
+    splitter_coh_rx_spacing: 40.0
+    spol_coh_rx:
+      function: coh_rx_single_pol
+  function_name: coh_rx_dual_pol
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.coh_rx_dual_pol
+  name: coh_rx_dual_pol

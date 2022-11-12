@@ -3,27 +3,29 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight
-from gdsfactory.cross_section import strip
-from gdsfactory.types import ComponentFactory, CrossSectionFactory
+from gdsfactory.types import ComponentSpec, CrossSectionSpec, Optional
 
 
 @gf.cell
 def coupler90(
     gap: float = 0.2,
     radius: float = 10.0,
-    bend: ComponentFactory = bend_euler,
-    cross_section: CrossSectionFactory = strip,
+    bend: ComponentSpec = bend_euler,
+    straight: ComponentSpec = straight,
+    cross_section: CrossSectionSpec = "strip",
+    bend_cross_section: Optional[CrossSectionSpec] = None,
     **kwargs
 ) -> Component:
-    r"""straight coupled to a bend.
+    r"""Straight coupled to a bend.
 
     Args:
-        gap: um
-        radius: um
-        straight: for straight
-        bend: for bend
-        cross_section:
-        kwargs: cross_section settings
+        gap: um.
+        radius: um.
+        straight: for straight.
+        bend: bend spec.
+        cross_section: cross_section spec.
+        bend_cross_section: optional bend cross_section spec.
+        kwargs: cross_section settings.
 
     .. code::
 
@@ -36,48 +38,40 @@ def coupler90(
 
     """
     c = Component()
-    x = cross_section(radius=radius, **kwargs)
+    x = gf.get_cross_section(cross_section, radius=radius, **kwargs)
+    bend_cross_section = bend_cross_section or cross_section
 
-    bend90 = (
-        bend(cross_section=cross_section, radius=radius, **kwargs)
-        if callable(bend)
-        else bend
+    bend90 = gf.get_component(
+        bend, cross_section=bend_cross_section, radius=radius, **kwargs
     )
     bend_ref = c << bend90
-    straight_component = (
-        straight(
-            cross_section=cross_section,
-            length=bend90.ports["o2"].midpoint[0] - bend90.ports["o1"].midpoint[0],
-            **kwargs
-        )
-        if callable(straight)
-        else straight
+    straight_component = gf.get_component(
+        straight,
+        cross_section=cross_section,
+        length=bend90.ports["o2"].center[0] - bend90.ports["o1"].center[0],
+        **kwargs
     )
 
     wg_ref = c << straight_component
-    width = x.info["width"]
+    width = x.width
 
     pbw = bend_ref.ports["o1"]
-    bend_ref.movey(pbw.midpoint[1] + gap + width)
+    bend_ref.movey(pbw.center[1] + gap + width)
 
-    c.absorb(wg_ref)
-    c.absorb(bend_ref)
-
-    c.add_port("o1", port=wg_ref.ports["o1"])
-    c.add_port("o4", port=wg_ref.ports["o2"])
-    c.add_port("o2", port=bend_ref.ports["o1"])
-    c.add_port("o3", port=bend_ref.ports["o2"])
+    c.add_ports(wg_ref.ports, prefix="wg")
+    c.add_ports(bend_ref.ports, prefix="bend")
+    c.auto_rename_ports()
     return c
 
 
-def coupler90circular(bend: ComponentFactory = bend_circular, **kwargs):
-    return coupler90(bend=bend, **kwargs)
+coupler90circular = gf.partial(coupler90, bend=bend_circular)
 
 
 if __name__ == "__main__":
     # c = coupler90circular(gap=0.3)
     # c << coupler90(gap=0.3)
     c = coupler90(radius=3, layer=(2, 0))
-    c.show()
+    c = coupler90(radius=10, cross_section="strip_heater_metal")
+    c.show(show_ports=True)
     c.pprint()
     # print(c.ports)

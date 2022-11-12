@@ -1,47 +1,90 @@
-cells:
-  bend_circular_d41d8cd9:
-    changed: {}
-    default:
-      angle: 90
-      cross_section:
-        function: cross_section
-      npoints: 720
-      with_cladding_box: true
-    dy: 10
-    full:
-      angle: 90
-      cross_section:
-        function: cross_section
-      npoints: 720
-      with_cladding_box: true
-    function_name: bend_circular
-    info_version: 1
-    length: 15.708
-    module: gdsfactory.components.bend_circular
-    name: bend_circular_d41d8cd9
-    radius: 10
-  sample_mirror_simple: {}
-  straight_d41d8cd9:
-    changed: {}
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 10
-    module: gdsfactory.components.straight
-    name: straight_d41d8cd9
-    width: 0.5
-info:
-  name: sample_mirror_simple
-ports: {}
-version: 1
+name: sample_mirror_simple_1bddf846
+settings:
+  changed:
+    conf:
+      connections:
+        b,o1: s,o2
+      instances:
+        b:
+          component: bend_circular
+        s:
+          component: straight
+      name: sample_mirror_simple
+      placements:
+        b:
+          mirror: true
+          port: o1
+  child: null
+  default:
+    label_instance_function:
+      function: add_instance_label
+    routing_strategy:
+      get_bundle:
+        function: get_bundle
+      get_bundle_electrical:
+        function: get_bundle
+        settings:
+          bend:
+            function: wire_corner
+          cross_section: metal_routing
+      get_bundle_from_steps:
+        function: get_bundle_from_steps
+      get_bundle_from_steps_electrical:
+        function: get_bundle_from_steps
+        settings:
+          bend:
+            function: wire_corner
+          cross_section: metal_routing
+      get_bundle_from_waypoints:
+        function: get_bundle_from_waypoints
+      get_bundle_path_length_match:
+        function: get_bundle_path_length_match
+      get_bundle_same_axis_no_grouping:
+        function: get_bundle_same_axis_no_grouping
+  full:
+    conf:
+      connections:
+        b,o1: s,o2
+      instances:
+        b:
+          component: bend_circular
+        s:
+          component: straight
+      name: sample_mirror_simple
+      placements:
+        b:
+          mirror: true
+          port: o1
+    label_instance_function:
+      function: add_instance_label
+    routing_strategy:
+      get_bundle:
+        function: get_bundle
+      get_bundle_electrical:
+        function: get_bundle
+        settings:
+          bend:
+            function: wire_corner
+          cross_section: metal_routing
+      get_bundle_from_steps:
+        function: get_bundle_from_steps
+      get_bundle_from_steps_electrical:
+        function: get_bundle_from_steps
+        settings:
+          bend:
+            function: wire_corner
+          cross_section: metal_routing
+      get_bundle_from_waypoints:
+        function: get_bundle_from_waypoints
+      get_bundle_path_length_match:
+        function: get_bundle_path_length_match
+      get_bundle_same_axis_no_grouping:
+        function: get_bundle_same_axis_no_grouping
+  function_name: _from_yaml
+  info:
+    instances:
+    - s
+    - b
+  info_version: 2
+  module: gdsfactory.read.from_yaml
+  name: sample_mirror_simple_1bddf846

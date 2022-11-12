@@ -1,105 +1,48 @@
-cells:
-  straight_40e83c11:
-    changed:
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 1
-      decorator:
-        function: add_pins
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 1
-      decorator:
-        function: add_pins
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 10
-    module: gdsfactory.components.straight
-    name: straight_40e83c11
-    width: 1
-info:
+settings:
   changed:
     cross_section:
       function: cross_section
-      layer:
-      - 34
-      - 0
-      layers_cladding:
-      - - 36
+      settings:
+        bbox_layers:
+        - - 36
+          - 0
+        bbox_offsets:
+        - 3
+        layer:
+        - 34
         - 0
-      width: 1
+        width: 1
     decorator:
       function: add_pins
+  child: null
   default:
     cross_section:
       function: cross_section
+      settings: {}
     length: 10
     npoints: 2
-    with_cladding_box: true
   full:
     cross_section:
       function: cross_section
-      layer:
-      - 34
-      - 0
-      layers_cladding:
-      - - 36
+      settings:
+        bbox_layers:
+        - - 36
+          - 0
+        bbox_offsets:
+        - 3
+        layer:
+        - 34
         - 0
-      width: 1
+        width: 1
     decorator:
       function: add_pins
     length: 10
     npoints: 2
-    with_cladding_box: true
   function_name: straight
-  info_version: 1
-  length: 10
+  info:
+    length: 10.0
+    width: 1.0
+  info_version: 2
   module: gdsfactory.components.straight
-  name: straight_40e83c11
-  width: 1
-ports:
-  o1:
-    layer:
-    - 34
-    - 0
-    midpoint:
-    - 0
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 1
-  o2:
-    layer:
-    - 34
-    - 0
-    midpoint:
-    - 10
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 1
-version: 1
+  name: straight_5a3fc5a7
+version: 0.0.1

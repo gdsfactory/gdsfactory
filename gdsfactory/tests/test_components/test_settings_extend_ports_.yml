@@ -1,134 +1,44 @@
-cells:
-  mmi1x2_d41d8cd9:
-    changed: {}
-    default:
-      cross_section:
-        function: cross_section
-      gap_mmi: 0.25
-      length_mmi: 5.5
-      length_taper: 10
-      taper:
-        function: taper
-      width: 0.5
-      width_mmi: 2.5
-      width_taper: 1
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      gap_mmi: 0.25
-      length_mmi: 5.5
-      length_taper: 10
-      taper:
-        function: taper
-      width: 0.5
-      width_mmi: 2.5
-      width_taper: 1
-      with_cladding_box: true
-    function_name: mmi1x2
-    info_version: 1
-    module: gdsfactory.components.mmi1x2
-    name: mmi1x2_d41d8cd9
-  mmi1x2_d41d8cd9_extend__3decf889:
-    changed: {}
-    child:
-      changed: {}
-      default:
-        cross_section:
-          function: cross_section
-        gap_mmi: 0.25
-        length_mmi: 5.5
-        length_taper: 10
-        taper:
-          function: taper
-        width: 0.5
-        width_mmi: 2.5
-        width_taper: 1
-        with_cladding_box: true
-      full:
-        cross_section:
-          function: cross_section
-        gap_mmi: 0.25
-        length_mmi: 5.5
-        length_taper: 10
-        taper:
-          function: taper
-        width: 0.5
-        width_mmi: 2.5
-        width_taper: 1
-        with_cladding_box: true
-      function_name: mmi1x2
-      info_version: 1
-      module: gdsfactory.components.mmi1x2
-      name: mmi1x2_d41d8cd9
-    default:
-      centered: false
-      component:
-        function: mmi1x2
-      cross_section:
-        function: cross_section
-      extension_factory: null
-      length: 5
-      port1: null
-      port2: null
-      port_names: null
-      port_type: optical
-    full:
-      centered: false
-      component:
-        function: mmi1x2
-      cross_section:
-        function: cross_section
-      extension_factory: null
-      length: 5
-      port1: null
-      port2: null
-      port_names: null
-      port_type: optical
-    function_name: extend_ports
-    info_version: 1
-    module: gdsfactory.components.extension
-    name: mmi1x2_d41d8cd9_extend__3decf889
-info:
+name: mmi1x2_extend_ports
+settings:
   changed: {}
   child:
     changed: {}
+    child: null
     default:
-      cross_section:
-        function: cross_section
+      cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       taper:
         function: taper
       width: 0.5
       width_mmi: 2.5
-      width_taper: 1
-      with_cladding_box: true
+      width_taper: 1.0
+      with_bbox: true
     full:
-      cross_section:
-        function: cross_section
+      cross_section: strip
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       taper:
         function: taper
       width: 0.5
       width_mmi: 2.5
-      width_taper: 1
-      with_cladding_box: true
+      width_taper: 1.0
+      with_bbox: true
     function_name: mmi1x2
-    info_version: 1
+    info: {}
+    info_version: 2
     module: gdsfactory.components.mmi1x2
-    name: mmi1x2_d41d8cd9
+    name: mmi1x2
   default:
     centered: false
     component:
       function: mmi1x2
-    cross_section:
-      function: cross_section
-    extension_factory: null
-    length: 5
+    cross_section: null
+    extension: null
+    extension_port_names: null
+    length: 5.0
     port1: null
     port2: null
     port_names: null
@@ -137,50 +47,16 @@ info:
     centered: false
     component:
       function: mmi1x2
-    cross_section:
-      function: cross_section
-    extension_factory: null
-    length: 5
+    cross_section: null
+    extension: null
+    extension_port_names: null
+    length: 5.0
     port1: null
     port2: null
     port_names: null
     port_type: optical
   function_name: extend_ports
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.extension
-  name: mmi1x2_d41d8cd9_extend__3decf889
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - -17.75
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 17.75
-    - 0.625
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 0.5
-  o3:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 17.75
-    - -0.625
-    name: o3
-    orientation: 0
-    port_type: optical
-    width: 0.5
-version: 1
+  name: mmi1x2_extend_ports

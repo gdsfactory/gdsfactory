@@ -1,0 +1,31 @@
+name: taper_abf5825d
+settings:
+  changed:
+    length: 100
+    width2: 0.2
+    with_two_ports: false
+  child: null
+  default:
+    cross_section: strip
+    length: 10.0
+    port: null
+    width1: 0.5
+    width2: null
+    with_bbox: true
+    with_two_ports: true
+  full:
+    cross_section: strip
+    length: 100
+    port: null
+    width1: 0.5
+    width2: 0.2
+    with_bbox: true
+    with_two_ports: false
+  function_name: taper
+  info:
+    length: 100.0
+    width1: 0.5
+    width2: 0.2
+  info_version: 2
+  module: gdsfactory.components.taper
+  name: taper_abf5825d

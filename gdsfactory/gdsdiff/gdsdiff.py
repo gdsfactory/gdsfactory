@@ -3,7 +3,7 @@ import pathlib
 from pathlib import Path
 from typing import Union
 
-import gdspy
+import gdstk
 
 from gdsfactory.component import Component
 from gdsfactory.read.import_gds import import_gds
@@ -12,11 +12,12 @@ COUNTER = itertools.count()
 
 
 def xor_polygons(A: Component, B: Component, hash_geometry: bool = True):
-    """Given two devices A and B, performs a layer-by-layer XOR diff between
-    A and B, and returns polygons representing the differences between A and B.
-    Adapted from lytest/kdb_xor.py
-    """
+    """Given two devices A and B, performs a layer-by-layer XOR diff between A \
+    and B, and returns polygons representing the differences between A and B.
 
+    Adapted from lytest/kdb_xor.py
+
+    """
     # first do a geometry hash to vastly speed up if they are equal
     if hash_geometry and (A.hash_geometry() == B.hash_geometry()):
         return Component()
@@ -31,12 +32,11 @@ def xor_polygons(A: Component, B: Component, hash_geometry: bool = True):
     all_layers.update(B_layers)
     for layer in all_layers:
         if (layer in A_layers) and (layer in B_layers):
-            p = gdspy.fast_boolean(
+            p = gdstk.boolean(
                 A_polys[layer],
                 B_polys[layer],
                 operation="xor",
                 precision=0.001,
-                max_points=4000,
                 layer=layer[0],
                 datatype=layer[1],
             )
@@ -45,7 +45,8 @@ def xor_polygons(A: Component, B: Component, hash_geometry: bool = True):
         elif layer in B_layers:
             p = B_polys[layer]
         if p is not None:
-            D.add_polygon(p, layer=layer)
+            for polygon in p:
+                D.add_polygon(polygon, layer=layer)
     return D
 
 
@@ -58,13 +59,13 @@ def gdsdiff(
     """Compare two Components.
 
     Args:
-        component1: Component or path to gds file (reference)
-        component2: Component or path to gds file (run)
-        name: name of the top cell
-        xor: makes boolean operation
+        component1: Component or path to gds file (reference).
+        component2: Component or path to gds file (run).
+        name: name of the top cell.
+        xor: makes boolean operation.
 
     Returns:
-        Component with both cells (xor, common and diffs)
+        Component with both cells (xor, common and diffs).
     """
     if isinstance(component1, (str, pathlib.Path)):
         component1 = import_gds(str(component1), flatten=True, name=f"{name}_old")
@@ -97,4 +98,4 @@ if __name__ == "__main__":
         print("Note that you need to have KLayout opened with klive running")
         sys.exit()
     c = gdsdiff(sys.argv[1], sys.argv[2])
-    c.show()
+    c.show(show_ports=True)

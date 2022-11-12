@@ -2,18 +2,17 @@ import matplotlib.pyplot as plt
 import meep as mp
 import numpy as np
 
-from gdsfactory import add_padding
 from gdsfactory.components import straight
 from gdsfactory.simulation.gmeep import get_simulation
 from gdsfactory.simulation.modes.types import Mode
 
 '''
-CURRENTLY UNUSED -- will be useful once the MEEP conda packages are updates to latest source
-Could also modify the epsilon plotting of mode to be override by plot_xsection, which already works
 
 def get_domain_measurements(sim, output_plane, frequency, resolution=0):
     """
     Modified from meep/python/visualization.py plot_eps
+    CURRENTLY UNUSED -- will be useful once the MEEP conda packages are updates to latest source
+    Could also modify the epsilon plotting of mode to be override by plot_xsection, which already works
     """
     # Get domain measurements
     sim_center, sim_size = get_2D_dimensions(sim, output_plane)
@@ -62,8 +61,7 @@ def get_port_2Dx_eigenmode(
     y=0,
     z=0,
 ):
-    """
-    NOTE: currently only handles ports normal to x-direction
+    """NOTE: currently only handles ports normal to x-direction.
 
     Args:
         sim_dict: simulation dict
@@ -147,7 +145,7 @@ def get_port_2Dx_eigenmode(
                 mp.Vector3(center.x, yy[i, j], zz[i, j]), mp.Hz
             )
 
-    mode = Mode(
+    return Mode(
         mode_number=band_num,
         neff=eigenmode.k.x / fsrc,
         wavelength=1 / fsrc,
@@ -158,12 +156,12 @@ def get_port_2Dx_eigenmode(
         y=y,
         z=z,
     )
-    return mode
 
 
 if __name__ == "__main__":
     c = straight(length=2, width=0.5)
-    c = add_padding(c.copy(), default=0, bottom=3, top=3, layers=[(100, 0)])
+    c = c.copy()
+    c.add_padding(default=0, bottom=3, top=3, layers=[(100, 0)])
 
     sim_dict = get_simulation(
         c,

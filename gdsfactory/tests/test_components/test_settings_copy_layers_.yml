@@ -1,238 +1,29 @@
-cells:
-  compass_2cd8b8ea:
-    changed:
-      layer:
-      - 2
-      - 0
-      port_type: electrical
-      size:
-      - 3
-      - 10
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 2
-      - 0
-      port_type: electrical
-      size:
-      - 3
-      - 10
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_2cd8b8ea
-  compass_bdc25def:
-    changed:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 3
-      - 10
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 3
-      - 10
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_bdc25def
-  cross_0d76638b:
-    changed:
-      layer:
-      - 2
-      - 0
-    default:
-      layer:
-      - 1
-      - 0
-      length: 10
-      port_type: null
-      width: 3
-    full:
-      layer:
-      - 2
-      - 0
-      length: 10
-      port_type: null
-      width: 3
-    function_name: cross
-    info_version: 1
-    module: gdsfactory.components.cross
-    name: cross_0d76638b
-  cross_0d76638b_copy_lay_1c385586:
-    changed: {}
-    child:
-      changed:
-        layer:
-        - 2
-        - 0
-      default:
-        layer:
-        - 1
-        - 0
-        length: 10
-        port_type: null
-        width: 3
-      full:
-        layer:
-        - 2
-        - 0
-        length: 10
-        port_type: null
-        width: 3
-      function_name: cross
-      info_version: 1
-      module: gdsfactory.components.cross
-      name: cross_0d76638b
-    default:
-      factory:
-        function: cross
-      layers:
-      - - 1
-        - 0
-      - - 2
-        - 0
-    full:
-      factory:
-        function: cross
-      layers:
-      - - 1
-        - 0
-      - - 2
-        - 0
-    function_name: copy_layers
-    info_version: 1
-    module: gdsfactory.components.copy_layers
-    name: cross_0d76638b_copy_lay_1c385586
-  cross_8e0fe979:
-    changed:
-      layer:
-      - 1
-      - 0
-    default:
-      layer:
-      - 1
-      - 0
-      length: 10
-      port_type: null
-      width: 3
-    full:
-      layer:
-      - 1
-      - 0
-      length: 10
-      port_type: null
-      width: 3
-    function_name: cross
-    info_version: 1
-    module: gdsfactory.components.cross
-    name: cross_8e0fe979
-  rectangle_0eb96b44:
-    changed:
-      layer:
-      - 1
-      - 0
-      size:
-      - 3
-      - 10
-    default:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 3
-      - 10
-    function_name: rectangle
-    info_version: 1
-    module: gdsfactory.components.rectangle
-    name: rectangle_0eb96b44
-  rectangle_fe969b88:
-    changed:
-      layer:
-      - 2
-      - 0
-      size:
-      - 3
-      - 10
-    default:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      centered: false
-      layer:
-      - 2
-      - 0
-      port_type: electrical
-      size:
-      - 3
-      - 10
-    function_name: rectangle
-    info_version: 1
-    module: gdsfactory.components.rectangle
-    name: rectangle_fe969b88
-info:
+name: cross_layer2__0_copy_layers
+settings:
   changed: {}
   child:
     changed:
       layer:
       - 2
       - 0
+    child: null
     default:
-      layer:
-      - 1
-      - 0
-      length: 10
+      layer: WG
+      length: 10.0
       port_type: null
-      width: 3
+      width: 3.0
     full:
       layer:
       - 2
       - 0
-      length: 10
+      length: 10.0
       port_type: null
-      width: 3
+      width: 3.0
     function_name: cross
-    info_version: 1
+    info: {}
+    info_version: 2
     module: gdsfactory.components.cross
-    name: cross_0d76638b
+    name: cross_layer2__0
   default:
     factory:
       function: cross
@@ -250,8 +41,7 @@ info:
     - - 2
       - 0
   function_name: copy_layers
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.copy_layers
-  name: cross_0d76638b_copy_lay_1c385586
-ports: {}
-version: 1
+  name: cross_layer2__0_copy_layers

@@ -1,169 +1,23 @@
-cells:
-  compass_a0b38c11:
-    changed:
-      layer:
-      - 49
-      - 0
-      size:
-      - 100
-      - 100
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 49
-      - 0
-      port_type: electrical
-      size:
-      - 100
-      - 100
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_a0b38c11
-  compass_b0af43a3:
-    changed:
-      layer:
-      - 49
-      - 0
-      port_type: electrical
-      size:
-      - 1050
-      - 10
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 49
-      - 0
-      port_type: electrical
-      size:
-      - 1050
-      - 10
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_b0af43a3
-  pad_d41d8cd9:
-    changed: {}
-    default:
-      cladding_offsets: null
-      layer:
-      - 49
-      - 0
-      layers_cladding: null
-      size:
-      - 100
-      - 100
-    full:
-      cladding_offsets: null
-      layer:
-      - 49
-      - 0
-      layers_cladding: null
-      size:
-      - 100
-      - 100
-    function_name: pad
-    info_version: 1
-    layer:
-    - 49
-    - 0
-    module: gdsfactory.components.pad
-    name: pad_d41d8cd9
-    size:
-    - 100
-    - 100
-  pads_shorted_d41d8cd9:
-    changed: {}
-    default:
-      columns: 8
-      layer_metal:
-      - 49
-      - 0
-      metal_width: 10
-      pad:
-        function: pad
-      pad_spacing: 150
-    full:
-      columns: 8
-      layer_metal:
-      - 49
-      - 0
-      metal_width: 10
-      pad:
-        function: pad
-      pad_spacing: 150
-    function_name: pads_shorted
-    info_version: 1
-    module: gdsfactory.components.pads_shorted
-    name: pads_shorted_d41d8cd9
-  rectangle_0fa1e1c2:
-    changed:
-      centered: true
-      layer:
-      - 49
-      - 0
-      size:
-      - 1050
-      - 10
-    default:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      centered: true
-      layer:
-      - 49
-      - 0
-      port_type: electrical
-      size:
-      - 1050
-      - 10
-    function_name: rectangle
-    info_version: 1
-    module: gdsfactory.components.rectangle
-    name: rectangle_0fa1e1c2
-info:
+name: pads_shorted
+settings:
   changed: {}
+  child: null
   default:
     columns: 8
-    layer_metal:
-    - 49
-    - 0
+    layer_metal: M3
     metal_width: 10
     pad:
       function: pad
-    pad_spacing: 150
+    pad_spacing: 150.0
   full:
     columns: 8
-    layer_metal:
-    - 49
-    - 0
+    layer_metal: M3
     metal_width: 10
     pad:
       function: pad
-    pad_spacing: 150
+    pad_spacing: 150.0
   function_name: pads_shorted
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.pads_shorted
-  name: pads_shorted_d41d8cd9
-ports: {}
-version: 1
+  name: pads_shorted

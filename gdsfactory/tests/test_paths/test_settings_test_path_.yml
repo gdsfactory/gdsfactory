@@ -1,21 +1,12 @@
-cells:
-  test_path_d41d8cd9:
-    changed: {}
-    default: {}
-    full: {}
-    function_name: test_path
-    info_version: 1
-    length: 107.699
-    module: gdsfactory.tests.test_paths
-    name: test_path_d41d8cd9
-info:
+name: test_path
+settings:
   changed: {}
+  child: null
   default: {}
   full: {}
   function_name: test_path
-  info_version: 1
-  length: 107.699
+  info:
+    length: 107.699
+  info_version: 2
   module: gdsfactory.tests.test_paths
-  name: test_path_d41d8cd9
-ports: {}
-version: 1
+  name: test_path

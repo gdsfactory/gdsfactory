@@ -1,89 +1,40 @@
-cells:
-  via_0b2d8623:
-    changed:
-      enclosure: 2
-      layer:
-      - 44
-      - 0
-    default:
-      cladding_offset: 0
-      enclosure: 1
-      layer:
-      - 40
-      - 0
-      layers_cladding: null
-      size:
-      - 0.7
-      - 0.7
-      spacing:
-      - 2
-      - 2
-    enclosure: 2
-    full:
-      cladding_offset: 0
-      enclosure: 2
-      layer:
-      - 44
-      - 0
-      layers_cladding: null
-      size:
-      - 0.7
-      - 0.7
-      spacing:
-      - 2
-      - 2
-    function_name: via
-    info_version: 1
-    module: gdsfactory.components.via
-    name: via_0b2d8623
-    size:
-    - 0.7
-    - 0.7
-    spacing:
-    - 2
-    - 2
-info:
+name: via_enclosure2_layerVIA1
+settings:
   changed:
     enclosure: 2
-    layer:
-    - 44
-    - 0
+    layer: VIA1
+  child: null
   default:
-    cladding_offset: 0
-    enclosure: 1
-    layer:
-    - 40
-    - 0
-    layers_cladding: null
+    bbox_layers: null
+    bbox_offset: 0
+    enclosure: 1.0
+    layer: VIAC
     size:
     - 0.7
     - 0.7
     spacing:
-    - 2
-    - 2
-  enclosure: 2
+    - 2.0
+    - 2.0
   full:
-    cladding_offset: 0
+    bbox_layers: null
+    bbox_offset: 0
     enclosure: 2
-    layer:
-    - 44
-    - 0
-    layers_cladding: null
+    layer: VIA1
     size:
     - 0.7
     - 0.7
     spacing:
-    - 2
-    - 2
+    - 2.0
+    - 2.0
   function_name: via
-  info_version: 1
+  info:
+    enclosure: 2.0
+    size:
+    - 0.7
+    - 0.7
+    spacing:
+    - 2.0
+    - 2.0
+  info_version: 2
   module: gdsfactory.components.via
-  name: via_0b2d8623
-  size:
-  - 0.7
-  - 0.7
-  spacing:
-  - 2
-  - 2
-ports: {}
-version: 1
+  name: via_enclosure2_layerVIA1

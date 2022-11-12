@@ -1,0 +1,19 @@
+connections: {}
+instances:
+  mzit_1:
+    component: mzit
+    settings:
+      coupler_length1: 10.0
+      coupler_length2: 20.0
+name: mzit_lattice
+placements:
+  mzit_1:
+    mirror: 0
+    rotation: 0
+    x: 0.0
+    y: 0.0
+ports:
+  o1: mzit_1,o1
+  o2: mzit_1,o2
+  o3: mzit_1,o3
+  o4: mzit_1,o4

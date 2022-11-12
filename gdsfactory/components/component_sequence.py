@@ -1,22 +1,25 @@
-from itertools import count
+from collections import Counter
 from typing import Dict, Optional, Tuple
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.types import ComponentOrFactory
+from gdsfactory.types import ComponentSpec
 
 
 class SequenceGenerator:
     def __init__(
-        self, start_sequence="IL", repeated_sequence="ASASBSBS", end_sequence="LO"
-    ):
-        """sequence generator.
+        self,
+        start_sequence: str = "IL",
+        repeated_sequence: str = "ASASBSBS",
+        end_sequence: str = "LO",
+    ) -> None:
+        """Sequence generator.
+
         Main use case: any type of cascade of components with repeating patterns
         such as serpentine, cutbacks etc...
-
         Component sequences have two ports by default.
         it adds aliases for the components forming the sequence.
-        They use the component local name and append a suffix index starting from 1,
+        They use the component symbol with a suffix index starting from 1,
         so you may access the ports from any subcomponent.
 
         Usually we can break these components in 3 parts:
@@ -34,7 +37,6 @@ class SequenceGenerator:
         S: short straight waveguide
         L: long straight waveguide
         """
-
         self.start_sequence = start_sequence
         self.end_sequence = end_sequence
         self.repeated_sequence = repeated_sequence
@@ -43,18 +45,16 @@ class SequenceGenerator:
         return self.start_sequence + n * self.repeated_sequence + self.end_sequence
 
 
-def _parse_component_name(name: str) -> Tuple[str, bool]:
+def parse_component_name(name: str) -> Tuple[str, bool]:
+    """If the component name has more than one character and starts with "!".
+
+    then we need to flip along the axis given by the input port angle.
     """
-    If the component name has more than one character and starts with "!"
-    then we need to flip along the axis given by the input port angle
-    """
-    if len(name) != 1 and name[0] == "!":
-        return name[1:], True
-    return name, False
+    return (name[1:], True) if len(name) != 1 and name[0] == "!" else (name, False)
 
 
 def _flip_ref(c_ref, port_name):
-    a = c_ref.ports[port_name].angle
+    a = c_ref.ports[port_name].orientation
     if a in [0, 180]:
         c_ref.reflect_v(port_name)
     else:
@@ -65,26 +65,28 @@ def _flip_ref(c_ref, port_name):
 @gf.cell
 def component_sequence(
     sequence: str,
-    symbol_to_component: Dict[str, Tuple[ComponentOrFactory, str, str]],
+    symbol_to_component: Dict[str, Tuple[ComponentSpec, str, str]],
     ports_map: Optional[Dict[str, Tuple[str, str]]] = None,
     port_name1: str = "o1",
     port_name2: str = "o2",
     start_orientation: float = 0.0,
 ) -> Component:
-    """Returns component from a ASCII sequence and a dictionary to interpret each symbol
+    """Returns component from ASCII sequence.
+
+    if you prefix a symbol with ! it mirrors the component
 
     Args:
-        sequence: a string or a list of symbols
-        symbol_to_component: maps symbols to (component, input, output)
-        ports_map: (optional) extra port mapping using the convention
+        sequence: a string or a list of symbols.
+        symbol_to_component: maps symbols to (component, input, output).
+        ports_map: (optional) extra port mapping using the convention.
             {port_name: (alias_name, port_name)}
-        port_name1: input port_name
-        port_name2: output port_name
-        start_orientation:
+        port_name1: input port_name.
+        port_name2: output port_name.
+        start_orientation: in degrees.
 
     Returns:
-        component containing the sequence of sub-components
-        instantiated and connected together in the sequence order
+        component: containing the sequence of sub-components
+            instantiated and connected together in the sequence order.
 
     .. plot::
         :include-source:
@@ -104,38 +106,24 @@ def component_sequence(
         }
 
         # Each character in the sequence represents a component
-        sequence = "AB-H-H-H-H-BA"
-        c = gf.components.component_sequence(sequence=sequence, symbol_to_component=symbol_to_component)
+        s = "AB-H-H-H-H-BA"
+        c = gf.components.component_sequence(sequence=s, symbol_to_component=symbol_to_component)
         c.plot()
-
     """
+    named_references_counter = Counter()
     ports_map = ports_map or {}
-
-    # Remove all None devices from the sequence
-    sequence = list(sequence[:])
-    to_rm = []
-    for i, d in enumerate(sequence):
-        _name_device, _ = _parse_component_name(d)
-        _device, _, _ = symbol_to_component[_name_device]
-        if _device is None:
-            to_rm += [i]
-
-    while to_rm:
-        sequence.pop(to_rm.pop())
-
-    # To generate unique aliases for each instance
-    counters = {k: count(start=1) for k in symbol_to_component.keys()}
-
-    def _next_id(name):
-        return "{}{}".format(name, next(counters[name]))
 
     component = Component()
 
     # Add first component reference and input port
-    name_start_device, do_flip = _parse_component_name(sequence[0])
-    _input_device, input_port, prev_port = symbol_to_component[name_start_device]
+    symbol = sequence[0] if "!" not in sequence[0] else sequence[:2]
+    index = 2 if "!" in sequence[0] else 1
+    name_start_device, do_flip = parse_component_name(symbol)
+    component_input, input_port, prev_port = symbol_to_component[name_start_device]
 
-    prev_device = component.add_ref(_input_device, alias=_next_id(name_start_device))
+    named_references_counter.update({name_start_device: 1})
+    alias = f"{name_start_device}{named_references_counter[name_start_device]}"
+    prev_device = component.add_ref(component_input, alias=alias)
 
     if do_flip:
         prev_device = _flip_ref(prev_device, input_port)
@@ -146,17 +134,31 @@ def component_sequence(
         component.add_port(name=port_name1, port=prev_device.ports[input_port])
     except KeyError as exc:
         raise KeyError(
-            f"{prev_device.parent.name} input_port {input_port} "
+            f"{prev_device.parent.name!r} input_port {input_port!r} "
             f"not in {list(prev_device.ports.keys())}"
         ) from exc
 
-    # Generate and connect all elements from the sequence
-    for s in sequence[1:]:
-        s, do_flip = _parse_component_name(s)
+    while index < len(sequence):
+        s = sequence[index]
 
+        if s == "!":
+            # if it's the last character skip
+            if index + 1 >= len(sequence):
+                index += 1
+                continue
+            s = sequence[index + 1]
+            do_flip = True
+            index += 1
+        else:
+            do_flip = False
+
+        index += 1
         component_i, input_port, next_port = symbol_to_component[s]
-        component_i = component_i() if callable(component_i) else component_i
-        ref = component.add_ref(component_i, alias=_next_id(s))
+        component_i = gf.get_component(component_i)
+
+        named_references_counter.update({s: 1})
+        alias = f"{s}{named_references_counter[s]}"
+        ref = component.add_ref(component_i, alias=alias)
 
         if do_flip:
             ref = _flip_ref(ref, input_port)
@@ -165,7 +167,7 @@ def component_sequence(
             ref.connect(input_port, prev_device.ports[prev_port])
         except KeyError as exc:
             raise KeyError(
-                f"{prev_device.parent.name} port {prev_port} "
+                f"{prev_device.parent.name!r} port {prev_port!r} "
                 f"not in {list(prev_device.ports.keys())}"
             ) from exc
 
@@ -206,9 +208,16 @@ if __name__ == "__main__":
     }
 
     # Each character in the sequence represents a component
+    sequence = "AB"
+    sequence = "HH!"
+    sequence = "!HH"
+    sequence = "H"
     sequence = "AB-H-H-H-H-BA"
     c = gf.components.component_sequence(
         sequence=sequence, symbol_to_component=symbol_to_component_map
     )
-    c.show()
-    c.pprint()
+    # n = c.get_netlist()
+    # c = gf.read.from_yaml(n)
+    c.show(show_ports=True)
+    # c.pprint()
+    # print(c.named_references.keys())
