@@ -4,7 +4,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.path import transition_adiabatic
-from gdsfactory.types import Layer
+from gdsfactory.types import CrossSectionSpec
 
 adiabatic_polyfit_TE1550SOI_220nm = np.array(
     [
@@ -37,13 +37,14 @@ def taper_adiabatic(
     alpha: float = 1,
     wavelength: float = 1.55,
     npoints: int = 200,
-    layer: Layer = (1, 0),
+    cross_section: CrossSectionSpec = "strip",
+    **kwargs,
 ) -> gf.Component:
-    """Returns an adiabatic_taper
+    """Returns a straight adiabatic_taper from an effective index callable.
 
     Args:
-        width1:
-        width2:
+        width1: initial width
+        width2: final width
         length: 0 uses the optimized length, and otherwise the optimal shape is compressed/stretched to the specified length
         neff_y: a callable that returns the effective index as a function of width
                 - By default, will use a compact model of neff(y) for fundamental 1550 nm TE mode of 220nm-thick core with 3.45 index, fully clad with 1.44 index. Many coefficients are needed to capture the behaviour.
@@ -56,8 +57,10 @@ def taper_adiabatic(
         [1] Burns, W. K., et al. "Optical waveguide parabolic coupling horns." Appl. Phys. Lett., vol. 30, no. 1, 1 Jan. 1977, pp. 28-30, doi:10.1063/1.89199.
         [2] Fu, Yunfei, et al. "Efficient adiabatic silicon-on-insulator waveguide taper." Photonics Res., vol. 2, no. 3, 1 June 2014, pp. A41-A44, doi:10.1364/PRJ.2.000A41.
         npoints: number of points for sampling
-        layer
     """
+    xs = gf.get_cross_section(cross_section, **kwargs)
+    layer = xs.layer
+
     # Obtain optimal curve
     x_opt, w_opt = transition_adiabatic(
         width1, width2, neff_w=neff_w, wavelength=wavelength, alpha=alpha
@@ -74,28 +77,37 @@ def taper_adiabatic(
     w = w_opt_interp(x)
 
     # Stretch/compress x
-    xs = np.linspace(0, length, npoints) * (1 + length - x_opt[-1])
-    ys = w / 2
+    x_array = np.linspace(0, length, npoints) * (1 + length - x_opt[-1])
+    y_array = w / 2
 
     c = gf.Component()
-    c.add_polygon(list(zip(xs, ys)) + list(zip(xs, -ys))[::-1], layer=layer)
+    c.add_polygon(
+        list(zip(x_array, y_array)) + list(zip(x_array, -y_array))[::-1], layer=layer
+    )
+
+    # Define ports
+    xs1 = xs.copy(width=width1)
+    xs2 = xs.copy(width=width2)
 
     c.add_port(
         name="o1",
-        midpoint=(0, 0),
+        center=(0, 0),
         width=width1,
         orientation=180,
+        cross_section=xs1,
+        layer=layer,
     )
     c.add_port(
         name="o2",
-        midpoint=(length, 0),
+        center=(length, 0),
         width=width2,
         orientation=0,
+        cross_section=xs2,
+        layer=layer,
     )
     return c
 
 
 if __name__ == "__main__":
-    c = taper_adiabatic(width1=0.5, width2=7)
-    c = taper_adiabatic()
+    c = taper_adiabatic(width1=0.5, width2=5)
     c.show()
