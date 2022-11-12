@@ -170,7 +170,7 @@ def write_sparameters_meep_mpi(
 
     # Save component to disk through gds for gdstk compatibility
     component_file = tempfile.with_suffix(".gds")
-    component.write_gds(component_file)
+    component.write_gds_with_metadata(component_file)
 
     # Write execution file
     script_lines = [
@@ -240,6 +240,8 @@ write_sparameters_meep_mpi_1x1_bend90 = gf.partial(
 
 
 if __name__ == "__main__":
+    import numpy as np
+
     c1 = gf.components.straight(length=2.1)
     filepath = write_sparameters_meep_mpi(
         component=c1,
@@ -253,3 +255,5 @@ if __name__ == "__main__":
         # temp_dir = "./test/",
         # filepath="instance_dict.csv",
     )
+    sp = np.load(filepath)
+    print(list(sp.keys()))
