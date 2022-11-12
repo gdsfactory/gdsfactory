@@ -5,11 +5,12 @@ pip install "jaxlib[cuda111]" -f https://whls.blob.core.windows.net/unstable/ind
 pip install gdsfactory==5.54.0
 gf tool install
 
-call ..\condabin\conda activate
-call ..\conda install -c conda-forge git -y
+cd ..\condabin
+call conda activate
+call conda install -c conda-forge git -y
 if exist "%USERPROFILE%\Desktop\gdsfactory" (goto SKIP_INSTALL)
 cd %USERPROFILE%\Desktop
-call git clone https://github.com/gdsfactory/gdsfactory.git
+call git clone https://github.com/SkandanC/gdsfactory.git
 
 cd gdsfactory
 python shortcuts.py
