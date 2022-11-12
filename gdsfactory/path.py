@@ -526,7 +526,7 @@ def transition_adiabatic(
     max_length=200,
     num_points_ODE=2000,
 ):
-    """Returns the points for an optimal adiabatic transition for well-guided modes
+    """Returns the points for an optimal adiabatic transition for well-guided modes.
 
     Args:
         w1: start width
