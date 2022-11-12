@@ -10,10 +10,10 @@ call conda activate
 call conda install -c conda-forge git -y
 if exist "%USERPROFILE%\Desktop\gdsfactory" (goto SKIP_INSTALL)
 cd %USERPROFILE%\Desktop
-call git clone https://github.com/SkandanC/gdsfactory.git -b Add-shortcut-during-installation
-
-cd gdsfactory
-python shortcuts.py
+call git clone https://github.com/gdsfactory/gdsfactory.git
 
 :SKIP_INSTALL
 echo gdsfactory installed
+
+cd gdsfactory
+python shortcuts.py
