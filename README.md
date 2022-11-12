@@ -1,181 +1,102 @@
-# gdsfactory 3.9.7
+# gdsfactory 6.0.0
 
-[![](https://readthedocs.org/projects/gdsfactory/badge/?version=latest)](https://gdsfactory.readthedocs.io/en/latest/?badge=latest)
-[![](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
-[![](https://img.shields.io/github/issues/gdsfactory/gdsfactory)](https://github.com/gdsfactory/gdsfactory/issues)
-![](https://img.shields.io/github/forks/gdsfactory/gdsfactory)
-![](https://img.shields.io/github/stars/gdsfactory/gdsfactory)
-[![](https://img.shields.io/github/license/gdsfactory/gdsfactory)](https://choosealicense.com/licenses/mit/)
-[![](https://img.shields.io/codecov/c/github/gdsfactory/gdsfactory)](https://codecov.io/gh/gdsfactory/gdsfactory/tree/master/gdsfactory)
-[![](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)](https://gdsfactory.github.io/gdsfactory/)
+[![PyPI](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
+[![Conda Version](https://img.shields.io/conda/vn/conda-forge/gdsfactory.svg)](https://anaconda.org/conda-forge/gdsfactory)
+[![PyPI Python](https://img.shields.io/pypi/pyversions/gdsfactory.svg)](https://pypi.python.org/pypi/gdsfactory)
+[![issues](https://img.shields.io/github/issues/gdsfactory/gdsfactory)](https://github.com/gdsfactory/gdsfactory/issues)
+[![forks](https://img.shields.io/github/forks/gdsfactory/gdsfactory.svg)](https://github.com/gdsfactory/gdsfactory/network/members)
+[![GitHub stars](https://img.shields.io/github/stars/gdsfactory/gdsfactory.svg)](https://github.com/gdsfactory/gdsfactory/stargazers)
+[![Downloads](https://pepy.tech/badge/gdsfactory)](https://pepy.tech/project/gdsfactory)
+[![Downloads](https://pepy.tech/badge/gdsfactory/month)](https://pepy.tech/project/gdsfactory)
+[![Downloads](https://pepy.tech/badge/gdsfactory/week)](https://pepy.tech/project/gdsfactory)
+[![MIT](https://img.shields.io/github/license/gdsfactory/gdsfactory)](https://choosealicense.com/licenses/mit/)
+[![codecov](https://img.shields.io/codecov/c/github/gdsfactory/gdsfactory)](https://codecov.io/gh/gdsfactory/gdsfactory/tree/master/gdsfactory)
+[![black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/gdsfactory/binder-sandbox/HEAD)
 
-![](https://i.imgur.com/v4wpHpg.png)
+![logo](https://i.imgur.com/v4wpHpg.png)
 
-gdsfactory is an [EDA (electronics design automation)](https://en.wikipedia.org/wiki/Electronic_design_automation) tool to Layout Integrated Circuits.
+GDSfactory is a design automation tool for photonics and analog circuits.
 
-It is build on top of [phidl](https://github.com/amccaugh/phidl), [gdspy](https://github.com/heitzmann/gdspy) and klayout to provide you with functions to build your GDSII components, PDKs and masks for different foundries.
+You can describe your circuits with a code driven flow (python or YAML), verify them (DRC, simulation) and analyze them.
 
-You just need to adapt the functions to your foundry and build your own library of elements (see [UBC PDK](https://github.com/gdsfactory/ubc) example).
+Multiple Silicon Photonics foundries have gdsfactory PDKs available. Talk to your foundry to access their gdsfactory PDK.
 
-gdsfactory provides you with functions that you can use to:
+You can also access:
 
-- define components, circuits and masks in python or YAML
-- add routes between components
-- ensure you can build complex systems by testing settings, ports and GDS geometry
+- open source PDKs available on GitHub
+    * [UBCPDK](https://gdsfactory.github.io/ubc/README.html)
+    * [skywater130](https://gdsfactory.github.io/skywater130/README.html)
+- instructions on [how to build your own PDK](https://gdsfactory.github.io/gdsfactory/notebooks/08_pdk.html)
+- instructions on [how to import a PDK from a library of fixed GDS cells](https://gdsfactory.github.io/gdsfactory/notebooks/09_pdk_import.html)
 
-As input, gdsfactory needs you to write python or YAML code to describe your layouts.
 
-As output it creates a [GDSII file](https://en.wikipedia.org/wiki/GDSII) which is the most common filetype used by CMOS foundries.
-It also can output components settings (that you can use for measurement and data analysis) or netlists (for circuit simulations). You can also easily adapt this metadata output files to your needs.
 
-![](https://i.imgur.com/XbhWJDz.png)
+You can:
 
-## Documentation
+- define parametric cells (PCells) in python or YAML.
+- define routes between components.
+- Test component settings, ports and geometry to avoid regressions.
 
-![](https://i.imgur.com/4xQJ2yk.png)
 
-What nice things come from phidl?
+As input, you write python or YAML code.
 
-- functional programming that follow UNIX philosophy
-- nice API to create and modify Components
-- Easy definition of paths, cross-sections and extrude them into Components
-- Easy definition of ports, to connect components. Ports in phidl have name, position, width and orientation (in degrees)
-  - gdsfactory expands phidl ports with layer, port_type (optical, electrical, vertical_te, vertical_tm ...) and cross_section
-  - gdsfactory adds renaming ports functions (clockwise, counter_clockwise ...)
+As output you write a GDSII or OASIS file that can send to your foundry.
+It also exports component settings (for measurement and data analysis) and netlists (for circuit simulations).
 
-What nice things come from klayout?
+![layout_to_components](https://i.imgur.com/JLsvpLv.png)
 
-- GDS viewer. gdsfactory can send GDS files directly to klayout, you just need to have klayout open
-- layer colormaps for showing in klayout, matplotlib, trimesh (using the same colors)
-- fast boolean xor to avoid geometric regressions on Components geometry
+![flow](https://i.imgur.com/XbhWJDz.png)
 
-What functionality does gdsfactory provide you on top phidl/gdspy/klayout?
 
-- `@cell decorator` for decorating functions that create components
-  - autonames Components with a unique name that depends on the input parameters
-  - avoids duplicated names and faster runtime implementing a cache. If you try to call the same component function with the same parameters, you get the component directly from the cache.
-  - automatically adds cell parameters into a `component.info` (`full`, `default`, `changed`) as well as any other `info` metadata (`polarization`, `wavelength`, `test_protocol`, `simulation_settings` ...)
-  - writes component metadata in YAML including port information (name, position, width, orientation, type, layer)
-- routing functions where the routes are composed of configurable bends and straight sections (for circuit simulations you still have the concept of what the route is made of)
-  - `get_route`: for single routes between component ports
-  - `get_route_from_steps`: for single routes between ports where we define the steps or bends
-  - `get_bundle`: for bundles of routes (river routing)
-  - `get_bundle_path_length_match`: for routes that need to keep the same path length
-  - `get_route(auto_widen=True)`: for routes that expand to wider waveguides to reduce loss and phase errors
-  - `get_route(impossible route)`: for impossible routes it raises a warning and returns a FlexPath on an error layer
-- testing framework to avoid unwanted regressions
-  - checks geometric GDS changes by making a boolean difference between GDS cells
-  - checks metadata changes, including port location and component settings
-- large library of photonics and electrical components that you can easily customize to your technology
-- read components from GDS, numpy, YAML
-- export components to GDS, YAML or 3D (trimesh, STL ...)
-- export netlist in YAML format
-- plugins to compute Sparameters using for example Lumerical, meep or tidy3d
+It provides you a common syntax for layout (klayout, gdstk), simulation (Lumerical, tidy3d, MEEP, MPB, DEVSIM, simphony, SAX, ...) and data analysis libraries.
 
-How can you learn more?
+![tool interfaces](https://i.imgur.com/bQslWHO.png)
 
-gdsfactory is written in python and requires some basic knowledge of python. If you are new to python you can find many [books](https://jakevdp.github.io/PythonDataScienceHandbook/index.html), [youTube videos](https://www.youtube.com/c/anthonywritescode) and [courses](https://github.com/joamatab/practical-python) available online.
-
-Once you are familiar with python, you can also:
-
-- [read online docs](https://gdsfactory.readthedocs.io/en/latest)
-- run gdsfactory/samples
-- run [docs/notebooks](https://gdsfactory.readthedocs.io/en/latest/notebooks.html)
 
 ## Installation
 
-First, you need to install [klayout](https://www.klayout.de/) to visualize the GDS files that you create.
+[Download the latest installer](https://github.com/gdsfactory/gdsfactory/releases)
 
-gdsfactory works for python>=3.7 in Windows, MacOs and Linux.
-[Github](https://github.com/gdsfactory/gdsfactory/actions) runs all the tests at least once a day for different versions of python (3.7, 3.8, 3.9)
+## Getting started
 
-If you are on Windows, I recommend you install gdsfactory with Anaconda3 or Miniconda3.
+- Run notebooks on [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/gdsfactory/binder-sandbox/HEAD)
+- [See slides](https://docs.google.com/presentation/d/1_ZmUxbaHWo_lQP17dlT1FWX-XD8D9w7-FcuEih48d_0/edit#slide=id.g11711f50935_0_5)
+- [Read docs](https://gdsfactory.github.io/gdsfactory/)
+- [![Video Tutorials](https://img.shields.io/badge/youtube-Video_Tutorials-red.svg?logo=youtube)](https://www.youtube.com/watch?v=KXq09GirynI&list=PLZ3ZVd41isDDnuCirqIhNa8vsaHmbmxqM)
+- See announcenments on [GitHub](https://github.com/gdsfactory/gdsfactory/discussions/547), [google-groups](https://groups.google.com/g/gdsfactory) or [LinkedIn](https://www.linkedin.com/company/gdsfactory)
 
-```
-conda install -c conda-forge gdspy
-conda install -c conda-forge triangle
-pip install gdsfactory[full]
-gf tool install
-```
+## Acks
 
-For Linux and MacOs you can also install gdsfactory without Anaconda3:
+Contributors (in chronological order):
 
-```
-pip install gdsfactory[pip]
-gf tool install
-```
+- Joaquin Matres (Google): maintainer.
+- Damien Bonneau (PsiQuantum): cell decorator, Component routing functions, Klayout placer.
+- Pete Shadbolt (PsiQuantum): Klayout auto-placer, Klayout GDS interface (klive).
+- Troy Tamas (Rockley): get_route_from_steps, netlist driven flow (from_yaml).
+- Floris Laporte (Rockley): netlist extraction and circuit simulation interface with SAX.
+- Alec Hammond (Meta Reality Labs Research): Meep and MPB interface.
+- Simon Bilodeau (Princeton): Meep FDTD write Sparameters, TCAD device simulator.
+- Thomas Dorch (Freedom Photonics): for Meep's material database access, MPB sidewall angles, and add_pin_path.
+- Jan-David Fischbach (Black semiconductor): for improvements in pack_doe.
+- Igal Bayn (Google): for documentation improvements and suggestions.
+- Alex Sludds (MIT): for tiling fixes.
+- Momchil Minkov (Flexcompute): for tidy3d plugin.
+- Skandan Chandrasekar (BYU): for simphony, SiPANN plugins, A-star router.
+- Helge Gehring (Google): for simulation plugins (FEM heat solver), improving code quality and new components (spiral paths).
+- Tim Ansell (Google): for documentation improvements.
+- Ardavan Oskoii (Google): for Meep plugin documentation improvements.
+- Marc de Cea (MIT): for ge_detector, grating_coupler_dual, mmi_90degree_hybrid, coherent transceiver, receiver.
+- Bradley Snyder (PHIX): for grating_coupler snap to grid fixes.
+- Jonathan Cauchon (EHVA): for measurement database.
+- Raphaël Dubé-Demers (EHVA): for measurement database.
 
-Or you can install the development version if you plan to [contribute](https://gdsfactory.readthedocs.io/en/latest/contribution.html) to gdsfactory:
+Open source heroes:
 
-```
-git clone https://github.com/gdsfactory/gdsfactory.git
-cd gdsfactory
-make install
-```
-
-To summarize: There are 2 methods to install gdsfactory
-
-1. `pip install gdsfactory` will download it from [PyPi (python package index)](https://pypi.org/project/gdsfactory/)
-2. you can download it from [GitHub](https://pypi.org/project/gdsfactory/) in your computer and link the library to your python
-
-```
-git clone https://github.com/gdsfactory/gdsfactory.git
-cd gdsfactory
-make install
-```
-
-for updating 1. you need to `pip install gdsfactory --upgrade`
-for updating 2. you need to pull from GitHub the latest changes
-
-```
-cd gdsfactory
-git pull
-```
-
-After installing you should be able to `import gdsfactory as gf` from a python script.
-
-- gdsfactory
-  - components: define a basic library of generic components that you can customize
-  - gdsdiff: hash geometry and show differences by displaying boolean operations in klayout
-  - klayout: klayout generic tech layers and klive macro
-  - klive: stream GDS directly to klayout
-  - ports: to connect components
-  - routing: add waveguides to connect components
-  - samples: python tutorial
-  - tests:
-- docs/notebooks: jupyter-notebooks based tutorial
-
-
-## Plugins
-
-We try to keep gdsfactory core with minimum dependencies.
-So when you run `pip install gdsfactory` you do not install any plugins by default.
-If you want to install gdsfactory together with all the plugins you can run
-
-```
-pip install gdsfactory[full]
-```
-
-### Trimesh
-
-For (3D rendering and STL export)
-
-
-### meep / mpb
-
-Open source FDTD / mode simulator. Requires you to run `conda install -c conda-forge pymeep` (or `conda install -c conda-forge pymeep=*=mpi_mpich_*` for parallel execution).
-
-### tidy3d
-
-For FDTD simulations on the web. Requires you to create an account on [simulation.cloud](simulation.cloud)
-
-## Links
-
-- [gdsfactory github repo](https://github.com/gdsfactory/gdsfactory)
-- [gdslib](https://github.com/gdsfactory/gdslib): separate package for component circuit models (based on Sparameters).
-- [ubc PDK](https://github.com/gdsfactory/ubc)
-- [awesome photonics list](https://github.com/joamatab/awesome_photonics)
-- [phidl (gdsfactory is based on phidl)](https://github.com/amccaugh/phidl)
-- [gdspy (phidl is based on gdspy)](https://github.com/heitzmann/gdspy)
-- [picwriter](https://github.com/DerekK88/PICwriter)
-- [docs follow MyST syntax](https://myst-parser.readthedocs.io/en/latest/syntax/optional.html)
+- Matthias Köfferlein: for Klayout
+- Lucas Heitzmann (University of Campinas, Brazil): for gdstk
+- Adam McCaughan (NIST): for phidl. Inpiration for geometry manipulation.
+- Alex Tait (Queens University): for lytest
+- Thomas Ferreira de Lima (NEC): for `pip install klayout` python API.
+- Juan Sanchez: for DEVSIM

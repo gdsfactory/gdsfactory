@@ -1,12 +1,11 @@
-"""
-You can use component_sequence as a convenient function for cascading components,
-where you need to keep track of multiple tapers, doped sections, heaters etc...
+"""You can use component_sequence as a convenient function for cascading components, where you need to keep track of multiple tapers, doped sections, heaters etc...
 
 The idea is to associate one symbol per type of section.
 A section is uniquely defined by the component, input port name and output port name.
 
 The mapping between symbols and components is supplied by a dictionary.
 The actual chain of components is supplied by a string or a list
+
 """
 
 import gdsfactory as gf
@@ -38,12 +37,11 @@ def test_cutback_pn() -> Component:
     # with a given input and a given output
 
     sequence = "AB-H-H-H-H-BA"
-    component = component_sequence(
+    return component_sequence(
         sequence=sequence, symbol_to_component=symbol_to_component
     )
-    return component
 
 
 if __name__ == "__main__":
     c = test_cutback_pn()
-    c.show()
+    c.show(show_ports=True)

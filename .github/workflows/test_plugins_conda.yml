@@ -1,6 +1,6 @@
 # https://github.com/conda-incubator/setup-miniconda
 # https://github.com/actions/starter-workflows/blob/main/ci/python-package-conda.yml
-name: Test pluings using Conda
+name: Test plugins
 
 on:
   pull_request:
@@ -11,23 +11,31 @@ on:
 jobs:
   build-linux:
     runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 5
-
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python 3.9
-        uses: actions/setup-python@v2
+      - name: Cancel Workflow Action
+        uses: styfle/cancel-workflow-action@0.11.0
+      - uses: actions/checkout@v3
+      - uses: conda-incubator/setup-miniconda@v2
         with:
           python-version: 3.9
+          mamba-version: "*"
+          channels: conda-forge,defaults
+          channel-priority: true
+          activate-environment: anaconda-client-env
       - name: Add conda to system path
         run: |
-          # $CONDA is an environment variable pointing to the root of the miniconda directory
           echo $CONDA/bin >> $GITHUB_PATH
       - name: Install dependencies
         run: |
-          conda env update --file environment.yml --name base
+          python -m pip install --upgrade pip
+          make gdslib plugins
+          make install
+          pip install -r requirements_full.txt
       - name: Test with pytest
+        env:
+          TIDY3D_USER: ${{ secrets.TIDY3D_EMAIL }}
+          TIDY3D_PASS: ${{ secrets.TIDY3D_PASSWORD }}
         run: |
-          conda install pytest
+          mkdir -p $HOME/.tidy3d
+          echo ${{ secrets.TIDY3D_AUTH }} > $HOME/.tidy3d/auth.json
           make test-plugins

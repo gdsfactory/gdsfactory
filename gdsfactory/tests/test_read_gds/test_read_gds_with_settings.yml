@@ -46,7 +46,7 @@ ports:
     layer:
     - 1
     - 0
-    midpoint:
+    center:
     - 0
     - 0
     name: o1
@@ -57,11 +57,11 @@ ports:
     layer:
     - 1
     - 0
-    midpoint:
+    center:
     - 1.234
     - 0
     name: o2
     orientation: 0
     port_type: optical
     width: 0.5
-version: 1
+version: 0.0.1

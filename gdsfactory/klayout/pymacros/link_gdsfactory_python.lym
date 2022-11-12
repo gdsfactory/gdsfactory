@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<klayout-macro>
+ <description/>
+ <description>link_gdsfactory_python</description>
+ <version/>
+ <category>pymacros</category>
+ <prolog/>
+ <epilog/>
+ <doc/>
+ <autorun>true</autorun>
+ <autorun-early>false</autorun-early>
+ <shortcut/>
+ <show-in-menu>true</show-in-menu>
+ <group-name/>
+ <menu-path>gdsfactory.end</menu-path>
+ <interpreter>python</interpreter>
+ <dsl-interpreter-name/>
+ <text>
+import pya
+import sys
+import subprocess
+import pathlib
+import importlib
+import os
+import json
+
+check_packages = [
+    'gdsfactory',
+    'flayout'
+]
+
+config_file = os.path.expanduser("~/.gdsfactory/gf-config.json")
+
+with open(config_file, "r") as f:
+    try:
+        cfg = json.load(f)
+    except:
+        cfg = {}
+
+    if "conda-env" not in cfg.keys():
+        env_dir_str = pya.FileDialog.ask_existing_dir("Select directory of Python environment to link:", "")
+
+        if env_dir_str is None:
+            quit()
+
+        cfg["conda-env"] = env_dir_str
+
+with open(config_file, "w") as f:
+    json.dump(cfg, f, sort_keys=True, indent=4)
+
+env_dir = pathlib.Path(cfg["conda-env"])
+
+conda_exe = list(env_dir.glob("../../bin/conda"))
+
+if not len(conda_exe) == 1:
+    raise OSError("Could not find conda bin dir")
+
+conda_exe = conda_exe[0]
+print(f"Found {conda_exe}")
+
+py_cmd = f"""
+import sys
+import importlib
+import pathlib
+import site
+import json
+import platform
+
+paths = set(sys.path)
+site_packages_dir = pathlib.Path(site.getsitepackages()[0])
+
+# Need to trace the imports of editible installs
+for package in {check_packages}:
+    package_info_dir =  list(site_packages_dir.glob(package + "-*.dist-info"))
+
+    package_info_file = package_info_dir[0] / "direct_url.json"
+
+    with open(package_info_file, 'r') as f:
+        # Should be in format: "file:///path/to/local/package"
+        file_info = json.load(f)
+
+        if not file_info["dir_info"]["editable"]:
+            continue
+
+        url = file_info["url"]
+        package_import_path = str(pathlib.Path(url).as_posix()).lstrip("file:")
+
+        if platform.system == "Windows":
+            package_import_path = package_import_path[1:]
+
+        paths.add(package_import_path)
+
+print(','.join([p for p in paths if p != '']))
+"""
+
+process = subprocess.run(
+    args=[
+        str(conda_exe), "run", "-n", env_dir.name,
+        "python", "-c", py_cmd
+    ],
+    capture_output=True
+)
+print(process.stderr)
+
+paths = process.stdout.decode("utf-8").strip().split(",")
+print(f"Adding conda env paths: {paths}")
+
+sys.path = [*sys.path, *paths]
+
+for package in check_packages:
+    importlib.import_module(package)
+</text>
+</klayout-macro>

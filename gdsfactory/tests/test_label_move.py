@@ -11,15 +11,15 @@ def component_with_label() -> Component:
 
 
 def test_label_move() -> Component:
-    """test that when we move references their label also move"""
+    """test that when we move references their label also move."""
     c = gf.Component("component_with_label_move")
     ref = c << gf.components.rectangle()
     ref.movex(10)
     assert ref.origin[0] == 10
-    # assert ref.labels[0].position[0] == 10
+    # assert ref.labels[0].center[0] == 10
     return c
 
 
 if __name__ == "__main__":
     c = test_label_move()
-    c.show()
+    c.show(show_ports=True)

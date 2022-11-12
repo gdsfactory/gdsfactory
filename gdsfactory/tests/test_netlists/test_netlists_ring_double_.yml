@@ -1,0 +1,57 @@
+connections:
+  coupler_ring_1,o2: straight_1,o1
+  coupler_ring_1,o3: straight_2,o1
+  coupler_ring_2,o2: straight_2,o2
+  coupler_ring_2,o3: straight_1,o2
+instances:
+  coupler_ring_1:
+    component: coupler_ring
+    settings:
+      length_x: 0.01
+      radius: 10.0
+  coupler_ring_2:
+    component: coupler_ring
+    settings:
+      length_x: 0.01
+      radius: 10.0
+  straight_1:
+    component: straight
+    info:
+      length: 0.01
+      width: 0.5
+    settings:
+      length: 0.01
+  straight_2:
+    component: straight
+    info:
+      length: 0.01
+      width: 0.5
+    settings:
+      length: 0.01
+name: ring_double
+placements:
+  coupler_ring_1:
+    mirror: 0
+    rotation: 0
+    x: 0.0
+    y: 0.0
+  coupler_ring_2:
+    mirror: 0
+    rotation: 180
+    x: -0.01
+    y: 21.41
+  straight_1:
+    mirror: 0
+    rotation: 90
+    x: -10.01
+    y: 10.7
+  straight_2:
+    mirror: 0
+    rotation: 90
+    x: 10.0
+    y: 10.7
+ports:
+  o1: coupler_ring_1,o1
+  o2: coupler_ring_1,o4
+  o3: coupler_ring_2,o4
+  o4: coupler_ring_2,o1

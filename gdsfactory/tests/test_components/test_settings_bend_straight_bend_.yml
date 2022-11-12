@@ -1,136 +1,49 @@
-cells:
-  bend_euler_e146b96b:
-    changed:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    default:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    dy: 10
-    full:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    function_name: bend_euler
-    info_version: 1
-    length: 16.637
-    module: gdsfactory.components.bend_euler
-    name: bend_euler_e146b96b
-    radius: 10
-    radius_min: 7.061
-  bend_straight_bend_d41d8cd9:
-    changed: {}
-    default:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      straight_length: 10
-      with_arc_floorplan: true
-      with_cladding_box: true
-    full:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      straight_length: 10
-      with_arc_floorplan: true
-      with_cladding_box: true
-    function_name: bend_straight_bend
-    info_version: 1
-    module: gdsfactory.components.bend_euler
-    name: bend_straight_bend_d41d8cd9
-  straight_457f2252:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 10
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 10
-    module: gdsfactory.components.straight
-    name: straight_457f2252
-    width: 0.5
-info:
+name: bend_straight_bend
+settings:
   changed: {}
+  child: null
   default:
     angle: 90
     cross_section:
       function: cross_section
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
+        cladding_layers:
+        - DEVREC
+        cladding_offsets:
+        - 0
     direction: ccw
     npoints: 720
     p: 0.5
-    straight_length: 10
+    straight_length: 10.0
     with_arc_floorplan: true
-    with_cladding_box: true
   full:
     angle: 90
     cross_section:
       function: cross_section
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
+        cladding_layers:
+        - DEVREC
+        cladding_offsets:
+        - 0
     direction: ccw
     npoints: 720
     p: 0.5
-    straight_length: 10
+    straight_length: 10.0
     with_arc_floorplan: true
-    with_cladding_box: true
   function_name: bend_straight_bend
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.bend_euler
-  name: bend_straight_bend_d41d8cd9
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 20
-    - 30
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 0.5
-version: 1
+  name: bend_straight_bend

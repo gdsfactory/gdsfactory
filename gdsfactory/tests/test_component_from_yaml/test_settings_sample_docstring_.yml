@@ -1,169 +1,120 @@
-cells:
-  bend_euler_1da190e0:
-    changed:
-      cross_section:
-        function: cross_section
-    default:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    dy: 10
-    full:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    function_name: bend_euler
-    info_version: 1
-    length: 16.637
-    module: gdsfactory.components.bend_euler
-    name: bend_euler_1da190e0
-    radius: 10
-    radius_min: 7.061
-  mmi1x2_28584457:
-    changed:
-      length_mmi: 22
-      width_mmi: 6
-    default:
-      cross_section:
-        function: cross_section
-      gap_mmi: 0.25
-      length_mmi: 5.5
-      length_taper: 10
-      taper:
-        function: taper
-      width: 0.5
-      width_mmi: 2.5
-      width_taper: 1
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      gap_mmi: 0.25
-      length_mmi: 22
-      length_taper: 10
-      taper:
-        function: taper
-      width: 0.5
-      width_mmi: 6
-      width_taper: 1
-      with_cladding_box: true
-    function_name: mmi1x2
-    info_version: 1
-    module: gdsfactory.components.mmi1x2
-    name: mmi1x2_28584457
-  mmi1x2_52b0d64a:
-    changed:
-      length_mmi: 11
-      width_mmi: 5
-    default:
-      cross_section:
-        function: cross_section
-      gap_mmi: 0.25
-      length_mmi: 5.5
-      length_taper: 10
-      taper:
-        function: taper
-      width: 0.5
-      width_mmi: 2.5
-      width_taper: 1
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      gap_mmi: 0.25
-      length_mmi: 11
-      length_taper: 10
-      taper:
-        function: taper
-      width: 0.5
-      width_mmi: 5
-      width_taper: 1
-      with_cladding_box: true
-    function_name: mmi1x2
-    info_version: 1
-    module: gdsfactory.components.mmi1x2
-    name: mmi1x2_52b0d64a
-  sample_docstring: {}
-  straight_466a3c74:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 19.99
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 19.99
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 19.99
-    module: gdsfactory.components.straight
-    name: straight_466a3c74
-    width: 0.5
-  straight_5743d35a:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 0.01
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 0.01
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 0.01
-    module: gdsfactory.components.straight
-    name: straight_5743d35a
-    width: 0.5
-  straight_b649c633:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 18.75
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 18.75
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 18.75
-    module: gdsfactory.components.straight
-    name: straight_b649c633
-    width: 0.5
-info:
-  name: sample_docstring
-ports: {}
-version: 1
+name: sample_docstring_5eb0f802
+settings:
+  changed:
+    conf:
+      instances:
+        mmi_bot:
+          component: mmi1x2
+          settings:
+            length_mmi: 11
+            width_mmi: 5
+        mmi_top:
+          component: mmi1x2
+          settings:
+            length_mmi: 22
+            width_mmi: 6
+      name: sample_docstring
+      placements:
+        mmi_bot:
+          dx: 40
+          dy: -40
+          port: o1
+          x: mmi_top,o2
+          y: mmi_top,o2
+        mmi_top:
+          port: o1
+          x: 0
+          y: 0
+      routes:
+        optical:
+          links:
+            mmi_top,o3: mmi_bot,o1
+  child: null
+  default:
+    label_instance_function:
+      function: add_instance_label
+    routing_strategy:
+      get_bundle:
+        function: get_bundle
+      get_bundle_electrical:
+        function: get_bundle
+        settings:
+          bend:
+            function: wire_corner
+          cross_section: metal_routing
+      get_bundle_from_steps:
+        function: get_bundle_from_steps
+      get_bundle_from_steps_electrical:
+        function: get_bundle_from_steps
+        settings:
+          bend:
+            function: wire_corner
+          cross_section: metal_routing
+      get_bundle_from_waypoints:
+        function: get_bundle_from_waypoints
+      get_bundle_path_length_match:
+        function: get_bundle_path_length_match
+      get_bundle_same_axis_no_grouping:
+        function: get_bundle_same_axis_no_grouping
+  full:
+    conf:
+      instances:
+        mmi_bot:
+          component: mmi1x2
+          settings:
+            length_mmi: 11
+            width_mmi: 5
+        mmi_top:
+          component: mmi1x2
+          settings:
+            length_mmi: 22
+            width_mmi: 6
+      name: sample_docstring
+      placements:
+        mmi_bot:
+          dx: 40
+          dy: -40
+          port: o1
+          x: mmi_top,o2
+          y: mmi_top,o2
+        mmi_top:
+          port: o1
+          x: 0
+          y: 0
+      routes:
+        optical:
+          links:
+            mmi_top,o3: mmi_bot,o1
+    label_instance_function:
+      function: add_instance_label
+    routing_strategy:
+      get_bundle:
+        function: get_bundle
+      get_bundle_electrical:
+        function: get_bundle
+        settings:
+          bend:
+            function: wire_corner
+          cross_section: metal_routing
+      get_bundle_from_steps:
+        function: get_bundle_from_steps
+      get_bundle_from_steps_electrical:
+        function: get_bundle_from_steps
+        settings:
+          bend:
+            function: wire_corner
+          cross_section: metal_routing
+      get_bundle_from_waypoints:
+        function: get_bundle_from_waypoints
+      get_bundle_path_length_match:
+        function: get_bundle_path_length_match
+      get_bundle_same_axis_no_grouping:
+        function: get_bundle_same_axis_no_grouping
+  function_name: _from_yaml
+  info:
+    instances:
+    - mmi_bot
+    - mmi_top
+  info_version: 2
+  module: gdsfactory.read.from_yaml
+  name: sample_docstring_5eb0f802

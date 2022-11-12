@@ -6,7 +6,6 @@ import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.port import Port, flipped
 from gdsfactory.routing.get_route import get_route
-from gdsfactory.tech import LAYER
 from gdsfactory.types import Route
 
 
@@ -34,26 +33,48 @@ def route_ports_to_side(
     routing_func=get_route,
     **kwargs,
 ) -> Tuple[List[Route], List[Port]]:
-    """Routes ports to a given side
+    """Routes ports to a given side.
 
     Args:
         ports: list/dict/Component/ComponentReference to route to a side.
         side: 'north', 'south', 'east' or 'west'.
-        x: position to route ports for east/west. None, uses most east/west value
-        y: position to route ports for south/north. None, uses most north/south value
+        x: position to route ports for east/west. None, uses most east/west value.
+        y: position to route ports for south/north. None, uses most north/south value.
+        routing_func: the routing function. By default uses `get_route`.
 
-        routing_func: the routing function. By default uses `get_route`
-        kwargs:
-          radius
-          separation
-          extend_bottom/extend_top for east/west routing
-          extend_left, extend_right for south/north routing
+    Keyword Args:
+      radius: in um.
+      separation: in um.
+      extend_bottom/extend_top for east/west routing.
+      extend_left, extend_right for south/north routing.
 
     Returns:
-        List of routes:
-        List of ports:
-    """
+        List of routes: with routing elements.
+        List of ports: of the new ports.
 
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        c = gf.Component('sample_route_sides')
+        dummy = gf.components.nxn(north=2, south=2, west=2, east=2)
+        sides = ["north", "south", "east", "west"]
+        d = 100
+        positions = [(0, 0), (d, 0), (d, d), (0, d)]
+
+        for pos, side in zip(positions, sides):
+            dummy_ref = dummy.ref(position=pos)
+            c.add(dummy_ref)
+            routes, ports = gf.routing.route_ports_to_side(dummy_ref, side, layer=(1, 0))
+            for route in routes:
+                c.add(route.references)
+            for i, p in enumerate(ports):
+                c.add_port(name=f"{side[0]}{i}", port=p)
+
+        c.plot()
+
+    """
     if not ports:
         return [], []
 
@@ -61,23 +82,15 @@ def route_ports_to_side(
     if isinstance(ports, dict):
         ports = list(ports.values())
 
-    elif isinstance(ports, Component) or isinstance(ports, ComponentReference):
+    elif isinstance(ports, (Component, ComponentReference)):
         ports = list(ports.ports.values())
 
     # Choose which
-    if side in ["north", "south"]:
+    if side in {"north", "south"}:
         func_route = route_ports_to_y
-        if y is not None:
-            xy = y
-        else:
-            xy = side
-
-    elif side in ["west", "east"]:
-        if x is not None:
-            xy = x
-        else:
-            xy = side
-
+        xy = y if y is not None else side
+    elif side in {"west", "east"}:
+        xy = x if x is not None else side
         func_route = route_ports_to_x
     else:
         raise ValueError(f"side = {side} not valid (north, south, west, east)")
@@ -114,33 +127,35 @@ def route_ports_to_x(
     routing_func: Callable = get_route,
     backward_port_side_split_index: int = 0,
     start_straight_length: float = 0.01,
+    dx_start: Optional[float] = None,
+    dy_start: Optional[float] = None,
     **routing_func_args,
 ) -> Tuple[List[Route], List[Port]]:
-    """
+    """Returns route to x.
+
     Args:
-        list_ports: reasonably well behaved list of ports
-           i.e
+        list_ports: reasonably well behaved list of ports.
            ports facing north ports are norther than any other ports
            ports facing south ports are souther ...
            ports facing west ports are the wester ...
            ports facing east ports are the easter ...
-        x: float or string:
+        x: float or string.
            if float: x coordinate to which the ports will be routed
            if string: "east" -> route to east
            if string: "west" -> route to west
-        separation:
-        radius
-        extend_bottom
-        extend_top
-        extension_length
-        y0_bottom
-        y0_top
-        routing_func:
-        backward_port_side_split_index: integer
-           this integer represents and index in the list of backwards ports
-                    (bottom to top)
+        separation: in um.
+        radius: in um.
+        extend_bottom: in um.
+        extend_top: in um.
+        extension_length: in um.
+        y0_bottom: in um.
+        y0_top: in um.
+        routing_func: to route.
+        backward_port_side_split_index: integer represents and index in the list of backwards ports (bottom to top)
                 all ports with an index strictly lower or equal are routed bottom
             all ports with an index larger or equal are routed top
+        dx_start: override minimum starting x distance.
+        dy_start: override minimum starting y distance.
 
     Returns:
         routes: list of routes
@@ -152,32 +167,35 @@ def route_ports_to_x(
     4. north ports
 
     """
-
-    north_ports = [p for p in list_ports if p.angle == 90]
-    south_ports = [p for p in list_ports if p.angle == 270]
-    east_ports = [p for p in list_ports if p.angle == 0]
-    west_ports = [p for p in list_ports if p.angle == 180]
+    north_ports = [p for p in list_ports if p.orientation == 90]
+    south_ports = [p for p in list_ports if p.orientation == 270]
+    east_ports = [p for p in list_ports if p.orientation == 0]
+    west_ports = [p for p in list_ports if p.orientation == 180]
 
     epsilon = 1.0
     a = epsilon + max(radius, separation)
+    bx = epsilon + max(radius, dx_start) if dx_start else a
+    by = epsilon + max(radius, dy_start) if dy_start else a
+
     xs = [p.x for p in list_ports]
     ys = [p.y for p in list_ports]
 
     if y0_bottom is None:
-        y0_bottom = min(ys) - a
+        y0_bottom = min(ys) - by
+
     y0_bottom -= extend_bottom
 
     if y0_top is None:
-        y0_top = max(ys) + a
+        y0_top = max(ys) + (max(radius, dy_start) if dy_start else a)
     y0_top += extend_top
 
     if x == "west" and extension_length > 0:
         extension_length = -extension_length
 
     if x == "east":
-        x = max([p.x for p in list_ports]) + a
+        x = max(p.x for p in list_ports) + bx
     elif x == "west":
-        x = min([p.x for p in list_ports]) - a
+        x = min(p.x for p in list_ports) - bx
     elif isinstance(x, (float, int)):
         pass
     else:
@@ -205,7 +223,7 @@ def route_ports_to_x(
     forward_ports.sort(key=sort_key_south_to_north)
 
     backward_ports.sort(key=sort_key_south_to_north)
-    backward_ports_thru_south = backward_ports[0:backward_port_side_split_index]
+    backward_ports_thru_south = backward_ports[:backward_port_side_split_index]
     backward_ports_thru_north = backward_ports[backward_port_side_split_index:]
     backward_ports_thru_south.sort(key=sort_key_south_to_north)
     backward_ports_thru_north.sort(key=sort_key_north_to_south)
@@ -215,10 +233,10 @@ def route_ports_to_x(
 
     def add_port(
         p, y, l_elements, l_ports, start_straight_length=start_straight_length
-    ):
-        new_port = p.copy()
-        new_port.angle = angle
-        new_port.position = (x + extension_length, y)
+    ) -> None:
+        new_port = p.copy(name=f"{p.name}_new")
+        new_port.orientation = angle
+        new_port.center = (x + extension_length, y)
         l_elements += [
             routing_func(
                 p,
@@ -228,7 +246,7 @@ def route_ports_to_x(
                 **routing_func_args,
             )
         ]
-        l_ports += [flipped(new_port)]
+        l_ports += [new_port.flip()]
 
     y_optical_bot = y0_bottom
     for p in south_ports:
@@ -302,19 +320,19 @@ def route_ports_to_y(
     routing_func: Callable = get_route,
     backward_port_side_split_index: int = 0,
     start_straight_length: float = 0.01,
+    dx_start: float = None,
+    dy_start: float = None,
     **routing_func_args: Dict[Any, Any],
 ) -> Tuple[List[Route], List[Port]]:
-    """
+    """Args are the following.
 
-    Args:
-        list_ports: reasonably well behaved list of ports
-           i.e
+        list_ports: reasonably well behaved list of ports.
            ports facing north ports are norther than any other ports
            ports facing south ports are souther ...
            ports facing west ports are the wester ...
            ports facing east ports are the easter ...
 
-        y: float or string:
+        y: float or string.
                if float: y coordinate to which the ports will be routed
                if string: "north" -> route to north
                if string: "south" -> route to south
@@ -324,8 +342,8 @@ def route_ports_to_y(
                    (sorted from left to right)
                all ports with an index strictly larger are routed right
                all ports with an index lower or equal are routed left
-        separation:
-        radius
+        separation: in um.
+        radius: in um.
 
     Returns:
         - a list of Routes
@@ -337,42 +355,57 @@ def route_ports_to_y(
     then the front ports
     then the north ports
     """
-
     if y == "south" and extension_length > 0:
         extension_length = -extension_length
 
     da = 45
-    north_ports = [p for p in list_ports if p.angle > 90 - da and p.angle < 90 + da]
-    south_ports = [p for p in list_ports if p.angle > 270 - da and p.angle < 270 + da]
-    east_ports = [p for p in list_ports if p.angle < da or p.angle > 360 - da]
-    west_ports = [p for p in list_ports if p.angle < 180 + da and p.angle > 180 - da]
+    north_ports = [
+        p for p in list_ports if p.orientation > 90 - da and p.orientation < 90 + da
+    ]
+    south_ports = [
+        p for p in list_ports if p.orientation > 270 - da and p.orientation < 270 + da
+    ]
+    east_ports = [
+        p for p in list_ports if p.orientation < da or p.orientation > 360 - da
+    ]
+    west_ports = [
+        p for p in list_ports if p.orientation < 180 + da and p.orientation > 180 - da
+    ]
 
     epsilon = 1.0
     a = radius + max(radius, separation)
+    bx = epsilon + max(radius, dx_start) if dx_start else a
+    by = epsilon + max(radius, dy_start) if dy_start else a
+
     xs = [p.x for p in list_ports]
     ys = [p.y for p in list_ports]
 
-    x0_right = x0_right or max(xs) + a
-    x0_right += extend_right
-    x0_left = x0_left or min(xs) - a
+    if x0_left is None:
+        x0_left = min(xs) - bx
     x0_left -= extend_left
+
+    if x0_right is None:
+        x0_right = max(xs) + (max(radius, dx_start) if dx_start else a)
+    x0_right += extend_right
 
     if y == "north":
         y = (
-            max([p.y + a * np.abs(np.cos(p.angle * np.pi / 180)) for p in list_ports])
-            + epsilon
+            max(
+                p.y + a * np.abs(np.cos(p.orientation * np.pi / 180))
+                for p in list_ports
+            )
+            + by
         )
     elif y == "south":
         y = (
-            min([p.y - a * np.abs(np.cos(p.angle * np.pi / 180)) for p in list_ports])
-            - epsilon
+            min(
+                p.y - a * np.abs(np.cos(p.orientation * np.pi / 180))
+                for p in list_ports
+            )
+            - by
         )
-    elif isinstance(y, float):
+    elif isinstance(y, (float, int)):
         pass
-    else:
-        pass
-        # raise ValueError('``y`` should be a float or "north" or "south"')
-
     if y <= min(ys):
         sort_key_east = sort_key_south_to_north
         sort_key_west = sort_key_south_to_north
@@ -395,7 +428,7 @@ def route_ports_to_y(
     backward_ports.sort(key=sort_key_east_to_west)
 
     backward_ports.sort(key=sort_key_west_to_east)
-    backward_ports_thru_west = backward_ports[0:backward_port_side_split_index]
+    backward_ports_thru_west = backward_ports[:backward_port_side_split_index]
     backward_ports_thru_east = backward_ports[backward_port_side_split_index:]
 
     backward_ports_thru_west.sort(key=sort_key_west_to_east)
@@ -408,10 +441,10 @@ def route_ports_to_y(
         p, x, l_elements, l_ports, start_straight_length=start_straight_length
     ):
         new_port = p.copy()
-        new_port.angle = angle
-        new_port.position = (x, y + extension_length)
+        new_port.orientation = angle
+        new_port.center = (x, y + extension_length)
 
-        if np.sum(np.abs((new_port.position - p.position) ** 2)) < 1e-12:
+        if np.sum(np.abs((new_port.center - p.center) ** 2)) < 1e-12:
             l_ports += [flipped(new_port)]
             return
 
@@ -427,13 +460,10 @@ def route_ports_to_y(
             ]
             l_ports += [flipped(new_port)]
 
-        except Exception as e:
-            print("**************************")
-            print("Could not connect")
-            print(p)
-            print(new_port)
-            print("**************************")
-            raise e
+        except Exception as error:
+            raise ValueError(
+                f"Could not connect {p.name!r} to {new_port.name!r}"
+            ) from error
 
     x_optical_left = x0_left
     for p in west_ports:
@@ -486,19 +516,21 @@ def _sample_route_side() -> Component:
     yb = min(ys) - a
     yt = max(ys) + a
 
-    c.add_polygon([(xl, yb), (xl, yt), (xr, yt), (xr, yb)], LAYER.WG)
+    layer = (1, 0)
+
+    c.add_polygon([(xl, yb), (xl, yt), (xr, yt), (xr, yb)], layer)
 
     for i, y in enumerate(ys):
         p0 = (xl, y)
         p1 = (xr, y)
-        c.add_port(name="W{}".format(i), midpoint=p0, orientation=180, width=0.5)
-        c.add_port(name="E{}".format(i), midpoint=p1, orientation=0, width=0.5)
+        c.add_port(name=f"W{i}", center=p0, orientation=180, width=0.5, layer=layer)
+        c.add_port(name=f"E{i}", center=p1, orientation=0, width=0.5, layer=layer)
 
     for i, x in enumerate(xs):
         p0 = (x, yb)
         p1 = (x, yt)
-        c.add_port(name="S{}".format(i), midpoint=p0, orientation=270, width=0.5)
-        c.add_port(name="N{}".format(i), midpoint=p1, orientation=90, width=0.5)
+        c.add_port(name=f"S{i}", center=p0, orientation=270, width=0.5, layer=layer)
+        c.add_port(name=f"N{i}", center=p1, orientation=90, width=0.5, layer=layer)
 
     return c
 
@@ -506,13 +538,13 @@ def _sample_route_side() -> Component:
 @gf.cell
 def _sample_route_sides() -> Component:
     c = Component()
-    _dummy_t = _sample_route_side()
+    dummy = _sample_route_side()
     sides = ["north", "south", "east", "west"]
     positions = [(0, 0), (400, 0), (400, 400), (0, 400)]
     for pos, side in zip(positions, sides):
-        dummy_ref = _dummy_t.ref(position=pos)
+        dummy_ref = dummy.ref(position=pos)
         c.add(dummy_ref)
-        routes, ports = route_ports_to_side(dummy_ref, side, layer=(2, 0))
+        routes, ports = route_ports_to_side(dummy_ref, side, layer=(1, 0))
         for route in routes:
             c.add(route.references)
         for i, p in enumerate(ports):
@@ -521,16 +553,20 @@ def _sample_route_sides() -> Component:
 
 
 if __name__ == "__main__":
-    c = Component()
-    _dummy_t = _sample_route_side()
+    c = Component("sample_route_sides")
+    dummy = gf.components.nxn(north=2, south=2, west=2, east=2)
     sides = ["north", "south", "east", "west"]
-    positions = [(0, 0), (400, 0), (400, 400), (0, 400)]
+    d = 100
+    positions = [(0, 0), (d, 0), (d, d), (0, d)]
+
     for pos, side in zip(positions, sides):
-        dummy_ref = _dummy_t.ref(position=pos)
+        dummy_ref = dummy.ref(position=pos)
         c.add(dummy_ref)
-        routes, ports = route_ports_to_side(dummy_ref, side, layer=(2, 0))
+        routes, ports = route_ports_to_side(dummy_ref, side, layer=(1, 0))
         for route in routes:
             c.add(route.references)
         for i, p in enumerate(ports):
             c.add_port(name=f"{side[0]}{i}", port=p)
-    c.show()
+
+    # c.plot()
+    c.show(show_ports=True)

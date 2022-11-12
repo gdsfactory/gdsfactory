@@ -10,7 +10,7 @@ get_bundle calls different function depending on the port orientation.
 
 """
 from functools import partial
-from typing import Callable, List, Optional, Union, cast
+from typing import Callable, List, Optional, Union
 
 import numpy as np
 from numpy import ndarray
@@ -19,19 +19,26 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
+from gdsfactory.components.via_corner import via_corner
 from gdsfactory.components.wire import wire_corner
-from gdsfactory.config import TECH
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
 from gdsfactory.routing.get_bundle_corner import get_bundle_corner
+from gdsfactory.routing.get_bundle_from_steps import get_bundle_from_steps
+from gdsfactory.routing.get_bundle_from_waypoints import get_bundle_from_waypoints
+from gdsfactory.routing.get_bundle_sbend import get_bundle_sbend
 from gdsfactory.routing.get_bundle_u import get_bundle_udirect, get_bundle_uindirect
 from gdsfactory.routing.get_route import get_route, get_route_from_waypoints
 from gdsfactory.routing.manhattan import generate_manhattan_waypoints
+from gdsfactory.routing.path_length_matching import path_length_matched_points
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
-from gdsfactory.types import ComponentFactory, CrossSectionFactory, Number, Route
-
-METAL_MIN_SEPARATION = TECH.metal_spacing
+from gdsfactory.types import (
+    ComponentSpec,
+    CrossSectionSpec,
+    MultiCrossSectionAngleSpec,
+    Route,
+)
 
 
 def get_bundle(
@@ -39,28 +46,88 @@ def get_bundle(
     ports2: List[Port],
     separation: float = 5.0,
     extension_length: float = 0.0,
-    straight: ComponentFactory = straight_function,
-    bend: ComponentFactory = bend_euler,
+    straight: ComponentSpec = straight_function,
+    bend: ComponentSpec = bend_euler,
+    with_sbend: bool = False,
     sort_ports: bool = True,
-    end_straight_length: float = 0.0,
-    start_straight_length: Optional[float] = None,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = "strip",
     **kwargs,
 ) -> List[Route]:
-    """Connects a bundle of ports with a river router.
-    Chooses the correct u_bundle to use based on port angles
+    """Returns list of routes to connect two groups of ports.
+
+    Routes connect a bundle of ports with a river router.
+    Chooses the correct routing function depending on port angles.
 
     Args:
-        ports1: should all be facing in the same direction
-        ports2: should all be facing in the same direction
-        separation: bundle separation (center to center)
-        extension_length: adds straight extension
-        bend:
-        sort_ports:
-        end_straight_length:
-        start_straight_length:
-        cross_section:
-        **kwargs: cross_section settings
+        ports1: list of starting ports.
+        ports2: list of end ports.
+        separation: bundle separation (center to center).
+        extension_length: adds straight extension.
+        bend: function for the bend. Defaults to euler.
+        with_sbend: use s_bend routing when there is no space for manhattan routing.
+        sort_ports: sort port coordinates.
+        cross_section: CrossSection or function that returns a cross_section.
+
+    Keyword Args:
+        width: main layer waveguide width (um).
+        layer: main layer for waveguide.
+        width_wide: wide waveguides width (um) for low loss routing.
+        auto_widen: taper to wide waveguides for low loss routing.
+        auto_widen_minimum_length: minimum straight length for auto_widen.
+        taper_length: taper_length for auto_widen.
+        bbox_layers: list of layers for rectangular bounding box.
+        bbox_offsets: list of bounding box offsets.
+        cladding_layers: list of layers to extrude.
+        cladding_offsets: list of offset from main Section edge.
+        radius: bend radius (um).
+        sections: list of Sections(width, offset, layer, ports).
+        port_names: for input and output ('o1', 'o2').
+        port_types: for input and output: electrical, optical, vertical_te ...
+        min_length: defaults to 1nm = 10e-3um for routing.
+        start_straight_length: straight length at the beginning of the route.
+        end_straight_length: end length at the beginning of the route.
+        snap_to_grid: can snap points to grid when extruding the path.
+        steps: specify waypoint steps to route using get_bundle_from_steps.
+        waypoints: specify waypoints to route using get_bundle_from_steps.
+        path_length_match_loops: Integer number of loops to add to bundle
+            for path length matching (won't try to match if None).
+        path_length_match_extra_length: Extra length to add
+            to path length matching loops (requires path_length_match_loops != None).
+        path_length_match_modify_segment_i: Index of straight segment to add path
+            length matching loops to (requires path_length_match_loops != None).
+
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        @gf.cell
+        def test_north_to_south():
+            dy = 200.0
+            xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
+
+            pitch = 10.0
+            N = len(xs1)
+            xs2 = [-20 + i * pitch for i in range(N // 2)]
+            xs2 += [400 + i * pitch for i in range(N // 2)]
+
+            a1 = 90
+            a2 = a1 + 180
+
+            ports1 = [gf.Port(f"top_{i}", center=(xs1[i], +0), width=0.5, orientation=a1, layer=(1,0)) for i in range(N)]
+            ports2 = [gf.Port(f"bot_{i}", center=(xs2[i], dy), width=0.5, orientation=a2, layer=(1,0)) for i in range(N)]
+
+            c = gf.Component()
+            routes = gf.routing.get_bundle(ports1, ports2)
+            for route in routes:
+                c.add(route.references)
+
+            return c
+
+
+        gf.config.set_plot_options(show_subports=False)
+        c = test_north_to_south()
+        c.plot()
 
     """
     # convert single port to list
@@ -78,43 +145,37 @@ def get_bundle(
         ports2 = list(ports2.values())
 
     for p in ports1:
-        p.angle = int(p.angle) % 360
+        p.orientation = (
+            int(p.orientation) % 360 if p.orientation is not None else p.orientation
+        )
 
     for p in ports2:
-        p.angle = int(p.angle) % 360
+        p.orientation = (
+            int(p.orientation) % 360 if p.orientation is not None else p.orientation
+        )
 
     if len(ports1) != len(ports2):
         raise ValueError(f"ports1={len(ports1)} and ports2={len(ports2)} must be equal")
 
-    ports1 = cast(List[Port], ports1)
-    ports2 = cast(List[Port], ports2)
-
-    x = cross_section(**kwargs)
-    start_straight_length = start_straight_length or x.info.get("min_length")
-
     if sort_ports:
         ports1, ports2 = sort_ports_function(ports1, ports2)
 
-    start_port_angles = set([p.angle for p in ports1])
+    start_port_angles = {p.orientation for p in ports1}
     if len(start_port_angles) > 1:
-        raise ValueError(
-            "All start port angles should be the same", f"Got {start_port_angles}"
-        )
+        raise ValueError(f"All start port angles {start_port_angles} must be equal")
 
     params = {
         "ports1": ports1,
         "ports2": ports2,
         "separation": separation,
-        "start_straight_length": start_straight_length,
-        "end_straight_length": end_straight_length,
         "bend": bend,
         "straight": straight,
         "cross_section": cross_section,
     }
     params.update(**kwargs)
 
-    start_angle = ports1[0].angle
-    end_angle = ports2[0].angle
+    start_angle = ports1[0].orientation
+    end_angle = ports2[0].orientation
 
     start_axis = "X" if start_angle in [0, 180] else "Y"
     end_axis = "X" if end_angle in [0, 180] else "Y"
@@ -125,36 +186,42 @@ def get_bundle(
     y_start = np.mean([p.y for p in ports1])
     y_end = np.mean([p.y for p in ports2])
 
-    if start_axis == end_axis:
-        if (
-            start_angle == 0
-            and end_angle == 180
-            and x_start < x_end
-            or start_angle == 180
-            and end_angle == 0
-            and x_start > x_end
-            or start_angle == 90
-            and end_angle == 270
-            and y_start < y_end
-            or start_angle == 270
-            and end_angle == 90
-            and y_start > y_end
-        ):
-            # print("get_bundle_same_axis")
-            return get_bundle_same_axis(**params)
+    if "steps" in kwargs:
+        return get_bundle_from_steps(**params)
 
-        elif start_angle == end_angle:
-            # print('get_bundle_udirect')
-            return get_bundle_udirect(**params)
+    elif "waypoints" in kwargs:
+        return get_bundle_from_waypoints(**params)
 
-        elif end_angle == (start_angle + 180) % 360:
-            # print('get_bundle_uindirect')
-            return get_bundle_uindirect(extension_length=extension_length, **params)
-        else:
-            raise NotImplementedError("This should never happen")
-
-    else:
+    if start_axis != end_axis:
         return get_bundle_corner(**params)
+    if (
+        start_angle == 0
+        and end_angle == 180
+        and x_start < x_end
+        or start_angle == 180
+        and end_angle == 0
+        and x_start > x_end
+        or start_angle == 90
+        and end_angle == 270
+        and y_start < y_end
+        or start_angle == 270
+        and end_angle == 90
+        and y_start > y_end
+    ):
+        # print("get_bundle_same_axis")
+        if with_sbend:
+            return get_bundle_sbend(ports1, ports2, sort_ports=sort_ports, **kwargs)
+        return get_bundle_same_axis(**params)
+
+    elif start_angle == end_angle:
+        # print('get_bundle_udirect')
+        return get_bundle_udirect(**params)
+
+    elif end_angle == (start_angle + 180) % 360:
+        # print('get_bundle_uindirect')
+        return get_bundle_uindirect(extension_length=extension_length, **params)
+    else:
+        raise NotImplementedError("This should never happen")
 
 
 def get_port_width(port: Port) -> Union[float, int]:
@@ -162,19 +229,17 @@ def get_port_width(port: Port) -> Union[float, int]:
 
 
 def are_decoupled(
-    x1: Number,
-    x1p: Number,
-    x2: Number,
-    x2p: Number,
-    sep: float = METAL_MIN_SEPARATION,
+    x1: float,
+    x1p: float,
+    x2: float,
+    x2p: float,
+    sep: Union[str, float] = "metal_spacing",
 ) -> bool:
+
+    sep = gf.get_constant(sep)
     if x2p + sep > x1:
         return False
-    if x2 < x1p + sep:
-        return False
-    if x2 < x1p - sep:
-        return False
-    return True
+    return False if x2 < x1p + sep else x2 >= x1p - sep
 
 
 def get_bundle_same_axis(
@@ -183,26 +248,33 @@ def get_bundle_same_axis(
     separation: float = 5.0,
     end_straight_length: float = 0.0,
     start_straight_length: float = 0.0,
-    bend: ComponentFactory = bend_euler,
+    bend: ComponentSpec = bend_euler,
     sort_ports: bool = True,
-    cross_section: CrossSectionFactory = strip,
+    path_length_match_loops: Optional[int] = None,
+    path_length_match_extra_length: float = 0.0,
+    path_length_match_modify_segment_i: int = -2,
+    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
     **kwargs,
 ) -> List[Route]:
     r"""Semi auto-routing for two lists of ports.
 
     Args:
-        ports1: first list of ports
-        ports2: second list of ports
-        separation: minimum separation between two straights
-        axis: specifies "X" or "Y"
-            X (resp. Y) -> indicates that the ports should be sorted and
-            compared using the X (resp. Y) axis
-        route_filter: filter to apply to the manhattan waypoints
-            e.g `get_route_from_waypoints` for deep etch strip straight
-        end_straight_length: offset to add at the end of each straight
+        ports1: first list of ports.
+        ports2: second list of ports.
+        separation: minimum separation between two straights.
+        end_straight_length: offset to add at the end of each straight.
+        start_straight_length: in um.
+        bend: spec.
         sort_ports: sort the ports according to the axis.
-        cross_section: cross_section
-        kwargs: cross_section settings
+        path_length_match_loops: Integer number of loops to add to bundle
+            for path length matching (won't try to match if None).
+        path_length_match_extra_length: Extra length to add
+            to path length matching loops (requires path_length_match_loops != None).
+        path_length_match_modify_segment_i: Index of straight segment to add path
+            length matching loops to (requires path_length_match_loops != None).
+        cross_section: CrossSection or function that returns a cross_section.
+        kwargs: cross_section settings.
+
 
     Returns:
         `[route_filter(r) for r in routes]` list of lists of coordinates
@@ -241,6 +313,8 @@ def get_bundle_same_axis(
     This method deals with different metal track/wg/wire widths too.
 
     """
+    if "straight" in kwargs:
+        _ = kwargs.pop("straight")
     assert len(ports1) == len(
         ports2
     ), f"ports1={len(ports1)} and ports2={len(ports2)} must be equal"
@@ -257,6 +331,17 @@ def get_bundle_same_axis(
         start_straight_length=start_straight_length,
         **kwargs,
     )
+    if path_length_match_loops:
+        routes = [np.array(route) for route in routes]
+        routes = path_length_matched_points(
+            routes,
+            extra_length=path_length_match_extra_length,
+            bend=bend,
+            nb_loops=path_length_match_loops,
+            modify_segment_i=path_length_match_modify_segment_i,
+            cross_section=cross_section,
+            **kwargs,
+        )
     return [
         get_route_from_waypoints(
             route,
@@ -275,22 +360,22 @@ def _get_bundle_waypoints(
     end_straight_length: float = 0.0,
     tol: float = 0.00001,
     start_straight_length: float = 0.0,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> List[ndarray]:
-    """Returns route coordinates List
+    """Returns route coordinates List.
 
     Args:
-        ports1: list of starting ports
-        ports2: list of end ports
-        separation: route spacing
-        end_straight_length: adds a straigth
-        tol: tolerance
-        start_straight_length: length of straight
-        cross_section: cross_section
-        kwargs: cross_section settings
-    """
+        ports1: list of starting ports.
+        ports2: list of end ports.
+        separation: route spacing.
+        end_straight_length: adds a straight.
+        tol: tolerance.
+        start_straight_length: length of straight.
+        cross_section: CrossSection or function that returns a cross_section.
+        kwargs: cross_section settings.
 
+    """
     if not ports1 and not ports2:
         return []
 
@@ -298,15 +383,11 @@ def _get_bundle_waypoints(
         ports2
     ), f"ports1={len(ports1)} and ports2={len(ports2)} must be equal"
 
-    if len(ports1) == 0 or len(ports2) == 0:
+    if not ports1 or not ports2:
         print(f"WARNING! ports1={ports1} or ports2={ports2} are empty")
         return []
 
-    if ports1[0].angle in [0, 180]:
-        axis = "X"
-    else:
-        axis = "Y"
-
+    axis = "X" if ports1[0].orientation in [0, 180] else "Y"
     if len(ports1) == 1 and len(ports2) == 1:
         return [
             generate_manhattan_waypoints(
@@ -319,8 +400,6 @@ def _get_bundle_waypoints(
             )
         ]
 
-    elems = []
-
     # Contains end_straight of tracks which need to be adjusted together
     end_straights_in_group = []
 
@@ -328,9 +407,8 @@ def _get_bundle_waypoints(
     end_straights = []
 
     # Keep track of how many ports should be routed together
-    number_o_connectors_in_group = 0
 
-    if axis in ["X", "x"]:
+    if axis in {"X", "x"}:
         x1_prev = get_port_y(ports1[0])
         x2_prev = get_port_y(ports2[0])
         y0 = get_port_x(ports2[0])
@@ -350,7 +428,7 @@ def _get_bundle_waypoints(
 
     # First pass - loop on all the ports to find the tentative end_straights
     for i in range(len(ports1)):
-        if axis in ["X", "x"]:
+        if axis in {"X", "x"}:
             x1 = get_port_y(ports1[i])
             x2 = get_port_y(ports2[i])
             y = get_port_x(ports2[i])
@@ -358,8 +436,6 @@ def _get_bundle_waypoints(
             x1 = get_port_x(ports1[i])
             x2 = get_port_x(ports2[i])
             y = get_port_y(ports2[i])
-
-        dx = abs(x2 - x1)
 
         if are_decoupled(x2, x2_prev, x1, x1_prev, sep=separation):
             # If this metal track does not impact the previous one, then start a new
@@ -370,16 +446,13 @@ def _get_bundle_waypoints(
             # Start new group
             end_straights_in_group = []
             curr_end_straight = 0
-            number_o_connectors_in_group = 0
 
+        elif x2 >= x1:
+            curr_end_straight += separation
         else:
-            if x2 >= x1:
-                curr_end_straight += separation
-            else:
-                curr_end_straight -= separation
+            curr_end_straight -= separation
 
         end_straights_in_group.append(curr_end_straight + (y - y0) * s)
-        number_o_connectors_in_group += 1
 
         x1_prev = x1
         x2_prev = x2
@@ -391,45 +464,21 @@ def _get_bundle_waypoints(
 
     # Second pass - route the ports pairwise
     N = len(ports1)
-    for i in range(N):
-        if axis in ["X", "x"]:
-            x1 = get_port_y(ports1[i])
-            x2 = get_port_y(ports2[i])
-        else:
-            x1 = get_port_x(ports1[i])
-            x2 = get_port_x(ports2[i])
-
-        dx = abs(x2 - x1)
-
-        # If both ports are aligned, we just need a straight line
-        if dx < tol:
-            elems += [
-                generate_manhattan_waypoints(
-                    ports1[i],
-                    ports2[i],
-                    start_straight_length=start_straight_length,
-                    end_straight_length=end_straights[i],
-                    cross_section=cross_section,
-                    **kwargs,
-                )
-            ]
-
-        else:
-            elems += [
-                generate_manhattan_waypoints(
-                    ports1[i],
-                    ports2[i],
-                    start_straight_length=start_straight_length,
-                    end_straight_length=end_straights[i],
-                    cross_section=cross_section,
-                    **kwargs,
-                )
-            ]
-    return elems
+    return [
+        generate_manhattan_waypoints(
+            ports1[i],
+            ports2[i],
+            start_straight_length=start_straight_length,
+            end_straight_length=end_straights[i],
+            cross_section=cross_section,
+            **kwargs,
+        )
+        for i in range(N)
+    ]
 
 
-def compute_ports_max_displacement(ports1: List[Port], ports2: List[Port]) -> Number:
-    if ports1[0].angle in [0, 180]:
+def compute_ports_max_displacement(ports1: List[Port], ports2: List[Port]) -> float:
+    if ports1[0].orientation in [0, 180]:
         a1 = [p.y for p in ports1]
         a2 = [p.y for p in ports2]
     else:
@@ -439,11 +488,8 @@ def compute_ports_max_displacement(ports1: List[Port], ports2: List[Port]) -> Nu
     return max(abs(max(a1) - min(a2)), abs(min(a1) - max(a2)))
 
 
-def sign(x: Number) -> int:
-    if x > 0:
-        return 1
-    else:
-        return -1
+def sign(x: float) -> int:
+    return 1 if x > 0 else -1
 
 
 def get_min_spacing(
@@ -453,20 +499,14 @@ def get_min_spacing(
     radius: float = 5.0,
     sort_ports: bool = True,
 ) -> float:
-    """
-    Returns the minimum amount of spacing required to create a given fanout"
-    """
-
-    if ports1[0].angle in [0, 180]:
-        axis = "X"
-    else:
-        axis = "Y"
-
+    """Returns the minimum amount of spacing in um required to create a \
+    fanout."""
+    axis = "X" if ports1[0].orientation in [0, 180] else "Y"
     j = 0
     min_j = 0
     max_j = 0
     if sort_ports:
-        if axis in ["X", "x"]:
+        if axis in {"X", "x"}:
             ports1.sort(key=get_port_y)
             ports2.sort(key=get_port_y)
         else:
@@ -474,7 +514,7 @@ def get_min_spacing(
             ports2.sort(key=get_port_x)
 
     for port1, port2 in zip(ports1, ports2):
-        if axis in ["X", "x"]:
+        if axis in {"X", "x"}:
             x1 = get_port_y(ports1)
             x2 = get_port_y(port2)
         else:
@@ -501,7 +541,7 @@ def get_bundle_same_axis_no_grouping(
     start_straight_length: Optional[float] = None,
     end_straight_length: Optional[float] = None,
     sort_ports: bool = True,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     **kwargs,
 ) -> List[Route]:
     r"""Returns a list of route elements.
@@ -537,26 +577,23 @@ def get_bundle_same_axis_no_grouping(
         (as seen on the last 3 right ports)
 
     Args:
-        ports1: first list of optical ports
-        ports2: second list of optical ports
-        axis: specifies "X" or "Y" direction along which the port is going
-        route_filter: ManhattanExpandedWgConnector or ManhattanWgConnector
-            or any other connector function with the same input
-        radius: bend radius. If unspecified, uses the default radius
-        start_straight_length: offset on the starting length before the first bend
-        end_straight_length: offset on the ending length after the last bend
-        sort_ports: True -> sort the ports according to the axis. False -> no sort applied
+        ports1: first list of optical ports.
+        ports2: second list of optical ports.
+        axis: specifies "X" or "Y" direction along which the port is going.
+        route_filter: ManhattanExpandedWgConnector or ManhattanWgConnector.
+            or any other connector function with the same input.
+        radius: bend radius. If unspecified, uses the default radius.
+        start_straight_length: offset on the starting length before the first bend.
+        end_straight_length: offset on the ending length after the last bend.
+        sort_ports: True -> sort the ports according to the axis.
+            False -> no sort applied.
+        cross_section: CrossSection or function that returns a cross_section.
 
     Returns:
-        a list of routes the connecting straights
+        a list of routes the connecting straights.
 
     """
-
-    if ports1[0].angle in [0, 180]:
-        axis = "X"
-    else:
-        axis = "Y"
-
+    axis = "X" if ports1[0].orientation in [0, 180] else "Y"
     elems = []
     j = 0
 
@@ -565,8 +602,7 @@ def get_bundle_same_axis_no_grouping(
     max_j = 0
 
     if sort_ports:
-        # Sort ports according to X or Y
-        if axis in ["X", "x"]:
+        if axis in {"X", "x"}:
             ports1.sort(key=get_port_y)
             ports2.sort(key=get_port_y)
         else:
@@ -575,12 +611,12 @@ def get_bundle_same_axis_no_grouping(
 
     # Compute max_j and min_j
     for i in range(len(ports1)):
-        if axis in ["X", "x"]:
-            x1 = ports1[i].position[1]
-            x2 = ports2[i].position[1]
+        if axis in {"X", "x"}:
+            x1 = ports1[i].center[1]
+            x2 = ports2[i].center[1]
         else:
-            x1 = ports1[i].position[0]
-            x2 = ports2[i].position[0]
+            x1 = ports1[i].center[0]
+            x2 = ports2[i].center[0]
         if x2 >= x1:
             j += 1
         else:
@@ -603,12 +639,12 @@ def get_bundle_same_axis_no_grouping(
     # Do case with wire direct if the ys are close to each other
     for i, _ in enumerate(ports1):
 
-        if axis in ["X", "x"]:
-            x1 = ports1[i].position[1]
-            x2 = ports2[i].position[1]
+        if axis in {"X", "x"}:
+            x1 = ports1[i].center[1]
+            x2 = ports2[i].center[1]
         else:
-            x1 = ports1[i].position[0]
-            x2 = ports2[i].position[0]
+            x1 = ports1[i].center[0]
+            x2 = ports2[i].center[0]
 
         s_straight = start_straight_length - j * sep
         e_straight = j * sep + end_straight_length
@@ -632,7 +668,16 @@ def get_bundle_same_axis_no_grouping(
 
 
 get_bundle_electrical = partial(
-    get_bundle, bend=wire_corner, cross_section=gf.cross_section.metal3
+    get_bundle, bend=wire_corner, cross_section="metal_routing"
+)
+
+get_bundle_electrical_multilayer = gf.partial(
+    get_bundle,
+    bend=via_corner,
+    cross_section=[
+        (gf.cross_section.metal2, (90, 270)),
+        ("metal_routing", (0, 180)),
+    ],
 )
 
 
@@ -645,12 +690,13 @@ def test_get_bundle_small() -> Component:
     routes = get_bundle(
         [c1.ports["o3"], c1.ports["o4"]],
         [c2.ports["o1"], c2.ports["o2"]],
-        radius=5,
         separation=5.0,
+        cross_section=gf.cross_section.strip(radius=5, layer=(2, 0))
+        # cross_section=gf.cross_section.strip,
     )
     for route in routes:
-        assert np.isclose(route.length, 111.136), route.length
         c.add(route.references)
+        assert np.isclose(route.length, 111.136), route.length
     return c
 
 
@@ -658,13 +704,31 @@ if __name__ == "__main__":
 
     # c = test_connect_corner(None, check=False)
     # c = test_get_bundle_small()
-    c = test_get_bundle_small()
+    # c = test_get_bundle_small()
     # c = test_facing_ports()
     # c = test_get_bundle_u_indirect()
     # c = test_get_bundle_udirect()
     # c = test_connect_corner()
 
-    c.show()
+    import gdsfactory as gf
+
+    c = gf.Component("get_bundle_none_orientation")
+    pt = c << gf.components.pad_array(orientation=None, columns=3)
+    pb = c << gf.components.pad_array(orientation=None, columns=3)
+    pt.move((100, 200))
+
+    routes = gf.routing.get_bundle_electrical_multilayer(
+        pb.ports,
+        pt.ports,
+        start_straight_length=1,
+        end_straight_length=10,
+        separation=30,
+    )
+
+    for route in routes:
+        c.add(route.references)
+
+    c.show(show_ports=True)
 
     # c = gf.Component()
     # c1 = c << gf.components.mmi2x2()

@@ -1,0 +1,128 @@
+name: straight_length20_width_85caa607
+settings:
+  changed:
+    component:
+      component: add_tapers
+      settings:
+        component:
+          component: straight
+          settings:
+            length: 20
+            width: 2
+    optical_routing_type: 0
+  child:
+    changed:
+      component:
+        component: straight
+        settings:
+          length: 20
+          width: 2
+    child:
+      changed:
+        length: 20
+        width: 2
+      child: null
+      default:
+        cross_section: strip
+        length: 10.0
+        npoints: 2
+        with_bbox: true
+      full:
+        cross_section: strip
+        length: 20
+        npoints: 2
+        width: 2
+        with_bbox: true
+      function_name: straight
+      info:
+        length: 20.0
+        width: 2.0
+      info_version: 2
+      module: gdsfactory.components.straight
+      name: straight_length20_width2
+    default:
+      select_ports:
+        function: select_ports
+        settings:
+          port_type: optical
+      taper:
+        function: taper
+      taper_port_name1: o1
+      taper_port_name2: o2
+    full:
+      component:
+        component: straight
+        settings:
+          length: 20
+          width: 2
+      select_ports:
+        function: select_ports
+        settings:
+          port_type: optical
+      taper:
+        function: taper
+      taper_port_name1: o1
+      taper_port_name2: o2
+    function_name: add_tapers
+    info:
+      length: 20.0
+      width: 2.0
+    info_version: 2
+    module: gdsfactory.add_tapers
+    name: straight_length20_width_13f2a4af
+  default:
+    component:
+      function: straight
+    component_name: null
+    cross_section: strip
+    gc_port_labels: null
+    gc_port_name: o1
+    get_input_labels_function:
+      function: get_input_labels
+    grating_coupler:
+      function: grating_coupler_elliptical_trenches
+      settings:
+        polarization: te
+        taper_angle: 35
+    layer_label: TEXT
+    select_ports:
+      function: select_ports
+      settings:
+        port_type: optical
+  full:
+    component:
+      component: add_tapers
+      settings:
+        component:
+          component: straight
+          settings:
+            length: 20
+            width: 2
+    component_name: null
+    cross_section: strip
+    gc_port_labels: null
+    gc_port_name: o1
+    get_input_labels_function:
+      function: get_input_labels
+    grating_coupler:
+      function: grating_coupler_elliptical_trenches
+      settings:
+        polarization: te
+        taper_angle: 35
+    layer_label: TEXT
+    optical_routing_type: 0
+    select_ports:
+      function: select_ports
+      settings:
+        port_type: optical
+  function_name: add_fiber_array
+  info:
+    grating_coupler:
+      period: 0.6759999999999999
+      polarization: te
+      wavelength: 1.53
+    length: 20.0
+    width: 2.0
+  info_version: 2
+  module: gdsfactory.routing.add_fiber_array
+  name: straight_length20_width_85caa607

@@ -1,0 +1,69 @@
+name: bend_euler_c80f6a22
+settings:
+  changed:
+    cross_section:
+      function: cross_section
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins
+        bbox_layers:
+        - - 36
+          - 0
+        bbox_offsets:
+        - 3
+        cladding_layers:
+        - DEVREC
+        cladding_offsets:
+        - 0
+        layer:
+        - 34
+        - 0
+        width: 1.0
+  child: null
+  default:
+    angle: 90.0
+    cross_section: strip
+    direction: ccw
+    npoints: 720
+    p: 0.5
+    with_arc_floorplan: true
+    with_bbox: true
+  full:
+    angle: 90.0
+    cross_section:
+      function: cross_section
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins
+        bbox_layers:
+        - - 36
+          - 0
+        bbox_offsets:
+        - 3
+        cladding_layers:
+        - DEVREC
+        cladding_offsets:
+        - 0
+        layer:
+        - 34
+        - 0
+        width: 1.0
+    direction: ccw
+    npoints: 720
+    p: 0.5
+    with_arc_floorplan: true
+    with_bbox: true
+  function_name: bend_euler
+  info:
+    dy: 10.0
+    length: 16.637
+    radius: 10.0
+    radius_min: 7.061
+    width: 1.0
+  info_version: 2
+  module: gdsfactory.components.bend_euler
+  name: bend_euler_c80f6a22

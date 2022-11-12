@@ -20,34 +20,37 @@ class GdsRegressionFixture(FileRegressionFixture):
 """
 import filecmp
 import pathlib
+import shutil
 from typing import Optional
 
-from lytest.kdb_xor import GeometryDifference, run_xor
-
 from gdsfactory.component import Component
+from gdsfactory.config import CONFIG, logger
 from gdsfactory.gdsdiff.gdsdiff import gdsdiff
-
-cwd = pathlib.Path.cwd()
 
 
 def difftest(
     component: Component,
     test_name: Optional[str] = None,
-    xor: bool = False,
-    dirpath: pathlib.Path = cwd,
+    xor: bool = True,
+    dirpath: pathlib.Path = CONFIG["gdsdiff"],
 ) -> None:
     """Avoids GDS regressions tests on the GeometryDifference.
-    Runs an XOR over a component and makes boolean comparison with a GDS reference.
-    If it runs for the fist time it just stores the GDS reference.
+
+    If files are the same it returns None. If files are different runs XOR
+    between new component and the GDS reference stored in dirpath and
     raises GeometryDifference if there are differences and show differences in klayout.
+
+    If it runs for the fist time it just stores the GDS reference.
 
 
     Args:
-        component:
-        test_name: used to store the GDS file
-        xor: runs xor if there is difference
-        dirpath: defaults to cwd refers to where the test is being invoked
+        component: to test if it has changed.
+        test_name: used to store the GDS file.
+        xor: runs xor if there is difference.
+        dirpath: defaults to cwd refers to where the test is being invoked.
+
     """
+    from lytest.kdb_xor import GeometryDifference, run_xor
 
     # containers function_name is different from component.name
     # we store the container with a different name from original component
@@ -65,9 +68,10 @@ def difftest(
     component.write_gds(gdspath=run_file)
 
     if not ref_file.exists():
-        print(f"Creating GDS reference for {component.name} in {ref_file}")
         component.write_gds(gdspath=ref_file)
-        return
+        raise AssertionError(
+            f"Reference GDS file for {test_name!r} not found. Writing to {ref_file!r}"
+        )
 
     if filecmp.cmp(ref_file, run_file, shallow=False):
         return
@@ -80,33 +84,32 @@ def difftest(
     try:
         run_xor(str(ref_file), str(run_file), tolerance=1, verbose=False)
     except GeometryDifference as error:
-        print()
-        print(error)
+        logger.error(error)
         diff = gdsdiff(ref_file, run_file, name=test_name, xor=xor)
         diff.write_gds(diff_file)
         diff.show(show_ports=False)
         print(
-            "\n"
-            + f"`{filename}` changed from reference {ref_file}\n"
-            + "You can check the differences in Klayout GUI\n"
-            + "For a detailed XOR you can run\n"
-            + f"gf gds diff --xor {ref_file} {run_file}\n"
+            f"\ngds_run {filename!r} changed from gds_ref {str(ref_file)!r}\n"
+            "You can check the differences in Klayout GUI or run XOR with\n"
+            f"gf gds diff --xor {ref_file} {run_file}\n"
         )
 
         try:
             val = input(
-                "Would you like to save current GDS as the new reference? [y/n] "
+                "Would you like to save current GDS as the new reference? [Y/n] "
             )
-            if val.upper().startswith("Y"):
-                print(f"rm {ref_file}")
-                ref_file.unlink()
+            if val.upper().startswith("N"):
+                raise
+            logger.info(f"deleting file {str(ref_file)!r}")
+            ref_file.unlink()
+            shutil.copy(run_file, ref_file)
             raise
         except OSError as exc:
             raise GeometryDifference(
                 "\n"
-                + f"`{filename}` changed from reference {ref_file}\n"
-                + "To step over each error you can run `pytest -s`\n"
-                + "So you can check the differences in Klayout GUI\n"
+                f"{filename!r} changed from reference {str(ref_file)!r}\n"
+                "To step over each error you can run `pytest -s`\n"
+                "So you can check the differences in Klayout GUI\n"
             ) from exc
 
 

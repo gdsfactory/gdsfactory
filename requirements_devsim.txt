@@ -1,0 +1,4 @@
+devsim
+mkl
+pyvista
+tidy3d-beta==1.7.1

@@ -1,75 +1,27 @@
-cells:
-  resistance_meander_d41d8cd9:
-    changed: {}
-    default:
-      gnd_layer:
-      - 49
-      - 0
-      num_squares: 1000
-      pad_layer:
-      - 49
-      - 0
-      pad_size:
-      - 50
-      - 50
-      res_layer:
-      - 49
-      - 0
-      width: 1
-    full:
-      gnd_layer:
-      - 49
-      - 0
-      num_squares: 1000
-      pad_layer:
-      - 49
-      - 0
-      pad_size:
-      - 50
-      - 50
-      res_layer:
-      - 49
-      - 0
-      width: 1
-    function_name: resistance_meander
-    info_version: 1
-    module: gdsfactory.components.resistance_meander
-    name: resistance_meander_d41d8cd9
-info:
+name: resistance_meander
+settings:
   changed: {}
+  child: null
   default:
-    gnd_layer:
-    - 49
-    - 0
+    gnd_layer: M3
     num_squares: 1000
-    pad_layer:
-    - 49
-    - 0
+    pad_layer: M3
     pad_size:
-    - 50
-    - 50
-    res_layer:
-    - 49
-    - 0
-    width: 1
+    - 50.0
+    - 50.0
+    res_layer: M3
+    width: 1.0
   full:
-    gnd_layer:
-    - 49
-    - 0
+    gnd_layer: M3
     num_squares: 1000
-    pad_layer:
-    - 49
-    - 0
+    pad_layer: M3
     pad_size:
-    - 50
-    - 50
-    res_layer:
-    - 49
-    - 0
-    width: 1
+    - 50.0
+    - 50.0
+    res_layer: M3
+    width: 1.0
   function_name: resistance_meander
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.resistance_meander
-  name: resistance_meander_d41d8cd9
-ports: {}
-version: 1
+  name: resistance_meander

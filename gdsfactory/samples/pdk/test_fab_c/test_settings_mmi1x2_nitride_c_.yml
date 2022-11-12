@@ -1,74 +1,26 @@
-cells:
-  mmi1x2_6c65a522:
-    changed:
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 1
-      decorator:
-        function: add_pins
-      width: 1
-      width_mmi: 3
-    default:
-      cross_section:
-        function: cross_section
-      gap_mmi: 0.25
-      length_mmi: 5.5
-      length_taper: 10
-      taper:
-        function: taper
-      width: 0.5
-      width_mmi: 2.5
-      width_taper: 1
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 1
-      decorator:
-        function: add_pins
-      gap_mmi: 0.25
-      length_mmi: 5.5
-      length_taper: 10
-      taper:
-        function: taper
-      width: 1
-      width_mmi: 3
-      width_taper: 1
-      with_cladding_box: true
-    function_name: mmi1x2
-    info_version: 1
-    module: gdsfactory.components.mmi1x2
-    name: mmi1x2_6c65a522
-info:
+settings:
   changed:
     cross_section:
       function: cross_section
-      layer:
-      - 34
-      - 0
-      layers_cladding:
-      - - 36
+      settings:
+        bbox_layers:
+        - - 36
+          - 0
+        bbox_offsets:
+        - 3
+        layer:
+        - 34
         - 0
-      width: 1
+        width: 1
     decorator:
       function: add_pins
     width: 1
     width_mmi: 3
+  child: null
   default:
     cross_section:
       function: cross_section
+      settings: {}
     gap_mmi: 0.25
     length_mmi: 5.5
     length_taper: 10
@@ -77,17 +29,19 @@ info:
     width: 0.5
     width_mmi: 2.5
     width_taper: 1
-    with_cladding_box: true
   full:
     cross_section:
       function: cross_section
-      layer:
-      - 34
-      - 0
-      layers_cladding:
-      - - 36
+      settings:
+        bbox_layers:
+        - - 36
+          - 0
+        bbox_offsets:
+        - 3
+        layer:
+        - 34
         - 0
-      width: 1
+        width: 1
     decorator:
       function: add_pins
     gap_mmi: 0.25
@@ -98,43 +52,9 @@ info:
     width: 1
     width_mmi: 3
     width_taper: 1
-    with_cladding_box: true
   function_name: mmi1x2
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.mmi1x2
-  name: mmi1x2_6c65a522
-ports:
-  o1:
-    layer:
-    - 34
-    - 0
-    midpoint:
-    - -12.75
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 1
-  o2:
-    layer:
-    - 34
-    - 0
-    midpoint:
-    - 12.75
-    - 0.625
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 1
-  o3:
-    layer:
-    - 34
-    - 0
-    midpoint:
-    - 12.75
-    - -0.625
-    name: o3
-    orientation: 0
-    port_type: optical
-    width: 1
-version: 1
+  name: mmi1x2_3898ed20
+version: 0.0.1

@@ -1,243 +1,59 @@
-cells:
-  bend_euler_3cfca9b9:
-    changed:
-      angle: 180
-      radius: 5
-    default:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    dy: 0
-    full:
-      angle: 180
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      radius: 5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    function_name: bend_euler
-    info_version: 1
-    length: 21.409
-    module: gdsfactory.components.bend_euler
-    name: bend_euler_3cfca9b9
-    radius: 5
-    radius_min: 4.543
-  component_sequence_4582aac4:
-    changed:
-      sequence: ABABABABDABABABABCABABABABDABABABABCABABABAB-_ABABABABCABABABABDABABABABCABABABABDABABABAB
-      symbol_to_component:
-        '-':
-        - straight_5b6c3269
-        - o1
-        - o2
-        A:
-        - taper_0p5_to_3_l36_d41d8cd9
-        - o1
-        - o2
-        B:
-        - taper_0p5_to_3_l36_d41d8cd9
-        - o2
-        - o1
-        C:
-        - bend_euler_3cfca9b9
-        - o2
-        - o1
-        D:
-        - bend_euler_3cfca9b9
-        - o1
-        - o2
-        _:
-        - straight_5b6c3269
-        - o2
-        - o1
-    default:
-      port_name1: o1
-      port_name2: o2
-      ports_map: null
-      start_orientation: 0
-    full:
-      port_name1: o1
-      port_name2: o2
-      ports_map: null
-      sequence: ABABABABDABABABABCABABABABDABABABABCABABABAB-_ABABABABCABABABABDABABABABCABABABABDABABABAB
-      start_orientation: 0
-      symbol_to_component:
-        '-':
-        - straight_5b6c3269
-        - o1
-        - o2
-        A:
-        - taper_0p5_to_3_l36_d41d8cd9
-        - o1
-        - o2
-        B:
-        - taper_0p5_to_3_l36_d41d8cd9
-        - o2
-        - o1
-        C:
-        - bend_euler_3cfca9b9
-        - o2
-        - o1
-        D:
-        - bend_euler_3cfca9b9
-        - o1
-        - o2
-        _:
-        - straight_5b6c3269
-        - o2
-        - o1
-    function_name: component_sequence
-    info_version: 1
-    module: gdsfactory.components.component_sequence
-    name: component_sequence_4582aac4
-  straight_5b6c3269:
-    changed:
-      length: 10
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 10
-    module: gdsfactory.components.straight
-    name: straight_5b6c3269
-    width: 0.5
-  taper_0p5_to_3_l36_d41d8cd9:
-    changed: {}
-    default: {}
-    full: {}
-    function_name: taper_0p5_to_3_l36
-    info_version: 1
-    module: gdsfactory.components.taper_from_csv
-    name: taper_0p5_to_3_l36_d41d8cd9
-  taper_0p5_to_3_l36_d41d_5d83367e:
-    changed: {}
-    child:
-      changed: {}
-      default: {}
-      full: {}
-      function_name: taper_0p5_to_3_l36
-      info_version: 1
-      module: gdsfactory.components.taper_from_csv
-      name: taper_0p5_to_3_l36_d41d8cd9
-    components: 88
-    default:
-      bend180:
-        angle: 180
-        function: bend_euler
-      cols: 4
-      component:
-        function: taper_0p5_to_3_l36
-      mirror: false
-      port1: o1
-      port2: o2
-      radius: 5
-      rows: 5
-      straight:
-        function: straight
-      straight_length: null
-    full:
-      bend180:
-        angle: 180
-        function: bend_euler
-      cols: 4
-      component:
-        function: taper_0p5_to_3_l36
-      mirror: false
-      port1: o1
-      port2: o2
-      radius: 5
-      rows: 5
-      straight:
-        function: straight
-      straight_length: null
-    function_name: cutback_component
-    info_version: 1
-    module: gdsfactory.components.cutback_component
-    name: taper_0p5_to_3_l36_d41d_5d83367e
-info:
+name: taper_from_csv_cutback_component
+settings:
   changed: {}
   child:
     changed: {}
-    default: {}
-    full: {}
-    function_name: taper_0p5_to_3_l36
-    info_version: 1
+    child: null
+    default:
+      cross_section: strip
+      filepath: taper_strip_0p5_3_36
+    full:
+      cross_section: strip
+      filepath: taper_strip_0p5_3_36
+    function_name: taper_from_csv
+    info: {}
+    info_version: 2
     module: gdsfactory.components.taper_from_csv
-    name: taper_0p5_to_3_l36_d41d8cd9
-  components: 88
+    name: taper_from_csv
   default:
     bend180:
-      angle: 180
       function: bend_euler
+      settings:
+        angle: 180
     cols: 4
     component:
-      function: taper_0p5_to_3_l36
+      function: taper_from_csv
+      settings:
+        filepath: taper_strip_0p5_3_36
+    cross_section: strip
     mirror: false
     port1: o1
     port2: o2
-    radius: 5
     rows: 5
     straight:
       function: straight
     straight_length: null
   full:
     bend180:
-      angle: 180
       function: bend_euler
+      settings:
+        angle: 180
     cols: 4
     component:
-      function: taper_0p5_to_3_l36
+      function: taper_from_csv
+      settings:
+        filepath: taper_strip_0p5_3_36
+    cross_section: strip
     mirror: false
     port1: o1
     port2: o2
-    radius: 5
     rows: 5
     straight:
       function: straight
     straight_length: null
   function_name: cutback_component
-  info_version: 1
+  info:
+    components: 88
+  info_version: 2
   module: gdsfactory.components.cutback_component
-  name: taper_0p5_to_3_l36_d41d_5d83367e
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 583.6799999999997
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 0.5
-version: 1
+  name: taper_from_csv_cutback_component

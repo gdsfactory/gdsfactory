@@ -2,16 +2,18 @@
 from typing import Tuple
 
 import numpy as np
-from skimage import measure
 
 from gdsfactory.component import Component
 from gdsfactory.geometry.boolean import boolean
 
 
 def compute_area_signed(pr) -> float:
-    """Return the signed area enclosed by a ring using the linear time
+    """Return the signed area enclosed by a ring using the linear time.
+
     algorithm at http://www.cgafaq.info/wiki/Polygon_Area. A value >= 0
-    indicates a counter-clockwise oriented ring."""
+    indicates a counter-clockwise oriented ring.
+
+    """
     xs, ys = map(list, zip(*pr))
     xs.append(xs[1])
     ys.append(ys[1])
@@ -25,15 +27,18 @@ def from_np(
     threshold: float = 0.99,
 ) -> Component:
     """Returns Component from a np.ndarray.
+
     Extracts contours skimage.measure.find_contours using `threshold`.
 
     Args:
-        ndarray: 2D ndarray representing the device layout
-        nm_per_pixel: scale_factor
-        layer: layer tuple to output gds
-        threshold: value along which to find contours in the array
+        ndarray: 2D ndarray representing the device layout.
+        nm_per_pixel: scale_factor.
+        layer: layer tuple to output gds.
+        threshold: value along which to find contours in the array.
 
     """
+    from skimage import measure
+
     c = Component()
     d = Component()
     ndarray = np.pad(ndarray, 2)
@@ -58,9 +63,9 @@ def from_np(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c1 = gf.c.straight()
-    c1 = gf.c.bend_circular()
-    c1 = gf.c.ring_single()
+    c1 = gf.components.straight()
+    c1 = gf.components.bend_circular()
+    c1 = gf.components.ring_single()
     img = gf.export.to_np(c1)
     c2 = from_np(img)
     c2.show()

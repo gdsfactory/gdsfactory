@@ -1,6 +1,9 @@
-"""Update GDS view in Klayout dynamically.
-Requires the Klayout plugin installed in Klayout.
-This happens when you run `pf install`.
+"""Stream GDS to Klayout.
+
+You can install gdsfactory klayout integration:
+
+- run `gf tool install`
+- install the Klayout plugin through klayout package manager.
 """
 
 import json
@@ -13,7 +16,14 @@ from typing import Union
 def show(
     gds_filename: Union[Path, str], keep_position: bool = True, port: int = 8082
 ) -> None:
-    """Show GDS in klayout."""
+    """Show GDS in klayout.
+
+    Args:
+        gds_filename: to show.
+        keep_position: keep position and active layers.
+        port: klayout server port.
+
+    """
     if not os.path.isfile(gds_filename):
         raise ValueError(f"{gds_filename} does not exist")
     data = {
@@ -29,7 +39,7 @@ def show(
         )
         conn.sendall(data_string)
         conn.close()
-    except socket.error:
+    except OSError:
         pass
 
 

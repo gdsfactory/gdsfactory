@@ -2,21 +2,11 @@ connections:
   wgn,o2: wgw,o1
 instances:
   wgn:
-    component: straight
-    settings:
-      cross_section:
-        function: cross_section
-      length: 0.5
-      npoints: 2
-      with_cladding_box: true
+    component: straight_1a5e6830
+    settings: {}
   wgw:
-    component: straight
-    settings:
-      cross_section:
-        function: cross_section
-      length: 1
-      npoints: 2
-      with_cladding_box: true
+    component: straight_e15cfb47
+    settings: {}
 name: sample_connections
 placements:
   wgn:

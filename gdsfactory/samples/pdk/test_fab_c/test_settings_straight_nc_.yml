@@ -1,0 +1,60 @@
+name: straight_c80f6a22
+settings:
+  changed:
+    cross_section:
+      function: cross_section
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins
+        bbox_layers:
+        - - 36
+          - 0
+        bbox_offsets:
+        - 3
+        cladding_layers:
+        - DEVREC
+        cladding_offsets:
+        - 0
+        layer:
+        - 34
+        - 0
+        width: 1.0
+  child: null
+  default:
+    cross_section: strip
+    length: 10.0
+    npoints: 2
+    with_bbox: true
+  full:
+    cross_section:
+      function: cross_section
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins
+        bbox_layers:
+        - - 36
+          - 0
+        bbox_offsets:
+        - 3
+        cladding_layers:
+        - DEVREC
+        cladding_offsets:
+        - 0
+        layer:
+        - 34
+        - 0
+        width: 1.0
+    length: 10.0
+    npoints: 2
+    with_bbox: true
+  function_name: straight
+  info:
+    length: 10.0
+    width: 1.0
+  info_version: 2
+  module: gdsfactory.components.straight
+  name: straight_c80f6a22

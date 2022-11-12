@@ -1,0 +1,39 @@
+name: edge_coupler_array
+settings:
+  changed: {}
+  child: null
+  default:
+    edge_coupler:
+      function: taper
+      settings:
+        length: 100
+        width2: 0.2
+        with_two_ports: false
+    n: 5
+    pitch: 127.0
+    text:
+      function: text_rectangular
+    text_offset:
+    - 10
+    - 20
+    x_reflection: false
+  full:
+    edge_coupler:
+      function: taper
+      settings:
+        length: 100
+        width2: 0.2
+        with_two_ports: false
+    n: 5
+    pitch: 127.0
+    text:
+      function: text_rectangular
+    text_offset:
+    - 10
+    - 20
+    x_reflection: false
+  function_name: edge_coupler_array
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.edge_coupler_array
+  name: edge_coupler_array

@@ -1,44 +1,13 @@
-cells:
-  bbox_d41d8cd9:
-    changed: {}
-    default:
-      bbox:
-      - - -1
-        - -1
-      - - 3
-        - 4
-      bottom: 0
-      layer:
-      - 1
-      - 0
-      left: 0
-      right: 0
-      top: 0
-    full:
-      bbox:
-      - - -1
-        - -1
-      - - 3
-        - 4
-      bottom: 0
-      layer:
-      - 1
-      - 0
-      left: 0
-      right: 0
-      top: 0
-    function_name: bbox
-    info_version: 1
-    module: gdsfactory.components.bbox
-    name: bbox_d41d8cd9
-info:
+name: bbox
+settings:
   changed: {}
+  child: null
   default:
     bbox:
-    - - -1
-      - -1
-    - - 3
-      - 4
+    - - -1.0
+      - -1.0
+    - - 3.0
+      - 4.0
     bottom: 0
     layer:
     - 1
@@ -48,10 +17,10 @@ info:
     top: 0
   full:
     bbox:
-    - - -1
-      - -1
-    - - 3
-      - 4
+    - - -1.0
+      - -1.0
+    - - 3.0
+      - 4.0
     bottom: 0
     layer:
     - 1
@@ -60,8 +29,7 @@ info:
     right: 0
     top: 0
   function_name: bbox
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.bbox
-  name: bbox_d41d8cd9
-ports: {}
-version: 1
+  name: bbox

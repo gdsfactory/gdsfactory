@@ -1,0 +1,106 @@
+connections:
+  bend_euler_1,o1: straight_1,o2
+  bend_euler_1,o2: straight_2,o1
+  bend_euler_2,o1: straight_2,o2
+  bend_euler_2,o2: straight_3,o1
+  mmi_long,o1: straight_3,o2
+  mmi_short,o2: straight_1,o1
+instances:
+  bend_euler_1:
+    component: bend_euler
+    info:
+      dy: 10.0
+      length: 16.637
+      radius: 10.0
+      radius_min: 7.061
+      width: 0.5
+    settings: {}
+  bend_euler_2:
+    component: bend_euler
+    info:
+      dy: 10.0
+      length: 16.637
+      radius: 10.0
+      radius_min: 7.061
+      width: 0.5
+    settings: {}
+  mmi_long:
+    component: mmi1x2
+    settings:
+      length_mmi: 10
+      width_mmi: 4.5
+  mmi_short:
+    component: mmi1x2
+    settings:
+      length_mmi: 5
+      width_mmi: 4.5
+  straight_1:
+    component: straight
+    info:
+      length: 95.02
+      width: 0.5
+    settings:
+      length: 95.02
+  straight_2:
+    component: straight
+    info:
+      length: 79.375
+      width: 0.5
+    settings:
+      length: 79.375
+  straight_3:
+    component: straight
+    info:
+      length: 0.02
+      width: 0.5
+    settings:
+      length: 0.02
+name: sample_mmis_8ba5a8e2
+placements:
+  bend_euler_1:
+    mirror: 0
+    rotation: 0
+    x: 110.02
+    y: 0.625
+  bend_euler_2:
+    mirror: 0
+    rotation: 90
+    x: 120.02
+    y: 90.0
+  mmi_long:
+    mirror: 0
+    rotation: 180
+    x: 100.0
+    y: 100.0
+  mmi_short:
+    mirror: 0
+    rotation: 0
+    x: 0.0
+    y: 0.0
+  straight_1:
+    mirror: 0
+    rotation: 0
+    x: 15.0
+    y: 0.625
+  straight_2:
+    mirror: 0
+    rotation: 90
+    x: 120.02
+    y: 10.625
+  straight_3:
+    mirror: 0
+    rotation: 180
+    x: 110.02
+    y: 100.0
+ports:
+  o1: mmi_short,o1
+  o2: mmi_long,o2
+  o3: mmi_long,o3
+warnings:
+  optical:
+    unconnected_ports:
+    - message: 1 unconnected optical ports!
+      ports:
+      - mmi_short,o3
+      values:
+      - '[15.0,-0.625]'

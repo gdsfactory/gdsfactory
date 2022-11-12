@@ -2,20 +2,19 @@ import gdsfactory as gf
 
 
 def test_get_ports_sort_clockwise() -> None:
-    """
+    """.. code::
 
-    .. code::
+        3   4
+        |___|_
+    2 -|      |- 5
+       |      |
+    1 -|______|- 6
+        |   |
+        8   7
 
-             3   4
-             |___|_
-         2 -|      |- 5
-            |      |
-         1 -|______|- 6
-             |   |
-             8   7
     """
     c = gf.Component()
-    nxn = gf.c.nxn(west=2, north=2, east=2, south=2)
+    nxn = gf.components.nxn(west=2, north=2, east=2, south=2)
     ref = c << nxn
     p = ref.get_ports_list(clockwise=True)
     p1 = p[0]
@@ -28,20 +27,19 @@ def test_get_ports_sort_clockwise() -> None:
 
 
 def test_get_ports_sort_counter_clockwise() -> None:
-    """
+    """.. code::
 
-    .. code::
+        4   3
+        |___|_
+    5 -|      |- 2
+       |      |
+    6 -|______|- 1
+        |   |
+        7   8
 
-             4   3
-             |___|_
-         5 -|      |- 2
-            |      |
-         6 -|______|- 1
-             |   |
-             7   8
     """
     c = gf.Component()
-    nxn = gf.c.nxn(west=2, north=2, east=2, south=2)
+    nxn = gf.components.nxn(west=2, north=2, east=2, south=2)
     ref = c << nxn
     p = ref.get_ports_list(clockwise=False)
     p1 = p[0]
@@ -57,7 +55,7 @@ if __name__ == "__main__":
     test_get_ports_sort_clockwise()
 
     # c = gf.Component()
-    # nxn = gf.c.nxn(west=2, north=2, east=2, south=2)
+    # nxn = gf.components.nxn(west=2, north=2, east=2, south=2)
     # ref = c << nxn
     # p = ref.get_ports_list(clockwise=False)
     # p1 = p[0]

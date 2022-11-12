@@ -1,0 +1,57 @@
+name: grating_coupler_dual_pol
+settings:
+  changed: {}
+  child: null
+  default:
+    base_layer: WG
+    cross_section: strip
+    fiber_marker_layer: TE
+    length_taper: 150.0
+    period_x: 0.58
+    period_y: 0.58
+    polarization: dual
+    taper:
+      function: taper
+    unit_cell:
+      function: rectangle
+      settings:
+        centered: true
+        layer: SLAB150
+        port_type: null
+        size:
+        - 0.3
+        - 0.3
+    wavelength: 1.55
+    width_taper: 10.0
+    x_span: 11
+    y_span: 11
+  full:
+    base_layer: WG
+    cross_section: strip
+    fiber_marker_layer: TE
+    length_taper: 150.0
+    period_x: 0.58
+    period_y: 0.58
+    polarization: dual
+    taper:
+      function: taper
+    unit_cell:
+      function: rectangle
+      settings:
+        centered: true
+        layer: SLAB150
+        port_type: null
+        size:
+        - 0.3
+        - 0.3
+    wavelength: 1.55
+    width_taper: 10.0
+    x_span: 11
+    y_span: 11
+  function_name: grating_coupler_dual_pol
+  info:
+    polarization: dual
+    wavelength: 1.55
+  info_version: 2
+  module: gdsfactory.components.grating_coupler_dual_pol
+  name: grating_coupler_dual_pol

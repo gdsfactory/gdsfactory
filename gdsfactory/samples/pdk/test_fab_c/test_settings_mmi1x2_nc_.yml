@@ -1,0 +1,72 @@
+name: mmi1x2_26b2c55f
+settings:
+  changed:
+    cross_section:
+      function: cross_section
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins
+        bbox_layers:
+        - - 36
+          - 0
+        bbox_offsets:
+        - 3
+        cladding_layers:
+        - DEVREC
+        cladding_offsets:
+        - 0
+        layer:
+        - 34
+        - 0
+        width: 1.0
+    width: 1.0
+    width_mmi: 3
+  child: null
+  default:
+    cross_section: strip
+    gap_mmi: 0.25
+    length_mmi: 5.5
+    length_taper: 10.0
+    taper:
+      function: taper
+    width: 0.5
+    width_mmi: 2.5
+    width_taper: 1.0
+    with_bbox: true
+  full:
+    cross_section:
+      function: cross_section
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins
+        bbox_layers:
+        - - 36
+          - 0
+        bbox_offsets:
+        - 3
+        cladding_layers:
+        - DEVREC
+        cladding_offsets:
+        - 0
+        layer:
+        - 34
+        - 0
+        width: 1.0
+    gap_mmi: 0.25
+    length_mmi: 5.5
+    length_taper: 10.0
+    taper:
+      function: taper
+    width: 1.0
+    width_mmi: 3
+    width_taper: 1.0
+    with_bbox: true
+  function_name: mmi1x2
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.mmi1x2
+  name: mmi1x2_26b2c55f

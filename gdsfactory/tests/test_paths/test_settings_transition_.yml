@@ -1,85 +1,11 @@
-cells:
-  extrude_1ac1c90c:
-    changed:
-      cross_section: {}
-      p: path_d275aaf04a29c0536924c88e46512f29
-    default:
-      cross_section: null
-      layer: null
-      simplify: null
-      width: null
-      widths: null
-    full:
-      cross_section: {}
-      layer: null
-      p: path_d275aaf04a29c0536924c88e46512f29
-      simplify: null
-      width: null
-      widths: null
-    function_name: extrude
-    info_version: 1
-    length: 5
-    module: gdsfactory.path
-    name: extrude_1ac1c90c
-  extrude_bdcc3302:
-    changed:
-      cross_section: {}
-      p: path_d275aaf04a29c0536924c88e46512f29
-    default:
-      cross_section: null
-      layer: null
-      simplify: null
-      width: null
-      widths: null
-    full:
-      cross_section: {}
-      layer: null
-      p: path_d275aaf04a29c0536924c88e46512f29
-      simplify: null
-      width: null
-      widths: null
-    function_name: extrude
-    info_version: 1
-    length: 5
-    module: gdsfactory.path
-    name: extrude_bdcc3302
-  extrude_c61f54b8:
-    changed:
-      cross_section: {}
-      p: path_9d4e7574f0f651972e1f0c1247df2061
-    default:
-      cross_section: null
-      layer: null
-      simplify: null
-      width: null
-      widths: null
-    full:
-      cross_section: {}
-      layer: null
-      p: path_9d4e7574f0f651972e1f0c1247df2061
-      simplify: null
-      width: null
-      widths: null
-    function_name: extrude
-    info_version: 1
-    length: 29.452
-    module: gdsfactory.path
-    name: extrude_c61f54b8
-  transition_d41d8cd9:
-    changed: {}
-    default: {}
-    full: {}
-    function_name: transition
-    info_version: 1
-    module: gdsfactory.tests.test_paths
-    name: transition_d41d8cd9
-info:
+name: transition
+settings:
   changed: {}
+  child: null
   default: {}
   full: {}
   function_name: transition
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.tests.test_paths
-  name: transition_d41d8cd9
-ports: {}
-version: 1
+  name: transition

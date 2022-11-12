@@ -1,43 +1,19 @@
-cells:
-  ring_d41d8cd9:
-    changed: {}
-    default:
-      angle_resolution: 2.5
-      layer:
-      - 1
-      - 0
-      radius: 10
-      width: 0.5
-    full:
-      angle_resolution: 2.5
-      layer:
-      - 1
-      - 0
-      radius: 10
-      width: 0.5
-    function_name: ring
-    info_version: 1
-    module: gdsfactory.components.ring
-    name: ring_d41d8cd9
-info:
+name: ring
+settings:
   changed: {}
+  child: null
   default:
     angle_resolution: 2.5
-    layer:
-    - 1
-    - 0
-    radius: 10
+    layer: WG
+    radius: 10.0
     width: 0.5
   full:
     angle_resolution: 2.5
-    layer:
-    - 1
-    - 0
-    radius: 10
+    layer: WG
+    radius: 10.0
     width: 0.5
   function_name: ring
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.ring
-  name: ring_d41d8cd9
-ports: {}
-version: 1
+  name: ring

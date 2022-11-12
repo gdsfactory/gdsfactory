@@ -3,7 +3,7 @@ from typing import Tuple
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.mzit import mzit
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentSpec
 
 
 @gf.cell
@@ -11,7 +11,7 @@ def mzit_lattice(
     coupler_lengths: Tuple[float, ...] = (10.0, 20.0),
     coupler_gaps: Tuple[float, ...] = (0.2, 0.3),
     delta_lengths: Tuple[float, ...] = (10.0,),
-    mzi: ComponentFactory = mzit,
+    mzi: ComponentSpec = mzit,
 ) -> Component:
     r"""Mzi fab tolerant lattice filter.
 
@@ -38,13 +38,24 @@ def mzit_lattice(
 
 
     """
-    assert len(coupler_lengths) == len(coupler_gaps)
-    assert len(coupler_lengths) == len(delta_lengths) + 1
+    if len(coupler_lengths) != len(coupler_gaps):
+        raise ValueError(
+            f"Got {len(coupler_lengths)} coupler_lengths and "
+            f"{len(coupler_gaps)} coupler_gaps"
+        )
+    if len(coupler_lengths) != len(delta_lengths) + 1:
+        raise ValueError(
+            f"Got {len(coupler_lengths)} coupler_lengths and "
+            f"{len(delta_lengths)} delta_lengths. "
+            "You need one more coupler_length than delta_lengths "
+        )
+
     assert len(coupler_lengths) >= 2
 
     c = Component()
 
-    cp1 = coupler0 = c << mzi(
+    cp1 = coupler0 = c << gf.get_component(
+        mzi,
         coupler_gap1=coupler_gaps[0],
         coupler_gap2=coupler_gaps[1],
         coupler_length1=coupler_lengths[0],
@@ -54,7 +65,8 @@ def mzit_lattice(
 
     couplers = [
         c
-        << mzi(
+        << gf.get_component(
+            mzi,
             coupler_gap2=coupler_gap,
             coupler_length2=coupler_length,
             coupler1=None,
@@ -90,4 +102,4 @@ if __name__ == "__main__":
 
     c = mzit_lattice(coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0)
     # c = mzit_lattice()
-    c.show()
+    c.show(show_ports=True)

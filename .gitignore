@@ -2,16 +2,33 @@
 
 # C extensions
 *.so
-*.ports
 *.properties
 *.sqlite3
 *.hdf5
 *.stl
+*.pkl
+*.msh
+*.xdmf
+*.db
+*.svg
+test_mask_metadata.csv
+test_mask_metadata.yml
 .pyre_configuration
+poetry.lock
+mask.csv
+mask.yml
+gdsfactory/simulation/gtidy3d/sim_run.yam
+gdsfactory/schema.yaml
+sim_run.yaml
+docs/notebooks/ring.yml
+.ruff_cache/
 
 # Packages
 *.egg
+*.oas
 *.egg-info
+docs/notebooks/demo.yml
+Pipfile.lock
 dist
 doc_pdks/
 deprecated/
@@ -26,8 +43,10 @@ var
 sdist
 develop-eggs
 .installed.cfg
+devsim/
 lib/
 lib64
+docs/notebooks/playground_repo
 __pycache__
 .mypy_cache/
 .pyre/
@@ -36,9 +55,9 @@ gdsfactory/components/doc
 cml/
 mzi.yml
 *.out
-*.png
 mpb-sim/
 data/
+extrakdown-parser/
 
 # Installer logs
 pip-log.txt
@@ -47,6 +66,7 @@ pip-log.txt
 .coverage
 .tox
 nosetests.xml
+*.obtained.*
 
 # Translations
 *.mo
@@ -123,7 +143,6 @@ Icon?
 *.dat
 *.mat
 
-*.xml
 *.tar.gz
 *.gds
 *.json
@@ -265,3 +284,9 @@ venv.bak/
 # netlist stuff
 *.spi # lumerical
 *.nst # json netlist format
+
+# lumerical interconnect
+*.ich
+docs/notebooks/plugins/sax/fdtd_vs_model.png
+gdsfactory/klayout/tech/layers.py
+/gdslib

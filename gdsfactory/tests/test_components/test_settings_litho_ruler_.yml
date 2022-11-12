@@ -1,0 +1,43 @@
+name: litho_ruler
+settings:
+  changed: {}
+  child: null
+  default:
+    height: 2
+    layer: WG
+    num_marks: 21
+    scale:
+    - 3
+    - 1
+    - 1
+    - 1
+    - 1
+    - 2
+    - 1
+    - 1
+    - 1
+    - 1
+    spacing: 2.0
+    width: 0.5
+  full:
+    height: 2
+    layer: WG
+    num_marks: 21
+    scale:
+    - 3
+    - 1
+    - 1
+    - 1
+    - 1
+    - 2
+    - 1
+    - 1
+    - 1
+    - 1
+    spacing: 2.0
+    width: 0.5
+  function_name: litho_ruler
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.litho_ruler
+  name: litho_ruler

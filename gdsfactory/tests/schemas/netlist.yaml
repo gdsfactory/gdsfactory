@@ -1,0 +1,151 @@
+title: NetlistModel
+description: "Netlist defined component.\n\nParameters:\n    instances: dict of instances\
+  \ (name, settings, component).\n    placements: dict of placements.\n    connections:\
+  \ dict of connections.\n    routes: dict of routes.\n    name: component name.\n\
+  \    info: information (polarization, wavelength ...).\n    settings: input variables.\n\
+  \    pdk: pdk module name.\n    ports: exposed component ports."
+type: object
+properties:
+  instances:
+    title: Instances
+    type: object
+    additionalProperties:
+      $ref: '#/definitions/ComponentModel'
+  placements:
+    title: Placements
+    type: object
+    additionalProperties:
+      $ref: '#/definitions/PlacementModel'
+  connections:
+    title: Connections
+    type: object
+    additionalProperties:
+      type: string
+  routes:
+    title: Routes
+    type: object
+    additionalProperties:
+      $ref: '#/definitions/RouteModel'
+  name:
+    title: Name
+    type: string
+  info:
+    title: Info
+    type: object
+  settings:
+    title: Settings
+    type: object
+  pdk:
+    title: Pdk
+    type: string
+  ports:
+    title: Ports
+    type: object
+    additionalProperties:
+      type: string
+required:
+- instances
+additionalProperties: false
+definitions:
+  ComponentModel:
+    title: ComponentModel
+    type: object
+    properties:
+      component:
+        title: Component
+        anyOf:
+        - type: string
+        - type: object
+      settings:
+        title: Settings
+        type: object
+    required:
+    - component
+    additionalProperties: false
+  PlacementModel:
+    title: PlacementModel
+    type: object
+    properties:
+      x:
+        title: X
+        default: 0
+        anyOf:
+        - type: string
+        - type: number
+      'y':
+        title: 'Y'
+        default: 0
+        anyOf:
+        - type: string
+        - type: number
+      xmin:
+        title: Xmin
+        anyOf:
+        - type: string
+        - type: number
+      ymin:
+        title: Ymin
+        anyOf:
+        - type: string
+        - type: number
+      xmax:
+        title: Xmax
+        anyOf:
+        - type: string
+        - type: number
+      ymax:
+        title: Ymax
+        anyOf:
+        - type: string
+        - type: number
+      dx:
+        title: Dx
+        default: 0
+        type: number
+      dy:
+        title: Dy
+        default: 0
+        type: number
+      port:
+        title: Port
+        anyOf:
+        - type: string
+        - enum:
+          - ce
+          - cw
+          - nc
+          - ne
+          - nw
+          - sc
+          - se
+          - sw
+          - center
+          - cc
+          type: string
+      rotation:
+        title: Rotation
+        default: 0
+        type: integer
+      mirror:
+        title: Mirror
+        default: false
+        type: boolean
+    additionalProperties: false
+  RouteModel:
+    title: RouteModel
+    type: object
+    properties:
+      links:
+        title: Links
+        type: object
+        additionalProperties:
+          type: string
+      settings:
+        title: Settings
+        type: object
+      routing_strategy:
+        title: Routing Strategy
+        type: string
+    required:
+    - links
+    additionalProperties: false

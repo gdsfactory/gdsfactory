@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.copy_layers import copy_layers
 from gdsfactory.components.text_rectangular_font import pixel_array, rectangular_font
 from gdsfactory.tech import LAYER
-from gdsfactory.types import ComponentFactory, Layers
+from gdsfactory.types import ComponentSpec, LayerSpec, LayerSpecs
 
 
 @gf.cell
@@ -14,19 +14,18 @@ def text_rectangular(
     size: float = 10.0,
     position: Tuple[float, float] = (0.0, 0.0),
     justify: str = "left",
-    layer: Tuple[int, int] = (1, 0),
+    layer: LayerSpec = "WG",
     font: Callable = rectangular_font,
 ) -> Component:
     """Pixel based font, guaranteed to be manhattan, without acute angles.
 
     Args:
-        text:
-        size: pixel size
-        position: coordinate
-        justify: left, right or center
-        layer:
-        font: function that returns dictionary of characters
-
+        text: string.
+        size: pixel size.
+        position: coordinate.
+        justify: left, right or center.
+        layer: for text.
+        font: function that returns dictionary of characters.
     """
     pixel_size = size
     xoffset = position[0]
@@ -67,11 +66,11 @@ def text_rectangular(
 
 def text_rectangular_multi_layer(
     text: str = "abcd",
-    layers: Layers = (LAYER.WG, LAYER.M1, LAYER.M2, LAYER.M3),
-    text_factory: ComponentFactory = text_rectangular,
+    layers: LayerSpecs = ("WG", "M1", "M2", "M3"),
+    text_factory: ComponentSpec = text_rectangular,
     **kwargs,
 ) -> Component:
-    """Returns rectangular text in different layers
+    """Returns rectangular text in different layers.
 
     Args:
         text: string of text
@@ -87,7 +86,7 @@ def text_rectangular_multi_layer(
     func = gf.partial(
         copy_layers,
         factory=gf.partial(text_factory, text=text, **kwargs),
-        layers=(LAYER.WG, LAYER.M1, LAYER.M2, LAYER.M3),
+        layers=layers,
     )
     return func()
 
@@ -102,4 +101,4 @@ if __name__ == "__main__":
         layers=(LAYER.SLAB90, LAYER.M2),
         justify="center",
     )
-    c.show()
+    c.show(show_ports=True)

@@ -1,9 +1,9 @@
 import gdsfactory as gf
-from gdsfactory.add_padding import add_padding
+from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
+from gdsfactory.components.straight import straight
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.cross_section import strip
-from gdsfactory.types import ComponentFactory, CrossSectionFactory
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -14,24 +14,24 @@ def mmi1x2(
     length_mmi: float = 5.5,
     width_mmi: float = 2.5,
     gap_mmi: float = 0.25,
-    taper: ComponentFactory = taper_function,
-    with_cladding_box: bool = True,
-    cross_section: CrossSectionFactory = strip,
-    **kwargs
+    taper: ComponentSpec = taper_function,
+    with_bbox: bool = True,
+    cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     r"""Mmi 1x2.
 
     Args:
-        width: input and output straight width
-        width_taper: interface between input straights and mmi region
-        length_taper: into the mmi region
-        length_mmi: in x direction
-        width_mmi: in y direction
-        gap_mmi:  gap between tapered wg
-        taper: taper function
-        with_cladding_box: to avoid DRC acute angle errors in cladding
-        cross_section:
-        **kwargs: cross_section settings
+        width: input and output straight width.
+        width_taper: interface between input straights and mmi region.
+        length_taper: into the mmi region.
+        length_mmi: in x direction.
+        width_mmi: in y direction.
+        gap_mmi:  gap between tapered wg.
+        taper: taper function.
+        straight: straight function.
+        with_bbox: add rectangular box in cross_section
+            bbox_layers and bbox_offsets to avoid DRC sharp edges.
+        cross_section: specification (CrossSection, string or dict).
 
 
     .. code::
@@ -53,35 +53,51 @@ def mmi1x2(
         length_taper
 
     """
-    gf.snap.assert_on_2nm_grid(gap_mmi)
-    x = cross_section(**kwargs)
-    cladding_offset = x.info["cladding_offset"]
-    layers_cladding = x.info["layers_cladding"]
-    layer = x.info["layer"]
-
     c = Component()
+    gap_mmi = gf.snap.snap_to_grid(gap_mmi, nm=2)
     w_mmi = width_mmi
     w_taper = width_taper
 
-    taper = taper(
+    taper = gf.get_component(
+        taper,
         length=length_taper,
         width1=width,
         width2=w_taper,
         cross_section=cross_section,
-        **kwargs
     )
 
+    x = gf.get_cross_section(cross_section)
+
     a = gap_mmi / 2 + width_taper / 2
-    mmi = c << gf.components.rectangle(
-        size=(length_mmi, w_mmi),
-        layer=layer,
-        centered=True,
+    mmi = c << gf.get_component(
+        straight, length=length_mmi, width=w_mmi, cross_section=cross_section
     )
 
     ports = [
-        gf.Port("o1", orientation=180, midpoint=(-length_mmi / 2, 0), width=w_taper),
-        gf.Port("o2", orientation=0, midpoint=(+length_mmi / 2, +a), width=w_taper),
-        gf.Port("o3", orientation=0, midpoint=(+length_mmi / 2, -a), width=w_taper),
+        gf.Port(
+            "o1",
+            orientation=180,
+            center=(0, 0),
+            width=w_taper,
+            layer=x.layer,
+            cross_section=x,
+        ),
+        gf.Port(
+            "o2",
+            orientation=0,
+            center=(+length_mmi, +a),
+            width=w_taper,
+            layer=x.layer,
+            cross_section=x,
+        ),
+        gf.Port(
+            "o3",
+            orientation=0,
+            center=(+length_mmi, -a),
+            width=w_taper,
+            layer=x.layer,
+            cross_section=x,
+        ),
     ]
 
     for port in ports:
@@ -90,33 +106,37 @@ def mmi1x2(
         c.add_port(name=port.name, port=taper_ref.ports["o1"])
         c.absorb(taper_ref)
 
-    c.absorb(mmi)
+    if with_bbox:
+        padding = []
+        for offset in x.bbox_offsets:
+            points = get_padding_points(
+                component=c,
+                default=0,
+                bottom=offset,
+                top=offset,
+            )
+            padding.append(points)
 
-    layers_cladding = layers_cladding or []
-    if layers_cladding and with_cladding_box:
-        add_padding(
-            c,
-            default=cladding_offset,
-            right=0,
-            left=0,
-            top=cladding_offset,
-            bottom=cladding_offset,
-            layers=layers_cladding,
-        )
+        for layer, points in zip(x.bbox_layers, padding):
+            c.add_polygon(points, layer=layer)
+
+    c.absorb(mmi)
+    if x.add_bbox:
+        c = x.add_bbox(c)
+    if x.add_pins:
+        c = x.add_pins(c)
     return c
 
 
 if __name__ == "__main__":
+    # c = mmi1x2(cross_section=dict(cross_section="rib"))
+    c = mmi1x2()
+    c.show(show_ports=True)
 
-    c = mmi1x2(layer=(2, 0))
-    ports = c.get_ports_list(port_type="optical")
-    c2 = gf.c.extend_ports(c)
-    port_orientations = [p.orientation for p in ports]
+    # c.pprint_ports()
 
-    for i, port in enumerate(ports):
-        print(i, port)
-
-    c2.show()
+    # c2 = gf.components.extend_ports(c)
+    # c2.show()
 
     # print(c.ports)
     # c = mmi1x2_biased()

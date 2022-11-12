@@ -6,17 +6,15 @@ import gdsfactory as gf
 
 @gf.cell
 def _dummy(length: int = 3, wg_width: float = 0.5) -> gf.Component:
-    c = gf.Component()
-    return c
+    return gf.Component()
 
 
 @gf.cell
 def _dummy2(length: int = 3, wg_width: float = 0.5) -> gf.Component:
-    c = gf.Component()
-    return c
+    return gf.Component()
 
 
-def test_validator_error():
+def test_validator_error() -> None:
     with pytest.raises(ValidationError):
         _dummy2(length="error")
 

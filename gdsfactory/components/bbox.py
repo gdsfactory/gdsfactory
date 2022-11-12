@@ -4,7 +4,8 @@ from numpy import array
 
 import gdsfactory as gf
 
-Coordinate = Union[Tuple[float, float], array]
+Float2 = Tuple[float, float]
+Coordinate = Union[Tuple[Float2, Float2], array]
 
 
 @gf.cell_without_validator
@@ -16,17 +17,15 @@ def bbox(
     left: float = 0,
     right: float = 0,
 ) -> gf.Component:
-    """Returns bounding box rectangle from coordinates, to allow
-    creation of a rectangle bounding box directly from another shape.
+    """Returns bounding box rectangle from coordinates.
 
     Args:
         bbox: Coordinates of the box [(x1, y1), (x2, y2)].
-        layer:
-        top: north offset
-        bottom: south offset
-        left: west offset
-        right: east offset
-
+        layer: for bbox.
+        top: north offset.
+        bottom: south offset.
+        left: west offset.
+        right: east offset.
     """
     D = gf.Component()
     (xmin, ymin), (xmax, ymax) = bbox
@@ -41,9 +40,8 @@ def bbox(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
 
-    c = gf.components.L()
-    c << bbox(bbox=c.bbox, top=10, left=5, right=-2)
-    # c = bbox()
-    c.show()
+    c = gf.Component()
+    a = c << gf.components.L()
+    c << bbox(bbox=a.bbox, top=10, left=5, right=-2)
+    c.show(show_ports=True)

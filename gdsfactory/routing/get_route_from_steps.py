@@ -1,42 +1,44 @@
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Union
 
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.cross_section import strip
+from gdsfactory.components.via_corner import via_corner
 from gdsfactory.port import Port
 from gdsfactory.routing.manhattan import round_corners
-from gdsfactory.types import ComponentOrFactory, CrossSectionFactory, Route
+from gdsfactory.types import (
+    ComponentSpec,
+    CrossSectionSpec,
+    MultiCrossSectionAngleSpec,
+    Route,
+)
 
 
 def get_route_from_steps(
     port1: Port,
     port2: Port,
     steps: Optional[List[Dict[str, float]]] = None,
-    bend: ComponentOrFactory = bend_euler,
-    straight: ComponentOrFactory = straight_function,
-    taper: Optional[ComponentOrFactory] = taper_function,
-    cross_section: CrossSectionFactory = strip,
+    bend: ComponentSpec = "bend_euler",
+    taper: Optional[ComponentSpec] = "taper",
+    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = "strip",
     **kwargs
 ) -> Route:
-    """Returns a route formed by the given waypoints steps
-    bends instead of corners and optionally tapers in straight sections.
-    Tapering to wider straights reduces the optical loss.
+    """Returns a route formed by the given waypoints steps.
+
+    Uses smooth euler bends instead of corners and optionally tapers in straight sections.
+    Tapering to wider straights reduces the optical loss when auto_widen=True.
     `get_route_from_steps` is a manual version of `get_route`
     and a more concise and convenient version of `get_route_from_waypoints`
 
     Args:
-        port1: start port
-        port2: end port
-        steps: changes that define the route [{'dx': 5}, {'dy': 10}]
-        bend: function that returns bends
-        straight: function that returns straight waveguides
-        taper: function that returns tapers
-        cross_section
-        **kwargs: cross_section settings
+        port1: start port.
+        port2: end port.
+        steps: changes that define the route [{'dx': 5}, {'dy': 10}].
+        bend: function that returns bends.
+        straight: straight spec.
+        taper: taper spec.
+        cross_section: cross_section spec.
+        kwargs: cross_section settings.
 
     .. plot::
         :include-source:
@@ -69,11 +71,11 @@ def get_route_from_steps(
         )
         c.add(route.references)
         c.plot()
-        c.show()
+        c.show(show_ports=True)
 
     """
-    x, y = port1.midpoint
-    x2, y2 = port2.midpoint
+    x, y = port1.center
+    x2, y2 = port2.center
 
     waypoints = [(x, y)]
     steps = steps or []
@@ -86,37 +88,49 @@ def get_route_from_steps(
         waypoints += [(x, y)]
 
     waypoints += [(x2, y2)]
-
-    x = cross_section(**kwargs)
-    auto_widen = x.info.get("auto_widen", False)
-    width1 = x.info.get("width")
-    width2 = x.info.get("width_wide") if auto_widen else width1
-    taper_length = x.info.get("taper_length")
     waypoints = np.array(waypoints)
 
-    if auto_widen:
-        taper = (
-            taper(
-                length=taper_length,
-                width1=width1,
-                width2=width2,
+    if not isinstance(cross_section, list):
+        x = gf.get_cross_section(cross_section, **kwargs)
+        auto_widen = x.auto_widen
+
+        if auto_widen:
+            taper = gf.get_component(
+                taper,
+                length=x.taper_length,
+                width1=x.width,
+                width2=x.width_wide,
                 cross_section=cross_section,
                 **kwargs,
             )
-            if callable(taper)
-            else taper
-        )
+        else:
+            taper = None
     else:
         taper = None
 
     return round_corners(
         points=waypoints,
         bend=bend,
-        straight=straight,
         taper=taper,
         cross_section=cross_section,
+        with_sbend=False,
         **kwargs,
     )
+
+
+get_route_from_steps_electrical = gf.partial(
+    get_route_from_steps, bend="wire_corner", taper=None, cross_section="metal3"
+)
+
+get_route_from_steps_electrical_multilayer = gf.partial(
+    get_route_from_steps,
+    bend=via_corner,
+    taper=None,
+    cross_section=[
+        (gf.cross_section.metal2, (90, 270)),
+        ("metal_routing", (0, 180)),
+    ],
+)
 
 
 @gf.cell
@@ -168,6 +182,7 @@ def test_route_from_steps() -> gf.Component:
 
 if __name__ == "__main__":
     # c = test_route_from_steps()
+
     c = gf.Component("get_route_from_steps_sample")
     w = gf.components.straight()
     left = c << w
@@ -180,12 +195,29 @@ if __name__ == "__main__":
     route = get_route_from_steps(
         port1=p2,
         port2=p1,
-        # steps=[
-        #     {"x": 20, "y": 0},
-        #     {"x": 20, "y": 20},
-        #     {"x": 120, "y": 20},
-        #     {"x": 120, "y": 80},
-        # ],
+        steps=[
+            {"x": 20, "y": 0},
+            {"x": 20, "y": 20},
+            {"x": 120, "y": 20},
+            {"x": 120, "y": 80},
+        ],
     )
     c.add(route.references)
-    c.show()
+    c.add(route.labels)
+    c.show(show_ports=True)
+
+    # c = gf.Component("pads_route_from_steps")
+    # pt = c << gf.components.pad_array(orientation=270, columns=3)
+    # pb = c << gf.components.pad_array(orientation=90, columns=3)
+    # pt.move((100, 200))
+    # route = gf.routing.get_route_from_steps_electrical(
+    #     pb.ports["e11"],
+    #     pt.ports["e11"],
+    #     steps=[
+    #         {"y": 200},
+    #     ],
+    #     # cross_section='metal_routing',
+    #     # bend=gf.components.wire_corner,
+    # )
+    # c.add(route.references)
+    # c.show(show_ports=True)

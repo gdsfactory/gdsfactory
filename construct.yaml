@@ -1,0 +1,43 @@
+name: gdsfactory
+version: 6.0.0
+installer_type: all
+
+channels:
+  - https://conda.anaconda.org/conda-forge
+  - https://conda.anaconda.org/flaport
+  - http://repo.anaconda.com/pkgs/main/
+
+specs:
+  - python==3.9.13
+  - mamba
+  - pip
+  - gdsfactory
+  - freetype-py
+  - spyder
+  - jupyterlab
+  - networkx
+  - bokeh
+  - google-cloud-storage
+  - holoviews
+  - ipympl
+  - ipywidgets
+  - networkx
+  - pyglet
+  - scikit-image
+  - triangle
+  - trimesh
+  - pyvista
+  - mkl
+  - console_shortcut # [win]
+  - anaconda-navigator
+  - pymeep # [unix]
+  - jax # [unix]
+  - jaxlib # [unix]
+  - menuinst # [win]
+
+post_install: install.sh  # [linux]
+post_install: install.bat  # [win]
+welcome_image: docs/logo.png # [win]
+header_image: docs/logo.png # [win]
+icon_image: docs/logo256x256.png # [win]
+# license_file: LICENSE

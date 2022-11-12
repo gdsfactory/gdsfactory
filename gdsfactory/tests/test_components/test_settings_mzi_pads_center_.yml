@@ -1,0 +1,69 @@
+name: mzi_pads_center
+settings:
+  changed: {}
+  child: null
+  default:
+    cross_section: strip
+    cross_section_metal: metal_routing
+    delta_length: 40.0
+    end_straight_length: 5
+    length_x: 500
+    length_y: 40
+    metal_route_width: 10
+    mzi:
+      function: mzi
+    mzi_gnd_bot: e4
+    mzi_gnd_top: e2
+    mzi_sig_bot: e1
+    mzi_sig_top: e3
+    pad:
+      function: pad
+    pad_gnd_bot: e4_1_2
+    pad_gnd_top: e2_1_2
+    pad_sig_bot: e1_1_1
+    pad_sig_top: e3_1_3
+    pad_spacing: 150.0
+    ps_bot:
+      function: straight_heater_metal_undercut
+      settings:
+        with_undercut: false
+    ps_top:
+      function: straight_heater_metal_undercut
+      settings:
+        with_undercut: false
+    start_straight_length: 5
+  full:
+    cross_section: strip
+    cross_section_metal: metal_routing
+    delta_length: 40.0
+    end_straight_length: 5
+    length_x: 500
+    length_y: 40
+    metal_route_width: 10
+    mzi:
+      function: mzi
+    mzi_gnd_bot: e4
+    mzi_gnd_top: e2
+    mzi_sig_bot: e1
+    mzi_sig_top: e3
+    pad:
+      function: pad
+    pad_gnd_bot: e4_1_2
+    pad_gnd_top: e2_1_2
+    pad_sig_bot: e1_1_1
+    pad_sig_top: e3_1_3
+    pad_spacing: 150.0
+    ps_bot:
+      function: straight_heater_metal_undercut
+      settings:
+        with_undercut: false
+    ps_top:
+      function: straight_heater_metal_undercut
+      settings:
+        with_undercut: false
+    start_straight_length: 5
+  function_name: mzi_pads_center
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.mzi_pads_center
+  name: mzi_pads_center

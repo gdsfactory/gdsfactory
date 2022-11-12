@@ -1,12 +1,8 @@
 import warnings
 
-import numpy as np
-
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_euler import bend_euler180
-from gdsfactory.cross_section import strip
-from gdsfactory.types import ComponentFactory, CrossSectionFactory
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -14,20 +10,22 @@ def delay_snake2(
     length: float = 1600.0,
     length0: float = 0.0,
     n: int = 2,
-    bend180: ComponentFactory = bend_euler180,
-    cross_section: CrossSectionFactory = strip,
+    bend180: ComponentSpec = "bend_euler180",
+    cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
-    """Snake input facing west
+    """Snake input facing west.
+
     Snake output facing east
+    This snakes can have a starting offset (length0)
 
     Args:
-        length: total length
-        length0: initial offset
-        n: number of loops
-        bend180
-        cross_section: factory
-        **kwargs: cross_section settings
+        length: total length.
+        length0: initial offset.
+        n: number of loops.
+        bend180: ubend spec.
+        cross_section: cross_section spec.
+        kwargs: cross_section settings.
 
     .. code::
 
@@ -40,14 +38,14 @@ def delay_snake2(
        |------------------->
 
        |   delta_length    |
-
-
     """
     if n % 2:
         warnings.warn(f"rounding {n} to {n//2 *2}", stacklevel=3)
         n = n // 2 * 2
-    bend180 = bend180(cross_section=cross_section, **kwargs)
-    delta_length = (length - length0 - n * bend180.info.length) / (n + 1)
+
+    bend180 = gf.get_component(bend180, cross_section=cross_section, **kwargs)
+
+    delta_length = (length - length0 - n * bend180.info["length"]) / (n + 1)
     length1 = delta_length - length0
     assert (
         length1 > 0
@@ -68,27 +66,15 @@ def delay_snake2(
 
     sequence = "_)" + n // 2 * "-(-)"
     sequence = sequence[:-1]
-    c = gf.components.component_sequence(
+    return gf.components.component_sequence(
         sequence=sequence, symbol_to_component=symbol_to_component
     )
-    gf.port.auto_rename_ports(c)
-    return c
-
-
-def test_delay_snake2_length() -> Component:
-    length = 200.0
-    c = delay_snake2(n=2, length=length, layer=(2, 0))
-    length_measured = (
-        c.aliases[")1"].parent.info.length * 2 + c.aliases["-1"].parent.info.length * 3
-    )
-    assert np.isclose(
-        length, length_measured
-    ), f"length measured = {length_measured} != {length}"
-    return c
 
 
 if __name__ == "__main__":
-    c = test_delay_snake2_length()
-    c.show()
-    # c = delay_snake2(n=2, length=200, layer=(2,0))
-    # c.show()
+    # c = test_delay_snake2_length()
+    # c.show(show_ports=True)
+    # c = delay_snake2(n=2, length=500, layer=(2, 0), length0=100)
+
+    c = delay_snake2()
+    c.show(show_ports=True)

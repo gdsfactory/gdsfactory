@@ -2,30 +2,29 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.cross_section import strip
-from gdsfactory.types import ComponentFactory, CrossSectionFactory
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
 def coupler_asymmetric(
-    bend: ComponentFactory = bend_s,
-    straight: ComponentFactory = straight_function,
+    bend: ComponentSpec = bend_s,
+    straight: ComponentSpec = straight_function,
     gap: float = 0.234,
     dy: float = 5.0,
     dx: float = 10.0,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionSpec = "strip",
     **kwargs
 ) -> Component:
-    """bend coupled to straight waveguide
+    """Bend coupled to straight waveguide.
 
     Args:
-        bend:
-        straight: straight library
-        gap: um
-        dy: port to port vertical spacing
-        dx: bend length in x direction
-        cross_section:
-        **kwargs: cross_section settings
+        bend: spec.
+        straight: straight spec.
+        gap: um.
+        dy: port to port vertical spacing.
+        dx: bend length in x direction.
+        cross_section: spec.
+        kwargs: cross_section settings.
 
     .. code::
 
@@ -36,10 +35,9 @@ def coupler_asymmetric(
                _____/          |
          gap o1____________    |  dy
                             o3
-
     """
-    x = cross_section(**kwargs)
-    width = x.info["width"]
+    x = gf.get_cross_section(cross_section, **kwargs)
+    width = x.width
     bend_component = (
         bend(size=(dx, dy - gap - width), cross_section=cross_section, **kwargs)
         if callable(bend)
@@ -67,13 +65,15 @@ def coupler_asymmetric(
     c.absorb(bottom_bend)
 
     port_width = 2 * w + gap
-    c.add_port(name="o1", midpoint=[0, 0], width=port_width, orientation=180)
-    c.add_port(port=bottom_bend.ports["o2"], name="o3")
-    c.add_port(port=wg.ports["o2"], name="o2")
+    c.add_port(
+        name="o1", center=(0, 0), width=port_width, orientation=180, cross_section=x
+    )
+    c.add_port(name="o3", port=bottom_bend.ports["o2"])
+    c.add_port(name="o2", port=wg.ports["o2"])
 
     return c
 
 
 if __name__ == "__main__":
     c = coupler_asymmetric(gap=0.4, layer=(2, 0))
-    c.show()
+    c.show(show_ports=True)

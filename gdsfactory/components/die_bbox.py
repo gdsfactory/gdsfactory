@@ -1,3 +1,4 @@
+"""based on phidl.geometry."""
 from typing import Optional
 
 import numpy as np
@@ -5,42 +6,40 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.text import text
-from gdsfactory.types import Layer
+from gdsfactory.types import Anchor, ComponentSpec, LayerSpec
 
 big_square = gf.partial(rectangle, size=(1300, 2600))
 
 
 @gf.cell
 def die_bbox(
-    component: gf.types.ComponentOrFactory = big_square,
+    component: ComponentSpec = big_square,
     street_width: float = 100.0,
-    street_length: float = 1000.0,
+    street_length: Optional[float] = None,
     die_name: Optional[str] = None,
     text_size: float = 100.0,
-    text_location: str = "SW",
-    layer: Layer = (49, 0),
+    text_anchor: Anchor = "sw",
+    layer: LayerSpec = "M3",
     padding: float = 10.0,
 ) -> gf.Component:
-    """Creates a basic boundary box. Perfect for defining dicing lanes.
-    the boundary of the chip/die
-    it can also add a label with the name of the die.
-    similar to die and bbox
+    """Returns component with boundary box frame around it.
 
-    adapted from phidl.geometry
+    Perfect for defining the boundary of the chip/die
+    it can also add a label with the name of the die.
+    similar to die and bbox.
 
     Args:
-        component: to frame
-        street_width: Width of the boundary box
-        street_length: length of the boundary box
+        component: to frame.
+        street_width: Width of the boundary box.
+        street_length: length of the boundary box.
         die_name: Label text.
         text_size: Label text size.
-        text_location: {'NW', 'N', 'NE', 'SW', 'S', 'SE'} Label text compass location.
+        text_anchor: {'nw', 'nc', 'ne', 'sw', 'sc', 'se'} text location.
         layer: Specific layer(s) to put polygon geometry on.
-        padding: adds padding
-
+        padding: adds padding.
     """
     D = gf.Component()
-    component = component() if callable(component) else component
+    component = gf.get_component(component)
 
     D.copy_child_info(component)
     cref = D.add_ref(component)
@@ -52,7 +51,7 @@ def die_bbox(
     sx += street_width + padding
     sy += street_width + padding
 
-    street_length = max([sx, sy])
+    street_length = street_length or max([sx, sy])
 
     xpts = np.array(
         [
@@ -83,27 +82,24 @@ def die_bbox(
         t = D.add_ref(text(text=die_name, size=text_size, layer=layer))
 
         d = street_width + 20
-        if type(text_location) is str:
-            text_location = text_location.upper()
-            if text_location == "NW":
-                t.xmin, t.ymax = [-sx + d, sy - d]
-            elif text_location == "N":
-                t.x, t.ymax = [0, sy - d]
-            elif text_location == "NE":
-                t.xmax, t.ymax = [sx - d, sy - d]
-            if text_location == "SW":
-                t.xmin, t.ymin = [-sx + d, -sy + d]
-            elif text_location == "S":
-                t.x, t.ymin = [0, -sy + d]
-            elif text_location == "SE":
-                t.xmax, t.ymin = [sx - d, -sy + d]
-        else:
-            t.x, t.y = text_location
+        if text_anchor == "nw":
+            t.xmin, t.ymax = [-sx + d, sy - d]
+        elif text_anchor == "nc":
+            t.x, t.ymax = [0, sy - d]
+        elif text_anchor == "ne":
+            t.xmax, t.ymax = [sx - d, sy - d]
+        if text_anchor == "sw":
+            t.xmin, t.ymin = [-sx + d, -sy + d]
+        elif text_anchor == "sc":
+            t.x, t.ymin = [0, -sy + d]
+        elif text_anchor == "se":
+            t.xmax, t.ymin = [sx - d, -sy + d]
 
     return D
 
 
 if __name__ == "__main__":
     mask = gf.components.array(rows=10, columns=10)
-    c = die_bbox(component=mask, die_name="chip99")
-    c.show()
+    # c = die_bbox(component=mask, die_name="chip99")
+    c = die_bbox()
+    # c.show(show_ports=True)

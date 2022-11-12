@@ -5,18 +5,19 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.port import Port, select_ports_optical
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentSpec
 
 
 def get_ports_and_tapers(
-    component: Component,
-    taper: ComponentFactory = taper_function,
+    component: ComponentSpec,
+    taper: ComponentSpec = taper_function,
     select_ports: Optional[Callable] = select_ports_optical,
 ) -> Tuple[List[Port], List[ComponentReference]]:
-    """returns ports and taper elements for a component"""
+    """Returns ports and taper elements for a component."""
     elements = []
 
     taper = gf.call_if_func(taper)
+    component = gf.pdk.get_component(component)
     ports = select_ports(component.ports) if select_ports else component.ports
 
     for port in component.ports.copy().values():
@@ -30,24 +31,24 @@ def get_ports_and_tapers(
 
 @cell
 def add_tapers(
-    component: Component,
-    taper: ComponentFactory = taper_function,
+    component: ComponentSpec,
+    taper: ComponentSpec = taper_function,
     select_ports: Optional[Callable] = select_ports_optical,
     taper_port_name1: str = "o1",
     taper_port_name2: str = "o2",
 ) -> Component:
-    """returns new component with taper in all optical ports.
+    """Returns new component with taper in all optical ports.
 
     Args:
-        component:
-        taper: factory for taper
-        select_ports:
-        taper_port_name1:
-        taper_port_name2:
-
+        component: spec for the component to add tapers to.
+        taper: taper spec for each port.
+        select_ports: function to select ports.
+        taper_port_name1: for input.
+        taper_port_name2: for output.
     """
-
     c = gf.Component()
+    component = gf.pdk.get_component(component)
+
     ports_to_taper = select_ports(component.ports) if select_ports else component.ports
     ports_to_taper_names = [p.name for p in ports_to_taper.values()]
 
@@ -75,10 +76,10 @@ if __name__ == "__main__":
 
     # print(cc.ports.keys())
     # print(cc.settings.keys())
-    # cc.show()
+    # cc.show(show_ports=True)
 
     # ports, elements = add_taper_elements(component=c, taper=t)
     # c.ports = ports
     # c.add(elements)
-    # c.show()
+    # c.show(show_ports=True)
     # print(c.ports)

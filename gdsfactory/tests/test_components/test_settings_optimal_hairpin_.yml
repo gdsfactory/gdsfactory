@@ -1,0 +1,27 @@
+name: optimal_hairpin
+settings:
+  changed: {}
+  child: null
+  default:
+    layer:
+    - 1
+    - 0
+    length: 10
+    num_pts: 50
+    pitch: 0.6
+    turn_ratio: 4
+    width: 0.2
+  full:
+    layer:
+    - 1
+    - 0
+    length: 10
+    num_pts: 50
+    pitch: 0.6
+    turn_ratio: 4
+    width: 0.2
+  function_name: optimal_hairpin
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.optimal_hairpin
+  name: optimal_hairpin

@@ -1,36 +1,35 @@
 from typing import Tuple
 
 import numpy as np
-from phidl.geometry import offset
 
-from gdsfactory import components as pc
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.tech import LAYER
+from gdsfactory.components.rectangle import rectangle
+from gdsfactory.geometry.offset import offset
+from gdsfactory.types import LayerSpec
 
 
 @cell
 def resistance_meander(
-    pad_size: Tuple[float] = (50.0, 50.0),
+    pad_size: Tuple[float, float] = (50.0, 50.0),
     num_squares: int = 1000,
     width: float = 1.0,
-    res_layer: Tuple[int, int] = LAYER.M3,
-    pad_layer: Tuple[int, int] = LAYER.M3,
-    gnd_layer: Tuple[int, int] = LAYER.M3,
+    res_layer: LayerSpec = "M3",
+    pad_layer: LayerSpec = "M3",
+    gnd_layer: LayerSpec = "M3",
 ) -> Component:
-    """meander to test resistance
-    from phidl.geometry
+    """Return meander to test resistance.
+
+    based on phidl.geometry
 
     Args:
-        pad_size: Size of the two matched impedance pads (microns)
-        num_squares: Number of squares comprising the resonator wire
-        width: The width of the squares (microns)
-        res_layer:
-        pad_layer:
-        gnd_layer:
-
+        pad_size: Size of the two matched impedance pads (microns).
+        num_squares: Number of squares comprising the resonator wire.
+        width: The width of the squares (microns).
+        res_layer: resistance layer.
+        pad_layer: pad layer.
+        gnd_layer: ground layer.
     """
-
     x = pad_size[0]
     z = pad_size[1]
 
@@ -63,8 +62,8 @@ def resistance_meander(
 
     # Creating row/column corner combination structure
     T = Component()
-    Row = pc.rectangle(size=(length_row, width), layer=res_layer)
-    Col = pc.rectangle(size=(width, width), layer=res_layer)
+    Row = rectangle(size=(length_row, width), layer=res_layer)
+    Col = rectangle(size=(width, width), layer=res_layer)
 
     T.add_ref(Row)
     col = T.add_ref(Col)
@@ -74,12 +73,9 @@ def resistance_meander(
     N = Component("net")
     n = 1
     for i in range(num_rows):
-        if i != num_rows - 1:
-            d = N.add_ref(T)
-        else:
-            d = N.add_ref(Row)
+        d = N.add_ref(T) if i != num_rows - 1 else N.add_ref(Row)
         if n % 2 == 0:
-            d.reflect(p1=(d.x, d.ymax), p2=(d.x, d.ymin))
+            d.mirror(p1=(d.x, d.ymax), p2=(d.x, d.ymin))
         d.movey(-(n - 1) * T.ysize)
         n += 1
     d = N.add_ref(Col).movex(-width)
@@ -87,10 +83,8 @@ def resistance_meander(
 
     # Creating pads
     P = Component()
-    pad1 = pc.rectangle(size=(x, z), layer=pad_layer)
-    pad2 = pc.rectangle(size=(x + 5, z), layer=pad_layer)
-    gnd1 = offset(pad1, distance=-5, layer=gnd_layer)
-    gnd2 = offset(pad2, distance=-5, layer=gnd_layer)
+    pad1 = rectangle(size=(x, z), layer=pad_layer)
+    gnd1 = gnd2 = offset(pad1, distance=-5, layer=gnd_layer)
     pad1_ref = P.add_ref(pad1)
     pad1_ref.movex(-x - width)
     pad2_ref = P.add_ref(pad1)
@@ -111,5 +105,5 @@ def resistance_meander(
 
 
 if __name__ == "__main__":
-    c = resistance_meander()
-    c.show()
+    c = resistance_meander(res_layer="M1", width=0.5)
+    c.show(show_ports=True)
