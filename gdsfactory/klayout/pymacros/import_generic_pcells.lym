@@ -22,10 +22,12 @@ try:
     from gdsfactory.types import ComponentOrReference
 except ImportError:
     import pya
-    pya.MessageBox.info('ubcpdk message',
-                        ('ubcpdk has not been installed. So ubcpdk pcells will not be available.\n' +
-                         'To use these, go into terminal/command line anywhere and type\n\n' +
-                         'pip install ubcpdk'),
+    import sys
+    pya.MessageBox.info('gdsfactory message',
+                        ('gdsfactory has not been installed in the klayout python interpreter. So gdsfactory Pcells are not available.\n'
+                         'To use them, go into terminal/command line anywhere and type `pip install gdsfactory`\n'
+                         'Using Klayout python interpreter'
+                         f'{sys.version} installed in {sys.executable!r}'),
                         pya.MessageBox.Ok)
 
 
