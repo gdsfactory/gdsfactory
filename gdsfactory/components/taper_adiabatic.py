@@ -43,12 +43,12 @@ def taper_adiabatic(
     """Returns a straight adiabatic_taper from an effective index callable.
 
     Args:
-        width1: initial width
-        width2: final width
-        length: 0 uses the optimized length, and otherwise the optimal shape is compressed/stretched to the specified length
+        width1: initial width.
+        width2: final width.
+        length: 0 uses the optimized length, and otherwise the optimal shape is compressed/stretched to the specified length.
         neff_y: a callable that returns the effective index as a function of width
                 - By default, will use a compact model of neff(y) for fundamental 1550 nm TE mode of 220nm-thick core with 3.45 index, fully clad with 1.44 index. Many coefficients are needed to capture the behaviour.
-        alpha: parameter that scales the rate of width change
+        alpha: parameter that scales the rate of width change.
                 - closer to 0 means longer and more adiabatic;
                 - 1 is the intuitive limit beyond which higher order modes are excited;
                 - [2] reports good performance up to 1.4 for fundamental TE in SOI (for multiple core thicknesses)
@@ -110,4 +110,4 @@ def taper_adiabatic(
 
 if __name__ == "__main__":
     c = taper_adiabatic(width1=0.5, width2=5)
-    c.show()
+    c.show(show_ports=True)
