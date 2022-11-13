@@ -229,6 +229,7 @@ from gdsfactory.components.taper import (
     taper_strip_to_ridge,
     taper_strip_to_ridge_trenches,
 )
+from gdsfactory.components.taper_adiabatic import taper_adiabatic
 from gdsfactory.components.taper_cross_section import (
     taper_cross_section_linear,
     taper_cross_section_parabolic,
@@ -497,6 +498,7 @@ __all__ = [
     "spiral_racetrack_heater_metal",
     "spiral_racetrack_heater_doped",
     "taper",
+    "taper_adiabatic",
     "taper2",
     "taper_0p5_to_3_l36",
     "taper_from_csv",
