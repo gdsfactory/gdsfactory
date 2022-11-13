@@ -2780,6 +2780,21 @@ taper_0p5_to_3_l36
 
 
 
+taper_adiabatic
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.taper_adiabatic
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.taper_adiabatic(width1=0.5, width2=5.0, length=0, alpha=1, wavelength=1.55, npoints=200, cross_section='strip')
+  c.plot()
+
+
+
 taper_cross_section_linear
 ----------------------------------------------------
 
@@ -3090,7 +3105,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='5.55.0', text_size=10)
+  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='6.0.0', text_size=10)
   c.plot()
 
 
