@@ -49,8 +49,16 @@ def test_boolean_and_klayout() -> None:
     assert int(c3.area()) == 113
 
 
+def test_trim() -> None:
+    c = gf.components.straight_pin(length=10, taper=None)
+    rectangle = [[0, -5], [0, 5], [5, 5], [5, -5]]
+    trimmed_c = gf.geometry.trim(component=c, domain=rectangle)
+    assert trimmed_c.area() < c.area() and len(trimmed_c.get_layers()) > 1
+
+
 if __name__ == "__main__":
-    test_boolean_xor()
+    # test_boolean_xor()
+    test_trim()
     # c3 = gf.geometry.boolean_klayout(c1, c2, operation="and", layer3=(1, 0))
     # c4 = gf.geometry.boolean(c1, c2, operation="and", layer=(1, 0))
     # print(int(c3.area()))
