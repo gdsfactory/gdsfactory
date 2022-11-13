@@ -13,11 +13,11 @@ from gdsfactory.tech import LayerStack
 from gdsfactory.types import ComponentOrReference
 
 
-def get_bounds(
+def get_u_bounds_polygons(
     polygons: Union[MultiPolygon, List[Polygon]],
     xsection_bounds: Tuple[Tuple[float, float], Tuple[float, float]],
 ):
-    """Performs the bound extraction given a (Multi)Polygon or [Polygon].
+    """Performs the bound extraction given a (Multi)Polygon or [Polygon] and cross-sectional line coordinates.
 
     Args:
         layer_polygons_dict: dict containing layernames: shapely polygons pairs
@@ -38,7 +38,7 @@ def get_bounds(
     return return_list
 
 
-def get_xsection_bounds_inplane(
+def get_u_bounds_layers(
     layer_polygons_dict: Dict[str, MultiPolygon],
     xsection_bounds: Tuple[Tuple[float, float], Tuple[float, float]],
 ):
@@ -55,16 +55,14 @@ def get_xsection_bounds_inplane(
     bounds_dict = {}
     for layername, polygons in layer_polygons_dict.items():
         bounds_dict[layername] = []
-        bounds = get_bounds(polygons, xsection_bounds)
+        bounds = get_u_bounds_polygons(polygons, xsection_bounds)
         if bounds:
             bounds_dict[layername] = bounds
-
-    print(bounds_dict)
 
     return bounds_dict
 
 
-def get_xsection_bound_polygons(
+def get_uz_bounds_layers(
     layer_polygons_dict: Dict[str, MultiPolygon],
     xsection_bounds: Tuple[Tuple[float, float], Tuple[float, float]],
     layerstack: LayerStack,
@@ -79,7 +77,7 @@ def get_xsection_bound_polygons(
     Returns: Dict containing layer: polygon pairs, with (u1,u2) in xsection line coordinates
     """
     # Get in-plane cross-sections
-    inplane_bounds_dict = get_xsection_bounds_inplane(
+    inplane_bounds_dict = get_u_bounds_layers(
         layer_polygons_dict, xsection_bounds
     )
 
@@ -129,15 +127,14 @@ def uz_xsection_mesh(
     layer_polygons_dict = cleanup_component(component, layerstack)
 
     # Find coordinates
-    bounds_dict = get_xsection_bound_polygons(
+    bounds_dict = get_uz_bounds_layers(
         layer_polygons_dict, xsection_bounds, layerstack
     )
 
     # Create polygons from bounds and layers
     layer_order = order_layerstack(layerstack)
     shapes = OrderedDict()
-    ordered_layers = set(layer_order).intersection(bounds_dict.keys())
-    for layer in ordered_layers:
+    for layer in layer_order:
         layer_shapes = []
         for polygon in bounds_dict[layer]:
             layer_shapes.append(polygon)
