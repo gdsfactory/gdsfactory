@@ -1,5 +1,5 @@
 from collections import OrderedDict
-from typing import Dict, Optional, Tuple
+from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
 from shapely.geometry import LineString, MultiPolygon, Point, Polygon
@@ -7,17 +7,42 @@ from shapely.ops import unary_union
 
 import gdsfactory as gf
 from gdsfactory.simulation.gmsh.mesh import mesh_from_polygons
-from gdsfactory.simulation.gmsh.parse_gds import fuse_component_layer, to_polygons
+from gdsfactory.simulation.gmsh.parse_gds import cleanup_component, to_polygons
 from gdsfactory.simulation.gmsh.parse_layerstack import order_layerstack
 from gdsfactory.tech import LayerStack
 from gdsfactory.types import ComponentOrReference
+
+
+def get_bounds(
+    polygons: Union[MultiPolygon, List[Polygon]],
+    xsection_bounds: Tuple[Tuple[float, float], Tuple[float, float]],
+):
+    """Performs the bound extraction given a (Multi)Polygon or [Polygon].
+
+    Args:
+        layer_polygons_dict: dict containing layernames: shapely polygons pairs
+        xsection_bounds: ( (x1,y1), (x2,y2) ), with x1,y1 beginning point of cross-sectional line and x2,y2 the end.
+
+    Returns: list of bounding box coordinates (u1,u2)) in xsection line coordinates (distance from xsection_bounds[0]).
+    """
+    line = LineString(xsection_bounds)
+    linestart = Point(xsection_bounds[0])
+
+    return_list = []
+    for polygon in polygons if hasattr(polygons, "geoms") else [polygons]:
+        intersection = polygon.intersection(line).bounds
+        if intersection:
+            p1 = Point([intersection[0], intersection[1]])
+            p2 = Point([intersection[2], intersection[3]])
+            return_list.append([linestart.distance(p1), linestart.distance(p2)])
+    return return_list
 
 
 def get_xsection_bounds_inplane(
     layer_polygons_dict: Dict[str, MultiPolygon],
     xsection_bounds: Tuple[Tuple[float, float], Tuple[float, float]],
 ):
-    """Given a component c and two coordinates (x1,y1), (x2,y2), computes the \
+    """Given a layer_polygons_dict and two coordinates (x1,y1), (x2,y2), computes the \
         bounding box(es) of each layer in the xsection coordinate system (u).
 
     Args:
@@ -27,22 +52,14 @@ def get_xsection_bounds_inplane(
     Returns: Dict containing layer(list pairs, with list a list of bounding box coordinates (u1,u2))
         in xsection line coordinates.
     """
-    # Create line component for bool
-    line = LineString(xsection_bounds)
-    linestart = Point(xsection_bounds[0])
-
-    # For each layer in component, extract point where line intersects
     bounds_dict = {}
     for layername, polygons in layer_polygons_dict.items():
         bounds_dict[layername] = []
-        for polygon in polygons if hasattr(polygons, "geoms") else [polygons]:
-            intersection = polygon.intersection(line).bounds
-            if intersection:
-                p1 = Point([intersection[0], intersection[1]])
-                p2 = Point([intersection[2], intersection[3]])
-                bounds_dict[layername].append(
-                    [linestart.distance(p1), linestart.distance(p2)]
-                )
+        bounds = get_bounds(polygons, xsection_bounds)
+        if bounds:
+            bounds_dict[layername] = bounds
+
+    print(bounds_dict)
 
     return bounds_dict
 
@@ -109,12 +126,7 @@ def uz_xsection_mesh(
     filename: Optional[str] = None,
 ):
     # Fuse and cleanup polygons of same layer in case user overlapped them
-    layer_dict = layerstack.to_dict()
-    layer_polygons_dict = {}
-    for layername in layer_dict.keys():  # filtered_layerdict.items():
-        layer_polygons_dict[layername] = fuse_component_layer(
-            component, layername, layer_dict[layername]
-        )
+    layer_polygons_dict = cleanup_component(component, layerstack)
 
     # Find coordinates
     bounds_dict = get_xsection_bound_polygons(
@@ -132,6 +144,7 @@ def uz_xsection_mesh(
         shapes[layer] = MultiPolygon(to_polygons(layer_shapes))
 
     # Add background polygon
+    # TODO: buffer the union instead of adding a square
     if background_tag is not None:
         bounds = unary_union([shape for shape in shapes.values()]).bounds
         shapes[background_tag] = Polygon(
