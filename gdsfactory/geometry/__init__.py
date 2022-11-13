@@ -11,6 +11,7 @@ from gdsfactory.geometry.check_width import check_width
 from gdsfactory.geometry.invert import invert
 from gdsfactory.geometry.offset import offset
 from gdsfactory.geometry.outline import outline
+from gdsfactory.geometry.trim import trim
 from gdsfactory.geometry.union import union
 from gdsfactory.geometry.xor_diff import xor_diff
 
@@ -28,4 +29,5 @@ __all__ = (
     "union",
     "xor_diff",
     "functions",
+    "trim",
 )
