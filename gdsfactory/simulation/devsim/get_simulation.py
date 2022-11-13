@@ -1,18 +1,15 @@
 from typing import Optional, Tuple
 
-import devsim
-import matplotlib.pyplot as plt
-import meshio
+import numpy as np
 from devsim import (
     add_gmsh_region,
     create_device,
     create_gmsh_mesh,
     finalize_mesh,
     get_node_model_values,
-    write_devices,
     node_solution,
     set_node_values,
-    node_model
+    write_devices,
 )
 
 from gdsfactory import Component
@@ -23,7 +20,6 @@ from gdsfactory.simulation.gmsh import (
     uz_xsection_mesh,
 )
 from gdsfactory.tech import LayerStack
-import numpy as np
 
 
 def create_2Duz_simulation(
@@ -38,7 +34,7 @@ def create_2Duz_simulation(
     devsim_mesh_file_name="devsim.dat",
 ):
     # Get structural mesh
-    physical_mesh = uz_xsection_mesh(
+    uz_xsection_mesh(
         component,
         xsection_bounds,
         physical_layerstack,
@@ -55,7 +51,6 @@ def create_2Duz_simulation(
         doping_polygons[layername] = bounds
 
     # Define structural mesh in DEVSIM
-    mesh = meshio.read(temp_file_name, file_format="gmsh")
     create_gmsh_mesh(file=temp_file_name, mesh=devsim_mesh_name)
     physical_layerstack_dict = physical_layerstack.to_dict()
     for name, values in physical_layerstack_dict.items():
@@ -78,27 +73,39 @@ def create_2Duz_simulation(
     # Assign doping fields to the structural mesh
     # Hardcoded silicon only now
     xpos = get_node_model_values(device=devsim_device_name, region="si", name="x")
-    ypos = get_node_model_values(device=devsim_device_name, region="si", name="y")
+    # ypos = get_node_model_values(device=devsim_device_name, region="si", name="y")
 
     acceptor = np.zeros_like(xpos)
     donor = np.zeros_like(xpos)
-    net_doping = np.zeros_like(xpos)
     for layername, bounds in doping_polygons.items():
         for bound in bounds:
-            node_inds = np.intersect1d(np.where(xpos >= bound[0]*np.ones_like(xpos)), np.where(xpos <= bound[1]*np.ones_like(xpos)))
+            node_inds = np.intersect1d(
+                np.where(xpos >= bound[0] * np.ones_like(xpos)),
+                np.where(xpos <= bound[1] * np.ones_like(xpos)),
+            )
             # Assume step doping for now (does not depend on y, or z)
             if doping_info[layername].type == "Acceptor":
                 acceptor[node_inds] += doping_info[layername].z_profile(0)
             elif doping_info[layername].type == "Donor":
                 donor[node_inds] += doping_info[layername].z_profile(0)
             else:
-                raise ValueError(f"Doping type \"{doping_info[layername].type}\" not supported.")
+                raise ValueError(
+                    f'Doping type "{doping_info[layername].type}" not supported.'
+                )
+
+    net_doping = donor - acceptor
 
     node_solution(device=devsim_device_name, region="si", name="Acceptors")
-    set_node_values(device=devsim_device_name, region="si", name="Acceptors", values=acceptor)
+    set_node_values(
+        device=devsim_device_name, region="si", name="Acceptors", values=acceptor
+    )
     node_solution(device=devsim_device_name, region="si", name="Donors")
     set_node_values(device=devsim_device_name, region="si", name="Donors", values=donor)
-    node_model(device=devsim_device_name, region="si", name="NetDoping", equation="Donors-Acceptors")
+    node_solution(device=devsim_device_name, region="si", name="Acceptors")
+    node_solution(device=devsim_device_name, region="si", name="NetDoping")
+    set_node_values(
+        device=devsim_device_name, region="si", name="NetDoping", values=net_doping
+    )
 
     write_devices(file=devsim_mesh_file_name, type="tecplot")
 
