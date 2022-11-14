@@ -10,7 +10,7 @@ from gdsfactory.component_layout import _parse_layer
 @gf.cell
 def trim(
     component: Component,
-    domain: List[Tuple[int, int]],
+    domain: List[Tuple[float, float]],
     precision: float = 1e-4,
     return_ports: Optional[bool] = False,
 ) -> Component:
@@ -24,7 +24,7 @@ def trim(
         precision: float Desired precision for rounding vertex coordinates.
         return_ports: whether to return the included ports or not. Ports are always renamed to avoid inheritance conflicts.
 
-    Returns: All layers (and possibly ports) of the component restricted to the domain polygon.
+    Returns: New component with layers (and possibly ports) of the component restricted to the domain.
     """
     domain_shape = gdstk.Polygon(domain)
     c = Component()
