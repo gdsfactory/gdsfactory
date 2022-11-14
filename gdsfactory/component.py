@@ -1871,9 +1871,8 @@ def copy(D: Component) -> Component:
             rotation=ref.rotation,
             magnification=ref.magnification,
             x_reflection=ref.x_reflection,
+            name=ref.name,
         )
-        # new_ref.name = ref.name if hasattr(ref, "name") else ref.parent.name
-        new_ref.owner = D_copy
         D_copy.add(new_ref)
 
     for port in D.ports.values():
