@@ -23,6 +23,7 @@ def xy_xsection_mesh(
     default_resolution_max: float = 0.5,
     background_tag: Optional[str] = None,
     background_padding: Tuple[float, float, float, float] = (2.0, 2.0, 2.0, 2.0),
+    filename: Optional[str] = None,
 ):
     """Mesh xy cross-section of component at height z.
 
@@ -42,7 +43,7 @@ def xy_xsection_mesh(
     # Fuse and cleanup polygons of same layer in case user overlapped them
     layer_dict = layerstack.to_dict()
     layer_polygons_dict = {}
-    for layername in layers:  # filtered_layerdict.items():
+    for layername in layers:
         layer_polygons_dict[layername] = fuse_component_layer(
             component, layername, layer_dict[layername]
         )

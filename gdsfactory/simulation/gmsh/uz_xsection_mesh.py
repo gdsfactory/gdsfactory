@@ -1,81 +1,71 @@
 from collections import OrderedDict
-from typing import Dict, Optional, Tuple
+from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
-from shapely.geometry import MultiPolygon, Polygon
+from shapely.geometry import LineString, MultiPolygon, Point, Polygon
 from shapely.ops import unary_union
 
 import gdsfactory as gf
-from gdsfactory.geometry.boolean import boolean
 from gdsfactory.simulation.gmsh.mesh import mesh_from_polygons
-from gdsfactory.simulation.gmsh.parse_gds import to_polygons
+from gdsfactory.simulation.gmsh.parse_gds import cleanup_component, to_polygons
 from gdsfactory.simulation.gmsh.parse_layerstack import order_layerstack
 from gdsfactory.tech import LayerStack
-from gdsfactory.types import ComponentOrReference, Layer
+from gdsfactory.types import ComponentOrReference
 
 
-def get_xsection_bounds_inplane(
-    component: ComponentOrReference,
+def get_u_bounds_polygons(
+    polygons: Union[MultiPolygon, List[Polygon]],
     xsection_bounds: Tuple[Tuple[float, float], Tuple[float, float]],
-    layer_stack: Optional[LayerStack] = None,
-    line_layer: Optional[Layer] = 99,
-    line_width: Optional[float] = 0.01,
 ):
-    """Given a component c and two coordinates (x1,y1), (x2,y2), computes the \
-        bounding box(es) of each layer in the xsection coordinate system (u).
-
-    Uses gdsfactory boolean and component.extract
+    """Performs the bound extraction given a (Multi)Polygon or [Polygon] and cross-sectional line coordinates.
 
     Args:
-        component: Component or ComponentReference.
+        layer_polygons_dict: dict containing layernames: shapely polygons pairs
         xsection_bounds: ( (x1,y1), (x2,y2) ), with x1,y1 beginning point of cross-sectional line and x2,y2 the end.
-        line_layer: (dummy) layer to put the extraction line on.
-        line_width: (dummy) thickness of extraction line. Cannot be 0, should be small (near dbu) for accuracy.
+
+    Returns: list of bounding box coordinates (u1,u2)) in xsection line coordinates (distance from xsection_bounds[0]).
+    """
+    line = LineString(xsection_bounds)
+    linestart = Point(xsection_bounds[0])
+
+    return_list = []
+    for polygon in polygons if hasattr(polygons, "geoms") else [polygons]:
+        intersection = polygon.intersection(line).bounds
+        if intersection:
+            p1 = Point([intersection[0], intersection[1]])
+            p2 = Point([intersection[2], intersection[3]])
+            return_list.append([linestart.distance(p1), linestart.distance(p2)])
+    return return_list
+
+
+def get_u_bounds_layers(
+    layer_polygons_dict: Dict[str, MultiPolygon],
+    xsection_bounds: Tuple[Tuple[float, float], Tuple[float, float]],
+):
+    """Given a layer_polygons_dict and two coordinates (x1,y1), (x2,y2), computes the \
+        bounding box(es) of each layer in the xsection coordinate system (u).
+
+    Args:
+        layer_polygons_dict: dict containing layernames: shapely polygons pairs
+        xsection_bounds: ( (x1,y1), (x2,y2) ), with x1,y1 beginning point of cross-sectional line and x2,y2 the end.
 
     Returns: Dict containing layer(list pairs, with list a list of bounding box coordinates (u1,u2))
         in xsection line coordinates.
     """
-    # Create line component for bool
-    P = gf.Path(xsection_bounds)
-    X = gf.CrossSection(width=line_width, layer=line_layer)
-    line = gf.path.extrude(P, X)
-
-    # Ref line vector
-    ref_vector_origin = np.array(xsection_bounds[0])
-
-    # For each layer in component, extract point where line intersects
-    # Choose intersecting polygon edge with maximal (including sign) dot product to reference line
     bounds_dict = {}
-    layer_dict = layer_stack.to_dict()
-    for layername, layer in layer_dict.items():
-        bounds_layer = []
-        c_layer = component.extract(layer["layer"])
-        layer_boolean = boolean(c_layer, line, "and")
-        polygons = layer_boolean.get_polygons()
-        for polygon in polygons:
-            # Min point is midpoint between two closest vertices to origin
-            distances_origin = np.linalg.norm(polygon - ref_vector_origin, axis=1)
-            distances_sort_index = np.argsort(distances_origin)
-            min_point = (
-                polygon[distances_sort_index[0]] + polygon[distances_sort_index[1]]
-            ) / 2
-            max_point = (
-                polygon[distances_sort_index[2]] + polygon[distances_sort_index[3]]
-            ) / 2
-
-            umin = np.linalg.norm(min_point - ref_vector_origin)
-            umax = np.linalg.norm(max_point - ref_vector_origin)
-
-            bounds_layer.append((umin, umax))
-        bounds_dict[layername] = bounds_layer
+    for layername, polygons in layer_polygons_dict.items():
+        bounds_dict[layername] = []
+        bounds = get_u_bounds_polygons(polygons, xsection_bounds)
+        if bounds:
+            bounds_dict[layername] = bounds
 
     return bounds_dict
 
 
-def get_xsection_bound_polygons(
-    component: ComponentOrReference,
+def get_uz_bounds_layers(
+    layer_polygons_dict: Dict[str, MultiPolygon],
     xsection_bounds: Tuple[Tuple[float, float], Tuple[float, float]],
-    layer_stack: Optional[LayerStack] = None,
+    layerstack: LayerStack,
 ):
     """Given a component and layer stack, computes the bounding box(es) of each \
             layer in the xsection coordinate system (u,z).
@@ -83,21 +73,18 @@ def get_xsection_bound_polygons(
     Args:
         component: Component or ComponentReference.
         xsection_bounds: ( (x1,y1), (x2,y2) ), with x1,y1 beginning point of cross-sectional line and x2,y2 the end
-        line_layer: (dummy) layer to put the extraction line on.
-        line_width: (dummy) thickness of extraction line. Cannot be 0, should be small (near dbu) for accuracy.
 
     Returns: Dict containing layer: polygon pairs, with (u1,u2) in xsection line coordinates
     """
     # Get in-plane cross-sections
-    inplane_bounds_dict = get_xsection_bounds_inplane(
-        component, xsection_bounds, layer_stack
-    )
-
-    # Generate full bounding boxes
-    layer_dict = layer_stack.to_dict()
+    inplane_bounds_dict = get_u_bounds_layers(layer_polygons_dict, xsection_bounds)
 
     outplane_bounds_dict = {}
 
+    for key, value in inplane_bounds_dict.items():
+        print(key, value)
+
+    layer_dict = layerstack.to_dict()
     for layername, inplane_bounds_list in inplane_bounds_dict.items():
         outplane_polygons_list = []
         for inplane_bounds in inplane_bounds_list:
@@ -132,23 +119,27 @@ def uz_xsection_mesh(
     default_resolution_max: float = 0.5,
     background_tag: Optional[str] = None,
     background_padding: Tuple[float, float, float, float] = (2.0, 2.0, 2.0, 2.0),
+    filename: Optional[str] = None,
 ):
+    # Fuse and cleanup polygons of same layer in case user overlapped them
+    layer_polygons_dict = cleanup_component(component, layerstack)
 
     # Find coordinates
-    bounds_dict = get_xsection_bound_polygons(component, xsection_bounds, layerstack)
+    bounds_dict = get_uz_bounds_layers(layer_polygons_dict, xsection_bounds, layerstack)
 
     # Create polygons from bounds and layers
     layer_order = order_layerstack(layerstack)
     shapes = OrderedDict()
-    ordered_layers = set(layer_order).intersection(bounds_dict.keys())
-    for layer in ordered_layers:
+    for layer in layer_order:
         layer_shapes = []
         for polygon in bounds_dict[layer]:
             layer_shapes.append(polygon)
         shapes[layer] = MultiPolygon(to_polygons(layer_shapes))
 
     # Add background polygon
+    # TODO: buffer the union instead of adding a square
     if background_tag is not None:
+        # shapes[background_tag] = bounds.buffer(background_padding[0])
         bounds = unary_union([shape for shape in shapes.values()]).bounds
         shapes[background_tag] = Polygon(
             [
@@ -163,7 +154,7 @@ def uz_xsection_mesh(
     return mesh_from_polygons(
         shapes,
         resolutions=resolutions,
-        filename="mesh.msh",
+        filename=filename,
         default_resolution_min=default_resolution_min,
         default_resolution_max=default_resolution_max,
     )
@@ -199,6 +190,7 @@ if __name__ == "__main__":
         filtered_layerstack,
         resolutions=resolutions,
         background_tag="Oxide",
+        filename="mesh.msh",
     )
 
     import meshio
