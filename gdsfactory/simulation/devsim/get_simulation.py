@@ -1,10 +1,14 @@
 from typing import Dict, Optional, Tuple
 
+import numpy as np
 from devsim import (
     add_gmsh_region,
     create_device,
     create_gmsh_mesh,
     finalize_mesh,
+    get_node_model_values,
+    node_solution,
+    set_node_values,
     write_devices,
 )
 
@@ -64,6 +68,7 @@ def create_2Duz_simulation(
     # Define physical structural mesh in DEVSIM
     create_gmsh_mesh(file=temp_file_name, mesh=devsim_mesh_name)
     simulation_layerstack_dict = simulation_layertack.to_dict()
+    silicon_regions = []
     for name, values in simulation_layerstack_dict.items():
         add_gmsh_region(
             mesh=devsim_mesh_name,
@@ -71,6 +76,8 @@ def create_2Duz_simulation(
             region=name,
             material=values["material"],
         )
+        if values["material"] == "si":
+            silicon_regions.append(name)
     if background_tag:
         add_gmsh_region(
             mesh=devsim_mesh_name,
@@ -92,41 +99,51 @@ def create_2Duz_simulation(
     create_device(mesh=devsim_mesh_name, device=devsim_device_name)
 
     # Assign doping fields to the structural mesh
-    # for region_name in []:
-    #     xpos = get_node_model_values(device=devsim_device_name, region="si", name="x")
-    #     # ypos = get_node_model_values(device=devsim_device_name, region="si", name="y")
+    for region_name in silicon_regions:
+        xpos = get_node_model_values(
+            device=devsim_device_name, region=region_name, name="x"
+        )
+        # ypos = get_node_model_values(device=devsim_device_name, region="si", name="y")
 
-    #     acceptor = np.zeros_like(xpos)
-    #     donor = np.zeros_like(xpos)
-    #     for layername, bounds in doping_polygons.items():
-    #         for bound in bounds:
-    #             node_inds = np.intersect1d(
-    #                 np.where(xpos >= bound[0] * np.ones_like(xpos)),
-    #                 np.where(xpos <= bound[1] * np.ones_like(xpos)),
-    #             )
-    #             # Assume step doping for now (does not depend on y, or z)
-    #             if doping_info[layername].type == "Acceptor":
-    #                 acceptor[node_inds] += doping_info[layername].z_profile(0)
-    #             elif doping_info[layername].type == "Donor":
-    #                 donor[node_inds] += doping_info[layername].z_profile(0)
-    #             else:
-    #                 raise ValueError(
-    #                     f'Doping type "{doping_info[layername].type}" not supported.'
-    #                 )
+        acceptor = np.zeros_like(xpos)
+        donor = np.zeros_like(xpos)
+        for layername, bounds in doping_polygons.items():
+            for bound in bounds:
+                node_inds = np.intersect1d(
+                    np.where(xpos >= bound[0] * np.ones_like(xpos)),
+                    np.where(xpos <= bound[1] * np.ones_like(xpos)),
+                )
+                # Assume step doping for now (does not depend on y, or z)
+                if doping_info[layername].type == "Acceptor":
+                    acceptor[node_inds] += doping_info[layername].z_profile(0)
+                elif doping_info[layername].type == "Donor":
+                    donor[node_inds] += doping_info[layername].z_profile(0)
+                else:
+                    raise ValueError(
+                        f'Doping type "{doping_info[layername].type}" not supported.'
+                    )
 
-    #     net_doping = donor - acceptor
+        net_doping = donor - acceptor
 
-    #     node_solution(device=devsim_device_name, region="si", name="Acceptors")
-    #     set_node_values(
-    #         device=devsim_device_name, region="si", name="Acceptors", values=acceptor
-    #     )
-    #     node_solution(device=devsim_device_name, region="si", name="Donors")
-    #     set_node_values(device=devsim_device_name, region="si", name="Donors", values=donor)
-    #     node_solution(device=devsim_device_name, region="si", name="Acceptors")
-    #     node_solution(device=devsim_device_name, region="si", name="NetDoping")
-    #     set_node_values(
-    #         device=devsim_device_name, region="si", name="NetDoping", values=net_doping
-    #     )
+        node_solution(device=devsim_device_name, region=region_name, name="Acceptors")
+        set_node_values(
+            device=devsim_device_name,
+            region=region_name,
+            name="Acceptors",
+            values=acceptor,
+        )
+        node_solution(device=devsim_device_name, region=region_name, name="Donors")
+        set_node_values(
+            device=devsim_device_name, region=region_name, name="Donors", values=donor
+        )
+        node_solution(device=devsim_device_name, region=region_name, name="Acceptors")
+        node_solution(device=devsim_device_name, region=region_name, name="NetDoping")
+        set_node_values(
+            device=devsim_device_name,
+            region=region_name,
+            name="NetDoping",
+            values=net_doping,
+        )
 
     # Define contacts
 
