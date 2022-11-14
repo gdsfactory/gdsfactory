@@ -6,7 +6,7 @@ jsondiff
 loguru
 lxml
 matplotlib
-numpy>=1.23
+numpy
 omegaconf
 orjson
 pandas
