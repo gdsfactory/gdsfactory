@@ -1,6 +1,4 @@
 """Serialize component settings into YAML or strings."""
-
-import copy
 import functools
 import hashlib
 import inspect
@@ -13,12 +11,16 @@ import pydantic
 import toolz
 from omegaconf import DictConfig, OmegaConf
 
+DEFAULT_SERIALIZATION_MAX_DIGITS = 8
+"""By default, the maximum number of digits retained when serializing float-like arrays"""
+
 
 def clean_dict(d: Dict[str, Any]) -> Dict[str, Any]:
     """Cleans dictionary recursively."""
-    for k, v in d.items():
-        d[k] = clean_dict(dict(v)) if isinstance(v, dict) else clean_value_json(v)
-    return d
+    return {
+        k: clean_dict(dict(v)) if isinstance(v, dict) else clean_value_json(v)
+        for k, v in d.items()
+    }
 
 
 def get_string(value: Any) -> str:
@@ -39,6 +41,9 @@ def clean_value_json(value: Any) -> Any:
     if isinstance(value, pydantic.BaseModel):
         return value.dict()
 
+    elif hasattr(value, "get_component_spec"):
+        return value.get_component_spec()
+
     elif isinstance(value, bool):
         return value
 
@@ -49,14 +54,14 @@ def clean_value_json(value: Any) -> Any:
         return float(value)
 
     elif isinstance(value, np.ndarray):
-        value = np.round(value, 3)
-        return orjson.dumps(value, option=orjson.OPT_SERIALIZE_NUMPY).decode()
+        value = np.round(value, DEFAULT_SERIALIZATION_MAX_DIGITS)
+        return orjson.loads(orjson.dumps(value, option=orjson.OPT_SERIALIZE_NUMPY))
     elif callable(value) and isinstance(value, functools.partial):
         sig = inspect.signature(value.func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), value.args))
         args_as_kwargs.update(**value.keywords)
-        clean_dict(args_as_kwargs)
-        args_as_kwargs.pop("function", None)
+        args_as_kwargs = clean_dict(args_as_kwargs)
+        # args_as_kwargs.pop("function", None)
 
         func = value.func
         while hasattr(func, "func"):
@@ -76,10 +81,15 @@ def clean_value_json(value: Any) -> Any:
     elif isinstance(value, pathlib.Path):
         value = value.stem
     elif isinstance(value, dict):
-        value = copy.deepcopy(value)
-        value = clean_dict(value)
+        value = clean_dict(value.copy())
     elif isinstance(value, DictConfig):
         value = clean_dict(OmegaConf.to_container(value))
+
+    elif isinstance(value, (list, tuple, set)):
+        if len(value) > 0 and isinstance(value[0], np.ndarray):
+            value = clean_value_json(np.asarray(value))
+        else:
+            value = [clean_value_json(i) for i in value]
     else:
         try:
             value_json = orjson.dumps(
@@ -106,7 +116,6 @@ def clean_value_json(value: Any) -> Any:
 def clean_value_name(value: Any) -> str:
     """Returns a string representation of an object."""
     # value1 = clean_value_json(value)
-    # print(type(value), value, value1, str(value1))
     return str(clean_value_json(value))
 
 

@@ -79,7 +79,7 @@ def get_input_labels(
     layer, texttype = gf.get_layer(layer_label)
     label = Label(
         text=text,
-        position=gc.ports[gc_port_name].center,
+        origin=gc.ports[gc_port_name].center,
         anchor="o",
         layer=layer,
         texttype=texttype,

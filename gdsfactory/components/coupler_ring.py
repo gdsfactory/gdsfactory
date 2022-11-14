@@ -75,7 +75,7 @@ def coupler_ring(
     # connect references
     y = coupler90_component.y
     cs.connect(port="o4", destination=cbr.ports["o1"])
-    cbl.reflect(p1=(0, y), p2=(1, y))
+    cbl.mirror(p1=(0, y), p2=(1, y))
     cbl.connect(port="o2", destination=cs.ports["o2"])
 
     c.add_port("o1", port=cbl.ports["o3"])

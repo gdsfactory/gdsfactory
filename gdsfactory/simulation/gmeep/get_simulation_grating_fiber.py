@@ -33,7 +33,6 @@ def get_simulation_grating_fiber(
     n_periods: int = 30,
     widths: Optional[Floats] = None,
     gaps: Optional[Floats] = None,
-    etch_depth: Optional[Floats] = None,
     fiber_angle_deg: float = 20.0,
     fiber_xposition: float = 1.0,
     fiber_core_diameter: float = 10.4,
@@ -69,7 +68,7 @@ def get_simulation_grating_fiber(
     ncore = sqrt(na**2 + ncore**2)
 
     Args:
-        period: fiber grating period.
+        period: fiber grating period in um.
         fill_factor: fraction of the grating period filled with the grating material.
         n_periods: number of periods.
         widths: Optional list of widths. Overrides period, fill_factor, n_periods.
@@ -79,8 +78,8 @@ def get_simulation_grating_fiber(
         fiber_core_diameter: fiber diameter.
         fiber_numerical_aperture: NA.
         fiber_nclad: fiber cladding index.
-        fiber_ncore: fiber core index.
         nwg: waveguide index.
+        nslab: slab refractive index.
         nclad: top cladding index.
         nbox: box index bottom.
         nsubstrate: index substrate.
@@ -88,6 +87,7 @@ def get_simulation_grating_fiber(
         substrate_thickness: substrate_thickness (um).
         box_thickness: thickness for bottom cladding (um).
         wg_thickness: wg_thickness (um).
+        slab_thickness: slab thickness (um). etch_depth=wg_thickness-slab_thickness.
         top_clad_thickness: thickness of the top cladding.
         air_gap_thickness: air gap thickness.
         fiber_thickness: fiber_thickness.

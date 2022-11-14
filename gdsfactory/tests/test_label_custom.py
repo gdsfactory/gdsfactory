@@ -43,8 +43,8 @@ def test_label_fiber_single_custom(num_regression, check=True):
     labels = {
         label.text: np.array(
             [
-                label.position[0],
-                label.position[1],
+                label.origin[0],
+                label.origin[1],
                 label.layer,
             ]
         )

@@ -31,7 +31,7 @@ from gdsfactory.gdsdiff.gdsdiff import gdsdiff
 def difftest(
     component: Component,
     test_name: Optional[str] = None,
-    xor: bool = False,
+    xor: bool = True,
     dirpath: pathlib.Path = CONFIG["gdsdiff"],
 ) -> None:
     """Avoids GDS regressions tests on the GeometryDifference.

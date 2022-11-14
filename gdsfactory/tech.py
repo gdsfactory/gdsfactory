@@ -15,9 +15,7 @@ class LayerMap(BaseModel):
 
     Lukas Chrostowski, Michael Hochberg, "Silicon Photonics Design",
     Cambridge University Press 2015, page 353
-
     You will need to create a new LayerMap with your specific foundry layers.
-
     """
 
     WG: Layer = (1, 0)
@@ -120,7 +118,6 @@ class LayerLevel(BaseModel):
             doping_concentration: for implants.
             resistiviy: for metals.
             bias: in um for the etch.
-
     """
 
     layer: Tuple[int, int]
@@ -128,7 +125,7 @@ class LayerLevel(BaseModel):
     zmin: float
     material: Optional[str] = None
     sidewall_angle: float = 0
-    # info: Dict[str, Any] = {}
+    info: Dict[str, Any] = {}
 
 
 class LayerStack(BaseModel):
@@ -136,7 +133,6 @@ class LayerStack(BaseModel):
 
     Parameters:
         layers: dict of layer_levels.
-
     """
 
     layers: Dict[str, LayerLevel]
@@ -171,20 +167,29 @@ class LayerStack(BaseModel):
             if level.thickness
         }
 
+    def get_layer_to_info(self) -> Dict[Tuple[int, int], Dict]:
+        """Returns layer tuple to info dict."""
+        return {level.layer: level.info for level in self.layers.values()}
+
     def to_dict(self) -> Dict[str, Dict[str, Any]]:
         return {level_name: dict(level) for level_name, level in self.layers.items()}
 
-    def get_klayout_3d_script(self) -> str:
+    def get_klayout_3d_script(self, klayout28: bool = True) -> str:
         """Prints script for 2.5 view klayout information.
 
         You can add this information in your tech.lyt take a look at
         gdsfactory/klayout/tech/tech.lyt
-
         """
         for level in self.layers.values():
-            print(
-                f"{level.layer[0]}/{level.layer[1]}: {level.zmin} {level.zmin+level.thickness}"
-            )
+            layer = level.layer
+            if klayout28:
+                print(
+                    f"z(input({layer[0]}, {layer[1]}), zstart: {level.zmin}, height: {level.zmin+level.thickness})"
+                )
+            else:
+                print(
+                    f"{level.layer[0]}/{level.layer[1]}: {level.zmin} {level.zmin+level.thickness}"
+                )
 
 
 def get_layer_stack_generic(
@@ -220,7 +225,6 @@ def get_layer_stack_generic(
         thickness_metal2: metal2 thickness.
         zmin_metal3: metal3.
         thickness_metal3: metal3 thickness.
-
     """
     return LayerStack(
         layers=dict(
@@ -229,78 +233,91 @@ def get_layer_stack_generic(
                 thickness=thickness_wg,
                 zmin=0.0,
                 material="si",
+                info={"mesh_order": 1},
             ),
             clad=LayerLevel(
                 layer=LAYER.WGCLAD,
                 zmin=0.0,
                 material="sio2",
                 thickness=thickness_clad,
+                info={"mesh_order": 10},
             ),
             slab150=LayerLevel(
                 layer=LAYER.SLAB150,
                 thickness=150e-3,
                 zmin=0,
                 material="si",
+                info={"mesh_order": 3},
             ),
             slab90=LayerLevel(
                 layer=LAYER.SLAB90,
                 thickness=thickness_slab_deep_etch,
                 zmin=0.0,
                 material="si",
+                info={"mesh_order": 2},
             ),
             nitride=LayerLevel(
                 layer=LAYER.WGN,
                 thickness=thickness_nitride,
                 zmin=thickness_wg + gap_silicon_to_nitride,
                 material="sin",
+                info={"mesh_order": 2},
             ),
             ge=LayerLevel(
                 layer=LAYER.GE,
                 thickness=thickness_ge,
                 zmin=thickness_wg,
                 material="ge",
+                info={"mesh_order": 1},
             ),
             via_contact=LayerLevel(
                 layer=LAYER.VIAC,
                 thickness=zmin_metal1 - thickness_slab_deep_etch,
                 zmin=thickness_slab_deep_etch,
                 material="Aluminum",
+                info={"mesh_order": 1},
             ),
             metal1=LayerLevel(
                 layer=LAYER.M1,
                 thickness=thickness_metal1,
                 zmin=zmin_metal1,
                 material="Aluminum",
+                info={"mesh_order": 2},
             ),
             heater=LayerLevel(
                 layer=LAYER.HEATER,
                 thickness=750e-3,
                 zmin=zmin_heater,
                 material="TiN",
+                info={"mesh_order": 1},
             ),
             via1=LayerLevel(
                 layer=LAYER.VIA1,
                 thickness=zmin_metal2 - (zmin_metal1 + thickness_metal1),
                 zmin=zmin_metal1 + thickness_metal1,
                 material="Aluminum",
+                info={"mesh_order": 2},
             ),
             metal2=LayerLevel(
                 layer=LAYER.M2,
                 thickness=thickness_metal2,
                 zmin=zmin_metal2,
                 material="Aluminum",
+                info={"mesh_order": 2},
             ),
             via2=LayerLevel(
                 layer=LAYER.VIA2,
                 thickness=zmin_metal3 - (zmin_metal2 + thickness_metal2),
                 zmin=zmin_metal2 + thickness_metal2,
                 material="Aluminum",
+                info={"mesh_order": 1},
             ),
             metal3=LayerLevel(
                 layer=LAYER.M3,
                 thickness=thickness_metal3,
                 zmin=zmin_metal3,
                 material="Aluminum",
+                info={"mesh_order": 2},
             ),
         )
     )
@@ -324,9 +341,7 @@ class Section(BaseModel):
         port_types: optical, electrical, ...
         name: Optional Section name.
         hidden: hide layer.
-
     .. code::
-
           0   offset
           |<-------------->|
           |              _____
@@ -335,7 +350,6 @@ class Section(BaseModel):
           |             |_____|
           |              <---->
                          width
-
     """
 
     width: Union[float, Callable]
@@ -375,7 +389,6 @@ class SimulationSettingsLumericalFdtd(BaseModel):
         simulation_temperature: in kelvin (default = 300).
         frequency_dependent_profile: compute mode profiles for each wavelength.
         field_profile_samples: number of wavelengths to compute field profile.
-
     """
 
     background_material: str = "sio2"

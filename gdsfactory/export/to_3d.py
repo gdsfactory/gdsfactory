@@ -44,7 +44,7 @@ def to_3d(
 
     has_polygons = False
 
-    for layer, polygons in component.get_polygons(by_spec=True).items():
+    for layer, polygons in component.get_polygons(by_spec=True, as_array=False).items():
         if (
             layer not in exclude_layers
             and layer in layer_to_thickness
@@ -57,7 +57,7 @@ def to_3d(
             color_rgb = matplotlib.colors.to_rgb(color_hex)
 
             for polygon in polygons:
-                p = shapely.geometry.Polygon(polygon)
+                p = shapely.geometry.Polygon(polygon.points)
                 mesh = extrude_polygon(p, height=height)
                 mesh.apply_translation((0, 0, zmin))
                 mesh.visual.face_colors = (*color_rgb, 0.5)

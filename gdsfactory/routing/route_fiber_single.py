@@ -1,7 +1,11 @@
 from typing import Callable, List, Optional, Tuple, Union
 
+import gdstk
+import numpy as np
+
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
+from gdsfactory.component_layout import _rotate_points
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports_optical
@@ -88,13 +92,13 @@ def route_fiber_single(
     optical_ports = {
         p.name: p for p in optical_ports.values() if p.name not in excluded_ports
     }
-    N = len(optical_ports)
-
     if isinstance(grating_coupler, list):
         grating_couplers = [gf.call_if_func(g) for g in grating_coupler]
         grating_coupler = grating_couplers[0]
     else:
         grating_coupler = gf.call_if_func(grating_coupler)
+        N = len(optical_ports)
+
         grating_couplers = [grating_coupler] * N
 
     gc_port2center = getattr(grating_coupler, "port2center", grating_coupler.xsize / 2)
@@ -154,7 +158,25 @@ def route_fiber_single(
     for e in elements_north:
         if isinstance(e, list):
             for ei in e:
-                elements_south.append(ei.rotate(180))
+                if isinstance(ei, gdstk.Label):
+                    ei.rotation = np.mod(ei.rotation + np.pi, 2 * np.pi)
+                    print(ei.rotation)
+                    ei.origin = _rotate_points(
+                        ei.origin,
+                        angle=np.rad2deg(ei.rotation),
+                    )
+
+                    elements_south.append(ei)
+                else:
+                    elements_south.append(ei.rotate(180))
+        elif isinstance(e, gdstk.Label):
+            ei = e
+            ei.rotation = np.mod(ei.rotation + np.pi, 2 * np.pi)
+            ei.origin = _rotate_points(
+                ei.origin,
+                angle=np.rad2deg(ei.rotation),
+            )
+            elements_south.append(e)
         else:
             elements_south.append(e.rotate(180))
 

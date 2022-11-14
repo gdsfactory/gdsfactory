@@ -5,7 +5,7 @@ Make sure your components get imported here so the PDK registers them.
 
 import sys
 
-from gdsfactory.components.add_fidutials import add_fidutials, add_fidutials_offsets
+from gdsfactory.components.add_fiducials import add_fiducials, add_fiducials_offsets
 from gdsfactory.components.add_grating_couplers import (
     add_grating_couplers,
     add_grating_couplers_with_loopback_fiber_array,
@@ -97,6 +97,7 @@ from gdsfactory.components.extend_ports_list import extend_ports_list
 from gdsfactory.components.extension import extend_port, extend_ports
 from gdsfactory.components.fiber import fiber
 from gdsfactory.components.fiber_array import fiber_array
+from gdsfactory.components.fiducial_squares import fiducial_squares
 from gdsfactory.components.ge_detector_straight_si_contacts import (
     ge_detector_straight_si_contacts,
 )
@@ -228,6 +229,7 @@ from gdsfactory.components.taper import (
     taper_strip_to_ridge,
     taper_strip_to_ridge_trenches,
 )
+from gdsfactory.components.taper_adiabatic import taper_adiabatic
 from gdsfactory.components.taper_cross_section import (
     taper_cross_section_linear,
     taper_cross_section_parabolic,
@@ -301,8 +303,8 @@ _factory_passives = dict(
 __all__ = [
     "C",
     "L",
-    "add_fidutials",
-    "add_fidutials_offsets",
+    "add_fiducials",
+    "add_fiducials_offsets",
     "add_frame",
     "add_grating_couplers",
     "add_grating_couplers_with_loopback_fiber_array",
@@ -389,6 +391,7 @@ __all__ = [
     "extend_ports_list",
     "fiber",
     "fiber_array",
+    "fiducial_squares",
     "text_lines",
     "ge_detector_straight_si_contacts",
     "generate_doe",
@@ -495,6 +498,7 @@ __all__ = [
     "spiral_racetrack_heater_metal",
     "spiral_racetrack_heater_doped",
     "taper",
+    "taper_adiabatic",
     "taper2",
     "taper_0p5_to_3_l36",
     "taper_from_csv",
