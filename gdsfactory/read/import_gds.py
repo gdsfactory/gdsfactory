@@ -46,16 +46,17 @@ def import_gds(
     gdsii_lib = gdstk.read_gds(str(gdspath))
     top_level_cells = gdsii_lib.top_level()
     cellnames = [c.name for c in top_level_cells]
+    cells_by_name = {c.name: c for c in top_level_cells}
 
     if not cellnames:
         raise ValueError(f"no cells found in {str(gdspath)!r}")
 
     if cellname is not None:
-        if cellname not in gdsii_lib.cells:
+        if cellname not in cells_by_name:
             raise ValueError(
                 f"cell {cellname!r} is not in file {gdspath} with cells {cellnames}"
             )
-        topcell = gdsii_lib.cells[cellname]
+        topcell = cells_by_name[cellname]
     elif len(top_level_cells) == 1:
         topcell = top_level_cells[0]
     elif len(top_level_cells) > 1:

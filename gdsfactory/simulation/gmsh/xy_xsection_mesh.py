@@ -5,7 +5,7 @@ from shapely.geometry import Polygon
 from shapely.ops import unary_union
 
 from gdsfactory.simulation.gmsh.mesh import mesh_from_polygons
-from gdsfactory.simulation.gmsh.parse_gds import fuse_component_layer
+from gdsfactory.simulation.gmsh.parse_gds import cleanup_component
 from gdsfactory.simulation.gmsh.parse_layerstack import (
     get_layers_at_z,
     order_layerstack,
@@ -41,24 +41,18 @@ def xy_xsection_mesh(
     layers = get_layers_at_z(layerstack, z)
 
     # Fuse and cleanup polygons of same layer in case user overlapped them
-    layer_dict = layerstack.to_dict()
-    layer_polygons_dict = {}
-    for layername in layers:
-        layer_polygons_dict[layername] = fuse_component_layer(
-            component, layername, layer_dict[layername]
-        )
+    layer_polygons_dict = cleanup_component(component, layerstack)
 
     # Reorder polygons according to meshorder
     layer_order = order_layerstack(layerstack)
-    ordered_layers = [value for value in layer_order if value in set(layer_dict.keys())]
-    ordered_layers = set(ordered_layers).intersection(layers)
+    ordered_layers = [value for value in layer_order if value in set(layers)]
     shapes = OrderedDict()
     for layer in ordered_layers:
         shapes[layer] = layer_polygons_dict[layer]
 
     # Add background polygon
     if background_tag is not None:
-        bounds = unary_union([shape for shape in shapes.values()]).bounds
+        bounds = unary_union(list(shapes.values())).bounds
         shapes[background_tag] = Polygon(
             [
                 [bounds[0] - background_padding[0], bounds[1] - background_padding[1]],

@@ -905,11 +905,11 @@ class Component(_GeometryHelper):
             else:
                 layer, datatype = _parse_layer(layer)
                 polygon = Polygon(polygon.points, layer, datatype)
-            self.add(polygon)
+            self._add_polygons(polygon)
             return polygon
 
         points = np.asarray(points)
-        if points.ndim == 1 and isinstance(points[0], gdstk.Polygon):
+        if points.ndim == 1:
             return [self.add_polygon(poly, layer=layer) for poly in points]
         if layer is np.nan:
             layer = 0
@@ -921,17 +921,21 @@ class Component(_GeometryHelper):
                 points = np.column_stack(points)
             layer, datatype = _parse_layer(layer)
             polygon = Polygon(points, layer=layer, datatype=datatype)
-            self.add(polygon)
+            self._add_polygons(polygon)
             return polygon
         elif points.ndim == 3:
             layer, datatype = _parse_layer(layer)
             polygons = [
                 Polygon(ppoints, layer=layer, datatype=datatype) for ppoints in points
             ]
-            self.add(*polygons)
+            self._add_polygons(*polygons)
             return polygons
         else:
             raise ValueError(f"Unable to add {points.ndim}-dimensional points object")
+
+    def _add_polygons(self, *polygons: List[Polygon]):
+        self.is_unlocked()
+        self._cell.add(*polygons)
 
     def copy(self) -> "Component":
         return copy(self)
