@@ -77,9 +77,7 @@ def get_uz_bounds_layers(
     Returns: Dict containing layer: polygon pairs, with (u1,u2) in xsection line coordinates
     """
     # Get in-plane cross-sections
-    inplane_bounds_dict = get_u_bounds_layers(
-        layer_polygons_dict, xsection_bounds
-    )
+    inplane_bounds_dict = get_u_bounds_layers(layer_polygons_dict, xsection_bounds)
 
     outplane_bounds_dict = {}
 
@@ -127,9 +125,7 @@ def uz_xsection_mesh(
     layer_polygons_dict = cleanup_component(component, layerstack)
 
     # Find coordinates
-    bounds_dict = get_uz_bounds_layers(
-        layer_polygons_dict, xsection_bounds, layerstack
-    )
+    bounds_dict = get_uz_bounds_layers(layer_polygons_dict, xsection_bounds, layerstack)
 
     # Create polygons from bounds and layers
     layer_order = order_layerstack(layerstack)
