@@ -18,7 +18,7 @@ def round_coordinates(geom, ndigits=3):
     return shapely.ops.transform(_round_coords, geom)
 
 
-def fuse_component_layer(component, layername, layer, round_tol=2, simplify_tol=1e-2):
+def fuse_polygons(component, layername, layer, round_tol=2, simplify_tol=1e-2):
     """Take all polygons from a layer, and returns a single (Multi)Polygon shapely object."""
     layer_component = component.extract(layer["layer"])
     shapely_polygons = []
@@ -30,6 +30,17 @@ def fuse_component_layer(component, layername, layer, round_tol=2, simplify_tol=
         simplify_tol, preserve_topology=True
     )
     return fused_polygons
+
+
+def cleanup_component(component, layerstack, round_tol=2, simplify_tol=1e-2):
+    """Take all polygons from a layer, and returns a single (Multi)Polygon shapely object."""
+    layerstack_dict = layerstack.to_dict()
+    layer_polygons_dict = {}
+    for layername, layer in layerstack_dict.items():
+        layer_polygons_dict[layername] = fuse_polygons(
+            component, layername, layer, round_tol=round_tol, simplify_tol=simplify_tol
+        )
+    return layer_polygons_dict
 
 
 def to_polygons(geometries):
