@@ -29,7 +29,7 @@ def get_u_bounds_polygons(
     linestart = Point(xsection_bounds[0])
 
     return_list = []
-    for polygon in polygons if hasattr(polygons, "geoms") else [polygons]:
+    for polygon in polygons.geoms if hasattr(polygons, "geoms") else [polygons]:
         intersection = polygon.intersection(line).bounds
         if intersection:
             p1 = Point([intersection[0], intersection[1]])
@@ -80,9 +80,6 @@ def get_uz_bounds_layers(
     inplane_bounds_dict = get_u_bounds_layers(layer_polygons_dict, xsection_bounds)
 
     outplane_bounds_dict = {}
-
-    for key, value in inplane_bounds_dict.items():
-        print(key, value)
 
     layer_dict = layerstack.to_dict()
     for layername, inplane_bounds_list in inplane_bounds_dict.items():
