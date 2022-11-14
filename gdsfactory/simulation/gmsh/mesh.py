@@ -205,7 +205,7 @@ def mesh_from_polygons(
                 ):
                     interfaces.append(line)
             if interfaces:
-                model.add_physical(interfaces, f"{surface1}|{surface2}")
+                model.add_physical(interfaces, f"{surface1}___{surface2}")
 
         mesh = geometry.generate_mesh(dim=2, verbose=True)
 
