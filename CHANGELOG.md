@@ -4,7 +4,10 @@
 
 - implement native compatibility read/write from/to OASIS
 - removed named_references
--
+
+## 6.0.2
+
+- add trim [PR](https://github.com/gdsfactory/gdsfactory/pull/855)
 
 ## 6.0.1
 
