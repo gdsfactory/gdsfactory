@@ -2,7 +2,8 @@ from gdsfactory.simulation.gmsh.mesh import mesh_from_polygons
 from gdsfactory.simulation.gmsh.meshtracker import MeshTracker
 from gdsfactory.simulation.gmsh.parse_gds import (
     break_line,
-    fuse_component_layer,
+    cleanup_component,
+    fuse_polygons,
     round_coordinates,
     tile_shapes,
     to_polygons,
@@ -30,7 +31,8 @@ __all__ = [
     "get_u_bounds_layers",
     "get_u_bounds_polygons",
     "MeshTracker",
-    "fuse_component_layer",
+    "cleanup_component",
+    "fuse_polygons",
     "round_coordinates",
     "to_polygons",
     "tile_shapes",
