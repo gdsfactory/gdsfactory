@@ -3,12 +3,14 @@ from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
 from shapely.geometry import LineString, MultiPolygon, Point, Polygon
-from shapely.ops import unary_union
 
 import gdsfactory as gf
 from gdsfactory.simulation.gmsh.mesh import mesh_from_polygons
 from gdsfactory.simulation.gmsh.parse_gds import cleanup_component, to_polygons
-from gdsfactory.simulation.gmsh.parse_layerstack import order_layerstack
+from gdsfactory.simulation.gmsh.parse_layerstack import (
+    list_unique_layerstack_z,
+    order_layerstack,
+)
 from gdsfactory.tech import LayerStack
 from gdsfactory.types import ComponentOrReference
 
@@ -135,24 +137,27 @@ def uz_xsection_mesh(
     # TODO: buffer the union instead of adding a square
     if background_tag is not None:
         # shapes[background_tag] = bounds.buffer(background_padding[0])
-        bounds = unary_union(list(shapes.values())).bounds
+        # bounds = unary_union(list(shapes.values())).bounds
+        zs = list_unique_layerstack_z(layerstack)
+        zmin = np.min(zs)
+        zmax = np.max(zs)
         shapes[background_tag] = Polygon(
             [
-                [-1 * background_padding[0], bounds[1] - background_padding[1]],
-                [-1 * background_padding[0], bounds[3] + background_padding[3]],
+                [-1 * background_padding[0], zmin - background_padding[1]],
+                [-1 * background_padding[0], zmax + background_padding[3]],
                 [
                     np.linalg.norm(
                         np.array(xsection_bounds[1]) - np.array(xsection_bounds[0])
                     )
                     + background_padding[2],
-                    bounds[3] + background_padding[3],
+                    zmax + background_padding[3],
                 ],
                 [
                     np.linalg.norm(
                         np.array(xsection_bounds[1]) - np.array(xsection_bounds[0])
                     )
                     + background_padding[2],
-                    bounds[1] - background_padding[1],
+                    zmin - background_padding[1],
                 ],
             ]
         )
