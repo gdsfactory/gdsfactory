@@ -1872,7 +1872,7 @@ def copy(D: Component) -> Component:
             magnification=ref.magnification,
             x_reflection=ref.x_reflection,
         )
-        # new_ref.name = ref.name if hasattr(ref, "name") else ref.parent.name
+        new_ref.name = ref.name  # keep reference names
         new_ref.owner = D_copy
         D_copy.add(new_ref)
 
