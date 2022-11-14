@@ -318,7 +318,9 @@ class ComponentReference(_GeometryHelper):
         return self._reference.get_paths(depth=depth)
 
     def translate(self, dx, dy):
-        return self._reference.translate(dx, dy)
+        x0, y0 = self._reference.origin
+        self._reference.origin = (x0 + dx, y0 + dy)
+        return self
 
     def area(self, by_spec=False):
         """Calculate total area.
