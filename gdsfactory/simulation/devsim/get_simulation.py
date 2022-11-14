@@ -83,10 +83,10 @@ def create_2Duz_simulation(
             region=name,
             material=values["material"],
         )
-        if values["material"] not in regions.keys():
-            regions[values["material"]] = [name]
-        else:
+        if values["material"] in regions:
             regions[values["material"]].append(name)
+        else:
+            regions[values["material"]] = [name]
     if background_tag:
         simulation_layerstack_dict[background_tag] = {"material": background_tag}
         add_gmsh_region(
@@ -130,10 +130,10 @@ def create_2Duz_simulation(
                 region0=name1,
                 region1=name2,
             )
-            if interface not in interfaces.keys():
-                interfaces[(values1["material"], values2["material"])] = [interface]
-            else:
+            if interface in interfaces:
                 interfaces[(values1["material"], values2["material"])].append(interface)
+            else:
+                interfaces[(values1["material"], values2["material"])] = [interface]
     finalize_mesh(mesh=devsim_mesh_name)
     create_device(mesh=devsim_mesh_name, device=devsim_device_name)
 
@@ -182,7 +182,7 @@ def create_2Duz_simulation(
             values=net_doping,
         )
     # Assign doping field contact
-    for contact_name in contacts.keys():
+    for contact_name in contacts:
         xpos = get_node_model_values(
             device=devsim_device_name, region=contact_name, name="x"
         )
@@ -255,23 +255,26 @@ if __name__ == "__main__":
     # physical_layerlevel_1: physical to replace by the contact
     # physical_layerlevel_2: interface to physical_layerlevel_1 to define as the contact
     # two layers defining an interface, and the dummy layer for position refinement
-    contact_info = {}
-    contact_info["anode"] = {
-        "gds_layer": anode_layer,
-        "physical_layerlevel_to_replace": "via_contact",
-        "physical_layerlevel_to_contact": "slab90",
-    }
-    contact_info["cathode"] = {
-        "gds_layer": cathode_layer,
-        "physical_layerlevel_to_replace": "via_contact",
-        "physical_layerlevel_to_contact": "slab90",
+    contact_info = {
+        "anode": {
+            "gds_layer": anode_layer,
+            "physical_layerlevel_to_replace": "via_contact",
+            "physical_layerlevel_to_contact": "slab90",
+        },
+        "cathode": {
+            "gds_layer": cathode_layer,
+            "physical_layerlevel_to_replace": "via_contact",
+            "physical_layerlevel_to_contact": "slab90",
+        },
     }
 
     waveguide.show()
 
-    resolutions = {}
-    resolutions["core"] = {"resolution": 0.01, "distance": 2}
-    resolutions["slab90"] = {"resolution": 0.03, "distance": 1}
+    resolutions = {
+        "core": {"resolution": 0.01, "distance": 2},
+        "slab90": {"resolution": 0.03, "distance": 1},
+    }
+
     # resolutions["via_contact"] = {"resolution": 0.1, "distance": 1}
 
     device_name, regions, interfaces = create_2Duz_simulation(
