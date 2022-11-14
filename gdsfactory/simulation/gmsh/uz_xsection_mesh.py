@@ -143,6 +143,7 @@ def uz_xsection_mesh(
     # Add background polygon
     # TODO: buffer the union instead of adding a square
     if background_tag is not None:
+        # shapes[background_tag] = bounds.buffer(background_padding[0])
         bounds = unary_union([shape for shape in shapes.values()]).bounds
         shapes[background_tag] = Polygon(
             [
