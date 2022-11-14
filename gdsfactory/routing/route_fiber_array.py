@@ -364,7 +364,7 @@ def route_fiber_array(
         if min_y > delta_y:
             for io_gratings in io_gratings_lines:
                 for gr in io_gratings:
-                    gr.translate(0, delta_y - min_y)
+                    gr.origin = (gr.origin[0], gr.origin[1] + delta_y - min_y)
 
         # If we add align ports, we need enough space for the bends
         end_straight_offset = straight_separation + 5 if with_loopback else x.min_length

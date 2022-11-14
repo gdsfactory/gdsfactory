@@ -16,8 +16,8 @@ def test_find_modes_waveguide_dispersion() -> None:
     neff1 = 2.362907833437435
     ng1 = 4.202169359808116
 
-    assert np.isclose(m1.neff, neff1), (m1.neff, neff1)
-    assert np.isclose(m1.ng, ng1), (m1.ng, ng1)
+    assert np.isclose(m1.neff, neff1, rtol=1e-2), (m1.neff, neff1)
+    assert np.isclose(m1.ng, ng1, rtol=1e-2), (m1.ng, ng1)
 
 
 if __name__ == "__main__":

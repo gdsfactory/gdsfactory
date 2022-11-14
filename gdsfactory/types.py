@@ -31,14 +31,15 @@ import json
 import pathlib
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
+import gdstk
 import numpy as np
+from gdstk import Label
 from omegaconf import OmegaConf
 from pydantic import BaseModel, Extra
 from typing_extensions import Literal
 
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.component_layout import Label
-from gdsfactory.cross_section import CrossSection, Section
+from gdsfactory.cross_section import CrossSection
 from gdsfactory.layers import LayerColor, LayerColors
 from gdsfactory.port import Port
 from gdsfactory.tech import LayerLevel, LayerStack
@@ -110,7 +111,7 @@ MultiCrossSectionAngleSpec = List[Tuple[CrossSectionSpec, Tuple[int, ...]]]
 
 class Route(BaseModel):
     references: List[ComponentReference]
-    labels: Optional[List[Label]] = None
+    labels: Optional[List[gdstk.Label]] = None
     ports: Tuple[Port, Port]
     length: float
 
@@ -118,6 +119,7 @@ class Route(BaseModel):
         """Config for Route."""
 
         extra = Extra.forbid
+        arbitrary_types_allowed = True
 
 
 class Routes(BaseModel):
@@ -236,6 +238,7 @@ __all__ = (
     "Int3",
     "Ints",
     "Layer",
+    "Label",
     "Layers",
     "NameToFunctionDict",
     "Number",
@@ -245,11 +248,10 @@ __all__ = (
     "RouteFactory",
     "Routes",
     "Strs",
-    "LayerColors",
-    "LayerColor",
     "LayerStack",
     "LayerLevel",
-    "Section",
+    "LayerColor",
+    "LayerColors",
 )
 
 

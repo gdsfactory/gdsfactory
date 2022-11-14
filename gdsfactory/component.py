@@ -1,4 +1,3 @@
-import copy as python_copy
 import datetime
 import hashlib
 import itertools
@@ -8,20 +7,18 @@ import pathlib
 import tempfile
 import uuid
 import warnings
-from collections import Counter
+from collections import Counter, defaultdict
 from collections.abc import Iterable
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
-import gdspy
+import gdstk
 import numpy as np
 import yaml
-from numpy import int64
 from omegaconf import DictConfig, OmegaConf
 from typing_extensions import Literal
 
 from gdsfactory.component_layout import (
-    CellArray,
     Label,
     Polygon,
     _align,
@@ -53,6 +50,12 @@ Axis = Literal["x", "y"]
 
 class MutabilityError(ValueError):
     pass
+
+
+def _get_dependencies(component, references_set):
+    for ref in component.references:
+        references_set.add(ref.ref_cell)
+        _get_dependencies(ref.ref_cell, references_set)
 
 
 mutability_error_message = """
@@ -90,7 +93,7 @@ def _rnd(arr, precision=1e-4):
     return np.ascontiguousarray(arr.round(ndigits) / precision, dtype=np.int64)
 
 
-class Component(gdspy.Cell, _GeometryHelper):
+class Component(_GeometryHelper):
     """A Component is an empty canvas where you add polygons, references and ports \
             (to connect to other components).
 
@@ -131,6 +134,7 @@ class Component(gdspy.Cell, _GeometryHelper):
         if with_uuid or name == "Unnamed":
             name += f"_{self.uid}"
 
+        self._cell = gdstk.Cell(name=name)
         self.name = name
         self.info: Dict[str, Any] = {}
 
@@ -139,14 +143,156 @@ class Component(gdspy.Cell, _GeometryHelper):
         self.get_child_name = False
         self._reference_names_counter = Counter()
         self._reference_names_used = set()
+        self._named_references = {}
+        self._references = []
 
         self.ports = {}
-        self.aliases = {}
 
-        super().__init__(name=name, exclude_from_current=True)
+    @property
+    def references(self):
+        return self._references
+
+    @property
+    def polygons(self):
+        return self._cell.polygons
+
+    @property
+    def area(self):
+        return self._cell.area
+
+    @property
+    def labels(self):
+        return self._cell.labels
+
+    @property
+    def paths(self):
+        return self._cell.paths
+
+    @property
+    def name(self):
+        return self._cell.name
+
+    @name.setter
+    def name(self, value):
+        self._cell.name = value
+
+    def __iter__(self):
+        """You can iterate over polygons, paths, labels and references."""
+        return itertools.chain(self.polygons, self.paths, self.labels, self.references)
+
+    def get_polygons(
+        self,
+        by_spec: Union[bool, Tuple[int, int]] = False,
+        depth: Optional[int] = None,
+        include_paths: bool = True,
+        as_array: bool = True,
+    ) -> Union[List[Polygon], Dict[Tuple[int, int], List[Polygon]]]:
+        """Return a list of polygons in this cell.
+
+        Args:
+            by_spec: bool or layer
+                If True, the return value is a dictionary with the
+                polygons of each individual pair (layer, datatype), which
+                are used as keys.  If set to a tuple of (layer, datatype),
+                only polygons with that specification are returned.
+            depth: integer or None
+                If not None, defines from how many reference levels to
+                retrieve polygons.  References below this level will result
+                in a bounding box.  If `by_spec` is True the key will be the
+                name of this cell.
+            include_paths: If True, polygonal representation of paths are also included in the result.
+            as_array: when as_array=false, return the Polygon objects instead. polygon objects have more information (especially when by_spec=False) and will be faster to retrieve.
+
+        Returns
+            out: list of array-like[N][2] or dictionary
+                List containing the coordinates of the vertices of each
+                polygon, or dictionary with with the list of polygons (if
+                `by_spec` is True).
+
+        Note:
+            Instances of `FlexPath` and `RobustPath` are also included in
+            the result by computing their polygonal boundary.
+        """
+        import gdsfactory as gf
+
+        if by_spec is True:
+            layers = self.get_layers()
+
+            layer_to_polygons = defaultdict(list)
+
+            for layer in layers:
+                for polygon in self._cell.get_polygons(
+                    depth=depth,
+                    layer=layer[0],
+                    datatype=layer[1],
+                    include_paths=include_paths,
+                ):
+                    if as_array:
+                        layer_to_polygons[layer].append(polygon.points)
+                    else:
+                        layer_to_polygons[layer].append(polygon)
+            return layer_to_polygons
+
+        elif not by_spec:
+            if as_array:
+                return [
+                    polygon.points
+                    for polygon in self._cell.get_polygons(
+                        depth=depth, include_paths=include_paths
+                    )
+                ]
+
+            else:
+                return self._cell.get_polygons(depth=depth, include_paths=include_paths)
+
+        else:
+            layer = gf.get_layer(by_spec)
+            if as_array:
+                return [
+                    polygon.points
+                    for polygon in self._cell.get_polygons(
+                        depth=depth,
+                        layer=layer[0],
+                        datatype=layer[1],
+                        include_paths=include_paths,
+                    )
+                ]
+            else:
+                return self._cell.get_polygons(
+                    depth=depth,
+                    layer=layer[0],
+                    datatype=layer[1],
+                    include_paths=include_paths,
+                )
+
+    def get_dependencies(self, recursive: bool = False) -> List["Component"]:
+        """Return a set of the cells included in this cell as references.
+
+        Args:
+            recursive: If True returns dependencies recursively.
+
+        Returns:
+            out: list of Components referenced by this Component.
+        """
+        if not recursive:
+            return list({ref.parent for ref in self.references})
+
+        references_set = set()
+        _get_dependencies(self, references_set=references_set)
+        return list(references_set)
+
+    def get_component_spec(self):
+        return (
+            dict(
+                component=self.settings.function_name,
+                settings=self.settings.changed,
+            )
+            if self.settings
+            else dict(component=self.name, settings={})
+        )
 
     def __getitem__(self, key):
-        """Allows you to access aliases D['arc2'].
+        """Allows you to access named_references D['arc2'].
 
         Args:
             key: Element name to access within the Component.
@@ -155,7 +301,7 @@ class Component(gdspy.Cell, _GeometryHelper):
         try:
             return self.named_references[key]
         except KeyError as e:
-            raise KeyError(f"{key} not in {self.named_references.keys()}") from e
+            raise KeyError(f"{key!r} not in {self.named_references.keys()}") from e
 
     def __lshift__(self, element):
         """Convenience operator equivalent to add_ref()."""
@@ -183,7 +329,7 @@ class Component(gdspy.Cell, _GeometryHelper):
             element: Object that will be accessible by alias name.
 
         """
-        if isinstance(element, (ComponentReference, Polygon, CellArray)):
+        if isinstance(element, (ComponentReference, Polygon)):
             self.named_references[key] = element
         else:
             raise ValueError(
@@ -214,42 +360,29 @@ class Component(gdspy.Cell, _GeometryHelper):
 
     @property
     def named_references(self):
-        return {ref.name: ref for ref in self.references}
-
-    @property
-    def aliases(self):
-        warnings.warn(
-            "aliases attribute has been renamed to named_references and may be deprecated in a future version of gdsfactory",
-            DeprecationWarning,
-        )
-        return self.named_references
-
-    @aliases.setter
-    def aliases(self, value):
-        warnings.warn(
-            "Setting aliases is no longer supported. aliases attribute has been renamed to named_references and may be deprecated in a future version of gdsfactory. This operation will have no effect.",
-            DeprecationWarning,
-        )
+        return self._named_references
 
     def add_label(
         self,
         text: str = "hello",
         position: Tuple[float, float] = (0.0, 0.0),
-        magnification: Optional[float] = None,
-        rotation: Optional[float] = None,
+        magnification: float = 1.0,
+        rotation: float = 0,
         anchor: str = "o",
         layer="TEXT",
+        x_reflection=False,
     ) -> Label:
         """Adds Label to the Component.
 
         Args:
             text: Label text.
             position: x-, y-coordinates of the Label location.
-            magnification:int, float, or None Magnification factor for the Label text.
+            magnification: Magnification factor for the Label text.
             rotation: Angle rotation of the Label text.
             anchor: {'n', 'e', 's', 'w', 'o', 'ne', 'nw', ...}
                 Position of the anchor relative to the text.
             layer: Specific layer(s) to put Label on.
+            x_reflection: True reflects across the horizontal axis before rotation.
         """
         from gdsfactory.pdk import get_layer
 
@@ -261,12 +394,13 @@ class Component(gdspy.Cell, _GeometryHelper):
             text = text
         label = Label(
             text=text,
-            position=position,
+            origin=position,
             anchor=anchor,
             magnification=magnification,
             rotation=rotation,
             layer=gds_layer,
             texttype=gds_datatype,
+            x_reflection=x_reflection,
         )
         self.add(label)
         return label
@@ -277,7 +411,7 @@ class Component(gdspy.Cell, _GeometryHelper):
 
         it snaps to 3 decimals in um (0.001um = 1nm precision)
         """
-        bbox = self.get_bounding_box()
+        bbox = self._cell.bounding_box()
         if bbox is None:
             bbox = ((0, 0), (0, 0))
         return np.round(bbox, 3)
@@ -499,7 +633,7 @@ class Component(gdspy.Cell, _GeometryHelper):
         self,
         position: Coordinate = (0, 0),
         port_id: Optional[str] = None,
-        rotation: int = 0,
+        rotation: float = 0,
         h_mirror: bool = False,
         v_mirror: bool = False,
     ) -> "ComponentReference":
@@ -664,7 +798,7 @@ class Component(gdspy.Cell, _GeometryHelper):
 
     def remove_layers(
         self,
-        layers: Union[List[Tuple[int, int]], Tuple[int, int]] = (),
+        layers: Union[List[Tuple[int, int]], Tuple[int, int]],
         include_labels: bool = True,
         invert_selection: bool = False,
         recursive: bool = True,
@@ -675,37 +809,17 @@ class Component(gdspy.Cell, _GeometryHelper):
             layers: list of layers to remove.
             include_labels: remove labels on those layers.
             invert_selection: removes all layers except layers specified.
-            recursive: operate on the cells included in this cell. Flatten cells if True.
+            recursive: operate on the cells included in this cell.
         """
-        from gdsfactory.pdk import get_layer
-
-        layers = [_parse_layer(get_layer(layer)) for layer in layers]
-
         D = self.flatten() if recursive and self.references else self
-        for polygonset in D.polygons:
-            polygon_layers = zip(polygonset.layers, polygonset.datatypes)
-            polygons_to_keep = [(pl in layers) for pl in polygon_layers]
-            if not invert_selection:
-                polygons_to_keep = [(not p) for p in polygons_to_keep]
-            polygonset.polygons = [
-                p for p, keep in zip(polygonset.polygons, polygons_to_keep) if keep
-            ]
-            polygonset.layers = [
-                p for p, keep in zip(polygonset.layers, polygons_to_keep) if keep
-            ]
-            polygonset.datatypes = [
-                p for p, keep in zip(polygonset.datatypes, polygons_to_keep) if keep
-            ]
+        for polygon in D.polygons:
+            if (polygon.layer, polygon.datatype) in layers:
+                D.remove(polygon)
 
-        paths = []
         for path in D.paths:
-            paths.extend(
-                path
-                for layer in zip(path.layers, path.datatypes)
-                if layer not in layers
+            D.remove(
+                path for layer in zip(path.layers, path.datatypes) if layer in layers
             )
-
-        D.paths = paths
 
         if include_labels:
             new_labels = []
@@ -718,27 +832,40 @@ class Component(gdspy.Cell, _GeometryHelper):
                     keep_layer = original_layer not in layers
                 if keep_layer:
                     new_labels += [label]
-            D.labels = new_labels
+            D.labels.clear()
+            D.labels.extend(new_labels)
         return D
 
     def extract(
         self,
-        layers: Union[List[Tuple[int, int]], Tuple[int, int]] = (),
+        layers: List[Union[Tuple[int, int], str]],
     ) -> "Component":
         """Extract polygons from a Component and returns a new Component.
 
         based on phidl.geometry.
         """
-        from gdsfactory.name import clean_value
+        from gdsfactory.pdk import get_layer
 
-        component = Component(f"{self.name}_{clean_value(layers)}")
         if type(layers) not in (list, tuple):
-            raise ValueError("layers needs to be a list or tuple")
-        poly_dict = self.get_polygons(by_spec=True)
-        parsed_layer_list = [_parse_layer(layer) for layer in layers]
-        for layer, polys in poly_dict.items():
-            if _parse_layer(layer) in parsed_layer_list:
-                component.add_polygon(polys, layer=layer)
+            raise ValueError(f"layers {layers!r} needs to be a list or tuple")
+
+        layers = [get_layer(layer) for layer in layers]
+        # component = self.copy()
+        # component._cell.filter(spec=layers, remove=False)
+
+        component = Component()
+        poly_dict = self.get_polygons(by_spec=True, include_paths=False)
+
+        for layer in layers:
+            if layer in poly_dict:
+                polygons = poly_dict[layer]
+                for polygon in polygons:
+                    component.add_polygon(polygon)
+
+        for layer in layers:
+            for path in self._cell.get_paths(layer=layer):
+                component.add(path)
+
         return component
 
     def add_polygon(self, points, layer=np.nan):
@@ -755,30 +882,6 @@ class Component(gdspy.Cell, _GeometryHelper):
         if layer is None:
             return None
 
-        # Check if input a list of polygons by seeing if it's 3 levels deep
-        try:
-            points[0][0][0]  # Try to access first x point
-            return [self.add_polygon(p, layer) for p in points]
-        except Exception:
-            pass  # Verified points is not a list of polygons, continue on
-
-        if isinstance(points, gdspy.PolygonSet):
-            if layer is np.nan:
-                layers = zip(points.layers, points.datatypes)
-            else:
-                layers = [layer] * len(points.polygons)
-
-            polygons = []
-            for p, layer in zip(points.polygons, layers):
-                new_polygon = self.add_polygon(p, layer)
-                new_polygon.properties = points.properties
-                polygons.append(new_polygon)
-            return polygons
-
-        if layer is np.nan:
-            layer = 0
-
-        # Check if layer is actually a list of Layer objects
         try:
             if isinstance(layer, set):
                 return [self.add_polygon(points, ly) for ly in layer]
@@ -786,22 +889,49 @@ class Component(gdspy.Cell, _GeometryHelper):
                 return [self.add_polygon(points, ly) for ly in layer]
             elif len(layer) > 2:  # Someone wrote e.g. layer = [1,4,5]
                 raise ValueError(
-                    "If you specify multiple layers you must use set notation, e.g. {1,5,8} "
+                    """ [PHIDL] If specifying multiple layers
+                you must use set notation, e.g. {1,5,8} """
                 )
         except Exception:
             pass
 
-        # If in the form [[1,3,5],[2,4,6]]
-        if len(points[0]) > 2:
-            # Convert to form [[1,2],[3,4],[5,6]]
-            points = np.column_stack(points)
+        if isinstance(points, gdstk.Polygon):
+            # if layer is unspecified or matches original polygon, just add it as-is
+            polygon = points
+            if layer is np.nan or (
+                isinstance(layer, tuple) and (polygon.layer, polygon.datatype) == layer
+            ):
+                polygon = Polygon(polygon.points, polygon.layer, polygon.datatype)
+            else:
+                layer, datatype = _parse_layer(layer)
+                polygon = Polygon(polygon.points, layer, datatype)
+            self.add(polygon)
+            return polygon
 
-        gds_layer, gds_datatype = _parse_layer(layer)
-        polygon = Polygon(
-            points=points, gds_layer=gds_layer, gds_datatype=gds_datatype, parent=self
-        )
-        self.add(polygon)
-        return polygon
+        points = np.asarray(points)
+        if points.ndim == 1 and isinstance(points[0], gdstk.Polygon):
+            return [self.add_polygon(poly, layer=layer) for poly in points]
+        if layer is np.nan:
+            layer = 0
+
+        if points.ndim == 2:
+            # add single polygon from points
+            if len(points[0]) > 2:
+                # Convert to form [[1,2],[3,4],[5,6]]
+                points = np.column_stack(points)
+            layer, datatype = _parse_layer(layer)
+            polygon = Polygon(points, layer=layer, datatype=datatype)
+            self.add(polygon)
+            return polygon
+        elif points.ndim == 3:
+            layer, datatype = _parse_layer(layer)
+            polygons = [
+                Polygon(ppoints, layer=layer, datatype=datatype) for ppoints in points
+            ]
+            self.add(*polygons)
+            return polygons
+        else:
+            raise ValueError(f"Unable to add {points.ndim}-dimensional points object")
 
     def copy(self) -> "Component":
         return copy(self)
@@ -830,7 +960,7 @@ class Component(gdspy.Cell, _GeometryHelper):
             or self.metadata_child.get(setting)
         )
 
-    def _check_unlocked(self) -> None:
+    def is_unlocked(self) -> None:
         """Raises error if Component is locked."""
         if self._locked:
             raise MutabilityError(
@@ -842,32 +972,37 @@ class Component(gdspy.Cell, _GeometryHelper):
         """Add a new element or list of elements to this Component.
 
         Args:
-            element: `PolygonSet`, `CellReference`, `CellArray` or iterable
-            The element or iterable of elements to be inserted in this cell.
-
-        Raises:
-            MutabilityError: if component is locked.
-        """
-        self._check_unlocked()
-        super().add(element)
-
-    def add(self, element) -> None:
-        """Add a new element or list of elements to this Component.
-
-        Args:
-            element: `PolygonSet`, `CellReference`, `CellArray` or iterable
+            element: Polygon, ComponentReference or iterable
                 The element or iterable of elements to be inserted in this cell.
 
         Raises:
             MutabilityError: if component is locked.
         """
-        self._add(element)
-        if isinstance(element, (gdspy.CellReference, gdspy.CellArray)):
+        self.is_unlocked()
+        if isinstance(element, ComponentReference):
+            self._cell.add(element._reference)
+            self._references.append(element)
+        else:
+            self._cell.add(element)
+
+    def add(self, element) -> None:
+        """Add a new element or list of elements to this Component.
+
+        Args:
+            element: Polygon, ComponentReference or iterable
+                The element or iterable of elements to be inserted in this cell.
+
+        Raises:
+            MutabilityError: if component is locked.
+        """
+        if isinstance(element, ComponentReference):
             self._register_reference(element)
-        if isinstance(element, Iterable):
-            for i in element:
-                if isinstance(i, (gdspy.CellReference, gdspy.CellArray)):
-                    self._register_reference(i)
+            self._add(element)
+        elif isinstance(element, Iterable):
+            for subelement in element:
+                self.add(subelement)
+        else:
+            self._add(element)
 
     def add_array(
         self,
@@ -876,8 +1011,8 @@ class Component(gdspy.Cell, _GeometryHelper):
         rows: int = 2,
         spacing: Tuple[float, float] = (100, 100),
         alias: Optional[str] = None,
-    ) -> CellArray:
-        """Creates a CellArray reference to a Component.
+    ) -> ComponentReference:
+        """Creates a ComponentReference reference to a Component.
 
         Args:
             component: The referenced component.
@@ -888,12 +1023,12 @@ class Component(gdspy.Cell, _GeometryHelper):
             alias: str or None. Alias of the referenced Component.
 
         Returns
-            a: CellArray containing references to the Component.
+            a: ComponentReference containing references to the Component.
         """
         if not isinstance(component, Component):
             raise TypeError("add_array() needs a Component object.")
-        ref = CellArray(
-            device=component,
+        ref = ComponentReference(
+            component=component,
             columns=int(round(columns)),
             rows=int(round(rows)),
             spacing=spacing,
@@ -943,8 +1078,7 @@ class Component(gdspy.Cell, _GeometryHelper):
                 Elements in the Component to align.
             alignment : {'x', 'y', 'xmin', 'xmax', 'ymin', 'ymax'}
                 Which edge to align along (e.g. 'ymax' will move the elements such
-                that all of their topmost points are aligned)
-
+                that all of their topmost points are aligned).
         """
         if elements == "all":
             elements = self.polygons + self.references
@@ -962,14 +1096,18 @@ class Component(gdspy.Cell, _GeometryHelper):
         Args:
             single_layer: move all polygons are moved to the specified (optional).
         """
-        component_flat = self.copy()
-        component_flat.polygons = []
-        component_flat.references = []
+        component_flat = Component()
 
-        poly_dict = self.get_polygons(by_spec=True)
+        poly_dict = self.get_polygons(by_spec=True, include_paths=False, as_array=False)
         for layer, polys in poly_dict.items():
-            component_flat.add_polygon(polys, layer=single_layer or layer)
+            if polys:
+                component_flat.add_polygon(polys, layer=single_layer or layer)
 
+        for path in self._cell.get_paths():
+            component_flat.add(path)
+
+        component_flat.info = self.info.copy()
+        component_flat.add_ports(self.ports)
         return component_flat
 
     def flatten_reference(self, ref: ComponentReference):
@@ -989,12 +1127,12 @@ class Component(gdspy.Cell, _GeometryHelper):
         self.add_ref(new_component, alias=ref.name)
 
     def add_ref(
-        self, component: "Component", alias: Optional[str] = None
+        self, component: "Component", alias: Optional[str] = None, **kwargs
     ) -> "ComponentReference":
         """Add ComponentReference to the current Component."""
         if not isinstance(component, Component):
             raise TypeError(f"type = {type(Component)} needs to be a Component.")
-        ref = ComponentReference(component)
+        ref = ComponentReference(component, **kwargs)
         self._add(ref)
         self._register_reference(reference=ref, alias=alias)
         return ref
@@ -1018,18 +1156,19 @@ class Component(gdspy.Cell, _GeometryHelper):
                 self._reference_names_counter.update({prefix: 1})
                 alias = f"{prefix}_{self._reference_names_counter[prefix]}"
 
-                while alias in self._reference_names_used:
+                while alias in self._named_references:
                     self._reference_names_counter.update({prefix: 1})
                     alias = f"{prefix}_{self._reference_names_counter[prefix]}"
 
         reference.name = alias
+        self._named_references[alias] = reference
 
     @property
     def layers(self):
         """Returns a set of the Layers in the Component."""
         return self.get_layers()
 
-    def get_layers(self) -> Union[Set[Tuple[int, int]], Set[Tuple[int64, int64]]]:
+    def get_layers(self) -> Set[Tuple[int, int]]:
         """Return a set of (layer, datatype).
 
         .. code ::
@@ -1037,16 +1176,8 @@ class Component(gdspy.Cell, _GeometryHelper):
             import gdsfactory as gf
             gf.components.straight().get_layers() == {(1, 0), (111, 0)}
         """
-        layers = set()
-        for element in itertools.chain(self.polygons, self.paths):
-            for layer, datatype in zip(element.layers, element.datatypes):
-                layers.add((layer, datatype))
-        for reference in self.references:
-            for layer, datatype in reference.ref_cell.get_layers():
-                layers.add((layer, datatype))
-        for label in self.labels:
-            layers.add((label.layer, 0))
-        return layers
+        polygons = self._cell.get_polygons(depth=None)
+        return {(polygon.layer, polygon.datatype) for polygon in polygons}
 
     def _repr_html_(self):
         """Show geometry in klayout and in matplotlib for jupyter notebooks."""
@@ -1311,14 +1442,14 @@ class Component(gdspy.Cell, _GeometryHelper):
                     warnings.warn(
                         f"Duplicated cell names in {self.name!r}:  {cell_names}",
                     )
-                cells_dict = {cell.name: cell for cell in cells}
+                cells_dict = {cell.name: cell._cell for cell in cells}
                 cells = cells_dict.values()
             elif on_duplicate_cell is not None:
                 raise ValueError(
                     f"on_duplicate_cell: {on_duplicate_cell!r} not in (None, warn, error, overwrite)"
                 )
 
-        all_cells = [self] + sorted(cells, key=lambda cc: cc.name)
+        all_cells = [self._cell] + sorted(cells, key=lambda cc: cc.name)
 
         no_name_cells = [
             cell.name for cell in all_cells if cell.name.startswith("Unnamed")
@@ -1329,9 +1460,15 @@ class Component(gdspy.Cell, _GeometryHelper):
                 f"Component {self.name!r} contains {len(no_name_cells)} Unnamed cells"
             )
 
-        lib = gdspy.GdsLibrary(unit=unit, precision=precision)
-        lib.write_gds(gdspath, cells=all_cells, timestamp=timestamp)
-        self.path = gdspath
+        # for cell in all_cells:
+        #     print(cell.name, type(cell))
+
+        lib = gdstk.Library(unit=unit, precision=precision)
+        lib.add(self._cell)
+        lib.add(*self._cell.dependencies(True))
+
+        # self.path = gdspath
+        lib.write_gds(gdspath, timestamp=timestamp)
         if logging:
             logger.info(f"Write GDS to {str(gdspath)!r}")
         return gdspath
@@ -1367,7 +1504,7 @@ class Component(gdspy.Cell, _GeometryHelper):
         layout = pya.Layout()
         layout.read(tempfilename)
 
-        # there can only be one top_cell because we only wrote one device
+        # there can only be one top_cell because we only wrote one component
         topcell = layout.top_cell()
         topcell.write(filename)
         os.remove(tempfilename)
@@ -1403,7 +1540,7 @@ class Component(gdspy.Cell, _GeometryHelper):
             d["cells"] = clean_dict(cells)
 
         d["name"] = self.name
-        d["settings"] = dict(self.settings)
+        d["settings"] = clean_dict(dict(self.settings))
         return d
 
     def to_yaml(self, **kwargs) -> str:
@@ -1456,15 +1593,15 @@ class Component(gdspy.Cell, _GeometryHelper):
                  |   |
                  8   7
         """
-        self._check_unlocked()
+        self.is_unlocked()
         auto_rename_ports(self, **kwargs)
 
     def auto_rename_ports_counter_clockwise(self, **kwargs) -> None:
-        self._check_unlocked()
+        self.is_unlocked()
         auto_rename_ports_counter_clockwise(self, **kwargs)
 
     def auto_rename_ports_layer_orientation(self, **kwargs) -> None:
-        self._check_unlocked()
+        self.is_unlocked()
         auto_rename_ports_layer_orientation(self, **kwargs)
 
     def auto_rename_ports_orientation(self, **kwargs) -> None:
@@ -1487,7 +1624,7 @@ class Component(gdspy.Cell, _GeometryHelper):
                  |   |
                 S0   S1
         """
-        self._check_unlocked()
+        self.is_unlocked()
         auto_rename_ports_orientation(self, **kwargs)
 
     def move(
@@ -1554,14 +1691,9 @@ class Component(gdspy.Cell, _GeometryHelper):
         return add_padding(component=self, **kwargs)
 
     def absorb(self, reference) -> "Component":
-        """Flattens and absorbs polygons from  ComponentReference into the.
+        """Absorbs polygons from ComponentReference into Component.
 
-        Component.
-
-        It destroys the reference in the process but keeping the polygon geometry.
-
-        remove when PR gets approved and there is a new release
-        https://github.com/amccaugh/phidl/pull/135
+        Destroys the reference in the process but keeping the polygon geometry.
 
         Args:
             reference: ComponentReference to be absorbed into the Component.
@@ -1570,7 +1702,7 @@ class Component(gdspy.Cell, _GeometryHelper):
             raise ValueError(
                 "The reference you asked to absorb does not exist in this Component."
             )
-        ref_polygons = reference.get_polygons(by_spec=True)
+        ref_polygons = reference.get_polygons(by_spec=True, include_paths=False)
         for (layer, polys) in ref_polygons.items():
             [self.add_polygon(points=p, layer=layer) for p in polys]
 
@@ -1591,13 +1723,16 @@ class Component(gdspy.Cell, _GeometryHelper):
         for item in items:
             if isinstance(item, Port):
                 self.ports = {k: v for k, v in self.ports.items() if v != item}
-            elif isinstance(item, gdspy.PolygonSet):
-                self.polygons.remove(item)
-            elif isinstance(item, (gdspy.CellReference, gdspy.CellArray)):
-                self.references.remove(item)
+            elif isinstance(item, gdstk.Reference):
+                self._cell.remove(item)
                 item.owner = None
-            elif isinstance(item, gdspy.Label):
-                self.labels.remove(item)
+            elif isinstance(item, ComponentReference):
+                self.references.remove(item)
+                self._cell.remove(item._reference)
+                item.owner = None
+                self._named_references.pop(item.name)
+            else:
+                self._cell.remove(item)
 
         self._bb_valid = False
         return self
@@ -1615,7 +1750,7 @@ class Component(gdspy.Cell, _GeometryHelper):
                 (0.124, 1.748) to (0.12, 1.75).
 
         """
-        polygons_by_spec = self.get_polygons(by_spec=True)
+        polygons_by_spec = self.get_polygons(by_spec=True, as_array=False)
         layers = np.array(list(polygons_by_spec.keys()))
         sorted_layers = layers[np.lexsort((layers[:, 0], layers[:, 1]))]
 
@@ -1623,13 +1758,40 @@ class Component(gdspy.Cell, _GeometryHelper):
         for layer in sorted_layers:
             layer_hash = hashlib.sha1(layer.astype(np.int64)).digest()
             polygons = polygons_by_spec[tuple(layer)]
-            polygons = [_rnd(p, precision) for p in polygons]
+            polygons = [_rnd(p.points, precision) for p in polygons]
             polygon_hashes = np.sort([hashlib.sha1(p).digest() for p in polygons])
             final_hash.update(layer_hash)
             for ph in polygon_hashes:
                 final_hash.update(ph)
 
         return final_hash.hexdigest()
+
+    def get_labels(
+        self, apply_repetitions=True, depth: Optional[int] = None, layer=None
+    ) -> List[Label]:
+        """Return labels.
+
+        Args:
+            apply_repetitions:.
+            depth: None returns all labels and 0 top level.
+            layer: layerspec.
+        """
+        from gdsfactory.pdk import get_layer
+
+        if layer:
+            layer, texttype = get_layer(layer)
+        else:
+            texttype = None
+        return self._cell.get_labels(
+            apply_repetitions=apply_repetitions,
+            depth=depth,
+            layer=layer,
+            texttype=texttype,
+        )
+
+    def remove_labels(self) -> None:
+        """Remove labels."""
+        self._cell.remove(*self.labels)
 
     # Deprecated
     def get_info(self):
@@ -1647,12 +1809,15 @@ class Component(gdspy.Cell, _GeometryHelper):
         D_list = self.get_dependencies(recursive=True)
         return [D.info.copy() for D in D_list]
 
-    def remap_layers(self, layermap, include_labels: bool = True):
+    def remap_layers(
+        self, layermap, include_labels: bool = True, include_paths: bool = True
+    ) -> "Component":
         """Moves all polygons in the Component from one layer to another according to the layermap argument.
 
         Args:
             layermap: Dictionary of values in format {layer_from : layer_to}.
             include_labels: Selects whether to move Labels along with polygons.
+            include_paths: Selects whether to move Paths along with polygons.
         """
         layermap = {_parse_layer(k): _parse_layer(v) for k, v in layermap.items()}
 
@@ -1660,13 +1825,11 @@ class Component(gdspy.Cell, _GeometryHelper):
         all_D.append(self)
         for D in all_D:
             for p in D.polygons:
-                for n, _layer in enumerate(p.layers):
-                    original_layer = (p.layers[n], p.datatypes[n])
-                    original_layer = _parse_layer(original_layer)
-                    if original_layer in layermap:
-                        new_layer = layermap[original_layer]
-                        p.layers[n] = new_layer[0]
-                        p.datatypes[n] = new_layer[1]
+                layer = (p.layer, p.datatype)
+                if layer in layermap:
+                    new_layer = layermap[layer]
+                    p.layer = new_layer[0]
+                    p.datatype = new_layer[1]
             if include_labels:
                 for label in D.labels:
                     original_layer = (label.layer, label.texttype)
@@ -1675,6 +1838,16 @@ class Component(gdspy.Cell, _GeometryHelper):
                         new_layer = layermap[original_layer]
                         label.layer = new_layer[0]
                         label.texttype = new_layer[1]
+
+            if include_paths:
+                for path in D.paths:
+                    for layer, datatype in zip(path.layers, path.datatypes):
+                        original_layer = (layer, datatype)
+                        original_layer = _parse_layer(original_layer)
+                        if original_layer in layermap:
+                            new_layer = layermap[original_layer]
+                            path.layer = new_layer[0]
+                            path.datatype = new_layer[1]
         return self
 
 
@@ -1685,32 +1858,21 @@ def copy(D: Component) -> Component:
         D: component to copy.
     """
     D_copy = Component()
-    D_copy.info = python_copy.deepcopy(D.info)
+    D_copy.info = D.info
+    # D_copy._cell = D._cell.copy(name=D_copy.name)
+
     for ref in D.references:
-        if isinstance(ref, gdspy.CellReference):
-            new_ref = ComponentReference(
-                ref.parent,
-                origin=ref.origin,
-                rotation=ref.rotation,
-                magnification=ref.magnification,
-                x_reflection=ref.x_reflection,
-            )
-            new_ref.owner = D_copy
-            new_ref.name = ref.name if hasattr(ref, "name") else ref.parent.name
-        elif isinstance(ref, gdspy.CellArray):
-            new_ref = CellArray(
-                device=ref.parent,
-                columns=ref.columns,
-                rows=ref.rows,
-                spacing=ref.spacing,
-                origin=ref.origin,
-                rotation=ref.rotation,
-                magnification=ref.magnification,
-                x_reflection=ref.x_reflection,
-            )
-            new_ref.name = ref.name if hasattr(ref, "name") else ref.parent.name
-        else:
-            raise ValueError(f"Got a reference of non-standard type: {type(ref)}")
+        new_ref = ComponentReference(
+            component=ref.parent,
+            columns=ref.columns,
+            rows=ref.rows,
+            spacing=ref.spacing,
+            origin=ref.origin,
+            rotation=ref.rotation,
+            magnification=ref.magnification,
+            x_reflection=ref.x_reflection,
+            name=ref.name,
+        )
         D_copy.add(new_ref)
 
     for port in D.ports.values():
@@ -1722,7 +1884,7 @@ def copy(D: Component) -> Component:
     for label in D.labels:
         D_copy.add_label(
             text=label.text,
-            position=label.position,
+            position=label.origin,
             layer=(label.layer, label.texttype),
         )
     return D_copy
@@ -1743,7 +1905,7 @@ def test_get_layers() -> Component:
         add_bbox=None,
     )
     assert c.get_layers() == {(2, 0), (111, 0)}, c.get_layers()
-    c.remove_layers((111, 0))
+    c = c.remove_layers([(111, 0)])
     assert c.get_layers() == {(2, 0)}, c.get_layers()
     return c
 
@@ -1761,7 +1923,7 @@ def recurse_structures(
     ignore_components_prefix: Optional[List[str]] = None,
     ignore_functions_prefix: Optional[List[str]] = None,
 ) -> Dict[str, Any]:
-    """Recurse component and its components recursively.
+    """Recurse component and components references recursively.
 
     Args:
         component: component to recurse.
@@ -1851,7 +2013,7 @@ def test_extract() -> None:
         length=10,
         width=0.5,
         bbox_layers=[gf.LAYER.WGCLAD],
-        bbox_offsets=[0],
+        bbox_offsets=[3],
         with_bbox=True,
         cladding_layers=None,
         add_pins=None,
@@ -1861,6 +2023,7 @@ def test_extract() -> None:
 
     assert len(c.polygons) == 2, len(c.polygons)
     assert len(c2.polygons) == 1, len(c2.polygons)
+    return c2
 
 
 def hash_file(filepath):
@@ -1888,15 +2051,73 @@ def test_bbox_component() -> None:
     assert c.xsize == 2e-3
 
 
+def test_remap_layers() -> None:
+    import gdsfactory as gf
+
+    c = gf.components.straight(layer=(2, 0))
+    remap = c.remap_layers(layermap={(2, 0): gf.LAYER.WGN})
+    assert remap.hash_geometry() == "1c12fcddd61dc167c80c847abe371b3f8af84a1b"
+
+
+def test_remove_labels() -> None:
+    import gdsfactory as gf
+
+    c = gf.c.straight()
+    c.remove_labels()
+
+    assert len(c.labels) == 0
+
+
+def test_import_gds_settings():
+    import gdsfactory as gf
+
+    c = gf.components.mzi()
+    gdspath = c.write_gds_with_metadata()
+    c2 = gf.import_gds(gdspath, name="mzi_sample")
+    c3 = gf.routing.add_fiber_single(c2)
+    assert c3
+
+
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    # c = gf.components.bend_euler()
+    c = gf.c.mzi()
+    c = c.flatten()
+    c.show()
+
+    # c.remove_labels()
+    # print(c.labels)
+
+    # c = gf.components.straight(layer=(2, 0))
+    # remap = c.remap_layers(layermap={(2, 0): gf.LAYER.WGN})
+    # remap.show()
+    # c = test_extract()
+    # c.show()
+
+    # test_get_layers()
+    # test_netlist_simple_width_mismatch_throws_error()
+
+    # c = Component("parent")
+    # c2 = Component("child")
+    # length = 10
+    # width = 0.5
+    # layer = (1, 0)
+    # c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
+    # c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=(2, 0))
+
+    # c << c2
+    # c.show()
+
+    # length = 10
+    # width = 0.5
+    # layer = (1, 0)
+    # c.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
+
+    # c = gf.components.mzi()
     # c2 = c.mirror()
     # print(c2.info)
-    c = gf.c.mzi()
+    # c = gf.c.mzi()
     # c.hash_geometry()
     # print(c.get_polygons(by_spec=True))
-
-    c = c.remove_layers(layers=((68, 0),))
-    c.show(show_ports=True)
+    # c.show(show_ports=True)
+    # c.show()

@@ -58,7 +58,7 @@ Pytest-regressions automatically creates the CSV and YAML files for you, as well
 
 gdsfactory is **not** backwards compatible, which means that the package will keep improving and evolving.
 
-1. To make your work stable you should install a specific version and [pin the version](https://martin-thoma.com/python-requirements/) in your `requirements.txt` as `gdsfactory==5.55.0` replacing `5.55.0` by whatever version you end up using.
+1. To make your work stable you should install a specific version and [pin the version](https://martin-thoma.com/python-requirements/) in your `requirements.txt` as `gdsfactory==6.0.3` replacing `6.0.3` by whatever version you end up using.
 2. Before you upgrade gdsfactory make sure you write and run regression tests on your work to check that things behave as expected
 
 
@@ -73,7 +73,7 @@ For example, if you changed the mmi1x2 and made it 5um longer by mistake, you co
 
 ## Why does gdsfactory exists?
 
-For Photonics IC layout I used [IPKISS](https://github.com/jtambasco/ipkiss) for 6 years. IPKISS is slow with big layouts, so in 2019 I tried all the commercial (Luceda, Cadence, Synopsis) and open source EDA tools (phidl, gdspy, picwriter, klayout-zero-pdk, nazca) looking for a fast and easy to use workflow.
+For Photonics IC layout I used [IPKISS](https://github.com/jtambasco/ipkiss) for 6 years. IPKISS is slow with big layouts, so in 2019 I tried all the commercial (Luceda, Cadence, Synopsis) and open source EDA tools (gdstk, gdspy, phidl, picwriter, klayout-zero-pdk, nazca) looking for a fast and easy to use workflow.
 
 The metrics for the benchmark were:
 
@@ -81,27 +81,26 @@ The metrics for the benchmark were:
 1. Easy to use and interface with other tools
 2. Maintained / Documented / Popular
 
-PHIDL won in speed, readability and easy of use. It is written on top of gdspy (which came second), so you can still leverage all the work from the gdspy community. Gdsfactory also leverages klayout and gdspy python APIs.
 
-Gdsfactory leverages klayout and gdspy python APIs.
+Gdsfactory leverages klayout and gdstk python APIs.
 
-What nice things come from phidl?
+What nice things are inspired by gdstk and gdstk?
 
 - functional programming that follow UNIX philosophy
 - nice API to create and modify Components
 - Easy definition of paths, cross-sections and extrude them into Components
 - Easy definition of ports, to connect components. Ports in phidl have name, position, width and orientation (in degrees)
-  - gdsfactory expands phidl ports with layer, port_type (optical, electrical, vertical_te, vertical_tm ...) and cross_section
+  - gdsfactory ports have layer, port_type (optical, electrical, vertical_te, vertical_tm ...) and cross_section
   - gdsfactory adds renaming ports functions (clockwise, counter_clockwise ...)
 
 What nice things come from klayout?
 
 - GDS viewer. gdsfactory can send GDS files directly to klayout, you just need to have klayout open
 - layer colormaps for showing in klayout, matplotlib, trimesh (using the same colors)
-- fast boolean xor to avoid geometric regressions on Components geometry. Klayout booleans are faster than gdspy ones
+- fast boolean xor to avoid geometric regressions on Components geometry. Klayout booleans are faster than gdstk ones
 - basic DRC checks
 
-What functionality does gdsfactory provide you on top phidl/gdspy/klayout?
+What functionality does gdsfactory provide you on top gdstk/klayout?
 
 - `@cell decorator` for decorating functions that create components
   - autonames Components with a unique name that depends on the input parameters

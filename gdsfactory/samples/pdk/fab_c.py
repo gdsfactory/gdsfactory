@@ -158,12 +158,22 @@ SPARAMETERS_PATH = pathlib.Path.home() / "fabc"
 
 
 if __name__ == "__main__":
-    # c = mmi1x2_nc()
+    c1 = mmi1x2_nc()
+    print(c1.name)
+    # c1 = mmi1x2_nc()
+    # d1 = c1.to_dict()
+
+    # c2 = mmi1x2_nc(cache=False)
+    # d2 = c2.to_dict()
+
+    # from jsondiff import diff
+
+    # d = diff(d1, d2)
     # c.show(show_ports=True)
 
-    c = mzi_nc()
-    print(c.name)
-    c.show()
+    # c = mzi_nc()
+    # print(c.name)
+    # c.show()
 
     # mzi.show()
     # mzi_gc = gf.routing.add_fiber_single(

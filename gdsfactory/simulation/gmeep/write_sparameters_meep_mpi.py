@@ -157,7 +157,6 @@ def write_sparameters_meep_mpi(
     kwargs.update(filepath=str(filepath))
 
     parameters_dict = {
-        "component": component,
         "layer_stack": layer_stack,
         "overwrite": overwrite,
     }
@@ -169,13 +168,20 @@ def write_sparameters_meep_mpi(
     with open(parameters_file, "wb") as outp:
         pickle.dump(parameters_dict, outp, pickle.HIGHEST_PROTOCOL)
 
+    # Save component to disk through gds for gdstk compatibility
+    component_file = tempfile.with_suffix(".gds")
+    component.write_gds_with_metadata(component_file)
+
     # Write execution file
     script_lines = [
         "import pickle\n",
         "from gdsfactory.simulation.gmeep import write_sparameters_meep\n\n",
+        "from gdsfactory.read import import_gds\n",
         'if __name__ == "__main__":\n\n',
+        f'\tcomponent = import_gds("{component_file}")\n',
         f"\twith open(\"{parameters_file}\", 'rb') as inp:\n",
         "\t\tparameters_dict = pickle.load(inp)\n\n" "\twrite_sparameters_meep(\n",
+        "\t\tcomponent = component,\n",
     ]
     script_lines.extend(
         f'\t\t{key} = parameters_dict["{key}"],\n' for key in parameters_dict
@@ -234,6 +240,8 @@ write_sparameters_meep_mpi_1x1_bend90 = gf.partial(
 
 
 if __name__ == "__main__":
+    import numpy as np
+
     c1 = gf.components.straight(length=2.1)
     filepath = write_sparameters_meep_mpi(
         component=c1,
@@ -244,5 +252,8 @@ if __name__ == "__main__":
         live_output=True,
         # lazy_parallelism=True,
         lazy_parallelism=False,
+        # temp_dir = "./test/",
         # filepath="instance_dict.csv",
     )
+    sp = np.load(filepath)
+    print(list(sp.keys()))

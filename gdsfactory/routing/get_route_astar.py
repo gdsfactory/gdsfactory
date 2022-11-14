@@ -293,16 +293,44 @@ def _generate_neighbours(
 
 if __name__ == "__main__":
 
-    cross_section = gf.get_cross_section("metal1", width=3)
+    # cross_section = gf.get_cross_section("metal1", width=3)
 
-    c = gf.Component("get_route_astar")
+    # c = gf.Component("get_route_astar")
+    # w = gf.components.straight(cross_section=cross_section)
+
+    # left = c << w
+    # right = c << w
+    # right.move((100, 80))
+
+    # obstacle = gf.components.rectangle(size=(100, 3), layer="M1")
+    # obstacle1 = c << obstacle
+    # obstacle2 = c << obstacle
+    # obstacle1.ymin = 40
+    # obstacle2.xmin = 25
+
+    # port1 = left.ports["e2"]
+    # port2 = right.ports["e2"]
+
+    # routes = get_route_astar(
+    #     component=c,
+    #     port1=port1,
+    #     port2=port2,
+    #     cross_section=cross_section,
+    #     resolution=5,
+    #     distance=6.5,
+    #     avoid_layers=("M1",),
+    # )
+    # c.add(routes.references)
+
+    c = gf.Component("get_route_astar_avoid_layers")
+    cross_section = gf.get_cross_section("metal1", width=3)
     w = gf.components.straight(cross_section=cross_section)
 
     left = c << w
     right = c << w
     right.move((100, 80))
 
-    obstacle = gf.components.rectangle(size=(100, 3), layer="M1")
+    obstacle = gf.components.rectangle(size=(100, 3), layer="WG")
     obstacle1 = c << obstacle
     obstacle2 = c << obstacle
     obstacle1.ymin = 40
@@ -311,13 +339,14 @@ if __name__ == "__main__":
     port1 = left.ports["e2"]
     port2 = right.ports["e2"]
 
-    routes = get_route_astar(
+    routes = gf.routing.get_route_astar(
         component=c,
         port1=port1,
         port2=port2,
         cross_section=cross_section,
-        resolution=5,
+        resolution=10,
         distance=6.5,
+        avoid_layers=("M1",),
     )
 
     c.add(routes.references)

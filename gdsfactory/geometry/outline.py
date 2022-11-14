@@ -1,3 +1,5 @@
+from typing import Union
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
@@ -9,13 +11,11 @@ from gdsfactory.geometry.offset import offset
 def outline(
     elements,
     distance=1,
-    precision=1e-4,
-    num_divisions=(1, 1),
-    join="miter",
-    tolerance=2,
-    join_first=True,
-    max_points=4000,
-    open_ports=False,
+    precision: float = 1e-4,
+    join: str = "miter",
+    tolerance: int = 2,
+    join_first: bool = True,
+    open_ports: Union[bool, float] = False,
     layer=0,
 ) -> Component:
     """Returns Component containing the outlined polygon(s).
@@ -30,10 +30,6 @@ def outline(
             Distance to offset polygons. Positive values expand, negative shrink.
         precision: float
             Desired precision for rounding vertex coordinates.
-        num_divisions: array-like[2] of int
-            The number of divisions with which the geometry is divided into
-            multiple rectangular regions. This allows for each region to be
-            processed sequentially, which is more computationally efficient.
         join: {'miter', 'bevel', 'round'}
             Type of join used to create the offset polygon.
         tolerance: int or float
@@ -42,11 +38,6 @@ def outline(
             original position before beveling to avoid spikes at acute joints. For
             round joints, it indicates the curvature resolution in number of
             points per full circle.
-        join_first: bool
-            Join all paths before offsetting to avoid unnecessary joins in
-            adjacent polygon sides.
-        max_points: int
-            The maximum number of vertices within the resulting polygon.
         open_ports: bool or float
             If not False, holes will be cut in the outline such that the Ports are
             not covered. If True, the holes will have the same width as the Ports.
@@ -73,18 +64,15 @@ def outline(
     D_bloated = offset(
         D,
         distance=distance,
-        join_first=join_first,
-        num_divisions=num_divisions,
-        precision=precision,
-        max_points=max_points,
         join=join,
+        precision=precision,
         tolerance=tolerance,
         layer=layer,
     )
 
     Trim = Component()
-    if open_ports is not False:
-        trim_width = 0 if open_ports is True else open_ports * 2
+    if open_ports:
+        trim_width = 0 if open_ports else open_ports * 2
         for port in port_list:
             trim = compass(size=(distance + 6 * precision, port.width + trim_width))
             trim_ref = Trim << trim
@@ -94,12 +82,10 @@ def outline(
         A=D_bloated,
         B=[D, Trim],
         operation="A-B" if distance > 0 else "B-A",
-        num_divisions=num_divisions,
-        max_points=max_points,
         precision=precision,
         layer=layer,
     )
-    if open_ports is not False and len(elements) == 1:
+    if open_ports and len(elements) == 1:
         for port in port_list:
             Outline.add_port(port=port)
     return Outline
@@ -115,5 +101,5 @@ def test_outline() -> None:
 if __name__ == "__main__":
     e1 = gf.components.ellipse(radii=(6, 6))
     e2 = gf.components.ellipse(radii=(10, 4))
-    c = outline([e1, e2])
+    c = outline([e1, e2], distance=1)
     c.show(show_ports=True)

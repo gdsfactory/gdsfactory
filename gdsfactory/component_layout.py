@@ -1,7 +1,7 @@
 import numbers
 
-import gdspy
 import numpy as np
+from gdstk import Label, Polygon
 from numpy import cos, pi, sin
 from numpy.linalg import norm
 
@@ -194,7 +194,7 @@ class _GeometryHelper:
         """Adds an element to a Group.
 
         Args:
-            element: Component, ComponentReference, Port, Polygon, CellArray,
+            element: Component, ComponentReference, Port, Polygon,
                 Label, or Group to add.
         """
         if isinstance(self, Group):
@@ -227,7 +227,7 @@ class Group(_GeometryHelper):
         """Adds an element to the Group.
 
         Args:
-            element: Component, ComponentReference, Port, Polygon, CellArray,
+            element: Component, ComponentReference, Port, Polygon,
                 Label, or Group to add.
 
         """
@@ -252,7 +252,7 @@ class Group(_GeometryHelper):
         """Adds an element to the Group.
 
         Args:
-            element: Component, ComponentReference, Port, Polygon, CellArray,
+            element: Component, ComponentReference, Port, Polygon,
                 Label, or Group to add.
         """
         from gdsfactory.component import Component
@@ -263,14 +263,14 @@ class Group(_GeometryHelper):
         elif element is None:
             return self
         elif isinstance(
-            element, (Component, ComponentReference, Polygon, CellArray, Label, Group)
+            element, (Component, ComponentReference, Polygon, Label, Group)
         ):
             self.elements.append(element)
         else:
             raise ValueError(
                 "add() Could not add element to Group, the only "
                 "allowed element types are "
-                "(Component, ComponentReference, Polygon, CellArray, Label, Group)"
+                "(Component, ComponentReference, Polygon, Label, Group)"
             )
         # Remove non-unique entries
         used = set()
@@ -365,7 +365,7 @@ class Group(_GeometryHelper):
         return self
 
 
-def _rotate_points(points, angle=45, center=(0, 0)):
+def _rotate_points(points, angle: float = 45, center=(0, 0)):
     """Rotates points around a centerpoint defined by ``center``.
 
     ``points`` may be input as either single points [1,2] or array-like[N][2],
@@ -512,7 +512,7 @@ def _distribute(elements, direction="x", spacing=100, separation=True, edge=None
             separation == True)
 
     Returns:
-        elements : Component, ComponentReference, Port, Polygon, CellArray, Label, or Group
+        elements : Component, ComponentReference, Port, Polygon, Label, or Group
             Distributed elements.
     """
     if len(elements) == 0:
@@ -620,304 +620,3 @@ def _simplify(points, tolerance=0):
     result2 = _simplify(M[index:], tolerance)
 
     return np.vstack((result1[:-1], result2))
-
-
-class Polygon(gdspy.Polygon, _GeometryHelper):
-    """Polygonal geometric object.
-
-    Args:
-        points : array-like[N][2]
-            Coordinates of the vertices of the Polygon.
-        gds_layer : int
-            GDSII layer of the Polygon.
-        gds_datatype : int
-            GDSII datatype of the Polygon.
-        parent : cell that polygon belongs to.
-
-    """
-
-    def __init__(self, points, gds_layer, gds_datatype, parent):
-        """Initialize polygon."""
-        self.parent = parent
-        super().__init__(points=points, layer=gds_layer, datatype=gds_datatype)
-
-    @property
-    def bbox(self):
-        """Returns the bounding box of the Polygon."""
-        return self.get_bounding_box()
-
-    def rotate(self, angle=45, center=(0, 0)):
-        """Rotates a Polygon by the specified angle.
-
-        Args:
-            angle : int or float
-                Angle to rotate the Polygon in degrees.
-            center : array-like[2] or None
-                center of the Polygon.
-        """
-        super().rotate(angle=angle * pi / 180, center=center)
-        if self.parent is not None:
-            self.parent._bb_valid = False
-        return self
-
-    def move(self, origin=(0, 0), destination=None, axis=None):
-        """Moves elements of the Component from the origin point to the destination.
-
-        Both origin and destination can be 1x2 array-like, Port,
-        or a key corresponding to one of the Ports in this device.
-
-        Args:
-            origin : array-like[2], Port, or key
-                Origin point of the move.
-            destination : array-like[2], Port, or key
-                Destination point of the move.
-            axis : {'x', 'y'}
-                Direction of move.
-
-        """
-        dx, dy = _parse_move(origin, destination, axis)
-
-        super().translate(dx, dy)
-        if self.parent is not None:
-            self.parent._bb_valid = False
-        return self
-
-    def mirror(self, p1=(0, 1), p2=(0, 0)):
-        """Mirrors a Polygon across the line formed between two points.
-
-        ``points`` may be input as either single points
-        [1,2] or array-like[N][2], and will return in kind.
-
-        Args:
-            p1 : array-like[N][2]
-                First point of the line.
-            p2 : array-like[N][2]
-                Second point of the line.
-        """
-        for n, points in enumerate(self.polygons):
-            self.polygons[n] = _reflect_points(points, p1, p2)
-        if self.parent is not None:
-            self.parent._bb_valid = False
-        return self
-
-    def simplify(self, tolerance=1e-3):
-        """Removes points from the polygon but does not change the polygon \
-            shape by more than `tolerance` from the original using the \
-            Ramer-Douglas-Peucker algorithm.
-
-        Args:
-            tolerance : float
-                Tolerance value for the simplification algorithm.  All points that
-                can be removed without changing the resulting polygon by more than
-                the value listed here will be removed. Also known as `epsilon` here
-                https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm
-        """
-        for n, points in enumerate(self.polygons):
-            self.polygons[n] = _simplify(points, tolerance=tolerance)
-        if self.parent is not None:
-            self.parent._bb_valid = False
-        return self
-
-
-class CellArray(gdspy.CellArray, _GeometryHelper):
-    """Multiple references to an existing cell in an array format.
-
-    Args:
-        device : Component
-            The referenced Component.
-        columns : int
-            Number of columns in the array.
-        rows : int
-            Number of rows in the array.
-        spacing : array-like[2] of int or float
-            Distances between adjacent columns and adjacent rows.
-        origin : array-like[2] of int or float
-            Position where the cell is inserted.
-        rotation : int or float
-            Angle of rotation of the reference (in `degrees`).
-        magnification : int or float
-            Magnification factor for the reference.
-        x_reflection : bool
-            If True, the reference is reflected parallel to the x direction
-            before being rotated.
-    """
-
-    def __init__(
-        self,
-        device,
-        columns,
-        rows,
-        spacing,
-        origin=(0, 0),
-        rotation=0,
-        magnification=None,
-        x_reflection=False,
-    ):
-        """Initialize CellArray."""
-        super().__init__(
-            columns=columns,
-            rows=rows,
-            spacing=spacing,
-            ref_cell=device,
-            origin=origin,
-            rotation=rotation,
-            magnification=magnification,
-            x_reflection=x_reflection,
-            ignore_missing=False,
-        )
-        self.parent = device
-        self.owner = None
-
-    @property
-    def bbox(self):
-        """Returns the bounding box of the CellArray."""
-        bbox = self.get_bounding_box()
-        if bbox is None:
-            bbox = ((0, 0), (0, 0))
-        return np.array(bbox)
-
-    def move(self, origin=(0, 0), destination=None, axis=None):
-        """Moves the CellArray from the origin point to the destination.
-
-        Both origin and destination can be 1x2 array-like, Port, or a key
-        corresponding to one of the Ports in this CellArray.
-
-        Args:
-            origin : array-like[2], Port, or key
-                Origin point of the move.
-            destination : array-like[2], Port, or key
-                Destination point of the move.
-            axis : {'x', 'y'}
-                Direction of the move.
-        """
-        dx, dy = _parse_move(origin, destination, axis)
-        self.origin = np.array(self.origin) + np.array((dx, dy))
-
-        if self.owner is not None:
-            self.owner._bb_valid = False
-        return self
-
-    def rotate(self, angle=45, center=(0, 0)):
-        """Rotates all elements in the CellArray around the specified centerpoint.
-
-        Args:
-            angle : int or float
-                Angle to rotate the CellArray in degrees.
-            center : array-like[2], Port, or None
-                center of the CellArray.
-        """
-        if angle == 0:
-            return self
-        if hasattr(center, "center"):
-            center = center.center
-        self.rotation += angle
-        self.origin = _rotate_points(self.origin, angle, center)
-        if self.owner is not None:
-            self.owner._bb_valid = False
-        return self
-
-    def mirror(self, p1=(0, 1), p2=(0, 0)):
-        """Mirrors a CellArray across the line formed between the two specified points.
-
-        Args:
-            p1 : array-like[N][2]
-                First point of the line.
-            p2 : array-like[N][2]
-                Second point of the line.
-        """
-        if hasattr(p1, "center"):
-            p1 = p1.center
-        if hasattr(p2, "center"):
-            p2 = p2.center
-        p1 = np.array(p1)
-        p2 = np.array(p2)
-        # Translate so reflection axis passes through origin
-        self.origin = self.origin - p1
-
-        # Rotate so reflection axis aligns with x-axis
-        angle = np.arctan2((p2[1] - p1[1]), (p2[0] - p1[0])) * 180 / pi
-        self.origin = _rotate_points(self.origin, angle=-angle, center=[0, 0])
-        self.rotation -= angle
-
-        # Reflect across x-axis
-        self.x_reflection = not self.x_reflection
-        self.origin[1] = -self.origin[1]
-        self.rotation = -self.rotation
-
-        # Un-rotate and un-translate
-        self.origin = _rotate_points(self.origin, angle=angle, center=[0, 0])
-        self.rotation += angle
-        self.origin = self.origin + p1
-
-        if self.owner is not None:
-            self.owner._bb_valid = False
-        return self
-
-
-class Label(gdspy.Label, _GeometryHelper):
-    """Text to label parts or display messages. Does not add geometry."""
-
-    def __init__(self, *args, **kwargs):
-        """Initialize label."""
-        super().__init__(*args, **kwargs)
-        self.position = np.array(self.position, dtype="float64")
-
-    @classmethod
-    def __get_validators__(cls):
-        """For pydantic."""
-        yield cls.validate
-
-    @classmethod
-    def validate(cls, v):
-        """Check with pydantic Label valid type."""
-        return v
-
-    @property
-    def bbox(self):
-        """Returns the bounding box of the Label."""
-        return np.array(
-            [[self.position[0], self.position[1]], [self.position[0], self.position[1]]]
-        )
-
-    def rotate(self, angle=45, center=(0, 0)):
-        """Rotates Label around the specified centerpoint.
-
-        Args:
-            angle : int or float
-                Angle to rotate the Label in degrees.
-            center : array-like[2] or None
-                center of the Label.
-        """
-        self.position = _rotate_points(self.position, angle=angle, center=center)
-        return self
-
-    def move(self, origin=(0, 0), destination=None, axis=None):
-        """Moves the Label from the origin point to the destination.
-
-        Both origin and destination can be 1x2 array-like, Port, or a key
-        corresponding to one of the Ports in this Label.
-
-        Args:
-            origin : array-like[2], Port, or key
-                Origin point of the move.
-            destination : array-like[2], Port, or key
-                Destination point of the move.
-            axis : {'x', 'y'}
-                Direction of the move.
-        """
-        dx, dy = _parse_move(origin, destination, axis)
-        self.position += np.asarray((dx, dy))
-        return self
-
-    def mirror(self, p1=(0, 1), p2=(0, 0)):
-        """Mirrors a Label across the line formed between the two specified points.
-
-        ``points`` may be input as either single points
-        [1,2] or array-like[N][2], and will return in kind.
-
-        Args:
-            p1 : array-like[N][2] First point of the line.
-            p2 : array-like[N][2] Second point of the line.
-        """
-        self.position = _reflect_points(self.position, p1, p2)
-        return self

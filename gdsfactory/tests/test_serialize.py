@@ -10,11 +10,13 @@ def demo_cross_section_setting(cross_section=strip) -> gf.Component:
 def test_settings(data_regression, check: bool = True) -> None:
     """Avoid regressions when exporting settings."""
     component = demo_cross_section_setting()
-    data_regression.check(component.to_dict())
+    settings = component.to_dict()
+    if data_regression:
+        data_regression.check(settings)
 
 
 if __name__ == "__main__":
-    c = demo_cross_section_setting()
-    d = c.to_dict()
+    # c = demo_cross_section_setting()
+    # d = c.to_dict()
     # c.show(show_ports=True)
-    # test_settings()
+    test_settings(None)

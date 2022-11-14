@@ -157,7 +157,11 @@ class Waveguide(BaseModel):
         cache: filepath for caching modes. If None does not use file cache.
         precision: single or double.
         filter_pol: te, tm or None.
-
+        loss_model: whether to include a scattering loss region at the interfaces. Default is False
+        sidewall_sigma: size of the region to append to the sidewalls in the loss model. Default is 10 nm.
+        sidewall_k: imaginary index addition for the sidewall loss region. Default is 0 (no extra loss).
+        top_sigma: size of the loss region to append to the top surfaces in the loss model. Default is 10 nm.
+        top_k: imaginary index addition for the top surfaces loss region. Default is 0 (no extra loss).
     ::
 
           __________________________
@@ -195,6 +199,12 @@ class Waveguide(BaseModel):
     cache: Optional[PathType] = CONFIG["modes"]
     precision: Precision = "single"
     filter_pol: Optional[FilterPol] = None
+
+    loss_model: Optional[bool] = False
+    sidewall_sigma: Optional[float] = 10 * nm
+    sidewall_k: Optional[float] = 0.1
+    top_sigma: Optional[float] = 10 * nm
+    top_k: Optional[float] = 0.1
 
     class Config:
         """Config for Waveguide."""
@@ -257,6 +267,8 @@ class Waveguide(BaseModel):
             complex_solver = True
         elif self.dn_dict is not None:
             complex_solver = True
+        elif self.loss_model:
+            complex_solver = True
         if complex_solver:
             mat_dtype = np.complex128 if self.precision == "double" else np.complex64
         elif self.precision == "double":
@@ -273,6 +285,41 @@ class Waveguide(BaseModel):
         n[inds_core] = ncore
         n[inds_slab] = ncore if slab_thickness else nclad
 
+        if self.loss_model:
+            inds_top = (
+                (Z >= t_box + wg_thickness - self.top_sigma / 2)
+                & (Z <= t_box + wg_thickness + self.top_sigma / 2)
+                & (-w / 2 <= Y)
+                & (Y <= w / 2)
+            )
+            inds_top_slab_left = (
+                (Z >= t_box + slab_thickness - self.top_sigma / 2)
+                & (Z <= t_box + slab_thickness + self.top_sigma / 2)
+                & (-w / 2 >= Y)
+            )
+            inds_top_slab_right = (
+                (Z >= t_box + slab_thickness - self.top_sigma / 2)
+                & (Z <= t_box + slab_thickness + self.top_sigma / 2)
+                & (Y >= w / 2)
+            )
+            inds_sidewall_left = (
+                (Z >= t_box + slab_thickness)
+                & (Z <= t_box + wg_thickness)
+                & (Y >= -w / 2 - self.sidewall_sigma / 2)
+                & (Y <= -w / 2 + self.sidewall_sigma / 2)
+            )
+            inds_sidewall_right = (
+                (Z >= t_box + slab_thickness)
+                & (Z <= t_box + wg_thickness)
+                & (Y >= w / 2 - self.sidewall_sigma / 2)
+                & (Y <= w / 2 + self.sidewall_sigma / 2)
+            )
+            n[inds_top] += 1j * self.top_k
+            n[inds_top_slab_left] += 1j * self.top_k
+            n[inds_top_slab_right] += 1j * self.top_k
+            n[inds_sidewall_left] += 1j * self.sidewall_k
+            n[inds_sidewall_right] += 1j * self.sidewall_k
+
         if self.dn_dict is not None:
             dn = griddata(
                 (self.dn_dict["x"], self.dn_dict["y"]),
@@ -286,7 +333,7 @@ class Waveguide(BaseModel):
 
         return n
 
-    def plot_index(self) -> None:
+    def plot_index(self, func=None) -> None:
         x, y, Xx, Yx, Xy, Yy, Xz, Yz = create_mesh(
             -self.w_sim / 2,
             0.0,
@@ -304,7 +351,10 @@ class Waveguide(BaseModel):
             Xx,
             Yx,
         )
-        plot(Xx, Yx, nx)
+        if func is None:
+            plot(Xx, Yx, nx)
+        else:
+            plot(Xx, Yx, func(nx))
         plt.show()
 
     def compute_modes(
@@ -605,7 +655,6 @@ class Waveguide(BaseModel):
 
         Args:
             wg: other waveguide.
-
         """
         wg1 = self
         wg2 = wg
@@ -619,6 +668,14 @@ class Waveguide(BaseModel):
             + wg2.Ex[..., mode_index2] * np.conj(wg1.Hy[..., mode_index1])
             - wg2.Ey[..., mode_index2] * np.conj(wg1.Hx[..., mode_index1])
         )
+
+    def get_loss(self):
+        """Returns loss for computed modes in dB/cm."""
+        if not hasattr(self, "neffs"):
+            self.compute_modes()
+        wavelength = self.wavelength * 1e-6  # convert to m
+        alphas = 4 * np.pi * np.imag(self.neffs) / wavelength  # lin/m loss
+        return 10 * np.log10(np.exp(1)) * alphas * 1e-2  # dB/cm loss
 
 
 class WaveguideCoupler(Waveguide):
@@ -639,11 +696,8 @@ class WaveguideCoupler(Waveguide):
         nmodes: number of modes to compute.
         bend_radius: optional bend radius (um).
         cache: filepath for caching modes. If None does not use file cache.
-
     ::
-
         -w1-gap/2
-
             wg_width1     wg_width2
             <------->     <------->
              _______   |   _______   __
@@ -656,7 +710,6 @@ class WaveguideCoupler(Waveguide):
                       gap
             <--------------------->
                      w_sim
-
     """
 
     wg_width: Optional[float] = None
@@ -674,7 +727,6 @@ class WaveguideCoupler(Waveguide):
         Args:
             Y: 2D array.
             Z: 2D array.
-
         """
         w1 = self.wg_width1
         w2 = self.wg_width2
@@ -749,7 +801,6 @@ def sweep_bend_loss(
         xmargin: margin from waveguide edge to each side (um).
         resolution: pixels/um.
         nmodes: number of modes to compute.
-
     """
     r = np.linspace(bend_radius_min, bend_radius_max, steps)
     integral = np.zeros_like(r)
@@ -796,7 +847,6 @@ def sweep_neff(
         resolution: pixels/um.
         nmodes: number of modes to compute.
         bend_radius: optional bend radius (um).
-
     """
     widths_thicknesses = list(it.product(widths, thicknesses))
 
@@ -842,7 +892,6 @@ def group_index(
         resolution: pixels/um.
         nmodes: number of modes to compute.
         bend_radius: optional bend radius (um).
-
     """
     wc = Waveguide(wavelength=wavelength, **kwargs)
     wf = Waveguide(
@@ -887,7 +936,6 @@ def sweep_group_index(
         resolution: pixels/um.
         nmodes: number of modes to compute.
         bend_radius: optional bend radius (um).
-
     """
     widths_thicknesses = list(it.product(widths, thicknesses))
 
@@ -925,7 +973,6 @@ def sweep_width(
         steps: number of points.
         nmodes: number of modes to compute.
 
-
     Keyword Args:
         wavelength: (um).
         wg_width: waveguide width in um.
@@ -939,7 +986,6 @@ def sweep_width(
         resolution: pixels/um.
         nmodes: number of modes to compute.
         bend_radius: optional bend radius (um).
-
     """
     width = np.linspace(width1, width2, steps)
     neff = {}
@@ -995,7 +1041,6 @@ def plot_sweep_width(
         resolution: pixels/um. Can be a single number or tuple (x, y).
         nmodes: number of modes to compute.
         bend_radius: optional bend radius (um).
-
     """
     width = np.linspace(width1, width2, steps)
     neff = {}
@@ -1039,19 +1084,38 @@ __all__ = (
     "group_index",
 )
 
-if __name__ == "__main__":
-    widths = np.arange(400, 601, 50) * 1e-3
-    widths = np.array([500]) * nm
-    thicknesses = np.array([210, 220, 230]) * nm
-    widths = np.array([490, 500, 510]) * nm
-    widths = np.array([495, 500, 505]) * nm
-    thicknesses = np.array([220]) * nm
 
-    df = plot_sweep_width(
-        steps=3,
+if __name__ == "__main__":
+
+    wg = Waveguide(
+        nmodes=2,
+        wg_width=500 * nm,
         wavelength=1.55,
         wg_thickness=220 * nm,
-        slab_thickness=0 * nm,
+        slab_thickness=90 * nm,
         ncore=si,
         nclad=sio2,
+        loss_model=True,
+        sidewall_k=1e-4,
+        top_k=1e-4,
+        sidewall_sigma=20 * nm,
+        top_sigma=20 * nm,
+        resolution=400,
+        cache=None,
+        precision="double",
     )
+    wg.plot_index()
+    wg.plot_index(func=np.imag)
+    wg.compute_mode_properties()
+    print(wg.neffs)
+    print(wg.get_loss())
+    # wg.plot_Ex()
+    # wg.compute_mode_properties()
+    # for mode_number in range(nmodes):
+    #     n = np.real(wg.neffs[mode_number])
+    #     fraction_te = wg.fraction_te[mode_number]
+    #     plt.scatter(wg_width, n, c=fraction_te, vmin=0, vmax=1, cmap=cmap)
+    # n[inds_top_slab_left] += self.top_k
+    # n[inds_top_slab_right] += self.top_k
+    # n[inds_sidewall_left] += self.sidewall_k
+    # n[inds_sidewall_right] += self.sidewall_k
