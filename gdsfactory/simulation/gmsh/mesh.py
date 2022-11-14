@@ -213,7 +213,7 @@ def mesh_from_polygons(
             gmsh.write(f"{filename}")
 
         return mesh
- 
+
 
 if __name__ == "__main__":
 
