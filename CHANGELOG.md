@@ -1,9 +1,8 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## TODO
+## 6.0.4
 
-- implement native compatibility read/write from/to OASIS
-- removed named_references
+- numpy >= 1.23 fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/864)
 
 ## 6.0.3
 
