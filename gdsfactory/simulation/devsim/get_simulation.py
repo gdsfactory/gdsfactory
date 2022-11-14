@@ -32,12 +32,12 @@ def create_2Duz_simulation(
     physical_layerstack: LayerStack,
     doping_info,  # Dict[str, DopingLayerLevel],
     contact_info,
-    resolutions: Optional[Dict[str, Dict]] = {},
+    resolutions: Optional[Dict[str, Dict]] = None,
     background_tag: Optional[str] = None,
-    temp_file_name="temp.msh2",
-    devsim_mesh_name="temp",
-    devsim_device_name="temp",
-    devsim_simulation_filename="devsim.dat",
+    temp_file_name: str = "temp.msh2",
+    devsim_mesh_name: str = "temp",
+    devsim_device_name: str = "temp",
+    devsim_simulation_filename: str = "devsim.dat",
 ):
     # Replace relevant physical entities by contacts
     simulation_layertack = physical_layerstack
