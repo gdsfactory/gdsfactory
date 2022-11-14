@@ -97,7 +97,7 @@ def create_2Duz_simulation(
         )
         regions[background_tag] = [background_tag]
     # Contacts
-    contacts = []
+    contacts = {}
     for contact_name, contact in contact_info.items():
         layer1 = contact_name
         layer2 = contact["physical_layerlevel_to_contact"]
@@ -111,7 +111,7 @@ def create_2Duz_simulation(
             name=contact_name,
             region=contact_name,
         )
-        contacts.append(interface)
+        contacts[contact_name] = interface
     # Interfaces (that are not contacts), labeled by material-material
     interfaces = {}
     for (name1, values1), (name2, values2) in combinations(
@@ -122,7 +122,7 @@ def create_2Duz_simulation(
             interface = f"{name2}___{name1}"
             if interface not in mesh.cell_sets_dict.keys():
                 continue
-        if interface not in contacts:
+        if interface not in contacts.values():
             add_gmsh_interface(
                 gmsh_name=interface,
                 mesh=devsim_mesh_name,
@@ -180,6 +180,18 @@ def create_2Duz_simulation(
             region=region_name,
             name="NetDoping",
             values=net_doping,
+        )
+    # Assign doping field contact
+    for contact_name in contacts.keys():
+        xpos = get_node_model_values(
+            device=devsim_device_name, region=contact_name, name="x"
+        )
+        node_solution(device=devsim_device_name, region=contact_name, name="NetDoping")
+        set_node_values(
+            device=devsim_device_name,
+            region=contact_name,
+            name="NetDoping",
+            values=[0] * len(xpos),
         )
 
     if devsim_simulation_filename:
