@@ -132,6 +132,8 @@ class ComponentReference(_GeometryHelper):
         x_reflection : bool
             If True, the reference is reflected parallel to the x direction
             before being rotated.
+        name : str (optional)
+            A name for the reference (if provided).
 
     """
 
@@ -146,6 +148,7 @@ class ComponentReference(_GeometryHelper):
         columns: int = 1,
         rows: int = 1,
         spacing=None,
+        name: Optional[str] = None,
     ) -> None:
         """Initialize the ComponentReference object."""
         self._reference = gdstk.Reference(
@@ -161,7 +164,7 @@ class ComponentReference(_GeometryHelper):
 
         self.ref_cell = component
         self._owner = None
-        self._name = None
+        self._name = name
 
         self.rows = rows
         self.columns = columns
@@ -362,9 +365,10 @@ class ComponentReference(_GeometryHelper):
                 raise ValueError(
                     f"This reference's owner already has a reference with name {value!r}. Please choose another name."
                 )
-            self.owner._named_references.pop(self._name, None)
+            if self.owner:
+                self.owner._named_references.pop(self._name, None)
+                self.owner._named_references[value] = self
             self._name = value
-            self.owner._named_references[value] = self
 
     def __repr__(self) -> str:
         """Return a string representation of the object."""
