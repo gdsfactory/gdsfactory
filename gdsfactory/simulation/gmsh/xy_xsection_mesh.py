@@ -42,11 +42,12 @@ def xy_xsection_mesh(
 
     # Fuse and cleanup polygons of same layer in case user overlapped them
     layer_dict = layerstack.to_dict()
-    layer_polygons_dict = {}
-    for layername in layers:
-        layer_polygons_dict[layername] = fuse_component_layer(
+    layer_polygons_dict = {
+        layername: fuse_component_layer(
             component, layername, layer_dict[layername]
         )
+        for layername in layers
+    }
 
     # Reorder polygons according to meshorder
     layer_order = order_layerstack(layerstack)
@@ -58,7 +59,7 @@ def xy_xsection_mesh(
 
     # Add background polygon
     if background_tag is not None:
-        bounds = unary_union([shape for shape in shapes.values()]).bounds
+        bounds = unary_union(list(shapes.values())).bounds
         shapes[background_tag] = Polygon(
             [
                 [bounds[0] - background_padding[0], bounds[1] - background_padding[1]],

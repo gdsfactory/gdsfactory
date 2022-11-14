@@ -55,14 +55,10 @@ class DDComponent(BaseModel):
         for material, region_names in regions.items():
             for region_name in region_names:
                 SetUniversalParameters(device, region_name)
-                if material == "si":
+                if material in ["si", "Aluminum"]:
                     simple_physics.SetSiliconParameters(device, region_name, T=300)
                 elif material == "sio2":
                     continue
-                    # physics.SetOxideParameters(device, region_name)
-                elif material == "Aluminum":
-                    # Change to aluminum eventually
-                    simple_physics.SetSiliconParameters(device, region_name, T=300)
 
     def initial_solution(self, device, region, circuit_contacts=None) -> None:
         # Create Potential, Potential@n0, Potential@n1
@@ -220,23 +216,25 @@ if __name__ == "__main__":
             via_contact_locations, PPP_location, operation="AND", layer=cathode_layer
         )
     )
-    contact_info = {}
-    contact_info["anode"] = {
-        "gds_layer": anode_layer,
-        "physical_layerlevel_to_replace": "via_contact",
-        "physical_layerlevel_to_contact": "slab90",
-    }
-    contact_info["cathode"] = {
-        "gds_layer": cathode_layer,
-        "physical_layerlevel_to_replace": "via_contact",
-        "physical_layerlevel_to_contact": "slab90",
+    contact_info = {
+        "anode": {
+            "gds_layer": anode_layer,
+            "physical_layerlevel_to_replace": "via_contact",
+            "physical_layerlevel_to_contact": "slab90",
+        },
+        "cathode": {
+            "gds_layer": cathode_layer,
+            "physical_layerlevel_to_replace": "via_contact",
+            "physical_layerlevel_to_contact": "slab90",
+        },
     }
 
     waveguide.show()
 
-    resolutions = {}
-    resolutions["core"] = {"resolution": 0.01, "distance": 2}
-    resolutions["slab90"] = {"resolution": 0.03, "distance": 1}
+    resolutions = {
+        "core": {"resolution": 0.01, "distance": 2},
+        "slab90": {"resolution": 0.03, "distance": 1},
+    }
 
     c = DDComponent(
         component=waveguide,
