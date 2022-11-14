@@ -103,4 +103,5 @@ warnings:
       ports:
       - mmi_short,o3
       values:
-      - '[15.0,-0.625]'
+      - - 15.0
+        - -0.625
