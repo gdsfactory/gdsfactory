@@ -18,18 +18,32 @@ def round_coordinates(geom, ndigits=3):
     return shapely.ops.transform(_round_coords, geom)
 
 
-def fuse_component_layer(component, layername, layer, round_tol=2, simplify_tol=1e-2):
+def fuse_polygons(component, layername, layer, round_tol=2, simplify_tol=1e-2):
     """Take all polygons from a layer, and returns a single (Multi)Polygon shapely object."""
     layer_component = component.extract(layer["layer"])
-    shapely_polygons = []
-    for polygon in layer_component.get_polygons():
-        shapely_polygons.append(
-            round_coordinates(shapely.geometry.Polygon(polygon), round_tol)
-        )
-    fused_polygons = shapely.ops.unary_union(shapely_polygons).simplify(
+    shapely_polygons = [
+        round_coordinates(shapely.geometry.Polygon(polygon), round_tol)
+        for polygon in layer_component.get_polygons()
+    ]
+
+    return shapely.ops.unary_union(shapely_polygons).simplify(
         simplify_tol, preserve_topology=True
     )
-    return fused_polygons
+
+
+def cleanup_component(component, layerstack, round_tol=2, simplify_tol=1e-2):
+    """Take all polygons from a layer, and returns a single (Multi)Polygon shapely object."""
+    layerstack_dict = layerstack.to_dict()
+    return {
+        layername: fuse_polygons(
+            component,
+            layername,
+            layer,
+            round_tol=round_tol,
+            simplify_tol=simplify_tol,
+        )
+        for layername, layer in layerstack_dict.items()
+    }
 
 
 def to_polygons(geometries):
@@ -69,7 +83,7 @@ def tile_shapes(shapes_dict):
                 ):
                     diff_shape = diff_shape.difference(higher_shape)
             tiled_lower_shapes.append(diff_shape)
-        if lower_shape.type == "Polygon" or lower_shape.type == "MultiPolygon":
+        if lower_shape.type in ["Polygon", "MultiPolygon"]:
             shapes_tiled_dict[lower_name] = MultiPolygon(
                 to_polygons(tiled_lower_shapes)
             )
