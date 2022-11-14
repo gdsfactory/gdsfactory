@@ -1,4 +1,4 @@
-name: mzi_2e88f57c_move_37e3f_61ab27b7
+name: mzi_2e88f57c_move_3148a_b9b4a46c
 settings:
   changed:
     component:
@@ -27,7 +27,9 @@ settings:
           splitter:
             function: mmi2x2
           straight_x_top: straight_heater_metal
-      origin: '[10.0,0.625]'
+      origin:
+      - 10.0
+      - 0.625
     child:
       changed:
         combiner:
@@ -112,12 +114,14 @@ settings:
             function: mmi2x2
           straight_x_top: straight_heater_metal
       destination: null
-      origin: '[10.0,0.625]'
+      origin:
+      - 10.0
+      - 0.625
     function_name: move
     info: {}
     info_version: 2
     module: gdsfactory.functions
-    name: mzi_2e88f57c_move_37e3f0ed
+    name: mzi_2e88f57c_move_3148af13
   default:
     bend:
       function: bend_euler
@@ -200,4 +204,4 @@ settings:
       wavelength: 1.53
   info_version: 2
   module: gdsfactory.routing.add_fiber_single
-  name: mzi_2e88f57c_move_37e3f_61ab27b7
+  name: mzi_2e88f57c_move_3148a_b9b4a46c
