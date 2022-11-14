@@ -905,7 +905,7 @@ class Component(_GeometryHelper):
             else:
                 layer, datatype = _parse_layer(layer)
                 polygon = Polygon(polygon.points, layer, datatype)
-            self.add(polygon)
+            self._add_polygons(polygon)
             return polygon
 
         points = np.asarray(points)
@@ -921,19 +921,21 @@ class Component(_GeometryHelper):
                 points = np.column_stack(points)
             layer, datatype = _parse_layer(layer)
             polygon = Polygon(points, layer=layer, datatype=datatype)
-            self.add(polygon)
+            self._add_polygons(polygon)
             return polygon
         elif points.ndim == 3:
             layer, datatype = _parse_layer(layer)
             polygons = [
                 Polygon(ppoints, layer=layer, datatype=datatype) for ppoints in points
             ]
-            # bypassing calling self.add() on every single polygon as a bit of an optimization
-            self.is_unlocked()
-            self._cell.add(*polygons)
+            self._add_polygons(*polygons)
             return polygons
         else:
             raise ValueError(f"Unable to add {points.ndim}-dimensional points object")
+
+    def _add_polygons(self, *polygons: List[Polygon]):
+        self.is_unlocked()
+        self._cell.add(*polygons)
 
     def copy(self) -> "Component":
         return copy(self)
