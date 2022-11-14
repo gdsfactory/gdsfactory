@@ -11,6 +11,9 @@ import pydantic
 import toolz
 from omegaconf import DictConfig, OmegaConf
 
+DEFAULT_SERIALIZATION_MAX_DIGITS = 8
+"""By default, the maximum number of digits retained when serializing float-like arrays"""
+
 
 def clean_dict(d: Dict[str, Any]) -> Dict[str, Any]:
     """Cleans dictionary recursively."""
@@ -51,7 +54,7 @@ def clean_value_json(value: Any) -> Any:
         return float(value)
 
     elif isinstance(value, np.ndarray):
-        value = np.round(value, 3)
+        value = np.round(value, DEFAULT_SERIALIZATION_MAX_DIGITS)
         return orjson.loads(orjson.dumps(value, option=orjson.OPT_SERIALIZE_NUMPY))
     elif callable(value) and isinstance(value, functools.partial):
         sig = inspect.signature(value.func)
