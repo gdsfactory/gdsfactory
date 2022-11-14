@@ -597,6 +597,14 @@ def _demo_netlist() -> None:
     gf.show(c2)
 
 
+def test_ref_names_retained_on_copy():
+    c_orig = from_yaml(sample_connections)
+    c_copy = c_orig.copy()
+    orig_ref_names = set(c_orig.named_references.keys())
+    new_ref_names = set(c_copy.named_references.keys())
+    assert orig_ref_names == new_ref_names
+
+
 if __name__ == "__main__":
     # c = test_connections_different_factory()
     # c = test_sample()
