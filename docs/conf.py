@@ -1,5 +1,5 @@
 project = "gdsfactory"
-release = "6.0.1"
+release = "6.0.2"
 copyright = "2020, MIT License"
 
 html_theme = "sphinx_book_theme"
