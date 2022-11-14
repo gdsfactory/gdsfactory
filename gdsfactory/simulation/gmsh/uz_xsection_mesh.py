@@ -140,10 +140,22 @@ def uz_xsection_mesh(
         bounds = unary_union([shape for shape in shapes.values()]).bounds
         shapes[background_tag] = Polygon(
             [
-                [bounds[0] - background_padding[0], bounds[1] - background_padding[1]],
-                [bounds[0] - background_padding[0], bounds[3] + background_padding[3]],
-                [bounds[2] + background_padding[2], bounds[3] + background_padding[3]],
-                [bounds[2] + background_padding[2], bounds[1] - background_padding[1]],
+                [-1 * background_padding[0], bounds[1] - background_padding[1]],
+                [-1 * background_padding[0], bounds[3] + background_padding[3]],
+                [
+                    np.linalg.norm(
+                        np.array(xsection_bounds[1]) - np.array(xsection_bounds[0])
+                    )
+                    + background_padding[2],
+                    bounds[3] + background_padding[3],
+                ],
+                [
+                    np.linalg.norm(
+                        np.array(xsection_bounds[1]) - np.array(xsection_bounds[0])
+                    )
+                    + background_padding[2],
+                    bounds[1] - background_padding[1],
+                ],
             ]
         )
 
