@@ -338,4 +338,6 @@ bot_pads_3.move((pnp.xmin+225,pnp.ymin+440))
 
 pnp.write_gds("pnp.gds")
 
+pnp.plot()
+
 print("Total runtime: ", time.time() - start_time)
