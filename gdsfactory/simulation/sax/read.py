@@ -41,7 +41,7 @@ def model_from_npz(
         prefix: for the sparameters column names in file.
 
     """
-    sp = filepath if isinstance(filepath, np.ndarray) else np.load(filepath)
+    sp = np.load(filepath) if isinstance(filepath, (pathlib.Path, str)) else filepath
     keys = list(sp.keys())
 
     if xkey not in keys:
