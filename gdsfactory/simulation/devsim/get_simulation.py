@@ -1,8 +1,10 @@
+from itertools import combinations
 from typing import Dict, Optional, Tuple
 
 import numpy as np
 from devsim import (
     add_gmsh_contact,
+    add_gmsh_interface,
     add_gmsh_region,
     create_device,
     create_gmsh_mesh,
@@ -35,12 +37,14 @@ def create_2Duz_simulation(
     temp_file_name="temp.msh2",
     devsim_mesh_name="temp",
     devsim_device_name="temp",
-    devsim_mesh_file_name="devsim.dat",
+    devsim_simulation_filename="devsim.dat",
 ):
     # Replace relevant physical entities by contacts
     simulation_layertack = physical_layerstack
     for contact_name, contact_dict in contact_info.items():
-        contact_layer = full_layerstack.layers[contact_dict["physical_layerlevel_1"]]
+        contact_layer = full_layerstack.layers[
+            contact_dict["physical_layerlevel_to_replace"]
+        ]
         layerlevel = LayerLevel(
             layer=contact_dict["gds_layer"],
             thickness=contact_layer.thickness,
@@ -69,9 +73,9 @@ def create_2Duz_simulation(
         doping_polygons[layername] = bounds
 
     # Define physical structural mesh in DEVSIM
+    regions = {}
     create_gmsh_mesh(file=temp_file_name, mesh=devsim_mesh_name)
     simulation_layerstack_dict = simulation_layertack.to_dict()
-    silicon_regions = []
     for name, values in simulation_layerstack_dict.items():
         add_gmsh_region(
             mesh=devsim_mesh_name,
@@ -79,8 +83,10 @@ def create_2Duz_simulation(
             region=name,
             material=values["material"],
         )
-        if values["material"] == "si":
-            silicon_regions.append(name)
+        if values["material"] not in regions.keys():
+            regions[values["material"]] = [name]
+        else:
+            regions[values["material"]].append(name)
     if background_tag:
         add_gmsh_region(
             mesh=devsim_mesh_name,
@@ -88,21 +94,31 @@ def create_2Duz_simulation(
             region=background_tag,
             material=background_tag,
         )
+    # Interfaces
+    interfaces = []
+    for (name1, values1), (name2, values2) in combinations(
+        simulation_layerstack_dict.items(), 2
+    ):
+        interface = f"{name1}___{name2}"
+        if interface not in mesh.cell_sets_dict.keys():
+            interface = f"{name2}___{name1}"
+            if interface not in mesh.cell_sets_dict.keys():
+                continue
+        add_gmsh_interface(
+            gmsh_name=interface,
+            mesh=devsim_mesh_name,
+            name=interface,
+            region0=name1,
+            region1=name2,
+        )
+        interfaces.append(interface)
     # Contacts
-    # add_gmsh_contact(
-    #     gmsh_name="anode___slab90",
-    #     material="al",
-    #     mesh=devsim_mesh_name,
-    #     name="anode",
-    #     region="anode",
-    # )
     for contact_name, contact in contact_info.items():
         layer1 = contact_name
-        layer2 = contact["physical_layerlevel_2"]
+        layer2 = contact["physical_layerlevel_to_contact"]
         interface = f"{layer1}___{layer2}"
         if interface not in mesh.cell_sets_dict.keys():
             interface = f"{layer2}___{layer1}"
-        print(interface)
         add_gmsh_contact(
             gmsh_name=interface,
             material=simulation_layertack.layers[contact_name].material,
@@ -113,13 +129,12 @@ def create_2Duz_simulation(
     finalize_mesh(mesh=devsim_mesh_name)
     create_device(mesh=devsim_mesh_name, device=devsim_device_name)
 
-    # Assign doping fields to the structural mesh
-    for region_name in silicon_regions:
+    # Assign doping fields silicon
+    for region_name in regions["si"]:
         xpos = get_node_model_values(
             device=devsim_device_name, region=region_name, name="x"
         )
         # ypos = get_node_model_values(device=devsim_device_name, region="si", name="y")
-
         acceptor = np.zeros_like(xpos)
         donor = np.zeros_like(xpos)
         for layername, bounds in doping_polygons.items():
@@ -159,10 +174,11 @@ def create_2Duz_simulation(
             values=net_doping,
         )
 
-    # Define contacts
-    write_devices(file=devsim_mesh_file_name, type="tecplot")
+    # if save
+    if devsim_simulation_filename:
+        write_devices(file=devsim_simulation_filename, type="tecplot")
 
-    return devsim_device_name, devsim_mesh_file_name
+    return devsim_device_name, regions, interfaces
 
 
 if __name__ == "__main__":
@@ -172,7 +188,6 @@ if __name__ == "__main__":
 
     # We choose a representative subdomain of the component
     waveguide = gf.Component()
-
     waveguide.add_ref(
         gf.geometry.trim(
             component=gf.components.straight_pn(length=10, taper=None),
@@ -180,7 +195,7 @@ if __name__ == "__main__":
         )
     )
 
-    # We will restrict the physical to a subset of layers:
+    # We will restrict the physical mesh to a subset of layers:
     layermap = gf.tech.LayerMap()
     physical_layerstack = LayerStack(
         layers={
@@ -188,12 +203,11 @@ if __name__ == "__main__":
             for k in (
                 "slab90",
                 "core",
-                # "metal2",
-            )  # "slab90", "via_contact")#"via_contact") # "slab90", "core"
+            )
         }
     )
 
-    # Boundary conditions such as contact are also defined with GDS polygons.
+    # Boundary conditions such as contacts are also defined with GDS polygons.
     # In DEVSIM, contacts must be N-1D, where N is the simulation dimensionality.
     # While complete dummy layers + stack definitions could be used, often we are interested in using existing layers as contact (for instance vias).
     # Since this means different contacts could correspond to the same physical layers, this requires more care in the meshing.
@@ -202,7 +216,7 @@ if __name__ == "__main__":
     anode_layer = (105, 0)
     cathode_layer = (106, 0)
 
-    # We will place the contacts where the vias intersect heavy doping
+    # We will generate contacts where the vias intersect heavy doping
     via_contact_locations = waveguide.extract(layermap.VIAC)
     NPP_location = waveguide.extract(layermap.NPP)
     PPP_location = waveguide.extract(layermap.PPP)
@@ -225,13 +239,13 @@ if __name__ == "__main__":
     contact_info = {}
     contact_info["anode"] = {
         "gds_layer": anode_layer,
-        "physical_layerlevel_1": "via_contact",
-        "physical_layerlevel_2": "slab90",
+        "physical_layerlevel_to_replace": "via_contact",
+        "physical_layerlevel_to_contact": "slab90",
     }
     contact_info["cathode"] = {
         "gds_layer": cathode_layer,
-        "physical_layerlevel_1": "via_contact",
-        "physical_layerlevel_2": "slab90",
+        "physical_layerlevel_to_replace": "via_contact",
+        "physical_layerlevel_to_contact": "slab90",
     }
 
     waveguide.show()
@@ -239,16 +253,7 @@ if __name__ == "__main__":
     resolutions = {}
     resolutions["core"] = {"resolution": 0.01, "distance": 2}
     resolutions["slab90"] = {"resolution": 0.03, "distance": 1}
-    resolutions["via_contact"] = {"resolution": 0.1, "distance": 1}
-
-    # physical_mesh = uz_xsection_mesh(
-    #     waveguide,
-    #     [(4, -4), (4, 4)],
-    #     physical_layerstack,
-    #     resolutions=resolutions,
-    #     background_tag="Oxide",
-    #     filename="temp.msh2",
-    # )
+    # resolutions["via_contact"] = {"resolution": 0.1, "distance": 1}
 
     create_2Duz_simulation(
         component=waveguide,
@@ -258,5 +263,5 @@ if __name__ == "__main__":
         doping_info=get_doping_info_generic(),
         contact_info=contact_info,
         resolutions=resolutions,
-        background_tag="Oxide",
+        # background_tag="Oxide",
     )
