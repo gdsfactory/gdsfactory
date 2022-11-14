@@ -1,10 +1,5 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## TODO
-
-- implement native compatibility read/write from/to OASIS
-- removed named_references
-
 ## 6.0.3
 
 - fixes ComponentReference.translate() [PR](https://github.com/gdsfactory/gdsfactory/pull/858)
