@@ -44,13 +44,13 @@ jupyter_lab_settings = """
 
 anaconda_navigator_settings = """
 {
-    "menu_name": "gdsfactory Anaconda Navigator",
+    "menu_name": "gdsfactory Navigator",
     "menu_items":
         [
             {
                 "script": "${PREFIX}/Scripts/anaconda-navigator.exe",
                 "scriptarguments": [],
-                "name": "gdsfactory Anaconda Navigator",
+                "name": "gdsfactory Navigator",
                 "workdir": "${PREFIX}",
                 "icon": "${MENU_DIR}/anaconda-navigator.ico",
                 "desktop": true,
@@ -62,9 +62,9 @@ anaconda_navigator_settings = """
 
 
 def shortcuts(settings: str):
-    with open(f"{sys.argv[1]}/settings.json", "w") as f:
+    with open("settings.json", "w") as f:
         json.dump(json.loads(settings), f)
-    menuinst.install(f"{sys.argv[1]}/settings.json", prefix=f"{sys.argv[1]}")
+    menuinst.install("settings.json", prefix=sys.executable.replace("python.exe", ""))
 
 
 if __name__ == "__main__":

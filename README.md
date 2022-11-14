@@ -1,4 +1,4 @@
-# gdsfactory 5.55.0
+# gdsfactory 6.0.3
 
 [![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)](https://gdsfactory.github.io/gdsfactory/)
 [![PyPI](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -50,7 +50,7 @@ It also exports component settings (for measurement and data analysis) and netli
 ![flow](https://i.imgur.com/XbhWJDz.png)
 
 
-It provides you a common syntax for layout (klayout, gdspy), simulation (Lumerical, tidy3d, MEEP, MPB, DEVSIM, simphony, SAX, ...) and data analysis libraries.
+It provides you a common syntax for layout (klayout, gdstk), simulation (Lumerical, tidy3d, MEEP, MPB, DEVSIM, simphony, SAX, ...) and data analysis libraries.
 
 ![tool interfaces](https://i.imgur.com/bQslWHO.png)
 
@@ -95,7 +95,7 @@ Contributors (in chronological order):
 Open source heroes:
 
 - Matthias Köfferlein: for Klayout
-- Lucas Heitzmann (University of Campinas, Brazil): for gdspy
+- Lucas Heitzmann (University of Campinas, Brazil): for gdstk
 - Adam McCaughan (NIST): for phidl. Inpiration for geometry manipulation.
 - Alex Tait (Queens University): for lytest
 - Thomas Ferreira de Lima (NEC): for `pip install klayout` python API.

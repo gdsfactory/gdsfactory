@@ -37,32 +37,32 @@ L
 
 
 
-add_fidutials
+add_fiducials
 ----------------------------------------------------
 
-.. autofunction:: gdsfactory.components.add_fidutials
+.. autofunction:: gdsfactory.components.add_fiducials
 
 .. plot::
   :include-source:
 
   import gdsfactory as gf
 
-  c = gf.components.add_fidutials(gap=50, left='cross', right='cross', offset=[0, 0])
+  c = gf.components.add_fiducials(gap=50, left='cross', right='cross', offset=[0, 0])
   c.plot()
 
 
 
-add_fidutials_offsets
+add_fiducials_offsets
 ----------------------------------------------------
 
-.. autofunction:: gdsfactory.components.add_fidutials_offsets
+.. autofunction:: gdsfactory.components.add_fiducials_offsets
 
 .. plot::
   :include-source:
 
   import gdsfactory as gf
 
-  c = gf.components.add_fidutials_offsets(fidutial='cross', offsets=[[0, 100], [0, -100]])
+  c = gf.components.add_fiducials_offsets(fiducial='cross', offsets=[[0, 100], [0, -100]])
   c.plot()
 
 
@@ -601,7 +601,7 @@ coupler90
 
   import gdsfactory as gf
 
-  c = gf.components.coupler90(gap=0.2, radius=10.0, bend='bend_euler', straight='straight', cross_section='strip')
+  c = gf.components.coupler90(gap=0.2, radius=10.0, cross_section='strip')
   c.plot()
 
 
@@ -631,7 +631,7 @@ coupler90circular
 
   import gdsfactory as gf
 
-  c = gf.components.coupler90circular(gap=0.2, radius=10.0, straight='straight', cross_section='strip')
+  c = gf.components.coupler90circular(gap=0.2, radius=10.0, cross_section='strip')
   c.plot()
 
 
@@ -691,7 +691,7 @@ coupler_ring
 
   import gdsfactory as gf
 
-  c = gf.components.coupler_ring(gap=0.2, radius=5.0, length_x=4.0, coupler90='coupler90', bend='bend_euler', straight='straight', coupler_straight='coupler_straight', cross_section='strip')
+  c = gf.components.coupler_ring(gap=0.2, radius=5.0, length_x=4.0, cross_section='strip')
   c.plot()
 
 
@@ -721,7 +721,7 @@ coupler_symmetric
 
   import gdsfactory as gf
 
-  c = gf.components.coupler_symmetric(gap=0.234, dy=5.0, dx=10.0)
+  c = gf.components.coupler_symmetric(gap=0.234, dy=5.0, dx=10.0, cross_section='strip')
   c.plot()
 
 
@@ -1126,7 +1126,7 @@ edge_coupler_array
 
   import gdsfactory as gf
 
-  c = gf.components.edge_coupler_array(n=5, pitch=127.0, h_mirror=False, v_mirror=False, text_offset=[10, 20])
+  c = gf.components.edge_coupler_array(n=5, pitch=127.0, x_reflection=False, text_offset=[10, 20])
   c.plot()
 
 
@@ -1141,7 +1141,7 @@ edge_coupler_array_with_loopback
 
   import gdsfactory as gf
 
-  c = gf.components.edge_coupler_array_with_loopback(cross_section='strip', radius=30, n=8, pitch=127.0, extension_length=1.0, h_mirror=False, v_mirror=False, right_loopback=True, text_offset=[0, 0])
+  c = gf.components.edge_coupler_array_with_loopback(cross_section='strip', radius=30, n=8, pitch=127.0, extension_length=1.0, right_loopback=True, x_reflection=False, text_offset=[0, 0])
   c.plot()
 
 
@@ -1231,6 +1231,21 @@ fiber_array
   import gdsfactory as gf
 
   c = gf.components.fiber_array(n=8, pitch=127.0, core_diameter=10, cladding_diameter=125, layer_core='WG', layer_cladding='WGCLAD')
+  c.plot()
+
+
+
+fiducial_squares
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.fiducial_squares
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.fiducial_squares(layers=[[1, 0]], size=[5, 5], offset=0.14)
   c.plot()
 
 
@@ -1440,7 +1455,7 @@ grating_coupler_rectangular
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_rectangular(n_periods=20, period=0.75, fill_factor=0.5, width_grating=11.0, length_taper=150.0, polarization='te', wavelength=1.55, taper='taper', layer_slab='SLAB150', fiber_marker_layer='TE', slab_xmin=-1.0, slab_offset=1.0, cross_section='strip')
+  c = gf.components.grating_coupler_rectangular(n_periods=20, period=0.75, fill_factor=0.5, width_grating=11.0, length_taper=150.0, polarization='te', wavelength=1.55, layer_slab='SLAB150', fiber_marker_layer='TE', slab_xmin=-1.0, slab_offset=1.0, cross_section='strip')
   c.plot()
 
 
@@ -2235,7 +2250,7 @@ ring_double
 
   import gdsfactory as gf
 
-  c = gf.components.ring_double(gap=0.2, radius=10.0, length_x=0.01, length_y=0.01, straight='straight', bend='bend_euler', cross_section='strip')
+  c = gf.components.ring_double(gap=0.2, radius=10.0, length_x=0.01, length_y=0.01, cross_section='strip')
   c.plot()
 
 
@@ -2250,7 +2265,7 @@ ring_double_heater
 
   import gdsfactory as gf
 
-  c = gf.components.ring_double_heater(gap=0.2, radius=10.0, length_x=0.01, length_y=0.01, coupler_ring='coupler_ring', straight='straight', bend='bend_euler', cross_section_heater='heater_metal', cross_section_waveguide_heater='strip_heater_metal', cross_section='strip', port_orientation=90, via_stack_offset=[0, 0])
+  c = gf.components.ring_double_heater(gap=0.2, radius=10.0, length_x=0.01, length_y=0.01, cross_section_heater='heater_metal', cross_section_waveguide_heater='strip_heater_metal', cross_section='strip', port_orientation=90, via_stack_offset=[0, 0])
   c.plot()
 
 
@@ -2265,7 +2280,7 @@ ring_single
 
   import gdsfactory as gf
 
-  c = gf.components.ring_single(gap=0.2, radius=10.0, length_x=4.0, length_y=0.6, coupler_ring='coupler_ring', bend='bend_euler', cross_section='strip')
+  c = gf.components.ring_single(gap=0.2, radius=10.0, length_x=4.0, length_y=0.6, cross_section='strip')
   c.plot()
 
 
@@ -2280,7 +2295,7 @@ ring_single_array
 
   import gdsfactory as gf
 
-  c = gf.components.ring_single_array(ring='ring_single', spacing=5.0, cross_section='strip')
+  c = gf.components.ring_single_array(spacing=5.0, cross_section='strip')
   c.plot()
 
 
@@ -2295,7 +2310,7 @@ ring_single_dut
 
   import gdsfactory as gf
 
-  c = gf.components.ring_single_dut(gap=0.2, length_x=4, length_y=0, radius=5.0, coupler='coupler_ring', bend='bend_euler', with_component=True, port_name='o1')
+  c = gf.components.ring_single_dut(gap=0.2, length_x=4, length_y=0, radius=5.0, with_component=True, port_name='o1')
   c.plot()
 
 
@@ -2765,6 +2780,21 @@ taper_0p5_to_3_l36
 
 
 
+taper_adiabatic
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.taper_adiabatic
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.taper_adiabatic(width1=0.5, width2=5.0, length=0, alpha=1, wavelength=1.55, npoints=200, cross_section='strip')
+  c.plot()
+
+
+
 taper_cross_section_linear
 ----------------------------------------------------
 
@@ -3075,7 +3105,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='5.50.0', text_size=10)
+  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='6.0.0', text_size=10)
   c.plot()
 
 

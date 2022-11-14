@@ -29,7 +29,7 @@ def test_mask() -> Component:
         ]
     )
     gdspath = c.write_gds("mask.gds")
-    csvpath = gf.labels.write_labels.write_labels_gdspy(
+    csvpath = gf.labels.write_labels.write_labels_gdstk(
         gdspath, prefix="component_name"
     )
     return add_port_markers(gdspath=gdspath, csvpath=csvpath, marker_size=40)

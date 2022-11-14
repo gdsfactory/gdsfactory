@@ -14,7 +14,6 @@ def add_electrical_pads_shortest(
     select_ports=select_ports_electrical,
     port_orientation: float = 90,
     layer: gf.types.LayerSpec = "M3",
-    **kwargs,
 ) -> Component:
     """Returns new Component with a pad by each electrical port.
 
@@ -25,7 +24,6 @@ def add_electrical_pads_shortest(
         select_ports: function.
         port_orientation: in degrees.
         layer: for the routing.
-        kwargs: pad_settings.
 
     .. plot::
         :include-source:
@@ -53,19 +51,19 @@ def add_electrical_pads_shortest(
         if port_orientation == 0:
             p.x = port.x + pad_port_spacing
             p.y = port.y
-            c.add(route_quad(port, p.ports["e1"], layer=layer))
+            c.add_ref(route_quad(port, p.ports["e1"], layer=layer))
         elif port_orientation == 180:
             p.x = port.x - pad_port_spacing
             p.y = port.y
-            c.add(route_quad(port, p.ports["e3"], layer=layer))
+            c.add_ref(route_quad(port, p.ports["e3"], layer=layer))
         elif port_orientation == 90:
             p.y = port.y + pad_port_spacing
             p.x = port.x
-            c.add(route_quad(port, p.ports["e4"], layer=layer))
+            c.add_ref(route_quad(port, p.ports["e4"], layer=layer))
         elif port_orientation == 270:
             p.y = port.y - pad_port_spacing
             p.x = port.x
-            c.add(route_quad(port, p.ports["e2"], layer=layer))
+            c.add_ref(route_quad(port, p.ports["e2"], layer=layer))
 
         # add pad ports
         c.add_ports(p.ports, prefix=f"pad{i+1}_")

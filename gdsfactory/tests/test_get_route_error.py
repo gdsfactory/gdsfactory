@@ -27,6 +27,7 @@ def test_route_error():
             ],
         )
         c.add(route.references)
+        c.add(route.labels)
     return c
 
 

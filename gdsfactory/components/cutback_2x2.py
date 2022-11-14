@@ -21,6 +21,8 @@ def cutback_2x2(
         cols: number of columns/components.
         port1: name of first optical port.
         port2: name of second optical port.
+        port3: name of third optical port.
+        port4: name of fourth optical port.
     """
     component = gf.get_component(component)
 

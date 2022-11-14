@@ -11,7 +11,7 @@ import json
 from functools import partial
 from typing import TYPE_CHECKING, Callable, List, Optional, Tuple, Union
 
-import gdspy
+import gdstk
 import numpy as np
 from numpy import ndarray
 from omegaconf import OmegaConf
@@ -330,8 +330,13 @@ def add_pin_path(
 
     points = [p0, p1]
     layer = get_layer(layer)
-    path = gdspy.FlexPath(
-        points=points, width=p.width, layer=layer[0], datatype=layer[1], gdsii_path=True
+    path = gdstk.FlexPath(
+        points,
+        width=p.width,
+        layer=layer[0],
+        datatype=layer[1],
+        simple_path=True,
+        tolerance=1e-3,
     )
     component.add(path)
 
@@ -422,14 +427,14 @@ def add_bbox_siepic(
     layers = component.get_layers()
 
     if bbox_layer and bbox_layer in layers:
-        component.remove_layers(layers=(bbox_layer,))
+        component.remove_layers(layers=(bbox_layer,), recursive=False)
 
     remove_layers = remove_layers or []
 
     for layer in remove_layers:
         layer = get_layer(layer)
         if layer in layers:
-            component.remove_layers(layers=(layer,))
+            component.remove_layers(layers=(layer,), recursive=False)
 
     if bbox_layer:
         component.add_padding(default=0, layers=(bbox_layer,))
@@ -559,7 +564,7 @@ def add_instance_label(
 
 def add_pins_and_outline(
     component: "Component",
-    reference: "ComponentReference",
+    reference: Optional["ComponentReference"] = None,
     add_outline_function: Optional[Callable] = add_outline,
     add_pins_function: Optional[Callable] = add_pins,
     add_settings_function: Optional[Callable] = add_settings_label,
@@ -601,7 +606,7 @@ if __name__ == "__main__":
     # p2 = len(c2.get_polygons())
     # assert p2 == p1 + 2
     # c1 = gf.components.straight_heater_metal(length=2)
-    c = gf.components.ring_single()
+    c = gf.components.straight(decorator=add_pins)
     # cc.show(show_ports=False)
     c.show(show_subports=True)
     c.show(show_ports=True)

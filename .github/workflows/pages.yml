@@ -29,13 +29,10 @@ jobs:
         run: |
           mkdir -p $HOME/.tidy3d
           echo ${{ secrets.TIDY3D_AUTH }}  > $HOME/.tidy3d/auth.json
-          pip install -e .[full]
-          sudo wget https://github.com/jgm/pandoc/releases/download/1.16.0.2/pandoc-1.16.0.2-1-amd64.deb
-          sudo dpkg -i pandoc-1.16.0.2-1-amd64.deb
-          #sudo apt install pandoc
-          make gdslib plugins-debian
-          pip install -r requirements_sipann.txt
-          pip install -r requirements_dev.txt
+          # sudo wget https://github.com/jgm/pandoc/releases/download/1.16.0.2/pandoc-1.16.0.2-1-amd64.deb
+          # sudo dpkg -i pandoc-1.16.0.2-1-amd64.deb
+          sudo apt install pandoc
+          make gdslib plugins-debian full
       - name: Running the Sphinx to gh-pages Action
         uses: uibcdf/action-sphinx-docs-to-gh-pages@v1.0-beta.2
         env:

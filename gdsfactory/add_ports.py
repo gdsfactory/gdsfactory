@@ -160,10 +160,11 @@ def add_ports_from_markers_center(
 
     for i, p in enumerate(port_markers.polygons):
         port_name = f"{port_name_prefix}{i+1}" if port_name_prefix else str(i)
-        dy = p.ymax - p.ymin
-        dx = p.xmax - p.xmin
-        x = p.x
-        y = p.y
+        (xmin, ymin), (xmax, ymax) = p.bounding_box()
+        x, y = np.sum(p.bounding_box(), 0) / 2
+
+        dy = ymax - ymin
+        dx = xmax - xmin
 
         if min_pin_area_um2 and dx * dy < min_pin_area_um2:
             if debug:
@@ -178,10 +179,10 @@ def add_ports_from_markers_center(
                 print(f"skipping square port at ({x}, {y})")
             continue
 
-        pxmax = p.xmax
-        pxmin = p.xmin
-        pymax = p.ymax
-        pymin = p.ymin
+        pxmax = xmax
+        pxmin = xmin
+        pymax = ymax
+        pymin = ymin
 
         orientation = 0
 
@@ -189,47 +190,47 @@ def add_ports_from_markers_center(
             if x > xc:  # east
                 orientation = 0
                 width = dy
-                x = p.xmax if inside else p.x
+                x = xmax if inside else x
             elif x < xc:  # west
                 orientation = 180
                 width = dy
-                x = p.xmin if inside else p.x
+                x = xmin if inside else x
         elif dy > dx if short_ports else dx > dy:
             if y > yc:  # north
                 orientation = 90
                 width = dx
-                y = p.ymax if inside else p.y
+                y = ymax if inside else y
             elif y < yc:  # south
                 orientation = 270
                 width = dx
-                y = p.ymin if inside else p.y
+                y = ymin if inside else y
 
         elif pxmax > xmax - tol:  # east
             orientation = 0
             width = dy
-            x = p.xmax if inside else p.x
+            x = xmax if inside else x
         elif pxmin < xmin + tol:  # west
             orientation = 180
             width = dy
-            x = p.xmin if inside else p.x
+            x = xmin if inside else x
         elif pymax > ymax - tol:  # north
             orientation = 90
             width = dx
-            y = p.ymax if inside else p.y
+            y = ymax if inside else y
         elif pymin < ymin + tol:  # south
             orientation = 270
             width = dx
-            y = p.ymin if inside else p.y
+            y = ymin if inside else y
 
         elif pxmax > xc:
             orientation = 0
             width = dy
-            x = p.xmax if inside else p.x
+            x = xmax if inside else x
 
         elif pxmax < xc:
             orientation = 180
             width = dy
-            x = p.xmin if inside else p.x
+            x = xmin if inside else x
 
         x = snap_to_grid(x)
         y = snap_to_grid(y)
@@ -305,7 +306,7 @@ def add_ports_from_labels(
 
     xc = xcenter or component.x
     for i, label in enumerate(component.labels):
-        x, y = label.position
+        x, y = label.origin
 
         if layer_label and (
             layer_label[0] != label.layer or layer_label[1] != label.texttype
@@ -361,7 +362,7 @@ def add_ports_from_siepic_pins(
     pin_layer_electrical: LayerSpec = "PORTE",
     port_layer_electrical: Optional[LayerSpec] = None,
 ) -> Component:
-    """Add ports from SiEPIC-type cells.
+    """Add ports from SiEPIC-type cells, where the pins are defined as paths.
 
     Looks for label, path pairs.
 
@@ -378,23 +379,29 @@ def add_ports_from_siepic_pins(
     labels = c.get_labels()
 
     for path in c.paths:
-        p1, p2 = path.points
-
-        # Find the center of the path
-        center = (p1 + p2) / 2
+        polygons = path.to_polygons()
+        polygon = polygons[0]
+        p = polygon.points
+        center = np.sum(p, 0) / 4
+        p1 = np.sum(p[:2], 0) / 2
+        p2 = np.sum(p[2:], 0) / 2
 
         # Find the label closest to the pin
         label = None
         for i, l in enumerate(labels):
             if (
-                all(isclose(l.position, center))
-                or all(isclose(l.position, p1))
-                or all(isclose(l.position, p2))
+                all(isclose(l.origin, center))
+                or all(isclose(l.origin, p1))
+                or all(isclose(l.origin, p2))
             ):
                 label = l
                 labels.pop(i)
+            # else:
+            #     print(f"Warning: label in {l.origin} in center={center} p1={p1} p2={p2}")
         if label is None:
-            print(f"Warning: label not found for path: ({p1}, {p2})")
+            print(
+                f"Warning: label not found for path: in center={center} p1={p1} p2={p2}"
+            )
             continue
         if pin_layer_optical[0] in path.layers:
             port_type = "optical"
@@ -417,7 +424,7 @@ def add_ports_from_siepic_pins(
         port = Port(
             name=port_name,
             center=center,
-            width=path.widths[0][0],
+            width=path.widths()[0][0],
             orientation=angle,
             layer=port_layer or pin_layers[port_type],
             port_type=port_type,

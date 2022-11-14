@@ -1,5 +1,52 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## TODO
+
+- implement native compatibility read/write from/to OASIS
+- removed named_references
+
+## 6.0.3
+
+- fixes ComponentReference.translate() [PR](https://github.com/gdsfactory/gdsfactory/pull/858)
+- Keep reference names on copy, and allow setting on init [PR](https://github.com/gdsfactory/gdsfactory/pull/859)
+  - Ensures that reference names are retained when copying a component
+  - Fixes an issue when a ComponentReference's name is set before it has an owner
+  - Adds name as a parameter to ComponentReference's constructor, so it can be set on initialization
+- Fixes serialization of numpy arrays such that they are retained as numeric types (this was also the old, gdsfactory 5.x behaviour). Increases the default maximum # of digits retained when serializing arrays from 3 to 8 (this could cause side effects if not enough digits are retained, and 8 should still be plenty to ensure consistency across machines... 1e-8 is the default atol threshold in np.isclose()). [PR](https://github.com/gdsfactory/gdsfactory/pull/860)
+- Devsim plugin with GMSH plugin backend [PR](https://github.com/gdsfactory/gdsfactory/pull/861)
+
+
+## 6.0.2
+
+- add trim [PR](https://github.com/gdsfactory/gdsfactory/pull/855)
+
+## 6.0.1
+
+- fix import ports from siepic pins [PR](https://github.com/gdsfactory/gdsfactory/pull/854)
+- add adiabatic taper [PR](https://github.com/gdsfactory/gdsfactory/pull/853)
+- Fix shortcut installation script [PR](https://github.com/gdsfactory/gdsfactory/pull/851)
+
+## [6.0.0](https://github.com/gdsfactory/gdsfactory/pull/833)
+
+- port gdsfactory from gdspy to gdstk: faster booleans, loading and writing GDS files.
+- remove Inheritance of Component, ComponentReference, Polygon, Label from gdspy
+    - use gdstk.Label and gdstk.Polygon directly (no inheritance)
+    - Label.origin instead of Label.position
+- ComponentReference, has rows and columns to represent removed `CellArray`
+- add loss model for modesolver [PR](https://github.com/gdsfactory/gdsfactory/pull/831)
+- fixes [PR](https://github.com/gdsfactory/gdsfactory/pull/835)
+    * remove deprecated aliases
+    * fix to_3d
+    * fix quickplo
+- Fix gmeep get_simulation center issue [PR](https://github.com/gdsfactory/gdsfactory/pull/834)
+- get_polygons [PR](https://github.com/gdsfactory/gdsfactory/pull/846)
+- replace deprecated reflect by mirror [PR](https://github.com/gdsfactory/gdsfactory/pull/838)
+- remove aliases [PR](https://github.com/gdsfactory/gdsfactory/pull/835)
+
+## 5.56.0
+
+- rename add_fidutials to add_fiducials (it was misspelled before) [PR](https://github.com/gdsfactory/gdsfactory/pull/827)
+
 ## 5.55.0
 
 - fix path defined port issues when absorbing [issue](https://github.com/gdsfactory/gdsfactory/issues/816)

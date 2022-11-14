@@ -1,24 +1,21 @@
 from pathlib import Path
 from typing import Optional, Union, cast
 
-import gdspy
+import gdstk
 import numpy as np
 from omegaconf import OmegaConf
 
-from gdsfactory.cell import cell
+from gdsfactory.cell import Settings, cell
 from gdsfactory.component import Component
-from gdsfactory.component_layout import CellArray
 from gdsfactory.component_reference import ComponentReference
 from gdsfactory.config import CONFIG, logger
 from gdsfactory.name import get_name_short
-from gdsfactory.snap import snap_to_grid
 
 
 @cell
 def import_gds(
     gdspath: Union[str, Path],
     cellname: Optional[str] = None,
-    snap_to_grid_nm: Optional[int] = None,
     gdsdir: Optional[Union[str, Path]] = None,
     read_metadata: bool = True,
     hashed_name: bool = True,
@@ -34,7 +31,6 @@ def import_gds(
     Args:
         gdspath: path of GDS file.
         cellname: cell of the name to import (None) imports top cell.
-        snap_to_grid_nm: snap to different nm grid (does not snap if False).
         gdsdir: optional GDS directory.
         read_metadata: loads metadata if it exists.
         hashed_name: appends a hash to a shortened component name.
@@ -47,8 +43,7 @@ def import_gds(
 
     metadata_filepath = gdspath.with_suffix(".yml")
 
-    gdsii_lib = gdspy.GdsLibrary()
-    gdsii_lib.read_gds(str(gdspath))
+    gdsii_lib = gdstk.read_gds(str(gdspath))
     top_level_cells = gdsii_lib.top_level()
     cellnames = [c.name for c in top_level_cells]
 
@@ -71,11 +66,10 @@ def import_gds(
 
     D_list = []
     cell_to_device = {}
-    for c in gdsii_lib.cells.values():
+    for c in gdsii_lib.cells:
         D = Component(name=c.name)
-        D.paths = c.paths
-        D.polygons = c.polygons
-        D.references = c.references
+        D._cell = c
+
         D.name = c.name
         for label in c.labels:
             rotation = label.rotation
@@ -83,7 +77,7 @@ def import_gds(
                 rotation = 0
             label_ref = D.add_label(
                 text=label.text,
-                position=np.asfarray(label.position),
+                position=np.asfarray(label.origin),
                 magnification=label.magnification,
                 rotation=rotation * 180 / np.pi,
                 layer=(label.layer, label.texttype),
@@ -96,46 +90,14 @@ def import_gds(
         cell_to_device[c] = D
         D_list += [D]
 
-    for D in D_list:
-        # First convert each reference so it points to the right Component
-        converted_references = []
-        for e in D.references:
-            ref_device = cell_to_device[e.ref_cell]
-            if isinstance(e, gdspy.CellReference):
-                dr = ComponentReference(
-                    component=ref_device,
-                    origin=e.origin,
-                    rotation=e.rotation,
-                    magnification=e.magnification,
-                    x_reflection=e.x_reflection,
-                )
-                dr.owner = D
-                converted_references.append(dr)
-            elif isinstance(e, gdspy.CellArray):
-                dr = CellArray(
-                    device=ref_device,
-                    columns=e.columns,
-                    rows=e.rows,
-                    spacing=e.spacing,
-                    origin=e.origin,
-                    rotation=e.rotation,
-                    magnification=e.magnification,
-                    x_reflection=e.x_reflection,
-                )
-                dr.owner = D
-                converted_references.append(dr)
-        D.references = converted_references
+    for c, D in cell_to_device.items():
+        for e in c.references:
+            ref_device = cell_to_device[e.cell]
+            ref = ComponentReference(component=ref_device)
 
-        # Next convert each Polygon
-        temp_polygons = list(D.polygons)
-        D.polygons = []
-        for p in temp_polygons:
-            if snap_to_grid_nm:
-                points_on_grid = snap_to_grid(p.polygons[0], nm=snap_to_grid_nm)
-                p = gdspy.Polygon(
-                    points_on_grid, layer=p.layers[0], datatype=p.datatypes[0]
-                )
-            D.add_polygon(p)
+            D._register_reference(ref)
+            D._references.append(ref)
+            ref._reference = e
 
     component = cell_to_device[topcell]
     cast(Component, component)
@@ -145,7 +107,7 @@ def import_gds(
         metadata = OmegaConf.load(metadata_filepath)
 
         if "settings" in metadata:
-            component.settings = OmegaConf.to_container(metadata.settings)
+            component.settings = Settings(**OmegaConf.to_container(metadata.settings))
 
         if "ports" in metadata:
             for port_name, port in metadata.ports.items():
@@ -165,11 +127,12 @@ def import_gds(
 
 
 if __name__ == "__main__":
-
     gdspath = CONFIG["gdsdir"] / "mzi2x2.gds"
-    # c = import_gds(gdspath, snap_to_grid_nm=5, flatten=True, name="TOP")
+    # c = import_gds(gdspath, flatten=True, name="TOP")
     # c.settings = {}
     # print(clean_value_name(c))
-    # c = import_gds(gdspath, snap_to_grid_nm=5, flatten=False, polarization="te")
-    c = import_gds("/home/jmatres/gdsfactory/gdsfactory/gdsdiff/gds_diff_git.py")
+
+    c = import_gds(gdspath, flatten=False, polarization="te")
+    # c = import_gds("/home/jmatres/gdsfactory/gdsfactory/gdsdiff/gds_diff_git.py")
+    # print(c.hash_geometry())
     c.show(show_ports=True)

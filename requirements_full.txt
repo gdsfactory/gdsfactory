@@ -16,7 +16,7 @@ pygmsh
 sax==0.8.4
 scikit-fem
 scikit-image
+scikit-learn
 simphony==0.6.1
-sklearn
 triangle
 trimesh
