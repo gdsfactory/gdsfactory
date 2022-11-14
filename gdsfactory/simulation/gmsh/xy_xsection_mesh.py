@@ -52,7 +52,7 @@ def xy_xsection_mesh(
 
     # Add background polygon
     if background_tag is not None:
-        bounds = unary_union([shape for shape in shapes.values()]).bounds
+        bounds = unary_union(list(shapes.values())).bounds
         shapes[background_tag] = Polygon(
             [
                 [bounds[0] - background_padding[0], bounds[1] - background_padding[1]],

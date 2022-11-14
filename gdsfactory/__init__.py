@@ -138,4 +138,4 @@ __all__ = (
     "types",
     "write_cells",
 )
-__version__ = "6.0.3"
+__version__ = "6.0.4"
