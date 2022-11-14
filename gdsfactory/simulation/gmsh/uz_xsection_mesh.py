@@ -29,7 +29,7 @@ def get_u_bounds_polygons(
     linestart = Point(xsection_bounds[0])
 
     return_list = []
-    for polygon in polygons if hasattr(polygons, "geoms") else [polygons]:
+    for polygon in polygons.geoms if hasattr(polygons, "geoms") else [polygons]:
         intersection = polygon.intersection(line).bounds
         if intersection:
             p1 = Point([intersection[0], intersection[1]])
@@ -81,9 +81,6 @@ def get_uz_bounds_layers(
 
     outplane_bounds_dict = {}
 
-    for key, value in inplane_bounds_dict.items():
-        print(key, value)
-
     layer_dict = layerstack.to_dict()
     for layername, inplane_bounds_list in inplane_bounds_dict.items():
         outplane_polygons_list = []
@@ -131,16 +128,14 @@ def uz_xsection_mesh(
     layer_order = order_layerstack(layerstack)
     shapes = OrderedDict()
     for layer in layer_order:
-        layer_shapes = []
-        for polygon in bounds_dict[layer]:
-            layer_shapes.append(polygon)
+        layer_shapes = list(bounds_dict[layer])
         shapes[layer] = MultiPolygon(to_polygons(layer_shapes))
 
     # Add background polygon
     # TODO: buffer the union instead of adding a square
     if background_tag is not None:
         # shapes[background_tag] = bounds.buffer(background_padding[0])
-        bounds = unary_union([shape for shape in shapes.values()]).bounds
+        bounds = unary_union(list(shapes.values())).bounds
         shapes[background_tag] = Polygon(
             [
                 [bounds[0] - background_padding[0], bounds[1] - background_padding[1]],
