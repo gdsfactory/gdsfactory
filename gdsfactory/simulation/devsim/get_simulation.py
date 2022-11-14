@@ -2,6 +2,7 @@ from typing import Dict, Optional, Tuple
 
 import numpy as np
 from devsim import (
+    add_gmsh_contact,
     add_gmsh_region,
     create_device,
     create_gmsh_mesh,
@@ -25,6 +26,7 @@ from gdsfactory.tech import LayerLevel, LayerStack
 def create_2Duz_simulation(
     component: Component,
     xsection_bounds: Tuple[Tuple[float, float], Tuple[float, float]],
+    full_layerstack: LayerStack,
     physical_layerstack: LayerStack,
     doping_info,  # Dict[str, DopingLayerLevel],
     contact_info,
@@ -35,21 +37,22 @@ def create_2Duz_simulation(
     devsim_device_name="temp",
     devsim_mesh_file_name="devsim.dat",
 ):
-    # Add contacts to simulation
+    # Replace relevant physical entities by contacts
     simulation_layertack = physical_layerstack
     for contact_name, contact_dict in contact_info.items():
+        contact_layer = full_layerstack.layers[contact_dict["physical_layerlevel_1"]]
         layerlevel = LayerLevel(
             layer=contact_dict["gds_layer"],
-            thickness=contact_dict["physical_layerlevel"].thickness,
-            zmin=contact_dict["physical_layerlevel"].zmin,
-            material=contact_dict["physical_layerlevel"].material,
-            sidewall_angle=contact_dict["physical_layerlevel"].sidewall_angle,
-            info=contact_dict["physical_layerlevel"].info,
+            thickness=contact_layer.thickness,
+            zmin=contact_layer.zmin,
+            material=contact_layer.material,
+            sidewall_angle=contact_layer.sidewall_angle,
+            info=contact_layer.info,
         )
         simulation_layertack.layers[contact_name] = layerlevel
 
     # Get structural mesh
-    uz_xsection_mesh(
+    mesh = uz_xsection_mesh(
         component,
         xsection_bounds,
         simulation_layertack,
@@ -86,15 +89,27 @@ def create_2Duz_simulation(
             material=background_tag,
         )
     # Contacts
-    # for contact_name, contact in contact_info.items():
-    #     add_gmsh_contact(
-    #         gmsh_name=contact_name,
-    #         material=simulation_layertack.layers[contact_name].material,
-    #         mesh=devsim_mesh_name,
-    #         name=contact_name,
-    #         region=simulation_layertack.layers[contact_name].material,
-    #     )
-
+    # add_gmsh_contact(
+    #     gmsh_name="anode___slab90",
+    #     material="al",
+    #     mesh=devsim_mesh_name,
+    #     name="anode",
+    #     region="anode",
+    # )
+    for contact_name, contact in contact_info.items():
+        layer1 = contact_name
+        layer2 = contact["physical_layerlevel_2"]
+        interface = f"{layer1}___{layer2}"
+        if interface not in mesh.cell_sets_dict.keys():
+            interface = f"{layer2}___{layer1}"
+        print(interface)
+        add_gmsh_contact(
+            gmsh_name=interface,
+            material=simulation_layertack.layers[contact_name].material,
+            mesh=devsim_mesh_name,
+            name=contact_name,
+            region=contact_name,
+        )
     finalize_mesh(mesh=devsim_mesh_name)
     create_device(mesh=devsim_mesh_name, device=devsim_device_name)
 
@@ -122,7 +137,6 @@ def create_2Duz_simulation(
                     raise ValueError(
                         f'Doping type "{doping_info[layername].type}" not supported.'
                     )
-
         net_doping = donor - acceptor
 
         node_solution(device=devsim_device_name, region=region_name, name="Acceptors")
@@ -146,7 +160,6 @@ def create_2Duz_simulation(
         )
 
     # Define contacts
-
     write_devices(file=devsim_mesh_file_name, type="tecplot")
 
     return devsim_device_name, devsim_mesh_file_name
@@ -181,8 +194,9 @@ if __name__ == "__main__":
     )
 
     # Boundary conditions such as contact are also defined with GDS polygons.
+    # In DEVSIM, contacts must be N-1D, where N is the simulation dimensionality.
     # While complete dummy layers + stack definitions could be used, often we are interested in using existing layers as contact (for instance vias).
-    # Since this means different contacts could be on the same physical layer, this requires more care in the meshing.
+    # Since this means different contacts could correspond to the same physical layers, this requires more care in the meshing.
 
     # Simulation layers for contacts
     anode_layer = (105, 0)
@@ -203,14 +217,21 @@ if __name__ == "__main__":
         )
     )
 
+    # Contact info contains (could be improved)
+    # gds_layer to use for this contact
+    # physical_layerlevel_1: physical to replace by the contact
+    # physical_layerlevel_2: interface to physical_layerlevel_1 to define as the contact
+    # two layers defining an interface, and the dummy layer for position refinement
     contact_info = {}
     contact_info["anode"] = {
         "gds_layer": anode_layer,
-        "physical_layerlevel": get_layer_stack_generic().layers["via_contact"],
+        "physical_layerlevel_1": "via_contact",
+        "physical_layerlevel_2": "slab90",
     }
     contact_info["cathode"] = {
         "gds_layer": cathode_layer,
-        "physical_layerlevel": get_layer_stack_generic().layers["via_contact"],
+        "physical_layerlevel_1": "via_contact",
+        "physical_layerlevel_2": "slab90",
     }
 
     waveguide.show()
@@ -232,6 +253,7 @@ if __name__ == "__main__":
     create_2Duz_simulation(
         component=waveguide,
         xsection_bounds=[(4, -4), (4, 4)],
+        full_layerstack=get_layer_stack_generic(),
         physical_layerstack=physical_layerstack,
         doping_info=get_doping_info_generic(),
         contact_info=contact_info,
