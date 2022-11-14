@@ -1,9 +1,8 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## TODO
+## 6.0.4
 
-- implement native compatibility read/write from/to OASIS
-- removed named_references
+- expose uz_mesh functions [PR](https://github.com/gdsfactory/gdsfactory/pull/869)
 
 ## 6.0.3
 
