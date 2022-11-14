@@ -14,13 +14,21 @@ from gdsfactory.simulation.gmsh.parse_layerstack import (
     map_unique_layerstack_z,
     order_layerstack,
 )
-from gdsfactory.simulation.gmsh.uz_xsection_mesh import uz_xsection_mesh
+from gdsfactory.simulation.gmsh.uz_xsection_mesh import (
+    get_u_bounds_layers,
+    get_u_bounds_polygons,
+    get_uz_bounds_layers,
+    uz_xsection_mesh,
+)
 from gdsfactory.simulation.gmsh.xy_xsection_mesh import xy_xsection_mesh
 
 __all__ = [
     "mesh_from_polygons",
     "uz_xsection_mesh",
     "xy_xsection_mesh",
+    "get_uz_bounds_layers",
+    "get_u_bounds_layers",
+    "get_u_bounds_polygons",
     "MeshTracker",
     "fuse_component_layer",
     "round_coordinates",
