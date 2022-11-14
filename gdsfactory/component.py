@@ -909,7 +909,7 @@ class Component(_GeometryHelper):
             return polygon
 
         points = np.asarray(points)
-        if points.ndim == 1 and isinstance(points[0], gdstk.Polygon):
+        if points.ndim == 1:
             return [self.add_polygon(poly, layer=layer) for poly in points]
         if layer is np.nan:
             layer = 0
@@ -928,7 +928,9 @@ class Component(_GeometryHelper):
             polygons = [
                 Polygon(ppoints, layer=layer, datatype=datatype) for ppoints in points
             ]
-            self.add(*polygons)
+            # bypassing calling self.add() on every single polygon as a bit of an optimization
+            self.is_unlocked()
+            self._cell.add(*polygons)
             return polygons
         else:
             raise ValueError(f"Unable to add {points.ndim}-dimensional points object")
