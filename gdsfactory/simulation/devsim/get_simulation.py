@@ -72,7 +72,7 @@ def create_2Duz_simulation(
         bounds = get_u_bounds_polygons(fused_polygons, xsection_bounds)
         doping_polygons[layername] = bounds
 
-    # Define physical structural mesh in DEVSIM
+    # Regions, tagged by material
     regions = {}
     create_gmsh_mesh(file=temp_file_name, mesh=devsim_mesh_name)
     simulation_layerstack_dict = simulation_layertack.to_dict()
@@ -88,31 +88,16 @@ def create_2Duz_simulation(
         else:
             regions[values["material"]].append(name)
     if background_tag:
+        simulation_layerstack_dict[background_tag] = {"material": background_tag}
         add_gmsh_region(
             mesh=devsim_mesh_name,
             gmsh_name=background_tag,
             region=background_tag,
             material=background_tag,
         )
-    # Interfaces
-    interfaces = []
-    for (name1, values1), (name2, values2) in combinations(
-        simulation_layerstack_dict.items(), 2
-    ):
-        interface = f"{name1}___{name2}"
-        if interface not in mesh.cell_sets_dict.keys():
-            interface = f"{name2}___{name1}"
-            if interface not in mesh.cell_sets_dict.keys():
-                continue
-        add_gmsh_interface(
-            gmsh_name=interface,
-            mesh=devsim_mesh_name,
-            name=interface,
-            region0=name1,
-            region1=name2,
-        )
-        interfaces.append(interface)
+        regions[background_tag] = [background_tag]
     # Contacts
+    contacts = []
     for contact_name, contact in contact_info.items():
         layer1 = contact_name
         layer2 = contact["physical_layerlevel_to_contact"]
@@ -126,6 +111,29 @@ def create_2Duz_simulation(
             name=contact_name,
             region=contact_name,
         )
+        contacts.append(interface)
+    # Interfaces (that are not contacts), labeled by material-material
+    interfaces = {}
+    for (name1, values1), (name2, values2) in combinations(
+        simulation_layerstack_dict.items(), 2
+    ):
+        interface = f"{name1}___{name2}"
+        if interface not in mesh.cell_sets_dict.keys():
+            interface = f"{name2}___{name1}"
+            if interface not in mesh.cell_sets_dict.keys():
+                continue
+        if interface not in contacts:
+            add_gmsh_interface(
+                gmsh_name=interface,
+                mesh=devsim_mesh_name,
+                name=interface,
+                region0=name1,
+                region1=name2,
+            )
+            if interface not in interfaces.keys():
+                interfaces[(values1["material"], values2["material"])] = [interface]
+            else:
+                interfaces[(values1["material"], values2["material"])].append(interface)
     finalize_mesh(mesh=devsim_mesh_name)
     create_device(mesh=devsim_mesh_name, device=devsim_device_name)
 
@@ -174,7 +182,6 @@ def create_2Duz_simulation(
             values=net_doping,
         )
 
-    # if save
     if devsim_simulation_filename:
         write_devices(file=devsim_simulation_filename, type="tecplot")
 
@@ -255,7 +262,7 @@ if __name__ == "__main__":
     resolutions["slab90"] = {"resolution": 0.03, "distance": 1}
     # resolutions["via_contact"] = {"resolution": 0.1, "distance": 1}
 
-    create_2Duz_simulation(
+    device_name, regions, interfaces = create_2Duz_simulation(
         component=waveguide,
         xsection_bounds=[(4, -4), (4, 4)],
         full_layerstack=get_layer_stack_generic(),
@@ -263,5 +270,9 @@ if __name__ == "__main__":
         doping_info=get_doping_info_generic(),
         contact_info=contact_info,
         resolutions=resolutions,
-        # background_tag="Oxide",
+        background_tag="sio2",
     )
+
+    print(device_name)
+    print(regions)
+    print(interfaces)
