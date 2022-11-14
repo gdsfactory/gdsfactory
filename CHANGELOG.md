@@ -5,6 +5,17 @@
 - implement native compatibility read/write from/to OASIS
 - removed named_references
 
+## 6.0.3
+
+- fixes ComponentReference.translate() [PR](https://github.com/gdsfactory/gdsfactory/pull/858)
+- Keep reference names on copy, and allow setting on init [PR](https://github.com/gdsfactory/gdsfactory/pull/859)
+  - Ensures that reference names are retained when copying a component
+  - Fixes an issue when a ComponentReference's name is set before it has an owner
+  - Adds name as a parameter to ComponentReference's constructor, so it can be set on initialization
+- Fixes serialization of numpy arrays such that they are retained as numeric types (this was also the old, gdsfactory 5.x behaviour). Increases the default maximum # of digits retained when serializing arrays from 3 to 8 (this could cause side effects if not enough digits are retained, and 8 should still be plenty to ensure consistency across machines... 1e-8 is the default atol threshold in np.isclose()). [PR](https://github.com/gdsfactory/gdsfactory/pull/860)
+- Devsim plugin with GMSH plugin backend [PR](https://github.com/gdsfactory/gdsfactory/pull/861)
+
+
 ## 6.0.2
 
 - add trim [PR](https://github.com/gdsfactory/gdsfactory/pull/855)
@@ -17,7 +28,7 @@
 
 ## [6.0.0](https://github.com/gdsfactory/gdsfactory/pull/833)
 
-- port gdsfactory from gdspy to gdstk. Gained more than huge speedup, faster booleans, loading and writing GDS.
+- port gdsfactory from gdspy to gdstk: faster booleans, loading and writing GDS files.
 - remove Inheritance of Component, ComponentReference, Polygon, Label from gdspy
     - use gdstk.Label and gdstk.Polygon directly (no inheritance)
     - Label.origin instead of Label.position

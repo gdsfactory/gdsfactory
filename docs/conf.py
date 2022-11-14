@@ -5,11 +5,6 @@ copyright = "2020, MIT License"
 html_theme = "sphinx_book_theme"
 html_logo = "logo.png"
 
-source_suffix = {
-    ".rst": "restructuredtext",
-    ".txt": "markdown",
-    ".md": "markdown",
-}
 
 extensions = [
     "matplotlib.sphinxext.plot_directive",
