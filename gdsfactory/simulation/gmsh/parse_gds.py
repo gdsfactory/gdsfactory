@@ -1,5 +1,5 @@
 import shapely
-from shapely.geometry import LineString, MultiPolygon, Polygon
+from shapely.geometry import LineString, MultiLineString, MultiPolygon, Polygon
 from shapely.ops import linemerge, split
 
 
@@ -88,7 +88,7 @@ def tile_shapes(shapes_dict):
                 to_polygons(tiled_lower_shapes)
             )
         else:
-            shapes_tiled_dict[lower_name] = MultiPolygon(to_lines(tiled_lower_shapes))
+            shapes_tiled_dict[lower_name] = MultiLineString(tiled_lower_shapes)
 
     return shapes_tiled_dict
 
