@@ -11,8 +11,6 @@ omegaconf
 orjson
 pandas
 pydantic
-pytest
-pytest-regressions
 pyyaml
 qrcode
 rectpack
