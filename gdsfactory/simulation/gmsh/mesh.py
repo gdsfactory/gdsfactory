@@ -124,18 +124,19 @@ def mesh_from_polygons(
                     )
                 else:
                     broken_shapes.append(LineString(first_exterior_line))
-            if first_shape.type == "Polygon" or first_shape.type == "MultiPolygon":
-                polygons_broken_dict[first_name] = (
-                    MultiPolygon(broken_shapes)
-                    if len(broken_shapes) > 1
-                    else broken_shapes[0]
-                )
-            else:
-                lines_broken_dict[first_name] = (
-                    MultiLineString(broken_shapes)
-                    if len(broken_shapes) > 1
-                    else broken_shapes[0]
-                )
+            if broken_shapes:
+                if first_shape.type == "Polygon" or first_shape.type == "MultiPolygon":
+                    polygons_broken_dict[first_name] = (
+                        MultiPolygon(broken_shapes)
+                        if len(broken_shapes) > 1
+                        else broken_shapes[0]
+                    )
+                else:
+                    lines_broken_dict[first_name] = (
+                        MultiLineString(broken_shapes)
+                        if len(broken_shapes) > 1
+                        else broken_shapes[0]
+                    )
 
         # Add lines, reusing line segments
         meshtracker = MeshTracker(model=model, atol=1e-3)
