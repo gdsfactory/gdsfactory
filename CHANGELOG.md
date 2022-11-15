@@ -7,6 +7,7 @@
 - fixing the port cross sections of an extruded transition and adding test [PR](https://github.com/gdsfactory/gdsfactory/pull/876)
 - Fixing and simplifying remove_layers [PR](https://github.com/gdsfactory/gdsfactory/pull/873)
 - Fix and improve speed of flatten and absorb [PR](https://github.com/gdsfactory/gdsfactory/pull/875)
+- Components.__getitem__ is consistent with ComponentReference.__getitem__ [PR](https://github.com/gdsfactory/gdsfactory/pull/879)
 
 ## 6.0.5
 
