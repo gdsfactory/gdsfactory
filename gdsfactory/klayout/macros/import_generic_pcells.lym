@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<klayout-macro>
+ <description>import_generic_PCells</description>
+ <version/>
+ <category>pymacros</category>
+ <prolog/>
+ <epilog/>
+ <doc/>
+ <autorun>false</autorun>
+ <autorun-early>false</autorun-early>
+ <shortcut/>
+ <show-in-menu>true</show-in-menu>
+ <group-name/>
+ <menu-path>gdsfactory.begin</menu-path>
+ <interpreter>python</interpreter>
+ <dsl-interpreter-name/>
+ <text>
+import pya
+import sys
+import pathlib
+import os
+import json
+
+check_packages = [
+    'gdsfactory',
+    'flayout'
+]
+
+config_file = os.path.expanduser("~/.gdsfactory/gf-config.json")
+
+cfg = {}
+with open(config_file, 'a+') as j:
+    j.seek(0)
+    try:
+        cfg = json.loads(j.read())
+    except:
+        cfg = {}
+    
+    if "conda-env" not in cfg.keys():
+        env_dir_str = pya.FileDialog.ask_existing_dir("Select directory of Python environment to link:", "")
+
+        if env_dir_str is None:
+            quit()
+
+        cfg["conda-env"] = env_dir_str
+
+        json.dump(cfg, j, sort_keys=True, indent=4)
+j.close()
+
+env_dir = pathlib.Path(cfg["conda-env"])
+
+if env_dir is None:
+    quit()
+
+sys.path.append(f'{env_dir}/site-packages/')
+
+try:
+    import flayout as fl
+    import gdsfactory.components as gfc
+except ImportError:
+    import pya
+    import sys
+    print(sys.path)
+    pya.MessageBox.info('ubcpdk message',
+                        ('ubcpdk has not been installed. So ubcpdk pcells will not be available.\n' +
+                         'To use these, go into terminal/command line anywhere and type\n\n' +
+                         'pip install ubcpdk'),
+                        pya.MessageBox.Ok)
+
+gf_pcells = []
+for name, cell in gfc.cells.items():
+    # Would be nice to add SiEPIC pins to all of these
+    try:
+      gf_pcells.append(fl.pcell(cell, on_error="ignore"))
+    except:
+      # Currently, pcells defined with partial don't work due to a missing __name__ attribute
+      pass
+
+# Cell
+generic_lib = fl.library(
+    "generic",
+    pcells=gf_pcells,
+    cells=[],
+    description="GDSFactory Generic PCell Library",
+)
+</text>
+</klayout-macro>
