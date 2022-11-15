@@ -1079,7 +1079,7 @@ class Component(_GeometryHelper):
         _align(elements, alignment=alignment)
         return self
 
-    def flatten(self, single_layer: Optional[Tuple[int, int]] = None):
+    def flatten(self, single_layer: Optional[LayerSpec] = None):
         """Returns a flattened copy of the component.
 
         Flattens the hierarchy of the Component such that there are no longer
@@ -1092,13 +1092,19 @@ class Component(_GeometryHelper):
         """
         component_flat = Component()
 
-        poly_dict = self.get_polygons(by_spec=True, include_paths=False, as_array=False)
-        for layer, polys in poly_dict.items():
-            if polys:
-                component_flat.add_polygon(polys, layer=single_layer or layer)
+        _cell = self._cell.copy(name=component_flat.name)
+        _cell = _cell.flatten()
+        component_flat._cell = _cell
+        if single_layer is not None:
+            from gdsfactory import get_layer
 
-        for path in self._cell.get_paths():
-            component_flat.add(path)
+            layer, datatype = get_layer(single_layer)
+            for polygon in _cell.polygons:
+                polygon.layer = layer
+                polygon.datatype = datatype
+            for path in _cell.paths:
+                path.set_layers(layer)
+                path.set_datatypes(datatype)
 
         component_flat.info = self.info.copy()
         component_flat.add_ports(self.ports)
@@ -1696,11 +1702,12 @@ class Component(_GeometryHelper):
             raise ValueError(
                 "The reference you asked to absorb does not exist in this Component."
             )
-        ref_polygons = reference.get_polygons(by_spec=True, include_paths=False)
-        for (layer, polys) in ref_polygons.items():
-            [self.add_polygon(points=p, layer=layer) for p in polys]
+        ref_polygons = reference.get_polygons(
+            by_spec=False, include_paths=False, as_array=False
+        )
+        self._add_polygons(*ref_polygons)
 
-        self.add(reference.parent.labels)
+        self.add(reference.get_labels())
         self.add(reference.get_paths())
         self.remove(reference)
         return self
