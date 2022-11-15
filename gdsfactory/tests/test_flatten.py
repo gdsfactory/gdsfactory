@@ -40,6 +40,24 @@ def test_flattened_cell_keeps_ports():
     assert len(c2.ports) == 2, len(c2.ports)
 
 
+def test_flattened_cell_keeps_labels():
+    c1 = gf.Component()
+    c1.add_label("hi!")
+    c2 = c1.flatten()
+    assert len(c2.labels) == 1
+
+
+def test_flatten_single_layer():
+    target_layer = (999, 51)
+    c1 = gf.components.straight()
+    c2 = c1.flatten(single_layer=target_layer)
+    c1_polygons = c1.get_polygons(as_array=False)
+    c2_polygons = c2.get_polygons(as_array=False)
+    assert len(c1_polygons) == len(c2_polygons)
+    for p in c2_polygons:
+        assert (p.layer, p.datatype) == target_layer
+
+
 if __name__ == "__main__":
     test_flattened_cell_keeps_ports()
     # c1 = gf.components.mzi()
