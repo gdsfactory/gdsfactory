@@ -40,6 +40,13 @@ def test_flattened_cell_keeps_ports():
     assert len(c2.ports) == 2, len(c2.ports)
 
 
+def test_flattened_cell_keeps_labels():
+    c1 = gf.Component()
+    c1.add_label("hi!")
+    c2 = c1.flatten()
+    assert len(c2.labels) == 1
+
+
 if __name__ == "__main__":
     test_flattened_cell_keeps_ports()
     # c1 = gf.components.mzi()
