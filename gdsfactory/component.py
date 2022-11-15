@@ -798,7 +798,7 @@ class Component(_GeometryHelper):
 
     def remove_layers(
         self,
-        layers: Union[List[Tuple[int, int]], Tuple[int, int]],
+        layers: List[LayerSpec],
         include_labels: bool = True,
         invert_selection: bool = False,
         recursive: bool = True,
@@ -811,30 +811,20 @@ class Component(_GeometryHelper):
             invert_selection: removes all layers except layers specified.
             recursive: operate on the cells included in this cell.
         """
-        D = self.flatten() if recursive and self.references else self
-        for polygon in D.polygons:
-            if (polygon.layer, polygon.datatype) in layers:
-                D.remove(polygon)
+        from gdsfactory import get_layer
 
-        for path in D.paths:
-            D.remove(
-                path for layer in zip(path.layers, path.datatypes) if layer in layers
-            )
+        component = self.flatten() if recursive and self.references else self
+        layers = [get_layer(layer) for layer in layers]
+        should_remove = not invert_selection
+        component._cell.filter(
+            spec=layers,
+            remove=should_remove,
+            polygons=True,
+            paths=True,
+            labels=include_labels,
+        )
 
-        if include_labels:
-            new_labels = []
-            for label in D.labels:
-                original_layer = (label.layer, label.texttype)
-                original_layer = _parse_layer(original_layer)
-                if invert_selection:
-                    keep_layer = original_layer in layers
-                else:
-                    keep_layer = original_layer not in layers
-                if keep_layer:
-                    new_labels += [label]
-            D.labels.clear()
-            D.labels.extend(new_labels)
-        return D
+        return component
 
     def extract(
         self,
