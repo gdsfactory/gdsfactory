@@ -1089,24 +1089,18 @@ class Component(_GeometryHelper):
         _align(elements, alignment=alignment)
         return self
 
-    def flatten(self, single_layer: Optional[Tuple[int, int]] = None):
+    def flatten(self):
         """Returns a flattened copy of the component.
 
         Flattens the hierarchy of the Component such that there are no longer
         any references to other Components. All polygons and labels from
         underlying references are copied and placed in the top-level Component.
-        If single_layer is specified, all polygons are moved to that layer.
-
-        Args:
-            single_layer: move all polygons are moved to the specified (optional).
         """
         component_flat = Component()
 
-        polys = self.get_polygons(by_spec=False, include_paths=False, as_array=False)
-        component_flat._add_polygons(*polys)
-
-        for path in self._cell.get_paths():
-            component_flat.add(path)
+        _cell = self._cell.copy(name=component_flat.name)
+        _cell = _cell.flatten()
+        component_flat._cell = _cell
 
         component_flat.info = self.info.copy()
         component_flat.add_ports(self.ports)
