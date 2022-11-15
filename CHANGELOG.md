@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.0.5
+
+- remove pytest from `requirements.txt` as it's already on `requirements_dev.txt`
+- Ensure consistent u and z bounds when meshing a uz cross-section [PR](https://github.com/gdsfactory/gdsfactory/pull/871)
+
 ## 6.0.4
 
 - expose uz_mesh functions [PR](https://github.com/gdsfactory/gdsfactory/pull/869)
