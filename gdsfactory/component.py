@@ -1089,18 +1089,32 @@ class Component(_GeometryHelper):
         _align(elements, alignment=alignment)
         return self
 
-    def flatten(self):
+    def flatten(self, single_layer: Optional[LayerSpec] = None):
         """Returns a flattened copy of the component.
 
         Flattens the hierarchy of the Component such that there are no longer
         any references to other Components. All polygons and labels from
         underlying references are copied and placed in the top-level Component.
+        If single_layer is specified, all polygons are moved to that layer.
+
+        Args:
+            single_layer: move all polygons are moved to the specified (optional).
         """
         component_flat = Component()
 
         _cell = self._cell.copy(name=component_flat.name)
         _cell = _cell.flatten()
         component_flat._cell = _cell
+        if single_layer is not None:
+            from gdsfactory import get_layer
+
+            layer, datatype = get_layer(single_layer)
+            for polygon in _cell.polygons:
+                polygon.layer = layer
+                polygon.datatype = datatype
+            for path in _cell.paths:
+                path.set_layers(layer)
+                path.set_datatypes(datatype)
 
         component_flat.info = self.info.copy()
         component_flat.add_ports(self.ports)
