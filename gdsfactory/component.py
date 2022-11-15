@@ -292,16 +292,12 @@ class Component(_GeometryHelper):
         )
 
     def __getitem__(self, key):
-        """Allows you to access named_references D['arc2'].
+        """Access reference ports."""
+        if key not in self.ports:
+            ports = list(self.ports.keys())
+            raise ValueError(f"{key!r} not in {ports}")
 
-        Args:
-            key: Element name to access within the Component.
-
-        """
-        try:
-            return self.named_references[key]
-        except KeyError as e:
-            raise KeyError(f"{key!r} not in {self.named_references.keys()}") from e
+        return self.ports[key]
 
     def __lshift__(self, element):
         """Convenience operator equivalent to add_ref()."""
