@@ -131,7 +131,7 @@ def install_klayout_package() -> None:
     """
     cwd = pathlib.Path(__file__).resolve().parent
     _install_to_klayout(
-        src=cwd / "klayout", klayout_subdir_name="salt", package_name="gdsfactory"
+        src=cwd / "klayout", klayout_subdir_name="macros", package_name="gdsfactory"
     )
 
 
