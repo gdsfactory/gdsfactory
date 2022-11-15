@@ -286,7 +286,7 @@ class ComponentReference(_GeometryHelper):
                 layer_to_polygons[layer].append(polygon.points)
         return layer_to_polygons
 
-    def get_labels(self, depth=None, set_transform=False):
+    def get_labels(self, depth=None, set_transform=True):
         """Return the list of labels created by this reference.
 
         Args:
@@ -301,7 +301,10 @@ class ComponentReference(_GeometryHelper):
             out : list of `Label`
                 List containing the labels in this cell and its references.
         """
-        return self._reference.get_labels(depth=depth, set_transform=set_transform)
+        if set_transform:
+            return self._reference.get_labels(depth=depth)
+        else:
+            return self.parent.get_labels(depth=depth)
 
     def get_bounding_box(self):
         return self._reference.bounding_box()
