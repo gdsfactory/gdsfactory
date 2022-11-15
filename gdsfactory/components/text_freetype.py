@@ -109,8 +109,5 @@ def text_freetype(
 
 
 if __name__ == "__main__":
-    c2 = text_freetype(
-        "hello",
-        # font="Times New Roman"
-    )
+    c2 = text_freetype("hello", font="Times New Roman")
     c2.show(show_ports=True)
