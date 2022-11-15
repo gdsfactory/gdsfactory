@@ -23,6 +23,25 @@ def test_path_extrude_multiple_ports() -> gf.Component:
     return c
 
 
+def test_extrude_transition():
+    w1 = 1
+    w2 = 5
+    length = 10
+    cs1 = gf.get_cross_section("strip", width=w1)
+    cs2 = gf.get_cross_section("strip", width=w2)
+    transition = gf.path.transition(cs1, cs2)
+    p = gf.path.straight(length)
+    c = gf.path.extrude(p, transition)
+    assert c.ports["o1"].cross_section == cs1
+    assert c.ports["o2"].cross_section == cs2
+    assert c.ports["o1"].width == w1
+    assert c.ports["o2"].width == w2
+
+    expected_area = (w1 + w2) / 2 * length
+    actual_area = c._cell.area(True)[(1, 0)]
+    assert actual_area == expected_area
+
+
 if __name__ == "__main__":
     c = test_path_extrude_multiple_ports()
     c.show(show_ports=True)
