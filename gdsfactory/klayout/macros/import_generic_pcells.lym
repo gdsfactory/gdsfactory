@@ -52,19 +52,17 @@ env_dir = pathlib.Path(cfg["conda-env"])
 if env_dir is None:
     quit()
 
-sys.path.append(f'{env_dir}/site-packages/')
+sys.path.append(str(pathlib.Path(f'{env_dir}/site-packages/')))
+# os.add_dll_directory(str(pathlib.Path(f'{env_dir}/site-packages/gdstk.cp38-win_amd64.pyd')))
 
 try:
     import flayout as fl
     import gdsfactory.components as gfc
-except ImportError:
+except Exception as e:
     import pya
     import sys
-    print(sys.path)
     pya.MessageBox.info('ubcpdk message',
-                        ('ubcpdk has not been installed. So ubcpdk pcells will not be available.\n' +
-                         'To use these, go into terminal/command line anywhere and type\n\n' +
-                         'pip install ubcpdk'),
+                        f'Error importing packages: {e}',
                         pya.MessageBox.Ok)
 
 gf_pcells = []
