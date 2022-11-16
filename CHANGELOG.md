@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [6.0.8](https://github.com/gdsfactory/gdsfactory/pull/884)
+## [6.1.0](https://github.com/gdsfactory/gdsfactory/pull/884)
 
 - Native read and write oasis support
 
