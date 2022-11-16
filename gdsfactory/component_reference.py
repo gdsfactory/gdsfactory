@@ -6,7 +6,7 @@ import gdstk
 import numpy as np
 from numpy import cos, float64, int64, mod, ndarray, pi, sin
 
-from gdsfactory.component_layout import _GeometryHelper
+from gdsfactory.component_layout import Polygon, _GeometryHelper
 from gdsfactory.port import (
     Port,
     map_ports_layer_to_orientation,
@@ -829,9 +829,14 @@ def test_get_polygons():
     ref = gf.components.straight()
     p1 = ref.get_polygons(by_spec=(1, 0), as_array=True)
     p2 = ref.get_polygons(by_spec=(1, 0), as_array=False)
+
     p3 = ref.get_polygons(by_spec=True, as_array=True)[(1, 0)]
     p4 = ref.get_polygons(by_spec=True, as_array=False)[(1, 0)]
+
     assert len(p1) == len(p2) == len(p3) == len(p4) == 1
+    assert p1[0].dtype == p3[0].dtype == float
+    assert isinstance(p2[0], Polygon)
+    assert isinstance(p4[0], Polygon)
 
 
 def test_get_polygons_ref():
@@ -840,18 +845,23 @@ def test_get_polygons_ref():
     ref = gf.components.straight().ref()
     p1 = ref.get_polygons(by_spec=(1, 0), as_array=True)
     p2 = ref.get_polygons(by_spec=(1, 0), as_array=False)
+
     p3 = ref.get_polygons(by_spec=True, as_array=True)[(1, 0)]
     p4 = ref.get_polygons(by_spec=True, as_array=False)[(1, 0)]
+
     assert len(p1) == len(p2) == len(p3) == len(p4) == 1
+    assert p1[0].dtype == p3[0].dtype == float
+    assert isinstance(p2[0], Polygon)
+    assert isinstance(p4[0], Polygon)
 
 
 if __name__ == "__main__":
     test_get_polygons_ref()
     test_get_polygons()
-    # import gdsfactory as gf
+    import gdsfactory as gf
 
-    # ref = gf.components.straight().ref()
-    # p = ref.get_polygons(by_spec=True, as_array=True)
+    ref = gf.components.straight().ref()
+    p = ref.get_polygons(by_spec=(1, 0), as_array=False)
 
     # c = gf.Component("parent")
     # c2 = gf.Component("child")
