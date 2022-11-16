@@ -221,8 +221,8 @@ class ComponentReference(_GeometryHelper):
 
     def get_polygons(
         self,
-        by_spec=False,
-        depth=None,
+        by_spec: bool = False,
+        depth: Optional[int] = None,
         include_paths: bool = True,
         as_array: bool = True,
     ):
@@ -278,13 +278,15 @@ class ComponentReference(_GeometryHelper):
 
         if not as_array:
             return polygons
-        if not by_spec:
+        if by_spec is True:
+            layer_to_polygons = defaultdict(list)
+            for layer, polygons_list in polygons.items():
+                for polygon in polygons_list:
+                    layer_to_polygons[layer].append(polygon.points)
+            return layer_to_polygons
+
+        else:
             return [polygon.points for polygon in polygons]
-        layer_to_polygons = defaultdict(list)
-        for layer, polygons_list in polygons.items():
-            for polygon in polygons_list:
-                layer_to_polygons[layer].append(polygon.points)
-        return layer_to_polygons
 
     def get_labels(self, depth=None, set_transform=True):
         """Return the list of labels created by this reference.
@@ -823,6 +825,9 @@ def test_move():
 
 if __name__ == "__main__":
     import gdsfactory as gf
+
+    ref = gf.components.straight().ref()
+    ref.get_polygons(by_spec=(1, 0), as_array=True)
 
     # c = gf.Component("parent")
     # c2 = gf.Component("child")
