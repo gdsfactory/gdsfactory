@@ -76,7 +76,7 @@ def run_xor(file1, file2, tolerance: int = 1, verbose: bool = False) -> None:
     tc2_names.sort()
     if tc1_names != tc2_names:
         raise GeometryDifference(
-            "Missing topcell on one of the layouts, or name differs:\n{tc1_names}\n{tc2_names}"
+            f"Missing topcell on one of the layouts, or name differs:\n{tc1_names!r}\n{tc2_names!r}"
         )
     topcell_pairs = [(l1.cell(tc1_n), l2.cell(tc1_n)) for tc1_n in tc1_names]
     # Check that dbu are the same
