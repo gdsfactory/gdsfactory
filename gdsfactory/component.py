@@ -1538,13 +1538,13 @@ class Component(_GeometryHelper):
 
         .. code::
 
-                 3   4
-                 |___|_
+                  3  4
+                 _|__|_
              2 -|      |- 5
                 |      |
              1 -|______|- 6
-                 |   |
-                 8   7
+                  |  |
+                  8  7
         """
         self.is_unlocked()
         auto_rename_ports(self, **kwargs)
@@ -1615,9 +1615,7 @@ class Component(_GeometryHelper):
         return mirror(component=self, p1=p1, p2=p2)
 
     def rotate(self, angle: float = 90) -> "Component":
-        """Returns a new component with a rotated reference to the original.
-
-        component.
+        """Returns new component with a rotated reference to the original.
 
         Args:
             angle: in degrees.

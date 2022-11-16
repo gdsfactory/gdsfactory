@@ -255,8 +255,7 @@ class _GeometryHelper:
         if destination is None:
             destination = origin
             origin = 0
-        self.move(origin=(origin, 0), destination=(destination, 0))
-        return self
+        return self.move(origin=(origin, 0), destination=(destination, 0))
 
     def movey(self, origin=0, destination=None):
         """Moves an object by a specified y-distance.
@@ -268,8 +267,7 @@ class _GeometryHelper:
         if destination is None:
             destination = origin
             origin = 0
-        self.move(origin=(0, origin), destination=(0, destination))
-        return self
+        return self.move(origin=(0, origin), destination=(0, destination))
 
     def __add__(self, element):
         """Adds an element to a Group.
@@ -360,7 +358,7 @@ class Group(_GeometryHelper):
         ]
         return self
 
-    def rotate(self, angle=45, center=(0, 0)) -> "Group":
+    def rotate(self, angle: float = 45, center=(0, 0)) -> "Group":
         """Rotates all elements in a Group around the specified centerpoint.
 
         Args:
