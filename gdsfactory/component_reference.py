@@ -823,11 +823,35 @@ def test_move():
     bend.move("o1", mzi.ports["o2"])
 
 
-if __name__ == "__main__":
+def test_get_polygons():
+    import gdsfactory as gf
+
+    ref = gf.components.straight()
+    p1 = ref.get_polygons(by_spec=(1, 0), as_array=True)
+    p2 = ref.get_polygons(by_spec=(1, 0), as_array=False)
+    p3 = ref.get_polygons(by_spec=True, as_array=True)[(1, 0)]
+    p4 = ref.get_polygons(by_spec=True, as_array=False)[(1, 0)]
+    assert len(p1) == len(p2) == len(p3) == len(p4) == 1
+
+
+def test_get_polygons_ref():
     import gdsfactory as gf
 
     ref = gf.components.straight().ref()
-    ref.get_polygons(by_spec=(1, 0), as_array=True)
+    p1 = ref.get_polygons(by_spec=(1, 0), as_array=True)
+    p2 = ref.get_polygons(by_spec=(1, 0), as_array=False)
+    p3 = ref.get_polygons(by_spec=True, as_array=True)[(1, 0)]
+    p4 = ref.get_polygons(by_spec=True, as_array=False)[(1, 0)]
+    assert len(p1) == len(p2) == len(p3) == len(p4) == 1
+
+
+if __name__ == "__main__":
+    test_get_polygons_ref()
+    test_get_polygons()
+    # import gdsfactory as gf
+
+    # ref = gf.components.straight().ref()
+    # p = ref.get_polygons(by_spec=True, as_array=True)
 
     # c = gf.Component("parent")
     # c2 = gf.Component("child")
@@ -837,8 +861,8 @@ if __name__ == "__main__":
     # c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
     # c << c2
 
-    c = gf.c.dbr()
-    c.show()
+    # c = gf.c.dbr()
+    # c.show()
 
     # import gdsfactory as gf
 
