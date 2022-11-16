@@ -76,15 +76,13 @@ def get_polygons(
 
     if not as_array:
         return polygons
-    if by_spec is True:
-        layer_to_polygons = defaultdict(list)
-        for layer, polygons_list in polygons.items():
-            for polygon in polygons_list:
-                layer_to_polygons[layer].append(polygon.points)
-        return layer_to_polygons
-
-    else:
+    if by_spec is not True:
         return [polygon.points for polygon in polygons]
+    layer_to_polygons = defaultdict(list)
+    for layer, polygons_list in polygons.items():
+        for polygon in polygons_list:
+            layer_to_polygons[layer].append(polygon.points)
+    return layer_to_polygons
 
 
 def _parse_layer(layer):
