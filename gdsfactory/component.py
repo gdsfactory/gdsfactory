@@ -7,7 +7,7 @@ import pathlib
 import tempfile
 import uuid
 import warnings
-from collections import Counter, defaultdict
+from collections import Counter
 from collections.abc import Iterable
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
@@ -25,6 +25,7 @@ from gdsfactory.component_layout import (
     _distribute,
     _GeometryHelper,
     _parse_layer,
+    get_polygons,
 )
 from gdsfactory.component_reference import ComponentReference, Coordinate, SizeInfo
 from gdsfactory.config import CONF, logger
@@ -213,57 +214,13 @@ class Component(_GeometryHelper):
             Instances of `FlexPath` and `RobustPath` are also included in
             the result by computing their polygonal boundary.
         """
-        import gdsfactory as gf
-
-        if by_spec is True:
-            layers = self.get_layers()
-
-            layer_to_polygons = defaultdict(list)
-
-            for layer in layers:
-                for polygon in self._cell.get_polygons(
-                    depth=depth,
-                    layer=layer[0],
-                    datatype=layer[1],
-                    include_paths=include_paths,
-                ):
-                    if as_array:
-                        layer_to_polygons[layer].append(polygon.points)
-                    else:
-                        layer_to_polygons[layer].append(polygon)
-            return layer_to_polygons
-
-        elif not by_spec:
-            if as_array:
-                return [
-                    polygon.points
-                    for polygon in self._cell.get_polygons(
-                        depth=depth, include_paths=include_paths
-                    )
-                ]
-
-            else:
-                return self._cell.get_polygons(depth=depth, include_paths=include_paths)
-
-        else:
-            layer = gf.get_layer(by_spec)
-            if as_array:
-                return [
-                    polygon.points
-                    for polygon in self._cell.get_polygons(
-                        depth=depth,
-                        layer=layer[0],
-                        datatype=layer[1],
-                        include_paths=include_paths,
-                    )
-                ]
-            else:
-                return self._cell.get_polygons(
-                    depth=depth,
-                    layer=layer[0],
-                    datatype=layer[1],
-                    include_paths=include_paths,
-                )
+        return get_polygons(
+            instance=self,
+            by_spec=by_spec,
+            depth=depth,
+            include_paths=include_paths,
+            as_array=as_array,
+        )
 
     def get_dependencies(self, recursive: bool = False) -> List["Component"]:
         """Return a set of the cells included in this cell as references.
@@ -1581,13 +1538,13 @@ class Component(_GeometryHelper):
 
         .. code::
 
-                 3   4
-                 |___|_
+                  3  4
+                 _|__|_
              2 -|      |- 5
                 |      |
              1 -|______|- 6
-                 |   |
-                 8   7
+                  |  |
+                  8  7
         """
         self.is_unlocked()
         auto_rename_ports(self, **kwargs)
@@ -1658,9 +1615,7 @@ class Component(_GeometryHelper):
         return mirror(component=self, p1=p1, p2=p2)
 
     def rotate(self, angle: float = 90) -> "Component":
-        """Returns a new component with a rotated reference to the original.
-
-        component.
+        """Returns new component with a rotated reference to the original.
 
         Args:
             angle: in degrees.
