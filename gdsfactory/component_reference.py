@@ -1,12 +1,11 @@
 import typing
-from collections import defaultdict
 from typing import Any, Dict, List, Optional, Tuple, Union, cast
 
 import gdstk
 import numpy as np
 from numpy import cos, float64, int64, mod, ndarray, pi, sin
 
-from gdsfactory.component_layout import Polygon, _GeometryHelper
+from gdsfactory.component_layout import Polygon, _GeometryHelper, get_polygons
 from gdsfactory.port import (
     Port,
     map_ports_layer_to_orientation,
@@ -225,7 +224,7 @@ class ComponentReference(_GeometryHelper):
         depth: Optional[int] = None,
         include_paths: bool = True,
         as_array: bool = True,
-    ):
+    ) -> Union[List[Polygon], Dict[Tuple[int, int], List[Polygon]]]:
         """Return the list of polygons created by this reference.
 
         Args:
@@ -252,41 +251,13 @@ class ComponentReference(_GeometryHelper):
             Instances of `FlexPath` and `RobustPath` are also included in
             the result by computing their polygonal boundary.
         """
-        if not by_spec:
-            polygons = self._reference.get_polygons(
-                depth=depth, include_paths=include_paths
-            )
-        elif by_spec is True:
-            layers = self.parent.get_layers()
-            polygons = {
-                layer: self._reference.get_polygons(
-                    depth=depth,
-                    layer=layer[0],
-                    datatype=layer[1],
-                    include_paths=include_paths,
-                )
-                for layer in layers
-            }
-
-        else:
-            polygons = self._reference.get_polygons(
-                depth=depth,
-                layer=by_spec[0],
-                datatype=by_spec[1],
-                include_paths=include_paths,
-            )
-
-        if not as_array:
-            return polygons
-        if by_spec is True:
-            layer_to_polygons = defaultdict(list)
-            for layer, polygons_list in polygons.items():
-                for polygon in polygons_list:
-                    layer_to_polygons[layer].append(polygon.points)
-            return layer_to_polygons
-
-        else:
-            return [polygon.points for polygon in polygons]
+        return get_polygons(
+            instance=self,
+            by_spec=by_spec,
+            depth=depth,
+            include_paths=include_paths,
+            as_array=as_array,
+        )
 
     def get_labels(self, depth=None, set_transform=True):
         """Return the list of labels created by this reference.
@@ -827,13 +798,14 @@ def test_get_polygons():
     import gdsfactory as gf
 
     ref = gf.components.straight()
+    p0 = ref.get_polygons(by_spec="WG", as_array=False)
     p1 = ref.get_polygons(by_spec=(1, 0), as_array=True)
     p2 = ref.get_polygons(by_spec=(1, 0), as_array=False)
 
     p3 = ref.get_polygons(by_spec=True, as_array=True)[(1, 0)]
     p4 = ref.get_polygons(by_spec=True, as_array=False)[(1, 0)]
 
-    assert len(p1) == len(p2) == len(p3) == len(p4) == 1
+    assert len(p1) == len(p2) == len(p3) == len(p4) == 1 == len(p0)
     assert p1[0].dtype == p3[0].dtype == float
     assert isinstance(p2[0], Polygon)
     assert isinstance(p4[0], Polygon)
@@ -843,13 +815,14 @@ def test_get_polygons_ref():
     import gdsfactory as gf
 
     ref = gf.components.straight().ref()
+    p0 = ref.get_polygons(by_spec="WG", as_array=False)
     p1 = ref.get_polygons(by_spec=(1, 0), as_array=True)
     p2 = ref.get_polygons(by_spec=(1, 0), as_array=False)
 
     p3 = ref.get_polygons(by_spec=True, as_array=True)[(1, 0)]
     p4 = ref.get_polygons(by_spec=True, as_array=False)[(1, 0)]
 
-    assert len(p1) == len(p2) == len(p3) == len(p4) == 1
+    assert len(p1) == len(p2) == len(p3) == len(p4) == 1 == len(p0)
     assert p1[0].dtype == p3[0].dtype == float
     assert isinstance(p2[0], Polygon)
     assert isinstance(p4[0], Polygon)
