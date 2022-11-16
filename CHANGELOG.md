@@ -1,5 +1,15 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [6.1.0](https://github.com/gdsfactory/gdsfactory/pull/884)
+
+- Native read and write oasis support
+
+## [6.0.7](https://github.com/gdsfactory/gdsfactory/pull/882)
+
+- fix ComponentReference.get_polygons broken when by_spec is layer and as_array is True
+- fix Component.movex
+- better names for transformed
+
 ## 6.0.6
 
 - Remove lytest [PR](https://github.com/gdsfactory/gdsfactory/pull/878)

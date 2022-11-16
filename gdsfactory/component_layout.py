@@ -1,9 +1,88 @@
 import numbers
+from collections import defaultdict
+from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
 from gdstk import Label, Polygon
 from numpy import cos, pi, sin
 from numpy.linalg import norm
+
+
+def get_polygons(
+    instance,
+    by_spec: Union[bool, Tuple[int, int]] = False,
+    depth: Optional[int] = None,
+    include_paths: bool = True,
+    as_array: bool = True,
+) -> Union[List[Polygon], Dict[Tuple[int, int], List[Polygon]]]:
+    """Return a list of polygons in this cell.
+
+    Args:
+        by_spec: bool or layer
+            If True, the return value is a dictionary with the
+            polygons of each individual pair (layer, datatype), which
+            are used as keys.  If set to a tuple of (layer, datatype),
+            only polygons with that specification are returned.
+        depth: integer or None
+            If not None, defines from how many reference levels to
+            retrieve polygons.  References below this level will result
+            in a bounding box.  If `by_spec` is True the key will be the
+            name of this cell.
+        include_paths: If True, polygonal representation of paths are also included in the result.
+        as_array: when as_array=false, return the Polygon objects instead. polygon objects have more information (especially when by_spec=False) and will be faster to retrieve.
+
+    Returns
+        out: list of array-like[N][2] or dictionary
+            List containing the coordinates of the vertices of each
+            polygon, or dictionary with with the list of polygons (if
+            `by_spec` is True).
+
+    Note:
+        Instances of `FlexPath` and `RobustPath` are also included in
+        the result by computing their polygonal boundary.
+    """
+    import gdsfactory as gf
+
+    if hasattr(instance, "_cell"):
+        layers = instance.get_layers()
+        gdstk_instance = instance._cell
+
+    else:
+        layers = instance.parent.get_layers()
+        gdstk_instance = instance._reference
+
+    if not by_spec:
+        polygons = gdstk_instance.get_polygons(depth=depth, include_paths=include_paths)
+
+    elif by_spec is True:
+        polygons = {
+            layer: gdstk_instance.get_polygons(
+                depth=depth,
+                layer=layer[0],
+                datatype=layer[1],
+                include_paths=include_paths,
+            )
+            for layer in layers
+        }
+
+    else:
+        by_spec = gf.get_layer(by_spec)
+        polygons = gdstk_instance.get_polygons(
+            depth=depth,
+            layer=by_spec[0],
+            datatype=by_spec[1],
+            include_paths=include_paths,
+        )
+
+    if not as_array:
+        return polygons
+    if by_spec is not True:
+        return [polygon.points for polygon in polygons]
+    layer_to_polygons = defaultdict(list)
+    for layer, polygons_list in polygons.items():
+        for polygon in polygons_list:
+            layer_to_polygons[layer].append(polygon.points)
+    return layer_to_polygons
 
 
 def _parse_layer(layer):
@@ -174,8 +253,7 @@ class _GeometryHelper:
         if destination is None:
             destination = origin
             origin = 0
-        self.move(origin=(origin, 0), destination=(destination, 0))
-        return self
+        return self.move(origin=(origin, 0), destination=(destination, 0))
 
     def movey(self, origin=0, destination=None):
         """Moves an object by a specified y-distance.
@@ -187,8 +265,7 @@ class _GeometryHelper:
         if destination is None:
             destination = origin
             origin = 0
-        self.move(origin=(0, origin), destination=(0, destination))
-        return self
+        return self.move(origin=(0, origin), destination=(0, destination))
 
     def __add__(self, element):
         """Adds an element to a Group.
@@ -279,7 +356,7 @@ class Group(_GeometryHelper):
         ]
         return self
 
-    def rotate(self, angle=45, center=(0, 0)) -> "Group":
+    def rotate(self, angle: float = 45, center=(0, 0)) -> "Group":
         """Rotates all elements in a Group around the specified centerpoint.
 
         Args:
