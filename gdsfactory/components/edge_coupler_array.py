@@ -126,5 +126,5 @@ def edge_coupler_array_with_loopback(
 if __name__ == "__main__":
     # c = edge_coupler_silicon()
     # c = edge_coupler_array()
-    c = edge_coupler_array_with_loopback()
+    c = edge_coupler_array_with_loopback(x_reflection=True)
     c.show(show_ports=True)
