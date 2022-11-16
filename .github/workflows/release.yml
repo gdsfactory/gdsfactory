@@ -40,6 +40,6 @@ jobs:
         with:
           fail_on_unmatched_files: false
           files: |
-            gdsfactory-6.0.6-Linux-x86_64.sh
-            gdsfactory-6.0.6-Windows-x86_64.exe
-            gdsfactory-6.0.6-MacOSX-x86_64.pkg
+            gdsfactory-6.1.0-Linux-x86_64.sh
+            gdsfactory-6.1.0-Windows-x86_64.exe
+            gdsfactory-6.1.0-MacOSX-x86_64.pkg
