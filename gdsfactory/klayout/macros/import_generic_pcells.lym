@@ -21,12 +21,7 @@ import pathlib
 import os
 import json
 
-check_packages = [
-    'gdsfactory',
-    'flayout'
-]
-
-config_file = os.path.expanduser("~/.gdsfactory/gf-config.json")
+config_file = os.path.expanduser(pathlib.Path('~/.gdsfactory/config.json'))
 
 cfg = {}
 with open(config_file, 'a+') as j:
@@ -53,7 +48,6 @@ if env_dir is None:
     quit()
 
 sys.path.append(str(pathlib.Path(f'{env_dir}/site-packages/')))
-# os.add_dll_directory(str(pathlib.Path(f'{env_dir}/site-packages/gdstk.cp38-win_amd64.pyd')))
 
 try:
     import flayout as fl
