@@ -127,11 +127,23 @@ def test_boolean() -> None:
 
 
 if __name__ == "__main__":
-    c = gf.Component()
-    e1 = c << gf.components.ellipse()
-    e2 = c << gf.components.ellipse(radii=(10, 6))
-    e3 = c << gf.components.ellipse(radii=(10, 4))
-    e3.movex(5)
-    e2.movex(2)
-    c = boolean(A=[e1, e3], B=e2, operation="A-B")
+    # c = gf.Component()
+    # e1 = c << gf.components.ellipse()
+    # e2 = c << gf.components.ellipse(radii=(10, 6))
+    # e3 = c << gf.components.ellipse(radii=(10, 4))
+    # e3.movex(5)
+    # e2.movex(2)
+    # c = boolean(A=[e1, e3], B=e2, operation="A-B")
+
+    import time
+
+    n = 50
+    c1 = gf.c.array(gf.c.circle(radius=10), columns=n, rows=n)
+    c2 = gf.c.array(gf.c.circle(radius=9), columns=n, rows=n).movex(5)
+
+    t0 = time.time()
+    c = boolean(c1, c2, operation="xor")
+    t1 = time.time()
+    print(t1 - t0)
+
     c.show(show_ports=True)

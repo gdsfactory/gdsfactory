@@ -2,12 +2,11 @@ import datetime
 import hashlib
 import itertools
 import math
-import os
 import pathlib
 import tempfile
 import uuid
 import warnings
-from collections import Counter, defaultdict
+from collections import Counter
 from collections.abc import Iterable
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
@@ -25,6 +24,7 @@ from gdsfactory.component_layout import (
     _distribute,
     _GeometryHelper,
     _parse_layer,
+    get_polygons,
 )
 from gdsfactory.component_reference import ComponentReference, Coordinate, SizeInfo
 from gdsfactory.config import CONF, logger
@@ -213,57 +213,13 @@ class Component(_GeometryHelper):
             Instances of `FlexPath` and `RobustPath` are also included in
             the result by computing their polygonal boundary.
         """
-        import gdsfactory as gf
-
-        if by_spec is True:
-            layers = self.get_layers()
-
-            layer_to_polygons = defaultdict(list)
-
-            for layer in layers:
-                for polygon in self._cell.get_polygons(
-                    depth=depth,
-                    layer=layer[0],
-                    datatype=layer[1],
-                    include_paths=include_paths,
-                ):
-                    if as_array:
-                        layer_to_polygons[layer].append(polygon.points)
-                    else:
-                        layer_to_polygons[layer].append(polygon)
-            return layer_to_polygons
-
-        elif not by_spec:
-            if as_array:
-                return [
-                    polygon.points
-                    for polygon in self._cell.get_polygons(
-                        depth=depth, include_paths=include_paths
-                    )
-                ]
-
-            else:
-                return self._cell.get_polygons(depth=depth, include_paths=include_paths)
-
-        else:
-            layer = gf.get_layer(by_spec)
-            if as_array:
-                return [
-                    polygon.points
-                    for polygon in self._cell.get_polygons(
-                        depth=depth,
-                        layer=layer[0],
-                        datatype=layer[1],
-                        include_paths=include_paths,
-                    )
-                ]
-            else:
-                return self._cell.get_polygons(
-                    depth=depth,
-                    layer=layer[0],
-                    datatype=layer[1],
-                    include_paths=include_paths,
-                )
+        return get_polygons(
+            instance=self,
+            by_spec=by_spec,
+            depth=depth,
+            include_paths=include_paths,
+            as_array=as_array,
+        )
 
     def get_dependencies(self, recursive: bool = False) -> List["Component"]:
         """Return a set of the cells included in this cell as references.
@@ -292,16 +248,12 @@ class Component(_GeometryHelper):
         )
 
     def __getitem__(self, key):
-        """Allows you to access named_references D['arc2'].
+        """Access reference ports."""
+        if key not in self.ports:
+            ports = list(self.ports.keys())
+            raise ValueError(f"{key!r} not in {ports}")
 
-        Args:
-            key: Element name to access within the Component.
-
-        """
-        try:
-            return self.named_references[key]
-        except KeyError as e:
-            raise KeyError(f"{key!r} not in {self.named_references.keys()}") from e
+        return self.ports[key]
 
     def __lshift__(self, element):
         """Convenience operator equivalent to add_ref()."""
@@ -798,7 +750,7 @@ class Component(_GeometryHelper):
 
     def remove_layers(
         self,
-        layers: Union[List[Tuple[int, int]], Tuple[int, int]],
+        layers: List[LayerSpec],
         include_labels: bool = True,
         invert_selection: bool = False,
         recursive: bool = True,
@@ -811,30 +763,20 @@ class Component(_GeometryHelper):
             invert_selection: removes all layers except layers specified.
             recursive: operate on the cells included in this cell.
         """
-        D = self.flatten() if recursive and self.references else self
-        for polygon in D.polygons:
-            if (polygon.layer, polygon.datatype) in layers:
-                D.remove(polygon)
+        from gdsfactory import get_layer
 
-        for path in D.paths:
-            D.remove(
-                path for layer in zip(path.layers, path.datatypes) if layer in layers
-            )
+        component = self.flatten() if recursive and self.references else self
+        layers = [get_layer(layer) for layer in layers]
+        should_remove = not invert_selection
+        component._cell.filter(
+            spec=layers,
+            remove=should_remove,
+            polygons=True,
+            paths=True,
+            labels=include_labels,
+        )
 
-        if include_labels:
-            new_labels = []
-            for label in D.labels:
-                original_layer = (label.layer, label.texttype)
-                original_layer = _parse_layer(original_layer)
-                if invert_selection:
-                    keep_layer = original_layer in layers
-                else:
-                    keep_layer = original_layer not in layers
-                if keep_layer:
-                    new_labels += [label]
-            D.labels.clear()
-            D.labels.extend(new_labels)
-        return D
+        return component
 
     def extract(
         self,
@@ -1089,7 +1031,7 @@ class Component(_GeometryHelper):
         _align(elements, alignment=alignment)
         return self
 
-    def flatten(self, single_layer: Optional[Tuple[int, int]] = None):
+    def flatten(self, single_layer: Optional[LayerSpec] = None):
         """Returns a flattened copy of the component.
 
         Flattens the hierarchy of the Component such that there are no longer
@@ -1102,13 +1044,19 @@ class Component(_GeometryHelper):
         """
         component_flat = Component()
 
-        poly_dict = self.get_polygons(by_spec=True, include_paths=False, as_array=False)
-        for layer, polys in poly_dict.items():
-            if polys:
-                component_flat.add_polygon(polys, layer=single_layer or layer)
+        _cell = self._cell.copy(name=component_flat.name)
+        _cell = _cell.flatten()
+        component_flat._cell = _cell
+        if single_layer is not None:
+            from gdsfactory import get_layer
 
-        for path in self._cell.get_paths():
-            component_flat.add(path)
+            layer, datatype = get_layer(single_layer)
+            for polygon in _cell.polygons:
+                polygon.layer = layer
+                polygon.datatype = datatype
+            for path in _cell.paths:
+                path.set_layers(layer)
+                path.set_datatypes(datatype)
 
         component_flat.info = self.info.copy()
         component_flat.add_ports(self.ports)
@@ -1390,7 +1338,7 @@ class Component(_GeometryHelper):
 
         return to_3d(self, *args, **kwargs)
 
-    def write_gds(
+    def _write_library(
         self,
         gdspath: Optional[PathType] = None,
         gdsdir: Optional[PathType] = None,
@@ -1399,6 +1347,8 @@ class Component(_GeometryHelper):
         timestamp: Optional[datetime.datetime] = _timestamp2019,
         logging: bool = True,
         on_duplicate_cell: Optional[str] = "warn",
+        with_oasis: bool = False,
+        **kwargs,
     ) -> Path:
         """Write component to GDS and returns gdspath.
 
@@ -1424,7 +1374,10 @@ class Component(_GeometryHelper):
             gdsdir or pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
         )
         gdsdir = pathlib.Path(gdsdir)
-        gdspath = gdspath or gdsdir / f"{self.name}.gds"
+        if with_oasis:
+            gdspath = gdspath or gdsdir / f"{self.name}.oas"
+        else:
+            gdspath = gdspath or gdsdir / f"{self.name}.gds"
         gdspath = pathlib.Path(gdspath)
         gdsdir = gdspath.parent
         gdsdir.mkdir(exist_ok=True, parents=True)
@@ -1471,11 +1424,90 @@ class Component(_GeometryHelper):
         lib.add(self._cell)
         lib.add(*self._cell.dependencies(True))
 
-        # self.path = gdspath
-        lib.write_gds(gdspath, timestamp=timestamp)
+        if with_oasis:
+            lib.write_oas(gdspath, **kwargs)
+        else:
+            lib.write_gds(gdspath, timestamp=timestamp)
         if logging:
-            logger.info(f"Write GDS to {str(gdspath)!r}")
+            logger.info(f"Wrote to {str(gdspath)!r}")
         return gdspath
+
+    def write_gds(
+        self,
+        gdspath: Optional[PathType] = None,
+        gdsdir: Optional[PathType] = None,
+        unit: float = 1e-6,
+        precision: Optional[float] = None,
+        logging: bool = True,
+        on_duplicate_cell: Optional[str] = "warn",
+    ) -> Path:
+        """Write component to GDS and returns gdspath.
+
+        Args:
+            gdspath: GDS file path to write to.
+            gdsdir: directory for the GDS file. Defaults to /tmp/randomFile/gdsfactory.
+            unit: unit size for objects in library. 1um by default.
+            precision: for dimensions in the library (m). 1nm by default.
+            logging: disable GDS path logging, for example for showing it in klayout.
+            on_duplicate_cell: specify how to resolve duplicate-named cells. Choose one of the following:
+                "warn" (default): overwrite all duplicate cells with one of the duplicates (arbitrarily).
+                "error": throw a ValueError when attempting to write a gds with duplicate cells.
+                "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
+                None: do not try to resolve (at your own risk!)
+        """
+        return self._write_library(
+            gdspath=gdspath,
+            gdsdir=gdsdir,
+            unit=unit,
+            precision=precision,
+            logging=logging,
+            on_duplicate_cell=on_duplicate_cell,
+        )
+
+    def write_oas(
+        self,
+        gdspath: Optional[PathType] = None,
+        gdsdir: Optional[PathType] = None,
+        unit: float = 1e-6,
+        precision: Optional[float] = None,
+        logging: bool = True,
+        on_duplicate_cell: Optional[str] = "warn",
+        **kwargs,
+    ) -> Path:
+        """Write component to GDS and returns gdspath.
+
+        Args:
+            gdspath: GDS file path to write to.
+            gdsdir: directory for the GDS file. Defaults to /tmp/randomFile/gdsfactory.
+            unit: unit size for objects in library. 1um by default.
+            precision: for dimensions in the library (m). 1nm by default.
+            logging: disable GDS path logging, for example for showing it in klayout.
+            on_duplicate_cell: specify how to resolve duplicate-named cells. Choose one of the following:
+                "warn" (default): overwrite all duplicate cells with one of the duplicates (arbitrarily).
+                "error": throw a ValueError when attempting to write a gds with duplicate cells.
+                "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
+                None: do not try to resolve (at your own risk!)
+
+        Keyword Args:
+            compression_level: Level of compression for cells (between 0 and 9).
+                Setting to 0 will disable cell compression, 1 gives the best speed and 9, the best compression.
+            detect_rectangles: Store rectangles in compressed format.
+            detect_trapezoids: Store trapezoids in compressed format.
+            circle_tolerance: Tolerance for detecting circles. If less or equal to 0, no detection is performed.
+                Circles are stored in compressed format.
+            validation ("crc32", "checksum32", None) – type of validation to include in the saved file.
+            standard_properties: Store standard OASIS properties in the file.
+        """
+        return self._write_library(
+            gdspath=gdspath,
+            gdsdir=gdsdir,
+            unit=unit,
+            precision=precision,
+            logging=logging,
+            on_duplicate_cell=on_duplicate_cell,
+            with_oasis=True,
+            **kwargs,
+        )
 
     def write_gds_with_metadata(self, *args, **kwargs) -> Path:
         """Write component in GDS and metadata (component settings) in YAML."""
@@ -1484,36 +1516,6 @@ class Component(_GeometryHelper):
         metadata.write_text(self.to_yaml(with_cells=True, with_ports=True))
         logger.info(f"Write YAML metadata to {str(metadata)!r}")
         return gdspath
-
-    def write_oas(self, filename, **write_kwargs) -> Path:
-        """Write component in OASIS format."""
-        if str(filename).lower().endswith(".gds"):
-            # you are looking for write_gds
-            self.write_gds(filename, **write_kwargs)
-            return
-        try:
-            import klayout.db as pya
-        except ImportError as err:
-            err.args = (
-                "you need klayout package to write OASIS\n"
-                "pip install klayout\n" + err.args[0],
-            ) + err.args[1:]
-            raise
-        if not filename.lower().endswith(".oas"):
-            filename += ".oas"
-        fileroot = os.path.splitext(filename)[0]
-        tempfilename = f"{fileroot}-tmp.gds"
-
-        self.write_gds(tempfilename, **write_kwargs)
-        layout = pya.Layout()
-        layout.read(tempfilename)
-
-        # there can only be one top_cell because we only wrote one component
-        topcell = layout.top_cell()
-        topcell.write(filename)
-        os.remove(tempfilename)
-        logger.info(f"Write OASIS to {filename!r}")
-        return Path(filename)
 
     def to_dict(
         self,
@@ -1589,13 +1591,13 @@ class Component(_GeometryHelper):
 
         .. code::
 
-                 3   4
-                 |___|_
+                  3  4
+                 _|__|_
              2 -|      |- 5
                 |      |
              1 -|______|- 6
-                 |   |
-                 8   7
+                  |  |
+                  8  7
         """
         self.is_unlocked()
         auto_rename_ports(self, **kwargs)
@@ -1666,9 +1668,7 @@ class Component(_GeometryHelper):
         return mirror(component=self, p1=p1, p2=p2)
 
     def rotate(self, angle: float = 90) -> "Component":
-        """Returns a new component with a rotated reference to the original.
-
-        component.
+        """Returns new component with a rotated reference to the original.
 
         Args:
             angle: in degrees.
@@ -1706,11 +1706,12 @@ class Component(_GeometryHelper):
             raise ValueError(
                 "The reference you asked to absorb does not exist in this Component."
             )
-        ref_polygons = reference.get_polygons(by_spec=True, include_paths=False)
-        for (layer, polys) in ref_polygons.items():
-            [self.add_polygon(points=p, layer=layer) for p in polys]
+        ref_polygons = reference.get_polygons(
+            by_spec=False, include_paths=False, as_array=False
+        )
+        self._add_polygons(*ref_polygons)
 
-        self.add(reference.parent.labels)
+        self.add(reference.get_labels())
         self.add(reference.get_paths())
         self.remove(reference)
         return self
@@ -2086,8 +2087,10 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.c.mzi()
-    c = c.flatten()
-    c.show()
+    # c = c.flatten()
+
+    gdspath = c.write_oas()
+    gf.show(gdspath)
 
     # c.remove_labels()
     # print(c.labels)
