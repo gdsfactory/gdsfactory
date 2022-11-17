@@ -99,7 +99,7 @@ def _get_glyph(font, letter):  # noqa: C901
 
         # Build up the letter as a curve
         cpoint = start
-        curve = gdstk.Curve(*points[cpoint], tolerance=0.001)
+        curve = gdstk.Curve(points[0], tolerance=0.001)
         while cpoint <= end:
             # Figure out what sort of point we are looking at
             if tags[cpoint] & 1:
@@ -116,16 +116,16 @@ def _get_glyph(font, letter):  # noqa: C901
 
                 # Then add the control points
                 if ntag & 1:
-                    curve.L(*npoint)
+                    curve.commands("l", *npoint)
                     cpoint += 1
                 elif ntag & 2:
                     # We are at a cubic bezier curve point
                     if cpoint + 3 <= end:
-                        curve.C(*points[cpoint + 1 : cpoint + 4].flatten())
+                        curve.commands("c", *points[cpoint + 1 : cpoint + 4].flatten())
                     elif cpoint + 2 <= end:
                         plist = list(points[cpoint + 1 : cpoint + 3].flatten())
                         plist.extend(points[start])
-                        curve.C(*plist)
+                        curve.commands("c", *plist)
                     else:
                         raise ValueError(
                             "Missing bezier control points. We require at least"
@@ -149,7 +149,7 @@ def _get_glyph(font, letter):  # noqa: C901
                         p2 = (p1 + p2) / 2
 
                     # Add the curve
-                    curve.Q(p1[0], p1[1], p2[0], p2[1])
+                    curve.commands("q", p1[0], p1[1], p2[0], p2[1])
                     cpoint += 2
             else:
                 if tags[cpoint] & 2:
@@ -188,9 +188,9 @@ def _get_glyph(font, letter):  # noqa: C901
                     p2 = (p1 + p2) / 2
 
                 # And add the segment
-                curve.Q(p1[0], p1[1], p2[0], p2[1])
+                curve.commands("q", p1[0], p1[1], p2[0], p2[1])
                 cpoint += 1
-        polylines.append(gdstk.Polygon(curve.get_points()))
+        polylines.append(gdstk.Polygon(curve.points()))
 
     # Construct the component
     component = Component(block_name)
@@ -203,3 +203,10 @@ def _get_glyph(font, letter):  # noqa: C901
     # Cache the return value and return it
     font.gds_glyphs[letter] = (component, glyph.advance.x / font.size.ascender)
     return font.gds_glyphs[letter]
+
+
+if __name__ == "__main__":
+    from gdsfactory.components.text_freetype import text_freetype
+
+    c = text_freetype("hello", font="Times New Roman")
+    c.show(show_ports=True)
