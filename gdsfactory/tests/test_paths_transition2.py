@@ -9,8 +9,8 @@ def test_transition_ports() -> None:
     xt = gf.path.transition(cross_section1=x1, cross_section2=x2, width_type="linear")
     path = gf.path.straight(length=5)
     c = gf.path.extrude(path, xt)
-    assert c.ports["o1"].cross_section.cross_section1.width == width1
-    assert c.ports["o2"].cross_section.cross_section2.width == width2
+    assert c.ports["o1"].cross_section.width == width1
+    assert c.ports["o2"].cross_section.width == width2
 
 
 if __name__ == "__main__":
@@ -24,6 +24,6 @@ if __name__ == "__main__":
     xt = gf.path.transition(cross_section1=x1, cross_section2=x2, width_type="linear")
     path = gf.path.straight(length=5)
     c = gf.path.extrude(path, xt)
-    assert c.ports["o1"].cross_section.cross_section1.width == width1
-    assert c.ports["o2"].cross_section.cross_section2.width == width2
+    assert c.ports["o1"].cross_section.width == width1
+    assert c.ports["o2"].cross_section.width == width2
     c.show(show_ports=True)

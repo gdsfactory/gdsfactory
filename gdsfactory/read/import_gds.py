@@ -8,7 +8,7 @@ from omegaconf import OmegaConf
 from gdsfactory.cell import Settings, cell
 from gdsfactory.component import Component
 from gdsfactory.component_reference import ComponentReference
-from gdsfactory.config import CONFIG, logger
+from gdsfactory.config import logger
 from gdsfactory.name import get_name_short
 
 
@@ -35,7 +35,6 @@ def import_gds(
         read_metadata: loads metadata if it exists.
         hashed_name: appends a hash to a shortened component name.
         kwargs: extra to add to component.info (polarization, wavelength ...).
-
     """
     gdspath = Path(gdsdir) / Path(gdspath) if gdsdir else Path(gdspath)
     if not gdspath.exists():
@@ -43,7 +42,13 @@ def import_gds(
 
     metadata_filepath = gdspath.with_suffix(".yml")
 
-    gdsii_lib = gdstk.read_gds(str(gdspath))
+    if gdspath.suffix.lower() == ".gds":
+        gdsii_lib = gdstk.read_gds(str(gdspath))
+    elif gdspath.suffix.lower() == ".oas":
+        gdsii_lib = gdstk.read_oas(str(gdspath))
+    else:
+        raise ValueError(f"gdspath.suffix {gdspath.suffix!r} not .gds or .oas")
+
     top_level_cells = gdsii_lib.top_level()
     cellnames = [c.name for c in top_level_cells]
     cells_by_name = {c.name: c for c in top_level_cells}
@@ -128,12 +133,18 @@ def import_gds(
 
 
 if __name__ == "__main__":
-    gdspath = CONFIG["gdsdir"] / "mzi2x2.gds"
+    import gdsfactory as gf
+
+    c = gf.components.mzi()
+    gdspath = c.write_oas()
+
+    c2 = import_gds(gdspath)
+
+    # gdspath = CONFIG["gdsdir"] / "mzi2x2.gds"
     # c = import_gds(gdspath, flatten=True, name="TOP")
     # c.settings = {}
     # print(clean_value_name(c))
-
-    c = import_gds(gdspath, flatten=False, polarization="te")
+    # c = import_gds(gdspath, flatten=False, polarization="te")
     # c = import_gds("/home/jmatres/gdsfactory/gdsfactory/gdsdiff/gds_diff_git.py")
     # print(c.hash_geometry())
     c.show(show_ports=True)
