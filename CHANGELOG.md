@@ -5,6 +5,7 @@
 - fix Docker container by installing gdspy with mamba
 - fix outline [issue](https://github.com/gdsfactory/gdsfactory/issues/888)
 - fix None orientation connect [PR](https://github.com/gdsfactory/gdsfactory/pull/890)
+- clean_value_json can handle Polygons [issue](https://github.com/gdsfactory/gdsfactory/issues/889)
 
 ## [6.1.0](https://github.com/gdsfactory/gdsfactory/pull/884)
 
