@@ -830,6 +830,15 @@ def test_get_polygons_ref():
     assert isinstance(p4[0], Polygon)
 
 
+def test_pads_no_orientation():
+    import gdsfactory as gf
+
+    c = gf.Component("pads_no_orientation")
+    pt = c << gf.components.pad()
+    pb = c << gf.components.pad()
+    pb.connect("pad", pt["pad"])
+
+
 if __name__ == "__main__":
     test_get_polygons_ref()
     test_get_polygons()
