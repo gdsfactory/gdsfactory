@@ -64,6 +64,44 @@ def plot_sparameters(
     plt.show()
 
 
+def plot_sparameters_phase(
+    sp: Dict[str, np.ndarray],
+    logscale: bool = True,
+    keys: Optional[Tuple[str, ...]] = None,
+    with_simpler_input_keys: bool = False,
+    with_simpler_labels: bool = True,
+) -> None:
+    w = sp["wavelengths"] * 1e3
+    keys = keys or [key for key in sp if not key.lower().startswith("wav")]
+
+    for key in keys:
+        if with_simpler_input_keys:
+            key = f"o{key[1]}@0,o{key[2]}@0"
+            if key not in sp:
+                raise ValueError(f"{key!r} not in {list(sp.keys())}")
+
+        if with_simpler_labels and "o" in key and "@" in key:
+            port_mode1_port_mode2 = key.split(",")
+            if len(port_mode1_port_mode2) != 2:
+                raise ValueError(f"{key!r} needs to be 'portin@mode,portout@mode'")
+            port_mode1, port_mode2 = port_mode1_port_mode2
+            port1, _mode1 = port_mode1.split("@")
+            port2, _mode2 = port_mode2.split("@")
+            alias = f"S{port1[1:]}{port2[1:]}"
+        else:
+            alias = key
+
+        if key not in sp:
+            raise ValueError(f"{key!r} not in {list(sp.keys())}")
+        y = sp[key]
+        y = np.angle(y)
+        plt.plot(w, y, label=alias)
+    plt.legend()
+    plt.xlabel("wavelength (nm)")
+    plt.ylabel("S (deg)")
+    plt.show()
+
+
 def plot_imbalance2x2(
     sp: Dict[str, np.ndarray], port1: str = "o1@0,o3@0", port2: str = "o1@0,o4@0"
 ) -> None:
@@ -92,7 +130,7 @@ def plot_imbalance2x2(
 
 
 def plot_loss2x2(
-    sp: Dict[str, np.ndarray], port1: str = "o1@0,", port2: str = "o1@0"
+    sp: Dict[str, np.ndarray], port1: str = "o1@0,o3@0", port2: str = "o1@0,o4@0"
 ) -> None:
     """Plots imbalance in % for 2x2 coupler.
 
