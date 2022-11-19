@@ -19,16 +19,12 @@ def test_settings(data_regression, check: bool = True) -> None:
 
 @gf.cell
 def wrap_polygon(polygon) -> gf.Component:
-    c = gf.Component()
-    # c.add_polygon(polygon, layer="WG")
-    return c
+    return gf.Component()
 
 
 @gf.cell
 def wrap_polygons(polygons) -> gf.Component:
-    c = gf.Component()
-    # c.add_polygon(polygons, layer="WG")
-    return c
+    return gf.Component()
 
 
 def test_serialize_polygons() -> gf.Component:
