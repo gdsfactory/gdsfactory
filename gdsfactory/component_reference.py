@@ -697,21 +697,23 @@ class ComponentReference(_GeometryHelper):
                 f"port = {port!r} not in {self.parent.name!r} ports {ports}"
             )
 
-        angle = 180 + destination.orientation - p.orientation
-        angle = angle % 360
-
-        self.rotate(angle=angle, center=p.center)
+        if destination.orientation is not None and p.orientation is not None:
+            angle = 180 + destination.orientation - p.orientation
+            angle = angle % 360
+            self.rotate(angle=angle, center=p.center)
 
         self.move(origin=p, destination=destination)
-        self.move(
-            -overlap
-            * np.array(
-                [
-                    cos(destination.orientation * pi / 180),
-                    sin(destination.orientation * pi / 180),
-                ]
+
+        if destination.orientation is not None:
+            self.move(
+                -overlap
+                * np.array(
+                    [
+                        cos(destination.orientation * pi / 180),
+                        sin(destination.orientation * pi / 180),
+                    ]
+                )
             )
-        )
 
         return self
 
@@ -826,6 +828,15 @@ def test_get_polygons_ref():
     assert p1[0].dtype == p3[0].dtype == float
     assert isinstance(p2[0], Polygon)
     assert isinstance(p4[0], Polygon)
+
+
+def test_pads_no_orientation():
+    import gdsfactory as gf
+
+    c = gf.Component("pads_no_orientation")
+    pt = c << gf.components.pad()
+    pb = c << gf.components.pad()
+    pb.connect("pad", pt["pad"])
 
 
 if __name__ == "__main__":
