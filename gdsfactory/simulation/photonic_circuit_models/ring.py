@@ -13,8 +13,8 @@ def ring(
     """Returns Frequency Domain Response of an all pass filter.
 
     Args:
-        wl: in um.
-        wl0: the wavelength at which neff and ng are defined.
+        wl: wavelength in  um.
+        wl0: center wavelength at which neff and ng are defined.
         neff: effective index.
         ng: group index.
         ring_length: in um.
