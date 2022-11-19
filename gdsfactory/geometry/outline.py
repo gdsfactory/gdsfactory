@@ -92,14 +92,21 @@ def outline(
 
 
 def test_outline() -> None:
+    comp1 = gf.components.taper(length=100, width1=20, width2=50)
+    c = gf.geometry.outline(comp1, open_ports=True, precision=1e-3)
+    assert int(c.area()) == 234, int(c.area())
+
+
+def test_outline_ports() -> None:
     e1 = gf.components.ellipse(radii=(6, 6))
     e2 = gf.components.ellipse(radii=(10, 4))
     c = outline([e1, e2])
-    assert int(c.area()) == 52
+    assert int(c.area()) == 52, int(c.area())
 
 
 if __name__ == "__main__":
-    e1 = gf.components.ellipse(radii=(6, 6))
-    e2 = gf.components.ellipse(radii=(10, 4))
-    c = outline([e1, e2], distance=1)
-    c.show(show_ports=True)
+    # e1 = gf.components.ellipse(radii=(6, 6))
+    # e2 = gf.components.ellipse(radii=(10, 4))
+    # c = outline([e1, e2], distance=1)
+    # c.show(show_ports=True)
+    test_outline()
