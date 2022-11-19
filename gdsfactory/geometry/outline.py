@@ -11,7 +11,7 @@ from gdsfactory.geometry.offset import offset
 def outline(
     elements,
     distance=1,
-    precision: float = 1e-4,
+    precision: float = 1e-3,
     join: str = "miter",
     tolerance: int = 2,
     join_first: bool = True,
@@ -44,7 +44,7 @@ def outline(
             If a float, the holes will be be widened by that value (useful for fully
             clearing the outline around the Ports for positive-tone processes
         layer: int, array-like[2], or set
-            Specific layer(s) to put polygon geometry on.)
+            Specific layer(s) to put polygon geometry on.).
 
     """
     layer = gf.get_layer(layer)
@@ -76,7 +76,7 @@ def outline(
         for port in port_list:
             trim = compass(size=(distance + 6 * precision, port.width + trim_width))
             trim_ref = Trim << trim
-            trim_ref.connect("E", port, overlap=2 * precision)
+            trim_ref.connect("e3", port, overlap=2 * precision)
 
     Outline = boolean(
         A=D_bloated,
