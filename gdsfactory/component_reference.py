@@ -697,14 +697,14 @@ class ComponentReference(_GeometryHelper):
                 f"port = {port!r} not in {self.parent.name!r} ports {ports}"
             )
 
-        if destination.orientation and p.orientation:
+        if destination.orientation is not None and p.orientation is not None:
             angle = 180 + destination.orientation - p.orientation
             angle = angle % 360
             self.rotate(angle=angle, center=p.center)
 
         self.move(origin=p, destination=destination)
 
-        if destination.orientation:
+        if destination.orientation is not None:
             self.move(
                 -overlap
                 * np.array(
