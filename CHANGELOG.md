@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [6.1.1](https://github.com/gdsfactory/gdsfactory/pull/884)
+
+- fix Docker container by installing gdspy with mamba
+- fix outline [issue](https://github.com/gdsfactory/gdsfactory/issues/888)
+- fix None orientation connect [PR](https://github.com/gdsfactory/gdsfactory/pull/890)
+
 ## [6.1.0](https://github.com/gdsfactory/gdsfactory/pull/884)
 
 - Native read and write oasis support
