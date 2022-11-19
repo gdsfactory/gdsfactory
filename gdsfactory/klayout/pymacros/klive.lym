@@ -125,7 +125,7 @@ class MyServer(pya.QTcpServer):
 
 # Start the server
 server = MyServer()
-print("klive 6.1.0 is running inside klayout {} with python {}".format(klayout_version, sys.version))
+print("klive 6.1.1 is running inside klayout {} with python {}".format(klayout_version, sys.version))
 
 </text>
 </klayout-macro>
