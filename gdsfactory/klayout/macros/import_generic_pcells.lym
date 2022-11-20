@@ -19,9 +19,11 @@ import pya
 import sys
 import pathlib
 import os
+from inspect import signature, Signature
 import json
+import numpy as np
 
-config_file = os.path.expanduser(pathlib.Path('~/.gdsfactory/config.json'))
+config_file = os.path.expanduser(pathlib.Path('~/.gdsfactory/gf-config.json'))
 
 cfg = {}
 with open(config_file, 'a+') as j:
@@ -51,29 +53,88 @@ sys.path.append(str(pathlib.Path(f'{env_dir}/site-packages/')))
 
 try:
     import flayout as fl
+    from flayout.pcell import _validate_parameter
     import gdsfactory.components as gfc
+    import gdsfactory as gf
 except Exception as e:
-    import pya
-    import sys
-    pya.MessageBox.info('ubcpdk message',
-                        f'Error importing packages: {e}',
-                        pya.MessageBox.Ok)
+    pya.MessageBox.info('import error', str(e), pya.MessageBox.Ok)
 
-gf_pcells = []
-for name, cell in gfc.cells.items():
-    # Would be nice to add SiEPIC pins to all of these
-    try:
-      gf_pcells.append(fl.pcell(cell, on_error="ignore"))
-    except:
-      # Currently, pcells defined with partial don't work due to a missing __name__ attribute
-      pass
+# Create layout for the library
+layout = pya.Layout()
+for layer in gf.LAYER:
+    layout.layer(*layer[1])
 
-# Cell
+# Cell class that creates the cell function
+class CellFactory:
+    def __init__(self, component, sig: Signature = None) -> None:
+        self.component = component
+        self.sig = sig or {}  # Cell function signature, used by flayout
+
+    def gdsfactory_to_klayout(self, **kwargs):
+        gf.clear_cache()  # Clear cache to be able to reload components wihtout changing the name
+
+        # Get the component
+        c = self.component[1](**kwargs)
+        c.name = self.component[0]
+
+        # Get the cell
+        top = layout.create_cell(c.name)
+        polygons = c.get_polygons(True)
+        for layer, polygons in polygons.items():
+            layer_idx = layout.layer(*layer)
+
+            # Add pya.Polygon for every gdsfactory Polygon
+            for polygon in polygons:
+                polygon = np.array(polygon)
+                polygon = polygon * 1000
+                points_pya = [pya.Point(*p) for p in polygon]
+                top.shapes(layer_idx).insert(pya.Polygon(points_pya))
+
+        top.name = c.name
+        top.__doc__ = self.component[1].__doc__.split('\n\n')[0] # Cell description is the first line of the docstring
+        return top
+
+    def __call__(self):
+        # Return the cell function
+        self.gdsfactory_to_klayout.__dict__.update({'__signature__': self.sig}) # Add signature to the function
+        return self.gdsfactory_to_klayout
+
 generic_lib = fl.library(
-    "generic",
-    pcells=gf_pcells,
+    "GDSFactory generic PDK",
+    pcells=[],
     cells=[],
     description="GDSFactory Generic PCell Library",
 )
+# Would be nice to add SiEPIC pins to all of these
+pb = pya.AbsoluteProgress("Importing GDSFactory components", len(gfc.cells.keys()))
+for i, cell in enumerate({'C': gfc.C}.items()):
+
+    pb.set(i / len(gfc.cells.items()) * 100, True)
+
+    try:
+        # Prune the signature to only include the parameters that are accepted by KLayout
+        sig = signature(cell[1])
+        ignore_params = []
+        params = sig.parameters
+
+        for name, param in params.items():
+            try:
+                _validate_parameter(name, param)
+            except:
+                # Ignore parameters that are not accepted by KLayout
+                ignore_params.append(name)
+
+        ignore_params.append('cross_section')
+
+        sig_new = Signature(
+            [param for name, param in params.items() if name not in ignore_params]
+        ) or {} # Cell function signature, used by flayout
+
+        func = CellFactory(cell, sig_new)() # Cell function
+        generic_lib.layout().register_pcell(cell[0], fl.pcell(func)) # Register the PCell
+
+    except Exception as e:
+        raise e # Ignore components that cannot be converted to PCells
+pb.set(100, True)
 </text>
 </klayout-macro>
