@@ -601,7 +601,7 @@ class ComponentReference(_GeometryHelper):
         self._bb_valid = False
         return self
 
-    def reflect_h(
+    def mirror_x(
         self, port_name: Optional[str] = None, x0: Optional[Coordinate] = None
     ) -> "ComponentReference":
         """Perform horizontal mirror using x0 or port as axis (default, x0=0).
@@ -617,7 +617,7 @@ class ComponentReference(_GeometryHelper):
         self.mirror((x0, 1), (x0, 0))
         return self
 
-    def reflect_v(
+    def mirror_y(
         self, port_name: Optional[str] = None, y0: Optional[float] = None
     ) -> "ComponentReference":
         """Perform vertical mirror using y0 as axis (default, y0=0)."""
@@ -697,21 +697,23 @@ class ComponentReference(_GeometryHelper):
                 f"port = {port!r} not in {self.parent.name!r} ports {ports}"
             )
 
-        angle = 180 + destination.orientation - p.orientation
-        angle = angle % 360
-
-        self.rotate(angle=angle, center=p.center)
+        if destination.orientation is not None and p.orientation is not None:
+            angle = 180 + destination.orientation - p.orientation
+            angle = angle % 360
+            self.rotate(angle=angle, center=p.center)
 
         self.move(origin=p, destination=destination)
-        self.move(
-            -overlap
-            * np.array(
-                [
-                    cos(destination.orientation * pi / 180),
-                    sin(destination.orientation * pi / 180),
-                ]
+
+        if destination.orientation is not None:
+            self.move(
+                -overlap
+                * np.array(
+                    [
+                        cos(destination.orientation * pi / 180),
+                        sin(destination.orientation * pi / 180),
+                    ]
+                )
             )
-        )
 
         return self
 
@@ -826,6 +828,15 @@ def test_get_polygons_ref():
     assert p1[0].dtype == p3[0].dtype == float
     assert isinstance(p2[0], Polygon)
     assert isinstance(p4[0], Polygon)
+
+
+def test_pads_no_orientation():
+    import gdsfactory as gf
+
+    c = gf.Component("pads_no_orientation")
+    pt = c << gf.components.pad()
+    pb = c << gf.components.pad()
+    pb.connect("pad", pt["pad"])
 
 
 if __name__ == "__main__":
