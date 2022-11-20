@@ -71,7 +71,7 @@ class PCellFactory(pya.PCellDeclarationHelper):
         """Create a PCell from a gdsfactory component."""
         super().__init__()
         self.component = component
-        self.sig = sig or {} 
+        self.sig = sig or {}
         func = self._update_sig()
         self.func = func
         self.func_name = func().name
