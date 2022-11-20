@@ -259,18 +259,18 @@ def place(
 
         if mirror:
             if mirror is True and port:
-                ref.reflect_h(x0=_get_anchor_value_from_name(ref, port, "x"))
+                ref.mirror_x(x0=_get_anchor_value_from_name(ref, port, "x"))
             elif mirror is True:
                 if x:
-                    ref.reflect_h(x0=x)
+                    ref.mirror_x(x0=x)
                 else:
-                    ref.reflect_h()
+                    ref.mirror_x()
             elif mirror is False:
                 pass
             elif isinstance(mirror, str):
-                ref.reflect_h(port_name=mirror)
+                ref.mirror_x(port_name=mirror)
             elif isinstance(mirror, (int, float)):
-                ref.reflect_h(x0=mirror)
+                ref.mirror_x(x0=mirror)
             else:
                 raise ValueError(
                     f"{mirror!r} can only be a port name {ref.ports.keys()}, "
