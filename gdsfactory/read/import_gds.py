@@ -2,7 +2,6 @@ from pathlib import Path
 from typing import Optional, Union, cast
 
 import gdstk
-import numpy as np
 from omegaconf import OmegaConf
 
 from gdsfactory.cell import Settings, cell
@@ -75,20 +74,7 @@ def import_gds(
     for c in gdsii_lib.cells:
         D = Component(name=c.name)
         D._cell = c
-
         D.name = c.name
-        for label in c.labels:
-            rotation = label.rotation
-            if rotation is None:
-                rotation = 0
-            label_ref = D.add_label(
-                text=label.text,
-                position=np.asfarray(label.origin),
-                magnification=label.magnification,
-                rotation=rotation * 180 / np.pi,
-                layer=(label.layer, label.texttype),
-            )
-            label_ref.anchor = label.anchor
 
         if hashed_name:
             D.name = get_name_short(D.name)

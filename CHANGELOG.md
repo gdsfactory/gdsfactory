@@ -1,5 +1,17 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [6.1.2](https://github.com/gdsfactory/gdsfactory/pull/895)
+
+- mmi input waveguide width is optional and defaults to cross_section.width
+- rename reflect_h to mirror_x and reflect_v to mirror_y [PR](https://github.com/gdsfactory/gdsfactory/pull/896)
+
+## 6.1.1
+
+- fix Docker container by installing gdspy with mamba
+- fix outline [issue](https://github.com/gdsfactory/gdsfactory/issues/888)
+- fix None orientation connect [PR](https://github.com/gdsfactory/gdsfactory/pull/890)
+- clean_value_json can handle Polygons [issue](https://github.com/gdsfactory/gdsfactory/issues/889)
+
 ## [6.1.0](https://github.com/gdsfactory/gdsfactory/pull/884)
 
 - Native read and write oasis support
