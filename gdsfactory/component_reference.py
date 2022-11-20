@@ -601,7 +601,7 @@ class ComponentReference(_GeometryHelper):
         self._bb_valid = False
         return self
 
-    def reflect_h(
+    def mirror_x(
         self, port_name: Optional[str] = None, x0: Optional[Coordinate] = None
     ) -> "ComponentReference":
         """Perform horizontal mirror using x0 or port as axis (default, x0=0).
@@ -617,7 +617,7 @@ class ComponentReference(_GeometryHelper):
         self.mirror((x0, 1), (x0, 0))
         return self
 
-    def reflect_v(
+    def mirror_y(
         self, port_name: Optional[str] = None, y0: Optional[float] = None
     ) -> "ComponentReference":
         """Perform vertical mirror using y0 as axis (default, y0=0)."""
