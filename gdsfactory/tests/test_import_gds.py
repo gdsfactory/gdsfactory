@@ -22,28 +22,15 @@ def test_import_gds_hierarchy() -> gf.Component:
     return c
 
 
-# def test_import_ports() -> gf.Component:
-#     """Make sure you can import the ports"""
-#     cross_section = gf.cross_section.cross_section
-#     splitter = gf.components.mmi1x2(cross_section=cross_section)
-#     c0 = gf.components.mzi_arms(splitter=splitter, cross_section=cross_section)
-#     c0.unlock()
-#     add_pins(c0)
-#     c0.lock()
+def test_import_ports_inside() -> gf.Component:
+    """Make sure you can import the ports"""
+    c0 = gf.components.straight(decorator=gf.add_pins.add_pins)
+    gdspath = c0.write_gds()
 
-#     gdspath = c0.write_gds()
-#     c0x1 = c0.ports["o1"].x
-#     c0x2 = c0.ports["o2"].x
-
-#     gf.clear_cache()
-
-#     c1 = import_gds(gdspath, decorator=add_ports_from_markers_inside)
-#     c1x1 = c1.ports["o1"].x
-#     c1x2 = c1.ports["o2"].x
-
-#     assert c0x1 == c1x1, f"{c0x1} != {c1x1}"
-#     assert c0x2 == c1x2, f"{c0x2} != {c1x2}"
-#     return c1
+    gf.clear_cache()
+    c1 = import_gds(gdspath, decorator=gf.add_ports.add_ports_from_markers_inside)
+    assert len(c1.ports) == 2
+    return c1
 
 
 # def test_import_gds_add_padding() -> gf.Component:
@@ -58,7 +45,8 @@ def test_import_gds_hierarchy() -> gf.Component:
 
 
 if __name__ == "__main__":
-    c = test_import_gds_hierarchy()
+    # c = test_import_gds_hierarchy()
+    c = test_import_ports_inside()
     c.show()
 
     # c = test_import_ports()
