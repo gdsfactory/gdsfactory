@@ -3,7 +3,7 @@
 ## [6.1.2](https://github.com/gdsfactory/gdsfactory/pull/895)
 
 - mmi input waveguide width is optional and defaults to cross_section.width
-- rename reflect_h to mirror_x and reflect_v to mirror_y
+- rename reflect_h to mirror_x and reflect_v to mirror_y [PR](https://github.com/gdsfactory/gdsfactory/pull/896)
 
 ## 6.1.1
 
