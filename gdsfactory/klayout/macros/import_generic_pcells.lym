@@ -107,7 +107,7 @@ generic_lib = fl.library(
 )
 # Would be nice to add SiEPIC pins to all of these
 pb = pya.AbsoluteProgress("Importing GDSFactory components", len(gfc.cells.keys()))
-for i, cell in enumerate({'C': gfc.C}.items()):
+for i, cell in enumerate(gfc.cells.items()):
 
     pb.set(i / len(gfc.cells.items()) * 100, True)
 
@@ -134,7 +134,7 @@ for i, cell in enumerate({'C': gfc.C}.items()):
         generic_lib.layout().register_pcell(cell[0], fl.pcell(func)) # Register the PCell
 
     except Exception as e:
-        raise e # Ignore components that cannot be converted to PCells
+        pass # Ignore components that cannot be converted to PCells
 pb.set(100, True)
 </text>
 </klayout-macro>
