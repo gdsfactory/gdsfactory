@@ -67,16 +67,14 @@ for layer in gf.LAYER:
 
 # PCell class that creates the PCell
 class PCellFactory(pya.PCellDeclarationHelper):
-    def __init__(self, component, sig: Signature = None) -> None:
+    def __init__(self, component) -> None:
         """Create a PCell from a gdsfactory component."""
         super().__init__()
         self.component = component
-        self.sig = sig or {}
-        func = self._update_sig()
-        self.func = func
-        self.func_name = func().name
-        params = self._pcell_parameters(self.func, on_error="raise")
-        self._param_keys = [param for param in params.keys()]
+        self.sig = self._extract_sig(self.component) or {}
+        self.func_name = self.gdsfactory_to_klayout().name
+        params = self._pcell_parameters(self.sig, on_error="raise")
+        self._param_keys = list(params.keys())
         self._param_values = []
         for name, param in params.items():
             # Add the parameter to the PCell
@@ -91,24 +89,22 @@ class PCellFactory(pya.PCellDeclarationHelper):
 
     def produce_impl(self):
         """Produce the PCell."""
-        params = {k: v for k, v in zip(self._param_keys, self._param_values)}
-        cell = self.func(**params)
+        params = dict(zip(self._param_keys, self._param_values))
+        cell = self.gdsfactory_to_klayout(**params)
 
         # Add the cell to the layout
         copy_tree(cell, self.cell, on_same_name="replace")
         self.cell.name = self.func_name
 
-    def _pcell_parameters(self, func: Callable, on_error="ignore"):
+    def _pcell_parameters(self, sig: Signature, on_error="ignore"):
         """Get the parameters of a function."""
         # NOTE: There could be a better way to do this, than use __signature__.
         new_params = {}
 
-        try:
-            sig = func.__signature__
-        except AttributeError:
+        if len(sig.parameters) == 0:
             return new_params
 
-        new_params.update({'name': Parameter('name', kind=Parameter.KEYWORD_ONLY, default=self.func_name, annotation=str)})
+        new_params = {'name': Parameter('name', kind=Parameter.KEYWORD_ONLY, default=self.func_name, annotation=str)}
         params = sig.parameters
         on_error = _validate_on_error(on_error)
         for name, param in params.items():
@@ -118,6 +114,26 @@ class PCellFactory(pya.PCellDeclarationHelper):
                 if on_error == "raise":
                     raise
         return new_params
+
+    def _extract_sig(self, component):
+        """Extract the signature of a function."""
+        sig = signature(component[1])
+        ignore_params = []
+        params = sig.parameters
+
+        for name, param in params.items():
+            try:
+                _validate_parameter(name, param)
+            except:
+                # Ignore parameters that are not accepted by KLayout
+                ignore_params.append(name)
+
+        ignore_params.append('cross_section')
+
+        sig_new = Signature(
+            [param for name, param in params.items() if name not in ignore_params]
+        ) or {}
+        return sig_new
 
     def gdsfactory_to_klayout(self, **kwargs):
         gf.clear_cache()  # Clear cache to be able to reload components wihtout changing the name
@@ -143,11 +159,6 @@ class PCellFactory(pya.PCellDeclarationHelper):
         top.__doc__ = self.component[1].__doc__.split('\n\n')[0] # Cell description is the first line of the docstring
         return top
 
-    def _update_sig(self):
-        # Return the cell function
-        self.gdsfactory_to_klayout.__dict__.update({'__signature__': self.sig}) # Add signature to the function
-        return self.gdsfactory_to_klayout
-
 generic_lib = fl.library(
     "GDSFactory generic PDK",
     pcells=[],
@@ -161,25 +172,9 @@ for i, cell in enumerate(gfc.cells.items()):
     pb.set(i / len(gfc.cells.items()) * 100, True)
 
     try:
-        # Prune the signature to only include the parameters that are accepted by KLayout
-        sig = signature(cell[1])
-        ignore_params = []
-        params = sig.parameters
+         # Cell function signature, used by flayout
 
-        for name, param in params.items():
-            try:
-                _validate_parameter(name, param)
-            except:
-                # Ignore parameters that are not accepted by KLayout
-                ignore_params.append(name)
-
-        ignore_params.append('cross_section')
-
-        sig_new = Signature(
-            [param for name, param in params.items() if name not in ignore_params]
-        ) or {} # Cell function signature, used by flayout
-
-        func = PCellFactory(cell, sig_new) # Cell function
+        func = PCellFactory(cell) # Cell function
         generic_lib.layout().register_pcell(cell[0], func) # Register the PCell
 
     except Exception as e:
