@@ -1,6 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [6.1.1](https://github.com/gdsfactory/gdsfactory/pull/884)
+## [6.1.2](https://github.com/gdsfactory/gdsfactory/pull/895)
+
+- mmi input waveguide width is optional and defaults to cross_section.width
+
+## 6.1.1
 
 - fix Docker container by installing gdspy with mamba
 - fix outline [issue](https://github.com/gdsfactory/gdsfactory/issues/888)
