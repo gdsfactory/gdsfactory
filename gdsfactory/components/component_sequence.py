@@ -56,9 +56,9 @@ def parse_component_name(name: str) -> Tuple[str, bool]:
 def _flip_ref(c_ref, port_name):
     a = c_ref.ports[port_name].orientation
     if a in [0, 180]:
-        c_ref.reflect_v(port_name)
+        c_ref.mirror_y(port_name)
     else:
-        c_ref.reflect_h(port_name)
+        c_ref.mirror_x(port_name)
     return c_ref
 
 
