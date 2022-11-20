@@ -136,7 +136,7 @@ class PCellFactory(pya.PCellDeclarationHelper):
         return sig_new
 
     def gdsfactory_to_klayout(self, **kwargs):
-        gf.clear_cache()  # Clear cache to be able to reload components wihtout changing the name
+        gf.clear_cache()  # Clear cache to be able to reload components without changing the name
 
         # Get the component
         c = self.component[1](**kwargs)
