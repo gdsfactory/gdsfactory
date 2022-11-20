@@ -33,7 +33,7 @@ with open(config_file, 'a+') as j:
         cfg = json.loads(j.read())
     except:
         cfg = {}
-    
+
     if "conda-env" not in cfg.keys():
         env_dir_str = pya.FileDialog.ask_existing_dir("Select directory of Python environment to link:", "")
 
