@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [6.2.1](https://github.com/gdsfactory/gdsfactory/pull/903)
+
+- difftest prompts you whether you want to do the xor diff
+
 ## [6.2.0](https://github.com/gdsfactory/gdsfactory/pull/895)
 
 - mmi input waveguide width is optional and defaults to cross_section.width
