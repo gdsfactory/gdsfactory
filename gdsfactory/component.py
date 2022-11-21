@@ -1081,7 +1081,29 @@ class Component(_GeometryHelper):
     def add_ref(
         self, component: "Component", alias: Optional[str] = None, **kwargs
     ) -> "ComponentReference":
-        """Add ComponentReference to the current Component."""
+        """Add ComponentReference to the current Component.
+
+        Args:
+            component: Component.
+            alias: named_references.
+
+        Keyword Args:
+            columns: Number of columns in the array.
+            rows: Number of rows in the array.
+            spacing: Distances between adjacent columns and adjacent rows.
+            origin: array-like[2] of int or float
+                Position where the cell is inserted.
+            rotation : int or float
+                Angle of rotation of the reference (in `degrees`).
+            magnification : int or float
+                Magnification factor for the reference.
+            x_reflection : bool
+                If True, the reference is reflected parallel to the x direction
+                before being rotated.
+            name : str (optional)
+                A name for the reference (if provided).
+
+        """
         if not isinstance(component, Component):
             raise TypeError(f"type = {type(Component)} needs to be a Component.")
         ref = ComponentReference(component, **kwargs)
@@ -2086,11 +2108,18 @@ def test_import_gds_settings():
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.c.mzi()
+    c = gf.Component("parent")
+    ref = c << gf.components.straight()
+    c.add_ports(ref.ports)
+    ref.movex(5)
+    assert c.ports["o1"].center[0] == 5, c.ports["o1"].center[0]
+    c.show(show_ports=True)
+
+    # c = gf.c.mzi()
     # c = c.flatten()
 
-    gdspath = c.write_oas()
-    gf.show(gdspath)
+    # gdspath = c.write_oas()
+    # gf.show(gdspath)
 
     # c.remove_labels()
     # print(c.labels)
