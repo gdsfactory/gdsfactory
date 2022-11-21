@@ -3,7 +3,7 @@
 pip install gdsfactory[tidy3d]
 pip install gdsfactory[full] --upgrade
 pip install devsim
-pip install gdsfactory==6.1.2
+pip install gdsfactory==6.2.0
 gf tool install
 
 [ ! -d $HOME/Desktop/gdsfactory ] && git clone https://github.com/gdsfactory/gdsfactory.git $HOME/Desktop/gdsfactory
