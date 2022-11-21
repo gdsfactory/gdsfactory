@@ -100,7 +100,7 @@ def grid(
                 * remainder,
             )
     device_array = np.reshape(device_array, shape)
-    prefix_to_ref = dict()
+    prefix_to_ref = {}
 
     D = Component()
     ref_array = np.empty(device_array.shape, dtype=object)
