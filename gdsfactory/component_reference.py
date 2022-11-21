@@ -506,9 +506,7 @@ class ComponentReference(_GeometryHelper):
         destination: Optional[Union[Port, Coordinate, str]] = None,
         axis: Optional[str] = None,
     ) -> "ComponentReference":
-        """Move the ComponentReference from the origin point to the.
-
-        destination.
+        """Move the ComponentReference from origin point to destination.
 
         Both origin and destination can be 1x2 array-like, Port, or a key
         corresponding to one of the Ports in this device_ref.
@@ -560,7 +558,7 @@ class ComponentReference(_GeometryHelper):
 
         else:
             raise ValueError(
-                f"{self.parent.name}.move(destination={destination}) \n"
+                f"{self.parent.name}.move(destination={destination!r}) \n"
                 f"Invalid destination = {destination!r} needs to be"
                 f"a coordinate, a port, or a valid port name {list(self.ports.keys())}"
             )
@@ -840,12 +838,19 @@ def test_pads_no_orientation():
 
 
 if __name__ == "__main__":
-    test_get_polygons_ref()
-    test_get_polygons()
+    # test_get_polygons_ref()
+    # test_get_polygons()
     import gdsfactory as gf
 
-    ref = gf.components.straight().ref()
-    p = ref.get_polygons(by_spec=(1, 0), as_array=False)
+    c = gf.Component("parent")
+    ref = c << gf.components.straight()
+    c.add_ports(ref.ports)
+    ref.movex(5)
+    # assert c.ports['o1'].center[0] == 5, print(c.ports['o1'])
+    print(c.ports["o1"].center)
+    c.show(show_ports=True)
+
+    # p = ref.get_polygons(by_spec=(1, 0), as_array=False)
 
     # c = gf.Component("parent")
     # c2 = gf.Component("child")
@@ -865,4 +870,3 @@ if __name__ == "__main__":
     # bend = c.add_ref(gf.components.bend_euler())
     # bend.move("o1", mzi.ports["o2"])
     # bend.move("o1", "o2")
-    # c.show()
