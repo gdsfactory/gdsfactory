@@ -4,6 +4,7 @@
 
 - mmi input waveguide width is optional and defaults to cross_section.width
 - rename reflect_h to mirror_x and reflect_v to mirror_y [PR](https://github.com/gdsfactory/gdsfactory/pull/896)
+- gdsfactory cells working on klayout [PR](https://github.com/gdsfactory/gdsfactory/pull/899)
 
 ## 6.1.1
 
