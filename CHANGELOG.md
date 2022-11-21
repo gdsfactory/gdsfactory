@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [6.1.2](https://github.com/gdsfactory/gdsfactory/pull/895)
+## [6.2.0](https://github.com/gdsfactory/gdsfactory/pull/895)
 
 - mmi input waveguide width is optional and defaults to cross_section.width
 - rename reflect_h to mirror_x and reflect_v to mirror_y [PR](https://github.com/gdsfactory/gdsfactory/pull/896)
