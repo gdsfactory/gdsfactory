@@ -232,7 +232,7 @@ if __name__ == "__main__":
     # components = [gf.components.rectangle(size=(i, i)) for i in range(40, 66, 5)]
     # components = [gf.components.rectangle(size=(i, i)) for i in range(40, 66, 5)]
     # c = [gf.components.triangle(x=i) for i in range(1, 10)]
-    c = [gf.components.straight(length=i) for i in range(4)]
+    c = [gf.components.straight(length=i) for i in range(1, 5)]
     # print(len(c))
     c = grid(
         c,
@@ -240,7 +240,7 @@ if __name__ == "__main__":
         rotation=0,
         h_mirror=False,
         v_mirror=True,
-        spacing=(100, 100),
+        spacing=(10, 10),
         # text_offsets=((0, 100), (0, -100)),
         # text_anchors=("nc", "sc"),
     )
