@@ -45,7 +45,7 @@ def delay_snake3(
         n = n // 2 * 2
     bend180 = gf.get_component(bend180, cross_section=cross_section, **kwargs)
 
-    delta_length = (length - length0 - n * bend180.info["length"]) / (n + 1)
+    delta_length = (length - length0 - n * bend180.info["length"]) / n
     assert (
         delta_length > 0
     ), "Snake is too short: either reduce length0, increase the total length,\
