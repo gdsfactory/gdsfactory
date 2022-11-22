@@ -16,6 +16,6 @@ def mzi_with_bend(radius: float = 10):
 
 
 if __name__ == "__main__":
-    c = mzi_with_bend(radius=5)
-    cc = gf.routing.add_fiber_single(c)
-    cc.show(show_ports=True)
+    c = mzi_with_bend(radius=25)
+    # c = gf.routing.add_fiber_single(c)
+    c.show(show_ports=True)
