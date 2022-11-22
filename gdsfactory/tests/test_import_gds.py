@@ -61,7 +61,7 @@ if __name__ == "__main__":
     # c = test_import_gds_hierarchy()
     # c = test_import_ports_inside()
     c = test_import_gds_array()
-    c.show()
+    c.show(show_ports=True)
 
     # c = test_import_ports()
     # c = test_import_gds_add_padding()
