@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Optional, Union, cast
+from typing import Optional, Union
 
 import gdstk
 from omegaconf import OmegaConf
@@ -85,14 +85,23 @@ def import_gds(
     for c, D in cell_to_device.items():
         for e in c.references:
             ref_device = cell_to_device[e.cell]
-            ref = ComponentReference(component=ref_device)
-
+            ref = ComponentReference(
+                component=ref_device,
+                origin=e.origin,
+                rotation=e.rotation,
+                magnification=e.magnification,
+                x_reflection=e.x_reflection,
+                columns=e.repetition.columns or 1,
+                rows=e.repetition.rows or 1,
+                spacing=e.repetition.spacing,
+                v1=e.repetition.v1,
+                v2=e.repetition.v2,
+            )
             D._register_reference(ref)
             D._references.append(ref)
             ref._reference = e
 
     component = cell_to_device[topcell]
-    cast(Component, component)
 
     if read_metadata and metadata_filepath.exists():
         logger.info(f"Read YAML metadata from {metadata_filepath}")
@@ -121,10 +130,13 @@ def import_gds(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.mzi()
-    gdspath = c.write_oas()
+    c = gf.components.array()
+    gdspath = c.write_gds()
+    c.show(show_ports=True)
 
-    c2 = import_gds(gdspath)
+    gf.clear_cache()
+    c = import_gds(gdspath)
+    c.show(show_ports=True)
 
     # gdspath = CONFIG["gdsdir"] / "mzi2x2.gds"
     # c = import_gds(gdspath, flatten=True, name="TOP")
@@ -133,4 +145,3 @@ if __name__ == "__main__":
     # c = import_gds(gdspath, flatten=False, polarization="te")
     # c = import_gds("/home/jmatres/gdsfactory/gdsfactory/gdsdiff/gds_diff_git.py")
     # print(c.hash_geometry())
-    c.show(show_ports=True)
