@@ -1,0 +1,14 @@
+instances:
+  e1:
+    component: bend_euler
+    settings: {angle: 35}
+  mzi1: {component: mzi}
+  euler2:
+    component: bend_euler
+    settings: {angle: 50}
+nets:
+- ['e1,o2', 'mzi1,o1']
+schematic_placements:
+  e1: {x: 0, y: 0}
+  mzi1: {x: 0, y: -100}
+  euler2: {x: 0, y: 0}

@@ -1,0 +1,25 @@
+instances:
+  e1:
+    component: bend_euler
+    settings:
+      angle: 35
+  euler2:
+    component: bend_euler
+    settings:
+      angle: 50
+  mzi1:
+    component: mzi
+placements:
+  e1:
+    dx: -2.935992968617674
+    dy: -40.41502396510376
+    x: 0.0
+    y: 0.0
+  euler2:
+    dx: 0.0
+    dy: -3.1470923051494473
+    x: 0.0
+    y: 0.0
+  mzi1:
+    x: 0.0
+    y: -100.0
