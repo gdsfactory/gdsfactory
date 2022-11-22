@@ -29,7 +29,7 @@ data = {
 }
 
 
-NETLIST_FILENAME = pathlib.Path("interactive_movement.pic.yml")
+NETLIST_FILENAME = pathlib.Path("test.schem.yml")
 
 # netlist = create_pic()
 # # netlist.move_instance('i3', 150, 200)
@@ -385,11 +385,11 @@ def viz_instance(
     h = bbox[1][1] - bbox[0][1]
     x0 = bbox[0][0]
     y0 = bbox[0][1]
-    pl = w / 10
-    input_ports = get_input_ports(component)
-    output_ports = get_output_ports(component)
-    y_inputs = ports_ys(input_ports, h)
-    y_outputs = ports_ys(output_ports, h)
+    # pl = w / 10
+    # input_ports = get_input_ports(component)
+    # output_ports = get_output_ports(component)
+    # y_inputs = ports_ys(input_ports, h)
+    # y_outputs = ports_ys(output_ports, h)
     x, y = get_placements(netlist).get(instance_name, (0, 0))
 
     ports: List[gf.Port] = c.ports.values()
@@ -403,13 +403,13 @@ def viz_instance(
         c = "#000000"
 
     r = Rect(tag=instance_name, x=x + x0, y=y + y0, w=w, h=h, c=c)
-    input_ports = [
-        LineSegment(instance_name, x, y + yi, x + pl, y + yi) for yi in y_inputs
-    ]
-    output_ports = [
-        LineSegment(instance_name, x + w - pl, y + yi, x + w, y + yi)
-        for yi in y_outputs
-    ]
+    # input_ports = [
+    #     LineSegment(instance_name, x, y + yi, x + pl, y + yi) for yi in y_inputs
+    # ]
+    # output_ports = [
+    #     LineSegment(instance_name, x + w - pl, y + yi, x + w, y + yi)
+    #     for yi in y_outputs
+    # ]
     ret = [r, *ports]
     return ret
 
@@ -445,9 +445,9 @@ def get_port_location(netlist, port, instance_size, component):
 
 
 # export
-def viz_connection(netlist, p_in, p_out, instance_size, component):
-    x1, y1 = get_port_location(netlist, p_in, instance_size, component)
-    x2, y2 = get_port_location(netlist, p_out, instance_size, component)
+def viz_connection(netlist, p_in, p_out, instance_size, point1, point2):
+    x1, y1 = point1
+    x2, y2 = point2
     tag = f"{p_in.split(',')[0]},{p_out.split(',')[0]}"
     line = LineSegment(tag, x1, y1, x2, y2)
     return [line]
@@ -456,11 +456,21 @@ def viz_connection(netlist, p_in, p_out, instance_size, component):
 # export
 def viz_netlist(netlist, instances, instance_size=20):
     els = []
+    port_coords = {}
     for instance_name in netlist.instances:
         els += viz_instance(
             netlist, instance_name, instances[instance_name], instance_size
         )
+        for el in els:
+            if isinstance(el, gf.Port):
+                port_name = f"{instance_name},{el.name}"
+                port_coords[port_name] = el.center
 
+    for net in netlist.nets:
+        p_in, p_out = net
+        point1 = port_coords[p_in]
+        point2 = port_coords[p_out]
+        els += viz_connection(netlist, p_in, p_out, instance_size, point1, point2)
     # HOW TO RESOLVE CONNECTIONS?
     # for p_in, p_out in netlist.connections.items():
     #     els += viz_connection(netlist, p_in, p_out, instance_size)

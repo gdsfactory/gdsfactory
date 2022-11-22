@@ -1,28 +1,73 @@
 instances:
   e1:
     component: bend_euler
-    settings: {angle: 60}
-  mzi1: {component: mzi}
+    settings:
+      angle: 60
   euler2:
     component: bend_euler
-    settings: {angle: 27}
+    settings:
+      angle: 27
   euler3:
     component: bend_euler
-    settings: {angle: 180}
-  euler_s: {component: bend_euler_s}
-  hello: {component: coupler90}
+    settings:
+      angle: 180
+  euler_s:
+    component: bend_euler_s
+  hello:
+    component: coupler90
   hello2:
     component: grating_coupler_elliptical_trenches
-    settings: {taper_angle: 35}
+    settings:
+      taper_angle: 35
+  mzi1:
+    component: mzi
+  mzi2:
+    component: mzi
 nets:
-- ['e1,o2', 'mzi1,o1']
-- ['euler2,o2', 'e1,o1']
-- ['euler2,o1', 'euler3,o1']
+- - e1,o1
+  - mzi1,o2
+- - euler2,o1
+  - e1,o2
+- - euler2,o2
+  - euler3,o1
+- - mzi2,o2
+  - mzi1,o1
 schematic_placements:
-  e1: {x: 0, y: 0}
-  mzi1: {x: 0, y: -100}
-  euler2: {x: 0, y: 0}
-  euler3: {x: 0, y: 0}
-  euler_s: {x: 0, y: 0}
-  hello: {x: 0, y: 0}
-  hello2: {x: 0, y: 0}
+  e1:
+    dx: 97.2868801322179
+    dy: -108.0792208098114
+    x: 0.0
+    y: 0.0
+  euler2:
+    dx: 129.83119074060454
+    dy: -101.700061781133
+    x: 0.0
+    y: 0.0
+  euler3:
+    dx: 168.49771622826478
+    dy: -91.14025819381844
+    x: 0.0
+    y: 0.0
+  euler_s:
+    dx: 200.3520901734782
+    dy: 29.718610421683614
+    x: 0.0
+    y: 0.0
+  hello:
+    dx: 207.73159571862965
+    dy: -3.981950422160809
+    x: 0.0
+    y: 0.0
+  hello2:
+    dx: 123.71973880190441
+    dy: -19.954796580952326
+    x: 0.0
+    y: 0.0
+  mzi1:
+    x: 0.0
+    y: -100.0
+  mzi2:
+    dx: -123.63528169493344
+    dy: -102.27727202351095
+    x: 0.0
+    y: 0.0
