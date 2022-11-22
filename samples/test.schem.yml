@@ -1,14 +1,28 @@
 instances:
   e1:
     component: bend_euler
-    settings: {angle: 35}
+    settings: {angle: 60}
   mzi1: {component: mzi}
   euler2:
     component: bend_euler
-    settings: {angle: 50}
+    settings: {angle: 27}
+  euler3:
+    component: bend_euler
+    settings: {angle: 180}
+  euler_s: {component: bend_euler_s}
+  hello: {component: coupler90}
+  hello2:
+    component: grating_coupler_elliptical_trenches
+    settings: {taper_angle: 35}
 nets:
 - ['e1,o2', 'mzi1,o1']
+- ['euler2,o2', 'e1,o1']
+- ['euler2,o1', 'euler3,o1']
 schematic_placements:
   e1: {x: 0, y: 0}
   mzi1: {x: 0, y: -100}
   euler2: {x: 0, y: 0}
+  euler3: {x: 0, y: 0}
+  euler_s: {x: 0, y: 0}
+  hello: {x: 0, y: 0}
+  hello2: {x: 0, y: 0}
