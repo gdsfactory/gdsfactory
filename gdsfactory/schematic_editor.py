@@ -14,6 +14,7 @@ import yaml
 import gdsfactory as gf
 
 from . import circuitviz
+from .picmodel import Instance, SchematicConfiguration
 
 
 class SchematicEditor:
@@ -35,12 +36,11 @@ class SchematicEditor:
         else:
             self.pdk = gf.get_active_pdk()
         self.component_list = list(gf.get_active_pdk().cells.keys())
-        self._instance_settings = {}
-        self._schematic_placements = {}
 
         if filepath.is_file():
             self.load_netlist()
         else:
+            self._schematic = SchematicConfiguration()
             self._instance_grid = widgets.VBox()
             self._net_grid = widgets.VBox()
         first_inst_box = self._get_instance_selector()
@@ -50,6 +50,8 @@ class SchematicEditor:
         first_net_box = self._get_net_selector()
         first_net_box.children[0].observe(self._add_net_row_when_full, names=["value"])
         self._net_grid.children += (first_net_box,)
+        self.on_instance_added = []
+        self.on_settings_updated = []
 
     def _get_instance_selector(self, inst_name=None, component_name=None):
         component_selector = widgets.Combobox(
@@ -139,7 +141,7 @@ class SchematicEditor:
         return self._net_grid
 
     def visualize(self):
-        circuitviz.show_netlist(self.get_netlist(), self.instances)
+        circuitviz.show_netlist(self.get_netlist(), self.instances, self.path)
 
     @property
     def instances(self):
@@ -148,37 +150,45 @@ class SchematicEditor:
         for row in inst_data:
             inst_name = row["instance_name"]
             component_name = row["component_name"]
-            inst_settings = self._instance_settings.get(inst_name, {})
+            inst = self._schematic.instances.get(inst_name)
+            if inst:
+                inst_settings = inst.settings or {}
+            else:
+                inst_settings = {}
+
+            # validates the settings
             insts[inst_name] = gf.get_component(component_name, **inst_settings)
         return insts
 
-    def update_settings(self, instance, setting, value):
-        if instance not in self._instance_settings:
-            self._instance_settings[instance] = {}
-        inst_settings = self._instance_settings[instance]
+    def add_instance(self, instance_name: str, component_name: str):
+        self._schematic.instances[instance_name] = Instance(component_name)
+        for callback in self.on_instance_added:
+            callback(instance_name)
 
-        inst_settings[setting] = value
+    def update_settings(self, instance, setting, value):
+        self._schematic.instances[instance].settings[setting] = value
 
     def get_netlist(self):
-        insts = self.instances
-        inst_section = {}
-        placements = self._schematic_placements
-        for inst_name, component in insts.items():
-            component_name = component.settings.function_name
-            component_settings = component.settings.changed
-            inst_section[inst_name] = {"component": component_name}
-            if component_settings:
-                inst_section[inst_name]["settings"] = component_settings
-            if inst_name not in placements:
-                placements[inst_name] = {"x": 0, "y": 0}
-        nets = self._get_net_data()
-        nets_section = [[f"{n[0]},{n[1]}", f"{n[2]},{n[3]}"] for n in nets]
-        netlist = {
-            "instances": inst_section,
-            "nets": nets_section,
-            "schematic_placements": self._schematic_placements,
-        }
-        return netlist
+        # insts = self.instances
+        # inst_section = {}
+        # placements = self._schematic_placements
+        # for inst_name, component in insts.items():
+        #     component_name = component.settings.function_name
+        #     component_settings = component.settings.changed
+        #     inst_section[inst_name] = {"component": component_name}
+        #     if component_settings:
+        #         inst_section[inst_name]["settings"] = component_settings
+        #     if inst_name not in placements:
+        #         placements[inst_name] = {"x": 0, "y": 0}
+        # nets = self._get_net_data()
+        # nets_section = [[f"{n[0]},{n[1]}", f"{n[2]},{n[3]}"] for n in nets]
+        # netlist = {
+        #     "instances": inst_section,
+        #     "nets": nets_section,
+        #     "schematic_placements": self._schematic_placements,
+        # }
+        # return netlist
+        return self._schematic.dict()
 
     def write_netlist(self):
         netlist = self.get_netlist()
@@ -189,6 +199,8 @@ class SchematicEditor:
         with open(self.path) as f:
             netlist = yaml.safe_load(f)
 
+        schematic = SchematicConfiguration.parse_obj(netlist)
+        self._schematic = schematic
         # process instances
         instances = netlist["instances"]
         nets = netlist.get("nets", [])
@@ -199,8 +211,6 @@ class SchematicEditor:
                 inst_name=inst_name, component_name=component_name
             )
             new_row.children[0].observe(self._add_row_when_full, names=["value"])
-            if "settings" in inst:
-                self._instance_settings[inst_name] = inst["settings"]
             new_rows.append(new_row)
         self._instance_grid = widgets.VBox(new_rows)
 
@@ -215,6 +225,3 @@ class SchematicEditor:
             unpacked_nets.append(unpacked_net)
             net_rows.append(self._get_net_selector(*unpacked_net))
         self._net_grid = widgets.VBox(net_rows)
-
-        # process placements
-        self._schematic_placements = netlist.get("schematic_placements", {})
