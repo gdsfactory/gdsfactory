@@ -325,6 +325,7 @@ strip = partial(
     cladding_offsets=(0,),  # for SiEPIC verification
 )
 strip_auto_widen = partial(strip, width_wide=0.9, auto_widen=True)
+strip_no_pins = partial(strip, add_pins=None, add_bbox=None)
 
 # Rib with rectangular slab
 rib = partial(
