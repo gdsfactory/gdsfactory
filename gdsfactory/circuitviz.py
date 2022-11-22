@@ -8,7 +8,7 @@
 # hide
 import pathlib
 from collections import defaultdict
-from typing import Dict, List, NamedTuple, Optional
+from typing import Dict, List, NamedTuple, Optional, Union
 
 import bokeh.events as be
 import numpy as np
@@ -21,7 +21,7 @@ from natsort import natsorted
 
 import gdsfactory as gf
 
-from .picmodel import PicYamlConfiguration, Placement
+from .picmodel import PicYamlConfiguration, Placement, SchematicConfiguration
 
 data = {
     "srcs": defaultdict(lambda: defaultdict(lambda: [])),
@@ -38,8 +38,14 @@ NETLIST_FILENAME = pathlib.Path("interactive_movement.pic.yml")
 def save_netlist(netlist, filename):
     with open(filename, mode="w") as f:
         d = netlist.dict(exclude_none=True)
-        pkeys = list(d["placements"].keys())
-        p: dict = d["placements"]
+        if "placements" in d:
+            placements_dict = d["placements"]
+        elif "schematic_placements" in d:
+            placements_dict = d["schematic_placements"]
+        else:
+            raise ValueError("No placements attribute found in netlist")
+        pkeys = list(placements_dict.keys())
+        p: dict = placements_dict
         for pk in pkeys:
             pv = p[pk]
             if pv:
@@ -138,7 +144,7 @@ def viz_bk(netlist, instances, fig=None, **kwargs):
     if fig is None:
         fig = bp.figure()
 
-    if isinstance(netlist, PicYamlConfiguration):
+    if isinstance(netlist, (PicYamlConfiguration, SchematicConfiguration)):
         objs = viz_netlist(netlist, instances, **kwargs)
     else:
         objs = netlist
@@ -367,7 +373,10 @@ def ports_ys(ports, instance_height):
 
 # export
 def viz_instance(
-    netlist: PicYamlConfiguration, instance_name, component, instance_size
+    netlist: Union[PicYamlConfiguration, SchematicConfiguration],
+    instance_name,
+    component,
+    instance_size,
 ):
     # inst_spec = netlist.instances[instance_name].dict()
     c = component
@@ -460,10 +469,11 @@ def viz_netlist(netlist, instances, instance_size=20):
 
 def show_netlist(netlist: Dict, instances: Dict):
     global data
-    picmodel = PicYamlConfiguration(
+    picmodel = SchematicConfiguration(
         instances=netlist["instances"],
-        placements=netlist.get("schematic_placements"),
+        schematic_placements=netlist.get("schematic_placements"),
         ports=netlist.get("ports"),
+        nets=netlist.get("nets"),
     )
     data["netlist"] = picmodel
     fig = bp.figure(width=800, height=500)

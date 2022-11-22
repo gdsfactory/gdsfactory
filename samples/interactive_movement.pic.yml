@@ -2,22 +2,61 @@ instances:
   e1:
     component: bend_euler
     settings:
-      angle: 35
+      angle: 60
   euler2:
     component: bend_euler
     settings:
-      angle: 50
+      angle: 27
+  euler3:
+    component: bend_euler
+    settings:
+      angle: 180
+  euler_s:
+    component: bend_euler_s
+  hello:
+    component: coupler90
+  hello2:
+    component: grating_coupler_elliptical_trenches
+    settings:
+      taper_angle: 35
   mzi1:
     component: mzi
-placements:
+nets:
+- - e1,o2
+  - mzi1,o1
+- - euler2,o2
+  - e1,o1
+- - euler2,o1
+  - euler3,o1
+schematic_placements:
   e1:
-    dx: -2.935992968617674
-    dy: -40.41502396510376
+    dx: 89.19359997853219
+    dy: 1.644673378625841
     x: 0.0
     y: 0.0
   euler2:
-    dx: 0.0
-    dy: -3.1470923051494473
+    dx: 137.5395684297418
+    dy: -65.38112818109465
+    x: 0.0
+    y: 0.0
+  euler3:
+    dx: 124.00805367365149
+    dy: 13.085599215925797
+    x: 0.0
+    y: 0.0
+  euler_s:
+    dx: 126.25826090972902
+    dy: -25.581701137941344
+    x: 0.0
+    y: 0.0
+  hello:
+    dx: 125.87668132595711
+    dy: -46.3176561557009
+    x: 0.0
+    y: 0.0
+  hello2:
+    dx: 16.617933359358766
+    dy: -37.60454150447361
     x: 0.0
     y: 0.0
   mzi1:
