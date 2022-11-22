@@ -46,7 +46,9 @@ def test_import_ports_inside() -> gf.Component:
 
 def test_import_gds_array() -> gf.Component:
     """Make sure you can import a GDS with arrays."""
-    c0 = gf.components.array(gf.components.rectangle, rows=2, columns=2)
+    c0 = gf.components.array(
+        gf.components.rectangle, rows=2, columns=2, spacing=(10, 10)
+    )
     gdspath = c0.write_gds()
 
     gf.clear_cache()
