@@ -157,6 +157,19 @@ class PicYamlConfiguration(BaseModel):
         self.placements[name].dy += dy
 
 
+class SchematicConfiguration(BaseModel):
+    _schema: Optional[AnyUrl] = Field(None, alias="$schema")
+    default_settings: Optional[Dict[str, str]] = None
+    instances: Optional[Dict[str, Instance]] = None
+    schematic_placements: Optional[Dict[str, Placement]] = None
+    nets: Optional[List[List[str]]] = None
+    ports: Optional[Dict[str, str]] = None
+
+    @property
+    def placements(self):
+        return self.schematic_placements
+
+
 def create_pic():
     pic = PicYamlConfiguration(
         instances={},
