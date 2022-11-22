@@ -6,7 +6,7 @@ instances:
   euler2:
     component: bend_euler
     settings:
-      angle: 27
+      angle: 29
   euler3:
     component: bend_euler
     settings:
@@ -64,10 +64,12 @@ schematic_placements:
     x: 0.0
     y: 0.0
   mzi1:
+    dx: -28.371397284021153
+    dy: 74.61843629436754
     x: 0.0
     y: -100.0
   mzi2:
-    dx: -123.63528169493344
-    dy: -102.27727202351095
+    dx: -179.02296230412492
+    dy: -25.670661231357215
     x: 0.0
     y: 0.0

@@ -6,7 +6,6 @@
 ###################################################################################################################
 
 # hide
-import pathlib
 from collections import defaultdict
 from typing import Dict, List, NamedTuple, Optional, Union
 
@@ -28,8 +27,6 @@ data = {
     "dss": {},
 }
 
-
-NETLIST_FILENAME = pathlib.Path("test.schem.yml")
 
 # netlist = create_pic()
 # # netlist.move_instance('i3', 150, 200)
@@ -59,8 +56,6 @@ def save_netlist(netlist, filename):
                 p.pop(pk)
         yaml.dump(d, f)
 
-
-# save_netlist(netlist, NETLIST_FILENAME)
 
 # export
 class Rect(NamedTuple):
@@ -139,7 +134,7 @@ def _get_column_data_sources(srcs):
 
 
 # export
-def viz_bk(netlist, instances, fig=None, **kwargs):
+def viz_bk(netlist, instances, netlist_filename, fig=None, **kwargs):
     global data
     if fig is None:
         fig = bp.figure()
@@ -211,7 +206,7 @@ def viz_bk(netlist, instances, fig=None, **kwargs):
                         else:
                             continue
                     v.data = data
-        save_netlist(netlist, NETLIST_FILENAME)
+        save_netlist(netlist, netlist_filename)
 
     def cb_rect_selected_on_change_indices(attr, old, new):
         if len(new) > 1:
@@ -477,7 +472,7 @@ def viz_netlist(netlist, instances, instance_size=20):
     return els
 
 
-def show_netlist(netlist: Dict, instances: Dict):
+def show_netlist(netlist: Dict, instances: Dict, netlist_filename):
     global data
     picmodel = SchematicConfiguration(
         instances=netlist["instances"],
@@ -487,17 +482,14 @@ def show_netlist(netlist: Dict, instances: Dict):
     )
     data["netlist"] = picmodel
     fig = bp.figure(width=800, height=500)
-    app = viz_bk(picmodel, instances=instances, fig=fig, instance_size=50)
+    app = viz_bk(
+        picmodel,
+        instances=instances,
+        fig=fig,
+        instance_size=50,
+        netlist_filename=netlist_filename,
+    )
     bio.show(app)
-
-
-def edit_netlist(netlist):
-    global data
-    data["netlist"] = netlist
-    fig = bp.figure(width=800, height=500)
-    app = viz_bk(netlist, fig=fig, instance_size=50)
-    bio.show(app)
-    save_netlist(netlist, NETLIST_FILENAME)
 
 
 def add_instance(
