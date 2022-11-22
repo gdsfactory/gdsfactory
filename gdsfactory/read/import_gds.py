@@ -94,6 +94,8 @@ def import_gds(
                 columns=e.repetition.columns or 1,
                 rows=e.repetition.rows or 1,
                 spacing=e.repetition.spacing,
+                v1=e.repetition.v1,
+                v2=e.repetition.v2,
             )
             D._register_reference(ref)
             D._references.append(ref)

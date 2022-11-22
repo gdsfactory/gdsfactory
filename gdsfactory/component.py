@@ -1899,6 +1899,8 @@ def copy(D: Component) -> Component:
             magnification=ref.magnification,
             x_reflection=ref.x_reflection,
             name=ref.name,
+            v1=ref.v1,
+            v2=ref.v2,
         )
         D_copy.add(new_ref)
 
