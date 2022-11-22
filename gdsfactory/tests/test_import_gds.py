@@ -22,17 +22,6 @@ def test_import_gds_hierarchy() -> gf.Component:
     return c
 
 
-def test_import_ports_inside() -> gf.Component:
-    """Make sure you can import the ports"""
-    c0 = gf.components.straight(decorator=gf.add_pins.add_pins)
-    gdspath = c0.write_gds()
-
-    gf.clear_cache()
-    c1 = import_gds(gdspath, decorator=gf.add_ports.add_ports_from_markers_inside)
-    assert len(c1.ports) == 2
-    return c1
-
-
 # def test_import_gds_add_padding() -> gf.Component:
 #     """Make sure you can import the ports"""
 #     c0 = gf.components.mzi_arms(decorator=gf.add_pins)
