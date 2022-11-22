@@ -148,6 +148,8 @@ class ComponentReference(_GeometryHelper):
         rows: int = 1,
         spacing=None,
         name: Optional[str] = None,
+        v1: Optional[Tuple[float, float]] = None,
+        v2: Optional[Tuple[float, float]] = None,
     ) -> None:
         """Initialize the ComponentReference object."""
         self._reference = gdstk.Reference(
@@ -160,14 +162,14 @@ class ComponentReference(_GeometryHelper):
             rows=rows,
             spacing=spacing,
         )
+        if v1 or v2:
+            self._reference.repetition = gdstk.Repetition(
+                columns=columns, rows=rows, v1=v1, v2=v2
+            )
 
         self.ref_cell = component
         self._owner = None
         self._name = name
-
-        self.rows = rows
-        self.columns = columns
-        self.spacing = spacing
 
         # The ports of a ComponentReference have their own unique id (uid),
         # since two ComponentReferences of the same parent Component can be
@@ -177,6 +179,26 @@ class ComponentReference(_GeometryHelper):
         }
         self.visual_label = visual_label
         # self.uid = str(uuid.uuid4())[:8]
+
+    @property
+    def v1(self) -> Optional[Tuple[float, float]]:
+        return self._reference.repetition.v1
+
+    @property
+    def v2(self) -> Optional[Tuple[float, float]]:
+        return self._reference.repetition.v2
+
+    @property
+    def rows(self) -> int:
+        return self._reference.repetition.rows or 1
+
+    @property
+    def columns(self) -> int:
+        return self._reference.repetition.columns or 1
+
+    @property
+    def spacing(self) -> Optional[Tuple[float, float]]:
+        return self._reference.repetition.spacing
 
     @property
     def parent(self):
@@ -191,7 +213,7 @@ class ComponentReference(_GeometryHelper):
         self._reference.origin = value
 
     @property
-    def magnification(self):
+    def magnification(self) -> float:
         return self._reference.magnification
 
     @magnification.setter
@@ -207,7 +229,7 @@ class ComponentReference(_GeometryHelper):
         self._reference.rotation = np.deg2rad(value)
 
     @property
-    def x_reflection(self):
+    def x_reflection(self) -> bool:
         return self._reference.x_reflection
 
     @x_reflection.setter

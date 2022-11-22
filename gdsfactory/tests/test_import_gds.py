@@ -44,10 +44,24 @@ def test_import_ports_inside() -> gf.Component:
 #     return c1
 
 
+def test_import_gds_array() -> gf.Component:
+    """Make sure you can import a GDS with arrays."""
+    c0 = gf.components.array(
+        gf.components.rectangle, rows=2, columns=2, spacing=(10, 10)
+    )
+    gdspath = c0.write_gds()
+
+    gf.clear_cache()
+    c1 = import_gds(gdspath)
+    assert len(c1.get_polygons()) == 4
+    return c1
+
+
 if __name__ == "__main__":
     # c = test_import_gds_hierarchy()
-    c = test_import_ports_inside()
-    c.show()
+    # c = test_import_ports_inside()
+    c = test_import_gds_array()
+    c.show(show_ports=True)
 
     # c = test_import_ports()
     # c = test_import_gds_add_padding()
