@@ -130,6 +130,7 @@ jobs:
           make html
 
   release_pypi:
+    needs: [pre-commit]
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
     runs-on: ubuntu-latest
     steps:
@@ -151,6 +152,7 @@ jobs:
           twine upload dist/*
 
   release_installers:
+    needs: [pre-commit]
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
     runs-on: ${{ matrix.os }}
     strategy:
@@ -186,7 +188,8 @@ jobs:
             gdsfactory-6.2.3-Linux-x86_64.sh
             gdsfactory-6.2.3-Windows-x86_64.exe
             gdsfactory-6.2.3-MacOSX-x86_64.pkg
-  releease_docker:
+  release_docker:
+    needs: [pre-commit]
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
     runs-on: ubuntu-latest
     steps:
@@ -209,6 +212,7 @@ jobs:
           tags: joamatab/gdsfactory:latest,joamatab/gdsfactory:6.2.3
           file: Dockerfile.dev
   sphinx_docs_to_gh-pages:
+    needs: [pre-commit]
     runs-on: ubuntu-latest
     name: Sphinx docs to gh-pages
     steps:
