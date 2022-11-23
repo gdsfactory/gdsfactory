@@ -65,6 +65,7 @@ class Paths:
     netlists = module_path / "samples" / "netlists"
     gdsdir = module_path / "tests" / "gds"
     modes = repo_path / "gdslib" / "modes"
+    gdsdiff = cwd
 
 
 def read_config(
@@ -92,7 +93,6 @@ CONFIG = dict(
 )
 
 CONFIG["gdslib"] = repo_path / "gdslib"
-CONFIG["gdsdiff"] = repo_path / "gdslib" / "gds"
 CONFIG["sparameters"] = CONFIG["gdslib"] / "sp"
 CONFIG["interconnect"] = CONFIG["gdslib"] / "interconnect"
 
