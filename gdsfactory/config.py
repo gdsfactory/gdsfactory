@@ -1,4 +1,4 @@
-"""Gdsfactory loads a configuration from 3 files, high priority overwrites low.
+"""Gdsfactory loads configuration from 3 files, high priority overwrites low.
 
 priority:
 
