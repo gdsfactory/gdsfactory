@@ -991,7 +991,7 @@ delay_snake
 
   import gdsfactory as gf
 
-  c = gf.components.delay_snake(total_length=1600.0, L0=5.0, n=2, bend='bend_euler', cross_section='strip')
+  c = gf.components.delay_snake(length=1600.0, L0=5.0, n=2, bend='bend_euler', cross_section='strip')
   c.plot()
 
 
@@ -3105,7 +3105,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='6.1.1', text_size=10)
+  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='6.2.3', text_size=10)
   c.plot()
 
 
