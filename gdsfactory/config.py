@@ -65,7 +65,7 @@ class Paths:
     netlists = module_path / "samples" / "netlists"
     gdsdir = module_path / "tests" / "gds"
     modes = repo_path / "gdslib" / "modes"
-    gdsdiff = cwd
+    gdsdiff = repo / "gdslib" / "gds"
 
 
 def read_config(
