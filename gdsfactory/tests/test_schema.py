@@ -4,9 +4,9 @@ import jsonschema
 import pytest
 import yaml
 
-from gdsfactory.config import CONFIG
+from gdsfactory.config import PATH
 
-schema_path = CONFIG["schema_netlist"]
+schema_path = PATH.schema_netlist
 schema_dict = json.loads(schema_path.read_text())
 yaml_text_invalid = """
 name: demo

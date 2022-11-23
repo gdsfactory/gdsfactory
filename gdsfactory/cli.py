@@ -2,7 +2,6 @@
 
 import os
 import pathlib
-import shlex
 import subprocess
 from typing import Optional
 
@@ -161,18 +160,6 @@ def install() -> None:
     install_gdsdiff()
 
 
-@click.command(name="test")
-def run_tests() -> None:
-    """Run tests using pytest.
-
-    You can also just run `pytest` directly.
-
-    """
-    os.chdir(CONFIG["repo_path"])
-    command = shlex.split("pytest")
-    subprocess.call(command)
-
-
 @click.group()
 @click.option(
     "--version",
@@ -193,7 +180,6 @@ gds.add_command(show)
 gds.add_command(diff)
 
 tool.add_command(config_get)
-tool.add_command(run_tests)
 tool.add_command(install)
 
 # yaml.add_command(webapp)

@@ -8,7 +8,7 @@ from typing import Dict, Optional
 import gdstk
 
 from gdsfactory.component import _timestamp2019
-from gdsfactory.config import CONFIG, logger
+from gdsfactory.config import PATH, logger
 from gdsfactory.name import clean_name
 from gdsfactory.types import PathType
 
@@ -187,7 +187,7 @@ def write_cells(
 
 
 def test_write_cells():
-    gdspath = CONFIG["gdsdir"] / "mzi2x2.gds"
+    gdspath = PATH.gdsdir / "mzi2x2.gds"
     gdspaths = write_cells(gdspath=gdspath, dirpath="extra/gds")
     assert len(gdspaths) == 10, len(gdspaths)
 
@@ -196,7 +196,7 @@ if __name__ == "__main__":
     test_write_cells()
     import gdsfactory as gf
 
-    # gdspath = CONFIG["gdsdir"] / "mzi2x2.gds"
+    # gdspath = PATH.gdsdir / "mzi2x2.gds"
     # gf.show(gdspath)
     # gdspaths = write_cells(gdspath=gdspath, dirpath="extra/gds")
     # print(len(gdspaths))
