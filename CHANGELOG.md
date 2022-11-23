@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.2.4
+
+- straight propagates to route filter in get_bundle [PR](https://github.com/gdsfactory/gdsfactory/pull/914)
+- update pre-commit hooks and simplify CI/CD [PR](https://github.com/gdsfactory/gdsfactory/pull/913)
+- fix delay length [PR](https://github.com/gdsfactory/gdsfactory/pull/912)
+
 ## [6.2.3](https://github.com/gdsfactory/gdsfactory/pull/907)
 
 - fix add ports from paths and polygons
