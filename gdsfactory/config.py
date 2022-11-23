@@ -64,6 +64,7 @@ class Paths:
     schema_netlist = module_path / "tests" / "schemas" / "netlist.json"
     netlists = module_path / "samples" / "netlists"
     gdsdir = module_path / "tests" / "gds"
+    modes = repo_path / "gdslib" / "modes"
 
 
 def read_config(
@@ -92,7 +93,6 @@ CONFIG = dict(
 
 CONFIG["gdslib"] = repo_path / "gdslib"
 CONFIG["gdsdiff"] = repo_path / "gdslib" / "gds"
-CONFIG["modes"] = repo_path / "gdslib" / "modes"
 CONFIG["sparameters"] = CONFIG["gdslib"] / "sp"
 CONFIG["interconnect"] = CONFIG["gdslib"] / "interconnect"
 
