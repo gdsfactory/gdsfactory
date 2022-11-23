@@ -138,7 +138,7 @@ if __name__ == "__main__":
     c = import_gds(gdspath)
     c.show(show_ports=True)
 
-    # gdspath = CONFIG["gdsdir"] / "mzi2x2.gds"
+    # gdspath = PATH.gdsdir / "mzi2x2.gds"
     # c = import_gds(gdspath, flatten=True, name="TOP")
     # c.settings = {}
     # print(clean_value_name(c))

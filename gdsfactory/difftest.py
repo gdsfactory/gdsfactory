@@ -22,7 +22,7 @@ import shutil
 from typing import Optional
 
 from gdsfactory.component import Component
-from gdsfactory.config import CONFIG, logger
+from gdsfactory.config import PATH, logger
 from gdsfactory.gdsdiff.gdsdiff import gdsdiff
 
 
@@ -123,7 +123,7 @@ def run_xor(file1, file2, tolerance: int = 1, verbose: bool = False) -> None:
 def difftest(
     component: Component,
     test_name: Optional[str] = None,
-    dirpath: pathlib.Path = CONFIG["gdsdiff"],
+    dirpath: pathlib.Path = PATH.gdsdiff,
 ) -> None:
     """Avoids GDS regressions tests on the GeometryDifference.
 
