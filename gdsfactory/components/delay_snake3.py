@@ -71,6 +71,8 @@ def delay_snake3(
 
 
 def test_length():
+    import numpy as np
+
     length = 200.0
     c = delay_snake3(n=2, length=length, length0=50, cross_section="strip_no_pins")
     length_computed = c.area() / 0.5

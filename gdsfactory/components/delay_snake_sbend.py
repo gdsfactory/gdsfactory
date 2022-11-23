@@ -23,10 +23,10 @@ def delay_snake_sbend(
 
     Args:
         length: total length.
-        length1: first straight section length.
-        length3: third straight section length.
-        radius: u bend radius.
-        waveguide_spacing: waveguide pitch.
+        length1: first straight section length in um.
+        length3: third straight section length in um.
+        radius: u bend radius in um.
+        waveguide_spacing: waveguide pitch in um.
         bend: bend spec.
         sbend: sbend spec.
         sbend_size: sbend size.
@@ -105,11 +105,22 @@ def delay_snake_sbend(
     return c
 
 
+def test_delay_snake_sbend_length():
+    import numpy as np
+
+    length = 200.0
+    c = delay_snake_sbend(length=length, cross_section="strip_no_pins")
+    length_computed = c.area() / 0.5
+    np.isclose(length, length_computed)
+    return c
+
+
 if __name__ == "__main__":
-    c = gf.grid(
-        [
-            delay_snake_sbend(length=length, cross_section="rib")
-            for length in [500, 3000]
-        ]
-    )
+    c = test_delay_snake_sbend_length()
+    # c = gf.grid(
+    #     [
+    #         delay_snake_sbend(length=length, cross_section="rib")
+    #         for length in [500, 3000]
+    #     ]
+    # )
     c.show(show_ports=True)
