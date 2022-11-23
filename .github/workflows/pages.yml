@@ -8,7 +8,6 @@ on:
 
 jobs:
   sphinx_docs_to_gh-pages:
-    needs: [pre-commit]
     runs-on: ubuntu-latest
     name: Sphinx docs to gh-pages
     steps:
