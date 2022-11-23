@@ -2,7 +2,7 @@ import gdsfactory as gf
 from gdsfactory.read.import_gds import import_gds
 
 # def test_import_gds_snap_to_grid() -> None:
-#     gdspath = gf.CONFIG["gdsdir"] / "mmi1x2.gds"
+#     gdspath = gf.PATH.gdsdir / "mmi1x2.gds"
 #     c = import_gds(gdspath, snap_to_grid_nm=5)
 #     assert len(c.get_polygons()) == 8, len(c.get_polygons())
 

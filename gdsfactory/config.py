@@ -61,6 +61,9 @@ class Paths:
     klayout = module / "klayout"
     klayout_tech = klayout / "tech"
     klayout_lyp = klayout_tech / "layers.lyp"
+    schema_netlist = module_path / "tests" / "schemas" / "netlist.json"
+    netlists = module_path / "samples" / "netlists"
+    gdsdir = module_path / "tests" / "gds"
 
 
 def read_config(
@@ -82,9 +85,6 @@ PATH = Paths()
 
 CONFIG = dict(
     config_path=yamlpath_cwd.absolute(),
-    repo_path=repo_path,
-    module_path=module_path,
-    gdsdir=module_path / "tests" / "gds",
     masks_path=repo_path / "mask",
     home=home,
     cwd=cwd,
@@ -95,11 +95,6 @@ CONFIG["gdsdiff"] = repo_path / "gdslib" / "gds"
 CONFIG["modes"] = repo_path / "gdslib" / "modes"
 CONFIG["sparameters"] = CONFIG["gdslib"] / "sp"
 CONFIG["interconnect"] = CONFIG["gdslib"] / "interconnect"
-CONFIG["samples_path"] = module_path / "samples"
-CONFIG["netlists"] = module_path / "samples" / "netlists"
-CONFIG["components_path"] = module_path / "components"
-CONFIG["schemas"] = module_path / "tests" / "schemas"
-CONFIG["schema_netlist"] = module_path / "tests" / "schemas" / "netlist.json"
 
 sparameters_path = CONFIG["sparameters"]
 
