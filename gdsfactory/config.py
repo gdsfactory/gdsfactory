@@ -159,8 +159,6 @@ def set_plot_options(
 
 
 if __name__ == "__main__":
-    # print_config("gdslib")
-    # print(CONFIG["git_hash"])
     # print(PATH.sparameters)
     # print(CONFIG)
     print_config()
