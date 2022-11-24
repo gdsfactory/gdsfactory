@@ -1,15 +1,13 @@
 """Command line interface. Type `gf` into a terminal."""
 
-import os
 import pathlib
-import subprocess
 from typing import Optional
 
 import click
 from click.core import Context, Option
 
 import gdsfactory
-from gdsfactory.config import CONFIG, cwd, print_config
+from gdsfactory.config import cwd, print_config
 from gdsfactory.install import install_gdsdiff, install_klayout_package
 from gdsfactory.layers import lyp_to_dataclass
 from gdsfactory.tech import LAYER
@@ -17,7 +15,6 @@ from gdsfactory.types import PathType
 from gdsfactory.write_cells import write_cells as write_cells_to_separate_gds
 
 VERSION = "6.2.4"
-log_directory = CONFIG.get("log_directory")
 LAYER_LABEL = LAYER.LABEL
 
 
@@ -27,18 +24,6 @@ def print_version(ctx: Context, param: Option, value: bool) -> None:
         return
     click.echo(VERSION)
     ctx.exit()
-
-
-@click.command(name="delete")
-@click.argument("logfile", default="main", required=False)
-def log_delete(logfile: str) -> None:
-    """Deletes logs."""
-    if not os.path.exists(log_directory):
-        print("No logs found.")
-        return
-
-    filename = os.path.join(log_directory, f"{logfile}.log")
-    subprocess.check_output(["rm", filename])
 
 
 # TOOL

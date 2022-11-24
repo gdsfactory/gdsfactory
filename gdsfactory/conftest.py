@@ -1,26 +1,8 @@
-import shutil
-
 import pytest
 from _pytest.fixtures import SubRequest
 
 import gdsfactory as gf
-from gdsfactory.config import CONFIG, PATH, diff_path
-
-
-@pytest.fixture(scope="session", autouse=False)
-def cleandir(request: SubRequest) -> None:
-    # gf.clear_cache()
-    build_folder = CONFIG["build_directory"]
-    module_path = PATH.module_path
-
-    if diff_path.exists():
-        shutil.rmtree(diff_path)
-
-    if build_folder.exists() and "noautofixt" not in request.keywords:
-        shutil.rmtree(build_folder)
-
-    for build_folder in module_path.glob("**/build"):
-        shutil.rmtree(build_folder)
+from gdsfactory.config import diff_path
 
 
 @pytest.fixture

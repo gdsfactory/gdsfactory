@@ -7,7 +7,6 @@ classes:
 
     - Component
     - Port
-    - CONFIG
     - TECH
 
 modules:
@@ -25,7 +24,7 @@ from gdsfactory.path import Path
 
 # NOTE: import order matters. Only change the order if you know what you are doing
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.config import CONFIG, CONF, call_if_func, PATH
+from gdsfactory.config import CONF, call_if_func, PATH
 from gdsfactory.port import Port
 from gdsfactory.cell import cell
 from gdsfactory.cell import cell_without_validator
@@ -82,7 +81,6 @@ c = components
 
 __all__ = (
     "CONF",
-    "CONFIG",
     "Component",
     "ComponentReference",
     "CrossSection",
