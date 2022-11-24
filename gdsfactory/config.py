@@ -6,12 +6,12 @@ priority:
 2. ~/.gdsfactory/config.yml specific for the machine
 3. the yamlpath_default in gdsfactory.tech.yml (lowest priority)
 
-`CONFIG` has all your computer specific paths that we do not care to store
+You can access the CONF dictionary with `print_config`
 
-You can access the config dictionary with `print_config`
+PATH has all your computer specific paths that we do not care to store
+
 """
 
-__version__ = "6.2.4"
 import io
 import json
 import os
@@ -25,6 +25,7 @@ import omegaconf
 from loguru import logger
 from omegaconf import OmegaConf
 
+__version__ = "6.2.4"
 PathType = Union[str, pathlib.Path]
 
 home = pathlib.Path.home()
