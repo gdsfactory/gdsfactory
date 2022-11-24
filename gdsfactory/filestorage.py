@@ -6,14 +6,14 @@ import numpy as np
 from pydantic import BaseModel
 from typing_extensions import Literal
 
-from gdsfactory.config import CONFIG
+from gdsfactory.config import PATH
 from gdsfactory.types import Optional, PathType
 
 FileTypes = Literal["sparameters", "modes", "gds", "measurements"]
 
 
 class FileStorage(BaseModel):
-    dirpath: Optional[PathType] = CONFIG["gdslib"]
+    dirpath: Optional[PathType] = PATH.gdslib
     filetype: FileTypes
 
     def write(self, filename: str, data):

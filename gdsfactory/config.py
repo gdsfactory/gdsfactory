@@ -65,49 +65,28 @@ class Paths:
     netlists = module_path / "samples" / "netlists"
     gdsdir = module_path / "tests" / "gds"
     modes = repo_path / "gdslib" / "modes"
-    gdsdiff = repo / "gdslib" / "gds"
+    gdslib = repo / "gdslib"
+    gdsdiff = gdslib / "gds"
+    sparameters = gdslib / "sp"
+    interconnect = gdslib / "interconnect"
 
 
 def read_config(
     yamlpaths: Iterable[PathType] = (yamlpath_default, yamlpath_home, yamlpath_cwd),
 ) -> omegaconf.DictConfig:
-    CONFIG = OmegaConf.load(default_config)
+    config = OmegaConf.load(default_config)
     for yamlpath in set(yamlpaths):
         yamlpath = pathlib.Path(yamlpath)
         if os.access(yamlpath, os.R_OK) and yamlpath.exists():
             logger.info(f"loading tech config from {yamlpath}")
-            CONFIG_NEW = OmegaConf.load(yamlpath)
-            CONFIG = OmegaConf.merge(CONFIG, CONFIG_NEW)
-    return CONFIG
+            config_new = OmegaConf.load(yamlpath)
+            config = OmegaConf.merge(config, config_new)
+    return config
 
 
 CONF = read_config()
 PATH = Paths()
-
-
-CONFIG = dict(
-    config_path=yamlpath_cwd.absolute(),
-    masks_path=repo_path / "mask",
-    home=home,
-    cwd=cwd,
-)
-
-CONFIG["gdslib"] = repo_path / "gdslib"
-CONFIG["sparameters"] = CONFIG["gdslib"] / "sp"
-CONFIG["interconnect"] = CONFIG["gdslib"] / "interconnect"
-
-sparameters_path = CONFIG["sparameters"]
-
-
-def print_config(key: Optional[str] = None) -> None:
-    """Prints a key for the config or all the keys."""
-    if key:
-        if CONFIG.get(key):
-            print(CONFIG[key])
-        else:
-            print(f"`{key}` key not found in {CONFIG.keys()}")
-    else:
-        pprint(CONFIG)
+sparameters_path = PATH.sparameters
 
 
 def complex_encoder(z):
@@ -124,6 +103,17 @@ def write_config(config: Any, json_out_path: Path) -> None:
     """Write config to a JSON file."""
     with open(json_out_path, "w") as f:
         json.dump(config, f, indent=2, sort_keys=True, default=complex_encoder)
+
+
+def print_config(key: Optional[str] = None) -> None:
+    """Prints a key for the config or all the keys."""
+    if key:
+        if CONF.get(key):
+            print(CONF[key])
+        else:
+            print(f"{key!r} key not found in {CONF.keys()}")
+    else:
+        pprint(CONF)
 
 
 def call_if_func(f: Any, **kwargs) -> Any:
@@ -171,8 +161,7 @@ def set_plot_options(
 if __name__ == "__main__":
     # print_config("gdslib")
     # print(CONFIG["git_hash"])
-    # print(CONFIG["sparameters"])
+    # print(PATH.sparameters)
     # print(CONFIG)
-    print(CONF["sparameters_path"])
-    # print_config()
+    print_config()
     # write_tech("tech.json")
