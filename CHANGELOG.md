@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.2.5
+
+- mode solvers get modes_path from PDK.modes_path [PR](https://github.com/gdsfactory/gdsfactory/pull/915)
+- remove gf.CONFIG [PR](https://github.com/gdsfactory/gdsfactory/pull/916)
+
 ## 6.2.4
 
 - straight propagates to route filter in get_bundle [PR](https://github.com/gdsfactory/gdsfactory/pull/914)
