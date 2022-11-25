@@ -1,5 +1,4 @@
 from collections import defaultdict
-from functools import partial
 from typing import Dict, List, NamedTuple, Union
 
 import bokeh.events as be
@@ -288,6 +287,7 @@ def viz_bk(
 
     def bkapp(doc):
         doc.add_root(fig)
+        data["doc"] = doc
 
     return bkapp
 
@@ -467,9 +467,6 @@ def viz_netlist(netlist, instances, instance_size=20):
         point1 = port_coords[p_in]
         point2 = port_coords[p_out]
         els += viz_connection(netlist, p_in, p_out, instance_size, point1, point2)
-    # HOW TO RESOLVE CONNECTIONS?
-    # for p_in, p_out in netlist.connections.items():
-    #     els += viz_connection(netlist, p_in, p_out, instance_size)
     return els
 
 
@@ -485,30 +482,9 @@ def show_netlist(schematic: SchematicConfiguration, instances: Dict, netlist_fil
         netlist_filename=netlist_filename,
     )
     bio.show(app)
-    return fig
 
 
 def update_schematic_plot(
-    schematic: SchematicConfiguration, instances: Dict, fig, netlist_filename
-):
-    # bio.curdoc().add_next_tick_callback(partial(viz_bk,
-    #     schematic=schematic,
-    #     instances=instances,
-    #     fig=fig,
-    #     instance_size=50,
-    #     netlist_filename=netlist_filename,
-    # ))
-    bio.curdoc().add_next_tick_callback(
-        partial(
-            show_netlist,
-            schematic=schematic,
-            instances=instances,
-            netlist_filename=netlist_filename,
-        )
-    )
-
-
-def _update_schematic_plot(
     schematic: SchematicConfiguration, instances: Dict, *args, **kwargs
 ):
     srcs = _get_sources(viz_netlist(schematic, instances=instances))
