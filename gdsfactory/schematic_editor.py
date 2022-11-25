@@ -39,7 +39,9 @@ class SchematicEditor:
         if filepath.is_file():
             self.load_netlist()
         else:
-            self._schematic = SchematicConfiguration()
+            self._schematic = SchematicConfiguration(
+                instances={}, schematic_placements={}, nets=[], ports={}
+            )
             self._instance_grid = widgets.VBox()
             self._net_grid = widgets.VBox()
         first_inst_box = self._get_instance_selector()
@@ -178,7 +180,7 @@ class SchematicEditor:
                 callback(old_nets=old_nets, new_nets=new_nets)
 
     @property
-    def widget(self):
+    def instance_widget(self):
         return self._instance_grid
 
     @property
@@ -195,18 +197,13 @@ class SchematicEditor:
     @property
     def instances(self):
         insts = {}
-        inst_data = self._get_instance_data()
-        for row in inst_data:
-            inst_name = row["instance_name"]
-            component_name = row["component_name"]
-            inst = self._schematic.instances.get(inst_name)
-            if inst:
-                inst_settings = inst.settings or {}
-            else:
-                inst_settings = {}
-
+        inst_data = self._schematic.instances
+        for inst_name, inst in inst_data.items():
+            component_spec = inst.dict()
+            # if component_spec['settings'] is None:
+            #     component_spec['settings'] = {}
             # validates the settings
-            insts[inst_name] = gf.get_component(component_name, **inst_settings)
+            insts[inst_name] = gf.get_component(component_spec)
         return insts
 
     def add_instance(self, instance_name: str, component_name: str):

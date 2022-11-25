@@ -1,199 +1,41 @@
+default_settings: null
 instances:
-  e1:
-    component: bend_euler
-    settings:
-      angle: 49
-  euler2:
-    component: bend_euler
-    settings:
-      angle: 57
-  euler3:
-    component: bend_euler
-    settings:
-      angle: 180
-  euler4:
+  eb1:
     component: bend_euler
     settings: {}
-  euler5:
+  eb2:
     component: bend_euler
     settings: {}
-  euler_s:
-    component: bend_euler_s
-  hello:
-    component: coupler90
-  hello2:
-    component: grating_coupler_elliptical_trenches
-    settings:
-      taper_angle: 35
-  mzi1:
-    component: mzi
-  mzi10:
-    component: mzi
+  eb3:
+    component: bend_euler
     settings: {}
-  mzi11:
-    component: mzi
+  eb4:
+    component: bend_euler
     settings: {}
-  mzi12:
-    component: mzi
-    settings: {}
-  mzi13:
-    component: mzi
-    settings: {}
-  mzi14:
-    component: mzi
-    settings: {}
-  mzi15:
-    component: mzi
-    settings: {}
-  mzi16:
-    component: mzi
-    settings: {}
-  mzi17:
-    component: mzi
-    settings: {}
-  mzi18:
-    component: mzi
-    settings: {}
-  mzi19:
-    component: mzi
-    settings: {}
-  mzi2:
-    component: mzi
-  mzi3:
-    component: mzi
-    settings: {}
-  mzi4:
-    component: mzi
-    settings: {}
-  mzi5:
-    component: mzi
-    settings: {}
-  mzi6:
-    component: mzi
-    settings: {}
-  mzi7:
-    component: mzi
-    settings: {}
-  mzi8:
-    component: mzi
-    settings: {}
-  mzi9:
-    component: mzi
-    settings: {}
-nets:
-- - e1,o1
-  - mzi1,o2
-- - euler2,o1
-  - e1,o2
-- - euler2,o2
-  - euler3,o1
-- - mzi2,o2
-  - mzi1,o1
-- - mzi2,o1
-  - mzi3,o2
-- - mzi3,o1
-  - mzi4,o2
-- - mzi6,o2
-  - mzi17,o1
-- - mzi11,o2
-  - mzi6,o1
-- - mzi5,o2
-  - mzi12,o1
+  mmi1:
+    component: mmi1x2
+    settings: {gap_mmi: 1.0}
+  mmi2:
+    component: mmi2x2
+    settings: {gap_mmi: 0.5}
 schematic_placements:
-  e1:
-    dx: 97.2868801322179
-    dy: -108.0792208098114
-    x: 0.0
-    y: 0.0
-  euler2:
-    dx: 129.83119074060454
-    dy: -101.700061781133
-    x: 0.0
-    y: 0.0
-  euler3:
-    dx: 168.49771622826478
-    dy: -91.14025819381844
-    x: 0.0
-    y: 0.0
-  euler4:
-    dx: 57.76366678995297
-    dy: 55.74865515774528
-    x: 0.0
-    y: 0.0
-  euler5:
-    dx: -325.52658041078456
-    dy: -34.54062171198354
-  euler_s:
-    dx: 6.348133180465645
-    dy: 23.834162290557664
-    x: 0.0
-    y: 0.0
-  hello:
-    dx: -226.3504916700096
-    dy: 89.6539677878549
-    x: 0.0
-    y: 0.0
-  hello2:
-    dx: -458.23595457268243
-    dy: -125.20479743912705
-    x: 0.0
-    y: 0.0
-  mzi1:
-    dx: -63.889079857015304
-    dy: -38.37897680857809
-    x: 0.0
-    y: -100.0
-  mzi10:
-    dx: -247.67031642719672
-    dy: 169.3860467274479
-  mzi11:
-    dx: -399.6711271410742
-    dy: 128.891230704032
-  mzi12:
-    dx: 157.05233993348443
-    dy: 205.79272129215195
-  mzi13:
-    dx: -476.57261772919406
-    dy: 229.62135217861166
-  mzi14:
-    dx: -164.6341770337216
-    dy: 226.37199342136716
-  mzi15:
-    dx: 102.98134533357356
-    dy: 274.58917756117745
-  mzi16:
-    dx: -152.71986159049175
-    dy: 33.57670715819323
-  mzi17:
-    dx: -144.0549049045064
-    dy: -49.82350094441574
-  mzi2:
-    dx: -208.83454669309725
-    dy: -146.1627819294618
-    x: 0.0
-    y: 0.0
-  mzi3:
-    dx: -369.600791447625
-    dy: -134.4783723480522
-    x: 0.0
-    y: 0.0
-  mzi4:
-    dx: -492.7421311422777
-    dy: 24.217555852015494
-  mzi5:
-    dx: -13.170080658570356
-    dy: 215.5551324692344
-  mzi6:
-    dx: -271.4027124973497
-    dy: -38.62269370154591
-    x: 0.0
-    y: 0.0
-  mzi7:
-    dx: 168.3306538682682
-    dy: 10.45790233705717
-  mzi8:
-    dx: 158.1354595192326
-    dy: 128.891230704032
-  mzi9:
-    dx: -108.31195857481683
-    dy: 107.22883898906866
+  eb1: {x: null, y: null, port: null, rotation: null, dx: -2.689262612399476, dy: 12.145056959223442,
+    mirror: null}
+  eb2: {x: null, y: null, port: null, rotation: null, dx: 13.490089887677119, dy: 12.143182722038379,
+    mirror: null}
+  eb3: {x: null, y: null, port: null, rotation: null, dx: -2.581493974258218, dy: -17.2678157453033,
+    mirror: null}
+  eb4: {x: null, y: null, port: null, rotation: null, dx: 12.04364734010294, dy: -16.946384068064592,
+    mirror: null}
+  mmi1: {x: null, y: null, port: null, rotation: null, dx: -26.594890159738664, dy: 4.028873640424932,
+    mirror: null}
+  mmi2: {x: null, y: null, port: null, rotation: null, dx: 37.853563595575395, dy: 4.615792363291729,
+    mirror: null}
+nets:
+- ['mmi1,o2', 'eb1,o1']
+- ['mmi2,o2', 'eb2,o2']
+- ['mmi1,o3', 'eb3,o1']
+- ['mmi2,o1', 'eb4,o2']
+- ['eb1,o2', 'eb2,o1']
+- ['eb3,o2', 'eb4,o1']
+ports: {}
