@@ -1,3 +1,4 @@
+from functools import partial
 from pathlib import Path
 from typing import Optional, Union
 
@@ -33,6 +34,7 @@ class SchematicEditor:
         self.on_instance_added = []
         self.on_settings_updated = []
         self.on_nets_modified = []
+        self._notebook_handle = None
 
         if filepath.is_file():
             self.load_netlist()
@@ -122,8 +124,14 @@ class SchematicEditor:
                     child.observe(self._on_net_modified, names=["value"])
                 new_row._associated_component = None
 
-    def _add_instance_to_vis(self, instance_name):
-        circuitviz.add_instance(instance_name, component=self.instances[instance_name])
+    def _update_schematic_plot(self, **kwargs):
+        circuitviz.data["doc"].add_next_tick_callback(
+            partial(
+                circuitviz.update_schematic_plot,
+                schematic=self._schematic,
+                instances=self.instances,
+            )
+        )
 
     def _on_instance_component_modified(self, change):
         this_box = change["owner"]
@@ -179,17 +187,10 @@ class SchematicEditor:
 
     def visualize(self):
         circuitviz.show_netlist(self.schematic, self.instances, self.path)
-        # self.on_instance_added.append(partial(self._update_plot, fig=fig))
-        # self.on_settings_updated.append(partial(self._update_plot, fig=fig))
-        # self.on_instance_added.append(self._add_instance_to_vis)
 
-    def _update_plot(self, fig, **kwargs):
-        circuitviz.update_schematic_plot(
-            schematic=self.schematic,
-            instances=self.instances,
-            fig=fig,
-            netlist_filename=self.path,
-        )
+        self.on_instance_added.append(self._update_schematic_plot)
+        self.on_settings_updated.append(self._update_schematic_plot)
+        self.on_nets_modified.append(self._update_schematic_plot)
 
     @property
     def instances(self):
