@@ -1,10 +1,3 @@
-###################################################################################################################
-# PROPRIETARY AND CONFIDENTIAL
-# THIS SOFTWARE IS THE SOLE PROPERTY AND COPYRIGHT (c) 2022 OF ROCKLEY PHOTONICS LTD.
-# USE OR REPRODUCTION IN PART OR AS A WHOLE WITHOUT THE WRITTEN AGREEMENT OF ROCKLEY PHOTONICS LTD IS PROHIBITED.
-# RPLTD NOTICE VERSION: 1.1.1
-###################################################################################################################
-
 from pathlib import Path
 from typing import Optional, Union
 
@@ -14,7 +7,7 @@ import yaml
 import gdsfactory as gf
 
 from . import circuitviz
-from .picmodel import Instance, SchematicConfiguration
+from .picmodel import SchematicConfiguration
 
 
 class SchematicEditor:
@@ -37,6 +30,10 @@ class SchematicEditor:
             self.pdk = gf.get_active_pdk()
         self.component_list = list(gf.get_active_pdk().cells.keys())
 
+        self.on_instance_added = []
+        self.on_settings_updated = []
+        self.on_nets_modified = []
+
         if filepath.is_file():
             self.load_netlist()
         else:
@@ -45,13 +42,21 @@ class SchematicEditor:
             self._net_grid = widgets.VBox()
         first_inst_box = self._get_instance_selector()
         first_inst_box.children[0].observe(self._add_row_when_full, names=["value"])
+        first_inst_box.children[1].observe(
+            self._on_instance_component_modified, names=["value"]
+        )
         self._instance_grid.children += (first_inst_box,)
 
         first_net_box = self._get_net_selector()
         first_net_box.children[0].observe(self._add_net_row_when_full, names=["value"])
         self._net_grid.children += (first_net_box,)
-        self.on_instance_added = []
-        self.on_settings_updated = []
+        for row in self._net_grid.children:
+            for child in row.children:
+                child.observe(self._on_net_modified, names=["value"])
+
+        self.on_instance_added.append(self.write_netlist)
+        self.on_settings_updated.append(self.write_netlist)
+        self.on_nets_modified.append(self.write_netlist)
 
     def _get_instance_selector(self, inst_name=None, component_name=None):
         component_selector = widgets.Combobox(
@@ -60,8 +65,8 @@ class SchematicEditor:
             ensure_option=True,
             disabled=False,
         )
-        component_selector._gf_component = None
         instance_box = widgets.Text(placeholder="Enter a name", disabled=False)
+        component_selector._instance_selector = instance_box
         if inst_name:
             instance_box.value = inst_name
         if component_name:
@@ -98,6 +103,9 @@ class SchematicEditor:
                 new_row = self._get_instance_selector()
                 self._instance_grid.children += (new_row,)
                 new_row.children[0].observe(self._add_row_when_full, names=["value"])
+                new_row.children[1].observe(
+                    self._on_instance_component_modified, names=["value"]
+                )
                 new_row._associated_component = None
 
     def _add_net_row_when_full(self, change):
@@ -110,7 +118,27 @@ class SchematicEditor:
                 new_row.children[0].observe(
                     self._add_net_row_when_full, names=["value"]
                 )
+                for child in new_row.children:
+                    child.observe(self._on_net_modified, names=["value"])
                 new_row._associated_component = None
+
+    def _add_instance_to_vis(self, instance_name):
+        circuitviz.add_instance(instance_name, component=self.instances[instance_name])
+
+    def _on_instance_component_modified(self, change):
+        this_box = change["owner"]
+        inst_box = this_box._instance_selector
+        inst_name = inst_box.value
+        component_name = this_box.value
+
+        if change["old"] == "":
+            if change["new"] != "":
+                self.add_instance(
+                    instance_name=inst_name, component_name=component_name
+                )
+        else:
+            if change["new"] != change["old"]:
+                self.update_component(instance=inst_name, component=component_name)
 
     def _get_data_from_row(self, row):
         inst_name, component_name = (w.value for w in row.children)
@@ -129,8 +157,17 @@ class SchematicEditor:
 
     def _get_net_data(self):
         net_data = [self._get_net_from_row(row) for row in self._net_grid.children]
-        net_data = [d for d in net_data if d[0] != ""]
+        net_data = [d for d in net_data if "" not in d]
         return net_data
+
+    def _on_net_modified(self, change):
+        if change["new"] != change["old"]:
+            net_data = self._get_net_data()
+            new_nets = [[f"{n[0]},{n[1]}", f"{n[2]},{n[3]}"] for n in net_data]
+            old_nets = self._schematic.nets
+            self._schematic.nets = new_nets
+            for callback in self.on_nets_modified:
+                callback(old_nets=old_nets, new_nets=new_nets)
 
     @property
     def widget(self):
@@ -141,7 +178,18 @@ class SchematicEditor:
         return self._net_grid
 
     def visualize(self):
-        circuitviz.show_netlist(self.get_netlist(), self.instances, self.path)
+        circuitviz.show_netlist(self.schematic, self.instances, self.path)
+        # self.on_instance_added.append(partial(self._update_plot, fig=fig))
+        # self.on_settings_updated.append(partial(self._update_plot, fig=fig))
+        # self.on_instance_added.append(self._add_instance_to_vis)
+
+    def _update_plot(self, fig, **kwargs):
+        circuitviz.update_schematic_plot(
+            schematic=self.schematic,
+            instances=self.instances,
+            fig=fig,
+            netlist_filename=self.path,
+        )
 
     @property
     def instances(self):
@@ -161,36 +209,33 @@ class SchematicEditor:
         return insts
 
     def add_instance(self, instance_name: str, component_name: str):
-        self._schematic.instances[instance_name] = Instance(component_name)
+        self._schematic.add_instance(name=instance_name, component=component_name)
         for callback in self.on_instance_added:
-            callback(instance_name)
+            callback(instance_name=instance_name)
 
-    def update_settings(self, instance, setting, value):
-        self._schematic.instances[instance].settings[setting] = value
+    def update_component(self, instance, component):
+        self._schematic.instances[instance].component = component
+        self.update_settings(instance=instance, clear_existing=True)
+
+    def update_settings(self, instance, clear_existing: bool = False, **settings):
+        old_settings = self._schematic.instances[instance].settings.copy()
+        if clear_existing:
+            self._schematic.instances[instance].settings.clear()
+        if settings:
+            self._schematic.instances[instance].settings.update(settings)
+        for callback in self.on_settings_updated:
+            callback(
+                instance_name=instance, settings=settings, old_settings=old_settings
+            )
 
     def get_netlist(self):
-        # insts = self.instances
-        # inst_section = {}
-        # placements = self._schematic_placements
-        # for inst_name, component in insts.items():
-        #     component_name = component.settings.function_name
-        #     component_settings = component.settings.changed
-        #     inst_section[inst_name] = {"component": component_name}
-        #     if component_settings:
-        #         inst_section[inst_name]["settings"] = component_settings
-        #     if inst_name not in placements:
-        #         placements[inst_name] = {"x": 0, "y": 0}
-        # nets = self._get_net_data()
-        # nets_section = [[f"{n[0]},{n[1]}", f"{n[2]},{n[3]}"] for n in nets]
-        # netlist = {
-        #     "instances": inst_section,
-        #     "nets": nets_section,
-        #     "schematic_placements": self._schematic_placements,
-        # }
-        # return netlist
         return self._schematic.dict()
 
-    def write_netlist(self):
+    @property
+    def schematic(self):
+        return self._schematic
+
+    def write_netlist(self, **kwargs):
         netlist = self.get_netlist()
         with open(self.path, mode="w") as f:
             yaml.dump(netlist, f, default_flow_style=None, sort_keys=False)
@@ -211,6 +256,9 @@ class SchematicEditor:
                 inst_name=inst_name, component_name=component_name
             )
             new_row.children[0].observe(self._add_row_when_full, names=["value"])
+            new_row.children[1].observe(
+                self._on_instance_component_modified, names=["value"]
+            )
             new_rows.append(new_row)
         self._instance_grid = widgets.VBox(new_rows)
 
