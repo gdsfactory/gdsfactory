@@ -2,15 +2,21 @@ instances:
   e1:
     component: bend_euler
     settings:
-      angle: 60
+      angle: 49
   euler2:
     component: bend_euler
     settings:
-      angle: 29
+      angle: 57
   euler3:
     component: bend_euler
     settings:
       angle: 180
+  euler4:
+    component: bend_euler
+    settings: {}
+  euler5:
+    component: bend_euler
+    settings: {}
   euler_s:
     component: bend_euler_s
   hello:
@@ -23,6 +29,18 @@ instances:
     component: mzi
   mzi2:
     component: mzi
+  mzi3:
+    component: mzi
+    settings: {}
+  mzi4:
+    component: mzi
+    settings: {}
+  mzi5:
+    component: mzi
+    settings: {}
+  mzi6:
+    component: mzi
+    settings: {}
 nets:
 - - e1,o1
   - mzi1,o2
@@ -32,6 +50,10 @@ nets:
   - euler3,o1
 - - mzi2,o2
   - mzi1,o1
+- - mzi2,o1
+  - mzi3,o2
+- - mzi3,o1
+  - mzi4,o2
 schematic_placements:
   e1:
     dx: 97.2868801322179
@@ -48,28 +70,47 @@ schematic_placements:
     dy: -91.14025819381844
     x: 0.0
     y: 0.0
+  euler4:
+    dx: 57.76366678995297
+    dy: 55.74865515774528
+    x: 0.0
+    y: 0.0
+  euler5:
+    dx: -325.52658041078456
+    dy: -34.54062171198354
   euler_s:
-    dx: 200.3520901734782
-    dy: 29.718610421683614
+    dx: 6.348133180465645
+    dy: 23.834162290557664
     x: 0.0
     y: 0.0
   hello:
-    dx: 207.73159571862965
-    dy: -3.981950422160809
+    dx: -226.3504916700096
+    dy: 89.6539677878549
     x: 0.0
     y: 0.0
   hello2:
-    dx: 123.71973880190441
-    dy: -19.954796580952326
+    dx: -458.23595457268243
+    dy: -125.20479743912705
     x: 0.0
     y: 0.0
   mzi1:
-    dx: -28.371397284021153
-    dy: 74.61843629436754
+    dx: -63.889079857015304
+    dy: -38.37897680857809
     x: 0.0
     y: -100.0
   mzi2:
-    dx: -179.02296230412492
-    dy: -25.670661231357215
+    dx: -208.83454669309725
+    dy: -146.1627819294618
     x: 0.0
     y: 0.0
+  mzi3:
+    dx: -369.600791447625
+    dy: -134.4783723480522
+    x: 0.0
+    y: 0.0
+  mzi4:
+    dx: -492.7421311422777
+    dy: 24.217555852015494
+  mzi5:
+    dx: -13.170080658570356
+    dy: 215.5551324692344

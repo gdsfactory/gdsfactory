@@ -1,13 +1,6 @@
-###################################################################################################################
-# PROPRIETARY AND CONFIDENTIAL
-# THIS SOFTWARE IS THE SOLE PROPERTY AND COPYRIGHT (c) 2021 OF ROCKLEY PHOTONICS LTD.
-# USE OR REPRODUCTION IN PART OR AS A WHOLE WITHOUT THE WRITTEN AGREEMENT OF ROCKLEY PHOTONICS LTD IS PROHIBITED.
-# RPLTD NOTICE VERSION: 1.1.1
-###################################################################################################################
-
-# hide
 from collections import defaultdict
-from typing import Dict, List, NamedTuple, Optional, Union
+from functools import partial
+from typing import Dict, List, NamedTuple, Union
 
 import bokeh.events as be
 import numpy as np
@@ -134,7 +127,13 @@ def _get_column_data_sources(srcs):
 
 
 # export
-def viz_bk(netlist, instances, netlist_filename, fig=None, **kwargs):
+def viz_bk(
+    netlist: Union[SchematicConfiguration, PicYamlConfiguration],
+    instances,
+    netlist_filename,
+    fig=None,
+    **kwargs,
+):
     global data
     if fig is None:
         fig = bp.figure()
@@ -169,6 +168,8 @@ def viz_bk(netlist, instances, netlist_filename, fig=None, **kwargs):
 
         for tag, dx, dy in zip(tags, dxs, dys):  # loop over all displaced rectangles
             if netlist is not None:
+                if tag not in netlist.placements:
+                    netlist.placements[tag] = Placement(x=0, y=0, dx=0, dy=0)
                 dx_, dy_ = netlist.placements[tag].dx, netlist.placements[tag].dy
                 dx_ = 0.0 if dx_ is None else dx_
                 dy_ = 0.0 if dy_ is None else dy_
@@ -472,35 +473,53 @@ def viz_netlist(netlist, instances, instance_size=20):
     return els
 
 
-def show_netlist(netlist: Dict, instances: Dict, netlist_filename):
+def show_netlist(schematic: SchematicConfiguration, instances: Dict, netlist_filename):
     global data
-    picmodel = SchematicConfiguration(
-        instances=netlist["instances"],
-        schematic_placements=netlist.get("schematic_placements"),
-        ports=netlist.get("ports"),
-        nets=netlist.get("nets"),
-    )
-    data["netlist"] = picmodel
+    data["netlist"] = schematic
     fig = bp.figure(width=800, height=500)
     app = viz_bk(
-        picmodel,
+        schematic,
         instances=instances,
         fig=fig,
         instance_size=50,
         netlist_filename=netlist_filename,
     )
     bio.show(app)
+    return fig
 
 
-def add_instance(
-    name: str, component: gf.Component, placement: Optional[Placement] = None
+def update_schematic_plot(
+    schematic: SchematicConfiguration, instances: Dict, fig, netlist_filename
 ):
-    data["netlist"].add_instance(
-        name=name,
-        component=component,
-        placement=placement,
+    # bio.curdoc().add_next_tick_callback(partial(viz_bk,
+    #     schematic=schematic,
+    #     instances=instances,
+    #     fig=fig,
+    #     instance_size=50,
+    #     netlist_filename=netlist_filename,
+    # ))
+    bio.curdoc().add_next_tick_callback(
+        partial(
+            show_netlist,
+            schematic=schematic,
+            instances=instances,
+            netlist_filename=netlist_filename,
+        )
     )
-    inst_viz = viz_instance(data["netlist"], name, 0)
+
+
+def _update_schematic_plot(
+    schematic: SchematicConfiguration, instances: Dict, *args, **kwargs
+):
+    srcs = _get_sources(viz_netlist(schematic, instances=instances))
+    for k in srcs:
+        data["dss"][k].data = srcs[k]
+
+
+def add_instance(name: str, component):
+    inst_viz = viz_instance(
+        data["netlist"], instance_name=name, component=component, instance_size=0
+    )
     srcs = _get_sources([inst_viz])
     for k, src in srcs.items():
         cds: bm.ColumnDataSource = data["dss"][k]
@@ -518,13 +537,3 @@ def apply_deltas(netlist, deltas):
     for k, d in deltas.items():
         netlist.placements[k].dx = d["dx"]
         netlist.placements[k].dy = d["dy"]
-
-
-# def move_instance(name: str, dx: float, dy: float):
-#     data['netlist'].move_instance(name=name,
-#                                   dx=dx,
-#                                   dy=dy)
-
-# fig = bp.figure(width=1500, height=1500)
-# app = viz_bk(netlist, fig=fig, instance_size=50)
-# app(curdoc())
