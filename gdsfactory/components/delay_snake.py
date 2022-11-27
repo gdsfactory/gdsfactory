@@ -15,7 +15,9 @@ def delay_snake(
     cross_section: CrossSectionSpec = "strip",
     **kwargs
 ) -> Component:
-    """Snake input facing west output facing east.
+    """Returns Snake with a starting straight and 90 bends.
+
+    Input faces west output faces east.
 
     Args:
         length: delay length in um.
