@@ -15,7 +15,7 @@ def delay_snake3(
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
-    r"""Snake input facing west.
+    r"""Returns Snake with a starting bend and 180 bends.
 
     Args:
         length: total length.
@@ -70,7 +70,7 @@ def delay_snake3(
     )
 
 
-def test_length():
+def test_length_delay_snake3():
     import numpy as np
 
     length = 200.0
