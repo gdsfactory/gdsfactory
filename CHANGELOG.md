@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.2.6
+
+- import_gds can import any cell (not only top_level cells) [PR](https://github.com/gdsfactory/gdsfactory/pull/917)
+
 ## 6.2.5
 
 - mode solvers get modes_path from PDK.modes_path [PR](https://github.com/gdsfactory/gdsfactory/pull/915)
