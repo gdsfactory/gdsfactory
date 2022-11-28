@@ -60,11 +60,15 @@ class SchematicEditor:
             for child in row.children:
                 child.observe(self._on_net_modified, names=["value"])
 
+        # write netlist whenever the netlist changes, in any way
         self.on_instance_added.append(self.write_netlist)
         self.on_settings_updated.append(self.write_netlist)
         self.on_nets_modified.append(self.write_netlist)
+        self.on_instance_removed.append(self.write_netlist)
 
+        # events triggered when instances are added
         self.on_instance_added.append(self._update_instance_options)
+        self.on_instance_added.append(self._make_instance_removable)
 
     def _get_instance_selector(self, inst_name=None, component_name=None):
         component_selector = widgets.Combobox(
@@ -75,25 +79,42 @@ class SchematicEditor:
         )
         instance_box = widgets.Text(placeholder="Enter a name", disabled=False)
         component_selector._instance_selector = instance_box
-        # can_remove = False
+        can_remove = False
         if inst_name:
             instance_box.value = inst_name
         if component_name:
             component_selector.value = component_name
-            # can_remove = True
+            can_remove = True
         remove_button = widgets.Button(
             description="Remove",
-            icon="rectangle-xmark",
-            disabled=True,  # (not can_remove),
-            tooltip="(NOT YET IMPLEMENTED) Remove this instance from the schematic",
+            icon="xmark",
+            disabled=(not can_remove),
+            tooltip="Remove this instance from the schematic",
+            button_style="",
         )
+        remove_button.on_click(self._on_remove_button_clicked)
 
-        return widgets.Box([instance_box, component_selector, remove_button])
+        row = widgets.Box([instance_box, component_selector, remove_button])
+        row._component_selector = component_selector
+        row._instance_box = instance_box
+        row._remove_button = remove_button
+
+        remove_button._row = row
+        instance_box._row = row
+        component_selector._row = row
+
+        return row
 
     def _update_instance_options(self, **kwargs):
         inst_names = self._schematic.instances.keys()
         for inst_box in self._inst_boxes:
             inst_box.options = list(inst_names)
+
+    def _make_instance_removable(self, instance_name, **kwargs):
+        for row in self._instance_grid.children:
+            if row._instance_box.value == instance_name:
+                row._remove_button.disabled = False
+                return
 
     def _get_net_selector(self, inst1=None, port1=None, inst2=None, port2=None):
         inst_names = list(self._schematic.instances.keys())
@@ -169,6 +190,13 @@ class SchematicEditor:
             if change["new"] != change["old"]:
                 self.update_component(instance=inst_name, component=component_name)
 
+    def _on_remove_button_clicked(self, button):
+        row = button._row
+        self.remove_instance(instance_name=row._instance_box.value)
+        self._instance_grid.children = tuple(
+            child for child in self._instance_grid.children if child is not row
+        )
+
     def _get_data_from_row(self, row):
         inst_name, component_name = (w.value for w in row.children)
         return {"instance_name": inst_name, "component_name": component_name}
@@ -212,6 +240,7 @@ class SchematicEditor:
         self.on_instance_added.append(self._update_schematic_plot)
         self.on_settings_updated.append(self._update_schematic_plot)
         self.on_nets_modified.append(self._update_schematic_plot)
+        self.on_instance_removed.append(self._update_schematic_plot)
 
     @property
     def instances(self):
