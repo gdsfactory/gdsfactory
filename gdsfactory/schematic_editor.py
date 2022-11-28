@@ -32,9 +32,11 @@ class SchematicEditor:
         self.component_list = list(gf.get_active_pdk().cells.keys())
 
         self.on_instance_added = []
+        self.on_instance_removed = []
         self.on_settings_updated = []
         self.on_nets_modified = []
         self._notebook_handle = None
+        self._inst_boxes = []
 
         if filepath.is_file():
             self.load_netlist()
@@ -62,6 +64,8 @@ class SchematicEditor:
         self.on_settings_updated.append(self.write_netlist)
         self.on_nets_modified.append(self.write_netlist)
 
+        self.on_instance_added.append(self._update_instance_options)
+
     def _get_instance_selector(self, inst_name=None, component_name=None):
         component_selector = widgets.Combobox(
             placeholder="Pick a component",
@@ -71,20 +75,35 @@ class SchematicEditor:
         )
         instance_box = widgets.Text(placeholder="Enter a name", disabled=False)
         component_selector._instance_selector = instance_box
+        # can_remove = False
         if inst_name:
             instance_box.value = inst_name
         if component_name:
             component_selector.value = component_name
-        return widgets.Box([instance_box, component_selector])
+            # can_remove = True
+        remove_button = widgets.Button(
+            description="Remove",
+            icon="rectangle-xmark",
+            disabled=True,  # (not can_remove),
+            tooltip="(NOT YET IMPLEMENTED) Remove this instance from the schematic",
+        )
+
+        return widgets.Box([instance_box, component_selector, remove_button])
+
+    def _update_instance_options(self, **kwargs):
+        inst_names = self._schematic.instances.keys()
+        for inst_box in self._inst_boxes:
+            inst_box.options = list(inst_names)
 
     def _get_net_selector(self, inst1=None, port1=None, inst2=None, port2=None):
-        inst_names = list(self.instances.keys())
+        inst_names = list(self._schematic.instances.keys())
         inst1_selector = widgets.Combobox(
             placeholder="inst1", options=inst_names, ensure_option=True, disabled=False
         )
         inst2_selector = widgets.Combobox(
             placeholder="inst2", options=inst_names, ensure_option=True, disabled=False
         )
+        self._inst_boxes.extend([inst1_selector, inst2_selector])
         port1_selector = widgets.Text(placeholder="port1", disabled=False)
         port2_selector = widgets.Text(placeholder="port2", disabled=False)
         if inst1:
@@ -209,6 +228,13 @@ class SchematicEditor:
     def add_instance(self, instance_name: str, component_name: str):
         self._schematic.add_instance(name=instance_name, component=component_name)
         for callback in self.on_instance_added:
+            callback(instance_name=instance_name)
+
+    def remove_instance(self, instance_name: str):
+        self._schematic.instances.pop(instance_name)
+        if instance_name in self._schematic.placements:
+            self._schematic.placements.pop(instance_name)
+        for callback in self.on_instance_removed:
             callback(instance_name=instance_name)
 
     def update_component(self, instance, component):
