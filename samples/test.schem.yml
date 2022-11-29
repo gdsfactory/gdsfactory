@@ -1,41 +1,58 @@
-default_settings: null
 instances:
   eb1:
     component: bend_euler
-    settings: {}
+    settings:
+      angle: 20
   eb2:
     component: bend_euler
-    settings: {}
+    settings:
+      angle: 40
   eb3:
     component: bend_euler
-    settings: {}
+    settings:
+      angle: 30
   eb4:
     component: bend_euler
-    settings: {}
+    settings:
+      angle: 60
   mmi1:
     component: mmi1x2
-    settings: {gap_mmi: 1.0}
+    settings:
+      gap_mmi: 1.0
   mmi2:
     component: mmi2x2
-    settings: {gap_mmi: 0.5}
-schematic_placements:
-  eb1: {x: null, y: null, port: null, rotation: null, dx: -2.689262612399476, dy: 12.145056959223442,
-    mirror: null}
-  eb2: {x: null, y: null, port: null, rotation: null, dx: 13.490089887677119, dy: 12.143182722038379,
-    mirror: null}
-  eb3: {x: null, y: null, port: null, rotation: null, dx: -2.581493974258218, dy: -17.2678157453033,
-    mirror: null}
-  eb4: {x: null, y: null, port: null, rotation: null, dx: 12.04364734010294, dy: -16.946384068064592,
-    mirror: null}
-  mmi1: {x: null, y: null, port: null, rotation: null, dx: -26.594890159738664, dy: 4.028873640424932,
-    mirror: null}
-  mmi2: {x: null, y: null, port: null, rotation: null, dx: 37.853563595575395, dy: 4.615792363291729,
-    mirror: null}
+    settings:
+      gap_mmi: 0.7
 nets:
-- ['mmi1,o2', 'eb1,o1']
-- ['mmi2,o2', 'eb2,o2']
-- ['mmi1,o3', 'eb3,o1']
-- ['mmi2,o1', 'eb4,o2']
-- ['eb1,o2', 'eb2,o1']
-- ['eb3,o2', 'eb4,o1']
+- - mmi1,o2
+  - eb1,o1
+- - mmi2,o2
+  - eb2,o2
+- - mmi1,o3
+  - eb3,o1
+- - mmi2,o1
+  - eb4,o2
+- - eb1,o2
+  - eb2,o1
+- - eb3,o2
+  - eb4,o1
 ports: {}
+schematic_placements:
+  eb1:
+    dx: 2.0330174874047486
+    dy: 8.251659213583984
+  eb2:
+    dx: 14.111533147868268
+    dy: 8.849605533408912
+  eb3:
+    dx: 1.1958926396498537
+    dy: -5.1423383504943665
+  eb4:
+    dx: 14.948657995623165
+    dy: -5.022749086529378
+  mmi1:
+    dx: -19.70461610374166
+    dy: 4.15647130812858
+  mmi2:
+    dx: 37.853563595575395
+    dy: 4.615792363291729
