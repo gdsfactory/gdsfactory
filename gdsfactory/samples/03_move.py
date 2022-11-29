@@ -6,6 +6,8 @@ There are several actions we can take to move and rotate the geometry.
 These actions include movement, rotation, and reflection.
 """
 
+from __future__ import annotations
+
 import gdsfactory as gf
 
 if __name__ == "__main__":

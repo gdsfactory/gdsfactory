@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.types import Floats, LayerSpec
@@ -9,7 +11,7 @@ def verniers(
     gap: float = 0.1,
     xsize: int = 100,
     layer_label: LayerSpec = "LABEL",
-    **kwargs
+    **kwargs,
 ) -> Component:
     c = gf.Component()
     y = 0

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.wire import wire_corner, wire_straight

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Optional
 
 import gdsfactory as gf
@@ -24,7 +26,7 @@ def ring_single_heater(
     via_stack: ComponentSpec = via_stack_heater_m3_mini,
     port_orientation: Optional[float] = 90,
     via_stack_offset: Float2 = (0, 0),
-    **kwargs
+    **kwargs,
 ) -> gf.Component:
     """Returns a single ring with heater on top.
 
@@ -66,20 +68,20 @@ def ring_single_heater(
         length_x=length_x,
         cross_section=cross_section,
         bend_cross_section=cross_section_waveguide_heater,
-        **kwargs
+        **kwargs,
     )
 
     straight_side = gf.get_component(
         straight,
         length=length_y,
         cross_section=cross_section_waveguide_heater,
-        **kwargs
+        **kwargs,
     )
     straight_top = gf.get_component(
         straight,
         length=length_x,
         cross_section=cross_section_waveguide_heater,
-        **kwargs
+        **kwargs,
     )
 
     bend = gf.get_component(

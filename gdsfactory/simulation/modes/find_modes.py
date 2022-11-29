@@ -10,6 +10,8 @@ output as um/lambda, e.g. 1.5um would correspond to the frequency
 1/1.5 = 0.6667.
 
 """
+from __future__ import annotations
+
 import pickle
 from functools import partial
 from typing import Dict

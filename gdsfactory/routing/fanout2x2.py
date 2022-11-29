@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Callable, Optional
 
 import gdsfactory as gf
@@ -16,7 +18,7 @@ def fanout2x2(
     npoints: int = 101,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Returns component with Sbend fanout routes.
 

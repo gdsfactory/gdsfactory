@@ -1,5 +1,7 @@
 """Compute and write Sparameters using Meep."""
 
+from __future__ import annotations
+
 import inspect
 import multiprocessing
 import pathlib

@@ -1,6 +1,8 @@
 """Compares the modes of a gdsfactory + MEEP waveguide cross-section vs a
 direct MPB calculation."""
 
+from __future__ import annotations
+
 import h5py
 import matplotlib.pyplot as plt
 import numpy as np

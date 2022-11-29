@@ -6,6 +6,7 @@ For your PDK i recommend that you store the store the reference GDS files on
 the same repo as you store the code. See code below
 
 ```
+from __future__ import annotations
 import pathlib
 
 dirpath = pathlib.Path(__file__).absolute().with_suffix(".gds")

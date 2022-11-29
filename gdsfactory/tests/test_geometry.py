@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 
 r1 = (8, 8)

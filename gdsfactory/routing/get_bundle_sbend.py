@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import List
 
 from gdsfactory.components.bend_s import bend_s

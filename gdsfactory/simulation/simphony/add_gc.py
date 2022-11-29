@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from simphony.libraries import siepic
 
 import gdsfactory as gf
