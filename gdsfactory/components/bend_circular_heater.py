@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
@@ -16,7 +18,7 @@ def bend_circular_heater(
     layer_heater: LayerSpec = "HEATER",
     with_bbox: bool = True,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Creates an arc of arclength `theta` starting at angle `start_angle`.
 

@@ -3,6 +3,8 @@
 Make sure your components get imported here so the PDK registers them.
 """
 
+from __future__ import annotations
+
 import sys
 
 from gdsfactory.components.add_fiducials import add_fiducials, add_fiducials_offsets

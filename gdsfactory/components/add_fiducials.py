@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
@@ -14,7 +16,7 @@ def add_fiducials(
     top: Optional[ComponentSpec] = None,
     bottom: Optional[ComponentSpec] = None,
     offset: Float2 = (0, 0),
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Return component with fiducials.
 

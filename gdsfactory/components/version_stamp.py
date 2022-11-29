@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import datetime
 import platform
 from typing import Optional, Tuple

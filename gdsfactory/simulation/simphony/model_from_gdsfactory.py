@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Any, List, Tuple
 
 import numpy as np
@@ -20,7 +22,7 @@ class GDSFactorySimphonyWrapper(Model):
         *,
         component: Component,
         dirpath=gf.PATH.sparameters,
-        **kwargs
+        **kwargs,
     ) -> None:
         """Take a GDSFactory component and convert it into a Simphony Model object.
 
@@ -45,7 +47,7 @@ class GDSFactorySimphonyWrapper(Model):
 
         super().__init__(name, freq_range=freq_range, pins=pins)
 
-    def s_parameters(self, freqs: "np.array") -> "np.ndarray":
+    def s_parameters(self, freqs: np.array) -> np.ndarray:
         return interpolate(freqs, self.f, self.s)
 
     def _model_from_gdsfactory(

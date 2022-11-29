@@ -1,5 +1,7 @@
 """avoid duplicated cell names when importing GDS files."""
 
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory import geometry
 

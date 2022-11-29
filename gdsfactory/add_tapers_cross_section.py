@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Callable, Optional
 
 import gdsfactory as gf
@@ -17,7 +19,7 @@ def add_tapers(
     taper_port_name1: str = "o1",
     taper_port_name2: str = "o2",
     cross_section2: CrossSectionSpec = strip,
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Returns new component with taper in all optical ports.
 
@@ -45,7 +47,7 @@ def add_tapers(
             taper_ref = c << taper(
                 cross_section1=port.cross_section,
                 cross_section2=cross_section2,
-                **kwargs
+                **kwargs,
             )
             taper_ref.connect(taper_ref.ports[taper_port_name1].name, port)
             c.add_port(name=port_name, port=taper_ref.ports[taper_port_name2])

@@ -1,5 +1,7 @@
 """Functions to create routes between components."""
 
+from __future__ import annotations
+
 from gdsfactory.routing import sort_ports, utils
 from gdsfactory.routing.add_electrical_pads_shortest import add_electrical_pads_shortest
 from gdsfactory.routing.add_electrical_pads_top import add_electrical_pads_top

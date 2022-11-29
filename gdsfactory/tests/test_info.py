@@ -12,6 +12,8 @@ Calculated/derived properties are stored in info
 
 """
 
+from __future__ import annotations
+
 import gdsfactory as gf
 
 
