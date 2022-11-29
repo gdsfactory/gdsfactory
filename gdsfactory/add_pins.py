@@ -514,6 +514,7 @@ def add_pins(
 
 
 add_pins_triangle = partial(add_pins, function=add_pin_triangle)
+add_pins_center = partial(add_pins, function=add_pin_rectangle)
 
 
 def add_settings_label(

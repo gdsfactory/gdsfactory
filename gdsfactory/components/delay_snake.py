@@ -1,4 +1,4 @@
-from numpy import pi
+import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -8,18 +8,20 @@ from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 @gf.cell
 def delay_snake(
-    total_length: float = 1600.0,
+    length: float = 1600.0,
     L0: float = 5.0,
     n: int = 2,
     bend: ComponentSpec = "bend_euler",
     cross_section: CrossSectionSpec = "strip",
     **kwargs
 ) -> Component:
-    """Snake input facing west output facing east.
+    """Returns Snake with a starting straight and 90 bends.
+
+    Input faces west output faces east.
 
     Args:
-        total_length: of the delay.
-        L0: initial xoffset.
+        length: delay length in um.
+        L0: initial xoffset in um.
         n: number of loops.
         bend: bend spec.
         cross_section: cross_section spec.
@@ -40,7 +42,7 @@ def delay_snake(
     epsilon = 0.1
     bend90 = gf.get_component(bend, cross_section=cross_section, **kwargs)
     dy = bend90.info["dy"]
-    DL = (total_length + L0 - n * (pi * dy + epsilon)) / (2 * n + 1)
+    DL = (length + L0 - n * (np.pi * dy + epsilon)) / (2 * n + 1)
     L2 = DL - L0
     assert (
         L2 > 0
@@ -67,6 +69,15 @@ def delay_snake(
     return c
 
 
+def test_delay_snake_length():
+    length = 200.0
+    c = delay_snake(n=1, length=length, cross_section="strip_no_pins")
+    length_computed = c.area() / 0.5
+    np.isclose(length, length_computed)
+    return c
+
+
 if __name__ == "__main__":
-    c = delay_snake(cross_section="strip_auto_widen", auto_widen_minimum_length=50)
+    c = test_delay_snake_length()
+    # c = delay_snake(cross_section="strip_auto_widen", auto_widen_minimum_length=50)
     c.show(show_ports=True)

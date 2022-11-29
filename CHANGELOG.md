@@ -1,9 +1,40 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [6.1.2](https://github.com/gdsfactory/gdsfactory/pull/895)
+## 6.2.6
+
+- import_gds can import any cell (not only top_level cells) [PR](https://github.com/gdsfactory/gdsfactory/pull/917)
+
+## 6.2.5
+
+- mode solvers get modes_path from PDK.modes_path [PR](https://github.com/gdsfactory/gdsfactory/pull/915)
+- remove gf.CONFIG [PR](https://github.com/gdsfactory/gdsfactory/pull/916)
+
+## 6.2.4
+
+- straight propagates to route filter in get_bundle [PR](https://github.com/gdsfactory/gdsfactory/pull/914)
+- update pre-commit hooks and simplify CI/CD [PR](https://github.com/gdsfactory/gdsfactory/pull/913)
+- fix delay length [PR](https://github.com/gdsfactory/gdsfactory/pull/912)
+
+## [6.2.3](https://github.com/gdsfactory/gdsfactory/pull/907)
+
+- fix add ports from paths and polygons
+- add tests
+
+## [6.2.2](https://github.com/gdsfactory/gdsfactory/pull/905)
+
+- fix import_gds works with arrays
+- ComponentReference allows vectors v1 and v2
+
+## [6.2.1](https://github.com/gdsfactory/gdsfactory/pull/903)
+
+- difftest prompts you whether you want to do the xor diff
+
+## [6.2.0](https://github.com/gdsfactory/gdsfactory/pull/895)
 
 - mmi input waveguide width is optional and defaults to cross_section.width
 - rename reflect_h to mirror_x and reflect_v to mirror_y [PR](https://github.com/gdsfactory/gdsfactory/pull/896)
+- gdsfactory cells working on klayout [PR](https://github.com/gdsfactory/gdsfactory/pull/899)
+- fix grid ports [PR](https://github.com/gdsfactory/gdsfactory/pull/900)
 
 ## 6.1.1
 

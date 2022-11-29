@@ -352,7 +352,7 @@ if __name__ == "__main__":
 
     # import gdsfactory as gf
 
-    # gdspath = gf.CONFIG["gdsdir"] / "mzi2x2.gds"
+    # gdspath = gf.PATH.gdsdir / "mzi2x2.gds"
     # c = gf.import_gds(gdspath)
     # c3 = gf.routing.add_fiber_single(c)
     # c3.show()

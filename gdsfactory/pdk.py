@@ -11,7 +11,7 @@ from omegaconf import DictConfig
 from pydantic import BaseModel, Field, validator
 
 from gdsfactory.components import cells
-from gdsfactory.config import sparameters_path
+from gdsfactory.config import PATH, sparameters_path
 from gdsfactory.containers import containers as containers_default
 from gdsfactory.cross_section import cross_sections
 from gdsfactory.events import Event
@@ -65,10 +65,12 @@ class Pdk(BaseModel):
             (refractive index, nonlinear coefficient, sheet resistance ...).
         layer_colors: includes layer name to color, opacity and pattern.
         sparameters_path: to store Sparameters simulations.
+        modes_path: to store Sparameters simulations.
         interconnect_cml_path: path to interconnect CML (optional).
         grid_size: in um. Defaults to 1nm.
         warn_off_grid_ports: raises warning when extruding paths with offgrid ports.
             For example, if you try to create a waveguide with 1.5nm length.
+        constants: dict of constants for the PDK.
 
     """
 
@@ -82,6 +84,7 @@ class Pdk(BaseModel):
     layer_stack: Optional[LayerStack] = None
     layer_colors: Optional[LayerColors] = None
     sparameters_path: Optional[PathType] = None
+    modes_path: Optional[PathType] = PATH.modes
     interconnect_cml_path: Optional[PathType] = None
     grid_size: float = 0.001
     warn_off_grid_ports: bool = False
@@ -485,6 +488,10 @@ def get_sparameters_path() -> pathlib.Path:
     if _ACTIVE_PDK.sparameters_path is None:
         raise ValueError(f"{_ACTIVE_PDK.name!r} has no sparameters_path")
     return _ACTIVE_PDK.sparameters_path
+
+
+def get_modes_path() -> Optional[pathlib.Path]:
+    return _ACTIVE_PDK.modes_path
 
 
 def get_interconnect_cml_path() -> pathlib.Path:

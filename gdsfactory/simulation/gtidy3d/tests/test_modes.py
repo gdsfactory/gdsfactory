@@ -28,7 +28,7 @@ def test_neff_no_cache():
         slab_thickness=0.0,
         ncore=si,
         nclad=sio2,
-        cache=None,
+        cache=False,
     )
     c.compute_modes()
     n0 = abs(c.neffs[0])
@@ -43,7 +43,7 @@ def test_ng_no_cache():
         slab_thickness=0.0,
         ncore=si,
         nclad=sio2,
-        cache=None,
+        cache=False,
     )
     ng = group_index(**wg_settings)
     assert np.isclose(ng, 4.169, rtol=0.01), ng
@@ -59,7 +59,7 @@ def test_sweep_width(dataframe_regression) -> None:
         slab_thickness=0 * nm,
         ncore=gt.modes.si,
         nclad=gt.modes.sio2,
-        cache=None,
+        cache=False,
     )
 
     if dataframe_regression:

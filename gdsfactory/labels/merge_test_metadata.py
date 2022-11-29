@@ -95,10 +95,10 @@ def merge_test_metadata(
 
 
 if __name__ == "__main__":
-    # from gdsfactory import CONFIG
+    # from gdsfactory import PATH
 
     # labels_path = (
-    #     CONFIG["samples_path"] / "mask_pack" / "build" / "mask" / "sample_mask.csv"
+    #    PATH.samples_path / "mask_pack" / "build" / "mask" / "sample_mask.csv"
     # )
     # mask_metadata_path = labels_path.with_suffix(".yml")
     # mask_metadata = OmegaConf.load(mask_metadata_path)
