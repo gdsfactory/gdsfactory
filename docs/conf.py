@@ -77,7 +77,13 @@ autodoc_pydantic_model_show_config_summary = False
 autodoc_pydantic_model_show_validator_summary = False
 autodoc_pydantic_model_show_validator_members = False
 autodoc_typehints = "description"
+autodoc_typehints_format = "short"
 
+autodoc_type_aliases = {
+    "ComponentSpec": "ComponentSpec",
+    "LayerSpec": "LayerSpec",
+    "CrossSectionSpec": "CrossSectionSpec",
+}
 
 autodoc_default_options = {
     "member-order": "bysource",

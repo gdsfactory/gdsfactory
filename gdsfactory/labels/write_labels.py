@@ -1,10 +1,13 @@
 """Find GDS labels and write them to a CSV file."""
 
+from __future__ import annotations
+
 import csv
 import pathlib
 from pathlib import Path
 from typing import Iterator, Tuple
 
+import numpy as np
 from loguru import logger
 
 import gdsfactory as gf
@@ -120,9 +123,10 @@ def write_labels_gdstk(
             and label.text.startswith(prefix)
         ):
             x, y = label.origin
-            labels += [(label.text, x, y, label.rotation)]
+            rot = np.rad2deg(label.rotation)
+            labels += [(label.text, x, y, rot)]
             if debug:
-                print(label.text, x, y, label.rotation)
+                print(label.text, x, y, rot)
 
     with open(filepath, "w", newline="") as f:
         writer = csv.writer(f)

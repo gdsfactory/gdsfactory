@@ -1,5 +1,7 @@
 """gdsfactory interface to simulations."""
 
+from __future__ import annotations
+
 from gdsfactory.simulation import plot
 from gdsfactory.simulation.get_effective_indices import get_effective_indices
 from gdsfactory.simulation.get_sparameters_path import (

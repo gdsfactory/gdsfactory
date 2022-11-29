@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import shapely
 from shapely.geometry import LineString, MultiLineString, MultiPolygon, Polygon
 from shapely.ops import linemerge, split

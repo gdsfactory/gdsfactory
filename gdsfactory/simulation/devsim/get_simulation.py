@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from itertools import combinations
 from typing import Dict, Optional, Tuple
 
@@ -203,7 +205,7 @@ def create_2Duz_simulation(
 if __name__ == "__main__":
 
     import gdsfactory as gf
-    from gdsfactory.tech import LayerStack, get_layer_stack_generic
+    from gdsfactory.tech import get_layer_stack_generic
 
     # We choose a representative subdomain of the component
     waveguide = gf.Component()

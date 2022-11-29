@@ -1,6 +1,7 @@
 """GDS regression test. Adapted from lytest.
 
 TODO: adapt it into pytest_regressions
+from __future__ import annotations
 from pytest_regressions.file_regression import FileRegressionFixture
 class GdsRegressionFixture(FileRegressionFixture):
     def check(self,

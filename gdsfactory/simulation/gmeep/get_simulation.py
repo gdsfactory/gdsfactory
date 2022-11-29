@@ -1,4 +1,6 @@
 """Returns simulation from component."""
+from __future__ import annotations
+
 import inspect
 import warnings
 from typing import Any, Dict, Optional, Union

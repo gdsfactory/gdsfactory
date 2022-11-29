@@ -2,6 +2,8 @@
 
 To create a component you need to extrude the path with a cross-section.
 """
+from __future__ import annotations
+
 import inspect
 import sys
 from collections.abc import Iterable
@@ -1366,7 +1368,9 @@ def get_cross_section_factories(
             if callable(t[1]) and t[0] != "partial":
                 try:
                     r = inspect.signature(t[1]).return_annotation
-                    if r == CrossSection:
+                    if r == CrossSection or (
+                        isinstance(r, str) and r.endswith("CrossSection")
+                    ):
                         xs[t[0]] = t[1]
                 except ValueError:
                     if verbose:

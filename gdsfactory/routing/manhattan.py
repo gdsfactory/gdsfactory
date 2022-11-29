@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import uuid
 import warnings
 from typing import Callable, Dict, List, Optional, Tuple, Union

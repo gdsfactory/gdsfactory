@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import devsim as tcad
 
 from gdsfactory.config import logger

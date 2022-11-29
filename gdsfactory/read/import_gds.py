@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from pathlib import Path
 from typing import Optional, Union
 
@@ -46,10 +48,10 @@ def import_gds(
         raise ValueError(f"gdspath.suffix {gdspath.suffix!r} not .gds or .oas")
 
     top_level_cells = gdsii_lib.top_level()
-    cellnames = [c.name for c in top_level_cells]
+    top_cellnames = [c.name for c in top_level_cells]
 
-    if not cellnames:
-        raise ValueError(f"no cells found in {str(gdspath)!r}")
+    if not top_cellnames:
+        raise ValueError(f"no top cells found in {str(gdspath)!r}")
 
     D_list = []
     cell_name_to_component = {}
@@ -68,6 +70,7 @@ def import_gds(
         cell_to_component[c] = D
         D_list += [D]
 
+    cellnames = list(cell_name_to_component.keys())
     if cellname is not None:
         if cellname not in cell_name_to_component:
             raise ValueError(

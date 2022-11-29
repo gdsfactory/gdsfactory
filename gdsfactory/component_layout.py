@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import numbers
 from collections import defaultdict
 from typing import Dict, List, Optional, Tuple, Union
@@ -300,7 +302,7 @@ class Group(_GeometryHelper):
         """Returns the number of elements in the Group."""
         return len(self.elements)
 
-    def __iadd__(self, element) -> "Group":
+    def __iadd__(self, element) -> Group:
         """Adds an element to the Group.
 
         Args:
@@ -325,7 +327,7 @@ class Group(_GeometryHelper):
         )
         return np.array(bbox)
 
-    def add(self, element) -> "Group":
+    def add(self, element) -> Group:
         """Adds an element to the Group.
 
         Args:
@@ -356,7 +358,7 @@ class Group(_GeometryHelper):
         ]
         return self
 
-    def rotate(self, angle: float = 45, center=(0, 0)) -> "Group":
+    def rotate(self, angle: float = 45, center=(0, 0)) -> Group:
         """Rotates all elements in a Group around the specified centerpoint.
 
         Args:
@@ -369,7 +371,7 @@ class Group(_GeometryHelper):
             e.rotate(angle=angle, center=center)
         return self
 
-    def move(self, origin=(0, 0), destination=None, axis=None) -> "Group":
+    def move(self, origin=(0, 0), destination=None, axis=None) -> Group:
         """Moves the Group from the origin point to the destination.
 
         Both origin and destination can be 1x2 array-like, Port, or a key
@@ -387,7 +389,7 @@ class Group(_GeometryHelper):
             e.move(origin=origin, destination=destination, axis=axis)
         return self
 
-    def mirror(self, p1=(0, 1), p2=(0, 0)) -> "Group":
+    def mirror(self, p1=(0, 1), p2=(0, 0)) -> Group:
         """Mirrors a Group across the line formed between the two specified points.
 
         ``points`` may be input as either single points
@@ -405,7 +407,7 @@ class Group(_GeometryHelper):
 
     def distribute(
         self, direction="x", spacing=100, separation=True, edge="center"
-    ) -> "Group":
+    ) -> Group:
         """Distributes the elements in the Group.
 
         Args:
@@ -430,7 +432,7 @@ class Group(_GeometryHelper):
         )
         return self
 
-    def align(self, alignment="ymax") -> "Group":
+    def align(self, alignment="ymax") -> Group:
         """Aligns the elements in the Group.
 
         Args:
