@@ -12,6 +12,8 @@ PATH has all your computer specific paths that we do not care to store
 
 """
 
+from __future__ import annotations
+
 import io
 import json
 import os

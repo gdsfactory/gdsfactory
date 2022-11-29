@@ -1,4 +1,6 @@
 """read Sparameters from CSV file and returns sax model."""
+from __future__ import annotations
+
 import pathlib
 from typing import Union
 

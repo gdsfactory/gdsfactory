@@ -34,6 +34,8 @@ cross_section
 """
 
 
+from __future__ import annotations
+
 from functools import partial
 
 from gdsfactory.components.straight_heater_doped_rib import straight_heater_doped_rib

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Tuple
 
 import gdsfactory as gf
@@ -108,7 +110,7 @@ def cdc(
     fins: bool = False,
     fin_size: Tuple[float, float] = (0.2, 0.05),
     cross_section: CrossSectionSpec = strip,
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Grating-Assisted Contra-Directional Coupler.
 

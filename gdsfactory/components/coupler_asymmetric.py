@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_s import bend_s
@@ -13,7 +15,7 @@ def coupler_asymmetric(
     dy: float = 5.0,
     dx: float = 10.0,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Bend coupled to straight waveguide.
 

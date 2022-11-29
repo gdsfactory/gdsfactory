@@ -9,6 +9,8 @@ tidy3d can:
 
 """
 
+from __future__ import annotations
+
 import itertools as it
 import pathlib
 import subprocess
@@ -654,7 +656,7 @@ class Waveguide(BaseModel):
         return ", \n".join([f"{k} = {getattr(self, k)!r}" for k in self.settings])
 
     def get_overlap(
-        self, wg: "Waveguide", mode_index1: int = 0, mode_index2: int = 0
+        self, wg: Waveguide, mode_index1: int = 0, mode_index2: int = 0
     ) -> float:
         """Returns mode overlap integral.
 

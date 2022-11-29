@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Optional
 
 import gdsfactory as gf
@@ -20,7 +22,7 @@ def coupler_ring(
     coupler_straight: ComponentSpec = coupler_straight,
     cross_section: CrossSectionSpec = "strip",
     bend_cross_section: Optional[CrossSectionSpec] = None,
-    **kwargs
+    **kwargs,
 ) -> Component:
     r"""Coupler for ring.
 
@@ -57,14 +59,14 @@ def coupler_ring(
         bend=bend,
         cross_section=cross_section,
         bend_cross_section=bend_cross_section,
-        **kwargs
+        **kwargs,
     )
     coupler_straight_component = gf.get_component(
         coupler_straight,
         gap=gap,
         length=length_x,
         cross_section=cross_section,
-        **kwargs
+        **kwargs,
     )
 
     # add references to subcells
