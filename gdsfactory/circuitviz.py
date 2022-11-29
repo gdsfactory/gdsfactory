@@ -279,9 +279,7 @@ def viz_bk(
     # pan_tool = bm.PanTool()
     tap_tool = bm.TapTool()
     zoom = bm.WheelZoomTool()
-    fig.add_tools(
-        draw_tool=draw_tool, hover_tool=hover_tool, tap_tool=tap_tool, zoom=zoom
-    )
+    fig.add_tools(draw_tool, hover_tool, tap_tool, zoom)
     fig.toolbar.active_scroll = zoom
     fig.toolbar.active_tap = tap_tool
     fig.toolbar.active_drag = draw_tool
