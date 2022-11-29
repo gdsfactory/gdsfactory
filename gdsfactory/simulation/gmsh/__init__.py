@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from gdsfactory.simulation.gmsh.mesh import mesh_from_polygons
 from gdsfactory.simulation.gmsh.meshtracker import MeshTracker
 from gdsfactory.simulation.gmsh.parse_gds import (

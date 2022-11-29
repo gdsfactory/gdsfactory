@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.via_stack import via_stack_heater_m3

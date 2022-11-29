@@ -32,6 +32,8 @@ To generate a straight route:
 - length: a float with the length of the route
 
 """
+from __future__ import annotations
+
 from functools import partial
 from typing import Callable, Optional, Union
 

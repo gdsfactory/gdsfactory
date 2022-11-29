@@ -1,4 +1,6 @@
 """Straight waveguide."""
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
@@ -12,7 +14,7 @@ def straight(
     npoints: int = 2,
     with_bbox: bool = True,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Returns a Straight waveguide.
 

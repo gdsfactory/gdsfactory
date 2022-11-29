@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import pathlib
 
 from jsondiff import diff

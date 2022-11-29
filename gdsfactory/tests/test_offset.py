@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.difftest import difftest
 from gdsfactory.geometry.offset import offset

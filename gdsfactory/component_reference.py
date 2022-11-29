@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import typing
 from typing import Any, Dict, List, Optional, Tuple, Union, cast
 
@@ -138,7 +140,7 @@ class ComponentReference(_GeometryHelper):
 
     def __init__(
         self,
-        component: "Component",
+        component: Component,
         origin: Coordinate = (0, 0),
         rotation: float = 0,
         magnification: float = 1,
@@ -527,7 +529,7 @@ class ComponentReference(_GeometryHelper):
         origin: Union[Port, Coordinate, str] = (0, 0),
         destination: Optional[Union[Port, Coordinate, str]] = None,
         axis: Optional[str] = None,
-    ) -> "ComponentReference":
+    ) -> ComponentReference:
         """Move the ComponentReference from origin point to destination.
 
         Both origin and destination can be 1x2 array-like, Port, or a key
@@ -601,7 +603,7 @@ class ComponentReference(_GeometryHelper):
         self,
         angle: float = 45,
         center: Union[Coordinate, str, int] = (0.0, 0.0),
-    ) -> "ComponentReference":
+    ) -> ComponentReference:
         """Return rotated ComponentReference.
 
         Args:
@@ -623,7 +625,7 @@ class ComponentReference(_GeometryHelper):
 
     def mirror_x(
         self, port_name: Optional[str] = None, x0: Optional[Coordinate] = None
-    ) -> "ComponentReference":
+    ) -> ComponentReference:
         """Perform horizontal mirror using x0 or port as axis (default, x0=0).
 
         This is the default for mirror along X=x0 axis
@@ -639,7 +641,7 @@ class ComponentReference(_GeometryHelper):
 
     def mirror_y(
         self, port_name: Optional[str] = None, y0: Optional[float] = None
-    ) -> "ComponentReference":
+    ) -> ComponentReference:
         """Perform vertical mirror using y0 as axis (default, y0=0)."""
         if port_name is None and y0 is None:
             y0 = 0.0
@@ -654,7 +656,7 @@ class ComponentReference(_GeometryHelper):
         self,
         p1: Coordinate = (0.0, 1.0),
         p2: Coordinate = (0.0, 0.0),
-    ) -> "ComponentReference":
+    ) -> ComponentReference:
         """Mirrors.
 
         Args:
@@ -695,7 +697,7 @@ class ComponentReference(_GeometryHelper):
         port: Union[str, Port],
         destination: Port,
         overlap: float = 0.0,
-    ) -> "ComponentReference":
+    ) -> ComponentReference:
         """Return ComponentReference where port connects to a destination.
 
         Args:

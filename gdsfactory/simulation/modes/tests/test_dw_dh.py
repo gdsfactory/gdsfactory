@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from gdsfactory.simulation.modes.find_neff_ng_dw_dh import find_neff_ng_dw_dh
 
 

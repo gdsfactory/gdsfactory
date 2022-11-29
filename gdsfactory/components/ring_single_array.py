@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Dict, Optional, Tuple
 
 import gdsfactory as gf
@@ -18,7 +20,7 @@ def ring_single_array(
     spacing: float = 5.0,
     list_of_dicts: Optional[Tuple[Dict[str, float], ...]] = None,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Ring of single bus connected with straights.
 

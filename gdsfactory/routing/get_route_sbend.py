@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.port import Port
 from gdsfactory.types import Route

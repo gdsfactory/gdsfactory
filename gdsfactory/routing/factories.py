@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from gdsfactory.routing.get_bundle import (
     get_bundle,
     get_bundle_electrical,

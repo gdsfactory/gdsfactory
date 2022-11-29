@@ -1,6 +1,8 @@
 """[[-0.09051371-0.20581339j  0.00704022+0.1328474j \
     0.03733851+0.4879802j ]."""
 
+from __future__ import annotations
+
 from pathlib import PosixPath
 from typing import Optional, Tuple, Union
 
@@ -99,7 +101,7 @@ class SimphonyFromFile(Model):
 
         return self
 
-    def s_parameters(self, freqs: "np.array") -> "np.ndarray":
+    def s_parameters(self, freqs: np.array) -> np.ndarray:
         return interpolate(freqs, self.f, self.s)
 
 
