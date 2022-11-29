@@ -141,7 +141,7 @@ class Port:
             center=[float(self.center[0]), float(self.center[1])],
             orientation=float(self.orientation)
             if self.orientation
-            else self.orientation,
+            else float(self.orientation),
             layer=self.layer,
             port_type=self.port_type,
         )
