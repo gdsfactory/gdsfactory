@@ -53,7 +53,7 @@ repos:
     rev: 6a9d7a7a7d0db950a1bd8d5ecdd3298f114d2a12
     hooks:
       - id: codespell
-        args: ["-L TE,TE/TM,te,ba,FPR,fpr_spacing,ro,nd,donot"]
+        args: ["-L TE,TE/TM,te,ba,FPR,fpr_spacing,ro,nd,donot,schem"]
 
   # - repo: https://github.com/shellcheck-py/shellcheck-py
   #   rev: 98854f809ca9d0e235c0bd5c0ad5e986e02120a4
