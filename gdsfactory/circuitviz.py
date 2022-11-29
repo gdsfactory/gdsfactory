@@ -47,7 +47,7 @@ def save_netlist(netlist, filename):
                             pass
             else:
                 p.pop(pk)
-        yaml.dump(d, f)
+        yaml.dump(d, f, sort_keys=False, default_flow_style=None)
 
 
 # export
