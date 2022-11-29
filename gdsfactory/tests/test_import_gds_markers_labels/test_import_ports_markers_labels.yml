@@ -1,0 +1,49 @@
+component_name: straight_aa0e8b9c_move__f4a870e7
+polarization: None
+ports:
+  loopback1:
+    center:
+    - 117.66699999999999
+    - -63.22300000000001
+    layer:
+    - 203
+    - 0
+    name: loopback1
+    orientation: 0.0
+    port_type: loopback
+    width: 11.0
+  loopback2:
+    center:
+    - -127.66900000000003
+    - -63.22299999999998
+    layer:
+    - 203
+    - 0
+    name: loopback2
+    orientation: 180.0
+    port_type: loopback
+    width: 11.0
+  vertical_te_00:
+    center:
+    - 117.66850000000001
+    - -1.2172687056884808e-14
+    layer:
+    - 203
+    - 0
+    name: vertical_te_00
+    orientation: 0.0
+    port_type: vertical_te
+    width: 11.0
+  vertical_te_1:
+    center:
+    - -127.66850000000001
+    - 9.510304915538464e-15
+    layer:
+    - 203
+    - 0
+    name: vertical_te_1
+    orientation: 180.0
+    port_type: vertical_te
+    width: 11.0
+settings: null
+wavelength: None

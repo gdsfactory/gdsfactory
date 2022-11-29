@@ -153,7 +153,7 @@ def mzi_lattice_mmi(
         taper_function,
     ),
     straight_functions_mmis=(straight_function, straight_function),
-    cross_sections_mmis = ("strip", "strip"),
+    cross_sections_mmis=("strip", "strip"),
     delta_lengths: Tuple[float, ...] = (10.0,),
     mzi=mmi_coupler_function,
     splitter=mmi_splitter_function,
