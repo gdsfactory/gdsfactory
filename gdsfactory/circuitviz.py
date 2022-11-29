@@ -20,9 +20,12 @@ data = {
     "dss": {},
 }
 
-
-# netlist = create_pic()
-# # netlist.move_instance('i3', 150, 200)
+COLORS_BY_PORT_TYPE = {
+    "optical": "#0000ff",
+    "electrical": "#00ff00",
+    "placement": "white",
+    None: "gray",  # default
+}
 
 
 def save_netlist(netlist, filename):
@@ -113,7 +116,8 @@ def _get_sources(objs):
             src["y"].append(obj.y)
             # src["width"].append(obj.w)
             # src["height"].append(obj.h)
-            src["fill_color"].append("green")
+            color = COLORS_BY_PORT_TYPE.get(obj.port_type, COLORS_BY_PORT_TYPE[None])
+            src["fill_color"].append(color)
             src["fill_alpha"].append(0.5)
     return srcs
 
