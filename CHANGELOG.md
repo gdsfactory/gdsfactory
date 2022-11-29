@@ -8,6 +8,10 @@
 - fix missing conversion from rad (gdstk) to deg [PR](https://github.com/gdsfactory/gdsfactory/pull/927)
 - better error message when failing to import missing gdscell [PR](https://github.com/gdsfactory/gdsfactory/pull/926)
 - mzi lattice mmi [PR](https://github.com/gdsfactory/gdsfactory/pull/920)
+- prepare release [PR](https://github.com/gdsfactory/gdsfactory/pull/929)
+    * keep python3.7 compatibility, by removing `:=` [Walrus operator](https://realpython.com/python-walrus-operator/)
+    * move schematic driven flow notebook from samples to docs
+    * add test coverage for write_labels_gdstk
 
 ## 6.2.6
 
