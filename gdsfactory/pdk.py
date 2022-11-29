@@ -1,5 +1,7 @@
 """PDK stores layers, cross_sections, cell functions ..."""
 
+from __future__ import annotations
+
 import logging
 import pathlib
 import warnings
@@ -78,7 +80,7 @@ class Pdk(BaseModel):
     cross_sections: Dict[str, CrossSectionFactory] = Field(default_factory=dict)
     cells: Dict[str, ComponentFactory] = Field(default_factory=dict)
     containers: Dict[str, ComponentFactory] = containers_default
-    base_pdk: Optional["Pdk"] = None
+    base_pdk: Optional[Pdk] = None
     default_decorator: Optional[Callable[[Component], None]] = None
     layers: Dict[str, Layer] = Field(default_factory=dict)
     layer_stack: Optional[LayerStack] = None

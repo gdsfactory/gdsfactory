@@ -1,4 +1,6 @@
 """Cell decorator for functions that return a Component."""
+from __future__ import annotations
+
 import functools
 import hashlib
 import inspect

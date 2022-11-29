@@ -7,6 +7,8 @@
 - add tests
 
 """
+from __future__ import annotations
+
 from typing import Any, Dict, Optional
 
 import meep as mp

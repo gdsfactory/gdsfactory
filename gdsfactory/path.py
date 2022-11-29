@@ -5,6 +5,8 @@ The CrossSection defines the layer numbers, widths and offsetts
 Based on phidl.path
 """
 
+from __future__ import annotations
+
 import hashlib
 import warnings
 from collections.abc import Iterable

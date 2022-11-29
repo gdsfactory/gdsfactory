@@ -1,4 +1,6 @@
 """Add reference for a grating coupler array."""
+from __future__ import annotations
+
 from typing import List, Optional
 
 import gdsfactory as gf
@@ -18,7 +20,7 @@ def add_loopback(
     bend: ComponentSpec = gf.components.bend_euler,
     south_waveguide_spacing: Optional[float] = None,
     inside: bool = True,
-    **kwargs
+    **kwargs,
 ) -> List[ComponentReference]:
     """Return loopback (grating coupler align reference) references.
 

@@ -1,4 +1,6 @@
 """Dummy fill to keep density constant."""
+from __future__ import annotations
+
 import itertools
 from typing import Optional, Union
 

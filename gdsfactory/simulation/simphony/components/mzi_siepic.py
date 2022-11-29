@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from simphony.libraries import siepic
 
 from gdsfactory.simulation.simphony.components.mmi1x2 import mmi1x2
