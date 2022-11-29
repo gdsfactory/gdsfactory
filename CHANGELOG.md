@@ -1,5 +1,14 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.3.0
+
+- Schematic-Driven Layout flow [PR](https://github.com/gdsfactory/gdsfactory/pull/920)
+- from __future__ import annotations to all files and makes the docs cleaner by rendering the type aliases rather than the expanded type [PR](https://github.com/gdsfactory/gdsfactory/pull/923)
+- Add routes to gdsfactory klayout macro [PR](https://github.com/gdsfactory/gdsfactory/pull/918)
+- fix missing conversion from rad (gdstk) to deg [PR](https://github.com/gdsfactory/gdsfactory/pull/927)
+- better error message when failing to import missing gdscell [PR](https://github.com/gdsfactory/gdsfactory/pull/926)
+- mzi lattice mmi [PR](https://github.com/gdsfactory/gdsfactory/pull/920)
+
 ## 6.2.6
 
 - import_gds can import any cell (not only top_level cells) [PR](https://github.com/gdsfactory/gdsfactory/pull/917)
