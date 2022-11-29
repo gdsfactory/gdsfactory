@@ -46,7 +46,7 @@ def save_netlist(netlist, filename):
                     if kk in pv:
                         try:
                             pv[kk] = float(pv[kk])
-                        except:
+                        except Exception:
                             pass
             else:
                 p.pop(pk)
