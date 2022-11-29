@@ -3,6 +3,7 @@ from __future__ import annotations
 from enum import Enum
 from typing import Any, Dict, List, Optional, Union
 
+import yaml
 from pydantic import AnyUrl, BaseModel, Extra, Field
 
 import gdsfactory as gf
@@ -113,7 +114,6 @@ class Route(BaseModel):
 
 class PicYamlConfiguration(BaseModel):
     _schema: Optional[AnyUrl] = Field(None, alias="$schema")
-    default_settings: Optional[Dict[str, str]] = None
     instances: Optional[Dict[str, Instance]] = None
     placements: Optional[Dict[str, Placement]] = None
     routes: Optional[Dict[str, Route]] = None
@@ -143,10 +143,14 @@ class PicYamlConfiguration(BaseModel):
             self.placements[name].dy = 0
         self.placements[name].dy += dy
 
+    def to_yaml(self, filename):
+        netlist = self.dict()
+        with open(filename, mode="w") as f:
+            yaml.dump(netlist, f, default_flow_style=None, sort_keys=False)
+
 
 class SchematicConfiguration(BaseModel):
     _schema: Optional[AnyUrl] = Field(None, alias="$schema")
-    default_settings: Optional[Dict[str, str]] = None
     instances: Optional[Dict[str, Instance]] = None
     schematic_placements: Optional[Dict[str, Placement]] = None
     nets: Optional[List[List[str]]] = None
