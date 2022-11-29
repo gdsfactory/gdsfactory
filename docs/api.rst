@@ -18,11 +18,9 @@ Classes and functions for construction and manipulation of geometric objects.
    Component
    ComponentReference
    read.import_gds
-   read.import_oas
    read.from_yaml
    read.from_np
    read.from_phidl
-   read.from_picwriter
    read.from_dphox
 
 .. currentmodule:: gdsfactory.path
@@ -267,8 +265,8 @@ Circuit solver Plugins
 .. autosummary::
    :toctree: _autosummary/
 
-    model_from_filepath
-    model_from_csv
+    SimphonyFromFile
+    GDSFactorySimphonyWrapper
     plot_model
     plot_circuit
     plot_circuit_montecarlo
