@@ -125,7 +125,7 @@ def _get_sources(objs):
 def _get_column_data_sources(srcs):
     _srcs = {}
     for k, src in srcs.items():
-        ds = bm.ColumnDataSource({kk: v for kk, v in src.items()})
+        ds = bm.ColumnDataSource(dict(src.items()))
         _srcs[k] = ds
     return _srcs
 
@@ -269,17 +269,18 @@ def viz_bk(
         data["dss"]["Port"], glyph=bm.Circle(x="x", y="y", fill_color="fill_color")
     )
     del fig.tools[:]
+    draw_tool = bm.PointDrawTool(
+        renderers=[r for r in fig.renderers if isinstance(r.glyph, bm.Rect)],
+        empty_value="black",
+    )
+    hover_tool = bm.HoverTool(
+        renderers=[r for r in fig.renderers if isinstance(r.glyph, bm.Rect)],
+    )
+    # pan_tool = bm.PanTool()
+    tap_tool = bm.TapTool()
+    zoom = bm.WheelZoomTool()
     fig.add_tools(
-        draw_tool := bm.PointDrawTool(
-            renderers=[r for r in fig.renderers if isinstance(r.glyph, bm.Rect)],
-            empty_value="black",
-        ),
-        hover_tool := bm.HoverTool(
-            renderers=[r for r in fig.renderers if isinstance(r.glyph, bm.Rect)],
-        ),
-        # pan_tool := bm.PanTool(),
-        tap_tool := bm.TapTool(),
-        zoom := bm.WheelZoomTool(),
+        draw_tool=draw_tool, hover_tool=hover_tool, tap_tool=tap_tool, zoom=zoom
     )
     fig.toolbar.active_scroll = zoom
     fig.toolbar.active_tap = tap_tool
@@ -361,21 +362,10 @@ def viz_instance(
     for p in ports:
         # p.move((x, y))
         p.tag = instance_name
-    if False:  # hierarchical:
-        c = "#FF0000"
-    else:
-        c = "#000000"
+    c = "#000000"
 
     r = Rect(tag=instance_name, x=x, y=y, w=w, h=h, c=c)
-    # input_ports = [
-    #     LineSegment(instance_name, x, y + yi, x + pl, y + yi) for yi in y_inputs
-    # ]
-    # output_ports = [
-    #     LineSegment(instance_name, x + w - pl, y + yi, x + w, y + yi)
-    #     for yi in y_outputs
-    # ]
-    ret = [r, *ports]
-    return ret
+    return [r, *ports]
 
 
 # export
@@ -470,10 +460,9 @@ def add_instance(name: str, component):
 
 
 def get_deltas(netlist):
-    deltas = {}
-    for k, p in netlist.placements.items():
-        deltas[k] = {"dx": p.dx or 0, "dy": p.dy or 0}
-    return deltas
+    return {
+        k: {"dx": p.dx or 0, "dy": p.dy or 0} for k, p in netlist.placements.items()
+    }
 
 
 def apply_deltas(netlist, deltas):
