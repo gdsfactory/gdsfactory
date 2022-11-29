@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from collections import OrderedDict
 from itertools import combinations
 from typing import Dict, Optional

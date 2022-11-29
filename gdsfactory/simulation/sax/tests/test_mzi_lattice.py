@@ -1,4 +1,6 @@
 """Test hierarchical circuit simulations."""
+from __future__ import annotations
+
 from typing import List
 
 import jax.numpy as jnp

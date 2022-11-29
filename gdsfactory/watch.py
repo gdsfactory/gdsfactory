@@ -1,5 +1,7 @@
 """FileWatcher based on watchdog. Looks for changes in files with .pic.yml extension."""
 
+from __future__ import annotations
+
 import logging
 import pathlib
 import sys

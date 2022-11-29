@@ -6,6 +6,8 @@ https://www.photonics.intec.ugent.be/contact/people.asp?ID=332
 
 """
 
+from __future__ import annotations
+
 import pathlib
 
 import matplotlib.pyplot as plt
@@ -35,7 +37,7 @@ def find_neff_ng_dw_dh(
     mode_number: int = 1,
     core: str = "Si",
     clad: str = "SiO2",
-    **kwargs
+    **kwargs,
 ) -> pd.DataFrame:
     """Computes group and effective index for different widths and heights.
 
@@ -82,7 +84,7 @@ def find_neff_ng_dw_dh(
                 wg_thickness=thickness + dhi,
                 wavelength=wavelength,
                 mode_number=mode_number,
-                **kwargs
+                **kwargs,
             )
             neffs.append(m.neff)
             ngs.append(m.ng)
@@ -97,7 +99,7 @@ def plot_neff_ng_dw_dh(
     thickness: float = thickness0,
     wavelength: float = 1.55,
     mode_number: int = 1,
-    **kwargs
+    **kwargs,
 ) -> None:
     """Plot neff and group index versus width (dw) and height (dh) variations.
 

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.components.mzi import mzi as mzi_function
 from gdsfactory.components.pad import pad as pad_function

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 import gdsfactory.simulation.gtidy3d as gt
 from gdsfactory.config import PATH

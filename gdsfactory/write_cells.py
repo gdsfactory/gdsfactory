@@ -1,5 +1,7 @@
 """Generate the code from a GDS file based PDK."""
 
+from __future__ import annotations
+
 import datetime
 import pathlib
 from pathlib import Path

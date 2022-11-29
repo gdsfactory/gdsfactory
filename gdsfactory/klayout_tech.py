@@ -3,6 +3,8 @@
 This module will enable conversion between gdsfactory settings and KLayout technology.
 """
 
+from __future__ import annotations
+
 import os
 import pathlib
 import re
@@ -77,7 +79,7 @@ class LayerView(BaseModel):
     marked: bool = False
     xfill: bool = False
     animation: int = 0
-    group_members: Dict[str, "LayerView"] = Field(default_factory=dict)
+    group_members: Dict[str, LayerView] = Field(default_factory=dict)
 
     def __init__(self, **data):
         """Initialize LayerView object."""
@@ -246,7 +248,7 @@ class CustomPatterns(BaseModel):
             file.write(yaml.safe_dump_all([self.dict()], indent=2, sort_keys=False))
 
     @staticmethod
-    def from_yaml(filename: str) -> "CustomPatterns":
+    def from_yaml(filename: str) -> CustomPatterns:
         """Import a CustomPatterns object from a yaml file.
 
         Args:
@@ -484,7 +486,7 @@ class LayerDisplayProperties(BaseModel):
     @staticmethod
     def from_lyp(
         filepath: str, layer_pattern: Optional[Union[str, re.Pattern]] = None
-    ) -> "LayerDisplayProperties":
+    ) -> LayerDisplayProperties:
         r"""Write all layer properties to a KLayout .lyp file.
 
         Args:
@@ -561,7 +563,7 @@ class LayerDisplayProperties(BaseModel):
     @staticmethod
     def from_yaml(
         layer_file: str = None, pattern_file: Optional[str] = None
-    ) -> "LayerDisplayProperties":
+    ) -> LayerDisplayProperties:
         """Import layer properties from two yaml files.
 
         Args:

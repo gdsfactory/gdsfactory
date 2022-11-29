@@ -1,5 +1,7 @@
 """Find GDS labels and write them to a CSV file."""
 
+from __future__ import annotations
+
 import csv
 import pathlib
 from pathlib import Path
