@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Dict, List, Optional, Union
 
 import numpy as np
@@ -33,7 +35,7 @@ def get_bundle_from_steps(
     path_length_match_loops: int = None,
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
-    **kwargs
+    **kwargs,
 ) -> List[Route]:
     """Returns a list of routes formed by the given waypoints steps.
 

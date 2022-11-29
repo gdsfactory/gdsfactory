@@ -6,6 +6,8 @@ Exercise2. Make a Pcell.
 
 """
 
+from __future__ import annotations
+
 import gdsfactory as gf
 
 if __name__ == "__main__":

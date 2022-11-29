@@ -1,6 +1,8 @@
 """Support for font rendering in GDS files."""
 
 
+from __future__ import annotations
+
 import gdstk
 import numpy as np
 from matplotlib import font_manager

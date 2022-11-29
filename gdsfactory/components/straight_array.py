@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight as straight_function
@@ -9,7 +11,7 @@ def straight_array(
     n: int = 4,
     spacing: float = 4.0,
     straight: ComponentSpec = straight_function,
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Array of straights connected with grating couplers.
 

@@ -1,4 +1,6 @@
 """Returns tidy3d simulation from gdsfactory Component."""
+from __future__ import annotations
+
 import warnings
 from typing import Dict, Optional
 

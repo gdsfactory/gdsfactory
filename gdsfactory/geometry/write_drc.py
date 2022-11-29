@@ -10,6 +10,8 @@ More DRC examples:
 - https://github.com/google/globalfoundries-pdk-libs-gf180mcu_fd_pr/tree/main/rules/klayout
 """
 
+from __future__ import annotations
+
 import pathlib
 from dataclasses import asdict, is_dataclass
 from typing import List, Optional

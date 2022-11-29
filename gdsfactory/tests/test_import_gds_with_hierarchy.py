@@ -1,5 +1,7 @@
 # from pprint import pprint
 
+from __future__ import annotations
+
 import jsondiff
 from pytest_regressions.data_regression import DataRegressionFixture
 

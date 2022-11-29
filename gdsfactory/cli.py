@@ -1,5 +1,7 @@
 """Command line interface. Type `gf` into a terminal."""
 
+from __future__ import annotations
+
 import pathlib
 from typing import Optional
 
