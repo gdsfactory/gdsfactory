@@ -7,7 +7,7 @@ import yaml
 import gdsfactory as gf
 
 from . import circuitviz
-from .picmodel import SchematicConfiguration
+from .picmodel import PicYamlConfiguration, Route, RouteSettings, SchematicConfiguration
 
 
 class SchematicEditor:
@@ -320,3 +320,27 @@ class SchematicEditor:
             unpacked_nets.append(unpacked_net)
             net_rows.append(self._get_net_selector(*unpacked_net))
         self._net_grid = widgets.VBox(net_rows)
+
+    def instantiate_layout(
+        self,
+        output_filename,
+        default_router="get_bundle",
+        default_cross_section="strip",
+    ):
+        schematic = self._schematic
+        routes = {}
+        for inet, net in enumerate(schematic.nets):
+            route = Route(
+                routing_strategy=default_router,
+                links={net[0]: net[1]},
+                settings=RouteSettings(cross_section=default_cross_section),
+            )
+            routes[f"r{inet}"] = route
+        pic_conf = PicYamlConfiguration(
+            instances=schematic.instances,
+            placements=schematic.placements,
+            routes=routes,
+            ports=schematic.ports,
+        )
+        pic_conf.to_yaml(output_filename)
+        return pic_conf
