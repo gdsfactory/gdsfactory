@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from simphony.models import Subcircuit
 from simphony.simulators import SweepSimulator
 

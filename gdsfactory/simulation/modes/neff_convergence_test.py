@@ -6,6 +6,8 @@ Output the results of `find_modes_waveguide` and the smallest
 hyperparameters that allowed convergence.
 
 """
+from __future__ import annotations
+
 from typing import Dict, Tuple
 
 import meep as mp

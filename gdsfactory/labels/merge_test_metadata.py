@@ -1,4 +1,6 @@
 """Merge mask metadata with test labels to return test_metadata."""
+from __future__ import annotations
+
 import warnings
 from pathlib import Path
 from typing import Any, Dict, List, Optional

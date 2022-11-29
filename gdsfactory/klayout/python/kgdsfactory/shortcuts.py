@@ -1,5 +1,7 @@
 """Keybindings inspired by SiEPIC tools."""
 
+from __future__ import annotations
+
 import pya
 
 

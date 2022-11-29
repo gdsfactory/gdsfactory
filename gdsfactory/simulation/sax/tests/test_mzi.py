@@ -1,4 +1,6 @@
 """Demo of non-hierarchical circuit simulations."""
+from __future__ import annotations
+
 import jax.numpy as jnp
 import sax
 

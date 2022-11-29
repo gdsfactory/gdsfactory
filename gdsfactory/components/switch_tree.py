@@ -14,6 +14,8 @@ _|  |__          |dy
 
 """
 
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.components.mzi import mzi1x2_2x2

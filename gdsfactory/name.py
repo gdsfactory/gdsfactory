@@ -1,4 +1,6 @@
 """Define names, clean values for names."""
+from __future__ import annotations
+
 import hashlib
 from typing import Any
 

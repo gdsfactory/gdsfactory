@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler180
@@ -20,7 +22,7 @@ def cutback_splitter(
     mirror: bool = False,
     straight_length: Optional[float] = None,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Returns a daisy chain of splitters for measuring their loss.
 

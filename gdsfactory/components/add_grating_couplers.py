@@ -1,4 +1,6 @@
 """Add grating_couplers to a component."""
+from __future__ import annotations
+
 from typing import Callable, List, Optional, Tuple
 
 import numpy as np

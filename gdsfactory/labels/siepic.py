@@ -1,5 +1,7 @@
 """SiEPIC labels one grating coupler from the fiber array using a GDS label."""
 
+from __future__ import annotations
+
 from typing import Callable, List, Optional, Tuple
 
 import gdsfactory as gf

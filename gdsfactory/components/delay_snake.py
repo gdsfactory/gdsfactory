@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import numpy as np
 
 import gdsfactory as gf
@@ -13,7 +15,7 @@ def delay_snake(
     n: int = 2,
     bend: ComponentSpec = "bend_euler",
     cross_section: CrossSectionSpec = "strip",
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Returns Snake with a starting straight and 90 bends.
 

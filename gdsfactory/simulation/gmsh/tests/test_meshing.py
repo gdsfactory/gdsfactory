@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.simulation.gmsh.uz_xsection_mesh import uz_xsection_mesh
 from gdsfactory.simulation.gmsh.xy_xsection_mesh import xy_xsection_mesh

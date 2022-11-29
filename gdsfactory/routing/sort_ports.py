@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import List, Tuple
 
 from gdsfactory.port import Port
@@ -66,7 +68,6 @@ def sort_ports(ports1: List[Port], ports2: List[Port]) -> Tuple[List[Port], List
 if __name__ == "__main__":
     import gdsfactory as gf
     from gdsfactory.cell import cell
-    from gdsfactory.port import Port
 
     @cell
     def demo_connect_corner(N=6, config="A"):

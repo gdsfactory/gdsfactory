@@ -4,6 +4,8 @@ https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
 
 """
 
+from __future__ import annotations
+
 import pathlib
 
 from gdsfactory.geometry.get_xsection_script import get_xsection_script

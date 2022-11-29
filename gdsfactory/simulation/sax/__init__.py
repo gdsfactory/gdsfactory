@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from gdsfactory.simulation.sax import models, read
 from gdsfactory.simulation.sax.plot_model import plot_model
 

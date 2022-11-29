@@ -1,4 +1,6 @@
 """Write Sparameters with for different components."""
+from __future__ import annotations
+
 from typing import Optional
 
 from tqdm.auto import tqdm
