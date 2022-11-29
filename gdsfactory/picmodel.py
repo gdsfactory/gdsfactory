@@ -175,9 +175,10 @@ class SchematicConfiguration(BaseModel):
             if not settings:
                 settings = {}
             self.instances[name] = Instance(component=component, settings=settings)
-        if not placement:
-            placement = Placement()
-        self.placements[name] = placement
+        if name not in self.placements:
+            if not placement:
+                placement = Placement()
+            self.placements[name] = placement
 
 
 def create_pic():

@@ -1,4 +1,5 @@
 from collections import defaultdict
+from functools import partial
 from typing import Dict, List, NamedTuple, Union
 
 import bokeh.events as be
@@ -485,6 +486,22 @@ def show_netlist(schematic: SchematicConfiguration, instances: Dict, netlist_fil
 
 
 def update_schematic_plot(
+    schematic: SchematicConfiguration, instances: Dict, *args, **kwargs
+):
+    global data
+
+    if "doc" in data:
+        doc = data["doc"]
+        doc.add_next_tick_callback(
+            partial(
+                _update_schematic_plot,
+                schematic=schematic,
+                instances=instances,
+            )
+        )
+
+
+def _update_schematic_plot(
     schematic: SchematicConfiguration, instances: Dict, *args, **kwargs
 ):
     srcs = _get_sources(viz_netlist(schematic, instances=instances))
