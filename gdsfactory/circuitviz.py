@@ -230,15 +230,15 @@ def viz_bk(
             return
 
         tag = tags[0]
-        if tag not in netlist.instances:
+        if tag in netlist.placements:
+            cur_rotation = netlist.placements[tag].rotation
+            if cur_rotation is None:
+                netlist.placements[tag].rotation = 0
+            netlist.placements[tag].rotation = (cur_rotation + 90) % 360
+        else:
             return
 
-        instance = netlist.instances[tag]
-        if "component" in instance:
-            return
-
-        del fig.renderers[:]
-        return viz_bk(instance, fig=fig, **kwargs)
+        update_schematic_plot(schematic=netlist, instances=instances)
 
     data["dss"]["Rect"].on_change("data", cb_rect_on_change_data)
     data["dss"]["Rect"].selected.on_change(
@@ -293,44 +293,6 @@ def viz_bk(
     return bkapp
 
 
-def _resolve_x(netlist, x, dx):
-    # TODO: this function 'works' but is not 100% correct I think...
-    if x is None:
-        x = 0.0
-    if dx is None:
-        dx = 0.0
-    elif isinstance(x, str):
-        try:
-            x = float(x)
-        except:
-            inst, port = x.split(",")  # TODO: use port...
-            x = _resolve_x(
-                netlist, netlist.placements[inst].x, netlist.placements[inst].dx
-            )
-    return float(x) + float(dx)
-
-
-def _resolve_y(netlist, y, dy):
-    # TODO: this function 'works' but is not 100% correct I think...
-    if y is None:
-        y = 0.0
-    if dy is None:
-        dy = 0.0
-    elif isinstance(y, str):
-        inst, port = y.split(",")  # TODO: use port...
-        y = _resolve_y(netlist, netlist.placements[inst].y, netlist.placements[inst].dy)
-    return float(y) + float(dy)
-
-
-def get_placements(netlist):
-    ret = {}
-    for k, v in netlist.placements.items():
-        x = _resolve_x(netlist, v.x, v.dx)
-        y = _resolve_x(netlist, v.y, v.dy)
-        ret[k] = (x, y)
-    return ret
-
-
 def get_ports(component):
     comp = component
     return natsorted(comp.ports.keys())
@@ -376,8 +338,8 @@ def viz_instance(
     instance_size,
 ):
     # inst_spec = netlist.instances[instance_name].dict()
-    c = component
-    bbox = c.bbox
+    inst_ref = component.named_references[instance_name]
+    bbox = inst_ref.bbox
     w = bbox[1][0] - bbox[0][0]
     h = bbox[1][1] - bbox[0][1]
     x0 = bbox[0][0]
@@ -387,19 +349,20 @@ def viz_instance(
     # output_ports = get_output_ports(component)
     # y_inputs = ports_ys(input_ports, h)
     # y_outputs = ports_ys(output_ports, h)
-    x, y = get_placements(netlist).get(instance_name, (0, 0))
+    # x, y = get_placements(netlist).get(instance_name, (0, 0))
+    x, y = x0, y0
 
-    ports: List[gf.Port] = c.ports.values()
+    ports: List[gf.Port] = inst_ref.ports.values()
     ports = [p.copy() for p in ports]
     for p in ports:
-        p.move((x, y))
+        # p.move((x, y))
         p.tag = instance_name
     if False:  # hierarchical:
         c = "#FF0000"
     else:
         c = "#000000"
 
-    r = Rect(tag=instance_name, x=x + x0, y=y + y0, w=w, h=h, c=c)
+    r = Rect(tag=instance_name, x=x, y=y, w=w, h=h, c=c)
     # input_ports = [
     #     LineSegment(instance_name, x, y + yi, x + pl, y + yi) for yi in y_inputs
     # ]
@@ -420,28 +383,6 @@ def split_port(port, netlist):
 
 
 # export
-def get_port_location(netlist, port, instance_size, component):
-    if "," not in port:
-        port = netlist.ports[port]
-    w, h = instance_size, instance_size
-    instance_name, port = split_port(port, netlist)
-    placements = get_placements(netlist)
-    x, y = placements[instance_name]
-    if is_input_port(port):
-        ports = get_input_ports(component)
-        idx = ports.index(port)
-        ys = ports_ys(ports, h)
-        y += ys[idx]
-    else:
-        ports = get_output_ports(component)
-        idx = ports.index(port)
-        ys = ports_ys(ports, h)
-        y += ys[idx]
-        x = x + w
-    return x, y
-
-
-# export
 def viz_connection(netlist, p_in, p_out, instance_size, point1, point2):
     x1, y1 = point1
     x2, y2 = point2
@@ -452,12 +393,17 @@ def viz_connection(netlist, p_in, p_out, instance_size, point1, point2):
 
 # export
 def viz_netlist(netlist, instances, instance_size=20):
+    schematic_dict = netlist.dict()
+    schematic_as_layout = {
+        "instances": schematic_dict["instances"],
+        "placements": schematic_dict["schematic_placements"],
+    }
+    schematic_component = gf.read.from_yaml(schematic_as_layout)
+
     els = []
     port_coords = {}
     for instance_name in netlist.instances:
-        els += viz_instance(
-            netlist, instance_name, instances[instance_name], instance_size
-        )
+        els += viz_instance(netlist, instance_name, schematic_component, instance_size)
         for el in els:
             if isinstance(el, gf.Port):
                 port_name = f"{instance_name},{el.name}"
