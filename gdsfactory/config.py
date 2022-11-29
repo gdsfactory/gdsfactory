@@ -1,4 +1,4 @@
-"""Gdsfactory loads a configuration from 3 files, high priority overwrites low.
+"""Gdsfactory loads configuration from 3 files, high priority overwrites low.
 
 priority:
 
@@ -6,12 +6,12 @@ priority:
 2. ~/.gdsfactory/config.yml specific for the machine
 3. the yamlpath_default in gdsfactory.tech.yml (lowest priority)
 
-`CONFIG` has all your computer specific paths that we do not care to store
+You can access the CONF dictionary with `print_config`
 
-You can access the config dictionary with `print_config`
+PATH has all your computer specific paths that we do not care to store
+
 """
 
-__version__ = "6.1.2"
 import io
 import json
 import os
@@ -25,6 +25,7 @@ import omegaconf
 from loguru import logger
 from omegaconf import OmegaConf
 
+__version__ = "6.2.6"
 PathType = Union[str, pathlib.Path]
 
 home = pathlib.Path.home()
@@ -61,58 +62,32 @@ class Paths:
     klayout = module / "klayout"
     klayout_tech = klayout / "tech"
     klayout_lyp = klayout_tech / "layers.lyp"
+    schema_netlist = module_path / "tests" / "schemas" / "netlist.json"
+    netlists = module_path / "samples" / "netlists"
+    gdsdir = module_path / "tests" / "gds"
+    modes = repo_path / "gdslib" / "modes"
+    gdslib = repo / "gdslib"
+    gdsdiff = gdslib / "gds"
+    sparameters = gdslib / "sp"
+    interconnect = gdslib / "interconnect"
 
 
 def read_config(
     yamlpaths: Iterable[PathType] = (yamlpath_default, yamlpath_home, yamlpath_cwd),
 ) -> omegaconf.DictConfig:
-    CONFIG = OmegaConf.load(default_config)
+    config = OmegaConf.load(default_config)
     for yamlpath in set(yamlpaths):
         yamlpath = pathlib.Path(yamlpath)
         if os.access(yamlpath, os.R_OK) and yamlpath.exists():
             logger.info(f"loading tech config from {yamlpath}")
-            CONFIG_NEW = OmegaConf.load(yamlpath)
-            CONFIG = OmegaConf.merge(CONFIG, CONFIG_NEW)
-    return CONFIG
+            config_new = OmegaConf.load(yamlpath)
+            config = OmegaConf.merge(config, config_new)
+    return config
 
 
 CONF = read_config()
 PATH = Paths()
-
-
-CONFIG = dict(
-    config_path=yamlpath_cwd.absolute(),
-    repo_path=repo_path,
-    module_path=module_path,
-    gdsdir=module_path / "tests" / "gds",
-    masks_path=repo_path / "mask",
-    home=home,
-    cwd=cwd,
-)
-
-CONFIG["gdslib"] = repo_path / "gdslib"
-CONFIG["gdsdiff"] = repo_path / "gdslib" / "gds"
-CONFIG["modes"] = repo_path / "gdslib" / "modes"
-CONFIG["sparameters"] = CONFIG["gdslib"] / "sp"
-CONFIG["interconnect"] = CONFIG["gdslib"] / "interconnect"
-CONFIG["samples_path"] = module_path / "samples"
-CONFIG["netlists"] = module_path / "samples" / "netlists"
-CONFIG["components_path"] = module_path / "components"
-CONFIG["schemas"] = module_path / "tests" / "schemas"
-CONFIG["schema_netlist"] = module_path / "tests" / "schemas" / "netlist.json"
-
-sparameters_path = CONFIG["sparameters"]
-
-
-def print_config(key: Optional[str] = None) -> None:
-    """Prints a key for the config or all the keys."""
-    if key:
-        if CONFIG.get(key):
-            print(CONFIG[key])
-        else:
-            print(f"`{key}` key not found in {CONFIG.keys()}")
-    else:
-        pprint(CONFIG)
+sparameters_path = PATH.sparameters
 
 
 def complex_encoder(z):
@@ -129,6 +104,17 @@ def write_config(config: Any, json_out_path: Path) -> None:
     """Write config to a JSON file."""
     with open(json_out_path, "w") as f:
         json.dump(config, f, indent=2, sort_keys=True, default=complex_encoder)
+
+
+def print_config(key: Optional[str] = None) -> None:
+    """Prints a key for the config or all the keys."""
+    if key:
+        if CONF.get(key):
+            print(CONF[key])
+        else:
+            print(f"{key!r} key not found in {CONF.keys()}")
+    else:
+        pprint(CONF)
 
 
 def call_if_func(f: Any, **kwargs) -> Any:
@@ -174,10 +160,7 @@ def set_plot_options(
 
 
 if __name__ == "__main__":
-    # print_config("gdslib")
-    # print(CONFIG["git_hash"])
-    # print(CONFIG["sparameters"])
+    # print(PATH.sparameters)
     # print(CONFIG)
-    print(CONF["sparameters_path"])
-    # print_config()
+    print_config()
     # write_tech("tech.json")
