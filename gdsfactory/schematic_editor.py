@@ -1,4 +1,3 @@
-from functools import partial
 from pathlib import Path
 from typing import Optional, Union
 
@@ -167,12 +166,9 @@ class SchematicEditor:
                 new_row._associated_component = None
 
     def _update_schematic_plot(self, **kwargs):
-        circuitviz.data["doc"].add_next_tick_callback(
-            partial(
-                circuitviz.update_schematic_plot,
-                schematic=self._schematic,
-                instances=self.instances,
-            )
+        circuitviz.update_schematic_plot(
+            schematic=self._schematic,
+            instances=self.instances,
         )
 
     def _on_instance_component_modified(self, change):
@@ -183,9 +179,7 @@ class SchematicEditor:
 
         if change["old"] == "":
             if change["new"] != "":
-                self.add_instance(
-                    instance_name=inst_name, component_name=component_name
-                )
+                self.add_instance(instance_name=inst_name, component=component_name)
         else:
             if change["new"] != change["old"]:
                 self.update_component(instance=inst_name, component=component_name)
@@ -254,8 +248,8 @@ class SchematicEditor:
             insts[inst_name] = gf.get_component(component_spec)
         return insts
 
-    def add_instance(self, instance_name: str, component_name: str):
-        self._schematic.add_instance(name=instance_name, component=component_name)
+    def add_instance(self, instance_name: str, component: Union[str, gf.Component]):
+        self._schematic.add_instance(name=instance_name, component=component)
         for callback in self.on_instance_added:
             callback(instance_name=instance_name)
 
