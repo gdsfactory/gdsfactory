@@ -351,15 +351,15 @@ if __name__ == "__main__":
     # c.show(show_ports=True)
 
     c = mzi_lattice_mmi(
-        coupler_widths=(None, None) * 2,
-        coupler_widths_tapers=(1.0, 1.0) * 2,
-        coupler_lengths_tapers=(10.0, 10.0) * 2,
-        coupler_lengths_mmis=(5.5, 5.5) * 2,
-        coupler_widths_mmis=(2.5, 2.5) * 2,
-        coupler_gaps_mmis=(0.25, 0.25) * 2,
-        taper_functions_mmis=(taper_function, taper_function) * 2,
-        straight_functions_mmis=(straight_function, straight_function) * 2,
-        cross_sections_mmis=("strip", "strip") * 2,
-        delta_lengths=(10.0,) * 3,
+        coupler_widths=(None,) * 5,
+        coupler_widths_tapers=(1.0,) * 5,
+        coupler_lengths_tapers=(10.0,) * 5,
+        coupler_lengths_mmis=(5.5,) * 5,
+        coupler_widths_mmis=(2.5,) * 5,
+        coupler_gaps_mmis=(0.25,) * 5,
+        taper_functions_mmis=(taper_function,) * 5,
+        straight_functions_mmis=(straight_function,) * 5,
+        cross_sections_mmis=("strip",) * 5,
+        delta_lengths=(10.0,) * 4,
     )
     c.show(show_ports=True)
