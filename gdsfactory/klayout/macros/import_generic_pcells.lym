@@ -15,7 +15,6 @@
  <interpreter>python</interpreter>
  <dsl-interpreter-name/>
  <text>
-from typing import Callable
 import pya
 import sys
 import pathlib
@@ -54,9 +53,12 @@ sys.path.append(str(pathlib.Path(f'{env_dir}/site-packages/')))
 
 try:
     import flayout as fl
-    from flayout.pcell import _klayout_type, _validate_parameter, _validate_on_error, copy_tree
+    from flayout.pcell import _klayout_type, _validate_parameter, copy_tree
     import gdsfactory.components as gfc
     import gdsfactory as gf
+    from gdsfactory.routing.manhattan import route_manhattan
+    from gdsfactory.routing.get_bundle import get_bundle
+    from gdsfactory.routing import get_route_electrical, get_route_electrical_m2, get_route_electrical_multilayer, get_route_sbend, get_routes_bend180
 except Exception as e:
     pya.MessageBox.info('import error', str(e), pya.MessageBox.Ok)
 
@@ -65,15 +67,24 @@ layout = pya.Layout()
 for layer in gf.LAYER:
     layout.layer(*layer[1])
 
+pcells_in_layout = {}
+routers = {
+    'route_manhattan': route_manhattan,
+    'get_bundle': get_bundle,
+    'get_route_electrical': get_route_electrical,
+    'get_route_electrical_m2': get_route_electrical_m2,
+    'get_route_electrical_multilayer': get_route_electrical_multilayer,
+    'get_route_sbend': get_route_sbend,
+    'get_routes_bend180': get_routes_bend180,
+}
 # PCell class that creates the PCell
 class PCellFactory(pya.PCellDeclarationHelper):
     def __init__(self, component) -> None:
         """Create a PCell from a gdsfactory component."""
         super().__init__()
-        self.component = component
+        self.component = component # this is a function that returns a component
         self.sig = self._extract_sig(self.component) or {}
-        self.func_name = self.gdsfactory_to_klayout().name
-        params = self._pcell_parameters(self.sig, on_error="raise")
+        params = self._pcell_parameters(self.sig) # Create pcell parameters
         self._param_keys = list(params.keys())
         self._param_values = []
         for name, param in params.items():
@@ -85,39 +96,37 @@ class PCellFactory(pya.PCellDeclarationHelper):
                     description=name.replace("_", " "),
                     default=param.default,
                 )
-            )
+            )        
 
     def produce_impl(self):
         """Produce the PCell."""
         params = dict(zip(self._param_keys, self._param_values))
         cell = self.gdsfactory_to_klayout(**params)
-
         # Add the cell to the layout
+        cell.name = params['name']
         copy_tree(cell, self.cell, on_same_name="replace")
-        self.cell.name = self.func_name
 
-    def _pcell_parameters(self, sig: Signature, on_error="ignore"):
+    def _pcell_parameters(self, sig: Signature):
         """Get the parameters of a function."""
         # NOTE: There could be a better way to do this, than use __signature__.
         new_params = {}
-
         if len(sig.parameters) == 0:
             return new_params
 
-        new_params = {'name': Parameter('name', kind=Parameter.KEYWORD_ONLY, default=self.func_name, annotation=str)}
+        new_params = {'name': Parameter('name', kind=Parameter.KEYWORD_ONLY, default=self.component.__name__, annotation=str)}
         params = sig.parameters
-        on_error = _validate_on_error(on_error)
         for name, param in params.items():
             try:
                 new_params[name] = _validate_parameter(name, param)
-            except ValueError:
-                if on_error == "raise":
-                    raise
+            except ValueError as e:
+                raise ValueError(f'Parameter {name} is not valid: {e}')
+        new_params.update({'routes': Parameter('routes', kind=Parameter.KEYWORD_ONLY, default=[f'{port}->{None}@{None}' for port in self.component().ports.keys()], annotation=list)})
+        new_params.update({'route_function': Parameter('route_function', kind=Parameter.KEYWORD_ONLY, default="route_manhattan", annotation=str)})
         return new_params
 
     def _extract_sig(self, component):
         """Extract the signature of a function."""
-        sig = signature(component[1])
+        sig = signature(component)
         ignore_params = []
         params = sig.parameters
 
@@ -138,12 +147,70 @@ class PCellFactory(pya.PCellDeclarationHelper):
     def gdsfactory_to_klayout(self, **kwargs):
         gf.clear_cache()  # Clear cache to be able to reload components without changing the name
 
-        # Get the component
-        c = self.component[1](**kwargs)
-        c.name = self.component[0]
+        # Add routes
+        def _route_components(routes: str, router, c) -> None:
+            port1, component2_port2 = routes[0].split('->')
+            component2, port2 = component2_port2.split('@')
+            component2_pcell = pcells_in_layout[component2]
+            component2_ = component2_pcell['pcell'].component(**component2_pcell['settings'])
+            current_layout: pya.Layout = pya.Application.instance().main_window().current_view().active_cellview().layout()
 
+            # Get the pcells
+            # Also update the routes of the component2
+            # There is no elegant way of getting pcell variants by name in KLayout with 'self.component' attribute
+            # So we have to iterate over all pcells in the layout.
+            # TODO: Find a better way to do this
+            for cell_ in current_layout.top_cells():
+                for cell in cell_.each_inst():
+                    if cell.cell.is_pcell_variant():
+                        if cell.pcell_parameter('name') == component2:
+                            center = cell.bbox().center()
+                            c2_cell = cell
+                        if cell.pcell_parameter('name') == c.name:
+                            center_ = cell.bbox().center()
+            c_name = c.name
+            c = c.move(c.center, (center_.x * layout.dbu, center_.y * layout.dbu)) # Move the component to the center of the cell
+            c.name = c_name
+            component2_ = component2_.move(component2_.center, (center.x * layout.dbu, center.y * layout.dbu)) # Move the component to the center of the cell
+
+            port1 = c.ports[port1]
+            port2 = component2_.ports[port2]
+
+            route_ = router(port1, port2) # Get the route
+            # Add the route to the layout
+            route_component = gf.Component(f'route_{c.name}@{port1.name}_{component2}@{port2.name}')
+            route_component.add(route_.references)
+
+            polygons = route_component.get_polygons(True)
+            for layer, polygons in polygons.items():
+                layer_idx = layout.layer(*layer)
+
+                # Add pya.Polygon for every gdsfactory Polygon
+                for polygon in polygons:
+                    polygon = np.array(polygon) * 1000
+                    points_pya = [pya.Point(*p) for p in polygon]
+                    # Add the polygon to the layout top cell
+                    current_layout.top_cells()[0].shapes(layer_idx).insert(pya.Polygon(points_pya))
+
+            c2_routes = c2_cell.pcell_parameter('routes')
+            new_routes = []
+            for route in c2_routes:
+                port1_ = route.split('->')[0]
+                if port1_ == port2.name:
+                    new_routes.append(f'{port1_}->{c.name}@{port1.name}')
+                else:
+                    new_routes.append(route)
+
+        # Get the component and route
+        routes = kwargs.pop('routes', [])
+        router = kwargs.pop('route_function', 'route_manhattan')
+        c = self.component(**kwargs)
         # Get the cell
-        top = layout.create_cell(c.name)
+        if 'name' in kwargs.keys():
+            top = layout.create_cell(kwargs['name'])
+        else:
+            top = layout.create_cell(c.name)
+
         polygons = c.get_polygons(True)
         for layer, polygons in polygons.items():
             layer_idx = layout.layer(*layer)
@@ -155,8 +222,31 @@ class PCellFactory(pya.PCellDeclarationHelper):
                 points_pya = [pya.Point(*p) for p in polygon]
                 top.shapes(layer_idx).insert(pya.Polygon(points_pya))
 
-        top.name = c.name
-        top.__doc__ = self.component[1].__doc__.split('\n\n')[0] # Cell description is the first line of the docstring
+        # Keep track of PCell instances
+        # NOTE: This is a hack to be able to get the component from the PCell
+        #      instance. This is needed to be able to route the components.
+        # KLayout creates PCells in a "hidden" layout, so we need to get the "real"
+        # PCell instance from the layout.
+        # TODO: Find a better way to do this.
+        pcells_in_layout.setdefault(top.name, {}).setdefault('pcell', self)
+        pcellid = generic_lib.layout().pcell_declaration(self.cell.name).id()
+        layout.add_pcell_variant(generic_lib, pcellid, dict(zip(self._param_keys, self._param_values)))
+
+        # Add routes
+        router = routers[router]
+        current_routes = pcells_in_layout[top.name]['routes'] if 'routes' in pcells_in_layout[top.name].keys() else []
+
+        for route_ in routes:
+            if isinstance(route_, str):
+                route_ = [route_]
+            if route_ not in ([''], []) and 'None' not in route_[0] and route_[0] not in current_routes:
+                _route_components(route_, router, c)
+
+        # Keep track of routes
+        pcells_in_layout[top.name].setdefault('routes', current_routes)
+        pcells_in_layout[top.name].setdefault('settings', kwargs)
+        top.__doc__ = self.component.__doc__.split('\n\n')[0] # Cell description is the first line of the docstring
+
         return top
 
 generic_lib = fl.library(
@@ -165,7 +255,6 @@ generic_lib = fl.library(
     cells=[],
     description="GDSFactory Generic PCell Library",
 )
-# Would be nice to add SiEPIC pins to all of these
 pb = pya.AbsoluteProgress("Importing GDSFactory components", len(gfc.cells.keys()))
 for i, cell in enumerate(gfc.cells.items()):
 
@@ -174,7 +263,7 @@ for i, cell in enumerate(gfc.cells.items()):
     try:
          # Cell function signature, used by flayout
 
-        func = PCellFactory(cell) # Cell function
+        func = PCellFactory(cell[1]) # Cell function
         generic_lib.layout().register_pcell(cell[0], func) # Register the PCell
 
     except Exception as e:
