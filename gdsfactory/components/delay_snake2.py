@@ -14,10 +14,9 @@ def delay_snake2(
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
-    """Snake input facing west.
+    """Returns Snake with a starting straight and 180 bends.
 
-    Snake output facing east
-    This snakes can have a starting offset (length0)
+    Input faces west output faces east.
 
     Args:
         length: total length.
@@ -71,10 +70,22 @@ def delay_snake2(
     )
 
 
+def test_length_delay_snake2():
+    import numpy as np
+
+    length = 200.0
+    c = delay_snake2(length=length, cross_section="strip_no_pins")
+    length_computed = c.area() / 0.5
+    np.isclose(length, length_computed)
+    return c
+
+
 if __name__ == "__main__":
-    # c = test_delay_snake2_length()
+    import gdsfactory as gf
+
+    # c = test_length_delay_snake2()
     # c.show(show_ports=True)
     # c = delay_snake2(n=2, length=500, layer=(2, 0), length0=100)
-
-    c = delay_snake2()
+    # c = delay_snake2()
+    c = gf.grid([gf.c.delay_snake, delay_snake2(length0=100), gf.c.delay_snake3])
     c.show(show_ports=True)

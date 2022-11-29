@@ -19,7 +19,7 @@ class GDSFactorySimphonyWrapper(Model):
         name: str = "",
         *,
         component: Component,
-        dirpath=gf.CONFIG["sparameters"],
+        dirpath=gf.PATH.sparameters,
         **kwargs
     ) -> None:
         """Take a GDSFactory component and convert it into a Simphony Model object.
@@ -49,7 +49,7 @@ class GDSFactorySimphonyWrapper(Model):
         return interpolate(freqs, self.f, self.s)
 
     def _model_from_gdsfactory(
-        self, component: Component, dirpath=gf.CONFIG["sparameters"], **kwargs
+        self, component: Component, dirpath=gf.PATH.sparameters, **kwargs
     ) -> Tuple[List[str], Any, np.ndarray]:
         """Return simphony model from gdsfactory Component Sparameters.
 
