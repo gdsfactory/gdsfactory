@@ -2,12 +2,11 @@
 
 To create a component you need to extrude the path with a cross-section.
 """
-import inspect
 import sys
 from collections.abc import Iterable
 from functools import partial
 from inspect import getmembers
-from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+from typing import Any, Callable, Dict, List, Optional, Tuple, Union, get_type_hints
 
 import pydantic
 from pydantic import BaseModel, Field
@@ -1365,7 +1364,7 @@ def get_cross_section_factories(
         for t in getmembers(module):
             if callable(t[1]) and t[0] != "partial":
                 try:
-                    r = inspect.signature(t[1]).return_annotation
+                    r = get_type_hints(t[1]).get("return")
                     if r == CrossSection:
                         xs[t[0]] = t[1]
                 except ValueError:
