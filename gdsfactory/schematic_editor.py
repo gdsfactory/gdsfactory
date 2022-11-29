@@ -36,6 +36,7 @@ class SchematicEditor:
         self.on_nets_modified = []
         self._notebook_handle = None
         self._inst_boxes = []
+        self._connected_ports = {}
 
         if filepath.is_file():
             self.load_netlist()
@@ -215,6 +216,11 @@ class SchematicEditor:
         if change["new"] != change["old"]:
             net_data = self._get_net_data()
             new_nets = [[f"{n[0]},{n[1]}", f"{n[2]},{n[3]}"] for n in net_data]
+            connected_ports = {}
+            for n1, n2 in new_nets:
+                connected_ports[n1] = n2
+                connected_ports[n2] = n1
+                self._connected_ports = connected_ports
             old_nets = self._schematic.nets
             self._schematic.nets = new_nets
             for callback in self.on_nets_modified:
@@ -275,6 +281,30 @@ class SchematicEditor:
                 instance_name=instance, settings=settings, old_settings=old_settings
             )
 
+    def add_net(self, inst1, port1, inst2, port2):
+        p1 = f"{inst1},{port1}"
+        p2 = f"{inst2},{port2}"
+        if p1 in self._connected_ports:
+            if self._connected_ports[p1] == p2:
+                return
+            else:
+                current_port = self._connected_ports[p1]
+                raise ValueError(
+                    f"{p1} is already connected to {current_port}. Can't connect to {p2}"
+                )
+        self._connected_ports[p1] = p2
+        self._connected_ports[p2] = p1
+        old_nets = self._schematic.nets.copy()
+        self._schematic.nets.append([p1, p2])
+        new_row = self._get_net_selector(
+            inst1=inst1, inst2=inst2, port1=port1, port2=port2
+        )
+        existing_rows = self._net_grid.children
+        new_rows = existing_rows[:-1] + (new_row, existing_rows[-1])
+        self._net_grid.children = new_rows
+        for callback in self.on_nets_modified:
+            callback(old_nets=old_nets, new_nets=self._schematic.nets)
+
     def get_netlist(self):
         return self._schematic.dict()
 
@@ -319,6 +349,8 @@ class SchematicEditor:
                 unpacked_net.extend([inst_name, port_name])
             unpacked_nets.append(unpacked_net)
             net_rows.append(self._get_net_selector(*unpacked_net))
+            self._connected_ports[net[0]] = net[1]
+            self._connected_ports[net[1]] = net[0]
         self._net_grid = widgets.VBox(net_rows)
 
     def instantiate_layout(
