@@ -156,7 +156,7 @@ from gdsfactory.components.mmi_90degree_hybrid import mmi_90degree_hybrid
 from gdsfactory.components.mzi import mzi, mzi1x2_2x2, mzi2x2_2x2, mzi_coupler
 from gdsfactory.components.mzi_arm import mzi_arm
 from gdsfactory.components.mzi_arms import mzi_arms
-from gdsfactory.components.mzi_lattice import mzi_lattice
+from gdsfactory.components.mzi_lattice import mzi_lattice, mzi_lattice_mmi
 from gdsfactory.components.mzi_pads_center import mzi_pads_center
 from gdsfactory.components.mzi_phase_shifter import (
     mzi_phase_shifter,
@@ -436,6 +436,7 @@ __all__ = [
     "mzi_coupler",
     "mzi_arm",
     "mzi_lattice",
+    "mzi_lattice_mmi",
     "mzi_phase_shifter",
     "mzi_phase_shifter_top_heater_metal",
     "mzit",
