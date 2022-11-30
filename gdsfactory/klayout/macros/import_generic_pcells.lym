@@ -59,7 +59,6 @@ try:
     from gdsfactory.routing.manhattan import route_manhattan
     from gdsfactory.routing.get_bundle import get_bundle
     from gdsfactory.routing import get_route_electrical, get_route_electrical_m2, get_route_electrical_multilayer, get_route_sbend, get_routes_bend180
-    from gdsfactory.serialization import clean_value_name
 except Exception as e:
     pya.MessageBox.info('import error', str(e), pya.MessageBox.Ok)
 
@@ -114,8 +113,7 @@ class PCellFactory(pya.PCellDeclarationHelper):
         if len(sig.parameters) == 0:
             return new_params
 
-        default_name = clean_value_name(self.component)
-        new_params = {'name': Parameter('name', kind=Parameter.KEYWORD_ONLY, default=default_name, annotation=str)}
+        new_params = {'name': Parameter('name', kind=Parameter.KEYWORD_ONLY, default=self.component.__name__, annotation=str)}
         params = sig.parameters
         for name, param in params.items():
             try:
