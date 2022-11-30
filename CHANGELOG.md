@@ -1,5 +1,12 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [6.3.3](https://github.com/gdsfactory/gdsfactory/pull/937)
+
+- fix rotations in schematic
+- gf tool install installs klayout as a salt package
+- include material and name into 2.D view script
+
+
 ## 6.3.0
 
 - Schematic-Driven Layout flow [PR](https://github.com/gdsfactory/gdsfactory/pull/920)
