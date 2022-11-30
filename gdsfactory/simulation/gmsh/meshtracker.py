@@ -97,7 +97,6 @@ class MeshTracker:
 
         Args:
             shapely_xy_point (shapely.geometry.Point): x, y coordinates
-            resolution (float): gmsh resolution at that point
         """
         index = self.get_point_index(shapely_xy_point)
         if index is not None:
