@@ -186,7 +186,7 @@ class LayerStack(BaseModel):
             layer = level.layer
             if klayout28:
                 print(
-                    f"z(input({layer[0]}, {layer[1]}), zstart: {level.zmin}, height: {level.zmin+level.thickness})"
+                    f"z(input({layer[0]}, {layer[1]}), zstart: {level.zmin}, height: {level.zmin+level.thickness}, name: '{level.material} {layer[0]}/{layer[1]}')"
                 )
             else:
                 print(
