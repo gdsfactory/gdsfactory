@@ -42,7 +42,7 @@ def get_doping_info_generic(
 
     layermap = gf.tech.LayerMap()
 
-    doping_info = {
+    return {
         "N": DopingLayerLevel(
             layer=layermap.N,
             type="Donor",
@@ -64,8 +64,6 @@ def get_doping_info_generic(
             z_profile=step(ppp_conc),
         ),
     }
-
-    return doping_info
 
 
 # def get_doping_xyz():
