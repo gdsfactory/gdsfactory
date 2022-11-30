@@ -16,15 +16,18 @@ from devsim import (
     set_node_values,
     write_devices,
 )
+from scipy.interpolate import NearestNDInterpolator
 
 from gdsfactory import Component
 from gdsfactory.simulation.devsim.doping import get_doping_info_generic
 from gdsfactory.simulation.gmsh import (
-    fuse_component_layer,
+    fuse_polygons,
     get_u_bounds_polygons,
     uz_xsection_mesh,
 )
 from gdsfactory.tech import LayerLevel, LayerStack
+
+um_to_cm = 1e-4
 
 
 def create_2Duz_simulation(
@@ -35,11 +38,16 @@ def create_2Duz_simulation(
     doping_info,  # Dict[str, DopingLayerLevel],
     contact_info,
     resolutions: Optional[Dict[str, Dict]] = None,
+    mesh_scaling_factor: float = um_to_cm,
+    default_resolution_min: float = 0.001,
+    default_resolution_max: float = 0.2,
     background_tag: Optional[str] = None,
     temp_file_name: str = "temp.msh2",
     devsim_mesh_name: str = "temp",
     devsim_device_name: str = "temp",
     devsim_simulation_filename: str = "devsim.dat",
+    global_meshsize_array: Optional[np.array] = None,
+    global_meshsize_interpolant_func: Optional[callable] = NearestNDInterpolator,
 ):
     # Replace relevant physical entities by contacts
     simulation_layertack = physical_layerstack
@@ -63,16 +71,21 @@ def create_2Duz_simulation(
         xsection_bounds,
         simulation_layertack,
         resolutions=resolutions,
+        mesh_scaling_factor=mesh_scaling_factor,
+        default_resolution_min=default_resolution_min,
+        default_resolution_max=default_resolution_max,
         background_tag=background_tag,
         filename=temp_file_name,
+        global_meshsize_array=global_meshsize_array,
+        global_meshsize_interpolant_func=global_meshsize_interpolant_func,
     )
 
     # Get doping layer bounds
     doping_polygons = {}
     for layername, layer_obj in doping_info.items():
-        fused_polygons = fuse_component_layer(component, layer_obj.layer)
+        fused_polygons = fuse_polygons(component, layername, layer_obj.layer)
         bounds = get_u_bounds_polygons(fused_polygons, xsection_bounds)
-        doping_polygons[layername] = bounds
+        doping_polygons[layername] = [np.array(bound) * um_to_cm for bound in bounds]
 
     # Regions, tagged by material
     regions = {}
@@ -98,6 +111,7 @@ def create_2Duz_simulation(
             material=background_tag,
         )
         regions[background_tag] = [background_tag]
+
     # Contacts
     contacts = {}
     for contact_name, contact in contact_info.items():
@@ -111,9 +125,10 @@ def create_2Duz_simulation(
             material=simulation_layertack.layers[contact_name].material,
             mesh=devsim_mesh_name,
             name=contact_name,
-            region=contact_name,
+            region=layer2,
         )
         contacts[contact_name] = interface
+
     # Interfaces (that are not contacts), labeled by material-material
     interfaces = {}
     for (name1, values1), (name2, values2) in combinations(
@@ -124,18 +139,18 @@ def create_2Duz_simulation(
             interface = f"{name2}___{name1}"
             if interface not in mesh.cell_sets_dict.keys():
                 continue
-        if interface not in contacts.values():
-            add_gmsh_interface(
-                gmsh_name=interface,
-                mesh=devsim_mesh_name,
-                name=interface,
-                region0=name1,
-                region1=name2,
-            )
-            if interface in interfaces:
-                interfaces[(values1["material"], values2["material"])].append(interface)
-            else:
-                interfaces[(values1["material"], values2["material"])] = [interface]
+        # if interface not in contacts.values():
+        add_gmsh_interface(
+            gmsh_name=interface,
+            mesh=devsim_mesh_name,
+            name=interface,
+            region0=name1,
+            region1=name2,
+        )
+        if interface in interfaces:
+            interfaces[(values1["material"], values2["material"])].append(interface)
+        else:
+            interfaces[(values1["material"], values2["material"])] = [interface]
     finalize_mesh(mesh=devsim_mesh_name)
     create_device(mesh=devsim_mesh_name, device=devsim_device_name)
 
@@ -148,7 +163,9 @@ def create_2Duz_simulation(
         acceptor = np.zeros_like(xpos)
         donor = np.zeros_like(xpos)
         for layername, bounds in doping_polygons.items():
+            print(layername, bounds)
             for bound in bounds:
+                print(bound)
                 node_inds = np.intersect1d(
                     np.where(xpos >= bound[0] * np.ones_like(xpos)),
                     np.where(xpos <= bound[1] * np.ones_like(xpos)),
@@ -175,7 +192,6 @@ def create_2Duz_simulation(
         set_node_values(
             device=devsim_device_name, region=region_name, name="Donors", values=donor
         )
-        node_solution(device=devsim_device_name, region=region_name, name="Acceptors")
         node_solution(device=devsim_device_name, region=region_name, name="NetDoping")
         set_node_values(
             device=devsim_device_name,
@@ -183,6 +199,7 @@ def create_2Duz_simulation(
             name="NetDoping",
             values=net_doping,
         )
+
     # Assign doping field contact
     for contact_name in contacts:
         xpos = get_node_model_values(
@@ -195,6 +212,21 @@ def create_2Duz_simulation(
             name="NetDoping",
             values=[0] * len(xpos),
         )
+
+    # Cast to cm
+    # for region_name in get_region_list(device=devsim_device_name):
+    #     xpos = get_node_model_values(
+    #         device=devsim_device_name, region=region_name, name="x"
+    #     )
+    #     set_node_values(
+    #         device=devsim_device_name, region=region_name, name="x", values=np.array(xpos)*um_to_cm
+    #     )
+    #     ypos = get_node_model_values(
+    #         device=devsim_device_name, region=region_name, name="y"
+    #     )
+    #     set_node_values(
+    #         device=devsim_device_name, region=region_name, name="y", values=np.array(ypos)*um_to_cm
+    #     )
 
     if devsim_simulation_filename:
         write_devices(file=devsim_simulation_filename, type="tecplot")
@@ -215,6 +247,8 @@ if __name__ == "__main__":
             domain=[[3, -4], [3, 4], [5, 4], [5, -4]],
         )
     )
+
+    waveguide.show()
 
     # We will restrict the physical mesh to a subset of layers:
     layermap = gf.tech.LayerMap()
@@ -287,6 +321,7 @@ if __name__ == "__main__":
         doping_info=get_doping_info_generic(),
         contact_info=contact_info,
         resolutions=resolutions,
+        mesh_scaling_factor=1e-4,
         background_tag="sio2",
     )
 
