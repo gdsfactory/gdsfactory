@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import uuid
 import warnings
 from typing import Callable, Dict, List, Optional, Tuple, Union
@@ -882,12 +884,13 @@ def round_corners(
             )
         if straight_ports is None:
             straight_ports = [p.name for p in _get_straight_ports(wg, layer=layer)]
+
         pname_west, pname_east = straight_ports
 
         wg_ref = wg.ref()
         wg_ref.move(wg.ports[pname_west], (0, 0))
         if mirror_straight:
-            wg_ref.reflect_v(list(wg_ref.ports.values())[0].name)
+            wg_ref.mirror_y(list(wg_ref.ports.values())[0].name)
 
         wg_ref.rotate(angle)
         wg_ref.move(straight_origin)

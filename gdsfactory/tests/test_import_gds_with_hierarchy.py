@@ -1,12 +1,14 @@
 # from pprint import pprint
 
+from __future__ import annotations
+
 import jsondiff
 from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
 from gdsfactory.cross_section import cross_section
 
-gdspath = gf.CONFIG["gdsdir"] / "mzi2x2.gds"
+gdspath = gf.PATH.gdsdir / "mzi2x2.gds"
 
 
 def test_read_gds_hash2() -> gf.Component:

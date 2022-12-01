@@ -1,8 +1,9 @@
+from __future__ import annotations
+
 from pathlib import Path
-from typing import Optional, Union, cast
+from typing import Optional, Union
 
 import gdstk
-import numpy as np
 from omegaconf import OmegaConf
 
 from gdsfactory.cell import Settings, cell
@@ -23,14 +24,11 @@ def import_gds(
 ) -> Component:
     """Returns a Componenent from a GDS file.
 
-    based on phidl/geometry.py
-
-    if any cell names are found on the component CACHE we append a $ with a
-    number to the name
+    appends $ with a number to the name if the cell name is on CACHE
 
     Args:
         gdspath: path of GDS file.
-        cellname: cell of the name to import (None) imports top cell.
+        cellname: cell of the name to import. None imports top cell.
         gdsdir: optional GDS directory.
         read_metadata: loads metadata if it exists.
         hashed_name: appends a hash to a shortened component name.
@@ -38,7 +36,7 @@ def import_gds(
     """
     gdspath = Path(gdsdir) / Path(gdspath) if gdsdir else Path(gdspath)
     if not gdspath.exists():
-        raise FileNotFoundError(f"No file {gdspath!r} found")
+        raise FileNotFoundError(f"No file {str(gdspath)!r} found")
 
     metadata_filepath = gdspath.with_suffix(".yml")
 
@@ -50,63 +48,63 @@ def import_gds(
         raise ValueError(f"gdspath.suffix {gdspath.suffix!r} not .gds or .oas")
 
     top_level_cells = gdsii_lib.top_level()
-    cellnames = [c.name for c in top_level_cells]
-    cells_by_name = {c.name: c for c in top_level_cells}
+    top_cellnames = [c.name for c in top_level_cells]
 
-    if not cellnames:
-        raise ValueError(f"no cells found in {str(gdspath)!r}")
+    if not top_cellnames:
+        raise ValueError(f"no top cells found in {str(gdspath)!r}")
 
+    D_list = []
+    cell_name_to_component = {}
+    cell_to_component = {}
+
+    # create a new Component for each gdstk Cell
+    for c in gdsii_lib.cells:
+        D = Component(name=c.name)
+        D._cell = c
+        D.name = c.name
+
+        if hashed_name:
+            D.name = get_name_short(D.name)
+
+        cell_name_to_component[c.name] = D
+        cell_to_component[c] = D
+        D_list += [D]
+
+    cellnames = list(cell_name_to_component.keys())
     if cellname is not None:
-        if cellname not in cells_by_name:
+        if cellname not in cell_name_to_component:
             raise ValueError(
                 f"cell {cellname!r} is not in file {gdspath} with cells {cellnames}"
             )
-        topcell = cells_by_name[cellname]
     elif len(top_level_cells) == 1:
-        topcell = top_level_cells[0]
+        cellname = top_level_cells[0].name
     elif len(top_level_cells) > 1:
         raise ValueError(
             f"import_gds() There are multiple top-level cells in {gdspath!r}, "
             f"you must specify `cellname` to select of one of them among {cellnames}"
         )
 
-    D_list = []
-    cell_to_device = {}
-    for c in gdsii_lib.cells:
-        D = Component(name=c.name)
-        D._cell = c
-
-        D.name = c.name
-        for label in c.labels:
-            rotation = label.rotation
-            if rotation is None:
-                rotation = 0
-            label_ref = D.add_label(
-                text=label.text,
-                position=np.asfarray(label.origin),
-                magnification=label.magnification,
-                rotation=rotation * 180 / np.pi,
-                layer=(label.layer, label.texttype),
-            )
-            label_ref.anchor = label.anchor
-
-        if hashed_name:
-            D.name = get_name_short(D.name)
-
-        cell_to_device[c] = D
-        D_list += [D]
-
-    for c, D in cell_to_device.items():
+    # create a new ComponentReference for each gdstk CellReference
+    for c, D in cell_to_component.items():
         for e in c.references:
-            ref_device = cell_to_device[e.cell]
-            ref = ComponentReference(component=ref_device)
-
+            ref_device = cell_to_component[e.cell]
+            ref = ComponentReference(
+                component=ref_device,
+                origin=e.origin,
+                rotation=e.rotation,
+                magnification=e.magnification,
+                x_reflection=e.x_reflection,
+                columns=e.repetition.columns or 1,
+                rows=e.repetition.rows or 1,
+                spacing=e.repetition.spacing,
+                v1=e.repetition.v1,
+                v2=e.repetition.v2,
+            )
             D._register_reference(ref)
             D._references.append(ref)
             ref._reference = e
 
-    component = cell_to_device[topcell]
-    cast(Component, component)
+    component = cell_name_to_component[cellname]
 
     if read_metadata and metadata_filepath.exists():
         logger.info(f"Read YAML metadata from {metadata_filepath}")
@@ -135,16 +133,18 @@ def import_gds(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.mzi()
-    gdspath = c.write_oas()
+    c = gf.components.array()
+    gdspath = c.write_gds()
+    c.show(show_ports=True)
 
-    c2 = import_gds(gdspath)
+    gf.clear_cache()
+    c = import_gds(gdspath)
+    c.show(show_ports=True)
 
-    # gdspath = CONFIG["gdsdir"] / "mzi2x2.gds"
+    # gdspath = PATH.gdsdir / "mzi2x2.gds"
     # c = import_gds(gdspath, flatten=True, name="TOP")
     # c.settings = {}
     # print(clean_value_name(c))
     # c = import_gds(gdspath, flatten=False, polarization="te")
     # c = import_gds("/home/jmatres/gdsfactory/gdsfactory/gdsdiff/gds_diff_git.py")
     # print(c.hash_geometry())
-    c.show(show_ports=True)

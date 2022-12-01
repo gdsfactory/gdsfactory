@@ -1,4 +1,6 @@
 """Spiral with grating couplers inside to save space."""
+from __future__ import annotations
+
 from typing import Optional, Tuple
 
 import numpy as np
@@ -32,7 +34,7 @@ def spiral_inner_io(
     length: Optional[float] = None,
     cross_section: CrossSectionSpec = "strip",
     cross_section_bend: Optional[CrossSectionSpec] = None,
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Returns Spiral with ports inside the spiral loop.
 
@@ -166,7 +168,7 @@ def spiral_inner_io_fiber_single(
     y_straight_inner_top: float = 10.0,
     y_straight_inner_bottom: float = 0.0,
     grating_spacing: float = 200.0,
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Returns Spiral with 90 and 270 degree ports.
 
@@ -201,7 +203,7 @@ def spiral_inner_io_fiber_single(
         y_straight_inner_top=y_straight_inner_top,
         y_straight_inner_bottom=y_straight_inner_bottom,
         grating_spacing=grating_spacing,
-        **kwargs
+        **kwargs,
     )
     ref = c << spiral
     ref.rotate(90)

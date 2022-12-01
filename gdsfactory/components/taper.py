@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import List, Optional
 
 import gdsfactory as gf
@@ -17,7 +19,7 @@ def taper(
     with_bbox: bool = True,
     with_two_ports: bool = True,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Linear taper.
 

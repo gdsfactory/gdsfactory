@@ -6,6 +6,8 @@ MFD:
 - 9.2 for Oband
 
 """
+from __future__ import annotations
+
 import hashlib
 import pathlib
 import shlex

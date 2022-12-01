@@ -1,5 +1,5 @@
 project = "gdsfactory"
-release = "6.1.0"
+release = "6.3.4"
 copyright = "2020, MIT License"
 
 html_theme = "sphinx_book_theme"
@@ -77,7 +77,13 @@ autodoc_pydantic_model_show_config_summary = False
 autodoc_pydantic_model_show_validator_summary = False
 autodoc_pydantic_model_show_validator_members = False
 autodoc_typehints = "description"
+autodoc_typehints_format = "short"
 
+autodoc_type_aliases = {
+    "ComponentSpec": "ComponentSpec",
+    "LayerSpec": "LayerSpec",
+    "CrossSectionSpec": "CrossSectionSpec",
+}
 
 autodoc_default_options = {
     "member-order": "bysource",

@@ -1,9 +1,12 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.config import PATH
 
 
 def test_netlist_read() -> Component:
-    filepath = gf.CONFIG["netlists"] / "mzi.yml"
+    filepath = PATH.netlists / "mzi.yml"
     c = gf.read.from_yaml(filepath)
 
     # print(c.get_netlist().pretty())
@@ -19,7 +22,7 @@ def test_netlist_read() -> Component:
 def regenerate_regression_test() -> None:
     c = gf.components.mzi()
 
-    filepath = gf.CONFIG["netlists"] / "mzi.yml"
+    filepath = PATH.netlists / "mzi.yml"
     c.write_netlist(filepath)
 
 

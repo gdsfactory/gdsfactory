@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import datetime
 import hashlib
 import itertools
@@ -221,7 +223,7 @@ class Component(_GeometryHelper):
             as_array=as_array,
         )
 
-    def get_dependencies(self, recursive: bool = False) -> List["Component"]:
+    def get_dependencies(self, recursive: bool = False) -> List[Component]:
         """Return a set of the cells included in this cell as references.
 
         Args:
@@ -588,7 +590,7 @@ class Component(_GeometryHelper):
         rotation: float = 0,
         h_mirror: bool = False,
         v_mirror: bool = False,
-    ) -> "ComponentReference":
+    ) -> ComponentReference:
         """Returns Component reference.
 
         Args:
@@ -606,10 +608,10 @@ class Component(_GeometryHelper):
 
         origin = self.ports[port_id].center if port_id else (0, 0)
         if h_mirror:
-            _ref.reflect_h(port_id)
+            _ref.mirror_x(port_id)
 
         if v_mirror:
-            _ref.reflect_v(port_id)
+            _ref.mirror_y(port_id)
 
         if rotation != 0:
             _ref.rotate(rotation, origin)
@@ -754,7 +756,7 @@ class Component(_GeometryHelper):
         include_labels: bool = True,
         invert_selection: bool = False,
         recursive: bool = True,
-    ) -> "Component":
+    ) -> Component:
         """Remove a list of layers and returns the same Component.
 
         Args:
@@ -781,7 +783,7 @@ class Component(_GeometryHelper):
     def extract(
         self,
         layers: List[Union[Tuple[int, int], str]],
-    ) -> "Component":
+    ) -> Component:
         """Extract polygons from a Component and returns a new Component.
 
         based on phidl.geometry.
@@ -879,10 +881,10 @@ class Component(_GeometryHelper):
         self.is_unlocked()
         self._cell.add(*polygons)
 
-    def copy(self) -> "Component":
+    def copy(self) -> Component:
         return copy(self)
 
-    def copy_child_info(self, component: "Component") -> None:
+    def copy_child_info(self, component: Component) -> None:
         """Copy info from child component into parent.
 
         Parent components can access child cells settings.
@@ -952,7 +954,7 @@ class Component(_GeometryHelper):
 
     def add_array(
         self,
-        component: "Component",
+        component: Component,
         columns: int = 2,
         rows: int = 2,
         spacing: Tuple[float, float] = (100, 100),
@@ -1079,9 +1081,31 @@ class Component(_GeometryHelper):
         self.add_ref(new_component, alias=ref.name)
 
     def add_ref(
-        self, component: "Component", alias: Optional[str] = None, **kwargs
-    ) -> "ComponentReference":
-        """Add ComponentReference to the current Component."""
+        self, component: Component, alias: Optional[str] = None, **kwargs
+    ) -> ComponentReference:
+        """Add ComponentReference to the current Component.
+
+        Args:
+            component: Component.
+            alias: named_references.
+
+        Keyword Args:
+            columns: Number of columns in the array.
+            rows: Number of rows in the array.
+            spacing: Distances between adjacent columns and adjacent rows.
+            origin: array-like[2] of int or float
+                Position where the cell is inserted.
+            rotation : int or float
+                Angle of rotation of the reference (in `degrees`).
+            magnification : int or float
+                Magnification factor for the reference.
+            x_reflection : bool
+                If True, the reference is reflected parallel to the x direction
+                before being rotated.
+            name : str (optional)
+                A name for the reference (if provided).
+
+        """
         if not isinstance(component, Component):
             raise TypeError(f"type = {type(Component)} needs to be a Component.")
         ref = ComponentReference(component, **kwargs)
@@ -1638,7 +1662,7 @@ class Component(_GeometryHelper):
         origin: Float2 = (0, 0),
         destination: Optional[Float2] = None,
         axis: Optional[Axis] = None,
-    ) -> "Component":
+    ) -> Component:
         """Returns new Component with a moved reference to the original.
 
         component.
@@ -1656,7 +1680,7 @@ class Component(_GeometryHelper):
         self,
         p1: Float2 = (0, 1),
         p2: Float2 = (0, 0),
-    ) -> "Component":
+    ) -> Component:
         """Returns new Component with a mirrored reference.
 
         Args:
@@ -1667,7 +1691,7 @@ class Component(_GeometryHelper):
 
         return mirror(component=self, p1=p1, p2=p2)
 
-    def rotate(self, angle: float = 90) -> "Component":
+    def rotate(self, angle: float = 90) -> Component:
         """Returns new component with a rotated reference to the original.
 
         Args:
@@ -1677,7 +1701,7 @@ class Component(_GeometryHelper):
 
         return rotate(component=self, angle=angle)
 
-    def add_padding(self, **kwargs) -> "Component":
+    def add_padding(self, **kwargs) -> Component:
         """Returns new component with padding.
 
         Keyword Args:
@@ -1694,7 +1718,7 @@ class Component(_GeometryHelper):
 
         return add_padding(component=self, **kwargs)
 
-    def absorb(self, reference) -> "Component":
+    def absorb(self, reference) -> Component:
         """Absorbs polygons from ComponentReference into Component.
 
         Destroys the reference in the process but keeping the polygon geometry.
@@ -1816,7 +1840,7 @@ class Component(_GeometryHelper):
 
     def remap_layers(
         self, layermap, include_labels: bool = True, include_paths: bool = True
-    ) -> "Component":
+    ) -> Component:
         """Moves all polygons in the Component from one layer to another according to the layermap argument.
 
         Args:
@@ -1877,6 +1901,8 @@ def copy(D: Component) -> Component:
             magnification=ref.magnification,
             x_reflection=ref.x_reflection,
             name=ref.name,
+            v1=ref.v1,
+            v2=ref.v2,
         )
         D_copy.add(new_ref)
 
@@ -2086,11 +2112,18 @@ def test_import_gds_settings():
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.c.mzi()
+    c = gf.Component("parent")
+    ref = c << gf.components.straight()
+    c.add_ports(ref.ports)
+    ref.movex(5)
+    assert c.ports["o1"].center[0] == 5, c.ports["o1"].center[0]
+    c.show(show_ports=True)
+
+    # c = gf.c.mzi()
     # c = c.flatten()
 
-    gdspath = c.write_oas()
-    gf.show(gdspath)
+    # gdspath = c.write_oas()
+    # gf.show(gdspath)
 
     # c.remove_labels()
     # print(c.labels)

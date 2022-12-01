@@ -1,7 +1,10 @@
+from __future__ import annotations
+
 from collections import OrderedDict
 from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
+from scipy.interpolate import NearestNDInterpolator
 from shapely.geometry import LineString, MultiPolygon, Point, Polygon
 
 import gdsfactory as gf
@@ -114,11 +117,14 @@ def uz_xsection_mesh(
     xsection_bounds: Tuple[Tuple[float, float], Tuple[float, float]],
     layerstack: LayerStack,
     resolutions: Optional[Dict],
+    mesh_scaling_factor: float = 1.0,
     default_resolution_min: float = 0.01,
     default_resolution_max: float = 0.5,
     background_tag: Optional[str] = None,
     background_padding: Tuple[float, float, float, float] = (2.0, 2.0, 2.0, 2.0),
     filename: Optional[str] = None,
+    global_meshsize_array: Optional[np.array] = None,
+    global_meshsize_interpolant_func: Optional[callable] = NearestNDInterpolator,
 ):
     # Fuse and cleanup polygons of same layer in case user overlapped them
     layer_polygons_dict = cleanup_component(component, layerstack)
@@ -166,9 +172,12 @@ def uz_xsection_mesh(
     return mesh_from_polygons(
         shapes,
         resolutions=resolutions,
+        mesh_scaling_factor=mesh_scaling_factor,
         filename=filename,
         default_resolution_min=default_resolution_min,
         default_resolution_max=default_resolution_max,
+        global_meshsize_array=global_meshsize_array,
+        global_meshsize_interpolant_func=global_meshsize_interpolant_func,
     )
 
 
