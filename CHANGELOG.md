@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.3.5
+
+- add default 0 rotation to schematic and separation=5um for routes [PR](https://github.com/gdsfactory/gdsfactory/pull/945)
+- Generic mesh refinement, refactoring [PR](https://github.com/gdsfactory/gdsfactory/pull/941)
+
 ## [6.3.4](https://github.com/gdsfactory/gdsfactory/pull/939)
 
 - replace lxml with the built-in xml modules to support python 3.11
