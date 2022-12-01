@@ -29,7 +29,7 @@ jobs:
           cache: "pip"
       - name: Install dependencies
         run: |
-          pip install -e .
+          pip install .
           pip install flake8 pytest pytest_regressions
           make install gdslib
           gf tool install
