@@ -44,7 +44,9 @@ class MeshTracker:
             if xy_line.equals(shapely_line):
                 first_xy_line, last_xy_line = xy_line.boundary.geoms
                 first_xy, last_xy = shapely_line.boundary.geoms
-                return (index, True) if first_xy_line.equals(first_xy) else (index, False)
+                return (
+                    (index, True) if first_xy_line.equals(first_xy) else (index, False)
+                )
         return None, 1
 
     def get_gmsh_points_from_label(self, label):
@@ -71,7 +73,9 @@ class MeshTracker:
 
     def xy_channel_loop_from_vertices(self, vertices, label):
         edges = []
-        for vertex1, vertex2 in [(vertices[i], vertices[i + 1]) for i in range(len(vertices) - 1)]:
+        for vertex1, vertex2 in [
+            (vertices[i], vertices[i + 1]) for i in range(len(vertices) - 1)
+        ]:
             gmsh_line, orientation = self.add_get_xy_segment(vertex1, vertex2, label)
             if orientation:
                 edges.append(gmsh_line)
