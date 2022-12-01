@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from functools import partial
 from typing import Optional
 
@@ -205,11 +207,14 @@ if __name__ == "__main__":
     # c = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
     # c.show(show_ports=True)
 
-    c1 = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
-    c1.write_gds("a.gds")
+    c = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
+    c2 = gf.routing.add_fiber_array(c)
+    c2.show()
 
-    c2 = gf.read.import_gds("a.gds")
-    c2 = c2.flatten()
+    # c1.write_gds("a.gds")
 
-    c3 = gf.grid([c2, c1])
-    c3.show(show_ports=False)
+    # c2 = gf.read.import_gds("a.gds")
+    # c2 = c2.flatten()
+
+    # c3 = gf.grid([c2, c1])
+    # c3.show(show_ports=False)

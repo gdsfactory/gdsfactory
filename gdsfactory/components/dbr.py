@@ -8,6 +8,8 @@ https://open.library.ubc.ca/cIRcle/collections/ubctheses/24/items/1.0388871
 
 Period: 318nm, width: 500nm, dw: 20 ~ 120 nm.
 """
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
@@ -28,7 +30,7 @@ def dbr_cell(
     l1: float = period / 2,
     l2: float = period / 2,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Distributed Bragg Reflector unit cell.
 
@@ -73,7 +75,7 @@ def dbr(
     l2: float = period / 2,
     n: int = 10,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Distributed Bragg Reflector.
 

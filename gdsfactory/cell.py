@@ -1,4 +1,6 @@
 """Cell decorator for functions that return a Component."""
+from __future__ import annotations
+
 import functools
 import hashlib
 import inspect
@@ -61,10 +63,9 @@ class Settings(BaseModel):
 def cell_without_validator(func):
     """Decorator for Component functions.
 
-    Similar to cell decorator, this one does not validate_arguments using
-    type annotations
+    Similar to cell decorator but does not enforce argument types.
 
-    I recommend using @cell instead
+    I recommend using @cell instead.
     """
 
     @functools.wraps(func)
@@ -352,7 +353,7 @@ if __name__ == "__main__":
 
     # import gdsfactory as gf
 
-    # gdspath = gf.CONFIG["gdsdir"] / "mzi2x2.gds"
+    # gdspath = gf.PATH.gdsdir / "mzi2x2.gds"
     # c = gf.import_gds(gdspath)
     # c3 = gf.routing.add_fiber_single(c)
     # c3.show()

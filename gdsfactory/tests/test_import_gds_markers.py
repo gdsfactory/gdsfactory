@@ -1,30 +1,64 @@
-from pathlib import Path
-
-import pytest
-from pytest_regressions.data_regression import DataRegressionFixture
+from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.add_ports import add_ports_from_markers_center
-
-# gdspaths = [gf.CONFIG["gdsdir"] / name for name in ["mmi1x2.gds", "mzi2x2.gds"]]
-gdspaths = [gf.CONFIG["gdsdir"] / name for name in ["mzi2x2.gds"]]
+from gdsfactory.read.import_gds import import_gds
 
 
-@pytest.mark.parametrize("gdspath", gdspaths)
-def test_components_ports(
-    gdspath: Path, data_regression: DataRegressionFixture
-) -> None:
-    """Read ports from markers."""
-    c = gf.import_gds(gdspath, decorator=add_ports_from_markers_center)
-    data_regression.check(c.to_dict())
+def test_import_ports_inside(data_regression) -> gf.Component:
+    """Make sure you can import the ports"""
+    c0 = gf.components.straight(decorator=gf.add_pins.add_pins)
+    gdspath = c0.write_gds()
+
+    gf.clear_cache()
+    c1 = import_gds(gdspath, decorator=gf.add_ports.add_ports_from_markers_inside)
+    assert len(c1.ports) == 2, f"{len(c1.ports)}"
+    if data_regression:
+        data_regression.check(c1.to_dict())
+    return c1
+
+
+def test_import_ports_center(data_regression) -> gf.Component:
+    """Make sure you can import the ports"""
+    c0 = gf.components.straight(decorator=gf.add_pins.add_pins_center)
+    gdspath = c0.write_gds()
+
+    gf.clear_cache()
+    c1 = import_gds(gdspath, decorator=gf.add_ports.add_ports_from_markers_center)
+    assert len(c1.ports) == 2, f"{len(c1.ports)}"
+    if data_regression:
+        data_regression.check(c1.to_dict())
+    return c1
+
+
+def test_import_ports_siepic(data_regression) -> gf.Component:
+    """Make sure you can import the ports"""
+    c0 = gf.components.straight(
+        decorator=gf.add_pins.add_pins_siepic, cross_section="strip_no_pins"
+    )
+    gdspath = c0.write_gds()
+
+    gf.clear_cache()
+    c1 = import_gds(gdspath, decorator=gf.add_ports.add_ports_from_siepic_pins)
+    assert len(c1.ports) == 2, f"{len(c1.ports)}"
+    if data_regression:
+        data_regression.check(c1.to_dict())
+    return c1
 
 
 if __name__ == "__main__":
-    c = gf.import_gds(gdspaths[0], decorator=add_ports_from_markers_center)
-    # c = c.copy()
-    # add_ports_from_markers_center(c)
-    # c.auto_rename_ports()
-    # print(c.ports.keys())
-    # print(c.name)
-    d = c.to_dict()
+    # c = test_import_ports_center(None)
+    # c = test_import_ports_siepic(None)
+    c = test_import_ports_inside(None)
+    c.pprint_ports()
     c.show(show_ports=True)
+
+    # c0 = gf.components.straight(
+    #     decorator=gf.add_pins.add_pins_siepic, cross_section="strip_no_pins"
+    # )
+    # gdspath = c0.write_gds()
+    # c0.show()
+
+    # gf.clear_cache()
+    # c1 = import_gds(gdspath, decorator=gf.add_ports.add_ports_from_siepic_pins)
+    # c1.pprint_ports()
+    # c1.show()

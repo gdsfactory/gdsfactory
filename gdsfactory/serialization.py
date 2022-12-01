@@ -1,4 +1,6 @@
 """Serialize component settings into YAML or strings."""
+from __future__ import annotations
+
 import functools
 import hashlib
 import inspect

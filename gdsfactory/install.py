@@ -1,4 +1,6 @@
 """Install Klayout and GIT plugins."""
+from __future__ import annotations
+
 import configparser
 import os
 import pathlib
@@ -11,7 +13,7 @@ from typing import Optional
 def remove_path_or_dir(dest: pathlib.Path):
     if dest.is_dir():
         if dest.is_symlink():
-            os.rmdir(dest)
+            os.unlink(dest)
         else:
             shutil.rmtree(dest)
     else:
@@ -131,7 +133,7 @@ def install_klayout_package() -> None:
     """
     cwd = pathlib.Path(__file__).resolve().parent
     _install_to_klayout(
-        src=cwd / "klayout", klayout_subdir_name="macros", package_name="gdsfactory"
+        src=cwd / "klayout", klayout_subdir_name="salt", package_name="gdsfactory"
     )
 
 

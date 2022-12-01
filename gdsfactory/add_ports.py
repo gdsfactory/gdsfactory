@@ -1,4 +1,6 @@
 """Add ports from pin markers or labels."""
+from __future__ import annotations
+
 from functools import partial
 from typing import Optional, Tuple
 
@@ -46,11 +48,14 @@ def add_ports_from_markers_square(
     layer = port_layer or pin_layer
 
     for port_name, p in zip(port_names, port_markers.polygons):
-        dy = snap_to_grid(p.ymax - p.ymin)
-        dx = snap_to_grid(p.xmax - p.xmin)
+        (xmin, ymin), (xmax, ymax) = p.bounding_box()
+        x, y = np.sum(p.bounding_box(), 0) / 2
+
+        dy = snap_to_grid(ymax - ymin)
+        dx = snap_to_grid(xmax - xmin)
         if dx == dy and max_pin_area_um2 > dx * dy > min_pin_area_um2:
-            x = p.x
-            y = p.y
+            x = x
+            y = y
             component.add_port(
                 port_name,
                 center=(x, y),
@@ -375,16 +380,23 @@ def add_ports_from_siepic_pins(
     """
     pin_layers = {"optical": pin_layer_optical, "electrical": pin_layer_electrical}
 
+    import gdsfactory as gf
+
+    pin_layer_optical = gf.get_layer(pin_layer_optical)
+    port_layer_optical = gf.get_layer(port_layer_optical)
+    pin_layer_electrical = gf.get_layer(pin_layer_electrical)
+    port_layer_electrical = gf.get_layer(port_layer_electrical)
+
     c = component
     labels = c.get_labels()
 
     for path in c.paths:
-        polygons = path.to_polygons()
-        polygon = polygons[0]
-        p = polygon.points
-        center = np.sum(p, 0) / 4
-        p1 = np.sum(p[:2], 0) / 2
-        p2 = np.sum(p[2:], 0) / 2
+        p1, p2 = path.spine()
+
+        path_layers = list(zip(path.layers, path.datatypes))
+
+        # Find the center of the path
+        center = (p1 + p2) / 2
 
         # Find the label closest to the pin
         label = None
@@ -396,17 +408,15 @@ def add_ports_from_siepic_pins(
             ):
                 label = l
                 labels.pop(i)
-            # else:
-            #     print(f"Warning: label in {l.origin} in center={center} p1={p1} p2={p2}")
         if label is None:
             print(
                 f"Warning: label not found for path: in center={center} p1={p1} p2={p2}"
             )
             continue
-        if pin_layer_optical[0] in path.layers:
+        if pin_layer_optical in path_layers:
             port_type = "optical"
             port_layer = port_layer_optical or None
-        elif pin_layer_electrical[0] in path.layers:
+        elif pin_layer_electrical in path_layers:
             port_type = "electrical"
             port_layer = port_layer_electrical or None
         else:
@@ -429,6 +439,5 @@ def add_ports_from_siepic_pins(
             layer=port_layer or pin_layers[port_type],
             port_type=port_type,
         )
-
         c.add_port(port)
     return c

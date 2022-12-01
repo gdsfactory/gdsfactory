@@ -1,5 +1,7 @@
 """Sweep neff over wavelength and returns group index."""
 
+from __future__ import annotations
+
 from functools import partial
 
 from gdsfactory.simulation.gmeep.get_material import get_index

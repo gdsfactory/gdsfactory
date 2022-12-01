@@ -1,5 +1,7 @@
 """Write a sample reticle together with GDS file."""
 
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.labels import add_label_yaml
 from gdsfactory.read.labels import add_port_markers

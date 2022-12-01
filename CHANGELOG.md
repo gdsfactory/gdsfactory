@@ -1,9 +1,70 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [6.1.2](https://github.com/gdsfactory/gdsfactory/pull/895)
+## 6.3.5
+
+- add default 0 rotation to schematic and separation=5um for routes [PR](https://github.com/gdsfactory/gdsfactory/pull/945)
+- Generic mesh refinement, refactoring [PR](https://github.com/gdsfactory/gdsfactory/pull/941)
+- move python macros to python, (macros is for ruby), add klive path to print [PR](https://github.com/gdsfactory/gdsfactory/pull/943)
+
+## [6.3.4](https://github.com/gdsfactory/gdsfactory/pull/939)
+
+- replace lxml with the built-in xml modules to support python 3.11
+
+## [6.3.3](https://github.com/gdsfactory/gdsfactory/pull/937)
+
+- fix rotations in schematic
+- gf tool install installs klayout as a salt package
+- include material and name into 2.D view script
+
+
+## 6.3.0
+
+- Schematic-Driven Layout flow [PR](https://github.com/gdsfactory/gdsfactory/pull/920)
+- from __future__ import annotations to all files and makes the docs cleaner by rendering the type aliases rather than the expanded type [PR](https://github.com/gdsfactory/gdsfactory/pull/923)
+- Add routes to gdsfactory klayout macro [PR](https://github.com/gdsfactory/gdsfactory/pull/918)
+- fix missing conversion from rad (gdstk) to deg [PR](https://github.com/gdsfactory/gdsfactory/pull/927)
+- better error message when failing to import missing gdscell [PR](https://github.com/gdsfactory/gdsfactory/pull/926)
+- mzi lattice mmi [PR](https://github.com/gdsfactory/gdsfactory/pull/920)
+- prepare release [PR](https://github.com/gdsfactory/gdsfactory/pull/929)
+    * keep python3.7 compatibility, by removing `:=` [Walrus operator](https://realpython.com/python-walrus-operator/)
+    * move schematic driven flow notebook from samples to docs
+    * add test coverage for write_labels_gdstk
+
+## 6.2.6
+
+- import_gds can import any cell (not only top_level cells) [PR](https://github.com/gdsfactory/gdsfactory/pull/917)
+
+## 6.2.5
+
+- mode solvers get modes_path from PDK.modes_path [PR](https://github.com/gdsfactory/gdsfactory/pull/915)
+- remove gf.CONFIG [PR](https://github.com/gdsfactory/gdsfactory/pull/916)
+
+## 6.2.4
+
+- straight propagates to route filter in get_bundle [PR](https://github.com/gdsfactory/gdsfactory/pull/914)
+- update pre-commit hooks and simplify CI/CD [PR](https://github.com/gdsfactory/gdsfactory/pull/913)
+- fix delay length [PR](https://github.com/gdsfactory/gdsfactory/pull/912)
+
+## [6.2.3](https://github.com/gdsfactory/gdsfactory/pull/907)
+
+- fix add ports from paths and polygons
+- add tests
+
+## [6.2.2](https://github.com/gdsfactory/gdsfactory/pull/905)
+
+- fix import_gds works with arrays
+- ComponentReference allows vectors v1 and v2
+
+## [6.2.1](https://github.com/gdsfactory/gdsfactory/pull/903)
+
+- difftest prompts you whether you want to do the xor diff
+
+## [6.2.0](https://github.com/gdsfactory/gdsfactory/pull/895)
 
 - mmi input waveguide width is optional and defaults to cross_section.width
 - rename reflect_h to mirror_x and reflect_v to mirror_y [PR](https://github.com/gdsfactory/gdsfactory/pull/896)
+- gdsfactory cells working on klayout [PR](https://github.com/gdsfactory/gdsfactory/pull/899)
+- fix grid ports [PR](https://github.com/gdsfactory/gdsfactory/pull/900)
 
 ## 6.1.1
 
