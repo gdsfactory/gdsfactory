@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
@@ -18,7 +20,7 @@ def bend_euler(
     direction: str = "ccw",
     with_bbox: bool = True,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Returns an euler bend that transitions from straight to curved.
 
@@ -122,7 +124,7 @@ def bend_straight_bend(
     npoints: int = 720,
     direction: str = "ccw",
     cross_section: CrossSectionSpec = strip,
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Sbend made of 2 euler bends and straight section in between.
 
@@ -146,7 +148,7 @@ def bend_straight_bend(
         npoints=npoints,
         direction=direction,
         cross_section=cross_section,
-        **kwargs
+        **kwargs,
     )
     b1 = c.add_ref(b)
     b2 = c.add_ref(b)

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
@@ -9,7 +11,7 @@ from gdsfactory.types import ComponentSpec, CrossSectionSpec
 def grating_coupler_loss_fiber_single(
     grating_coupler: ComponentSpec = grating_coupler_te,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Returns grating coupler test structure.
 
@@ -37,7 +39,7 @@ def grating_coupler_loss_fiber_single(
         cross_section=cross_section,
         with_loopback=False,
         component_name=grating_coupler.name,
-        **kwargs
+        **kwargs,
     )
 
     c.copy_child_info(grating_coupler)

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from types import LambdaType
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 

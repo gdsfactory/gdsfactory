@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from simphony.models import Subcircuit
 
 from gdsfactory.simulation.simphony.components.coupler_ring import coupler_ring

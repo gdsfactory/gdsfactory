@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from pytest_regressions.data_regression import DataRegressionFixture
 
 from gdsfactory.config import PATH

@@ -13,7 +13,7 @@ settings:
         function: straight
       taper:
         function: taper
-      width: 0.5
+      width: null
       width_mmi: 2.5
       width_taper: 1.0
       with_bbox: true
@@ -26,7 +26,7 @@ settings:
         function: straight
       taper:
         function: taper
-      width: 0.5
+      width: null
       width_mmi: 2.5
       width_taper: 1.0
       with_bbox: true

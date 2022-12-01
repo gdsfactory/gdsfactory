@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 
 characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#()+,-./:;<=>?@[{|}~_"

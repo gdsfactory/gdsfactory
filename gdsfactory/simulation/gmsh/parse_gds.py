@@ -1,6 +1,7 @@
+from __future__ import annotations
+
 import shapely
 from shapely.geometry import LineString, MultiLineString, MultiPolygon, Polygon
-from shapely.ops import linemerge, split
 
 
 def round_coordinates(geom, ndigits=3):
@@ -20,7 +21,7 @@ def round_coordinates(geom, ndigits=3):
 
 def fuse_polygons(component, layername, layer, round_tol=2, simplify_tol=1e-2):
     """Take all polygons from a layer, and returns a single (Multi)Polygon shapely object."""
-    layer_component = component.extract(layer["layer"])
+    layer_component = component.extract(layer)
     shapely_polygons = [
         round_coordinates(shapely.geometry.Polygon(polygon), round_tol)
         for polygon in layer_component.get_polygons()
@@ -38,7 +39,7 @@ def cleanup_component(component, layerstack, round_tol=2, simplify_tol=1e-2):
         layername: fuse_polygons(
             component,
             layername,
-            layer,
+            layer["layer"],
             round_tol=round_tol,
             simplify_tol=simplify_tol,
         )
@@ -91,16 +92,3 @@ def tile_shapes(shapes_dict):
             shapes_tiled_dict[lower_name] = MultiLineString(tiled_lower_shapes)
 
     return shapes_tiled_dict
-
-
-def break_line(line, other_line):
-    intersections = line.intersection(other_line)
-    if not intersections.is_empty:
-        for intersection in (
-            intersections.geoms if hasattr(intersections, "geoms") else [intersections]
-        ):
-            if intersection.type != "Point":
-                new_coords_start, new_coords_end = intersection.boundary.geoms
-                line = linemerge(split(line, new_coords_start))
-                line = linemerge(split(line, new_coords_end))
-    return line

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from .phase_shifters import (
     LAYER,
     ps_heater_doped,

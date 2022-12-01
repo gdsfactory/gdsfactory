@@ -1,14 +1,16 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.types import ComponentSpec, CrossSectionSpec
+from gdsfactory.types import ComponentSpec, CrossSectionSpec, Optional
 
 
 @gf.cell
 def mmi2x2(
-    width: float = 0.5,
+    width: Optional[float] = None,
     width_taper: float = 1.0,
     length_taper: float = 10.0,
     length_mmi: float = 5.5,
@@ -57,6 +59,8 @@ def mmi2x2(
     gap_mmi = gf.snap.snap_to_grid(gap_mmi, nm=2)
     w_mmi = width_mmi
     w_taper = width_taper
+    x = gf.get_cross_section(cross_section)
+    width = width or x.width
 
     taper = gf.get_component(
         taper,
@@ -65,8 +69,6 @@ def mmi2x2(
         width2=w_taper,
         cross_section=cross_section,
     )
-
-    x = gf.get_cross_section(cross_section)
 
     a = gap_mmi / 2 + width_taper / 2
     mmi = c << gf.get_component(
