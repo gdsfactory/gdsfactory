@@ -18,7 +18,7 @@ jobs:
       max-parallel: 12
       matrix:
         python-version: ["3.10"]
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
       - uses: actions/checkout@v3
@@ -32,6 +32,7 @@ jobs:
           pip install -e .
           pip install flake8 pytest pytest_regressions
           make install gdslib
+          gf tool install
       - name: Lint with flake8
         run: |
           flake8 .
