@@ -186,10 +186,9 @@ class SchematicConfiguration(BaseModel):
 
 
 def create_pic():
-    pic = PicYamlConfiguration(
+    return PicYamlConfiguration(
         instances={},
         placements={},
         routes={},
         ports={},
     )
-    return pic
