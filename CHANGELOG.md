@@ -4,6 +4,7 @@
 
 - add default 0 rotation to schematic and separation=5um for routes [PR](https://github.com/gdsfactory/gdsfactory/pull/945)
 - Generic mesh refinement, refactoring [PR](https://github.com/gdsfactory/gdsfactory/pull/941)
+- move python macros to python, (macros is for ruby), add klive path to print [PR](https://github.com/gdsfactory/gdsfactory/pull/943)
 
 ## [6.3.4](https://github.com/gdsfactory/gdsfactory/pull/939)
 
