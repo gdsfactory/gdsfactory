@@ -1,5 +1,7 @@
 """Useful plot functions."""
 
+from __future__ import annotations
+
 from typing import Tuple
 
 import matplotlib.pyplot as plt

@@ -1,5 +1,7 @@
 """FabC example."""
 
+from __future__ import annotations
+
 import pathlib
 from typing import Callable
 

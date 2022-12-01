@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import typing
 from typing import Any, Dict, List, Optional, Tuple, Union, cast
 
@@ -138,7 +140,7 @@ class ComponentReference(_GeometryHelper):
 
     def __init__(
         self,
-        component: "Component",
+        component: Component,
         origin: Coordinate = (0, 0),
         rotation: float = 0,
         magnification: float = 1,
@@ -148,6 +150,8 @@ class ComponentReference(_GeometryHelper):
         rows: int = 1,
         spacing=None,
         name: Optional[str] = None,
+        v1: Optional[Tuple[float, float]] = None,
+        v2: Optional[Tuple[float, float]] = None,
     ) -> None:
         """Initialize the ComponentReference object."""
         self._reference = gdstk.Reference(
@@ -160,14 +164,14 @@ class ComponentReference(_GeometryHelper):
             rows=rows,
             spacing=spacing,
         )
+        if v1 or v2:
+            self._reference.repetition = gdstk.Repetition(
+                columns=columns, rows=rows, v1=v1, v2=v2
+            )
 
         self.ref_cell = component
         self._owner = None
         self._name = name
-
-        self.rows = rows
-        self.columns = columns
-        self.spacing = spacing
 
         # The ports of a ComponentReference have their own unique id (uid),
         # since two ComponentReferences of the same parent Component can be
@@ -177,6 +181,26 @@ class ComponentReference(_GeometryHelper):
         }
         self.visual_label = visual_label
         # self.uid = str(uuid.uuid4())[:8]
+
+    @property
+    def v1(self) -> Optional[Tuple[float, float]]:
+        return self._reference.repetition.v1
+
+    @property
+    def v2(self) -> Optional[Tuple[float, float]]:
+        return self._reference.repetition.v2
+
+    @property
+    def rows(self) -> int:
+        return self._reference.repetition.rows or 1
+
+    @property
+    def columns(self) -> int:
+        return self._reference.repetition.columns or 1
+
+    @property
+    def spacing(self) -> Optional[Tuple[float, float]]:
+        return self._reference.repetition.spacing
 
     @property
     def parent(self):
@@ -191,7 +215,7 @@ class ComponentReference(_GeometryHelper):
         self._reference.origin = value
 
     @property
-    def magnification(self):
+    def magnification(self) -> float:
         return self._reference.magnification
 
     @magnification.setter
@@ -207,7 +231,7 @@ class ComponentReference(_GeometryHelper):
         self._reference.rotation = np.deg2rad(value)
 
     @property
-    def x_reflection(self):
+    def x_reflection(self) -> bool:
         return self._reference.x_reflection
 
     @x_reflection.setter
@@ -505,10 +529,8 @@ class ComponentReference(_GeometryHelper):
         origin: Union[Port, Coordinate, str] = (0, 0),
         destination: Optional[Union[Port, Coordinate, str]] = None,
         axis: Optional[str] = None,
-    ) -> "ComponentReference":
-        """Move the ComponentReference from the origin point to the.
-
-        destination.
+    ) -> ComponentReference:
+        """Move the ComponentReference from origin point to destination.
 
         Both origin and destination can be 1x2 array-like, Port, or a key
         corresponding to one of the Ports in this device_ref.
@@ -560,7 +582,7 @@ class ComponentReference(_GeometryHelper):
 
         else:
             raise ValueError(
-                f"{self.parent.name}.move(destination={destination}) \n"
+                f"{self.parent.name}.move(destination={destination!r}) \n"
                 f"Invalid destination = {destination!r} needs to be"
                 f"a coordinate, a port, or a valid port name {list(self.ports.keys())}"
             )
@@ -581,7 +603,7 @@ class ComponentReference(_GeometryHelper):
         self,
         angle: float = 45,
         center: Union[Coordinate, str, int] = (0.0, 0.0),
-    ) -> "ComponentReference":
+    ) -> ComponentReference:
         """Return rotated ComponentReference.
 
         Args:
@@ -603,7 +625,7 @@ class ComponentReference(_GeometryHelper):
 
     def mirror_x(
         self, port_name: Optional[str] = None, x0: Optional[Coordinate] = None
-    ) -> "ComponentReference":
+    ) -> ComponentReference:
         """Perform horizontal mirror using x0 or port as axis (default, x0=0).
 
         This is the default for mirror along X=x0 axis
@@ -619,7 +641,7 @@ class ComponentReference(_GeometryHelper):
 
     def mirror_y(
         self, port_name: Optional[str] = None, y0: Optional[float] = None
-    ) -> "ComponentReference":
+    ) -> ComponentReference:
         """Perform vertical mirror using y0 as axis (default, y0=0)."""
         if port_name is None and y0 is None:
             y0 = 0.0
@@ -634,7 +656,7 @@ class ComponentReference(_GeometryHelper):
         self,
         p1: Coordinate = (0.0, 1.0),
         p2: Coordinate = (0.0, 0.0),
-    ) -> "ComponentReference":
+    ) -> ComponentReference:
         """Mirrors.
 
         Args:
@@ -675,7 +697,7 @@ class ComponentReference(_GeometryHelper):
         port: Union[str, Port],
         destination: Port,
         overlap: float = 0.0,
-    ) -> "ComponentReference":
+    ) -> ComponentReference:
         """Return ComponentReference where port connects to a destination.
 
         Args:
@@ -840,12 +862,19 @@ def test_pads_no_orientation():
 
 
 if __name__ == "__main__":
-    test_get_polygons_ref()
-    test_get_polygons()
+    # test_get_polygons_ref()
+    # test_get_polygons()
     import gdsfactory as gf
 
-    ref = gf.components.straight().ref()
-    p = ref.get_polygons(by_spec=(1, 0), as_array=False)
+    c = gf.Component("parent")
+    ref = c << gf.components.straight()
+    c.add_ports(ref.ports)
+    ref.movex(5)
+    # assert c.ports['o1'].center[0] == 5, print(c.ports['o1'])
+    print(c.ports["o1"].center)
+    c.show(show_ports=True)
+
+    # p = ref.get_polygons(by_spec=(1, 0), as_array=False)
 
     # c = gf.Component("parent")
     # c2 = gf.Component("child")
@@ -865,4 +894,3 @@ if __name__ == "__main__":
     # bend = c.add_ref(gf.components.bend_euler())
     # bend.move("o1", mzi.ports["o2"])
     # bend.move("o1", "o2")
-    # c.show()

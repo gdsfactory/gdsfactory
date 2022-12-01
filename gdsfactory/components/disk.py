@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import numpy as np
 
 import gdsfactory as gf
@@ -101,7 +103,7 @@ def disk(
     wrap_angle_deg: float = 180.0,
     parity: int = 1,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Disk Resonator.
 

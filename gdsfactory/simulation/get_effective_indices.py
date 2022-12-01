@@ -1,5 +1,7 @@
 """Calculate effective index for a 1D mode."""
 
+from __future__ import annotations
+
 from typing import List
 
 import numpy as np

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
@@ -16,7 +18,7 @@ def ring_double(
     straight: ComponentSpec = straight_function,
     bend: ComponentSpec = bend_euler,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Returns a double bus ring.
 
@@ -54,7 +56,7 @@ def ring_double(
         bend=bend,
         straight=straight,
         cross_section=cross_section,
-        **kwargs
+        **kwargs,
     )
     straight_component = gf.get_component(
         straight, length=length_y, cross_section=cross_section, **kwargs

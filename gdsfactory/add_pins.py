@@ -7,6 +7,8 @@ Some functions modify a component without changing its name.
 Make sure these functions are inside a new Component or called as a decorator
 They without modifying the cell name
 """
+from __future__ import annotations
+
 import json
 from functools import partial
 from typing import TYPE_CHECKING, Callable, List, Optional, Tuple, Union
@@ -35,7 +37,7 @@ def _rotate(v: ndarray, m: ndarray) -> ndarray:
 
 
 def get_pin_triangle_polygon_tip(
-    port: "Port",
+    port: Port,
 ) -> Tuple[List[float], Tuple[float, float]]:
     """Returns triangle polygon and tip position."""
     p = port
@@ -72,8 +74,8 @@ def get_pin_triangle_polygon_tip(
 
 
 def add_pin_triangle(
-    component: "Component",
-    port: "Port",
+    component: Component,
+    port: Port,
     layer: LayerSpec = "PORT",
     layer_label: LayerSpec = "TEXT",
 ) -> None:
@@ -98,8 +100,8 @@ def add_pin_triangle(
 
 
 def add_pin_rectangle_inside(
-    component: "Component",
-    port: "Port",
+    component: Component,
+    port: Port,
     pin_length: float = 0.1,
     layer: LayerSpec = "PORT",
     layer_label: LayerSpec = "TEXT",
@@ -153,8 +155,8 @@ def add_pin_rectangle_inside(
 
 
 def add_pin_rectangle_double(
-    component: "Component",
-    port: "Port",
+    component: Component,
+    port: Port,
     pin_length: float = 0.1,
     layer: LayerSpec = "PORT",
     layer_label: LayerSpec = "TEXT",
@@ -224,8 +226,8 @@ def add_pin_rectangle_double(
 
 
 def add_pin_rectangle(
-    component: "Component",
-    port: "Port",
+    component: Component,
+    port: Port,
     pin_length: float = 0.1,
     layer: LayerSpec = "PORT",
     layer_label: LayerSpec = "TEXT",
@@ -283,8 +285,8 @@ def add_pin_rectangle(
 
 
 def add_pin_path(
-    component: "Component",
-    port: "Port",
+    component: Component,
+    port: Port,
     pin_length: float = 2 * nm,
     layer: LayerSpec = "PORT",
     layer_label: LayerSpec = None,
@@ -346,8 +348,8 @@ def add_pin_path(
 
 
 def add_outline(
-    component: "Component",
-    reference: Optional["ComponentReference"] = None,
+    component: Component,
+    reference: Optional[ComponentReference] = None,
     layer: LayerSpec = "DEVREC",
     **kwargs,
 ) -> None:
@@ -375,12 +377,12 @@ def add_outline(
 
 
 def add_pins_siepic(
-    component: "Component",
+    component: Component,
     function: Callable = add_pin_path,
     port_type: str = "optical",
     layer_pin: LayerSpec = "PORT",
     pin_length: float = 10 * nm,
-) -> "Component":
+) -> Component:
     """Add pins.
 
     Enables you to run SiEPIC verification tools:
@@ -410,10 +412,10 @@ add_pins_siepic_electrical = partial(
 
 
 def add_bbox_siepic(
-    component: "Component",
+    component: Component,
     bbox_layer: LayerSpec = "DEVREC",
     remove_layers: LayerSpecs = ("PORT", "PORTE"),
-) -> "Component":
+) -> Component:
     """Add bounding box device recognition layer.
 
     Args:
@@ -442,14 +444,14 @@ def add_bbox_siepic(
 
 
 def add_pins_bbox_siepic(
-    component: "Component",
+    component: Component,
     function: Callable = add_pin_path,
     port_type: str = "optical",
     layer_pin: LayerSpec = "PORT",
     pin_length: float = 10 * nm,
     bbox_layer: LayerSpec = "DEVREC",
     padding: float = 0,
-) -> "Component":
+) -> Component:
     """Add bounding box device recognition layer.
 
     Args:
@@ -485,12 +487,12 @@ add_pins_bbox_siepic_2nm = partial(add_pins_bbox_siepic, pin_length=2 * nm)
 
 
 def add_pins(
-    component: "Component",
-    reference: Optional["ComponentReference"] = None,
+    component: Component,
+    reference: Optional[ComponentReference] = None,
     function: Callable = add_pin_rectangle_inside,
     select_ports: Optional[Callable] = None,
     **kwargs,
-) -> "Component":
+) -> Component:
     """Add Pin port markers.
 
     Be careful with this function as it modifies the component.
@@ -514,11 +516,12 @@ def add_pins(
 
 
 add_pins_triangle = partial(add_pins, function=add_pin_triangle)
+add_pins_center = partial(add_pins, function=add_pin_rectangle)
 
 
 def add_settings_label(
-    component: "Component",
-    reference: "ComponentReference",
+    component: Component,
+    reference: ComponentReference,
     layer_label: LayerSpec = "LABEL_SETTINGS",
 ) -> None:
     """Add settings in label.
@@ -542,8 +545,8 @@ def add_settings_label(
 
 
 def add_instance_label(
-    component: "Component",
-    reference: "ComponentReference",
+    component: Component,
+    reference: ComponentReference,
     instance_name: Optional[str] = None,
     layer: LayerSpec = "LABEL_INSTANCE",
 ) -> None:
@@ -563,8 +566,8 @@ def add_instance_label(
 
 
 def add_pins_and_outline(
-    component: "Component",
-    reference: Optional["ComponentReference"] = None,
+    component: Component,
+    reference: Optional[ComponentReference] = None,
     add_outline_function: Optional[Callable] = add_outline,
     add_pins_function: Optional[Callable] = add_pins,
     add_settings_function: Optional[Callable] = add_settings_label,

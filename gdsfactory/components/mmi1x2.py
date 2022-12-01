@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
@@ -141,5 +143,5 @@ if __name__ == "__main__":
     # print(c.ports)
     # c = mmi1x2_biased()
     # print(c.get_optical_ports())
-    # c.write_gds(gf.CONFIG["gdsdir"] / "mmi1x2.gds")
+    # c.write_gds(gf.PATH.gdsdir / "mmi1x2.gds")
     # print(c.ports["o1"].cross_section.info)

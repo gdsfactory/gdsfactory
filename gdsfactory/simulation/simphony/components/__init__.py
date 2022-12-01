@@ -1,4 +1,6 @@
 """components for gdsfactory simphony circuit simulation plugin."""
+from __future__ import annotations
+
 from .bend_circular import bend_circular
 from .bend_euler import bend_euler
 from .coupler import coupler

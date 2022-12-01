@@ -5,13 +5,14 @@ The CrossSection defines the layer numbers, widths and offsetts
 Based on phidl.path
 """
 
+from __future__ import annotations
+
 import hashlib
 import warnings
 from collections.abc import Iterable
 from typing import Callable, Optional, Union
 
 import numpy as np
-import shapely.ops
 from numpy import mod, pi
 
 from gdsfactory import snap
@@ -958,6 +959,7 @@ def _cut_path_with_ray(
 ) -> np.ndarray:
     """Cuts or extends a path given a point and angle to project."""
     import shapely.geometry as sg
+    import shapely.ops
 
     # a distance to approximate infinity to find ray-segment intersections
     far_distance = 10000

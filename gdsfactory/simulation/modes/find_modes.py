@@ -10,22 +10,22 @@ output as um/lambda, e.g. 1.5um would correspond to the frequency
 1/1.5 = 0.6667.
 
 """
-import pathlib
+from __future__ import annotations
+
 import pickle
 from functools import partial
-from typing import Dict, Optional
+from typing import Dict
 
 import meep as mp
 import numpy as np
 from meep import mpb
 
-from gdsfactory.config import CONFIG
+from gdsfactory.pdk import get_modes_path
 from gdsfactory.simulation.disable_print import disable_print, enable_print
 from gdsfactory.simulation.get_sparameters_path import get_kwargs_hash
 from gdsfactory.simulation.modes.get_mode_solver_coupler import get_mode_solver_coupler
 from gdsfactory.simulation.modes.get_mode_solver_rib import get_mode_solver_rib
 from gdsfactory.simulation.modes.types import Mode
-from gdsfactory.types import PathType
 
 mpb.Verbosity(0)
 
@@ -35,7 +35,7 @@ def find_modes_waveguide(
     wavelength: float = 1.55,
     mode_number: int = 1,
     parity=mp.NO_PARITY,
-    cache: Optional[PathType] = CONFIG["modes"],
+    cache: bool = True,
     overwrite: bool = False,
     single_waveguide: bool = True,
     **kwargs,
@@ -154,13 +154,13 @@ def find_modes_waveguide(
     )
 
     if cache:
-        cache = pathlib.Path(cache)
-        cache.mkdir(exist_ok=True, parents=True)
-        filepath = cache / f"{h}_{mode_number}.pkl"
+        cache_path = get_modes_path()
+        cache_path.mkdir(exist_ok=True, parents=True)
+        filepath = cache_path / f"{h}_{mode_number}.pkl"
 
         if filepath.exists() and not overwrite:
             for index, i in enumerate(range(mode_number, mode_number + nmodes)):
-                filepath = cache / f"{h}_{index}.pkl"
+                filepath = cache_path / f"{h}_{index}.pkl"
                 mode = pickle.loads(filepath.read_bytes())
                 modes[i] = mode
             return modes
@@ -213,7 +213,7 @@ def find_modes_waveguide(
             ),
         )
         if cache:
-            filepath = cache / f"{h}_{index}.pkl"
+            filepath = cache_path / f"{h}_{index}.pkl"
             filepath.write_bytes(pickle.dumps(modes[i]))
 
     return modes

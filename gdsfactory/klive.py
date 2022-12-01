@@ -6,6 +6,8 @@ You can install gdsfactory klayout integration:
 - install the Klayout plugin through klayout package manager.
 """
 
+from __future__ import annotations
+
 import json
 import os
 import socket
