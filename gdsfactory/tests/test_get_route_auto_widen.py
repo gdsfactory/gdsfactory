@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.cross_section import Section
 from gdsfactory.difftest import difftest

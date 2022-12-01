@@ -9,6 +9,8 @@ tidy3d can:
 
 """
 
+from __future__ import annotations
+
 import itertools as it
 import pathlib
 import subprocess
@@ -29,7 +31,8 @@ from tidy3d.plugins.mode.solver import compute_modes
 from tqdm.auto import tqdm
 from typing_extensions import Literal
 
-from gdsfactory.config import CONFIG, logger
+from gdsfactory.config import logger
+from gdsfactory.pdk import get_modes_path
 from gdsfactory.serialization import get_hash
 from gdsfactory.simulation.gtidy3d.materials import si, sin, sio2
 from gdsfactory.types import PathType
@@ -154,7 +157,7 @@ class Waveguide(BaseModel):
         resolution: pixels/um. Can be a single number or tuple (x, y).
         nmodes: number of modes to compute.
         bend_radius: optional bend radius (um).
-        cache: filepath for caching modes. If None does not use file cache.
+        cache: True uses file cache from PDK.modes_path. False skips cache.
         precision: single or double.
         filter_pol: te, tm or None.
         loss_model: whether to include a scattering loss region at the interfaces. Default is False
@@ -196,7 +199,7 @@ class Waveguide(BaseModel):
     resolution: Union[int, Tuple[int, int]] = 100
     nmodes: int = 4
     bend_radius: Optional[float] = None
-    cache: Optional[PathType] = CONFIG["modes"]
+    cache: bool = True
     precision: Precision = "single"
     filter_pol: Optional[FilterPol] = None
 
@@ -212,7 +215,11 @@ class Waveguide(BaseModel):
         extra = Extra.allow
 
     @property
-    def t_sim(self):
+    def cache_path(self) -> Optional[PathType]:
+        return get_modes_path()
+
+    @property
+    def t_sim(self) -> float:
         return self.t_box + self.wg_thickness + self.t_clad
 
     @property
@@ -220,23 +227,23 @@ class Waveguide(BaseModel):
         return SETTINGS
 
     @property
-    def w_sim(self):
+    def w_sim(self) -> float:
         return self.wg_width + 2 * self.xmargin
 
     @property
     def filepath(self) -> Optional[pathlib.Path]:
-        if self.cache is None:
+        if not self.cache:
             return
-        cache = pathlib.Path(self.cache)
+        cache = pathlib.Path(self.cache_path)
         cache.mkdir(exist_ok=True, parents=True)
         settings = {setting: getattr(self, setting) for setting in self.settings}
         return cache / f"{get_hash(settings)}.npz"
 
-    def get_ncore(self, wavelength: Optional[float] = None):
+    def get_ncore(self, wavelength: Optional[float] = None) -> float:
         wavelength = wavelength or self.wavelength
         return self.ncore(wavelength) if callable(self.ncore) else self.ncore
 
-    def get_nclad(self, wavelength: Optional[float] = None):
+    def get_nclad(self, wavelength: Optional[float] = None) -> float:
         wavelength = wavelength or self.wavelength
         return self.nclad(wavelength) if callable(self.nclad) else self.nclad
 
@@ -649,7 +656,7 @@ class Waveguide(BaseModel):
         return ", \n".join([f"{k} = {getattr(self, k)!r}" for k in self.settings])
 
     def get_overlap(
-        self, wg: "Waveguide", mode_index1: int = 0, mode_index2: int = 0
+        self, wg: Waveguide, mode_index1: int = 0, mode_index2: int = 0
     ) -> float:
         """Returns mode overlap integral.
 
@@ -695,7 +702,7 @@ class WaveguideCoupler(Waveguide):
         resolution: pixels/um. Can be a single number or tuple (x, y).
         nmodes: number of modes to compute.
         bend_radius: optional bend radius (um).
-        cache: filepath for caching modes. If None does not use file cache.
+        cache: True uses file cache from PDK.modes_path. False skips cache.
     ::
         -w1-gap/2
             wg_width1     wg_width2
@@ -1101,7 +1108,7 @@ if __name__ == "__main__":
         sidewall_sigma=20 * nm,
         top_sigma=20 * nm,
         resolution=400,
-        cache=None,
+        cache=True,
         precision="double",
     )
     wg.plot_index()

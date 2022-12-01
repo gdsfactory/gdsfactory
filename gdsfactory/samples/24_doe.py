@@ -4,6 +4,8 @@ by Jan-David Fischbach
 email: jan-david.fischbach@blacksemicon.de
 date: 26.06.22
 """
+from __future__ import annotations
+
 import gdsfactory as gf
 
 if __name__ == "__main__":

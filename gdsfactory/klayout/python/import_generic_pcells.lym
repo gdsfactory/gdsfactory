@@ -96,7 +96,7 @@ class PCellFactory(pya.PCellDeclarationHelper):
                     description=name.replace("_", " "),
                     default=param.default,
                 )
-            )        
+            )
 
     def produce_impl(self):
         """Produce the PCell."""

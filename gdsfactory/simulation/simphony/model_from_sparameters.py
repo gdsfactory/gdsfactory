@@ -1,6 +1,8 @@
 """[[-0.09051371-0.20581339j  0.00704022+0.1328474j \
     0.03733851+0.4879802j ]."""
 
+from __future__ import annotations
+
 from pathlib import PosixPath
 from typing import Optional, Tuple, Union
 
@@ -99,7 +101,7 @@ class SimphonyFromFile(Model):
 
         return self
 
-    def s_parameters(self, freqs: "np.array") -> "np.ndarray":
+    def s_parameters(self, freqs: np.array) -> np.ndarray:
         return interpolate(freqs, self.f, self.s)
 
 
@@ -108,11 +110,11 @@ if __name__ == "__main__":
 
     from gdsfactory.simulation.simphony.plot_model import plot_model
 
-    filepath = gf.CONFIG["sparameters"] / "mmi1x2" / "mmi1x2_si220n.dat"
+    filepath = gf.PATH.sparameters / "mmi1x2" / "mmi1x2_si220n.dat"
     numports = 3
     c = SimphonyFromFile(numports=numports).model_from_filepath(filepath=filepath)
 
-    filepath_csv = gf.CONFIG["sparameters"] / "mmi1x2" / "mmi1x2_si220n.csv"
+    filepath_csv = gf.PATH.sparameters / "mmi1x2" / "mmi1x2_si220n.csv"
     # filepath_csv = "/home/jmatres/ubc/sparameters/ebeam_y_1550_20634f71.csv"
     # df = pd.read_csv(filepath_csv)
     c = SimphonyFromFile(pins=("o1", "o2", "o3")).model_from_csv(filepath_csv)

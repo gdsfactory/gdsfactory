@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Dict, List, Optional, Union
 
 import numpy as np
@@ -21,7 +23,7 @@ def get_route_from_steps(
     bend: ComponentSpec = "bend_euler",
     taper: Optional[ComponentSpec] = "taper",
     cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = "strip",
-    **kwargs
+    **kwargs,
 ) -> Route:
     """Returns a route formed by the given waypoints steps.
 

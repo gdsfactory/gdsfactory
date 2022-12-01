@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import pathlib
 import re
 
@@ -70,14 +72,13 @@ def _s_header_to_port_idxs(s):
 
 if __name__ == "__main__":
     # import matplotlib.pyplot as plt
+    from gdsfactory.config import PATH
 
-    import gdsfactory as gf
+    filepath = PATH.sparameters / "mmi1x2_d542be8a.csv"
+    filepath = PATH.sparameters / "mmi1x2_00cc8908.csv"
+    filepath = PATH.sparameters / "mmi1x2_1f90b7ca.csv"  # lumerical
 
-    filepath = gf.CONFIG["sparameters"] / "mmi1x2_d542be8a.csv"
-    filepath = gf.CONFIG["sparameters"] / "mmi1x2_00cc8908.csv"
-    filepath = gf.CONFIG["sparameters"] / "mmi1x2_1f90b7ca.csv"  # lumerical
-
-    convert_directory_csv_to_npz(gf.CONFIG["sparameters"])
+    convert_directory_csv_to_npz(PATH.sparameters)
 
     # s = csv_to_npz(filepath)
     # plt.plot(s["wavelengths"], np.abs(s["o1@0,o2@0"]) ** 2)

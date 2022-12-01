@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 try:
     import SiPANN as _SIPANN
 except ImportError:

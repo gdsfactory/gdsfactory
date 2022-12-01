@@ -1,13 +1,15 @@
 """Compares the modes of a gdsfactory + MEEP waveguide cross-section vs a
 direct MPB calculation."""
 
+from __future__ import annotations
+
 import h5py
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.interpolate import griddata
 
-import gdsfactory as gf
 from gdsfactory.components import straight
+from gdsfactory.config import PATH
 from gdsfactory.simulation.gmeep import get_simulation
 from gdsfactory.simulation.gmeep.get_port_eigenmode import get_port_2Dx_eigenmode
 from gdsfactory.simulation.modes import find_modes_waveguide, get_mode_solver_rib
@@ -126,7 +128,7 @@ def compare_mpb_lumerical(plot=False) -> None:
     # m1_MPB = MPB_eigenmode()
     """
     # Test data
-    filepath = gf.CONFIG["module_path"] / "simulation" / "gmeep" / "test_data"
+    filepath = PATH.module_path / "simulation" / "gmeep" / "test_data"
 
     # MPB calculation
     # Load previously-computed waveguide results

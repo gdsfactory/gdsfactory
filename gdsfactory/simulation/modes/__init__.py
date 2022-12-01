@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from gdsfactory.simulation.modes import coupler, waveguide
 from gdsfactory.simulation.modes.find_coupling_vs_gap import (
     find_coupling_vs_gap,

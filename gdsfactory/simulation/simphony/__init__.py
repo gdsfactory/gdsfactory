@@ -1,4 +1,5 @@
 """gdsfactory simphony circuit simulation plugin."""
+from __future__ import annotations
 
 try:
     from simphony.tools import freq2wl, wl2freq

@@ -27,6 +27,8 @@ Specs:
 - LayerSpec: (3, 0), 3 (assumes 0 as datatype) or string.
 
 """
+from __future__ import annotations
+
 import json
 import pathlib
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
@@ -39,7 +41,7 @@ from pydantic import BaseModel, Extra
 from typing_extensions import Literal
 
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.cross_section import CrossSection
+from gdsfactory.cross_section import CrossSection, Section
 from gdsfactory.layers import LayerColor, LayerColors
 from gdsfactory.port import Port
 from gdsfactory.tech import LayerLevel, LayerStack
@@ -252,16 +254,17 @@ __all__ = (
     "LayerLevel",
     "LayerColor",
     "LayerColors",
+    "Section",
 )
 
 
 def write_schema(model: BaseModel = NetlistModel) -> None:
-    from gdsfactory.config import CONFIG
+    from gdsfactory.config import PATH
 
     s = model.schema_json()
     d = OmegaConf.create(s)
 
-    schema_path_json = CONFIG["schema_netlist"]
+    schema_path_json = PATH.schema_netlist
     schema_path_yaml = schema_path_json.with_suffix(".yaml")
 
     schema_path_yaml.write_text(OmegaConf.to_yaml(d))
@@ -274,10 +277,10 @@ def _demo():
     import jsonschema
     import yaml
 
-    from gdsfactory.config import CONFIG
+    from gdsfactory.config import PATH
 
-    schema_path = CONFIG["schema_netlist"]
-    schema_dict = json.loads(schema_path.read_text())
+    schema_path_json = PATH.schema_netlist
+    schema_dict = json.loads(schema_path_json.read_text())
 
     yaml_text = """
 
