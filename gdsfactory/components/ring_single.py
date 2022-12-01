@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler_ring import coupler_ring as coupler_ring_function
@@ -15,7 +17,7 @@ def ring_single(
     straight: ComponentSpec = straight_function,
     bend: ComponentSpec = bend_euler,
     cross_section: ComponentSpec = "strip",
-    **kwargs
+    **kwargs,
 ) -> gf.Component:
     """Returns a single ring.
 
@@ -53,7 +55,7 @@ def ring_single(
         radius=radius,
         length_x=length_x,
         cross_section=cross_section,
-        **kwargs
+        **kwargs,
     )
     sy = straight(length=length_y, cross_section=cross_section, **kwargs)
     b = gf.get_component(bend, cross_section=cross_section, radius=radius, **kwargs)

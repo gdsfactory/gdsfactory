@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import re
 from pathlib import Path
 from typing import List, Optional, Tuple
@@ -88,7 +90,7 @@ def read_sparameters_lumerical(
     layer_stack: LayerStack = LAYER_STACK,
     filepath: Optional[str] = None,
     numports: Optional[int] = None,
-    dirpath: Path = gf.CONFIG["sparameters"],
+    dirpath: Path = gf.PATH.sparameters,
     **kwargs,
 ) -> Tuple[List[str], np.array, np.ndarray]:
     r"""Returns Sparameters from Lumerical interconnect .DAT file.

@@ -16,7 +16,7 @@ instances:
             length_taper: 10.0
             taper:
               function: taper
-            width: 0.5
+            width: null
             width_mmi: 2.5
             width_taper: 1.0
             with_bbox: true
@@ -27,7 +27,7 @@ instances:
             length_taper: 10.0
             taper:
               function: taper
-            width: 0.5
+            width: null
             width_mmi: 10
             width_taper: 1.0
             with_bbox: true
@@ -48,7 +48,7 @@ instances:
             length_taper: 10.0
             taper:
               function: taper
-            width: 0.5
+            width: null
             width_mmi: 2.5
             width_taper: 1.0
             with_bbox: true
@@ -59,7 +59,7 @@ instances:
             length_taper: 10.0
             taper:
               function: taper
-            width: 0.5
+            width: null
             width_mmi: 4
             width_taper: 1.0
             with_bbox: true
@@ -80,7 +80,7 @@ instances:
             length_taper: 10.0
             taper:
               function: taper
-            width: 0.5
+            width: null
             width_mmi: 2.5
             width_taper: 1.0
             with_bbox: true
@@ -91,7 +91,7 @@ instances:
             length_taper: 10.0
             taper:
               function: taper
-            width: 0.5
+            width: null
             width_mmi: 10
             width_taper: 1.0
             with_bbox: true
@@ -112,7 +112,7 @@ instances:
             length_taper: 10.0
             taper:
               function: taper
-            width: 0.5
+            width: null
             width_mmi: 2.5
             width_taper: 1.0
             with_bbox: true
@@ -123,7 +123,7 @@ instances:
             length_taper: 10.0
             taper:
               function: taper
-            width: 0.5
+            width: null
             width_mmi: 4
             width_taper: 1.0
             with_bbox: true

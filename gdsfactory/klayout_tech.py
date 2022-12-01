@@ -1,14 +1,16 @@
 """Classes and utilities for working with KLayout technology files (.lyp, .lyt).
 
-This module will enable conversion between gdsfactory settings and KLayout technology.
+This module enables conversion between gdsfactory settings and KLayout technology.
 """
 
 import os
 import pathlib
 import re
+import xml.dom.minidom
+import xml.etree.ElementTree as ET
 from typing import Dict, List, Optional, Set, Tuple, Union
+from xml.dom.minidom import Node
 
-from lxml import etree
 from pydantic import BaseModel, Field, validator
 
 from gdsfactory.config import PATH
@@ -30,6 +32,28 @@ def append_file_extension(filename: Union[str, pathlib.Path], extension: str) ->
     if isinstance(filename, pathlib.Path) and not str(filename).endswith(extension):
         filename = filename.with_suffix(extension)
     return filename
+
+
+def _strip_xml(node):
+    """Strip XML of excess whitespace.
+
+    Source: https://stackoverflow.com/a/16919069
+    """
+    for x in node.childNodes:
+        if x.nodeType == Node.TEXT_NODE:
+            if x.nodeValue:
+                x.nodeValue = x.nodeValue.strip()
+        elif x.nodeType == Node.ELEMENT_NODE:
+            _strip_xml(x)
+
+
+def make_pretty_xml(root: ET.Element) -> bytes:
+    xml_doc = xml.dom.minidom.parseString(ET.tostring(root))
+
+    _strip_xml(xml_doc)
+    xml_doc.normalize()
+
+    return xml_doc.toprettyxml(indent=" ", newl="\n", encoding="utf-8")
 
 
 class LayerView(BaseModel):
@@ -77,7 +101,7 @@ class LayerView(BaseModel):
     marked: bool = False
     xfill: bool = False
     animation: int = 0
-    group_members: Dict[str, "LayerView"] = Field(default_factory=dict)
+    group_members: Optional[Dict[str, "LayerView"]] = None
 
     def __init__(self, **data):
         """Initialize LayerView object."""
@@ -128,7 +152,7 @@ class LayerView(BaseModel):
         """Returns a formatted view of properties and their values."""
         return self.__str__()
 
-    def _get_xml_element(self, tag: str, name: str) -> etree.Element:
+    def _get_xml_element(self, tag: str, name: str) -> ET.Element:
         """Get XML Element from attributes."""
         prop_keys = [
             "frame-color",
@@ -147,7 +171,7 @@ class LayerView(BaseModel):
             "name",
             "source",
         ]
-        el = etree.Element(tag)
+        el = ET.Element(tag)
         for prop_name in prop_keys:
             if prop_name == "source":
                 layer = self.layer
@@ -160,12 +184,12 @@ class LayerView(BaseModel):
                 prop_val = getattr(self, "_".join(prop_name.split("-")), None)
                 if isinstance(prop_val, bool):
                     prop_val = f"{prop_val}".lower()
-            subel = etree.SubElement(el, prop_name)
+            subel = ET.SubElement(el, prop_name)
             if prop_val is not None:
                 subel.text = str(prop_val)
         return el
 
-    def to_xml(self, name: str) -> etree.Element:
+    def to_xml(self, name: str) -> ET.Element:
         """Return an XML representation of the LayerView."""
         props = self._get_xml_element("properties", name=name)
         for member_name, member in self.group_members.items():
@@ -184,19 +208,19 @@ class CustomDitherPattern(BaseModel):
     order: int
     pattern: str
 
-    def to_xml(self, name: str) -> etree.Element:
-        el = etree.Element("custom-dither-pattern")
+    def to_xml(self, name: str) -> ET.Element:
+        el = ET.Element("custom-dither-pattern")
 
-        subel = etree.SubElement(el, "pattern")
+        subel = ET.SubElement(el, "pattern")
         lines = self.pattern.split("\n")
         if len(lines) == 1:
             subel.text = lines[0]
         else:
             for line in lines:
-                etree.SubElement(subel, "line").text = line
+                ET.SubElement(subel, "line").text = line
 
-        etree.SubElement(el, "order").text = str(self.order)
-        etree.SubElement(el, "name").text = name
+        ET.SubElement(el, "order").text = str(self.order)
+        ET.SubElement(el, "name").text = name
         return el
 
 
@@ -211,12 +235,12 @@ class CustomLineStyle(BaseModel):
     order: int
     pattern: str
 
-    def to_xml(self, name: str) -> etree.Element:
-        el = etree.Element("custom-line-pattern")
+    def to_xml(self, name: str) -> ET.Element:
+        el = ET.Element("custom-line-pattern")
 
-        etree.SubElement(el, "pattern").text = self.pattern
-        etree.SubElement(el, "order").text = str(self.order)
-        etree.SubElement(el, "name").text = name
+        ET.SubElement(el, "pattern").text = self.pattern
+        ET.SubElement(el, "order").text = str(self.order)
+        ET.SubElement(el, "name").text = name
         return el
 
 
@@ -303,7 +327,7 @@ def _process_layer(
 
 
 def _properties_to_layerview(
-    element, layer_pattern: Union[str, re.Pattern]
+    element: ET.Element, layer_pattern: Union[str, re.Pattern]
 ) -> Optional[Tuple[str, LayerView]]:
     """Read properties from .lyp XML and generate LayerViews from them.
 
@@ -313,27 +337,32 @@ def _properties_to_layerview(
     """
     prop_dict = {"layer_in_name": False}
     name = ""
-    for prop in element.iterchildren():
-        prop_tag = prop.tag
-        if prop_tag == "name":
-            name = _process_name(prop.text, layer_pattern)
+
+    for property_element in element:
+        tag = property_element.tag
+
+        if tag == "name":
+            name = _process_name(property_element.text, layer_pattern)
             if name is None:
                 return None
             name, layer_in_name = name
             prop_dict["layer_in_name"] = layer_in_name
             continue
-        elif prop_tag == "source":
-            val = _process_layer(prop.text, layer_pattern)
-            prop_tag = "layer"
-        elif prop_tag == "group-members":
-            val = [
-                _properties_to_layerview(e, layer_pattern)
-                for e in element.iterchildren("group-members")
-            ]
+        elif tag == "source":
+            val = _process_layer(property_element.text, layer_pattern)
+            tag = "layer"
+        elif tag == "group-members":
+            continue
         else:
-            val = prop.text
-        prop_tag = "_".join(prop_tag.split("-"))
-        prop_dict[prop_tag] = val
+            val = property_element.text
+        tag = "_".join(tag.split("-"))
+        prop_dict[tag] = val
+
+    prop_dict["group_members"] = {}
+    for member in element.iterfind("group-members"):
+        member_name, member_lv = _properties_to_layerview(member, layer_pattern)
+        prop_dict["group_members"][member_name] = member_lv
+
     return name, LayerView(**prop_dict)
 
 
@@ -462,7 +491,7 @@ class LayerDisplayProperties(BaseModel):
         if os.path.exists(filepath) and not overwrite:
             raise OSError("File exists, cannot write.")
 
-        root = etree.Element("layer-properties")
+        root = ET.Element("layer-properties")
 
         for name, lv in self.layer_views.items():
             root.append(lv.to_xml(name))
@@ -475,11 +504,8 @@ class LayerDisplayProperties(BaseModel):
                 root.append(ls.to_xml(name))
 
         with open(filepath, "wb") as file:
-            file.write(
-                etree.tostring(
-                    root, encoding="utf-8", pretty_print=True, xml_declaration=True
-                )
-            )
+            # Write lyt to file
+            file.write(make_pretty_xml(root))
 
     @staticmethod
     def from_lyp(
@@ -498,21 +524,21 @@ class LayerDisplayProperties(BaseModel):
         if not os.path.exists(filepath):
             raise OSError("File not found!")
 
-        tree = etree.parse(filepath)
+        tree = ET.parse(filepath)
         root = tree.getroot()
         if root.tag != "layer-properties":
             raise OSError("Layer properties file incorrectly formatted, cannot read.")
 
         layer_views = {}
-        for layer_block in root.iter("properties"):
+        for properties_element in root.iter("properties"):
             name, lv = _properties_to_layerview(
-                layer_block, layer_pattern=layer_pattern
+                properties_element, layer_pattern=layer_pattern
             )
             if lv:
                 layer_views[name] = lv
 
         custom_dither_patterns = {}
-        for dither_block in root.iterchildren("custom-dither-pattern"):
+        for dither_block in root.iter("custom-dither-pattern"):
             name = dither_block.find("name").text
             if name is None:
                 continue
@@ -520,11 +546,11 @@ class LayerDisplayProperties(BaseModel):
             custom_dither_patterns[name] = CustomDitherPattern(
                 order=dither_block.find("order").text,
                 pattern="\n".join(
-                    [line.text for line in dither_block.find("pattern").iterchildren()]
+                    [line.text for line in dither_block.find("pattern").iter()]
                 ),
             )
         custom_line_styles = {}
-        for line_block in root.iterchildren("custom-line-style"):
+        for line_block in root.iter("custom-line-style"):
             name = line_block.find("name").text
             if name is None:
                 continue
@@ -638,7 +664,7 @@ class KLayoutTechnology(BaseModel):
         # Write lyp to file
         self.layer_properties.to_lyp(lyp_path)
 
-        root = etree.XML(self.technology.to_xml().encode("utf-8"))
+        root = ET.XML(self.technology.to_xml().encode("utf-8"))
 
         # KLayout tech doesn't include mebes config, so add it after lefdef config:
         if not mebes_config:
@@ -657,13 +683,13 @@ class KLayoutTechnology(BaseModel):
                 "layer-map": "layer_map()",
                 "create-other-layers": True,
             }
-        mebes = etree.Element("mebes")
+        mebes = ET.Element("mebes")
         for k, v in mebes_config.items():
             v = str(v).lower() if isinstance(v, bool) else str(v)
-            etree.SubElement(mebes, k).text = v
+            ET.SubElement(mebes, k).text = v
 
         reader_opts = root.find("reader-options")
-        lefdef_idx = reader_opts.index(reader_opts.find("lefdef"))
+        lefdef_idx = list(reader_opts).index(reader_opts.find("lefdef"))
         reader_opts.insert(lefdef_idx + 1, mebes)
 
         if layer_stack is not None:
@@ -705,22 +731,10 @@ class KLayoutTechnology(BaseModel):
                     ]
                 )
 
-                etree.SubElement(src_element, "connection").text = connection
-
-        # The indentation can easily get messed up when adding elements to existing XML objects, so we need to filter it
-        # by passing it through another parser that strips it of any whitespace and then using pretty_print to re-format
-        # the indentation.
-        parser = etree.XMLParser(remove_blank_text=True)
-
-        script = etree.tostring(
-            etree.XML(etree.tostring(root), parser),
-            encoding="utf-8",
-            pretty_print=True,
-            xml_declaration=True,
-        )
+                ET.SubElement(src_element, "connection").text = connection
 
         # Write lyt to file
-        lyt_path.write_bytes(script)
+        lyt_path.write_bytes(make_pretty_xml(root))
 
     class Config:
         """Allow db.Technology type."""
@@ -762,7 +776,7 @@ if __name__ == "__main__":
     connectivity = [("M1", "VIA1", "M2"), ("M2", "VIA2", "M3")]
 
     c = generic_tech = KLayoutTechnology(
-        name="generic", layer_properties=lyp, connectivity=connectivity
+        name="test_tech", layer_properties=lyp, connectivity=connectivity
     )
     tech_dir = PATH.repo / "extra" / "test_tech"
     # tech_dir = pathlib.Path("/home/jmatres/.klayout/salt/gdsfactory/tech/")

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from gdsfactory.read.from_dphox import from_dphox
 from gdsfactory.read.from_gdspaths import from_gdsdir, from_gdspaths
 from gdsfactory.read.from_np import from_np

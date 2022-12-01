@@ -1,10 +1,13 @@
 """Serialize component settings into YAML or strings."""
+from __future__ import annotations
+
 import functools
 import hashlib
 import inspect
 import pathlib
 from typing import Any, Dict
 
+import gdstk
 import numpy as np
 import orjson
 import pydantic
@@ -86,10 +89,10 @@ def clean_value_json(value: Any) -> Any:
         value = clean_dict(OmegaConf.to_container(value))
 
     elif isinstance(value, (list, tuple, set)):
-        if len(value) > 0 and isinstance(value[0], np.ndarray):
-            value = clean_value_json(np.asarray(value))
-        else:
-            value = [clean_value_json(i) for i in value]
+        value = [clean_value_json(i) for i in value]
+
+    elif isinstance(value, gdstk.Polygon):
+        value = np.round(value.points, 3)
     else:
         try:
             value_json = orjson.dumps(

@@ -1,6 +1,7 @@
 """GDS regression test. Adapted from lytest.
 
 TODO: adapt it into pytest_regressions
+from __future__ import annotations
 from pytest_regressions.file_regression import FileRegressionFixture
 class GdsRegressionFixture(FileRegressionFixture):
     def check(self,
@@ -22,7 +23,7 @@ import shutil
 from typing import Optional
 
 from gdsfactory.component import Component
-from gdsfactory.config import CONFIG, logger
+from gdsfactory.config import PATH, logger
 from gdsfactory.gdsdiff.gdsdiff import gdsdiff
 
 
@@ -123,8 +124,7 @@ def run_xor(file1, file2, tolerance: int = 1, verbose: bool = False) -> None:
 def difftest(
     component: Component,
     test_name: Optional[str] = None,
-    xor: bool = True,
-    dirpath: pathlib.Path = CONFIG["gdsdiff"],
+    dirpath: pathlib.Path = PATH.gdsdiff,
 ) -> None:
     """Avoids GDS regressions tests on the GeometryDifference.
 
@@ -137,7 +137,6 @@ def difftest(
     Args:
         component: to test if it has changed.
         test_name: used to store the GDS file.
-        xor: runs xor if there is difference.
         dirpath: defaults to cwd refers to where the test is being invoked.
     """
     # containers function_name is different from component.name
@@ -168,7 +167,7 @@ def difftest(
         run_xor(str(ref_file), str(run_file), tolerance=1, verbose=False)
     except GeometryDifference as error:
         logger.error(error)
-        diff = gdsdiff(ref_file, run_file, name=test_name, xor=xor)
+        diff = gdsdiff(ref_file, run_file, name=test_name, xor=False)
         diff.write_gds(diff_file)
         diff.show(show_ports=False)
         print(
@@ -179,10 +178,20 @@ def difftest(
 
         try:
             val = input(
-                "Would you like to save current GDS as the new reference? [Y/n] "
+                "Save current GDS as new reference (Y) or show differences (d)? [Y/n/d]"
             )
             if val.upper().startswith("N"):
                 raise
+            xor = val.upper().startswith("D")
+            if xor:
+                diff = gdsdiff(ref_file, run_file, name=test_name, xor=xor)
+                diff.write_gds(diff_file)
+                diff.show(show_ports=False)
+
+                val = input("Save current GDS as the new reference (Y)? [Y/n]")
+                if val.upper().startswith("N"):
+                    raise
+
             logger.info(f"deleting file {str(ref_file)!r}")
             ref_file.unlink()
             shutil.copy(run_file, ref_file)

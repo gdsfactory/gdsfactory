@@ -6,6 +6,8 @@ There are two types of functions:
 - containers: return a new component
 
 """
+from __future__ import annotations
+
 from functools import lru_cache, partial
 
 import numpy as np

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from functools import partial
 from typing import Any, Dict, Optional
 
@@ -6,7 +8,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical_arbitrary import (
     grating_coupler_elliptical_arbitrary,
 )
-from gdsfactory.config import CONFIG
+from gdsfactory.config import PATH
 from gdsfactory.types import Floats, LayerSpec
 
 parameters = (
@@ -162,7 +164,7 @@ def _compare() -> Component:
     c1 = c << grating_coupler_elliptical_lumerical_etch70(
         layer=(2, 0), layer_slab=None, fiber_angle=5
     )
-    c2 = c << gf.import_gds(CONFIG["gdsdir"] / "gc.gds")
+    c2 = c << gf.import_gds(PATH.gdsdir / "gc.gds")
     c2.xmin = 0
     c1.xmin = 0.7
     return c

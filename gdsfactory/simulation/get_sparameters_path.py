@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import hashlib
 import pathlib
 from copy import deepcopy

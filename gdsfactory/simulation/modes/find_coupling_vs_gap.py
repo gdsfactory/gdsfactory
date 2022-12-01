@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import pathlib
 
 import matplotlib.pyplot as plt
@@ -65,7 +67,7 @@ def find_coupling_vs_gap(
     parity=mp.NO_PARITY,
     filepath: Optional[PathType] = None,
     overwrite: bool = False,
-    **kwargs
+    **kwargs,
 ) -> pd.DataFrame:
     """Returns coupling vs gap pandas DataFrame.
 

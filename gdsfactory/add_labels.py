@@ -1,5 +1,7 @@
 """Add Label to each component port."""
 
+from __future__ import annotations
+
 from functools import partial
 from typing import Callable, Dict, List, Optional, Union
 

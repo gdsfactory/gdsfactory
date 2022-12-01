@@ -10,6 +10,8 @@ load_lyp, name_to_description, name_to_short_name based on phidl.utilities
 preview_layerset based on phidl.geometry
 
 """
+from __future__ import annotations
+
 import pathlib
 from functools import partial
 from pathlib import Path
