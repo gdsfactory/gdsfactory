@@ -254,6 +254,55 @@ def cell(func: _F, *args, **kwargs) -> _F:
     return cell_without_validator(validate_arguments(func), *args, **kwargs)
 
 
+def symbol(func: _F, *args, **kwargs) -> _F:
+    """Decorator for Component symbols.
+
+    Wraps cell_without_validator
+    Validates type annotations with pydantic.
+
+    Implements a cache so that if a symbol has already been built
+    it will return the component from the cache directly.
+    This avoids 2 exact cells that are not references of the same cell
+    You can always over-ride this with `cache = False`.
+
+    When decorate your functions with @cell you get:
+
+    - CACHE: avoids creating duplicated cells.
+    - name: gives Components a unique name based on parameters.
+    - adds Component.info with default, changed and full component settings.
+
+    Keyword Args:
+        autoname (bool): if True renames component based on args and kwargs.
+        name (str): Optional (ignored when autoname=True).
+        cache (bool): returns component from the cache if it already exists.
+            if False creates a new component.
+            by default True avoids having duplicated cells with the same name.
+        info: updates component.info dict.
+        prefix: name_prefix, defaults to function name.
+        max_name_length: truncates name beyond some characters (32) with a hash.
+        decorator: function to run over the component.
+    """
+    if "prefix" not in kwargs:
+        prefix = f"SYMBOL_{func.__name__}"
+        kwargs["prefix"] = prefix
+    _wrapped = functools.partial(
+        cell_without_validator(validate_arguments(func)), **kwargs
+    )
+    _wrapped._symbol = True
+    return _wrapped
+
+
+def symbol_from_cell(func: _F, to_symbol: Callable[[Component], Component]) -> _F:
+    @functools.wraps(func)
+    def _symbol(*args, **kwargs):
+        component = func(*args, **kwargs)
+        symbol = to_symbol(component, prefix=f"SYMBOL_{func.__name__}")
+        return symbol
+
+    _symbol._symbol = True
+    return _symbol
+
+
 @cell
 def wg(length: int = 3, layer: Tuple[int, int] = (1, 0)) -> Component:
     """Dummy component for testing."""
