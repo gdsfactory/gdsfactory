@@ -21,7 +21,6 @@ settings:
     - 0.1
     layer_slab: SLAB150
     nclad: 1.443
-    neff: 2.638
     polarization: te
     slab_xmin: -3.0
     spiked: true
@@ -58,7 +57,6 @@ settings:
     - 0.1
     layer_slab: SLAB150
     nclad: 1.443
-    neff: 2.638
     polarization: te
     slab_xmin: -3.0
     spiked: true
