@@ -30,7 +30,7 @@ def test_rotate_port() -> None:
     c1.add_port("e1", port=p2)
     c = gf.Component()
     c1_ref = c << c1
-    c1_ref.rotate(rotation)
+    c1_ref.rotate(port_orientation_expected)
     port_center_actual = c1_ref["o1"].center
     port_orientation_actual = c1_ref["o1"].orientation
     npt.assert_almost_equal(port_center_actual, port_center_expected)
