@@ -5,6 +5,8 @@
 - add default 0 rotation to schematic and separation=5um for routes [PR](https://github.com/gdsfactory/gdsfactory/pull/945)
 - Generic mesh refinement, refactoring [PR](https://github.com/gdsfactory/gdsfactory/pull/941)
 - move python macros to python, (macros is for ruby), add klive path to print [PR](https://github.com/gdsfactory/gdsfactory/pull/943)
+- fix position of rotated "no orientation" ports [PR](https://github.com/gdsfactory/gdsfactory/pull/951)
+- Fix grating_coupler_elliptical_arbitrary component with how the ellipses are drawn. In the previous implementation, a constant neff is assumed for each grating unit cell, which is then used to determine the ellipticity of the teeth. However, for an apodized grating coupler, neff changes depending on the unit cell geometry (e.g. on duty cycle), so an apodized grating coupler would be drawn incorrectly. In addition, neff is not needed as an input, because it can be calculated from the period, wavelength, cladding index, and coupling angle, which are already inputs to the component. [PR](https://github.com/gdsfactory/gdsfactory/pull/953)
 
 ## [6.3.4](https://github.com/gdsfactory/gdsfactory/pull/939)
 
