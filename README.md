@@ -90,8 +90,9 @@ Contributors (in chronological order):
 - Ardavan Oskoii (Google): for Meep plugin documentation improvements.
 - Marc de Cea (MIT): for ge_detector, grating_coupler_dual, mmi_90degree_hybrid, coherent transceiver, receiver.
 - Bradley Snyder (PHIX): for grating_coupler snap to grid fixes.
-- Jonathan Cauchon (EHVA): for measurement database.
-- Raphaël Dubé-Demers (EHVA): for measurement database.
+- Jonathan Cauchon (Ciena): for measurement database.
+- Raphaël Dubé-Demers (EXFO): for measurement database.
+- Bohan Zhang (Boston University): for grating coupler improvements.
 
 Open source heroes:
 

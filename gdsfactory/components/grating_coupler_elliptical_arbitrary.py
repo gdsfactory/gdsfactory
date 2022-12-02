@@ -86,19 +86,21 @@ def grating_coupler_elliptical_arbitrary(
     c.info["wavelength"] = wavelength
 
     # get the physical parameters needed to compute ellipses
-    gaps    = gf.snap.snap_to_grid(np.array(gaps) + bias_gap)
-    widths  = gf.snap.snap_to_grid(np.array(widths) - bias_gap)
-    periods = [ g + w for g, w in zip(gaps,widths) ]
-    neffs   = [ wavelength/p + nclad*sthc for p in periods ]
-    ds      = [ neff**2 - nclad**2 * sthc**2 for neff in neffs ] 
-    a1s     = [ round(wavelength * neff / d, 3) for neff, d in zip(neffs,ds) ]
-    b1s     = [ round(wavelength / np.sqrt(d), 3) for d in ds ]
-    x1s     = [ round(wavelength * nclad * sthc / d, 3) for d in ds ]
-    xis     = np.add( taper_length + np.cumsum(periods), -widths/2 ) # position of middle of each tooth
-    ps      = np.divide( xis, periods )
+    gaps = gf.snap.snap_to_grid(np.array(gaps) + bias_gap)
+    widths = gf.snap.snap_to_grid(np.array(widths) - bias_gap)
+    periods = [g + w for g, w in zip(gaps, widths)]
+    neffs = [wavelength / p + nclad * sthc for p in periods]
+    ds = [neff**2 - nclad**2 * sthc**2 for neff in neffs]
+    a1s = [round(wavelength * neff / d, 3) for neff, d in zip(neffs, ds)]
+    b1s = [round(wavelength / np.sqrt(d), 3) for d in ds]
+    x1s = [round(wavelength * nclad * sthc / d, 3) for d in ds]
+    xis = np.add(
+        taper_length + np.cumsum(periods), -widths / 2
+    )  # position of middle of each tooth
+    ps = np.divide(xis, periods)
 
     # Make the grating teeth
-    # xi = taper_length # x intercept of current tooth
+    xi = taper_length  # x intercept of current tooth
     for a1, b1, x1, p, width in zip(a1s, b1s, x1s, ps, widths):
         pts = grating_tooth_points(
             p * a1, p * b1, p * x1, width, taper_angle, spiked=spiked
@@ -107,7 +109,7 @@ def grating_coupler_elliptical_arbitrary(
     # end grating teeth making for loop
 
     # Make the taper
-    p = taper_length / periods[0] # (gaps[0]+widths[0])
+    p = taper_length / periods[0]  # (gaps[0]+widths[0])
     a_taper = p * a1s[0]
     b_taper = p * b1s[0]
     x_taper = p * x1s[0]
@@ -221,32 +223,5 @@ def grating_coupler_elliptical_uniform(
 
 
 if __name__ == "__main__":
-    # c = grating_coupler_elliptical_arbitrary()
-    # c = grating_coupler_elliptical_uniform(n_periods=3, fill_factor=0.1)
-    # c = grating_coupler_elliptical_arbitrary(fiber_angle=8, bias_gap=-0.05)
-    # c = gf.routing.add_fiber_array(grating_coupler=grating_coupler_elliptical_arbitrary)
-
-    # bz - testing gc with neff/period fix
-
-    # # testing default uniform designs
-    # c = grating_coupler_elliptical_arbitrary(layer_slab = None)
-    # c.write_gds(gdspath='gc_ellip_fix_unif.gds')
-    # # also make and draw the older version with incorrect neff
-    # c2 = grating_coupler_elliptical_arbitrary_old(layer_slab = None, neff = 2.0)
-    # c2.write_gds(gdspath='gc_ellip_old_unif.gds')
-
-    # # testing apodized design
-    # periods = np.linspace(0.650, 0.800, num=10)
-    # dcycles = np.linspace(0.9, 0.5, num=10)
-    # gaps = tuple( np.multiply( periods, 1-dcycles ) )
-    # widths = tuple( np.multiply( periods, dcycles ) )
-
-    # # print(widths)
-
-    # c = grating_coupler_elliptical_arbitrary(gaps = gaps, widths = widths, layer_slab = None)
-    # # c.show(show_ports=True)
-    # c.write_gds(gdspath='gc_ellip_fix_apod.gds')
-
-    # # also make and draw the older version
-    # c2 = grating_coupler_elliptical_arbitrary_old(gaps = gaps, widths = widths, layer_slab = None, neff = 2.0)
-    # c2.write_gds(gdspath='gc_ellip_old_apod.gds')
+    c = grating_coupler_elliptical_arbitrary()
+    c.show(show_ports=True)
