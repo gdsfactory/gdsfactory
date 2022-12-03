@@ -7,6 +7,7 @@ from typing import Dict, Optional
 import gmsh
 import numpy as np
 import pygmsh
+import meshio
 from scipy.interpolate import NearestNDInterpolator
 from shapely.geometry import LineString, Point, Polygon
 
@@ -183,6 +184,17 @@ def mesh_from_polygons(
             gmsh.write(f"{filename}")
 
         return mesh
+
+
+def create_physical_mesh(mesh, cell_type, prune_z=True):
+    cells = mesh.get_cells_type(cell_type)
+    cell_data = mesh.get_cell_data("gmsh:physical", cell_type)
+    points = mesh.points
+    return meshio.Mesh(
+        points=points,
+        cells={cell_type: cells},
+        cell_data={"name_to_read": [cell_data]},
+    )
 
 
 if __name__ == "__main__":
