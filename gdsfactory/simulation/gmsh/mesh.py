@@ -5,9 +5,9 @@ from itertools import combinations, product
 from typing import Dict, Optional
 
 import gmsh
+import meshio
 import numpy as np
 import pygmsh
-import meshio
 from scipy.interpolate import NearestNDInterpolator
 from shapely.geometry import LineString, Point, Polygon
 
@@ -308,8 +308,6 @@ if __name__ == "__main__":
     # gmsh.write("mesh.msh")
     # gmsh.clear()
     # mesh.__exit__()
-
-    import meshio
 
     mesh_from_file = meshio.read("mesh.msh")
 
