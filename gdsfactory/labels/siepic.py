@@ -34,7 +34,6 @@ def get_input_label_text(
         gc_index: grating coupler index.
         component_name: optional component name.
         username: for the label.
-
     """
     polarization = gc.info.get("polarization")
     wavelength = gc.info.get("wavelength")
