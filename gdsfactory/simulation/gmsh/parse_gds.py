@@ -52,7 +52,7 @@ def to_polygons(geometries):
         if isinstance(geometry, Polygon):
             yield geometry
         else:
-            yield from geometry
+            yield from geometry.geoms
 
 
 def to_lines(geometries):
@@ -60,7 +60,7 @@ def to_lines(geometries):
         if isinstance(geometry, LineString):
             yield geometry
         else:
-            yield from geometry
+            yield from geometry.geoms
 
 
 def tile_shapes(shapes_dict):

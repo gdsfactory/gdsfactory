@@ -77,7 +77,7 @@ def add_surfaces(model, meshtracker, polygons_broken_dict):
     """
     for polygon_name, polygons in polygons_broken_dict.items():
         gmsh_surfaces = []
-        for polygon in polygons if hasattr(polygons, "geoms") else [polygons]:
+        for polygon in polygons.geoms if hasattr(polygons, "geoms") else [polygons]:
             gmsh_surface = meshtracker.add_xy_surface(polygon, f"{polygon_name}")
             gmsh_surfaces.append(gmsh_surface)
         meshtracker.model.add_physical(gmsh_surfaces, f"{polygon_name}")
