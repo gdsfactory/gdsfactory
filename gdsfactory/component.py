@@ -1362,6 +1362,38 @@ class Component(_GeometryHelper):
 
         return to_3d(self, *args, **kwargs)
 
+    def to_gmsh(self, 
+                type, 
+                z=None, 
+                xsection_bounds = None, 
+                layer_stack = None,
+                *args, 
+                **kwargs):
+        """Returns a gmsh msh of the component for finite element simulation.
+
+        Arguments:
+            type: one of "xy", "uz", or "3D". Determines the type of mesh to return.
+
+        Keyword Args:
+            Arguments for the target meshing function in gdsfactory.simulation.gmsh
+        """
+        if layer_stack is None:
+            raise ValueError("A LayerStack must be provided through argument \"layer_stack\".")
+        if type == "xy":
+            if z is None:
+                raise ValueError("For xy-meshing, a z-value must be provided via the float argument \"z\".")
+            from gdsfactory.simulation.gmsh.xy_xsection_mesh import xy_xsection_mesh
+            return xy_xsection_mesh(self, z, layer_stack, **kwargs)
+        elif type == "uz":
+            if xsection_bounds is None:
+                raise ValueError("For uz-meshing, a line in the xy-plane must be provided via the Tuple argument [[x1,y1], [x2,y2]] \"xsection_bounds\".")
+            from gdsfactory.simulation.gmsh.uz_xsection_mesh import uz_xsection_mesh
+            return uz_xsection_mesh(self, xsection_bounds, layer_stack, **kwargs)
+        elif type == "3D":
+            raise ValueError("3D meshing not fully implemented yet.")
+        else:
+            raise ValueError("Required argument \"type\" must be one of \"xy\", \"uz\", or \"3D\".")
+
     def _write_library(
         self,
         gdspath: Optional[PathType] = None,
