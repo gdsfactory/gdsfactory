@@ -20,7 +20,7 @@ def xy_xsection_mesh(
     component: ComponentOrReference,
     z: float,
     layerstack: LayerStack,
-    resolutions: Optional[Dict],
+    resolutions: Optional[Dict] = None,
     default_resolution_min: float = 0.01,
     default_resolution_max: float = 0.5,
     background_tag: Optional[str] = None,
