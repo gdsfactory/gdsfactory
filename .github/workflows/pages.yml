@@ -39,7 +39,7 @@ jobs:
         env:
           TIDY3D_USER: ${{ secrets.TIDY3D_EMAIL }}
           TIDY3D_PASS: ${{ secrets.TIDY3D_PASSWORD }}
-          DISPLAY: 0.0
+          DISPLAY: 1.0
         with:
           branch: master
           dir_docs: docs
