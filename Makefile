@@ -52,13 +52,7 @@ thermal:
 	mamba install python-gmsh
 
 gmsh:
-	pip install trimesh
-	pip install mapbox_earcut
-	pip install gmsh
-	pip install meshio
-	pip install pygmsh
-	pip install pyvista
-	pip install h5py
+	pip install trimesh mapbox_earcut gmsh meshio pygmsh pyvista h5py
 
 meep:
 	mamba install pymeep=*=mpi_mpich_* -y
