@@ -11,6 +11,7 @@ include requirements_exp.txt
 include requirements_sipann.txt
 include requirements_tidy3d.txt
 include requirements_devsim.txt
+include requirements_gmsh.txt
 include gdsfactory/klayout/pymacros/*.lym
 include gdsfactory/klayout/drc/generic.lydrc
 include gdsfactory/klayout/tech/generic.layerstack
