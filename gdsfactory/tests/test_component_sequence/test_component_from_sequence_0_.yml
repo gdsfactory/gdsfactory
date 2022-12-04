@@ -1,157 +1,29 @@
-name: component_sequence_3c225400
+name: component_sequence_b024f52e
 settings:
   changed:
     sequence: ABHBA
     symbol_to_component:
       '-':
-      - name: straight
-        settings:
-          changed: {}
-          child: null
-          default:
-            cross_section: strip
-            length: 10.0
-            npoints: 2
-            with_bbox: true
-          full:
-            cross_section: strip
-            length: 10.0
-            npoints: 2
-            with_bbox: true
-          function_name: straight
-          info:
-            length: 10.0
-            width: 0.5
-          info_version: 2
-          module: gdsfactory.components.straight
-          name: straight
+      - component: straight
+        settings: {}
       - o1
       - o2
       A:
-      - name: bend_circular_angle180
+      - component: bend_circular
         settings:
-          changed:
-            angle: 180
-          child: null
-          default:
-            angle: 90.0
-            cross_section: strip
-            npoints: 720
-            with_bbox: true
-          full:
-            angle: 180
-            cross_section: strip
-            npoints: 720
-            with_bbox: true
-          function_name: bend_circular
-          info:
-            dy: 0.0
-            length: 31.416
-            radius: 10.0
-          info_version: 2
-          module: gdsfactory.components.bend_circular
-          name: bend_circular_angle180
+          angle: 180
       - o1
       - o2
       B:
-      - name: bend_circular_angle180
+      - component: bend_circular
         settings:
-          changed:
-            angle: 180
-          child: null
-          default:
-            angle: 90.0
-            cross_section: strip
-            npoints: 720
-            with_bbox: true
-          full:
-            angle: 180
-            cross_section: strip
-            npoints: 720
-            with_bbox: true
-          function_name: bend_circular
-          info:
-            dy: 0.0
-            length: 31.416
-            radius: 10.0
-          info_version: 2
-          module: gdsfactory.components.bend_circular
-          name: bend_circular_angle180
+          angle: 180
       - o2
       - o1
       H:
-      - name: straight_pin_length40
+      - component: straight_pin
         settings:
-          changed:
-            length: 40
-          child: null
-          default:
-            cross_section:
-              function: pin
-            length: 500.0
-            taper:
-              function: taper_strip_to_ridge
-            via_stack:
-              function: via_stack
-              settings:
-                layers:
-                - - 3
-                  - 0
-                - - 41
-                  - 0
-                - - 45
-                  - 0
-                - - 49
-                  - 0
-                vias:
-                - function: via
-                  settings:
-                    layer: VIAC
-                - function: via
-                  settings:
-                    enclosure: 2
-                    layer: VIA1
-                - function: via
-                  settings:
-                    layer: VIA2
-            via_stack_spacing: 2
-            via_stack_width: 10.0
-          full:
-            cross_section:
-              function: pin
-            length: 40
-            taper:
-              function: taper_strip_to_ridge
-            via_stack:
-              function: via_stack
-              settings:
-                layers:
-                - - 3
-                  - 0
-                - - 41
-                  - 0
-                - - 45
-                  - 0
-                - - 49
-                  - 0
-                vias:
-                - function: via
-                  settings:
-                    layer: VIAC
-                - function: via
-                  settings:
-                    enclosure: 2
-                    layer: VIA1
-                - function: via
-                  settings:
-                    layer: VIA2
-            via_stack_spacing: 2
-            via_stack_width: 10.0
-          function_name: straight_pin
-          info: {}
-          info_version: 2
-          module: gdsfactory.components.straight_pin
-          name: straight_pin_length40
+          length: 40
       - o1
       - o2
   child: null
@@ -168,158 +40,30 @@ settings:
     start_orientation: 0.0
     symbol_to_component:
       '-':
-      - name: straight
-        settings:
-          changed: {}
-          child: null
-          default:
-            cross_section: strip
-            length: 10.0
-            npoints: 2
-            with_bbox: true
-          full:
-            cross_section: strip
-            length: 10.0
-            npoints: 2
-            with_bbox: true
-          function_name: straight
-          info:
-            length: 10.0
-            width: 0.5
-          info_version: 2
-          module: gdsfactory.components.straight
-          name: straight
+      - component: straight
+        settings: {}
       - o1
       - o2
       A:
-      - name: bend_circular_angle180
+      - component: bend_circular
         settings:
-          changed:
-            angle: 180
-          child: null
-          default:
-            angle: 90.0
-            cross_section: strip
-            npoints: 720
-            with_bbox: true
-          full:
-            angle: 180
-            cross_section: strip
-            npoints: 720
-            with_bbox: true
-          function_name: bend_circular
-          info:
-            dy: 0.0
-            length: 31.416
-            radius: 10.0
-          info_version: 2
-          module: gdsfactory.components.bend_circular
-          name: bend_circular_angle180
+          angle: 180
       - o1
       - o2
       B:
-      - name: bend_circular_angle180
+      - component: bend_circular
         settings:
-          changed:
-            angle: 180
-          child: null
-          default:
-            angle: 90.0
-            cross_section: strip
-            npoints: 720
-            with_bbox: true
-          full:
-            angle: 180
-            cross_section: strip
-            npoints: 720
-            with_bbox: true
-          function_name: bend_circular
-          info:
-            dy: 0.0
-            length: 31.416
-            radius: 10.0
-          info_version: 2
-          module: gdsfactory.components.bend_circular
-          name: bend_circular_angle180
+          angle: 180
       - o2
       - o1
       H:
-      - name: straight_pin_length40
+      - component: straight_pin
         settings:
-          changed:
-            length: 40
-          child: null
-          default:
-            cross_section:
-              function: pin
-            length: 500.0
-            taper:
-              function: taper_strip_to_ridge
-            via_stack:
-              function: via_stack
-              settings:
-                layers:
-                - - 3
-                  - 0
-                - - 41
-                  - 0
-                - - 45
-                  - 0
-                - - 49
-                  - 0
-                vias:
-                - function: via
-                  settings:
-                    layer: VIAC
-                - function: via
-                  settings:
-                    enclosure: 2
-                    layer: VIA1
-                - function: via
-                  settings:
-                    layer: VIA2
-            via_stack_spacing: 2
-            via_stack_width: 10.0
-          full:
-            cross_section:
-              function: pin
-            length: 40
-            taper:
-              function: taper_strip_to_ridge
-            via_stack:
-              function: via_stack
-              settings:
-                layers:
-                - - 3
-                  - 0
-                - - 41
-                  - 0
-                - - 45
-                  - 0
-                - - 49
-                  - 0
-                vias:
-                - function: via
-                  settings:
-                    layer: VIAC
-                - function: via
-                  settings:
-                    enclosure: 2
-                    layer: VIA1
-                - function: via
-                  settings:
-                    layer: VIA2
-            via_stack_spacing: 2
-            via_stack_width: 10.0
-          function_name: straight_pin
-          info: {}
-          info_version: 2
-          module: gdsfactory.components.straight_pin
-          name: straight_pin_length40
+          length: 40
       - o1
       - o2
   function_name: component_sequence
   info: {}
   info_version: 2
   module: gdsfactory.components.component_sequence
-  name: component_sequence_3c225400
+  name: component_sequence_b024f52e

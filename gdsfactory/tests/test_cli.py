@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from click.testing import CliRunner
 
 from gdsfactory import __version__

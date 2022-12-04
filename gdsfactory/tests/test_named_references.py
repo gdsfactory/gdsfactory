@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import pytest
 
 import gdsfactory as gf
@@ -29,8 +31,8 @@ def test_fail_when_alias_exists():
 
 if __name__ == "__main__":
     # test_fail_when_alias_exists()
-    test_named_references_with_alias()
-    # test_named_references()
+    # test_named_references_with_alias()
+    test_named_references()
 
     # import gdsfactory as gf
 

@@ -11,6 +11,8 @@ Also, if you specify the `single_layer` argument it will move all of the
 polygons to that single layer.
 
 """
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 

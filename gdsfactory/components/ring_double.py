@@ -1,10 +1,10 @@
-from typing import Optional
+from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler_ring import coupler_ring as coupler_ring_function
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.cross_section import strip
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
@@ -16,9 +16,9 @@ def ring_double(
     length_y: float = 0.01,
     coupler_ring: ComponentSpec = coupler_ring_function,
     straight: ComponentSpec = straight_function,
-    bend: Optional[ComponentSpec] = None,
-    cross_section: CrossSectionSpec = strip,
-    **kwargs
+    bend: ComponentSpec = bend_euler,
+    cross_section: CrossSectionSpec = "strip",
+    **kwargs,
 ) -> Component:
     """Returns a double bus ring.
 
@@ -56,7 +56,7 @@ def ring_double(
         bend=bend,
         straight=straight,
         cross_section=cross_section,
-        **kwargs
+        **kwargs,
     )
     straight_component = gf.get_component(
         straight, length=length_y, cross_section=cross_section, **kwargs

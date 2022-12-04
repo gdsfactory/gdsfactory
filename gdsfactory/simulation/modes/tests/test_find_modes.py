@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import numpy as np
 
 from gdsfactory.simulation.modes.find_modes import find_modes_waveguide

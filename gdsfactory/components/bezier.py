@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Optional
 
 import numpy as np
@@ -40,7 +42,7 @@ def bezier(
     end_angle: Optional[int] = None,
     cross_section: CrossSectionSpec = "strip",
     with_bbox: bool = True,
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Returns Bezier bend.
 

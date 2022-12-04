@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Tuple
 
 import gdsfactory as gf
@@ -17,9 +19,9 @@ def litho_calipers(
     layer1: LayerSpec = "WG",
     layer2: LayerSpec = "SLAB150",
 ) -> Component:
-    """Vernier caliper structure to test lithography alignment Only the middle.
+    """Vernier caliper structure to test lithography alignment.
 
-    finger is aligned and the rest are offset.
+    Only the middle finger is aligned and the rest are offset.
 
     based on phidl
 

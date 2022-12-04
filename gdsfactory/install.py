@@ -1,4 +1,6 @@
 """Install Klayout and GIT plugins."""
+from __future__ import annotations
+
 import configparser
 import os
 import pathlib
@@ -8,16 +10,26 @@ import sys
 from typing import Optional
 
 
+def remove_path_or_dir(dest: pathlib.Path):
+    if dest.is_dir():
+        if dest.is_symlink():
+            os.unlink(dest)
+        else:
+            shutil.rmtree(dest)
+    else:
+        os.remove(dest)
+
+
 def make_link(src, dest, overwrite: bool = True) -> None:
     dest = pathlib.Path(dest)
     if dest.exists() and not overwrite:
         print(f"{dest} already exists")
         return
-    elif dest.exists():
-        os.remove(dest)
-
+    if dest.exists() or dest.is_symlink():
+        print(f"removing {dest} already installed")
+        remove_path_or_dir(dest)
     try:
-        os.symlink(src, dest)
+        os.symlink(src, dest, target_is_directory=True)
     except OSError as err:
         print("Could not create symlink!")
         print("     Error: ", err)
@@ -89,10 +101,7 @@ def copy(src: pathlib.Path, dest: pathlib.Path) -> None:
 
     if dest.exists() or dest.is_symlink():
         print(f"removing {dest} already installed")
-        if dest.is_dir():
-            shutil.rmtree(dest)
-        else:
-            os.remove(dest)
+        remove_path_or_dir(dest)
 
     if src.is_dir():
         shutil.copytree(src, dest)

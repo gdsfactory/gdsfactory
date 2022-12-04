@@ -2,6 +2,8 @@
 
 maybe: need to add grating coupler loopback as well
 """
+from __future__ import annotations
+
 from typing import Optional, Tuple
 
 import numpy as np
@@ -31,7 +33,7 @@ def spiral_external_io(
     bend: ComponentSpec = bend_euler,
     length: Optional[float] = None,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Returns spiral with input and output ports outside the spiral.
 

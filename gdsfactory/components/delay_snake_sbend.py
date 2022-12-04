@@ -1,9 +1,9 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.bend_s import bend_s
-from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.types import ComponentSpec
+from gdsfactory.components.straight import straight
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -13,10 +13,10 @@ def delay_snake_sbend(
     length4: float = 0.0,
     radius: float = 5.0,
     waveguide_spacing: float = 5.0,
-    bend: ComponentSpec = bend_euler,
-    sbend: ComponentSpec = bend_s,
+    bend: ComponentSpec = "bend_euler",
+    sbend: ComponentSpec = "bend_s",
     sbend_xsize: float = 100.0,
-    straight: ComponentSpec = straight_function,
+    cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
     r"""Returns compact Snake with sbend in the middle.
@@ -25,14 +25,14 @@ def delay_snake_sbend(
 
     Args:
         length: total length.
-        length1: first straight section length.
-        length3: third straight section length.
-        radius: u bend radius.
-        waveguide_spacing: waveguide pitch.
+        length1: first straight section length in um.
+        length3: third straight section length in um.
+        radius: u bend radius in um.
+        waveguide_spacing: waveguide pitch in um.
         bend: bend spec.
         sbend: sbend spec.
         sbend_size: sbend size.
-        straight: straight spec.
+        cross_section: cross_section spec.
         kwargs: cross_section settings.
 
     .. code::
@@ -56,8 +56,12 @@ def delay_snake_sbend(
     c = Component()
 
     bend180_radius = (radius + waveguide_spacing) / 2
-    bend = gf.get_component(bend, radius=bend180_radius, angle=180, **kwargs)
-    sbend = gf.get_component(sbend, size=(sbend_xsize, radius), **kwargs)
+    bend = gf.get_component(
+        bend, radius=bend180_radius, angle=180, cross_section=cross_section, **kwargs
+    )
+    sbend = gf.get_component(
+        sbend, size=(sbend_xsize, radius), cross_section=cross_section, **kwargs
+    )
 
     b1 = c << bend
     b2 = c << bend
@@ -76,10 +80,10 @@ def delay_snake_sbend(
             f"or length3 = {length3} or increase length = {length}"
         )
 
-    straight1 = gf.get_component(straight, length=length1, **kwargs)
-    straight2 = gf.get_component(straight, length=length2, **kwargs)
-    straight3 = gf.get_component(straight, length=length3, **kwargs)
-    straight4 = gf.get_component(straight, length=length4, **kwargs)
+    straight1 = straight(length=length1, cross_section=cross_section, **kwargs)
+    straight2 = straight(length=length2, cross_section=cross_section, **kwargs)
+    straight3 = straight(length=length3, cross_section=cross_section, **kwargs)
+    straight4 = straight(length=length4, cross_section=cross_section, **kwargs)
 
     s1 = c << straight1
     s2 = c << straight2
@@ -103,11 +107,22 @@ def delay_snake_sbend(
     return c
 
 
+def test_delay_snake_sbend_length():
+    import numpy as np
+
+    length = 200.0
+    c = delay_snake_sbend(length=length, cross_section="strip_no_pins")
+    length_computed = c.area() / 0.5
+    np.isclose(length, length_computed)
+    return c
+
+
 if __name__ == "__main__":
-    c = gf.grid(
-        [
-            delay_snake_sbend(length=length, print_min_bend_radius=True)
-            for length in [500, 3000]
-        ]
-    )
+    c = test_delay_snake_sbend_length()
+    # c = gf.grid(
+    #     [
+    #         delay_snake_sbend(length=length, cross_section="rib")
+    #         for length in [500, 3000]
+    #     ]
+    # )
     c.show(show_ports=True)

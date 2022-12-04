@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from simphony.libraries.siepic import Waveguide
 
 from gdsfactory.config import logger

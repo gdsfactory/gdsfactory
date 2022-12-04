@@ -1,42 +1,206 @@
----
-name: Lint and Test
-# https://docs.github.com/en/free-pro-team@latest/actions/guides/building-and-testing-python
+name: Test pre-commit, code and docs
 
 on:
   pull_request:
   push:
-  schedule:
-    - cron: 0 2 * * * # run at 2 AM UTC
-
-concurrency:
-  group: ${{ github.ref }}
-  cancel-in-progress: true
 
 jobs:
-  build:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+      - uses: pre-commit/action@v3.0.0
+  test_code:
+    needs: [pre-commit]
     runs-on: ${{ matrix.os }}
     strategy:
       max-parallel: 12
       matrix:
-        python-version: [3.7, 3.8, 3.9, "3.10"]
-        os: [ubuntu-latest]
+        python-version: ["3.10"]
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
-      - name: Cancel Workflow Action
-        uses: styfle/cancel-workflow-action@0.10.1
       - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
+          cache: "pip"
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install flake8
+          pip install .
+          pip install flake8 pytest pytest_regressions
           make install gdslib
+          gf tool install
       - name: Lint with flake8
         run: |
           flake8 .
       - name: Test with pytest
+        run: pytest
+  test_code_coverage_python37:
+    runs-on: ubuntu-latest
+    needs: [pre-commit]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.7
+      - name: Install dependencies
         run: |
-          pytest
+          make install
+      - name: Test with pytest
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest klayout lytest scikit-image pytest-cov
+          pytest --cov=gdsfactory --cov-report=xml --cov-config=.coveragerc gdsfactory
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
+  test_code_plugins:
+    runs-on: ubuntu-latest
+    needs: [pre-commit]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          python-version: 3.9
+          mamba-version: "*"
+          channels: conda-forge,defaults
+          channel-priority: true
+          activate-environment: anaconda-client-env
+      - name: Add conda to system path
+        run: |
+          echo $CONDA/bin >> $GITHUB_PATH
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          make gdslib plugins
+          make install
+          pip install -r requirements_full.txt
+      - name: Test with pytest
+        env:
+          TIDY3D_USER: ${{ secrets.TIDY3D_EMAIL }}
+          TIDY3D_PASS: ${{ secrets.TIDY3D_PASSWORD }}
+        run: |
+          mkdir -p $HOME/.tidy3d
+          echo ${{ secrets.TIDY3D_AUTH }} > $HOME/.tidy3d/auth.json
+          make test-plugins
+  test_docs:
+    needs: [pre-commit]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      max-parallel: 12
+      matrix:
+        python-version: [3.9]
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          python-version: 3.9
+          mamba-version: "*"
+          channels: conda-forge,defaults
+          channel-priority: true
+          activate-environment: anaconda-client-env
+      - name: Add conda to system path
+        run: |
+          echo $CONDA/bin >> $GITHUB_PATH
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          sudo apt install pandoc
+          make gdslib plugins-debian full
+      - name: Test documentation
+        env:
+          TIDY3D_USER: ${{ secrets.TIDY3D_EMAIL }}
+          TIDY3D_PASS: ${{ secrets.TIDY3D_PASSWORD }}
+        run: |
+          mkdir -p $HOME/.tidy3d
+          echo ${{ secrets.TIDY3D_AUTH }} > $HOME/.tidy3d/auth.json
+          cd docs
+          make html
+
+  release_pypi:
+    needs: [pre-commit]
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install setuptools wheel twine
+      - name: Build and publish
+        env:
+          TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+        run: |
+          python setup.py sdist bdist_wheel
+          twine upload dist/*
+
+  release_installers:
+    needs: [pre-commit]
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+    runs-on: ${{ matrix.os }}
+    strategy:
+      max-parallel: 12
+      matrix:
+        python-version: ["3.8"]
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          python-version: "3.8"
+          mamba-version: "*"
+          channels: conda-forge,defaults
+          channel-priority: true
+          activate-environment: anaconda-client-env
+      - name: Add conda to system path
+        run: |
+          echo $CONDA/bin >> $GITHUB_PATH
+      - name: constructor build
+        run: |
+          mamba install constructor
+          constructor .
+          pwd
+          ls
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          fail_on_unmatched_files: false
+          files: |
+            gdsfactory-6.3.5-Linux-x86_64.sh
+            gdsfactory-6.3.5-Windows-x86_64.exe
+            gdsfactory-6.3.5-MacOSX-x86_64.pkg
+  release_docker:
+    needs: [pre-commit]
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          tags: joamatab/gdsfactory:latest,joamatab/gdsfactory:6.3.5
+          file: Dockerfile.dev

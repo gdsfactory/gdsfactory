@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import jsondiff
 import numpy as np
 import pytest

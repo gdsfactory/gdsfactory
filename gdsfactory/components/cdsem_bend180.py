@@ -1,11 +1,11 @@
 """CD SEM structures."""
+from __future__ import annotations
+
 from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.bend_circular import bend_circular
-from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
@@ -19,8 +19,8 @@ def cdsem_bend180(
     width: float = 0.5,
     radius: float = 10.0,
     wg_length: float = LINE_LENGTH,
-    straight: ComponentSpec = straight_function,
-    bend90: ComponentSpec = bend_circular,
+    straight: ComponentSpec = "straight",
+    bend90: ComponentSpec = "bend_circular",
     cross_section: CrossSectionSpec = "strip",
     text: ComponentSpec = text_rectangular_mini,
 ) -> Component:

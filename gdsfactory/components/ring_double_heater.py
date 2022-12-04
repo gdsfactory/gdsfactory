@@ -1,9 +1,10 @@
-from typing import Optional
+from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.coupler_ring import coupler_ring as coupler_ring_function
-from gdsfactory.components.straight import straight as straight_function
+from gdsfactory.components.bend_euler import bend_euler
+from gdsfactory.components.coupler_ring import coupler_ring
+from gdsfactory.components.straight import straight
 from gdsfactory.components.via_stack import via_stack_heater_m3
 from gdsfactory.types import ComponentSpec, CrossSectionSpec, Float2
 
@@ -16,16 +17,16 @@ def ring_double_heater(
     radius: float = 10.0,
     length_x: float = 0.01,
     length_y: float = 0.01,
-    coupler_ring: ComponentSpec = coupler_ring_function,
-    straight: ComponentSpec = straight_function,
-    bend: Optional[ComponentSpec] = None,
+    coupler_ring: ComponentSpec = coupler_ring,
+    straight: ComponentSpec = straight,
+    bend: ComponentSpec = bend_euler,
     cross_section_heater: CrossSectionSpec = "heater_metal",
     cross_section_waveguide_heater: CrossSectionSpec = "strip_heater_metal",
     cross_section: CrossSectionSpec = "strip",
     via_stack: gf.types.ComponentSpec = via_stack_heater_m3_mini,
     port_orientation: float = 90,
     via_stack_offset: Float2 = (0, 0),
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Returns a double bus ring with heater on top.
 
@@ -68,13 +69,13 @@ def ring_double_heater(
         bend=bend,
         cross_section=cross_section,
         bend_cross_section=cross_section_waveguide_heater,
-        **kwargs
+        **kwargs,
     )
     straight_component = gf.get_component(
         straight,
         length=length_y,
         cross_section=cross_section_waveguide_heater,
-        **kwargs
+        **kwargs,
     )
 
     c = Component()

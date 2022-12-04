@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components import bend_s
@@ -119,10 +121,11 @@ def coupler_full(
 if __name__ == "__main__":
 
     c = coupler_full(
-        coupling_length=40,
-        gap=0.2,
-        dw=0.1,
-        cladding_layers=[(111, 0)],
-        cladding_offsets=[3],
+        # coupling_length=40,
+        # gap=0.2,
+        # dw=0.1,
+        # cladding_layers=[(111, 0)],
+        # cladding_offsets=[3],
     )
-    c.show(show_ports=True)
+    c.show()
+    # c.show(show_ports=True)

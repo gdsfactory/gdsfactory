@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import contextlib
 import pathlib
 from collections import OrderedDict
@@ -7,7 +9,7 @@ import numpy as np
 from omegaconf import DictConfig
 
 from gdsfactory import Component
-from gdsfactory.config import CONFIG
+from gdsfactory.config import PATH
 
 c = 2.9979e8
 pi = np.pi
@@ -16,7 +18,7 @@ um = 1e-6
 
 def install_design_kit(
     session: object,
-    install_dir: pathlib.Path = CONFIG["interconnect"],
+    install_dir: pathlib.Path = PATH.interconnect,
     overwrite: bool = False,
 ):
     from gdsfactory.pdk import get_interconnect_cml_path

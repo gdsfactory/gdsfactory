@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Optional, Tuple
 
 import numpy as np
@@ -5,19 +7,16 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.ge_detector_straight_si_contacts import (
     ge_detector_straight_si_contacts,
 )
 from gdsfactory.components.mmi_90degree_hybrid import mmi_90degree_hybrid
-from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @cell
 def coh_rx_single_pol(
-    bend: ComponentSpec = bend_euler,
-    straight: ComponentSpec = straight_function,
+    bend: ComponentSpec = "bend_euler",
     cross_section: CrossSectionSpec = "strip",
     hybrid_90deg: ComponentSpec = mmi_90degree_hybrid,
     detector: ComponentSpec = ge_detector_straight_si_contacts,
@@ -32,7 +31,6 @@ def coh_rx_single_pol(
 
     Args:
         bend: 90 degrees bend library.
-        straight: straight function.
         cross_section: for routing.
         hybrid_90deg: generates the 90 degree hybrid.
         detector: generates the detector.
@@ -53,7 +51,6 @@ def coh_rx_single_pol(
                              |__________|--- detQ2 //
     """
     bend = gf.get_component(bend, cross_section=cross_section)
-    straight_spec = straight
 
     # ----- Draw 90 deg hybrid -----
 
@@ -65,7 +62,9 @@ def coh_rx_single_pol(
     # ----- Draw input waveguides (and coupler if indicated) ---
 
     if in_wg_length > 0.0:
-        straight = gf.get_component(straight_spec, length=in_wg_length)
+        straight = gf.components.straight(
+            length=in_wg_length, cross_section=cross_section
+        )
         signal_in = c << straight
         lo_in = c << straight
 

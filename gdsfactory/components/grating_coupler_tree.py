@@ -1,6 +1,7 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.grating_coupler_elliptical import (
     grating_coupler_elliptical_te,
 )
@@ -14,10 +15,10 @@ def grating_coupler_tree(
     straight_spacing: float = 4.0,
     grating_coupler: ComponentSpec = grating_coupler_elliptical_te,
     with_loopback: bool = False,
-    bend: ComponentSpec = bend_euler,
+    bend: ComponentSpec = "bend_euler",
     fanout_length: float = 0.0,
     layer_label: LayerSpec = "TEXT",
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Array of straights connected with grating couplers.
 

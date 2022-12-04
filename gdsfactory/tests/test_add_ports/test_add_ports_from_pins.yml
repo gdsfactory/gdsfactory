@@ -1,0 +1,21 @@
+name: straight_1514d1a3
+ports:
+  o1:
+    center:
+    - 0.0
+    - 0.0
+    layer: PORT
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o2:
+    center:
+    - 10.0
+    - 0.0
+    layer: PORT
+    name: o2
+    orientation: 0
+    port_type: optical
+    width: 0.5
+settings: {}
