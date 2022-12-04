@@ -1,4 +1,6 @@
 """Straight Doped PIN waveguide."""
+from __future__ import annotations
+
 from typing import Optional
 
 import gdsfactory as gf
@@ -45,6 +47,7 @@ def straight_pin_slot(
         via_stack_slab_bot: Optional, defaults to via_stack_slab.
         via_stack_slab_width: defaults to via_stack_width.
         via_stack_spacing: spacing between via_stacks.
+        via_stack_slab_spacing: spacing between via_stacks slabs.
         taper: optional taper.
         kwargs: cross_section settings.
     """

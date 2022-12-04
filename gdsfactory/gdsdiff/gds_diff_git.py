@@ -6,6 +6,8 @@ The function needs to take the arguments as described in
 https://git-scm.com/docs/git/2.18.0#git-codeGITEXTERNALDIFFcode
 
 """
+from __future__ import annotations
+
 import subprocess
 import sys
 

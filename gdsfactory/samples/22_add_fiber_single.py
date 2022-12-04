@@ -1,5 +1,7 @@
 """You can also connect a component with single fiber INPUT and OUTPUTS (no fiber array)."""
 
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.samples.big_device import big_device

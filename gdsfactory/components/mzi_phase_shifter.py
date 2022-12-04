@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.components.mzi import mzi
 from gdsfactory.components.straight_heater_metal import straight_heater_metal

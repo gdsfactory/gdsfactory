@@ -1,14 +1,12 @@
 autograd
 bokeh
-devsim
+flayout
 freetype-py
 holoviews
 ipympl
 ipywidgets
 klayout
-lytest==0.0.20
 mapbox_earcut
-mkl
 networkx
 nlopt
 phidl
@@ -17,7 +15,7 @@ pygmsh
 sax==0.8.4
 scikit-fem
 scikit-image
+scikit-learn
 simphony==0.6.1
-sklearn
 triangle
 trimesh

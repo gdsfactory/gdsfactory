@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from gdsfactory.difftest import difftest
 from gdsfactory.routing.route_ports_to_side import _sample_route_sides
 

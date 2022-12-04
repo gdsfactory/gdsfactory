@@ -1,8 +1,9 @@
 """Sagnac loop_mirror."""
 
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.spiral_external_io import spiral_external_io
 from gdsfactory.routing.manhattan import route_manhattan
@@ -11,9 +12,15 @@ from gdsfactory.types import ComponentSpec
 
 @gf.cell
 def loop_mirror(
-    component: ComponentSpec = mmi1x2, bend90: ComponentSpec = bend_euler
+    component: ComponentSpec = mmi1x2, bend90: ComponentSpec = "bend_euler"
 ) -> Component:
-    """Returns Sagnac loop_mirror."""
+    """Returns Sagnac loop_mirror.
+
+    Args:
+        component: 1x2 splitter.
+        bend90: 90 deg bend.
+
+    """
     c = Component()
     component = gf.get_component(component)
     bend90 = gf.get_component(bend90)
@@ -34,11 +41,17 @@ def loop_mirror(
 def loop_mirror_with_delay(
     loop_mirror: ComponentSpec = loop_mirror, spiral: ComponentSpec = spiral_external_io
 ) -> Component:
-    """Delay = 13e-12.
+    """Returns loop_mirror with spiral for delay.
 
-    # delay = length/speed
-    # length=delay*speed
-    13e-12*3e8/4.2*1e6
+    Args:
+        loop_mirror: loop_mirror spec.
+        spiral: for delay.
+
+    Notes:
+        Delay = 13e-12.
+        # delay = length/speed
+        # length=delay*speed
+        13e-12*3e8/4.2*1e6
     """
     c = Component()
     lm = c << gf.get_component(loop_mirror)

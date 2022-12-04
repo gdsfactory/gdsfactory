@@ -1,4 +1,6 @@
 """Add label YAML."""
+from __future__ import annotations
+
 from typing import List, Optional
 
 import flatdict
@@ -110,7 +112,7 @@ settings:
     component.unlock()
     label = gf.Label(
         text=text,
-        position=(0, 0),
+        origin=(0, 0),
         anchor="o",
         layer=layer[0],
         texttype=layer[1],

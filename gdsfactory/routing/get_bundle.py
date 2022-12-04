@@ -9,6 +9,8 @@ get_bundle calls different function depending on the port orientation.
  - get_bundle_uindirect: ports with indirect U-turns
 
 """
+from __future__ import annotations
+
 from functools import partial
 from typing import Callable, List, Optional, Union
 
@@ -218,7 +220,7 @@ def get_bundle(
         return get_bundle_udirect(**params)
 
     elif end_angle == (start_angle + 180) % 360:
-        # print('get_bundle_uindirect')
+        # print("get_bundle_uindirect")
         return get_bundle_uindirect(extension_length=extension_length, **params)
     else:
         raise NotImplementedError("This should never happen")
@@ -712,33 +714,31 @@ if __name__ == "__main__":
 
     import gdsfactory as gf
 
-    c = gf.Component("get_bundle_none_orientation")
-    pt = c << gf.components.pad_array(orientation=None, columns=3)
-    pb = c << gf.components.pad_array(orientation=None, columns=3)
-    pt.move((100, 200))
-
-    routes = gf.routing.get_bundle_electrical_multilayer(
-        pb.ports,
-        pt.ports,
-        start_straight_length=1,
-        end_straight_length=10,
-        separation=30,
-    )
-
-    for route in routes:
-        c.add(route.references)
-
-    c.show(show_ports=True)
-
-    # c = gf.Component()
-    # c1 = c << gf.components.mmi2x2()
-    # c2 = c << gf.components.mmi2x2()
-    # c2.move((100, 40))
-    # routes = get_bundle(
-    #     [c1.ports['o2'], c1.ports["E1"]],
-    #     [c2.ports['o1'], c2.ports['o2']],
-    #     radius=5,
+    # c = gf.Component("get_bundle_none_orientation")
+    # pt = c << gf.components.pad_array(orientation=None, columns=3)
+    # pb = c << gf.components.pad_array(orientation=None, columns=3)
+    # pt.move((100, 200))
+    # routes = gf.routing.get_bundle_electrical_multilayer(
+    #     pb.ports,
+    #     pt.ports,
+    #     start_straight_length=1,
+    #     end_straight_length=10,
+    #     separation=30,
     # )
     # for route in routes:
-    #     assert np.isclose(route.length, 111.3) ,route.length
     #     c.add(route.references)
+
+    c = gf.Component("demo")
+    c1 = c << gf.components.mmi2x2()
+    c2 = c << gf.components.mmi2x2()
+    c2.move((100, 40))
+    routes = get_bundle(
+        [c1.ports["o2"], c1.ports["o1"]],
+        [c2.ports["o1"], c2.ports["o2"]],
+        radius=5,
+        # layer=(2, 0),
+        straight=gf.partial(gf.components.straight, layer=(1, 0), width=1),
+    )
+    for route in routes:
+        c.add(route.references)
+    c.show(show_ports=True)

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Optional, Tuple
 
 import gdsfactory as gf
@@ -29,7 +31,7 @@ def straight_heater_doped_rib(
     width: float = 0.5,
     xoffset_tip1: float = 0.2,
     xoffset_tip2: float = 0.4,
-    **kwargs
+    **kwargs,
 ) -> Component:
     r"""Returns a doped thermal phase shifter.
 
@@ -99,7 +101,7 @@ def straight_heater_doped_rib(
         heater_width=heater_width,
         heater_gap=heater_gap,
         width=width,
-        **kwargs
+        **kwargs,
     )
 
     if taper:

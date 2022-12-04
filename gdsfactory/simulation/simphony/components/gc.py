@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from gdsfactory.config import sparameters_path
 from gdsfactory.simulation.simphony.model_from_sparameters import SimphonyFromFile
 

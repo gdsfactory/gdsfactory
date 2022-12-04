@@ -27,17 +27,20 @@ Specs:
 - LayerSpec: (3, 0), 3 (assumes 0 as datatype) or string.
 
 """
+from __future__ import annotations
+
 import json
 import pathlib
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
+import gdstk
 import numpy as np
+from gdstk import Label
 from omegaconf import OmegaConf
 from pydantic import BaseModel, Extra
 from typing_extensions import Literal
 
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.component_layout import Label
 from gdsfactory.cross_section import CrossSection, Section
 from gdsfactory.layers import LayerColor, LayerColors
 from gdsfactory.port import Port
@@ -110,7 +113,7 @@ MultiCrossSectionAngleSpec = List[Tuple[CrossSectionSpec, Tuple[int, ...]]]
 
 class Route(BaseModel):
     references: List[ComponentReference]
-    labels: Optional[List[Label]] = None
+    labels: Optional[List[gdstk.Label]] = None
     ports: Tuple[Port, Port]
     length: float
 
@@ -118,6 +121,7 @@ class Route(BaseModel):
         """Config for Route."""
 
         extra = Extra.forbid
+        arbitrary_types_allowed = True
 
 
 class Routes(BaseModel):
@@ -236,6 +240,7 @@ __all__ = (
     "Int3",
     "Ints",
     "Layer",
+    "Label",
     "Layers",
     "NameToFunctionDict",
     "Number",
@@ -245,21 +250,21 @@ __all__ = (
     "RouteFactory",
     "Routes",
     "Strs",
-    "LayerColors",
-    "LayerColor",
     "LayerStack",
     "LayerLevel",
+    "LayerColor",
+    "LayerColors",
     "Section",
 )
 
 
 def write_schema(model: BaseModel = NetlistModel) -> None:
-    from gdsfactory.config import CONFIG
+    from gdsfactory.config import PATH
 
     s = model.schema_json()
     d = OmegaConf.create(s)
 
-    schema_path_json = CONFIG["schema_netlist"]
+    schema_path_json = PATH.schema_netlist
     schema_path_yaml = schema_path_json.with_suffix(".yaml")
 
     schema_path_yaml.write_text(OmegaConf.to_yaml(d))
@@ -272,10 +277,10 @@ def _demo():
     import jsonschema
     import yaml
 
-    from gdsfactory.config import CONFIG
+    from gdsfactory.config import PATH
 
-    schema_path = CONFIG["schema_netlist"]
-    schema_dict = json.loads(schema_path.read_text())
+    schema_path_json = PATH.schema_netlist
+    schema_dict = json.loads(schema_path_json.read_text())
 
     yaml_text = """
 

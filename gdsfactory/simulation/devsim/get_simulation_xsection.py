@@ -9,6 +9,8 @@ From Chrostowski, L., & Hochberg, M. (2015). Silicon Photonics Design: From Devi
 """
 
 
+from __future__ import annotations
+
 from typing import Optional
 
 import devsim
@@ -50,7 +52,7 @@ def dn_carriers(wavelength: float, dN: float, dP: float) -> float:
         wavelength *= 1e-6
         return (
             -3.64 * 1e-10 * wavelength**2 * dN
-            - 3.51 * 1e-6 * wavelength**2 * np.poewr(dP, 0.8)
+            - 3.51 * 1e-6 * wavelength**2 * np.power(dP, 0.8)
         )
 
 

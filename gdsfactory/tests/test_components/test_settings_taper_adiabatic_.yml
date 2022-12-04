@@ -1,0 +1,29 @@
+name: taper_adiabatic
+settings:
+  changed: {}
+  child: null
+  default:
+    alpha: 1
+    cross_section: strip
+    length: 0
+    neff_w:
+      function: <lambda>
+    npoints: 200
+    wavelength: 1.55
+    width1: 0.5
+    width2: 5.0
+  full:
+    alpha: 1
+    cross_section: strip
+    length: 0
+    neff_w:
+      function: <lambda>
+    npoints: 200
+    wavelength: 1.55
+    width1: 0.5
+    width2: 5.0
+  function_name: taper_adiabatic
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.taper_adiabatic
+  name: taper_adiabatic

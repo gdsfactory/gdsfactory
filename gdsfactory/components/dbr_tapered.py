@@ -1,8 +1,9 @@
+from __future__ import annotations
+
 from typing import Tuple
 
 import gdsfactory as gf
 from gdsfactory import Component
-from gdsfactory.cross_section import strip
 from gdsfactory.types import CrossSectionSpec
 
 
@@ -61,8 +62,8 @@ def dbr_tapered(
     taper_length: float = 20.0,
     fins: bool = False,
     fin_size: Tuple[float, float] = (0.2, 0.05),
-    cross_section: CrossSectionSpec = strip,
-    **kwargs
+    cross_section: CrossSectionSpec = "strip",
+    **kwargs,
 ) -> Component:
     """Distributed Bragg Reflector Cell class.
 

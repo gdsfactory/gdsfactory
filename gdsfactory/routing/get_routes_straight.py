@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Dict, List, Union
 
 import gdsfactory as gf

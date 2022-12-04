@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import bezier
@@ -9,7 +11,7 @@ def bend_s(
     size: Float2 = (10.0, 2.0),
     nb_points: int = 99,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Return S bend with bezier curve.
 
@@ -29,7 +31,7 @@ def bend_s(
         control_points=((0, 0), (dx / 2, 0), (dx / 2, dy), (dx, dy)),
         npoints=nb_points,
         cross_section=cross_section,
-        **kwargs
+        **kwargs,
     )
     bend_ref = c << bend
     c.add_ports(bend_ref.ports)
@@ -44,4 +46,4 @@ if __name__ == "__main__":
     # c.pprint()
     # c = bend_s_biased()
     # print(c.info["min_bend_radius"])
-    c.show(show_ports=True)
+    c.show(show_ports=False)

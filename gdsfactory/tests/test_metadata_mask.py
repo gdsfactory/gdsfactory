@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import toolz
 from omegaconf import OmegaConf
 

@@ -1,5 +1,7 @@
 """Straight Doped PIN waveguide."""
 
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.components.extension import extend_ports
 from gdsfactory.components.straight import straight
