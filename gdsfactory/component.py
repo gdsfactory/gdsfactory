@@ -1140,7 +1140,7 @@ class Component(_GeometryHelper):
         self._named_references[alias] = reference
 
     @property
-    def layers(self):
+    def layers(self) -> Set[Tuple[int, int]]:
         """Returns a set of the Layers in the Component."""
         return self.get_layers()
 
@@ -2110,54 +2110,5 @@ def test_import_gds_settings():
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
-    c = gf.Component("parent")
-    ref = c << gf.components.straight()
-    c.add_ports(ref.ports)
-    ref.movex(5)
-    assert c.ports["o1"].center[0] == 5, c.ports["o1"].center[0]
-    c.show(show_ports=True)
-
-    # c = gf.c.mzi()
-    # c = c.flatten()
-
-    # gdspath = c.write_oas()
-    # gf.show(gdspath)
-
-    # c.remove_labels()
-    # print(c.labels)
-
-    # c = gf.components.straight(layer=(2, 0))
-    # remap = c.remap_layers(layermap={(2, 0): gf.LAYER.WGN})
-    # remap.show()
-    # c = test_extract()
-    # c.show()
-
-    # test_get_layers()
-    # test_netlist_simple_width_mismatch_throws_error()
-
-    # c = Component("parent")
-    # c2 = Component("child")
-    # length = 10
-    # width = 0.5
-    # layer = (1, 0)
-    # c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
-    # c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=(2, 0))
-
-    # c << c2
-    # c.show()
-
-    # length = 10
-    # width = 0.5
-    # layer = (1, 0)
-    # c.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
-
-    # c = gf.components.mzi()
-    # c2 = c.mirror()
-    # print(c2.info)
-    # c = gf.c.mzi()
-    # c.hash_geometry()
-    # print(c.get_polygons(by_spec=True))
-    # c.show(show_ports=True)
-    # c.show()
+    c = test_get_layers()
+    c.show()
