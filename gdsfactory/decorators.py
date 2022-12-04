@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.pdk import get_grid_size
 from gdsfactory.snap import is_on_grid

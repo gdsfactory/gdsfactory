@@ -1,4 +1,6 @@
 """based on phidl.geometry."""
+from __future__ import annotations
+
 from typing import Optional
 
 import numpy as np
@@ -6,14 +8,14 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.text import text
-from gdsfactory.types import Anchor, LayerSpec
+from gdsfactory.types import Anchor, ComponentSpec, LayerSpec
 
 big_square = gf.partial(rectangle, size=(1300, 2600))
 
 
 @gf.cell
 def die_bbox(
-    component: gf.types.ComponentSpec = big_square,
+    component: ComponentSpec = big_square,
     street_width: float = 100.0,
     street_length: Optional[float] = None,
     die_name: Optional[str] = None,

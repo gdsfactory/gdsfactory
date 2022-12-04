@@ -3,30 +3,24 @@ settings:
   changed: {}
   child: null
   default:
-    bend:
-      function: bend_euler
+    bend: bend_euler
+    cross_section: strip
     length: 100.0
     length1: 0.0
     length4: 0.0
     radius: 5.0
-    sbend:
-      function: bend_s
+    sbend: bend_s
     sbend_xsize: 100.0
-    straight:
-      function: straight
     waveguide_spacing: 5.0
   full:
-    bend:
-      function: bend_euler
+    bend: bend_euler
+    cross_section: strip
     length: 100.0
     length1: 0.0
     length4: 0.0
     radius: 5.0
-    sbend:
-      function: bend_s
+    sbend: bend_s
     sbend_xsize: 100.0
-    straight:
-      function: straight
     waveguide_spacing: 5.0
   function_name: delay_snake_sbend
   info:

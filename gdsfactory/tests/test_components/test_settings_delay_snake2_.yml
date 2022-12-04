@@ -3,19 +3,13 @@ settings:
   changed: {}
   child: null
   default:
-    bend180:
-      function: bend_euler
-      settings:
-        angle: 180
+    bend180: bend_euler180
     cross_section: strip
     length: 1600.0
     length0: 0.0
     n: 2
   full:
-    bend180:
-      function: bend_euler
-      settings:
-        angle: 180
+    bend180: bend_euler180
     cross_section: strip
     length: 1600.0
     length0: 0.0

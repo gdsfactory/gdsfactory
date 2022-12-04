@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import numpy as np
 
 import gdsfactory as gf
@@ -15,8 +17,7 @@ def edge_coupler_array(
     edge_coupler: ComponentSpec = edge_coupler_silicon,
     n: int = 5,
     pitch: float = 127.0,
-    h_mirror: bool = False,
-    v_mirror: bool = False,
+    x_reflection: bool = False,
     text: Optional[ComponentSpec] = text_rectangular,
     text_offset: Float2 = (10, 20),
 ) -> Component:
@@ -28,8 +29,7 @@ def edge_coupler_array(
         edge_coupler: edge coupler spec.
         n: number of channels.
         pitch: Fiber pitch.
-        h_mirror: horizontal mirror.
-        v_mirror: vertical mirror.
+        x_reflection: horizontal mirror.
         text: text spec.
         text_offset: from edge coupler.
     """
@@ -37,10 +37,10 @@ def edge_coupler_array(
 
     c = Component()
     for i in range(n):
-        ref = edge_coupler.ref(h_mirror=h_mirror, v_mirror=v_mirror)
-        c.aliases[i] = ref
+        alias = f"ec_{i}"
+        ref = c.add_ref(edge_coupler, x_reflection=x_reflection, alias=alias)
         ref.y = i * pitch
-        c.add(ref)
+
         for port in ref.get_ports_list():
             c.add_port(f"{port.name}_{i}", port=port)
 
@@ -60,9 +60,8 @@ def edge_coupler_array_with_loopback(
     n: int = 8,
     pitch: float = 127.0,
     extension_length: float = 1.0,
-    h_mirror: bool = False,
-    v_mirror: bool = False,
     right_loopback: bool = True,
+    x_reflection: bool = False,
     text: Optional[ComponentSpec] = text_rectangular,
     text_offset: Float2 = (0, 0),
 ) -> Component:
@@ -75,9 +74,8 @@ def edge_coupler_array_with_loopback(
         n: number of channels.
         pitch: Fiber pitch (um).
         extension_length: in um.
-        h_mirror: horizontal mirror.
-        v_mirror: vertical mirror.
         right_loopback: adds right loopback.
+        x_reflection: horizontal mirror.
         text: Optional text spec.
         text_offset: x, y.
     """
@@ -86,8 +84,7 @@ def edge_coupler_array_with_loopback(
         edge_coupler=edge_coupler,
         n=n,
         pitch=pitch,
-        h_mirror=h_mirror,
-        v_mirror=v_mirror,
+        x_reflection=x_reflection,
         text=text,
         text_offset=text_offset,
     )
@@ -131,5 +128,5 @@ def edge_coupler_array_with_loopback(
 if __name__ == "__main__":
     # c = edge_coupler_silicon()
     # c = edge_coupler_array()
-    c = edge_coupler_array_with_loopback()
+    c = edge_coupler_array_with_loopback(x_reflection=True)
     c.show(show_ports=True)

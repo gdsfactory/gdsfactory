@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 import pathlib
 import tempfile
 from functools import lru_cache
 
-import gdspy
+import gdstk
 
 from gdsfactory.component import Component, Port
 from gdsfactory.read.import_gds import import_gds
@@ -10,11 +12,11 @@ from gdsfactory.types import Layer
 
 
 @lru_cache(maxsize=None)
-def from_gdspy(cell: gdspy.Cell, **kwargs) -> Component:
-    """Returns gdsfactory Component from a gdspy cell.
+def from_gdstk(cell: gdstk.Cell, **kwargs) -> Component:
+    """Returns gdsfactory Component from a gdstk cell.
 
     Args:
-        cell: gdspy cell.
+        cell: gdstk cell.
 
     Keyword Args:
         cellname: cell of the name to import (None) imports top cell.

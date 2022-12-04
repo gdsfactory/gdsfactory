@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import bezier
@@ -14,7 +16,7 @@ def coupler_adiabatic(
     output_wg_sep: float = 3.0,
     dw: float = 0.1,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Returns 50/50 adiabatic coupler.
 

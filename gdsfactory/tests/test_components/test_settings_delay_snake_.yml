@@ -4,30 +4,16 @@ settings:
   child: null
   default:
     L0: 5.0
-    bend:
-      function: bend_euler
+    bend: bend_euler
+    cross_section: strip
+    length: 1600.0
     n: 2
-    straight:
-      function: straight
-    taper:
-      function: taper
-    taper_length: 10.0
-    total_length: 1600.0
-    wg_width: 0.5
-    wg_width_wide: 2.0
   full:
     L0: 5.0
-    bend:
-      function: bend_euler
+    bend: bend_euler
+    cross_section: strip
+    length: 1600.0
     n: 2
-    straight:
-      function: straight
-    taper:
-      function: taper
-    taper_length: 10.0
-    total_length: 1600.0
-    wg_width: 0.5
-    wg_width_wide: 2.0
   function_name: delay_snake
   info: {}
   info_version: 2

@@ -1,5 +1,7 @@
 """based on phidl.geometry."""
 
+from __future__ import annotations
+
 from typing import Optional, Tuple
 
 import numpy as np
@@ -100,6 +102,6 @@ def die(
 if __name__ == "__main__":
     # c = die(size=(3000, 5000), draw_dicing_lane=True)
     c = die()
-    # c.show(show_ports=True)
-    c.plot()
     c.show()
+    # c.show(show_ports=True)
+    # c.plot()

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Optional
 
 import gdsfactory as gf
@@ -5,7 +7,6 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coh_rx_single_pol import coh_rx_single_pol
-from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.routing.get_route import get_route, get_route_from_waypoints
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
@@ -13,7 +14,6 @@ from gdsfactory.types import ComponentSpec, CrossSectionSpec
 @cell
 def coh_rx_dual_pol(
     bend: ComponentSpec = bend_euler,
-    straight: ComponentSpec = straight_function,
     cross_section: CrossSectionSpec = "strip",
     lo_splitter: ComponentSpec = "mmi1x2",
     signal_splitter: Optional[ComponentSpec] = None,
@@ -27,7 +27,6 @@ def coh_rx_dual_pol(
 
     Args:
         bend: 90 degrees bend library.
-        straight: straight function.
         cross_section: for routing (splitter to mzms and mzms to combiners).
         lo_splitter: splitter function for the LO input.
         signal_splitter: splitter function for the signal input.
@@ -39,7 +38,6 @@ def coh_rx_dual_pol(
     """
     bend_spec = bend
     bend = gf.get_component(bend, cross_section=cross_section)
-    straight_spec = straight
 
     spol_coh_rx = gf.get_component(spol_coh_rx)
 
@@ -66,7 +64,6 @@ def coh_rx_dual_pol(
         route = get_route(
             signal_spl.ports["o2"],
             single_rx_1.ports["signal_in"],
-            straight=straight_spec,
             bend=bend_spec,
             cross_section=cross_section,
             with_sbend=False,
@@ -76,7 +73,6 @@ def coh_rx_dual_pol(
         route = get_route(
             signal_spl.ports["o3"],
             single_rx_2.ports["signal_in"],
-            straight=straight_spec,
             bend=bend_spec,
             cross_section=cross_section,
             with_sbend=False,
@@ -97,7 +93,6 @@ def coh_rx_dual_pol(
             route = get_route(
                 signal_coup.ports["o1"],
                 single_rx_1.ports["signal_in"],
-                straight=straight_spec,
                 bend=bend_spec,
                 cross_section=cross_section,
                 with_sbend=False,
@@ -107,7 +102,6 @@ def coh_rx_dual_pol(
             route = get_route(
                 signal_coup.ports["o2"],
                 single_rx_2.ports["signal_in"],
-                straight=straight_spec,
                 bend=bend_spec,
                 cross_section=cross_section,
                 with_sbend=False,
@@ -139,7 +133,6 @@ def coh_rx_dual_pol(
             (p0x + splitter_coh_rx_spacing / 4, p1y),
             (p1x, p1y),
         ],
-        straight=straight_spec,
         bend=bend_spec,
         cross_section=cross_section,
     )
@@ -155,7 +148,6 @@ def coh_rx_dual_pol(
             (p0x + splitter_coh_rx_spacing / 4, p1y),
             (p1x, p1y),
         ],
-        straight=straight_spec,
         bend=bend_spec,
         cross_section=cross_section,
     )

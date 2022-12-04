@@ -9,6 +9,7 @@ Gdsfactory
    git
    workflow
    notebooks
+   sdl
    plugins_process
    plugins_mode_solver
    plugins_fdtd

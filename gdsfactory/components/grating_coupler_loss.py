@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import inspect
 from typing import List, Tuple
 
@@ -19,7 +21,7 @@ def connect_loopback(
     b: float,
     y_bot_align_route: float,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs
+    **kwargs,
 ) -> List[ComponentReference]:
     p0 = port0.center
     p1 = port1.center
@@ -46,7 +48,7 @@ def loss_deembedding_ch13_24(
     grating_coupler: ComponentSpec = grating_coupler_te,
     input_port_indexes: Tuple[int, ...] = (0, 1),
     cross_section: CrossSectionSpec = "strip",
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Grating coupler test structure for fiber array.
 
@@ -74,7 +76,7 @@ def loss_deembedding_ch13_24(
             start_straight_length=40.0,
             taper=None,
             cross_section=cross_section,
-            **kwargs
+            **kwargs,
         ).references
     )
 
@@ -97,7 +99,7 @@ def loss_deembedding_ch13_24(
         label = get_input_label(
             gc_ports[index], gc, i, component_name=inspect.stack()[0][3]
         )
-        label.position = gc_ports[index].center
+        label.origin = gc_ports[index].center
         c.add(label)
 
     return c
@@ -108,7 +110,7 @@ def loss_deembedding_ch12_34(
     pitch: float = 127.0,
     grating_coupler: ComponentSpec = grating_coupler_te,
     input_port_indexes: Tuple[int, ...] = (0, 2),
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Grating coupler test structure for fiber array.
 
@@ -146,7 +148,7 @@ def loss_deembedding_ch12_34(
         label = get_input_label(
             gc_ports[index], gc, i, component_name=inspect.stack()[0][3]
         )
-        label.center = gc_ports[index].center
+        label.origin = gc_ports[index].center
         c.add(label)
     return c
 
@@ -156,7 +158,7 @@ def loss_deembedding_ch14_23(
     pitch: float = 127.0,
     grating_coupler: ComponentSpec = grating_coupler_te,
     input_port_indexes: Tuple[int, ...] = (0, 1),
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Grating coupler test structure for fiber array.
 
@@ -194,7 +196,7 @@ def loss_deembedding_ch14_23(
         label = get_input_label(
             gc_ports[index], gc, i, component_name=inspect.stack()[0][3]
         )
-        label.position = gc_ports[index].center
+        label.origin = gc_ports[index].center
         c.add(label)
     return c
 
@@ -204,7 +206,7 @@ def grating_coupler_loss_fiber_array(
     pitch: float = 127.0,
     grating_coupler: ComponentSpec = grating_coupler_te,
     input_port_indexes: Tuple[int, ...] = (0, 1),
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Returns Grating coupler fiber array loopback.
 
@@ -235,7 +237,7 @@ def grating_coupler_loss_fiber_array(
         label = get_input_label(
             gc_ports[index], gc, i, component_name=inspect.stack()[0][3]
         )
-        label.position = gc_ports[index].center
+        label.origin = gc_ports[index].center
         c.add(label)
     return c
 

@@ -1,8 +1,9 @@
+from __future__ import annotations
+
 import numpy as np
 
 import gdsfactory as gf
 from gdsfactory import Component
-from gdsfactory.cross_section import strip
 from gdsfactory.types import CrossSectionSpec
 
 
@@ -101,8 +102,8 @@ def disk(
     gap: float = 0.2,
     wrap_angle_deg: float = 180.0,
     parity: int = 1,
-    cross_section: CrossSectionSpec = strip,
-    **kwargs
+    cross_section: CrossSectionSpec = "strip",
+    **kwargs,
 ) -> Component:
     """Disk Resonator.
 
@@ -115,9 +116,8 @@ def disk(
         180 corresponds to a bus straight wrapped around half of the resonator.
        parity (1 or -1): 1, resonator left from bus straight, -1 resonator to the right.
        cross_section: cross_section spec.
+       kwargs: cross_section settings.
 
-    Keyword Args:
-        cross_section kwargs.
     """
     if parity not in (1, -1):
         raise ValueError("parity must be 1 or -1")

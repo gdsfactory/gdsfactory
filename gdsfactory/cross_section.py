@@ -2,6 +2,8 @@
 
 To create a component you need to extrude the path with a cross-section.
 """
+from __future__ import annotations
+
 import inspect
 import sys
 from collections.abc import Iterable
@@ -325,7 +327,9 @@ strip = partial(
     cladding_offsets=(0,),  # for SiEPIC verification
 )
 strip_auto_widen = partial(strip, width_wide=0.9, auto_widen=True)
-npp = partial(strip, layer="NPP")
+strip_no_pins = partial(
+    strip, add_pins=None, add_bbox=None, cladding_layers=None, cladding_offsets=None
+)
 
 # Rib with rectangular slab
 rib = partial(
@@ -444,6 +448,7 @@ heater_metal = partial(
 
 metal3_with_bend = partial(metal1, layer="M3", radius=10)
 metal_routing = metal3
+npp = partial(metal1, layer="NPP", width=0.5)
 
 
 @pydantic.validate_arguments
@@ -1363,7 +1368,9 @@ def get_cross_section_factories(
             if callable(t[1]) and t[0] != "partial":
                 try:
                     r = inspect.signature(t[1]).return_annotation
-                    if r == CrossSection:
+                    if r == CrossSection or (
+                        isinstance(r, str) and r.endswith("CrossSection")
+                    ):
                         xs[t[0]] = t[1]
                 except ValueError:
                     if verbose:

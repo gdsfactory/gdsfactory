@@ -22,8 +22,8 @@ ports:
     - 0
     port_type: optical
 cells:
-  mzi_3f2640c0:
-    name: mzi_3f2640c0
+  mzi_6f76ede3:
+    name: mzi_6f76ede3
     module: gdsfactory.components.mzi
     function_name: mzi
     info: {}
@@ -40,40 +40,10 @@ cells:
       straight_x_top: null
       straight_x_bot: null
       splitter:
-        name: mmi1x2_be5e636a
+        component: mmi1x2
         settings:
-          name: mmi1x2_be5e636a
-          module: gdsfactory.components.mmi1x2
-          function_name: mmi1x2
-          info: {}
-          info_version: 2
-          full:
-            width: 0.5
-            width_taper: 1.0
-            length_taper: 10.0
-            length_mmi: 5.5
-            width_mmi: 2.5
-            gap_mmi: 0.25
-            taper:
-              function: taper
-            with_bbox: true
-            cross_section:
-              function: cross_section
-          changed:
-            cross_section:
-              function: cross_section
-          default:
-            width: 0.5
-            width_taper: 1.0
-            length_taper: 10.0
-            length_mmi: 5.5
-            width_mmi: 2.5
-            gap_mmi: 0.25
-            taper:
-              function: taper
-            with_bbox: true
-            cross_section: strip
-          child: null
+          cross_section:
+            function: cross_section
       combiner: null
       with_splitter: true
       port_e1_splitter: o2
@@ -89,40 +59,10 @@ cells:
       cross_section:
         function: cross_section
       splitter:
-        name: mmi1x2_be5e636a
+        component: mmi1x2
         settings:
-          name: mmi1x2_be5e636a
-          module: gdsfactory.components.mmi1x2
-          function_name: mmi1x2
-          info: {}
-          info_version: 2
-          full:
-            width: 0.5
-            width_taper: 1.0
-            length_taper: 10.0
-            length_mmi: 5.5
-            width_mmi: 2.5
-            gap_mmi: 0.25
-            taper:
-              function: taper
-            with_bbox: true
-            cross_section:
-              function: cross_section
-          changed:
-            cross_section:
-              function: cross_section
-          default:
-            width: 0.5
-            width_taper: 1.0
-            length_taper: 10.0
-            length_mmi: 5.5
-            width_mmi: 2.5
-            gap_mmi: 0.25
-            taper:
-              function: taper
-            with_bbox: true
-            cross_section: strip
-          child: null
+          cross_section:
+            function: cross_section
     default:
       delta_length: 10.0
       length_y: 2.0
@@ -579,9 +519,9 @@ cells:
       with_bbox: true
       cross_section: strip
     child: null
-name: mzi_3f2640c0
+name: mzi_6f76ede3
 settings:
-  name: mzi_3f2640c0
+  name: mzi_6f76ede3
   module: gdsfactory.components.mzi
   function_name: mzi
   info: {}
@@ -598,40 +538,10 @@ settings:
     straight_x_top: null
     straight_x_bot: null
     splitter:
-      name: mmi1x2_be5e636a
+      component: mmi1x2
       settings:
-        name: mmi1x2_be5e636a
-        module: gdsfactory.components.mmi1x2
-        function_name: mmi1x2
-        info: {}
-        info_version: 2
-        full:
-          width: 0.5
-          width_taper: 1.0
-          length_taper: 10.0
-          length_mmi: 5.5
-          width_mmi: 2.5
-          gap_mmi: 0.25
-          taper:
-            function: taper
-          with_bbox: true
-          cross_section:
-            function: cross_section
-        changed:
-          cross_section:
-            function: cross_section
-        default:
-          width: 0.5
-          width_taper: 1.0
-          length_taper: 10.0
-          length_mmi: 5.5
-          width_mmi: 2.5
-          gap_mmi: 0.25
-          taper:
-            function: taper
-          with_bbox: true
-          cross_section: strip
-        child: null
+        cross_section:
+          function: cross_section
     combiner: null
     with_splitter: true
     port_e1_splitter: o2
@@ -647,40 +557,10 @@ settings:
     cross_section:
       function: cross_section
     splitter:
-      name: mmi1x2_be5e636a
+      component: mmi1x2
       settings:
-        name: mmi1x2_be5e636a
-        module: gdsfactory.components.mmi1x2
-        function_name: mmi1x2
-        info: {}
-        info_version: 2
-        full:
-          width: 0.5
-          width_taper: 1.0
-          length_taper: 10.0
-          length_mmi: 5.5
-          width_mmi: 2.5
-          gap_mmi: 0.25
-          taper:
-            function: taper
-          with_bbox: true
-          cross_section:
-            function: cross_section
-        changed:
-          cross_section:
-            function: cross_section
-        default:
-          width: 0.5
-          width_taper: 1.0
-          length_taper: 10.0
-          length_mmi: 5.5
-          width_mmi: 2.5
-          gap_mmi: 0.25
-          taper:
-            function: taper
-          with_bbox: true
-          cross_section: strip
-        child: null
+        cross_section:
+          function: cross_section
   default:
     delta_length: 10.0
     length_y: 2.0

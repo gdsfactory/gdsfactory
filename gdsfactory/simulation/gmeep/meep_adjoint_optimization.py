@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from types import LambdaType
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
@@ -232,17 +234,17 @@ def run_meep_adjoint_optimizer(
         threshold_offset_from_max = kwargs.get("threshold_offset_from_max", 0.01)
         layer = kwargs.get("layer", (1, 0))
 
-        return _get_component_from_sim(
+        return get_component_from_sim(
             opt.sim, fcen, upscale_factor, threshold_offset_from_max, layer
         )
     return update_variable
 
 
-def _get_component_from_sim(
+def get_component_from_sim(
     sim: Simulation,
     fcen: float = 1 / 1.55,
     upscale_factor: int = 2,
-    threshold_offset_from_max: float = 0.01,
+    threshold_offset_from_max: float = 2.0,
     layer: Layer = (1, 0),
 ) -> Component:
     """Get gdsfactory Component from Meep Simulation object.

@@ -1,39 +1,33 @@
-from numpy import pi
+from __future__ import annotations
+
+import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.routing.manhattan import round_corners
-from gdsfactory.types import ComponentSpec
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
 def delay_snake(
-    wg_width: float = 0.5,
-    wg_width_wide: float = 2.0,
-    total_length: float = 1600.0,
+    length: float = 1600.0,
     L0: float = 5.0,
-    taper_length: float = 10.0,
     n: int = 2,
-    taper: ComponentSpec = taper_function,
-    bend: ComponentSpec = bend_euler,
-    straight: ComponentSpec = straight_function,
-    **kwargs
+    bend: ComponentSpec = "bend_euler",
+    cross_section: CrossSectionSpec = "strip",
+    **kwargs,
 ) -> Component:
-    """Snake input facing west output facing east.
+    """Returns Snake with a starting straight and 90 bends.
+
+    Input faces west output faces east.
 
     Args:
-        wg_width: waveguide width.
-        wg_width_wide: for the wide.
-        total_length: of the delay.
-        L0: initial offset.
-        taper_length: length of the taper.
+        length: delay length in um.
+        L0: initial xoffset in um.
         n: number of loops.
-        taper: taper library.
         bend: bend spec.
-        straight: straight spec.
+        cross_section: cross_section spec.
+        kwargs: cross_section settings.
 
     .. code::
 
@@ -48,9 +42,9 @@ def delay_snake(
        |        DL         |
     """
     epsilon = 0.1
-    bend90 = gf.get_component(bend, width=wg_width, **kwargs)
+    bend90 = gf.get_component(bend, cross_section=cross_section, **kwargs)
     dy = bend90.info["dy"]
-    DL = (total_length + L0 - n * (pi * dy + epsilon)) / (2 * n + 1)
+    DL = (length + L0 - n * (np.pi * dy + epsilon)) / (2 * n + 1)
     L2 = DL - L0
     assert (
         L2 > 0
@@ -67,25 +61,25 @@ def delay_snake(
 
     path = [(round(_x, 3), round(_y, 3)) for _x, _y in path]
 
-    component = gf.Component()
-    if taper:
-        _taper = gf.get_component(
-            taper, width1=wg_width, width2=wg_width_wide, length=taper_length, **kwargs
-        )
+    c = gf.Component()
     route = round_corners(
-        points=path,
-        bend=bend90,
-        straight=straight,
-        taper=_taper,
-        width_wide=wg_width_wide,
-        **kwargs
+        points=path, bend=bend90, cross_section=cross_section, **kwargs
     )
-    component.add(route.references)
-    component.add_port("o1", port=route.ports[0])
-    component.add_port("o2", port=route.ports[1])
-    return component
+    c.add(route.references)
+    c.add_port("o1", port=route.ports[0])
+    c.add_port("o2", port=route.ports[1])
+    return c
+
+
+def test_delay_snake_length():
+    length = 200.0
+    c = delay_snake(n=1, length=length, cross_section="strip_no_pins")
+    length_computed = c.area() / 0.5
+    np.isclose(length, length_computed)
+    return c
 
 
 if __name__ == "__main__":
-    c = delay_snake(layer=(2, 0), auto_widen=False)
+    c = test_delay_snake_length()
+    # c = delay_snake(cross_section="strip_auto_widen", auto_widen_minimum_length=50)
     c.show(show_ports=True)

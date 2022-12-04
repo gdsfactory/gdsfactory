@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Optional
 
 from gdsfactory.cell import cell
@@ -65,7 +67,7 @@ def mzi_arm(
     c = component_sequence(sequence=sequence, symbol_to_component=symbol_to_component)
 
     # Add any electrical ports from references
-    for ref_name, ref in c.aliases.items():
+    for ref_name, ref in c.named_references.items():
         c.add_ports(ref.get_ports_list(port_type="electrical"), prefix=ref_name)
 
     c.unlock()

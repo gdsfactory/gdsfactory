@@ -1,4 +1,4 @@
-# gdsfactory 5.45.1
+# gdsfactory 6.3.5
 
 [![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)](https://gdsfactory.github.io/gdsfactory/)
 [![PyPI](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -14,6 +14,7 @@
 [![codecov](https://img.shields.io/codecov/c/github/gdsfactory/gdsfactory)](https://codecov.io/gh/gdsfactory/gdsfactory/tree/master/gdsfactory)
 [![black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/gdsfactory/binder-sandbox/HEAD)
+[![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/gdsfactory/gdsfactory)
 
 ![logo](https://i.imgur.com/v4wpHpg.png)
 
@@ -50,9 +51,9 @@ It also exports component settings (for measurement and data analysis) and netli
 ![flow](https://i.imgur.com/XbhWJDz.png)
 
 
-It provides you a common syntax for layout (klayout, gdspy), simulation (Lumerical, tidy3d, MEEP, MPB, DEVSIM, simphony, SAX, ...) and data analysis libraries.
+It provides you a common syntax for layout (klayout, gdstk), simulation (Lumerical, tidy3d, MEEP, MPB, DEVSIM, simphony, SAX, ...) and data analysis libraries.
 
-![tool interfaces](https://i.imgur.com/bQslWHO.png)
+![tool interfaces](https://i.imgur.com/9fNLRvJ.png)
 
 
 ## Installation
@@ -89,13 +90,14 @@ Contributors (in chronological order):
 - Ardavan Oskoii (Google): for Meep plugin documentation improvements.
 - Marc de Cea (MIT): for ge_detector, grating_coupler_dual, mmi_90degree_hybrid, coherent transceiver, receiver.
 - Bradley Snyder (PHIX): for grating_coupler snap to grid fixes.
-- Jonathan Cauchon (EHVA): for measurement database.
-- Raphaël Dubé-Demers (EHVA): for measurement database.
+- Jonathan Cauchon (Ciena): for measurement database.
+- Raphaël Dubé-Demers (EXFO): for measurement database.
+- Bohan Zhang (Boston University): for grating coupler improvements.
 
 Open source heroes:
 
 - Matthias Köfferlein: for Klayout
-- Lucas Heitzmann (University of Campinas, Brazil): for gdspy
+- Lucas Heitzmann (University of Campinas, Brazil): for gdstk
 - Adam McCaughan (NIST): for phidl. Inpiration for geometry manipulation.
 - Alex Tait (Queens University): for lytest
 - Thomas Ferreira de Lima (NEC): for `pip install klayout` python API.
