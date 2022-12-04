@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [6.4.0](https://github.com/gdsfactory/gdsfactory/pull/955)
+
+- improve meshing capabilities, add installer and docs
+
 ## 6.3.5
 
 - add default 0 rotation to schematic and separation=5um for routes [PR](https://github.com/gdsfactory/gdsfactory/pull/945)
