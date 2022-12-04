@@ -115,11 +115,13 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           sudo apt install pandoc
+          sudo apt install libglu1-mesa libxi-dev libxmu-dev libglu1-mesa-dev
           make gdslib plugins-debian full
       - name: Test documentation
         env:
           TIDY3D_USER: ${{ secrets.TIDY3D_EMAIL }}
           TIDY3D_PASS: ${{ secrets.TIDY3D_PASSWORD }}
+          DISPLAY: 1.0
         run: |
           mkdir -p $HOME/.tidy3d
           echo ${{ secrets.TIDY3D_AUTH }} > $HOME/.tidy3d/auth.json

@@ -51,6 +51,9 @@ plugins-debian:
 thermal:
 	mamba install python-gmsh
 
+gmsh:
+	pip install trimesh mapbox_earcut gmsh meshio pygmsh pyvista h5py
+
 meep:
 	mamba install pymeep=*=mpi_mpich_* -y
 
