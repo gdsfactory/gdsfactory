@@ -116,7 +116,7 @@ def uz_xsection_mesh(
     component: ComponentOrReference,
     xsection_bounds: Tuple[Tuple[float, float], Tuple[float, float]],
     layerstack: LayerStack,
-    resolutions: Optional[Dict],
+    resolutions: Optional[Dict] = None,
     mesh_scaling_factor: float = 1.0,
     default_resolution_min: float = 0.01,
     default_resolution_max: float = 0.5,
