@@ -93,3 +93,5 @@ autodoc_default_options = {
     "inherited-members": True,
     "show-inheritance": True,
 }
+
+nbsphinx_allow_errors = True
