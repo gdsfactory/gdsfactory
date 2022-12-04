@@ -25,6 +25,11 @@ with open("requirements_sipann.txt") as f:
         line.strip() for line in f.readlines() if not line.strip().startswith("-")
     ]
 
+with open("requirements_gmsh.txt") as f:
+    requirements_gmsh = [
+        line.strip() for line in f.readlines() if not line.strip().startswith("-")
+    ]
+
 with open("requirements_tidy3d.txt") as f:
     requirements_tidy3d = [
         line.strip() for line in f.readlines() if not line.strip().startswith("-")
@@ -57,10 +62,11 @@ setup(
         gf=gdsfactory.cli:cli
     """,
     extras_require={
-        "full": list(set(requirements + requirements_full)),
+        "full": list(set(requirements + requirements_full + requirements_gmsh)),
         "sipann": requirements_sipann,
         "tidy3d": requirements_tidy3d,
         "devsim": requirements_devsim,
+        "gmsh": requirements_gmsh,
         "dev": list(set(requirements + requirements_dev)),
         "exp": list(set(requirements + requirements_exp)),
     },
