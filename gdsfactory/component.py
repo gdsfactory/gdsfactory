@@ -1140,7 +1140,7 @@ class Component(_GeometryHelper):
         self._named_references[alias] = reference
 
     @property
-    def layers(self):
+    def layers(self) -> Set[Tuple[int, int]]:
         """Returns a set of the Layers in the Component."""
         return self.get_layers()
 
@@ -1361,6 +1361,44 @@ class Component(_GeometryHelper):
         from gdsfactory.export.to_3d import to_3d
 
         return to_3d(self, *args, **kwargs)
+
+    def to_gmsh(
+        self, type, z=None, xsection_bounds=None, layer_stack=None, *args, **kwargs
+    ):
+        """Returns a gmsh msh of the component for finite element simulation.
+
+        Arguments:
+            type: one of "xy", "uz", or "3D". Determines the type of mesh to return.
+
+        Keyword Args:
+            Arguments for the target meshing function in gdsfactory.simulation.gmsh
+        """
+        if layer_stack is None:
+            raise ValueError(
+                'A LayerStack must be provided through argument "layer_stack".'
+            )
+        if type == "xy":
+            if z is None:
+                raise ValueError(
+                    'For xy-meshing, a z-value must be provided via the float argument "z".'
+                )
+            from gdsfactory.simulation.gmsh.xy_xsection_mesh import xy_xsection_mesh
+
+            return xy_xsection_mesh(self, z, layer_stack, **kwargs)
+        elif type == "uz":
+            if xsection_bounds is None:
+                raise ValueError(
+                    'For uz-meshing, a line in the xy-plane must be provided via the Tuple argument [[x1,y1], [x2,y2]] "xsection_bounds".'
+                )
+            from gdsfactory.simulation.gmsh.uz_xsection_mesh import uz_xsection_mesh
+
+            return uz_xsection_mesh(self, xsection_bounds, layer_stack, **kwargs)
+        elif type == "3D":
+            raise ValueError("3D meshing not fully implemented yet.")
+        else:
+            raise ValueError(
+                'Required argument "type" must be one of "xy", "uz", or "3D".'
+            )
 
     def _write_library(
         self,
@@ -2110,54 +2148,5 @@ def test_import_gds_settings():
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
-    c = gf.Component("parent")
-    ref = c << gf.components.straight()
-    c.add_ports(ref.ports)
-    ref.movex(5)
-    assert c.ports["o1"].center[0] == 5, c.ports["o1"].center[0]
-    c.show(show_ports=True)
-
-    # c = gf.c.mzi()
-    # c = c.flatten()
-
-    # gdspath = c.write_oas()
-    # gf.show(gdspath)
-
-    # c.remove_labels()
-    # print(c.labels)
-
-    # c = gf.components.straight(layer=(2, 0))
-    # remap = c.remap_layers(layermap={(2, 0): gf.LAYER.WGN})
-    # remap.show()
-    # c = test_extract()
-    # c.show()
-
-    # test_get_layers()
-    # test_netlist_simple_width_mismatch_throws_error()
-
-    # c = Component("parent")
-    # c2 = Component("child")
-    # length = 10
-    # width = 0.5
-    # layer = (1, 0)
-    # c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
-    # c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=(2, 0))
-
-    # c << c2
-    # c.show()
-
-    # length = 10
-    # width = 0.5
-    # layer = (1, 0)
-    # c.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
-
-    # c = gf.components.mzi()
-    # c2 = c.mirror()
-    # print(c2.info)
-    # c = gf.c.mzi()
-    # c.hash_geometry()
-    # print(c.get_polygons(by_spec=True))
-    # c.show(show_ports=True)
-    # c.show()
+    c = test_get_layers()
+    c.show()
