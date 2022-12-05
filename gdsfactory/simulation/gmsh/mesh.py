@@ -5,6 +5,7 @@ from itertools import combinations, product
 from typing import Dict, Optional
 
 import gmsh
+import meshio
 import numpy as np
 import pygmsh
 from scipy.interpolate import NearestNDInterpolator
@@ -77,7 +78,7 @@ def add_surfaces(model, meshtracker, polygons_broken_dict):
     """
     for polygon_name, polygons in polygons_broken_dict.items():
         gmsh_surfaces = []
-        for polygon in polygons if hasattr(polygons, "geoms") else [polygons]:
+        for polygon in polygons.geoms if hasattr(polygons, "geoms") else [polygons]:
             gmsh_surface = meshtracker.add_xy_surface(polygon, f"{polygon_name}")
             gmsh_surfaces.append(gmsh_surface)
         meshtracker.model.add_physical(gmsh_surfaces, f"{polygon_name}")
@@ -183,6 +184,17 @@ def mesh_from_polygons(
             gmsh.write(f"{filename}")
 
         return mesh
+
+
+def create_physical_mesh(mesh, cell_type, prune_z=True):
+    cells = mesh.get_cells_type(cell_type)
+    cell_data = mesh.get_cell_data("gmsh:physical", cell_type)
+    points = mesh.points
+    return meshio.Mesh(
+        points=points,
+        cells={cell_type: cells},
+        cell_data={"name_to_read": [cell_data]},
+    )
 
 
 if __name__ == "__main__":
@@ -296,8 +308,6 @@ if __name__ == "__main__":
     # gmsh.write("mesh.msh")
     # gmsh.clear()
     # mesh.__exit__()
-
-    import meshio
 
     mesh_from_file = meshio.read("mesh.msh")
 

@@ -1,0 +1,7 @@
+gmsh
+h5py
+mapbox_earcut
+meshio
+pygmsh
+pyvista
+trimesh
