@@ -388,7 +388,7 @@ def viz_netlist(netlist, instances, instance_size=20):
         "instances": schematic_dict["instances"],
         "placements": schematic_dict["schematic_placements"],
     }
-    schematic_component = gf.read.from_yaml(schematic_as_layout)
+    schematic_component = gf.read.from_yaml(schematic_as_layout, mode="schematic")
 
     els = []
     port_coords = {}

@@ -169,7 +169,7 @@ class SchematicEditor:
     def _update_schematic_plot(self, **kwargs):
         circuitviz.update_schematic_plot(
             schematic=self._schematic,
-            instances=self.instances,
+            instances=self.symbols,
         )
 
     def _on_instance_component_modified(self, change):
@@ -235,7 +235,7 @@ class SchematicEditor:
         return self._net_grid
 
     def visualize(self):
-        circuitviz.show_netlist(self.schematic, self.instances, self.path)
+        circuitviz.show_netlist(self.schematic, self.symbols, self.path)
 
         self.on_instance_added.append(self._update_schematic_plot)
         self.on_settings_updated.append(self._update_schematic_plot)
@@ -252,6 +252,15 @@ class SchematicEditor:
             #     component_spec['settings'] = {}
             # validates the settings
             insts[inst_name] = gf.get_component(component_spec)
+        return insts
+
+    @property
+    def symbols(self):
+        insts = {}
+        inst_data = self._schematic.instances
+        for inst_name, inst in inst_data.items():
+            component_spec = inst.dict()
+            insts[inst_name] = self.pdk.get_symbol(component_spec)
         return insts
 
     def add_instance(self, instance_name: str, component: Union[str, gf.Component]):

@@ -20,6 +20,7 @@ from gdsfactory.events import Event
 from gdsfactory.layers import LAYER_COLORS, LayerColors
 from gdsfactory.read.from_yaml import from_yaml
 from gdsfactory.show import show
+from gdsfactory.symbols import floorplan_with_block_letters
 from gdsfactory.tech import LAYER, LAYER_STACK, LayerStack
 from gdsfactory.types import (
     CellSpec,
@@ -79,6 +80,10 @@ class Pdk(BaseModel):
     name: str
     cross_sections: Dict[str, CrossSectionFactory] = Field(default_factory=dict)
     cells: Dict[str, ComponentFactory] = Field(default_factory=dict)
+    symbols: Dict[str, ComponentFactory] = Field(default_factory=dict)
+    default_symbol_factory: Callable[
+        [Component, ...], Component
+    ] = floorplan_with_block_letters
     containers: Dict[str, ComponentFactory] = containers_default
     base_pdk: Optional[Pdk] = None
     default_decorator: Optional[Callable[[Component], None]] = None
@@ -278,7 +283,31 @@ class Pdk(BaseModel):
 
     def get_component(self, component: ComponentSpec, **kwargs) -> Component:
         """Returns component from a component spec."""
-        cells_and_containers = set(self.cells.keys()).union(set(self.containers.keys()))
+        return self._get_component(
+            component=component, cells=self.cells, containers=self.containers, **kwargs
+        )
+
+    def get_symbol(self, component: ComponentSpec, **kwargs) -> Component:
+        """Returns a component's symbol from a component spec."""
+        # this is a pretty rough first implementation
+        try:
+            self._get_component(
+                component=component, cells=self.symbols, containers={}, **kwargs
+            )
+        except ValueError:
+            component = self.get_component(component, **kwargs)
+            symbol = self.default_symbol_factory(component)
+            return symbol
+
+    def _get_component(
+        self,
+        component: ComponentSpec,
+        cells: Dict[str, Callable],
+        containers: Dict[str, Callable],
+        **kwargs,
+    ) -> Component:
+        """Returns component from a component spec."""
+        cells_and_containers = set(cells.keys()).union(set(containers.keys()))
 
         if isinstance(component, Component):
             if kwargs:
@@ -288,17 +317,13 @@ class Pdk(BaseModel):
             return component(**kwargs)
         elif isinstance(component, str):
             if component not in cells_and_containers:
-                cells = list(self.cells.keys())
-                containers = list(self.containers.keys())
+                cells = list(cells.keys())
+                containers = list(containers.keys())
                 raise ValueError(
                     f"{component!r} not in PDK {self.name!r} cells: {cells} "
                     f"or containers: {containers}"
                 )
-            cell = (
-                self.cells[component]
-                if component in self.cells
-                else self.containers[component]
-            )
+            cell = cells[component] if component in cells else containers[component]
             return cell(**kwargs)
         elif isinstance(component, (dict, DictConfig)):
             for key in component.keys():
@@ -312,17 +337,13 @@ class Pdk(BaseModel):
             cell_name = component.get("component", None)
             cell_name = cell_name or component.get("function")
             if not isinstance(cell_name, str) or cell_name not in cells_and_containers:
-                cells = list(self.cells.keys())
-                containers = list(self.containers.keys())
+                cells = list(cells.keys())
+                containers = list(containers.keys())
                 raise ValueError(
                     f"{cell_name!r} from PDK {self.name!r} not in cells: {cells} "
                     f"or containers: {containers}"
                 )
-            cell = (
-                self.cells[cell_name]
-                if cell_name in self.cells
-                else self.containers[cell_name]
-            )
+            cell = cells[cell_name] if cell_name in cells else containers[cell_name]
             component = cell(**settings)
             return component
         else:
