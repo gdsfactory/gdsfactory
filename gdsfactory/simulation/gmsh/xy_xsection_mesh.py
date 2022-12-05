@@ -31,7 +31,7 @@ def xy_xsection_mesh(
     filename: Optional[str] = None,
     global_meshsize_array: Optional[np.array] = None,
     global_meshsize_interpolant_func: Optional[callable] = NearestNDInterpolator,
-    extra_shapes_dict: Optional[OrderedDict] = OrderedDict(),
+    extra_shapes_dict: Optional[OrderedDict] = None,
 ):
     """Mesh xy cross-section of component at height z.
 
@@ -59,7 +59,7 @@ def xy_xsection_mesh(
     # Reorder polygons according to meshorder
     layer_order = order_layerstack(layerstack)
     ordered_layers = [value for value in layer_order if value in set(layers)]
-    shapes = extra_shapes_dict
+    shapes = OrderedDict() if extra_shapes_dict is None else extra_shapes_dict
     for layer in ordered_layers:
         shapes[layer] = layer_polygons_dict[layer]
 
