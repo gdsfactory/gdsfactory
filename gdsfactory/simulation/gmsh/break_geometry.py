@@ -12,10 +12,13 @@ def break_line(line, other_line):
         for intersection in (
             intersections.geoms if hasattr(intersections, "geoms") else [intersections]
         ):
-            if intersection.type != "Point":
+            if intersection.type == 'Point':
+                line = linemerge(split(line, intersection))
+            else:
                 new_coords_start, new_coords_end = intersection.boundary.geoms
                 line = linemerge(split(line, new_coords_start))
                 line = linemerge(split(line, new_coords_end))
+            
     return line
 
 
