@@ -1,6 +1,7 @@
 from pathlib import Path
 from typing import Optional, Union
 
+import bokeh.io
 import ipywidgets as widgets
 import yaml
 
@@ -385,3 +386,24 @@ class SchematicEditor:
         )
         pic_conf.to_yaml(output_filename)
         return pic_conf
+
+    def save_schematic_html(
+        self, filename: Union[str, Path], title: Optional[str] = None
+    ) -> None:
+        """Saves the schematic visualization to a standalone html file (read-only).
+
+        Args:
+            filename: the (*.html) filename to write to
+            title: title for the output page
+        """
+        filename = Path(filename)
+        if title is None:
+            title = filename.stem + " Schematic"
+        if "doc" not in circuitviz.data:
+            self.visualize()
+        if "doc" in circuitviz.data:
+            bokeh.io.save(circuitviz.data["doc"], filename=filename, title=title)
+        else:
+            raise ValueError(
+                "Unable to save the schematic to a standalone html file! Has the visualization been loaded yet?"
+            )
