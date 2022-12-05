@@ -160,6 +160,7 @@ class PCellFactory(pya.PCellDeclarationHelper):
             # There is no elegant way of getting pcell variants by name in KLayout with 'self.component' attribute
             # So we have to iterate over all pcells in the layout.
             # TODO: Find a better way to do this
+            center = center_ = None
             for cell_ in current_layout.top_cells():
                 for cell in cell_.each_inst():
                     if cell.cell.is_pcell_variant():
@@ -168,6 +169,8 @@ class PCellFactory(pya.PCellDeclarationHelper):
                             c2_cell = cell
                         if cell.pcell_parameter('name') == c.name:
                             center_ = cell.bbox().center()
+            if not center or not center_:
+                return
             c_name = c.name
             c = c.move(c.center, (center_.x * layout.dbu, center_.y * layout.dbu)) # Move the component to the center of the cell
             c.name = c_name
