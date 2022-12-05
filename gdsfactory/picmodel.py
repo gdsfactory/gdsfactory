@@ -18,7 +18,7 @@ class CrossSection(BaseModel):
 class RouteSettings(BaseModel):
     cross_section: Optional[CrossSection] = None
     separation: Optional[float] = Field(
-        None, description="The minimum separation between routes in the bundle [um]."
+        5.0, description="The minimum separation between routes in the bundle [um]."
     )
 
     class Config:
@@ -72,7 +72,7 @@ class Placement(BaseModel):
         description="The port or keyword used to anchor the component. Either specify any port on the instance or one of these special keywords:\nne, nc, nw, se, sc, sw, ce, cw, cc for the northeast, north-center, northwest, etc. coordinates of the cell",
     )
     rotation: Optional[float] = Field(
-        None,
+        0,
         description="The rotation of the cell about the origin, or port if defined.",
     )
     dx: Optional[float] = Field(
@@ -186,10 +186,9 @@ class SchematicConfiguration(BaseModel):
 
 
 def create_pic():
-    pic = PicYamlConfiguration(
+    return PicYamlConfiguration(
         instances={},
         placements={},
         routes={},
         ports={},
     )
-    return pic

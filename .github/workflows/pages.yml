@@ -32,12 +32,14 @@ jobs:
           # sudo wget https://github.com/jgm/pandoc/releases/download/1.16.0.2/pandoc-1.16.0.2-1-amd64.deb
           # sudo dpkg -i pandoc-1.16.0.2-1-amd64.deb
           sudo apt install pandoc
+          sudo apt install libglu1-mesa libxi-dev libxmu-dev libglu1-mesa-dev
           make gdslib plugins-debian full
       - name: Running the Sphinx to gh-pages Action
         uses: uibcdf/action-sphinx-docs-to-gh-pages@v1.0-beta.2
         env:
           TIDY3D_USER: ${{ secrets.TIDY3D_EMAIL }}
           TIDY3D_PASS: ${{ secrets.TIDY3D_PASSWORD }}
+          DISPLAY: 1.0
         with:
           branch: master
           dir_docs: docs

@@ -21,6 +21,7 @@ import json
 import sys
 import tempfile
 import os
+import pathlib
 
 
 klayout_version = pya.Application.instance().version()
@@ -125,7 +126,8 @@ class MyServer(pya.QTcpServer):
 
 # Start the server
 server = MyServer()
-print("klive 6.3.2 is running inside klayout {} with python {}".format(klayout_version, sys.version))
+path = pathlib.Path(__file__).parent.absolute()
+print("klive 6.4.0 is running from {} inside klayout {} with python {}".format(str(path), klayout_version, sys.version))
 
 </text>
 </klayout-macro>
