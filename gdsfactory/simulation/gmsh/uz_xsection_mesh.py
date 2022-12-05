@@ -125,7 +125,25 @@ def uz_xsection_mesh(
     filename: Optional[str] = None,
     global_meshsize_array: Optional[np.array] = None,
     global_meshsize_interpolant_func: Optional[callable] = NearestNDInterpolator,
+    extra_shapes_dict: Optional[OrderedDict] = OrderedDict()
 ):
+    """Mesh uz cross-section of component along line u = [[x1,y1] , [x2,y2]].
+
+    Args:
+        component (Component): gdsfactory component to mesh
+        xsection_bounds (Tuple): Tuple [[x1,y1] , [x2,y2]] parametrizing the line u
+        layerstack (LayerStack): gdsfactory LayerStack to parse
+        resolutions (Dict): Pairs {"layername": {"resolution": float, "distance": "float}} to roughly control mesh refinement
+        mesh_scaling_factor (float): factor multiply mesh geometry by
+        default_resolution_min (float): gmsh minimal edge length
+        default_resolution_max (float): gmsh maximal edge length
+        background_tag (str): name of the background layer to add (default: no background added)
+        background_padding (Tuple): [xleft, ydown, xright, yup] distances to add to the components and to fill with background_tag
+        filename (str, path): where to save the .msh file
+        global_meshsize_array: np array [x,y,z,lc] to parametrize the mesh
+        global_meshsize_interpolant_func: interpolating function for global_meshsize_array
+        extra_shapes_dict: Optional[OrderedDict] = OrderedDict of {key: geo} with key a label and geo a shapely (Multi)Polygon or (Multi)LineString of extra shapes to override component
+    """
     # Fuse and cleanup polygons of same layer in case user overlapped them
     layer_polygons_dict = cleanup_component(component, layerstack)
 
