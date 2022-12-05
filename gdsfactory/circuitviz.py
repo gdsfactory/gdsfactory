@@ -63,6 +63,14 @@ class Rect(NamedTuple):
     c: str
 
 
+class LayerPolygons(NamedTuple):
+    tag: str
+    xs: List[List[List[float]]]
+    ys: List[List[List[float]]]
+    c: str
+    alpha: float
+
+
 # export
 class LineSegment(NamedTuple):
     tag: str
@@ -119,6 +127,13 @@ def _get_sources(objs):
             color = COLORS_BY_PORT_TYPE.get(obj.port_type, COLORS_BY_PORT_TYPE[None])
             src["fill_color"].append(color)
             src["fill_alpha"].append(0.5)
+        elif isinstance(obj, LayerPolygons):
+            src = srcs["Polygons"]
+            src["tag"].append(obj.tag)
+            src["xs"].append(obj.xs)
+            src["ys"].append(obj.ys)
+            src["fill_color"].append(obj.c)
+            src["fill_alpha"].append(obj.alpha)
     return srcs
 
 
@@ -259,6 +274,13 @@ def viz_bk(
             fill_alpha="fill_alpha",
         ),
     )
+    if "Polygons" in data["dss"]:
+        fig.add_glyph(
+            data["dss"]["Polygons"],
+            bm.MultiPolygons(
+                xs="xs", ys="ys", fill_color="fill_color", fill_alpha="fill_alpha"
+            ),
+        )
     if "MultiLine" in data["dss"]:
         fig.add_glyph(
             data["dss"]["MultiLine"], bm.MultiLine(xs="x", ys="y")
@@ -352,6 +374,22 @@ def viz_instance(
     # y_outputs = ports_ys(output_ports, h)
     # x, y = get_placements(netlist).get(instance_name, (0, 0))
     x, y = x0, y0
+    polys_by_layer = inst_ref.get_polygons(by_spec=True, as_array=False)
+    layer_polys = []
+    layer_colors = gf.get_active_pdk().layer_colors
+    colors_by_ldt = {
+        (lc.gds_layer, lc.gds_datatype): lc for lc in layer_colors.layers.values()
+    }
+
+    for layer, polys in polys_by_layer.items():
+        xs = [[p.points[:, 0]] for p in polys]
+        ys = [[p.points[:, 1]] for p in polys]
+        color_info = colors_by_ldt.get(layer)
+        if color_info:
+            lp = LayerPolygons(
+                tag=layer, xs=xs, ys=ys, c=color_info.color, alpha=color_info.alpha
+            )
+        layer_polys.append(lp)
 
     ports: List[gf.Port] = inst_ref.ports.values()
     ports = [p.copy() for p in ports]
@@ -361,7 +399,7 @@ def viz_instance(
     c = "#000000"
 
     r = Rect(tag=instance_name, x=x, y=y, w=w, h=h, c=c)
-    return [r, *ports]
+    return [r, *ports] + layer_polys
 
 
 # export
