@@ -9,6 +9,7 @@ from __future__ import annotations
 import functools
 from typing import Callable
 
+import gdstk
 from pydantic import validate_arguments
 
 from gdsfactory.cell import _F, cell_without_validator
@@ -55,6 +56,16 @@ def symbol(func: _F, *args, **kwargs) -> _F:
 
 
 def symbol_from_cell(func: _F, to_symbol: Callable[[Component, ...], Component]) -> _F:
+    """Creates a symbol function from a component function.
+
+    Args:
+        func: the cell function
+        to_symbol: the function that transforms the output of the cell function into a symbol
+
+    Returns:
+        a symbol function
+    """
+
     @functools.wraps(func)
     def _symbol(*args, **kwargs):
         component = func(*args, **kwargs)
@@ -69,6 +80,17 @@ def symbol_from_cell(func: _F, to_symbol: Callable[[Component, ...], Component])
 def floorplan_with_block_letters(
     component: Component, copy_layers: LayerSpecs = ("WG",)
 ) -> Component:
+    """A simple symbol which has the same floorplan as the layout component, the name of the function in large block letters, and optionally shapes on layers copied from the original layout.
+
+    Args:
+        component: the layout component
+        copy_layers: if specified, copies layers from the layout into the symbol
+
+    Returns:
+        A component representing the symbol.
+
+    """
+    import gdsfactory as gf
     from gdsfactory.components import rectangle, text
 
     w, h = component.size
@@ -103,10 +125,13 @@ def floorplan_with_block_letters(
     # add ports
     sym.add_ports(component.ports)
 
-    # add WG layer from original layout
+    # add specified layers from original layout
     if copy_layers:
         for layer in copy_layers:
-            wg_polys = component.get_polygons(by_spec=layer, as_array=False)
-            sym.add_polygon(wg_polys)
+            layer = gf.get_layer(layer)
+            polys = component.get_polygons(by_spec=layer, as_array=False)
+            # run OR to simplify shapes
+            polys = gdstk.boolean(polys, [], "or", layer=layer[0], datatype=layer[1])
+            sym.add_polygon(polys)
 
     return sym
