@@ -78,6 +78,7 @@ class LineSegment(NamedTuple):
     y0: float
     x1: float
     y1: float
+    name: str
 
 
 # exporti
@@ -108,6 +109,7 @@ def _get_sources(objs):
             src["x"].append(np.array([obj.x0, obj.x1]))
             src["y"].append(np.array([obj.y0, obj.y1]))
             src["line_color"].append("#000000")
+            src["name"].append(obj.name)
         elif isinstance(obj, Rect):
             src = srcs["Rect"]
             src["tag"].append(obj.tag)
@@ -282,6 +284,7 @@ def viz_bk(
             fill_color="fill_color",
             fill_alpha="fill_alpha",
         ),
+        name="instances",
     )
     if "Polygons" in data["dss"]:
         fig.add_glyph(
@@ -292,7 +295,9 @@ def viz_bk(
         )
     if "MultiLine" in data["dss"]:
         fig.add_glyph(
-            data["dss"]["MultiLine"], bm.MultiLine(xs="x", ys="y")
+            data["dss"]["MultiLine"],
+            bm.MultiLine(xs="x", ys="y"),
+            name="nets",
         )  # , line_color="line_color"))
     fig.add_glyph(
         data["dss"]["Port"], glyph=bm.Circle(x="x", y="y", fill_color="fill_color")
@@ -303,12 +308,19 @@ def viz_bk(
         empty_value="black",
     )
     hover_tool = bm.HoverTool(
-        renderers=[r for r in fig.renderers if isinstance(r.glyph, bm.Rect)],
+        names=["instances"],
+        tooltips=[("Instance", "@tag")],
+    )
+    hover_tool_nets = bm.HoverTool(
+        names=["nets"],
+        tooltips=[("Net", "@name")],
+        show_arrow=True,
+        line_policy="interp",
     )
     # pan_tool = bm.PanTool()
     tap_tool = bm.TapTool()
     zoom = bm.WheelZoomTool()
-    fig.add_tools(draw_tool, hover_tool, tap_tool, zoom)
+    fig.add_tools(draw_tool, hover_tool, hover_tool_nets, tap_tool, zoom)
     fig.toolbar.active_scroll = zoom
     fig.toolbar.active_tap = tap_tool
     fig.toolbar.active_drag = draw_tool
@@ -316,7 +328,6 @@ def viz_bk(
     fig.xaxis.major_label_text_font_size = "0pt"
     fig.yaxis.major_label_text_font_size = "0pt"
     fig.match_aspect = True
-    hover_tool.tooltips = [("", "@tag"), ("xy", "$x{0.000} , $y{0.000}")]
 
     def bkapp(doc):
         doc.add_root(fig)
@@ -428,7 +439,8 @@ def viz_connection(netlist, p_in, p_out, instance_size, point1, point2):
     x1, y1 = point1
     x2, y2 = point2
     tag = f"{p_in.split(',')[0]},{p_out.split(',')[0]}"
-    line = LineSegment(tag, x1, y1, x2, y2)
+    name = f"{p_in} -> {p_out}"
+    line = LineSegment(tag, x1, y1, x2, y2, name=name)
     return [line]
 
 
