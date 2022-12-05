@@ -125,7 +125,7 @@ def uz_xsection_mesh(
     filename: Optional[str] = None,
     global_meshsize_array: Optional[np.array] = None,
     global_meshsize_interpolant_func: Optional[callable] = NearestNDInterpolator,
-    extra_shapes_dict: Optional[OrderedDict] = OrderedDict(),
+    extra_shapes_dict: Optional[OrderedDict] = None,
 ):
     """Mesh uz cross-section of component along line u = [[x1,y1] , [x2,y2]].
 
@@ -152,7 +152,7 @@ def uz_xsection_mesh(
 
     # Create polygons from bounds and layers
     layer_order = order_layerstack(layerstack)
-    shapes = extra_shapes_dict
+    shapes = OrderedDict() if extra_shapes_dict is None else extra_shapes_dict
     for layer in layer_order:
         layer_shapes = list(bounds_dict[layer])
         shapes[layer] = MultiPolygon(to_polygons(layer_shapes))
