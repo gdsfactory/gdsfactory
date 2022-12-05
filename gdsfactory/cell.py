@@ -63,10 +63,9 @@ class Settings(BaseModel):
 def cell_without_validator(func):
     """Decorator for Component functions.
 
-    Similar to cell decorator, this one does not validate_arguments using
-    type annotations
+    Similar to cell decorator but does not enforce argument types.
 
-    I recommend using @cell instead
+    I recommend using @cell instead.
     """
 
     @functools.wraps(func)

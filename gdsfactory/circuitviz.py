@@ -235,9 +235,7 @@ def viz_bk(
 
         tag = tags[0]
         if tag in netlist.placements:
-            cur_rotation = netlist.placements[tag].rotation
-            if cur_rotation is None:
-                netlist.placements[tag].rotation = 0
+            cur_rotation = netlist.placements[tag].rotation or 0
             netlist.placements[tag].rotation = (cur_rotation + 90) % 360
         else:
             return

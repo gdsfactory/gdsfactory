@@ -1,5 +1,28 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [6.4.0](https://github.com/gdsfactory/gdsfactory/pull/955)
+
+- improve meshing capabilities, add installer and docs
+
+## 6.3.5
+
+- add default 0 rotation to schematic and separation=5um for routes [PR](https://github.com/gdsfactory/gdsfactory/pull/945)
+- Generic mesh refinement, refactoring [PR](https://github.com/gdsfactory/gdsfactory/pull/941)
+- move python macros to python, (macros is for ruby), add klive path to print [PR](https://github.com/gdsfactory/gdsfactory/pull/943)
+- fix position of rotated "no orientation" ports [PR](https://github.com/gdsfactory/gdsfactory/pull/951)
+- Fix grating_coupler_elliptical_arbitrary component with how the ellipses are drawn. In the previous implementation, a constant neff is assumed for each grating unit cell, which is then used to determine the ellipticity of the teeth. However, for an apodized grating coupler, neff changes depending on the unit cell geometry (e.g. on duty cycle), so an apodized grating coupler would be drawn incorrectly. In addition, neff is not needed as an input, because it can be calculated from the period, wavelength, cladding index, and coupling angle, which are already inputs to the component. [PR](https://github.com/gdsfactory/gdsfactory/pull/953)
+
+## [6.3.4](https://github.com/gdsfactory/gdsfactory/pull/939)
+
+- replace lxml with the built-in xml modules to support python 3.11
+
+## [6.3.3](https://github.com/gdsfactory/gdsfactory/pull/937)
+
+- fix rotations in schematic
+- gf tool install installs klayout as a salt package
+- include material and name into 2.D view script
+
+
 ## 6.3.0
 
 - Schematic-Driven Layout flow [PR](https://github.com/gdsfactory/gdsfactory/pull/920)
