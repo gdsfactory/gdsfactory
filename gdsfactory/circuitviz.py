@@ -439,7 +439,7 @@ def viz_connection(netlist, p_in, p_out, instance_size, point1, point2):
     x1, y1 = point1
     x2, y2 = point2
     tag = f"{p_in.split(',')[0]},{p_out.split(',')[0]}"
-    name = f"{p_in} -> {p_out}"
+    name = f"{p_in} ➔ {p_out}"
     line = LineSegment(tag, x1, y1, x2, y2, name=name)
     return [line]
 
