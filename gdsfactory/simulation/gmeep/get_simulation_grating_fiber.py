@@ -143,7 +143,6 @@ def get_simulation_grating_fiber(
     settings = dict(
         widths=widths,
         gaps=gaps,
-        etch_depth=etch_depth,
         n_periods=n_periods,
         nslab=nslab,
         fiber_angle_deg=fiber_angle_deg,
@@ -346,7 +345,7 @@ def get_simulation_grating_fiber(
         )
     )
 
-    etch_depth = etch_depth or (wg_thickness - slab_thickness)
+    etch_depth = wg_thickness - slab_thickness
     x = grating_start
 
     # grating teeth
