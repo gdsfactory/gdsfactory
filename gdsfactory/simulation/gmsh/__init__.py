@@ -1,9 +1,8 @@
 from __future__ import annotations
 
-from gdsfactory.simulation.gmsh.mesh import mesh_from_polygons
+from gdsfactory.simulation.gmsh.mesh import create_physical_mesh, mesh_from_polygons
 from gdsfactory.simulation.gmsh.meshtracker import MeshTracker
 from gdsfactory.simulation.gmsh.parse_gds import (
-    break_line,
     cleanup_component,
     fuse_polygons,
     round_coordinates,
@@ -27,6 +26,7 @@ from gdsfactory.simulation.gmsh.xy_xsection_mesh import xy_xsection_mesh
 
 __all__ = [
     "mesh_from_polygons",
+    "create_physical_mesh",
     "uz_xsection_mesh",
     "xy_xsection_mesh",
     "get_uz_bounds_layers",
@@ -38,7 +38,6 @@ __all__ = [
     "round_coordinates",
     "to_polygons",
     "tile_shapes",
-    "break_line",
     "get_layers_at_z",
     "order_layerstack",
     "list_unique_layerstack_z",
