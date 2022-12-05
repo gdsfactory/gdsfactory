@@ -217,6 +217,15 @@ def viz_bk(
                             else:
                                 continue
                     v.data = data
+                elif k == "Polygons":
+                    data = dict(v.data)
+                    for i, tag_ in enumerate(data["tag"]):
+                        if tag_ == tag:
+                            for i_poly in range(len(data["xs"][i])):
+                                for i_boundary in range(len(data["xs"][i][i_poly])):
+                                    data["xs"][i][i_poly][i_boundary] += dx
+                                    data["ys"][i][i_poly][i_boundary] += dy
+                    v.data = data
                 elif k == "Port":
                     data = dict(v.data)
                     for i, tag_ in enumerate(data["tag"]):
@@ -387,9 +396,13 @@ def viz_instance(
         color_info = colors_by_ldt.get(layer)
         if color_info:
             lp = LayerPolygons(
-                tag=layer, xs=xs, ys=ys, c=color_info.color, alpha=color_info.alpha
+                tag=instance_name,
+                xs=xs,
+                ys=ys,
+                c=color_info.color,
+                alpha=color_info.alpha,
             )
-        layer_polys.append(lp)
+            layer_polys.append(lp)
 
     ports: List[gf.Port] = inst_ref.ports.values()
     ports = [p.copy() for p in ports]
