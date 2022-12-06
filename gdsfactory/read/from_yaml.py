@@ -599,6 +599,11 @@ def from_yaml(
 
     settings = conf.get("settings", {})
 
+    if "mode" in kwargs:
+        mode = kwargs.pop("mode")
+    else:
+        mode = "layout"
+
     for key, value in kwargs.items():
         if key not in settings:
             raise ValueError(f"{key!r} not in {settings.keys()}")
@@ -611,6 +616,7 @@ def from_yaml(
         label_instance_function=label_instance_function,
         prefix=prefix or conf.get("name", "Unnamed"),
         name=name,
+        mode=mode,
     )
 
 
@@ -619,6 +625,7 @@ def _from_yaml(
     conf,
     routing_strategy: Dict[str, Callable] = routing_strategy_factories,
     label_instance_function: Callable = add_instance_label,
+    mode: str = "layout",
 ) -> Component:
     """Returns component from YAML decorated with cell for caching and autonaming.
 
@@ -653,13 +660,21 @@ def _from_yaml(
         pdk.activate()
 
     pdk = get_active_pdk()
+    if mode == "layout":
+        component_getter = pdk.get_component
+    elif mode == "schematic":
+        component_getter = pdk.get_symbol
+    else:
+        raise ValueError(
+            f"{mode} is not a recognized mode. Please choose 'layout' or 'schematic'"
+        )
 
     for instance_name in instances_dict:
         instance_conf = instances_dict[instance_name]
         component = instance_conf["component"]
         settings = instance_conf.get("settings", {})
         component_spec = {"component": component, "settings": settings}
-        component = pdk.get_component(component_spec)
+        component = component_getter(component_spec)
         ref = c.add_ref(component, alias=instance_name)
         instances[instance_name] = ref
 
