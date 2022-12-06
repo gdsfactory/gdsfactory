@@ -1,4 +1,4 @@
-"""Add_pin adss a Pin to a port, add_pins adds Pins to all ports.
+"""Add_pin adds a Pin to a port, add_pins adds Pins to all ports.
 
 - pins
 - outline
@@ -527,7 +527,7 @@ def add_settings_label(
     """Add settings in label.
 
     Args:
-        componnent: to add pins.
+        component: to add pins.
         reference: ComponentReference.
         layer_label: layer spec.
     """

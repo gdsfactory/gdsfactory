@@ -185,7 +185,7 @@ def write_drc_deck_macro(
         name: drc rule deck name.
         filepath: Optional macro path (defaults to .klayout/drc/name.lydrc).
         shortcut: to run macro from KLayout GUI.
-        mode: tiled, default or deep (hiearchical).
+        mode: tiled, default or deep (hierarchical).
         threads: number of threads.
         tile_size: in um for tile mode.
         tile_borders: sides for each. Defaults None to automatic.
@@ -208,7 +208,7 @@ def write_drc_deck_macro(
         - predictable runtime and and memory footprint
     - deep
         - hierarchical mode
-        - preserves hierarchichy in many cases
+        - preserves hierarchy in many cases
         - does not predictably scale with number of CPUs
         - experimental (either very fast of very slow)
         - mainly used for LVS layer preparation

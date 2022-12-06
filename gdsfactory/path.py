@@ -1,7 +1,7 @@
 """You can define a path with a list of points combined with a cross-section.
 
 A path can be extruded using any CrossSection returning a Component
-The CrossSection defines the layer numbers, widths and offsetts
+The CrossSection defines the layer numbers, widths and offsets
 Based on phidl.path
 """
 
@@ -410,7 +410,7 @@ class Path(_GeometryHelper):
         """Returns Component by extruding a Path with a CrossSection.
 
         A path can be extruded using any CrossSection returning a Component
-        The CrossSection defines the layer numbers, widths and offsetts.
+        The CrossSection defines the layer numbers, widths and offsets.
 
         Args:
             p: a path is a list of points (arc, straight, euler).
@@ -690,7 +690,7 @@ def extrude(
     """Returns Component extruding a Path with a cross_section.
 
     A path can be extruded using any CrossSection returning a Component
-    The CrossSection defines the layer numbers, widths and offsetts
+    The CrossSection defines the layer numbers, widths and offsets
 
     Args:
         p: a path is a list of points (arc, straight, euler).

@@ -505,7 +505,7 @@ placements:
 
 """
 
-# FIXME: Fix both unconmmented cases
+# FIXME: Fix both uncommented cases
 # yaml_fail should actually fail
 # sample_different_factory: returns a zero length straight that gives an error
 # when extracting the netlist

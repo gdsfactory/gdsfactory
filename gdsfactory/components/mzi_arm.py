@@ -25,7 +25,7 @@ def mzi_arm(
 
     Args:
         length_y_left: vertical length.
-        length_y_rigth: vertical length.
+        length_y_right: vertical length.
         length_x: horizontal length.
         bend: 90 degrees bend library.
         straight: straight function.

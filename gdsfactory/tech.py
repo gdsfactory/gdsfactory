@@ -118,7 +118,7 @@ class LayerLevel(BaseModel):
             into: etch into another layer.
                 https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
             doping_concentration: for implants.
-            resistiviy: for metals.
+            resistivity: for metals.
             bias: in um for the etch.
     """
 

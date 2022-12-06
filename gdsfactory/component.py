@@ -486,7 +486,7 @@ class Component(_GeometryHelper):
         Returns:
             Netlist dict (instances, connections, placements, ports)
                 instances: Dict of instance name and settings.
-                connections: Dict of Instance1Name,portName: Instace2Name,portName.
+                connections: Dict of Instance1Name,portName: Instance2Name,portName.
                 placements: Dict of instance names and placements (x, y, rotation).
                 ports: Dict portName: ComponentName,port.
                 name: name of component.
@@ -1351,7 +1351,7 @@ class Component(_GeometryHelper):
         """Returns Component 3D trimesh Scene.
 
         Keyword Args:
-            component: to exture in 3D.
+            component: to extrude in 3D.
             layer_colors: layer colors from Klayout Layer Properties file.
                 Defaults to active PDK.layer_colors.
             layer_stack: contains thickness and zmin for each layer.

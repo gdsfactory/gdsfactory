@@ -22,7 +22,7 @@ def snspd_candelabra(
     layer: LayerSpec = (1, 0),
 ) -> Component:
     """Returns optimally-rounded SNSPD with low current crowding and \
-            arbtitrarily-high fill factor.
+            arbitrarily-high fill factor.
 
     described by Reddy et. al.,
     APL Photonics 7, 051302 (2022)  https://doi.org/10.1063/5.0088007
