@@ -98,11 +98,11 @@ PortsDict = Dict[str, Port]
 PortsList = Dict[str, Port]
 
 ComponentSpec = Union[str, ComponentFactory, Component, Dict[str, Any]]
-"""Description capable of generating a component. Can be a Pcell function, function name, dict or Component."""
+"""Description capable of generating a component. Can be a PCell function, function name, dict or Component."""
 
 ComponentSpecOrList = Union[ComponentSpec, List[ComponentSpec]]
 CellSpec = Union[str, ComponentFactory, Dict[str, Any]]
-"""Description capable of generating a cell function. Can be a Pcell function, function name or dict."""
+"""Description capable of generating a cell function. Can be a PCell function, function name or dict."""
 
 ComponentSpecDict = Dict[str, ComponentSpec]
 CrossSectionSpec = Union[str, CrossSectionFactory, CrossSection, Dict[str, Any]]

@@ -386,8 +386,8 @@ def add_pins_siepic(
     """Add pins.
 
     Enables you to run SiEPIC verification tools:
-    To Run verification install SiEPIC-tools klayout package
-    then hit V shortcut in klayout to run verification
+    To Run verification install SiEPIC-tools KLayout package
+    then hit V shortcut in KLayout to run verification
 
     - ensure no disconnected pins
     - netlist extraction

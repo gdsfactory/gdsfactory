@@ -20,7 +20,7 @@
 
 - add xdoctest
 - type checker passing (mypy, pyre, pytype)
-- klayout placer (north, west) does not work well with rotations
+- KLayout placer (north, west) does not work well with rotations
 - enable rich output?
 - add cloud bucket or DVC for version control data on GCS, instead of relying gdslib second repo.
 

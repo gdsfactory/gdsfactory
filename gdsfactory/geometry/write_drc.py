@@ -1,4 +1,4 @@
-"""Write DRC rule decks in klayout.
+"""Write DRC rule decks in KLayout.
 
 TODO:
 - define derived layers (composed rules)
@@ -132,7 +132,7 @@ end
 
 
 def write_layer_definition(layers: Dict[str, Layer]) -> List[str]:
-    """Returns layers definition script for klayout.
+    """Returns layers definition script for KLayout.
 
     Args:
         layers: layer definitions can be dict, dataclass or pydantic BaseModel.
@@ -144,7 +144,7 @@ def write_layer_definition(layers: Dict[str, Layer]) -> List[str]:
 
 
 def write_drc_deck(rules: List[str], layers: Dict[str, Layer]) -> str:
-    """Returns drc_rule_deck for klayout.
+    """Returns drc_rule_deck for KLayout.
 
     based on https://github.com/klayoutmatthias/si4all
 
@@ -175,7 +175,7 @@ def write_drc_deck_macro(
     tile_borders: Optional[int] = None,
     **kwargs,
 ) -> str:
-    """Write klayout DRC macro.
+    """Write KLayout DRC macro.
 
     You can customize the shortcut to run the DRC macro from the Klayout GUI.
 
@@ -184,7 +184,7 @@ def write_drc_deck_macro(
         layers: layer definitions can be dict or dataclass.
         name: drc rule deck name.
         filepath: Optional macro path (defaults to .klayout/drc/name.lydrc).
-        shortcut: to run macro from klayout GUI.
+        shortcut: to run macro from KLayout GUI.
         mode: tiled, default or deep (hiearchical).
         threads: number of threads.
         tile_size: in um for tile mode.

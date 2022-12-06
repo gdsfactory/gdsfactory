@@ -1,1 +1,1 @@
-This folder is for the klayout Salt package
+This folder is for the KLayout Salt package

@@ -177,7 +177,7 @@ class LayerStack(BaseModel):
         return {level_name: dict(level) for level_name, level in self.layers.items()}
 
     def get_klayout_3d_script(self, klayout28: bool = True) -> str:
-        """Prints script for 2.5 view klayout information.
+        """Prints script for 2.5 view KLayout information.
 
         You can add this information in your tech.lyt take a look at
         gdsfactory/klayout/tech/tech.lyt

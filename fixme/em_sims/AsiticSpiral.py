@@ -1,4 +1,4 @@
-# AsiticSpiral class to interface with ASITIC for arbitrary polygons generated using Pcells or GDS
+# AsiticSpiral class to interface with ASITIC for arbitrary polygons generated using PCells or GDS
 # WIP
 
 

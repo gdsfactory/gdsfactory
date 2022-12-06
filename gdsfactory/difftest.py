@@ -130,7 +130,7 @@ def difftest(
 
     If files are the same it returns None. If files are different runs XOR
     between new component and the GDS reference stored in dirpath and
-    raises GeometryDifference if there are differences and show differences in klayout.
+    raises GeometryDifference if there are differences and show differences in KLayout.
 
     If it runs for the fist time it just stores the GDS reference.
 
