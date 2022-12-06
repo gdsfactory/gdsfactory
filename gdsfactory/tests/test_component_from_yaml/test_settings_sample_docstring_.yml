@@ -33,6 +33,7 @@ settings:
   default:
     label_instance_function:
       function: add_instance_label
+    mode: layout
     routing_strategy:
       get_bundle:
         function: get_bundle
@@ -87,6 +88,7 @@ settings:
             mmi_top,o3: mmi_bot,o1
     label_instance_function:
       function: add_instance_label
+    mode: layout
     routing_strategy:
       get_bundle:
         function: get_bundle
