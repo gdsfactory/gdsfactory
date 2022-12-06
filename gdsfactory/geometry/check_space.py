@@ -25,11 +25,11 @@ def check_space(
     Use nil for this value to select the default (Euclidean metrics).
 
     "ignore_angle" specifies the angle limit of two edges. If two edges form an angle equal or above the given value,
-    they will not contribute in the check. Setting this value to 90 (the default) will exclude edges with an angle of 
+    they will not contribute in the check. Setting this value to 90 (the default) will exclude edges with an angle of
     90 degree or more from the check. Use nil for this value to select the default.
 
     "min_projection" and "max_projection" allow selecting edges by their projected value upon each other.
-    It is sufficient if the projection of one edge on the other matches the specified condition. The projected length 
+    It is sufficient if the projection of one edge on the other matches the specified condition. The projected length
     must be larger or equal to "min_projection" and less than "max_projection". If you don't want to specify one limit,
     pass nil to the respective value.
 
