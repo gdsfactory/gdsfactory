@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.5.0
+
+- Add schematic symbols [PR](https://github.com/gdsfactory/gdsfactory/pull/958)
+- Minor gmsh update [PR](https://github.com/gdsfactory/gdsfactory/pull/959)
+- Fix assorted typos and formatting [PR](https://github.com/gdsfactory/gdsfactory/pull/961)
+
 ## [6.4.0](https://github.com/gdsfactory/gdsfactory/pull/955)
 
 - improve meshing capabilities, add installer and docs
