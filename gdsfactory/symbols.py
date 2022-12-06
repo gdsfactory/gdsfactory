@@ -80,11 +80,12 @@ def symbol_from_cell(func: _F, to_symbol: Callable[[Component, ...], Component])
 def floorplan_with_block_letters(
     component: Component, copy_layers: LayerSpecs = ("WG",)
 ) -> Component:
-    """A simple symbol which has the same floorplan as the layout component, the name of the function in large block letters, and optionally shapes on layers copied from the original layout.
+    """Returns symbol with same floorplan as component layout, function name \
+        and optionally shapes on layers copied from the original layout.
 
     Args:
-        component: the layout component
-        copy_layers: if specified, copies layers from the layout into the symbol
+        component: the layout component.
+        copy_layers: if specified, copies layers from the layout into the symbol.
 
     Returns:
         A component representing the symbol.
