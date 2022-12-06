@@ -510,7 +510,7 @@ def from_yaml(
         label_instance_function: to label each instance.
         name: Optional name.
         prefix: name prefix.
-        kwargs: function settings for creating YAML Pcells.
+        kwargs: function settings for creating YAML PCells.
 
     .. code::
 

@@ -610,7 +610,7 @@ class LayerDisplayProperties(BaseModel):
 
 
 class KLayoutTechnology(BaseModel):
-    """A container for working with KLayout technologies (requires klayout Python package).
+    """A container for working with KLayout technologies (requires KLayout Python package).
 
     Useful for importing/exporting Layer Properties (.lyp) and Technology (.lyt) files.
 
