@@ -58,6 +58,8 @@ class Pdk(BaseModel):
         name: PDK name.
         cross_sections: dict of cross_sections factories.
         cells: dict of parametric cells that return Components.
+        symbols: dict of symbols names to functions.
+        default_symbol_factory:
         containers: dict of pcells that contain other cells.
         base_pdk: a pdk to copy from and extend.
         default_decorator: decorate all cells, if not otherwise defined on the cell.
@@ -81,9 +83,7 @@ class Pdk(BaseModel):
     cross_sections: Dict[str, CrossSectionFactory] = Field(default_factory=dict)
     cells: Dict[str, ComponentFactory] = Field(default_factory=dict)
     symbols: Dict[str, ComponentFactory] = Field(default_factory=dict)
-    default_symbol_factory: Callable[
-        [Component, ...], Component
-    ] = floorplan_with_block_letters
+    default_symbol_factory: Callable = floorplan_with_block_letters
     containers: Dict[str, ComponentFactory] = containers_default
     base_pdk: Optional[Pdk] = None
     default_decorator: Optional[Callable[[Component], None]] = None
