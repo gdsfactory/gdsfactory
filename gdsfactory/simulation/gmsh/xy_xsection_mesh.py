@@ -3,6 +3,8 @@ from __future__ import annotations
 from collections import OrderedDict
 from typing import Dict, Optional, Tuple
 
+import numpy as np
+from scipy.interpolate import NearestNDInterpolator
 from shapely.geometry import Polygon
 from shapely.ops import unary_union
 
@@ -21,11 +23,15 @@ def xy_xsection_mesh(
     z: float,
     layerstack: LayerStack,
     resolutions: Optional[Dict] = None,
+    mesh_scaling_factor: float = 1.0,
     default_resolution_min: float = 0.01,
     default_resolution_max: float = 0.5,
     background_tag: Optional[str] = None,
     background_padding: Tuple[float, float, float, float] = (2.0, 2.0, 2.0, 2.0),
     filename: Optional[str] = None,
+    global_meshsize_array: Optional[np.array] = None,
+    global_meshsize_interpolant_func: Optional[callable] = NearestNDInterpolator,
+    extra_shapes_dict: Optional[OrderedDict] = None,
 ):
     """Mesh xy cross-section of component at height z.
 
@@ -34,10 +40,15 @@ def xy_xsection_mesh(
         z (float): z-coordinate at which to sample the LayerStack
         layerstack (LayerStack): gdsfactory LayerStack to parse
         resolutions (Dict): Pairs {"layername": {"resolution": float, "distance": "float}} to roughly control mesh refinement
+        mesh_scaling_factor (float): factor multiply mesh geometry by
         default_resolution_min (float): gmsh minimal edge length
         default_resolution_max (float): gmsh maximal edge length
         background_tag (str): name of the background layer to add (default: no background added)
         background_padding (Tuple): [xleft, ydown, xright, yup] distances to add to the components and to fill with background_tag
+        filename (str, path): where to save the .msh file
+        global_meshsize_array: np array [x,y,z,lc] to parametrize the mesh
+        global_meshsize_interpolant_func: interpolating function for global_meshsize_array
+        extra_shapes_dict: Optional[OrderedDict] = OrderedDict of {key: geo} with key a label and geo a shapely (Multi)Polygon or (Multi)LineString of extra shapes to override component
     """
     # Find layers present at this z-level
     layers = get_layers_at_z(layerstack, z)
@@ -48,7 +59,7 @@ def xy_xsection_mesh(
     # Reorder polygons according to meshorder
     layer_order = order_layerstack(layerstack)
     ordered_layers = [value for value in layer_order if value in set(layers)]
-    shapes = OrderedDict()
+    shapes = OrderedDict() if extra_shapes_dict is None else extra_shapes_dict
     for layer in ordered_layers:
         shapes[layer] = layer_polygons_dict[layer]
 
@@ -68,9 +79,12 @@ def xy_xsection_mesh(
     return mesh_from_polygons(
         shapes,
         resolutions=resolutions,
-        filename="mesh.msh",
+        mesh_scaling_factor=mesh_scaling_factor,
+        filename=filename,
         default_resolution_min=default_resolution_min,
         default_resolution_max=default_resolution_max,
+        global_meshsize_array=global_meshsize_array,
+        global_meshsize_interpolant_func=global_meshsize_interpolant_func,
     )
 
 
