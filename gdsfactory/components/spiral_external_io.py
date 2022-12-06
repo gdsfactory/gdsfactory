@@ -64,7 +64,7 @@ def spiral_external_io(
     component = Component()
     inner_loop_spacing = 2 * bend_radius + 5.0
 
-    # Create manhattan path going from west grating to westest port of bend 180
+    # Create manhattan path going from west grating to westmost port of bend 180
     x_inner_length = x_inner_length_cutback + 5.0 + xspacing
 
     y_inner_bend = y_straight_inner_top - bend_radius - 5.0
@@ -94,7 +94,7 @@ def spiral_external_io(
 
     pts_w = pts_w[:-2]
 
-    # Create manhattan path going from east grating to eastest port of bend 180
+    # Create manhattan path going from east grating to eastmost port of bend 180
     _pt = np.array(p2)
     pts_e = [_pt]
 

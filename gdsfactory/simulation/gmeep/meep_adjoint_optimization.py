@@ -53,7 +53,7 @@ def get_meep_adjoint_optimizer(
         objective_function: functions must be composed of "field functions" that transform the recorded fields.
         design_regions: list of DesignRegion objects.
         design_variables: list of MaterialGrid objects.
-        design_update: ndarray to intializethe optimization.
+        design_update: ndarray to initialize the optimization.
         TE_mode_number: TE mode number.
         resolution: in pixels/um (20: for coarse, 120: for fine).
         cell_size: tuple of Simulation object dimensions in um.
@@ -209,7 +209,7 @@ def run_meep_adjoint_optimizer(
         upper_bound: upper bound for the optimization.
         maxeval: maximum number of evaluations.
         get_optimized_component: if True, returns the optimized gdsfactory Component.
-            If this is True, the O  ptimization object used for the optimization must be passed as an argument.
+            If this is True, the Optimization object used for the optimization must be passed as an argument.
         opt: OptimizationProblem object used for the optimization. Used only if get_optimized_component is True.
 
     Keyword Args:

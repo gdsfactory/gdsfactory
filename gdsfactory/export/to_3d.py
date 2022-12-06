@@ -20,7 +20,7 @@ def to_3d(
     """Return Component 3D trimesh Scene.
 
     Args:
-        component: to exture in 3D.
+        component: to extrude in 3D.
         layer_colors: layer colors from Klayout Layer Properties file.
             Defaults to active PDK.layer_colors.
         layer_stack: contains thickness and zmin for each layer.

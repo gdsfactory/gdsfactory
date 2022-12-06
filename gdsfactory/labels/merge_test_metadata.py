@@ -66,7 +66,7 @@ def merge_test_metadata(
         CSV labels  -------
                           |--> merge_test_metadata dict
                           |
-        YAML metatada  ----
+        YAML metadata  ----
 
     """
     labels_path = Path(labels_path)

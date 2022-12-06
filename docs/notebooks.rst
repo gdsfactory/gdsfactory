@@ -19,5 +19,5 @@ Layout tutorial
    notebooks/09_pdk_import.ipynb
    notebooks/07_mask.ipynb
    notebooks/04_routing.ipynb
-   notebooks/041_routing_electical.ipynb
+   notebooks/041_routing_electrical.ipynb
    notebooks/common_mistakes.ipynb

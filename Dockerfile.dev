@@ -2,7 +2,7 @@ FROM jupyter/base-notebook:python-3.8.8
 # FROM jupyter/base-notebook
 # FROM continuumio/miniconda3
 
-# expose klive and jupyter notebook ports
+# expose klive and Jupyter Notebook ports
 EXPOSE 8082
 EXPOSE 8083
 EXPOSE 8888

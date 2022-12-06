@@ -647,7 +647,7 @@ class Waveguide(BaseModel):
         plt.show()
 
     def _repr_html_(self) -> str:
-        """Show index in matplotlib for jupyter notebooks."""
+        """Show index in matplotlib for Jupyter Notebooks."""
         self.plot_index()
         return self.__repr__()
 
