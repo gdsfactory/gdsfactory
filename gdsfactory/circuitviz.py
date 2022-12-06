@@ -63,6 +63,14 @@ class Rect(NamedTuple):
     c: str
 
 
+class LayerPolygons(NamedTuple):
+    tag: str
+    xs: List[List[List[float]]]
+    ys: List[List[List[float]]]
+    c: str
+    alpha: float
+
+
 # export
 class LineSegment(NamedTuple):
     tag: str
@@ -70,6 +78,7 @@ class LineSegment(NamedTuple):
     y0: float
     x1: float
     y1: float
+    name: str
 
 
 # exporti
@@ -100,6 +109,7 @@ def _get_sources(objs):
             src["x"].append(np.array([obj.x0, obj.x1]))
             src["y"].append(np.array([obj.y0, obj.y1]))
             src["line_color"].append("#000000")
+            src["name"].append(obj.name)
         elif isinstance(obj, Rect):
             src = srcs["Rect"]
             src["tag"].append(obj.tag)
@@ -119,6 +129,13 @@ def _get_sources(objs):
             color = COLORS_BY_PORT_TYPE.get(obj.port_type, COLORS_BY_PORT_TYPE[None])
             src["fill_color"].append(color)
             src["fill_alpha"].append(0.5)
+        elif isinstance(obj, LayerPolygons):
+            src = srcs["Polygons"]
+            src["tag"].append(obj.tag)
+            src["xs"].append(obj.xs)
+            src["ys"].append(obj.ys)
+            src["fill_color"].append(obj.c)
+            src["fill_alpha"].append(obj.alpha)
     return srcs
 
 
@@ -202,6 +219,15 @@ def viz_bk(
                             else:
                                 continue
                     v.data = data
+                elif k == "Polygons":
+                    data = dict(v.data)
+                    for i, tag_ in enumerate(data["tag"]):
+                        if tag_ == tag:
+                            for i_poly in range(len(data["xs"][i])):
+                                for i_boundary in range(len(data["xs"][i][i_poly])):
+                                    data["xs"][i][i_poly][i_boundary] += dx
+                                    data["ys"][i][i_poly][i_boundary] += dy
+                    v.data = data
                 elif k == "Port":
                     data = dict(v.data)
                     for i, tag_ in enumerate(data["tag"]):
@@ -258,10 +284,20 @@ def viz_bk(
             fill_color="fill_color",
             fill_alpha="fill_alpha",
         ),
+        name="instances",
     )
+    if "Polygons" in data["dss"]:
+        fig.add_glyph(
+            data["dss"]["Polygons"],
+            bm.MultiPolygons(
+                xs="xs", ys="ys", fill_color="fill_color", fill_alpha="fill_alpha"
+            ),
+        )
     if "MultiLine" in data["dss"]:
         fig.add_glyph(
-            data["dss"]["MultiLine"], bm.MultiLine(xs="x", ys="y")
+            data["dss"]["MultiLine"],
+            bm.MultiLine(xs="x", ys="y"),
+            name="nets",
         )  # , line_color="line_color"))
     fig.add_glyph(
         data["dss"]["Port"], glyph=bm.Circle(x="x", y="y", fill_color="fill_color")
@@ -272,12 +308,19 @@ def viz_bk(
         empty_value="black",
     )
     hover_tool = bm.HoverTool(
-        renderers=[r for r in fig.renderers if isinstance(r.glyph, bm.Rect)],
+        names=["instances"],
+        tooltips=[("Instance", "@tag")],
+    )
+    hover_tool_nets = bm.HoverTool(
+        names=["nets"],
+        tooltips=[("Net", "@name")],
+        show_arrow=True,
+        line_policy="interp",
     )
     # pan_tool = bm.PanTool()
     tap_tool = bm.TapTool()
     zoom = bm.WheelZoomTool()
-    fig.add_tools(draw_tool, hover_tool, tap_tool, zoom)
+    fig.add_tools(draw_tool, hover_tool, hover_tool_nets, tap_tool, zoom)
     fig.toolbar.active_scroll = zoom
     fig.toolbar.active_tap = tap_tool
     fig.toolbar.active_drag = draw_tool
@@ -285,7 +328,6 @@ def viz_bk(
     fig.xaxis.major_label_text_font_size = "0pt"
     fig.yaxis.major_label_text_font_size = "0pt"
     fig.match_aspect = True
-    hover_tool.tooltips = [("", "@tag"), ("xy", "$x{0.000} , $y{0.000}")]
 
     def bkapp(doc):
         doc.add_root(fig)
@@ -352,6 +394,26 @@ def viz_instance(
     # y_outputs = ports_ys(output_ports, h)
     # x, y = get_placements(netlist).get(instance_name, (0, 0))
     x, y = x0, y0
+    polys_by_layer = inst_ref.get_polygons(by_spec=True, as_array=False)
+    layer_polys = []
+    layer_colors = gf.get_active_pdk().layer_colors
+    colors_by_ldt = {
+        (lc.gds_layer, lc.gds_datatype): lc for lc in layer_colors.layers.values()
+    }
+
+    for layer, polys in polys_by_layer.items():
+        xs = [[p.points[:, 0]] for p in polys]
+        ys = [[p.points[:, 1]] for p in polys]
+        color_info = colors_by_ldt.get(layer)
+        if color_info:
+            lp = LayerPolygons(
+                tag=instance_name,
+                xs=xs,
+                ys=ys,
+                c=color_info.color,
+                alpha=color_info.alpha,
+            )
+            layer_polys.append(lp)
 
     ports: List[gf.Port] = inst_ref.ports.values()
     ports = [p.copy() for p in ports]
@@ -361,7 +423,7 @@ def viz_instance(
     c = "#000000"
 
     r = Rect(tag=instance_name, x=x, y=y, w=w, h=h, c=c)
-    return [r, *ports]
+    return [r, *ports] + layer_polys
 
 
 # export
@@ -377,7 +439,8 @@ def viz_connection(netlist, p_in, p_out, instance_size, point1, point2):
     x1, y1 = point1
     x2, y2 = point2
     tag = f"{p_in.split(',')[0]},{p_out.split(',')[0]}"
-    line = LineSegment(tag, x1, y1, x2, y2)
+    name = f"{p_in} ➔ {p_out}"
+    line = LineSegment(tag, x1, y1, x2, y2, name=name)
     return [line]
 
 
@@ -388,7 +451,7 @@ def viz_netlist(netlist, instances, instance_size=20):
         "instances": schematic_dict["instances"],
         "placements": schematic_dict["schematic_placements"],
     }
-    schematic_component = gf.read.from_yaml(schematic_as_layout)
+    schematic_component = gf.read.from_yaml(schematic_as_layout, mode="schematic")
 
     els = []
     port_coords = {}
