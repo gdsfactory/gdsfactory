@@ -1,6 +1,6 @@
 """Stream GDS to Klayout.
 
-You can install gdsfactory klayout integration:
+You can install gdsfactory KLayout integration:
 
 - run `gf tool install`
 - install the Klayout plugin through klayout package manager.

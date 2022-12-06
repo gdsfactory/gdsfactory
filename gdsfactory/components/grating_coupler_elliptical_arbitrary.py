@@ -36,7 +36,7 @@ def grating_coupler_elliptical_arbitrary(
 ) -> Component:
     r"""Grating coupler with parametrization based on Lumerical FDTD simulation.
 
-    The ellipticity is derived from Lumerical knowdledge base
+    The ellipticity is derived from Lumerical knowledge base
     it depends on fiber_angle (degrees), neff, and nclad
 
     Args:
@@ -52,7 +52,7 @@ def grating_coupler_elliptical_arbitrary(
         polarization: te or tm.
         fiber_marker_width: in um.
         fiber_marker_layer: Optional marker.
-        spiked: grating teeth have spikes to avoid drc errors..
+        spiked: grating teeth have spikes to avoid drc errors.
         bias_gap: etch gap (um).
             Positive bias increases gap and reduces width to keep period constant.
         cross_section: cross_section spec for waveguide port.
@@ -178,7 +178,7 @@ def grating_coupler_elliptical_uniform(
 ) -> Component:
     r"""Grating coupler with parametrization based on Lumerical FDTD simulation.
 
-    The ellipticity is derived from Lumerical knowdledge base
+    The ellipticity is derived from Lumerical knowledge base
     it depends on fiber_angle (degrees), neff, and nclad
 
     Args:

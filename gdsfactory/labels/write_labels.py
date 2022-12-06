@@ -66,7 +66,7 @@ def write_labels_klayout(
     filepath: Optional[PathType] = None,
     prefix: str = "opt_",
 ) -> Path:
-    """Load GDS and extracts labels in klayout text and coordinates.
+    """Load GDS and extracts labels in KLayout text and coordinates.
 
     Returns CSV filepath.
 

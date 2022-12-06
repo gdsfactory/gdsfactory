@@ -898,7 +898,7 @@ def strip_heater_doped(
 
     Args:
         width: in um.
-        layer: wavguide spec.
+        layer: waveguide spec.
         heater_width: in um.
         heater_gap: in um.
         layers_heater: for doped heater.

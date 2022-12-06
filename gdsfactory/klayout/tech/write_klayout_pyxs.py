@@ -1,4 +1,4 @@
-"""write xsection script for klayout plugin.
+"""write xsection script for KLayout plugin.
 
 https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
 

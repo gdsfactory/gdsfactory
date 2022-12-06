@@ -310,7 +310,7 @@ def send_to_interconnect(
         if (element1 in excluded) or (element2 in excluded):
             continue
         if drop_port_prefix:
-            # a bad way to autodetect which ports need to have prefixes dropped..
+            # a bad way to autodetect which ports need to have prefixes dropped.
             with contextlib.suppress(Exception):
                 port1 = port1[port1.index(drop_port_prefix) + 1 :]
             with contextlib.suppress(Exception):

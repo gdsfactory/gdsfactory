@@ -141,7 +141,7 @@ def get_netlist(
 
     Returns:
         instances: Dict of instance name and settings.
-        connections: Dict of Instance1Name,portName: Instace2Name,portName.
+        connections: Dict of Instance1Name,portName: Instance2Name,portName.
         placements: Dict of instance names and placements (x, y, rotation).
         port: Dict portName: ComponentName,port.
         name: name of component.

@@ -22,7 +22,7 @@ def import_gds(
     hashed_name: bool = True,
     **kwargs,
 ) -> Component:
-    """Returns a Componenent from a GDS file.
+    """Returns a Component from a GDS file.
 
     appends $ with a number to the name if the cell name is on CACHE
 

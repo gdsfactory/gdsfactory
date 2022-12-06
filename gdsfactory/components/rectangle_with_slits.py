@@ -30,7 +30,7 @@ def rectangle_with_slits(
     Args:
         size: (tuple) Width and height of rectangle.
         layer: Specific layer to put polygon geometry on.
-        layer_slit: does a boolan NOT when None.
+        layer_slit: does a boolean NOT when None.
         centered: True sets center to (0, 0), False sets south-west to (0, 0)
         port_type: for the rectangle.
         slit_size: x, y slit size.

@@ -55,7 +55,7 @@ def coh_tx_single_pol(
         with_pads: if True, we draw pads for all the electrical contacts.
         xspacing: horizontal spacing between the splitter and combiner and the mzm.
         input_coupler: Optional coupler to add before the splitter.
-        output_coupler: Optioncal coupler to add after the combiner.
+        output_coupler: Optional coupler to add after the combiner.
         pad_array: array of pads spec.
         cross_section: for routing (splitter to mzms and mzms to combiners).
         kwargs: cross_section settings.
