@@ -88,7 +88,7 @@ def write_git_config(git_config_path):
 
 
 def get_klayout_path() -> pathlib.Path:
-    """Returns klayout path."""
+    """Returns KLayout path."""
     klayout_folder = "KLayout" if sys.platform == "win32" else ".klayout"
     home = pathlib.Path.home()
     return home / klayout_folder
@@ -115,7 +115,7 @@ def _install_to_klayout(
 ) -> None:
     """Install into KLayout technology.
 
-    Equivalent to using klayout package manager.
+    Equivalent to using KLayout package manager.
 
     """
     klayout_folder = "KLayout" if sys.platform == "win32" else ".klayout"
@@ -126,9 +126,9 @@ def _install_to_klayout(
 
 
 def install_klayout_package() -> None:
-    """Install gdsfactory klayout package.
+    """Install gdsfactory KLayout package.
 
-    Equivalent to using klayout package manager.
+    Equivalent to using KLayout package manager.
 
     """
     cwd = pathlib.Path(__file__).resolve().parent

@@ -1,4 +1,4 @@
-"""Pcell demo."""
+"""PCell demo."""
 
 from __future__ import annotations
 

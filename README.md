@@ -51,7 +51,7 @@ It also exports component settings (for measurement and data analysis) and netli
 ![flow](https://i.imgur.com/XbhWJDz.png)
 
 
-It provides you a common syntax for layout (klayout, gdstk), simulation (Lumerical, tidy3d, MEEP, MPB, DEVSIM, simphony, SAX, ...) and data analysis libraries.
+It provides you a common syntax for layout (KLayout, gdstk), simulation (Lumerical, tidy3d, MEEP, MPB, DEVSIM, simphony, SAX, ...) and data analysis libraries.
 
 ![tool interfaces](https://i.imgur.com/9fNLRvJ.png)
 

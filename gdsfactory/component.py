@@ -104,7 +104,7 @@ class Component(_GeometryHelper):
     - can return ports by type (optical, electrical ...)
     - can return netlist for circuit simulation
     - can write to GDS, OASIS
-    - can show in klayout, matplotlib, 3D, QT viewer, holoviews
+    - can show in KLayout, matplotlib, 3D, QT viewer, holoviews
     - can return copy, mirror, flattened (no references)
 
     Args:
@@ -1156,7 +1156,7 @@ class Component(_GeometryHelper):
         return {(polygon.layer, polygon.datatype) for polygon in polygons}
 
     def _repr_html_(self):
-        """Show geometry in klayout and in matplotlib for jupyter notebooks."""
+        """Show geometry in KLayout and in matplotlib for Jupyter Notebooks."""
         self.show(show_ports=False)  # show in klayout
         self.plot(plotter="matplotlib")
         return self.__repr__()
@@ -1306,7 +1306,7 @@ class Component(_GeometryHelper):
         port_marker_layer: Layer = "SHOW_PORTS",
         **kwargs,
     ) -> None:
-        """Show component in klayout.
+        """Show component in KLayout.
 
         returns a copy of the Component, so the original component remains intact.
         with pins markers on each port show_ports = True, and optionally also
@@ -1421,7 +1421,7 @@ class Component(_GeometryHelper):
             precision: for dimensions in the library (m). 1nm by default.
             timestamp: Defaults to 2019-10-25 for consistent hash.
                 If None uses current time.
-            logging: disable GDS path logging, for example for showing it in klayout.
+            logging: disable GDS path logging, for example for showing it in KLayout.
             on_duplicate_cell: specify how to resolve duplicate-named cells. Choose one of the following:
                 "warn" (default): overwrite all duplicate cells with one of the duplicates (arbitrarily).
                 "error": throw a ValueError when attempting to write a gds with duplicate cells.
@@ -1510,7 +1510,7 @@ class Component(_GeometryHelper):
             gdsdir: directory for the GDS file. Defaults to /tmp/randomFile/gdsfactory.
             unit: unit size for objects in library. 1um by default.
             precision: for dimensions in the library (m). 1nm by default.
-            logging: disable GDS path logging, for example for showing it in klayout.
+            logging: disable GDS path logging, for example for showing it in KLayout.
             on_duplicate_cell: specify how to resolve duplicate-named cells. Choose one of the following:
                 "warn" (default): overwrite all duplicate cells with one of the duplicates (arbitrarily).
                 "error": throw a ValueError when attempting to write a gds with duplicate cells.
@@ -1543,7 +1543,7 @@ class Component(_GeometryHelper):
             gdsdir: directory for the GDS file. Defaults to /tmp/randomFile/gdsfactory.
             unit: unit size for objects in library. 1um by default.
             precision: for dimensions in the library (m). 1nm by default.
-            logging: disable GDS path logging, for example for showing it in klayout.
+            logging: disable GDS path logging, for example for showing it in KLayout.
             on_duplicate_cell: specify how to resolve duplicate-named cells. Choose one of the following:
                 "warn" (default): overwrite all duplicate cells with one of the duplicates (arbitrarily).
                 "error": throw a ValueError when attempting to write a gds with duplicate cells.

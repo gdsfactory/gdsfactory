@@ -21,13 +21,13 @@ The workflow is:
 
 - Fork the repo
 - `git clone` it into your computer and install it (`./install.bat` for Windows and `make install` for MacOs and Linux)
-- `git add`,`git commit`, `git push` your work as many times as needed (make sure tests are passing)
+- `git add`, `git commit`, `git push` your work as many times as needed (make sure tests are passing)
 - open a Pull request (PR)
 
 ## Style
 
 
-- You need to follow [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html). You can take a look at the other Pcell docstrings.
+- You need to follow [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html). You can take a look at the other PCell docstrings.
 - You should make sure tests pass.
 - You should install pre-commit to get the pre-commit checks passing (autoformat the code, run linter ...).
 
@@ -48,7 +48,7 @@ You can run tests with `pytest`. This will run 3 types of tests:
   - lytest: writes all components GDS in `run_layouts` and compares them with `ref_layouts`
     - when running the test it will do a boolean of the `run_layout` and the `ref_layout` and raise an error for any significant differences.
     - you can check out any changes in your library with `gf gds diff ref_layouts/bbox.gds run_layouts/bbox.gds`
-    - it will also store all differences in `diff_layouts` and you can combine and show them in klayout with `make diff`
+    - it will also store all differences in `diff_layouts` and you can combine and show them in KLayout with `make diff`
 
 ## Testing your own component factories
 
@@ -64,7 +64,7 @@ gdsfactory is **not** backwards compatible, which means that the package will ke
 
 ## gdsdiff
 
-You can use the command line `gf gds diff gds1.gds gds2.gds` to overlay `gds1.gds` and `gds2.gds` files and show them in klayout.
+You can use the command line `gf gds diff gds1.gds gds2.gds` to overlay `gds1.gds` and `gds2.gds` files and show them in KLayout.
 
 For example, if you changed the mmi1x2 and made it 5um longer by mistake, you could `gf gds diff ref_layouts/mmi1x2.gds run_layouts/mmi1x2.gds` and see the GDS differences in Klayout.
 
@@ -82,7 +82,7 @@ The metrics for the benchmark were:
 2. Maintained / Documented / Popular
 
 
-Gdsfactory leverages klayout and gdstk python APIs.
+Gdsfactory leverages KLayout and gdstk python APIs.
 
 What nice things are inspired by gdstk and gdstk?
 
@@ -93,14 +93,14 @@ What nice things are inspired by gdstk and gdstk?
   - gdsfactory ports have layer, port_type (optical, electrical, vertical_te, vertical_tm ...) and cross_section
   - gdsfactory adds renaming ports functions (clockwise, counter_clockwise ...)
 
-What nice things come from klayout?
+What nice things come from KLayout?
 
-- GDS viewer. gdsfactory can send GDS files directly to klayout, you just need to have klayout open
-- layer colormaps for showing in klayout, matplotlib, trimesh (using the same colors)
+- GDS viewer. gdsfactory can send GDS files directly to KLayout, you just need to have KLayout open
+- layer colormaps for showing in KLayout, matplotlib, trimesh (using the same colors)
 - fast boolean xor to avoid geometric regressions on Components geometry. Klayout booleans are faster than gdstk ones
 - basic DRC checks
 
-What functionality does gdsfactory provide you on top gdstk/klayout?
+What functionality does gdsfactory provide you on top gdstk/KLayout?
 
 - `@cell decorator` for decorating functions that create components
   - autonames Components with a unique name that depends on the input parameters
