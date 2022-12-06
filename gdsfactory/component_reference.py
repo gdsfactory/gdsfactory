@@ -535,7 +535,7 @@ class ComponentReference(_GeometryHelper):
         Args:
             origin: Port, port_name or Coordinate.
             destination: Port, port_name or Coordinate.
-            axis: for the movemenent.
+            axis: for the movement.
 
         Returns:
             ComponentReference.

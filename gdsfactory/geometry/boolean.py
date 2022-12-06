@@ -33,7 +33,7 @@ def boolean(
         A: Component(/Reference) or list of Component(/References).
         B: Component(/Reference) or list of Component(/References).
         operation: {'not', 'and', 'or', 'xor', 'A-B', 'B-A', 'A+B'}.
-        precision: float Desired precision for rounding vertex coordinates..
+        precision: float Desired precision for rounding vertex coordinates.
         num_divisions: number of divisions with which the geometry is divided into
           multiple rectangular regions. This allows for each region to be
           processed sequentially, which is more computationally efficient.

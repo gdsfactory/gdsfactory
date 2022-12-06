@@ -62,7 +62,7 @@ def add_fiber_single(
         component_name: optional name of component.
         gc_port_name: grating coupler waveguide port name.
         zero_port: name of the port to move to (0, 0) for the routing to work correctly.
-        get_input_label_text_loopback_function: for the loopacks input label.
+        get_input_label_text_loopback_function: for the loopbacks input label.
         get_input_label_text_function: for the grating couplers input label.
         get_input_labels_function: function to get input labels for grating couplers.
         select_ports: function to select ports.

@@ -352,7 +352,7 @@ class PINWaveguide(BaseModel):
                 )
                 simple_physics.CreateSiliconPotentialOnlyContact(device, region, i)
 
-    def drift_difussion_initial_solution(self, device, region, circuit_contacts=None):
+    def drift_diffusion_initial_solution(self, device, region, circuit_contacts=None):
         # drift diffusion solution variables
         model_create.CreateSolution(device, region, "Electrons")
         model_create.CreateSolution(device, region, "Holes")
@@ -400,7 +400,7 @@ class PINWaveguide(BaseModel):
         # self.initial_solution(device=device, region="right_clad")
 
         for region in devsim.get_region_list(device=device):
-            self.drift_difussion_initial_solution(device=device, region=region)
+            self.drift_diffusion_initial_solution(device=device, region=region)
         for interface in devsim.get_interface_list(device=device):
             simple_physics.CreateSiliconSiliconInterface(
                 device=device, interface=interface

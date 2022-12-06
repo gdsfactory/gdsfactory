@@ -48,7 +48,7 @@ def find_neff_ng_dw_dh(
         delta_thickness: delta thickness max in um.
         wavelength: center wavelength (um).
         steps: number of steps to sweep in width and thickness.
-        mode_number: mode index to compute (1: fundanmental mode).
+        mode_number: mode index to compute (1: fundamental mode).
         core: core material name.
         clad: clad material name.
 
@@ -64,7 +64,7 @@ def find_neff_ng_dw_dh(
         plotH: plot magnetic field.
         cache: path to save the modes.
         polarization: prefix when saving the modes.
-        paririty: symmetries mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM.
+        parity: symmetries mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM.
 
     """
     dw = np.linspace(-delta_width, delta_width, steps)

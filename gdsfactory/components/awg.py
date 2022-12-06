@@ -112,7 +112,7 @@ def awg(
         outputs: number of outputs.
         free_propagation_region_input_function: for input.
         free_propagation_region_output_function: for output.
-        fpr_spacing: x separation between input/output free popagation region.
+        fpr_spacing: x separation between input/output free propagation region.
     """
     c = Component()
     fpr_in = free_propagation_region_input_function(

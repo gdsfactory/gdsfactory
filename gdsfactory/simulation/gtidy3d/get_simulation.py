@@ -160,7 +160,7 @@ def get_simulation(
         symmetry: Define Symmetries.
             Tuple of integers defining reflection symmetry across a plane
             bisecting the simulation domain normal to the x-, y-, and z-axis
-            at the simulation center of each axis, respectvely.
+            at the simulation center of each axis, respectively.
             Each element can be `0` (no symmetry), `1` (even, i.e. 'PMC' symmetry) or
             `-1` (odd, i.e. 'PEC' symmetry).
             Note that the vectorial nature of the fields must be taken into account

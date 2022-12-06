@@ -27,7 +27,7 @@ class Mode(BaseModel):
         effective_area: in um2.
         E: field.
         H: field.
-        eps: permitivity.
+        eps: permittivity.
         y: width.
         z: thickness.
 
