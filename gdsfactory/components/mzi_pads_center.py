@@ -40,7 +40,7 @@ def mzi_pads_center(
     Args:
         ps_top: phase shifter top.
         ps_bot: phase shifter bottom.
-        mzi: interforemeter.
+        mzi: interferometer.
         pad: pad function.
         length_x: horizontal length.
         length_y: vertical length.

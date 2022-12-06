@@ -139,7 +139,7 @@ def mesh_from_polygons(
         filename: to save the mesh
         global_meshsize_array: array [x,y,z,lc] defining local mesh sizes. Not used if None
         global_meshsize_interpolant: interpolation function for array [x,y,z,lc]. Default scipy.interpolate.NearestNDInterpolator
-        verbosity: boolean, gmsh sdout as it meshes
+        verbosity: boolean, gmsh stdout as it meshes
     """
     global_meshsize_callback_bool = global_meshsize_array is not None
 

@@ -23,7 +23,7 @@ with open(filepath, "w+") as f:
     f.write(
         """
 
-You can customize the Gdsfactory generic PDK Pcells for your fab and use it as an inspiration to build your own.
+You can customize the Gdsfactory generic PDK PCells for your fab and use it as an inspiration to build your own.
 
 
 Components

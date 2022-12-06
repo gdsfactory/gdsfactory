@@ -21,7 +21,7 @@ def boolean_klayout(
     layer3: Tuple[int, int] = (2, 0),
     operation: str = "xor",
 ) -> Component:
-    """Returns a boolean operation between two components Uses klayout python API.
+    """Returns a boolean operation between two components Uses KLayout python API.
 
     Args:
         gdspath1: path to GDS or Component.

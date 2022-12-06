@@ -57,7 +57,7 @@ def gds() -> None:
 @click.argument("filepath", type=click.Path(exists=True))
 @click.option("--force", "-f", default=False, help="Force deletion", is_flag=True)
 def layermap_to_dataclass(filepath, force: bool) -> None:
-    """Converts klayout LYP to a dataclass."""
+    """Converts KLayout LYP to a dataclass."""
     filepath_lyp = pathlib.Path(filepath)
     filepath_py = filepath_lyp.with_suffix(".py")
     if not filepath_lyp.exists():

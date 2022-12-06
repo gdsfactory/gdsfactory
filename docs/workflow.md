@@ -5,13 +5,13 @@ You'll need 2 windows:
 1. A text editor or IDE (Visual Studio Code, Pycharm, Spyder, neovim, Atom, Jupyterlab ...)
 2. Klayout to Visualize the GDS files.
 
-`Component.show()` will stream the GDS to klayout so klayout needs to be open.
+`Component.show()` will stream the GDS to KLayout so KLayout needs to be open.
 Make sure you also ran `gf tool install` from the terminal to install the `gdsfactory` to `klayout` interface.
 
 
 ## 1. Standard Python flow
 
-1. You write your Pcells in python.
+1. You write your PCells in python.
 2. You execute the python code.
 3. You visualize the GDS Layout in Klayout.
 
@@ -20,7 +20,7 @@ Make sure you also ran `gf tool install` from the terminal to install the `gdsfa
 
 ## 2. File-watcher flow
 
-For building large components can use a file-watcher and see your updates in klayout.
+For building large components can use a file-watcher and see your updates in KLayout.
 
 1. You execute the file watcher `gf watch FolderName` or in the current working directory `gf watch`
 2. The file-watcher re-runs any python file `.py` or YAML `.pic.yaml`.

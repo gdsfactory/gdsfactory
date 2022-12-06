@@ -165,7 +165,7 @@ def _move_ref(
         return x
     if len(x.split(",")) != 2:
         raise ValueError(
-            f"You can define {x_or_y} as `{x_or_y}: instaceName,portName` got `{x_or_y}: {x!r}`"
+            f"You can define {x_or_y} as `{x_or_y}: instanceName,portName` got `{x_or_y}: {x!r}`"
         )
     instance_name_ref, port_name = x.split(",")
     if instance_name_ref in all_remaining_insts:
@@ -180,7 +180,7 @@ def _move_ref(
     if instance_name_ref not in instances:
         raise ValueError(
             f"{instance_name_ref!r} not in {list(instances.keys())}."
-            f" You can define {x_or_y} as `{x_or_y}: instaceName,portName`, got {x_or_y}: {x!r}"
+            f" You can define {x_or_y} as `{x_or_y}: instanceName,portName`, got {x_or_y}: {x!r}"
         )
     if (
         port_name not in instances[instance_name_ref].ports
@@ -190,7 +190,7 @@ def _move_ref(
         raise ValueError(
             f"port = {port_name!r} can be a port_name in {ports}, "
             f"an anchor {valid_anchor_keywords} for {instance_name_ref!r}, "
-            f"or `{x_or_y}: instaceName,portName`, got `{x_or_y}: {x!r}`"
+            f"or `{x_or_y}: instanceName,portName`, got `{x_or_y}: {x!r}`"
         )
 
     return _get_anchor_value_from_name(instances[instance_name_ref], port_name, x_or_y)
@@ -214,7 +214,7 @@ def place(
         encountered_insts: list of encountered_instances.
         instance_name: instance_name to place.
         all_remaining_insts: list of all the remaining instances to place
-            instances pop from this instrance as they are placed.
+            instances pop from this instance as they are placed.
 
     """
     if not all_remaining_insts:
@@ -510,7 +510,7 @@ def from_yaml(
         label_instance_function: to label each instance.
         name: Optional name.
         prefix: name prefix.
-        kwargs: function settings for creating YAML Pcells.
+        kwargs: function settings for creating YAML PCells.
 
     .. code::
 

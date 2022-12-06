@@ -70,7 +70,7 @@ def route_fiber_array(
         grating_coupler: grating coupler instance, function or list of functions.
         bend: for bends.
         straight: straight.
-        fanout_length: target distance between gratings and the southest component port.
+        fanout_length: target distance between gratings and the southmost component port.
             If None, automatically calculated.
         max_y0_optical: Maximum y coordinate at which the intermediate optical ports can be set.
             Usually fine to leave at None.

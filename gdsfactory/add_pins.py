@@ -1,4 +1,4 @@
-"""Add_pin adss a Pin to a port, add_pins adds Pins to all ports.
+"""Add_pin adds a Pin to a port, add_pins adds Pins to all ports.
 
 - pins
 - outline
@@ -386,8 +386,8 @@ def add_pins_siepic(
     """Add pins.
 
     Enables you to run SiEPIC verification tools:
-    To Run verification install SiEPIC-tools klayout package
-    then hit V shortcut in klayout to run verification
+    To Run verification install SiEPIC-tools KLayout package
+    then hit V shortcut in KLayout to run verification
 
     - ensure no disconnected pins
     - netlist extraction
@@ -527,7 +527,7 @@ def add_settings_label(
     """Add settings in label.
 
     Args:
-        componnent: to add pins.
+        component: to add pins.
         reference: ComponentReference.
         layer_label: layer spec.
     """
