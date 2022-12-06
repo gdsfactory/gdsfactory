@@ -1,6 +1,7 @@
 from pathlib import Path
 from typing import Optional, Union
 
+import bokeh.io
 import ipywidgets as widgets
 import yaml
 
@@ -169,7 +170,7 @@ class SchematicEditor:
     def _update_schematic_plot(self, **kwargs):
         circuitviz.update_schematic_plot(
             schematic=self._schematic,
-            instances=self.instances,
+            instances=self.symbols,
         )
 
     def _on_instance_component_modified(self, change):
@@ -235,7 +236,7 @@ class SchematicEditor:
         return self._net_grid
 
     def visualize(self):
-        circuitviz.show_netlist(self.schematic, self.instances, self.path)
+        circuitviz.show_netlist(self.schematic, self.symbols, self.path)
 
         self.on_instance_added.append(self._update_schematic_plot)
         self.on_settings_updated.append(self._update_schematic_plot)
@@ -252,6 +253,15 @@ class SchematicEditor:
             #     component_spec['settings'] = {}
             # validates the settings
             insts[inst_name] = gf.get_component(component_spec)
+        return insts
+
+    @property
+    def symbols(self):
+        insts = {}
+        inst_data = self._schematic.instances
+        for inst_name, inst in inst_data.items():
+            component_spec = inst.dict()
+            insts[inst_name] = self.pdk.get_symbol(component_spec)
         return insts
 
     def add_instance(self, instance_name: str, component: Union[str, gf.Component]):
@@ -376,3 +386,24 @@ class SchematicEditor:
         )
         pic_conf.to_yaml(output_filename)
         return pic_conf
+
+    def save_schematic_html(
+        self, filename: Union[str, Path], title: Optional[str] = None
+    ) -> None:
+        """Saves the schematic visualization to a standalone html file (read-only).
+
+        Args:
+            filename: the (*.html) filename to write to
+            title: title for the output page
+        """
+        filename = Path(filename)
+        if title is None:
+            title = filename.stem + " Schematic"
+        if "doc" not in circuitviz.data:
+            self.visualize()
+        if "doc" in circuitviz.data:
+            bokeh.io.save(circuitviz.data["doc"], filename=filename, title=title)
+        else:
+            raise ValueError(
+                "Unable to save the schematic to a standalone html file! Has the visualization been loaded yet?"
+            )
