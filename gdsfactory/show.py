@@ -8,7 +8,7 @@ from gdsfactory.component import Component
 
 
 def show(component: Union[Component, str, pathlib.Path], **kwargs) -> None:
-    """Write GDS and show Component in klayout.
+    """Write GDS and show Component in KLayout.
 
     Args:
         component: Component or GDS path.

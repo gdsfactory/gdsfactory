@@ -11,7 +11,7 @@ def straight2a(
     cross_section2: CrossSectionSpec = gf.cross_section.pin,
     **kwargs
 ) -> gf.Component:
-    """Returns a contatentation of two cross_sections.
+    """Returns a concatenation of two cross_sections.
 
     Args:
         length1: for the first section.

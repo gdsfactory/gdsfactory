@@ -48,7 +48,7 @@ def path_length_matched_points(
         **kwargs
 
     Returns: another list of waypoints where
-        - the path_lenth of each waypoints list are identical
+        - the path_length of each waypoints list are identical
         - the number of turns are identical
 
     """
@@ -171,7 +171,7 @@ def path_length_matched_points_add_waypoints(
 
     returns:
         another list of waypoints where:
-            - the path_lenth of each waypoints list are identical
+            - the path_length of each waypoints list are identical
             - the number of turns are identical
 
     Several types of paths won't match correctly. We do not try to handle

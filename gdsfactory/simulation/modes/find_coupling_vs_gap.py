@@ -23,7 +23,7 @@ def coupling_length(
 
     Args:
         wavelength: in um.
-        neff1: even supermode of the directional coupler..
+        neff1: even supermode of the directional coupler.
         neff2: odd supermode of the directional coupler.
         power_ratio: p2/p1, where 1 means 100% power transfer.
 

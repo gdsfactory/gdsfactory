@@ -30,7 +30,7 @@ def coh_tx_dual_pol(
         yspacing: vertical spacing between each single polarization coherent tx.
         xspacing: horizontal spacing between splitter and combiner.
         input_coupler: Optional coupler to add before the splitter.
-        output_coupler: Optioncal coupler to add after the combiner.
+        output_coupler: Optional coupler to add after the combiner.
         cross_section: for routing (splitter to mzms and mzms to combiners).
         kwargs: cross_section settings.
 

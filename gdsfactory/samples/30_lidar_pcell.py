@@ -2,7 +2,7 @@
 
 Exercise1. increase the number of elements of the phase array.
 
-Exercise2. Make a Pcell.
+Exercise2. Make a PCell.
 
 """
 
