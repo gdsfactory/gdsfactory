@@ -31,6 +31,7 @@ settings:
   default:
     label_instance_function:
       function: add_instance_label
+    mode: layout
     routing_strategy:
       get_bundle:
         function: get_bundle
@@ -83,6 +84,7 @@ settings:
             tl,e3: tr,e1
     label_instance_function:
       function: add_instance_label
+    mode: layout
     routing_strategy:
       get_bundle:
         function: get_bundle
