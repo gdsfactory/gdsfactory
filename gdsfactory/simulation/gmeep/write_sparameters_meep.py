@@ -139,7 +139,7 @@ def write_sparameters_meep(
     is_3d: bool = False,
     z: float = 0,
     **settings,
-) -> np.ndarray:
+) -> Dict:
     r"""Returns Sparameters and writes them to npz filepath.
 
     Simulates each time using a different input port (by default, all of them)
@@ -250,7 +250,7 @@ def write_sparameters_meep(
             or refractive index. dispersive materials have a wavelength dependent index.
 
     Returns:
-        sparameters in a pandas Dataframe (wavelengths, s11a, o1@0,o2@0, ...)
+        sparameters in a Dict (wavelengths, s11a, o1@0,o2@0, ...)
             where `a` is the angle in radians and `m` the module.
 
     """
@@ -341,7 +341,7 @@ def write_sparameters_meep(
     if filepath.exists():
         if not overwrite:
             logger.info(f"Simulation loaded from {filepath!r}")
-            return np.load(filepath)
+            return dict(np.load(filepath))
         elif overwrite:
             filepath.unlink()
 
@@ -529,7 +529,7 @@ if __name__ == "__main__":
         wavelength_start=wavelength_start, wavelength_stop=wavelength_stop
     )
     c = gf.components.mmi1x2(cross_section=gf.cross_section.strip)
-    sp = write_sparameters_meep(c, run=False, is_3d=False, **sim_settings)
+    sp = write_sparameters_meep(c, run=True, is_3d=False, **sim_settings)
 
     # from gdsfactory.simulation.add_simulation_markers import add_simulation_markers
     # import gdsfactory.simulation as sim
