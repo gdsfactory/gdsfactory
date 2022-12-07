@@ -1535,6 +1535,21 @@ grating_coupler_tree
 
 
 
+greek_cross
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.greek_cross
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.greek_cross(cross_struct_length=30.0, cross_struct_width=1.0, cross_struct_layers=[1, 0], cross_implant_length=30.0, cross_implant_width=2.0, cross_implant_layers=[20, 0], contact_layers=[[1, 0], [24, 0]], contact_offset=10, contact_buffer=10, pad_width=50)
+  c.plot()
+
+
+
 hline
 ----------------------------------------------------
 
@@ -3005,6 +3020,21 @@ taper_w12_l200
 
 
 
+terminator
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.terminator
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.terminator(length=50, cross_section_input='strip', tapered_width=0.2, doping_layers=['NPP'])
+  c.plot()
+
+
+
 text
 ----------------------------------------------------
 
@@ -3120,7 +3150,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='6.3.5', text_size=10)
+  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='6.6.0', text_size=10)
   c.plot()
 
 
