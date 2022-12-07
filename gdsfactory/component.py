@@ -155,15 +155,15 @@ class Component(_GeometryHelper):
         return self._references
 
     @property
-    def polygons(self):
+    def polygons(self) -> List[Polygon]:
         return self._cell.polygons
 
     @property
-    def area(self):
+    def area(self) -> float:
         return self._cell.area
 
     @property
-    def labels(self):
+    def labels(self) -> List[Label]:
         return self._cell.labels
 
     @property
@@ -171,7 +171,7 @@ class Component(_GeometryHelper):
         return self._cell.paths
 
     @property
-    def name(self):
+    def name(self) -> str:
         return self._cell.name
 
     @name.setter
