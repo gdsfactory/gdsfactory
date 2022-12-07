@@ -130,16 +130,33 @@ def import_gds(
     return component
 
 
+def import_gds_raw(gdspath, top_cellname: Optional[str] = None):
+    if not top_cellname:
+        if gdspath.suffix.lower() == ".gds":
+            gdsii_lib = gdstk.read_gds(str(gdspath))
+        elif gdspath.suffix.lower() == ".oas":
+            gdsii_lib = gdstk.read_oas(str(gdspath))
+        top_level_cells = gdsii_lib.top_level()
+        top_cellnames = [c.name for c in top_level_cells]
+        top_cellname = top_cellnames[0]
+
+    cells = gdstk.read_rawcells(gdspath)
+    c = Component(name=top_cellname)
+    c._cell = cells.pop(top_cellname)
+    return c
+
+
 if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.components.array()
     gdspath = c.write_gds()
-    c.show(show_ports=True)
+    # c.show(show_ports=True)
 
     gf.clear_cache()
-    c = import_gds(gdspath)
-    c.show(show_ports=True)
+    # c = import_gds(gdspath)
+    c = import_gds_raw(gdspath)
+    c.show(show_ports=False)
 
     # gdspath = PATH.gdsdir / "mzi2x2.gds"
     # c = import_gds(gdspath, flatten=True, name="TOP")
