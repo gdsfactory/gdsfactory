@@ -58,7 +58,7 @@ html_theme_options = {
     "logo_only": True,
     "path_to_docs": "docs",
     "repository_url": "https://github.com/gdsfactory/gdsfactory",
-    "repository_branch": "master",
+    "repository_branch": "main",
     "launch_buttons": {
         "notebook_interface": "jupyterlab",
         "binderhub_url": "https://mybinder.org/v2/gh/gdsfactory/gdsfactory/HEAD",

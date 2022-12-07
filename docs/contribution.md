@@ -4,7 +4,7 @@ gdsfactory is an open source project that welcomes contributions from any users.
 
 How can you contribute?
 
-You can fork the repo, work on a feature, and then create a Pull Request asking permission to merge your feature into the `master` branch. As long as the tests pass on [GitHub Actions](https://github.com/gdsfactory/gdsfactory/actions) it is likely that your improvement will be included in the next release and benefit the community.
+You can fork the repo, work on a feature, and then create a Pull Request asking permission to merge your feature into the `main` branch. As long as the tests pass on [GitHub Actions](https://github.com/gdsfactory/gdsfactory/actions) it is likely that your improvement will be included in the next release and benefit the community.
 
 After your improvements the tests with `pytest` and syntax checker `flake8` must be passing.
 To help you with code quality checks we install pre-commit hooks to maintain good code quality.
