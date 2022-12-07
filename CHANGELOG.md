@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.6.0
+
+- add greek cross component: Process control monitor to test implant sheet resistivity and linewidth variations. [PR](https://github.com/gdsfactory/gdsfactory/pull/965)
+- add waveguide termination component. Terminate dangling waveguides with heavily doped narrow taper to protect modulator, detectors, and other active electronics from stray light. [PR](https://github.com/gdsfactory/gdsfactory/pull/964)
+
 ## 6.5.0
 
 - Add schematic symbols [PR](https://github.com/gdsfactory/gdsfactory/pull/958)
