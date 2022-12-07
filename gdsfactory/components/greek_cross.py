@@ -27,6 +27,11 @@ def greek_cross(
 ) -> gf.Component:
     """Process control monitor for dopant sheet resistivity and linewidth variation.
 
+    References:
+        - Walton, Anthony J.. “MICROELECTRONIC TEST STRUCTURES.” (1999).
+        - W. Versnel, Analysis of the Greek cross, a Van der Pauw structure with finite contacts, Solid-State Electronics, Volume 22, Issue 11, 1979, Pages 911-914, ISSN 0038-1101, https://doi.org/10.1016/0038-1101(79)90061-3.
+        - S. Enderling et al., "Sheet resistance measurement of non-standard cleanroom materials using suspended Greek cross test structures," in IEEE Transactions on Semiconductor Manufacturing, vol. 19, no. 1, pp. 2-9, Feb. 2006, doi: 10.1109/TSM.2005.863248.
+
         pad_width
         <------->
         _________ cross_implant_length, cross_struct_length
