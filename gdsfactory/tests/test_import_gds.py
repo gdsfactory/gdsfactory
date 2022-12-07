@@ -56,8 +56,7 @@ def test_import_gds_raw() -> gf.Component:
     gdspath = c0.write_gds()
 
     gf.clear_cache()
-    c1 = gf.read.import_gds(gdspath)
-    return c1
+    return gf.read.import_gds(gdspath)
 
 
 if __name__ == "__main__":
