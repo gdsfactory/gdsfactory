@@ -4,6 +4,7 @@
 
 - add greek cross component: Process control monitor to test implant sheet resistivity and linewidth variations. [PR](https://github.com/gdsfactory/gdsfactory/pull/965)
 - add waveguide termination component. Terminate dangling waveguides with heavily doped narrow taper to protect modulator, detectors, and other active electronics from stray light. [PR](https://github.com/gdsfactory/gdsfactory/pull/964)
+- rename master branch to main
 
 ## 6.5.0
 
