@@ -24,7 +24,7 @@ def terminator(
         input_xs: input cross-section.
         tapered_xs: cross-section at the end of the termination (by default, input_xs with width 200 nm)
         doping_layers: doping layers to superimpose on the taper. Default N++.
-        **kwargs: taper arguments
+        **kwargs: taper_cross_section arguments
     """
     c = Component()
 
@@ -35,6 +35,7 @@ def terminator(
         length=length,
         cross_section1=input_xs,
         cross_section2=tapered_xs,
+        **kwargs,
     )
 
     for layer in doping_layers:
