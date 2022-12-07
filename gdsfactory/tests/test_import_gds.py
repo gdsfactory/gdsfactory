@@ -48,6 +48,18 @@ def test_import_gds_array() -> gf.Component:
     return c1
 
 
+def test_import_gds_raw() -> gf.Component:
+    """Make sure you can import a GDS with arrays."""
+    c0 = gf.components.array(
+        gf.components.rectangle, rows=2, columns=2, spacing=(10, 10)
+    )
+    gdspath = c0.write_gds()
+
+    gf.clear_cache()
+    c1 = gf.read.import_gds(gdspath)
+    return c1
+
+
 if __name__ == "__main__":
     # c = test_import_gds_hierarchy()
     # c = test_import_ports_inside()
