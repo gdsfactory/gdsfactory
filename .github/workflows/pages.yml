@@ -3,7 +3,7 @@ name: Sphinx docs to gh-pages
 on:
   push:
     branches:
-      - master
+      - main
   workflow_dispatch:
 
 jobs:
@@ -41,6 +41,6 @@ jobs:
           TIDY3D_PASS: ${{ secrets.TIDY3D_PASSWORD }}
           DISPLAY: 1.0
         with:
-          branch: master
+          branch: main
           dir_docs: docs
           sphinxopts: ""
