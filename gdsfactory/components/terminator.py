@@ -20,6 +20,7 @@ def terminator(
     """Doped narrow taper to terminate waveguides.
 
     Args:
+        length: distance between input and narrow tapered end.
         input_xs: input cross-section.
         tapered_xs: cross-section at the end of the termination (by default, input_xs with width 200 nm)
         doping_layers: doping layers to superimpose on the taper. Default N++.
