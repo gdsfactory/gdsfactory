@@ -39,6 +39,8 @@ def terminator(
     for layer in doping_layers:
         c << gf.components.bbox(bbox=taper.bbox, layer=layer)
 
+    c.add_port(name="o1", port=taper.ports["o1"])
+
     return c
 
 
