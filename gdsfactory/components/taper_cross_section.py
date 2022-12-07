@@ -72,6 +72,6 @@ if __name__ == "__main__":
     # x2 = gf.partial(rib, width=2.5)
     # c = taper_cross_section_linear(x1, x2)
 
-    # c = taper_cross_section()
-    c = taper_cross_section_sine()
+    c = taper_cross_section(gf.cross_section.strip, gf.cross_section.rib)
+    # c = taper_cross_section_sine()
     c.show(show_ports=True)
