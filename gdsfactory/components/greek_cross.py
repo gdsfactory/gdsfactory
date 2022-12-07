@@ -42,17 +42,17 @@ def greek_cross(
             <-------------->
         contact_offset (fudge)
 
-    Arguments:
-        cross_struct_length (float): length of structural part of cross e.g. silicon core
-        cross_struct_width (float): width of structural part of cross  e.g. silicon core
-        cross_struct_layers (Layers tuple): layers to be considered "structural"
-        cross_implant_length (float): length of implantation part of cross
-        cross_implant_width (float): width of implantation part of cross
-        cross_implant_layers (Layers tuple): layers to be considered "implants"
-        contact_layers (Layer tuple): layers to include under and around the pad
-        contact_offset (float): fudge factor to move pad relative to cross
-        contact_buffer (float): amount of dopants around pad in contact
-        pad_width (float): pad size
+    Args:
+        cross_struct_length: length of structural part of cross e.g. silicon core.
+        cross_struct_width: width of structural part of cross  e.g. silicon core.
+        cross_struct_layers: layers to be considered "structural".
+        cross_implant_length: length of implantation part of cross.
+        cross_implant_width: width of implantation part of cross.
+        cross_implant_layers: layers to be considered "implants".
+        contact_layers: layers to include under and around the pad.
+        contact_offset: fudge factor to move pad relative to cross.
+        contact_buffer: amount of dopants around pad in contact.
+        pad_width: pad size.
     """
     c = gf.Component()
 
@@ -73,7 +73,8 @@ def greek_cross(
         )
 
     pad_offset = pad_width / 2 + cross_implant_length / 2
-    # Layout contacting vias and pads
+
+    # contact vias and pads
     for sgnx, sgny in product([1, -1], [1, -1]):
         pad_rotation = np.arctan2(sgny, sgnx) * 180 / np.pi - 45
         c2 = gf.Component(f"contact_{sgnx}_{sgny}")

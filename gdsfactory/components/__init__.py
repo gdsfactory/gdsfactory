@@ -145,6 +145,7 @@ from gdsfactory.components.grating_coupler_rectangular_arbitrary_slab import (
     grating_coupler_rectangular_arbitrary_slab,
 )
 from gdsfactory.components.grating_coupler_tree import grating_coupler_tree
+from gdsfactory.components.greek_cross import greek_cross
 from gdsfactory.components.hline import hline
 from gdsfactory.components.L import L
 from gdsfactory.components.litho_calipers import litho_calipers
@@ -247,6 +248,7 @@ from gdsfactory.components.taper_from_csv import (
     taper_w12_l200,
 )
 from gdsfactory.components.taper_parabolic import taper_parabolic
+from gdsfactory.components.terminator import terminator
 from gdsfactory.components.text import text, text_lines
 from gdsfactory.components.text_freetype import text_freetype
 from gdsfactory.components.text_rectangular import (
@@ -417,6 +419,7 @@ __all__ = [
     "grating_coupler_dual_pol",
     "grating_taper_points",
     "grating_tooth_points",
+    "greek_cross",
     "hline",
     "litho_calipers",
     "litho_ruler",
@@ -518,6 +521,7 @@ __all__ = [
     "text_freetype",
     "text_rectangular",
     "text_rectangular_multi_layer",
+    "terminator",
     "triangle",
     "triangle2",
     "triangle4",
