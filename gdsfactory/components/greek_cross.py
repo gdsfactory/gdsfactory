@@ -72,9 +72,9 @@ def greek_cross(
             layer=layer,
         )
 
+    pad_offset = pad_width / 2 + cross_implant_length / 2
     # Layout contacting vias and pads
     for sgnx, sgny in product([1, -1], [1, -1]):
-        pad_offset = pad_width / 2 + cross_implant_length / 2
         pad_rotation = np.arctan2(sgny, sgnx) * 180 / np.pi - 45
         c2 = gf.Component(f"contact_{sgnx}_{sgny}")
         c2 << gf.get_component(via_stack, size=(pad_width, pad_width))
