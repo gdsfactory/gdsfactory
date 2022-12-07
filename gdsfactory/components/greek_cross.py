@@ -46,7 +46,7 @@ def greek_cross(
         cross_implant_layers (Layers tuple): layers to be considered "implants"
         contact_layers (Layer tuple): layers to include under and around the pad
         contact_offset (float): fudge factor to move pad relative to cross
-        contact_buffer (float): fudge factor to move pad relative to cross
+        contact_buffer (float): amount of dopants around pad in contact
         pad_width (float): pad size
     """
     c = gf.Component()
