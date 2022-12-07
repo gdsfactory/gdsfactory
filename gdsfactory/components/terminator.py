@@ -1,54 +1,53 @@
 from __future__ import annotations
 
-from typing import List, Optional
+from typing import Optional
 
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.taper_cross_section import taper_cross_section
-from gdsfactory.cross_section import CrossSection, strip
-from gdsfactory.types import LayerSpec
+from gdsfactory.types import CrossSectionSpec, LayerSpecs
 
 
 @gf.cell
 def terminator(
     length: Optional[float] = 50,
-    input_xs: Optional[CrossSection] = strip,
-    tapered_xs: Optional[CrossSection] = None,
-    tapered_width: float = 2.0,
-    doping_layers: List[LayerSpec] = ["NPP"],
-    **kwargs,
+    cross_section_input: CrossSectionSpec = "strip",
+    cross_section_tip: Optional[CrossSectionSpec] = None,
+    tapered_width: float = 0.2,
+    doping_layers: LayerSpecs = ("NPP",),
 ) -> gf.Component:
-    """Doped narrow taper to terminate waveguides.
+    """Returns doped taper to terminate waveguides.
 
     Args:
         length: distance between input and narrow tapered end.
-        input_xs: input cross-section.
-        tapered_xs: cross-section at the end of the termination (by default, input_xs with width 200 nm)
-        tapered_width: width of the default cross-section at the end of the termination (by default, 200 nm). Only used if tapered_xs is not None
+        cross_section_input: input cross-section.
+        cross_section_tip: cross-section at the end of the termination.
+        tapered_width: width of the default cross-section at the end of the termination.
+            Only used if cross_section_tip is not None.
         doping_layers: doping layers to superimpose on the taper. Default N++.
-        **kwargs: taper_cross_section arguments
     """
     c = Component()
 
-    tapered_xs = tapered_xs if tapered_xs else gf.partial(input_xs, width=tapered_width)
+    cross_section_tip = (
+        cross_section_tip
+        if cross_section_tip
+        else gf.get_cross_section(cross_section_input, width=tapered_width)
+    )
 
     taper = c << gf.get_component(
         taper_cross_section,
         length=length,
-        cross_section1=input_xs,
-        cross_section2=tapered_xs,
-        **kwargs,
+        cross_section1=cross_section_input,
+        cross_section2=cross_section_tip,
     )
 
     for layer in doping_layers:
         c << gf.components.bbox(bbox=taper.bbox, layer=layer)
 
     c.add_port(name="o1", port=taper.ports["o1"])
-
     return c
 
 
 if __name__ == "__main__":
-
-    c = terminator()
+    c = terminator(cross_section_input=gf.partial(gf.cross_section.strip, width=10))
     c.show(show_ports=True)
