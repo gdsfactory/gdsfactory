@@ -156,7 +156,7 @@ class Component(_GeometryHelper):
 
     @property
     def polygons(self) -> List[Polygon]:
-        return self._cell.polygons if hasattr(self._cell, "polygons") else []
+        return self._cell.polygons
 
     @property
     def area(self) -> float:
