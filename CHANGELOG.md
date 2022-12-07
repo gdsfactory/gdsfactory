@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.7.0
+
+- Read raw cells [PR](https://github.com/gdsfactory/gdsfactory/pull/972)
+
 ## 6.6.0
 
 - add greek cross component: Process control monitor to test implant sheet resistivity and linewidth variations. [PR](https://github.com/gdsfactory/gdsfactory/pull/965)
