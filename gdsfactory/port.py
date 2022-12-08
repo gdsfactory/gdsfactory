@@ -754,7 +754,7 @@ def rename_ports_by_orientation(
         # Make sure we can backtrack the parent component from the port
         p.parent = component
 
-        if p.orientation:
+        if p.orientation is not None:
             angle = p.orientation % 360
             if angle <= 45 or angle >= 315:
                 direction_ports["E"].append(p)
