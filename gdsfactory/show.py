@@ -31,8 +31,8 @@ def show(component: Union[Component, str, pathlib.Path], **kwargs) -> None:
             "Component is None, make sure that your function returns the component"
         )
 
-    elif hasattr(component, "write_gds"):
-        gdspath = component.write_gds(logging=False, **kwargs)
+    elif hasattr(component, "write"):
+        gdspath = component.write(logging=False, **kwargs)
         klive.show(gdspath)
     else:
         raise ValueError(

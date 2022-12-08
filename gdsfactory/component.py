@@ -6,16 +6,16 @@ import itertools
 import math
 import pathlib
 import tempfile
-import uuid
 import warnings
-from collections import Counter
 from collections.abc import Iterable
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 import gdstk
+import kfactory as kf
 import numpy as np
 import yaml
+from kfactory import kdb
 from omegaconf import DictConfig, OmegaConf
 from typing_extensions import Literal
 
@@ -24,7 +24,6 @@ from gdsfactory.component_layout import (
     Polygon,
     _align,
     _distribute,
-    _GeometryHelper,
     _parse_layer,
     get_polygons,
 )
@@ -95,7 +94,7 @@ def _rnd(arr, precision=1e-4):
     return np.ascontiguousarray(arr.round(ndigits) / precision, dtype=np.int64)
 
 
-class Component(_GeometryHelper):
+class Component(kf.KCell):
     """A Component is an empty canvas where you add polygons, references and ports \
             (to connect to other components).
 
@@ -126,29 +125,25 @@ class Component(_GeometryHelper):
             child: dict info from the children, if any.
     """
 
-    def __init__(
-        self,
-        name: str = "Unnamed",
-        with_uuid: bool = False,
-    ) -> None:
-        """Initialize the Component object."""
-        self.uid = str(uuid.uuid4())[:8]
-        if with_uuid or name == "Unnamed":
-            name += f"_{self.uid}"
-
-        self._cell = gdstk.Cell(name=name)
-        self.name = name
-        self.info: Dict[str, Any] = {}
-
-        self.settings: Dict[str, Any] = {}
-        self._locked = False
-        self.get_child_name = False
-        self._reference_names_counter = Counter()
-        self._reference_names_used = set()
-        self._named_references = {}
-        self._references = []
-
-        self.ports = {}
+    # def __init__(
+    #     self,
+    #     name: str = "Unnamed",
+    #     with_uuid: bool = False,
+    # ) -> None:
+    #     """Initialize the Component object."""
+    #     self.uid = str(uuid.uuid4())[:8]
+    #     if with_uuid or name == "Unnamed":
+    #         name += f"_{self.uid}"
+    #     self.name = name
+    #     self.info: Dict[str, Any] = {} # user added
+    #     self.settings: Dict[str, Any] = {} # cell decorator adds this
+    #     self._locked = False
+    #     self.get_child_name = False
+    #     self._reference_names_counter = Counter()
+    #     self._reference_names_used = set()
+    #     self._named_references = {}
+    #     self._references = []
+    #     self.ports = {}
 
     @property
     def references(self):
@@ -812,7 +807,7 @@ class Component(_GeometryHelper):
 
         return component
 
-    def add_polygon(self, points, layer=np.nan):
+    def add_polygon(self, points: Union[np.ndarray, kdb.Polygon], layer: LayerSpec):
         """Adds a Polygon to the Component.
 
         Args:
@@ -823,66 +818,14 @@ class Component(_GeometryHelper):
 
         layer = get_layer(layer)
 
-        if layer is None:
-            return None
+        if not isinstance(points, kdb.DPolygon):
+            points = kdb.DPolygon([kdb.DPoint(point[0], point[1]) for point in points])
 
-        try:
-            if isinstance(layer, set):
-                return [self.add_polygon(points, ly) for ly in layer]
-            elif all(isinstance(ly, (Layer)) for ly in layer):
-                return [self.add_polygon(points, ly) for ly in layer]
-            elif len(layer) > 2:  # Someone wrote e.g. layer = [1,4,5]
-                raise ValueError(
-                    """ [PHIDL] If specifying multiple layers
-                you must use set notation, e.g. {1,5,8} """
-                )
-        except Exception:
-            pass
-
-        if isinstance(points, gdstk.Polygon):
-            # if layer is unspecified or matches original polygon, just add it as-is
-            polygon = points
-            if layer is np.nan or (
-                isinstance(layer, tuple) and (polygon.layer, polygon.datatype) == layer
-            ):
-                polygon = Polygon(polygon.points, polygon.layer, polygon.datatype)
-            else:
-                layer, datatype = _parse_layer(layer)
-                polygon = Polygon(polygon.points, layer, datatype)
-            self._add_polygons(polygon)
-            return polygon
-
-        points = np.asarray(points)
-        if points.ndim == 1:
-            return [self.add_polygon(poly, layer=layer) for poly in points]
-        if layer is np.nan:
-            layer = 0
-
-        if points.ndim == 2:
-            # add single polygon from points
-            if len(points[0]) > 2:
-                # Convert to form [[1,2],[3,4],[5,6]]
-                points = np.column_stack(points)
-            layer, datatype = _parse_layer(layer)
-            polygon = Polygon(points, layer=layer, datatype=datatype)
-            self._add_polygons(polygon)
-            return polygon
-        elif points.ndim == 3:
-            layer, datatype = _parse_layer(layer)
-            polygons = [
-                Polygon(ppoints, layer=layer, datatype=datatype) for ppoints in points
-            ]
-            self._add_polygons(*polygons)
-            return polygons
-        else:
-            raise ValueError(f"Unable to add {points.ndim}-dimensional points object")
+        self.shapes(self.library.layer(layer[0], layer[1])).insert(points)
 
     def _add_polygons(self, *polygons: List[Polygon]):
         self.is_unlocked()
         self._cell.add(*polygons)
-
-    def copy(self) -> Component:
-        return copy(self)
 
     def copy_child_info(self, component: Component) -> None:
         """Copy info from child component into parent.
@@ -1302,7 +1245,6 @@ class Component(_GeometryHelper):
     def show(
         self,
         show_ports: bool = False,
-        show_subports: bool = False,
         port_marker_layer: Layer = "SHOW_PORTS",
         **kwargs,
     ) -> None:
@@ -1314,7 +1256,6 @@ class Component(_GeometryHelper):
 
         Args:
             show_ports: shows component with port markers and labels.
-            show_subports: add ports markers and labels to references.
             port_marker_layer: for the ports.
 
         Keyword Args:
@@ -1324,28 +1265,15 @@ class Component(_GeometryHelper):
             precision: for object dimensions in the library (m). 1nm by default.
             timestamp: Defaults to 2019-10-25. If None uses current time.
         """
-        from gdsfactory.add_pins import add_pins_triangle
-        from gdsfactory.show import show
-
-        if show_subports:
+        if show_ports:
             component = self.copy()
-            component.name = self.name
-            for reference in component.references:
-                if isinstance(component, ComponentReference):
-                    add_pins_triangle(
-                        component=component,
-                        reference=reference,
-                        layer=port_marker_layer,
-                    )
+            component.draw_ports()
+            # component.name = self.name
 
-        elif show_ports:
-            component = self.copy()
-            component.name = self.name
-            add_pins_triangle(component=component, layer=port_marker_layer)
         else:
             component = self
 
-        show(component, **kwargs)
+        kf.show(component, **kwargs)
 
     def to_3d(self, *args, **kwargs):
         """Returns Component 3D trimesh Scene.
@@ -1399,177 +1327,6 @@ class Component(_GeometryHelper):
             raise ValueError(
                 'Required argument "type" must be one of "xy", "uz", or "3D".'
             )
-
-    def _write_library(
-        self,
-        gdspath: Optional[PathType] = None,
-        gdsdir: Optional[PathType] = None,
-        unit: float = 1e-6,
-        precision: Optional[float] = None,
-        timestamp: Optional[datetime.datetime] = _timestamp2019,
-        logging: bool = True,
-        on_duplicate_cell: Optional[str] = "warn",
-        with_oasis: bool = False,
-        **kwargs,
-    ) -> Path:
-        """Write component to GDS and returns gdspath.
-
-        Args:
-            gdspath: GDS file path to write to.
-            gdsdir: directory for the GDS file. Defaults to /tmp/randomFile/gdsfactory.
-            unit: unit size for objects in library. 1um by default.
-            precision: for dimensions in the library (m). 1nm by default.
-            timestamp: Defaults to 2019-10-25 for consistent hash.
-                If None uses current time.
-            logging: disable GDS path logging, for example for showing it in KLayout.
-            on_duplicate_cell: specify how to resolve duplicate-named cells. Choose one of the following:
-                "warn" (default): overwrite all duplicate cells with one of the duplicates (arbitrarily).
-                "error": throw a ValueError when attempting to write a gds with duplicate cells.
-                "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
-                None: do not try to resolve (at your own risk!)
-        """
-        from gdsfactory.pdk import get_grid_size
-
-        precision = precision or get_grid_size() * 1e-6
-
-        gdsdir = (
-            gdsdir or pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
-        )
-        gdsdir = pathlib.Path(gdsdir)
-        if with_oasis:
-            gdspath = gdspath or gdsdir / f"{self.name}.oas"
-        else:
-            gdspath = gdspath or gdsdir / f"{self.name}.gds"
-        gdspath = pathlib.Path(gdspath)
-        gdsdir = gdspath.parent
-        gdsdir.mkdir(exist_ok=True, parents=True)
-
-        cells = self.get_dependencies(recursive=True)
-        cell_names = [cell.name for cell in list(cells)]
-        cell_names_unique = set(cell_names)
-
-        if len(cell_names) != len(set(cell_names)):
-            for cell_name in cell_names_unique:
-                cell_names.remove(cell_name)
-
-            if on_duplicate_cell == "error":
-                raise ValueError(
-                    f"Duplicated cell names in {self.name!r}: {cell_names!r}"
-                )
-            elif on_duplicate_cell in {"warn", "overwrite"}:
-                if on_duplicate_cell == "warn":
-                    warnings.warn(
-                        f"Duplicated cell names in {self.name!r}:  {cell_names}",
-                    )
-                cells_dict = {cell.name: cell._cell for cell in cells}
-                cells = cells_dict.values()
-            elif on_duplicate_cell is not None:
-                raise ValueError(
-                    f"on_duplicate_cell: {on_duplicate_cell!r} not in (None, warn, error, overwrite)"
-                )
-
-        all_cells = [self._cell] + sorted(cells, key=lambda cc: cc.name)
-
-        no_name_cells = [
-            cell.name for cell in all_cells if cell.name.startswith("Unnamed")
-        ]
-
-        if no_name_cells:
-            warnings.warn(
-                f"Component {self.name!r} contains {len(no_name_cells)} Unnamed cells"
-            )
-
-        # for cell in all_cells:
-        #     print(cell.name, type(cell))
-
-        lib = gdstk.Library(unit=unit, precision=precision)
-        lib.add(self._cell)
-        lib.add(*self._cell.dependencies(True))
-
-        if with_oasis:
-            lib.write_oas(gdspath, **kwargs)
-        else:
-            lib.write_gds(gdspath, timestamp=timestamp)
-        if logging:
-            logger.info(f"Wrote to {str(gdspath)!r}")
-        return gdspath
-
-    def write_gds(
-        self,
-        gdspath: Optional[PathType] = None,
-        gdsdir: Optional[PathType] = None,
-        unit: float = 1e-6,
-        precision: Optional[float] = None,
-        logging: bool = True,
-        on_duplicate_cell: Optional[str] = "warn",
-    ) -> Path:
-        """Write component to GDS and returns gdspath.
-
-        Args:
-            gdspath: GDS file path to write to.
-            gdsdir: directory for the GDS file. Defaults to /tmp/randomFile/gdsfactory.
-            unit: unit size for objects in library. 1um by default.
-            precision: for dimensions in the library (m). 1nm by default.
-            logging: disable GDS path logging, for example for showing it in KLayout.
-            on_duplicate_cell: specify how to resolve duplicate-named cells. Choose one of the following:
-                "warn" (default): overwrite all duplicate cells with one of the duplicates (arbitrarily).
-                "error": throw a ValueError when attempting to write a gds with duplicate cells.
-                "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
-                None: do not try to resolve (at your own risk!)
-        """
-        return self._write_library(
-            gdspath=gdspath,
-            gdsdir=gdsdir,
-            unit=unit,
-            precision=precision,
-            logging=logging,
-            on_duplicate_cell=on_duplicate_cell,
-        )
-
-    def write_oas(
-        self,
-        gdspath: Optional[PathType] = None,
-        gdsdir: Optional[PathType] = None,
-        unit: float = 1e-6,
-        precision: Optional[float] = None,
-        logging: bool = True,
-        on_duplicate_cell: Optional[str] = "warn",
-        **kwargs,
-    ) -> Path:
-        """Write component to GDS and returns gdspath.
-
-        Args:
-            gdspath: GDS file path to write to.
-            gdsdir: directory for the GDS file. Defaults to /tmp/randomFile/gdsfactory.
-            unit: unit size for objects in library. 1um by default.
-            precision: for dimensions in the library (m). 1nm by default.
-            logging: disable GDS path logging, for example for showing it in KLayout.
-            on_duplicate_cell: specify how to resolve duplicate-named cells. Choose one of the following:
-                "warn" (default): overwrite all duplicate cells with one of the duplicates (arbitrarily).
-                "error": throw a ValueError when attempting to write a gds with duplicate cells.
-                "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
-                None: do not try to resolve (at your own risk!)
-
-        Keyword Args:
-            compression_level: Level of compression for cells (between 0 and 9).
-                Setting to 0 will disable cell compression, 1 gives the best speed and 9, the best compression.
-            detect_rectangles: Store rectangles in compressed format.
-            detect_trapezoids: Store trapezoids in compressed format.
-            circle_tolerance: Tolerance for detecting circles. If less or equal to 0, no detection is performed.
-                Circles are stored in compressed format.
-            validation ("crc32", "checksum32", None) – type of validation to include in the saved file.
-            standard_properties: Store standard OASIS properties in the file.
-        """
-        return self._write_library(
-            gdspath=gdspath,
-            gdsdir=gdsdir,
-            unit=unit,
-            precision=precision,
-            logging=logging,
-            on_duplicate_cell=on_duplicate_cell,
-            with_oasis=True,
-            **kwargs,
-        )
 
     def write_gds_with_metadata(self, *args, **kwargs) -> Path:
         """Write component in GDS and metadata (component settings) in YAML."""
@@ -1918,47 +1675,6 @@ class Component(_GeometryHelper):
         return self
 
 
-def copy(D: Component) -> Component:
-    """Returns a Component copy.
-
-    Args:
-        D: component to copy.
-    """
-    D_copy = Component()
-    D_copy.info = D.info
-    # D_copy._cell = D._cell.copy(name=D_copy.name)
-
-    for ref in D.references:
-        new_ref = ComponentReference(
-            component=ref.parent,
-            columns=ref.columns,
-            rows=ref.rows,
-            spacing=ref.spacing,
-            origin=ref.origin,
-            rotation=ref.rotation,
-            magnification=ref.magnification,
-            x_reflection=ref.x_reflection,
-            name=ref.name,
-            v1=ref.v1,
-            v2=ref.v2,
-        )
-        D_copy.add(new_ref)
-
-    for port in D.ports.values():
-        D_copy.add_port(port=port)
-    for poly in D.polygons:
-        D_copy.add_polygon(poly)
-    for path in D.paths:
-        D_copy.add(path)
-    for label in D.labels:
-        D_copy.add_label(
-            text=label.text,
-            position=label.origin,
-            layer=(label.layer, label.texttype),
-        )
-    return D_copy
-
-
 def test_get_layers() -> Component:
     import gdsfactory as gf
 
@@ -2148,5 +1864,24 @@ def test_import_gds_settings():
 
 
 if __name__ == "__main__":
-    c = test_get_layers()
-    c.show()
+    # c = Component()
+    # c.show()
+    # c = Component("parent")
+    c2 = Component("child")
+    length = 10
+    width = 0.5
+    layer = (1, 0)
+    c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
+
+    # breakpoint()
+    c2.show(show_ports=True)
+
+    # kf.show('a.gds')
+    # c2.write('a.gds')
+    # layer = (2, 0)
+    # width = 1
+    # c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
+
+    # ref = c << c2
+    # ref.y = 10
+    # c.show()

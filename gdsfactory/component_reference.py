@@ -4,6 +4,7 @@ import typing
 from typing import Any, Dict, List, Optional, Tuple, Union, cast
 
 import gdstk
+import kfactory as kf
 import numpy as np
 from numpy import cos, float64, int64, mod, ndarray, pi, sin
 
@@ -154,7 +155,7 @@ class ComponentReference(_GeometryHelper):
         v2: Optional[Tuple[float, float]] = None,
     ) -> None:
         """Initialize the ComponentReference object."""
-        self._reference = gdstk.Reference(
+        self._reference = kf.Instance(
             cell=component._cell,
             origin=origin,
             rotation=np.deg2rad(rotation),
