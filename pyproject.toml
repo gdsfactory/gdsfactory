@@ -59,7 +59,6 @@ full = [
     "mapbox_earcut",
     "networkx",
     "nlopt",
-    "phidl",
     "pyglet",
     "pygmsh",
     "sax==0.8.4",
@@ -97,7 +96,6 @@ dev = [
     "types-cachetools",
     "flake8",
     "flake8-bugbear",
-    "Flake8-pyproject",
     "ipykernel",
     "pytest",
     "pytest-cov",
@@ -155,29 +153,29 @@ addopts = '--tb=short'
 python_files = ["gdsfactory/*.py","notebooks/*.ipynb"]
 norecursedirs =["gdsfactory/simulation","extra/*.py","gdsfactory/watch.py"]
 
-[tool.flake8]
-max-line-length = 88
-max-complexity = 57
-select = ["B","C","E","F","W","T4","B9"]
-ignore = [ "E501", "E503", "E722", "W503", "W503", "E203", "B950", "B305", "B018", "B902", "B020", "B905"]
-extend-ignore = "RST303"
+# [tool.flake8]
+# max-line-length = 88
+# max-complexity = 57
+# select = ["B","C","E","F","W","T4","B9"]
+# ignore = [ "E501", "E503", "E722", "W503", "W503", "E203", "B950", "B305", "B018", "B902", "B020", "B905"]
+# extend-ignore = "RST303"
 
-exclude = [
-    ".git",
-    "__pycache__",
-    "lib",
-    "docs/source/conf.py",
-    "build",
-    "dist",
-    ".ipynb_checkpoints",
-    ".tox",
-    "extra",
-    "deprecated",
-    "gdslib",
-    ".mypy_cache",
-    "venv",
-    "devsim"
-    ]
+# exclude = [
+#     ".git",
+#     "__pycache__",
+#     "lib",
+#     "docs/source/conf.py",
+#     "build",
+#     "dist",
+#     ".ipynb_checkpoints",
+#     ".tox",
+#     "extra",
+#     "deprecated",
+#     "gdslib",
+#     ".mypy_cache",
+#     "venv",
+#     "devsim"
+#     ]
 
 [tool.commitizen]
 name = "cz_conventional_commits"

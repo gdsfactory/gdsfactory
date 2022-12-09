@@ -4,17 +4,10 @@ help:
 	@echo 'make test-force:       Rebuilds regression test'
 
 full: gdslib
-	pip install -r requirements_dev.txt
-	pip install -r requirements_full.txt
-	pip install -e .
-	pip install -r requirements_tidy3d.txt
-	pip install -r requirements_sipann.txt
-	pip install -r requirements_devsim.txt
+	pip install -e .[dev,full,tidy3d,sipann,devsim]
 
 install: gdslib
-	pip install -r requirements_dev.txt
-	pip install -r requirements_full.txt
-	pip install -e .
+	pip install -e .[dev,full]
 	pre-commit install
 	gf tool install
 
