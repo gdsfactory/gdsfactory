@@ -37,6 +37,9 @@ repos:
     rev: 647996c743f9e77368ce46cc74abe98549dd4c3a
     hooks:
       - id: flake8
+        entry: pflake8
+        additional_dependencies: [flake8-docstrings, pyproject-flake8]
+
   - repo: https://github.com/kynan/nbstripout
     rev: 4e0f64cf03b52e2aa54f7dd57c722e1a04a439f6
     hooks:
@@ -110,7 +113,8 @@ repos:
   - repo: https://github.com/pycqa/pydocstyle
     rev: "a6fe4222012e990042c86cdaaa904a8d059752ee"
     hooks:
-        - id: pydocstyle
+      - id: pydocstyle
+        additional_dependencies: ["pydocstyle[toml]"]
   # - repo: https://github.com/asottile/reorder_python_imports
   #   rev: 2b2f0c74acdb3de316e23ceb7dd0d7945c354050
   #   hooks:
