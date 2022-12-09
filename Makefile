@@ -140,7 +140,8 @@ mypy:
 	mypy gdsfactory --ignore-missing-imports
 
 build:
-	python sdist bdist_wheel
+	pip install build
+	python -m build
 
 upload-devpi:
 	pip install devpi-client wheel
