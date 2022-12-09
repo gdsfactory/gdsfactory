@@ -32,6 +32,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       max-parallel: 12
+      fail-fast: false
       matrix:
         python-version: ["3.9"]
         os: [ubuntu-latest, macos-latest, windows-latest]
@@ -49,7 +50,7 @@ jobs:
           echo $CONDA/bin >> $GITHUB_PATH
       - name: constructor build
         run: |
-          mamba install constructor
+          mamba install constructor -y
           constructor .
           pwd
           ls
