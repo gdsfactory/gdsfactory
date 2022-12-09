@@ -27,18 +27,16 @@ major:
 	python docs/write_components_doc.py
 
 plugins:
-	pip install -e .[tidy3d]
+	pip install -e .[tidy3d,sipann]
 	pip install jax jaxlib
 	mamba install pymeep=*=mpi_mpich_* -y
-	pip install -r requirements_sipann.txt
 	pip install --upgrade "protobuf<=3.20.1"
 
 plugins-debian:
 	sudo apt install libgl1-mesa-glx -y
-	pip install -e .[tidy3d]
+	pip install -e .[tidy3d,sipann]
 	pip install jax jaxlib
 	mamba install pymeep=*=mpi_mpich_* -y
-	pip install -r requirements_sipann.txt
 	pip install --upgrade "protobuf<=3.20.1"
 
 thermal:
