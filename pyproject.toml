@@ -97,6 +97,7 @@ dev = [
     "types-cachetools",
     "flake8",
     "flake8-bugbear",
+    "Flake8-pyproject",
     "ipykernel",
     "pytest",
     "pytest-cov",
@@ -157,9 +158,8 @@ norecursedirs =["gdsfactory/simulation","extra/*.py","gdsfactory/watch.py"]
 [tool.flake8]
 max-line-length = 88
 max-complexity = 57
-# select = B,C,E,F,W,T4,B9
-# ignore = E501, E503, E722, W503, W503, E203, B950, B305, B018, B902, B020
-
+select = ["B","C","E","F","W","T4","B9"]
+ignore = [ "E501", "E503", "E722", "W503", "W503", "E203", "B950", "B305", "B018", "B902", "B020", "B905"]
 extend-ignore = "RST303"
 
 exclude = [
@@ -195,19 +195,11 @@ enabled = true
 live_mode = true
 strict = true
 
-
 [tool.isort]
 multi_line_output = 3
 line_length = 88
 include_trailing_comma = true
 skip = "gdsfactory/__init__.py"
-
-# [tool.coverage:run]
-# omit = "**/test_*.py"
-
-# [tool.coverage:html]
-# directory = "_build/coverage_html_report"
-
 
 [tool.setuptools.package-data]
 mypkg = ["*.gds", "*.lym", "*.lyp", "*.lyt", "*.csv", "*.yaml"]
