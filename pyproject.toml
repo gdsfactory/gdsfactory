@@ -14,12 +14,12 @@ classifiers = [
 	"Programming Language :: Python :: 3.11",
 	"Operating System :: OS Independent",
 ]
-documentation = "https://gdsfactory.github.io/gdsfactory/README.html"
-repository = "https://github.com/gdsfactory/gdsfactory"
 version = "6.7.1"
 authors = [
     {name = "gdsfactory community", email = "contact@gdsfactory.com"},
 ]
+keywords = ["eda", "photonics", "python"]
+license = {text = "MIT"}
 dependencies = [
 	"klayout >= 0.27.11",
     "click",
