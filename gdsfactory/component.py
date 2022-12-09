@@ -93,6 +93,65 @@ def _rnd(arr, precision=1e-4):
     return np.ascontiguousarray(arr.round(ndigits) / precision, dtype=np.int64)
 
 
+class Instance(kf.Instance):
+    def connect(
+        self,
+        port: str,
+        destination: Instance | Port,
+        destination_name: Optional[str] = None,
+        *,
+        mirror: bool = False,
+        allow_width_mismatch: bool = False,
+        allow_layer_mismatch: bool = False,
+        allow_type_mismatch: bool = False,
+    ) -> None:
+        """Function to allow to transform this instance so that a port of this instance is connected (same position with 180° turn) to another instance.
+
+        Args:
+            portname: The name of the port of this instance to be connected
+            other_instance: The other instance or a port
+            other_port_name: The name of the other port. Ignored if :py:attr:`~other_instance` is a port.
+            mirror: Instead of applying klayout.db.Trans.R180 as a connection transformation, use klayout.db.Trans.M90, which effectively means this instance will be mirrored and connected.
+        """
+        portname = port
+        other = destination
+        other_port_name = destination_name
+
+        if isinstance(other, Instance):
+            if other_port_name is None:
+                raise ValueError(
+                    "portname cannot be None if an Instance Object is given"
+                )
+            op = other.ports[other_port_name]
+        elif isinstance(other, Port):
+            op = other
+        else:
+            import gdsfactory as gf
+
+            if isinstance(other, gf.Port):
+                op = Port.from_gdsfactory_port(other)
+            else:
+                raise ValueError("other_instance must be of type Instance or Port")
+        p = self.cell.ports[portname]
+
+        if p.width != op.width and not allow_width_mismatch:
+            raise kf.cell.PortWidthMismatch(
+                self,
+                other,
+                p,
+                op,
+            )
+        elif (
+            gf.get_layer(p.layer) != gf.get_layer(op.layer) and not allow_layer_mismatch
+        ):
+            raise kf.cell.PortLayerMismatch(self.cell.library, self, other, p, op)
+        elif p.port_type != op.port_type and not allow_type_mismatch:
+            raise kf.cell.PortTypeMismatch(self, other, p, op)
+        else:
+            conn_trans = kdb.Trans.M90 if mirror else kdb.Trans.R180
+            self.instance.trans = op.trans * conn_trans * p.trans.inverted()
+
+
 class Component(kf.KCell):
     """A Component is an empty canvas where you add polygons, references and ports \
             (to connect to other components).
@@ -143,6 +202,29 @@ class Component(kf.KCell):
     #     self._named_references = {}
     #     self._references = []
     #     self.ports = {}
+
+    def create_inst(self, cell: kf.KCell, trans: kdb.Trans = kdb.Trans()) -> Instance:
+        """Add an instance of another KCell.
+
+        Args:
+            cell: The cell to be added.
+            trans: The transformation applied to the reference.
+
+        Returns:
+            :py:class:`~Instance`: The created instance.
+        """
+        ca = self.insert(kdb.CellInstArray(cell._kdb_cell.cell_index(), trans))
+        inst = Instance(cell, ca)
+        self.insts.append(inst)
+        return inst
+
+    def __lshift__(self, cell: kf.KCell) -> Instance:
+        """Convenience function for :py:attr:"~create_inst(cell)`.
+
+        Args:
+            cell: The cell to be added as an instance
+        """
+        return self.create_inst(cell)
 
     @property
     def references(self):
