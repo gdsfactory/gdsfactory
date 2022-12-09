@@ -14,6 +14,8 @@ classifiers = [
 	"Programming Language :: Python :: 3.11",
 	"Operating System :: OS Independent",
 ]
+documentation = "https://gdsfactory.github.io/gdsfactory/README.html"
+repository = "https://github.com/gdsfactory/gdsfactory"
 version = "6.7.1"
 authors = [
     {name = "gdsfactory community", email = "contact@gdsfactory.com"},
@@ -102,6 +104,7 @@ dev = [
     "pytest_regressions",
     "types-PyYAML",
     "xdoctest",
+    "pyproject-flake8",
     ]
 docs = [
     "autodoc_pydantic",
@@ -153,29 +156,29 @@ addopts = '--tb=short'
 python_files = ["gdsfactory/*.py","notebooks/*.ipynb"]
 norecursedirs =["gdsfactory/simulation","extra/*.py","gdsfactory/watch.py"]
 
-# [tool.flake8]
-# max-line-length = 88
-# max-complexity = 57
-# select = ["B","C","E","F","W","T4","B9"]
-# ignore = [ "E501", "E503", "E722", "W503", "W503", "E203", "B950", "B305", "B018", "B902", "B020", "B905"]
-# extend-ignore = "RST303"
+[tool.flake8]
+max-line-length = 88
+max-complexity = 57
+select = ["B","C","E","F","W","T4","B9"]
+ignore = [ "E501", "E503", "E722", "W503", "W503", "E203", "B950", "B305", "B018", "B902", "B020", "B905"]
+extend-ignore = "RST303"
 
-# exclude = [
-#     ".git",
-#     "__pycache__",
-#     "lib",
-#     "docs/source/conf.py",
-#     "build",
-#     "dist",
-#     ".ipynb_checkpoints",
-#     ".tox",
-#     "extra",
-#     "deprecated",
-#     "gdslib",
-#     ".mypy_cache",
-#     "venv",
-#     "devsim"
-#     ]
+exclude = [
+    ".git",
+    "__pycache__",
+    "lib",
+    "docs/source/conf.py",
+    "build",
+    "dist",
+    ".ipynb_checkpoints",
+    ".tox",
+    "extra",
+    "deprecated",
+    "gdslib",
+    ".mypy_cache",
+    "venv",
+    "devsim"
+    ]
 
 [tool.commitizen]
 name = "cz_conventional_commits"
@@ -201,3 +204,9 @@ skip = "gdsfactory/__init__.py"
 
 [tool.setuptools.package-data]
 mypkg = ["*.gds", "*.lym", "*.lyp", "*.lyt", "*.csv", "*.yaml"]
+
+[tool.pydocstyle]
+inherit = false
+match = "(?!test).*\\.py"
+add-ignore = ["D100","D101","D102","D103","D104","D203","D405","D417"]
+convention = "google"
