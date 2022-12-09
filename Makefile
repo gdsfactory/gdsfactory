@@ -4,7 +4,7 @@ help:
 	@echo 'make test-force:       Rebuilds regression test'
 
 full: gdslib
-	pip install -e .[dev,full,tidy3d,sipann,devsim]
+	pip install -e .[docs,dev,full,tidy3d,sipann,devsim]
 
 install: gdslib
 	pip install -e .[dev,full]
