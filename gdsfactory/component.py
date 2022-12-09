@@ -144,33 +144,33 @@ class Component(kf.KCell):
     #     self._references = []
     #     self.ports = {}
 
-    @property
-    def references(self):
-        return self._references
+    # @property
+    # def references(self):
+    #     return self._references
 
-    @property
-    def polygons(self) -> List[Polygon]:
-        return self._cell.polygons
+    # @property
+    # def polygons(self) -> List[Polygon]:
+    #     return self._cell.polygons
 
     @property
     def area(self) -> float:
-        return self._cell.area
+        return self.bbox().area()
 
-    @property
-    def labels(self) -> List[Label]:
-        return self._cell.labels
+    # @property
+    # def labels(self) -> List[Label]:
+    #     return self._cell.labels
 
-    @property
-    def paths(self):
-        return self._cell.paths
+    # @property
+    # def paths(self):
+    #     return self._cell.paths
 
-    @property
-    def name(self) -> str:
-        return self._cell.name
+    # @property
+    # def name(self) -> str:
+    #     return self._cell.name
 
-    @name.setter
-    def name(self, value):
-        self._cell.name = value
+    # @name.setter
+    # def name(self, value):
+    #     self._cell.name = value
 
     def __iter__(self):
         """You can iterate over polygons, paths, labels and references."""
@@ -647,8 +647,11 @@ class Component(kf.KCell):
 
     def __repr__(self) -> str:
         """Return a string representation of the object."""
-        return f"{self.name}: uid {self.cell_index()}, ports {list(self.ports)}, references {self.insts}, {len(self.get_polygons(recursive=False))} polygons"
-        # return f"{self.name}: uid {self.cell_index()}, ports {list(self.ports)}, references {self.insts}"
+        refs = [
+            f"parent: {inst.cell.name}, ports; {inst.ports}, transformation: {inst.trans}"
+            for inst in self.insts
+        ]
+        return f"{self.name}: uid {self.cell_index()}, ports {list(self.ports)}, references {refs}, {len(self.get_polygons(recursive=False))} polygons"
 
     def pprint(self) -> None:
         """Prints component info."""
@@ -712,12 +715,25 @@ class Component(kf.KCell):
         layer = get_layer(layer)
 
         if port:
-            if not isinstance(port, Port):
-                raise ValueError(f"add_port() needs a Port, got {type(port)}")
-            p = port.copy()
-            if name is not None:
-                p.name = name
-            p.parent = self
+            if isinstance(port, kf.Port):
+                kf.KCell.add_port(self, port)
+
+            elif isinstance(port, Port):
+                p = port
+                kf.KCell.create_port(
+                    self,
+                    name=p.name,
+                    layer=self.layer(*p.layer),
+                    port_type=p.port_type,
+                    width=p.width,
+                    angle=int(p.orientation // 90),
+                    position=p.center,
+                )
+
+            else:
+                raise ValueError(
+                    f"add_port() needs a Port or kf.Port, got {type(port)}"
+                )
 
         elif isinstance(name, Port):
             p = name.copy()
@@ -729,23 +745,30 @@ class Component(kf.KCell):
             if center is None:
                 raise ValueError("Port needs center parameter (x, y) um.")
 
-            p = Port(
-                name=name,
-                center=center,
-                width=width,
-                orientation=orientation,
-                parent=self,
-                layer=layer,
-                port_type=port_type,
-                cross_section=cross_section,
-            )
-        if name is not None:
-            p.name = name
-        if p.name in self.ports:
-            raise ValueError(f"add_port() Port name {p.name!r} exists in {self.name!r}")
+            # p = Port(
+            #     name=name,
+            #     center=center,
+            #     width=width,
+            #     orientation=orientation,
+            #     # parent=self,
+            #     layer=layer,
+            #     port_type=port_type,
+            #     # cross_section=cross_section,
+            # )
+        # if name is not None:
+        #     p.name = name
+        if name in self.ports:
+            raise ValueError(f"add_port() Port name {name!r} exists in {self.name!r}")
 
-        self.ports[p.name] = p
-        return p
+        kf.KCell.create_port(
+            self,
+            name=name,
+            position=center,
+            width=width,
+            angle=orientation,
+            layer=layer,
+            port_type=port_type,
+        )
 
     def add_ports(
         self, ports: Union[List[Port], Dict[str, Port]], prefix: str = ""
@@ -1073,36 +1096,39 @@ class Component(kf.KCell):
         """
         if not isinstance(component, Component):
             raise TypeError(f"type = {type(Component)} needs to be a Component.")
-        ref = ComponentReference(component, **kwargs)
-        self._add(ref)
-        self._register_reference(reference=ref, alias=alias)
-        return ref
+        # ref = ComponentReference(component, **kwargs)
+        # self._add(ref)
+        # self._register_reference(reference=ref, alias=alias)
+        if alias:
+            raise NotImplementedError("not yet")
 
-    def _register_reference(
-        self, reference: ComponentReference, alias: Optional[str] = None
-    ) -> None:
-        component = reference.parent
-        reference.owner = self
+        return self.create_inst(component)
 
-        if alias is None:
-            if reference.name is not None:
-                alias = reference.name
-            else:
-                prefix = (
-                    component.settings.function_name
-                    if hasattr(component, "settings")
-                    and hasattr(component.settings, "function_name")
-                    else component.name
-                )
-                self._reference_names_counter.update({prefix: 1})
-                alias = f"{prefix}_{self._reference_names_counter[prefix]}"
+    # def _register_reference(
+    #     self, reference: ComponentReference, alias: Optional[str] = None
+    # ) -> None:
+    #     component = reference.parent
+    #     reference.owner = self
 
-                while alias in self._named_references:
-                    self._reference_names_counter.update({prefix: 1})
-                    alias = f"{prefix}_{self._reference_names_counter[prefix]}"
+    #     if alias is None:
+    #         if reference.name is not None:
+    #             alias = reference.name
+    #         else:
+    #             prefix = (
+    #                 component.settings.function_name
+    #                 if hasattr(component, "settings")
+    #                 and hasattr(component.settings, "function_name")
+    #                 else component.name
+    #             )
+    #             self._reference_names_counter.update({prefix: 1})
+    #             alias = f"{prefix}_{self._reference_names_counter[prefix]}"
 
-        reference.name = alias
-        self._named_references[alias] = reference
+    #             while alias in self._named_references:
+    #                 self._reference_names_counter.update({prefix: 1})
+    #                 alias = f"{prefix}_{self._reference_names_counter[prefix]}"
+
+    #     reference.name = alias
+    #     self._named_references[alias] = reference
 
     @property
     def layers(self) -> Set[Tuple[int, int]]:
@@ -1352,7 +1378,7 @@ class Component(kf.KCell):
 
     def write_gds_with_metadata(self, *args, **kwargs) -> Path:
         """Write component in GDS and metadata (component settings) in YAML."""
-        gdspath = self.write_gds(*args, **kwargs)
+        gdspath = self.write(*args, **kwargs)
         metadata = gdspath.with_suffix(".yml")
         metadata.write_text(self.to_yaml(with_cells=True, with_ports=True))
         logger.info(f"Write YAML metadata to {str(metadata)!r}")
@@ -1886,21 +1912,20 @@ def test_import_gds_settings():
 
 
 if __name__ == "__main__":
-    # c = Component()
-    # c.show()
+    # c = Component("parent")
+    # c2 = Component("child")
+    # length = 10
+    # width = 0.5
+    # layer = (1, 0)
+    # c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
+    # c.add_port(name="o1", center=(0, 0), width=0.5, orientation=180, layer=(1, 0))
+    # c.add_port(name="o1", center=(0, 0), width=0.5, orientation=180, layer=(1, 0))
 
-    c = Component("parent")
-    c2 = Component("child")
-    length = 10
-    width = 0.5
-    layer = (1, 0)
-    c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
-
-    print(c2.get_polygons())
-    print(c2.get_polygons((1, 0)))
-    print(c2.get_polygons(recursive=False))
-    print(c2.get_polygons((1, 0), recursive=False))
-    print(c2)
+    # print(c2.get_polygons())
+    # print(c2.get_polygons((1, 0)))
+    # print(c2.get_polygons(recursive=False))
+    # print(c2.get_polygons((1, 0), recursive=False))
+    # print(c2)
     # c2.show(show_ports=True)
 
     # kf.show('a.gds')
@@ -1909,6 +1934,12 @@ if __name__ == "__main__":
     # width = 1
     # c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
 
-    ref = c << c2
+    # ref = c << c2
     # ref.y = 10
+
+    # c2.show()
+
+    import gdsfactory as gf
+
+    c = gf.c.straight()
     c.show()

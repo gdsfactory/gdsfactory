@@ -884,10 +884,10 @@ def extrude(
                     width=port_width,
                     orientation=port_orientation,
                     center=center,
-                    cross_section=x.cross_section1
-                    if hasattr(x, "cross_section1")
-                    else x,
-                    shear_angle=shear_angle_start,
+                    # cross_section=x.cross_section1
+                    # if hasattr(x, "cross_section1")
+                    # else x,
+                    # shear_angle=shear_angle_start,
                 )
             )
             port1.info["face"] = face
@@ -912,10 +912,10 @@ def extrude(
                     width=port_width,
                     center=center,
                     orientation=port_orientation,
-                    cross_section=x.cross_section2
-                    if hasattr(x, "cross_section2")
-                    else x,
-                    shear_angle=shear_angle_end,
+                    # cross_section=x.cross_section2
+                    # if hasattr(x, "cross_section2")
+                    # else x,
+                    # shear_angle=shear_angle_end,
                 )
             )
             port2.info["face"] = face
