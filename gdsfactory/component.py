@@ -144,9 +144,9 @@ class Component(kf.KCell):
     #     self._references = []
     #     self.ports = {}
 
-    # @property
-    # def references(self):
-    #     return self._references
+    @property
+    def references(self):
+        return self.insts
 
     # @property
     # def polygons(self) -> List[Polygon]:
@@ -336,9 +336,8 @@ class Component(kf.KCell):
         self,
         text: str = "hello",
         position: Tuple[float, float] = (0.0, 0.0),
-        magnification: float = 1.0,
+        height: float = 1.0,
         rotation: float = 0,
-        anchor: str = "o",
         layer="TEXT",
         x_reflection=False,
     ) -> Label:
@@ -347,10 +346,8 @@ class Component(kf.KCell):
         Args:
             text: Label text.
             position: x-, y-coordinates of the Label location.
-            magnification: Magnification factor for the Label text.
+            height: height the Label text.
             rotation: Angle rotation of the Label text.
-            anchor: {'n', 'e', 's', 'w', 'o', 'ne', 'nw', ...}
-                Position of the anchor relative to the text.
             layer: Specific layer(s) to put Label on.
             x_reflection: True reflects across the horizontal axis before rotation.
         """
@@ -362,17 +359,13 @@ class Component(kf.KCell):
 
         if type(text) is not str:
             text = text
-        label = Label(
-            text=text,
-            origin=position,
-            anchor=anchor,
-            magnification=magnification,
-            rotation=rotation,
-            layer=gds_layer,
-            texttype=gds_datatype,
-            x_reflection=x_reflection,
-        )
-        self.add(label)
+
+        x, y = position
+        trans = kdb.DTrans(int(rotation / 90), x_reflection, x, y)
+        label = kdb.DText(text, trans)
+        label.height = height
+        layer = self.library.layer(*layer)
+        self.shapes(layer).insert(label)
         return label
 
     @property
@@ -385,6 +378,11 @@ class Component(kf.KCell):
         if bbox is None:
             bbox = ((0, 0), (0, 0))
         return np.round(bbox, 3)
+
+    @property
+    def ports(self):
+        """Returns ports dict."""
+        return kf.KCell.ports.get_all(self)
 
     @property
     def ports_layer(self) -> Dict[str, str]:
@@ -692,7 +690,7 @@ class Component(kf.KCell):
         layer: LayerSpec = None,
         port_type: str = "optical",
         cross_section: Optional[CrossSection] = None,
-    ) -> Port:
+    ) -> None:
         """Add port to component.
 
         You can copy an existing port like add_port(port = existing_port) or
@@ -716,11 +714,11 @@ class Component(kf.KCell):
 
         if port:
             if isinstance(port, kf.Port):
-                kf.KCell.add_port(self, port)
+                return kf.KCell.add_port(self, port)
 
             elif isinstance(port, Port):
                 p = port
-                kf.KCell.create_port(
+                return kf.KCell.create_port(
                     self,
                     name=p.name,
                     layer=self.layer(*p.layer),
@@ -781,7 +779,6 @@ class Component(kf.KCell):
             ports: list or dict of ports.
             prefix: to prepend to each port name.
         """
-        ports = ports if isinstance(ports, list) else ports.values()
         for port in list(ports):
             name = f"{prefix}{port.name}" if prefix else port.name
             self.add_port(name=name, port=port)
@@ -793,32 +790,41 @@ class Component(kf.KCell):
     def remove_layers(
         self,
         layers: List[LayerSpec],
-        include_labels: bool = True,
-        invert_selection: bool = False,
         recursive: bool = True,
     ) -> Component:
         """Remove a list of layers and returns the same Component.
 
         Args:
             layers: list of layers to remove.
-            include_labels: remove labels on those layers.
-            invert_selection: removes all layers except layers specified.
             recursive: operate on the cells included in this cell.
         """
         from gdsfactory import get_layer
 
-        component = self.flatten() if recursive and self.references else self
-        layers = [get_layer(layer) for layer in layers]
-        should_remove = not invert_selection
-        component._cell.filter(
-            spec=layers,
-            remove=should_remove,
-            polygons=True,
-            paths=True,
-            labels=include_labels,
-        )
+        for layer in layers:
+            layer = get_layer(layer)
+            self.shapes(self.library.layer(layer[0], layer[1])).clear()
 
-        return component
+        if recursive:
+            for cell in self.child_cells():
+                cell.remove_layers(layers, recursive=False)
+
+        return self
+
+    @property
+    def xmin(self):
+        return self.bbox().left
+
+    @property
+    def xmax(self):
+        return self.bbox().right
+
+    @property
+    def ymin(self):
+        return self.bbox().bottom
+
+    @property
+    def ymax(self):
+        return self.bbox().top
 
     def extract(
         self,
@@ -1143,8 +1149,7 @@ class Component(kf.KCell):
             import gdsfactory as gf
             gf.components.straight().get_layers() == {(1, 0), (111, 0)}
         """
-        polygons = self._cell.get_polygons(depth=None)
-        return {(polygon.layer, polygon.datatype) for polygon in polygons}
+        return {(info.layer, info.datatype) for info in self.library.layer_infos()}
 
     def _repr_html_(self):
         """Show geometry in KLayout and in matplotlib for Jupyter Notebooks."""
@@ -1573,14 +1578,7 @@ class Component(kf.KCell):
             raise ValueError(
                 "The reference you asked to absorb does not exist in this Component."
             )
-        ref_polygons = reference.get_polygons(
-            by_spec=False, include_paths=False, as_array=False
-        )
-        self._add_polygons(*ref_polygons)
-
-        self.add(reference.get_labels())
-        self.add(reference.get_paths())
-        self.remove(reference)
+        reference.flatten()
         return self
 
     def remove(self, items):
@@ -1941,5 +1939,5 @@ if __name__ == "__main__":
 
     import gdsfactory as gf
 
-    c = gf.c.straight()
+    c = gf.c.mzi()
     c.show()

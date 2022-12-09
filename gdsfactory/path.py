@@ -876,7 +876,7 @@ def extrude(
                 if center[0] != center_snap[0] or center[1] != center_snap[1]:
                     warnings.warn(f"Port center {center} has off-grid ports")
 
-            port1 = c.add_port(
+            c.add_port(
                 port=Port(
                     name=port_names[0],
                     layer=get_layer(layers[0]),
@@ -890,7 +890,7 @@ def extrude(
                     # shear_angle=shear_angle_start,
                 )
             )
-            port1.info["face"] = face
+            # port1.info["face"] = face
         if port_names[1] is not None:
             port_width = width if np.isscalar(width) else width[-1]
             port_orientation = (p.end_angle) % 360
@@ -904,7 +904,7 @@ def extrude(
 
                 if center[0] != center_snap[0] or center[1] != center_snap[1]:
                     warnings.warn(f"Port center {center} has off-grid ports")
-            port2 = c.add_port(
+            c.add_port(
                 port=Port(
                     name=port_names[1],
                     layer=get_layer(layers[1]),
@@ -918,7 +918,7 @@ def extrude(
                     # shear_angle=shear_angle_end,
                 )
             )
-            port2.info["face"] = face
+            # port2.info["face"] = face
 
     c.info["length"] = float(np.round(p.length(), 3))
 
@@ -1393,9 +1393,6 @@ def _demo_variable_offset() -> None:
 if __name__ == "__main__":
     import numpy as np
 
-    """
-    init
-    """
     import gdsfactory as gf
 
     points = np.array([(20, 10), (40, 10), (20, 40), (50, 40), (50, 20), (70, 20)])

@@ -13,7 +13,7 @@ import json
 from functools import partial
 from typing import TYPE_CHECKING, Callable, List, Optional, Tuple, Union
 
-import gdstk
+import klayout.db as kdb
 import numpy as np
 from numpy import ndarray
 from omegaconf import OmegaConf
@@ -330,20 +330,20 @@ def add_pin_path(
     p0 = p.center + _rotate(d0, rot_mat)
     p1 = p.center + _rotate(d1, rot_mat)
 
-    points = [p0, p1]
+    points = [kdb.DPoint(*point) for point in [p0, p1]]
     layer = get_layer(layer)
-    path = gdstk.FlexPath(
+
+    path = kdb.DPath(
         points,
-        width=p.width,
-        layer=layer[0],
-        datatype=layer[1],
-        simple_path=True,
-        tolerance=1e-3,
+        p.width,
     )
-    component.add(path)
+    layer = component.library.layer(*layer)
+    component.shapes(layer).insert(path)
 
     component.add_label(
-        text=str(p.name), position=p.center, layer=layer_label, anchor="sw"
+        text=str(p.name),
+        position=p.center,
+        layer=layer_label,
     )
 
 

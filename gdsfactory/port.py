@@ -34,6 +34,7 @@ import typing
 from functools import partial
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
+import kfactory as kf
 import numpy as np
 from numpy import ndarray
 from omegaconf import OmegaConf
@@ -516,6 +517,9 @@ def select_ports(
     # Make it accept Component or ComponentReference
     if isinstance(ports, (Component, ComponentReference)):
         ports = ports.ports
+
+    if isinstance(ports, (kf.kcell.InstancePorts, kf.kcell.Ports)):
+        ports = ports.get_all()
 
     if layer:
         ports = {p_name: p for p_name, p in ports.items() if p.layer == layer}
