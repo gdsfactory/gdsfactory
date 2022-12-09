@@ -29,10 +29,10 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: "pip"
+          cache-dependency-path: pyproject.toml
       - name: Install dependencies
         run: |
-          pip install .
-          pip install flake8 pytest pytest_regressions
+          pip install .[dev]
           make install gdslib
           gf tool install
       - name: Lint with flake8
@@ -83,7 +83,6 @@ jobs:
           python -m pip install --upgrade pip
           make gdslib plugins
           make install
-          pip install -r requirements_full.txt
       - name: Test with pytest
         env:
           TIDY3D_USER: ${{ secrets.TIDY3D_EMAIL }}
