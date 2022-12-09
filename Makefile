@@ -51,10 +51,6 @@ meep:
 sax:
 	pip install jax jaxlib
 
-update:
-	pur
-	pur -r requirements_dev.txt
-
 publish:
 	anaconda upload environment.yml
 
