@@ -25,7 +25,6 @@ from gdsfactory.component_layout import (
     _align,
     _distribute,
     _parse_layer,
-    get_polygons,
 )
 from gdsfactory.component_reference import ComponentReference, Coordinate, SizeInfo
 from gdsfactory.config import CONF, logger
@@ -180,7 +179,7 @@ class Component(kf.KCell):
     def get_polygons(
         self,
         by_spec: Union[bool, Tuple[int, int]] = False,
-        depth: Optional[int] = None,
+        recursive: bool = True,
         include_paths: bool = True,
         as_array: bool = True,
     ) -> Union[List[Polygon], Dict[Tuple[int, int], List[Polygon]]]:
@@ -192,7 +191,7 @@ class Component(kf.KCell):
                 polygons of each individual pair (layer, datatype), which
                 are used as keys.  If set to a tuple of (layer, datatype),
                 only polygons with that specification are returned.
-            depth: integer or None
+            recursive: integer or None
                 If not None, defines from how many reference levels to
                 retrieve polygons.  References below this level will result
                 in a bounding box.  If `by_spec` is True the key will be the
@@ -210,13 +209,39 @@ class Component(kf.KCell):
             Instances of `FlexPath` and `RobustPath` are also included in
             the result by computing their polygonal boundary.
         """
-        return get_polygons(
-            instance=self,
-            by_spec=by_spec,
-            depth=depth,
-            include_paths=include_paths,
-            as_array=as_array,
-        )
+        if recursive:
+            if by_spec:
+                layer = self.library.layer(*by_spec)
+                return list(kdb.Region(self.begin_shapes_rec(layer)).each())
+
+            else:
+                return {
+                    (layer_info.layer, layer_info.datatype): list(
+                        kdb.Region(self.begin_shapes_rec(layer_index)).each()
+                    )
+                    for layer_index, layer_info in zip(
+                        self.library.layer_indexes(), self.library.layer_infos()
+                    )
+                }
+        else:
+            if by_spec:
+
+                return [
+                    p.polygon
+                    for p in self.shapes(self.library.layer(*by_spec)).each(
+                        kdb.Shapes.SRegions
+                    )
+                ]
+
+            else:
+                return {
+                    (info.layer, info.datatype): [
+                        p.polygon for p in self.shapes(index).each(kdb.Shapes.SRegions)
+                    ]
+                    for info, index in zip(
+                        self.library.layer_infos(), self.library.layer_indexes()
+                    )
+                }
 
     def get_dependencies(self, recursive: bool = False) -> List[Component]:
         """Return a set of the cells included in this cell as references.
@@ -251,10 +276,6 @@ class Component(kf.KCell):
             raise ValueError(f"{key!r} not in {ports}")
 
         return self.ports[key]
-
-    def __lshift__(self, element):
-        """Convenience operator equivalent to add_ref()."""
-        return self.add_ref(element)
 
     def unlock(self) -> None:
         """Only do this if you know what you are doing."""
@@ -626,7 +647,8 @@ class Component(kf.KCell):
 
     def __repr__(self) -> str:
         """Return a string representation of the object."""
-        return f"{self.name}: uid {self.uid}, ports {list(self.ports.keys())}, references {list(self.named_references.keys())}, {len(self.polygons)} polygons"
+        return f"{self.name}: uid {self.cell_index()}, ports {list(self.ports)}, references {self.insts}, {len(self.get_polygons(recursive=False))} polygons"
+        # return f"{self.name}: uid {self.cell_index()}, ports {list(self.ports)}, references {self.insts}"
 
     def pprint(self) -> None:
         """Prints component info."""
@@ -1866,15 +1888,20 @@ def test_import_gds_settings():
 if __name__ == "__main__":
     # c = Component()
     # c.show()
-    # c = Component("parent")
+
+    c = Component("parent")
     c2 = Component("child")
     length = 10
     width = 0.5
     layer = (1, 0)
     c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
 
-    # breakpoint()
-    c2.show(show_ports=True)
+    print(c2.get_polygons())
+    print(c2.get_polygons((1, 0)))
+    print(c2.get_polygons(recursive=False))
+    print(c2.get_polygons((1, 0), recursive=False))
+    print(c2)
+    # c2.show(show_ports=True)
 
     # kf.show('a.gds')
     # c2.write('a.gds')
@@ -1882,6 +1909,6 @@ if __name__ == "__main__":
     # width = 1
     # c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
 
-    # ref = c << c2
+    ref = c << c2
     # ref.y = 10
-    # c.show()
+    c.show()
