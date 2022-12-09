@@ -140,7 +140,7 @@ mypy:
 	mypy gdsfactory --ignore-missing-imports
 
 build:
-	python setup.py sdist bdist_wheel
+	python sdist bdist_wheel
 
 upload-devpi:
 	pip install devpi-client wheel
@@ -184,7 +184,5 @@ git-rm-merged:
 link:
 	lygadgets_link gdsfactory/klayout
 
-spell:
-	codespell -i 3 -w -L TE,TE/TM,te,ba,FPR,fpr_spacing
 
 .PHONY: gdsdiff build conda
