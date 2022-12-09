@@ -4,17 +4,10 @@ help:
 	@echo 'make test-force:       Rebuilds regression test'
 
 full: gdslib
-	pip install -r requirements_dev.txt
-	pip install -r requirements_full.txt
-	pip install -e .
-	pip install -r requirements_tidy3d.txt
-	pip install -r requirements_sipann.txt
-	pip install -r requirements_devsim.txt
+	pip install -e .[docs,dev,full,tidy3d,sipann,devsim]
 
 install: gdslib
-	pip install -r requirements_dev.txt
-	pip install -r requirements_full.txt
-	pip install -e .
+	pip install -e .[dev,full]
 	pre-commit install
 	gf tool install
 
@@ -34,18 +27,16 @@ major:
 	python docs/write_components_doc.py
 
 plugins:
-	pip install -e .[tidy3d]
+	pip install -e .[tidy3d,sipann]
 	pip install jax jaxlib
 	mamba install pymeep=*=mpi_mpich_* -y
-	pip install -r requirements_sipann.txt
 	pip install --upgrade "protobuf<=3.20.1"
 
 plugins-debian:
 	sudo apt install libgl1-mesa-glx -y
-	pip install -e .[tidy3d]
+	pip install -e .[tidy3d,sipann]
 	pip install jax jaxlib
 	mamba install pymeep=*=mpi_mpich_* -y
-	pip install -r requirements_sipann.txt
 	pip install --upgrade "protobuf<=3.20.1"
 
 thermal:
@@ -59,10 +50,6 @@ meep:
 
 sax:
 	pip install jax jaxlib
-
-update:
-	pur
-	pur -r requirements_dev.txt
 
 publish:
 	anaconda upload environment.yml
@@ -140,7 +127,8 @@ mypy:
 	mypy gdsfactory --ignore-missing-imports
 
 build:
-	python setup.py sdist bdist_wheel
+	pip install build
+	python -m build
 
 upload-devpi:
 	pip install devpi-client wheel
@@ -184,7 +172,5 @@ git-rm-merged:
 link:
 	lygadgets_link gdsfactory/klayout
 
-spell:
-	codespell -i 3 -w -L TE,TE/TM,te,ba,FPR,fpr_spacing
 
 .PHONY: gdsdiff build conda
