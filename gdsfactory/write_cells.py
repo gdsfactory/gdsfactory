@@ -12,6 +12,7 @@ import gdstk
 from gdsfactory.component import _timestamp2019
 from gdsfactory.config import PATH, logger
 from gdsfactory.name import clean_name
+from gdsfactory.read.import_gds import import_gds
 from gdsfactory.types import PathType
 
 script_prefix = """
@@ -117,12 +118,13 @@ def write_cells_recursively(
     gdspaths = {}
 
     for c in cell.dependencies(True):
-        gdspath = f"{pathlib.Path(dirpath)/c.name}.gds"
+        gdspath = dirpath / f"{c.name}.gds"
 
         lib = gdstk.Library(unit=unit, precision=precision)
         lib.add(cell)
         lib.add(*cell.dependencies(True))
         lib.write_gds(gdspath)
+        logger.info(f"Write {cell.name!r} to {gdspath}")
 
         gdspaths[c.name] = gdspath
 
@@ -156,27 +158,41 @@ def write_cells(
     """
     cell = gdstk.read_gds(gdspath)
     top_level_cells = cell.top_level()
+    top_cellnames = [c.name for c in top_level_cells]
 
     dirpath = dirpath or pathlib.Path.cwd()
-    dirpath = pathlib.Path(dirpath)
+    dirpath = pathlib.Path(dirpath).absolute()
     dirpath.mkdir(exist_ok=True, parents=True)
 
     gdspaths = {}
+    components = {}
 
-    for cell in top_level_cells:
+    for cellname in top_cellnames:
+        c = import_gds(gdspath=gdspath, cellname=cellname)
         if flatten:
-            cell = cell.flatten()
-        gdspath = f"{pathlib.Path(dirpath)/cell.name}.gds"
+            c = c.flatten()
+        components[cellname] = c
 
-        lib = gdstk.Library(unit=unit, precision=precision)
-        lib.add(cell)
-        lib.add(*cell.dependencies(True))
-        lib.write_gds(gdspath)
+    for cellname in top_cellnames:
+        gdspath = dirpath / f"{cellname}.gds"
+        c.write_gds(gdspath)
+        gdspaths[cellname] = gdspath
 
-        logger.info(f"Write {cell.name} to {gdspath}")
-        gdspaths[cell.name] = gdspath
+    if recursively:
+        for cell in top_level_cells:
+            if flatten:
+                cell = cell.flatten()
 
-        if recursively:
+            gdspath = dirpath / f"{cell.name}.gds"
+
+            lib = gdstk.Library(unit=unit, precision=precision)
+            lib.add(cell)
+            lib.add(*cell.dependencies(True))
+            lib.write_gds(gdspath)
+
+            logger.info(f"Write {cell.name!r} to {gdspath}")
+            gdspaths[cell.name] = gdspath
+
             gdspaths2 = write_cells_recursively(
                 cell=cell,
                 unit=unit,
@@ -185,32 +201,46 @@ def write_cells(
                 dirpath=dirpath,
             )
             gdspaths.update(gdspaths2)
-        return gdspaths
+    return gdspaths
 
 
-def test_write_cells():
+def test_write_cells_recursively():
     gdspath = PATH.gdsdir / "mzi2x2.gds"
-    gdspaths = write_cells(gdspath=gdspath, dirpath="extra/gds")
+    gdspaths = write_cells(gdspath=gdspath, dirpath="extra/gds", recursively=True)
     assert len(gdspaths) == 10, len(gdspaths)
 
 
+def test_write_cells():
+    gdspath = PATH.gdsdir / "alphabet_3top_cells.gds"
+    gdspaths = write_cells(gdspath=gdspath, dirpath="extra/gds", recursively=False)
+    assert len(gdspaths) == 3, len(gdspaths)
+
+
 if __name__ == "__main__":
-    test_write_cells()
-    import gdsfactory as gf
+    test_write_cells_recursively()
+    # gdspath = PATH.gdsdir / "alphabet_3top_cells.gds"
+    # gdspaths = write_cells(gdspath=gdspath, dirpath="extra/gds", recursively=False)
+    # assert len(gdspaths) == 3, len(gdspaths)
+
+    # test_write_cells()
+    # import gdsfactory as gf
+
+    # gdspath = PATH.gdsdir / "mzi2x2.gds"
+    # gdspaths = write_cells(gdspath=gdspath, dirpath="extra/gds", recursively=False)
+    # assert len(gdspaths) == 10, len(gdspaths)
 
     # gdspath = PATH.gdsdir / "mzi2x2.gds"
     # gf.show(gdspath)
     # gdspaths = write_cells(gdspath=gdspath, dirpath="extra/gds")
     # print(len(gdspaths))
 
-    sample_pdk_cells = gf.grid(
-        [
-            gf.components.straight,
-            gf.components.bend_euler,
-            gf.components.grating_coupler_elliptical,
-        ]
-    )
-    sample_pdk_cells.write_gds("extra/pdk.gds")
-    gf.write_cells.write_cells(gdspath="extra/pdk.gds", dirpath="extra/gds")
-
-    print(gf.write_cells.get_import_gds_script("extra/gds", module="sky130.components"))
+    # sample_pdk_cells = gf.grid(
+    #     [
+    #         gf.components.straight,
+    #         gf.components.bend_euler,
+    #         gf.components.grating_coupler_elliptical,
+    #     ]
+    # )
+    # sample_pdk_cells.write_gds("extra/pdk.gds")
+    # gf.write_cells.write_cells(gdspath="extra/pdk.gds", dirpath="extra/gds")
+    # print(gf.write_cells.get_import_gds_script("extra/gds", module="sky130.components"))
