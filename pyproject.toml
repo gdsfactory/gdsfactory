@@ -21,7 +21,6 @@ authors = [
 keywords = ["eda", "photonics", "python"]
 license = {text = "MIT"}
 dependencies = [
-	"klayout >= 0.27.11",
     "click",
     "flatdict",
     "gdstk",
@@ -50,6 +49,7 @@ requires-python = ">=3.7"
 
 [project.optional-dependencies]
 full = [
+	"klayout >= 0.27.11",
     "autograd",
     "bokeh",
     "flayout",
