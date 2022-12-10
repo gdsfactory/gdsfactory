@@ -67,8 +67,7 @@ def {cell}()->gf.Component:
 
 @gf.cell
 def {cell}()->gf.Component:
-    '''Returns {cell} fixed cell.
-    '''
+    '''Returns {cell} fixed cell.'''
     return import_gds({str(gdspath)!r})
 
 """
@@ -137,7 +136,7 @@ def write_cells(
     unit: float = 1e-6,
     precision: float = 1e-9,
     timestamp: Optional[datetime.datetime] = _timestamp2019,
-    recursively: bool = True,
+    recursively: bool = False,
     flatten: bool = False,
 ) -> Dict[str, Path]:
     """Writes cells into separate GDS files.
@@ -173,10 +172,10 @@ def write_cells(
             c = c.flatten()
         components[cellname] = c
 
-    for cellname in top_cellnames:
-        gdspath = dirpath / f"{cellname}.gds"
-        c.write_gds(gdspath)
-        gdspaths[cellname] = gdspath
+    for component_name, component in components.items():
+        gdspath = dirpath / f"{component_name}.gds"
+        component.write_gds(gdspath)
+        gdspaths[component_name] = gdspath
 
     if recursively:
         for cell in top_level_cells:
