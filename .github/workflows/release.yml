@@ -50,7 +50,7 @@ jobs:
           echo $CONDA/bin >> $GITHUB_PATH
       - name: constructor build
         run: |
-          mamba install constructor -y
+          conda install constructor -y
           constructor .
           pwd
           ls
