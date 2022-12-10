@@ -193,15 +193,14 @@ def write_cells(
             logger.info(f"Write {cell.name!r} to {gdspath}")
             gdspaths[cell.name] = gdspath
 
-            if recursively:
-                gdspaths2 = write_cells_recursively(
-                    cell=cell,
-                    unit=unit,
-                    precision=precision,
-                    timestamp=timestamp,
-                    dirpath=dirpath,
-                )
-                gdspaths.update(gdspaths2)
+            gdspaths2 = write_cells_recursively(
+                cell=cell,
+                unit=unit,
+                precision=precision,
+                timestamp=timestamp,
+                dirpath=dirpath,
+            )
+            gdspaths.update(gdspaths2)
     return gdspaths
 
 
