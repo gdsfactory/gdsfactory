@@ -13,6 +13,7 @@ from gdsfactory.simulation.gmsh.parse_gds import cleanup_component, to_polygons
 from gdsfactory.simulation.gmsh.parse_layerstack import (
     list_unique_layerstack_z,
     order_layerstack,
+    process_complex_layers,
 )
 from gdsfactory.tech import LayerStack
 from gdsfactory.types import ComponentOrReference
@@ -147,6 +148,9 @@ def uz_xsection_mesh(
     # Fuse and cleanup polygons of same layer in case user overlapped them
     layer_polygons_dict = cleanup_component(component, layerstack)
 
+    # Process complex layers
+    layer_polygons_dict, layerstack = process_complex_layers(layer_polygons_dict, layerstack)
+
     # Find coordinates
     bounds_dict = get_uz_bounds_layers(layer_polygons_dict, xsection_bounds, layerstack)
 
@@ -203,8 +207,14 @@ if __name__ == "__main__":
 
     from gdsfactory.tech import get_layer_stack_generic
 
-    waveguide = gf.components.straight_pin(length=10, taper=None)
-    waveguide.show()
+    c = gf.component.Component()
+
+    waveguide = c << gf.get_component(gf.components.straight_pin(length=10, taper=None))
+    undercut = c << gf.get_component(gf.components.rectangle(size = (5.0, 5.0),
+                                                                layer = "UNDERCUT",
+                                                                centered = True,)
+                                                                ).move(destination=[4,0])
+    c.show()
 
     filtered_layerstack = LayerStack(
         layers={
@@ -213,8 +223,9 @@ if __name__ == "__main__":
                 "slab90",
                 "core",
                 "via_contact",
-                # "undercut",
+                "undercut",
                 "box",
+                "substrate",
                 # "metal2",
             )  # "slab90", "via_contact")#"via_contact") # "slab90", "core"
         }
@@ -226,11 +237,11 @@ if __name__ == "__main__":
     resolutions["via_contact"] = {"resolution": 0.1, "distance": 1}
 
     geometry = uz_xsection_mesh(
-        waveguide,
+        c,
         [(4, -15), (4, 15)],
         filtered_layerstack,
         resolutions=resolutions,
-        background_tag="Oxide",
+        # background_tag="Oxide",
         filename="mesh.msh",
     )
 
