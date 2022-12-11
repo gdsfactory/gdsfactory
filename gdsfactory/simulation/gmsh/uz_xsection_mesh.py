@@ -13,7 +13,9 @@ from gdsfactory.simulation.gmsh.parse_gds import cleanup_component, to_polygons
 from gdsfactory.simulation.gmsh.parse_layerstack import (
     list_unique_layerstack_z,
     order_layerstack,
-    process_complex_layers,
+)
+from gdsfactory.simulation.gmsh.process_component import (
+    process_buffers,
 )
 from gdsfactory.tech import LayerStack
 from gdsfactory.types import ComponentOrReference
@@ -94,19 +96,36 @@ def get_uz_bounds_layers(
             height = layer_dict[layername]["thickness"]
             zmin = layer_dict[layername]["zmin"]
             sidewall_angle = layer_dict[layername]["sidewall_angle"]
+            # buffer_profile = layer_dict[layername]["buffer_profile"]
 
             # Get bounding box
             umin = np.min(inplane_bounds)
             umax = np.max(inplane_bounds)
             zmax = zmin + height
 
+            # if buffer_profile is None: 
+
             points = [
                 [umin, zmin],
-                [umin + height * (np.tan(np.radians(sidewall_angle))), zmax],
-                [umax - height * (np.tan(np.radians(sidewall_angle))), zmax],
+                [umin, zmax],
+                [umax, zmax],
                 [umax, zmin],
             ]
             outplane_polygons_list.append(Polygon(points))
+
+            # else:
+
+            #     points = [[umin, zmin], [umax, zmin]]
+
+            #     for z_fraction, w_buffer in zip(buffer_profile[0], buffer_profile[1]):
+
+            #             u = umax - w_buffer
+            #             z = zmin + height*z_fraction
+
+            #             points.append([u,z])
+
+
+            #         points.append()
 
         outplane_bounds_dict[layername] = outplane_polygons_list
 
@@ -148,8 +167,8 @@ def uz_xsection_mesh(
     # Fuse and cleanup polygons of same layer in case user overlapped them
     layer_polygons_dict = cleanup_component(component, layerstack)
 
-    # Process complex layers
-    layer_polygons_dict, layerstack = process_complex_layers(layer_polygons_dict, layerstack)
+    # GDS polygons to simulation polygons
+    layer_polygons_dict, layerstack = process_buffers(layer_polygons_dict, layerstack)
 
     # Find coordinates
     bounds_dict = get_uz_bounds_layers(layer_polygons_dict, xsection_bounds, layerstack)
@@ -226,7 +245,8 @@ if __name__ == "__main__":
                 "undercut",
                 "box",
                 "substrate",
-                # "metal2",
+                "clad",
+                "metal1",
             )  # "slab90", "via_contact")#"via_contact") # "slab90", "core"
         }
     )
