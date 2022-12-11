@@ -213,6 +213,8 @@ if __name__ == "__main__":
                 "slab90",
                 "core",
                 "via_contact",
+                # "undercut",
+                "box",
                 # "metal2",
             )  # "slab90", "via_contact")#"via_contact") # "slab90", "core"
         }
