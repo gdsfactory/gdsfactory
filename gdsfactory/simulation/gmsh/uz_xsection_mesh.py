@@ -87,7 +87,7 @@ def get_uz_bounds_layers(
     """
     # Get in-plane cross-sections
     inplane_bounds_dict = get_u_bounds_layers(layer_polygons_dict, xsection_bounds)
-    
+
     outplane_bounds_dict = {}
 
     layer_dict = layerstack.to_dict()
@@ -168,11 +168,15 @@ def uz_xsection_mesh(
             )
         }
     )
-    layer_order = order_layerstack(bounds_layerstack)
+    layer_order = order_layerstack(layerstack) # gds layers
     shapes = OrderedDict() if extra_shapes_dict is None else extra_shapes_dict
-    for layer in layer_order:
-        layer_shapes = list(bounds_dict[layer][1])
-        shapes[layer] = MultiPolygon(to_polygons(layer_shapes))
+    for layername in layer_order:
+        current_shapes = []
+        for simulation_name, (gds_name, bounds) in bounds_dict.items():
+            if gds_name == layername:
+                layer_shapes = list(bounds)
+                current_shapes.append(MultiPolygon(to_polygons(layer_shapes)))
+        shapes[layername] = MultiPolygon(to_polygons(current_shapes))
 
     # Add background polygon
     if background_tag is not None:
