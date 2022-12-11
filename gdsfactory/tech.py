@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import pathlib
-from typing import Any, Callable, Dict, Optional, Tuple, Union
+from typing import Any, Callable, Dict, Optional, Tuple, Union, List
 
 from pydantic import BaseModel
 
@@ -26,6 +26,7 @@ class LayerMap(BaseModel):
     SLAB90: Layer = (3, 0)
     DEEPTRENCH: Layer = (4, 0)
     GE: Layer = (5, 0)
+    UNDERCUT: Layer = (6, 0)
     WGN: Layer = (34, 0)
     WGN_CLAD: Layer = (36, 0)
 
@@ -103,10 +104,11 @@ class LayerLevel(BaseModel):
 
     Parameters:
         layer: (GDSII Layer number, GDSII datatype).
-        thickness: layer thickness in um.
+        thickness: layer thickness in um. Positive to grow the layer up, and negative for down.
         zmin: height position where material starts in um.
         material: material name.
         sidewall_angle: in degrees with respect to normal.
+        buffer_profile: parametrizes shrinking/expansion of the GDS layer as it is extruded from zmin to zmin + thickness 
         info: simulation_info and other types of metadata.
             mesh_order: lower mesh order (1) will have priority over higher
                 mesh order (2) in the regions where materials overlap.
@@ -127,6 +129,7 @@ class LayerLevel(BaseModel):
     zmin: float
     material: Optional[str] = None
     sidewall_angle: float = 0
+    buffer_profile: Optional[Tuple[List, List]] = None
     info: Dict[str, Any] = {}
 
 
@@ -208,7 +211,7 @@ def get_layer_stack_generic(
     thickness_metal2: float = 700 * nm,
     zmin_metal3: float = 3.2,
     thickness_metal3: float = 2000 * nm,
-    substrate_thickness: float = 575.,
+    substrate_thickness: float = 10.,
     box_thickness: float = 3.,
     undercut_thickness: float = 5.,
 ) -> LayerStack:
@@ -288,6 +291,14 @@ def get_layer_stack_generic(
                 thickness=thickness_ge,
                 zmin=thickness_wg,
                 material="ge",
+                info={"mesh_order": 1},
+            ),
+            undercut=LayerLevel(
+                layer=LAYER.UNDERCUT,
+                thickness=-undercut_thickness,
+                zmin=-box_thickness,
+                material="air",
+                buffer_profile=[[0, 0.2, 0.4, 0.6, 0.8, 1], [-0, -0.5, -1, -1.5, -2, -2.5]],
                 info={"mesh_order": 1},
             ),
             via_contact=LayerLevel(
