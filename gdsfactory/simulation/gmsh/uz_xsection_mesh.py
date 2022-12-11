@@ -47,7 +47,7 @@ def get_u_bounds_polygons(
 
 
 def get_u_bounds_layers(
-    layer_polygons_dict: Dict[str, MultiPolygon],
+    layer_polygons_dict: Dict[Tuple(str, str, str), MultiPolygon],
     xsection_bounds: Tuple[Tuple[float, float], Tuple[float, float]],
 ):
     """Given a layer_polygons_dict and two coordinates (x1,y1), (x2,y2), computes the \
@@ -61,17 +61,18 @@ def get_u_bounds_layers(
         in xsection line coordinates.
     """
     bounds_dict = {}
-    for layername, polygons in layer_polygons_dict.items():
+    for layername, (gds_layername, next_layername, polygons, next_polygons) in layer_polygons_dict.items():
         bounds_dict[layername] = []
         bounds = get_u_bounds_polygons(polygons, xsection_bounds)
+        next_bounds = get_u_bounds_polygons(next_polygons, xsection_bounds)
         if bounds:
-            bounds_dict[layername] = bounds
+            bounds_dict[layername] = (gds_layername, next_layername, bounds, next_bounds)
 
     return bounds_dict
 
 
 def get_uz_bounds_layers(
-    layer_polygons_dict: Dict[str, MultiPolygon],
+    layer_polygons_dict: Dict[str, Tuple[str, MultiPolygon, MultiPolygon]],
     xsection_bounds: Tuple[Tuple[float, float], Tuple[float, float]],
     layerstack: LayerStack,
 ):
@@ -86,48 +87,32 @@ def get_uz_bounds_layers(
     """
     # Get in-plane cross-sections
     inplane_bounds_dict = get_u_bounds_layers(layer_polygons_dict, xsection_bounds)
-
+    
     outplane_bounds_dict = {}
 
     layer_dict = layerstack.to_dict()
-    for layername, inplane_bounds_list in inplane_bounds_dict.items():
+
+    for layername, (gds_layername, next_layername, inplane_bounds_list, next_inplane_bounds_list) in inplane_bounds_dict.items():
         outplane_polygons_list = []
-        for inplane_bounds in inplane_bounds_list:
-            height = layer_dict[layername]["thickness"]
+        for inplane_bounds, next_inplane_bounds in zip(inplane_bounds_list, next_inplane_bounds_list):
             zmin = layer_dict[layername]["zmin"]
-            sidewall_angle = layer_dict[layername]["sidewall_angle"]
-            # buffer_profile = layer_dict[layername]["buffer_profile"]
+            zmax = layer_dict[next_layername]["zmin"]
 
             # Get bounding box
-            umin = np.min(inplane_bounds)
-            umax = np.max(inplane_bounds)
-            zmax = zmin + height
-
-            # if buffer_profile is None: 
+            umin_zmin = np.min(inplane_bounds)
+            umax_zmin = np.max(inplane_bounds)
+            umin_zmax = np.min(next_inplane_bounds)
+            umax_zmax = np.max(next_inplane_bounds)
 
             points = [
-                [umin, zmin],
-                [umin, zmax],
-                [umax, zmax],
-                [umax, zmin],
+                [umin_zmin, zmin],
+                [umin_zmax, zmax],
+                [umax_zmax, zmax],
+                [umax_zmin, zmin],
             ]
             outplane_polygons_list.append(Polygon(points))
 
-            # else:
-
-            #     points = [[umin, zmin], [umax, zmin]]
-
-            #     for z_fraction, w_buffer in zip(buffer_profile[0], buffer_profile[1]):
-
-            #             u = umax - w_buffer
-            #             z = zmin + height*z_fraction
-
-            #             points.append([u,z])
-
-
-            #         points.append()
-
-        outplane_bounds_dict[layername] = outplane_polygons_list
+        outplane_bounds_dict[layername] = (gds_layername, outplane_polygons_list)
 
     return outplane_bounds_dict
 
@@ -168,24 +153,32 @@ def uz_xsection_mesh(
     layer_polygons_dict = cleanup_component(component, layerstack)
 
     # GDS polygons to simulation polygons
-    layer_polygons_dict, layerstack = process_buffers(layer_polygons_dict, layerstack)
+    buffered_layer_polygons_dict, buffered_layerstack = process_buffers(layer_polygons_dict, layerstack)
 
-    # Find coordinates
-    bounds_dict = get_uz_bounds_layers(layer_polygons_dict, xsection_bounds, layerstack)
+    # simulation polygons to u-z coordinates along cross-sectional line
+    bounds_dict = get_uz_bounds_layers(buffered_layer_polygons_dict, xsection_bounds, buffered_layerstack)
 
-    # Create polygons from bounds and layers
-    layer_order = order_layerstack(layerstack)
+    # u-z coordinates to gmsh-friendly polygons
+    # Remove terminal layers
+    bounds_layerstack = LayerStack(
+        layers={
+            k: buffered_layerstack.layers[k]
+            for k in (
+                bounds_dict.keys()
+            )
+        }
+    )
+    layer_order = order_layerstack(bounds_layerstack)
     shapes = OrderedDict() if extra_shapes_dict is None else extra_shapes_dict
     for layer in layer_order:
-        layer_shapes = list(bounds_dict[layer])
+        layer_shapes = list(bounds_dict[layer][1])
         shapes[layer] = MultiPolygon(to_polygons(layer_shapes))
 
     # Add background polygon
-    # TODO: buffer the union instead of adding a square
     if background_tag is not None:
         # shapes[background_tag] = bounds.buffer(background_padding[0])
         # bounds = unary_union(list(shapes.values())).bounds
-        zs = list_unique_layerstack_z(layerstack)
+        zs = list_unique_layerstack_z(buffered_layerstack)
         zmin = np.min(zs)
         zmax = np.max(zs)
         shapes[background_tag] = Polygon(

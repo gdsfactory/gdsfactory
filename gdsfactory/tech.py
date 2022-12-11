@@ -108,7 +108,7 @@ class LayerLevel(BaseModel):
         zmin: height position where material starts in um.
         material: material name.
         sidewall_angle: in degrees with respect to normal.
-        buffer_profile: parametrizes shrinking/expansion of the GDS layer as it is extruded from zmin to zmin + thickness 
+        buffer_profile: parametrizes shrinking/expansion of the design GDS layer as it is extruded from zmin (0) to zmin + thickness (1). Default no buffering [[0, 1], [0, 0]]
         info: simulation_info and other types of metadata.
             mesh_order: lower mesh order (1) will have priority over higher
                 mesh order (2) in the regions where materials overlap.
@@ -257,9 +257,10 @@ def get_layer_stack_generic(
                 zmin=0.0,
                 material="si",
                 info={"mesh_order": 1},
+                sidewall_angle=10,
             ),
             clad=LayerLevel(
-                layer=LAYER.WGCLAD,
+                # layer=LAYER.WGCLAD,
                 zmin=0.0,
                 material="sio2",
                 thickness=thickness_clad,
@@ -298,7 +299,7 @@ def get_layer_stack_generic(
                 thickness=-undercut_thickness,
                 zmin=-box_thickness,
                 material="air",
-                buffer_profile=[[0, 0.2, 0.4, 0.6, 0.8, 1], [-0, -0.5, -1, -1.5, -2, -2.5]],
+                buffer_profile=[[0, 0.3, 0.6, 0.8, 0.9, 1], [-0, -0.5, -1, -1.5, -2, -2.5]],
                 info={"mesh_order": 1},
             ),
             via_contact=LayerLevel(
@@ -307,6 +308,7 @@ def get_layer_stack_generic(
                 zmin=thickness_slab_deep_etch,
                 material="Aluminum",
                 info={"mesh_order": 1},
+                sidewall_angle=-20,
             ),
             metal1=LayerLevel(
                 layer=LAYER.M1,
