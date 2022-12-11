@@ -2,7 +2,30 @@ from __future__ import annotations
 
 import numpy as np
 
-from gdsfactory.tech import LayerStack
+from gdsfactory.tech import LayerStack, LayerLevel
+from typing import Dict
+
+
+def process_complex_layers(layer_polygons_dict: Dict, layerstack: LayerStack):
+    """Break up layers with buffer_profile into sub-layers.
+    """
+    extended_layer_polygons_dict = {}
+    extended_layerstack_layers = {}
+    for layername, polygons in layer_polygons_dict.items():
+        if layerstack.layers[layername].buffer_profile is None:
+            extended_layerstack_layers[layername] = layerstack.layers[layername]
+            extended_layer_polygons_dict[layername] = polygons
+        else:
+            zs = layerstack.layers[layername].buffer_profile[0]
+            width_buffers = layerstack.layers[layername].buffer_profile[1]
+            for ind, (z, width_buffer) in enumerate(zip(zs[:-1], width_buffers[:-1])):
+                new_zmin = layerstack.layers[layername].zmin + layerstack.layers[layername].thickness * z
+                new_thickness = layerstack.layers[layername].thickness * zs[ind+1] - layerstack.layers[layername].thickness * z
+                extended_layerstack_layers[f"{layername}_{z}"] = LayerLevel(thickness=new_thickness, zmin=new_zmin, material=layerstack.layers[layername].material, info=layerstack.layers[layername].info,)
+                extended_layer_polygons_dict[f"{layername}_{z}"] = polygons.buffer(width_buffer)
+
+    return extended_layer_polygons_dict, LayerStack(layers=extended_layerstack_layers)
+
 
 
 def list_unique_layerstack_z(
