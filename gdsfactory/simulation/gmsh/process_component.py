@@ -31,20 +31,13 @@ def process_buffers(layer_polygons_dict: Dict, layerstack: LayerStack):
         layerstack: original Layerstack
 
     Returns:
-        extended_layer_polygons_dict: dict of (GDS layername, simulation_layername, next_simulation_layername): polygons
-        extended_layerstack: LayerStack of simulation layers
+        extended_layer_polygons_dict: dict of simulation_layername: (gds_layername, next_simulation_layername, this_layer_polygons, next_layer_polygons)
+        extended_layerstack: LayerStack of simulation_layername: simulation layers
     """
     extended_layer_polygons_dict = {}
     extended_layerstack_layers = {}
 
-    for layername, layer in layerstack.layers.items():
-        print(layername, layer)
-
     layerstack = bufferize(layerstack)
-    print("=========================================")
-
-    for layername, layer in layerstack.layers.items():
-        print(layername, layer)
 
     for layername, polygons in layer_polygons_dict.items():
         zs = layerstack.layers[layername].buffer_profile[0]
@@ -53,6 +46,7 @@ def process_buffers(layer_polygons_dict: Dict, layerstack: LayerStack):
             new_zmin = layerstack.layers[layername].zmin + layerstack.layers[layername].thickness * z
             new_thickness = layerstack.layers[layername].thickness * zs[ind+1] - layerstack.layers[layername].thickness * z
             extended_layerstack_layers[f"{layername}_{z}"] = LayerLevel(thickness=new_thickness, zmin=new_zmin, material=layerstack.layers[layername].material, info=layerstack.layers[layername].info,)
-            extended_layer_polygons_dict[f"{layername}_{z}"] = polygons.buffer(width_buffer)
+            extended_layer_polygons_dict[f"{layername}_{z}"] = (f"{layername}", f"{layername}_{zs[ind+1]}", polygons.buffer(width_buffer), polygons.buffer(width_buffers[ind+1]))
+        extended_layerstack_layers[f"{layername}_{zs[-1]}"] = LayerLevel(thickness=0, zmin=layerstack.layers[layername].zmin + layerstack.layers[layername].thickness, material=layerstack.layers[layername].material, info=layerstack.layers[layername].info,)
 
     return extended_layer_polygons_dict, LayerStack(layers=extended_layerstack_layers)
