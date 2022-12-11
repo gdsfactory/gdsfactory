@@ -122,7 +122,7 @@ class LayerLevel(BaseModel):
             bias: in um for the etch.
     """
 
-    layer: Tuple[int, int]
+    layer: Optional[Tuple[int, int]]
     thickness: float
     zmin: float
     material: Optional[str] = None
@@ -208,6 +208,9 @@ def get_layer_stack_generic(
     thickness_metal2: float = 700 * nm,
     zmin_metal3: float = 3.2,
     thickness_metal3: float = 2000 * nm,
+    substrate_thickness: float = 575.,
+    box_thickness: float = 3.,
+    undercut_thickness: float = 5.,
 ) -> LayerStack:
     """Returns generic LayerStack.
 
@@ -227,9 +230,24 @@ def get_layer_stack_generic(
         thickness_metal2: metal2 thickness.
         zmin_metal3: metal3.
         thickness_metal3: metal3 thickness.
+        substrate_thickness: substrate thickness in um.
+        box_thickness: bottom oxide thickness in um.
+        undercut_thickness: thickness of the silicon undercut.
     """
     return LayerStack(
         layers=dict(
+            substrate=LayerLevel(
+                thickness=substrate_thickness,
+                zmin=-substrate_thickness-box_thickness,
+                material="si",
+                info={"mesh_order": 99},
+            ),
+            box=LayerLevel(
+                thickness=box_thickness,
+                zmin=-box_thickness,
+                material="sio2",
+                info={"mesh_order": 99},
+            ),
             core=LayerLevel(
                 layer=LAYER.WG,
                 thickness=thickness_wg,
