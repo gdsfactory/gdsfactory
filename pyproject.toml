@@ -61,7 +61,7 @@ full = [
     "mapbox_earcut",
     "networkx",
     "nlopt",
-    "pyglet",
+    "pyglet<2",
     "pygmsh",
     "sax==0.8.4",
     "scikit-fem",

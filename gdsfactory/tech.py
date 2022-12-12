@@ -109,7 +109,9 @@ class LayerLevel(BaseModel):
         zmin: height position where material starts in um.
         material: material name.
         sidewall_angle: in degrees with respect to normal.
-        buffer_profile: parametrizes shrinking/expansion of the design GDS layer as it is extruded from zmin (0) to zmin + thickness (1). Default no buffering [[0, 1], [0, 0]]
+        z_to_bias: parametrizes shrinking/expansion of the design GDS layer
+            when extruding from zmin (0) to zmin + thickness (1).
+            Defaults no buffering [[0, 1], [0, 0]].
         info: simulation_info and other types of metadata.
             mesh_order: lower mesh order (1) will have priority over higher
                 mesh order (2) in the regions where materials overlap.
@@ -131,7 +133,7 @@ class LayerLevel(BaseModel):
     zmin: float
     material: Optional[str] = None
     sidewall_angle: float = 0
-    buffer_profile: Optional[Tuple[List, List]] = None
+    z_to_bias: Optional[Tuple[List[float], List[float]]] = None
     info: Dict[str, Any] = {}
 
 
@@ -301,7 +303,7 @@ def get_layer_stack_generic(
                 thickness=-undercut_thickness,
                 zmin=-box_thickness,
                 material="air",
-                buffer_profile=[
+                z_to_bias=[
                     [0, 0.3, 0.6, 0.8, 0.9, 1],
                     [-0, -0.5, -1, -1.5, -2, -2.5],
                 ],
