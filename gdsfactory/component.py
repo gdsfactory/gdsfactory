@@ -765,14 +765,14 @@ class Component(_GeometryHelper):
             include_labels: remove labels on those layers.
             invert_selection: removes all layers except layers specified.
             recursive: operate on the cells included in this cell.
-            return_copy: preserves the hierarchy.
+            return_copy: preserves the hierarchy with references by returning a copy.
         """
         from gdsfactory import get_layer
 
+        should_remove = not invert_selection
         if return_copy:
             component = self.copy()
             layers = [get_layer(layer) for layer in layers]
-            should_remove = not invert_selection
             component._cell.filter(
                 spec=layers,
                 remove=should_remove,
@@ -794,7 +794,6 @@ class Component(_GeometryHelper):
         else:
             component = self.flatten() if recursive and self.references else self
             layers = [get_layer(layer) for layer in layers]
-            should_remove = not invert_selection
             component._cell.filter(
                 spec=layers,
                 remove=should_remove,
