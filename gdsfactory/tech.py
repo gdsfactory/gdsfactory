@@ -102,7 +102,7 @@ PORT_TYPE_TO_MARKER_LAYER = {v: k for k, v in PORT_MARKER_LAYER_TO_TYPE.items()}
 class LayerLevel(BaseModel):
     """Level for 3D LayerStack.
 
-    Arguments:
+    Parameters:
         layer: (GDSII Layer number, GDSII datatype).
         thickness: layer thickness in um.
         thickness_tolerance: layer thickness tolerance in um.
@@ -140,13 +140,9 @@ class LayerStack(BaseModel):
 
     Parameters:
         layers: dict of layer_levels.
-        box_thickness: in um.
-        box_thickness_tolerance: standard deviation in um.
     """
 
     layers: Dict[str, LayerLevel]
-    box_thickness: Optional[float] = None
-    box_thickness_tolerance: Optional[float] = None
 
     def get_layer_to_thickness(self) -> Dict[Tuple[int, int], float]:
         """Returns layer tuple to thickness (um)."""
