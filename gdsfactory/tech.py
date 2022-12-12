@@ -191,14 +191,15 @@ class LayerStack(BaseModel):
         """
         for level in self.layers.values():
             layer = level.layer
-            if klayout28:
-                print(
-                    f"z(input({layer[0]}, {layer[1]}), zstart: {level.zmin}, height: {level.zmin+level.thickness}, name: '{level.material} {layer[0]}/{layer[1]}')"
-                )
-            else:
-                print(
-                    f"{level.layer[0]}/{level.layer[1]}: {level.zmin} {level.zmin+level.thickness}"
-                )
+            if layer:
+                if klayout28:
+                    print(
+                        f"z(input({layer[0]}, {layer[1]}), zstart: {level.zmin}, height: {level.zmin+level.thickness}, name: '{level.material} {layer[0]}/{layer[1]}')"
+                    )
+                else:
+                    print(
+                        f"{level.layer[0]}/{level.layer[1]}: {level.zmin} {level.zmin+level.thickness}"
+                    )
 
 
 def get_layer_stack_generic(
