@@ -7,7 +7,7 @@ gf tool install
 
 cd ..\condabin
 call conda activate
-call conda install -c conda-forge git -y
+call conda install -c conda-forge git spyder -y
 if exist "%USERPROFILE%\Desktop\gdsfactory" (goto SKIP_INSTALL)
 cd %USERPROFILE%\Desktop
 call git clone https://github.com/gdsfactory/gdsfactory.git
