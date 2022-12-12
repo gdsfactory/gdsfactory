@@ -429,14 +429,14 @@ def add_bbox_siepic(
     layers = component.get_layers()
 
     if bbox_layer and bbox_layer in layers:
-        component.remove_layers(layers=(bbox_layer,), recursive=False)
+        component = component.remove_layers(layers=(bbox_layer,), recursive=False)
 
     remove_layers = remove_layers or []
 
     for layer in remove_layers:
         layer = get_layer(layer)
         if layer in layers:
-            component.remove_layers(layers=(layer,), recursive=False)
+            component = component.remove_layers(layers=(layer,), recursive=False)
 
     if bbox_layer:
         component.add_padding(default=0, layers=(bbox_layer,))
