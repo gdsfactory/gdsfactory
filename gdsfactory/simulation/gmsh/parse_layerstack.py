@@ -2,8 +2,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from gdsfactory.tech import LayerStack, LayerLevel
-from typing import Dict
+from gdsfactory.tech import LayerStack
 
 
 def list_unique_layerstack_z(

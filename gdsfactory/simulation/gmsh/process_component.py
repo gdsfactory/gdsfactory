@@ -1,9 +1,10 @@
 from __future__ import annotations
 
+from typing import Dict
+
 import numpy as np
 
-from gdsfactory.tech import LayerStack, LayerLevel
-from typing import Dict
+from gdsfactory.tech import LayerLevel, LayerStack
 
 
 def bufferize(layerstack: LayerStack):
@@ -15,10 +16,12 @@ def bufferize(layerstack: LayerStack):
     for layername, layer in layerstack.layers.items():
         if layer.buffer_profile is None:
             if layer.sidewall_angle is None:
-                layer.buffer_profile = ([0,1], [0, 0])
+                layer.buffer_profile = ([0, 1], [0, 0])
             else:
-                buffer_magnitude = layer.thickness * np.tan(np.radians(layer.sidewall_angle))
-                layer.buffer_profile = ([0,1], [0, -1*buffer_magnitude])
+                buffer_magnitude = layer.thickness * np.tan(
+                    np.radians(layer.sidewall_angle)
+                )
+                layer.buffer_profile = ([0, 1], [0, -1 * buffer_magnitude])
 
     return layerstack
 
@@ -43,10 +46,32 @@ def process_buffers(layer_polygons_dict: Dict, layerstack: LayerStack):
         zs = layerstack.layers[layername].buffer_profile[0]
         width_buffers = layerstack.layers[layername].buffer_profile[1]
         for ind, (z, width_buffer) in enumerate(zip(zs[:-1], width_buffers[:-1])):
-            new_zmin = layerstack.layers[layername].zmin + layerstack.layers[layername].thickness * z
-            new_thickness = layerstack.layers[layername].thickness * zs[ind+1] - layerstack.layers[layername].thickness * z
-            extended_layerstack_layers[f"{layername}_{z}"] = LayerLevel(thickness=new_thickness, zmin=new_zmin, material=layerstack.layers[layername].material, info=layerstack.layers[layername].info,)
-            extended_layer_polygons_dict[f"{layername}_{z}"] = (f"{layername}", f"{layername}_{zs[ind+1]}", polygons.buffer(width_buffer), polygons.buffer(width_buffers[ind+1]))
-        extended_layerstack_layers[f"{layername}_{zs[-1]}"] = LayerLevel(thickness=0, zmin=layerstack.layers[layername].zmin + layerstack.layers[layername].thickness, material=layerstack.layers[layername].material, info=layerstack.layers[layername].info,)
+            new_zmin = (
+                layerstack.layers[layername].zmin
+                + layerstack.layers[layername].thickness * z
+            )
+            new_thickness = (
+                layerstack.layers[layername].thickness * zs[ind + 1]
+                - layerstack.layers[layername].thickness * z
+            )
+            extended_layerstack_layers[f"{layername}_{z}"] = LayerLevel(
+                thickness=new_thickness,
+                zmin=new_zmin,
+                material=layerstack.layers[layername].material,
+                info=layerstack.layers[layername].info,
+            )
+            extended_layer_polygons_dict[f"{layername}_{z}"] = (
+                f"{layername}",
+                f"{layername}_{zs[ind+1]}",
+                polygons.buffer(width_buffer),
+                polygons.buffer(width_buffers[ind + 1]),
+            )
+        extended_layerstack_layers[f"{layername}_{zs[-1]}"] = LayerLevel(
+            thickness=0,
+            zmin=layerstack.layers[layername].zmin
+            + layerstack.layers[layername].thickness,
+            material=layerstack.layers[layername].material,
+            info=layerstack.layers[layername].info,
+        )
 
     return extended_layer_polygons_dict, LayerStack(layers=extended_layerstack_layers)

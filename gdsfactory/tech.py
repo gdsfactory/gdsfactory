@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import pathlib
-from typing import Any, Callable, Dict, Optional, Tuple, Union, List
+from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 from pydantic import BaseModel
 
@@ -211,9 +211,9 @@ def get_layer_stack_generic(
     thickness_metal2: float = 700 * nm,
     zmin_metal3: float = 3.2,
     thickness_metal3: float = 2000 * nm,
-    substrate_thickness: float = 10.,
-    box_thickness: float = 3.,
-    undercut_thickness: float = 5.,
+    substrate_thickness: float = 10.0,
+    box_thickness: float = 3.0,
+    undercut_thickness: float = 5.0,
 ) -> LayerStack:
     """Returns generic LayerStack.
 
@@ -241,7 +241,7 @@ def get_layer_stack_generic(
         layers=dict(
             substrate=LayerLevel(
                 thickness=substrate_thickness,
-                zmin=-substrate_thickness-box_thickness,
+                zmin=-substrate_thickness - box_thickness,
                 material="si",
                 info={"mesh_order": 99},
             ),
@@ -257,7 +257,7 @@ def get_layer_stack_generic(
                 zmin=0.0,
                 material="si",
                 info={"mesh_order": 1},
-                sidewall_angle=10,
+                sidewall_angle=0,
             ),
             clad=LayerLevel(
                 # layer=LAYER.WGCLAD,
@@ -299,7 +299,10 @@ def get_layer_stack_generic(
                 thickness=-undercut_thickness,
                 zmin=-box_thickness,
                 material="air",
-                buffer_profile=[[0, 0.3, 0.6, 0.8, 0.9, 1], [-0, -0.5, -1, -1.5, -2, -2.5]],
+                buffer_profile=[
+                    [0, 0.3, 0.6, 0.8, 0.9, 1],
+                    [-0, -0.5, -1, -1.5, -2, -2.5],
+                ],
                 info={"mesh_order": 1},
             ),
             via_contact=LayerLevel(
@@ -308,7 +311,7 @@ def get_layer_stack_generic(
                 zmin=thickness_slab_deep_etch,
                 material="Aluminum",
                 info={"mesh_order": 1},
-                sidewall_angle=-20,
+                sidewall_angle=-10,
             ),
             metal1=LayerLevel(
                 layer=LAYER.M1,

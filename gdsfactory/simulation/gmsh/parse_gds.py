@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import shapely
 from shapely.geometry import LineString, MultiLineString, MultiPolygon, Polygon, box
-import gdsfactory as gf
+
 
 def round_coordinates(geom, ndigits=3):
     """Round coordinates to n_digits to eliminate floating point errors."""
@@ -39,15 +39,15 @@ def cleanup_component(component, layerstack, round_tol=2, simplify_tol=1e-2):
     for layername, layer in layerstack_dict.items():
         if layer["layer"] is not None:
             return_dict[layername] = fuse_polygons(
-            component,
-            layername,
-            layer["layer"],
-            round_tol=round_tol,
-            simplify_tol=simplify_tol,
-        )
+                component,
+                layername,
+                layer["layer"],
+                round_tol=round_tol,
+                simplify_tol=simplify_tol,
+            )
         else:
             bbox = component.bbox
-            return_dict[layername] = box(bbox[0,0], bbox[0,1], bbox[1,0], bbox[1,1])
+            return_dict[layername] = box(bbox[0, 0], bbox[0, 1], bbox[1, 0], bbox[1, 1])
     return return_dict
 
 
