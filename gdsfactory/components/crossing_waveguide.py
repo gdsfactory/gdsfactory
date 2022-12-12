@@ -314,7 +314,6 @@ def crossing45(
 
     c.info["bezier_length"] = bend.info["length"]
     c.info["min_bend_radius"] = b_br.info["min_bend_radius"]
-
     c.bezier = bend
     c.crossing = crossing
 
@@ -329,6 +328,7 @@ def crossing45(
         c = x.add_bbox(c)
     if x.add_pins:
         c = x.add_pins(c)
+
     return c
 
 
@@ -479,8 +479,8 @@ def _demo() -> None:
 
 
 if __name__ == "__main__":
-    c = crossing45()
-    # c = compensation_path()
+    # c = crossing45()
+    c = compensation_path()
     # c = crossing(
     #     cross_section=dict(
     #         cross_section="strip",
