@@ -172,5 +172,8 @@ git-rm-merged:
 link:
 	lygadgets_link gdsfactory/klayout
 
+constructor:
+	mamba install constructor conda-libmamba-solver -y
+	constructor .
 
 .PHONY: gdsdiff build conda
