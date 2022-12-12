@@ -14,6 +14,7 @@ from gdsfactory.simulation.gmsh.parse_layerstack import (
     list_unique_layerstack_z,
     order_layerstack,
 )
+from gdsfactory.simulation.gmsh.process_component import process_buffers
 from gdsfactory.tech import LayerStack
 from gdsfactory.types import ComponentOrReference
 
@@ -44,7 +45,7 @@ def get_u_bounds_polygons(
 
 
 def get_u_bounds_layers(
-    layer_polygons_dict: Dict[str, MultiPolygon],
+    layer_polygons_dict: Dict[Tuple(str, str, str), MultiPolygon],
     xsection_bounds: Tuple[Tuple[float, float], Tuple[float, float]],
 ):
     """Given a layer_polygons_dict and two coordinates (x1,y1), (x2,y2), computes the \
@@ -58,17 +59,28 @@ def get_u_bounds_layers(
         in xsection line coordinates.
     """
     bounds_dict = {}
-    for layername, polygons in layer_polygons_dict.items():
+    for layername, (
+        gds_layername,
+        next_layername,
+        polygons,
+        next_polygons,
+    ) in layer_polygons_dict.items():
         bounds_dict[layername] = []
         bounds = get_u_bounds_polygons(polygons, xsection_bounds)
+        next_bounds = get_u_bounds_polygons(next_polygons, xsection_bounds)
         if bounds:
-            bounds_dict[layername] = bounds
+            bounds_dict[layername] = (
+                gds_layername,
+                next_layername,
+                bounds,
+                next_bounds,
+            )
 
     return bounds_dict
 
 
 def get_uz_bounds_layers(
-    layer_polygons_dict: Dict[str, MultiPolygon],
+    layer_polygons_dict: Dict[str, Tuple[str, MultiPolygon, MultiPolygon]],
     xsection_bounds: Tuple[Tuple[float, float], Tuple[float, float]],
     layerstack: LayerStack,
 ):
@@ -87,27 +99,35 @@ def get_uz_bounds_layers(
     outplane_bounds_dict = {}
 
     layer_dict = layerstack.to_dict()
-    for layername, inplane_bounds_list in inplane_bounds_dict.items():
+
+    for layername, (
+        gds_layername,
+        next_layername,
+        inplane_bounds_list,
+        next_inplane_bounds_list,
+    ) in inplane_bounds_dict.items():
         outplane_polygons_list = []
-        for inplane_bounds in inplane_bounds_list:
-            height = layer_dict[layername]["thickness"]
+        for inplane_bounds, next_inplane_bounds in zip(
+            inplane_bounds_list, next_inplane_bounds_list
+        ):
             zmin = layer_dict[layername]["zmin"]
-            sidewall_angle = layer_dict[layername]["sidewall_angle"]
+            zmax = layer_dict[next_layername]["zmin"]
 
             # Get bounding box
-            umin = np.min(inplane_bounds)
-            umax = np.max(inplane_bounds)
-            zmax = zmin + height
+            umin_zmin = np.min(inplane_bounds)
+            umax_zmin = np.max(inplane_bounds)
+            umin_zmax = np.min(next_inplane_bounds)
+            umax_zmax = np.max(next_inplane_bounds)
 
             points = [
-                [umin, zmin],
-                [umin + height * (np.tan(np.radians(sidewall_angle))), zmax],
-                [umax - height * (np.tan(np.radians(sidewall_angle))), zmax],
-                [umax, zmin],
+                [umin_zmin, zmin],
+                [umin_zmax, zmax],
+                [umax_zmax, zmax],
+                [umax_zmin, zmin],
             ]
             outplane_polygons_list.append(Polygon(points))
 
-        outplane_bounds_dict[layername] = outplane_polygons_list
+        outplane_bounds_dict[layername] = (gds_layername, outplane_polygons_list)
 
     return outplane_bounds_dict
 
@@ -147,22 +167,33 @@ def uz_xsection_mesh(
     # Fuse and cleanup polygons of same layer in case user overlapped them
     layer_polygons_dict = cleanup_component(component, layerstack)
 
-    # Find coordinates
-    bounds_dict = get_uz_bounds_layers(layer_polygons_dict, xsection_bounds, layerstack)
+    # GDS polygons to simulation polygons
+    buffered_layer_polygons_dict, buffered_layerstack = process_buffers(
+        layer_polygons_dict, layerstack
+    )
 
-    # Create polygons from bounds and layers
-    layer_order = order_layerstack(layerstack)
+    # simulation polygons to u-z coordinates along cross-sectional line
+    bounds_dict = get_uz_bounds_layers(
+        buffered_layer_polygons_dict, xsection_bounds, buffered_layerstack
+    )
+
+    # u-z coordinates to gmsh-friendly polygons
+    # Remove terminal layers
+    layer_order = order_layerstack(layerstack)  # gds layers
     shapes = OrderedDict() if extra_shapes_dict is None else extra_shapes_dict
-    for layer in layer_order:
-        layer_shapes = list(bounds_dict[layer])
-        shapes[layer] = MultiPolygon(to_polygons(layer_shapes))
+    for layername in layer_order:
+        current_shapes = []
+        for simulation_name, (gds_name, bounds) in bounds_dict.items():
+            if gds_name == layername:
+                layer_shapes = list(bounds)
+                current_shapes.append(MultiPolygon(to_polygons(layer_shapes)))
+        shapes[layername] = MultiPolygon(to_polygons(current_shapes))
 
     # Add background polygon
-    # TODO: buffer the union instead of adding a square
     if background_tag is not None:
         # shapes[background_tag] = bounds.buffer(background_padding[0])
         # bounds = unary_union(list(shapes.values())).bounds
-        zs = list_unique_layerstack_z(layerstack)
+        zs = list_unique_layerstack_z(buffered_layerstack)
         zmin = np.min(zs)
         zmax = np.max(zs)
         shapes[background_tag] = Polygon(
@@ -203,8 +234,17 @@ if __name__ == "__main__":
 
     from gdsfactory.tech import get_layer_stack_generic
 
-    waveguide = gf.components.straight_pin(length=10, taper=None)
-    waveguide.show()
+    c = gf.component.Component()
+
+    waveguide = c << gf.get_component(gf.components.straight_pin(length=10, taper=None))
+    undercut = c << gf.get_component(
+        gf.components.rectangle(
+            size=(5.0, 5.0),
+            layer="UNDERCUT",
+            centered=True,
+        )
+    ).move(destination=[4, 0])
+    c.show()
 
     filtered_layerstack = LayerStack(
         layers={
@@ -213,7 +253,11 @@ if __name__ == "__main__":
                 "slab90",
                 "core",
                 "via_contact",
-                # "metal2",
+                "undercut",
+                "box",
+                "substrate",
+                "clad",
+                "metal1",
             )  # "slab90", "via_contact")#"via_contact") # "slab90", "core"
         }
     )
@@ -224,11 +268,11 @@ if __name__ == "__main__":
     resolutions["via_contact"] = {"resolution": 0.1, "distance": 1}
 
     geometry = uz_xsection_mesh(
-        waveguide,
+        c,
         [(4, -15), (4, 15)],
         filtered_layerstack,
         resolutions=resolutions,
-        background_tag="Oxide",
+        # background_tag="Oxide",
         filename="mesh.msh",
     )
 
