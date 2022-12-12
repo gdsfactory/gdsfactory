@@ -1,5 +1,12 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.8.0
+
+- add thickness_tolerance to LayerLevel and box_thickness to LayerStack [PR](https://github.com/gdsfactory/gdsfactory/pull/981)
+- remove layers without flatten [PR]
+- write_cells works with multiple top level cells  [PR](https://github.com/gdsfactory/gdsfactory/pull/978)
+- remove many files thanks to pyproject.toml [PR](https://github.com/gdsfactory/gdsfactory/pull/977)
+
 ## 6.7.0
 
 - Read raw cells [PR](https://github.com/gdsfactory/gdsfactory/pull/972)
