@@ -14,9 +14,7 @@ from gdsfactory.simulation.gmsh.parse_layerstack import (
     list_unique_layerstack_z,
     order_layerstack,
 )
-from gdsfactory.simulation.gmsh.process_component import (
-    process_buffers,
-)
+from gdsfactory.simulation.gmsh.process_component import process_buffers
 from gdsfactory.tech import LayerStack
 from gdsfactory.types import ComponentOrReference
 
@@ -61,12 +59,22 @@ def get_u_bounds_layers(
         in xsection line coordinates.
     """
     bounds_dict = {}
-    for layername, (gds_layername, next_layername, polygons, next_polygons) in layer_polygons_dict.items():
+    for layername, (
+        gds_layername,
+        next_layername,
+        polygons,
+        next_polygons,
+    ) in layer_polygons_dict.items():
         bounds_dict[layername] = []
         bounds = get_u_bounds_polygons(polygons, xsection_bounds)
         next_bounds = get_u_bounds_polygons(next_polygons, xsection_bounds)
         if bounds:
-            bounds_dict[layername] = (gds_layername, next_layername, bounds, next_bounds)
+            bounds_dict[layername] = (
+                gds_layername,
+                next_layername,
+                bounds,
+                next_bounds,
+            )
 
     return bounds_dict
 
@@ -92,9 +100,16 @@ def get_uz_bounds_layers(
 
     layer_dict = layerstack.to_dict()
 
-    for layername, (gds_layername, next_layername, inplane_bounds_list, next_inplane_bounds_list) in inplane_bounds_dict.items():
+    for layername, (
+        gds_layername,
+        next_layername,
+        inplane_bounds_list,
+        next_inplane_bounds_list,
+    ) in inplane_bounds_dict.items():
         outplane_polygons_list = []
-        for inplane_bounds, next_inplane_bounds in zip(inplane_bounds_list, next_inplane_bounds_list):
+        for inplane_bounds, next_inplane_bounds in zip(
+            inplane_bounds_list, next_inplane_bounds_list
+        ):
             zmin = layer_dict[layername]["zmin"]
             zmax = layer_dict[next_layername]["zmin"]
 
@@ -153,22 +168,18 @@ def uz_xsection_mesh(
     layer_polygons_dict = cleanup_component(component, layerstack)
 
     # GDS polygons to simulation polygons
-    buffered_layer_polygons_dict, buffered_layerstack = process_buffers(layer_polygons_dict, layerstack)
+    buffered_layer_polygons_dict, buffered_layerstack = process_buffers(
+        layer_polygons_dict, layerstack
+    )
 
     # simulation polygons to u-z coordinates along cross-sectional line
-    bounds_dict = get_uz_bounds_layers(buffered_layer_polygons_dict, xsection_bounds, buffered_layerstack)
+    bounds_dict = get_uz_bounds_layers(
+        buffered_layer_polygons_dict, xsection_bounds, buffered_layerstack
+    )
 
     # u-z coordinates to gmsh-friendly polygons
     # Remove terminal layers
-    bounds_layerstack = LayerStack(
-        layers={
-            k: buffered_layerstack.layers[k]
-            for k in (
-                bounds_dict.keys()
-            )
-        }
-    )
-    layer_order = order_layerstack(layerstack) # gds layers
+    layer_order = order_layerstack(layerstack)  # gds layers
     shapes = OrderedDict() if extra_shapes_dict is None else extra_shapes_dict
     for layername in layer_order:
         current_shapes = []
@@ -226,10 +237,13 @@ if __name__ == "__main__":
     c = gf.component.Component()
 
     waveguide = c << gf.get_component(gf.components.straight_pin(length=10, taper=None))
-    undercut = c << gf.get_component(gf.components.rectangle(size = (5.0, 5.0),
-                                                                layer = "UNDERCUT",
-                                                                centered = True,)
-                                                                ).move(destination=[4,0])
+    undercut = c << gf.get_component(
+        gf.components.rectangle(
+            size=(5.0, 5.0),
+            layer="UNDERCUT",
+            centered=True,
+        )
+    ).move(destination=[4, 0])
     c.show()
 
     filtered_layerstack = LayerStack(
