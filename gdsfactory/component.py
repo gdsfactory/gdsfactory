@@ -767,9 +767,10 @@ class Component(_GeometryHelper):
         """
         from gdsfactory import get_layer
 
+        component = self.flatten() if recursive and self.references else self
         layers = [get_layer(layer) for layer in layers]
         should_remove = not invert_selection
-        self._cell.filter(
+        component._cell.filter(
             spec=layers,
             remove=should_remove,
             polygons=True,
@@ -777,17 +778,7 @@ class Component(_GeometryHelper):
             labels=include_labels,
         )
 
-        if recursive:
-            for c in self._cell.dependencies(True):
-                c.filter(
-                    spec=layers,
-                    remove=should_remove,
-                    polygons=True,
-                    paths=True,
-                    labels=include_labels,
-                )
-
-        return self
+        return component
 
     def extract(
         self,
