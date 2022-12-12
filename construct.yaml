@@ -8,12 +8,11 @@ channels:
   - http://repo.anaconda.com/pkgs/main/
 
 specs:
-  - python==3.9.13
+  - python
   - mamba
   - pip
   - gdsfactory
   - freetype-py
-  - spyder
   - jupyterlab
   - networkx
   - bokeh
