@@ -189,12 +189,12 @@ class LayerStack(BaseModel):
         You can add this information in your tech.lyt take a look at
         gdsfactory/klayout/tech/tech.lyt
         """
-        for level in self.layers.values():
+        for layer_name, level in self.layers.items():
             layer = level.layer
             if layer:
                 if klayout28:
                     print(
-                        f"z(input({layer[0]}, {layer[1]}), zstart: {level.zmin}, height: {level.zmin+level.thickness}, name: '{level.material} {layer[0]}/{layer[1]}')"
+                        f"z(input({layer[0]}, {layer[1]}), zstart: {level.zmin}, height: {level.zmin+level.thickness}, name: '{layer_name} {layer[0]}/{layer[1]}')"
                     )
                 else:
                     print(
