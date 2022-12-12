@@ -756,6 +756,7 @@ class Component(_GeometryHelper):
         include_labels: bool = True,
         invert_selection: bool = False,
         recursive: bool = True,
+        return_copy: bool = False,
     ) -> Component:
         """Remove a list of layers and returns the same Component.
 
@@ -764,30 +765,44 @@ class Component(_GeometryHelper):
             include_labels: remove labels on those layers.
             invert_selection: removes all layers except layers specified.
             recursive: operate on the cells included in this cell.
+            return_copy: preserves the hierarchy.
         """
         from gdsfactory import get_layer
 
-        layers = [get_layer(layer) for layer in layers]
-        should_remove = not invert_selection
-        self._cell.filter(
-            spec=layers,
-            remove=should_remove,
-            polygons=True,
-            paths=True,
-            labels=include_labels,
-        )
+        if return_copy:
+            component = self.copy()
+            layers = [get_layer(layer) for layer in layers]
+            should_remove = not invert_selection
+            component._cell.filter(
+                spec=layers,
+                remove=should_remove,
+                polygons=True,
+                paths=True,
+                labels=include_labels,
+            )
 
-        if recursive:
-            for c in self._cell.dependencies(True):
-                c.filter(
-                    spec=layers,
-                    remove=should_remove,
-                    polygons=True,
-                    paths=True,
-                    labels=include_labels,
-                )
+            if recursive:
+                for c in component._cell.dependencies(True):
+                    c.filter(
+                        spec=layers,
+                        remove=should_remove,
+                        polygons=True,
+                        paths=True,
+                        labels=include_labels,
+                    )
 
-        return self
+        else:
+            component = self.flatten() if recursive and self.references else self
+            layers = [get_layer(layer) for layer in layers]
+            should_remove = not invert_selection
+            component._cell.filter(
+                spec=layers,
+                remove=should_remove,
+                polygons=True,
+                paths=True,
+                labels=include_labels,
+            )
+        return component
 
     def extract(
         self,
