@@ -28,10 +28,8 @@ def terminator(
     """
     c = Component()
 
-    cross_section_tip = (
-        cross_section_tip
-        if cross_section_tip
-        else gf.get_cross_section(cross_section_input, width=tapered_width)
+    cross_section_tip = cross_section_tip or gf.get_cross_section(
+        cross_section_input, width=tapered_width
     )
 
     taper = c << gf.get_component(
