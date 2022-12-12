@@ -183,7 +183,7 @@ def uz_xsection_mesh(
     shapes = OrderedDict() if extra_shapes_dict is None else extra_shapes_dict
     for layername in layer_order:
         current_shapes = []
-        for simulation_name, (gds_name, bounds) in bounds_dict.items():
+        for _, (gds_name, bounds) in bounds_dict.items():
             if gds_name == layername:
                 layer_shapes = list(bounds)
                 current_shapes.append(MultiPolygon(to_polygons(layer_shapes)))
