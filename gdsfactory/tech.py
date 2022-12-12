@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import pathlib
-from typing import Any, Callable, Dict, Optional, Tuple, Union
+from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 from pydantic import BaseModel
 
@@ -26,6 +26,7 @@ class LayerMap(BaseModel):
     SLAB90: Layer = (3, 0)
     DEEPTRENCH: Layer = (4, 0)
     GE: Layer = (5, 0)
+    UNDERCUT: Layer = (6, 0)
     WGN: Layer = (34, 0)
     WGN_CLAD: Layer = (36, 0)
 
@@ -108,6 +109,7 @@ class LayerLevel(BaseModel):
         zmin: height position where material starts in um.
         material: material name.
         sidewall_angle: in degrees with respect to normal.
+        buffer_profile: parametrizes shrinking/expansion of the design GDS layer as it is extruded from zmin (0) to zmin + thickness (1). Default no buffering [[0, 1], [0, 0]]
         info: simulation_info and other types of metadata.
             mesh_order: lower mesh order (1) will have priority over higher
                 mesh order (2) in the regions where materials overlap.
@@ -123,12 +125,13 @@ class LayerLevel(BaseModel):
             bias: in um for the etch.
     """
 
-    layer: Tuple[int, int]
+    layer: Optional[Tuple[int, int]]
     thickness: float
     thickness_tolerance: Optional[float] = None
     zmin: float
     material: Optional[str] = None
     sidewall_angle: float = 0
+    buffer_profile: Optional[Tuple[List, List]] = None
     info: Dict[str, Any] = {}
 
 
@@ -137,13 +140,9 @@ class LayerStack(BaseModel):
 
     Parameters:
         layers: dict of layer_levels.
-        box_thickness: in um.
-        box_thickness_tolerance: standard deviation in um.
     """
 
     layers: Dict[str, LayerLevel]
-    box_thickness: Optional[float] = None
-    box_thickness_tolerance: Optional[float] = None
 
     def get_layer_to_thickness(self) -> Dict[Tuple[int, int], float]:
         """Returns layer tuple to thickness (um)."""
@@ -214,6 +213,9 @@ def get_layer_stack_generic(
     thickness_metal2: float = 700 * nm,
     zmin_metal3: float = 3.2,
     thickness_metal3: float = 2000 * nm,
+    substrate_thickness: float = 10.0,
+    box_thickness: float = 3.0,
+    undercut_thickness: float = 5.0,
 ) -> LayerStack:
     """Returns generic LayerStack.
 
@@ -233,18 +235,34 @@ def get_layer_stack_generic(
         thickness_metal2: metal2 thickness.
         zmin_metal3: metal3.
         thickness_metal3: metal3 thickness.
+        substrate_thickness: substrate thickness in um.
+        box_thickness: bottom oxide thickness in um.
+        undercut_thickness: thickness of the silicon undercut.
     """
     return LayerStack(
         layers=dict(
+            substrate=LayerLevel(
+                thickness=substrate_thickness,
+                zmin=-substrate_thickness - box_thickness,
+                material="si",
+                info={"mesh_order": 99},
+            ),
+            box=LayerLevel(
+                thickness=box_thickness,
+                zmin=-box_thickness,
+                material="sio2",
+                info={"mesh_order": 99},
+            ),
             core=LayerLevel(
                 layer=LAYER.WG,
                 thickness=thickness_wg,
                 zmin=0.0,
                 material="si",
                 info={"mesh_order": 1},
+                sidewall_angle=0,
             ),
             clad=LayerLevel(
-                layer=LAYER.WGCLAD,
+                # layer=LAYER.WGCLAD,
                 zmin=0.0,
                 material="sio2",
                 thickness=thickness_clad,
@@ -278,12 +296,24 @@ def get_layer_stack_generic(
                 material="ge",
                 info={"mesh_order": 1},
             ),
+            undercut=LayerLevel(
+                layer=LAYER.UNDERCUT,
+                thickness=-undercut_thickness,
+                zmin=-box_thickness,
+                material="air",
+                buffer_profile=[
+                    [0, 0.3, 0.6, 0.8, 0.9, 1],
+                    [-0, -0.5, -1, -1.5, -2, -2.5],
+                ],
+                info={"mesh_order": 1},
+            ),
             via_contact=LayerLevel(
                 layer=LAYER.VIAC,
                 thickness=zmin_metal1 - thickness_slab_deep_etch,
                 zmin=thickness_slab_deep_etch,
                 material="Aluminum",
                 info={"mesh_order": 1},
+                sidewall_angle=-10,
             ),
             metal1=LayerLevel(
                 layer=LAYER.M1,

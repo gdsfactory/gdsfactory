@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import shapely
-from shapely.geometry import LineString, MultiLineString, MultiPolygon, Polygon
+from shapely.geometry import LineString, MultiLineString, MultiPolygon, Polygon, box
 
 
 def round_coordinates(geom, ndigits=3):
@@ -33,18 +33,22 @@ def fuse_polygons(component, layername, layer, round_tol=2, simplify_tol=1e-2):
 
 
 def cleanup_component(component, layerstack, round_tol=2, simplify_tol=1e-2):
-    """Take all polygons from a layer, and returns a single (Multi)Polygon shapely object."""
+    """Process component polygons before meshing."""
     layerstack_dict = layerstack.to_dict()
-    return {
-        layername: fuse_polygons(
-            component,
-            layername,
-            layer["layer"],
-            round_tol=round_tol,
-            simplify_tol=simplify_tol,
-        )
-        for layername, layer in layerstack_dict.items()
-    }
+    return_dict = {}
+    for layername, layer in layerstack_dict.items():
+        if layer["layer"] is not None:
+            return_dict[layername] = fuse_polygons(
+                component,
+                layername,
+                layer["layer"],
+                round_tol=round_tol,
+                simplify_tol=simplify_tol,
+            )
+        else:
+            bbox = component.bbox
+            return_dict[layername] = box(bbox[0, 0], bbox[0, 1], bbox[1, 0], bbox[1, 1])
+    return return_dict
 
 
 def to_polygons(geometries):
