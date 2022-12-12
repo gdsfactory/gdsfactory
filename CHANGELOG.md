@@ -6,6 +6,7 @@
 - remove layers without flatten [PR]
 - write_cells works with multiple top level cells  [PR](https://github.com/gdsfactory/gdsfactory/pull/978)
 - remove many files thanks to pyproject.toml [PR](https://github.com/gdsfactory/gdsfactory/pull/977)
+- mesh profile per layer [PR](https://github.com/gdsfactory/gdsfactory/pull/983)
 
 ## 6.7.0
 
