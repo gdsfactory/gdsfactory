@@ -8,26 +8,26 @@ from gdsfactory.tech import LayerLevel, LayerStack
 
 
 def bufferize(layerstack: LayerStack):
-    """Convert layers without a buffer_profile to an equivalent buffer_profile.
+    """Convert layers without a z_to_bias to an equivalent z_to_bias.
 
     Arguments:
         layerstack: layerstack to process
     """
-    for layername, layer in layerstack.layers.items():
-        if layer.buffer_profile is None:
+    for layer in layerstack.layers.values():
+        if layer.z_to_bias is None:
             if layer.sidewall_angle is None:
-                layer.buffer_profile = ([0, 1], [0, 0])
+                layer.z_to_bias = ([0, 1], [0, 0])
             else:
                 buffer_magnitude = layer.thickness * np.tan(
                     np.radians(layer.sidewall_angle)
                 )
-                layer.buffer_profile = ([0, 1], [0, -1 * buffer_magnitude])
+                layer.z_to_bias = ([0, 1], [0, -1 * buffer_magnitude])
 
     return layerstack
 
 
 def process_buffers(layer_polygons_dict: Dict, layerstack: LayerStack):
-    """Break up layers into sub-layers according to buffer_profile.
+    """Break up layers into sub-layers according to z_to_bias.
 
     Arguments:
         layer_polygons_dict: dict of GDS layernames: shapely polygons
@@ -43,8 +43,8 @@ def process_buffers(layer_polygons_dict: Dict, layerstack: LayerStack):
     layerstack = bufferize(layerstack)
 
     for layername, polygons in layer_polygons_dict.items():
-        zs = layerstack.layers[layername].buffer_profile[0]
-        width_buffers = layerstack.layers[layername].buffer_profile[1]
+        zs = layerstack.layers[layername].z_to_bias[0]
+        width_buffers = layerstack.layers[layername].z_to_bias[1]
         for ind, (z, width_buffer) in enumerate(zip(zs[:-1], width_buffers[:-1])):
             new_zmin = (
                 layerstack.layers[layername].zmin
