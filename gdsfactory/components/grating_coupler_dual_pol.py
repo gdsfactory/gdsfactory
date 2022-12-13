@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from functools import partial
 from typing import Optional
 
@@ -48,7 +50,7 @@ def grating_coupler_dual_pol(
         y_span: full y span of the photonic crystal.
         length_taper: taper length [um].
         width_taper: width of the taper at the grating coupler side [um].
-        polarization: polarizatino of the grating coupler.
+        polarization: polarization of the grating coupler.
         wavelength: operation wavelength [um]
         taper: function to generate the tapers.
         base_layer: layer to draw over the whole photonic crystal

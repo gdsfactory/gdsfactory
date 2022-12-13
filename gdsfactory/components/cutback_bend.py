@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from numpy import float64
 
 import gdsfactory as gf
@@ -24,7 +26,7 @@ def cutback_bend(
     rows: int = 6,
     columns: int = 5,
     straight: ComponentSpec = straight_function,
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Deprecated.
 
@@ -81,7 +83,7 @@ def cutback_bend90(
     columns: int = 6,
     spacing: int = 5,
     straight: ComponentSpec = straight_function,
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Returns bend90 cutback.
 
@@ -135,7 +137,7 @@ def staircase(
     length_h: float = 5.0,
     rows: int = 4,
     straight: ComponentSpec = straight_function,
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Returns staircase.
 
@@ -179,7 +181,7 @@ def cutback_bend180(
     columns: int = 6,
     spacing: int = 3,
     straight: ComponentSpec = straight_function,
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Returns cutback to measure u bend loss.
 
@@ -206,7 +208,7 @@ def cutback_bend180(
     wg_vertical = get_component(
         straight,
         length=2 * bend180.size_info.width + straight_length + spacing,
-        **kwargs
+        **kwargs,
     )
 
     # Define a map between symbols and (component, input port, output port)

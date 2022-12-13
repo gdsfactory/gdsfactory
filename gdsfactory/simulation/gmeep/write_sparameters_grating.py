@@ -6,6 +6,8 @@ MFD:
 - 9.2 for Oband
 
 """
+from __future__ import annotations
+
 import hashlib
 import pathlib
 import shlex
@@ -24,7 +26,7 @@ from gdsfactory.serialization import clean_value_json, clean_value_name
 from gdsfactory.simulation.gmeep.get_simulation_grating_fiber import (
     get_simulation_grating_fiber,
 )
-from gdsfactory.simulation.gmeep.write_sparameters_meep_mpi import _mpirun, _python
+from gdsfactory.simulation.gmeep.write_sparameters_meep_mpi import _python
 from gdsfactory.types import PathType
 
 nm = 1e-3
@@ -46,7 +48,6 @@ def write_sparameters_grating(
     dirpath: Optional[PathType] = sparameters_path,
     decay_by: float = 1e-3,
     verbosity: int = 0,
-    ncores: int = 1,
     **settings,
 ) -> np.ndarray:
     """Write grating coupler with fiber Sparameters.
@@ -63,35 +64,37 @@ def write_sparameters_grating(
 
     Keyword Args:
         period: fiber grating period in um.
-        fill_factor: high/period.
+        fill_factor: fraction of the grating period filled with the grating material.
         n_periods: number of periods.
         widths: Optional list of widths. Overrides period, fill_factor, n_periods.
         gaps: Optional list of gaps. Overrides period, fill_factor, n_periods.
-        etch_depth: grating etch depth
-        fiber_angle_deg: fiber angle in degrees
-        fiber_xposition: xposition
-        fiber_core_diameter: fiber diameter
-        fiber_numerical_aperture: NA
+        fiber_angle_deg: fiber angle in degrees.
+        fiber_xposition: xposition.
+        fiber_core_diameter: fiber diameter.
+        fiber_numerical_aperture: NA.
         fiber_nclad: fiber cladding index.
-        ncore: fiber index core.
-        nclad: cladding index top.
-        nbox: box index.
+        nwg: waveguide index.
+        nslab: slab refractive index.
+        nclad: top cladding index.
+        nbox: box index bottom.
         nsubstrate: index substrate.
-        pml_thickness: pml_thickness (um)
-        substrate_thickness: substrate_thickness (um)
-        box_thickness: thickness for bottom cladding (um)
-        core_thickness: core_thickness (um)
-        top_clad_thickness: float = 2.0.
-        air_gap_thickness: float = 1.0.
-        fiber_thickness: float = 2.0.
+        pml_thickness: pml_thickness (um).
+        substrate_thickness: substrate_thickness (um).
+        box_thickness: thickness for bottom cladding (um).
+        wg_thickness: wg_thickness (um).
+        slab_thickness: slab thickness (um). etch_depth=wg_thickness-slab_thickness.
+        top_clad_thickness: thickness of the top cladding.
+        air_gap_thickness: air gap thickness.
+        fiber_thickness: fiber_thickness.
         resolution: resolution pixels/um.
-        wavelength_min: min wavelength (um).
-        wavelength_max: max wavelength (um).
+        wavelength_start: min wavelength (um).
+        wavelength_stop: max wavelength (um).
         wavelength_points: wavelength points.
         eps_averaging: epsilon averaging.
         fiber_port_y_offset_from_air: y_offset from fiber to air (um).
         waveguide_port_x_offset_from_grating_start: in um.
         fiber_port_x_size: in um.
+        xmargin: margin from PML to grating end in um.
 
     .. code::
 
@@ -147,7 +150,7 @@ def write_sparameters_grating(
         plt.show()
         return
 
-    termination = [mp.stop_when_energy_decayed(dt=50, decay_by=1e-3)]
+    termination = [mp.stop_when_energy_decayed(dt=50, decay_by=decay_by)]
 
     if animate:
         # Run while saving fields
@@ -232,7 +235,7 @@ def write_sparameters_grating(
         "o2@0,o2@0": s22,
         "wavelengths": wavelengths,
     }
-    np.save_compressed(filepath_npz, **sp)
+    np.savez_compressed(filepath_npz, **sp)
     return sp
 
 
@@ -284,7 +287,7 @@ def write_sparameters_grating_mpi(
     with open(script_file, "w") as script_file_obj:
         script_file_obj.writelines(script_lines)
     # Exec string
-    command = f"{_mpirun()} -np {cores} {_python()} {script_file}"
+    command = f"mpirun -np {cores} {_python()} {script_file}"
 
     # Launch simulation
     if verbosity:

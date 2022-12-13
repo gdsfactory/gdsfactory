@@ -1,4 +1,4 @@
-""" gdspy does not allow you to create the same cell name twice on the library."""
+"""gdstk does not allow you to create the same cell name twice on the library."""
 
 import gdsfactory as gf
 

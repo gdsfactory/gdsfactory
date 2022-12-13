@@ -1,4 +1,6 @@
 """Returns simulation from component."""
+from __future__ import annotations
+
 import inspect
 import warnings
 from typing import Any, Dict, Optional, Union
@@ -161,9 +163,9 @@ def get_simulation(
         if extend_ports_length
         else component
     )
-    gf.show(component_extended)
 
-    component_extended.flatten()
+    component_extended.show()
+    component_extended = component_extended.flatten()
 
     # geometry_center = [component_extended.x, component_extended.y]
     # geometry_center = [0, 0]

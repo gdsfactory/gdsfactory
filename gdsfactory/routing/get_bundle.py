@@ -9,6 +9,8 @@ get_bundle calls different function depending on the port orientation.
  - get_bundle_uindirect: ports with indirect U-turns
 
 """
+from __future__ import annotations
+
 from functools import partial
 from typing import Callable, List, Optional, Union
 
@@ -21,7 +23,6 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.via_corner import via_corner
 from gdsfactory.components.wire import wire_corner
-from gdsfactory.config import TECH
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
 from gdsfactory.routing.get_bundle_corner import get_bundle_corner
@@ -38,11 +39,8 @@ from gdsfactory.types import (
     ComponentSpec,
     CrossSectionSpec,
     MultiCrossSectionAngleSpec,
-    Number,
     Route,
 )
-
-METAL_MIN_SEPARATION = TECH.metal_spacing
 
 
 def get_bundle(
@@ -222,7 +220,7 @@ def get_bundle(
         return get_bundle_udirect(**params)
 
     elif end_angle == (start_angle + 180) % 360:
-        # print('get_bundle_uindirect')
+        # print("get_bundle_uindirect")
         return get_bundle_uindirect(extension_length=extension_length, **params)
     else:
         raise NotImplementedError("This should never happen")
@@ -233,12 +231,14 @@ def get_port_width(port: Port) -> Union[float, int]:
 
 
 def are_decoupled(
-    x1: Number,
-    x1p: Number,
-    x2: Number,
-    x2p: Number,
-    sep: float = METAL_MIN_SEPARATION,
+    x1: float,
+    x1p: float,
+    x2: float,
+    x2p: float,
+    sep: Union[str, float] = "metal_spacing",
 ) -> bool:
+
+    sep = gf.get_constant(sep)
     if x2p + sep > x1:
         return False
     return False if x2 < x1p + sep else x2 >= x1p - sep
@@ -479,7 +479,7 @@ def _get_bundle_waypoints(
     ]
 
 
-def compute_ports_max_displacement(ports1: List[Port], ports2: List[Port]) -> Number:
+def compute_ports_max_displacement(ports1: List[Port], ports2: List[Port]) -> float:
     if ports1[0].orientation in [0, 180]:
         a1 = [p.y for p in ports1]
         a2 = [p.y for p in ports2]
@@ -490,7 +490,7 @@ def compute_ports_max_displacement(ports1: List[Port], ports2: List[Port]) -> Nu
     return max(abs(max(a1) - min(a2)), abs(min(a1) - max(a2)))
 
 
-def sign(x: Number) -> int:
+def sign(x: float) -> int:
     return 1 if x > 0 else -1
 
 
@@ -670,7 +670,7 @@ def get_bundle_same_axis_no_grouping(
 
 
 get_bundle_electrical = partial(
-    get_bundle, bend=wire_corner, cross_section=gf.cross_section.metal3
+    get_bundle, bend=wire_corner, cross_section="metal_routing"
 )
 
 get_bundle_electrical_multilayer = gf.partial(
@@ -678,7 +678,7 @@ get_bundle_electrical_multilayer = gf.partial(
     bend=via_corner,
     cross_section=[
         (gf.cross_section.metal2, (90, 270)),
-        (gf.cross_section.metal3, (0, 180)),
+        ("metal_routing", (0, 180)),
     ],
 )
 
@@ -714,33 +714,31 @@ if __name__ == "__main__":
 
     import gdsfactory as gf
 
-    c = gf.Component("get_bundle_none_orientation")
-    pt = c << gf.components.pad_array(orientation=None, columns=3)
-    pb = c << gf.components.pad_array(orientation=None, columns=3)
-    pt.move((100, 200))
-
-    routes = gf.routing.get_bundle_electrical_multilayer(
-        pb.ports,
-        pt.ports,
-        start_straight_length=1,
-        end_straight_length=10,
-        separation=30,
-    )
-
-    for route in routes:
-        c.add(route.references)
-
-    c.show(show_ports=True)
-
-    # c = gf.Component()
-    # c1 = c << gf.components.mmi2x2()
-    # c2 = c << gf.components.mmi2x2()
-    # c2.move((100, 40))
-    # routes = get_bundle(
-    #     [c1.ports['o2'], c1.ports["E1"]],
-    #     [c2.ports['o1'], c2.ports['o2']],
-    #     radius=5,
+    # c = gf.Component("get_bundle_none_orientation")
+    # pt = c << gf.components.pad_array(orientation=None, columns=3)
+    # pb = c << gf.components.pad_array(orientation=None, columns=3)
+    # pt.move((100, 200))
+    # routes = gf.routing.get_bundle_electrical_multilayer(
+    #     pb.ports,
+    #     pt.ports,
+    #     start_straight_length=1,
+    #     end_straight_length=10,
+    #     separation=30,
     # )
     # for route in routes:
-    #     assert np.isclose(route.length, 111.3) ,route.length
     #     c.add(route.references)
+
+    c = gf.Component("demo")
+    c1 = c << gf.components.mmi2x2()
+    c2 = c << gf.components.mmi2x2()
+    c2.move((100, 40))
+    routes = get_bundle(
+        [c1.ports["o2"], c1.ports["o1"]],
+        [c2.ports["o1"], c2.ports["o2"]],
+        radius=5,
+        # layer=(2, 0),
+        straight=gf.partial(gf.components.straight, layer=(1, 0), width=1),
+    )
+    for route in routes:
+        c.add(route.references)
+    c.show(show_ports=True)

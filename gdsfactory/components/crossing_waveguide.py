@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Optional
 
 import numpy as np
@@ -209,7 +211,7 @@ def crossing_etched(
     # tapers_poly = c.add_polygon(taper_cross_pts, layer=layer_wg)
     # b = a - 0.1  # To make sure we get 4 distinct polygons when doing bool ops
     # tmp_polygon = [(-b, b), (b, b), (b, -b), (-b, -b)]
-    # polys_etch = gdspy.fast_boolean([tmp_polygon], tapers_poly, "not", layer=layer_slab)
+    # polys_etch = gdstk.fast_boolean([tmp_polygon], tapers_poly, "not", layer=layer_slab)
     # c.add(polys_etch)
 
     positions = [(a, 0), (0, a), (-a, 0), (0, -a)]
@@ -312,7 +314,6 @@ def crossing45(
 
     c.info["bezier_length"] = bend.info["length"]
     c.info["min_bend_radius"] = b_br.info["min_bend_radius"]
-
     c.bezier = bend
     c.crossing = crossing
 
@@ -327,6 +328,7 @@ def crossing45(
         c = x.add_bbox(c)
     if x.add_pins:
         c = x.add_pins(c)
+
     return c
 
 
@@ -477,8 +479,8 @@ def _demo() -> None:
 
 
 if __name__ == "__main__":
-    c = crossing45()
-    # c = compensation_path()
+    # c = crossing45()
+    c = compensation_path()
     # c = crossing(
     #     cross_section=dict(
     #         cross_section="strip",

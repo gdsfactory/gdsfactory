@@ -1,7 +1,7 @@
-# Simulate CMOS passives in opensource em tools (ASITIC, meep, pyems etc)
+# Simulate CMOS passives in open source em tools (ASITIC, meep, pyems etc)
 # 1. Provide an interface with basic em simulation with minimal settings such as meshing and accuracy and provide
 # reasonable defaults
-# 2. Write output s-parameters or simulatable brodaband spice model that can be plugged in ngpice/Xyce
+# 2. Write output s-parameters or simulatable broadband spice model that can be plugged in ngspice/Xyce
 # 3. Compare with ASITIC created s-parameters for fine tuning ()
 # 4. Current example set on skywater130, once proven extend to gf180 and sky90(when available)
 
@@ -29,7 +29,7 @@ def extract_shapes() -> dict:
     """Extract the shapes from the gds.
 
     Args:
-        ind_comp: Provide inductor componenta.
+        ind_comp: Provide inductor components.
 
     Returns: Polygons dict in the db format
 

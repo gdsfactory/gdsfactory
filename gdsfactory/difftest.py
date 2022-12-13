@@ -1,9 +1,8 @@
 """GDS regression test. Adapted from lytest.
 
 TODO: adapt it into pytest_regressions
-
+from __future__ import annotations
 from pytest_regressions.file_regression import FileRegressionFixture
-
 class GdsRegressionFixture(FileRegressionFixture):
     def check(self,
         contents,
@@ -16,42 +15,130 @@ class GdsRegressionFixture(FileRegressionFixture):
             ):
         try:
             difftest(c)
-
 """
 import filecmp
+import os
 import pathlib
 import shutil
 from typing import Optional
 
 from gdsfactory.component import Component
-from gdsfactory.config import CONFIG, logger
+from gdsfactory.config import PATH, logger
 from gdsfactory.gdsdiff.gdsdiff import gdsdiff
+
+
+class GeometryDifference(Exception):
+    pass
+
+
+def run_xor(file1, file2, tolerance: int = 1, verbose: bool = False) -> None:
+    """Returns nothing.
+
+    Raises a GeometryDifference if there are differences detected.
+
+    Args:
+        file1: ref gdspath.
+        file2: run gdspath.
+        tolerance: in nm.
+        verbose: prints output.
+    """
+    import klayout.db as kdb
+
+    l1 = kdb.Layout()
+    l1.read(file1)
+
+    l2 = kdb.Layout()
+    l2.read(file2)
+
+    # Check that same set of layers are present
+    layer_pairs = []
+    for ll1 in l1.layer_indices():
+        li1 = l1.get_info(ll1)
+        ll2 = l2.find_layer(l1.get_info(ll1))
+        if ll2 is None:
+            raise GeometryDifference(
+                f"Layer {li1} of layout {file1!r} not present in layout {file2!r}."
+            )
+
+        layer_pairs.append((ll1, ll2))
+
+    for ll2 in l2.layer_indices():
+        li2 = l2.get_info(ll2)
+        ll1 = l1.find_layer(l2.get_info(ll2))
+        if ll1 is None:
+            raise GeometryDifference(
+                f"Layer {li2} of layout {file2!r} not present in layout {file1!r}."
+            )
+
+    # Check that topcells are the same
+    tc1_names = [tc.name for tc in l1.top_cells()]
+    tc2_names = [tc.name for tc in l2.top_cells()]
+    tc1_names.sort()
+    tc2_names.sort()
+    if tc1_names != tc2_names:
+        raise GeometryDifference(
+            f"Missing topcell on one of the layouts, or name differs:\n{tc1_names!r}\n{tc2_names!r}"
+        )
+    topcell_pairs = [(l1.cell(tc1_n), l2.cell(tc1_n)) for tc1_n in tc1_names]
+    # Check that dbu are the same
+    if (l1.dbu - l2.dbu) > 1e-6:
+        raise GeometryDifference(
+            f"Database unit of layout {file1!r} ({l1.dbu}) differs from that of layout {file2!r} ({l2.dbu})."
+        )
+
+    # Run the difftool
+    diff = False
+    for tc1, tc2 in topcell_pairs:
+        for ll1, ll2 in layer_pairs:
+            r1 = kdb.Region(tc1.begin_shapes_rec(ll1))
+            r2 = kdb.Region(tc2.begin_shapes_rec(ll2))
+
+            rxor = r1 ^ r2
+
+            if tolerance > 0:
+                rxor.size(-tolerance)
+
+            if not rxor.is_empty():
+                diff = True
+                if verbose:
+                    print(
+                        f"{rxor.size()} differences found in {tc1.name!r} on layer {l1.get_info(ll1)}."
+                    )
+
+            elif verbose:
+                print(
+                    f"No differences found in {tc1.name!r} on layer {l1.get_info(ll1)}."
+                )
+
+    if diff:
+        fn_abgd = []
+        for fn in [file1, file2]:
+            head, tail = os.path.split(fn)
+            abgd = os.path.join(os.path.basename(head), tail)
+            fn_abgd.append(abgd)
+        raise GeometryDifference(
+            "Differences found between layouts {} and {}".format(*fn_abgd)
+        )
 
 
 def difftest(
     component: Component,
     test_name: Optional[str] = None,
-    xor: bool = False,
-    dirpath: pathlib.Path = CONFIG["gdsdiff"],
+    dirpath: pathlib.Path = PATH.gdsdiff,
 ) -> None:
     """Avoids GDS regressions tests on the GeometryDifference.
 
     If files are the same it returns None. If files are different runs XOR
     between new component and the GDS reference stored in dirpath and
-    raises GeometryDifference if there are differences and show differences in klayout.
+    raises GeometryDifference if there are differences and show differences in KLayout.
 
     If it runs for the fist time it just stores the GDS reference.
-
 
     Args:
         component: to test if it has changed.
         test_name: used to store the GDS file.
-        xor: runs xor if there is difference.
         dirpath: defaults to cwd refers to where the test is being invoked.
-
     """
-    from lytest.kdb_xor import GeometryDifference, run_xor
-
     # containers function_name is different from component.name
     # we store the container with a different name from original component
     test_name = test_name or (
@@ -76,16 +163,11 @@ def difftest(
     if filecmp.cmp(ref_file, run_file, shallow=False):
         return
 
-    # component_reference = gf.import_gds(ref_file)
-    # if component.hash_geometry() == component_reference.hash_geometry():
-    #     print("same hash")
-    #     return
-
     try:
         run_xor(str(ref_file), str(run_file), tolerance=1, verbose=False)
     except GeometryDifference as error:
         logger.error(error)
-        diff = gdsdiff(ref_file, run_file, name=test_name, xor=xor)
+        diff = gdsdiff(ref_file, run_file, name=test_name, xor=False)
         diff.write_gds(diff_file)
         diff.show(show_ports=False)
         print(
@@ -96,10 +178,20 @@ def difftest(
 
         try:
             val = input(
-                "Would you like to save current GDS as the new reference? [Y/n] "
+                "Save current GDS as new reference (Y) or show differences (d)? [Y/n/d]"
             )
             if val.upper().startswith("N"):
                 raise
+            xor = val.upper().startswith("D")
+            if xor:
+                diff = gdsdiff(ref_file, run_file, name=test_name, xor=xor)
+                diff.write_gds(diff_file)
+                diff.show(show_ports=False)
+
+                val = input("Save current GDS as the new reference (Y)? [Y/n]")
+                if val.upper().startswith("N"):
+                    raise
+
             logger.info(f"deleting file {str(ref_file)!r}")
             ref_file.unlink()
             shutil.copy(run_file, ref_file)

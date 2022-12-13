@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from collections import Counter
 from typing import Dict, Optional, Tuple
 
@@ -56,9 +58,9 @@ def parse_component_name(name: str) -> Tuple[str, bool]:
 def _flip_ref(c_ref, port_name):
     a = c_ref.ports[port_name].orientation
     if a in [0, 180]:
-        c_ref.reflect_v(port_name)
+        c_ref.mirror_y(port_name)
     else:
-        c_ref.reflect_h(port_name)
+        c_ref.mirror_x(port_name)
     return c_ref
 
 
@@ -211,8 +213,8 @@ if __name__ == "__main__":
     sequence = "AB"
     sequence = "HH!"
     sequence = "!HH"
-    sequence = "AB-H-H-H-H-BA"
     sequence = "H"
+    sequence = "AB-H-H-H-H-BA"
     c = gf.components.component_sequence(
         sequence=sequence, symbol_to_component=symbol_to_component_map
     )

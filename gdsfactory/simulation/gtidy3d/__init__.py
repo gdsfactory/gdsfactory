@@ -5,6 +5,8 @@ solver](https://simulation.cloud/)
 
 """
 
+from __future__ import annotations
+
 import tidy3d as td
 
 from gdsfactory.config import logger

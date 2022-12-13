@@ -3,10 +3,11 @@ help:
 	@echo 'make test:             Run tests with pytest'
 	@echo 'make test-force:       Rebuilds regression test'
 
+full: gdslib
+	pip install -e .[docs,dev,full,tidy3d,sipann,devsim]
+
 install: gdslib
-	pip install -r requirements_dev.txt
-	pip install -r requirements_full.txt
-	pip install -e .
+	pip install -e .[dev,full]
 	pre-commit install
 	gf tool install
 
@@ -26,24 +27,29 @@ major:
 	python docs/write_components_doc.py
 
 plugins:
-	pip install -e .[tidy3d]
+	pip install -e .[tidy3d,sipann]
 	pip install jax jaxlib
 	mamba install pymeep=*=mpi_mpich_* -y
-	pip install -r requirements_sipann.txt
+	pip install --upgrade "protobuf<=3.20.1"
+
+plugins-debian:
+	sudo apt install libgl1-mesa-glx -y
+	pip install -e .[tidy3d,sipann]
+	pip install jax jaxlib
+	mamba install pymeep=*=mpi_mpich_* -y
 	pip install --upgrade "protobuf<=3.20.1"
 
 thermal:
 	mamba install python-gmsh
+
+gmsh:
+	pip install trimesh mapbox_earcut gmsh meshio pygmsh pyvista h5py
 
 meep:
 	mamba install pymeep=*=mpi_mpich_* -y
 
 sax:
 	pip install jax jaxlib
-
-update:
-	pur
-	pur -r requirements_dev.txt
 
 publish:
 	anaconda upload environment.yml
@@ -121,7 +127,8 @@ mypy:
 	mypy gdsfactory --ignore-missing-imports
 
 build:
-	python setup.py sdist bdist_wheel
+	pip install build
+	python -m build
 
 upload-devpi:
 	pip install devpi-client wheel
@@ -165,15 +172,8 @@ git-rm-merged:
 link:
 	lygadgets_link gdsfactory/klayout
 
-spell:
-	codespell -i 3 -w -L TE,TE/TM,te,ba,FPR,fpr_spacing
-
-devsim:
-	wget -P devsim https://github.com/devsim/devsim/releases/download/v2.1.0/devsim_linux_v2.1.0.tgz
-	tar zxvf devsim/devsim_linux_v2.1.0.tgz --directory devsim
-	python devsim/devsim_linux_v2.1.0/install.py
-	pip install -e devsim/devsim_linux_v2.1.0/lib # Works in this specific way
-	pip install mkl
-	mamba install -c conda-forge pyvista -y
+constructor:
+	mamba install constructor conda-libmamba-solver -y
+	constructor .
 
 .PHONY: gdsdiff build conda

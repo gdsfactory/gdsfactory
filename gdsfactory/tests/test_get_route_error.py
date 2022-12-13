@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import pytest
 
 import gdsfactory as gf
@@ -27,6 +29,7 @@ def test_route_error():
             ],
         )
         c.add(route.references)
+        c.add(route.labels)
     return c
 
 

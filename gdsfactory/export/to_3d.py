@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Optional, Tuple
 
 import shapely
@@ -18,7 +20,7 @@ def to_3d(
     """Return Component 3D trimesh Scene.
 
     Args:
-        component: to exture in 3D.
+        component: to extrude in 3D.
         layer_colors: layer colors from Klayout Layer Properties file.
             Defaults to active PDK.layer_colors.
         layer_stack: contains thickness and zmin for each layer.
@@ -44,7 +46,7 @@ def to_3d(
 
     has_polygons = False
 
-    for layer, polygons in component.get_polygons(by_spec=True).items():
+    for layer, polygons in component.get_polygons(by_spec=True, as_array=False).items():
         if (
             layer not in exclude_layers
             and layer in layer_to_thickness
@@ -57,7 +59,7 @@ def to_3d(
             color_rgb = matplotlib.colors.to_rgb(color_hex)
 
             for polygon in polygons:
-                p = shapely.geometry.Polygon(polygon)
+                p = shapely.geometry.Polygon(polygon.points)
                 mesh = extrude_polygon(p, height=height)
                 mesh.apply_translation((0, 0, zmin))
                 mesh.visual.face_colors = (*color_rgb, 0.5)

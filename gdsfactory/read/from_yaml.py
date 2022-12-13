@@ -46,6 +46,8 @@ routes:
             radius: 10
 
 """
+from __future__ import annotations
+
 import importlib
 import io
 import pathlib
@@ -163,7 +165,7 @@ def _move_ref(
         return x
     if len(x.split(",")) != 2:
         raise ValueError(
-            f"You can define {x_or_y} as `{x_or_y}: instaceName,portName` got `{x_or_y}: {x!r}`"
+            f"You can define {x_or_y} as `{x_or_y}: instanceName,portName` got `{x_or_y}: {x!r}`"
         )
     instance_name_ref, port_name = x.split(",")
     if instance_name_ref in all_remaining_insts:
@@ -178,7 +180,7 @@ def _move_ref(
     if instance_name_ref not in instances:
         raise ValueError(
             f"{instance_name_ref!r} not in {list(instances.keys())}."
-            f" You can define {x_or_y} as `{x_or_y}: instaceName,portName`, got {x_or_y}: {x!r}"
+            f" You can define {x_or_y} as `{x_or_y}: instanceName,portName`, got {x_or_y}: {x!r}"
         )
     if (
         port_name not in instances[instance_name_ref].ports
@@ -188,7 +190,7 @@ def _move_ref(
         raise ValueError(
             f"port = {port_name!r} can be a port_name in {ports}, "
             f"an anchor {valid_anchor_keywords} for {instance_name_ref!r}, "
-            f"or `{x_or_y}: instaceName,portName`, got `{x_or_y}: {x!r}`"
+            f"or `{x_or_y}: instanceName,portName`, got `{x_or_y}: {x!r}`"
         )
 
     return _get_anchor_value_from_name(instances[instance_name_ref], port_name, x_or_y)
@@ -212,7 +214,7 @@ def place(
         encountered_insts: list of encountered_instances.
         instance_name: instance_name to place.
         all_remaining_insts: list of all the remaining instances to place
-            instances pop from this instrance as they are placed.
+            instances pop from this instance as they are placed.
 
     """
     if not all_remaining_insts:
@@ -259,18 +261,18 @@ def place(
 
         if mirror:
             if mirror is True and port:
-                ref.reflect_h(x0=_get_anchor_value_from_name(ref, port, "x"))
+                ref.mirror_x(x0=_get_anchor_value_from_name(ref, port, "x"))
             elif mirror is True:
                 if x:
-                    ref.reflect_h(x0=x)
+                    ref.mirror_x(x0=x)
                 else:
-                    ref.reflect_h()
+                    ref.mirror_x()
             elif mirror is False:
                 pass
             elif isinstance(mirror, str):
-                ref.reflect_h(port_name=mirror)
+                ref.mirror_x(port_name=mirror)
             elif isinstance(mirror, (int, float)):
-                ref.reflect_h(x0=mirror)
+                ref.mirror_x(x0=mirror)
             else:
                 raise ValueError(
                     f"{mirror!r} can only be a port name {ref.ports.keys()}, "
@@ -508,7 +510,7 @@ def from_yaml(
         label_instance_function: to label each instance.
         name: Optional name.
         prefix: name prefix.
-        kwargs: function settings for creating YAML Pcells.
+        kwargs: function settings for creating YAML PCells.
 
     .. code::
 
@@ -597,6 +599,11 @@ def from_yaml(
 
     settings = conf.get("settings", {})
 
+    if "mode" in kwargs:
+        mode = kwargs.pop("mode")
+    else:
+        mode = "layout"
+
     for key, value in kwargs.items():
         if key not in settings:
             raise ValueError(f"{key!r} not in {settings.keys()}")
@@ -609,6 +616,7 @@ def from_yaml(
         label_instance_function=label_instance_function,
         prefix=prefix or conf.get("name", "Unnamed"),
         name=name,
+        mode=mode,
     )
 
 
@@ -617,6 +625,7 @@ def _from_yaml(
     conf,
     routing_strategy: Dict[str, Callable] = routing_strategy_factories,
     label_instance_function: Callable = add_instance_label,
+    mode: str = "layout",
 ) -> Component:
     """Returns component from YAML decorated with cell for caching and autonaming.
 
@@ -651,13 +660,21 @@ def _from_yaml(
         pdk.activate()
 
     pdk = get_active_pdk()
+    if mode == "layout":
+        component_getter = pdk.get_component
+    elif mode == "schematic":
+        component_getter = pdk.get_symbol
+    else:
+        raise ValueError(
+            f"{mode} is not a recognized mode. Please choose 'layout' or 'schematic'"
+        )
 
     for instance_name in instances_dict:
         instance_conf = instances_dict[instance_name]
         component = instance_conf["component"]
         settings = instance_conf.get("settings", {})
         component_spec = {"component": component, "settings": settings}
-        component = pdk.get_component(component_spec)
+        component = component_getter(component_spec)
         ref = c.add_ref(component, alias=instance_name)
         instances[instance_name] = ref
 

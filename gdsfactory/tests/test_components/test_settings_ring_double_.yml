@@ -3,22 +3,11 @@ settings:
   changed: {}
   child: null
   default:
-    bend: null
+    bend:
+      function: bend_euler
     coupler_ring:
       function: coupler_ring
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - DEVREC
-        cladding_offsets:
-        - 0
+    cross_section: strip
     gap: 0.2
     length_x: 0.01
     length_y: 0.01
@@ -26,22 +15,11 @@ settings:
     straight:
       function: straight
   full:
-    bend: null
+    bend:
+      function: bend_euler
     coupler_ring:
       function: coupler_ring
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - DEVREC
-        cladding_offsets:
-        - 0
+    cross_section: strip
     gap: 0.2
     length_x: 0.01
     length_y: 0.01

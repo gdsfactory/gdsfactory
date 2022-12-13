@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.simulation.simphony.model_from_gdsfactory import (
     GDSFactorySimphonyWrapper,

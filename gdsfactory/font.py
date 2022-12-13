@@ -1,7 +1,9 @@
 """Support for font rendering in GDS files."""
 
 
-import gdspy
+from __future__ import annotations
+
+import gdstk
 import numpy as np
 from matplotlib import font_manager
 
@@ -99,7 +101,7 @@ def _get_glyph(font, letter):  # noqa: C901
 
         # Build up the letter as a curve
         cpoint = start
-        curve = gdspy.Curve(*points[cpoint], tolerance=0.001)
+        curve = gdstk.Curve(points[0], tolerance=0.001)
         while cpoint <= end:
             # Figure out what sort of point we are looking at
             if tags[cpoint] & 1:
@@ -116,16 +118,16 @@ def _get_glyph(font, letter):  # noqa: C901
 
                 # Then add the control points
                 if ntag & 1:
-                    curve.L(*npoint)
+                    curve.commands("l", *npoint)
                     cpoint += 1
                 elif ntag & 2:
                     # We are at a cubic bezier curve point
                     if cpoint + 3 <= end:
-                        curve.C(*points[cpoint + 1 : cpoint + 4].flatten())
+                        curve.commands("c", *points[cpoint + 1 : cpoint + 4].flatten())
                     elif cpoint + 2 <= end:
                         plist = list(points[cpoint + 1 : cpoint + 3].flatten())
                         plist.extend(points[start])
-                        curve.C(*plist)
+                        curve.commands("c", *plist)
                     else:
                         raise ValueError(
                             "Missing bezier control points. We require at least"
@@ -149,7 +151,7 @@ def _get_glyph(font, letter):  # noqa: C901
                         p2 = (p1 + p2) / 2
 
                     # Add the curve
-                    curve.Q(p1[0], p1[1], p2[0], p2[1])
+                    curve.commands("q", p1[0], p1[1], p2[0], p2[1])
                     cpoint += 2
             else:
                 if tags[cpoint] & 2:
@@ -176,7 +178,7 @@ def _get_glyph(font, letter):  # noqa: C901
                         # halfway between here and the last point
                         p0 = (p0 + p1) / 2
                     # And reset the starting position of the spline
-                    curve = gdspy.Curve(*p0, tolerance=0.001)
+                    curve = gdstk.Curve(*p0, tolerance=0.001)
                 else:
                     # The first control point is at the midpoint of this control point and the
                     # previous control point
@@ -188,18 +190,25 @@ def _get_glyph(font, letter):  # noqa: C901
                     p2 = (p1 + p2) / 2
 
                 # And add the segment
-                curve.Q(p1[0], p1[1], p2[0], p2[1])
+                curve.commands("q", p1[0], p1[1], p2[0], p2[1])
                 cpoint += 1
-        polylines.append(gdspy.Polygon(curve.get_points()))
+        polylines.append(gdstk.Polygon(curve.points()))
 
     # Construct the component
     component = Component(block_name)
     if polylines:
         letter_polyline = polylines[0]
         for polyline in polylines[1:]:
-            letter_polyline = gdspy.boolean(letter_polyline, polyline, "xor")
+            letter_polyline = gdstk.boolean(letter_polyline, polyline, "xor")
         component.add_polygon(letter_polyline)
 
     # Cache the return value and return it
     font.gds_glyphs[letter] = (component, glyph.advance.x / font.size.ascender)
     return font.gds_glyphs[letter]
+
+
+if __name__ == "__main__":
+    from gdsfactory.components.text_freetype import text_freetype
+
+    c = text_freetype("hello", font="Times New Roman")
+    c.show(show_ports=True)

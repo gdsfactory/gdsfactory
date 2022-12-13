@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Optional, Tuple
 
 from numpy import floor
@@ -113,4 +115,5 @@ via_stack_heater_m3 = gf.partial(
 
 if __name__ == "__main__":
     c = via_stack_m1_m3()
+    print(c.to_dict())
     c.show(show_ports=True)

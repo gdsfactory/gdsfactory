@@ -1,0 +1,59 @@
+name: mmi2x2_cutback_2x2
+settings:
+  changed: {}
+  child:
+    changed: {}
+    child: null
+    default:
+      cross_section: strip
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10.0
+      straight:
+        function: straight
+      taper:
+        function: taper
+      width: null
+      width_mmi: 2.5
+      width_taper: 1.0
+      with_bbox: true
+    full:
+      cross_section: strip
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10.0
+      straight:
+        function: straight
+      taper:
+        function: taper
+      width: null
+      width_mmi: 2.5
+      width_taper: 1.0
+      with_bbox: true
+    function_name: mmi2x2
+    info: {}
+    info_version: 2
+    module: gdsfactory.components.mmi2x2
+    name: mmi2x2
+  default:
+    cols: 4
+    component:
+      function: mmi2x2
+    port1: o1
+    port2: o2
+    port3: o3
+    port4: o4
+  full:
+    cols: 4
+    component:
+      function: mmi2x2
+    port1: o1
+    port2: o2
+    port3: o3
+    port4: o4
+  function_name: cutback_2x2
+  info:
+    components: 6
+  info_version: 2
+  module: gdsfactory.components.cutback_2x2
+  name: mmi2x2_cutback_2x2

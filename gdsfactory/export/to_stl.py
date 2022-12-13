@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import pathlib
 from typing import Optional, Tuple
 
@@ -47,8 +49,6 @@ def to_stl(
                 filepath.parent
                 / f"{filepath.stem}_{layer[0]}_{layer[1]}{filepath.suffix}"
             )
-            print(filepath_layer)
-
             for polygon in polygons:
                 p = shapely.geometry.Polygon(polygon)
                 mesh = extrude_polygon(p, height=height)

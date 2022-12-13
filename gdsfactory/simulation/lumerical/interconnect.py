@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import contextlib
 import pathlib
 from collections import OrderedDict
@@ -7,7 +9,7 @@ import numpy as np
 from omegaconf import DictConfig
 
 from gdsfactory import Component
-from gdsfactory.config import CONFIG
+from gdsfactory.config import PATH
 
 c = 2.9979e8
 pi = np.pi
@@ -16,7 +18,7 @@ um = 1e-6
 
 def install_design_kit(
     session: object,
-    install_dir: pathlib.Path = CONFIG["interconnect"],
+    install_dir: pathlib.Path = PATH.interconnect,
     overwrite: bool = False,
 ):
     from gdsfactory.pdk import get_interconnect_cml_path
@@ -308,7 +310,7 @@ def send_to_interconnect(
         if (element1 in excluded) or (element2 in excluded):
             continue
         if drop_port_prefix:
-            # a bad way to autodetect which ports need to have prefixes dropped..
+            # a bad way to autodetect which ports need to have prefixes dropped.
             with contextlib.suppress(Exception):
                 port1 = port1[port1.index(drop_port_prefix) + 1 :]
             with contextlib.suppress(Exception):

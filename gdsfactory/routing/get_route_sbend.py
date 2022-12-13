@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.port import Port
 from gdsfactory.types import Route
@@ -41,10 +43,10 @@ def get_route_sbend(port1: Port, port2: Port, **kwargs) -> Route:
     bend_ref = bend.ref()
     bend_ref.connect(list(bend_ref.ports.keys())[0], port1)
 
-    ortogonality_error = abs(abs(port1.orientation - port2.orientation) - 180)
-    if ortogonality_error > 0.1:
+    orthogonality_error = abs(abs(port1.orientation - port2.orientation) - 180)
+    if orthogonality_error > 0.1:
         raise ValueError(
-            f"Ports need to have orthogonal orientation {ortogonality_error}\n"
+            f"Ports need to have orthogonal orientation {orthogonality_error}\n"
             f"port1 = {port1.orientation} deg and port2 = {port2.orientation}"
         )
 

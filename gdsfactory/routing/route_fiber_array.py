@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Callable, List, Optional, Tuple, Union
 
 import gdsfactory as gf
@@ -7,7 +9,6 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.config import TECH
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port, select_ports_optical
 from gdsfactory.routing.get_bundle import get_bundle, get_min_spacing
@@ -27,7 +28,7 @@ from gdsfactory.types import (
 
 def route_fiber_array(
     component: Component,
-    fiber_spacing: float = TECH.fiber_array_spacing,
+    fiber_spacing: Union[str, float] = "fiber_array_spacing",
     grating_coupler: ComponentSpecOrList = grating_coupler_te,
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
@@ -65,11 +66,11 @@ def route_fiber_array(
 
     Args:
         component: component spec to connect to.
-        fiber_spacing: the wanted spacing between the optical I/O.
+        fiber_spacing: spacing between the optical fibers.
         grating_coupler: grating coupler instance, function or list of functions.
         bend: for bends.
         straight: straight.
-        fanout_length: target distance between gratings and the southest component port.
+        fanout_length: target distance between gratings and the southmost component port.
             If None, automatically calculated.
         max_y0_optical: Maximum y coordinate at which the intermediate optical ports can be set.
             Usually fine to leave at None.
@@ -120,6 +121,7 @@ def route_fiber_array(
         list of ports: to connect to.
 
     """
+    fiber_spacing = gf.get_constant(fiber_spacing)
     cross_section = x = gf.get_cross_section(cross_section, **kwargs)
     radius = x.radius
 
@@ -153,12 +155,10 @@ def route_fiber_array(
         grating_coupler = gf.call_if_func(grating_coupler)
         grating_couplers = [grating_coupler] * N
 
-    assert (
-        gc_port_name in grating_coupler.ports
-    ), f"{gc_port_name} not in {list(grating_coupler.ports.keys())}"
-
     if gc_port_name not in grating_coupler.ports:
-        raise ValueError(f"{gc_port_name} not in {list(grating_coupler.ports.keys())}")
+        raise ValueError(
+            f"{gc_port_name!r} not in {list(grating_coupler.ports.keys())}"
+        )
 
     # Now:
     # - grating_coupler is a single grating coupler
@@ -366,7 +366,7 @@ def route_fiber_array(
         if min_y > delta_y:
             for io_gratings in io_gratings_lines:
                 for gr in io_gratings:
-                    gr.translate(0, delta_y - min_y)
+                    gr.origin = (gr.origin[0], gr.origin[1] + delta_y - min_y)
 
         # If we add align ports, we need enough space for the bends
         end_straight_offset = straight_separation + 5 if with_loopback else x.min_length

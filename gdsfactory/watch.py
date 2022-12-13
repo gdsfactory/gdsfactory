@@ -1,5 +1,7 @@
 """FileWatcher based on watchdog. Looks for changes in files with .pic.yml extension."""
 
+from __future__ import annotations
+
 import logging
 import pathlib
 import sys
@@ -76,7 +78,11 @@ class YamlEventHandler(FileSystemEventHandler):
         super().on_modified(event)
 
         what = "directory" if event.is_directory else "file"
-        if what == "file" and event.src_path.endswith(".pic.yml"):
+        if (
+            what == "file"
+            and event.src_path.endswith(".pic.yml")
+            or event.src_path.endswith(".py")
+        ):
             self.logger.info("Modified %s: %s", what, event.src_path)
             self.get_component(event.src_path)
 
@@ -84,11 +90,18 @@ class YamlEventHandler(FileSystemEventHandler):
         try:
             filepath = pathlib.Path(filepath)
             if filepath.exists():
-                c = from_yaml(filepath)
-                self.update_cell(filepath, update=True)
-                c.show(show_ports=True)
-                # on_yaml_cell_modified.fire(c)
-                return c
+                if str(filepath).endswith(".pic.yml"):
+                    c = from_yaml(filepath)
+                    self.update_cell(filepath, update=True)
+                    c.show(show_ports=True)
+                    # on_yaml_cell_modified.fire(c)
+                    return c
+                elif str(filepath).endswith(".py"):
+                    d = dict(locals(), **globals())
+                    d.update(__name__="__main__")
+                    exec(filepath.read_text(), d, d)
+                else:
+                    print("Changed file {filepath} ignored (not .pic.yml or .py)")
         except Exception as e:
             traceback.print_exc(file=sys.stdout)
             print(e)

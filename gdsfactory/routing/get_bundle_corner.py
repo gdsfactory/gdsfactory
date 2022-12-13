@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Callable, List
 
 import numpy as np
@@ -43,7 +45,7 @@ def _transform_port(
 def _transform_ports(ports, rotation, origin=(0, 0), x_reflection=False):
     ports_transformed = []
     for p in ports:
-        new_port = p.copy(new_uid=False)
+        new_port = p.copy()
         new_center, new_orientation = _transform_port(
             p.center, p.orientation, origin, rotation, x_reflection
         )
@@ -77,9 +79,9 @@ def get_bundle_corner(
         path_length_match_modify_segment_i: segment to increase length.
 
     Returns:
-        `[route_filter(r) for r in routes]` where routes is a list of lists of coordinates
-        e.g with default `get_route_from_waypoints`,
         returns a list of elements which can be added to a component.
+        `[route_filter(r) for r in routes]` where routes is a list of coordinates list
+        e.g with default `get_route_from_waypoints`.
 
 
     ::
@@ -213,7 +215,7 @@ def _get_bundle_corner_waypoints(
     )
     assert is_routable_270 or is_routable_90, (
         f"Ports not routable with corner_bundle: da={da}; are_below={are_below};"
-        "are_above={are_above}; are_left={are_left}; are_right={are_right}. "
+        f"are_above={are_above}; are_left={are_left}; are_right={are_right}. "
         "Consider applying a U turn first and then to to the 90Deg or 270Deg connection"
     )
 

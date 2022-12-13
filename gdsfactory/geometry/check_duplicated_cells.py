@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from pathlib import Path
 from typing import Union
 
@@ -10,6 +12,7 @@ def check_duplicated_cells(gdspath: Union[Path, str]):
 
     """
     import klayout.db as pya
+
     from gdsfactory.component import Component
 
     if isinstance(gdspath, Component):
