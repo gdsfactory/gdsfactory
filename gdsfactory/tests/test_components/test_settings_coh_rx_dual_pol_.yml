@@ -14,8 +14,6 @@ settings:
     splitter_coh_rx_spacing: 40.0
     spol_coh_rx:
       function: coh_rx_single_pol
-    straight:
-      function: straight
   full:
     bend:
       function: bend_euler
@@ -28,8 +26,6 @@ settings:
     splitter_coh_rx_spacing: 40.0
     spol_coh_rx:
       function: coh_rx_single_pol
-    straight:
-      function: straight
   function_name: coh_rx_dual_pol
   info: {}
   info_version: 2

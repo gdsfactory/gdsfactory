@@ -1,5 +1,7 @@
 """SiEPIC labels one grating coupler from the fiber array using a GDS label."""
 
+from __future__ import annotations
+
 from typing import Callable, List, Optional, Tuple
 
 import gdsfactory as gf
@@ -32,7 +34,6 @@ def get_input_label_text(
         gc_index: grating coupler index.
         component_name: optional component name.
         username: for the label.
-
     """
     polarization = gc.info.get("polarization")
     wavelength = gc.info.get("wavelength")
@@ -79,7 +80,7 @@ def get_input_labels(
     layer, texttype = gf.get_layer(layer_label)
     label = Label(
         text=text,
-        position=gc.ports[gc_port_name].center,
+        origin=gc.ports[gc_port_name].center,
         anchor="o",
         layer=layer,
         texttype=texttype,

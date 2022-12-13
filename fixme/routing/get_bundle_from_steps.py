@@ -12,7 +12,7 @@ if __name__ == "__main__":
     routes = gf.routing.get_bundle_from_steps(
         pt.ports,
         pb.ports,
-        cross_section=gf.cross_section.metal3,
+        cross_section="metal_routing",
         bend=gf.components.wire_corner,
         steps=[{"y": 100}, {"x": 100}],
     )

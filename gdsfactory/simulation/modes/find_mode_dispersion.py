@@ -1,5 +1,7 @@
 """Sweep neff over wavelength and returns group index."""
 
+from __future__ import annotations
+
 from functools import partial
 
 from gdsfactory.simulation.gmeep.get_material import get_index
@@ -24,7 +26,7 @@ def find_mode_dispersion(
         wavelength_step: in um.
         core: core material name.
         clad: clad material name.
-        mode_number: mode index to compute (1: fundanmental mode).
+        mode_number: mode index to compute (1: fundamental mode).
 
     Keyword Args:
         wg_thickness: wg height (um).
@@ -38,7 +40,7 @@ def find_mode_dispersion(
         plotH: plot magnetic field.
         cache: path to save the modes.
         polarization: prefix when saving the modes.
-        paririty: symmetries mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM.
+        parity: symmetries mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM.
 
     """
     w0 = wavelength - wavelength_step

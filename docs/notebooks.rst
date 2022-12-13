@@ -1,4 +1,4 @@
-Python driven flow
+Layout tutorial
 ===================================
 
 
@@ -15,10 +15,9 @@ Python driven flow
    notebooks/03_waveguides_paths_crossections.ipynb
    notebooks/04_components_.ipynb
    notebooks/04_components_hierarchy.ipynb
-   notebooks/04_routing.ipynb
-   notebooks/041_routing_electical.ipynb
-   notebooks/07_mask.ipynb
    notebooks/08_pdk.ipynb
    notebooks/09_pdk_import.ipynb
+   notebooks/07_mask.ipynb
+   notebooks/04_routing.ipynb
+   notebooks/041_routing_electrical.ipynb
    notebooks/common_mistakes.ipynb
-   notebooks/11_get_netlist.ipynb

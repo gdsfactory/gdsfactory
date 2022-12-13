@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from functools import partial
 from typing import Optional
 
@@ -35,7 +37,7 @@ def coh_tx_single_pol(
     output_coupler: Optional[ComponentSpec] = None,
     pad_array: ComponentSpec = "pad_array",
     cross_section: CrossSectionSpec = "strip",
-    **kwargs
+    **kwargs,
 ) -> Component:
     """MZM-based single polarization coherent transmitter.
 
@@ -53,7 +55,7 @@ def coh_tx_single_pol(
         with_pads: if True, we draw pads for all the electrical contacts.
         xspacing: horizontal spacing between the splitter and combiner and the mzm.
         input_coupler: Optional coupler to add before the splitter.
-        output_coupler: Optioncal coupler to add after the combiner.
+        output_coupler: Optional coupler to add after the combiner.
         pad_array: array of pads spec.
         cross_section: for routing (splitter to mzms and mzms to combiners).
         kwargs: cross_section settings.
@@ -153,7 +155,7 @@ def coh_tx_single_pol(
         mzm_i.ports["o1"],
         cross_section=cross_section,
         with_sbend=False,
-        **kwargs
+        **kwargs,
     )
     c.add(route.references)
 
@@ -162,7 +164,7 @@ def coh_tx_single_pol(
         mzm_q.ports["o1"],
         cross_section=cross_section,
         with_sbend=False,
-        **kwargs
+        **kwargs,
     )
     c.add(route.references)
 
@@ -178,7 +180,7 @@ def coh_tx_single_pol(
         ps_i.ports["o2"],
         cross_section=cross_section,
         with_sbend=False,
-        **kwargs
+        **kwargs,
     )
     c.add(route.references)
 
@@ -187,7 +189,7 @@ def coh_tx_single_pol(
         ps_q.ports["o2"],
         cross_section=cross_section,
         with_sbend=False,
-        **kwargs
+        **kwargs,
     )
     c.add(route.references)
 

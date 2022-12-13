@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import pathlib
 
 import matplotlib.pyplot as plt
@@ -21,7 +23,7 @@ def find_neff_vs_width(
     parity=mp.NO_PARITY,
     filepath: Optional[PathType] = None,
     overwrite: bool = False,
-    **kwargs
+    **kwargs,
 ) -> pd.DataFrame:
     """Sweep waveguide width and compute effective index.
 
@@ -56,7 +58,7 @@ def find_neff_vs_width(
             parity=parity,
             nmodes=nmodes,
             wg_width=wg_width,
-            **kwargs
+            **kwargs,
         )
         for mode_number in range(1, nmodes + 1):
             mode = modes[mode_number]

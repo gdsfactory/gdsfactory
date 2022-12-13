@@ -4,7 +4,7 @@ gdsfactory is an open source project that welcomes contributions from any users.
 
 How can you contribute?
 
-You can fork the repo, work on a feature, and then create a Pull Request asking permission to merge your feature into the `master` branch. As long as the tests pass on [GitHub Actions](https://github.com/gdsfactory/gdsfactory/actions) it is likely that your improvement will be included in the next release and benefit the community.
+You can fork the repo, work on a feature, and then create a Pull Request asking permission to merge your feature into the `main` branch. As long as the tests pass on [GitHub Actions](https://github.com/gdsfactory/gdsfactory/actions) it is likely that your improvement will be included in the next release and benefit the community.
 
 After your improvements the tests with `pytest` and syntax checker `flake8` must be passing.
 To help you with code quality checks we install pre-commit hooks to maintain good code quality.
@@ -21,13 +21,13 @@ The workflow is:
 
 - Fork the repo
 - `git clone` it into your computer and install it (`./install.bat` for Windows and `make install` for MacOs and Linux)
-- `git add`,`git commit`, `git push` your work as many times as needed (make sure tests are passing)
+- `git add`, `git commit`, `git push` your work as many times as needed (make sure tests are passing)
 - open a Pull request (PR)
 
 ## Style
 
 
-- You need to follow [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html). You can take a look at the other Pcell docstrings.
+- You need to follow [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html). You can take a look at the other PCell docstrings.
 - You should make sure tests pass.
 - You should install pre-commit to get the pre-commit checks passing (autoformat the code, run linter ...).
 
@@ -48,7 +48,7 @@ You can run tests with `pytest`. This will run 3 types of tests:
   - lytest: writes all components GDS in `run_layouts` and compares them with `ref_layouts`
     - when running the test it will do a boolean of the `run_layout` and the `ref_layout` and raise an error for any significant differences.
     - you can check out any changes in your library with `gf gds diff ref_layouts/bbox.gds run_layouts/bbox.gds`
-    - it will also store all differences in `diff_layouts` and you can combine and show them in klayout with `make diff`
+    - it will also store all differences in `diff_layouts` and you can combine and show them in KLayout with `make diff`
 
 ## Testing your own component factories
 
@@ -58,13 +58,13 @@ Pytest-regressions automatically creates the CSV and YAML files for you, as well
 
 gdsfactory is **not** backwards compatible, which means that the package will keep improving and evolving.
 
-1. To make your work stable you should install a specific version and [pin the version](https://martin-thoma.com/python-requirements/) in your `requirements.txt` as `gdsfactory==5.37.0` replacing `5.37.0` by whatever version you end up using.
+1. To make your work stable you should install a specific version and [pin the version](https://martin-thoma.com/python-requirements/) in your `requirements.txt` as `gdsfactory==6.8.2` replacing `6.8.2` by whatever version you end up using.
 2. Before you upgrade gdsfactory make sure you write and run regression tests on your work to check that things behave as expected
 
 
 ## gdsdiff
 
-You can use the command line `gf gds diff gds1.gds gds2.gds` to overlay `gds1.gds` and `gds2.gds` files and show them in klayout.
+You can use the command line `gf gds diff gds1.gds gds2.gds` to overlay `gds1.gds` and `gds2.gds` files and show them in KLayout.
 
 For example, if you changed the mmi1x2 and made it 5um longer by mistake, you could `gf gds diff ref_layouts/mmi1x2.gds run_layouts/mmi1x2.gds` and see the GDS differences in Klayout.
 
@@ -73,7 +73,7 @@ For example, if you changed the mmi1x2 and made it 5um longer by mistake, you co
 
 ## Why does gdsfactory exists?
 
-For Photonics IC layout I used [IPKISS](https://github.com/jtambasco/ipkiss) for 6 years. IPKISS is slow with big layouts, so in 2019 I tried all the commercial (Luceda, Cadence, Synopsis) and open source EDA tools (phidl, gdspy, picwriter, klayout-zero-pdk, nazca) looking for a fast and easy to use workflow.
+For Photonics IC layout I used [IPKISS](https://github.com/jtambasco/ipkiss) for 6 years. IPKISS is slow with big layouts, so in 2019 I tried all the commercial (Luceda, Cadence, Synopsis) and open source EDA tools (gdstk, gdspy, phidl, picwriter, klayout-zero-pdk, nazca) looking for a fast and easy to use workflow.
 
 The metrics for the benchmark were:
 
@@ -81,27 +81,26 @@ The metrics for the benchmark were:
 1. Easy to use and interface with other tools
 2. Maintained / Documented / Popular
 
-PHIDL won in speed, readability and easy of use. It is written on top of gdspy (which came second), so you can still leverage all the work from the gdspy community. Gdsfactory also leverages klayout and gdspy python APIs.
 
-Gdsfactory leverages klayout and gdspy python APIs.
+Gdsfactory leverages KLayout and gdstk python APIs.
 
-What nice things come from phidl?
+What nice things are inspired by gdstk and gdstk?
 
 - functional programming that follow UNIX philosophy
 - nice API to create and modify Components
 - Easy definition of paths, cross-sections and extrude them into Components
 - Easy definition of ports, to connect components. Ports in phidl have name, position, width and orientation (in degrees)
-  - gdsfactory expands phidl ports with layer, port_type (optical, electrical, vertical_te, vertical_tm ...) and cross_section
+  - gdsfactory ports have layer, port_type (optical, electrical, vertical_te, vertical_tm ...) and cross_section
   - gdsfactory adds renaming ports functions (clockwise, counter_clockwise ...)
 
-What nice things come from klayout?
+What nice things come from KLayout?
 
-- GDS viewer. gdsfactory can send GDS files directly to klayout, you just need to have klayout open
-- layer colormaps for showing in klayout, matplotlib, trimesh (using the same colors)
-- fast boolean xor to avoid geometric regressions on Components geometry. Klayout booleans are faster than gdspy ones
+- GDS viewer. gdsfactory can send GDS files directly to KLayout, you just need to have KLayout open
+- layer colormaps for showing in KLayout, matplotlib, trimesh (using the same colors)
+- fast boolean xor to avoid geometric regressions on Components geometry. Klayout booleans are faster than gdstk ones
 - basic DRC checks
 
-What functionality does gdsfactory provide you on top phidl/gdspy/klayout?
+What functionality does gdsfactory provide you on top gdstk/KLayout?
 
 - `@cell decorator` for decorating functions that create components
   - autonames Components with a unique name that depends on the input parameters

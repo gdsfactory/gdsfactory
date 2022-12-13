@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from pathlib import Path
 from typing import Tuple, Union
 
@@ -20,6 +22,7 @@ def check_width(
 
     """
     import klayout.db as pya
+
     from gdsfactory.component import Component
 
     if isinstance(gdspath, Component):

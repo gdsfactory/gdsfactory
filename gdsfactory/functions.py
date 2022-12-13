@@ -6,6 +6,8 @@ There are two types of functions:
 - containers: return a new component
 
 """
+from __future__ import annotations
+
 from functools import lru_cache, partial
 
 import numpy as np
@@ -176,7 +178,6 @@ def move(
         origin: of component.
         destination: Optional x, y.
         axis: x or y axis.
-
     """
     component_new = Component()
     component_new.component = component
@@ -197,9 +198,11 @@ def transformed(ref: ComponentReference):
     """
     c = Component()
     c.add(ref)
+    c = c.flatten()
     c.copy_child_info(ref.ref_cell)
     c.add_ports(ref.ports)
-    return c.flatten()
+    c.info["transformed_cell"] = ref.ref_cell.name
+    return c
 
 
 def move_port_to_zero(component: Component, port_name: str = "o1"):
@@ -272,7 +275,10 @@ if __name__ == "__main__":
     )
     # c.show(show_ports=True)
 
-    cr = rotate(component=c)
+    # cr = rotate(component=c)
+    # cr.show()
+
+    cr = transformed(c.ref())
     cr.show()
 
     # cr = c.rotate()

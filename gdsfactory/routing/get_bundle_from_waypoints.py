@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Callable, List, Optional, Tuple, Union
 
 import numpy as np
@@ -238,7 +240,7 @@ def get_bundle_from_waypoints(
 
 
 get_bundle_from_waypoints_electrical = gf.partial(
-    get_bundle_from_waypoints, bend=wire_corner, cross_section=gf.cross_section.metal3
+    get_bundle_from_waypoints, bend=wire_corner, cross_section="metal_routing"
 )
 
 get_bundle_from_waypoints_electrical_multilayer = gf.partial(
@@ -246,7 +248,7 @@ get_bundle_from_waypoints_electrical_multilayer = gf.partial(
     bend=via_corner,
     cross_section=[
         (gf.cross_section.metal2, (90, 270)),
-        (gf.cross_section.metal3, (0, 180)),
+        ("metal_routing", (0, 180)),
     ],
 )
 

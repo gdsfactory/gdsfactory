@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import hashlib
 import pathlib
 from copy import deepcopy
@@ -102,7 +104,10 @@ if __name__ == "__main__":
 
     c = gf.components.mmi1x2()
     p = get_sparameters_path_lumerical(c)
-    print(p)
+
+    sp = np.load(p)
+    spd = dict(sp)
+    print(spd)
 
     # test_get_sparameters_path(test=False)
     # test_get_sparameters_path(test=True)

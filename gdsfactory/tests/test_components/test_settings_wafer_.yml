@@ -1,0 +1,35 @@
+name: wafer
+settings:
+  changed: {}
+  child: null
+  default:
+    cols:
+    - 2
+    - 6
+    - 6
+    - 8
+    - 8
+    - 6
+    - 6
+    - 2
+    reticle: die
+    xspacing: null
+    yspacing: null
+  full:
+    cols:
+    - 2
+    - 6
+    - 6
+    - 8
+    - 8
+    - 6
+    - 6
+    - 2
+    reticle: die
+    xspacing: null
+    yspacing: null
+  function_name: wafer
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.wafer
+  name: wafer

@@ -1,16 +1,15 @@
 """CD SEM structures."""
+from __future__ import annotations
+
 from functools import partial
 from typing import Optional, Tuple
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.cdsem_bend180 import cdsem_bend180
 from gdsfactory.components.cdsem_straight import cdsem_straight
 from gdsfactory.components.cdsem_straight_density import cdsem_straight_density
-from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.text_rectangular import text_rectangular
-from gdsfactory.cross_section import strip
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 text_rectangular_mini = partial(text_rectangular, size=1)
@@ -23,9 +22,9 @@ def cdsem_all(
     dense_lines_width_difference: float = 20e-3,
     dense_lines_gap: float = 0.3,
     dense_lines_labels: Tuple[str, ...] = ("DL", "DM", "DH"),
-    straight: ComponentSpec = straight_function,
-    bend90: Optional[ComponentSpec] = bend_circular,
-    cross_section: CrossSectionSpec = strip,
+    straight: ComponentSpec = "straight",
+    bend90: Optional[ComponentSpec] = "bend_circular",
+    cross_section: CrossSectionSpec = "strip",
     text: ComponentSpec = text_rectangular_mini,
 ) -> Component:
     """Column with all optical PCMs.
@@ -39,7 +38,7 @@ def cdsem_all(
         straight: spec.
         bend90: spec.
         cross_section: spec.
-        text: sepc.
+        text: spec.
     """
     c = Component()
     _c1 = cdsem_straight(

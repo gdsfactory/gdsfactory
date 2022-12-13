@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.geometry.boolean import boolean
@@ -10,7 +12,6 @@ def invert(
     border: float = 10.0,
     precision: float = 1e-4,
     num_divisions: Union[int, Int2] = (1, 1),
-    max_points: int = 4000,
     layer: LayerSpec = (1, 0),
 ) -> Component:
     """Creates an inverted version of the input shapes with an additional \
@@ -27,7 +28,6 @@ def invert(
             The number of divisions with which the geometry is divided into
             multiple rectangular regions. This allows for each region to be
             processed sequentially, which is more computationally efficient.
-        max_points: The maximum number of vertices within the resulting polygon.
         layer: Specific layer(s) to put polygon geometry on.
 
     Returns
@@ -56,7 +56,6 @@ def invert(
         operation="A-B",
         precision=precision,
         num_divisions=num_divisions,
-        max_points=max_points,
         layer=layer,
     )
 

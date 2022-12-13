@@ -1,10 +1,10 @@
 """Compute and write Sparameters using Meep in MPI."""
 
+from __future__ import annotations
+
 import multiprocessing
-import os
 import pathlib
 import pickle
-import re
 import shlex
 import subprocess
 import sys
@@ -37,14 +37,6 @@ temp_dir_default = Path(sparameters_path) / "temp"
 def _python() -> str:
     """Select correct python executable from current activated environment."""
     return sys.executable
-
-
-def _mpirun() -> str:
-    """Select correct mpirun executable from current activated environment."""
-    python = _python()
-    path, ext = os.path.splitext(python)
-    mpirun = re.sub("python$", "mpirun", path) + ext
-    return mpirun if os.path.exists(mpirun) else "mpirun"
 
 
 @pydantic.validate_arguments
@@ -167,7 +159,6 @@ def write_sparameters_meep_mpi(
     kwargs.update(filepath=str(filepath))
 
     parameters_dict = {
-        "component": component,
         "layer_stack": layer_stack,
         "overwrite": overwrite,
     }
@@ -179,13 +170,20 @@ def write_sparameters_meep_mpi(
     with open(parameters_file, "wb") as outp:
         pickle.dump(parameters_dict, outp, pickle.HIGHEST_PROTOCOL)
 
+    # Save component to disk through gds for gdstk compatibility
+    component_file = tempfile.with_suffix(".gds")
+    component.write_gds_with_metadata(component_file)
+
     # Write execution file
     script_lines = [
         "import pickle\n",
         "from gdsfactory.simulation.gmeep import write_sparameters_meep\n\n",
+        "from gdsfactory.read import import_gds\n",
         'if __name__ == "__main__":\n\n',
+        f'\tcomponent = import_gds("{component_file}")\n',
         f"\twith open(\"{parameters_file}\", 'rb') as inp:\n",
         "\t\tparameters_dict = pickle.load(inp)\n\n" "\twrite_sparameters_meep(\n",
+        "\t\tcomponent = component,\n",
     ]
     script_lines.extend(
         f'\t\t{key} = parameters_dict["{key}"],\n' for key in parameters_dict
@@ -195,7 +193,7 @@ def write_sparameters_meep_mpi(
     script_file = tempfile.with_suffix(".py")
     with open(script_file, "w") as script_file_obj:
         script_file_obj.writelines(script_lines)
-    command = f"{_mpirun()} -np {cores} {_python()} {script_file}"
+    command = f"mpirun -np {cores} {_python()} {script_file}"
     logger.info(command)
     logger.info(str(filepath))
 
@@ -244,6 +242,8 @@ write_sparameters_meep_mpi_1x1_bend90 = gf.partial(
 
 
 if __name__ == "__main__":
+    import numpy as np
+
     c1 = gf.components.straight(length=2.1)
     filepath = write_sparameters_meep_mpi(
         component=c1,
@@ -254,5 +254,8 @@ if __name__ == "__main__":
         live_output=True,
         # lazy_parallelism=True,
         lazy_parallelism=False,
+        # temp_dir = "./test/",
         # filepath="instance_dict.csv",
     )
+    sp = np.load(filepath)
+    print(list(sp.keys()))

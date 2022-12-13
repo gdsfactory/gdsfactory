@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import List, Union
 
 import numpy as np
@@ -5,7 +7,6 @@ from numpy import ndarray
 
 import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.cross_section import strip
 from gdsfactory.geometry.functions import path_length
 from gdsfactory.routing.manhattan import (
     _is_horizontal,
@@ -22,7 +23,7 @@ def path_length_matched_points(
     extra_length: float = 0.0,
     nb_loops: int = 1,
     bend: ComponentSpec = bend_euler,
-    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
+    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = "strip",
     **kwargs,
 ) -> List[ndarray]:
     """Several types of paths won't match correctly. We do not try to handle all the corner cases here. You will need to modify the input list of waypoints in some cases.
@@ -47,7 +48,7 @@ def path_length_matched_points(
         **kwargs
 
     Returns: another list of waypoints where
-        - the path_lenth of each waypoints list are identical
+        - the path_length of each waypoints list are identical
         - the number of turns are identical
 
     """
@@ -147,7 +148,7 @@ def path_length_matched_points_add_waypoints(
     margin: float = 0.0,
     extra_length: float = 0.0,
     nb_loops: int = 1,
-    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
+    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = "strip",
     **kwargs,
 ) -> List[ndarray]:
     """Args are the following.
@@ -170,7 +171,7 @@ def path_length_matched_points_add_waypoints(
 
     returns:
         another list of waypoints where:
-            - the path_lenth of each waypoints list are identical
+            - the path_length of each waypoints list are identical
             - the number of turns are identical
 
     Several types of paths won't match correctly. We do not try to handle

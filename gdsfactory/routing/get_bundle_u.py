@@ -1,9 +1,12 @@
+from __future__ import annotations
+
 from typing import Any, Callable, List, Optional, Tuple, Union
 
 import numpy as np
 from numpy import float64, ndarray
 
 from gdsfactory.components.bend_euler import bend_euler
+from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.geometry.functions import remove_identicals
 from gdsfactory.port import Port
 from gdsfactory.routing.get_route import get_route_from_waypoints
@@ -95,8 +98,7 @@ def get_bundle_udirect(
                                   |
                            X------/
     """
-    if "straight" in kwargs:
-        _ = kwargs.pop("straight")
+    straight = kwargs.pop("straight", straight_function)
     routes = _get_bundle_udirect_waypoints(
         ports1,
         ports2,
@@ -119,7 +121,9 @@ def get_bundle_udirect(
             **kwargs,
         )
 
-    return [route_filter(route, bend=bend, **kwargs) for route in routes]
+    return [
+        route_filter(route, bend=bend, straight=straight, **kwargs) for route in routes
+    ]
 
 
 def _get_bundle_udirect_waypoints(

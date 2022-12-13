@@ -32,6 +32,8 @@ To generate a straight route:
 - length: a float with the length of the route
 
 """
+from __future__ import annotations
+
 from functools import partial
 from typing import Callable, Optional, Union
 
@@ -44,7 +46,7 @@ from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.components.via_corner import via_corner
 from gdsfactory.components.wire import wire_corner
-from gdsfactory.cross_section import metal2, metal3, strip
+from gdsfactory.cross_section import metal2, metal3
 from gdsfactory.port import Port
 from gdsfactory.routing.manhattan import round_corners, route_manhattan
 from gdsfactory.types import (
@@ -149,7 +151,7 @@ get_route_electrical = partial(
     bend=wire_corner,
     start_straight_length=10,
     end_straight_length=10,
-    cross_section=metal3,
+    cross_section="metal_routing",
     taper=None,
     min_straight_length=2.0,
 )
@@ -176,7 +178,7 @@ def get_route_from_waypoints(
     bend: Callable = bend_euler,
     straight: Callable = straight_function,
     taper: Optional[Callable] = taper_function,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Route:
     """Returns a route formed by the given waypoints with bends instead of \
@@ -269,7 +271,7 @@ def get_route_from_waypoints(
 
 
 get_route_from_waypoints_electrical = gf.partial(
-    get_route_from_waypoints, bend=wire_corner, cross_section=metal3
+    get_route_from_waypoints, bend=wire_corner, cross_section="metal_routing"
 )
 
 get_route_from_waypoints_electrical_m2 = gf.partial(

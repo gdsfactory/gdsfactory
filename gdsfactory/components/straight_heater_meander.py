@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.via_stack import via_stack_heater_m3
-from gdsfactory.types import ComponentSpec, LayerSpec, Optional
+from gdsfactory.types import ComponentSpec, Floats, LayerSpec, Optional
 
 
 @gf.cell
@@ -17,7 +19,7 @@ def straight_heater_meander(
     port_orientation1: int = 180,
     port_orientation2: int = 0,
     heater_taper_length: Optional[float] = 10.0,
-    straight_width: float = 0.9,
+    straight_widths: Floats = (0.8, 0.9, 0.8),
     taper_length: float = 10,
 ) -> Component:
     """Returns a meander based heater.
@@ -45,64 +47,74 @@ def straight_heater_meander(
         taper_length: from the cross_section.
     """
     rows = 3
-    c = Component()
-
+    c = gf.Component()
     x = gf.get_cross_section(cross_section)
-
     p1 = gf.Port(
-        name="p1", center=(0, 0), orientation=0, cross_section=x, width=x.width
+        name="p1",
+        center=(0, 0),
+        orientation=0,
+        cross_section=x,
+        layer=x.layer,
+        width=x.width,
     )
     p2 = gf.Port(
-        name="p2", center=(0, spacing), orientation=0, cross_section=x, width=x.width
+        name="p2",
+        center=(0, spacing),
+        orientation=0,
+        cross_section=x,
+        layer=x.layer,
+        width=x.width,
     )
     route = gf.routing.get_route(p1, p2, radius=radius)
 
-    cross_section1 = x.copy(width=straight_width)
     cross_section2 = cross_section
 
-    straight_length = gf.snap.snap_to_grid((length - (rows - 1) * route.length) / rows)
-    straight = gf.components.straight(
-        length=straight_length - 2 * taper_length, cross_section=cross_section1
+    straight_length = gf.snap.snap_to_grid(
+        (length - (rows - 1) * route.length) / rows, nm=2
     )
+    ports = {}
 
-    taper = gf.partial(
-        gf.components.taper_cross_section_linear,
-        cross_section1=cross_section1,
-        cross_section2=cross_section2,
-        length=taper_length,
-    )
+    for row, straight_width in enumerate(straight_widths):
+        cross_section1 = gf.get_cross_section(cross_section, width=straight_width)
+        straight = gf.c.straight(
+            length=straight_length - 2 * taper_length, cross_section=cross_section1
+        )
 
-    straight_with_tapers = gf.components.extend_ports(straight, extension=taper)
+        taper = gf.partial(
+            gf.c.taper_cross_section_linear,
+            cross_section1=cross_section1,
+            cross_section2=cross_section2,
+            length=taper_length,
+        )
 
-    straight_array = c << gf.components.array(
-        straight_with_tapers, spacing=(0, spacing), columns=1, rows=rows
-    )
+        straight_with_tapers = gf.c.extend_ports(straight, extension=taper)
+
+        straight_ref = c << straight_with_tapers
+        straight_ref.y = row * spacing
+        ports[f"o1_{row+1}"] = straight_ref.ports["o1"]
+        ports[f"o2_{row+1}"] = straight_ref.ports["o2"]
 
     for row in range(1, rows, 2):
         route = gf.routing.get_route(
-            straight_array.ports[f"o2_{row+1}_1"],
-            straight_array.ports[f"o2_{row}_1"],
+            ports[f"o2_{row+1}"],
+            ports[f"o2_{row}"],
             radius=radius,
             cross_section=cross_section,
         )
         c.add(route.references)
 
         route = gf.routing.get_route(
-            straight_array.ports[f"o1_{row+1}_1"],
-            straight_array.ports[f"o1_{row+2}_1"],
+            ports[f"o1_{row+1}"],
+            ports[f"o1_{row+2}"],
             radius=radius,
             cross_section=cross_section,
         )
         c.add(route.references)
 
-    straight1 = c << gf.components.straight(
-        length=extension_length, cross_section=cross_section
-    )
-    straight2 = c << gf.components.straight(
-        length=extension_length, cross_section=cross_section
-    )
-    straight1.connect("o2", straight_array.ports["o1_1_1"])
-    straight2.connect("o1", straight_array.ports[f"o2_{rows}_1"])
+    straight1 = c << gf.c.straight(length=extension_length, cross_section=cross_section)
+    straight2 = c << gf.c.straight(length=extension_length, cross_section=cross_section)
+    straight1.connect("o2", ports["o1_1"])
+    straight2.connect("o1", ports[f"o2_{rows}"])
 
     c.add_port("o1", port=straight1.ports["o1"])
     c.add_port("o2", port=straight2.ports["o2"])
@@ -112,7 +124,7 @@ def straight_heater_meander(
             gf.cross_section.cross_section, width=heater_width, layer=layer_heater
         )
 
-        heater = c << gf.components.straight(
+        heater = c << gf.c.straight(
             length=straight_length,
             cross_section=heater_cross_section,
         )
@@ -124,6 +136,9 @@ def straight_heater_meander(
         dx = via_stackw.get_ports_xsize() / 2 + heater_taper_length or 0
         via_stack_west_center = heater.size_info.cw - (dx, 0)
         via_stack_east_center = heater.size_info.ce + (dx, 0)
+
+        via_stack_east_center = gf.snap.snap_to_grid(via_stack_east_center, nm=10)
+        via_stack_west_center = gf.snap.snap_to_grid(via_stack_west_center, nm=10)
 
         via_stack_west = c << via_stackw
         via_stack_east = c << via_stacke
@@ -137,7 +152,7 @@ def straight_heater_meander(
         )
 
         if heater_taper_length:
-            taper = gf.components.taper(
+            taper = gf.c.taper(
                 cross_section=heater_cross_section,
                 width1=via_stackw.ports["e1"].width,
                 width2=heater_width,
@@ -145,6 +160,7 @@ def straight_heater_meander(
             )
             taper1 = c << taper
             taper2 = c << taper
+
             taper1.connect("o2", heater.ports["o1"])
             taper2.connect("o2", heater.ports["o2"])
 
@@ -180,12 +196,12 @@ if __name__ == "__main__":
     # c.add_port("o2", port=straight_array.ports[f"o2_{rows}_1"])
 
     c = straight_heater_meander(
-        straight_width=0.9,
+        straight_widths=(0.9, 0.2, 0.9),
         taper_length=10
         # taper_length=10,
         # length=600,
         # cross_section=gf.partial(gf.cross_section.strip, width=0.8),
     )
     c.show(show_ports=True)
-    scene = c.to_3d()
-    scene.show()
+    # scene = c.to_3d()
+    # scene.show()

@@ -1,10 +1,13 @@
 """Find GDS labels and write them to a CSV file."""
 
+from __future__ import annotations
+
 import csv
 import pathlib
 from pathlib import Path
 from typing import Iterator, Tuple
 
+import numpy as np
 from loguru import logger
 
 import gdsfactory as gf
@@ -63,7 +66,7 @@ def write_labels_klayout(
     filepath: Optional[PathType] = None,
     prefix: str = "opt_",
 ) -> Path:
-    """Load GDS and extracts labels in klayout text and coordinates.
+    """Load GDS and extracts labels in KLayout text and coordinates.
 
     Returns CSV filepath.
 
@@ -86,13 +89,12 @@ def write_labels_klayout(
     return filepath
 
 
-def write_labels_gdspy(
+def write_labels_gdstk(
     gdspath: Path,
     prefix: str = "opt_",
     layer_label: Optional[Tuple[int, int]] = LAYER.TEXT,
     filepath: Optional[PathType] = None,
     debug: bool = False,
-    set_transform: bool = True,
 ) -> Path:
     """Load GDS and extracts label text and coordinates.
 
@@ -104,9 +106,6 @@ def write_labels_gdspy(
         layer_label: for labels to write.
         filepath: for CSV file. Defaults to gdspath with CSV suffix.
         debug: prints the label.
-        set_transform: bool
-            If True, labels will include the transformations from
-            the references they are from.
 
     """
     gdspath = pathlib.Path(gdspath)
@@ -116,16 +115,18 @@ def write_labels_gdspy(
 
     labels = []
 
-    for label in c.get_labels(set_transform=set_transform):
+    for label in c.get_labels():
         if (
             layer_label
             and label.layer == layer_label[0]
             and label.texttype == layer_label[1]
             and label.text.startswith(prefix)
         ):
-            labels += [(label.text, label.x, label.y, label.rotation)]
+            x, y = label.origin
+            rot = np.rad2deg(label.rotation)
+            labels += [(label.text, x, y, rot)]
             if debug:
-                print(label.text, label.x, label.y, label.rotation)
+                print(label.text, x, y, rot)
 
     with open(filepath, "w", newline="") as f:
         writer = csv.writer(f)

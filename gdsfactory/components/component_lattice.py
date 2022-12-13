@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import itertools
 from typing import Dict, List, Tuple
 
@@ -32,19 +34,20 @@ def dist(i, wgs1, wgs2):
 def get_sequence_cross(
     straights_start, straights_end, iter_max: int = 100, symbols=("X", "-")
 ):
-    """Arguments for this function are as follows.
+    """Returns sequence of crossings to achieve the permutations between two columns of I/O.
 
-        straights_start : list of the input port indices
-        straights_end : list of the output port indices
-        iter_max: maximum iterations
-        symbols : [`X` , `S`]
+    Args:
+        straights_start: list of the input port indices.
+        straights_end: list of the output port indices.
+        iter_max: maximum iterations.
+        symbols: [`X` , `S`].
+
+    Notes:
         symbols to be used in the returned sequence:
-        `X`: represents the crossing symbol: two Xs next
-            to each-other means that the two modes have to be swapped
-        `S`: Straight straight, or compensation path typically
+        - `X`:represents the crossing symbol: two Xs next to each-other means that the two
+            modes have to be swapped
+        - `S`:Straight straight, or compensation path typically
 
-    Returns:
-        sequence of crossings to achieve the permutations between two columns of I/O
     """
     wgs = list(straights_start)
     straights_end = list(straights_end)
@@ -143,9 +146,9 @@ def component_lattice(
     have components with the same y spacing between input/output ports.
 
     Args:
-        lattice: ASCII map with character:
-        symbol_to_component:
-        grid_per_unit:
+        lattice: ASCII map with character.
+        symbol_to_component: dict of ASCII character to component.
+        grid_per_unit: int.
 
     Lattice example:
 
@@ -264,8 +267,8 @@ def parse_lattice(
     """Extract each column.
 
     Args:
-        lattice:
-        symbol_to_component:
+        lattice: string describing lattice.
+        symbol_to_component: dict of ASCII character to component.
     """
     lines = lattice.replace(" ", "").split("\n")
     columns = {}

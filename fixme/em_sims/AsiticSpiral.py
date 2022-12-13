@@ -1,4 +1,4 @@
-# AsiticSpiral class to interface with ASITIC for arbitrary polygons generated using Pcells or GDS
+# AsiticSpiral class to interface with ASITIC for arbitrary polygons generated using PCells or GDS
 # WIP
 
 
@@ -11,11 +11,11 @@ class AsiticSpiral:
     Length : LEN --The length of the wire.
     Width : WID --The width of the wire.
     Metal Layer : METAL --The metal layer of the wire segment.
-    Origin of Spiral : XORG : YORG --The physical origin of the wire relative to the lower left handcorner of the chip.
+    Origin of Spiral : XORG : YORG --The physical origin of the wire relative to the lower left hand corner of the chip.
     Note that you can specify all of the above options through the command line. You also can specify the following
     optional parameters:
     Orientation : ORIENT --The orientation of the wire relative to the x-axis. Angles are specified in units of degrees \
-    and the counter-clockwisedirection is considered positive.
+    and the counter-clockwise direction is considered positive.
     """
 
     def __init__(self, polygon, layer, datatype):

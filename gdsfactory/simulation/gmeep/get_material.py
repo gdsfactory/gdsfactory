@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from functools import partial
 from typing import Dict, Optional, Union
 
@@ -20,6 +22,7 @@ def get_material(
     wavelength: float = 1.55,
     dispersive: bool = False,
     material_name_to_meep: Optional[Dict[str, Union[str, float]]] = None,
+    with_tidy3d_material_database: bool = True,
 ) -> mp.Medium:
     """Returns Meep Medium from database.
 
@@ -30,12 +33,18 @@ def get_material(
             False for simple, non-dispersive model.
         material_name_to_meep: dispersive materials have a wavelength
             dependent index. Maps layer_stack names with meep material database names.
+        with_tidy3d_material_database: uses tidy3d material database.
 
     Note:
         Using the built-in models can be problematic at low resolution.
-        If fields are NaN or Inf, increase resolution or use a non-dispersive model.
 
     """
+    if with_tidy3d_material_database:
+        from gdsfactory.simulation.gtidy3d.materials import get_epsilon
+
+        epsilon = get_epsilon(name_or_index=name, wavelength=wavelength)
+        return mp.Medium(epsilon=epsilon)
+
     material_name_to_meep_new = material_name_to_meep or {}
     material_name_to_meep = MATERIAL_NAME_TO_MEEP.copy()
     material_name_to_meep.update(**material_name_to_meep_new)
@@ -60,12 +69,18 @@ def get_material(
     medium = getattr(mat, name)
     if dispersive:
         return medium
-    else:
+    try:
         return mp.Medium(epsilon=medium.epsilon(1 / wavelength)[0][0])
+    except ValueError as e:
+        print(f"material = {name!r} wavelength={wavelength}")
+        raise e
 
 
 def get_index(
-    wavelength: float = 1.55, name: str = "Si", dispersive: bool = False
+    wavelength: float = 1.55,
+    name: str = "Si",
+    dispersive: bool = False,
+    with_tidy3d_material_database: bool = True,
 ) -> float:
     """Returns refractive index from Meep's material database.
 
@@ -80,7 +95,12 @@ def get_index(
         If fields are NaN or Inf, increase resolution or use a non-dispersive model.
 
     """
-    medium = get_material(name=name, wavelength=wavelength, dispersive=dispersive)
+    medium = get_material(
+        name=name,
+        wavelength=wavelength,
+        dispersive=dispersive,
+        with_tidy3d_material_database=with_tidy3d_material_database,
+    )
 
     epsilon_matrix = medium.epsilon(1 / wavelength)
     epsilon11 = epsilon_matrix[0][0]
@@ -97,5 +117,5 @@ sio2 = partial(get_index, name="SiO2")
 
 
 if __name__ == "__main__":
-    n = get_index(name="sio2")
-    print(n, type(n))
+    n = get_index(name="Si", wavelength=1.31)
+    # print(n, type(n))

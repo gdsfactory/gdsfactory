@@ -3,5 +3,5 @@ if __name__ == "__main__":
 
     c = pdk.components.sky130_fd_sc_hd__a21o_1()
     c.show()
-    scene = c.to_3d()
-    scene.show()
+    # scene = c.to_3d()
+    # scene.show()

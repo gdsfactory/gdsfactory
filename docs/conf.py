@@ -1,15 +1,10 @@
 project = "gdsfactory"
-release = "5.37.0"
+release = "6.8.2"
 copyright = "2020, MIT License"
 
 html_theme = "sphinx_book_theme"
 html_logo = "logo.png"
 
-source_suffix = {
-    ".rst": "restructuredtext",
-    ".txt": "markdown",
-    ".md": "markdown",
-}
 
 extensions = [
     "matplotlib.sphinxext.plot_directive",
@@ -63,7 +58,7 @@ html_theme_options = {
     "logo_only": True,
     "path_to_docs": "docs",
     "repository_url": "https://github.com/gdsfactory/gdsfactory",
-    "repository_branch": "master",
+    "repository_branch": "main",
     "launch_buttons": {
         "notebook_interface": "jupyterlab",
         "binderhub_url": "https://mybinder.org/v2/gh/gdsfactory/gdsfactory/HEAD",
@@ -82,7 +77,13 @@ autodoc_pydantic_model_show_config_summary = False
 autodoc_pydantic_model_show_validator_summary = False
 autodoc_pydantic_model_show_validator_members = False
 autodoc_typehints = "description"
+autodoc_typehints_format = "short"
 
+autodoc_type_aliases = {
+    "ComponentSpec": "ComponentSpec",
+    "LayerSpec": "LayerSpec",
+    "CrossSectionSpec": "CrossSectionSpec",
+}
 
 autodoc_default_options = {
     "member-order": "bysource",

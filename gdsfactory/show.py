@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import pathlib
 from typing import Union
 
@@ -6,7 +8,7 @@ from gdsfactory.component import Component
 
 
 def show(component: Union[Component, str, pathlib.Path], **kwargs) -> None:
-    """Write GDS and show Component in klayout.
+    """Write GDS and show Component in KLayout.
 
     Args:
         component: Component or GDS path.
@@ -29,10 +31,10 @@ def show(component: Union[Component, str, pathlib.Path], **kwargs) -> None:
             "Component is None, make sure that your function returns the component"
         )
 
-    elif isinstance(component, Component):
+    elif hasattr(component, "write_gds"):
         gdspath = component.write_gds(logging=False, **kwargs)
         klive.show(gdspath)
     else:
         raise ValueError(
-            f"Component is {type(component)}, make sure pass a Component or a path"
+            f"Component is {type(component)!r}, make sure pass a Component or a path"
         )

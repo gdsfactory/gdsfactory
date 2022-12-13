@@ -2,6 +2,8 @@
 
 To create a component you need to extrude the path with a cross-section.
 """
+from __future__ import annotations
+
 import inspect
 import sys
 from collections.abc import Iterable
@@ -14,9 +16,8 @@ from pydantic import BaseModel, Field
 from typing_extensions import Literal
 
 from gdsfactory.add_pins import add_bbox_siepic, add_pins_siepic_optical_2nm
-from gdsfactory.tech import TECH, Section
+from gdsfactory.tech import Section
 
-LAYER = TECH.layer
 Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
 WidthTypes = Literal["sine", "linear", "parabolic"]
@@ -326,6 +327,9 @@ strip = partial(
     cladding_offsets=(0,),  # for SiEPIC verification
 )
 strip_auto_widen = partial(strip, width_wide=0.9, auto_widen=True)
+strip_no_pins = partial(
+    strip, add_pins=None, add_bbox=None, cladding_layers=None, cladding_offsets=None
+)
 
 # Rib with rectangular slab
 rib = partial(
@@ -443,6 +447,8 @@ heater_metal = partial(
 )
 
 metal3_with_bend = partial(metal1, layer="M3", radius=10)
+metal_routing = metal3
+npp = partial(metal1, layer="NPP", width=0.5)
 
 
 @pydantic.validate_arguments
@@ -892,7 +898,7 @@ def strip_heater_doped(
 
     Args:
         width: in um.
-        layer: wavguide spec.
+        layer: waveguide spec.
         heater_width: in um.
         heater_gap: in um.
         layers_heater: for doped heater.
@@ -949,7 +955,7 @@ def strip_heater_doped(
 
 strip_heater_doped_via_stack = partial(
     strip_heater_doped,
-    layers_heater=(LAYER.WG, LAYER.NPP, LAYER.VIAC),
+    layers_heater=("WG", "NPP", "VIAC"),
     bbox_offsets_heater=(0, 0.1, -0.2),
 )
 
@@ -1362,7 +1368,9 @@ def get_cross_section_factories(
             if callable(t[1]) and t[0] != "partial":
                 try:
                     r = inspect.signature(t[1]).return_annotation
-                    if r == CrossSection:
+                    if r == CrossSection or (
+                        isinstance(r, str) and r.endswith("CrossSection")
+                    ):
                         xs[t[0]] = t[1]
                 except ValueError:
                     if verbose:

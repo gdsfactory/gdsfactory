@@ -1,5 +1,7 @@
 """based on phidl.geometry."""
 
+from __future__ import annotations
+
 from typing import Optional, Tuple
 
 import numpy as np
@@ -42,19 +44,10 @@ def die(
     sx, sy = size[0] / 2, size[1] / 2
 
     if draw_dicing_lane:
-        street_length = max([sx, sy])
+        street_length = sy
 
     if draw_corners or draw_dicing_lane:
-        xpts = np.array(
-            [
-                sx,
-                sx,
-                sx - street_width,
-                sx - street_width,
-                sx - street_length,
-                sx - street_length,
-            ]
-        )
+        xpts = np.array([sx, sx, sx - street_width, sx - street_width, 0, 0])
         ypts = np.array(
             [
                 sy,
@@ -99,7 +92,17 @@ def die(
 
 if __name__ == "__main__":
     # c = die(size=(3000, 5000), draw_dicing_lane=True)
-    c = die()
-    # c.show(show_ports=True)
-    c.plot()
+    # c = die()
+    c = gf.components.die(
+        size=(13000, 3000),  # Size of die
+        street_width=100,  # Width of corner marks for die-sawing
+        street_length=1000,  # Length of corner marks for die-sawing
+        die_name="chip99",  # Label text
+        text_size=500,  # Label text size
+        text_location="SW",  # Label text compass location e.g. 'S', 'SE', 'SW'
+        layer=(2, 0),
+        bbox_layer=(3, 0),
+    )
     c.show()
+    # c.show(show_ports=True)
+    # c.plot()

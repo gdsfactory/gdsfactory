@@ -1,13 +1,15 @@
+from __future__ import annotations
+
 from click.testing import CliRunner
 
 from gdsfactory import __version__
-from gdsfactory.gf import gf
+from gdsfactory.cli import cli
 
 
 def test_cli() -> None:
     """checks that the CLI returns the correct version."""
     runner = CliRunner()
-    result = runner.invoke(gf, ["--version"])
+    result = runner.invoke(cli, ["--version"])
 
     # print(result.output)
     # print(__version__)

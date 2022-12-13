@@ -7,7 +7,6 @@ classes:
 
     - Component
     - Port
-    - CONFIG
     - TECH
 
 modules:
@@ -17,6 +16,7 @@ modules:
 
 isort:skip_file
 """
+from __future__ import annotations
 from functools import partial
 from toolz import compose
 from gdsfactory.component_layout import Group
@@ -25,7 +25,7 @@ from gdsfactory.path import Path
 
 # NOTE: import order matters. Only change the order if you know what you are doing
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.config import CONFIG, CONF, call_if_func
+from gdsfactory.config import CONF, call_if_func, PATH
 from gdsfactory.port import Port
 from gdsfactory.cell import cell
 from gdsfactory.cell import cell_without_validator
@@ -56,7 +56,6 @@ from gdsfactory import add_ports
 from gdsfactory import write_cells
 from gdsfactory import add_pins
 
-from gdsfactory.tech import TECH
 from gdsfactory.add_tapers import add_tapers
 from gdsfactory.add_padding import (
     add_padding,
@@ -73,6 +72,7 @@ from gdsfactory.pdk import (
     get_layer,
     get_active_pdk,
     get_cell,
+    get_constant,
 )
 from gdsfactory.get_factories import get_cells
 from gdsfactory.cross_section import get_cross_section_factories
@@ -82,7 +82,6 @@ c = components
 
 __all__ = (
     "CONF",
-    "CONFIG",
     "Component",
     "ComponentReference",
     "CrossSection",
@@ -93,7 +92,6 @@ __all__ = (
     "Pdk",
     "Port",
     "Section",
-    "TECH",
     "add_padding",
     "add_padding_container",
     "add_pins",
@@ -118,6 +116,7 @@ __all__ = (
     "get_cell",
     "get_cells",
     "get_component",
+    "get_constant",
     "get_cross_section",
     "get_cross_section_factories",
     "get_layer",
@@ -137,5 +136,6 @@ __all__ = (
     "tech",
     "types",
     "write_cells",
+    "PATH",
 )
-__version__ = "5.37.0"
+__version__ = "6.8.2"

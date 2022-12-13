@@ -1,5 +1,7 @@
 """Compute and write Sparameters using Meep."""
 
+from __future__ import annotations
+
 import inspect
 import multiprocessing
 import pathlib
@@ -133,8 +135,11 @@ def write_sparameters_meep(
     xmargin_right: float = 0,
     ymargin_top: float = 0,
     ymargin_bot: float = 0,
+    decay_by: float = 1e-3,
+    is_3d: bool = False,
+    z: float = 0,
     **settings,
-) -> np.ndarray:
+) -> Dict:
     r"""Returns Sparameters and writes them to npz filepath.
 
     Simulates each time using a different input port (by default, all of them)
@@ -223,6 +228,8 @@ def write_sparameters_meep(
         ymargin: top and bottom distance from component to PML.
         ymargin_top: north distance from component to PML.
         ymargin_bot: south distance from component to PML.
+        is_3d: if True runs in 3D (much slower).
+        z: for 2D plot.
 
     keyword Args:
         extend_ports_length: to extend ports beyond the PML (um).
@@ -230,7 +237,6 @@ def write_sparameters_meep(
         zmargin_bot: thickness for cladding below core (um).
         tpml: PML thickness (um).
         clad_material: material for cladding.
-        is_3d: if True runs in 3D (much slower).
         wavelength_start: wavelength min (um).
         wavelength_stop: wavelength max (um).
         wavelength_points: wavelength steps.
@@ -244,7 +250,7 @@ def write_sparameters_meep(
             or refractive index. dispersive materials have a wavelength dependent index.
 
     Returns:
-        sparameters in a pandas Dataframe (wavelengths, s11a, o1@0,o2@0, ...)
+        sparameters in a Dict (wavelengths, s11a, o1@0,o2@0, ...)
             where `a` is the angle in radians and `m` the module.
 
     """
@@ -277,6 +283,7 @@ def write_sparameters_meep(
         ymargin_bot=ymargin_bot,
         xmargin_left=xmargin_left,
         xmargin_right=xmargin_right,
+        is_3d=is_3d,
         **settings,
     )
 
@@ -316,15 +323,25 @@ def write_sparameters_meep(
             port_margin=port_margin,
             port_monitor_offset=port_monitor_offset,
             port_source_offset=port_source_offset,
+            is_3d=is_3d,
             **settings,
         )
-        sim_dict["sim"].plot2D(plot_eps_flag=True)
-        return
+        sim = sim_dict["sim"]
+        if is_3d:
+            sim.plot2D(
+                output_plane=mp.Volume(
+                    size=mp.Vector3(sim.cell_size.x, sim.cell_size.y, 0),
+                    center=mp.Vector3(0, 0, z),
+                )
+            )
+        else:
+            sim.plot2D(plot_eps_flag=True)
+        return sim
 
     if filepath.exists():
         if not overwrite:
             logger.info(f"Simulation loaded from {filepath!r}")
-            return np.load(filepath)
+            return dict(np.load(filepath))
         elif overwrite:
             filepath.unlink()
 
@@ -346,9 +363,9 @@ def write_sparameters_meep(
         wavelength_start: float = wavelength_start,
         wavelength_stop: float = wavelength_stop,
         wavelength_points: int = wavelength_points,
-        dirpath: Path = dirpath,
         animate: bool = animate,
         dispersive: bool = dispersive,
+        decay_by: float = decay_by,
         **settings,
     ) -> Dict:
         """Return Sparameter dict."""
@@ -364,6 +381,7 @@ def write_sparameters_meep(
             port_source_offset=port_source_offset,
             dispersive=dispersive,
             layer_stack=layer_stack,
+            is_3d=is_3d,
             **settings,
         )
 
@@ -373,7 +391,7 @@ def write_sparameters_meep(
         # print(sim.resolution)
 
         # Terminate when the area in the whole area decayed
-        termination = [mp.stop_when_energy_decayed(dt=50, decay_by=1e-3)]
+        termination = [mp.stop_when_energy_decayed(dt=50, decay_by=decay_by)]
 
         if animate:
             sim.use_output_directory()
@@ -396,12 +414,12 @@ def write_sparameters_meep(
 
         # Calculate mode overlaps
         # Get source monitor results
-        source_entering, source_exiting = parse_port_eigenmode_coeff(
+        source_entering, _ = parse_port_eigenmode_coeff(
             port_source_name, component.ports, sim_dict
         )
         # Get coefficients
         for port_name in port_names:
-            monitor_entering, monitor_exiting = parse_port_eigenmode_coeff(
+            _, monitor_exiting = parse_port_eigenmode_coeff(
                 port_name, component.ports, sim_dict
             )
             key = f"{port_name}@0,{port_source_name}@0"
@@ -505,16 +523,23 @@ settings_write_sparameters_meep = set(sig.parameters.keys()).union(
 )
 
 if __name__ == "__main__":
+    wavelength_start = 1.26
+    wavelength_stop = 1.36
+    sim_settings = dict(
+        wavelength_start=wavelength_start, wavelength_stop=wavelength_stop
+    )
+    c = gf.components.mmi1x2(cross_section=gf.cross_section.strip)
+    sp = write_sparameters_meep(c, run=True, is_3d=False, **sim_settings)
+
     # from gdsfactory.simulation.add_simulation_markers import add_simulation_markers
-    import gdsfactory.simulation as sim
+    # import gdsfactory.simulation as sim
 
-    c = gf.components.straight(length=2)
-
+    # c = gf.components.straight(length=2)
     # c = gf.components.bend_euler(radius=3)
     # c = add_simulation_markers(c)
 
-    sp = write_sparameters_meep_1x1(c, run=True, is_3d=False)
-    sim.plot.plot_sparameters(sp)
+    # sp = write_sparameters_meep_1x1(c, run=True, is_3d=False)
+    # sim.plot.plot_sparameters(sp)
 
     # import matplotlib.pyplot as plt
     # plt.show()

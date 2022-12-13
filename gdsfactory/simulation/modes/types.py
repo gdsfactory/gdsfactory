@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Callable, Dict, List, Optional, Union
 
 import matplotlib.pyplot as plt
@@ -25,7 +27,7 @@ class Mode(BaseModel):
         effective_area: in um2.
         E: field.
         H: field.
-        eps: permitivity.
+        eps: permittivity.
         y: width.
         z: thickness.
 

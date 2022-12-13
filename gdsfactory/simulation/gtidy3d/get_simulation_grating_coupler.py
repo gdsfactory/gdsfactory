@@ -1,4 +1,6 @@
 """Returns tidy3d simulation from gdsfactory Component."""
+from __future__ import annotations
+
 import warnings
 from typing import Dict, Optional
 
@@ -190,7 +192,7 @@ def get_simulation_grating_coupler(
         symmetry: Define Symmetries.
             Tuple of integers defining reflection symmetry across a plane
             bisecting the simulation domain normal to the x-, y-, and z-axis
-            at the simulation center of each axis, respectvely.
+            at the simulation center of each axis, respectively.
             Each element can be ``0`` (no symmetry), ``1`` (even, i.e. 'PMC' symmetry) or
             ``-1`` (odd, i.e. 'PEC' symmetry).
             Note that the vectorial nature of the fields must be taken into account to correctly
@@ -446,6 +448,7 @@ def get_simulation_grating_coupler(
         monitors=monitors,
         run_time=run_time_ps * 1e-12,
         boundary_spec=boundary_spec,
+        grid_spec=grid_spec,
         **kwargs,
     )
 

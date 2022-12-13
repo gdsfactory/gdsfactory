@@ -1,10 +1,13 @@
 """You can remove a list of layers from a component."""
 
 
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 
 
+@gf.cell
 def test_remove_layers() -> Component:
     c = gf.Component("test_remove_layers")
 
@@ -14,7 +17,7 @@ def test_remove_layers() -> Component:
 
     assert len(c.layers) == 3
 
-    c.remove_layers(layers=[gf.LAYER.SLAB90, gf.LAYER.SLAB150])
+    c = c.remove_layers(layers=[gf.LAYER.SLAB90, gf.LAYER.SLAB150])
 
     assert len(c.layers) == 1
     return c

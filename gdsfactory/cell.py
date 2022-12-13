@@ -1,4 +1,6 @@
 """Cell decorator for functions that return a Component."""
+from __future__ import annotations
+
 import functools
 import hashlib
 import inspect
@@ -61,10 +63,9 @@ class Settings(BaseModel):
 def cell_without_validator(func):
     """Decorator for Component functions.
 
-    Similar to cell decorator, this one does not validate_arguments using
-    type annotations
+    Similar to cell decorator but does not enforce argument types.
 
-    I recommend using @cell instead
+    I recommend using @cell instead.
     """
 
     @functools.wraps(func)
@@ -112,8 +113,9 @@ def cell_without_validator(func):
 
         # if any args were different from default, append a hash of those args.
         # else, keep only the base name
+        named_args_string = "_".join(changed_arg_list)
+
         if changed_arg_list:
-            named_args_string = "_".join(changed_arg_list)
             named_args_string = (
                 hashlib.md5(named_args_string.encode()).hexdigest()[:8]
                 if with_hash
@@ -351,7 +353,7 @@ if __name__ == "__main__":
 
     # import gdsfactory as gf
 
-    # gdspath = gf.CONFIG["gdsdir"] / "mzi2x2.gds"
+    # gdspath = gf.PATH.gdsdir / "mzi2x2.gds"
     # c = gf.import_gds(gdspath)
     # c3 = gf.routing.add_fiber_single(c)
     # c3.show()
