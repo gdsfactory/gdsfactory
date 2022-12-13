@@ -68,6 +68,8 @@ full = [
     "scikit-image",
     "scikit-learn",
     "simphony==0.6.1",
+    "sqlalchemy",
+    "sqlalchemy-utils",
     "triangle",
     "trimesh",
     ]
