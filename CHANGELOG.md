@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.9.0
+
+- fix grating coupler slab and use better variable names [PR](https://github.com/gdsfactory/gdsfactory/pull/991)
+- add database [PR](https://github.com/gdsfactory/gdsfactory/pull/990)
+
 ## 6.8.0
 
 - write_cells works with multiple top level cells [PR](https://github.com/gdsfactory/gdsfactory/pull/978)
