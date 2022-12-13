@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import warnings
 
 import gdsfactory as gf
@@ -15,7 +17,7 @@ def delay_snake3(
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
-    r"""Snake input facing west.
+    r"""Returns Snake with a starting bend and 180 bends.
 
     Args:
         length: total length.
@@ -45,7 +47,7 @@ def delay_snake3(
         n = n // 2 * 2
     bend180 = gf.get_component(bend180, cross_section=cross_section, **kwargs)
 
-    delta_length = (length - length0 - n * bend180.info["length"]) / (n + 1)
+    delta_length = (length - length0 - n * bend180.info["length"]) / n
     assert (
         delta_length > 0
     ), "Snake is too short: either reduce length0, increase the total length,\
@@ -70,8 +72,21 @@ def delay_snake3(
     )
 
 
+def test_length_delay_snake3():
+    import numpy as np
+
+    length = 200.0
+    c = delay_snake3(n=2, length=length, length0=50, cross_section="strip_no_pins")
+    length_computed = c.area() / 0.5
+    np.isclose(length, length_computed)
+
+
 if __name__ == "__main__":
     # c = test_delay_snake3_length()
+    import numpy as np
+
     length = 200.0
-    c = delay_snake3(n=2, length=length, length0=50)
+    c = delay_snake3(n=2, length=length, length0=50, cross_section="strip_no_pins")
+    length_computed = c.area() / 0.5
+    np.isclose(length, length_computed)
     c.show(show_ports=True)

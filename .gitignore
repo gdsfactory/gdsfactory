@@ -9,6 +9,7 @@
 *.pkl
 *.msh
 *.xdmf
+*.db
 *.svg
 *.db
 test_mask_metadata.csv
@@ -288,4 +289,5 @@ venv.bak/
 # lumerical interconnect
 *.ich
 docs/notebooks/plugins/sax/fdtd_vs_model.png
+gdsfactory/klayout/tech/layers.py
 /gdslib

@@ -1,23 +1,26 @@
 """PDK stores layers, cross_sections, cell functions ..."""
 
+from __future__ import annotations
+
 import logging
 import pathlib
 import warnings
 from functools import partial
-from typing import Callable, Optional
+from typing import Any, Callable, Optional
 
 import numpy as np
 from omegaconf import DictConfig
 from pydantic import BaseModel, Field, validator
 
 from gdsfactory.components import cells
-from gdsfactory.config import sparameters_path
+from gdsfactory.config import PATH, sparameters_path
 from gdsfactory.containers import containers as containers_default
 from gdsfactory.cross_section import cross_sections
 from gdsfactory.events import Event
 from gdsfactory.layers import LAYER_COLORS, LayerColors
 from gdsfactory.read.from_yaml import from_yaml
 from gdsfactory.show import show
+from gdsfactory.symbols import floorplan_with_block_letters
 from gdsfactory.tech import LAYER, LAYER_STACK, LayerStack
 from gdsfactory.types import (
     CellSpec,
@@ -38,6 +41,13 @@ component_settings = ["function", "component", "settings"]
 cross_section_settings = ["function", "cross_section", "settings"]
 layers_required = ["DEVREC", "PORT", "PORTE"]
 
+constants = dict(
+    fiber_array_spacing=127.0,
+    fiber_spacing=50.0,
+    fiber_input_to_output_spacing=200.0,
+    metal_spacing=10.0,
+)
+
 
 class Pdk(BaseModel):
     """Store layers, cross_sections, cell functions, simulation_settings ...
@@ -48,6 +58,8 @@ class Pdk(BaseModel):
         name: PDK name.
         cross_sections: dict of cross_sections factories.
         cells: dict of parametric cells that return Components.
+        symbols: dict of symbols names to functions.
+        default_symbol_factory:
         containers: dict of pcells that contain other cells.
         base_pdk: a pdk to copy from and extend.
         default_decorator: decorate all cells, if not otherwise defined on the cell.
@@ -58,26 +70,32 @@ class Pdk(BaseModel):
             (refractive index, nonlinear coefficient, sheet resistance ...).
         layer_colors: includes layer name to color, opacity and pattern.
         sparameters_path: to store Sparameters simulations.
+        modes_path: to store Sparameters simulations.
         interconnect_cml_path: path to interconnect CML (optional).
         grid_size: in um. Defaults to 1nm.
         warn_off_grid_ports: raises warning when extruding paths with offgrid ports.
             For example, if you try to create a waveguide with 1.5nm length.
+        constants: dict of constants for the PDK.
 
     """
 
     name: str
     cross_sections: Dict[str, CrossSectionFactory] = Field(default_factory=dict)
     cells: Dict[str, ComponentFactory] = Field(default_factory=dict)
+    symbols: Dict[str, ComponentFactory] = Field(default_factory=dict)
+    default_symbol_factory: Callable = floorplan_with_block_letters
     containers: Dict[str, ComponentFactory] = containers_default
-    base_pdk: Optional["Pdk"] = None
+    base_pdk: Optional[Pdk] = None
     default_decorator: Optional[Callable[[Component], None]] = None
     layers: Dict[str, Layer] = Field(default_factory=dict)
     layer_stack: Optional[LayerStack] = None
     layer_colors: Optional[LayerColors] = None
     sparameters_path: Optional[PathType] = None
+    modes_path: Optional[PathType] = PATH.modes
     interconnect_cml_path: Optional[PathType] = None
     grid_size: float = 0.001
     warn_off_grid_ports: bool = False
+    constants: Dict[str, Any] = constants
 
     class Config:
         """Configuration."""
@@ -265,7 +283,31 @@ class Pdk(BaseModel):
 
     def get_component(self, component: ComponentSpec, **kwargs) -> Component:
         """Returns component from a component spec."""
-        cells_and_containers = set(self.cells.keys()).union(set(self.containers.keys()))
+        return self._get_component(
+            component=component, cells=self.cells, containers=self.containers, **kwargs
+        )
+
+    def get_symbol(self, component: ComponentSpec, **kwargs) -> Component:
+        """Returns a component's symbol from a component spec."""
+        # this is a pretty rough first implementation
+        try:
+            self._get_component(
+                component=component, cells=self.symbols, containers={}, **kwargs
+            )
+        except ValueError:
+            component = self.get_component(component, **kwargs)
+            symbol = self.default_symbol_factory(component)
+            return symbol
+
+    def _get_component(
+        self,
+        component: ComponentSpec,
+        cells: Dict[str, Callable],
+        containers: Dict[str, Callable],
+        **kwargs,
+    ) -> Component:
+        """Returns component from a component spec."""
+        cells_and_containers = set(cells.keys()).union(set(containers.keys()))
 
         if isinstance(component, Component):
             if kwargs:
@@ -275,17 +317,13 @@ class Pdk(BaseModel):
             return component(**kwargs)
         elif isinstance(component, str):
             if component not in cells_and_containers:
-                cells = list(self.cells.keys())
-                containers = list(self.containers.keys())
+                cells = list(cells.keys())
+                containers = list(containers.keys())
                 raise ValueError(
                     f"{component!r} not in PDK {self.name!r} cells: {cells} "
                     f"or containers: {containers}"
                 )
-            cell = (
-                self.cells[component]
-                if component in self.cells
-                else self.containers[component]
-            )
+            cell = cells[component] if component in cells else containers[component]
             return cell(**kwargs)
         elif isinstance(component, (dict, DictConfig)):
             for key in component.keys():
@@ -299,23 +337,14 @@ class Pdk(BaseModel):
             cell_name = component.get("component", None)
             cell_name = cell_name or component.get("function")
             if not isinstance(cell_name, str) or cell_name not in cells_and_containers:
-                cells = list(self.cells.keys())
-                containers = list(self.containers.keys())
+                cells = list(cells.keys())
+                containers = list(containers.keys())
                 raise ValueError(
                     f"{cell_name!r} from PDK {self.name!r} not in cells: {cells} "
                     f"or containers: {containers}"
                 )
-            cell = (
-                self.cells[cell_name]
-                if cell_name in self.cells
-                else self.containers[cell_name]
-            )
+            cell = cells[cell_name] if cell_name in cells else containers[cell_name]
             component = cell(**settings)
-            component = (
-                self.default_decorator(component) or component
-                if self.default_decorator
-                else component
-            )
             return component
         else:
             raise ValueError(
@@ -399,6 +428,14 @@ class Pdk(BaseModel):
             raise ValueError(f"layer_stack for Pdk {self.name!r} is None")
         return self.layer_stack
 
+    def get_constant(self, key: str) -> Any:
+        if not isinstance(key, str):
+            return key
+        if key not in self.constants:
+            constants = list(self.constants.keys())
+            raise ValueError(f"{key!r} not in {constants}")
+        return self.constants[key]
+
     # _on_cell_registered = Event()
     # _on_container_registered: Event = Event()
     # _on_yaml_cell_registered: Event = Event()
@@ -465,10 +502,19 @@ def get_grid_size() -> float:
     return _ACTIVE_PDK.grid_size
 
 
+def get_constant(constant_name: Any) -> Any:
+    """If constant_name is a string returns a the value from the dict."""
+    return _ACTIVE_PDK.get_constant(constant_name)
+
+
 def get_sparameters_path() -> pathlib.Path:
     if _ACTIVE_PDK.sparameters_path is None:
         raise ValueError(f"{_ACTIVE_PDK.name!r} has no sparameters_path")
     return _ACTIVE_PDK.sparameters_path
+
+
+def get_modes_path() -> Optional[pathlib.Path]:
+    return _ACTIVE_PDK.modes_path
 
 
 def get_interconnect_cml_path() -> pathlib.Path:

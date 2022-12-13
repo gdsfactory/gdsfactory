@@ -1,19 +1,21 @@
 """Store files."""
 
+from __future__ import annotations
+
 from io import BytesIO
 
 import numpy as np
 from pydantic import BaseModel
 from typing_extensions import Literal
 
-from gdsfactory.config import CONFIG
+from gdsfactory.config import PATH
 from gdsfactory.types import Optional, PathType
 
 FileTypes = Literal["sparameters", "modes", "gds", "measurements"]
 
 
 class FileStorage(BaseModel):
-    dirpath: Optional[PathType] = CONFIG["gdslib"]
+    dirpath: Optional[PathType] = PATH.gdslib
     filetype: FileTypes
 
     def write(self, filename: str, data):
@@ -42,7 +44,10 @@ class FileStorageGoogleCloud(FileStorage):
     bucket_name: str
 
     def write(self, filename: str, data) -> None:
-        from google.cloud import storage
+        try:
+            from google.cloud import storage
+        except ImportError as e:
+            raise ImportError("pip install google-cloud-storage") from e
 
         filepath = f"{self.filetype}/{filename}.npz"
         storage_client = storage.Client()
@@ -57,7 +62,10 @@ class FileStorageGoogleCloud(FileStorage):
         if data:
             return data
 
-        from google.cloud import storage
+        try:
+            from google.cloud import storage
+        except ImportError as e:
+            raise ImportError("pip install google-cloud-storage") from e
 
         filepath = f"{self.filetype}/{filename}.npz"
         storage_client = storage.Client()

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight as straight_function
@@ -9,7 +11,7 @@ def coupler_straight(
     length: float = 10.0,
     gap: float = 0.27,
     straight: ComponentSpec = straight_function,
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Coupler_straight with two parallel straights.
 

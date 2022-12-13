@@ -1,4 +1,6 @@
 """pack a list of components into a grid."""
+from __future__ import annotations
+
 from typing import Optional, Tuple
 
 import numpy as np
@@ -8,7 +10,6 @@ from gdsfactory.component import Component
 from gdsfactory.component_layout import Group
 from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.components.triangles import triangle
-from gdsfactory.difftest import difftest
 from gdsfactory.types import Anchor, ComponentSpec, Float2
 
 
@@ -101,6 +102,7 @@ def grid(
                 * remainder,
             )
     device_array = np.reshape(device_array, shape)
+    prefix_to_ref = {}
 
     D = Component()
     ref_array = np.empty(device_array.shape, dtype=object)
@@ -108,16 +110,20 @@ def grid(
     for idx, d in np.ndenumerate(device_array):
         if d is not None:
             d = d() if callable(d) else d
-            ref = d.ref(rotation=rotation, h_mirror=h_mirror, v_mirror=v_mirror)
-            D.add(ref)
+            ref = D.add_ref(d, rotation=rotation, x_reflection=h_mirror)
+            if v_mirror:
+                ref.mirror_y()
             ref_array[idx] = ref
-            prefix = f"{ref.parent.name}_{idx}_"
+            prefix = f"{idx}"
             prefix = prefix.replace(" ", "")
-            D.add_ports(ref.ports, prefix=prefix)
+            prefix = prefix.replace(",", "_")
+            prefix = prefix.replace("(", "")
+            prefix = prefix.replace(")", "")
+            ref.name = prefix
+            prefix_to_ref[prefix] = ref
 
         else:
             ref_array[idx] = D << dummy  # Create dummy devices
-        D.aliases[idx] = ref_array[idx]
 
     rows = [Group(ref_array[n, :]) for n in range(ref_array.shape[0])]
     cols = [Group(ref_array[:, n]) for n in range(ref_array.shape[1])]
@@ -135,6 +141,10 @@ def grid(
     Group(rows[::-1]).distribute(
         direction="y", spacing=spacing[1], separation=separation, edge=edge_y
     )
+
+    for prefix, ref in prefix_to_ref.items():
+        D.add_ports(ref.ports, prefix=f"{prefix}_")
+
     return D
 
 
@@ -156,7 +166,7 @@ def grid_with_text(
         text_offsets: relative to component anchor. Defaults to center.
         text_anchors: relative to component (ce cw nc ne nw sc se sw center cc).
         text: function to add text labels.
-        labels: optional, specify a tuple of labels rather than using a text_prefix
+        labels: optional, specify a tuple of labels rather than using a text_prefix.
 
     keyword Args:
         spacing: between adjacent elements on the grid, can be a tuple for
@@ -165,14 +175,12 @@ def grid_with_text(
           if False, elements are spaced evenly along a grid.
         shape: x, y shape of the grid (see np.reshape).
           If no shape and the list is 1D, if np.reshape were run with (1, -1).
-        align_x: {'x', 'xmin', 'xmax'}
-          to perform the x (column) alignment along
-        align_y: {'y', 'ymin', 'ymax'}
-          to perform the y (row) alignment along
-        edge_x: {'x', 'xmin', 'xmax'}
-          to perform the x (column) distribution (ignored if separation = True)
-        edge_y: {'y', 'ymin', 'ymax'}
-          to perform the y (row) distribution along (ignored if separation = True)
+        align_x: {'x', 'xmin', 'xmax'} to perform the x (column) alignment along.
+        align_y: {'y', 'ymin', 'ymax'} to perform the y (row) alignment along.
+        edge_x: {'x', 'xmin', 'xmax'} to perform the x (column) distribution
+            ignored if separation = True.
+        edge_y: {'y', 'ymin', 'ymax'} to perform the y (row) distribution along
+            ignored if separation = True.
         rotation: for each reference in degrees.
 
 
@@ -199,12 +207,12 @@ def grid_with_text(
     g = grid(components=components, **kwargs)
     c << g
     if text:
-        for i, ref in enumerate(g.aliases.values()):
+        for i, ref in enumerate(g.named_references.values()):
             for text_offset, text_anchor in zip(text_offsets, text_anchors):
                 if labels:
                     if len(labels) > i:
                         label = labels[i]
-                    # grid will add dummy components so don't add labels for these
+                    # skip labels for dummy components
                     else:
                         continue
                 else:
@@ -217,27 +225,36 @@ def grid_with_text(
 def test_grid():
     import gdsfactory as gf
 
-    components = [gf.components.rectangle(size=(i, i)) for i in range(1, 10)]
-    c = grid(components)
-    difftest(c)
+    c = [gf.components.straight(length=i) for i in range(1, 5)]
+    c = grid(
+        c,
+        shape=(2, 2),
+        rotation=0,
+        h_mirror=False,
+        v_mirror=False,
+        spacing=(10, 10),
+    )
+    assert np.isclose(c.ports["1_1_o1"].center[0], 13.002), c.ports["1_1_o1"].center[0]
     return c
 
 
 if __name__ == "__main__":
+    test_grid()
     import gdsfactory as gf
 
     # components = [gf.components.rectangle(size=(i, i)) for i in range(40, 66, 5)]
     # components = [gf.components.rectangle(size=(i, i)) for i in range(40, 66, 5)]
     # c = [gf.components.triangle(x=i) for i in range(1, 10)]
-    c = [gf.components.straight(length=i) for i in [1, 1, 1]]
-    print(len(c))
+    # print(len(c))
+
+    c = [gf.components.straight(length=i) for i in range(1, 5)]
     c = grid(
         c,
-        shape=(1, len(c)),
+        shape=(2, 2),
         rotation=0,
         h_mirror=False,
-        v_mirror=True,
-        spacing=(100, 100),
+        v_mirror=False,
+        spacing=(10, 10),
         # text_offsets=((0, 100), (0, -100)),
         # text_anchors=("nc", "sc"),
     )

@@ -1,11 +1,13 @@
 """snaps values and coordinates to the GDS grid in nm."""
+from __future__ import annotations
+
 from typing import Optional, Tuple, Union
 
 import numpy as np
 
 
 def is_on_grid(x: float, nm: int = 1) -> bool:
-    return np.isclose(snap_to_grid(x, nm=nm), x)
+    return np.array_equal(snap_to_grid(x, nm=nm), np.round(x, 6))
 
 
 def assert_on_1nm_grid(x: float) -> None:

@@ -27,17 +27,20 @@ Specs:
 - LayerSpec: (3, 0), 3 (assumes 0 as datatype) or string.
 
 """
+from __future__ import annotations
+
 import json
 import pathlib
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
+import gdstk
 import numpy as np
+from gdstk import Label
 from omegaconf import OmegaConf
 from pydantic import BaseModel, Extra
 from typing_extensions import Literal
 
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.component_layout import Label
 from gdsfactory.cross_section import CrossSection, Section
 from gdsfactory.layers import LayerColor, LayerColors
 from gdsfactory.port import Port
@@ -95,11 +98,11 @@ PortsDict = Dict[str, Port]
 PortsList = Dict[str, Port]
 
 ComponentSpec = Union[str, ComponentFactory, Component, Dict[str, Any]]
-"""Description capable of generating a component. Can be a Pcell function, function name, dict or Component."""
+"""Description capable of generating a component. Can be a PCell function, function name, dict or Component."""
 
 ComponentSpecOrList = Union[ComponentSpec, List[ComponentSpec]]
 CellSpec = Union[str, ComponentFactory, Dict[str, Any]]
-"""Description capable of generating a cell function. Can be a Pcell function, function name or dict."""
+"""Description capable of generating a cell function. Can be a PCell function, function name or dict."""
 
 ComponentSpecDict = Dict[str, ComponentSpec]
 CrossSectionSpec = Union[str, CrossSectionFactory, CrossSection, Dict[str, Any]]
@@ -110,7 +113,7 @@ MultiCrossSectionAngleSpec = List[Tuple[CrossSectionSpec, Tuple[int, ...]]]
 
 class Route(BaseModel):
     references: List[ComponentReference]
-    labels: Optional[List[Label]] = None
+    labels: Optional[List[gdstk.Label]] = None
     ports: Tuple[Port, Port]
     length: float
 
@@ -118,6 +121,7 @@ class Route(BaseModel):
         """Config for Route."""
 
         extra = Extra.forbid
+        arbitrary_types_allowed = True
 
 
 class Routes(BaseModel):
@@ -177,32 +181,21 @@ class NetlistModel(BaseModel):
         name: component name.
         info: information (polarization, wavelength ...).
         settings: input variables.
-        pdk: pdk module name.
         ports: exposed component ports.
 
     """
 
-    instances: Dict[str, ComponentModel]
+    instances: Optional[Dict[str, ComponentModel]] = None
     placements: Optional[Dict[str, PlacementModel]] = None
     connections: Optional[Dict[str, str]] = None
     routes: Optional[Dict[str, RouteModel]] = None
     name: Optional[str] = None
     info: Optional[Dict[str, Any]] = None
     settings: Optional[Dict[str, Any]] = None
-    pdk: Optional[str] = None
     ports: Optional[Dict[str, str]] = None
 
     class Config:
         extra = Extra.forbid
-
-    # factory: Dict[str, ComponentFactory] = {}
-    # def add_instance(self, name: str, component: str, **settings) -> None:
-    #     assert component in self.factory.keys()
-    #     component_model = ComponentModel(component=component, settings=settings)
-    #     self.instances[name] = component_model
-
-    # def add_route(self, port1: Port, port2: Port, **settings) -> None:
-    #     self.routes = component_model
 
 
 RouteFactory = Callable[..., Route]
@@ -247,6 +240,7 @@ __all__ = (
     "Int3",
     "Ints",
     "Layer",
+    "Label",
     "Layers",
     "NameToFunctionDict",
     "Number",
@@ -256,37 +250,37 @@ __all__ = (
     "RouteFactory",
     "Routes",
     "Strs",
-    "LayerColors",
-    "LayerColor",
     "LayerStack",
     "LayerLevel",
+    "LayerColor",
+    "LayerColors",
     "Section",
 )
 
 
 def write_schema(model: BaseModel = NetlistModel) -> None:
-    from gdsfactory.config import CONFIG
+    from gdsfactory.config import PATH
 
     s = model.schema_json()
     d = OmegaConf.create(s)
 
-    schema_path_json = CONFIG["schema_netlist"]
+    schema_path_json = PATH.schema_netlist
     schema_path_yaml = schema_path_json.with_suffix(".yaml")
 
     schema_path_yaml.write_text(OmegaConf.to_yaml(d))
     schema_path_json.write_text(json.dumps(OmegaConf.to_container(d)))
 
 
-if __name__ == "__main__":
+def _demo():
     write_schema()
 
     import jsonschema
     import yaml
 
-    from gdsfactory.config import CONFIG
+    from gdsfactory.config import PATH
 
-    schema_path = CONFIG["schema_netlist"]
-    schema_dict = json.loads(schema_path.read_text())
+    schema_path_json = PATH.schema_netlist
+    schema_dict = json.loads(schema_path_json.read_text())
 
     yaml_text = """
 
@@ -339,3 +333,7 @@ ports:
     # from gdsfactory.components import factory
     # c = NetlistModel(factory=factory)
     # c.add_instance("mmi1", "mmi1x2", length=13.3)
+
+
+if __name__ == "__main__":
+    _demo()

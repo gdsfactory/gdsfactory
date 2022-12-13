@@ -1,9 +1,12 @@
+from __future__ import annotations
+
+import pathlib
+import tempfile
 import uuid
 from typing import Tuple
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.config import dirpath_build
 from gdsfactory.types import ComponentOrPath
 
 valid_operations = ("xor", "not", "and", "or")
@@ -18,7 +21,7 @@ def boolean_klayout(
     layer3: Tuple[int, int] = (2, 0),
     operation: str = "xor",
 ) -> Component:
-    """Returns a boolean operation between two components Uses klayout python API.
+    """Returns a boolean operation between two components Uses KLayout python API.
 
     Args:
         gdspath1: path to GDS or Component.
@@ -67,14 +70,17 @@ def boolean_klayout(
 
     layout3_top.shapes(layout3.layer(layer3[0], layer3[1])).insert(result)
 
+    dirpath_build = pathlib.Path(tempfile.TemporaryDirectory().name)
+    dirpath_build.mkdir(exist_ok=True, parents=True)
     gdspath = str(dirpath_build / f"{cellname}.gds")
     layout3.write(gdspath)
     return gf.import_gds(gdspath)
 
 
 def _demo() -> None:
-    import gdsfactory as gf
     import klayout.db as pya
+
+    import gdsfactory as gf
 
     gdspath1 = gf.Component("ellipse1")
     gdspath1.add_ref(gf.components.ellipse(radii=[10, 5], layer=(1, 0)))

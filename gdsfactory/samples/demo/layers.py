@@ -1,4 +1,6 @@
 """Technology settings."""
+from __future__ import annotations
+
 import pathlib
 from typing import Tuple, Union
 

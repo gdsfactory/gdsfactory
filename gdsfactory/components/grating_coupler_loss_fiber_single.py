@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
@@ -9,7 +11,7 @@ from gdsfactory.types import ComponentSpec, CrossSectionSpec
 def grating_coupler_loss_fiber_single(
     grating_coupler: ComponentSpec = grating_coupler_te,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Returns grating coupler test structure.
 
@@ -26,7 +28,7 @@ def grating_coupler_loss_fiber_single(
         get_input_labels_function: function to get input labels for grating couplers.
         optical_routing_type: None: autoselection, 0: no extension.
         get_input_label_text_function: for the grating couplers input label.
-        get_input_label_text_loopback_function: for the loopacks input label.
+        get_input_label_text_loopback_function: for the loopbacks input label.
     """
     c = gf.Component()
     grating_coupler = gf.get_component(grating_coupler)
@@ -37,7 +39,7 @@ def grating_coupler_loss_fiber_single(
         cross_section=cross_section,
         with_loopback=False,
         component_name=grating_coupler.name,
-        **kwargs
+        **kwargs,
     )
 
     c.copy_child_info(grating_coupler)

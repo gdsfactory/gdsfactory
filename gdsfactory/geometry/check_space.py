@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Tuple
 
 from gdsfactory.component import Component
@@ -22,13 +24,14 @@ def check_space(
     "metrics" can be one of the constants Euclidean, Square or Projection. See there for a description of these constants.
     Use nil for this value to select the default (Euclidean metrics).
 
-    "ignore_angle" specifies the angle limit of two edges. If two edges form an angle equal or above the given value, they will not contribute in
-    the check. Setting this value to 90 (the default) will exclude edges with an angle of 90 degree or more from the check.
-    Use nil for this value to select the default.
+    "ignore_angle" specifies the angle limit of two edges. If two edges form an angle equal or above the given value,
+    they will not contribute in the check. Setting this value to 90 (the default) will exclude edges with an angle of
+    90 degree or more from the check. Use nil for this value to select the default.
 
-    "min_projection" and "max_projection" allow selecting edges by their projected value upon each other. It is sufficient if the projection of on
-    e edge on the other matches the specified condition. The projected length must be larger or equal to "min_projection" and less than "max_proje
-    ction". If you don't want to specify one limit, pass nil to the respective value.
+    "min_projection" and "max_projection" allow selecting edges by their projected value upon each other.
+    It is sufficient if the projection of one edge on the other matches the specified condition. The projected length
+    must be larger or equal to "min_projection" and less than "max_projection". If you don't want to specify one limit,
+    pass nil to the respective value.
 
     Args:
         gdspath: path to GDS or Component.
@@ -72,8 +75,9 @@ def check_space(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
     import klayout.db as pya
+
+    import gdsfactory as gf
 
     space = 0.12
     min_space = 0.1

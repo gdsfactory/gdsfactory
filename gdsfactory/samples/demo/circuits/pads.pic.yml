@@ -1,6 +1,5 @@
 name: sample_different_factory
 
-
 instances:
   bl:
     component: pad
@@ -11,9 +10,10 @@ instances:
   tr:
     component: pad
 
+
 placements:
   tl:
-    x: 100
+    x: -300
     y: 400
 
   br:

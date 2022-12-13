@@ -6,6 +6,8 @@ https://www.photonics.intec.ugent.be/contact/people.asp?ID=332
 
 """
 
+from __future__ import annotations
+
 import pathlib
 
 import matplotlib.pyplot as plt
@@ -35,7 +37,7 @@ def find_neff_ng_dw_dh(
     mode_number: int = 1,
     core: str = "Si",
     clad: str = "SiO2",
-    **kwargs
+    **kwargs,
 ) -> pd.DataFrame:
     """Computes group and effective index for different widths and heights.
 
@@ -46,7 +48,7 @@ def find_neff_ng_dw_dh(
         delta_thickness: delta thickness max in um.
         wavelength: center wavelength (um).
         steps: number of steps to sweep in width and thickness.
-        mode_number: mode index to compute (1: fundanmental mode).
+        mode_number: mode index to compute (1: fundamental mode).
         core: core material name.
         clad: clad material name.
 
@@ -62,7 +64,7 @@ def find_neff_ng_dw_dh(
         plotH: plot magnetic field.
         cache: path to save the modes.
         polarization: prefix when saving the modes.
-        paririty: symmetries mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM.
+        parity: symmetries mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM.
 
     """
     dw = np.linspace(-delta_width, delta_width, steps)
@@ -82,7 +84,7 @@ def find_neff_ng_dw_dh(
                 wg_thickness=thickness + dhi,
                 wavelength=wavelength,
                 mode_number=mode_number,
-                **kwargs
+                **kwargs,
             )
             neffs.append(m.neff)
             ngs.append(m.ng)
@@ -97,7 +99,7 @@ def plot_neff_ng_dw_dh(
     thickness: float = thickness0,
     wavelength: float = 1.55,
     mode_number: int = 1,
-    **kwargs
+    **kwargs,
 ) -> None:
     """Plot neff and group index versus width (dw) and height (dh) variations.
 

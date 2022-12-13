@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
-from gdsfactory.path import arc, extrude
+from gdsfactory.path import arc
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.types import CrossSectionSpec
 
@@ -12,7 +14,7 @@ def bend_circular(
     npoints: int = 720,
     with_bbox: bool = True,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Returns a radial arc.
 
@@ -37,7 +39,7 @@ def bend_circular(
 
     p = arc(radius=radius, angle=angle, npoints=npoints)
     c = Component()
-    path = extrude(p, x)
+    path = p.extrude(x)
     ref = c << path
     c.add_ports(ref.ports)
 
@@ -70,7 +72,11 @@ bend_circular180 = gf.partial(bend_circular, angle=180)
 
 if __name__ == "__main__":
     c = bend_circular(
-        width=2, layer=(0, 0), angle=90, cross_section="rib", with_bbox=True
+        width=2,
+        layer=(0, 0),
+        angle=90,
+        cross_section="rib",
+        with_bbox=True,
     )
     # c = bend_circular()
     # c = bend_circular(cross_section=gf.cross_section.pin, radius=5)

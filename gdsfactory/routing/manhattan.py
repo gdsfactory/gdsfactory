@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 import uuid
 import warnings
 from typing import Callable, Dict, List, Optional, Tuple, Union
 
-import gdspy
+import gdstk
 import numpy as np
 from numpy import bool_, ndarray
 
@@ -144,7 +146,7 @@ def gen_sref(
 
     if x_reflection:  # Vertical mirror: Reflection across x-axis
         y0 = port_position[1]
-        ref.reflect(p1=(0, y0), p2=(1, y0))
+        ref.mirror(p1=(0, y0), p2=(1, y0))
 
     ref.rotate(rotation_angle, center=port_position)
     ref.move(port_position, position)
@@ -560,10 +562,10 @@ def get_route_error(
         warnings.warn(f"Route error for points {points}", RouteWarning)
 
     c = Component(f"route_{uuid.uuid4()}"[:16])
-    path = gdspy.FlexPath(
+    path = gdstk.FlexPath(
         points,
         width=width,
-        gdsii_path=True,
+        simple_path=True,
         layer=layer_path[0],
         datatype=layer_path[1],
     )
@@ -582,7 +584,7 @@ def get_route_error(
     point_markers = [point_marker.ref(position=point) for point in points] + [ref]
     labels = [
         gf.Label(
-            text=str(i), position=point, layer=layer_label[0], texttype=layer_label[1]
+            text=str(i), origin=point, layer=layer_label[0], texttype=layer_label[1]
         )
         for i, point in enumerate(points)
     ]
@@ -882,12 +884,13 @@ def round_corners(
             )
         if straight_ports is None:
             straight_ports = [p.name for p in _get_straight_ports(wg, layer=layer)]
+
         pname_west, pname_east = straight_ports
 
         wg_ref = wg.ref()
         wg_ref.move(wg.ports[pname_west], (0, 0))
         if mirror_straight:
-            wg_ref.reflect_v(list(wg_ref.ports.values())[0].name)
+            wg_ref.mirror_y(list(wg_ref.ports.values())[0].name)
 
         wg_ref.rotate(angle)
         wg_ref.move(straight_origin)
@@ -912,17 +915,11 @@ def round_corners(
                 rotation=angle + 180,
                 v_mirror=True,
             )
-            # references += [
-            #     gf.Label(
-            #         text=f"a{angle}",
-            #         position=taper_ref.center,
-            #         layer=2,
-            #         texttype=0,
-            #     )
-            # ]
             references.append(taper_ref)
             wg_refs += [taper_ref]
             port_index_out = 0
+
+    labels = []
 
     if with_point_markers:
         route = get_route_error(
@@ -930,11 +927,17 @@ def round_corners(
         )
 
         references += route.references
+        labels += route.labels
 
     port_input = list(wg_refs[0].ports.values())[0]
     port_output = list(wg_refs[-1].ports.values())[port_index_out]
     length = snap_to_grid(float(total_length))
-    return Route(references=references, ports=(port_input, port_output), length=length)
+    return Route(
+        references=references,
+        ports=(port_input, port_output),
+        length=length,
+        labels=labels,
+    )
 
 
 def generate_manhattan_waypoints(
@@ -1084,7 +1087,7 @@ if __name__ == "__main__":
         steps=[
             {"y": 100},
         ],
-        cross_section=gf.cross_section.metal3,
+        cross_section="metal_routing",
         bend=gf.components.wire_corner,
     )
     c.add(route.references)

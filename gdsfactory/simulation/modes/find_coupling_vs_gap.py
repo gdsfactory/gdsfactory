@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import pathlib
 
 import matplotlib.pyplot as plt
@@ -21,7 +23,7 @@ def coupling_length(
 
     Args:
         wavelength: in um.
-        neff1: even supermode of the directional coupler..
+        neff1: even supermode of the directional coupler.
         neff2: odd supermode of the directional coupler.
         power_ratio: p2/p1, where 1 means 100% power transfer.
 
@@ -65,7 +67,7 @@ def find_coupling_vs_gap(
     parity=mp.NO_PARITY,
     filepath: Optional[PathType] = None,
     overwrite: bool = False,
-    **kwargs
+    **kwargs,
 ) -> pd.DataFrame:
     """Returns coupling vs gap pandas DataFrame.
 

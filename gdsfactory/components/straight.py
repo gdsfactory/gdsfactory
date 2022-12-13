@@ -1,4 +1,6 @@
 """Straight waveguide."""
+from __future__ import annotations
+
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
@@ -12,7 +14,7 @@ def straight(
     npoints: int = 2,
     with_bbox: bool = True,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Returns a Straight waveguide.
 
@@ -33,7 +35,7 @@ def straight(
     x = gf.get_cross_section(cross_section, **kwargs)
 
     c = Component()
-    path = gf.path.extrude(p, x)
+    path = p.extrude(x)
     ref = c << path
     c.add_ports(ref.ports)
     c.info["length"] = length
@@ -60,7 +62,7 @@ def straight(
 
 
 if __name__ == "__main__":
-    # c = straight(cross_section=gf.partial(gf.cross_section.metal3, width=2), with_hash=False)
+    # c = straight(cross_section=gf.partial('metal_routing', width=2), with_hash=False)
     # c = straight(
     #     cross_section=gf.partial(gf.cross_section.strip, width=2), with_hash=False
     # )

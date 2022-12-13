@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Tuple
 
 import numpy as np
@@ -75,7 +77,7 @@ def resistance_meander(
     for i in range(num_rows):
         d = N.add_ref(T) if i != num_rows - 1 else N.add_ref(Row)
         if n % 2 == 0:
-            d.reflect(p1=(d.x, d.ymax), p2=(d.x, d.ymin))
+            d.mirror(p1=(d.x, d.ymax), p2=(d.x, d.ymin))
         d.movey(-(n - 1) * T.ysize)
         n += 1
     d = N.add_ref(Col).movex(-width)

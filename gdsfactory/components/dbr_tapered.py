@@ -1,9 +1,55 @@
+from __future__ import annotations
+
 from typing import Tuple
 
 import gdsfactory as gf
 from gdsfactory import Component
-from gdsfactory.cross_section import strip
 from gdsfactory.types import CrossSectionSpec
+
+
+def _generate_fins(
+    c: Component,
+    fin_size: Tuple[float, float],
+    taper_length: float,
+    length: float,
+    xs: CrossSectionSpec,
+) -> Component:
+    num_fins = xs.width // (2 * fin_size[1])
+    x0, y0 = (
+        0,
+        -num_fins * (2 * fin_size[1]) / 2.0 + fin_size[1] / 2.0,
+    )
+    xend = 2 * taper_length + length
+
+    for i in range(int(num_fins)):
+        y = y0 + i * 2 * fin_size[1]
+        rectangle_input = c << gf.components.rectangle(
+            size=(fin_size[0], fin_size[1]),
+            layer=xs.layer,
+            centered=True,
+            port_type=None,
+            port_orientations=None,
+        )
+        rectangle_input.move(
+            origin=(x0, y0),
+            destination=(
+                x0 + fin_size[0] / 2.0 - (2 * taper_length) / 2.0,
+                y0 + y + fin_size[1] / 2.0,
+            ),
+        )
+        c.absorb(rectangle_input)
+
+        rectangle_output = c << rectangle_input.parent.copy()
+        rectangle_output.move(
+            origin=(x0, y0),
+            destination=(
+                xend - fin_size[0] / 2.0 - (2 * taper_length) / 2.0,
+                y0 + y + fin_size[1] / 2.0,
+            ),
+        )
+        c.absorb(rectangle_output)
+
+    return c
 
 
 @gf.cell
@@ -16,8 +62,8 @@ def dbr_tapered(
     taper_length: float = 20.0,
     fins: bool = False,
     fin_size: Tuple[float, float] = (0.2, 0.05),
-    cross_section: CrossSectionSpec = strip,
-    **kwargs
+    cross_section: CrossSectionSpec = "strip",
+    **kwargs,
 ) -> Component:
     """Distributed Bragg Reflector Cell class.
 
@@ -76,55 +122,17 @@ def dbr_tapered(
     output_taper.connect("o1", straight.ports["o2"])
 
     num = (2 * taper_length + length) // period
-    x_size = period * dc
-    start = (2 * taper_length + length - (num - 1) * (x_size + period / 2.0)) / 2.0
 
-    for i in range(int(num)):
-        x = start + i * period
-        rectangle = c << gf.components.rectangle(
-            size=(x_size, xs.width),
-            layer=xs.layer,
-            centered=True,
-            port_type=None,
-            port_orientations=None,
-        )
-        rectangle.movex(origin=taper_length, destination=x)
+    straight.move(straight.center, (0, 0))
+    input_taper.move(input_taper.center, (-length / 2 - taper_length / 2, 0))
+    output_taper.move(output_taper.center, (length / 2 + taper_length / 2, 0))
+    periodic_structures = c << gf.components.array(
+        gf.components.rectangle((period * dc, w2)), (period, 0), num
+    )
+    periodic_structures.move(periodic_structures.center, (0, 0))
 
     if fins:
-        num_fins = xs.width // (2 * fin_size[1])
-        x0, y0 = (
-            0,
-            -num_fins * (2 * fin_size[1]) / 2.0 + fin_size[1] / 2.0,
-        )
-        xend = 2 * taper_length + length
-
-        for i in range(int(num_fins)):
-            y = y0 + i * 2 * fin_size[1]
-            rectangle_input = c << gf.components.rectangle(
-                size=(fin_size[0], fin_size[1]),
-                layer=xs.layer,
-                centered=True,
-                port_type=None,
-                port_orientations=None,
-            )
-            rectangle_input.move(
-                origin=(x0, y0),
-                destination=(
-                    x0 + fin_size[0] / 2.0 - (2 * taper_length) / 2.0,
-                    y0 + y + fin_size[1] / 2.0,
-                ),
-            )
-            c.absorb(rectangle_input)
-
-            rectangle_output = c << rectangle_input.parent.copy()
-            rectangle_output.move(
-                origin=(x0, y0),
-                destination=(
-                    xend - fin_size[0] / 2.0 - (2 * taper_length) / 2.0,
-                    y0 + y + fin_size[1] / 2.0,
-                ),
-            )
-            c.absorb(rectangle_output)
+        _generate_fins(c, fin_size, taper_length, length, xs)
 
     c.absorb(input_taper)
     c.absorb(straight)

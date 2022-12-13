@@ -9,6 +9,8 @@ From Chrostowski, L., & Hochberg, M. (2015). Silicon Photonics Design: From Devi
 """
 
 
+from __future__ import annotations
+
 from typing import Optional
 
 import devsim
@@ -50,7 +52,7 @@ def dn_carriers(wavelength: float, dN: float, dP: float) -> float:
         wavelength *= 1e-6
         return (
             -3.64 * 1e-10 * wavelength**2 * dN
-            - 3.51 * 1e-6 * wavelength**2 * np.poewr(dP, 0.8)
+            - 3.51 * 1e-6 * wavelength**2 * np.power(dP, 0.8)
         )
 
 
@@ -350,7 +352,7 @@ class PINWaveguide(BaseModel):
                 )
                 simple_physics.CreateSiliconPotentialOnlyContact(device, region, i)
 
-    def drift_difussion_initial_solution(self, device, region, circuit_contacts=None):
+    def drift_diffusion_initial_solution(self, device, region, circuit_contacts=None):
         # drift diffusion solution variables
         model_create.CreateSolution(device, region, "Electrons")
         model_create.CreateSolution(device, region, "Holes")
@@ -398,7 +400,7 @@ class PINWaveguide(BaseModel):
         # self.initial_solution(device=device, region="right_clad")
 
         for region in devsim.get_region_list(device=device):
-            self.drift_difussion_initial_solution(device=device, region=region)
+            self.drift_diffusion_initial_solution(device=device, region=region)
         for interface in devsim.get_interface_list(device=device):
             simple_physics.CreateSiliconSiliconInterface(
                 device=device, interface=interface

@@ -31,7 +31,6 @@ from __future__ import annotations
 import csv
 import functools
 import typing
-from copy import deepcopy
 from functools import partial
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
@@ -82,8 +81,6 @@ class Port:
         shear_angle: an optional angle to shear port face in degrees.
     """
 
-    _next_uid = 0
-
     def __init__(
         self,
         name: str,
@@ -102,7 +99,6 @@ class Port:
         self.orientation = np.mod(orientation, 360) if orientation else orientation
         self.parent = parent
         self.info: Dict[str, Any] = {}
-        self.uid = Port._next_uid
         self.port_type = port_type
         self.cross_section = cross_section
         self.shear_angle = shear_angle
@@ -124,7 +120,6 @@ class Port:
 
         if self.width < 0:
             raise ValueError(f"Port width must be >=0. Got {self.width}")
-        Port._next_uid += 1
 
     def to_dict(self) -> Dict[str, Any]:
         d = dict(
@@ -146,7 +141,7 @@ class Port:
             center=[float(self.center[0]), float(self.center[1])],
             orientation=float(self.orientation)
             if self.orientation
-            else self.orientation,
+            else float(self.orientation),
             layer=self.layer,
             port_type=self.port_type,
         )
@@ -207,9 +202,9 @@ class Port:
         port.orientation = (port.orientation + 180) % 360
         return port
 
-    def _copy(self, new_uid: bool = True) -> Port:
+    def _copy(self) -> Port:
         """Keep this case for phidl compatibility."""
-        return self.copy(new_uid=new_uid)
+        return self.copy()
 
     @property
     def endpoints(self) -> None:
@@ -269,12 +264,11 @@ class Port:
         self.center = _rotate_points(self.center, angle=angle, center=center)
         return self
 
-    def copy(self, name: Optional[str] = None, new_uid: bool = True) -> Port:
+    def copy(self, name: Optional[str] = None) -> Port:
         """Returns a copy of the port.
 
         Args:
             name: optional new name.
-            new_uid: True creates a new port id.
 
         """
         new_port = Port(
@@ -288,10 +282,7 @@ class Port:
             cross_section=self.cross_section,
             shear_angle=self.shear_angle,
         )
-        new_port.info = deepcopy(self.info)
-        if not new_uid:
-            new_port.uid = self.uid
-            Port._next_uid -= 1
+        new_port.info = self.info
         return new_port
 
     def get_extended_center(self, length: float = 1.0) -> ndarray:
@@ -763,7 +754,7 @@ def rename_ports_by_orientation(
         # Make sure we can backtrack the parent component from the port
         p.parent = component
 
-        if p.orientation:
+        if p.orientation is not None:
             angle = p.orientation % 360
             if angle <= 45 or angle >= 315:
                 direction_ports["E"].append(p)

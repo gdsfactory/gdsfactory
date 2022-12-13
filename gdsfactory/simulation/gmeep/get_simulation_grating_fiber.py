@@ -9,6 +9,8 @@ MFD:
 
 """
 
+from __future__ import annotations
+
 import hashlib
 from typing import Any, Dict, Optional
 
@@ -33,7 +35,6 @@ def get_simulation_grating_fiber(
     n_periods: int = 30,
     widths: Optional[Floats] = None,
     gaps: Optional[Floats] = None,
-    slab_thickness: float = 150 * nm,
     fiber_angle_deg: float = 20.0,
     fiber_xposition: float = 1.0,
     fiber_core_diameter: float = 10.4,
@@ -48,6 +49,7 @@ def get_simulation_grating_fiber(
     substrate_thickness: float = 1.0,
     box_thickness: float = 2.0,
     wg_thickness: float = 220 * nm,
+    slab_thickness: float = 150 * nm,
     top_clad_thickness: float = 2.0,
     air_gap_thickness: float = 1.0,
     fiber_thickness: float = 2.0,
@@ -55,6 +57,7 @@ def get_simulation_grating_fiber(
     wavelength_start: float = 1.4,
     wavelength_stop: float = 1.7,
     wavelength_points: int = 150,
+    decay_by: float = 1e-3,
     eps_averaging: bool = False,
     fiber_port_y_offset_from_air: float = 1,
     waveguide_port_x_offset_from_grating_start: float = 10,
@@ -67,7 +70,7 @@ def get_simulation_grating_fiber(
     ncore = sqrt(na**2 + ncore**2)
 
     Args:
-        period: fiber grating period.
+        period: fiber grating period in um.
         fill_factor: fraction of the grating period filled with the grating material.
         n_periods: number of periods.
         widths: Optional list of widths. Overrides period, fill_factor, n_periods.
@@ -77,8 +80,8 @@ def get_simulation_grating_fiber(
         fiber_core_diameter: fiber diameter.
         fiber_numerical_aperture: NA.
         fiber_nclad: fiber cladding index.
-        fiber_ncore: fiber core index.
         nwg: waveguide index.
+        nslab: slab refractive index.
         nclad: top cladding index.
         nbox: box index bottom.
         nsubstrate: index substrate.
@@ -86,6 +89,7 @@ def get_simulation_grating_fiber(
         substrate_thickness: substrate_thickness (um).
         box_thickness: thickness for bottom cladding (um).
         wg_thickness: wg_thickness (um).
+        slab_thickness: slab thickness (um). etch_depth=wg_thickness-slab_thickness.
         top_clad_thickness: thickness of the top cladding.
         air_gap_thickness: air gap thickness.
         fiber_thickness: fiber_thickness.
@@ -161,6 +165,7 @@ def get_simulation_grating_fiber(
         wavelength_start=wavelength_start,
         wavelength_stop=wavelength_stop,
         wavelength_points=wavelength_points,
+        decay_by=decay_by,
         eps_averaging=eps_averaging,
         fiber_port_y_offset_from_air=fiber_port_y_offset_from_air,
         waveguide_port_x_offset_from_grating_start=waveguide_port_x_offset_from_grating_start,

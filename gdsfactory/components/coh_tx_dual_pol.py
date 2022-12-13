@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Optional
 
 import gdsfactory as gf
@@ -17,7 +19,7 @@ def coh_tx_dual_pol(
     input_coupler: Optional[ComponentSpec] = None,
     output_coupler: Optional[ComponentSpec] = None,
     cross_section: CrossSectionSpec = "strip",
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Dual polarization coherent transmitter.
 
@@ -28,7 +30,7 @@ def coh_tx_dual_pol(
         yspacing: vertical spacing between each single polarization coherent tx.
         xspacing: horizontal spacing between splitter and combiner.
         input_coupler: Optional coupler to add before the splitter.
-        output_coupler: Optioncal coupler to add after the combiner.
+        output_coupler: Optional coupler to add after the combiner.
         cross_section: for routing (splitter to mzms and mzms to combiners).
         kwargs: cross_section settings.
 
@@ -67,7 +69,7 @@ def coh_tx_dual_pol(
         single_tx_1.ports["o1"],
         cross_section=cross_section,
         with_sbend=False,
-        **kwargs
+        **kwargs,
     )
     c.add(route.references)
 
@@ -76,7 +78,7 @@ def coh_tx_dual_pol(
         single_tx_2.ports["o1"],
         cross_section=cross_section,
         with_sbend=False,
-        **kwargs
+        **kwargs,
     )
     c.add(route.references)
 
@@ -93,7 +95,7 @@ def coh_tx_dual_pol(
             single_tx_1.ports["o2"],
             cross_section=cross_section,
             with_sbend=False,
-            **kwargs
+            **kwargs,
         )
         c.add(route.references)
 
@@ -102,7 +104,7 @@ def coh_tx_dual_pol(
             single_tx_2.ports["o2"],
             cross_section=cross_section,
             with_sbend=False,
-            **kwargs
+            **kwargs,
         )
         c.add(route.references)
 
@@ -135,7 +137,7 @@ def coh_tx_dual_pol(
                 out_coup.ports["o1"],
                 cross_section=cross_section,
                 with_sbend=False,
-                **kwargs
+                **kwargs,
             )
             c.add(route.references)
 
@@ -144,7 +146,7 @@ def coh_tx_dual_pol(
                 out_coup.ports["o2"],
                 cross_section=cross_section,
                 with_sbend=False,
-                **kwargs
+                **kwargs,
             )
             c.add(route.references)
     else:

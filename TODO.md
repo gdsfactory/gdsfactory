@@ -1,5 +1,6 @@
 # TODO
 
+- native oasis compatibility
 - flake8-bugbear
 - more explicit Sparameter data format. Consider TE/TM modes.
 - add examples for TE to TM conversion
@@ -19,7 +20,7 @@
 
 - add xdoctest
 - type checker passing (mypy, pyre, pytype)
-- klayout placer (north, west) does not work well with rotations
+- KLayout placer (north, west) does not work well with rotations
 - enable rich output?
 - add cloud bucket or DVC for version control data on GCS, instead of relying gdslib second repo.
 

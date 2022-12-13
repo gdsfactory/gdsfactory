@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Dict, List, Optional, Union
 
 import numpy as np
@@ -33,7 +35,7 @@ def get_bundle_from_steps(
     path_length_match_loops: int = None,
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
-    **kwargs
+    **kwargs,
 ) -> List[Route]:
     """Returns a list of routes formed by the given waypoints steps.
 
@@ -163,7 +165,7 @@ def get_bundle_from_steps(
 
 
 get_bundle_from_steps_electrical = gf.partial(
-    get_bundle_from_steps, bend=wire_corner, cross_section=gf.cross_section.metal3
+    get_bundle_from_steps, bend=wire_corner, cross_section="metal_routing"
 )
 
 get_bundle_from_steps_electrical_multilayer = gf.partial(
@@ -171,7 +173,7 @@ get_bundle_from_steps_electrical_multilayer = gf.partial(
     bend=via_corner,
     cross_section=[
         (gf.cross_section.metal2, (90, 270)),
-        (gf.cross_section.metal3, (0, 180)),
+        ("metal_routing", (0, 180)),
     ],
 )
 

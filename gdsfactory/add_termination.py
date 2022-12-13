@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from functools import partial
 from typing import List, Optional
 
@@ -18,7 +20,7 @@ def add_termination(
     terminator: ComponentSpec = terminator_function,
     port_name: Optional[str] = None,
     port_type: str = "optical",
-    **kwargs
+    **kwargs,
 ) -> Component:
     """Returns component with terminator on some ports.
 

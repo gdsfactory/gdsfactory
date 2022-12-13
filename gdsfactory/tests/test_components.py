@@ -1,7 +1,10 @@
+from __future__ import annotations
+
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
 from gdsfactory.components import cells
+from gdsfactory.config import PATH
 from gdsfactory.difftest import difftest
 
 skip_test = {
@@ -13,7 +16,9 @@ skip_test = {
     "pack_doe",
     "pack_doe_grid",
     "crossing",
+    "spiral_racetrack",
 }
+
 
 cells_to_test = set(cells.keys()) - skip_test
 
@@ -26,7 +31,7 @@ def component_name(request) -> str:
 def test_gds(component_name: str) -> None:
     """Avoid regressions in GDS geometry shapes and layers."""
     component = cells[component_name]()
-    difftest(component, test_name=component_name)
+    difftest(component, test_name=component_name, dirpath=PATH.gdsdiff)
 
 
 def test_settings(component_name: str, data_regression: DataRegressionFixture) -> None:

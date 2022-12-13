@@ -16,10 +16,11 @@ Assumes two ports are connected when they have same width, x, y
 
 """
 
+from __future__ import annotations
+
 from collections import defaultdict
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
-import gdspy
 import numpy as np
 import omegaconf
 
@@ -140,7 +141,7 @@ def get_netlist(
 
     Returns:
         instances: Dict of instance name and settings.
-        connections: Dict of Instance1Name,portName: Instace2Name,portName.
+        connections: Dict of Instance1Name,portName: Instance2Name,portName.
         placements: Dict of instance names and placements (x, y, rotation).
         port: Dict portName: ComponentName,port.
         name: name of component.
@@ -160,7 +161,9 @@ def get_netlist(
     ports_by_type = defaultdict(list)
     top_ports_list = set()
 
-    for reference in component.references:
+    references = _get_references_to_netlist(component)
+
+    for reference in references:
         c = reference.parent
         origin = reference.origin
         x = float(snap_to_grid(origin[0]))
@@ -169,7 +172,11 @@ def get_netlist(
             component,
             reference,
         )
-        if isinstance(reference, gdspy.CellArray):
+        if (
+            isinstance(reference, ComponentReference)
+            and hasattr(reference, "columns")
+            and (reference.columns > 1 or reference.rows > 1)
+        ):
             is_array = True
             base_reference_name = reference_name
             reference_name += "__1_1"
@@ -219,16 +226,8 @@ def get_netlist(
                         name2port[lower_name] = parent_port
                         top_ports_list.add(top_name)
                         ports_by_type[parent_port.port_type].append(lower_name)
-
-    for port in ports:
-        src = port.name
-        name2port[src] = port
-        top_ports_list.add(src)
-        ports_by_type[port.port_type].append(src)
-
-    # lower level ports
-    for reference in component.references:
-        if not isinstance(reference, gdspy.CellArray):
+        else:
+            # lower level ports
             for port in reference.ports.values():
                 reference_name = get_instance_name(
                     component,
@@ -237,6 +236,12 @@ def get_netlist(
                 src = f"{reference_name},{port.name}"
                 name2port[src] = port
                 ports_by_type[port.port_type].append(src)
+
+    for port in ports:
+        src = port.name
+        name2port[src] = port
+        top_ports_list.add(src)
+        ports_by_type[port.port_type].append(src)
 
     warnings = {}
     for port_type, port_names in ports_by_type.items():
@@ -480,6 +485,25 @@ def difference_between_angles(angle2: float, angle1: float):
     return diff
 
 
+def _get_references_to_netlist(component: Component) -> List[ComponentReference]:
+    from gdsfactory.cell import CACHE
+
+    references = component.references
+    if not references and "transformed_cell" in component.info:
+        # expand transformed, flattened cells
+        ref = component.settings.full["ref"]
+        original_cell = CACHE[component.info["transformed_cell"]]
+        references = [
+            ComponentReference(
+                original_cell,
+                origin=ref["origin"],
+                rotation=ref["rotation"],
+                x_reflection=ref["x_reflection"],
+            )
+        ]
+    return references
+
+
 def get_netlist_recursive(
     component: Component,
     component_suffix: str = "",
@@ -508,12 +532,14 @@ def get_netlist_recursive(
     all_netlists = {}
 
     # only components with references (subcomponents) warrant a netlist
-    if component.references:
+    references = _get_references_to_netlist(component)
+
+    if references:
         netlist = get_netlist_func(component, **kwargs)
         all_netlists[f"{component.name}{component_suffix}"] = netlist
 
         # for each reference, expand the netlist
-        for ref in component.references:
+        for ref in references:
             rcell = ref.parent
             grandchildren = get_netlist_recursive(
                 component=rcell,
@@ -522,7 +548,10 @@ def get_netlist_recursive(
                 **kwargs,
             )
             all_netlists.update(grandchildren)
-            if ref.ref_cell.references:
+
+            child_references = _get_references_to_netlist(ref.ref_cell)
+
+            if child_references:
                 inst_name = get_instance_name(component, ref)
                 netlist_dict = {"component": f"{rcell.name}{component_suffix}"}
                 if hasattr(rcell, "settings") and hasattr(rcell.settings, "full"):
@@ -565,37 +594,41 @@ DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES = {
 
 
 if __name__ == "__main__":
-    # from pprint import pprint
-    # from omegaconf import OmegaConf
-    # import gdsfactory as gf
-    # from gdsfactory.tests.test_component_from_yaml import sample_2x2_connections
-
-    # c = gf.read.from_yaml(sample_2x2_connections)
-    # c = gf.components.ring_single()
-    # c.show(show_ports=True)
-    # pprint(c.get_netlist())
-
-    # n = c.get_netlist()
-    # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    # c2 = gf.read.from_yaml(yaml_str)
-    # gf.show(c2)
-
     import gdsfactory as gf
+    from gdsfactory.decorators import flatten_invalid_refs
 
-    c = gf.components.mzi(delta_length=10)
-    n = c.get_netlist()
-    print(c.get_netlist_yaml())
+    rotation_value = 35
+    cname = "test_get_netlist_transformed"
+    c = gf.Component(cname)
+    i1 = c.add_ref(gf.components.straight(), "i1")
+    i2 = c.add_ref(gf.components.straight(), "i2")
+    i1.rotate(rotation_value)
+    i2.connect("o2", i1.ports["o1"])
 
-    c = gf.read.from_yaml(c.get_netlist())
-    c.show()
+    # flatten the oddly rotated refs
+    c = flatten_invalid_refs(c)
 
-    # coupler_lengths = [10, 20, 30, 40]
-    # coupler_gaps = [0.1, 0.2, 0.4, 0.5]
-    # delta_lengths = [10, 100, 200]
+    # perform the initial sanity checks on the netlist
+    netlist = c.get_netlist()
+    connections = netlist["connections"]
+    assert len(connections) == 1, len(connections)
+    cpairs = list(connections.items())
+    extracted_port_pair = set(cpairs[0])
+    expected_port_pair = {"i2,o2", "i1,o1"}
+    assert extracted_port_pair == expected_port_pair
 
-    # c = gf.components.mzi_lattice(
-    #     coupler_lengths=coupler_lengths,
-    #     coupler_gaps=coupler_gaps,
-    #     delta_lengths=delta_lengths,
-    # )
-    # n = c.get_netlist_recursive()
+    recursive_netlist = get_netlist_recursive(c)
+    top_netlist = recursive_netlist[cname]
+    # the recursive netlist should have 3 entries, for the top level and two rotated straights
+    assert len(recursive_netlist) == 3
+    # confirm that the child netlists have reference attributes properly set
+
+    i1_cell_name = top_netlist["instances"]["i1"]["component"]
+    i1_netlist = recursive_netlist[i1_cell_name]
+    # currently for transformed netlists, the instance name of the inner cell is None
+    assert i1_netlist["placements"][None]["rotation"] == rotation_value
+
+    i2_cell_name = top_netlist["instances"]["i2"]["component"]
+    i2_netlist = recursive_netlist[i2_cell_name]
+    # currently for transformed netlists, the instance name of the inner cell is None
+    assert i2_netlist["placements"][None]["rotation"] == rotation_value

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
@@ -454,9 +456,9 @@ def test_facing_ports(
 if __name__ == "__main__":
 
     # c = test_get_bundle(None, check=False)
-    # c = test_connect_corner(None, config="A", check=False)
+    c = test_connect_corner(config="A", data_regression=None, check=False)
     # c = test_get_bundle_udirect(None, check=False)
     # c = test_get_bundle_u_indirect(None, check=False, angle=90)
-    c = test_get_bundle_u_indirect(None, angle=0, check=False)
+    # c = test_get_bundle_u_indirect(None, angle=0, check=False)
     # c = test_facing_ports(None, check=False)
     c.show(show_ports=True)

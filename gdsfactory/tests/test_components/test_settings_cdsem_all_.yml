@@ -3,21 +3,8 @@ settings:
   changed: {}
   child: null
   default:
-    bend90:
-      function: bend_circular
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - DEVREC
-        cladding_offsets:
-        - 0
+    bend90: bend_circular
+    cross_section: strip
     dense_lines_gap: 0.3
     dense_lines_labels:
     - DL
@@ -25,8 +12,7 @@ settings:
     - DH
     dense_lines_width: 0.3
     dense_lines_width_difference: 0.02
-    straight:
-      function: straight
+    straight: straight
     text:
       function: text_rectangular
       settings:
@@ -39,21 +25,8 @@ settings:
     - 0.8
     - 1.0
   full:
-    bend90:
-      function: bend_circular
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - DEVREC
-        cladding_offsets:
-        - 0
+    bend90: bend_circular
+    cross_section: strip
     dense_lines_gap: 0.3
     dense_lines_labels:
     - DL
@@ -61,8 +34,7 @@ settings:
     - DH
     dense_lines_width: 0.3
     dense_lines_width_difference: 0.02
-    straight:
-      function: straight
+    straight: straight
     text:
       function: text_rectangular
       settings:
