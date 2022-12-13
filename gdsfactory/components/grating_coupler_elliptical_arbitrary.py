@@ -25,7 +25,7 @@ def grating_coupler_elliptical_arbitrary(
     fiber_angle: float = 15.0,
     nclad: float = 1.443,
     layer_slab: LayerSpec = "SLAB150",
-    slab_xmin: float = -3.0,
+    taper_to_slab_offset: float = -3.0,
     polarization: str = "te",
     fiber_marker_width: float = 11.0,
     fiber_marker_layer: LayerSpec = "TE",
@@ -48,7 +48,7 @@ def grating_coupler_elliptical_arbitrary(
         fiber_angle: fibre angle in degrees determines ellipticity.
         nclad: cladding effective index to compute ellipticity.
         layer_slab: Optional slab.
-        slab_xmin: where 0 is at the start of the taper.
+        taper_to_slab_offset: 0 is where taper ends.
         polarization: te or tm.
         fiber_marker_width: in um.
         fiber_marker_layer: Optional marker.
@@ -99,16 +99,14 @@ def grating_coupler_elliptical_arbitrary(
     )  # position of middle of each tooth
     ps = np.divide(xis, periods)
 
-    # Make the grating teeth
-    xi = taper_length  # x intercept of current tooth
+    # grating teeth
     for a1, b1, x1, p, width in zip(a1s, b1s, x1s, ps, widths):
         pts = grating_tooth_points(
             p * a1, p * b1, p * x1, width, taper_angle, spiked=spiked
         )
         c.add_polygon(pts, layer)
-    # end grating teeth making for loop
 
-    # Make the taper
+    # taper
     p = taper_length / periods[0]  # (gaps[0]+widths[0])
     a_taper = p * a1s[0]
     b_taper = p * b1s[0]
@@ -129,8 +127,6 @@ def grating_coupler_elliptical_arbitrary(
         layer=fiber_marker_layer,
         port_type=name,
     )
-
-    # Add port
     c.add_port(
         name="o1",
         center=(x_output, 0),
@@ -141,15 +137,15 @@ def grating_coupler_elliptical_arbitrary(
     )
 
     if layer_slab:
-        slab_xmin += taper_length
-        slab_xsize = xi + 2.0
+        slab_xmin = taper_length + taper_to_slab_offset
+        slab_xmax = c.xmax + 0.5
         slab_ysize = c.ysize + 2.0
         yslab = slab_ysize / 2
         c.add_polygon(
             [
                 (slab_xmin, yslab),
-                (slab_xsize, yslab),
-                (slab_xsize, -yslab),
+                (slab_xmax, yslab),
+                (slab_xmax, -yslab),
                 (slab_xmin, -yslab),
             ],
             layer_slab,
@@ -194,7 +190,7 @@ def grating_coupler_elliptical_uniform(
         neff: tooth effective index to compute ellipticity.
         nclad: cladding effective index to compute ellipticity.
         layer_slab: Optional slab.
-        slab_xmin: where 0 is at the start of the taper.
+        taper_to_slab_offset: where 0 is at the start of the taper.
         polarization: te or tm.
         fiber_marker_width: in um.
         fiber_marker_layer: Optional marker.
@@ -203,7 +199,6 @@ def grating_coupler_elliptical_uniform(
             Positive bias increases gap and reduces width to keep period constant.
         cross_section: cross_section spec for waveguide port.
         kwargs: cross_section settings.
-
 
     .. code::
 
