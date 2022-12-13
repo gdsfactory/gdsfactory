@@ -1320,7 +1320,7 @@ grating_coupler_elliptical_arbitrary
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_elliptical_arbitrary(gaps=[0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1], widths=[0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5], taper_length=16.6, taper_angle=60.0, wavelength=1.554, fiber_angle=15.0, nclad=1.443, layer_slab='SLAB150', slab_xmin=-3.0, polarization='te', fiber_marker_width=11.0, fiber_marker_layer='TE', spiked=True, bias_gap=0, cross_section='strip')
+  c = gf.components.grating_coupler_elliptical_arbitrary(gaps=[0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1], widths=[0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5], taper_length=16.6, taper_angle=60.0, wavelength=1.554, fiber_angle=15.0, nclad=1.443, layer_slab='SLAB150', taper_to_slab_offset=-3.0, polarization='te', fiber_marker_width=11.0, fiber_marker_layer='TE', spiked=True, bias_gap=0, cross_section='strip')
   c.plot()
 
 
@@ -3150,7 +3150,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='6.6.0', text_size=10)
+  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='6.8.2', text_size=10)
   c.plot()
 
 
