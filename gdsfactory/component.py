@@ -12,13 +12,13 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 import gdstk
-import kfactory as kf
+import klayout.db as kdb
 import numpy as np
 import yaml
-from kfactory import kdb
 from omegaconf import DictConfig, OmegaConf
 from typing_extensions import Literal
 
+from gdsfactory import kcell
 from gdsfactory.component_layout import (
     Label,
     Polygon,
@@ -29,6 +29,7 @@ from gdsfactory.component_layout import (
 from gdsfactory.component_reference import ComponentReference, Coordinate, SizeInfo
 from gdsfactory.config import CONF, logger
 from gdsfactory.cross_section import CrossSection
+from gdsfactory.kcell import Instance, KCell
 from gdsfactory.layers import LAYER_COLORS, LayerColor, LayerColors
 from gdsfactory.port import (
     Port,
@@ -93,7 +94,7 @@ def _rnd(arr, precision=1e-4):
     return np.ascontiguousarray(arr.round(ndigits) / precision, dtype=np.int64)
 
 
-class Instance(kf.Instance):
+class Instance(Instance):
     def connect(
         self,
         port: str,
@@ -113,6 +114,8 @@ class Instance(kf.Instance):
             other_port_name: The name of the other port. Ignored if :py:attr:`~other_instance` is a port.
             mirror: Instead of applying klayout.db.Trans.R180 as a connection transformation, use klayout.db.Trans.M90, which effectively means this instance will be mirrored and connected.
         """
+        import gdsfactory as gf
+
         portname = port
         other = destination
         other_port_name = destination_name
@@ -126,7 +129,6 @@ class Instance(kf.Instance):
         elif isinstance(other, Port):
             op = other
         else:
-            import gdsfactory as gf
 
             if isinstance(other, gf.Port):
                 op = Port.from_gdsfactory_port(other)
@@ -135,7 +137,7 @@ class Instance(kf.Instance):
         p = self.cell.ports[portname]
 
         if p.width != op.width and not allow_width_mismatch:
-            raise kf.cell.PortWidthMismatch(
+            raise kcell.PortWidthMismatch(
                 self,
                 other,
                 p,
@@ -144,15 +146,15 @@ class Instance(kf.Instance):
         elif (
             gf.get_layer(p.layer) != gf.get_layer(op.layer) and not allow_layer_mismatch
         ):
-            raise kf.cell.PortLayerMismatch(self.cell.library, self, other, p, op)
+            raise kcell.PortLayerMismatch(self.cell.library, self, other, p, op)
         elif p.port_type != op.port_type and not allow_type_mismatch:
-            raise kf.cell.PortTypeMismatch(self, other, p, op)
+            raise kcell.PortTypeMismatch(self, other, p, op)
         else:
             conn_trans = kdb.Trans.M90 if mirror else kdb.Trans.R180
             self.instance.trans = op.trans * conn_trans * p.trans.inverted()
 
 
-class Component(kf.KCell):
+class Component(KCell):
     """A Component is an empty canvas where you add polygons, references and ports \
             (to connect to other components).
 
@@ -203,7 +205,7 @@ class Component(kf.KCell):
     #     self._references = []
     #     self.ports = {}
 
-    def create_inst(self, cell: kf.KCell, trans: kdb.Trans = kdb.Trans()) -> Instance:
+    def create_inst(self, cell: KCell, trans: kdb.Trans = kdb.Trans()) -> Instance:
         """Add an instance of another KCell.
 
         Args:
@@ -218,7 +220,7 @@ class Component(kf.KCell):
         self.insts.append(inst)
         return inst
 
-    def __lshift__(self, cell: kf.KCell) -> Instance:
+    def __lshift__(self, cell: KCell) -> Instance:
         """Convenience function for :py:attr:"~create_inst(cell)`.
 
         Args:
@@ -464,7 +466,7 @@ class Component(kf.KCell):
     @property
     def ports(self):
         """Returns ports dict."""
-        return kf.KCell.ports.get_all(self)
+        return KCell.ports.get_all(self)
 
     @property
     def ports_layer(self) -> Dict[str, str]:
@@ -795,18 +797,18 @@ class Component(kf.KCell):
         layer = get_layer(layer)
 
         if port:
-            if isinstance(port, kf.Port):
-                return kf.KCell.add_port(self, port)
+            if isinstance(port, Port):
+                return KCell.add_port(self, port)
 
             elif isinstance(port, Port):
                 p = port
-                return kf.KCell.create_port(
+                return KCell.create_port(
                     self,
                     name=p.name,
                     layer=self.layer(*p.layer),
                     port_type=p.port_type,
                     width=p.width,
-                    angle=int(p.orientation // 90),
+                    orientation=int(p.orientation // 90),
                     position=p.center,
                 )
 
@@ -840,12 +842,12 @@ class Component(kf.KCell):
         if name in self.ports:
             raise ValueError(f"add_port() Port name {name!r} exists in {self.name!r}")
 
-        kf.KCell.create_port(
+        KCell.create_port(
             self,
             name=name,
-            position=center,
+            center=center,
             width=width,
-            angle=orientation,
+            orientation=orientation,
             layer=layer,
             port_type=port_type,
         )
@@ -1400,6 +1402,8 @@ class Component(kf.KCell):
             precision: for object dimensions in the library (m). 1nm by default.
             timestamp: Defaults to 2019-10-25. If None uses current time.
         """
+        from gdsfactory.show import show
+
         if show_ports:
             component = self.copy()
             component.draw_ports()
@@ -1408,7 +1412,7 @@ class Component(kf.KCell):
         else:
             component = self
 
-        kf.show(component, **kwargs)
+        show(component, **kwargs)
 
     def to_3d(self, *args, **kwargs):
         """Returns Component 3D trimesh Scene.
@@ -1502,17 +1506,6 @@ class Component(kf.KCell):
         d["name"] = self.name
         d["settings"] = clean_dict(dict(self.settings))
         return d
-
-    def to_yaml(self, **kwargs) -> str:
-        """Write Dict representation of a component in YAML format.
-
-        Args:
-            ignore_components_prefix: for components to ignore when exporting.
-            ignore_functions_prefix: for functions to ignore when exporting.
-            with_cells: write cells recursively.
-            with_ports: write port information.
-        """
-        return OmegaConf.to_yaml(self.to_dict(**kwargs))
 
     def to_dict_polygons(self) -> Dict[str, Any]:
         """Returns a dict representation of the flattened component."""
@@ -2021,5 +2014,6 @@ if __name__ == "__main__":
 
     import gdsfactory as gf
 
-    c = gf.c.mzi()
+    c = Component()
+    c << gf.c.mzi()
     c.show()

@@ -15,7 +15,6 @@ import pydantic
 from pydantic import BaseModel, Field
 from typing_extensions import Literal
 
-from gdsfactory.add_pins import add_bbox_siepic, add_pins_siepic_optical_2nm
 from gdsfactory.tech import Section
 
 Layer = Tuple[int, int]
@@ -321,10 +320,10 @@ def cross_section(
 
 strip = partial(
     cross_section,
-    add_pins=add_pins_siepic_optical_2nm,
-    add_bbox=add_bbox_siepic,
-    cladding_layers=("DEVREC",),  # for SiEPIC verification
-    cladding_offsets=(0,),  # for SiEPIC verification
+    # add_pins=add_pins_siepic_optical_2nm,
+    # add_bbox=add_bbox_siepic,
+    # cladding_layers=("DEVREC",),  # for SiEPIC verification
+    # cladding_offsets=(0,),  # for SiEPIC verification
 )
 strip_auto_widen = partial(strip, width_wide=0.9, auto_widen=True)
 strip_no_pins = partial(

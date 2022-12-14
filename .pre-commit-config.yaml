@@ -107,10 +107,10 @@ repos:
   #   hooks:
   #       - id: darglint
   #
-  - repo: https://github.com/pycqa/pydocstyle
-    rev: "a6fe4222012e990042c86cdaaa904a8d059752ee"
-    hooks:
-        - id: pydocstyle
+  # - repo: https://github.com/pycqa/pydocstyle
+  #   rev: "a6fe4222012e990042c86cdaaa904a8d059752ee"
+  #   hooks:
+  #       - id: pydocstyle
   # - repo: https://github.com/asottile/reorder_python_imports
   #   rev: 2b2f0c74acdb3de316e23ceb7dd0d7945c354050
   #   hooks:
