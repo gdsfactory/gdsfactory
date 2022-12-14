@@ -14,7 +14,6 @@ from xml.dom.minidom import Node
 from pydantic import BaseModel, Field, validator
 
 from gdsfactory.config import PATH
-from gdsfactory.tech import LayerStack
 
 Layer = Tuple[int, int]
 ConductorViaConductorName = Tuple[str, str, str]
@@ -114,33 +113,25 @@ class LayerView(BaseModel):
                 self.group_members[name] = default
 
     @validator("frame_color", "fill_color")
-    def color_is_valid(cls, color):
-        import numpy as np
-        from matplotlib.colors import CSS4_COLORS
+    def check_color(cls, color):
+        if color is None:
+            return None
 
-        try:
-            if color is None:  # not specified
-                color = None
-            elif np.size(color) == 3:  # in format (0.5, 0.5, 0.5)
-                color = np.array(color)
-                if np.any(color > 1) or np.any(color < 0):
-                    raise ValueError
-                color = np.array(np.round(color * 255), dtype=int)
-                color = "#{:02x}{:02x}{:02x}".format(*color)
-            elif color[0] == "#":  # in format #1d2e3f
-                if len(color) != 7:
-                    raise ValueError
-                int(color[1:], 16)  # Will throw error if not hex format
-            else:  # in named format 'gold'
-                color = CSS4_COLORS[color.lower()]
-        except Exception as error:
+        from matplotlib.colors import CSS4_COLORS, is_color_like, to_hex
+
+        if not is_color_like(color):
             raise ValueError(
-                "LayerView color must be specified as a "
-                "0-1 RGB triplet, (e.g. [0.5, 0.1, 0.9]), an HTML hex color string "
-                "(e.g. '#a31df4'), or a CSS3 color name (e.g. 'gold' or "
-                "see http://www.w3schools.com/colors/colors_names.asp )"
-            ) from error
-        return color
+                "LayerView 'color' must be a valid CSS4 color. "
+                "For more info, see: https://www.w3schools.com/colors/colors_names.asp"
+            )
+
+        # Color given by name
+        if isinstance(color, str) and color[0] != "#":
+            return CSS4_COLORS[color.lower()]
+
+        # Color either an RGBA tuple or a hex string
+        else:
+            return to_hex(color)
 
     def __str__(self):
         """Returns a formatted view of properties and their values."""
@@ -478,7 +469,9 @@ class LayerDisplayProperties(BaseModel):
         """Returns a tuple for each layer."""
         return {layer.layer for layer in self.get_layer_views().values()}
 
-    def to_lyp(self, filepath: str, overwrite: bool = True) -> None:
+    def to_lyp(
+        self, filepath: Union[str, pathlib.Path], overwrite: bool = True
+    ) -> None:
         """Write all layer properties to a KLayout .lyp file.
 
         Args:
@@ -540,11 +533,13 @@ class LayerDisplayProperties(BaseModel):
         custom_dither_patterns = {}
         for dither_block in root.iter("custom-dither-pattern"):
             name = dither_block.find("name").text
-            if name is None:
+            order = dither_block.find("order").text
+
+            if name is None or order is None:
                 continue
 
             custom_dither_patterns[name] = CustomDitherPattern(
-                order=dither_block.find("order").text,
+                order=int(order),
                 pattern="\n".join(
                     [line.text for line in dither_block.find("pattern").iter()]
                 ),
@@ -552,10 +547,13 @@ class LayerDisplayProperties(BaseModel):
         custom_line_styles = {}
         for line_block in root.iter("custom-line-style"):
             name = line_block.find("name").text
-            if name is None:
+            order = line_block.find("order").text
+
+            if name is None or order is None:
                 continue
+
             custom_line_styles[name] = CustomLineStyle(
-                order=line_block.find("order").text,
+                order=int(order),
                 pattern=line_block.find("pattern").text,
             )
         custom_patterns = CustomPatterns(
@@ -633,7 +631,8 @@ class KLayoutTechnology(BaseModel):
         tech_dir: str,
         lyp_filename: str = "layers",
         lyt_filename: str = "tech",
-        layer_stack: Optional[LayerStack] = None,
+        d25_filename: str = "generic",
+        layer_stack: Optional = None,
         mebes_config: Optional[dict] = None,
     ) -> None:
         """Write technology files into 'tech_dir'.
@@ -642,23 +641,20 @@ class KLayoutTechnology(BaseModel):
             tech_dir: Where to write the technology files to.
             lyp_filename: Name of the layer properties file.
             lyt_filename: Name of the layer technology file.
+            d25_filename: Name of the 2.5D stack file (only works on KLayout >= 0.28)
             layer_stack: If specified, write a 2.5D section in the technology file based on the LayerStack.
             mebes_config: A dictionary specifying the KLayout mebes reader config.
         """
         # Format file names if necessary
-        lyp_filename = append_file_extension(lyp_filename, ".lyp")
-        lyt_filename = append_file_extension(lyt_filename, ".lyt")
-
         tech_path = pathlib.Path(tech_dir)
-        lyp_path = tech_path / lyp_filename
-        lyt_path = tech_path / lyt_filename
-
-        # Specify relative file name for layer properties file
-        self.technology.layer_properties_file = lyp_filename
+        lyp_path = tech_path / append_file_extension(lyp_filename, ".lyp")
+        lyt_path = tech_path / append_file_extension(lyt_filename, ".lyt")
+        d25_path = tech_path / "d25" / append_file_extension(d25_filename, ".lyd25")
 
         if not self.technology.name:
             self.technology.name = self.name
 
+        self.technology.layer_properties_file = lyp_path.name
         # TODO: Also interop with xs scripts?
 
         # Write lyp to file
@@ -693,26 +689,26 @@ class KLayoutTechnology(BaseModel):
         reader_opts.insert(lefdef_idx + 1, mebes)
 
         if layer_stack is not None:
-            # KLayout 0.27.x won't have a way to read/write the 2.5D info for technologies, so add manually
-            # Should be easier in 0.28.x
-            d25_element = [e for e in list(root) if e.tag == "d25"]
-            if len(d25_element) != 1:
-                raise KeyError("Could not get a single index for the d25 element.")
-            d25_element = d25_element[0]
+            # KLayout 0.27.x won't have a way to read/write the 2.5D info for technologies, so add manually to xml
+            d25_element = root.find("d25")
 
-            src_element = [e for e in list(d25_element) if e.tag == "src"]
-            if len(src_element) != 1:
-                raise KeyError("Could not get a single index for the src element.")
-            src_element = src_element[0]
+            # Would be nice to have a klayout.__version__ to check
+            klayout28 = d25_element is None
 
-            for layer_level in layer_stack.layers.values():
-                # Round the float based on the database unit (dbu) to not end up with numbers like: 2.0700000000000003
-                rounding_place = len(str(self.technology.dbu).split(".")[-1])
-                zmin = round(layer_level.zmin, rounding_place)
-                zmax = round(zmin + layer_level.thickness, rounding_place)
-                src_element.text += (
-                    f"{layer_level.layer[0]}/{layer_level.layer[1]}: {zmin} {zmax}\n"
-                )
+            dbu = len(str(self.technology.dbu).split(".")[-1])
+
+            d25_script = layer_stack.get_klayout_3d_script(
+                klayout28=klayout28,
+                layer_display_properties=self.layer_properties,
+                dbu=dbu,
+            )
+
+            if klayout28:
+                d25_script = f'# "{self.name}" 2.5D script generated by GDSFactory\n\n{d25_script}'
+                d25_path.write_bytes(d25_script.encode("utf-8"))
+            else:
+                src_element = d25_element.find("src")
+                src_element.text = d25_script
 
         # root['connectivity']['connection']= '41/0,44/0,45/0'
         if self.connectivity is not None:
