@@ -205,6 +205,9 @@ class LayerStack(BaseModel):
             zmin = level.zmin
             zmax = zmin + level.thickness
 
+            if layer is None:
+                continue
+
             if dbu:
                 rnd_pl = len(str(dbu).split(".")[-1])
                 zmin = round(zmin, rnd_pl)
