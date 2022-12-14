@@ -12,7 +12,7 @@ def break_line(line, other_line):
         for intersection in (
             intersections.geoms if hasattr(intersections, "geoms") else [intersections]
         ):
-            if intersection.type == "Point":
+            if intersection.geom_type == "Point":
                 line = linemerge(split(line, intersection))
             else:
                 new_coords_start, new_coords_end = intersection.boundary.geoms
@@ -48,7 +48,7 @@ def break_geometry(shapes_dict: OrderedDict):
             # First line exterior
             first_exterior_line = (
                 LineString(first_shape.exterior)
-                if first_shape.type == "Polygon"
+                if first_shape.geom_type == "Polygon"
                 else first_shape
             )
             for second_name, second_shapes in shapes_dict.items():
@@ -63,7 +63,7 @@ def break_geometry(shapes_dict: OrderedDict):
                         # Second line exterior
                         second_exterior_line = (
                             LineString(second_shape.exterior)
-                            if second_shape.type == "Polygon"
+                            if second_shape.geom_type == "Polygon"
                             else second_shape
                         )
                         first_exterior_line = break_line(
@@ -72,7 +72,7 @@ def break_geometry(shapes_dict: OrderedDict):
                         # Second line interiors
                         for second_interior_line in (
                             second_shape.interiors
-                            if second_shape.type == "Polygon"
+                            if second_shape.geom_type == "Polygon"
                             else []
                         ):
                             second_interior_line = LineString(second_interior_line)
@@ -80,7 +80,7 @@ def break_geometry(shapes_dict: OrderedDict):
                                 first_exterior_line, second_interior_line
                             )
             # First line interiors
-            if first_shape.type in ["Polygon", "MultiPolygon"]:
+            if first_shape.geom_type in ["Polygon", "MultiPolygon"]:
                 first_shape_interiors = []
                 for first_interior_line in first_shape.interiors:
                     first_interior_line = LineString(first_interior_line)
@@ -95,7 +95,7 @@ def break_geometry(shapes_dict: OrderedDict):
                                 # Exterior
                                 second_exterior_line = (
                                     LineString(second_shape.exterior)
-                                    if second_shape.type == "Polygon"
+                                    if second_shape.geom_type == "Polygon"
                                     else second_shape
                                 )
                                 first_interior_line = break_line(
@@ -104,7 +104,7 @@ def break_geometry(shapes_dict: OrderedDict):
                                 # Interiors
                                 for second_interior_line in (
                                     second_shape.interiors
-                                    if second_shape.type == "Polygon"
+                                    if second_shape.geom_type == "Polygon"
                                     else []
                                 ):
                                     second_interior_line = LineString(
@@ -114,14 +114,14 @@ def break_geometry(shapes_dict: OrderedDict):
                                         first_interior_line, second_interior_line
                                     )
                     first_shape_interiors.append(first_interior_line)
-            if first_shape.type in ["Polygon", "MultiPolygon"]:
+            if first_shape.geom_type in ["Polygon", "MultiPolygon"]:
                 broken_shapes.append(
                     Polygon(first_exterior_line, holes=first_shape_interiors)
                 )
             else:
                 broken_shapes.append(LineString(first_exterior_line))
         if broken_shapes:
-            if first_shape.type in ["Polygon", "MultiPolygon"]:
+            if first_shape.geom_type in ["Polygon", "MultiPolygon"]:
                 polygons_broken_dict[first_name] = (
                     MultiPolygon(broken_shapes)
                     if len(broken_shapes) > 1
