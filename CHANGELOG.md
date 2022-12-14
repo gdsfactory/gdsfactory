@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.10.0
+
+- If sidewall, can specific at which height gds layer width equals structural width [PR](https://github.com/gdsfactory/gdsfactory/pull/994)
+- fix for shapely 2.0 [PR](https://github.com/gdsfactory/gdsfactory/pull/996)
+
 ## 6.9.0
 
 - fix grating coupler slab and use better variable names [PR](https://github.com/gdsfactory/gdsfactory/pull/991)
