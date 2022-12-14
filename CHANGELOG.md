@@ -4,6 +4,7 @@
 
 - If sidewall, can specific at which height gds layer width equals structural width [PR](https://github.com/gdsfactory/gdsfactory/pull/994)
 - fix for shapely 2.0 [PR](https://github.com/gdsfactory/gdsfactory/pull/996)
+- improve klayout tech for 0.28 [PR](https://github.com/gdsfactory/gdsfactory/pull/998)
 
 ## 6.9.0
 
