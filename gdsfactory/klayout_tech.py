@@ -114,33 +114,25 @@ class LayerView(BaseModel):
                 self.group_members[name] = default
 
     @validator("frame_color", "fill_color")
-    def color_is_valid(cls, color):
-        import numpy as np
-        from matplotlib.colors import CSS4_COLORS
+    def check_color(cls, color):
+        if color is None:
+            return None
 
-        try:
-            if color is None:  # not specified
-                color = None
-            elif np.size(color) == 3:  # in format (0.5, 0.5, 0.5)
-                color = np.array(color)
-                if np.any(color > 1) or np.any(color < 0):
-                    raise ValueError
-                color = np.array(np.round(color * 255), dtype=int)
-                color = "#{:02x}{:02x}{:02x}".format(*color)
-            elif color[0] == "#":  # in format #1d2e3f
-                if len(color) != 7:
-                    raise ValueError
-                int(color[1:], 16)  # Will throw error if not hex format
-            else:  # in named format 'gold'
-                color = CSS4_COLORS[color.lower()]
-        except Exception as error:
+        from matplotlib.colors import CSS4_COLORS, is_color_like, to_hex
+
+        if not is_color_like(color):
             raise ValueError(
-                "LayerView color must be specified as a "
-                "0-1 RGB triplet, (e.g. [0.5, 0.1, 0.9]), an HTML hex color string "
-                "(e.g. '#a31df4'), or a CSS3 color name (e.g. 'gold' or "
-                "see http://www.w3schools.com/colors/colors_names.asp )"
-            ) from error
-        return color
+                "LayerView 'color' must be a valid CSS4 color. "
+                "For more info, see: https://www.w3schools.com/colors/colors_names.asp"
+            )
+
+        # Color given by name
+        if isinstance(color, str) and color[0] != "#":
+            return CSS4_COLORS[color.lower()]
+
+        # Color either an RGBA tuple or a hex string
+        else:
+            return to_hex(color)
 
     def __str__(self):
         """Returns a formatted view of properties and their values."""
@@ -478,7 +470,9 @@ class LayerDisplayProperties(BaseModel):
         """Returns a tuple for each layer."""
         return {layer.layer for layer in self.get_layer_views().values()}
 
-    def to_lyp(self, filepath: str, overwrite: bool = True) -> None:
+    def to_lyp(
+        self, filepath: Union[str, pathlib.Path], overwrite: bool = True
+    ) -> None:
         """Write all layer properties to a KLayout .lyp file.
 
         Args:
@@ -540,11 +534,13 @@ class LayerDisplayProperties(BaseModel):
         custom_dither_patterns = {}
         for dither_block in root.iter("custom-dither-pattern"):
             name = dither_block.find("name").text
-            if name is None:
+            order = dither_block.find("order").text
+
+            if name is None or order is None:
                 continue
 
             custom_dither_patterns[name] = CustomDitherPattern(
-                order=dither_block.find("order").text,
+                order=int(order),
                 pattern="\n".join(
                     [line.text for line in dither_block.find("pattern").iter()]
                 ),
@@ -552,10 +548,13 @@ class LayerDisplayProperties(BaseModel):
         custom_line_styles = {}
         for line_block in root.iter("custom-line-style"):
             name = line_block.find("name").text
-            if name is None:
+            order = line_block.find("order").text
+
+            if name is None or order is None:
                 continue
+
             custom_line_styles[name] = CustomLineStyle(
-                order=line_block.find("order").text,
+                order=int(order),
                 pattern=line_block.find("pattern").text,
             )
         custom_patterns = CustomPatterns(
@@ -695,15 +694,8 @@ class KLayoutTechnology(BaseModel):
         if layer_stack is not None:
             # KLayout 0.27.x won't have a way to read/write the 2.5D info for technologies, so add manually
             # Should be easier in 0.28.x
-            d25_element = [e for e in list(root) if e.tag == "d25"]
-            if len(d25_element) != 1:
-                raise KeyError("Could not get a single index for the d25 element.")
-            d25_element = d25_element[0]
-
-            src_element = [e for e in list(d25_element) if e.tag == "src"]
-            if len(src_element) != 1:
-                raise KeyError("Could not get a single index for the src element.")
-            src_element = src_element[0]
+            d25_element = root.find("d25")
+            src_element = d25_element.find("src")
 
             for layer_level in layer_stack.layers.values():
                 # Round the float based on the database unit (dbu) to not end up with numbers like: 2.0700000000000003
