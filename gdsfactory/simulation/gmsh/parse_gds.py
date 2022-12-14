@@ -88,7 +88,7 @@ def tile_shapes(shapes_dict):
                 ):
                     diff_shape = diff_shape.difference(higher_shape)
             tiled_lower_shapes.append(diff_shape)
-        if lower_shape.type in ["Polygon", "MultiPolygon"]:
+        if lower_shape.geom_type in ["Polygon", "MultiPolygon"]:
             shapes_tiled_dict[lower_name] = MultiPolygon(
                 to_polygons(tiled_lower_shapes)
             )
