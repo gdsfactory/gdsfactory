@@ -21,7 +21,17 @@ def bufferize(layerstack: LayerStack):
                 buffer_magnitude = layer.thickness * np.tan(
                     np.radians(layer.sidewall_angle)
                 )
-                layer.z_to_bias = ([0, 1], [0, -1 * buffer_magnitude])
+                if layer.width_to_z:
+                    layer.z_to_bias = (
+                        [0, layer.width_to_z, 1],
+                        [
+                            1 * buffer_magnitude * layer.width_to_z,
+                            0,
+                            -1 * buffer_magnitude * (1 - layer.width_to_z),
+                        ],
+                    )
+                else:
+                    layer.z_to_bias = ([0, 1], [0, -1 * buffer_magnitude])
 
     return layerstack
 
