@@ -81,6 +81,7 @@ gmsh = [
     "pygmsh",
     "pyvista",
     "trimesh",
+    "shapely<=1.8.4"
     ]
 sipann = ["SIPANN==2.0.0"]
 tidy3d = ["tidy3d-beta==1.7.1"]

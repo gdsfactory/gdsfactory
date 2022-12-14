@@ -109,6 +109,7 @@ class LayerLevel(BaseModel):
         zmin: height position where material starts in um.
         material: material name.
         sidewall_angle: in degrees with respect to normal.
+        width_to_z: if sidewall_angle, relative z-position (0 --> zmin, 1 --> zmin + thickness) where structural width equals GDS lauer width.
         z_to_bias: parametrizes shrinking/expansion of the design GDS layer
             when extruding from zmin (0) to zmin + thickness (1).
             Defaults no buffering [[0, 1], [0, 0]].
@@ -132,7 +133,8 @@ class LayerLevel(BaseModel):
     thickness_tolerance: Optional[float] = None
     zmin: float
     material: Optional[str] = None
-    sidewall_angle: float = 0
+    sidewall_angle: float = 0.0
+    width_to_z: float = 0.0
     z_to_bias: Optional[Tuple[List[float], List[float]]] = None
     info: Dict[str, Any] = {}
 
@@ -262,7 +264,8 @@ def get_layer_stack_generic(
                 zmin=0.0,
                 material="si",
                 info={"mesh_order": 1},
-                sidewall_angle=0,
+                sidewall_angle=10,
+                width_to_z=0.5,
             ),
             clad=LayerLevel(
                 # layer=LAYER.WGCLAD,
@@ -317,6 +320,7 @@ def get_layer_stack_generic(
                 material="Aluminum",
                 info={"mesh_order": 1},
                 sidewall_angle=-10,
+                width_to_z=0,
             ),
             metal1=LayerLevel(
                 layer=LAYER.M1,
