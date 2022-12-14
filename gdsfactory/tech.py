@@ -230,16 +230,12 @@ class LayerStack(BaseModel):
 
                 txt += ")"
 
-                out += f"{txt}\n"
-
-                if print_to_console:
-                    print(txt)
             else:
                 txt = f"{layer[0]}/{layer[1]}: {zmin} {zmax}"
-                out += f"{txt}\n"
+            out += f"{txt}\n"
 
-                if print_to_console:
-                    print(txt)
+            if print_to_console:
+                print(txt)
         if klayout28:
             out += "\nend\n"
         return out
