@@ -6,6 +6,8 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 from pydantic import BaseModel
 
+from gdsfactory.klayout_tech import LayerDisplayProperties
+
 module_path = pathlib.Path(__file__).parent.absolute()
 Layer = Tuple[int, int]
 LayerSpec = Union[int, Layer, str, None]
@@ -185,23 +187,58 @@ class LayerStack(BaseModel):
     def to_dict(self) -> Dict[str, Dict[str, Any]]:
         return {level_name: dict(level) for level_name, level in self.layers.items()}
 
-    def get_klayout_3d_script(self, klayout28: bool = True) -> str:
+    def get_klayout_3d_script(
+        self,
+        klayout28: bool = True,
+        print_to_console: bool = True,
+        layer_display_properties: Optional[LayerDisplayProperties] = None,
+        dbu: Optional[float] = 0.001,
+    ) -> str:
         """Prints script for 2.5 view KLayout information.
 
         You can add this information in your tech.lyt take a look at
         gdsfactory/klayout/tech/tech.lyt
         """
+        out = ""
         for layer_name, level in self.layers.items():
             layer = level.layer
-            if layer:
-                if klayout28:
-                    print(
-                        f"z(input({layer[0]}, {layer[1]}), zstart: {level.zmin}, height: {level.zmin+level.thickness}, name: '{layer_name} {layer[0]}/{layer[1]}')"
-                    )
-                else:
-                    print(
-                        f"{level.layer[0]}/{level.layer[1]}: {level.zmin} {level.zmin+level.thickness}"
-                    )
+            zmin = level.zmin
+            zmax = zmin + level.thickness
+
+            if dbu:
+                rnd_pl = len(str(dbu).split(".")[-1])
+                zmin = round(zmin, rnd_pl)
+                zmax = round(zmax, rnd_pl)
+
+            if klayout28:
+                txt = (
+                    f"z("
+                    f"input({layer[0]}, {layer[1]}), "
+                    f"zstart: {zmin}, "
+                    f"zstop: {zmax}, "
+                    f"name: '{layer_name}: {level.material} {layer[0]}/{layer[1]}'"
+                )
+                if layer_display_properties:
+                    txt += ", "
+                    props = layer_display_properties.get_from_tuple(layer)
+                    if props.fill_color == props.frame_color:
+                        txt += f"color: {props.frame_color}"
+                    else:
+                        txt += (
+                            f"fill: {props.fill_color}, " f"frame: {props.frame_color}"
+                        )
+
+                txt += ")"
+
+            else:
+                txt = f"{layer[0]}/{layer[1]}: {zmin} {zmax}"
+            out += f"{txt}\n"
+
+            if print_to_console:
+                print(txt)
+        if klayout28:
+            out += "\nend\n"
+        return out
 
 
 def get_layer_stack_generic(
