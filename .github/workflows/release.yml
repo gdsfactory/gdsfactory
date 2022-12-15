@@ -56,9 +56,9 @@ jobs:
         with:
           fail_on_unmatched_files: false
           files: |
-            gdsfactory-6.9.0-Linux-x86_64.sh
-            gdsfactory-6.9.0-Windows-x86_64.exe
-            gdsfactory-6.9.0-MacOSX-x86_64.pkg
+            gdsfactory-6.10.0-Linux-x86_64.sh
+            gdsfactory-6.10.0-Windows-x86_64.exe
+            gdsfactory-6.10.0-MacOSX-x86_64.pkg
   release_docker:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
     runs-on: ubuntu-latest
@@ -77,5 +77,5 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: joamatab/gdsfactory:latest,joamatab/gdsfactory:6.9.0
+          tags: joamatab/gdsfactory:latest,joamatab/gdsfactory:6.10.0
           file: Dockerfile.dev
