@@ -151,7 +151,7 @@ def uz_xsection_mesh(
     global_meshsize_interpolant_func: Optional[callable] = NearestNDInterpolator,
     extra_shapes_dict: Optional[OrderedDict] = None,
     merge_by_material: Optional[bool] = False,
-    interface_surfaces: Optional[Dict[str, Tuple(float, float)]] = {},
+    interface_surfaces: Optional[Dict[str, Tuple(float, float)]] = None,
 ):
     """Mesh uz cross-section of component along line u = [[x1,y1] , [x2,y2]].
 
@@ -171,6 +171,8 @@ def uz_xsection_mesh(
         extra_shapes_dict: Optional[OrderedDict] = OrderedDict of {key: geo} with key a label and geo a shapely (Multi)Polygon or (Multi)LineString of extra shapes to override component
         merge_by_material: boolean, if True will merge polygons from layers with the same layer.material. Physical keys will be material in this case.
     """
+    interface_surfaces = interface_surfaces or {}
+
     # Fuse and cleanup polygons of same layer in case user overlapped them
     layer_polygons_dict = cleanup_component(component, layerstack)
 
