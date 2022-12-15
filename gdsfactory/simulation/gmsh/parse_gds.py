@@ -4,7 +4,7 @@ import shapely
 from shapely.geometry import LineString, MultiLineString, MultiPolygon, Polygon, box
 
 
-def round_coordinates(geom, ndigits=3):
+def round_coordinates(geom, ndigits=5):
     """Round coordinates to n_digits to eliminate floating point errors."""
 
     def _round_coords(x, y, z=None):
@@ -19,7 +19,7 @@ def round_coordinates(geom, ndigits=3):
     return shapely.ops.transform(_round_coords, geom)
 
 
-def fuse_polygons(component, layername, layer, round_tol=2, simplify_tol=1e-2):
+def fuse_polygons(component, layername, layer, round_tol=5, simplify_tol=1e-5):
     """Take all polygons from a layer, and returns a single (Multi)Polygon shapely object."""
     layer_component = component.extract(layer)
     shapely_polygons = [
