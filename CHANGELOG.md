@@ -5,6 +5,9 @@
 - If sidewall, can specific at which height gds layer width equals structural width [PR](https://github.com/gdsfactory/gdsfactory/pull/994)
 - fix for shapely 2.0 [PR](https://github.com/gdsfactory/gdsfactory/pull/996)
 - improve klayout tech for 0.28 [PR](https://github.com/gdsfactory/gdsfactory/pull/998)
+- add Option to have the mesh elements defined by material instead of layer [PR](https://github.com/gdsfactory/gdsfactory/pull/1002)
+- add layer_grating to some of the gratings in case the grating needs to be defined with different layers. By default = None so it does not change existing gratings [PR](https://github.com/gdsfactory/gdsfactory/pull/1003)
+
 
 ## 6.9.0
 
