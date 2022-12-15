@@ -14,6 +14,7 @@ from gdsfactory.simulation.gmsh.parse_layerstack import (
     get_layers_at_z,
     order_layerstack,
 )
+from gdsfactory.simulation.gmsh.process_component import merge_by_material_func
 from gdsfactory.tech import LayerStack
 from gdsfactory.types import ComponentOrReference
 
@@ -32,6 +33,7 @@ def xy_xsection_mesh(
     global_meshsize_array: Optional[np.array] = None,
     global_meshsize_interpolant_func: Optional[callable] = NearestNDInterpolator,
     extra_shapes_dict: Optional[OrderedDict] = None,
+    merge_by_material: Optional[bool] = False,
 ):
     """Mesh xy cross-section of component at height z.
 
@@ -49,6 +51,7 @@ def xy_xsection_mesh(
         global_meshsize_array: np array [x,y,z,lc] to parametrize the mesh
         global_meshsize_interpolant_func: interpolating function for global_meshsize_array
         extra_shapes_dict: Optional[OrderedDict] = OrderedDict of {key: geo} with key a label and geo a shapely (Multi)Polygon or (Multi)LineString of extra shapes to override component
+        merge_by_material: boolean, if True will merge polygons from layers with the same layer.material. Physical keys will be material in this case.
     """
     # Find layers present at this z-level
     layers = get_layers_at_z(layerstack, z)
@@ -74,6 +77,10 @@ def xy_xsection_mesh(
                 [bounds[2] + background_padding[2], bounds[1] - background_padding[1]],
             ]
         )
+
+    # Merge by material
+    if merge_by_material:
+        shapes = merge_by_material_func(shapes, layerstack)
 
     # Mesh
     return mesh_from_polygons(
