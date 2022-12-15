@@ -8,7 +8,6 @@
 - add Option to have the mesh elements defined by material instead of layer [PR](https://github.com/gdsfactory/gdsfactory/pull/1002)
 - add layer_grating to some of the gratings in case the grating needs to be defined with different layers. By default = None so it does not change existing gratings [PR](https://github.com/gdsfactory/gdsfactory/pull/1003)
 
-
 ## 6.9.0
 
 - fix grating coupler slab and use better variable names [PR](https://github.com/gdsfactory/gdsfactory/pull/991)

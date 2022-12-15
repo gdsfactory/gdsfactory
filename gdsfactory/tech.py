@@ -111,7 +111,8 @@ class LayerLevel(BaseModel):
         zmin: height position where material starts in um.
         material: material name.
         sidewall_angle: in degrees with respect to normal.
-        width_to_z: if sidewall_angle, relative z-position (0 --> zmin, 1 --> zmin + thickness) where structural width equals GDS lauer width.
+        width_to_z: if sidewall_angle, relative z-position
+            (0 --> zmin, 1 --> zmin + thickness).
         z_to_bias: parametrizes shrinking/expansion of the design GDS layer
             when extruding from zmin (0) to zmin + thickness (1).
             Defaults no buffering [[0, 1], [0, 0]].
