@@ -64,7 +64,9 @@ def get_meep_geometry_from_component(
                         mp.Prism(
                             vertices=vertices,
                             height=height,
-                            sidewall_angle=layer_to_sidewall_angle[layer],
+                            sidewall_angle=layer_to_sidewall_angle[layer]
+                            if is_3d
+                            else 0,
                             material=material,
                             # center=center
                         )
