@@ -44,6 +44,7 @@ def get_meep_geometry_from_component(
 
     geometry = []
     layer_to_polygons = component_ref.get_polygons(by_spec=True)
+
     for layer, polygons in layer_to_polygons.items():
         if layer in layer_to_thickness and layer in layer_to_material:
             height = layer_to_thickness[layer] if is_3d else mp.inf
@@ -53,6 +54,7 @@ def get_meep_geometry_from_component(
             for polygon in polygons:
                 vertices = [mp.Vector3(p[0], p[1], zmin_um) for p in polygon]
                 material_name = layer_to_material[layer]
+
                 if material_name:
                     material = get_material(
                         name=material_name,

@@ -303,7 +303,10 @@ settings_get_simulation = set(sig.parameters.keys()).union(settings_meep)
 
 
 if __name__ == "__main__":
-    c = gf.components.straight(length=2, width=0.5)
+    import matplotlib.pyplot as plt
+
+    c = gf.components.bend_circular()
+
     sim_dict = get_simulation(
         c,
         is_3d=False,
@@ -312,10 +315,11 @@ if __name__ == "__main__":
         # port_field_monitor_offset=-0.1,
         # port_margin=2.5,
     )
-    # sim.plot3D()
-    # sim.plot2D()  # plot top view (is_3D needs to be False)
-    # Plot monitor cross-section (is_3D needs to be True)
+    sim = sim_dict["sim"]
+    sim.plot2D()
+    plt.show()
 
+    # Plot monitor cross-section (is_3D needs to be True)
     # sim.init_sim()
     # eps_data = sim.get_epsilon()
 
