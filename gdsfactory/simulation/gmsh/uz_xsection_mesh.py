@@ -16,6 +16,7 @@ from gdsfactory.simulation.gmsh.parse_layerstack import (
     order_layerstack,
 )
 from gdsfactory.simulation.gmsh.process_component import (
+    create_2D_surface_interface,
     merge_by_material_func,
     process_buffers,
 )
@@ -40,8 +41,7 @@ def get_u_bounds_polygons(
 
     return_list = []
     for polygon in polygons.geoms if hasattr(polygons, "geoms") else [polygons]:
-        intersection = polygon.intersection(line).bounds
-        if intersection:
+        if intersection := polygon.intersection(line).bounds:
             p1 = Point([intersection[0], intersection[1]])
             p2 = Point([intersection[2], intersection[3]])
             return_list.append([linestart.distance(p1), linestart.distance(p2)])
@@ -151,6 +151,7 @@ def uz_xsection_mesh(
     global_meshsize_interpolant_func: Optional[callable] = NearestNDInterpolator,
     extra_shapes_dict: Optional[OrderedDict] = None,
     merge_by_material: Optional[bool] = False,
+    interface_surfaces: Optional[Dict[str, Tuple(float, float)]] = {},
 ):
     """Mesh uz cross-section of component along line u = [[x1,y1] , [x2,y2]].
 
@@ -227,9 +228,19 @@ def uz_xsection_mesh(
     if merge_by_material:
         shapes = merge_by_material_func(shapes, layerstack)
 
+    # Create interface surfaces
+    reordered_shapes = OrderedDict()
+    for label in shapes.keys():
+        if interface_surfaces and label in interface_surfaces.keys():
+            buffer_in, buffer_out, simplification = interface_surfaces[label]
+            reordered_shapes[f"{label}Int"] = create_2D_surface_interface(
+                shapes[label], buffer_in, buffer_out, simplification
+            )
+        reordered_shapes[label] = shapes[label]
+
     # Mesh
     return mesh_from_polygons(
-        shapes,
+        reordered_shapes,
         resolutions=resolutions,
         mesh_scaling_factor=mesh_scaling_factor,
         filename=filename,
@@ -263,9 +274,9 @@ if __name__ == "__main__":
                 "slab90",
                 "core",
                 "via_contact",
-                "undercut",
+                # "undercut",
                 "box",
-                "substrate",
+                # "substrate",
                 "clad",
                 "metal1",
             )  # "slab90", "via_contact")#"via_contact") # "slab90", "core"
@@ -273,9 +284,17 @@ if __name__ == "__main__":
     )
 
     resolutions = {}
-    resolutions["si"] = {"resolution": 0.05, "distance": 2}
-    # resolutions["slab90"] = {"resolution": 0.03, "distance": 1}
+    resolutions["si"] = {"resolution": 0.02, "distance": 0.1}
+    resolutions["siInt"] = {"resolution": 0.0003, "distance": 0.1}
+    # resolutions["sio2"] = {"resolution": 0.5, "distance": 1}
     resolutions["Aluminum"] = {"resolution": 0.1, "distance": 1}
+
+    # resolutions = {}
+    # resolutions["core"] = {"resolution": 0.02, "distance": 0.1}
+    # resolutions["coreInt"] = {"resolution": 0.0001, "distance": 0.1}
+    # resolutions["slab90"] = {"resolution": 0.05, "distance": 0.1}
+    # # resolutions["sio2"] = {"resolution": 0.5, "distance": 1}
+    # resolutions["via_contact"] = {"resolution": 0.1, "distance": 1}
 
     geometry = uz_xsection_mesh(
         c,
@@ -285,6 +304,7 @@ if __name__ == "__main__":
         # background_tag="Oxide",
         filename="mesh.msh",
         merge_by_material=True,
+        interface_surfaces={"si": (0.002, 0.002, 0.0002)},
     )
 
     import meshio
