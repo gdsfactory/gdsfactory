@@ -108,3 +108,29 @@ def merge_by_material_func(layer_polygons_dict: Dict, layerstack: LayerStack):
             merged_layer_polygons_dict[material] = polygons
 
     return merged_layer_polygons_dict
+
+
+def create_2D_surface_interface(
+    layer_polygons: MultiPolygon,
+    thickness_min: float = 0.0,
+    thickness_max: float = 0.01,
+    simplify: float = 0.005,
+):
+    """Create 2D entity at the interface of two layers/materials.
+
+    Arguments:
+        layer_polygons: shapely polygons.
+        thickness_min: distance to define the interfacial region towards the polygon.
+        thickness_max: distance to define the interfacial region away from the polygon.
+        simplify: simplification factor for over-parametrized geometries
+
+    Returns:
+        shapely interface polygon
+    """
+    interfaces = layer_polygons.boundary
+    interface_surface = layer_polygons.boundary
+    left_hand_side = interfaces.buffer(thickness_max, single_sided=True)
+    right_hand_side = interfaces.buffer(-thickness_min, single_sided=True)
+    interface_surface = left_hand_side.union(right_hand_side)
+
+    return interface_surface.simplify(simplify, preserve_topology=False)
