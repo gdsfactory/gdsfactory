@@ -14,7 +14,10 @@ from gdsfactory.simulation.gmsh.parse_layerstack import (
     list_unique_layerstack_z,
     order_layerstack,
 )
-from gdsfactory.simulation.gmsh.process_component import process_buffers
+from gdsfactory.simulation.gmsh.process_component import (
+    merge_by_material_func,
+    process_buffers,
+)
 from gdsfactory.tech import LayerStack
 from gdsfactory.types import ComponentOrReference
 
@@ -146,6 +149,7 @@ def uz_xsection_mesh(
     global_meshsize_array: Optional[np.array] = None,
     global_meshsize_interpolant_func: Optional[callable] = NearestNDInterpolator,
     extra_shapes_dict: Optional[OrderedDict] = None,
+    merge_by_material: Optional[bool] = False,
 ):
     """Mesh uz cross-section of component along line u = [[x1,y1] , [x2,y2]].
 
@@ -163,6 +167,7 @@ def uz_xsection_mesh(
         global_meshsize_array: np array [x,y,z,lc] to parametrize the mesh
         global_meshsize_interpolant_func: interpolating function for global_meshsize_array
         extra_shapes_dict: Optional[OrderedDict] = OrderedDict of {key: geo} with key a label and geo a shapely (Multi)Polygon or (Multi)LineString of extra shapes to override component
+        merge_by_material: boolean, if True will merge polygons from layers with the same layer.material. Physical keys will be material in this case.
     """
     # Fuse and cleanup polygons of same layer in case user overlapped them
     layer_polygons_dict = cleanup_component(component, layerstack)
@@ -217,6 +222,10 @@ def uz_xsection_mesh(
             ]
         )
 
+    # Merge by material
+    if merge_by_material:
+        shapes = merge_by_material_func(shapes, layerstack)
+
     # Mesh
     return mesh_from_polygons(
         shapes,
@@ -263,9 +272,9 @@ if __name__ == "__main__":
     )
 
     resolutions = {}
-    resolutions["core"] = {"resolution": 0.05, "distance": 2}
-    resolutions["slab90"] = {"resolution": 0.03, "distance": 1}
-    resolutions["via_contact"] = {"resolution": 0.1, "distance": 1}
+    resolutions["si"] = {"resolution": 0.05, "distance": 2}
+    # resolutions["slab90"] = {"resolution": 0.03, "distance": 1}
+    resolutions["Aluminum"] = {"resolution": 0.1, "distance": 1}
 
     geometry = uz_xsection_mesh(
         c,
@@ -274,6 +283,7 @@ if __name__ == "__main__":
         resolutions=resolutions,
         # background_tag="Oxide",
         filename="mesh.msh",
+        merge_by_material=True,
     )
 
     import meshio
