@@ -23,6 +23,7 @@ def grating_coupler_rectangular_arbitrary(
     polarization: str = "te",
     wavelength: float = 1.55,
     taper: Optional[ComponentSpec] = taper_function,
+    layer_grating: Optional[LayerSpec] = None,
     layer_slab: LayerSpec = "SLAB150",
     slab_xmin: float = -1.0,
     slab_offset: float = 1.0,
@@ -40,6 +41,9 @@ def grating_coupler_rectangular_arbitrary(
         polarization: 'te' or 'tm'.
         wavelength: in um.
         taper: function.
+        layer_grating: Optional layer for grating.
+            by default None uses cross_section.layer.
+            if different from cross_section.layer expands taper.
         layer_slab: layer that protects the slab under the grating.
         slab_xmin: where 0 is at the start of the taper.
         slab_offset: from edge of grating to edge of the slab.
@@ -75,8 +79,8 @@ def grating_coupler_rectangular_arbitrary(
     """
     xs = gf.get_cross_section(cross_section, **kwargs)
     wg_width = xs.width
-    layer = xs.layer
-
+    layer_wg = gf.get_layer(xs.layer)
+    layer_grating = gf.get_layer(layer_grating) or layer_wg
     c = Component()
 
     if taper:
@@ -85,7 +89,7 @@ def grating_coupler_rectangular_arbitrary(
             length=length_taper,
             width2=width_grating,
             width1=wg_width,
-            layer=layer,
+            layer=xs.layer,
         )
 
         c.add_port(port=taper_ref.ports["o1"], name="o1")
@@ -113,20 +117,20 @@ def grating_coupler_rectangular_arbitrary(
         )
         c.add_polygon(
             points,
-            layer,
+            layer_grating,
         )
         xi += width
 
     if layer_slab:
-        slab_xmin += length_taper
-        slab_xsize = xi + slab_offset
+        slab_xmin = length_taper - slab_offset
+        slab_xmax = length_taper + np.sum(widths) + np.sum(gaps) + slab_offset
         slab_ysize = c.ysize + 2 * slab_offset
         yslab = slab_ysize / 2
         c.add_polygon(
             [
                 (slab_xmin, yslab),
-                (slab_xsize, yslab),
-                (slab_xsize, -yslab),
+                (slab_xmax, yslab),
+                (slab_xmax, -yslab),
                 (slab_xmin, -yslab),
             ],
             layer_slab,
@@ -154,5 +158,7 @@ def grating_coupler_rectangular_arbitrary(
 
 if __name__ == "__main__":
     c = grating_coupler_rectangular_arbitrary()
-    print(c.ports)
+    # c = grating_coupler_rectangular_arbitrary(
+    #     layer_grating=(3, 0), layer_slab=(2, 0), slab_offset=1
+    # )
     c.show(show_ports=True)
