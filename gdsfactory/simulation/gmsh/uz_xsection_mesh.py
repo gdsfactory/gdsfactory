@@ -6,6 +6,7 @@ from typing import Dict, List, Optional, Tuple, Union
 import numpy as np
 from scipy.interpolate import NearestNDInterpolator
 from shapely.geometry import LineString, MultiPolygon, Point, Polygon
+from shapely.ops import unary_union
 
 import gdsfactory as gf
 from gdsfactory.simulation.gmsh.mesh import mesh_from_polygons
@@ -183,7 +184,7 @@ def uz_xsection_mesh(
     )
 
     # u-z coordinates to gmsh-friendly polygons
-    # Remove terminal layers
+    # Remove terminal layers and merge polygons
     layer_order = order_layerstack(layerstack)  # gds layers
     shapes = OrderedDict() if extra_shapes_dict is None else extra_shapes_dict
     for layername in layer_order:
@@ -192,7 +193,7 @@ def uz_xsection_mesh(
             if gds_name == layername:
                 layer_shapes = list(bounds)
                 current_shapes.append(MultiPolygon(to_polygons(layer_shapes)))
-        shapes[layername] = MultiPolygon(to_polygons(current_shapes))
+        shapes[layername] = unary_union(MultiPolygon(to_polygons(current_shapes)))
 
     # Add background polygon
     if background_tag is not None:
