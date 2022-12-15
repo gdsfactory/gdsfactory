@@ -9,7 +9,7 @@ from gdsfactory.components.grating_coupler_elliptical import (
     grating_tooth_points,
 )
 from gdsfactory.geometry.functions import DEG2RAD
-from gdsfactory.types import CrossSectionSpec, Floats, LayerSpec
+from gdsfactory.types import CrossSectionSpec, Floats, LayerSpec, Optional
 
 _gaps = (0.1,) * 10
 _widths = (0.5,) * 10
@@ -25,6 +25,7 @@ def grating_coupler_elliptical_arbitrary(
     fiber_angle: float = 15.0,
     nclad: float = 1.443,
     layer_slab: LayerSpec = "SLAB150",
+    layer_grating: Optional[LayerSpec] = None,
     taper_to_slab_offset: float = -3.0,
     polarization: str = "te",
     fiber_marker_width: float = 11.0,
@@ -48,6 +49,9 @@ def grating_coupler_elliptical_arbitrary(
         fiber_angle: fibre angle in degrees determines ellipticity.
         nclad: cladding effective index to compute ellipticity.
         layer_slab: Optional slab.
+        layer_grating: Optional layer for grating.
+            by default None uses cross_section.layer.
+            if different from cross_section.layer expands taper.
         taper_to_slab_offset: 0 is where taper ends.
         polarization: te or tm.
         fiber_marker_width: in um.
@@ -77,7 +81,8 @@ def grating_coupler_elliptical_arbitrary(
     """
     xs = gf.get_cross_section(cross_section, **kwargs)
     wg_width = xs.width
-    layer = xs.layer
+    layer_wg = gf.get_layer(xs.layer)
+    layer_grating = gf.get_layer(layer_grating) or layer_wg
     sthc = np.sin(fiber_angle * DEG2RAD)
 
     # generate component
@@ -104,19 +109,32 @@ def grating_coupler_elliptical_arbitrary(
         pts = grating_tooth_points(
             p * a1, p * b1, p * x1, width, taper_angle, spiked=spiked
         )
-        c.add_polygon(pts, layer)
+        c.add_polygon(pts, layer_grating)
 
     # taper
     p = taper_length / periods[0]  # (gaps[0]+widths[0])
     a_taper = p * a1s[0]
     b_taper = p * b1s[0]
     x_taper = p * x1s[0]
-
     x_output = a_taper + x_taper - taper_length + widths[0] / 2
-    pts = grating_taper_points(
-        a_taper, b_taper, x_output, x_taper, taper_angle, wg_width=wg_width
-    )
-    c.add_polygon(pts, layer)
+
+    if layer_grating == layer_wg:
+        pts = grating_taper_points(
+            a_taper, b_taper, x_output, x_taper, taper_angle, wg_width=wg_width
+        )
+        c.add_polygon(pts, layer_wg)
+
+    else:
+        pts = grating_taper_points(
+            a_taper,
+            b_taper,
+            x_output,
+            x_taper + np.sum(widths) + np.sum(gaps) + 1,
+            taper_angle,
+            wg_width=wg_width,
+        )
+        c.add_polygon(pts, layer=layer_wg)
+
     x = (taper_length + xis[-1]) / 2
     name = f"vertical_{polarization.lower()}"
     c.add_port(
@@ -132,7 +150,7 @@ def grating_coupler_elliptical_arbitrary(
         center=(x_output, 0),
         width=wg_width,
         orientation=180,
-        layer=layer,
+        layer=layer_wg,
         cross_section=xs,
     )
 
@@ -218,5 +236,6 @@ def grating_coupler_elliptical_uniform(
 
 
 if __name__ == "__main__":
-    c = grating_coupler_elliptical_arbitrary()
+    c = grating_coupler_elliptical_arbitrary(layer_grating=(3, 0))
+    # c = grating_coupler_elliptical_arbitrary()
     c.show(show_ports=True)
