@@ -18,7 +18,7 @@ import sys
 import time
 from pathlib import Path
 from types import SimpleNamespace
-from typing import Callable, Dict, List, Optional, Tuple, Union
+from typing import Dict, List, Optional, Tuple, Union
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -32,7 +32,7 @@ from tqdm.auto import tqdm
 from typing_extensions import Literal
 
 from gdsfactory.config import logger
-from gdsfactory.pdk import get_modes_path
+from gdsfactory.pdk import MaterialSpec, get_material_index, get_modes_path
 from gdsfactory.serialization import get_hash
 from gdsfactory.simulation.gtidy3d.materials import si, sin, sio2
 from gdsfactory.types import PathType
@@ -189,8 +189,8 @@ class Waveguide(BaseModel):
     wavelength: float
     wg_width: float
     wg_thickness: float
-    ncore: Union[float, Callable[[str], float]]
-    nclad: Union[float, Callable[[str], float]]
+    ncore: MaterialSpec
+    nclad: MaterialSpec
     dn_dict: Optional[Dict] = None
     slab_thickness: float
     t_box: float = 2.0
@@ -241,11 +241,11 @@ class Waveguide(BaseModel):
 
     def get_ncore(self, wavelength: Optional[float] = None) -> float:
         wavelength = wavelength or self.wavelength
-        return self.ncore(wavelength) if callable(self.ncore) else self.ncore
+        return get_material_index(self.ncore, wavelength)
 
     def get_nclad(self, wavelength: Optional[float] = None) -> float:
         wavelength = wavelength or self.wavelength
-        return self.nclad(wavelength) if callable(self.nclad) else self.nclad
+        return get_material_index(self.nclad, wavelength)
 
     def get_n(self, Y, Z):
         """Return index matrix for a waveguide.
