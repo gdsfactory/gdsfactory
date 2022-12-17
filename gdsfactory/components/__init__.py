@@ -188,6 +188,7 @@ from gdsfactory.components.rectangle_with_slits import rectangle_with_slits
 from gdsfactory.components.resistance_meander import resistance_meander
 from gdsfactory.components.resistance_sheet import resistance_sheet
 from gdsfactory.components.ring import ring
+from gdsfactory.components.ring_crow import ring_crow
 from gdsfactory.components.ring_double import ring_double
 from gdsfactory.components.ring_double_heater import ring_double_heater
 from gdsfactory.components.ring_single import ring_single
@@ -471,6 +472,7 @@ __all__ = [
     "resistance_meander",
     "resistance_sheet",
     "ring",
+    "ring_crow",
     "ring_double",
     "ring_double_heater",
     "ring_single",

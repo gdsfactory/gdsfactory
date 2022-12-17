@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.12.0
+
+- Add coupled rings (CROW) [PR](https://github.com/gdsfactory/gdsfactory/pull/1009)
+
 ## [6.11.0](https://github.com/gdsfactory/gdsfactory/pull/1007)
 
 - add option to register materials_index into a PDK.
