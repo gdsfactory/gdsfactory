@@ -77,11 +77,7 @@ def write_sparameters_grating_coupler(
         fiber_z: fiber zoffset from grating zmax.
         fiber_mfd: fiber mode field diameter (um).
         fiber_angle_deg: fiber_angle in degrees with respect to normal.
-        dispersive: False uses constant refractive index materials.
-            True adds wavelength depending materials.
-            Dispersive materials require more computation.
-        material_name_to_tidy3d_index: not dispersive materials have a constant index.
-        material_name_to_tidy3d_name: dispersive materials have a wavelength.
+        material_name_to_tidy3d: dispersive materials have a wavelength.
             dependent index. Maps layer_stack names with tidy3d material database names.
         is_3d: True by default runs in 3D.
         with_all_monitors: stores all monitor fields.

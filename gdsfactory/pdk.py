@@ -18,6 +18,8 @@ from gdsfactory.containers import containers as containers_default
 from gdsfactory.cross_section import cross_sections
 from gdsfactory.events import Event
 from gdsfactory.layers import LAYER_COLORS, LayerColors
+from gdsfactory.materials import MaterialSpec
+from gdsfactory.materials import materials_index as materials_index_default
 from gdsfactory.read.from_yaml import from_yaml
 from gdsfactory.show import show
 from gdsfactory.symbols import floorplan_with_block_letters
@@ -96,6 +98,7 @@ class Pdk(BaseModel):
     grid_size: float = 0.001
     warn_off_grid_ports: bool = False
     constants: Dict[str, Any] = constants
+    materials_index: Dict[str, MaterialSpec] = materials_index_default
 
     class Config:
         """Configuration."""
@@ -296,8 +299,7 @@ class Pdk(BaseModel):
             )
         except ValueError:
             component = self.get_component(component, **kwargs)
-            symbol = self.default_symbol_factory(component)
-            return symbol
+            return self.default_symbol_factory(component)
 
     def _get_component(
         self,
@@ -436,6 +438,13 @@ class Pdk(BaseModel):
             raise ValueError(f"{key!r} not in {constants}")
         return self.constants[key]
 
+    def get_material_index(self, key: str, *args, **kwargs) -> float:
+        if key not in self.materials_index:
+            material_names = list(self.materials_index.keys())
+            raise ValueError(f"{key!r} not in {material_names}")
+        material = self.materials_index[key]
+        return material(*args, **kwargs) if callable(material) else material
+
     # _on_cell_registered = Event()
     # _on_container_registered: Event = Event()
     # _on_yaml_cell_registered: Event = Event()
@@ -468,6 +477,10 @@ GENERIC = Pdk(
     sparameters_path=sparameters_path,
 )
 _ACTIVE_PDK = GENERIC
+
+
+def get_material_index(material: MaterialSpec, *args, **kwargs) -> Component:
+    return _ACTIVE_PDK.get_material_index(material, *args, **kwargs)
 
 
 def get_component(component: ComponentSpec, **kwargs) -> Component:
