@@ -55,73 +55,26 @@ def make_pretty_xml(root: ET.Element) -> bytes:
     return xml_doc.toprettyxml(indent=" ", newl="\n", encoding="utf-8")
 
 
-class LayerView(BaseModel):
-    """KLayout layer properties.
-
-    Docstrings copied from KLayout documentation (with some modifications):
-    https://www.klayout.de/lyp_format.html
+class LayerColor(BaseModel):
+    """Fill and frame color.
 
     Attributes:
-        layer: GDSII layer.
-        layer_in_name: Whether to display the name as 'name layer/datatype' rather than just the layer.
-        width: This is the line width of the frame in pixels (or empty for the default which is 1).
-        line_style: This is the number of the line style used to draw the shape boundaries.
-            An empty string is "solid line". The values are "Ix" for one of the built-in styles
-            where "I0" is "solid", "I1" is "dotted" etc.
-        dither_pattern: This is the number of the dither pattern used to fill the shapes.
-            The values are "Ix" for one of the built-in pattern where "I0" is "solid" and "I1" is "clear".
-        frame_color: The color of the frames.
-        fill_color: The color of the fill pattern inside the shapes.
-        animation: This is a value indicating the animation mode.
-            0 is "none", 1 is "scrolling", 2 is "blinking" and 3 is "inverse blinking".
-        fill_brightness: This value modifies the brightness of the fill color. See "frame-brightness".
-        frame_brightness: This value modifies the brightness of the frame color.
-            0 is unmodified, -100 roughly adds 50% black to the color which +100 roughly adds 50% white.
-        xfill: Whether boxes are drawn with a diagonal cross.
-        marked: Whether the entry is marked (drawn with small crosses).
-        transparent: Whether the entry is transparent.
-        visible: Whether the entry is visible.
-        valid: Whether the entry is valid. Invalid layers are drawn but you can't select shapes on those layers.
-        group_members: Add a list of group members to the LayerView.
+        frame: The color of the frames.
+        fill: The color of the fill pattern inside the shapes.
     """
 
-    layer: Optional[Layer] = None
-    layer_in_name: bool = False
-    frame_color: Optional[str] = None
-    fill_color: Optional[str] = None
-    frame_brightness: Optional[int] = 0
-    fill_brightness: Optional[int] = 0
-    dither_pattern: Optional[str] = None
-    line_style: Optional[str] = None
-    valid: bool = True
-    visible: bool = True
-    transparent: bool = False
-    width: Optional[int] = None
-    marked: bool = False
-    xfill: bool = False
-    animation: int = 0
-    group_members: Optional[Dict[str, "LayerView"]] = None
+    fill: Optional[str] = None
+    frame: Optional[str] = None
 
-    def __init__(self, **data):
-        """Initialize LayerView object."""
-        super().__init__(**data)
-
-        # Iterate through all items, adding group members as needed
-        for name, field in self.__fields__.items():
-            default = field.get_default()
-            if isinstance(default, LayerView):
-                self.group_members[name] = default
-
-    @validator("frame_color", "fill_color")
+    @validator("fill", "frame")
     def check_color(cls, color):
         if color is None:
             return None
-
         from matplotlib.colors import CSS4_COLORS, is_color_like, to_hex
 
         if not is_color_like(color):
             raise ValueError(
-                "LayerView 'color' must be a valid CSS4 color. "
+                f"LayerView 'color' must be a valid CSS4 color (was {color}). "
                 "For more info, see: https://www.w3schools.com/colors/colors_names.asp"
             )
 
@@ -133,59 +86,19 @@ class LayerView(BaseModel):
         else:
             return to_hex(color)
 
-    def __str__(self):
-        """Returns a formatted view of properties and their values."""
-        return "LayerView:\n\t" + "\n\t".join(
-            [f"{k}: {v}" for k, v in self.dict().items()]
-        )
 
-    def __repr__(self):
-        """Returns a formatted view of properties and their values."""
-        return self.__str__()
+class LayerBrightness(BaseModel):
+    """Fill and frame brightness.
 
-    def _get_xml_element(self, tag: str, name: str) -> ET.Element:
-        """Get XML Element from attributes."""
-        prop_keys = [
-            "frame-color",
-            "fill-color",
-            "frame-brightness",
-            "fill-brightness",
-            "dither-pattern",
-            "line-style",
-            "valid",
-            "visible",
-            "transparent",
-            "width",
-            "marked",
-            "xfill",
-            "animation",
-            "name",
-            "source",
-        ]
-        el = ET.Element(tag)
-        for prop_name in prop_keys:
-            if prop_name == "source":
-                layer = self.layer
-                prop_val = f"{layer[0]}/{layer[1]}@1" if layer else "*/*@*"
-            elif prop_name == "name":
-                prop_val = name
-                if self.layer_in_name:
-                    prop_val += f" {self.layer[0]}/{self.layer[1]}"
-            else:
-                prop_val = getattr(self, "_".join(prop_name.split("-")), None)
-                if isinstance(prop_val, bool):
-                    prop_val = f"{prop_val}".lower()
-            subel = ET.SubElement(el, prop_name)
-            if prop_val is not None:
-                subel.text = str(prop_val)
-        return el
+    0 is unmodified, -100 roughly adds 50% black to the color which +100 roughly adds 50% white.
 
-    def to_xml(self, name: str) -> ET.Element:
-        """Return an XML representation of the LayerView."""
-        props = self._get_xml_element("properties", name=name)
-        for member_name, member in self.group_members.items():
-            props.append(member._get_xml_element("group-members", name=member_name))
-        return props
+    Attributes:
+        fill: This value modifies the brightness of the fill color.
+        frame: This value modifies the brightness of the frame color.
+    """
+
+    fill: Optional[int] = 0
+    frame: Optional[int] = 0
 
 
 class CustomDitherPattern(BaseModel):
@@ -239,7 +152,7 @@ class CustomPatterns(BaseModel):
     dither_patterns: Dict[str, CustomDitherPattern] = Field(default_factory=dict)
     line_styles: Dict[str, CustomLineStyle] = Field(default_factory=dict)
 
-    def to_yaml(self, filename: str) -> None:
+    def to_yaml(self, filename: Union[str, pathlib.Path]) -> None:
         """Export custom patterns to a yaml file.
 
         Args:
@@ -249,16 +162,20 @@ class CustomPatterns(BaseModel):
 
         def _str_presenter(dumper: yaml.Dumper, data: str) -> yaml.ScalarNode:
             if "\n" in data:  # check for multiline string
+                print(f"Using dumper for {data}")
                 return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")
             return dumper.represent_scalar("tag:yaml.org,2002:str", data)
 
-        append_file_extension(filename, ".yml")
+        filepath = pathlib.Path(append_file_extension(filename, ".yml"))
 
         yaml.add_representer(str, _str_presenter)
         yaml.representer.SafeRepresenter.add_representer(str, _str_presenter)
 
-        with open(filename, "w") as file:
-            file.write(yaml.safe_dump_all([self.dict()], indent=2, sort_keys=False))
+        filepath.write_bytes(
+            yaml.safe_dump_all(
+                [self.dict()], indent=2, sort_keys=False, encoding="utf-8"
+            )
+        )
 
     @staticmethod
     def from_yaml(filename: str) -> "CustomPatterns":
@@ -282,79 +199,209 @@ class CustomPatterns(BaseModel):
         return f"CustomPatterns: {len(self.dither_patterns)} dither patterns, {len(self.line_styles)} line styles"
 
 
-def _process_name(
-    name: str, layer_pattern: Union[str, re.Pattern]
-) -> Optional[Tuple[str, bool]]:
-    """Strip layer info from name if it exists.
+class LayerView(BaseModel):
+    """KLayout layer properties.
 
-    Args:
-        name: XML-formatted name entry.
-        layer_pattern: Regex pattern to match layers with.
+    Docstrings copied from KLayout documentation (with some modifications):
+    https://www.klayout.de/lyp_format.html
+
+    Attributes:
+        layer: GDSII layer.
+        layer_in_name: Whether to display the name as 'name layer/datatype' rather than just the layer.
+        width: This is the line width of the frame in pixels (or empty for the default which is 1).
+        line_style: This is the number of the line style used to draw the shape boundaries.
+            An empty string is "solid line". The values are "Ix" for one of the built-in styles
+            where "I0" is "solid", "I1" is "dotted" etc.
+        dither_pattern: This is the number of the dither pattern used to fill the shapes.
+            The values are "Ix" for one of the built-in pattern where "I0" is "solid" and "I1" is "clear".
+        animation: This is a value indicating the animation mode.
+            0 is "none", 1 is "scrolling", 2 is "blinking" and 3 is "inverse blinking".
+        color: Display color of the layer.
+        brightness: Brightness of the fill and frame.
+        xfill: Whether boxes are drawn with a diagonal cross.
+        marked: Whether the entry is marked (drawn with small crosses).
+        transparent: Whether the entry is transparent.
+        visible: Whether the entry is visible.
+        valid: Whether the entry is valid. Invalid layers are drawn but you can't select shapes on those layers.
+        group_members: Add a list of group members to the LayerView.
     """
-    if not name:
-        return None
-    layer_in_name = False
-    match = re.search(layer_pattern, name)
-    if match:
-        name = name[: match.start()].strip()
-        layer_in_name = True
-    return name, layer_in_name
 
+    layer: Optional[Layer] = None
+    layer_in_name: bool = False
+    color: Optional[LayerColor] = Field(default_factory=LayerColor)
+    brightness: Optional[LayerBrightness] = Field(default_factory=LayerBrightness)
+    dither_pattern: Optional[str] = None
+    line_style: Optional[str] = None
+    valid: bool = True
+    visible: bool = True
+    transparent: bool = False
+    width: Optional[int] = None
+    marked: bool = False
+    xfill: bool = False
+    animation: int = 0
+    group_members: Optional[Dict[str, "LayerView"]] = None
 
-def _process_layer(
-    layer: str, layer_pattern: Union[str, re.Pattern]
-) -> Optional[Layer]:
-    """Convert .lyp XML layer entry to a Layer.
+    def __init__(self, **data):
+        """Initialize LayerView object."""
+        super().__init__(**data)
 
-    Args:
-        layer: XML-formatted layer entry.
-        layer_pattern: Regex pattern to match layers with.
-    """
-    match = re.search(layer_pattern, layer)
-    if not match:
-        raise OSError(f"Could not read layer {layer}!")
-    v = match.group().split("/")
-    return None if v == ["*", "*"] else (int(v[0]), int(v[1]))
+        # Iterate through all items, adding group members as needed
+        for name, field in self.__fields__.items():
+            default = field.get_default()
+            if isinstance(default, LayerView):
+                self.group_members[name] = default
 
+    @validator("color")
+    def parse_color(cls, color):
+        if isinstance(color, dict):
+            color = LayerColor(**color)
+        elif not isinstance(color, LayerColor):
+            color = LayerColor(fill=color, frame=color)
+        return color
 
-def _properties_to_layerview(
-    element: ET.Element, layer_pattern: Union[str, re.Pattern]
-) -> Optional[Tuple[str, LayerView]]:
-    """Read properties from .lyp XML and generate LayerViews from them.
+    @validator("brightness")
+    def parse_brightness(cls, brightness):
+        if isinstance(brightness, dict):
+            brightness = LayerBrightness(**brightness)
+        elif not isinstance(brightness, LayerBrightness):
+            brightness = LayerBrightness(fill=brightness, frame=brightness)
+        return brightness
 
-    Args:
-        element: XML Element to iterate over.
-        layer_pattern: Regex pattern to match layers with.
-    """
-    prop_dict = {"layer_in_name": False}
-    name = ""
+    def __str__(self):
+        """Returns a formatted view of properties and their values."""
+        return "LayerView:\n\t" + "\n\t".join(
+            [f"{k}: {v}" for k, v in self.dict().items()]
+        )
 
-    for property_element in element:
-        tag = property_element.tag
+    def __repr__(self):
+        """Returns a formatted view of properties and their values."""
+        return self.__str__()
 
-        if tag == "name":
-            name = _process_name(property_element.text, layer_pattern)
-            if name is None:
-                return None
-            name, layer_in_name = name
-            prop_dict["layer_in_name"] = layer_in_name
-            continue
-        elif tag == "source":
-            val = _process_layer(property_element.text, layer_pattern)
-            tag = "layer"
-        elif tag == "group-members":
-            continue
-        else:
-            val = property_element.text
-        tag = "_".join(tag.split("-"))
-        prop_dict[tag] = val
+    def _build_xml_element(self, tag: str, name: str) -> ET.Element:
+        """Get XML Element from attributes."""
+        prop_dict = {
+            "frame-color": self.color.frame,
+            "fill-color": self.color.fill,
+            "frame-brightness": self.brightness.frame,
+            "fill-brightness": self.brightness.fill,
+            "dither-pattern": self.dither_pattern,
+            "line-style": self.line_style,
+            "valid": str(self.valid).lower(),
+            "visible": str(self.visible).lower(),
+            "transparent": str(self.transparent).lower(),
+            "width": self.width,
+            "marked": str(self.marked).lower(),
+            "xfill": str(self.xfill).lower(),
+            "animation": self.animation,
+            "name": name
+            if not self.layer_in_name
+            else f"{name} {self.layer[0]}/{self.layer[1]}",
+            "source": f"{self.layer[0]}/{self.layer[1]}@1"
+            if self.layer is not None
+            else "*/*@*",
+        }
+        el = ET.Element(tag)
+        for key, value in prop_dict.items():
+            subel = ET.SubElement(el, key)
 
-    prop_dict["group_members"] = {}
-    for member in element.iterfind("group-members"):
-        member_name, member_lv = _properties_to_layerview(member, layer_pattern)
-        prop_dict["group_members"][member_name] = member_lv
+            if value is None:
+                continue
 
-    return name, LayerView(**prop_dict)
+            if isinstance(value, bool):
+                value = str(value).lower()
+
+            subel.text = str(value)
+        return el
+
+    def to_xml(self, name: str) -> ET.Element:
+        """Return an XML representation of the LayerView."""
+        props = self._build_xml_element("properties", name=name)
+        for member_name, member in self.group_members.items():
+            props.append(member._build_xml_element("group-members", name=member_name))
+        return props
+
+    @staticmethod
+    def _process_name(
+        name: str, layer_pattern: Union[str, re.Pattern]
+    ) -> Tuple[Optional[str], Optional[bool]]:
+        """Strip layer info from name if it exists.
+
+        Args:
+            name: XML-formatted name entry.
+            layer_pattern: Regex pattern to match layers with.
+        """
+        if not name:
+            return None, None
+        layer_in_name = False
+        match = re.search(layer_pattern, name)
+        if match:
+            name = name[: match.start()].strip()
+            layer_in_name = True
+        return name, layer_in_name
+
+    @staticmethod
+    def _process_layer(
+        layer: str, layer_pattern: Union[str, re.Pattern]
+    ) -> Optional[Layer]:
+        """Convert .lyp XML layer entry to a Layer.
+
+        Args:
+            layer: XML-formatted layer entry.
+            layer_pattern: Regex pattern to match layers with.
+        """
+        match = re.search(layer_pattern, layer)
+        if not match:
+            raise OSError(f"Could not read layer {layer}!")
+        v = match.group().split("/")
+        return None if v == ["*", "*"] else (int(v[0]), int(v[1]))
+
+    @classmethod
+    def from_xml_element(
+        cls, element: ET.Element, layer_pattern: Union[str, re.Pattern]
+    ) -> Optional[Tuple[str, "LayerView"]]:
+        """Read properties from .lyp XML and generate LayerViews from them.
+
+        Args:
+            element: XML Element to iterate over.
+            layer_pattern: Regex pattern to match layers with.
+        """
+        name, layer_in_name = cls._process_name(
+            element.find("name").text, layer_pattern
+        )
+        if name is None:
+            return None
+
+        group_members = {}
+        for member in element.iterfind("group-members"):
+            member_name, member_lv = cls.from_xml_element(member, layer_pattern)
+            group_members[member_name] = member_lv
+
+        return (
+            name,
+            LayerView(
+                layer=cls._process_layer(element.find("source").text, layer_pattern),
+                color=LayerColor(
+                    fill=element.find("fill-color").text,
+                    frame=element.find("frame-color").text,
+                ),
+                brightness=LayerBrightness(
+                    fill=element.find("fill-brightness").text,
+                    frame=element.find("frame-brightness").text,
+                ),
+                dither_pattern=element.find("dither-pattern").text,
+                line_style=element.find("line-style").text,
+                valid=element.find("valid").text,
+                visible=element.find("visible").text,
+                transparent=element.find("transparent").text,
+                width=element.find("width").text,
+                marked=element.find("marked").text,
+                xfill=element.find("xfill").text,
+                animation=element.find("animation").text,
+                layer_in_name=layer_in_name,
+                name=name,
+                group_members=group_members,
+            ),
+        )
 
 
 class LayerDisplayProperties(BaseModel):
@@ -477,9 +524,9 @@ class LayerDisplayProperties(BaseModel):
         Args:
             filepath: to write the .lyp file to (appends .lyp extension if not present).
             overwrite: Whether to overwrite an existing file located at the filepath.
+
         """
-        filepath = pathlib.Path(filepath)
-        filepath = append_file_extension(filepath, ".lyp")
+        filepath = pathlib.Path(append_file_extension(filepath, ".lyp"))
 
         if os.path.exists(filepath) and not overwrite:
             raise OSError("File exists, cannot write.")
@@ -496,9 +543,7 @@ class LayerDisplayProperties(BaseModel):
             for name, ls in self.custom_patterns.line_styles.items():
                 root.append(ls.to_xml(name))
 
-        with open(filepath, "wb") as file:
-            # Write lyt to file
-            file.write(make_pretty_xml(root))
+        filepath.write_bytes(make_pretty_xml(root))
 
     @staticmethod
     def from_lyp(
@@ -524,27 +569,28 @@ class LayerDisplayProperties(BaseModel):
 
         layer_views = {}
         for properties_element in root.iter("properties"):
-            name, lv = _properties_to_layerview(
+            name, lv = LayerView.from_xml_element(
                 properties_element, layer_pattern=layer_pattern
             )
             if lv:
                 layer_views[name] = lv
 
-        custom_dither_patterns = {}
+        dither_patterns = {}
         for dither_block in root.iter("custom-dither-pattern"):
             name = dither_block.find("name").text
             order = dither_block.find("order").text
 
             if name is None or order is None:
                 continue
-
-            custom_dither_patterns[name] = CustomDitherPattern(
-                order=int(order),
-                pattern="\n".join(
-                    [line.text for line in dither_block.find("pattern").iter()]
-                ),
+            pattern = "\n".join(
+                [line.text for line in dither_block.find("pattern").iter()]
             )
-        custom_line_styles = {}
+
+            dither_patterns[name] = CustomDitherPattern(
+                order=int(order),
+                pattern=pattern.lstrip(),
+            )
+        line_styles = {}
         for line_block in root.iter("custom-line-style"):
             name = line_block.find("name").text
             order = line_block.find("order").text
@@ -552,19 +598,23 @@ class LayerDisplayProperties(BaseModel):
             if name is None or order is None:
                 continue
 
-            custom_line_styles[name] = CustomLineStyle(
+            line_styles[name] = CustomLineStyle(
                 order=int(order),
                 pattern=line_block.find("pattern").text,
             )
         custom_patterns = CustomPatterns(
-            dither_patterns=custom_dither_patterns, line_styles=custom_line_styles
+            dither_patterns=dither_patterns, line_styles=line_styles
         )
 
         return LayerDisplayProperties(
             layer_views=layer_views, custom_patterns=custom_patterns
         )
 
-    def to_yaml(self, layer_file: str, pattern_file: Optional[str] = None) -> None:
+    def to_yaml(
+        self,
+        layer_file: Union[str, pathlib.Path],
+        pattern_file: Optional[Union[str, pathlib.Path]] = None,
+    ) -> None:
         """Export layer properties to two yaml files.
 
         Args:
@@ -573,10 +623,12 @@ class LayerDisplayProperties(BaseModel):
         """
         import yaml
 
-        append_file_extension(layer_file, ".yml")
+        lf_path = pathlib.Path(append_file_extension(layer_file, ".yml"))
         lvs = {name: lv.dict() for name, lv in self.layer_views.items()}
-        with open(layer_file, "w") as lf:
-            lf.write(yaml.safe_dump_all([lvs], indent=2, sort_keys=False))
+
+        lf_path.write_bytes(
+            yaml.safe_dump_all([lvs], indent=2, sort_keys=False, encoding="utf-8")
+        )
 
         if pattern_file:
             append_file_extension(pattern_file, ".yml")
