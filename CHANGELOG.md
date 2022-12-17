@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [6.11.0](https://github.com/gdsfactory/gdsfactory/pull/1007)
+
+- add option to register materials_index into a PDK.
+- tidy3d and meep can use the same material_index from the registered materials.
+
 ## 6.10.0
 
 - If sidewall, can specific at which height gds layer width equals structural width [PR](https://github.com/gdsfactory/gdsfactory/pull/994)
