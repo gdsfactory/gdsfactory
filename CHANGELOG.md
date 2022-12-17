@@ -3,6 +3,7 @@
 ## 6.12.0
 
 - Add coupled rings (CROW) [PR](https://github.com/gdsfactory/gdsfactory/pull/1009)
+- add LICENSE to pypi package [PR](https://github.com/gdsfactory/gdsfactory/pull/1010)
 
 ## [6.11.0](https://github.com/gdsfactory/gdsfactory/pull/1007)
 
