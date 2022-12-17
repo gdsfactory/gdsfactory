@@ -299,8 +299,7 @@ class Pdk(BaseModel):
             )
         except ValueError:
             component = self.get_component(component, **kwargs)
-            symbol = self.default_symbol_factory(component)
-            return symbol
+            return self.default_symbol_factory(component)
 
     def _get_component(
         self,
