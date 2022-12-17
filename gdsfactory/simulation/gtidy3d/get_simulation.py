@@ -14,14 +14,9 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.extension import move_polar_rad_copy
 from gdsfactory.config import logger
-from gdsfactory.pdk import get_layer_stack
+from gdsfactory.pdk import get_layer_stack, get_material_index
 from gdsfactory.routing.sort_ports import sort_ports_x, sort_ports_y
-from gdsfactory.simulation.gtidy3d.materials import (
-    MATERIAL_NAME_TO_TIDY3D_INDEX,
-    MATERIAL_NAME_TO_TIDY3D_NAME,
-    get_index,
-    get_medium,
-)
+from gdsfactory.simulation.gtidy3d.materials import get_index, get_medium
 from gdsfactory.tech import LayerStack
 from gdsfactory.types import ComponentSpec, Float2
 
@@ -50,9 +45,7 @@ def get_simulation(
     plot_modes: bool = False,
     num_modes: int = 2,
     run_time_ps: float = 10.0,
-    dispersive: bool = False,
-    material_name_to_tidy3d_index: Dict[str, float] = MATERIAL_NAME_TO_TIDY3D_INDEX,
-    material_name_to_tidy3d_name: Dict[str, str] = MATERIAL_NAME_TO_TIDY3D_NAME,
+    material_name_to_tidy3d: Optional[Dict[str, str]] = None,
     is_3d: bool = True,
     with_all_monitors: bool = False,
     boundary_spec: Optional[td.BoundarySpec] = None,
@@ -127,11 +120,7 @@ def get_simulation(
         num_modes: number of modes to plot.
         run_time_ps: make sure it's sufficient for the fields to decay.
             defaults to 10ps and counts on automatic shutoff to stop earlier if needed.
-        dispersive: False uses constant refractive index materials.
-            True adds wavelength depending materials.
-            Dispersive materials require more computation.
-        material_name_to_tidy3d_index: not dispersive materials have a constant index.
-        material_name_to_tidy3d_name: dispersive materials have a wavelength
+        material_name_to_tidy3d: dispersive materials have a wavelength
             dependent index. Maps layer_stack names with tidy3d material database names.
         is_3d: if False, does not consider Z dimension for faster simulations.
         with_all_monitors: True includes field monitors which increase results filesize.
@@ -204,11 +193,6 @@ def get_simulation(
     layer_to_zmin = layer_stack.get_layer_to_zmin()
     # layer_to_sidewall_angle = layer_stack.get_layer_to_sidewall_angle()
 
-    if dispersive:
-        material_name_to_tidy3d = material_name_to_tidy3d_name
-    else:
-        material_name_to_tidy3d = material_name_to_tidy3d_index
-
     assert isinstance(
         component, Component
     ), f"component needs to be a gf.Component, got Type {type(component)}"
@@ -244,7 +228,13 @@ def get_simulation(
     component_ref.x = 0
     component_ref.y = 0
 
-    clad_material_name_or_index = material_name_to_tidy3d[clad_material]
+    material_name_to_tidy3d = material_name_to_tidy3d or {}
+
+    if material_name_to_tidy3d:
+        clad_material_name_or_index = material_name_to_tidy3d[clad_material]
+    else:
+        clad_material_name_or_index = get_material_index(clad_material, wavelength)
+
     clad = td.Structure(
         geometry=td.Box(
             size=(td.inf, td.inf, td.inf),
@@ -280,33 +270,33 @@ def get_simulation(
             zmin = layer_to_zmin[layer] if is_3d else 0
             zmax = zmin + thickness if is_3d else 0
 
-            if layer_to_material[layer] in material_name_to_tidy3d:
-                name_or_index = material_name_to_tidy3d[layer_to_material[layer]]
+            material_name = layer_to_material[layer]
+
+            if material_name in material_name_to_tidy3d:
+                name_or_index = material_name_to_tidy3d[material_name]
                 medium = get_medium(name_or_index=name_or_index)
                 index = get_index(name_or_index=name_or_index)
                 logger.debug(
                     f"Add {layer}, {name_or_index!r}, index = {index:.3f}, "
                     f"thickness = {thickness}, zmin = {zmin}, zmax = {zmax}"
                 )
-
-                polygons = td.PolySlab.from_gds(
-                    gds_cell=component_extended,
-                    gds_layer=layer[0],
-                    gds_dtype=layer[1],
-                    axis=2,
-                    slab_bounds=(zmin, zmax),
-                    sidewall_angle=np.deg2rad(sidewall_angle_deg),
-                    dilation=dilation,
-                )
-
-                for polygon in polygons:
-                    geometry = td.Structure(geometry=polygon, medium=medium)
-                    structures.append(geometry)
-            elif layer not in layer_to_material:
-                logger.debug(f"Layer {layer} not in {list(layer_to_material.keys())}")
             else:
-                materials = list(material_name_to_tidy3d.keys())
-                logger.debug(f"material {layer_to_material[layer]} not in {materials}")
+                material_index = get_material_index(material_name, wavelength)
+                medium = get_medium(material_index)
+
+            polygons = td.PolySlab.from_gds(
+                gds_cell=component_extended,
+                gds_layer=layer[0],
+                gds_dtype=layer[1],
+                axis=2,
+                slab_bounds=(zmin, zmax),
+                sidewall_angle=np.deg2rad(sidewall_angle_deg),
+                dilation=dilation,
+            )
+
+            for polygon in polygons:
+                geometry = td.Structure(geometry=polygon, medium=medium)
+                structures.append(geometry)
 
     # Add source
     port = component_ref.ports[port_source_name]
@@ -511,13 +501,17 @@ plot_simulation = plot_simulation_yz
 
 
 if __name__ == "__main__":
-    c = gf.components.mmi1x2()
+
+    c = gf.c.taper_sc_nc(length=10)
+    s = get_simulation(c, plot_modes=False)
+
+    # c = gf.components.mmi1x2()
     # c = gf.components.bend_circular(radius=2)
     # c = gf.components.crossing()
     # c = gf.c.straight_rib()
 
-    c = gf.c.straight(length=3)
-    sim = get_simulation(c, plot_modes=True, is_3d=True, sidewall_angle_deg=30)
+    # c = gf.c.straight(length=3)
+    # sim = get_simulation(c, plot_modes=True, is_3d=True, sidewall_angle_deg=30)
 
     # sim = get_simulation(c, dilation=-0.2, is_3d=False)
 

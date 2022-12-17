@@ -7,6 +7,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 from pydantic import BaseModel
 
 from gdsfactory.klayout_tech import LayerDisplayProperties
+from gdsfactory.materials import MaterialSpec
 
 module_path = pathlib.Path(__file__).parent.absolute()
 Layer = Tuple[int, int]
@@ -452,7 +453,11 @@ class Section(BaseModel):
         extra = "forbid"
 
 
-MaterialSpec = Union[str, float, complex, Tuple[float, float]]
+material_name_to_lumerical: Dict[str, MaterialSpec] = {
+    "si": "Si (Silicon) - Palik",
+    "sio2": "SiO2 (Glass) - Palik",
+    "sin": "Si3N4 (Silicon Nitride) - Phillip",
+}
 
 
 class SimulationSettingsLumericalFdtd(BaseModel):
@@ -492,11 +497,7 @@ class SimulationSettingsLumericalFdtd(BaseModel):
     frequency_dependent_profile: bool = True
     field_profile_samples: int = 15
     distance_source_to_monitors: float = 0.2
-    material_name_to_lumerical: Dict[str, MaterialSpec] = {
-        "si": "Si (Silicon) - Palik",
-        "sio2": "SiO2 (Glass) - Palik",
-        "sin": "Si3N4 (Silicon Nitride) - Phillip",
-    }
+    material_name_to_lumerical: Dict[str, MaterialSpec] = material_name_to_lumerical
 
     class Config:
         """pydantic basemodel config."""
