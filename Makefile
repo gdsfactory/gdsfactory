@@ -127,6 +127,7 @@ mypy:
 	mypy gdsfactory --ignore-missing-imports
 
 build:
+	rm -rf dist
 	pip install build
 	python -m build
 

@@ -2270,6 +2270,21 @@ ring
 
 
 
+ring_crow
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.ring_crow
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.ring_crow()
+  c.plot()
+
+
+
 ring_double
 ----------------------------------------------------
 
@@ -3150,7 +3165,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='6.8.2', text_size=10)
+  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='6.11.0', text_size=10)
   c.plot()
 
 

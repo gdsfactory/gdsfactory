@@ -19,12 +19,11 @@ authors = [
     {name = "gdsfactory community", email = "contact@gdsfactory.com"},
 ]
 keywords = ["eda", "photonics", "python"]
-license = {text = "MIT"}
+license = {file = "LICENSE"}
 dependencies = [
     "click",
     "flatdict",
     "gdstk",
-    "jsondiff",
     "loguru",
     "matplotlib",
     "numpy",
@@ -47,6 +46,7 @@ dependencies = [
 readme = "README.md"
 requires-python = ">=3.7"
 
+
 [project.optional-dependencies]
 full = [
 	"klayout >= 0.27.11",
@@ -57,6 +57,7 @@ full = [
     "holoviews",
     "ipympl",
     "ipywidgets",
+    "jsondiff",
     "klayout",
     "mapbox_earcut",
     "networkx",
@@ -123,8 +124,6 @@ docs = [
     "sphinx-markdown-tables==0.0.16",
     "sphinxcontrib-video",
     ]
-
-
 
 [tool.setuptools.packages]
 find = {}
@@ -206,7 +205,7 @@ include_trailing_comma = true
 skip = "gdsfactory/__init__.py"
 
 [tool.setuptools.package-data]
-mypkg = ["*.gds", "*.lym", "*.lyp", "*.lyt", "*.csv", "*.yaml"]
+mypkg = ["*.gds", "*.lym", "*.lyp", "*.lyt", "*.csv", "*.yaml", "*.md", "LICENSE"]
 
 [tool.pydocstyle]
 inherit = false
