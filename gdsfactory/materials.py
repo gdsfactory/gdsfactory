@@ -37,7 +37,3 @@ def sin(wav: np.ndarray) -> np.ndarray:
 
 
 materials_index = dict(si=si, sio2=sio2, sin=sin)
-
-
-if __name__ == "__main__":
-    pass

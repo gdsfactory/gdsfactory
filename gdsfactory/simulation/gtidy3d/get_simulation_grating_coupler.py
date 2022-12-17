@@ -328,7 +328,7 @@ def get_simulation_grating_coupler(
             zmax = zmin + thickness
             material_name = layer_to_material[layer]
 
-            if layer_to_material[layer] in material_name_to_tidy3d:
+            if material_name in material_name_to_tidy3d:
                 name_or_index = material_name_to_tidy3d[material_name]
                 medium = get_medium(name_or_index=name_or_index)
                 index = get_index(name_or_index=name_or_index)
