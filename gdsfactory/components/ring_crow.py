@@ -5,24 +5,19 @@ from typing import List
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular
-from gdsfactory.components.straight import straight as straight_function
+from gdsfactory.components.straight import straight
 from gdsfactory.cross_section import strip
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
 def ring_crow(
-    gaps: List[float] = [0.3, 0.4, 0.5, 0.2],
-    radii: List[float] = [20.0, 5.0, 15.0],
-    input_straight: ComponentSpec = straight_function,
+    gaps: List[float] = [0.2] * 4,
+    radii: List[float] = [10.0] * 3,
     input_straight_cross_section: CrossSectionSpec = strip,
-    output_straight: ComponentSpec = straight_function,
     output_straight_cross_section: CrossSectionSpec = strip,
     bends: List[ComponentSpec] = [bend_circular] * 3,
     ring_cross_sections: List[CrossSectionSpec] = [strip] * 3,
-    length_x: float = 0.01,
-    lengths_y: List[float] = 0.01,
-    **kwargs,
 ) -> Component:
     """Coupled ring resonators.
 
@@ -67,12 +62,12 @@ def ring_crow(
 
     # Input bus
     input_straight = gf.get_component(
-        input_straight, length=2 * radii[0], cross_section=input_straight_cross_section
+        straight, length=2 * radii[0], cross_section=input_straight_cross_section
     )
     input_straight_width = input_straight_cross_section().width
-    input = c.add_ref(input_straight).movex(-radii[0])
-    c.add_port(name="o1", port=input.ports["o1"])
-    c.add_port(name="o2", port=input.ports["o2"])
+    input_straight_waveguide = c.add_ref(input_straight).movex(-radii[0])
+    c.add_port(name="o1", port=input_straight_waveguide.ports["o1"])
+    c.add_port(name="o2", port=input_straight_waveguide.ports["o2"])
 
     # Cascade rings
     cum_y_dist = input_straight_width / 2
@@ -98,18 +93,18 @@ def ring_crow(
 
     # Output bus
     output_straight = gf.get_component(
-        output_straight,
+        straight,
         length=2 * radii[-1],
         cross_section=output_straight_cross_section,
     )
     output_straight_width = output_straight_cross_section().width
-    output = (
+    output_straight_waveguide = (
         c.add_ref(output_straight)
         .movey(cum_y_dist + gaps[-1] + output_straight_width / 2)
         .movex(-radii[-1])
     )
-    c.add_port(name="o3", port=output.ports["o1"])
-    c.add_port(name="o4", port=output.ports["o2"])
+    c.add_port(name="o3", port=output_straight_waveguide.ports["o1"])
+    c.add_port(name="o4", port=output_straight_waveguide.ports["o2"])
 
     print()
 
@@ -119,4 +114,12 @@ def ring_crow(
 if __name__ == "__main__":
 
     c = ring_crow()
+    # c = ring_crow(gaps = [0.3, 0.4, 0.5, 0.2],
+    #     radii = [20.0, 5.0, 15.0],
+    #     input_straight_cross_section = strip,
+    #     output_straight_cross_section = strip,
+    #     bends = [bend_circular] * 3,
+    #     ring_cross_sections = [strip] * 3,
+    # )
+
     c.show(show_ports=True, show_subports=False)
