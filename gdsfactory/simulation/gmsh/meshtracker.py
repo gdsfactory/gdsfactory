@@ -13,6 +13,8 @@ class MeshTracker:
 
         Shapely is useful for built-in geometry equivalencies and extracting orientation, instead of doing it manually
         We can also track information about the entities using labels (useful for selective mesh refinement later)
+
+        TODO: Break into subclasses
         """
         self.shapely_points = []
         self.gmsh_points = []
@@ -28,12 +30,12 @@ class MeshTracker:
 
     """Retrieve existing geometry"""
 
-    def get_point_index(self, xy_point):
+    def get_point_index(self, xy_point, z):
         return next(
             (
                 index
-                for index, shapely_point in enumerate(self.shapely_points)
-                if xy_point.equals_exact(shapely_point, self.atol)
+                for index, (shapely_point, stored_z) in enumerate(self.shapely_points)
+                if xy_point.equals_exact(shapely_point, self.atol) and z == stored_z
             ),
             None,
         )
@@ -85,18 +87,21 @@ class MeshTracker:
 
     """Adding geometry"""
 
-    def add_get_point(self, shapely_xy_point, label=None):
+    def add_get_point(self, shapely_xy_point, z=0, label=None):
         """Add a shapely point to the gmsh model, or retrieve the existing gmsh model points with equivalent coordinates (within tol.).
 
         Args:
             shapely_xy_point (shapely.geometry.Point): x, y coordinates
+            z: float, z-coordinate
         """
-        index = self.get_point_index(shapely_xy_point)
+        index = self.get_point_index(shapely_xy_point, z)
         if index is not None:
             gmsh_point = self.gmsh_points[index]
         else:
-            gmsh_point = self.model.add_point([shapely_xy_point.x, shapely_xy_point.y])
-            self.shapely_points.append(shapely_xy_point)
+            gmsh_point = self.model.add_point(
+                [shapely_xy_point.x, shapely_xy_point.y, z]
+            )
+            self.shapely_points.append((shapely_xy_point, z))
             self.gmsh_points.append(gmsh_point)
             self.points_labels.append(label)
         return gmsh_point
