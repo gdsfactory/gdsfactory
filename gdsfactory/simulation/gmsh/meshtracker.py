@@ -40,9 +40,12 @@ class MeshTracker:
             None,
         )
 
-    def get_xy_segment_index_and_orientation(self, xy_point1, xy_point2):
+    def get_xy_segment_index_and_orientation(self, xy_point1, xy_point2, z1=0, z2=0):
+        """Note: orientation of z1 <--> z2 not accounted (occ kernel does not need)."""
         xy_line = shapely.geometry.LineString([xy_point1, xy_point2])
-        for index, shapely_line in enumerate(self.shapely_xy_segments):
+        for index, (shapely_line, stored_z1, stored_z2) in enumerate(
+            self.shapely_xy_segments
+        ):
             if xy_line.equals(shapely_line):
                 first_xy_line, last_xy_line = xy_line.boundary.geoms
                 first_xy, last_xy = shapely_line.boundary.geoms
@@ -106,44 +109,53 @@ class MeshTracker:
             self.points_labels.append(label)
         return gmsh_point
 
-    def add_get_xy_segment(self, shapely_xy_point1, shapely_xy_point2, label):
-        """Add a shapely segment (2-point line) to the gmsh model in the xy plane, or retrieve the existing gmsh segment with equivalent coordinates (within tol.).
+    def add_get_xy_segment(
+        self, shapely_xy_point1, shapely_xy_point2, label, z1=0, z2=0
+    ):
+        """Add a shapely segment (2-point line) to the gmsh model, or retrieve the existing gmsh segment with equivalent coordinates (within tol.).
 
         Args:
             shapely_xy_point1 (shapely.geometry.Point): first x, y coordinates
+            z1: float, first z-coordinate
             shapely_xy_point2 (shapely.geometry.Point): second x, y coordinates
+            z2: float, second z-coordinate
         """
         index, orientation = self.get_xy_segment_index_and_orientation(
-            shapely_xy_point1, shapely_xy_point2
+            shapely_xy_point1, shapely_xy_point2, z1, z2
         )
         if index is not None:
             gmsh_segment = self.gmsh_xy_segments[index]
             self.xy_segments_secondary_labels[index] = label
         else:
             gmsh_segment = self.model.add_line(
-                self.add_get_point(shapely_xy_point1),
-                self.add_get_point(shapely_xy_point2),
+                self.add_get_point(shapely_xy_point1, z1),
+                self.add_get_point(shapely_xy_point2, z2),
             )
             self.shapely_xy_segments.append(
-                shapely.geometry.LineString([shapely_xy_point1, shapely_xy_point2])
+                (
+                    shapely.geometry.LineString([shapely_xy_point1, shapely_xy_point2]),
+                    z1,
+                    z2,
+                )
             )
             self.gmsh_xy_segments.append(gmsh_segment)
             self.xy_segments_main_labels.append(label)
             self.xy_segments_secondary_labels.append(None)
         return gmsh_segment, orientation
 
-    def add_get_xy_line(self, shapely_xy_curve, label):
+    def add_get_xy_line(self, shapely_xy_curve, label, zs=None):
         """Add a shapely line (multi-point line) to the gmsh model in the xy plane, or retrieve the existing gmsh segment with equivalent coordinates (within tol.).
 
         Args:
             shapely_xy_curve (shapely.geometry.LineString): curve
         """
         segments = []
-        for shapely_xy_point1, shapely_xy_point2 in zip(
-            shapely_xy_curve.coords[:-1], shapely_xy_curve.coords[1:]
+        zs = zs or [0] * len(shapely_xy_curve.coords)
+        for shapely_xy_point1, shapely_xy_point2, z1, z2 in zip(
+            shapely_xy_curve.coords[:-1], shapely_xy_curve.coords[1:], zs[:-1], zs[1:]
         ):
             gmsh_segment, orientation = self.add_get_xy_segment(
-                Point(shapely_xy_point1), Point(shapely_xy_point2), label
+                Point(shapely_xy_point1), Point(shapely_xy_point2), label, z1, z2
             )
             if orientation:
                 segments.append(gmsh_segment)
