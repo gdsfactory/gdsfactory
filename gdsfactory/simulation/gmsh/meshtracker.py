@@ -43,7 +43,7 @@ class MeshTracker:
     def get_xy_segment_index_and_orientation(self, xy_point1, xy_point2, z1=0, z2=0):
         """Note: orientation of z1 <--> z2 not accounted (occ kernel does not need)."""
         xy_line = shapely.geometry.LineString([xy_point1, xy_point2])
-        for index, (shapely_line, stored_z1, stored_z2) in enumerate(
+        for index, (shapely_line, _stored_z1, _stored_z2) in enumerate(
             self.shapely_xy_segments
         ):
             if xy_line.equals(shapely_line):

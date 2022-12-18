@@ -74,9 +74,9 @@ def xy_xsection_mesh(
     for layername in ordered_layers:
         for simulation_layername, (
             gds_layername,
-            next_simulation_layername,
+            _next_simulation_layername,
             this_layer_polygons,
-            next_layer_polygons,
+            _next_layer_polygons,
         ) in buffered_layer_polygons_dict.items():
             if simulation_layername == layername:
                 shapes[gds_layername] = this_layer_polygons
