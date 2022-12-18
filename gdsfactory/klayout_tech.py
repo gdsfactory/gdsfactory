@@ -10,11 +10,7 @@ from typing import List, Optional, Tuple
 from pydantic import BaseModel, Field
 
 from gdsfactory.config import PATH
-from gdsfactory.layer_display_properties import (
-    LayerDisplayProperties,
-    append_file_extension,
-    make_pretty_xml,
-)
+from gdsfactory.layer_views import LayerViews, append_file_extension, make_pretty_xml
 
 Layer = Tuple[int, int]
 ConductorViaConductorName = Tuple[str, str, str]
@@ -26,7 +22,7 @@ class KLayoutTechnology(BaseModel):
     Useful for importing/exporting Layer Properties (.lyp) and Technology (.lyt) files.
 
     Properties:
-        layer_properties: Defines all the layer display properties needed for a .lyp file from LayerView objects.
+        layer_views: Defines all the layer display properties needed for a .lyp file from LayerView objects.
         technology: KLayout Technology object from the KLayout API. Set name, dbu, etc.
         connectivity: List of layer names connectivity for netlist tracing.
     """
@@ -35,7 +31,7 @@ class KLayoutTechnology(BaseModel):
     import klayout.db as db
 
     name: str
-    layer_properties: Optional[LayerDisplayProperties] = None
+    layer_views: Optional[LayerViews] = None
     technology: db.Technology = Field(default_factory=db.Technology)
     connectivity: Optional[List[ConductorViaConductorName]] = None
 
@@ -67,11 +63,11 @@ class KLayoutTechnology(BaseModel):
         if not self.technology.name:
             self.technology.name = self.name
 
-        self.technology.layer_properties_file = lyp_path.name
+        self.technology.layer_views_file = lyp_path.name
         # TODO: Also interop with xs scripts?
 
         # Write lyp to file
-        self.layer_properties.to_lyp(lyp_path)
+        self.layer_views.to_lyp(lyp_path)
 
         root = ET.XML(self.technology.to_xml().encode("utf-8"))
 
@@ -112,7 +108,7 @@ class KLayoutTechnology(BaseModel):
 
             d25_script = layer_stack.get_klayout_3d_script(
                 klayout28=klayout28,
-                layer_display_properties=self.layer_properties,
+                layer_views=self.layer_views,
                 dbu=dbu,
             )
 
@@ -130,9 +126,9 @@ class KLayoutTechnology(BaseModel):
                 raise KeyError("Could not get a single index for the src element.")
             src_element = src_element[0]
             for layer_name_c1, layer_name_via, layer_name_c2 in self.connectivity:
-                layer_c1 = self.layer_properties.layer_views[layer_name_c1].layer
-                layer_via = self.layer_properties.layer_views[layer_name_via].layer
-                layer_c2 = self.layer_properties.layer_views[layer_name_c2].layer
+                layer_c1 = self.layer_views.layer_views[layer_name_c1].layer
+                layer_via = self.layer_views.layer_views[layer_name_via].layer
+                layer_c2 = self.layer_views.layer_views[layer_name_c2].layer
                 connection = ",".join(
                     [
                         f"{layer[0]}/{layer[1]}"
@@ -151,14 +147,14 @@ class KLayoutTechnology(BaseModel):
         arbitrary_types_allowed = True
 
 
-LAYER_PROPERTIES = LayerDisplayProperties.from_lyp(str(PATH.klayout_lyp))
+layer_views = LayerViews.from_lyp(str(PATH.klayout_lyp))
 
 
 def yaml_test():
     tech_dir = PATH.repo / "extra" / "test_tech"
 
     # Load from existing layer properties file
-    lyp = LayerDisplayProperties.from_lyp(str(PATH.klayout_lyp))
+    lyp = LayerViews.from_lyp(str(PATH.klayout_lyp))
     print("Loaded from .lyp", lyp)
 
     # Export layer properties to yaml files
@@ -167,7 +163,7 @@ def yaml_test():
     lyp.to_yaml(layer_yaml, pattern_yaml)
 
     # Load layer properties from yaml files and check that they're the same
-    lyp_loaded = LayerDisplayProperties.from_yaml(layer_yaml, pattern_yaml)
+    lyp_loaded = LayerViews.from_yaml(layer_yaml, pattern_yaml)
     print("Loaded from .yaml", lyp_loaded)
 
     assert lyp_loaded == lyp
@@ -176,16 +172,16 @@ def yaml_test():
 if __name__ == "__main__":
     from gdsfactory.tech import LAYER_STACK
 
-    lyp = LayerDisplayProperties.from_lyp(str(PATH.klayout_lyp))
+    lyp = LayerViews.from_lyp(str(PATH.klayout_lyp))
 
     # str_xml = open(PATH.klayout_tech / "tech.lyt").read()
     # new_tech = db.Technology.technology_from_xml(str_xml)
-    # generic_tech = KLayoutTechnology(layer_properties=lyp)
+    # generic_tech = KLayoutTechnology(layer_views=lyp)
     #
     connectivity = [("M1", "VIA1", "M2"), ("M2", "VIA2", "M3")]
 
     c = generic_tech = KLayoutTechnology(
-        name="test_tech", layer_properties=lyp, connectivity=connectivity
+        name="test_tech", layer_views=lyp, connectivity=connectivity
     )
     tech_dir = PATH.repo / "extra" / "test_tech"
     # tech_dir = pathlib.Path("/home/jmatres/.klayout/salt/gdsfactory/tech/")

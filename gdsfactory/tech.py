@@ -7,6 +7,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 from pydantic import BaseModel
 
 from gdsfactory.materials import MaterialSpec
+from gdsfactory.layer_views import LayerViews
 
 module_path = pathlib.Path(__file__).parent.absolute()
 Layer = Tuple[int, int]
@@ -194,7 +195,7 @@ class LayerStack(BaseModel):
         self,
         klayout28: bool = True,
         print_to_console: bool = True,
-        layer_display_properties=None,
+        layer_views: Optional[LayerViews] = None,
         dbu: Optional[float] = 0.001,
     ) -> str:
         """Prints script for 2.5 view KLayout information.
@@ -224,14 +225,14 @@ class LayerStack(BaseModel):
                     f"zstop: {zmax}, "
                     f"name: '{layer_name}: {level.material} {layer[0]}/{layer[1]}'"
                 )
-                if layer_display_properties:
+                if layer_views:
                     txt += ", "
-                    props = layer_display_properties.get_from_tuple(layer)
-                    if props.fill_color == props.frame_color:
-                        txt += f"color: {props.frame_color}"
+                    props = layer_views.get_from_tuple(layer)
+                    if props.color.fill == props.color.frame:
+                        txt += f"color: {props.color.fill}"
                     else:
                         txt += (
-                            f"fill: {props.fill_color}, " f"frame: {props.frame_color}"
+                            f"fill: {props.color.fill}, " f"frame: {props.color.frame}"
                         )
 
                 txt += ")"
