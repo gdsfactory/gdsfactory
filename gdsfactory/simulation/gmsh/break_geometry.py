@@ -1,3 +1,4 @@
+"""Like Gmsh OCC kernel BooleanFragments, but (1) uses a meshorder to avoid generation of new surfaces, which (2) allows keeping track of physicals."""
 from collections import OrderedDict
 
 from shapely.geometry import LineString, MultiLineString, MultiPolygon, Polygon
@@ -24,6 +25,8 @@ def break_line(line, other_line):
 
 def break_geometry(shapes_dict: OrderedDict):
     """Break up lines and polygon edges so that plane is tiled with no partially overlapping line segments.
+
+    TODO: breakup in smaller functions.
 
     Args:
         shapes_dict: arbitrary dict of shapely polygons and lines, with ordering setting mesh priority
