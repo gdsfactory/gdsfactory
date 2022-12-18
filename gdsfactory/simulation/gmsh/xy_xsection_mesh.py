@@ -9,7 +9,10 @@ from shapely.geometry import Polygon
 from shapely.ops import unary_union
 
 from gdsfactory.simulation.gmsh.mesh2D import mesh_from_polygons
-from gdsfactory.simulation.gmsh.parse_component import merge_by_material_func
+from gdsfactory.simulation.gmsh.parse_component import (
+    merge_by_material_func,
+    process_buffers,
+)
 from gdsfactory.simulation.gmsh.parse_gds import cleanup_component
 from gdsfactory.simulation.gmsh.parse_layerstack import (
     get_layers_at_z,
@@ -53,18 +56,30 @@ def xy_xsection_mesh(
         extra_shapes_dict: Optional[OrderedDict] = OrderedDict of {key: geo} with key a label and geo a shapely (Multi)Polygon or (Multi)LineString of extra shapes to override component
         merge_by_material: boolean, if True will merge polygons from layers with the same layer.material. Physical keys will be material in this case.
     """
-    # Find layers present at this z-level
-    layers = get_layers_at_z(layerstack, z)
-
     # Fuse and cleanup polygons of same layer in case user overlapped them
     layer_polygons_dict = cleanup_component(component, layerstack)
 
-    # Reorder polygons according to meshorder
-    layer_order = order_layerstack(layerstack)
+    # GDS polygons to simulation polygons
+    buffered_layer_polygons_dict, buffered_layerstack = process_buffers(
+        layer_polygons_dict, layerstack
+    )
+
+    # Find layers present at this z-level
+    layers = get_layers_at_z(buffered_layerstack, z)
+
+    # Remove terminal layers and merge polygons
+    layer_order = order_layerstack(buffered_layerstack)  # gds layers
     ordered_layers = [value for value in layer_order if value in set(layers)]
     shapes = OrderedDict() if extra_shapes_dict is None else extra_shapes_dict
-    for layer in ordered_layers:
-        shapes[layer] = layer_polygons_dict[layer]
+    for layername in ordered_layers:
+        for simulation_layername, (
+            gds_layername,
+            next_simulation_layername,
+            this_layer_polygons,
+            next_layer_polygons,
+        ) in buffered_layer_polygons_dict.items():
+            if simulation_layername == layername:
+                shapes[gds_layername] = this_layer_polygons
 
     # Add background polygon
     if background_tag is not None:
@@ -99,9 +114,16 @@ if __name__ == "__main__":
 
     import gdsfactory as gf
 
-    # T  = gf.Component()
-    waveguide = gf.components.straight_pin(length=10, taper=None)
-    waveguide.show()
+    c = gf.component.Component()
+    waveguide = c << gf.get_component(gf.components.straight_pin(length=10, taper=None))
+    undercut = c << gf.get_component(
+        gf.components.rectangle(
+            size=(5.0, 5.0),
+            layer="UNDERCUT",
+            centered=True,
+        )
+    ).move(destination=[4, 0])
+    c.show()
 
     from gdsfactory.tech import get_layer_stack_generic
 
@@ -112,6 +134,11 @@ if __name__ == "__main__":
                 "slab90",
                 "core",
                 "via_contact",
+                "undercut",
+                "box",
+                "substrate",
+                # "clad",
+                "metal1",
             )
         }
     )
@@ -121,11 +148,12 @@ if __name__ == "__main__":
     resolutions["via_contact"] = {"resolution": 0.1, "distance": 0}
 
     geometry = xy_xsection_mesh(
-        component=waveguide,
-        z=0.09,
+        component=c,
+        z=-6,
         layerstack=filtered_layerstack,
         resolutions=resolutions,
-        background_tag="Oxide",
+        # background_tag="Oxide",
+        filename="mesh.msh",
     )
     # print(geometry)
 
