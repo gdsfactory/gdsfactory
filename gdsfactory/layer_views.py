@@ -619,11 +619,19 @@ class LayerViews(BaseModel):
         """
         import yaml
 
+        def _tuple_presenter(dumper: yaml.Dumper, data: tuple) -> yaml.SequenceNode:
+            return dumper.represent_sequence(
+                "tag:yaml.org,2002:seq", data, flow_style=True
+            )
+
+        yaml.add_representer(tuple, _tuple_presenter)
+        yaml.representer.SafeRepresenter.add_representer(tuple, _tuple_presenter)
+
         lf_path = pathlib.Path(append_file_extension(layer_file, ".yml"))
         lvs = {name: lv.dict() for name, lv in self.layer_views.items()}
 
         lf_path.write_bytes(
-            yaml.safe_dump_all([lvs], indent=2, sort_keys=False, encoding="utf-8")
+            yaml.dump_all([lvs], indent=2, sort_keys=False, encoding="utf-8")
         )
 
         if pattern_file:
@@ -642,7 +650,7 @@ class LayerViews(BaseModel):
         """
         from omegaconf import OmegaConf
 
-        append_file_extension(layer_file, ".yml")
+        layer_file = append_file_extension(layer_file, ".yml")
 
         with open(layer_file) as lf:
             layers = OmegaConf.to_container(OmegaConf.load(lf))
