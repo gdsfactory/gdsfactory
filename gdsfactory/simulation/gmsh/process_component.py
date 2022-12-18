@@ -68,6 +68,7 @@ def process_buffers(layer_polygons_dict: Dict, layerstack: LayerStack):
                 - layerstack.layers[layername].thickness * z
             )
             extended_layerstack_layers[f"{layername}_{z}"] = LayerLevel(
+                layer=layerstack.layers[layername].layer,
                 thickness=new_thickness,
                 zmin=new_zmin,
                 material=layerstack.layers[layername].material,
@@ -80,6 +81,7 @@ def process_buffers(layer_polygons_dict: Dict, layerstack: LayerStack):
                 polygons.buffer(width_buffers[ind + 1]),
             )
         extended_layerstack_layers[f"{layername}_{zs[-1]}"] = LayerLevel(
+            layer=layerstack.layers[layername].layer,
             thickness=0,
             zmin=layerstack.layers[layername].zmin
             + layerstack.layers[layername].thickness,
