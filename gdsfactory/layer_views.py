@@ -400,7 +400,7 @@ class LayerView(BaseModel):
         )
 
 
-class LayerDisplayProperties(BaseModel):
+class LayerViews(BaseModel):
     """A container for layer properties for KLayout layer property (.lyp) files.
 
     Attributes:
@@ -412,7 +412,7 @@ class LayerDisplayProperties(BaseModel):
     custom_patterns: Optional[CustomPatterns] = None
 
     def __init__(self, **data):
-        """Initialize LayerDisplayProperties object."""
+        """Initialize LayerViews object."""
         super().__init__(**data)
 
         for field in self.dict():
@@ -421,7 +421,7 @@ class LayerDisplayProperties(BaseModel):
                 self.add_layer_view(name=field, layer_view=val)
 
     def add_layer_view(self, name: str, layer_view: Optional[LayerView]) -> None:
-        """Adds a layer to LayerDisplayProperties.
+        """Adds a layer to LayerViews.
 
         Args:
             name: Name of the LayerView.
@@ -454,11 +454,11 @@ class LayerDisplayProperties(BaseModel):
         return {name: lv for name, lv in self.layer_views.items() if lv.group_members}
 
     def __str__(self) -> str:
-        """Prints the number of LayerView objects in the LayerDisplayProperties object."""
+        """Prints the number of LayerView objects in the LayerViews object."""
         lvs = self.get_layer_views()
         groups = self.get_layer_view_groups()
         return (
-            f"LayerDisplayProperties: {len(lvs)} layers ({len(groups)} groups)\n"
+            f"LayerViews: {len(lvs)} layers ({len(groups)} groups)\n"
             f"\t{self.custom_patterns}"
         )
 
@@ -477,17 +477,17 @@ class LayerDisplayProperties(BaseModel):
         """Allows accessing to the layer names like ls['gold2'].
 
         Args:
-            val: Layer name to access within the LayerDisplayProperties.
+            val: Layer name to access within the LayerViews.
 
         Returns:
-            self.layers[val]: LayerView in the LayerDisplayProperties.
+            self.layers[val]: LayerView in the LayerViews.
 
         """
         try:
             return self.layer_views[val]
         except Exception as error:
             raise ValueError(
-                f"LayerView {val!r} not in LayerDisplayProperties {list(self.layer_views.keys())}"
+                f"LayerView {val!r} not in LayerViews {list(self.layer_views.keys())}"
             ) from error
 
     def get_from_tuple(self, layer_tuple: Layer) -> LayerView:
@@ -544,7 +544,7 @@ class LayerDisplayProperties(BaseModel):
     @staticmethod
     def from_lyp(
         filepath: str, layer_pattern: Optional[Union[str, re.Pattern]] = None
-    ) -> "LayerDisplayProperties":
+    ) -> "LayerViews":
         r"""Write all layer properties to a KLayout .lyp file.
 
         Args:
@@ -602,9 +602,7 @@ class LayerDisplayProperties(BaseModel):
             dither_patterns=dither_patterns, line_styles=line_styles
         )
 
-        return LayerDisplayProperties(
-            layer_views=layer_views, custom_patterns=custom_patterns
-        )
+        return LayerViews(layer_views=layer_views, custom_patterns=custom_patterns)
 
     def to_yaml(
         self,
@@ -633,7 +631,7 @@ class LayerDisplayProperties(BaseModel):
     @staticmethod
     def from_yaml(
         layer_file: str = None, pattern_file: Optional[str] = None
-    ) -> "LayerDisplayProperties":
+    ) -> "LayerViews":
         """Import layer properties from two yaml files.
 
         Args:
@@ -646,7 +644,7 @@ class LayerDisplayProperties(BaseModel):
 
         with open(layer_file) as lf:
             layers = OmegaConf.to_container(OmegaConf.load(lf))
-        props = LayerDisplayProperties(
+        props = LayerViews(
             layer_views={name: LayerView(**lv) for name, lv in layers.items()}
         )
         if pattern_file:
