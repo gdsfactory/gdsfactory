@@ -23,6 +23,8 @@ class LayerMap(BaseModel):
     You will need to create a new LayerMap with your specific foundry layers.
     """
 
+    WAFER: Layer = (0, 0)
+
     WG: Layer = (1, 0)
     WGCLAD: Layer = (111, 0)
     SLAB150: Layer = (2, 0)
@@ -289,12 +291,14 @@ def get_layer_stack_generic(
     return LayerStack(
         layers=dict(
             substrate=LayerLevel(
+                layer=LAYER.WAFER,
                 thickness=substrate_thickness,
                 zmin=-substrate_thickness - box_thickness,
                 material="si",
                 info={"mesh_order": 99},
             ),
             box=LayerLevel(
+                layer=LAYER.WAFER,
                 thickness=box_thickness,
                 zmin=-box_thickness,
                 material="sio2",
@@ -311,6 +315,7 @@ def get_layer_stack_generic(
             ),
             clad=LayerLevel(
                 # layer=LAYER.WGCLAD,
+                layer=LAYER.WAFER,
                 zmin=0.0,
                 material="sio2",
                 thickness=thickness_clad,
