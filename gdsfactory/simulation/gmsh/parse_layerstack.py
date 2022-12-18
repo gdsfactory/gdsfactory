@@ -39,7 +39,14 @@ def map_unique_layerstack_z(
     for layername, layer in layer_dict.items():
         zmin = layer["zmin"]
         zmax = layer["zmin"] + layer["thickness"]
-        unique_z_dict[layername] = {z for z in z_levels if (z >= zmin and z <= zmax)}
+        if zmax > zmin:
+            unique_z_dict[layername] = {
+                z for z in z_levels if (z >= zmin and z <= zmax)
+            }
+        else:
+            unique_z_dict[layername] = {
+                z for z in z_levels if (z >= zmax and z <= zmin)
+            }
 
     return unique_z_dict
 
