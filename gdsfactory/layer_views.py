@@ -16,7 +16,9 @@ from pydantic import BaseModel, Field, validator
 Layer = Tuple[int, int]
 
 
-def append_file_extension(filename: Union[str, pathlib.Path], extension: str) -> str:
+def append_file_extension(
+    filename: Union[str, pathlib.Path], extension: str
+) -> Union[str, pathlib.Path]:
     """Try appending extension to file."""
     # Handle whether given with '.'
     if "." not in extension:
