@@ -1,3 +1,4 @@
+"""Preprocessing involving only the LayerStack."""
 from __future__ import annotations
 
 import numpy as np
@@ -15,8 +16,8 @@ def list_unique_layerstack_z(
     Returns:
         Sorted set of z-coordinates for this layerstack
     """
-    thicknesses = list(layerstack.get_layer_to_thickness().values())
-    zmins = list(layerstack.get_layer_to_zmin().values())
+    thicknesses = [layer.thickness for layer in layerstack.layers.values()]
+    zmins = [layer.zmin for layer in layerstack.layers.values()]
     zmaxs = [sum(value) for value in zip(zmins, thicknesses)]
 
     return sorted(set(zmins + zmaxs))
