@@ -92,6 +92,9 @@ devsim = [
     "pyvista",
     "tidy3d-beta==1.7.1",
     ]
+meow = [
+    "meow-sim",
+    ]
 dev = [
     "autotyping",
     "black>=21",
