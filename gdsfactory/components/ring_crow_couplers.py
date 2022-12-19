@@ -73,8 +73,8 @@ def ring_crow_couplers(
     c.add_port(name="o2", port=couplers_refs[0].ports["o4"])
 
     # Cascade rings
-    for index, (gap, r, bend, cross_section, coupler) in enumerate(
-        zip(gaps, radius, bends, ring_cross_sections, couplers)
+    for index, (gap, r, bend, cross_section) in enumerate(
+        zip(gaps, radius, bends, ring_cross_sections)
     ):
         gap = gf.snap.snap_to_grid(gap, nm=2)
 
