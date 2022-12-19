@@ -73,16 +73,18 @@ def ring_crow(
 
     # Cascade rings
     cum_y_dist = input_straight_width / 2
-    for gap, r, bend, cross_section in zip(gaps, radius, bends, ring_cross_sections):
+    for index, (gap, r, bend, cross_section) in enumerate(
+        zip(gaps, radius, bends, ring_cross_sections)
+    ):
         gap = gf.snap.snap_to_grid(gap, nm=2)
         ring = Component()
         bend_c = gf.get_component(bend, radius=r, cross_section=cross_section)
         xs = gf.get_cross_section(cross_section)
         bend_width = xs.width
-        bend1 = ring.add_ref(bend_c)
-        bend2 = ring.add_ref(bend_c)
-        bend3 = ring.add_ref(bend_c)
-        bend4 = ring.add_ref(bend_c)
+        bend1 = c.add_ref(bend_c, alias=f"bot_right_bend_ring_{index}")
+        bend2 = c.add_ref(bend_c, alias=f"top_right_bend_ring_{index}")
+        bend3 = c.add_ref(bend_c, alias=f"top_left_bend_ring_{index}")
+        bend4 = c.add_ref(bend_c, alias=f"bot_left_bend_ring_{index}")
 
         bend2.connect("o1", bend1.ports["o2"])
         bend3.connect("o1", bend2.ports["o2"])
