@@ -57,6 +57,7 @@ def ring_crow_couplers(
           length_x
     """
     c = Component()
+    bend_locs = {}
 
     couplers_refs = []
     for coupler in couplers:
@@ -75,6 +76,7 @@ def ring_crow_couplers(
     for index, (r, bend, cross_section) in enumerate(
         zip(radius, bends, ring_cross_sections)
     ):
+        # Add ring
         bend_c = gf.get_component(bend, radius=r, cross_section=cross_section)
         bend1 = c.add_ref(bend_c)
         bend2 = c.add_ref(bend_c)
@@ -87,9 +89,21 @@ def ring_crow_couplers(
         bend3.connect("o1", couplers_refs[index + 1].ports["o1"])
         bend4.connect("o1", bend3.ports["o2"])
 
+        # Log coupler positions for reference
+        bend_locs[index] = {
+            "in1": bend1.ports["o1"].center,
+            "out1": bend2.ports["o2"].center,
+            "in2": bend3.ports["o1"].center,
+            "out2": bend4.ports["o2"].center,
+        }
+
     # Output bus
     c.add_port(name="o3", port=couplers_refs[-1].ports["o2"])
     c.add_port(name="o4", port=couplers_refs[-1].ports["o3"])
+
+    # Info
+    c.info["bend_locs"] = bend_locs
+
     return c
 
 
@@ -100,3 +114,5 @@ if __name__ == "__main__":
     )
 
     c.show(show_ports=True, show_subports=False)
+
+    print(c.info["bend_locs"])
