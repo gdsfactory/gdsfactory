@@ -140,7 +140,7 @@ class MEOW_simulation:
     def layerstack_to_extrusion(self):
         """Convert LayerStack to meow extrusions."""
         extrusions = {}
-        for layername, layer in self.layerstack.layers.items():
+        for _layername, layer in self.layerstack.layers.items():
             if layer.layer not in extrusions.keys():
                 extrusions[layer.layer] = []
             extrusions[layer.layer].append(
