@@ -8,7 +8,7 @@ from scipy.interpolate import NearestNDInterpolator
 from shapely.geometry import Polygon
 from shapely.ops import unary_union
 
-from gdsfactory.simulation.gmsh.mesh2D import mesh_from_polygons
+from gdsfactory.simulation.gmsh.mesh import mesh_from_polygons
 from gdsfactory.simulation.gmsh.parse_component import (
     merge_by_material_func,
     process_buffers,

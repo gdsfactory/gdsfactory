@@ -4,6 +4,7 @@
 
 - Add z_to_bias processing in xy meshing [PR](https://github.com/gdsfactory/gdsfactory/pull/1011)
 - Add MEAOW EME plugin [PR](https://github.com/gdsfactory/gdsfactory/pull/1015)
+- update tidy3d to 1.8.0
 
 ## 6.12.0
 
