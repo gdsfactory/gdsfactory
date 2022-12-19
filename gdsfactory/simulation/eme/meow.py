@@ -10,7 +10,7 @@ from gdsfactory.simulation.gmsh.parse_layerstack import list_unique_layerstack_z
 from gdsfactory.tech import LAYER, LayerStack
 
 
-class MEOW_simulation:
+class MEOW:
     def __init__(
         self,
         component,
@@ -290,7 +290,7 @@ if __name__ == "__main__":
         }
     )
 
-    sp = MEOW_simulation(component=c, layerstack=filtered_layerstack, wavelength=1.55)
+    sp = MEOW(component=c, layerstack=filtered_layerstack, wavelength=1.55)
 
     import pprint
 

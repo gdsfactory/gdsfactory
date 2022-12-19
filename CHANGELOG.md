@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.13.0
+
+- Add z_to_bias processing in xy meshing [PR](https://github.com/gdsfactory/gdsfactory/pull/1011)
+- Add MEAOW EME plugin [PR](https://github.com/gdsfactory/gdsfactory/pull/1015)
+- update tidy3d to 1.8.0
+
 ## 6.12.0
 
 - Add coupled rings (CROW) [PR](https://github.com/gdsfactory/gdsfactory/pull/1009)

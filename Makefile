@@ -4,7 +4,7 @@ help:
 	@echo 'make test-force:       Rebuilds regression test'
 
 full: gdslib
-	pip install -e .[docs,dev,full,tidy3d,sipann,devsim]
+	pip install -e .[docs,dev,full,tidy3d,sipann,devsim,meow]
 
 install: gdslib
 	pip install -e .[dev,full]
@@ -79,8 +79,11 @@ test-meep:
 test-tidy3d:
 	pytest gdsfactory/simulation/gtidy3d
 
+test-gmsh:
+	pytest gdsfactory/simulation/gmsh
+
 test-plugins:
-	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes gdsfactory/simulation/lumerical gdsfactory/simulation/simphony gdsfactory/simulation/gtidy3d
+	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes gdsfactory/simulation/lumerical gdsfactory/simulation/simphony gdsfactory/simulation/gtidy3d gdsfactory/simulation/gmsh
 
 test-notebooks:
 	py.test --nbval notebooks
