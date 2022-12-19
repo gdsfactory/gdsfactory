@@ -10,7 +10,7 @@ from tidy3d.components.types import ComplexNumber
 MATERIAL_NAME_TO_MEDIUM = {
     "si": td.material_library["cSi"]["Li1993_293K"],
     "sio2": td.material_library["SiO2"]["Horiba"],
-    "sin": td.material_library["Si3N4"]["Luke2015"],
+    "sin": td.material_library["Si3N4"]["Luke2015PMLStable"],
 }
 
 
