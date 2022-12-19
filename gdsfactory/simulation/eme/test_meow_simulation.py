@@ -1,7 +1,7 @@
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.simulation.eme import MEOW_simulation
+from gdsfactory.simulation.eme import MEOW
 from gdsfactory.tech import LayerStack, get_layer_stack_generic
 
 
@@ -22,7 +22,7 @@ def test_meow_defaults():
         }
     )
 
-    sp = MEOW_simulation(
+    sp = MEOW(
         component=c, layerstack=filtered_layerstack, wavelength=1.55
     ).compute_sparameters()
 

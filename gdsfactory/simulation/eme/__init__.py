@@ -1,5 +1,5 @@
-from gdsfactory.simulation.eme.meow_simulation import meow_calculation
+from gdsfactory.simulation.eme.meow import MEOW
 
 __all__ = [
-    "meow_calculation",
+    "MEOW",
 ]
