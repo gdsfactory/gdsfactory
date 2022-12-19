@@ -159,11 +159,10 @@ def yaml_test():
 
     # Export layer properties to yaml files
     layer_yaml = str(tech_dir / "layers.yml")
-    pattern_yaml = str(tech_dir / "patterns.yml")
-    lyp.to_yaml(layer_yaml, pattern_yaml)
+    lyp.to_yaml(layer_yaml)
 
     # Load layer properties from yaml files and check that they're the same
-    lyp_loaded = LayerViews.from_yaml(layer_yaml, pattern_yaml)
+    lyp_loaded = LayerViews.from_yaml(layer_yaml)
     print("Loaded from .yaml", lyp_loaded)
 
     assert lyp_loaded == lyp
