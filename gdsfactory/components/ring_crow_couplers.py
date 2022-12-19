@@ -12,7 +12,6 @@ from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 @gf.cell
 def ring_crow_couplers(
-    gaps: List[float] = [0.2] * 4,
     radius: List[float] = [10.0] * 3,
     bends: List[ComponentSpec] = [bend_circular] * 3,
     ring_cross_sections: List[CrossSectionSpec] = [strip] * 3,
@@ -73,11 +72,9 @@ def ring_crow_couplers(
     c.add_port(name="o2", port=couplers_refs[0].ports["o4"])
 
     # Cascade rings
-    for index, (gap, r, bend, cross_section) in enumerate(
-        zip(gaps, radius, bends, ring_cross_sections)
+    for index, (r, bend, cross_section) in enumerate(
+        zip(radius, bends, ring_cross_sections)
     ):
-        gap = gf.snap.snap_to_grid(gap, nm=2)
-
         bend_c = gf.get_component(bend, radius=r, cross_section=cross_section)
         bend1 = c.add_ref(bend_c)
         bend2 = c.add_ref(bend_c)
