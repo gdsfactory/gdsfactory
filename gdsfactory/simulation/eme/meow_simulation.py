@@ -2,32 +2,64 @@ from itertools import permutations
 
 import meow as mw
 import numpy as np
+import pandas as pd
 
+from gdsfactory.pdk import _ACTIVE_PDK
 from gdsfactory.simulation.gmsh.parse_layerstack import list_unique_layerstack_z
 from gdsfactory.tech import LAYER, LayerStack
 from gdsfactory.types import ComponentSpec
 
-"""Conversion between gdsfactory material names and meow materials class."""
-gdsfactory_to_meow_materials = {
-    "si": mw.silicon,
-    "sio2": mw.silicon_oxide,
-}
+
+def gf_material_to_meow_material(
+    material_name="si", wavelengths=np.linspace(1.5, 1.6, 101)
+):
+    ns = _ACTIVE_PDK.materials_index[material_name](wavelengths)
+    if ns.dtype in [np.float64, np.float32]:
+        nr = ns
+        ni = np.zeros_like(ns)
+    else:
+        nr = np.real(ns)
+        ni = np.imag(ns)
+    df = pd.DataFrame({"wl": wavelengths, "nr": nr, "ni": ni})
+    return mw.Material.from_df(material_name, df)
 
 
-def add_global_layers(component, layerstack):
-    """Adds bbox polygons for global layers."""
+def add_global_layers(component, layerstack, xspan, global_layer_index=10000):
+    """Adds bbox polygons for global layers.
+
+    LAYER.WAFER layers are represented as polygons of size [bbox.x, xspan (meow coords)]
+
+    Arguments:
+        component: gdsfactory component
+        layerstack: gdsfactory LayerStack
+        xspan: from eme setup
+        global_layer_index: int, layer index at which to starting adding the global layers.
+                Default 10000 with +1 increments to avoid clashing with physical layers.
+
+    """
+    c = gf.Component()
+    c.add_ref(component)
     bbox = component.bbox
+    buffer_y = (xspan - np.diff(bbox[:, 1])) / 2 if xspan > np.diff(bbox[:, 1]) else 0
     for layername, layer in layerstack.layers.items():
         if layer.layer == LAYER.WAFER:
-            component.add_ref(
-                gf.components.box(bbox[0, 0], bbox[0, 1], bbox[1, 0], bbox[1, 1])
+            c.add_ref(
+                gf.components.bbox(
+                    bbox=(
+                        (bbox[0, 0], bbox[0, 1] - buffer_y),
+                        (bbox[1, 0], bbox[1, 1] + buffer_y),
+                    ),
+                    layer=(global_layer_index, 0),
+                )
             )
+            layer.layer = (global_layer_index, 0)
+            global_layer_index += 1
         else:
-            continue
-    return component
+            layerstack.layers[layername] = layer
+    return c, layerstack
 
 
-def layerstack_to_extrusion(layerstack: LayerStack):
+def layerstack_to_extrusion(layerstack: LayerStack, wavelength):
     """Convert LayerStack to meow extrusions."""
     extrusions = {}
     for layername, layer in layerstack.layers.items():
@@ -35,7 +67,9 @@ def layerstack_to_extrusion(layerstack: LayerStack):
             extrusions[layer.layer] = []
         extrusions[layer.layer].append(
             mw.GdsExtrusionRule(
-                material=gdsfactory_to_meow_materials[layer.material],
+                material=gf_material_to_meow_material(
+                    layer.material, np.array([wavelength])
+                ),
                 h_min=layer.zmin,
                 h_max=layer.zmin + layer.thickness,
                 mesh_order=layer.info["mesh_order"],
@@ -98,6 +132,11 @@ def meow_calculation(
 ):
     """Computes multimode 2-port S-parameters for a gdsfactory component, assuming port 1 is at the left boundary and port 2 at the right boundary.
 
+    Note coordinate systems:
+        gdsfactory uses x,y in the plane to represent components, with the layerstack existing in z
+        meow uses x,y to represent a cross-section, with propagation in the z-direction
+        hence we have [x,y,z] <--> [y,z,x] for gdsfactory <--> meow
+
     Arguments:
         component: gdsfactory component
         layerstack: gdsfactory layerstack
@@ -105,16 +144,16 @@ def meow_calculation(
         wavelength: wavelength in microns (for FDE, and for material properties)
         temperature: temperature in C (for material properties)
         num_cells: number of component slices along the propagation direction for the EME
-        xspan: size of the horizontal cross-sectional simulation region. Default is component.bbox[0, 1] + 2
-        xoffset: center of the horizontal cross-sectional simulation region
-        xres: number of mesh points for the horizontal cross-sectional simulation region
-        yspan: size of the vertical cross-sectional simulation region. Default is total layerstack thickness.
-        yoffset: center of the vertical cross-sectional simulation region
-        yres: number of mesh points for the vertical cross-sectional simulation region
+        xspan: size of the horizontal cross-sectional simulation region (meow coordinates). Default is component.bbox[0, 1] + 2
+        xoffset: center of the horizontal cross-sectional simulation region  (meow coordinates)
+        xres: number of mesh points for the horizontal cross-sectional simulation region  (meow coordinates)
+        yspan: size of the vertical cross-sectional simulation region. Default is total layerstack thickness.  (meow coordinates)
+        yoffset: center of the vertical cross-sectional simulation region  (meow coordinates)
+        yres: number of mesh points for the vertical cross-sectional simulation region  (meow coordinates)
         validate_component: whether raise errors if the component ports are of the wrong number and orientation. Default True.
 
     Returns:
-        S-parameters in form o1@0,o2@0
+        S-parameters in form o1@0,o2@0 at wavelength
     """
     # Check component validity
     if validate_component:
@@ -132,12 +171,15 @@ def meow_calculation(
         elif component.ports["o2"].orientation != 0:
             raise ValueError("Component port o2 does not face eastward (0 deg).")
 
-    # Preprocess component and layerstack
-    component = add_global_layers(component, layerstack)
-    extrusion_rules = layerstack_to_extrusion(layerstack)
-    xspan = xspan or component.bbox[0, 1] + 2
+    # Process simulation bounds
+    xspan = xspan or np.diff(component.bbox[:, 1])[0] + 2.0
     zs = list_unique_layerstack_z(layerstack)
     yspan = yspan or np.max(zs) - np.min(zs)
+
+    # Preprocess component and layerstack
+    component, layerstack = add_global_layers(component, layerstack, xspan)
+    component.show()
+    extrusion_rules = layerstack_to_extrusion(layerstack, wavelength)
 
     # Get EME cells
     cells = get_eme_cells(
