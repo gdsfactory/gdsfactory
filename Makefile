@@ -33,6 +33,7 @@ plugins:
 	pip install --upgrade "protobuf<=3.20.1"
 
 plugins-debian:
+	sudo apt-get install -y python3-gmsh
 	sudo apt install libgl1-mesa-glx -y
 	pip install -e .[tidy3d,sipann]
 	pip install jax jaxlib
