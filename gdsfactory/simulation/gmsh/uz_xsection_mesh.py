@@ -9,16 +9,16 @@ from shapely.geometry import LineString, MultiPolygon, Point, Polygon
 from shapely.ops import unary_union
 
 import gdsfactory as gf
-from gdsfactory.simulation.gmsh.mesh import mesh_from_polygons
+from gdsfactory.simulation.gmsh.mesh2D import mesh_from_polygons
+from gdsfactory.simulation.gmsh.parse_component import (
+    create_2D_surface_interface,
+    merge_by_material_func,
+    process_buffers,
+)
 from gdsfactory.simulation.gmsh.parse_gds import cleanup_component, to_polygons
 from gdsfactory.simulation.gmsh.parse_layerstack import (
     list_unique_layerstack_z,
     order_layerstack,
-)
-from gdsfactory.simulation.gmsh.process_component import (
-    create_2D_surface_interface,
-    merge_by_material_func,
-    process_buffers,
 )
 from gdsfactory.tech import LayerStack
 from gdsfactory.types import ComponentOrReference
