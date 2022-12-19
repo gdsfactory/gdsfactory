@@ -9,7 +9,7 @@ from shapely.geometry import LineString, MultiPolygon, Point, Polygon
 from shapely.ops import unary_union
 
 import gdsfactory as gf
-from gdsfactory.simulation.gmsh.mesh2D import mesh_from_polygons
+from gdsfactory.simulation.gmsh.mesh import mesh_from_polygons
 from gdsfactory.simulation.gmsh.parse_component import (
     create_2D_surface_interface,
     merge_by_material_func,
