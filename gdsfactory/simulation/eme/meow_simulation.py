@@ -85,8 +85,9 @@ class MEOW_simulation:
         self.port_map = None
 
     def gf_material_to_meow_material(
-        self, material_name="si", wavelengths=np.linspace(1.5, 1.6, 101), color=None
+        self, material_name="si", wavelengths=None, color=None
     ):
+        wavelengths = wavelengths or np.linspace(1.5, 1.6, 101)
         color = color or (0.9, 0.9, 0.9, 0.9)
         ns = _ACTIVE_PDK.materials_index[material_name](wavelengths)
         if ns.dtype in [np.float64, np.float32]:
@@ -120,7 +121,7 @@ class MEOW_simulation:
         c = gf.Component()
         c.add_ref(component)
         bbox = component.bbox
-        for layername, layer in layerstack.layers.items():
+        for _layername, layer in layerstack.layers.items():
             if layer.layer == LAYER.WAFER:
                 c.add_ref(
                     gf.components.bbox(
@@ -133,8 +134,6 @@ class MEOW_simulation:
                 )
                 layer.layer = (global_layer_index, 0)
                 global_layer_index += 1
-            else:
-                layerstack.layers[layername] = layer
 
         return c, layerstack
 
