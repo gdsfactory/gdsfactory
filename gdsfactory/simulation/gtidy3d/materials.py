@@ -6,12 +6,11 @@ from typing import Dict, Union
 import tidy3d as td
 from tidy3d.components.medium import PoleResidue
 from tidy3d.components.types import ComplexNumber
-from tidy3d.material_library import material_library
 
 MATERIAL_NAME_TO_MEDIUM = {
-    "si": material_library["cSi"]["Li1993_293K"],
-    "sio2": material_library["SiO2"]["Horiba"],
-    "sin": material_library["Si3N4"]["Luke2015"],
+    "si": td.material_library["cSi"]["Li1993_293K"],
+    "sio2": td.material_library["SiO2"]["Horiba"],
+    "sin": td.material_library["Si3N4"]["Luke2015"],
 }
 
 
