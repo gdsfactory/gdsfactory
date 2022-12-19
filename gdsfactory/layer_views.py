@@ -623,7 +623,7 @@ class LayerViews(BaseModel):
         def _str_presenter(dumper: yaml.Dumper, data: str) -> yaml.ScalarNode:
             if "\n" in data:  # check for multiline string
                 return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")
-            return dumper.represent_scalar("tag:yaml.org,2002:str", data, style='"')
+            return dumper.represent_scalar("tag:yaml.org,2002:str", data)
 
         yaml.add_representer(tuple, _tuple_presenter)
         yaml.representer.SafeRepresenter.add_representer(tuple, _tuple_presenter)
