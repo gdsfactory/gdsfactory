@@ -108,10 +108,11 @@ class CustomDitherPattern(BaseModel):
         pattern: Pattern to use.
     """
 
+    name: str
     order: int
     pattern: str
 
-    def to_xml(self, name: str) -> ET.Element:
+    def to_xml(self) -> ET.Element:
         el = ET.Element("custom-dither-pattern")
 
         subel = ET.SubElement(el, "pattern")
@@ -123,7 +124,7 @@ class CustomDitherPattern(BaseModel):
                 ET.SubElement(subel, "line").text = line
 
         ET.SubElement(el, "order").text = str(self.order)
-        ET.SubElement(el, "name").text = name
+        ET.SubElement(el, "name").text = self.name
         return el
 
 
@@ -135,66 +136,17 @@ class CustomLineStyle(BaseModel):
         pattern: Pattern to use.
     """
 
+    name: str
     order: int
     pattern: str
 
-    def to_xml(self, name: str) -> ET.Element:
+    def to_xml(self) -> ET.Element:
         el = ET.Element("custom-line-pattern")
 
-        ET.SubElement(el, "pattern").text = self.pattern
+        ET.SubElement(el, "pattern").text = str(self.pattern)
         ET.SubElement(el, "order").text = str(self.order)
-        ET.SubElement(el, "name").text = name
+        ET.SubElement(el, "name").text = self.name
         return el
-
-
-class CustomPatterns(BaseModel):
-    dither_patterns: Dict[str, CustomDitherPattern] = Field(default_factory=dict)
-    line_styles: Dict[str, CustomLineStyle] = Field(default_factory=dict)
-
-    def to_yaml(self, filename: Union[str, pathlib.Path]) -> None:
-        """Export custom patterns to a yaml file.
-
-        Args:
-            filename: Name of output file.
-        """
-        import yaml
-
-        def _str_presenter(dumper: yaml.Dumper, data: str) -> yaml.ScalarNode:
-            if "\n" in data:  # check for multiline string
-                return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")
-            return dumper.represent_scalar("tag:yaml.org,2002:str", data)
-
-        filepath = pathlib.Path(append_file_extension(filename, ".yml"))
-
-        yaml.add_representer(str, _str_presenter)
-        yaml.representer.SafeRepresenter.add_representer(str, _str_presenter)
-
-        filepath.write_bytes(
-            yaml.safe_dump_all(
-                [self.dict()], indent=2, sort_keys=False, encoding="utf-8"
-            )
-        )
-
-    @staticmethod
-    def from_yaml(filename: str) -> "CustomPatterns":
-        """Import a CustomPatterns object from a yaml file.
-
-        Args:
-            filename: Name of output file.
-        """
-        from omegaconf import OmegaConf
-
-        with open(filename) as file:
-            loaded_yml = OmegaConf.to_container(OmegaConf.load(file))
-        if not (
-            "dither_patterns" in loaded_yml.keys() or "line_styles" in loaded_yml.keys()
-        ):
-            raise KeyError("The yaml file is not properly formatted.")
-        return CustomPatterns(**loaded_yml)
-
-    def __str__(self):
-        """Prints the number of each type of custom pattern."""
-        return f"CustomPatterns: {len(self.dither_patterns)} dither patterns, {len(self.line_styles)} line styles"
 
 
 class LayerView(BaseModel):
@@ -226,10 +178,12 @@ class LayerView(BaseModel):
 
     layer: Optional[Layer] = None
     layer_in_name: bool = False
-    color: Optional[LayerColor] = Field(default_factory=LayerColor)
-    brightness: Optional[LayerBrightness] = Field(default_factory=LayerBrightness)
-    dither_pattern: Optional[str] = None
-    line_style: Optional[str] = None
+    color: Optional[Union[str, LayerColor]] = Field(default_factory=LayerColor)
+    brightness: Optional[Union[str, LayerBrightness]] = Field(
+        default_factory=LayerBrightness
+    )
+    dither_pattern: Optional[Union[str, CustomDitherPattern]] = None
+    line_style: Optional[Union[str, CustomLineStyle]] = None
     valid: bool = True
     visible: bool = True
     transparent: bool = False
@@ -237,7 +191,7 @@ class LayerView(BaseModel):
     marked: bool = False
     xfill: bool = False
     animation: int = 0
-    group_members: Optional[Dict[str, "LayerView"]] = None
+    group_members: Optional[Dict[str, "LayerView"]] = Field(default_factory=dict)
 
     def __init__(self, **data):
         """Initialize LayerView object."""
@@ -282,8 +236,12 @@ class LayerView(BaseModel):
             "fill-color": self.color.fill,
             "frame-brightness": self.brightness.frame,
             "fill-brightness": self.brightness.fill,
-            "dither-pattern": self.dither_pattern,
-            "line-style": self.line_style,
+            "dither-pattern": self.dither_pattern.name
+            if isinstance(self.dither_pattern, CustomDitherPattern)
+            else self.dither_pattern,
+            "line-style": self.line_style.name
+            if isinstance(self.line_style, CustomLineStyle)
+            else self.line_style,
             "valid": str(self.valid).lower(),
             "visible": str(self.visible).lower(),
             "transparent": str(self.transparent).lower(),
@@ -369,37 +327,44 @@ class LayerView(BaseModel):
         if name is None:
             return None
 
+        lv = LayerView(
+            layer=cls._process_layer(element.find("source").text, layer_pattern),
+            dither_pattern=element.find("dither-pattern").text,
+            line_style=element.find("line-style").text,
+            valid=element.find("valid").text,
+            visible=element.find("visible").text,
+            transparent=element.find("transparent").text,
+            width=element.find("width").text,
+            marked=element.find("marked").text,
+            xfill=element.find("xfill").text,
+            animation=element.find("animation").text,
+            layer_in_name=layer_in_name,
+        )
+
+        # Add only if needed, so we can filter by defaults when dumping to yaml
         group_members = {}
         for member in element.iterfind("group-members"):
             member_name, member_lv = cls.from_xml_element(member, layer_pattern)
             group_members[member_name] = member_lv
 
-        return (
-            name,
-            LayerView(
-                layer=cls._process_layer(element.find("source").text, layer_pattern),
-                color=LayerColor(
-                    fill=element.find("fill-color").text,
-                    frame=element.find("frame-color").text,
-                ),
-                brightness=LayerBrightness(
-                    fill=element.find("fill-brightness").text,
-                    frame=element.find("frame-brightness").text,
-                ),
-                dither_pattern=element.find("dither-pattern").text,
-                line_style=element.find("line-style").text,
-                valid=element.find("valid").text,
-                visible=element.find("visible").text,
-                transparent=element.find("transparent").text,
-                width=element.find("width").text,
-                marked=element.find("marked").text,
-                xfill=element.find("xfill").text,
-                animation=element.find("animation").text,
-                layer_in_name=layer_in_name,
-                name=name,
-                group_members=group_members,
-            ),
+        if group_members != {}:
+            lv.group_members = group_members
+
+        color = LayerColor(
+            fill=element.find("fill-color").text,
+            frame=element.find("frame-color").text,
         )
+        if color != LayerColor():
+            lv.color = color
+
+        brightness = LayerBrightness(
+            fill=element.find("fill-brightness").text,
+            frame=element.find("frame-brightness").text,
+        )
+        if brightness != LayerBrightness():
+            lv.brightness = brightness
+
+        return name, lv
 
 
 class LayerViews(BaseModel):
@@ -407,11 +372,13 @@ class LayerViews(BaseModel):
 
     Attributes:
         layer_views: Dictionary of LayerViews describing how to display gds layers.
-        custom_patterns: CustomPatterns object containing custom dither patterns and line styles.
+        custom_dither_patterns: Custom dither patterns.
+        custom_line_styles: Custom line styles.
     """
 
     layer_views: Dict[str, LayerView] = Field(default_factory=dict)
-    custom_patterns: Optional[CustomPatterns] = None
+    custom_dither_patterns: Dict[str, CustomDitherPattern] = Field(default_factory=dict)
+    custom_line_styles: Dict[str, CustomLineStyle] = Field(default_factory=dict)
 
     def __init__(self, **data):
         """Initialize LayerViews object."""
@@ -435,6 +402,32 @@ class LayerViews(BaseModel):
             )
         else:
             self.layer_views[name] = layer_view
+
+        # If the dither pattern is a CustomDitherPattern, add it to custom_patterns
+        dither_pattern = layer_view.dither_pattern
+        if (
+            isinstance(dither_pattern, CustomDitherPattern)
+            and dither_pattern not in self.custom_dither_patterns.keys()
+        ):
+            self.custom_dither_patterns[dither_pattern.name] = dither_pattern
+
+        # If dither_pattern is the name of a custom pattern, replace string with the CustomDitherPattern
+        elif (
+            isinstance(dither_pattern, str)
+            and dither_pattern in self.custom_dither_patterns.keys()
+        ):
+            layer_view.dither_pattern = self.custom_dither_patterns[dither_pattern]
+
+        line_style = layer_view.line_style
+        if (
+            isinstance(line_style, CustomLineStyle)
+            and line_style not in self.custom_line_styles.keys()
+        ):
+            self.custom_line_styles[line_style.name] = line_style
+        elif (
+            isinstance(line_style, str) and line_style in self.custom_line_styles.keys()
+        ):
+            layer_view.line_style = self.custom_line_styles[line_style]
 
     def get_layer_views(self, exclude_groups: bool = False) -> Dict[str, LayerView]:
         """Return all LayerViews.
@@ -461,7 +454,8 @@ class LayerViews(BaseModel):
         groups = self.get_layer_view_groups()
         return (
             f"LayerViews: {len(lvs)} layers ({len(groups)} groups)\n"
-            f"\t{self.custom_patterns}"
+            f"\tCustomDitherPatterns: {list(self.custom_dither_patterns.keys())}\n"
+            f"\tCustomLineStyles: {list(self.custom_line_styles.keys())}\n"
         )
 
     def get(self, name: str) -> LayerView:
@@ -534,12 +528,11 @@ class LayerViews(BaseModel):
         for name, lv in self.layer_views.items():
             root.append(lv.to_xml(name))
 
-        if self.custom_patterns is not None:
-            for name, dp in self.custom_patterns.dither_patterns.items():
-                root.append(dp.to_xml(name))
+        for name, dp in self.custom_dither_patterns.items():
+            root.append(dp.to_xml())
 
-            for name, ls in self.custom_patterns.line_styles.items():
-                root.append(ls.to_xml(name))
+        for name, ls in self.custom_line_styles.items():
+            root.append(ls.to_xml())
 
         filepath.write_bytes(make_pretty_xml(root))
 
@@ -565,14 +558,6 @@ class LayerViews(BaseModel):
         if root.tag != "layer-properties":
             raise OSError("Layer properties file incorrectly formatted, cannot read.")
 
-        layer_views = {}
-        for properties_element in root.iter("properties"):
-            name, lv = LayerView.from_xml_element(
-                properties_element, layer_pattern=layer_pattern
-            )
-            if lv:
-                layer_views[name] = lv
-
         dither_patterns = {}
         for dither_block in root.iter("custom-dither-pattern"):
             name = dither_block.find("name").text
@@ -585,6 +570,7 @@ class LayerViews(BaseModel):
             )
 
             dither_patterns[name] = CustomDitherPattern(
+                name=name,
                 order=int(order),
                 pattern=pattern.lstrip(),
             )
@@ -597,67 +583,117 @@ class LayerViews(BaseModel):
                 continue
 
             line_styles[name] = CustomLineStyle(
+                name=name,
                 order=int(order),
                 pattern=line_block.find("pattern").text,
             )
-        custom_patterns = CustomPatterns(
-            dither_patterns=dither_patterns, line_styles=line_styles
-        )
 
-        return LayerViews(layer_views=layer_views, custom_patterns=custom_patterns)
+        layer_views = {}
+        for properties_element in root.iter("properties"):
+            name, lv = LayerView.from_xml_element(
+                properties_element, layer_pattern=layer_pattern
+            )
+            if lv:
+                layer_views[name] = lv
+
+        return LayerViews(
+            layer_views=layer_views,
+            custom_dither_patterns=dither_patterns,
+            custom_line_styles=line_styles,
+        )
 
     def to_yaml(
         self,
         layer_file: Union[str, pathlib.Path],
-        pattern_file: Optional[Union[str, pathlib.Path]] = None,
     ) -> None:
         """Export layer properties to two yaml files.
 
         Args:
             layer_file: Name of the file to write LayerViews to.
-            pattern_file: Name of the file to write custom dither patterns and line styles to.
         """
         import yaml
+
+        lf_path = pathlib.Path(append_file_extension(layer_file, ".yml"))
 
         def _tuple_presenter(dumper: yaml.Dumper, data: tuple) -> yaml.SequenceNode:
             return dumper.represent_sequence(
                 "tag:yaml.org,2002:seq", data, flow_style=True
             )
 
+        def _str_presenter(dumper: yaml.Dumper, data: str) -> yaml.ScalarNode:
+            if "\n" in data:  # check for multiline string
+                return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")
+            return dumper.represent_scalar("tag:yaml.org,2002:str", data, style='"')
+
         yaml.add_representer(tuple, _tuple_presenter)
         yaml.representer.SafeRepresenter.add_representer(tuple, _tuple_presenter)
 
-        lf_path = pathlib.Path(append_file_extension(layer_file, ".yml"))
-        lvs = {name: lv.dict() for name, lv in self.layer_views.items()}
+        yaml.add_representer(str, _str_presenter)
+        yaml.representer.SafeRepresenter.add_representer(str, _str_presenter)
+        lvs = {
+            name: lv.dict(exclude_none=True, exclude_defaults=True, exclude_unset=True)
+            for name, lv in self.layer_views.items()
+        }
+
+        # TODO: Translate hex into color names when possible
+        # TODO: Combine fill and frame if same
+        # if readable_colors:
+        #     from matplotlib.colors import CSS4_COLORS
+        #
+        #     for lv in lvs.values():
+        #         if "color" not in lv.keys():
+        #             continue
+        #         colors = lv["color"]
+        #         if len(colors.keys()) == 2:
+        #             for c_label, c_val in colors.items():
+        #                 if c_val.upper() in CSS4_COLORS.values():
+        #                     idx = list(CSS4_COLORS.values()).index(c_val.upper())
+        #                     colors[c_label] = list(CSS4_COLORS.keys())[idx]
+        #
+        #             # Combine fill and frame if same
+        #             if colors["fill"] == colors["frame"]:
+        #                 colors = colors["fill"]
+        #         lv["color"] = colors
+
+        out_dict = {
+            "LayerViews": lvs,
+            "CustomDitherPatterns": {
+                name: dp.dict(exclude={"name"})
+                for name, dp in self.custom_dither_patterns.items()
+            },
+            "CustomLineStyles": {
+                name: ls.dict(exclude={"name"})
+                for name, ls in self.custom_line_styles.items()
+            },
+        }
 
         lf_path.write_bytes(
-            yaml.dump_all([lvs], indent=2, sort_keys=False, encoding="utf-8")
+            yaml.dump_all([out_dict], indent=2, sort_keys=False, encoding="utf-8")
         )
 
-        if pattern_file:
-            append_file_extension(pattern_file, ".yml")
-            self.custom_patterns.to_yaml(pattern_file)
-
     @staticmethod
-    def from_yaml(
-        layer_file: str = None, pattern_file: Optional[str] = None
-    ) -> "LayerViews":
+    def from_yaml(layer_file: Union[str, pathlib.Path]) -> "LayerViews":
         """Import layer properties from two yaml files.
 
         Args:
-            layer_file: Name of the file to read LayerViews from.
-            pattern_file: Name of the file to read custom dither patterns and line styles from.
+            layer_file: Name of the file to read LayerViews, CustomDitherPatterns, and CustomLineStyles from.
         """
         from omegaconf import OmegaConf
 
-        layer_file = append_file_extension(layer_file, ".yml")
+        layer_file = pathlib.Path(append_file_extension(layer_file, ".yml"))
 
-        with open(layer_file) as lf:
-            layers = OmegaConf.to_container(OmegaConf.load(lf))
-        props = LayerViews(
-            layer_views={name: LayerView(**lv) for name, lv in layers.items()}
+        properties = OmegaConf.to_container(OmegaConf.load(layer_file.open()))
+
+        return LayerViews(
+            layer_views={
+                name: LayerView(**lv) for name, lv in properties["LayerViews"].items()
+            },
+            custom_dither_patterns={
+                name: CustomDitherPattern(name=name, **dp)
+                for name, dp in properties["CustomDitherPatterns"].items()
+            },
+            custom_line_styles={
+                name: CustomLineStyle(name=name, **ls)
+                for name, ls in properties["CustomLineStyles"].items()
+            },
         )
-        if pattern_file:
-            append_file_extension(pattern_file, ".yml")
-            props.custom_patterns = CustomPatterns.from_yaml(pattern_file)
-        return props
