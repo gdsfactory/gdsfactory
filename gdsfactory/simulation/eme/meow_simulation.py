@@ -4,159 +4,215 @@ import meow as mw
 import numpy as np
 import pandas as pd
 
+import gdsfactory as gf
 from gdsfactory.pdk import _ACTIVE_PDK
 from gdsfactory.simulation.gmsh.parse_layerstack import list_unique_layerstack_z
 from gdsfactory.tech import LAYER, LayerStack
-from gdsfactory.types import ComponentSpec
 
 
-def gf_material_to_meow_material(
-    material_name="si", wavelengths=np.linspace(1.5, 1.6, 101)
-):
-    ns = _ACTIVE_PDK.materials_index[material_name](wavelengths)
-    if ns.dtype in [np.float64, np.float32]:
-        nr = ns
-        ni = np.zeros_like(ns)
-    else:
-        nr = np.real(ns)
-        ni = np.imag(ns)
-    df = pd.DataFrame({"wl": wavelengths, "nr": nr, "ni": ni})
-    return mw.Material.from_df(material_name, df)
+class MEOW_simulation:
+    def __init__(
+        self,
+        component,
+        layerstack,
+        wavelength=1.55,
+        num_modes: int = 4,
+        num_cells: int = 10,
+        horiz_buffer: float = 2.0,
+        horiz_offset: float = 0,
+        horiz_res: int = 100,
+        vert_buffer: float = 2.0,
+        vert_offset: float = 0,
+        vert_res: int = 100,
+    ) -> None:
+        """Computes multimode 2-port S-parameters for a gdsfactory component, assuming port 1 is at the left boundary and port 2 at the right boundary.
 
+        Note coordinate systems:
+            gdsfactory uses x,y in the plane to represent components, with the layerstack existing in z
+            meow uses x,y to represent a cross-section, with propagation in the z-direction
+            hence we have [x,y,z] <--> [y,z,x] for gdsfactory <--> meow
 
-def add_global_layers(component, layerstack, xspan, global_layer_index=10000):
-    """Adds bbox polygons for global layers.
+        Arguments:
+            component: gdsfactory component
+            layerstack: gdsfactory layerstack
+            num_modes: number of modes to compute for the eigenmode expansion
+            wavelength: wavelength in microns (for FDE, and for material properties)
+            temperature: temperature in C (for material properties)
+            num_cells: number of component slices along the propagation direction for the EME
+            xbuffer: extra size of the horizontal cross-sectional simulation region (meow coordinates) w.r.t. bbox. Default 2.
+            xoffset: center of the horizontal cross-sectional simulation region  (meow coordinates)
+            xres: number of mesh points for the horizontal cross-sectional simulation region  (meow coordinates)
+            ybuffer: extra size of the vertical cross-sectional simulation region. Default is 0, resulting in total layerstack thickness.  (meow coordinates)
+            yoffset: center of the vertical cross-sectional simulation region  (meow coordinates)
+            yres: number of mesh points for the vertical cross-sectional simulation region  (meow coordinates)
+            validate_component: whether raise errors if the component ports are of the wrong number and orientation. Default True.
 
-    LAYER.WAFER layers are represented as polygons of size [bbox.x, xspan (meow coords)]
+        Returns:
+            S-parameters in form o1@0,o2@0 at wavelength
+        """
+        # Validate component
+        self.validate_component(component)
 
-    Arguments:
-        component: gdsfactory component
-        layerstack: gdsfactory LayerStack
-        xspan: from eme setup
-        global_layer_index: int, layer index at which to starting adding the global layers.
-                Default 10000 with +1 increments to avoid clashing with physical layers.
+        # Save parameters
+        self.wavelength = wavelength
+        self.num_modes = num_modes
+        self.num_cells = num_cells
+        self.temperature = 25  # unused for now
+        self.material_to_color = {
+            "si": (0.9, 0, 0, 0.9),
+            "sio2": (0.9, 0.9, 0.9, 0.9),
+            "sin": (0.0, 0.9, 0.0, 0.9),
+        }
 
-    """
-    c = gf.Component()
-    c.add_ref(component)
-    bbox = component.bbox
-    buffer_y = (xspan - np.diff(bbox[:, 1])) / 2 if xspan > np.diff(bbox[:, 1]) else 0
-    for layername, layer in layerstack.layers.items():
-        if layer.layer == LAYER.WAFER:
-            c.add_ref(
-                gf.components.bbox(
-                    bbox=(
-                        (bbox[0, 0], bbox[0, 1] - buffer_y),
-                        (bbox[1, 0], bbox[1, 1] + buffer_y),
+        # Process simulation bounds
+        self.horiz_span = np.diff(component.bbox[:, 1])[0] + horiz_buffer
+        zs = list_unique_layerstack_z(layerstack)
+        self.vert_span = np.max(zs) - np.min(zs) + vert_buffer
+        self.horiz_offset = horiz_offset
+        self.horiz_res = horiz_res
+        self.vert_offset = vert_offset
+        self.vert_res = vert_res
+
+        # Setup simulation
+        self.component, self.layerstack = self.add_global_layers(component, layerstack)
+        self.extrusion_rules = self.layerstack_to_extrusion()
+        self.structs = mw.extrude_gds(self.component, self.extrusion_rules)
+        self.cells = self.get_eme_cells()
+        self.env = mw.Environment(wl=self.wavelength, T=self.temperature)
+        self.css = [mw.CrossSection(cell=cell, env=self.env) for cell in self.cells]
+        self.modes = None
+
+    def gf_material_to_meow_material(
+        self, material_name="si", wavelengths=np.linspace(1.5, 1.6, 101), color=None
+    ):
+        color = color or (0.9, 0.9, 0.9, 0.9)
+        ns = _ACTIVE_PDK.materials_index[material_name](wavelengths)
+        if ns.dtype in [np.float64, np.float32]:
+            nr = ns
+            ni = np.zeros_like(ns)
+        else:
+            nr = np.real(ns)
+            ni = np.imag(ns)
+        df = pd.DataFrame({"wl": wavelengths, "nr": nr, "ni": ni})
+        return mw.Material.from_df(
+            material_name,
+            df,
+            meta={"color": color},
+        )
+
+    def add_global_layers(
+        self, component, layerstack, buffer_y=1, global_layer_index=10000
+    ):
+        """Adds bbox polygons for global layers.
+
+        LAYER.WAFER layers are represented as polygons of size [bbox.x, xspan (meow coords)]
+
+        Arguments:
+            component: gdsfactory component
+            layerstack: gdsfactory LayerStack
+            xspan: from eme setup
+            global_layer_index: int, layer index at which to starting adding the global layers.
+                    Default 10000 with +1 increments to avoid clashing with physical layers.
+
+        """
+        c = gf.Component()
+        c.add_ref(component)
+        bbox = component.bbox
+        for layername, layer in layerstack.layers.items():
+            if layer.layer == LAYER.WAFER:
+                c.add_ref(
+                    gf.components.bbox(
+                        bbox=(
+                            (bbox[0, 0], bbox[0, 1] - buffer_y),
+                            (bbox[1, 0], bbox[1, 1] + buffer_y),
+                        ),
+                        layer=(global_layer_index, 0),
+                    )
+                )
+                layer.layer = (global_layer_index, 0)
+                global_layer_index += 1
+            else:
+                layerstack.layers[layername] = layer
+
+        return c, layerstack
+
+    def layerstack_to_extrusion(self):
+        """Convert LayerStack to meow extrusions."""
+        extrusions = {}
+        for layername, layer in self.layerstack.layers.items():
+            if layer.layer not in extrusions.keys():
+                extrusions[layer.layer] = []
+            extrusions[layer.layer].append(
+                mw.GdsExtrusionRule(
+                    material=self.gf_material_to_meow_material(
+                        layer.material,
+                        np.array([self.wavelength]),
+                        color=self.material_to_color.get(layer.material),
                     ),
-                    layer=(global_layer_index, 0),
+                    h_min=layer.zmin,
+                    h_max=layer.zmin + layer.thickness,
+                    mesh_order=layer.info["mesh_order"],
                 )
             )
-            layer.layer = (global_layer_index, 0)
-            global_layer_index += 1
-        else:
-            layerstack.layers[layername] = layer
-    return c, layerstack
+        return extrusions
 
+    def get_eme_cells(
+        self,
+        num_cells: int = 10,
+        xspan: float = 2.0,
+        xoffset: float = 0,
+        xres: int = 100,
+        yspan: float = 2.0,
+        yoffset: float = 0,
+        yres: int = 100,
+    ):
+        """Get meow cells from extruded component.
 
-def layerstack_to_extrusion(layerstack: LayerStack, wavelength):
-    """Convert LayerStack to meow extrusions."""
-    extrusions = {}
-    for layername, layer in layerstack.layers.items():
-        if layer.layer not in extrusions.keys():
-            extrusions[layer.layer] = []
-        extrusions[layer.layer].append(
-            mw.GdsExtrusionRule(
-                material=gf_material_to_meow_material(
-                    layer.material, np.array([wavelength])
+        Arguments:
+            structs: meow structs
+            extrusion rules: from layerstack_to_extrusion
+            num_cells: number of slices
+            xspan: size of the horizontal cross-sectional simulation region
+            xoffset: center of the horizontal cross-sectional simulation region
+            xres: number of mesh points for the horizontal cross-sectional simulation region
+            yspan: size of the vertical cross-sectional simulation region
+            yoffset: center of the vertical cross-sectional simulation region
+            yres: number of mesh points for the vertical cross-sectional simulation region
+        """
+        bbox = self.component.bbox
+        Ls = [np.diff(bbox[:, 0]).item() / num_cells for _ in range(num_cells)]
+        return mw.create_cells(
+            structures=self.structs,
+            mesh=mw.Mesh2d(
+                x=np.linspace(
+                    self.horiz_offset - self.horiz_span / 2,
+                    self.horiz_offset + self.horiz_span / 2,
+                    self.horiz_res,
                 ),
-                h_min=layer.zmin,
-                h_max=layer.zmin + layer.thickness,
-                mesh_order=layer.info["mesh_order"],
-            )
+                y=np.linspace(
+                    self.vert_offset - self.vert_span / 2,
+                    self.vert_offset + self.vert_span / 2,
+                    self.vert_res,
+                ),
+            ),
+            Ls=Ls,
         )
-    return extrusions
 
+    def plot_structure(self, scale=(1, 1, 0.2)):
+        return mw.visualize(self.structs, scale=scale)
 
-def get_eme_cells(
-    component,
-    extrusion_rules,
-    num_cells: int = 10,
-    xspan: float = 2.0,
-    xoffset: float = 0,
-    xres: int = 100,
-    yspan: float = 2.0,
-    yoffset: float = 0,
-    yres: int = 100,
-):
-    """Get meow cells from extruded component.
+    def plot_cross_section(self, xs_num):
+        env = mw.Environment(wl=self.wavelength, T=self.temperature)
+        css = [mw.CrossSection(cell=cell, env=env) for cell in self.cells]
+        return mw.visualize(css[xs_num])
 
-    Arguments:
-        structs: meow structs
-        extrusion rules: from layerstack_to_extrusion
-        num_cells: number of slices
-        xspan: size of the horizontal cross-sectional simulation region
-        xoffset: center of the horizontal cross-sectional simulation region
-        xres: number of mesh points for the horizontal cross-sectional simulation region
-        yspan: size of the vertical cross-sectional simulation region
-        yoffset: center of the vertical cross-sectional simulation region
-        yres: number of mesh points for the vertical cross-sectional simulation region
-    """
-    structs = mw.extrude_gds(component, extrusion_rules)
-    bbox = component.bbox
-    Ls = [np.diff(bbox[:, 0]).item() / num_cells for _ in range(num_cells)]
-    return mw.create_cells(
-        structures=structs,
-        mesh=mw.Mesh2d(
-            x=np.linspace(xoffset - xspan / 2, xoffset + xspan / 2, xres),
-            y=np.linspace(yoffset - yspan / 2, yoffset + yspan / 2, yres),
-        ),
-        Ls=Ls,
-    )
+    def plot_modes(self, xs_num, mode_num):
+        if not self.modes:
+            self.compute_modes()
+        modes = self.modes[xs_num]
+        mw.visualize(modes[mode_num])
 
-
-def meow_calculation(
-    component: ComponentSpec,
-    layerstack: LayerStack,
-    num_modes: int = 4,
-    wavelength: float = 1.55,
-    temperature: float = 25.0,
-    num_cells: int = 10,
-    xspan: float = None,
-    xoffset: float = 0.0,
-    xres: int = 100,
-    yspan: float = None,
-    yoffset: float = 0.0,
-    yres: int = 100,
-    validate_component: bool = True,
-):
-    """Computes multimode 2-port S-parameters for a gdsfactory component, assuming port 1 is at the left boundary and port 2 at the right boundary.
-
-    Note coordinate systems:
-        gdsfactory uses x,y in the plane to represent components, with the layerstack existing in z
-        meow uses x,y to represent a cross-section, with propagation in the z-direction
-        hence we have [x,y,z] <--> [y,z,x] for gdsfactory <--> meow
-
-    Arguments:
-        component: gdsfactory component
-        layerstack: gdsfactory layerstack
-        num_modes: number of modes to compute for the eigenmode expansion
-        wavelength: wavelength in microns (for FDE, and for material properties)
-        temperature: temperature in C (for material properties)
-        num_cells: number of component slices along the propagation direction for the EME
-        xspan: size of the horizontal cross-sectional simulation region (meow coordinates). Default is component.bbox[0, 1] + 2
-        xoffset: center of the horizontal cross-sectional simulation region  (meow coordinates)
-        xres: number of mesh points for the horizontal cross-sectional simulation region  (meow coordinates)
-        yspan: size of the vertical cross-sectional simulation region. Default is total layerstack thickness.  (meow coordinates)
-        yoffset: center of the vertical cross-sectional simulation region  (meow coordinates)
-        yres: number of mesh points for the vertical cross-sectional simulation region  (meow coordinates)
-        validate_component: whether raise errors if the component ports are of the wrong number and orientation. Default True.
-
-    Returns:
-        S-parameters in form o1@0,o2@0 at wavelength
-    """
-    # Check component validity
-    if validate_component:
+    def validate_component(self, component):
         optical_ports = [
             port
             for portname, port in component.ports.items()
@@ -171,62 +227,36 @@ def meow_calculation(
         elif component.ports["o2"].orientation != 0:
             raise ValueError("Component port o2 does not face eastward (0 deg).")
 
-    # Process simulation bounds
-    xspan = xspan or np.diff(component.bbox[:, 1])[0] + 2.0
-    zs = list_unique_layerstack_z(layerstack)
-    yspan = yspan or np.max(zs) - np.min(zs)
+    def compute_modes(self):
+        self.modes = [mw.compute_modes(cs, num_modes=self.num_modes) for cs in self.css]
 
-    # Preprocess component and layerstack
-    component, layerstack = add_global_layers(component, layerstack, xspan)
-    component.show()
-    extrusion_rules = layerstack_to_extrusion(layerstack, wavelength)
+    def compute_sparameters(self):
+        # Compute EME
+        if not self.modes:
+            self.compute_modes()
+        S, port_map = mw.compute_s_matrix(self.modes)
 
-    # Get EME cells
-    cells = get_eme_cells(
-        component,
-        extrusion_rules,
-        num_cells=num_cells,
-        xspan=xspan,
-        xoffset=xoffset,
-        xres=xres,
-        yspan=yspan,
-        yoffset=yoffset,
-        yres=yres,
-    )
+        # Convert coefficients to existing format
+        meow_to_gf_keys = {
+            "left": "o1",
+            "right": "o2",
+        }
+        sp = {}
+        for port1, port2 in permutations(port_map.values(), 2):
+            value = S[port1, port2]
+            meow_key1 = [k for k, v in port_map.items() if v == port1][0]
+            meow_port1, meow_mode1 = meow_key1.split("@")
+            meow_key2 = [k for k, v in port_map.items() if v == port2][0]
+            meow_port2, meow_mode2 = meow_key2.split("@")
+            sp[
+                f"{meow_to_gf_keys[meow_port1]}@{meow_mode1},{meow_to_gf_keys[meow_port2]}@{meow_mode2}"
+            ] = value
+        sp["wavelengths"] = self.wavelength
 
-    # Get EME cross-sections
-    env = mw.Environment(wl=wavelength, T=temperature)
-    css = [mw.CrossSection(cell=cell, env=env) for cell in cells]
-
-    # Compute modes
-    modes = [mw.compute_modes(cs, num_modes=num_modes) for cs in css]
-
-    # Compute EME
-    S, port_map = mw.compute_s_matrix(modes)
-
-    # Convert coefficients to existing format
-    meow_to_gf_keys = {
-        "left": "o1",
-        "right": "o2",
-    }
-    sp = {}
-    for port1, port2 in permutations(port_map.values(), 2):
-        value = S[port1, port2]
-        meow_key1 = [k for k, v in port_map.items() if v == port1][0]
-        meow_port1, meow_mode1 = meow_key1.split("@")
-        meow_key2 = [k for k, v in port_map.items() if v == port2][0]
-        meow_port2, meow_mode2 = meow_key2.split("@")
-        sp[
-            f"{meow_to_gf_keys[meow_port1]}@{meow_mode1},{meow_to_gf_keys[meow_port2]}@{meow_mode2}"
-        ] = value
-    sp["wavelengths"] = wavelength
-
-    return sp
+        return sp
 
 
 if __name__ == "__main__":
-
-    import gdsfactory as gf
 
     c = gf.components.taper_cross_section_linear()
     c.show()
@@ -245,8 +275,8 @@ if __name__ == "__main__":
         }
     )
 
-    sp = meow_calculation(component=c, layerstack=filtered_layerstack)
+    sp = MEOW_simulation(component=c, layerstack=filtered_layerstack, wavelength=1.55)
 
     import pprint
 
-    pprint.pprint(sp)
+    pprint.pprint(sp.compute_sparameters())
