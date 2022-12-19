@@ -81,7 +81,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          make gdslib plugins
+          make gdslib plugins-debian
           make install
       - name: Test with pytest
         env:
