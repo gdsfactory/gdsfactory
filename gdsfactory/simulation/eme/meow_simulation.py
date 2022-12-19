@@ -81,6 +81,8 @@ class MEOW_simulation:
         self.env = mw.Environment(wl=self.wavelength, T=self.temperature)
         self.css = [mw.CrossSection(cell=cell, env=self.env) for cell in self.cells]
         self.modes = [None] * num_cells
+        self.S = None
+        self.port_map = None
 
     def gf_material_to_meow_material(
         self, material_name="si", wavelengths=np.linspace(1.5, 1.6, 101), color=None
@@ -208,9 +210,18 @@ class MEOW_simulation:
 
     def plot_mode(self, xs_num, mode_num):
         if self.modes[xs_num] is None:
-            self.compute_modes(xs_num)
-        modes = self.modes[xs_num]
-        mw.visualize(modes[mode_num])
+            self.modes[xs_num] = self.compute_mode(xs_num)
+        return mw.visualize(self.modes[xs_num][mode_num])
+
+    def get_port_map(self):
+        if self.port_map is None:
+            self.compute_sparameters()
+        return self.port_map
+
+    def plot_Sparams(self):
+        if self.S is None:
+            self.compute_sparameters()
+        return mw.visualize(self.S)
 
     def validate_component(self, component):
         optical_ports = [
@@ -228,20 +239,18 @@ class MEOW_simulation:
             raise ValueError("Component port o2 does not face eastward (0 deg).")
 
     def compute_mode(self, xs_num):
-        self.modes[xs_num] = mw.compute_modes(
-            self.css[xs_num], num_modes=self.num_modes
-        )
+        return mw.compute_modes(self.css[xs_num], num_modes=self.num_modes)
 
     def compute_all_modes(self):
-        for xs_ind in range(self.xs_num):
-            if self.modes[xs_ind] is None:
-                self.modes[xs_ind] = self.compute_mode(self, xs_ind)
+        for xs_num in range(self.num_cells):
+            if self.modes[xs_num] is None:
+                self.modes[xs_num] = self.compute_mode(xs_num)
 
     def compute_sparameters(self):
         # Compute EME
-        if not self.modes:
-            self.compute_modes()
-        S, port_map = mw.compute_s_matrix(self.modes)
+        self.compute_all_modes()
+        if self.S is None or self.port_map is None:
+            self.S, self.port_map = mw.compute_s_matrix(self.modes)
 
         # Convert coefficients to existing format
         meow_to_gf_keys = {
@@ -249,11 +258,11 @@ class MEOW_simulation:
             "right": "o2",
         }
         sp = {}
-        for port1, port2 in permutations(port_map.values(), 2):
-            value = S[port1, port2]
-            meow_key1 = [k for k, v in port_map.items() if v == port1][0]
+        for port1, port2 in permutations(self.port_map.values(), 2):
+            value = self.S[port1, port2]
+            meow_key1 = [k for k, v in self.port_map.items() if v == port1][0]
             meow_port1, meow_mode1 = meow_key1.split("@")
-            meow_key2 = [k for k, v in port_map.items() if v == port2][0]
+            meow_key2 = [k for k, v in self.port_map.items() if v == port2][0]
             meow_port2, meow_mode2 = meow_key2.split("@")
             sp[
                 f"{meow_to_gf_keys[meow_port1]}@{meow_mode1},{meow_to_gf_keys[meow_port2]}@{meow_mode2}"
