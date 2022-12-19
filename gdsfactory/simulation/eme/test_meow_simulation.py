@@ -1,7 +1,7 @@
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.simulation.eme import meow_calculation
+from gdsfactory.simulation.eme import MEOW_simulation
 from gdsfactory.tech import LayerStack, get_layer_stack_generic
 
 
@@ -22,7 +22,9 @@ def test_meow_defaults():
         }
     )
 
-    sp = meow_calculation(component=c, layerstack=filtered_layerstack)
+    sp = MEOW_simulation(
+        component=c, layerstack=filtered_layerstack, wavelength=1.55
+    ).compute_sparameters()
 
     for key in sp.keys():
         if key == "wavelengths":
@@ -30,10 +32,10 @@ def test_meow_defaults():
         entry1, entry2 = key.split(",")
         port1, mode1 = entry1.split("@")
         port2, mode2 = entry2.split("@")
-        if port1 != port2 and mode1 == mode2:
-            assert np.abs(sp[key]) ** 2 > 0.7
-        else:
-            assert np.abs(sp[key]) ** 2 < 0.1
+        if port1 != port2 and mode1 == "0" and mode2 == "0":
+            assert np.abs(sp[key]) ** 2 > 0.9
+        elif port1 != port2 and mode1 == "1" and mode2 == "1":
+            assert np.abs(sp[key]) ** 2 > 0.2
 
 
 if __name__ == "__main__":
