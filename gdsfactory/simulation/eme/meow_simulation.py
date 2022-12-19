@@ -80,7 +80,7 @@ class MEOW_simulation:
         self.cells = self.get_eme_cells()
         self.env = mw.Environment(wl=self.wavelength, T=self.temperature)
         self.css = [mw.CrossSection(cell=cell, env=self.env) for cell in self.cells]
-        self.modes = None
+        self.modes = [None] * num_cells
 
     def gf_material_to_meow_material(
         self, material_name="si", wavelengths=np.linspace(1.5, 1.6, 101), color=None
@@ -206,9 +206,9 @@ class MEOW_simulation:
         css = [mw.CrossSection(cell=cell, env=env) for cell in self.cells]
         return mw.visualize(css[xs_num])
 
-    def plot_modes(self, xs_num, mode_num):
-        if not self.modes:
-            self.compute_modes()
+    def plot_mode(self, xs_num, mode_num):
+        if self.modes[xs_num] is None:
+            self.compute_modes(xs_num)
         modes = self.modes[xs_num]
         mw.visualize(modes[mode_num])
 
@@ -227,8 +227,15 @@ class MEOW_simulation:
         elif component.ports["o2"].orientation != 0:
             raise ValueError("Component port o2 does not face eastward (0 deg).")
 
-    def compute_modes(self):
-        self.modes = [mw.compute_modes(cs, num_modes=self.num_modes) for cs in self.css]
+    def compute_mode(self, xs_num):
+        self.modes[xs_num] = mw.compute_modes(
+            self.css[xs_num], num_modes=self.num_modes
+        )
+
+    def compute_all_modes(self):
+        for xs_ind in range(self.xs_num):
+            if self.modes[xs_ind] is None:
+                self.modes[xs_ind] = self.compute_mode(self, xs_ind)
 
     def compute_sparameters(self):
         # Compute EME
