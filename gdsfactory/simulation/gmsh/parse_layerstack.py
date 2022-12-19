@@ -64,9 +64,7 @@ def get_layer_overlaps_z(layerstack: LayerStack):
     intersection_z_dict = {}
     for z in z_grid:
         current_layers = {
-            layername
-            for layername, layer_zs in unique_z_dict.items()
-            if z in layer_zs
+            layername for layername, layer_zs in unique_z_dict.items() if z in layer_zs
         }
         intersection_z_dict[z] = current_layers
 
