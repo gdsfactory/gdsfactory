@@ -1,3 +1,4 @@
+"""Preprocessing involving only the LayerStack."""
 from __future__ import annotations
 
 import numpy as np
@@ -15,8 +16,8 @@ def list_unique_layerstack_z(
     Returns:
         Sorted set of z-coordinates for this layerstack
     """
-    thicknesses = list(layerstack.get_layer_to_thickness().values())
-    zmins = list(layerstack.get_layer_to_zmin().values())
+    thicknesses = [layer.thickness for layer in layerstack.layers.values()]
+    zmins = [layer.zmin for layer in layerstack.layers.values()]
     zmaxs = [sum(value) for value in zip(zmins, thicknesses)]
 
     return sorted(set(zmins + zmaxs))
@@ -38,7 +39,14 @@ def map_unique_layerstack_z(
     for layername, layer in layer_dict.items():
         zmin = layer["zmin"]
         zmax = layer["zmin"] + layer["thickness"]
-        unique_z_dict[layername] = {z for z in z_levels if (z >= zmin and z <= zmax)}
+        if zmax > zmin:
+            unique_z_dict[layername] = {
+                z for z in z_levels if (z >= zmin and z <= zmax)
+            }
+        else:
+            unique_z_dict[layername] = {
+                z for z in z_levels if (z >= zmax and z <= zmin)
+            }
 
     return unique_z_dict
 
@@ -55,10 +63,11 @@ def get_layer_overlaps_z(layerstack: LayerStack):
     unique_z_dict = map_unique_layerstack_z(layerstack)
     intersection_z_dict = {}
     for z in z_grid:
-        current_layers = set()
-        for layername, layer_zs in unique_z_dict.items():
-            if z in layer_zs:
-                current_layers.add(layername)
+        current_layers = {
+            layername
+            for layername, layer_zs in unique_z_dict.items()
+            if z in layer_zs
+        }
         intersection_z_dict[z] = current_layers
 
     return intersection_z_dict
@@ -93,12 +102,12 @@ def order_layerstack(layerstack: LayerStack):
         List of layernames: layerlevels dicts sorted by their mesh_order
     """
     layers = layerstack.to_dict()
-    mesh_orders = []
-    for value in layers.values():
-        if "mesh_order" in value["info"].keys():
-            mesh_orders.append(value["info"]["mesh_order"])
-    ordered_layers = [x for _, x in sorted(zip(mesh_orders, layers))]
-    return ordered_layers
+    mesh_orders = [
+        value["info"]["mesh_order"]
+        for value in layers.values()
+        if "mesh_order" in value["info"].keys()
+    ]
+    return [x for _, x in sorted(zip(mesh_orders, layers))]
 
 
 if __name__ == "__main__":
