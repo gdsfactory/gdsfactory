@@ -1,3 +1,5 @@
+from itertools import permutations
+
 import meow as mw
 import numpy as np
 
@@ -160,7 +162,24 @@ def eme_calculation(
     # Compute EME
     S, port_map = mw.compute_s_matrix(modes)
 
-    return S, port_map
+    # Convert coefficients to existing format
+    meow_to_gf_keys = {
+        "left": "o1",
+        "right": "o2",
+    }
+    sp = {}
+    for port1, port2 in permutations(port_map.values(), 2):
+        value = S[port1, port2]
+        meow_key1 = [k for k, v in port_map.items() if v == port1][0]
+        meow_port1, meow_mode1 = meow_key1.split("@")
+        meow_key2 = [k for k, v in port_map.items() if v == port2][0]
+        meow_port2, meow_mode2 = meow_key2.split("@")
+        sp[
+            f"{meow_to_gf_keys[meow_port1]}@{meow_mode1},{meow_to_gf_keys[meow_port2]}@{meow_mode2}"
+        ] = value
+    sp["wavelengths"] = wavelength
+
+    return sp
 
 
 if __name__ == "__main__":
@@ -184,4 +203,8 @@ if __name__ == "__main__":
         }
     )
 
-    print(eme_calculation(component=c, layerstack=filtered_layerstack))
+    sp = eme_calculation(component=c, layerstack=filtered_layerstack)
+
+    import pprint
+
+    pprint.pprint(sp)
