@@ -34,7 +34,6 @@ def bezier_curve(t: ndarray, control_points: Coordinates) -> ndarray:
 
 @gf.cell
 def bezier(
-    width: float = 0.5,
     control_points: Coordinates = ((0.0, 0.0), (5.0, 0.0), (5.0, 2.0), (10.0, 2.0)),
     npoints: int = 201,
     with_manhattan_facing_angles: bool = True,
@@ -47,7 +46,6 @@ def bezier(
     """Returns Bezier bend.
 
     Args:
-        width: straight width (um).
         control_points: list of points.
         npoints: number of points varying between 0 and 1.
         with_manhattan_facing_angles: bool.
