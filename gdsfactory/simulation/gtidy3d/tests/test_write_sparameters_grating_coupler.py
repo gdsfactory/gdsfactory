@@ -36,13 +36,13 @@ def test_sparameters_grating_coupler(overwrite=True) -> None:
 
 
 if __name__ == "__main__":
-    overwrite = False
+    overwrite = True
     c = gf.components.grating_coupler_elliptical_arbitrary(
         widths=[0.343] * 25, gaps=[0.345] * 25
     )
 
     fiber_angle_deg = 20
-    offsets = [0]
+    offsets = [0, 1]
     dfs = [
         gt.write_sparameters_grating_coupler(
             component=c,

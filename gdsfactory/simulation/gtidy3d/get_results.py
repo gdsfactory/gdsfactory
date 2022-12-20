@@ -67,7 +67,7 @@ def _get_results(
 
     # Run simulation if results not found in local or server storage
     logger.info(f"sending task_name {task_name!r} to tidy3d server.")
-    return job.run(path=filepath, monitor=False)
+    return job.run(path=filepath)
 
 
 def get_results(
