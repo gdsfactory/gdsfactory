@@ -112,7 +112,7 @@ def merge_gds(
 @click.argument("path", type=click.Path(exists=True), required=False, default=cwd)
 @click.command()
 def watch(path=cwd) -> None:
-    """Filewatch YAML file."""
+    """Filewatch a folder for changes in python or pic.yaml files."""
     from gdsfactory.watch import watch
 
     path = pathlib.Path(path)
