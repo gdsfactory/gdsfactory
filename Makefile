@@ -4,7 +4,7 @@ help:
 	@echo 'make test-force:       Rebuilds regression test'
 
 full: gdslib
-	pip install -e .[docs,dev,full,tidy3d,sipann,devsim,meow]
+	pip install -e .[docs,dev,full,gmsh,tidy3d,devsim,meow,sax]
 
 install: gdslib
 	pip install -e .[dev,full]
@@ -27,18 +27,13 @@ major:
 	python docs/write_components_doc.py
 
 plugins:
-	pip install -e .[tidy3d,sipann]
+	pip install -e .[tidy3d]
 	pip install jax jaxlib
 	mamba install pymeep=*=mpi_mpich_* -y
 	pip install --upgrade "protobuf<=3.20.1"
 
-plugins-debian:
+plugins-debian: plugins
 	sudo apt-get install -y python3-gmsh
-	sudo apt install libgl1-mesa-glx -y
-	pip install -e .[tidy3d,sipann]
-	pip install jax jaxlib
-	mamba install pymeep=*=mpi_mpich_* -y
-	pip install --upgrade "protobuf<=3.20.1"
 
 thermal:
 	mamba install python-gmsh
@@ -84,7 +79,8 @@ test-gmsh:
 	pytest gdsfactory/simulation/gmsh
 
 test-plugins:
-	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes gdsfactory/simulation/lumerical gdsfactory/simulation/simphony gdsfactory/simulation/gtidy3d gdsfactory/simulation/gmsh
+	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes gdsfactory/simulation/lumerical gdsfactory/simulation/gtidy3d gdsfactory/simulation/gmsh
+	pip list > requirements.txt
 
 test-notebooks:
 	py.test --nbval notebooks

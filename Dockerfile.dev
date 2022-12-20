@@ -30,10 +30,7 @@ RUN conda init bash
 RUN mamba install gdstk -y
 RUN mamba install gdspy -y
 RUN mamba install pymeep=*=mpi_mpich_* -y
-RUN pip install jax jaxlib
 
-RUN pip install gdsfactory[tidy3d]
-RUN pip install gdsfactory[full]
-RUN pip install gdsfactory[sipann]
+RUN pip install gdsfactory[full,gmsh,tidy3d,devsim,meow,sax]
 WORKDIR /home/jovyan
 # VOLUME /home/jovyan/work

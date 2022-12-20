@@ -98,7 +98,7 @@ def _expand_raster(raster, distance=(4, 2)):
     )
     neighborhood[rr, cc] = 1
 
-    return morphology.binary_dilation(image=raster, selem=neighborhood)
+    return morphology.binary_dilation(image=raster, footprint=neighborhood)
 
 
 @cell
@@ -207,9 +207,9 @@ def fill_rectangle(
             key: exclude_polys[key] for key in exclude_polys if key in avoid_layers
         }
 
-    exclude_polys = np.array(
-        [polygon.points for polygons in exclude_polys.values() for polygon in polygons]
-    )
+    exclude_polys = [
+        polygon.points for polygons in exclude_polys.values() for polygon in polygons
+    ]
 
     if include_layers is None:
         include_polys = []
@@ -265,10 +265,10 @@ def test_fill():
 
 
 if __name__ == "__main__":
-    c = test_fill()
-    c.show()
+    # c = test_fill()
+    # c.show()
 
-    # import gdsfactory as gf
+    import gdsfactory as gf
 
     # c = gf.components.straight()
     # c = gf.add_padding_container(c, default=15)
@@ -276,37 +276,33 @@ if __name__ == "__main__":
     #     c,
     #     fill_layers=((2, 0),),
     #     # fill_densities=(1.0,),
-    #     fill_densities=0.5,
+    #     # fill_densities=0.5,
     #     # avoid_layers=((1, 0),),
     #     # bbox=(100.0, 100.0),
     # )
     # c.show(show_ports=True)
-
     # import gdsfactory as gf
-
     # coupler_lengths = [10, 20, 30, 40, 50, 60, 70, 80]
     # coupler_gaps = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
     # delta_lengths = [10, 100, 200, 300, 400, 500, 500]
-
     # mzi = gf.components.mzi_lattice(
     #     coupler_lengths=coupler_lengths,
     #     coupler_gaps=coupler_gaps,
     #     delta_lengths=delta_lengths,
     # )
-
     # # Add fill
-    # mzi = gf.components.mzi()
-    # c = gf.Component("component_with_fill")
-    # layers = [(1, 0)]
-    # fill_size = [0.5, 0.5]
+    mzi = gf.components.mzi()
+    c = gf.Component("component_with_fill")
+    layers = [(1, 0)]
+    fill_size = [0.5, 0.5]
 
-    # c << gf.fill_rectangle(
-    #     mzi,
-    #     fill_size=fill_size,
-    #     fill_layers=layers,
-    #     margin=5,
-    #     fill_densities=[0.8] * len(layers),
-    #     avoid_layers=layers,
-    # )
-    # c << mzi
-    # c.show(show_ports=True)
+    c << gf.fill_rectangle(
+        mzi,
+        fill_size=fill_size,
+        fill_layers=layers,
+        margin=5,
+        fill_densities=[0.8] * len(layers),
+        avoid_layers=layers,
+    )
+    c << mzi
+    c.show(show_ports=True)
