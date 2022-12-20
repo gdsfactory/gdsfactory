@@ -100,7 +100,8 @@ def get_index(
 
 def test_index() -> None:
     n = get_index(name="sin")
-    assert np.isclose(n, 1.9962797317138816)
+    n_reference = 1.9983425877199599
+    assert np.isclose(n, n_reference), n
 
 
 si = partial(get_index, name="Si")
@@ -108,5 +109,6 @@ sio2 = partial(get_index, name="SiO2")
 
 
 if __name__ == "__main__":
-    n = get_index(name="Si", wavelength=1.31)
+    test_index()
+    # n = get_index(name="Si", wavelength=1.31)
     # print(n, type(n))
