@@ -73,24 +73,27 @@ def ring_crow(
 
     # Cascade rings
     cum_y_dist = input_straight_width / 2
+
     for index, (gap, r, bend, cross_section) in enumerate(
         zip(gaps, radius, bends, ring_cross_sections)
     ):
         gap = gf.snap.snap_to_grid(gap, nm=2)
-        ring = Component()
+        ring = Component(f"ring{index}")
+
         bend_c = gf.get_component(bend, radius=r, cross_section=cross_section)
         xs = gf.get_cross_section(cross_section)
         bend_width = xs.width
-        bend1 = c.add_ref(bend_c, alias=f"bot_right_bend_ring_{index}")
-        bend2 = c.add_ref(bend_c, alias=f"top_right_bend_ring_{index}")
-        bend3 = c.add_ref(bend_c, alias=f"top_left_bend_ring_{index}")
-        bend4 = c.add_ref(bend_c, alias=f"bot_left_bend_ring_{index}")
+        bend1 = ring.add_ref(bend_c, alias=f"bot_right_bend_ring_{index}")
+        bend2 = ring.add_ref(bend_c, alias=f"top_right_bend_ring_{index}")
+        bend3 = ring.add_ref(bend_c, alias=f"top_left_bend_ring_{index}")
+        bend4 = ring.add_ref(bend_c, alias=f"bot_left_bend_ring_{index}")
 
         bend2.connect("o1", bend1.ports["o2"])
         bend3.connect("o1", bend2.ports["o2"])
         bend4.connect("o1", bend3.ports["o2"])
 
-        ring_ref = c.add_ref(ring).movey(cum_y_dist + gap + bend_width / 2)
+        ring_ref = c.add_ref(ring)
+        ring_ref.movey(cum_y_dist + gap + bend_width / 2)
         c.absorb(ring_ref)
         cum_y_dist += gap + bend_width + 2 * r
 
