@@ -1,4 +1,5 @@
 from itertools import permutations
+from typing import List
 
 import meow as mw
 import numpy as np
@@ -9,13 +10,20 @@ from gdsfactory.pdk import _ACTIVE_PDK
 from gdsfactory.simulation.gmsh.parse_layerstack import list_unique_layerstack_z
 from gdsfactory.tech import LAYER, LayerStack
 
+material_to_color_default = {
+    "si": (0.9, 0, 0, 0.9),
+    "sio2": (0.9, 0.9, 0.9, 0.9),
+    "sin": (0.0, 0.9, 0.0, 0.9),
+}
+
 
 class MEOW:
     def __init__(
         self,
         component,
         layerstack,
-        wavelength=1.55,
+        wavelength: float = 1.55,
+        temperature: float = 25,
         num_modes: int = 4,
         num_cells: int = 10,
         horiz_buffer: float = 2.0,
@@ -24,6 +32,7 @@ class MEOW:
         vert_buffer: float = 2.0,
         vert_offset: float = 0,
         vert_res: int = 100,
+        material_to_color=material_to_color_default,
     ) -> None:
         """Computes multimode 2-port S-parameters for a gdsfactory component, assuming port 1 is at the left boundary and port 2 at the right boundary.
 
@@ -33,22 +42,15 @@ class MEOW:
             hence we have [x,y,z] <--> [y,z,x] for gdsfactory <--> meow
 
         Arguments:
-            component: gdsfactory component
-            layerstack: gdsfactory layerstack
-            num_modes: number of modes to compute for the eigenmode expansion
-            wavelength: wavelength in microns (for FDE, and for material properties)
-            temperature: temperature in C (for material properties)
-            num_cells: number of component slices along the propagation direction for the EME
-            xbuffer: extra size of the horizontal cross-sectional simulation region (meow coordinates) w.r.t. bbox. Default 2.
-            xoffset: center of the horizontal cross-sectional simulation region  (meow coordinates)
-            xres: number of mesh points for the horizontal cross-sectional simulation region  (meow coordinates)
-            ybuffer: extra size of the vertical cross-sectional simulation region. Default is 0, resulting in total layerstack thickness.  (meow coordinates)
-            yoffset: center of the vertical cross-sectional simulation region  (meow coordinates)
-            yres: number of mesh points for the vertical cross-sectional simulation region  (meow coordinates)
-            validate_component: whether raise errors if the component ports are of the wrong number and orientation. Default True.
+            component: gdsfactory component.
+            layerstack: gdsfactory layerstack.
+            wavelength: wavelength in microns (for FDE, and for material properties).
+            temperature: temperature in C (for material properties).
+            num_modes: number of modes to compute for the eigenmode expansion.
+            num_cells: number of component slices along the propagation direction for the EME.
 
         Returns:
-            S-parameters in form o1@0,o2@0 at wavelength
+            S-parameters in form o1@0,o2@0 at wavelength.
         """
         # Validate component
         self.validate_component(component)
@@ -57,12 +59,8 @@ class MEOW:
         self.wavelength = wavelength
         self.num_modes = num_modes
         self.num_cells = num_cells
-        self.temperature = 25  # unused for now
-        self.material_to_color = {
-            "si": (0.9, 0, 0, 0.9),
-            "sio2": (0.9, 0.9, 0.9, 0.9),
-            "sin": (0.0, 0.9, 0.0, 0.9),
-        }
+        self.temperature = temperature  # unused for now
+        self.material_to_color = material_to_color
 
         # Process simulation bounds
         self.horiz_span = np.diff(component.bbox[:, 1])[0] + horiz_buffer
@@ -85,7 +83,7 @@ class MEOW:
         self.port_map = None
 
     def gf_material_to_meow_material(
-        self, material_name="si", wavelengths=None, color=None
+        self, material_name: str = "si", wavelengths=None, color=None
     ):
         wavelengths = wavelengths or np.linspace(1.5, 1.6, 101)
         color = color or (0.9, 0.9, 0.9, 0.9)
@@ -104,16 +102,20 @@ class MEOW:
         )
 
     def add_global_layers(
-        self, component, layerstack, buffer_y=1, global_layer_index=10000
+        self,
+        component,
+        layerstack,
+        buffer_y: float = 1,
+        global_layer_index: int = 10000,
     ):
         """Adds bbox polygons for global layers.
 
         LAYER.WAFER layers are represented as polygons of size [bbox.x, xspan (meow coords)]
 
         Arguments:
-            component: gdsfactory component
-            layerstack: gdsfactory LayerStack
-            xspan: from eme setup
+            component: gdsfactory component.
+            layerstack: gdsfactory LayerStack.
+            xspan: from eme setup.
             global_layer_index: int, layer index at which to starting adding the global layers.
                     Default 10000 with +1 increments to avoid clashing with physical layers.
 
@@ -157,28 +159,11 @@ class MEOW:
             )
         return extrusions
 
-    def get_eme_cells(
-        self,
-        num_cells: int = 10,
-        xspan: float = 2.0,
-        xoffset: float = 0,
-        xres: int = 100,
-        yspan: float = 2.0,
-        yoffset: float = 0,
-        yres: int = 100,
-    ):
+    def get_eme_cells(self, num_cells: int = 10) -> List[mw.Cell]:
         """Get meow cells from extruded component.
 
         Arguments:
-            structs: meow structs
-            extrusion rules: from layerstack_to_extrusion
-            num_cells: number of slices
-            xspan: size of the horizontal cross-sectional simulation region
-            xoffset: center of the horizontal cross-sectional simulation region
-            xres: number of mesh points for the horizontal cross-sectional simulation region
-            yspan: size of the vertical cross-sectional simulation region
-            yoffset: center of the vertical cross-sectional simulation region
-            yres: number of mesh points for the vertical cross-sectional simulation region
+            num_cells: number of slices.
         """
         bbox = self.component.bbox
         Ls = [np.diff(bbox[:, 0]).item() / num_cells for _ in range(num_cells)]
