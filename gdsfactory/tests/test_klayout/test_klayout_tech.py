@@ -3,7 +3,11 @@ from __future__ import annotations
 from pytest_regressions.data_regression import DataRegressionFixture
 
 from gdsfactory.config import PATH
-from gdsfactory.klayout_tech import LayerDisplayProperties
+
+try:
+    from gdsfactory.klayout_tech import LayerDisplayProperties
+except Exception:
+    print("klayout not installed")
 
 
 def test_klayout_tech_create(

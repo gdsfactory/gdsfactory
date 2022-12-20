@@ -6,7 +6,6 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 from pydantic import BaseModel
 
-from gdsfactory.klayout_tech import LayerDisplayProperties
 from gdsfactory.materials import MaterialSpec
 
 module_path = pathlib.Path(__file__).parent.absolute()
@@ -195,7 +194,7 @@ class LayerStack(BaseModel):
         self,
         klayout28: bool = True,
         print_to_console: bool = True,
-        layer_display_properties: Optional[LayerDisplayProperties] = None,
+        layer_display_properties=None,
         dbu: Optional[float] = 0.001,
     ) -> str:
         """Prints script for 2.5 view KLayout information.
