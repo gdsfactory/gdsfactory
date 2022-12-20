@@ -12,7 +12,7 @@ def test_sparameters_straight(overwrite=True) -> None:
     sp = gt.write_sparameters_1x1(c, overwrite=overwrite, is_3d=False)
 
     # Check reasonable reflection/transmission
-    assert 1 > np.abs(sp["o1@0,o2@0"]).min() > 0.89, np.abs(sp["o1@0,o2@0"]).min()
+    assert 1 > np.abs(sp["o1@0,o2@0"]).min() > 0.8, np.abs(sp["o1@0,o2@0"]).min()
     assert 0 < np.abs(sp["o1@0,o1@0"]).max() < 0.1, np.abs(sp["o1@0,o1@0"]).max()
 
     # assert np.allclose(sp["o2@0,o1@0"], 1, atol=1e-02), sp["o2@0,o1@0"]
@@ -28,8 +28,8 @@ if __name__ == "__main__":
 
     overwrite = False
     c = gf.components.straight(length=3)
-    sp = gt.write_sparameters_1x1(c, overwrite=overwrite, is_3d=True)
+    sp = gt.write_sparameters_1x1(c, overwrite=overwrite, is_3d=False)
 
     # Check reasonable reflection/transmission
-    assert 1 > np.abs(sp["o1@0,o2@0"]).min() > 0.89, np.abs(sp["o1@0,o2@0"]).min()
+    assert 1 > np.abs(sp["o1@0,o2@0"]).min() > 0.8, np.abs(sp["o1@0,o2@0"]).min()
     assert 0 < np.abs(sp["o1@0,o1@0"]).max() < 0.1, np.abs(sp["o1@0,o1@0"]).max()

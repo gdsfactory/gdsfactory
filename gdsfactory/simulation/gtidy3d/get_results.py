@@ -67,8 +67,7 @@ def _get_results(
 
     # Run simulation if results not found in local or server storage
     logger.info(f"sending task_name {task_name!r} to tidy3d server.")
-    job.start()
-    return job.load(path=filepath)
+    return job.run(path=filepath, monitor=False)
 
 
 def get_results(
@@ -76,7 +75,7 @@ def get_results(
     dirpath=PATH.results_tidy3d,
     overwrite: bool = True,
 ) -> Awaitable[td.SimulationData]:
-    """Return a List of SimulationData from a list of Simulation.
+    """Return a List of SimulationData from a Simulation.
 
     Works with Pool of threads.
     Each thread can run in parallel and only becomes blocking when you ask
@@ -97,6 +96,31 @@ def get_results(
 
     """
     return _executor.submit(_get_results, sim, dirpath, overwrite)
+
+
+def get_results_batch(
+    sims: td.Simulation,
+    dirpath=PATH.results_tidy3d,
+) -> td.BatchData:
+    """Return a  a list of Simulation.
+
+    Args:
+        sims: List[Simulation]
+        dirpath: to store results locally
+        overwrite: overwrites the data even if path exists. Keep True.
+
+    .. code::
+        import gdsfactory.simulation.tidy3d as gt
+
+        component = gf.components.straight(length=3)
+        sim = gt.get_simulation(component=component)
+        sim_data = gt.get_results(sim) # threaded
+        sim_data = sim_data.result() # waits for results
+
+    """
+    task_names = [get_sim_hash(sim) for sim in sims]
+    batch = web.Batch(simulations=dict(zip(task_names, sims)))
+    return batch.run(path_dir=dirpath)
 
 
 if __name__ == "__main__":
