@@ -128,15 +128,15 @@ def write_sparameters_grating_coupler(
     port_name_input = port_waveguide_name
     port_name_output = fiber_port_name
 
-    key = f"s{port_name_input}@0,{port_name_input}@0"
+    key = f"{port_name_input}@0,{port_name_input}@0"
     sp = {"wavelengths": td.constants.C_0 / freqs.values, key: r}
-    key = f"s{port_name_output}@0,{port_name_output}@0"
+    key = f"{port_name_output}@0,{port_name_output}@0"
     sp[key] = r
 
-    key = f"s{port_name_input}@0,{port_name_output}@0"
+    key = f"{port_name_input}@0,{port_name_output}@0"
     sp[key] = t
 
-    key = f"s{port_name_output}@0,{port_name_input}@0"
+    key = f"{port_name_output}@0,{port_name_input}@0"
     sp[key] = t
 
     end = time.time()

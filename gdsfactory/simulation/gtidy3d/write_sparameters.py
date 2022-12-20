@@ -75,7 +75,7 @@ def write_sparameters(
     run: bool = True,
     overwrite: bool = False,
     **kwargs,
-) -> np.ndarray:
+) -> Dict[str, np.ndarray]:
     """Get full sparameter matrix from a gdsfactory Component.
 
     Simulates each time using a different input port (by default, all of them)
@@ -161,7 +161,7 @@ def write_sparameters(
     filepath_sim_settings = filepath.with_suffix(".yml")
     if filepath.exists() and not overwrite and run:
         logger.info(f"Simulation loaded from {filepath!r}")
-        return np.load(filepath)
+        return dict(np.load(filepath))
 
     port_symmetries = port_symmetries or {}
     component_ref = component.ref()
@@ -184,22 +184,24 @@ def write_sparameters(
         return sp
 
     start = time.time()
-    batch_data = get_results(sims, overwrite=overwrite)
 
     def get_sparameter(
         port_name_source: str,
-        sim_data: td.SimulationData,
+        component: gf.Component,
         port_symmetries=port_symmetries,
         **kwargs,
-    ) -> np.ndarray:
+    ) -> Dict[str, np.ndarray]:
         """Return Component sparameter for a particular port Index n.
 
         Args:
             port_name: source port name.
-            sim_data: simulation data.
+            component: to simulate.
             port_symmetries: to save simulations.
             kwargs: simulation settings.
         """
+        sim_data = get_results(sim, overwrite=overwrite)
+        sim_data = sim_data.result()
+
         source_entering, source_exiting = parse_port_eigenmode_coeff(
             port_name=port_name_source, ports=component_ref.ports, sim_data=sim_data
         )
@@ -221,10 +223,16 @@ def write_sparameters(
 
         return sp
 
-    for port_source_name, (_sim_name, sim_data) in zip(
-        port_source_names, batch_data.items()
-    ):
-        sp.update(get_sparameter(port_source_name, sim_data))
+    # Compute each Sparameter on a separate thread
+    sparameters = [
+        _executor.submit(
+            get_sparameter, port_source_name, component, port_symmetries, **kwargs
+        )
+        for port_source_name in port_source_names
+    ]
+
+    for sparameter in sparameters:
+        sp.update(sparameter.result())
 
     end = time.time()
     np.savez_compressed(filepath, **sp)
