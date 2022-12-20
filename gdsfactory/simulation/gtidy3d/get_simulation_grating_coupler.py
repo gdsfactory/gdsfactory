@@ -36,7 +36,6 @@ def get_simulation_grating_coupler(
     port_waveguide_name: str = "o1",
     port_margin: float = 0.5,
     port_waveguide_offset: float = 0.1,
-    distance_source_to_monitors: float = 0.2,
     wavelength: Optional[float] = 1.55,
     wavelength_start: float = 1.20,
     wavelength_stop: float = 1.80,
@@ -47,7 +46,7 @@ def get_simulation_grating_coupler(
     fiber_port_name: str = "vertical_te",
     fiber_xoffset: float = 0,
     fiber_z: float = 2,
-    fiber_mfd: float = 5.2,
+    fiber_mfd: float = 10.4,
     fiber_angle_deg: float = 20.0,
     material_name_to_tidy3d: Optional[Dict[str, str]] = None,
     is_3d: bool = True,
@@ -135,7 +134,6 @@ def get_simulation_grating_coupler(
         substrate_thickness: (um).
         port_waveguide_name: input port name.
         port_margin: margin on each side of the port.
-        distance_source_to_monitors: in (um) source goes before monitors.
         port_waveguide_offset: mode solver workaround.
             positive moves source forward, negative moves source backward.
         wavelength: source center wavelength (um).
@@ -150,7 +148,7 @@ def get_simulation_grating_coupler(
         fiber_port_name: for the component.
         fiber_xoffset: fiber center xoffset to fiber_port_name.
         fiber_z: fiber zoffset from grating zmax.
-        fiber_mfd: fiber mode field diameter (um).
+        fiber_mfd: fiber mode field diameter (um). 10.4 for Cband and 9.2um for Oband.
         fiber_angle_deg: fiber_angle in degrees with respect to normal.
             Positive for west facing, Negative for east facing sources.
         material_name_to_tidy3d: dispersive materials have a wavelength

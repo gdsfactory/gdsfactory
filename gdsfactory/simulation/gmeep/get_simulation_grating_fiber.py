@@ -77,7 +77,7 @@ def get_simulation_grating_fiber(
         gaps: Optional list of gaps. Overrides period, fill_factor, n_periods.
         fiber_angle_deg: fiber angle in degrees.
         fiber_xposition: xposition.
-        fiber_core_diameter: fiber diameter.
+        fiber_core_diameter: fiber diameter. 10.4 for Cband and 9.2um for Oband.
         fiber_numerical_aperture: NA.
         fiber_nclad: fiber cladding index.
         nwg: waveguide index.
