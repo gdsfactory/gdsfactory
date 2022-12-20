@@ -104,6 +104,11 @@ def get_uz_bounds_layers(
 
     layer_dict = layerstack.to_dict()
 
+    # Remove empty entries
+    inplane_bounds_dict = {
+        key: value for (key, value) in inplane_bounds_dict.items() if value
+    }
+
     for layername, (
         gds_layername,
         next_layername,
