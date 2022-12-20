@@ -13,7 +13,7 @@ from gdsfactory.simulation import port_symmetries
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_tidy3d as get_sparameters_path,
 )
-from gdsfactory.simulation.gtidy3d.get_results import _executor, get_results
+from gdsfactory.simulation.gtidy3d.get_results import _executor, get_results_batch
 from gdsfactory.simulation.gtidy3d.get_simulation import get_simulation, plot_simulation
 from gdsfactory.types import (
     Any,
@@ -75,7 +75,7 @@ def write_sparameters(
     run: bool = True,
     overwrite: bool = False,
     **kwargs,
-) -> np.ndarray:
+) -> Dict[str, np.ndarray]:
     """Get full sparameter matrix from a gdsfactory Component.
 
     Simulates each time using a different input port (by default, all of them)
@@ -161,7 +161,7 @@ def write_sparameters(
     filepath_sim_settings = filepath.with_suffix(".yml")
     if filepath.exists() and not overwrite and run:
         logger.info(f"Simulation loaded from {filepath!r}")
-        return np.load(filepath)
+        return dict(np.load(filepath))
 
     port_symmetries = port_symmetries or {}
     component_ref = component.ref()
@@ -184,14 +184,14 @@ def write_sparameters(
         return sp
 
     start = time.time()
-    batch_data = get_results(sims, overwrite=overwrite)
+    batch_data = get_results_batch(sims)
 
     def get_sparameter(
         port_name_source: str,
         sim_data: td.SimulationData,
         port_symmetries=port_symmetries,
         **kwargs,
-    ) -> np.ndarray:
+    ) -> Dict[str, np.ndarray]:
         """Return Component sparameter for a particular port Index n.
 
         Args:

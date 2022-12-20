@@ -4,13 +4,15 @@ from __future__ import annotations
 
 import concurrent.futures
 import hashlib
+from typing import Awaitable
 
 import tidy3d as td
 from tidy3d import web
+from tidy3d.log import WebError
 
 import gdsfactory as gf
-from gdsfactory.config import PATH
-from gdsfactory.types import List, PathType
+from gdsfactory.config import PATH, logger
+from gdsfactory.types import PathType
 
 _executor = concurrent.futures.ThreadPoolExecutor()
 
@@ -21,10 +23,10 @@ def get_sim_hash(sim: td.Simulation) -> str:
 
 
 def _get_results(
-    sims: List[td.Simulation],
+    sim: td.Simulation,
     dirpath: PathType = PATH.results_tidy3d,
     overwrite: bool = False,
-) -> web.BatchData:
+) -> td.SimulationData:
     """Return SimulationData results from simulation.
 
     Only submits simulation if results not found locally or remotely.
@@ -36,49 +38,44 @@ def _get_results(
         sim: tidy3d Simulation.
         dirpath: to store results locally.
         overwrite: overwrites the data even when path exists.
-
     """
-    # task_name = sim_hash = get_sim_hash(sim)
-    # sim_path = dirpath / f"{sim_hash}.hdf5"
-    # logger.info(f"running simulation {sim_hash!r}")
+    task_name = sim_hash = get_sim_hash(sim)
+    sim_path = dirpath / f"{sim_hash}.hdf5"
+    logger.info(f"running simulation {sim_hash!r}")
 
-    # hash_to_id = {d["task_name"][:32]: d["task_id"] for d in web.get_tasks()}
-    # filepath = str(dirpath / f"{sim_hash}.hdf5")
-    # job = web.Job(simulation=sim, task_name=task_name)
+    hash_to_id = {d["task_name"][:32]: d["task_id"] for d in web.get_tasks()}
+    filepath = str(dirpath / f"{sim_hash}.hdf5")
+    job = web.Job(simulation=sim, task_name=task_name)
 
-    # # Results in local storage
-    # if sim_path.exists():
-    #     task_id = hash_to_id[sim_hash]
-    #     logger.info(f"{sim_path!r} for task_id {task_id!r} found in local storage")
-    #     return td.SimulationData.from_file(filepath)
+    # Results in local storage
+    if sim_path.exists():
+        task_id = hash_to_id[sim_hash]
+        logger.info(f"{sim_path!r} for task_id {task_id!r} found in local storage")
+        return td.SimulationData.from_file(filepath)
 
-    # # Results in server storage
-    # if sim_hash in hash_to_id:
-    #     task_id = hash_to_id[sim_hash]
-    #     web.monitor(task_id)
+    # Results in server storage
+    if sim_hash in hash_to_id:
+        task_id = hash_to_id[sim_hash]
+        web.monitor(task_id)
 
-    #     try:
-    #         return web.load(task_id=task_id, path=filepath, replace_existing=overwrite)
-    #     except WebError:
-    #         logger.info(f"task_id {task_id!r} exists but no results found.")
-    #     except Exception:
-    #         logger.info(f"task_id {task_id!r} exists but unexpected error encountered.")
+        try:
+            return web.load(task_id=task_id, path=filepath, replace_existing=overwrite)
+        except WebError:
+            logger.info(f"task_id {task_id!r} exists but no results found.")
+        except Exception:
+            logger.info(f"task_id {task_id!r} exists but unexpected error encountered.")
 
-    # # Run simulation if results not found in local or server storage
-    # logger.info(f"sending task_name {task_name!r} to tidy3d server.")
-    # return job.run(path=filepath)
-
-    task_names = [get_sim_hash(sim) for sim in sims]
-    batch = web.Batch(simulations=dict(zip(task_names, sims)))
-    return batch.run(path_dir=dirpath)
+    # Run simulation if results not found in local or server storage
+    logger.info(f"sending task_name {task_name!r} to tidy3d server.")
+    return job.run(path=filepath)
 
 
 def get_results(
-    sims: List[td.Simulation],
+    sim: td.Simulation,
     dirpath=PATH.results_tidy3d,
     overwrite: bool = True,
-) -> web.BatchData:
-    """Return a List of SimulationData from a list of Simulation.
+) -> Awaitable[td.SimulationData]:
+    """Return a List of SimulationData from a Simulation.
 
     Works with Pool of threads.
     Each thread can run in parallel and only becomes blocking when you ask
@@ -89,16 +86,41 @@ def get_results(
         dirpath: to store results locally
         overwrite: overwrites the data even if path exists. Keep True.
 
+    .. code::
+        import gdsfactory.simulation.tidy3d as gt
+
+        component = gf.components.straight(length=3)
+        sim = gt.get_simulation(component=component)
+        sim_data = gt.get_results(sim) # threaded
+        sim_data = sim_data.result() # waits for results
+
+    """
+    return _executor.submit(_get_results, sim, dirpath, overwrite)
+
+
+def get_results_batch(
+    sims: td.Simulation,
+    dirpath=PATH.results_tidy3d,
+) -> td.BatchData:
+    """Return a  a list of Simulation.
+
+    Args:
+        sims: List[Simulation]
+        dirpath: to store results locally
+        overwrite: overwrites the data even if path exists. Keep True.
 
     .. code::
         import gdsfactory.simulation.tidy3d as gt
 
         component = gf.components.straight(length=3)
         sim = gt.get_simulation(component=component)
-        sim_data = gt.get_results([sim])
+        sim_data = gt.get_results(sim) # threaded
+        sim_data = sim_data.result() # waits for results
 
     """
-    return _get_results(sims, dirpath, overwrite)
+    task_names = [get_sim_hash(sim) for sim in sims]
+    batch = web.Batch(simulations=dict(zip(task_names, sims)))
+    return batch.run(path_dir=dirpath)
 
 
 if __name__ == "__main__":
