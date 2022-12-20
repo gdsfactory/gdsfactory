@@ -28,7 +28,7 @@ def ring_crow_couplers(
         straight: straight spec.
         bend: bend spec.
         cross_section: cross_section spec.
-        couplers: coupling component between rings and bus
+        couplers: coupling component between rings and bus.
 
     .. code::
 
