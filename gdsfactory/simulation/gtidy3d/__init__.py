@@ -30,10 +30,9 @@ from gdsfactory.simulation.gtidy3d.write_sparameters import (
 )
 from gdsfactory.simulation.gtidy3d.write_sparameters_grating_coupler import (
     write_sparameters_grating_coupler,
-    write_sparameters_grating_coupler_batch,
 )
 
-__version__ = "0.0.2"
+__version__ = "0.0.3"
 __all__ = [
     "plot_simulation",
     "plot_simulation_xz",
@@ -50,7 +49,6 @@ __all__ = [
     "write_sparameters_batch",
     "write_sparameters_batch_1x1",
     "write_sparameters_grating_coupler",
-    "write_sparameters_grating_coupler_batch",
 ]
 
 logger.info(f"Tidy3d {td.__version__!r} installed at {td.__path__!r}")
