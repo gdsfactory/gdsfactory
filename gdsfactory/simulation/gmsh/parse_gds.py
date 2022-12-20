@@ -40,7 +40,9 @@ def cleanup_component(component, layerstack, round_tol=2, simplify_tol=1e-2):
     layerstack_dict = layerstack.to_dict()
     return_dict = {}
     for layername, layer in layerstack_dict.items():
-        if layer["layer"] != LAYER.WAFER:
+        if layer["layer"] is None:
+            continue
+        elif layer["layer"] != LAYER.WAFER:
             return_dict[layername] = fuse_polygons(
                 component,
                 layername,
