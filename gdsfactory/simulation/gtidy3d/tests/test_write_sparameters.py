@@ -26,7 +26,7 @@ def test_sparameters_straight(overwrite=True) -> None:
 if __name__ == "__main__":
     # test_sparameters_straight()
 
-    overwrite = False
+    overwrite = True
     c = gf.components.straight(length=3)
     sp = gt.write_sparameters_1x1(c, overwrite=overwrite, is_3d=False)
 
