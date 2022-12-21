@@ -11,5 +11,6 @@
    notebooks/plugins/meshing/02_2D_xy_mesh.ipynb
    notebooks/plugins/meshing/03_2D_uz_mesh.ipynb
    notebooks/plugins/meshing/04_refinement.ipynb
+   notebooks/plugins/fem/01_mode_solving.ipynb
 
 ```
