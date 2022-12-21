@@ -12,16 +12,13 @@ except Exception:
 
 def test_klayout_tech_create(
     data_regression: DataRegressionFixture, check: bool = True
-) -> LayerDisplayProperties:
+) -> None:
 
     lyp = LayerDisplayProperties.from_lyp(str(PATH.klayout_lyp))
 
     if check:
         data_regression.check(lyp.dict())
 
-    return lyp
-
 
 if __name__ == "__main__":
-    lyp = test_klayout_tech_create(None, check=False)
-    d = lyp.dict()
+    test_klayout_tech_create(None, check=False)
