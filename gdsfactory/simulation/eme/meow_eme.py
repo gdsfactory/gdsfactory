@@ -179,7 +179,7 @@ class MEOW:
             cell_length: in um.
         """
         self.cell_length = cell_length
-        length = self.span_x
+        length = self.component.xsize  # in the propagation direction
 
         self.num_cells = int(length / cell_length)
         Ls = np.array([length / self.num_cells for _ in range(self.num_cells)])
@@ -276,7 +276,6 @@ class MEOW:
 
 
 if __name__ == "__main__":
-
     c = gf.components.taper(length=10, width2=2)
     c.show()
 
@@ -293,9 +292,8 @@ if __name__ == "__main__":
             )
         }
     )
+    m = MEOW(component=c, layerstack=filtered_layerstack, wavelength=1.55)
+    print(len(m.cells))
 
-    sp = MEOW(component=c, layerstack=filtered_layerstack, wavelength=1.55)
-
-    import pprint
-
-    pprint.pprint(sp.compute_sparameters())
+    # import pprint
+    # pprint.pprint(m.compute_sparameters())
