@@ -59,6 +59,7 @@ full = [
     "jsondiff",
     "klayout",
     "mapbox_earcut",
+    "natsort",
     "networkx",
     "nlopt",
     "pyglet<2",
