@@ -442,7 +442,7 @@ class ComponentReference(_GeometryHelper):
                 self.x_reflection,
             )
             if name not in self._local_ports:
-                self._local_ports[name] = port.copy(new_uid=True)
+                self._local_ports[name] = port.copy()
             self._local_ports[name].center = new_center
             self._local_ports[name].orientation = (
                 mod(new_orientation, 360) if new_orientation else new_orientation
