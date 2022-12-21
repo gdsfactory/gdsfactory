@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.15.0
+
+- Add femwell mode solver [PR](https://github.com/gdsfactory/gdsfactory/pull/1032)
+- meow improvements [PR](https://github.com/gdsfactory/gdsfactory/pull/1033)
+
 ## 6.14.1
 
 - fix bend_s width [issue](https://github.com/gdsfactory/gdsfactory/discussions/1028)
