@@ -30,10 +30,10 @@ plugins:
 	pip install -e .[tidy3d]
 	pip install jax jaxlib
 	mamba install pymeep=*=mpi_mpich_* -y
-	mamba install  petsc4py -y
+	mamba install slepc4py=*=complex* -y
 	pip install --upgrade "protobuf<=3.20.1"
+	pip install femwell
 	pip install scikit-fem[all] --upgrade
-	pip install git+https://github.com/HelgeGehring/femwell.git
 
 plugins-debian: plugins
 	sudo apt-get install -y python3-gmsh
