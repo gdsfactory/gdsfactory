@@ -90,7 +90,7 @@ class MEOW:
         self.cells = self.create_cells(cell_length=cell_length)
         self.env = mw.Environment(wl=self.wavelength, T=self.temperature)
         self.css = [mw.CrossSection(cell=cell, env=self.env) for cell in self.cells]
-        self.modes = []
+        self.modes_per_cell = [None] * self.num_cells
         self.S = None
         self.port_map = None
 
@@ -210,9 +210,9 @@ class MEOW:
         return mw.visualize(css[xs_num])
 
     def plot_mode(self, xs_num, mode_num):
-        if self.modes[xs_num] is None:
-            self.modes[xs_num] = self.compute_mode(xs_num)
-        return mw.visualize(self.modes[xs_num][mode_num])
+        if self.modes_per_cell[xs_num] is None:
+            self.modes_per_cell[xs_num] = self.compute_mode(xs_num)
+        return mw.visualize(self.modes_per_cell[xs_num][mode_num])
 
     def get_port_map(self):
         if self.port_map is None:
@@ -243,15 +243,17 @@ class MEOW:
         return mw.compute_modes(self.css[xs_num], num_modes=self.num_modes)
 
     def compute_all_modes(self) -> None:
+        self.modes_per_cell = []
         for cs in tqdm(self.css):
             modes_in_cs = mw.compute_modes(cs, num_modes=self.num_modes)
-            self.modes.append(modes_in_cs)
+            self.modes_per_cell.append(modes_in_cs)
 
     def compute_sparameters(self) -> Dict[str, np.ndarray]:
         """Returns Sparameters using EME."""
         self.compute_all_modes()
+
         if self.S is None or self.port_map is None:
-            self.S, self.port_map = mw.compute_s_matrix(self.modes)
+            self.S, self.port_map = mw.compute_s_matrix(self.modes_per_cell)
 
         # Convert coefficients to existing format
         meow_to_gf_keys = {
