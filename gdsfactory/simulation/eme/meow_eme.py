@@ -25,13 +25,13 @@ class MEOW:
         wavelength: float = 1.55,
         temperature: float = 25,
         num_modes: int = 4,
-        num_cells: int = 10,
-        horiz_buffer: float = 2.0,
-        horiz_offset: float = 0,
-        horiz_res: int = 100,
-        vert_buffer: float = 2.0,
-        vert_offset: float = 0,
-        vert_res: int = 100,
+        cell_length: float = 1.0,
+        spacing_x: float = 2.0,
+        offset_x: float = 0,
+        resolution_x: int = 100,
+        spacing_y: float = 2.0,
+        offset_y: float = 0,
+        resolution_y: int = 100,
         material_to_color=material_to_color_default,
     ) -> None:
         """Computes multimode 2-port S-parameters for a gdsfactory component, assuming port 1 is at the left boundary and port 2 at the right boundary.
@@ -58,18 +58,18 @@ class MEOW:
         # Save parameters
         self.wavelength = wavelength
         self.num_modes = num_modes
-        self.num_cells = num_cells
         self.temperature = temperature  # unused for now
         self.material_to_color = material_to_color
 
         # Process simulation bounds
-        self.horiz_span = np.diff(component.bbox[:, 1])[0] + horiz_buffer
+        self.span_x = np.diff(component.bbox[:, 1])[0] + spacing_x
+        num_cells = self.num_cells = int(self.span_x / cell_length)
         zs = list_unique_layerstack_z(layerstack)
-        self.vert_span = np.max(zs) - np.min(zs) + vert_buffer
-        self.horiz_offset = horiz_offset
-        self.horiz_res = horiz_res
-        self.vert_offset = vert_offset
-        self.vert_res = vert_res
+        self.vert_span = np.max(zs) - np.min(zs) + spacing_y
+        self.offset_x = offset_x
+        self.resolution_x = resolution_x
+        self.offset_y = offset_y
+        self.resolution_y = resolution_y
 
         # Setup simulation
         self.component, self.layerstack = self.add_global_layers(component, layerstack)
@@ -159,26 +159,29 @@ class MEOW:
             )
         return extrusions
 
-    def get_eme_cells(self, num_cells: int = 10) -> List[mw.Cell]:
+    def get_eme_cells(self, cell_length: float = 1.0) -> List[mw.Cell]:
         """Get meow cells from extruded component.
 
         Arguments:
-            num_cells: number of slices.
+            cell_length: in um.
         """
         bbox = self.component.bbox
+
+        num_cells = int(self.span_x / cell_length)
+
         Ls = [np.diff(bbox[:, 0]).item() / num_cells for _ in range(num_cells)]
         return mw.create_cells(
             structures=self.structs,
             mesh=mw.Mesh2d(
                 x=np.linspace(
-                    self.horiz_offset - self.horiz_span / 2,
-                    self.horiz_offset + self.horiz_span / 2,
-                    self.horiz_res,
+                    self.offset_x - self.span_x / 2,
+                    self.offset_x + self.span_x / 2,
+                    self.resolution_x,
                 ),
                 y=np.linspace(
-                    self.vert_offset - self.vert_span / 2,
-                    self.vert_offset + self.vert_span / 2,
-                    self.vert_res,
+                    self.offset_y - self.vert_span / 2,
+                    self.offset_y + self.vert_span / 2,
+                    self.resolution_y,
                 ),
             ),
             Ls=Ls,
