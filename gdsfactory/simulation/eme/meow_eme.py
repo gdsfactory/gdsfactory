@@ -29,7 +29,7 @@ class MEOW:
         temperature: float = 25,
         num_modes: int = 4,
         cell_length: float = 1.0,
-        spacing_x: float = 0.0,
+        spacing_x: float = 2.0,
         center_x: float = 0,
         resolution_x: int = 100,
         spacing_y: float = 2.0,
@@ -63,6 +63,26 @@ class MEOW:
 
         Returns:
             S-parameters in form o1@0,o2@0 at wavelength.
+
+        ::
+
+              __________________________    _
+              |                             |
+              |                             |
+              |         width     spacing_x |  spacing_y
+              |     <----------> <------>   |
+              |      ___________   _ _ _    |_
+              |     |           |       |   |
+              |_____|  ncore    |_______|   |
+              |                         | wg_thickness
+              |slab_thickness    nslab  |
+              |_________________________|
+              |
+              |        nclad
+              |__________________________
+              <------------------------>
+                       w_sim
+
         """
         # Validate component
         self.validate_component(component)
