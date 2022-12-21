@@ -7,7 +7,6 @@ from typing import Optional, Tuple
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.text import text
-from gdsfactory.config import __version__
 from gdsfactory.types import LayerSpec
 
 
@@ -44,7 +43,7 @@ def version_stamp(
     with_qr_code: bool = False,
     layer: LayerSpec = "WG",
     pixel_size: int = 1,
-    version: Optional[str] = __version__,
+    version: Optional[str] = None,
     text_size: int = 10,
 ) -> Component:
     """Component with module version and date.

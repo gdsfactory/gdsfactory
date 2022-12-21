@@ -16,31 +16,16 @@ from gdsfactory.types import Layers
 def greek_cross(
     cross_struct_length: float = 30.0,
     cross_struct_width: float = 1.0,
-    cross_struct_layers: Layers = (LAYER.WG),
+    cross_struct_layers: Layers = (LAYER.WG,),
     cross_implant_length: float = 30.0,
     cross_implant_width: float = 2.0,
-    cross_implant_layers: Layers = (LAYER.N),
+    cross_implant_layers: Layers = (LAYER.N,),
     contact_layers: Layers = (LAYER.WG, LAYER.NPP),
     contact_offset: float = 10,
     contact_buffer: float = 10,
     pad_width: float = 50,
 ) -> gf.Component:
     """Process control monitor for dopant sheet resistivity and linewidth variation.
-
-    References:
-        - Walton, Anthony J.. “MICROELECTRONIC TEST STRUCTURES.” (1999).
-        - W. Versnel, Analysis of the Greek cross, a Van der Pauw structure with finite contacts, Solid-State Electronics, Volume 22, Issue 11, 1979, Pages 911-914, ISSN 0038-1101, https://doi.org/10.1016/0038-1101(79)90061-3.
-        - S. Enderling et al., "Sheet resistance measurement of non-standard cleanroom materials using suspended Greek cross test structures," in IEEE Transactions on Semiconductor Manufacturing, vol. 19, no. 1, pp. 2-9, Feb. 2006, doi: 10.1109/TSM.2005.863248.
-
-        pad_width
-        <------->
-        _________ cross_implant_length, cross_struct_length
-        |       |<------->
-    4x  |       |         ↓
-        |       |======== cross_implant_width, cross_struct_width
-        |_______|         ↑
-            <-------------->
-        contact_offset (fudge)
 
     Args:
         cross_struct_length: length of structural part of cross e.g. silicon core.
@@ -53,6 +38,28 @@ def greek_cross(
         contact_offset: fudge factor to move pad relative to cross.
         contact_buffer: amount of dopants around pad in contact.
         pad_width: pad size.
+
+    .. code::
+
+            pad_width
+            <------->
+            _________ cross_implant_length, cross_struct_length
+            |       |<------->
+        4x  |       |         ↓
+            |       |======== cross_implant_width, cross_struct_width
+            |_______|         ↑
+                <-------------->
+            contact_offset (fudge)
+
+    References:
+    - Walton, Anthony J.. “MICROELECTRONIC TEST STRUCTURES.” (1999).
+    - W. Versnel, Analysis of the Greek cross, a Van der Pauw structure with finite
+        contacts, Solid-State Electronics, Volume 22, Issue 11, 1979, Pages 911-914,
+        ISSN 0038-1101, https://doi.org/10.1016/0038-1101(79)90061-3.
+    - S. Enderling et al., "Sheet resistance measurement of non-standard cleanroom
+        materials using suspended Greek cross test structures," IEEE Transactions on
+        Semiconductor Manufacturing, vol. 19, no. 1, pp. 2-9, Feb. 2006,
+        doi: 10.1109/TSM.2005.863248.
     """
     c = gf.Component()
 
