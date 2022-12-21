@@ -520,7 +520,7 @@ class Component(_GeometryHelper):
         for port in self.ports.values():
             port.assert_on_grid(nm=nm)
 
-    def get_ports(self, depth=None):
+    def get_ports(self, depth=None, port_type=None):
         """Returns copies of all the ports of the Component, rotated and \
                 translated so that they're in their top-level position.
 
@@ -531,16 +531,19 @@ class Component(_GeometryHelper):
             depth : int or None
                 If not None, defines from how many reference levels to
                 retrieve Ports from.
+            port_type: only returns ports with this .port_type attribute
 
         Returns:
             port_list : list of Port List of all Ports in the Component.
         """
         port_list = [p._copy() for p in self.ports.values()]
+        if port_type is not None:
+            port_list = [p for p in port_list if p.port_type == port_type]
 
         if depth is None or depth > 0:
             for r in self.references:
                 new_depth = None if depth is None else depth - 1
-                ref_ports = r.parent.get_ports(depth=new_depth)
+                ref_ports = r.parent.get_ports(depth=new_depth, port_type=port_type)
 
                 # Transform ports that came from a reference
                 ref_ports_transformed = []
@@ -2148,5 +2151,10 @@ def test_import_gds_settings():
 
 
 if __name__ == "__main__":
-    c = test_get_layers()
-    c.show()
+    # c = test_get_layers()
+    # c.show()
+
+    import gdsfactory as gf
+
+    c = gf.components.ring_single_heater()
+    print(c.get_ports(port_type="optical"))
