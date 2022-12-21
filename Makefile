@@ -3,11 +3,15 @@ help:
 	@echo 'make test:             Run tests with pytest'
 	@echo 'make test-force:       Rebuilds regression test'
 
-full: gdslib
+full: gdslib plugins
 	pip install -e .[docs,dev,full,gmsh,tidy3d,devsim,meow,sax]
 
 install: gdslib
 	pip install -e .[dev,full]
+	pre-commit install
+	gf tool install
+
+dev: full
 	pre-commit install
 	gf tool install
 
@@ -27,10 +31,10 @@ major:
 	python docs/write_components_doc.py
 
 plugins:
-	pip install -e .[tidy3d]
-	pip install jax jaxlib
 	mamba install pymeep=*=mpi_mpich_* -y
 	mamba install slepc4py=*=complex* -y
+	pip install -e .[tidy3d]
+	pip install jax jaxlib
 	pip install --upgrade "protobuf<=3.20.1"
 	pip install femwell
 	pip install scikit-fem[all] --upgrade
