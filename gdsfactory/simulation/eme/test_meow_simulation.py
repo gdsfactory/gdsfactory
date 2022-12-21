@@ -37,6 +37,29 @@ def test_meow_defaults():
             assert np.abs(sp[key]) ** 2 > 0.2
 
 
-if __name__ == "__main__":
+def test_cells():
+    layerstack = LayerStack(
+        layers={
+            k: get_layer_stack_generic().layers[k]
+            for k in (
+                "slab90",
+                "core",
+                "box",
+                "clad",
+            )
+        }
+    )
 
-    test_meow_defaults()
+    c = gf.components.taper(length=10, width2=2)
+    m = MEOW(component=c, layerstack=layerstack, wavelength=1.55)
+    assert len(m.cells) == 10
+
+    c = gf.components.taper(length=1, width2=2)
+    m = MEOW(component=c, layerstack=layerstack, wavelength=1.55)
+    assert len(m.cells) == 1
+
+
+if __name__ == "__main__":
+    test_cells()
+
+    # test_meow_defaults()
