@@ -20,25 +20,27 @@ def compute_cross_section_modes(
 ):
     """Calculate effective index of a straight cross-section.
 
-    Arguments:
-        cross_section: gdsfactory cross-section
-        layerstack: gdsfactory layerstack
-        wl: wavelength (um)
-        num_modes: number of modes to return
-        order: order of the mesh elements
-        radius: bend radius of the cross-section
-        filename (str, path): where to save the .msh file
-        Keyword Args: Arguments for gdsfactory.simulation.gmsh.uz_xsection_mesh.uz_xsection_mesh():
-            resolutions (Dict): Pairs {"layername": {"resolution": float, "distance": "float}} to roughly control mesh refinement within and away from entity, respectively
-            mesh_scaling_factor (float): factor multiply mesh geometry by
-            default_resolution_min (float): gmsh minimal edge length
-            default_resolution_max (float): gmsh maximal edge length
-            background_tag (str): name of the background layer to add (default: no background added)
-            background_padding (Tuple): [xleft, ydown, xright, yup] distances to add to the components and to fill with background_tag
-            global_meshsize_array: np array [x,y,z,lc] to parametrize the mesh
-            global_meshsize_interpolant_func: interpolating function for global_meshsize_array
-            extra_shapes_dict: Optional[OrderedDict] = OrderedDict of {key: geo} with key a label and geo a shapely (Multi)Polygon or (Multi)LineString of extra shapes to override component
-            merge_by_material: boolean, if True will merge polygons from layers with the same layer.material. Physical keys will be material in this case.
+    Args:
+        cross_section: gdsfactory cross-section.
+        layerstack: gdsfactory layerstack.
+        wl: wavelength (um).
+        num_modes: number of modes to return.
+        order: order of the mesh elements.
+        radius: bend radius of the cross-section.
+        filename (str, path): where to save the .msh file.
+
+    Keyword Args:
+        resolutions (Dict): Pairs {"layername": {"resolution": float, "distance": "float}}
+            to roughly control mesh refinement within and away from entity, respectively.
+        mesh_scaling_factor (float): factor multiply mesh geometry by.
+        default_resolution_min (float): gmsh minimal edge length.
+        default_resolution_max (float): gmsh maximal edge length.
+        background_tag (str): name of the background layer to add (default: no background added).
+        background_padding (Tuple): [xleft, ydown, xright, yup] distances to add to the components and to fill with background_tag.
+        global_meshsize_array: np array [x,y,z,lc] to parametrize the mesh.
+        global_meshsize_interpolant_func: interpolating function for global_meshsize_array.
+        extra_shapes_dict: Optional[OrderedDict] = OrderedDict of {key: geo} with key a label and geo a shapely (Multi)Polygon or (Multi)LineString of extra shapes to override component.
+        merge_by_material: boolean, if True will merge polygons from layers with the same layer.material. Physical keys will be material in this case.
     """
     # Get meshable component from cross-section
     c = gf.components.straight(length=10, cross_section=cross_section)
@@ -88,7 +90,6 @@ def compute_cross_section_modes(
 
 
 if __name__ == "__main__":
-
     filtered_layerstack = LayerStack(
         layers={
             k: get_layer_stack_generic().layers[k]
