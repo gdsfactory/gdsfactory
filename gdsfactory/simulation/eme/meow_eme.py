@@ -1,14 +1,17 @@
 from itertools import permutations
-from typing import List
+from typing import Dict, List, Tuple
 
 import meow as mw
 import numpy as np
 import pandas as pd
+from tqdm.auto import tqdm
 
 import gdsfactory as gf
 from gdsfactory.pdk import _ACTIVE_PDK
 from gdsfactory.simulation.gmsh.parse_layerstack import list_unique_layerstack_z
 from gdsfactory.tech import LAYER, LayerStack
+
+ColorRGB = Tuple[float, float, float]
 
 material_to_color_default = {
     "si": (0.9, 0, 0, 0.9),
@@ -20,21 +23,23 @@ material_to_color_default = {
 class MEOW:
     def __init__(
         self,
-        component,
+        component: gf.Component,
         layerstack,
         wavelength: float = 1.55,
         temperature: float = 25,
         num_modes: int = 4,
         cell_length: float = 1.0,
-        spacing_x: float = 2.0,
-        offset_x: float = 0,
+        spacing_x: float = 0.0,
+        center_x: float = 0,
         resolution_x: int = 100,
         spacing_y: float = 2.0,
-        offset_y: float = 0,
+        center_y: float = 0,
         resolution_y: int = 100,
-        material_to_color=material_to_color_default,
+        material_to_color: Dict[str, ColorRGB] = material_to_color_default,
     ) -> None:
-        """Computes multimode 2-port S-parameters for a gdsfactory component, assuming port 1 is at the left boundary and port 2 at the right boundary.
+        """Computes multimode 2-port S-parameters for a gdsfactory component.
+
+        assumes port 1 is at the left boundary and port 2 at the right boundary.
 
         Note coordinate systems:
             gdsfactory uses x,y in the plane to represent components, with the layerstack existing in z
@@ -45,9 +50,16 @@ class MEOW:
             component: gdsfactory component.
             layerstack: gdsfactory layerstack.
             wavelength: wavelength in microns (for FDE, and for material properties).
-            temperature: temperature in C (for material properties).
+            temperature: temperature in C (for material properties). Unused now.
             num_modes: number of modes to compute for the eigenmode expansion.
-            num_cells: number of component slices along the propagation direction for the EME.
+            cell_length: in un.
+            spacing_x: at beginning and end of the simulation region.
+            center_x: in um.
+            resolution_x: pixels in horizontal region.
+            spacing_y: at the beginning and end of simulation region.
+            center_y: in um.
+            resolution_y: pixels in vertical direction.
+            material_to_color: dict of ma
 
         Returns:
             S-parameters in form o1@0,o2@0 at wavelength.
@@ -63,28 +75,29 @@ class MEOW:
 
         # Process simulation bounds
         self.span_x = np.diff(component.bbox[:, 1])[0] + spacing_x
-        num_cells = self.num_cells = int(self.span_x / cell_length)
+        self.num_cells = int(self.span_x / cell_length)
         zs = list_unique_layerstack_z(layerstack)
-        self.vert_span = np.max(zs) - np.min(zs) + spacing_y
-        self.offset_x = offset_x
+        self.span_y = np.max(zs) - np.min(zs) + spacing_y
+        self.center_x = center_x
         self.resolution_x = resolution_x
-        self.offset_y = offset_y
+        self.center_y = center_y
         self.resolution_y = resolution_y
 
         # Setup simulation
         self.component, self.layerstack = self.add_global_layers(component, layerstack)
         self.extrusion_rules = self.layerstack_to_extrusion()
         self.structs = mw.extrude_gds(self.component, self.extrusion_rules)
-        self.cells = self.get_eme_cells()
+        self.cells = self.create_cells(cell_length=cell_length)
         self.env = mw.Environment(wl=self.wavelength, T=self.temperature)
         self.css = [mw.CrossSection(cell=cell, env=self.env) for cell in self.cells]
-        self.modes = [None] * num_cells
+        self.modes = []
         self.S = None
         self.port_map = None
 
     def gf_material_to_meow_material(
         self, material_name: str = "si", wavelengths=None, color=None
     ):
+        """Converts a gdsfactory material into a MEOW material."""
         wavelengths = wavelengths or np.linspace(1.5, 1.6, 101)
         color = color or (0.9, 0.9, 0.9, 0.9)
         ns = _ACTIVE_PDK.materials_index[material_name](wavelengths)
@@ -159,28 +172,29 @@ class MEOW:
             )
         return extrusions
 
-    def get_eme_cells(self, cell_length: float = 1.0) -> List[mw.Cell]:
+    def create_cells(self, cell_length: float = 1.0) -> List[mw.Cell]:
         """Get meow cells from extruded component.
 
-        Arguments:
+        Args:
             cell_length: in um.
         """
-        bbox = self.component.bbox
+        self.cell_length = cell_length
+        length = self.span_x
 
-        num_cells = int(self.span_x / cell_length)
+        self.num_cells = int(length / cell_length)
+        Ls = np.array([length / self.num_cells for _ in range(self.num_cells)])
 
-        Ls = [np.diff(bbox[:, 0]).item() / num_cells for _ in range(num_cells)]
         return mw.create_cells(
             structures=self.structs,
             mesh=mw.Mesh2d(
                 x=np.linspace(
-                    self.offset_x - self.span_x / 2,
-                    self.offset_x + self.span_x / 2,
+                    self.center_x - self.span_x / 2,
+                    self.center_x + self.span_x / 2,
                     self.resolution_x,
                 ),
                 y=np.linspace(
-                    self.offset_y - self.vert_span / 2,
-                    self.offset_y + self.vert_span / 2,
+                    self.center_y - self.span_y / 2,
+                    self.center_y + self.span_y / 2,
                     self.resolution_y,
                 ),
             ),
@@ -228,13 +242,13 @@ class MEOW:
     def compute_mode(self, xs_num):
         return mw.compute_modes(self.css[xs_num], num_modes=self.num_modes)
 
-    def compute_all_modes(self):
-        for xs_num in range(self.num_cells):
-            if self.modes[xs_num] is None:
-                self.modes[xs_num] = self.compute_mode(xs_num)
+    def compute_all_modes(self) -> None:
+        for cs in tqdm(self.css):
+            modes_in_cs = mw.compute_modes(cs, num_modes=self.num_modes)
+            self.modes.append(modes_in_cs)
 
-    def compute_sparameters(self):
-        # Compute EME
+    def compute_sparameters(self) -> Dict[str, np.ndarray]:
+        """Returns Sparameters using EME."""
         self.compute_all_modes()
         if self.S is None or self.port_map is None:
             self.S, self.port_map = mw.compute_s_matrix(self.modes)
@@ -261,7 +275,7 @@ class MEOW:
 
 if __name__ == "__main__":
 
-    c = gf.components.taper_cross_section_linear()
+    c = gf.components.taper(length=10, width2=2)
     c.show()
 
     from gdsfactory.tech import get_layer_stack_generic
