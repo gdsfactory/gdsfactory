@@ -30,7 +30,10 @@ plugins:
 	pip install -e .[tidy3d]
 	pip install jax jaxlib
 	mamba install pymeep=*=mpi_mpich_* -y
+	mamba install  petsc4py -y
 	pip install --upgrade "protobuf<=3.20.1"
+	pip install scikit-fem[all] --upgrade
+	pip install git+https://github.com/HelgeGehring/femwell.git
 
 plugins-debian: plugins
 	sudo apt-get install -y python3-gmsh
@@ -79,7 +82,7 @@ test-gmsh:
 	pytest gdsfactory/simulation/gmsh
 
 test-plugins:
-	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes gdsfactory/simulation/lumerical gdsfactory/simulation/gtidy3d gdsfactory/simulation/gmsh gdsfactory/tests/test_klayout
+	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes gdsfactory/simulation/lumerical gdsfactory/simulation/gtidy3d gdsfactory/simulation/gmsh gdsfactory/tests/test_klayout gdsfactory/simulation/fem
 	pip list > requirements.txt
 
 test-notebooks:
