@@ -101,7 +101,7 @@ if __name__ == "__main__":
         }
     )
 
-    filtered_layerstack["core"].thickness = 0.2
+    filtered_layerstack.layers["core"].thickness = 0.2
 
     resolutions = {}
     resolutions["core"] = {"resolution": 0.02, "distance": 2}
