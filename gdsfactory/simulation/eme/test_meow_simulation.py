@@ -6,7 +6,6 @@ from gdsfactory.tech import LayerStack, get_layer_stack_generic
 
 
 def test_meow_defaults():
-
     c = gf.components.taper_cross_section_linear()
     c.show()
 

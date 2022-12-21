@@ -1,4 +1,4 @@
-from gdsfactory.simulation.eme.meow import MEOW
+from gdsfactory.simulation.eme.meow_eme import MEOW
 
 __all__ = [
     "MEOW",
