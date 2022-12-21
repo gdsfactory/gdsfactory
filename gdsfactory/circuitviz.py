@@ -12,8 +12,7 @@ from bokeh import plotting as bp
 from natsort import natsorted
 
 import gdsfactory as gf
-
-from .picmodel import PicYamlConfiguration, Placement, SchematicConfiguration
+from gdsfactory.picmodel import PicYamlConfiguration, Placement, SchematicConfiguration
 
 data = {
     "srcs": defaultdict(lambda: defaultdict(lambda: [])),
