@@ -10,6 +10,7 @@ from gdsfactory.types import ComponentSpec, CrossSectionSpec
 def coupler90bend(
     radius: float = 10.0,
     gap: float = 0.2,
+    angle: float = 90.0,
     bend: ComponentSpec = bend_euler,
     cross_section_inner: CrossSectionSpec = "strip",
     cross_section_outer: CrossSectionSpec = "strip",
@@ -19,6 +20,7 @@ def coupler90bend(
     Args:
         radius: um.
         gap: um.
+        angle: of the bends, from beginning to end. Depending on the bend chosen, gap may not be preserved.
         bend: for bend.
         cross_section_inner: spec inner bend.
         cross_section_outer: spec outer bend.
@@ -43,10 +45,10 @@ def coupler90bend(
     spacing = gap + width
 
     bend90_inner = gf.get_component(
-        bend, radius=radius, cross_section=cross_section_inner
+        bend, radius=radius, cross_section=cross_section_inner, angle=angle
     )
     bend90_outer = gf.get_component(
-        bend, radius=radius + spacing, cross_section=cross_section_outer
+        bend, radius=radius + spacing, cross_section=cross_section_outer, angle=angle
     )
     bend_inner_ref = c << bend90_inner
     bend_outer_ref = c << bend90_outer
