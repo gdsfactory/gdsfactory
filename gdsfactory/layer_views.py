@@ -8,12 +8,51 @@ import pathlib
 import re
 import xml.dom.minidom
 import xml.etree.ElementTree as ET
-from typing import Dict, Optional, Set, Tuple, Union
+from typing import Dict, Literal, Optional, Set, Tuple, Union
 from xml.dom.minidom import Node
 
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field
+from pydantic.color import Color
 
 Layer = Tuple[int, int]
+FrameAndFill = Literal["frame", "fill"]
+FrameAndFillColor = Dict[FrameAndFill, Color]
+FrameAndFillBrightness = Dict[FrameAndFill, int]
+
+
+def add_color_yaml_presenter(prefer_named_color: bool = True):
+    import yaml
+
+    def _color_presenter(dumper: yaml.Dumper, data: Color) -> yaml.ScalarNode:
+        return dumper.represent_scalar(
+            "tag:yaml.org,2002:str",
+            f"{data.as_named(fallback=True) if prefer_named_color else data.as_hex()}",
+        )
+
+    yaml.add_representer(Color, _color_presenter)
+    yaml.representer.SafeRepresenter.add_representer(Color, _color_presenter)
+
+
+def add_tuple_yaml_presenter():
+    import yaml
+
+    def _tuple_presenter(dumper: yaml.Dumper, data: tuple) -> yaml.SequenceNode:
+        return dumper.represent_sequence("tag:yaml.org,2002:seq", data, flow_style=True)
+
+    yaml.add_representer(tuple, _tuple_presenter)
+    yaml.representer.SafeRepresenter.add_representer(tuple, _tuple_presenter)
+
+
+def add_multiline_str_yaml_presenter():
+    import yaml
+
+    def _str_presenter(dumper: yaml.Dumper, data: str) -> yaml.ScalarNode:
+        if "\n" in data:  # check for multiline string
+            return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")
+        return dumper.represent_scalar("tag:yaml.org,2002:str", data)
+
+    yaml.add_representer(str, _str_presenter)
+    yaml.representer.SafeRepresenter.add_representer(str, _str_presenter)
 
 
 def append_file_extension(
@@ -52,52 +91,6 @@ def make_pretty_xml(root: ET.Element) -> bytes:
     xml_doc.normalize()
 
     return xml_doc.toprettyxml(indent=" ", newl="\n", encoding="utf-8")
-
-
-class LayerColor(BaseModel):
-    """Fill and frame color.
-
-    Attributes:
-        frame: The color of the frames.
-        fill: The color of the fill pattern inside the shapes.
-    """
-
-    fill: Optional[str] = None
-    frame: Optional[str] = None
-
-    @validator("fill", "frame")
-    def check_color(cls, color):
-        if color is None:
-            return None
-        from matplotlib.colors import CSS4_COLORS, is_color_like, to_hex
-
-        if not is_color_like(color):
-            raise ValueError(
-                f"LayerView 'color' must be a valid CSS4 color (was {color}). "
-                "For more info, see: https://www.w3schools.com/colors/colors_names.asp"
-            )
-
-        # Color given by name
-        if isinstance(color, str) and color[0] != "#":
-            return CSS4_COLORS[color.lower()]
-
-        # Color either an RGBA tuple or a hex string
-        else:
-            return to_hex(color)
-
-
-class LayerBrightness(BaseModel):
-    """Fill and frame brightness.
-
-    0 is unmodified, -100 roughly adds 50% black to the color which +100 roughly adds 50% white.
-
-    Attributes:
-        fill: This value modifies the brightness of the fill color.
-        frame: This value modifies the brightness of the frame color.
-    """
-
-    fill: Optional[int] = 0
-    frame: Optional[int] = 0
 
 
 class CustomDitherPattern(BaseModel):
@@ -152,7 +145,7 @@ class CustomLineStyle(BaseModel):
 class LayerView(BaseModel):
     """KLayout layer properties.
 
-    Docstrings copied from KLayout documentation (with some modifications):
+    Docstrings adapted from KLayout documentation:
     https://www.klayout.de/lyp_format.html
 
     Attributes:
@@ -166,7 +159,9 @@ class LayerView(BaseModel):
             The values are "Ix" for one of the built-in pattern where "I0" is "solid" and "I1" is "clear".
         animation: This is a value indicating the animation mode.
             0 is "none", 1 is "scrolling", 2 is "blinking" and 3 is "inverse blinking".
-        color: Display color of the layer.
+        color: Display color(s) of the layer frame and fill. Pass either a single Color or a dictionary whose keys are
+            "frame" and "fill" (i.e. {"frame": "#000000", "fill": [10, 10, 10]})
+            Accepts Pydantic Color types. See: https://docs.pydantic.dev/usage/types/#color-type for more info.
         brightness: Brightness of the fill and frame.
         xfill: Whether boxes are drawn with a diagonal cross.
         marked: Whether the entry is marked (drawn with small crosses).
@@ -178,10 +173,8 @@ class LayerView(BaseModel):
 
     layer: Optional[Layer] = None
     layer_in_name: bool = False
-    color: Optional[Union[str, LayerColor]] = Field(default_factory=LayerColor)
-    brightness: Optional[Union[str, LayerBrightness]] = Field(
-        default_factory=LayerBrightness
-    )
+    color: Optional[Union[Color, FrameAndFillColor]] = None
+    brightness: Optional[Union[int, FrameAndFillBrightness]] = None
     dither_pattern: Optional[Union[str, CustomDitherPattern]] = None
     line_style: Optional[Union[str, CustomLineStyle]] = None
     valid: bool = True
@@ -203,22 +196,6 @@ class LayerView(BaseModel):
             if isinstance(default, LayerView):
                 self.group_members[name] = default
 
-    @validator("color")
-    def parse_color(cls, color):
-        if isinstance(color, dict):
-            color = LayerColor(**color)
-        elif not isinstance(color, LayerColor):
-            color = LayerColor(fill=color, frame=color)
-        return color
-
-    @validator("brightness")
-    def parse_brightness(cls, brightness):
-        if isinstance(brightness, dict):
-            brightness = LayerBrightness(**brightness)
-        elif not isinstance(brightness, LayerBrightness):
-            brightness = LayerBrightness(fill=brightness, frame=brightness)
-        return brightness
-
     def __str__(self):
         """Returns a formatted view of properties and their values."""
         return "LayerView:\n\t" + "\n\t".join(
@@ -231,11 +208,31 @@ class LayerView(BaseModel):
 
     def _build_xml_element(self, tag: str, name: str) -> ET.Element:
         """Get XML Element from attributes."""
+        colors = self.color
+
+        colors = {
+            "frame-color": colors["frame"] if isinstance(colors, dict) else colors,
+            "fill-color": colors["fill"] if isinstance(colors, dict) else colors,
+        }
+        for key, color in colors.items():
+            if color is not None:
+                color = color.as_hex()
+                if len(color) == 4:
+                    color = "#" + "".join([2 * str(c) for c in color[1:]])
+            colors[key] = color
+
+        brightnesses = self.brightness
+        brightnesses = {
+            "frame-brightness": brightnesses["frame"]
+            if isinstance(brightnesses, dict)
+            else brightnesses,
+            "fill-brightness": brightnesses["fill"]
+            if isinstance(brightnesses, dict)
+            else brightnesses,
+        }
         prop_dict = {
-            "frame-color": self.color.frame,
-            "fill-color": self.color.fill,
-            "frame-brightness": self.brightness.frame,
-            "fill-brightness": self.brightness.fill,
+            **colors,
+            **brightnesses,
             "dither-pattern": self.dither_pattern.name
             if isinstance(self.dither_pattern, CustomDitherPattern)
             else self.dither_pattern,
@@ -327,8 +324,24 @@ class LayerView(BaseModel):
         if name is None:
             return None
 
+        color = {
+            "fill": element.find("fill-color").text,
+            "frame": element.find("frame-color").text,
+        }
+        if color["fill"] == color["frame"]:
+            color = color["fill"]
+
+        brightness = {
+            "fill": element.find("fill-brightness").text,
+            "frame": element.find("frame-brightness").text,
+        }
+        if brightness["fill"] == brightness["frame"]:
+            brightness = brightness["fill"]
+
         lv = LayerView(
             layer=cls._process_layer(element.find("source").text, layer_pattern),
+            color=color,
+            brightness=brightness,
             dither_pattern=element.find("dither-pattern").text,
             line_style=element.find("line-style").text,
             valid=element.find("valid").text,
@@ -349,20 +362,6 @@ class LayerView(BaseModel):
 
         if group_members != {}:
             lv.group_members = group_members
-
-        color = LayerColor(
-            fill=element.find("fill-color").text,
-            frame=element.find("frame-color").text,
-        )
-        if color != LayerColor():
-            lv.color = color
-
-        brightness = LayerBrightness(
-            fill=element.find("fill-brightness").text,
-            frame=element.find("frame-brightness").text,
-        )
-        if brightness != LayerBrightness():
-            lv.brightness = brightness
 
         return name, lv
 
@@ -603,57 +602,26 @@ class LayerViews(BaseModel):
         )
 
     def to_yaml(
-        self,
-        layer_file: Union[str, pathlib.Path],
+        self, layer_file: Union[str, pathlib.Path], prefer_named_color: bool = True
     ) -> None:
         """Export layer properties to two yaml files.
 
         Args:
             layer_file: Name of the file to write LayerViews to.
+            prefer_named_color: Write the name of a color instead of its hex representation when possible.
         """
         import yaml
 
         lf_path = pathlib.Path(append_file_extension(layer_file, ".yml"))
 
-        def _tuple_presenter(dumper: yaml.Dumper, data: tuple) -> yaml.SequenceNode:
-            return dumper.represent_sequence(
-                "tag:yaml.org,2002:seq", data, flow_style=True
-            )
+        add_tuple_yaml_presenter()
+        add_multiline_str_yaml_presenter()
+        add_color_yaml_presenter(prefer_named_color=prefer_named_color)
 
-        def _str_presenter(dumper: yaml.Dumper, data: str) -> yaml.ScalarNode:
-            if "\n" in data:  # check for multiline string
-                return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")
-            return dumper.represent_scalar("tag:yaml.org,2002:str", data)
-
-        yaml.add_representer(tuple, _tuple_presenter)
-        yaml.representer.SafeRepresenter.add_representer(tuple, _tuple_presenter)
-
-        yaml.add_representer(str, _str_presenter)
-        yaml.representer.SafeRepresenter.add_representer(str, _str_presenter)
         lvs = {
             name: lv.dict(exclude_none=True, exclude_defaults=True, exclude_unset=True)
             for name, lv in self.layer_views.items()
         }
-
-        # TODO: Translate hex into color names when possible
-        # TODO: Combine fill and frame if same
-        # if readable_colors:
-        #     from matplotlib.colors import CSS4_COLORS
-        #
-        #     for lv in lvs.values():
-        #         if "color" not in lv.keys():
-        #             continue
-        #         colors = lv["color"]
-        #         if len(colors.keys()) == 2:
-        #             for c_label, c_val in colors.items():
-        #                 if c_val.upper() in CSS4_COLORS.values():
-        #                     idx = list(CSS4_COLORS.values()).index(c_val.upper())
-        #                     colors[c_label] = list(CSS4_COLORS.keys())[idx]
-        #
-        #             # Combine fill and frame if same
-        #             if colors["fill"] == colors["frame"]:
-        #                 colors = colors["fill"]
-        #         lv["color"] = colors
 
         out_dict = {
             "LayerViews": lvs,
@@ -697,3 +665,8 @@ class LayerViews(BaseModel):
                 for name, ls in properties["CustomLineStyles"].items()
             },
         )
+
+
+if __name__ == "__main__":
+    lv = LayerView(color={"fill": [5, 1, 100], "frame": "#000000"})
+    print(lv.color["fill"].as_hex())

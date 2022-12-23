@@ -1,58 +1,53 @@
 LayerViews:
   Waveguide:
     layer: [1, 0]
-    color:
-      fill: '#000000'
-      frame: '#000000'
+    color: black
+    brightness: 0
     dither_pattern: I2
     width: 1
   WGCLAD:
     layer: [111, 0]
     layer_in_name: true
-    color:
-      fill: '#c0c0c0'
-      frame: '#c0c0c0'
+    color: silver
+    brightness: 0
     dither_pattern: I3
     visible: false
     width: 1
   SLAB150:
     layer: [2, 0]
     layer_in_name: true
-    color:
-      fill: '#00ffff'
-      frame: '#00ffff'
+    color: cyan
+    brightness: 0
     dither_pattern: I3
     transparent: true
     width: 1
   SLAB90:
     layer: [3, 0]
     layer_in_name: true
-    color:
-      fill: '#805000'
-      frame: '#805000'
+    color: '#805000'
+    brightness: 0
     dither_pattern: I3
     transparent: true
     width: 1
   SHALLOWETCH:
     layer: [2, 6]
     layer_in_name: true
-    color:
-      fill: '#0000ff'
-      frame: '#0000ff'
+    color: blue
+    brightness: 0
     dither_pattern: I3
   DEEPETCH:
     layer: [3, 6]
     layer_in_name: true
-    color:
-      fill: '#cc0000'
-      frame: '#cc0000'
+    color: '#c00'
+    brightness: 0
     dither_pattern: I3
   SLAB150CLAD:
     layer: [2, 9]
     layer_in_name: true
     color:
       fill: '#80a8ff'
-      frame: '#9999cc'
+      frame: '#99c'
+    brightness: 0
     dither_pattern: I3
     visible: false
     width: 1
@@ -61,144 +56,127 @@ LayerViews:
     layer_in_name: true
     color:
       fill: '#80a8ff'
-      frame: '#9999cc'
+      frame: '#99c'
+    brightness: 0
     dither_pattern: I1
     visible: false
     width: 1
   Doping:
+    brightness: 0
     group_members:
       N:
         layer: [20, 0]
         layer_in_name: true
-        color:
-          fill: '#ff0000'
-          frame: '#ff0000'
+        color: red
+        brightness: 0
         dither_pattern: I5
         width: 1
       NP:
         layer: [22, 0]
         layer_in_name: true
-        color:
-          fill: '#ff0000'
-          frame: '#ff0000'
+        color: red
+        brightness: 0
         dither_pattern: I5
         width: 1
       NPP:
         layer: [24, 0]
         layer_in_name: true
-        color:
-          fill: '#ff0000'
-          frame: '#ff0000'
+        color: red
+        brightness: 0
         dither_pattern: I6
         width: 1
       P 21.0:
         layer: [21, 0]
-        color:
-          fill: '#0000ff'
-          frame: '#0000ff'
+        color: blue
+        brightness: 0
         dither_pattern: I5
         transparent: true
         width: 1
       PP:
         layer: [23, 0]
         layer_in_name: true
-        color:
-          fill: '#0000ff'
-          frame: '#0000ff'
+        color: blue
+        brightness: 0
         dither_pattern: I5
         width: 1
       PPP:
         layer: [25, 0]
         layer_in_name: true
-        color:
-          fill: '#0000ff'
-          frame: '#0000ff'
+        color: blue
+        brightness: 0
         dither_pattern: I6
         width: 1
       PDPP:
         layer: [27, 0]
         layer_in_name: true
-        color:
-          fill: '#ccb27f'
-          frame: '#ccb27f'
+        color: '#ccb27f'
+        brightness: 0
         dither_pattern: I13
         width: 1
       GENPP:
         layer: [26, 0]
         layer_in_name: true
-        color:
-          fill: '#cc00cc'
-          frame: '#cc00cc'
+        color: '#c0c'
+        brightness: 0
         dither_pattern: I21
         width: 1
       GEPPP:
         layer: [29, 0]
         layer_in_name: true
-        color:
-          fill: '#cc00cc'
-          frame: '#cc00cc'
+        color: '#c0c'
+        brightness: 0
         dither_pattern: I21
         width: 1
   WGN Nitride:
     layer: [34, 0]
     layer_in_name: true
-    color:
-      fill: '#ff8000'
-      frame: '#ff8000'
+    color: '#ff8000'
+    brightness: 0
     dither_pattern: I4
     transparent: true
     width: 1
   WGNCLAD:
     layer: [36, 0]
     layer_in_name: true
-    color:
-      fill: '#c0c0c0'
-      frame: '#c0c0c0'
+    color: silver
+    brightness: 0
     dither_pattern: I3
     visible: false
     width: 1
   GE:
     layer: [5, 0]
     layer_in_name: true
-    color:
-      fill: '#ff00ff'
-      frame: '#ff00ff'
+    color: magenta
+    brightness: 0
     dither_pattern: I2
     width: 1
   SILICIDE:
     layer: [39, 0]
     layer_in_name: true
-    color:
-      fill: '#cc4c00'
-      frame: '#cc4c00'
+    color: '#cc4c00'
+    brightness: 0
     dither_pattern: I11
     width: 1
   MH:
     layer: [47, 0]
     layer_in_name: true
-    color:
-      fill: '#ff8000'
-      frame: '#ff8000'
+    color: '#ff8000'
+    brightness: 0
     dither_pattern: I15
     transparent: true
     width: 1
   M1:
     layer: [41, 0]
     layer_in_name: true
-    color:
-      fill: '#01ff6b'
-      frame: '#01ff6b'
-    brightness:
-      fill: -16
-      frame: -16
+    color: '#01ff6b'
+    brightness: -16
     dither_pattern: I8
     width: 1
   M2:
     layer: [45, 0]
     layer_in_name: true
-    color:
-      fill: '#008050'
-      frame: '#008050'
+    color: '#008050'
+    brightness: 0
     dither_pattern: I8
     width: 1
   M3:
@@ -206,460 +184,406 @@ LayerViews:
     layer_in_name: true
     color:
       fill: '#800057'
-      frame: '#008080'
+      frame: teal
+    brightness: 0
     dither_pattern: I8
   VIAC:
     layer: [40, 0]
     layer_in_name: true
-    color:
-      fill: '#cc4c00'
-      frame: '#cc4c00'
+    color: '#cc4c00'
+    brightness: 0
     dither_pattern: I2
     width: 1
   VIA1:
     layer: [44, 0]
     layer_in_name: true
-    color:
-      fill: '#808080'
-      frame: '#808080'
+    color: grey
+    brightness: 0
     dither_pattern: I2
     width: 1
   VIA2:
     layer: [43, 0]
     layer_in_name: true
-    color:
-      fill: '#805000'
-      frame: '#805000'
+    color: '#805000'
+    brightness: 0
     dither_pattern: I2
     width: 1
   CAPACITOR:
     layer: [42, 0]
     layer_in_name: true
-    color:
-      fill: '#805000'
-      frame: '#805000'
+    color: '#805000'
+    brightness: 0
     dither_pattern: I2
     width: 1
   METALOPEN:
     layer: [46, 0]
     layer_in_name: true
-    color:
-      fill: '#606060'
-      frame: '#606060'
+    color: '#606060'
+    brightness: 0
     dither_pattern: I12
     width: 1
   DEEPTRENCH:
     layer: [4, 0]
     layer_in_name: true
-    color:
-      fill: '#9999cc'
-      frame: '#9999cc'
+    color: '#99c'
+    brightness: 0
     dither_pattern: I9
     width: 1
   OXIDE_ETCH:
     layer: [6, 0]
     layer_in_name: true
-    color:
-      fill: '#000000'
-      frame: '#000000'
+    color: black
+    brightness: 0
     dither_pattern: I6
     width: 1
   SITILES:
     layer: [190, 0]
     layer_in_name: true
-    color:
-      fill: '#000000'
-      frame: '#000000'
+    color: black
+    brightness: 0
     dither_pattern: I3
     width: 1
   M1TILES:
     layer: [191, 0]
     layer_in_name: true
-    color:
-      fill: '#91ff00'
-      frame: '#91ff00'
+    color: '#91ff00'
+    brightness: 0
     dither_pattern: I3
     width: 1
   LABEL OPTICAL IO:
     layer: [201, 0]
     layer_in_name: true
-    color:
-      fill: '#0000ff'
-      frame: '#0000ff'
+    color: blue
+    brightness: 0
     dither_pattern: I1
     width: 1
   LABEL_SETTINGS:
     layer: [202, 0]
     layer_in_name: true
-    color:
-      fill: '#ff00ff'
-      frame: '#ff00ff'
+    color: magenta
+    brightness: 0
     dither_pattern: I1
     visible: false
     width: 1
   TE:
     layer: [203, 0]
     layer_in_name: true
-    color:
-      fill: '#0000ff'
-      frame: '#0000ff'
+    color: blue
+    brightness: 0
     dither_pattern: I0
     transparent: true
     width: 1
   TM:
     layer: [204, 0]
     layer_in_name: true
-    color:
-      fill: '#ff0000'
-      frame: '#ff0000'
+    color: red
+    brightness: 0
     dither_pattern: I0
     width: 1
   LABEL_INSTANCES:
     layer: [206, 0]
     layer_in_name: true
-    color:
-      fill: '#0000ff'
-      frame: '#0000ff'
+    color: blue
+    brightness: 0
     dither_pattern: I5
   DICING:
     layer: [65, 0]
     layer_in_name: true
-    color:
-      fill: '#cc0000'
-      frame: '#cc0000'
+    color: '#c00'
+    brightness: 0
     dither_pattern: I3
     width: 1
   DRC_EXCLUDE:
     layer: [67, 0]
     layer_in_name: true
-    color:
-      fill: '#000000'
-      frame: '#000000'
+    color: black
+    brightness: 0
     dither_pattern: I1
     visible: false
     width: 2
   FLOORPLAN:
     layer: [64, 0]
     layer_in_name: true
-    color:
-      fill: '#000000'
-      frame: '#000000'
+    color: black
+    brightness: 0
     dither_pattern: I1
   simulation:
+    brightness: 0
     group_members:
       SIM_REGION:
         layer: [100, 0]
         layer_in_name: true
-        color:
-          fill: '#000000'
-          frame: '#000000'
+        color: black
+        brightness: 0
         dither_pattern: I1
       MONITOR:
         layer: [101, 0]
         layer_in_name: true
-        color:
-          fill: '#0000ff'
-          frame: '#0000ff'
+        color: blue
+        brightness: 0
         dither_pattern: I1
       SOURCE:
         layer: [110, 0]
         layer_in_name: true
-        color:
-          fill: '#ff0000'
-          frame: '#ff0000'
+        color: red
+        brightness: 0
         dither_pattern: I1
   Lumerical:
     layer: [733, 0]
-    color:
-      fill: '#800057'
-      frame: '#800057'
+    color: '#800057'
+    brightness: 0
     dither_pattern: I1
     width: 3
   DevRec:
     layer: [68, 0]
-    color:
-      fill: '#004080'
-      frame: '#004080'
+    color: '#004080'
+    brightness: 0
     dither_pattern: I1
     visible: false
     transparent: true
     width: 1
   PinRec:
     layer: [1, 10]
-    color:
-      fill: '#404040'
-      frame: '#404040'
+    color: '#404040'
+    brightness: 0
     dither_pattern: I1
   FbrTgt:
     layer: [81, 0]
-    color:
-      fill: '#004080'
-      frame: '#004080'
+    color: '#004080'
+    brightness: 0
     dither_pattern: I9
     width: 2
   Text:
     layer: [66, 0]
-    color:
-      fill: '#0000ff'
-      frame: '#0000ff'
+    color: blue
+    brightness: 0
     dither_pattern: I1
     width: 1
   Errors:
     layer: [69, 0]
-    color:
-      fill: '#0000ff'
-      frame: '#0000ff'
+    color: blue
+    brightness: 0
     dither_pattern: I1
     width: 1
   PinRecM:
     layer: [1, 11]
-    color:
-      fill: '#004080'
-      frame: '#004080'
+    color: '#004080'
+    brightness: 0
     dither_pattern: I1
     width: 1
   XSECTION:
+    brightness: 0
     group_members:
       XS_BOX:
         layer: [300, 0]
         layer_in_name: true
-        color:
-          fill: '#f3ff80'
-          frame: '#f3ff80'
+        color: '#f3ff80'
+        brightness: 0
         dither_pattern: I0
         width: 1
       XS_SI:
         layer: [301, 0]
         layer_in_name: true
-        color:
-          fill: '#000000'
-          frame: '#000000'
+        color: black
+        brightness: 0
         dither_pattern: I0
         width: 1
       XS_SIN:
         layer: [319, 0]
         layer_in_name: true
-        color:
-          fill: '#000000'
-          frame: '#000000'
+        color: black
+        brightness: 0
         dither_pattern: I0
         width: 1
       XS_N:
         layer: [320, 0]
         layer_in_name: true
-        color:
-          fill: '#008ca5'
-          frame: '#008ca5'
+        color: '#008ca5'
+        brightness: 0
         dither_pattern: I0
         width: 1
       XS_NPP:
         layer: [321, 0]
         layer_in_name: true
-        color:
-          fill: '#004ca5'
-          frame: '#004ca5'
+        color: '#004ca5'
+        brightness: 0
         dither_pattern: I0
         width: 1
       XS_P:
         layer: [330, 0]
         layer_in_name: true
-        color:
-          fill: '#00f233'
-          frame: '#00f233'
+        color: '#00f233'
+        brightness: 0
         dither_pattern: I0
         width: 1
       XS_PDPP:
         layer: [327, 0]
         layer_in_name: true
-        color:
-          fill: '#00f233'
-          frame: '#00f233'
+        color: '#00f233'
+        brightness: 0
         dither_pattern: I0
         width: 1
       XS_PPP:
         layer: [331, 0]
         layer_in_name: true
-        color:
-          fill: '#00b233'
-          frame: '#00b233'
+        color: '#00b233'
+        brightness: 0
         dither_pattern: I0
         width: 1
       XS_SI_SLAB:
         layer: [313, 0]
         layer_in_name: true
-        color:
-          fill: '#80a8ff'
-          frame: '#80a8ff'
+        color: '#80a8ff'
+        brightness: 0
         dither_pattern: I0
         width: 1
       XS_OVERLAY:
         layer: [311, 0]
         layer_in_name: true
-        color:
-          fill: '#0000ff'
-          frame: '#0000ff'
+        color: blue
+        brightness: 0
         dither_pattern: I0
         width: 1
       XS_OX_SI:
         layer: [302, 0]
         layer_in_name: true
-        color:
-          fill: '#f3ff80'
-          frame: '#f3ff80'
+        color: '#f3ff80'
+        brightness: 0
         dither_pattern: I0
         width: 1
       XS_GE:
         layer: [315, 0]
         layer_in_name: true
-        color:
-          fill: '#004ca5'
-          frame: '#004ca5'
+        color: '#004ca5'
+        brightness: 0
         dither_pattern: I0
         width: 1
       XS_VIAC:
         layer: [303, 0]
         layer_in_name: true
-        color:
-          fill: '#808080'
-          frame: '#808080'
+        color: grey
+        brightness: 0
         dither_pattern: I0
         width: 1
       XS_M1:
         layer: [304, 0]
         layer_in_name: true
-        color:
-          fill: '#008000'
-          frame: '#008000'
+        color: green
+        brightness: 0
         dither_pattern: I0
         width: 1
       XS_OXIDE_M1:
         layer: [305, 0]
         layer_in_name: true
-        color:
-          fill: '#f3ff80'
-          frame: '#f3ff80'
+        color: '#f3ff80'
+        brightness: 0
         dither_pattern: I0
         width: 1
       XS_MH:
         layer: [306, 0]
         layer_in_name: true
-        color:
-          fill: '#008000'
-          frame: '#008000'
+        color: green
+        brightness: 0
         dither_pattern: I0
         width: 1
       XS_OXIDE_M2:
         layer: [307, 0]
         layer_in_name: true
-        color:
-          fill: '#f3ff80'
-          frame: '#f3ff80'
+        color: '#f3ff80'
+        brightness: 0
         dither_pattern: I0
         width: 1
       XS_OXIDE_MH:
         layer: [317, 0]
         layer_in_name: true
-        color:
-          fill: '#f3ff80'
-          frame: '#f3ff80'
+        color: '#f3ff80'
+        brightness: 0
         dither_pattern: I0
         width: 1
       XS_OXIDE_ML:
         layer: [309, 0]
         layer_in_name: true
-        color:
-          fill: '#f3ff80'
-          frame: '#f3ff80'
+        color: '#f3ff80'
+        brightness: 0
         dither_pattern: I0
         width: 1
       XS_VIA1:
         layer: [308, 0]
         layer_in_name: true
-        color:
-          fill: '#808080'
-          frame: '#808080'
+        color: grey
+        brightness: 0
         dither_pattern: I0
         width: 1
       XS_M2:
         layer: [399, 0]
         layer_in_name: true
-        color:
-          fill: '#805000'
-          frame: '#805000'
+        color: '#805000'
+        brightness: 0
         dither_pattern: I0
         width: 1
       XS_OXIDE_M3:
         layer: [311, 0]
         layer_in_name: true
-        color:
-          fill: '#f3ff80'
-          frame: '#f3ff80'
+        color: '#f3ff80'
+        brightness: 0
         dither_pattern: I0
         width: 1
       XS_VIA2:
         layer: [310, 0]
         layer_in_name: true
-        color:
-          fill: '#808080'
-          frame: '#808080'
+        color: grey
+        brightness: 0
         dither_pattern: I0
         width: 1
       XS_SIN2:
         layer: [305, 0]
         layer_in_name: true
-        color:
-          fill: '#805000'
-          frame: '#805000'
+        color: '#805000'
+        brightness: 0
         dither_pattern: I0
         width: 1
   DRC_MARKER:
     layer: [205, 0]
     layer_in_name: true
-    color:
-      fill: '#ff0000'
-      frame: '#ff0000'
+    color: red
+    brightness: 0
     dither_pattern: I0
     transparent: true
     width: 3
   ERROR_MARKER:
     layer: [207, 0]
     layer_in_name: true
-    color:
-      fill: '#ff0000'
-      frame: '#ff0000'
+    color: red
+    brightness: 0
     dither_pattern: I0
     transparent: true
     width: 3
   NOTILE_M1:
     layer: [71, 0]
     layer_in_name: true
-    color:
-      fill: '#808080'
-      frame: '#808080'
+    color: grey
+    brightness: 0
     dither_pattern: I3
     visible: false
   NOTILE_M2:
     layer: [72, 0]
     layer_in_name: true
-    color:
-      fill: '#808080'
-      frame: '#808080'
+    color: grey
+    brightness: 0
     dither_pattern: I3
     visible: false
   NOTILE_M3:
     layer: [73, 0]
     layer_in_name: true
-    color:
-      fill: '#606060'
-      frame: '#606060'
+    color: '#606060'
+    brightness: 0
     dither_pattern: I3
     visible: false
   SHOW_PORTS:
     layer: [1, 12]
     layer_in_name: true
-    color:
-      fill: '#ff80a8'
-      frame: '#ff80a8'
+    color: '#ff80a8'
+    brightness: 0
     dither_pattern: I5
 CustomDitherPatterns:
   DOTS:
