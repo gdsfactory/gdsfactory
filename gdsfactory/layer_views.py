@@ -86,6 +86,7 @@ class LayerView(BaseModel):
     Attributes:
         name: Layer name.
         info: Extra info to include in the LayerView.
+        alpha:
         layer: GDSII layer.
         layer_in_name: Whether to display the name as 'name layer/datatype' rather than just the layer.
         width: This is the line width of the frame in pixels (or empty for the default which is 1).
@@ -110,6 +111,7 @@ class LayerView(BaseModel):
 
     name: str
     info: Optional[str] = None
+    alpha: Optional[float] = None
     layer: Optional[Layer] = None
     layer_in_name: bool = False
     color: Optional[Union[Color, FrameAndFillColor]] = None
@@ -130,9 +132,20 @@ class LayerView(BaseModel):
 
         fields = {"name": {"exclude": True}}
 
+    def _alpha_from_lyp(self):
+        if not self.visible:
+            return 0.0
+        elif not self.transparent:
+            return 0.1 if self.dither_pattern.name == "I1" else 1.0
+        else:
+            return 0.5
+
     def __init__(self, **data):
         """Initialize LayerView object."""
         super().__init__(**data)
+
+        if self.alpha is None:
+            self.alpha = self._alpha_from_lyp()
 
         # Iterate through all items, adding group members as needed
         for name, field in self.__fields__.items():
