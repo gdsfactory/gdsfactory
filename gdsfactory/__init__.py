@@ -47,7 +47,6 @@ from gdsfactory import path
 from gdsfactory import snap
 from gdsfactory import tech
 from gdsfactory import read
-from gdsfactory import layers
 from gdsfactory import add_termination
 from gdsfactory import functions
 from gdsfactory import export
@@ -125,7 +124,7 @@ __all__ = (
     "grid_with_text",
     "import_gds",
     "labels",
-    "layers",
+    "layers.py",
     "pack",
     "partial",
     "path",
