@@ -20,13 +20,19 @@ FrameAndFillColor = Dict[FrameAndFill, Color]
 FrameAndFillBrightness = Dict[FrameAndFill, int]
 
 
+def _ensure_six_digit_hex(color: str) -> str:
+    if color[0] == "#" and len(color) == 4:
+        color = "#" + "".join([2 * str(c) for c in color[1:]])
+    return color
+
+
 def add_color_yaml_presenter(prefer_named_color: bool = True):
     import yaml
 
     def _color_presenter(dumper: yaml.Dumper, data: Color) -> yaml.ScalarNode:
+        data = data.as_named(fallback=True) if prefer_named_color else data.as_hex()
         return dumper.represent_scalar(
-            "tag:yaml.org,2002:str",
-            f"{data.as_named(fallback=True) if prefer_named_color else data.as_hex()}",
+            "tag:yaml.org,2002:str", _ensure_six_digit_hex(data), style='"'
         )
 
     yaml.add_representer(Color, _color_presenter)
@@ -69,12 +75,6 @@ def append_file_extension(
     if isinstance(filename, pathlib.Path) and not str(filename).endswith(extension):
         filename = filename.with_suffix(extension)
     return filename
-
-
-def _ensure_six_digit_hex(color: str) -> str:
-    if len(color) == 4:
-        color = "#" + "".join([2 * str(c) for c in color[1:]])
-    return color
 
 
 def _strip_xml(node):

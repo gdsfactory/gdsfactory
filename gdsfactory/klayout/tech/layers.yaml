@@ -1,14 +1,14 @@
 LayerViews:
   Waveguide:
     layer: [1, 0]
-    color: black
+    color: "black"
     brightness: 0
     dither_pattern: I2
     width: 1
   WGCLAD:
     layer: [111, 0]
     layer_in_name: true
-    color: silver
+    color: "silver"
     brightness: 0
     dither_pattern: I3
     visible: false
@@ -16,7 +16,7 @@ LayerViews:
   SLAB150:
     layer: [2, 0]
     layer_in_name: true
-    color: cyan
+    color: "cyan"
     brightness: 0
     dither_pattern: I3
     transparent: true
@@ -24,7 +24,7 @@ LayerViews:
   SLAB90:
     layer: [3, 0]
     layer_in_name: true
-    color: '#805000'
+    color: "#805000"
     brightness: 0
     dither_pattern: I3
     transparent: true
@@ -32,21 +32,21 @@ LayerViews:
   SHALLOWETCH:
     layer: [2, 6]
     layer_in_name: true
-    color: blue
+    color: "blue"
     brightness: 0
     dither_pattern: I3
   DEEPETCH:
     layer: [3, 6]
     layer_in_name: true
-    color: '#c00'
+    color: "#cc0000"
     brightness: 0
     dither_pattern: I3
   SLAB150CLAD:
     layer: [2, 9]
     layer_in_name: true
     color:
-      fill: '#80a8ff'
-      frame: '#99c'
+      fill: "#80a8ff"
+      frame: "#9999cc"
     brightness: 0
     dither_pattern: I3
     visible: false
@@ -55,8 +55,8 @@ LayerViews:
     layer: [3, 1]
     layer_in_name: true
     color:
-      fill: '#80a8ff'
-      frame: '#99c'
+      fill: "#80a8ff"
+      frame: "#9999cc"
     brightness: 0
     dither_pattern: I1
     visible: false
@@ -67,27 +67,27 @@ LayerViews:
       N:
         layer: [20, 0]
         layer_in_name: true
-        color: red
+        color: "red"
         brightness: 0
         dither_pattern: I5
         width: 1
       NP:
         layer: [22, 0]
         layer_in_name: true
-        color: red
+        color: "red"
         brightness: 0
         dither_pattern: I5
         width: 1
       NPP:
         layer: [24, 0]
         layer_in_name: true
-        color: red
+        color: "red"
         brightness: 0
         dither_pattern: I6
         width: 1
       P 21.0:
         layer: [21, 0]
-        color: blue
+        color: "blue"
         brightness: 0
         dither_pattern: I5
         transparent: true
@@ -95,42 +95,42 @@ LayerViews:
       PP:
         layer: [23, 0]
         layer_in_name: true
-        color: blue
+        color: "blue"
         brightness: 0
         dither_pattern: I5
         width: 1
       PPP:
         layer: [25, 0]
         layer_in_name: true
-        color: blue
+        color: "blue"
         brightness: 0
         dither_pattern: I6
         width: 1
       PDPP:
         layer: [27, 0]
         layer_in_name: true
-        color: '#ccb27f'
+        color: "#ccb27f"
         brightness: 0
         dither_pattern: I13
         width: 1
       GENPP:
         layer: [26, 0]
         layer_in_name: true
-        color: '#c0c'
+        color: "#cc00cc"
         brightness: 0
         dither_pattern: I21
         width: 1
       GEPPP:
         layer: [29, 0]
         layer_in_name: true
-        color: '#c0c'
+        color: "#cc00cc"
         brightness: 0
         dither_pattern: I21
         width: 1
   WGN Nitride:
     layer: [34, 0]
     layer_in_name: true
-    color: '#ff8000'
+    color: "#ff8000"
     brightness: 0
     dither_pattern: I4
     transparent: true
@@ -138,7 +138,7 @@ LayerViews:
   WGNCLAD:
     layer: [36, 0]
     layer_in_name: true
-    color: silver
+    color: "silver"
     brightness: 0
     dither_pattern: I3
     visible: false
@@ -146,21 +146,21 @@ LayerViews:
   GE:
     layer: [5, 0]
     layer_in_name: true
-    color: magenta
+    color: "magenta"
     brightness: 0
     dither_pattern: I2
     width: 1
   SILICIDE:
     layer: [39, 0]
     layer_in_name: true
-    color: '#cc4c00'
+    color: "#cc4c00"
     brightness: 0
     dither_pattern: I11
     width: 1
   MH:
     layer: [47, 0]
     layer_in_name: true
-    color: '#ff8000'
+    color: "#ff8000"
     brightness: 0
     dither_pattern: I15
     transparent: true
@@ -168,14 +168,14 @@ LayerViews:
   M1:
     layer: [41, 0]
     layer_in_name: true
-    color: '#01ff6b'
+    color: "#01ff6b"
     brightness: -16
     dither_pattern: I8
     width: 1
   M2:
     layer: [45, 0]
     layer_in_name: true
-    color: '#008050'
+    color: "#008050"
     brightness: 0
     dither_pattern: I8
     width: 1
@@ -183,84 +183,84 @@ LayerViews:
     layer: [49, 0]
     layer_in_name: true
     color:
-      fill: '#800057'
-      frame: teal
+      fill: "#800057"
+      frame: "teal"
     brightness: 0
     dither_pattern: I8
   VIAC:
     layer: [40, 0]
     layer_in_name: true
-    color: '#cc4c00'
+    color: "#cc4c00"
     brightness: 0
     dither_pattern: I2
     width: 1
   VIA1:
     layer: [44, 0]
     layer_in_name: true
-    color: grey
+    color: "grey"
     brightness: 0
     dither_pattern: I2
     width: 1
   VIA2:
     layer: [43, 0]
     layer_in_name: true
-    color: '#805000'
+    color: "#805000"
     brightness: 0
     dither_pattern: I2
     width: 1
   CAPACITOR:
     layer: [42, 0]
     layer_in_name: true
-    color: '#805000'
+    color: "#805000"
     brightness: 0
     dither_pattern: I2
     width: 1
   METALOPEN:
     layer: [46, 0]
     layer_in_name: true
-    color: '#606060'
+    color: "#606060"
     brightness: 0
     dither_pattern: I12
     width: 1
   DEEPTRENCH:
     layer: [4, 0]
     layer_in_name: true
-    color: '#99c'
+    color: "#9999cc"
     brightness: 0
     dither_pattern: I9
     width: 1
   OXIDE_ETCH:
     layer: [6, 0]
     layer_in_name: true
-    color: black
+    color: "black"
     brightness: 0
     dither_pattern: I6
     width: 1
   SITILES:
     layer: [190, 0]
     layer_in_name: true
-    color: black
+    color: "black"
     brightness: 0
     dither_pattern: I3
     width: 1
   M1TILES:
     layer: [191, 0]
     layer_in_name: true
-    color: '#91ff00'
+    color: "#91ff00"
     brightness: 0
     dither_pattern: I3
     width: 1
   LABEL OPTICAL IO:
     layer: [201, 0]
     layer_in_name: true
-    color: blue
+    color: "blue"
     brightness: 0
     dither_pattern: I1
     width: 1
   LABEL_SETTINGS:
     layer: [202, 0]
     layer_in_name: true
-    color: magenta
+    color: "magenta"
     brightness: 0
     dither_pattern: I1
     visible: false
@@ -268,7 +268,7 @@ LayerViews:
   TE:
     layer: [203, 0]
     layer_in_name: true
-    color: blue
+    color: "blue"
     brightness: 0
     dither_pattern: I0
     transparent: true
@@ -276,27 +276,27 @@ LayerViews:
   TM:
     layer: [204, 0]
     layer_in_name: true
-    color: red
+    color: "red"
     brightness: 0
     dither_pattern: I0
     width: 1
   LABEL_INSTANCES:
     layer: [206, 0]
     layer_in_name: true
-    color: blue
+    color: "blue"
     brightness: 0
     dither_pattern: I5
   DICING:
     layer: [65, 0]
     layer_in_name: true
-    color: '#c00'
+    color: "#cc0000"
     brightness: 0
     dither_pattern: I3
     width: 1
   DRC_EXCLUDE:
     layer: [67, 0]
     layer_in_name: true
-    color: black
+    color: "black"
     brightness: 0
     dither_pattern: I1
     visible: false
@@ -304,7 +304,7 @@ LayerViews:
   FLOORPLAN:
     layer: [64, 0]
     layer_in_name: true
-    color: black
+    color: "black"
     brightness: 0
     dither_pattern: I1
   simulation:
@@ -313,30 +313,30 @@ LayerViews:
       SIM_REGION:
         layer: [100, 0]
         layer_in_name: true
-        color: black
+        color: "black"
         brightness: 0
         dither_pattern: I1
       MONITOR:
         layer: [101, 0]
         layer_in_name: true
-        color: blue
+        color: "blue"
         brightness: 0
         dither_pattern: I1
       SOURCE:
         layer: [110, 0]
         layer_in_name: true
-        color: red
+        color: "red"
         brightness: 0
         dither_pattern: I1
   Lumerical:
     layer: [733, 0]
-    color: '#800057'
+    color: "#800057"
     brightness: 0
     dither_pattern: I1
     width: 3
   DevRec:
     layer: [68, 0]
-    color: '#004080'
+    color: "#004080"
     brightness: 0
     dither_pattern: I1
     visible: false
@@ -344,30 +344,30 @@ LayerViews:
     width: 1
   PinRec:
     layer: [1, 10]
-    color: '#404040'
+    color: "#404040"
     brightness: 0
     dither_pattern: I1
   FbrTgt:
     layer: [81, 0]
-    color: '#004080'
+    color: "#004080"
     brightness: 0
     dither_pattern: I9
     width: 2
   Text:
     layer: [66, 0]
-    color: blue
+    color: "blue"
     brightness: 0
     dither_pattern: I1
     width: 1
   Errors:
     layer: [69, 0]
-    color: blue
+    color: "blue"
     brightness: 0
     dither_pattern: I1
     width: 1
   PinRecM:
     layer: [1, 11]
-    color: '#004080'
+    color: "#004080"
     brightness: 0
     dither_pattern: I1
     width: 1
@@ -377,175 +377,175 @@ LayerViews:
       XS_BOX:
         layer: [300, 0]
         layer_in_name: true
-        color: '#f3ff80'
+        color: "#f3ff80"
         brightness: 0
         dither_pattern: I0
         width: 1
       XS_SI:
         layer: [301, 0]
         layer_in_name: true
-        color: black
+        color: "black"
         brightness: 0
         dither_pattern: I0
         width: 1
       XS_SIN:
         layer: [319, 0]
         layer_in_name: true
-        color: black
+        color: "black"
         brightness: 0
         dither_pattern: I0
         width: 1
       XS_N:
         layer: [320, 0]
         layer_in_name: true
-        color: '#008ca5'
+        color: "#008ca5"
         brightness: 0
         dither_pattern: I0
         width: 1
       XS_NPP:
         layer: [321, 0]
         layer_in_name: true
-        color: '#004ca5'
+        color: "#004ca5"
         brightness: 0
         dither_pattern: I0
         width: 1
       XS_P:
         layer: [330, 0]
         layer_in_name: true
-        color: '#00f233'
+        color: "#00f233"
         brightness: 0
         dither_pattern: I0
         width: 1
       XS_PDPP:
         layer: [327, 0]
         layer_in_name: true
-        color: '#00f233'
+        color: "#00f233"
         brightness: 0
         dither_pattern: I0
         width: 1
       XS_PPP:
         layer: [331, 0]
         layer_in_name: true
-        color: '#00b233'
+        color: "#00b233"
         brightness: 0
         dither_pattern: I0
         width: 1
       XS_SI_SLAB:
         layer: [313, 0]
         layer_in_name: true
-        color: '#80a8ff'
+        color: "#80a8ff"
         brightness: 0
         dither_pattern: I0
         width: 1
       XS_OVERLAY:
         layer: [311, 0]
         layer_in_name: true
-        color: blue
+        color: "blue"
         brightness: 0
         dither_pattern: I0
         width: 1
       XS_OX_SI:
         layer: [302, 0]
         layer_in_name: true
-        color: '#f3ff80'
+        color: "#f3ff80"
         brightness: 0
         dither_pattern: I0
         width: 1
       XS_GE:
         layer: [315, 0]
         layer_in_name: true
-        color: '#004ca5'
+        color: "#004ca5"
         brightness: 0
         dither_pattern: I0
         width: 1
       XS_VIAC:
         layer: [303, 0]
         layer_in_name: true
-        color: grey
+        color: "grey"
         brightness: 0
         dither_pattern: I0
         width: 1
       XS_M1:
         layer: [304, 0]
         layer_in_name: true
-        color: green
+        color: "green"
         brightness: 0
         dither_pattern: I0
         width: 1
       XS_OXIDE_M1:
         layer: [305, 0]
         layer_in_name: true
-        color: '#f3ff80'
+        color: "#f3ff80"
         brightness: 0
         dither_pattern: I0
         width: 1
       XS_MH:
         layer: [306, 0]
         layer_in_name: true
-        color: green
+        color: "green"
         brightness: 0
         dither_pattern: I0
         width: 1
       XS_OXIDE_M2:
         layer: [307, 0]
         layer_in_name: true
-        color: '#f3ff80'
+        color: "#f3ff80"
         brightness: 0
         dither_pattern: I0
         width: 1
       XS_OXIDE_MH:
         layer: [317, 0]
         layer_in_name: true
-        color: '#f3ff80'
+        color: "#f3ff80"
         brightness: 0
         dither_pattern: I0
         width: 1
       XS_OXIDE_ML:
         layer: [309, 0]
         layer_in_name: true
-        color: '#f3ff80'
+        color: "#f3ff80"
         brightness: 0
         dither_pattern: I0
         width: 1
       XS_VIA1:
         layer: [308, 0]
         layer_in_name: true
-        color: grey
+        color: "grey"
         brightness: 0
         dither_pattern: I0
         width: 1
       XS_M2:
         layer: [399, 0]
         layer_in_name: true
-        color: '#805000'
+        color: "#805000"
         brightness: 0
         dither_pattern: I0
         width: 1
       XS_OXIDE_M3:
         layer: [311, 0]
         layer_in_name: true
-        color: '#f3ff80'
+        color: "#f3ff80"
         brightness: 0
         dither_pattern: I0
         width: 1
       XS_VIA2:
         layer: [310, 0]
         layer_in_name: true
-        color: grey
+        color: "grey"
         brightness: 0
         dither_pattern: I0
         width: 1
       XS_SIN2:
         layer: [305, 0]
         layer_in_name: true
-        color: '#805000'
+        color: "#805000"
         brightness: 0
         dither_pattern: I0
         width: 1
   DRC_MARKER:
     layer: [205, 0]
     layer_in_name: true
-    color: red
+    color: "red"
     brightness: 0
     dither_pattern: I0
     transparent: true
@@ -553,7 +553,7 @@ LayerViews:
   ERROR_MARKER:
     layer: [207, 0]
     layer_in_name: true
-    color: red
+    color: "red"
     brightness: 0
     dither_pattern: I0
     transparent: true
@@ -561,28 +561,28 @@ LayerViews:
   NOTILE_M1:
     layer: [71, 0]
     layer_in_name: true
-    color: grey
+    color: "grey"
     brightness: 0
     dither_pattern: I3
     visible: false
   NOTILE_M2:
     layer: [72, 0]
     layer_in_name: true
-    color: grey
+    color: "grey"
     brightness: 0
     dither_pattern: I3
     visible: false
   NOTILE_M3:
     layer: [73, 0]
     layer_in_name: true
-    color: '#606060'
+    color: "#606060"
     brightness: 0
     dither_pattern: I3
     visible: false
   SHOW_PORTS:
     layer: [1, 12]
     layer_in_name: true
-    color: '#ff80a8'
+    color: "#ff80a8"
     brightness: 0
     dither_pattern: I5
 CustomDitherPatterns:
