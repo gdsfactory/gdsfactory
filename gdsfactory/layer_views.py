@@ -1,4 +1,4 @@
-"""Classes and utilities for working with KLayout technology files (.lyp, .lyt).
+"""Classes and utils for working with KLayout technology files (.lyp, .lyt).
 
 This module enables conversion between gdsfactory settings and KLayout technology.
 """
@@ -16,89 +16,6 @@ Layer = Tuple[int, int]
 FrameAndFill = Literal["frame", "fill"]
 FrameAndFillColor = Dict[FrameAndFill, Color]
 FrameAndFillBrightness = Dict[FrameAndFill, int]
-
-
-def _ensure_six_digit_hex(color: str) -> str:
-    if color[0] == "#" and len(color) == 4:
-        color = "#" + "".join([2 * str(c) for c in color[1:]])
-    return color
-
-
-def add_color_yaml_presenter(prefer_named_color: bool = True):
-    import yaml
-
-    def _color_presenter(dumper: yaml.Dumper, data: Color) -> yaml.ScalarNode:
-        data = data.as_named(fallback=True) if prefer_named_color else data.as_hex()
-        return dumper.represent_scalar(
-            "tag:yaml.org,2002:str", _ensure_six_digit_hex(data), style='"'
-        )
-
-    yaml.add_representer(Color, _color_presenter)
-    yaml.representer.SafeRepresenter.add_representer(Color, _color_presenter)
-
-
-def add_tuple_yaml_presenter():
-    import yaml
-
-    def _tuple_presenter(dumper: yaml.Dumper, data: tuple) -> yaml.SequenceNode:
-        return dumper.represent_sequence("tag:yaml.org,2002:seq", data, flow_style=True)
-
-    yaml.add_representer(tuple, _tuple_presenter)
-    yaml.representer.SafeRepresenter.add_representer(tuple, _tuple_presenter)
-
-
-def add_multiline_str_yaml_presenter():
-    import yaml
-
-    def _str_presenter(dumper: yaml.Dumper, data: str) -> yaml.ScalarNode:
-        if "\n" in data:  # check for multiline string
-            return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")
-        return dumper.represent_scalar("tag:yaml.org,2002:str", data)
-
-    yaml.add_representer(str, _str_presenter)
-    yaml.representer.SafeRepresenter.add_representer(str, _str_presenter)
-
-
-def append_file_extension(
-    filename: Union[str, pathlib.Path], extension: str
-) -> Union[str, pathlib.Path]:
-    """Try appending extension to file."""
-    # Handle whether given with '.'
-    if "." not in extension:
-        extension = f".{extension}"
-
-    if isinstance(filename, str) and not filename.endswith(extension):
-        filename += extension
-
-    if isinstance(filename, pathlib.Path) and not str(filename).endswith(extension):
-        filename = filename.with_suffix(extension)
-    return filename
-
-
-def _strip_xml(node):
-    """Strip XML of excess whitespace.
-
-    Source: https://stackoverflow.com/a/16919069
-    """
-    from xml.dom.minidom import Node
-
-    for x in node.childNodes:
-        if x.nodeType == Node.TEXT_NODE:
-            if x.nodeValue:
-                x.nodeValue = x.nodeValue.strip()
-        elif x.nodeType == Node.ELEMENT_NODE:
-            _strip_xml(x)
-
-
-def make_pretty_xml(root: ET.Element) -> bytes:
-    import xml.dom.minidom
-
-    xml_doc = xml.dom.minidom.parseString(ET.tostring(root))
-
-    _strip_xml(xml_doc)
-    xml_doc.normalize()
-
-    return xml_doc.toprettyxml(indent=" ", newl="\n", encoding="utf-8")
 
 
 class CustomDitherPattern(BaseModel):
@@ -168,6 +85,7 @@ class LayerView(BaseModel):
 
     Attributes:
         name: Layer name.
+        info: Extra info to include in the LayerView.
         layer: GDSII layer.
         layer_in_name: Whether to display the name as 'name layer/datatype' rather than just the layer.
         width: This is the line width of the frame in pixels (or empty for the default which is 1).
@@ -191,6 +109,7 @@ class LayerView(BaseModel):
     """
 
     name: str
+    info: Optional[str] = None
     layer: Optional[Layer] = None
     layer_in_name: bool = False
     color: Optional[Union[Color, FrameAndFillColor]] = None
@@ -233,6 +152,8 @@ class LayerView(BaseModel):
 
     def _build_xml_element(self, tag: str, name: str) -> ET.Element:
         """Get XML Element from attributes."""
+        from gdsfactory.utils.color_utils import ensure_six_digit_hex_color
+
         colors = self.color
 
         colors = {
@@ -241,7 +162,7 @@ class LayerView(BaseModel):
         }
         for key, color in colors.items():
             if color is not None:
-                color = _ensure_six_digit_hex(color.as_hex())
+                color = ensure_six_digit_hex_color(color.as_hex())
             colors[key] = color
 
         brightnesses = self.brightness
@@ -541,7 +462,9 @@ class LayerViews(BaseModel):
             overwrite: Whether to overwrite an existing file located at the filepath.
 
         """
-        filepath = pathlib.Path(append_file_extension(filepath, ".lyp"))
+        from gdsfactory.utils.xml_utils import make_pretty_xml
+
+        filepath = pathlib.Path(filepath)
 
         if os.path.exists(filepath) and not overwrite:
             raise OSError("File exists, cannot write.")
@@ -561,7 +484,8 @@ class LayerViews(BaseModel):
 
     @staticmethod
     def from_lyp(
-        filepath: str, layer_pattern: Optional[Union[str, re.Pattern]] = None
+        filepath: Union[str, pathlib.Path],
+        layer_pattern: Optional[Union[str, re.Pattern]] = None,
     ) -> "LayerViews":
         r"""Write all layer properties to a KLayout .lyp file.
 
@@ -571,7 +495,7 @@ class LayerViews(BaseModel):
         """
         layer_pattern = re.compile(layer_pattern or r"(\d+|\*)/(\d+|\*)")
 
-        filepath = append_file_extension(filepath, ".lyp")
+        filepath = pathlib.Path(filepath)
 
         if not os.path.exists(filepath):
             raise OSError("File not found!")
@@ -635,6 +559,12 @@ class LayerViews(BaseModel):
             prefer_named_color: Write the name of a color instead of its hex representation when possible.
         """
         import yaml
+
+        from gdsfactory.utils.yaml_utils import (
+            add_color_yaml_presenter,
+            add_multiline_str_yaml_presenter,
+            add_tuple_yaml_presenter,
+        )
 
         lf_path = pathlib.Path(layer_file)
 

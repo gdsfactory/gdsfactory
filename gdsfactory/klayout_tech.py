@@ -1,4 +1,4 @@
-"""Classes and utilities for working with KLayout technology files (.lyp, .lyt).
+"""Classes and utils for working with KLayout technology files (.lyp, .lyt).
 
 This module enables conversion between gdsfactory settings and KLayout technology.
 """
@@ -10,7 +10,7 @@ from typing import List, Optional, Tuple
 from pydantic import BaseModel, Field
 
 from gdsfactory.config import PATH
-from gdsfactory.layer_views import LayerViews, append_file_extension, make_pretty_xml
+from gdsfactory.layer_views import LayerViews
 
 Layer = Tuple[int, int]
 ConductorViaConductorName = Tuple[str, str, str]
@@ -38,9 +38,9 @@ class KLayoutTechnology(BaseModel):
     def export_technology_files(
         self,
         tech_dir: str,
-        lyp_filename: str = "layers",
-        lyt_filename: str = "tech",
-        d25_filename: str = "generic",
+        lyp_filename: str = "layers.lyp",
+        lyt_filename: str = "tech.lyt",
+        d25_filename: str = "generic.lyd25",
         layer_stack: Optional = None,
         mebes_config: Optional[dict] = None,
     ) -> None:
@@ -54,11 +54,13 @@ class KLayoutTechnology(BaseModel):
             layer_stack: If specified, write a 2.5D section in the technology file based on the LayerStack.
             mebes_config: A dictionary specifying the KLayout mebes reader config.
         """
+        from gdsfactory.utils.xml_utils import make_pretty_xml
+
         # Format file names if necessary
         tech_path = pathlib.Path(tech_dir)
-        lyp_path = tech_path / append_file_extension(lyp_filename, ".lyp")
-        lyt_path = tech_path / append_file_extension(lyt_filename, ".lyt")
-        d25_path = tech_path / "d25" / append_file_extension(d25_filename, ".lyd25")
+        lyp_path = tech_path / lyp_filename
+        lyt_path = tech_path / lyt_filename
+        d25_path = tech_path / "d25" / d25_filename
 
         if not self.technology.name:
             self.technology.name = self.name
