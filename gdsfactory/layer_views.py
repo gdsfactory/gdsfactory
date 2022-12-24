@@ -71,6 +71,12 @@ def append_file_extension(
     return filename
 
 
+def _ensure_six_digit_hex(color: str) -> str:
+    if len(color) == 4:
+        color = "#" + "".join([2 * str(c) for c in color[1:]])
+    return color
+
+
 def _strip_xml(node):
     """Strip XML of excess whitespace.
 
@@ -216,9 +222,7 @@ class LayerView(BaseModel):
         }
         for key, color in colors.items():
             if color is not None:
-                color = color.as_hex()
-                if len(color) == 4:
-                    color = "#" + "".join([2 * str(c) for c in color[1:]])
+                color = _ensure_six_digit_hex(color.as_hex())
             colors[key] = color
 
         brightnesses = self.brightness
@@ -612,7 +616,7 @@ class LayerViews(BaseModel):
         """
         import yaml
 
-        lf_path = pathlib.Path(append_file_extension(layer_file, ".yml"))
+        lf_path = pathlib.Path(layer_file)
 
         add_tuple_yaml_presenter()
         add_multiline_str_yaml_presenter()
@@ -648,7 +652,7 @@ class LayerViews(BaseModel):
         """
         from omegaconf import OmegaConf
 
-        layer_file = pathlib.Path(append_file_extension(layer_file, ".yml"))
+        layer_file = pathlib.Path(layer_file)
 
         properties = OmegaConf.to_container(OmegaConf.load(layer_file.open()))
 
@@ -668,5 +672,8 @@ class LayerViews(BaseModel):
 
 
 if __name__ == "__main__":
-    lv = LayerView(color={"fill": [5, 1, 100], "frame": "#000000"})
-    print(lv.color["fill"].as_hex())
+    from gdsfactory.config import PATH
+
+    lvs = LayerViews.from_lyp(PATH.klayout_lyp)
+
+    lvs.to_yaml(PATH.klayout_tech / "layers.yaml")
