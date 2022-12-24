@@ -111,6 +111,11 @@ class CustomDitherPattern(BaseModel):
     order: int
     pattern: str
 
+    class Config:
+        """YAML output uses name as the key."""
+
+        fields = {"name": {"exclude": True}}
+
     def to_xml(self) -> ET.Element:
         el = ET.Element("custom-dither-pattern")
 
@@ -139,6 +144,11 @@ class CustomLineStyle(BaseModel):
     order: int
     pattern: str
 
+    class Config:
+        """YAML output uses name as the key."""
+
+        fields = {"name": {"exclude": True}}
+
     def to_xml(self) -> ET.Element:
         el = ET.Element("custom-line-pattern")
 
@@ -155,6 +165,7 @@ class LayerView(BaseModel):
     https://www.klayout.de/lyp_format.html
 
     Attributes:
+        name: Layer name.
         layer: GDSII layer.
         layer_in_name: Whether to display the name as 'name layer/datatype' rather than just the layer.
         width: This is the line width of the frame in pixels (or empty for the default which is 1).
@@ -177,6 +188,7 @@ class LayerView(BaseModel):
         group_members: Add a list of group members to the LayerView.
     """
 
+    name: str
     layer: Optional[Layer] = None
     layer_in_name: bool = False
     color: Optional[Union[Color, FrameAndFillColor]] = None
@@ -191,6 +203,11 @@ class LayerView(BaseModel):
     xfill: bool = False
     animation: int = 0
     group_members: Optional[Dict[str, "LayerView"]] = Field(default_factory=dict)
+
+    class Config:
+        """YAML output uses name as the key."""
+
+        fields = {"name": {"exclude": True}}
 
     def __init__(self, **data):
         """Initialize LayerView object."""
@@ -270,9 +287,9 @@ class LayerView(BaseModel):
             subel.text = str(value)
         return el
 
-    def to_xml(self, name: str) -> ET.Element:
+    def to_xml(self) -> ET.Element:
         """Return an XML representation of the LayerView."""
-        props = self._build_xml_element("properties", name=name)
+        props = self._build_xml_element("properties", name=self.name)
         for member_name, member in self.group_members.items():
             props.append(member._build_xml_element("group-members", name=member_name))
         return props
@@ -315,7 +332,7 @@ class LayerView(BaseModel):
     @classmethod
     def from_xml_element(
         cls, element: ET.Element, layer_pattern: Union[str, re.Pattern]
-    ) -> Optional[Tuple[str, "LayerView"]]:
+    ) -> Optional["LayerView"]:
         """Read properties from .lyp XML and generate LayerViews from them.
 
         Args:
@@ -343,6 +360,7 @@ class LayerView(BaseModel):
             brightness = brightness["fill"]
 
         lv = LayerView(
+            name=name,
             layer=cls._process_layer(element.find("source").text, layer_pattern),
             color=color,
             brightness=brightness,
@@ -361,13 +379,13 @@ class LayerView(BaseModel):
         # Add only if needed, so we can filter by defaults when dumping to yaml
         group_members = {}
         for member in element.iterfind("group-members"):
-            member_name, member_lv = cls.from_xml_element(member, layer_pattern)
-            group_members[member_name] = member_lv
+            member_lv = cls.from_xml_element(member, layer_pattern)
+            group_members[member_lv.name] = member_lv
 
         if group_members != {}:
             lv.group_members = group_members
 
-        return name, lv
+        return lv
 
 
 class LayerViews(BaseModel):
@@ -529,7 +547,7 @@ class LayerViews(BaseModel):
         root = ET.Element("layer-properties")
 
         for name, lv in self.layer_views.items():
-            root.append(lv.to_xml(name))
+            root.append(lv.to_xml())
 
         for name, dp in self.custom_dither_patterns.items():
             root.append(dp.to_xml())
@@ -593,11 +611,11 @@ class LayerViews(BaseModel):
 
         layer_views = {}
         for properties_element in root.iter("properties"):
-            name, lv = LayerView.from_xml_element(
+            lv = LayerView.from_xml_element(
                 properties_element, layer_pattern=layer_pattern
             )
             if lv:
-                layer_views[name] = lv
+                layer_views[lv.name] = lv
 
         return LayerViews(
             layer_views=layer_views,
@@ -630,12 +648,10 @@ class LayerViews(BaseModel):
         out_dict = {
             "LayerViews": lvs,
             "CustomDitherPatterns": {
-                name: dp.dict(exclude={"name"})
-                for name, dp in self.custom_dither_patterns.items()
+                name: dp.dict() for name, dp in self.custom_dither_patterns.items()
             },
             "CustomLineStyles": {
-                name: ls.dict(exclude={"name"})
-                for name, ls in self.custom_line_styles.items()
+                name: ls.dict() for name, ls in self.custom_line_styles.items()
             },
         }
 
@@ -655,11 +671,17 @@ class LayerViews(BaseModel):
         layer_file = pathlib.Path(layer_file)
 
         properties = OmegaConf.to_container(OmegaConf.load(layer_file.open()))
+        lvs = {}
+        for name, lv in properties["LayerViews"].items():
+            if "group_members" in lv:
+                lv["group_members"] = {
+                    member_name: LayerView(name=member_name, **member_view)
+                    for member_name, member_view in lv["group_members"].items()
+                }
+            lvs[name] = LayerView(name=name, **lv)
 
         return LayerViews(
-            layer_views={
-                name: LayerView(**lv) for name, lv in properties["LayerViews"].items()
-            },
+            layer_views=lvs,
             custom_dither_patterns={
                 name: CustomDitherPattern(name=name, **dp)
                 for name, dp in properties["CustomDitherPatterns"].items()
