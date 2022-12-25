@@ -666,13 +666,13 @@ def pn(
     width_low_doping = width_doping - gap_low_doping / 2
 
     n = Section(
-        width=width_low_doping,
-        offset=+base_offset_low_doping,
+        width=width_low_doping + offset_low_doping,
+        offset=+base_offset_low_doping - offset_low_doping / 2,
         layer=layer_n,
     )
     p = Section(
-        width=width_low_doping,
-        offset=-base_offset_low_doping,
+        width=width_low_doping - offset_low_doping,
+        offset=-base_offset_low_doping - offset_low_doping / 2,
         layer=layer_p,
     )
     sections.append(n)
@@ -1410,7 +1410,7 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     xs = gf.cross_section.pn(
-        width=0.5, gap_low_doping=0.0, width_doping=2.0, offset_low_doping=0.2
+        width=0.5, gap_low_doping=0.05, width_doping=2.0, offset_low_doping=0.0
     )
     p = gf.path.straight()
     c = p.extrude(xs)
