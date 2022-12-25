@@ -577,6 +577,7 @@ def pn(
     gap_low_doping: float = 0.0,
     gap_medium_doping: Optional[float] = 0.5,
     gap_high_doping: Optional[float] = 1.0,
+    offset_low_doping: Optional[float] = 0.0,
     width_doping: float = 8.0,
     width_slab: float = 7.0,
     layer_p: LayerSpec = "P",
@@ -605,6 +606,7 @@ def pn(
         gap_medium_doping: from waveguide center to medium doping.
             None removes medium doping.
         gap_high_doping: from center to high doping. None removes it.
+        offset_low_doping: in um, between waveguide center and junction gap center towards n-side.
         width_doping: in um.
         width_slab: in um.
         layer_p: p doping layer.
@@ -626,20 +628,27 @@ def pn(
     .. code::
 
                                    layer
-                           |<------width------>|
-                            ____________________
-                           |     |       |     |
-        ___________________|     |       |     |__________________________|
-                    P            |       |              N                 |
-                 width_p         |       |           width_n              |
-        <----------------------->|       |<------------------------------>|
-                                     |<->|
-                                     gap_low_doping
-                                     |         |        N+                |
-                                     |         |     width_np             |
-                                     |         |<------------------------>|
-                                     |<------->|
-                                           gap_medium_doping
+                           |<-------width------->|
+
+                                  offset_low_doping
+                                     <->
+                                     |  |
+                             waveguide   junction
+                                center   center
+                                     |  |
+                           _______________________
+                           |       |         |   |
+        ___________________|       |         |   |__________________________|
+                        P          |         |              N               |
+                    width_p        |         |           width_n            |
+        <------------------------->|         |<---------------------------->|
+                                   |<------->|
+                                    gap_low_doping
+                                     |             |        N+              |
+                                     |             |     width_np           |
+                                     |             |<---------------------->|
+                                     |<----------->|
+                                   gap_medium_doping
 
     .. plot::
         :include-source:
@@ -653,11 +662,19 @@ def pn(
     """
     slab = Section(width=width_slab, offset=0, layer=layer_slab)
     sections = [slab]
-    offset_low_doping = width_doping / 2 + gap_low_doping
-    width_low_doping = width_doping - gap_low_doping
+    base_offset_low_doping = width_doping / 2 + gap_low_doping / 4
+    width_low_doping = width_doping - gap_low_doping / 2
 
-    n = Section(width=width_low_doping, offset=+offset_low_doping, layer=layer_n)
-    p = Section(width=width_low_doping, offset=-offset_low_doping, layer=layer_p)
+    n = Section(
+        width=width_low_doping,
+        offset=+base_offset_low_doping,
+        layer=layer_n,
+    )
+    p = Section(
+        width=width_low_doping,
+        offset=-base_offset_low_doping,
+        layer=layer_p,
+    )
     sections.append(n)
     sections.append(p)
 
@@ -1392,7 +1409,9 @@ def test_copy():
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    xs = gf.cross_section.pn(width=0.5, gap_low_doping=0, width_doping=2.0)
+    xs = gf.cross_section.pn(
+        width=0.5, gap_low_doping=0.0, width_doping=2.0, offset_low_doping=0.2
+    )
     p = gf.path.straight()
     c = p.extrude(xs)
     c.show()
