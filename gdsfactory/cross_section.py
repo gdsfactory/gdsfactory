@@ -589,7 +589,6 @@ def pn(
     layer_via: LayerSpec = None,
     width_via: float = 1.0,
     layer_metal: LayerSpec = None,
-    width_metal: float = 1.0,
     port_names: Tuple[str, str] = ("o1", "o2"),
     bbox_layers: Optional[List[Layer]] = None,
     bbox_offsets: Optional[List[float]] = None,
@@ -619,7 +618,6 @@ def pn(
         layer_via: via layer.
         width_via: via width in um.
         layer_metal: metal layer.
-        width_metal: metal width in um.
         bbox_layers: list of layers for rectangular bounding box.
         bbox_offsets: list of bounding box offsets.
         port_names: for input and output ('o1', 'o2').
@@ -1200,7 +1198,6 @@ def pn_ge_detector_si_contacts(
     layer_via: LayerSpec = None,
     width_via: float = 1.0,
     layer_metal: LayerSpec = None,
-    width_metal: float = 1.0,
     port_names: Tuple[str, str] = ("o1", "o2"),
     bbox_layers: Optional[List[Layer]] = None,
     bbox_offsets: Optional[List[float]] = None,
@@ -1239,7 +1236,6 @@ def pn_ge_detector_si_contacts(
         layer_via: via layer.
         width_via: via width in um.
         layer_metal: metal layer.
-        width_metal: metal width in um.
         bbox_layers: list of layers for rectangular bounding box.
         bbox_offsets: list of bounding box offsets.
         port_names: for input and output ('o1', 'o2').
