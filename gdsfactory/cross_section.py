@@ -100,12 +100,13 @@ class CrossSection(BaseModel):
         """Extend BaseModel init to process mirroring."""
         super().__init__(**data)
 
-        if data["mirror"]:
-            data["offset"] *= -1
-            for section in data["sections"]:
-                section.offset *= -1
-            for offset in data["cladding_offsets"]:
-                offset *= -1
+        if "mirror" in data.keys():
+            if data["mirror"]:
+                data["offset"] *= -1
+                for section in data["sections"]:
+                    section.offset *= -1
+                for offset in data["cladding_offsets"]:
+                    offset *= -1
 
     class Config:
         """Configuration."""
