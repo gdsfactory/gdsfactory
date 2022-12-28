@@ -29,8 +29,6 @@ def straight_heater_meander(
     Opt. Express 27, 13430-13459 (2019)
     https://www.osapublishing.org/oe/abstract.cfm?URI=oe-27-9-13430
 
-    FIXME: only works for 3 rows.
-
     Args:
         length: total length of the optical path.
         spacing: waveguide spacing (center to center).
@@ -46,7 +44,7 @@ def straight_heater_meander(
         straight_width: width of the straight section.
         taper_length: from the cross_section.
     """
-    rows = 3
+    rows = len(straight_widths)
     c = gf.Component()
     x = gf.get_cross_section(cross_section)
     p1 = gf.Port(
@@ -74,6 +72,9 @@ def straight_heater_meander(
     )
     ports = {}
 
+    """
+    Straights
+    """
     for row, straight_width in enumerate(straight_widths):
         cross_section1 = gf.get_cross_section(cross_section, width=straight_width)
         straight = gf.c.straight(
@@ -94,18 +95,42 @@ def straight_heater_meander(
         ports[f"o1_{row+1}"] = straight_ref.ports["o1"]
         ports[f"o2_{row+1}"] = straight_ref.ports["o2"]
 
+    """
+    Loopbacks
+    """
     for row in range(1, rows, 2):
+
+        extra_length = 3 * (rows - row - 1) / 2 * radius
+        extra_straight1 = c << gf.c.straight(
+            length=extra_length, cross_section=cross_section
+        )
+        extra_straight1.connect("o1", ports[f"o1_{row+1}"])
+        extra_straight2 = c << gf.c.straight(
+            length=extra_length, cross_section=cross_section
+        )
+        extra_straight2.connect("o1", ports[f"o1_{row+2}"])
+
         route = gf.routing.get_route(
-            ports[f"o2_{row+1}"],
-            ports[f"o2_{row}"],
+            extra_straight1.ports["o2"],
+            extra_straight2.ports["o2"],
             radius=radius,
             cross_section=cross_section,
         )
         c.add(route.references)
 
+        extra_length = 3 * (row - 1) / 2 * radius
+        extra_straight1 = c << gf.c.straight(
+            length=extra_length, cross_section=cross_section
+        )
+        extra_straight1.connect("o1", ports[f"o2_{row+1}"])
+        extra_straight2 = c << gf.c.straight(
+            length=extra_length, cross_section=cross_section
+        )
+        extra_straight2.connect("o1", ports[f"o2_{row}"])
+
         route = gf.routing.get_route(
-            ports[f"o1_{row+1}"],
-            ports[f"o1_{row+2}"],
+            extra_straight1.ports["o2"],
+            extra_straight2.ports["o2"],
             radius=radius,
             cross_section=cross_section,
         )
@@ -196,10 +221,10 @@ if __name__ == "__main__":
     # c.add_port("o2", port=straight_array.ports[f"o2_{rows}_1"])
 
     c = straight_heater_meander(
-        straight_widths=(0.9, 0.2, 0.9),
-        taper_length=10
+        straight_widths=(0.5,) * 7,
+        taper_length=10,
         # taper_length=10,
-        # length=600,
+        length=1000,
         # cross_section=gf.partial(gf.cross_section.strip, width=0.8),
     )
     c.show(show_ports=True)
