@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.15.2
+
+- add mirroring option to pn xs [PR](https://github.com/gdsfactory/gdsfactory/pull/1048)
+
 ## 6.15.1
 
 - Pn xs offset [PR](https://github.com/gdsfactory/gdsfactory/pull/1043)
