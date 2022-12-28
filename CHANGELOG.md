@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.15.1
+
+- Pn xs offset [PR](https://github.com/gdsfactory/gdsfactory/pull/1043)
+- allow multiple rows in straight_heater_meander [PR](https://github.com/gdsfactory/gdsfactory/pull/1046)
+- update straight_pin docs [PR](https://github.com/gdsfactory/gdsfactory/pull/1045)
+
 ## 6.15.0
 
 - Add femwell mode solver [PR](https://github.com/gdsfactory/gdsfactory/pull/1032)

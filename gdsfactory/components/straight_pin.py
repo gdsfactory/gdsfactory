@@ -81,7 +81,7 @@ def straight_pin(
     return c
 
 
-straight_pn = gf.partial(straight_pin, cross_section=pn)
+straight_pn = gf.partial(straight_pin, cross_section=pn, length=2000)
 
 if __name__ == "__main__":
     c = straight_pin(length=40)
