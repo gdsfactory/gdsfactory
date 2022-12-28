@@ -595,6 +595,7 @@ def pn(
     bbox_offsets: Optional[List[float]] = None,
     cladding_layers: Optional[Layers] = cladding_layers_optical,
     cladding_offsets: Optional[Floats] = cladding_offsets_optical,
+    mirror: Optional[bool] = False,
 ) -> CrossSection:
     """Rib PN doped cross_section.
 
@@ -624,6 +625,7 @@ def pn(
         port_names: for input and output ('o1', 'o2').
         bbox_layers: list of layers for rectangular bounding box.
         bbox_offsets: list of bounding box offsets.
+        mirror: if True, flips p and n sides.
 
     .. code::
 
@@ -741,6 +743,10 @@ def pn(
             width=width_slab + 2 * cladding_offset, offset=0, layer=layer_cladding
         )
         sections.append(s)
+
+    if mirror:
+        for section in sections:
+            section.offset = -1 * section.offset
 
     info = dict(
         width=width,
@@ -1410,7 +1416,11 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     xs = gf.cross_section.pn(
-        width=0.5, gap_low_doping=0.05, width_doping=2.0, offset_low_doping=0.0
+        width=0.5,
+        gap_low_doping=0.05,
+        width_doping=2.0,
+        offset_low_doping=0.0,
+        mirror=False,
     )
     p = gf.path.straight()
     c = p.extrude(xs)
