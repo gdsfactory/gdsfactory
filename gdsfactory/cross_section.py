@@ -66,6 +66,7 @@ class CrossSection(BaseModel):
         name: cross_section name.
         add_center_section: whether a section with `width` and `layer`
               is added during extrude.
+        mirror: if True, reflects the offsets.
     """
 
     layer: LayerSpec
@@ -93,6 +94,18 @@ class CrossSection(BaseModel):
     info: Dict[str, Any] = Field(default_factory=dict)
     name: Optional[str] = None
     add_center_section: bool = True
+    mirror: bool = False
+
+    def __init__(__pydantic_self__, **data: Any) -> None:
+        """Extend BaseModel init to process mirroring."""
+        super().__init__(**data)
+
+        if data["mirror"]:
+            data["offset"] *= -1
+            for section in data["sections"]:
+                section.offset *= -1
+            for offset in data["cladding_offsets"]:
+                offset *= -1
 
     class Config:
         """Configuration."""
@@ -247,6 +260,7 @@ def cross_section(
     add_pins: Optional[Callable] = None,
     add_bbox: Optional[Callable] = None,
     add_center_section: bool = True,
+    mirror: bool = False,
 ) -> CrossSection:
     """Return CrossSection.
 
@@ -280,6 +294,8 @@ def cross_section(
         add_bbox: optional function to add bounding box to component.
         add_center_section: whether a section with `width` and `layer`
               is added during extrude.
+        mirror: if True, reflects the offsets.
+
 
     .. plot::
         :include-source:
@@ -316,6 +332,7 @@ def cross_section(
         add_bbox=add_bbox,
         add_pins=add_pins,
         add_center_section=add_center_section,
+        mirror=mirror,
     )
 
 
@@ -589,12 +606,13 @@ def pn(
     layer_via: LayerSpec = None,
     width_via: float = 1.0,
     layer_metal: LayerSpec = None,
+    width_metal: float = 1.0,
     port_names: Tuple[str, str] = ("o1", "o2"),
     bbox_layers: Optional[List[Layer]] = None,
     bbox_offsets: Optional[List[float]] = None,
     cladding_layers: Optional[Layers] = cladding_layers_optical,
     cladding_offsets: Optional[Floats] = cladding_offsets_optical,
-    mirror: Optional[bool] = False,
+    mirror: bool = False,
 ) -> CrossSection:
     """Rib PN doped cross_section.
 
@@ -618,12 +636,13 @@ def pn(
         layer_via: via layer.
         width_via: via width in um.
         layer_metal: metal layer.
+        width_metal: metal width in um.
         bbox_layers: list of layers for rectangular bounding box.
         bbox_offsets: list of bounding box offsets.
         port_names: for input and output ('o1', 'o2').
         bbox_layers: list of layers for rectangular bounding box.
         bbox_offsets: list of bounding box offsets.
-        mirror: if True, flips p and n sides.
+        mirror: if True, reflects the n and p sections.
 
     .. code::
 
@@ -742,10 +761,6 @@ def pn(
         )
         sections.append(s)
 
-    if mirror:
-        for section in sections:
-            section.offset = -1 * section.offset
-
     info = dict(
         width=width,
         layer=layer,
@@ -766,6 +781,7 @@ def pn(
         sections=sections,
         cladding_offsets=cladding_offsets,
         cladding_layers=cladding_layers,
+        mirror=mirror,
     )
 
 
@@ -1411,11 +1427,11 @@ def test_copy():
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    xs = gf.cross_section.pn(
+    xs = gf.cross_section.pin(
         width=0.5,
-        gap_low_doping=0.05,
-        width_doping=2.0,
-        offset_low_doping=0.0,
+        # gap_low_doping=0.05,
+        # width_doping=2.0,
+        # offset_low_doping=0,
         mirror=False,
     )
     p = gf.path.straight()
