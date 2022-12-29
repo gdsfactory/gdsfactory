@@ -1,15 +1,23 @@
+import pathlib
+import time
 from itertools import permutations
-from typing import Dict, List, Tuple
+from typing import Dict, List, Optional, Tuple
 
 import meow as mw
 import numpy as np
 import pandas as pd
+from omegaconf import OmegaConf
 from tqdm.auto import tqdm
 
 import gdsfactory as gf
+from gdsfactory.config import logger
 from gdsfactory.pdk import _ACTIVE_PDK
+from gdsfactory.simulation.get_sparameters_path import (
+    get_sparameters_path_meow as get_sparameters_path,
+)
 from gdsfactory.simulation.gmsh.parse_layerstack import list_unique_layerstack_z
 from gdsfactory.tech import LAYER, LayerStack
+from gdsfactory.types import PathType
 
 ColorRGB = Tuple[float, float, float]
 
@@ -36,6 +44,9 @@ class MEOW:
         center_y: float = 0,
         resolution_y: int = 100,
         material_to_color: Dict[str, ColorRGB] = material_to_color_default,
+        dirpath: Optional[PathType] = None,
+        filepath: Optional[PathType] = None,
+        overwrite: bool = False,
     ) -> None:
         """Computes multimode 2-port S-parameters for a gdsfactory component.
 
@@ -59,7 +70,11 @@ class MEOW:
             spacing_y: at the beginning and end of simulation region.
             center_y: in um.
             resolution_y: pixels in vertical direction.
-            material_to_color: dict of ma
+            material_to_color: dict of materials colors for struct plot
+            dirpath: directory to store Sparameters.
+            filepath: to store pandas Dataframe with Sparameters in npz format.
+                Defaults to dirpath/component_.npz.
+            overwrite: overwrites stored Sparameter npz results.
 
         Returns:
             S-parameters in form o1@0,o2@0 at wavelength.
@@ -130,6 +145,35 @@ class MEOW:
         self.modes_per_cell = [None] * self.num_cells
         self.S = None
         self.port_map = None
+
+        # Cache
+        sim_settings = dict(
+            wavelength=wavelength,
+            temperature=temperature,
+            num_modes=num_modes,
+            cell_length=cell_length,
+            spacing_x=spacing_x,
+            center_x=center_x,
+            resolution_x=resolution_x,
+            spacing_y=spacing_y,
+            center_y=center_y,
+            resolution_y=resolution_y,
+        )
+
+        filepath = filepath or get_sparameters_path(
+            component=component,
+            dirpath=dirpath,
+            layer_stack=layerstack,
+            **sim_settings,
+        )
+
+        sim_settings = sim_settings.copy()
+        sim_settings["layer_stack"] = layerstack.to_dict()
+        sim_settings["component"] = component.to_dict()
+        self.sim_settings = sim_settings
+        self.filepath = pathlib.Path(filepath)
+        self.filepath_sim_settings = filepath.with_suffix(".yml")
+        self.overwrite = overwrite
 
     def gf_material_to_meow_material(
         self, material_name: str = "si", wavelengths=None, color=None
@@ -287,6 +331,15 @@ class MEOW:
 
     def compute_sparameters(self) -> Dict[str, np.ndarray]:
         """Returns Sparameters using EME."""
+        if self.filepath.exists():
+            if not self.overwrite:
+                logger.info(f"Simulation loaded from {self.filepath!r}")
+                return dict(np.load(self.filepath))
+            elif self.overwrite:
+                self.filepath.unlink()
+
+        start = time.time()
+
         self.compute_all_modes()
 
         if self.S is None or self.port_map is None:
@@ -307,7 +360,18 @@ class MEOW:
             sp[
                 f"{meow_to_gf_keys[meow_port1]}@{meow_mode1},{meow_to_gf_keys[meow_port2]}@{meow_mode2}"
             ] = value
-        sp["wavelengths"] = self.wavelength
+
+        np.savez_compressed(self.filepath, **sp)
+
+        end = time.time()
+
+        self.sim_settings.update(compute_time_seconds=end - start)
+        self.sim_settings.update(compute_time_minutes=(end - start) / 60)
+        logger.info(f"Write simulation results to {self.filepath!r}")
+        self.filepath_sim_settings.write_text(OmegaConf.to_yaml(self.sim_settings))
+        logger.info(f"Write simulation settings to {self.filepath_sim_settings!r}")
+
+        return sp
 
         return sp
 
@@ -329,8 +393,11 @@ if __name__ == "__main__":
             )
         }
     )
-    m = MEOW(component=c, layerstack=filtered_layerstack, wavelength=1.55)
+    m = MEOW(
+        component=c, layerstack=filtered_layerstack, wavelength=1.55, overwrite=False
+    )
     print(len(m.cells))
 
-    # import pprint
-    # pprint.pprint(m.compute_sparameters())
+    import pprint
+
+    pprint.pprint(m.compute_sparameters())
