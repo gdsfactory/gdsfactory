@@ -64,6 +64,8 @@ def _get_sparameters_data(**kwargs) -> np.ndarray:
     return np.load(filepath)
 
 
+get_sparameters_path_meow = partial(_get_sparameters_path, tool="meow")
+
 get_sparameters_path_meep = partial(_get_sparameters_path, tool="meep")
 get_sparameters_path_lumerical = partial(_get_sparameters_path, tool="lumerical")
 get_sparameters_path_tidy3d = partial(_get_sparameters_path, tool="tidy3d")
