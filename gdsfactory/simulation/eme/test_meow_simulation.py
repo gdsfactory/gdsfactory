@@ -22,7 +22,10 @@ def test_meow_defaults():
     )
 
     sp = MEOW(
-        component=c, layerstack=filtered_layerstack, wavelength=1.55
+        component=c,
+        layerstack=filtered_layerstack,
+        wavelength=1.55,
+        overwrite=True,
     ).compute_sparameters()
 
     for key in sp.keys():
