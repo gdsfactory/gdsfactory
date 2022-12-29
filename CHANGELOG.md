@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.15.3
+
+- Cache S-parameters from EME similarly to what is done for FDTD [PR](https://github.com/gdsfactory/gdsfactory/pull/1052)
+- mirroring cross-section at class level [PR](https://github.com/gdsfactory/gdsfactory/pull/1050)
+
 ## 6.15.2
 
 - add mirroring option to pn xs [PR](https://github.com/gdsfactory/gdsfactory/pull/1048)
