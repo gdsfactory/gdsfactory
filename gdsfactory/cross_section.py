@@ -346,8 +346,8 @@ strip_siepic = partial(
     cross_section,
     add_pins=add_pins_siepic_optical_2nm,
     add_bbox=add_bbox_siepic,
-    cladding_layers=("DEVREC",),  # for SiEPIC verification
-    cladding_offsets=(0,),  # for SiEPIC verification
+    cladding_layers=cladding_layers_optical_siepic,
+    cladding_offsets=cladding_offsets_optical_siepic,
 )
 strip_auto_widen = partial(strip, width_wide=0.9, auto_widen=True)
 strip_no_pins = partial(
