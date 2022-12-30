@@ -2125,7 +2125,11 @@ def test_remap_layers() -> None:
 
     c = gf.components.straight(layer=(2, 0))
     remap = c.remap_layers(layermap={(2, 0): gf.LAYER.WGN})
-    assert remap.hash_geometry() == "1c12fcddd61dc167c80c847abe371b3f8af84a1b"
+    hash_geometry = "83fbc6a8289505eaed3a2e3ab279cc03f5e4d00c"
+
+    assert (
+        remap.hash_geometry() == hash_geometry
+    ), f"hash_geometry = '{remap.hash_geometry()}'"
 
 
 def test_remove_labels() -> None:
@@ -2148,5 +2152,6 @@ def test_import_gds_settings():
 
 
 if __name__ == "__main__":
-    c = test_get_layers()
-    c.show()
+    test_remap_layers()
+    # c = test_get_layers()
+    # c.show()

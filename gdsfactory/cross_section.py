@@ -27,8 +27,12 @@ LayerSpecs = Union[List[LayerSpec], Tuple[LayerSpec, ...]]
 Floats = Tuple[float, ...]
 port_names_electrical = ("e1", "e2")
 port_types_electrical = ("electrical", "electrical")
-cladding_layers_optical = ("DEVREC",)  # for SiEPIC verification
-cladding_offsets_optical = (0,)  # for SiEPIC verification
+
+cladding_layers_optical = None
+cladding_offsets_optical = None
+
+cladding_layers_optical_siepic = ("DEVREC",)  # for SiEPIC verification
+cladding_offsets_optical_siepic = (0,)  # for SiEPIC verification
 
 
 class CrossSection(BaseModel):
@@ -336,7 +340,9 @@ def cross_section(
     )
 
 
-strip = partial(
+strip = cross_section
+
+strip_siepic = partial(
     cross_section,
     add_pins=add_pins_siepic_optical_2nm,
     add_bbox=add_bbox_siepic,
