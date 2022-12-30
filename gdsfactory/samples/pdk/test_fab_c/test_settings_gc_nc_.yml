@@ -1,11 +1,9 @@
-name: grating_coupler_ellipti_7740eed5
+name: grating_coupler_ellipti_514a8b8c
 settings:
   changed:
     cross_section:
       function: cross_section
       settings:
-        add_bbox:
-          function: add_bbox_siepic
         add_pins:
           function: add_pins
         bbox_layers:
@@ -13,10 +11,6 @@ settings:
           - 0
         bbox_offsets:
         - 3
-        cladding_layers:
-        - DEVREC
-        cladding_offsets:
-        - 0
         layer:
         - 34
         - 0
@@ -47,8 +41,6 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_bbox:
-          function: add_bbox_siepic
         add_pins:
           function: add_pins
         bbox_layers:
@@ -56,10 +48,6 @@ settings:
           - 0
         bbox_offsets:
         - 3
-        cladding_layers:
-        - DEVREC
-        cladding_offsets:
-        - 0
         layer:
         - 34
         - 0
@@ -85,4 +73,4 @@ settings:
     wavelength: 1.554
   info_version: 2
   module: gdsfactory.components.grating_coupler_elliptical
-  name: grating_coupler_ellipti_7740eed5
+  name: grating_coupler_ellipti_514a8b8c

@@ -1,4 +1,4 @@
-name: mzi_94684115
+name: mzi_e687e91e
 settings:
   changed:
     bend:
@@ -7,8 +7,6 @@ settings:
         cross_section:
           function: cross_section
           settings:
-            add_bbox:
-              function: add_bbox_siepic
             add_pins:
               function: add_pins
             bbox_layers:
@@ -16,10 +14,6 @@ settings:
               - 0
             bbox_offsets:
             - 3
-            cladding_layers:
-            - DEVREC
-            cladding_offsets:
-            - 0
             layer:
             - 34
             - 0
@@ -28,8 +22,6 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_bbox:
-          function: add_bbox_siepic
         add_pins:
           function: add_pins
         bbox_layers:
@@ -37,10 +29,6 @@ settings:
           - 0
         bbox_offsets:
         - 3
-        cladding_layers:
-        - DEVREC
-        cladding_offsets:
-        - 0
         layer:
         - 34
         - 0
@@ -51,8 +39,6 @@ settings:
         cross_section:
           function: cross_section
           settings:
-            add_bbox:
-              function: add_bbox_siepic
             add_pins:
               function: add_pins
             bbox_layers:
@@ -60,10 +46,6 @@ settings:
               - 0
             bbox_offsets:
             - 3
-            cladding_layers:
-            - DEVREC
-            cladding_offsets:
-            - 0
             layer:
             - 34
             - 0
@@ -76,8 +58,6 @@ settings:
         cross_section:
           function: cross_section
           settings:
-            add_bbox:
-              function: add_bbox_siepic
             add_pins:
               function: add_pins
             bbox_layers:
@@ -85,10 +65,6 @@ settings:
               - 0
             bbox_offsets:
             - 3
-            cladding_layers:
-            - DEVREC
-            cladding_offsets:
-            - 0
             layer:
             - 34
             - 0
@@ -124,8 +100,6 @@ settings:
         cross_section:
           function: cross_section
           settings:
-            add_bbox:
-              function: add_bbox_siepic
             add_pins:
               function: add_pins
             bbox_layers:
@@ -133,10 +107,6 @@ settings:
               - 0
             bbox_offsets:
             - 3
-            cladding_layers:
-            - DEVREC
-            cladding_offsets:
-            - 0
             layer:
             - 34
             - 0
@@ -146,8 +116,6 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_bbox:
-          function: add_bbox_siepic
         add_pins:
           function: add_pins
         bbox_layers:
@@ -155,10 +123,6 @@ settings:
           - 0
         bbox_offsets:
         - 3
-        cladding_layers:
-        - DEVREC
-        cladding_offsets:
-        - 0
         layer:
         - 34
         - 0
@@ -179,8 +143,6 @@ settings:
         cross_section:
           function: cross_section
           settings:
-            add_bbox:
-              function: add_bbox_siepic
             add_pins:
               function: add_pins
             bbox_layers:
@@ -188,10 +150,6 @@ settings:
               - 0
             bbox_offsets:
             - 3
-            cladding_layers:
-            - DEVREC
-            cladding_offsets:
-            - 0
             layer:
             - 34
             - 0
@@ -204,8 +162,6 @@ settings:
         cross_section:
           function: cross_section
           settings:
-            add_bbox:
-              function: add_bbox_siepic
             add_pins:
               function: add_pins
             bbox_layers:
@@ -213,10 +169,6 @@ settings:
               - 0
             bbox_offsets:
             - 3
-            cladding_layers:
-            - DEVREC
-            cladding_offsets:
-            - 0
             layer:
             - 34
             - 0
@@ -230,4 +182,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mzi
-  name: mzi_94684115
+  name: mzi_e687e91e
