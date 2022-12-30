@@ -31,17 +31,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       radius: 10
   bend_euler_10:
     component: bend_euler
@@ -54,17 +43,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       radius: 10
   bend_euler_11:
     component: bend_euler
@@ -77,17 +55,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       radius: 10
   bend_euler_12:
     component: bend_euler
@@ -100,17 +67,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       radius: 10
   bend_euler_2:
     component: bend_euler
@@ -123,17 +79,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       radius: 10
   bend_euler_3:
     component: bend_euler
@@ -146,17 +91,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       radius: 10
   bend_euler_4:
     component: bend_euler
@@ -169,17 +103,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       radius: 10
   bend_euler_5:
     component: bend_euler
@@ -192,17 +115,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       radius: 10
   bend_euler_6:
     component: bend_euler
@@ -215,17 +127,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       radius: 10
   bend_euler_7:
     component: bend_euler
@@ -238,17 +139,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       radius: 10
   bend_euler_8:
     component: bend_euler
@@ -261,17 +151,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       radius: 10
   bend_euler_9:
     component: bend_euler
@@ -284,17 +163,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       radius: 10
   bl:
     component: pad
@@ -324,17 +192,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       length: 200.0
       radius: 10
   straight_10:
@@ -345,17 +202,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       length: 610.0
       radius: 10
   straight_2:
@@ -366,17 +212,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       length: 340.0
       radius: 10
   straight_3:
@@ -387,17 +222,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       length: 250.0
       radius: 10
   straight_4:
@@ -408,17 +232,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       length: 250.0
       radius: 10
   straight_5:
@@ -429,17 +242,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       length: 580.0
       radius: 10
   straight_6:
@@ -450,17 +252,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       length: 170.0
       radius: 10
   straight_7:
@@ -471,17 +262,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       length: 340.0
       radius: 10
   straight_8:
@@ -492,17 +272,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       length: 250.0
       radius: 10
   straight_9:
@@ -513,17 +282,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       length: 250.0
       radius: 10
   tl:
