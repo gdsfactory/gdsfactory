@@ -96,7 +96,7 @@ def outline(
 def test_outline() -> None:
     comp1 = gf.components.taper(length=100, width1=20, width2=50)
     c = gf.geometry.outline(comp1, open_ports=True, precision=1e-3)
-    assert int(c.area()) == 234, int(c.area())
+    assert int(c.area()) == 206, int(c.area())
 
 
 def test_outline_ports() -> None:
@@ -112,3 +112,4 @@ if __name__ == "__main__":
     # c = outline([e1, e2], distance=1)
     # c.show(show_ports=True)
     test_outline()
+    test_outline_ports()

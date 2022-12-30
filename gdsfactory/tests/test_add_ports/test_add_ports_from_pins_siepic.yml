@@ -18,13 +18,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 0.5
-  o2_1:
-    center:
-    - 10.0
-    - 0.0
-    layer: PORT
-    name: o2_1
-    orientation: 0
-    port_type: optical
-    width: 0.5
 settings: {}

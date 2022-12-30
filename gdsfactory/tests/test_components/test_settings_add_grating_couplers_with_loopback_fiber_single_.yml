@@ -85,17 +85,6 @@ settings:
     component_name: null
     cross_section:
       function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - DEVREC
-        cladding_offsets:
-        - 0
     gc_port_name: o1
     get_input_label_text_loopback_function:
       function: get_input_label_text_loopback
@@ -124,17 +113,6 @@ settings:
     component_name: null
     cross_section:
       function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - DEVREC
-        cladding_offsets:
-        - 0
     gc_port_name: o1
     get_input_label_text_loopback_function:
       function: get_input_label_text_loopback
