@@ -62,13 +62,31 @@ def _generate_straights(c, bus_length, size_x, bend_input, bend_output, cross_se
     return (c, straight_left, straight_right)
 
 
-def _generate_circles(c, radius, xs, bend_middle, straight_left, r_bend, dy):
+def _generate_circles(
+    c, radius: float, xs, bend_middle, straight_left, r_bend, dy: float
+):
+    """Returns Component, circle and circle_cladding.
+
+    Args:
+        c: component.
+        radius: in um.
+        xs: cross_section:
+        bend_middle: bend spec.
+        straight_left:
+        r_bend:
+        dy:
+    """
+    cladding_offset = xs.cladding_offsets[0] if xs.cladding_offsets else 0
+    cladding_layer = xs.cladding_layers[0] if xs.cladding_layers else None
 
     circle = c << gf.components.circle(radius=radius, layer=xs.layer)
 
-    circle_cladding = c << gf.components.circle(
-        radius=radius + xs.cladding_offsets[0], layer=xs.cladding_layers[0]
-    )
+    if cladding_layer and cladding_offset:
+        circle_cladding = c << gf.components.circle(
+            radius=radius + cladding_offset, layer=cladding_layer
+        )
+    else:
+        circle_cladding = None
 
     if bend_middle is not None:
         circle.move(
@@ -84,7 +102,8 @@ def _generate_circles(c, radius, xs, bend_middle, straight_left, r_bend, dy):
             destination=(straight_left.ports["o2"].center + (0, r_bend),),
         )
 
-    circle_cladding.move(origin=circle_cladding.center, destination=circle.center)
+    if circle_cladding:
+        circle_cladding.move(origin=circle_cladding.center, destination=circle.center)
 
     return (c, circle, circle_cladding)
 
@@ -171,7 +190,6 @@ def disk(
         c = c.rotate(180)
 
     c.snap_ports_to_grid()
-
     return c
 
 

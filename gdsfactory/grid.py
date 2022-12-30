@@ -222,7 +222,7 @@ def grid_with_text(
     return c
 
 
-def test_grid():
+def test_grid() -> Component:
     import gdsfactory as gf
 
     c = [gf.components.straight(length=i) for i in range(1, 5)]
@@ -234,28 +234,28 @@ def test_grid():
         v_mirror=False,
         spacing=(10, 10),
     )
-    assert np.isclose(c.ports["1_1_o1"].center[0], 13.002), c.ports["1_1_o1"].center[0]
+    assert np.isclose(c.ports["1_1_o1"].center[0], 13.0), c.ports["1_1_o1"].center[0]
     return c
 
 
 if __name__ == "__main__":
-    test_grid()
-    import gdsfactory as gf
+    c = test_grid()
+    # import gdsfactory as gf
 
     # components = [gf.components.rectangle(size=(i, i)) for i in range(40, 66, 5)]
     # components = [gf.components.rectangle(size=(i, i)) for i in range(40, 66, 5)]
     # c = [gf.components.triangle(x=i) for i in range(1, 10)]
     # print(len(c))
 
-    c = [gf.components.straight(length=i) for i in range(1, 5)]
-    c = grid(
-        c,
-        shape=(2, 2),
-        rotation=0,
-        h_mirror=False,
-        v_mirror=False,
-        spacing=(10, 10),
-        # text_offsets=((0, 100), (0, -100)),
-        # text_anchors=("nc", "sc"),
-    )
+    # c = [gf.components.straight(length=i) for i in range(1, 5)]
+    # c = grid(
+    #     c,
+    #     shape=(2, 2),
+    #     rotation=0,
+    #     h_mirror=False,
+    #     v_mirror=False,
+    #     spacing=(10, 10),
+    #     # text_offsets=((0, 100), (0, -100)),
+    #     # text_anchors=("nc", "sc"),
+    # )
     c.show(show_ports=True)

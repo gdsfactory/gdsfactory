@@ -1,4 +1,4 @@
-name: straight_d1e9c63d_exten_7c9ddc51
+name: straight_2baf67df_exten_7d41518e
 settings:
   changed:
     component:
@@ -7,20 +7,10 @@ settings:
         cross_section:
           function: cross_section
           settings:
-            add_bbox:
-              function: add_bbox_siepic
-            add_pins:
-              function: add_pins_siepic
-              settings:
-                pin_length: 0.002
             bbox_layers:
             - SLAB90
             bbox_offsets:
             - 3
-            cladding_layers:
-            - DEVREC
-            cladding_offsets:
-            - 0
     extension:
       function: taper_strip_to_ridge
     port1: o2
@@ -30,20 +20,10 @@ settings:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
           bbox_layers:
           - SLAB90
           bbox_offsets:
           - 3
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
     child: null
     default:
       cross_section: strip
@@ -54,20 +34,10 @@ settings:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
           bbox_layers:
           - SLAB90
           bbox_offsets:
           - 3
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       length: 10.0
       npoints: 2
       with_bbox: true
@@ -77,7 +47,7 @@ settings:
       width: 0.5
     info_version: 2
     module: gdsfactory.components.straight
-    name: straight_d1e9c63d
+    name: straight_2baf67df
   default:
     centered: false
     component:
@@ -98,20 +68,10 @@ settings:
         cross_section:
           function: cross_section
           settings:
-            add_bbox:
-              function: add_bbox_siepic
-            add_pins:
-              function: add_pins_siepic
-              settings:
-                pin_length: 0.002
             bbox_layers:
             - SLAB90
             bbox_offsets:
             - 3
-            cladding_layers:
-            - DEVREC
-            cladding_offsets:
-            - 0
     cross_section: null
     extension:
       function: taper_strip_to_ridge
@@ -127,4 +87,4 @@ settings:
     width: 0.5
   info_version: 2
   module: gdsfactory.components.extension
-  name: straight_d1e9c63d_exten_7c9ddc51
+  name: straight_2baf67df_exten_7d41518e

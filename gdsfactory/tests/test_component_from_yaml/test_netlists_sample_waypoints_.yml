@@ -36,17 +36,6 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
   bend_euler_2:
     component: bend_euler
     info:
@@ -59,17 +48,6 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
   bend_euler_3:
     component: bend_euler
     info:
@@ -82,17 +60,6 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
   bend_euler_4:
     component: bend_euler
     info:
@@ -105,17 +72,6 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
   bend_euler_5:
     component: bend_euler
     info:
@@ -128,17 +84,6 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
   bend_euler_6:
     component: bend_euler
     info:
@@ -151,17 +96,6 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
   bend_euler_7:
     component: bend_euler
     info:
@@ -174,17 +108,6 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
   bend_euler_8:
     component: bend_euler
     info:
@@ -197,17 +120,6 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
   straight_1:
     component: straight
     info:
@@ -217,17 +129,6 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       length: 290.0
   straight_10:
     component: straight
@@ -238,17 +139,6 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       length: 440.0
   straight_2:
     component: straight
@@ -259,17 +149,6 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       length: 380.0
   straight_3:
     component: straight
@@ -280,17 +159,6 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       length: 80.0
   straight_4:
     component: straight
@@ -301,17 +169,6 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       length: 630.0
   straight_5:
     component: straight
@@ -322,17 +179,6 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       length: 590.0
   straight_6:
     component: straight
@@ -343,17 +189,6 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       length: 140.0
   straight_7:
     component: straight
@@ -364,17 +199,6 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       length: 380.0
   straight_8:
     component: straight
@@ -385,17 +209,6 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       length: 380.0
   straight_9:
     component: straight
@@ -406,17 +219,6 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - DEVREC
-          cladding_offsets:
-          - 0
       length: 630.0
   t:
     component: pad_array
