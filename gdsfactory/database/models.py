@@ -1,5 +1,5 @@
 from sqlalchemy import TIMESTAMP, Column, Float, ForeignKey, Integer, String, text
-from sqlalchemy.dialects.mysql import BOOLEAN, TEXT
+from sqlalchemy.dialects.mysql import TEXT
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
@@ -278,9 +278,9 @@ class ResultSelfRelation(Base):
     )
 
 
-class Circuit(Base):
-    __tablename__ = "circuit"
-    __table_args__ = {"comment": "This table holds the definition of circuits."}
+class Component(Base):
+    __tablename__ = "component"
+    __table_args__ = {"comment": "This table holds the definition of components."}
 
     id = Column(Integer, primary_key=True)
     created = Column(
@@ -307,19 +307,14 @@ class Port(Base):
     updated = Column(
         TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
-    circuit_id = Column(ForeignKey("circuit.id"), nullable=False, index=True)
+    component_id = Column(ForeignKey("component.id"), nullable=False, index=True)
     name = Column(String(200), server_default=text("''"))
-    is_electrical = Column(
-        BOOLEAN, nullable=False, comment="Boolean. if the port is electrical."
-    )
-    is_optical = Column(
-        BOOLEAN, nullable=False, comment="Boolean. if the port is optical."
-    )
+    port_type = Column(String(200))
     position = Column(String(50), nullable=False)
     orientation = Column(Float(asdecimal=True), nullable=False)
     description = Column(String(200))
 
-    circuit = relationship("Circuit")
+    component = relationship("Component")
 
 
 class ComponentInfo(Base):
@@ -335,7 +330,7 @@ class ComponentInfo(Base):
     updated = Column(
         TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
-    circuit_id = Column(ForeignKey("circuit.id"), index=True)
+    component_id = Column(ForeignKey("component.id"), index=True)
     die_id = Column(ForeignKey("die.id"), index=True)
     port_id = Column(ForeignKey("port.id"), index=True)
     reticle_id = Column(ForeignKey("reticle.id"), index=True)
@@ -344,7 +339,7 @@ class ComponentInfo(Base):
     value = Column(String(200), nullable=False)
     description = Column(String(200))
 
-    circuit = relationship("Circuit")
+    component = relationship("Component")
     die = relationship("Die")
     port = relationship("Port")
     reticle = relationship("Reticle")
@@ -365,13 +360,13 @@ class ResultComponentRelation(Base):
         TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
     result_id = Column(ForeignKey("result.id"), nullable=False, index=True)
-    circuit_id = Column(ForeignKey("circuit.id"), index=True)
+    component_id = Column(ForeignKey("component.id"), index=True)
     die_id = Column(ForeignKey("die.id"), index=True)
     port_id = Column(ForeignKey("port.id"), index=True)
     reticle_id = Column(ForeignKey("reticle.id"), index=True)
     wafer_id = Column(ForeignKey("wafer.id"), index=True)
 
-    circuit = relationship("Circuit")
+    component = relationship("Component")
     die = relationship("Die")
     port = relationship("Port")
     result = relationship("Result")
@@ -420,15 +415,37 @@ if __name__ == "__main__":
     from sqlalchemy import create_engine
     from sqlalchemy.orm import Session
 
+    import gdsfactory as gf
+
     engine = create_engine("sqlite:///database.db", echo=True, future=True)
     metadata.create_all(engine)
+
+    c = gf.c.ring_single(radius=10)
 
     with Session(engine) as session:
 
         w1 = Wafer(name="12", serial_number="ABC")
         r1 = Reticle(name="sky1", wafer_id=w1.id, wafer=w1)
         d1 = Die(name="d00", reticle_id=r1.id, reticle=r1)
-        c1 = Circuit(name="straight_te", die_id=d1.id, die=d1)
+        c1 = Component(name=c.name, die_id=d1.id, die=d1)
+
+        component_settings = []
+
+        for key, value in c.settings.changed.items():
+            s = ComponentInfo(component=c1, component_id=c1.id, name=key, value=value)
+            component_settings.append(s)
+
+        for port in c.ports.values():
+            s = Port(
+                component=c1,
+                component_id=c1.id,
+                port_type=port.port_type,
+                name=port.name,
+                orientation=port.orientation,
+                position=port.center,
+            )
+            component_settings.append(s)
 
         session.add_all([w1, r1, d1, c1])
+        session.add_all(component_settings)
         session.commit()
