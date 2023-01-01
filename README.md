@@ -30,19 +30,20 @@ It provides you with an end to end flow for building chips.
 You can:
 
 - Design (Layout, Simulation, Optimization)
-    * define parametric cells (PCells) in python or YAML.
-    * define routes between component ports.
-    * Test component settings, ports and geometry to avoid regressions.
-- Verificate (DRC, DFM)
+    * define parametric cells (PCells) functions in python or YAML. Define routes between component ports.
+    * Test component settings, ports and geometry to avoid unwanted regressions.
+    * Capture design intent in a schematic.
+- Verificate (DRC, DFM, LVS)
     * Run simulations directly from the layout thanks to the simulation interfaces. No need to draw the geometry more than once.
-        - Component simulations (modesolver, FDTD, EME, TCAD, thermal ...)
-        - Circuit simulations (Sparameters, Spice ...)
-    * Build Component models and study Design For Manufacturing.
+        - Run Component simulations (solve modes, FDTD, EME, TCAD, thermal ...)
+        - Run Circuit simulations from the Component netlist (Sparameters, Spice ...)
+        - Build Component models and study Design For Manufacturing.
     * Create DRC rule decks in Klayout.
+    * Make sure complex layouts match their design intent (Layout Versus Schematic).
 - Validate
-    * Make sure that as you define the layout you define the test sequence. So when the chips come back you already know how to test them.
+    * Make sure that as you define the layout you define the test sequence, so when the chips come back you already know how to test them.
     * Model extraction: extract the important parameters for each component.
-    * Build a data pipeline that goes from raw data, to structure data and build the business analytics dashboards for monitoring your chip performance.
+    * Build a data pipeline from raw data, to structured data and dashboards for monitoring your chip performance.
 
 
 As input, you write python or YAML code.
@@ -55,7 +56,7 @@ It also exports component settings (for measurement and data analysis) and netli
 ![flow](https://i.imgur.com/XbhWJDz.png)
 
 
-It provides you a common syntax for layout (KLayout, gdstk), simulation (Lumerical, tidy3d, MEEP, MPB, DEVSIM, simphony, SAX, ...) and data analysis libraries.
+It provides you a common syntax for design (KLayout, gdstk, Ansys Lumerical, tidy3d, MEEP, MPB, DEVSIM, SAX, ...), verification and validation.
 
 ![tool interfaces](https://i.imgur.com/9fNLRvJ.png)
 
