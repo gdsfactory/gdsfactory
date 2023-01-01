@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.16.1
+
+- remove straight Pcell parameter from many components that do not need it [PR](https://github.com/gdsfactory/gdsfactory/pull/1061)
+
 ## 6.16.0
 
 - remove bbox and pins siepic layers from strip cross-section  [PR](https://github.com/gdsfactory/gdsfactory/pull/1057)
