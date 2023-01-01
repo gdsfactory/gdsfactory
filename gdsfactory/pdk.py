@@ -313,7 +313,7 @@ class Pdk(BaseModel):
 
         if isinstance(component, Component):
             if kwargs:
-                raise ValueError(f"Cannot apply kwargs {kwargs} to {component.name!r}")
+                warnings.warn(f"Cannot apply kwargs {kwargs} to {component.name!r}")
             return component
         elif callable(component):
             return component(**kwargs)

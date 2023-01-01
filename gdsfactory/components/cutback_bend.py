@@ -8,7 +8,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular, bend_circular180
 from gdsfactory.components.bend_euler import bend_euler, bend_euler180
 from gdsfactory.components.component_sequence import component_sequence
-from gdsfactory.components.straight import straight as straight_function
+from gdsfactory.components.straight import straight
 from gdsfactory.types import ComponentSpec
 
 
@@ -25,7 +25,6 @@ def cutback_bend(
     straight_length: float = 5.0,
     rows: int = 6,
     columns: int = 5,
-    straight: ComponentSpec = straight_function,
     **kwargs,
 ) -> Component:
     """Deprecated.
@@ -37,7 +36,6 @@ def cutback_bend(
         straight_length: in um.
         rows: number of rows.
         columns: number of columns.
-        straight: straight spec.
         kwargs: cross_section settings.
 
     .. code::
@@ -52,7 +50,7 @@ def cutback_bend(
     from gdsfactory.pdk import get_component
 
     bend90 = get_component(bend90, **kwargs)
-    straightx = get_component(straight, length=straight_length, **kwargs)
+    straightx = straight(length=straight_length, **kwargs)
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
@@ -82,7 +80,6 @@ def cutback_bend90(
     rows: int = 6,
     columns: int = 6,
     spacing: int = 5,
-    straight: ComponentSpec = straight_function,
     **kwargs,
 ) -> Component:
     """Returns bend90 cutback.
@@ -92,7 +89,6 @@ def cutback_bend90(
         straight_length: in um.
         rows: number of rows.
         columns: number of columns.
-        straight: straight spec.
         kwargs: cross_section settings.
 
     .. code::
@@ -103,9 +99,9 @@ def cutback_bend90(
     from gdsfactory.pdk import get_component
 
     bend90 = get_component(bend90, **kwargs)
-    straightx = get_component(straight, length=straight_length, **kwargs)
+    straightx = straight(length=straight_length, **kwargs)
     straight_length = 2 * _get_bend_size(bend90) + spacing + straight_length
-    straighty = get_component(straight, length=straight_length, **kwargs)
+    straighty = straight(length=straight_length, **kwargs)
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
@@ -136,7 +132,6 @@ def staircase(
     length_v: float = 5.0,
     length_h: float = 5.0,
     rows: int = 4,
-    straight: ComponentSpec = straight_function,
     **kwargs,
 ) -> Component:
     """Returns staircase.
@@ -147,7 +142,6 @@ def staircase(
         length_h: vertical length.
         rows: number of rows.
         columns: number of columns.
-        straight: straight spec.
         kwargs: cross_section settings.
     """
     bend90 = bend90(**kwargs) if callable(bend90) else bend90
@@ -180,7 +174,6 @@ def cutback_bend180(
     rows: int = 6,
     columns: int = 6,
     spacing: int = 3,
-    straight: ComponentSpec = straight_function,
     **kwargs,
 ) -> Component:
     """Returns cutback to measure u bend loss.
@@ -191,7 +184,6 @@ def cutback_bend180(
         rows: number of rows.
         columns: number of columns.
         spacing: in um.
-        straight: straight spec.
         kwargs: cross_section settings.
 
     .. code::
@@ -204,9 +196,8 @@ def cutback_bend180(
     from gdsfactory.pdk import get_component
 
     bend180 = get_component(bend180, **kwargs)
-    straightx = get_component(straight, length=straight_length, **kwargs)
-    wg_vertical = get_component(
-        straight,
+    straightx = straight(length=straight_length, **kwargs)
+    wg_vertical = straight(
         length=2 * bend180.size_info.width + straight_length + spacing,
         **kwargs,
     )
