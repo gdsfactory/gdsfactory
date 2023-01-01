@@ -9,7 +9,7 @@ metadata = Base.metadata
 
 class Process(Base):
     __tablename__ = "process"
-    __table_args__ = {"comment": "This table holds all simulation results."}
+    __table_args__ = {"comment": "This table holds all foundry process info."}
 
     id = Column(Integer, primary_key=True)
     created = Column(
