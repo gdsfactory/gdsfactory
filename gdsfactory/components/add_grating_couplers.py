@@ -15,7 +15,7 @@ from gdsfactory.components.spiral_inner_io import (
     spiral_inner_io,
     spiral_inner_io_fiber_single,
 )
-from gdsfactory.components.straight import straight as straight_function
+from gdsfactory.components.straight import straight
 from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_input_labels import get_input_labels
@@ -29,7 +29,7 @@ from gdsfactory.types import ComponentSpec, CrossSectionSpec, Label, PortsDict
 
 @cell
 def add_grating_couplers(
-    component: ComponentSpec = straight_function,
+    component: ComponentSpec = straight,
     grating_coupler: ComponentSpec = grating_coupler_te,
     layer_label: Tuple[int, int] = (200, 0),
     gc_port_name: str = "o1",
@@ -94,7 +94,6 @@ def add_grating_couplers_with_loopback_fiber_single(
     cross_section: CrossSectionSpec = strip,
     component_name: Optional[str] = None,
     loopback_xspacing: float = 5.0,
-    straight: ComponentSpec = straight_function,
     rotation: int = 90,
 ) -> Component:
     """Returns new component with all ports terminated with grating couplers.
@@ -111,7 +110,6 @@ def add_grating_couplers_with_loopback_fiber_single(
         cross_section: for routing.
         component_name: optional component name.
         loopback_xspacing: in um.
-        straight: straight spec.
         rotation: in degrees, 90 for North South devices, 0 for East-West.
     """
     c = Component()
@@ -152,17 +150,13 @@ def add_grating_couplers_with_loopback_fiber_single(
     if with_loopback:
         if rotation in {0, 180}:
             length = abs(p2.x - p1.x)
-            wg = c << gf.get_component(
-                straight, length=length, cross_section=cross_section
-            )
+            wg = c << straight(length=length, cross_section=cross_section)
             wg.rotate(rotation)
             wg.xmin = p2.x
             wg.ymin = c.ymax + grating_coupler.ysize / 2 + loopback_xspacing
         else:
             length = abs(p2.y - p1.y)
-            wg = c << gf.get_component(
-                straight, length=length, cross_section=cross_section
-            )
+            wg = c << straight(length=length, cross_section=cross_section)
             wg.rotate(rotation)
             wg.ymin = p1.y
             wg.xmin = c.xmax + grating_coupler.ysize / 2 + loopback_xspacing
@@ -216,7 +210,6 @@ def add_grating_couplers_with_loopback_fiber_array(
     gc_rotation: int = -90,
     straight_separation: float = 5.0,
     bend: ComponentSpec = bend_euler,
-    straight: ComponentSpec = straight_function,
     layer_label: Tuple[int, int] = (200, 0),
     layer_label_loopback: Optional[Tuple[int, int]] = None,
     component_name: Optional[str] = None,
@@ -240,7 +233,6 @@ def add_grating_couplers_with_loopback_fiber_array(
         gc_rotation: grating coupler rotation in degrees.
         straight_separation: in um.
         bend: bend spec.
-        straight: straight spec.
         layer_label: for testing label.
         layer_label_loopback: for testing label alignment loopback.
         component_name: optional component name.
@@ -342,7 +334,6 @@ def add_grating_couplers_with_loopback_fiber_array(
         loopback_route = round_corners(
             points=points,
             bend=bend90,
-            straight=straight,
             cross_section=cross_section,
             **kwargs,
         )

@@ -26,7 +26,6 @@ def ring_single_array(
 
     Args:
         ring: ring function.
-        straight: straight function.
         spacing: between rings.
         list_of_dicts: settings for each ring.
         cross_section: spec.
