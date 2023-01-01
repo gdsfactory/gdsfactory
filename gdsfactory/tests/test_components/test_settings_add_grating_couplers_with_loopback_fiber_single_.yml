@@ -104,8 +104,6 @@ settings:
       function: select_ports
       settings:
         port_type: optical
-    straight:
-      function: straight
     with_loopback: true
   full:
     component:
@@ -132,8 +130,6 @@ settings:
       function: select_ports
       settings:
         port_type: optical
-    straight:
-      function: straight
     with_loopback: true
   function_name: add_grating_couplers_with_loopback_fiber_single
   info:
