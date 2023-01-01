@@ -2,15 +2,13 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.types import ComponentSpec
+from gdsfactory.components.straight import straight
 
 
 @gf.cell
 def coupler_straight(
     length: float = 10.0,
     gap: float = 0.27,
-    straight: ComponentSpec = straight_function,
     **kwargs,
 ) -> Component:
     """Coupler_straight with two parallel straights.
@@ -18,11 +16,10 @@ def coupler_straight(
     Args:
         length: of straight.
         gap: between straights.
-        straight: straight waveguide function.
         kwargs: cross_section settings.
     """
     component = Component()
-    straight_component = gf.get_component(straight, length=length, **kwargs)
+    straight_component = straight(length=length, **kwargs)
 
     top = component << straight_component
     bot = component << straight_component

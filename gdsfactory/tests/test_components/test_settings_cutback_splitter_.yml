@@ -45,8 +45,6 @@ settings:
     port2: o2
     port3: o3
     rows: 5
-    straight:
-      function: straight
     straight_length: null
   full:
     bend180:
@@ -62,8 +60,6 @@ settings:
     port2: o2
     port3: o3
     rows: 5
-    straight:
-      function: straight
     straight_length: null
   function_name: cutback_splitter
   info:

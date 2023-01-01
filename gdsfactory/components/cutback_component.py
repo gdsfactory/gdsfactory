@@ -4,7 +4,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler180
 from gdsfactory.components.component_sequence import component_sequence
-from gdsfactory.components.straight import straight as straight_function
+from gdsfactory.components.straight import straight
 from gdsfactory.components.taper import taper
 from gdsfactory.components.taper_from_csv import taper_0p5_to_3_l36
 from gdsfactory.types import ComponentSpec, CrossSectionSpec, Optional
@@ -18,7 +18,6 @@ def cutback_component(
     port1: str = "o1",
     port2: str = "o2",
     bend180: ComponentSpec = bend_euler180,
-    straight: ComponentSpec = straight_function,
     mirror: bool = False,
     straight_length: Optional[float] = None,
     cross_section: CrossSectionSpec = "strip",
@@ -33,7 +32,6 @@ def cutback_component(
         port1: name of first optical port.
         port2: name of second optical port.
         bend180: ubend.
-        straight: waveguide spec to connect both sides.
         mirror: Flips component. Useful when 'o2' is the port that you want to route to.
         straight_length: length of the straight section between cutbacks.
         cross_section: specification (CrossSection, string or dict).
@@ -43,8 +41,8 @@ def cutback_component(
 
     component = gf.get_component(component)
     bendu = gf.get_component(bend180, cross_section=xs)
-    straight_component = gf.get_component(
-        straight, length=straight_length or xs.radius * 2, cross_section=xs
+    straight_component = straight(
+        length=straight_length or xs.radius * 2, cross_section=xs
     )
 
     # Define a map between symbols and (component, input port, output port)
@@ -91,7 +89,7 @@ def cutback_component(
 # straight_wide = gf.partial(straight, width=3, length=20)
 # bend180_wide = gf.partial(bend_euler180, width=3)
 component_flipped = gf.partial(taper, width2=0.5, width1=3)
-straight_long = gf.partial(straight_function, length=20)
+straight_long = gf.partial(straight, length=20)
 cutback_component_mirror = gf.partial(cutback_component, mirror=True)
 
 
