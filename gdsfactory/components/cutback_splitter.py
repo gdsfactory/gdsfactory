@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler180
 from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.mmi1x2 import mmi1x2
-from gdsfactory.components.straight import straight as straight_function
+from gdsfactory.components.straight import straight
 from gdsfactory.types import ComponentSpec, CrossSectionSpec, Optional
 
 
@@ -18,7 +18,6 @@ def cutback_splitter(
     port2: str = "o2",
     port3: str = "o3",
     bend180: ComponentSpec = bend_euler180,
-    straight: ComponentSpec = straight_function,
     mirror: bool = False,
     straight_length: Optional[float] = None,
     cross_section: CrossSectionSpec = "strip",
@@ -43,8 +42,8 @@ def cutback_splitter(
 
     component = gf.get_component(component)
     bendu = gf.get_component(bend180, cross_section=xs)
-    straight_component = gf.get_component(
-        straight, length=straight_length or xs.radius * 2, cross_section=xs
+    straight_component = straight(
+        length=straight_length or xs.radius * 2, cross_section=xs
     )
 
     # Define a map between symbols and (component, input port, output port)

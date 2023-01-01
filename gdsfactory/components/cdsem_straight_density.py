@@ -6,7 +6,7 @@ from functools import partial
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.straight import straight as straight_function
+from gdsfactory.components.straight import straight
 from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.types import ComponentSpec, CrossSectionSpec, Floats, Optional
 
@@ -40,7 +40,7 @@ def cdsem_straight_density(
 
     ymin = 0
     for width, gap in zip(widths, gaps):
-        tooth_ref = c << straight_function(
+        tooth_ref = c << straight(
             length=length, cross_section=cross_section, width=width
         )
         tooth_ref.ymin = ymin
