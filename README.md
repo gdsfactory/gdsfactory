@@ -20,25 +20,29 @@
 
 GDSfactory is a design automation tool for photonics and analog circuits.
 
-You can describe your circuits with a code driven flow (python or YAML), verify them (DRC, simulation) and analyze them.
+You can describe your circuits in code (python or YAML), verify them (DRC, simulation) and analyze them.
 
-Multiple Silicon Photonics foundries have gdsfactory PDKs available. Talk to your foundry to access their gdsfactory PDK.
+It provides you with an end to end flow for building chips.
 
-You can also access:
-
-- open source PDKs available on GitHub
-    * [UBCPDK](https://gdsfactory.github.io/ubc/README.html)
-    * [skywater130](https://gdsfactory.github.io/skywater130/README.html)
-- instructions on [how to build your own PDK](https://gdsfactory.github.io/gdsfactory/notebooks/08_pdk.html)
-- instructions on [how to import a PDK from a library of fixed GDS cells](https://gdsfactory.github.io/gdsfactory/notebooks/09_pdk_import.html)
-
+![workflow](https://i.imgur.com/abvxJJw.png)
 
 
 You can:
 
-- define parametric cells (PCells) in python or YAML.
-- define routes between components.
-- Test component settings, ports and geometry to avoid regressions.
+- Design (Layout, Simulation, Optimization)
+    * define parametric cells (PCells) in python or YAML.
+    * define routes between component ports.
+    * Test component settings, ports and geometry to avoid regressions.
+- Verificate (DRC, DFM)
+    * Run simulations directly from the layout thanks to the simulation interfaces. No need to draw the geometry more than once.
+        - Component simulations (modesolver, FDTD, EME, TCAD, thermal ...)
+        - Circuit simulations (Sparameters, Spice ...)
+    * Build Component models and study Design For Manufacturing.
+    * Create DRC rule decks in Klayout.
+- Validate
+    * Make sure that as you define the layout you define the test sequence. So when the chips come back you already know how to test them.
+    * Model extraction: extract the important parameters for each component.
+    * Build a data pipeline that goes from raw data, to structure data and build the business analytics dashboards for monitoring your chip performance.
 
 
 As input, you write python or YAML code.
@@ -54,6 +58,17 @@ It also exports component settings (for measurement and data analysis) and netli
 It provides you a common syntax for layout (KLayout, gdstk), simulation (Lumerical, tidy3d, MEEP, MPB, DEVSIM, simphony, SAX, ...) and data analysis libraries.
 
 ![tool interfaces](https://i.imgur.com/9fNLRvJ.png)
+
+
+Multiple Silicon Photonics foundries have gdsfactory PDKs available. Talk to your foundry to access their gdsfactory PDK.
+
+You can also access:
+
+- open source PDKs available on GitHub
+    * [UBCPDK](https://gdsfactory.github.io/ubc/README.html)
+    * [skywater130](https://gdsfactory.github.io/skywater130/README.html)
+- instructions on [how to build your own PDK](https://gdsfactory.github.io/gdsfactory/notebooks/08_pdk.html)
+- instructions on [how to import a PDK from a library of fixed GDS cells](https://gdsfactory.github.io/gdsfactory/notebooks/09_pdk_import.html)
 
 
 ## Installation
