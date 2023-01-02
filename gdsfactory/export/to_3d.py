@@ -4,16 +4,16 @@ from typing import Optional, Tuple
 
 import shapely
 
+from gdsfactory import generic_tech as generic
 from gdsfactory.component import Component
-from gdsfactory.technology.layer_stack import LayerStack
-from gdsfactory.technology.layer_views import LayerViews
+from gdsfactory.technology import LayerStack, LayerViews
 from gdsfactory.types import Layer
 
 
 def to_3d(
     component: Component,
-    layer_views: Optional[LayerViews] = None,
-    layer_stack: Optional[LayerStack] = None,
+    layer_views: Optional[LayerViews] = generic.LAYER_VIEWS,
+    layer_stack: Optional[LayerStack] = generic.LAYER_STACK,
     exclude_layers: Optional[Tuple[Layer, ...]] = None,
 ):
     """Return Component 3D trimesh Scene.
