@@ -3,6 +3,7 @@ from __future__ import annotations
 import pathlib
 from typing import Optional, Tuple
 
+import gdsfactory.generic_tech as generic
 from gdsfactory.component import Component
 from gdsfactory.technology.layer_stack import LayerStack, LayerViews
 from gdsfactory.types import Layer
@@ -11,8 +12,8 @@ from gdsfactory.types import Layer
 def to_stl(
     component: Component,
     filepath: str,
-    layer_views: LayerViews,
-    layer_stack: LayerStack,
+    layer_views: LayerViews = generic.LAYER_VIEWS,
+    layer_stack: LayerStack = generic.LAYER_STACK,
     exclude_layers: Optional[Tuple[Layer, ...]] = None,
 ) -> None:
     """Exports a Component into STL.
@@ -56,7 +57,7 @@ def to_stl(
 
 if __name__ == "__main__":
     import gdsfactory as gf
-    from gdsfactory.generic_tech import LAYER_VIEWS
+    import gdsfactory.generic_tech as generic
 
     c = gf.components.taper_strip_to_ridge()
-    to_stl(c, layer_views=LAYER_VIEWS, filepath="a.stl")
+    to_stl(c, layer_views=generic.LAYER_VIEWS, filepath="a.stl")
