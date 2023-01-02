@@ -1,4 +1,3 @@
-from gdsfactory.technology.generic import LAYER
 from gdsfactory.technology.layer_stack import LayerLevel, LayerStack
 
 nm = 1e-3
@@ -44,6 +43,8 @@ def get_layer_stack_generic(
         box_thickness: bottom oxide thickness in um.
         undercut_thickness: thickness of the silicon undercut.
     """
+    from gdsfactory.generic_tech import LAYER
+
     return LayerStack(
         layers=dict(
             substrate=LayerLevel(
@@ -171,10 +172,8 @@ def get_layer_stack_generic(
     )
 
 
-LAYER_STACK = get_layer_stack_generic()
-
 if __name__ == "__main__":
-    ls = LAYER_STACK
+    ls = get_layer_stack_generic()
     ls.get_klayout_3d_script()
     # print(ls.get_layer_to_material())
     # print(ls.get_layer_to_thickness())

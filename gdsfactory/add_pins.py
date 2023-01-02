@@ -315,7 +315,7 @@ def add_pin_path(
           |_______________|
                  __
     """
-    from gdsfactory.technology.pdk import get_layer
+    from gdsfactory.pdk import get_layer
 
     layer_label = layer_label or layer
     p = port
@@ -423,7 +423,7 @@ def add_bbox_siepic(
         bbox_layer: bounding box.
         remove_layers: remove other layers.
     """
-    from gdsfactory.technology.pdk import get_layer
+    from gdsfactory.pdk import get_layer
 
     bbox_layer = get_layer(bbox_layer)
     layers = component.get_layers()
@@ -531,7 +531,7 @@ def add_settings_label(
         reference: ComponentReference.
         layer_label: layer spec.
     """
-    from gdsfactory.technology.pdk import get_layer
+    from gdsfactory.pdk import get_layer
 
     layer_label = get_layer(layer_label)
 

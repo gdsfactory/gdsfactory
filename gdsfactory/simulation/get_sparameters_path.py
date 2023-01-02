@@ -11,8 +11,8 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.name import clean_value
+from gdsfactory.pdk import get_sparameters_path
 from gdsfactory.technology import LAYER_STACK
-from gdsfactory.technology.pdk import get_sparameters_path
 from gdsfactory.types import ComponentSpec
 
 

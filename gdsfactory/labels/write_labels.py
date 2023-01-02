@@ -11,13 +11,12 @@ import numpy as np
 from loguru import logger
 
 import gdsfactory as gf
-from gdsfactory import LAYER
 from gdsfactory.routing.add_fiber_single import add_fiber_single
-from gdsfactory.types import Optional, PathType
+from gdsfactory.types import LayerSpec, Optional, PathType
 
 
 def find_labels(
-    gdspath: PathType, layer_label: Tuple[int, int] = LAYER.LABEL, prefix: str = "opt_"
+    gdspath: PathType, layer_label: LayerSpec = "LABEL", prefix: str = "opt_"
 ) -> Iterator[Tuple[str, float, float]]:
     """Return text label and locations iterator from a GDS file.
 
@@ -63,7 +62,7 @@ def find_labels(
 
 def write_labels_klayout(
     gdspath: PathType,
-    layer_label: Tuple[int, int] = LAYER.TEXT,
+    layer_label: LayerSpec = "TEXT",
     filepath: Optional[PathType] = None,
     prefix: str = "opt_",
 ) -> Path:
@@ -97,7 +96,7 @@ def write_labels_klayout(
 def write_labels_gdstk(
     gdspath: Path,
     prefix: str = "opt_",
-    layer_label: Optional[Tuple[int, int]] = LAYER.TEXT,
+    layer_label: Optional[LayerSpec] = "TEXT",
     filepath: Optional[PathType] = None,
     debug: bool = False,
 ) -> Path:

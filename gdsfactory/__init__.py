@@ -34,7 +34,6 @@ from gdsfactory.show import show
 from gdsfactory.read.import_gds import import_gds
 from gdsfactory.cross_section import CrossSection, Section
 from gdsfactory.types import Label
-
 from gdsfactory import decorators
 from gdsfactory import cross_section
 from gdsfactory import labels
@@ -52,6 +51,7 @@ from gdsfactory import geometry
 from gdsfactory import add_ports
 from gdsfactory import write_cells
 from gdsfactory import add_pins
+from gdsfactory import technology
 
 from gdsfactory.add_tapers import add_tapers
 from gdsfactory.add_padding import (
@@ -62,8 +62,7 @@ from gdsfactory.add_padding import (
 from gdsfactory.fill import fill_rectangle
 from gdsfactory.pack import pack
 from gdsfactory.grid import grid, grid_with_text
-from gdsfactory.technology.generic_tech import LAYER, LAYER_STACK, LAYER_VIEWS
-from gdsfactory.technology.pdk import (
+from gdsfactory.pdk import (
     Pdk,
     get_component,
     get_cross_section,
@@ -74,7 +73,7 @@ from gdsfactory.technology.pdk import (
 )
 from gdsfactory.get_factories import get_cells
 from gdsfactory.cross_section import get_cross_section_factories
-
+from gdsfactory.generic_tech import LAYER, LAYER_VIEWS, LAYER_STACK
 
 c = components
 
@@ -85,8 +84,8 @@ __all__ = (
     "CrossSection",
     "Group",
     "LAYER",
-    "LAYER_STACK",
     "LAYER_VIEWS",
+    "LAYER_STACK",
     "Label",
     "Path",
     "Pdk",
@@ -133,6 +132,7 @@ __all__ = (
     "show",
     "snap",
     "types",
+    "technology",
     "write_cells",
     "PATH",
 )

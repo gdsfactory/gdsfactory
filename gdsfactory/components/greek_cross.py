@@ -8,19 +8,18 @@ from gdsfactory.components.cross import cross
 from gdsfactory.components.pad import pad
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.via_stack import via_stack
-from gdsfactory.technology.generic import LAYER
-from gdsfactory.types import Layers
+from gdsfactory.types import LayerSpecs
 
 
 @gf.cell
 def greek_cross(
     cross_struct_length: float = 30.0,
     cross_struct_width: float = 1.0,
-    cross_struct_layers: Layers = (LAYER.WG,),
+    cross_struct_layers: LayerSpecs = ("WG",),
     cross_implant_length: float = 30.0,
     cross_implant_width: float = 2.0,
-    cross_implant_layers: Layers = (LAYER.N,),
-    contact_layers: Layers = (LAYER.WG, LAYER.NPP),
+    cross_implant_layers: LayerSpecs = ("N",),
+    contact_layers: LayerSpecs = ("WG", "NPP"),
     contact_offset: float = 10,
     contact_buffer: float = 10,
     pad_width: float = 50,

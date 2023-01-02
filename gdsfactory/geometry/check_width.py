@@ -63,7 +63,7 @@ def demo() -> None:
 
 if __name__ == "__main__":
     import gdsfactory as gf
-    from gdsfactory.technology.generic import LAYER
+    from gdsfactory.generic_tech import LAYER
 
     w = 0.12
     c = gf.components.rectangle(size=(w, w), layer=LAYER.WG)

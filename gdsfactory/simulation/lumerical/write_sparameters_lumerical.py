@@ -10,6 +10,7 @@ import omegaconf
 
 import gdsfactory as gf
 from gdsfactory.config import __version__, logger
+from gdsfactory.pdk import get_layer_stack
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_lumerical as get_sparameters_path,
 )
@@ -19,7 +20,6 @@ from gdsfactory.technology import (
     MaterialSpec,
     SimulationSettingsLumericalFdtd,
 )
-from gdsfactory.technology.pdk import get_layer_stack
 from gdsfactory.types import ComponentSpec, PathType
 
 run_false_warning = """

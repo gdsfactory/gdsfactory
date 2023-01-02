@@ -8,7 +8,7 @@ import meep.materials as mat
 import numpy as np
 
 from gdsfactory.materials import material_name_to_meep as material_name_to_meep_default
-from gdsfactory.technology.pdk import get_material_index
+from gdsfactory.pdk import get_material_index
 
 MATERIALS = [m for m in dir(mat) if not m.startswith("_")]
 

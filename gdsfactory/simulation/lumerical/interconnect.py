@@ -21,7 +21,7 @@ def install_design_kit(
     install_dir: pathlib.Path = PATH.interconnect,
     overwrite: bool = False,
 ):
-    from gdsfactory.technology.pdk import get_interconnect_cml_path
+    from gdsfactory.pdk import get_interconnect_cml_path
 
     cml_path = get_interconnect_cml_path()
     session.installdesignkit(str(cml_path), str(install_dir), overwrite)

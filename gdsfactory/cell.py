@@ -70,7 +70,7 @@ def cell_without_validator(func):
 
     @functools.wraps(func)
     def _cell(*args, **kwargs):
-        from gdsfactory.technology.pdk import get_active_pdk
+        from gdsfactory.pdk import get_active_pdk
 
         with_hash = kwargs.pop("with_hash", False)
         autoname = kwargs.pop("autoname", True)

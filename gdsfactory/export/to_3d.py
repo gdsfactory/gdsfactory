@@ -7,7 +7,6 @@ import shapely
 from gdsfactory.component import Component
 from gdsfactory.technology.layer_stack import LayerStack
 from gdsfactory.technology.layer_views import LayerViews
-from gdsfactory.technology.pdk import get_layer_stack, get_layer_views
 from gdsfactory.types import Layer
 
 
@@ -28,6 +27,8 @@ def to_3d(
         exclude_layers: layers to exclude.
 
     """
+    from gdsfactory.pdk import get_layer_stack, get_layer_views
+
     try:
         import matplotlib.colors
         from trimesh.creation import extrude_polygon
