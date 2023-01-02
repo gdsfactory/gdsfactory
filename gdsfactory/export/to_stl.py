@@ -4,7 +4,7 @@ import pathlib
 from typing import Optional, Tuple
 
 from gdsfactory.component import Component
-from gdsfactory.technology.generic import LAYER_STACK
+from gdsfactory.technology.generic import LAYER_STACK, LAYER_VIEWS
 from gdsfactory.technology.layer_stack import LayerStack, LayerViews
 from gdsfactory.types import Layer
 
@@ -12,7 +12,7 @@ from gdsfactory.types import Layer
 def to_stl(
     component: Component,
     filepath: str,
-    layer_views: LayerViews,
+    layer_views: LayerViews = LAYER_VIEWS,
     layer_stack: LayerStack = LAYER_STACK,
     exclude_layers: Optional[Tuple[Layer, ...]] = None,
 ) -> None:
@@ -26,7 +26,6 @@ def to_stl(
         exclude_layers: layers to exclude.
 
     """
-    import matplotlib.colors
     import shapely
     from trimesh.creation import extrude_polygon
 
@@ -43,8 +42,7 @@ def to_stl(
         ):
             height = layer_to_thickness[layer]
             zmin = layer_to_zmin[layer]
-            color_hex = layer_views.get_from_tuple(layer).color
-            color_rgb = matplotlib.colors.to_rgb(color_hex)
+            color_rgb = layer_views.get_from_tuple(layer).color.as_rgb_tuple()
             filepath_layer = (
                 filepath.parent
                 / f"{filepath.stem}_{layer[0]}_{layer[1]}{filepath.suffix}"
@@ -61,4 +59,4 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.components.taper_strip_to_ridge()
-    to_stl(c, layer_views=gf.layers.LAYER_VIEWS, filepath="a.stl")
+    to_stl(c, layer_views=LAYER_VIEWS, filepath="a.stl")
