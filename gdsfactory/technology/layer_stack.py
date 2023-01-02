@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional, Tuple
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from gdsfactory.technology.layer_views import LayerViews
 
@@ -53,7 +53,16 @@ class LayerStack(BaseModel):
         layers: dict of layer_levels.
     """
 
-    layers: Dict[str, LayerLevel]
+    layers: Optional[Dict[str, LayerLevel]] = Field(default_factory=dict)
+
+    def __init__(self, **data: Any):
+        """Add LayerLevels automatically for subclassed LayerStacks."""
+        super().__init__(**data)
+
+        for field in self.dict():
+            val = getattr(self, field)
+            if isinstance(val, LayerLevel):
+                self.layers[field] = val
 
     def get_layer_to_thickness(self) -> Dict[Tuple[int, int], float]:
         """Returns layer tuple to thickness (um)."""
