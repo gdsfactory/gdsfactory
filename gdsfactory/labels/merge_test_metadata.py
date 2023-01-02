@@ -79,12 +79,14 @@ def merge_test_metadata(
 
     test_metadata = DictConfig({})
 
-    for label, x, y in labels_list:
+    for label, x, y, angle in labels_list:
         cell = get_cell_from_string(label)
 
         if cell in cells_metadata:
             test_metadata[cell] = cells_metadata[cell]
-            test_metadata[cell].label = dict(x=float(x), y=float(y), text=label)
+            test_metadata[cell].label = dict(
+                x=float(x), y=float(y), text=label, angle=angle
+            )
         else:
             logger.error(f"missing cell metadata for {cell!r}")
             warnings.warn(f"missing cell metadata for {cell!r}")
