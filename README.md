@@ -48,7 +48,7 @@ You can:
 
 As input, you write python or YAML code.
 
-As output you write a GDSII or OASIS file that can send to your foundry.
+As output you write a GDSII or OASIS file that you can send to your foundry for fabrication.
 It also exports component settings (for measurement and data analysis) and netlists (for circuit simulations).
 
 ![layout_to_components](https://i.imgur.com/JLsvpLv.png)
