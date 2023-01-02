@@ -395,9 +395,9 @@ def viz_instance(
     x, y = x0, y0
     polys_by_layer = inst_ref.get_polygons(by_spec=True, as_array=False)
     layer_polys = []
-    layer_colors = gf.get_active_pdk().layer_colors
+    layer_views = gf.get_active_pdk().layer_views
     colors_by_ldt = {
-        (lc.gds_layer, lc.gds_datatype): lc for lc in layer_colors.layers.values()
+        (lc.gds_layer, lc.gds_datatype): lc for lc in layer_views.layers.values()
     }
 
     for layer, polys in polys_by_layer.items():

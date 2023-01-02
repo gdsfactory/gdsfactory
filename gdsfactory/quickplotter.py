@@ -357,10 +357,10 @@ def _update_bbox(bbox, new_bbox):
 
 
 def _get_layerprop(layer, datatype):
-    from gdsfactory.pdk import get_layer_colors
+    from gdsfactory.pdk import get_layer_views
 
     # Colors generated from here: http://phrogz.net/css/distinct-colors.html
-    layer_colors = [
+    layer_views = [
         "#3dcc5c",
         "#2b0fff",
         "#cc3d3d",
@@ -374,19 +374,19 @@ def _get_layerprop(layer, datatype):
         "#3d87cc",
         "#e5520e",
     ]
-    LAYER_COLORS = get_layer_colors()
+    LAYER_VIEWS = get_layer_views()
     _layer = (
-        LAYER_COLORS.get_from_tuple((layer, datatype))
-        if (layer, datatype) in LAYER_COLORS.get_layer_tuples()
+        LAYER_VIEWS.get_from_tuple((layer, datatype))
+        if (layer, datatype) in LAYER_VIEWS.get_layer_tuples()
         else None
     )
     if _layer is not None:
         color = _layer.color
         alpha = _layer.alpha
         if color is None:
-            color = layer_colors[np.mod(layer, len(layer_colors))]
+            color = layer_views[np.mod(layer, len(layer_views))]
     else:
-        color = layer_colors[np.mod(layer, len(layer_colors))]
+        color = layer_views[np.mod(layer, len(layer_views))]
         alpha = 0.6
     return {"color": color, "alpha": alpha}
 

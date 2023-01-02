@@ -17,7 +17,7 @@ from gdsfactory.config import PATH, sparameters_path
 from gdsfactory.containers import containers as containers_default
 from gdsfactory.cross_section import cross_sections
 from gdsfactory.events import Event
-from gdsfactory.layers import LAYER_COLORS, LayerColors
+from gdsfactory.layer_views import LAYER_VIEWS, LayerViews
 from gdsfactory.materials import MaterialSpec
 from gdsfactory.materials import materials_index as materials_index_default
 from gdsfactory.read.from_yaml import from_yaml
@@ -70,7 +70,7 @@ class Pdk(BaseModel):
         layer_stack: maps name to layer numbers, thickness, zmin, sidewall_angle.
             if can also contain material properties
             (refractive index, nonlinear coefficient, sheet resistance ...).
-        layer_colors: includes layer name to color, opacity and pattern.
+        layer_views: includes layer name to color, opacity and pattern.
         sparameters_path: to store Sparameters simulations.
         modes_path: to store Sparameters simulations.
         interconnect_cml_path: path to interconnect CML (optional).
@@ -91,7 +91,7 @@ class Pdk(BaseModel):
     default_decorator: Optional[Callable[[Component], None]] = None
     layers: Dict[str, Layer] = Field(default_factory=dict)
     layer_stack: Optional[LayerStack] = None
-    layer_colors: Optional[LayerColors] = None
+    layer_views: Optional[LayerViews] = None
     sparameters_path: Optional[PathType] = None
     modes_path: Optional[PathType] = PATH.modes
     interconnect_cml_path: Optional[PathType] = None
@@ -420,10 +420,10 @@ class Pdk(BaseModel):
                 f"{layer!r} needs to be a LayerSpec (string, int or Layer)"
             )
 
-    def get_layer_colors(self) -> LayerColors:
-        if self.layer_colors is None:
-            raise ValueError(f"layer_colors for Pdk {self.name!r} is None")
-        return self.layer_colors
+    def get_layer_views(self) -> LayerViews:
+        if self.layer_views is None:
+            raise ValueError(f"layer_views for Pdk {self.name!r} is None")
+        return self.layer_views
 
     def get_layer_stack(self) -> LayerStack:
         if self.layer_stack is None:
@@ -473,7 +473,7 @@ GENERIC = Pdk(
     cells=cells,
     layers=LAYER.dict(),
     layer_stack=LAYER_STACK,
-    layer_colors=LAYER_COLORS,
+    layer_views=LAYER_VIEWS,
     sparameters_path=sparameters_path,
 )
 _ACTIVE_PDK = GENERIC
@@ -499,8 +499,8 @@ def get_layer(layer: LayerSpec) -> Layer:
     return _ACTIVE_PDK.get_layer(layer)
 
 
-def get_layer_colors() -> LayerColors:
-    return _ACTIVE_PDK.get_layer_colors()
+def get_layer_views() -> LayerViews:
+    return _ACTIVE_PDK.get_layer_views()
 
 
 def get_layer_stack() -> LayerStack:
