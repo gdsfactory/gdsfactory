@@ -4,7 +4,7 @@ import numpy as np
 from pydantic import BaseModel
 
 import gdsfactory as gf
-from gdsfactory.tech import Layer
+from gdsfactory.technology import Layer
 
 
 class DopingLayerLevel(BaseModel):

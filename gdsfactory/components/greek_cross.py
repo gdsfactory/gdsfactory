@@ -8,7 +8,7 @@ from gdsfactory.components.cross import cross
 from gdsfactory.components.pad import pad
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.via_stack import via_stack
-from gdsfactory.tech import LAYER
+from gdsfactory.technology.generic import LAYER
 from gdsfactory.types import Layers
 
 

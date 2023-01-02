@@ -31,7 +31,6 @@ from gdsfactory.component_layout import (
 from gdsfactory.component_reference import ComponentReference, Coordinate, SizeInfo
 from gdsfactory.config import CONF, logger
 from gdsfactory.cross_section import CrossSection
-from gdsfactory.layer_views import LAYER_VIEWS, LayerView, LayerViews
 from gdsfactory.port import (
     Port,
     auto_rename_ports,
@@ -45,6 +44,8 @@ from gdsfactory.port import (
 )
 from gdsfactory.serialization import clean_dict
 from gdsfactory.snap import snap_to_grid
+from gdsfactory.technology.generic import LAYER_VIEWS
+from gdsfactory.technology.layer_views import LayerView, LayerViews
 
 Plotter = Literal["holoviews", "matplotlib", "qt"]
 Axis = Literal["x", "y"]
@@ -338,7 +339,7 @@ class Component(_GeometryHelper):
             layer: Specific layer(s) to put Label on.
             x_reflection: True reflects across the horizontal axis before rotation.
         """
-        from gdsfactory.pdk import get_layer
+        from gdsfactory.technology.pdk import get_layer
 
         layer = get_layer(layer)
 
@@ -690,7 +691,7 @@ class Component(_GeometryHelper):
             port_type: optical, electrical, vertical_dc, vertical_te, vertical_tm.
             cross_section: port cross_section.
         """
-        from gdsfactory.pdk import get_layer
+        from gdsfactory.technology.pdk import get_layer
 
         layer = get_layer(layer)
 
@@ -788,7 +789,7 @@ class Component(_GeometryHelper):
 
         based on phidl.geometry.
         """
-        from gdsfactory.pdk import get_layer
+        from gdsfactory.technology.pdk import get_layer
 
         if type(layers) not in (list, tuple):
             raise ValueError(f"layers {layers!r} needs to be a list or tuple")
@@ -819,7 +820,7 @@ class Component(_GeometryHelper):
             points: Coordinates of the vertices of the Polygon.
             layer: layer spec to add polygon on.
         """
-        from gdsfactory.pdk import get_layer
+        from gdsfactory.technology.pdk import get_layer
 
         layer = get_layer(layer)
 
@@ -1430,7 +1431,7 @@ class Component(_GeometryHelper):
                 "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
                 None: do not try to resolve (at your own risk!)
         """
-        from gdsfactory.pdk import get_grid_size
+        from gdsfactory.technology.pdk import get_grid_size
 
         precision = precision or get_grid_size() * 1e-6
 
@@ -1845,7 +1846,7 @@ class Component(_GeometryHelper):
             depth: None returns all labels and 0 top level.
             layer: layerspec.
         """
-        from gdsfactory.pdk import get_layer
+        from gdsfactory.technology.pdk import get_layer
 
         if layer:
             layer, texttype = get_layer(layer)

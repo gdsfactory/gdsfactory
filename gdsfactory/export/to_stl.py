@@ -4,8 +4,8 @@ import pathlib
 from typing import Optional, Tuple
 
 from gdsfactory.component import Component
-from gdsfactory.layer_views import LayerViews
-from gdsfactory.tech import LAYER_STACK, LayerStack
+from gdsfactory.technology.generic import LAYER_STACK
+from gdsfactory.technology.layer_stack import LayerStack, LayerViews
 from gdsfactory.types import Layer
 
 

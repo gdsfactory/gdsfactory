@@ -592,7 +592,7 @@ def transition(
           between the two input CrossSections.
 
     """
-    from gdsfactory.pdk import get_layer
+    from gdsfactory.technology.pdk import get_layer
 
     X1 = cross_section1
     X2 = cross_section2
@@ -705,7 +705,7 @@ def extrude(
         shear_angle_end: an optional angle to shear the ending face by (in degrees).
 
     """
-    from gdsfactory.pdk import (
+    from gdsfactory.technology.pdk import (
         get_active_pdk,
         get_cross_section,
         get_grid_size,

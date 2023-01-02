@@ -12,7 +12,7 @@ from gdsfactory.config import logger
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_lumerical as get_sparameters_path,
 )
-from gdsfactory.tech import LAYER_STACK, LayerStack
+from gdsfactory.technology import LAYER_STACK, LayerStack
 
 
 def get_ports(line: str) -> Tuple[str, str]:

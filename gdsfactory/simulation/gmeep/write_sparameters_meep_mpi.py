@@ -17,7 +17,6 @@ import pydantic
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import logger, sparameters_path
-from gdsfactory.pdk import get_layer_stack
 from gdsfactory.simulation import port_symmetries
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_meep as get_sparameters_path,
@@ -26,7 +25,8 @@ from gdsfactory.simulation.gmeep.write_sparameters_meep import (
     remove_simulation_kwargs,
     settings_write_sparameters_meep,
 )
-from gdsfactory.tech import LayerStack
+from gdsfactory.technology import LayerStack
+from gdsfactory.technology.pdk import get_layer_stack
 from gdsfactory.types import ComponentSpec, PathType
 
 ncores = multiprocessing.cpu_count()

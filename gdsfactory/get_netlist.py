@@ -27,9 +27,9 @@ import omegaconf
 from gdsfactory import Port
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.name import clean_name
-from gdsfactory.pdk import get_layer
 from gdsfactory.serialization import clean_dict, clean_value_json
 from gdsfactory.snap import snap_to_grid
+from gdsfactory.technology.pdk import get_layer
 from gdsfactory.types import LayerSpec
 
 

@@ -12,7 +12,7 @@ from gdsfactory.add_pins import add_pin_rectangle_inside
 from gdsfactory.component import Component
 from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports
-from gdsfactory.tech import LayerLevel, LayerStack
+from gdsfactory.technology import LayerLevel, LayerStack
 from gdsfactory.types import Layer
 
 

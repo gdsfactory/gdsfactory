@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Tuple
 
-from gdsfactory.tech import LAYER
+from gdsfactory.technology.generic import LAYER
 
 nm = 1e-3
 

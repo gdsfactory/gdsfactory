@@ -5,7 +5,7 @@ from pytest_regressions.data_regression import DataRegressionFixture
 from gdsfactory.config import PATH
 
 try:
-    from gdsfactory.klayout_tech import LayerDisplayProperties
+    from gdsfactory.technology.klayout_tech import LayerDisplayProperties
 except Exception:
     print("klayout not installed")
 

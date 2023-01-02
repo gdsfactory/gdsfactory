@@ -17,13 +17,14 @@ from gdsfactory.config import PATH, sparameters_path
 from gdsfactory.containers import containers as containers_default
 from gdsfactory.cross_section import cross_sections
 from gdsfactory.events import Event
-from gdsfactory.layer_views import LAYER_VIEWS, LayerViews
 from gdsfactory.materials import MaterialSpec
 from gdsfactory.materials import materials_index as materials_index_default
 from gdsfactory.read.from_yaml import from_yaml
 from gdsfactory.show import show
 from gdsfactory.symbols import floorplan_with_block_letters
-from gdsfactory.tech import LAYER, LAYER_STACK, LayerStack
+from gdsfactory.technology.generic import LAYER, LAYER_STACK, LAYER_VIEWS
+from gdsfactory.technology.layer_stack import LayerStack
+from gdsfactory.technology.layer_views import LayerViews
 from gdsfactory.types import (
     CellSpec,
     Component,
@@ -467,7 +468,7 @@ class Pdk(BaseModel):
     #     return self._on_cross_section_registered
 
 
-GENERIC = Pdk(
+GENERIC_PDK = Pdk(
     name="generic",
     cross_sections=cross_sections,
     cells=cells,
@@ -476,7 +477,7 @@ GENERIC = Pdk(
     layer_views=LAYER_VIEWS,
     sparameters_path=sparameters_path,
 )
-_ACTIVE_PDK = GENERIC
+_ACTIVE_PDK = GENERIC_PDK
 
 
 def get_material_index(material: MaterialSpec, *args, **kwargs) -> Component:
@@ -556,6 +557,9 @@ on_yaml_cell_modified.add_handler(show)
 
 
 if __name__ == "__main__":
+    from gdsfactory.components import cells
+    from gdsfactory.cross_section import cross_sections
+
     # c = _ACTIVE_PDK.get_component("straight")
     # print(c.settings)
     # on_pdk_activated += print

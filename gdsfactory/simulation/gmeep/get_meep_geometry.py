@@ -6,8 +6,8 @@ import meep as mp
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.pdk import get_layer_stack
 from gdsfactory.simulation.gmeep.get_material import get_material
+from gdsfactory.technology.pdk import get_layer_stack
 from gdsfactory.types import ComponentSpec, CrossSectionSpec, LayerStack
 
 

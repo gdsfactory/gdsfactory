@@ -4,7 +4,7 @@ from __future__ import annotations
 import shapely
 from shapely.geometry import LineString, MultiLineString, MultiPolygon, Polygon, box
 
-from gdsfactory.tech import LAYER
+from gdsfactory.technology.generic import LAYER
 
 
 def round_coordinates(geom, ndigits=5):

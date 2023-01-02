@@ -133,7 +133,9 @@ def install_klayout_package() -> None:
     """
     cwd = pathlib.Path(__file__).resolve().parent
     _install_to_klayout(
-        src=cwd / "klayout", klayout_subdir_name="salt", package_name="gdsfactory"
+        src=cwd / "technology" / "generic" / "klayout",
+        klayout_subdir_name="salt",
+        package_name="gdsfactory",
     )
 
 
@@ -149,7 +151,7 @@ def install_klayout_technology(tech_dir: pathlib.Path, tech_name: Optional[str] 
 if __name__ == "__main__":
     cwd = pathlib.Path(__file__).resolve().parent
     home = pathlib.Path.home()
-    src = cwd / "klayout" / "tech"
+    src = cwd / "technology" / "generic" / "klayout" / "tech"
 
     install_gdsdiff()
     install_klayout_package()

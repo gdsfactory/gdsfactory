@@ -7,7 +7,7 @@ import numpy as np
 import gdsfactory as gf
 import gdsfactory.simulation as sim
 import gdsfactory.simulation.gmeep as gm
-from gdsfactory.tech import LAYER_STACK
+from gdsfactory.technology import LAYER_STACK
 
 simulation_settings = dict(resolution=20, is_3d=False)
 
