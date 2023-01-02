@@ -5,15 +5,15 @@ from typing import Optional, Tuple
 import shapely
 
 from gdsfactory.component import Component
-from gdsfactory.layers import LayerColors
-from gdsfactory.pdk import get_layer_colors, get_layer_stack
+from gdsfactory.layer_views import LayerViews
+from gdsfactory.pdk import get_layer_stack, get_layer_views
 from gdsfactory.tech import LayerStack
 from gdsfactory.types import Layer
 
 
 def to_3d(
     component: Component,
-    layer_colors: Optional[LayerColors] = None,
+    layer_views: Optional[LayerViews] = None,
     layer_stack: Optional[LayerStack] = None,
     exclude_layers: Optional[Tuple[Layer, ...]] = None,
 ):
@@ -21,8 +21,8 @@ def to_3d(
 
     Args:
         component: to extrude in 3D.
-        layer_colors: layer colors from Klayout Layer Properties file.
-            Defaults to active PDK.layer_colors.
+        layer_views: layer colors from Klayout Layer Properties file.
+            Defaults to active PDK.layer_views.
         layer_stack: contains thickness and zmin for each layer.
             Defaults to active PDK.layer_stack.
         exclude_layers: layers to exclude.
@@ -36,7 +36,7 @@ def to_3d(
         print("you need to `pip install trimesh`")
         raise e
 
-    layer_colors = layer_colors or get_layer_colors()
+    layer_views = layer_views or get_layer_views()
     layer_stack = layer_stack or get_layer_stack()
 
     scene = Scene()
@@ -54,7 +54,7 @@ def to_3d(
         ):
             height = layer_to_thickness[layer]
             zmin = layer_to_zmin[layer]
-            layer_color = layer_colors.get_from_tuple(layer)
+            layer_color = layer_views.get_from_tuple(layer)
             color_hex = layer_color.color
             color_rgb = matplotlib.colors.to_rgb(color_hex)
 
@@ -69,7 +69,7 @@ def to_3d(
     if not has_polygons:
         raise ValueError(
             f"{component.name!r} does not have polygons defined in the "
-            "layer_stack or layer_colors for the active Pdk {get_active_pdk().name!r}"
+            "layer_stack or layer_views for the active Pdk {get_active_pdk().name!r}"
         )
     return scene
 

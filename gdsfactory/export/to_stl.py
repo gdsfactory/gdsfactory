@@ -4,7 +4,7 @@ import pathlib
 from typing import Optional, Tuple
 
 from gdsfactory.component import Component
-from gdsfactory.layers import LayerColors
+from gdsfactory.layer_views import LayerViews
 from gdsfactory.tech import LAYER_STACK, LayerStack
 from gdsfactory.types import Layer
 
@@ -12,7 +12,7 @@ from gdsfactory.types import Layer
 def to_stl(
     component: Component,
     filepath: str,
-    layer_colors: LayerColors,
+    layer_views: LayerViews,
     layer_stack: LayerStack = LAYER_STACK,
     exclude_layers: Optional[Tuple[Layer, ...]] = None,
 ) -> None:
@@ -21,7 +21,7 @@ def to_stl(
     Args:
         component: to export.
         filepath: to write STL to.
-        layer_colors: layer colors from Klayout Layer Properties file.
+        layer_views: layer colors from Klayout Layer Properties file.
         layer_stack: contains thickness and zmin for each layer.
         exclude_layers: layers to exclude.
 
@@ -43,7 +43,7 @@ def to_stl(
         ):
             height = layer_to_thickness[layer]
             zmin = layer_to_zmin[layer]
-            color_hex = layer_colors.get_from_tuple(layer).color
+            color_hex = layer_views.get_from_tuple(layer).color
             color_rgb = matplotlib.colors.to_rgb(color_hex)
             filepath_layer = (
                 filepath.parent
@@ -61,4 +61,4 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.components.taper_strip_to_ridge()
-    to_stl(c, layer_colors=gf.layers.LAYER_COLORS, filepath="a.stl")
+    to_stl(c, layer_views=gf.layers.LAYER_VIEWS, filepath="a.stl")

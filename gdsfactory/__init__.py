@@ -124,7 +124,7 @@ __all__ = (
     "grid_with_text",
     "import_gds",
     "labels",
-    "layers.py",
+    "layer_views.py",
     "pack",
     "partial",
     "path",
