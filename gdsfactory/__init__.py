@@ -30,7 +30,6 @@ from gdsfactory.port import Port
 from gdsfactory.cell import cell
 from gdsfactory.cell import cell_without_validator
 from gdsfactory.cell import clear_cache
-from gdsfactory.technology.generic import LAYER
 from gdsfactory.show import show
 from gdsfactory.read.import_gds import import_gds
 from gdsfactory.cross_section import CrossSection, Section
@@ -63,6 +62,7 @@ from gdsfactory.add_padding import (
 from gdsfactory.fill import fill_rectangle
 from gdsfactory.pack import pack
 from gdsfactory.grid import grid, grid_with_text
+from gdsfactory.technology.generic_tech import LAYER, LAYER_STACK, LAYER_VIEWS
 from gdsfactory.technology.pdk import (
     Pdk,
     get_component,
@@ -85,6 +85,8 @@ __all__ = (
     "CrossSection",
     "Group",
     "LAYER",
+    "LAYER_STACK",
+    "LAYER_VIEWS",
     "Label",
     "Path",
     "Pdk",
@@ -123,7 +125,6 @@ __all__ = (
     "grid_with_text",
     "import_gds",
     "labels",
-    # "layer_views",
     "pack",
     "partial",
     "path",
@@ -131,7 +132,6 @@ __all__ = (
     "routing",
     "show",
     "snap",
-    # "tech",
     "types",
     "write_cells",
     "PATH",
