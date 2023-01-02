@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [6.16.3](https://github.com/gdsfactory/gdsfactory/pull/1064)
+
+- update tidy3d from 1.8.0 to 1.8.1
+- fix write_sparameters_meep_mpi, after default `read_metadata=False` in import_gds
+
 ## 6.16.2
 
 - default read_metadata=False in import_gds
