@@ -5,9 +5,9 @@ from typing import Optional, Tuple
 import shapely
 
 from gdsfactory.component import Component
-from gdsfactory.layer_views import LayerViews
-from gdsfactory.pdk import get_layer_stack, get_layer_views
-from gdsfactory.tech import LayerStack
+from gdsfactory.technology.layer_stack import LayerStack
+from gdsfactory.technology.layer_views import LayerViews
+from gdsfactory.technology.pdk import get_layer_stack, get_layer_views
 from gdsfactory.types import Layer
 
 

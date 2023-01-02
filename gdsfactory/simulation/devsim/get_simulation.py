@@ -25,7 +25,7 @@ from gdsfactory.simulation.gmsh import (
     get_u_bounds_polygons,
     uz_xsection_mesh,
 )
-from gdsfactory.tech import LayerLevel, LayerStack
+from gdsfactory.technology import LayerLevel, LayerStack
 
 um_to_cm = 1e-4
 
@@ -237,7 +237,7 @@ def create_2Duz_simulation(
 if __name__ == "__main__":
 
     import gdsfactory as gf
-    from gdsfactory.tech import get_layer_stack_generic
+    from gdsfactory.technology import get_layer_stack_generic
 
     # We choose a representative subdomain of the component
     waveguide = gf.Component()

@@ -8,7 +8,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.components.via import via1, via2, viac
-from gdsfactory.tech import LAYER
+from gdsfactory.technology.generic import LAYER
 from gdsfactory.types import ComponentSpec, LayerSpec, LayerSpecs
 
 

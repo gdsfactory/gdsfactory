@@ -42,9 +42,7 @@ from typing_extensions import Literal
 
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.cross_section import CrossSection, Section
-from gdsfactory.layer_views import LayerView, LayerViews
 from gdsfactory.port import Port
-from gdsfactory.tech import LayerLevel, LayerStack
 
 Anchor = Literal[
     "ce",
@@ -250,10 +248,6 @@ __all__ = (
     "RouteFactory",
     "Routes",
     "Strs",
-    "LayerStack",
-    "LayerLevel",
-    "LayerView",
-    "LayerViews",
     "Section",
 )
 

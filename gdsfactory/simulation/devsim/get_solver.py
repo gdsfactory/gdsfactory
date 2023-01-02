@@ -22,7 +22,7 @@ from pydantic import BaseModel, Extra
 from gdsfactory import Component
 from gdsfactory.simulation.devsim.doping import get_doping_info_generic
 from gdsfactory.simulation.devsim.get_simulation import create_2Duz_simulation
-from gdsfactory.tech import LayerStack
+from gdsfactory.technology import LayerStack
 
 
 def set_universal_parameters(device, region):
@@ -192,7 +192,7 @@ class DDComponent(BaseModel):
 if __name__ == "__main__":
 
     import gdsfactory as gf
-    from gdsfactory.tech import get_layer_stack_generic
+    from gdsfactory.technology import get_layer_stack_generic
 
     # We choose a representative subdomain of the component
     waveguide = gf.Component()

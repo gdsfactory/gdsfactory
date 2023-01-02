@@ -8,7 +8,7 @@ import pydantic
 
 import gdsfactory as gf
 from gdsfactory.name import clean_name
-from gdsfactory.pdk import get_layer
+from gdsfactory.technology.pdk import get_layer
 from gdsfactory.types import LayerSpec
 
 ignore = [

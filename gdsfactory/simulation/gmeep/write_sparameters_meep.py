@@ -18,7 +18,6 @@ from tqdm.auto import tqdm
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import logger
-from gdsfactory.pdk import get_layer_stack
 from gdsfactory.simulation import port_symmetries
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_meep as get_sparameters_path,
@@ -27,7 +26,8 @@ from gdsfactory.simulation.gmeep.get_simulation import (
     get_simulation,
     settings_get_simulation,
 )
-from gdsfactory.tech import LayerStack
+from gdsfactory.technology import LayerStack
+from gdsfactory.technology.pdk import get_layer_stack
 from gdsfactory.types import ComponentSpec, PathType, Port, PortSymmetries
 
 ncores = multiprocessing.cpu_count()

@@ -4,7 +4,7 @@ priority:
 
 1. A config.yml found in the current working directory (highest priority)
 2. ~/.gdsfactory/config.yml specific for the machine
-3. the yamlpath_default in gdsfactory.tech.yml (lowest priority)
+3. the yamlpath_default in gdsfactory.technology.yml (lowest priority)
 
 You can access the CONF dictionary with `print_config`
 
@@ -61,7 +61,7 @@ class Paths:
     module = module_path
     repo = repo_path
     results_tidy3d = home / ".tidy3d"
-    klayout = module / "klayout"
+    klayout = module / "technology" / "generic" / "klayout"
     klayout_tech = klayout / "tech"
     klayout_lyp = klayout_tech / "layers.lyp"
     schema_netlist = module_path / "tests" / "schemas" / "netlist.json"

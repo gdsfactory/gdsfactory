@@ -47,7 +47,7 @@ def cutback_bend(
 
         _ this is a row
     """
-    from gdsfactory.pdk import get_component
+    from gdsfactory.technology.pdk import get_component
 
     bend90 = get_component(bend90, **kwargs)
     straightx = straight(length=straight_length, **kwargs)
@@ -96,7 +96,7 @@ def cutback_bend90(
            _
         |_| |
     """
-    from gdsfactory.pdk import get_component
+    from gdsfactory.technology.pdk import get_component
 
     bend90 = get_component(bend90, **kwargs)
     straightx = straight(length=straight_length, **kwargs)
@@ -193,7 +193,7 @@ def cutback_bend180(
 
         _ this is a column
     """
-    from gdsfactory.pdk import get_component
+    from gdsfactory.technology.pdk import get_component
 
     bend180 = get_component(bend180, **kwargs)
     straightx = straight(length=straight_length, **kwargs)

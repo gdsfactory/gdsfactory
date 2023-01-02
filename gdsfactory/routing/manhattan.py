@@ -18,7 +18,7 @@ from gdsfactory.geometry.functions import angles_deg
 from gdsfactory.port import Port, select_ports_list
 from gdsfactory.routing.get_route_sbend import get_route_sbend
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.tech import LAYER
+from gdsfactory.technology.generic import LAYER
 from gdsfactory.types import (
     ComponentSpec,
     Coordinate,
@@ -631,7 +631,7 @@ def round_corners(
         kwargs: cross_section settings.
 
     """
-    from gdsfactory.pdk import get_layer
+    from gdsfactory.technology.pdk import get_layer
 
     multi_cross_section = isinstance(cross_section, list)
     if multi_cross_section:

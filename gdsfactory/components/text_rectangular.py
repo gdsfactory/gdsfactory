@@ -6,7 +6,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.copy_layers import copy_layers
 from gdsfactory.components.text_rectangular_font import pixel_array, rectangular_font
-from gdsfactory.tech import LAYER
+from gdsfactory.technology.generic import LAYER
 from gdsfactory.types import ComponentSpec, LayerSpec, LayerSpecs
 
 

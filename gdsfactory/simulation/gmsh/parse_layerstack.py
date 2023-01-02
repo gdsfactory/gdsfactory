@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from gdsfactory.tech import LayerStack
+from gdsfactory.technology import LayerStack
 
 
 def list_unique_layerstack_z(
@@ -115,7 +115,7 @@ if __name__ == "__main__":
     waveguide = gf.components.straight_pin(length=1, taper=None)
     waveguide.show()
 
-    from gdsfactory.tech import get_layer_stack_generic
+    from gdsfactory.technology import get_layer_stack_generic
 
     filtered_layerstack = LayerStack(
         layers={

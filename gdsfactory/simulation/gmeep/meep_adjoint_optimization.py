@@ -13,7 +13,7 @@ from numpy import ndarray
 import gdsfactory as gf
 from gdsfactory import Component
 from gdsfactory.simulation.gmeep import get_simulation
-from gdsfactory.tech import LayerStack
+from gdsfactory.technology import LayerStack
 from gdsfactory.types import Layer
 
 

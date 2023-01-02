@@ -10,7 +10,7 @@ from typing import List, Optional, Tuple
 from pydantic import BaseModel, Field
 
 from gdsfactory.config import PATH
-from gdsfactory.layer_views import LayerViews
+from gdsfactory.technology.layer_views import LayerViews
 
 Layer = Tuple[int, int]
 ConductorViaConductorName = Tuple[str, str, str]
@@ -171,7 +171,7 @@ def yaml_test():
 
 
 if __name__ == "__main__":
-    from gdsfactory.tech import LAYER_STACK
+    from gdsfactory.technology import LAYER_STACK
 
     lyp = LayerViews.from_lyp(str(PATH.klayout_lyp))
 

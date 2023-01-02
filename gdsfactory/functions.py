@@ -58,7 +58,7 @@ def add_text(
         text_factory: function to add text labels.
 
     """
-    from gdsfactory.pdk import get_component
+    from gdsfactory.technology.pdk import get_component
 
     component = get_component(component)
     component_new = Component()
@@ -113,7 +113,7 @@ def rotate(
         recenter: recenter component after rotating.
 
     """
-    from gdsfactory.pdk import get_component
+    from gdsfactory.technology.pdk import get_component
 
     component = get_component(component)
     component_new = Component()
@@ -152,7 +152,7 @@ def mirror(
         p2: second point to define mirror axis.
 
     """
-    from gdsfactory.pdk import get_component
+    from gdsfactory.technology.pdk import get_component
 
     component = get_component(component)
     component_new = Component()
@@ -240,7 +240,7 @@ def add_settings_label(
         ignore: list of settings to ignore.
 
     """
-    from gdsfactory.pdk import get_component
+    from gdsfactory.technology.pdk import get_component
 
     component = get_component(component)
 

@@ -3,7 +3,7 @@ from __future__ import annotations
 import pytest
 
 import gdsfactory as gf
-from gdsfactory.tech import LAYER
+from gdsfactory.technology.generic import LAYER
 
 
 @pytest.mark.parametrize("optical_routing_type", [0, 1])
