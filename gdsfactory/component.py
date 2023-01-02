@@ -31,7 +31,7 @@ from gdsfactory.component_layout import (
 from gdsfactory.component_reference import ComponentReference, Coordinate, SizeInfo
 from gdsfactory.config import CONF, logger
 from gdsfactory.cross_section import CrossSection
-from gdsfactory.layers import LAYER_COLORS, LayerColor, LayerColors
+from gdsfactory.layer_views import LAYER_VIEWS, LayerView, LayerViews
 from gdsfactory.port import (
     Port,
     auto_rename_ports,
@@ -1180,7 +1180,7 @@ class Component(_GeometryHelper):
             interactive_zoom: Enables using mousewheel/trackpad to zoom.
             fontsize: for labels.
             layers_excluded: list of layers to exclude.
-            layer_colors: layer_colors colors loaded from Klayout.
+            layer_views: layer_views colors loaded from Klayout.
             min_aspect: minimum aspect ratio.
         """
         plotter = plotter or CONF.get("plotter", "matplotlib")
@@ -1213,7 +1213,7 @@ class Component(_GeometryHelper):
     def ploth(
         self,
         layers_excluded: Optional[Layers] = None,
-        layer_colors: LayerColors = LAYER_COLORS,
+        layer_views: LayerViews = LAYER_VIEWS,
         min_aspect: float = 0.25,
         padding: float = 0.5,
     ):
@@ -1221,7 +1221,7 @@ class Component(_GeometryHelper):
 
         Args:
             layers_excluded: list of layers to exclude.
-            layer_colors: layer_colors colors loaded from Klayout.
+            layer_views: layer_views colors loaded from Klayout.
             min_aspect: minimum aspect ratio.
             padding: around bounding box.
 
@@ -1259,21 +1259,21 @@ class Component(_GeometryHelper):
                 continue
 
             try:
-                layer = layer_colors.get_from_tuple(layer)
+                layer_view = layer_views.get_from_tuple(layer)
             except ValueError:
-                layers = list(layer_colors._layers.keys())
+                layers = list(layer_views.get_layer_views().keys())
                 warnings.warn(f"{layer!r} not defined in {layers}")
-                layer = LayerColor(gds_layer=layer[0], gds_datatype=layer[1])
-
+                layer_view = LayerView(layer=layer)
+            # TODO: Match up options with LayerViews
             plots_to_overlay.append(
-                hv.Polygons(polygon, label=str(layer.name)).opts(
+                hv.Polygons(polygon, label=str(layer_view.name)).opts(
                     data_aspect=1,
                     frame_width=500,
-                    fill_alpha=layer.alpha,
+                    fill_alpha=layer_view.alpha,
                     ylim=(b[1], b[3]),
                     xlim=(b[0], b[2]),
-                    color=layer.color,
-                    line_alpha=layer.alpha,
+                    color=layer_view.color,
+                    line_alpha=layer_view.alpha,
                     tools=["hover"],
                 )
             )
@@ -1289,7 +1289,7 @@ class Component(_GeometryHelper):
                     ylim=(b[1], b[3]),
                     xlim=(b[0], b[2]),
                     color="red",
-                    line_alpha=layer.alpha,
+                    line_alpha=layer_view.alpha,
                     tools=["hover"],
                 )
                 * hv.Text(ptip[0], ptip[1], name)
@@ -1352,8 +1352,8 @@ class Component(_GeometryHelper):
 
         Keyword Args:
             component: to extrude in 3D.
-            layer_colors: layer colors from Klayout Layer Properties file.
-                Defaults to active PDK.layer_colors.
+            layer_views: layer colors from Klayout Layer Properties file.
+                Defaults to active PDK.layer_views.
             layer_stack: contains thickness and zmin for each layer.
                 Defaults to active PDK.layer_stack.
             exclude_layers: layers to exclude.

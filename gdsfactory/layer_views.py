@@ -1,14 +1,23 @@
-"""Classes and utils for working with KLayout technology files (.lyp, .lyt).
+"""A GDS layer is a tuple of two integers.
 
-This module enables conversion between gdsfactory settings and KLayout technology.
+You can:
+
+- Load LayerViews from Klayout XML file (.lyp) (recommended)
+- Define your layers in a Pydantic BaseModel
+
+
 """
+from __future__ import annotations
 
 import os
 import pathlib
 import re
 import xml.etree.ElementTree as ET
+from functools import partial
+from pathlib import Path
 from typing import Dict, Literal, Optional, Set, Tuple, Union
 
+import numpy as np
 from pydantic import BaseModel, Field
 from pydantic.color import Color
 
@@ -16,6 +25,10 @@ Layer = Tuple[int, int]
 FrameAndFill = Literal["frame", "fill"]
 FrameAndFillColor = Dict[FrameAndFill, Color]
 FrameAndFillBrightness = Dict[FrameAndFill, int]
+
+
+module_path = pathlib.Path(__file__).parent.absolute()
+layer_path = module_path / "klayout" / "tech" / "layers.lyp"
 
 
 class CustomDitherPattern(BaseModel):
@@ -125,7 +138,7 @@ class LayerView(BaseModel):
     marked: bool = False
     xfill: bool = False
     animation: int = 0
-    group_members: Optional[Dict[str, "LayerView"]] = Field(default_factory=dict)
+    group_members: Optional[Dict[str, LayerView]] = Field(default_factory=dict)
 
     class Config:
         """YAML output uses name as the key."""
@@ -136,7 +149,8 @@ class LayerView(BaseModel):
         if not self.visible:
             return 0.0
         elif not self.transparent:
-            return 0.1 if self.dither_pattern.name == "I1" else 1.0
+            dither_name = getattr(self.dither_pattern, "name", self.dither_pattern)
+            return 0.1 if dither_name == "I1" else 1.0
         else:
             return 0.5
 
@@ -268,7 +282,7 @@ class LayerView(BaseModel):
     @classmethod
     def from_xml_element(
         cls, element: ET.Element, layer_pattern: Union[str, re.Pattern]
-    ) -> Optional["LayerView"]:
+    ) -> Optional[LayerView]:
         """Read properties from .lyp XML and generate LayerViews from them.
 
         Args:
@@ -465,6 +479,51 @@ class LayerViews(BaseModel):
         """Returns a tuple for each layer."""
         return {layer.layer for layer in self.get_layer_views().values()}
 
+    def clear(self) -> None:
+        """Deletes all layers in the LayerViews."""
+        self.layer_views = {}
+
+    def preview_layerset(self, size: float = 100.0, spacing: float = 100.0) -> object:
+        """Generates a Component with all the layers.
+
+        Args:
+            lvs: LayerViews.
+            size: square size.
+            spacing: spacing between each square.
+
+        """
+        import gdsfactory as gf
+
+        D = gf.Component(name="layerset", with_uuid=True)
+        scale = size / 100
+        num_layers = len(self.get_layer_views())
+        matrix_size = int(np.ceil(np.sqrt(num_layers)))
+        sorted_layers = sorted(
+            self.get_layer_views().values(), key=lambda x: (x.layer[0], x.layer[1])
+        )
+        for n, layer in enumerate(sorted_layers):
+            layer_tuple = layer.layer
+            R = gf.components.rectangle(
+                size=(100 * scale, 100 * scale), layer=layer_tuple
+            )
+            T = gf.components.text(
+                text=f"{layer.name}\n{layer_tuple[0]} / {layer_tuple[1]}",
+                size=20 * scale,
+                position=(50 * scale, -20 * scale),
+                justify="center",
+                layer=layer_tuple,
+            )
+
+            xloc = n % matrix_size
+            yloc = int(n // matrix_size)
+            D.add_ref(R).movex((100 + spacing) * xloc * scale).movey(
+                -(100 + spacing) * yloc * scale
+            )
+            D.add_ref(T).movex((100 + spacing) * xloc * scale).movey(
+                -(100 + spacing) * yloc * scale
+            )
+        return D
+
     def to_lyp(
         self, filepath: Union[str, pathlib.Path], overwrite: bool = True
     ) -> None:
@@ -499,7 +558,7 @@ class LayerViews(BaseModel):
     def from_lyp(
         filepath: Union[str, pathlib.Path],
         layer_pattern: Optional[Union[str, re.Pattern]] = None,
-    ) -> "LayerViews":
+    ) -> LayerViews:
         r"""Write all layer properties to a KLayout .lyp file.
 
         Args:
@@ -605,7 +664,7 @@ class LayerViews(BaseModel):
         )
 
     @staticmethod
-    def from_yaml(layer_file: Union[str, pathlib.Path]) -> "LayerViews":
+    def from_yaml(layer_file: Union[str, pathlib.Path]) -> LayerViews:
         """Import layer properties from two yaml files.
 
         Args:
@@ -638,9 +697,111 @@ class LayerViews(BaseModel):
         )
 
 
+def _name_to_short_name(name_str: str) -> str:
+    """Maps the name entry of the lyp element to a name of the layer.
+
+    i.e. the dictionary key used to access it.
+    Default format of the lyp name are:
+
+        - key - layer/datatype - description
+        - key - description
+
+    """
+    from gdsfactory.name import clean_name
+
+    if name_str is None:
+        raise OSError(f"layer {name_str} has no name")
+    fields = name_str.split("-")
+    name = fields[0].split()[0].strip()
+    return clean_name(name, remove_dots=True)
+
+
+def _name_to_description(name_str) -> str:
+    """Gets the description of the layer contained in the lyp name field.
+
+    It is not strictly necessary to have a description. If none there, it returns ''.
+
+    Default format of the lyp name are:
+
+        - key - layer/datatype - description
+        - key - description
+
+    """
+    if name_str is None:
+        raise OSError(f"layer {name_str!r} has no name")
+    fields = name_str.split()
+    return " ".join(fields[1:]) if len(fields) > 1 else ""
+
+
+load_lyp_generic = partial(LayerViews.from_lyp, filepath=layer_path)
+
+
+def lyp_to_dataclass(lyp_filepath: Union[str, Path], overwrite: bool = True) -> str:
+    """Returns python LayerMap script from a klayout layer properties file lyp."""
+    filepathin = pathlib.Path(lyp_filepath)
+    filepathout = filepathin.with_suffix(".py")
+
+    if filepathout.exists() and not overwrite:
+        raise FileExistsError(f"You can delete {filepathout}")
+
+    script = """
+from pydantic import BaseModel
+from gdsfactory.types import Layer
+
+
+class LayerMap(BaseModel):
+"""
+    lys = LayerViews.from_lyp(filepathin)
+    for layer_name, layer in sorted(lys.get_layer_views().items()):
+        script += f"    {layer_name}: Layer = ({layer.layer[0]}, {layer.layer[1]})\n"
+
+    script += """
+    class Config:
+        frozen = True
+        extra = "forbid"
+
+
+LAYER = LayerMap()
+"""
+
+    filepathout.write_text(script)
+    return script
+
+
+def test_load_lyp():
+    from gdsfactory.config import layer_path
+
+    lys = LayerViews.from_lyp(layer_path)
+    assert len(lys.layer_views) > 10, len(lys.layer_views)
+    return lys
+
+
+try:
+    LAYER_VIEWS = load_lyp_generic()
+except Exception:
+    print(f"Error loading generic layermap in {layer_path!r}")
+    LAYER_VIEWS = LayerViews()
+
+
 if __name__ == "__main__":
-    from gdsfactory.config import PATH
+    LAYER_VIEWS = load_lyp_generic()
+    # import gdsfactory as gf
 
-    lvs = LayerViews.from_lyp(PATH.klayout_lyp)
+    # c = gf.components.rectangle(layer=(123, 0))
+    # c.plot()
 
-    lvs.to_yaml(PATH.klayout_tech / "layers.yaml")
+    # print(LAYER_VIEWS)
+    # print(LAYER_STACK.get_from_tuple((1, 0)))
+    # print(LAYER_STACK.get_layer_to_material())
+    # layer = LayerColor(color="gold")
+    # print(layer)
+
+    # lys = test_load_lyp()
+    c = LAYER_VIEWS.preview_layerset()
+    c.show(show_ports=True)
+    # print(LAYERS_OPTICAL)
+    # print(layer("wgcore"))
+    # print(layer("wgclad"))
+    # print(layer("padding"))
+    # print(layer("TEXT"))
+    # print(type(layer("wgcore")))
