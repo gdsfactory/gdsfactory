@@ -26,7 +26,7 @@ def test_read_gds_equivalent() -> None:
     c1 = gf.components.straight(length=1.234)
     gdspath = gf.PATH.gdsdir / "straight.gds"
 
-    c2 = gf.import_gds(gdspath)
+    c2 = gf.import_gds(gdspath, read_metadata=True)
     d1 = c1.to_dict()
     d2 = c2.to_dict()
     d = jsondiff.diff(d1, d2)
