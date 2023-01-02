@@ -32,6 +32,7 @@ def find_labels(
         string: for the label.
         x: x position (um).
         y: y position (um).
+        angle: in degrees.
 
     """
     import klayout.db as pya
@@ -57,7 +58,7 @@ def find_labels(
             text = shape.text
             if text.string.startswith(prefix):
                 transformed = text.transformed(trans)
-                yield text.string, transformed.x * dbu, transformed.y * dbu
+                yield text.string, transformed.x * dbu, transformed.y * dbu, trans.angle
 
 
 def write_labels_klayout(
@@ -68,7 +69,11 @@ def write_labels_klayout(
 ) -> Path:
     """Load GDS and extracts labels in KLayout text and coordinates.
 
-    Returns CSV filepath.
+    Returns CSV filepath with each row:
+    - Text
+    - x
+    - y
+    - rotation (degrees)
 
     Args:
         gdspath: for the mask.
@@ -98,7 +103,11 @@ def write_labels_gdstk(
 ) -> Path:
     """Load GDS and extracts label text and coordinates.
 
-    Returns CSV filepath. Text, x, y, rotation (degrees)
+    Returns CSV filepath with each row:
+    - Text
+    - x
+    - y
+    - rotation (degrees)
 
     Args:
         gdspath: for the mask.
