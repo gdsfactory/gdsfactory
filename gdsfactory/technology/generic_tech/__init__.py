@@ -1,8 +1,8 @@
 import pathlib
 from functools import partial
 
-from gdsfactory.technology.generic.layer_map import LAYER
-from gdsfactory.technology.generic.layer_stack import LAYER_STACK
+from gdsfactory.technology.generic_tech.layer_map import LAYER
+from gdsfactory.technology.generic_tech.layer_stack import LAYER_STACK
 from gdsfactory.technology.layer_views import LayerViews
 
 module_path = pathlib.Path(__file__).parent.absolute()
