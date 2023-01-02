@@ -635,7 +635,7 @@ def _from_yaml(
         label_instance_function: to label each instance.
 
     """
-    from gdsfactory.technology.pdk import GENERIC, get_active_pdk
+    from gdsfactory.pdk import GENERIC, get_active_pdk
 
     c = Component()
     instances = {}

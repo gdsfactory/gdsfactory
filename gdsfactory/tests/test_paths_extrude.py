@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.technology.generic import LAYER
+from gdsfactory.generic_tech import LAYER
 
 
 @gf.cell

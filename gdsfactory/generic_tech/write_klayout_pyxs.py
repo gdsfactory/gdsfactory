@@ -8,8 +8,8 @@ from __future__ import annotations
 
 import pathlib
 
+from gdsfactory.generic_tech import LAYER
 from gdsfactory.geometry.get_xsection_script import get_xsection_script
-from gdsfactory.technology.generic import LAYER
 
 nm = 1e-3
 

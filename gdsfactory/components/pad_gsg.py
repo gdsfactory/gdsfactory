@@ -7,7 +7,7 @@ from gdsfactory.components.pad import pad as pad_function
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.types import ComponentSpec, Float2, LayerSpec
 
-rectangle_m3 = gf.partial(rectangle, layer=gf.LAYER.M3)
+rectangle_m3 = gf.partial(rectangle, layer="M3")
 
 
 @gf.cell

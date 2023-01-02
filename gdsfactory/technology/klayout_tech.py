@@ -171,7 +171,7 @@ def yaml_test():
 
 
 if __name__ == "__main__":
-    from gdsfactory.technology import LAYER_STACK
+    from gdsfactory.generic_tech import LAYER_STACK
 
     lyp = LayerViews.from_lyp(str(PATH.klayout_lyp))
 

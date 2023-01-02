@@ -11,12 +11,12 @@ from tqdm.auto import tqdm
 
 import gdsfactory as gf
 from gdsfactory.config import logger
+from gdsfactory.generic_tech import LAYER, LayerStack
+from gdsfactory.pdk import _ACTIVE_PDK
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_meow as get_sparameters_path,
 )
 from gdsfactory.simulation.gmsh.parse_layerstack import list_unique_layerstack_z
-from gdsfactory.technology.generic import LAYER, LayerStack
-from gdsfactory.technology.pdk import _ACTIVE_PDK
 from gdsfactory.types import PathType
 
 ColorRGB = Tuple[float, float, float]

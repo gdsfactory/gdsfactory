@@ -185,7 +185,7 @@ def extrude_path(
     Returns:
         numpy 2D array of shape (2*N, 2).
     """
-    from gdsfactory.technology.pdk import get_grid_size
+    from gdsfactory.pdk import get_grid_size
 
     grid = grid or get_grid_size()
 

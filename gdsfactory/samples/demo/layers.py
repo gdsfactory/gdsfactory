@@ -6,7 +6,7 @@ from typing import Tuple, Union
 
 from pydantic import BaseModel
 
-from gdsfactory.types import LayerLevel, LayerStack
+from gdsfactory.technology import LayerLevel, LayerStack
 
 module_path = pathlib.Path(__file__).parent.absolute()
 Layer = Tuple[int, int]

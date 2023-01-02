@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.snap import is_on_grid
-from gdsfactory.technology.pdk import get_grid_size
 from gdsfactory.types import Component, ComponentReference, Optional
 
 
@@ -16,6 +15,8 @@ def is_valid_transformation(
         grid_size: the GDS grid size, in um, defaults to active PDK.get_grid_size()
             any translations with higher resolution than this are considered invalid.
     """
+    from gdsfactory.pdk import get_grid_size
+
     grid_size = grid_size or get_grid_size()
     nm = int(grid_size * 1e3)
     origin_is_on_grid = all(is_on_grid(x, nm) for x in ref.origin)
@@ -44,6 +45,8 @@ def flatten_invalid_refs(component: Component, grid_size: Optional[float] = None
         grid_size: the GDS grid size, in um, defaults to active PDK.get_grid_size()
             any translations with higher resolution than this are considered invalid.
     """
+    from gdsfactory.pdk import get_grid_size
+
     grid_size = grid_size or get_grid_size()
     nm = int(grid_size * 1e3)
 

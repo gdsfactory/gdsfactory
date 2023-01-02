@@ -12,9 +12,9 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.extension import move_polar_rad_copy
 from gdsfactory.config import logger
+from gdsfactory.pdk import get_layer_stack, get_material_index
 from gdsfactory.simulation.gtidy3d.materials import get_index, get_medium
 from gdsfactory.technology import LayerStack
-from gdsfactory.technology.pdk import get_layer_stack, get_material_index
 
 
 def get_simulation_grating_coupler(

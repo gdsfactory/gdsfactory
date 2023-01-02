@@ -1,4 +1,4 @@
-from gdsfactory.technology import LAYER_STACK
+from gdsfactory.generic_tech import LAYER_STACK
 
 
 def test_layerstack():
