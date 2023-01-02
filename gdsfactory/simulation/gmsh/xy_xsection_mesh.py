@@ -18,7 +18,7 @@ from gdsfactory.simulation.gmsh.parse_layerstack import (
     get_layers_at_z,
     order_layerstack,
 )
-from gdsfactory.tech import LayerStack
+from gdsfactory.technology import LayerStack
 from gdsfactory.types import ComponentOrReference
 
 
@@ -125,7 +125,7 @@ if __name__ == "__main__":
     ).move(destination=[4, 0])
     c.show()
 
-    from gdsfactory.tech import get_layer_stack_generic
+    from gdsfactory.technology import get_layer_stack_generic
 
     filtered_layerstack = LayerStack(
         layers={

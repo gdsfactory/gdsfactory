@@ -377,7 +377,7 @@ def read_port_markers(component: object, layers: LayerSpecs = ("PORT",)) -> Comp
         layers: GDS layer specs.
 
     """
-    from gdsfactory.pdk import get_layer
+    from gdsfactory.technology.pdk import get_layer
 
     layers = [get_layer(layer) for layer in layers]
     return component.extract(layers=layers)

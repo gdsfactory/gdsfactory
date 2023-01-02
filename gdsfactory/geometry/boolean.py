@@ -62,7 +62,7 @@ def boolean(
             elif isinstance(e, Polygon):
                 polys.extend(e.polygons)
 
-    layer = gf.pdk.get_layer(layer)
+    layer = gf.technology.pdk.get_layer(layer)
     gds_layer, gds_datatype = _parse_layer(layer)
 
     operation = operation.lower().replace(" ", "")

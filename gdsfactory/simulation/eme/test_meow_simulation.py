@@ -2,7 +2,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.simulation.eme import MEOW
-from gdsfactory.tech import LayerStack, get_layer_stack_generic
+from gdsfactory.technology import LayerStack, get_layer_stack_generic
 
 
 def test_meow_defaults():

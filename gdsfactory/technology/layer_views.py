@@ -13,7 +13,6 @@ import os
 import pathlib
 import re
 import xml.etree.ElementTree as ET
-from functools import partial
 from pathlib import Path
 from typing import Dict, Literal, Optional, Set, Tuple, Union
 
@@ -22,13 +21,10 @@ from pydantic import BaseModel, Field
 from pydantic.color import Color
 
 Layer = Tuple[int, int]
+
 FrameAndFill = Literal["frame", "fill"]
 FrameAndFillColor = Dict[FrameAndFill, Color]
 FrameAndFillBrightness = Dict[FrameAndFill, int]
-
-
-module_path = pathlib.Path(__file__).parent.absolute()
-layer_path = module_path / "klayout" / "tech" / "layers.lyp"
 
 
 class CustomDitherPattern(BaseModel):
@@ -660,7 +656,13 @@ class LayerViews(BaseModel):
         }
 
         lf_path.write_bytes(
-            yaml.dump_all([out_dict], indent=2, sort_keys=False, encoding="utf-8")
+            yaml.dump(
+                out_dict,
+                indent=2,
+                sort_keys=False,
+                default_flow_style=False,
+                encoding="utf-8",
+            )
         )
 
     @staticmethod
@@ -733,9 +735,6 @@ def _name_to_description(name_str) -> str:
     return " ".join(fields[1:]) if len(fields) > 1 else ""
 
 
-load_lyp_generic = partial(LayerViews.from_lyp, filepath=layer_path)
-
-
 def lyp_to_dataclass(lyp_filepath: Union[str, Path], overwrite: bool = True) -> str:
     """Returns python LayerMap script from a klayout layer properties file lyp."""
     filepathin = pathlib.Path(lyp_filepath)
@@ -776,14 +775,9 @@ def test_load_lyp():
     return lys
 
 
-try:
-    LAYER_VIEWS = load_lyp_generic()
-except Exception:
-    print(f"Error loading generic layermap in {layer_path!r}")
-    LAYER_VIEWS = LayerViews()
-
-
 if __name__ == "__main__":
+    from gdsfactory.technology.generic import load_lyp_generic
+
     LAYER_VIEWS = load_lyp_generic()
     # import gdsfactory as gf
 

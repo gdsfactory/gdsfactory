@@ -6013,7 +6013,7 @@ CustomLineStyles:
     pattern: '**.***.***.***.*'
   lineStyle2:
     order: 12
-    pattern: .*.*.*.*.*.*.*.*
+    pattern: '.*.*.*.*.*.*.*.*'
   lineStyle4:
     order: 13
     pattern: '*****......*****'
@@ -6031,7 +6031,7 @@ CustomLineStyles:
     pattern: '**************..'
   shortdash2h3:
     order: 18
-    pattern: ..****..
+    pattern: '..****..'
   medDashed:
     order: 19
     pattern: '****....'
@@ -6052,7 +6052,7 @@ CustomLineStyles:
     pattern: '...**......**...'
   lineStyle9:
     order: 25
-    pattern: ..**..**..**..**
+    pattern: '..**..**..**..**'
   lineStyle8:
     order: 26
     pattern: '...*...*...*...*'
@@ -6067,4 +6067,4 @@ CustomLineStyles:
     pattern: '******'
   track:
     order: 30
-    pattern: ..***.
+    pattern: '..***.'

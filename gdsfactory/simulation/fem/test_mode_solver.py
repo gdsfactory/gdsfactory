@@ -1,7 +1,7 @@
 import numpy as np
 
 from gdsfactory.simulation.fem.mode_solver import compute_cross_section_modes
-from gdsfactory.tech import LayerStack, get_layer_stack_generic
+from gdsfactory.technology import LayerStack, get_layer_stack_generic
 
 
 def test_compute_cross_section_mode():

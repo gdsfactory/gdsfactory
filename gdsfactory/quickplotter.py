@@ -357,7 +357,7 @@ def _update_bbox(bbox, new_bbox):
 
 
 def _get_layerprop(layer, datatype):
-    from gdsfactory.pdk import get_layer_views
+    from gdsfactory.technology.pdk import get_layer_views
 
     # Colors generated from here: http://phrogz.net/css/distinct-colors.html
     layer_views = [

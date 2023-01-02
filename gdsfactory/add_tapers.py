@@ -19,7 +19,7 @@ def get_ports_and_tapers(
     elements = []
 
     taper = gf.call_if_func(taper)
-    component = gf.pdk.get_component(component)
+    component = gf.technology.pdk.get_component(component)
     ports = select_ports(component.ports) if select_ports else component.ports
 
     for port in component.ports.copy().values():
@@ -49,7 +49,7 @@ def add_tapers(
         taper_port_name2: for output.
     """
     c = gf.Component()
-    component = gf.pdk.get_component(component)
+    component = gf.technology.pdk.get_component(component)
 
     ports_to_taper = select_ports(component.ports) if select_ports else component.ports
     ports_to_taper_names = [p.name for p in ports_to_taper.values()]

@@ -32,9 +32,9 @@ from tqdm.auto import tqdm
 from typing_extensions import Literal
 
 from gdsfactory.config import logger
-from gdsfactory.pdk import MaterialSpec, get_material_index, get_modes_path
 from gdsfactory.serialization import get_hash
 from gdsfactory.simulation.gtidy3d.materials import si, sin, sio2
+from gdsfactory.technology.pdk import MaterialSpec, get_material_index, get_modes_path
 from gdsfactory.types import PathType
 
 nm = 1e-3

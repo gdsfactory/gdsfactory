@@ -9,7 +9,7 @@ import gdsfactory as gf
 from gdsfactory.add_pins import add_pin_rectangle
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular
-from gdsfactory.pdk import get_layer_stack
+from gdsfactory.technology.pdk import get_layer_stack
 from gdsfactory.types import ComponentSpec, Layer, LayerLevel, LayerSpec
 
 
