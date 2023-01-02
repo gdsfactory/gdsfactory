@@ -13,7 +13,6 @@ import os
 import pathlib
 import re
 import xml.etree.ElementTree as ET
-from pathlib import Path
 from typing import Dict, Literal, Optional, Set, Tuple, Union
 
 import numpy as np
@@ -483,7 +482,6 @@ class LayerViews(BaseModel):
         """Generates a Component with all the layers.
 
         Args:
-            lvs: LayerViews.
             size: square size.
             spacing: spacing between each square.
 
@@ -733,38 +731,6 @@ def _name_to_description(name_str) -> str:
         raise OSError(f"layer {name_str!r} has no name")
     fields = name_str.split()
     return " ".join(fields[1:]) if len(fields) > 1 else ""
-
-
-def lyp_to_dataclass(lyp_filepath: Union[str, Path], overwrite: bool = True) -> str:
-    """Returns python LayerMap script from a klayout layer properties file lyp."""
-    filepathin = pathlib.Path(lyp_filepath)
-    filepathout = filepathin.with_suffix(".py")
-
-    if filepathout.exists() and not overwrite:
-        raise FileExistsError(f"You can delete {filepathout}")
-
-    script = """
-from pydantic import BaseModel
-from gdsfactory.types import Layer
-
-
-class LayerMap(BaseModel):
-"""
-    lys = LayerViews.from_lyp(filepathin)
-    for layer_name, layer in sorted(lys.get_layer_views().items()):
-        script += f"    {layer_name}: Layer = ({layer.layer[0]}, {layer.layer[1]})\n"
-
-    script += """
-    class Config:
-        frozen = True
-        extra = "forbid"
-
-
-LAYER = LayerMap()
-"""
-
-    filepathout.write_text(script)
-    return script
 
 
 def test_load_lyp():
