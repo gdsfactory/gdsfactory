@@ -62,6 +62,7 @@ from gdsfactory.add_padding import (
 from gdsfactory.fill import fill_rectangle
 from gdsfactory.pack import pack
 from gdsfactory.grid import grid, grid_with_text
+from gdsfactory.generic_tech import LAYER, LAYER_VIEWS, LAYER_STACK
 from gdsfactory.pdk import (
     Pdk,
     get_component,
@@ -73,7 +74,6 @@ from gdsfactory.pdk import (
 )
 from gdsfactory.get_factories import get_cells
 from gdsfactory.cross_section import get_cross_section_factories
-from gdsfactory.generic_tech import LAYER, LAYER_VIEWS, LAYER_STACK
 
 c = components
 
