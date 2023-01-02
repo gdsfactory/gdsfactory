@@ -30,7 +30,6 @@ def to_3d(
     from gdsfactory.pdk import get_layer_stack, get_layer_views
 
     try:
-        import matplotlib.colors
         from trimesh.creation import extrude_polygon
         from trimesh.scene import Scene
     except ImportError as e:
@@ -56,8 +55,7 @@ def to_3d(
             height = layer_to_thickness[layer]
             zmin = layer_to_zmin[layer]
             layer_color = layer_views.get_from_tuple(layer)
-            color_hex = layer_color.color
-            color_rgb = matplotlib.colors.to_rgb(color_hex)
+            color_rgb = layer_color.color.as_rgb_tuple()
 
             for polygon in polygons:
                 p = shapely.geometry.Polygon(polygon.points)
