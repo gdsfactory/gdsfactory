@@ -18,7 +18,7 @@ def import_gds(
     gdspath: Union[str, Path],
     cellname: Optional[str] = None,
     gdsdir: Optional[Union[str, Path]] = None,
-    read_metadata: bool = True,
+    read_metadata: bool = False,
     hashed_name: bool = True,
     **kwargs,
 ) -> Component:
@@ -30,7 +30,7 @@ def import_gds(
         gdspath: path of GDS file.
         cellname: cell of the name to import. None imports top cell.
         gdsdir: optional GDS directory.
-        read_metadata: loads metadata if it exists.
+        read_metadata: loads metadata (ports, settings) if it exists in YAML format.
         hashed_name: appends a hash to a shortened component name.
         kwargs: extra to add to component.info (polarization, wavelength ...).
     """
