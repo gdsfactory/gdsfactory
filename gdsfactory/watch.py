@@ -14,8 +14,8 @@ from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 
 from gdsfactory.config import cwd
+from gdsfactory.pdk import get_active_pdk
 from gdsfactory.read.from_yaml import from_yaml
-from gdsfactory.technology.pdk import get_active_pdk
 
 
 class YamlEventHandler(FileSystemEventHandler):

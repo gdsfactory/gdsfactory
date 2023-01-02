@@ -19,13 +19,13 @@ import meep as mp
 import numpy as np
 from meep import mpb
 
+from gdsfactory.pdk import get_modes_path
 from gdsfactory.simulation.disable_print import disable_print, enable_print
 from gdsfactory.simulation.get_sparameters_path import get_kwargs_hash
 from gdsfactory.simulation.modes.get_mode_solver_cross_section import (
     get_mode_solver_cross_section,
 )
 from gdsfactory.simulation.modes.types import Mode
-from gdsfactory.technology.pdk import get_modes_path
 from gdsfactory.types import CrossSectionSpec
 
 mpb.Verbosity(0)

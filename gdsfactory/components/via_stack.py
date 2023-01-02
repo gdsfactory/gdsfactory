@@ -8,7 +8,6 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.components.via import via1, via2, viac
-from gdsfactory.technology.generic import LAYER
 from gdsfactory.types import ComponentSpec, LayerSpec, LayerSpecs
 
 
@@ -89,27 +88,27 @@ def via_stack(
 
 via_stack_m1_m3 = gf.partial(
     via_stack,
-    layers=(LAYER.M1, LAYER.M2, LAYER.M3),
+    layers=("M1", "M2", "M3"),
     vias=(via1, via2),
 )
 
 via_stack_slab_m3 = gf.partial(
     via_stack,
-    layers=(LAYER.SLAB90, LAYER.M1, LAYER.M2, LAYER.M3),
+    layers=("SLAB90", "M1", "M2", "M3"),
     vias=(viac, via1, via2),
 )
 via_stack_npp_m1 = gf.partial(
     via_stack,
-    layers=(LAYER.WG, LAYER.NPP, LAYER.M1),
+    layers=("WG", "NPP", "M1"),
     vias=(None, None, viac),
 )
 via_stack_slab_npp_m3 = gf.partial(
     via_stack,
-    layers=(LAYER.SLAB90, LAYER.NPP, LAYER.M1),
+    layers=("SLAB90", "NPP", "M1"),
     vias=(None, None, viac),
 )
 via_stack_heater_m3 = gf.partial(
-    via_stack, layers=(LAYER.HEATER, LAYER.M2, LAYER.M3), vias=(via1, via2)
+    via_stack, layers=("HEATER", "M2", "M3"), vias=(via1, via2)
 )
 
 

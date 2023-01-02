@@ -12,17 +12,15 @@ import numpy as np
 from omegaconf import DictConfig
 from pydantic import BaseModel, Field, validator
 
-from gdsfactory.components import cells
-from gdsfactory.config import PATH, sparameters_path
+from gdsfactory.config import PATH
 from gdsfactory.containers import containers as containers_default
-from gdsfactory.cross_section import cross_sections
 from gdsfactory.events import Event
+from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.materials import MaterialSpec
 from gdsfactory.materials import materials_index as materials_index_default
 from gdsfactory.read.from_yaml import from_yaml
 from gdsfactory.show import show
 from gdsfactory.symbols import floorplan_with_block_letters
-from gdsfactory.technology.generic import LAYER, LAYER_STACK, LAYER_VIEWS
 from gdsfactory.technology.layer_stack import LayerStack
 from gdsfactory.technology.layer_views import LayerViews
 from gdsfactory.types import (
@@ -468,15 +466,7 @@ class Pdk(BaseModel):
     #     return self._on_cross_section_registered
 
 
-GENERIC_PDK = Pdk(
-    name="generic",
-    cross_sections=cross_sections,
-    cells=cells,
-    layers=LAYER.dict(),
-    layer_stack=LAYER_STACK,
-    layer_views=LAYER_VIEWS,
-    sparameters_path=sparameters_path,
-)
+GENERIC_PDK = get_generic_pdk()
 _ACTIVE_PDK = GENERIC_PDK
 
 

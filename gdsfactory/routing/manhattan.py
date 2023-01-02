@@ -18,15 +18,14 @@ from gdsfactory.geometry.functions import angles_deg
 from gdsfactory.port import Port, select_ports_list
 from gdsfactory.routing.get_route_sbend import get_route_sbend
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.technology.generic import LAYER
 from gdsfactory.types import (
     ComponentSpec,
     Coordinate,
     Coordinates,
     CrossSection,
     CrossSectionSpec,
-    Layer,
-    Layers,
+    LayerSpec,
+    LayerSpecs,
     MultiCrossSectionAngleSpec,
     Route,
 )
@@ -53,7 +52,7 @@ def sign(x: float) -> int:
 def _get_unique_port_facing(
     ports: Dict[str, Port],
     orientation: float = 0,
-    layer: Union[Layer, Layers] = (1, 0),
+    layer: Union[LayerSpec, LayerSpecs] = (1, 0),
 ) -> List[Port]:
     """Ensures there is only one port."""
     ports_selected = []
@@ -86,7 +85,7 @@ def _get_unique_port_facing(
 def _get_bend_ports(
     bend: Component,
     orientation: float = 0,
-    layer: Union[Layer, Layers] = (1, 0),
+    layer: Union[LayerSpec, LayerSpecs] = (1, 0),
 ) -> List[Port]:
     """Returns West and North facing ports for bend.
 
@@ -424,7 +423,7 @@ def _get_bend_reference_parameters(
     p1: ndarray,
     p2: ndarray,
     bend_cell: Component,
-    port_layer: Union[Layer, List[Layer]],
+    port_layer: Union[LayerSpec, List[LayerSpec]],
 ) -> Tuple[ndarray, int, bool]:
     """Returns bend reference settings.
 
@@ -532,9 +531,9 @@ def remove_flat_angles(points: ndarray) -> ndarray:
 def get_route_error(
     points,
     cross_section: Optional[CrossSection] = None,
-    layer_path: Layer = LAYER.ERROR_PATH,
-    layer_label: Layer = LAYER.TEXT,
-    layer_marker: Layer = LAYER.ERROR_MARKER,
+    layer_path: LayerSpec = "ERROR_PATH",
+    layer_label: LayerSpec = "TEXT",
+    layer_marker: LayerSpec = "ERROR_MARKER",
     references: Optional[List[ComponentReference]] = None,
     with_sbend: bool = False,
 ) -> Route:
@@ -631,7 +630,7 @@ def round_corners(
         kwargs: cross_section settings.
 
     """
-    from gdsfactory.technology.pdk import get_layer
+    from gdsfactory.pdk import get_layer
 
     multi_cross_section = isinstance(cross_section, list)
     if multi_cross_section:

@@ -776,7 +776,7 @@ def test_load_lyp():
 
 
 if __name__ == "__main__":
-    from gdsfactory.technology.generic import load_lyp_generic
+    from gdsfactory.generic_tech import load_lyp_generic
 
     LAYER_VIEWS = load_lyp_generic()
     # import gdsfactory as gf

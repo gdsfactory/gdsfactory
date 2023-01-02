@@ -4,8 +4,8 @@ from typing import Dict, Optional, Tuple
 
 import pygmsh
 
+from gdsfactory.pdk import get_layer_stack
 from gdsfactory.technology import LayerStack
-from gdsfactory.technology.pdk import get_layer_stack
 from gdsfactory.types import ComponentOrReference, Layer
 
 

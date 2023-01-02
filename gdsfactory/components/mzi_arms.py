@@ -71,7 +71,7 @@ def mzi_arms(
             |          |          |
             |__________|          |__________
     """
-    from gdsfactory.technology.pdk import get_component
+    from gdsfactory.pdk import get_component
 
     combiner = combiner or splitter
 

@@ -70,6 +70,3 @@ class GenericLayerMap(BaseModel):
 
         frozen = True
         extra = "forbid"
-
-
-LAYER = GenericLayerMap()

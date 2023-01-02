@@ -6,7 +6,6 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.copy_layers import copy_layers
 from gdsfactory.components.text_rectangular_font import pixel_array, rectangular_font
-from gdsfactory.technology.generic import LAYER
 from gdsfactory.types import ComponentSpec, LayerSpec, LayerSpecs
 
 
@@ -100,7 +99,7 @@ if __name__ == "__main__":
         # text="The mask is nearly done. only 12345 drc errors remaining?",
         # text="v",
         text=string.ascii_lowercase,
-        layers=(LAYER.SLAB90, LAYER.M2),
+        layers=("SLAB90", "M2"),
         justify="center",
     )
     c.show(show_ports=True)
