@@ -43,12 +43,3 @@ def sin(wav: np.ndarray) -> np.ndarray:
 
 
 materials_index = dict(si=si, sio2=sio2, sin=sin)
-
-__all__ = [
-    "material_name_to_meep",
-    "material_name_to_lumerical",
-    "materials_index",
-    "si",
-    "sio2",
-    "sin",
-]
