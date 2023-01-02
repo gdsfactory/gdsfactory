@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.16.2
+
+- default read_metadata=False in import_gds
+- fix write_labels_klayout to be consistent with write_labels_gdstk (return angle as well)
+
 ## 6.16.1
 
 - remove straight Pcell parameter from many components that do not need it [PR](https://github.com/gdsfactory/gdsfactory/pull/1061)
