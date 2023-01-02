@@ -84,12 +84,12 @@ gmsh = [
     "shapely",
     ]
 sipann = ["SIPANN==2.0.0", "simphony==0.6.1"]
-tidy3d = ["tidy3d-beta==1.8.0"]
+tidy3d = ["tidy3d-beta==1.8.1"]
 devsim = [
     "devsim",
     "mkl",
     "pyvista",
-    "tidy3d-beta==1.8.0",
+    "tidy3d-beta==1.8.1",
     ]
 meow = [
     "meow-sim",
