@@ -4,6 +4,7 @@ from __future__ import annotations
 from typing import Dict
 
 import numpy as np
+from shapely.affinity import scale
 from shapely.geometry import MultiPolygon
 from shapely.ops import unary_union
 
@@ -91,6 +92,46 @@ def process_buffers(layer_polygons_dict: Dict, layerstack: LayerStack):
         )
 
     return extended_layer_polygons_dict, LayerStack(layers=extended_layerstack_layers)
+
+
+def buffers_to_lists(layer_polygons_dict: Dict, layerstack: LayerStack):
+    """Break up polygons on each layer into lists of polygons:z tuples according to z_to_bias.
+
+    Arguments:
+        layer_polygons_dict: dict of GDS layernames: shapely polygons
+        layerstack: original Layerstack
+
+    Returns:
+        extended_layer_polygons_dict: dict of layername: List[(z, polygon_at_z)] for all polygons at z
+    """
+    extended_layer_polygons_dict = {}
+
+    layerstack = bufferize(layerstack)
+
+    for layername, polygons in layer_polygons_dict.items():
+        all_polygons_list = []
+        for polygon in polygons.geoms if hasattr(polygons, "geoms") else [polygons]:
+            zs = layerstack.layers[layername].z_to_bias[0]
+            width_buffers = layerstack.layers[layername].z_to_bias[1]
+
+            polygons_list = []
+            for z, width_buffer in zip(zs, width_buffers):
+                xfactor, yfactor = 1, 1  # buffer_to_scaling(polygon, width_buffer)
+                polygons_list.append(
+                    (
+                        z
+                        * (
+                            layerstack.layers[layername].zmin
+                            + layerstack.layers[layername].thickness
+                        )
+                        + layerstack.layers[layername].zmin,
+                        scale(polygon, xfact=xfactor, yfact=yfactor),
+                    )
+                )
+            all_polygons_list.append(polygons_list)
+        extended_layer_polygons_dict[layername] = all_polygons_list
+
+    return extended_layer_polygons_dict
 
 
 def merge_by_material_func(layer_polygons_dict: Dict, layerstack: LayerStack):
