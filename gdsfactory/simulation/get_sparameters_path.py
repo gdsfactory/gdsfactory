@@ -10,9 +10,9 @@ from typing import Optional
 import numpy as np
 
 import gdsfactory as gf
+from gdsfactory.generic_tech import LAYER_STACK
 from gdsfactory.name import clean_value
 from gdsfactory.pdk import get_sparameters_path
-from gdsfactory.technology import LAYER_STACK
 from gdsfactory.types import ComponentSpec
 
 

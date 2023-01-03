@@ -3,8 +3,9 @@ from femwell import mode_solver
 from skfem import Basis, ElementTriN2, ElementTriP0, ElementTriP2, Mesh
 
 import gdsfactory as gf
+from gdsfactory.generic_tech import get_layer_stack_generic
 from gdsfactory.pdk import _ACTIVE_PDK
-from gdsfactory.technology import LayerStack, get_layer_stack_generic
+from gdsfactory.technology import LayerStack
 from gdsfactory.types import CrossSectionSpec
 
 

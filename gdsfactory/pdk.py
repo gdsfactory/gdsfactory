@@ -21,8 +21,7 @@ from gdsfactory.materials import materials_index as materials_index_default
 from gdsfactory.read.from_yaml import from_yaml
 from gdsfactory.show import show
 from gdsfactory.symbols import floorplan_with_block_letters
-from gdsfactory.technology.layer_stack import LayerStack
-from gdsfactory.technology.layer_views import LayerViews
+from gdsfactory.technology import LayerStack, LayerViews
 from gdsfactory.types import (
     CellSpec,
     Component,
