@@ -15,7 +15,7 @@ def compute_cross_section_modes(
     num_modes: int = 4,
     order: int = 1,
     radius: float = np.inf,
-    filename: str = "mesh.msh",
+    mesh_filename: str = "mesh.msh",
     **kwargs,
 ):
     """Calculate effective index of a straight cross-section.
@@ -27,7 +27,7 @@ def compute_cross_section_modes(
         num_modes: number of modes to return.
         order: order of the mesh elements.
         radius: bend radius of the cross-section.
-        filename (str, path): where to save the .msh file.
+        mesh_filename (str, path): where to save the .msh file.
 
     Keyword Args:
         resolutions (Dict): Pairs {"layername": {"resolution": float, "distance": "float}}
@@ -53,12 +53,12 @@ def compute_cross_section_modes(
         type="uz",
         xsection_bounds=[[dx / 2, bounds[0, 1]], [dx / 2, bounds[1, 1]]],
         layer_stack=layerstack,
-        filename=filename,
+        filename=mesh_filename,
         **kwargs,
     )
 
     # Assign materials to mesh elements
-    mesh = Mesh.load("mesh.msh")
+    mesh = Mesh.load(mesh_filename)
     basis = Basis(mesh, ElementTriN2() * ElementTriP2())
     basis0 = basis.with_element(ElementTriP0())
     epsilon = basis0.zeros(dtype=complex)
