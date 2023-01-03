@@ -17,7 +17,7 @@ from typing import Dict, Literal, Optional, Set, Tuple, Union
 
 import numpy as np
 from pydantic import BaseModel, Field
-from pydantic.color import Color
+from pydantic.color import Color, ColorType
 
 from gdsfactory.config import logger
 
@@ -109,10 +109,11 @@ class LayerView(BaseModel):
             The values are "Ix" for one of the built-in pattern where "I0" is "solid" and "I1" is "clear".
         animation: This is a value indicating the animation mode.
             0 is "none", 1 is "scrolling", 2 is "blinking" and 3 is "inverse blinking".
-        color: Display color(s) of the layer frame and fill. Pass either a single Color or a dictionary whose keys are
-            "frame" and "fill" (i.e. {"frame": "#000000", "fill": [10, 10, 10]})
+        fill_color: Display color of the layer fill.
+        frame_color: Display color of the layer frame.
             Accepts Pydantic Color types. See: https://docs.pydantic.dev/usage/types/#color-type for more info.
-        brightness: Brightness of the fill and frame.
+        fill_brightness: Brightness of the fill.
+        frame_brightness: Brightness of the frame.
         xfill: Whether boxes are drawn with a diagonal cross.
         marked: Whether the entry is marked (drawn with small crosses).
         transparent: Whether the entry is transparent.
@@ -159,8 +160,8 @@ class LayerView(BaseModel):
         self,
         gds_layer: Optional[int] = None,
         gds_datatype: Optional[int] = None,
-        color: Optional[Dict[FrameAndFill, Color]] = None,
-        brightness: Optional[Dict[FrameAndFill, int]] = None,
+        color: Optional[ColorType] = None,
+        brightness: Optional[int] = None,
         **data,
     ):
         """Initialize LayerView object."""
