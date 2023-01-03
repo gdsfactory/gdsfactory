@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Dict, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 
 import numpy as np
 from devsim import (
@@ -324,6 +324,93 @@ class DDComponent:
         delete_mesh(mesh=self.devsim_mesh_name)
         delete_device(device=self.devsim_mesh_name)
 
+    def get_refined_mesh(
+        self,
+        factor: float = 2.0,
+        refine_dict: Dict[str, Dict] = None,
+        refine_regions: List[str] = ["si"],
+    ):
+        """Refines the mesh based on simulation result.
+
+        Currently only remeshes in silicon regions.
+
+        Arguments:
+            factor: number to scale the mesh characteristic length down where refine_dict is True
+            number_of_remeshings: int, number of times to perform remeshing
+            refine_dict: Dict of fields:conditions to determine where to remesh, e.g.
+
+                refine_dict = {
+                    "Potential": {                                  # top-level key is field name
+                        "func": lambda x0, x1: abs(x0 - x1),        # callable to apply to the local field difference before checking threshold
+                        "threshold": 0.05,                          # will remesh if func(field) > threshold
+                    },
+                    "Electrons": {
+                        "func": lambda x0, x1: np.abs(np.log10(x0) - np.log10(x1)),
+                        "threshold": 1,
+                    },
+                }
+
+            regions: region keys where to refine
+        """
+        xs = {}
+        ys = {}
+        lcs = {}
+        refine = {}
+
+        # Refined regions
+        for regiontype, region_names in c.regions.items():
+            for regionname in region_names:
+                if regiontype in refine_regions:
+
+                    xs[regionname] = np.array(
+                        c.get_mean_edge_from_node_field(regionname, "x")
+                    )
+                    ys[regionname] = np.array(
+                        c.get_mean_edge_from_node_field(regionname, "y")
+                    )
+                    lcs[regionname] = c.get_edge_field(
+                        regionname, field_name="EdgeLength"
+                    )
+                    node_index = c.get_node_index(region_name=regionname)
+
+                    refinements = []
+                    for field_name, refinement in refine_dict.items():
+                        field = np.array(c.get_node_field(regionname, field_name))
+                        refinements.append(
+                            np.array(
+                                [
+                                    refinement["func"](field[x[0]], field[x[1]])
+                                    > refinement["threshold"]
+                                    for x in node_index
+                                ]
+                            )
+                        )
+
+                    refine[regionname] = refinements[0]
+                    for index in range(1, len(refinements)):
+                        refine[regionname] = np.logical_or(
+                            refinements[index], refinements[index - 1]
+                        )
+
+        um_to_cm = 1e-4
+        xs = np.hstack([np.array(x) for x in xs.values()], dtype=np.float64) / um_to_cm
+        ys = np.hstack([np.array(y) for y in ys.values()], dtype=np.float64) / um_to_cm
+        lcs = (
+            np.hstack([np.array(lc) for lc in lcs.values()], dtype=np.float64)
+            / um_to_cm
+        )
+        refine = np.hstack([np.array(x) for x in refine.values()], dtype=bool)
+
+        lcs_after = np.where(refine, lcs / factor, lcs)
+
+        N = len(xs)
+        meshing_field = np.zeros([N, 4])
+        meshing_field[:, 0] = xs
+        meshing_field[:, 1] = ys
+        meshing_field[:, 2] = np.zeros(N)
+        meshing_field[:, 3] = lcs_after
+        return meshing_field
+
 
 if __name__ == "__main__":
 
@@ -391,7 +478,7 @@ if __name__ == "__main__":
     # Initial meshing
     resolutions = {
         "core": {"resolution": 0.02, "distance": 1},
-        "slab90": {"resolution": 0.05, "distance": 1},
+        "slab90": {"resolution": 0.02, "distance": 1},
     }
 
     c = DDComponent(
@@ -409,188 +496,34 @@ if __name__ == "__main__":
     c.ddsolver()
     c.save_device("test1.dat")
 
-    # c.ramp_voltage(-0.3, -0.1, contact_name="cathode")
-    # c.save_device("test2.dat")
-
-    # Tabulate old lcs
-    xs = {}
-    ys = {}
-    lcs = {}
-    potentials = {}
-    electrons = {}
-    holes = {}
-    for regionname in c.regions["si"]:
-        xs[regionname] = np.array(c.get_node_field(regionname, "x"))
-        ys[regionname] = np.array(c.get_node_field(regionname, "y"))
-        lcs[regionname] = np.sqrt(np.array(c.get_node_field(regionname, "NodeVolume")))
-        potentials[regionname] = np.array(c.get_node_field(regionname, "Potential"))
-        electrons[regionname] = np.array(c.get_node_field(regionname, "Electrons"))
-        holes[regionname] = np.array(c.get_node_field(regionname, "Holes"))
-
-    N = sum(len(x) for x in xs.values())
-    # old_lcs = np.zeros([N, 4])
-    um_to_cm = 1e-4
-    xs = np.hstack([np.array(x) for x in xs.values()]) / um_to_cm
-    ys = np.hstack([np.array(y) for y in ys.values()]) / um_to_cm
-    lcs = np.hstack([np.array(lc) for lc in lcs.values()]) / um_to_cm
-    potentials = np.hstack([np.array(x) for x in potentials.values()])
-    electrons = np.hstack([np.array(x) for x in electrons.values()])
-    holes = np.hstack([np.array(x) for x in holes.values()])
-
-    # Get gradient of electron and potential fields
-    from scipy.interpolate import SmoothBivariateSpline
-
-    potential_g = SmoothBivariateSpline(x=xs, y=ys, z=potentials).partial_derivative(
-        dx=1, dy=1
-    )
-    electrons_g = SmoothBivariateSpline(x=xs, y=ys, z=electrons).partial_derivative(
-        dx=1, dy=1
-    )
-    holes_g = SmoothBivariateSpline(x=xs, y=ys, z=holes).partial_derivative(dx=1, dy=1)
-
-    # Use gradient to reduce characteristic length in fast-varying regions
-    import matplotlib.pyplot as plt
-
-    # plt.plot(grid_z2(xs, ys, grid=False))
-
-    plt.scatter(xs, lcs)
-    plt.title("current lcs")
-    plt.show()
-    fig = plt.figure()
-    ax = plt.gca()
-    ax.scatter(
-        xs,
-        np.abs(potential_g(xs, ys, grid=False))
-        / np.max(np.abs(potential_g(xs, ys, grid=False))),
-    )
-    ax.set_yscale("log")
-    plt.title("potential_g")
-    plt.show()
-    ax = plt.gca()
-    ax.scatter(
-        xs,
-        np.abs(electrons_g(xs, ys, grid=False))
-        / np.max(np.abs(electrons_g(xs, ys, grid=False))),
-    )
-    ax.scatter(
-        xs,
-        np.abs(holes_g(xs, ys, grid=False))
-        / np.max(np.abs(holes_g(xs, ys, grid=False))),
-    )
-    plt.title("electrons and holes")
-    ax.set_yscale("log")
-    plt.show()
-
-    def rescale(lcs, field, xs, ys, step=0.5):
-        """Rescale lcs depending on field."""
-        # inds = np.where(xs > xlims[0] and xs < xlims[1] and ys > ylims[0] and ys < ylims[1])
-        norm = np.abs(field(xs, ys, grid=False)) / np.max(
-            np.abs(field(xs, ys, grid=False))
-        )
-        return lcs * (1 - step * norm)
-
-    # um_to_cm = 1e-4
-    meshing_field = np.zeros([N, 4])
-    meshing_field[:, 0] = xs
-    meshing_field[:, 1] = ys
-    meshing_field[:, 2] = np.zeros(N)
-    meshing_field[:, 3] = (
-        (
-            rescale(lcs, electrons_g, xs, ys, step=0.02)
-            + rescale(lcs, holes_g, xs, ys, step=0.02)
-        )
-        / 2
-        * rescale(lcs, potential_g, xs, ys, step=0.02)
+    """New method class"""
+    meshing_field = c.get_refined_mesh(
+        factor=2.0,
+        refine_dict={
+            "Potential": {
+                "func": lambda x0, x1: abs(x0 - x1),
+                "threshold": 0.05,
+            },
+            "Electrons": {
+                "func": lambda x0, x1: np.abs(np.log10(x0) - np.log10(x1)),
+                "threshold": 1,
+            },
+        },
+        refine_regions=["si"],
     )
 
-    print(np.shape(meshing_field))
-    print(meshing_field[:, 0])
-    print(meshing_field[:, 1])
-    print(meshing_field[:, 2])
-    print(meshing_field[:, 3])
+    c.delete_device()
+    c = DDComponent(
+        component=waveguide,
+        xsection_bounds=[(4, -4), (4, 4)],
+        full_layerstack=get_layer_stack_generic(),
+        physical_layerstack=physical_layerstack,
+        doping_info=get_doping_info_generic(),
+        contact_info=contact_info,
+        resolutions=resolutions,
+        mesh_scaling_factor=1e-4,
+        background_tag=None,
+    )
 
-    plt.scatter(meshing_field[:, 0], lcs)
-    plt.scatter(meshing_field[:, 0], meshing_field[:, 3])
-    plt.title("meshing field")
-    plt.show()
-
-    # c.delete_device()
-    # c = DDComponent(
-    #     component=waveguide,
-    #     xsection_bounds=[(4, -4), (4, 4)],
-    #     full_layerstack=get_layer_stack_generic(),
-    #     physical_layerstack=physical_layerstack,
-    #     doping_info=get_doping_info_generic(),
-    #     contact_info=contact_info,
-    #     resolutions=resolutions,
-    #     mesh_scaling_factor=1e-4,
-    #     background_tag=None,
-    # )
-
-    # c.ddsolver(global_meshsize_array=meshing_field)
-    # c.save_device("test_remeshed.dat")
-
-    # Get gradients to remesh on
-    # import pyvista as pv
-    # reader = pv.get_reader('test1.dat')
-    # mesh = reader.read()
-
-    # x_g = []
-    # y_g = []
-
-    # potential_g = []
-    # electrons_g = []
-    # for block in mesh:
-    #     potential_g.append(block.compute_derivative(scalars="Potential")["gradient"])
-    #     electrons_g.append(block.compute_derivative(scalars="Electrons")["gradient"])
-    # potential_g = np.vstack(potential_g)
-    # electrons_g = np.vstack(electrons_g)
-    # # potential_g = np.insert(np.vstack(potential_g), 2, values=0, axis=1)
-    # # electrons_g = np.insert(np.vstack(electrons_g), 2, values=0, axis=1)
-
-    # # If gradients are large at a given node, reduce its characteristic length
-    # import matplotlib.pyplot as plt
-    # plt.plot(electrons)
-    # plt.show()
-    # print(np.max(np.abs(potential_g[:,2])))
-    # print(np.max(np.abs(electrons_g[:,2])))
-
-    # c.delete_device()
-    # c.ddsolver(global_meshsize_array=mesh_g)
-    # c.save_device("test2.dat")
-
-    # c.ramp_voltage(-2, -0.5, contact_name="cathode")
-    # c.save_device("test2.dat")
-
-    # xs = {}
-    # ys = {}
-    # efields = {}
-    # edensities = {}
-    # for regionname in c.regions["si"]:
-    #     xs[regionname] = np.array(c.get_node_field(regionname, "x"))
-    #     ys[regionname] = np.array(c.get_node_field(regionname, "y"))
-    #     edensities[regionname] = np.array(np.log10(c.get_node_field(regionname, "Electrons")))
-    # for regionname in c.regions["si"]:
-    #     efields[regionname] = np.array(c.get_edge_field(regionname, "ElectricField")) # derivative of potential
-
-    # c.save_device("test0.dat")
-    # c.delete_device()
-
-    # # Second, refined meshing
-    # lc_min = 0.001
-    # lc_max = 0.2
-    # N = sum(len(x) for x in xs.values())
-    # print(N)
-    # mesh_g = (lc_max + lc_min)/2*np.ones([N,4])
-    # mesh_g[:,0] = np.hstack([np.array(x) for x in xs.values()])
-    # mesh_g[:,1] = np.hstack([np.array(y) for y in ys.values()])
-    # mesh_g[:,2] = np.zeros(N)
-
-    # def rescale(arr):
-    #     arr /= np.max(np.abs(arr)) # now 0 to 1
-    #     arr = np.abs(arr) # now 0 to 1
-    #     arr = np.reciprocal(arr) # map from 1 to infty
-    #     return np.reciprocal(arr/np.max(np.abs(arr),axis=0), )
-
-    # mesh_g[:,3] = np.reciprocal(np.abs(np.hstack([np.array(efield) for efield in efields.values()])))
-    # print(mesh_g)
+    c.ddsolver(global_meshsize_array=meshing_field)
+    c.save_device("test2.dat")
