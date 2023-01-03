@@ -1394,7 +1394,9 @@ class Component(_GeometryHelper):
 
             return uz_xsection_mesh(self, xsection_bounds, layer_stack, **kwargs)
         elif type == "3D":
-            raise ValueError("3D meshing not fully implemented yet.")
+            from gdsfactory.simulation.gmsh.xyz_mesh import xyz_mesh
+
+            return xyz_mesh(self, layer_stack, **kwargs)
         else:
             raise ValueError(
                 'Required argument "type" must be one of "xy", "uz", or "3D".'
@@ -2125,7 +2127,11 @@ def test_remap_layers() -> None:
 
     c = gf.components.straight(layer=(2, 0))
     remap = c.remap_layers(layermap={(2, 0): gf.LAYER.WGN})
-    assert remap.hash_geometry() == "1c12fcddd61dc167c80c847abe371b3f8af84a1b"
+    hash_geometry = "83fbc6a8289505eaed3a2e3ab279cc03f5e4d00c"
+
+    assert (
+        remap.hash_geometry() == hash_geometry
+    ), f"hash_geometry = '{remap.hash_geometry()}'"
 
 
 def test_remove_labels() -> None:
@@ -2142,11 +2148,12 @@ def test_import_gds_settings():
 
     c = gf.components.mzi()
     gdspath = c.write_gds_with_metadata()
-    c2 = gf.import_gds(gdspath, name="mzi_sample")
+    c2 = gf.import_gds(gdspath, name="mzi_sample", read_metadata=True)
     c3 = gf.routing.add_fiber_single(c2)
     assert c3
 
 
 if __name__ == "__main__":
-    c = test_get_layers()
-    c.show()
+    test_remap_layers()
+    # c = test_get_layers()
+    # c.show()

@@ -15,7 +15,7 @@ placements:
   mmi_long:
     mirror: 0
     rotation: 0
-    x: 20.001
+    x: 20.0
     y: 12.875
   mmi_short:
     mirror: 0
@@ -35,11 +35,11 @@ warnings:
       - mmi_short,o2
       - mmi_short,o3
       values:
-      - - 10.001
+      - - 10.0
         - 12.875
-      - - 40.001
+      - - 40.0
         - 13.5
-      - - 40.001
+      - - 40.0
         - 12.25
       - - -25.0
         - 0.625

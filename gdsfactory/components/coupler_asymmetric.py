@@ -3,14 +3,13 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_s import bend_s
-from gdsfactory.components.straight import straight as straight_function
+from gdsfactory.components.straight import straight
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
 def coupler_asymmetric(
     bend: ComponentSpec = bend_s,
-    straight: ComponentSpec = straight_function,
     gap: float = 0.234,
     dy: float = 5.0,
     dx: float = 10.0,
@@ -21,7 +20,6 @@ def coupler_asymmetric(
 
     Args:
         bend: spec.
-        straight: straight spec.
         gap: um.
         dy: port to port vertical spacing.
         dx: bend length in x direction.
@@ -45,11 +43,7 @@ def coupler_asymmetric(
         if callable(bend)
         else bend
     )
-    wg = (
-        straight(cross_section=cross_section, **kwargs)
-        if callable(straight)
-        else straight
-    )
+    wg = straight(cross_section=cross_section, **kwargs)
 
     w = bend_component.ports["o1"].width
     y = (w + gap) / 2

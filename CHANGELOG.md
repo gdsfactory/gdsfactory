@@ -1,5 +1,28 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [6.17.0](https://github.com/gdsfactory/gdsfactory/pull/1065)
+
+- basic conformal 3D meshing
+
+## [6.16.3](https://github.com/gdsfactory/gdsfactory/pull/1064)
+
+- update tidy3d from 1.8.0 to 1.8.1
+- fix write_sparameters_meep_mpi, after default `read_metadata=False` in import_gds
+
+## 6.16.2
+
+- default read_metadata=False in import_gds
+- fix write_labels_klayout to be consistent with write_labels_gdstk (return angle as well)
+
+## 6.16.1
+
+- remove straight Pcell parameter from many components that do not need it [PR](https://github.com/gdsfactory/gdsfactory/pull/1061)
+
+## 6.16.0
+
+- remove bbox and pins siepic layers from strip cross-section  [PR](https://github.com/gdsfactory/gdsfactory/pull/1057)
+- add more database examples and rename circuit to component for consistency [PR](https://github.com/gdsfactory/gdsfactory/pull/1058)
+
 ## 6.15.3
 
 - Cache S-parameters from EME similarly to what is done for FDTD [PR](https://github.com/gdsfactory/gdsfactory/pull/1052)
