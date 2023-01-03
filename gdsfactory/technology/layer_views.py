@@ -26,7 +26,7 @@ PathLike = Union[pathlib.Path, str]
 Layer = Tuple[int, int]
 
 FrameAndFill = Literal["frame", "fill"]
-FrameAndFillColor = Dict[FrameAndFill, Color]
+
 FrameAndFillBrightness = Dict[FrameAndFill, int]
 
 
@@ -126,8 +126,10 @@ class LayerView(BaseModel):
     alpha: Optional[float] = None
     layer: Optional[Layer] = None
     layer_in_name: bool = False
-    color: Optional[Union[Color, FrameAndFillColor]] = None
-    brightness: Optional[Union[int, FrameAndFillBrightness]] = None
+    frame_color: Optional[Color] = None
+    fill_color: Optional[Color] = None
+    frame_brightness: Optional[int] = None
+    fill_brightness: Optional[int] = None
     dither_pattern: Optional[Union[str, CustomDitherPattern]] = None
     line_style: Optional[Union[str, CustomLineStyle]] = None
     valid: bool = True
@@ -157,6 +159,8 @@ class LayerView(BaseModel):
         self,
         gds_layer: Optional[int] = None,
         gds_datatype: Optional[int] = None,
+        color: Optional[Dict[FrameAndFill, Color]] = None,
+        brightness: Optional[Dict[FrameAndFill, int]] = None,
         **data,
     ):
         """Initialize LayerView object."""
@@ -166,6 +170,21 @@ class LayerView(BaseModel):
                     "Specify either 'layer' or both 'gds_layer' and 'gds_datatype'."
                 )
             data["layer"] = (gds_layer, gds_datatype)
+
+        if color is not None:
+            if ("fill_color" in data.keys()) or ("frame_color" in data.keys()):
+                raise KeyError(
+                    "Specify either a single 'color' or both 'frame_color' and 'fill_color'."
+                )
+            data["fill_color"] = data["frame_color"] = color
+        if brightness is not None:
+            if ("fill_brightness" in data.keys()) or (
+                "frame_brightness" in data.keys()
+            ):
+                raise KeyError(
+                    "Specify either a single 'brightness' or both 'frame_brightness' and 'fill_brightness'."
+                )
+            data["fill_brightness"] = data["frame_brightness"] = brightness
 
         super().__init__(**data)
 
@@ -192,26 +211,15 @@ class LayerView(BaseModel):
         """Get XML Element from attributes."""
         from gdsfactory.utils.color_utils import ensure_six_digit_hex_color
 
-        colors = self.color
-
         colors = {
-            "frame-color": colors["frame"] if isinstance(colors, dict) else colors,
-            "fill-color": colors["fill"] if isinstance(colors, dict) else colors,
+            "frame-color": ensure_six_digit_hex_color(self.frame_color.as_hex()),
+            "fill-color": ensure_six_digit_hex_color(self.fill_color.as_hex()),
         }
-        for key, color in colors.items():
-            if color is not None:
-                color = ensure_six_digit_hex_color(color.as_hex())
-            colors[key] = color
-
-        brightnesses = self.brightness
         brightnesses = {
-            "frame-brightness": brightnesses["frame"]
-            if isinstance(brightnesses, dict)
-            else brightnesses,
-            "fill-brightness": brightnesses["fill"]
-            if isinstance(brightnesses, dict)
-            else brightnesses,
+            "frame-brightness": self.frame_brightness,
+            "fill-brightness": self.fill_brightness,
         }
+
         prop_dict = {
             **colors,
             **brightnesses,
@@ -265,8 +273,12 @@ class LayerView(BaseModel):
             name: XML-formatted name entry.
             layer_pattern: Regex pattern to match layers with.
         """
+        from gdsfactory.name import clean_name
+
         if not name:
             return None, None
+
+        name = clean_name(name, remove_dots=True)
         layer_in_name = False
         match = re.search(layer_pattern, name)
         if match:
@@ -306,25 +318,13 @@ class LayerView(BaseModel):
         if name is None:
             return None
 
-        color = {
-            "fill": element.find("fill-color").text,
-            "frame": element.find("frame-color").text,
-        }
-        if color["fill"] == color["frame"]:
-            color = color["fill"]
-
-        brightness = {
-            "fill": element.find("fill-brightness").text,
-            "frame": element.find("frame-brightness").text,
-        }
-        if brightness["fill"] == brightness["frame"]:
-            brightness = brightness["fill"]
-
         lv = LayerView(
             name=name,
             layer=cls._process_layer(element.find("source").text, layer_pattern),
-            color=color,
-            brightness=brightness,
+            fill_color=element.find("fill-color").text,
+            frame_color=element.find("frame-color").text,
+            fill_brightness=element.find("fill-brightness").text,
+            frame_brightness=element.find("frame-brightness").text,
             dither_pattern=element.find("dither-pattern").text,
             line_style=element.find("line-style").text,
             valid=element.find("valid").text,
@@ -496,7 +496,7 @@ class LayerViews(BaseModel):
 
         """
         try:
-            return self.layer_views[val]
+            return self.get_layer_views()[val]
         except Exception as error:
             raise ValueError(
                 f"LayerView {val!r} not in LayerViews {list(self.layer_views.keys())}"
@@ -511,14 +511,14 @@ class LayerViews(BaseModel):
         Returns:
             LayerView
         """
-        tuple_to_name = {v.layer: k for k, v in self.layer_views.items()}
+        tuple_to_name = {v.layer: k for k, v in self.get_layer_views().items()}
         if layer_tuple not in tuple_to_name:
             raise ValueError(
                 f"LayerView {layer_tuple} not in {list(tuple_to_name.keys())}"
             )
 
         name = tuple_to_name[layer_tuple]
-        return self.layer_views[name]
+        return self.get_layer_views()[name]
 
     def get_layer_tuples(self) -> Set[Layer]:
         """Returns a tuple for each layer."""

@@ -36,3 +36,9 @@ LAYER = LayerMap()
 
     filepathout.write_text(script)
     return script
+
+
+if __name__ == "__main__":
+    from gdsfactory.config import layer_path
+
+    print(lyp_to_dataclass(layer_path))

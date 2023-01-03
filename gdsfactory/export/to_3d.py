@@ -54,14 +54,13 @@ def to_3d(
         ):
             height = layer_to_thickness[layer]
             zmin = layer_to_zmin[layer]
-            layer_color = layer_views.get_from_tuple(layer)
-            color_rgb = layer_color.color.as_rgb_tuple()
+            layer_view = layer_views.get_from_tuple(layer)
 
             for polygon in polygons:
                 p = shapely.geometry.Polygon(polygon.points)
                 mesh = extrude_polygon(p, height=height)
                 mesh.apply_translation((0, 0, zmin))
-                mesh.visual.face_colors = (*color_rgb, 0.5)
+                mesh.visual.face_colors = (*layer_view.fill_color.as_rgb_tuple(), 0.5)
                 scene.add_geometry(mesh)
                 has_polygons = True
 
