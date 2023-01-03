@@ -48,18 +48,73 @@ class DDComponent:
         doping_info: Dict[str, DopingLayerLevel],
         contact_info=Dict,
         resolutions: Optional[Dict[str, Dict]] = None,
-        mesh_scaling_factor: float = (1.0,),
+        mesh_scaling_factor: float = 1e-4,
         background_tag: Optional[str] = None,
         temp_file_name="temp.msh2",
         devsim_mesh_name="temp",
         devsim_device_name="temp",
         devsim_simulation_filename="devsim.dat",
-        atol: float = 1e8,
-        rtol: float = 1e-8,
-        max_iter: int = 100,
+        atol: float = 1e12,
+        rtol: float = 1e-12,
+        max_iter: int = 200,
         extended_precision: bool = True,
     ) -> None:
-        """Drift-diffusion solver on a Component cross-section."""
+        """Drift-diffusion solver on a Component cross-section.
+
+        Arguments:
+            # Device parameters
+            component: component
+            xsection_bounds: line defined by [x1,y1], [x2,y2] to use for the meshing
+            full_layerstack: complete layerstack associated with component
+            physical_layerstack: layerstack subset of full_layerstack that is used to create the physical mesh
+            doping_info: dict relating some full_layerstack layers and doping profiles (see doping submodule), e.g.
+
+                doping_info = {
+                    "N": DopingLayerLevel(          # key is a name (not used currently)
+                        layer=layermap.N,           # which layermap layer to
+                        type="Donor",               # DEVSIM dopant label, current must be either "Donor" or "Acceptor"
+                        z_profile=step(n_conc),     # callable mapping dopant density to z-value
+                    ),
+                    "P": DopingLayerLevel(
+                        layer=layermap.P,
+                        type="Acceptor",
+                        z_profile=step(p_conc),
+                    ),
+
+            contact_info: dict relating contact names and gds, e.g.
+
+                contact_info = {
+                    "anode": {                                              # key is contact name
+                        "gds_layer": anode_layer,                           # gds layer to use for this contact
+                        "physical_layerlevel_to_replace": "via_contact",    # first physical layer to use to model the contact
+                        "physical_layerlevel_to_contact": "slab90",         # second physical layer, the interface with ^ defining the contact
+                    },
+                    "cathode": {
+                        "gds_layer": cathode_layer,
+                        "physical_layerlevel_to_replace": "via_contact",
+                        "physical_layerlevel_to_contact": "slab90",
+                    },
+                }
+
+                TODO: make this relate to only GDS layers + ports / nets
+
+            # Mesh parameters
+            resolutions: dict of mesh resolutions (see meshing module)
+            mesh_scaling_factor: scales mesh dimensions (see meshing module). Defaults to um --> cm conversion
+            background_tag: label of background polygon (see meshing module).
+
+            # Filesystem parameters
+            temp_file_name = temp_file_name
+            devsim_mesh_name = devsim_mesh_name
+            devsim_device_name = devsim_device_name
+            devsim_simulation_filename = (devsim_simulation_filename,)
+
+            # Solver parameters
+            atol: absolute tolerance threshold for self-consistent solve
+            rtol: relative tolerance threshold for self-consistent solve
+            max_iter : maximum number of iterations for self-consistent solve
+            extended_precision: if True (default), sets double precision
+        """
         # Set attributes
         self.component = component
         self.xsection_bounds = xsection_bounds
