@@ -1,8 +1,9 @@
 import numpy as np
 
 import gdsfactory as gf
+from gdsfactory.generic_tech import get_layer_stack_generic
 from gdsfactory.simulation.eme import MEOW
-from gdsfactory.technology import LayerStack, get_layer_stack_generic
+from gdsfactory.technology import LayerStack
 
 
 def test_meow_defaults():

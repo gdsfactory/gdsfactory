@@ -9,10 +9,11 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import logger
+from gdsfactory.generic_tech import LAYER_STACK
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_lumerical as get_sparameters_path,
 )
-from gdsfactory.technology import LAYER_STACK, LayerStack
+from gdsfactory.technology import LayerStack
 
 
 def get_ports(line: str) -> Tuple[str, str]:

@@ -1,9 +1,9 @@
 from gdsfactory.config import layer_path
-from gdsfactory.generic_tech.layer_map import GenericLayerMap
+from gdsfactory.generic_tech.layer_map import GenericLayerMap as LayerMap
 from gdsfactory.generic_tech.layer_stack import get_layer_stack_generic
 from gdsfactory.technology import LayerViews
 
-LAYER = GenericLayerMap()
+LAYER = LayerMap()
 LAYER_VIEWS = LayerViews(filepath=layer_path)
 LAYER_STACK = get_layer_stack_generic()
 

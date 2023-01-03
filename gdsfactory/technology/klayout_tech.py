@@ -10,7 +10,7 @@ from typing import List, Optional, Tuple
 from pydantic import BaseModel, Field
 
 from gdsfactory.config import PATH
-from gdsfactory.technology.layer_views import LayerViews
+from gdsfactory.technology import LayerViews
 
 Layer = Tuple[int, int]
 ConductorViaConductorName = Tuple[str, str, str]

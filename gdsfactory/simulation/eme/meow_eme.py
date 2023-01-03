@@ -11,12 +11,13 @@ from tqdm.auto import tqdm
 
 import gdsfactory as gf
 from gdsfactory.config import logger
-from gdsfactory.generic_tech import LAYER, LayerStack
+from gdsfactory.generic_tech import LAYER
 from gdsfactory.pdk import _ACTIVE_PDK
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_meow as get_sparameters_path,
 )
 from gdsfactory.simulation.gmsh.parse_layerstack import list_unique_layerstack_z
+from gdsfactory.technology import LayerStack
 from gdsfactory.types import PathType
 
 ColorRGB = Tuple[float, float, float]
@@ -380,7 +381,7 @@ if __name__ == "__main__":
     c = gf.components.taper(length=10, width2=2)
     c.show()
 
-    from gdsfactory.technology import get_layer_stack_generic
+    from gdsfactory.generic_tech import get_layer_stack_generic
 
     filtered_layerstack = LayerStack(
         layers={
