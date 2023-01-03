@@ -108,26 +108,25 @@ def buffers_to_lists(layer_polygons_dict: Dict, layerstack: LayerStack):
 
     layerstack = bufferize(layerstack)
 
+    xfactor, yfactor = 1, 1  # buffer_to_scaling(polygon, width_buffer)
     for layername, polygons in layer_polygons_dict.items():
         all_polygons_list = []
         for polygon in polygons.geoms if hasattr(polygons, "geoms") else [polygons]:
             zs = layerstack.layers[layername].z_to_bias[0]
             width_buffers = layerstack.layers[layername].z_to_bias[1]
 
-            polygons_list = []
-            for z, width_buffer in zip(zs, width_buffers):
-                xfactor, yfactor = 1, 1  # buffer_to_scaling(polygon, width_buffer)
-                polygons_list.append(
-                    (
-                        z
-                        * (
-                            layerstack.layers[layername].zmin
-                            + layerstack.layers[layername].thickness
-                        )
-                        + layerstack.layers[layername].zmin,
-                        scale(polygon, xfact=xfactor, yfact=yfactor),
+            polygons_list = [
+                (
+                    z
+                    * (
+                        layerstack.layers[layername].zmin
+                        + layerstack.layers[layername].thickness
                     )
+                    + layerstack.layers[layername].zmin,
+                    scale(polygon, xfact=xfactor, yfact=yfactor),
                 )
+                for z, width_buffer in zip(zs, width_buffers)
+            ]
             all_polygons_list.append(polygons_list)
         extended_layer_polygons_dict[layername] = all_polygons_list
 

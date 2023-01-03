@@ -83,16 +83,15 @@ def add_volume(occ, entry, lines_dict, points_dict):
     Returns:
         GMSH volume for this entry.
     """
-    gmsh_surfaces = []
     # Draw bottom surface
     bottom_polygon = entry[0][1]
     bottom_polygon_z = entry[0][0]
     bottom_polygon_vertices = [
         (x, y, bottom_polygon_z) for x, y in bottom_polygon.exterior.coords
     ]
-    gmsh_surfaces.append(
+    gmsh_surfaces = [
         add_surface(occ, bottom_polygon_vertices, lines_dict, points_dict)
-    )
+    ]
     # Draw top surface
     top_polygon = entry[-1][1]
     top_polygon_z = entry[-1][0]
@@ -358,11 +357,11 @@ if __name__ == "__main__":
     filtered_layerstack.layers["via_contact"].info["mesh_order"] = 4
     filtered_layerstack.layers["clad"].info["mesh_order"] = 5
 
-    resolutions = {}
-    resolutions["core"] = {"resolution": 0.1}
-    resolutions["slab90"] = {"resolution": 0.4}
-    resolutions["via_contact"] = {"resolution": 0.4}
-
+    resolutions = {
+        "core": {"resolution": 0.1},
+        "slab90": {"resolution": 0.4},
+        "via_contact": {"resolution": 0.4},
+    }
     geometry = xyz_mesh(
         component=c,
         layerstack=filtered_layerstack,
