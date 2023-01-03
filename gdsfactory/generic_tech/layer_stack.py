@@ -1,5 +1,5 @@
 from gdsfactory.generic_tech.layer_map import LAYER
-from gdsfactory.technology.layer_stack import LayerLevel, LayerStack
+from gdsfactory.technology import LayerLevel, LayerStack
 
 nm = 1e-3
 

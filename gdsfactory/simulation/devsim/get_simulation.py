@@ -237,7 +237,7 @@ def create_2Duz_simulation(
 if __name__ == "__main__":
 
     import gdsfactory as gf
-    from gdsfactory.technology import get_layer_stack_generic
+    from gdsfactory.generic_tech import get_layer_stack_generic
 
     # We choose a representative subdomain of the component
     waveguide = gf.Component()
@@ -251,7 +251,7 @@ if __name__ == "__main__":
     waveguide.show()
 
     # We will restrict the physical mesh to a subset of layers:
-    layermap = gf.tech.LayerMap()
+    layermap = gf.generic_tech.LayerMap()
     physical_layerstack = LayerStack(
         layers={
             k: get_layer_stack_generic().layers[k]
