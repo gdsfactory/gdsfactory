@@ -308,6 +308,7 @@ def cross_section(
     add_bbox: Optional[Callable] = None,
     add_center_section: bool = True,
     mirror: bool = False,
+    name: Optional[str] = None,
 ) -> CrossSection:
     """Return CrossSection.
 
@@ -342,6 +343,7 @@ def cross_section(
         add_center_section: whether a section with `width` and `layer`
               is added during extrude.
         mirror: if True, reflects the offsets.
+        name: cross section name for serialization
 
 
     .. plot::
@@ -380,6 +382,7 @@ def cross_section(
         add_pins=add_pins,
         add_center_section=add_center_section,
         mirror=mirror,
+        name=name,
     )
 
 
