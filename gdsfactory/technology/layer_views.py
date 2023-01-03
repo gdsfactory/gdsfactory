@@ -165,7 +165,7 @@ class LayerView(BaseModel):
     ):
         """Initialize LayerView object."""
         if (gds_layer is not None) and (gds_datatype is not None):
-            if data["layer"] is not None:
+            if "layer" in data.keys() and data["layer"] is not None:
                 raise KeyError(
                     "Specify either 'layer' or both 'gds_layer' and 'gds_datatype'."
                 )
@@ -188,8 +188,8 @@ class LayerView(BaseModel):
 
         super().__init__(**data)
 
-        if self.alpha is None:
-            self.alpha = self._alpha_from_lyp()
+        # if self.alpha is None:
+        #     self.alpha = self._alpha_from_lyp()
 
         # Iterate through all items, adding group members as needed
         for name, field in self.__fields__.items():
@@ -405,7 +405,9 @@ class LayerViews(BaseModel):
                     lv = LayerView(layer=self.layer_map[name], name=name, **lv_dict)
                 self.add_layer_view(name=name, layer_view=lv)
 
-    def add_layer_view(self, name: str, layer_view: Optional[LayerView]) -> None:
+    def add_layer_view(
+        self, name: str, layer_view: Optional[LayerView] = None, **kwargs
+    ) -> None:
         """Adds a layer to LayerViews.
 
         Args:
@@ -417,6 +419,8 @@ class LayerViews(BaseModel):
                 f"Adding {name!r} already defined {list(self.layer_views.keys())}"
             )
         else:
+            if layer_view is None:
+                layer_view = LayerView(name=name, **kwargs)
             self.layer_views[name] = layer_view
 
         # If the dither pattern is a CustomDitherPattern, add it to custom_patterns
