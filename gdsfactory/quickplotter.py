@@ -358,6 +358,7 @@ def _update_bbox(bbox, new_bbox):
 
 def _get_layerprop(layer, datatype):
     from gdsfactory.pdk import get_layer_views
+    from gdsfactory.utils.color_utils import ensure_six_digit_hex_color
 
     # Colors generated from here: http://phrogz.net/css/distinct-colors.html
     layer_colors = [
@@ -382,8 +383,8 @@ def _get_layerprop(layer, datatype):
     )
     if _layer is not None:
         color = {
-            "frame_color": _layer.frame_color.as_hex(),
-            "fill_color": _layer.fill_color.as_hex(),
+            "frame_color": ensure_six_digit_hex_color(_layer.frame_color.as_hex()),
+            "fill_color": ensure_six_digit_hex_color(_layer.fill_color.as_hex()),
         }
         alpha = _layer.alpha
         if color is None:

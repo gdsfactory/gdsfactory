@@ -1273,11 +1273,12 @@ class Component(_GeometryHelper):
                 hv.Polygons(polygon, label=str(layer_view.name)).opts(
                     data_aspect=1,
                     frame_width=500,
-                    fill_alpha=layer_view.alpha,
                     ylim=(b[1], b[3]),
                     xlim=(b[0], b[2]),
-                    color=layer_view.color,
-                    line_alpha=layer_view.alpha,
+                    fill_color=layer_view.fill_color.as_named() or "",
+                    line_color=layer_view.frame_color.as_named() or "",
+                    fill_alpha=layer_view.alpha or "",
+                    line_alpha=layer_view.alpha or "",
                     tools=["hover"],
                 )
             )
@@ -1293,7 +1294,7 @@ class Component(_GeometryHelper):
                     ylim=(b[1], b[3]),
                     xlim=(b[0], b[2]),
                     color="red",
-                    line_alpha=layer_view.alpha,
+                    line_alpha=layer_view.alpha or "",
                     tools=["hover"],
                 )
                 * hv.Text(ptip[0], ptip[1], name)
