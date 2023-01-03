@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [6.17.0](https://github.com/gdsfactory/gdsfactory/pull/1065)
+
+- basic conformal 3D meshing
+
 ## [6.16.3](https://github.com/gdsfactory/gdsfactory/pull/1064)
 
 - update tidy3d from 1.8.0 to 1.8.1
