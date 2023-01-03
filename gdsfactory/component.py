@@ -1394,7 +1394,9 @@ class Component(_GeometryHelper):
 
             return uz_xsection_mesh(self, xsection_bounds, layer_stack, **kwargs)
         elif type == "3D":
-            raise ValueError("3D meshing not fully implemented yet.")
+            from gdsfactory.simulation.gmsh.xyz_mesh import xyz_mesh
+
+            return xyz_mesh(self, layer_stack, **kwargs)
         else:
             raise ValueError(
                 'Required argument "type" must be one of "xy", "uz", or "3D".'
