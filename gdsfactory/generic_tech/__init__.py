@@ -4,7 +4,7 @@ from gdsfactory.generic_tech.layer_stack import get_layer_stack_generic
 from gdsfactory.technology import LayerViews
 
 LAYER = GenericLayerMap()
-LAYER_VIEWS = LayerViews.from_lyp(filepath=layer_path)
+LAYER_VIEWS = LayerViews(filepath=layer_path)
 LAYER_STACK = get_layer_stack_generic()
 
 PORT_MARKER_LAYER_TO_TYPE = {
