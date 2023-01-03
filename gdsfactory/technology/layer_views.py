@@ -121,7 +121,7 @@ class LayerView(BaseModel):
         group_members: Add a list of group members to the LayerView.
     """
 
-    name: str
+    name: Optional[str] = None
     info: Optional[str] = None
     alpha: Optional[float] = None
     layer: Optional[Layer] = None
@@ -356,13 +356,20 @@ class LayerViews(BaseModel):
         layer_views: Dictionary of LayerViews describing how to display gds layers.
         custom_dither_patterns: Custom dither patterns.
         custom_line_styles: Custom line styles.
+        layer_map: Specify a layer_map to get the layer tuple based on the name of the LayerView, rather than the 'layer' argument.
     """
 
     layer_views: Dict[str, LayerView] = Field(default_factory=dict)
     custom_dither_patterns: Dict[str, CustomDitherPattern] = Field(default_factory=dict)
     custom_line_styles: Dict[str, CustomLineStyle] = Field(default_factory=dict)
+    layer_map: Union[Dict[str, Layer], BaseModel] = Field(default_factory=dict)
 
-    def __init__(self, filepath: Optional[PathLike] = None, **data):
+    def __init__(
+        self,
+        filepath: Optional[PathLike] = None,
+        layer_map: Union[Dict[str, Layer], BaseModel] = None,
+        **data,
+    ):
         """Initialize LayerViews object."""
         if filepath is not None:
             filepath = pathlib.Path(filepath)
@@ -381,12 +388,22 @@ class LayerViews(BaseModel):
             data["custom_line_styles"] = lvs.custom_line_styles
             data["custom_dither_patterns"] = lvs.custom_dither_patterns
 
+        if isinstance(layer_map, BaseModel):
+            layer_map = layer_map.dict()
+
+        if layer_map is not None:
+            data.update({"layer_map": layer_map})
+
         super().__init__(**data)
 
-        for field in self.dict():
-            val = getattr(self, field)
-            if isinstance(val, LayerView):
-                self.add_layer_view(name=field, layer_view=val)
+        for name in self.dict():
+            lv = getattr(self, name)
+            if isinstance(lv, LayerView):
+                #
+                if (self.layer_map is not None) and (name in self.layer_map.keys()):
+                    lv_dict = lv.dict(exclude={"layer", "name"})
+                    lv = LayerView(layer=self.layer_map[name], name=name, **lv_dict)
+                self.add_layer_view(name=name, layer_view=lv)
 
     def add_layer_view(self, name: str, layer_view: Optional[LayerView]) -> None:
         """Adds a layer to LayerViews.
@@ -769,15 +786,15 @@ def _name_to_description(name_str) -> str:
 def test_load_lyp():
     from gdsfactory.config import layer_path
 
-    lys = LayerViews.from_lyp(layer_path)
+    lys = LayerViews(layer_path)
     assert len(lys.layer_views) > 10, len(lys.layer_views)
     return lys
 
 
 if __name__ == "__main__":
-    from gdsfactory.generic_tech import load_lyp_generic
+    from gdsfactory.config import layer_path
 
-    LAYER_VIEWS = load_lyp_generic()
+    LAYER_VIEWS = LayerViews(filepath=layer_path)
     # import gdsfactory as gf
 
     # c = gf.components.rectangle(layer=(123, 0))
