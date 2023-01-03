@@ -1,11 +1,9 @@
-name: bend_euler_c80f6a22
+name: bend_euler_f84cb6d2
 settings:
   changed:
     cross_section:
       function: cross_section
       settings:
-        add_bbox:
-          function: add_bbox_siepic
         add_pins:
           function: add_pins
         bbox_layers:
@@ -13,10 +11,6 @@ settings:
           - 0
         bbox_offsets:
         - 3
-        cladding_layers:
-        - DEVREC
-        cladding_offsets:
-        - 0
         layer:
         - 34
         - 0
@@ -35,8 +29,6 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_bbox:
-          function: add_bbox_siepic
         add_pins:
           function: add_pins
         bbox_layers:
@@ -44,10 +36,6 @@ settings:
           - 0
         bbox_offsets:
         - 3
-        cladding_layers:
-        - DEVREC
-        cladding_offsets:
-        - 0
         layer:
         - 34
         - 0
@@ -66,4 +54,4 @@ settings:
     width: 1.0
   info_version: 2
   module: gdsfactory.components.bend_euler
-  name: bend_euler_c80f6a22
+  name: bend_euler_f84cb6d2

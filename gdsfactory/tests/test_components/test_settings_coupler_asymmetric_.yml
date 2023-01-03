@@ -9,8 +9,6 @@ settings:
     dx: 10.0
     dy: 5.0
     gap: 0.234
-    straight:
-      function: straight
   full:
     bend:
       function: bend_s
@@ -18,8 +16,6 @@ settings:
     dx: 10.0
     dy: 5.0
     gap: 0.234
-    straight:
-      function: straight
   function_name: coupler_asymmetric
   info: {}
   info_version: 2

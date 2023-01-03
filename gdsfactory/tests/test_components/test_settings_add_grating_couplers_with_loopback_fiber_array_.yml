@@ -57,17 +57,6 @@ settings:
     component_name: null
     cross_section:
       function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - DEVREC
-        cladding_offsets:
-        - 0
     excluded_ports: null
     gc_port_name: o1
     gc_rotation: -90
@@ -89,8 +78,6 @@ settings:
       function: select_ports
       settings:
         port_type: optical
-    straight:
-      function: straight
     straight_separation: 5.0
     with_loopback: false
   full:
@@ -102,17 +89,6 @@ settings:
     component_name: null
     cross_section:
       function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - DEVREC
-        cladding_offsets:
-        - 0
     excluded_ports: null
     gc_port_name: o1
     gc_rotation: -90
@@ -134,8 +110,6 @@ settings:
       function: select_ports
       settings:
         port_type: optical
-    straight:
-      function: straight
     straight_separation: 5.0
     with_loopback: false
   function_name: add_grating_couplers_with_loopback_fiber_array

@@ -1,4 +1,4 @@
-# gdsfactory 6.15.3
+# gdsfactory 6.17.0
 
 [![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)](https://gdsfactory.github.io/gdsfactory/)
 [![PyPI](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -20,7 +20,46 @@
 
 GDSfactory is a design automation tool for photonics and analog circuits.
 
-You can describe your circuits with a code driven flow (python or YAML), verify them (DRC, simulation) and analyze them.
+You can describe your circuits in code (python or YAML), verify them (DRC, simulation) and analyze them.
+
+It provides you with an end to end flow for building chips.
+
+![workflow](https://i.imgur.com/abvxJJw.png)
+
+
+You can:
+
+- Design (Layout, Simulation, Optimization)
+    * define parametric cells (PCells) functions in python or YAML. Define routes between component ports.
+    * Test component settings, ports and geometry to avoid unwanted regressions.
+    * Capture design intent in a schematic.
+- Verificate (DRC, DFM, LVS)
+    * Run simulations directly from the layout thanks to the simulation interfaces. No need to draw the geometry more than once.
+        - Run Component simulations (solve modes, FDTD, EME, TCAD, thermal ...)
+        - Run Circuit simulations from the Component netlist (Sparameters, Spice ...)
+        - Build Component models and study Design For Manufacturing.
+    * Create DRC rule decks in Klayout.
+    * Make sure complex layouts match their design intent (Layout Versus Schematic).
+- Validate
+    * Make sure that as you define the layout you define the test sequence, so when the chips come back you already know how to test them.
+    * Model extraction: extract the important parameters for each component.
+    * Build a data pipeline from raw data, to structured data and dashboards for monitoring your chip performance.
+
+
+As input, you write python or YAML code.
+
+As output you write a GDSII or OASIS file that you can send to your foundry for fabrication.
+It also exports component settings (for measurement and data analysis) and netlists (for circuit simulations).
+
+![layout_to_components](https://i.imgur.com/JLsvpLv.png)
+
+![flow](https://i.imgur.com/XbhWJDz.png)
+
+
+It provides you a common syntax for design (KLayout, gdstk, Ansys Lumerical, tidy3d, MEEP, MPB, DEVSIM, SAX, ...), verification and validation.
+
+![tool interfaces](https://i.imgur.com/9fNLRvJ.png)
+
 
 Multiple Silicon Photonics foundries have gdsfactory PDKs available. Talk to your foundry to access their gdsfactory PDK.
 
@@ -31,29 +70,6 @@ You can also access:
     * [skywater130](https://gdsfactory.github.io/skywater130/README.html)
 - instructions on [how to build your own PDK](https://gdsfactory.github.io/gdsfactory/notebooks/08_pdk.html)
 - instructions on [how to import a PDK from a library of fixed GDS cells](https://gdsfactory.github.io/gdsfactory/notebooks/09_pdk_import.html)
-
-
-
-You can:
-
-- define parametric cells (PCells) in python or YAML.
-- define routes between components.
-- Test component settings, ports and geometry to avoid regressions.
-
-
-As input, you write python or YAML code.
-
-As output you write a GDSII or OASIS file that can send to your foundry.
-It also exports component settings (for measurement and data analysis) and netlists (for circuit simulations).
-
-![layout_to_components](https://i.imgur.com/JLsvpLv.png)
-
-![flow](https://i.imgur.com/XbhWJDz.png)
-
-
-It provides you a common syntax for layout (KLayout, gdstk), simulation (Lumerical, tidy3d, MEEP, MPB, DEVSIM, simphony, SAX, ...) and data analysis libraries.
-
-![tool interfaces](https://i.imgur.com/9fNLRvJ.png)
 
 
 ## Installation

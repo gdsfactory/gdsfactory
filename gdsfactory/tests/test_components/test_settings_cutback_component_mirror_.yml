@@ -31,8 +31,6 @@ settings:
     port1: o1
     port2: o2
     rows: 5
-    straight:
-      function: straight
     straight_length: null
   full:
     bend180:
@@ -49,8 +47,6 @@ settings:
     port1: o1
     port2: o2
     rows: 5
-    straight:
-      function: straight
     straight_length: null
   function_name: cutback_component
   info:
