@@ -89,9 +89,7 @@ def add_volume(occ, entry, lines_dict, points_dict):
     bottom_polygon_vertices = [
         (x, y, bottom_polygon_z) for x, y in bottom_polygon.exterior.coords
     ]
-    gmsh_surfaces = [
-        add_surface(occ, bottom_polygon_vertices, lines_dict, points_dict)
-    ]
+    gmsh_surfaces = [add_surface(occ, bottom_polygon_vertices, lines_dict, points_dict)]
     # Draw top surface
     top_polygon = entry[-1][1]
     top_polygon_z = entry[-1][0]
