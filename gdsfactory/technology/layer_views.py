@@ -153,8 +153,20 @@ class LayerView(BaseModel):
         else:
             return 0.5
 
-    def __init__(self, **data):
+    def __init__(
+        self,
+        gds_layer: Optional[int] = None,
+        gds_datatype: Optional[int] = None,
+        **data,
+    ):
         """Initialize LayerView object."""
+        if (gds_layer is not None) and (gds_datatype is not None):
+            if data["layer"] is not None:
+                raise KeyError(
+                    "Specify either 'layer' or both 'gds_layer' and 'gds_datatype'."
+                )
+            data["layer"] = (gds_layer, gds_datatype)
+
         super().__init__(**data)
 
         if self.alpha is None:
