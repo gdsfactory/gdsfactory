@@ -6,7 +6,10 @@ import numpy as np
 from devsim import (
     delete_device,
     delete_mesh,
+    edge_average_model,
+    edge_from_node_model,
     get_contact_list,
+    get_edge_model_list,
     get_edge_model_values,
     get_interface_list,
     get_node_model_values,
@@ -255,9 +258,53 @@ class DDComponent:
             )
             V += Vstep
 
+    def get_node_index(self, region_name):
+        """Maps head and tail nodes of from their edge index.
+
+        From https://github.com/devsim/devsim_misc/blob/9a3c7056e0e3e7fc49e17031a706573350292d4d/refinement/refinement2.py#L45
+        """
+        if "node_index@n0" not in get_edge_model_list(
+            device=self.device, region=region_name
+        ):
+            edge_from_node_model(
+                node_model="node_index", device=self.device, region=region_name
+            )
+        return list(
+            zip(
+                [
+                    int(x)
+                    for x in get_edge_model_values(
+                        device=self.device,
+                        region=region_name,
+                        name="node_index@n0",
+                    )
+                ],
+                [
+                    int(x)
+                    for x in get_edge_model_values(
+                        device=self.device,
+                        region=region_name,
+                        name="node_index@n1",
+                    )
+                ],
+            )
+        )
+
     def get_node_field(self, region_name, field_name="Electrons"):
         return get_node_model_values(
             device=self.device, region=region_name, name=field_name
+        )
+
+    def get_mean_edge_from_node_field(self, region_name, node_field="x"):
+        edge_average_model(
+            device=self.device,
+            region=region_name,
+            node_model=node_field,
+            edge_model=f"{node_field}@mean",
+            average_type="arithmetic",
+        )
+        return get_edge_model_values(
+            device=self.device, region=region_name, name=f"{node_field}@mean"
         )
 
     def get_edge_field(self, region_name, field_name="EdgeLength"):
