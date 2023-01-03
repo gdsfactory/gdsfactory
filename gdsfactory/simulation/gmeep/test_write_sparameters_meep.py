@@ -69,6 +69,7 @@ def test_sparameters_straight_mpi() -> None:
         c, ymargin=0, overwrite=True, **simulation_settings
     )
     sp = np.load(filepath)
+    sp = dict(sp)
 
     # Check reasonable reflection/transmission
     assert np.allclose(np.abs(sp["o1@0,o2@0"]), 1, atol=1e-02), np.abs(sp["o1@0,o2@0"])
@@ -96,6 +97,7 @@ def test_sparameters_straight_batch() -> None:
 
     filepath = filepaths[0]
     sp = np.load(filepath)
+    sp = dict(sp)
 
     # Check reasonable reflection/transmission
     assert np.allclose(np.abs(sp["o1@0,o2@0"]), 1, atol=1e-02), np.abs(sp["o1@0,o2@0"])
@@ -131,7 +133,7 @@ def test_sparameters_lazy_parallelism() -> None:
     filepath_serial = gm.write_sparameters_meep_mpi(
         c, ymargin=0, overwrite=True, lazy_parallelism=False, **simulation_settings
     )
-    sp_serial = np.load(filepath_serial)
+    sp_serial = dict(np.load(filepath_serial))
 
     # Check matching reflection/transmission
     assert np.allclose(sp_parallel["o1@0,o1@0"], sp_serial["o1@0,o1@0"], atol=1e-2)
@@ -141,11 +143,22 @@ def test_sparameters_lazy_parallelism() -> None:
 
 
 if __name__ == "__main__":
-    test_sparameters_straight()
+    # test_sparameters_straight()
     # test_sparameters_straight_mpi(None)
     # test_sparameters_crossing_symmetric(False)
     # test_sparameterslazy_parallelism()
     # test_sparameters_straight_symmetric()
     # test_sparameters_straight_batch()
-    # test_sparameters_straight_mpi()
+    test_sparameters_straight_mpi()
     # test_sparameters_crossing_symmetric()
+
+    # c = gf.components.straight(length=2)
+    # p = 3
+    # c = gf.add_padding_container(c, default=0, top=p, bottom=p)
+    # filepath = gm.write_sparameters_meep_mpi(
+    #     c, ymargin=0, overwrite=True, **simulation_settings
+    # )
+    # sp = dict(np.load(filepath))
+
+    # # Check reasonable reflection/transmission
+    # assert np.allclose(np.abs(sp["o1@0,o2@0"]), 1, atol=1e-02), np.abs(sp["o1@0,o2@0"])

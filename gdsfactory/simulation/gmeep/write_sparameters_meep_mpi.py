@@ -180,7 +180,7 @@ def write_sparameters_meep_mpi(
         "from gdsfactory.simulation.gmeep import write_sparameters_meep\n\n",
         "from gdsfactory.read import import_gds\n",
         'if __name__ == "__main__":\n\n',
-        f'\tcomponent = import_gds("{component_file}")\n',
+        f'\tcomponent = import_gds("{component_file}", read_metadata=True)\n',
         f"\twith open(\"{parameters_file}\", 'rb') as inp:\n",
         "\t\tparameters_dict = pickle.load(inp)\n\n" "\twrite_sparameters_meep(\n",
         "\t\tcomponent = component,\n",

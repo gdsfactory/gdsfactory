@@ -5,7 +5,7 @@ from typing import Optional
 import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler_ring import coupler_ring as _coupler_ring
-from gdsfactory.components.straight import straight as _straight
+from gdsfactory.components.straight import straight
 from gdsfactory.components.via_stack import via_stack_heater_m3
 from gdsfactory.types import ComponentSpec, CrossSectionSpec, Float2
 
@@ -19,7 +19,6 @@ def ring_single_heater(
     length_x: float = 4.0,
     length_y: float = 0.6,
     coupler_ring: ComponentSpec = _coupler_ring,
-    straight: ComponentSpec = _straight,
     bend: ComponentSpec = bend_euler,
     cross_section_waveguide_heater: CrossSectionSpec = "strip_heater_metal",
     cross_section: CrossSectionSpec = "strip",
@@ -39,7 +38,6 @@ def ring_single_heater(
         length_x: ring coupler length.
         length_y: vertical straight length.
         coupler_ring: ring coupler function.
-        straight: straight function.
         bend: 90 degrees bend function.
         cross_section_waveguide_heater: for heater.
         cross_section: for regular waveguide.
@@ -71,14 +69,12 @@ def ring_single_heater(
         **kwargs,
     )
 
-    straight_side = gf.get_component(
-        straight,
+    straight_side = straight(
         length=length_y,
         cross_section=cross_section_waveguide_heater,
         **kwargs,
     )
-    straight_top = gf.get_component(
-        straight,
+    straight_top = straight(
         length=length_x,
         cross_section=cross_section_waveguide_heater,
         **kwargs,
