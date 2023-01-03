@@ -19,6 +19,10 @@ import numpy as np
 from pydantic import BaseModel, Field
 from pydantic.color import Color
 
+from gdsfactory.config import logger
+
+PathLike = Union[pathlib.Path, str]
+
 Layer = Tuple[int, int]
 
 FrameAndFill = Literal["frame", "fill"]
@@ -346,8 +350,25 @@ class LayerViews(BaseModel):
     custom_dither_patterns: Dict[str, CustomDitherPattern] = Field(default_factory=dict)
     custom_line_styles: Dict[str, CustomLineStyle] = Field(default_factory=dict)
 
-    def __init__(self, **data):
+    def __init__(self, filepath: Optional[PathLike] = None, **data):
         """Initialize LayerViews object."""
+        if filepath is not None:
+            filepath = pathlib.Path(filepath)
+            if filepath.suffix == ".lyp":
+                lvs = LayerViews.from_lyp(filepath=filepath)
+                logger.info(
+                    f"Importing LayerViews from KLayout layer properties file: {filepath}."
+                )
+            elif (filepath.suffix == ".yaml") or (filepath.suffix == ".yml"):
+                lvs = LayerViews.from_yaml(layer_file=filepath)
+                logger.info(f"Importing LayerViews from YAML file: {filepath}.")
+            else:
+                raise ValueError(f"Unable to load LayerViews from {filepath}.")
+
+            data["layer_views"] = lvs.layer_views
+            data["custom_line_styles"] = lvs.custom_line_styles
+            data["custom_dither_patterns"] = lvs.custom_dither_patterns
+
         super().__init__(**data)
 
         for field in self.dict():
