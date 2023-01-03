@@ -42,7 +42,6 @@ def to_stl(
         ):
             height = layer_to_thickness[layer]
             zmin = layer_to_zmin[layer]
-            color_rgb = layer_views.get_from_tuple(layer).color.as_rgb_tuple()
             filepath_layer = (
                 filepath.parent
                 / f"{filepath.stem}_{layer[0]}_{layer[1]}{filepath.suffix}"
@@ -51,7 +50,10 @@ def to_stl(
                 p = shapely.geometry.Polygon(polygon)
                 mesh = extrude_polygon(p, height=height)
                 mesh.apply_translation((0, 0, zmin))
-                mesh.visual.face_colors = (*color_rgb, 0.5)
+                mesh.visual.face_colors = (
+                    *layer_views.get_from_tuple(layer).fill_color.as_rgb_tuple(),
+                    0.5,
+                )
                 mesh.export(filepath_layer)
 
 

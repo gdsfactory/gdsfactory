@@ -245,8 +245,8 @@ def quickplot(items, **kwargs):  # noqa: C901
                 new_bbox = _draw_polygons(
                     polygons,
                     ax,
-                    facecolor=layerprop["color"],
-                    edgecolor="k",
+                    facecolor=layerprop["fill_color"],
+                    edgecolor=layerprop["frame_color"],
                     alpha=layerprop["alpha"],
                 )
                 bbox = _update_bbox(bbox, new_bbox)
@@ -289,8 +289,8 @@ def quickplot(items, **kwargs):  # noqa: C901
             new_bbox = _draw_polygons(
                 item.points,
                 ax,
-                facecolor=layerprop["color"],
-                edgecolor="k",
+                facecolor=layerprop["fill_color"],
+                edgecolor=layerprop["frame_color"],
                 alpha=layerprop["alpha"],
             )
             bbox = _update_bbox(bbox, new_bbox)
@@ -360,7 +360,7 @@ def _get_layerprop(layer, datatype):
     from gdsfactory.pdk import get_layer_views
 
     # Colors generated from here: http://phrogz.net/css/distinct-colors.html
-    layer_views = [
+    layer_colors = [
         "#3dcc5c",
         "#2b0fff",
         "#cc3d3d",
@@ -381,14 +381,19 @@ def _get_layerprop(layer, datatype):
         else None
     )
     if _layer is not None:
-        color = _layer.color
+        color = {
+            "frame_color": _layer.frame_color.as_hex(),
+            "fill_color": _layer.fill_color.as_hex(),
+        }
         alpha = _layer.alpha
         if color is None:
-            color = layer_views[np.mod(layer, len(layer_views))]
+            color = layer_colors[np.mod(layer, len(layer_colors))]
     else:
-        color = layer_views[np.mod(layer, len(layer_views))]
+        color = layer_colors[np.mod(layer, len(layer_colors))]
         alpha = 0.6
-    return {"color": color, "alpha": alpha}
+    if not isinstance(color, dict):
+        color = {"frame_color": color, "fill_color": color}
+    return {**color, "alpha": alpha}
 
 
 def _draw_polygons(polygons, ax, **kwargs):
