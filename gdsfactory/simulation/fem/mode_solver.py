@@ -1,11 +1,20 @@
+import pathlib
+import time
+from typing import Optional
+
 import numpy as np
 from femwell import mode_solver
+from omegaconf import OmegaConf
 from skfem import Basis, ElementTriN2, ElementTriP0, ElementTriP2, Mesh
 
 import gdsfactory as gf
+from gdsfactory.config import logger
 from gdsfactory.pdk import _ACTIVE_PDK
+from gdsfactory.simulation.get_modes_path import (
+    get_modes_path_femwell as get_modes_path,
+)
 from gdsfactory.tech import LayerStack, get_layer_stack_generic
-from gdsfactory.types import CrossSectionSpec
+from gdsfactory.types import CrossSectionSpec, PathType
 
 
 def compute_cross_section_modes(
@@ -16,6 +25,9 @@ def compute_cross_section_modes(
     order: int = 1,
     radius: float = np.inf,
     mesh_filename: str = "mesh.msh",
+    dirpath: Optional[PathType] = None,
+    filepath: Optional[PathType] = None,
+    overwrite: bool = False,
     **kwargs,
 ):
     """Calculate effective index of a straight cross-section.
@@ -42,6 +54,37 @@ def compute_cross_section_modes(
         extra_shapes_dict: Optional[OrderedDict] = OrderedDict of {key: geo} with key a label and geo a shapely (Multi)Polygon or (Multi)LineString of extra shapes to override component.
         merge_by_material: boolean, if True will merge polygons from layers with the same layer.material. Physical keys will be material in this case.
     """
+    # Cache
+    sim_settings = dict(
+        wl=wl, num_modes=num_modes, radius=radius, order=order, **kwargs
+    )
+
+    filepath = filepath or get_modes_path(
+        cross_section=cross_section,
+        dirpath=dirpath,
+        layerstack=layerstack,
+        **sim_settings,
+    )
+
+    sim_settings = sim_settings.copy()
+    sim_settings["layerstack"] = layerstack.to_dict()
+    sim_settings["cross_section"] = gf.get_cross_section(cross_section).to_dict()
+    filepath = pathlib.Path(filepath)
+    filepath_sim_settings = filepath.with_suffix(".yml")
+
+    # Load if not overwrite
+    if filepath.exists():
+        if not overwrite:
+            logger.info(f"Simulation loaded from {filepath!r}")
+            modes_dict = dict(np.load(filepath, allow_pickle=True))
+            lams, basis, xs = modes_dict["lams"], modes_dict["basis"], modes_dict["xs"]
+            return lams, basis, xs
+        elif overwrite:
+            filepath.unlink()
+
+    # Otherwise calculate
+    start = time.time()
+
     # Get meshable component from cross-section
     c = gf.components.straight(length=10, cross_section=cross_section)
     c.show()
@@ -83,10 +126,18 @@ def compute_cross_section_modes(
         radius=radius,
     )
 
-    return lams, basis, xs
+    modes_dict = {"lams": lams, "basis": basis, "xs": xs}
+    print(modes_dict)
+    np.savez_compressed(filepath, **modes_dict)
+    end = time.time()
 
-    def plot_cross_section_modes():
-        return True
+    sim_settings.update(compute_time_seconds=end - start)
+    sim_settings.update(compute_time_minutes=(end - start) / 60)
+    logger.info(f"Write simulation results to {filepath!r}")
+    filepath_sim_settings.write_text(OmegaConf.to_yaml(sim_settings))
+    logger.info(f"Write simulation settings to {filepath_sim_settings!r}")
+
+    return lams, basis, xs
 
 
 if __name__ == "__main__":
@@ -117,6 +168,7 @@ if __name__ == "__main__":
         num_modes=4,
         order=1,
         radius=np.inf,
-        filename="mesh.msh",
+        mesh_filename="mesh.msh",
         resolutions=resolutions,
+        overwrite=False,
     )

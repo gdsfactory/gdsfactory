@@ -35,6 +35,7 @@ def test_compute_cross_section_mode():
         radius=np.inf,
         filename="mesh.msh",
         resolutions=resolutions,
+        overwrite=True,
     )
 
     assert len(lams) == 4
