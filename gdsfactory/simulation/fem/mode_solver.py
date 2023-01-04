@@ -72,16 +72,15 @@ def compute_cross_section_modes(
     filepath = pathlib.Path(filepath)
     filepath_sim_settings = filepath.with_suffix(".yml")
 
-    # Load if not overwrite
     if filepath.exists():
-        if not overwrite:
+        if overwrite:
+            filepath.unlink()
+
+        else:
             logger.info(f"Simulation loaded from {filepath!r}")
             modes_dict = dict(np.load(filepath, allow_pickle=True))
             lams, basis, xs = modes_dict["lams"], modes_dict["basis"], modes_dict["xs"]
             return lams, basis, xs
-        elif overwrite:
-            filepath.unlink()
-
     # Otherwise calculate
     start = time.time()
 
@@ -110,7 +109,7 @@ def compute_cross_section_modes(
             epsilon[basis0.get_dofs(elements=layername)] = (
                 _ACTIVE_PDK.materials_index[layer.material](wl) ** 2
             )
-        if "background_tag" in kwargs.keys():
+        if "background_tag" in kwargs:
             epsilon[basis0.get_dofs(elements=kwargs["background_tag"])] = (
                 _ACTIVE_PDK.materials_index[kwargs["background_tag"]](wl) ** 2
             )
@@ -155,12 +154,12 @@ if __name__ == "__main__":
 
     filtered_layerstack.layers["core"].thickness = 0.2
 
-    resolutions = {}
-    resolutions["core"] = {"resolution": 0.02, "distance": 2}
-    resolutions["clad"] = {"resolution": 0.2, "distance": 1}
-    resolutions["box"] = {"resolution": 0.2, "distance": 1}
-    resolutions["slab90"] = {"resolution": 0.05, "distance": 1}
-
+    resolutions = {
+        "core": {"resolution": 0.02, "distance": 2},
+        "clad": {"resolution": 0.2, "distance": 1},
+        "box": {"resolution": 0.2, "distance": 1},
+        "slab90": {"resolution": 0.05, "distance": 1},
+    }
     compute_cross_section_modes(
         cross_section="rib",
         layerstack=filtered_layerstack,
