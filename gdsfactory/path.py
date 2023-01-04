@@ -1013,7 +1013,7 @@ def arc(
     radius: float = 10.0,
     angle: float = 90,
     npoints: int = 720,
-    angle_init: Optional[float] = -90,
+    start_angle: Optional[float] = -90,
 ) -> Path:
     """Returns a radial arc.
 
@@ -1021,7 +1021,7 @@ def arc(
         radius: minimum radius of curvature.
         angle: total angle of the curve.
         npoints: Number of points used per 360 degrees.
-        angle_init: initial angle of the curve for drawing, default -90 degrees.
+        start_angle: initial angle of the curve for drawing, default -90 degrees.
 
     .. plot::
         :include-source:
@@ -1034,7 +1034,7 @@ def arc(
     """
     npoints = abs(int(npoints * angle / 360))
     t = np.linspace(
-        angle_init * np.pi / 180, (angle + angle_init) * np.pi / 180, npoints
+        start_angle * np.pi / 180, (angle + start_angle) * np.pi / 180, npoints
     )
     x = radius * np.cos(t)
     y = radius * (np.sin(t) + 1)
@@ -1043,8 +1043,8 @@ def arc(
     P = Path()
     # Manually add points & adjust start and end angles
     P.points = points
-    P.start_angle = angle_init + 90
-    P.end_angle = angle_init + angle + 90
+    P.start_angle = start_angle + 90
+    P.end_angle = start_angle + angle + 90
     return P
 
 
@@ -1402,19 +1402,15 @@ def _demo_variable_offset() -> None:
 if __name__ == "__main__":
     import numpy as np
 
-    """
-    init
-    """
-    import gdsfactory as gf
-
     points = np.array([(20, 10), (40, 10), (20, 40), (50, 40), (50, 20), (70, 20)])
 
-    p = smooth(
-        points=points,
-        radius=2,
-        bend=gf.path.euler,
-        use_eff=False,
-    )
+    # p = smooth(
+    #     points=points,
+    #     radius=2,
+    #     bend=gf.path.euler,
+    #     use_eff=False,
+    # )
+    p = arc(start_angle=0)
     c = p.extrude(layer=(1, 0), width=0.1)
 
     # p = straight()
