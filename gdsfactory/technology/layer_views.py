@@ -13,7 +13,7 @@ import os
 import pathlib
 import re
 import xml.etree.ElementTree as ET
-from typing import Dict, Literal, Optional, Set, Tuple, Union
+from typing import Dict, Optional, Set, Tuple, Union
 
 import numpy as np
 from pydantic import BaseModel, Field
@@ -24,10 +24,6 @@ from gdsfactory.config import logger
 PathLike = Union[pathlib.Path, str]
 
 Layer = Tuple[int, int]
-
-FrameAndFill = Literal["frame", "fill"]
-
-FrameAndFillBrightness = Dict[FrameAndFill, int]
 
 
 class CustomDitherPattern(BaseModel):
