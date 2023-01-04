@@ -12,7 +12,6 @@ we follow start from the bottom left and name the ports counter-clock-wise
          |   |
          8   7
 
-
 You can also rename them with W,E,S,N prefix (west, east, south, north).
 
     .. code::
@@ -25,6 +24,7 @@ You can also rename them with W,E,S,N prefix (west, east, south, north).
              |   |
             S0   S1
 
+Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 """
 from __future__ import annotations
 
