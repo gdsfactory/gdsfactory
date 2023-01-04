@@ -61,7 +61,8 @@ class Paths:
     module = module_path
     repo = repo_path
     results_tidy3d = home / ".tidy3d"
-    klayout = module / "generic_tech" / "klayout"
+    generic_tech = module / "generic_tech"
+    klayout = generic_tech / "klayout"
     klayout_tech = klayout / "tech"
     klayout_lyp = klayout_tech / "layers.lyp"
     schema_netlist = module_path / "tests" / "schemas" / "netlist.json"

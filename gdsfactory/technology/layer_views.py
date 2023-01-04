@@ -18,6 +18,7 @@ from typing import Dict, Optional, Set, Tuple, Union
 import numpy as np
 from pydantic import BaseModel, Field
 from pydantic.color import Color, ColorType
+from pydantic.typing import AbstractSetIntStr, DictStrAny, MappingIntStrAny
 
 from gdsfactory.config import logger
 
@@ -26,28 +27,29 @@ PathLike = Union[pathlib.Path, str]
 Layer = Tuple[int, int]
 
 
-class CustomDitherPattern(BaseModel):
+class HatchPattern(BaseModel):
     """Custom dither pattern. See KLayout documentation for more info.
 
     Attributes:
+        name: Name of the pattern.
         order: Order of pattern.
-        pattern: Pattern to use.
+        klayout_pattern: Pattern to use in KLayout.
     """
 
     name: str
     order: int
-    pattern: str
+    klayout_pattern: str
 
     class Config:
         """YAML output uses name as the key."""
 
         fields = {"name": {"exclude": True}}
 
-    def to_xml(self) -> ET.Element:
+    def to_klayout_xml(self) -> ET.Element:
         el = ET.Element("custom-dither-pattern")
 
         subel = ET.SubElement(el, "pattern")
-        lines = self.pattern.split("\n")
+        lines = self.klayout_pattern.split("\n")
         if len(lines) == 1:
             subel.text = lines[0]
         else:
@@ -59,27 +61,28 @@ class CustomDitherPattern(BaseModel):
         return el
 
 
-class CustomLineStyle(BaseModel):
+class LineStyle(BaseModel):
     """Custom line style. See KLayout documentation for more info.
 
     Attributes:
-        order: Order of pattern.
-        pattern: Pattern to use.
+        name: Name of the line style.
+        order: Order of line style.
+        klayout_pattern: Pattern to use.
     """
 
     name: str
     order: int
-    pattern: str
+    klayout_pattern: str
 
     class Config:
         """YAML output uses name as the key."""
 
         fields = {"name": {"exclude": True}}
 
-    def to_xml(self) -> ET.Element:
+    def to_klayout_xml(self) -> ET.Element:
         el = ET.Element("custom-line-pattern")
 
-        ET.SubElement(el, "pattern").text = str(self.pattern)
+        ET.SubElement(el, "pattern").text = str(self.klayout_pattern)
         ET.SubElement(el, "order").text = str(self.order)
         ET.SubElement(el, "name").text = self.name
         return el
@@ -101,20 +104,22 @@ class LayerView(BaseModel):
         line_style: This is the number of the line style used to draw the shape boundaries.
             An empty string is "solid line". The values are "Ix" for one of the built-in styles
             where "I0" is "solid", "I1" is "dotted" etc.
-        dither_pattern: This is the number of the dither pattern used to fill the shapes.
+        hatch_pattern: This is the number of the dither pattern used to fill the shapes.
             The values are "Ix" for one of the built-in pattern where "I0" is "solid" and "I1" is "clear".
-        animation: This is a value indicating the animation mode.
-            0 is "none", 1 is "scrolling", 2 is "blinking" and 3 is "inverse blinking".
         fill_color: Display color of the layer fill.
         frame_color: Display color of the layer frame.
             Accepts Pydantic Color types. See: https://docs.pydantic.dev/usage/types/#color-type for more info.
         fill_brightness: Brightness of the fill.
         frame_brightness: Brightness of the frame.
-        xfill: Whether boxes are drawn with a diagonal cross.
-        marked: Whether the entry is marked (drawn with small crosses).
+        animation: This is a value indicating the animation mode.
+            0 is "none", 1 is "scrolling", 2 is "blinking" and 3 is "inverse blinking".
+            (Only applies to KLayout layer properties)
+        xfill: Whether boxes are drawn with a diagonal cross. (Only applies to KLayout layer properties)
+        marked: Whether the entry is marked (drawn with small crosses). (Only applies to KLayout layer properties)
         transparent: Whether the entry is transparent.
         visible: Whether the entry is visible.
         valid: Whether the entry is valid. Invalid layers are drawn but you can't select shapes on those layers.
+            (Only applies to KLayout layer properties)
         group_members: Add a list of group members to the LayerView.
     """
 
@@ -127,8 +132,8 @@ class LayerView(BaseModel):
     fill_color: Optional[Color] = None
     frame_brightness: Optional[int] = None
     fill_brightness: Optional[int] = None
-    dither_pattern: Optional[Union[str, CustomDitherPattern]] = None
-    line_style: Optional[Union[str, CustomLineStyle]] = None
+    hatch_pattern: Optional[Union[str, HatchPattern]] = None
+    line_style: Optional[Union[str, LineStyle]] = None
     valid: bool = True
     visible: bool = True
     transparent: bool = False
@@ -147,7 +152,7 @@ class LayerView(BaseModel):
         if not self.visible:
             return 0.0
         elif not self.transparent:
-            dither_name = getattr(self.dither_pattern, "name", self.dither_pattern)
+            dither_name = getattr(self.hatch_pattern, "name", self.hatch_pattern)
             return 0.1 if dither_name == "I1" else 1.0
         else:
             return 0.5
@@ -185,14 +190,53 @@ class LayerView(BaseModel):
 
         super().__init__(**data)
 
-        # if self.alpha is None:
-        #     self.alpha = self._alpha_from_lyp()
+        if self.alpha is None:
+            self.alpha = self._alpha_from_lyp()
 
         # Iterate through all items, adding group members as needed
         for name, field in self.__fields__.items():
             default = field.get_default()
             if isinstance(default, LayerView):
                 self.group_members[name] = default
+
+    def dict(
+        self,
+        *,
+        include: Optional[Union[AbstractSetIntStr, MappingIntStrAny]] = None,
+        exclude: Optional[Union[AbstractSetIntStr, MappingIntStrAny]] = None,
+        by_alias: bool = False,
+        skip_defaults: Optional[bool] = None,
+        exclude_unset: bool = False,
+        exclude_defaults: bool = False,
+        exclude_none: bool = False,
+        simplify: bool = True,
+    ) -> DictStrAny:
+        """Generate a dictionary representation of the model, optionally specifying which fields to include or exclude.
+
+        Specify "simplify" to consolidate fill and frame color/brightness if they are the same.
+        """
+        _dict = super().dict(
+            include=include,
+            exclude=exclude,
+            by_alias=by_alias,
+            skip_defaults=skip_defaults,
+            exclude_unset=exclude_unset,
+            exclude_defaults=exclude_defaults,
+            exclude_none=exclude_none,
+        )
+
+        if simplify:
+            replace_keys = ["color", "brightness"]
+            for key in replace_keys:
+                fill = f"fill_{key}"
+                frame = f"frame_{key}"
+
+                if (fill in _dict.keys() and frame in _dict.keys()) and (
+                    _dict[fill] == _dict[frame]
+                ):
+                    _dict[key] = _dict.pop(f"frame_{key}")
+                    _ = _dict.pop(f"fill_{key}")
+        return _dict
 
     def __str__(self):
         """Returns a formatted view of properties and their values."""
@@ -204,27 +248,20 @@ class LayerView(BaseModel):
         """Returns a formatted view of properties and their values."""
         return self.__str__()
 
-    def _build_xml_element(self, tag: str, name: str) -> ET.Element:
+    def _build_klayout_xml_element(self, tag: str, name: str) -> ET.Element:
         """Get XML Element from attributes."""
         from gdsfactory.utils.color_utils import ensure_six_digit_hex_color
 
-        colors = {
+        prop_dict = {
             "frame-color": ensure_six_digit_hex_color(self.frame_color.as_hex()),
             "fill-color": ensure_six_digit_hex_color(self.fill_color.as_hex()),
-        }
-        brightnesses = {
             "frame-brightness": self.frame_brightness,
             "fill-brightness": self.fill_brightness,
-        }
-
-        prop_dict = {
-            **colors,
-            **brightnesses,
-            "dither-pattern": self.dither_pattern.name
-            if isinstance(self.dither_pattern, CustomDitherPattern)
-            else self.dither_pattern,
+            "dither-pattern": self.hatch_pattern.name
+            if isinstance(self.hatch_pattern, HatchPattern)
+            else self.hatch_pattern,
             "line-style": self.line_style.name
-            if isinstance(self.line_style, CustomLineStyle)
+            if isinstance(self.line_style, LineStyle)
             else self.line_style,
             "valid": str(self.valid).lower(),
             "visible": str(self.visible).lower(),
@@ -253,11 +290,13 @@ class LayerView(BaseModel):
             subel.text = str(value)
         return el
 
-    def to_xml(self) -> ET.Element:
+    def to_klayout_xml(self) -> ET.Element:
         """Return an XML representation of the LayerView."""
-        props = self._build_xml_element("properties", name=self.name)
+        props = self._build_klayout_xml_element("properties", name=self.name)
         for member_name, member in self.group_members.items():
-            props.append(member._build_xml_element("group-members", name=member_name))
+            props.append(
+                member._build_klayout_xml_element("group-members", name=member_name)
+            )
         return props
 
     @staticmethod
@@ -322,7 +361,7 @@ class LayerView(BaseModel):
             frame_color=element.find("frame-color").text,
             fill_brightness=element.find("fill-brightness").text,
             frame_brightness=element.find("frame-brightness").text,
-            dither_pattern=element.find("dither-pattern").text,
+            hatch_pattern=element.find("dither-pattern").text,
             line_style=element.find("line-style").text,
             valid=element.find("valid").text,
             visible=element.find("visible").text,
@@ -357,8 +396,8 @@ class LayerViews(BaseModel):
     """
 
     layer_views: Dict[str, LayerView] = Field(default_factory=dict)
-    custom_dither_patterns: Dict[str, CustomDitherPattern] = Field(default_factory=dict)
-    custom_line_styles: Dict[str, CustomLineStyle] = Field(default_factory=dict)
+    custom_dither_patterns: Dict[str, HatchPattern] = Field(default_factory=dict)
+    custom_line_styles: Dict[str, LineStyle] = Field(default_factory=dict)
     layer_map: Union[Dict[str, Layer], BaseModel] = Field(default_factory=dict)
 
     def __init__(
@@ -421,23 +460,23 @@ class LayerViews(BaseModel):
             self.layer_views[name] = layer_view
 
         # If the dither pattern is a CustomDitherPattern, add it to custom_patterns
-        dither_pattern = layer_view.dither_pattern
+        dither_pattern = layer_view.hatch_pattern
         if (
-            isinstance(dither_pattern, CustomDitherPattern)
+            isinstance(dither_pattern, HatchPattern)
             and dither_pattern not in self.custom_dither_patterns.keys()
         ):
             self.custom_dither_patterns[dither_pattern.name] = dither_pattern
 
-        # If dither_pattern is the name of a custom pattern, replace string with the CustomDitherPattern
+        # If hatch_pattern is the name of a custom pattern, replace string with the CustomDitherPattern
         elif (
             isinstance(dither_pattern, str)
             and dither_pattern in self.custom_dither_patterns.keys()
         ):
-            layer_view.dither_pattern = self.custom_dither_patterns[dither_pattern]
+            layer_view.hatch_pattern = self.custom_dither_patterns[dither_pattern]
 
         line_style = layer_view.line_style
         if (
-            isinstance(line_style, CustomLineStyle)
+            isinstance(line_style, LineStyle)
             and line_style not in self.custom_line_styles.keys()
         ):
             self.custom_line_styles[line_style.name] = line_style
@@ -589,13 +628,13 @@ class LayerViews(BaseModel):
         root = ET.Element("layer-properties")
 
         for name, lv in self.layer_views.items():
-            root.append(lv.to_xml())
+            root.append(lv.to_klayout_xml())
 
         for name, dp in self.custom_dither_patterns.items():
-            root.append(dp.to_xml())
+            root.append(dp.to_klayout_xml())
 
         for name, ls in self.custom_line_styles.items():
-            root.append(ls.to_xml())
+            root.append(ls.to_klayout_xml())
 
         filepath.write_bytes(make_pretty_xml(root))
 
@@ -633,10 +672,10 @@ class LayerViews(BaseModel):
                 [line.text for line in dither_block.find("pattern").iter()]
             )
 
-            dither_patterns[name] = CustomDitherPattern(
+            dither_patterns[name] = HatchPattern(
                 name=name,
                 order=int(order),
-                pattern=pattern.lstrip(),
+                klayout_pattern=pattern.lstrip(),
             )
         line_styles = {}
         for line_block in root.iter("custom-line-style"):
@@ -646,10 +685,10 @@ class LayerViews(BaseModel):
             if name is None or order is None:
                 continue
 
-            line_styles[name] = CustomLineStyle(
+            line_styles[name] = LineStyle(
                 name=name,
                 order=int(order),
-                pattern=line_block.find("pattern").text,
+                klayout_pattern=line_block.find("pattern").text,
             )
 
         layer_views = {}
@@ -697,10 +736,16 @@ class LayerViews(BaseModel):
         out_dict = {
             "LayerViews": lvs,
             "CustomDitherPatterns": {
-                name: dp.dict() for name, dp in self.custom_dither_patterns.items()
+                name: dp.dict(
+                    exclude_none=True, exclude_defaults=True, exclude_unset=True
+                )
+                for name, dp in self.custom_dither_patterns.items()
             },
             "CustomLineStyles": {
-                name: ls.dict() for name, ls in self.custom_line_styles.items()
+                name: ls.dict(
+                    exclude_none=True, exclude_defaults=True, exclude_unset=True
+                )
+                for name, ls in self.custom_line_styles.items()
             },
         }
 
@@ -738,11 +783,11 @@ class LayerViews(BaseModel):
         return LayerViews(
             layer_views=lvs,
             custom_dither_patterns={
-                name: CustomDitherPattern(name=name, **dp)
+                name: HatchPattern(name=name, **dp)
                 for name, dp in properties["CustomDitherPatterns"].items()
             },
             custom_line_styles={
-                name: CustomLineStyle(name=name, **ls)
+                name: LineStyle(name=name, **ls)
                 for name, ls in properties["CustomLineStyles"].items()
             },
         )
@@ -793,9 +838,10 @@ def test_load_lyp():
 
 
 if __name__ == "__main__":
-    from gdsfactory.config import layer_path
+    from gdsfactory.config import PATH, layer_path
 
     LAYER_VIEWS = LayerViews(filepath=layer_path)
+    LAYER_VIEWS.to_yaml(PATH.generic_tech / "layer_views.yaml")
     # import gdsfactory as gf
 
     # c = gf.components.rectangle(layer=(123, 0))
