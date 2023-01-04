@@ -31,8 +31,8 @@ major:
 	python docs/write_components_doc.py
 
 plugins:
-	mamba install pymeep=*=mpi_mpich_* -y
-	mamba install slepc4py=*=complex* -y
+	mamba install -c conda-forge pymeep=*=mpi_mpich_* -y
+	mamba install -c conda-forge slepc4py=*=complex* -y
 	pip install -e .[tidy3d]
 	pip install jax jaxlib
 	pip install --upgrade "protobuf<=3.20.1"
