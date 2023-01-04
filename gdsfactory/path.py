@@ -620,15 +620,15 @@ def transition(
     sections1 = [
         X1.aliases[alias] for alias in X1.aliases.keys() if alias in X2.aliases
     ]
+    sections2 = [
+        X2.aliases[alias] for alias in X2.aliases.keys() if alias in X1.aliases
+    ]
 
     if X1.cladding_layers:
         sections1 += [
             Section(width=X1.width + offset, layer=layer)
             for offset, layer in zip(X1.cladding_offsets, X2.cladding_layers)
         ]
-    sections2 = [
-        X2.aliases[alias] for alias in X2.aliases.keys() if alias in X1.aliases
-    ]
     if X2.cladding_layers:
         sections2 += [
             Section(width=X2.width + offset, layer=layer)
@@ -636,7 +636,6 @@ def transition(
         ]
 
     for section1, section2 in zip(sections1, sections2):
-
         offset1 = section1.offset
         offset2 = section2.offset
         width1 = section1.width
