@@ -2,7 +2,8 @@
 
 A path can be extruded using any CrossSection returning a Component
 The CrossSection defines the layer numbers, widths and offsets
-Based on phidl.path
+
+Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 """
 
 from __future__ import annotations

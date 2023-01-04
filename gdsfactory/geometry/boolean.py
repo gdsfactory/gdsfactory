@@ -1,3 +1,4 @@
+"""Based on phidl.geometry."""
 from __future__ import annotations
 
 from typing import Tuple, Union
@@ -26,7 +27,6 @@ def boolean(
     Note that 'A+B' is equivalent to 'or', 'A-B' is equivalent to 'not', and
     'B-A' is equivalent to 'not' with the operands switched
 
-    based on phidl.geometry.boolean
     You can also use gdsfactory.drc.boolean_klayout
 
     Args:

@@ -1,4 +1,7 @@
-"""Support for font rendering in GDS files."""
+"""Support for font rendering in GDS files.
+
+Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
+"""
 
 
 from __future__ import annotations

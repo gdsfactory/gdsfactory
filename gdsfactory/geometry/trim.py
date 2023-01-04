@@ -1,3 +1,8 @@
+"""Trim component.
+
+Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
+"""
+
 from __future__ import annotations
 
 from typing import List, Optional, Tuple
