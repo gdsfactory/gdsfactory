@@ -1008,13 +1008,19 @@ def _cut_path_with_ray(
     return np.array(points)
 
 
-def arc(radius: float = 10.0, angle: float = 90, npoints: int = 720) -> Path:
+def arc(
+    radius: float = 10.0,
+    angle: float = 90,
+    npoints: int = 720,
+    angle_init: Optional[float] = -90,
+) -> Path:
     """Returns a radial arc.
 
     Args:
         radius: minimum radius of curvature.
         angle: total angle of the curve.
         npoints: Number of points used per 360 degrees.
+        angle_init: initial angle of the curve for drawing, default -90 degrees.
 
     .. plot::
         :include-source:
@@ -1026,7 +1032,9 @@ def arc(radius: float = 10.0, angle: float = 90, npoints: int = 720) -> Path:
 
     """
     npoints = abs(int(npoints * angle / 360))
-    t = np.linspace(-90 * np.pi / 180, (angle - 90) * np.pi / 180, npoints)
+    t = np.linspace(
+        angle_init * np.pi / 180, (angle + angle_init) * np.pi / 180, npoints
+    )
     x = radius * np.cos(t)
     y = radius * (np.sin(t) + 1)
     points = np.array((x, y)).T * np.sign(angle)
@@ -1034,8 +1042,8 @@ def arc(radius: float = 10.0, angle: float = 90, npoints: int = 720) -> Path:
     P = Path()
     # Manually add points & adjust start and end angles
     P.points = points
-    P.start_angle = 0
-    P.end_angle = angle
+    P.start_angle = angle_init + 90
+    P.end_angle = angle_init + angle + 90
     return P
 
 
