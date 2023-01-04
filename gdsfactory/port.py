@@ -109,11 +109,15 @@ class Port:
         if cross_section is None and width is None:
             raise ValueError("You need Port to define cross_section or width")
 
+        if cross_section and not isinstance(cross_section, CrossSection):
+            raise ValueError(
+                f"cross_section = {cross_section} is not a valid CrossSection."
+            )
+
         if layer is None:
             layer = cross_section.layer
 
-        if width is None:
-            width = cross_section.width
+        width = width or cross_section.width
 
         self.layer = layer
         self.width = width
@@ -972,9 +976,17 @@ if __name__ == "__main__":
 
     import gdsfactory as gf
 
-    # c = gf.Component()
+    c = gf.Component()
+    cross_section = gf.cross_section.strip
+    c.add_port(
+        "o1",
+        center=(0, 0),
+        orientation=0,
+        port_type="optical",
+        cross_section=cross_section,
+    )
 
-    c = gf.components.straight_heater_metal()
+    # c = gf.components.straight_heater_metal()
     # c.auto_rename_ports()
     # auto_rename_ports_layer_orientation(c)
     # m = map_ports_layer_to_orientation(c.ports)
@@ -984,4 +996,4 @@ if __name__ == "__main__":
     # p0 = c.get_ports_list(orientation=0, clockwise=False)[0]
     # print(p0)
     # print(type(p0.to_dict()["center"][0]))
-    p = Port("o1", orientation=0, center=(9, 0), layer=(1, 0), width=10)
+    # p = Port("o1", orientation=0, center=(9, 0), layer=(1, 0), cross_section=)
