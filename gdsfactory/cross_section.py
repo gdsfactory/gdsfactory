@@ -132,8 +132,7 @@ class CrossSection(BaseModel):
             xs.width = width
         return xs
 
-    @property
-    def name(self) -> str:
+    def get_name(self) -> str:
         h = hashlib.md5(str(self).encode()).hexdigest()[:8]
         return f"xs_{h}"
 
