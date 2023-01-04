@@ -1,4 +1,7 @@
-"""Dummy fill to keep density constant."""
+"""Dummy fill to keep density constant.
+
+Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
+"""
 from __future__ import annotations
 
 import itertools
