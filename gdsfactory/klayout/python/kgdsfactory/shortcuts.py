@@ -69,7 +69,7 @@ def set_shortcuts():
     pya.Application.instance().set_config("key-bindings", config)
     pya.Application.instance().set_config("edit-connect-angle-mode", "ortho")
     pya.Application.instance().set_config("edit-inst-angle", "0")
-    pya.Application.instance().set_config("edit-move-angle-mode", "diagonal")
+    # pya.Application.instance().set_config("edit-move-angle-mode", "diagonal")
     pya.Application.instance().set_config("edit-snap-to-objects", "true")
     pya.Application.instance().set_config("grid-micron", "0.01")
     pya.Application.instance().set_config("edit-top-level-selection", "true")
