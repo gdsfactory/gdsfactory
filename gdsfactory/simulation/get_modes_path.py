@@ -42,13 +42,8 @@ def _get_modes_path(
     cross_section = gf.get_cross_section(cross_section)
 
     dirpath = pathlib.Path(dirpath)
-    dirpath = (
-        dirpath / cross_section.get_name()
-        if hasattr(cross_section, "function_name")
-        else dirpath
-    )
     dirpath.mkdir(exist_ok=True, parents=True)
-    return dirpath / f"{cross_section.name}_{get_kwargs_hash(**kwargs)}.npz"
+    return dirpath / f"{cross_section.get_name()}_{get_kwargs_hash(**kwargs)}.npz"
 
 
 def _get_modes_data(**kwargs) -> np.ndarray:
@@ -74,7 +69,7 @@ def test_get_modes_path(test: bool = True) -> None:
     layer_stack2 = deepcopy(LAYER_STACK)
     layer_stack2.layers["core"].thickness = 230 * nm
 
-    cross_section = gf.cross_section.strip(name="strip")
+    cross_section = gf.cross_section.strip()
 
     p1 = get_modes_path_femwell(cross_section=cross_section)
     p2 = get_modes_path_femwell(cross_section=cross_section, layer_stack=layer_stack2)
@@ -83,9 +78,9 @@ def test_get_modes_path(test: bool = True) -> None:
     )
 
     if test:
-        name1 = "strip_782ce72c"
-        name2 = "strip_a01df6f8"
-        name3 = "strip_e88b3d6d"
+        name1 = "xs_adfc05a6_782ce72c"
+        name2 = "xs_adfc05a6_a01df6f8"
+        name3 = "xs_adfc05a6_e88b3d6d"
 
         assert p1.stem == name1, p1.stem
         assert p2.stem == name2, p2.stem
@@ -107,4 +102,4 @@ if __name__ == "__main__":
     # print(modesd)
 
     # test_get_modes_path(test=False)
-    test_get_modes_path(test=True)
+    test_get_modes_path(test=False)
