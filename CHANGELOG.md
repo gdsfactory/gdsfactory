@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.18.0
+
+- TCAD adaptative meshing [PR](https://github.com/gdsfactory/gdsfactory/pull/1074)
+
 ## [6.17.0](https://github.com/gdsfactory/gdsfactory/pull/1065)
 
 - basic conformal 3D meshing

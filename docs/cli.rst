@@ -2,6 +2,6 @@
 Command line interface
 ########################################
 
-.. click:: gdsfactory.gf:gf
+.. click:: gdsfactory.cli:cli
    :prog: gf
    :nested: full
