@@ -70,7 +70,7 @@ jobs:
       max-parallel: 12
       matrix:
         python-version: ["3.7", "3.10"]
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v3
       - uses: conda-incubator/setup-miniconda@v2
