@@ -4,6 +4,7 @@
 
 - TCAD adaptative meshing [PR](https://github.com/gdsfactory/gdsfactory/pull/1074)
 - fix CLI docs [PR](https://github.com/gdsfactory/gdsfactory/pull/1076)
+- cache FEM modes [PR](https://github.com/gdsfactory/gdsfactory/pull/1079)
 
 ## [6.17.0](https://github.com/gdsfactory/gdsfactory/pull/1065)
 
