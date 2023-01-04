@@ -1,594 +1,603 @@
 LayerViews:
   Waveguide:
+    alpha: 1.0
     layer: [1, 0]
+    hatch_pattern: I2
+    width: 1
     color: "black"
     brightness: 0
-    dither_pattern: I2
-    width: 1
-  WGCLAD:
+  WGCLAD_111_0:
+    alpha: 0.0
     layer: [111, 0]
-    layer_in_name: true
-    color: "silver"
-    brightness: 0
-    dither_pattern: I3
+    hatch_pattern: I3
     visible: false
     width: 1
-  SLAB150:
+    color: "silver"
+    brightness: 0
+  SLAB150_2_0:
+    alpha: 0.5
     layer: [2, 0]
-    layer_in_name: true
+    hatch_pattern: I3
+    transparent: true
+    width: 1
     color: "cyan"
     brightness: 0
-    dither_pattern: I3
+  SLAB90_3_0:
+    alpha: 0.5
+    layer: [3, 0]
+    hatch_pattern: I3
     transparent: true
     width: 1
-  SLAB90:
-    layer: [3, 0]
-    layer_in_name: true
     color: "#805000"
     brightness: 0
-    dither_pattern: I3
-    transparent: true
-    width: 1
-  SHALLOWETCH:
+  SHALLOWETCH_2_6:
+    alpha: 1.0
     layer: [2, 6]
-    layer_in_name: true
+    hatch_pattern: I3
     color: "blue"
     brightness: 0
-    dither_pattern: I3
-  DEEPETCH:
+  DEEPETCH_3_6:
+    alpha: 1.0
     layer: [3, 6]
-    layer_in_name: true
+    hatch_pattern: I3
     color: "#cc0000"
     brightness: 0
-    dither_pattern: I3
-  SLAB150CLAD:
+  SLAB150CLAD_2_9:
+    alpha: 0.0
     layer: [2, 9]
-    layer_in_name: true
-    color:
-      fill: "#80a8ff"
-      frame: "#9999cc"
-    brightness: 0
-    dither_pattern: I3
+    frame_color: "#9999cc"
+    fill_color: "#80a8ff"
+    hatch_pattern: I3
     visible: false
     width: 1
-  SLAB90CLAD:
+    brightness: 0
+  SLAB90CLAD_3_1:
+    alpha: 0.0
     layer: [3, 1]
-    layer_in_name: true
-    color:
-      fill: "#80a8ff"
-      frame: "#9999cc"
-    brightness: 0
-    dither_pattern: I1
+    frame_color: "#9999cc"
+    fill_color: "#80a8ff"
+    hatch_pattern: I1
     visible: false
     width: 1
-  Doping:
     brightness: 0
+  Doping:
+    alpha: 1.0
     group_members:
-      N:
+      N_20_0:
+        alpha: 1.0
         layer: [20, 0]
-        layer_in_name: true
+        hatch_pattern: I5
+        width: 1
         color: "red"
         brightness: 0
-        dither_pattern: I5
-        width: 1
-      NP:
+      NP_22_0:
+        alpha: 1.0
         layer: [22, 0]
-        layer_in_name: true
+        hatch_pattern: I5
+        width: 1
         color: "red"
         brightness: 0
-        dither_pattern: I5
-        width: 1
-      NPP:
+      NPP_24_0:
+        alpha: 1.0
         layer: [24, 0]
-        layer_in_name: true
+        hatch_pattern: I6
+        width: 1
         color: "red"
         brightness: 0
-        dither_pattern: I6
-        width: 1
-      P 21.0:
+      P_210:
+        alpha: 0.5
         layer: [21, 0]
-        color: "blue"
-        brightness: 0
-        dither_pattern: I5
+        hatch_pattern: I5
         transparent: true
         width: 1
-      PP:
+        color: "blue"
+        brightness: 0
+      PP_23_0:
+        alpha: 1.0
         layer: [23, 0]
-        layer_in_name: true
+        hatch_pattern: I5
+        width: 1
         color: "blue"
         brightness: 0
-        dither_pattern: I5
-        width: 1
-      PPP:
+      PPP_25_0:
+        alpha: 1.0
         layer: [25, 0]
-        layer_in_name: true
+        hatch_pattern: I6
+        width: 1
         color: "blue"
         brightness: 0
-        dither_pattern: I6
-        width: 1
-      PDPP:
+      PDPP_27_0:
+        alpha: 1.0
         layer: [27, 0]
-        layer_in_name: true
+        hatch_pattern: I13
+        width: 1
         color: "#ccb27f"
         brightness: 0
-        dither_pattern: I13
-        width: 1
-      GENPP:
+      GENPP_26_0:
+        alpha: 1.0
         layer: [26, 0]
-        layer_in_name: true
+        hatch_pattern: I21
+        width: 1
         color: "#cc00cc"
         brightness: 0
-        dither_pattern: I21
-        width: 1
-      GEPPP:
+      GEPPP_29_0:
+        alpha: 1.0
         layer: [29, 0]
-        layer_in_name: true
+        hatch_pattern: I21
+        width: 1
         color: "#cc00cc"
         brightness: 0
-        dither_pattern: I21
-        width: 1
-  WGN Nitride:
-    layer: [34, 0]
-    layer_in_name: true
-    color: "#ff8000"
     brightness: 0
-    dither_pattern: I4
+  WGN_Nitride_34_0:
+    alpha: 0.5
+    layer: [34, 0]
+    hatch_pattern: I4
     transparent: true
     width: 1
-  WGNCLAD:
+    color: "#ff8000"
+    brightness: 0
+  WGNCLAD_36_0:
+    alpha: 0.0
     layer: [36, 0]
-    layer_in_name: true
+    hatch_pattern: I3
+    visible: false
+    width: 1
     color: "silver"
     brightness: 0
-    dither_pattern: I3
-    visible: false
-    width: 1
-  GE:
+  GE_5_0:
+    alpha: 1.0
     layer: [5, 0]
-    layer_in_name: true
+    hatch_pattern: I2
+    width: 1
     color: "magenta"
     brightness: 0
-    dither_pattern: I2
-    width: 1
-  SILICIDE:
+  SILICIDE_39_0:
+    alpha: 1.0
     layer: [39, 0]
-    layer_in_name: true
+    hatch_pattern: I11
+    width: 1
     color: "#cc4c00"
     brightness: 0
-    dither_pattern: I11
-    width: 1
-  MH:
+  MH_47_0:
+    alpha: 0.5
     layer: [47, 0]
-    layer_in_name: true
+    hatch_pattern: I15
+    transparent: true
+    width: 1
     color: "#ff8000"
     brightness: 0
-    dither_pattern: I15
-    transparent: true
-    width: 1
-  M1:
+  M1_41_0:
+    alpha: 1.0
     layer: [41, 0]
-    layer_in_name: true
+    hatch_pattern: I8
+    width: 1
     color: "#01ff6b"
     brightness: -16
-    dither_pattern: I8
-    width: 1
-  M2:
+  M2_45_0:
+    alpha: 1.0
     layer: [45, 0]
-    layer_in_name: true
+    hatch_pattern: I8
+    width: 1
     color: "#008050"
     brightness: 0
-    dither_pattern: I8
-    width: 1
-  M3:
+  M3_49_0:
+    alpha: 1.0
     layer: [49, 0]
-    layer_in_name: true
-    color:
-      fill: "#800057"
-      frame: "teal"
+    frame_color: "teal"
+    fill_color: "#800057"
+    hatch_pattern: I8
     brightness: 0
-    dither_pattern: I8
-  VIAC:
+  VIAC_40_0:
+    alpha: 1.0
     layer: [40, 0]
-    layer_in_name: true
+    hatch_pattern: I2
+    width: 1
     color: "#cc4c00"
     brightness: 0
-    dither_pattern: I2
-    width: 1
-  VIA1:
+  VIA1_44_0:
+    alpha: 1.0
     layer: [44, 0]
-    layer_in_name: true
+    hatch_pattern: I2
+    width: 1
     color: "grey"
     brightness: 0
-    dither_pattern: I2
-    width: 1
-  VIA2:
+  VIA2_43_0:
+    alpha: 1.0
     layer: [43, 0]
-    layer_in_name: true
+    hatch_pattern: I2
+    width: 1
     color: "#805000"
     brightness: 0
-    dither_pattern: I2
-    width: 1
-  CAPACITOR:
+  CAPACITOR_42_0:
+    alpha: 1.0
     layer: [42, 0]
-    layer_in_name: true
+    hatch_pattern: I2
+    width: 1
     color: "#805000"
     brightness: 0
-    dither_pattern: I2
-    width: 1
-  METALOPEN:
+  METALOPEN_46_0:
+    alpha: 1.0
     layer: [46, 0]
-    layer_in_name: true
+    hatch_pattern: I12
+    width: 1
     color: "#606060"
     brightness: 0
-    dither_pattern: I12
-    width: 1
-  DEEPTRENCH:
+  DEEPTRENCH_4_0:
+    alpha: 1.0
     layer: [4, 0]
-    layer_in_name: true
+    hatch_pattern: I9
+    width: 1
     color: "#9999cc"
     brightness: 0
-    dither_pattern: I9
-    width: 1
-  OXIDE_ETCH:
+  OXIDE_ETCH_6_0:
+    alpha: 1.0
     layer: [6, 0]
-    layer_in_name: true
+    hatch_pattern: I6
+    width: 1
     color: "black"
     brightness: 0
-    dither_pattern: I6
-    width: 1
-  SITILES:
+  SITILES_190_0:
+    alpha: 1.0
     layer: [190, 0]
-    layer_in_name: true
+    hatch_pattern: I3
+    width: 1
     color: "black"
     brightness: 0
-    dither_pattern: I3
-    width: 1
-  M1TILES:
+  M1TILES_191_0:
+    alpha: 1.0
     layer: [191, 0]
-    layer_in_name: true
+    hatch_pattern: I3
+    width: 1
     color: "#91ff00"
     brightness: 0
-    dither_pattern: I3
-    width: 1
-  LABEL OPTICAL IO:
+  LABEL_OPTICAL_IO_201_0:
+    alpha: 0.1
     layer: [201, 0]
-    layer_in_name: true
+    hatch_pattern: I1
+    width: 1
     color: "blue"
     brightness: 0
-    dither_pattern: I1
-    width: 1
-  LABEL_SETTINGS:
+  LABEL_SETTINGS_202_0:
+    alpha: 0.0
     layer: [202, 0]
-    layer_in_name: true
+    hatch_pattern: I1
+    visible: false
+    width: 1
     color: "magenta"
     brightness: 0
-    dither_pattern: I1
-    visible: false
-    width: 1
-  TE:
+  TE_203_0:
+    alpha: 0.5
     layer: [203, 0]
-    layer_in_name: true
-    color: "blue"
-    brightness: 0
-    dither_pattern: I0
+    hatch_pattern: I0
     transparent: true
     width: 1
-  TM:
-    layer: [204, 0]
-    layer_in_name: true
-    color: "red"
-    brightness: 0
-    dither_pattern: I0
-    width: 1
-  LABEL_INSTANCES:
-    layer: [206, 0]
-    layer_in_name: true
     color: "blue"
     brightness: 0
-    dither_pattern: I5
-  DICING:
+  TM_204_0:
+    alpha: 1.0
+    layer: [204, 0]
+    hatch_pattern: I0
+    width: 1
+    color: "red"
+    brightness: 0
+  LABEL_INSTANCES_206_0:
+    alpha: 1.0
+    layer: [206, 0]
+    hatch_pattern: I5
+    color: "blue"
+    brightness: 0
+  DICING_65_0:
+    alpha: 1.0
     layer: [65, 0]
-    layer_in_name: true
+    hatch_pattern: I3
+    width: 1
     color: "#cc0000"
     brightness: 0
-    dither_pattern: I3
-    width: 1
-  DRC_EXCLUDE:
+  DRC_EXCLUDE_67_0:
+    alpha: 0.0
     layer: [67, 0]
-    layer_in_name: true
-    color: "black"
-    brightness: 0
-    dither_pattern: I1
+    hatch_pattern: I1
     visible: false
     width: 2
-  FLOORPLAN:
-    layer: [64, 0]
-    layer_in_name: true
     color: "black"
     brightness: 0
-    dither_pattern: I1
-  simulation:
+  FLOORPLAN_64_0:
+    alpha: 0.1
+    layer: [64, 0]
+    hatch_pattern: I1
+    color: "black"
     brightness: 0
+  simulation:
+    alpha: 1.0
     group_members:
-      SIM_REGION:
+      SIM_REGION_100_0:
+        alpha: 0.1
         layer: [100, 0]
-        layer_in_name: true
+        hatch_pattern: I1
         color: "black"
         brightness: 0
-        dither_pattern: I1
-      MONITOR:
+      MONITOR_101_0:
+        alpha: 0.1
         layer: [101, 0]
-        layer_in_name: true
+        hatch_pattern: I1
         color: "blue"
         brightness: 0
-        dither_pattern: I1
-      SOURCE:
+      SOURCE_110_0:
+        alpha: 0.1
         layer: [110, 0]
-        layer_in_name: true
+        hatch_pattern: I1
         color: "red"
         brightness: 0
-        dither_pattern: I1
+    brightness: 0
   Lumerical:
+    alpha: 0.1
     layer: [733, 0]
+    hatch_pattern: I1
+    width: 3
     color: "#800057"
     brightness: 0
-    dither_pattern: I1
-    width: 3
   DevRec:
+    alpha: 0.0
     layer: [68, 0]
-    color: "#004080"
-    brightness: 0
-    dither_pattern: I1
+    hatch_pattern: I1
     visible: false
     transparent: true
     width: 1
+    color: "#004080"
+    brightness: 0
   PinRec:
+    alpha: 0.1
     layer: [1, 10]
+    hatch_pattern: I1
     color: "#404040"
     brightness: 0
-    dither_pattern: I1
   FbrTgt:
+    alpha: 1.0
     layer: [81, 0]
-    color: "#004080"
-    brightness: 0
-    dither_pattern: I9
+    hatch_pattern: I9
     width: 2
-  Text:
-    layer: [66, 0]
-    color: "blue"
-    brightness: 0
-    dither_pattern: I1
-    width: 1
-  Errors:
-    layer: [69, 0]
-    color: "blue"
-    brightness: 0
-    dither_pattern: I1
-    width: 1
-  PinRecM:
-    layer: [1, 11]
     color: "#004080"
     brightness: 0
-    dither_pattern: I1
+  Text:
+    alpha: 0.1
+    layer: [66, 0]
+    hatch_pattern: I1
     width: 1
-  XSECTION:
+    color: "blue"
     brightness: 0
+  Errors:
+    alpha: 0.1
+    layer: [69, 0]
+    hatch_pattern: I1
+    width: 1
+    color: "blue"
+    brightness: 0
+  PinRecM:
+    alpha: 0.1
+    layer: [1, 11]
+    hatch_pattern: I1
+    width: 1
+    color: "#004080"
+    brightness: 0
+  XSECTION:
+    alpha: 1.0
     group_members:
-      XS_BOX:
+      XS_BOX_300_0:
+        alpha: 1.0
         layer: [300, 0]
-        layer_in_name: true
+        hatch_pattern: I0
+        width: 1
         color: "#f3ff80"
         brightness: 0
-        dither_pattern: I0
-        width: 1
-      XS_SI:
+      XS_SI_301_0:
+        alpha: 1.0
         layer: [301, 0]
-        layer_in_name: true
+        hatch_pattern: I0
+        width: 1
         color: "black"
         brightness: 0
-        dither_pattern: I0
-        width: 1
-      XS_SIN:
+      XS_SIN_319_0:
+        alpha: 1.0
         layer: [319, 0]
-        layer_in_name: true
+        hatch_pattern: I0
+        width: 1
         color: "black"
         brightness: 0
-        dither_pattern: I0
-        width: 1
-      XS_N:
+      XS_N_320_0:
+        alpha: 1.0
         layer: [320, 0]
-        layer_in_name: true
+        hatch_pattern: I0
+        width: 1
         color: "#008ca5"
         brightness: 0
-        dither_pattern: I0
-        width: 1
-      XS_NPP:
+      XS_NPP_321_0:
+        alpha: 1.0
         layer: [321, 0]
-        layer_in_name: true
+        hatch_pattern: I0
+        width: 1
         color: "#004ca5"
         brightness: 0
-        dither_pattern: I0
-        width: 1
-      XS_P:
+      XS_P_330_0:
+        alpha: 1.0
         layer: [330, 0]
-        layer_in_name: true
+        hatch_pattern: I0
+        width: 1
         color: "#00f233"
         brightness: 0
-        dither_pattern: I0
-        width: 1
-      XS_PDPP:
+      XS_PDPP_327_0:
+        alpha: 1.0
         layer: [327, 0]
-        layer_in_name: true
+        hatch_pattern: I0
+        width: 1
         color: "#00f233"
         brightness: 0
-        dither_pattern: I0
-        width: 1
-      XS_PPP:
+      XS_PPP_331_0:
+        alpha: 1.0
         layer: [331, 0]
-        layer_in_name: true
+        hatch_pattern: I0
+        width: 1
         color: "#00b233"
         brightness: 0
-        dither_pattern: I0
-        width: 1
-      XS_SI_SLAB:
+      XS_SI_SLAB_313_0:
+        alpha: 1.0
         layer: [313, 0]
-        layer_in_name: true
+        hatch_pattern: I0
+        width: 1
         color: "#80a8ff"
         brightness: 0
-        dither_pattern: I0
-        width: 1
-      XS_OVERLAY:
+      XS_OVERLAY_311_0:
+        alpha: 1.0
         layer: [311, 0]
-        layer_in_name: true
+        hatch_pattern: I0
+        width: 1
         color: "blue"
         brightness: 0
-        dither_pattern: I0
-        width: 1
-      XS_OX_SI:
+      XS_OX_SI_302_0:
+        alpha: 1.0
         layer: [302, 0]
-        layer_in_name: true
+        hatch_pattern: I0
+        width: 1
         color: "#f3ff80"
         brightness: 0
-        dither_pattern: I0
-        width: 1
-      XS_GE:
+      XS_GE_315_0:
+        alpha: 1.0
         layer: [315, 0]
-        layer_in_name: true
+        hatch_pattern: I0
+        width: 1
         color: "#004ca5"
         brightness: 0
-        dither_pattern: I0
-        width: 1
-      XS_VIAC:
+      XS_VIAC_303_0:
+        alpha: 1.0
         layer: [303, 0]
-        layer_in_name: true
+        hatch_pattern: I0
+        width: 1
         color: "grey"
         brightness: 0
-        dither_pattern: I0
-        width: 1
-      XS_M1:
+      XS_M1_304_0:
+        alpha: 1.0
         layer: [304, 0]
-        layer_in_name: true
+        hatch_pattern: I0
+        width: 1
         color: "green"
         brightness: 0
-        dither_pattern: I0
-        width: 1
-      XS_OXIDE_M1:
+      XS_OXIDE_M1_305_0:
+        alpha: 1.0
         layer: [305, 0]
-        layer_in_name: true
+        hatch_pattern: I0
+        width: 1
         color: "#f3ff80"
         brightness: 0
-        dither_pattern: I0
-        width: 1
-      XS_MH:
+      XS_MH_306_0:
+        alpha: 1.0
         layer: [306, 0]
-        layer_in_name: true
+        hatch_pattern: I0
+        width: 1
         color: "green"
         brightness: 0
-        dither_pattern: I0
-        width: 1
-      XS_OXIDE_M2:
+      XS_OXIDE_M2_307_0:
+        alpha: 1.0
         layer: [307, 0]
-        layer_in_name: true
+        hatch_pattern: I0
+        width: 1
         color: "#f3ff80"
         brightness: 0
-        dither_pattern: I0
-        width: 1
-      XS_OXIDE_MH:
+      XS_OXIDE_MH_317_0:
+        alpha: 1.0
         layer: [317, 0]
-        layer_in_name: true
+        hatch_pattern: I0
+        width: 1
         color: "#f3ff80"
         brightness: 0
-        dither_pattern: I0
-        width: 1
-      XS_OXIDE_ML:
+      XS_OXIDE_ML_309_0:
+        alpha: 1.0
         layer: [309, 0]
-        layer_in_name: true
+        hatch_pattern: I0
+        width: 1
         color: "#f3ff80"
         brightness: 0
-        dither_pattern: I0
-        width: 1
-      XS_VIA1:
+      XS_VIA1_308_0:
+        alpha: 1.0
         layer: [308, 0]
-        layer_in_name: true
+        hatch_pattern: I0
+        width: 1
         color: "grey"
         brightness: 0
-        dither_pattern: I0
-        width: 1
-      XS_M2:
+      XS_M2_399_0:
+        alpha: 1.0
         layer: [399, 0]
-        layer_in_name: true
+        hatch_pattern: I0
+        width: 1
         color: "#805000"
         brightness: 0
-        dither_pattern: I0
-        width: 1
-      XS_OXIDE_M3:
+      XS_OXIDE_M3_311_0:
+        alpha: 1.0
         layer: [311, 0]
-        layer_in_name: true
+        hatch_pattern: I0
+        width: 1
         color: "#f3ff80"
         brightness: 0
-        dither_pattern: I0
-        width: 1
-      XS_VIA2:
+      XS_VIA2_310_0:
+        alpha: 1.0
         layer: [310, 0]
-        layer_in_name: true
+        hatch_pattern: I0
+        width: 1
         color: "grey"
         brightness: 0
-        dither_pattern: I0
-        width: 1
-      XS_SIN2:
+      XS_SIN2_305_0:
+        alpha: 1.0
         layer: [305, 0]
-        layer_in_name: true
+        hatch_pattern: I0
+        width: 1
         color: "#805000"
         brightness: 0
-        dither_pattern: I0
-        width: 1
-  DRC_MARKER:
+    brightness: 0
+  DRC_MARKER_205_0:
+    alpha: 0.5
     layer: [205, 0]
-    layer_in_name: true
-    color: "red"
-    brightness: 0
-    dither_pattern: I0
+    hatch_pattern: I0
     transparent: true
     width: 3
-  ERROR_MARKER:
+    color: "red"
+    brightness: 0
+  ERROR_MARKER_207_0:
+    alpha: 0.5
     layer: [207, 0]
-    layer_in_name: true
-    color: "red"
-    brightness: 0
-    dither_pattern: I0
+    hatch_pattern: I0
     transparent: true
     width: 3
-  NOTILE_M1:
+    color: "red"
+    brightness: 0
+  NOTILE_M1_71_0:
+    alpha: 0.0
     layer: [71, 0]
-    layer_in_name: true
+    hatch_pattern: I3
+    visible: false
     color: "grey"
     brightness: 0
-    dither_pattern: I3
-    visible: false
-  NOTILE_M2:
+  NOTILE_M2_72_0:
+    alpha: 0.0
     layer: [72, 0]
-    layer_in_name: true
+    hatch_pattern: I3
+    visible: false
     color: "grey"
     brightness: 0
-    dither_pattern: I3
-    visible: false
-  NOTILE_M3:
+  NOTILE_M3_73_0:
+    alpha: 0.0
     layer: [73, 0]
-    layer_in_name: true
+    hatch_pattern: I3
+    visible: false
     color: "#606060"
     brightness: 0
-    dither_pattern: I3
-    visible: false
-  SHOW_PORTS:
+  SHOW_PORTS_1_12:
+    alpha: 1.0
     layer: [1, 12]
-    layer_in_name: true
+    hatch_pattern: I5
     color: "#ff80a8"
     brightness: 0
-    dither_pattern: I5
 CustomDitherPatterns:
   DOTS:
     order: 7
-    pattern: |-
+    klayout_pattern: |-
       ................................
       ...*...*...*...*...*...*...*...*
       ................................
@@ -623,7 +632,7 @@ CustomDitherPatterns:
       .*...*...*...*...*...*...*...*..
   LINES_H_DENSE:
     order: 8
-    pattern: |-
+    klayout_pattern: |-
       ********************************
       ................................
       ********************************
@@ -658,7 +667,7 @@ CustomDitherPatterns:
       ................................
   LINES_H_BOLD:
     order: 204
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ****************
@@ -677,7 +686,7 @@ CustomDitherPatterns:
       ****************
   LINES_DIAG_R:
     order: 10
-    pattern: |-
+    klayout_pattern: |-
       .......*.......*.......*.......*
       ......*.......*.......*.......*.
       .....*.......*.......*.......*..
@@ -712,7 +721,7 @@ CustomDitherPatterns:
       *.......*.......*.......*.......
   DOTS_SPARSE:
     order: 11
-    pattern: |-
+    klayout_pattern: |-
       ................................
       .......*...............*........
       ................................
@@ -747,7 +756,7 @@ CustomDitherPatterns:
       .*...........*...*...........*..
   FILLED:
     order: 206
-    pattern: |-
+    klayout_pattern: |-
       ****************
       ****************
       ****************
@@ -766,7 +775,7 @@ CustomDitherPatterns:
       ****************
   dots:
     order: 12
-    pattern: |-
+    klayout_pattern: |-
       .*...*...*...*..
       ................
       ...*...*...*...*
@@ -785,7 +794,7 @@ CustomDitherPatterns:
       ................
   dots1:
     order: 218
-    pattern: |-
+    klayout_pattern: |-
       *...*...*...*...
       ................
       ..*...*...*...*.
@@ -804,7 +813,7 @@ CustomDitherPatterns:
       ................
   hLine:
     order: 14
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -823,7 +832,7 @@ CustomDitherPatterns:
       ****************
   vLine:
     order: 15
-    pattern: |-
+    klayout_pattern: |-
       ..*...*...*...*.
       ..*...*...*...*.
       ..*...*...*...*.
@@ -842,7 +851,7 @@ CustomDitherPatterns:
       ..*...*...*...*.
   cross:
     order: 16
-    pattern: |-
+    klayout_pattern: |-
       *...*...*...*...
       .*.*.*.*.*.*.*.*
       ..*...*...*...*.
@@ -861,7 +870,7 @@ CustomDitherPatterns:
       .*.*.*.*.*.*.*.*
   grid:
     order: 17
-    pattern: |-
+    klayout_pattern: |-
       ...*...*...*...*
       ...*...*...*...*
       ...*...*...*...*
@@ -880,7 +889,7 @@ CustomDitherPatterns:
       ****************
   slash:
     order: 18
-    pattern: |-
+    klayout_pattern: |-
       ...*...*...*...*
       ..*...*...*...*.
       .*...*...*...*..
@@ -899,7 +908,7 @@ CustomDitherPatterns:
       *...*...*...*...
   backSlash:
     order: 19
-    pattern: |-
+    klayout_pattern: |-
       *...*...*...*...
       .*...*...*...*..
       ..*...*...*...*.
@@ -918,7 +927,7 @@ CustomDitherPatterns:
       ...*...*...*...*
   hZigZag:
     order: 233
-    pattern: |-
+    klayout_pattern: |-
       .......*.......*
       .....**......**.
       ....*.......*...
@@ -937,7 +946,7 @@ CustomDitherPatterns:
       **......**......
   vZigZag:
     order: 263
-    pattern: |-
+    klayout_pattern: |-
       ....*.....*....*
       ....*....*....*.
       ...*....*.....*.
@@ -956,7 +965,7 @@ CustomDitherPatterns:
       *....*....*.....
   hCurb:
     order: 22
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ...*****...*****
@@ -975,7 +984,7 @@ CustomDitherPatterns:
       ................
   vCurb:
     order: 273
-    pattern: |-
+    klayout_pattern: |-
       ..****....****..
       ..*.......*.....
       ..*.......*.....
@@ -994,7 +1003,7 @@ CustomDitherPatterns:
       .....*.......*..
   brick:
     order: 24
-    pattern: |-
+    klayout_pattern: |-
       ****************
       ..*.......*.....
       ..*.......*.....
@@ -1013,7 +1022,7 @@ CustomDitherPatterns:
       ......*.......*.
   dagger:
     order: 25
-    pattern: |-
+    klayout_pattern: |-
       ................
       ..*.......*.....
       ..*.......*.....
@@ -1032,7 +1041,7 @@ CustomDitherPatterns:
       .....*.......*..
   triangle:
     order: 258
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       .......*********
@@ -1051,7 +1060,7 @@ CustomDitherPatterns:
       ................
   dots_rare:
     order: 27
-    pattern: |-
+    klayout_pattern: |-
       .*..............
       ................
       ................
@@ -1070,7 +1079,7 @@ CustomDitherPatterns:
       ................
   met1:
     order: 28
-    pattern: |-
+    klayout_pattern: |-
       *......*
       ........
       ........
@@ -1081,7 +1090,7 @@ CustomDitherPatterns:
       *......*
   stipple1:
     order: 29
-    pattern: |-
+    klayout_pattern: |-
       ****************
       ................
       ................
@@ -1100,7 +1109,7 @@ CustomDitherPatterns:
       ................
   dot1:
     order: 245
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -1119,7 +1128,7 @@ CustomDitherPatterns:
       *...............
   stipple3:
     order: 31
-    pattern: |-
+    klayout_pattern: |-
       *...*...*...*...
       *...*...*...*...
       *...*...*...*...
@@ -1138,7 +1147,7 @@ CustomDitherPatterns:
       *...*...*...*...
   stipple5:
     order: 226
-    pattern: |-
+    klayout_pattern: |-
       ................
       ****************
       ................
@@ -1157,7 +1166,7 @@ CustomDitherPatterns:
       ****************
   vcc2S:
     order: 33
-    pattern: |-
+    klayout_pattern: |-
       ...**......**...
       ....*.......*...
       .....**......**.
@@ -1176,7 +1185,7 @@ CustomDitherPatterns:
       ..*.......*.....
   zigZag:
     order: 34
-    pattern: |-
+    klayout_pattern: |-
       *...*...*...*...
       .*...*...*...*..
       ..*...*...*...*.
@@ -1195,7 +1204,7 @@ CustomDitherPatterns:
       .*...*...*...*..
   contp:
     order: 35
-    pattern: |-
+    klayout_pattern: |-
       **......**......
       **......**......
       ................
@@ -1214,7 +1223,7 @@ CustomDitherPatterns:
       ................
   stipple6:
     order: 36
-    pattern: |-
+    klayout_pattern: |-
       ...*............
       ..*.............
       .*..............
@@ -1233,7 +1242,7 @@ CustomDitherPatterns:
       ....*...........
   backslash1:
     order: 37
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -1252,7 +1261,7 @@ CustomDitherPatterns:
       ............*...
   backslash2:
     order: 38
-    pattern: |-
+    klayout_pattern: |-
       ...*............
       ................
       .....*..........
@@ -1271,7 +1280,7 @@ CustomDitherPatterns:
       ................
   dot3:
     order: 39
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ..*.....*.....*.
@@ -1290,7 +1299,7 @@ CustomDitherPatterns:
       ................
   zigZag2:
     order: 40
-    pattern: |-
+    klayout_pattern: |-
       **......**......
       .**......**.....
       ..**......**....
@@ -1309,7 +1318,7 @@ CustomDitherPatterns:
       .**......**.....
   slash1:
     order: 41
-    pattern: |-
+    klayout_pattern: |-
       ............*...
       ................
       ..........*.....
@@ -1328,7 +1337,7 @@ CustomDitherPatterns:
       ................
   cross1:
     order: 42
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -1347,7 +1356,7 @@ CustomDitherPatterns:
       ................
   thickBackSlash:
     order: 43
-    pattern: |-
+    klayout_pattern: |-
       *...............
       **..............
       .**.............
@@ -1366,7 +1375,7 @@ CustomDitherPatterns:
       ..............**
   stipple9:
     order: 44
-    pattern: |-
+    klayout_pattern: |-
       .*.*.*.*.*.*.*.*
       ................
       .*.*.*.*.*.*.*.*
@@ -1385,7 +1394,7 @@ CustomDitherPatterns:
       ................
   dot4:
     order: 45
-    pattern: |-
+    klayout_pattern: |-
       ................
       .*...*...*...*..
       ................
@@ -1404,10 +1413,10 @@ CustomDitherPatterns:
       ................
   stipple0:
     order: 46
-    pattern: '*'
+    klayout_pattern: '*'
   dot2:
     order: 249
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -1426,7 +1435,7 @@ CustomDitherPatterns:
       ................
   stipple14:
     order: 48
-    pattern: |-
+    klayout_pattern: |-
       .......*.......*
       ......*.......*.
       .....*.......*..
@@ -1445,7 +1454,7 @@ CustomDitherPatterns:
       *.......*.......
   stipple18:
     order: 49
-    pattern: |-
+    klayout_pattern: |-
       **..**..**..**..
       **..**..**..**..
       ..**..**..**..**
@@ -1464,7 +1473,7 @@ CustomDitherPatterns:
       ..**..**..**..**
   stipple4:
     order: 50
-    pattern: |-
+    klayout_pattern: |-
       ................
       *.*.*.*.*.*.*.*.
       ................
@@ -1483,7 +1492,7 @@ CustomDitherPatterns:
       *.*.*.*.*.*.*.*.
   stipple15:
     order: 51
-    pattern: |-
+    klayout_pattern: |-
       ..**..**..**..**
       ..**..**..**..**
       **..**..**..**..
@@ -1502,7 +1511,7 @@ CustomDitherPatterns:
       **..**..**..**..
   stipple47:
     order: 52
-    pattern: |-
+    klayout_pattern: |-
       *******.*******.
       *.....*.*.....*.
       *.***.*.*.***.*.
@@ -1521,7 +1530,7 @@ CustomDitherPatterns:
       ****************
   stipple31:
     order: 53
-    pattern: |-
+    klayout_pattern: |-
       .*.......*......
       .*.......*......
       .*.......*......
@@ -1540,7 +1549,7 @@ CustomDitherPatterns:
       ..*.......*.....
   stipple53:
     order: 54
-    pattern: |-
+    klayout_pattern: |-
       *.......*.......
       .*.......*......
       ..*.......*.....
@@ -1559,7 +1568,7 @@ CustomDitherPatterns:
       ....*.......*...
   stipple22:
     order: 55
-    pattern: |-
+    klayout_pattern: |-
       .**..**..**..**.
       *...*...*...*...
       ...*...*...*...*
@@ -1578,7 +1587,7 @@ CustomDitherPatterns:
       .**..**..**..**.
   stipple32:
     order: 56
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -1597,7 +1606,7 @@ CustomDitherPatterns:
       *.......*.......
   stipple61:
     order: 57
-    pattern: |-
+    klayout_pattern: |-
       .*..............
       .*..............
       .*..............
@@ -1616,7 +1625,7 @@ CustomDitherPatterns:
       .*..............
   stipple66:
     order: 58
-    pattern: |-
+    klayout_pattern: |-
       .**..**..**..**.
       *...*...*...*...
       ...*...*...*...*
@@ -1635,7 +1644,7 @@ CustomDitherPatterns:
       .**..**..**..**.
   stipple63:
     order: 59
-    pattern: |-
+    klayout_pattern: |-
       ....*..*....*..*
       .....**......**.
       .....**......**.
@@ -1654,7 +1663,7 @@ CustomDitherPatterns:
       *..*....*..*....
   stipple62:
     order: 60
-    pattern: |-
+    klayout_pattern: |-
       *...*...*...*...
       .*.*.*...*.*.*..
       ..*...*...*...*.
@@ -1673,7 +1682,7 @@ CustomDitherPatterns:
       ...*.*.*...*.*.*
   stipple36:
     order: 61
-    pattern: |-
+    klayout_pattern: |-
       ...*.......*....
       ..*.......*.....
       ..*.......*.....
@@ -1692,7 +1701,7 @@ CustomDitherPatterns:
       ...*.......*....
   stipple64:
     order: 62
-    pattern: |-
+    klayout_pattern: |-
       *.*.*.*.*.*.*.*.
       .*.*.*.*.*.*.*.*
       *.*.*.*.*.*.*.*.
@@ -1711,7 +1720,7 @@ CustomDitherPatterns:
       .*.*.*.*.*.*.*.*
   stipple24:
     order: 63
-    pattern: |-
+    klayout_pattern: |-
       ...*...*...*...*
       *...*...*...*...
       ...*...*...*...*
@@ -1730,7 +1739,7 @@ CustomDitherPatterns:
       *...*...*...*...
   stipple25:
     order: 64
-    pattern: |-
+    klayout_pattern: |-
       ............*...
       .............*..
       ..............*.
@@ -1749,7 +1758,7 @@ CustomDitherPatterns:
       ...........*....
   stipple30:
     order: 65
-    pattern: |-
+    klayout_pattern: |-
       ......*.........
       .......*........
       ........*.......
@@ -1768,7 +1777,7 @@ CustomDitherPatterns:
       .....*..........
   stipple51:
     order: 66
-    pattern: |-
+    klayout_pattern: |-
       ...*............
       ..*.............
       .*..............
@@ -1787,7 +1796,7 @@ CustomDitherPatterns:
       ....*...........
   stipple34:
     order: 67
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -1806,7 +1815,7 @@ CustomDitherPatterns:
       ................
   stipple42:
     order: 68
-    pattern: |-
+    klayout_pattern: |-
       *..*....*..*....
       .*....*..*....*.
       ....*..*....*..*
@@ -1825,7 +1834,7 @@ CustomDitherPatterns:
       ..*..*....*..*..
   stipple26:
     order: 69
-    pattern: |-
+    klayout_pattern: |-
       *.....***.....**
       *....*..*....*..
       ***.....***.....
@@ -1844,7 +1853,7 @@ CustomDitherPatterns:
       ...*..*....*..*.
   stipple46:
     order: 70
-    pattern: |-
+    klayout_pattern: |-
       *...............
       .*..............
       ..*.............
@@ -1863,7 +1872,7 @@ CustomDitherPatterns:
       ...............*
   stipple37:
     order: 71
-    pattern: |-
+    klayout_pattern: |-
       ****************
       ****************
       ****************
@@ -1882,7 +1891,7 @@ CustomDitherPatterns:
       ****************
   stipple60:
     order: 72
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -1901,7 +1910,7 @@ CustomDitherPatterns:
       ................
   stipple39:
     order: 73
-    pattern: |-
+    klayout_pattern: |-
       **..**..**..**..
       **..**..**..**..
       ..**..**..**..**
@@ -1920,7 +1929,7 @@ CustomDitherPatterns:
       ..**..**..**..**
   stipple40:
     order: 74
-    pattern: |-
+    klayout_pattern: |-
       .**..**..**..**.
       *...*...*...*...
       ...*...*...*...*
@@ -1939,7 +1948,7 @@ CustomDitherPatterns:
       .**..**..**..**.
   stipple27:
     order: 75
-    pattern: |-
+    klayout_pattern: |-
       ..*.......*.....
       ..*.......*.....
       ..*.......*.....
@@ -1958,7 +1967,7 @@ CustomDitherPatterns:
       **......**......
   stipple49:
     order: 76
-    pattern: |-
+    klayout_pattern: |-
       ...**......**...
       ..*..*....*..*..
       .*....*..*....*.
@@ -1977,7 +1986,7 @@ CustomDitherPatterns:
       ...**......**...
   stipple19:
     order: 77
-    pattern: |-
+    klayout_pattern: |-
       *.....*.....*...
       ................
       ...*.....*.....*
@@ -1996,7 +2005,7 @@ CustomDitherPatterns:
       ................
   stipple55:
     order: 78
-    pattern: |-
+    klayout_pattern: |-
       *...*****...****
       ......*.......*.
       ..*...*...*...*.
@@ -2015,7 +2024,7 @@ CustomDitherPatterns:
       ......*.......*.
   stipple2:
     order: 79
-    pattern: |-
+    klayout_pattern: |-
       ****....****....
       ****....****....
       ****....****....
@@ -2034,7 +2043,7 @@ CustomDitherPatterns:
       ....****....****
   thickdots:
     order: 80
-    pattern: |-
+    klayout_pattern: |-
       **......**......
       **......**......
       ................
@@ -2053,7 +2062,7 @@ CustomDitherPatterns:
       ................
   checker:
     order: 81
-    pattern: |-
+    klayout_pattern: |-
       ********........
       ********........
       ********........
@@ -2072,7 +2081,7 @@ CustomDitherPatterns:
       ........********
   slash4:
     order: 82
-    pattern: |-
+    klayout_pattern: |-
       ...*......*.....
       ..*......*......
       .*......*.......
@@ -2091,7 +2100,7 @@ CustomDitherPatterns:
       ...*......*.....
   rvZigZag:
     order: 83
-    pattern: |-
+    klayout_pattern: |-
       ....*.....*....*
       ....*....*.....*
       ...*....*.....*.
@@ -2110,7 +2119,7 @@ CustomDitherPatterns:
       *....*.....*....
   rZigZag:
     order: 84
-    pattern: |-
+    klayout_pattern: |-
       ......**......**
       .....*.......*..
       ...**......**...
@@ -2129,7 +2138,7 @@ CustomDitherPatterns:
       **......**......
   viap:
     order: 85
-    pattern: |-
+    klayout_pattern: |-
       ..*...*...*.....
       ................
       *...*...*...*...
@@ -2148,7 +2157,7 @@ CustomDitherPatterns:
       ...............*
   dots3:
     order: 86
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ..*.....*.....*.
@@ -2167,7 +2176,7 @@ CustomDitherPatterns:
       ................
   dotsa:
     order: 87
-    pattern: |-
+    klayout_pattern: |-
       .....*.......*..
       ................
       ................
@@ -2186,7 +2195,7 @@ CustomDitherPatterns:
       ................
   vs:
     order: 88
-    pattern: |-
+    klayout_pattern: |-
       *....**.....**..
       .*..*..*...*..*.
       ..**....***....*
@@ -2205,7 +2214,7 @@ CustomDitherPatterns:
       .*..*..*...*..*.
   dashCross:
     order: 89
-    pattern: |-
+    klayout_pattern: |-
       ........*...*...
       .*.*...*.*.....*
       ................
@@ -2224,7 +2233,7 @@ CustomDitherPatterns:
       .*.....*.*...*.*
   dashb5:
     order: 90
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       *.......*.......
@@ -2243,7 +2252,7 @@ CustomDitherPatterns:
       .....*.......*..
   dashb9:
     order: 91
-    pattern: |-
+    klayout_pattern: |-
       .*.......*......
       ..*.......*.....
       ...*.......*....
@@ -2262,7 +2271,7 @@ CustomDitherPatterns:
       ................
   dotA6:
     order: 92
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ......**......**
@@ -2281,7 +2290,7 @@ CustomDitherPatterns:
       ..**......**....
   dashf3:
     order: 93
-    pattern: |-
+    klayout_pattern: |-
       .....*.......*..
       ....*.......*...
       ................
@@ -2300,7 +2309,7 @@ CustomDitherPatterns:
       ......*.......*.
   snast2:
     order: 94
-    pattern: |-
+    klayout_pattern: |-
       *.*.*.*.*.*.*.*.
       ................
       *.*.*.*.*.*.*.*.
@@ -2319,7 +2328,7 @@ CustomDitherPatterns:
       ................
   snast1:
     order: 95
-    pattern: |-
+    klayout_pattern: |-
       .*.*.*.*
       *.*.*.*.
       .*.*.*.*
@@ -2330,7 +2339,7 @@ CustomDitherPatterns:
       *.*.*.*.
   dotC1:
     order: 96
-    pattern: |-
+    klayout_pattern: |-
       ..*.............
       ................
       ................
@@ -2349,7 +2358,7 @@ CustomDitherPatterns:
       ................
   dashv1:
     order: 97
-    pattern: |-
+    klayout_pattern: |-
       *.......*.......
       *.......*.......
       *.......*.......
@@ -2368,7 +2377,7 @@ CustomDitherPatterns:
       ................
   dotC2:
     order: 98
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -2387,7 +2396,7 @@ CustomDitherPatterns:
       ................
   dashv2:
     order: 99
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ..*.......*.....
@@ -2406,7 +2415,7 @@ CustomDitherPatterns:
       ..*.......*.....
   dotB3:
     order: 100
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ..*...*...*...*.
@@ -2425,7 +2434,7 @@ CustomDitherPatterns:
       ................
   dashf1:
     order: 101
-    pattern: |-
+    klayout_pattern: |-
       .....*.......*..
       ....*.......*...
       ...*.......*....
@@ -2444,7 +2453,7 @@ CustomDitherPatterns:
       ................
   dashv3:
     order: 102
-    pattern: |-
+    klayout_pattern: |-
       ....*.......*...
       ....*.......*...
       ................
@@ -2463,7 +2472,7 @@ CustomDitherPatterns:
       ....*.......*...
   dashb1:
     order: 103
-    pattern: |-
+    klayout_pattern: |-
       *.......*.......
       .*.......*......
       ..*.......*.....
@@ -2482,7 +2491,7 @@ CustomDitherPatterns:
       ................
   dashb4:
     order: 104
-    pattern: |-
+    klayout_pattern: |-
       *.......*.......
       .*.......*......
       ..*.......*.....
@@ -2501,7 +2510,7 @@ CustomDitherPatterns:
       .......*.......*
   dashv4:
     order: 105
-    pattern: |-
+    klayout_pattern: |-
       ......*.......*.
       ......*.......*.
       ......*.......*.
@@ -2520,7 +2529,7 @@ CustomDitherPatterns:
       ......*.......*.
   dashv5:
     order: 106
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       *.......*.......
@@ -2539,7 +2548,7 @@ CustomDitherPatterns:
       *.......*.......
   dotA2:
     order: 107
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ....**......**..
@@ -2558,7 +2567,7 @@ CustomDitherPatterns:
       **......**......
   dashb2:
     order: 108
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ..*.......*.....
@@ -2577,7 +2586,7 @@ CustomDitherPatterns:
       .......*.......*
   dashv6:
     order: 109
-    pattern: |-
+    klayout_pattern: |-
       ..*.......*.....
       ..*.......*.....
       ................
@@ -2596,7 +2605,7 @@ CustomDitherPatterns:
       ..*.......*.....
   dashb3:
     order: 110
-    pattern: |-
+    klayout_pattern: |-
       *.......*.......
       .*.......*......
       ................
@@ -2615,7 +2624,7 @@ CustomDitherPatterns:
       .......*.......*
   dashv7:
     order: 111
-    pattern: |-
+    klayout_pattern: |-
       ....*.......*...
       ....*.......*...
       ....*.......*...
@@ -2634,7 +2643,7 @@ CustomDitherPatterns:
       ....*.......*...
   dotA3:
     order: 112
-    pattern: |-
+    klayout_pattern: |-
       ....**......**..
       ....**......**..
       ................
@@ -2653,7 +2662,7 @@ CustomDitherPatterns:
       ................
   dashv8:
     order: 113
-    pattern: |-
+    klayout_pattern: |-
       ......*.......*.
       ......*.......*.
       ......*.......*.
@@ -2672,7 +2681,7 @@ CustomDitherPatterns:
       ................
   dashv9:
     order: 114
-    pattern: |-
+    klayout_pattern: |-
       .*.......*......
       .*.......*......
       .*.......*......
@@ -2691,7 +2700,7 @@ CustomDitherPatterns:
       ................
   dotA4:
     order: 115
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       **......**......
@@ -2710,7 +2719,7 @@ CustomDitherPatterns:
       ....**......**..
   dashb6:
     order: 116
-    pattern: |-
+    klayout_pattern: |-
       ......*.......*.
       .......*.......*
       ................
@@ -2729,7 +2738,7 @@ CustomDitherPatterns:
       .....*.......*..
   dashv10:
     order: 117
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ...*.......*....
@@ -2748,7 +2757,7 @@ CustomDitherPatterns:
       ...*.......*....
   dashb7:
     order: 118
-    pattern: |-
+    klayout_pattern: |-
       ......*.......*.
       .......*.......*
       *.......*.......
@@ -2767,7 +2776,7 @@ CustomDitherPatterns:
       .....*.......*..
   dashv11:
     order: 119
-    pattern: |-
+    klayout_pattern: |-
       .....*.......*..
       .....*.......*..
       ................
@@ -2786,7 +2795,7 @@ CustomDitherPatterns:
       .....*.......*..
   dotA5:
     order: 120
-    pattern: |-
+    klayout_pattern: |-
       ..**......**....
       ..**......**....
       ................
@@ -2805,7 +2814,7 @@ CustomDitherPatterns:
       ................
   dashb8:
     order: 121
-    pattern: |-
+    klayout_pattern: |-
       ......*.......*.
       .......*.......*
       *.......*.......
@@ -2824,7 +2833,7 @@ CustomDitherPatterns:
       ................
   dashv12:
     order: 122
-    pattern: |-
+    klayout_pattern: |-
       .......*.......*
       .......*.......*
       .......*.......*
@@ -2843,7 +2852,7 @@ CustomDitherPatterns:
       .......*.......*
   dashv13:
     order: 123
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       .*.......*......
@@ -2862,7 +2871,7 @@ CustomDitherPatterns:
       .*.......*......
   dashb10:
     order: 124
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ...*.......*....
@@ -2881,7 +2890,7 @@ CustomDitherPatterns:
       *.......*.......
   dashv14:
     order: 125
-    pattern: |-
+    klayout_pattern: |-
       ...*.......*....
       ...*.......*....
       ................
@@ -2900,7 +2909,7 @@ CustomDitherPatterns:
       ...*.......*....
   num2B1:
     order: 126
-    pattern: |-
+    klayout_pattern: |-
       ..**....****....
       .*..*...*...*...
       *....*..*....*..
@@ -2919,7 +2928,7 @@ CustomDitherPatterns:
       ................
   num2B2:
     order: 127
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ....**....****..
@@ -2938,7 +2947,7 @@ CustomDitherPatterns:
       ..******..****..
   num2B3:
     order: 128
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -2957,7 +2966,7 @@ CustomDitherPatterns:
       ....*.......*...
   num2B4:
     order: 129
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -2976,7 +2985,7 @@ CustomDitherPatterns:
       .......*......*.
   num2B5:
     order: 130
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ..**....****....
@@ -2995,7 +3004,7 @@ CustomDitherPatterns:
       ******..****....
   num4B1:
     order: 131
-    pattern: |-
+    klayout_pattern: |-
       .....*..****....
       ....**..*...*...
       ...*.*..*....*..
@@ -3014,7 +3023,7 @@ CustomDitherPatterns:
       ................
   num4B2:
     order: 132
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       .......*..****..
@@ -3033,7 +3042,7 @@ CustomDitherPatterns:
       .......*..****..
   num6B1:
     order: 133
-    pattern: |-
+    klayout_pattern: |-
       .....*..****....
       ....*...*...*...
       ...*....*....*..
@@ -3052,7 +3061,7 @@ CustomDitherPatterns:
       ................
   num6B2:
     order: 134
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       .......*..****..
@@ -3071,7 +3080,7 @@ CustomDitherPatterns:
       ..*****...****..
   i1:
     order: 135
-    pattern: |-
+    klayout_pattern: |-
       .*.............*
       *.*.............
       .*.*............
@@ -3090,7 +3099,7 @@ CustomDitherPatterns:
       *.............*.
   i2:
     order: 136
-    pattern: |-
+    klayout_pattern: |-
       *.............*.
       .............*.*
       ............*.*.
@@ -3109,7 +3118,7 @@ CustomDitherPatterns:
       .*.............*
   dashh1:
     order: 137
-    pattern: |-
+    klayout_pattern: |-
       ******..******..
       ................
       ................
@@ -3128,7 +3137,7 @@ CustomDitherPatterns:
       ................
   dashh2:
     order: 138
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ..******..******
@@ -3147,7 +3156,7 @@ CustomDitherPatterns:
       ................
   dashh3:
     order: 139
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -3166,7 +3175,7 @@ CustomDitherPatterns:
       ................
   dashh4:
     order: 140
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -3185,7 +3194,7 @@ CustomDitherPatterns:
       ................
   dashh5:
     order: 141
-    pattern: |-
+    klayout_pattern: |-
       ..******..******
       ................
       ................
@@ -3204,7 +3213,7 @@ CustomDitherPatterns:
       ................
   dashh6:
     order: 142
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       **..******..****
@@ -3223,7 +3232,7 @@ CustomDitherPatterns:
       ................
   dashh7:
     order: 143
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -3242,7 +3251,7 @@ CustomDitherPatterns:
       ................
   dashh8:
     order: 144
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -3261,7 +3270,7 @@ CustomDitherPatterns:
       ................
   dashh9:
     order: 145
-    pattern: |-
+    klayout_pattern: |-
       ................
       ******..******..
       ................
@@ -3280,7 +3289,7 @@ CustomDitherPatterns:
       ................
   dashh10:
     order: 146
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -3299,7 +3308,7 @@ CustomDitherPatterns:
       ................
   dashh11:
     order: 147
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -3318,7 +3327,7 @@ CustomDitherPatterns:
       ................
   dashh12:
     order: 148
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -3337,7 +3346,7 @@ CustomDitherPatterns:
       ****..******..**
   dashh13:
     order: 149
-    pattern: |-
+    klayout_pattern: |-
       ................
       ..******..******
       ................
@@ -3356,7 +3365,7 @@ CustomDitherPatterns:
       ................
   dashh14:
     order: 150
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -3375,7 +3384,7 @@ CustomDitherPatterns:
       ................
   gnd2S:
     order: 151
-    pattern: |-
+    klayout_pattern: |-
       *.....***.....**
       *.......*.......
       ***.....***.....
@@ -3394,7 +3403,7 @@ CustomDitherPatterns:
       ......*.......*.
   pat1:
     order: 152
-    pattern: |-
+    klayout_pattern: |-
       .....*....*....*
       ....*....*.....*
       ...*.....*....*.
@@ -3413,7 +3422,7 @@ CustomDitherPatterns:
       *....*.....*....
   poly2p:
     order: 153
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -3432,7 +3441,7 @@ CustomDitherPatterns:
       ................
   metal2S:
     order: 154
-    pattern: |-
+    klayout_pattern: |-
       *..............*
       ................
       ................
@@ -3451,7 +3460,7 @@ CustomDitherPatterns:
       *..............*
   vcc1S:
     order: 155
-    pattern: |-
+    klayout_pattern: |-
       *..**...*..**...
       .*..*....*..*...
       ..*..**...*..**.
@@ -3470,7 +3479,7 @@ CustomDitherPatterns:
       ..*....*..*....*
   stipple33:
     order: 156
-    pattern: |-
+    klayout_pattern: |-
       .........*......
       ........*.......
       .......*........
@@ -3489,7 +3498,7 @@ CustomDitherPatterns:
       ..........*.....
   stipple35:
     order: 157
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -3508,7 +3517,7 @@ CustomDitherPatterns:
       ................
   stipple10:
     order: 158
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -3527,7 +3536,7 @@ CustomDitherPatterns:
       ................
   stipple23:
     order: 159
-    pattern: |-
+    klayout_pattern: |-
       *.......*.......
       ................
       ..*.......*.....
@@ -3546,7 +3555,7 @@ CustomDitherPatterns:
       ................
   stipple28:
     order: 160
-    pattern: |-
+    klayout_pattern: |-
       ..*...*...*...*.
       ...*...*...*...*
       *...*...*...*...
@@ -3565,7 +3574,7 @@ CustomDitherPatterns:
       .*...*...*...*..
   stipple11:
     order: 161
-    pattern: |-
+    klayout_pattern: |-
       ....**...*......
       ....*.*..*......
       ....*..*.*......
@@ -3584,7 +3593,7 @@ CustomDitherPatterns:
       ................
   met2nitz:
     order: 162
-    pattern: |-
+    klayout_pattern: |-
       .*...........*..
       ..*...*...*.....
       ...*...*...*...*
@@ -3603,7 +3612,7 @@ CustomDitherPatterns:
       *...*...*.......
   wellp:
     order: 163
-    pattern: |-
+    klayout_pattern: |-
       ................................
       ................................
       ................................
@@ -3638,7 +3647,7 @@ CustomDitherPatterns:
       ................................
   hLine34:
     order: 164
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -3657,7 +3666,7 @@ CustomDitherPatterns:
       ................
   vLine35:
     order: 165
-    pattern: |-
+    klayout_pattern: |-
       .......*........
       .......*........
       .......*........
@@ -3676,7 +3685,7 @@ CustomDitherPatterns:
       .......*........
   medslash:
     order: 166
-    pattern: |-
+    klayout_pattern: |-
       ...*.......*....
       ..*.......*.....
       .*.......*......
@@ -3695,7 +3704,7 @@ CustomDitherPatterns:
       ....*.......*...
   num12:
     order: 167
-    pattern: |-
+    klayout_pattern: |-
       .....*..........
       ....*...........
       ...*............
@@ -3714,7 +3723,7 @@ CustomDitherPatterns:
       ......*.........
   num6:
     order: 168
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       .*...*...*...*..
@@ -3733,7 +3742,7 @@ CustomDitherPatterns:
       ...*...*...*...*
   num14:
     order: 169
-    pattern: |-
+    klayout_pattern: |-
       ..*.............
       ...*............
       ....*...........
@@ -3752,7 +3761,7 @@ CustomDitherPatterns:
       .*..............
   num135:
     order: 170
-    pattern: |-
+    klayout_pattern: |-
       ......*.........
       .......*........
       ................
@@ -3771,7 +3780,7 @@ CustomDitherPatterns:
       ................
   num21:
     order: 171
-    pattern: |-
+    klayout_pattern: |-
       ..*...*...*...*.
       .*.*.*.*.*.*.*.*
       *...*...*...*...
@@ -3790,7 +3799,7 @@ CustomDitherPatterns:
       ................
   num15:
     order: 172
-    pattern: |-
+    klayout_pattern: |-
       .....*.......*..
       ......*.......*.
       .......*.......*
@@ -3809,7 +3818,7 @@ CustomDitherPatterns:
       ....*.......*...
   num13:
     order: 173
-    pattern: |-
+    klayout_pattern: |-
       ............*...
       ...........*....
       ..........*.....
@@ -3828,7 +3837,7 @@ CustomDitherPatterns:
       .............*..
   num118:
     order: 174
-    pattern: |-
+    klayout_pattern: |-
       *...*...*...*...
       ................
       ..*...*...*...*.
@@ -3847,7 +3856,7 @@ CustomDitherPatterns:
       .*.*.*.*.*.*.*.*
   num109:
     order: 175
-    pattern: |-
+    klayout_pattern: |-
       .*..............
       *...............
       ...............*
@@ -3866,7 +3875,7 @@ CustomDitherPatterns:
       ..*.............
   num119:
     order: 176
-    pattern: |-
+    klayout_pattern: |-
       ..*.......*.....
       .***.....***....
       *****...*****...
@@ -3885,7 +3894,7 @@ CustomDitherPatterns:
       .***.....***....
   num112:
     order: 177
-    pattern: |-
+    klayout_pattern: |-
       .*.......*......
       ..*.......*.....
       ...*.......*....
@@ -3904,7 +3913,7 @@ CustomDitherPatterns:
       *.......*.......
   num205:
     order: 178
-    pattern: |-
+    klayout_pattern: |-
       .*...*...*...*..
       ..*...*...*...*.
       .*...*...*...*..
@@ -3923,7 +3932,7 @@ CustomDitherPatterns:
       *...*...*...*...
   num117:
     order: 179
-    pattern: |-
+    klayout_pattern: |-
       .......*.......*
       *.....*.*.....*.
       ................
@@ -3942,7 +3951,7 @@ CustomDitherPatterns:
       .......*.......*
   TekStp_151:
     order: 180
-    pattern: |-
+    klayout_pattern: |-
       .*....*.........
       .*....*.........
       .*....*.........
@@ -3961,7 +3970,7 @@ CustomDitherPatterns:
       ................
   TekStp_066:
     order: 181
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ..**..**..**..**
@@ -3980,7 +3989,7 @@ CustomDitherPatterns:
       ..**..**..**..**
   TekStp_134:
     order: 182
-    pattern: |-
+    klayout_pattern: |-
       ................
       .****...........
       .*...*..........
@@ -3999,7 +4008,7 @@ CustomDitherPatterns:
       ................
   TekStp_132:
     order: 183
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -4018,7 +4027,7 @@ CustomDitherPatterns:
       .........****...
   TekStp_059:
     order: 184
-    pattern: |-
+    klayout_pattern: |-
       .......**.......
       ......*..*......
       .....*....*.....
@@ -4037,7 +4046,7 @@ CustomDitherPatterns:
       .......**.......
   TekStp_056:
     order: 185
-    pattern: |-
+    klayout_pattern: |-
       ....*.......*...
       ..**.**...**.**.
       ..*...*...*...*.
@@ -4056,7 +4065,7 @@ CustomDitherPatterns:
       ................
   TekStp_047:
     order: 186
-    pattern: |-
+    klayout_pattern: |-
       *.*.*.*.*.*.*.*.
       *.*.*.*.*.*.*.*.
       *.*.*.*.*.*.*.*.
@@ -4075,7 +4084,7 @@ CustomDitherPatterns:
       *.*.*.*.*.*.*.*.
   TekStp_146:
     order: 187
-    pattern: |-
+    klayout_pattern: |-
       ****............
       *...*...........
       *...*...........
@@ -4094,7 +4103,7 @@ CustomDitherPatterns:
       ................
   TekStp_144:
     order: 188
-    pattern: |-
+    klayout_pattern: |-
       **...*..........
       **...*..........
       *.*..*..........
@@ -4113,7 +4122,7 @@ CustomDitherPatterns:
       ................
   TekStp_049:
     order: 189
-    pattern: |-
+    klayout_pattern: |-
       .*..*....*..*...
       ..**......**....
       ...*.......*....
@@ -4132,7 +4141,7 @@ CustomDitherPatterns:
       ................
   TekStp_046:
     order: 190
-    pattern: |-
+    klayout_pattern: |-
       ................
       .*.......*......
       ................
@@ -4151,7 +4160,7 @@ CustomDitherPatterns:
       .......*.......*
   TekStp_018:
     order: 191
-    pattern: |-
+    klayout_pattern: |-
       ................
       .*.*.....*.*....
       ................
@@ -4170,7 +4179,7 @@ CustomDitherPatterns:
       ................
   TekStp_148:
     order: 192
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -4189,7 +4198,7 @@ CustomDitherPatterns:
       ..........*....*
   TekStp_051:
     order: 193
-    pattern: |-
+    klayout_pattern: |-
       .....*.......*..
       *.*.*.*.*.*.*.*.
       ................
@@ -4208,7 +4217,7 @@ CustomDitherPatterns:
       *.*.*.*.*.*.*.*.
   pplusp:
     order: 194
-    pattern: |-
+    klayout_pattern: |-
       ................................
       ................................
       ................................
@@ -4243,7 +4252,7 @@ CustomDitherPatterns:
       ................................
   bt_solid:
     order: 195
-    pattern: |-
+    klayout_pattern: |-
       ********
       ********
       ********
@@ -4254,7 +4263,7 @@ CustomDitherPatterns:
       ********
   empty:
     order: 196
-    pattern: |-
+    klayout_pattern: |-
       ........
       ........
       ........
@@ -4265,7 +4274,7 @@ CustomDitherPatterns:
       ........
   os:
     order: 197
-    pattern: |-
+    klayout_pattern: |-
       *...*...*.*.*...
       .*.*.*...*...*.*
       ..*...*.*.*...*.
@@ -4284,7 +4293,7 @@ CustomDitherPatterns:
       .*.*...*...*.*.*
   slash2:
     order: 198
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -4303,7 +4312,7 @@ CustomDitherPatterns:
       ...*............
   slash3:
     order: 199
-    pattern: |-
+    klayout_pattern: |-
       ...............................*
       ................................
       .............................*..
@@ -4338,7 +4347,7 @@ CustomDitherPatterns:
       ................................
   sgrid:
     order: 200
-    pattern: |-
+    klayout_pattern: |-
       ****************
       ****************
       **.*.*.***.*.*.*
@@ -4357,7 +4366,7 @@ CustomDitherPatterns:
       ****************
   backSlash1:
     order: 201
-    pattern: |-
+    klayout_pattern: |-
       *...............
       ................
       ..*.............
@@ -4376,7 +4385,7 @@ CustomDitherPatterns:
       ................
   LEFTHATCHED_DENSE:
     order: 202
-    pattern: |-
+    klayout_pattern: |-
       **..**..
       .**..**.
       ..**..**
@@ -4387,7 +4396,7 @@ CustomDitherPatterns:
       *..**..*
   RIGHTHATCHED_LIGHT:
     order: 203
-    pattern: |-
+    klayout_pattern: |-
       *.......
       .......*
       ......*.
@@ -4398,7 +4407,7 @@ CustomDitherPatterns:
       .*......
   DOTSE_DENSE:
     order: 205
-    pattern: |-
+    klayout_pattern: |-
       .*.*.*.*.*.*.*.*
       *.*.*.*.*.*.*.*.
       .*.*.*.*.*.*.*.*
@@ -4417,7 +4426,7 @@ CustomDitherPatterns:
       *.*.*.*.*.*.*.*.
   LEFTHATCHED_LIGHT:
     order: 207
-    pattern: |-
+    klayout_pattern: |-
       *.......
       .*......
       ..*.....
@@ -4428,7 +4437,7 @@ CustomDitherPatterns:
       .......*
   CROSSHATCHED:
     order: 208
-    pattern: |-
+    klayout_pattern: |-
       *...*...
       .*.*.*.*
       ..*...*.
@@ -4439,7 +4448,7 @@ CustomDitherPatterns:
       .*.*.*.*
   LINES_V_DENSE:
     order: 209
-    pattern: |-
+    klayout_pattern: |-
       .*.*.*.*.*.*.*.*
       .*.*.*.*.*.*.*.*
       .*.*.*.*.*.*.*.*
@@ -4458,7 +4467,7 @@ CustomDitherPatterns:
       .*.*.*.*.*.*.*.*
   squaredot:
     order: 210
-    pattern: |-
+    klayout_pattern: |-
       ........
       ........
       ....**..
@@ -4469,7 +4478,7 @@ CustomDitherPatterns:
       **......
   EX:
     order: 211
-    pattern: |-
+    klayout_pattern: |-
       ....*****....*.....*............
       ....*.........*...*.............
       ....*..........*.*..............
@@ -4504,7 +4513,7 @@ CustomDitherPatterns:
       ................................
   RES:
     order: 212
-    pattern: |-
+    klayout_pattern: |-
       ...*...*......*****......**.....
       ...*..*.......*.........*..*....
       ...*.*........*.............*...
@@ -4539,7 +4548,7 @@ CustomDitherPatterns:
       ................................
   nF:
     order: 213
-    pattern: |-
+    klayout_pattern: |-
       ....*...........................
       ....*...........................
       ....*...........................
@@ -4574,7 +4583,7 @@ CustomDitherPatterns:
       ................................
   sparseDot:
     order: 214
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -4593,7 +4602,7 @@ CustomDitherPatterns:
       ..**............
   nstdSquare:
     order: 215
-    pattern: |-
+    klayout_pattern: |-
       ................
       .**************.
       .*............*.
@@ -4612,7 +4621,7 @@ CustomDitherPatterns:
       ................
   vWavey:
     order: 216
-    pattern: |-
+    klayout_pattern: |-
       **..**..**..**..
       ................
       ................
@@ -4631,7 +4640,7 @@ CustomDitherPatterns:
       ..**..**..**..**
   rhZigZag:
     order: 217
-    pattern: |-
+    klayout_pattern: |-
       *.......*.......
       .**......**.....
       ...*.......*....
@@ -4650,7 +4659,7 @@ CustomDitherPatterns:
       ......**......**
   EX_2:
     order: 219
-    pattern: |-
+    klayout_pattern: |-
       ................................
       ................................
       ................................
@@ -4685,7 +4694,7 @@ CustomDitherPatterns:
       ................................
   RES_2:
     order: 220
-    pattern: |-
+    klayout_pattern: |-
       ................................
       ................................
       ................................
@@ -4720,7 +4729,7 @@ CustomDitherPatterns:
       ................................
   nF_2:
     order: 221
-    pattern: |-
+    klayout_pattern: |-
       ..............*.................
       ..............*.................
       ..............*.................
@@ -4755,7 +4764,7 @@ CustomDitherPatterns:
       ................................
   dot2_1:
     order: 222
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -4774,7 +4783,7 @@ CustomDitherPatterns:
       ................
   Nightfall:
     order: 223
-    pattern: |-
+    klayout_pattern: |-
       ********************************
       ********************************
       ********************************
@@ -4809,7 +4818,7 @@ CustomDitherPatterns:
       ..******************************
   semiDenseDot:
     order: 224
-    pattern: |-
+    klayout_pattern: |-
       ................................
       ................................
       ................................
@@ -4844,7 +4853,7 @@ CustomDitherPatterns:
       **..............................
   sparseDot_2:
     order: 225
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -4863,7 +4872,7 @@ CustomDitherPatterns:
       ......**........
   ESD_1:
     order: 227
-    pattern: |-
+    klayout_pattern: |-
       ................................
       ................................
       ................................
@@ -4898,7 +4907,7 @@ CustomDitherPatterns:
       ................................
   ESD_2:
     order: 228
-    pattern: |-
+    klayout_pattern: |-
       ................................
       ................................
       ................................
@@ -4933,7 +4942,7 @@ CustomDitherPatterns:
       ................................
   dagger_1:
     order: 229
-    pattern: |-
+    klayout_pattern: |-
       .......*.......*
       **...*****...***
       .......*.......*
@@ -4952,7 +4961,7 @@ CustomDitherPatterns:
       .......*.......*
   n4:
     order: 230
-    pattern: |-
+    klayout_pattern: |-
       ......*.........................
       ......*.........................
       ......*.........................
@@ -4987,7 +4996,7 @@ CustomDitherPatterns:
       ................................
   x:
     order: 231
-    pattern: |-
+    klayout_pattern: |-
       .*.*.*.*.*.*.*.*
       ..*...*...*...*.
       .*.*.*.*.*.*.*.*
@@ -5006,7 +5015,7 @@ CustomDitherPatterns:
       *...*...*...*...
   EX_1:
     order: 232
-    pattern: |-
+    klayout_pattern: |-
       ................................
       ................................
       ................................
@@ -5041,7 +5050,7 @@ CustomDitherPatterns:
       ................................
   CAP_2:
     order: 234
-    pattern: |-
+    klayout_pattern: |-
       ................................
       ................................
       ................................
@@ -5076,7 +5085,7 @@ CustomDitherPatterns:
       ................................
   hZigZag_1:
     order: 235
-    pattern: |-
+    klayout_pattern: |-
       .*.......*......
       *......**......*
       ......*.......*.
@@ -5095,7 +5104,7 @@ CustomDitherPatterns:
       ..**......**....
   nF_1:
     order: 236
-    pattern: |-
+    klayout_pattern: |-
       .........*......................
       .........*......................
       .........*......................
@@ -5130,7 +5139,7 @@ CustomDitherPatterns:
       ................................
   ESD:
     order: 237
-    pattern: |-
+    klayout_pattern: |-
       ....*****......**.......***.....
       ....*.........*..*......*..*....
       ....*.............*.....*...*...
@@ -5165,7 +5174,7 @@ CustomDitherPatterns:
       ................................
   CAP:
     order: 238
-    pattern: |-
+    klayout_pattern: |-
       .....**......*....*....*........
       ....*..*.....*....*....*........
       ....*.........****.....*........
@@ -5200,7 +5209,7 @@ CustomDitherPatterns:
       ................................
   target:
     order: 239
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -5219,7 +5228,7 @@ CustomDitherPatterns:
       ................
   nF_3:
     order: 240
-    pattern: |-
+    klayout_pattern: |-
       ...................*............
       ...................*............
       ...................*............
@@ -5254,7 +5263,7 @@ CustomDitherPatterns:
       ................................
   hZigZag_2:
     order: 241
-    pattern: |-
+    klayout_pattern: |-
       ...*.......*....
       .**......**.....
       *.......*.......
@@ -5273,7 +5282,7 @@ CustomDitherPatterns:
       ....**......**..
   RES_1:
     order: 242
-    pattern: |-
+    klayout_pattern: |-
       ................................
       ................................
       ................................
@@ -5308,7 +5317,7 @@ CustomDitherPatterns:
       ................................
   CAP_1:
     order: 243
-    pattern: |-
+    klayout_pattern: |-
       ................................
       ................................
       ................................
@@ -5343,7 +5352,7 @@ CustomDitherPatterns:
       ................................
   semiSparseDot:
     order: 244
-    pattern: |-
+    klayout_pattern: |-
       ................................
       ................................
       ................................
@@ -5378,7 +5387,7 @@ CustomDitherPatterns:
       **..............................
   donot:
     order: 246
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -5397,7 +5406,7 @@ CustomDitherPatterns:
       ................
   sparseDot_1:
     order: 247
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -5416,7 +5425,7 @@ CustomDitherPatterns:
       ....**..........
   nstdDiamond_1:
     order: 248
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -5435,7 +5444,7 @@ CustomDitherPatterns:
       ................
   dot1_2:
     order: 250
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -5454,7 +5463,7 @@ CustomDitherPatterns:
       ....*...........
   fDash:
     order: 251
-    pattern: |-
+    klayout_pattern: |-
       ........
       ........
       *.......
@@ -5465,7 +5474,7 @@ CustomDitherPatterns:
       .....*..
   vDash:
     order: 252
-    pattern: |-
+    klayout_pattern: |-
       ........
       ........
       *.......
@@ -5476,7 +5485,7 @@ CustomDitherPatterns:
       *.......
   dot1_1:
     order: 253
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -5495,7 +5504,7 @@ CustomDitherPatterns:
       ..*.............
   GEN_2:
     order: 254
-    pattern: |-
+    klayout_pattern: |-
       ................................
       ................................
       ................................
@@ -5530,7 +5539,7 @@ CustomDitherPatterns:
       ................................
   slant_1:
     order: 255
-    pattern: |-
+    klayout_pattern: |-
       *.*.............
       .*.............*
       *.............*.
@@ -5549,7 +5558,7 @@ CustomDitherPatterns:
       .*.*............
   rslant_1:
     order: 256
-    pattern: |-
+    klayout_pattern: |-
       .*.*............
       ..*.*...........
       ...*.*..........
@@ -5568,7 +5577,7 @@ CustomDitherPatterns:
       *.*.............
   nF_4:
     order: 257
-    pattern: |-
+    klayout_pattern: |-
       ........................*.......
       ........................*.......
       ........................*.......
@@ -5603,7 +5612,7 @@ CustomDitherPatterns:
       ................................
   bDash:
     order: 259
-    pattern: |-
+    klayout_pattern: |-
       ........
       ........
       .....*..
@@ -5614,7 +5623,7 @@ CustomDitherPatterns:
       *.......
   hDash:
     order: 260
-    pattern: |-
+    klayout_pattern: |-
       ........
       ........
       ........
@@ -5625,7 +5634,7 @@ CustomDitherPatterns:
       ******..
   GEN:
     order: 261
-    pattern: |-
+    klayout_pattern: |-
       .....**.......*****....*...*....
       ....*..*......*........*..**....
       ...*...*......*........*..**....
@@ -5660,7 +5669,7 @@ CustomDitherPatterns:
       ................................
   GEN_1:
     order: 262
-    pattern: |-
+    klayout_pattern: |-
       ................................
       ................................
       ................................
@@ -5695,7 +5704,7 @@ CustomDitherPatterns:
       ................................
   vZigZag_1:
     order: 264
-    pattern: |-
+    klayout_pattern: |-
       .*....*.....*...
       *.....*....*....
       *....*....*.....
@@ -5714,7 +5723,7 @@ CustomDitherPatterns:
       ..*....*....*...
   vCurb_1:
     order: 265
-    pattern: |-
+    klayout_pattern: |-
       ....****....****
       ....*.......*...
       ....*.......*...
@@ -5733,7 +5742,7 @@ CustomDitherPatterns:
       .......*.......*
   bigdot:
     order: 266
-    pattern: |-
+    klayout_pattern: |-
       ........
       ....***.
       ....***.
@@ -5744,7 +5753,7 @@ CustomDitherPatterns:
       ***.....
   bDash_1:
     order: 267
-    pattern: |-
+    klayout_pattern: |-
       ........
       ........
       .......*
@@ -5755,7 +5764,7 @@ CustomDitherPatterns:
       ..*.....
   blockA:
     order: 268
-    pattern: |-
+    klayout_pattern: |-
       **......
       *.*.....
       *..*....
@@ -5766,7 +5775,7 @@ CustomDitherPatterns:
       ********
   vDash_1:
     order: 269
-    pattern: |-
+    klayout_pattern: |-
       ........
       ........
       ..*.....
@@ -5777,7 +5786,7 @@ CustomDitherPatterns:
       ..*.....
   nstdDiamond:
     order: 270
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -5796,7 +5805,7 @@ CustomDitherPatterns:
       ................
   rblockA:
     order: 271
-    pattern: |-
+    klayout_pattern: |-
       ......**
       .....*.*
       ....*..*
@@ -5807,7 +5816,7 @@ CustomDitherPatterns:
       ********
   InvertCurb:
     order: 272
-    pattern: |-
+    klayout_pattern: |-
       ****************
       ****************
       ....***.....***.
@@ -5826,7 +5835,7 @@ CustomDitherPatterns:
       ****************
   n2:
     order: 274
-    pattern: |-
+    klayout_pattern: |-
       ...****.........................
       ...*............................
       ....*...........................
@@ -5861,7 +5870,7 @@ CustomDitherPatterns:
       ................................
   cross_1:
     order: 275
-    pattern: |-
+    klayout_pattern: |-
       *.*.*.*.*.*.*.*.
       ...*...*...*...*
       *.*.*.*.*.*.*.*.
@@ -5880,7 +5889,7 @@ CustomDitherPatterns:
       .*...*...*...*..
   circles:
     order: 276
-    pattern: |-
+    klayout_pattern: |-
       ................
       ................
       ................
@@ -5899,7 +5908,7 @@ CustomDitherPatterns:
       ................
   '1':
     order: 277
-    pattern: |-
+    klayout_pattern: |-
       .............
       .............
       .............
@@ -5919,7 +5928,7 @@ CustomDitherPatterns:
       .............
   '2':
     order: 278
-    pattern: |-
+    klayout_pattern: |-
       .............
       .............
       ....*****....
@@ -5939,7 +5948,7 @@ CustomDitherPatterns:
       .............
   '3':
     order: 279
-    pattern: |-
+    klayout_pattern: |-
       .............
       .............
       .............
@@ -5959,7 +5968,7 @@ CustomDitherPatterns:
       .............
   '4':
     order: 280
-    pattern: |-
+    klayout_pattern: |-
       .............
       .............
       .............
@@ -5980,91 +5989,91 @@ CustomDitherPatterns:
 CustomLineStyles:
   solid:
     order: 1
-    pattern: '*'
+    klayout_pattern: '*'
   dashed:
     order: 2
-    pattern: '***..***'
+    klayout_pattern: '***..***'
   dots:
     order: 3
-    pattern: '*..'
+    klayout_pattern: '*..'
   dashDot:
     order: 4
-    pattern: '***..*..'
+    klayout_pattern: '***..*..'
   shortDash:
     order: 5
-    pattern: '**..'
+    klayout_pattern: '**..'
   doubleDash:
     order: 6
-    pattern: '****..**..'
+    klayout_pattern: '****..**..'
   hidden:
     order: 7
-    pattern: '*...'
+    klayout_pattern: '*...'
   thickLine:
     order: 8
-    pattern: '***'
+    klayout_pattern: '***'
   lineStyle1:
     order: 9
-    pattern: '****....****....'
+    klayout_pattern: '****....****....'
   lineStyle3:
     order: 10
-    pattern: '*.*.*.*.*.*.*.*.'
+    klayout_pattern: '*.*.*.*.*.*.*.*.'
   lineStyle7:
     order: 11
-    pattern: '**.***.***.***.*'
+    klayout_pattern: '**.***.***.***.*'
   lineStyle2:
     order: 12
-    pattern: '.*.*.*.*.*.*.*.*'
+    klayout_pattern: .*.*.*.*.*.*.*.*
   lineStyle4:
     order: 13
-    pattern: '*****......*****'
+    klayout_pattern: '*****......*****'
   snadashed:
     order: 14
-    pattern: '*****...'
+    klayout_pattern: '*****...'
   thick3Dash:
     order: 15
-    pattern: '***.'
+    klayout_pattern: '***.'
   dashed3h2:
     order: 16
-    pattern: '******..'
+    klayout_pattern: '******..'
   longdash0h2:
     order: 17
-    pattern: '**************..'
+    klayout_pattern: '**************..'
   shortdash2h3:
     order: 18
-    pattern: '..****..'
+    klayout_pattern: ..****..
   medDashed:
     order: 19
-    pattern: '****....'
+    klayout_pattern: '****....'
   line_w2:
     order: 20
-    pattern: '********'
+    klayout_pattern: '********'
   L0:
     order: 21
-    pattern: '********...**...'
+    klayout_pattern: '********...**...'
   L1:
     order: 22
-    pattern: '********........'
+    klayout_pattern: '********........'
   L2:
     order: 23
-    pattern: '*****....'
+    klayout_pattern: '*****....'
   lineStyle10:
     order: 24
-    pattern: '...**......**...'
+    klayout_pattern: '...**......**...'
   lineStyle9:
     order: 25
-    pattern: '..**..**..**..**'
+    klayout_pattern: ..**..**..**..**
   lineStyle8:
     order: 26
-    pattern: '...*...*...*...*'
+    klayout_pattern: '...*...*...*...*'
   DHDashed:
     order: 27
-    pattern: '****..'
+    klayout_pattern: '****..'
   manyDashed:
     order: 28
-    pattern: '**.**.**.**.**.'
+    klayout_pattern: '**.**.**.**.**.'
   mCurb:
     order: 29
-    pattern: '******'
+    klayout_pattern: '******'
   track:
     order: 30
-    pattern: '..***.'
+    klayout_pattern: ..***.
