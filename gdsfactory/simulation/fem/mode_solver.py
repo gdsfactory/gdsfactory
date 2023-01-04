@@ -40,6 +40,9 @@ def compute_cross_section_modes(
         order: order of the mesh elements.
         radius: bend radius of the cross-section.
         mesh_filename (str, path): where to save the .msh file.
+        dirpath: Optional directory to store modes. If None does not cache modes.
+        filepath: Optional path to store modes.
+        overwrite: Overwrite mode filepath if it exists.
 
     Keyword Args:
         resolutions (Dict): Pairs {"layername": {"resolution": float, "distance": "float}}
@@ -59,6 +62,7 @@ def compute_cross_section_modes(
         wl=wl, num_modes=num_modes, radius=radius, order=order, **kwargs
     )
 
+    with_cache = filepath or dirpath
     filepath = filepath or get_modes_path(
         cross_section=cross_section,
         dirpath=dirpath,
@@ -72,7 +76,7 @@ def compute_cross_section_modes(
     filepath = pathlib.Path(filepath)
     filepath_sim_settings = filepath.with_suffix(".yml")
 
-    if filepath.exists():
+    if with_cache and filepath.exists():
         if overwrite:
             filepath.unlink()
 
