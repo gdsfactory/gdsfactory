@@ -616,57 +616,72 @@ def transition(
         )
 
     sections = []
-    for alias in X1.aliases.keys():
-        if alias in X2.aliases:
-            section1 = X1.aliases[alias]
-            section2 = X2.aliases[alias]
 
-            offset1 = section1.offset
-            offset2 = section2.offset
-            width1 = section1.width
-            width2 = section2.width
+    sections1 = [
+        X1.aliases[alias] for alias in X1.aliases.keys() if alias in X2.aliases
+    ]
+    sections2 = [
+        X2.aliases[alias] for alias in X2.aliases.keys() if alias in X1.aliases
+    ]
 
-            if callable(offset1):
-                offset1 = offset1(1)
-            if callable(offset2):
-                offset2 = offset2(0)
-            if callable(width1):
-                width1 = width1(1)
-            if callable(width2):
-                width2 = width2(0)
+    if X1.cladding_layers:
+        sections1 += [
+            Section(width=X1.width + offset, layer=layer)
+            for offset, layer in zip(X1.cladding_offsets, X2.cladding_layers)
+        ]
+    if X2.cladding_layers:
+        sections2 += [
+            Section(width=X2.width + offset, layer=layer)
+            for offset, layer in zip(X2.cladding_offsets, X2.cladding_layers)
+        ]
 
-            offset_fun = _sinusoidal_transition(offset1, offset2)
+    for section1, section2 in zip(sections1, sections2):
+        offset1 = section1.offset
+        offset2 = section2.offset
+        width1 = section1.width
+        width2 = section2.width
 
-            if width_type == "linear":
-                width_fun = _linear_transition(width1, width2)
-            elif width_type == "sine":
-                width_fun = _sinusoidal_transition(width1, width2)
-            elif width_type == "parabolic":
-                width_fun = _parabolic_transition(width1, width2)
-            else:
-                raise ValueError(
-                    f"width_type={width_type!r} must be {'sine','linear','parabolic'}"
-                )
+        if callable(offset1):
+            offset1 = offset1(1)
+        if callable(offset2):
+            offset2 = offset2(0)
+        if callable(width1):
+            width1 = width1(1)
+        if callable(width2):
+            width2 = width2(0)
 
-            if section1.layer != section2.layer:
-                hidden = True
-                layer1 = get_layer(section1.layer)
-                layer2 = get_layer(section2.layer)
-                layer = (layer1, layer2)
-            else:
-                hidden = False
-                layer = get_layer(section1.layer)
+        offset_fun = _sinusoidal_transition(offset1, offset2)
 
-            s = Section(
-                width=width_fun,
-                offset=offset_fun,
-                layer=layer,
-                port_names=(section2.port_names[0], section1.port_names[1]),
-                port_types=(section2.port_types[0], section1.port_types[1]),
-                name=alias,
-                hidden=hidden,
+        if width_type == "linear":
+            width_fun = _linear_transition(width1, width2)
+        elif width_type == "sine":
+            width_fun = _sinusoidal_transition(width1, width2)
+        elif width_type == "parabolic":
+            width_fun = _parabolic_transition(width1, width2)
+        else:
+            raise ValueError(
+                f"width_type={width_type!r} must be {'sine','linear','parabolic'}"
             )
-            sections.append(s)
+
+        if section1.layer != section2.layer:
+            hidden = True
+            layer1 = get_layer(section1.layer)
+            layer2 = get_layer(section2.layer)
+            layer = (layer1, layer2)
+        else:
+            hidden = False
+            layer = get_layer(section1.layer)
+
+        s = Section(
+            width=width_fun,
+            offset=offset_fun,
+            layer=layer,
+            port_names=(section2.port_names[0], section1.port_names[1]),
+            port_types=(section2.port_types[0], section1.port_types[1]),
+            name=section1.name,
+            hidden=hidden,
+        )
+        sections.append(s)
 
     return Transition(
         cross_section1=X1,
