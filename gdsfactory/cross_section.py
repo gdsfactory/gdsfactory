@@ -4,6 +4,7 @@ To create a component you need to extrude the path with a cross-section.
 """
 from __future__ import annotations
 
+import hashlib
 import inspect
 import sys
 from collections.abc import Iterable
@@ -130,6 +131,10 @@ class CrossSection(BaseModel):
         if width:
             xs.width = width
         return xs
+
+    def get_name(self) -> str:
+        h = hashlib.md5(str(self).encode()).hexdigest()[:8]
+        return f"xs_{h}"
 
     @property
     def aliases(self) -> Dict[str, Section]:
