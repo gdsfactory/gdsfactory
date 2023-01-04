@@ -138,4 +138,4 @@ __all__ = (
     "write_cells",
     "PATH",
 )
-__version__ = "6.17.0"
+__version__ = "6.18.0"
