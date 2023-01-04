@@ -3,6 +3,7 @@
 ## 6.18.0
 
 - TCAD adaptative meshing [PR](https://github.com/gdsfactory/gdsfactory/pull/1074)
+- fix CLI docs [PR](https://github.com/gdsfactory/gdsfactory/pull/1076)
 
 ## [6.17.0](https://github.com/gdsfactory/gdsfactory/pull/1065)
 
