@@ -68,7 +68,7 @@ def compute_cross_section_modes(
 
     sim_settings = sim_settings.copy()
     sim_settings["layerstack"] = layerstack.to_dict()
-    sim_settings["cross_section"] = gf.get_cross_section(cross_section).to_dict()
+    sim_settings["cross_section"] = dict(gf.get_cross_section(cross_section))
     filepath = pathlib.Path(filepath)
     filepath_sim_settings = filepath.with_suffix(".yml")
 

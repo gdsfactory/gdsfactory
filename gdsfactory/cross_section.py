@@ -16,7 +16,6 @@ from pydantic import BaseModel, Field
 from typing_extensions import Literal
 
 from gdsfactory.add_pins import add_bbox_siepic, add_pins_siepic_optical_2nm
-from gdsfactory.serialization import clean_dict
 from gdsfactory.tech import Section
 
 Layer = Tuple[int, int]
@@ -187,48 +186,6 @@ class CrossSection(BaseModel):
             for layer, points in zip(x.bbox_layers, padding):
                 c.add_polygon(points, layer=layer)
         return c
-
-    def to_dict(
-        self,
-    ) -> Dict[str, Any]:
-        """Returns Dict representation of a cross section.
-
-        Args:
-            ignore_components_prefix: for components to ignore when exporting.
-            ignore_functions_prefix: for functions to ignore when exporting.
-            with_cells: write cells recursively.
-            with_ports: write port information dict.
-        """
-        return clean_dict(
-            {
-                "name": self.name,
-                "layer": self.layer,
-                "width": self.width,
-                "offset": self.offset,
-                "radius": self.radius,
-                "width_wide": self.width_wide,
-                "auto_widen": self.auto_widen,
-                "auto_widen_minimum_length": self.auto_widen_minimum_length,
-                "taper_length": self.taper_length,
-                "bbox_layers": self.bbox_layers,
-                "bbox_offsets": self.bbox_offsets,
-                "cladding_layers": self.cladding_layers,
-                "cladding_offsets": self.cladding_offsets,
-                "sections": self.sections,
-                "port_names": self.port_names,
-                "port_types": self.port_types,
-                "min_length": self.min_length,
-                "start_straight_length": self.start_straight_length,
-                "end_straight_length": self.end_straight_length,
-                "snap_to_grid": self.snap_to_grid,
-                "decorator": self.decorator,
-                "add_pins": self.add_pins,
-                "add_bbox": self.add_bbox,
-                "info": self.info,
-                "add_center_section": self.add_center_section,
-                "mirror": self.mirror,
-            }
-        )
 
 
 class Transition(CrossSection):
@@ -1489,5 +1446,3 @@ if __name__ == "__main__":
     p = gf.path.straight()
     c = p.extrude(xs)
     c.show()
-
-    print(xs.to_dict())
