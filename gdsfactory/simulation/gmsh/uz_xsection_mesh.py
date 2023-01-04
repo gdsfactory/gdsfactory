@@ -41,7 +41,7 @@ def get_u_bounds_polygons(
 
     return_list = []
     for polygon in polygons.geoms if hasattr(polygons, "geoms") else [polygons]:
-        if intersection := polygon.intersection(line).bounds:
+        if np.isfinite(intersection := polygon.intersection(line).bounds).all():
             p1 = Point([intersection[0], intersection[1]])
             p2 = Point([intersection[2], intersection[3]])
             return_list.append([linestart.distance(p1), linestart.distance(p2)])
