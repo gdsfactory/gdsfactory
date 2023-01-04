@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.18.1
+
+- transition also tapers cladding_layers and cladding offsets [PR](https://github.com/gdsfactory/gdsfactory/pull/1082)
+
 ## 6.18.0
 
 - TCAD adaptative meshing [PR](https://github.com/gdsfactory/gdsfactory/pull/1074)
