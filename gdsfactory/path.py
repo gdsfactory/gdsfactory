@@ -626,12 +626,12 @@ def transition(
 
     if X1.cladding_layers:
         sections1 += [
-            Section(width=X1.width + offset, layer=layer)
+            Section(width=X1.width + 2 * offset, layer=layer)
             for offset, layer in zip(X1.cladding_offsets, X2.cladding_layers)
         ]
     if X2.cladding_layers:
         sections2 += [
-            Section(width=X2.width + offset, layer=layer)
+            Section(width=X2.width + 2 * offset, layer=layer)
             for offset, layer in zip(X2.cladding_offsets, X2.cladding_layers)
         ]
 
