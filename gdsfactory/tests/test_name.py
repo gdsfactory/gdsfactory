@@ -64,7 +64,8 @@ def test_float_point_errors() -> None:
 
 
 if __name__ == "__main__":
-    test_name_partial_functions()
+    test_name_iterators()
+    # test_name_partial_functions()
     # test_name_int_float()
     # test_name_different_signatures()
 
