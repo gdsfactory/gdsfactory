@@ -68,3 +68,8 @@ def test_gmsh_xy_xsection_mesh():
         background_tag="Oxide",
     )
     assert True
+
+
+if __name__ == "__main__":
+    test_gmsh_xy_xsection_mesh()
+    test_gmsh_uz_xsection_mesh()
