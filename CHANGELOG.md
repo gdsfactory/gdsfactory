@@ -1,5 +1,13 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.18.3
+
+- fix transition also tapers cladding_layers and cladding offsets [PR](https://github.com/gdsfactory/gdsfactory/pull/1089)
+
+## 6.18.2
+
+- add port can infer width from cross_section [PR](https://github.com/gdsfactory/gdsfactory/pull/1089)
+
 ## 6.18.1
 
 - transition also tapers cladding_layers and cladding offsets [PR](https://github.com/gdsfactory/gdsfactory/pull/1082)
