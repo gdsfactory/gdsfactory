@@ -117,7 +117,8 @@ class Port:
         if layer is None:
             layer = cross_section.layer
 
-        width = width or cross_section.width
+        if width is None:
+            width = cross_section.width
 
         self.layer = layer
         self.width = width
