@@ -1253,6 +1253,7 @@ def smooth(
     points: Coordinates,
     radius: float = 4.0,
     bend: PathFactory = euler,
+    npoints: int = 720,
     **kwargs,
 ) -> Path:
     """Returns a smooth Path from a series of waypoints.
@@ -1261,6 +1262,7 @@ def smooth(
         points: array-like[N][2] List of waypoints for the path to follow.
         radius: radius of curvature, passed to `bend`.
         bend: bend function that returns a path that round corners.
+        npoints: Number of points used per 360 degrees for the bend.
         kwargs: Extra keyword arguments that will be passed to `bend`.
 
     .. plot::
@@ -1284,7 +1286,7 @@ def smooth(
     if np.any(np.abs(np.abs(dtheta) - 180) < 1e-6):
         raise ValueError(
             "smooth() received points which double-back on themselves"
-            + "--turns cannot be computed when going forwards then exactly backwards."
+            "--turns cannot be computed when going forwards then exactly backwards."
         )
 
     # FIXME add caching
@@ -1292,7 +1294,8 @@ def smooth(
     paths = []
     radii = []
     for dt in dtheta:
-        P = bend(radius=radius, angle=dt, **kwargs)
+        _npoints = max(npoints, int(360 / abs(dt)) + 1)
+        P = bend(radius=radius, angle=dt, npoints=_npoints, **kwargs)
         chord = np.linalg.norm(P.points[-1, :] - P.points[0, :])
         r = (chord / 2) / np.sin(np.radians(dt / 2))
         r = np.abs(r)
