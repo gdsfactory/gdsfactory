@@ -176,6 +176,9 @@ def mesh_from_polygons(
                 global_meshsize_interpolant_func,
             )
 
+        # HACK: force shared nodes across interfaces
+        gmsh.model.occ.remove_all_duplicates()
+
         # Perform meshing
         gmsh.option.setNumber("Mesh.ScalingFactor", mesh_scaling_factor)
         mesh = geometry.generate_mesh(dim=2, verbose=verbosity)
