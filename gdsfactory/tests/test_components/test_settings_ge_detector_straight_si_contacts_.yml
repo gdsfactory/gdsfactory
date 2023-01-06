@@ -17,14 +17,10 @@ settings:
       function: via_stack
       settings:
         layers:
-        - - 3
-          - 0
-        - - 41
-          - 0
-        - - 45
-          - 0
-        - - 49
-          - 0
+        - SLAB90
+        - M1
+        - M2
+        - M3
         vias:
         - function: via
           settings:
@@ -53,14 +49,10 @@ settings:
       function: via_stack
       settings:
         layers:
-        - - 3
-          - 0
-        - - 41
-          - 0
-        - - 45
-          - 0
-        - - 49
-          - 0
+        - SLAB90
+        - M1
+        - M2
+        - M3
         vias:
         - function: via
           settings:
