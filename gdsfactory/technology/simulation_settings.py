@@ -2,7 +2,10 @@ from typing import Dict
 
 from pydantic import BaseModel
 
-from gdsfactory.materials import MaterialSpec, material_name_to_lumerical
+from gdsfactory.materials import MaterialSpec
+from gdsfactory.materials import (
+    material_name_to_lumerical as material_name_to_lumerical_default,
+)
 
 
 class SimulationSettingsLumericalFdtd(BaseModel):
@@ -42,7 +45,9 @@ class SimulationSettingsLumericalFdtd(BaseModel):
     frequency_dependent_profile: bool = True
     field_profile_samples: int = 15
     distance_source_to_monitors: float = 0.2
-    material_name_to_lumerical: Dict[str, MaterialSpec] = material_name_to_lumerical
+    material_name_to_lumerical: Dict[
+        str, MaterialSpec
+    ] = material_name_to_lumerical_default
 
     class Config:
         """pydantic basemodel config."""
