@@ -167,22 +167,20 @@ class LayerView(BaseModel):
     ):
         """Initialize LayerView object."""
         if (gds_layer is not None) and (gds_datatype is not None):
-            if "layer" in data.keys() and data["layer"] is not None:
+            if "layer" in data and data["layer"] is not None:
                 raise KeyError(
                     "Specify either 'layer' or both 'gds_layer' and 'gds_datatype'."
                 )
             data["layer"] = (gds_layer, gds_datatype)
 
         if color is not None:
-            if ("fill_color" in data.keys()) or ("frame_color" in data.keys()):
+            if "fill_color" in data or "frame_color" in data:
                 raise KeyError(
                     "Specify either a single 'color' or both 'frame_color' and 'fill_color'."
                 )
             data["fill_color"] = data["frame_color"] = color
         if brightness is not None:
-            if ("fill_brightness" in data.keys()) or (
-                "frame_brightness" in data.keys()
-            ):
+            if "fill_brightness" in data or "frame_brightness" in data:
                 raise KeyError(
                     "Specify either a single 'brightness' or both 'frame_brightness' and 'fill_brightness'."
                 )
@@ -270,9 +268,9 @@ class LayerView(BaseModel):
             "marked": str(self.marked).lower(),
             "xfill": str(self.xfill).lower(),
             "animation": self.animation,
-            "name": name
-            if not self.layer_in_name
-            else f"{name} {self.layer[0]}/{self.layer[1]}",
+            "name": f"{name} {self.layer[0]}/{self.layer[1]}"
+            if self.layer_in_name
+            else name,
             "source": f"{self.layer[0]}/{self.layer[1]}@1"
             if self.layer is not None
             else "*/*@*",
@@ -414,7 +412,7 @@ class LayerViews(BaseModel):
                 logger.info(
                     f"Importing LayerViews from KLayout layer properties file: {filepath}."
                 )
-            elif (filepath.suffix == ".yaml") or (filepath.suffix == ".yml"):
+            elif filepath.suffix in [".yaml", ".yml"]:
                 lvs = LayerViews.from_yaml(layer_file=filepath)
                 logger.info(f"Importing LayerViews from YAML file: {filepath}.")
             else:
@@ -428,7 +426,7 @@ class LayerViews(BaseModel):
             layer_map = layer_map.dict()
 
         if layer_map is not None:
-            data.update({"layer_map": layer_map})
+            data["layer_map"] = layer_map
 
         super().__init__(**data)
 
@@ -454,10 +452,9 @@ class LayerViews(BaseModel):
             raise ValueError(
                 f"Adding {name!r} already defined {list(self.layer_views.keys())}"
             )
-        else:
-            if layer_view is None:
-                layer_view = LayerView(name=name, **kwargs)
-            self.layer_views[name] = layer_view
+        if layer_view is None:
+            layer_view = LayerView(name=name, **kwargs)
+        self.layer_views[name] = layer_view
 
         # If the dither pattern is a CustomDitherPattern, add it to custom_patterns
         dither_pattern = layer_view.hatch_pattern
