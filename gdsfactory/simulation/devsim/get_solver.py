@@ -17,10 +17,14 @@ from devsim import (
     write_devices,
 )
 from devsim.python_packages import model_create, simple_physics
-from pydantic import BaseModel, Extra
+from pydantic import Extra
 
 from gdsfactory import Component
-from gdsfactory.simulation.devsim.doping import get_doping_info_generic
+from gdsfactory.pdk import get_layer_stack
+from gdsfactory.simulation.devsim.doping import (
+    DopingLayerLevel,
+    get_doping_info_generic,
+)
 from gdsfactory.simulation.devsim.get_simulation import create_2Duz_simulation
 from gdsfactory.technology import LayerStack
 
@@ -35,28 +39,59 @@ def set_universal_parameters(device, region):
         set_parameter(device=device, region=region, name=k, value=v)
 
 
-class DDComponent(BaseModel):
-    """Test."""
+class DDComponent:
+    def __init__(
+        self,
+        component: Component,
+        xsection_bounds: Tuple[Tuple[float, float], Tuple[float, float]],
+        full_layerstack: LayerStack,
+        physical_layerstack: LayerStack,
+        doping_info: Dict[str, DopingLayerLevel],
+        contact_info=Dict,
+        resolutions: Optional[Dict[str, Dict]] = None,
+        mesh_scaling_factor: float = (1.0,),
+        background_tag: Optional[str] = None,
+        temp_file_name="temp.msh2",
+        devsim_mesh_name="temp",
+        devsim_device_name="temp",
+        devsim_simulation_filename="devsim.dat",
+        atol: float = 1e8,
+        rtol: float = 1e-8,
+        max_iter: int = 100,
+        extended_precision: bool = True,
+    ) -> None:
+        """Drift-diffusion solver on a Component cross-section."""
+        # Set attributes
+        self.component = component
+        self.xsection_bounds = xsection_bounds
+        self.full_layerstack = full_layerstack or get_layer_stack()
+        self.physical_layerstack = physical_layerstack
+        self.doping_info = doping_info or get_doping_info_generic()
+        self.contact_info = contact_info
+        self.resolutions = resolutions or {}
+        self.mesh_scaling_factor = mesh_scaling_factor
+        self.background_tag = background_tag
+        self.temp_file_name = temp_file_name
+        self.devsim_mesh_name = devsim_mesh_name
+        self.devsim_device_name = devsim_device_name
+        self.devsim_simulation_filename = (devsim_simulation_filename,)
+        self.atol = atol
+        self.rtol = rtol
+        self.max_iter = max_iter
 
-    component: Component
-    xsection_bounds: Tuple[Tuple[float, float], Tuple[float, float]]
-    full_layerstack: LayerStack
-    physical_layerstack: LayerStack
-    resolutions: Optional[Dict[str, Dict]] = {}
-    mesh_scaling_factor: float = (1.0,)
-    background_tag: Optional[str] = None
-    temp_file_name = "temp.msh2"
-    devsim_mesh_name = "temp"
-    devsim_device_name = "temp"
-    devsim_simulation_filename = "devsim.dat"
-    atol: float = 1e8
-    rtol: float = 1e-8
-    max_iter: int = 100
+        # Set precision
+        if extended_precision:
+            self.set_extended_precision()
 
     class Config:
         """Enable adding new."""
 
         extra = Extra.allow
+
+    def set_extended_precision(self):
+        set_parameter(name="extended_solver", value=True)
+        set_parameter(name="extended_model", value=True)
+        set_parameter(name="extended_equation", value=True)
 
     def set_parameters(self, region, device) -> None:
         """Set parameters for 300 K."""
@@ -192,7 +227,6 @@ class DDComponent(BaseModel):
 if __name__ == "__main__":
 
     import gdsfactory as gf
-    from gdsfactory.generic_tech import get_layer_stack_generic
 
     # We choose a representative subdomain of the component
     waveguide = gf.Component()
@@ -207,7 +241,7 @@ if __name__ == "__main__":
     layermap = gf.generic_tech.LayerMap()
     physical_layerstack = LayerStack(
         layers={
-            k: get_layer_stack_generic().layers[k]
+            k: get_layer_stack().layers[k]
             for k in (
                 "slab90",
                 "core",
@@ -262,7 +296,7 @@ if __name__ == "__main__":
     c = DDComponent(
         component=waveguide,
         xsection_bounds=[(4, -4), (4, 4)],
-        full_layerstack=get_layer_stack_generic(),
+        full_layerstack=get_layer_stack(),
         physical_layerstack=physical_layerstack,
         doping_info=get_doping_info_generic(),
         contact_info=contact_info,
@@ -284,7 +318,7 @@ if __name__ == "__main__":
     potentials = {}
     electrons = {}
     holes = {}
-    for regionname in c.get_regions():
+    for regionname in c.regions["si"]:
         xs[regionname] = np.array(c.get_node_field(regionname, "x"))
         ys[regionname] = np.array(c.get_node_field(regionname, "y"))
         lcs[regionname] = np.sqrt(np.array(c.get_node_field(regionname, "NodeVolume")))
@@ -319,6 +353,7 @@ if __name__ == "__main__":
     # plt.plot(grid_z2(xs, ys, grid=False))
 
     plt.scatter(xs, lcs)
+    plt.title("current lcs")
     plt.show()
     fig = plt.figure()
     ax = plt.gca()
@@ -328,6 +363,7 @@ if __name__ == "__main__":
         / np.max(np.abs(potential_g(xs, ys, grid=False))),
     )
     ax.set_yscale("log")
+    plt.title("potential_g")
     plt.show()
     ax = plt.gca()
     ax.scatter(
@@ -340,6 +376,7 @@ if __name__ == "__main__":
         np.abs(holes_g(xs, ys, grid=False))
         / np.max(np.abs(holes_g(xs, ys, grid=False))),
     )
+    plt.title("electrons and holes")
     ax.set_yscale("log")
     plt.show()
 
@@ -373,13 +410,14 @@ if __name__ == "__main__":
 
     plt.scatter(meshing_field[:, 0], lcs)
     plt.scatter(meshing_field[:, 0], meshing_field[:, 3])
+    plt.title("meshing field")
     plt.show()
 
     # c.delete_device()
     # c = DDComponent(
     #     component=waveguide,
     #     xsection_bounds=[(4, -4), (4, 4)],
-    #     full_layerstack=get_layer_stack_generic(),
+    #     full_layerstack=get_layer_stack(),
     #     physical_layerstack=physical_layerstack,
     #     doping_info=get_doping_info_generic(),
     #     contact_info=contact_info,
