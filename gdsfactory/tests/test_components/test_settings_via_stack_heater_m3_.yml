@@ -1,13 +1,10 @@
-name: via_stack_02e7e014
+name: via_stack_ab402aa5
 settings:
   changed:
     layers:
-    - - 47
-      - 0
-    - - 45
-      - 0
-    - - 49
-      - 0
+    - HEATER
+    - M2
+    - M3
   child: null
   default:
     layer_port: null
@@ -29,12 +26,9 @@ settings:
   full:
     layer_port: null
     layers:
-    - - 47
-      - 0
-    - - 45
-      - 0
-    - - 49
-      - 0
+    - HEATER
+    - M2
+    - M3
     size:
     - 11.0
     - 11.0
@@ -48,12 +42,10 @@ settings:
         layer: VIA2
   function_name: via_stack
   info:
-    layer:
-    - 49
-    - 0
+    layer: M3
     size:
     - 11.0
     - 11.0
   info_version: 2
   module: gdsfactory.components.via_stack
-  name: via_stack_02e7e014
+  name: via_stack_ab402aa5

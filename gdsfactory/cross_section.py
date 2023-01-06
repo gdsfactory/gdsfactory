@@ -176,11 +176,6 @@ class CrossSection(BaseModel):
         return f"xs_{h}"
 
     @property
-    def name(self) -> str:
-        h = hashlib.md5(str(self).encode()).hexdigest()[:8]
-        return f"xs_{h}"
-
-    @property
     def aliases(self) -> Dict[str, Section]:
         s = dict(
             _default=Section(

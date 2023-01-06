@@ -1,15 +1,11 @@
-name: via_stack_6d60c208
+name: via_stack_327a8764
 settings:
   changed:
     layers:
-    - - 3
-      - 0
-    - - 41
-      - 0
-    - - 45
-      - 0
-    - - 49
-      - 0
+    - SLAB90
+    - M1
+    - M2
+    - M3
     vias:
     - function: via
       settings:
@@ -42,14 +38,10 @@ settings:
   full:
     layer_port: null
     layers:
-    - - 3
-      - 0
-    - - 41
-      - 0
-    - - 45
-      - 0
-    - - 49
-      - 0
+    - SLAB90
+    - M1
+    - M2
+    - M3
     size:
     - 11.0
     - 11.0
@@ -66,12 +58,10 @@ settings:
         layer: VIA2
   function_name: via_stack
   info:
-    layer:
-    - 49
-    - 0
+    layer: M3
     size:
     - 11.0
     - 11.0
   info_version: 2
   module: gdsfactory.components.via_stack
-  name: via_stack_6d60c208
+  name: via_stack_327a8764

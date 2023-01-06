@@ -11,6 +11,7 @@ import numpy as np
 from loguru import logger
 
 import gdsfactory as gf
+from gdsfactory.pdk import get_layer
 from gdsfactory.routing.add_fiber_single import add_fiber_single
 from gdsfactory.types import LayerSpec, Optional, PathType
 
@@ -40,6 +41,8 @@ def find_labels(
     gdspath = str(gdspath)
     layout = pya.Layout()
     layout.read(gdspath)
+
+    layer_label = get_layer(layer_label)
 
     # Get the top cell and the units, and find out the index of the layer
     topcell = layout.top_cell()
