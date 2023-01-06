@@ -1,8 +1,32 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+<<<<<<< HEAD
 ## 6.18.0
 
 - TCAD adaptative meshing [PR](https://github.com/gdsfactory/gdsfactory/pull/1074)
+=======
+## 6.18.4
+
+- fix path_smooth with near-collinear points [PR](https://github.com/gdsfactory/gdsfactory/pull/1093)
+
+## 6.18.3
+
+- fix transition also tapers cladding_layers and cladding offsets [PR](https://github.com/gdsfactory/gdsfactory/pull/1089)
+
+## 6.18.2
+
+- add port can infer width from cross_section [PR](https://github.com/gdsfactory/gdsfactory/pull/1089)
+
+## 6.18.1
+
+- transition also tapers cladding_layers and cladding offsets [PR](https://github.com/gdsfactory/gdsfactory/pull/1082)
+
+## 6.18.0
+
+- TCAD adaptative meshing [PR](https://github.com/gdsfactory/gdsfactory/pull/1074)
+- fix CLI docs [PR](https://github.com/gdsfactory/gdsfactory/pull/1076)
+- cache FEM modes [PR](https://github.com/gdsfactory/gdsfactory/pull/1079)
+>>>>>>> main
 
 ## [6.17.0](https://github.com/gdsfactory/gdsfactory/pull/1065)
 
