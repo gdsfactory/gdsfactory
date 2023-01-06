@@ -23,12 +23,9 @@ settings:
         function: via_stack
         settings:
           layers:
-          - - 47
-            - 0
-          - - 45
-            - 0
-          - - 49
-            - 0
+          - HEATER
+          - M2
+          - M3
           vias:
           - function: via
             settings:
@@ -56,12 +53,9 @@ settings:
         function: via_stack
         settings:
           layers:
-          - - 47
-            - 0
-          - - 45
-            - 0
-          - - 49
-            - 0
+          - HEATER
+          - M2
+          - M3
           vias:
           - function: via
             settings:
