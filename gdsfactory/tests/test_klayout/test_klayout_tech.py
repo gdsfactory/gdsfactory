@@ -14,9 +14,9 @@ def test_klayout_tech_create(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
 
-    lyp = LayerDisplayProperties.from_lyp(str(PATH.klayout_lyp))
-
     if check:
+        lyp = LayerDisplayProperties.from_lyp(str(PATH.klayout_lyp))
+
         data_regression.check(lyp.dict())
 
 

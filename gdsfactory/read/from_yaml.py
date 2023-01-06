@@ -599,11 +599,7 @@ def from_yaml(
 
     settings = conf.get("settings", {})
 
-    if "mode" in kwargs:
-        mode = kwargs.pop("mode")
-    else:
-        mode = "layout"
-
+    mode = kwargs.pop("mode") if "mode" in kwargs else "layout"
     for key, value in kwargs.items():
         if key not in settings:
             raise ValueError(f"{key!r} not in {settings.keys()}")
