@@ -706,12 +706,10 @@ class Component(_GeometryHelper):
             p = name.copy()
             p.parent = self
             name = p.name
-        else:
-            if width is None:
-                raise ValueError("Port needs width parameter (um).")
-            if center is None:
-                raise ValueError("Port needs center parameter (x, y) um.")
+        elif center is None:
+            raise ValueError("Port needs center parameter (x, y) um.")
 
+        else:
             p = Port(
                 name=name,
                 center=center,

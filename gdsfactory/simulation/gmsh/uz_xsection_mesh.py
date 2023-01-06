@@ -41,10 +41,14 @@ def get_u_bounds_polygons(
 
     return_list = []
     for polygon in polygons.geoms if hasattr(polygons, "geoms") else [polygons]:
-        if intersection := polygon.intersection(line).bounds:
-            p1 = Point([intersection[0], intersection[1]])
-            p2 = Point([intersection[2], intersection[3]])
-            return_list.append([linestart.distance(p1), linestart.distance(p2)])
+        if intersection := polygon.intersection(line):
+            for entry in (
+                intersection.geoms if hasattr(intersection, "geoms") else [intersection]
+            ):
+                bounds = entry.bounds
+                p1 = Point([bounds[0], bounds[1]])
+                p2 = Point([bounds[2], bounds[3]])
+                return_list.append([linestart.distance(p1), linestart.distance(p2)])
     return return_list
 
 
