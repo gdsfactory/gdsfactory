@@ -624,13 +624,13 @@ class LayerViews(BaseModel):
 
         root = ET.Element("layer-properties")
 
-        for name, lv in self.layer_views.items():
+        for lv in self.layer_views.values():
             root.append(lv.to_klayout_xml())
 
-        for name, dp in self.custom_dither_patterns.items():
+        for dp in self.custom_dither_patterns.values():
             root.append(dp.to_klayout_xml())
 
-        for name, ls in self.custom_line_styles.items():
+        for ls in self.custom_line_styles.values():
             root.append(ls.to_klayout_xml())
 
         filepath.write_bytes(make_pretty_xml(root))
