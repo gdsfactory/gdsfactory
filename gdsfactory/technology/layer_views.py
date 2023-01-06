@@ -12,15 +12,18 @@ from __future__ import annotations
 import os
 import pathlib
 import re
+import typing
 import xml.etree.ElementTree as ET
 from typing import Dict, Optional, Set, Tuple, Union
 
 import numpy as np
 from pydantic import BaseModel, Field
 from pydantic.color import Color, ColorType
-from pydantic.typing import AbstractSetIntStr, DictStrAny, MappingIntStrAny
 
 from gdsfactory.config import logger
+
+if typing.TYPE_CHECKING:
+    from pydantic.typing import AbstractSetIntStr, DictStrAny, MappingIntStrAny
 
 PathLike = Union[pathlib.Path, str]
 
