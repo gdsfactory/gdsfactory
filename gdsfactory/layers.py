@@ -356,10 +356,10 @@ def write_lyp(filename, layer_colors):
     stipple_count = 0
 
     if filename[-4:] != ".lyp":
-        filename = filename + ".lyp"
+        filename = f"{filename}.lyp"
 
     # Opening file for writing
-    with open("%s" % filename, "w+") as f:
+    with open(f"{filename}", "w+") as f:
 
         # Writing header string
         f.write('<?xml version="1.0" encoding="utf-8"?>\n')
@@ -375,7 +375,7 @@ def write_lyp(filename, layer_colors):
             gds_datatype = layer_colors[layer].gds_datatype
             color = layer_colors[layer].color
 
-            name = f"{str(gds_layer)}/{str(gds_datatype)} - " + layer
+            name = f"{str(gds_layer)}/{str(gds_datatype)} - {layer}"
 
             # Setting stipple or 'dither'
             try:
@@ -387,13 +387,10 @@ def write_lyp(filename, layer_colors):
                 stipple_count = (stipple_count + 1) % len(stipple_default)
             elif dither[0] != "I":
                 raise ValueError("""Stipple must begin with an I""")
-            elif int(dither[1 : len(dither)]) < 0:
+            elif int(dither[1:]) < 0:
                 raise ValueError("""Stipple index cannot be less than 0""")
-            elif int(dither[1 : len(dither)]) > 46:
+            elif int(dither[1:]) > 46:
                 raise ValueError("""Stipple index cannot be greater than 46""")
-            else:
-                pass
-
             # Writing properties header for speciic layer
             f.write(" <properties>\n")
             # Writing line to specify frame colour
@@ -403,9 +400,7 @@ def write_lyp(filename, layer_colors):
             #            # Writing line to specify brightness (value between [-255, 255])
             #            f.write('  <frame-brightness>%s</frame-brightness>\n  <fill-brightness>%s</fill-brightness>\n' % (int(brightness), int(brightness)))
             frame_brightness = -25
-            f.write(
-                "  <frame-brightness>%s</frame-brightness>\n" % (int(frame_brightness))
-            )
+            f.write("  <frame-brightness>%s</frame-brightness>\n" % frame_brightness)
             # Writing line to specify dither pattern
             f.write("  <dither-pattern>%s</dither-pattern>\n" % dither)
             # Writing lines to specify line style
