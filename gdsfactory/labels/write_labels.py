@@ -65,7 +65,7 @@ def find_labels(
 
 def write_labels_klayout(
     gdspath: PathType,
-    layer_label: LayerSpec = "TEXT",
+    layer_label: LayerSpec = "LABEL",
     filepath: Optional[PathType] = None,
     prefix: str = "opt_",
 ) -> Path:
@@ -99,7 +99,7 @@ def write_labels_klayout(
 def write_labels_gdstk(
     gdspath: Path,
     prefix: str = "opt_",
-    layer_label: Optional[LayerSpec] = "TEXT",
+    layer_label: LayerSpec = "LABEL",
     filepath: Optional[PathType] = None,
     debug: bool = False,
 ) -> Path:
@@ -125,6 +125,7 @@ def write_labels_gdstk(
     c = gf.import_gds(gdspath)
 
     labels = []
+    layer_label = get_layer(layer_label)
 
     for label in c.get_labels():
         if (
