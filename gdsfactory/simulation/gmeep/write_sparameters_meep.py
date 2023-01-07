@@ -295,7 +295,7 @@ def write_sparameters_meep(
     )
 
     sim_settings = sim_settings.copy()
-    sim_settings["layer_stack"] = layer_stack.to_dict()
+    sim_settings["layer_stack"] = dict(layer_stack)
     sim_settings["component"] = component.to_dict()
     filepath = pathlib.Path(filepath)
     filepath_sim_settings = filepath.with_suffix(".yml")

@@ -159,7 +159,7 @@ def write_sparameters_meep_mpi(
     kwargs.update(filepath=str(filepath))
 
     parameters_dict = {
-        "layer_stack": layer_stack,
+        "layer_stack": dict(layer_stack),
         "overwrite": overwrite,
     }
 
