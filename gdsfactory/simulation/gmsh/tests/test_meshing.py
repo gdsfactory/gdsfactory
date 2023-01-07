@@ -23,11 +23,11 @@ def test_gmsh_uz_xsection_mesh():
         }
     )
 
-    resolutions = {}
-    resolutions["core"] = {"resolution": 0.05, "distance": 2}
-    resolutions["slab90"] = {"resolution": 0.03, "distance": 1}
-    resolutions["via_contact"] = {"resolution": 0.1, "distance": 1}
-
+    resolutions = {
+        "core": {"resolution": 0.05, "distance": 2},
+        "slab90": {"resolution": 0.03, "distance": 1},
+        "via_contact": {"resolution": 0.1, "distance": 1},
+    }
     uz_xsection_mesh(
         waveguide,
         [(4, -15), (4, 15)],
@@ -35,7 +35,6 @@ def test_gmsh_uz_xsection_mesh():
         resolutions=resolutions,
         background_tag="Oxide",
     )
-    assert True
 
 
 def test_gmsh_xy_xsection_mesh():
@@ -57,10 +56,10 @@ def test_gmsh_xy_xsection_mesh():
         }
     )
 
-    resolutions = {}
-    resolutions["core"] = {"resolution": 0.05, "distance": 0.1}
-    resolutions["via_contact"] = {"resolution": 0.1, "distance": 0}
-
+    resolutions = {
+        "core": {"resolution": 0.05, "distance": 0.1},
+        "via_contact": {"resolution": 0.1, "distance": 0},
+    }
     xy_xsection_mesh(
         component=waveguide,
         z=0.09,
@@ -68,4 +67,3 @@ def test_gmsh_xy_xsection_mesh():
         resolutions=resolutions,
         background_tag="Oxide",
     )
-    assert True
