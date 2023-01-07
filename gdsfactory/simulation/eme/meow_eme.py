@@ -379,11 +379,11 @@ if __name__ == "__main__":
     c = gf.components.taper(length=10, width2=2)
     c.show()
 
-    from gdsfactory.generic_tech import get_layer_stack_generic
+    from gdsfactory.pdk import get_layer_stack
 
     filtered_layerstack = LayerStack(
         layers={
-            k: get_layer_stack_generic().layers[k]
+            k: get_layer_stack().layers[k]
             for k in (
                 "slab90",
                 "core",

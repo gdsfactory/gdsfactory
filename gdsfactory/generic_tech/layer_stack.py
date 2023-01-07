@@ -4,7 +4,7 @@ from gdsfactory.technology import LayerLevel, LayerStack
 nm = 1e-3
 
 
-def get_layer_stack_generic(
+def get_layer_stack(
     thickness_wg: float = 220 * nm,
     thickness_slab_deep_etch: float = 90 * nm,
     thickness_clad: float = 3.0,
@@ -171,10 +171,10 @@ def get_layer_stack_generic(
     )
 
 
-LAYER_STACK = get_layer_stack_generic()
+LAYER_STACK = get_layer_stack()
 
 if __name__ == "__main__":
-    ls = get_layer_stack_generic(substrate_thickness=50.0)
+    ls = get_layer_stack(substrate_thickness=50.0)
     # print(ls)
     # ls.get_klayout_3d_script()
     # print(ls.get_layer_to_material())
