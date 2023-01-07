@@ -1,14 +1,15 @@
 import numpy as np
 
+from gdsfactory.generic_tech import LAYER_STACK
 from gdsfactory.simulation.fem.mode_solver import compute_cross_section_modes
-from gdsfactory.tech import LayerStack, get_layer_stack_generic
+from gdsfactory.technology import LayerStack
 
 
 def test_compute_cross_section_mode():
 
     filtered_layerstack = LayerStack(
         layers={
-            k: get_layer_stack_generic().layers[k]
+            k: LAYER_STACK.layers[k]
             for k in (
                 "core",
                 "clad",

@@ -14,12 +14,9 @@ settings:
       function: via_stack
       settings:
         layers:
-        - - 3
-          - 0
-        - - 24
-          - 0
-        - - 41
-          - 0
+        - SLAB90
+        - NPP
+        - M1
         size:
         - 80
         - 80
@@ -45,12 +42,9 @@ settings:
       function: via_stack
       settings:
         layers:
-        - - 3
-          - 0
-        - - 24
-          - 0
-        - - 41
-          - 0
+        - SLAB90
+        - NPP
+        - M1
         size:
         - 80
         - 80

@@ -289,5 +289,5 @@ venv.bak/
 # lumerical interconnect
 *.ich
 docs/notebooks/plugins/sax/fdtd_vs_model.png
-gdsfactory/klayout/tech/layers.py
+gdsfactory/technology/generic/klayout/tech/layers.py
 /gdslib

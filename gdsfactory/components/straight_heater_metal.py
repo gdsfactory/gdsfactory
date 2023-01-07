@@ -165,5 +165,5 @@ if __name__ == "__main__":
     n = c.get_netlist()
     # c.write_gds("/home/jmatres/demo/a.gds")
     c.show(show_ports=True)
-    # scene = gf.to_trimesh(c, layer_colors=gf.layers.LAYER_COLORS)
+    # scene = gf.to_trimesh(c, layer_views=gf.layers.LAYER_VIEWS)
     # scene.show()

@@ -4,39 +4,39 @@ from typing import Optional, Tuple
 
 import shapely
 
+from gdsfactory import generic_tech as generic
 from gdsfactory.component import Component
-from gdsfactory.layers import LayerColors
-from gdsfactory.pdk import get_layer_colors, get_layer_stack
-from gdsfactory.tech import LayerStack
+from gdsfactory.technology import LayerStack, LayerViews
 from gdsfactory.types import Layer
 
 
 def to_3d(
     component: Component,
-    layer_colors: Optional[LayerColors] = None,
-    layer_stack: Optional[LayerStack] = None,
+    layer_views: Optional[LayerViews] = generic.LAYER_VIEWS,
+    layer_stack: Optional[LayerStack] = generic.LAYER_STACK,
     exclude_layers: Optional[Tuple[Layer, ...]] = None,
 ):
     """Return Component 3D trimesh Scene.
 
     Args:
         component: to extrude in 3D.
-        layer_colors: layer colors from Klayout Layer Properties file.
-            Defaults to active PDK.layer_colors.
+        layer_views: layer colors from Klayout Layer Properties file.
+            Defaults to active PDK.layer_views.
         layer_stack: contains thickness and zmin for each layer.
             Defaults to active PDK.layer_stack.
         exclude_layers: layers to exclude.
 
     """
+    from gdsfactory.pdk import get_layer_stack, get_layer_views
+
     try:
-        import matplotlib.colors
         from trimesh.creation import extrude_polygon
         from trimesh.scene import Scene
     except ImportError as e:
         print("you need to `pip install trimesh`")
         raise e
 
-    layer_colors = layer_colors or get_layer_colors()
+    layer_views = layer_views or get_layer_views()
     layer_stack = layer_stack or get_layer_stack()
 
     scene = Scene()
@@ -54,22 +54,20 @@ def to_3d(
         ):
             height = layer_to_thickness[layer]
             zmin = layer_to_zmin[layer]
-            layer_color = layer_colors.get_from_tuple(layer)
-            color_hex = layer_color.color
-            color_rgb = matplotlib.colors.to_rgb(color_hex)
+            layer_view = layer_views.get_from_tuple(layer)
 
             for polygon in polygons:
                 p = shapely.geometry.Polygon(polygon.points)
                 mesh = extrude_polygon(p, height=height)
                 mesh.apply_translation((0, 0, zmin))
-                mesh.visual.face_colors = (*color_rgb, 0.5)
+                mesh.visual.face_colors = (*layer_view.fill_color.as_rgb_tuple(), 0.5)
                 scene.add_geometry(mesh)
                 has_polygons = True
 
     if not has_polygons:
         raise ValueError(
             f"{component.name!r} does not have polygons defined in the "
-            "layer_stack or layer_colors for the active Pdk {get_active_pdk().name!r}"
+            "layer_stack or layer_views for the active Pdk {get_active_pdk().name!r}"
         )
     return scene
 
