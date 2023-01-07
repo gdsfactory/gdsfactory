@@ -1,7 +1,7 @@
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.generic_tech import get_layer_stack_generic
+from gdsfactory.pdk import get_layer_stack
 from gdsfactory.simulation.eme import MEOW
 from gdsfactory.technology import LayerStack
 
@@ -12,7 +12,7 @@ def test_meow_defaults():
 
     filtered_layerstack = LayerStack(
         layers={
-            k: get_layer_stack_generic().layers[k]
+            k: get_layer_stack().layers[k]
             for k in (
                 "slab90",
                 "core",
@@ -44,7 +44,7 @@ def test_meow_defaults():
 def test_cells():
     layerstack = LayerStack(
         layers={
-            k: get_layer_stack_generic().layers[k]
+            k: get_layer_stack().layers[k]
             for k in (
                 "slab90",
                 "core",

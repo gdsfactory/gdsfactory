@@ -115,12 +115,11 @@ if __name__ == "__main__":
     waveguide = gf.components.straight_pin(length=1, taper=None)
     waveguide.show()
 
-    from gdsfactory.technology import get_layer_stack_generic
+    from gdsfactory.pdk import get_layer_stack
 
     filtered_layerstack = LayerStack(
         layers={
-            k: get_layer_stack_generic().layers[k]
-            for k in ("core", "via_contact", "slab90")
+            k: get_layer_stack().layers[k] for k in ("core", "via_contact", "slab90")
         }
     )
 

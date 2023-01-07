@@ -73,7 +73,7 @@ class LayerMap(BaseModel):
 LAYER = LayerMap()
 
 
-def get_layer_stack_generic(
+def get_layer_stack(
     thickness_wg: float = 220 * nm,
     thickness_clad: float = 3.0,
     thickness_nitride: float = 350 * nm,
@@ -161,7 +161,7 @@ def get_layer_stack_generic(
     )
 
 
-LAYER_STACK = get_layer_stack_generic()
+LAYER_STACK = get_layer_stack()
 
 
 if __name__ == "__main__":
