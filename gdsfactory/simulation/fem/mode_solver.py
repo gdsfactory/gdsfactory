@@ -1,10 +1,8 @@
 import pathlib
-import time
 from typing import Optional
 
 import numpy as np
 from femwell import mode_solver
-from omegaconf import OmegaConf
 from skfem import Basis, ElementTriN2, ElementTriP0, ElementTriP2, Mesh
 
 import gdsfactory as gf
@@ -28,6 +26,7 @@ def compute_cross_section_modes(
     dirpath: Optional[PathType] = None,
     filepath: Optional[PathType] = None,
     overwrite: bool = False,
+    with_cache: bool = True,
     **kwargs,
 ):
     """Calculate effective index of a straight cross-section.
@@ -40,9 +39,10 @@ def compute_cross_section_modes(
         order: order of the mesh elements.
         radius: bend radius of the cross-section.
         mesh_filename (str, path): where to save the .msh file.
-        dirpath: Optional directory to store modes. If None does not cache modes.
+        dirpath: Optional directory to store modes.
         filepath: Optional path to store modes.
         overwrite: Overwrite mode filepath if it exists.
+        with_cache: caches modes.
 
     Keyword Args:
         resolutions (Dict): Pairs {"layername": {"resolution": float, "distance": "float}}
@@ -62,7 +62,6 @@ def compute_cross_section_modes(
         wl=wl, num_modes=num_modes, radius=radius, order=order, **kwargs
     )
 
-    with_cache = filepath or dirpath
     filepath = filepath or get_modes_path(
         cross_section=cross_section,
         dirpath=dirpath,
@@ -70,11 +69,7 @@ def compute_cross_section_modes(
         **sim_settings,
     )
 
-    sim_settings = sim_settings.copy()
-    sim_settings["layerstack"] = layerstack.to_dict()
-    sim_settings["cross_section"] = dict(gf.get_cross_section(cross_section))
     filepath = pathlib.Path(filepath)
-    filepath_sim_settings = filepath.with_suffix(".yml")
 
     if with_cache and filepath.exists():
         if overwrite:
@@ -85,8 +80,6 @@ def compute_cross_section_modes(
             modes_dict = dict(np.load(filepath, allow_pickle=True))
             lams, basis, xs = modes_dict["lams"], modes_dict["basis"], modes_dict["xs"]
             return lams, basis, xs
-    # Otherwise calculate
-    start = time.time()
 
     # Get meshable component from cross-section
     c = gf.components.straight(length=10, cross_section=cross_section)
@@ -131,14 +124,7 @@ def compute_cross_section_modes(
 
     modes_dict = {"lams": lams, "basis": basis, "xs": xs}
     np.savez_compressed(filepath, **modes_dict)
-    end = time.time()
-
-    sim_settings.update(compute_time_seconds=end - start)
-    sim_settings.update(compute_time_minutes=(end - start) / 60)
     logger.info(f"Write simulation results to {filepath!r}")
-    filepath_sim_settings.write_text(OmegaConf.to_yaml(sim_settings))
-    logger.info(f"Write simulation settings to {filepath_sim_settings!r}")
-
     return lams, basis, xs
 
 

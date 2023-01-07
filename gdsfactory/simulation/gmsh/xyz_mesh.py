@@ -7,7 +7,7 @@ import gmsh
 from gdsfactory.simulation.gmsh.parse_component import buffers_to_lists
 from gdsfactory.simulation.gmsh.parse_gds import cleanup_component
 from gdsfactory.simulation.gmsh.parse_layerstack import order_layerstack
-from gdsfactory.tech import LayerStack
+from gdsfactory.technology import LayerStack
 from gdsfactory.types import ComponentOrReference
 
 
@@ -334,11 +334,11 @@ if __name__ == "__main__":
     # ).move(destination=[4, 0])
     c.show()
 
-    from gdsfactory.tech import get_layer_stack_generic
+    from gdsfactory.pdk import get_layer_stack
 
     filtered_layerstack = LayerStack(
         layers={
-            k: get_layer_stack_generic().layers[k]
+            k: get_layer_stack().layers[k]
             for k in (
                 "slab90",
                 "core",
