@@ -153,7 +153,7 @@ def fill_rectangle(
     include_layers: LayerSpecs = None,
     margin: float = 5.0,
     fill_densities: Union[float, Floats] = (0.5, 0.25, 0.7),
-    fill_inverted: bool = False,
+    fill_inverted: Optional[list] = None,
     bbox: Optional[Float2] = None,
 ) -> Component:
     """Returns rectangular fill pattern and fills all empty areas.
