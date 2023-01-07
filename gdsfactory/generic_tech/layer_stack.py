@@ -21,7 +21,7 @@ def get_layer_stack_generic(
     substrate_thickness: float = 10.0,
     box_thickness: float = 3.0,
     undercut_thickness: float = 5.0,
-):
+) -> LayerStack:
     """Returns generic LayerStack.
 
     based on paper https://www.degruyter.com/document/doi/10.1515/nanoph-2013-0034/html
