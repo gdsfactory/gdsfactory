@@ -11,12 +11,13 @@ from tqdm.auto import tqdm
 
 import gdsfactory as gf
 from gdsfactory.config import logger
+from gdsfactory.generic_tech import LAYER
 from gdsfactory.pdk import _ACTIVE_PDK
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_meow as get_sparameters_path,
 )
 from gdsfactory.simulation.gmsh.parse_layerstack import list_unique_layerstack_z
-from gdsfactory.tech import LAYER, LayerStack
+from gdsfactory.technology import LayerStack
 from gdsfactory.types import PathType
 
 ColorRGB = Tuple[float, float, float]
@@ -335,7 +336,7 @@ class MEOW:
             if not self.overwrite:
                 logger.info(f"Simulation loaded from {self.filepath!r}")
                 return dict(np.load(self.filepath))
-            elif self.overwrite:
+            else:
                 self.filepath.unlink()
 
         start = time.time()
@@ -373,18 +374,16 @@ class MEOW:
 
         return sp
 
-        return sp
-
 
 if __name__ == "__main__":
     c = gf.components.taper(length=10, width2=2)
     c.show()
 
-    from gdsfactory.tech import get_layer_stack_generic
+    from gdsfactory.pdk import get_layer_stack
 
     filtered_layerstack = LayerStack(
         layers={
-            k: get_layer_stack_generic().layers[k]
+            k: get_layer_stack().layers[k]
             for k in (
                 "slab90",
                 "core",

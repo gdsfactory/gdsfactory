@@ -16,7 +16,7 @@ from gdsfactory.simulation.gmeep.get_material import get_material
 from gdsfactory.simulation.gmeep.get_meep_geometry import (
     get_meep_geometry_from_component,
 )
-from gdsfactory.tech import LayerStack
+from gdsfactory.technology import LayerStack
 
 mp.verbosity(0)
 

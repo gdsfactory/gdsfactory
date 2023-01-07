@@ -20,7 +20,7 @@ from gdsfactory.simulation.gmsh.parse_layerstack import (
     list_unique_layerstack_z,
     order_layerstack,
 )
-from gdsfactory.tech import LayerStack
+from gdsfactory.technology import LayerStack
 from gdsfactory.types import ComponentOrReference
 
 
@@ -264,7 +264,7 @@ def uz_xsection_mesh(
 
 if __name__ == "__main__":
 
-    from gdsfactory.tech import get_layer_stack_generic
+    from gdsfactory.pdk import get_layer_stack
 
     c = gf.component.Component()
 
@@ -280,7 +280,7 @@ if __name__ == "__main__":
 
     filtered_layerstack = LayerStack(
         layers={
-            k: get_layer_stack_generic().layers[k]
+            k: get_layer_stack().layers[k]
             for k in (
                 "slab90",
                 "core",

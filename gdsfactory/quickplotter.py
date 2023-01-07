@@ -245,8 +245,8 @@ def quickplot(items, **kwargs):  # noqa: C901
                 new_bbox = _draw_polygons(
                     polygons,
                     ax,
-                    facecolor=layerprop["color"],
-                    edgecolor="k",
+                    facecolor=layerprop["fill_color"],
+                    edgecolor=layerprop["frame_color"],
                     alpha=layerprop["alpha"],
                 )
                 bbox = _update_bbox(bbox, new_bbox)
@@ -289,8 +289,8 @@ def quickplot(items, **kwargs):  # noqa: C901
             new_bbox = _draw_polygons(
                 item.points,
                 ax,
-                facecolor=layerprop["color"],
-                edgecolor="k",
+                facecolor=layerprop["fill_color"],
+                edgecolor=layerprop["frame_color"],
                 alpha=layerprop["alpha"],
             )
             bbox = _update_bbox(bbox, new_bbox)
@@ -357,7 +357,8 @@ def _update_bbox(bbox, new_bbox):
 
 
 def _get_layerprop(layer, datatype):
-    from gdsfactory.pdk import get_layer_colors
+    from gdsfactory.pdk import get_layer_views
+    from gdsfactory.utils.color_utils import ensure_six_digit_hex_color
 
     # Colors generated from here: http://phrogz.net/css/distinct-colors.html
     layer_colors = [
@@ -374,21 +375,26 @@ def _get_layerprop(layer, datatype):
         "#3d87cc",
         "#e5520e",
     ]
-    LAYER_COLORS = get_layer_colors()
+    LAYER_VIEWS = get_layer_views()
     _layer = (
-        LAYER_COLORS.get_from_tuple((layer, datatype))
-        if (layer, datatype) in LAYER_COLORS.get_layer_tuples()
+        LAYER_VIEWS.get_from_tuple((layer, datatype))
+        if (layer, datatype) in LAYER_VIEWS.get_layer_tuples()
         else None
     )
     if _layer is not None:
-        color = _layer.color
+        color = {
+            "frame_color": ensure_six_digit_hex_color(_layer.frame_color.as_hex()),
+            "fill_color": ensure_six_digit_hex_color(_layer.fill_color.as_hex()),
+        }
         alpha = _layer.alpha
         if color is None:
             color = layer_colors[np.mod(layer, len(layer_colors))]
     else:
         color = layer_colors[np.mod(layer, len(layer_colors))]
         alpha = 0.6
-    return {"color": color, "alpha": alpha}
+    if not isinstance(color, dict):
+        color = {"frame_color": color, "fill_color": color}
+    return {**color, "alpha": alpha}
 
 
 def _draw_polygons(polygons, ax, **kwargs):

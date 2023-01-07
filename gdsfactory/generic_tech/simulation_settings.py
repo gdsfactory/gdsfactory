@@ -1,0 +1,3 @@
+from gdsfactory.technology.simulation_settings import SimulationSettingsLumericalFdtd
+
+SIMULATION_SETTINGS_LUMERICAL_FDTD = SimulationSettingsLumericalFdtd()

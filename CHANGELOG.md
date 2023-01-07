@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+<<<<<<< HEAD
+## 6.18.0
+
+- TCAD adaptative meshing [PR](https://github.com/gdsfactory/gdsfactory/pull/1074)
+=======
 ## 6.18.4
 
 - fix path_smooth with near-collinear points [PR](https://github.com/gdsfactory/gdsfactory/pull/1093)
@@ -21,6 +26,7 @@
 - TCAD adaptative meshing [PR](https://github.com/gdsfactory/gdsfactory/pull/1074)
 - fix CLI docs [PR](https://github.com/gdsfactory/gdsfactory/pull/1076)
 - cache FEM modes [PR](https://github.com/gdsfactory/gdsfactory/pull/1079)
+>>>>>>> main
 
 ## [6.17.0](https://github.com/gdsfactory/gdsfactory/pull/1065)
 

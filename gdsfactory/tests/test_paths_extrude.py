@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.tech import LAYER
+from gdsfactory.generic_tech import LAYER
 
 
 def test_path_near_collinear() -> None:

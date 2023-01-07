@@ -1,9 +1,10 @@
 from __future__ import annotations
 
 import gdsfactory as gf
+from gdsfactory.pdk import get_layer_stack
 from gdsfactory.simulation.gmsh.uz_xsection_mesh import uz_xsection_mesh
 from gdsfactory.simulation.gmsh.xy_xsection_mesh import xy_xsection_mesh
-from gdsfactory.tech import LayerStack, get_layer_stack_generic
+from gdsfactory.technology import LayerStack
 
 
 def test_gmsh_uz_xsection_mesh():
@@ -12,7 +13,7 @@ def test_gmsh_uz_xsection_mesh():
 
     filtered_layerstack = LayerStack(
         layers={
-            k: get_layer_stack_generic().layers[k]
+            k: get_layer_stack().layers[k]
             for k in (
                 "slab90",
                 "core",
@@ -42,11 +43,11 @@ def test_gmsh_xy_xsection_mesh():
     waveguide = gf.components.straight_pin(length=10, taper=None)
     waveguide.show()
 
-    from gdsfactory.tech import get_layer_stack_generic
+    from gdsfactory.pdk import get_layer_stack
 
     filtered_layerstack = LayerStack(
         layers={
-            k: get_layer_stack_generic().layers[k]
+            k: get_layer_stack().layers[k]
             for k in (
                 "slab90",
                 "core",
