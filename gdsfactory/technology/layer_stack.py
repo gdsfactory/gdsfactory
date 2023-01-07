@@ -47,11 +47,7 @@ class LayerLevel(BaseModel):
 
 
 class LayerStack(BaseModel):
-    """For simulation and 3D rendering.
-
-    Parameters:
-        layers: dict of layer_levels.
-    """
+    """For simulation and 3D rendering."""
 
     def get_layer_to_thickness(self) -> Dict[Tuple[int, int], float]:
         """Returns layer tuple to thickness (um)."""
@@ -89,6 +85,10 @@ class LayerStack(BaseModel):
 
     def to_dict(self) -> Dict[str, Dict[str, Any]]:
         return {level_name: dict(level) for level_name, level in dict(self).items()}
+
+    @classmethod
+    def from_dict(cls, levels) -> "LayerStack":
+        return LayerStack(**{LayerLevel(**level) for level in levels})
 
     def get_klayout_3d_script(
         self,
@@ -143,3 +143,18 @@ class LayerStack(BaseModel):
             if print_to_console:
                 print(txt)
         return out
+
+
+if __name__ == "__main__":
+    import pickle
+
+    from gdsfactory.generic_tech import LAYER_STACK
+
+    ls = LAYER_STACK
+    data = pickle.dumps(ls)
+    ls2 = pickle.loads(data)
+
+    # ls_json = ls.json()
+    # d = json.loads(ls.json())
+    # ls2 = LayerStack.from_dict(d)
+    # ls2 = LayerStack.parse_raw(ls_json)
