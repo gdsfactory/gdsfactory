@@ -20,6 +20,7 @@ from devsim import (
     write_devices,
 )
 from devsim.python_packages import model_create, simple_physics
+from pdk import get_layer_stack
 from pydantic import Extra
 
 from gdsfactory import Component
@@ -28,7 +29,7 @@ from gdsfactory.simulation.devsim.doping import (
     get_doping_info_generic,
 )
 from gdsfactory.simulation.devsim.get_simulation import create_2Duz_simulation
-from gdsfactory.tech import LayerStack, get_layer_stack_generic
+from gdsfactory.technology import LayerStack
 
 
 def set_universal_parameters(device, region):
@@ -121,7 +122,7 @@ class DDComponent:
         # Set attributes
         self.component = component
         self.xsection_bounds = xsection_bounds
-        self.full_layerstack = full_layerstack or get_layer_stack_generic()
+        self.full_layerstack = full_layerstack or get_layer_stack()
         self.physical_layerstack = physical_layerstack
         self.doping_info = doping_info or get_doping_info_generic()
         self.contact_info = contact_info
@@ -429,7 +430,7 @@ if __name__ == "__main__":
     layermap = gf.tech.LayerMap()
     physical_layerstack = LayerStack(
         layers={
-            k: get_layer_stack_generic().layers[k]
+            k: get_layer_stack().layers[k]
             for k in (
                 "slab90",
                 "core",
@@ -484,7 +485,7 @@ if __name__ == "__main__":
     c = DDComponent(
         component=waveguide,
         xsection_bounds=[(4, -4), (4, 4)],
-        full_layerstack=get_layer_stack_generic(),
+        full_layerstack=get_layer_stack(),
         physical_layerstack=physical_layerstack,
         doping_info=get_doping_info_generic(),
         contact_info=contact_info,
@@ -516,7 +517,7 @@ if __name__ == "__main__":
     c = DDComponent(
         component=waveguide,
         xsection_bounds=[(4, -4), (4, 4)],
-        full_layerstack=get_layer_stack_generic(),
+        full_layerstack=get_layer_stack(),
         physical_layerstack=physical_layerstack,
         doping_info=get_doping_info_generic(),
         contact_info=contact_info,
