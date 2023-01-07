@@ -2,8 +2,6 @@ from typing import Any, Dict, List, Optional, Tuple
 
 from pydantic import BaseModel
 
-from gdsfactory.technology.layer_views import LayerViews
-
 
 class LayerLevel(BaseModel):
     """Level for 3D LayerStack.
@@ -47,27 +45,33 @@ class LayerLevel(BaseModel):
 
 
 class LayerStack(BaseModel):
-    """For simulation and 3D rendering."""
+    """For simulation and 3D rendering.
+
+    Parameters:
+        layers: dict of layer_levels.
+    """
+
+    layers: Dict[str, LayerLevel]
 
     def get_layer_to_thickness(self) -> Dict[Tuple[int, int], float]:
         """Returns layer tuple to thickness (um)."""
         return {
             level.layer: level.thickness
-            for level in dict(self).values()
+            for level in self.layers.values()
             if level.thickness
         }
 
     def get_layer_to_zmin(self) -> Dict[Tuple[int, int], float]:
         """Returns layer tuple to z min position (um)."""
         return {
-            level.layer: level.zmin for level in dict(self).values() if level.thickness
+            level.layer: level.zmin for level in self.layers.values() if level.thickness
         }
 
     def get_layer_to_material(self) -> Dict[Tuple[int, int], str]:
         """Returns layer tuple to material name."""
         return {
             level.layer: level.material
-            for level in dict(self).values()
+            for level in self.layers.values()
             if level.thickness
         }
 
@@ -75,26 +79,22 @@ class LayerStack(BaseModel):
         """Returns layer tuple to material name."""
         return {
             level.layer: level.sidewall_angle
-            for level in dict(self).values()
+            for level in self.layers.values()
             if level.thickness
         }
 
     def get_layer_to_info(self) -> Dict[Tuple[int, int], Dict]:
         """Returns layer tuple to info dict."""
-        return {level.layer: level.info for level in dict(self).values()}
+        return {level.layer: level.info for level in self.layers.values()}
 
     def to_dict(self) -> Dict[str, Dict[str, Any]]:
-        return {level_name: dict(level) for level_name, level in dict(self).items()}
-
-    @classmethod
-    def from_dict(cls, levels) -> "LayerStack":
-        return LayerStack(**{LayerLevel(**level) for level in levels})
+        return {level_name: dict(level) for level_name, level in self.layers.items()}
 
     def get_klayout_3d_script(
         self,
         klayout28: bool = True,
         print_to_console: bool = True,
-        layer_views: Optional[LayerViews] = None,
+        layer_display_properties=None,
         dbu: Optional[float] = 0.001,
     ) -> str:
         """Prints script for 2.5 view KLayout information.
@@ -103,7 +103,7 @@ class LayerStack(BaseModel):
         gdsfactory/klayout/tech/tech.lyt
         """
         out = ""
-        for layer_name, level in dict(self).items():
+        for layer_name, level in self.layers.items():
             layer = level.layer
             zmin = level.zmin
             zmax = zmin + level.thickness
@@ -124,14 +124,14 @@ class LayerStack(BaseModel):
                     f"zstop: {zmax}, "
                     f"name: '{layer_name}: {level.material} {layer[0]}/{layer[1]}'"
                 )
-                if layer_views:
+                if layer_display_properties:
                     txt += ", "
-                    props = layer_views.get_from_tuple(layer)
-                    if props.color.fill == props.color.frame:
-                        txt += f"color: {props.color.fill}"
+                    props = layer_display_properties.get_from_tuple(layer)
+                    if props.fill_color == props.frame_color:
+                        txt += f"color: {props.frame_color}"
                     else:
                         txt += (
-                            f"fill: {props.color.fill}, " f"frame: {props.color.frame}"
+                            f"fill: {props.fill_color}, " f"frame: {props.frame_color}"
                         )
 
                 txt += ")"
@@ -142,6 +142,8 @@ class LayerStack(BaseModel):
 
             if print_to_console:
                 print(txt)
+        if klayout28:
+            out += "\nend\n"
         return out
 
 
