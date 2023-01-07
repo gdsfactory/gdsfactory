@@ -1445,7 +1445,6 @@
   <name>SHOW_PORTS 1/12</name>
   <source>1/12@1</source>
  </properties>
- <name>all</name>
  <custom-dither-pattern>
   <pattern>
    <line>.*...*...*...*...*...*...*...*..</line>

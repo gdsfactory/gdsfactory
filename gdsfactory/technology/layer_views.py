@@ -17,7 +17,7 @@ import xml.etree.ElementTree as ET
 from typing import Dict, Optional, Set, Tuple, Union
 
 import numpy as np
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 from pydantic.color import Color, ColorType
 
 from gdsfactory.config import logger
@@ -29,6 +29,248 @@ PathLike = Union[pathlib.Path, str]
 
 Layer = Tuple[int, int]
 
+_klayout_line_styles = {
+    "solid": "",
+    "dotted": "*.",
+    "dashed": "**..**",
+    "dash-dotted": "***..**..***",
+    "short dashed": "*..*",
+    "short dash-dotted": "**.*.*",
+    "long dashed": "*****..*****",
+    "dash-double-dotted": "***..*.*..**",
+}
+_klayout_dither_patterns = {
+    "solid": "*",
+    "hollow": ".",
+    "dotted": "*.\n" ".*",
+    "coarsely dotted": "*...\n" "....\n" "..*.\n" "....",
+    "left-hatched": "*...\n" ".*..\n" "..*.\n" "...*",
+    "lightly left-hatched": "*.......\n"
+    ".*......\n"
+    "..*.....\n"
+    "...*....\n"
+    "....*...\n"
+    ".....*..\n"
+    "......*.\n"
+    ".......*",
+    "strongly left-hatched dense": "**..\n" ".**.\n" "..**\n" "*..*",
+    "strongly left-hatched sparse": "**......\n"
+    ".**.....\n"
+    "..**....\n"
+    "...**...\n"
+    "....**..\n"
+    ".....**.\n"
+    "......**\n"
+    "*......*",
+    "right-hatched": "*...\n" "...*\n" "..*.\n" ".*..",
+    "lightly right-hatched": "*.......\n"
+    ".......*\n"
+    "......*.\n"
+    ".....*..\n"
+    "....*...\n"
+    "...*....\n"
+    "..*.....\n"
+    ".*......",
+    "strongly right-hatched dense": "**..\n" "*..*\n" "..**\n" ".**.",
+    "strongly right-hatched sparse": "**......\n"
+    "*......*\n"
+    "......**\n"
+    ".....**.\n"
+    "....**..\n"
+    "...**...\n"
+    "..**....\n"
+    ".**.....",
+    "cross-hatched": "*...\n" ".*.*\n" "..*.\n" ".*.*",
+    "lightly cross-hatched": "*.......\n"
+    ".*.....*\n"
+    "..*...*.\n"
+    "...*.*..\n"
+    "....*...\n"
+    "...*.*..\n"
+    "..*...*.\n"
+    ".*.....*",
+    "checkerboard 2px": "**..\n" "**..\n" "..**\n" "..**",
+    "strongly cross-hatched sparse": "**......\n"
+    "***....*\n"
+    "..**..**\n"
+    "...****.\n"
+    "....**..\n"
+    "...****.\n"
+    "..**..**\n"
+    "***....*",
+    "heavy checkerboard": "****....\n"
+    "****....\n"
+    "****....\n"
+    "****....\n"
+    "....****\n"
+    "....****\n"
+    "....****\n"
+    "....****",
+    "hollow bubbles": ".*...*..\n"
+    "*.*.....\n"
+    ".*...*..\n"
+    "....*.*.\n"
+    ".*...*..\n"
+    "*.*.....\n"
+    ".*...*..\n"
+    "....*.*.",
+    "solid bubbles": ".*...*..\n"
+    "***.....\n"
+    ".*...*..\n"
+    "....***.\n"
+    ".*...*..\n"
+    "***.....\n"
+    ".*...*..\n"
+    "....***.",
+    "pyramids": ".*......\n"
+    "*.*.....\n"
+    "****...*\n"
+    "........\n"
+    "....*...\n"
+    "...*.*..\n"
+    "..*****.\n"
+    "........",
+    "turned pyramids": "****...*\n"
+    "*.*.....\n"
+    ".*......\n"
+    "........\n"
+    "..*****.\n"
+    "...*.*..\n"
+    "....*...\n"
+    "........",
+    "plus": "..*...*.\n"
+    "..*.....\n"
+    "*****...\n"
+    "..*.....\n"
+    "..*...*.\n"
+    "......*.\n"
+    "*...****\n"
+    "......*.",
+    "minus": "........\n"
+    "........\n"
+    "*****...\n"
+    "........\n"
+    "........\n"
+    "........\n"
+    "*...****\n"
+    "........",
+    "22.5 degree down": "*......*\n"
+    ".**.....\n"
+    "...**...\n"
+    ".....**.\n"
+    "*......*\n"
+    ".**.....\n"
+    "...**...\n"
+    ".....**.",
+    "22.5 degree up": "*......*\n"
+    ".....**.\n"
+    "...**...\n"
+    ".**.....\n"
+    "*......*\n"
+    ".....**.\n"
+    "...**...\n"
+    ".**.....",
+    "67.5 degree down": "*...*...\n"
+    ".*...*..\n"
+    ".*...*..\n"
+    "..*...*.\n"
+    "..*...*.\n"
+    "...*...*\n"
+    "...*...*\n"
+    "*...*...",
+    "67.5 degree up": "...*...*\n"
+    "..*...*.\n"
+    "..*...*.\n"
+    ".*...*..\n"
+    ".*...*..\n"
+    "*...*...\n"
+    "*...*...\n"
+    "...*...*",
+    "22.5 degree cross hatched": "*......*\n"
+    ".**..**.\n"
+    "...**...\n"
+    ".**..**.\n"
+    "*......*\n"
+    ".**..**.\n"
+    "...**...\n"
+    ".**..**.",
+    "zig zag": "..*...*.\n"
+    ".*.*.*.*\n"
+    "*...*...\n"
+    "........\n"
+    "..*...*.\n"
+    ".*.*.*.*\n"
+    "*...*...\n"
+    "........",
+    "sine": "..***...\n"
+    ".*...*..\n"
+    "*.....**\n"
+    "........\n"
+    "..***...\n"
+    ".*...*..\n"
+    "*.....**\n"
+    "........",
+    "heavy unordered": "****.*.*\n"
+    "**.****.\n"
+    "*.**.***\n"
+    "*****.*.\n"
+    ".**.****\n"
+    "**.***.*\n"
+    ".****.**\n"
+    "*.*.****",
+    "light unordered": "....*.*.\n"
+    "..*....*\n"
+    ".*..*...\n"
+    ".....*.*\n"
+    "*..*....\n"
+    "..*...*.\n"
+    "*....*..\n"
+    ".*.*....",
+    "vertical dense": "*.\n" "*.\n",
+    "vertical": ".*..\n" ".*..\n" ".*..\n" ".*..\n",
+    "vertical thick": ".**.\n" ".**.\n" ".**.\n" ".**.\n",
+    "vertical sparse": "...*....\n" "...*....\n" "...*....\n" "...*....\n",
+    "vertical sparse, thick": "...**...\n" "...**...\n" "...**...\n" "...**...\n",
+    "horizontal dense": "**\n" "..\n",
+    "horizontal": "....\n" "****\n" "....\n" "....\n",
+    "horizontal thick": "....\n" "****\n" "****\n" "....\n",
+    "horizontal sparse": "........\n"
+    "........\n"
+    "........\n"
+    "********\n"
+    "........\n"
+    "........\n"
+    "........\n"
+    "........\n",
+    "horizontal sparse, thick": "........\n"
+    "........\n"
+    "........\n"
+    "********\n"
+    "********\n"
+    "........\n"
+    "........\n"
+    "........\n",
+    "grid dense": "**\n" "*.\n",
+    "grid": ".*..\n" "****\n" ".*..\n" ".*..\n",
+    "grid thick": ".**.\n" "****\n" "****\n" ".**.\n",
+    "grid sparse": "...*....\n"
+    "...*....\n"
+    "...*....\n"
+    "********\n"
+    "...*....\n"
+    "...*....\n"
+    "...*....\n"
+    "...*....\n",
+    "grid sparse, thick": "...**...\n"
+    "...**...\n"
+    "...**...\n"
+    "********\n"
+    "********\n"
+    "...**...\n"
+    "...**...\n"
+    "...**...\n",
+}
+
 
 class HatchPattern(BaseModel):
     """Custom dither pattern. See KLayout documentation for more info.
@@ -36,23 +278,39 @@ class HatchPattern(BaseModel):
     Attributes:
         name: Name of the pattern.
         order: Order of pattern.
-        klayout_pattern: Pattern to use in KLayout.
+        custom_pattern: Pattern defining custom shape.
     """
 
     name: str
-    order: int
-    klayout_pattern: str
+    order: Optional[int] = None
+    custom_pattern: Optional[str] = None
 
     class Config:
         """YAML output uses name as the key."""
 
         fields = {"name": {"exclude": True}}
 
+    @validator("custom_pattern")
+    def check_pattern_klayout(cls, pattern: Optional[str], **kwargs) -> Optional[str]:
+        if pattern is None:
+            return None
+        lines = pattern.splitlines()
+        if not all([len(list(line)) <= 32 for line in lines]):
+            raise ValueError(
+                f"Custom pattern {kwargs['values']['name']} has more than 32 characters."
+            )
+        return pattern
+
     def to_klayout_xml(self) -> ET.Element:
+        if self.custom_pattern is None:
+            raise KeyError(
+                f"Cannot write custom hatch/dither pattern {self.name} to KLayout xml format because no pattern is present."
+            )
+
         el = ET.Element("custom-dither-pattern")
 
         subel = ET.SubElement(el, "pattern")
-        lines = self.klayout_pattern.split("\n")
+        lines = self.custom_pattern.splitlines()
         if len(lines) == 1:
             subel.text = lines[0]
         else:
@@ -70,22 +328,42 @@ class LineStyle(BaseModel):
     Attributes:
         name: Name of the line style.
         order: Order of line style.
-        klayout_pattern: Pattern to use.
+        custom_style: Line style to use.
     """
 
     name: str
-    order: int
-    klayout_pattern: str
+    order: Optional[int] = None
+    custom_style: Optional[str] = None
 
     class Config:
         """YAML output uses name as the key."""
 
         fields = {"name": {"exclude": True}}
 
+    @validator("custom_style")
+    def check_pattern(cls, pattern: Optional[str], **kwargs) -> Optional[str]:
+        if pattern is None:
+            return None
+
+        pattern_list = list(pattern)
+        valid_chars = all([char in ["*", "."] for char in pattern_list])
+        valid_length = len(pattern_list) <= 32
+        if (not valid_chars) or (not valid_length):
+            raise ValueError(
+                f"Custom line pattern {kwargs['values']['name']} must consist of '*' and '.' characters and be no more than 32 characters long."
+            )
+
+        return pattern
+
     def to_klayout_xml(self) -> ET.Element:
+        if self.custom_style is None:
+            raise KeyError(
+                f"Cannot write custom line style {self.name} to KLayout xml format because no pattern is present."
+            )
+
         el = ET.Element("custom-line-pattern")
 
-        ET.SubElement(el, "pattern").text = str(self.klayout_pattern)
+        ET.SubElement(el, "pattern").text = str(self.custom_style)
         ET.SubElement(el, "order").text = str(self.order)
         ET.SubElement(el, "name").text = self.name
         return el
@@ -100,7 +378,6 @@ class LayerView(BaseModel):
     Attributes:
         name: Layer name.
         info: Extra info to include in the LayerView.
-        alpha:
         layer: GDSII layer.
         layer_in_name: Whether to display the name as 'name layer/datatype' rather than just the layer.
         width: This is the line width of the frame in pixels (or empty for the default which is 1).
@@ -128,15 +405,14 @@ class LayerView(BaseModel):
 
     name: Optional[str] = None
     info: Optional[str] = None
-    alpha: Optional[float] = None
     layer: Optional[Layer] = None
     layer_in_name: bool = False
     frame_color: Optional[Color] = None
     fill_color: Optional[Color] = None
-    frame_brightness: Optional[int] = None
-    fill_brightness: Optional[int] = None
-    hatch_pattern: Optional[Union[str, HatchPattern]] = None
-    line_style: Optional[Union[str, LineStyle]] = None
+    frame_brightness: int = 0
+    fill_brightness: int = 0
+    hatch_pattern: Union[str, HatchPattern] = "solid"
+    line_style: Union[str, LineStyle] = "solid"
     valid: bool = True
     visible: bool = True
     transparent: bool = False
@@ -150,15 +426,6 @@ class LayerView(BaseModel):
         """YAML output uses name as the key."""
 
         fields = {"name": {"exclude": True}}
-
-    def _alpha_from_lyp(self):
-        if not self.visible:
-            return 0.0
-        elif not self.transparent:
-            dither_name = getattr(self.hatch_pattern, "name", self.hatch_pattern)
-            return 0.1 if dither_name == "I1" else 1.0
-        else:
-            return 0.5
 
     def __init__(
         self,
@@ -190,9 +457,6 @@ class LayerView(BaseModel):
             data["fill_brightness"] = data["frame_brightness"] = brightness
 
         super().__init__(**data)
-
-        if self.alpha is None:
-            self.alpha = self._alpha_from_lyp()
 
         # Iterate through all items, adding group members as needed
         for name, field in self.__fields__.items():
@@ -236,7 +500,7 @@ class LayerView(BaseModel):
                     _dict[fill] == _dict[frame]
                 ):
                     _dict[key] = _dict.pop(f"frame_{key}")
-                    _ = _dict.pop(f"fill_{key}")
+                    _dict.pop(f"fill_{key}")
         return _dict
 
     def __str__(self):
@@ -249,21 +513,94 @@ class LayerView(BaseModel):
         """Returns a formatted view of properties and their values."""
         return self.__str__()
 
-    def _build_klayout_xml_element(self, tag: str, name: str) -> ET.Element:
+    def get_alpha(self):
+        if not self.visible:
+            return 0.0
+        elif not self.transparent:
+            dither_name = getattr(self.hatch_pattern, "name", self.hatch_pattern)
+            if dither_name in ["I0", "solid"]:
+                return 0.6
+            elif dither_name in ["I1", "hollow"]:
+                return 0.1
+            else:
+                return 0.4
+        else:
+            return 0.3
+
+    def get_color_dict(self) -> Dict[str, str]:
+        from gdsfactory.utils.color_utils import ensure_six_digit_hex_color
+
+        if (self.fill_color is None) and (self.frame_color is None):
+            # Colors generated from here: http://phrogz.net/css/distinct-colors.html
+            layer_colors = [
+                "#3dcc5c",
+                "#2b0fff",
+                "#cc3d3d",
+                "#e5dd45",
+                "#7b3dcc",
+                "#cc860c",
+                "#73ff0f",
+                "#2dccb4",
+                "#ff0fa3",
+                "#0ec2e6",
+                "#3d87cc",
+                "#e5520e",
+            ]
+            color = layer_colors[np.mod(self.layer[0], len(layer_colors))]
+            return {"fill_color": color, "frame_color": color}
+        else:
+            return {
+                "fill_color": ensure_six_digit_hex_color(self.fill_color.as_hex()),
+                "frame_color": ensure_six_digit_hex_color(self.frame_color.as_hex()),
+            }
+
+    def _build_klayout_xml_element(
+        self, tag: str, name: str, custom_hatch_patterns: dict, custom_line_styles: dict
+    ) -> ET.Element:
         """Get XML Element from attributes."""
         from gdsfactory.utils.color_utils import ensure_six_digit_hex_color
 
+        # If hatch pattern name matches a named (built-in) KLayout pattern, use 'I<idx>' notation
+        hatch_name = getattr(self.hatch_pattern, "name", self.hatch_pattern)
+        if hatch_name in _klayout_dither_patterns:
+            dither_pattern = f"I{list(_klayout_dither_patterns).index(hatch_name)}"
+        elif hatch_name in custom_hatch_patterns:
+            dither_pattern = f"C{list(custom_hatch_patterns).index(hatch_name)}"
+        else:
+            logger.warning(
+                f"Dither pattern {hatch_name} does not correspond to any KLayout built-in or custom pattern! Using 'solid' instead."
+            )
+            dither_pattern = "solid"
+
+        # If line style name matches a named (built-in) KLayout pattern, use 'I<idx>' notation
+        ls_name = getattr(self.line_style, "name", self.line_style)
+        if ls_name in _klayout_line_styles:
+            line_style = f"I{list(_klayout_line_styles).index(ls_name)}"
+        elif ls_name in custom_line_styles:
+            line_style = f"C{list(custom_line_styles).index(ls_name)}"
+        else:
+            logger.warning(
+                f"Line style {ls_name} does not correspond to any KLayout built-in or custom pattern! Using 'solid' instead."
+            )
+            line_style = "solid"
+
+        frame_color = (
+            ensure_six_digit_hex_color(self.frame_color.as_hex())
+            if isinstance(self.frame_color, Color)
+            else self.frame_color
+        )
+        fill_color = (
+            ensure_six_digit_hex_color(self.fill_color.as_hex())
+            if isinstance(self.fill_color, Color)
+            else self.fill_color
+        )
         prop_dict = {
-            "frame-color": ensure_six_digit_hex_color(self.frame_color.as_hex()),
-            "fill-color": ensure_six_digit_hex_color(self.fill_color.as_hex()),
+            "frame-color": frame_color,
+            "fill-color": fill_color,
             "frame-brightness": self.frame_brightness,
             "fill-brightness": self.fill_brightness,
-            "dither-pattern": self.hatch_pattern.name
-            if isinstance(self.hatch_pattern, HatchPattern)
-            else self.hatch_pattern,
-            "line-style": self.line_style.name
-            if isinstance(self.line_style, LineStyle)
-            else self.line_style,
+            "dither-pattern": dither_pattern,
+            "line-style": line_style,
             "valid": str(self.valid).lower(),
             "visible": str(self.visible).lower(),
             "transparent": str(self.transparent).lower(),
@@ -291,12 +628,24 @@ class LayerView(BaseModel):
             subel.text = str(value)
         return el
 
-    def to_klayout_xml(self) -> ET.Element:
+    def to_klayout_xml(
+        self, custom_hatch_patterns: dict, custom_line_styles: dict
+    ) -> ET.Element:
         """Return an XML representation of the LayerView."""
-        props = self._build_klayout_xml_element("properties", name=self.name)
+        props = self._build_klayout_xml_element(
+            "properties",
+            name=self.name,
+            custom_hatch_patterns=custom_hatch_patterns,
+            custom_line_styles=custom_line_styles,
+        )
         for member_name, member in self.group_members.items():
             props.append(
-                member._build_klayout_xml_element("group-members", name=member_name)
+                member._build_klayout_xml_element(
+                    "group-members",
+                    name=member_name,
+                    custom_hatch_patterns=custom_hatch_patterns,
+                    custom_line_styles=custom_line_styles,
+                )
             )
         return props
 
@@ -315,13 +664,12 @@ class LayerView(BaseModel):
         if not name:
             return None, None
 
-        name = clean_name(name, remove_dots=True)
         layer_in_name = False
         match = re.search(layer_pattern, name)
         if match:
             name = name[: match.start()].strip()
             layer_in_name = True
-        return name, layer_in_name
+        return clean_name(name, remove_dots=True), layer_in_name
 
     @staticmethod
     def _process_layer(
@@ -355,15 +703,27 @@ class LayerView(BaseModel):
         if name is None:
             return None
 
+        # Translate KLayout index to hatch name
+        hatch_pattern = element.find("dither-pattern").text
+        if hatch_pattern and re.match(r"I\d+", hatch_pattern):
+            hatch_pattern = list(_klayout_dither_patterns.keys())[
+                int(hatch_pattern[1:])
+            ]
+
+        # Translate KLayout index to line style name
+        line_style = element.find("line-style").text
+        if line_style and re.match(r"I\d+", line_style):
+            line_style = list(_klayout_line_styles.keys())[int(line_style[1:])]
+
         lv = LayerView(
             name=name,
             layer=cls._process_layer(element.find("source").text, layer_pattern),
             fill_color=element.find("fill-color").text,
             frame_color=element.find("frame-color").text,
-            fill_brightness=element.find("fill-brightness").text,
-            frame_brightness=element.find("frame-brightness").text,
-            hatch_pattern=element.find("dither-pattern").text,
-            line_style=element.find("line-style").text,
+            fill_brightness=element.find("fill-brightness").text or 0,
+            frame_brightness=element.find("frame-brightness").text or 0,
+            hatch_pattern=hatch_pattern or "solid",
+            line_style=line_style or "solid",
             valid=element.find("valid").text,
             visible=element.find("visible").text,
             transparent=element.find("transparent").text,
@@ -627,8 +987,13 @@ class LayerViews(BaseModel):
 
         root = ET.Element("layer-properties")
 
-        for lv in self.layer_views.values():
-            root.append(lv.to_klayout_xml())
+        for name, lv in self.layer_views.items():
+            root.append(
+                lv.to_klayout_xml(
+                    custom_hatch_patterns=self.custom_dither_patterns,
+                    custom_line_styles=self.custom_line_styles,
+                )
+            )
 
         for dp in self.custom_dither_patterns.values():
             root.append(dp.to_klayout_xml())
@@ -672,10 +1037,16 @@ class LayerViews(BaseModel):
                 [line.text for line in dither_block.find("pattern").iter()]
             )
 
+            if name in dither_patterns:
+                logger.warning(
+                    f"Dither pattern named '{name}' already exists. Keeping only the first defined."
+                )
+                continue
+
             dither_patterns[name] = HatchPattern(
                 name=name,
                 order=int(order),
-                klayout_pattern=pattern.lstrip(),
+                custom_pattern=pattern.lstrip(),
             )
         line_styles = {}
         for line_block in root.iter("custom-line-style"):
@@ -685,10 +1056,16 @@ class LayerViews(BaseModel):
             if name is None or order is None:
                 continue
 
+            if name in line_styles:
+                logger.warning(
+                    f"Line style named '{name}' already exists. Keeping only the first defined."
+                )
+                continue
+
             line_styles[name] = LineStyle(
                 name=name,
                 order=int(order),
-                klayout_pattern=line_block.find("pattern").text,
+                custom_style=line_block.find("pattern").text,
             )
 
         layer_views = {}
@@ -842,6 +1219,11 @@ if __name__ == "__main__":
 
     LAYER_VIEWS = LayerViews(filepath=layer_path)
     LAYER_VIEWS.to_yaml(PATH.generic_tech / "layer_views.yaml")
+
+    LAYER_VIEWS2 = LayerViews(filepath=PATH.generic_tech / "layer_views.yaml")
+    LAYER_VIEWS2.to_lyp(PATH.repo / "extra" / "test_tech" / "layers.lyp")
+
+    assert LAYER_VIEWS == LAYER_VIEWS2
     # import gdsfactory as gf
 
     # c = gf.components.rectangle(layer=(123, 0))
