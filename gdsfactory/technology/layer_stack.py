@@ -1,6 +1,8 @@
 from typing import Any, Dict, List, Optional, Tuple
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+
+from gdsfactory.technology.layer_views import LayerViews
 
 
 class LayerLevel(BaseModel):
@@ -51,7 +53,16 @@ class LayerStack(BaseModel):
         layers: dict of layer_levels.
     """
 
-    layers: Dict[str, LayerLevel]
+    layers: Optional[Dict[str, LayerLevel]] = Field(default_factory=dict)
+
+    def __init__(self, **data: Any):
+        """Add LayerLevels automatically for subclassed LayerStacks."""
+        super().__init__(**data)
+
+        for field in self.dict():
+            val = getattr(self, field)
+            if isinstance(val, LayerLevel):
+                self.layers[field] = val
 
     def get_layer_to_thickness(self) -> Dict[Tuple[int, int], float]:
         """Returns layer tuple to thickness (um)."""
@@ -94,7 +105,7 @@ class LayerStack(BaseModel):
         self,
         klayout28: bool = True,
         print_to_console: bool = True,
-        layer_display_properties=None,
+        layer_views: Optional[LayerViews] = None,
         dbu: Optional[float] = 0.001,
     ) -> str:
         """Prints script for 2.5 view KLayout information.
@@ -124,14 +135,14 @@ class LayerStack(BaseModel):
                     f"zstop: {zmax}, "
                     f"name: '{layer_name}: {level.material} {layer[0]}/{layer[1]}'"
                 )
-                if layer_display_properties:
+                if layer_views:
                     txt += ", "
-                    props = layer_display_properties.get_from_tuple(layer)
-                    if props.fill_color == props.frame_color:
-                        txt += f"color: {props.frame_color}"
+                    props = layer_views.get_from_tuple(layer)
+                    if props.color.fill == props.color.frame:
+                        txt += f"color: {props.color.fill}"
                     else:
                         txt += (
-                            f"fill: {props.fill_color}, " f"frame: {props.frame_color}"
+                            f"fill: {props.color.fill}, " f"frame: {props.color.frame}"
                         )
 
                 txt += ")"
@@ -142,21 +153,14 @@ class LayerStack(BaseModel):
 
             if print_to_console:
                 print(txt)
-        if klayout28:
-            out += "\nend\n"
         return out
 
 
 if __name__ == "__main__":
-    import pickle
+    import pathlib
 
-    from gdsfactory.generic_tech import LAYER_STACK
-
-    ls = LAYER_STACK
-    data = pickle.dumps(ls)
-    ls2 = pickle.loads(data)
-
-    # ls_json = ls.json()
-    # d = json.loads(ls.json())
-    # ls2 = LayerStack.from_dict(d)
-    # ls2 = LayerStack.parse_raw(ls_json)
+    filepath = pathlib.Path(
+        "/home/jmatres/gdslib/sp/temp/write_sparameters_meep_mpi.json"
+    )
+    ls_json = filepath.read_bytes()
+    ls2 = LayerStack.parse_raw(ls_json)
