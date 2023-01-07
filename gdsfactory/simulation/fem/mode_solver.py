@@ -145,7 +145,7 @@ if __name__ == "__main__":
         "box": {"resolution": 0.2, "distance": 1},
         "slab90": {"resolution": 0.05, "distance": 1},
     }
-    compute_cross_section_modes(
+    lams, basis, xs = compute_cross_section_modes(
         cross_section="rib",
         layerstack=filtered_layerstack,
         wl=1.55,
@@ -155,4 +155,13 @@ if __name__ == "__main__":
         mesh_filename="mesh.msh",
         resolutions=resolutions,
         overwrite=False,
+        with_cache=True,
+    )
+    mode_solver.plot_mode(
+        basis,
+        np.real(xs[0]),
+        plot_vectors=False,
+        colorbar=True,
+        title="E",
+        direction="y",
     )
