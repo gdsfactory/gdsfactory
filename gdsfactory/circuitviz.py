@@ -401,10 +401,10 @@ def viz_instance(
     }
 
     for layer, polys in polys_by_layer.items():
-        xs = [[p.points[:, 0]] for p in polys]
-        ys = [[p.points[:, 1]] for p in polys]
         color_info = colors_by_ldt.get(layer)
         if color_info:
+            xs = [[p.points[:, 0]] for p in polys]
+            ys = [[p.points[:, 1]] for p in polys]
             lp = LayerPolygons(
                 tag=instance_name,
                 xs=xs,
