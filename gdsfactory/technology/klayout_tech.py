@@ -152,7 +152,7 @@ class KLayoutTechnology(BaseModel):
 layer_views = LayerViews.from_lyp(str(PATH.klayout_lyp))
 
 
-def yaml_test():
+def test_yaml():
     tech_dir = PATH.repo / "extra" / "test_tech"
 
     # Load from existing layer properties file
@@ -178,7 +178,6 @@ if __name__ == "__main__":
     # str_xml = open(PATH.klayout_tech / "tech.lyt").read()
     # new_tech = db.Technology.technology_from_xml(str_xml)
     # generic_tech = KLayoutTechnology(layer_views=lyp)
-    #
     connectivity = [("M1", "VIA1", "M2"), ("M2", "VIA2", "M3")]
 
     c = generic_tech = KLayoutTechnology(
@@ -187,7 +186,6 @@ if __name__ == "__main__":
     tech_dir = PATH.repo / "extra" / "test_tech"
     # tech_dir = pathlib.Path("/home/jmatres/.klayout/salt/gdsfactory/tech/")
     tech_dir.mkdir(exist_ok=True, parents=True)
-
     generic_tech.export_technology_files(tech_dir=tech_dir, layer_stack=LAYER_STACK)
 
-    yaml_test()
+    # test_yaml()
