@@ -8,9 +8,7 @@ from skfem import Basis, ElementTriN2, ElementTriP0, ElementTriP2, Mesh
 import gdsfactory as gf
 from gdsfactory.config import logger
 from gdsfactory.pdk import _ACTIVE_PDK, get_layer_stack
-from gdsfactory.simulation.get_modes_path import (
-    get_modes_path_femwell as get_modes_path,
-)
+from gdsfactory.simulation.get_modes_path import get_modes_path_femwell
 from gdsfactory.technology import LayerStack
 from gdsfactory.types import CrossSectionSpec, PathType
 
@@ -26,7 +24,7 @@ def compute_cross_section_modes(
     dirpath: Optional[PathType] = None,
     filepath: Optional[PathType] = None,
     overwrite: bool = False,
-    with_cache: bool = True,
+    with_cache: bool = False,
     **kwargs,
 ):
     """Calculate effective index of a straight cross-section.
@@ -42,7 +40,7 @@ def compute_cross_section_modes(
         dirpath: Optional directory to store modes.
         filepath: Optional path to store modes.
         overwrite: Overwrite mode filepath if it exists.
-        with_cache: caches modes.
+        with_cache: write modes to filepath cache.
 
     Keyword Args:
         resolutions (Dict): Pairs {"layername": {"resolution": float, "distance": "float}}
@@ -57,18 +55,15 @@ def compute_cross_section_modes(
         extra_shapes_dict: Optional[OrderedDict] = OrderedDict of {key: geo} with key a label and geo a shapely (Multi)Polygon or (Multi)LineString of extra shapes to override component.
         merge_by_material: boolean, if True will merge polygons from layers with the same layer.material. Physical keys will be material in this case.
     """
-    # Cache
     sim_settings = dict(
         wl=wl, num_modes=num_modes, radius=radius, order=order, **kwargs
     )
-
-    filepath = filepath or get_modes_path(
+    filepath = filepath or get_modes_path_femwell(
         cross_section=cross_section,
         dirpath=dirpath,
         layerstack=layerstack,
         **sim_settings,
     )
-
     filepath = pathlib.Path(filepath)
 
     if with_cache and filepath.exists():
@@ -122,9 +117,10 @@ def compute_cross_section_modes(
         radius=radius,
     )
 
-    modes_dict = {"lams": lams, "basis": basis, "xs": xs}
-    np.savez_compressed(filepath, **modes_dict)
-    logger.info(f"Write simulation results to {filepath!r}")
+    if with_cache:
+        modes_dict = {"lams": lams, "basis": basis, "xs": xs}
+        np.savez_compressed(filepath, **modes_dict)
+        logger.info(f"Write simulation results to {filepath!r}")
     return lams, basis, xs
 
 
