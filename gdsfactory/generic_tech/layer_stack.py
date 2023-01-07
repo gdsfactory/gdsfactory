@@ -173,7 +173,7 @@ def get_layer_stack_generic(
 
 if __name__ == "__main__":
     ls = get_layer_stack_generic(substrate_thickness=50.0)
-    print(ls)
-    ls.get_klayout_3d_script()
+    # print(ls)
+    # ls.get_klayout_3d_script()
     # print(ls.get_layer_to_material())
     # print(ls.get_layer_to_thickness())
