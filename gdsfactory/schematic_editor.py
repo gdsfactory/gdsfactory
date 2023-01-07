@@ -6,9 +6,13 @@ import ipywidgets as widgets
 import yaml
 
 import gdsfactory as gf
-
-from . import circuitviz
-from .picmodel import PicYamlConfiguration, Route, RouteSettings, SchematicConfiguration
+from gdsfactory import circuitviz
+from gdsfactory.picmodel import (
+    PicYamlConfiguration,
+    Route,
+    RouteSettings,
+    SchematicConfiguration,
+)
 
 
 class SchematicEditor:
