@@ -295,7 +295,7 @@ class HatchPattern(BaseModel):
         if pattern is None:
             return None
         lines = pattern.splitlines()
-        if not all([len(list(line)) <= 32 for line in lines]):
+        if any(len(list(line)) > 32 for line in lines):
             raise ValueError(
                 f"Custom pattern {kwargs['values']['name']} has more than 32 characters."
             )
@@ -346,7 +346,7 @@ class LineStyle(BaseModel):
             return None
 
         pattern_list = list(pattern)
-        valid_chars = all([char in ["*", "."] for char in pattern_list])
+        valid_chars = all(char in ["*", "."] for char in pattern_list)
         valid_length = len(pattern_list) <= 32
         if (not valid_chars) or (not valid_length):
             raise ValueError(
@@ -530,29 +530,28 @@ class LayerView(BaseModel):
     def get_color_dict(self) -> Dict[str, str]:
         from gdsfactory.utils.color_utils import ensure_six_digit_hex_color
 
-        if (self.fill_color is None) and (self.frame_color is None):
-            # Colors generated from here: http://phrogz.net/css/distinct-colors.html
-            layer_colors = [
-                "#3dcc5c",
-                "#2b0fff",
-                "#cc3d3d",
-                "#e5dd45",
-                "#7b3dcc",
-                "#cc860c",
-                "#73ff0f",
-                "#2dccb4",
-                "#ff0fa3",
-                "#0ec2e6",
-                "#3d87cc",
-                "#e5520e",
-            ]
-            color = layer_colors[np.mod(self.layer[0], len(layer_colors))]
-            return {"fill_color": color, "frame_color": color}
-        else:
+        if self.fill_color is not None or self.frame_color is not None:
             return {
                 "fill_color": ensure_six_digit_hex_color(self.fill_color.as_hex()),
                 "frame_color": ensure_six_digit_hex_color(self.frame_color.as_hex()),
             }
+        # Colors generated from here: http://phrogz.net/css/distinct-colors.html
+        layer_colors = [
+            "#3dcc5c",
+            "#2b0fff",
+            "#cc3d3d",
+            "#e5dd45",
+            "#7b3dcc",
+            "#cc860c",
+            "#73ff0f",
+            "#2dccb4",
+            "#ff0fa3",
+            "#0ec2e6",
+            "#3d87cc",
+            "#e5520e",
+        ]
+        color = layer_colors[np.mod(self.layer[0], len(layer_colors))]
+        return {"fill_color": color, "frame_color": color}
 
     def _build_klayout_xml_element(
         self, tag: str, name: str, custom_hatch_patterns: dict, custom_line_styles: dict
