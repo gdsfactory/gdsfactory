@@ -19,6 +19,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import logger
 from gdsfactory.pdk import get_layer_stack
+from gdsfactory.serialization import clean_value_json
 from gdsfactory.simulation import port_symmetries
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_meep as get_sparameters_path,
@@ -295,7 +296,7 @@ def write_sparameters_meep(
     )
 
     sim_settings = sim_settings.copy()
-    sim_settings["layer_stack"] = dict(layer_stack)
+    sim_settings["layer_stack"] = layer_stack.to_dict()
     sim_settings["component"] = component.to_dict()
     filepath = pathlib.Path(filepath)
     filepath_sim_settings = filepath.with_suffix(".yml")
@@ -470,7 +471,9 @@ def write_sparameters_meep(
             )
             np.savez_compressed(filepath, **sp)
             logger.info(f"Write simulation results to {filepath!r}")
-            filepath_sim_settings.write_text(OmegaConf.to_yaml(sim_settings))
+            filepath_sim_settings.write_text(
+                OmegaConf.to_yaml(clean_value_json(sim_settings))
+            )
             logger.info(f"Write simulation settings to {filepath_sim_settings!r}")
             return sp
         else:
