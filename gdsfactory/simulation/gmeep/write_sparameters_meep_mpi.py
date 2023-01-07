@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import multiprocessing
 import pathlib
-import pickle
 import shlex
 import subprocess
 import sys
@@ -155,20 +154,11 @@ def write_sparameters_meep_mpi(
     # Save all the simulation arguments for later retrieval
     temp_dir.mkdir(exist_ok=True, parents=True)
     tempfile = temp_dir / temp_file_str
-    parameters_file = tempfile.with_suffix(".pkl")
-    kwargs.update(filepath=str(filepath))
+    filepath_json = tempfile.with_suffix(".json")
+    logger.info(f"Write {filepath_json!r}")
 
-    parameters_dict = {
-        "layer_stack": layer_stack,
-        "overwrite": overwrite,
-    }
-
-    # Loop over kwargs
-    for key in kwargs:
-        parameters_dict[key] = kwargs[key]
-
-    with open(parameters_file, "wb") as outp:
-        pickle.dump(parameters_dict, outp, pickle.HIGHEST_PROTOCOL)
+    layer_stack_json = layer_stack.json()
+    filepath_json.write_text(layer_stack_json)
 
     # Save component to disk through gds for gdstk compatibility
     component_file = tempfile.with_suffix(".gds")
@@ -176,20 +166,18 @@ def write_sparameters_meep_mpi(
 
     # Write execution file
     script_lines = [
-        "import pickle\n",
+        "import pathlib\n",
         "from gdsfactory.simulation.gmeep import write_sparameters_meep\n\n",
         "from gdsfactory.read import import_gds\n",
-        'if __name__ == "__main__":\n\n',
+        "from gdsfactory.technology import LayerStack\n\n",
+        "if __name__ == '__main__':\n",
         f'\tcomponent = import_gds("{component_file}", read_metadata=True)\n',
-        f"\twith open(\"{parameters_file}\", 'rb') as inp:\n",
-        "\t\tparameters_dict = pickle.load(inp)\n\n" "\twrite_sparameters_meep(\n",
-        "\t\tcomponent = component,\n",
+        f"\tfilepath_json = pathlib.Path('{filepath_json}')\n",
+        "\tlayer_stack = LayerStack.parse_raw(filepath_json.read_text())\n",
+        f"\twrite_sparameters_meep(component=component, overwrite={overwrite}, "
+        f"layer_stack=layer_stack, filepath='{filepath}')",
     ]
-    script_lines.extend(
-        f'\t\t{key} = parameters_dict["{key}"],\n' for key in parameters_dict
-    )
 
-    script_lines.append("\t)")
     script_file = tempfile.with_suffix(".py")
     with open(script_file, "w") as script_file_obj:
         script_file_obj.writelines(script_lines)
