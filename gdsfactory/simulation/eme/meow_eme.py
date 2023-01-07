@@ -336,7 +336,7 @@ class MEOW:
             if not self.overwrite:
                 logger.info(f"Simulation loaded from {self.filepath!r}")
                 return dict(np.load(self.filepath))
-            elif self.overwrite:
+            else:
                 self.filepath.unlink()
 
         start = time.time()
@@ -371,8 +371,6 @@ class MEOW:
         logger.info(f"Write simulation results to {self.filepath!r}")
         self.filepath_sim_settings.write_text(OmegaConf.to_yaml(self.sim_settings))
         logger.info(f"Write simulation settings to {self.filepath_sim_settings!r}")
-
-        return sp
 
         return sp
 
