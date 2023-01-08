@@ -1273,10 +1273,10 @@ class Component(_GeometryHelper):
                     frame_width=500,
                     ylim=(b[1], b[3]),
                     xlim=(b[0], b[2]),
-                    fill_color=layer_view.fill_color.as_named() or "",
-                    line_color=layer_view.frame_color.as_named() or "",
-                    fill_alpha=layer_view.alpha or "",
-                    line_alpha=layer_view.alpha or "",
+                    fill_color=layer_view.fill_color.as_rgb() or "",
+                    line_color=layer_view.frame_color.as_rgb() or "",
+                    fill_alpha=layer_view.get_alpha() or "",
+                    line_alpha=layer_view.get_alpha() or "",
                     tools=["hover"],
                 )
             )
@@ -1292,7 +1292,7 @@ class Component(_GeometryHelper):
                     ylim=(b[1], b[3]),
                     xlim=(b[0], b[2]),
                     color="red",
-                    line_alpha=layer_view.alpha or "",
+                    line_alpha=layer_view.get_alpha() or "",
                     tools=["hover"],
                 )
                 * hv.Text(ptip[0], ptip[1], name)
@@ -2157,6 +2157,11 @@ def test_import_gds_settings():
 
 
 if __name__ == "__main__":
-    test_remap_layers()
+    import gdsfactory as gf
+
+    c = gf.c.straight_pin()
+
+    # test_remap_layers()
     # c = test_get_layers()
-    # c.show()
+    c.show()
+    c.ploth()
