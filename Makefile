@@ -191,5 +191,7 @@ nbqa:
 	nbqa blacken-docs docs/notebooks/*.ipynb --nbqa-md
 	nbqa isort docs/notebooks/*.ipynb --float-to-top
 	nbqa isort docs/notebooks/**/*.ipynb --float-to-top
+	nbqa ruff --fix docs/notebooks/*.ipynb
+	nbqa ruff --fix docs/**/*.ipynb
 
 .PHONY: gdsdiff build conda
