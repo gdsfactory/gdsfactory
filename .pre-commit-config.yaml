@@ -127,3 +127,5 @@ repos:
       - id: nbqa-pyupgrade
         args: ["--py37-plus"]
       # - id: nbqa-flake8
+      # - id: nbqa-isort
+      #   args: ["--float-to-top"]
