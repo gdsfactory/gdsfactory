@@ -386,22 +386,22 @@ def viz_instance(
     x, y = x0, y0
     polys_by_layer = inst_ref.get_polygons(by_spec=True, as_array=False)
     layer_polys = []
-    layer_views = gf.get_active_pdk().layer_views
-    colors_by_ldt = {
-        (lc.gds_layer, lc.gds_datatype): lc for lc in layer_views.layer_map.values()
-    }
+    layer_views = gf.pdk.get_layer_views()
 
     for layer, polys in polys_by_layer.items():
-        color_info = colors_by_ldt.get(layer)
-        if color_info:
+        if layer not in layer_views.get_layer_tuples():
+            print(f"layer {layer} not found")
+            continue
+        lv = layer_views.get_from_tuple(layer)
+        if lv:
             xs = [[p.points[:, 0]] for p in polys]
             ys = [[p.points[:, 1]] for p in polys]
             lp = LayerPolygons(
                 tag=instance_name,
                 xs=xs,
                 ys=ys,
-                c=color_info.color,
-                alpha=color_info.alpha,
+                c=lv.get_color_dict()["fill_color"],
+                alpha=lv.get_alpha(),
             )
             layer_polys.append(lp)
 
