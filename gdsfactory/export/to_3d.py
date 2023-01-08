@@ -46,20 +46,25 @@ def to_3d(
     has_polygons = False
 
     for layer, polygons in component.get_polygons(by_spec=True, as_array=False).items():
-        if layer not in exclude_layers and layer_to_zmin and layer_to_thickness:
+        if (
+            layer not in exclude_layers
+            and layer in layer_to_zmin
+            and layer in layer_to_thickness
+        ):
             height = layer_to_thickness[layer]
             zmin = layer_to_zmin[layer]
             layer_view = layer_views.get_from_tuple(layer)
+            color_rgb = layer_view.fill_color.as_rgb_tuple()
+            opacity = layer_view.get_alpha()
+
+            # print(layer, height, zmin, opacity, layer_view.visible)
 
             if zmin is not None and layer_view.visible:
                 for polygon in polygons:
                     p = shapely.geometry.Polygon(polygon.points)
                     mesh = extrude_polygon(p, height=height)
                     mesh.apply_translation((0, 0, zmin))
-                    mesh.visual.face_colors = (
-                        *layer_view.fill_color.as_rgb_tuple(),
-                        0.5,
-                    )
+                    mesh.visual.face_colors = (*color_rgb, opacity)
                     scene.add_geometry(mesh)
                     has_polygons = True
 
@@ -74,7 +79,8 @@ def to_3d(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.taper_strip_to_ridge()
-    # c = gf.components.straight()
+    # c = gf.components.taper_strip_to_ridge()
+    c = gf.components.straight_heater_metal(length=40)
+    c.show()
     s = to_3d(c)
-    s.show()
+    # s.show()
