@@ -4,7 +4,6 @@ from typing import Optional, Tuple
 
 import shapely
 
-from gdsfactory import generic_tech as generic
 from gdsfactory.component import Component
 from gdsfactory.technology import LayerStack, LayerViews
 from gdsfactory.types import Layer
@@ -12,8 +11,8 @@ from gdsfactory.types import Layer
 
 def to_3d(
     component: Component,
-    layer_views: Optional[LayerViews] = generic.LAYER_VIEWS,
-    layer_stack: Optional[LayerStack] = generic.LAYER_STACK,
+    layer_views: Optional[LayerViews] = None,
+    layer_stack: Optional[LayerStack] = None,
     exclude_layers: Optional[Tuple[Layer, ...]] = None,
 ):
     """Return Component 3D trimesh Scene.
@@ -47,22 +46,22 @@ def to_3d(
     has_polygons = False
 
     for layer, polygons in component.get_polygons(by_spec=True, as_array=False).items():
-        if (
-            layer not in exclude_layers
-            and layer in layer_to_thickness
-            and layer in layer_to_zmin
-        ):
+        if layer not in exclude_layers:
             height = layer_to_thickness[layer]
             zmin = layer_to_zmin[layer]
             layer_view = layer_views.get_from_tuple(layer)
 
-            for polygon in polygons:
-                p = shapely.geometry.Polygon(polygon.points)
-                mesh = extrude_polygon(p, height=height)
-                mesh.apply_translation((0, 0, zmin))
-                mesh.visual.face_colors = (*layer_view.fill_color.as_rgb_tuple(), 0.5)
-                scene.add_geometry(mesh)
-                has_polygons = True
+            if zmin is not None and layer_view.visible:
+                for polygon in polygons:
+                    p = shapely.geometry.Polygon(polygon.points)
+                    mesh = extrude_polygon(p, height=height)
+                    mesh.apply_translation((0, 0, zmin))
+                    mesh.visual.face_colors = (
+                        *layer_view.fill_color.as_rgb_tuple(),
+                        0.5,
+                    )
+                    scene.add_geometry(mesh)
+                    has_polygons = True
 
     if not has_polygons:
         raise ValueError(
