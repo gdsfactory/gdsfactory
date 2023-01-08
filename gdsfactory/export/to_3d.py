@@ -46,7 +46,7 @@ def to_3d(
     has_polygons = False
 
     for layer, polygons in component.get_polygons(by_spec=True, as_array=False).items():
-        if layer not in exclude_layers:
+        if layer not in exclude_layers and layer_to_zmin and layer_to_thickness:
             height = layer_to_thickness[layer]
             zmin = layer_to_zmin[layer]
             layer_view = layer_views.get_from_tuple(layer)
