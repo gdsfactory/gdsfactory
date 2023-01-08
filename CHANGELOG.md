@@ -2,9 +2,7 @@
 
 ## 6.19.0
 
-- simplify technology into a separate module
-    - [PR](https://github.com/gdsfactory/gdsfactory/pull/1014)
-    - [PR](https://github.com/gdsfactory/gdsfactory/pull/1102)
+- simplify technology into a separate module [PR](https://github.com/gdsfactory/gdsfactory/pull/1014) [PR](https://github.com/gdsfactory/gdsfactory/pull/1102) [PR](https://github.com/gdsfactory/gdsfactory/pull/1109)
 - add Implant simulation [PR](https://github.com/gdsfactory/gdsfactory/pull/1106)
 - The fill_rectangle function wants either a list or layers for fill_inverter or a list of bools. Before the code did not properly accept a list of layers. [PR](https://github.com/gdsfactory/gdsfactory/pull/1107)
 

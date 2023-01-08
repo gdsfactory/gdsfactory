@@ -6,7 +6,8 @@
    :titlesonly:
    :caption: Process simulators:
 
-   notebooks/plugins/devsim/01_pin_waveguide.ipynb
    notebooks/plugins/thermal/thermal.ipynb
+   notebooks/plugins/devsim/01_pin_waveguide.ipynb
+   notebooks/plugins/tcad/02_srim.ipynb
 
 ```
