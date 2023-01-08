@@ -221,7 +221,9 @@ def get_netlist(
                     for parent_port_name in parent_ports:
                         top_name = f"{parent_port_name}_{i + 1}_{j + 1}"
                         lower_name = f"{reference_name},{parent_port_name}"
-                        # a bit of a hack... get the top-level port for the ComponentArray, by our known naming convention. I hope no one renames these ports!
+                        # a bit of a hack... get the top-level port for the
+                        # ComponentArray, by our known naming convention. I hope no one
+                        # renames these ports!
                         parent_port = component.ports[top_name]
                         name2port[lower_name] = parent_port
                         top_ports_list.add(top_name)
@@ -320,7 +322,9 @@ def _extract_connections_two_sweep(
         # if tolerance is 0 or 1, do only one sweep with that tolerance
         grids = [("fine", tolerance)]
     else:
-        # default: do one fine sweep with a 1nm tolerance, then a coarse sweep with the given tolerance to connect any remaining ports which are not perfectly aligned
+        # default: do one fine sweep with a 1nm tolerance, then a coarse sweep
+        # with the given tolerance to connect any remaining ports which are not
+        # perfectly aligned
         grids = [("fine", 1), ("coarse", tolerance)]
 
     connections = []
@@ -619,7 +623,8 @@ if __name__ == "__main__":
 
     recursive_netlist = get_netlist_recursive(c)
     top_netlist = recursive_netlist[cname]
-    # the recursive netlist should have 3 entries, for the top level and two rotated straights
+    # the recursive netlist should have 3 entries, for the top level and two
+    # rotated straights
     assert len(recursive_netlist) == 3
     # confirm that the child netlists have reference attributes properly set
 
