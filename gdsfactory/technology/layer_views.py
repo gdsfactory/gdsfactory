@@ -986,7 +986,7 @@ class LayerViews(BaseModel):
 
         root = ET.Element("layer-properties")
 
-        for name, lv in self.layer_views.items():
+        for lv in self.layer_views.values():
             root.append(
                 lv.to_klayout_xml(
                     custom_hatch_patterns=self.custom_dither_patterns,
