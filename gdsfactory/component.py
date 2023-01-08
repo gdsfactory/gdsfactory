@@ -344,7 +344,7 @@ class Component(_GeometryHelper):
 
         gds_layer, gds_datatype = layer
 
-        if type(text) is not str:
+        if not isinstance(text, str):
             text = text
         label = Label(
             text=text,

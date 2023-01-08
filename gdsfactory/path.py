@@ -1015,7 +1015,8 @@ def _cut_path_with_ray(
             intersection = intersections[i]
         distance = ls.project(intersection)
         distances.append(distance)
-    # when trimming the start, start counting at the intersection point, then add all subsequent points
+    # when trimming the start, start counting at the intersection point, then
+    # add all subsequent points
     points = [np.array(intersections[0].coords[0])]
     for point in path[1:-1]:
         if distances[0] < ls.project(sg.Point(point)) < distances[1]:
@@ -1399,7 +1400,8 @@ def _demo_variable_width() -> None:
 
 def _my_custom_offset_fun(t):
     # Note: Custom width/offset functions MUST be vectorizable--you must be able
-    # to call them with an array input like my_custom_offset_fun([0, 0.1, 0.2, 0.3, 0.4])
+    # to call them with an array input like my_custom_offset_fun([0, 0.1, 0.2,
+    # 0.3, 0.4])
     num_periods = 3
     return 3 + np.cos(2 * np.pi * t * num_periods)
 
