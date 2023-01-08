@@ -186,4 +186,7 @@ constructor:
 	mamba install constructor conda-libmamba-solver -y
 	constructor .
 
+nbqa:
+	nbqa blacken-docs docs/notebooks/**/*.ipynb --nbqa-md
+
 .PHONY: gdsdiff build conda
