@@ -193,5 +193,7 @@ nbqa:
 	nbqa isort docs/notebooks/**/*.ipynb --float-to-top
 	nbqa ruff --fix docs/notebooks/*.ipynb
 	nbqa ruff --fix docs/**/*.ipynb
+	nbqa autopep8 -i docs/**.ipynb
+
 
 .PHONY: gdsdiff build conda
