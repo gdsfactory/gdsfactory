@@ -31,7 +31,7 @@ def get_u_bounds_polygons(
     """Performs the bound extraction given a (Multi)Polygon or [Polygon] and cross-sectional line coordinates.
 
     Args:
-        layer_polygons_dict: dict containing layernames: shapely polygons pairs
+        layer_polygons_dict: dict containing layernames: shapely polygons pairs.
         xsection_bounds: ( (x1,y1), (x2,y2) ), with x1,y1 beginning point of cross-sectional line and x2,y2 the end.
 
     Returns: list of bounding box coordinates (u1,u2)) in xsection line coordinates (distance from xsection_bounds[0]).
@@ -97,7 +97,7 @@ def get_uz_bounds_layers(
 
     Args:
         component: Component or ComponentReference.
-        xsection_bounds: ( (x1,y1), (x2,y2) ), with x1,y1 beginning point of cross-sectional line and x2,y2 the end
+        xsection_bounds: ( (x1,y1), (x2,y2) ), with x1,y1 beginning point of cross-sectional line and x2, y2 the end
 
     Returns: Dict containing layer: polygon pairs, with (u1,u2) in xsection line coordinates
     """
