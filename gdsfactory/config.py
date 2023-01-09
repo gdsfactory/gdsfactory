@@ -19,6 +19,7 @@ import json
 import os
 import pathlib
 import subprocess
+import sys
 from pathlib import Path
 from pprint import pprint
 from typing import Any, Iterable, Optional, Union
@@ -45,8 +46,9 @@ layer_path = module_path / "generic_tech" / "klayout" / "tech" / "layers.lyp"
 
 MAX_NAME_LENGTH = 32
 
+logger.remove(0)
+logger.add(sink=sys.stderr, level="WARNING")
 logger.info(f"Load {str(module_path)!r} {__version__}")
-logger.add(sink=logpath)
 
 
 default_config = io.StringIO(
