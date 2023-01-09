@@ -2,7 +2,14 @@
 
 ## 6.19.0
 
-- simplify technology into a separate module [PR](https://github.com/gdsfactory/gdsfactory/pull/1014) [PR](https://github.com/gdsfactory/gdsfactory/pull/1102) [PR](https://github.com/gdsfactory/gdsfactory/pull/1109)
+- simplify technology into a separate module [PR](https://github.com/gdsfactory/gdsfactory/pull/1014) [PR](https://github.com/gdsfactory/gdsfactory/pull/1102) [PR](https://github.com/gdsfactory/gdsfactory/pull/1109). You need to rename:
+    - LAYER_COLORS -> LAYER_VIEWS
+    - layer_colors -> layer_views
+    - gf.layers.load_lyp -> gf.technology.LayerViews.from_lyp
+    - GENERIC -> GENERIC_PDK
+    - gdsfactory.tech -> gdsfactory.technology
+- move klayout to gdsfactory/generic_tech/klayout, you will need to run `gf tool install` to link `klive`
+
 - add Implant simulation [PR](https://github.com/gdsfactory/gdsfactory/pull/1106)
 - The fill_rectangle function wants either a list or layers for fill_inverter or a list of bools. Before the code did not properly accept a list of layers. [PR](https://github.com/gdsfactory/gdsfactory/pull/1107)
 
