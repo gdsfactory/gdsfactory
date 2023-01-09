@@ -766,7 +766,12 @@ class LayerViews(BaseModel):
         layer_map: Union[Dict[str, Layer], BaseModel] = None,
         **data,
     ):
-        """Initialize LayerViews object."""
+        """Initialize LayerViews object.
+
+        Args:
+            filepath: can be YAML or LYP.
+            layer_map: Optional layermap.
+        """
         if filepath is not None:
             filepath = pathlib.Path(filepath)
             if filepath.suffix == ".lyp":
@@ -908,7 +913,7 @@ class LayerViews(BaseModel):
             layer_tuple: Tuple of (gds_layer, gds_datatype).
 
         Returns:
-            LayerView
+            LayerView.
         """
         tuple_to_name = {v.layer: k for k, v in self.get_layer_views().items()}
         if layer_tuple not in tuple_to_name:
@@ -931,8 +936,8 @@ class LayerViews(BaseModel):
         """Generates a Component with all the layers.
 
         Args:
-            size: square size.
-            spacing: spacing between each square.
+            size: square size in um.
+            spacing: spacing between each square in um.
 
         """
         import gdsfactory as gf
