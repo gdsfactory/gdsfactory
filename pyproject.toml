@@ -95,7 +95,7 @@ meow = [
     "meow-sim",
     ]
 sax = ["sax==0.8.6", "jaxlib", "jax"]
-femwell = ["femwell==0.0.3", "petsc", "petsc4py", "slepc", "slepc4py"]
+femwell = ["femwell==0.0.4", "petsc", "petsc4py", "slepc", "slepc4py"]
 dev = [
     "autotyping",
     "black>=21",
