@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [6.19.1](https://github.com/gdsfactory/gdsfactory/pull/1121)
+
+- install tidy3d at the end in make plugins so it installs shapely 1.8.4
+- add LayerStack and LayerLevel to gf.types
+- silent logger by default
+
 ## 6.19.0
 
 - simplify technology into a separate module [PR](https://github.com/gdsfactory/gdsfactory/pull/1014) [PR](https://github.com/gdsfactory/gdsfactory/pull/1102) [PR](https://github.com/gdsfactory/gdsfactory/pull/1109). You need to rename:
