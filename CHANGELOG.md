@@ -14,6 +14,8 @@
     - gf.layers.load_lyp -> gf.technology.LayerViews.from_lyp
     - GENERIC -> GENERIC_PDK
     - gdsfactory.tech -> gdsfactory.technology
+    - gdsfactory.geometry.get_xsection_script import get_xsection_script -> gdsfactory.generic_tech.get_klayout_pyxs import get_klayout_pyxs
+    - get_xsection_script -> get_klayout_pyxs
 - move klayout to gdsfactory/generic_tech/klayout, you will need to run `gf tool install` to link `klive`
 
 - add Implant simulation [PR](https://github.com/gdsfactory/gdsfactory/pull/1106)
