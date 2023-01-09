@@ -43,6 +43,7 @@ from typing_extensions import Literal
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.cross_section import CrossSection, Section
 from gdsfactory.port import Port
+from gdsfactory.technology import LayerLevel, LayerStack
 
 Anchor = Literal[
     "ce",
@@ -240,6 +241,8 @@ __all__ = (
     "Layer",
     "Label",
     "Layers",
+    "LayerLevel",
+    "LayerStack",
     "NameToFunctionDict",
     "Number",
     "PathType",

@@ -38,17 +38,17 @@ def optimal_step(
     Clem, J., & Berggren, K. (2011). Geometry-dependent critical currents in
     superconducting nanocircuits. Physical Review B, 84(17), 1–27.
     """
-    # ==========================================================================
-    #  Create the basic geometry
-    # ==========================================================================
-    def step_points(eta, W, a):
-        # Returns points from a unit semicircle in the w (= u + iv) plane to
-        # the optimal curve in the zeta (= x + iy) plane which transitions
-        # a wire from a width of 'W' to a width of 'a'
-        # eta takes value 0 to pi
 
-        W = complex(W)
-        a = complex(a)
+    def step_points(eta, W, a):
+        """Returns step points.
+
+        Returns points from a unit semicircle in the w (= u + iv) plane to
+        the optimal curve in the zeta (= x + iy) plane which transitions
+        a wire from a width of 'W' to a width of 'a'
+        eta takes value 0 to pi
+        """
+        W = np.array(W, dtype=complex)
+        a = np.array(a, dtype=complex)
 
         gamma = (a**2 + W**2) / (a**2 - W**2)
 
@@ -155,11 +155,7 @@ def optimal_step(
             )
         )
 
-    # ==========================================================================
-    #  Create a blank device, add the geometry, and define the ports
-    # ==========================================================================
     D.add_polygon([xpts, ypts], layer=layer)
-
     if not symmetric:
         D.add_port(
             name="e1",
