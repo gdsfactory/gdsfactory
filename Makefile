@@ -33,11 +33,11 @@ major:
 plugins:
 	mamba install -c conda-forge pymeep=*=mpi_mpich_* -y
 	mamba install -c conda-forge slepc4py=*=complex* -y
-	pip install -e .[tidy3d]
 	pip install jax jaxlib
 	pip install --upgrade "protobuf<=3.20.1"
 	pip install femwell
 	pip install scikit-fem[all] --upgrade
+	pip install -e .[tidy3d]
 
 plugins-debian: plugins
 	sudo apt-get install -y python3-gmsh
