@@ -54,7 +54,9 @@ def to_3d(
             height = layer_to_thickness[layer]
             zmin = layer_to_zmin[layer]
             layer_view = layer_views.get_from_tuple(layer)
-            color_rgb = [c / 255 for c in layer_view.fill_color.as_rgb_tuple(alpha=False)]
+            color_rgb = [
+                c / 255 for c in layer_view.fill_color.as_rgb_tuple(alpha=False)
+            ]
             opacity = layer_view.get_alpha()
 
             # print(layer, height, zmin, opacity, layer_view.visible)
