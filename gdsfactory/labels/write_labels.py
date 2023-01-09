@@ -8,9 +8,9 @@ from pathlib import Path
 from typing import Iterator, Tuple
 
 import numpy as np
-from loguru import logger
 
 import gdsfactory as gf
+from gdsfactory.config import logger
 from gdsfactory.pdk import get_layer
 from gdsfactory.routing.add_fiber_single import add_fiber_single
 from gdsfactory.types import LayerSpec, Optional, PathType
