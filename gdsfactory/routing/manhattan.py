@@ -531,9 +531,9 @@ def remove_flat_angles(points: ndarray) -> ndarray:
 def get_route_error(
     points,
     cross_section: Optional[CrossSection] = None,
-    layer_path: LayerSpec = "ERROR_PATH",
-    layer_label: LayerSpec = "TEXT",
-    layer_marker: LayerSpec = "ERROR_MARKER",
+    layer_path: LayerSpec = (208, 0),
+    layer_label: LayerSpec = (66, 0),
+    layer_marker: LayerSpec = (207, 0),
     references: Optional[List[ComponentReference]] = None,
     with_sbend: bool = False,
 ) -> Route:
