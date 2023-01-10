@@ -1306,7 +1306,7 @@ class Component(_GeometryHelper):
         self,
         show_ports: bool = False,
         show_subports: bool = False,
-        port_marker_layer: Layer = "SHOW_PORTS",
+        port_marker_layer: Layer = (1, 10),
         **kwargs,
     ) -> None:
         """Show component in KLayout.
