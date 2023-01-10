@@ -31,15 +31,15 @@ def ring_single_dut(
     the middle to extract loss from quality factor.
 
     Args:
-        component: dut.
-        gap:
-        length:
-        length_y:
-        radius:
-        coupler: coupler function
-        bend: bend function
-        with_component:
-        port_name:
+        component: device under test.
+        gap: in um.
+        length: in um.
+        length_y: in um.
+        radius: in um.
+        coupler: coupler function.
+        bend: bend function.
+        with_component: True adds component. False adds waveguide.
+        port_name: for component input.
         kwargs: cross_section settings.
 
     Args:
@@ -61,7 +61,9 @@ def ring_single_dut(
     coupler = gf.get_component(
         coupler, gap=gap, length_x=length_x, radius=radius, **kwargs
     )
-    straight_side = straight(length=length_y + component.xsize, **kwargs)
+
+    component_xsize = component.get_ports_xsize()
+    straight_side = straight(length=length_y + component_xsize, **kwargs)
     straight_top = straight(length=length_x, **kwargs)
     bend = gf.get_component(bend, radius=radius, **kwargs)
 

@@ -358,8 +358,8 @@ def test_points_are_correct_multi_layer():
 
 
 if __name__ == "__main__":
-    # test_points_are_correct_multi_layer()
-    test_points_are_correct(shear_waveguide_symmetric)
+    test_points_are_correct_multi_layer()
+    # test_points_are_correct(shear_waveguide_symmetric)
     # test_mate_on_shear_xor_empty_curve()
     # P = gf.path.euler()
     # curve = gf.path.extrude(P, "strip")

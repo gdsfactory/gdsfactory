@@ -9,7 +9,7 @@ from omegaconf import DictConfig, OmegaConf
 import gdsfactory as gf
 from gdsfactory.component_layout import _rotate_points
 from gdsfactory.name import clean_name
-from gdsfactory.types import PathType
+from gdsfactory.types import LayerSpec, PathType
 
 
 def read_labels_yaml(
@@ -41,7 +41,9 @@ def read_labels_yaml(
     return cells
 
 
-def add_port_markers(gdspath, csvpath, marker_size=20, marker_layer=(203, 0)):
+def add_port_markers(
+    gdspath, csvpath, marker_size: int = 20, marker_layer: LayerSpec = (203, 0)
+):
     """Add port markers from port info extracted from a gdspath and csvpath."""
     c = gf.Component("overlay")
     c << gf.import_gds(gdspath)

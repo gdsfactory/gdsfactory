@@ -1,7 +1,13 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.tech import LAYER
+from gdsfactory.generic_tech import LAYER
+
+
+def test_path_near_collinear() -> None:
+    p = gf.path.smooth(points=[(0, 0), (0, 1000), (1, 10000)])
+    c = p.extrude(cross_section="strip")
+    assert c
 
 
 @gf.cell
@@ -25,7 +31,7 @@ def test_path_extrude_multiple_ports() -> gf.Component:
     return c
 
 
-def test_extrude_transition():
+def test_extrude_transition() -> None:
     w1 = 1
     w2 = 5
     length = 10
@@ -45,5 +51,7 @@ def test_extrude_transition():
 
 
 if __name__ == "__main__":
-    c = test_path_extrude_multiple_ports()
+    # c = test_path_extrude_multiple_ports()
+    p = gf.path.smooth(points=[(0, 0), (0, 1000), (1, 10000)])
+    c = p.extrude(cross_section="strip")
     c.show(show_ports=True)

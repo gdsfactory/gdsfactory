@@ -12,18 +12,16 @@ import numpy as np
 from omegaconf import DictConfig
 from pydantic import BaseModel, Field, validator
 
-from gdsfactory.components import cells
-from gdsfactory.config import PATH, sparameters_path
+from gdsfactory.config import PATH
 from gdsfactory.containers import containers as containers_default
-from gdsfactory.cross_section import cross_sections
 from gdsfactory.events import Event
-from gdsfactory.layers import LAYER_COLORS, LayerColors
+from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.materials import MaterialSpec
 from gdsfactory.materials import materials_index as materials_index_default
 from gdsfactory.read.from_yaml import from_yaml
 from gdsfactory.show import show
 from gdsfactory.symbols import floorplan_with_block_letters
-from gdsfactory.tech import LAYER, LAYER_STACK, LayerStack
+from gdsfactory.technology import LayerStack, LayerViews
 from gdsfactory.types import (
     CellSpec,
     Component,
@@ -70,7 +68,7 @@ class Pdk(BaseModel):
         layer_stack: maps name to layer numbers, thickness, zmin, sidewall_angle.
             if can also contain material properties
             (refractive index, nonlinear coefficient, sheet resistance ...).
-        layer_colors: includes layer name to color, opacity and pattern.
+        layer_views: includes layer name to color, opacity and pattern.
         sparameters_path: to store Sparameters simulations.
         modes_path: to store Sparameters simulations.
         interconnect_cml_path: path to interconnect CML (optional).
@@ -91,7 +89,7 @@ class Pdk(BaseModel):
     default_decorator: Optional[Callable[[Component], None]] = None
     layers: Dict[str, Layer] = Field(default_factory=dict)
     layer_stack: Optional[LayerStack] = None
-    layer_colors: Optional[LayerColors] = None
+    layer_views: Optional[LayerViews] = None
     sparameters_path: Optional[PathType] = None
     modes_path: Optional[PathType] = PATH.modes
     interconnect_cml_path: Optional[PathType] = None
@@ -420,10 +418,10 @@ class Pdk(BaseModel):
                 f"{layer!r} needs to be a LayerSpec (string, int or Layer)"
             )
 
-    def get_layer_colors(self) -> LayerColors:
-        if self.layer_colors is None:
-            raise ValueError(f"layer_colors for Pdk {self.name!r} is None")
-        return self.layer_colors
+    def get_layer_views(self) -> LayerViews:
+        if self.layer_views is None:
+            raise ValueError(f"layer_views for Pdk {self.name!r} is None")
+        return self.layer_views
 
     def get_layer_stack(self) -> LayerStack:
         if self.layer_stack is None:
@@ -467,16 +465,8 @@ class Pdk(BaseModel):
     #     return self._on_cross_section_registered
 
 
-GENERIC = Pdk(
-    name="generic",
-    cross_sections=cross_sections,
-    cells=cells,
-    layers=LAYER.dict(),
-    layer_stack=LAYER_STACK,
-    layer_colors=LAYER_COLORS,
-    sparameters_path=sparameters_path,
-)
-_ACTIVE_PDK = GENERIC
+GENERIC_PDK = get_generic_pdk()
+_ACTIVE_PDK = GENERIC_PDK
 
 
 def get_material_index(material: MaterialSpec, *args, **kwargs) -> Component:
@@ -499,8 +489,8 @@ def get_layer(layer: LayerSpec) -> Layer:
     return _ACTIVE_PDK.get_layer(layer)
 
 
-def get_layer_colors() -> LayerColors:
-    return _ACTIVE_PDK.get_layer_colors()
+def get_layer_views() -> LayerViews:
+    return _ACTIVE_PDK.get_layer_views()
 
 
 def get_layer_stack() -> LayerStack:
@@ -556,6 +546,9 @@ on_yaml_cell_modified.add_handler(show)
 
 
 if __name__ == "__main__":
+    from gdsfactory.components import cells
+    from gdsfactory.cross_section import cross_sections
+
     # c = _ACTIVE_PDK.get_component("straight")
     # print(c.settings)
     # on_pdk_activated += print

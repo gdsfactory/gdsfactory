@@ -9,7 +9,7 @@ from shapely.geometry import MultiPolygon
 from shapely.ops import unary_union
 
 from gdsfactory.simulation.gmsh.parse_gds import to_polygons
-from gdsfactory.tech import LayerLevel, LayerStack
+from gdsfactory.technology import LayerLevel, LayerStack
 
 
 def bufferize(layerstack: LayerStack):
