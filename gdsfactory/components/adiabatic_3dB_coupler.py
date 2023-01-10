@@ -72,19 +72,26 @@ def read_points(file) -> []:
     cord_bot_wg = ee['bv'] * 1e6
     cord_top_wg = ee['tv'] * 1e6
 
-    # remove duplicate coordinates
-    duplicate_indices = []
-    for ii, point in enumerate(cord_bot_wg[0:-1]):
-        if abs(point[0] - cord_bot_wg[ii+1][0]) < 1e-6 and abs(point[1] - cord_bot_wg[ii+1][1]) < 1e-6:
-            duplicate_indices.append(ii)
-    indices_to_be_kept = list(set(range(0, len(cord_bot_wg)))-set(duplicate_indices))
+    duplicate_indices = [
+        ii
+        for ii, point in enumerate(cord_bot_wg[:-1])
+        if abs(point[0] - cord_bot_wg[ii + 1][0]) < 1e-6
+        and abs(point[1] - cord_bot_wg[ii + 1][1]) < 1e-6
+    ]
+    indices_to_be_kept = list(
+        set(range(len(cord_bot_wg))) - set(duplicate_indices)
+    )
     cord_bot_wg = cord_bot_wg[indices_to_be_kept]
 
-    duplicate_indices = []
-    for ii, point in enumerate(cord_top_wg[0:-1]):
-        if abs(point[0] - cord_top_wg[ii + 1][0]) < 1e-6 and abs(point[1] - cord_top_wg[ii + 1][1]) < 1e-6:
-            duplicate_indices.append(ii)
-    indices_to_be_kept = list(set(range(0, len(cord_top_wg))) - set(duplicate_indices))
+    duplicate_indices = [
+        ii
+        for ii, point in enumerate(cord_top_wg[:-1])
+        if abs(point[0] - cord_top_wg[ii + 1][0]) < 1e-6
+        and abs(point[1] - cord_top_wg[ii + 1][1]) < 1e-6
+    ]
+    indices_to_be_kept = list(
+        set(range(len(cord_top_wg))) - set(duplicate_indices)
+    )
     cord_top_wg = cord_top_wg[indices_to_be_kept]
 
     return [cord_bot_wg, cord_top_wg]
