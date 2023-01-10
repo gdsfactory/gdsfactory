@@ -684,7 +684,7 @@ class LayerView(BaseModel):
         if not match:
             raise OSError(f"Could not read layer {layer}!")
         v = match.group().split("/")
-        return None if v == ["*", "*"] else (int(v[0]), int(v[1]))
+        return None if "*" in v else (int(v[0]), int(v[1]))
 
     @classmethod
     def from_xml_element(
