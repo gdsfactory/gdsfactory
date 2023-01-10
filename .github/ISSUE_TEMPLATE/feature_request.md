@@ -14,6 +14,3 @@ Adding the code in `fixme/` folder is also a great option for others to reproduc
 
 **Describe the solution you'd like**
 What would you like to happen?
-
-**Suggested fix**
-How could we fix the bug?
