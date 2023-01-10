@@ -6,7 +6,7 @@ from typing import Tuple, Union
 
 from pydantic import BaseModel
 
-from gdsfactory.types import LayerLevel, LayerStack
+from gdsfactory.technology import LayerLevel, LayerStack
 
 module_path = pathlib.Path(__file__).parent.absolute()
 Layer = Tuple[int, int]
@@ -73,7 +73,7 @@ class LayerMap(BaseModel):
 LAYER = LayerMap()
 
 
-def get_layer_stack_generic(
+def get_layer_stack(
     thickness_wg: float = 220 * nm,
     thickness_clad: float = 3.0,
     thickness_nitride: float = 350 * nm,
@@ -161,7 +161,7 @@ def get_layer_stack_generic(
     )
 
 
-LAYER_STACK = get_layer_stack_generic()
+LAYER_STACK = get_layer_stack()
 
 
 if __name__ == "__main__":

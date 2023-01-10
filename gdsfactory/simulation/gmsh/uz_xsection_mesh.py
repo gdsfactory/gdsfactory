@@ -20,7 +20,7 @@ from gdsfactory.simulation.gmsh.parse_layerstack import (
     list_unique_layerstack_z,
     order_layerstack,
 )
-from gdsfactory.tech import LayerStack
+from gdsfactory.technology import LayerStack
 from gdsfactory.types import ComponentOrReference
 
 
@@ -41,10 +41,14 @@ def get_u_bounds_polygons(
 
     return_list = []
     for polygon in polygons.geoms if hasattr(polygons, "geoms") else [polygons]:
-        if intersection := polygon.intersection(line).bounds:
-            p1 = Point([intersection[0], intersection[1]])
-            p2 = Point([intersection[2], intersection[3]])
-            return_list.append([linestart.distance(p1), linestart.distance(p2)])
+        if intersection := polygon.intersection(line):
+            for entry in (
+                intersection.geoms if hasattr(intersection, "geoms") else [intersection]
+            ):
+                bounds = entry.bounds
+                p1 = Point([bounds[0], bounds[1]])
+                p2 = Point([bounds[2], bounds[3]])
+                return_list.append([linestart.distance(p1), linestart.distance(p2)])
     return return_list
 
 
@@ -260,7 +264,7 @@ def uz_xsection_mesh(
 
 if __name__ == "__main__":
 
-    from gdsfactory.tech import get_layer_stack_generic
+    from gdsfactory.pdk import get_layer_stack
 
     c = gf.component.Component()
 
@@ -276,7 +280,7 @@ if __name__ == "__main__":
 
     filtered_layerstack = LayerStack(
         layers={
-            k: get_layer_stack_generic().layers[k]
+            k: get_layer_stack().layers[k]
             for k in (
                 "slab90",
                 "core",

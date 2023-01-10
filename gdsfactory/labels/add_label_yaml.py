@@ -8,7 +8,6 @@ import pydantic
 
 import gdsfactory as gf
 from gdsfactory.name import clean_name
-from gdsfactory.pdk import get_layer
 from gdsfactory.types import LayerSpec
 
 ignore = [
@@ -33,7 +32,7 @@ port_types_to_label = [
 def add_label_yaml(
     component: gf.Component,
     port_types: List[str] = port_types_to_label,
-    layer: LayerSpec = "TEXT",
+    layer: LayerSpec = "LABEL",
     metadata_ignore: Optional[List[str]] = ignore,
     metadata_include_parent: Optional[List[str]] = None,
     metadata_include_child: Optional[List[str]] = None,
@@ -51,6 +50,8 @@ def add_label_yaml(
         metadata_include_child: child metadata keys to include.
 
     """
+    from gdsfactory.pdk import get_layer
+
     metadata_ignore = metadata_ignore or []
     metadata_include_parent = metadata_include_parent or []
     metadata_include_child = metadata_include_child or []

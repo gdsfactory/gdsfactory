@@ -1,5 +1,52 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [6.19.1](https://github.com/gdsfactory/gdsfactory/pull/1122)
+
+- expose plot options in meep solver
+
+## [6.19.1](https://github.com/gdsfactory/gdsfactory/pull/1121)
+
+- install tidy3d at the end in make plugins so it installs shapely 1.8.4
+- add LayerStack and LayerLevel to gf.types
+- silent logger by default
+
+## 6.19.0
+
+- simplify technology into a separate module [PR](https://github.com/gdsfactory/gdsfactory/pull/1014) [PR](https://github.com/gdsfactory/gdsfactory/pull/1102) [PR](https://github.com/gdsfactory/gdsfactory/pull/1109). You need to rename:
+    - LAYER_COLORS -> LAYER_VIEWS
+    - layer_colors -> layer_views
+    - gf.layers.load_lyp -> gf.technology.LayerViews.from_lyp
+    - GENERIC -> GENERIC_PDK
+    - gdsfactory.tech -> gdsfactory.technology
+    - gdsfactory.geometry.get_xsection_script import get_xsection_script -> gdsfactory.generic_tech.get_klayout_pyxs import get_klayout_pyxs
+    - get_xsection_script -> get_klayout_pyxs
+- move klayout to gdsfactory/generic_tech/klayout, you will need to run `gf tool install` to link `klive`
+
+- add Implant simulation [PR](https://github.com/gdsfactory/gdsfactory/pull/1106)
+- The fill_rectangle function wants either a list or layers for fill_inverter or a list of bools. Before the code did not properly accept a list of layers. [PR](https://github.com/gdsfactory/gdsfactory/pull/1107)
+
+## 6.18.4
+
+- fix path_smooth with near-collinear points [PR](https://github.com/gdsfactory/gdsfactory/pull/1093)
+
+## 6.18.3
+
+- fix transition also tapers cladding_layers and cladding offsets [PR](https://github.com/gdsfactory/gdsfactory/pull/1089)
+
+## 6.18.2
+
+- add port can infer width from cross_section [PR](https://github.com/gdsfactory/gdsfactory/pull/1089)
+
+## 6.18.1
+
+- transition also tapers cladding_layers and cladding offsets [PR](https://github.com/gdsfactory/gdsfactory/pull/1082)
+
+## 6.18.0
+
+- TCAD adaptative meshing [PR](https://github.com/gdsfactory/gdsfactory/pull/1074)
+- fix CLI docs [PR](https://github.com/gdsfactory/gdsfactory/pull/1076)
+- cache FEM modes [PR](https://github.com/gdsfactory/gdsfactory/pull/1079)
+
 ## [6.17.0](https://github.com/gdsfactory/gdsfactory/pull/1065)
 
 - basic conformal 3D meshing

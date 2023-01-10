@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: afb705d488f95978d2bf1459e05e9b7e3dca03ac
+    rev: 507fb40267012da3720be8866f0792a3817f7d9e
     hooks:
       - id: check-yaml
         exclude: ^(conda\.recipe/meta\.yaml|conda_build/templates/.*\.yaml|docs/click/meta\.yaml|conda/meta\.yaml|construct.yaml)
@@ -8,19 +8,19 @@ repos:
       - id: trailing-whitespace
       - id: requirements-txt-fixer
   - repo: https://github.com/hakancelikdev/unimport
-    rev: 004b5dd0c8112330275beb52c4ccfce016a4b945
+    rev: 33ead41ee30f1d323a9c2fcfd0114297efbbc4d5
     hooks:
       - id: unimport
         args: [--remove, --include-star-import]
   - repo: https://github.com/pycqa/isort
-    rev: 12cc5fbd67eebf92eb2213b03c07b138ae1fb448
+    rev: 03a9949368bc8ce115a8ff9ce7f4904def9df721
     hooks:
       - id: isort
         files: gdsfactory/.*
         args: [--profile, black, --filter-files]
 
   - repo: https://github.com/psf/black
-    rev: d4a85643a465f5fae2113d07d22d021d4af4795a
+    rev: 5d0d5936db2ed7a01c50a374e32753e1afe9cc71
     hooks:
       - id: black
 
@@ -34,26 +34,26 @@ repos:
       - id: blacken-docs
         additional_dependencies: [black==22.3.0]
   - repo: https://github.com/pycqa/flake8
-    rev: 647996c743f9e77368ce46cc74abe98549dd4c3a
+    rev: 33e1c55853fbcc454a2343b9b61a0e715a2f74a4
     hooks:
       - id: flake8
         entry: pflake8
         additional_dependencies: [flake8-docstrings, pyproject-flake8]
 
   - repo: https://github.com/kynan/nbstripout
-    rev: 4e0f64cf03b52e2aa54f7dd57c722e1a04a439f6
+    rev: 1185a8d25bb45ada13f64d9591c14d81d69206bc
     hooks:
       - id: nbstripout
         files: .ipynb
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: 4c7ee5abff7f53f8be0bacb0974c63cbd413bae6
+    rev: 97ed6fb3cf2e650d4f762ba231c3f04c41797710
     hooks:
       - id: pyupgrade
         args: [--py37-plus, --keep-runtime-typing]
 
   - repo: https://github.com/codespell-project/codespell
-    rev: 6a9d7a7a7d0db950a1bd8d5ecdd3298f114d2a12
+    rev: 16e6905ea2f9392649bafda1e6ef8a4e42bc77d4
     hooks:
       - id: codespell
         args: ["-L TE,TE/TM,te,ba,FPR,fpr_spacing,ro,nd,donot,schem"]
@@ -64,12 +64,12 @@ repos:
   #     - id: shellcheck
 
   - repo: https://github.com/pre-commit/pygrep-hooks
-    rev: 7b4409161486c6956bb3206ce96db5d56731b1b9 # Use the ref you want to point at
+    rev: 72bd2c94721ba5b87d0b61f3beab9eb01783ef9c # Use the ref you want to point at
     hooks:
       - id: python-use-type-annotations
 
   - repo: https://github.com/PyCQA/bandit
-    rev: d9fe642e01866e460454641bcd14b9de9d2b1478
+    rev: 91c4d979550888c8d190898279bfdb0af732791e
     hooks:
       - id: bandit
         args: [--exit-zero]
@@ -111,7 +111,7 @@ repos:
   #       - id: darglint
   #
   - repo: https://github.com/pycqa/pydocstyle
-    rev: "a6fe4222012e990042c86cdaaa904a8d059752ee"
+    rev: "6.2.2"
     hooks:
       - id: pydocstyle
         additional_dependencies: ["pydocstyle[toml]"]
@@ -119,3 +119,13 @@ repos:
   #   rev: 2b2f0c74acdb3de316e23ceb7dd0d7945c354050
   #   hooks:
   #     - id: reorder-python-imports
+  - repo: https://github.com/nbQA-dev/nbQA
+    rev: c0d6f01ffd1d2ddbf8dc0240db47041b6b19efbf
+    hooks:
+      - id: nbqa-black
+        additional_dependencies: [jupytext,black] # optional, only if you're using Jupytext
+      - id: nbqa-pyupgrade
+        args: ["--py37-plus"]
+      # - id: nbqa-flake8
+      # - id: nbqa-isort
+      #   args: ["--float-to-top"]

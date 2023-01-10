@@ -10,13 +10,13 @@ from click.core import Context, Option
 
 import gdsfactory
 from gdsfactory.config import cwd, print_config
+from gdsfactory.generic_tech import LAYER
 from gdsfactory.install import install_gdsdiff, install_klayout_package
-from gdsfactory.layers import lyp_to_dataclass
-from gdsfactory.tech import LAYER
+from gdsfactory.technology import lyp_to_dataclass
 from gdsfactory.types import PathType
 from gdsfactory.write_cells import write_cells as write_cells_to_separate_gds
 
-VERSION = "6.17.0"
+VERSION = "6.19.3"
 LAYER_LABEL = LAYER.LABEL
 
 
