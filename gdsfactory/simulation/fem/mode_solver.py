@@ -80,7 +80,7 @@ def compute_cross_section_modes(
     c = gf.components.straight(length=10, cross_section=cross_section)
     c.show()
     bounds = c.bbox
-    dx = np.diff(bounds[:, 0])
+    dx = np.diff(bounds[:, 0])[0]
 
     # Mesh
     mesh = c.to_gmsh(
