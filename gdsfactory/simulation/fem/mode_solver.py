@@ -1,4 +1,5 @@
 import pathlib
+import pickle
 from typing import Optional
 
 import numpy as np
@@ -24,7 +25,7 @@ def compute_cross_section_modes(
     dirpath: Optional[PathType] = None,
     filepath: Optional[PathType] = None,
     overwrite: bool = False,
-    with_cache: bool = False,
+    with_cache: bool = True,
     **kwargs,
 ):
     """Calculate effective index of a straight cross-section.
@@ -72,7 +73,10 @@ def compute_cross_section_modes(
 
         else:
             logger.info(f"Simulation loaded from {filepath!r}")
-            modes_dict = dict(np.load(filepath, allow_pickle=True))
+
+            with open(filepath, "rb") as handle:
+                modes_dict = pickle.load(handle)
+
             lams, basis, xs = modes_dict["lams"], modes_dict["basis"], modes_dict["xs"]
             return lams, basis, xs
 
@@ -80,7 +84,7 @@ def compute_cross_section_modes(
     c = gf.components.straight(length=10, cross_section=cross_section)
     c.show()
     bounds = c.bbox
-    dx = np.diff(bounds[:, 0])
+    dx = np.diff(bounds[:, 0])[0]
 
     # Mesh
     mesh = c.to_gmsh(
@@ -119,7 +123,10 @@ def compute_cross_section_modes(
 
     if with_cache:
         modes_dict = {"lams": lams, "basis": basis, "xs": xs}
-        np.savez_compressed(filepath, **modes_dict)
+
+        with open(filepath, "wb") as handle:
+            pickle.dump(modes_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
         logger.info(f"Write simulation results to {filepath!r}")
     return lams, basis, xs
 
@@ -158,8 +165,8 @@ if __name__ == "__main__":
         with_cache=True,
     )
     mode_solver.plot_mode(
-        basis,
-        np.real(xs[0]),
+        basis=basis,
+        mode=np.real(xs[0]),
         plot_vectors=False,
         colorbar=True,
         title="E",
