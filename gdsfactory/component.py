@@ -31,7 +31,6 @@ from gdsfactory.component_layout import (
 from gdsfactory.component_reference import ComponentReference, Coordinate, SizeInfo
 from gdsfactory.config import CONF, logger
 from gdsfactory.cross_section import CrossSection
-from gdsfactory.layers import LAYER_COLORS, LayerColor, LayerColors
 from gdsfactory.port import (
     Port,
     auto_rename_ports,
@@ -45,6 +44,7 @@ from gdsfactory.port import (
 )
 from gdsfactory.serialization import clean_dict
 from gdsfactory.snap import snap_to_grid
+from gdsfactory.technology import LayerView, LayerViews
 
 Plotter = Literal["holoviews", "matplotlib", "qt"]
 Axis = Literal["x", "y"]
@@ -344,7 +344,7 @@ class Component(_GeometryHelper):
 
         gds_layer, gds_datatype = layer
 
-        if type(text) is not str:
+        if not isinstance(text, str):
             text = text
         label = Label(
             text=text,
@@ -706,12 +706,10 @@ class Component(_GeometryHelper):
             p = name.copy()
             p.parent = self
             name = p.name
-        else:
-            if width is None:
-                raise ValueError("Port needs width parameter (um).")
-            if center is None:
-                raise ValueError("Port needs center parameter (x, y) um.")
+        elif center is None:
+            raise ValueError("Port needs center parameter (x, y) um.")
 
+        else:
             p = Port(
                 name=name,
                 center=center,
@@ -1180,7 +1178,7 @@ class Component(_GeometryHelper):
             interactive_zoom: Enables using mousewheel/trackpad to zoom.
             fontsize: for labels.
             layers_excluded: list of layers to exclude.
-            layer_colors: layer_colors colors loaded from Klayout.
+            layer_views: layer_views colors loaded from Klayout.
             min_aspect: minimum aspect ratio.
         """
         plotter = plotter or CONF.get("plotter", "matplotlib")
@@ -1213,7 +1211,7 @@ class Component(_GeometryHelper):
     def ploth(
         self,
         layers_excluded: Optional[Layers] = None,
-        layer_colors: LayerColors = LAYER_COLORS,
+        layer_views: Optional[LayerViews] = None,
         min_aspect: float = 0.25,
         padding: float = 0.5,
     ):
@@ -1221,7 +1219,7 @@ class Component(_GeometryHelper):
 
         Args:
             layers_excluded: list of layers to exclude.
-            layer_colors: layer_colors colors loaded from Klayout.
+            layer_views: layer_views colors loaded from Klayout.
             min_aspect: minimum aspect ratio.
             padding: around bounding box.
 
@@ -1229,6 +1227,10 @@ class Component(_GeometryHelper):
             Holoviews Overlay to display all polygons.
         """
         from gdsfactory.add_pins import get_pin_triangle_polygon_tip
+        from gdsfactory.generic_tech import LAYER_VIEWS
+
+        if layer_views is None:
+            layer_views = LAYER_VIEWS
 
         try:
             import holoviews as hv
@@ -1259,21 +1261,22 @@ class Component(_GeometryHelper):
                 continue
 
             try:
-                layer = layer_colors.get_from_tuple(layer)
+                layer_view = layer_views.get_from_tuple(layer)
             except ValueError:
-                layers = list(layer_colors._layers.keys())
+                layers = list(layer_views.get_layer_views().keys())
                 warnings.warn(f"{layer!r} not defined in {layers}")
-                layer = LayerColor(gds_layer=layer[0], gds_datatype=layer[1])
-
+                layer_view = LayerView(layer=layer)
+            # TODO: Match up options with LayerViews
             plots_to_overlay.append(
-                hv.Polygons(polygon, label=str(layer.name)).opts(
+                hv.Polygons(polygon, label=str(layer_view.name)).opts(
                     data_aspect=1,
                     frame_width=500,
-                    fill_alpha=layer.alpha,
                     ylim=(b[1], b[3]),
                     xlim=(b[0], b[2]),
-                    color=layer.color,
-                    line_alpha=layer.alpha,
+                    fill_color=layer_view.fill_color.as_rgb() or "",
+                    line_color=layer_view.frame_color.as_rgb() or "",
+                    fill_alpha=layer_view.get_alpha() or "",
+                    line_alpha=layer_view.get_alpha() or "",
                     tools=["hover"],
                 )
             )
@@ -1289,7 +1292,7 @@ class Component(_GeometryHelper):
                     ylim=(b[1], b[3]),
                     xlim=(b[0], b[2]),
                     color="red",
-                    line_alpha=layer.alpha,
+                    line_alpha=layer_view.get_alpha() or "",
                     tools=["hover"],
                 )
                 * hv.Text(ptip[0], ptip[1], name)
@@ -1352,8 +1355,8 @@ class Component(_GeometryHelper):
 
         Keyword Args:
             component: to extrude in 3D.
-            layer_colors: layer colors from Klayout Layer Properties file.
-                Defaults to active PDK.layer_colors.
+            layer_views: layer colors from Klayout Layer Properties file.
+                Defaults to active PDK.layer_views.
             layer_stack: contains thickness and zmin for each layer.
                 Defaults to active PDK.layer_stack.
             exclude_layers: layers to exclude.
@@ -2154,6 +2157,11 @@ def test_import_gds_settings():
 
 
 if __name__ == "__main__":
-    test_remap_layers()
+    import gdsfactory as gf
+
+    c = gf.c.straight_pin()
+
+    # test_remap_layers()
     # c = test_get_layers()
-    # c.show()
+    c.show()
+    c.ploth()

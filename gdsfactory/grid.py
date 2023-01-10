@@ -1,4 +1,7 @@
-"""pack a list of components into a grid."""
+"""pack a list of components into a grid.
+
+Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
+"""
 from __future__ import annotations
 
 from typing import Optional, Tuple
@@ -28,8 +31,6 @@ def grid(
     v_mirror: bool = False,
 ) -> Component:
     """Returns Component with a 1D or 2D grid of components.
-
-    based on phidl.geometry
 
     Args:
         components: Iterable to be placed onto a grid. (can be 1D or 2D).

@@ -2,7 +2,8 @@
 
 A path can be extruded using any CrossSection returning a Component
 The CrossSection defines the layer numbers, widths and offsets
-Based on phidl.path
+
+Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 """
 
 from __future__ import annotations
@@ -615,57 +616,72 @@ def transition(
         )
 
     sections = []
-    for alias in X1.aliases.keys():
-        if alias in X2.aliases:
-            section1 = X1.aliases[alias]
-            section2 = X2.aliases[alias]
 
-            offset1 = section1.offset
-            offset2 = section2.offset
-            width1 = section1.width
-            width2 = section2.width
+    sections1 = [
+        X1.aliases[alias] for alias in X1.aliases.keys() if alias in X2.aliases
+    ]
+    sections2 = [
+        X2.aliases[alias] for alias in X2.aliases.keys() if alias in X1.aliases
+    ]
 
-            if callable(offset1):
-                offset1 = offset1(1)
-            if callable(offset2):
-                offset2 = offset2(0)
-            if callable(width1):
-                width1 = width1(1)
-            if callable(width2):
-                width2 = width2(0)
+    if X1.cladding_layers:
+        sections1 += [
+            Section(width=X1.width + 2 * offset, layer=layer)
+            for offset, layer in zip(X1.cladding_offsets, X2.cladding_layers)
+        ]
+    if X2.cladding_layers:
+        sections2 += [
+            Section(width=X2.width + 2 * offset, layer=layer)
+            for offset, layer in zip(X2.cladding_offsets, X2.cladding_layers)
+        ]
 
-            offset_fun = _sinusoidal_transition(offset1, offset2)
+    for section1, section2 in zip(sections1, sections2):
+        offset1 = section1.offset
+        offset2 = section2.offset
+        width1 = section1.width
+        width2 = section2.width
 
-            if width_type == "linear":
-                width_fun = _linear_transition(width1, width2)
-            elif width_type == "sine":
-                width_fun = _sinusoidal_transition(width1, width2)
-            elif width_type == "parabolic":
-                width_fun = _parabolic_transition(width1, width2)
-            else:
-                raise ValueError(
-                    f"width_type={width_type!r} must be {'sine','linear','parabolic'}"
-                )
+        if callable(offset1):
+            offset1 = offset1(1)
+        if callable(offset2):
+            offset2 = offset2(0)
+        if callable(width1):
+            width1 = width1(1)
+        if callable(width2):
+            width2 = width2(0)
 
-            if section1.layer != section2.layer:
-                hidden = True
-                layer1 = get_layer(section1.layer)
-                layer2 = get_layer(section2.layer)
-                layer = (layer1, layer2)
-            else:
-                hidden = False
-                layer = get_layer(section1.layer)
+        offset_fun = _sinusoidal_transition(offset1, offset2)
 
-            s = Section(
-                width=width_fun,
-                offset=offset_fun,
-                layer=layer,
-                port_names=(section2.port_names[0], section1.port_names[1]),
-                port_types=(section2.port_types[0], section1.port_types[1]),
-                name=alias,
-                hidden=hidden,
+        if width_type == "linear":
+            width_fun = _linear_transition(width1, width2)
+        elif width_type == "sine":
+            width_fun = _sinusoidal_transition(width1, width2)
+        elif width_type == "parabolic":
+            width_fun = _parabolic_transition(width1, width2)
+        else:
+            raise ValueError(
+                f"width_type={width_type!r} must be {'sine','linear','parabolic'}"
             )
-            sections.append(s)
+
+        if section1.layer != section2.layer:
+            hidden = True
+            layer1 = get_layer(section1.layer)
+            layer2 = get_layer(section2.layer)
+            layer = (layer1, layer2)
+        else:
+            hidden = False
+            layer = get_layer(section1.layer)
+
+        s = Section(
+            width=width_fun,
+            offset=offset_fun,
+            layer=layer,
+            port_names=(section2.port_names[0], section1.port_names[1]),
+            port_types=(section2.port_types[0], section1.port_types[1]),
+            name=section1.name,
+            hidden=hidden,
+        )
+        sections.append(s)
 
     return Transition(
         cross_section1=X1,
@@ -999,7 +1015,8 @@ def _cut_path_with_ray(
             intersection = intersections[i]
         distance = ls.project(intersection)
         distances.append(distance)
-    # when trimming the start, start counting at the intersection point, then add all subsequent points
+    # when trimming the start, start counting at the intersection point, then
+    # add all subsequent points
     points = [np.array(intersections[0].coords[0])]
     for point in path[1:-1]:
         if distances[0] < ls.project(sg.Point(point)) < distances[1]:
@@ -1008,13 +1025,19 @@ def _cut_path_with_ray(
     return np.array(points)
 
 
-def arc(radius: float = 10.0, angle: float = 90, npoints: int = 720) -> Path:
+def arc(
+    radius: float = 10.0,
+    angle: float = 90,
+    npoints: int = 720,
+    start_angle: Optional[float] = -90,
+) -> Path:
     """Returns a radial arc.
 
     Args:
         radius: minimum radius of curvature.
         angle: total angle of the curve.
         npoints: Number of points used per 360 degrees.
+        start_angle: initial angle of the curve for drawing, default -90 degrees.
 
     .. plot::
         :include-source:
@@ -1026,7 +1049,9 @@ def arc(radius: float = 10.0, angle: float = 90, npoints: int = 720) -> Path:
 
     """
     npoints = abs(int(npoints * angle / 360))
-    t = np.linspace(-90 * np.pi / 180, (angle - 90) * np.pi / 180, npoints)
+    t = np.linspace(
+        start_angle * np.pi / 180, (angle + start_angle) * np.pi / 180, npoints
+    )
     x = radius * np.cos(t)
     y = radius * (np.sin(t) + 1)
     points = np.array((x, y)).T * np.sign(angle)
@@ -1034,8 +1059,8 @@ def arc(radius: float = 10.0, angle: float = 90, npoints: int = 720) -> Path:
     P = Path()
     # Manually add points & adjust start and end angles
     P.points = points
-    P.start_angle = 0
-    P.end_angle = angle
+    P.start_angle = start_angle + 90
+    P.end_angle = start_angle + angle + 90
     return P
 
 
@@ -1229,6 +1254,7 @@ def smooth(
     points: Coordinates,
     radius: float = 4.0,
     bend: PathFactory = euler,
+    npoints: int = 720,
     **kwargs,
 ) -> Path:
     """Returns a smooth Path from a series of waypoints.
@@ -1237,6 +1263,7 @@ def smooth(
         points: array-like[N][2] List of waypoints for the path to follow.
         radius: radius of curvature, passed to `bend`.
         bend: bend function that returns a path that round corners.
+        npoints: Number of points used per 360 degrees for the bend.
         kwargs: Extra keyword arguments that will be passed to `bend`.
 
     .. plot::
@@ -1260,7 +1287,7 @@ def smooth(
     if np.any(np.abs(np.abs(dtheta) - 180) < 1e-6):
         raise ValueError(
             "smooth() received points which double-back on themselves"
-            + "--turns cannot be computed when going forwards then exactly backwards."
+            "--turns cannot be computed when going forwards then exactly backwards."
         )
 
     # FIXME add caching
@@ -1268,7 +1295,8 @@ def smooth(
     paths = []
     radii = []
     for dt in dtheta:
-        P = bend(radius=radius, angle=dt, **kwargs)
+        _npoints = max(npoints, int(360 / abs(dt)) + 1)
+        P = bend(radius=radius, angle=dt, npoints=_npoints, **kwargs)
         chord = np.linalg.norm(P.points[-1, :] - P.points[0, :])
         r = (chord / 2) / np.sin(np.radians(dt / 2))
         r = np.abs(r)
@@ -1372,7 +1400,8 @@ def _demo_variable_width() -> None:
 
 def _my_custom_offset_fun(t):
     # Note: Custom width/offset functions MUST be vectorizable--you must be able
-    # to call them with an array input like my_custom_offset_fun([0, 0.1, 0.2, 0.3, 0.4])
+    # to call them with an array input like my_custom_offset_fun([0, 0.1, 0.2,
+    # 0.3, 0.4])
     num_periods = 3
     return 3 + np.cos(2 * np.pi * t * num_periods)
 
@@ -1393,19 +1422,15 @@ def _demo_variable_offset() -> None:
 if __name__ == "__main__":
     import numpy as np
 
-    """
-    init
-    """
-    import gdsfactory as gf
-
     points = np.array([(20, 10), (40, 10), (20, 40), (50, 40), (50, 20), (70, 20)])
 
-    p = smooth(
-        points=points,
-        radius=2,
-        bend=gf.path.euler,
-        use_eff=False,
-    )
+    # p = smooth(
+    #     points=points,
+    #     radius=2,
+    #     bend=gf.path.euler,
+    #     use_eff=False,
+    # )
+    p = arc(start_angle=0)
     c = p.extrude(layer=(1, 0), width=0.1)
 
     # p = straight()

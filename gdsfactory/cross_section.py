@@ -4,6 +4,7 @@ To create a component you need to extrude the path with a cross-section.
 """
 from __future__ import annotations
 
+import hashlib
 import inspect
 import sys
 from collections.abc import Iterable
@@ -16,7 +17,6 @@ from pydantic import BaseModel, Field
 from typing_extensions import Literal
 
 from gdsfactory.add_pins import add_bbox_siepic, add_pins_siepic_optical_2nm
-from gdsfactory.tech import Section
 
 Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
@@ -33,6 +33,46 @@ cladding_offsets_optical = None
 
 cladding_layers_optical_siepic = ("DEVREC",)  # for SiEPIC verification
 cladding_offsets_optical_siepic = (0,)  # for SiEPIC verification
+
+
+class Section(BaseModel):
+    """CrossSection to extrude a path with a waveguide.
+
+    Parameters:
+        width: of the section (um) or parameterized function from 0 to 1.
+             the width at t==0 is the width at the beginning of the Path.
+             the width at t==1 is the width at the end.
+        offset: center offset (um) or function parameterized function from 0 to 1.
+             the offset at t==0 is the offset at the beginning of the Path.
+             the offset at t==1 is the offset at the end.
+        layer: layer spec.
+        port_names: Optional port names.
+        port_types: optical, electrical, ...
+        name: Optional Section name.
+        hidden: hide layer.
+    .. code::
+          0   offset
+          |<-------------->|
+          |              _____
+          |             |     |
+          |             |layer|
+          |             |_____|
+          |              <---->
+                         width
+    """
+
+    width: Union[float, Callable]
+    offset: Union[float, Callable] = 0
+    layer: LayerSpec
+    port_names: Tuple[Optional[str], Optional[str]] = (None, None)
+    port_types: Tuple[str, str] = ("optical", "optical")
+    name: Optional[str] = None
+    hidden: bool = False
+
+    class Config:
+        """pydantic basemodel config."""
+
+        extra = "forbid"
 
 
 class CrossSection(BaseModel):
@@ -130,6 +170,10 @@ class CrossSection(BaseModel):
         if width:
             xs.width = width
         return xs
+
+    def get_name(self) -> str:
+        h = hashlib.md5(str(self).encode()).hexdigest()[:8]
+        return f"xs_{h}"
 
     @property
     def aliases(self) -> Dict[str, Section]:

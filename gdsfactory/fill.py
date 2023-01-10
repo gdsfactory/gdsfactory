@@ -1,8 +1,11 @@
-"""Dummy fill to keep density constant."""
+"""Dummy fill to keep density constant.
+
+Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
+"""
 from __future__ import annotations
 
 import itertools
-from typing import Optional, Union
+from typing import List, Optional, Union
 
 import gdstk
 import numpy as np
@@ -150,7 +153,7 @@ def fill_rectangle(
     include_layers: LayerSpecs = None,
     margin: float = 5.0,
     fill_densities: Union[float, Floats] = (0.5, 0.25, 0.7),
-    fill_inverted: bool = False,
+    fill_inverted: Optional[List[float]] = None,
     bbox: Optional[Float2] = None,
 ) -> Component:
     """Returns rectangular fill pattern and fills all empty areas.

@@ -30,12 +30,10 @@ from gdsfactory.port import Port
 from gdsfactory.cell import cell
 from gdsfactory.cell import cell_without_validator
 from gdsfactory.cell import clear_cache
-from gdsfactory.tech import LAYER
 from gdsfactory.show import show
 from gdsfactory.read.import_gds import import_gds
 from gdsfactory.cross_section import CrossSection, Section
 from gdsfactory.types import Label
-
 from gdsfactory import decorators
 from gdsfactory import cross_section
 from gdsfactory import labels
@@ -45,9 +43,7 @@ from gdsfactory import routing
 from gdsfactory import types
 from gdsfactory import path
 from gdsfactory import snap
-from gdsfactory import tech
 from gdsfactory import read
-from gdsfactory import layers
 from gdsfactory import add_termination
 from gdsfactory import functions
 from gdsfactory import export
@@ -55,6 +51,7 @@ from gdsfactory import geometry
 from gdsfactory import add_ports
 from gdsfactory import write_cells
 from gdsfactory import add_pins
+from gdsfactory import technology
 
 from gdsfactory.add_tapers import add_tapers
 from gdsfactory.add_padding import (
@@ -65,6 +62,7 @@ from gdsfactory.add_padding import (
 from gdsfactory.fill import fill_rectangle
 from gdsfactory.pack import pack
 from gdsfactory.grid import grid, grid_with_text
+from gdsfactory.generic_tech import LAYER, LAYER_VIEWS, LAYER_STACK
 from gdsfactory.pdk import (
     Pdk,
     get_component,
@@ -77,7 +75,6 @@ from gdsfactory.pdk import (
 from gdsfactory.get_factories import get_cells
 from gdsfactory.cross_section import get_cross_section_factories
 
-
 c = components
 
 __all__ = (
@@ -87,6 +84,8 @@ __all__ = (
     "CrossSection",
     "Group",
     "LAYER",
+    "LAYER_VIEWS",
+    "LAYER_STACK",
     "Label",
     "Path",
     "Pdk",
@@ -125,7 +124,6 @@ __all__ = (
     "grid_with_text",
     "import_gds",
     "labels",
-    "layers",
     "pack",
     "partial",
     "path",
@@ -133,9 +131,9 @@ __all__ = (
     "routing",
     "show",
     "snap",
-    "tech",
     "types",
+    "technology",
     "write_cells",
     "PATH",
 )
-__version__ = "6.17.0"
+__version__ = "6.19.3"

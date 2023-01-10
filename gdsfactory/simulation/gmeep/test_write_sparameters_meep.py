@@ -7,7 +7,7 @@ import numpy as np
 import gdsfactory as gf
 import gdsfactory.simulation as sim
 import gdsfactory.simulation.gmeep as gm
-from gdsfactory.tech import LAYER_STACK
+from gdsfactory.generic_tech import LAYER_STACK
 
 simulation_settings = dict(resolution=20, is_3d=False)
 
@@ -144,12 +144,11 @@ def test_sparameters_lazy_parallelism() -> None:
 
 if __name__ == "__main__":
     # test_sparameters_straight()
-    # test_sparameters_straight_mpi(None)
+    test_sparameters_straight_mpi()
     # test_sparameters_crossing_symmetric(False)
     # test_sparameterslazy_parallelism()
     # test_sparameters_straight_symmetric()
     # test_sparameters_straight_batch()
-    test_sparameters_straight_mpi()
     # test_sparameters_crossing_symmetric()
 
     # c = gf.components.straight(length=2)

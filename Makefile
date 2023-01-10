@@ -31,13 +31,13 @@ major:
 	python docs/write_components_doc.py
 
 plugins:
-	mamba install pymeep=*=mpi_mpich_* -y
-	mamba install slepc4py=*=complex* -y
-	pip install -e .[tidy3d]
+	mamba install -c conda-forge pymeep=*=mpi_mpich_* -y
+	mamba install -c conda-forge slepc4py=*=complex* -y
 	pip install jax jaxlib
 	pip install --upgrade "protobuf<=3.20.1"
 	pip install femwell
 	pip install scikit-fem[all] --upgrade
+	pip install -e .[tidy3d]
 
 plugins-debian: plugins
 	sudo apt-get install -y python3-gmsh
@@ -89,7 +89,7 @@ test-femwell:
 	pytest gdsfactory/simulation/fem
 
 test-plugins:
-	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes gdsfactory/simulation/lumerical gdsfactory/simulation/gtidy3d gdsfactory/simulation/gmsh gdsfactory/tests/test_klayout
+	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes gdsfactory/simulation/lumerical gdsfactory/simulation/gtidy3d gdsfactory/simulation/gmsh gdsfactory/tests/test_klayout gdsfactory/simulation/fem
 
 test-notebooks:
 	py.test --nbval notebooks
@@ -185,5 +185,16 @@ link:
 constructor:
 	mamba install constructor conda-libmamba-solver -y
 	constructor .
+
+nbqa:
+	nbqa blacken-docs docs/notebooks/**/*.ipynb --nbqa-md
+	nbqa blacken-docs docs/notebooks/*.ipynb --nbqa-md
+	nbqa isort docs/notebooks/*.ipynb --float-to-top
+	nbqa isort docs/notebooks/**/*.ipynb --float-to-top
+	nbqa ruff --fix docs/notebooks/*.ipynb
+	nbqa ruff --fix docs/**/*.ipynb
+	nbqa autopep8 -i docs/notebooks/*.ipynb
+	nbqa autopep8 -i docs/notebooks/**/*.ipynb
+
 
 .PHONY: gdsdiff build conda

@@ -8,16 +8,16 @@ from pathlib import Path
 from typing import Iterator, Tuple
 
 import numpy as np
-from loguru import logger
 
 import gdsfactory as gf
-from gdsfactory import LAYER
+from gdsfactory.config import logger
+from gdsfactory.pdk import get_layer
 from gdsfactory.routing.add_fiber_single import add_fiber_single
-from gdsfactory.types import Optional, PathType
+from gdsfactory.types import LayerSpec, Optional, PathType
 
 
 def find_labels(
-    gdspath: PathType, layer_label: Tuple[int, int] = LAYER.LABEL, prefix: str = "opt_"
+    gdspath: PathType, layer_label: LayerSpec = "LABEL", prefix: str = "opt_"
 ) -> Iterator[Tuple[str, float, float]]:
     """Return text label and locations iterator from a GDS file.
 
@@ -42,6 +42,8 @@ def find_labels(
     layout = pya.Layout()
     layout.read(gdspath)
 
+    layer_label = get_layer(layer_label)
+
     # Get the top cell and the units, and find out the index of the layer
     topcell = layout.top_cell()
     dbu = layout.dbu
@@ -63,7 +65,7 @@ def find_labels(
 
 def write_labels_klayout(
     gdspath: PathType,
-    layer_label: Tuple[int, int] = LAYER.TEXT,
+    layer_label: LayerSpec = "LABEL",
     filepath: Optional[PathType] = None,
     prefix: str = "opt_",
 ) -> Path:
@@ -97,7 +99,7 @@ def write_labels_klayout(
 def write_labels_gdstk(
     gdspath: Path,
     prefix: str = "opt_",
-    layer_label: Optional[Tuple[int, int]] = LAYER.TEXT,
+    layer_label: LayerSpec = "LABEL",
     filepath: Optional[PathType] = None,
     debug: bool = False,
 ) -> Path:
@@ -123,6 +125,7 @@ def write_labels_gdstk(
     c = gf.import_gds(gdspath)
 
     labels = []
+    layer_label = get_layer(layer_label)
 
     for label in c.get_labels():
         if (

@@ -74,7 +74,7 @@ class MeshTracker:
         ]
         return [self.gmsh_xy_surfaces[index]._id for index in indices]
 
-    """Channel loop utilities (no need to track)"""
+    """Channel loop utils (no need to track)"""
 
     def xy_channel_loop_from_vertices(self, vertices, label):
         edges = []
