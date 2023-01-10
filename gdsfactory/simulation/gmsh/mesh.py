@@ -143,50 +143,49 @@ def mesh_from_polygons(
     """
     global_meshsize_callback_bool = global_meshsize_array is not None
 
-    with pygmsh.occ.geometry.Geometry() as geometry:
+    geometry = pygmsh.occ.geometry.Geometry()
+    model = geometry.__enter__()
 
-        geometry.characteristic_length_min = default_resolution_min
-        geometry.characteristic_length_max = default_resolution_max
+    geometry.characteristic_length_min = default_resolution_min
+    geometry.characteristic_length_max = default_resolution_max
 
-        model = geometry.__enter__()
+    # Define geometry
+    (
+        model,
+        meshtracker,
+    ) = define_entities(model, shapes_dict)
 
-        # Define geometry
-        (
+    # Synchronize
+    model.synchronize()
+
+    # Refinement
+    if not global_meshsize_callback_bool and resolutions:
+        surface_interface_refinement(
             model,
             meshtracker,
-        ) = define_entities(model, shapes_dict)
+            resolutions,
+            default_resolution_min,
+            default_resolution_max,
+        )
 
-        # Synchronize
-        model.synchronize()
+    elif global_meshsize_callback_bool:
+        global_callback_refinement(
+            model,
+            global_meshsize_array,
+            global_meshsize_interpolant_func,
+        )
 
-        # Refinement
-        if not global_meshsize_callback_bool and resolutions:
-            surface_interface_refinement(
-                model,
-                meshtracker,
-                resolutions,
-                default_resolution_min,
-                default_resolution_max,
-            )
+    # HACK: force shared nodes across interfaces
+    gmsh.model.occ.remove_all_duplicates()
 
-        elif global_meshsize_callback_bool:
-            global_callback_refinement(
-                model,
-                global_meshsize_array,
-                global_meshsize_interpolant_func,
-            )
+    # Perform meshing
+    gmsh.option.setNumber("Mesh.ScalingFactor", mesh_scaling_factor)
+    mesh = geometry.generate_mesh(dim=2, verbose=verbosity)
 
-        # HACK: force shared nodes across interfaces
-        gmsh.model.occ.remove_all_duplicates()
+    if filename:
+        gmsh.write(f"{filename}")
 
-        # Perform meshing
-        gmsh.option.setNumber("Mesh.ScalingFactor", mesh_scaling_factor)
-        mesh = geometry.generate_mesh(dim=2, verbose=verbosity)
-
-        if filename:
-            gmsh.write(f"{filename}")
-
-        return mesh
+    return mesh
 
 
 def create_physical_mesh(mesh, cell_type, prune_z=True):
