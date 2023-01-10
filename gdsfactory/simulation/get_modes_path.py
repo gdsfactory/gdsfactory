@@ -26,6 +26,7 @@ def get_kwargs_hash(**kwargs) -> str:
 def _get_modes_path(
     cross_section: CrossSectionSpec,
     dirpath: Optional[Path] = None,
+    extension: Optional[str] = "npz",
     **kwargs,
 ) -> Path:
     """Return modes npz filepath hashing simulation settings for \
@@ -35,6 +36,7 @@ def _get_modes_path(
         cross_section: cross_section or cross_section factory.
         dirpath: directory to store sparameters in CSV.
             Defaults to active Pdk.sparameters_path.
+        extension: to append to the end of the file.
         kwargs: simulation settings.
 
     """
@@ -43,7 +45,9 @@ def _get_modes_path(
 
     dirpath = pathlib.Path(dirpath)
     dirpath.mkdir(exist_ok=True, parents=True)
-    return dirpath / f"{cross_section.get_name()}_{get_kwargs_hash(**kwargs)}.npz"
+    return (
+        dirpath / f"{cross_section.get_name()}_{get_kwargs_hash(**kwargs)}.{extension}"
+    )
 
 
 def _get_modes_data(**kwargs) -> np.ndarray:
@@ -59,7 +63,7 @@ def _get_modes_data(**kwargs) -> np.ndarray:
     return np.load(filepath)
 
 
-get_modes_path_femwell = partial(_get_modes_path, tool="femwell")
+get_modes_path_femwell = partial(_get_modes_path, tool="femwell", extension="pickle")
 
 
 def test_get_modes_path(test: bool = True) -> None:
