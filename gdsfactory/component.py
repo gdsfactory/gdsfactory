@@ -635,8 +635,13 @@ class Component(_GeometryHelper):
 
     def pprint(self) -> None:
         """Prints component info."""
-        # print(OmegaConf.to_yaml(self.to_dict()))
-        print(yaml.dump(self.to_dict()))
+        try:
+            from rich import pretty
+
+            pretty.install()
+            pretty.pprint(self.to_dict())
+        except ImportError:
+            print(yaml.dump(self.to_dict()))
 
     def pprint_ports(self) -> None:
         """Prints component netlists."""
@@ -883,16 +888,19 @@ class Component(_GeometryHelper):
         return copy(self)
 
     def copy_child_info(self, component: Component) -> None:
-        """Copy info from child component into parent.
+        """Copy and settings info from child component into parent.
 
         Parent components can access child cells settings.
         """
-        if not isinstance(component, Component):
-            raise ValueError(f"{type(component)} is not a Component")
+        if not isinstance(component, (Component, ComponentReference)):
+            raise ValueError(
+                f"{type(component)}" "is not a Component or ComponentReference"
+            )
 
         self.get_child_name = True
         self.child = component
         self.info.update(component.info)
+        self.settings.update(component.settings)
 
     @property
     def size_info(self) -> SizeInfo:
@@ -2159,9 +2167,12 @@ def test_import_gds_settings():
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.c.straight_pin()
+    c2 = gf.Component()
+    c = gf.c.mzi()
+    r = c.ref()
 
+    c2.copy_child_info(c.named_references["sxt"])
     # test_remap_layers()
     # c = test_get_layers()
-    c.show()
-    c.ploth()
+    c2.show()
+    # c.ploth()
