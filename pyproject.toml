@@ -64,6 +64,7 @@ full = [
     "nlopt",
     "pyglet<2",
     "pygmsh",
+    "rich",
     "sax==0.8.6",
     "scikit-fem",
     "scikit-image",
