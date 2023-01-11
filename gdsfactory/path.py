@@ -947,6 +947,52 @@ def extrude(
     return c
 
 
+@cell
+def extrude_segments(
+    p: Path,
+    cross_sections=None,
+    segment_lengths=None,
+    layer: Optional[LayerSpec] = None,
+    simplify: Optional[float] = None,
+    shear_angle_start: Optional[float] = None,
+    shear_angle_end: Optional[float] = None,
+) -> Component:
+    """Returns Component extruding a Path with multiple cross_sections.
+
+    Like extrude, but splits the path in segments of length segment_lengths, each associated with a cross_section in cross_sections.
+
+    Args:
+        (See extrude)
+        cross_sections: list of CrossSectionSpec
+        segment_lengths: list of segment lengths
+
+    """
+    from shapely.geometry import LineString
+    from shapely.ops import substring
+
+    c = Component()
+
+    path_linestr = LineString(p.points)
+    cumul_dist = 0
+    completed = False
+    while not completed:
+        for segment_length, cross_section in zip(segment_lengths, cross_sections):
+            if not completed:
+                if cumul_dist + segment_length > p.length():
+                    end_dist = p.length() - cumul_dist
+                    completed = True
+                else:
+                    end_dist = cumul_dist + segment_length
+                subpath_str = substring(
+                    path_linestr, start_dist=cumul_dist, end_dist=end_dist
+                )
+                subpath = Path(path=subpath_str.coords)
+                c << extrude(subpath, cross_section=cross_section, simplify=simplify)
+                cumul_dist += segment_length
+
+    return c
+
+
 def _rotated_delta(
     point: np.ndarray, center: np.ndarray, orientation: float
 ) -> np.ndarray:
@@ -1422,20 +1468,17 @@ def _demo_variable_offset() -> None:
 if __name__ == "__main__":
     import numpy as np
 
-    points = np.array([(20, 10), (40, 10), (20, 40), (50, 40), (50, 20), (70, 20)])
-
+    # points = np.array([(20, 10), (40, 10), (20, 40), (50, 40), (50, 20), (70, 20)])
     # p = smooth(
     #     points=points,
     #     radius=2,
     #     bend=gf.path.euler,
     #     use_eff=False,
     # )
-    p = arc(start_angle=0)
-    c = p.extrude(layer=(1, 0), width=0.1)
-
+    # p = arc(start_angle=0)
+    # c = p.extrude(layer=(1, 0), width=0.1)
     # p = straight()
     # p.plot()
-
     # from phidl.path import smooth
     # p = smooth(
     #     points=points,
@@ -1443,7 +1486,26 @@ if __name__ == "__main__":
     #     # bend=gf.path.euler,
     #     use_eff=False,
     # )
-
     # c = p.extrude(layer=(1, 0), width=0.1)
     # c = gf.read.from_phidl(c)
-    c.show()
+    # c.show()
+    import gdsfactory as gf
+
+    points = np.array([(20, 10), (40, 10), (20, 40), (50, 40), (50, 20), (70, 20)])
+
+    P = gf.path.smooth(
+        points=points,
+        radius=2,
+        bend=gf.path.euler,  # Alternatively, use pp.arc
+        use_eff=False,
+    )
+
+    # Add a few "sections" to the cross-section
+    x = gf.CrossSection(width=0.5, offset=1, layer=(2, 0), port_names=("in", "out"))
+    x2 = gf.CrossSection(width=0.5, offset=0.5, layer=(1, 0), port_names=("in", "out"))
+    x3 = gf.CrossSection(width=0.5, offset=-0.5, layer=(1, 0), port_names=("in", "out"))
+
+    c = gf.path.extrude_segments(
+        P, cross_sections=[x, x2, x3], segment_lengths=[1.0, 0.5, 0.75]
+    )
+    c.show(show_ports=True)
