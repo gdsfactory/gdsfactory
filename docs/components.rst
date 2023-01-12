@@ -666,6 +666,21 @@ coupler_asymmetric
 
 
 
+coupler_bend
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.coupler_bend
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.coupler_bend(radius=10.0, coupler_gap=0.2, coupling_angle_coverage=120.0, cross_section_inner='strip', cross_section_outer='strip')
+  c.plot()
+
+
+
 coupler_full
 ----------------------------------------------------
 
@@ -1545,7 +1560,7 @@ greek_cross
 
   import gdsfactory as gf
 
-  c = gf.components.greek_cross(cross_struct_length=30.0, cross_struct_width=1.0, cross_struct_layers=[[1, 0]], cross_implant_length=30.0, cross_implant_width=2.0, cross_implant_layers=[[20, 0]], contact_layers=[[1, 0], [24, 0]], contact_offset=10, contact_buffer=10, pad_width=50)
+  c = gf.components.greek_cross(cross_struct_length=30.0, cross_struct_width=1.0, cross_struct_layers=['WG'], cross_implant_length=30.0, cross_implant_width=2.0, cross_implant_layers=['N'], contact_layers=['WG', 'NPP'], contact_offset=10, contact_buffer=10, pad_width=50)
   c.plot()
 
 
@@ -2356,6 +2371,21 @@ ring_single_array
   import gdsfactory as gf
 
   c = gf.components.ring_single_array(spacing=5.0, cross_section='strip')
+  c.plot()
+
+
+
+ring_single_bend_coupler
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.ring_single_bend_coupler
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.ring_single_bend_coupler(radius=5.0, gap=0.2, coupling_angle_coverage=180.0, length_y=0.6, cross_section_inner='strip', cross_section_outer='strip')
   c.plot()
 
 
@@ -3285,7 +3315,7 @@ via_stack_heater_m3
 
   import gdsfactory as gf
 
-  c = gf.components.via_stack_heater_m3(size=[11.0, 11.0], layers=[[47, 0], [45, 0], [49, 0]])
+  c = gf.components.via_stack_heater_m3(size=[11.0, 11.0], layers=['HEATER', 'M2', 'M3'])
   c.plot()
 
 
@@ -3300,7 +3330,7 @@ via_stack_slab_m3
 
   import gdsfactory as gf
 
-  c = gf.components.via_stack_slab_m3(size=[11.0, 11.0], layers=[[3, 0], [41, 0], [45, 0], [49, 0]])
+  c = gf.components.via_stack_slab_m3(size=[11.0, 11.0], layers=['SLAB90', 'M1', 'M2', 'M3'])
   c.plot()
 
 

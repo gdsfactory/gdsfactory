@@ -2,8 +2,10 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.types import CrossSectionSpec
+from gdsfactory.components.straight import straight
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -13,8 +15,11 @@ def coupler_bend(
     coupling_angle_coverage: float = 120.0,
     cross_section_inner: CrossSectionSpec = "strip",
     cross_section_outer: CrossSectionSpec = "strip",
+    bend: ComponentSpec = bend_circular,
 ) -> Component:
     r"""Compact curved coupler with bezier escape.
+
+    TODO: fix for euler bends.
 
     Args:
         radius: um.
@@ -25,7 +30,8 @@ def coupler_bend(
         cross_section_inner: spec inner bend.
         cross_section_outer: spec outer bend.
 
-        .. code::
+    .. code::
+
             r   4
             |   |
             |  / ___3
@@ -41,7 +47,6 @@ def coupler_bend(
     angle_inner = 90
     angle_outer = coupling_angle_coverage / 2
     gap = coupler_gap
-    bend = gf.components.bend_circular
 
     width = xo.width / 2 + xi.width / 2
     spacing = gap + width
@@ -66,7 +71,6 @@ def coupler_bend(
     pbw = bend_inner_ref.ports["o1"]
     bend_inner_ref.movey(pbw.center[1] + spacing)
 
-    # This component is a leaf cell => using absorb
     c.absorb(bend_outer_ref)
     c.absorb(bend_inner_ref)
     c.absorb(output_ref)
@@ -82,9 +86,10 @@ def coupler_bend(
 def coupler_ring_bend(
     radius: float = 10.0,
     coupler_gap: float = 0.2,
-    coupling_angle_coverage: float = 180.0,
+    coupling_angle_coverage: float = 90.0,
     cross_section_inner: CrossSectionSpec = "strip",
     cross_section_outer: CrossSectionSpec = "strip",
+    bend: ComponentSpec = bend_circular,
 ) -> Component:
     r"""Two back-to-back coupler_bend.
 
@@ -96,49 +101,47 @@ def coupler_ring_bend(
         bend: for bend.
         cross_section_inner: spec inner bend.
         cross_section_outer: spec outer bend.
+        kwargs:
     """
     c = Component()
-
-    coupler_right = c << coupler_bend(
+    cp = coupler_bend(
         radius=radius,
         coupler_gap=coupler_gap,
         coupling_angle_coverage=coupling_angle_coverage,
         cross_section_inner=cross_section_inner,
         cross_section_outer=cross_section_outer,
+        bend=bend,
     )
-    coupler_left = (
-        c
-        << coupler_bend(
-            radius=radius,
-            coupler_gap=coupler_gap,
-            coupling_angle_coverage=coupling_angle_coverage,
-            cross_section_inner=cross_section_inner,
-            cross_section_outer=cross_section_outer,
-        ).mirror()
-    )
+
+    coupler_right = c << cp
+    coupler_left = c << cp.mirror()
 
     coupler_left.connect("o1", coupler_right.ports["o1"])
 
-    # This component is a leaf cell => using absorb
     c.absorb(coupler_right)
     c.absorb(coupler_left)
 
     c.add_port("o1", port=coupler_left.ports["o3"])
     c.add_port("o2", port=coupler_left.ports["o4"])
-    c.add_port("o3", port=coupler_right.ports["o3"])
-    c.add_port("o4", port=coupler_right.ports["o4"])
+    c.add_port("o4", port=coupler_right.ports["o3"])
+    c.add_port("o3", port=coupler_right.ports["o4"])
     return c
 
 
+@gf.cell
 def ring_single_bend_coupler(
     radius: float = 5.0,
-    coupler_gap: float = 0.2,
-    coupling_angle_coverage: float = 90.0,
-    bend: CrossSectionSpec = bend_euler,
+    gap: float = 0.2,
+    coupling_angle_coverage: float = 180.0,
+    bend: ComponentSpec = bend_circular,
+    length_y: float = 0.6,
     cross_section_inner: CrossSectionSpec = "strip",
     cross_section_outer: CrossSectionSpec = "strip",
+    **kwargs,
 ) -> Component:
     r"""Returns ring with curved coupler.
+
+    TODO: enable euler bends. add length_x option.
 
     Args:
         radius: um.
@@ -146,45 +149,49 @@ def ring_single_bend_coupler(
         angle_inner: of the inner bend, from beginning to end. Depending on the bend chosen, gap may not be preserved.
         angle_outer: of the outer bend, from beginning to end. Depending on the bend chosen, gap may not be preserved.
         bend: for bend.
+        length_y: vertical straight length.
         cross_section_inner: spec inner bend.
         cross_section_outer: spec outer bend.
+        kwargs: cross_section settings.
     """
     c = Component()
+    length_x = 0
 
-    coupler = c << coupler_ring_bend(
+    cb = c << coupler_ring_bend(
         radius=radius,
-        coupler_gap=coupler_gap,
+        coupler_gap=gap,
         coupling_angle_coverage=coupling_angle_coverage,
         cross_section_inner=cross_section_inner,
         cross_section_outer=cross_section_outer,
+        bend=bend,
     )
 
-    bend_right = c << bend(radius=radius, cross_section=cross_section_inner)
-    bend_left = c << bend(radius=radius, cross_section=cross_section_inner)
+    cross_section = cross_section_outer
+    sy = straight(length=length_y, cross_section=cross_section, **kwargs)
+    b = gf.get_component(bend, cross_section=cross_section, radius=radius, **kwargs)
+    sx = straight(length=length_x, cross_section=cross_section, **kwargs)
+    sl = c << sy
+    sr = c << sy
+    bl = c << b
+    br = c << b
+    st = c << sx
 
-    bend_right.connect("o1", coupler.ports["o4"])
-    bend_left.connect("o1", bend_right.ports["o2"])
+    sl.connect(port="o1", destination=cb.ports["o2"])
+    bl.connect(port="o2", destination=sl.ports["o2"])
 
-    cross_section_inner = gf.get_cross_section(cross_section_inner)
+    st.connect(port="o2", destination=bl.ports["o1"])
+    br.connect(port="o2", destination=st.ports["o1"])
+    sr.connect(port="o1", destination=br.ports["o1"])
+    sr.connect(port="o2", destination=cb.ports["o3"])
 
-    p_in = gf.path.arc(radius=radius - 2, angle=180, start_angle=0)
-    p_in = c << p_in.extrude(cross_section_inner(width=1)).movey(2.5)
-
-    p_out = gf.path.arc(radius=radius + 2, angle=160, start_angle=10)
-    p_out = c << p_out.extrude(cross_section_inner(width=2)).movey(-0.25).movex(0)
-
-    c.add_port("o1", port=coupler.ports["o1"])
-    c.add_port("o2", port=coupler.ports["o3"])
+    c.add_port("o2", port=cb.ports["o4"])
+    c.add_port("o1", port=cb.ports["o1"])
     return c
 
 
 if __name__ == "__main__":
-    c = ring_single_bend_coupler(
-        # radius=5,
-        # coupler_gap=0.2,
-        # cross_section_outer="rib",
-        # cross_section_inner="rib",
-        # coupling_angle_coverage=30,
-    )
-    # c.assert_ports_on_grid()
+    # c = coupler_bend(radius=5)
+    # c = coupler_ring_bend()
+    c = ring_single_bend_coupler()
+    c.assert_ports_on_grid()
     c.show(show_ports=True)

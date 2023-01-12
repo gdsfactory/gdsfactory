@@ -3,12 +3,16 @@ settings:
   changed: {}
   child: null
   default:
+    bend:
+      function: bend_circular
     coupler_gap: 0.2
     coupling_angle_coverage: 120.0
     cross_section_inner: strip
     cross_section_outer: strip
     radius: 10.0
   full:
+    bend:
+      function: bend_circular
     coupler_gap: 0.2
     coupling_angle_coverage: 120.0
     cross_section_inner: strip
