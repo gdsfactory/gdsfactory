@@ -4,6 +4,8 @@
 
 - add example notebook for a generic optimiser implementation with Ray Tune [PR](https://github.com/gdsfactory/gdsfactory/pull/1137)
 - add ring_single_coupler_bend [PR](https://github.com/gdsfactory/gdsfactory/pull/1137)
+- add ray optimiser example [PR](https://github.com/gdsfactory/gdsfactory/pull/1139)
+- fix phidl issues with bends with not enough points [based on](https://github.com/amccaugh/phidl/commit/69178d8f492b7d98cad4dffba4f9fd98293a26d2#diff-9d1c76ef415421738d56a30b935264b376cbdd773fb01294dcc782e1dd8475a9R135)
 
 ## [6.19.2](https://github.com/gdsfactory/gdsfactory/pull/1122)
 

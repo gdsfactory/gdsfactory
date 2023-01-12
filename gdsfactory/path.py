@@ -1139,11 +1139,20 @@ def euler(
     num_pts_euler = int(np.round(sp / (s0 / 2) * npoints))
     num_pts_arc = npoints - num_pts_euler
 
-    xbend1, ybend1 = _fresnel(R0, sp, num_pts_euler)
-    xp, yp = xbend1[-1], ybend1[-1]
+    # Ensure a minimum of 2 points for each euler/arc section
+    if npoints <= 2:
+        num_pts_euler = 0
+        num_pts_arc = 2
 
-    dx = xp - Rp * np.sin(p * alpha / 2)
-    dy = yp - Rp * (1 - np.cos(p * alpha / 2))
+    if num_pts_euler > 0:
+        xbend1, ybend1 = _fresnel(R0, sp, num_pts_euler)
+        xp, yp = xbend1[-1], ybend1[-1]
+        dx = xp - Rp * np.sin(p * alpha / 2)
+        dy = yp - Rp * (1 - np.cos(p * alpha / 2))
+    else:
+        xbend1 = ybend1 = np.asfarray([])
+        dx = 0
+        dy = 0
 
     s = np.linspace(sp, s0 / 2, num_pts_arc)
     xbend2 = Rp * np.sin((s - sp) / Rp + p * alpha / 2) + dx
@@ -1254,7 +1263,6 @@ def smooth(
     points: Coordinates,
     radius: float = 4.0,
     bend: PathFactory = euler,
-    npoints: int = 720,
     **kwargs,
 ) -> Path:
     """Returns a smooth Path from a series of waypoints.
@@ -1295,8 +1303,7 @@ def smooth(
     paths = []
     radii = []
     for dt in dtheta:
-        _npoints = max(npoints, int(360 / abs(dt)) + 1)
-        P = bend(radius=radius, angle=dt, npoints=_npoints, **kwargs)
+        P = bend(radius=radius, angle=dt, **kwargs)
         chord = np.linalg.norm(P.points[-1, :] - P.points[0, :])
         r = (chord / 2) / np.sin(np.radians(dt / 2))
         r = np.abs(r)
@@ -1424,13 +1431,8 @@ if __name__ == "__main__":
 
     points = np.array([(20, 10), (40, 10), (20, 40), (50, 40), (50, 20), (70, 20)])
 
-    # p = smooth(
-    #     points=points,
-    #     radius=2,
-    #     bend=gf.path.euler,
-    #     use_eff=False,
-    # )
-    p = arc(start_angle=0)
+    p = smooth(points=points)
+    # p = arc(start_angle=0)
     c = p.extrude(layer=(1, 0), width=0.1)
 
     # p = straight()
