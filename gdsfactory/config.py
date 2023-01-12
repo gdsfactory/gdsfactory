@@ -75,6 +75,7 @@ class Paths:
     gdsdiff = gdslib / "gds"
     sparameters = gdslib / "sp"
     interconnect = gdslib / "interconnect"
+    optimiser = repo_path / "tune"
 
 
 def read_config(
