@@ -35,11 +35,11 @@ def cutback_component(
         mirror: Flips component. Useful when 'o2' is the port that you want to route to.
         straight_length: length of the straight section between cutbacks.
         cross_section: specification (CrossSection, string or dict).
-        kwargs: cross_section settings.
+        kwargs: component settings.
     """
-    xs = gf.get_cross_section(cross_section, **kwargs)
+    xs = gf.get_cross_section(cross_section)
 
-    component = gf.get_component(component)
+    component = gf.get_component(component, **kwargs)
     bendu = gf.get_component(bend180, cross_section=xs)
     straight_component = straight(
         length=straight_length or xs.radius * 2, cross_section=xs

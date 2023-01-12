@@ -311,6 +311,10 @@ class ComponentReference(_GeometryHelper):
     def get_bounding_box(self):
         return self._reference.bounding_box()
 
+    @property
+    def settings(self):
+        return self.parent.settings
+
     def get_paths(self, depth=None):
         """Return the list of paths created by this reference.
 
