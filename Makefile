@@ -37,7 +37,7 @@ plugins:
 	pip install --upgrade "protobuf<=3.20.1"
 	pip install femwell
 	pip install scikit-fem[all] --upgrade
-	pip install -e .[tidy3d]
+	pip install -e .[tidy3d,ray]
 
 plugins-debian: plugins
 	sudo apt-get install -y python3-gmsh
