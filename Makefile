@@ -31,8 +31,10 @@ major:
 	python docs/write_components_doc.py
 
 plugins:
-	mamba install -c conda-forge pymeep=*=mpi_mpich_* -y
-	mamba install -c conda-forge slepc4py=*=complex* -y
+	conda install -n base conda-libmamba-solver
+	conda config --set solver libmamba
+	conda install -c conda-forge pymeep=*=mpi_mpich_* -y
+	conda install -c conda-forge slepc4py=*=complex* -y
 	pip install jax jaxlib
 	pip install --upgrade "protobuf<=3.20.1"
 	pip install femwell
@@ -43,13 +45,13 @@ plugins-debian: plugins
 	sudo apt-get install -y python3-gmsh
 
 thermal:
-	mamba install python-gmsh
+	conda install python-gmsh
 
 gmsh:
 	pip install trimesh mapbox_earcut gmsh meshio pygmsh pyvista h5py
 
 meep:
-	mamba install pymeep=*=mpi_mpich_* -y
+	conda install pymeep=*=mpi_mpich_* -y
 
 sax:
 	pip install jax jaxlib
