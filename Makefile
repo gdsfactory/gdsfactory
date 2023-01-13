@@ -35,11 +35,9 @@ plugins:
 	conda config --set solver libmamba
 	conda install -c conda-forge pymeep=*=mpi_mpich_* -y
 	conda install -c conda-forge slepc4py=*=complex* -y
-	pip install jax jaxlib
-	pip install --upgrade "protobuf<=3.20.1"
-	pip install femwell
-	pip install scikit-fem[all] --upgrade
-	pip install -e .[tidy3d,ray]
+	pip install -e .[tidy3d,ray,femwell]
+	pip install jax jaxlib numpy --upgrade
+	# pip install --upgrade "protobuf<=3.20.1"
 
 plugins-debian: plugins
 	sudo apt-get install -y python3-gmsh
