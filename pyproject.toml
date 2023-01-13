@@ -198,6 +198,9 @@ version_files = [
     "pyproject.toml:version",
 ]
 
+[tool.ruff]
+line-length = 340
+
 [tool.mypy]
 python_version = "3.10"
 strict = true
