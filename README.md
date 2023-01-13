@@ -75,7 +75,38 @@ You can also access:
 
 ## Installation
 
-[Download the latest installer](https://github.com/gdsfactory/gdsfactory/releases)
+### Installation for new python users
+
+If you don't have python installed on your system you can [download the gdsfactory installer](https://github.com/gdsfactory/gdsfactory/releases) that includes python3, miniconda and all gdsfactory plugins.
+
+### Installation for new gdsfactory users
+
+Open Mamba, Miniconda or Anaconda Prompt and then install using pip
+
+![anaconda prompt](https://i.imgur.com/Fyal5sT.png)
+
+
+```
+pip install gdsfactory --upgrade
+gf tool install
+```
+
+
+
+### Installation for developers
+
+For developers you need to fork the GitHub repository, git clone it (download it), git add, git commit, git push your improvement. Then pull request your changes to the main branch from the GitHub website.
+For that you can install gdsfactory locally on your computer in `-e` edit mode.
+
+```
+git clone https://github.com/gdsfactory/gdsfactory.git
+cd gdsfactory
+pip install -e . pre-commit
+pre-commit install
+gf tool install
+```
+
+Then you need to restart Klayout to make sure you activate the klayout gdsfactory integration.
 
 ## Getting started
 
@@ -111,6 +142,7 @@ Contributors (in chronological order):
 - Jonathan Cauchon (Ciena): for measurement database.
 - Raphaël Dubé-Demers (EXFO): for measurement database.
 - Bohan Zhang (Boston University): for grating coupler improvements.
+- Niko Savola (IQM): for optimization, notebook and code improvements.
 
 Open source heroes:
 
