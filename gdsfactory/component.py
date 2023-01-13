@@ -203,7 +203,8 @@ class Component(_GeometryHelper):
                 in a bounding box.  If `by_spec` is True the key will be the
                 name of this cell.
             include_paths: If True, polygonal representation of paths are also included in the result.
-            as_array: when as_array=false, return the Polygon objects instead. polygon objects have more information (especially when by_spec=False) and will be faster to retrieve.
+            as_array: when as_array=false, return the Polygon objects instead.
+                polygon objects have more information (especially when by_spec=False) and are faster to retrieve.
 
         Returns
             out: list of array-like[N][2] or dictionary
@@ -631,7 +632,12 @@ class Component(_GeometryHelper):
 
     def __repr__(self) -> str:
         """Return a string representation of the object."""
-        return f"{self.name}: uid {self.uid}, ports {list(self.ports.keys())}, references {list(self.named_references.keys())}, {len(self.polygons)} polygons"
+        return (
+            f"{self.name}: uid {self.uid}, "
+            f"ports {list(self.ports.keys())}, "
+            f"references {list(self.named_references.keys())}, "
+            f"{len(self.polygons)} polygons"
+        )
 
     def pprint(self) -> None:
         """Prints component info."""
@@ -1399,7 +1405,8 @@ class Component(_GeometryHelper):
         elif type == "uz":
             if xsection_bounds is None:
                 raise ValueError(
-                    'For uz-meshing, a line in the xy-plane must be provided via the Tuple argument [[x1,y1], [x2,y2]] "xsection_bounds".'
+                    "For uz-meshing, you must provide a line in the xy-plane "
+                    "via the Tuple argument [[x1,y1], [x2,y2]] xsection_bounds."
                 )
             from gdsfactory.simulation.gmsh.uz_xsection_mesh import uz_xsection_mesh
 
@@ -1994,9 +2001,11 @@ def test_get_layers() -> Component:
 
 def _filter_polys(polygons, layers_excl):
     return [
-        p
-        for p, l, d in zip(polygons.polygons, polygons.layers, polygons.datatypes)
-        if (l, d) not in layers_excl
+        polygon
+        for polygon, layer, datatype in zip(
+            polygons.polygons, polygons.layers, polygons.datatypes
+        )
+        if (layer, datatype) not in layers_excl
     ]
 
 
