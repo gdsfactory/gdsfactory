@@ -40,6 +40,7 @@ plugins:
 	# pip install --upgrade "protobuf<=3.20.1"
 
 plugins-debian: plugins
+	sudo apt-get update
 	sudo apt-get install -y python3-gmsh
 
 thermal:
