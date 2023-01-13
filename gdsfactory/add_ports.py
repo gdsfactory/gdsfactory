@@ -400,13 +400,13 @@ def add_ports_from_siepic_pins(
 
         # Find the label closest to the pin
         label = None
-        for i, l in enumerate(labels):
+        for i, _label in enumerate(labels):
             if (
-                all(isclose(l.origin, center))
-                or all(isclose(l.origin, p1))
-                or all(isclose(l.origin, p2))
+                all(isclose(_label.origin, center))
+                or all(isclose(_label.origin, p1))
+                or all(isclose(_label.origin, p2))
             ):
-                label = l
+                label = _label
                 labels.pop(i)
         if label is None:
             print(

@@ -123,9 +123,14 @@ repos:
     rev: c0d6f01ffd1d2ddbf8dc0240db47041b6b19efbf
     hooks:
       - id: nbqa-black
-        additional_dependencies: [jupytext,black] # optional, only if you're using Jupytext
+        additional_dependencies: [jupytext, black] # optional, only if you're using Jupytext
       - id: nbqa-pyupgrade
         args: ["--py37-plus"]
       # - id: nbqa-flake8
       # - id: nbqa-isort
       #   args: ["--float-to-top"]
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: "v0.0.220"
+    hooks:
+      - id: ruff
+        args: ["--force-exclude"]

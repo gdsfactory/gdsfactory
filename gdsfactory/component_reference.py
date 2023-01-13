@@ -268,7 +268,9 @@ class ComponentReference(_GeometryHelper):
                 in a bounding box.  If `by_spec` is True the key will be the
                 name of the referenced cell.
             include_paths: If True, polygonal representation of paths are also included in the result.
-            as_array: when as_array=false, return the Polygon objects instead. polygon objects have more information (especially when by_spec=False) and will be faster to retrieve.
+            as_array: when as_array=false, return the Polygon objects instead.
+                polygon objects have more information (especially when by_spec=False)
+                and are faster to retrieve.
 
         Returns
             out : list of array-like[N][2] or dictionary

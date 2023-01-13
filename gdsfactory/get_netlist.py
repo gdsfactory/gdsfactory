@@ -43,7 +43,7 @@ def get_instance_name_from_alias(
 ) -> str:
     """Returns the instance name from the label.
 
-    If no label returns to instanceName_x_y
+    If no label returns to instanceName_x_y.
 
     Args:
         component: with labels.
@@ -59,7 +59,7 @@ def get_instance_name_from_label(
 ) -> str:
     """Returns the instance name from the label.
 
-    If no label returns to instanceName_x_y
+    If no label returns to instanceName_x_y.
 
     Args:
         component: with labels.
@@ -122,10 +122,13 @@ def get_netlist(
 
     warnings collected during netlisting are reported back into the netlist.
     These include warnings about mismatched port widths, orientations, shear angles, excessive offsets, etc.
-    You can also configure warning types which should throw an error when encountered by modifying DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES.
-    Validators, which will produce warnings for each port type, can be overridden with DEFAULT_CONNECTION_VALIDATORS
+    You can also configure warning types which should throw an error when encountered
+        by modifying DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES.
+    Validators, which will produce warnings for each port type,
+    can be overridden with DEFAULT_CONNECTION_VALIDATORS
     A key difference in this algorithm is that we group each port type independently.
-    This allows us to use different logic to determine i.e. if an electrical port is properly connected vs an optical port.
+    This allows us to use different logic to determine i.e.
+    if an electrical port is properly connected vs an optical port.
     In this function, the core logic is the same, but we employ extra validation for optical ports.
     snap_to_grid() allows a value of 0, which will return the original value,
     is more efficient when the value is 1, and will throw a more descriptive error when the value is <0
@@ -411,7 +414,8 @@ def validate_optical_connection(
             _make_warning(
                 port_names,
                 values=[port1.width, port2.width],
-                message=f"Widths of ports {port_names[0]} and {port_names[1]} not equal. Difference of {abs(port1.width - port2.width)} um",
+                message=f"Widths of ports {port_names[0]} and {port_names[1]} not equal. "
+                f"Difference of {abs(port1.width - port2.width)} um",
             )
         )
     if port1.shear_angle and not port2.shear_angle:
@@ -419,7 +423,8 @@ def validate_optical_connection(
             _make_warning(
                 port_names,
                 values=[port1.shear_angle, port2.shear_angle],
-                message=f"{port_names[0]} has a shear angle but {port_names[1]} does not! Shear angle is {port1.shear_angle} deg",
+                message=f"{port_names[0]} has a shear angle but {port_names[1]} "
+                f"does not! Shear angle is {port1.shear_angle} deg",
             )
         )
     elif not port1.shear_angle and port2.shear_angle:
@@ -427,7 +432,8 @@ def validate_optical_connection(
             _make_warning(
                 port_names,
                 values=[port1.shear_angle, port2.shear_angle],
-                message=f"{port_names[1]} has a shear angle but {port_names[0]} does not! Shear angle is {port2.shear_angle} deg",
+                message=f"{port_names[1]} has a shear angle but {port_names[0]} "
+                f"does not! Shear angle is {port2.shear_angle} deg",
             )
         )
     elif port1.shear_angle:
@@ -439,7 +445,8 @@ def validate_optical_connection(
                 _make_warning(
                     port_names,
                     values=[port1.shear_angle, port2.shear_angle],
-                    message=f"Shear angle of {port_names[0]} and {port_names[1]} not equal. Difference of {abs(port1.shear_angle - port2.shear_angle)} deg",
+                    message=f"Shear angle of {port_names[0]} and {port_names[1]} "
+                    f"differ by {abs(port1.shear_angle - port2.shear_angle)} deg",
                 )
             )
 
@@ -453,7 +460,8 @@ def validate_optical_connection(
                 _make_warning(
                     port_names,
                     values=[port1.orientation, port2.orientation],
-                    message=f"{lower_port} was promoted to {top_port} but orientations do not match! Difference of {(abs(port1.orientation - port2.orientation))} deg",
+                    message=f"{lower_port} was promoted to {top_port} but orientations"
+                    f"do not match! Difference of {(abs(port1.orientation - port2.orientation))} deg",
                 )
             )
     else:

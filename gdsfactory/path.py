@@ -520,32 +520,35 @@ adiabatic_polyfit_TE1550SOI_220nm = np.array(
 
 
 def transition_adiabatic(
-    w1,
-    w2,
+    w1: float,
+    w2: float,
     neff_w,
-    wavelength=1.55,
-    alpha=1,
-    max_length=200,
-    num_points_ODE=2000,
+    wavelength: float = 1.55,
+    alpha: float = 1,
+    max_length: float = 200,
+    num_points_ODE: int = 2000,
 ):
     """Returns the points for an optimal adiabatic transition for well-guided modes.
 
     Args:
-        w1: start width
-        w2: end width
+        w1: start width in um.
+        w2: end width in um.
         neff_w: a callable that returns the effective index as a function of width
-                - By default, will use a compact model of neff(y) for fundamental 1550 nm TE mode of 220nm-thick core with 3.45 index, fully clad with 1.44 index. Many coefficients are needed to capture the behaviour.
+            By default, use a compact model of neff(y) for fundamental 1550 nm TE mode of 220nm-thick
+            core with 3.45 index, fully clad with 1.44 index. Many coefficients are needed to capture the behaviour.
         wavelength: wavelength, in same units as widths
         alpha: parameter that scales the rate of width change
                 - closer to 0 means longer and more adiabatic;
                 - 1 is the intuitive limit beyond which higher order modes are excited;
                 - [2] reports good performance up to 1.4 for fundamental TE in SOI (for multiple core thicknesses)
-        max_length: maximum length
-        num_points_ODE: number of samplings points for the ODE solve
+        max_length: maximum length in um.
+        num_points_ODE: number of samplings points for the ODE solve.
 
     References:
-        [1] Burns, W. K., et al. "Optical waveguide parabolic coupling horns." Appl. Phys. Lett., vol. 30, no. 1, 1 Jan. 1977, pp. 28-30, doi:10.1063/1.89199.
-        [2] Fu, Yunfei, et al. "Efficient adiabatic silicon-on-insulator waveguide taper." Photonics Res., vol. 2, no. 3, 1 June 2014, pp. A41-A44, doi:10.1364/PRJ.2.000A41.
+        [1] Burns, W. K., et al. "Optical waveguide parabolic coupling horns."
+            Appl. Phys. Lett., vol. 30, no. 1, 1 Jan. 1977, pp. 28-30, doi:10.1063/1.89199.
+        [2] Fu, Yunfei, et al. "Efficient adiabatic silicon-on-insulator waveguide taper."
+            Photonics Res., vol. 2, no. 3, 1 June 2014, pp. A41-A44, doi:10.1364/PRJ.2.000A41.
     """
     # Define ODE
     def dWdx(w, x, neff_w, wavelength, alpha):
