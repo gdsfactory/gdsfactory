@@ -6,6 +6,7 @@
 - add ring_single_coupler_bend [PR](https://github.com/gdsfactory/gdsfactory/pull/1137)
 - add ray optimiser example [PR](https://github.com/gdsfactory/gdsfactory/pull/1139)
 - fix phidl issues with bends with not enough points [PR](https://github.com/gdsfactory/gdsfactory/pull/1140)
+- add name argument added to cross_section function [PR](https://github.com/gdsfactory/gdsfactory/pull/1142)
 
 ## [6.19.2](https://github.com/gdsfactory/gdsfactory/pull/1122)
 
