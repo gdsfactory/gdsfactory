@@ -2,7 +2,8 @@ from typing import Optional
 
 import numpy as np
 
-from gdsfactory.tech import LayerStack, get_layer_stack_generic
+from gdsfactory.pdk import get_layer_stack
+from gdsfactory.technology import LayerStack
 
 
 class Parameter:
@@ -57,7 +58,7 @@ class LayerStackThickness(Parameter):
             layername: Name of the layer in the layerstack
         """
         super().__init__(**kwargs)
-        self.layerstack = layerstack or get_layer_stack_generic()
+        self.layerstack = layerstack or get_layer_stack()
         self.layername = layername
         self.min_value = (
             kwargs["min_value"]
@@ -79,8 +80,8 @@ class NamedParameter(Parameter):
     def __init__(self, **kwargs) -> None:
         """Parameter associated with the Component or simulation (e.g. wavelength)."""
         super().__init__(**kwargs)
-        self.min_value = kwargs["min_value"]
-        self.max_value = kwargs["max_value"]
-        self.nominal_value = kwargs["nominal_value"]
-        self.step = kwargs["step"]
+        self.min_value = kwargs.get("min_value")
+        self.max_value = kwargs.get("max_value")
+        self.nominal_value = kwargs.get("nominal_value")
+        self.step = kwargs.get("step")
         return None

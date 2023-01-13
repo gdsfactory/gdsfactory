@@ -8,7 +8,7 @@ from tqdm.contrib.itertools import product
 
 from gdsfactory.simulation.sax.interpolators import nd_nd_interpolation
 from gdsfactory.simulation.sax.parameter import LayerStackThickness, NamedParameter
-from gdsfactory.tech import LayerStack
+from gdsfactory.technology import LayerStack
 from gdsfactory.types import PortSymmetries
 
 
@@ -18,6 +18,9 @@ class Model:
         component: callable,
         layerstack: LayerStack,
         trainable_parameters: Dict[
+            str, Union[LayerStackThickness, NamedParameter]
+        ] = None,
+        non_trainable_parameters: Dict[
             str, Union[LayerStackThickness, NamedParameter]
         ] = None,
         simulation_settings: Optional[Dict[str, Union[float, str, int, Path]]] = None,
@@ -40,6 +43,7 @@ class Model:
             component: component associated with model
             layerstack: complete layerstack associated with model
             trainable parameters: parameters that are model features that need to be learned (e.g. width, layer thicknesses, wavelength, materials properties)
+            non_trainable_parameters: parameters for input_dict whose effect on S-parameters is known and does not need to be trained (e.g. length for a waveguide)
             simulation_settings: simulation parameters that can impact model quality (e.g. resolution, domain size). Set their converged property to True to skip convergence tuning.
             sim_settings: other simulation settings the solver can use
             num_modes: number of modes to consider for each port in S-parameter calculation.
@@ -50,6 +54,7 @@ class Model:
         self.component = component
         self.layerstack = layerstack
         self.trainable_parameters = trainable_parameters or {}
+        self.non_trainable_parameters = non_trainable_parameters or {}
         self.simulation_settings = simulation_settings or {}
         self.num_modes = num_modes
 
@@ -137,12 +142,15 @@ class Model:
 
         return output_vector_labels
 
-    def get_Sparameters(self, input_dict):
-        """To be overridden by child classes."""
+    def get_results(self, input_dict):
+        """To be overridden by child classes.
+
+        Returns output vector requiring a compact model that is then used by get_Sparameters.
+        """
         return None
 
     def get_data(self):
-        """Retrieve the input and output data for training the model by getting Sparameters on all parameter input combinations."""
+        """Retrieve the input and output data for training the model by getting results on all parameter input combinations."""
         ranges_dict = {
             name: parameter.arange()
             for name, parameter in self.trainable_parameters.items()
@@ -154,16 +162,18 @@ class Model:
         output_vectors = []
 
         for values in product(*ranges_dict.values(), desc="Getting examples: "):
-            # Compute S-parameters for this example
+            # Compute results for this example
             input_dict = dict(
                 zip(ranges_dict.keys(), [float(value) for value in values])
             )
-            sp = self.get_Sparameters(input_dict)
+            # sp = self.get_results(input_dict)
+            results = self.get_results(input_dict)
             # Save input consistently
             input_vectors.append(values)
             # Save output consistently
-            output_vector = [sp[output_key] for output_key in self.output_vector_labels]
-            output_vectors.append(output_vector)
+            # output_vector = [sp[output_key] for output_key in self.output_vector_labels]
+            # output_vectors.append(output_vector)
+            output_vectors.append(results)
 
         return (
             jnp.array(input_vectors),
@@ -171,7 +181,7 @@ class Model:
         )
 
     """
-    Interpolators
+    Fitting data.
     """
 
     def get_nd_nd_interp(self):
@@ -180,3 +190,14 @@ class Model:
         return nd_nd_interpolation(
             input_vectors, self.output_vector_labels, output_vectors
         )
+
+    """
+    Compute S-parameters from the fits.
+    """
+
+    def get_Sparameters(self, input_dict):
+        """To be overridden by child classes.
+
+        Uses model prediction and non-trainable parameters to generate the Sparameters.
+        """
+        return None

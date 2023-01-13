@@ -1,4 +1,4 @@
-from gdsfactory.pdk import _ACTIVE_PDK
+from gdsfactory.pdk import _ACTIVE_PDK, get_layer_stack
 from gdsfactory.simulation.eme.meow_eme import MEOW
 from gdsfactory.simulation.sax.build_model import Model
 
@@ -11,7 +11,14 @@ class MeowEMEModel(Model):
         super().__init__(**kwargs)
         return None
 
-    def get_Sparameters(self, input_dict):
+    def get_Sparameters(self, input_dict, output_vector_labels):
+        """For EME, results are directly S-parameters."""
+        sp = self.get_results(self, input_dict)
+        # output_vector = [sp[output_key] for output_key in self.output_vector_labels]
+        # output_vectors.append(output_vector)
+        return sp
+
+    def get_results(self, input_dict):
         """Setup and run a simulation with one set of inputs."""
         param_dict, layerstack_param_dict = self.parse_input_dict(input_dict)
         input_component = self.component(param_dict)
@@ -52,18 +59,18 @@ if __name__ == "__main__":
     import gdsfactory as gf
     from gdsfactory.cross_section import rib, strip
     from gdsfactory.simulation.sax.parameter import LayerStackThickness, NamedParameter
-    from gdsfactory.tech import LayerStack
+    from gdsfactory.technology import LayerStack
 
     c = gf.components.taper_cross_section_linear(
         cross_section1=rib(width=2), cross_section2=rib(width=0.5)
     )
     c.show()
 
-    layerstack = gf.tech.get_layer_stack_generic()
+    # layerstack = gf.tech.get_layer_stack_generic()
 
     filtered_layerstack = LayerStack(
         layers={
-            k: layerstack.layers[k]
+            k: get_layer_stack().layers[k]
             for k in (
                 "slab90",
                 "core",
