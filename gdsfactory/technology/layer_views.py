@@ -1043,7 +1043,7 @@ class LayerViews(BaseModel):
 
             if name in dither_patterns:
                 logger.warning(
-                    f"Dither pattern named '{name}' already exists. Keeping only the first defined."
+                    f"Dither pattern named {name!r} already exists. Keeping only the first defined."
                 )
                 continue
 
@@ -1062,7 +1062,7 @@ class LayerViews(BaseModel):
 
             if name in line_styles:
                 logger.warning(
-                    f"Line style named '{name}' already exists. Keeping only the first defined."
+                    f"Line style named {name!r} already exists. Keeping only the first defined."
                 )
                 continue
 
