@@ -52,7 +52,7 @@ jobs:
           pip install -e .[dev,full]
       - name: Test with pytest
         run: |
-          pytest --cov=gdsfactory --cov-report=xml --cov-config=.coveragerc gdsfactory
+          pytest --cov=gdsfactory gdsfactory
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
