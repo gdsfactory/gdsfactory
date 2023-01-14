@@ -49,11 +49,9 @@ jobs:
           python-version: 3.7
       - name: Install dependencies
         run: |
-          pip install .[dev]
+          pip install .[dev,full]
       - name: Test with pytest
         run: |
-          python -m pip install --upgrade pip
-          pip install pytest klayout lytest scikit-image pytest-cov
           pytest --cov=gdsfactory --cov-report=xml --cov-config=.coveragerc gdsfactory
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
