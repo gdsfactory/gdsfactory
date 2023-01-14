@@ -2151,7 +2151,7 @@ def test_remap_layers() -> None:
 
     assert (
         remap.hash_geometry() == hash_geometry
-    ), f"hash_geometry = '{remap.hash_geometry()}'"
+    ), f"hash_geometry = {remap.hash_geometry()!r}"
 
 
 def test_remove_labels() -> None:
