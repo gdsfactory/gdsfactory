@@ -209,7 +209,8 @@ ignore = [
     "E501",  # line too long, handled by black
     "B008",  # do not perform function calls in argument defaults
     "C901",  # too complex
-    "B905"
+    "B905",  # `zip()` without an explicit `strict=` parameter
+    "C408",  # C408 Unnecessary `dict` call (rewrite as a literal)
 ]
 
 [tool.mypy]
