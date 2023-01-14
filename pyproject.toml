@@ -58,7 +58,6 @@ full = [
     "mapbox_earcut",
     "natsort",
     "networkx",
-    "nlopt",
     "pyglet<2",
     "pygmsh",
     "rich",
@@ -198,7 +197,20 @@ version_files = [
 ]
 
 [tool.ruff]
-line-length = 340
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    # "I",  # isort
+    "C",  # flake8-comprehensions
+    "B",  # flake8-bugbear
+]
+ignore = [
+    "E501",  # line too long, handled by black
+    "B008",  # do not perform function calls in argument defaults
+    "C901",  # too complex
+    "B905"
+]
 
 [tool.mypy]
 python_version = "3.10"
