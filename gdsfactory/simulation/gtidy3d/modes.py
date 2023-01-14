@@ -18,7 +18,7 @@ import sys
 import time
 from pathlib import Path
 from types import SimpleNamespace
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Dict, List, Literal, Optional, Tuple, Union
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -29,7 +29,6 @@ from scipy.constants import c as SPEED_OF_LIGHT
 from scipy.interpolate import griddata
 from tidy3d.plugins.mode.solver import compute_modes
 from tqdm.auto import tqdm
-from typing_extensions import Literal
 
 from gdsfactory.config import logger
 from gdsfactory.pdk import MaterialSpec, get_material_index, get_modes_path

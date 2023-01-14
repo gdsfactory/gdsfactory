@@ -2,14 +2,13 @@
 from __future__ import annotations
 
 import pathlib
-from typing import Union
+from typing import Literal, Union
 
 import jax
 import jax.numpy as jnp
 import numpy as np
 import pandas as pd
 from sax.typing_ import Float, Model
-from typing_extensions import Literal
 
 import gdsfactory as gf
 from gdsfactory.simulation.get_sparameters_path import (

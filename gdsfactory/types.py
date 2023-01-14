@@ -31,14 +31,13 @@ from __future__ import annotations
 
 import json
 import pathlib
-from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+from typing import Any, Callable, Dict, List, Literal, Optional, Tuple, Union
 
 import gdstk
 import numpy as np
 from gdstk import Label
 from omegaconf import OmegaConf
 from pydantic import BaseModel, Extra
-from typing_extensions import Literal
 
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.cross_section import CrossSection, Section

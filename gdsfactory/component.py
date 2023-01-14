@@ -11,13 +11,12 @@ import warnings
 from collections import Counter
 from collections.abc import Iterable
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Dict, List, Literal, Optional, Set, Tuple, Union
 
 import gdstk
 import numpy as np
 import yaml
 from omegaconf import DictConfig, OmegaConf
-from typing_extensions import Literal
 
 from gdsfactory.component_layout import (
     Label,

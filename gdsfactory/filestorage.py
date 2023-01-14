@@ -3,10 +3,10 @@
 from __future__ import annotations
 
 from io import BytesIO
+from typing import Literal
 
 import numpy as np
 from pydantic import BaseModel
-from typing_extensions import Literal
 
 from gdsfactory.config import PATH
 from gdsfactory.types import Optional, PathType

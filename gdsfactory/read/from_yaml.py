@@ -52,11 +52,10 @@ import importlib
 import io
 import pathlib
 import warnings
-from typing import IO, Any, Callable, Dict, List, Optional, Union
+from typing import IO, Any, Callable, Dict, List, Literal, Optional, Union
 
 import numpy as np
 from omegaconf import DictConfig, OmegaConf
-from typing_extensions import Literal
 
 from gdsfactory.add_pins import add_instance_label
 from gdsfactory.cell import cell

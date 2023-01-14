@@ -2,11 +2,10 @@
 
 from __future__ import annotations
 
-from typing import List
+from typing import List, Literal
 
 import numpy as np
 from scipy.optimize import fsolve
-from typing_extensions import Literal
 
 
 def get_effective_indices(

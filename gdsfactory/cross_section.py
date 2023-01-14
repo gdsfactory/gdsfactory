@@ -10,11 +10,10 @@ import sys
 from collections.abc import Iterable
 from functools import partial
 from inspect import getmembers
-from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+from typing import Any, Callable, Dict, List, Literal, Optional, Tuple, Union
 
 import pydantic
 from pydantic import BaseModel, Field
-from typing_extensions import Literal
 
 from gdsfactory.add_pins import add_bbox_siepic, add_pins_siepic_optical_2nm
 
