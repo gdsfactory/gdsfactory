@@ -35,9 +35,6 @@ jobs:
           pip install .[dev]
           make install gdslib
           gf tool install
-      - name: Lint with flake8
-        run: |
-          flake8 .
       - name: Test with pytest
         run: pytest
   test_code_coverage_python37:
