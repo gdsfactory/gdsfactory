@@ -41,7 +41,6 @@ dependencies = [
     "types-PyYAML",
     "typing_extensions",
     "watchdog",
-    "xmltodict",
 ]
 readme = "README.md"
 requires-python = ">=3.7"
@@ -51,7 +50,6 @@ requires-python = ">=3.7"
 full = [
     "autograd",
     "bokeh",
-    "flayout",
     "freetype-py",
     "holoviews",
     "ipympl",
@@ -65,14 +63,15 @@ full = [
     "pyglet<2",
     "pygmsh",
     "rich",
-    "sax==0.8.6",
     "scikit-fem",
     "scikit-image",
     "scikit-learn",
-    "sqlalchemy",
-    "sqlalchemy-utils",
     "triangle",
     "trimesh",
+    ]
+database = [
+    "sqlalchemy",
+    "sqlalchemy-utils",
     ]
 gmsh = [
     "gmsh",
