@@ -7,7 +7,7 @@ full: gdslib plugins
 	pip install -e .[docs,dev,full,gmsh,tidy3d,devsim,meow,sax]
 
 install: gdslib
-	pip install -e .[full] pre-commit
+	pip install -e .[full,dev] pre-commit
 	pre-commit install
 	gf tool install
 
