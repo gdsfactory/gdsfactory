@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, Optional, Tuple
 
 import numpy as np
 from devsim import (
@@ -329,17 +329,15 @@ class DDComponent:
         self,
         factor: float = 2.0,
         refine_dict: Dict[str, Dict] = None,
-        refine_regions: List[str] = ["si"],
+        refine_regions: Tuple[str, ...] = ("si",),
     ):
         """Refines the mesh based on simulation result.
 
         Currently only remeshes in silicon regions.
 
         Arguments:
-            factor: number to scale the mesh characteristic length down where refine_dict is True
-            number_of_remeshings: int, number of times to perform remeshing
+            factor: number to scale the mesh characteristic length down where refine_dict is True.
             refine_dict: Dict of fields:conditions to determine where to remesh, e.g.
-
                 refine_dict = {
                     "Potential": {                                  # top-level key is field name
                         "func": lambda x0, x1: abs(x0 - x1),        # callable to apply to the local field difference before checking threshold
@@ -350,8 +348,7 @@ class DDComponent:
                         "threshold": 1,
                     },
                 }
-
-            regions: region keys where to refine
+            refine_regions: region keys where to refine.
         """
         xs = {}
         ys = {}
@@ -497,7 +494,6 @@ if __name__ == "__main__":
     c.ddsolver()
     c.save_device("test1.dat")
 
-    """New method class"""
     meshing_field = c.get_refined_mesh(
         factor=2.0,
         refine_dict={

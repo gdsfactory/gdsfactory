@@ -50,6 +50,7 @@ class Section(BaseModel):
         port_types: optical, electrical, ...
         name: Optional Section name.
         hidden: hide layer.
+
     .. code::
           0   offset
           |<-------------->|
@@ -177,8 +178,8 @@ class CrossSection(BaseModel):
 
     @property
     def aliases(self) -> Dict[str, Section]:
-        s = dict(
-            _default=Section(
+        s = {
+            "_default": Section(
                 width=self.width,
                 offset=self.offset,
                 layer=self.layer,
@@ -186,7 +187,7 @@ class CrossSection(BaseModel):
                 port_types=self.port_types,
                 name="_default",
             )
-        )
+        }
         sections = self.sections or []
         for section in sections:
             if section.name:
@@ -814,17 +815,17 @@ def pn(
         )
         sections.append(s)
 
-    info = dict(
-        width=width,
-        layer=layer,
-        bbox_layers=bbox_layers,
-        bbox_offsets=bbox_offsets,
-        gap_low_doping=gap_low_doping,
-        gap_medium_doping=gap_medium_doping,
-        gap_high_doping=gap_high_doping,
-        width_doping=width_doping,
-        width_slab=width_slab,
-    )
+    info = {
+        "width": width,
+        "layer": layer,
+        "bbox_layers": bbox_layers,
+        "bbox_offsets": bbox_offsets,
+        "gap_low_doping": gap_low_doping,
+        "gap_medium_doping": gap_medium_doping,
+        "gap_high_doping": gap_high_doping,
+        "width_doping": width_doping,
+        "width_slab": width_slab,
+    }
     return CrossSection(
         width=width,
         offset=0,
@@ -1413,17 +1414,17 @@ def pn_ge_detector_si_contacts(
     s = Section(width=width_ge, offset=0, layer=layer_ge)
     sections.append(s)
 
-    info = dict(
-        width=width_si,
-        layer=layer_si,
-        bbox_layers=bbox_layers,
-        bbox_offsets=bbox_offsets,
-        gap_low_doping=gap_low_doping,
-        gap_medium_doping=gap_medium_doping,
-        gap_high_doping=gap_high_doping,
-        width_doping=width_doping,
-        width_slab=0.0,
-    )
+    info = {
+        "width": width_si,
+        "layer": layer_si,
+        "bbox_layers": bbox_layers,
+        "bbox_offsets": bbox_offsets,
+        "gap_low_doping": gap_low_doping,
+        "gap_medium_doping": gap_medium_doping,
+        "gap_high_doping": gap_high_doping,
+        "width_doping": width_doping,
+        "width_slab": 0.0,
+    }
     return CrossSection(
         width=width_si,
         offset=0,

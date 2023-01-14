@@ -52,16 +52,16 @@ except ImportError:
     QGraphicsView = object
     qt_imported = False
 
-_quickplot_options = dict(
-    show_ports=True,
-    show_subports=True,
-    label_aliases=False,
-    new_window=False,
-    blocking=False,
-    zoom_factor=1.4,
-    interactive_zoom=None,
-    fontsize=14,
-)
+_quickplot_options = {
+    "show_ports": True,
+    "show_subports": True,
+    "label_aliases": False,
+    "new_window": False,
+    "blocking": False,
+    "zoom_factor": 1.4,
+    "interactive_zoom": None,
+    "fontsize": 14,
+}
 
 
 def _zoom_factory(axis, scale_factor=1.4):

@@ -7,7 +7,7 @@ full: gdslib plugins
 	pip install -e .[docs,dev,full,gmsh,tidy3d,devsim,meow,sax]
 
 install: gdslib
-	pip install -e .[full] pre-commit
+	pip install -e .[full,dev] pre-commit
 	pre-commit install
 	gf tool install
 
@@ -33,7 +33,7 @@ major:
 plugins:
 	conda install -n base conda-libmamba-solver
 	conda config --set solver libmamba
-	conda install -c conda-forge pymeep=*=mpi_mpich_* -y
+	conda install -c conda-forge pymeep=*=mpi_mpich_* nlopt -y
 	conda install -c conda-forge slepc4py=*=complex* -y
 	pip install jax jaxlib numpy femwell --upgrade
 	pip install -e .[tidy3d,ray]
@@ -184,7 +184,9 @@ link:
 	lygadgets_link gdsfactory/klayout
 
 constructor:
-	mamba install constructor conda-libmamba-solver -y
+	# mamba install constructor conda-libmamba-solver -y
+	conda install -n base conda-libmamba-solver
+	conda config --set solver libmamba
 	constructor .
 
 nbqa:
