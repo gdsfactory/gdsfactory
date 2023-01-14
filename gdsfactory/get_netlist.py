@@ -201,12 +201,12 @@ def get_netlist(
             )
 
         instances[reference_name] = instance
-        placements[reference_name] = dict(
-            x=x,
-            y=y,
-            rotation=int(reference.rotation or 0),
-            mirror=reference.x_reflection or 0,
-        )
+        placements[reference_name] = {
+            "x": x,
+            "y": y,
+            "rotation": int(reference.rotation or 0),
+            "mirror": reference.x_reflection or 0,
+        }
         if is_array:
             parent_ports = c.ports
             for i in range(reference.rows):
@@ -215,12 +215,12 @@ def get_netlist(
                     xj = x + j * reference.spacing[0]
                     yi = y + i * reference.spacing[1]
                     instances[reference_name] = instance
-                    placements[reference_name] = dict(
-                        x=xj,
-                        y=yi,
-                        rotation=int(reference.rotation or 0),
-                        mirror=reference.x_reflection or 0,
-                    )
+                    placements[reference_name] = {
+                        "x": xj,
+                        "y": yi,
+                        "rotation": int(reference.rotation or 0),
+                        "mirror": reference.x_reflection or 0,
+                    }
                     for parent_port_name in parent_ports:
                         top_name = f"{parent_port_name}_{i + 1}_{j + 1}"
                         lower_name = f"{reference_name},{parent_port_name}"
@@ -269,16 +269,16 @@ def get_netlist(
                     src_dest = sorted([src, dst])
                     connections[src_dest[0]] = src_dest[1]
 
-    connections_sorted = {k: connections[k] for k in sorted(list(connections.keys()))}
-    placements_sorted = {k: placements[k] for k in sorted(list(placements.keys()))}
-    instances_sorted = {k: instances[k] for k in sorted(list(instances.keys()))}
-    netlist = dict(
-        connections=connections_sorted,
-        instances=instances_sorted,
-        placements=placements_sorted,
-        ports=top_ports,
-        name=component.name,
-    )
+    connections_sorted = {k: connections[k] for k in sorted(connections.keys())}
+    placements_sorted = {k: placements[k] for k in sorted(placements.keys())}
+    instances_sorted = {k: instances[k] for k in sorted(instances.keys())}
+    netlist = {
+        "connections": connections_sorted,
+        "instances": instances_sorted,
+        "placements": placements_sorted,
+        "ports": top_ports,
+        "name": component.name,
+    }
     if warnings:
         netlist["warnings"] = warnings
     return netlist

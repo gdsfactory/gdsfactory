@@ -33,7 +33,7 @@ major:
 plugins:
 	conda install -n base conda-libmamba-solver
 	conda config --set solver libmamba
-	conda install -c conda-forge pymeep=*=mpi_mpich_* -y
+	conda install -c conda-forge pymeep=*=mpi_mpich_* nlopt -y
 	conda install -c conda-forge slepc4py=*=complex* -y
 	pip install jax jaxlib numpy femwell --upgrade
 	pip install -e .[tidy3d,ray]
