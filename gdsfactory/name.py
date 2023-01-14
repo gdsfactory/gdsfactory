@@ -28,7 +28,7 @@ def join_first_letters(name: str) -> str:
 
 
 # replace function_name prefix for some components
-component_type_to_name = dict(phidl="phidl")
+component_type_to_name = {"phidl": "phidl"}
 
 
 def get_component_name(component_type: str, *args, **kwargs) -> str:

@@ -242,12 +242,12 @@ class Component(_GeometryHelper):
 
     def get_component_spec(self):
         return (
-            dict(
-                component=self.settings.function_name,
-                settings=self.settings.changed,
-            )
+            {
+                "component": self.settings.function_name,
+                "settings": self.settings.changed,
+            }
             if self.settings
-            else dict(component=self.name, settings={})
+            else {"component": self.name, "settings": {}}
         )
 
     def __getitem__(self, key):
