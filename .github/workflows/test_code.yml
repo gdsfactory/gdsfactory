@@ -49,7 +49,7 @@ jobs:
           python-version: 3.7
       - name: Install dependencies
         run: |
-          pip install .[dev,full]
+          pip install -e .[dev,full]
       - name: Test with pytest
         run: |
           pytest --cov=gdsfactory --cov-report=xml --cov-config=.coveragerc gdsfactory
