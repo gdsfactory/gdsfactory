@@ -14,7 +14,7 @@ classifiers = [
 	"Programming Language :: Python :: 3.11",
 	"Operating System :: OS Independent",
 ]
-version = "6.19.3"
+version = "6.19.4"
 authors = [
     {name = "gdsfactory community", email = "contact@gdsfactory.com"},
 ]
@@ -64,6 +64,7 @@ full = [
     "nlopt",
     "pyglet<2",
     "pygmsh",
+    "rich",
     "sax==0.8.6",
     "scikit-fem",
     "scikit-image",
@@ -127,6 +128,10 @@ docs = [
     "sphinx-copybutton",
     "sphinx-markdown-tables==0.0.16",
     "sphinxcontrib-video",
+    ]
+ray = [
+    "ray[tune,air]",
+    "hyperopt"
     ]
 
 [tool.setuptools.packages]
@@ -192,6 +197,9 @@ version = "0.1.0"
 version_files = [
     "pyproject.toml:version",
 ]
+
+[tool.ruff]
+line-length = 340
 
 [tool.mypy]
 python_version = "3.10"

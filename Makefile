@@ -7,7 +7,7 @@ full: gdslib plugins
 	pip install -e .[docs,dev,full,gmsh,tidy3d,devsim,meow,sax]
 
 install: gdslib
-	pip install -e .[dev,full]
+	pip install -e .[full] pre-commit
 	pre-commit install
 	gf tool install
 
@@ -31,25 +31,26 @@ major:
 	python docs/write_components_doc.py
 
 plugins:
-	mamba install -c conda-forge pymeep=*=mpi_mpich_* -y
-	mamba install -c conda-forge slepc4py=*=complex* -y
-	pip install jax jaxlib
-	pip install --upgrade "protobuf<=3.20.1"
-	pip install femwell
-	pip install scikit-fem[all] --upgrade
-	pip install -e .[tidy3d]
+	conda install -n base conda-libmamba-solver
+	conda config --set solver libmamba
+	conda install -c conda-forge pymeep=*=mpi_mpich_* -y
+	conda install -c conda-forge slepc4py=*=complex* -y
+	pip install jax jaxlib numpy femwell --upgrade
+	pip install -e .[tidy3d,ray]
+	# pip install --upgrade "protobuf<=3.20.1"
 
 plugins-debian: plugins
+	sudo apt-get update
 	sudo apt-get install -y python3-gmsh
 
 thermal:
-	mamba install python-gmsh
+	conda install python-gmsh
 
 gmsh:
 	pip install trimesh mapbox_earcut gmsh meshio pygmsh pyvista h5py
 
 meep:
-	mamba install pymeep=*=mpi_mpich_* -y
+	conda install pymeep=*=mpi_mpich_* -y
 
 sax:
 	pip install jax jaxlib

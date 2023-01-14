@@ -28,7 +28,7 @@ import omegaconf
 from loguru import logger
 from omegaconf import OmegaConf
 
-__version__ = "6.19.3"
+__version__ = "6.19.4"
 PathType = Union[str, pathlib.Path]
 
 home = pathlib.Path.home()
@@ -75,6 +75,7 @@ class Paths:
     gdsdiff = gdslib / "gds"
     sparameters = gdslib / "sp"
     interconnect = gdslib / "interconnect"
+    optimiser = repo_path / "tune"
 
 
 def read_config(

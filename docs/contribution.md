@@ -1,17 +1,10 @@
 # Contributing
 
-gdsfactory is an open source project that welcomes contributions from any users.
+gdsfactory is an open source project that welcomes your contributions. How can you contribute?
+You can fork the repo, work on a feature, and then create a Pull Request asking permission to merge your feature into the `main` branch.
+Make sure [GitHub Actions](https://github.com/gdsfactory/gdsfactory/actions) pass.
 
-How can you contribute?
-
-You can fork the repo, work on a feature, and then create a Pull Request asking permission to merge your feature into the `main` branch. As long as the tests pass on [GitHub Actions](https://github.com/gdsfactory/gdsfactory/actions) it is likely that your improvement will be included in the next release and benefit the community.
-
-After your improvements the tests with `pytest` and syntax checker `flake8` must be passing.
-To help you with code quality checks we install pre-commit hooks to maintain good code quality.
-
-What are the easiest contributions to make?
-
-You can take a look at the [open issues](https://github.com/gdsfactory/gdsfactory/issues) or you can also share some of your work:
+What can you help with? Take a look at the [open issues](https://github.com/gdsfactory/gdsfactory/issues) or add something you need to gdsfactory:
 
 - Any improvements you make (documentation, tutorials or code)
 - Your layout/verification functions that you wrote recently
@@ -30,6 +23,13 @@ The workflow is:
 - You need to follow [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html). You can take a look at the other PCell docstrings.
 - You should make sure tests pass.
 - You should install pre-commit to get the pre-commit checks passing (autoformat the code, run linter ...).
+
+
+```
+pip install -e . pre-commit
+pre-commit install
+gf tool install
+```
 
 
 ## Tests
@@ -58,7 +58,7 @@ Pytest-regressions automatically creates the CSV and YAML files for you, as well
 
 gdsfactory is **not** backwards compatible, which means that the package will keep improving and evolving.
 
-1. To make your work stable you should install a specific version and [pin the version](https://martin-thoma.com/python-requirements/) in your `requirements.txt` as `gdsfactory==6.19.3` replacing `6.19.3` by whatever version you end up using.
+1. To make your work stable you should install a specific version and [pin the version](https://martin-thoma.com/python-requirements/) in your `requirements.txt` as `gdsfactory==6.19.4` replacing `6.19.4` by whatever version you end up using.
 2. Before you upgrade gdsfactory make sure you write and run regression tests on your work to check that things behave as expected
 
 
@@ -73,7 +73,7 @@ For example, if you changed the mmi1x2 and made it 5um longer by mistake, you co
 
 ## Why does gdsfactory exists?
 
-For Photonics IC layout I used [IPKISS](https://github.com/jtambasco/ipkiss) for 6 years. IPKISS is slow with big layouts, so in 2019 I tried all the commercial (Luceda, Cadence, Synopsis) and open source EDA tools (gdstk, gdspy, phidl, picwriter, klayout-zero-pdk, nazca) looking for a fast and easy to use workflow.
+For Photonics IC layout I used [IPKISS](https://github.com/jtambasco/ipkiss) for 7 years. IPKISS is slow with big layouts, so in 2019 I tried all the commercial (Luceda, Cadence, Synopsis) and open source EDA tools (gdstk, gdspy, phidl, picwriter, klayout-zero-pdk, nazca) looking for a fast and easy to use workflow.
 
 The metrics for the benchmark were:
 
@@ -133,5 +133,4 @@ gdsfactory is written in python and requires some basic knowledge of python. If 
     - [scientific computing](https://nbviewer.org/github/jrjohansson/scientific-python-lectures/blob/master/Lecture-0-Scientific-Computing-with-Python.ipynb)
     - [numerical python](http://jrjohansson.github.io/numericalpython.html)
     - [python](https://dabeaz-course.github.io/practical-python/Notes/01_Introduction/01_Python.html)
-
 - [open source best practices](https://opensource.guide/best-practices/)

@@ -520,32 +520,35 @@ adiabatic_polyfit_TE1550SOI_220nm = np.array(
 
 
 def transition_adiabatic(
-    w1,
-    w2,
+    w1: float,
+    w2: float,
     neff_w,
-    wavelength=1.55,
-    alpha=1,
-    max_length=200,
-    num_points_ODE=2000,
+    wavelength: float = 1.55,
+    alpha: float = 1,
+    max_length: float = 200,
+    num_points_ODE: int = 2000,
 ):
     """Returns the points for an optimal adiabatic transition for well-guided modes.
 
     Args:
-        w1: start width
-        w2: end width
+        w1: start width in um.
+        w2: end width in um.
         neff_w: a callable that returns the effective index as a function of width
-                - By default, will use a compact model of neff(y) for fundamental 1550 nm TE mode of 220nm-thick core with 3.45 index, fully clad with 1.44 index. Many coefficients are needed to capture the behaviour.
+            By default, use a compact model of neff(y) for fundamental 1550 nm TE mode of 220nm-thick
+            core with 3.45 index, fully clad with 1.44 index. Many coefficients are needed to capture the behaviour.
         wavelength: wavelength, in same units as widths
         alpha: parameter that scales the rate of width change
                 - closer to 0 means longer and more adiabatic;
                 - 1 is the intuitive limit beyond which higher order modes are excited;
                 - [2] reports good performance up to 1.4 for fundamental TE in SOI (for multiple core thicknesses)
-        max_length: maximum length
-        num_points_ODE: number of samplings points for the ODE solve
+        max_length: maximum length in um.
+        num_points_ODE: number of samplings points for the ODE solve.
 
     References:
-        [1] Burns, W. K., et al. "Optical waveguide parabolic coupling horns." Appl. Phys. Lett., vol. 30, no. 1, 1 Jan. 1977, pp. 28-30, doi:10.1063/1.89199.
-        [2] Fu, Yunfei, et al. "Efficient adiabatic silicon-on-insulator waveguide taper." Photonics Res., vol. 2, no. 3, 1 June 2014, pp. A41-A44, doi:10.1364/PRJ.2.000A41.
+        [1] Burns, W. K., et al. "Optical waveguide parabolic coupling horns."
+            Appl. Phys. Lett., vol. 30, no. 1, 1 Jan. 1977, pp. 28-30, doi:10.1063/1.89199.
+        [2] Fu, Yunfei, et al. "Efficient adiabatic silicon-on-insulator waveguide taper."
+            Photonics Res., vol. 2, no. 3, 1 June 2014, pp. A41-A44, doi:10.1364/PRJ.2.000A41.
     """
     # Define ODE
     def dWdx(w, x, neff_w, wavelength, alpha):
@@ -1185,11 +1188,20 @@ def euler(
     num_pts_euler = int(np.round(sp / (s0 / 2) * npoints))
     num_pts_arc = npoints - num_pts_euler
 
-    xbend1, ybend1 = _fresnel(R0, sp, num_pts_euler)
-    xp, yp = xbend1[-1], ybend1[-1]
+    # Ensure a minimum of 2 points for each euler/arc section
+    if npoints <= 2:
+        num_pts_euler = 0
+        num_pts_arc = 2
 
-    dx = xp - Rp * np.sin(p * alpha / 2)
-    dy = yp - Rp * (1 - np.cos(p * alpha / 2))
+    if num_pts_euler > 0:
+        xbend1, ybend1 = _fresnel(R0, sp, num_pts_euler)
+        xp, yp = xbend1[-1], ybend1[-1]
+        dx = xp - Rp * np.sin(p * alpha / 2)
+        dy = yp - Rp * (1 - np.cos(p * alpha / 2))
+    else:
+        xbend1 = ybend1 = np.asfarray([])
+        dx = 0
+        dy = 0
 
     s = np.linspace(sp, s0 / 2, num_pts_arc)
     xbend2 = Rp * np.sin((s - sp) / Rp + p * alpha / 2) + dx
@@ -1300,7 +1312,6 @@ def smooth(
     points: Coordinates,
     radius: float = 4.0,
     bend: PathFactory = euler,
-    npoints: int = 720,
     **kwargs,
 ) -> Path:
     """Returns a smooth Path from a series of waypoints.
@@ -1341,8 +1352,7 @@ def smooth(
     paths = []
     radii = []
     for dt in dtheta:
-        _npoints = max(npoints, int(360 / abs(dt)) + 1)
-        P = bend(radius=radius, angle=dt, npoints=_npoints, **kwargs)
+        P = bend(radius=radius, angle=dt, **kwargs)
         chord = np.linalg.norm(P.points[-1, :] - P.points[0, :])
         r = (chord / 2) / np.sin(np.radians(dt / 2))
         r = np.abs(r)
@@ -1468,15 +1478,11 @@ def _demo_variable_offset() -> None:
 if __name__ == "__main__":
     import numpy as np
 
-    # points = np.array([(20, 10), (40, 10), (20, 40), (50, 40), (50, 20), (70, 20)])
-    # p = smooth(
-    #     points=points,
-    #     radius=2,
-    #     bend=gf.path.euler,
-    #     use_eff=False,
-    # )
+    points = np.array([(20, 10), (40, 10), (20, 40), (50, 40), (50, 20), (70, 20)])
+
+    p = smooth(points=points)
     # p = arc(start_angle=0)
-    # c = p.extrude(layer=(1, 0), width=0.1)
+    c = p.extrude(layer=(1, 0), width=0.1)
     # p = straight()
     # p.plot()
     # from phidl.path import smooth

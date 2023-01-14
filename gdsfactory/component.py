@@ -203,7 +203,8 @@ class Component(_GeometryHelper):
                 in a bounding box.  If `by_spec` is True the key will be the
                 name of this cell.
             include_paths: If True, polygonal representation of paths are also included in the result.
-            as_array: when as_array=false, return the Polygon objects instead. polygon objects have more information (especially when by_spec=False) and will be faster to retrieve.
+            as_array: when as_array=false, return the Polygon objects instead.
+                polygon objects have more information (especially when by_spec=False) and are faster to retrieve.
 
         Returns
             out: list of array-like[N][2] or dictionary
@@ -631,12 +632,22 @@ class Component(_GeometryHelper):
 
     def __repr__(self) -> str:
         """Return a string representation of the object."""
-        return f"{self.name}: uid {self.uid}, ports {list(self.ports.keys())}, references {list(self.named_references.keys())}, {len(self.polygons)} polygons"
+        return (
+            f"{self.name}: uid {self.uid}, "
+            f"ports {list(self.ports.keys())}, "
+            f"references {list(self.named_references.keys())}, "
+            f"{len(self.polygons)} polygons"
+        )
 
     def pprint(self) -> None:
         """Prints component info."""
-        # print(OmegaConf.to_yaml(self.to_dict()))
-        print(yaml.dump(self.to_dict()))
+        try:
+            from rich import pretty
+
+            pretty.install()
+            pretty.pprint(self.to_dict())
+        except ImportError:
+            print(yaml.dump(self.to_dict()))
 
     def pprint_ports(self) -> None:
         """Prints component netlists."""
@@ -883,16 +894,19 @@ class Component(_GeometryHelper):
         return copy(self)
 
     def copy_child_info(self, component: Component) -> None:
-        """Copy info from child component into parent.
+        """Copy and settings info from child component into parent.
 
         Parent components can access child cells settings.
         """
-        if not isinstance(component, Component):
-            raise ValueError(f"{type(component)} is not a Component")
+        if not isinstance(component, (Component, ComponentReference)):
+            raise ValueError(
+                f"{type(component)}" "is not a Component or ComponentReference"
+            )
 
         self.get_child_name = True
         self.child = component
         self.info.update(component.info)
+        self.settings.update(component.settings)
 
     @property
     def size_info(self) -> SizeInfo:
@@ -1306,7 +1320,7 @@ class Component(_GeometryHelper):
         self,
         show_ports: bool = False,
         show_subports: bool = False,
-        port_marker_layer: Layer = "SHOW_PORTS",
+        port_marker_layer: Layer = (1, 10),
         **kwargs,
     ) -> None:
         """Show component in KLayout.
@@ -1391,7 +1405,8 @@ class Component(_GeometryHelper):
         elif type == "uz":
             if xsection_bounds is None:
                 raise ValueError(
-                    'For uz-meshing, a line in the xy-plane must be provided via the Tuple argument [[x1,y1], [x2,y2]] "xsection_bounds".'
+                    "For uz-meshing, you must provide a line in the xy-plane "
+                    "via the Tuple argument [[x1,y1], [x2,y2]] xsection_bounds."
                 )
             from gdsfactory.simulation.gmsh.uz_xsection_mesh import uz_xsection_mesh
 
@@ -1986,9 +2001,11 @@ def test_get_layers() -> Component:
 
 def _filter_polys(polygons, layers_excl):
     return [
-        p
-        for p, l, d in zip(polygons.polygons, polygons.layers, polygons.datatypes)
-        if (l, d) not in layers_excl
+        polygon
+        for polygon, layer, datatype in zip(
+            polygons.polygons, polygons.layers, polygons.datatypes
+        )
+        if (layer, datatype) not in layers_excl
     ]
 
 
@@ -2159,9 +2176,12 @@ def test_import_gds_settings():
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.c.straight_pin()
+    c2 = gf.Component()
+    c = gf.c.mzi()
+    r = c.ref()
 
+    c2.copy_child_info(c.named_references["sxt"])
     # test_remap_layers()
     # c = test_get_layers()
-    c.show()
-    c.ploth()
+    c2.show()
+    # c.ploth()
