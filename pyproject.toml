@@ -44,92 +44,19 @@ types-pyyaml = "^6.0.12.2"
 watchdog = "^2.2.1"
 
 
-[project.optional-dependencies]
-full = [
-    "autograd",
-    "bokeh",
-    "flayout",
-    "freetype-py",
-    "holoviews",
-    "ipympl",
-    "ipywidgets",
-    "jsondiff",
-    "klayout",
-    "mapbox_earcut",
-    "natsort",
-    "networkx",
-    "nlopt",
-    "pyglet<2",
-    "pygmsh",
-    "rich",
-    "sax==0.8.6",
-    "scikit-fem",
-    "scikit-image",
-    "scikit-learn",
-    "sqlalchemy",
-    "sqlalchemy-utils",
-    "triangle",
-    "trimesh",
-    ]
-gmsh = [
-    "gmsh",
-    "h5py",
-    "mapbox_earcut",
-    "meshio",
-    "pygmsh",
-    "pyvista",
-    "trimesh",
-    "shapely",
-    ]
+[tool.poetry.extras]
+full = ["autograd", "bokeh", "freetype-py", "holoviews", "ipympl", "ipywidgets", "jsondiff", "klayout", "mapbox_earcut", "natsort", "networkx", "nlopt", "pyglet<2", "pygmsh", "rich", "scikit-fem", "scikit-image", "scikit-learn", "triangle", "trimesh" ]
+database = ["sqlalchemy", "sqlalchemy-utils"]
+gmsh = [ "gmsh", "h5py", "mapbox_earcut", "meshio", "pygmsh", "pyvista", "trimesh", "shapely" ]
 sipann = ["SIPANN==2.0.0", "simphony==0.6.1"]
 tidy3d = ["tidy3d-beta==1.8.2"]
-devsim = [
-    "devsim",
-    "mkl",
-    "pyvista",
-    "tidy3d-beta==1.8.2",
-    ]
-meow = [
-    "meow-sim",
-    ]
+devsim = ["devsim", "mkl", "pyvista", "tidy3d-beta==1.8.2"]
+meow = ["meow-sim"]
 sax = ["sax==0.8.6", "jaxlib", "jax"]
 femwell = ["femwell==0.0.4", "petsc", "petsc4py", "slepc", "slepc4py"]
-dev = [
-    "autotyping",
-    "black>=21",
-    "doc8",
-    "mypy",
-    "pre-commit",
-    "pylsp-mypy",
-    "types-cachetools",
-    "flake8",
-    "flake8-bugbear",
-    "ipykernel",
-    "pytest",
-    "pytest-cov",
-    "pytest_regressions",
-    "types-PyYAML",
-    "xdoctest",
-    "pyproject-flake8",
-    ]
-docs = [
-    "autodoc_pydantic",
-    "docutils==0.17.1",
-    "matplotlib",
-    "myst-parser",
-    "nbsphinx",
-    "sphinx",
-    "sphinx-autodoc-typehints",
-    "sphinx-book-theme==0.3.3",
-    "sphinx-click",
-    "sphinx-copybutton",
-    "sphinx-markdown-tables==0.0.16",
-    "sphinxcontrib-video",
-    ]
-ray = [
-    "ray[tune,air]",
-    "hyperopt"
-    ]
+dev = ["autotyping", "black>=21", "doc8", "mypy", "pre-commit", "pylsp-mypy", "types-cachetools", "flake8", "flake8-bugbear", "ipykernel", "pytest", "pytest-cov", "pytest_regressions", "types-PyYAML", "xdoctest", "pyproject-flake8" ]
+docs = ["autodoc_pydantic", "docutils==0.17.1", "matplotlib", "myst-parser", "nbsphinx", "sphinx", "sphinx-autodoc-typehints", "sphinx-book-theme==0.3.3", "sphinx-click", "sphinx-copybutton", "sphinx-markdown-tables==0.0.16", "sphinxcontrib-video"]
+ray = ["ray[tune,air]", "hyperopt"]
 
 [tool.setuptools.packages]
 find = {}
