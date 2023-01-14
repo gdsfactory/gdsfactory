@@ -89,33 +89,33 @@ t_m1_oxide={t_m1_oxide}
 t_m2_oxide={t_m2_oxide}
 t_m3_oxide={t_m3_oxide}
 
-l_wg = layer("{layer_to_string(layer_wg)}")
-l_fc = layer("{layer_to_string(layer_fc)}")
-l_rib = layer("{layer_to_string(layer_rib)}")
+l_wg = layer({layer_to_string(layer_wg)!r})
+l_fc = layer({layer_to_string(layer_fc)!r})
+l_rib = layer({layer_to_string(layer_rib)!r})
 
-l_n = layer("{layer_to_string(layer_n)}")
-l_np = layer("{layer_to_string(layer_np)}")
-l_npp = layer("{layer_to_string(layer_npp)}")
-l_p = layer("{layer_to_string(layer_p)}")
-l_pp = layer("{layer_to_string(layer_pp)}")
-l_ppp = layer("{layer_to_string(layer_ppp)}")
-l_PDPP = layer("{layer_to_string(layer_PDPP)}")
+l_n = layer({layer_to_string(layer_n)!r})
+l_np = layer({layer_to_string(layer_np)!r})
+l_npp = layer({layer_to_string(layer_npp)!r})
+l_p = layer({layer_to_string(layer_p)!r})
+l_pp = layer({layer_to_string(layer_pp)!r})
+l_ppp = layer({layer_to_string(layer_ppp)!r})
+l_PDPP = layer({layer_to_string(layer_PDPP)!r})
 l_bottom_implant = l_PDPP
 
-l_nitride = layer("{layer_to_string(layer_nitride)}")
-l_Ge = layer("{layer_to_string(layer_Ge)}")
-l_GePPp = layer("{layer_to_string(layer_GePPp)}")
-l_GeNPP = layer("{layer_to_string(layer_GeNPP)}")
+l_nitride = layer({layer_to_string(layer_nitride)!r})
+l_Ge = layer({layer_to_string(layer_Ge)!r})
+l_GePPp = layer({layer_to_string(layer_GePPp)!r})
+l_GeNPP = layer({layer_to_string(layer_GeNPP)!r})
 
-l_viac = layer("{layer_to_string(layer_viac)}")
-l_viac_slot = layer("{layer_to_string(layer_viac_slot)}")
-l_m1 = layer("{layer_to_string(layer_m1)}")
-l_mh = layer("{layer_to_string(layer_mh)}")
-l_via1 = layer("{layer_to_string(layer_via1)}")
-l_m2 = layer("{layer_to_string(layer_m2)}")
-l_via2 = layer("{layer_to_string(layer_via2)}")
-l_m3 = layer("{layer_to_string(layer_m3)}")
-l_open = layer("{layer_to_string(layer_open)}")
+l_viac = layer({layer_to_string(layer_viac)!r})
+l_viac_slot = layer({layer_to_string(layer_viac_slot)!r})
+l_m1 = layer({layer_to_string(layer_m1)!r})
+l_mh = layer({layer_to_string(layer_mh)!r})
+l_via1 = layer({layer_to_string(layer_via1)!r})
+l_m2 = layer({layer_to_string(layer_m2)!r})
+l_via2 = layer({layer_to_string(layer_via2)!r})
+l_m3 = layer({layer_to_string(layer_m3)!r})
+l_open = layer({layer_to_string(layer_open)!r})
 
 l_top_implant = l_GePPp.or_(l_GeNPP)
 l_viac = l_viac.or_(l_viac_slot)
@@ -292,3 +292,4 @@ if __name__ == "__main__":
 
     script_path = pathlib.Path(__file__).parent.absolute() / "xsection_planarized.pyxs"
     script_path.write_text(script)
+    print(script)
