@@ -127,29 +127,31 @@ class Port:
             raise ValueError(f"Port width must be >=0. Got {self.width}")
 
     def to_dict(self) -> Dict[str, Any]:
-        d = dict(
-            name=self.name,
-            width=self.width,
-            center=tuple(np.round(self.center, 3)),
-            orientation=int(self.orientation) if self.orientation else self.orientation,
-            layer=self.layer,
-            port_type=self.port_type,
-        )
+        d = {
+            "name": self.name,
+            "width": self.width,
+            "center": tuple(np.round(self.center, 3)),
+            "orientation": int(self.orientation)
+            if self.orientation
+            else self.orientation,
+            "layer": self.layer,
+            "port_type": self.port_type,
+        }
         if self.shear_angle:
             d["shear_angle"] = self.shear_angle
         return clean_value_json(d)
 
     def to_yaml(self) -> str:
-        d = dict(
-            name=self.name,
-            width=float(self.width),
-            center=[float(self.center[0]), float(self.center[1])],
-            orientation=float(self.orientation)
+        d = {
+            "name": self.name,
+            "width": float(self.width),
+            "center": [float(self.center[0]), float(self.center[1])],
+            "orientation": float(self.orientation)
             if self.orientation
             else float(self.orientation),
-            layer=self.layer,
-            port_type=self.port_type,
-        )
+            "layer": self.layer,
+            "port_type": self.port_type,
+        }
         d = OmegaConf.create(d)
         return OmegaConf.to_yaml(d)
 
@@ -179,14 +181,14 @@ class Port:
         delete this. Use to_dict instead
 
         """
-        return dict(
-            name=self.name,
-            center=self.center,
-            width=self.width,
-            orientation=self.orientation,
-            layer=self.layer,
-            port_type=self.port_type,
-        )
+        return {
+            "name": self.name,
+            "center": self.center,
+            "width": self.width,
+            "orientation": self.orientation,
+            "layer": self.layer,
+            "port_type": self.port_type,
+        }
 
     def move(self, vector) -> None:
         self.center = self.center + np.array(vector)

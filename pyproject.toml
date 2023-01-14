@@ -41,7 +41,6 @@ dependencies = [
     "types-PyYAML",
     "typing_extensions",
     "watchdog",
-    "xmltodict",
 ]
 readme = "README.md"
 requires-python = ">=3.7"
@@ -51,28 +50,26 @@ requires-python = ">=3.7"
 full = [
     "autograd",
     "bokeh",
-    "flayout",
     "freetype-py",
     "holoviews",
     "ipympl",
     "ipywidgets",
-    "jsondiff",
     "klayout",
     "mapbox_earcut",
     "natsort",
     "networkx",
-    "nlopt",
     "pyglet<2",
     "pygmsh",
     "rich",
-    "sax==0.8.6",
     "scikit-fem",
     "scikit-image",
     "scikit-learn",
-    "sqlalchemy",
-    "sqlalchemy-utils",
     "triangle",
     "trimesh",
+    ]
+database = [
+    "sqlalchemy",
+    "sqlalchemy-utils",
     ]
 gmsh = [
     "gmsh",
@@ -85,35 +82,36 @@ gmsh = [
     "shapely",
     ]
 sipann = ["SIPANN==2.0.0", "simphony==0.6.1"]
-tidy3d = ["tidy3d-beta==1.8.1"]
+tidy3d = ["tidy3d-beta==1.8.2"]
 devsim = [
     "devsim",
     "mkl",
     "pyvista",
-    "tidy3d-beta==1.8.1",
+    "tidy3d-beta==1.8.2",
     ]
 meow = [
     "meow-sim",
     ]
 sax = ["sax==0.8.6", "jaxlib", "jax"]
-femwell = ["femwell==0.0.3", "petsc", "petsc4py", "slepc", "slepc4py"]
+femwell = ["femwell==0.0.4", "petsc", "petsc4py", "slepc", "slepc4py"]
 dev = [
     "autotyping",
     "black>=21",
     "doc8",
-    "mypy",
-    "pre-commit",
-    "pylsp-mypy",
-    "types-cachetools",
     "flake8",
     "flake8-bugbear",
     "ipykernel",
+    "jsondiff",
+    "mypy",
+    "pre-commit",
+    "pylsp-mypy",
+    "pyproject-flake8",
     "pytest",
     "pytest-cov",
     "pytest_regressions",
     "types-PyYAML",
+    "types-cachetools",
     "xdoctest",
-    "pyproject-flake8",
     ]
 docs = [
     "autodoc_pydantic",
@@ -199,7 +197,21 @@ version_files = [
 ]
 
 [tool.ruff]
-line-length = 340
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    # "I",  # isort
+    "C",  # flake8-comprehensions
+    "B",  # flake8-bugbear
+]
+ignore = [
+    "E501",  # line too long, handled by black
+    "B008",  # do not perform function calls in argument defaults
+    "C901",  # too complex
+    "B905",  # `zip()` without an explicit `strict=` parameter
+    "C408",  # C408 Unnecessary `dict` call (rewrite as a literal)
+]
 
 [tool.mypy]
 python_version = "3.10"
