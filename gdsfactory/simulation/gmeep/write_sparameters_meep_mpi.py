@@ -171,11 +171,11 @@ def write_sparameters_meep_mpi(
         "from gdsfactory.read import import_gds\n",
         "from gdsfactory.technology import LayerStack\n\n",
         "if __name__ == '__main__':\n",
-        f'\tcomponent = import_gds("{component_file}", read_metadata=True)\n',
-        f"\tfilepath_json = pathlib.Path('{filepath_json}')\n",
+        f"\tcomponent = import_gds({str(component_file)!r}, read_metadata=True)\n",
+        f"\tfilepath_json = pathlib.Path({str(filepath_json)!r})\n",
         "\tlayer_stack = LayerStack.parse_raw(filepath_json.read_text())\n",
         f"\twrite_sparameters_meep(component=component, overwrite={overwrite}, "
-        f"layer_stack=layer_stack, filepath='{filepath}')",
+        f"layer_stack=layer_stack, filepath={str(filepath)!r})",
     ]
 
     script_file = tempfile.with_suffix(".py")
