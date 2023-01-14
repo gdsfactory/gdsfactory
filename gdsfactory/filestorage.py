@@ -92,10 +92,8 @@ if __name__ == "__main__":
     # test_google_cloud()
 
     w = np.linspace(1.5, 1.6, 3)
-    s = {"wavelengths": w}
     field = "o1@0,o2@0"
-    s["o1@0,o2@0"] = np.zeros_like(w)
-
+    s = {"wavelengths": w, "o1@0,o2@0": np.zeros_like(w)}
     f = FileStorageGoogleCloud(bucket_name="gdsfactory", filetype="sparameters")
     # f.write("demo", s)
 
