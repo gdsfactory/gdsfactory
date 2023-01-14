@@ -32,14 +32,14 @@ def rule_min_width_or_space(width: float, space: float, layer: str) -> str:
     error = f"{layer} min width {width}um or min space {space}um"
     return (
         f"{layer}.drc((width < {width}) | (space < {space}))"
-        f".output('{error}', '{error}')"
+        f".output({error!r}, {error!r})"
     )
 
 
 def rule_not_inside(layer: str, not_inside: str) -> str:
     """Checks for that a layer is not inside another layer."""
     error = f"{layer} not inside {not_inside}"
-    return f"{layer}.not_inside({not_inside})" f".output('{error}', '{error}')"
+    return f"{layer}.not_inside({not_inside})" f".output({error!r}, {error!r})"
 
 
 def rule_width(value: float, layer: str, angle_limit: float = 90) -> str:
@@ -48,7 +48,7 @@ def rule_width(value: float, layer: str, angle_limit: float = 90) -> str:
     error = f"{layer} {category} {value}um"
     return (
         f"{layer}.{category}({value}, angle_limit({angle_limit}))"
-        f".output('{error}', '{error}')"
+        f".output({error!r}, {error!r})"
     )
 
 
@@ -58,14 +58,14 @@ def rule_space(value: float, layer: str, angle_limit: float = 90) -> str:
     error = f"{layer} {category} {value}um"
     return (
         f"{layer}.{category}({value}, angle_limit({angle_limit}))"
-        f".output('{error}', '{error}')"
+        f".output({error!r}, {error!r})"
     )
 
 
 def rule_separation(value: float, layer1: str, layer2: str) -> str:
     """Min space between different layers."""
     error = f"min {layer1} {layer2} separation {value}um"
-    return f"{layer1}.separation({layer2}, {value})" f".output('{error}', '{error}')"
+    return f"{layer1}.separation({layer2}, {value}).output({error!r}, {error!r})"
 
 
 def rule_enclosing(
@@ -75,7 +75,7 @@ def rule_enclosing(
     error = f"{layer1} enclosing {layer2} by {value}um"
     return (
         f"{layer1}.enclosing({layer2}, angle_limit({angle_limit}), {value})"
-        f".output('{error}', '{error}')"
+        f".output({error!r}, {error!r})"
     )
 
 
