@@ -276,8 +276,9 @@ def write_sparameters_grating_mpi(
         'if __name__ == "__main__":\n\n',
         "\twrite_sparameters_grating(\n",
     ]
-    for key in instance.keys():
-        script_lines.append(f"\t\t{key} = {instance[key]!r},\n")
+    script_lines.extend(
+        f"\t\t{key} = {instance[key]!r},\n" for key in instance.keys()
+    )
     script_lines.append("\t)")
     script_file = filepath.with_suffix(".py")
     with open(script_file, "w") as script_file_obj:
