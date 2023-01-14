@@ -468,11 +468,11 @@ class Waveguide(BaseModel):
                 "from types import SimpleNamespace\n",
                 "from tidy3d.plugins.mode.solver import compute_modes\n\n",
                 'if __name__ == "__main__":\n\n',
-                f"\twith open(\"{argsfile}\", 'rb') as inp:\n",
+                f"\twith open({str(argsfile)!r}, 'rb') as inp:\n",
                 "\t\targuments_dict = pickle.load(inp)\n\n",
             ]
             script_lines.extend(
-                f'\t{key} = arguments_dict["{key}"]\n' for key in arguments_dict
+                f"\t{key} = arguments_dict[{key!r}]\n" for key in arguments_dict
             )
             script_lines.extend(
                 [
@@ -500,7 +500,7 @@ class Waveguide(BaseModel):
             )
             script_lines.extend(
                 [
-                    f'\toutputsfile = "{outputsfile}"\n',
+                    f"\toutputsfile = {str(outputsfile)!r}\n",
                     "\toutputs_dict = {\n",
                     '\t\t    "Ex": Ex,\n',
                     '\t\t    "Ey": Ey,\n',

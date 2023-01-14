@@ -35,9 +35,6 @@ jobs:
           pip install .[dev]
           make install gdslib
           gf tool install
-      - name: Lint with flake8
-        run: |
-          flake8 .
       - name: Test with pytest
         run: pytest
   test_code_coverage_python37:
@@ -55,9 +52,7 @@ jobs:
           make install
       - name: Test with pytest
         run: |
-          python -m pip install --upgrade pip
-          pip install pytest klayout lytest scikit-image pytest-cov
-          pytest --cov=gdsfactory --cov-report=xml --cov-config=.coveragerc gdsfactory
+          pytest --cov=gdsfactory gdsfactory
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:

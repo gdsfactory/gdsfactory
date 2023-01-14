@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [6.20.0](https://github.com/gdsfactory/gdsfactory/pull/1144)
+
+- update femwell from 0.0.3 to 0.0.4
+- update tidy3d from 1.8.1 to 1.8.2
+
 ## 6.19.4
 
 - add example notebook for a generic optimiser implementation with Ray Tune [PR](https://github.com/gdsfactory/gdsfactory/pull/1137)

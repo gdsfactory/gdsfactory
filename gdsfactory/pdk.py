@@ -41,12 +41,12 @@ component_settings = ["function", "component", "settings"]
 cross_section_settings = ["function", "cross_section", "settings"]
 layers_required = ["DEVREC", "PORT", "PORTE"]
 
-constants = dict(
-    fiber_array_spacing=127.0,
-    fiber_spacing=50.0,
-    fiber_input_to_output_spacing=200.0,
-    metal_spacing=10.0,
-)
+constants = {
+    "fiber_array_spacing": 127.0,
+    "fiber_spacing": 50.0,
+    "fiber_input_to_output_spacing": 200.0,
+    "metal_spacing": 10.0,
+}
 
 
 class Pdk(BaseModel):
