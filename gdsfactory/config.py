@@ -95,7 +95,8 @@ PATH = Paths()
 sparameters_path = PATH.sparameters
 
 
-def enable_rich_output():
+def rich_output() -> None:
+    """Enables rich output."""
     from rich import pretty
 
     pretty.install()
