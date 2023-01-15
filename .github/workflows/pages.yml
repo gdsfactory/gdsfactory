@@ -26,10 +26,6 @@ jobs:
       - name: Installing the library
         shell: bash -l {0}
         run: |
-          mkdir -p $HOME/.tidy3d
-          echo ${{ secrets.TIDY3D_AUTH }}  > $HOME/.tidy3d/auth.json
-          # sudo wget https://github.com/jgm/pandoc/releases/download/1.16.0.2/pandoc-1.16.0.2-1-amd64.deb
-          # sudo dpkg -i pandoc-1.16.0.2-1-amd64.deb
           sudo apt install pandoc
           sudo apt install libglu1-mesa libxi-dev libxmu-dev libglu1-mesa-dev
           make gdslib plugins-debian full
