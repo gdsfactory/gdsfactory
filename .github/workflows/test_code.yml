@@ -33,7 +33,8 @@ jobs:
       - name: Install dependencies
         run: |
           pip install .[dev]
-          make install gdslib
+          make install
+          git clone https://github.com/gdsfactory/gdslib.git -b main $HOME/.gdsfactory
           gf tool install
       - name: Test with pytest
         run: pytest
