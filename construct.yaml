@@ -4,6 +4,8 @@ installer_type: all
 
 channels:
   - https://conda.anaconda.org/conda-forge
+  - https://conda.anaconda.org/flaport
+  - http://repo.anaconda.com/pkgs/main/
 
 specs:
   - python
