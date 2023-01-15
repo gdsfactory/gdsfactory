@@ -95,6 +95,12 @@ PATH = Paths()
 sparameters_path = PATH.sparameters
 
 
+def enable_rich_output():
+    from rich import pretty
+
+    pretty.install()
+
+
 def complex_encoder(z):
     if isinstance(z, pathlib.Path):
         return str(z)
