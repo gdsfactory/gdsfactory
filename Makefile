@@ -65,7 +65,7 @@ gds:
 	python gdsfactory/components/straight.py
 
 gdslib:
-	git clone https://github.com/gdsfactory/gdslib.git -b data
+	git clone https://github.com/gdsfactory/gdslib.git -b main
 
 test:
 	flake8 gdsfactory
@@ -196,6 +196,9 @@ nbqa:
 	nbqa ruff --fix docs/**/*.ipynb
 	nbqa autopep8 -i docs/notebooks/*.ipynb
 	nbqa autopep8 -i docs/notebooks/**/*.ipynb
+
+notebooks:
+	nbstripout --drop-empty-cells docs/notebooks/*.ipynb
 
 
 .PHONY: gdsdiff build conda

@@ -127,7 +127,7 @@ def compute_cross_section_modes(
         with open(filepath, "wb") as handle:
             pickle.dump(modes_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-        logger.info(f"Write simulation results to {filepath!r}")
+        logger.info(f"Write mode to {filepath!r}")
     return lams, basis, xs
 
 
