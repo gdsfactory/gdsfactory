@@ -1,4 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
+## [6.21.0](https://github.com/gdsfactory/gdsfactory/pull/1150)
+
+- Fix lumerical FDTD notebooks
+- add gf.config.rich_output
+- layer stack can be addressed as a dict
 
 ## [6.20.0](https://github.com/gdsfactory/gdsfactory/pull/1144)
 
