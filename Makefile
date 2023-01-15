@@ -198,7 +198,7 @@ nbqa:
 	nbqa autopep8 -i docs/notebooks/**/*.ipynb
 
 notebooks:
-	nbstripout --drop-empty-cells **/*.ipynb
+	nbstripout --drop-empty-cells docs/notebooks/*.ipynb
 
 
 .PHONY: gdsdiff build conda
