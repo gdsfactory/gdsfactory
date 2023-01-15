@@ -16,7 +16,7 @@ from gdsfactory.technology import lyp_to_dataclass
 from gdsfactory.types import PathType
 from gdsfactory.write_cells import write_cells as write_cells_to_separate_gds
 
-VERSION = "6.20.3"
+VERSION = "6.20.4"
 LAYER_LABEL = LAYER.LABEL
 
 
