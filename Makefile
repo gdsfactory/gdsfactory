@@ -184,9 +184,8 @@ link:
 	lygadgets_link gdsfactory/klayout
 
 constructor:
-	conda install -y conda-libmamba-solver
-	conda config --set solver libmamba
-	conda install constructor -y
+	conda install -y mamba
+	mamba install constructor -y
 	constructor .
 
 nbqa:
