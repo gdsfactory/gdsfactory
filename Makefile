@@ -65,7 +65,8 @@ gds:
 	python gdsfactory/components/straight.py
 
 gdslib:
-	git clone https://github.com/gdsfactory/gdslib.git -b main
+	rm -rf $(HOME)/.gdsfactory
+	git clone https://github.com/gdsfactory/gdslib.git -b main $(HOME)/.gdsfactory
 
 test:
 	flake8 gdsfactory
