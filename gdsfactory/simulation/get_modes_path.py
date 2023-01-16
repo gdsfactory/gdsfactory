@@ -63,7 +63,7 @@ def _get_modes_data(**kwargs) -> np.ndarray:
     return np.load(filepath)
 
 
-get_modes_path_femwell = partial(_get_modes_path, tool="femwell", extension="pickle")
+get_modes_path_femwell = partial(_get_modes_path, tool="femwell")
 
 
 def test_get_modes_path(test: bool = True) -> None:
