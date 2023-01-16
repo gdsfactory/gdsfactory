@@ -94,7 +94,11 @@ jobs:
         run: |
           mkdir -p $HOME/.tidy3d
           echo ${{ secrets.TIDY3D_AUTH }} > $HOME/.tidy3d/auth.json
-          make test-plugins
+          if [ ${{ secrets.TIDY3D_AUTH }} ]; then
+            make test-plugins
+          else
+            make test-plugins-no-tidy3d
+          fi
   test_docs:
     needs: [pre-commit]
     runs-on: ${{ matrix.os }}
