@@ -32,8 +32,7 @@ jobs:
           cache-dependency-path: pyproject.toml
       - name: Install dependencies
         run: |
-          pip install .[dev]
-          make install
+          pip install -e .[full,dev] pre-commit
           git clone https://github.com/gdsfactory/gdslib.git -b main $HOME/.gdsfactory
           gf tool install
       - name: Test with pytest
