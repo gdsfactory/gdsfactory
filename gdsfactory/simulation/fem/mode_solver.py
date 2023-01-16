@@ -14,6 +14,12 @@ from gdsfactory.technology import LayerStack
 from gdsfactory.types import CrossSectionSpec, PathType
 
 
+def load_mesh_basis(mesh_filename: PathType):
+    mesh = Mesh.load(mesh_filename)
+    basis = Basis(mesh, ElementTriN2() * ElementTriP2())
+    return mesh, basis
+
+
 def compute_cross_section_modes(
     cross_section: CrossSectionSpec,
     layerstack: LayerStack,
@@ -96,8 +102,7 @@ def compute_cross_section_modes(
     )
 
     # Assign materials to mesh elements
-    mesh = Mesh.load(mesh_filename)
-    basis = Basis(mesh, ElementTriN2() * ElementTriP2())
+    mesh, basis = load_mesh_basis(mesh_filename)
     basis0 = basis.with_element(ElementTriP0())
     epsilon = basis0.zeros(dtype=complex)
     for layername, layer in layerstack.layers.items():
