@@ -6,6 +6,7 @@
 - change gdslib branch to main
 - install gdslib in $HOME/.gdsfactory
 - remove empty cells from notebooks
+- move gdslib to home and use tidy3d instead of MPB for SAX tutorial [PR](https://github.com/gdsfactory/gdsfactory/pull/1153)
 
 ## [6.21.0](https://github.com/gdsfactory/gdsfactory/pull/1150)
 - Fix lumerical FDTD notebooks
