@@ -69,8 +69,8 @@ class Paths:
     schema_netlist = module_path / "tests" / "schemas" / "netlist.json"
     netlists = module_path / "samples" / "netlists"
     gdsdir = module_path / "tests" / "gds"
-    modes = repo_path / "gdslib" / "modes"
-    gdslib = repo / "gdslib"
+    gdslib = home_path
+    modes = gdslib / "modes"
     gdsdiff = gdslib / "gds"
     sparameters = gdslib / "sp"
     interconnect = gdslib / "interconnect"

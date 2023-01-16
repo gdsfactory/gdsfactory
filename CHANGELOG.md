@@ -1,6 +1,13 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
-## [6.21.0](https://github.com/gdsfactory/gdsfactory/pull/1150)
 
+## [6.22.0](https://github.com/gdsfactory/gdsfactory/pull/1151)
+
+- fix mode hashing for tidy3d mode solver. Add `plot_power=True` flag that can also plot field if False.
+- change gdslib branch to main
+- install gdslib in $HOME/.gdsfactory
+- remove empty cells from notebooks
+
+## [6.21.0](https://github.com/gdsfactory/gdsfactory/pull/1150)
 - Fix lumerical FDTD notebooks
 - add gf.config.rich_output
 - layer stack can be addressed as a dict
