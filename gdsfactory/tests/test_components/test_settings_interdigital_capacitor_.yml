@@ -1,0 +1,21 @@
+name: interdigital_capacitor
+settings:
+  changed: {}
+  child: null
+  default:
+    finger_gap: 2.0
+    finger_length: 20.0
+    fingers: 4
+    layer: WG
+    thickness: 5.0
+  full:
+    finger_gap: 2.0
+    finger_length: 20.0
+    fingers: 4
+    layer: WG
+    thickness: 5.0
+  function_name: interdigital_capacitor
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.interdigital_capacitor
+  name: interdigital_capacitor

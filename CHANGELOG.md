@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.23.0
+
+- femwell mode solver improvements [PR](https://github.com/gdsfactory/gdsfactory/pull/1166)
+- Add interdigital capacitor [PR](https://github.com/gdsfactory/gdsfactory/pull/1167)
+
 ## 6.22.2
 
 - move gdslib to home and use tidy3d instead of MPB for SAX tutorial [PR](https://github.com/gdsfactory/gdsfactory/pull/1153)
