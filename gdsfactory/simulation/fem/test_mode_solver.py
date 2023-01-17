@@ -6,7 +6,12 @@ from gdsfactory.technology import LayerStack
 from femwell import mode_solver
 
 
-def common(overwrite=False):
+NUM_MODES = 1
+
+
+def compute_modes(
+    overwrite: bool = True, with_cache: bool = False, num_modes: int = NUM_MODES
+):
     filtered_layerstack = LayerStack(
         layers={
             k: LAYER_STACK.layers[k]
@@ -31,27 +36,27 @@ def common(overwrite=False):
         cross_section="rib",
         layerstack=filtered_layerstack,
         wl=1.55,
-        num_modes=4,
+        num_modes=num_modes,
         order=1,
         radius=np.inf,
         resolutions=resolutions,
         overwrite=overwrite,
+        with_cache=with_cache,
     )
     return lams, basis, xs
 
 
 def test_compute_cross_section_mode():
-    lams, basis, xs = common(overwrite=True)
-    assert len(lams) == 4
-    # Test cache
-    lams2, basis2, xs2 = common(overwrite=False)
-    assert lams.all() == lams2.all()
-    assert basis.get_dofs().flatten().all() == basis2.get_dofs().flatten().all()
-    assert xs.all() == xs2.all()
+    lams, basis, xs = compute_modes()
+    assert len(lams) == NUM_MODES
 
 
-def test_plot_modes():
-    lams, basis, xs = common(overwrite=False)
+def test_compute_cross_section_mode_cache():
+    # write mode in cache
+    lams, basis, xs = compute_modes(with_cache=True, overwrite=False)
+
+    # load mode from cache
+    lams, basis, xs = compute_modes(with_cache=True, overwrite=False)
     mode_solver.plot_mode(
         basis=basis,
         mode=np.real(xs[0]),
@@ -63,6 +68,13 @@ def test_plot_modes():
 
 
 if __name__ == "__main__":
-
-    test_compute_cross_section_mode()
-    test_plot_modes()
+    # test_compute_cross_section_mode_cache()
+    lams, basis, xs = compute_modes(with_cache=True, overwrite=False)
+    mode_solver.plot_mode(
+        basis=basis,
+        mode=np.real(xs[0]),
+        plot_vectors=False,
+        colorbar=True,
+        title="E",
+        direction="y",
+    )

@@ -1,5 +1,6 @@
 import pathlib
 from typing import Optional
+import time
 
 import numpy as np
 from femwell import mode_solver
@@ -40,8 +41,8 @@ def compute_cross_section_modes(
     dirpath: Optional[PathType] = None,
     filepath: Optional[PathType] = None,
     overwrite: bool = False,
-    with_cache: bool = False,
-    wafer_padding: float = 0.0,
+    with_cache: bool = True,
+    wafer_padding: float = 2.0,
     **kwargs,
 ):
     """Calculate effective index of a straight cross-section.
@@ -51,7 +52,7 @@ def compute_cross_section_modes(
         layerstack: gdsfactory layerstack.
         wl: wavelength (um).
         num_modes: number of modes to return.
-        order: order of the mesh elements.
+        order: order of the mesh elements. 1: linear, 2: quadratic.
         radius: bend radius of the cross-section.
         mesh_filename (str, path): where to save the .msh file. If with_cache, will be filepath.msh.
         dirpath: Optional directory to store modes.
@@ -161,6 +162,8 @@ def compute_cross_section_modes(
 
 
 if __name__ == "__main__":
+    start = time.time()
+
     filtered_layerstack = LayerStack(
         layers={
             k: get_layer_stack().layers[k]
@@ -190,11 +193,9 @@ if __name__ == "__main__":
         radius=np.inf,
         mesh_filename="mesh.msh",
         resolutions=resolutions,
-        overwrite=False,
+        overwrite=True,
         with_cache=True,
-        wafer_padding=1.0,
     )
-    import matplotlib.pyplot as plt
 
     mode_solver.plot_mode(
         basis=basis,
@@ -204,4 +205,5 @@ if __name__ == "__main__":
         title="E",
         direction="y",
     )
-    plt.show()
+    end = time.time()
+    print(end - start)
