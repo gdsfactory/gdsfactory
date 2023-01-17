@@ -75,6 +75,7 @@ class Paths:
     sparameters = gdslib / "sp"
     interconnect = gdslib / "interconnect"
     optimiser = repo_path / "tune"
+    notebooks = repo_path / "docs" / "notebooks"
 
 
 def read_config(
