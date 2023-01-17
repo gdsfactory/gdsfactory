@@ -329,6 +329,7 @@ class SchematicEditor:
 
         schematic = SchematicConfiguration.parse_obj(netlist)
         self._schematic = schematic
+
         # process instances
         instances = netlist["instances"]
         nets = netlist.get("nets", [])
@@ -358,6 +359,9 @@ class SchematicEditor:
             self._connected_ports[net[0]] = net[1]
             self._connected_ports[net[1]] = net[0]
         self._net_grid = widgets.VBox(net_rows)
+
+        # process ports
+        schematic.ports = netlist.get("ports", {})
 
     def instantiate_layout(
         self,
@@ -403,3 +407,10 @@ class SchematicEditor:
             raise ValueError(
                 "Unable to save the schematic to a standalone html file! Has the visualization been loaded yet?"
             )
+
+
+if __name__ == "__main__":
+    from gdsfactory.config import PATH
+
+    se = SchematicEditor(PATH.notebooks / "test.schem.yml")
+    print(se.schematic)
