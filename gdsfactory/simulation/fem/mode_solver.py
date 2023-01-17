@@ -30,7 +30,7 @@ def compute_cross_section_modes(
     dirpath: Optional[PathType] = None,
     filepath: Optional[PathType] = None,
     overwrite: bool = False,
-    with_cache: bool = True,
+    with_cache: bool = False,
     wafer_padding: float = 0.0,
     **kwargs,
 ):
@@ -89,12 +89,10 @@ def compute_cross_section_modes(
 
             modes_dict = dict(np.load(filepath))
             mesh, basis = load_mesh_basis(mesh_filename)
-
             return modes_dict["lams"], basis, modes_dict["xs"]
 
     # Get meshable component from cross-section
     c = gf.components.straight(length=10, cross_section=cross_section)
-    c.show()
     bounds = c.bbox
     dx = np.diff(bounds[:, 0])[0]
 
@@ -138,9 +136,7 @@ def compute_cross_section_modes(
 
     if with_cache:
         modes_dict = {"lams": lams, "xs": xs}
-
         np.savez_compressed(filepath, **modes_dict)
-
         logger.info(f"Write mode to {filepath!r}")
     return lams, basis, xs
 
@@ -175,7 +171,7 @@ if __name__ == "__main__":
         radius=np.inf,
         mesh_filename="mesh.msh",
         resolutions=resolutions,
-        overwrite=True,
+        # overwrite=True,
         with_cache=True,
         wafer_padding=1.0,
     )
