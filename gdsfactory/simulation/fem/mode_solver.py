@@ -31,7 +31,7 @@ def compute_cross_section_modes(
     filepath: Optional[PathType] = None,
     overwrite: bool = False,
     with_cache: bool = False,
-    wafer_padding: float = 0.0,
+    wafer_padding: float = 2.0,
     **kwargs,
 ):
     """Calculate effective index of a straight cross-section.
