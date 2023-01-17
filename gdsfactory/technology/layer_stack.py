@@ -101,6 +101,14 @@ class LayerStack(BaseModel):
     def to_dict(self) -> Dict[str, Dict[str, Any]]:
         return {level_name: dict(level) for level_name, level in self.layers.items()}
 
+    def __getitem__(self, key) -> LayerLevel:
+        """Access layer stack elements."""
+        if key not in self.layers:
+            layers = list(self.layers.keys())
+            raise ValueError(f"{key!r} not in {layers}")
+
+        return self.layers[key]
+
     def get_klayout_3d_script(
         self,
         klayout28: bool = True,

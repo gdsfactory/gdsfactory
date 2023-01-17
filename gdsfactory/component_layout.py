@@ -35,7 +35,8 @@ def get_polygons(
             in a bounding box.  If `by_spec` is True the key will be the
             name of this cell.
         include_paths: If True, polygonal representation of paths are also included in the result.
-        as_array: when as_array=false, return the Polygon objects instead. polygon objects have more information (especially when by_spec=False) and will be faster to retrieve.
+        as_array: when as_array=false, return the Polygon objects instead.
+            polygon objects have more information (especially when by_spec=False) and are faster to retrieve.
 
     Returns
         out: list of array-like[N][2] or dictionary
@@ -589,7 +590,8 @@ def _distribute(elements, direction="x", spacing=100, separation=True, edge=None
         spacing : int or float
             Distance between elements.
         separation : bool
-            If True, guarantees elements are separated with a fixed spacing between; if False, elements are spaced evenly along a grid.
+            If True, guarantees elements are separated with a fixed spacing between;
+            if False, elements are spaced evenly along a grid.
         edge : {'x', 'xmin', 'xmax', 'y', 'ymin', 'ymax'}
             Which edge to perform the distribution along (unused if
             separation == True)

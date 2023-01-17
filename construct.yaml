@@ -1,5 +1,5 @@
 name: gdsfactory
-version: 6.19.3
+version: 6.22.1
 installer_type: all
 
 channels:
@@ -16,7 +16,6 @@ specs:
   - jupyterlab
   - networkx
   - bokeh
-  - google-cloud-storage
   - holoviews
   - ipympl
   - ipywidgets
