@@ -26,6 +26,7 @@ def compute_cross_section_modes(
     filepath: Optional[PathType] = None,
     overwrite: bool = False,
     with_cache: bool = True,
+    wafer_padding: float = 0.0,
     **kwargs,
 ):
     """Calculate effective index of a straight cross-section.
@@ -55,9 +56,15 @@ def compute_cross_section_modes(
         global_meshsize_interpolant_func: interpolating function for global_meshsize_array.
         extra_shapes_dict: Optional[OrderedDict] = OrderedDict of {key: geo} with key a label and geo a shapely (Multi)Polygon or (Multi)LineString of extra shapes to override component.
         merge_by_material: boolean, if True will merge polygons from layers with the same layer.material. Physical keys will be material in this case.
+        wafer_padding: padding to add to LAYER.WAFER (um)
     """
     sim_settings = dict(
-        wl=wl, num_modes=num_modes, radius=radius, order=order, **kwargs
+        wl=wl,
+        num_modes=num_modes,
+        radius=radius,
+        order=order,
+        wafer_padding=wafer_padding,
+        **kwargs,
     )
     filepath = filepath or get_modes_path_femwell(
         cross_section=cross_section,
@@ -89,9 +96,13 @@ def compute_cross_section_modes(
     # Mesh
     mesh = c.to_gmsh(
         type="uz",
-        xsection_bounds=[[dx / 2, bounds[0, 1]], [dx / 2, bounds[1, 1]]],
+        xsection_bounds=[
+            [dx / 2, bounds[0, 1] - wafer_padding],
+            [dx / 2, bounds[1, 1] + wafer_padding],
+        ],
         layer_stack=layerstack,
         filename=mesh_filename,
+        wafer_padding=wafer_padding,
         **kwargs,
     )
 
@@ -153,7 +164,7 @@ if __name__ == "__main__":
         "slab90": {"resolution": 0.05, "distance": 1},
     }
     lams, basis, xs = compute_cross_section_modes(
-        cross_section="rib",
+        cross_section="strip",
         layerstack=filtered_layerstack,
         wl=1.55,
         num_modes=4,
@@ -161,8 +172,9 @@ if __name__ == "__main__":
         radius=np.inf,
         mesh_filename="mesh.msh",
         resolutions=resolutions,
-        overwrite=False,
+        overwrite=True,
         with_cache=True,
+        wafer_padding=1.0,
     )
     mode_solver.plot_mode(
         basis=basis,
