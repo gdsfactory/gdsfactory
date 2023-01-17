@@ -27,9 +27,9 @@ def interdigital_capacitor(
         ``finger_length=0`` effectively provides a plate capacitor.
 
     Args:
-        fingers: total fingers of the capacitor
-        finger_length: length of the probing fingers
-        finger_gap: length of gap between the fingers
+        fingers: total fingers of the capacitor.
+        finger_length: length of the probing fingers.
+        finger_gap: length of gap between the fingers.
         thickness: Thickness of fingers and section before the fingers.
         layer: spec.
     """
