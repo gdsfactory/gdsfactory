@@ -243,6 +243,7 @@ instance/
 
 # Sphinx documentation
 docs/_build/
+docs/_autosummary/
 
 # PyBuilder
 target/
@@ -291,3 +292,7 @@ venv.bak/
 docs/notebooks/plugins/sax/fdtd_vs_model.png
 gdsfactory/generic_tech/klayout/tech/layers.py
 /gdslib
+
+# Optimiser output
+tune/
+gdsfactory/generic_tech/xsection_planarized.pyxs

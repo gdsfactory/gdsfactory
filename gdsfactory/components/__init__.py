@@ -194,6 +194,10 @@ from gdsfactory.components.ring_double import ring_double
 from gdsfactory.components.ring_double_heater import ring_double_heater
 from gdsfactory.components.ring_single import ring_single
 from gdsfactory.components.ring_single_array import ring_single_array
+from gdsfactory.components.ring_single_bend_coupler import (
+    coupler_bend,
+    ring_single_bend_coupler,
+)
 from gdsfactory.components.ring_single_dut import ring_single_dut, taper2
 from gdsfactory.components.ring_single_heater import ring_single_heater
 from gdsfactory.components.seal_ring import seal_ring
@@ -355,6 +359,7 @@ __all__ = [
     "coh_rx_dual_pol",
     "coh_rx_single_pol",
     "coupler",
+    "coupler_bend",
     "coupler90",
     "coupler90bend",
     "coupler90circular",
@@ -481,6 +486,7 @@ __all__ = [
     "ring_single_heater",
     "ring_single_array",
     "ring_single_dut",
+    "ring_single_bend_coupler",
     "seal_ring",
     "spiral_double",
     "spiral_external_io",

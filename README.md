@@ -1,8 +1,9 @@
-# gdsfactory 6.19.3
+# gdsfactory 6.22.1
 
 [![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)](https://gdsfactory.github.io/gdsfactory/)
 [![PyPI](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
 [![Conda Version](https://img.shields.io/conda/vn/conda-forge/gdsfactory.svg)](https://anaconda.org/conda-forge/gdsfactory)
+[![Dockerhub](https://img.shields.io/docker/pulls/joamatab/gdsfactory)](https://hub.docker.com/r/joamatab/gdsfactory)
 [![PyPI Python](https://img.shields.io/pypi/pyversions/gdsfactory.svg)](https://pypi.python.org/pypi/gdsfactory)
 [![issues](https://img.shields.io/github/issues/gdsfactory/gdsfactory)](https://github.com/gdsfactory/gdsfactory/issues)
 [![forks](https://img.shields.io/github/forks/gdsfactory/gdsfactory.svg)](https://github.com/gdsfactory/gdsfactory/network/members)
@@ -74,7 +75,38 @@ You can also access:
 
 ## Installation
 
-[Download the latest installer](https://github.com/gdsfactory/gdsfactory/releases)
+### Installation for new python users
+
+If you don't have python installed on your system you can [download the gdsfactory installer](https://github.com/gdsfactory/gdsfactory/releases) that includes python3, miniconda and all gdsfactory plugins.
+
+### Installation for new gdsfactory users
+
+Open Mamba, Miniconda or Anaconda Prompt and then install using pip
+
+![anaconda prompt](https://i.imgur.com/Fyal5sT.png)
+
+
+```
+pip install gdsfactory --upgrade
+gf tool install
+```
+
+
+
+### Installation for developers
+
+For developers you need to fork the GitHub repository, git clone it (download it), git add, git commit, git push your improvement. Then pull request your changes to the main branch from the GitHub website.
+For that you can install gdsfactory locally on your computer in `-e` edit mode.
+
+```
+git clone https://github.com/gdsfactory/gdsfactory.git
+cd gdsfactory
+pip install -e . pre-commit
+pre-commit install
+gf tool install
+```
+
+Then you need to restart Klayout to make sure you activate the klayout gdsfactory integration.
 
 ## Getting started
 
@@ -85,37 +117,47 @@ You can also access:
 - [![Join the chat at https://gitter.im/gdsfactory-dev/community](https://badges.gitter.im/gdsfactory-dev/community.svg)](https://gitter.im/gdsfactory-dev/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 - See announcements on [GitHub](https://github.com/gdsfactory/gdsfactory/discussions/547), [google-groups](https://groups.google.com/g/gdsfactory) or [LinkedIn](https://www.linkedin.com/company/gdsfactory)
 
+
+## Opinions
+
+"I've using **gdsfactory** since 2017 for all my chip tapeouts. I love that is fast, easy to use and to extend. It's the only tool that allows us to have and end to end chip design flow (design, verification and validation)."
+
+<div style="text-align: right; margin-right: 10%;">Joaquin Matres - <strong>Google</strong> <a href="https://github.com/gdsfactory/gdsfactory/pull/1153" target="_blank"><small>(ref)</small></a></div>
+
+---
+
 ## Acks
 
 Contributors (in chronological order):
 
-- Joaquin Matres (Google): maintainer.
+- Joaquin Matres (Google): write some documentation pages, help porting from gdspy to gdstk.
 - Damien Bonneau (PsiQuantum): cell decorator, Component routing functions, Klayout placer.
 - Pete Shadbolt (PsiQuantum): Klayout auto-placer, Klayout GDS interface (klive).
 - Troy Tamas (Rockley): get_route_from_steps, netlist driven flow (from_yaml).
 - Floris Laporte (Rockley): netlist extraction and circuit simulation interface with SAX.
 - Alec Hammond (Meta Reality Labs Research): Meep and MPB interface.
 - Simon Bilodeau (Princeton): Meep FDTD write Sparameters, TCAD device simulator.
-- Thomas Dorch (Freedom Photonics): for Meep's material database access, MPB sidewall angles, and add_pin_path.
-- Jan-David Fischbach (Black semiconductor): for improvements in pack_doe.
-- Igal Bayn (Google): for documentation improvements and suggestions.
-- Alex Sludds (MIT): for tiling fixes.
-- Momchil Minkov (Flexcompute): for tidy3d plugin.
-- Skandan Chandrasekar (BYU): for simphony, SiPANN plugins, A-star router.
-- Helge Gehring (Google): for simulation plugins (FEM heat solver), improving code quality and new components (spiral paths).
-- Tim Ansell (Google): for documentation improvements.
-- Ardavan Oskoii (Google): for Meep plugin documentation improvements.
-- Marc de Cea (MIT): for ge_detector, grating_coupler_dual, mmi_90degree_hybrid, coherent transceiver, receiver.
-- Bradley Snyder (PHIX): for grating_coupler snap to grid fixes.
-- Jonathan Cauchon (Ciena): for measurement database.
-- Raphaël Dubé-Demers (EXFO): for measurement database.
-- Bohan Zhang (Boston University): for grating coupler improvements.
+- Thomas Dorch (Freedom Photonics): Meep's material database access, MPB sidewall angles, and add_pin_path.
+- Jan-David Fischbach (Black semiconductor): improvements in pack_doe.
+- Igal Bayn (Google): documentation improvements and suggestions.
+- Alex Sludds (MIT): tiling fixes.
+- Momchil Minkov (Flexcompute): improve tidy3d plugin.
+- Skandan Chandrasekar (BYU): simphony, SiPANN plugins, A-star router.
+- Helge Gehring (Google): simulation plugins (FEM heat solver), improving code quality and new components (spiral paths).
+- Tim Ansell (Google): documentation improvements.
+- Ardavan Oskoii (Google): Meep plugin documentation improvements.
+- Marc de Cea (MIT): ge_detector, grating_coupler_dual, mmi_90degree_hybrid, coherent transceiver, receiver.
+- Bradley Snyder (PHIX): grating_coupler snap to grid fixes.
+- Jonathan Cauchon (Ciena): measurement database.
+- Raphaël Dubé-Demers (EXFO): measurement database.
+- Bohan Zhang (Boston University): grating coupler improvements.
+- Niko Savola (IQM): optimization, notebook and code improvements.
 
 Open source heroes:
 
-- Matthias Köfferlein: for Klayout
+- Matthias Köfferlein: Klayout
 - Lucas Heitzmann (University of Campinas, Brazil): for gdstk
-- Adam McCaughan (NIST): for phidl. Inspiration for geometry manipulation.
-- Alex Tait (Queens University): for lytest
-- Thomas Ferreira de Lima (NEC): for `pip install klayout` python API.
-- Juan Sanchez: for DEVSIM
+- Adam McCaughan (NIST): phidl. Inspiration for geometry manipulation.
+- Alex Tait (Queens University): lytest inspiration for gdsfactory testing GDS framework.
+- Thomas Ferreira de Lima (NEC): `pip install klayout` python API.
+- Juan Sanchez: DEVSIM for TCAD simulations.
