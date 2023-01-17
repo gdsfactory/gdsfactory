@@ -1,5 +1,12 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.22.2
+
+- move gdslib to home and use tidy3d instead of MPB for SAX tutorial [PR](https://github.com/gdsfactory/gdsfactory/pull/1153)
+- Add "wafer_padding" argument to meshers to define how much larger than bounding box the LAYER.WAFER layers should be [PR](https://github.com/gdsfactory/gdsfactory/pull/1160)
+- reduce femwell cache size [PR](https://github.com/gdsfactory/gdsfactory/pull/1158)
+- schematic editor exposes port widget and load ports from YAML [PR](https://github.com/gdsfactory/gdsfactory/pull/1161)
+
 ## [6.22.0](https://github.com/gdsfactory/gdsfactory/pull/1151)
 
 - fix mode hashing for tidy3d mode solver. Add `plot_power=True` flag that can also plot field if False.
