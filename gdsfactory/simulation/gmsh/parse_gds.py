@@ -35,7 +35,9 @@ def fuse_polygons(component, layername, layer, round_tol=5, simplify_tol=1e-5):
     )
 
 
-def cleanup_component(component, layerstack, round_tol=2, simplify_tol=1e-2):
+def cleanup_component(
+    component, layerstack, wafer_padding=0.0, round_tol=2, simplify_tol=1e-2
+):
     """Process component polygons before meshing."""
     layerstack_dict = layerstack.to_dict()
     return_dict = {}
@@ -52,7 +54,12 @@ def cleanup_component(component, layerstack, round_tol=2, simplify_tol=1e-2):
             )
         else:
             bbox = component.bbox
-            return_dict[layername] = box(bbox[0, 0], bbox[0, 1], bbox[1, 0], bbox[1, 1])
+            return_dict[layername] = box(
+                bbox[0, 0] - wafer_padding,
+                bbox[0, 1] - wafer_padding,
+                bbox[1, 0] + wafer_padding,
+                bbox[1, 1] + wafer_padding,
+            )
 
     return return_dict
 

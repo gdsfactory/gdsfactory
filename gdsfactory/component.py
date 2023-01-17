@@ -1366,12 +1366,23 @@ class Component(_GeometryHelper):
         return to_3d(self, *args, **kwargs)
 
     def to_gmsh(
-        self, type, z=None, xsection_bounds=None, layer_stack=None, *args, **kwargs
+        self,
+        type,
+        z=None,
+        xsection_bounds=None,
+        layer_stack=None,
+        wafer_padding=0,
+        *args,
+        **kwargs,
     ):
         """Returns a gmsh msh of the component for finite element simulation.
 
         Arguments:
             type: one of "xy", "uz", or "3D". Determines the type of mesh to return.
+            z: used to define z-slice for xy meshing
+            xsection_bounds: used to define in-plane line for uz meshing
+            wafer_padding: padding beyond bbox to add to WAFER layers.
+                --> Not using add_padding in order to only affect layers in layer_stack.
 
         Keyword Args:
             Arguments for the target meshing function in gdsfactory.simulation.gmsh
@@ -1387,7 +1398,9 @@ class Component(_GeometryHelper):
                 )
             from gdsfactory.simulation.gmsh.xy_xsection_mesh import xy_xsection_mesh
 
-            return xy_xsection_mesh(self, z, layer_stack, **kwargs)
+            return xy_xsection_mesh(
+                self, z, layer_stack, wafer_padding=wafer_padding, **kwargs
+            )
         elif type == "uz":
             if xsection_bounds is None:
                 raise ValueError(
@@ -1395,11 +1408,17 @@ class Component(_GeometryHelper):
                 )
             from gdsfactory.simulation.gmsh.uz_xsection_mesh import uz_xsection_mesh
 
-            return uz_xsection_mesh(self, xsection_bounds, layer_stack, **kwargs)
+            return uz_xsection_mesh(
+                self,
+                xsection_bounds,
+                layer_stack,
+                wafer_padding=wafer_padding,
+                **kwargs,
+            )
         elif type == "3D":
             from gdsfactory.simulation.gmsh.xyz_mesh import xyz_mesh
 
-            return xyz_mesh(self, layer_stack, **kwargs)
+            return xyz_mesh(self, layer_stack, wafer_padding=wafer_padding, **kwargs)
         else:
             raise ValueError(
                 'Required argument "type" must be one of "xy", "uz", or "3D".'

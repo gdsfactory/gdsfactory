@@ -161,6 +161,7 @@ def uz_xsection_mesh(
     extra_shapes_dict: Optional[OrderedDict] = None,
     merge_by_material: Optional[bool] = False,
     interface_surfaces: Optional[Dict[str, Tuple(float, float)]] = None,
+    wafer_padding: Optional[float] = 0.0,
 ):
     """Mesh uz cross-section of component along line u = [[x1,y1] , [x2,y2]].
 
@@ -179,11 +180,14 @@ def uz_xsection_mesh(
         global_meshsize_interpolant_func: interpolating function for global_meshsize_array
         extra_shapes_dict: Optional[OrderedDict] = OrderedDict of {key: geo} with key a label and geo a shapely (Multi)Polygon or (Multi)LineString of extra shapes to override component
         merge_by_material: boolean, if True will merge polygons from layers with the same layer.material. Physical keys will be material in this case.
+        wafer_padding: padding beyond bbox to add to WAFER layers.
     """
     interface_surfaces = interface_surfaces or {}
 
     # Fuse and cleanup polygons of same layer in case user overlapped them
-    layer_polygons_dict = cleanup_component(component, layerstack)
+    layer_polygons_dict = cleanup_component(
+        component, layerstack, wafer_padding=wafer_padding
+    )
 
     # GDS polygons to simulation polygons
     buffered_layer_polygons_dict, buffered_layerstack = process_buffers(

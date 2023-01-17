@@ -165,6 +165,7 @@ def xyz_mesh(
     default_resolution_max: float = 0.5,
     filename: Optional[str] = None,
     verbosity: Optional[bool] = False,
+    wafer_padding: Optional[float] = 0.0,
 ):
     """Full 3D mesh of component.
 
@@ -175,9 +176,12 @@ def xyz_mesh(
         default_resolution_min (float): gmsh minimal edge length
         default_resolution_max (float): gmsh maximal edge length
         filename (str, path): where to save the .msh file
+        wafer_padding: padding beyond bbox to add to WAFER layers.
     """
     # Fuse and cleanup polygons of same layer in case user overlapped them
-    layer_polygons_dict = cleanup_component(component, layerstack)
+    layer_polygons_dict = cleanup_component(
+        component, layerstack, wafer_padding=wafer_padding
+    )
 
     # GDS polygons to simulation polygons
     buffered_layer_polygons_dict = buffers_to_lists(layer_polygons_dict, layerstack)
