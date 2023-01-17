@@ -32,12 +32,9 @@ jobs:
           cache-dependency-path: pyproject.toml
       - name: Install dependencies
         run: |
-          pip install .[dev]
-          make install gdslib
+          pip install -e .[full,dev] pre-commit
+          git clone https://github.com/gdsfactory/gdslib.git -b main $HOME/.gdsfactory
           gf tool install
-      - name: Lint with flake8
-        run: |
-          flake8 .
       - name: Test with pytest
         run: pytest
   test_code_coverage_python37:
@@ -55,9 +52,7 @@ jobs:
           make install
       - name: Test with pytest
         run: |
-          python -m pip install --upgrade pip
-          pip install pytest klayout lytest scikit-image pytest-cov
-          pytest --cov=gdsfactory --cov-report=xml --cov-config=.coveragerc gdsfactory
+          pytest --cov=gdsfactory gdsfactory
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
@@ -76,7 +71,6 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v2
         with:
           python-version: ${{ matrix.python-version }}
-          mamba-version: "*"
           channels: conda-forge,defaults
           channel-priority: true
           activate-environment: anaconda-client-env
@@ -100,7 +94,11 @@ jobs:
         run: |
           mkdir -p $HOME/.tidy3d
           echo ${{ secrets.TIDY3D_AUTH }} > $HOME/.tidy3d/auth.json
-          make test-plugins
+          if [ ${{ secrets.TIDY3D_AUTH }} ]; then
+            make test-plugins
+          else
+            make test-plugins-no-tidy3d
+          fi
   test_docs:
     needs: [pre-commit]
     runs-on: ${{ matrix.os }}
@@ -115,7 +113,6 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v2
         with:
           python-version: 3.9
-          mamba-version: "*"
           channels: conda-forge,defaults
           channel-priority: true
           activate-environment: anaconda-client-env

@@ -340,7 +340,7 @@ def get_simulation_grating_coupler(
                 medium = get_medium(material_index)
 
             polygons = td.PolySlab.from_gds(
-                gds_cell=component_extended,
+                gds_cell=component_extended._cell,
                 gds_layer=layer[0],
                 gds_dtype=layer[1],
                 axis=2,

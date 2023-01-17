@@ -19,7 +19,6 @@ import json
 import os
 import pathlib
 import subprocess
-import sys
 from pathlib import Path
 from pprint import pprint
 from typing import Any, Iterable, Optional, Union
@@ -28,7 +27,7 @@ import omegaconf
 from loguru import logger
 from omegaconf import OmegaConf
 
-__version__ = "6.19.3"
+__version__ = "6.22.1"
 PathType = Union[str, pathlib.Path]
 
 home = pathlib.Path.home()
@@ -46,8 +45,8 @@ layer_path = module_path / "generic_tech" / "klayout" / "tech" / "layers.lyp"
 
 MAX_NAME_LENGTH = 32
 
-logger.remove(0)
-logger.add(sink=sys.stderr, level="WARNING")
+# logger.remove(0)
+# logger.add(sink=sys.stderr, level="WARNING")
 logger.info(f"Load {str(module_path)!r} {__version__}")
 
 
@@ -70,11 +69,12 @@ class Paths:
     schema_netlist = module_path / "tests" / "schemas" / "netlist.json"
     netlists = module_path / "samples" / "netlists"
     gdsdir = module_path / "tests" / "gds"
-    modes = repo_path / "gdslib" / "modes"
-    gdslib = repo / "gdslib"
+    gdslib = home_path
+    modes = gdslib / "modes"
     gdsdiff = gdslib / "gds"
     sparameters = gdslib / "sp"
     interconnect = gdslib / "interconnect"
+    optimiser = repo_path / "tune"
 
 
 def read_config(
@@ -93,6 +93,13 @@ def read_config(
 CONF = read_config()
 PATH = Paths()
 sparameters_path = PATH.sparameters
+
+
+def rich_output() -> None:
+    """Enables rich output."""
+    from rich import pretty
+
+    pretty.install()
 
 
 def complex_encoder(z):
