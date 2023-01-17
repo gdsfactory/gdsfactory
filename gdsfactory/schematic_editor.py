@@ -45,6 +45,8 @@ class SchematicEditor:
             )
             self._instance_grid = widgets.VBox()
             self._net_grid = widgets.VBox()
+            self._port_grid = widgets.VBox()
+
         first_inst_box = self._get_instance_selector()
         first_inst_box.children[0].observe(self._add_row_when_full, names=["value"])
         first_inst_box.children[1].observe(
@@ -101,7 +103,41 @@ class SchematicEditor:
         remove_button._row = row
         instance_box._row = row
         component_selector._row = row
+        return row
 
+    def _get_port_selector(
+        self, port_name: Optional[str] = None, port: Optional[str] = None
+    ):
+        instance_port_selector = widgets.Text(
+            placeholder="InstanceName:PortName", disabled=False
+        )
+
+        port_name_box = widgets.Text(placeholder="Port name", disabled=False)
+        instance_port_selector._instance_selector = port_name_box
+        can_remove = False
+        if port_name:
+            port_name_box.value = port_name
+        if port:
+            instance_port_selector.value = port
+            # can_remove = True
+            can_remove = False
+        remove_button = widgets.Button(
+            description="Remove",
+            icon="xmark",
+            disabled=(not can_remove),
+            tooltip="Remove this port from the schematic",
+            button_style="",
+        )
+        remove_button.on_click(self._on_remove_button_clicked)
+
+        row = widgets.Box([port_name_box, instance_port_selector, remove_button])
+        row._component_selector = instance_port_selector
+        row._instance_box = port_name_box
+        row._remove_button = remove_button
+
+        remove_button._row = row
+        port_name_box._row = row
+        instance_port_selector._row = row
         return row
 
     def _update_instance_options(self, **kwargs):
@@ -232,6 +268,10 @@ class SchematicEditor:
     def net_widget(self):
         return self._net_grid
 
+    @property
+    def port_widget(self):
+        return self._port_grid
+
     def visualize(self):
         circuitviz.show_netlist(self.schematic, self.symbols, self.path)
 
@@ -361,7 +401,18 @@ class SchematicEditor:
         self._net_grid = widgets.VBox(net_rows)
 
         # process ports
-        schematic.ports = netlist.get("ports", {})
+        ports = netlist.get("ports", {})
+        schematic.ports = ports
+
+        new_rows = []
+        for port_name, port in ports.items():
+            new_row = self._get_port_selector(port_name=port_name, port=port)
+            new_row.children[0].observe(self._add_row_when_full, names=["value"])
+            new_row.children[1].observe(
+                self._on_instance_component_modified, names=["value"]
+            )
+            new_rows.append(new_row)
+        self._port_grid = widgets.VBox(new_rows)
 
     def instantiate_layout(
         self,
