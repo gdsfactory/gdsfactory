@@ -37,4 +37,4 @@ routes:
     routing_strategy: get_bundle
     settings: {cross_section: strip, separation: 5.0}
     links: {'mmi2,o1': 's2,o2'}
-ports: {}
+ports: {o1: 'mmi1,o1', o2: 'mmi2,o3', o3: 'mmi2,o4'}
