@@ -1,5 +1,4 @@
 import pathlib
-import pickle
 from typing import Optional
 
 import numpy as np
@@ -14,6 +13,12 @@ from gdsfactory.technology import LayerStack
 from gdsfactory.types import CrossSectionSpec, PathType
 
 
+def load_mesh_basis(mesh_filename: PathType):
+    mesh = Mesh.load(mesh_filename)
+    basis = Basis(mesh, ElementTriN2() * ElementTriP2())
+    return mesh, basis
+
+
 def compute_cross_section_modes(
     cross_section: CrossSectionSpec,
     layerstack: LayerStack,
@@ -26,6 +31,7 @@ def compute_cross_section_modes(
     filepath: Optional[PathType] = None,
     overwrite: bool = False,
     with_cache: bool = True,
+    wafer_padding: float = 0.0,
     **kwargs,
 ):
     """Calculate effective index of a straight cross-section.
@@ -37,11 +43,12 @@ def compute_cross_section_modes(
         num_modes: number of modes to return.
         order: order of the mesh elements.
         radius: bend radius of the cross-section.
-        mesh_filename (str, path): where to save the .msh file.
+        mesh_filename (str, path): where to save the .msh file. If with_cache, will be filepath.msh.
         dirpath: Optional directory to store modes.
         filepath: Optional path to store modes.
         overwrite: Overwrite mode filepath if it exists.
         with_cache: write modes to filepath cache.
+        wafer_padding: padding beyond bbox to add to WAFER layers.
 
     Keyword Args:
         resolutions (Dict): Pairs {"layername": {"resolution": float, "distance": "float}}
@@ -57,7 +64,12 @@ def compute_cross_section_modes(
         merge_by_material: boolean, if True will merge polygons from layers with the same layer.material. Physical keys will be material in this case.
     """
     sim_settings = dict(
-        wl=wl, num_modes=num_modes, radius=radius, order=order, **kwargs
+        wl=wl,
+        num_modes=num_modes,
+        radius=radius,
+        order=order,
+        wafer_padding=wafer_padding,
+        **kwargs,
     )
     filepath = filepath or get_modes_path_femwell(
         cross_section=cross_section,
@@ -66,6 +78,7 @@ def compute_cross_section_modes(
         **sim_settings,
     )
     filepath = pathlib.Path(filepath)
+    mesh_filename = filepath.with_suffix(".msh") if with_cache else mesh_filename
 
     if with_cache and filepath.exists():
         if overwrite:
@@ -74,11 +87,10 @@ def compute_cross_section_modes(
         else:
             logger.info(f"Simulation loaded from {filepath!r}")
 
-            with open(filepath, "rb") as handle:
-                modes_dict = pickle.load(handle)
+            modes_dict = dict(np.load(filepath))
+            mesh, basis = load_mesh_basis(mesh_filename)
 
-            lams, basis, xs = modes_dict["lams"], modes_dict["basis"], modes_dict["xs"]
-            return lams, basis, xs
+            return modes_dict["lams"], basis, modes_dict["xs"]
 
     # Get meshable component from cross-section
     c = gf.components.straight(length=10, cross_section=cross_section)
@@ -89,15 +101,18 @@ def compute_cross_section_modes(
     # Mesh
     mesh = c.to_gmsh(
         type="uz",
-        xsection_bounds=[[dx / 2, bounds[0, 1]], [dx / 2, bounds[1, 1]]],
+        xsection_bounds=[
+            [dx / 2, bounds[0, 1] - wafer_padding],
+            [dx / 2, bounds[1, 1] + wafer_padding],
+        ],
         layer_stack=layerstack,
         filename=mesh_filename,
+        wafer_padding=wafer_padding,
         **kwargs,
     )
 
     # Assign materials to mesh elements
-    mesh = Mesh.load(mesh_filename)
-    basis = Basis(mesh, ElementTriN2() * ElementTriP2())
+    mesh, basis = load_mesh_basis(mesh_filename)
     basis0 = basis.with_element(ElementTriP0())
     epsilon = basis0.zeros(dtype=complex)
     for layername, layer in layerstack.layers.items():
@@ -122,10 +137,9 @@ def compute_cross_section_modes(
     )
 
     if with_cache:
-        modes_dict = {"lams": lams, "basis": basis, "xs": xs}
+        modes_dict = {"lams": lams, "xs": xs}
 
-        with open(filepath, "wb") as handle:
-            pickle.dump(modes_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
+        np.savez_compressed(filepath, **modes_dict)
 
         logger.info(f"Write mode to {filepath!r}")
     return lams, basis, xs
@@ -153,7 +167,7 @@ if __name__ == "__main__":
         "slab90": {"resolution": 0.05, "distance": 1},
     }
     lams, basis, xs = compute_cross_section_modes(
-        cross_section="rib",
+        cross_section="strip",
         layerstack=filtered_layerstack,
         wl=1.55,
         num_modes=4,
@@ -161,8 +175,9 @@ if __name__ == "__main__":
         radius=np.inf,
         mesh_filename="mesh.msh",
         resolutions=resolutions,
-        overwrite=False,
+        overwrite=True,
         with_cache=True,
+        wafer_padding=1.0,
     )
     mode_solver.plot_mode(
         basis=basis,
