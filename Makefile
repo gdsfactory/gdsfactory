@@ -67,6 +67,9 @@ gds:
 gdslib:
 	rm -rf $(HOME)/.gdsfactory
 	git clone https://github.com/gdsfactory/gdslib.git -b main $(HOME)/.gdsfactory
+gdslib-link:
+	rm -rf $(HOME)/.gdsfactory
+	ln -sf gdslib $(HOME)/.gdsfactory
 
 test:
 	flake8 gdsfactory
@@ -205,4 +208,4 @@ notebooks:
 	nbstripout --drop-empty-cells docs/notebooks/*.ipynb
 
 
-.PHONY: gdsdiff build conda
+.PHONY: gdsdiff build conda gdslib
