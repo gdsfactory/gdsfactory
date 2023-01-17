@@ -13,7 +13,7 @@ class GenericLayerMap(BaseModel):
     You will need to create a new LayerMap with your specific foundry layers.
     """
 
-    WAFER: Layer = (0, 0)
+    WAFER: Layer = (99999, 0)
 
     WG: Layer = (1, 0)
     WGCLAD: Layer = (111, 0)
