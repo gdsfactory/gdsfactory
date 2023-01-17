@@ -3,7 +3,6 @@ from typing import Optional
 
 import numpy as np
 from femwell import mode_solver
-from skfem import Basis, ElementTriN2, ElementTriP0, ElementTriP2, Mesh
 
 import gdsfactory as gf
 from gdsfactory.config import logger
@@ -12,11 +11,22 @@ from gdsfactory.simulation.get_modes_path import get_modes_path_femwell
 from gdsfactory.technology import LayerStack
 from gdsfactory.types import CrossSectionSpec, PathType
 
+from skfem import (
+    Basis,
+    ElementTriN1,
+    ElementTriN2,
+    ElementTriP0,
+    ElementTriP1,
+    ElementTriP2,
+    Mesh,
+)
+
 
 def load_mesh_basis(mesh_filename: PathType):
     mesh = Mesh.load(mesh_filename)
     basis = Basis(mesh, ElementTriN2() * ElementTriP2())
-    return mesh, basis
+    basis0 = basis.with_element(ElementTriP0())
+    return mesh, basis0
 
 
 def compute_cross_section_modes(
@@ -88,7 +98,17 @@ def compute_cross_section_modes(
             logger.info(f"Simulation loaded from {filepath!r}")
 
             modes_dict = dict(np.load(filepath))
-            mesh, basis = load_mesh_basis(mesh_filename)
+            mesh, basis0 = load_mesh_basis(mesh_filename)
+
+            if order == 1:
+                element = ElementTriN1() * ElementTriP1()
+            elif order == 2:
+                element = ElementTriN2() * ElementTriP2()
+            else:
+                raise AssertionError("Only order 1 and 2 implemented by now.")
+
+            basis = basis0.with_element(element)
+
             return modes_dict["lams"], basis, modes_dict["xs"]
 
     # Get meshable component from cross-section
@@ -110,8 +130,7 @@ def compute_cross_section_modes(
     )
 
     # Assign materials to mesh elements
-    mesh, basis = load_mesh_basis(mesh_filename)
-    basis0 = basis.with_element(ElementTriP0())
+    mesh, basis0 = load_mesh_basis(mesh_filename)
     epsilon = basis0.zeros(dtype=complex)
     for layername, layer in layerstack.layers.items():
         if layername in mesh.subdomains.keys():
@@ -171,10 +190,12 @@ if __name__ == "__main__":
         radius=np.inf,
         mesh_filename="mesh.msh",
         resolutions=resolutions,
-        # overwrite=True,
+        overwrite=False,
         with_cache=True,
         wafer_padding=1.0,
     )
+    import matplotlib.pyplot as plt
+
     mode_solver.plot_mode(
         basis=basis,
         mode=np.real(xs[0]),
@@ -183,3 +204,4 @@ if __name__ == "__main__":
         title="E",
         direction="y",
     )
+    plt.show()
