@@ -1,5 +1,4 @@
 import pathlib
-import pickle
 from typing import Optional
 
 import numpy as np
@@ -12,6 +11,12 @@ from gdsfactory.pdk import _ACTIVE_PDK, get_layer_stack
 from gdsfactory.simulation.get_modes_path import get_modes_path_femwell
 from gdsfactory.technology import LayerStack
 from gdsfactory.types import CrossSectionSpec, PathType
+
+
+def load_mesh_basis(mesh_filename: PathType):
+    mesh = Mesh.load(mesh_filename)
+    basis = Basis(mesh, ElementTriN2() * ElementTriP2())
+    return mesh, basis
 
 
 def compute_cross_section_modes(
@@ -38,7 +43,7 @@ def compute_cross_section_modes(
         num_modes: number of modes to return.
         order: order of the mesh elements.
         radius: bend radius of the cross-section.
-        mesh_filename (str, path): where to save the .msh file.
+        mesh_filename (str, path): where to save the .msh file. If with_cache, will be filepath.msh.
         dirpath: Optional directory to store modes.
         filepath: Optional path to store modes.
         overwrite: Overwrite mode filepath if it exists.
@@ -73,6 +78,7 @@ def compute_cross_section_modes(
         **sim_settings,
     )
     filepath = pathlib.Path(filepath)
+    mesh_filename = filepath.with_suffix(".msh") if with_cache else mesh_filename
 
     if with_cache and filepath.exists():
         if overwrite:
@@ -81,11 +87,10 @@ def compute_cross_section_modes(
         else:
             logger.info(f"Simulation loaded from {filepath!r}")
 
-            with open(filepath, "rb") as handle:
-                modes_dict = pickle.load(handle)
+            modes_dict = dict(np.load(filepath))
+            mesh, basis = load_mesh_basis(mesh_filename)
 
-            lams, basis, xs = modes_dict["lams"], modes_dict["basis"], modes_dict["xs"]
-            return lams, basis, xs
+            return modes_dict["lams"], basis, modes_dict["xs"]
 
     # Get meshable component from cross-section
     c = gf.components.straight(length=10, cross_section=cross_section)
@@ -107,8 +112,7 @@ def compute_cross_section_modes(
     )
 
     # Assign materials to mesh elements
-    mesh = Mesh.load(mesh_filename)
-    basis = Basis(mesh, ElementTriN2() * ElementTriP2())
+    mesh, basis = load_mesh_basis(mesh_filename)
     basis0 = basis.with_element(ElementTriP0())
     epsilon = basis0.zeros(dtype=complex)
     for layername, layer in layerstack.layers.items():
@@ -133,10 +137,9 @@ def compute_cross_section_modes(
     )
 
     if with_cache:
-        modes_dict = {"lams": lams, "basis": basis, "xs": xs}
+        modes_dict = {"lams": lams, "xs": xs}
 
-        with open(filepath, "wb") as handle:
-            pickle.dump(modes_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
+        np.savez_compressed(filepath, **modes_dict)
 
         logger.info(f"Write mode to {filepath!r}")
     return lams, basis, xs
