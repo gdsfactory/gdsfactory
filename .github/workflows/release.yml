@@ -79,4 +79,4 @@ jobs:
         with:
           push: true
           tags: joamatab/gdsfactory:latest,joamatab/gdsfactory:6.23.0
-          file: .devcontainer/Dockerfile
+          file: .devcontainer/Dockerfile.dev

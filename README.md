@@ -118,7 +118,7 @@ Then you need to restart Klayout to make sure you activate the klayout gdsfactor
 - See announcements on [GitHub](https://github.com/gdsfactory/gdsfactory/discussions/547), [google-groups](https://groups.google.com/g/gdsfactory) or [LinkedIn](https://www.linkedin.com/company/gdsfactory)
 
 
-## Opinions
+## Testimonals
 
 "I've using **gdsfactory** since 2017 for all my chip tapeouts. I love that is fast, easy to use and to extend. It's the only tool that allows us to have and end to end chip design flow (design, verification and validation)."
 
