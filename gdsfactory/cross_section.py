@@ -22,7 +22,7 @@ Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
 WidthTypes = Literal["sine", "linear", "parabolic"]
 
-LayerSpec = Union[Layer, int, str, None]
+LayerSpec = Union[Layer, int, str]
 LayerSpecs = Union[List[LayerSpec], Tuple[LayerSpec, ...]]
 Floats = Tuple[float, ...]
 port_names_electrical = ("e1", "e2")

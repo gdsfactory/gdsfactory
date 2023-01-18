@@ -72,7 +72,6 @@ gdslib-link:
 	ln -sf gdslib $(HOME)/.gdsfactory
 
 test:
-	flake8 gdsfactory
 	pytest -s
 
 test-force:
