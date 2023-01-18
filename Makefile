@@ -16,7 +16,7 @@ dev: full
 	gf tool install
 
 mamba:
-	bash mamba.sh
+	bash conda/mamba.sh
 
 patch:
 	bumpversion patch
@@ -192,7 +192,7 @@ link:
 
 constructor:
 	conda install constructor -y
-	constructor .
+	constructor conda
 
 nbqa:
 	nbqa blacken-docs docs/notebooks/**/*.ipynb --nbqa-md

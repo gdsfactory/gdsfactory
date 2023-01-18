@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.24.0
+
+- add devcontainer similar to as in [this package](https://github.com/microsoft/azure-quantum-tgp)
+
 ## 6.23.0
 
 - femwell mode solver improvements [PR](https://github.com/gdsfactory/gdsfactory/pull/1166)

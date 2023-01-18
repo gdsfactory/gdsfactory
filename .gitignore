@@ -1,5 +1,6 @@
 *.py[cod]
 
+add_type_hints.xonsh
 # C extensions
 *.so
 *.properties
@@ -52,6 +53,7 @@ __pycache__
 .mypy_cache/
 .pyre/
 extra/
+fixme/
 gdsfactory/components/doc
 cml/
 mzi.yml
