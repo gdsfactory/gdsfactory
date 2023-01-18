@@ -6,7 +6,7 @@ help:
 full: gdslib plugins
 	pip install -e .[docs,dev,full,gmsh,tidy3d,devsim,meow,sax]
 
-install: gdslib
+install:
 	pip install -e .[full,dev] pre-commit
 	pre-commit install
 	gf tool install
@@ -37,7 +37,12 @@ plugins:
 	conda install -c conda-forge slepc4py=*=complex* -y
 	pip install jax jaxlib numpy femwell --upgrade
 	pip install -e .[tidy3d,ray]
-	# pip install --upgrade "protobuf<=3.20.1"
+
+plugins-mamba:
+	mamba install -c conda-forge pymeep=*=mpi_mpich_* nlopt -y
+	mamba install -c conda-forge slepc4py=*=complex* -y
+	pip install jax jaxlib numpy femwell --upgrade
+	pip install -e .[tidy3d,ray,sax,devsim,meow]
 
 plugins-debian: plugins
 	sudo apt-get update

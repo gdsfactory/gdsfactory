@@ -1,3 +1,5 @@
+image: joamatab/gdsfactory:latest
+
 tasks:
   - init: make install
 
