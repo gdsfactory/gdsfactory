@@ -169,9 +169,9 @@ class Port:
     @classmethod
     def validate(cls, v):
         """For pydantic assumes Port is valid if has a name and a valid type."""
+        assert isinstance(v, Port), f"TypeError, Got {type(v)}, expecting Port"
         assert v.name, f"Port has no name, got `{v.name}`"
         # assert v.assert_on_grid(), f"port.center = {v.center} has off-grid points"
-        assert isinstance(v, Port), f"TypeError, Got {type(v)}, expecting Port"
         return v
 
     @property
