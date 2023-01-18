@@ -4,7 +4,7 @@
     "cpus": 4
   },
   "waitFor": "onCreateCommand",
-  "updateContentCommand": "python3 -m pip install .",
+  "updateContentCommand": "python3 -m pip install gdsfactory",
   "postCreateCommand": "",
   "customizations": {
     "codespaces": {
