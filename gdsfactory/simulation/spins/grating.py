@@ -54,6 +54,7 @@ def run_opt(
     disc_iters: int = 200,
     min_feature: float = 80,
     buffer_len: float = 1500,
+    visualize: bool = True,
 ) -> None:
     """Run main optimization script.
 
@@ -87,6 +88,7 @@ def run_opt(
         dx=dx,
         num_pmls=num_pmls,
         buffer_len=buffer_len,
+        visualize=visualize,
     )
     obj, monitors = create_objective(
         sim_space, wg_thickness=wg_thickness, grating_len=grating_len
@@ -129,7 +131,7 @@ def create_sim_space(
     buffer_len: float = 1500,
     dx: int = 40,
     num_pmls: int = 10,
-    visualize: bool = False,
+    visualize: bool = True,
 ) -> optplan.SimulationSpace:
     """Creates the simulation space.
 
@@ -149,7 +151,7 @@ def create_sim_space(
             simulation region. This excludes PMLs.
         dx: Grid spacing to use.
         num_pmls: Number of PML layers to use on each side.
-        visualize: If `True`, draws the polygons of the GDS file.
+        visualize: if True plots fields.
 
     Returns:
         A `SimulationSpace` description.
@@ -202,10 +204,6 @@ def create_sim_space(
 
     gdspy.write_gds(gds_fg_name, [gds_fg], unit=1e-9, precision=1e-9)
     gdspy.write_gds(gds_bg_name, [gds_bg], unit=1e-9, precision=1e-9)
-
-    if visualize:
-        gdspy.LayoutViewer(cells=[gds_fg])
-        gdspy.LayoutViewer(cells=[gds_bg])
 
     # The BOX layer/silicon device interface is set at `z = 0`.
     #
@@ -590,12 +588,8 @@ def create_transformations(
     return trans_list
 
 
-def view_opt(save_folder: str, key="mon_power_1550") -> List[float]:
+def view_opt_progress(save_folder: str, key="mon_power_1550") -> List[float]:
     """Shows the result of the optimization.
-
-    This runs the auto-plotter to plot all the relevant data.
-    See `examples/wdm2` IPython notebook for more details on how to process
-    the optimization logs.
 
     Args:
         save_folder: Location where the log files are saved.
@@ -645,7 +639,7 @@ def view_opt_quick(save_folder: str) -> None:
         log_data = pickle.load(fp)
         for key, data in log_data["monitor_data"].items():
             if np.isscalar(data):
-                print("{}: {}".format(key, data.squeeze()))
+                print(f"{key}: {data.squeeze()}")
 
 
 def resume_opt(save_folder: str) -> None:
@@ -737,7 +731,7 @@ def main():
     if args.action == "run":
         run_opt(args.save_folder, grating_len=grating_len, wg_width=wg_width)
     elif args.action == "view":
-        view_opt(args.save_folder)
+        view_opt_progress(args.save_folder)
     elif args.action == "view_quick":
         view_opt_quick(args.save_folder)
     elif args.action == "resume":
@@ -747,4 +741,6 @@ def main():
 
 
 if __name__ == "__main__":
-    pass
+
+    save_folder = pathlib.Path(__file__).parent / "demo"
+    mon = view_opt_progress(save_folder)
