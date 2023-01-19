@@ -93,6 +93,7 @@ meow = [
     "meow-sim",
     ]
 sax = ["sax==0.8.6", "jaxlib", "jax"]
+spins = ["sax==0.2.0"]
 femwell = ["femwell", "petsc", "petsc4py", "slepc", "slepc4py"]
 dev = [
     "autotyping",
