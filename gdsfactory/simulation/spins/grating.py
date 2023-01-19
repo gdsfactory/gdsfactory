@@ -21,18 +21,14 @@ $ python3 grating.py gen_gds save-folder
 import os
 import pickle
 import shutil
+import pathlib
 from typing import List, Tuple
 
 import gdspy
 import numpy as np
 
-# `spins.invdes.problem_graph` contains the high-level spins code.
 from spins.invdes import problem_graph
-
-# Import module for handling processing optimization logs.
 from spins.invdes.problem_graph import log_tools
-
-# `spins.invdes.problem_graph.optplan` contains the optimization plan schema.
 from spins.invdes.problem_graph import optplan
 from spins.invdes.problem_graph import workspace
 
@@ -47,18 +43,36 @@ DISCRETENESS_PENALTY = True
 
 def run_opt(
     save_folder: str,
-    grating_len: float,
-    wg_width: float,
+    grating_len: float = 15e3,
+    wg_width: float = 10e3,
     wg_thickness: float = 220,
     etch_frac: float = 0.5,
     box_thickness: float = 2000,
+    dx: int = 40,
+    num_pmls: int = 10,
+    cont_iters: int = 50,
+    disc_iters: int = 200,
+    min_feature: float = 80,
+    buffer_len: float = 1500,
 ) -> None:
-    """Main optimization script.
+    """Run main optimization script.
 
     This function setups the optimization and executes it.
 
     Args:
         save_folder: Location to save the optimization data.
+        grating_len: Length of the grating coupler and design region.
+        wg_width: Width of the waveguide.
+        wg_thickness: Thickness of the waveguide.
+        etch_frac: Etch fraction of the grating. 1.0 indicates a fully-etched grating.
+        box_thickness: Thickness of BOX layer in nm.
+        dx: Grid spacing to use.
+        num_pmls: Number of PML layers to use on each side.
+        cont_iters: Number of iterations to run in continuous optimization.
+        disc_iters: Number of iterations to run in discrete optimization.
+        min_feature: Minimum feature size in nanometers.
+        buffer_len: Buffer distance to put between grating and the end of the
+            simulation region. This excludes PMLs.
     """
     os.makedirs(save_folder)
 
@@ -70,12 +84,20 @@ def run_opt(
         wg_thickness=wg_thickness,
         etch_frac=etch_frac,
         wg_width=wg_width,
+        dx=dx,
+        num_pmls=num_pmls,
+        buffer_len=buffer_len,
     )
     obj, monitors = create_objective(
         sim_space, wg_thickness=wg_thickness, grating_len=grating_len
     )
     trans_list = create_transformations(
-        obj, monitors, 50, 200, sim_space, min_feature=80
+        obj,
+        monitors,
+        cont_iters=cont_iters,
+        disc_iters=disc_iters,
+        sim_space=sim_space,
+        min_feature=min_feature,
     )
     plan = optplan.OptimizationPlan(transformations=trans_list)
 
@@ -326,7 +348,7 @@ def create_objective(
         )
         # Append to monitor list for each wavelength
         monitor_list.append(
-            optplan.FieldMonitor(name="mon_eps_" + str(wlen), function=epsilon)
+            optplan.FieldMonitor(name=f"mon_eps_{wlen}", function=epsilon)
         )
 
         # Add a Gaussian source that is angled at 10 degrees.
@@ -444,8 +466,7 @@ def create_transformations(
         min_feature: Minimum feature size in nanometers.
         cont_to_disc_factor: Discretize the continuous grating with feature size
             constraint of `min_feature * cont_to_disc_factor`.
-            `cont_to_disc_factor > 1` gives discrete optimization more wiggle
-            room.
+            `cont_to_disc_factor > 1` gives discrete optimization more wiggle room.
 
     Returns:
         A list of transformations.
@@ -569,7 +590,31 @@ def create_transformations(
     return trans_list
 
 
-def view_opt(save_folder: str) -> None:
+def view_opt(save_folder: str, key="mon_power_1550") -> List[float]:
+    """Shows the result of the optimization.
+
+    This runs the auto-plotter to plot all the relevant data.
+    See `examples/wdm2` IPython notebook for more details on how to process
+    the optimization logs.
+
+    Args:
+        save_folder: Location where the log files are saved.
+        key: for monitor
+    """
+
+    step = 1
+    fp = pathlib.Path(save_folder) / f"step{step}.pkl"
+    mon = []
+
+    while fp.exists():
+        log_data = pickle.loads(fp.read_bytes())
+        mon.append(log_data["monitor_data"][key])
+        step += 1
+        fp = save_folder / f"step{step}.pkl"
+    return mon
+
+
+def view_opt_yaml(save_folder: str) -> None:
     """Shows the result of the optimization.
 
     This runs the auto-plotter to plot all the relevant data.
@@ -672,7 +717,7 @@ def gen_gds(save_folder: str, grating_len: float, wg_width: float) -> None:
     )
 
 
-if __name__ == "__main__":
+def main():
     import argparse
 
     parser = argparse.ArgumentParser()
@@ -699,3 +744,7 @@ if __name__ == "__main__":
         resume_opt(args.save_folder)
     elif args.action == "gen_gds":
         gen_gds(args.save_folder, grating_len=grating_len, wg_width=wg_width)
+
+
+if __name__ == "__main__":
+    pass
