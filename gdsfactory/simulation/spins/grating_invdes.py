@@ -696,20 +696,13 @@ def gen_gds(save_folder: str, grating_len: float, wg_width: float) -> None:
         )
         for i in range(0, len(coords), 2)
     ]
-    # Save the grating to `grating.gds`.
-    grating = gdspy.Cell("GRATING", exclude_from_current=True)
-    grating.add(gdspy.PolygonSet(grating_poly, 100))
-    gdspy.write_gds(
-        os.path.join(save_folder, "grating.gds"),
-        [grating],
-        unit=1.0e-9,
-        precision=1.0e-9,
-    )
+    return grating_poly
 
 
 if __name__ == "__main__":
     # save_folder = pathlib.Path(__file__).parent / "demo"
     # mon = view_opt_progress(save_folder)
+    # return
     import argparse
 
     parser = argparse.ArgumentParser()
