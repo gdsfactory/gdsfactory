@@ -17,6 +17,8 @@ $ python3 grating.py resume save-folder
 
 To generate a GDS file of the grating:
 $ python3 grating.py gen_gds save-folder
+
+Deprecated, use grating_goos instead which uses the new library
 """
 import os
 import pickle
@@ -372,7 +374,7 @@ def create_objective(
         )
         monitor_list.append(
             optplan.FieldMonitor(
-                name="mon_field_" + str(wlen),
+                name=f"mon_field_{str(wlen)}",
                 function=sim,
                 normal=[0, 1, 0],
                 center=[0, 0, 0],
@@ -388,7 +390,7 @@ def create_objective(
         )
         power = optplan.abs(optplan.Overlap(simulation=sim, overlap=wg_overlap)) ** 2
         monitor_list.append(
-            optplan.SimpleMonitor(name="mon_power_" + str(wlen), function=power)
+            optplan.SimpleMonitor(name=f"mon_power_{str(wlen)}", function=power)
         )
 
         if not MINIMIZE_BACKREFLECTION:
@@ -418,7 +420,7 @@ def create_objective(
             )
             monitor_list.append(
                 optplan.SimpleMonitor(
-                    name="mon_refl_power_" + str(wlen), function=refl_power
+                    name=f"mon_refl_power_{str(wlen)}", function=refl_power
                 )
             )
 
@@ -469,15 +471,12 @@ def create_transformations(
     Returns:
         A list of transformations.
     """
-    # Setup empty transformation list.
-    trans_list = []
-
     # First do continuous relaxation optimization.
     cont_param = optplan.PixelParametrization(
         simulation_space=sim_space,
         init_method=optplan.UniformInitializer(min_val=0, max_val=1),
     )
-    trans_list.append(
+    trans_list = [
         optplan.Transformation(
             name="opt_cont",
             parametrization=cont_param,
@@ -492,8 +491,7 @@ def create_transformations(
                 optimization_options=optplan.ScipyOptimizerOptions(maxiter=cont_iters),
             ),
         )
-    )
-
+    ]
     # If true, do another round of continuous optimization with a discreteness bias.
     if DISCRETENESS_PENALTY:
         # Define parameters necessary to normaize discrete penalty term
@@ -550,38 +548,38 @@ def create_transformations(
     disc_param = optplan.GratingParametrization(
         simulation_space=sim_space, inverted=True
     )
-    trans_list.append(
-        optplan.Transformation(
-            name="cont_to_disc",
-            parametrization=disc_param,
-            transformation=optplan.GratingEdgeFitTransformation(
-                parametrization=cont_param,
-                min_feature=cont_to_disc_factor * min_feature,
-            ),
-        )
-    )
-
-    # Discrete optimization.
-    trans_list.append(
-        optplan.Transformation(
-            name="opt_disc",
-            parametrization=disc_param,
-            transformation=optplan.ScipyOptimizerTransformation(
-                optimizer="SLSQP",
-                objective=obj,
-                constraints_ineq=[
-                    optplan.GratingFeatureConstraint(
-                        min_feature_size=min_feature,
-                        simulation_space=sim_space,
-                        boundary_constraint_scale=1.0,
-                    )
-                ],
-                monitor_lists=optplan.ScipyOptimizerMonitorList(
-                    callback_monitors=monitors,
-                    start_monitors=monitors,
-                    end_monitors=monitors,
+    trans_list.extend(
+        (
+            optplan.Transformation(
+                name="cont_to_disc",
+                parametrization=disc_param,
+                transformation=optplan.GratingEdgeFitTransformation(
+                    parametrization=cont_param,
+                    min_feature=cont_to_disc_factor * min_feature,
                 ),
-                optimization_options=optplan.ScipyOptimizerOptions(maxiter=disc_iters),
+            ),
+            optplan.Transformation(
+                name="opt_disc",
+                parametrization=disc_param,
+                transformation=optplan.ScipyOptimizerTransformation(
+                    optimizer="SLSQP",
+                    objective=obj,
+                    constraints_ineq=[
+                        optplan.GratingFeatureConstraint(
+                            min_feature_size=min_feature,
+                            simulation_space=sim_space,
+                            boundary_constraint_scale=1.0,
+                        )
+                    ],
+                    monitor_lists=optplan.ScipyOptimizerMonitorList(
+                        callback_monitors=monitors,
+                        start_monitors=monitors,
+                        end_monitors=monitors,
+                    ),
+                    optimization_options=optplan.ScipyOptimizerOptions(
+                        maxiter=disc_iters
+                    ),
+                ),
             ),
         )
     )
@@ -689,17 +687,15 @@ def gen_gds(save_folder: str, grating_len: float, wg_width: float) -> None:
 
     # `coords` now contains the location of the grating edges. Now draw a
     # series of rectangles to represent the grating.
-    grating_poly = []
-    for i in range(0, len(coords), 2):
-        grating_poly.append(
-            (
-                (coords[i], -wg_width / 2),
-                (coords[i], wg_width / 2),
-                (coords[i + 1], wg_width / 2),
-                (coords[i + 1], -wg_width / 2),
-            )
+    grating_poly = [
+        (
+            (coords[i], -wg_width / 2),
+            (coords[i], wg_width / 2),
+            (coords[i + 1], wg_width / 2),
+            (coords[i + 1], -wg_width / 2),
         )
-
+        for i in range(0, len(coords), 2)
+    ]
     # Save the grating to `grating.gds`.
     grating = gdspy.Cell("GRATING", exclude_from_current=True)
     grating.add(gdspy.PolygonSet(grating_poly, 100))
@@ -711,7 +707,9 @@ def gen_gds(save_folder: str, grating_len: float, wg_width: float) -> None:
     )
 
 
-def main():
+if __name__ == "__main__":
+    # save_folder = pathlib.Path(__file__).parent / "demo"
+    # mon = view_opt_progress(save_folder)
     import argparse
 
     parser = argparse.ArgumentParser()
@@ -738,9 +736,3 @@ def main():
         resume_opt(args.save_folder)
     elif args.action == "gen_gds":
         gen_gds(args.save_folder, grating_len=grating_len, wg_width=wg_width)
-
-
-if __name__ == "__main__":
-
-    save_folder = pathlib.Path(__file__).parent / "demo"
-    mon = view_opt_progress(save_folder)
