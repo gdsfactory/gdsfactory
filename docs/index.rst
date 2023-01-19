@@ -5,7 +5,7 @@ Gdsfactory
 .. toctree::
    :maxdepth: 3
 
-   ../README
+   README
    git
    workflow
    notebooks
@@ -17,7 +17,7 @@ Gdsfactory
    plugins_fdtd
    plugins_circuits
    contribution
-   ../CHANGELOG
+   CHANGELOG
    components
    api
    routing
