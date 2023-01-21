@@ -13,7 +13,7 @@ try:
     from spins import goos
     from spins.goos_sim import maxwell
 except ImportError as e:
-    raise ImportError("pip install 'gdsfactory[spins]'") from e
+    raise ImportError("pip install spins") from e
 
 
 def plot_permitivity_and_field(data):
