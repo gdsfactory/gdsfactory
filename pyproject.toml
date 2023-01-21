@@ -93,7 +93,6 @@ meow = [
     "meow-sim",
     ]
 sax = ["sax==0.8.6", "jaxlib", "jax"]
-spins = ["spins==0.2.0"]
 femwell = ["femwell"]
 dev = [
     "autotyping",
