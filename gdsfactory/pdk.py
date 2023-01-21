@@ -1,8 +1,6 @@
 """PDK stores layers, cross_sections, cell functions ..."""
 
 from __future__ import annotations
-
-import logging
 import pathlib
 import warnings
 from functools import partial
@@ -12,7 +10,7 @@ import numpy as np
 from omegaconf import DictConfig
 from pydantic import BaseModel, Field, validator
 
-from gdsfactory.config import PATH
+from gdsfactory.config import PATH, logger
 from gdsfactory.containers import containers as containers_default
 from gdsfactory.events import Event
 from gdsfactory.generic_tech import get_generic_pdk
@@ -36,7 +34,6 @@ from gdsfactory.types import (
     PathType,
 )
 
-logger = logging.root
 component_settings = ["function", "component", "settings"]
 cross_section_settings = ["function", "cross_section", "settings"]
 layers_required = ["DEVREC", "PORT", "PORTE"]
@@ -123,6 +120,8 @@ class Pdk(BaseModel):
     def activate(self) -> None:
         """Set current pdk to as the active pdk."""
         from gdsfactory.cell import clear_cache
+
+        logger.info(f"{self.name!r} PDK is now active")
 
         clear_cache()
 
