@@ -13,8 +13,10 @@ add_type_hints.xonsh
 *.db
 *.svg
 *.db
+*.tar
 test_mask_metadata.csv
 test_mask_metadata.yml
+gdsfactory/simulation/spins/grating_full_opt/
 .pyre_configuration
 poetry.lock
 mask.csv
