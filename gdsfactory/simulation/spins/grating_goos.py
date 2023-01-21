@@ -1,45 +1,66 @@
-"""2D grating coupler optimization"""
-
+"""2D grating coupler optimization adapted from spins."""
 
 import os
 import pickle
 
+from typing import Tuple
 from pydantic import BaseModel
 import matplotlib.pyplot as plt
 import numpy as np
+from gdsfactory.config import logger
 
-from spins import goos
-from spins.goos_sim import maxwell
+try:
+    from spins import goos
+    from spins.goos_sim import maxwell
+except ImportError as e:
+    raise ImportError("pip install 'gdsfactory[spins]'") from e
+
+
+def plot_permitivity_and_field(data):
+    """Plot permitivity and field data."""
+    key = "sim_cont" if "sim_cont.eps" in data["monitor_data"] else "sim_disc"
+
+    plt.figure(figsize=(10, 12))
+    plt.imshow(
+        np.rot90(np.abs(data["monitor_data"][f"{key}.eps"][0].squeeze()), 1, (0, 1))
+    )
+    plt.axis("off")
+    plt.tight_layout()
+    plt.figure(figsize=(10, 12))
+    plt.imshow(
+        np.rot90(np.abs(data["monitor_data"][f"{key}.field"][1].squeeze()), 1, (0, 1))
+    )
+    plt.axis("off")
+    plt.tight_layout()
+    plt.show()
+    print(
+        "Overlap transmission value is "
+        + str(np.abs(data["monitor_data"][f"{key}.overlap"]) ** 2)
+    )
+
+
+def plot_progress(dirpath, max_steps: int = 20) -> None:
+    """Plot overlap values in dirpath for optimization trajectory."""
+    disc_last_step = goos.util.get_latest_log_step(dirpath)
+    transmission = []
+    for step in range(1, max_steps + 1):
+        with open(os.path.join(dirpath, f"step{step}.pkl"), "rb") as fp:
+            data = pickle.load(fp)
+            transmission.append(np.abs(data["monitor_data"]["sim_cont.overlap"]) ** 2)
+    for step in range(max_steps + 1, int(disc_last_step) + 1):
+        with open(os.path.join(dirpath, f"step{step}.pkl"), "rb") as fp:
+            data = pickle.load(fp)
+            transmission.append(np.abs(data["monitor_data"]["sim_disc.overlap"]) ** 2)
+
+    plt.figure(figsize=(12, 6))
+    plt.plot(range(1, int(disc_last_step) + 1), transmission)
+    plt.xlabel("Iteration")
+    plt.ylabel("Transmission")
+    plt.tight_layout()
 
 
 class Options(BaseModel):
-    """Maintains list of options for the optimization.
-
-    Attributes:
-        coupler_len: Length of the grating coupler.
-        wg_width: Width of the grating coupler. Only relevant for GDS file generation.
-        wg_len: Length of the waveguide to which the grating coupler couples.
-        wg_thickness: Thickness of the waveguide.
-        etch_frac: Etch fraction of the grating.
-            (wg_thickness-slab_thickness)/wg_thickness
-        min_features: Minimum feature sizes.
-        box_size: Thickness of the buried oxide layer.
-        source_angle_deg: Angle of the Gaussian beam in degrees relative to the normal.
-        buffer_len: Additional distance to add to the top and bottom of the simulation.
-
-        eps_bg: Refractive index of the background.
-        eps_fg: Refraction index of the waveguide/grating.
-
-        beam_dist: Distance of the Gaussian beam from the grating.
-        beam_width: Diameter of the Gaussian beam.
-        beam_extents: Length of the Gaussian beam to use in the simulation.
-
-        wavelength: Wavelength to simulate at.
-        dx: Grid spacing to use in the simulation.
-        pixel_size: Pixel size of the continuous grating coupler
-            parametrization.
-        cont_max_iter: Number of iterations to run in continuous optimization.
-    """
+    """Options for the optimization."""
 
     coupler_len: float = 12000
     wg_width: float = 10000
@@ -56,16 +77,18 @@ class Options(BaseModel):
     wavelength: float = 1550
     dx: float = 20
     pixel_size: float = 20
-    etch_frac: float = 0.5
+    etch_frac: float = (220 - 70) / 220
     min_features: float = 100
-    cont_max_iter: int = 20
+    max_steps: int = 20
+    max_steps_discrete: int = 20
+    ftol = 1e-8
 
 
-def run_opt(out_folder_name: str = "grating_full_opt", **settings) -> None:
-    """Run grating coupler optimization.
+def run_opt(dirpath: str = "grating_full_opt", **settings) -> float:
+    """Run grating coupler optimization and returns max transmission.
 
     Args:
-        out_folder_name: folder name to store optimization.
+        dirpath: directory path to store optimization.
 
     Keyword Args:
         coupler_len: Length of the grating coupler.
@@ -78,31 +101,28 @@ def run_opt(out_folder_name: str = "grating_full_opt", **settings) -> None:
         box_size: Thickness of the buried oxide layer.
         source_angle_deg: Angle of the Gaussian beam in degrees relative to the normal.
         buffer_len: Additional distance to add to the top and bottom of the simulation.
-
         eps_bg: Refractive index of the background.
         eps_fg: Refraction index of the waveguide/grating.
-
         beam_dist: Distance of the Gaussian beam from the grating.
         beam_width: Diameter of the Gaussian beam.
         beam_extents: Length of the Gaussian beam to use in the simulation.
-
         wavelength: Wavelength to simulate at.
         dx: Grid spacing to use in the simulation.
         pixel_size: Pixel size of the continuous grating coupler
             parametrization.
-        cont_max_iter: Number of iterations to run in continuous optimization.
-
+        max_steps: Number of iterations to run in continuous optimization.
+        max_steps_discrete: Number of iterations to run in discrete optimization.
+        ftol: function tolerance for discrete optimization.
     """
     params = Options(**settings)
-    # set-up with saving folder, and optimization plan
-    folder_plt = out_folder_name  # Plotting folder is separately here, in case one wishes to plot from another folder.
-    out_folder = os.path.join(os.getcwd(), out_folder_name)
-    if not os.path.exists(out_folder):
-        os.makedirs(out_folder)
 
-    goos.util.setup_logging(out_folder)
-    plan = goos.OptimizationPlan(save_path=out_folder)
-    cont_max_iter = params.cont_max_iter
+    # set-up with saving folder, and optimization plan
+    if not os.path.exists(dirpath):
+        os.makedirs(dirpath)
+
+    goos.util.setup_logging(dirpath)
+    plan = goos.OptimizationPlan(save_path=dirpath)
+    max_steps = params.max_steps
 
     # set-up background shapes
     with plan:
@@ -141,7 +161,6 @@ def run_opt(out_folder_name: str = "grating_full_opt", **settings) -> None:
         )
 
     # set-up design area and finish eps we need.
-
     with plan:
 
         def initializer(size):
@@ -251,7 +270,7 @@ def run_opt(out_folder_name: str = "grating_full_opt", **settings) -> None:
                 sim_cont["overlap"],
                 obj_c,
             ],
-            max_iters=cont_max_iter,
+            max_iters=max_steps,
             name="opt_cont",
         )
 
@@ -360,7 +379,7 @@ def run_opt(out_folder_name: str = "grating_full_opt", **settings) -> None:
     obj_d = (1 - goos.abs(sim_disc["overlap"])) ** 2  # elaborate how simple
     obj_d = goos.rename(obj_d, name="obj_disc")
 
-    # set-up discrete optimization with scipy
+    logger.info("set-up discrete optimization with scipy")
     with plan:
         goos.opt.scipy_minimize(
             obj_d,
@@ -371,9 +390,9 @@ def run_opt(out_folder_name: str = "grating_full_opt", **settings) -> None:
                 sim_disc["overlap"],
                 obj_d,
             ],
-            max_iters=20,
+            max_iters=params.max_steps_discrete,
             name="opt_disc",
-            ftol=1e-8,
+            ftol=params.ftol,
         )
 
     # run the optimization
@@ -381,124 +400,57 @@ def run_opt(out_folder_name: str = "grating_full_opt", **settings) -> None:
         plan.save()
         plan.run()
 
-    # visualizing the initial structure permittivity and the field.
-    with open(os.path.join(folder_plt, "step1.pkl"), "rb") as fp:
+    step = goos.util.get_latest_log_step(dirpath)
+    with open(os.path.join(dirpath, f"step{step}.pkl"), "rb") as fp:
         data = pickle.load(fp)
+    return np.abs(data["monitor_data"]["sim_disc.overlap"]) ** 2
 
-        plt.figure(figsize=(10, 12))
-        plt.imshow(
-            np.rot90(
-                np.abs(data["monitor_data"]["sim_cont.eps"][0].squeeze()), 1, (0, 1)
-            )
-        )
-        plt.axis("off")
-        plt.tight_layout()
-        plt.figure(figsize=(10, 12))
-        plt.imshow(
-            np.rot90(
-                np.abs(data["monitor_data"]["sim_cont.field"][1].squeeze()), 1, (0, 1)
-            )
-        )
-        plt.axis("off")
-        plt.tight_layout()
-        plt.show()
-        print(
-            "Overlap transmission value is "
-            + str(np.abs(data["monitor_data"]["sim_cont.overlap"]) ** 2)
-        )
 
-    # visualizing end of continuous optimization
-    with open(os.path.join(folder_plt, f"step{cont_max_iter}.pkl"), "rb") as fp:
+def get_grating_edges(data) -> Tuple[np.ndarray, np.ndarray]:
+    """Returns grating grating widths and gaps.
+
+    grating_height 0: corresponds to a length of a material tooth
+        that transitions to a gap grating_length[0]
+
+    Args:
+        data: dictionary data.
+    """
+    unit = 1000  # convert from nm to um
+    grating_lengths = data["variable_data"]["goos.function.variable.1"]["value"] / unit
+    grating_heights = data["variable_data"]["goos.function.variable.2"]["value"]
+
+    position = 0
+    grating_edges = []
+
+    # Add a 5um waveguide to provide the orientation of the grating
+    # grating_edges.append(-5)
+    # grating_edges.append(0)
+
+    # If the structure begins with a grating tooth, add the first edge
+    if grating_heights[0] == 0:
+        grating_edges.append(0)
+
+    for i in range(0, len(grating_lengths)):
+        grating_edges.append(position + grating_lengths[i])
+        position = position + grating_lengths[i]
+
+    teeth_list = np.diff(grating_edges)
+    widths = teeth_list[::2]
+    gaps = teeth_list[1::2]
+    return widths, gaps
+
+
+if __name__ == "__main__":
+    import pathlib
+
+    dirpath = pathlib.Path(__file__).parent / "grating_full_opt"
+    # plot_progress(dirpath)
+    # plt.show()
+
+    step = goos.util.get_latest_log_step(dirpath)
+    with open(os.path.join(dirpath, f"step{step}.pkl"), "rb") as fp:
         data = pickle.load(fp)
-
-        plt.figure(figsize=(10, 12))
-        plt.imshow(
-            np.rot90(
-                np.abs(data["monitor_data"]["sim_cont.eps"][0].squeeze()), 1, (0, 1)
-            )
-        )
-        plt.axis("off")
-        plt.tight_layout()
-        plt.figure(figsize=(10, 12))
-        plt.imshow(
-            np.rot90(
-                np.abs(data["monitor_data"]["sim_cont.field"][1].squeeze()), 1, (0, 1)
-            )
-        )
-        plt.axis("off")
-        plt.tight_layout()
-        plt.show()
-        print(
-            "Overlap transmission value is "
-            + str(np.abs(data["monitor_data"]["sim_cont.overlap"]) ** 2)
-        )
-
-    # visualizing the structure and the field at the end of the discretization
-    with open(os.path.join(folder_plt, f"step{cont_max_iter + 1}.pkl"), "rb") as fp:
-        data = pickle.load(fp)
-
-        plt.figure(figsize=(10, 12))
-        plt.imshow(
-            np.rot90(
-                np.abs(data["monitor_data"]["sim_disc.eps"][0].squeeze()), 1, (0, 1)
-            )
-        )
-        plt.axis("off")
-        plt.tight_layout()
-        plt.figure(figsize=(10, 12))
-        plt.imshow(
-            np.rot90(
-                np.abs(data["monitor_data"]["sim_disc.field"][1].squeeze()), 1, (0, 1)
-            )
-        )
-        plt.axis("off")
-        plt.tight_layout()
-        plt.show()
-        print(
-            "Overlap transmission value is "
-            + str(np.abs(data["monitor_data"]["sim_disc.overlap"]) ** 2)
-        )
-
-    # visualizing the structure and the field at the end of the optimization
-    step = goos.util.get_latest_log_step(folder_plt)
-    with open(os.path.join(folder_plt, f"step{step}.pkl"), "rb") as fp:
-        data = pickle.load(fp)
-
-    plt.figure(figsize=(10, 12))
-    plt.imshow(
-        np.rot90(np.abs(data["monitor_data"]["sim_disc.eps"][0].squeeze()), 1, (0, 1))
-    )
-    plt.axis("off")
-    plt.tight_layout()
-
-    plt.figure(figsize=(10, 12))
-    plt.imshow(
-        np.rot90(np.abs(data["monitor_data"]["sim_disc.field"][1].squeeze()), 1, (0, 1))
-    )
-    plt.axis("off")
-    plt.tight_layout()
-
-    plt.show()
-    print(
-        "Overlap transmission value is "
-        + str(np.abs(data["monitor_data"]["sim_disc.overlap"]) ** 2)
-    )
-
-    # Reading all pkl files in the saving folder to see optimization trajectory over iterations.
-    disc_last_step = goos.util.get_latest_log_step(folder_plt)
-    transmission = []
-    for step in range(1, cont_max_iter + 1):
-        with open(os.path.join(folder_plt, f"step{step}.pkl"), "rb") as fp:
-            data = pickle.load(fp)
-            transmission.append(np.abs(data["monitor_data"]["sim_cont.overlap"]) ** 2)
-    for step in range(cont_max_iter + 1, int(disc_last_step) + 1):
-        with open(os.path.join(folder_plt, f"step{step}.pkl"), "rb") as fp:
-            data = pickle.load(fp)
-            transmission.append(np.abs(data["monitor_data"]["sim_disc.overlap"]) ** 2)
-
-    # plotting the overlap values for the all pkl files in the saving folder to see optimization trajectory over iterations.
-    plt.figure(figsize=(12, 6))
-    plt.plot(range(1, int(disc_last_step) + 1), transmission)
-    plt.xlabel("Iteration")
-    plt.ylabel("Transmission")
-    plt.tight_layout()
+        # plot_permitivity_and_field(data)
+        widths, gaps = get_grating_edges(data)
+        t = np.abs(data["monitor_data"]["sim_disc.overlap"]) ** 2
+        print(t)
