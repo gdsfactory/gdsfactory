@@ -32,6 +32,7 @@ from scipy.interpolate import griddata
 from tidy3d.plugins.mode.solver import compute_modes
 from tqdm.auto import tqdm
 from typing_extensions import Literal
+from sqlmodel import Field, SQLModel
 
 from gdsfactory.serialization import clean_value_name
 from gdsfactory.config import logger
@@ -143,7 +144,7 @@ Precision = Literal["single", "double"]
 FilterPol = Literal["te", "tm"]
 
 
-class Waveguide(BaseModel):
+class Waveguide(SQLModel, table=True):
     """Waveguide Model.
 
     Parameters:
@@ -213,10 +214,10 @@ class Waveguide(BaseModel):
     top_sigma: Optional[float] = 10 * nm
     top_k: Optional[float] = 0.1
 
-    class Config:
-        """Config for Waveguide."""
+    # class Config:
+    #     """Config for Waveguide."""
 
-        extra = Extra.allow
+    #     extra = Extra.allow
 
     @property
     def cache_path(self) -> Optional[PathType]:
