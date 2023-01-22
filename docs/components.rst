@@ -1580,6 +1580,21 @@ hline
 
 
 
+interdigital_capacitor
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.interdigital_capacitor
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.interdigital_capacitor(fingers=4, finger_length=20, finger_gap = 2, thickness=5,layer="WG")
+  c.plot()
+
+
+
 litho_calipers
 ----------------------------------------------------
 
