@@ -7,7 +7,6 @@ import numpy as np
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
-from gdsfactory.geometry.offset import offset
 from gdsfactory.types import LayerSpec
 
 
@@ -32,6 +31,8 @@ def resistance_meander(
         pad_layer: pad layer.
         gnd_layer: ground layer.
     """
+    from gdsfactory.geometry.offset import offset
+
     x = pad_size[0]
     z = pad_size[1]
 

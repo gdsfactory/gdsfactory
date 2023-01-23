@@ -8,7 +8,6 @@ from typing import Union
 import gdstk
 
 from gdsfactory.component import Component
-from gdsfactory.read.import_gds import import_gds
 
 COUNTER = itertools.count()
 
@@ -70,9 +69,9 @@ def gdsdiff(
         Component with both cells (xor, common and diffs).
     """
     if isinstance(component1, (str, pathlib.Path)):
-        component1 = import_gds(str(component1), flatten=True, name=f"{name}_old")
+        component1 = Component.read(str(component1), flatten=True, name=f"{name}_old")
     if isinstance(component2, (str, pathlib.Path)):
-        component2 = import_gds(str(component2), flatten=True, name=f"{name}_new")
+        component2 = Component.read(str(component2), flatten=True, name=f"{name}_new")
 
     component1 = component1.copy()
     component2 = component2.copy()

@@ -1,8 +1,5 @@
 """You can import gdsfactory.as gf.
 
-functions:
-    - import_gds(): returns a Component from a GDS
-
 classes:
 
     - Component
@@ -31,7 +28,6 @@ from gdsfactory.cell import cell
 from gdsfactory.cell import cell_without_validator
 from gdsfactory.cell import clear_cache
 from gdsfactory.show import show
-from gdsfactory.read.import_gds import import_gds
 from gdsfactory.cross_section import CrossSection, Section
 from gdsfactory.types import Label
 from gdsfactory import decorators
@@ -49,7 +45,6 @@ from gdsfactory import functions
 from gdsfactory import export
 from gdsfactory import geometry
 from gdsfactory import add_ports
-from gdsfactory import write_cells
 from gdsfactory import add_pins
 from gdsfactory import technology
 
@@ -122,7 +117,6 @@ __all__ = (
     "get_padding_points",
     "grid",
     "grid_with_text",
-    "import_gds",
     "labels",
     "pack",
     "partial",
@@ -133,7 +127,6 @@ __all__ = (
     "snap",
     "types",
     "technology",
-    "write_cells",
     "PATH",
 )
 __version__ = "6.23.4"

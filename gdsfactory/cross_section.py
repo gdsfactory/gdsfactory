@@ -12,7 +12,7 @@ from inspect import getmembers
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 import pydantic
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field
 from typing_extensions import Literal
 
 Layer = Tuple[int, int]
@@ -62,12 +62,6 @@ class Section(BaseModel):
     port_types: Tuple[str, str] = ("optical", "optical")
     name: Optional[str] = None
     hidden: bool = False
-
-    @validator("layer")
-    def _layer(cls, v) -> Tuple[int, int]:
-        from gdsfactory.pdk import get_layer
-
-        return get_layer(v)
 
     class Config:
         """pydantic basemodel config."""
@@ -137,12 +131,6 @@ class CrossSection(BaseModel):
     info: Dict[str, Any] = Field(default_factory=dict)
     name: Optional[str] = None
     add_center_section: bool = True
-
-    @validator("layer")
-    def _layer(cls, v) -> Tuple[int, int]:
-        from gdsfactory.pdk import get_layer
-
-        return get_layer(v)
 
     class Config:
         """Configuration."""

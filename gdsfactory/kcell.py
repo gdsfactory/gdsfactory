@@ -223,7 +223,7 @@ class Port:
         self,
         name: Optional[str] = None,
         width: Optional[int] = None,
-        layer: Optional[int] = None,
+        layer: Optional[Tuple[int, int]] = None,
         port_type: str = "optical",
         trans: Optional[kdb.Trans | str] = None,
         orientation: Optional[int] = None,
@@ -233,10 +233,16 @@ class Port:
         cross_section: Optional[CrossSection] = None,
         shear_angle: Optional[float] = None,
     ):
-        self.cross_section = cross_section
+        from gdsfactory.pdk import get_cross_section
+
+        self.cross_section = get_cross_section(cross_section) if cross_section else None
         self.shear_angle = shear_angle
 
-        layer = layer or cross_section.layer if cross_section else None
+        if layer is None and cross_section is None:
+            raise ValueError("You need to define layer or cross_section")
+
+        if layer is None:
+            layer = cross_section.layer
 
         if port is not None:
             self.name = port.name if name is None else name
@@ -480,7 +486,7 @@ class KCell:
         name: str,
         trans: kdb.Trans,
         width: int,
-        layer: int,
+        layer: Tuple[int, int],
         port_type: str = "optical",
     ) -> None:
         ...
@@ -502,7 +508,7 @@ class KCell:
         width: int,
         center: tuple[int, int],
         orientation: int,
-        layer: int,
+        layer: Tuple[int, int],
         port_type: str = "optical",
         mirror_x: bool = False,
     ) -> None:
@@ -975,7 +981,7 @@ class Ports:
         *,
         name: str,
         width: int,
-        layer: int,
+        layer: Tuple[int, int],
         port_type: str = "optical",
         trans: Optional[kdb.Trans] = None,
         center: Optional[tuple[int, int]] = None,

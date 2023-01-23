@@ -160,6 +160,17 @@ class Instance(Instance):
             conn_trans = kdb.Trans.M90 if mirror else kdb.Trans.R180
             self.instance.trans = op.trans * conn_trans * p.trans.inverted()
 
+    @classmethod
+    def __get_validators__(cls):
+        """Get validators for the Component object."""
+        yield cls.validate
+
+    @classmethod
+    def validate(cls, v):
+        """Pydantic assumes component is valid if the following are true."""
+        assert isinstance(v, Instance), f"TypeError, Got {type(v)}, expecting Instance"
+        return v
+
 
 class Component(KCell):
     """A Component is an empty canvas where you add polygons, references and ports \
@@ -706,7 +717,7 @@ class Component(KCell):
                 This is the most common mirror.
             v_mirror: vertical mirror using x axis (1, y) (0, y).
         """
-        _ref = Instance(self)
+        _ref = Instance(cell=self)
 
         if port_id and port_id not in self.ports:
             raise ValueError(f"port {port_id} not in {self.ports.keys()}")
@@ -799,7 +810,14 @@ class Component(KCell):
             port_type: optical, electrical, vertical_dc, vertical_te, vertical_tm.
             cross_section: port cross_section.
         """
-        from gdsfactory.pdk import get_layer
+        from gdsfactory.pdk import get_layer, get_cross_section
+
+        cross_section = get_cross_section(cross_section) if cross_section else None
+        if layer is None:
+            layer = cross_section.layer if cross_section else None
+
+        if layer is None:
+            raise ValueError("You need to define layer or cross_section")
 
         layer = get_layer(layer)
 
@@ -812,7 +830,8 @@ class Component(KCell):
                 return KCell.create_port(
                     self,
                     name=p.name,
-                    layer=self.layer(*p.layer),
+                    # layer=self.layer(*p.layer),
+                    layer=layer,
                     port_type=p.port_type,
                     width=p.width,
                     orientation=int(p.orientation // 90),
@@ -1983,6 +2002,9 @@ def test_import_gds_settings():
     c2 = gf.import_gds(gdspath, name="mzi_sample")
     c3 = gf.routing.add_fiber_single(c2)
     assert c3
+
+
+ComponentReference = Instance
 
 
 if __name__ == "__main__":
