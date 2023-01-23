@@ -1,5 +1,4 @@
 import copy
-import itertools
 from pathlib import Path
 from typing import Dict, Optional, Union
 
@@ -63,7 +62,13 @@ class Model:
         self.num_ports = len(
             component(self.get_nominal_dict()).get_ports_list(port_type="optical")
         )
-        self.size_outputs = self.num_ports * self.num_modes
+
+        # Extract input and output vector label data
+        self.input_vector_labels = list(self.trainable_parameters) + list(
+            self.non_trainable_parameters.keys()
+        )
+
+        # self.size_outputs = self.num_ports * self.num_modes
         self.port_symmetries = port_symmetries
 
     """
@@ -119,28 +124,28 @@ class Model:
     Generate training data
     """
 
-    def define_output_vector_labels(self):
-        """Uses number of component ports, number of modes solved for, and port_symmetries to define smallest output vector."""
-        output_vector_labels_iter = itertools.product(
-            range(1, self.num_ports + 1),
-            range(self.num_modes),
-            range(1, self.num_ports + 1),
-            range(self.num_modes),
-        )
-        output_vector_labels = []
-        for output_label in output_vector_labels_iter:
-            output_key1 = f"o{output_label[0]}@{output_label[1]}"
-            output_key2 = f"o{output_label[2]}@{output_label[3]}"
-            if output_key1 != output_key2:
-                output_key = f"{output_key1},{output_key2}"
-                output_vector_labels.append(output_key)
+    # def define_output_vector_labels(self):
+    #     """Uses number of component ports, number of modes solved for, and port_symmetries to define smallest output vector."""
+    #     output_vector_labels_iter = itertools.product(
+    #         range(1, self.num_ports + 1),
+    #         range(self.num_modes),
+    #         range(1, self.num_ports + 1),
+    #         range(self.num_modes),
+    #     )
+    #     output_vector_labels = []
+    #     for output_label in output_vector_labels_iter:
+    #         output_key1 = f"o{output_label[0]}@{output_label[1]}"
+    #         output_key2 = f"o{output_label[2]}@{output_label[3]}"
+    #         if output_key1 != output_key2:
+    #             output_key = f"{output_key1},{output_key2}"
+    #             output_vector_labels.append(output_key)
 
-        if self.port_symmetries:
-            for value_list in self.port_symmetries.values():
-                for value in value_list:
-                    output_vector_labels.remove(value)
+    #     if self.port_symmetries:
+    #         for value_list in self.port_symmetries.values():
+    #             for value in value_list:
+    #                 output_vector_labels.remove(value)
 
-        return output_vector_labels
+    #     return output_vector_labels
 
     def get_results(self, input_dict):
         """To be overridden by child classes.
@@ -155,9 +160,6 @@ class Model:
             name: parameter.arange()
             for name, parameter in self.trainable_parameters.items()
         }
-        self.output_vector_labels = self.define_output_vector_labels()
-        self.input_vector_labels = ranges_dict.keys()
-
         input_vectors = []
         output_vectors = []
 
@@ -166,14 +168,11 @@ class Model:
             input_dict = dict(
                 zip(ranges_dict.keys(), [float(value) for value in values])
             )
-            # sp = self.get_results(input_dict)
-            results = self.get_results(input_dict)
-            # Save input consistently
-            input_vectors.append(values)
-            # Save output consistently
-            # output_vector = [sp[output_key] for output_key in self.output_vector_labels]
-            # output_vectors.append(output_vector)
-            output_vectors.append(results)
+            new_inputs, output_vector = self.get_results(input_dict)
+            input_vector = list(values)
+            input_vector.extend(iter(new_inputs))
+            input_vectors.append(input_vector)
+            output_vectors.append(output_vector)
 
         return (
             jnp.array(input_vectors),
@@ -184,20 +183,16 @@ class Model:
     Fitting data.
     """
 
-    def get_nd_nd_interp(self):
+    def set_nd_nd_interp(self):
         """Returns ND-ND interpolator."""
         input_vectors, output_vectors = self.get_data()
-        return nd_nd_interpolation(
-            input_vectors, self.output_vector_labels, output_vectors
-        )
+        self.inference = nd_nd_interpolation(input_vectors, output_vectors)
 
-    """
-    Compute S-parameters from the fits.
-    """
+    # """
+    # Compute S-parameters from the fits.
+    # """
 
-    def get_Sparameters(self, input_dict):
-        """To be overridden by child classes.
+    # def inference(self, input_dict):
+    #     """Returns results from interpolator."""
 
-        Uses model prediction and non-trainable parameters to generate the Sparameters.
-        """
-        return None
+    #     return None
