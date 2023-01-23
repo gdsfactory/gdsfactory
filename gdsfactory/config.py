@@ -4,7 +4,7 @@ priority:
 
 1. A config.yml found in the current working directory (highest priority)
 2. ~/.gdsfactory/config.yml specific for the machine
-3. the yamlpath_default in gdsfactory.tech.yml (lowest priority)
+3. the yamlpath_default in gdsfactory.technology.yml (lowest priority)
 
 You can access the CONF dictionary with `print_config`
 
@@ -27,7 +27,7 @@ import omegaconf
 from loguru import logger
 from omegaconf import OmegaConf
 
-__version__ = "6.7.1"
+__version__ = "6.23.4"
 PathType = Union[str, pathlib.Path]
 
 home = pathlib.Path.home()
@@ -41,12 +41,13 @@ logpath = home_path / "log.log"
 yamlpath_cwd = cwd / "config.yml"
 yamlpath_default = module_path / "config.yml"
 yamlpath_home = home_path / "config.yml"
-layer_path = module_path / "klayout" / "tech" / "layers.lyp"
+layer_path = module_path / "generic_tech" / "klayout" / "tech" / "layers.lyp"
 
 MAX_NAME_LENGTH = 32
 
+# logger.remove(0)
+# logger.add(sink=sys.stderr, level="WARNING")
 logger.info(f"Load {str(module_path)!r} {__version__}")
-logger.add(sink=logpath)
 
 
 default_config = io.StringIO(
@@ -61,17 +62,20 @@ class Paths:
     module = module_path
     repo = repo_path
     results_tidy3d = home / ".tidy3d"
-    klayout = module / "klayout"
+    generic_tech = module / "generic_tech"
+    klayout = generic_tech / "klayout"
     klayout_tech = klayout / "tech"
     klayout_lyp = klayout_tech / "layers.lyp"
     schema_netlist = module_path / "tests" / "schemas" / "netlist.json"
     netlists = module_path / "samples" / "netlists"
     gdsdir = module_path / "tests" / "gds"
-    modes = repo_path / "gdslib" / "modes"
-    gdslib = repo / "gdslib"
+    gdslib = home_path
+    modes = gdslib / "modes"
     gdsdiff = gdslib / "gds"
     sparameters = gdslib / "sp"
     interconnect = gdslib / "interconnect"
+    optimiser = repo_path / "tune"
+    notebooks = repo_path / "docs" / "notebooks"
 
 
 def read_config(
@@ -90,6 +94,13 @@ def read_config(
 CONF = read_config()
 PATH = Paths()
 sparameters_path = PATH.sparameters
+
+
+def rich_output() -> None:
+    """Enables rich output."""
+    from rich import pretty
+
+    pretty.install()
 
 
 def complex_encoder(z):

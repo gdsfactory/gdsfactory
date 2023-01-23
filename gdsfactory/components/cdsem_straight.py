@@ -6,9 +6,8 @@ from typing import Optional, Tuple
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.straight import straight as straight_function
+from gdsfactory.components.straight import straight
 from gdsfactory.components.text_rectangular import text_rectangular
-from gdsfactory.grid import grid
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 text_rectangular_mini = partial(text_rectangular, size=1)
@@ -22,7 +21,7 @@ def cdsem_straight(
     length: float = LINE_LENGTH,
     cross_section: CrossSectionSpec = "strip",
     text: Optional[ComponentSpec] = text_rectangular_mini,
-    spacing: float = 3,
+    spacing: float = 5,
 ) -> Component:
     """Returns straight waveguide lines width sweep.
 
@@ -33,19 +32,21 @@ def cdsem_straight(
         text: optional text for labels.
         spacing: edge to edge spacing.
     """
-    lines = []
-    for width in widths:
-        line = straight_function(
-            length=length, cross_section=cross_section, width=width
-        )
-        if text:
-            line = line.copy()
-            t = line << text(str(int(width * 1e3)))
-            t.xmin = line.xmax + 5
-            t.y = 0
-        lines.append(line)
+    c = Component()
 
-    return grid(lines, spacing=(0, spacing))
+    ymin = 0
+
+    for width in widths:
+        line = c << straight(length=length, cross_section=cross_section, width=width)
+        line.ymin = ymin
+        if text:
+            t = c << text(str(int(width * 1e3)))
+            t.xmin = line.xmax + 5
+            t.y = ymin
+
+        ymin += width + spacing
+
+    return c
 
 
 if __name__ == "__main__":

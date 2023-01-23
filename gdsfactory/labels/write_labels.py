@@ -8,16 +8,16 @@ from pathlib import Path
 from typing import Iterator, Tuple
 
 import numpy as np
-from loguru import logger
 
 import gdsfactory as gf
-from gdsfactory import LAYER
+from gdsfactory.config import logger
+from gdsfactory.pdk import get_layer
 from gdsfactory.routing.add_fiber_single import add_fiber_single
-from gdsfactory.types import Optional, PathType
+from gdsfactory.types import LayerSpec, Optional, PathType
 
 
 def find_labels(
-    gdspath: PathType, layer_label: Tuple[int, int] = LAYER.LABEL, prefix: str = "opt_"
+    gdspath: PathType, layer_label: LayerSpec = "LABEL", prefix: str = "opt_"
 ) -> Iterator[Tuple[str, float, float]]:
     """Return text label and locations iterator from a GDS file.
 
@@ -32,6 +32,7 @@ def find_labels(
         string: for the label.
         x: x position (um).
         y: y position (um).
+        angle: in degrees.
 
     """
     import klayout.db as pya
@@ -40,6 +41,8 @@ def find_labels(
     gdspath = str(gdspath)
     layout = pya.Layout()
     layout.read(gdspath)
+
+    layer_label = get_layer(layer_label)
 
     # Get the top cell and the units, and find out the index of the layer
     topcell = layout.top_cell()
@@ -57,18 +60,22 @@ def find_labels(
             text = shape.text
             if text.string.startswith(prefix):
                 transformed = text.transformed(trans)
-                yield text.string, transformed.x * dbu, transformed.y * dbu
+                yield text.string, transformed.x * dbu, transformed.y * dbu, trans.angle
 
 
 def write_labels_klayout(
     gdspath: PathType,
-    layer_label: Tuple[int, int] = LAYER.TEXT,
+    layer_label: LayerSpec = "LABEL",
     filepath: Optional[PathType] = None,
     prefix: str = "opt_",
 ) -> Path:
     """Load GDS and extracts labels in KLayout text and coordinates.
 
-    Returns CSV filepath.
+    Returns CSV filepath with each row:
+    - Text
+    - x
+    - y
+    - rotation (degrees)
 
     Args:
         gdspath: for the mask.
@@ -92,13 +99,17 @@ def write_labels_klayout(
 def write_labels_gdstk(
     gdspath: Path,
     prefix: str = "opt_",
-    layer_label: Optional[Tuple[int, int]] = LAYER.TEXT,
+    layer_label: LayerSpec = "LABEL",
     filepath: Optional[PathType] = None,
     debug: bool = False,
 ) -> Path:
     """Load GDS and extracts label text and coordinates.
 
-    Returns CSV filepath. Text, x, y, rotation (degrees)
+    Returns CSV filepath with each row:
+    - Text
+    - x
+    - y
+    - rotation (degrees)
 
     Args:
         gdspath: for the mask.
@@ -114,6 +125,7 @@ def write_labels_gdstk(
     c = gf.import_gds(gdspath)
 
     labels = []
+    layer_label = get_layer(layer_label)
 
     for label in c.get_labels():
         if (

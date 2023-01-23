@@ -12,14 +12,9 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.extension import move_polar_rad_copy
 from gdsfactory.config import logger
-from gdsfactory.pdk import get_layer_stack
-from gdsfactory.simulation.gtidy3d.materials import (
-    MATERIAL_NAME_TO_TIDY3D_INDEX,
-    MATERIAL_NAME_TO_TIDY3D_NAME,
-    get_index,
-    get_medium,
-)
-from gdsfactory.tech import LayerStack
+from gdsfactory.pdk import get_layer_stack, get_material_index
+from gdsfactory.simulation.gtidy3d.materials import get_index, get_medium
+from gdsfactory.technology import LayerStack
 
 
 def get_simulation_grating_coupler(
@@ -41,7 +36,6 @@ def get_simulation_grating_coupler(
     port_waveguide_name: str = "o1",
     port_margin: float = 0.5,
     port_waveguide_offset: float = 0.1,
-    distance_source_to_monitors: float = 0.2,
     wavelength: Optional[float] = 1.55,
     wavelength_start: float = 1.20,
     wavelength_stop: float = 1.80,
@@ -52,11 +46,9 @@ def get_simulation_grating_coupler(
     fiber_port_name: str = "vertical_te",
     fiber_xoffset: float = 0,
     fiber_z: float = 2,
-    fiber_mfd: float = 5.2,
+    fiber_mfd: float = 10.4,
     fiber_angle_deg: float = 20.0,
-    dispersive: bool = False,
-    material_name_to_tidy3d_index: Dict[str, float] = MATERIAL_NAME_TO_TIDY3D_INDEX,
-    material_name_to_tidy3d_name: Dict[str, str] = MATERIAL_NAME_TO_TIDY3D_NAME,
+    material_name_to_tidy3d: Optional[Dict[str, str]] = None,
     is_3d: bool = True,
     with_all_monitors: bool = False,
     boundary_spec: Optional[td.BoundarySpec] = None,
@@ -142,7 +134,6 @@ def get_simulation_grating_coupler(
         substrate_thickness: (um).
         port_waveguide_name: input port name.
         port_margin: margin on each side of the port.
-        distance_source_to_monitors: in (um) source goes before monitors.
         port_waveguide_offset: mode solver workaround.
             positive moves source forward, negative moves source backward.
         wavelength: source center wavelength (um).
@@ -157,14 +148,10 @@ def get_simulation_grating_coupler(
         fiber_port_name: for the component.
         fiber_xoffset: fiber center xoffset to fiber_port_name.
         fiber_z: fiber zoffset from grating zmax.
-        fiber_mfd: fiber mode field diameter (um).
+        fiber_mfd: fiber mode field diameter (um). 10.4 for Cband and 9.2um for Oband.
         fiber_angle_deg: fiber_angle in degrees with respect to normal.
             Positive for west facing, Negative for east facing sources.
-        dispersive: False uses constant refractive index materials.
-            True adds wavelength depending materials.
-            Dispersive materials require more computation.
-        material_name_to_tidy3d_index: not dispersive materials have a constant index.
-        material_name_to_tidy3d_name: dispersive materials have a wavelength
+        material_name_to_tidy3d: dispersive materials have a wavelength
             dependent index. Maps layer_stack names with tidy3d material database names.
         is_3d: if False collapses the Y direction for a 2D simulation.
         with_all_monitors: True includes field monitors which increase results filesize.
@@ -234,11 +221,6 @@ def get_simulation_grating_coupler(
     boundary_spec = boundary_spec or td.BoundarySpec.all_sides(boundary=td.PML())
     grid_spec = grid_spec or td.GridSpec.auto(wavelength=wavelength)
 
-    if dispersive:
-        material_name_to_tidy3d = material_name_to_tidy3d_name
-    else:
-        material_name_to_tidy3d = material_name_to_tidy3d_index
-
     assert isinstance(
         component, Component
     ), f"component needs to be a gf.Component, got Type {type(component)}"
@@ -298,10 +280,18 @@ def get_simulation_grating_coupler(
         sim_ysize,
         sim_zsize,
     ]
+    material_name_to_tidy3d = material_name_to_tidy3d or {}
 
-    clad_material_name_or_index = material_name_to_tidy3d[clad_material]
-    box_material_name_or_index = material_name_to_tidy3d[box_material]
-    substrate_material_name_or_index = material_name_to_tidy3d[substrate_material]
+    if material_name_to_tidy3d:
+        clad_material_name_or_index = material_name_to_tidy3d[clad_material]
+        box_material_name_or_index = material_name_to_tidy3d[box_material]
+        substrate_material_name_or_index = material_name_to_tidy3d[substrate_material]
+    else:
+        clad_material_name_or_index = get_material_index(clad_material, wavelength)
+        box_material_name_or_index = get_material_index(box_material, wavelength)
+        substrate_material_name_or_index = get_material_index(
+            substrate_material, wavelength
+        )
 
     clad = td.Structure(
         geometry=td.Box(
@@ -334,8 +324,10 @@ def get_simulation_grating_coupler(
             thickness = layer_to_thickness[layer]
             zmin = layer_to_zmin[layer]
             zmax = zmin + thickness
-            if layer_to_material[layer] in material_name_to_tidy3d:
-                name_or_index = material_name_to_tidy3d[layer_to_material[layer]]
+            material_name = layer_to_material[layer]
+
+            if material_name in material_name_to_tidy3d:
+                name_or_index = material_name_to_tidy3d[material_name]
                 medium = get_medium(name_or_index=name_or_index)
                 index = get_index(name_or_index=name_or_index)
                 logger.debug(
@@ -343,27 +335,26 @@ def get_simulation_grating_coupler(
                     f"thickness = {thickness}, zmin = {zmin}, zmax = {zmax}"
                 )
 
-                polygons = td.PolySlab.from_gds(
-                    gds_cell=component_extended,
-                    gds_layer=layer[0],
-                    gds_dtype=layer[1],
-                    axis=2,
-                    slab_bounds=(zmin, zmax),
-                    sidewall_angle=np.deg2rad(sidewall_angle_deg),
-                    dilation=dilation,
-                )
-
-                for polygon in polygons:
-                    geometry = td.Structure(
-                        geometry=polygon,
-                        medium=medium,
-                    )
-                    structures.append(geometry)
-            elif layer not in layer_to_material:
-                logger.debug(f"Layer {layer} not in {layer_to_material.keys()}")
             else:
-                materials = list(material_name_to_tidy3d.keys())
-                logger.debug(f"material {layer_to_material[layer]} not in {materials}")
+                material_index = get_material_index(material_name, wavelength)
+                medium = get_medium(material_index)
+
+            polygons = td.PolySlab.from_gds(
+                gds_cell=component_extended._cell,
+                gds_layer=layer[0],
+                gds_dtype=layer[1],
+                axis=2,
+                slab_bounds=(zmin, zmax),
+                sidewall_angle=np.deg2rad(sidewall_angle_deg),
+                dilation=dilation,
+            )
+
+            for polygon in polygons:
+                geometry = td.Structure(
+                    geometry=polygon,
+                    medium=medium,
+                )
+                structures.append(geometry)
 
     wavelengths = np.linspace(wavelength_start, wavelength_stop, wavelength_points)
     freqs = td.constants.C_0 / wavelengths

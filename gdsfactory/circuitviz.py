@@ -12,8 +12,7 @@ from bokeh import plotting as bp
 from natsort import natsorted
 
 import gdsfactory as gf
-
-from .picmodel import PicYamlConfiguration, Placement, SchematicConfiguration
+from gdsfactory.picmodel import PicYamlConfiguration, Placement, SchematicConfiguration
 
 data = {
     "srcs": defaultdict(lambda: defaultdict(lambda: [])),
@@ -53,7 +52,6 @@ def save_netlist(netlist, filename):
         yaml.dump(d, f, sort_keys=False, default_flow_style=None)
 
 
-# export
 class Rect(NamedTuple):
     tag: str
     x: float
@@ -71,7 +69,6 @@ class LayerPolygons(NamedTuple):
     alpha: float
 
 
-# export
 class LineSegment(NamedTuple):
     tag: str
     x0: float
@@ -81,7 +78,6 @@ class LineSegment(NamedTuple):
     name: str
 
 
-# exporti
 def _enlarge_limits(ax, x, y, w=0.0, h=0.0):
     xlim = ax.get_xlim()
     ylim = ax.get_ylim()
@@ -99,7 +95,6 @@ def _enlarge_limits(ax, x, y, w=0.0, h=0.0):
     ax.set_ylim(y_min, y_max)
 
 
-# exporti
 def _get_sources(objs):
     srcs = defaultdict(lambda: defaultdict(lambda: []))
     for obj in objs:
@@ -147,7 +142,6 @@ def _get_column_data_sources(srcs):
     return _srcs
 
 
-# export
 def viz_bk(
     netlist: Union[SchematicConfiguration, PicYamlConfiguration],
     instances,
@@ -361,9 +355,6 @@ def get_output_ports(component):
     return [p for p in ports if is_output_port(p)]
 
 
-# get_input_ports(netlist, 'i1')
-
-# export
 def ports_ys(ports, instance_height):
     h = instance_height
     if len(ports) < 1:
@@ -373,7 +364,6 @@ def ports_ys(ports, instance_height):
     return ys[1:] - dy / 2
 
 
-# export
 def viz_instance(
     netlist: Union[PicYamlConfiguration, SchematicConfiguration],
     instance_name,
@@ -396,22 +386,22 @@ def viz_instance(
     x, y = x0, y0
     polys_by_layer = inst_ref.get_polygons(by_spec=True, as_array=False)
     layer_polys = []
-    layer_colors = gf.get_active_pdk().layer_colors
-    colors_by_ldt = {
-        (lc.gds_layer, lc.gds_datatype): lc for lc in layer_colors.layers.values()
-    }
+    layer_views = gf.pdk.get_layer_views()
 
     for layer, polys in polys_by_layer.items():
-        xs = [[p.points[:, 0]] for p in polys]
-        ys = [[p.points[:, 1]] for p in polys]
-        color_info = colors_by_ldt.get(layer)
-        if color_info:
+        if layer not in layer_views.get_layer_tuples():
+            print(f"layer {layer} not found")
+            continue
+        lv = layer_views.get_from_tuple(layer)
+        if lv:
+            xs = [[p.points[:, 0]] for p in polys]
+            ys = [[p.points[:, 1]] for p in polys]
             lp = LayerPolygons(
                 tag=instance_name,
                 xs=xs,
                 ys=ys,
-                c=color_info.color,
-                alpha=color_info.alpha,
+                c=lv.get_color_dict()["fill_color"],
+                alpha=lv.get_alpha(),
             )
             layer_polys.append(lp)
 
@@ -426,7 +416,6 @@ def viz_instance(
     return [r, *ports] + layer_polys
 
 
-# export
 def split_port(port, netlist):
     if "," not in port:
         port = netlist.ports[port]
@@ -434,7 +423,6 @@ def split_port(port, netlist):
     return ",".join(instance_name), port
 
 
-# export
 def viz_connection(netlist, p_in, p_out, instance_size, point1, point2):
     x1, y1 = point1
     x2, y2 = point2
@@ -444,7 +432,6 @@ def viz_connection(netlist, p_in, p_out, instance_size, point1, point2):
     return [line]
 
 
-# export
 def viz_netlist(netlist, instances, instance_size=20):
     schematic_dict = netlist.dict()
     schematic_as_layout = {

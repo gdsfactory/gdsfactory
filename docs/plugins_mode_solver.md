@@ -1,11 +1,15 @@
 # Plugins: Mode solvers
 
-Mode solvers solve modes supported by a waveguide cross-section at a particular wavelength.
+A mode solver computes the modes supported by a waveguide cross-section at a particular wavelength. Modes are definite-frequency eigenstates of Maxwell's equations.
 
-You can use 2 mode solvers:
+You can use 3 open source mode solvers:
 
-1. MPB (open source).
-2. tidy3d (open source). The tidy3d FDTD is not open source. Only the mode solver is open source.
+1. tidy3d. Finite difference Frequency Domain (FDFD).
+2. MPB. FDFD with periodic boundary conditions.
+3. Femwell. Finite Element (FEM).
+
+The tidy3d mode solver is also used by the MEOW plugin to get the Sparameters of components via Eigenmode Expansion.
+Notice that the tidy3d FDTD solver is not open source as it runs on the cloud server, but the mode solver is open source and runs locally on your computer.
 
 ```{eval-rst}
 .. toctree::
@@ -13,6 +17,8 @@ You can use 2 mode solvers:
    :titlesonly:
    :caption: Mode solvers:
 
-   notebooks/plugins/mpb/001_mpb_waveguide.ipynb
+   notebooks/plugins/fem/01_mode_solving.ipynb
    notebooks/plugins/tidy3d/01_tidy3d_modes.ipynb
+   notebooks/plugins/mpb/001_mpb_waveguide.ipynb
+   notebooks/plugins/eme/01_meow.ipynb
 ```

@@ -43,7 +43,7 @@ def get_instance_name_from_alias(
 ) -> str:
     """Returns the instance name from the label.
 
-    If no label returns to instanceName_x_y
+    If no label returns to instanceName_x_y.
 
     Args:
         component: with labels.
@@ -59,7 +59,7 @@ def get_instance_name_from_label(
 ) -> str:
     """Returns the instance name from the label.
 
-    If no label returns to instanceName_x_y
+    If no label returns to instanceName_x_y.
 
     Args:
         component: with labels.
@@ -122,10 +122,13 @@ def get_netlist(
 
     warnings collected during netlisting are reported back into the netlist.
     These include warnings about mismatched port widths, orientations, shear angles, excessive offsets, etc.
-    You can also configure warning types which should throw an error when encountered by modifying DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES.
-    Validators, which will produce warnings for each port type, can be overridden with DEFAULT_CONNECTION_VALIDATORS
+    You can also configure warning types which should throw an error when encountered
+        by modifying DEFAULT_CRITICAL_CONNECTION_ERROR_TYPES.
+    Validators, which will produce warnings for each port type,
+    can be overridden with DEFAULT_CONNECTION_VALIDATORS
     A key difference in this algorithm is that we group each port type independently.
-    This allows us to use different logic to determine i.e. if an electrical port is properly connected vs an optical port.
+    This allows us to use different logic to determine i.e.
+    if an electrical port is properly connected vs an optical port.
     In this function, the core logic is the same, but we employ extra validation for optical ports.
     snap_to_grid() allows a value of 0, which will return the original value,
     is more efficient when the value is 1, and will throw a more descriptive error when the value is <0
@@ -198,12 +201,12 @@ def get_netlist(
             )
 
         instances[reference_name] = instance
-        placements[reference_name] = dict(
-            x=x,
-            y=y,
-            rotation=int(reference.rotation or 0),
-            mirror=reference.x_reflection or 0,
-        )
+        placements[reference_name] = {
+            "x": x,
+            "y": y,
+            "rotation": int(reference.rotation or 0),
+            "mirror": reference.x_reflection or 0,
+        }
         if is_array:
             parent_ports = c.ports
             for i in range(reference.rows):
@@ -212,16 +215,18 @@ def get_netlist(
                     xj = x + j * reference.spacing[0]
                     yi = y + i * reference.spacing[1]
                     instances[reference_name] = instance
-                    placements[reference_name] = dict(
-                        x=xj,
-                        y=yi,
-                        rotation=int(reference.rotation or 0),
-                        mirror=reference.x_reflection or 0,
-                    )
+                    placements[reference_name] = {
+                        "x": xj,
+                        "y": yi,
+                        "rotation": int(reference.rotation or 0),
+                        "mirror": reference.x_reflection or 0,
+                    }
                     for parent_port_name in parent_ports:
                         top_name = f"{parent_port_name}_{i + 1}_{j + 1}"
                         lower_name = f"{reference_name},{parent_port_name}"
-                        # a bit of a hack... get the top-level port for the ComponentArray, by our known naming convention. I hope no one renames these ports!
+                        # a bit of a hack... get the top-level port for the
+                        # ComponentArray, by our known naming convention. I hope no one
+                        # renames these ports!
                         parent_port = component.ports[top_name]
                         name2port[lower_name] = parent_port
                         top_ports_list.add(top_name)
@@ -264,16 +269,16 @@ def get_netlist(
                     src_dest = sorted([src, dst])
                     connections[src_dest[0]] = src_dest[1]
 
-    connections_sorted = {k: connections[k] for k in sorted(list(connections.keys()))}
-    placements_sorted = {k: placements[k] for k in sorted(list(placements.keys()))}
-    instances_sorted = {k: instances[k] for k in sorted(list(instances.keys()))}
-    netlist = dict(
-        connections=connections_sorted,
-        instances=instances_sorted,
-        placements=placements_sorted,
-        ports=top_ports,
-        name=component.name,
-    )
+    connections_sorted = {k: connections[k] for k in sorted(connections.keys())}
+    placements_sorted = {k: placements[k] for k in sorted(placements.keys())}
+    instances_sorted = {k: instances[k] for k in sorted(instances.keys())}
+    netlist = {
+        "connections": connections_sorted,
+        "instances": instances_sorted,
+        "placements": placements_sorted,
+        "ports": top_ports,
+        "name": component.name,
+    }
     if warnings:
         netlist["warnings"] = warnings
     return netlist
@@ -320,7 +325,9 @@ def _extract_connections_two_sweep(
         # if tolerance is 0 or 1, do only one sweep with that tolerance
         grids = [("fine", tolerance)]
     else:
-        # default: do one fine sweep with a 1nm tolerance, then a coarse sweep with the given tolerance to connect any remaining ports which are not perfectly aligned
+        # default: do one fine sweep with a 1nm tolerance, then a coarse sweep
+        # with the given tolerance to connect any remaining ports which are not
+        # perfectly aligned
         grids = [("fine", 1), ("coarse", tolerance)]
 
     connections = []
@@ -407,7 +414,8 @@ def validate_optical_connection(
             _make_warning(
                 port_names,
                 values=[port1.width, port2.width],
-                message=f"Widths of ports {port_names[0]} and {port_names[1]} not equal. Difference of {abs(port1.width - port2.width)} um",
+                message=f"Widths of ports {port_names[0]} and {port_names[1]} not equal. "
+                f"Difference of {abs(port1.width - port2.width)} um",
             )
         )
     if port1.shear_angle and not port2.shear_angle:
@@ -415,7 +423,8 @@ def validate_optical_connection(
             _make_warning(
                 port_names,
                 values=[port1.shear_angle, port2.shear_angle],
-                message=f"{port_names[0]} has a shear angle but {port_names[1]} does not! Shear angle is {port1.shear_angle} deg",
+                message=f"{port_names[0]} has a shear angle but {port_names[1]} "
+                f"does not! Shear angle is {port1.shear_angle} deg",
             )
         )
     elif not port1.shear_angle and port2.shear_angle:
@@ -423,7 +432,8 @@ def validate_optical_connection(
             _make_warning(
                 port_names,
                 values=[port1.shear_angle, port2.shear_angle],
-                message=f"{port_names[1]} has a shear angle but {port_names[0]} does not! Shear angle is {port2.shear_angle} deg",
+                message=f"{port_names[1]} has a shear angle but {port_names[0]} "
+                f"does not! Shear angle is {port2.shear_angle} deg",
             )
         )
     elif port1.shear_angle:
@@ -435,7 +445,8 @@ def validate_optical_connection(
                 _make_warning(
                     port_names,
                     values=[port1.shear_angle, port2.shear_angle],
-                    message=f"Shear angle of {port_names[0]} and {port_names[1]} not equal. Difference of {abs(port1.shear_angle - port2.shear_angle)} deg",
+                    message=f"Shear angle of {port_names[0]} and {port_names[1]} "
+                    f"differ by {abs(port1.shear_angle - port2.shear_angle)} deg",
                 )
             )
 
@@ -449,7 +460,8 @@ def validate_optical_connection(
                 _make_warning(
                     port_names,
                     values=[port1.orientation, port2.orientation],
-                    message=f"{lower_port} was promoted to {top_port} but orientations do not match! Difference of {(abs(port1.orientation - port2.orientation))} deg",
+                    message=f"{lower_port} was promoted to {top_port} but orientations"
+                    f"do not match! Difference of {(abs(port1.orientation - port2.orientation))} deg",
                 )
             )
     else:
@@ -619,7 +631,8 @@ if __name__ == "__main__":
 
     recursive_netlist = get_netlist_recursive(c)
     top_netlist = recursive_netlist[cname]
-    # the recursive netlist should have 3 entries, for the top level and two rotated straights
+    # the recursive netlist should have 3 entries, for the top level and two
+    # rotated straights
     assert len(recursive_netlist) == 3
     # confirm that the child netlists have reference attributes properly set
 

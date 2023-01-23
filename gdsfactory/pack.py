@@ -1,7 +1,6 @@
 """pack a list of components into as few components as possible.
 
-based on phidl.geometry.
-
+Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 """
 
 from __future__ import annotations
@@ -109,8 +108,6 @@ def pack(
     v_mirror: bool = False,
 ) -> List[Component]:
     """Pack a list of components into as few Components as possible.
-
-    based on phidl.geometry
 
     Args:
         component_list: list or tuple.

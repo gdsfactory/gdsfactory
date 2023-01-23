@@ -163,6 +163,15 @@ Mode solver Plugins
    plot_sweep_width
 
 
+.. currentmodule:: gdsfactory.simulation.eme
+
+.. rubric:: EME
+
+.. autosummary::
+   :toctree: _autosummary/
+
+    MEOW
+
 .. currentmodule:: gdsfactory.simulation.modes
 
 .. rubric:: Mode solver MPB
@@ -229,7 +238,6 @@ FDTD Simulation Plugins
    write_sparameters
    write_sparameters_batch
    write_sparameters_grating_coupler
-   write_sparameters_grating_coupler_batch
 
 
 .. currentmodule:: gdsfactory.simulation.lumerical
@@ -256,22 +264,6 @@ Circuit solver Plugins
    read.model_from_component
    plot_model
    models
-
-
-.. currentmodule:: gdsfactory.simulation.simphony
-
-.. rubric:: simphony
-
-.. autosummary::
-   :toctree: _autosummary/
-
-    SimphonyFromFile
-    GDSFactorySimphonyWrapper
-    plot_model
-    plot_circuit
-    plot_circuit_montecarlo
-    components
-    component_to_circuit
 
 
 .. currentmodule:: gdsfactory.simulation.lumerical.interconnect

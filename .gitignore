@@ -1,5 +1,6 @@
 *.py[cod]
 
+add_type_hints.xonsh
 # C extensions
 *.so
 *.properties
@@ -11,8 +12,11 @@
 *.xdmf
 *.db
 *.svg
+*.db
+*.tar
 test_mask_metadata.csv
 test_mask_metadata.yml
+gdsfactory/simulation/spins/grating_full_opt/
 .pyre_configuration
 poetry.lock
 mask.csv
@@ -51,6 +55,7 @@ __pycache__
 .mypy_cache/
 .pyre/
 extra/
+fixme/
 gdsfactory/components/doc
 cml/
 mzi.yml
@@ -242,6 +247,7 @@ instance/
 
 # Sphinx documentation
 docs/_build/
+docs/_autosummary/
 
 # PyBuilder
 target/
@@ -288,5 +294,9 @@ venv.bak/
 # lumerical interconnect
 *.ich
 docs/notebooks/plugins/sax/fdtd_vs_model.png
-gdsfactory/klayout/tech/layers.py
+gdsfactory/generic_tech/klayout/tech/layers.py
 /gdslib
+
+# Optimiser output
+tune/
+gdsfactory/generic_tech/xsection_planarized.pyxs

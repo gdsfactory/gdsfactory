@@ -1,4 +1,4 @@
-name: straight_heater_doped_r_ed747bfb
+name: straight_heater_doped_r_fe4184db
 settings:
   changed:
     cross_section_heater:
@@ -7,12 +7,9 @@ settings:
       function: via_stack
       settings:
         layers:
-        - - 1
-          - 0
-        - - 24
-          - 0
-        - - 41
-          - 0
+        - WG
+        - NPP
+        - M1
         vias:
         - null
         - null
@@ -24,16 +21,6 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - DEVREC
-        cladding_offsets:
-        - 0
         sections:
         - hidden: false
           layer: SLAB90
@@ -58,12 +45,9 @@ settings:
       function: via_stack
       settings:
         layers:
-        - - 3
-          - 0
-        - - 24
-          - 0
-        - - 41
-          - 0
+        - SLAB90
+        - NPP
+        - M1
         vias:
         - null
         - null
@@ -75,12 +59,9 @@ settings:
       function: via_stack
       settings:
         layers:
-        - - 41
-          - 0
-        - - 45
-          - 0
-        - - 49
-          - 0
+        - M1
+        - M2
+        - M3
         vias:
         - function: via
           settings:
@@ -104,16 +85,6 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - DEVREC
-        cladding_offsets:
-        - 0
         sections:
         - hidden: false
           layer: SLAB90
@@ -138,12 +109,9 @@ settings:
       function: via_stack
       settings:
         layers:
-        - - 1
-          - 0
-        - - 24
-          - 0
-        - - 41
-          - 0
+        - WG
+        - NPP
+        - M1
         vias:
         - null
         - null
@@ -155,12 +123,9 @@ settings:
       function: via_stack
       settings:
         layers:
-        - - 41
-          - 0
-        - - 45
-          - 0
-        - - 49
-          - 0
+        - M1
+        - M2
+        - M3
         vias:
         - function: via
           settings:
@@ -184,4 +149,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.straight_heater_doped_rib
-  name: straight_heater_doped_r_ed747bfb
+  name: straight_heater_doped_r_fe4184db

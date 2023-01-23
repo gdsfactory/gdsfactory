@@ -1,0 +1,38 @@
+FROM jupyter/base-notebook:python-3.10
+# FROM jupyter/base-notebook
+# FROM continuumio/miniconda3
+
+# expose klive and Jupyter Notebook ports
+EXPOSE 8082
+EXPOSE 8083
+EXPOSE 8888
+
+USER root
+RUN apt-get update --yes && \
+    apt-get install --yes --no-install-recommends \
+    make \
+    git \
+	python3-gmsh \
+    htop \
+    neovim
+
+USER jovyan
+# COPY . /home/jovyan/gdfactory
+# COPY --chown=jovyan docs/notebooks /home/jovyan/notebooks
+# COPY docs/notebooks/00__git.ipynb /home/jovyan/
+RUN conda init bash
+
+# RUN git clone https://github.com/gdsfactory/gdsfactory.git
+# USER ${NB_UID}
+# RUN apt update
+# RUN apt install gcc
+# RUN conda install -c conda-forge pymeep -y
+
+RUN mamba install gdspy -y
+RUN mamba install gdstk -y
+RUN mamba install pymeep=*=mpi_mpich_* -y
+RUN mamba install -c conda-forge slepc4py=*=complex* -y
+
+RUN pip install gdsfactory[full,gmsh,tidy3d,devsim,meow,sax] femwell
+WORKDIR /home/jovyan
+# VOLUME /home/jovyan/work

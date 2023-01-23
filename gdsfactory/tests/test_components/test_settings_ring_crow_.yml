@@ -1,0 +1,53 @@
+name: ring_crow
+settings:
+  changed: {}
+  child: null
+  default:
+    bends:
+    - function: bend_circular
+    - function: bend_circular
+    - function: bend_circular
+    gaps:
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    input_straight_cross_section:
+      function: cross_section
+    output_straight_cross_section:
+      function: cross_section
+    radius:
+    - 10.0
+    - 10.0
+    - 10.0
+    ring_cross_sections:
+    - function: cross_section
+    - function: cross_section
+    - function: cross_section
+  full:
+    bends:
+    - function: bend_circular
+    - function: bend_circular
+    - function: bend_circular
+    gaps:
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    input_straight_cross_section:
+      function: cross_section
+    output_straight_cross_section:
+      function: cross_section
+    radius:
+    - 10.0
+    - 10.0
+    - 10.0
+    ring_cross_sections:
+    - function: cross_section
+    - function: cross_section
+    - function: cross_section
+  function_name: ring_crow
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.ring_crow
+  name: ring_crow

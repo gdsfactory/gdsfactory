@@ -20,7 +20,7 @@ def test_read_gds_hash2() -> gf.Component:
 
 
 def test_read_gds_with_settings2(data_regression: DataRegressionFixture) -> None:
-    c = gf.import_gds(gdspath)
+    c = gf.import_gds(gdspath, read_metadata=True)
     data_regression.check(c.to_dict())
 
 
@@ -29,7 +29,7 @@ def test_read_gds_equivalent2() -> None:
     settings."""
     splitter = gf.components.mmi1x2(cross_section=cross_section)
     c1 = gf.components.mzi(splitter=splitter, cross_section=cross_section)
-    c2 = gf.import_gds(gdspath)
+    c2 = gf.import_gds(gdspath, read_metadata=True)
 
     d1 = c1.to_dict()
     d2 = c2.to_dict()

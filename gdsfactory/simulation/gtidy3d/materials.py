@@ -6,28 +6,11 @@ from typing import Dict, Union
 import tidy3d as td
 from tidy3d.components.medium import PoleResidue
 from tidy3d.components.types import ComplexNumber
-from tidy3d.material_library import material_library
 
 MATERIAL_NAME_TO_MEDIUM = {
-    "si": material_library["cSi"]["Li1993_293K"],
-    "csi": material_library["cSi"]["Li1993_293K"],
-    "sio2": material_library["SiO2"]["Horiba"],
-    "sin": material_library["Si3N4"]["Luke2015"],
-    "si3n4": material_library["Si3N4"]["Luke2015"],
-}
-
-# not dispersive materials have a constant index
-MATERIAL_NAME_TO_TIDY3D_INDEX = {
-    "si": 3.47,
-    "sio2": 1.44,
-    "sin": 2.0,
-}
-
-# dispersive materials
-MATERIAL_NAME_TO_TIDY3D_NAME = {
-    "si": "cSi",
-    "sio2": "SiO2",
-    "sin": "Si3N4",
+    "si": td.material_library["cSi"]["Li1993_293K"],
+    "sio2": td.material_library["SiO2"]["Horiba"],
+    "sin": td.material_library["Si3N4"]["Luke2015PMLStable"],
 }
 
 
@@ -103,6 +86,9 @@ def get_medium(
 si = partial(get_index, "si")
 sio2 = partial(get_index, "sio2")
 sin = partial(get_index, "sin")
+
+materials = dict(si=si, sio2=sio2, sin=sin)
+
 
 if __name__ == "__main__":
     print(si(1.55))

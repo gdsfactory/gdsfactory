@@ -3,9 +3,11 @@ from __future__ import annotations
 import numpy as np
 
 import gdsfactory.simulation.gtidy3d as gt
-from gdsfactory.simulation.gtidy3d.modes import Waveguide, group_index, si, sio2
+from gdsfactory.simulation.gtidy3d.modes import Waveguide, group_index
 
 nm = 1e-3
+ncore = "si"
+nclad = "sio2"
 
 
 def test_neff_cached():
@@ -14,8 +16,8 @@ def test_neff_cached():
         wg_width=0.5,
         wg_thickness=0.22,
         slab_thickness=0.0,
-        ncore=si,
-        nclad=sio2,
+        ncore=ncore,
+        nclad=nclad,
     )
     c.compute_modes()
     n0 = abs(c.neffs[0])
@@ -28,8 +30,8 @@ def test_neff_no_cache():
         wg_width=0.5,
         wg_thickness=0.22,
         slab_thickness=0.0,
-        ncore=si,
-        nclad=sio2,
+        ncore=ncore,
+        nclad=nclad,
         cache=False,
     )
     c.compute_modes()
@@ -43,8 +45,8 @@ def test_ng_no_cache():
         wg_width=0.5,
         wg_thickness=0.22,
         slab_thickness=0.0,
-        ncore=si,
-        nclad=sio2,
+        ncore=ncore,
+        nclad=nclad,
         cache=False,
     )
     ng = group_index(**wg_settings)
@@ -59,8 +61,8 @@ def test_sweep_width(dataframe_regression) -> None:
         wavelength=1.55,
         wg_thickness=220 * nm,
         slab_thickness=0 * nm,
-        ncore=gt.modes.si,
-        nclad=gt.modes.sio2,
+        ncore=ncore,
+        nclad=nclad,
         cache=False,
     )
 

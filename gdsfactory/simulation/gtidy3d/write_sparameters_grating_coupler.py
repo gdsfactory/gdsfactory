@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import time
-from typing import Any, Dict, Optional
+from typing import Dict, Optional
 
 import numpy as np
 import tidy3d as td
@@ -13,11 +13,11 @@ from gdsfactory.serialization import clean_value_json
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_tidy3d as get_sparameters_path,
 )
-from gdsfactory.simulation.gtidy3d.get_results import _executor, get_results
+from gdsfactory.simulation.gtidy3d.get_results import get_results
 from gdsfactory.simulation.gtidy3d.get_simulation_grating_coupler import (
     get_simulation_grating_coupler,
 )
-from gdsfactory.types import Component, ComponentSpec, List, PathType
+from gdsfactory.types import Component, ComponentSpec, PathType
 
 
 def write_sparameters_grating_coupler(
@@ -27,7 +27,7 @@ def write_sparameters_grating_coupler(
     port_waveguide_name: str = "o1",
     fiber_port_name: str = "vertical_te",
     **kwargs,
-) -> np.ndarray:
+) -> Dict[str, np.ndarray]:
     """Get sparameter matrix from a gdsfactory grating coupler.
 
     Assumes grating coupler waveguide port is facing to the left (west).
@@ -77,11 +77,7 @@ def write_sparameters_grating_coupler(
         fiber_z: fiber zoffset from grating zmax.
         fiber_mfd: fiber mode field diameter (um).
         fiber_angle_deg: fiber_angle in degrees with respect to normal.
-        dispersive: False uses constant refractive index materials.
-            True adds wavelength depending materials.
-            Dispersive materials require more computation.
-        material_name_to_tidy3d_index: not dispersive materials have a constant index.
-        material_name_to_tidy3d_name: dispersive materials have a wavelength.
+        material_name_to_tidy3d: dispersive materials have a wavelength.
             dependent index. Maps layer_stack names with tidy3d material database names.
         is_3d: True by default runs in 3D.
         with_all_monitors: stores all monitor fields.
@@ -102,7 +98,7 @@ def write_sparameters_grating_coupler(
 
         else:
             logger.info(f"Simulation loaded from {filepath!r}")
-            return np.load(filepath)
+            return dict(np.load(filepath))
     start = time.time()
     sim = get_simulation_grating_coupler(
         component,
@@ -132,19 +128,19 @@ def write_sparameters_grating_coupler(
     port_name_input = port_waveguide_name
     port_name_output = fiber_port_name
 
-    key = f"s{port_name_input}@0,{port_name_input}@0"
+    key = f"{port_name_input}@0,{port_name_input}@0"
     sp = {"wavelengths": td.constants.C_0 / freqs.values, key: r}
-    key = f"s{port_name_output}@0,{port_name_output}@0"
+    key = f"{port_name_output}@0,{port_name_output}@0"
     sp[key] = r
 
-    key = f"s{port_name_input}@0,{port_name_output}@0"
+    key = f"{port_name_input}@0,{port_name_output}@0"
     sp[key] = t
 
-    key = f"s{port_name_output}@0,{port_name_input}@0"
+    key = f"{port_name_output}@0,{port_name_input}@0"
     sp[key] = t
 
     end = time.time()
-    np.savez_compressed(filepath, sp)
+    np.savez_compressed(filepath, **sp)
     kwargs.update(compute_time_seconds=end - start)
     kwargs.update(compute_time_minutes=(end - start) / 60)
 
@@ -152,25 +148,6 @@ def write_sparameters_grating_coupler(
     logger.info(f"Write simulation results to {str(filepath)!r}")
     logger.info(f"Write simulation settings to {str(filepath_sim_settings)!r}")
     return sp
-
-
-def write_sparameters_grating_coupler_batch(
-    jobs: List[Dict[str, Any]], **kwargs
-) -> List[np.ndarray]:
-    """Returns Sparameters for a list of write_sparameters_grating_coupler settings.
-
-    Each simulation runs in parallel.
-
-    Args:
-        jobs: list of kwargs for write_sparameters_grating_coupler.
-        kwargs: simulation settings.
-
-    """
-    sp = [
-        _executor.submit(write_sparameters_grating_coupler, **job, **kwargs)
-        for job in jobs
-    ]
-    return [spi.result() for spi in sp]
 
 
 if __name__ == "__main__":

@@ -18,22 +18,24 @@ import sys
 import time
 from pathlib import Path
 from types import SimpleNamespace
-from typing import Callable, Dict, List, Optional, Tuple, Union
+from typing import Dict, List, Optional, Tuple, Union
+import hashlib
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from matplotlib import colors
 from pydantic import BaseModel, Extra
+import pydantic
 from scipy.constants import c as SPEED_OF_LIGHT
 from scipy.interpolate import griddata
 from tidy3d.plugins.mode.solver import compute_modes
 from tqdm.auto import tqdm
 from typing_extensions import Literal
 
+from gdsfactory.serialization import clean_value_name
 from gdsfactory.config import logger
-from gdsfactory.pdk import get_modes_path
-from gdsfactory.serialization import get_hash
+from gdsfactory.pdk import MaterialSpec, get_material_index, get_modes_path
 from gdsfactory.simulation.gtidy3d.materials import si, sin, sio2
 from gdsfactory.types import PathType
 
@@ -50,7 +52,8 @@ def plot(
     mode_cmap=None,
     axes="xy",
     title=None,
-    normalize_mode=False,
+    normalize_mode: bool = False,
+    plot_power: bool = True,
 ) -> None:
     """Plot waveguide index or mode in matplotlib.
 
@@ -75,7 +78,7 @@ def plot(
     if mode_cmap is None:
         mode_cmap = "inferno"
     if mode is not None:
-        mode = np.abs(mode)
+        mode = np.abs(mode) if plot_power else mode.real
         if normalize_mode:
             mode = mode / mode.max()
         plt.contour(
@@ -165,22 +168,23 @@ class Waveguide(BaseModel):
         sidewall_k: imaginary index addition for the sidewall loss region. Default is 0 (no extra loss).
         top_sigma: size of the loss region to append to the top surfaces in the loss model. Default is 10 nm.
         top_k: imaginary index addition for the top surfaces loss region. Default is 0 (no extra loss).
+
     ::
 
+          _________________________
+
+
+                  width     xmargin
+              <----------> <------>
+               ___________   _ _ _
+              |           |       |
+          ____|  ncore    |_______
+                                  | wg_thickness
+          slab_thickness   nslab
+          ________________________|_
+
+                 nclad
           __________________________
-          |
-          |
-          |         width     xmargin
-          |     <----------> <------>
-          |      ___________   _ _ _
-          |     |           |       |
-          |_____|  ncore    |_______|
-          |                         | wg_thickness
-          |slab_thickness    nslab  |
-          |_________________________|
-          |
-          |        nclad
-          |__________________________
           <------------------------>
                    w_sim
 
@@ -189,8 +193,8 @@ class Waveguide(BaseModel):
     wavelength: float
     wg_width: float
     wg_thickness: float
-    ncore: Union[float, Callable[[str], float]]
-    nclad: Union[float, Callable[[str], float]]
+    ncore: MaterialSpec
+    nclad: MaterialSpec
     dn_dict: Optional[Dict] = None
     slab_thickness: float
     t_box: float = 2.0
@@ -236,16 +240,23 @@ class Waveguide(BaseModel):
             return
         cache = pathlib.Path(self.cache_path)
         cache.mkdir(exist_ok=True, parents=True)
-        settings = {setting: getattr(self, setting) for setting in self.settings}
-        return cache / f"{get_hash(settings)}.npz"
+
+        settings = [
+            f"{setting}={clean_value_name(getattr(self, setting))}"
+            for setting in sorted(self.settings)
+        ]
+
+        named_args_string = "_".join(settings)
+        h = hashlib.md5(named_args_string.encode()).hexdigest()[:8]
+        return cache / f"{h}.npz"
 
     def get_ncore(self, wavelength: Optional[float] = None) -> float:
         wavelength = wavelength or self.wavelength
-        return self.ncore(wavelength) if callable(self.ncore) else self.ncore
+        return get_material_index(self.ncore, wavelength)
 
     def get_nclad(self, wavelength: Optional[float] = None) -> float:
         wavelength = wavelength or self.wavelength
-        return self.nclad(wavelength) if callable(self.nclad) else self.nclad
+        return get_material_index(self.nclad, wavelength)
 
     def get_n(self, Y, Z):
         """Return index matrix for a waveguide.
@@ -468,11 +479,11 @@ class Waveguide(BaseModel):
                 "from types import SimpleNamespace\n",
                 "from tidy3d.plugins.mode.solver import compute_modes\n\n",
                 'if __name__ == "__main__":\n\n',
-                f"\twith open(\"{argsfile}\", 'rb') as inp:\n",
+                f"\twith open({str(argsfile)!r}, 'rb') as inp:\n",
                 "\t\targuments_dict = pickle.load(inp)\n\n",
             ]
             script_lines.extend(
-                f'\t{key} = arguments_dict["{key}"]\n' for key in arguments_dict
+                f"\t{key} = arguments_dict[{key!r}]\n" for key in arguments_dict
             )
             script_lines.extend(
                 [
@@ -500,7 +511,7 @@ class Waveguide(BaseModel):
             )
             script_lines.extend(
                 [
-                    f'\toutputsfile = "{outputsfile}"\n',
+                    f"\toutputsfile = {str(outputsfile)!r}\n",
                     "\toutputs_dict = {\n",
                     '\t\t    "Ex": Ex,\n',
                     '\t\t    "Ey": Ey,\n',
@@ -628,13 +639,37 @@ class Waveguide(BaseModel):
         self.fraction_tm = fraction_tm
         return mode_areas, fraction_te, fraction_tm
 
-    def plot_Ex(self, mode_index: int = 0) -> None:
+    def plot_Ex(self, mode_index: int = 0, plot_power: bool = True, **kwargs) -> None:
+        """Plot mode.
+
+        Args:
+            mode_index: 0 is the fundamental mode.
+            plot_power: if False plots field.
+
+        Keyword Args:
+            num_levels: for plot.
+            n_cmap: refractive index color map.
+            mode_cmap: mode color map.
+            axes: "xy".
+            title: for the plot.
+            normalize_mode: divide by maximum value.
+        """
         if not hasattr(self, "neffs"):
             self.compute_modes()
 
         nx, neffs, Ex = self.nx, self.neffs, self.Ex
         neff_, Ex_ = np.real(neffs[mode_index]), Ex[..., mode_index]
-        plot(self.Xx, self.Yx, nx, mode=np.abs(Ex_) ** 2, title=f"Ex::{neff_:.3f}")
+        mode = np.abs(Ex_) ** 2 if plot_power else Ex_.real
+
+        plot(
+            self.Xx,
+            self.Yx,
+            nx,
+            mode=mode,
+            title=f"Ex::{neff_:.3f}",
+            plot_power=plot_power,
+            **kwargs,
+        )
         plt.show()
 
     def plot_Ey(self, mode_index: int = 0) -> None:
@@ -703,8 +738,9 @@ class WaveguideCoupler(Waveguide):
         nmodes: number of modes to compute.
         bend_radius: optional bend radius (um).
         cache: True uses file cache from PDK.modes_path. False skips cache.
+
     ::
-        -w1-gap/2
+
             wg_width1     wg_width2
             <------->     <------->
              _______   |   _______   __
@@ -776,6 +812,70 @@ class WaveguideCoupler(Waveguide):
         neff2 = self.neffs[1]
         dneff = (neff1 - neff2).real
         return self.wavelength / (np.pi * dneff) * np.arcsin(np.sqrt(power_ratio))
+
+
+@pydantic.validate_arguments
+def find_coupling_vs_gap(
+    gap1: float = 0.2,
+    gap2: float = 0.4,
+    steps: int = 12,
+    nmodes: int = 4,
+    wavelength: float = 1.55,
+    **kwargs,
+) -> pd.DataFrame:
+    """Returns coupling vs gap pandas DataFrame.
+
+    Args:
+        gap1: starting gap in um.
+        gap2: end gap in um.
+        steps: number of steps.
+        nmodes: number of modes.
+        wavelength: wavelength (um).
+
+    Keyword Args:
+        wg_width: waveguide width.
+        wg_width1: optional left waveguide width in um.
+        wg_width2: optional right waveguide width in um.
+        wg_thickness: thickness waveguide (um).
+        ncore: core refractive index.
+        nclad: cladding refractive index.
+        slab_thickness: thickness slab (um).
+        t_box: thickness BOX (um).
+        t_clad: thickness cladding (um).
+        xmargin: margin from waveguide edge to each side (um).
+        resolution: pixels/um. Can be a single number or tuple (x, y).
+        bend_radius: optional bend radius (um).
+        cache: True uses file cache from PDK.modes_path. False skips cache.
+
+    """
+
+    power_ratio = 1
+    gaps = np.linspace(gap1, gap2, steps)
+    ne = []
+    no = []
+    dn = []
+    lc = []
+
+    for gap in tqdm(gaps):
+        wg = WaveguideCoupler(
+            gap=gap,
+            nmodes=nmodes,
+            wavelength=wavelength,
+            **kwargs,
+        )
+
+        wg.compute_modes()
+        neff1 = wg.neffs[0].real
+        neff2 = wg.neffs[1].real
+        dneff = (neff1 - neff2).real
+        coupling = wg.wavelength / (np.pi * dneff) * np.arcsin(np.sqrt(power_ratio))
+
+        ne.append(neff1)
+        no.append(neff2)
+        dn.append(neff1 - neff2)
+        lc.append(coupling)
+
+    return pd.DataFrame(dict(gap=gaps, ne=ne, no=no, lc=lc, dn=dn))
 
 
 def sweep_bend_loss(
@@ -1093,29 +1193,50 @@ __all__ = (
 
 
 if __name__ == "__main__":
-
-    wg = Waveguide(
-        nmodes=2,
-        wg_width=500 * nm,
-        wavelength=1.55,
+    # wg = Waveguide(
+    #     wavelength=1.55,
+    #     wg_width=0.5,
+    #     wg_thickness=0.22,
+    #     slab_thickness=0.0,
+    #     ncore="si",
+    #     nclad="sio2",
+    # )
+    wg = WaveguideCoupler(
+        wavelength=1550 * nm,
+        gap=200 * nm,
+        wg_width1=500 * nm,
+        wg_width2=500 * nm,
         wg_thickness=220 * nm,
-        slab_thickness=90 * nm,
-        ncore=si,
-        nclad=sio2,
-        loss_model=True,
-        sidewall_k=1e-4,
-        top_k=1e-4,
-        sidewall_sigma=20 * nm,
-        top_sigma=20 * nm,
-        resolution=400,
-        cache=True,
-        precision="double",
+        slab_thickness=0 * nm,
+        ncore="si",
+        nclad="sio2",
     )
-    wg.plot_index()
-    wg.plot_index(func=np.imag)
-    wg.compute_mode_properties()
-    print(wg.neffs)
-    print(wg.get_loss())
+    print(wg.filepath)
+
+    # wg = Waveguide(
+    #     nmodes=2,
+    #     wg_width=500 * nm,
+    #     wavelength=1.55,
+    #     wg_thickness=220 * nm,
+    #     slab_thickness=90 * nm,
+    #     ncore="si",
+    #     nclad="sio2",
+    #     loss_model=True,
+    #     sidewall_k=1e-4,
+    #     top_k=1e-4,
+    #     sidewall_sigma=20 * nm,
+    #     top_sigma=20 * nm,
+    #     resolution=400,
+    #     cache=True,
+    #     precision="double",
+    # )
+    # wg.plot_index()
+    # wg.plot_index(func=np.imag)
+    # wg.compute_mode_properties()
+
+    # wg.compute_modes()
+    # print(wg.neffs)
+    # print(wg.get_loss())
     # wg.plot_Ex()
     # wg.compute_mode_properties()
     # for mode_number in range(nmodes):

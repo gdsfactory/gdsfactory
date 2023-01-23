@@ -147,6 +147,7 @@ from gdsfactory.components.grating_coupler_rectangular_arbitrary_slab import (
 from gdsfactory.components.grating_coupler_tree import grating_coupler_tree
 from gdsfactory.components.greek_cross import greek_cross
 from gdsfactory.components.hline import hline
+from gdsfactory.components.interdigital_capacitor import interdigital_capacitor
 from gdsfactory.components.L import L
 from gdsfactory.components.litho_calipers import litho_calipers
 from gdsfactory.components.litho_ruler import litho_ruler
@@ -188,10 +189,16 @@ from gdsfactory.components.rectangle_with_slits import rectangle_with_slits
 from gdsfactory.components.resistance_meander import resistance_meander
 from gdsfactory.components.resistance_sheet import resistance_sheet
 from gdsfactory.components.ring import ring
+from gdsfactory.components.ring_crow import ring_crow
+from gdsfactory.components.ring_crow_couplers import ring_crow_couplers
 from gdsfactory.components.ring_double import ring_double
 from gdsfactory.components.ring_double_heater import ring_double_heater
 from gdsfactory.components.ring_single import ring_single
 from gdsfactory.components.ring_single_array import ring_single_array
+from gdsfactory.components.ring_single_bend_coupler import (
+    coupler_bend,
+    ring_single_bend_coupler,
+)
 from gdsfactory.components.ring_single_dut import ring_single_dut, taper2
 from gdsfactory.components.ring_single_heater import ring_single_heater
 from gdsfactory.components.seal_ring import seal_ring
@@ -353,6 +360,7 @@ __all__ = [
     "coh_rx_dual_pol",
     "coh_rx_single_pol",
     "coupler",
+    "coupler_bend",
     "coupler90",
     "coupler90bend",
     "coupler90circular",
@@ -421,6 +429,7 @@ __all__ = [
     "grating_tooth_points",
     "greek_cross",
     "hline",
+    "interdigital_capacitor",
     "litho_calipers",
     "litho_ruler",
     "litho_steps",
@@ -471,12 +480,15 @@ __all__ = [
     "resistance_meander",
     "resistance_sheet",
     "ring",
+    "ring_crow",
+    "ring_crow_couplers",
     "ring_double",
     "ring_double_heater",
     "ring_single",
     "ring_single_heater",
     "ring_single_array",
     "ring_single_dut",
+    "ring_single_bend_coupler",
     "seal_ring",
     "spiral_double",
     "spiral_external_io",

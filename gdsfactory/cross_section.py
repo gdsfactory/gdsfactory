@@ -15,8 +15,6 @@ import pydantic
 from pydantic import BaseModel, Field
 from typing_extensions import Literal
 
-from gdsfactory.tech import Section
-
 Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
 WidthTypes = Literal["sine", "linear", "parabolic"]

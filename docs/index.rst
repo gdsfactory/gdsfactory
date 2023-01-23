@@ -10,6 +10,7 @@ Gdsfactory
    workflow
    notebooks
    sdl
+   plugins_optimization
    plugins_mesh
    plugins_process
    plugins_mode_solver

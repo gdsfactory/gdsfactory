@@ -10,13 +10,13 @@ from click.core import Context, Option
 
 import gdsfactory
 from gdsfactory.config import cwd, print_config
+from gdsfactory.generic_tech import LAYER
 from gdsfactory.install import install_gdsdiff, install_klayout_package
-from gdsfactory.layers import lyp_to_dataclass
-from gdsfactory.tech import LAYER
+from gdsfactory.technology import lyp_to_dataclass
 from gdsfactory.types import PathType
 from gdsfactory.write_cells import write_cells as write_cells_to_separate_gds
 
-VERSION = "6.7.1"
+VERSION = "6.23.4"
 LAYER_LABEL = LAYER.LABEL
 
 
@@ -112,7 +112,7 @@ def merge_gds(
 @click.argument("path", type=click.Path(exists=True), required=False, default=cwd)
 @click.command()
 def watch(path=cwd) -> None:
-    """Filewatch YAML file."""
+    """Filewatch a folder for changes in python or pic.yaml files."""
     from gdsfactory.watch import watch
 
     path = pathlib.Path(path)

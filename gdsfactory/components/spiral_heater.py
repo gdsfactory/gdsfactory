@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Tuple
-
 import numpy as np
 
 import gdsfactory as gf
@@ -9,14 +7,14 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.components.straight import straight
-from gdsfactory.types import ComponentFactory, CrossSectionSpec, Optional
+from gdsfactory.types import ComponentFactory, CrossSectionSpec, Floats, Optional
 
 
 @gf.cell
 def spiral_racetrack(
-    min_radius: float,
-    straight_length: float,
-    spacings: Tuple[float, ...],
+    min_radius: float = 5,
+    straight_length: float = 10.0,
+    spacings: Floats = (2, 2, 3, 3, 2, 2),
     straight_factory: ComponentFactory = straight,
     bend_factory: ComponentFactory = bend_euler,
     bend_s_factory: ComponentFactory = bend_s,
@@ -213,5 +211,6 @@ if __name__ == "__main__":
     #     min_radius=3, straight_length=30, spacing=2, num=8
     # )
     # heater.show()
-    c = spiral_racetrack_heater_doped()
+    c = spiral_racetrack_heater_metal()
+    # c = spiral_racetrack_heater_doped()
     c.show(show_ports=True)

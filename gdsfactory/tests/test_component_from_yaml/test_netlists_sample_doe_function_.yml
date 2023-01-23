@@ -40,8 +40,6 @@ instances:
               length_x: 4.0
               length_y: 0.6
               radius: 10.0
-              straight:
-                function: straight
             full:
               bend:
                 function: bend_euler
@@ -52,8 +50,6 @@ instances:
               length_x: 1
               length_y: 0.6
               radius: 20
-              straight:
-                function: straight
             function_name: ring_single
             info: {}
             info_version: 2
@@ -133,8 +129,6 @@ instances:
               length_x: 4.0
               length_y: 0.6
               radius: 10.0
-              straight:
-                function: straight
             full:
               bend:
                 function: bend_euler
@@ -145,8 +139,6 @@ instances:
               length_x: 1
               length_y: 0.6
               radius: 50
-              straight:
-                function: straight
             function_name: ring_single
             info: {}
             info_version: 2
@@ -226,8 +218,6 @@ instances:
               length_x: 4.0
               length_y: 0.6
               radius: 10.0
-              straight:
-                function: straight
             full:
               bend:
                 function: bend_euler
@@ -238,8 +228,6 @@ instances:
               length_x: 1
               length_y: 0.6
               radius: 30
-              straight:
-                function: straight
             function_name: ring_single
             info: {}
             info_version: 2
@@ -319,8 +307,6 @@ instances:
               length_x: 4.0
               length_y: 0.6
               radius: 10.0
-              straight:
-                function: straight
             full:
               bend:
                 function: bend_euler
@@ -331,8 +317,6 @@ instances:
               length_x: 1
               length_y: 0.6
               radius: 40
-              straight:
-                function: straight
             function_name: ring_single
             info: {}
             info_version: 2
@@ -412,8 +396,6 @@ instances:
               length_x: 4.0
               length_y: 0.6
               radius: 10.0
-              straight:
-                function: straight
             full:
               bend:
                 function: bend_euler
@@ -424,8 +406,6 @@ instances:
               length_x: 2
               length_y: 0.6
               radius: 50
-              straight:
-                function: straight
             function_name: ring_single
             info: {}
             info_version: 2
@@ -505,8 +485,6 @@ instances:
               length_x: 4.0
               length_y: 0.6
               radius: 10.0
-              straight:
-                function: straight
             full:
               bend:
                 function: bend_euler
@@ -517,8 +495,6 @@ instances:
               length_x: 2
               length_y: 0.6
               radius: 20
-              straight:
-                function: straight
             function_name: ring_single
             info: {}
             info_version: 2
@@ -598,8 +574,6 @@ instances:
               length_x: 4.0
               length_y: 0.6
               radius: 10.0
-              straight:
-                function: straight
             full:
               bend:
                 function: bend_euler
@@ -610,8 +584,6 @@ instances:
               length_x: 2
               length_y: 0.6
               radius: 30
-              straight:
-                function: straight
             function_name: ring_single
             info: {}
             info_version: 2
@@ -691,8 +663,6 @@ instances:
               length_x: 4.0
               length_y: 0.6
               radius: 10.0
-              straight:
-                function: straight
             full:
               bend:
                 function: bend_euler
@@ -703,8 +673,6 @@ instances:
               length_x: 2
               length_y: 0.6
               radius: 40
-              straight:
-                function: straight
             function_name: ring_single
             info: {}
             info_version: 2
@@ -784,8 +752,6 @@ instances:
               length_x: 4.0
               length_y: 0.6
               radius: 10.0
-              straight:
-                function: straight
             full:
               bend:
                 function: bend_euler
@@ -796,8 +762,6 @@ instances:
               length_x: 3
               length_y: 0.6
               radius: 40
-              straight:
-                function: straight
             function_name: ring_single
             info: {}
             info_version: 2
@@ -877,8 +841,6 @@ instances:
               length_x: 4.0
               length_y: 0.6
               radius: 10.0
-              straight:
-                function: straight
             full:
               bend:
                 function: bend_euler
@@ -889,8 +851,6 @@ instances:
               length_x: 3
               length_y: 0.6
               radius: 20
-              straight:
-                function: straight
             function_name: ring_single
             info: {}
             info_version: 2
@@ -970,8 +930,6 @@ instances:
               length_x: 4.0
               length_y: 0.6
               radius: 10.0
-              straight:
-                function: straight
             full:
               bend:
                 function: bend_euler
@@ -982,8 +940,6 @@ instances:
               length_x: 3
               length_y: 0.6
               radius: 30
-              straight:
-                function: straight
             function_name: ring_single
             info: {}
             info_version: 2
@@ -1063,8 +1019,6 @@ instances:
               length_x: 4.0
               length_y: 0.6
               radius: 10.0
-              straight:
-                function: straight
             full:
               bend:
                 function: bend_euler
@@ -1075,8 +1029,6 @@ instances:
               length_x: 3
               length_y: 0.6
               radius: 50
-              straight:
-                function: straight
             function_name: ring_single
             info: {}
             info_version: 2

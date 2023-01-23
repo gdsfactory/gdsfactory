@@ -1,0 +1,45 @@
+name: ring_crow_couplers
+settings:
+  changed: {}
+  child: null
+  default:
+    bends:
+    - function: bend_circular
+    - function: bend_circular
+    - function: bend_circular
+    couplers:
+    - function: coupler_full
+    - function: coupler_full
+    - function: coupler_full
+    - function: coupler_full
+    radius:
+    - 10.0
+    - 10.0
+    - 10.0
+    ring_cross_sections:
+    - function: cross_section
+    - function: cross_section
+    - function: cross_section
+  full:
+    bends:
+    - function: bend_circular
+    - function: bend_circular
+    - function: bend_circular
+    couplers:
+    - function: coupler_full
+    - function: coupler_full
+    - function: coupler_full
+    - function: coupler_full
+    radius:
+    - 10.0
+    - 10.0
+    - 10.0
+    ring_cross_sections:
+    - function: cross_section
+    - function: cross_section
+    - function: cross_section
+  function_name: ring_crow_couplers
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.ring_crow_couplers
+  name: ring_crow_couplers

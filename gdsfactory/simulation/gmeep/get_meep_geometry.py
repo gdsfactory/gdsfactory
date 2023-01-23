@@ -8,7 +8,8 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.pdk import get_layer_stack
 from gdsfactory.simulation.gmeep.get_material import get_material
-from gdsfactory.types import ComponentSpec, CrossSectionSpec, LayerStack
+from gdsfactory.technology import LayerStack
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 def get_meep_geometry_from_component(
@@ -44,6 +45,7 @@ def get_meep_geometry_from_component(
 
     geometry = []
     layer_to_polygons = component_ref.get_polygons(by_spec=True)
+
     for layer, polygons in layer_to_polygons.items():
         if layer in layer_to_thickness and layer in layer_to_material:
             height = layer_to_thickness[layer] if is_3d else mp.inf
@@ -53,6 +55,7 @@ def get_meep_geometry_from_component(
             for polygon in polygons:
                 vertices = [mp.Vector3(p[0], p[1], zmin_um) for p in polygon]
                 material_name = layer_to_material[layer]
+
                 if material_name:
                     material = get_material(
                         name=material_name,
@@ -64,7 +67,9 @@ def get_meep_geometry_from_component(
                         mp.Prism(
                             vertices=vertices,
                             height=height,
-                            sidewall_angle=layer_to_sidewall_angle[layer],
+                            sidewall_angle=layer_to_sidewall_angle[layer]
+                            if is_3d
+                            else 0,
                             material=material,
                             # center=center
                         )

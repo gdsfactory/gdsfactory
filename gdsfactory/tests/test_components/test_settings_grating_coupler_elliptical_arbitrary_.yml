@@ -19,13 +19,14 @@ settings:
     - 0.1
     - 0.1
     - 0.1
+    layer_grating: null
     layer_slab: SLAB150
     nclad: 1.443
     polarization: te
-    slab_xmin: -3.0
     spiked: true
     taper_angle: 60.0
     taper_length: 16.6
+    taper_to_slab_offset: -3.0
     wavelength: 1.554
     widths:
     - 0.5
@@ -55,13 +56,14 @@ settings:
     - 0.1
     - 0.1
     - 0.1
+    layer_grating: null
     layer_slab: SLAB150
     nclad: 1.443
     polarization: te
-    slab_xmin: -3.0
     spiked: true
     taper_angle: 60.0
     taper_length: 16.6
+    taper_to_slab_offset: -3.0
     wavelength: 1.554
     widths:
     - 0.5

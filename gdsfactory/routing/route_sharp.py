@@ -350,7 +350,7 @@ def route_sharp(
         P = path_straight(port1, port2)
     else:
         raise ValueError(
-            """route_sharp() received an invalid path_type. Must be one of
+            f"""route_sharp() received invalid path_type {path_type} not in
         {'manhattan', 'L', 'U', 'J', 'C', 'V', 'Z', 'straight', 'manual'}"""
         )
 

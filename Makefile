@@ -3,23 +3,20 @@ help:
 	@echo 'make test:             Run tests with pytest'
 	@echo 'make test-force:       Rebuilds regression test'
 
-full: gdslib
-	pip install -r requirements_dev.txt
-	pip install -r requirements_full.txt
-	pip install -e .
-	pip install -r requirements_tidy3d.txt
-	pip install -r requirements_sipann.txt
-	pip install -r requirements_devsim.txt
+full: gdslib plugins
+	pip install -e .[docs,dev,full,gmsh,tidy3d,devsim,meow,sax]
 
-install: gdslib
-	pip install -r requirements_dev.txt
-	pip install -r requirements_full.txt
-	pip install -e .
+install:
+	pip install -e .[full,dev] pre-commit
+	pre-commit install
+	gf tool install
+
+dev: full
 	pre-commit install
 	gf tool install
 
 mamba:
-	bash mamba.sh
+	bash conda/mamba.sh
 
 patch:
 	bumpversion patch
@@ -34,35 +31,34 @@ major:
 	python docs/write_components_doc.py
 
 plugins:
-	pip install -e .[tidy3d]
-	pip install jax jaxlib
-	mamba install pymeep=*=mpi_mpich_* -y
-	pip install -r requirements_sipann.txt
-	pip install --upgrade "protobuf<=3.20.1"
+	conda install -n base conda-libmamba-solver -y
+	conda config --set solver libmamba
+	conda install -c conda-forge pymeep=*=mpi_mpich_* nlopt -y
+	conda install -c conda-forge slepc4py=*=complex* -y
+	pip install jax jaxlib numpy femwell --upgrade
+	pip install -e .[tidy3d,ray]
 
-plugins-debian:
-	sudo apt install libgl1-mesa-glx -y
-	pip install -e .[tidy3d]
-	pip install jax jaxlib
-	mamba install pymeep=*=mpi_mpich_* -y
-	pip install -r requirements_sipann.txt
-	pip install --upgrade "protobuf<=3.20.1"
+plugins-mamba:
+	mamba install -c conda-forge pymeep=*=mpi_mpich_* nlopt -y
+	mamba install -c conda-forge slepc4py=*=complex* -y
+	pip install jax jaxlib numpy femwell --upgrade
+	pip install -e .[tidy3d,ray,sax,devsim,meow]
+
+plugins-debian: plugins
+	sudo apt-get update
+	sudo apt-get install -y python3-gmsh
 
 thermal:
-	mamba install python-gmsh
+	conda install python-gmsh
 
 gmsh:
 	pip install trimesh mapbox_earcut gmsh meshio pygmsh pyvista h5py
 
 meep:
-	mamba install pymeep=*=mpi_mpich_* -y
+	conda install pymeep=*=mpi_mpich_* -y
 
 sax:
 	pip install jax jaxlib
-
-update:
-	pur
-	pur -r requirements_dev.txt
 
 publish:
 	anaconda upload environment.yml
@@ -74,10 +70,13 @@ gds:
 	python gdsfactory/components/straight.py
 
 gdslib:
-	git clone https://github.com/gdsfactory/gdslib.git -b data
+	rm -rf $(HOME)/.gdsfactory
+	git clone https://github.com/gdsfactory/gdslib.git -b main $(HOME)/.gdsfactory
+gdslib-link:
+	rm -rf $(HOME)/.gdsfactory
+	ln -sf gdslib $(HOME)/.gdsfactory
 
 test:
-	flake8 gdsfactory
 	pytest -s
 
 test-force:
@@ -92,8 +91,17 @@ test-meep:
 test-tidy3d:
 	pytest gdsfactory/simulation/gtidy3d
 
+test-gmsh:
+	pytest gdsfactory/simulation/gmsh
+
+test-femwell:
+	pytest gdsfactory/simulation/fem
+
 test-plugins:
-	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes gdsfactory/simulation/lumerical gdsfactory/simulation/simphony gdsfactory/simulation/gtidy3d
+	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes gdsfactory/simulation/lumerical gdsfactory/simulation/gtidy3d gdsfactory/simulation/gmsh gdsfactory/tests/test_klayout gdsfactory/simulation/fem
+
+test-plugins-no-tidy3d:
+	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes gdsfactory/simulation/lumerical gdsfactory/simulation/gmsh gdsfactory/tests/test_klayout gdsfactory/simulation/fem
 
 test-notebooks:
 	py.test --nbval notebooks
@@ -140,7 +148,9 @@ mypy:
 	mypy gdsfactory --ignore-missing-imports
 
 build:
-	python setup.py sdist bdist_wheel
+	rm -rf dist
+	pip install build
+	python -m build
 
 upload-devpi:
 	pip install devpi-client wheel
@@ -184,7 +194,22 @@ git-rm-merged:
 link:
 	lygadgets_link gdsfactory/klayout
 
-spell:
-	codespell -i 3 -w -L TE,TE/TM,te,ba,FPR,fpr_spacing
+constructor:
+	conda install constructor -y
+	constructor conda
 
-.PHONY: gdsdiff build conda
+nbqa:
+	nbqa blacken-docs docs/notebooks/**/*.ipynb --nbqa-md
+	nbqa blacken-docs docs/notebooks/*.ipynb --nbqa-md
+	nbqa isort docs/notebooks/*.ipynb --float-to-top
+	nbqa isort docs/notebooks/**/*.ipynb --float-to-top
+	nbqa ruff --fix docs/notebooks/*.ipynb
+	nbqa ruff --fix docs/**/*.ipynb
+	nbqa autopep8 -i docs/notebooks/*.ipynb
+	nbqa autopep8 -i docs/notebooks/**/*.ipynb
+
+notebooks:
+	nbstripout --drop-empty-cells docs/notebooks/*.ipynb
+
+
+.PHONY: gdsdiff build conda gdslib

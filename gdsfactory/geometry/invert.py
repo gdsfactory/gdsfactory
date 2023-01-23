@@ -1,3 +1,4 @@
+"""Based on phidl.geometry."""
 from __future__ import annotations
 
 import gdsfactory as gf
@@ -15,7 +16,7 @@ def invert(
     layer: LayerSpec = (1, 0),
 ) -> Component:
     """Creates an inverted version of the input shapes with an additional \
-    border around the edges. based on phidl.geometry.invert.
+    border around the edges.
 
     Args:
         elements : Component(/Reference), list of Component(/Reference), or Polygon

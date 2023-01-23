@@ -1,10 +1,11 @@
+"""Preprocessing involving mostly the GDS polygons."""
 from __future__ import annotations
 
 import shapely
 from shapely.geometry import LineString, MultiLineString, MultiPolygon, Polygon
 
 
-def round_coordinates(geom, ndigits=3):
+def round_coordinates(geom, ndigits=5):
     """Round coordinates to n_digits to eliminate floating point errors."""
 
     def _round_coords(x, y, z=None):
@@ -19,7 +20,7 @@ def round_coordinates(geom, ndigits=3):
     return shapely.ops.transform(_round_coords, geom)
 
 
-def fuse_polygons(component, layername, layer, round_tol=2, simplify_tol=1e-2):
+def fuse_polygons(component, layername, layer, round_tol=5, simplify_tol=1e-5):
     """Take all polygons from a layer, and returns a single (Multi)Polygon shapely object."""
     layer_component = component.extract(layer)
     shapely_polygons = [
@@ -33,7 +34,7 @@ def fuse_polygons(component, layername, layer, round_tol=2, simplify_tol=1e-2):
 
 
 def cleanup_component(component, layerstack, round_tol=2, simplify_tol=1e-2):
-    """Take all polygons from a layer, and returns a single (Multi)Polygon shapely object."""
+    """Process component polygons before meshing."""
     layerstack_dict = layerstack.to_dict()
     return {
         layername: fuse_polygons(
@@ -44,6 +45,7 @@ def cleanup_component(component, layerstack, round_tol=2, simplify_tol=1e-2):
             simplify_tol=simplify_tol,
         )
         for layername, layer in layerstack_dict.items()
+        if layer["layer"] is not None
     }
 
 
@@ -84,7 +86,7 @@ def tile_shapes(shapes_dict):
                 ):
                     diff_shape = diff_shape.difference(higher_shape)
             tiled_lower_shapes.append(diff_shape)
-        if lower_shape.type in ["Polygon", "MultiPolygon"]:
+        if lower_shape.geom_type in ["Polygon", "MultiPolygon"]:
             shapes_tiled_dict[lower_name] = MultiPolygon(
                 to_polygons(tiled_lower_shapes)
             )

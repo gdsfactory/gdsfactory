@@ -6,9 +6,13 @@ import ipywidgets as widgets
 import yaml
 
 import gdsfactory as gf
-
-from . import circuitviz
-from .picmodel import PicYamlConfiguration, Route, RouteSettings, SchematicConfiguration
+from gdsfactory import circuitviz
+from gdsfactory.picmodel import (
+    PicYamlConfiguration,
+    Route,
+    RouteSettings,
+    SchematicConfiguration,
+)
 
 
 class SchematicEditor:
@@ -19,16 +23,10 @@ class SchematicEditor:
             filename: the filename or path to use for the input/output schematic
             pdk: the PDK to use (uses the current active PDK if None)
         """
-        if isinstance(filename, Path):
-            filepath = filename
-        else:
-            filepath = Path(filename)
+        filepath = filename if isinstance(filename, Path) else Path(filename)
         self.path = filepath
 
-        if pdk:
-            self.pdk = pdk
-        else:
-            self.pdk = gf.get_active_pdk()
+        self.pdk = pdk or gf.get_active_pdk()
         self.component_list = list(gf.get_active_pdk().cells.keys())
 
         self.on_instance_added = []
@@ -47,6 +45,8 @@ class SchematicEditor:
             )
             self._instance_grid = widgets.VBox()
             self._net_grid = widgets.VBox()
+            self._port_grid = widgets.VBox()
+
         first_inst_box = self._get_instance_selector()
         first_inst_box.children[0].observe(self._add_row_when_full, names=["value"])
         first_inst_box.children[1].observe(
@@ -103,7 +103,41 @@ class SchematicEditor:
         remove_button._row = row
         instance_box._row = row
         component_selector._row = row
+        return row
 
+    def _get_port_selector(
+        self, port_name: Optional[str] = None, port: Optional[str] = None
+    ):
+        instance_port_selector = widgets.Text(
+            placeholder="InstanceName:PortName", disabled=False
+        )
+
+        port_name_box = widgets.Text(placeholder="Port name", disabled=False)
+        instance_port_selector._instance_selector = port_name_box
+        can_remove = False
+        if port_name:
+            port_name_box.value = port_name
+        if port:
+            instance_port_selector.value = port
+            # can_remove = True
+            can_remove = False
+        remove_button = widgets.Button(
+            description="Remove",
+            icon="xmark",
+            disabled=(not can_remove),
+            tooltip="Remove this port from the schematic",
+            button_style="",
+        )
+        remove_button.on_click(self._on_remove_button_clicked)
+
+        row = widgets.Box([port_name_box, instance_port_selector, remove_button])
+        row._component_selector = instance_port_selector
+        row._instance_box = port_name_box
+        row._remove_button = remove_button
+
+        remove_button._row = row
+        port_name_box._row = row
+        instance_port_selector._row = row
         return row
 
     def _update_instance_options(self, **kwargs):
@@ -182,9 +216,8 @@ class SchematicEditor:
         if change["old"] == "":
             if change["new"] != "":
                 self.add_instance(instance_name=inst_name, component=component_name)
-        else:
-            if change["new"] != change["old"]:
-                self.update_component(instance=inst_name, component=component_name)
+        elif change["new"] != change["old"]:
+            self.update_component(instance=inst_name, component=component_name)
 
     def _on_remove_button_clicked(self, button):
         row = button._row
@@ -205,8 +238,7 @@ class SchematicEditor:
         return inst_data
 
     def _get_net_from_row(self, row):
-        values = [c.value for c in row.children]
-        return values
+        return [c.value for c in row.children]
 
     def _get_net_data(self):
         net_data = [self._get_net_from_row(row) for row in self._net_grid.children]
@@ -214,18 +246,19 @@ class SchematicEditor:
         return net_data
 
     def _on_net_modified(self, change):
-        if change["new"] != change["old"]:
-            net_data = self._get_net_data()
-            new_nets = [[f"{n[0]},{n[1]}", f"{n[2]},{n[3]}"] for n in net_data]
-            connected_ports = {}
-            for n1, n2 in new_nets:
-                connected_ports[n1] = n2
-                connected_ports[n2] = n1
-                self._connected_ports = connected_ports
-            old_nets = self._schematic.nets
-            self._schematic.nets = new_nets
-            for callback in self.on_nets_modified:
-                callback(old_nets=old_nets, new_nets=new_nets)
+        if change["new"] == change["old"]:
+            return
+        net_data = self._get_net_data()
+        new_nets = [[f"{n[0]},{n[1]}", f"{n[2]},{n[3]}"] for n in net_data]
+        connected_ports = {}
+        for n1, n2 in new_nets:
+            connected_ports[n1] = n2
+            connected_ports[n2] = n1
+            self._connected_ports = connected_ports
+        old_nets = self._schematic.nets
+        self._schematic.nets = new_nets
+        for callback in self.on_nets_modified:
+            callback(old_nets=old_nets, new_nets=new_nets)
 
     @property
     def instance_widget(self):
@@ -234,6 +267,10 @@ class SchematicEditor:
     @property
     def net_widget(self):
         return self._net_grid
+
+    @property
+    def port_widget(self):
+        return self._port_grid
 
     def visualize(self):
         circuitviz.show_netlist(self.schematic, self.symbols, self.path)
@@ -297,11 +334,10 @@ class SchematicEditor:
         if p1 in self._connected_ports:
             if self._connected_ports[p1] == p2:
                 return
-            else:
-                current_port = self._connected_ports[p1]
-                raise ValueError(
-                    f"{p1} is already connected to {current_port}. Can't connect to {p2}"
-                )
+            current_port = self._connected_ports[p1]
+            raise ValueError(
+                f"{p1} is already connected to {current_port}. Can't connect to {p2}"
+            )
         self._connected_ports[p1] = p2
         self._connected_ports[p2] = p1
         old_nets = self._schematic.nets.copy()
@@ -333,6 +369,7 @@ class SchematicEditor:
 
         schematic = SchematicConfiguration.parse_obj(netlist)
         self._schematic = schematic
+
         # process instances
         instances = netlist["instances"]
         nets = netlist.get("nets", [])
@@ -362,6 +399,20 @@ class SchematicEditor:
             self._connected_ports[net[0]] = net[1]
             self._connected_ports[net[1]] = net[0]
         self._net_grid = widgets.VBox(net_rows)
+
+        # process ports
+        ports = netlist.get("ports", {})
+        schematic.ports = ports
+
+        new_rows = []
+        for port_name, port in ports.items():
+            new_row = self._get_port_selector(port_name=port_name, port=port)
+            new_row.children[0].observe(self._add_row_when_full, names=["value"])
+            new_row.children[1].observe(
+                self._on_instance_component_modified, names=["value"]
+            )
+            new_rows.append(new_row)
+        self._port_grid = widgets.VBox(new_rows)
 
     def instantiate_layout(
         self,
@@ -398,7 +449,7 @@ class SchematicEditor:
         """
         filename = Path(filename)
         if title is None:
-            title = filename.stem + " Schematic"
+            title = f"{filename.stem} Schematic"
         if "doc" not in circuitviz.data:
             self.visualize()
         if "doc" in circuitviz.data:
@@ -407,3 +458,10 @@ class SchematicEditor:
             raise ValueError(
                 "Unable to save the schematic to a standalone html file! Has the visualization been loaded yet?"
             )
+
+
+if __name__ == "__main__":
+    from gdsfactory.config import PATH
+
+    se = SchematicEditor(PATH.notebooks / "test.schem.yml")
+    print(se.schematic)
