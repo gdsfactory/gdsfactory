@@ -973,7 +973,7 @@ class Ports:
         if name is not None:
             _port.name = name
         if self.get_all().get(_port.name, None) is not None:
-            raise ValueError("Port hase already been added to this cell")
+            raise ValueError(f"Port {_port.name!r} has already been added to this cell")
         self._ports.append(_port)
 
     def create_port(
