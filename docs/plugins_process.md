@@ -8,6 +8,6 @@
 
    notebooks/plugins/thermal/thermal.ipynb
    notebooks/plugins/devsim/01_pin_waveguide.ipynb
-   notebooks/plugins/tcad/02_srim.ipynb
-
+   notebooks/plugins/tcad/02_analytical_process.ipynb
+   notebooks/plugins/tcad/03_numerical_implantation.ipynb
 ```
