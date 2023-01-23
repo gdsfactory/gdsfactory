@@ -1404,6 +1404,10 @@ if __name__ == "__main__":
         use_eff=False,
     )
     c = p.extrude(layer=(1, 0), width=0.1)
+    c2 = gf.Component()
+    c2 << c
+    c2.add_ports(c.ports)
+    print(c2.ports)
 
     # p = straight()
     # p.plot()
@@ -1418,4 +1422,4 @@ if __name__ == "__main__":
 
     # c = p.extrude(layer=(1, 0), width=0.1)
     # c = gf.read.from_phidl(c)
-    c.show()
+    c2.show()

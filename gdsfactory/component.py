@@ -32,6 +32,7 @@ from gdsfactory.kcell import (
     PortWidthMismatch,
     PortLayerMismatch,
     PortTypeMismatch,
+    Ports,
 )
 from gdsfactory.technology import LayerView, LayerViews
 from gdsfactory.generic_tech import LAYER_VIEWS
@@ -861,7 +862,7 @@ class Component(KCell):
         )
 
     def add_ports(
-        self, ports: Union[List[Port], Dict[str, Port]], prefix: str = ""
+        self, ports: Union[List[Port], Dict[str, Port], Ports], prefix: str = ""
     ) -> None:
         """Add a list or dict of ports.
 
@@ -871,6 +872,9 @@ class Component(KCell):
             ports: list or dict of ports.
             prefix: to prepend to each port name.
         """
+        if isinstance(ports, Ports):
+            ports = ports.get_all().values()
+
         for port in list(ports):
             name = f"{prefix}{port.name}" if prefix else port.name
             self.add_port(name=name, port=port)
@@ -1994,8 +1998,11 @@ if __name__ == "__main__":
     layer = (1, 0)
     c.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
     c.add_port(name="o1", center=(0, 0), width=0.5, orientation=180, layer=(1, 0))
-    c.add_port(name="o1", center=(0, 0), width=0.5, orientation=180, layer=(1, 0))
+    c.add_port(name="o2", center=(length, 0), width=0.5, orientation=0, layer=(1, 0))
     c.show()
+
+    c2.add_ports(c.ports)
+    print(c2.ports)
 
     # print(c2.get_polygons())
     # print(c2.get_polygons((1, 0)))

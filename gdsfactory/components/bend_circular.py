@@ -39,8 +39,7 @@ def bend_circular(
 
     p = arc(radius=radius, angle=angle, npoints=npoints)
     c = Component()
-    path = p.extrude(x)
-    ref = c << path
+    ref = c << p.extrude(x)
     c.add_ports(ref.ports)
 
     c.absorb(ref)
@@ -75,13 +74,14 @@ if __name__ == "__main__":
         width=2,
         layer=(0, 0),
         angle=90,
-        cross_section="rib",
+        # cross_section="rib",
         with_bbox=True,
     )
     # c = bend_circular()
     # c = bend_circular(cross_section=gf.cross_section.pin, radius=5)
     # c.pprint_ports()
-    print(c.ports["o2"].orientation)
+    # print(c.ports["o2"].orientation)
+    print(c.ports)
     c.show(show_ports=True)
 
     # c = bend_circular180()

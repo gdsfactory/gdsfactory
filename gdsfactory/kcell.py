@@ -1013,6 +1013,13 @@ class Ports:
         return self._ports[-1]
 
     def get_all(self) -> dict[str, Port]:
+        """Get all ports in a dictionary with names as keys.
+
+        deprecated. Use Items instead.
+        """
+        return {v.name: v for v in self._ports}
+
+    def items(self) -> dict[str, Port]:
         """Get all ports in a dictionary with names as keys"""
         return {v.name: v for v in self._ports}
 
