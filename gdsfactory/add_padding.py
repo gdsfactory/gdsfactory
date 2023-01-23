@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from typing import List, Optional, Tuple
 
-import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.types import ComponentSpec, LayerSpec
@@ -59,7 +58,9 @@ def add_padding(
         right: east padding in um.
         left: west padding in um.
     """
-    component = gf.get_component(component)
+    from gdsfactory.pdk import get_component
+
+    component = get_component(component)
 
     points = get_padding_points(component, **kwargs)
     for layer in layers:
@@ -86,7 +87,9 @@ def add_padding_container(
         right: east padding in um.
         left: west padding in um.
     """
-    component = gf.get_component(component)
+    from gdsfactory.pdk import get_component
+
+    component = get_component(component)
 
     c = Component()
     c.component = component
@@ -120,7 +123,9 @@ def add_padding_to_size(
         left: left padding in um to fill up in um.
         bottom: bottom padding in um to fill up in um.
     """
-    component = gf.get_component(component)
+    from gdsfactory.pdk import get_component
+
+    component = get_component(component)
 
     c = component
     top = abs(ysize - component.ysize) if ysize else 0
@@ -159,7 +164,9 @@ def add_padding_to_size_container(
         left: left padding in um to fill up in um.
         bottom: bottom padding in um to fill up in um.
     """
-    component = gf.get_component(component)
+    from gdsfactory.pdk import get_component
+
+    component = get_component(component)
 
     c = Component()
     cref = c << component
@@ -182,6 +189,8 @@ def add_padding_to_size_container(
 
 
 if __name__ == "__main__":
+    import gdsfactory as gf
+
     # test_container()
     c = gf.components.straight(length=10)
     c.unlock()

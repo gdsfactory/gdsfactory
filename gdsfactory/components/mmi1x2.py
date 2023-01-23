@@ -77,7 +77,7 @@ def mmi1x2(
 
     ports = [
         gf.Port(
-            "o1",
+            name="o1",
             orientation=180,
             center=(0, 0),
             width=w_taper,
@@ -85,7 +85,7 @@ def mmi1x2(
             cross_section=x,
         ),
         gf.Port(
-            "o2",
+            name="o2",
             orientation=0,
             center=(+length_mmi, +a),
             width=w_taper,
@@ -93,7 +93,7 @@ def mmi1x2(
             cross_section=x,
         ),
         gf.Port(
-            "o3",
+            name="o3",
             orientation=0,
             center=(+length_mmi, -a),
             width=w_taper,

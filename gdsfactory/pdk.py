@@ -11,12 +11,10 @@ from omegaconf import DictConfig
 from pydantic import BaseModel, Field, validator
 
 from gdsfactory.config import PATH, logger
-from gdsfactory.containers import containers as containers_default
 from gdsfactory.events import Event
 from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.materials import MaterialSpec
 from gdsfactory.materials import materials_index as materials_index_default
-from gdsfactory.read.from_yaml import from_yaml
 from gdsfactory.show import show
 from gdsfactory.symbols import floorplan_with_block_letters
 from gdsfactory.technology import LayerStack, LayerViews
@@ -57,7 +55,7 @@ class Pdk(BaseModel):
         cells: dict of parametric cells that return Components.
         symbols: dict of symbols names to functions.
         default_symbol_factory:
-        containers: dict of pcells that contain other cells.
+        containers: dict of cells that contain other cells.
         base_pdk: a pdk to copy from and extend.
         default_decorator: decorate all cells, if not otherwise defined on the cell.
         layers: maps name to gdslayer/datatype.
@@ -81,7 +79,7 @@ class Pdk(BaseModel):
     cells: Dict[str, ComponentFactory] = Field(default_factory=dict)
     symbols: Dict[str, ComponentFactory] = Field(default_factory=dict)
     default_symbol_factory: Callable = floorplan_with_block_letters
-    containers: Dict[str, ComponentFactory] = containers_default
+    containers: Dict[str, ComponentFactory] = Field(default_factory=dict)
     base_pdk: Optional[Pdk] = None
     default_decorator: Optional[Callable[[Component], None]] = None
     layers: Dict[str, Layer] = Field(default_factory=dict)
@@ -204,8 +202,9 @@ class Pdk(BaseModel):
 
         Keyword Args:
             cell_name: cell function. To update cells dict.
-
         """
+        from gdsfactory.read.from_yaml import from_yaml
+
         message = "Updated" if update else "Registered"
 
         if dirpath:

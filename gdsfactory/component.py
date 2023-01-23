@@ -18,7 +18,6 @@ import yaml
 from omegaconf import DictConfig, OmegaConf
 from typing_extensions import Literal
 
-from gdsfactory import kcell
 from gdsfactory.component_layout import (
     Label,
     Polygon,
@@ -26,11 +25,17 @@ from gdsfactory.component_layout import (
     _distribute,
     _parse_layer,
 )
-from gdsfactory.component_reference import ComponentReference, Coordinate, SizeInfo
 from gdsfactory.config import CONF, logger
 from gdsfactory.cross_section import CrossSection
-from gdsfactory.kcell import Instance, KCell
-from gdsfactory.layers import LAYER_COLORS, LayerColor, LayerColors
+from gdsfactory.kcell import (
+    Instance,
+    KCell,
+    PortWidthMismatch,
+    PortLayerMismatch,
+    PortTypeMismatch,
+)
+from gdsfactory.technology import LayerView, LayerViews
+from gdsfactory.generic_tech import LAYER_VIEWS
 from gdsfactory.port import (
     Port,
     auto_rename_ports,
@@ -47,6 +52,8 @@ from gdsfactory.snap import snap_to_grid
 
 Plotter = Literal["holoviews", "matplotlib", "qt"]
 Axis = Literal["x", "y"]
+Number = Union[np.float64, np.int64, float, int]
+Coordinate = Union[Tuple[Number, Number], np.ndarray, List[Number]]
 
 
 class MutabilityError(ValueError):
@@ -137,7 +144,7 @@ class Instance(Instance):
         p = self.cell.ports[portname]
 
         if p.width != op.width and not allow_width_mismatch:
-            raise kcell.PortWidthMismatch(
+            raise PortWidthMismatch(
                 self,
                 other,
                 p,
@@ -146,9 +153,9 @@ class Instance(Instance):
         elif (
             gf.get_layer(p.layer) != gf.get_layer(op.layer) and not allow_layer_mismatch
         ):
-            raise kcell.PortLayerMismatch(self.cell.library, self, other, p, op)
+            raise PortLayerMismatch(self.cell.library, self, other, p, op)
         elif p.port_type != op.port_type and not allow_type_mismatch:
-            raise kcell.PortTypeMismatch(self, other, p, op)
+            raise PortTypeMismatch(self, other, p, op)
         else:
             conn_trans = kdb.Trans.M90 if mirror else kdb.Trans.R180
             self.instance.trans = op.trans * conn_trans * p.trans.inverted()
@@ -383,12 +390,12 @@ class Component(KCell):
             element: Object that will be accessible by alias name.
 
         """
-        if isinstance(element, (ComponentReference, Polygon)):
+        if isinstance(element, (Instance, Polygon)):
             self.named_references[key] = element
         else:
             raise ValueError(
                 f"Tried to assign alias {key!r} in Component {self.name!r},"
-                "but failed because the item was not a ComponentReference"
+                "but failed because the item was not a Instance"
             )
 
     @classmethod
@@ -454,7 +461,7 @@ class Component(KCell):
 
     @property
     def bbox(self):
-        """Returns the bounding box of the ComponentReference.
+        """Returns the bounding box of the Instance.
 
         it snaps to 3 decimals in um (0.001um = 1nm precision)
         """
@@ -688,7 +695,7 @@ class Component(KCell):
         rotation: float = 0,
         h_mirror: bool = False,
         v_mirror: bool = False,
-    ) -> ComponentReference:
+    ) -> Instance:
         """Returns Component reference.
 
         Args:
@@ -699,7 +706,7 @@ class Component(KCell):
                 This is the most common mirror.
             v_mirror: vertical mirror using x axis (1, y) (0, y).
         """
-        _ref = ComponentReference(self)
+        _ref = Instance(self)
 
         if port_id and port_id not in self.ports:
             raise ValueError(f"port {port_id} not in {self.ports.keys()}")
@@ -723,7 +730,7 @@ class Component(KCell):
         yc = si.south + si.height / 2
         xc = si.west + si.width / 2
         center = (xc, yc)
-        _ref = ComponentReference(self)
+        _ref = Instance(self)
         _ref.move(center, position)
         return _ref
 
@@ -974,11 +981,6 @@ class Component(KCell):
         self.child = component
         self.info.update(component.info)
 
-    @property
-    def size_info(self) -> SizeInfo:
-        """Size info of the component."""
-        return SizeInfo(self.bbox)
-
     def get_setting(self, setting: str) -> Union[str, int, float]:
         return (
             self.info.get(setting)
@@ -998,14 +1000,14 @@ class Component(KCell):
         """Add a new element or list of elements to this Component.
 
         Args:
-            element: Polygon, ComponentReference or iterable
+            element: Polygon, Instance or iterable
                 The element or iterable of elements to be inserted in this cell.
 
         Raises:
             MutabilityError: if component is locked.
         """
         self.is_unlocked()
-        if isinstance(element, ComponentReference):
+        if isinstance(element, Instance):
             self._cell.add(element._reference)
             self._references.append(element)
         else:
@@ -1015,13 +1017,13 @@ class Component(KCell):
         """Add a new element or list of elements to this Component.
 
         Args:
-            element: Polygon, ComponentReference or iterable
+            element: Polygon, Instance or iterable
                 The element or iterable of elements to be inserted in this cell.
 
         Raises:
             MutabilityError: if component is locked.
         """
-        if isinstance(element, ComponentReference):
+        if isinstance(element, Instance):
             self._register_reference(element)
             self._add(element)
         elif isinstance(element, Iterable):
@@ -1037,8 +1039,8 @@ class Component(KCell):
         rows: int = 2,
         spacing: Tuple[float, float] = (100, 100),
         alias: Optional[str] = None,
-    ) -> ComponentReference:
-        """Creates a ComponentReference reference to a Component.
+    ) -> Instance:
+        """Creates a Instance reference to a Component.
 
         Args:
             component: The referenced component.
@@ -1049,11 +1051,11 @@ class Component(KCell):
             alias: str or None. Alias of the referenced Component.
 
         Returns
-            a: ComponentReference containing references to the Component.
+            a: Instance containing references to the Component.
         """
         if not isinstance(component, Component):
             raise TypeError("add_array() needs a Component object.")
-        ref = ComponentReference(
+        ref = Instance(
             component=component,
             columns=int(round(columns)),
             rows=int(round(rows)),
@@ -1142,7 +1144,7 @@ class Component(KCell):
         component_flat.add_ports(self.ports)
         return component_flat
 
-    def flatten_reference(self, ref: ComponentReference):
+    def flatten_reference(self, ref: Instance):
         """From existing cell replaces reference with a flatten reference \
         which has the transformations already applied.
 
@@ -1160,8 +1162,8 @@ class Component(KCell):
 
     def add_ref(
         self, component: Component, alias: Optional[str] = None, **kwargs
-    ) -> ComponentReference:
-        """Add ComponentReference to the current Component.
+    ) -> Instance:
+        """Add Instance to the current Component.
 
         Args:
             component: Component.
@@ -1260,7 +1262,7 @@ class Component(KCell):
             interactive_zoom: Enables using mousewheel/trackpad to zoom.
             fontsize: for labels.
             layers_excluded: list of layers to exclude.
-            layer_colors: layer_colors colors loaded from Klayout.
+            layer_views: layer_views colors loaded from Klayout.
             min_aspect: minimum aspect ratio.
         """
         plotter = plotter or CONF.get("plotter", "matplotlib")
@@ -1293,7 +1295,7 @@ class Component(KCell):
     def ploth(
         self,
         layers_excluded: Optional[Layers] = None,
-        layer_colors: LayerColors = LAYER_COLORS,
+        layer_views: LayerViews = LAYER_VIEWS,
         min_aspect: float = 0.25,
         padding: float = 0.5,
     ):
@@ -1301,7 +1303,7 @@ class Component(KCell):
 
         Args:
             layers_excluded: list of layers to exclude.
-            layer_colors: layer_colors colors loaded from Klayout.
+            layer_views: layer_views colors loaded from Klayout.
             min_aspect: minimum aspect ratio.
             padding: around bounding box.
 
@@ -1339,11 +1341,11 @@ class Component(KCell):
                 continue
 
             try:
-                layer = layer_colors.get_from_tuple(layer)
+                layer = layer_views.get_from_tuple(layer)
             except ValueError:
-                layers = list(layer_colors._layers.keys())
+                layers = list(layer_views._layers.keys())
                 warnings.warn(f"{layer!r} not defined in {layers}")
-                layer = LayerColor(gds_layer=layer[0], gds_datatype=layer[1])
+                layer = LayerView(gds_layer=layer[0], gds_datatype=layer[1])
 
             plots_to_overlay.append(
                 hv.Polygons(polygon, label=str(layer.name)).opts(
@@ -1419,8 +1421,8 @@ class Component(KCell):
 
         Keyword Args:
             component: to extrude in 3D.
-            layer_colors: layer colors from Klayout Layer Properties file.
-                Defaults to active PDK.layer_colors.
+            layer_views: layer colors from Klayout Layer Properties file.
+                Defaults to active PDK.layer_views.
             layer_stack: contains thickness and zmin for each layer.
                 Defaults to active PDK.layer_stack.
             exclude_layers: layers to exclude.
@@ -1642,12 +1644,12 @@ class Component(KCell):
         return add_padding(component=self, **kwargs)
 
     def absorb(self, reference) -> Component:
-        """Absorbs polygons from ComponentReference into Component.
+        """Absorbs polygons from Instance into Component.
 
         Destroys the reference in the process but keeping the polygon geometry.
 
         Args:
-            reference: ComponentReference to be absorbed into the Component.
+            reference: Instance to be absorbed into the Component.
         """
         if reference not in self.references:
             raise ValueError(
@@ -1671,7 +1673,7 @@ class Component(KCell):
             elif isinstance(item, gdstk.Reference):
                 self._cell.remove(item)
                 item.owner = None
-            elif isinstance(item, ComponentReference):
+            elif isinstance(item, Instance):
                 self.references.remove(item)
                 self._cell.remove(item._reference)
                 item.owner = None
@@ -1818,9 +1820,11 @@ def test_get_layers() -> Component:
 
 def _filter_polys(polygons, layers_excl):
     return [
-        p
-        for p, l, d in zip(polygons.polygons, polygons.layers, polygons.datatypes)
-        if (l, d) not in layers_excl
+        poly
+        for poly, layer, datatype in zip(
+            polygons.polygons, polygons.layers, polygons.datatypes
+        )
+        if (layer, datatype) not in layers_excl
     ]
 
 
@@ -1852,10 +1856,7 @@ def recurse_structures(
 
     output = {component.name: dict(component.settings)}
     for reference in component.references:
-        if (
-            isinstance(reference, ComponentReference)
-            and reference.ref_cell.name not in output
-        ):
+        if isinstance(reference, Instance) and reference.ref_cell.name not in output:
             output.update(recurse_structures(reference.ref_cell))
 
     return output
@@ -1985,14 +1986,15 @@ def test_import_gds_settings():
 
 
 if __name__ == "__main__":
-    # c = Component("parent")
-    # c2 = Component("child")
-    # length = 10
-    # width = 0.5
-    # layer = (1, 0)
-    # c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
-    # c.add_port(name="o1", center=(0, 0), width=0.5, orientation=180, layer=(1, 0))
-    # c.add_port(name="o1", center=(0, 0), width=0.5, orientation=180, layer=(1, 0))
+    c = Component("parent")
+    c2 = Component("child")
+    length = 10
+    width = 0.5
+    layer = (1, 0)
+    c.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
+    c.add_port(name="o1", center=(0, 0), width=0.5, orientation=180, layer=(1, 0))
+    c.add_port(name="o1", center=(0, 0), width=0.5, orientation=180, layer=(1, 0))
+    c.show()
 
     # print(c2.get_polygons())
     # print(c2.get_polygons((1, 0)))
@@ -2012,8 +2014,8 @@ if __name__ == "__main__":
 
     # c2.show()
 
-    import gdsfactory as gf
+    # import gdsfactory as gf
 
-    c = Component()
-    c << gf.c.mzi()
-    c.show()
+    # c = Component()
+    # c << gf.c.mzi()
+    # c.show()

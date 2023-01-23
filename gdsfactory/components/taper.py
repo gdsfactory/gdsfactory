@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import List, Optional
 
-import gdsfactory as gf
+from functools import partial
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
@@ -39,7 +39,7 @@ def taper(
     x = gf.get_cross_section(cross_section, **kwargs)
     layer = x.layer
 
-    if isinstance(port, gf.Port) and width1 is None:
+    if isinstance(port, Port) and width1 is None:
         width1 = port.width
     if width2 is None:
         width2 = width1
@@ -53,7 +53,7 @@ def taper(
     xpts = [0, length, length, 0]
     ypts = [y1, y2, -y2, -y1]
 
-    c = gf.Component()
+    c = Component()
     c.add_polygon((xpts, ypts), layer=layer)
 
     if x.cladding_layers and x.cladding_offsets:
@@ -61,14 +61,14 @@ def taper(
             y1 = width1 / 2 + offset
             y2 = width2 / 2 + offset
             ypts = [y1, y2, -y2, -y1]
-            c.add_polygon((xpts, ypts), layer=gf.get_layer(layer))
+            c.add_polygon((xpts, ypts), layer=layer)
 
     c.add_port(
         name="o1",
         center=(0, 0),
         width=width1,
         orientation=180,
-        layer=x.layer,
+        layer=layer,
         cross_section=x1,
     )
     if with_two_ports:
@@ -77,7 +77,7 @@ def taper(
             center=(length, 0),
             width=width2,
             orientation=0,
-            layer=x.layer,
+            layer=layer,
             cross_section=x2,
         )
 
@@ -106,7 +106,7 @@ def taper(
     return c
 
 
-@gf.cell
+@cell
 def taper_strip_to_ridge(
     length: float = 10.0,
     width1: float = 0.5,
@@ -159,7 +159,7 @@ def taper_strip_to_ridge(
         layer=layer_slab,
     )
 
-    c = gf.Component()
+    c = Component()
     for _t in [taper_wg, taper_slab]:
         taper_ref = _t.ref()
         c.add(taper_ref)
@@ -194,7 +194,7 @@ def taper_strip_to_ridge(
     return c
 
 
-@gf.cell
+@cell
 def taper_strip_to_ridge_trenches(
     length: float = 10.0,
     width: float = 0.5,
@@ -203,7 +203,7 @@ def taper_strip_to_ridge_trenches(
     trench_layer: LayerSpec = "SLAB90",
     layer_wg: LayerSpec = "WG",
     trench_offset: float = 0.1,
-) -> gf.Component:
+) -> Component:
     """Defines taper using trenches to define the etch.
 
     Args:
@@ -215,9 +215,10 @@ def taper_strip_to_ridge_trenches(
         layer_wg: waveguide layer.
         trench_offset: after waveguide in um.
     """
-    c = gf.Component()
+    c = Component()
     y0 = width / 2 + trench_width - trench_offset
     yL = width / 2 + trench_width - trench_offset + slab_offset
+    layer_wg = gf.get_layer(layer_wg)
 
     # straight
     x = [0, length, length, 0]
@@ -243,10 +244,10 @@ def taper_strip_to_ridge_trenches(
     return c
 
 
-taper_strip_to_slab150 = gf.partial(taper_strip_to_ridge, layer_slab="SLAB150")
+taper_strip_to_slab150 = partial(taper_strip_to_ridge, layer_slab="SLAB150")
 
 # taper StripCband to NitrideCband
-taper_sc_nc = gf.partial(
+taper_sc_nc = partial(
     taper_strip_to_ridge,
     layer_wg="WG",
     layer_slab="WGN",
@@ -259,6 +260,8 @@ taper_sc_nc = gf.partial(
 
 
 if __name__ == "__main__":
+    import gdsfactory as gf
+
     c = gf.grid(
         [
             taper_sc_nc(

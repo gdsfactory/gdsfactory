@@ -32,6 +32,7 @@ def get_generic_pdk():
     from gdsfactory.config import sparameters_path
     from gdsfactory.cross_section import cross_sections
     from gdsfactory.pdk import Pdk
+    from gdsfactory.containers import containers as containers_default
 
     return Pdk(
         name="generic",
@@ -41,6 +42,7 @@ def get_generic_pdk():
         layer_stack=LAYER_STACK,
         layer_views=LAYER_VIEWS,
         sparameters_path=sparameters_path,
+        containers=containers_default,
     )
 
 

@@ -235,6 +235,9 @@ class Port:
     ):
         self.cross_section = cross_section
         self.shear_angle = shear_angle
+
+        layer = layer or cross_section.layer if cross_section else None
+
         if port is not None:
             self.name = port.name if name is None else name
             self.trans = port.trans.dup()
@@ -242,7 +245,10 @@ class Port:
             self.layer = port.layer
             self.width = port.width
         elif name is None or width is None or layer is None:
-            raise ValueError("name, width, layer must be given if the 'port is None'")
+            raise ValueError(
+                "If port=None you need to specify "
+                f"name={name!r}, width={width!r}, layer={layer!r} or cross_section={cross_section!r}"
+            )
         else:
             self.name = name
             self.width = width

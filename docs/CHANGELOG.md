@@ -999,7 +999,7 @@
 
 ## [5.10.0](https://github.com/gdsfactory/gdsfactory/pull/449)
 
-- rename LayerSet to LayerColors, as it is a more intuitive name. We only use this for defining 3D and 2D plot colors.
+- rename LayerSet to LayerViews, as it is a more intuitive name. We only use this for defining 3D and 2D plot colors.
 - add Pdk attributes
     - layer_stack: Optional[LayerStack] = None
     - layer_colors: Optional[LayerColors] = None

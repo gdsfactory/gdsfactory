@@ -12,20 +12,67 @@ from inspect import getmembers
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 import pydantic
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 from typing_extensions import Literal
 
 Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
 WidthTypes = Literal["sine", "linear", "parabolic"]
 
-LayerSpec = Union[Layer, int, str, None]
+LayerSpec = Union[Layer, int, str]
 LayerSpecs = Union[List[LayerSpec], Tuple[LayerSpec, ...]]
 Floats = Tuple[float, ...]
 port_names_electrical = ("e1", "e2")
 port_types_electrical = ("electrical", "electrical")
 cladding_layers_optical = ("DEVREC",)  # for SiEPIC verification
 cladding_offsets_optical = (0,)  # for SiEPIC verification
+
+
+class Section(BaseModel):
+    """CrossSection to extrude a path with a waveguide.
+
+    Parameters:
+        width: of the section (um) or parameterized function from 0 to 1.
+             the width at t==0 is the width at the beginning of the Path.
+             the width at t==1 is the width at the end.
+        offset: center offset (um) or function parameterized function from 0 to 1.
+             the offset at t==0 is the offset at the beginning of the Path.
+             the offset at t==1 is the offset at the end.
+        layer: layer spec.
+        port_names: Optional port names.
+        port_types: optical, electrical, ...
+        name: Optional Section name.
+        hidden: hide layer.
+
+    .. code::
+          0   offset
+          |<-------------->|
+          |              _____
+          |             |     |
+          |             |layer|
+          |             |_____|
+          |              <---->
+                         width
+    """
+
+    width: Union[float, Callable]
+    offset: Union[float, Callable] = 0
+    layer: LayerSpec
+    port_names: Tuple[Optional[str], Optional[str]] = (None, None)
+    port_types: Tuple[str, str] = ("optical", "optical")
+    name: Optional[str] = None
+    hidden: bool = False
+
+    @validator("layer")
+    def _layer(cls, v) -> Tuple[int, int]:
+        from gdsfactory.pdk import get_layer
+
+        return get_layer(v)
+
+    class Config:
+        """pydantic basemodel config."""
+
+        extra = "forbid"
 
 
 class CrossSection(BaseModel):
@@ -90,6 +137,12 @@ class CrossSection(BaseModel):
     info: Dict[str, Any] = Field(default_factory=dict)
     name: Optional[str] = None
     add_center_section: bool = True
+
+    @validator("layer")
+    def _layer(cls, v) -> Tuple[int, int]:
+        from gdsfactory.pdk import get_layer
+
+        return get_layer(v)
 
     class Config:
         """Configuration."""

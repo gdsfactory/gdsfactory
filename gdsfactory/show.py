@@ -1,10 +1,16 @@
 from __future__ import annotations
 
+import typing
+
 import pathlib
 from typing import Union
+import tempfile
 
 from gdsfactory import klive
-from gdsfactory.component import Component
+
+
+if typing.TYPE_CHECKING:
+    from gdsfactory.component import Component
 
 
 def show(component: Union[Component, str, pathlib.Path], **kwargs) -> None:
@@ -14,7 +20,7 @@ def show(component: Union[Component, str, pathlib.Path], **kwargs) -> None:
         component: Component or GDS path.
 
     Keyword Args:
-        gdspath: GDS file path to write to.
+        filename: GDS file path to write to.
         gdsdir: directory for the GDS file. Defaults to /tmp/.
         unit: unit size for objects in library. 1um by default.
         precision: for object dimensions in the library (m). 1nm by default.
@@ -32,8 +38,18 @@ def show(component: Union[Component, str, pathlib.Path], **kwargs) -> None:
         )
 
     elif hasattr(component, "write"):
-        gdspath = component.write(logging=False, **kwargs)
-        klive.show(gdspath)
+        gdsdir = kwargs.get(
+            "gdsdir", pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
+        )
+        gdsdir.mkdir(exist_ok=True, parents=True)
+        with_oasis = kwargs.get("with_oasis", True)
+        if with_oasis:
+            filename = kwargs.get("filename", gdsdir / f"{component.name}.oas")
+        else:
+            filename = kwargs.get("filename", gdsdir / f"{component.name}.gds")
+        gdsdir = pathlib.Path(gdsdir)
+        component.write(filename=filename, **kwargs)
+        klive.show(filename)
     else:
         raise ValueError(
             f"Component is {type(component)!r}, make sure pass a Component or a path"

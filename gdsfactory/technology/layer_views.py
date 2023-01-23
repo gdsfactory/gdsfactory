@@ -536,7 +536,7 @@ class LayerView(BaseModel):
                 "frame_color": ensure_six_digit_hex_color(self.frame_color.as_hex()),
             }
         # Colors generated from here: http://phrogz.net/css/distinct-colors.html
-        layer_colors = [
+        layer_views = [
             "#3dcc5c",
             "#2b0fff",
             "#cc3d3d",
@@ -550,7 +550,7 @@ class LayerView(BaseModel):
             "#3d87cc",
             "#e5520e",
         ]
-        color = layer_colors[np.mod(self.layer[0], len(layer_colors))]
+        color = layer_views[np.mod(self.layer[0], len(layer_views))]
         return {"fill_color": color, "frame_color": color}
 
     def _build_klayout_xml_element(
@@ -1236,7 +1236,7 @@ if __name__ == "__main__":
     # print(LAYER_VIEWS)
     # print(LAYER_STACK.get_from_tuple((1, 0)))
     # print(LAYER_STACK.get_layer_to_material())
-    # layer = LayerColor(color="gold")
+    # layer = LayerView(color="gold")
     # print(layer)
 
     # lys = test_load_lyp()
