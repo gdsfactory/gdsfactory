@@ -131,15 +131,14 @@ class Instance(Instance):
                 raise ValueError(
                     "portname cannot be None if an Instance Object is given"
                 )
-            op = other.ports[other_port_name]
+            else:
+                op = other.ports[other_port_name]
         elif isinstance(other, Port):
             op = other
+        elif isinstance(other, gf.Port):
+            op = Port.from_gdsfactory_port(other)
         else:
-
-            if isinstance(other, gf.Port):
-                op = Port.from_gdsfactory_port(other)
-            else:
-                raise ValueError("other_instance must be of type Instance or Port")
+            raise ValueError("other_instance must be of type Instance or Port")
         p = self.cell.ports[portname]
 
         if p.width != op.width and not allow_width_mismatch:
@@ -310,39 +309,38 @@ class Component(KCell):
             Instances of `FlexPath` and `RobustPath` are also included in
             the result by computing their polygonal boundary.
         """
-        if recursive:
-            if by_spec:
-                layer = self.library.layer(*by_spec)
-                return list(kdb.Region(self.begin_shapes_rec(layer)).each())
-
-            else:
-                return {
-                    (layer_info.layer, layer_info.datatype): list(
-                        kdb.Region(self.begin_shapes_rec(layer_index)).each()
-                    )
-                    for layer_index, layer_info in zip(
-                        self.library.layer_indexes(), self.library.layer_infos()
-                    )
-                }
-        else:
-            if by_spec:
-
-                return [
+        if not recursive:
+            return (
+                [
                     p.polygon
                     for p in self.shapes(self.library.layer(*by_spec)).each(
                         kdb.Shapes.SRegions
                     )
                 ]
-
-            else:
-                return {
+                if by_spec
+                else {
                     (info.layer, info.datatype): [
-                        p.polygon for p in self.shapes(index).each(kdb.Shapes.SRegions)
+                        p.polygon
+                        for p in self.shapes(index).each(kdb.Shapes.SRegions)
                     ]
                     for info, index in zip(
                         self.library.layer_infos(), self.library.layer_indexes()
                     )
                 }
+            )
+        if by_spec:
+            layer = self.library.layer(*by_spec)
+            return list(kdb.Region(self.begin_shapes_rec(layer)).each())
+
+        else:
+            return {
+                (layer_info.layer, layer_info.datatype): list(
+                    kdb.Region(self.begin_shapes_rec(layer_index)).each()
+                )
+                for layer_index, layer_info in zip(
+                    self.library.layer_indexes(), self.library.layer_infos()
+                )
+            }
 
     def get_dependencies(self, recursive: bool = False) -> List[Component]:
         """Return a set of the cells included in this cell as references.
@@ -823,19 +821,6 @@ class Component(KCell):
         if port:
             if isinstance(port, Port):
                 return KCell.add_port(self, port)
-
-            elif isinstance(port, Port):
-                p = port
-                return KCell.create_port(
-                    self,
-                    name=p.name,
-                    # layer=self.layer(*p.layer),
-                    layer=layer,
-                    port_type=p.port_type,
-                    width=p.width,
-                    orientation=int(p.orientation // 90),
-                    position=p.center,
-                )
 
             else:
                 raise ValueError(
