@@ -3,10 +3,15 @@ import numpy as np
 from gdsfactory.generic_tech import LAYER_STACK
 from gdsfactory.simulation.fem.mode_solver import compute_cross_section_modes
 from gdsfactory.technology import LayerStack
+from femwell import mode_solver
 
 
-def test_compute_cross_section_mode():
+NUM_MODES = 1
 
+
+def compute_modes(
+    overwrite: bool = True, with_cache: bool = False, num_modes: int = NUM_MODES
+):
     filtered_layerstack = LayerStack(
         layers={
             k: LAYER_STACK.layers[k]
@@ -31,16 +36,45 @@ def test_compute_cross_section_mode():
         cross_section="rib",
         layerstack=filtered_layerstack,
         wl=1.55,
-        num_modes=4,
+        num_modes=num_modes,
         order=1,
         radius=np.inf,
         resolutions=resolutions,
-        overwrite=True,
+        overwrite=overwrite,
+        with_cache=with_cache,
     )
+    return lams, basis, xs
 
-    assert len(lams) == 4
+
+def test_compute_cross_section_mode():
+    lams, basis, xs = compute_modes()
+    assert len(lams) == NUM_MODES
+
+
+def test_compute_cross_section_mode_cache():
+    # write mode in cache
+    lams, basis, xs = compute_modes(with_cache=True, overwrite=False)
+
+    # load mode from cache
+    lams, basis, xs = compute_modes(with_cache=True, overwrite=False)
+    mode_solver.plot_mode(
+        basis=basis,
+        mode=np.real(xs[0]),
+        plot_vectors=False,
+        colorbar=True,
+        title="E",
+        direction="y",
+    )
 
 
 if __name__ == "__main__":
-
-    test_compute_cross_section_mode()
+    # test_compute_cross_section_mode_cache()
+    lams, basis, xs = compute_modes(with_cache=True, overwrite=False)
+    mode_solver.plot_mode(
+        basis=basis,
+        mode=np.real(xs[0]),
+        plot_vectors=False,
+        colorbar=True,
+        title="E",
+        direction="y",
+    )

@@ -6,7 +6,7 @@ help:
 full: gdslib plugins
 	pip install -e .[docs,dev,full,gmsh,tidy3d,devsim,meow,sax]
 
-install: gdslib
+install:
 	pip install -e .[full,dev] pre-commit
 	pre-commit install
 	gf tool install
@@ -16,7 +16,7 @@ dev: full
 	gf tool install
 
 mamba:
-	bash mamba.sh
+	bash conda/mamba.sh
 
 patch:
 	bumpversion patch
@@ -31,13 +31,18 @@ major:
 	python docs/write_components_doc.py
 
 plugins:
-	conda install -n base conda-libmamba-solver
+	conda install -n base conda-libmamba-solver -y
 	conda config --set solver libmamba
 	conda install -c conda-forge pymeep=*=mpi_mpich_* nlopt -y
 	conda install -c conda-forge slepc4py=*=complex* -y
 	pip install jax jaxlib numpy femwell --upgrade
 	pip install -e .[tidy3d,ray]
-	# pip install --upgrade "protobuf<=3.20.1"
+
+plugins-mamba:
+	mamba install -c conda-forge pymeep=*=mpi_mpich_* nlopt -y
+	mamba install -c conda-forge slepc4py=*=complex* -y
+	pip install jax jaxlib numpy femwell --upgrade
+	pip install -e .[tidy3d,ray,sax,devsim,meow]
 
 plugins-debian: plugins
 	sudo apt-get update
@@ -67,9 +72,11 @@ gds:
 gdslib:
 	rm -rf $(HOME)/.gdsfactory
 	git clone https://github.com/gdsfactory/gdslib.git -b main $(HOME)/.gdsfactory
+gdslib-link:
+	rm -rf $(HOME)/.gdsfactory
+	ln -sf gdslib $(HOME)/.gdsfactory
 
 test:
-	flake8 gdsfactory
 	pytest -s
 
 test-force:
@@ -189,7 +196,7 @@ link:
 
 constructor:
 	conda install constructor -y
-	constructor .
+	constructor conda
 
 nbqa:
 	nbqa blacken-docs docs/notebooks/**/*.ipynb --nbqa-md
@@ -205,4 +212,4 @@ notebooks:
 	nbstripout --drop-empty-cells docs/notebooks/*.ipynb
 
 
-.PHONY: gdsdiff build conda
+.PHONY: gdsdiff build conda gdslib
