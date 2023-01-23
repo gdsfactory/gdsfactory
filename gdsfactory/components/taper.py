@@ -36,6 +36,8 @@ def taper(
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
         kwargs: cross_section settings.
     """
+    import gdsfactory as gf
+
     x = gf.get_cross_section(cross_section, **kwargs)
     layer = x.layer
 
@@ -54,7 +56,7 @@ def taper(
     ypts = [y1, y2, -y2, -y1]
 
     c = Component()
-    c.add_polygon((xpts, ypts), layer=layer)
+    c.add_polygon(zip(xpts, ypts), layer=layer)
 
     if x.cladding_layers and x.cladding_offsets:
         for layer, offset in zip(x.cladding_layers, x.cladding_offsets):
@@ -145,6 +147,8 @@ def taper_strip_to_ridge(
                      \__________________________
 
     """
+    import gdsfactory as gf
+
     taper_wg = taper(
         length=length,
         width1=width1,
@@ -161,8 +165,7 @@ def taper_strip_to_ridge(
 
     c = Component()
     for _t in [taper_wg, taper_slab]:
-        taper_ref = _t.ref()
-        c.add(taper_ref)
+        taper_ref = c.add_ref(_t)
         c.absorb(taper_ref)
 
     c.info["length"] = length
@@ -215,6 +218,8 @@ def taper_strip_to_ridge_trenches(
         layer_wg: waveguide layer.
         trench_offset: after waveguide in um.
     """
+    import gdsfactory as gf
+
     c = Component()
     y0 = width / 2 + trench_width - trench_offset
     yL = width / 2 + trench_width - trench_offset + slab_offset
@@ -260,19 +265,17 @@ taper_sc_nc = partial(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
+    # import gdsfactory as gf
+    # c = gf.grid(
+    #     [
+    #         taper_sc_nc(
+    #             length=length, info=dict(doe="taper_length", taper_length=length)
+    #         )
+    #         for length in [1, 2, 3]
+    #     ]
+    # )
+    # c.write_gds_with_metadata("extra/tapers.gds")
 
-    c = gf.grid(
-        [
-            taper_sc_nc(
-                length=length, info=dict(doe="taper_length", taper_length=length)
-            )
-            for length in [1, 2, 3]
-        ]
-    )
-    c.write_gds_with_metadata("extra/tapers.gds")
-
-    # c = taper(width2=1)
     # c = taper_strip_to_ridge()
     # print(c.get_optical_ports())
     # c = taper_strip_to_ridge_trenches()
@@ -283,4 +286,6 @@ if __name__ == "__main__":
     # c = taper_strip_to_ridge_trenches()
     # c = taper()
     # c = taper_sc_nc()
+
+    c = taper(width2=1)
     c.show(show_ports=True)

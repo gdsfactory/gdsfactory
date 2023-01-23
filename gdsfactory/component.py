@@ -320,8 +320,7 @@ class Component(KCell):
                 if by_spec
                 else {
                     (info.layer, info.datatype): [
-                        p.polygon
-                        for p in self.shapes(index).each(kdb.Shapes.SRegions)
+                        p.polygon for p in self.shapes(index).each(kdb.Shapes.SRegions)
                     ]
                     for info, index in zip(
                         self.library.layer_infos(), self.library.layer_indexes()
@@ -813,11 +812,6 @@ class Component(KCell):
         if layer is None:
             layer = cross_section.layer if cross_section else None
 
-        if layer is None:
-            raise ValueError("You need to define layer or cross_section")
-
-        layer = get_layer(layer)
-
         if port:
             if isinstance(port, Port):
                 return KCell.add_port(self, port)
@@ -836,6 +830,10 @@ class Component(KCell):
                 raise ValueError("Port needs width parameter (um).")
             if center is None:
                 raise ValueError("Port needs center parameter (x, y) um.")
+            if layer is None:
+                raise ValueError("You need to define layer or cross_section")
+
+            layer = get_layer(layer)
 
             # p = Port(
             #     name=name,
@@ -1411,7 +1409,7 @@ class Component(KCell):
 
         if show_ports:
             component = self.copy()
-            component.draw_ports()
+            # component.draw_ports()
             # component.name = self.name
 
         else:
