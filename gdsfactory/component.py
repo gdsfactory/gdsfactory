@@ -11,7 +11,6 @@ from collections.abc import Iterable
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
-import gdstk
 import klayout.db as kdb
 import numpy as np
 import yaml
@@ -1689,9 +1688,6 @@ class Component(KCell):
         for item in items:
             if isinstance(item, Port):
                 self.ports = {k: v for k, v in self.ports.items() if v != item}
-            elif isinstance(item, gdstk.Reference):
-                self._cell.remove(item)
-                item.owner = None
             elif isinstance(item, Instance):
                 self.references.remove(item)
                 self._cell.remove(item._reference)
