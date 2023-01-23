@@ -1411,14 +1411,7 @@ class Component(KCell):
         """
         from gdsfactory.show import show
 
-        if show_ports:
-            component = self.copy()
-            # component.draw_ports()
-            # component.name = self.name
-
-        else:
-            component = self
-
+        component = self.copy() if show_ports else self
         show(component, **kwargs)
 
     def to_3d(self, *args, **kwargs):
