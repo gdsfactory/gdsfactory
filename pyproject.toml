@@ -14,7 +14,7 @@ classifiers = [
 	"Programming Language :: Python :: 3.11",
 	"Operating System :: OS Independent",
 ]
-version = "6.22.1"
+version = "6.23.4"
 authors = [
     {name = "gdsfactory community", email = "contact@gdsfactory.com"},
 ]
@@ -93,7 +93,7 @@ meow = [
     "meow-sim",
     ]
 sax = ["sax==0.8.6", "jaxlib", "jax"]
-femwell = ["femwell", "petsc", "petsc4py", "slepc", "slepc4py"]
+femwell = ["femwell"]
 dev = [
     "autotyping",
     "black>=21",

@@ -1,5 +1,6 @@
 *.py[cod]
 
+add_type_hints.xonsh
 # C extensions
 *.so
 *.properties
@@ -12,8 +13,10 @@
 *.db
 *.svg
 *.db
+*.tar
 test_mask_metadata.csv
 test_mask_metadata.yml
+gdsfactory/simulation/spins/grating_full_opt/
 .pyre_configuration
 poetry.lock
 mask.csv
@@ -52,6 +55,7 @@ __pycache__
 .mypy_cache/
 .pyre/
 extra/
+fixme/
 gdsfactory/components/doc
 cml/
 mzi.yml
