@@ -12,6 +12,10 @@ class FemwellWaveguideModel(Model):
     def __init__(self, **kwargs) -> None:
         """Waveguide model inferred from Femwell mode simulation."""
         super().__init__(**kwargs)
+
+        # results vector size
+        self.size_results = self.num_modes
+
         return None
 
     def get_results(self, input_dict):
@@ -31,13 +35,17 @@ class FemwellWaveguideModel(Model):
             resolutions=self.simulation_settings["resolutions"],
             overwrite=self.simulation_settings["overwrite"],
             with_cache=True,
-            padding=self.simulation_settings["padding"],
         )
-        return lams
+        return [], lams
 
-    def get_Sparameters(self, input_dict):
-        """Returns S-parameters from component using neff and length."""
-        neffs = self.inference(input_dict)
+    def sdict(self, input_dict):
+        """Returns S-parameters SDict from component using neff and length."""
+        neffs = jnp.array(
+            [
+                self.inference[mode](input_dict.values())
+                for mode in range(self.num_modes)
+            ]
+        )
         phase = 2 * jnp.pi * neffs * input_dict["length"] / input_dict["wavelength"]
         amplitude = jnp.asarray(
             10 ** (-input_dict["loss"] * input_dict["length"] / 20), dtype=complex
@@ -54,12 +62,12 @@ class FemwellWaveguideModel(Model):
 if __name__ == "__main__":
 
     import gdsfactory as gf
-    from gdsfactory.cross_section import rib, strip
+    from gdsfactory.cross_section import rib
     from gdsfactory.simulation.sax.parameter import LayerStackThickness, NamedParameter
     from gdsfactory.technology import LayerStack
 
     c = gf.components.straight(
-        cross_section=strip(width=2),
+        cross_section=rib(width=2),
         length=10,
     )
     c.show()
@@ -94,11 +102,10 @@ if __name__ == "__main__":
             "overwrite": False,
             "order": 1,
             "radius": jnp.inf,
-            "padding": 1.0,
         },
         trainable_parameters={
             "width": NamedParameter(
-                min_value=0.3, max_value=0.7, nominal_value=0.5, step=0.2
+                min_value=0.3, max_value=1.0, nominal_value=0.5, step=0.1
             ),
             "wavelength": NamedParameter(
                 min_value=1.545, max_value=1.555, nominal_value=1.55, step=0.005
@@ -114,19 +121,35 @@ if __name__ == "__main__":
         },
         non_trainable_parameters={
             "length": NamedParameter(nominal_value=10),
+            "loss": NamedParameter(nominal_value=1),
         },
         num_modes=4,
     )
     input_vectors, output_vectors = strip_waveguide_model.get_data()
-    interpolator = strip_waveguide_model.get_nd_nd_interp()
+    interpolator = strip_waveguide_model.set_nd_nd_interp()
 
     params = jnp.stack(
         jnp.broadcast_arrays(
-            jnp.asarray([0.4, 0.55, 0.5]),
-            jnp.asarray([1.55, 1.5, 1.55]),
-            jnp.asarray([0.22, 0.22, 0.19]),
+            jnp.asarray([0.3, 0.55, 1.0]),
+            jnp.asarray([1.55, 1.55, 1.55]),
+            jnp.asarray([0.22, 0.22, 0.22]),
         ),
         0,
     )
 
-    print(interpolator["o1@0,o2@0"](params))
+    params_arr = [0.5, 1.55, 0.22, 10]
+
+    params_dict = {
+        "width": 0.5,
+        "wavelength": 1.55,
+        "core_thickness": 0.22,
+        "length": 10,
+        "loss": 1,
+    }
+
+    print(strip_waveguide_model.sdict(params_dict))
+
+    import matplotlib.pyplot as plt
+
+    widths = jnp.linspace(0.3, 1.0, 100)
+    plt.plot(widths)
