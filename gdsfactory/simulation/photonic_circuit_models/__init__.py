@@ -28,8 +28,7 @@ def directional_coupler_lc(
     wavelength_m = wavelength_nm * 1.0e-9
     dn_eff = (n_eff_1 - n_eff_2).real
     lc_m = wavelength_m / (np.pi * dn_eff) * np.arcsin(np.sqrt(power_ratio))
-    lc_um = lc_m * 1.0e6
-    return lc_um
+    return lc_m * 1.0e6
 
 
 def grating_coupler_period(
@@ -55,11 +54,9 @@ def grating_coupler_period(
     beta = n_eff.real * k0
     n_inc = n_clad
 
-    grating_period = (2.0 * np.pi * diffration_order) / (
+    return (2.0 * np.pi * diffration_order) / (
         beta - k0 * n_inc * np.sin(np.radians(incidence_angle_deg))
     )
-
-    return grating_period
 
 
 if __name__ == "__main__":
