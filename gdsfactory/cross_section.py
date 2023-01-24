@@ -162,14 +162,12 @@ class CrossSection(BaseModel):
             "add_bbox": {"exclude": True},
         }
 
-    def copy(self, width: Optional[float] = None):
-        xs = super().copy()
+    def copy(self, **kwargs):
+        """Returns a CrossSection copy."""
+        xs = super().copy(update=kwargs)
         xs.decorator = self.decorator
         xs.add_pins = self.add_pins
         xs.add_bbox = self.add_bbox
-
-        if width:
-            xs.width = width
         return xs
 
     def get_name(self) -> str:
