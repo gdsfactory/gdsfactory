@@ -12,6 +12,7 @@ settings:
     width1: 0.5
     width2: null
     with_bbox: true
+    with_pins: true
     with_two_ports: true
   full:
     cross_section: strip
@@ -20,6 +21,7 @@ settings:
     width1: 0.5
     width2: 0.2
     with_bbox: true
+    with_pins: true
     with_two_ports: false
   function_name: taper
   info:
