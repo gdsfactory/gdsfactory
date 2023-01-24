@@ -2,7 +2,7 @@ from __future__ import annotations
 from collections.abc import Iterable
 from typing import Any, Dict, List
 from gdsfactory.component import Component
-
+import gdsfactory as gf
 from gdsfactory.get_netlist import get_netlist_recursive
 
 
@@ -165,7 +165,7 @@ def _map_connections_ports(
         current_connections = []
         current_ports = []
         local_leaf_port = f"{leaf_instance},{leaf_portname}"
-        for level, ((higher_component, higher_instance),) in enumerate(
+        for level, (higher_component, higher_instance) in enumerate(
             hierarchy[:-1][::-1]
         ):
             # Identify connected node (with flattened names)
@@ -289,66 +289,81 @@ def _flatten_hierarchy_recurse(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
-    """
-    Testing electrical netlist w/ identical component references
-    """
-    # Define compound component
-    series_resistors = gf.Component("seriesResistors")
-    rseries1 = series_resistors << gf.get_component(
-        gf.components.resistance_sheet, width=20, ohms_per_square=20
-    )
-    rseries2 = series_resistors << gf.get_component(
-        gf.components.resistance_sheet, width=20, ohms_per_square=20
-    )
-    rseries1.connect("pad2", rseries2.ports["pad1"])
-    series_resistors.add_port("pad1", port=rseries1.ports["pad1"])
-    series_resistors.add_port("pad2", port=rseries2.ports["pad2"])
-
-    # Increase hierarchy levels more
-    double_series_resistors = gf.Component("double_seriesResistors")
-    rseries1 = double_series_resistors << gf.get_component(series_resistors)
-    rseries2 = double_series_resistors << gf.get_component(series_resistors)
-    rseries1.connect("pad2", rseries2.ports["pad1"])
-    double_series_resistors.add_port("pad1", port=rseries1.ports["pad1"])
-    double_series_resistors.add_port("pad2", port=rseries2.ports["pad2"])
-
-    # Define top-level component
-    vdiv = gf.Component("voltageDivider")
-    r1 = vdiv << double_series_resistors
-    r2 = vdiv << series_resistors
-    r3 = (
-        vdiv
-        << gf.get_component(
-            gf.components.resistance_sheet, width=20, ohms_per_square=20
-        ).rotate()
-    )
-    r4 = vdiv << gf.get_component(
-        gf.components.resistance_sheet, width=20, ohms_per_square=20
-    )
-
-    r1.connect("pad2", r2.ports["pad1"])
-    r3.connect("pad1", r2.ports["pad1"], preserve_orientation=True)
-    r4.connect("pad1", r3.ports["pad2"], preserve_orientation=True)
-
-    vdiv.add_port("gnd1", port=r2.ports["pad2"])
-    vdiv.add_port("gnd2", port=r4.ports["pad2"])
-    vdiv.add_port("vsig", port=r1.ports["pad1"])
-    vdiv.show(show_ports=True)
-
-    recursive_netlist = get_netlist_recursive(vdiv, allow_multiple=True)
     import pprint
 
-    print("RECURSIVE NETLIST")
-    print("")
-    pprint.pprint(recursive_netlist)
-    print("")
-    print("OPERATION")
-    print("")
+    coupler_lengths = [10, 20, 30, 40]
+    coupler_gaps = [0.1, 0.2, 0.4, 0.5]
+    delta_lengths = [10, 100, 200]
 
-    flat_netlist = get_netlist_flat(vdiv, allow_multiple=True)
+    c = gf.components.mzi_lattice(
+        coupler_lengths=coupler_lengths,
+        coupler_gaps=coupler_gaps,
+        delta_lengths=delta_lengths,
+    )
+    flat_netlist = get_netlist_flat(c)
     print("")
     print("FLAT NETLIST")
     print("")
     pprint.pprint(flat_netlist)
+
+    # """
+    # Testing electrical netlist w/ identical component references
+    # """
+    # # Define compound component
+    # series_resistors = gf.Component("seriesResistors")
+    # rseries1 = series_resistors << gf.get_component(
+    #     gf.components.resistance_sheet, width=20, ohms_per_square=20
+    # )
+    # rseries2 = series_resistors << gf.get_component(
+    #     gf.components.resistance_sheet, width=20, ohms_per_square=20
+    # )
+    # rseries1.connect("pad2", rseries2.ports["pad1"])
+    # series_resistors.add_port("pad1", port=rseries1.ports["pad1"])
+    # series_resistors.add_port("pad2", port=rseries2.ports["pad2"])
+
+    # # Increase hierarchy levels more
+    # double_series_resistors = gf.Component("double_seriesResistors")
+    # rseries1 = double_series_resistors << gf.get_component(series_resistors)
+    # rseries2 = double_series_resistors << gf.get_component(series_resistors)
+    # rseries1.connect("pad2", rseries2.ports["pad1"])
+    # double_series_resistors.add_port("pad1", port=rseries1.ports["pad1"])
+    # double_series_resistors.add_port("pad2", port=rseries2.ports["pad2"])
+
+    # # Define top-level component
+    # vdiv = gf.Component("voltageDivider")
+    # r1 = vdiv << double_series_resistors
+    # r2 = vdiv << series_resistors
+    # r3 = (
+    #     vdiv
+    #     << gf.get_component(
+    #         gf.components.resistance_sheet, width=20, ohms_per_square=20
+    #     ).rotate()
+    # )
+    # r4 = vdiv << gf.get_component(
+    #     gf.components.resistance_sheet, width=20, ohms_per_square=20
+    # )
+
+    # r1.connect("pad2", r2.ports["pad1"])
+    # r3.connect("pad1", r2.ports["pad1"], preserve_orientation=True)
+    # r4.connect("pad1", r3.ports["pad2"], preserve_orientation=True)
+
+    # vdiv.add_port("gnd1", port=r2.ports["pad2"])
+    # vdiv.add_port("gnd2", port=r4.ports["pad2"])
+    # vdiv.add_port("vsig", port=r1.ports["pad1"])
+    # vdiv.show(show_ports=True)
+
+    # recursive_netlist = get_netlist_recursive(vdiv, allow_multiple=True)
+    # import pprint
+
+    # print("RECURSIVE NETLIST")
+    # print("")
+    # pprint.pprint(recursive_netlist)
+    # print("")
+    # print("OPERATION")
+    # print("")
+
+    # flat_netlist = get_netlist_flat(vdiv, allow_multiple=True)
+    # print("")
+    # print("FLAT NETLIST")
+    # print("")
+    # pprint.pprint(flat_netlist)
