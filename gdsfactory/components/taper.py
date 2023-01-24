@@ -19,7 +19,6 @@ def taper(
     with_bbox: bool = True,
     with_two_ports: bool = True,
     cross_section: CrossSectionSpec = "strip",
-    with_pins: bool = True,
     **kwargs,
 ) -> Component:
     """Linear taper.
@@ -102,7 +101,7 @@ def taper(
 
     if x.add_bbox:
         c = x.add_bbox(c)
-    if with_pins and x.add_pins:
+    if x.add_pins:
         c = x.add_pins(c)
     return c
 
