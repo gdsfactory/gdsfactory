@@ -68,7 +68,7 @@ def mmi1x2(
         width1=width,
         width2=w_taper,
         cross_section=cross_section,
-        with_pins=False,
+        add_pins=None,
     )
 
     a = gap_mmi / 2 + width_taper / 2
