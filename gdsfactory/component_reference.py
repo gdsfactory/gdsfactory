@@ -705,6 +705,7 @@ class ComponentReference(_GeometryHelper):
         port: Union[str, Port],
         destination: Port,
         overlap: float = 0.0,
+        preserve_orientation: bool = False,
     ) -> ComponentReference:
         """Return ComponentReference where port connects to a destination.
 
@@ -712,6 +713,7 @@ class ComponentReference(_GeometryHelper):
             port: origin (port, or port name) to connect.
             destination: destination port.
             overlap: how deep does the port go inside.
+            preserve_orientation: if True, will not rotate the reference to align the port orientations; reference will keep its orientation pre-connection.
 
         Returns:
             ComponentReference: with correct rotation to connect to destination.
@@ -727,7 +729,11 @@ class ComponentReference(_GeometryHelper):
                 f"port = {port!r} not in {self.parent.name!r} ports {ports}"
             )
 
-        if destination.orientation is not None and p.orientation is not None:
+        if (
+            destination.orientation is not None
+            and p.orientation is not None
+            and preserve_orientation is not True
+        ):
             angle = 180 + destination.orientation - p.orientation
             angle = angle % 360
             self.rotate(angle=angle, center=p.center)
