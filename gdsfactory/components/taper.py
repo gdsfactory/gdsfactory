@@ -19,6 +19,7 @@ def taper(
     with_bbox: bool = True,
     with_two_ports: bool = True,
     cross_section: CrossSectionSpec = "strip",
+    with_pins: bool = True,
     **kwargs,
 ) -> Component:
     """Linear taper.
@@ -101,7 +102,7 @@ def taper(
 
     if x.add_bbox:
         c = x.add_bbox(c)
-    if x.add_pins:
+    if with_pins and x.add_pins:
         c = x.add_pins(c)
     return c
 
@@ -239,7 +240,6 @@ def taper_strip_to_ridge_trenches(
     c.add_port(
         name="o2", center=(length, 0), width=width, orientation=0, layer=layer_wg
     )
-
     return c
 
 
