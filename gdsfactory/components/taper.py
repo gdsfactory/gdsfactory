@@ -239,7 +239,6 @@ def taper_strip_to_ridge_trenches(
     c.add_port(
         name="o2", center=(length, 0), width=width, orientation=0, layer=layer_wg
     )
-
     return c
 
 
