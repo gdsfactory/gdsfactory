@@ -68,11 +68,16 @@ def mmi2x2(
         width1=width,
         width2=w_taper,
         cross_section=cross_section,
+        with_pins=False,
     )
 
     a = gap_mmi / 2 + width_taper / 2
     mmi = c << gf.get_component(
-        straight, length=length_mmi, width=w_mmi, cross_section=cross_section
+        straight,
+        length=length_mmi,
+        width=w_mmi,
+        cross_section=cross_section,
+        add_pins=None,
     )
 
     ports = [
