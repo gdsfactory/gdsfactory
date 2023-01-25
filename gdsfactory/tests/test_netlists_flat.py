@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import gdsfactory as gf
+from gdsfactory.get_netlist_flat import get_netlist_flat
 
 
 def test_flat_netlist_photonic():
@@ -64,12 +65,7 @@ def test_flatten_netlist_identical_references():
     vdiv.add_port("vsig", port=r1.ports["pad1"])
     vdiv.show(show_ports=True)
 
-    assert (
-        len(
-            gf.get_netlist_flat.get_netlist_flat(vdiv, allow_multiple=True)["instances"]
-        )
-        == 8
-    )
+    assert len(get_netlist_flat(vdiv, allow_multiple=True)["instances"]) == 8
 
 
 if __name__ == "__main__":
