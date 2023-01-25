@@ -15,7 +15,6 @@ def test_flat_netlist_photonic():
         delta_lengths=delta_lengths,
     )
     gf.get_netlist_flat.get_netlist_flat(c)
-    assert True
 
 
 def test_flatten_netlist_identical_references():

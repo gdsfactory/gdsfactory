@@ -732,7 +732,7 @@ class ComponentReference(_GeometryHelper):
         if (
             destination.orientation is not None
             and p.orientation is not None
-            and preserve_orientation is not True
+            and not preserve_orientation
         ):
             angle = 180 + destination.orientation - p.orientation
             angle = angle % 360

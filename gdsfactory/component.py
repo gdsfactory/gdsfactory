@@ -477,10 +477,10 @@ class Component(_GeometryHelper):
         placements = netlist["placements"]
         connections_list = []
         for k, v_list in connections.items():
-            for v in v_list:
-                connections_list.append(
-                    (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
-                )
+            connections_list.extend(
+                (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
+                for v in v_list
+            )
         G = nx.Graph()
         G.add_edges_from(connections_list)
         pos = {k: (v["x"], v["y"]) for k, v in placements.items()}
