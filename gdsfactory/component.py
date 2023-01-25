@@ -422,18 +422,21 @@ class Component(_GeometryHelper):
         ports_ccw = self.get_ports_list(clockwise=False, **kwargs)
         return snap_to_grid(ports_ccw[0].y - ports_cw[0].y)
 
-    def plot_netlist(self, with_labels: bool = True, font_weight: str = "normal"):
+    def plot_netlist(
+        self, with_labels: bool = True, font_weight: str = "normal", **kwargs
+    ):
         """Plots a netlist graph with networkx.
 
         Args:
             with_labels: add label to each node.
             font_weight: normal, bold.
+            **kwargs: keyword arguments for the get_netlist function
         """
         import matplotlib.pyplot as plt
         import networkx as nx
 
         plt.figure()
-        netlist = self.get_netlist()
+        netlist = self.get_netlist(**kwargs)
         connections = netlist["connections"]
         placements = netlist["placements"]
         G = nx.Graph()
@@ -443,7 +446,43 @@ class Component(_GeometryHelper):
                 for k, v in connections.items()
             ]
         )
+        pos = {k: (v["x"], v["y"]) for k, v in placements.items()}
+        labels = {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
+        nx.draw(
+            G,
+            with_labels=with_labels,
+            font_weight=font_weight,
+            labels=labels,
+            pos=pos,
+        )
+        return G
 
+    def plot_netlist_flat(
+        self, with_labels: bool = True, font_weight: str = "normal", **kwargs
+    ):
+        """Plots a netlist graph with networkx.
+
+        Args:
+            flat: if true, will plot the flat netlist
+            with_labels: add label to each node.
+            font_weight: normal, bold.
+            **kwargs: keyword arguments for the get_netlist function
+        """
+        import matplotlib.pyplot as plt
+        import networkx as nx
+
+        plt.figure()
+        netlist = self.get_netlist_flat(**kwargs)
+        connections = netlist["connections"]
+        placements = netlist["placements"]
+        connections_list = []
+        for k, v_list in connections.items():
+            connections_list.extend(
+                (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
+                for v in v_list
+            )
+        G = nx.Graph()
+        G.add_edges_from(connections_list)
         pos = {k: (v["x"], v["y"]) for k, v in placements.items()}
         labels = {k: ",".join(k.split(",")[:1]) for k in placements.keys()}
         nx.draw(
@@ -483,6 +522,8 @@ class Component(_GeometryHelper):
             tolerance: tolerance in nm to consider two ports connected.
             exclude_port_types: optional list of port types to exclude from netlisting.
             get_instance_name: function to get instance name.
+            allow_multiple: False to raise an error if more than two ports share the same connection.
+                if True, will return key: [value] pairs with [value] a list of all connected instances.
 
         Returns:
             Netlist dict (instances, connections, placements, ports)
@@ -508,6 +549,8 @@ class Component(_GeometryHelper):
             tolerance: tolerance in nm to consider two ports connected.
             exclude_port_types: optional list of port types to exclude from netlisting.
             get_instance_name: function to get instance name.
+            allow_multiple: False to raise an error if more than two ports share the same connection.
+                if True, will return key: [value] pairs with [value] a list of all connected instances.
 
         Returns:
             Dictionary of netlists, keyed by the name of each component.
@@ -515,6 +558,28 @@ class Component(_GeometryHelper):
         from gdsfactory.get_netlist import get_netlist_recursive
 
         return get_netlist_recursive(component=self, **kwargs)
+
+    def get_netlist_flat(self, **kwargs) -> Dict[str, DictConfig]:
+        """Returns a netlist where all subinstances are exposed and independently named.
+
+        Keyword Args:
+            component: to extract netlist.
+            component_suffix: suffix to append to each component name.
+                useful if to save and reload a back-annotated netlist.
+            get_netlist_func: function to extract individual netlists.
+            full_settings: True returns all, false changed settings.
+            tolerance: tolerance in nm to consider two ports connected.
+            exclude_port_types: optional list of port types to exclude from netlisting.
+            get_instance_name: function to get instance name.
+            allow_multiple: False to raise an error if more than two ports share the same connection.
+                if True, will return key: [value] pairs with [value] a list of all connected instances.
+
+        Returns:
+            Dictionary of netlists, keyed by the name of each component.
+        """
+        from gdsfactory.get_netlist_flat import get_netlist_flat
+
+        return get_netlist_flat(component=self, **kwargs)
 
     def assert_ports_on_grid(self, nm: int = 1) -> None:
         """Asserts that all ports are on grid."""
