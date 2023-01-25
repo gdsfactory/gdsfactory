@@ -279,10 +279,12 @@ def _flatten_hierarchy_recurse(
         if component_name not in all_netlists.keys():
             instance_dict[hierarchy_str] = True  # Done for this leaf
         else:
-            instance_dict |= _flatten_hierarchy_recurse(
-                component_name,
-                all_netlists,
-                hierarchy_str,
+            instance_dict.update(
+                _flatten_hierarchy_recurse(
+                    component_name,
+                    all_netlists,
+                    hierarchy_str,
+                )
             )
 
     return instance_dict
