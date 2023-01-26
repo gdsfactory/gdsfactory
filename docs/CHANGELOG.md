@@ -1,5 +1,8 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.25.2
+- fix mesh with 3D holes [PR](https://github.com/gdsfactory/gdsfactory/pull/1196)
+
 ## 6.25.0
 
 - add flat netlist to `Component.get_netlist_flat()` [PR](https://github.com/gdsfactory/gdsfactory/pull/1192)
