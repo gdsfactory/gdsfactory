@@ -125,7 +125,7 @@ Then you need to restart Klayout to make sure you activate the klayout gdsfactor
 
 <div style="text-align: right; margin-right: 10%;">Joaquin Matres - <strong>Google</strong>
 
-<br/>
+---
 
 "I've relied on **gdsfactory** for several tapeouts over the years. It's the only tool I've found that gives me the flexibility and scalability I need for a variety of projects."
 
