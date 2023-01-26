@@ -73,7 +73,7 @@ def add_surface(occ, vertices, lines_dict, points_dict):
     return occ.add_plane_surface([channel_loop])
 
 
-def add_volume(occ, entry, lines_dict, points_dict):
+def add_volume(occ, entry, lines_dict, points_dict, exterior=True, interior_index=0):
     """Create shape from a list of the same buffered polygon and a list of z-values.
 
     Args:
@@ -86,23 +86,39 @@ def add_volume(occ, entry, lines_dict, points_dict):
     # Draw bottom surface
     bottom_polygon = entry[0][1]
     bottom_polygon_z = entry[0][0]
-    bottom_polygon_vertices = [
-        (x, y, bottom_polygon_z) for x, y in bottom_polygon.exterior.coords
-    ]
+    if exterior:
+        bottom_polygon_vertices = [
+            (x, y, bottom_polygon_z) for x, y in bottom_polygon.exterior.coords
+        ]
+    else:
+        bottom_polygon_vertices = [
+            (x, y, bottom_polygon_z)
+            for x, y in bottom_polygon.interiors[interior_index].coords
+        ]
     gmsh_surfaces = [add_surface(occ, bottom_polygon_vertices, lines_dict, points_dict)]
     # Draw top surface
     top_polygon = entry[-1][1]
     top_polygon_z = entry[-1][0]
-    top_polygon_vertices = [
-        (x, y, top_polygon_z) for x, y in top_polygon.exterior.coords
-    ]
+    if exterior:
+        top_polygon_vertices = [
+            (x, y, top_polygon_z) for x, y in top_polygon.exterior.coords
+        ]
+    else:
+        top_polygon_vertices = [
+            (x, y, top_polygon_z)
+            for x, y in top_polygon.interiors[interior_index].coords
+        ]
     gmsh_surfaces.append(
         add_surface(occ, top_polygon_vertices, lines_dict, points_dict)
     )
     # Draw vertical surfaces
     for pair_index in range(len(entry) - 1):
-        bottom_polygon = entry[pair_index][1].exterior.coords
-        top_polygon = entry[pair_index + 1][1].exterior.coords
+        if exterior:
+            bottom_polygon = entry[pair_index][1].exterior.coords
+            top_polygon = entry[pair_index + 1][1].exterior.coords
+        else:
+            bottom_polygon = entry[pair_index][1].interiors[interior_index].coords
+            top_polygon = entry[pair_index + 1][1].interiors[interior_index].coords
         bottom_z = entry[pair_index][0]
         top_z = entry[pair_index + 1][0]
         for facet_pt_ind in range(len(bottom_polygon) - 1):
@@ -136,6 +152,30 @@ def add_volume(occ, entry, lines_dict, points_dict):
     return occ.add_volume([surface_loop])
 
 
+def add_volume_with_holes(occ, entry, lines_dict, points_dict):
+    """Returns volume, removing intersection with hole volumes."""
+    exterior = add_volume(occ, entry, lines_dict, points_dict, exterior=True)
+    interiors = [
+        add_volume(
+            occ,
+            entry,
+            lines_dict,
+            points_dict,
+            exterior=False,
+            interior_index=interior_index,
+        )
+        for interior_index in range(len(entry[0][1].interiors))
+    ]
+    if interiors:
+        for interior in interiors:
+            exterior = occ.cut(
+                [(3, exterior)], [(3, interior)], removeObject=True, removeTool=True
+            )
+            occ.synchronize()
+        exterior = exterior[0][0][1]  # Parse `outDimTags', `outDimTagsMap'
+    return exterior
+
+
 def create_shapes(occ, buffered_layer_polygons_dict):
     """Loop over layers and polygons to create base shapes.
 
@@ -149,8 +189,10 @@ def create_shapes(occ, buffered_layer_polygons_dict):
     lines_dict = {}
     points_dict = {}
     for layername, entry in buffered_layer_polygons_dict.items():
+        subshapes_list = []
         subshapes_list = [
-            add_volume(occ, polygon, lines_dict, points_dict) for polygon in entry
+            add_volume_with_holes(occ, polygon, lines_dict, points_dict)
+            for polygon in entry
         ]
         shapes[layername] = subshapes_list
 
@@ -187,7 +229,6 @@ def xyz_mesh(
     gmsh.option.setNumber("Geometry.OCCBooleanPreserveNumbering", 1)
 
     shapes = create_shapes(occ, buffered_layer_polygons_dict)
-    occ.synchronize()
 
     # Iterate through objects, removing overlaps
     # Don't remove entities at this stage
@@ -321,7 +362,8 @@ if __name__ == "__main__":
     # c.show()
 
     c = gf.component.Component()
-    waveguide = c << gf.get_component(gf.components.straight_pin(length=5, taper=None))
+    # waveguide = c << gf.get_component(gf.components.straight_pin(length=5, taper=None))
+    ring = c << gf.get_component(gf.components.ring_crow)
     # bend = c << gf.get_component(gf.components.spiral_double(cross_section="rib"))
     # c = gf.components.spiral_racetrack(cross_section='rib')
     c.plot()
@@ -340,32 +382,32 @@ if __name__ == "__main__":
         layers={
             k: get_layer_stack().layers[k]
             for k in (
-                "slab90",
+                # "slab90",
                 "core",
-                "via_contact",
+                # "via_contact",
                 # "undercut",
                 # "box",
                 # "substrate",
-                "clad",
+                # "clad",
                 # "metal1",
             )
         }
     )
 
-    filtered_layerstack.layers["via_contact"].info["mesh_order"] = 4
-    filtered_layerstack.layers["clad"].info["mesh_order"] = 5
+    # filtered_layerstack.layers["via_contact"].info["mesh_order"] = 4
+    # filtered_layerstack.layers["clad"].info["mesh_order"] = 5
 
     resolutions = {
         "core": {"resolution": 0.1},
-        "slab90": {"resolution": 0.4},
-        "via_contact": {"resolution": 0.4},
+        # "slab90": {"resolution": 0.4},
+        # "via_contact": {"resolution": 0.4},
     }
     geometry = xyz_mesh(
         component=c,
         layerstack=filtered_layerstack,
         resolutions=resolutions,
         filename="mesh.msh",
-        verbosity=True,
+        verbosity=False,
     )
     # print(geometry)
 
