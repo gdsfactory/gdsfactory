@@ -19,6 +19,7 @@ def spiral_racetrack(
     bend_factory: ComponentFactory = bend_euler,
     bend_s_factory: ComponentFactory = bend_s,
     cross_section: CrossSectionSpec = "strip",
+    n_bend_points=None,
 ) -> Component:
     """Returns Racetrack-Spiral.
 
@@ -37,6 +38,7 @@ def spiral_racetrack(
     bend_s = c << bend_s_factory(
         (straight_length, -min_radius * 2 + 1 * spacings[0]),
         cross_section=cross_section,
+        **({"nb_points": n_bend_points} if n_bend_points else {}),
     )
 
     ports = []
@@ -47,6 +49,7 @@ def spiral_racetrack(
                 radius=min_radius + np.sum(spacings[:i]),
                 p=0,
                 cross_section=cross_section,
+                **({"npoints": n_bend_points} if n_bend_points else {}),
             )
             bend.connect("o1", port)
 
