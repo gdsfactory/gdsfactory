@@ -26,7 +26,7 @@ def add_get_point(occ, x, y, z, points_dict):
 
 
 def add_get_segment(occ, xyz1, xyz2, lines_dict, points_dict):
-    """Add a segment (2-point line) to the gmsh model, or retrieve a previously-defined point.
+    """Add a segment (2-point line) to the gmsh model, or retrieve a previously-defined segment.
 
     Note that the OCC kernel does not care about orientation.
 
@@ -224,11 +224,13 @@ def xyz_mesh(
     # GDS polygons to simulation polygons
     buffered_layer_polygons_dict = buffers_to_lists(layer_polygons_dict, layerstack)
 
+    gmsh.clear()
     occ = gmsh.model.occ
     gmsh.initialize()
     gmsh.option.setNumber("Geometry.OCCBooleanPreserveNumbering", 1)
 
     shapes = create_shapes(occ, buffered_layer_polygons_dict)
+    occ.synchronize()
 
     # Iterate through objects, removing overlaps
     # Don't remove entities at this stage
@@ -343,6 +345,7 @@ def xyz_mesh(
     gmsh.write("mesh.msh")
 
     # Mesh
+    gmsh.finalize()
     return True
 
 
