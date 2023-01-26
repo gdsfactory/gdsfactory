@@ -224,9 +224,9 @@ def xyz_mesh(
     # GDS polygons to simulation polygons
     buffered_layer_polygons_dict = buffers_to_lists(layer_polygons_dict, layerstack)
 
-    gmsh.clear()
     occ = gmsh.model.occ
     gmsh.initialize()
+    gmsh.clear()
     gmsh.option.setNumber("Geometry.OCCBooleanPreserveNumbering", 1)
 
     shapes = create_shapes(occ, buffered_layer_polygons_dict)
