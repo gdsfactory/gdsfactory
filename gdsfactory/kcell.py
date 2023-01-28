@@ -636,10 +636,11 @@ class KCell:
         for port in self.ports._ports:
             w = port.width
             poly = kdb.Polygon(
-                [kdb.Point(0, -w // 2), kdb.Point(0, w // 2), kdb.Point(w // 2, 0)]
+                [kdb.DPoint(0, -w // 2), kdb.DPoint(0, w // 2), kdb.DPoint(w // 2, 0)]
             )
-            self.shapes(port.layer).insert(poly.transformed(port.trans))
-            self.shapes(port.layer).insert(kdb.Text(port.name, port.trans))
+            layer = self.library.layer(*port.layer)
+            self.shapes(layer).insert(poly.transformed(port.trans))
+            self.shapes(layer).insert(kdb.DText(port.name, port.trans))
 
     def write(
         self, filename: str | Path, save_options: kdb.SaveLayoutOptions = default_save()

@@ -33,6 +33,7 @@ from gdsfactory.kcell import (
     PortLayerMismatch,
     PortTypeMismatch,
     Ports,
+    InstancePorts,
 )
 from gdsfactory.technology import LayerView, LayerViews
 from gdsfactory.generic_tech import LAYER_VIEWS
@@ -855,7 +856,7 @@ class Component(KCell):
             self,
             name=name,
             center=center,
-            width=width,
+            width=width * 1e3,
             orientation=orientation,
             layer=layer,
             port_type=port_type,
@@ -872,8 +873,9 @@ class Component(KCell):
             ports: list or dict of ports.
             prefix: to prepend to each port name.
         """
-        if isinstance(ports, Ports):
-            ports = ports.get_all().values()
+        if isinstance(ports, (Ports, InstancePorts)):
+            ports = ports.copy()
+            ports = ports._ports
 
         for port in list(ports):
             name = f"{prefix}{port.name}" if prefix else port.name
@@ -1413,7 +1415,7 @@ class Component(KCell):
 
         if show_ports:
             component = self.copy()
-            # component.draw_ports()
+            component.draw_ports()
             # component.name = self.name
 
         else:
