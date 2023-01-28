@@ -703,6 +703,7 @@ class Component(_GeometryHelper):
             f"references {list(self.named_references.keys())}, "
             f"{len(self.polygons)} polygons"
         )
+        return self.plot_widget()
 
     def pprint(self) -> None:
         """Prints component info."""
@@ -1234,9 +1235,24 @@ class Component(_GeometryHelper):
 
     def _repr_html_(self):
         """Show geometry in KLayout and in matplotlib for Jupyter Notebooks."""
-        self.show(show_ports=False)  # show in klayout
-        self.plot(plotter="matplotlib")
-        return self.__repr__()
+        from IPython.display import display
+
+        self.show(show_ports=True)  # show in klayout
+        # self.plot(plotter="matplotlib")
+        self.__repr__()
+        display(self._plot_widget())
+
+    def _plot_widget(self):
+        from gdsfactory.widgets.layout_viewer import LayoutViewer
+        from gdsfactory.pdk import get_layer_views
+
+        gdspath = self.write_gds()
+        lyp_path = gdspath.with_suffix(".lyp")
+
+        layer_views = get_layer_views()
+        layer_views.to_lyp(filepath=lyp_path)
+        layout = LayoutViewer(gdspath, lyp_path)
+        return layout.image
 
     def plot(self, plotter: Optional[Plotter] = None, **kwargs) -> None:
         """Returns component plot.

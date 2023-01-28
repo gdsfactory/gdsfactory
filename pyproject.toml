@@ -69,10 +69,7 @@ full = [
     "trimesh",
     ]
 femwell = ["femwell"]
-database = [
-    "sqlalchemy",
-    "sqlalchemy-utils",
-    ]
+database = ["sqlalchemy", "sqlalchemy-utils"]
 gmsh = [
     "gmsh",
     "h5py",
@@ -92,7 +89,6 @@ devsim = [
     ]
 meow = ["meow-sim"]
 sax = ["sax==0.8.6", "jaxlib", "jax"]
-femwell = ["femwell"]
 dev = [
     "autotyping",
     "black>=21",
