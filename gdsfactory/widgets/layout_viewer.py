@@ -1,12 +1,20 @@
-from ipywidgets import HTML, Image
-from ipyevents import Event
-from typing import Optional
-import klayout.db as db
-import klayout.lay as lay
+try:
+    from ipywidgets import HTML, Image
+    from ipyevents import Event
+    from typing import Optional
+    import klayout.db as db
+    import klayout.lay as lay
+except ImportError as e:
+    print(
+        "You need install jupyter notebook plugin with `pip install gdsfactory[full]`"
+    )
+    raise e
 
 
 class LayoutViewer:
     def __init__(self, filepath: str, layer_properties: Optional[str]):
+        filepath = str(filepath)
+        layer_properties = str(layer_properties)
         self.filepath = filepath
         self.layer_properties = layer_properties
         self.layout_view = lay.LayoutView()
