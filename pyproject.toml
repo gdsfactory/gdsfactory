@@ -54,6 +54,7 @@ full = [
     "holoviews",
     "ipympl",
     "ipywidgets",
+    "ipyevents",
     "klayout",
     "mapbox_earcut",
     "natsort",
@@ -67,6 +68,7 @@ full = [
     "triangle",
     "trimesh",
     ]
+femwell = ["femwell"]
 database = [
     "sqlalchemy",
     "sqlalchemy-utils",
@@ -81,17 +83,14 @@ gmsh = [
     "trimesh",
     "shapely",
     ]
-sipann = ["SIPANN==2.0.0", "simphony==0.6.1"]
 tidy3d = ["tidy3d==1.8.2"]
 devsim = [
     "devsim",
     "mkl",
     "pyvista",
-    "tidy3d==1.8.2",
+    "tidy3d",
     ]
-meow = [
-    "meow-sim",
-    ]
+meow = ["meow-sim"]
 sax = ["sax==0.8.6", "jaxlib", "jax"]
 femwell = ["femwell"]
 dev = [
