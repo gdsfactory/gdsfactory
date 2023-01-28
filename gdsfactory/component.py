@@ -703,7 +703,6 @@ class Component(_GeometryHelper):
             f"references {list(self.named_references.keys())}, "
             f"{len(self.polygons)} polygons"
         )
-        return self.plot_widget()
 
     def pprint(self) -> None:
         """Prints component info."""
