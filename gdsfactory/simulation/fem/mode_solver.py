@@ -33,7 +33,7 @@ def load_mesh_basis(mesh_filename: PathType):
 def compute_cross_section_modes(
     cross_section: CrossSectionSpec,
     layerstack: LayerStack,
-    wl: float = 1.55,
+    wavelength: float = 1.55,
     num_modes: int = 4,
     order: int = 1,
     radius: float = np.inf,
@@ -50,7 +50,7 @@ def compute_cross_section_modes(
     Args:
         cross_section: gdsfactory cross-section.
         layerstack: gdsfactory layerstack.
-        wl: wavelength (um).
+        wavelength: wavelength (um).
         num_modes: number of modes to return.
         order: order of the mesh elements. 1: linear, 2: quadratic.
         radius: bend radius of the cross-section.
@@ -75,7 +75,7 @@ def compute_cross_section_modes(
         merge_by_material: boolean, if True will merge polygons from layers with the same layer.material. Physical keys will be material in this case.
     """
     sim_settings = dict(
-        wl=wl,
+        wavelength=wavelength,
         num_modes=num_modes,
         radius=radius,
         order=order,
@@ -136,22 +136,23 @@ def compute_cross_section_modes(
     for layername, layer in layerstack.layers.items():
         if layername in mesh.subdomains.keys():
             epsilon[basis0.get_dofs(elements=layername)] = (
-                _ACTIVE_PDK.materials_index[layer.material](wl) ** 2
+                _ACTIVE_PDK.materials_index[layer.material](wavelength) ** 2
             )
         if "background_tag" in kwargs:
             epsilon[basis0.get_dofs(elements=kwargs["background_tag"])] = (
-                _ACTIVE_PDK.materials_index[kwargs["background_tag"]](wl) ** 2
+                _ACTIVE_PDK.materials_index[kwargs["background_tag"]](wavelength) ** 2
             )
 
     # Mode solve
     lams, basis, xs = mode_solver.compute_modes(
         basis0,
         epsilon,
-        wavelength=wl,
+        wavelength=wavelength,
         mu_r=1,
         num_modes=num_modes,
         order=order,
         radius=radius,
+        solver="slepc",
     )
 
     if with_cache:
@@ -187,7 +188,7 @@ if __name__ == "__main__":
     lams, basis, xs = compute_cross_section_modes(
         cross_section="strip",
         layerstack=filtered_layerstack,
-        wl=1.55,
+        wavelength=1.55,
         num_modes=4,
         order=1,
         radius=np.inf,
