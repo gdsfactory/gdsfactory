@@ -53,9 +53,9 @@ class LayoutViewer:
 
         if mouse_buttons == 1:
             buttons |= lay.ButtonState.LeftButton
-        if mouse_buttons == 2:
+        elif mouse_buttons == 2:
             buttons |= lay.ButtonState.RightButton
-        if mouse_buttons == 4:
+        elif mouse_buttons == 4:
             buttons |= lay.ButtonState.MidButton
 
         return buttons
