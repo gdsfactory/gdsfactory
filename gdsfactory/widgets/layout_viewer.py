@@ -13,7 +13,7 @@ except ImportError as e:
 
 class LayoutViewer:
     def __init__(self, filepath: str, layer_properties: Optional[str]):
-        filepath = str(filepath)
+        filepath = filepath
         layer_properties = str(layer_properties)
         self.filepath = filepath
         self.layer_properties = layer_properties
