@@ -35,7 +35,7 @@ def compute_modes(
     lams, basis, xs = compute_cross_section_modes(
         cross_section="rib",
         layerstack=filtered_layerstack,
-        wl=1.55,
+        wavelength=1.55,
         num_modes=num_modes,
         order=1,
         radius=np.inf,
@@ -68,13 +68,13 @@ def test_compute_cross_section_mode_cache():
 
 
 if __name__ == "__main__":
-    # test_compute_cross_section_mode_cache()
-    lams, basis, xs = compute_modes(with_cache=True, overwrite=False)
-    mode_solver.plot_mode(
-        basis=basis,
-        mode=np.real(xs[0]),
-        plot_vectors=False,
-        colorbar=True,
-        title="E",
-        direction="y",
-    )
+    test_compute_cross_section_mode_cache()
+    # lams, basis, xs = compute_modes(with_cache=True, overwrite=False)
+    # mode_solver.plot_mode(
+    #     basis=basis,
+    #     mode=np.real(xs[0]),
+    #     plot_vectors=False,
+    #     colorbar=True,
+    #     title="E",
+    #     direction="y",
+    # )
