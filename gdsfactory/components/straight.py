@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.types import CrossSectionSpec
@@ -44,19 +43,6 @@ def straight(
     if x.info:
         c.info.update(x.info)
 
-    if with_bbox and length:
-        padding = []
-        for offset in x.bbox_offsets:
-            points = get_padding_points(
-                component=c,
-                default=0,
-                bottom=offset,
-                top=offset,
-            )
-            padding.append(points)
-
-        for layer, points in zip(x.bbox_layers, padding):
-            c.add_polygon(points, layer=layer)
     c.absorb(ref)
     return c
 
