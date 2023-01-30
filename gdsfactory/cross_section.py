@@ -16,7 +16,6 @@ import pydantic
 from pydantic import BaseModel, Field
 from typing_extensions import Literal
 
-from gdsfactory.add_pins import add_bbox_siepic, add_pins_siepic_optical_2nm
 
 Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
@@ -30,9 +29,6 @@ port_types_electrical = ("electrical", "electrical")
 
 cladding_layers_optical = None
 cladding_offsets_optical = None
-
-cladding_layers_optical_siepic = ("DEVREC",)  # for SiEPIC verification
-cladding_offsets_optical_siepic = (0,)  # for SiEPIC verification
 
 
 class Section(BaseModel):
@@ -387,14 +383,6 @@ def cross_section(
 
 
 strip = cross_section
-
-strip_siepic = partial(
-    cross_section,
-    add_pins=add_pins_siepic_optical_2nm,
-    add_bbox=add_bbox_siepic,
-    cladding_layers=cladding_layers_optical_siepic,
-    cladding_offsets=cladding_offsets_optical_siepic,
-)
 strip_auto_widen = partial(strip, width_wide=0.9, auto_widen=True)
 strip_no_pins = partial(
     strip, add_pins=None, add_bbox=None, cladding_layers=None, cladding_offsets=None
@@ -1479,13 +1467,14 @@ def test_copy():
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    xs = gf.cross_section.pin(
-        width=0.5,
-        # gap_low_doping=0.05,
-        # width_doping=2.0,
-        # offset_low_doping=0,
-        mirror=False,
-    )
-    p = gf.path.straight()
+    # xs = gf.cross_section.pin(
+    #     width=0.5,
+    #     # gap_low_doping=0.05,
+    #     # width_doping=2.0,
+    #     # offset_low_doping=0,
+    #     mirror=False,
+    # )
+    xs = strip()
+    p = gf.path.arc()
     c = p.extrude(xs)
     c.show()
