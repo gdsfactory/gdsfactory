@@ -172,7 +172,7 @@ def add_volume_with_holes(occ, entry, lines_dict, points_dict):
                 [(3, exterior)], [(3, interior)], removeObject=True, removeTool=True
             )
             occ.synchronize()
-        exterior = exterior[0][0][1]  # Parse `outDimTags', `outDimTagsMap'
+            exterior = exterior[0][0][1]  # Parse `outDimTags', `outDimTagsMap'
     return exterior
 
 
