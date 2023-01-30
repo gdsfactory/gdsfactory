@@ -13,5 +13,5 @@ settings:
     length: 10.0
     width: 0.5
   info_version: 2
-  module: gdsfactory.tests.test_serialize
+  module: test_serialize
   name: demo_cross_section_setting

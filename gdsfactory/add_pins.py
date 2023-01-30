@@ -36,6 +36,31 @@ def _rotate(v: ndarray, m: ndarray) -> ndarray:
     return np.dot(m, v)
 
 
+def add_bbox_siepic(
+    component: Component,
+    bbox_layer: LayerSpec = "DEVREC",
+    remove_layers: LayerSpecs = ("PORT", "PORTE"),
+) -> Component:
+    """Add bounding box device recognition layer.
+
+    Args:
+        component: to add bbox.
+        bbox_layer: bounding box.
+        remove_layers: remove other layers.
+    """
+    from gdsfactory.pdk import get_layer
+
+    bbox_layer = get_layer(bbox_layer)
+    remove_layers = remove_layers or []
+    remove_layers = list(remove_layers) + [bbox_layer]
+    remove_layers = [get_layer(layer) for layer in remove_layers]
+    component = component.remove_layers(layers=remove_layers, recursive=False)
+
+    if bbox_layer:
+        component.add_padding(default=0, layers=(bbox_layer,))
+    return component
+
+
 def get_pin_triangle_polygon_tip(
     port: Port,
 ) -> Tuple[List[float], Tuple[float, float]]:
