@@ -4,7 +4,7 @@ from __future__ import annotations
 import pathlib
 import warnings
 from functools import partial
-from typing import Any, Callable, Optional
+from typing import Any, Callable, Optional, Union, Tuple
 
 import numpy as np
 from omegaconf import DictConfig
@@ -87,6 +87,9 @@ class Pdk(BaseModel):
     layers: Dict[str, Layer] = Field(default_factory=dict)
     layer_stack: Optional[LayerStack] = None
     layer_views: Optional[LayerViews] = None
+    layer_transitions: Dict[Union[Layer, Tuple[Layer, Layer]], ComponentSpec] = Field(
+        default_factory=dict
+    )
     sparameters_path: Optional[PathType] = None
     modes_path: Optional[PathType] = PATH.modes
     interconnect_cml_path: Optional[PathType] = None
