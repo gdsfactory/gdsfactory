@@ -1,5 +1,18 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.27.0
+
+- add options for 3D meshing [PR](https://github.com/gdsfactory/gdsfactory/pull/1207)
+- [PR](https://github.com/gdsfactory/gdsfactory/pull/1206)
+    - remove add_bbox_siepic
+    - move tests from module to repo
+    - update tidy3d to 1.8.3
+    - document plugins in README.md https://github.com/gdsfactory/gdsfactory/issues/1205
+
+## 6.26.0
+
+- use klayout as the default
+
 ## 6.25.2
 - fix mesh with 3D holes [PR](https://github.com/gdsfactory/gdsfactory/pull/1196)
 
