@@ -2186,7 +2186,13 @@ def recurse_structures(
 
 def flatten_invalid_refs_recursive(
     component: Component, grid_size: Optional[float] = None
-):
+) -> Component:
+    """Returns new Component with flattened references.
+
+    Args:
+        component: to flatten invalid references.
+        grid_size: optional grid size in um.
+    """
     from gdsfactory.decorators import is_invalid_ref
     from gdsfactory.functions import transformed
 
@@ -2215,7 +2221,9 @@ def flatten_invalid_refs_recursive(
         return leaves
 
     def _prune_leaves(g):
-        """Prune components AND references pointing to them at the bottom of the DAG"""
+        """Prune components AND references pointing to them at the bottom of the DAG.
+        Helper function
+        """
         comps = _find_leaves(g)
         for component in comps:
             g.remove_node(component)
