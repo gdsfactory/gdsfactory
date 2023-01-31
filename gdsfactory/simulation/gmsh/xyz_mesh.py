@@ -172,7 +172,7 @@ def add_volume_with_holes(occ, entry, lines_dict, points_dict):
                 [(3, exterior)], [(3, interior)], removeObject=True, removeTool=True
             )
             occ.synchronize()
-        exterior = exterior[0][0][1]  # Parse `outDimTags', `outDimTagsMap'
+            exterior = exterior[0][0][1]  # Parse `outDimTags', `outDimTagsMap'
     return exterior
 
 
@@ -207,6 +207,7 @@ def xyz_mesh(
     default_resolution_max: float = 0.5,
     filename: Optional[str] = None,
     verbosity: Optional[bool] = False,
+    override_volumes: Optional[Dict] = None,
 ):
     """Full 3D mesh of component.
 
@@ -217,6 +218,7 @@ def xyz_mesh(
         default_resolution_min (float): gmsh minimal edge length
         default_resolution_max (float): gmsh maximal edge length
         filename (str, path): where to save the .msh file
+        override_volumes: Dict of {physical: [volume_ids]}. If not None, will manually assign physicals to the volume IDs (after performing coherence), deleting extra volumes
     """
     # Fuse and cleanup polygons of same layer in case user overlapped them
     layer_polygons_dict = cleanup_component(component, layerstack)
@@ -292,20 +294,39 @@ def xyz_mesh(
     occ.synchronize()
     post_removeAllDuplicates = {entity for dimension, entity in occ.getEntities(dim=3)}
 
-    old_entities = list(pre_removeAllDuplicates - post_removeAllDuplicates)
-    new_entities = list(post_removeAllDuplicates - pre_removeAllDuplicates)
-    for layername, layer_old_entities in broken_shapes.items():
-        layer_new_entities = []
-        for entity in layer_old_entities:
-            if entity in old_entities:
-                layer_new_entities.append(new_entities[old_entities.index(entity)])
-            else:
-                layer_new_entities.append(entity)
-        broken_shapes[layername] = layer_new_entities
+    if override_volumes:
+        for layername, volume_ids in override_volumes.items():
+            gmsh.model.addPhysicalGroup(3, volume_ids, name=layername)
+        current_entities = [
+            item for sublist in override_volumes.values() for item in sublist
+        ]
+        entities_to_remove = [
+            (dimension, entity)
+            for dimension, entity in occ.getEntities(dim=3)
+            if entity not in current_entities
+        ]
+        occ.remove(entities_to_remove, recursive=False)
+        occ.synchronize()
 
-    # add physical groups
-    for layername, entities in broken_shapes.items():
-        gmsh.model.addPhysicalGroup(3, entities, name=layername)
+    else:  # try to smartly reassign volumes
+        old_entities = list(pre_removeAllDuplicates - post_removeAllDuplicates)
+        new_entities = list(post_removeAllDuplicates - pre_removeAllDuplicates)
+
+        print(pre_removeAllDuplicates, old_entities)
+        print(post_removeAllDuplicates, new_entities)
+        print(broken_shapes.items())
+
+        for layername, layer_old_entities in broken_shapes.items():
+            layer_new_entities = []
+            for entity in layer_old_entities:
+                if entity in old_entities:
+                    layer_new_entities.append(new_entities[old_entities.index(entity)])
+                else:
+                    layer_new_entities.append(entity)
+            broken_shapes[layername] = layer_new_entities
+
+        for layername, entities in broken_shapes.items():
+            gmsh.model.addPhysicalGroup(3, entities, name=layername)
 
     # Refine
     n = 0
