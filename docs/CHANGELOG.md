@@ -3,6 +3,7 @@
 ## 6.28.0
 
 - add flatten_invalid_refs as a write_gds flag [PR](https://github.com/gdsfactory/gdsfactory/pull/1211)
+- add non-manhattan routing doc and document flatten_invalid_refs docs
 
 ## 6.27.0
 
