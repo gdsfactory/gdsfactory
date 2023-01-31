@@ -2385,6 +2385,37 @@ def test_import_gds_settings():
     assert c3
 
 
+def test_flatten_invalid_refs_recursive():
+    import gdsfactory as gf
+
+    @gf.cell
+    def flat():
+        c = gf.Component()
+        mmi1 = (c << gf.components.mmi1x2()).move((0, 1e-4))
+        mmi2 = (c << gf.components.mmi1x2()).rotate(90)
+        mmi2.move((40, 20))
+        route = gf.routing.get_route(mmi1.ports["o2"], mmi2.ports["o1"], radius=5)
+        c.add(route.references)
+        return c
+
+    @gf.cell
+    def hierarchy():
+        c = gf.Component()
+        (c << flat()).rotate(33)
+        (c << flat()).move((100, 0))
+        return c
+
+    c_orig = hierarchy()
+    c_new = flatten_invalid_refs_recursive(c_orig)
+    assert c_new is not c_orig
+    assert c_new != c_orig
+    assert c_orig.references[0].parent.name != c_new.references[0].parent.name
+    assert (
+        c_orig.references[1].parent.references[0].parent.name
+        != c_new.references[1].parent.references[0].parent.name
+    )
+
+
 if __name__ == "__main__":
     # import gdsfactory as gf
     # c2 = gf.Component()
