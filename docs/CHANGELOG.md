@@ -11,7 +11,7 @@
 
 ## 6.26.0
 
-- use klayout as the default
+- use klayout as the default jupyter notebook viewer [PR](https://github.com/gdsfactory/gdsfactory/pull/1200)
 
 ## 6.25.2
 - fix mesh with 3D holes [PR](https://github.com/gdsfactory/gdsfactory/pull/1196)
