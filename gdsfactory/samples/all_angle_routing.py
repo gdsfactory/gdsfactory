@@ -6,10 +6,8 @@
 ###################################################################################################################
 from __future__ import annotations
 
-from gdsfactory.read import from_yaml
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.routing.all_angle import get_bundle_all_angle
 
 
 @cell
@@ -57,13 +55,11 @@ def demo_aar() -> Component:
         o2: mmi_short,o1
         o1: mmi_long,o1
     """
+    from gdsfactory.read import from_yaml
 
     return from_yaml(yaml)
 
 
 if __name__ == "__main__":
-    from gdsfactory.routing.factories import routing_strategy
-
-    routing_strategy["get_bundle_all_angle"] = get_bundle_all_angle
     c = demo_aar()
     c.show(show_ports=True)
