@@ -3,8 +3,6 @@ from sqlalchemy.dialects.mysql import TEXT
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
-Base = declarative_base()
-metadata = Base.metadata
 
 
 class Process(Base):
