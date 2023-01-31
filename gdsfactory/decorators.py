@@ -38,6 +38,8 @@ def flatten_invalid_refs(component: Component, grid_size: Optional[float] = None
     This is an in-place operation, so you should use it as a decorator.
     flattens only individual references with invalid transformations.
 
+    Deprecated Use Component.write_gds(flatten_invalid_refs=True)
+
     Args:
         component: the component to fix (in place).
         grid_size: the GDS grid size, in um, defaults to active PDK.get_grid_size()
