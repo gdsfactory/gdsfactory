@@ -68,7 +68,7 @@ class Paths:
     klayout_lyp = klayout_tech / "layers.lyp"
     schema_netlist = module_path / "tests" / "schemas" / "netlist.json"
     netlists = module_path / "samples" / "netlists"
-    gdsdir = module_path / "tests" / "gds"
+    gdsdir = repo_path / "tests" / "gds"
     gdslib = home_path
     modes = gdslib / "modes"
     gdsdiff = gdslib / "gds"
