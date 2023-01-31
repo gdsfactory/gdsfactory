@@ -31,9 +31,7 @@ def has_valid_transformations(component: Component) -> bool:
 
 
 def flatten_invalid_refs(component: Component, grid_size: Optional[float] = None):
-    """Flattens component references component with invalid GDS.
-
-    transformations.
+    """Flattens component references which have invalid transformations.
 
     (i.e. non-90 deg rotations or sub-grid translations).
 
@@ -45,18 +43,21 @@ def flatten_invalid_refs(component: Component, grid_size: Optional[float] = None
         grid_size: the GDS grid size, in um, defaults to active PDK.get_grid_size()
             any translations with higher resolution than this are considered invalid.
     """
+    refs = component.references.copy()
+    for ref in refs:
+        if is_invalid_ref(ref, grid_size):
+            component.flatten_reference(ref)
+    return component
+
+
+def is_invalid_ref(ref, grid_size: Optional[float] = None) -> bool:
     from gdsfactory.pdk import get_grid_size
 
     grid_size = grid_size or get_grid_size()
     nm = int(grid_size * 1e3)
-
-    refs = component.references.copy()
-    for ref in refs:
-        origin_is_on_grid = all(is_on_grid(x, nm) for x in ref.origin)
-        rotation_is_regular = ref.rotation is None or ref.rotation % 90 == 0
-        if not origin_is_on_grid or not rotation_is_regular:
-            component.flatten_reference(ref)
-    return component
+    origin_is_on_grid = all(is_on_grid(x, nm) for x in ref.origin)
+    rotation_is_regular = ref.rotation is None or ref.rotation % 90 == 0
+    return not origin_is_on_grid or not rotation_is_regular
 
 
 @gf.cell

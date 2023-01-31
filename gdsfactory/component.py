@@ -14,6 +14,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 import gdstk
+import networkx as nx
 import numpy as np
 import yaml
 from omegaconf import DictConfig, OmegaConf
@@ -1242,8 +1243,8 @@ class Component(_GeometryHelper):
         display(self._plot_widget())
 
     def _plot_widget(self):
-        from gdsfactory.widgets.layout_viewer import LayoutViewer
         from gdsfactory.pdk import get_layer_views
+        from gdsfactory.widgets.layout_viewer import LayoutViewer
 
         gdspath = self.write_gds()
         lyp_path = gdspath.with_suffix(".lyp")
@@ -1626,6 +1627,7 @@ class Component(_GeometryHelper):
         precision: Optional[float] = None,
         logging: bool = True,
         on_duplicate_cell: Optional[str] = "warn",
+        flatten_invalid_refs=False,
     ) -> Path:
         """Write component to GDS and returns gdspath.
 
@@ -1641,6 +1643,10 @@ class Component(_GeometryHelper):
                 "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
                 None: do not try to resolve (at your own risk!)
         """
+
+        if flatten_invalid_refs:
+            self = flatten_invalid_refs_recursive(self)
+
         return self._write_library(
             gdspath=gdspath,
             gdsdir=gdsdir,
@@ -2042,7 +2048,15 @@ class Component(_GeometryHelper):
         return self
 
 
-def copy(D: Component) -> Component:
+def copy(
+    D: Component,
+    references=None,
+    ports=None,
+    polygons=None,
+    paths=None,
+    name=None,
+    labels=None,
+) -> Component:
     """Returns a Component copy.
 
     Args:
@@ -2052,35 +2066,54 @@ def copy(D: Component) -> Component:
     D_copy.info = D.info
     # D_copy._cell = D._cell.copy(name=D_copy.name)
 
-    for ref in D.references:
-        new_ref = ComponentReference(
-            component=ref.parent,
-            columns=ref.columns,
-            rows=ref.rows,
-            spacing=ref.spacing,
-            origin=ref.origin,
-            rotation=ref.rotation,
-            magnification=ref.magnification,
-            x_reflection=ref.x_reflection,
-            name=ref.name,
-            v1=ref.v1,
-            v2=ref.v2,
-        )
-        D_copy.add(new_ref)
-
-    for port in D.ports.values():
+    for ref in references if references is not None else D.references:
+        D_copy.add(copy_reference(ref))
+    for port in (ports if ports is not None else D.ports).values():
         D_copy.add_port(port=port)
-    for poly in D.polygons:
+    for poly in polygons if polygons is not None else D.polygons:
         D_copy.add_polygon(poly)
-    for path in D.paths:
+    for path in paths if paths is not None else D.paths:
         D_copy.add(path)
-    for label in D.labels:
+    for label in labels if labels is not None else D.labels:
         D_copy.add_label(
             text=label.text,
             position=label.origin,
             layer=(label.layer, label.texttype),
         )
+
+    if name is not None:
+        D_copy.name = name
+
     return D_copy
+
+
+def copy_reference(
+    ref,
+    parent=None,
+    columns=None,
+    rows=None,
+    spacing=None,
+    origin=None,
+    rotation=None,
+    magnification=None,
+    x_reflection=None,
+    name=None,
+    v1=None,
+    v2=None,
+) -> ComponentReference:
+    return ComponentReference(
+        component=parent or ref.parent,
+        columns=columns or ref.columns,
+        rows=rows or ref.rows,
+        spacing=spacing or ref.spacing,
+        origin=origin or ref.origin,
+        rotation=rotation or ref.rotation,
+        magnification=magnification or ref.magnification,
+        x_reflection=x_reflection or ref.x_reflection,
+        name=name or ref.name,
+        v1=v1 or ref.v1,
+        v2=v2 or ref.v2,
+    )
 
 
 def test_get_layers() -> Component:
@@ -2149,6 +2182,72 @@ def recurse_structures(
             output.update(recurse_structures(reference.ref_cell))
 
     return output
+
+
+def flatten_invalid_refs_recursive(
+    component: Component, grid_size: Optional[float] = None
+):
+    from gdsfactory.decorators import is_invalid_ref
+    from gdsfactory.functions import transformed
+
+    def _create_dag(component):
+        """DAG where components point to references which then point to components again."""
+        nodes = {}
+        edges = {}
+
+        def _add_nodes_recursive(g, component):
+            g.add_node(component.name)
+            nodes[component.name] = component
+            for ref in component.references:
+                edge_name = f"{component.name}:{ref.name}"
+                g.add_edge(component.name, edge_name)
+                g.add_edge(edge_name, ref.parent.name)
+                edges[edge_name] = ref
+                _add_nodes_recursive(g, ref.parent)
+
+        g = nx.DiGraph()
+        _add_nodes_recursive(g, component)
+
+        return g, nodes, edges
+
+    def _find_leaves(g):
+        leaves = [n for n, d in g.out_degree() if d == 0]
+        return leaves
+
+    def _prune_leaves(g):
+        """Prune components AND references pointing to them at the bottom of the DAG"""
+        comps = _find_leaves(g)
+        for component in comps:
+            g.remove_node(component)
+        refs = _find_leaves(g)
+        for r in refs:
+            g.remove_node(r)
+        return g, comps, refs
+
+    finished_comps = {}
+    g, comps, refs = _create_dag(component)
+    while True:
+        g, comp_leaves, ref_leaves = _prune_leaves(g)
+        if not comp_leaves:
+            break
+        new_comps = {}
+        for ref_name in ref_leaves:
+            r = refs[ref_name]
+            comp_name, _ = ref_name.split(":")
+            if comp_name in finished_comps:
+                continue
+            new_comps[comp_name] = comps[comp_name] = new_comps.get(
+                comp_name
+            ) or Component(name=comp_name)
+            if is_invalid_ref(r, grid_size):
+                comp = transformed(r, cache=False, decorator=None)  # type: ignore
+                comps[comp.name] = comp
+                r = refs[ref_name] = ComponentReference(comp)
+            comps[comp_name].add(
+                copy_reference(refs[ref_name], parent=comps[r.parent.name])
+            )
+        finished_comps.update(new_comps)
+    return finished_comps[component.name]
 
 
 def test_same_uid() -> None:
