@@ -1627,7 +1627,7 @@ class Component(_GeometryHelper):
         precision: Optional[float] = None,
         logging: bool = True,
         on_duplicate_cell: Optional[str] = "warn",
-        flatten_invalid_refs=False,
+        flatten_invalid_refs: bool = False,
     ) -> Path:
         """Write component to GDS and returns gdspath.
 
@@ -1641,7 +1641,7 @@ class Component(_GeometryHelper):
                 "warn" (default): overwrite all duplicate cells with one of the duplicates (arbitrarily).
                 "error": throw a ValueError when attempting to write a gds with duplicate cells.
                 "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
-                None: do not try to resolve (at your own risk!)
+            flatten_invalid_refs: flattens component references which have invalid transformations.
         """
 
         if flatten_invalid_refs:
