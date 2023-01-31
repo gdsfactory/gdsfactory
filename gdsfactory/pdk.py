@@ -16,7 +16,6 @@ from gdsfactory.events import Event
 from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.materials import MaterialSpec
 from gdsfactory.materials import materials_index as materials_index_default
-from gdsfactory.read.from_yaml import from_yaml
 from gdsfactory.show import show
 from gdsfactory.symbols import floorplan_with_block_letters
 from gdsfactory.technology import LayerStack, LayerViews
@@ -209,6 +208,8 @@ class Pdk(BaseModel):
             cell_name: cell function. To update cells dict.
 
         """
+        from gdsfactory.read.from_yaml import from_yaml
+
         message = "Updated" if update else "Registered"
 
         if dirpath:
