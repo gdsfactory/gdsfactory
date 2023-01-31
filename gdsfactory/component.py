@@ -2101,7 +2101,7 @@ def copy_reference(
     v1=None,
     v2=None,
 ) -> ComponentReference:
-    new_ref = ComponentReference(
+    return ComponentReference(
         component=parent or ref.parent,
         columns=columns or ref.columns,
         rows=rows or ref.rows,
@@ -2114,7 +2114,6 @@ def copy_reference(
         v1=v1 or ref.v1,
         v2=v2 or ref.v2,
     )
-    return new_ref
 
 
 def test_get_layers() -> Component:
