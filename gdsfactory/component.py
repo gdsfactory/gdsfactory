@@ -1238,9 +1238,14 @@ class Component(_GeometryHelper):
         from IPython.display import display
 
         self.show(show_ports=True)  # show in klayout
-        # self.plot(plotter="matplotlib")
         self.__repr__()
-        display(self._plot_widget())
+        try:
+            display(self._plot_widget())
+        except ImportError:
+            print(
+                "You can install `pip install gdsfactory[full]` for better visualization"
+            )
+            self.plot(plotter="matplotlib")
 
     def _plot_widget(self):
         from gdsfactory.pdk import get_layer_views
