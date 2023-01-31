@@ -843,6 +843,7 @@ class Component(_GeometryHelper):
 
         component = self.flatten() if recursive and self.references else self
         layers = [get_layer(layer) for layer in layers]
+
         should_remove = not invert_selection
         component._cell.filter(
             spec=layers,
@@ -851,7 +852,6 @@ class Component(_GeometryHelper):
             paths=True,
             labels=include_labels,
         )
-
         return component
 
     def extract(
@@ -1864,7 +1864,7 @@ class Component(_GeometryHelper):
         return rotate(component=self, angle=angle)
 
     def add_padding(self, **kwargs) -> Component:
-        """Returns new component with padding.
+        """Returns same component with padding.
 
         Keyword Args:
             component: for padding.
