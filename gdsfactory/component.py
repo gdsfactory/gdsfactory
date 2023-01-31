@@ -2086,7 +2086,7 @@ def copy(D: Component) -> Component:
 def test_get_layers() -> Component:
     import gdsfactory as gf
 
-    c = gf.components.straight(
+    c1 = gf.components.straight(
         length=10,
         width=0.5,
         layer=(2, 0),
@@ -2097,10 +2097,11 @@ def test_get_layers() -> Component:
         add_pins=None,
         add_bbox=None,
     )
-    assert c.get_layers() == {(2, 0), (111, 0)}, c.get_layers()
-    c = c.remove_layers([(111, 0)])
-    assert c.get_layers() == {(2, 0)}, c.get_layers()
-    return c
+    assert c1.get_layers() == {(2, 0), (111, 0)}, c1.get_layers()
+    # return c1
+    c2 = c1.remove_layers([(111, 0)])
+    assert c2.get_layers() == {(2, 0)}, c2.get_layers()
+    return c2
 
 
 def _filter_polys(polygons, layers_excl):
@@ -2278,14 +2279,12 @@ def test_import_gds_settings():
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
-    c2 = gf.Component()
-    c = gf.c.mzi()
-    r = c.ref()
-
-    c2.copy_child_info(c.named_references["sxt"])
+    # import gdsfactory as gf
+    # c2 = gf.Component()
+    # c = gf.c.mzi()
+    # r = c.ref()
+    # c2.copy_child_info(c.named_references["sxt"])
     # test_remap_layers()
-    # c = test_get_layers()
-    c2.show()
+    c = test_get_layers()
+    c.show()
     # c.ploth()
