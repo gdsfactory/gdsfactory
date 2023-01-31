@@ -17,7 +17,6 @@ from gdsfactory.pdk import get_cross_section, get_component
 from gdsfactory.get_netlist import difference_between_angles
 from gdsfactory.types import CrossSectionSpec, Route, ComponentSpec
 from gdsfactory.routing.auto_taper import taper_to_cross_section
-from gdsfactory.routing.manhattan import RouteWarning
 from gdsfactory.path import extrude
 
 STEP_DIRECTIVES = {
@@ -167,6 +166,8 @@ def low_loss_connector(port1: Port, port2: Port, **kwargs) -> List[ComponentRefe
 
 
 def _make_error_trace(port1: Port, port2: Port, message: str):
+    from gdsfactory.routing.manhattan import RouteWarning
+
     warnings.warn(message, RouteWarning)
     path = Path([port1.center, port2.center])
     error_component = extrude(path, layer=LAYER.ERROR_PATH, width=1)
