@@ -52,7 +52,7 @@ logger.info(f"Load {str(module_path)!r} {__version__}")
 
 default_config = io.StringIO(
     """
-plotter: matplotlib
+plotter: klayout
 sparameters_path: ${oc.env:HOME}/.gdsfactory/sparameters/generic
 """
 )
