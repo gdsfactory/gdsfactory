@@ -47,7 +47,7 @@ from gdsfactory.serialization import clean_dict
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.technology import LayerView, LayerViews
 
-Plotter = Literal["holoviews", "matplotlib", "qt"]
+Plotter = Literal["holoviews", "matplotlib", "qt", "klayout"]
 Axis = Literal["x", "y"]
 
 
@@ -1233,37 +1233,34 @@ class Component(_GeometryHelper):
         polygons = self._cell.get_polygons(depth=None)
         return {(polygon.layer, polygon.datatype) for polygon in polygons}
 
-    def _repr_html_(self):
+    def _repr_html_(self) -> None:
         """Show geometry in KLayout and in matplotlib for Jupyter Notebooks."""
-        from IPython.display import display
 
         self.show(show_ports=True)  # show in klayout
         self.__repr__()
+        self.plot()
+
+    def plot_klayout(self) -> None:
         try:
-            display(self._plot_widget())
+            from gdsfactory.pdk import get_layer_views
+            from gdsfactory.widgets.layout_viewer import LayoutViewer
+            from IPython.display import display
+
+            gdspath = self.write_gds()
+            lyp_path = gdspath.with_suffix(".lyp")
+
+            layer_views = get_layer_views()
+            layer_views.to_lyp(filepath=lyp_path)
+            layout = LayoutViewer(gdspath, lyp_path)
+            display(layout.image)
         except ImportError:
             print(
                 "You can install `pip install gdsfactory[full]` for better visualization"
             )
-            self.plot(plotter="matplotlib")
+            return self.plot(plotter="matplotlib")
 
-    def _plot_widget(self):
-        from gdsfactory.pdk import get_layer_views
-        from gdsfactory.widgets.layout_viewer import LayoutViewer
-
-        gdspath = self.write_gds()
-        lyp_path = gdspath.with_suffix(".lyp")
-
-        layer_views = get_layer_views()
-        layer_views.to_lyp(filepath=lyp_path)
-        layout = LayoutViewer(gdspath, lyp_path)
-        return layout.image
-
-    def plot(self, plotter: Optional[Plotter] = None, **kwargs) -> None:
-        """Returns component plot.
-
-        Args:
-            plotter: backend ('holoviews', 'matplotlib', 'qt').
+    def plot_matplotlib(self, **kwargs) -> None:
+        """Plot component using matplotlib.
 
         Keyword Args:
             show_ports: Sets whether ports are drawn.
@@ -1281,12 +1278,28 @@ class Component(_GeometryHelper):
             layer_views: layer_views colors loaded from Klayout.
             min_aspect: minimum aspect ratio.
         """
-        plotter = plotter or CONF.get("plotter", "matplotlib")
+        from gdsfactory.quickplotter import quickplot
 
-        if plotter == "matplotlib":
+        quickplot(self, **kwargs)
+
+    def plot(self, plotter: Optional[Plotter] = None, **kwargs) -> None:
+        """Returns component plot using klayout, matplotlib, holoviews or qt.
+
+        We recommend using klayout.
+
+        Args:
+            plotter: plot backend ('holoviews', 'matplotlib', 'qt', 'klayout').
+        """
+        plotter = plotter or CONF.get("plotter", "klayout")
+
+        if plotter == "klayout":
+            return self.plot_klayout()
+
+        elif plotter == "matplotlib":
             from gdsfactory.quickplotter import quickplot
 
             return quickplot(self, **kwargs)
+
         elif plotter == "holoviews":
             try:
                 import holoviews as hv
@@ -1295,20 +1308,16 @@ class Component(_GeometryHelper):
             except ImportError as e:
                 print("you need to `pip install holoviews`")
                 raise e
-
-            return self.ploth(**kwargs)
+            return self.plot_holoviews(**kwargs)
 
         elif plotter == "qt":
             from gdsfactory.quickplotter import quickplot2
 
             return quickplot2(self)
+        else:
+            raise ValueError(f"{plotter!r} not in {Plotter}")
 
-    def plotqt(self):
-        from gdsfactory.quickplotter import quickplot2
-
-        return quickplot2(self)
-
-    def ploth(
+    def plot_holoviews(
         self,
         layers_excluded: Optional[Layers] = None,
         layer_views: Optional[LayerViews] = None,
@@ -2429,5 +2438,5 @@ if __name__ == "__main__":
     # c2.copy_child_info(c.named_references["sxt"])
     # test_remap_layers()
     c = test_get_layers()
-    c.show()
+    # c.plot_qt()
     # c.ploth()
