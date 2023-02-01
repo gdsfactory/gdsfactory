@@ -70,7 +70,7 @@ Components
   import gdsfactory as gf
 
   c = gf.components.{name}({kwargs})
-  c.plot()
+  c.plot_matplotlib()
 
 """
             )

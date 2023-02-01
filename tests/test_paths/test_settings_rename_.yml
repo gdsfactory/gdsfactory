@@ -8,5 +8,5 @@ settings:
   info:
     length: 15.708
   info_version: 2
-  module: gdsfactory.tests.test_paths
+  module: test_paths
   name: rename
