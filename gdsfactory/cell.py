@@ -207,6 +207,8 @@ def cell_without_validator(func):
             if not callable(decorator):
                 raise ValueError(f"decorator = {type(decorator)} needs to be callable")
             component_new = decorator(component)
+            if component_new is not component:
+                component_new.name = name
             component = component_new or component
 
         if flatten:

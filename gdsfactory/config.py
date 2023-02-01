@@ -27,7 +27,7 @@ import omegaconf
 from loguru import logger
 from omegaconf import OmegaConf
 
-__version__ = "6.23.4"
+__version__ = "6.29.1"
 PathType = Union[str, pathlib.Path]
 
 home = pathlib.Path.home()
@@ -52,7 +52,7 @@ logger.info(f"Load {str(module_path)!r} {__version__}")
 
 default_config = io.StringIO(
     """
-plotter: matplotlib
+plotter: klayout
 sparameters_path: ${oc.env:HOME}/.gdsfactory/sparameters/generic
 """
 )
@@ -68,7 +68,7 @@ class Paths:
     klayout_lyp = klayout_tech / "layers.lyp"
     schema_netlist = module_path / "tests" / "schemas" / "netlist.json"
     netlists = module_path / "samples" / "netlists"
-    gdsdir = module_path / "tests" / "gds"
+    gdsdir = repo_path / "tests" / "gds"
     gdslib = home_path
     modes = gdslib / "modes"
     gdsdiff = gdslib / "gds"

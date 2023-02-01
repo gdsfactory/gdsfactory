@@ -155,7 +155,7 @@ if __name__ == "__main__":
 
     gf.clear_cache()
     # c = import_gds(gdspath)
-    c = import_gds_raw(gdspath)
+    c = import_gds(gdspath)
     c.show(show_ports=False)
 
     # gdspath = PATH.gdsdir / "mzi2x2.gds"
