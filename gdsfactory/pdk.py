@@ -356,9 +356,7 @@ class Pdk(BaseModel):
     ) -> CrossSection:
         """Returns cross_section from a cross_section spec."""
         if isinstance(cross_section, CrossSection):
-            if kwargs:
-                raise ValueError(f"Cannot apply {kwargs} to a defined CrossSection")
-            return cross_section
+            return cross_section.copy(**kwargs)
         elif callable(cross_section):
             return cross_section(**kwargs)
         elif isinstance(cross_section, str):

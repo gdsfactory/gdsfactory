@@ -20,4 +20,5 @@ Layout tutorial
    notebooks/07_mask.ipynb
    notebooks/04_routing.ipynb
    notebooks/041_routing_electrical.ipynb
+   notebooks/042_non-manhattan-router.ipynb
    notebooks/common_mistakes.ipynb

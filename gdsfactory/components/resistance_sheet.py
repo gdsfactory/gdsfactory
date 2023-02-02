@@ -46,9 +46,11 @@ def resistance_sheet(
     r0 = c << compass(
         size=(length + layer_offsets[0], width + layer_offsets[0]), layer=layers[0]
     )
+    c.absorb(r0)
 
     for layer, offset in zip(layers[1:], layer_offsets[1:]):
-        c << compass(size=(length + 2 * offset, width + 2 * offset), layer=layer)
+        r = c << compass(size=(length + 2 * offset, width + 2 * offset), layer=layer)
+        c.absorb(r)
 
     pad1.connect("e3", r0.ports["e1"])
     pad2.connect("e1", r0.ports["e3"])
@@ -71,6 +73,8 @@ def resistance_sheet(
         width=width,
         orientation=port_orientation2,
     )
+    c.absorb(pad1)
+    c.absorb(pad2)
     return c
 
 

@@ -7,5 +7,5 @@ settings:
   function_name: transition
   info: {}
   info_version: 2
-  module: gdsfactory.tests.test_paths
+  module: test_paths
   name: transition

@@ -68,11 +68,20 @@ def mmi1x2(
         width1=width,
         width2=w_taper,
         cross_section=cross_section,
+        add_pins=None,
+        add_bbox=None,
+        decorator=None,
     )
 
     a = gap_mmi / 2 + width_taper / 2
     mmi = c << gf.get_component(
-        straight, length=length_mmi, width=w_mmi, cross_section=cross_section
+        straight,
+        length=length_mmi,
+        width=w_mmi,
+        cross_section=cross_section,
+        add_pins=None,
+        add_bbox=None,
+        decorator=None,
     )
 
     ports = [
@@ -127,6 +136,8 @@ def mmi1x2(
         c = x.add_bbox(c)
     if x.add_pins:
         c = x.add_pins(c)
+    if x.decorator:
+        c = x.decorator(c)
     return c
 
 
