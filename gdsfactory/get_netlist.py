@@ -111,6 +111,7 @@ def get_netlist(
     tolerance: int = 5,
     exclude_port_types: Optional[Union[List[str], Tuple[str]]] = ("placement",),
     get_instance_name: Callable[..., str] = get_instance_name_from_alias,
+    allow_multiple: bool = False,
 ) -> Dict[str, Any]:
     """From Component returns instances, connections and placements dict.
 
@@ -141,6 +142,8 @@ def get_netlist(
         tolerance: tolerance in nm to consider two ports connected.
         exclude_port_types: optional list of port types to exclude from netlisting.
         get_instance_name: function to get instance name.
+        allow_multiple: False to raise an error if more than two ports share the same connection.
+            if True, will return key: [value] pairs with [value] a list of all connected instances.
 
     Returns:
         instances: Dict of instance name and settings.
@@ -253,7 +256,11 @@ def get_netlist(
         if exclude_port_types and port_type in exclude_port_types:
             continue
         connections_t, warnings_t = extract_connections(
-            port_names, name2port, port_type, tolerance=tolerance
+            port_names,
+            name2port,
+            port_type,
+            tolerance=tolerance,
+            allow_multiple=allow_multiple,
         )
         if warnings_t:
             warnings[port_type] = warnings_t
@@ -290,6 +297,7 @@ def extract_connections(
     port_type: str,
     tolerance: int = 5,
     validators: Optional[Dict[str, Callable]] = None,
+    allow_multiple: bool = False,
 ):
     if validators is None:
         validators = DEFAULT_CONNECTION_VALIDATORS
@@ -301,6 +309,7 @@ def extract_connections(
         port_type,
         tolerance=tolerance,
         connection_validator=validator,
+        allow_multiple=allow_multiple,
     )
 
 
@@ -311,6 +320,7 @@ def _extract_connections_two_sweep(
     connection_validator: Callable,
     tolerance: int,
     raise_error_for_warnings: Optional[List[str]] = None,
+    allow_multiple: bool = False,
 ):
     warnings = defaultdict(list)
     if raise_error_for_warnings is None:
@@ -351,9 +361,21 @@ def _extract_connections_two_sweep(
                 connection_validator(port1, port2, ports_at_xy, warnings)
                 connections.append(ports_at_xy)
 
-            else:
+            elif not allow_multiple:
                 warnings["multiple_connections"].append(ports_at_xy)
                 raise ValueError(f"Found multiple connections at {xy}:{ports_at_xy}")
+
+            else:
+                num_ports = len(ports_at_xy)
+                for portindex1, portindex2 in zip(
+                    range(-1, num_ports - 1), range(num_ports)
+                ):
+                    port1 = ports[ports_at_xy[portindex1]]
+                    port2 = ports[ports_at_xy[portindex2]]
+                    connection_validator(port1, port2, ports_at_xy, warnings)
+                    connections.append(
+                        [ports_at_xy[portindex1], ports_at_xy[portindex2]]
+                    )
 
     if unconnected_port_names:
         unconnected_non_top_level = [

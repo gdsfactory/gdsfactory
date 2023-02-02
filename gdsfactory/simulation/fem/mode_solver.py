@@ -98,7 +98,7 @@ def compute_component_slice_modes(
         component: gdsfactory component.
         xsection_bounds: xy line defining where to take component cross_section.
         layerstack: gdsfactory layerstack.
-        wl: wavelength (um).
+        wavelength: wavelength (um).
         num_modes: number of modes to return.
         order: order of the mesh elements. 1: linear, 2: quadratic.
         radius: bend radius of the cross-section.
@@ -194,6 +194,7 @@ def compute_component_slice_modes(
         num_modes=num_modes,
         order=order,
         radius=radius,
+        solver="slepc",
     )
 
     if with_cache:
