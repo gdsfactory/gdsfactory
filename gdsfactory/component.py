@@ -1257,7 +1257,7 @@ class Component(_GeometryHelper):
             print(
                 "You can install `pip install gdsfactory[full]` for better visualization"
             )
-            return self.plot(plotter="matplotlib")
+            self.plot(plotter="matplotlib")
 
     def plot_matplotlib(self, **kwargs) -> None:
         """Plot component using matplotlib.
@@ -1293,12 +1293,14 @@ class Component(_GeometryHelper):
         plotter = plotter or CONF.get("plotter", "klayout")
 
         if plotter == "klayout":
-            return self.plot_klayout()
+            self.plot_klayout()
+            return
 
         elif plotter == "matplotlib":
             from gdsfactory.quickplotter import quickplot
 
-            return quickplot(self, **kwargs)
+            quickplot(self, **kwargs)
+            return
 
         elif plotter == "holoviews":
             try:
@@ -1313,7 +1315,8 @@ class Component(_GeometryHelper):
         elif plotter == "qt":
             from gdsfactory.quickplotter import quickplot2
 
-            return quickplot2(self)
+            quickplot2(self)
+            return
         else:
             raise ValueError(f"{plotter!r} not in {Plotter}")
 
