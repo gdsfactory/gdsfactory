@@ -14,7 +14,6 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 import gdstk
-import networkx as nx
 import numpy as np
 import yaml
 from omegaconf import DictConfig, OmegaConf
@@ -2212,6 +2211,7 @@ def flatten_invalid_refs_recursive(
     """
     from gdsfactory.decorators import is_invalid_ref
     from gdsfactory.functions import transformed
+    import networkx as nx
 
     def _create_dag(component):
         """DAG where components point to references which then point to components again."""
