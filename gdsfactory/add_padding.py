@@ -44,9 +44,7 @@ def add_padding(
     layers: Tuple[LayerSpec, ...] = ("PADDING",),
     **kwargs,
 ) -> Component:
-    """Adds padding layers to a component inside a container.
-
-    Returns the same ports as the component.
+    """Adds padding layers to component. Returns same component.
 
     Args:
         component: to add padding.

@@ -196,8 +196,10 @@ def transformed(ref: ComponentReference):
         ref: the reference to flatten into a new cell.
 
     """
+    from gdsfactory.component import copy_reference
+
     c = Component()
-    c.add(ref)
+    c.add(copy_reference(ref))
     c = c.flatten()
     c.copy_child_info(ref.ref_cell)
     c.add_ports(ref.ports)
