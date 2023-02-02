@@ -1237,7 +1237,7 @@ class Component(_GeometryHelper):
 
         self.show(show_ports=True)  # show in klayout
         self.__repr__()
-        self.plot()
+        self.plot_klayout()
 
     def plot_klayout(self) -> None:
         try:
