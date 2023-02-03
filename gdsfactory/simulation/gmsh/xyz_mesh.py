@@ -363,7 +363,7 @@ def xyz_mesh(
         "General.Terminal", 1 if verbosity else 0
     )  # 1 verbose, 0 otherwise
     gmsh.model.mesh.generate(3)
-    gmsh.write("mesh.msh")
+    gmsh.write(filename)
 
     # Mesh
     gmsh.finalize()
