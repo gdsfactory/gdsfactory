@@ -61,8 +61,7 @@ def taper_to_cross_section(
         return None
     taper = get_component(taper_name, width1=port_width, width2=cs_width)
     input_port_name = _get_taper_io_port_names(component=taper)[0]
-    taper_ref = ComponentReference(taper).connect(input_port_name, port)
-    return taper_ref
+    return ComponentReference(taper).connect(input_port_name, port)
 
 
 def _get_taper_io_port_names(component: Component) -> List[str]:
