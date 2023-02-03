@@ -26,6 +26,12 @@ PORT_LAYER_TO_TYPE = {
 
 PORT_TYPE_TO_MARKER_LAYER = {v: k for k, v in PORT_MARKER_LAYER_TO_TYPE.items()}
 
+LAYER_TRANSITIONS = {
+    LAYER.WG: "taper",
+    LAYER.M3: "taper",
+    # (LAYER.)
+}
+
 
 def get_generic_pdk():
     from gdsfactory.components import cells
@@ -40,6 +46,7 @@ def get_generic_pdk():
         layers=LAYER.dict(),
         layer_stack=LAYER_STACK,
         layer_views=LAYER_VIEWS,
+        layer_transitions=LAYER_TRANSITIONS,
         sparameters_path=sparameters_path,
     )
 
