@@ -1,4 +1,4 @@
-Installation
+Getting started
 ===================
 
 
@@ -7,7 +7,6 @@ Installation
    :titlesonly:
    :caption: Contents:
 
-   notebooks/_2_install.ipynb
    notebooks/_2_klayout.ipynb
    notebooks/_3_vscode.ipynb
    notebooks/_4_gdsfactory_in_5minutes.ipynb
