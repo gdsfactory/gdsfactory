@@ -18,6 +18,7 @@ instances:
     component: straight
     info:
       length: 0.01
+      separation: 3.5
       width: 0.5
     settings:
       length: 0.01
@@ -25,6 +26,7 @@ instances:
     component: straight
     info:
       length: 0.01
+      separation: 3.5
       width: 0.5
     settings:
       length: 0.01

@@ -1,8 +1,8 @@
-name: straight_2baf67df
+name: straight_8f94de34
 settings:
   changed:
     cross_section:
-      function: cross_section
+      function: strip
       settings:
         bbox_layers:
         - SLAB90
@@ -16,7 +16,7 @@ settings:
     with_bbox: true
   full:
     cross_section:
-      function: cross_section
+      function: strip
       settings:
         bbox_layers:
         - SLAB90
@@ -28,7 +28,8 @@ settings:
   function_name: straight
   info:
     length: 10.0
+    separation: 3.5
     width: 0.5
   info_version: 2
   module: gdsfactory.components.straight
-  name: straight_2baf67df
+  name: straight_8f94de34

@@ -2,10 +2,11 @@ from __future__ import annotations
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
+from gdsfactory.read import from_yaml
 
 
 @cell
-def demo_aar() -> Component:
+def demo_all_angle_routing() -> Component:
     """Demonstrate all-angle routing."""
     yaml = """
     instances:
@@ -41,11 +42,10 @@ def demo_aar() -> Component:
         o2: mmi_short,o1
         o1: mmi_long,o1
     """
-    from gdsfactory.read import from_yaml
 
     return from_yaml(yaml)
 
 
 if __name__ == "__main__":
-    c = demo_aar()
+    c = demo_all_angle_routing()
     c.show(show_ports=True)

@@ -383,10 +383,7 @@ def cross_section(
 
 
 def strip(width: Union[Callable, float] = 0.5, **kwargs) -> CrossSection:
-    """
-    Strip cross-section.
-
-    """
+    """Returns Strip cross-section."""
     cs = cross_section(width=width, **kwargs)
     cs.info["separation"] = width + 3.0
     return cs

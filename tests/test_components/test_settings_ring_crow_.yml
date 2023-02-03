@@ -13,17 +13,17 @@ settings:
     - 0.2
     - 0.2
     input_straight_cross_section:
-      function: cross_section
+      function: strip
     output_straight_cross_section:
-      function: cross_section
+      function: strip
     radius:
     - 10.0
     - 10.0
     - 10.0
     ring_cross_sections:
-    - function: cross_section
-    - function: cross_section
-    - function: cross_section
+    - function: strip
+    - function: strip
+    - function: strip
   full:
     bends:
     - function: bend_circular
@@ -35,17 +35,17 @@ settings:
     - 0.2
     - 0.2
     input_straight_cross_section:
-      function: cross_section
+      function: strip
     output_straight_cross_section:
-      function: cross_section
+      function: strip
     radius:
     - 10.0
     - 10.0
     - 10.0
     ring_cross_sections:
-    - function: cross_section
-    - function: cross_section
-    - function: cross_section
+    - function: strip
+    - function: strip
+    - function: strip
   function_name: ring_crow
   info: {}
   info_version: 2
