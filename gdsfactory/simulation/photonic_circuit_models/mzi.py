@@ -27,6 +27,7 @@ def mzi(
     """
     k_0 = 2 * np.pi / wl
     length2 = length2 or length1 + delta_length
+    delta_length = delta_length or np.abs(length2 - length1)
     neff1 = neff1 or neff
     neff2 = neff2 or neff
 
@@ -39,6 +40,7 @@ def mzi(
 
 if __name__ == "__main__":
     import gdsfactory.simulation.gtidy3d as gt
+    import matplotlib.pyplot as plt
 
     nm = 1e-3
     strip = gt.modes.Waveguide(
@@ -53,23 +55,11 @@ if __name__ == "__main__":
     neff = 2.46  # Effective index of the waveguides
     wl0 = 1.55  # [μm] the wavelength at which neff and ng are defined
     wl = np.linspace(1.5, 1.6, 1000)  # [μm] Wavelengths to sweep over
-    wl = np.linspace(1.55, 1.60, 1000)  # [μm] Wavelengths to sweep over
     ngs = [4.182551, 4.169563, 4.172917]
     thicknesses = [210, 220, 230]
 
     length = 4e3
     dn = np.pi / length
-
-    # df = gt.modes.sweep_width(
-    #     width1=200 * nm,
-    #     width2=1000 * nm,
-    #     steps=11,
-    #     wavelength=1.55,
-    #     wg_thickness=220 * nm,
-    #     slab_thickness=0 * nm,
-    #     ncore=gt.modes.si,
-    #     nclad=gt.modes.sio2,
-    # )
 
     polyfit_TE1550SOI_220nm = np.array(
         [
@@ -91,25 +81,29 @@ if __name__ == "__main__":
             -1.12666286e00,
         ]
     )
-    # neff_w = lambda w: np.poly1d(polyfit_TE1550SOI_220nm)(w)
 
-    # w0 = 450 * nm
-    # dn1 = neff_w(w0 + 1 * nm / 2) - neff_w(w0 - 1 * nm / 2)
-    # dn5 = neff_w(w0 + 5 * nm / 2) - neff_w(w0 - 5 * nm / 2)
-    # dn10 = neff_w(w0 + 10 * nm / 2) - neff_w(w0 - 10 * nm / 2)
+    def neff_w(wavelength):
+        return np.poly1d(polyfit_TE1550SOI_220nm)(wavelength)
 
-    # pi_length1 = np.pi / dn1
-    # pi_length5 = np.pi / dn5
-    # pi_length10 = np.pi / dn10
+    w0 = 450 * nm
+    dn1 = neff_w(w0 + 1 * nm / 2) - neff_w(w0 - 1 * nm / 2)
+    dn5 = neff_w(w0 + 5 * nm / 2) - neff_w(w0 - 5 * nm / 2)
+    dn10 = neff_w(w0 + 10 * nm / 2) - neff_w(w0 - 10 * nm / 2)
 
-    # print(f"pi_length = {pi_length1:.0f}um for 1nm width variation")
-    # print(f"pi_length = {pi_length5:.0f}um for 5nm width variation")
-    # print(f"pi_length = {pi_length10:.0f}um for 10nm width variation")
+    pi_length1 = np.pi / dn1
+    pi_length5 = np.pi / dn5
+    pi_length10 = np.pi / dn10
 
-    # p = mzi(wl, neff1=neff1, neff2=neff2, length1=4e3, length2=4e3)
-    # plt.title("MZI")
-    # plt.xlabel("wavelength (um)")
-    # plt.ylabel("Power Transmission")
-    # plt.grid()
-    # plt.legend()
-    # plt.show()
+    print(f"pi_length = {pi_length1:.0f}um for 1nm width variation")
+    print(f"pi_length = {pi_length5:.0f}um for 5nm width variation")
+    print(f"pi_length = {pi_length10:.0f}um for 10nm width variation")
+
+    dn = dn1
+    p = mzi(wl, neff=neff, neff1=neff + dn, neff2=neff + dn, delta_length=10)
+    plt.plot(wl, p)
+    plt.title("MZI")
+    plt.xlabel("wavelength (um)")
+    plt.ylabel("Power Transmission")
+    plt.grid()
+    plt.legend()
+    plt.show()
