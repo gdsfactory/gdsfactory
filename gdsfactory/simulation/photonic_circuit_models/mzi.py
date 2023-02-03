@@ -81,7 +81,9 @@ if __name__ == "__main__":
             -1.12666286e00,
         ]
     )
-    neff_w = lambda w: np.poly1d(polyfit_TE1550SOI_220nm)(w)
+
+    def neff_w(wavelength):
+        return np.poly1d(polyfit_TE1550SOI_220nm)(wavelength)
 
     w0 = 450 * nm
     dn1 = neff_w(w0 + 1 * nm / 2) - neff_w(w0 - 1 * nm / 2)
