@@ -87,13 +87,12 @@ def vector_intersection(
     intersect = l0.intersection(l1)
     if isinstance(intersect, sg.Point):
         return intersect.coords[0]
+    if raise_error:
+        raise ValueError(
+            f"Vectors at {tuple(p0)} and {tuple(p1)} with angles {a0} and {a1} do not intersect!"
+        )
     else:
-        if raise_error:
-            raise ValueError(
-                f"Vectors at {tuple(p0)} and {tuple(p1)} with angles {a0} and {a1} do not intersect!"
-            )
-        else:
-            return None
+        return None
 
 
 def _line_intercept(p1, a1, p2, a2):
@@ -186,7 +185,6 @@ def low_loss_connector(
             refs += straight_connector(
                 taper.ports[output_port_name], port2, cross_section=port2.cross_section
             )
-            return refs
         else:
             taper = taper_to_cross_section(port2, port1.cross_section)
             output_port_name = _get_taper_io_port_names(taper1)[1]
@@ -194,7 +192,7 @@ def low_loss_connector(
                 port1, taper.ports[output_port_name], cross_section=port2.cross_section
             )
             refs.append(taper)
-            return refs
+        return refs
     else:
         # if cross-sections are different, just put the cross-section at the start
         taper = taper_to_cross_section(port1, port2.cross_section)
@@ -320,9 +318,7 @@ def _point_intersects_ray(p0, a0, p1, angle_tolerance=1e-4):
     x1, y1 = p1
     a1 = np.arctan2(y1 - y0, x1 - x0)
     a1 = np.rad2deg(a1)
-    if abs(difference_between_angles(a1, a0)) < angle_tolerance:
-        return True
-    return False
+    return abs(difference_between_angles(a1, a0)) < angle_tolerance
 
 
 def _null_handler(refs):
@@ -352,13 +348,12 @@ def _all_angle_connector(
         report_segment_separation = _null_handler
 
     # in the case that the two ports already directly align
-    if bend_angle == 0:
-        if _point_intersects_ray(port1.center, port1.orientation, port2.center):
-            straight_connection = connector2(port1, port2, cross_section=cross_section2)
-            report_segment_separation(straight_connection)
-            return straight_connection
-        # elif _point_intersects_ray(port1.center, port1.orientation + 180, port2.center):
-        #     return _make_error_trace(port1, port2, 'Cannot create route between co-linear ports!')
+    if bend_angle == 0 and _point_intersects_ray(
+        port1.center, port1.orientation, port2.center
+    ):
+        straight_connection = connector2(port1, port2, cross_section=cross_section2)
+        report_segment_separation(straight_connection)
+        return straight_connection
     if intersect is None:
         # if difference_between_angles(port2.orientation, port1.orientation) == 180:
         sample_bend = _get_bend(bend, angle=90, cross_section=cross_section)
@@ -473,11 +468,10 @@ def _get_minimum_separation(refs: List[ComponentReference], *ports) -> float:
     all_ports.extend(ports)
     max_specified_separation = 0
     for port in all_ports:
-        if port.cross_section:
-            if "separation" in port.cross_section.info:
-                separation = port.cross_section.info["separation"]
-                if separation > max_specified_separation:
-                    max_specified_separation = separation
+        if port.cross_section and "separation" in port.cross_section.info:
+            separation = port.cross_section.info["separation"]
+            if separation > max_specified_separation:
+                max_specified_separation = separation
 
     if max_specified_separation == 0:
         raise ValueError(
@@ -890,7 +884,7 @@ def get_bundle_all_angle(
             route_refs += final_connection
             this_separation = _get_minimum_separation(final_connection, port1)
             segment_separations.append(this_separation)
-        route_length = sum([r.info["length"] for r in route_refs])
+        route_length = sum(r.info["length"] for r in route_refs)
         route = Route(references=route_refs, ports=(port1, port2), length=route_length)
         routes.append(route)
         is_primary_route = False
