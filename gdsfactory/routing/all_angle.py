@@ -1,9 +1,3 @@
-###################################################################################################################
-# PROPRIETARY AND CONFIDENTIAL
-# THIS SOFTWARE IS THE SOLE PROPERTY AND COPYRIGHT (c) 2022 OF ROCKLEY PHOTONICS LTD.
-# USE OR REPRODUCTION IN PART OR AS A WHOLE WITHOUT THE WRITTEN AGREEMENT OF ROCKLEY PHOTONICS LTD IS PROHIBITED.
-# RPLTD NOTICE VERSION: 1.1.1
-###################################################################################################################
 import warnings
 from typing import List, Optional, Dict, Callable
 
@@ -16,7 +10,10 @@ from gdsfactory.generic_tech.layer_map import LAYER
 from gdsfactory.pdk import get_cross_section, get_component
 from gdsfactory.get_netlist import difference_between_angles
 from gdsfactory.types import CrossSectionSpec, Route, ComponentSpec
-from gdsfactory.routing.auto_taper import taper_to_cross_section
+from gdsfactory.routing.auto_taper import (
+    taper_to_cross_section,
+    _get_taper_io_port_names,
+)
 from gdsfactory.path import extrude
 
 STEP_DIRECTIVES = {
@@ -40,6 +37,15 @@ Connector = Callable[..., List[ComponentReference]]
 
 
 def get_connector(name: str) -> Connector:
+    """
+    Gets a connector function by name.
+
+    Args:
+        name: the name of the connector function to retrieve
+
+    Returns:
+        The specified connector function.
+    """
     try:
         connector = CONNECTORS[name]
     except KeyError as e:
@@ -49,7 +55,23 @@ def get_connector(name: str) -> Connector:
     return connector
 
 
-def vector_intersection(p0, a0, p1, a1, max_distance=100000, raise_error=True):
+def vector_intersection(
+    p0, a0, p1, a1, max_distance=100000, raise_error=True
+) -> Optional[np.ndarray]:
+    """
+    Gets the intersection point between two vectors, specified by (point, angle) pairs, (p0, a0) and (p1, a1).
+
+    Args:
+        p0: x,y location of vector 0
+        a0: angle of vector 0 [degrees]
+        p1: x,y location of vector 1
+        a1: angle of vector 1 [degrees]
+        max_distance: maximum search distance for an intersection [um]
+        raise_error: if True, raises an error if no intersection is found. Otherwise, returns None in that case.
+
+    Returns:
+        The (x,y) point of intersection, if one is found. Otherwise None.
+    """
     a0_rad = np.deg2rad(a0)
     a1_rad = np.deg2rad(a1)
     dx0 = max_distance * np.cos(a0_rad)
@@ -94,28 +116,42 @@ def _line_intercept(p1, a1, p2, a2):
 
 
 def _get_bend_ports(bend):
-    # TODO: make more general
-    return [bend.ports["o1"], bend.ports["o2"]]
+    # this is a bit of a hack, but o1 < o2, in0 < out0, hopefully there are no other wacky conventions!
+    sorted_port_names = sorted(bend.ports.keys())
+    return [bend.ports[n] for n in sorted_port_names]
 
 
 LOW_LOSS_CROSS_SECTIONS = [
-    {"cross_section": "rib", "settings": {"width": 2.6}},
-    {"cross_section": "strip", "settings": {"width": 2.6}},
+    {"cross_section": "strip", "settings": {"width": 1.0}},
+    "strip",
 ]
 
 
-def low_loss_connector(port1: Port, port2: Port, **kwargs) -> List[ComponentReference]:
+def low_loss_connector(
+    port1: Port,
+    port2: Port,
+    prioritized_cross_sections: Optional[List[CrossSectionSpec]] = None,
+    **kwargs,
+) -> List[ComponentReference]:
     """
     Routes between two ports, using the lowest-loss cross-section which will fit.
 
-    :param port1: the starting port
-    :param port2: the ending port
-    :param kwargs: added for compatibility. In general, kwargs are ignored.
-    :return: a list of component references comprising the connection
+    Args:
+        port1: the starting port
+        port2: the ending port
+        prioritized_cross_sections: a list of cross-sections, sorted by preference (starting with most preferred). If None, uses the global variable LOW_LOSS_CROSS_SECTIONS
+
+    Keyword Args:
+        kwargs are added for API compatibility, but they are ignored.
+
+    Returns:
+        A list of component references comprising the connection
     """
     distance = np.sqrt(np.sum(np.square(port2.center - port1.center)))
-    # try to route with the lowest-loss cross section
-    for low_loss_cs in LOW_LOSS_CROSS_SECTIONS:
+    if prioritized_cross_sections is None:
+        prioritized_cross_sections = LOW_LOSS_CROSS_SECTIONS
+    # try to route with the lowest-loss cross-section
+    for low_loss_cs in prioritized_cross_sections:
         taper1 = taper_to_cross_section(port1, cross_section=low_loss_cs)
         taper2 = taper_to_cross_section(port2, cross_section=low_loss_cs)
         taper_lengths = [
@@ -125,10 +161,12 @@ def low_loss_connector(port1: Port, port2: Port, **kwargs) -> List[ComponentRefe
         if total_taper_length < distance:
             refs = []
             if taper1:
-                port1 = taper1.ports["out0"]
+                output_port_name = _get_taper_io_port_names(taper1)[1]
+                port1 = taper1.ports[output_port_name]
                 refs.append(taper1)
             if taper2:
-                port2 = taper2.ports["out0"]
+                output_port_name = _get_taper_io_port_names(taper2)[1]
+                port2 = taper2.ports[output_port_name]
             intermediate_connector = straight_connector(
                 port1, port2, cross_section=low_loss_cs
             )
@@ -137,30 +175,33 @@ def low_loss_connector(port1: Port, port2: Port, **kwargs) -> List[ComponentRefe
                 refs.append(taper2)
             return refs
     if port1.cross_section == port2.cross_section:
-        # if both cross sections are the same, keep it
+        # if both cross-sections are the same, keep it
         return straight_connector(port1, port2, cross_section=port1.cross_section)
     elif port1.layer == port2.layer:
         # if the layer is the same, put a width taper, maximizing length of the fatty
         if port2.width > port1.width:
             taper = taper_to_cross_section(port1, port2.cross_section)
             refs = [taper]
+            output_port_name = _get_taper_io_port_names(taper)[1]
             refs += straight_connector(
-                taper.ports["out0"], port2, cross_section=port2.cross_section
+                taper.ports[output_port_name], port2, cross_section=port2.cross_section
             )
             return refs
         else:
             taper = taper_to_cross_section(port2, port1.cross_section)
+            output_port_name = _get_taper_io_port_names(taper1)[1]
             refs = straight_connector(
-                port1, taper.ports["out0"], cross_section=port2.cross_section
+                port1, taper.ports[output_port_name], cross_section=port2.cross_section
             )
             refs.append(taper)
             return refs
     else:
-        # if cross sections are different, just put the cross section at the start
+        # if cross-sections are different, just put the cross-section at the start
         taper = taper_to_cross_section(port1, port2.cross_section)
         refs = [taper]
+        output_port_name = _get_taper_io_port_names(taper1)[1]
         refs += straight_connector(
-            taper.ports["out0"], port2, cross_section=port2.cross_section
+            taper.ports[output_port_name], port2, cross_section=port2.cross_section
         )
         return refs
 
@@ -179,12 +220,14 @@ def straight_connector(
     port1: Port, port2: Port, cross_section: CrossSectionSpec = "strip"
 ) -> List[ComponentReference]:
     """
-    Connects between the two ports with a straight of the given cross section.
+    Connects between the two ports with a straight of the given cross-section.
 
-    :param port1: the starting port
-    :param port2: the ending port
-    :param cross_section: the cross-section to use
-    :return: a list of component references comprising the connection
+    Args:
+        port1: the starting port
+        port2: the ending port
+        cross_section: the cross-section to use
+    Returns:
+        A list of component references comprising the connection
     """
     if np.array_equal(port1.center, port2.center):
         return []
@@ -213,21 +256,25 @@ def auto_taper_connector(
     """
     Connects the two ports with a straight in the specified cross_section, adding tapers at either end if necessary.
 
-    :param port1: the first port
-    :param port2: the final port
-    :param cross_section: the primary cross section to use for the route
-    :param inner_connector: the connector to use after attaching tapers
-    :return: a list of references comprising the connection
+    Args:
+        port1: the first port
+        port2: the final port
+        cross_section: the primary cross section to use for the route
+        inner_connector: the connector to use after attaching tapers
+    Returns:
+        A list of references comprising the connection
     """
     taper1 = taper_to_cross_section(port1, cross_section)
     taper2 = taper_to_cross_section(port2, cross_section)
     route_refs = []
     if taper1:
         route_refs.append(taper1)
-        port1 = taper1.ports["out0"]
+        output_port_name = _get_taper_io_port_names(taper1)[1]
+        port1 = taper1.ports[output_port_name]
     if taper2:
         route_refs.append(taper2)
-        port2 = taper2.ports["out0"]
+        output_port_name = _get_taper_io_port_names(taper2)[1]
+        port2 = taper2.ports[output_port_name]
     conn = inner_connector(port1, port2, cross_section)
     route_refs += conn
     return route_refs
@@ -239,9 +286,20 @@ CONNECTORS = {
     "auto_taper": auto_taper_connector,
     None: straight_connector,
 }
+"""A dictionary of named connectors which can be used for all-angle routing"""
 
 
-def _place_bend(bend_component: Component, position, rotation):
+def _place_bend(bend_component: Component, position, rotation) -> ComponentReference:
+    """
+    Places a bend by its control point at a given position and rotation. The control point of a bend is the intersection of the inverted port vectors.
+
+    Args:
+        bend_component: the bend component
+        position: the (x,y) position to place the bend
+        rotation: the rotation of the bend
+    Returns:
+        The resulting bend ComponentReference
+    """
     bend_ports = _get_bend_ports(bend_component)
     bend_control_point = vector_intersection(
         bend_ports[0].center,
@@ -310,10 +368,12 @@ def _all_angle_connector(
         route_refs = []
         if taper1:
             route_refs.append(taper1)
-            port1 = taper1.ports["out0"]
+            output_port_name = _get_taper_io_port_names(taper1)[1]
+            port1 = taper1.ports[output_port_name]
         if taper2:
             route_refs.append(taper2)
-            port2 = taper2.ports["out0"]
+            output_port_name = _get_taper_io_port_names(taper2)[1]
+            port2 = taper2.ports[output_port_name]
         # try:
         bend_angles = _get_bend_angles(
             port1.center, port2.center, port1.orientation, port2.orientation, bend=bend
@@ -386,8 +446,9 @@ def _get_bend_angles(p0, p1, a0, a1, bend):
             bend1 = get_component(bend, angle=bend_angle1).ref()
             bend0 = bend0.rotate(a0).move(p0)
             bend1 = bend1.rotate(a1).move(p1)
-            # TODO: make more general
-            dx, dy = bend1.ports["o2"].center - bend0.ports["o2"].center
+            bend0_output_port = _get_bend_ports(bend0)[1]
+            bend1_output_port = _get_bend_ports(bend1)[1]
+            dx, dy = bend1_output_port.center - bend0_output_port.center
         else:
             bend0 = Path(bend_path_func(angle=bend_angle0))
             bend1 = Path(bend_path_func(angle=bend_angle1))
@@ -441,7 +502,7 @@ def get_bundle_all_angle(
     steps: Optional[List[Dict[str, float]]] = None,
     cross_section: CrossSectionSpec = "strip",
     bend: ComponentSpec = "bend_euler",
-    connector: str = "auto_taper",
+    connector: str = "low_loss",
     start_angle: Optional[float] = None,
     end_angle: Optional[float] = None,
     end_connector: Optional[str] = None,
@@ -479,7 +540,7 @@ def get_bundle_all_angle(
     waypoints, angles = None, None
 
     # by default, the second to last segment (in case of a two-step end connection) should have default
-    # connector and cross section
+    # connector and cross-section
     semi_final_connector_func = connector_func
     semi_final_cross_section = cross_section
     # however, this can be overridden by providing a final step without any directional arguments
@@ -523,7 +584,8 @@ def get_bundle_all_angle(
             )
             if initial_taper:
                 route_refs.append(initial_taper)
-                port1 = initial_taper.ports["out0"]
+                output_port_name = _get_taper_io_port_names(initial_taper)[1]
+                port1 = initial_taper.ports[output_port_name]
             bend_ref.connect(bend_ref_ports[0], port1)
             bend_ref_ports = _get_bend_ports(bend_ref)
             route_refs.append(bend_ref)
@@ -542,7 +604,8 @@ def get_bundle_all_angle(
             end_taper = taper_to_cross_section(port2, bend_ref_ports[0].cross_section)
             if end_taper:
                 route_refs.append(end_taper)
-                port2 = end_taper.ports["out0"]
+                output_port_name = _get_taper_io_port_names(end_taper)[1]
+                port2 = end_taper.ports[output_port_name]
             bend_ref.connect(bend_ref_ports[0], port2)
             bend_ref_ports = _get_bend_ports(bend_ref)
             route_refs.append(bend_ref)

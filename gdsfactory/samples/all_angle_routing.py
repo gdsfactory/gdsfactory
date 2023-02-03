@@ -1,9 +1,3 @@
-###################################################################################################################
-# PROPRIETARY AND CONFIDENTIAL
-# THIS SOFTWARE IS THE SOLE PROPERTY AND COPYRIGHT (c) 2022 OF ROCKLEY PHOTONICS LTD.
-# USE OR REPRODUCTION IN PART OR AS A WHOLE WITHOUT THE WRITTEN AGREEMENT OF ROCKLEY PHOTONICS LTD IS PROHIBITED.
-# RPLTD NOTICE VERSION: 1.1.1
-###################################################################################################################
 from __future__ import annotations
 
 from gdsfactory.cell import cell
@@ -12,19 +6,7 @@ from gdsfactory.component import Component
 
 @cell
 def demo_aar() -> Component:
-    """Test netlist yaml.
-
-    .. code::
-
-        arm_top
-         _____
-        |     |
-    CP1=       =CP2=
-        |_____|
-
-         arm_bot
-
-    """
+    """Demonstrate all-angle routing."""
     yaml = """
     instances:
         mmi_long:
@@ -47,6 +29,10 @@ def demo_aar() -> Component:
     routes:
         optical:
             routing_strategy: get_bundle_all_angle
+            settings:
+                steps:
+                    - ds: 50
+                      exit_angle: 90  # TODO: why do paths cross when set to i.e. 100?
             links:
                 mmi_short,o2: mmi_long,o3
                 mmi_short,o3: mmi_long,o2

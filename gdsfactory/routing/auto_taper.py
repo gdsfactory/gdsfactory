@@ -1,13 +1,7 @@
-###################################################################################################################
-# PROPRIETARY AND CONFIDENTIAL
-# THIS SOFTWARE IS THE SOLE PROPERTY AND COPYRIGHT (c) 2022 OF ROCKLEY PHOTONICS LTD.
-# USE OR REPRODUCTION IN PART OR AS A WHOLE WITHOUT THE WRITTEN AGREEMENT OF ROCKLEY PHOTONICS LTD IS PROHIBITED.
-# RPLTD NOTICE VERSION: 1.1.1
-###################################################################################################################
 import warnings
-from typing import Optional
+from typing import Optional, List
 
-from gdsfactory.component import Port, ComponentReference
+from gdsfactory.component import Port, ComponentReference, Component
 from gdsfactory.pdk import get_cross_section, get_active_pdk, get_layer, get_component
 from gdsfactory.types import CrossSectionSpec
 
@@ -16,30 +10,25 @@ def taper_to_cross_section(
     port: Port, cross_section: CrossSectionSpec
 ) -> Optional[ComponentReference]:
     """
-    Creates a taper from a port to a given cross section. Port 'in0' of the taper will be connected to the input port
-    and 'out0' will be exposed as a port that can be connected to by a device with the given cross section.
+    Creates a taper from a port to a given cross-section. It is assumed that the taper component has parameters `width1` and `width2` which map to the input and output port widths.
 
     :param port: a port to connect to, usually from a ComponentReference
-    :param cross_section: a cross section to transition to
+    :param cross_section: a cross-section to transition to
     :return: a ComponentReference for the taper component placed such that it will connect to the input port
 
     .. plot::
         :include-source:
 
-        import picbuilder.components as pbc
-        import picbuilder.cross_sections as cs
-        from picbuilder.routing import taper_to_cross_section
+        from gdsfactory.routing.auto_taper import taper_to_cross_section
+        from gdsfactory.cross_section import strip
         import gdsfactory as gf
-        from picbuilder.core import PDK
-
-        PDK.activate()
 
         c = gf.Component()
 
         # create a component reference to connect to
-        wg = c << pbc.rp_rib_waveguide()
+        wg = c << gf.components.straight()
         # create a taper reference transitioning to strip from the rib waveguide
-        taper = taper_to_cross_section(wg.ports['out0'], cs.wg_most_cross_section())
+        taper = taper_to_cross_section(wg.ports['o1'], strip(width=2.0))
         # add the taper reference to the parent component
         c.add(taper)
 
@@ -70,9 +59,15 @@ def taper_to_cross_section(
             return None
     else:
         return None
-    taper = get_component(taper_name, width_input=port_width, width_output=cs_width)
-    taper_ref = ComponentReference(taper).connect("in0", port)
+    taper = get_component(taper_name, width1=port_width, width2=cs_width)
+    input_port_name = _get_taper_io_port_names(component=taper)[0]
+    taper_ref = ComponentReference(taper).connect(input_port_name, port)
     return taper_ref
+
+
+def _get_taper_io_port_names(component: Component) -> List[str]:
+    # this is kind of a hack, but o1 < o2, in0 < out0... hopefully nobody has any other wacky conventions!
+    return sorted(component.ports.keys())
 
 
 def _auto_taper(
