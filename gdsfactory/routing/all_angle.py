@@ -504,22 +504,27 @@ def get_bundle_all_angle(
     separation: Optional[float] = None,
     **kwargs,
 ) -> List[Route]:
-    """
-    Connects a bundle of ports, allowing steps which create waypoints at arbitrary, non-manhattan angles.
+    """Connects a bundle of ports, allowing steps which create waypoints at arbitrary, non-manhattan angles.
 
-    :param ports1: ports at the start of the bundle
-    :param ports2: ports at the end of the bundle
-    :param steps: a list of steps, which contain directives on how to proceed with the route. The first route, between ports1[0] and ports2[0] will take on the role of the primary route, and other routes will follow, given the bundling logic. It is assume that both ports1 and ports2 are sorted.
-    :param cross_section: the default cross section to be used. Primarily this will control the cross section of the bends. Then the specified connector may also use this information for straights in between.
-    :param bend: the default component to use for the bends
-    :param connector: the default connector to use to connect between two ports
-    :param start_angle: if defined and different from the angle of port1, will cap the starting port with a bend, as to exit with this angle
-    :param end_angle:  if defined, and different from the angle of port2, will cap the ending port with a bend, as to exit with this angle
-    :param end_connector: specifies the connector to use for the final straight segment of the route
-    :param end_cross_section: specifies the cross section to use for the final straight segment of the route
-    :param separation: specifies the separation between adjacent routes. If None, will query each segment's cross-section's and choose the largest value
-    :param kwargs: added for compatibility, but in general, kwargs will be ignored with a warning
-    :return: a list of Routes between ports1 and ports2
+    Args:
+        ports1: ports at the start of the bundle.
+        ports2: ports at the end of the bundle.
+        steps: a list of steps, which contain directives on how to proceed with the route.
+            The first route, between ports1[0] and ports2[0] will take on the role of the primary route, and other routes will follow, given the bundling logic.
+            It is assume that both ports1 and ports2 are sorted.
+        cross_section: the default cross section to be used. Primarily this will control the cross section of the bends.
+            Then the specified connector may also use this information for straights in between.
+        bend: the default component to use for the bends.
+        connector: the default connector to use to connect between two ports.
+        start_angle: if defined and different from the angle of port1, will cap the starting port with a bend, as to exit with this angle.
+        end_angle:  if defined, and different from the angle of port2, will cap the ending port with a bend, as to exit with this angle.
+        end_connector: specifies the connector to use for the final straight segment of the route.
+        end_cross_section: specifies the cross section to use for the final straight segment of the route.
+        separation: specifies the separation between adjacent routes. If None, will query each segment's cross-section's and choose the largest value.
+        kwargs: added for compatibility, but in general, kwargs will be ignored with a warning.
+
+    Returns:
+        List of Routes between ports1 and ports2.
     """
     if kwargs:
         warnings.warn(

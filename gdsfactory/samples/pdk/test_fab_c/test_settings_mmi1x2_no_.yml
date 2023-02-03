@@ -1,8 +1,8 @@
-name: mmi1x2_77b0da92
+name: mmi1x2_974492f5
 settings:
   changed:
     cross_section:
-      function: cross_section
+      function: strip
       settings:
         add_pins:
           function: add_pins
@@ -30,7 +30,7 @@ settings:
     with_bbox: true
   full:
     cross_section:
-      function: cross_section
+      function: strip
       settings:
         add_pins:
           function: add_pins
@@ -56,4 +56,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mmi1x2
-  name: mmi1x2_77b0da92
+  name: mmi1x2_974492f5

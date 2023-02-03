@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.30.0
+
+- add all angle router [PR](https://github.com/gdsfactory/gdsfactory/pull/1216)
+- add kweb integration [PR](https://github.com/gdsfactory/gdsfactory/pull/1220)
+
 ## 6.29.0
 
 - add plot_klayout, plot_holoviews, plot_matplotlib. plot defaults to plot_klayout [PR](https://github.com/gdsfactory/gdsfactory/pull/1216)
