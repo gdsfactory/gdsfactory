@@ -9,12 +9,14 @@ from gdsfactory.types import CrossSectionSpec
 def taper_to_cross_section(
     port: Port, cross_section: CrossSectionSpec
 ) -> Optional[ComponentReference]:
-    """
-    Creates a taper from a port to a given cross-section. It is assumed that the taper component has parameters `width1` and `width2` which map to the input and output port widths.
+    """Returns taper ComponentReference from a port to a given cross-section \
+            placed so that it connects to the input port.
 
-    :param port: a port to connect to, usually from a ComponentReference
-    :param cross_section: a cross-section to transition to
-    :return: a ComponentReference for the taper component placed such that it will connect to the input port
+    Assumes that the taper component has `width1` and `width2` which map to the input and output port widths.
+
+    Args:
+        port: a port to connect to, usually from a ComponentReference
+        cross_section: a cross-section to transition to
 
     .. plot::
         :include-source:
@@ -27,13 +29,13 @@ def taper_to_cross_section(
 
         # create a component reference to connect to
         wg = c << gf.components.straight()
+
         # create a taper reference transitioning to strip from the rib waveguide
         taper = taper_to_cross_section(wg.ports['o1'], strip(width=2.0))
+
         # add the taper reference to the parent component
         c.add(taper)
-
         c.plot()
-
     """
     port_layer = get_layer(port.layer)
     port_width = port.width

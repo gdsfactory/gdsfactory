@@ -32,6 +32,8 @@ settings:
     routing_strategy:
       get_bundle:
         function: get_bundle
+      get_bundle_all_angle:
+        function: get_bundle_all_angle
       get_bundle_electrical:
         function: get_bundle
         settings:
@@ -82,6 +84,8 @@ settings:
     routing_strategy:
       get_bundle:
         function: get_bundle
+      get_bundle_all_angle:
+        function: get_bundle_all_angle
       get_bundle_electrical:
         function: get_bundle
         settings:

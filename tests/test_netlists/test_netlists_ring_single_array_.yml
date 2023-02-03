@@ -15,6 +15,7 @@ instances:
     component: straight
     info:
       length: 5.0
+      separation: 3.5
       width: 0.5
     settings:
       length: 5.0

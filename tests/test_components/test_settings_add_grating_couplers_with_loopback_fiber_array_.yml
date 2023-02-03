@@ -56,7 +56,7 @@ settings:
       function: spiral_inner_io
     component_name: null
     cross_section:
-      function: cross_section
+      function: strip
     excluded_ports: null
     gc_port_name: o1
     gc_rotation: -90
@@ -88,7 +88,7 @@ settings:
       function: spiral_inner_io
     component_name: null
     cross_section:
-      function: cross_section
+      function: strip
     excluded_ports: null
     gc_port_name: o1
     gc_rotation: -90
