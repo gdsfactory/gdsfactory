@@ -46,7 +46,7 @@ from gdsfactory.serialization import clean_dict
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.technology import LayerView, LayerViews
 
-Plotter = Literal["holoviews", "matplotlib", "qt"]
+Plotter = Literal["holoviews", "matplotlib", "qt", "klayout"]
 Axis = Literal["x", "y"]
 
 
@@ -843,6 +843,7 @@ class Component(_GeometryHelper):
 
         component = self.flatten() if recursive and self.references else self
         layers = [get_layer(layer) for layer in layers]
+
         should_remove = not invert_selection
         component._cell.filter(
             spec=layers,
@@ -851,7 +852,6 @@ class Component(_GeometryHelper):
             paths=True,
             labels=include_labels,
         )
-
         return component
 
     def extract(
@@ -1232,32 +1232,34 @@ class Component(_GeometryHelper):
         polygons = self._cell.get_polygons(depth=None)
         return {(polygon.layer, polygon.datatype) for polygon in polygons}
 
-    def _repr_html_(self):
+    def _repr_html_(self) -> None:
         """Show geometry in KLayout and in matplotlib for Jupyter Notebooks."""
-        from IPython.display import display
 
         self.show(show_ports=True)  # show in klayout
-        # self.plot(plotter="matplotlib")
         self.__repr__()
-        display(self._plot_widget())
+        self.plot_klayout()
 
-    def _plot_widget(self):
-        from gdsfactory.widgets.layout_viewer import LayoutViewer
-        from gdsfactory.pdk import get_layer_views
+    def plot_klayout(self) -> None:
+        try:
+            from gdsfactory.pdk import get_layer_views
+            from gdsfactory.widgets.layout_viewer import LayoutViewer
+            from IPython.display import display
 
-        gdspath = self.write_gds()
-        lyp_path = gdspath.with_suffix(".lyp")
+            gdspath = self.write_gds()
+            lyp_path = gdspath.with_suffix(".lyp")
 
-        layer_views = get_layer_views()
-        layer_views.to_lyp(filepath=lyp_path)
-        layout = LayoutViewer(gdspath, lyp_path)
-        return layout.image
+            layer_views = get_layer_views()
+            layer_views.to_lyp(filepath=lyp_path)
+            layout = LayoutViewer(gdspath, lyp_path)
+            display(layout.image)
+        except ImportError:
+            print(
+                "You can install `pip install gdsfactory[full]` for better visualization"
+            )
+            self.plot(plotter="matplotlib")
 
-    def plot(self, plotter: Optional[Plotter] = None, **kwargs) -> None:
-        """Returns component plot.
-
-        Args:
-            plotter: backend ('holoviews', 'matplotlib', 'qt').
+    def plot_matplotlib(self, **kwargs) -> None:
+        """Plot component using matplotlib.
 
         Keyword Args:
             show_ports: Sets whether ports are drawn.
@@ -1275,12 +1277,30 @@ class Component(_GeometryHelper):
             layer_views: layer_views colors loaded from Klayout.
             min_aspect: minimum aspect ratio.
         """
-        plotter = plotter or CONF.get("plotter", "matplotlib")
+        from gdsfactory.quickplotter import quickplot
 
-        if plotter == "matplotlib":
+        quickplot(self, **kwargs)
+
+    def plot(self, plotter: Optional[Plotter] = None, **kwargs) -> None:
+        """Returns component plot using klayout, matplotlib, holoviews or qt.
+
+        We recommend using klayout.
+
+        Args:
+            plotter: plot backend ('holoviews', 'matplotlib', 'qt', 'klayout').
+        """
+        plotter = plotter or CONF.get("plotter", "klayout")
+
+        if plotter == "klayout":
+            self.plot_klayout()
+            return
+
+        elif plotter == "matplotlib":
             from gdsfactory.quickplotter import quickplot
 
-            return quickplot(self, **kwargs)
+            quickplot(self, **kwargs)
+            return
+
         elif plotter == "holoviews":
             try:
                 import holoviews as hv
@@ -1289,20 +1309,17 @@ class Component(_GeometryHelper):
             except ImportError as e:
                 print("you need to `pip install holoviews`")
                 raise e
-
-            return self.ploth(**kwargs)
+            return self.plot_holoviews(**kwargs)
 
         elif plotter == "qt":
             from gdsfactory.quickplotter import quickplot2
 
-            return quickplot2(self)
+            quickplot2(self)
+            return
+        else:
+            raise ValueError(f"{plotter!r} not in {Plotter}")
 
-    def plotqt(self):
-        from gdsfactory.quickplotter import quickplot2
-
-        return quickplot2(self)
-
-    def ploth(
+    def plot_holoviews(
         self,
         layers_excluded: Optional[Layers] = None,
         layer_views: Optional[LayerViews] = None,
@@ -1626,6 +1643,7 @@ class Component(_GeometryHelper):
         precision: Optional[float] = None,
         logging: bool = True,
         on_duplicate_cell: Optional[str] = "warn",
+        flatten_invalid_refs: bool = False,
     ) -> Path:
         """Write component to GDS and returns gdspath.
 
@@ -1639,8 +1657,12 @@ class Component(_GeometryHelper):
                 "warn" (default): overwrite all duplicate cells with one of the duplicates (arbitrarily).
                 "error": throw a ValueError when attempting to write a gds with duplicate cells.
                 "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
-                None: do not try to resolve (at your own risk!)
+            flatten_invalid_refs: flattens component references which have invalid transformations.
         """
+
+        if flatten_invalid_refs:
+            self = flatten_invalid_refs_recursive(self)
+
         return self._write_library(
             gdspath=gdspath,
             gdsdir=gdsdir,
@@ -1864,7 +1886,7 @@ class Component(_GeometryHelper):
         return rotate(component=self, angle=angle)
 
     def add_padding(self, **kwargs) -> Component:
-        """Returns new component with padding.
+        """Returns same component with padding.
 
         Keyword Args:
             component: for padding.
@@ -2042,7 +2064,15 @@ class Component(_GeometryHelper):
         return self
 
 
-def copy(D: Component) -> Component:
+def copy(
+    D: Component,
+    references=None,
+    ports=None,
+    polygons=None,
+    paths=None,
+    name=None,
+    labels=None,
+) -> Component:
     """Returns a Component copy.
 
     Args:
@@ -2052,35 +2082,54 @@ def copy(D: Component) -> Component:
     D_copy.info = D.info
     # D_copy._cell = D._cell.copy(name=D_copy.name)
 
-    for ref in D.references:
-        new_ref = ComponentReference(
-            component=ref.parent,
-            columns=ref.columns,
-            rows=ref.rows,
-            spacing=ref.spacing,
-            origin=ref.origin,
-            rotation=ref.rotation,
-            magnification=ref.magnification,
-            x_reflection=ref.x_reflection,
-            name=ref.name,
-            v1=ref.v1,
-            v2=ref.v2,
-        )
-        D_copy.add(new_ref)
-
-    for port in D.ports.values():
+    for ref in references if references is not None else D.references:
+        D_copy.add(copy_reference(ref))
+    for port in (ports if ports is not None else D.ports).values():
         D_copy.add_port(port=port)
-    for poly in D.polygons:
+    for poly in polygons if polygons is not None else D.polygons:
         D_copy.add_polygon(poly)
-    for path in D.paths:
+    for path in paths if paths is not None else D.paths:
         D_copy.add(path)
-    for label in D.labels:
+    for label in labels if labels is not None else D.labels:
         D_copy.add_label(
             text=label.text,
             position=label.origin,
             layer=(label.layer, label.texttype),
         )
+
+    if name is not None:
+        D_copy.name = name
+
     return D_copy
+
+
+def copy_reference(
+    ref,
+    parent=None,
+    columns=None,
+    rows=None,
+    spacing=None,
+    origin=None,
+    rotation=None,
+    magnification=None,
+    x_reflection=None,
+    name=None,
+    v1=None,
+    v2=None,
+) -> ComponentReference:
+    return ComponentReference(
+        component=parent or ref.parent,
+        columns=columns or ref.columns,
+        rows=rows or ref.rows,
+        spacing=spacing or ref.spacing,
+        origin=origin or ref.origin,
+        rotation=rotation or ref.rotation,
+        magnification=magnification or ref.magnification,
+        x_reflection=x_reflection or ref.x_reflection,
+        name=name or ref.name,
+        v1=v1 or ref.v1,
+        v2=v2 or ref.v2,
+    )
 
 
 def test_get_layers() -> Component:
@@ -2149,6 +2198,81 @@ def recurse_structures(
             output.update(recurse_structures(reference.ref_cell))
 
     return output
+
+
+def flatten_invalid_refs_recursive(
+    component: Component, grid_size: Optional[float] = None
+) -> Component:
+    """Returns new Component with flattened references.
+
+    Args:
+        component: to flatten invalid references.
+        grid_size: optional grid size in um.
+    """
+    from gdsfactory.decorators import is_invalid_ref
+    from gdsfactory.functions import transformed
+    import networkx as nx
+
+    def _create_dag(component):
+        """DAG where components point to references which then point to components again."""
+        nodes = {}
+        edges = {}
+
+        def _add_nodes_recursive(g, component):
+            g.add_node(component.name)
+            nodes[component.name] = component
+            for ref in component.references:
+                edge_name = f"{component.name}:{ref.name}"
+                g.add_edge(component.name, edge_name)
+                g.add_edge(edge_name, ref.parent.name)
+                edges[edge_name] = ref
+                _add_nodes_recursive(g, ref.parent)
+
+        g = nx.DiGraph()
+        _add_nodes_recursive(g, component)
+
+        return g, nodes, edges
+
+    def _find_leaves(g):
+        leaves = [n for n, d in g.out_degree() if d == 0]
+        return leaves
+
+    def _prune_leaves(g):
+        """Prune components AND references pointing to them at the bottom of the DAG.
+        Helper function
+        """
+        comps = _find_leaves(g)
+        for component in comps:
+            g.remove_node(component)
+        refs = _find_leaves(g)
+        for r in refs:
+            g.remove_node(r)
+        return g, comps, refs
+
+    finished_comps = {}
+    g, comps, refs = _create_dag(component)
+    while True:
+        g, comp_leaves, ref_leaves = _prune_leaves(g)
+        if not comp_leaves:
+            break
+        new_comps = {}
+        for ref_name in ref_leaves:
+            r = refs[ref_name]
+            comp_name, _ = ref_name.split(":")
+            if comp_name in finished_comps:
+                continue
+            new_comps[comp_name] = comps[comp_name] = new_comps.get(
+                comp_name
+            ) or Component(name=comp_name)
+            if is_invalid_ref(r, grid_size):
+                comp = transformed(r, cache=False, decorator=None)  # type: ignore
+                comps[comp.name] = comp
+                r = refs[ref_name] = ComponentReference(comp)
+            comps[comp_name].add(
+                copy_reference(refs[ref_name], parent=comps[r.parent.name])
+            )
+        finished_comps.update(new_comps)
+    return finished_comps[component.name]
 
 
 def test_same_uid() -> None:
@@ -2278,6 +2402,37 @@ def test_import_gds_settings():
     assert c3
 
 
+def test_flatten_invalid_refs_recursive():
+    import gdsfactory as gf
+
+    @gf.cell
+    def flat():
+        c = gf.Component()
+        mmi1 = (c << gf.components.mmi1x2()).move((0, 1e-4))
+        mmi2 = (c << gf.components.mmi1x2()).rotate(90)
+        mmi2.move((40, 20))
+        route = gf.routing.get_route(mmi1.ports["o2"], mmi2.ports["o1"], radius=5)
+        c.add(route.references)
+        return c
+
+    @gf.cell
+    def hierarchy():
+        c = gf.Component()
+        (c << flat()).rotate(33)
+        (c << flat()).move((100, 0))
+        return c
+
+    c_orig = hierarchy()
+    c_new = flatten_invalid_refs_recursive(c_orig)
+    assert c_new is not c_orig
+    assert c_new != c_orig
+    assert c_orig.references[0].parent.name != c_new.references[0].parent.name
+    assert (
+        c_orig.references[1].parent.references[0].parent.name
+        != c_new.references[1].parent.references[0].parent.name
+    )
+
+
 if __name__ == "__main__":
     # import gdsfactory as gf
     # c2 = gf.Component()
@@ -2286,5 +2441,5 @@ if __name__ == "__main__":
     # c2.copy_child_info(c.named_references["sxt"])
     # test_remap_layers()
     c = test_get_layers()
-    c.show()
+    # c.plot_qt()
     # c.ploth()

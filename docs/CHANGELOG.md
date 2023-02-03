@@ -1,5 +1,14 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.29.0
+
+- add plot_klayout, plot_holoviews, plot_matplotlib. plot defaults to plot_klayout [PR](https://github.com/gdsfactory/gdsfactory/pull/1216)
+
+## 6.28.0
+
+- add flatten_invalid_refs as a write_gds flag [PR](https://github.com/gdsfactory/gdsfactory/pull/1211)
+- add non-manhattan routing doc and document flatten_invalid_refs docs [PR](https://github.com/gdsfactory/gdsfactory/pull/1214)
+
 ## 6.27.0
 
 - add options for 3D meshing [PR](https://github.com/gdsfactory/gdsfactory/pull/1207)
