@@ -1,3 +1,7 @@
+"""Component is a canvas for geometry.
+
+Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
+"""
 from __future__ import annotations
 
 import datetime
@@ -858,10 +862,7 @@ class Component(_GeometryHelper):
         self,
         layers: List[Union[Tuple[int, int], str]],
     ) -> Component:
-        """Extract polygons from a Component and returns a new Component.
-
-        based on phidl.geometry.
-        """
+        """Extract polygons from a Component and returns a new Component."""
         from gdsfactory.pdk import get_layer
 
         if type(layers) not in (list, tuple):
@@ -878,7 +879,7 @@ class Component(_GeometryHelper):
             if layer in poly_dict:
                 polygons = poly_dict[layer]
                 for polygon in polygons:
-                    component.add_polygon(polygon)
+                    component.add_polygon(polygon, layer)
 
         for layer in layers:
             for path in self._cell.get_paths(layer=layer):
@@ -2336,7 +2337,7 @@ def test_netlist_complex() -> None:
     assert len(netlist["instances"]) == 4, len(netlist["instances"])
 
 
-def test_extract() -> None:
+def test_extract() -> Component:
     import gdsfactory as gf
 
     c = gf.components.straight(
@@ -2353,6 +2354,7 @@ def test_extract() -> None:
 
     assert len(c.polygons) == 2, len(c.polygons)
     assert len(c2.polygons) == 1, len(c2.polygons)
+    assert gf.LAYER.WGCLAD in c2.layers
     return c2
 
 
@@ -2362,7 +2364,7 @@ def hash_file(filepath):
     return md5.hexdigest()
 
 
-def test_bbox_reference():
+def test_bbox_reference() -> Component:
     import gdsfactory as gf
 
     c = gf.Component("component_with_offgrid_polygons")
@@ -2450,6 +2452,8 @@ if __name__ == "__main__":
     # r = c.ref()
     # c2.copy_child_info(c.named_references["sxt"])
     # test_remap_layers()
-    c = test_get_layers()
+    # c = test_get_layers()
     # c.plot_qt()
     # c.ploth()
+    c = test_extract()
+    c.show()
