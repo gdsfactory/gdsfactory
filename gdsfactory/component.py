@@ -45,6 +45,7 @@ from gdsfactory.port import (
 from gdsfactory.serialization import clean_dict
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.technology import LayerView, LayerViews
+from gdsfactory.generic_tech import LAYER
 
 Plotter = Literal["holoviews", "matplotlib", "qt"]
 Axis = Literal["x", "y"]
@@ -1466,6 +1467,7 @@ class Component(_GeometryHelper):
         xsection_bounds=None,
         layer_stack=None,
         wafer_padding=0.0,
+        wafer_layer=LAYER.WAFER,
         *args,
         **kwargs,
     ):
@@ -1490,7 +1492,7 @@ class Component(_GeometryHelper):
             [xmax + wafer_padding, ymax + wafer_padding],
             [xmin - wafer_padding, ymax + wafer_padding],
         ]
-        padded_component.add_polygon(points, layer=(99999, 0))
+        padded_component.add_polygon(points, layer=wafer_layer)
 
         if layer_stack is None:
             raise ValueError(
