@@ -70,6 +70,7 @@ def mmi1x2(
         cross_section=cross_section,
         add_pins=None,
         add_bbox=None,
+        decorator=None,
     )
 
     a = gap_mmi / 2 + width_taper / 2
@@ -80,6 +81,7 @@ def mmi1x2(
         cross_section=cross_section,
         add_pins=None,
         add_bbox=None,
+        decorator=None,
     )
 
     ports = [
