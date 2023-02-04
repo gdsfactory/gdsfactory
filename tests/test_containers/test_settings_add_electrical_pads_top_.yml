@@ -80,7 +80,7 @@ settings:
     component:
       function: straight
     direction: top
-    layer: M3
+    layer: MTOP
     pad_array:
       function: pad_array
     select_ports:
@@ -104,7 +104,7 @@ settings:
           function: mmi2x2
         straight_x_top: straight_heater_metal
     direction: top
-    layer: M3
+    layer: MTOP
     pad_array:
       function: pad_array
     select_ports:
