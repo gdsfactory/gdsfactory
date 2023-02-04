@@ -1464,13 +1464,13 @@ class Component(_GeometryHelper):
         show(component, **kwargs)
 
     def show_jupyter(self):
-        """Shows current gds into klayout."""
+        """Shows current gds in klayout."""
         from gdsfactory.config import PATH
         from IPython.display import IFrame
 
         gdspath = self.write_gds(gdsdir=PATH.gdslib / "extra", logging=False)
         return IFrame(
-            src=f"http://127.0.0.1:8000/gds/{gdspath.stem}", width="100%", height=600
+            src=f"http://127.0.0.1:8000/gds/{gdspath.stem}", width=1400, height=600
         )
 
     def to_3d(self, *args, **kwargs):
