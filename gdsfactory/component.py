@@ -21,6 +21,7 @@ import gdstk
 import numpy as np
 import yaml
 from omegaconf import DictConfig, OmegaConf
+from pydantic import BaseModel, Field
 from typing_extensions import Literal
 
 from gdsfactory.component_layout import (
@@ -52,6 +53,30 @@ from gdsfactory.technology import LayerView, LayerViews
 
 Plotter = Literal["holoviews", "matplotlib", "qt", "klayout"]
 Axis = Literal["x", "y"]
+
+
+class GdsWriteSettings(BaseModel):
+    """Settings to use when writing to GDS."""
+
+    flatten_invalid_refs: bool = Field(
+        default=False,
+        description="If true, will auto-correct (and flatten) cell references which are off-grid or rotated by non-manhattan angles.",
+    )
+    unit: float = Field(
+        default=1e-6,
+        description="The units of the database. By default, this is 1e-6, or 1 micron. This means that a length value of 0.001 would represent 1nm.",
+    )
+    on_duplicate_cell: str = Field(
+        default="warn",
+        description="What to do when a duplicate cell is encountered on gds write (usually problematic). The default action is to warn.",
+    )
+    precision: float = Field(
+        default=1e-9,
+        description="The maximum precision of points in the database. For example, a value of 1e-9 would mean that you have a 1nm grid",
+    )
+
+
+DEFAULT_GDS_WRITE_SETTINGS = GdsWriteSettings()
 
 
 class MutabilityError(ValueError):
@@ -1650,11 +1675,11 @@ class Component(_GeometryHelper):
         self,
         gdspath: Optional[PathType] = None,
         gdsdir: Optional[PathType] = None,
-        unit: float = 1e-6,
+        unit: Optional[float] = None,
         precision: Optional[float] = None,
         logging: bool = True,
-        on_duplicate_cell: Optional[str] = "warn",
-        flatten_invalid_refs: bool = False,
+        on_duplicate_cell: Optional[str] = None,
+        flatten_invalid_refs: Optional[bool] = None,
     ) -> Path:
         """Write component to GDS and returns gdspath.
 
@@ -1670,17 +1695,28 @@ class Component(_GeometryHelper):
                 "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
             flatten_invalid_refs: flattens component references which have invalid transformations.
         """
+        write_settings = DEFAULT_GDS_WRITE_SETTINGS.copy()
+        if flatten_invalid_refs is not None:
+            write_settings.flatten_invalid_refs = flatten_invalid_refs
+        if unit:
+            write_settings.unit = unit
+        if on_duplicate_cell:
+            write_settings.on_duplicate_cell = on_duplicate_cell
+        if precision:
+            write_settings.precision = precision
 
-        if flatten_invalid_refs:
-            self = flatten_invalid_refs_recursive(self)
+        if write_settings.flatten_invalid_refs:
+            top_level = flatten_invalid_refs_recursive(self)
+        else:
+            top_level = self
 
-        return self._write_library(
+        return top_level._write_library(
             gdspath=gdspath,
             gdsdir=gdsdir,
-            unit=unit,
-            precision=precision,
+            unit=write_settings.unit,
+            precision=write_settings.precision,
             logging=logging,
-            on_duplicate_cell=on_duplicate_cell,
+            on_duplicate_cell=write_settings.on_duplicate_cell,
         )
 
     def write_oas(
