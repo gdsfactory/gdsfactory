@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.30.2
+
+- Fix wafer layer in 3D meshing [PR](https://github.com/gdsfactory/gdsfactory/pull/1222)
+
 ## 6.30.1
 
 - fix extract layers [PR](https://github.com/gdsfactory/gdsfactory/pull/1221)
