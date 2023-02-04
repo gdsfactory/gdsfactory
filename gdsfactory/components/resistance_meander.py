@@ -16,9 +16,9 @@ def resistance_meander(
     pad_size: Tuple[float, float] = (50.0, 50.0),
     num_squares: int = 1000,
     width: float = 1.0,
-    res_layer: LayerSpec = "M3",
-    pad_layer: LayerSpec = "M3",
-    gnd_layer: LayerSpec = "M3",
+    res_layer: LayerSpec = "MTOP",
+    pad_layer: LayerSpec = "MTOP",
+    gnd_layer: LayerSpec = "MTOP",
 ) -> Component:
     """Return meander to test resistance.
 
