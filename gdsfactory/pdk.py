@@ -235,6 +235,7 @@ class Pdk(BaseModel):
             logger.info(f"{message} cell {k!r}")
 
     def remove_cell(self, name: str):
+        """Removes cell from a PDK."""
         if name not in self.cells:
             raise ValueError(f"{name!r} not in {list(self.cells.keys())}")
         self.cells.pop(name)
@@ -249,7 +250,7 @@ class Pdk(BaseModel):
         elif isinstance(cell, str):
             if cell not in cells_and_containers:
                 cells = list(self.cells.keys())
-                containers = list(self.containers.keys())
+                containers = "\n".join(list(self.containers.keys()))
                 raise ValueError(
                     f"{cell!r} from PDK {self.name!r} not in cells: {cells} "
                     f"or containers: {containers}"
