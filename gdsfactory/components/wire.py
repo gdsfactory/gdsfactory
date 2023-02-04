@@ -7,11 +7,13 @@ from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
 from gdsfactory.types import CrossSectionSpec
 
-wire_straight = gf.partial(straight, cross_section="metal3")
+wire_straight = gf.partial(straight, cross_section="metal_routing")
 
 
 @gf.cell
-def wire_corner(cross_section: CrossSectionSpec = "metal3", **kwargs) -> Component:
+def wire_corner(
+    cross_section: CrossSectionSpec = "metal_routing", **kwargs
+) -> Component:
     """Returns 90 degrees electrical corner wire.
 
     Args:

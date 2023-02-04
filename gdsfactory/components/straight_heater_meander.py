@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.via_stack import via_stack_heater_m3
 from gdsfactory.types import ComponentSpec, Floats, LayerSpec, Optional
 
 
@@ -15,7 +14,7 @@ def straight_heater_meander(
     extension_length: float = 15.0,
     layer_heater: LayerSpec = "HEATER",
     radius: float = 5.0,
-    via_stack: Optional[ComponentSpec] = via_stack_heater_m3,
+    via_stack: Optional[ComponentSpec] = "via_stack_heater_mtop",
     port_orientation1: int = 180,
     port_orientation2: int = 0,
     heater_taper_length: Optional[float] = 10.0,
@@ -156,8 +155,7 @@ def straight_heater_meander(
         heater.movey(spacing * (rows // 2))
 
     if layer_heater and via_stack:
-        via_stackw = via_stack()
-        via_stacke = via_stack()
+        via_stacke = via_stackw = gf.get_component(via_stack)
         dx = via_stackw.get_ports_xsize() / 2 + heater_taper_length or 0
         via_stack_west_center = heater.size_info.cw - (dx, 0)
         via_stack_east_center = heater.size_info.ce + (dx, 0)
