@@ -16,7 +16,7 @@ def add_electrical_pads_top(
     spacing: Float2 = (0.0, 100.0),
     pad_array: ComponentSpec = pad_array_function,
     select_ports=select_ports_electrical,
-    layer: gf.types.LayerSpec = "M3",
+    layer: gf.types.LayerSpec = "MTOP",
 ) -> Component:
     """Returns new component with electrical ports connected to top pad array.
 

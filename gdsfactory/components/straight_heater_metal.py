@@ -5,7 +5,6 @@ from typing import Optional
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.via_stack import via_stack_heater_m3
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
@@ -20,7 +19,7 @@ def straight_heater_metal_undercut(
     cross_section_waveguide_heater: CrossSectionSpec = "strip_heater_metal",
     cross_section_heater_undercut: CrossSectionSpec = "strip_heater_metal_undercut",
     with_undercut: bool = True,
-    via_stack: Optional[ComponentSpec] = via_stack_heater_m3,
+    via_stack: Optional[ComponentSpec] = "via_stack_heater_mtop",
     port_orientation1: int = 180,
     port_orientation2: int = 0,
     heater_taper_length: Optional[float] = 5.0,
