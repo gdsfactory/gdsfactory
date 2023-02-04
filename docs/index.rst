@@ -7,9 +7,9 @@ Gdsfactory
 
    README
    git
-   workflow
    notebooks
    sdl
+   workflow
    plugins_optimization
    plugins_mesh
    plugins_process
