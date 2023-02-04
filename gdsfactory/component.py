@@ -1247,7 +1247,7 @@ class Component(_GeometryHelper):
             from gdsfactory.widgets.layout_viewer import LayoutViewer
             from IPython.display import display
 
-            gdspath = self.write_gds()
+            gdspath = self.write_gds(logging=False)
             lyp_path = gdspath.with_suffix(".lyp")
 
             layer_views = get_layer_views()
@@ -1468,7 +1468,7 @@ class Component(_GeometryHelper):
         from gdsfactory.config import PATH
         from IPython.display import IFrame
 
-        gdspath = self.write_gds(gdsdir=PATH.gdslib / "extra")
+        gdspath = self.write_gds(gdsdir=PATH.gdslib / "extra", logging=False)
         return IFrame(
             src=f"http://127.0.0.1:8000/gds/{gdspath.stem}", width="100%", height=600
         )
