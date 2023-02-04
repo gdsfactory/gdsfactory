@@ -272,6 +272,7 @@ from gdsfactory.components.via_stack import (
     via_stack,
     via_stack_heater_m3,
     via_stack_slab_m3,
+    via_stack_heater_mtop,
 )
 from gdsfactory.components.via_stack_slot import via_stack_slot, via_stack_slot_m1_m2
 from gdsfactory.components.via_stack_with_offset import via_stack_with_offset
@@ -350,6 +351,7 @@ __all__ = [
     "edge_coupler_array_with_loopback",
     "via_stack",
     "via_stack_heater_m3",
+    "via_stack_heater_mtop",
     "via_stack_slab_m3",
     "via_stack_slot",
     "via_stack_slot_m1_m2",
