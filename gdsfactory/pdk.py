@@ -4,7 +4,7 @@ from __future__ import annotations
 import pathlib
 import warnings
 from functools import partial
-from typing import Any, Callable, Optional
+from typing import Any, Callable, Optional, Union, Tuple
 
 import numpy as np
 from omegaconf import DictConfig
@@ -16,7 +16,6 @@ from gdsfactory.events import Event
 from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.materials import MaterialSpec
 from gdsfactory.materials import materials_index as materials_index_default
-from gdsfactory.read.from_yaml import from_yaml
 from gdsfactory.show import show
 from gdsfactory.symbols import floorplan_with_block_letters
 from gdsfactory.technology import LayerStack, LayerViews
@@ -87,6 +86,9 @@ class Pdk(BaseModel):
     layers: Dict[str, Layer] = Field(default_factory=dict)
     layer_stack: Optional[LayerStack] = None
     layer_views: Optional[LayerViews] = None
+    layer_transitions: Dict[Union[Layer, Tuple[Layer, Layer]], ComponentSpec] = Field(
+        default_factory=dict
+    )
     sparameters_path: Optional[PathType] = None
     modes_path: Optional[PathType] = PATH.modes
     interconnect_cml_path: Optional[PathType] = None
@@ -206,6 +208,8 @@ class Pdk(BaseModel):
             cell_name: cell function. To update cells dict.
 
         """
+        from gdsfactory.read.from_yaml import from_yaml
+
         message = "Updated" if update else "Registered"
 
         if dirpath:
@@ -231,6 +235,7 @@ class Pdk(BaseModel):
             logger.info(f"{message} cell {k!r}")
 
     def remove_cell(self, name: str):
+        """Removes cell from a PDK."""
         if name not in self.cells:
             raise ValueError(f"{name!r} not in {list(self.cells.keys())}")
         self.cells.pop(name)
@@ -245,7 +250,7 @@ class Pdk(BaseModel):
         elif isinstance(cell, str):
             if cell not in cells_and_containers:
                 cells = list(self.cells.keys())
-                containers = list(self.containers.keys())
+                containers = "\n".join(list(self.containers.keys()))
                 raise ValueError(
                     f"{cell!r} from PDK {self.name!r} not in cells: {cells} "
                     f"or containers: {containers}"

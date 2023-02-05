@@ -382,7 +382,13 @@ def cross_section(
     )
 
 
-strip = cross_section
+def strip(width: Union[Callable, float] = 0.5, **kwargs) -> CrossSection:
+    """Returns Strip cross-section."""
+    cs = cross_section(width=width, **kwargs)
+    cs.info["separation"] = width + 3.0
+    return cs
+
+
 strip_auto_widen = partial(strip, width_wide=0.9, auto_widen=True)
 strip_no_pins = partial(
     strip, add_pins=None, add_bbox=None, cladding_layers=None, cladding_offsets=None

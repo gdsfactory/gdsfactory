@@ -1124,7 +1124,7 @@ def plot_sweep_width(
     cmap: str = "magma",
     **kwargs,
 ) -> pd.DataFrame:
-    """Sweep waveguide width and compute effective index.
+    """Plots and Returns Dataframe with waveguide width sweep results.
 
     Returns pandas dataframe with effective index (neff) and fraction_te.
 

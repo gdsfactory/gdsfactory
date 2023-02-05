@@ -36,6 +36,7 @@ settings:
       function_name: straight
       info:
         length: 20.0
+        separation: 5.0
         width: 2.0
       info_version: 2
       module: gdsfactory.components.straight
@@ -66,6 +67,7 @@ settings:
     function_name: add_tapers
     info:
       length: 20.0
+      separation: 5.0
       width: 2.0
     info_version: 2
     module: gdsfactory.add_tapers
@@ -122,6 +124,7 @@ settings:
       polarization: te
       wavelength: 1.53
     length: 20.0
+    separation: 5.0
     width: 2.0
   info_version: 2
   module: gdsfactory.routing.add_fiber_array
