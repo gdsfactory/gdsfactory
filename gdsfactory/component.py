@@ -1266,6 +1266,7 @@ class Component(_GeometryHelper):
     def plot_jupyter(self):
         """Shows current gds in klayout. Uses Kweb if server running."""
         try:
+            import os
             from gdsfactory.config import PATH
             from gdsfactory.pdk import get_layer_views
             from IPython.display import IFrame
@@ -1281,7 +1282,7 @@ class Component(_GeometryHelper):
             layer_props = get_layer_views()
             layer_props.to_lyp(filepath=lyp_path)
 
-            if kj.jupyter_server:
+            if kj.jupyter_server and os.environ.get("DOCS", False):
                 return IFrame(
                     src=f"http://127.0.0.1:8000/gds?file={escape(str(gdspath))}&layer_props={escape(str(layer_props))}",
                     width=1400,
