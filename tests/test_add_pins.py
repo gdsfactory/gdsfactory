@@ -5,6 +5,7 @@ import pytest
 import gdsfactory as gf
 from gdsfactory.generic_tech import LAYER
 from gdsfactory.add_pins import add_bbox_siepic, add_pins_siepic
+from gdsfactory.generic_tech import get_generic_pdk
 
 
 cladding_layers_optical_siepic = ("DEVREC",)  # for SiEPIC verification
@@ -20,12 +21,15 @@ strip_siepic = gf.partial(
     cladding_offsets=cladding_offsets_optical_siepic,
 )
 
+PDK = get_generic_pdk()
+PDK.activate()
+PDK.register_cross_sections(strip_siepic=strip_siepic)
+
 
 @pytest.mark.parametrize("optical_routing_type", [0, 1])
 def test_add_pins_with_routes(optical_routing_type) -> gf.Component:
-    """Add grating couplers to a straight ensure that all the routes have
-    pins."""
-    cross_section = strip_siepic
+    """Add pins to a straight ensure that all the routes have pins."""
+    cross_section = "strip_siepic"
     c = gf.components.straight(length=1.0, cross_section=cross_section)
     gc = gf.components.grating_coupler_elliptical_te(cross_section=cross_section)
     cc = gf.routing.add_fiber_single(
@@ -36,12 +40,12 @@ def test_add_pins_with_routes(optical_routing_type) -> gf.Component:
     )
     pins_component = cc.extract(layers=(LAYER.PORT,))
     assert len(pins_component.paths) == 12, len(pins_component.paths)
-    return pins_component
+    return cc
 
 
 def test_add_pins() -> gf.Component:
     """Ensure that all the waveguide has 2 pins."""
-    cross_section = strip_siepic
+    cross_section = "strip_siepic"
     c = gf.components.straight(length=1.0, cross_section=cross_section)
     pins_component = c.extract(layers=(LAYER.PORT,))
     assert len(pins_component.paths) == 2, len(pins_component.paths)
@@ -49,6 +53,6 @@ def test_add_pins() -> gf.Component:
 
 
 if __name__ == "__main__":
-    c = test_add_pins()
-    # c = test_add_pins_with_routes(0)
+    # c = test_add_pins()
+    c = test_add_pins_with_routes(0)
     c.show(show_ports=False)
