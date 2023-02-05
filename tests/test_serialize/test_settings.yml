@@ -10,6 +10,8 @@ settings:
       function: strip
   function_name: demo_cross_section_setting
   info:
+    cross_section:
+      function: strip
     length: 10.0
     separation: 3.5
     width: 0.5

@@ -5,6 +5,8 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.cross_section import Section
 from gdsfactory.types import ComponentSpec, CrossSection, LayerSpec
+from gdsfactory.components.via_stack import via_stack
+from gdsfactory.components.via import via
 
 
 @gf.cell
@@ -32,19 +34,19 @@ def ring_double_pn(
     doped_heater_width: float = 0.5,
     doped_heater_waveguide_offset: float = 2.175,
     heater_vias: ComponentSpec = gf.partial(
-        gf.components.via_stack,
+        via_stack,
         size=(0.5, 0.5),
         layers=("M1", "M2"),
         vias=(
             gf.partial(
-                gf.components.via,
+                via,
                 layer="VIAC",
                 size=(0.1, 0.1),
                 spacing=(0.2, 0.2),
                 enclosure=0.1,
             ),
             gf.partial(
-                gf.components.via,
+                via,
                 layer="VIA1",
                 size=(0.1, 0.1),
                 spacing=(0.2, 0.2),
@@ -54,7 +56,7 @@ def ring_double_pn(
     ),
     **kwargs,
 ) -> gf.Component:
-    """Returns a add-drop coupled ring with pn junctions (ring modulator) and an optional doped heater
+    """Returns add-drop pn ring with optional doped heater.
 
     Args:
         add_gap: gap to add waveguide.
