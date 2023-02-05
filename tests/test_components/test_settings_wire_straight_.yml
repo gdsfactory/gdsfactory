@@ -15,6 +15,7 @@ settings:
     with_bbox: true
   function_name: straight
   info:
+    cross_section: metal_routing
     length: 10.0
     width: 10.0
   info_version: 2

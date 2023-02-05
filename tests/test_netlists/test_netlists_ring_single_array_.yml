@@ -14,6 +14,7 @@ instances:
   straight_1:
     component: straight
     info:
+      cross_section: strip
       length: 5.0
       separation: 3.5
       width: 0.5
