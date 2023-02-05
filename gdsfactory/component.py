@@ -1286,9 +1286,12 @@ class Component(_GeometryHelper):
             layer_props = get_layer_views()
             layer_props.to_lyp(filepath=lyp_path)
 
+            src = f"http://127.0.0.1:8000/gds?gds_file={escape(str(gdspath))}&layer_props={escape(str(lyp_path))}"
+            logger.debug(src)
+
             if kj.jupyter_server and not os.environ.get("DOCS", False):
                 return IFrame(
-                    src=f"http://127.0.0.1:8000/gds?file={escape(str(gdspath))}&layer_props={escape(str(layer_props))}",
+                    src=src,
                     width=1400,
                     height=600,
                 )
@@ -2097,13 +2100,18 @@ class Component(_GeometryHelper):
 
             if include_paths:
                 for path in D.paths:
-                    for layer, datatype in zip(path.layers, path.datatypes):
-                        original_layer = (layer, datatype)
-                        original_layer = _parse_layer(original_layer)
+                    new_layers = list(path.layers)
+                    new_datatypes = list(path.datatypes)
+                    for layer_number in range(len(new_layers)):
+                        original_layer = _parse_layer(
+                            (new_layers[layer_number], new_datatypes[layer_number])
+                        )
                         if original_layer in layermap:
                             new_layer = layermap[original_layer]
-                            path.layer = new_layer[0]
-                            path.datatype = new_layer[1]
+                            new_layers[layer_number] = new_layer[0]
+                            new_datatypes[layer_number] = new_layer[1]
+                    path.set_layers(*new_layers)
+                    path.set_datatypes(*new_datatypes)
         return self
 
 

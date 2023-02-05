@@ -14,6 +14,7 @@ PATH has all your computer specific paths that we do not care to store
 
 from __future__ import annotations
 
+import sys
 import io
 import json
 import os
@@ -45,8 +46,8 @@ layer_path = module_path / "generic_tech" / "klayout" / "tech" / "layers.lyp"
 
 MAX_NAME_LENGTH = 32
 
-# logger.remove(0)
-# logger.add(sink=sys.stderr, level="WARNING")
+logger.remove()
+logger.add(sink=sys.stderr, level="INFO")
 logger.info(f"Load {str(module_path)!r} {__version__}")
 
 
@@ -56,6 +57,20 @@ plotter: matplotlib
 sparameters_path: ${oc.env:HOME}/.gdsfactory/sparameters/generic
 """
 )
+
+
+def set_log_level(level: str, sink=sys.stderr) -> None:
+    """Sets log level for gdsfactory.
+
+    Args:
+        level: ["DEBUG", "INFO", "WARNING", "ERROR"]
+        sink: defaults to standard error.
+    """
+    log_levels = ["DEBUG", "INFO", "WARNING", "ERROR"]
+    if level not in log_levels:
+        raise ValueError(f"{level!r} not a valid log level {log_levels}")
+    logger.remove()
+    logger.add(sink=sink, level=level)
 
 
 class Paths:
