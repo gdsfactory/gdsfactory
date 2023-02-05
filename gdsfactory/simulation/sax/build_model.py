@@ -175,11 +175,10 @@ class Model:
             calculated_outputs.append(
                 self.outputs_from_inputs(validation_inputs_local)[1]
             )
-            inferred_outputs_local = []
-            for mode in range(self.num_modes):
-                inferred_outputs_local.append(
-                    self.inference[mode](validation_inputs_local.values())
-                )
+            inferred_outputs_local = [
+                self.inference[mode](validation_inputs_local.values())
+                for mode in range(self.num_modes)
+            ]
             inferred_outputs.append(inferred_outputs_local)
 
         return validation_inputs, calculated_outputs, inferred_outputs
