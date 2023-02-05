@@ -62,12 +62,12 @@ def ring_single_pn(
     undoped_ring_ref = c << undoped_path.extrude(cross_section=cross_section)
 
     undoped_ring_ref.rotate(-undoping_angle/2)
-    undoped_ring_ref.ymin = bus_waveguide.ymin + bus_waveguide.ports['o1'].width +  gap; 
+    undoped_ring_ref.ymin = bus_waveguide.ymin + bus_waveguide.ports['o1'].width +  gap;
     undoped_ring_ref.x = bus_waveguide.x
 
     doped_ring_ref.connect("o1",undoped_ring_ref.ports['o1'])
 
-    if doped_heater == True:
+    if doped_heater:
         heater_radius = radius - doped_heater_waveguide_offset
         heater_path = gf.Path()
         heater_path.append(gf.path.arc(radius=heater_radius, angle=undoping_angle-doped_heater_angle_buffer))
