@@ -43,6 +43,7 @@ def compute_cross_section_modes(
     overwrite: bool = False,
     with_cache: bool = True,
     wafer_padding: float = 2.0,
+    **kwargs,
 ):
     """Calculate effective index of a cross-section.
 
@@ -73,6 +74,7 @@ def compute_cross_section_modes(
         overwrite=overwrite,
         with_cache=with_cache,
         wafer_padding=wafer_padding,
+        **kwargs,
     )
 
 

@@ -18,7 +18,7 @@ class FemwellWaveguideModel(Model):
 
         return None
 
-    def get_results(self, input_dict):
+    def outputs_from_inputs(self, input_dict):
         """For the mode solver, results vectors is neffs."""
         param_dict, layerstack_param_dict = self.parse_input_dict(input_dict)
         input_crosssection = self.component(param_dict).info["cross_section"]
@@ -39,7 +39,7 @@ class FemwellWaveguideModel(Model):
         return [], lams
 
     def sdict(self, input_dict):
-        """Returns S-parameters SDict from component using neff and length."""
+        """Returns S-parameters SDict from component using interpolated neff and length."""
         neffs = jnp.array(
             [
                 self.inference[mode](input_dict.values())
@@ -86,11 +86,11 @@ if __name__ == "__main__":
         }
     )
 
-    def trainable_straight_strip(parameters):
+    def trainable_straight_rib(parameters):
         return gf.components.straight(cross_section=rib(width=parameters["width"]))
 
-    strip_waveguide_model = FemwellWaveguideModel(
-        component=trainable_straight_strip,
+    rib_waveguide_model = FemwellWaveguideModel(
+        component=trainable_straight_rib,
         layerstack=filtered_layerstack,
         simulation_settings={
             "resolutions": {
@@ -125,8 +125,8 @@ if __name__ == "__main__":
         },
         num_modes=4,
     )
-    input_vectors, output_vectors = strip_waveguide_model.get_data()
-    interpolator = strip_waveguide_model.set_nd_nd_interp()
+    input_vectors, output_vectors = rib_waveguide_model.get_model_input_output()
+    interpolator = rib_waveguide_model.set_nd_nd_interp()
 
     params = jnp.stack(
         jnp.broadcast_arrays(
@@ -147,7 +147,7 @@ if __name__ == "__main__":
         "loss": 1,
     }
 
-    print(strip_waveguide_model.sdict(params_dict))
+    print(rib_waveguide_model.sdict(params_dict))
 
     import matplotlib.pyplot as plt
 
