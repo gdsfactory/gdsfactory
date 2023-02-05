@@ -12,6 +12,7 @@ instances:
     component: straight
     info:
       length: 10.0
+      separation: 3.5
       width: 0.5
     settings: {}
 name: sample_mirror_simple_1bddf846

@@ -81,7 +81,7 @@ settings:
       function: spiral_inner_io_fiber_single
     component_name: null
     cross_section:
-      function: cross_section
+      function: strip
     gc_port_name: o1
     get_input_label_text_loopback_function:
       function: get_input_label_text_loopback
@@ -117,7 +117,7 @@ settings:
         straight_x_top: straight_heater_metal
     component_name: null
     cross_section:
-      function: cross_section
+      function: strip
     gc_port_name: o1
     get_input_label_text_loopback_function:
       function: get_input_label_text_loopback

@@ -17,7 +17,8 @@ settings:
     dy: 5.0
     gap: 0.5
   function_name: coupler_full
-  info: {}
+  info:
+    separation: 3.5
   info_version: 2
   module: gdsfactory.components.coupler_full
   name: coupler_full

@@ -13,6 +13,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      separation: 3.5
       width: 0.5
     settings: {}
   bend_euler_2:
@@ -22,6 +23,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      separation: 3.5
       width: 0.5
     settings: {}
   mmi_long:
@@ -38,6 +40,7 @@ instances:
     component: straight
     info:
       length: 95.02
+      separation: 3.5
       width: 0.5
     settings:
       length: 95.02
@@ -45,6 +48,7 @@ instances:
     component: straight
     info:
       length: 79.375
+      separation: 3.5
       width: 0.5
     settings:
       length: 79.375
@@ -52,6 +56,7 @@ instances:
     component: straight
     info:
       length: 0.02
+      separation: 3.5
       width: 0.5
     settings:
       length: 0.02

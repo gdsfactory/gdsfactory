@@ -24,6 +24,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      separation: 3.45
       width: 0.45
     settings:
       width: 0.45
@@ -34,6 +35,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      separation: 3.45
       width: 0.45
     settings:
       width: 0.45
@@ -44,6 +46,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      separation: 3.55
       width: 0.55
     settings:
       width: 0.55
@@ -54,6 +57,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      separation: 3.55
       width: 0.55
     settings:
       width: 0.55
@@ -79,6 +83,7 @@ instances:
     component: straight
     info:
       length: 1.0
+      separation: 3.55
       width: 0.55
     settings:
       length: 1.0
@@ -87,6 +92,7 @@ instances:
     component: straight
     info:
       length: 3.0
+      separation: 3.55
       width: 0.55
     settings:
       length: 3.0
@@ -95,6 +101,7 @@ instances:
     component: straight
     info:
       length: 4.0
+      separation: 3.55
       width: 0.55
     settings:
       length: 4.0
@@ -103,6 +110,7 @@ instances:
     component: straight
     info:
       length: 3.0
+      separation: 3.55
       width: 0.55
     settings:
       length: 3.0
@@ -111,6 +119,7 @@ instances:
     component: straight
     info:
       length: 1.0
+      separation: 3.45
       width: 0.45
     settings:
       length: 1.0

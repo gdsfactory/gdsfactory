@@ -13,6 +13,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      separation: 3.5
       width: 0.5
     settings:
       radius: 10.0
@@ -23,6 +24,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      separation: 3.5
       width: 0.5
     settings:
       radius: 10.0
@@ -34,6 +36,7 @@ instances:
     component: straight
     info:
       length: 0.6
+      separation: 3.5
       width: 0.5
     settings:
       length: 0.6
@@ -41,6 +44,7 @@ instances:
     component: straight
     info:
       length: 0.6
+      separation: 3.5
       width: 0.5
     settings:
       length: 0.6
@@ -48,6 +52,7 @@ instances:
     component: straight
     info:
       length: 4.0
+      separation: 3.5
       width: 0.5
     settings:
       length: 4.0

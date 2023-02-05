@@ -5,7 +5,6 @@ from typing import Callable
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.pad import pad_array as pad_array_function
 from gdsfactory.components.straight_heater_metal import straight_heater_metal
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.get_bundle import get_bundle_electrical
@@ -17,13 +16,12 @@ from gdsfactory.types import ComponentSpec, Float2
 def add_electrical_pads_top_dc(
     component: ComponentSpec = straight_heater_metal,
     spacing: Float2 = (0.0, 100.0),
-    pad_array: ComponentSpec = pad_array_function,
+    pad_array: ComponentSpec = "pad_array",
     select_ports: Callable = select_ports_electrical,
     get_bundle_function: Callable = get_bundle_electrical,
     **kwargs,
 ) -> Component:
-    """Returns new component with electrical ports connected to a pad array at \
-    the top.
+    """Returns new component with electrical ports connected to top pad array.
 
     Args:
         component: component spec to connect to.

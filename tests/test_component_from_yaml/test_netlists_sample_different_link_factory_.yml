@@ -27,10 +27,11 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      separation: 3.5
       width: 0.5
     settings:
       cross_section:
-        function: cross_section
+        function: strip
       radius: 10
   bend_euler_10:
     component: bend_euler
@@ -39,10 +40,11 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      separation: 3.5
       width: 0.5
     settings:
       cross_section:
-        function: cross_section
+        function: strip
       radius: 10
   bend_euler_11:
     component: bend_euler
@@ -51,10 +53,11 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      separation: 3.5
       width: 0.5
     settings:
       cross_section:
-        function: cross_section
+        function: strip
       radius: 10
   bend_euler_12:
     component: bend_euler
@@ -63,10 +66,11 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      separation: 3.5
       width: 0.5
     settings:
       cross_section:
-        function: cross_section
+        function: strip
       radius: 10
   bend_euler_2:
     component: bend_euler
@@ -75,10 +79,11 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      separation: 3.5
       width: 0.5
     settings:
       cross_section:
-        function: cross_section
+        function: strip
       radius: 10
   bend_euler_3:
     component: bend_euler
@@ -87,10 +92,11 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      separation: 3.5
       width: 0.5
     settings:
       cross_section:
-        function: cross_section
+        function: strip
       radius: 10
   bend_euler_4:
     component: bend_euler
@@ -99,10 +105,11 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      separation: 3.5
       width: 0.5
     settings:
       cross_section:
-        function: cross_section
+        function: strip
       radius: 10
   bend_euler_5:
     component: bend_euler
@@ -111,10 +118,11 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      separation: 3.5
       width: 0.5
     settings:
       cross_section:
-        function: cross_section
+        function: strip
       radius: 10
   bend_euler_6:
     component: bend_euler
@@ -123,10 +131,11 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      separation: 3.5
       width: 0.5
     settings:
       cross_section:
-        function: cross_section
+        function: strip
       radius: 10
   bend_euler_7:
     component: bend_euler
@@ -135,10 +144,11 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      separation: 3.5
       width: 0.5
     settings:
       cross_section:
-        function: cross_section
+        function: strip
       radius: 10
   bend_euler_8:
     component: bend_euler
@@ -147,10 +157,11 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      separation: 3.5
       width: 0.5
     settings:
       cross_section:
-        function: cross_section
+        function: strip
       radius: 10
   bend_euler_9:
     component: bend_euler
@@ -159,10 +170,11 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      separation: 3.5
       width: 0.5
     settings:
       cross_section:
-        function: cross_section
+        function: strip
       radius: 10
   bl:
     component: pad
@@ -188,100 +200,110 @@ instances:
     component: straight
     info:
       length: 200.0
+      separation: 3.5
       width: 0.5
     settings:
       cross_section:
-        function: cross_section
+        function: strip
       length: 200.0
       radius: 10
   straight_10:
     component: straight
     info:
       length: 610.0
+      separation: 3.5
       width: 0.5
     settings:
       cross_section:
-        function: cross_section
+        function: strip
       length: 610.0
       radius: 10
   straight_2:
     component: straight
     info:
       length: 340.0
+      separation: 3.5
       width: 0.5
     settings:
       cross_section:
-        function: cross_section
+        function: strip
       length: 340.0
       radius: 10
   straight_3:
     component: straight
     info:
       length: 250.0
+      separation: 3.5
       width: 0.5
     settings:
       cross_section:
-        function: cross_section
+        function: strip
       length: 250.0
       radius: 10
   straight_4:
     component: straight
     info:
       length: 250.0
+      separation: 3.5
       width: 0.5
     settings:
       cross_section:
-        function: cross_section
+        function: strip
       length: 250.0
       radius: 10
   straight_5:
     component: straight
     info:
       length: 580.0
+      separation: 3.5
       width: 0.5
     settings:
       cross_section:
-        function: cross_section
+        function: strip
       length: 580.0
       radius: 10
   straight_6:
     component: straight
     info:
       length: 170.0
+      separation: 3.5
       width: 0.5
     settings:
       cross_section:
-        function: cross_section
+        function: strip
       length: 170.0
       radius: 10
   straight_7:
     component: straight
     info:
       length: 340.0
+      separation: 3.5
       width: 0.5
     settings:
       cross_section:
-        function: cross_section
+        function: strip
       length: 340.0
       radius: 10
   straight_8:
     component: straight
     info:
       length: 250.0
+      separation: 3.5
       width: 0.5
     settings:
       cross_section:
-        function: cross_section
+        function: strip
       length: 250.0
       radius: 10
   straight_9:
     component: straight
     info:
       length: 250.0
+      separation: 3.5
       width: 0.5
     settings:
       cross_section:
-        function: cross_section
+        function: strip
       length: 250.0
       radius: 10
   tl:

@@ -72,9 +72,9 @@ def _generate_circles(
         radius: in um.
         xs: cross_section:
         bend_middle: bend spec.
-        straight_left:
-        r_bend:
-        dy:
+        straight_left: spec.
+        r_bend: spec.
+        dy: in um.
     """
     cladding_offset = xs.cladding_offsets[0] if xs.cladding_offsets else 0
     cladding_layer = xs.cladding_layers[0] if xs.cladding_layers else None
@@ -182,9 +182,6 @@ def disk(
 
     if xs.add_bbox:
         c = xs.add_bbox(c)
-
-    if xs.info:
-        c = xs.info(c)
 
     if parity == -1:
         c = c.rotate(180)
