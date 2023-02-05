@@ -3,6 +3,8 @@
 ## 6.33.0
 
 - fix kweb and set log level to warning instead of debug [PR](https://github.com/gdsfactory/gdsfactory/pull/1237)
+- Fix handling of gdstk.FlexPath in remap_layers [PR](https://github.com/gdsfactory/gdsfactory/pull/1238)
+- make Component.remap_layers safe [PR](https://github.com/gdsfactory/gdsfactory/pull/1240)
 
 ## 6.32.0
 
