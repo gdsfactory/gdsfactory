@@ -13,10 +13,7 @@ class MeowEMEModel(Model):
 
     def get_Sparameters(self, input_dict, output_vector_labels):
         """For EME, results are directly S-parameters."""
-        sp = self.get_results(self, input_dict)
-        # output_vector = [sp[output_key] for output_key in self.output_vector_labels]
-        # output_vectors.append(output_vector)
-        return sp
+        return self.get_results(self, input_dict)
 
     def get_results(self, input_dict):
         """Setup and run a simulation with one set of inputs."""
