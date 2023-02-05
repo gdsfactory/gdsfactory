@@ -2071,17 +2071,18 @@ class Component(_GeometryHelper):
     def remap_layers(
         self, layermap, include_labels: bool = True, include_paths: bool = True
     ) -> Component:
-        """Moves all polygons in the Component from one layer to another according to the layermap argument.
+        """Returns a copy of the component with remapped layers.
 
         Args:
             layermap: Dictionary of values in format {layer_from : layer_to}.
             include_labels: Selects whether to move Labels along with polygons.
             include_paths: Selects whether to move Paths along with polygons.
         """
+        component = self.copy()
         layermap = {_parse_layer(k): _parse_layer(v) for k, v in layermap.items()}
 
-        all_D = list(self.get_dependencies(True))
-        all_D.append(self)
+        all_D = list(component.get_dependencies(True))
+        all_D.append(component)
         for D in all_D:
             for p in D.polygons:
                 layer = (p.layer, p.datatype)
@@ -2112,7 +2113,7 @@ class Component(_GeometryHelper):
                             new_datatypes[layer_number] = new_layer[1]
                     path.set_layers(*new_layers)
                     path.set_datatypes(*new_datatypes)
-        return self
+        return component
 
 
 def copy(
