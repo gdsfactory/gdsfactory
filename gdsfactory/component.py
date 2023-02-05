@@ -2100,13 +2100,18 @@ class Component(_GeometryHelper):
 
             if include_paths:
                 for path in D.paths:
-                    for layer, datatype in zip(path.layers, path.datatypes):
-                        original_layer = (layer, datatype)
-                        original_layer = _parse_layer(original_layer)
+                    new_layers = list(path.layers)
+                    new_datatypes = list(path.datatypes)
+                    for layer_number in range(len(new_layers)):
+                        original_layer = _parse_layer(
+                            (new_layers[layer_number], new_datatypes[layer_number])
+                        )
                         if original_layer in layermap:
                             new_layer = layermap[original_layer]
-                            path.layer = new_layer[0]
-                            path.datatype = new_layer[1]
+                            new_layers[layer_number] = new_layer[0]
+                            new_datatypes[layer_number] = new_layer[1]
+                    path.set_layers(*new_layers)
+                    path.set_datatypes(*new_datatypes)
         return self
 
 
