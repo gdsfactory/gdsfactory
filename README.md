@@ -180,6 +180,11 @@ For example, VS Code supports development inside a container, see [Developing in
 
 ---
 
+"The best photonics layout tool I've used so far and it is leaps and bounds ahead of any commercial alternatives out there. Feels like gdsfactory is freeing photonics."
+
+<div style="text-align: right; margin-right: 10%;">Hasitha Jayatilleka - <strong>LightIC Technologies</strong>
+
+
 ## Acks
 
 Contributors (in chronological order):
