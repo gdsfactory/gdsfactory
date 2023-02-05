@@ -67,7 +67,7 @@ full = [
     "scikit-learn",
     "triangle",
     "trimesh",
-    "kweb",
+    "kweb>=0.0.11,<0.1",
     ]
 femwell = ["femwell"]
 database = ["sqlalchemy", "sqlalchemy-utils"]
