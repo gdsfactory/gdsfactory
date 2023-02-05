@@ -18,21 +18,7 @@ settings:
     - 0.9
     - 0.8
     taper_length: 10
-    via_stack:
-      function: via_stack
-      settings:
-        layers:
-        - HEATER
-        - M2
-        - M3
-        vias:
-        - function: via
-          settings:
-            enclosure: 2
-            layer: VIA1
-        - function: via
-          settings:
-            layer: VIA2
+    via_stack: via_stack_heater_mtop
   full:
     cross_section: strip
     extension_length: 15.0
@@ -49,21 +35,7 @@ settings:
     - 0.9
     - 0.8
     taper_length: 10
-    via_stack:
-      function: via_stack
-      settings:
-        layers:
-        - HEATER
-        - M2
-        - M3
-        vias:
-        - function: via
-          settings:
-            enclosure: 2
-            layer: VIA1
-        - function: via
-          settings:
-            layer: VIA2
+    via_stack: via_stack_heater_mtop
   function_name: straight_heater_meander
   info: {}
   info_version: 2
