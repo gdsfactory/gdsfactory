@@ -1,3 +1,7 @@
+"""Component is a canvas for geometry.
+
+Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
+"""
 from __future__ import annotations
 
 import datetime
@@ -14,7 +18,6 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 import gdstk
-import networkx as nx
 import numpy as np
 import yaml
 from omegaconf import DictConfig, OmegaConf
@@ -46,6 +49,7 @@ from gdsfactory.port import (
 from gdsfactory.serialization import clean_dict
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.technology import LayerView, LayerViews
+from gdsfactory.generic_tech import LAYER
 
 Plotter = Literal["holoviews", "matplotlib", "qt", "klayout"]
 Axis = Literal["x", "y"]
@@ -859,10 +863,7 @@ class Component(_GeometryHelper):
         self,
         layers: List[Union[Tuple[int, int], str]],
     ) -> Component:
-        """Extract polygons from a Component and returns a new Component.
-
-        based on phidl.geometry.
-        """
+        """Extract polygons from a Component and returns a new Component."""
         from gdsfactory.pdk import get_layer
 
         if type(layers) not in (list, tuple):
@@ -879,7 +880,7 @@ class Component(_GeometryHelper):
             if layer in poly_dict:
                 polygons = poly_dict[layer]
                 for polygon in polygons:
-                    component.add_polygon(polygon)
+                    component.add_polygon(polygon, layer)
 
         for layer in layers:
             for path in self._cell.get_paths(layer=layer):
@@ -1238,15 +1239,18 @@ class Component(_GeometryHelper):
 
         self.show(show_ports=True)  # show in klayout
         self.__repr__()
-        self.plot()
+        self.plot_klayout()
 
     def plot_klayout(self) -> None:
+        """Returns ipython widget for klayout visualization.
+        Defaults to matplotlib if it fails to import widgets.
+        """
         try:
             from gdsfactory.pdk import get_layer_views
             from gdsfactory.widgets.layout_viewer import LayoutViewer
             from IPython.display import display
 
-            gdspath = self.write_gds()
+            gdspath = self.write_gds(logging=False)
             lyp_path = gdspath.with_suffix(".lyp")
 
             layer_views = get_layer_views()
@@ -1257,7 +1261,29 @@ class Component(_GeometryHelper):
             print(
                 "You can install `pip install gdsfactory[full]` for better visualization"
             )
-            return self.plot(plotter="matplotlib")
+            self.plot(plotter="matplotlib")
+
+    def plot_jupyter(self):
+        """Shows current gds in klayout. Uses Kweb if server running."""
+        try:
+            from gdsfactory.config import PATH
+            from IPython.display import IFrame
+            import kweb.server_jupyter as kj
+
+            gdspath = self.write_gds(gdsdir=PATH.gdslib / "extra", logging=False)
+            if kj.jupyter_server:
+                return IFrame(
+                    src=f"http://127.0.0.1:8000/gds/{gdspath.stem}",
+                    width=1400,
+                    height=600,
+                )
+            else:
+                return self.plot_klayout()
+        except ImportError:
+            print(
+                "You can install `pip install gdsfactory[full]` for better visualization"
+            )
+            return self.plot_klayout()
 
     def plot_matplotlib(self, **kwargs) -> None:
         """Plot component using matplotlib.
@@ -1293,12 +1319,14 @@ class Component(_GeometryHelper):
         plotter = plotter or CONF.get("plotter", "klayout")
 
         if plotter == "klayout":
-            return self.plot_klayout()
+            self.plot_klayout()
+            return
 
         elif plotter == "matplotlib":
             from gdsfactory.quickplotter import quickplot
 
-            return quickplot(self, **kwargs)
+            quickplot(self, **kwargs)
+            return
 
         elif plotter == "holoviews":
             try:
@@ -1313,7 +1341,8 @@ class Component(_GeometryHelper):
         elif plotter == "qt":
             from gdsfactory.quickplotter import quickplot2
 
-            return quickplot2(self)
+            quickplot2(self)
+            return
         else:
             raise ValueError(f"{plotter!r} not in {Plotter}")
 
@@ -1481,6 +1510,7 @@ class Component(_GeometryHelper):
         xsection_bounds=None,
         layer_stack=None,
         wafer_padding=0.0,
+        wafer_layer=LAYER.WAFER,
         *args,
         **kwargs,
     ):
@@ -1505,7 +1535,7 @@ class Component(_GeometryHelper):
             [xmax + wafer_padding, ymax + wafer_padding],
             [xmin - wafer_padding, ymax + wafer_padding],
         ]
-        padded_component.add_polygon(points, layer=(99999, 0))
+        padded_component.add_polygon(points, layer=wafer_layer)
 
         if layer_stack is None:
             raise ValueError(
@@ -2209,6 +2239,7 @@ def flatten_invalid_refs_recursive(
     """
     from gdsfactory.decorators import is_invalid_ref
     from gdsfactory.functions import transformed
+    import networkx as nx
 
     def _create_dag(component):
         """DAG where components point to references which then point to components again."""
@@ -2323,7 +2354,7 @@ def test_netlist_complex() -> None:
     assert len(netlist["instances"]) == 4, len(netlist["instances"])
 
 
-def test_extract() -> None:
+def test_extract() -> Component:
     import gdsfactory as gf
 
     c = gf.components.straight(
@@ -2340,6 +2371,7 @@ def test_extract() -> None:
 
     assert len(c.polygons) == 2, len(c.polygons)
     assert len(c2.polygons) == 1, len(c2.polygons)
+    assert gf.LAYER.WGCLAD in c2.layers
     return c2
 
 
@@ -2349,7 +2381,7 @@ def hash_file(filepath):
     return md5.hexdigest()
 
 
-def test_bbox_reference():
+def test_bbox_reference() -> Component:
     import gdsfactory as gf
 
     c = gf.Component("component_with_offgrid_polygons")
@@ -2437,6 +2469,8 @@ if __name__ == "__main__":
     # r = c.ref()
     # c2.copy_child_info(c.named_references["sxt"])
     # test_remap_layers()
-    c = test_get_layers()
+    # c = test_get_layers()
     # c.plot_qt()
     # c.ploth()
+    c = test_extract()
+    c.show()

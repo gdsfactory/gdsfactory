@@ -162,15 +162,15 @@ Mode solver Plugins
    group_index
    plot_sweep_width
 
+.. currentmodule:: gdsfactory.simulation.fem.mode_solver
 
-.. currentmodule:: gdsfactory.simulation.eme
-
-.. rubric:: EME
+.. rubric:: Mode solver Femwell
 
 .. autosummary::
    :toctree: _autosummary/
 
-    MEOW
+   compute_cross_section_modes
+
 
 .. currentmodule:: gdsfactory.simulation.modes
 
@@ -189,6 +189,14 @@ Mode solver Plugins
     plot_neff_vs_width
     plot_coupling_vs_gap
 
+.. currentmodule:: gdsfactory.simulation.eme
+
+.. rubric:: EME
+
+.. autosummary::
+   :toctree: _autosummary/
+
+    MEOW
 
 
 ************************

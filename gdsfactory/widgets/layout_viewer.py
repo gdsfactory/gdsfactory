@@ -33,6 +33,12 @@ class LayoutViewer:
         mouse_event.on_dom_event(self.on_mouse_down)
 
     def load_layout(self, filepath: str, layer_properties: Optional[str]):
+        """Loads a GDS layout.
+
+        Args:
+            filepath: path for the GDS layout.
+            layer_properties: Optional path for the layer_properties klayout file (lyp).
+        """
         self.layout_view.load_layout(filepath)
         self.layout_view.max_hier()
         if layer_properties:

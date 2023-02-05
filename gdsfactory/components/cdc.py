@@ -171,9 +171,6 @@ def cdc(
         bend_output_bottom,
     )
 
-    if x.info:
-        c = x.info(c)
-
     if x.add_bbox:
         c = x.add_bbox(c)
 
