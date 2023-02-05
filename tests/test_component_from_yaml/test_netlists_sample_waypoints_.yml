@@ -131,6 +131,8 @@ instances:
   straight_1:
     component: straight
     info:
+      cross_section:
+        function: strip
       length: 290.0
       separation: 3.5
       width: 0.5
@@ -142,6 +144,8 @@ instances:
   straight_10:
     component: straight
     info:
+      cross_section:
+        function: strip
       length: 440.0
       separation: 3.5
       width: 0.5
@@ -153,6 +157,8 @@ instances:
   straight_2:
     component: straight
     info:
+      cross_section:
+        function: strip
       length: 380.0
       separation: 3.5
       width: 0.5
@@ -164,6 +170,8 @@ instances:
   straight_3:
     component: straight
     info:
+      cross_section:
+        function: strip
       length: 80.0
       separation: 3.5
       width: 0.5
@@ -175,6 +183,8 @@ instances:
   straight_4:
     component: straight
     info:
+      cross_section:
+        function: strip
       length: 630.0
       separation: 3.5
       width: 0.5
@@ -186,6 +196,8 @@ instances:
   straight_5:
     component: straight
     info:
+      cross_section:
+        function: strip
       length: 590.0
       separation: 3.5
       width: 0.5
@@ -197,6 +209,8 @@ instances:
   straight_6:
     component: straight
     info:
+      cross_section:
+        function: strip
       length: 140.0
       separation: 3.5
       width: 0.5
@@ -208,6 +222,8 @@ instances:
   straight_7:
     component: straight
     info:
+      cross_section:
+        function: strip
       length: 380.0
       separation: 3.5
       width: 0.5
@@ -219,6 +235,8 @@ instances:
   straight_8:
     component: straight
     info:
+      cross_section:
+        function: strip
       length: 380.0
       separation: 3.5
       width: 0.5
@@ -230,6 +248,8 @@ instances:
   straight_9:
     component: straight
     info:
+      cross_section:
+        function: strip
       length: 630.0
       separation: 3.5
       width: 0.5
