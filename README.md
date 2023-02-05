@@ -184,6 +184,11 @@ For example, VS Code supports development inside a container, see [Developing in
 
 <div style="text-align: right; margin-right: 10%;">Hasitha Jayatilleka - <strong>LightIC Technologies</strong>
 
+---
+
+"As an academic working on large scale silicon photonics at CMOS foundries I've used gdsfactory to go from nothing to full-reticle layouts rapidly (in a few days). I particularly appreciate the full-system approach to photonics, with my layout being connected to circuit simulators which are then connected to device simulators. Moving from legacy tools such as gdspy and phidl to gdsfactory has sped up my workflow at least an order of magnitude."
+
+<div style="text-align: right; margin-right: 10%;">Alex Sludds - <strong>MIT</strong>
 
 ## Acks
 
