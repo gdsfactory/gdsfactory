@@ -77,13 +77,12 @@ if __name__ == "__main__":
         }
     )
 
-    trainable_strip_strip_taper = (
-        lambda parameters: gf.components.taper_cross_section_linear(
+    def trainable_strip_strip_taper(parameters):
+        return gf.components.taper_cross_section_linear(
             length=parameters["length"],
             cross_section1=strip(width=0.5),
             cross_section2=strip(width=parameters["width2"]),
         )
-    )
 
     strip_strip_taper_model = MeowEMEModel(
         component=trainable_strip_strip_taper,
