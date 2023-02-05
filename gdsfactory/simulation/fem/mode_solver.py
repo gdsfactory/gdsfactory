@@ -1,5 +1,5 @@
 import pathlib
-from typing import Optional
+from typing import Optional, Tuple
 import time
 
 import numpy as np
@@ -10,7 +10,7 @@ from gdsfactory.config import logger
 from gdsfactory.pdk import _ACTIVE_PDK, get_layer_stack
 from gdsfactory.simulation.get_modes_path import get_modes_path_femwell
 from gdsfactory.technology import LayerStack
-from gdsfactory.types import CrossSectionSpec, PathType
+from gdsfactory.types import CrossSectionSpec, PathType, ComponentSpec
 
 from skfem import (
     Basis,
@@ -33,7 +33,7 @@ def load_mesh_basis(mesh_filename: PathType):
 def compute_cross_section_modes(
     cross_section: CrossSectionSpec,
     layerstack: LayerStack,
-    wavelength: float = 1.55,
+    wl: float = 1.55,
     num_modes: int = 4,
     order: int = 1,
     radius: float = np.inf,
@@ -45,10 +45,60 @@ def compute_cross_section_modes(
     wafer_padding: float = 2.0,
     **kwargs,
 ):
-    """Calculate effective index of a straight cross-section.
+    """Calculate effective index of a cross-section.
+
+    Defines a "straight" component of the cross_section, and calls compute_component_slice_modes.
+    """
+    # Get meshable component from cross-section
+    c = gf.components.straight(length=10, cross_section=cross_section)
+    bounds = c.bbox
+    dx = np.diff(bounds[:, 0])[0]
+
+    xsection_bounds = [
+        [dx / 2, bounds[0, 1] - wafer_padding],
+        [dx / 2, bounds[1, 1] + wafer_padding],
+    ]
+
+    # Mesh as component
+    return compute_component_slice_modes(
+        component=c,
+        xsection_bounds=xsection_bounds,
+        layerstack=layerstack,
+        wl=wl,
+        num_modes=num_modes,
+        order=order,
+        radius=radius,
+        mesh_filename=mesh_filename,
+        dirpath=dirpath,
+        filepath=filepath,
+        overwrite=overwrite,
+        with_cache=with_cache,
+        wafer_padding=wafer_padding,
+        **kwargs,
+    )
+
+
+def compute_component_slice_modes(
+    component: ComponentSpec,
+    xsection_bounds: Tuple[Tuple[float, float], Tuple[float, float]],
+    layerstack: LayerStack,
+    wl: float = 1.55,
+    num_modes: int = 4,
+    order: int = 1,
+    radius: float = np.inf,
+    mesh_filename: str = "mesh.msh",
+    dirpath: Optional[PathType] = None,
+    filepath: Optional[PathType] = None,
+    overwrite: bool = False,
+    with_cache: bool = True,
+    wafer_padding: float = 2.0,
+    **kwargs,
+):
+    """Calculate effective index of component slice.
 
     Args:
-        cross_section: gdsfactory cross-section.
+        component: gdsfactory component.
+        xsection_bounds: xy line defining where to take component cross_section.
         layerstack: gdsfactory layerstack.
         wavelength: wavelength (um).
         num_modes: number of modes to return.
@@ -60,6 +110,7 @@ def compute_cross_section_modes(
         overwrite: Overwrite mode filepath if it exists.
         with_cache: write modes to filepath cache.
         wafer_padding: padding beyond bbox to add to WAFER layers.
+        bend_radius: bend radius for mode solving (typically called from cross_section)
 
     Keyword Args:
         resolutions (Dict): Pairs {"layername": {"resolution": float, "distance": "float}}
@@ -75,7 +126,8 @@ def compute_cross_section_modes(
         merge_by_material: boolean, if True will merge polygons from layers with the same layer.material. Physical keys will be material in this case.
     """
     sim_settings = dict(
-        wavelength=wavelength,
+        xsection_bounds=xsection_bounds,
+        wl=wl,
         num_modes=num_modes,
         radius=radius,
         order=order,
@@ -83,7 +135,7 @@ def compute_cross_section_modes(
         **kwargs,
     )
     filepath = filepath or get_modes_path_femwell(
-        cross_section=cross_section,
+        component=component,
         dirpath=dirpath,
         layerstack=layerstack,
         **sim_settings,
@@ -112,18 +164,10 @@ def compute_cross_section_modes(
 
             return modes_dict["lams"], basis, modes_dict["xs"]
 
-    # Get meshable component from cross-section
-    c = gf.components.straight(length=10, cross_section=cross_section)
-    bounds = c.bbox
-    dx = np.diff(bounds[:, 0])[0]
-
     # Mesh
-    mesh = c.to_gmsh(
+    mesh = component.to_gmsh(
         type="uz",
-        xsection_bounds=[
-            [dx / 2, bounds[0, 1] - wafer_padding],
-            [dx / 2, bounds[1, 1] + wafer_padding],
-        ],
+        xsection_bounds=xsection_bounds,
         layer_stack=layerstack,
         filename=mesh_filename,
         wafer_padding=wafer_padding,
@@ -136,18 +180,18 @@ def compute_cross_section_modes(
     for layername, layer in layerstack.layers.items():
         if layername in mesh.subdomains.keys():
             epsilon[basis0.get_dofs(elements=layername)] = (
-                _ACTIVE_PDK.materials_index[layer.material](wavelength) ** 2
+                _ACTIVE_PDK.materials_index[layer.material](wl) ** 2
             )
         if "background_tag" in kwargs:
             epsilon[basis0.get_dofs(elements=kwargs["background_tag"])] = (
-                _ACTIVE_PDK.materials_index[kwargs["background_tag"]](wavelength) ** 2
+                _ACTIVE_PDK.materials_index[kwargs["background_tag"]](wl) ** 2
             )
 
     # Mode solve
     lams, basis, xs = mode_solver.compute_modes(
         basis0,
         epsilon,
-        wavelength=wavelength,
+        wavelength=wl,
         mu_r=1,
         num_modes=num_modes,
         order=order,
@@ -185,26 +229,47 @@ if __name__ == "__main__":
         "box": {"resolution": 0.2, "distance": 1},
         "slab90": {"resolution": 0.05, "distance": 1},
     }
-    lams, basis, xs = compute_cross_section_modes(
-        cross_section="strip",
-        layerstack=filtered_layerstack,
-        wavelength=1.55,
-        num_modes=4,
-        order=1,
-        radius=np.inf,
-        mesh_filename="mesh.msh",
-        resolutions=resolutions,
-        overwrite=True,
-        with_cache=True,
-    )
 
-    mode_solver.plot_mode(
-        basis=basis,
-        mode=np.real(xs[0]),
-        plot_vectors=False,
-        colorbar=True,
-        title="E",
-        direction="y",
-    )
-    end = time.time()
-    print(end - start)
+    cross_section = False
+
+    if cross_section:
+        lams, basis, xs = compute_cross_section_modes(
+            cross_section="rib",
+            layerstack=filtered_layerstack,
+            wl=1.55,
+            num_modes=4,
+            order=1,
+            radius=np.inf,
+            mesh_filename="mesh.msh",
+            resolutions=resolutions,
+            overwrite=True,
+            with_cache=True,
+        )
+        mode_solver.plot_mode(
+            basis=basis,
+            mode=np.real(xs[0]),
+            plot_vectors=False,
+            colorbar=True,
+            title="E",
+            direction="y",
+        )
+        end = time.time()
+        print(end - start)
+    else:
+
+        component = gf.components.coupler_full(dw=0)
+        component.show()
+
+        compute_component_slice_modes(
+            component,
+            [[0, -3], [0, 3]],
+            layerstack=filtered_layerstack,
+            wl=1.55,
+            num_modes=4,
+            order=1,
+            radius=np.inf,
+            mesh_filename="./mesh.msh",
+            resolutions=resolutions,
+            overwrite=True,
+            with_cache=True,
+        )

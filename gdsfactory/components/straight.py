@@ -40,6 +40,7 @@ def straight(
     c.add_ports(ref.ports)
     c.info["length"] = length
     c.info["width"] = x.width
+    c.info["cross_section"] = cross_section
 
     if x.info:
         c.info.update(x.info)
