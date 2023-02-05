@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.33.0
+
+- fix kweb and set log level to warning instead of debug [PR](https://github.com/gdsfactory/gdsfactory/pull/1237)
+
 ## 6.32.0
 
 - add general JAX interpolator [PR](https://github.com/gdsfactory/gdsfactory/pull/1230)
