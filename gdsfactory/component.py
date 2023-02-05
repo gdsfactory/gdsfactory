@@ -1268,10 +1268,10 @@ class Component(_GeometryHelper):
         try:
             from gdsfactory.config import PATH
             from IPython.display import IFrame
-            from kweb.server_jupyter import jupyter_server
+            import kweb.server_jupyter as kj
 
             gdspath = self.write_gds(gdsdir=PATH.gdslib / "extra", logging=False)
-            if jupyter_server:
+            if kj.jupyter_server:
                 return IFrame(
                     src=f"http://127.0.0.1:8000/gds/{gdspath.stem}",
                     width=1400,
