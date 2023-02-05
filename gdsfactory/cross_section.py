@@ -773,14 +773,14 @@ def pn(
         sections.append(ppp)
 
     if layer_via is not None:
-        offset = width_high_doping / 2 + gap_high_doping
+        offset = width_high_doping + gap_high_doping - width_via/2
         via_top = Section(width=width_via, offset=+offset, layer=layer_via)
         via_bot = Section(width=width_via, offset=-offset, layer=layer_via)
         sections.append(via_top)
         sections.append(via_bot)
 
     if layer_metal is not None:
-        offset = width_high_doping / 2 + gap_high_doping
+        offset = width_high_doping + gap_high_doping - width_metal/2
         port_types = ("electrical", "electrical")
         metal_top = Section(
             width=width_via,
