@@ -73,7 +73,7 @@ def ring_double_pn(
     top_undoped_ring_ref = c << undoped_path.extrude(cross_section=cross_section)
 
     bottom_undoped_ring_ref.rotate(-undoping_angle/2)
-    bottom_undoped_ring_ref.ymin = add_waveguide.ymin + add_waveguide.ports['o1'].width +  add_gap; 
+    bottom_undoped_ring_ref.ymin = add_waveguide.ymin + add_waveguide.ports['o1'].width +  add_gap;
     bottom_undoped_ring_ref.x = add_waveguide.x
 
     left_doped_ring_ref.connect("o1",bottom_undoped_ring_ref.ports['o1'])
@@ -82,7 +82,7 @@ def ring_double_pn(
 
     drop_waveguide.y = 2*radius + add_gap + drop_gap + add_waveguide.ports['o1'].width/2 + top_undoped_ring_ref.ports['o1'].width + drop_waveguide.ports['o1'].width/2
 
-    if doped_heater == True:
+    if doped_heater:
         heater_radius = radius - doped_heater_waveguide_offset
         heater_path = gf.Path()
         heater_path.append(gf.path.arc(radius=heater_radius, angle=undoping_angle-doped_heater_angle_buffer))
