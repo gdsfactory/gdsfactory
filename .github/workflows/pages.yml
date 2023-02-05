@@ -35,6 +35,7 @@ jobs:
           TIDY3D_USER: ${{ secrets.TIDY3D_EMAIL }}
           TIDY3D_PASS: ${{ secrets.TIDY3D_PASSWORD }}
           DISPLAY: 1.0
+          DOCS: True
         with:
           branch: main
           dir_docs: docs
