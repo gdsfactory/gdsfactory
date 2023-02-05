@@ -943,10 +943,6 @@ def extrude(
 
     if x.decorator:
         c = x.decorator(c) or c
-
-    if x.add_pins:
-        c = x.add_pins(c) or c
-
     return c
 
 
