@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.32.0
+
+- add general JAX interpolator [PR](https://github.com/gdsfactory/gdsfactory/pull/1230)
+
 ## 6.31.0
 
 - rename show_jupyter to plot_jupyter [PR](https://github.com/gdsfactory/gdsfactory/pull/1226)
