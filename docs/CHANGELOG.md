@@ -3,6 +3,7 @@
 ## 6.32.0
 
 - add general JAX interpolator [PR](https://github.com/gdsfactory/gdsfactory/pull/1230)
+- add ring_single_pn and ring_double_pn [PR](https://github.com/gdsfactory/gdsfactory/pull/1228)
 
 ## 6.31.0
 
