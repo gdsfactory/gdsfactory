@@ -73,10 +73,6 @@ class Model:
         # self.size_outputs = self.num_ports * self.num_modes
         self.port_symmetries = port_symmetries
 
-    """
-    Parse parameters
-    """
-
     def get_nominal_dict(self):
         """Return input_dict of nominal parameter values."""
         return {
@@ -94,9 +90,9 @@ class Model:
     def parse_input_dict(self, input_dict):
         """Separates between LayerStackThickness inputs and NamedParameter inputs.
 
-        Arguments:
-            input_dict:  key needs to match the keys in self.trainable_parameters
-                         values are the new values to assign to these parameters
+        Args:
+            input_dict: key needs to match the keys in self.trainable_parameters
+                values are the new values to assign to these parameters.
         """
         param_dict = {}
         layerstack_param_dict = {}
@@ -110,8 +106,8 @@ class Model:
     def perturb_layerstack(self, layerstack_param_dict):
         """Returns a temporary LayerStack with a new thickness value for the (currently) LayerStackThickness objects in layerstack_param_dict.
 
-        Arguments:
-            layerstack_param_dict:  key needs to match a key in self.trainable_parameters having for value a LayerStackThickness object
+        Args:
+            layerstack_param_dict: key needs to match a key in self.trainable_parameters having for value a LayerStackThickness object
                                     value is the thickness to assign to this parameter
         """
         perturbed_layerstack = copy.deepcopy(self.layerstack)
@@ -122,12 +118,10 @@ class Model:
             ].thickness = thickness
         return perturbed_layerstack
 
-    """
-    Generate training data
-    """
-
     def get_model_input_output(self):
-        """Retrieve the input and output data for training the model by getting results on all trainable parameter input combinations."""
+        """Generate training data
+
+        Retrieve the input and output data for training the model by getting results on all trainable parameter input combinations."""
         ranges_dict = {
             name: parameter.arange()
             for name, parameter in self.trainable_parameters.items()
@@ -151,18 +145,10 @@ class Model:
             jnp.array(output_vectors),
         )
 
-    """
-    Fitting data.
-    """
-
     def set_nd_nd_interp(self):
         """Returns ND-ND interpolator."""
         input_vectors, output_vectors = self.get_model_input_output()
         self.inference = nd_nd_interpolation(input_vectors, output_vectors)
-
-    """
-    Validating data.
-    """
 
     def validate(self, num_samples=1):
         """Validates the model by calculating random points within the interpolation range, and comparing to predictions."""
