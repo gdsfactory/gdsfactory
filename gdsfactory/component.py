@@ -1242,6 +1242,9 @@ class Component(_GeometryHelper):
         self.plot_klayout()
 
     def plot_klayout(self) -> None:
+        """Returns ipython widget for klayout visualization.
+        Defaults to matplotlib if it fails to import widgets.
+        """
         try:
             from gdsfactory.pdk import get_layer_views
             from gdsfactory.widgets.layout_viewer import LayoutViewer
@@ -1259,6 +1262,28 @@ class Component(_GeometryHelper):
                 "You can install `pip install gdsfactory[full]` for better visualization"
             )
             self.plot(plotter="matplotlib")
+
+    def plot_jupyter(self):
+        """Shows current gds in klayout. Uses Kweb if server running."""
+        try:
+            from gdsfactory.config import PATH
+            from IPython.display import IFrame
+            from kweb.server_jupyter import jupyter_server
+
+            gdspath = self.write_gds(gdsdir=PATH.gdslib / "extra", logging=False)
+            if jupyter_server:
+                return IFrame(
+                    src=f"http://127.0.0.1:8000/gds/{gdspath.stem}",
+                    width=1400,
+                    height=600,
+                )
+            else:
+                return self.plot_klayout()
+        except ImportError:
+            print(
+                "You can install `pip install gdsfactory[full]` for better visualization"
+            )
+            return self.plot_klayout()
 
     def plot_matplotlib(self, **kwargs) -> None:
         """Plot component using matplotlib.
@@ -1462,16 +1487,6 @@ class Component(_GeometryHelper):
             component = self
 
         show(component, **kwargs)
-
-    def show_jupyter(self):
-        """Shows current gds in klayout."""
-        from gdsfactory.config import PATH
-        from IPython.display import IFrame
-
-        gdspath = self.write_gds(gdsdir=PATH.gdslib / "extra", logging=False)
-        return IFrame(
-            src=f"http://127.0.0.1:8000/gds/{gdspath.stem}", width=1400, height=600
-        )
 
     def to_3d(self, *args, **kwargs):
         """Returns Component 3D trimesh Scene.
