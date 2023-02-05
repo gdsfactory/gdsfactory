@@ -1286,9 +1286,12 @@ class Component(_GeometryHelper):
             layer_props = get_layer_views()
             layer_props.to_lyp(filepath=lyp_path)
 
+            logger.debug(
+                f"http://127.0.0.1:8000/gds?gds_file={escape(str(gdspath))}&layer_props={escape(str(lyp_path))}",
+            )
             if kj.jupyter_server and not os.environ.get("DOCS", False):
                 return IFrame(
-                    src=f"http://127.0.0.1:8000/gds?file={escape(str(gdspath))}&layer_props={escape(str(layer_props))}",
+                    src=f"http://127.0.0.1:8000/gds?gds_file={escape(str(gdspath))}&layer_props={escape(str(lyp_path))}",
                     width=1400,
                     height=600,
                 )
