@@ -1243,7 +1243,8 @@ class Component(_GeometryHelper):
 
     def plot_klayout(self) -> None:
         """Returns ipython widget for klayout visualization.
-        Defaults to matplotlib if it fails to import widgets.
+
+        Defaults to matplotlib if it fails to import ipywidgets.
         """
         try:
             from gdsfactory.pdk import get_layer_views
@@ -1264,7 +1265,10 @@ class Component(_GeometryHelper):
             self.plot(plotter="matplotlib")
 
     def plot_jupyter(self):
-        """Shows current gds in klayout. Uses Kweb if server running."""
+        """Shows current gds in klayout. Uses Kweb if server running.
+
+        if not tries using Klayout widget and finally defaults to matplotlib.
+        """
         try:
             import os
             from gdsfactory.config import PATH
