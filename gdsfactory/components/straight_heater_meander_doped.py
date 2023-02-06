@@ -114,13 +114,10 @@ def straight_heater_meander_doped(
         straight_ref = c << straight_with_tapers
         if row < len(straight_widths)//2:
             straight_ref.y = row * spacing
-            ports[f"o1_{row+1}"] = straight_ref.ports["o1"]
-            ports[f"o2_{row+1}"] = straight_ref.ports["o2"]
         else:
             straight_ref.y = (row+1) * spacing
-            ports[f"o1_{row+1}"] = straight_ref.ports["o1"]
-            ports[f"o2_{row+1}"] = straight_ref.ports["o2"]
-
+        ports[f"o1_{row+1}"] = straight_ref.ports["o1"]
+        ports[f"o2_{row+1}"] = straight_ref.ports["o2"]
     """
     Loopbacks
     """
