@@ -5,7 +5,7 @@ from typing import Tuple
 import gdsfactory as gf
 from gdsfactory import Component
 from gdsfactory.cross_section import strip
-from gdsfactory.types import CrossSectionSpec
+from gdsfactory.typings import CrossSectionSpec
 
 
 def _generate_fins(c, x, fin_size, bend):

@@ -19,7 +19,7 @@ from gdsfactory.simulation.gmsh.parse_layerstack import (
     order_layerstack,
 )
 from gdsfactory.technology import LayerStack
-from gdsfactory.types import ComponentOrReference
+from gdsfactory.typings import ComponentOrReference
 
 
 def xy_xsection_mesh(

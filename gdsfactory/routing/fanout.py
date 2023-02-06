@@ -9,7 +9,7 @@ from gdsfactory.port import port_array
 from gdsfactory.routing.get_route_sbend import get_route_sbend
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
 from gdsfactory.routing.utils import direction_ports_from_list_ports, flip
-from gdsfactory.types import ComponentSpec
+from gdsfactory.typings import ComponentSpec
 
 
 @cell
@@ -87,7 +87,7 @@ def fanout_ports(
     pitch: Tuple[float, float] = (0.0, 20.0),
     dx: float = 20.0,
     **kwargs,
-) -> List[gf.types.Route]:
+) -> List[gf.typings.Route]:
     """Returns fanout Sbend routes.
 
     Args:

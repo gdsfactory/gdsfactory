@@ -10,7 +10,7 @@ from numpy import arctan2, degrees, isclose
 from gdsfactory.component import Component
 from gdsfactory.port import Port, read_port_markers, sort_ports_clockwise
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.types import LayerSpec
+from gdsfactory.typings import LayerSpec
 
 
 def add_ports_from_markers_square(

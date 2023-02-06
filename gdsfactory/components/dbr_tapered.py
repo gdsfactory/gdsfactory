@@ -4,7 +4,7 @@ from typing import Tuple
 
 import gdsfactory as gf
 from gdsfactory import Component
-from gdsfactory.types import CrossSectionSpec
+from gdsfactory.typings import CrossSectionSpec
 
 
 def _generate_fins(

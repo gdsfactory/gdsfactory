@@ -9,7 +9,7 @@ from gdsfactory.path import Path
 from gdsfactory.generic_tech.layer_map import LAYER
 from gdsfactory.pdk import get_cross_section, get_component
 from gdsfactory.get_netlist import difference_between_angles
-from gdsfactory.types import CrossSectionSpec, Route, ComponentSpec
+from gdsfactory.typings import CrossSectionSpec, Route, ComponentSpec
 from gdsfactory.routing.auto_taper import (
     taper_to_cross_section,
     _get_taper_io_port_names,
