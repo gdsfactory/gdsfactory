@@ -8,7 +8,7 @@ import gdsfactory as gf
 from gdsfactory.components.via_corner import via_corner
 from gdsfactory.port import Port
 from gdsfactory.routing.manhattan import round_corners
-from gdsfactory.types import (
+from gdsfactory.typings import (
     ComponentSpec,
     CrossSectionSpec,
     MultiCrossSectionAngleSpec,

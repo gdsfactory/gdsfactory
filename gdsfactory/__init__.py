@@ -19,6 +19,7 @@ isort:skip_file
 from __future__ import annotations
 from functools import partial
 from toolz import compose
+from warnings import warn
 from gdsfactory.component_layout import Group
 from gdsfactory.path import Path
 
@@ -33,13 +34,14 @@ from gdsfactory.cell import clear_cache
 from gdsfactory.show import show
 from gdsfactory.read.import_gds import import_gds
 from gdsfactory.cross_section import CrossSection, Section
-from gdsfactory.types import Label
+from gdsfactory.typings import Label
 from gdsfactory import decorators
 from gdsfactory import cross_section
 from gdsfactory import labels
 from gdsfactory import asserts
 from gdsfactory import components
 from gdsfactory import routing
+from gdsfactory import typings
 from gdsfactory import types
 from gdsfactory import path
 from gdsfactory import snap
@@ -76,6 +78,14 @@ from gdsfactory.get_factories import get_cells
 from gdsfactory.cross_section import get_cross_section_factories
 
 c = components
+
+
+def __getattr__(name):
+    if name == "types":
+        warn("gdsfactory.types has been renamed to gdsfactory.typings")
+        return typings
+    raise AttributeError(f"No module named {name}")
+
 
 __all__ = (
     "CONF",
@@ -131,6 +141,7 @@ __all__ = (
     "routing",
     "show",
     "snap",
+    "typings",
     "types",
     "technology",
     "write_cells",

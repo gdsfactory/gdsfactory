@@ -17,7 +17,7 @@ from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.manhattan import generate_manhattan_waypoints, round_corners
 from gdsfactory.routing.route_south import route_south
 from gdsfactory.routing.utils import direction_ports_from_list_ports
-from gdsfactory.types import (
+from gdsfactory.typings import (
     ComponentSpec,
     ComponentSpecOrList,
     CrossSectionSpec,

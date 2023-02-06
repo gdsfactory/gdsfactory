@@ -4,7 +4,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory import Component
-from gdsfactory.types import CrossSectionSpec
+from gdsfactory.typings import CrossSectionSpec
 
 
 def _compute_parameters(xs_bend, wrap_angle_deg, radius):

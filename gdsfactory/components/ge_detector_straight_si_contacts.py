@@ -9,7 +9,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.taper import taper as taper_func
 from gdsfactory.components.via_stack import via_stack_slab_m3
 from gdsfactory.cross_section import pn_ge_detector_si_contacts
-from gdsfactory.types import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 default_taper = partial(
     taper_func, length=20.0, width1=0.5, width2=0.8, cross_section="strip"

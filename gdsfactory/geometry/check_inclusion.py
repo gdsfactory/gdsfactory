@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Tuple
 
-from gdsfactory.types import ComponentOrPath
+from gdsfactory.typings import ComponentOrPath
 
 
 def check_inclusion(

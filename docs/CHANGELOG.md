@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.34.0
+
+- deprecate gdsfactory.types in favor of gdsfactory.typings
+    - gdsfactory.types -> gdsfactory.typings
+    - gf.types -> gdsfactory.typings
+
 ## 6.33.0
 
 - fix kweb and set log level to warning instead of debug [PR](https://github.com/gdsfactory/gdsfactory/pull/1237)
@@ -108,7 +114,7 @@
 ## [6.19.1](https://github.com/gdsfactory/gdsfactory/pull/1121)
 
 - install tidy3d at the end in make plugins so it installs shapely 1.8.4
-- add LayerStack and LayerLevel to gf.types
+- add LayerStack and LayerLevel to gf.typings
 - silent logger by default
 
 ## 6.19.0
@@ -2117,7 +2123,7 @@
 ## 3.9.9
 
 - pack_row in klayout_yaml_placer also accepts rotation
-- placer uses Literal ('N', 'S', 'E', 'W') from gf.types
+- placer uses Literal ('N', 'S', 'E', 'W') from gf.typings
 - rename label_layer as layer_label for consistency
 
 ## 3.9.8
@@ -2339,7 +2345,7 @@
 - Route and Routes are pydantic.BaseModel instead of dataclasses
 - composed functions get a unique name. You can compose functions with `toolz.compose`
 - add `gf.add_text` for adding text labels to a list of Components
-- add `gf.types.ComponentSweep`
+- add `gf.typings.ComponentSweep`
 - increase MAX_NAME_LENGTH to 100 characters when validating a component
 - add typing_extensions to requirements to keep 3.7 compatibility. Changed `from typing import Literal` (requires python>=3.8) to `from typing_extensions import Literal`
 - add type checking error messages for Component and ComponentReference

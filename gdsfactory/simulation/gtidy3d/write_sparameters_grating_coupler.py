@@ -17,7 +17,7 @@ from gdsfactory.simulation.gtidy3d.get_results import get_results
 from gdsfactory.simulation.gtidy3d.get_simulation_grating_coupler import (
     get_simulation_grating_coupler,
 )
-from gdsfactory.types import Component, ComponentSpec, PathType
+from gdsfactory.typings import Component, ComponentSpec, PathType
 
 
 def write_sparameters_grating_coupler(

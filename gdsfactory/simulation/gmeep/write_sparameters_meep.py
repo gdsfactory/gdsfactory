@@ -29,7 +29,7 @@ from gdsfactory.simulation.gmeep.get_simulation import (
     settings_get_simulation,
 )
 from gdsfactory.technology import LayerStack
-from gdsfactory.types import ComponentSpec, PathType, Port, PortSymmetries
+from gdsfactory.typings import ComponentSpec, PathType, Port, PortSymmetries
 
 ncores = multiprocessing.cpu_count()
 
