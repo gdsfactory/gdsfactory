@@ -7,11 +7,11 @@ repos:
       - id: end-of-file-fixer
       - id: trailing-whitespace
       - id: requirements-txt-fixer
-  - repo: https://github.com/hakancelikdev/unimport
-    rev: 33ead41ee30f1d323a9c2fcfd0114297efbbc4d5
-    hooks:
-      - id: unimport
-        args: [--remove, --include-star-import]
+  # - repo: https://github.com/hakancelikdev/unimport
+  #   rev: 33ead41ee30f1d323a9c2fcfd0114297efbbc4d5
+  #   hooks:
+  #     - id: unimport
+  #       args: [--remove, --include-star-import]
   # - repo: https://github.com/pycqa/isort
   #   rev: 03a9949368bc8ce115a8ff9ce7f4904def9df721
   #   hooks:

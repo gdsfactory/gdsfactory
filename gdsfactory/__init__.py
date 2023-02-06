@@ -42,7 +42,6 @@ from gdsfactory import asserts
 from gdsfactory import components
 from gdsfactory import routing
 from gdsfactory import typings
-from gdsfactory import types
 from gdsfactory import path
 from gdsfactory import snap
 from gdsfactory import read
@@ -142,7 +141,6 @@ __all__ = (
     "show",
     "snap",
     "typings",
-    "types",
     "technology",
     "write_cells",
     "PATH",
