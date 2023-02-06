@@ -5,7 +5,7 @@ from gdsfactory.components.mzi import mzi as mzi_function
 from gdsfactory.components.pad import pad as pad_function
 from gdsfactory.components.straight_heater_metal import straight_heater_metal
 from gdsfactory.routing.get_route import get_route
-from gdsfactory.types import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell

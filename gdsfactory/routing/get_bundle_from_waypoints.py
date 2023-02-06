@@ -21,7 +21,7 @@ from gdsfactory.routing.manhattan import (
 )
 from gdsfactory.routing.path_length_matching import path_length_matched_points
 from gdsfactory.routing.utils import get_list_ports_angle
-from gdsfactory.types import (
+from gdsfactory.typings import (
     ComponentSpec,
     Coordinate,
     Coordinates,

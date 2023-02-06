@@ -4,7 +4,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.path import transition_exponential
-from gdsfactory.types import LayerSpec
+from gdsfactory.typings import LayerSpec
 
 
 @gf.cell

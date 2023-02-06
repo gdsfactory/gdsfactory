@@ -18,7 +18,7 @@ from typing import List, Optional
 
 from gdsfactory.config import logger
 from gdsfactory.install import get_klayout_path
-from gdsfactory.types import Dict, Layer, PathType
+from gdsfactory.typings import Dict, Layer, PathType
 
 layer_name_to_min_width: Dict[str, float]
 

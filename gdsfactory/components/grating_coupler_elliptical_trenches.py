@@ -6,7 +6,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical import grating_tooth_points
 from gdsfactory.geometry.functions import DEG2RAD
-from gdsfactory.types import CrossSectionSpec, LayerSpec, Optional
+from gdsfactory.typings import CrossSectionSpec, LayerSpec, Optional
 
 
 @gf.cell

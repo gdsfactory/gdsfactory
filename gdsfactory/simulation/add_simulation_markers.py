@@ -11,7 +11,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.pdk import get_layer_stack
 from gdsfactory.technology import LayerLevel
-from gdsfactory.types import ComponentSpec, Layer, LayerSpec
+from gdsfactory.typings import ComponentSpec, Layer, LayerSpec
 
 
 @gf.cell

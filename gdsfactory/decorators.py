@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.snap import is_on_grid
-from gdsfactory.types import Component, ComponentReference, Optional
+from gdsfactory.typings import Component, ComponentReference, Optional
 
 
 def is_valid_transformation(

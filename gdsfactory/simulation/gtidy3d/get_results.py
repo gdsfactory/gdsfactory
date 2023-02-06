@@ -12,7 +12,7 @@ from tidy3d.log import WebError
 
 import gdsfactory as gf
 from gdsfactory.config import PATH, logger
-from gdsfactory.types import PathType
+from gdsfactory.typings import PathType
 
 _executor = concurrent.futures.ThreadPoolExecutor()
 

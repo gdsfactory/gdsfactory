@@ -5,7 +5,7 @@ from __future__ import annotations
 import pandas as pd
 
 import gdsfactory as gf
-from gdsfactory.types import Component
+from gdsfactory.typings import Component
 
 
 def mzi_te(**kwargs) -> Component:

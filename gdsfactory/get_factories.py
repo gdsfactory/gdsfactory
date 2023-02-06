@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections.abc import Iterable
 from inspect import getmembers, signature
 
-from gdsfactory.types import Component, ComponentFactory, Dict
+from gdsfactory.typings import Component, ComponentFactory, Dict
 
 
 def get_cells(modules, verbose: bool = False) -> Dict[str, ComponentFactory]:

@@ -4,7 +4,7 @@ import numpy as np
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.types import LayerSpec
+from gdsfactory.typings import LayerSpec
 
 
 @cell

@@ -62,7 +62,7 @@ from gdsfactory.add_pins import add_instance_label
 from gdsfactory.cell import cell
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.routing.factories import routing_strategy as routing_strategy_factories
-from gdsfactory.types import Route
+from gdsfactory.typings import Route
 
 valid_placement_keys = [
     "x",
