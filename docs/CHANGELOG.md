@@ -2,7 +2,7 @@
 
 ## 6.34.0
 
-- deprecate gdsfactory.types in favor of gdsfactory.typings as it was shadowing builtin types module
+- deprecate gdsfactory.types in favor of gdsfactory.typings as it was shadowing builtin types module [PR](https://github.com/gdsfactory/gdsfactory/pull/1241)
     - gdsfactory.types -> gdsfactory.typings
     - gf.types -> gdsfactory.typings
 - Created meandered heater using doped silicon [PR](https://github.com/gdsfactory/gdsfactory/pull/1242)
