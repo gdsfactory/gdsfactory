@@ -20,7 +20,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
 from gdsfactory.components.text_rectangular import text_rectangular_multi_layer
 from gdsfactory.port import auto_rename_ports
-from gdsfactory.types import (
+from gdsfactory.typings import (
     Anchor,
     Axis,
     ComponentSpec,

@@ -8,7 +8,7 @@ from tqdm.contrib.itertools import product
 from gdsfactory.simulation.sax.interpolators import nd_nd_interpolation
 from gdsfactory.simulation.sax.parameter import LayerStackThickness, NamedParameter
 from gdsfactory.technology import LayerStack
-from gdsfactory.types import PortSymmetries
+from gdsfactory.typings import PortSymmetries
 
 
 class Model:

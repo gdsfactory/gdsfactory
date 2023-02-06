@@ -9,7 +9,7 @@ from gdsfactory.components.compass import compass
 from gdsfactory.components.via import via1
 from gdsfactory.cross_section import metal2, metal3
 from gdsfactory.port import select_ports
-from gdsfactory.types import ComponentSpec, MultiCrossSectionAngleSpec
+from gdsfactory.typings import ComponentSpec, MultiCrossSectionAngleSpec
 
 
 @gf.cell

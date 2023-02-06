@@ -6,7 +6,7 @@ from typing import Optional, Tuple
 import gdsfactory.generic_tech as generic
 from gdsfactory.component import Component
 from gdsfactory.technology import LayerStack, LayerViews
-from gdsfactory.types import Layer
+from gdsfactory.typings import Layer
 
 
 def to_stl(
