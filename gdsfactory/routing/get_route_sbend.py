@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.port import Port
-from gdsfactory.types import Route
+from gdsfactory.typings import Route
 
 
 def get_route_sbend(port1: Port, port2: Port, **kwargs) -> Route:

@@ -3,7 +3,7 @@ from __future__ import annotations
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.types import Float2, Layers
+from gdsfactory.typings import Float2, Layers
 
 
 @gf.cell

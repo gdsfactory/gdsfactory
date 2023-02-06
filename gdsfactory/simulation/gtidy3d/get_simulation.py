@@ -18,7 +18,7 @@ from gdsfactory.pdk import get_layer_stack, get_material_index
 from gdsfactory.routing.sort_ports import sort_ports_x, sort_ports_y
 from gdsfactory.simulation.gtidy3d.materials import get_index, get_medium
 from gdsfactory.technology import LayerStack
-from gdsfactory.types import ComponentSpec, Float2
+from gdsfactory.typings import ComponentSpec, Float2
 
 
 @pydantic.validate_arguments

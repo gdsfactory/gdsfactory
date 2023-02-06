@@ -9,7 +9,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.component_layout import _parse_layer
 from gdsfactory.port import Port
-from gdsfactory.types import ComponentOrReference, Label, LayerSpec
+from gdsfactory.typings import ComponentOrReference, Label, LayerSpec
 
 
 def get_input_label_text(

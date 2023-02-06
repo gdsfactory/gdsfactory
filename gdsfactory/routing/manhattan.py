@@ -18,7 +18,7 @@ from gdsfactory.geometry.functions import angles_deg
 from gdsfactory.port import Port, select_ports_list
 from gdsfactory.routing.get_route_sbend import get_route_sbend
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.types import (
+from gdsfactory.typings import (
     ComponentSpec,
     Coordinate,
     Coordinates,
