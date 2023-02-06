@@ -4,41 +4,44 @@ from typing import List
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.types import ComponentSpec, Floats, LayerSpec, Optional
+from gdsfactory.typings import ComponentSpec, Floats, LayerSpec, Optional
 from gdsfactory.cross_section import Section
 from gdsfactory.components.via_stack import via_stack
 from gdsfactory.components.via import via
+
+via_stack = gf.partial(
+    via_stack,
+    size=(1.5, 1.5),
+    layers=("M1", "M2"),
+    vias=(
+        gf.partial(
+            via,
+            layer="VIAC",
+            size=(0.1, 0.1),
+            spacing=(0.2, 0.2),
+            enclosure=0.1,
+        ),
+        gf.partial(
+            via,
+            layer="VIA1",
+            size=(0.1, 0.1),
+            spacing=(0.2, 0.2),
+            enclosure=0.1,
+        ),
+    ),
+)
+
 
 @gf.cell
 def straight_heater_meander_doped(
     length: float = 300.0,
     spacing: float = 2.0,
-    cross_section: gf.types.CrossSectionSpec = "strip",
+    cross_section: gf.typings.CrossSectionSpec = "strip",
     heater_width: float = 1.5,
     extension_length: float = 15.0,
-    layers_doping: List[LayerSpec] = ["P","PP","PPP"],
+    layers_doping: List[LayerSpec] = ("P", "PP", "PPP"),
     radius: float = 5.0,
-    via_stack: Optional[ComponentSpec] = gf.partial(
-        via_stack,
-        size=(1.5, 1.5),
-        layers=("M1", "M2"),
-        vias=(
-            gf.partial(
-                via,
-                layer="VIAC",
-                size=(0.1, 0.1),
-                spacing=(0.2, 0.2),
-                enclosure=0.1,
-            ),
-            gf.partial(
-                via,
-                layer="VIA1",
-                size=(0.1, 0.1),
-                spacing=(0.2, 0.2),
-                enclosure=0.1,
-            ),
-        ),
-    ),
+    via_stack: Optional[ComponentSpec] = via_stack,
     port_orientation1: int = 180,
     port_orientation2: int = 0,
     straight_widths: Floats = (0.8, 0.9, 0.8),
@@ -112,10 +115,10 @@ def straight_heater_meander_doped(
         straight_with_tapers = gf.c.extend_ports(straight, extension=taper)
 
         straight_ref = c << straight_with_tapers
-        if row < len(straight_widths)//2:
+        if row < len(straight_widths) // 2:
             straight_ref.y = row * spacing
         else:
-            straight_ref.y = (row+1) * spacing
+            straight_ref.y = (row + 1) * spacing
         ports[f"o1_{row+1}"] = straight_ref.ports["o1"]
         ports[f"o2_{row+1}"] = straight_ref.ports["o2"]
     """
@@ -170,9 +173,11 @@ def straight_heater_meander_doped(
     if layers_doping:
         sectionlist = ()
         for doping_layer in layers_doping:
-            sectionlist += Section(layer=doping_layer, width=heater_width, offset=0),
+            sectionlist += (Section(layer=doping_layer, width=heater_width, offset=0),)
         heater_cross_section = gf.partial(
-            gf.cross_section.cross_section, width=heater_width, layer="WG",
+            gf.cross_section.cross_section,
+            width=heater_width,
+            layer="WG",
             sections=sectionlist,
         )
 
