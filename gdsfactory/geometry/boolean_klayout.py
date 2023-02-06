@@ -7,7 +7,7 @@ from typing import Tuple
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.types import ComponentOrPath
+from gdsfactory.typings import ComponentOrPath
 
 valid_operations = ("xor", "not", "and", "or")
 

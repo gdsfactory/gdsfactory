@@ -16,7 +16,7 @@ def lyp_to_dataclass(
 
     script = """
 from pydantic import BaseModel
-from gdsfactory.types import Layer
+from gdsfactory.typings import Layer
 
 
 class LayerMap(BaseModel):

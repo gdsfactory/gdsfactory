@@ -35,7 +35,7 @@ from gdsfactory.routing.manhattan import generate_manhattan_waypoints
 from gdsfactory.routing.path_length_matching import path_length_matched_points
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
-from gdsfactory.types import (
+from gdsfactory.typings import (
     ComponentSpec,
     CrossSectionSpec,
     MultiCrossSectionAngleSpec,

@@ -13,7 +13,11 @@ from gdsfactory.routing.manhattan import (
     _is_vertical,
     remove_flat_angles,
 )
-from gdsfactory.types import ComponentSpec, CrossSectionSpec, MultiCrossSectionAngleSpec
+from gdsfactory.typings import (
+    ComponentSpec,
+    CrossSectionSpec,
+    MultiCrossSectionAngleSpec,
+)
 
 
 def path_length_matched_points(

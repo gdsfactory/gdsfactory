@@ -50,7 +50,7 @@ from gdsfactory.components.wire import wire_corner
 from gdsfactory.cross_section import metal2, metal3
 from gdsfactory.port import Port
 from gdsfactory.routing.manhattan import round_corners, route_manhattan
-from gdsfactory.types import (
+from gdsfactory.typings import (
     ComponentSpec,
     Coordinates,
     CrossSectionSpec,

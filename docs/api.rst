@@ -80,7 +80,7 @@ Classes and functions for construction and manipulation of geometric objects.
    cell_without_validator
 
 
-.. currentmodule:: gdsfactory.types
+.. currentmodule:: gdsfactory.typings
 .. rubric:: types
 
 .. autosummary::
