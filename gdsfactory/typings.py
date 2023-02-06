@@ -236,6 +236,7 @@ __all__ = (
     "Coordinates",
     "CrossSectionFactory",
     "CrossSectionOrFactory",
+    "CrossSectionSpec",
     "MultiCrossSectionAngleSpec",
     "Float2",
     "Float3",
