@@ -400,6 +400,7 @@ __all__ = [
     "die_bbox",
     "die_bbox_frame",
     "disk",
+    "disk_heater",
     "ellipse",
     "ellipse_arc",
     "extend_port",
