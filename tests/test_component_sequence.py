@@ -13,7 +13,6 @@ sequences = ["ABHBA", "!HH", "AB", "HH!", "H"]
 def test_component_from_sequence(
     index: int, data_regression: DataRegressionFixture, check: bool = True
 ) -> gf.Component:
-
     bend180 = gf.components.bend_circular180()
     wg_pin = gf.components.straight_pin(length=40)
     wg = gf.components.straight()

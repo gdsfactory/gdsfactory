@@ -111,7 +111,6 @@ def xy_xsection_mesh(
 
 
 if __name__ == "__main__":
-
     import gdsfactory as gf
 
     c = gf.component.Component()

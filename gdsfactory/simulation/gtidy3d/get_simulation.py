@@ -501,7 +501,6 @@ plot_simulation = plot_simulation_yz
 
 
 if __name__ == "__main__":
-
     c = gf.c.taper_sc_nc(length=10)
     s = get_simulation(c, plot_modes=False)
 

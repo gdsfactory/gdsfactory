@@ -10,7 +10,6 @@ from gdsfactory.port import port_array
 def test_get_bundle_west_to_north(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> Component:
-
     lengths = {}
 
     c = gf.Component("test_get_bundle_west_to_north")
@@ -46,7 +45,6 @@ def test_get_bundle_west_to_north(
 def test_get_bundle_west_to_north2(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> Component:
-
     layer = (1, 0)
 
     lengths = {}
