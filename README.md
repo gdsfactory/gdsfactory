@@ -1,4 +1,4 @@
-# gdsfactory 6.32.0
+# gdsfactory 6.34.1
 
 [![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)](https://gdsfactory.github.io/gdsfactory/)
 [![PyPI](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -33,7 +33,7 @@ You can:
   - define parametric cells (PCells) functions in python or YAML. Define routes between component ports.
   - Test component settings, ports and geometry to avoid unwanted regressions.
   - Capture design intent in a schematic.
-- Verificate (DRC, DFM, LVS)
+- Verify (DRC, DFM, LVS)
   - Run simulations directly from the layout thanks to the simulation interfaces. No need to draw the geometry more than once.
     - Run Component simulations (solve modes, FDTD, EME, TCAD, thermal ...)
     - Run Circuit simulations from the Component netlist (Sparameters, Spice ...)
@@ -204,16 +204,16 @@ Contributors (in chronological order):
 - Thomas Dorch (Freedom Photonics): Meep's material database access, MPB sidewall angles, and add_pin_path.
 - Jan-David Fischbach (Black semiconductor): improvements in pack_doe.
 - Igal Bayn (Google): documentation improvements and suggestions.
-- Alex Sludds (MIT): tiling fixes.
+- Alex Sludds (MIT): tiling fixes, ring_single_pn, ring_double_pn, straight_heater_meander_doped.
 - Momchil Minkov (Flexcompute): improve tidy3d plugin.
 - Skandan Chandrasekar (BYU): simphony, SiPANN plugins, A-star router.
 - Helge Gehring (Google): simulation plugins (FEM heat solver), improving code quality and new components (spiral paths).
 - Tim Ansell (Google): documentation improvements.
 - Ardavan Oskoii (Google): Meep plugin documentation improvements.
 - Marc de Cea (MIT): ge_detector, grating_coupler_dual, mmi_90degree_hybrid, coherent transceiver, receiver.
-- Bradley Snyder (PHIX): grating_coupler snap to grid fixes.
+- Bradley Snyder (Ygrec Photonics, PHIX): grating_coupler snap to grid fixes.
 - Jonathan Cauchon (Ciena): measurement database.
-- Raphaël Dubé-Demers (EXFO): measurement database.
+- Raphaël Dubé-Demers (EHVA, EXFO): measurement database.
 - Bohan Zhang (Boston University): grating coupler improvements.
 - Niko Savola (IQM): optimization, notebook and code improvements.
 

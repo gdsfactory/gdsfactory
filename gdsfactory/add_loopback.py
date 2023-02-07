@@ -7,7 +7,7 @@ import gdsfactory as gf
 from gdsfactory.component import ComponentReference
 from gdsfactory.port import Port
 from gdsfactory.routing.manhattan import round_corners
-from gdsfactory.types import ComponentSpec
+from gdsfactory.typings import ComponentSpec
 
 
 def add_loopback(

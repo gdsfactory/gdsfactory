@@ -16,7 +16,7 @@ from gdsfactory.routing.manhattan import (
 )
 from gdsfactory.routing.path_length_matching import path_length_matched_points
 from gdsfactory.routing.route_ports_to_side import route_ports_to_side
-from gdsfactory.types import ComponentSpec, Route
+from gdsfactory.typings import ComponentSpec, Route
 
 
 def _groups(
@@ -138,7 +138,6 @@ def _get_bundle_udirect_waypoints(
     bend: ComponentSpec = bend_euler,
     **routing_func_params,
 ) -> List[ndarray]:
-
     nb_ports = len(ports1)
     for p in ports1:
         p.orientation = (
@@ -347,7 +346,6 @@ def _get_bundle_uindirect_waypoints(
     end_straight_length: float = 0.01,
     **routing_func_params,
 ) -> List[ndarray]:
-
     nb_ports = len(ports1)
 
     for p in ports1:
@@ -530,7 +528,6 @@ def _get_bundle_uindirect_waypoints(
         raise ValueError("No connections generated!")
 
     def _merge_connections(list_of_points):
-
         a = [list_of_points[0]]
         a += [point[1:] for point in list_of_points[1:]]
         b = np.vstack(a)

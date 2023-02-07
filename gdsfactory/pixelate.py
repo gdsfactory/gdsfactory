@@ -8,7 +8,7 @@ from shapely import geometry
 from shapely.geometry.polygon import Polygon
 
 from gdsfactory.geometry.functions import polygon_grow
-from gdsfactory.types import Coordinates
+from gdsfactory.typings import Coordinates
 
 DEG2RAD = np.pi / 180
 RAD2DEG = 1.0 / DEG2RAD

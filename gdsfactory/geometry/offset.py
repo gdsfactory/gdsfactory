@@ -6,7 +6,7 @@ import gdstk
 
 import gdsfactory as gf
 from gdsfactory.component_layout import Polygon, _parse_layer
-from gdsfactory.types import Component, ComponentReference, LayerSpec
+from gdsfactory.typings import Component, ComponentReference, LayerSpec
 
 
 @gf.cell

@@ -623,7 +623,6 @@ def _rename_ports_facing_side(
 ) -> None:
     """Renames ports clockwise."""
     for direction, list_ports in list(direction_ports.items()):
-
         if direction in ["E", "W"]:
             # first sort along x then y
             list_ports.sort(key=lambda p: p.x)
@@ -643,7 +642,6 @@ def _rename_ports_facing_side_ccw(
 ) -> None:
     """Renames ports counter-clockwise."""
     for direction, list_ports in list(direction_ports.items()):
-
         if direction in ["E", "W"]:
             # first sort along x then y
             list_ports.sort(key=lambda p: -p.x)
@@ -976,7 +974,6 @@ __all__ = [
 ]
 
 if __name__ == "__main__":
-
     import gdsfactory as gf
 
     c = gf.Component()

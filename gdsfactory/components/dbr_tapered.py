@@ -4,7 +4,7 @@ from typing import Tuple
 
 import gdsfactory as gf
 from gdsfactory import Component
-from gdsfactory.types import CrossSectionSpec
+from gdsfactory.typings import CrossSectionSpec
 
 
 def _generate_fins(
@@ -148,7 +148,6 @@ def dbr_tapered(
 
 
 if __name__ == "__main__":
-
     # c = dbr_tapered(length=10, period=0.85, dc=0.5, w2=1, w1=0.4, taper_length=20, fins=True)
     c = dbr_tapered()
     c.show(show_ports=True)

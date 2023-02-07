@@ -27,7 +27,7 @@ from gdsfactory.simulation.gmeep.get_simulation_grating_fiber import (
     get_simulation_grating_fiber,
 )
 from gdsfactory.simulation.gmeep.write_sparameters_meep_mpi import _python
-from gdsfactory.types import PathType
+from gdsfactory.typings import PathType
 
 nm = 1e-3
 nSi = 3.48

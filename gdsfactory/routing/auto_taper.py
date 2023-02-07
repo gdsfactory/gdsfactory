@@ -3,7 +3,7 @@ from typing import Optional, List
 
 from gdsfactory.component import Port, ComponentReference, Component
 from gdsfactory.pdk import get_cross_section, get_active_pdk, get_layer, get_component
-from gdsfactory.types import CrossSectionSpec
+from gdsfactory.typings import CrossSectionSpec
 
 
 def taper_to_cross_section(

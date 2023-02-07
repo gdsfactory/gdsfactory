@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.straight import straight
 from gdsfactory.cross_section import strip
-from gdsfactory.types import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -115,7 +115,6 @@ def ring_crow(
 
 
 if __name__ == "__main__":
-
     c = ring_crow(
         input_straight_cross_section="rib", ring_cross_sections=["rib", "strip", "rib"]
     )

@@ -8,7 +8,7 @@ import pydantic
 
 import gdsfactory as gf
 from gdsfactory.name import clean_name
-from gdsfactory.types import LayerSpec
+from gdsfactory.typings import LayerSpec
 
 ignore = [
     "cross_section",
