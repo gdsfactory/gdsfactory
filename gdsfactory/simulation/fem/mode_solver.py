@@ -10,7 +10,7 @@ from gdsfactory.config import logger
 from gdsfactory.pdk import _ACTIVE_PDK, get_layer_stack
 from gdsfactory.simulation.get_modes_path import get_modes_path_femwell
 from gdsfactory.technology import LayerStack
-from gdsfactory.types import CrossSectionSpec, PathType, ComponentSpec
+from gdsfactory.typings import CrossSectionSpec, PathType, ComponentSpec
 
 from skfem import (
     Basis,
@@ -256,7 +256,6 @@ if __name__ == "__main__":
         end = time.time()
         print(end - start)
     else:
-
         component = gf.components.coupler_full(dw=0)
         component.show()
 

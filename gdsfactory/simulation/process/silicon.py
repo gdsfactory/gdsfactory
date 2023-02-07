@@ -83,7 +83,6 @@ def ni(T: float):
 
 
 if __name__ == "__main__":
-
     # print(2*kB_eV*300)
     print(Eg(T=1000), Eg(T=300))
     print(np.log10(ni(T=800)))

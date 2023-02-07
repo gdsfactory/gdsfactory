@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler90 import coupler90
 from gdsfactory.components.coupler_straight import coupler_straight
-from gdsfactory.types import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -89,7 +89,6 @@ def coupler_ring(
 
 
 if __name__ == "__main__":
-
     # c = coupler_ring(width=1, layer=(2, 0), length_x=20)
     c = coupler_ring(cross_section="strip_heater_metal", length_x=20)
     c.show(show_subports=True)

@@ -5,7 +5,7 @@ from typing import List, Optional
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.port import Port
-from gdsfactory.types import ComponentSpec, Strs
+from gdsfactory.typings import ComponentSpec, Strs
 
 
 @cell

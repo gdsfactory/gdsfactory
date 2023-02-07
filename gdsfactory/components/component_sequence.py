@@ -5,7 +5,7 @@ from typing import Dict, Optional, Tuple
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.types import ComponentSpec
+from gdsfactory.typings import ComponentSpec
 
 
 class SequenceGenerator:

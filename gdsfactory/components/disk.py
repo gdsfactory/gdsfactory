@@ -8,22 +8,21 @@ from gdsfactory.types import CrossSectionSpec, LayerSpec, ComponentSpec
 from gdsfactory.generic_tech.layer_map import LAYER
 from gdsfactory.components.via_stack import via_stack
 from typing import Optional
+from gdsfactory.typings import CrossSectionSpec
 
 
 def _compute_parameters(xs_bend, wrap_angle_deg, radius):
-
     r_bend = xs_bend.radius
     theta = wrap_angle_deg / 2.0
     size_x, dy = r_bend * np.sin(theta * np.pi / 180), r_bend - r_bend * np.cos(
         theta * np.pi / 180
     )
-    bus_length = 2 * radius if (4 * size_x < 2 * radius) else 4 * size_x
+    bus_length = max(4 * size_x, 2 * radius)
 
     return (r_bend, size_x, dy, bus_length)
 
 
 def _generate_bends(c, r_bend, wrap_angle_deg, cross_section):
-
     if wrap_angle_deg != 0:
         input_arc = gf.path.arc(radius=r_bend, angle=-wrap_angle_deg / 2.0)
         bend_middle_arc = gf.path.arc(radius=r_bend, angle=-wrap_angle_deg)
@@ -46,7 +45,6 @@ def _generate_bends(c, r_bend, wrap_angle_deg, cross_section):
 
 
 def _generate_straights(c, bus_length, size_x, bend_input, bend_output, cross_section):
-
     straight_left = c << gf.components.straight(
         length=(bus_length - 4 * size_x) / 2.0, cross_section=cross_section
     )
@@ -267,6 +265,5 @@ def disk_heater(
 
 
 if __name__ == "__main__":
-
     c = disk_heater(wrap_angle_deg=75)
     c.show(show_ports=True)

@@ -13,7 +13,7 @@ import gdsfactory as gf
 from gdsfactory.generic_tech import LAYER_STACK
 from gdsfactory.name import clean_value
 from gdsfactory.pdk import get_sparameters_path
-from gdsfactory.types import ComponentSpec
+from gdsfactory.typings import ComponentSpec
 
 
 def get_kwargs_hash(**kwargs) -> str:
@@ -103,7 +103,6 @@ def test_get_sparameters_path(test: bool = True) -> None:
 
 
 if __name__ == "__main__":
-
     c = gf.components.mmi1x2()
     p = get_sparameters_path_lumerical(c)
 

@@ -62,7 +62,7 @@ from gdsfactory.add_pins import add_instance_label
 from gdsfactory.cell import cell
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.routing.factories import routing_strategy as routing_strategy_factories
-from gdsfactory.types import Route
+from gdsfactory.typings import Route
 
 valid_placement_keys = [
     "x",
@@ -738,7 +738,6 @@ def _from_yaml(
             links_dict = routes_dict["links"]
 
             for port_src_string, port_dst_string in links_dict.items():
-
                 if ":" in port_src_string:
                     src, src0, src1 = (s.strip() for s in port_src_string.split(":"))
                     dst, dst0, dst1 = (s.strip() for s in port_dst_string.split(":"))

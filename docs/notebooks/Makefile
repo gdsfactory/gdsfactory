@@ -10,6 +10,8 @@ python:
 
 markdown:
 	jupytext *.ipynb --to md
+	jupytext **/*.ipynb --to md
+	jupytext plugins/**/*.ipynb --to md
 
 clean:
 	nbstripout --drop-empty-cells *.ipynb

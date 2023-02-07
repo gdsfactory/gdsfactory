@@ -9,7 +9,6 @@ from gdsfactory.component import Component
 def test_get_bundle_sort_ports(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> Component:
-
     lengths = {}
     c = gf.Component("test_get_bundle_sort_ports")
     ys_right = [0, 10, 20, 40, 50, 80]

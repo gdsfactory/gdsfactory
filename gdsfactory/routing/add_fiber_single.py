@@ -14,7 +14,7 @@ from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.route_fiber_single import route_fiber_single
-from gdsfactory.types import ComponentSpec, CrossSectionSpec, LayerSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
 
 @cell
@@ -164,7 +164,6 @@ def add_fiber_single(
         len(optical_ports) == 2
         and abs(optical_ports[0].x - optical_ports[1].x) > min_input_to_output_spacing
     ):
-
         grating_couplers = []
         for port in cr.ports.values():
             if port.name in optical_port_names:

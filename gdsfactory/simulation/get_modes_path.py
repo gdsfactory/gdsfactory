@@ -13,7 +13,7 @@ import gdsfactory as gf
 from gdsfactory.generic_tech import LAYER_STACK
 from gdsfactory.name import clean_value
 from gdsfactory.pdk import get_modes_path
-from gdsfactory.types import ComponentSpec
+from gdsfactory.typings import ComponentSpec
 
 
 def get_kwargs_hash(**kwargs) -> str:
@@ -95,7 +95,6 @@ def test_get_modes_path(test: bool = True) -> None:
 
 
 if __name__ == "__main__":
-
     # cross_section = gf.cross_section.strip(name="strip")
     # p = get_modes_path_femwell(cross_section)
     # print(p)

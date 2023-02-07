@@ -2,14 +2,14 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.types import ComponentSpec, Floats, LayerSpec, Optional
+from gdsfactory.typings import ComponentSpec, Floats, LayerSpec, Optional
 
 
 @gf.cell
 def straight_heater_meander(
     length: float = 300.0,
     spacing: float = 2.0,
-    cross_section: gf.types.CrossSectionSpec = "strip",
+    cross_section: gf.typings.CrossSectionSpec = "strip",
     heater_width: float = 2.5,
     extension_length: float = 15.0,
     layer_heater: LayerSpec = "HEATER",
@@ -98,7 +98,6 @@ def straight_heater_meander(
     Loopbacks
     """
     for row in range(1, rows, 2):
-
         extra_length = 3 * (rows - row - 1) / 2 * radius
         extra_straight1 = c << gf.c.straight(
             length=extra_length, cross_section=cross_section

@@ -6,7 +6,7 @@ from typing import Union
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.types import LayerSpec
+from gdsfactory.typings import LayerSpec
 
 
 @gf.cell
@@ -113,6 +113,5 @@ def interdigital_capacitor(
 
 
 if __name__ == "__main__":
-
     c = interdigital_capacitor()
     c.show(show_ports=True)

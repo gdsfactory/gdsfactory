@@ -9,7 +9,7 @@ from gdsfactory.components.straight_heater_metal import straight_heater_metal
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.get_bundle import get_bundle_electrical
 from gdsfactory.routing.sort_ports import sort_ports_x
-from gdsfactory.types import ComponentSpec, Float2
+from gdsfactory.typings import ComponentSpec, Float2
 
 
 @cell

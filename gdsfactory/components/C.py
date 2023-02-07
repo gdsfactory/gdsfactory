@@ -4,7 +4,7 @@ from typing import Tuple
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.types import LayerSpec
+from gdsfactory.typings import LayerSpec
 
 
 @gf.cell
@@ -54,6 +54,5 @@ def C(
 
 
 if __name__ == "__main__":
-
     c = C(width=1.0)
     c.show(show_ports=True)
