@@ -25,7 +25,6 @@ def assert_on_2nm_grid(x: float) -> None:
 def snap_to_grid(
     x: Union[float, Tuple, np.ndarray], nm: Optional[int] = None
 ) -> Union[float, Tuple, np.ndarray]:
-
     if nm is None:
         from gdsfactory.pdk import get_grid_size
 

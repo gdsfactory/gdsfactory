@@ -115,7 +115,6 @@ def ring_crow(
 
 
 if __name__ == "__main__":
-
     c = ring_crow(
         input_straight_cross_section="rib", ring_cross_sections=["rib", "strip", "rib"]
     )

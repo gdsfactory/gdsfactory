@@ -402,7 +402,6 @@ def write_sparameters_meep(
         termination = [mp.stop_when_energy_decayed(dt=50, decay_by=decay_by)]
 
         if animate:
-
             # Defaults for animation
             if "field_parameters" not in plot_args:
                 plot_args["field_parameters"] = {

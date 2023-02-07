@@ -571,7 +571,6 @@ def get_bundle_all_angle(
             start_angle is not None
             and difference_between_angles(start_angle, port1.orientation) != 0
         ):
-
             bend_angle = difference_between_angles(start_angle, port1.orientation)
             bend_component = _get_bend(
                 bend, angle=bend_angle, cross_section=cross_section
@@ -593,7 +592,6 @@ def get_bundle_all_angle(
             end_angle is not None
             and difference_between_angles(end_angle, port2.orientation) != 0
         ):
-
             bend_angle = difference_between_angles(end_angle, port2.orientation)
             bend_component = _get_bend(
                 bend, angle=bend_angle, cross_section=cross_section

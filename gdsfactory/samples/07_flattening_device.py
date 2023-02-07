@@ -18,7 +18,6 @@ from gdsfactory.component import Component
 
 
 def test_flatten_device() -> Component:
-
     c = gf.Component("test_remap_layers")
 
     c.add_ref(gf.components.rectangle(size=(10, 1), layer=gf.LAYER.WG))

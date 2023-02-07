@@ -164,7 +164,6 @@ def add_fiber_single(
         len(optical_ports) == 2
         and abs(optical_ports[0].x - optical_ports[1].x) > min_input_to_output_spacing
     ):
-
         grating_couplers = []
         for port in cr.ports.values():
             if port.name in optical_port_names:

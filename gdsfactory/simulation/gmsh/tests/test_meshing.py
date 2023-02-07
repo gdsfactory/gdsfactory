@@ -9,7 +9,6 @@ from gdsfactory.technology import LayerStack
 
 
 def test_gmsh_uz_xsection_mesh():
-
     waveguide = gf.components.straight_pin(length=10, taper=None)
 
     filtered_layerstack = LayerStack(

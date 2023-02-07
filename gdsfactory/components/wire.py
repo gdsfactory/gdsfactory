@@ -51,7 +51,6 @@ def wire_corner(
 
 
 if __name__ == "__main__":
-
     # c = wire_straight()
     c = wire_corner()
     # c.show(show_ports=True)

@@ -577,7 +577,6 @@ class PINWaveguide(BaseModel):
 
 
 if __name__ == "__main__":
-
     c = PINWaveguide(
         wg_width=500 * nm,
         wg_thickness=220 * nm,

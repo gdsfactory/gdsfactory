@@ -39,7 +39,6 @@ def get_doping_info_generic(
     npp_conc: float = 1e18,  # * cm3_to_um3,
     ppp_conc: float = 1e18,  # * cm3_to_um3,
 ):
-
     layermap = gf.generic_tech.LayerMap()
 
     return {
