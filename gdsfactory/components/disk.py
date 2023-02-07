@@ -202,7 +202,8 @@ def disk_heater(
     heater_layer: LayerSpec = LAYER.HEATER,
     via_stack: ComponentSpec = via_stack,
     heater_width: float = 5.0,
-    via_width: float = 5.0,
+    heater_extent: float = 2.0,
+    via_width: float = 10.0,
     port_orientation: Optional[float] = 90,
     **kwargs,
 ) -> Component:
@@ -221,6 +222,7 @@ def disk_heater(
 
        heater_layer: layer of the heater
        heater_width: width of the heater
+       heater_extent: length of heater beyond disk
        via_width: size of the square via at the end of the heater
 
     """
@@ -238,7 +240,9 @@ def disk_heater(
     dx = disk_instance.xmax - disk_instance.xmin
     dy = disk_instance.ymax - disk_instance.ymin
     heater = c << gf.get_component(
-        gf.components.rectangle, size=(dx, heater_width), layer=heater_layer
+        gf.components.rectangle,
+        size=(dx + 2 * heater_extent, heater_width),
+        layer=heater_layer,
     )
     heater.x = disk_instance.x
     heater.y = (
@@ -250,10 +254,11 @@ def disk_heater(
     via = gf.get_component(via_stack, size=(via_width, via_width))
     c1 = c << via
     c2 = c << via
-    c1.xmax = disk_instance.xmin
+    c1.xmax = heater.xmin
     c1.y = heater.y
-    c2.xmin = disk_instance.xmax
+    c2.xmin = heater.xmax
     c2.y = heater.y
+    c.add_ports(disk_instance.get_ports_list())
     c.add_ports(c1.get_ports_list(orientation=port_orientation), prefix="e1")
     c.add_ports(c2.get_ports_list(orientation=port_orientation), prefix="e2")
     c.auto_rename_ports()
