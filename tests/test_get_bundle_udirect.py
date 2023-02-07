@@ -9,7 +9,6 @@ from gdsfactory.component import Component
 def test_get_bundle_udirect(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> Component:
-
     c = gf.Component("test_get_bundle_udirect")
 
     pad = gf.partial(gf.components.pad, size=(10, 10))

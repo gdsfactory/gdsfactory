@@ -103,7 +103,6 @@ def test_get_sparameters_path(test: bool = True) -> None:
 
 
 if __name__ == "__main__":
-
     c = gf.components.mmi1x2()
     p = get_sparameters_path_lumerical(c)
 

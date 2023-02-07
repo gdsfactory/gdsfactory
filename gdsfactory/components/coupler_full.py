@@ -119,7 +119,6 @@ def coupler_full(
 
 
 if __name__ == "__main__":
-
     c = coupler_full(
         # coupling_length=40,
         # gap=0.2,
