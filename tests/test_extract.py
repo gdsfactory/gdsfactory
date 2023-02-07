@@ -6,7 +6,7 @@ from gdsfactory.add_pins import add_pins_siepic
 
 def test_extract():
     c = gf.components.straight(
-        length=10,
+        length=11.124,
         width=0.5,
         bbox_layers=[gf.LAYER.WGCLAD],
         bbox_offsets=[3],

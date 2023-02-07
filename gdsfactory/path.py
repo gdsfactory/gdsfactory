@@ -941,6 +941,11 @@ def extrude(
 
     c.info["length"] = float(np.round(p.length(), 3))
 
+    if x.add_bbox:
+        c = x.add_bbox(c)
+    if x.add_pins:
+        c = x.add_pins(c)
+
     if x.decorator:
         c = x.decorator(c) or c
     return c
