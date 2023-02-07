@@ -8,7 +8,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coh_rx_single_pol import coh_rx_single_pol
 from gdsfactory.routing.get_route import get_route, get_route_from_waypoints
-from gdsfactory.types import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @cell
@@ -154,7 +154,6 @@ def coh_rx_dual_pol(
     c.add(route.references)
 
     if lo_input_coupler is not None:
-
         lo_coupler = gf.get_component(lo_input_coupler)
         lo_coup = c << lo_coupler
         lo_coup.connect("o1", lo_split.ports["o1"])

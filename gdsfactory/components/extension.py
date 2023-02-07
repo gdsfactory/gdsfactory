@@ -12,7 +12,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.cross_section import cross_section as cross_section_function
 from gdsfactory.port import Port
-from gdsfactory.types import ComponentSpec, Coordinate, CrossSectionSpec, Layer
+from gdsfactory.typings import ComponentSpec, Coordinate, CrossSectionSpec, Layer
 
 DEG2RAD = np.pi / 180
 

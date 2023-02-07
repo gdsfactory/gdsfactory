@@ -7,7 +7,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.port import Port, select_ports_optical
-from gdsfactory.types import ComponentSpec
+from gdsfactory.typings import ComponentSpec
 
 
 def get_ports_and_tapers(

@@ -20,7 +20,7 @@ from gdsfactory.technology import (
     LayerStack,
     SimulationSettingsLumericalFdtd,
 )
-from gdsfactory.types import ComponentSpec, PathType
+from gdsfactory.typings import ComponentSpec, PathType
 
 run_false_warning = """
 You have passed run=False to debug the simulation

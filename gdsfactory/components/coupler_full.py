@@ -3,7 +3,7 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components import bend_s
-from gdsfactory.types import CrossSectionSpec
+from gdsfactory.typings import CrossSectionSpec
 
 
 @gf.cell
@@ -119,7 +119,6 @@ def coupler_full(
 
 
 if __name__ == "__main__":
-
     c = coupler_full(
         # coupling_length=40,
         # gap=0.2,

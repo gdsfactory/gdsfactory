@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.coupler_full import coupler_full
 from gdsfactory.cross_section import strip
-from gdsfactory.types import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -96,7 +96,6 @@ def ring_crow_couplers(
 
 
 if __name__ == "__main__":
-
     c = ring_crow_couplers(
         couplers=[gf.components.coupler_full(coupling_length=0.01, dw=0)] * 4
     )

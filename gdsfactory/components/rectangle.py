@@ -5,7 +5,7 @@ from typing import Optional, Tuple
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
-from gdsfactory.types import Ints, LayerSpec
+from gdsfactory.typings import Ints, LayerSpec
 
 
 @cell

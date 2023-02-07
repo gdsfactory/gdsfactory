@@ -21,7 +21,7 @@ from gdsfactory.simulation.gmsh.parse_layerstack import (
     order_layerstack,
 )
 from gdsfactory.technology import LayerStack
-from gdsfactory.types import ComponentOrReference
+from gdsfactory.typings import ComponentOrReference
 
 
 def get_u_bounds_polygons(
@@ -264,7 +264,6 @@ def uz_xsection_mesh(
 
 
 if __name__ == "__main__":
-
     from gdsfactory.pdk import get_layer_stack
 
     c = gf.component.Component()

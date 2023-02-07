@@ -9,7 +9,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.component_layout import _parse_layer
 from gdsfactory.port import Port
-from gdsfactory.types import ComponentOrReference, Label, LayerSpec
+from gdsfactory.typings import ComponentOrReference, Label, LayerSpec
 
 
 def get_input_label_text(
@@ -216,7 +216,6 @@ def add_siepic_labels(
             spice_params = {pair[1]: c.info[pair[0]] for pair in pairs}
         param_str = ""
         for param in spice_params:
-
             val = spice_params[param]
             param_str += f"{param}={val:.3f}u "
         labels.append(f"Spice_param:{param_str}")

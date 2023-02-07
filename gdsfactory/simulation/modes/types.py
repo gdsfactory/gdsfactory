@@ -8,7 +8,7 @@ from meep import mpb
 from pydantic import BaseModel
 from scipy.interpolate import RectBivariateSpline
 
-from gdsfactory.types import Array
+from gdsfactory.typings import Array
 
 # cmap_default = 'viridis'
 cmap_default = "RdBu"

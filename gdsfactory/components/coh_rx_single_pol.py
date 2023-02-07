@@ -11,7 +11,7 @@ from gdsfactory.components.ge_detector_straight_si_contacts import (
     ge_detector_straight_si_contacts,
 )
 from gdsfactory.components.mmi_90degree_hybrid import mmi_90degree_hybrid
-from gdsfactory.types import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @cell
@@ -185,7 +185,6 @@ def coh_rx_single_pol(
     # --- Draw pads if indicated ----
 
     if with_pads:
-
         pad_array = c << gf.components.pad_array(columns=1, rows=4, orientation=0)
         pad_array.xmin = pd_i1.xmax + pad_det_spacing
         pad_array.y = hybrid.y
