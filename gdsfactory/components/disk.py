@@ -13,7 +13,7 @@ def _compute_parameters(xs_bend, wrap_angle_deg, radius):
     size_x, dy = r_bend * np.sin(theta * np.pi / 180), r_bend - r_bend * np.cos(
         theta * np.pi / 180
     )
-    bus_length = 2 * radius if (4 * size_x < 2 * radius) else 4 * size_x
+    bus_length = max(4 * size_x, 2 * radius)
 
     return (r_bend, size_x, dy, bus_length)
 
