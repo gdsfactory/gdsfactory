@@ -76,6 +76,5 @@ def ring_double(
 
 
 if __name__ == "__main__":
-
     c = ring_double(width=1, layer=(2, 0), length_y=3)
     c.show(show_subports=False)

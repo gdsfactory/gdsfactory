@@ -96,7 +96,6 @@ def ring_crow_couplers(
 
 
 if __name__ == "__main__":
-
     c = ring_crow_couplers(
         couplers=[gf.components.coupler_full(coupling_length=0.01, dw=0)] * 4
     )

@@ -423,7 +423,6 @@ if __name__ == "__main__":
     c = gf.c.ring_single(radius=10)
 
     with Session(engine) as session:
-
         w1 = Wafer(name="12", serial_number="ABC")
         r1 = Reticle(name="sky1", wafer_id=w1.id, wafer=w1)
         d1 = Die(name="d00", reticle_id=r1.id, reticle=r1)

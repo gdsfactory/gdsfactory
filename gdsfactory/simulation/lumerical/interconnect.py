@@ -442,7 +442,6 @@ def plot_wavelength_sweep(
 
 
 if __name__ == "__main__":
-
     import ubcpdk.components as pdk
 
     mzi = pdk.mzi()
