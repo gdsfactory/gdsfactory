@@ -121,13 +121,13 @@ repos:
   #   rev: 2b2f0c74acdb3de316e23ceb7dd0d7945c354050
   #   hooks:
   #     - id: reorder-python-imports
-  - repo: https://github.com/nbQA-dev/nbQA
-    rev: 3e5186603806260939b5f1b0372c058203c65553
-    hooks:
-      - id: nbqa-black
-        additional_dependencies: [jupytext, black] # optional, only if you're using Jupytext
-      - id: nbqa-pyupgrade
-        args: ["--py37-plus"]
+  # - repo: https://github.com/nbQA-dev/nbQA
+  #   rev: 3e5186603806260939b5f1b0372c058203c65553
+  #   hooks:
+  #     - id: nbqa-black
+  #       additional_dependencies: [jupytext, black] # optional, only if you're using Jupytext
+  #     - id: nbqa-pyupgrade
+  #       args: ["--py37-plus"]
       # - id: nbqa-flake8
       # - id: nbqa-isort
       #   args: ["--float-to-top"]
