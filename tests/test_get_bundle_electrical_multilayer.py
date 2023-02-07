@@ -9,7 +9,6 @@ from gdsfactory.component import Component
 def test_get_bundle_electrical_multilayer(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> Component:
-
     lengths = {}
     c = gf.Component("multi-layer")
     columns = 2

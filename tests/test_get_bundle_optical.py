@@ -9,7 +9,6 @@ from gdsfactory.component import Component
 def test_get_bundle_optical(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> Component:
-
     lengths = {}
 
     c = gf.Component("test_get_bundle_optical")
@@ -41,7 +40,6 @@ def test_get_bundle_optical(
 def test_get_bundle_optical2(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> Component:
-
     lengths = {}
 
     c = gf.Component("test_get_bundle_optical2")

@@ -738,7 +738,6 @@ def _from_yaml(
             links_dict = routes_dict["links"]
 
             for port_src_string, port_dst_string in links_dict.items():
-
                 if ":" in port_src_string:
                     src, src0, src1 = (s.strip() for s in port_src_string.split(":"))
                     dst, dst0, dst1 = (s.strip() for s in port_dst_string.split(":"))

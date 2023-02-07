@@ -121,7 +121,8 @@ class Model:
     def get_model_input_output(self):
         """Generate training data
 
-        Retrieve the input and output data for training the model by getting results on all trainable parameter input combinations."""
+        Retrieve the input and output data for training the model by getting results on all trainable parameter input combinations.
+        """
         ranges_dict = {
             name: parameter.arange()
             for name, parameter in self.trainable_parameters.items()

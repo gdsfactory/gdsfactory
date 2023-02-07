@@ -60,7 +60,6 @@ class FemwellWaveguideModel(Model):
 
 
 if __name__ == "__main__":
-
     import gdsfactory as gf
     from gdsfactory.cross_section import rib
     from gdsfactory.simulation.sax.parameter import LayerStackThickness, NamedParameter

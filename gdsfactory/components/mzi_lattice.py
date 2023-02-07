@@ -91,7 +91,6 @@ def mzi_lattice(
     for length, gap, delta_length in zip(
         coupler_lengths[2:], coupler_gaps[2:], delta_lengths[1:]
     ):
-
         splitter_settings = dict(gap=coupler_gaps[1], length=coupler_lengths[1])
         combiner_settings = dict(length=length, gap=gap)
         splitter1 = gf.get_component(splitter, **splitter_settings)

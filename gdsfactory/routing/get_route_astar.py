@@ -143,7 +143,6 @@ def get_route_astar(
 
         # Loop through neighbours
         for neighbour in neighbours:
-
             for closed_neighbour in closed:
                 if neighbour == closed_neighbour:
                     continue
@@ -250,7 +249,6 @@ def _generate_neighbours(
         (-resolution, 0),
         (resolution, 0),
     ]:  # Adjacent nodes along Manhattan path
-
         # Get node position
         node_position = (
             current_node.position[0] + new_position[0],
@@ -294,7 +292,6 @@ def _generate_neighbours(
 
 
 if __name__ == "__main__":
-
     # cross_section = gf.get_cross_section("metal1", width=3)
 
     # c = gf.Component("get_route_astar")
