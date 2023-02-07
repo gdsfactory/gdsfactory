@@ -8,7 +8,6 @@ from gdsfactory.types import CrossSectionSpec, LayerSpec, ComponentSpec
 from gdsfactory.generic_tech.layer_map import LAYER
 from gdsfactory.components.via_stack import via_stack
 from typing import Optional
-from gdsfactory.typings import CrossSectionSpec
 
 
 def _compute_parameters(xs_bend, wrap_angle_deg, radius):
