@@ -33,7 +33,7 @@ You can:
   - define parametric cells (PCells) functions in python or YAML. Define routes between component ports.
   - Test component settings, ports and geometry to avoid unwanted regressions.
   - Capture design intent in a schematic.
-- Verificate (DRC, DFM, LVS)
+- Verify (DRC, DFM, LVS)
   - Run simulations directly from the layout thanks to the simulation interfaces. No need to draw the geometry more than once.
     - Run Component simulations (solve modes, FDTD, EME, TCAD, thermal ...)
     - Run Circuit simulations from the Component netlist (Sparameters, Spice ...)
