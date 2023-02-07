@@ -1,7 +1,7 @@
 #!/bin/bash
 
 pip install sklearn
-pip install gdsfactory[full,gmsh,tidy3d,devsim,meow,sax,ray,database]==6.34.0
+pip install gdsfactory[full,gmsh,tidy3d,devsim,meow,sax,ray,database]==6.34.1
 gf tool install
 
 [ ! -d $HOME/Desktop/gdsfactory ] && git clone https://github.com/gdsfactory/gdsfactory.git $HOME/Desktop/gdsfactory
