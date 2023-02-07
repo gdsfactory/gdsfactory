@@ -154,7 +154,6 @@ def coh_rx_dual_pol(
     c.add(route.references)
 
     if lo_input_coupler is not None:
-
         lo_coupler = gf.get_component(lo_input_coupler)
         lo_coup = c << lo_coupler
         lo_coup.connect("o1", lo_split.ports["o1"])

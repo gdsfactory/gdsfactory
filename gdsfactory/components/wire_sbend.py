@@ -35,7 +35,6 @@ def wire_sbend(dx: float = 20.0, dy: float = 10.0, **kwargs) -> Component:
 
 
 if __name__ == "__main__":
-
     c = wire_sbend(width=5)
     c.show(show_ports=True)
     c.pprint_ports()

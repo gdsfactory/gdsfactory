@@ -334,7 +334,6 @@ def _generate_manhattan_bundle_waypoints(
         elif _is_horizontal(s2) and _is_vertical(s1):
             sh, sv = s2, s1
         else:
-
             if _is_horizontal(s1):
                 s1_dir = "h"
             elif _is_vertical(s1):

@@ -95,7 +95,6 @@ def test_get_modes_path(test: bool = True) -> None:
 
 
 if __name__ == "__main__":
-
     # cross_section = gf.cross_section.strip(name="strip")
     # p = get_modes_path_femwell(cross_section)
     # print(p)

@@ -256,7 +256,6 @@ if __name__ == "__main__":
         end = time.time()
         print(end - start)
     else:
-
         component = gf.components.coupler_full(dw=0)
         component.show()
 

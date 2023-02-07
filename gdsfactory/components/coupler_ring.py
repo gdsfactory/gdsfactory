@@ -89,7 +89,6 @@ def coupler_ring(
 
 
 if __name__ == "__main__":
-
     # c = coupler_ring(width=1, layer=(2, 0), length_x=20)
     c = coupler_ring(cross_section="strip_heater_metal", length_x=20)
     c.show(show_subports=True)

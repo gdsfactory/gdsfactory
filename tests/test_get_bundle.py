@@ -346,7 +346,6 @@ def test_get_bundle_udirect(
 def test_get_bundle_u_indirect(
     data_regression: DataRegressionFixture, angle: int, check: bool = True, dy=-200
 ) -> Component:
-
     xs1 = [-100, -90, -80, -55, -35] + [200, 210, 240]
 
     axis = "X" if angle in {0, 180} else "Y"
@@ -417,7 +416,6 @@ def test_facing_ports(
     data_regression: DataRegressionFixture,
     check: bool = True,
 ) -> Component:
-
     dy = 200.0
     xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
 
@@ -454,7 +452,6 @@ def test_facing_ports(
 
 
 if __name__ == "__main__":
-
     # c = test_get_bundle(None, check=False)
     c = test_connect_corner(config="A", data_regression=None, check=False)
     # c = test_get_bundle_udirect(None, check=False)

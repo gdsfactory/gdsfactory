@@ -98,7 +98,6 @@ def straight_heater_meander(
     Loopbacks
     """
     for row in range(1, rows, 2):
-
         extra_length = 3 * (rows - row - 1) / 2 * radius
         extra_straight1 = c << gf.c.straight(
             length=extra_length, cross_section=cross_section

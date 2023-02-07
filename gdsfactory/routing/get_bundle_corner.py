@@ -147,7 +147,6 @@ def _get_bundle_corner_waypoints(
     separation: float = 5.0,
     **kwargs,
 ):
-
     nb_ports = len(ports1)
     connections = []
 
