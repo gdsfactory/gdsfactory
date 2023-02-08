@@ -88,7 +88,7 @@ from gdsfactory.components.dicing_lane import dicing_lane
 from gdsfactory.components.die import die
 from gdsfactory.components.die_bbox import die_bbox
 from gdsfactory.components.die_bbox_frame import die_bbox_frame
-from gdsfactory.components.disk import disk
+from gdsfactory.components.disk import disk, disk_heater
 from gdsfactory.components.edge_coupler_array import (
     edge_coupler_array,
     edge_coupler_array_with_loopback,
@@ -403,6 +403,7 @@ __all__ = [
     "die_bbox",
     "die_bbox_frame",
     "disk",
+    "disk_heater",
     "ellipse",
     "ellipse_arc",
     "extend_port",

@@ -4,7 +4,10 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory import Component
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.types import CrossSectionSpec, LayerSpec, ComponentSpec
+from gdsfactory.generic_tech.layer_map import LAYER
+from gdsfactory.components.via_stack import via_stack
+from typing import Optional
 
 
 def _compute_parameters(xs_bend, wrap_angle_deg, radius):
@@ -187,6 +190,79 @@ def disk(
     return c
 
 
+def disk_heater(
+    radius: float = 10.0,
+    gap: float = 0.2,
+    wrap_angle_deg: float = 180.0,
+    parity: int = 1,
+    cross_section: CrossSectionSpec = "strip",
+    heater_layer: LayerSpec = LAYER.HEATER,
+    via_stack: ComponentSpec = via_stack,
+    heater_width: float = 5.0,
+    heater_extent: float = 2.0,
+    via_width: float = 10.0,
+    port_orientation: Optional[float] = 90,
+    **kwargs,
+) -> Component:
+    """Disk Resonator with a strip heater.
+
+    Args:
+       radius: disk resonator radius.
+       gap: Distance between the bus straight and resonator.
+       wrap_angle_deg: Angle in degrees between 0 and 180.
+        determines how much the bus straight wraps along the resonator.
+        0 corresponds to a straight bus straight.
+        180 corresponds to a bus straight wrapped around half of the resonator.
+       parity (1 or -1): 1, resonator left from bus straight, -1 resonator to the right.
+       cross_section: cross_section spec.
+       kwargs: cross_section settings.
+
+       heater_layer: layer of the heater
+       heater_width: width of the heater
+       heater_extent: length of heater beyond disk
+       via_width: size of the square via at the end of the heater
+
+    """
+    c = gf.Component()
+
+    disk_instance = c << disk(
+        radius=radius,
+        gap=gap,
+        wrap_angle_deg=wrap_angle_deg,
+        parity=parity,
+        cross_section=cross_section,
+        **kwargs,
+    )
+
+    dx = disk_instance.xmax - disk_instance.xmin
+    dy = disk_instance.ymax - disk_instance.ymin
+    heater = c << gf.get_component(
+        gf.components.rectangle,
+        size=(dx + 2 * heater_extent, heater_width),
+        layer=heater_layer,
+    )
+    heater.x = disk_instance.x
+    heater.y = (
+        dy / 2
+        + disk_instance.ymin
+        + (gf.get_cross_section(cross_section).width + gap) / 2
+    )
+
+    via = gf.get_component(via_stack, size=(via_width, via_width))
+    c1 = c << via
+    c2 = c << via
+    c1.xmax = heater.xmin
+    c1.y = heater.y
+    c2.xmin = heater.xmax
+    c2.y = heater.y
+    c.add_ports(disk_instance.get_ports_list())
+    c.add_ports(c1.get_ports_list(orientation=port_orientation), prefix="e1")
+    c.add_ports(c2.get_ports_list(orientation=port_orientation), prefix="e2")
+    c.auto_rename_ports()
+
+    return c
+
+
 if __name__ == "__main__":
-    c = disk(wrap_angle_deg=30)
+    c = disk_heater(wrap_angle_deg=75)
     c.show(show_ports=True)
