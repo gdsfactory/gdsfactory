@@ -30,7 +30,7 @@ It provides you with an end to end flow for building chips.
 You can:
 
 - Design (Layout, Simulation, Optimization)
-  - define parametric cells (PCells) functions in python or YAML. Define routes between component ports.
+  - Define parametric cells (PCells) functions in python or YAML. Define routes between component ports.
   - Test component settings, ports and geometry to avoid unwanted regressions.
   - Capture design intent in a schematic.
 - Verify (DRC, DFM, LVS)
@@ -39,9 +39,9 @@ You can:
     - Run Circuit simulations from the Component netlist (Sparameters, Spice ...)
     - Build Component models and study Design For Manufacturing.
   - Create DRC rule decks in Klayout.
-  - Make sure complex layouts match their design intent (Layout Versus Schematic).
+  - Ensure complex layouts match their design intent (Layout Versus Schematic).
 - Validate
-  - Make sure that as you define the layout you define the test sequence, so when the chips come back you already know how to test them.
+  - Define layout and test sequence simultaneously, so when the chips come back you already know how to test them.
   - Model extraction: extract the important parameters for each component.
   - Build a data pipeline from raw data, to structured data and dashboards for monitoring your chip performance.
 
@@ -126,25 +126,28 @@ Or you can install only the ones you need.
 ### Plugins
 
 * [Optimization](https://gdsfactory.github.io/gdsfactory/plugins_optimization.html)
-  - [Ray Tune generic black-box optimiser](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/ray/optimiser.html)
+  - [Ray Tune Generic Black-Box Optimiser](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/ray/optimiser.html)
 * [Meshing](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/devsim/01_pin_waveguide.html#Meshing)
-* [Device simulators](https://gdsfactory.github.io/gdsfactory/plugins_process.html)
-  - [Thermal](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/thermal/thermal.html)
-  - [DEVSIM TCAD simulator](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/devsim/01_pin_waveguide.html)
-  - [Analytical process simulator](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/tcad/02_analytical_process.html)
-  - [Montecarlo implant simulator](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/tcad/03_numerical_implantation.html)
-* [Mode solver](https://gdsfactory.github.io/gdsfactory/plugins_mode_solver.html)
-  - [Finite-element mode solver](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/fem/01_mode_solving.html)
-  - [tidy3d mode solver](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/tidy3d/01_tidy3d_modes.html)
-  - [MPB](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/mpb/001_mpb_waveguide.html)
-  - [EME](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/eme/01_meow.html)
-* [Electro magnetic wave solvers using Finite Difference time domain FDTD](https://gdsfactory.github.io/gdsfactory/plugins_fdtd.html)
+* [Device Simulators](https://gdsfactory.github.io/gdsfactory/plugins_process.html)
+  - [Thermal Simulation](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/thermal/thermal.html)
+  - [DEVSIM TCAD Simulation](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/devsim/01_pin_waveguide.html)
+  - [Analytical Process Simulation](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/tcad/02_analytical_process.html)
+  - [Montecarlo Implant Simulation](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/tcad/03_numerical_implantation.html)
+* [Mode Solvers & Eigenmode Expansion (EME)](https://gdsfactory.github.io/gdsfactory/plugins_mode_solver.html)
+  * Finite Element Mode Solvers
+    - [Femwell](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/fem/01_mode_solving.html)
+  * Finite Difference Mode Solvers
+    - [tidy3d](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/tidy3d/01_tidy3d_modes.html)
+    - [MPB](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/mpb/001_mpb_waveguide.html)
+  * Eigenmode Expansion (EME)
+    - [MEOW](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/eme/01_meow.html)
+* [Electromagnetic Wave Solvers using Finite Difference Time Domain (FDTD)](https://gdsfactory.github.io/gdsfactory/plugins_fdtd.html)
   - [tid3d](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/tidy3d/00_tidy3d.html)
   - [MEEP](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/meep/001_meep_sparameters.html)
   - [Ansys Lumerical FDTD](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/lumerical/1_fdtd_sparameters.html)
-* [Sparameter circuit solver](https://gdsfactory.github.io/gdsfactory/plugins_circuits.html)
+* [S-Parameter Circuit Solvers](https://gdsfactory.github.io/gdsfactory/plugins_circuits.html)
   - [SAX](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/sax/sax.html)
-  - [Ansys Lumerical interconnect](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/lumerical/2_interconnect.html)
+  - [Ansys Lumerical INTERCONNECT](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/lumerical/2_interconnect.html)
 
 ### Docker container
 
