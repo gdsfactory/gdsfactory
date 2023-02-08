@@ -1,17 +1,22 @@
 from __future__ import annotations
 
 import pathlib
-from typing import Union
+from typing import Union, Optional
 
 from gdsfactory import klive
 from gdsfactory.component import Component
 
 
-def show(component: Union[Component, str, pathlib.Path], **kwargs) -> None:
+def show(
+    component: Union[Component, str, pathlib.Path],
+    technology: Optional[str] = None,
+    **kwargs,
+) -> None:
     """Write GDS and show Component in KLayout.
 
     Args:
         component: Component or GDS path.
+        technology: Name of KLayout technology to load when displaying component.
 
     Keyword Args:
         gdspath: GDS file path to write to.
@@ -21,11 +26,16 @@ def show(component: Union[Component, str, pathlib.Path], **kwargs) -> None:
         timestamp: Defaults to 2019-10-25. If None uses current time.
 
     """
+    if technology is None:
+        from gdsfactory.pdk import get_active_pdk
+
+        technology = get_active_pdk().name
+
     if isinstance(component, pathlib.Path):
         component = str(component)
-        return klive.show(component)
+        return klive.show(component, technology=technology)
     elif isinstance(component, str):
-        return klive.show(component)
+        return klive.show(component, technology=technology)
     elif component is None:
         raise ValueError(
             "Component is None, make sure that your function returns the component"
@@ -33,7 +43,7 @@ def show(component: Union[Component, str, pathlib.Path], **kwargs) -> None:
 
     elif hasattr(component, "write_gds"):
         gdspath = component.write_gds(logging=False, **kwargs)
-        klive.show(gdspath)
+        klive.show(gdspath, technology=technology)
     else:
         raise ValueError(
             f"Component is {type(component)!r}, make sure pass a Component or a path"
