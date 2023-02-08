@@ -64,6 +64,7 @@ class MyServer(pya.QTcpServer):
 
             # Interpret the data
             gds_path = data["gds"]
+            technology = data["technology"]
 
             # Store the current view
             window = pya.Application.instance().main_window()
@@ -91,6 +92,24 @@ class MyServer(pya.QTcpServer):
             view.max_hier()
             if previous_view and data["keep_position"]==True:
                 view.zoom_box(previous_view)
+
+            if technology:
+                # Parse loaded technologies (only listed by index)
+                menu = window.menu()
+                technologies = menu.items("@toolbar.technology_selector")
+                tech_actions = [menu.action(f"@toolbar.technology_selector.technology_{i}") for i in range(len(technologies))]
+                tech_names = [action.title for action in tech_actions]
+
+                if technology in tech_names:
+                    tech_actions[tech_names.index(technology)].trigger()
+
+                    cell_view = view.active_cellview()
+                    cell_view.technology = technology
+
+                    print("Using {}".format(technology))
+                    connection.write("Using {}".format(technology))
+                else:
+                    print("Could not find technology {} in list of technologies: {}".format(technology, tech_names))
 
             # Report progress
             print("Loaded {}".format(gds_path))
