@@ -1,7 +1,6 @@
 name: mask_compact
 pdk: ubcpdk
 
-
 instances:
   rings:
     component: pack_doe

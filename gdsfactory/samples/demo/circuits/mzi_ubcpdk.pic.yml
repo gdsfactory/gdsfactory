@@ -2,7 +2,7 @@ name: mzi_ubcpdk
 pdk: ubcpdk
 
 settings:
-  dy: -300
+  dy: -100
 
 info:
   polarization: te
@@ -21,21 +21,20 @@ placements:
     x: 100
     y: 0
 
-
 routes:
   route_top:
     links:
-      yl,opt2: yr,opt3
+      yl,o2: yr,o3
     settings:
       cross_section: strip
   route_bot:
     links:
-      yl,opt3: yr,opt2
+      yl,o3: yr,o2
     routing_strategy: get_bundle_from_steps
     settings:
       steps: [dx: 30, dy: "${settings.dy}", dx: 20]
       cross_section: strip
 
 ports:
-  o1: yl,opt1
-  o2: yr,opt1
+  o1: yl,o1
+  o2: yr,o1
