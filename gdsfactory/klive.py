@@ -12,17 +12,21 @@ import json
 import os
 import socket
 from pathlib import Path
-from typing import Union
+from typing import Union, Optional
 
 
 def show(
-    gds_filename: Union[Path, str], keep_position: bool = True, port: int = 8082
+    gds_filename: Union[Path, str],
+    keep_position: bool = True,
+    technology: Optional[str] = None,
+    port: int = 8082,
 ) -> None:
     """Show GDS in klayout.
 
     Args:
         gds_filename: to show.
         keep_position: keep position and active layers.
+        technology: Name of the KLayout technology to use.
         port: klayout server port.
 
     """
@@ -31,6 +35,7 @@ def show(
     data = {
         "gds": os.path.abspath(gds_filename),
         "keep_position": keep_position,
+        "technology": technology,
     }
     data_string = json.dumps(data)
     try:
@@ -49,5 +54,6 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.components.straight()
-    gdspath = c.write_gds()
-    show(gdspath)
+    # gdspath = c.write_gds()
+    # show(gdspath)
+    c.show()
