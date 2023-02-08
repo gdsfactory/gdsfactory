@@ -2439,6 +2439,7 @@ def test_import_gds_settings():
 
 def test_flatten_invalid_refs_recursive():
     import gdsfactory as gf
+    from gdsfactory.difftest import run_xor
 
     @gf.cell
     def flat():
@@ -2460,12 +2461,12 @@ def test_flatten_invalid_refs_recursive():
     c_orig = hierarchy()
     c_new = flatten_invalid_refs_recursive(c_orig)
     assert c_new is not c_orig
-    assert c_new != c_orig
-    assert c_orig.references[0].parent.name != c_new.references[0].parent.name
-    assert (
-        c_orig.references[1].parent.references[0].parent.name
-        != c_new.references[1].parent.references[0].parent.name
-    )
+    invalid_refs_filename = "invalid_refs.gds"
+    invalid_refs_fixed_filename = "invalid_refs_fixed.gds"
+    # gds files should still be same to 1nm tolerance
+    c_orig.write_gds(invalid_refs_filename)
+    c_new.write_gds(invalid_refs_fixed_filename)
+    run_xor(invalid_refs_filename, invalid_refs_fixed_filename)
 
 
 if __name__ == "__main__":
