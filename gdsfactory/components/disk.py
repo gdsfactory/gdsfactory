@@ -1,13 +1,11 @@
 from __future__ import annotations
+from typing import Optional
 
 import numpy as np
 
 import gdsfactory as gf
 from gdsfactory import Component
-from gdsfactory.types import CrossSectionSpec, LayerSpec, ComponentSpec
-from gdsfactory.generic_tech.layer_map import LAYER
-from gdsfactory.components.via_stack import via_stack
-from typing import Optional
+from gdsfactory.typings import CrossSectionSpec, LayerSpec, ComponentSpec
 
 
 def _compute_parameters(xs_bend, wrap_angle_deg, radius):
@@ -190,21 +188,22 @@ def disk(
     return c
 
 
+@gf.cell
 def disk_heater(
     radius: float = 10.0,
     gap: float = 0.2,
     wrap_angle_deg: float = 180.0,
     parity: int = 1,
     cross_section: CrossSectionSpec = "strip",
-    heater_layer: LayerSpec = LAYER.HEATER,
-    via_stack: ComponentSpec = via_stack,
+    heater_layer: LayerSpec = "HEATER",
+    via_stack: ComponentSpec = "via_stack_heater_mtop",
     heater_width: float = 5.0,
     heater_extent: float = 2.0,
     via_width: float = 10.0,
     port_orientation: Optional[float] = 90,
     **kwargs,
 ) -> Component:
-    """Disk Resonator with a strip heater.
+    """Disk Resonator with top metal heater.
 
     Args:
        radius: disk resonator radius.
@@ -215,13 +214,12 @@ def disk_heater(
         180 corresponds to a bus straight wrapped around half of the resonator.
        parity (1 or -1): 1, resonator left from bus straight, -1 resonator to the right.
        cross_section: cross_section spec.
+       heater_layer: layer of the heater.
+       heater_width: width of the heater.
+       heater_extent: length of heater beyond disk.
+       via_width: size of the square via at the end of the heater.
+       port_orientation: in degrees.
        kwargs: cross_section settings.
-
-       heater_layer: layer of the heater
-       heater_width: width of the heater
-       heater_extent: length of heater beyond disk
-       via_width: size of the square via at the end of the heater
-
     """
     c = gf.Component()
 
@@ -259,7 +257,6 @@ def disk_heater(
     c.add_ports(c1.get_ports_list(orientation=port_orientation), prefix="e1")
     c.add_ports(c2.get_ports_list(orientation=port_orientation), prefix="e2")
     c.auto_rename_ports()
-
     return c
 
 
