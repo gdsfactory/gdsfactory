@@ -1906,11 +1906,7 @@ class Component(_GeometryHelper):
 
         return move(component=self, origin=origin, destination=destination, axis=axis)
 
-    def mirror(
-        self,
-        p1: Float2 = (0, 1),
-        p2: Float2 = (0, 0),
-    ) -> Component:
+    def mirror(self, p1: Float2 = (0, 1), p2: Float2 = (0, 0), **kwargs) -> Component:
         """Returns new Component with a mirrored reference.
 
         Args:
@@ -1919,9 +1915,9 @@ class Component(_GeometryHelper):
         """
         from gdsfactory.functions import mirror
 
-        return mirror(component=self, p1=p1, p2=p2)
+        return mirror(component=self, p1=p1, p2=p2, **kwargs)
 
-    def rotate(self, angle: float = 90) -> Component:
+    def rotate(self, angle: float = 90, **kwargs) -> Component:
         """Returns new component with a rotated reference to the original.
 
         Args:
@@ -1929,7 +1925,7 @@ class Component(_GeometryHelper):
         """
         from gdsfactory.functions import rotate
 
-        return rotate(component=self, angle=angle)
+        return rotate(component=self, angle=angle, **kwargs)
 
     def add_padding(self, **kwargs) -> Component:
         """Returns same component with padding.
