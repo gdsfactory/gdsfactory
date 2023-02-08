@@ -78,17 +78,27 @@ def get_import_gds_script(dirpath: PathType, module: Optional[str] = None) -> st
 
     Args:
         dirpath: fixed cell directory path.
-        module: if any includes plot directive.
+        module: Optional plot directive to plot imported component.
 
     """
     dirpath = pathlib.Path(dirpath)
+    if not dirpath.exists():
+        raise ValueError(f"{dirpath.absolute()!r} does not exist.")
+
+    gdspaths = list(dirpath.glob("*.gds")) + list(dirpath.glob("*.GDS"))
+
+    if not gdspaths:
+        raise ValueError(f"No GDS files found at {dirpath.absolute()!r}.")
+
+    logger.info(f"Writing {len(gdspaths)} cells from {dirpath.absolute()!r}")
+
     script = [script_prefix]
     script += [f"gdsdir = {dirpath.absolute()!r}\n"]
     script += [
         "import_gds = partial(gf.import_gds, gdsdir=gdsdir, decorator=add_ports)\n"
     ]
 
-    cells = [get_script(gdspath, module=module) for gdspath in dirpath.glob("*.gds")]
+    cells = [get_script(gdspath, module=module) for gdspath in gdspaths]
     script += sorted(cells)
     return "\n".join(script)
 
