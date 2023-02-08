@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.35.0
+
+- Set KLayout technology to active PDK if available [PR](https://github.com/gdsfactory/gdsfactory/pull/1250)
+- add thermal disk [PR](https://github.com/gdsfactory/gdsfactory/pull/1250)
+
 ## 6.34.0
 
 - deprecate gdsfactory.types in favor of gdsfactory.typings as it was shadowing builtin types module [PR](https://github.com/gdsfactory/gdsfactory/pull/1241)
