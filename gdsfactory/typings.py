@@ -84,8 +84,58 @@ _STEP_ALL_ANGLE = Literal[
 ]
 
 
-Step = Dict[_STEP, float]
-StepAllAngle = Dict[_STEP_ALL_ANGLE, float]
+class Step(BaseModel):
+    """Manhattan Step.
+
+    Parameters:
+        x: absolute.
+        y: absolute.
+        dx: x-displacement.
+        dy: y-displacement.
+
+    """
+
+    x: Optional[float]
+    y: Optional[float]
+    dx: Optional[float]
+    dy: Optional[float]
+
+    class Config:
+        """Config for Steps."""
+
+        extra = Extra.forbid
+
+
+class StepAllAngle(BaseModel):
+    x: Optional[float]
+    y: Optional[float]
+    dx: Optional[float]
+    dy: Optional[float]
+    ds: Optional[float]
+    exit_angle: Optional[float]
+    cross_section: Optional[CrossSectionSpec]
+    connector: Optional[ComponentSpec]
+    separation: Optional[float]
+
+    """All angle Ste.
+
+    Parameters:
+        x: absolute.
+        y: absolute.
+        dx: x-displacement.
+        dy: y-displacement.
+        exit_angle: in degrees.
+        cross_section: spec.
+        connector: define transition.
+        separation: in um.
+
+    """
+
+    class Config:
+        """Config for Steps with all angle."""
+
+        extra = Extra.forbid
+
 
 Anchor = Literal[
     "ce",
@@ -390,4 +440,5 @@ ports:
 
 
 if __name__ == "__main__":
-    _demo()
+    # _demo()
+    s = Step()
