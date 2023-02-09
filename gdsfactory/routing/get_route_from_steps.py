@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Dict, List, Optional, Union
+from typing import List, Optional, Union
 
 import numpy as np
 
@@ -13,20 +13,15 @@ from gdsfactory.typings import (
     CrossSectionSpec,
     MultiCrossSectionAngleSpec,
     Route,
+    STEP_DIRECTIVES,
+    Step,
 )
-
-STEP_DIRECTIVES = {
-    "x",
-    "y",
-    "dx",
-    "dy",
-}
 
 
 def get_route_from_steps(
     port1: Port,
     port2: Port,
-    steps: Optional[List[Dict[str, float]]] = None,
+    steps: Optional[List[Step]] = None,
     bend: ComponentSpec = "bend_euler",
     taper: Optional[ComponentSpec] = "taper",
     cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = "strip",
@@ -42,7 +37,7 @@ def get_route_from_steps(
     Args:
         port1: start port.
         port2: end port.
-        steps: changes that define the route [{'dx': 5}, {'dy': 10}].
+        steps: that define the route (x, y, dx, dy) [{'dx': 5}, {'dy': 10}].
         bend: function that returns bends.
         straight: straight spec.
         taper: taper spec.
@@ -230,7 +225,7 @@ if __name__ == "__main__":
         pt.ports["e11"],
         steps=[
             {"y": 200},
-            {"z": 200},
+            # {"z": 200},
         ],
         # cross_section='metal_routing',
         # bend=gf.components.wire_corner,
