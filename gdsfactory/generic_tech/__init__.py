@@ -37,7 +37,7 @@ def get_generic_pdk():
     from gdsfactory.components import cells
     from gdsfactory.config import sparameters_path
     from gdsfactory.cross_section import cross_sections
-    from gdsfactory.pdk import Pdk
+    from gdsfactory.pdk import Pdk, constants
 
     return Pdk(
         name="generic",
@@ -48,6 +48,7 @@ def get_generic_pdk():
         layer_views=LAYER_VIEWS,
         layer_transitions=LAYER_TRANSITIONS,
         sparameters_path=sparameters_path,
+        constants=constants,
     )
 
 
