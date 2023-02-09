@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [6.35.1](https://github.com/gdsfactory/gdsfactory/pull/1254)
+
+- use constants in pdk
+- default max points to 4e3
+
 ## 6.35.0
 
 - Set KLayout technology to active PDK if available [PR](https://github.com/gdsfactory/gdsfactory/pull/1250)
