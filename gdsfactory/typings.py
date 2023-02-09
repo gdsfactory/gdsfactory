@@ -45,6 +45,98 @@ from gdsfactory.cross_section import CrossSection, Section
 from gdsfactory.port import Port
 from gdsfactory.technology import LayerLevel, LayerStack
 
+
+STEP_DIRECTIVES = {
+    "x",
+    "y",
+    "dx",
+    "dy",
+}
+_STEP = Literal[
+    "x",
+    "y",
+    "dx",
+    "dy",
+]
+
+STEP_DIRECTIVES_ALL_ANGLE = {
+    "x",
+    "y",
+    "dx",
+    "dy",
+    "ds",
+    "exit_angle",
+    "cross_section",
+    "connector",
+    "separation",
+}
+
+_STEP_ALL_ANGLE = Literal[
+    "x",
+    "y",
+    "dx",
+    "dy",
+    "ds",
+    "exit_angle",
+    "cross_section",
+    "connector",
+    "separation",
+]
+
+
+class Step(BaseModel):
+    """Manhattan Step.
+
+    Parameters:
+        x: absolute.
+        y: absolute.
+        dx: x-displacement.
+        dy: y-displacement.
+
+    """
+
+    x: Optional[float]
+    y: Optional[float]
+    dx: Optional[float]
+    dy: Optional[float]
+
+    class Config:
+        """Config for Steps."""
+
+        extra = Extra.forbid
+
+
+class StepAllAngle(BaseModel):
+    x: Optional[float]
+    y: Optional[float]
+    dx: Optional[float]
+    dy: Optional[float]
+    ds: Optional[float]
+    exit_angle: Optional[float]
+    cross_section: Optional[CrossSectionSpec]
+    connector: Optional[ComponentSpec]
+    separation: Optional[float]
+
+    """All angle Ste.
+
+    Parameters:
+        x: absolute.
+        y: absolute.
+        dx: x-displacement.
+        dy: y-displacement.
+        exit_angle: in degrees.
+        cross_section: spec.
+        connector: define transition.
+        separation: in um.
+
+    """
+
+    class Config:
+        """Config for Steps with all angle."""
+
+        extra = Extra.forbid
+
+
 Anchor = Literal[
     "ce",
     "cw",
@@ -348,4 +440,5 @@ ports:
 
 
 if __name__ == "__main__":
-    _demo()
+    # _demo()
+    s = Step()

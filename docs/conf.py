@@ -83,6 +83,8 @@ autodoc_type_aliases = {
     "ComponentSpec": "ComponentSpec",
     "LayerSpec": "LayerSpec",
     "CrossSectionSpec": "CrossSectionSpec",
+    "Step": "Step",
+    "StepAllAngle": "StepAllAngle",
 }
 
 autodoc_default_options = {

@@ -55,6 +55,7 @@ default_config = io.StringIO(
     """
 plotter: matplotlib
 sparameters_path: ${oc.env:HOME}/.gdsfactory/sparameters/generic
+show_ports: True
 """
 )
 
@@ -81,7 +82,7 @@ class Paths:
     klayout = generic_tech / "klayout"
     klayout_tech = klayout / "tech"
     klayout_lyp = klayout_tech / "layers.lyp"
-    schema_netlist = module_path / "tests" / "schemas" / "netlist.json"
+    schema_netlist = repo_path / "tests" / "schemas" / "netlist.json"
     netlists = module_path / "samples" / "netlists"
     gdsdir = repo_path / "tests" / "gds"
     gdslib = home_path

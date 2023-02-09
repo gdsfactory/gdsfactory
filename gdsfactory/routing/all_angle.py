@@ -1,5 +1,5 @@
 import warnings
-from typing import List, Optional, Dict, Callable
+from typing import List, Optional, Callable
 
 import numpy as np
 import scipy.optimize
@@ -7,26 +7,14 @@ import shapely.geometry as sg
 from gdsfactory.component import Port, ComponentReference, Component
 from gdsfactory.path import Path
 from gdsfactory.generic_tech.layer_map import LAYER
-from gdsfactory.pdk import get_cross_section, get_component
 from gdsfactory.get_netlist import difference_between_angles
-from gdsfactory.typings import CrossSectionSpec, Route, ComponentSpec
+from gdsfactory.typings import CrossSectionSpec, Route, ComponentSpec, StepAllAngle
+from gdsfactory.typings import STEP_DIRECTIVES_ALL_ANGLE as STEP_DIRECTIVES
 from gdsfactory.routing.auto_taper import (
     taper_to_cross_section,
     _get_taper_io_port_names,
 )
 from gdsfactory.path import extrude
-
-STEP_DIRECTIVES = {
-    "x",
-    "y",
-    "dx",
-    "dy",
-    "ds",
-    "exit_angle",
-    "cross_section",
-    "connector",
-    "separation",
-}
 
 
 BEND_PATH_FUNCS = {
@@ -411,6 +399,8 @@ def _get_bend(
     cross_section: CrossSectionSpec,
     angle_precision: int = 9,
 ):
+    from gdsfactory.pdk import get_component
+
     if (
         isinstance(component, dict)
         and "settings" in component
@@ -423,7 +413,9 @@ def _get_bend(
 
 
 def _get_bend_angles(p0, p1, a0, a1, bend):
-    # get the direct line between the two points
+    """get the direct line between the two points."""
+    from gdsfactory.pdk import get_component
+
     a_connect = np.arctan2(p1[1] - p0[1], p1[0] - p0[0])
     a_connect_deg = np.rad2deg(a_connect)
     # these are the angles which should be swept by the bends, if the bends were to take up no space
@@ -493,7 +485,7 @@ def _angles_approx_opposing(angle1: float, angle2: float, tolerance: float = 1e-
 def get_bundle_all_angle(
     ports1: List[Port],
     ports2: List[Port],
-    steps: Optional[List[Dict[str, float]]] = None,
+    steps: Optional[List[StepAllAngle]] = None,
     cross_section: CrossSectionSpec = "strip",
     bend: ComponentSpec = "bend_euler",
     connector: str = "low_loss",
@@ -504,28 +496,60 @@ def get_bundle_all_angle(
     separation: Optional[float] = None,
     **kwargs,
 ) -> List[Route]:
-    """Connects a bundle of ports, allowing steps which create waypoints at arbitrary, non-manhattan angles.
+    """Connects a bundle of ports, allowing steps which create waypoints at \
+            arbitrary, non-manhattan angles.
 
     Args:
         ports1: ports at the start of the bundle.
         ports2: ports at the end of the bundle.
         steps: a list of steps, which contain directives on how to proceed with the route.
-            The first route, between ports1[0] and ports2[0] will take on the role of the primary route, and other routes will follow, given the bundling logic.
+            "x", "y", "dx", "dy", "ds", "exit_angle", "cross_section", "connector", "separation".
+            The first route, between ports1[0] and ports2[0] will take on the role of the primary route,
+            and other routes will follow, given the bundling logic.
             It is assume that both ports1 and ports2 are sorted.
-        cross_section: the default cross section to be used. Primarily this will control the cross section of the bends.
+        cross_section: cross section of the bends.
             Then the specified connector may also use this information for straights in between.
         bend: the default component to use for the bends.
         connector: the default connector to use to connect between two ports.
-        start_angle: if defined and different from the angle of port1, will cap the starting port with a bend, as to exit with this angle.
-        end_angle:  if defined, and different from the angle of port2, will cap the ending port with a bend, as to exit with this angle.
+        start_angle: if defined and different from the angle of port1,
+            will cap the starting port with a bend, as to exit with this angle.
+        end_angle:  if defined, and different from the angle of port2,
+            will cap the ending port with a bend, as to exit with this angle.
         end_connector: specifies the connector to use for the final straight segment of the route.
         end_cross_section: specifies the cross section to use for the final straight segment of the route.
-        separation: specifies the separation between adjacent routes. If None, will query each segment's cross-section's and choose the largest value.
+        separation: specifies the separation between adjacent routes.
+            If None, will query each segment's cross-section's and choose the largest value.
         kwargs: added for compatibility, but in general, kwargs will be ignored with a warning.
 
     Returns:
         List of Routes between ports1 and ports2.
+
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+        c = gf.Component("demo")
+
+        mmi = gf.components.mmi2x2(width_mmi=10, gap_mmi=3)
+        mmi1 = c << mmi
+        mmi2 = c << mmi
+
+        mmi2.move((100, 30))
+        mmi2.rotate(30)
+
+        routes = gf.routing.get_bundle_all_angle(
+            mmi1.get_ports_list(orientation=0),
+            [mmi2.ports["o2"], mmi2.ports["o1"]],
+            connector=None,
+        )
+        for route in routes:
+            c.add(route.references)
+        c.plot()
+
+
     """
+    from gdsfactory.pdk import get_cross_section
+
     if kwargs:
         warnings.warn(
             f"Unrecognized arguments for all-angle route will be ignored: {kwargs}"
@@ -848,7 +872,9 @@ def get_bundle_all_angle(
                     route_refs += _make_error_trace(
                         prev_port,
                         port2,
-                        "Cannot complete final step of route! Try setting an exit_angle in your final step which will intersect the vector of the destination port.",
+                        "Cannot complete final step of route! "
+                        "Try setting an exit_angle in your final "
+                        "step which intersects the vector of the destination port.",
                     )
 
         if not steps or has_explicit_end_angle:
@@ -892,3 +918,25 @@ def get_bundle_all_angle(
         routes.append(route)
         is_primary_route = False
     return routes
+
+
+if __name__ == "__main__":
+    import gdsfactory as gf
+
+    c = gf.Component("demo")
+
+    mmi = gf.components.mmi2x2(width_mmi=10, gap_mmi=3)
+    mmi1 = c << mmi
+    mmi2 = c << mmi
+
+    mmi2.move((100, 30))
+    mmi2.rotate(30)
+
+    routes = gf.routing.get_bundle_all_angle(
+        mmi1.get_ports_list(orientation=0),
+        [mmi2.ports["o2"], mmi2.ports["o1"]],
+        connector=None,
+    )
+    for route in routes:
+        c.add(route.references)
+    c.show()

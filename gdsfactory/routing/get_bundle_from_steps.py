@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Dict, List, Optional, Union
+from typing import List, Optional, Union
 
 import numpy as np
 
@@ -19,13 +19,15 @@ from gdsfactory.typings import (
     CrossSectionSpec,
     MultiCrossSectionAngleSpec,
     Route,
+    STEP_DIRECTIVES,
+    Step,
 )
 
 
 def get_bundle_from_steps(
     ports1: List[Port],
     ports2: List[Port],
-    steps: Optional[List[Dict[str, float]]] = None,
+    steps: Optional[List[Step]] = None,
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
     taper: Optional[ComponentSpec] = taper_function,
@@ -47,7 +49,7 @@ def get_bundle_from_steps(
     Args:
         port1: start ports (list or dict).
         port2: end ports (list or dict).
-        steps: changes that define the route [{'dx': 5}, {'dy': 10}].
+        steps: that define the route (x, y, dx, dy) [{'dx': 5}, {'dy': 10}].
         bend: function that returns bends.
         straight: function that returns straight waveguides.
         taper: function that returns tapers.
@@ -108,6 +110,12 @@ def get_bundle_from_steps(
 
     x, y = ports1[0].center
     for d in steps:
+        if not STEP_DIRECTIVES.issuperset(d):
+            invalid_step_directives = list(set(d.keys()) - STEP_DIRECTIVES)
+            raise ValueError(
+                f"Invalid step directives: {invalid_step_directives}."
+                f"Valid directives are {list(STEP_DIRECTIVES)}"
+            )
         x = d["x"] if "x" in d else x
         x += d.get("dx", 0)
         y = d["y"] if "y" in d else y

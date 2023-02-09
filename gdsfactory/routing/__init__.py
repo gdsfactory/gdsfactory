@@ -51,6 +51,8 @@ from gdsfactory.routing.route_quad import route_quad
 from gdsfactory.routing.route_sharp import route_sharp
 from gdsfactory.routing.route_south import route_south
 
+from gdsfactory.routing.all_angle import get_bundle_all_angle
+
 __all__ = [
     "add_electrical_pads_shortest",
     "add_electrical_pads_top",
@@ -58,6 +60,7 @@ __all__ = [
     "add_fiber_array",
     "add_fiber_single",
     "get_bundle",
+    "get_bundle_all_angle",
     "get_bundle_from_steps",
     "get_bundle_from_steps_electrical",
     "get_bundle_from_steps_electrical_multilayer",
