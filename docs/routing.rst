@@ -47,6 +47,15 @@ get_bundle_from_steps
    get_bundle_path_length_match
 
 
+get_bundle_all_angle
+---------------------------------------------------------------------------------------------------
+
+.. autosummary::
+   :toctree: _autosummary/
+
+   get_bundle_all_angle
+
+
 
 route_ports_to_side
 ---------------------------------------------------------------------------------------------------
