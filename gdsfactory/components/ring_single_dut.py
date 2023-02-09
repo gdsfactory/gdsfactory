@@ -68,7 +68,6 @@ def ring_single_dut(
     bend = gf.get_component(bend, radius=radius, **kwargs)
 
     c = Component()
-    c.component = component
     cb = c << coupler
     wl = c << straight_side
     dut = c << component if with_component else c << straight_side
