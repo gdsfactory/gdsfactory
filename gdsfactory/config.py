@@ -55,6 +55,7 @@ default_config = io.StringIO(
     """
 plotter: matplotlib
 sparameters_path: ${oc.env:HOME}/.gdsfactory/sparameters/generic
+show_ports: True
 """
 )
 
