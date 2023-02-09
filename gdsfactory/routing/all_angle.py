@@ -514,17 +514,21 @@ def get_bundle_all_angle(
         ports1: ports at the start of the bundle.
         ports2: ports at the end of the bundle.
         steps: a list of steps, which contain directives on how to proceed with the route.
-            The first route, between ports1[0] and ports2[0] will take on the role of the primary route, and other routes will follow, given the bundling logic.
+            The first route, between ports1[0] and ports2[0] will take on the role of the primary route,
+            and other routes will follow, given the bundling logic.
             It is assume that both ports1 and ports2 are sorted.
         cross_section: cross section of the bends.
             Then the specified connector may also use this information for straights in between.
         bend: the default component to use for the bends.
         connector: the default connector to use to connect between two ports.
-        start_angle: if defined and different from the angle of port1, will cap the starting port with a bend, as to exit with this angle.
-        end_angle:  if defined, and different from the angle of port2, will cap the ending port with a bend, as to exit with this angle.
+        start_angle: if defined and different from the angle of port1,
+            will cap the starting port with a bend, as to exit with this angle.
+        end_angle:  if defined, and different from the angle of port2,
+            will cap the ending port with a bend, as to exit with this angle.
         end_connector: specifies the connector to use for the final straight segment of the route.
         end_cross_section: specifies the cross section to use for the final straight segment of the route.
-        separation: specifies the separation between adjacent routes. If None, will query each segment's cross-section's and choose the largest value.
+        separation: specifies the separation between adjacent routes.
+            If None, will query each segment's cross-section's and choose the largest value.
         kwargs: added for compatibility, but in general, kwargs will be ignored with a warning.
 
     Returns:

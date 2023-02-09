@@ -21,6 +21,13 @@ from gdsfactory.typings import (
     Route,
 )
 
+STEP_DIRECTIVES = {
+    "x",
+    "y",
+    "dx",
+    "dy",
+}
+
 
 def get_bundle_from_steps(
     ports1: List[Port],
@@ -108,6 +115,12 @@ def get_bundle_from_steps(
 
     x, y = ports1[0].center
     for d in steps:
+        if not STEP_DIRECTIVES.issuperset(d):
+            invalid_step_directives = list(set(d.keys()) - STEP_DIRECTIVES)
+            raise ValueError(
+                f"Invalid step directives: {invalid_step_directives}."
+                f"Valid directives are {list(STEP_DIRECTIVES)}"
+            )
         x = d["x"] if "x" in d else x
         x += d.get("dx", 0)
         y = d["y"] if "y" in d else y
