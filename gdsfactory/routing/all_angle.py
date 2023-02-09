@@ -1,5 +1,5 @@
 import warnings
-from typing import List, Optional, Dict, Callable
+from typing import List, Optional, Callable
 
 import numpy as np
 import scipy.optimize
@@ -8,24 +8,13 @@ from gdsfactory.component import Port, ComponentReference, Component
 from gdsfactory.path import Path
 from gdsfactory.generic_tech.layer_map import LAYER
 from gdsfactory.get_netlist import difference_between_angles
-from gdsfactory.typings import CrossSectionSpec, Route, ComponentSpec
+from gdsfactory.typings import CrossSectionSpec, Route, ComponentSpec, StepAllAngle
+from gdsfactory.typings import STEP_DIRECTIVES_ALL_ANGLE as STEP_DIRECTIVES
 from gdsfactory.routing.auto_taper import (
     taper_to_cross_section,
     _get_taper_io_port_names,
 )
 from gdsfactory.path import extrude
-
-STEP_DIRECTIVES = {
-    "x",
-    "y",
-    "dx",
-    "dy",
-    "ds",
-    "exit_angle",
-    "cross_section",
-    "connector",
-    "separation",
-}
 
 
 BEND_PATH_FUNCS = {
@@ -496,7 +485,7 @@ def _angles_approx_opposing(angle1: float, angle2: float, tolerance: float = 1e-
 def get_bundle_all_angle(
     ports1: List[Port],
     ports2: List[Port],
-    steps: Optional[List[Dict[str, float]]] = None,
+    steps: Optional[List[StepAllAngle]] = None,
     cross_section: CrossSectionSpec = "strip",
     bend: ComponentSpec = "bend_euler",
     connector: str = "low_loss",
@@ -514,6 +503,7 @@ def get_bundle_all_angle(
         ports1: ports at the start of the bundle.
         ports2: ports at the end of the bundle.
         steps: a list of steps, which contain directives on how to proceed with the route.
+            "x", "y", "dx", "dy", "ds", "exit_angle", "cross_section", "connector", "separation".
             The first route, between ports1[0] and ports2[0] will take on the role of the primary route,
             and other routes will follow, given the bundling logic.
             It is assume that both ports1 and ports2 are sorted.

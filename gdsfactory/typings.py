@@ -45,6 +45,48 @@ from gdsfactory.cross_section import CrossSection, Section
 from gdsfactory.port import Port
 from gdsfactory.technology import LayerLevel, LayerStack
 
+
+STEP_DIRECTIVES = {
+    "x",
+    "y",
+    "dx",
+    "dy",
+}
+_STEP = Literal[
+    "x",
+    "y",
+    "dx",
+    "dy",
+]
+
+STEP_DIRECTIVES_ALL_ANGLE = {
+    "x",
+    "y",
+    "dx",
+    "dy",
+    "ds",
+    "exit_angle",
+    "cross_section",
+    "connector",
+    "separation",
+}
+
+_STEP_ALL_ANGLE = Literal[
+    "x",
+    "y",
+    "dx",
+    "dy",
+    "ds",
+    "exit_angle",
+    "cross_section",
+    "connector",
+    "separation",
+]
+
+
+Step = Dict[_STEP, float]
+StepAllAngle = Dict[_STEP_ALL_ANGLE, float]
+
 Anchor = Literal[
     "ce",
     "cw",
