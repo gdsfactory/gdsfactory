@@ -81,16 +81,34 @@ Classes and functions for construction and manipulation of geometric objects.
 
 
 .. currentmodule:: gdsfactory.typings
-.. rubric:: types
+.. rubric:: typings
 
 .. autosummary::
    :toctree: _autosummary/
 
-   Layer
-   ComponentSpec
-   LayerSpec
-   CrossSectionSpec
+   Anchor
    CellSpec
+   ComponentFactory
+   ComponentSpec
+   Component
+   CrossSection
+   CrossSectionFactory
+   CrossSectionSpec
+   Layer
+   LayerSpec
+   LayerSpecs
+   LayerLevel
+   Label
+   MultiCrossSectionAngleSpec
+   NetlistModel
+   PathType
+   Route
+   RouteFactory
+   Routes
+   Section
+   Step
+   StepAllAngle
+
 
 *********************
 Pack
