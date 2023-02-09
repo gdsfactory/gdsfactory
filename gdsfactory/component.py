@@ -309,7 +309,7 @@ class Component(_GeometryHelper):
         - name characters < MAX_NAME_LENGTH
         - is not empty (has references or polygons)
         """
-        MAX_NAME_LENGTH = 100
+        MAX_NAME_LENGTH = 99
         assert isinstance(
             v, Component
         ), f"TypeError, Got {type(v)}, expecting Component"
@@ -1597,6 +1597,8 @@ class Component(_GeometryHelper):
         logging: bool = True,
         on_duplicate_cell: Optional[str] = "warn",
         with_oasis: bool = False,
+        max_points: Optional[int] = None,
+        flatten_invalid_refs: bool = False,
         **kwargs,
     ) -> Path:
         """Write component to GDS and returns gdspath.
@@ -1614,10 +1616,33 @@ class Component(_GeometryHelper):
                 "error": throw a ValueError when attempting to write a gds with duplicate cells.
                 "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
                 None: do not try to resolve (at your own risk!)
+            flatten_invalid_refs: flattens component references which have invalid transformations.
+            max_points: Maximal number of vertices per polygon. Polygons with more vertices that this are automatically fractured.
+
+        Keyword Args:
+            outfile: Name of the output file.
+            compression_level: Level of compression for cells (between 0 and 9).
+                Setting to 0 will disable cell compression, 1 gives the best speed and 9, the best compression.
+            detect_rectangles: Store rectangles in compressed format.
+            detect_trapezoids: Store trapezoids in compressed format.
+            circle_tolerance: Tolerance for detecting circles. If less or equal to 0, no detection is performed. Circles are stored in compressed format.
+            validation ("crc32", "checksum32", None): type of validation to include in the saved file.
+            standard_properties: Store standard OASIS properties in the file.
+
         """
-        from gdsfactory.pdk import get_grid_size
+
+        from gdsfactory.pdk import get_grid_size, get_constant
 
         precision = precision or get_grid_size() * 1e-6
+        max_points = max_points or get_constant("max_points")
+        flatten_invalid_refs = flatten_invalid_refs or get_constant(
+            "flatten_invalid_refs"
+        )
+        precision = precision or get_constant("precision")
+        on_duplicate_cell = on_duplicate_cell or get_constant("on_duplicate_cell")
+
+        if flatten_invalid_refs:
+            self = flatten_invalid_refs_recursive(self)
 
         gdsdir = (
             gdsdir or pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
@@ -1676,7 +1701,7 @@ class Component(_GeometryHelper):
         if with_oasis:
             lib.write_oas(gdspath, **kwargs)
         else:
-            lib.write_gds(gdspath, timestamp=timestamp)
+            lib.write_gds(gdspath, timestamp=timestamp, max_points=max_points)
         if logging:
             logger.info(f"Wrote to {str(gdspath)!r}")
         return gdspath
@@ -1690,6 +1715,7 @@ class Component(_GeometryHelper):
         logging: bool = True,
         on_duplicate_cell: Optional[str] = "warn",
         flatten_invalid_refs: bool = False,
+        max_points: Optional[int] = None,
     ) -> Path:
         """Write component to GDS and returns gdspath.
 
@@ -1704,10 +1730,9 @@ class Component(_GeometryHelper):
                 "error": throw a ValueError when attempting to write a gds with duplicate cells.
                 "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
             flatten_invalid_refs: flattens component references which have invalid transformations.
+            max_points: Maximal number of vertices per polygon.
+                Polygons with more vertices that this are automatically fractured.
         """
-
-        if flatten_invalid_refs:
-            self = flatten_invalid_refs_recursive(self)
 
         return self._write_library(
             gdspath=gdspath,
@@ -1716,6 +1741,8 @@ class Component(_GeometryHelper):
             precision=precision,
             logging=logging,
             on_duplicate_cell=on_duplicate_cell,
+            flatten_invalid_refs=flatten_invalid_refs,
+            max_points=max_points,
         )
 
     def write_oas(
@@ -1726,6 +1753,7 @@ class Component(_GeometryHelper):
         precision: Optional[float] = None,
         logging: bool = True,
         on_duplicate_cell: Optional[str] = "warn",
+        flatten_invalid_refs: bool = False,
         **kwargs,
     ) -> Path:
         """Write component to GDS and returns gdspath.
@@ -1741,6 +1769,7 @@ class Component(_GeometryHelper):
                 "error": throw a ValueError when attempting to write a gds with duplicate cells.
                 "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
                 None: do not try to resolve (at your own risk!)
+            flatten_invalid_refs: flattens component references which have invalid transformations.
 
         Keyword Args:
             compression_level: Level of compression for cells (between 0 and 9).
@@ -1760,6 +1789,7 @@ class Component(_GeometryHelper):
             logging=logging,
             on_duplicate_cell=on_duplicate_cell,
             with_oasis=True,
+            flatten_invalid_refs=flatten_invalid_refs,
             **kwargs,
         )
 
@@ -2483,14 +2513,17 @@ def test_flatten_invalid_refs_recursive():
 
 
 if __name__ == "__main__":
-    # import gdsfactory as gf
+    import gdsfactory as gf
+
     # c2 = gf.Component()
-    # c = gf.c.mzi()
+    c = gf.components.mzi(delta_length=20)
     # r = c.ref()
     # c2.copy_child_info(c.named_references["sxt"])
     # test_remap_layers()
     # c = test_get_layers()
     # c.plot_qt()
     # c.ploth()
-    c = test_extract()
-    c.show()
+    # c = test_extract()
+    gdspath = c.write_gds()
+    gf.show(gdspath)
+    # c.show()
