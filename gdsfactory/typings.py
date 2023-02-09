@@ -52,12 +52,6 @@ STEP_DIRECTIVES = {
     "dx",
     "dy",
 }
-_STEP = Literal[
-    "x",
-    "y",
-    "dx",
-    "dy",
-]
 
 STEP_DIRECTIVES_ALL_ANGLE = {
     "x",
@@ -70,18 +64,6 @@ STEP_DIRECTIVES_ALL_ANGLE = {
     "connector",
     "separation",
 }
-
-_STEP_ALL_ANGLE = Literal[
-    "x",
-    "y",
-    "dx",
-    "dy",
-    "ds",
-    "exit_angle",
-    "cross_section",
-    "connector",
-    "separation",
-]
 
 
 class Step(BaseModel):
