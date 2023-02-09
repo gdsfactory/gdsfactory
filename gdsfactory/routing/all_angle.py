@@ -7,7 +7,6 @@ import shapely.geometry as sg
 from gdsfactory.component import Port, ComponentReference, Component
 from gdsfactory.path import Path
 from gdsfactory.generic_tech.layer_map import LAYER
-from gdsfactory.pdk import get_cross_section, get_component
 from gdsfactory.get_netlist import difference_between_angles
 from gdsfactory.typings import CrossSectionSpec, Route, ComponentSpec
 from gdsfactory.routing.auto_taper import (
@@ -411,6 +410,8 @@ def _get_bend(
     cross_section: CrossSectionSpec,
     angle_precision: int = 9,
 ):
+    from gdsfactory.pdk import get_component
+
     if (
         isinstance(component, dict)
         and "settings" in component
@@ -423,7 +424,9 @@ def _get_bend(
 
 
 def _get_bend_angles(p0, p1, a0, a1, bend):
-    # get the direct line between the two points
+    """get the direct line between the two points."""
+    from gdsfactory.pdk import get_component
+
     a_connect = np.arctan2(p1[1] - p0[1], p1[0] - p0[0])
     a_connect_deg = np.rad2deg(a_connect)
     # these are the angles which should be swept by the bends, if the bends were to take up no space
@@ -504,7 +507,8 @@ def get_bundle_all_angle(
     separation: Optional[float] = None,
     **kwargs,
 ) -> List[Route]:
-    """Connects a bundle of ports, allowing steps which create waypoints at arbitrary, non-manhattan angles.
+    """Connects a bundle of ports, allowing steps which create waypoints at \
+            arbitrary, non-manhattan angles.
 
     Args:
         ports1: ports at the start of the bundle.
@@ -512,7 +516,7 @@ def get_bundle_all_angle(
         steps: a list of steps, which contain directives on how to proceed with the route.
             The first route, between ports1[0] and ports2[0] will take on the role of the primary route, and other routes will follow, given the bundling logic.
             It is assume that both ports1 and ports2 are sorted.
-        cross_section: the default cross section to be used. Primarily this will control the cross section of the bends.
+        cross_section: cross section of the bends.
             Then the specified connector may also use this information for straights in between.
         bend: the default component to use for the bends.
         connector: the default connector to use to connect between two ports.
@@ -525,7 +529,33 @@ def get_bundle_all_angle(
 
     Returns:
         List of Routes between ports1 and ports2.
+
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+        c = gf.Component("demo")
+
+        mmi = gf.components.mmi2x2(width_mmi=10, gap_mmi=3)
+        mmi1 = c << mmi
+        mmi2 = c << mmi
+
+        mmi2.move((100, 30))
+        mmi2.rotate(30)
+
+        routes = gf.routing.get_bundle_all_angle(
+            mmi1.get_ports_list(orientation=0),
+            [mmi2.ports["o2"], mmi2.ports["o1"]],
+            connector=None,
+        )
+        for route in routes:
+            c.add(route.references)
+        c.plot()
+
+
     """
+    from gdsfactory.pdk import get_cross_section
+
     if kwargs:
         warnings.warn(
             f"Unrecognized arguments for all-angle route will be ignored: {kwargs}"
@@ -848,7 +878,9 @@ def get_bundle_all_angle(
                     route_refs += _make_error_trace(
                         prev_port,
                         port2,
-                        "Cannot complete final step of route! Try setting an exit_angle in your final step which will intersect the vector of the destination port.",
+                        "Cannot complete final step of route! "
+                        "Try setting an exit_angle in your final "
+                        "step which intersects the vector of the destination port.",
                     )
 
         if not steps or has_explicit_end_angle:
@@ -892,3 +924,25 @@ def get_bundle_all_angle(
         routes.append(route)
         is_primary_route = False
     return routes
+
+
+if __name__ == "__main__":
+    import gdsfactory as gf
+
+    c = gf.Component("demo")
+
+    mmi = gf.components.mmi2x2(width_mmi=10, gap_mmi=3)
+    mmi1 = c << mmi
+    mmi2 = c << mmi
+
+    mmi2.move((100, 30))
+    mmi2.rotate(30)
+
+    routes = gf.routing.get_bundle_all_angle(
+        mmi1.get_ports_list(orientation=0),
+        [mmi2.ports["o2"], mmi2.ports["o1"]],
+        connector=None,
+    )
+    for route in routes:
+        c.add(route.references)
+    c.show()
