@@ -2253,7 +2253,10 @@ def recurse_structures(
 
 
 def flatten_invalid_refs_recursive(
-    component: Component, grid_size: Optional[float] = None, updated_components=None
+    component: Component,
+    grid_size: Optional[float] = None,
+    updated_components=None,
+    traversed_components=None,
 ):
     """Recursively flattens component references which have invalid transformations (i.e. non-90 deg rotations or sub-grid translations) and returns a copy if any subcells have been modified.
 
@@ -2265,15 +2268,17 @@ def flatten_invalid_refs_recursive(
         grid_size: the GDS grid size, in um, defaults to active PDK.get_grid_size()
             any translations with higher resolution than this are considered invalid.
         updated_components: the running dictionary of components which have been modified by this transformation. Should always be None, except for recursive invocations.
+        traversed_components: the set of component names which have been traversed. Should always be None, except for recursive invocations.
     """
     from gdsfactory.decorators import is_invalid_ref
 
     invalid_refs = []
-    # get a copy of the list of references to iterate over, as the actual list may change
-    refs = component.references.copy()
+    refs = component.references
     subcell_modified = False
     if updated_components is None:
         updated_components = {}
+    if traversed_components is None:
+        traversed_components = set()
     for ref in refs:
         # mark any invalid refs for flattening
         # otherwise, check if there are any modified cells beneath (we need not do this if the ref will be flattened anyways)
@@ -2281,11 +2286,12 @@ def flatten_invalid_refs_recursive(
             invalid_refs.append(ref.name)
         else:
             # otherwise, recursively flatten refs if the subcell has not already been traversed
-            if ref.parent.name not in updated_components:
+            if ref.parent.name not in traversed_components:
                 flatten_invalid_refs_recursive(
                     ref.parent,
                     grid_size=grid_size,
                     updated_components=updated_components,
+                    traversed_components=traversed_components,
                 )
             # now, if the ref's cell been modified, mark it as such
             if ref.parent.name in updated_components:
@@ -2294,18 +2300,18 @@ def flatten_invalid_refs_recursive(
         new_component = component.copy()
         new_component.name = component.name
         # make sure all modified cells have their references updated
-        for ref in new_component.references:
-            if (
+        new_refs = new_component.references.copy()
+        for ref in new_refs:
+            if ref.name in invalid_refs:
+                new_component.flatten_reference(ref)
+            elif (
                 ref.parent.name in updated_components
                 and ref.parent is not updated_components[ref.parent.name]
             ):
                 ref.parent = updated_components[ref.parent.name]
-        # flatten all invalid references
-        for invalid_ref_name in invalid_refs:
-            ref = new_component.named_references[invalid_ref_name]
-            new_component.flatten_reference(ref)
         component = new_component
         updated_components[component.name] = new_component
+    traversed_components.add(component.name)
     return component
 
 
@@ -2440,21 +2446,24 @@ def test_import_gds_settings():
 def test_flatten_invalid_refs_recursive():
     import gdsfactory as gf
     from gdsfactory.difftest import run_xor
+    from gdsfactory.routing.all_angle import get_bundle_all_angle
 
     @gf.cell
     def flat():
         c = gf.Component()
-        mmi1 = (c << gf.components.mmi1x2()).move((0, 1e-4))
-        mmi2 = (c << gf.components.mmi1x2()).rotate(90)
+        mmi1 = (c << gf.components.mmi1x2()).move((0, -1.0005))
+        mmi2 = (c << gf.components.mmi1x2()).rotate(80)
         mmi2.move((40, 20))
-        route = gf.routing.get_route(mmi1.ports["o2"], mmi2.ports["o1"], radius=5)
-        c.add(route.references)
+        bundle = get_bundle_all_angle([mmi1.ports["o2"]], [mmi2.ports["o1"]])
+        for route in bundle:
+            c.add(route.references)
         return c
 
     @gf.cell
     def hierarchy():
         c = gf.Component()
         (c << flat()).rotate(33)
+        (c << flat()).rotate(33).move((0, 100))
         (c << flat()).move((100, 0))
         return c
 
