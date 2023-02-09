@@ -7,7 +7,7 @@ import gdsfactory as gf
 
 def test_import_gds_cell() -> None:
     """Imports specific cell."""
-    c0 = gf.c.rectangle()
+    c0 = gf.components.rectangle()
     gdspath = c0.write_gds()
 
     gf.clear_cache()
