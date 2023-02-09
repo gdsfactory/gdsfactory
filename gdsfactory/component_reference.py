@@ -174,7 +174,7 @@ class ComponentReference(_GeometryHelper):
                 columns=columns, rows=rows, v1=v1, v2=v2
             )
 
-        self.ref_cell = component
+        self._ref_cell = component
         self._owner = None
         self._name = name
 
@@ -208,8 +208,12 @@ class ComponentReference(_GeometryHelper):
         return self._reference.repetition.spacing
 
     @property
+    def ref_cell(self):
+        return self._ref_cell
+
+    @property
     def parent(self):
-        return self.ref_cell
+        return self._ref_cell
 
     @property
     def origin(self):
@@ -243,9 +247,17 @@ class ComponentReference(_GeometryHelper):
     def x_reflection(self, value):
         self._reference.x_reflection = value
 
+    def _set_ref_cell(self, value):
+        self._ref_cell = value
+        self._reference.cell = value._cell
+
+    @ref_cell.setter
+    def ref_cell(self, value):
+        self._set_ref_cell(value)
+
     @parent.setter
     def parent(self, value):
-        self.ref_cell = value
+        self._set_ref_cell(value)
 
     def get_polygons(
         self,
