@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.36.0
+
+- add tests and better docs for get_bundle_all_angle [PR](https://github.com/gdsfactory/gdsfactory/pull/1257)
+- Fix flatten refs recursive [PR](https://github.com/gdsfactory/gdsfactory/pull/1258)
+
 ## [6.35.1](https://github.com/gdsfactory/gdsfactory/pull/1254)
 
 - use constants in pdk
