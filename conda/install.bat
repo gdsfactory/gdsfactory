@@ -20,5 +20,3 @@ call git clone https://github.com/gdsfactory/gdsfactory.git
 
 :SKIP_INSTALL
 echo gdsfactory installed
-
-cd gdsfactory
