@@ -42,6 +42,11 @@ constants = {
     "fiber_spacing": 50.0,
     "fiber_input_to_output_spacing": 200.0,
     "metal_spacing": 10.0,
+    "max_points": 4000,
+    "unit": 1e-6,
+    "precision": 1e-9,
+    "flatten_invalid_refs": False,
+    "on_duplicate_cell": "warn",
 }
 
 

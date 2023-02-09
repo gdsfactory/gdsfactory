@@ -1597,7 +1597,7 @@ class Component(_GeometryHelper):
         logging: bool = True,
         on_duplicate_cell: Optional[str] = "warn",
         with_oasis: bool = False,
-        max_points: int = 4e3,
+        max_points: Optional[int] = None,
         flatten_invalid_refs: bool = False,
         **kwargs,
     ) -> Path:
@@ -1630,12 +1630,19 @@ class Component(_GeometryHelper):
             standard_properties: Store standard OASIS properties in the file.
 
         """
-        if flatten_invalid_refs:
-            self = flatten_invalid_refs_recursive(self)
 
-        from gdsfactory.pdk import get_grid_size
+        from gdsfactory.pdk import get_grid_size, get_constant
 
         precision = precision or get_grid_size() * 1e-6
+        max_points = max_points or get_constant("max_points")
+        flatten_invalid_refs = flatten_invalid_refs or get_constant(
+            "flatten_invalid_refs"
+        )
+        precision = precision or get_constant("precision")
+        on_duplicate_cell = on_duplicate_cell or get_constant("on_duplicate_cell")
+
+        if flatten_invalid_refs:
+            self = flatten_invalid_refs_recursive(self)
 
         gdsdir = (
             gdsdir or pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
@@ -1708,7 +1715,7 @@ class Component(_GeometryHelper):
         logging: bool = True,
         on_duplicate_cell: Optional[str] = "warn",
         flatten_invalid_refs: bool = False,
-        max_points: int = 4000,
+        max_points: Optional[int] = None,
     ) -> Path:
         """Write component to GDS and returns gdspath.
 
@@ -1723,7 +1730,8 @@ class Component(_GeometryHelper):
                 "error": throw a ValueError when attempting to write a gds with duplicate cells.
                 "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
             flatten_invalid_refs: flattens component references which have invalid transformations.
-            max_points: Maximal number of vertices per polygon. Polygons with more vertices that this are automatically fractured.
+            max_points: Maximal number of vertices per polygon.
+                Polygons with more vertices that this are automatically fractured.
         """
 
         return self._write_library(
@@ -1746,7 +1754,6 @@ class Component(_GeometryHelper):
         logging: bool = True,
         on_duplicate_cell: Optional[str] = "warn",
         flatten_invalid_refs: bool = False,
-        max_points: int = 4000,
         **kwargs,
     ) -> Path:
         """Write component to GDS and returns gdspath.
@@ -1762,6 +1769,7 @@ class Component(_GeometryHelper):
                 "error": throw a ValueError when attempting to write a gds with duplicate cells.
                 "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
                 None: do not try to resolve (at your own risk!)
+            flatten_invalid_refs: flattens component references which have invalid transformations.
 
         Keyword Args:
             compression_level: Level of compression for cells (between 0 and 9).
@@ -1782,7 +1790,6 @@ class Component(_GeometryHelper):
             on_duplicate_cell=on_duplicate_cell,
             with_oasis=True,
             flatten_invalid_refs=flatten_invalid_refs,
-            max_points=max_points,
             **kwargs,
         )
 
@@ -2517,6 +2524,6 @@ if __name__ == "__main__":
     # c.plot_qt()
     # c.ploth()
     # c = test_extract()
-    c.write_oas("a.oas")
-    gf.show("a.oas")
+    gdspath = c.write_gds()
+    gf.show(gdspath)
     # c.show()
