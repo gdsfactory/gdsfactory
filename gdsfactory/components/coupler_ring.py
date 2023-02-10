@@ -90,5 +90,13 @@ def coupler_ring(
 
 if __name__ == "__main__":
     # c = coupler_ring(width=1, layer=(2, 0), length_x=20)
-    c = coupler_ring(cross_section="strip_heater_metal", length_x=20)
-    c.show(show_subports=True)
+    # c = coupler_ring(cross_section="strip_heater_metal", length_x=20)
+
+    c = gf.Component()
+    c1 = coupler_ring(cladding_layers=[(111, 0)], cladding_offsets=[0.5])
+    d = 0.8
+    c2 = gf.geometry.offset(c1, distance=+d, layer=(111, 0))
+    c3 = gf.geometry.offset(c2, distance=-d, layer=(111, 0))
+    c << c1
+    c << c3
+    c.show()
