@@ -636,7 +636,12 @@ class Component(_GeometryHelper):
 
         Keyword Args:
             layer: port GDS layer.
-            prefix: for example "E" for east, "W" for west ...
+            prefix: select ports with prefix in port name.
+            orientation: select ports with orientation in degrees.
+            width: select ports with port width.
+            layers_excluded: List of layers to exclude.
+            port_type: select ports with port_type (optical, electrical, vertical_te).
+            clockwise: if True, sort ports clockwise, False: counter-clockwise.
         """
         return select_ports(self.ports, **kwargs)
 
@@ -645,7 +650,7 @@ class Component(_GeometryHelper):
 
         Keyword Args:
             layer: select ports with GDS layer.
-            prefix: select ports with port name.
+            prefix: select ports with prefix in port name.
             orientation: select ports with orientation in degrees.
             width: select ports with port width.
             layers_excluded: List of layers to exclude.

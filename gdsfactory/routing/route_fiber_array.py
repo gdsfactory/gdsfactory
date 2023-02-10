@@ -567,4 +567,5 @@ if __name__ == "__main__":
         c.add(e)
     for e in gc:
         c.add(e)
+    c.add_ports(ports)
     c.show(show_ports=True)

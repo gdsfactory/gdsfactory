@@ -8,7 +8,7 @@ from numpy import ndarray
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.geometry.functions import DEG2RAD, extrude_path
-from gdsfactory.typings import CrossSectionSpec, LayerSpec
+from gdsfactory.typings import CrossSectionSpec, LayerSpec, ComponentSpec
 
 
 def ellipse_arc(
@@ -95,8 +95,7 @@ def grating_coupler_elliptical(
     layer_slab: LayerSpec = "SLAB150",
     slab_xmin: float = -1.0,
     slab_offset: float = 2.0,
-    fiber_marker_width: Optional[float] = 11.0,
-    fiber_marker_layer: LayerSpec = "TE",
+    fiber_marker: Optional[ComponentSpec] = None,
     spiked: bool = True,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
@@ -117,8 +116,7 @@ def grating_coupler_elliptical(
         layer_slab: layer that protects the slab under the grating.
         slab_xmin: where 0 is at the start of the taper.
         slab_offset: in um.
-        fiber_marker_width: width in um.
-        fiber_marker_layer: fiber marker layer.
+        fiber_marker: fiber_marker component spec.
         spiked: grating teeth have sharp spikes to avoid non-manhattan drc errors.
         cross_section: specification (CrossSection, string or dict).
         kwargs: cross_section settings.
@@ -208,20 +206,18 @@ def grating_coupler_elliptical(
         c.add_polygon(pts, layer)
 
     x = np.round(taper_length + x_output, 3)
-    if fiber_marker_width:
-        circle = gf.components.circle(
-            radius=fiber_marker_width / 2, layer=fiber_marker_layer
-        )
-        circle_ref = c.add_ref(circle)
-        circle_ref.movex(x + fiber_marker_width / 2)
+    if fiber_marker:
+        marker = gf.get_component(fiber_marker)
+        marker_ref = c << marker
+        marker_ref.movex(x + marker.size[0] / 2)
 
     name = f"opt_{polarization.lower()}_{int(wavelength*1e3)}_{int(fiber_angle)}"
     c.add_port(
         name=name,
-        center=(x + fiber_marker_width / 2, 0),
-        width=fiber_marker_width,
+        center=(x, 0),
+        width=10,
         orientation=0,
-        layer=fiber_marker_layer,
+        layer=layer,
         port_type=name,
     )
 
