@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Callable, Optional
 
 import gdsfactory as gf
-from gdsfactory.add_labels import get_input_label_text, get_input_label_text_loopback
+from gdsfactory.add_labels import get_input_label_text_loopback
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
@@ -33,10 +33,8 @@ def add_fiber_single(
     component_name: Optional[str] = None,
     gc_port_name: str = "o1",
     zero_port: Optional[str] = "o1",
-    get_input_label_text_loopback_function: Optional[
-        Callable
-    ] = get_input_label_text_loopback,
-    get_input_label_text_function: Optional[Callable] = get_input_label_text,
+    get_input_label_text_loopback_function: Optional[Callable] = None,
+    get_input_label_text_function: Optional[Callable] = None,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
@@ -182,7 +180,7 @@ def add_fiber_single(
             )
 
     else:
-        elements, grating_couplers = route_fiber_single(
+        elements, grating_couplers, ports_grating, ports_component = route_fiber_single(
             component,
             fiber_spacing=fiber_spacing,
             bend=bend,

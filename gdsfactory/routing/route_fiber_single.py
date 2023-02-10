@@ -122,7 +122,13 @@ def route_fiber_single(
     component_west_ports.ports = south_ports
 
     if len(south_ports):
-        elements_south, gratings_south, _ = route_fiber_array(
+        (
+            elements_south,
+            gratings_south,
+            ports_grating_input_waveguide_south,
+            ports_loopback_south,
+            ports_component_south,
+        ) = route_fiber_array(
             component=component_west_ports,
             with_loopback=False,
             fiber_spacing=fiber_spacing,
@@ -145,7 +151,13 @@ def route_fiber_single(
 
     component.ports = select_ports(component.ports)
 
-    elements_north, gratings_north, _ = route_fiber_array(
+    (
+        elements_north,
+        gratings_north,
+        ports_grating_input_waveguide_north,
+        ports_loopback_north,
+        ports_component_north,
+    ) = route_fiber_array(
         component=component,
         with_loopback=False,
         fiber_spacing=fiber_spacing,
@@ -186,7 +198,16 @@ def route_fiber_single(
         for io in gratings_north[0]:
             gratings_south.append(io.rotate(180))
 
-    return elements_south, gratings_south
+    ports_grating_input_waveguide = (
+        ports_grating_input_waveguide_north + ports_grating_input_waveguide_south
+    )
+    ports_component = ports_component_north + ports_component_south
+    return (
+        elements_south,
+        gratings_south,
+        ports_grating_input_waveguide,
+        ports_component,
+    )
 
 
 if __name__ == "__main__":
@@ -207,13 +228,17 @@ if __name__ == "__main__":
     c = gf.components.mmi1x2(length_mmi=167)
     c = gf.components.ring_single(length_x=167)
     c = gf.components.mmi2x2()
-    c = gf.components.spiral(direction="NORTH")
-    c = gf.components.spiral_inner_io_fiber_single()
+    # c = gf.components.spiral_inner_io_fiber_single()
 
     gc = gf.components.grating_coupler_elliptical_te(layer=layer)
-    elements, gc = route_fiber_single(
+    (
+        elements,
+        gc,
+        ports_grating_input_waveguide,
+        ports_component,
+    ) = route_fiber_single(
         c,
-        grating_coupler=[gc, gc, gc, gc],
+        # grating_coupler=[gc, gc, gc, gc],
         radius=10,
         layer=layer,
     )
@@ -226,6 +251,8 @@ if __name__ == "__main__":
         cc.add(e)
     for e in gc:
         cc.add(e)
+
+    cc.add_ports(ports_grating_input_waveguide)
     cc.show(show_ports=True)
 
     # layer = (31, 0)
