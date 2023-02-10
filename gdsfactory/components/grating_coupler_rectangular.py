@@ -22,7 +22,6 @@ def grating_coupler_rectangular(
     wavelength: float = 1.55,
     taper: ComponentSpec = taper_function,
     layer_slab: Optional[LayerSpec] = "SLAB150",
-    fiber_marker_layer: LayerSpec = "TE",
     fiber_angle: float = 15,
     slab_xmin: float = -1.0,
     slab_offset: float = 1.0,
@@ -45,7 +44,6 @@ def grating_coupler_rectangular(
         wavelength: in um.
         taper: function.
         layer_slab: layer that protects the slab under the grating.
-        fiber_marker_layer: for the grating.
         fiber_angle: in degrees.
         slab_xmin: where 0 is at the start of the taper.
         slab_offset: from edge of grating to edge of the slab.
@@ -111,7 +109,7 @@ def grating_coupler_rectangular(
         center=(xport, 0),
         orientation=0,
         width=width_grating,
-        layer=fiber_marker_layer,
+        layer=layer,
     )
     c.info["polarization"] = polarization
     c.info["wavelength"] = wavelength
