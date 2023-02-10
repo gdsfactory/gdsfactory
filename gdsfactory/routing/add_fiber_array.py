@@ -113,7 +113,7 @@ def add_fiber_array(
         )
 
     if gc_port_name not in gc.ports:
-        raise ValueError(f"gc_port_name={gc_port_name} not in {gc.ports.keys()}")
+        raise ValueError(f"gc_port_name={gc_port_name!r} not in {gc.ports.keys()}")
 
     component_name = component_name or component.metadata_child.get(
         "name", component.name
@@ -165,7 +165,9 @@ def add_fiber_array(
             ports = io.get_ports_list(prefix="vertical") or io.get_ports_list()
             if ports:
                 port = ports[0]
-                component_new.add_port(f"{port.name}_{i}{j}", port=port)
+                component_new.add_port(
+                    f"{port.name}-{component_name}-{i}-{j}", port=port
+                )
 
     component_new.copy_child_info(component)
     component_new.info["grating_coupler"] = gc.info
@@ -195,8 +197,8 @@ if __name__ == "__main__":
         gf.cross_section.cross_section,
         width=1,
         layer=(2, 0),
-        bbox_layers=((61, 0), (62, 0)),
-        bbox_offsets=(3, 3)
+        # bbox_layers=((61, 0), (62, 0)),
+        # bbox_offsets=(3, 3)
         # cladding_layers=((61, 0), (62, 0)),
         # cladding_offsets=(3, 3)
     )
@@ -228,7 +230,7 @@ if __name__ == "__main__":
         # grating_coupler=gf.functions.rotate(gcte, angle=180),
         auto_widen=True,
         # layer=(2, 0),
-        gc_port_labels=["loop_in", "in", "out", "loop_out"],
+        # gc_port_labels=["loop_in", "in", "out", "loop_out"],
         cross_section=strip,
         info=dict(a=1),
     )

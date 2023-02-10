@@ -38,10 +38,10 @@ def route_fiber_single(
         optical_routing_type: 0 (basic), 1 (standard), 2 (looks at ports)
         optical_port_labels: port labels that need connection
         excluded_ports: ports excluded from routing
-        component_name:
-        select_ports:
-        cross_section:
-        **kwargs: cross_section settings
+        component_name: Optional component name.
+        select_ports: function to select ports.
+        cross_section: spec.
+        kwargs: cross_section settings
 
     Returns:
         elements: list of ComponentReferences for routes and labels

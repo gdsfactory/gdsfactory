@@ -213,12 +213,12 @@ def add_fiber_single(
 
                 if ports:
                     port = ports[0]
-                    c.add_port(f"{port.name}_{i}{j}", port=port)
+                    c.add_port(f"{port.name}-{component_name}-{i}-{j}", port=port)
         else:
             ports = io_row.get_ports_list(prefix="vertical")
             if ports:
                 port = ports[0]
-                c.add_port(f"{port.name}_{i}", port=port)
+                c.add_port(f"{port.name}-{component_name}-{i}-{j}", port=port)
 
     if with_loopback:
         length = c.ysize - 2 * gc_port_to_edge
@@ -271,9 +271,9 @@ def add_fiber_single(
 
 
 if __name__ == "__main__":
-    from gdsfactory.samples.big_device import big_device
-
-    w = h = 18 * 50
-    c = big_device(spacing=50.0, size=(w, h))
-    c = gf.routing.add_fiber_single(component=c)
-    c.show(show_ports=True)
+    # from gdsfactory.samples.big_device import big_device
+    # w = h = 18 * 50
+    # c = big_device(spacing=50.0, size=(w, h))
+    c = gf.c.mmi2x2()
+    cc = gf.routing.add_fiber_single(component=c)
+    cc.show(show_ports=True)

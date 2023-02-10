@@ -67,8 +67,7 @@ def offset(
     )
 
     component = gf.Component()
-    polygons = component.add_polygon(p, layer=layer)
-    [polygon.fracture(precision=precision) for polygon in polygons]
+    component.add_polygon(p, layer=layer)
     return component
 
 
@@ -79,6 +78,18 @@ def test_offset() -> None:
 
 
 if __name__ == "__main__":
-    c = gf.components.ring()
-    co = offset(c, distance=0.5)
-    co.show()
+    import gdsfactory as gf
+
+    c = gf.Component()
+    layer_slab = (2, 0)
+    c1 = gf.components.coupler_ring(
+        cladding_layers=[layer_slab], cladding_offsets=[0.5]
+    )
+    d = 0.8
+    c2 = gf.geometry.offset(c1, distance=+d, layer=layer_slab)
+
+    c3 = gf.geometry.offset(c2, distance=-d, layer=layer_slab)
+
+    c << c1.extract(layers=("WG",))
+    c << c3
+    c.show()
