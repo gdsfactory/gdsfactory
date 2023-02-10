@@ -168,17 +168,19 @@ def add_fiber_array(
     for port_component, port_grating in zip(
         ports_component, ports_grating_input_waveguide
     ):
-        port_vertical = port_grating.parent.get_ports_list(prefix="opt")[0]
+        grating_ref = port_grating.parent
+        port_vertical = grating_ref.get_ports_list(prefix="opt")[0]
         component_new.add_port(
-            f"{port_vertical.name}-{component_name}-{port_component.name}",
+            f"{port_vertical.name}-{grating_ref.parent.name}-{component_name}-{port_component.name}",
             port=port_grating,
         )
 
     for i, port in enumerate(ports_loopback):
-        print(port.parent.get_ports_list())
-        port_vertical = port.parent.get_ports_list(prefix="opt")[0]
+        grating_ref = port_grating.parent
+        port_vertical = grating_ref.get_ports_list(prefix="opt")[0]
         component_new.add_port(
-            f"{port_vertical.name}-{component_name}-loopback{i}", port=port
+            f"{port_vertical.name}-{grating_ref.parent.name}-{component_name}-loopback{i}",
+            port=port,
         )
 
     # for i, io_row in enumerate(io_gratings_lines):
@@ -247,7 +249,8 @@ if __name__ == "__main__":
         # layer_label=layer_label,
         # get_route_factory=route_fiber_single,
         # get_route_factory=route_fiber_array,
-        grating_coupler=[gcte, gctm, gcte, gctm],
+        grating_coupler=gctm,
+        # grating_coupler=[gcte, gctm, gcte, gctm],
         # grating_coupler=gf.functions.rotate(gcte, angle=180),
         auto_widen=True,
         # layer=(2, 0),
