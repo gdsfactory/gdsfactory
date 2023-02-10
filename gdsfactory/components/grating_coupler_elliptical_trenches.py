@@ -118,7 +118,7 @@ def grating_coupler_elliptical_trenches(
         )
         circle_ref = c.add_ref(circle)
         circle_ref.movex(x)
-    name = f"vertical_{polarization.lower()}"
+    name = f"opt_{polarization.lower()}_{int(wavelength*1e3)}_{int(fiber_angle)}"
     c.add_port(
         name=name,
         center=(x, 0),
