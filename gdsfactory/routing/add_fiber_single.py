@@ -209,13 +209,13 @@ def add_fiber_single(
     for i, io_row in enumerate(grating_couplers):
         if isinstance(io_row, list):
             for j, io in enumerate(io_row):
-                ports = io.get_ports_list(prefix="vertical") or io.get_ports_list()
+                ports = io.get_ports_list(prefix="opt") or io.get_ports_list()
 
                 if ports:
                     port = ports[0]
                     c.add_port(f"{port.name}-{component_name}-{i}-{j}", port=port)
         else:
-            ports = io_row.get_ports_list(prefix="vertical")
+            ports = io_row.get_ports_list(prefix="opt")
             if ports:
                 port = ports[0]
                 c.add_port(f"{port.name}-{component_name}-{i}-0", port=port)
@@ -235,13 +235,11 @@ def add_fiber_single(
         gco.connect(gc_port_name, wg.ports["o2"])
 
         port = wg.ports["o2"]
-        ports = gc.get_ports_list(prefix="vertical") or gc.get_ports_list()
+        ports = gc.get_ports_list(prefix="opt") or gc.get_ports_list()
         pname = ports[0].name
-        p1 = c.add_port(name=f"loopback1-{component_name}", port=gci.ports[pname])
-        p2 = c.add_port(name=f"loopback2-{component_name}", port=gco.ports[pname])
-        p1.port_type = "loopback"
-        p2.port_type = "loopback"
 
+        c.add_port(name=f"loopback1_{pname}-{component_name}", port=gci.ports[pname])
+        c.add_port(name=f"loopback2_{pname}-{component_name}", port=gco.ports[pname])
         if get_input_label_text_function and get_input_label_text_loopback_function:
             text = get_input_label_text_loopback_function(
                 port=port, gc=gc, gc_index=0, component_name=component_name
