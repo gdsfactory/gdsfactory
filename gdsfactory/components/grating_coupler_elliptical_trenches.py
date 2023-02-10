@@ -112,19 +112,13 @@ def grating_coupler_elliptical_trenches(
     c.add_polygon(pts, layer)
 
     x = np.round(taper_length + period * n_periods / 2, 3)
-    if fiber_marker_layer:
-        circle = gf.components.circle(
-            radius=fiber_marker_width / 2, layer=fiber_marker_layer
-        )
-        circle_ref = c.add_ref(circle)
-        circle_ref.movex(x)
     name = f"opt_{polarization.lower()}_{int(wavelength*1e3)}_{int(fiber_angle)}"
     c.add_port(
         name=name,
         center=(x, 0),
-        width=fiber_marker_width,
+        width=10,
         orientation=0,
-        layer=fiber_marker_layer,
+        layer=layer,
         port_type=name,
     )
 
@@ -155,7 +149,6 @@ grating_coupler_tm = gf.partial(
     polarization="tm",
     neff=1.8,
     grating_line_width=0.6,
-    fiber_marker_layer="TM",
 )
 
 
