@@ -218,7 +218,7 @@ def add_fiber_single(
             ports = io_row.get_ports_list(prefix="vertical")
             if ports:
                 port = ports[0]
-                c.add_port(f"{port.name}-{component_name}-{i}-{j}", port=port)
+                c.add_port(f"{port.name}-{component_name}-{i}-0", port=port)
 
     if with_loopback:
         length = c.ysize - 2 * gc_port_to_edge
@@ -237,8 +237,8 @@ def add_fiber_single(
         port = wg.ports["o2"]
         ports = gc.get_ports_list(prefix="vertical") or gc.get_ports_list()
         pname = ports[0].name
-        p1 = c.add_port(name="loopback1", port=gci.ports[pname])
-        p2 = c.add_port(name="loopback2", port=gco.ports[pname])
+        p1 = c.add_port(name=f"loopback1-{component_name}", port=gci.ports[pname])
+        p2 = c.add_port(name=f"loopback2-{component_name}", port=gco.ports[pname])
         p1.port_type = "loopback"
         p2.port_type = "loopback"
 
