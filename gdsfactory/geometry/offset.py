@@ -86,6 +86,7 @@ if __name__ == "__main__":
         cladding_layers=[layer_slab], cladding_offsets=[0.5]
     )
     d = 0.8
+    # d = 1
     c2 = gf.geometry.offset(c1, distance=+d, layer=layer_slab)
 
     c3 = gf.geometry.offset(c2, distance=-d, layer=layer_slab)

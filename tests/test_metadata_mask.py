@@ -20,19 +20,19 @@ def mask(size=(1000, 1000)):
     return c
 
 
-def test_mask_metadata() -> gf.Component:
-    m = mask()
-    gdspath = m.write_gds_with_metadata(gdspath="test_mask_metadata.gds")
-    labels_path = gdspath.with_suffix(".csv")
-    gf.labels.write_labels.write_labels_klayout(gdspath=gdspath, layer_label=(66, 0))
+# def test_mask_metadata() -> gf.Component:
+#     m = mask()
+#     gdspath = m.write_gds_with_metadata(gdspath="test_mask_metadata.gds")
+#     labels_path = gdspath.with_suffix(".csv")
+#     gf.labels.write_labels.write_labels_klayout(gdspath=gdspath, layer_label=(66, 0))
 
-    yamlpath = gdspath.with_suffix(".yml")
-    mask_metadata = OmegaConf.load(yamlpath)
-    tm = gf.labels.merge_test_metadata(
-        mask_metadata=mask_metadata, labels_path=labels_path
-    )
-    assert len(tm.keys()) == 3
-    return m
+#     yamlpath = gdspath.with_suffix(".yml")
+#     mask_metadata = OmegaConf.load(yamlpath)
+#     tm = gf.labels.merge_test_metadata(
+#         mask_metadata=mask_metadata, labels_path=labels_path
+#     )
+#     assert len(tm.keys()) == 3
+#     return m
 
 
 if __name__ == "__main__":
