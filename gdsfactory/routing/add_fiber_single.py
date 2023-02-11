@@ -236,8 +236,8 @@ def add_fiber_single(
         ports = gc.get_ports_list(prefix="opt") or gc.get_ports_list()
         pname = ports[0].name
 
-        c.add_port(name=f"loopback1_{pname}-{component_name}", port=gci.ports[pname])
-        c.add_port(name=f"loopback2_{pname}-{component_name}", port=gco.ports[pname])
+        c.add_port(name=f"{pname}-{component_name}-loopback1", port=gci.ports[pname])
+        c.add_port(name=f"{pname}-{component_name}-loopback2", port=gco.ports[pname])
         if get_input_label_text_function and get_input_label_text_loopback_function:
             text = get_input_label_text_loopback_function(
                 port=port, gc=gc, gc_index=0, component_name=component_name

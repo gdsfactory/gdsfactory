@@ -815,7 +815,10 @@ class Component(_GeometryHelper):
         return p
 
     def add_ports(
-        self, ports: Union[List[Port], Dict[str, Port]], prefix: str = ""
+        self,
+        ports: Union[List[Port], Dict[str, Port]],
+        prefix: str = "",
+        suffix: str = "",
     ) -> None:
         """Add a list or dict of ports.
 
@@ -827,7 +830,7 @@ class Component(_GeometryHelper):
         """
         ports = ports if isinstance(ports, list) else ports.values()
         for port in list(ports):
-            name = f"{prefix}{port.name}" if prefix else port.name
+            name = f"{prefix}{port.name}{suffix}"
             self.add_port(name=name, port=port)
 
     def snap_ports_to_grid(self, nm: int = 1) -> None:

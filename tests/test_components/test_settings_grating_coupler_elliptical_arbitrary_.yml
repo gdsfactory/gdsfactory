@@ -6,8 +6,6 @@ settings:
     bias_gap: 0
     cross_section: strip
     fiber_angle: 15.0
-    fiber_marker_layer: TE
-    fiber_marker_width: 11.0
     gaps:
     - 0.1
     - 0.1
@@ -43,8 +41,6 @@ settings:
     bias_gap: 0
     cross_section: strip
     fiber_angle: 15.0
-    fiber_marker_layer: TE
-    fiber_marker_width: 11.0
     gaps:
     - 0.1
     - 0.1

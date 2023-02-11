@@ -220,20 +220,17 @@ def add_siepic_labels(
             param_str += f"{param}={val:.3f}u "
         labels.append(f"Spice_param:{param_str}")
 
-    c.unlock()
     for i, text in enumerate(labels):
         c.add_label(
             text=text, position=(0, i * label_spacing), layer=label_layer, anchor="w"
         )
-    c.lock()
     return c
 
 
 def add_labels_to_ports(
     component: Component,
     label_layer: LayerSpec = "LABEL",
-    prefix: str = "opt_",
-    port_type: Optional[str] = "optical",
+    port_type: Optional[str] = None,
     **kwargs,
 ) -> Component:
     """Add labels to component ports.
@@ -241,34 +238,71 @@ def add_labels_to_ports(
     Args:
         component: to add labels.
         label_layer: layer spec for the label.
-        prefix: for the label.
         port_type: to select ports.
 
     keyword Args:
-        layer: select ports with particular GDS port layer.
-        orientation: select ports with particular port orientation in degrees.
-        width: select ports with particular port width.
-        layers_excluded: List of port layers to exclude.
-        clockwise: True sorts ports clockwise and False counter-clockwise.
+        layer: select ports with GDS layer.
+        prefix: select ports with prefix in port name.
+        orientation: select ports with orientation in degrees.
+        width: select ports with port width.
+        layers_excluded: List of layers to exclude.
+        port_type: select ports with port_type (optical, electrical, vertical_te).
+        clockwise: if True, sort ports clockwise, False: counter-clockwise.
     """
     ports = component.get_ports_list(port_type=port_type, **kwargs)
-    component.unlock()
     for port in ports:
-        text = f"{prefix}{port.name}"
-        component.add_label(text=text, position=port.center, layer=label_layer)
+        component.add_label(text=port.name, position=port.center, layer=label_layer)
+
+    return component
+
+
+def add_labels_to_ports_x_y(
+    component: Component,
+    label_layer: LayerSpec = "LABEL",
+    port_type: Optional[str] = None,
+    **kwargs,
+) -> Component:
+    """Add labels to component ports. Prepends -x-y coordinates
+
+    Args:
+        component: to add labels.
+        label_layer: layer spec for the label.
+        port_type: to select ports.
+
+    keyword Args:
+        layer: select ports with GDS layer.
+        prefix: select ports with prefix in port name.
+        orientation: select ports with orientation in degrees.
+        width: select ports with port width.
+        layers_excluded: List of layers to exclude.
+        port_type: select ports with port_type (optical, electrical, vertical_te).
+        clockwise: if True, sort ports clockwise, False: counter-clockwise.
+    """
+    ports = component.get_ports_list(port_type=port_type, **kwargs)
+    for port in ports:
+        x, y = port.center
+        component.add_label(
+            text=f"{port.name}/{int(x)}/{int(y)}",
+            position=port.center,
+            layer=label_layer,
+        )
 
     return component
 
 
 add_labels_to_ports_electrical = partial(
-    add_labels_to_ports, port_type="electrical", prefix="elec-"
+    add_labels_to_ports,
+    port_type="electrical",
 )
 add_labels_to_ports_optical = partial(
-    add_labels_to_ports, port_type="optical", prefix="opt-"
+    add_labels_to_ports,
+    port_type="optical",
 )
 add_labels_to_ports_vertical_dc = partial(
-    add_labels_to_ports, port_type="vertical_dc", prefix="elec-"
+    add_labels_to_ports,
+    port_type="vertical_dc",
 )
+add_labels_to_ports_opt = partial(add_labels_to_ports, prefix="opt", port_type=None)
 
 
 def get_labels(
@@ -290,7 +324,7 @@ def get_labels(
 
     keyword Args:
         layer: port GDS layer.
-        prefix: with in port name.
+        prefix: look for prefix in port name.
         orientation: in degrees.
         width: for ports to add label.
         layers_excluded: List of layers to exclude.

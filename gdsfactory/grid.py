@@ -29,6 +29,8 @@ def grid(
     rotation: int = 0,
     h_mirror: bool = False,
     v_mirror: bool = False,
+    add_ports_prefix: bool = False,
+    add_ports_suffix: bool = False,
 ) -> Component:
     """Returns Component with a 1D or 2D grid of components.
 
@@ -144,7 +146,12 @@ def grid(
     )
 
     for prefix, ref in prefix_to_ref.items():
-        D.add_ports(ref.ports, prefix=f"{prefix}_")
+        if add_ports_prefix:
+            D.add_ports(ref.ports, prefix=f"{prefix}_")
+        elif add_ports_suffix:
+            D.add_ports(ref.ports, suffix=f"_{prefix}")
+        else:
+            D.add_ports(ref.ports)
 
     return D
 
