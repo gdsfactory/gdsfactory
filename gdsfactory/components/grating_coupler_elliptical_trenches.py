@@ -6,14 +6,12 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical import grating_tooth_points
 from gdsfactory.geometry.functions import DEG2RAD
-from gdsfactory.typings import CrossSectionSpec, LayerSpec, Optional
+from gdsfactory.typings import CrossSectionSpec, LayerSpec
 
 
 @gf.cell
 def grating_coupler_elliptical_trenches(
     polarization: str = "te",
-    fiber_marker_width: float = 11.0,
-    fiber_marker_layer: Optional[LayerSpec] = "TE",
     taper_length: float = 16.6,
     taper_angle: float = 30.0,
     trenches_extra_angle: float = 9.0,
@@ -155,7 +153,7 @@ grating_coupler_tm = gf.partial(
 if __name__ == "__main__":
     # c = grating_coupler_elliptical_trenches(polarization="TE")
     # print(c.polarization)
-    # c = grating_coupler_te(end_straight_length=10, fiber_marker_layer=None)
+    # c = grating_coupler_te(end_straight_length=10)
     # c = grating_coupler_tm()
     # print(c.ports.keys())
     c = gf.routing.add_fiber_array(grating_coupler=grating_coupler_elliptical_trenches)
