@@ -181,11 +181,7 @@ def add_padding_to_size_container(
 
 if __name__ == "__main__":
     # test_container()
-    c = gf.components.straight(length=10)
-    c.unlock()
-    cc = add_padding(component=c, layers=["DEVREC"])
 
-    # c = gf.components.straight(length=5)
-    # c.unlock()
-    # cc = add_padding_to_size(component=c, xsize=10, layers=[(2, 0)])
-    cc.show(show_ports=True)
+    p = gf.partial(add_padding, layers=["SLAB150"])
+    c = gf.components.straight(length=10, decorator=p)
+    c.show()

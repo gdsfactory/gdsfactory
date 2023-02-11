@@ -106,6 +106,8 @@ def pack(
     rotation: int = 0,
     h_mirror: bool = False,
     v_mirror: bool = False,
+    add_ports_prefix: bool = True,
+    add_ports_suffix: bool = False,
 ) -> List[Component]:
     """Pack a list of components into as few Components as possible.
 
@@ -126,6 +128,8 @@ def pack(
         rotation: for each component in degrees.
         h_mirror: horizontal mirror in y axis (x, 1) (1, 0). This is the most common.
         v_mirror: vertical mirror using x axis (1, y) (0, y).
+        add_ports_prefix: adds port names with prefix.
+        add_ports_suffix: adds port names with suffix.
 
     .. plot::
         :include-source:
@@ -201,8 +205,16 @@ def pack(
             if hasattr(component, "settings"):
                 packed.info["components"][component.name] = dict(component.settings)
             d.center = (xcenter * precision, ycenter * precision)
+            if add_ports_prefix:
+                packed.add_ports(d.ports, prefix=f"{index}_")
+            elif add_ports_suffix:
+                packed.add_ports(d.ports, suffix=f"_{index}")
+            else:
+                try:
+                    packed.add_ports(d.ports)
+                except ValueError:
+                    packed.add_ports(d.ports, suffix=f"_{index}")
 
-            packed.add_ports(d.ports, prefix=f"{component.name}_{index}_")
             index += 1
 
             if text:

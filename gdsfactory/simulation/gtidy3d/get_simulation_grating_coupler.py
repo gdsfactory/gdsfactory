@@ -43,7 +43,7 @@ def get_simulation_grating_coupler(
     plot_modes: bool = False,
     num_modes: int = 2,
     run_time_ps: float = 10.0,
-    fiber_port_name: str = "vertical_te",
+    fiber_port_prefix: str = "opt",
     fiber_xoffset: float = 0,
     fiber_z: float = 2,
     fiber_mfd: float = 10.4,
@@ -145,7 +145,7 @@ def get_simulation_grating_coupler(
         num_modes: number of modes to plot.
         run_time_ps: make sure it's sufficient for the fields to decay.
             defaults to 10ps and automatic shutoff stops earlier if needed.
-        fiber_port_name: for the component.
+        fiber_port_prefix: from component ports.
         fiber_xoffset: fiber center xoffset to fiber_port_name.
         fiber_z: fiber zoffset from grating zmax.
         fiber_mfd: fiber mode field diameter (um). 10.4 for Cband and 9.2um for Oband.
@@ -227,15 +227,20 @@ def get_simulation_grating_coupler(
 
     if port_waveguide_name not in component.ports:
         warnings.warn(
-            f"port_waveguide_name={port_waveguide_name} not in {component.ports.keys()}"
+            f"port_waveguide_name={port_waveguide_name!r} not in {component.ports.keys()}"
         )
         port_waveguide = component.get_ports_list()[0]
         port_waveguide_name = port_waveguide.name
-        warnings.warn(f"Selecting port_waveguide_name={port_waveguide_name} instead.")
+        warnings.warn(f"Selecting port_waveguide_name={port_waveguide_name!r} instead.")
 
-    if fiber_port_name not in component.ports:
+    fiber_port_name = None
+    for port_name in component.ports.keys():
+        if port_name.startswith(fiber_port_prefix):
+            fiber_port_name = port_name
+
+    if fiber_port_name is None:
         raise ValueError(
-            f"fiber_port_name = {fiber_port_name!r} not in {component.ports.keys()}"
+            f"No port named {fiber_port_prefix!r} in {component.ports.keys()}"
         )
 
     component_padding = gf.add_padding_container(
