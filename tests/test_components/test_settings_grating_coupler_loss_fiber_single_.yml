@@ -9,8 +9,6 @@ settings:
       cross_section: strip
       end_straight_length: 0.2
       fiber_angle: 15.0
-      fiber_marker_layer: TE
-      fiber_marker_width: 11.0
       grating_line_width: 0.343
       layer_trench: SLAB150
       n_periods: 30
@@ -26,8 +24,6 @@ settings:
       cross_section: strip
       end_straight_length: 0.2
       fiber_angle: 15.0
-      fiber_marker_layer: TE
-      fiber_marker_width: 11.0
       grating_line_width: 0.343
       layer_trench: SLAB150
       n_periods: 30

@@ -151,7 +151,7 @@ def test_find_labels() -> None:
     import gdsfactory as gf
 
     c = gf.components.straight(length=124)
-    cc = add_fiber_single(component=c)
+    cc = add_fiber_single(component=c, decorator=gf.add_labels.add_labels_to_ports)
     gdspath = cc.write_gds()
     assert len(list(find_labels(gdspath))) == 4
 
