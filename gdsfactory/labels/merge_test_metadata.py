@@ -46,8 +46,7 @@ def get_cell_from_label_brackets(label: str) -> str:
 
 def get_cell_from_label(label: str) -> str:
     """Returns label, assuming GratingPort-Grating-Component-ComponentPort"""
-    cell_name = label.split("-")[2]
-    return cell_name
+    return label.split("-")[2]
 
 
 def merge_test_metadata(
