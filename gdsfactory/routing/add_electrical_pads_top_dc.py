@@ -70,7 +70,9 @@ def add_electrical_pads_top_dc(
     for port in ports_component:
         c.ports.pop(port.name)
 
-    c.add_ports(pads.ports)
+    # c.add_ports(pads.ports, prefix=f"elec-{component.name}-")
+    c.add_port(port=pads.ports["e11"], name=f"elec-{component.name}-1")
+    c.add_port(port=pads.ports["e12"], name=f"elec-{component.name}-2")
     c.copy_child_info(component)
     return c
 
