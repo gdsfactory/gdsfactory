@@ -16,7 +16,7 @@ def test_import_ports_markers_labels(data_regression) -> gf.Component:
     )
     gdspath = c1.write_gds()
     csvpath = gf.labels.write_labels.write_labels_gdstk(
-        gdspath, prefix="component_name"
+        gdspath, prefixes=("component_name",)
     )
     labels = pd.read_csv(csvpath)
 
@@ -33,7 +33,7 @@ if __name__ == "__main__":
     )
     gdspath = c1.write_gds()
     csvpath = gf.labels.write_labels.write_labels_gdstk(
-        gdspath, prefix="component_name"
+        gdspath, prefixes=("component_name",)
     )
     labels = pd.read_csv(csvpath)
     settings = yaml.safe_load(labels.columns[0])
