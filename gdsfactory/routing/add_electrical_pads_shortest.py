@@ -23,7 +23,7 @@ def add_electrical_pads_shortest(
         component: to route.
         pad: pad element or function.
         pad_port_spacing: spacing between pad and port.
-        select_ports: function.
+        select_ports: function to select ports.
         port_orientation: in degrees.
         layer: for the routing.
 
@@ -67,13 +67,10 @@ def add_electrical_pads_shortest(
             p.x = port.x
             c.add_ref(route_quad(port, p.ports["e2"], layer=layer))
 
-        # add pad ports
-        c.add_ports(p.ports, prefix=f"pad{i+1}_")
+        c.add_port(port=p.ports["pad"], name=f"elec-{component.name}-{i+1}")
 
-    # add component ports
     c.add_ports(ref.ports)
 
-    # remove electrical ports
     for port in ports:
         c.ports.pop(port.name)
     c.copy_child_info(component)
