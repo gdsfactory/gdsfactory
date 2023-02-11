@@ -1,34 +1,7 @@
-name: taper_width23_ring_single_dut
+name: ring_single_dut
 settings:
   changed: {}
-  child:
-    changed:
-      width2: 3
-    child: null
-    default:
-      cross_section: strip
-      length: 10.0
-      port: null
-      width1: 0.5
-      width2: null
-      with_bbox: true
-      with_two_ports: true
-    full:
-      cross_section: strip
-      length: 10.0
-      port: null
-      width1: 0.5
-      width2: 3
-      with_bbox: true
-      with_two_ports: true
-    function_name: taper
-    info:
-      length: 10.0
-      width1: 0.5
-      width2: 3.0
-    info_version: 2
-    module: gdsfactory.components.taper
-    name: taper_width23
+  child: null
   default:
     bend:
       function: bend_euler
@@ -61,9 +34,10 @@ settings:
     with_component: true
   function_name: ring_single_dut
   info:
-    length: 10.0
-    width1: 0.5
-    width2: 3.0
+    component:
+      length: 10.0
+      width1: 0.5
+      width2: 3.0
   info_version: 2
   module: gdsfactory.components.ring_single_dut
-  name: taper_width23_ring_single_dut
+  name: ring_single_dut
