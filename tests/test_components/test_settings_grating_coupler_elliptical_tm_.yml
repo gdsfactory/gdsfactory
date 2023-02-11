@@ -1,7 +1,6 @@
-name: grating_coupler_ellipti_92eb3d05
+name: grating_coupler_ellipti_b6bd8130
 settings:
   changed:
-    fiber_marker_layer: TM
     grating_line_width: 0.707
     n_periods: 16
     neff: 1.8
@@ -13,8 +12,6 @@ settings:
     big_last_tooth: false
     cross_section: strip
     fiber_angle: 15.0
-    fiber_marker_layer: TE
-    fiber_marker_width: 11.0
     grating_line_width: 0.343
     layer_slab: SLAB150
     n_periods: 30
@@ -31,8 +28,6 @@ settings:
     big_last_tooth: false
     cross_section: strip
     fiber_angle: 15.0
-    fiber_marker_layer: TM
-    fiber_marker_width: 11.0
     grating_line_width: 0.707
     layer_slab: SLAB150
     n_periods: 16
@@ -51,4 +46,4 @@ settings:
     wavelength: 1.554
   info_version: 2
   module: gdsfactory.components.grating_coupler_elliptical
-  name: grating_coupler_ellipti_92eb3d05
+  name: grating_coupler_ellipti_b6bd8130

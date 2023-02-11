@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Callable, Optional
 
 import gdsfactory as gf
-from gdsfactory.add_labels import get_input_label_text, get_input_label_text_loopback
+from gdsfactory.add_labels import get_input_label_text_loopback
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
@@ -33,10 +33,8 @@ def add_fiber_single(
     component_name: Optional[str] = None,
     gc_port_name: str = "o1",
     zero_port: Optional[str] = "o1",
-    get_input_label_text_loopback_function: Optional[
-        Callable
-    ] = get_input_label_text_loopback,
-    get_input_label_text_function: Optional[Callable] = get_input_label_text,
+    get_input_label_text_loopback_function: Optional[Callable] = None,
+    get_input_label_text_function: Optional[Callable] = None,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
@@ -182,7 +180,7 @@ def add_fiber_single(
             )
 
     else:
-        elements, grating_couplers = route_fiber_single(
+        elements, grating_couplers, ports_grating, ports_component = route_fiber_single(
             component,
             fiber_spacing=fiber_spacing,
             bend=bend,
@@ -209,16 +207,16 @@ def add_fiber_single(
     for i, io_row in enumerate(grating_couplers):
         if isinstance(io_row, list):
             for j, io in enumerate(io_row):
-                ports = io.get_ports_list(prefix="vertical") or io.get_ports_list()
+                ports = io.get_ports_list(prefix="opt") or io.get_ports_list()
 
                 if ports:
                     port = ports[0]
-                    c.add_port(f"{port.name}_{i}{j}", port=port)
+                    c.add_port(f"{port.name}-{component_name}-{i}-{j}", port=port)
         else:
-            ports = io_row.get_ports_list(prefix="vertical")
+            ports = io_row.get_ports_list(prefix="opt")
             if ports:
                 port = ports[0]
-                c.add_port(f"{port.name}_{i}", port=port)
+                c.add_port(f"{port.name}-{component_name}-{i}-0", port=port)
 
     if with_loopback:
         length = c.ysize - 2 * gc_port_to_edge
@@ -235,13 +233,11 @@ def add_fiber_single(
         gco.connect(gc_port_name, wg.ports["o2"])
 
         port = wg.ports["o2"]
-        ports = gc.get_ports_list(prefix="vertical") or gc.get_ports_list()
+        ports = gc.get_ports_list(prefix="opt") or gc.get_ports_list()
         pname = ports[0].name
-        p1 = c.add_port(name="loopback1", port=gci.ports[pname])
-        p2 = c.add_port(name="loopback2", port=gco.ports[pname])
-        p1.port_type = "loopback"
-        p2.port_type = "loopback"
 
+        c.add_port(name=f"{pname}-{component_name}-loopback1", port=gci.ports[pname])
+        c.add_port(name=f"{pname}-{component_name}-loopback2", port=gco.ports[pname])
         if get_input_label_text_function and get_input_label_text_loopback_function:
             text = get_input_label_text_loopback_function(
                 port=port, gc=gc, gc_index=0, component_name=component_name
@@ -271,9 +267,9 @@ def add_fiber_single(
 
 
 if __name__ == "__main__":
-    from gdsfactory.samples.big_device import big_device
-
-    w = h = 18 * 50
-    c = big_device(spacing=50.0, size=(w, h))
-    c = gf.routing.add_fiber_single(component=c)
-    c.show(show_ports=True)
+    # from gdsfactory.samples.big_device import big_device
+    # w = h = 18 * 50
+    # c = big_device(spacing=50.0, size=(w, h))
+    c = gf.c.mmi2x2()
+    cc = gf.routing.add_fiber_single(component=c)
+    cc.show(show_ports=True)

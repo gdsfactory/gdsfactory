@@ -72,7 +72,7 @@ def add_electrical_pads_top(
 
     c.add_ports(pads.ports)
     c.copy_child_info(component)
-    c.auto_rename_ports()
+    c.auto_rename_ports(prefix_electrical=f"elec-{component.name}-")
     return c
 
 

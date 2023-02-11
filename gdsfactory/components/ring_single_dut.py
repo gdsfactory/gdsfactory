@@ -84,7 +84,7 @@ def ring_single_dut(
 
     c.add_port("o2", port=cb.ports["o4"])
     c.add_port("o1", port=cb.ports["o1"])
-    c.copy_child_info(component)
+    c.info["component"] = component.info
     return c
 
 

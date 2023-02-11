@@ -5,7 +5,6 @@ settings:
   default:
     base_layer: WG
     cross_section: strip
-    fiber_marker_layer: TE
     length_taper: 150.0
     period_x: 0.58
     period_y: 0.58
@@ -28,7 +27,6 @@ settings:
   full:
     base_layer: WG
     cross_section: strip
-    fiber_marker_layer: TE
     length_taper: 150.0
     period_x: 0.58
     period_y: 0.58

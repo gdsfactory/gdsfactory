@@ -31,6 +31,7 @@ from __future__ import annotations
 
 import json
 import pathlib
+import dataclasses
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 import gdstk
@@ -66,7 +67,8 @@ STEP_DIRECTIVES_ALL_ANGLE = {
 }
 
 
-class Step(BaseModel):
+@dataclasses.dataclass
+class Step:
     """Manhattan Step.
 
     Parameters:
@@ -77,27 +79,23 @@ class Step(BaseModel):
 
     """
 
-    x: Optional[float]
-    y: Optional[float]
-    dx: Optional[float]
-    dy: Optional[float]
-
-    class Config:
-        """Config for Steps."""
-
-        extra = Extra.forbid
+    x: Optional[float] = None
+    y: Optional[float] = None
+    dx: Optional[float] = None
+    dy: Optional[float] = None
 
 
-class StepAllAngle(BaseModel):
-    x: Optional[float]
-    y: Optional[float]
-    dx: Optional[float]
-    dy: Optional[float]
-    ds: Optional[float]
-    exit_angle: Optional[float]
-    cross_section: Optional[CrossSectionSpec]
-    connector: Optional[ComponentSpec]
-    separation: Optional[float]
+@dataclasses.dataclass
+class StepAllAngle:
+    x: Optional[float] = None
+    y: Optional[float] = None
+    dx: Optional[float] = None
+    dy: Optional[float] = None
+    ds: Optional[float] = None
+    exit_angle: Optional[float] = None
+    cross_section: Optional[CrossSectionSpec] = None
+    connector: Optional[ComponentSpec] = None
+    separation: Optional[float] = None
 
     """All angle Ste.
 

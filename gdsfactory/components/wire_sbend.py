@@ -26,12 +26,11 @@ def wire_sbend(dx: float = 20.0, dy: float = 10.0, **kwargs) -> Component:
     }
 
     sequence = "-B|b-"
-    c = gf.components.component_sequence(
-        sequence=sequence, symbol_to_component=symbol_to_component
+    return gf.components.component_sequence(
+        sequence=sequence,
+        symbol_to_component=symbol_to_component,
+        decorator=gf.port.auto_rename_ports,
     )
-    c.unlock()
-    c.auto_rename_ports()
-    return c
 
 
 if __name__ == "__main__":
