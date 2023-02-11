@@ -114,6 +114,12 @@ def add_fiber_array(
     if gc_port_name not in gc.ports:
         raise ValueError(f"gc_port_name={gc_port_name!r} not in {gc.ports.keys()}")
 
+    ports_vertical = grating_coupler.get_ports_list(prefix="opt")
+    if not ports_vertical:
+        raise ValueError(
+            f"No grating coupler with `opt` prefix in {list(grating_coupler.ports.keys())}"
+        )
+
     component_name = component_name or component.metadata_child.get(
         "name", component.name
     )
