@@ -1,5 +1,12 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [6.37.0](https://github.com/gdsfactory/gdsfactory/pull/1264)
+
+- better port names for grating couplers, include `opt_te_wavelength_fiberAngle`
+- remove grating coupler markers
+- remove `Component.unlock()` in some functions that add labels. Cached components should never be modified.
+- `add_fiber_single` and `add_fiber_array` don't add labels by default
+
 ## 6.36.0
 
 - add tests and better docs for get_bundle_all_angle [PR](https://github.com/gdsfactory/gdsfactory/pull/1257)
