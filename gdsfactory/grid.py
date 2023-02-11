@@ -49,6 +49,8 @@ def grid(
         rotation: for each component in degrees.
         h_mirror: horizontal mirror y axis (x, 1) (1, 0). most common mirror.
         v_mirror: vertical mirror using x axis (1, y) (0, y).
+        add_ports_prefix: adds port names with prefix.
+        add_ports_suffix: adds port names with suffix.
 
     Returns:
         Component containing components grid.
