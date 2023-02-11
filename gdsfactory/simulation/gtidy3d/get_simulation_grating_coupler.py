@@ -227,14 +227,14 @@ def get_simulation_grating_coupler(
 
     if port_waveguide_name not in component.ports:
         warnings.warn(
-            f"port_waveguide_name={port_waveguide_name} not in {component.ports.keys()}"
+            f"port_waveguide_name={port_waveguide_name!r} not in {component.ports.keys()}"
         )
         port_waveguide = component.get_ports_list()[0]
         port_waveguide_name = port_waveguide.name
-        warnings.warn(f"Selecting port_waveguide_name={port_waveguide_name} instead.")
+        warnings.warn(f"Selecting port_waveguide_name={port_waveguide_name!r} instead.")
 
     fiber_port_name = None
-    for port_name in c.ports.keys():
+    for port_name in component.ports.keys():
         if port_name.startswith(fiber_port_prefix):
             fiber_port_name = port_name
 
