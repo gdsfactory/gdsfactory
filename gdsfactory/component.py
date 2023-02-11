@@ -637,6 +637,7 @@ class Component(_GeometryHelper):
         Keyword Args:
             layer: port GDS layer.
             prefix: select ports with prefix in port name.
+            suffix: select ports with port name suffix.
             orientation: select ports with orientation in degrees.
             width: select ports with port width.
             layers_excluded: List of layers to exclude.
@@ -651,6 +652,8 @@ class Component(_GeometryHelper):
         Keyword Args:
             layer: select ports with GDS layer.
             prefix: select ports with prefix in port name.
+            suffix: select ports with port name suffix.
+            orientation: select ports with orientation in degrees.
             orientation: select ports with orientation in degrees.
             width: select ports with port width.
             layers_excluded: List of layers to exclude.
