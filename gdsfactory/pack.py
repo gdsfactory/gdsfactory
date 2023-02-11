@@ -205,14 +205,15 @@ def pack(
             if hasattr(component, "settings"):
                 packed.info["components"][component.name] = dict(component.settings)
             d.center = (xcenter * precision, ycenter * precision)
-
             if add_ports_prefix:
                 packed.add_ports(d.ports, prefix=f"{index}_")
             elif add_ports_suffix:
                 packed.add_ports(d.ports, suffix=f"_{index}")
-
             else:
-                packed.add_ports(d.ports)
+                try:
+                    packed.add_ports(d.ports)
+                except ValueError:
+                    packed.add_ports(d.ports, suffix=f"_{index}")
 
             index += 1
 

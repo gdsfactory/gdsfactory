@@ -153,6 +153,7 @@ def add_labels(
     keyword Args:
         layer: port GDS layer.
         prefix: with in port name.
+        suffix: select ports with port name suffix.
         orientation: in degrees.
         width: for ports to add label.
         layers_excluded: List of layers to exclude.
@@ -243,6 +244,7 @@ def add_labels_to_ports(
     keyword Args:
         layer: select ports with GDS layer.
         prefix: select ports with prefix in port name.
+        suffix: select ports with port name suffix.
         orientation: select ports with orientation in degrees.
         width: select ports with port width.
         layers_excluded: List of layers to exclude.
@@ -272,6 +274,7 @@ def add_labels_to_ports_x_y(
     keyword Args:
         layer: select ports with GDS layer.
         prefix: select ports with prefix in port name.
+        suffix: select ports with port name suffix.
         orientation: select ports with orientation in degrees.
         width: select ports with port width.
         layers_excluded: List of layers to exclude.
@@ -325,6 +328,7 @@ def get_labels(
     keyword Args:
         layer: port GDS layer.
         prefix: look for prefix in port name.
+        suffix: select ports with port name suffix.
         orientation: in degrees.
         width: for ports to add label.
         layers_excluded: List of layers to exclude.
