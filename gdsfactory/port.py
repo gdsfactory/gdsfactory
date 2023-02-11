@@ -780,8 +780,8 @@ def rename_ports_by_orientation(
 def auto_rename_ports(
     component: Component,
     function=_rename_ports_clockwise,
-    select_ports_optical=select_ports_optical,
-    select_ports_electrical=select_ports_electrical,
+    select_ports_optical: Optional[Callable] = select_ports_optical,
+    select_ports_electrical: Optional[Callable] = select_ports_electrical,
     prefix_optical: str = "o",
     prefix_electrical: str = "e",
     **kwargs,
@@ -820,6 +820,8 @@ auto_rename_ports_counter_clockwise = partial(
 auto_rename_ports_orientation = partial(
     auto_rename_ports, function=_rename_ports_facing_side
 )
+
+auto_rename_ports_electrical = partial(auto_rename_ports, select_ports_optical=None)
 
 
 def map_ports_layer_to_orientation(
