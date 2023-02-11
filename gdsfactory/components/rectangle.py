@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from typing import Optional, Tuple
+from functools import partial
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
@@ -34,6 +35,11 @@ def rectangle(
     if port_type:
         c.add_ports(ref.ports)
     return c
+
+
+fiber_size = 10.4
+marker_te = partial(rectangle, size=[fiber_size, fiber_size], layer="TE", centered=True)
+marker_tm = partial(rectangle, size=[fiber_size, fiber_size], layer="TM", centered=True)
 
 
 if __name__ == "__main__":

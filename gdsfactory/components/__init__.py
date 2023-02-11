@@ -184,7 +184,7 @@ from gdsfactory.components.pad import (
 from gdsfactory.components.pad_gsg import pad_gsg_open, pad_gsg_short
 from gdsfactory.components.pads_shorted import pads_shorted
 from gdsfactory.components.ramp import ramp
-from gdsfactory.components.rectangle import rectangle
+from gdsfactory.components.rectangle import rectangle, marker_te, marker_tm
 from gdsfactory.components.rectangle_with_slits import rectangle_with_slits
 from gdsfactory.components.resistance_meander import resistance_meander
 from gdsfactory.components.resistance_sheet import resistance_sheet
@@ -446,6 +446,8 @@ __all__ = [
     "loss_deembedding_ch12_34",
     "loss_deembedding_ch13_24",
     "loss_deembedding_ch14_23",
+    "marker_te",
+    "marker_tm",
     "mmi_90degree_hybrid",
     "mmi1x2",
     "mmi1x2",

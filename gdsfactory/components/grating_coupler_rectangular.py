@@ -7,7 +7,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
-from gdsfactory.components.taper import taper
+from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
 
@@ -20,9 +20,9 @@ def grating_coupler_rectangular(
     length_taper: float = 150.0,
     polarization: str = "te",
     wavelength: float = 1.55,
-    taper: ComponentSpec = taper,
+    taper: ComponentSpec = taper_function,
     layer_slab: Optional[LayerSpec] = "SLAB150",
-    fiber_marker_layer: LayerSpec = "TE",
+    fiber_angle: float = 15,
     slab_xmin: float = -1.0,
     slab_offset: float = 1.0,
     cross_section: CrossSectionSpec = "strip",
@@ -40,12 +40,11 @@ def grating_coupler_rectangular(
         fill_factor: ratio of grating width vs gap.
         width_grating: 11.
         length_taper: 150.
-        wg_width: input waveguide width.
-        layer: for grating teeth.
         polarization: 'te' or 'tm'.
         wavelength: in um.
         taper: function.
         layer_slab: layer that protects the slab under the grating.
+        fiber_angle: in degrees.
         slab_xmin: where 0 is at the start of the taper.
         slab_offset: from edge of grating to edge of the slab.
         cross_section: for input waveguide port.
@@ -103,14 +102,14 @@ def grating_coupler_rectangular(
 
     xport = np.round((x0 + cgrating.x) / 2, 3)
 
-    port_type = f"vertical_{polarization.lower()}"
+    name = f"opt_{polarization.lower()}_{int(wavelength*1e3)}_{int(fiber_angle)}"
     c.add_port(
-        name=port_type,
-        port_type=port_type,
+        name=name,
+        port_type=name,
         center=(xport, 0),
         orientation=0,
         width=width_grating,
-        layer=fiber_marker_layer,
+        layer=layer,
     )
     c.info["polarization"] = polarization
     c.info["wavelength"] = wavelength

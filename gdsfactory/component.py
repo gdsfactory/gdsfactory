@@ -636,7 +636,13 @@ class Component(_GeometryHelper):
 
         Keyword Args:
             layer: port GDS layer.
-            prefix: for example "E" for east, "W" for west ...
+            prefix: select ports with prefix in port name.
+            suffix: select ports with port name suffix.
+            orientation: select ports with orientation in degrees.
+            width: select ports with port width.
+            layers_excluded: List of layers to exclude.
+            port_type: select ports with port_type (optical, electrical, vertical_te).
+            clockwise: if True, sort ports clockwise, False: counter-clockwise.
         """
         return select_ports(self.ports, **kwargs)
 
@@ -645,7 +651,9 @@ class Component(_GeometryHelper):
 
         Keyword Args:
             layer: select ports with GDS layer.
-            prefix: select ports with port name.
+            prefix: select ports with prefix in port name.
+            suffix: select ports with port name suffix.
+            orientation: select ports with orientation in degrees.
             orientation: select ports with orientation in degrees.
             width: select ports with port width.
             layers_excluded: List of layers to exclude.
@@ -810,7 +818,10 @@ class Component(_GeometryHelper):
         return p
 
     def add_ports(
-        self, ports: Union[List[Port], Dict[str, Port]], prefix: str = ""
+        self,
+        ports: Union[List[Port], Dict[str, Port]],
+        prefix: str = "",
+        suffix: str = "",
     ) -> None:
         """Add a list or dict of ports.
 
@@ -822,7 +833,7 @@ class Component(_GeometryHelper):
         """
         ports = ports if isinstance(ports, list) else ports.values()
         for port in list(ports):
-            name = f"{prefix}{port.name}" if prefix else port.name
+            name = f"{prefix}{port.name}{suffix}"
             self.add_port(name=name, port=port)
 
     def snap_ports_to_grid(self, nm: int = 1) -> None:
