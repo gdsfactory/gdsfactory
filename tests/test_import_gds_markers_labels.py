@@ -20,7 +20,7 @@ def test_import_ports_markers_labels(data_regression) -> gf.Component:
     )
     labels = pd.read_csv(csvpath)
 
-    settings = yaml.safe_load(labels.columns[0])
+    settings = yaml.safe_load(labels.text[0])
     data_regression.check(settings)
 
 
@@ -36,5 +36,5 @@ if __name__ == "__main__":
         gdspath, prefixes=("component_name",)
     )
     labels = pd.read_csv(csvpath)
-    settings = yaml.safe_load(labels.columns[0])
+    settings = yaml.safe_load(labels.text[0])
     c1.show()
