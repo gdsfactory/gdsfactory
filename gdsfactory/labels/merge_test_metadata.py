@@ -32,7 +32,7 @@ def parse_csv_data(
     return lines
 
 
-def get_cell_from_label(label: str) -> str:
+def get_cell_from_label_brackets(label: str) -> str:
     """Get cell name from the label (cell_name is in parenthesis)."""
     try:
         cell_name = label.split("(")[1].split(")")[0]
@@ -44,10 +44,15 @@ def get_cell_from_label(label: str) -> str:
     return cell_name
 
 
+def get_cell_from_label(label: str) -> str:
+    """Returns label, assuming GratingPort-Grating-Component-ComponentPort"""
+    cell_name = label.split("-")[2]
+    return cell_name
+
+
 def merge_test_metadata(
     labels_path: PathType,
     mask_metadata: Dict[str, Any],
-    labels_prefix: str = "opt",
     get_cell_from_string=get_cell_from_label,
     filepath: Optional[PathType] = None,
 ) -> DictConfig:
@@ -57,7 +62,6 @@ def merge_test_metadata(
     Args:
         labels_path: for test labels in CSV.
         mask_metadata: dict with test metadata.
-        labels_prefix: only select labels with a text prefix.
         get_cell_from_string: returns label string.
         filepath: Optional path to write test metadata.
 
