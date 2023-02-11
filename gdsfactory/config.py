@@ -28,7 +28,7 @@ import omegaconf
 from loguru import logger
 from omegaconf import OmegaConf
 
-__version__ = "6.36.1"
+__version__ = "6.37.0"
 PathType = Union[str, pathlib.Path]
 
 home = pathlib.Path.home()
