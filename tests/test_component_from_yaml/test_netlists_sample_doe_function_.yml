@@ -62,8 +62,7 @@ instances:
             cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
+            get_input_labels_function: null
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -85,8 +84,7 @@ instances:
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
+            get_input_labels_function: null
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -151,8 +149,7 @@ instances:
             cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
+            get_input_labels_function: null
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -174,8 +171,7 @@ instances:
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
+            get_input_labels_function: null
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -240,8 +236,7 @@ instances:
             cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
+            get_input_labels_function: null
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -263,8 +258,7 @@ instances:
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
+            get_input_labels_function: null
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -329,8 +323,7 @@ instances:
             cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
+            get_input_labels_function: null
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -352,8 +345,7 @@ instances:
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
+            get_input_labels_function: null
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -418,8 +410,7 @@ instances:
             cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
+            get_input_labels_function: null
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -441,8 +432,7 @@ instances:
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
+            get_input_labels_function: null
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -507,8 +497,7 @@ instances:
             cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
+            get_input_labels_function: null
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -530,8 +519,7 @@ instances:
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
+            get_input_labels_function: null
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -596,8 +584,7 @@ instances:
             cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
+            get_input_labels_function: null
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -619,8 +606,7 @@ instances:
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
+            get_input_labels_function: null
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -685,8 +671,7 @@ instances:
             cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
+            get_input_labels_function: null
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -708,8 +693,7 @@ instances:
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
+            get_input_labels_function: null
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -774,8 +758,7 @@ instances:
             cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
+            get_input_labels_function: null
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -797,8 +780,7 @@ instances:
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
+            get_input_labels_function: null
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -863,8 +845,7 @@ instances:
             cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
+            get_input_labels_function: null
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -886,8 +867,7 @@ instances:
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
+            get_input_labels_function: null
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -952,8 +932,7 @@ instances:
             cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
+            get_input_labels_function: null
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -975,8 +954,7 @@ instances:
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
+            get_input_labels_function: null
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -1041,8 +1019,7 @@ instances:
             cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
+            get_input_labels_function: null
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -1064,8 +1041,7 @@ instances:
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function:
-              function: get_input_labels
+            get_input_labels_function: null
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -1116,176 +1092,176 @@ placements:
     y: 0.0
 ports: {}
 warnings:
-  vertical_te:
+  optical:
     unconnected_ports:
-    - message: 56 unconnected vertical_te ports!
+    - message: 56 unconnected optical ports!
       ports:
-      - rings,ring_single_length_x1_r_9a17daca_0_vertical_te-ring_single_length_x1_radius50-0-0
-      - rings,ring_single_length_x1_r_9a17daca_0_vertical_te-ring_single_length_x1_radius50-0-1
-      - rings,ring_single_length_x1_r_9a17daca_0_vertical_te-ring_single_length_x1_radius50-1-0
-      - rings,ring_single_length_x1_r_9a17daca_0_vertical_te-ring_single_length_x1_radius50-2-0
-      - rings,ring_single_length_x2_r_039ecebb_1_vertical_te-ring_single_length_x2_radius50-0-0
-      - rings,ring_single_length_x2_r_039ecebb_1_vertical_te-ring_single_length_x2_radius50-0-1
-      - rings,ring_single_length_x2_r_039ecebb_1_vertical_te-ring_single_length_x2_radius50-1-0
-      - rings,ring_single_length_x2_r_039ecebb_1_vertical_te-ring_single_length_x2_radius50-2-0
-      - rings,ring_single_length_x3_r_d4663425_2_vertical_te-ring_single_length_x3_radius50-0-0
-      - rings,ring_single_length_x3_r_d4663425_2_vertical_te-ring_single_length_x3_radius50-0-1
-      - rings,ring_single_length_x3_r_d4663425_2_vertical_te-ring_single_length_x3_radius50-1-0
-      - rings,ring_single_length_x3_r_d4663425_2_vertical_te-ring_single_length_x3_radius50-2-0
-      - rings,ring_single_length_x1_r_f293a50f_3_vertical_te-ring_single_length_x1_radius40-0-0
-      - rings,ring_single_length_x1_r_f293a50f_3_vertical_te-ring_single_length_x1_radius40-0-1
-      - rings,ring_single_length_x1_r_f293a50f_3_vertical_te-ring_single_length_x1_radius40-1-0
-      - rings,ring_single_length_x1_r_f293a50f_3_vertical_te-ring_single_length_x1_radius40-2-0
-      - rings,ring_single_length_x2_r_b5c24bf7_4_vertical_te-ring_single_length_x2_radius40-0-0
-      - rings,ring_single_length_x2_r_b5c24bf7_4_vertical_te-ring_single_length_x2_radius40-0-1
-      - rings,ring_single_length_x2_r_b5c24bf7_4_vertical_te-ring_single_length_x2_radius40-1-0
-      - rings,ring_single_length_x2_r_b5c24bf7_4_vertical_te-ring_single_length_x2_radius40-2-0
-      - rings,ring_single_length_x3_r_82ca69e2_5_vertical_te-ring_single_length_x3_radius40-0-0
-      - rings,ring_single_length_x3_r_82ca69e2_5_vertical_te-ring_single_length_x3_radius40-0-1
-      - rings,ring_single_length_x3_r_82ca69e2_5_vertical_te-ring_single_length_x3_radius40-1-0
-      - rings,ring_single_length_x3_r_82ca69e2_5_vertical_te-ring_single_length_x3_radius40-2-0
-      - rings,ring_single_length_x1_r_e922fb20_6_vertical_te-ring_single_length_x1_radius30-0-0
-      - rings,ring_single_length_x1_r_e922fb20_6_vertical_te-ring_single_length_x1_radius30-0-1
-      - rings,ring_single_length_x1_r_e922fb20_6_vertical_te-ring_single_length_x1_radius30-1-0
-      - rings,ring_single_length_x1_r_e922fb20_6_vertical_te-ring_single_length_x1_radius30-2-0
-      - rings,ring_single_length_x2_r_711910fe_7_vertical_te-ring_single_length_x2_radius30-0-0
-      - rings,ring_single_length_x2_r_711910fe_7_vertical_te-ring_single_length_x2_radius30-0-1
-      - rings,ring_single_length_x2_r_711910fe_7_vertical_te-ring_single_length_x2_radius30-1-0
-      - rings,ring_single_length_x2_r_711910fe_7_vertical_te-ring_single_length_x2_radius30-2-0
-      - rings,ring_single_length_x3_r_a8320a1f_8_vertical_te-ring_single_length_x3_radius30-0-0
-      - rings,ring_single_length_x3_r_a8320a1f_8_vertical_te-ring_single_length_x3_radius30-0-1
-      - rings,ring_single_length_x3_r_a8320a1f_8_vertical_te-ring_single_length_x3_radius30-1-0
-      - rings,ring_single_length_x3_r_a8320a1f_8_vertical_te-ring_single_length_x3_radius30-2-0
-      - rings,ring_single_length_x1_r_71050ad9_9_vertical_te-ring_single_length_x1_radius20-0-0
-      - rings,ring_single_length_x1_r_71050ad9_9_vertical_te-ring_single_length_x1_radius20-0-1
-      - rings,ring_single_length_x1_r_71050ad9_9_vertical_te-ring_single_length_x1_radius20-1-0
-      - rings,ring_single_length_x1_r_71050ad9_9_vertical_te-ring_single_length_x1_radius20-2-0
-      - rings,ring_single_length_x2_r_17a807d6_10_vertical_te-ring_single_length_x2_radius20-0-0
-      - rings,ring_single_length_x2_r_17a807d6_10_vertical_te-ring_single_length_x2_radius20-0-1
-      - rings,ring_single_length_x2_r_17a807d6_10_vertical_te-ring_single_length_x2_radius20-1-0
-      - rings,ring_single_length_x2_r_17a807d6_10_vertical_te-ring_single_length_x2_radius20-2-0
-      - rings,ring_single_length_x3_r_9a14b626_11_vertical_te-ring_single_length_x3_radius20-0-0
-      - rings,ring_single_length_x3_r_9a14b626_11_vertical_te-ring_single_length_x3_radius20-0-1
-      - rings,ring_single_length_x3_r_9a14b626_11_vertical_te-ring_single_length_x3_radius20-1-0
-      - rings,ring_single_length_x3_r_9a14b626_11_vertical_te-ring_single_length_x3_radius20-2-0
-      - mzis,0_0_vertical_te-mzi_delta_length10-0-0
-      - mzis,0_0_vertical_te-mzi_delta_length10-0-1
-      - mzis,0_0_vertical_te-mzi_delta_length10-1-0
-      - mzis,0_0_vertical_te-mzi_delta_length10-2-0
-      - mzis,1_0_vertical_te-mzi_delta_length100-0-0
-      - mzis,1_0_vertical_te-mzi_delta_length100-0-1
-      - mzis,1_0_vertical_te-mzi_delta_length100-1-0
-      - mzis,1_0_vertical_te-mzi_delta_length100-2-0
+      - rings,ring_single_length_x1_r_9a17daca_0_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x1_radius50-o1
+      - rings,ring_single_length_x1_r_9a17daca_0_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x1_radius50-o2
+      - rings,ring_single_length_x1_r_9a17daca_0_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x1_radius50-loopback0
+      - rings,ring_single_length_x1_r_9a17daca_0_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x1_radius50-loopback1
+      - rings,ring_single_length_x2_r_039ecebb_1_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x2_radius50-o1
+      - rings,ring_single_length_x2_r_039ecebb_1_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x2_radius50-o2
+      - rings,ring_single_length_x2_r_039ecebb_1_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x2_radius50-loopback0
+      - rings,ring_single_length_x2_r_039ecebb_1_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x2_radius50-loopback1
+      - rings,ring_single_length_x3_r_d4663425_2_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x3_radius50-o1
+      - rings,ring_single_length_x3_r_d4663425_2_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x3_radius50-o2
+      - rings,ring_single_length_x3_r_d4663425_2_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x3_radius50-loopback0
+      - rings,ring_single_length_x3_r_d4663425_2_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x3_radius50-loopback1
+      - rings,ring_single_length_x1_r_f293a50f_3_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x1_radius40-o1
+      - rings,ring_single_length_x1_r_f293a50f_3_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x1_radius40-o2
+      - rings,ring_single_length_x1_r_f293a50f_3_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x1_radius40-loopback0
+      - rings,ring_single_length_x1_r_f293a50f_3_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x1_radius40-loopback1
+      - rings,ring_single_length_x2_r_b5c24bf7_4_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x2_radius40-o1
+      - rings,ring_single_length_x2_r_b5c24bf7_4_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x2_radius40-o2
+      - rings,ring_single_length_x2_r_b5c24bf7_4_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x2_radius40-loopback0
+      - rings,ring_single_length_x2_r_b5c24bf7_4_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x2_radius40-loopback1
+      - rings,ring_single_length_x3_r_82ca69e2_5_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x3_radius40-o1
+      - rings,ring_single_length_x3_r_82ca69e2_5_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x3_radius40-o2
+      - rings,ring_single_length_x3_r_82ca69e2_5_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x3_radius40-loopback0
+      - rings,ring_single_length_x3_r_82ca69e2_5_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x3_radius40-loopback1
+      - rings,ring_single_length_x1_r_e922fb20_6_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x1_radius30-o1
+      - rings,ring_single_length_x1_r_e922fb20_6_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x1_radius30-o2
+      - rings,ring_single_length_x1_r_e922fb20_6_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x1_radius30-loopback0
+      - rings,ring_single_length_x1_r_e922fb20_6_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x1_radius30-loopback1
+      - rings,ring_single_length_x2_r_711910fe_7_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x2_radius30-o1
+      - rings,ring_single_length_x2_r_711910fe_7_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x2_radius30-o2
+      - rings,ring_single_length_x2_r_711910fe_7_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x2_radius30-loopback0
+      - rings,ring_single_length_x2_r_711910fe_7_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x2_radius30-loopback1
+      - rings,ring_single_length_x3_r_a8320a1f_8_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x3_radius30-o1
+      - rings,ring_single_length_x3_r_a8320a1f_8_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x3_radius30-o2
+      - rings,ring_single_length_x3_r_a8320a1f_8_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x3_radius30-loopback0
+      - rings,ring_single_length_x3_r_a8320a1f_8_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x3_radius30-loopback1
+      - rings,ring_single_length_x1_r_71050ad9_9_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x1_radius20-o1
+      - rings,ring_single_length_x1_r_71050ad9_9_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x1_radius20-o2
+      - rings,ring_single_length_x1_r_71050ad9_9_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x1_radius20-loopback0
+      - rings,ring_single_length_x1_r_71050ad9_9_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x1_radius20-loopback1
+      - rings,ring_single_length_x2_r_17a807d6_10_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x2_radius20-o1
+      - rings,ring_single_length_x2_r_17a807d6_10_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x2_radius20-o2
+      - rings,ring_single_length_x2_r_17a807d6_10_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x2_radius20-loopback0
+      - rings,ring_single_length_x2_r_17a807d6_10_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x2_radius20-loopback1
+      - rings,ring_single_length_x3_r_9a14b626_11_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x3_radius20-o1
+      - rings,ring_single_length_x3_r_9a14b626_11_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x3_radius20-o2
+      - rings,ring_single_length_x3_r_9a14b626_11_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x3_radius20-loopback0
+      - rings,ring_single_length_x3_r_9a14b626_11_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-ring_single_length_x3_radius20-loopback1
+      - mzis,0_0_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-mzi_delta_length10-o1
+      - mzis,0_0_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-mzi_delta_length10-o2
+      - mzis,0_0_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-mzi_delta_length10-loopback0
+      - mzis,0_0_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-mzi_delta_length10-loopback1
+      - mzis,1_0_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-mzi_delta_length100-o1
+      - mzis,1_0_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-mzi_delta_length100-o2
+      - mzis,1_0_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-mzi_delta_length100-loopback0
+      - mzis,1_0_opt_te_1530_15-grating_coupler_ellipti_dd7f7af4-mzi_delta_length100-loopback1
       values:
       - - 189.973
-        - 24.5825
+        - 50.851
       - - 316.973
-        - 24.5825
+        - 50.851
       - - 62.973
-        - 24.5825
+        - 50.851
       - - 443.973
-        - 24.5825
+        - 50.851
       - - 189.973
-        - 398.6325
+        - 424.901
       - - 316.973
-        - 398.6325
+        - 424.901
       - - 62.973
-        - 398.6325
+        - 424.901
       - - 443.973
-        - 398.6325
+        - 424.901
       - - 189.973
-        - 772.6825
+        - 798.951
       - - 316.973
-        - 772.6825
+        - 798.951
       - - 62.973
-        - 772.6825
+        - 798.951
       - - 443.973
-        - 772.6825
+        - 798.951
       - - 189.973
-        - 1146.7325
+        - 1173.001
       - - 316.973
-        - 1146.7325
+        - 1173.001
       - - 62.973
-        - 1146.7325
+        - 1173.001
       - - 443.973
-        - 1146.7325
+        - 1173.001
       - - 606.913
-        - 24.5825
+        - 50.851
       - - 733.913
-        - 24.5825
+        - 50.851
       - - 479.913
-        - 24.5825
+        - 50.851
       - - 860.913
-        - 24.5825
+        - 50.851
       - - 606.913
-        - 378.6325
+        - 404.901
       - - 733.913
-        - 378.6325
+        - 404.901
       - - 479.913
-        - 378.6325
+        - 404.901
       - - 860.913
-        - 378.6325
+        - 404.901
       - - 606.913
-        - 732.6825
+        - 758.951
       - - 733.913
-        - 732.6825
+        - 758.951
       - - 479.913
-        - 732.6825
+        - 758.951
       - - 860.913
-        - 732.6825
+        - 758.951
       - - 606.913
-        - 1066.7325
+        - 1093.001
       - - 733.913
-        - 1066.7325
+        - 1093.001
       - - 479.913
-        - 1066.7325
+        - 1093.001
       - - 860.913
-        - 1066.7325
+        - 1093.001
       - - 1023.853
-        - 24.5825
+        - 50.851
       - - 1150.853
-        - 24.5825
+        - 50.851
       - - 896.853
-        - 24.5825
+        - 50.851
       - - 1277.853
-        - 24.5825
+        - 50.851
       - - 1023.853
-        - 358.6325
+        - 384.901
       - - 1150.853
-        - 358.6325
+        - 384.901
       - - 896.853
-        - 358.6325
+        - 384.901
       - - 1277.853
-        - 358.6325
+        - 384.901
       - - 1023.853
-        - 672.6825
+        - 698.951
       - - 1150.853
-        - 672.6825
+        - 698.951
       - - 896.853
-        - 672.6825
+        - 698.951
       - - 1277.853
-        - 672.6825
+        - 698.951
       - - 1023.853
-        - 986.7325
+        - 1013.001
       - - 1150.853
-        - 986.7325
+        - 1013.001
       - - 896.853
-        - 986.7325
+        - 1013.001
       - - 1277.853
-        - 986.7325
+        - 1013.001
       - - 1430.799
-        - 52.4085
+        - 78.677
       - - 1557.799
-        - 52.4085
+        - 78.677
       - - 1303.799
-        - 52.4085
+        - 78.677
       - - 1684.799
-        - 52.4085
+        - 78.677
       - - 1430.799
-        - -126.5685
+        - -100.3
       - - 1557.799
-        - -126.5685
+        - -100.3
       - - 1303.799
-        - -126.5685
+        - -100.3
       - - 1684.799
-        - -126.5685
+        - -100.3
