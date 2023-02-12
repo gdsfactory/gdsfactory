@@ -78,7 +78,7 @@ If you don't have python installed on your system you can [download the gdsfacto
 
 ### 2. Installation for new gdsfactory users
 
-Open Mamba, Miniconda or Anaconda Prompt and then install using pip
+Once you have python installed, open Anaconda Prompt and then install the latest gdsfactory using pip.
 
 ![anaconda prompt](https://i.imgur.com/Fyal5sT.png)
 
@@ -86,6 +86,8 @@ Open Mamba, Miniconda or Anaconda Prompt and then install using pip
 pip install gdsfactory --upgrade
 gf tool install
 ```
+
+Then you need to restart Klayout to make sure you activate the klayout gdsfactory integration.
 
 ### 3. Installation for developers
 
@@ -100,8 +102,6 @@ pre-commit install
 gf tool install
 ```
 
-Then you need to restart Klayout to make sure you activate the klayout gdsfactory integration.
-
 ### Update gdsfactory
 
 - Users can `pip install gdsfactory --upgrade`
@@ -111,7 +111,7 @@ Then you need to restart Klayout to make sure you activate the klayout gdsfactor
 
 You need to install the plugins separately
 
-You can install most plugins with `pip install gdsfactory[full,gmsh,tidy3d,devsim,meow,sax] --upgrade`
+You can install most plugins with `pip install gdsfactory[full,gmsh,tidy3d,devsim,meow,database] --upgrade`
 
 Or you can install only the ones you need.
 
