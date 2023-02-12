@@ -734,7 +734,7 @@ class Component(_GeometryHelper):
             print(port)
 
     @property
-    def metadata_child(self) -> DictConfig:
+    def metadata_child(self) -> Dict:
         """Returns metadata from child if any, Otherwise returns component own.
 
         metadata Great to access the children metadata at the bottom of the
@@ -745,11 +745,11 @@ class Component(_GeometryHelper):
         while settings.get("child"):
             settings = settings.get("child")
 
-        return DictConfig(dict(settings))
+        return dict(settings)
 
     @property
-    def metadata(self) -> DictConfig:
-        return DictConfig(dict(self.settings))
+    def metadata(self) -> Dict:
+        return dict(self.settings)
 
     def add_port(
         self,

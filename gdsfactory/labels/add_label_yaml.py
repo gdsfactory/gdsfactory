@@ -70,7 +70,7 @@ settings:
         ]
 
     metadata = (
-        flatdict.FlatDict(component.metadata.full)
+        flatdict.FlatDict(component.metadata.get("full"))
         if component.metadata.get("full")
         else {}
     )
@@ -81,7 +81,7 @@ settings:
     ]
 
     metadata = (
-        flatdict.FlatDict(component.metadata_child.full)
+        flatdict.FlatDict(component.metadata_child.get("full"))
         if component.metadata_child.get("full")
         else {}
     )
