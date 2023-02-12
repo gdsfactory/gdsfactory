@@ -28,8 +28,8 @@ def test_label_fiber_array_custom(length=LENGTH, cell_name=CELL_NAME) -> Compone
     l1 = cte.labels[1].text
 
     gc_name = "grating_coupler_ellipti_dd7f7af4"
-    assert l0 == f"opt_te_1530_15-{gc_name}-{CUSTOM_LABEL}-o1", l0
-    assert l1 == f"opt_te_1530_15-{gc_name}-{CUSTOM_LABEL}-o2", l1
+    assert l0 == f"opt-{gc_name}-{CUSTOM_LABEL}-o1", l0
+    assert l1 == f"opt-{gc_name}-{CUSTOM_LABEL}-o2", l1
     return cte
 
 
