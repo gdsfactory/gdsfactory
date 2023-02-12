@@ -1,7 +1,6 @@
 """Merge mask metadata with test labels to return test_metadata."""
 from __future__ import annotations
 
-import warnings
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -45,7 +44,17 @@ def get_cell_from_label_brackets(label: str) -> str:
 
 
 def get_cell_from_label(label: str) -> str:
-    """Returns label, assuming GratingPort-Grating-Component-ComponentPort"""
+    """Returns label, assuming opt-GratingName-ComponentName-PortName"""
+
+    if label.startswith("elec"):
+        if len(label.split("-")) < 1:
+            raise ValueError(f"{label!r} needs to follow elec-ComponentName-PortName")
+        return label.split("-")[1]
+
+    if len(label.split("-")) < 2:
+        raise ValueError(
+            f"{label!r} needs to follow opt-GratingName-ComponentName-PortName"
+        )
     return label.split("-")[2]
 
 
@@ -82,7 +91,7 @@ def merge_test_metadata(
 
     test_metadata = DictConfig({})
 
-    for label, x, y, angle in labels_list:
+    for label, x, y, angle in labels_list[1:]:
         cell = get_cell_from_string(label)
 
         if cell in cells_metadata:
@@ -91,8 +100,7 @@ def merge_test_metadata(
                 x=float(x), y=float(y), text=label, angle=angle
             )
         else:
-            logger.error(f"missing cell metadata for {cell!r}")
-            warnings.warn(f"missing cell metadata for {cell!r}")
+            logger.warning(f"missing cell metadata for {cell!r}")
 
     if filepath:
         filepath = Path(filepath)
