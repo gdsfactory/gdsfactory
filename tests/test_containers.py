@@ -37,7 +37,34 @@ def test_gds(container_type: str) -> None:
 #     data_regression.check(c.settings)
 
 
+add_gratings_with_loopback = (
+    gf.components.add_grating_couplers_with_loopback_fiber_array
+)
+add_gratings = gf.components.add_grating_couplers
+
+spiral = gf.partial(
+    gf.c.spiral_inner_io,
+    decorator=add_gratings,
+)
+
+spiral_loopback = gf.partial(
+    gf.c.spiral_inner_io,
+    decorator=add_gratings_with_loopback,
+)
+
+# def test_container_double_decorator(test=True) -> None:
+#     """Avoid regressions when exporting settings."""
+#     c = spiral()
+#     if test:
+#         difftest(c)
+
+#     c = spiral_loopback()
+#     if test:
+#         difftest(c)
+
+
 if __name__ == "__main__":
-    component.show()
+    c = spiral()
+    c.show()
     # for i in container_names:
     #     print(i)
