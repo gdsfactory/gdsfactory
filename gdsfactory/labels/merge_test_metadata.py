@@ -47,7 +47,7 @@ def get_cell_from_label(label: str) -> str:
     """Returns label, assuming opt-GratingName-ComponentName-PortName"""
 
     if label.startswith("elec"):
-        if len(label.split("-")) < 1:
+        if not label.split("-"):
             raise ValueError(f"{label!r} needs to follow elec-ComponentName-PortName")
         return label.split("-")[1]
 
