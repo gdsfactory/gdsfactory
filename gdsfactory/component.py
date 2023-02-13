@@ -1615,29 +1615,38 @@ class Component(_GeometryHelper):
             timestamp: Defaults to 2019-10-25 for consistent hash.
                 If None uses current time.
             logging: disable GDS path logging, for example for showing it in KLayout.
+            with_oasis: If True, file will be written to OASIS. Otherwise, file will be written to GDS.
 
         Keyword Args:
-            unit: unit size for objects in library. 1um by default.
-            precision: for dimensions in the library (m). 1nm by default.
-            on_duplicate_cell: specify how to resolve duplicate-named cells. Choose one of the following:
-                "warn" (default): overwrite all duplicate cells with one of the duplicates (arbitrarily).
-                "error": throw a ValueError when attempting to write a gds with duplicate cells.
-                "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
-                None: do not try to resolve (at your own risk!)
-            flatten_invalid_refs: flattens component references which have invalid transformations.
-            max_points: Maximal number of vertices per polygon. Polygons with more vertices that this are automatically fractured.
-            outfile: Name of the output file.
-            compression_level: Level of compression for cells (between 0 and 9).
-                Setting to 0 will disable cell compression, 1 gives the best speed and 9, the best compression.
-            detect_rectangles: Store rectangles in compressed format.
-            detect_trapezoids: Store trapezoids in compressed format.
-            circle_tolerance: Tolerance for detecting circles. If less or equal to 0, no detection is performed. Circles are stored in compressed format.
-            validation ("crc32", "checksum32", None): type of validation to include in the saved file.
-            standard_properties: Store standard OASIS properties in the file.
+            Keyword arguments will override the active PDK's default GdsWriteSettings and OasisWriteSettings.
+
+            Gds settings:
+                unit: unit size for objects in library. 1um by default.
+                precision: for dimensions in the library (m). 1nm by default.
+                on_duplicate_cell: specify how to resolve duplicate-named cells. Choose one of the following:
+                    "warn" (default): overwrite all duplicate cells with one of the duplicates (arbitrarily).
+                    "error": throw a ValueError when attempting to write a gds with duplicate cells.
+                    "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
+                    None: do not try to resolve (at your own risk!)
+                flatten_invalid_refs: flattens component references which have invalid transformations.
+                max_points: Maximal number of vertices per polygon. Polygons with more vertices that this are automatically fractured.
+            Oasis settings:
+                compression_level: Level of compression for cells (between 0 and 9).
+                    Setting to 0 will disable cell compression, 1 gives the best speed and 9, the best compression.
+                detect_rectangles: Store rectangles in compressed format.
+                detect_trapezoids: Store trapezoids in compressed format.
+                circle_tolerance: Tolerance for detecting circles. If less or equal to 0, no detection is performed. Circles are stored in compressed format.
+                validation ("crc32", "checksum32", None): type of validation to include in the saved file.
+                standard_properties: Store standard OASIS properties in the file.
 
         """
 
         from gdsfactory.pdk import get_active_pdk
+
+        if gdspath and gdsdir:
+            warnings.warn(
+                "gdspath and gdsdir have both been specified. gdspath will take precedence and gdsdir will be ignored."
+            )
 
         default_settings = get_active_pdk().gds_write_settings
         default_oasis_settings = get_active_pdk().oasis_settings
