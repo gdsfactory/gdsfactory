@@ -1607,7 +1607,7 @@ class Component(_GeometryHelper):
         with_oasis: bool = False,
         **kwargs,
     ) -> Path:
-        """Write component to GDS and returns gdspath.
+        """Write component to GDS or OASIS and returns gdspath.
 
         Args:
             gdspath: GDS file path to write to.
