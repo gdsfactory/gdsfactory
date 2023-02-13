@@ -681,10 +681,9 @@ class Waveguide(BaseModel):
         plot(self.Xx, self.Yx, nx, mode=np.abs(Ey_) ** 2, title=f"Ey::{neff_:.3f}")
         plt.show()
 
-    def _repr_html_(self) -> str:
+    def _ipython_display_(self) -> None:
         """Show index in matplotlib for Jupyter Notebooks."""
         self.plot_index()
-        return self.__repr__()
 
     def __repr__(self) -> str:
         """Show waveguide name."""
