@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler_ring import coupler_ring as coupler_ring_function
 from gdsfactory.components.straight import straight
-from gdsfactory.types import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -76,6 +76,5 @@ def ring_double(
 
 
 if __name__ == "__main__":
-
     c = ring_double(width=1, layer=(2, 0), length_y=3)
     c.show(show_subports=False)

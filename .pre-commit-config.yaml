@@ -7,11 +7,11 @@ repos:
       - id: end-of-file-fixer
       - id: trailing-whitespace
       - id: requirements-txt-fixer
-  - repo: https://github.com/hakancelikdev/unimport
-    rev: 33ead41ee30f1d323a9c2fcfd0114297efbbc4d5
-    hooks:
-      - id: unimport
-        args: [--remove, --include-star-import]
+  # - repo: https://github.com/hakancelikdev/unimport
+  #   rev: 33ead41ee30f1d323a9c2fcfd0114297efbbc4d5
+  #   hooks:
+  #     - id: unimport
+  #       args: [--remove, --include-star-import]
   # - repo: https://github.com/pycqa/isort
   #   rev: 03a9949368bc8ce115a8ff9ce7f4904def9df721
   #   hooks:
@@ -20,7 +20,7 @@ repos:
   #       args: [--profile, black, --filter-files]
 
   - repo: https://github.com/psf/black
-    rev: d4ff985853c8d140d73b9d362604deedb41eb20e
+    rev: e506c46f7b44e788dfd279e9a474af83e4e03eca
     hooks:
       - id: black
 
@@ -29,7 +29,7 @@ repos:
   #   hooks:
   #     - id: ufmt
   - repo: https://github.com/asottile/blacken-docs
-    rev: 79ef671d15161b9dbc16ac3760086b5222836583
+    rev: acb5bdec097a7c332f30d1f85dde4d93df62c979
     hooks:
       - id: blacken-docs
         additional_dependencies: [black==22.3.0]
@@ -41,7 +41,7 @@ repos:
   #       additional_dependencies: [flake8-docstrings, pyproject-flake8]
 
   - repo: https://github.com/kynan/nbstripout
-    rev: 1185a8d25bb45ada13f64d9591c14d81d69206bc
+    rev: e4c5b4dcbab4afa0b88b7a9243db42b1a8d95dde
     hooks:
       - id: nbstripout
         files: .ipynb
@@ -53,10 +53,12 @@ repos:
   #       args: [--py37-plus, --keep-runtime-typing]
 
   - repo: https://github.com/codespell-project/codespell
-    rev: 3511fcd9b57e167b2bb17fd07c680eaf9befa4b2
+    rev: ea349a2ab846ace712f81b50825942935805d531
     hooks:
       - id: codespell
         args: ["-L TE,TE/TM,te,ba,FPR,fpr_spacing,ro,nd,donot,schem"]
+        additional_dependencies:
+          - tomli
 
   # - repo: https://github.com/shellcheck-py/shellcheck-py
   #   rev: 98854f809ca9d0e235c0bd5c0ad5e986e02120a4
@@ -119,18 +121,17 @@ repos:
   #   rev: 2b2f0c74acdb3de316e23ceb7dd0d7945c354050
   #   hooks:
   #     - id: reorder-python-imports
-  - repo: https://github.com/nbQA-dev/nbQA
-    rev: 220dacf44e6cc234b8ef87863a31ff9d46dad920
-    hooks:
-      - id: nbqa-black
-        additional_dependencies: [jupytext, black] # optional, only if you're using Jupytext
-      - id: nbqa-pyupgrade
-        args: ["--py37-plus"]
+  # - repo: https://github.com/nbQA-dev/nbQA
+  #   rev: 3e5186603806260939b5f1b0372c058203c65553
+  #   hooks:
+  #     - id: nbqa-black
+  #       additional_dependencies: [jupytext, black] # optional, only if you're using Jupytext
+  #     - id: nbqa-pyupgrade
+  #       args: ["--py37-plus"]
       # - id: nbqa-flake8
       # - id: nbqa-isort
       #   args: ["--float-to-top"]
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: "v0.0.221"
+    rev: "v0.0.242"
     hooks:
       - id: ruff
-        args: ["--force-exclude"]

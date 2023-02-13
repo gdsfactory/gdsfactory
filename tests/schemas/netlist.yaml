@@ -3,7 +3,7 @@ description: "Netlist defined component.\n\nParameters:\n    instances: dict of 
   \ (name, settings, component).\n    placements: dict of placements.\n    connections:\
   \ dict of connections.\n    routes: dict of routes.\n    name: component name.\n\
   \    info: information (polarization, wavelength ...).\n    settings: input variables.\n\
-  \    pdk: pdk module name.\n    ports: exposed component ports."
+  \    ports: exposed component ports."
 type: object
 properties:
   instances:
@@ -35,16 +35,11 @@ properties:
   settings:
     title: Settings
     type: object
-  pdk:
-    title: Pdk
-    type: string
   ports:
     title: Ports
     type: object
     additionalProperties:
       type: string
-required:
-- instances
 additionalProperties: false
 definitions:
   ComponentModel:

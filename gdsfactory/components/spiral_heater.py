@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.components.straight import straight
-from gdsfactory.types import ComponentFactory, CrossSectionSpec, Floats, Optional
+from gdsfactory.typings import ComponentFactory, CrossSectionSpec, Floats, Optional
 
 
 @gf.cell

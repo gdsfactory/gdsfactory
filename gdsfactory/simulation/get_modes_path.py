@@ -13,7 +13,7 @@ import gdsfactory as gf
 from gdsfactory.generic_tech import LAYER_STACK
 from gdsfactory.name import clean_value
 from gdsfactory.pdk import get_modes_path
-from gdsfactory.types import CrossSectionSpec
+from gdsfactory.typings import ComponentSpec
 
 
 def get_kwargs_hash(**kwargs) -> str:
@@ -24,7 +24,7 @@ def get_kwargs_hash(**kwargs) -> str:
 
 
 def _get_modes_path(
-    cross_section: CrossSectionSpec,
+    component: ComponentSpec,
     dirpath: Optional[Path] = None,
     extension: Optional[str] = "npz",
     **kwargs,
@@ -33,7 +33,8 @@ def _get_modes_path(
             a consistent unique name.
 
     Args:
-        cross_section: cross_section or cross_section factory.
+        component: component.
+        xsection_bounds: line where to take a cross-sectional mesh for mode solving,
         dirpath: directory to store sparameters in CSV.
             Defaults to active Pdk.sparameters_path.
         extension: to append to the end of the file.
@@ -41,13 +42,11 @@ def _get_modes_path(
 
     """
     dirpath = dirpath or get_modes_path()
-    cross_section = gf.get_cross_section(cross_section)
+    component = gf.get_component(component)
 
     dirpath = pathlib.Path(dirpath)
     dirpath.mkdir(exist_ok=True, parents=True)
-    return (
-        dirpath / f"{cross_section.get_name()}_{get_kwargs_hash(**kwargs)}.{extension}"
-    )
+    return dirpath / f"{component.name}_{get_kwargs_hash(**kwargs)}.{extension}"
 
 
 def _get_modes_data(**kwargs) -> np.ndarray:
@@ -96,7 +95,6 @@ def test_get_modes_path(test: bool = True) -> None:
 
 
 if __name__ == "__main__":
-
     # cross_section = gf.cross_section.strip(name="strip")
     # p = get_modes_path_femwell(cross_section)
     # print(p)

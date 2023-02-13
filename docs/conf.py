@@ -1,5 +1,5 @@
 project = "gdsfactory"
-release = "6.30.1"
+release = "6.37.3"
 copyright = "2020, MIT License"
 
 html_theme = "sphinx_book_theme"
@@ -83,6 +83,8 @@ autodoc_type_aliases = {
     "ComponentSpec": "ComponentSpec",
     "LayerSpec": "LayerSpec",
     "CrossSectionSpec": "CrossSectionSpec",
+    "Step": "Step",
+    "StepAllAngle": "StepAllAngle",
 }
 
 autodoc_default_options = {

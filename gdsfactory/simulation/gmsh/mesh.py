@@ -200,7 +200,6 @@ def create_physical_mesh(mesh, cell_type, prune_z=True):
 
 
 if __name__ == "__main__":
-
     wmode = 1
     wsim = 2
     hclad = 2

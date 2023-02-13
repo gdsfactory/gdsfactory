@@ -3,7 +3,7 @@ from __future__ import annotations
 import pydantic
 
 import gdsfactory as gf
-from gdsfactory.types import Layer
+from gdsfactory.typings import Layer
 
 
 @pydantic.dataclasses.dataclass

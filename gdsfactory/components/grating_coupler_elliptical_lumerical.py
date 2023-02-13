@@ -9,7 +9,7 @@ from gdsfactory.components.grating_coupler_elliptical_arbitrary import (
     grating_coupler_elliptical_arbitrary,
 )
 from gdsfactory.config import PATH
-from gdsfactory.types import Floats, LayerSpec
+from gdsfactory.typings import Floats, LayerSpec
 
 parameters = (
     -2.4298362615732447,
@@ -115,8 +115,6 @@ def grating_coupler_elliptical_lumerical(
         neff: tooth effective index.
         nclad: cladding effective index.
         polarization: te or tm.
-        fiber_marker_width: in um.
-        fiber_marker_layer: in um.
         spiked: grating teeth include sharp spikes to avoid non-manhattan drc errors.
         cross_section: cross_section spec for waveguide port.
     """

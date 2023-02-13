@@ -6,7 +6,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.cross_section import strip
-from gdsfactory.types import CrossSectionSpec
+from gdsfactory.typings import CrossSectionSpec
 
 
 @gf.cell

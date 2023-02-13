@@ -8,7 +8,7 @@ import pydantic
 
 import gdsfactory as gf
 from gdsfactory.name import clean_name
-from gdsfactory.types import LayerSpec
+from gdsfactory.typings import LayerSpec
 
 ignore = [
     "cross_section",
@@ -18,20 +18,16 @@ ignore = [
     "contact",
     "pad",
 ]
-port_types_to_label = [
-    "vertical_te",
-    "pad",
-    "vertical_dc",
-    "optical",
-    "loopback",
-    "vertical_tm",
+port_prefixes = [
+    "opt_",
+    "elec_",
 ]
 
 
 @pydantic.validate_arguments
 def add_label_yaml(
     component: gf.Component,
-    port_types: List[str] = port_types_to_label,
+    port_prefixes: List[str] = ("opt_", "_elec"),
     layer: LayerSpec = "LABEL",
     metadata_ignore: Optional[List[str]] = ignore,
     metadata_include_parent: Optional[List[str]] = None,
@@ -74,7 +70,7 @@ settings:
         ]
 
     metadata = (
-        flatdict.FlatDict(component.metadata.full)
+        flatdict.FlatDict(component.metadata.get("full"))
         if component.metadata.get("full")
         else {}
     )
@@ -85,7 +81,7 @@ settings:
     ]
 
     metadata = (
-        flatdict.FlatDict(component.metadata_child.full)
+        flatdict.FlatDict(component.metadata_child.get("full"))
         if component.metadata_child.get("full")
         else {}
     )
@@ -99,8 +95,8 @@ settings:
 
     ports_info = []
     if component.ports:
-        for port_type_gdsfactory in port_types:
-            for port in component.get_ports_list(port_type=port_type_gdsfactory):
+        for port_prefix in port_prefixes:
+            for port in component.get_ports_list(prefix=port_prefix):
                 ports_info += []
                 ports_info += [f"  {port.name}:"]
                 s = f"    {port.to_yaml()}"
@@ -110,7 +106,6 @@ settings:
     text += "\n".join(info)
     text += "\n".join(ports_info)
 
-    component.unlock()
     label = gf.Label(
         text=text,
         origin=(0, 0),
@@ -119,7 +114,6 @@ settings:
         texttype=layer[1],
     )
     component.add(label)
-    component.lock()
     return component
 
 
@@ -132,12 +126,8 @@ if __name__ == "__main__":
         c,
         get_input_labels_function=None,
         grating_coupler=gf.components.grating_coupler_te,
+        decorator=add_label_yaml,
     )
-
-    add_label_yaml(
-        c,
-        # metadata_include_parent=["grating_coupler:settings:polarization"],
-    )
-    print(c.labels)
+    print(c.labels[0].text)
     d = OmegaConf.create(c.labels[0].text)
     c.show(show_ports=True)

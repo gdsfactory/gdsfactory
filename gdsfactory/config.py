@@ -14,6 +14,7 @@ PATH has all your computer specific paths that we do not care to store
 
 from __future__ import annotations
 
+import sys
 import io
 import json
 import os
@@ -27,7 +28,7 @@ import omegaconf
 from loguru import logger
 from omegaconf import OmegaConf
 
-__version__ = "6.30.1"
+__version__ = "6.37.3"
 PathType = Union[str, pathlib.Path]
 
 home = pathlib.Path.home()
@@ -45,8 +46,8 @@ layer_path = module_path / "generic_tech" / "klayout" / "tech" / "layers.lyp"
 
 MAX_NAME_LENGTH = 32
 
-# logger.remove(0)
-# logger.add(sink=sys.stderr, level="WARNING")
+logger.remove()
+logger.add(sink=sys.stderr, level="INFO")
 logger.info(f"Load {str(module_path)!r} {__version__}")
 
 
@@ -54,8 +55,23 @@ default_config = io.StringIO(
     """
 plotter: matplotlib
 sparameters_path: ${oc.env:HOME}/.gdsfactory/sparameters/generic
+show_ports: True
 """
 )
+
+
+def set_log_level(level: str, sink=sys.stderr) -> None:
+    """Sets log level for gdsfactory.
+
+    Args:
+        level: ["DEBUG", "INFO", "WARNING", "ERROR"]
+        sink: defaults to standard error.
+    """
+    log_levels = ["DEBUG", "INFO", "WARNING", "ERROR"]
+    if level not in log_levels:
+        raise ValueError(f"{level!r} not a valid log level {log_levels}")
+    logger.remove()
+    logger.add(sink=sink, level=level)
 
 
 class Paths:
@@ -66,7 +82,7 @@ class Paths:
     klayout = generic_tech / "klayout"
     klayout_tech = klayout / "tech"
     klayout_lyp = klayout_tech / "layers.lyp"
-    schema_netlist = module_path / "tests" / "schemas" / "netlist.json"
+    schema_netlist = repo_path / "tests" / "schemas" / "netlist.json"
     netlists = module_path / "samples" / "netlists"
     gdsdir = repo_path / "tests" / "gds"
     gdslib = home_path

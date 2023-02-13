@@ -37,7 +37,7 @@ from gdsfactory.serialization import clean_value_name
 from gdsfactory.config import logger
 from gdsfactory.pdk import MaterialSpec, get_material_index, get_modes_path
 from gdsfactory.simulation.gtidy3d.materials import si, sin, sio2
-from gdsfactory.types import PathType
+from gdsfactory.typings import PathType
 
 nm = 1e-3
 
@@ -1124,7 +1124,7 @@ def plot_sweep_width(
     cmap: str = "magma",
     **kwargs,
 ) -> pd.DataFrame:
-    """Sweep waveguide width and compute effective index.
+    """Plots and Returns Dataframe with waveguide width sweep results.
 
     Returns pandas dataframe with effective index (neff) and fraction_te.
 

@@ -5,7 +5,7 @@ from typing import List
 from gdsfactory.add_labels import get_input_label, get_input_label_text
 from gdsfactory.component import ComponentReference
 from gdsfactory.port import Port
-from gdsfactory.types import Label, LayerSpec
+from gdsfactory.typings import Label, LayerSpec
 
 
 def get_input_labels(

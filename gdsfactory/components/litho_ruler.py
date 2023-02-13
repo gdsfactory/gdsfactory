@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Tuple
 
 import gdsfactory as gf
-from gdsfactory.types import LayerSpec
+from gdsfactory.typings import LayerSpec
 
 
 @gf.cell

@@ -10,7 +10,7 @@ import pydantic
 from tqdm.auto import tqdm
 
 from gdsfactory.simulation.modes.find_modes import find_modes_coupler
-from gdsfactory.types import Optional, PathType
+from gdsfactory.typings import Optional, PathType
 
 
 def coupling_length(

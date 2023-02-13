@@ -7,7 +7,7 @@ from numpy import floor
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.via import viac
-from gdsfactory.types import ComponentSpec, LayerSpecs
+from gdsfactory.typings import ComponentSpec, LayerSpecs
 
 
 @gf.cell

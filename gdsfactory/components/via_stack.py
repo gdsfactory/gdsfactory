@@ -8,7 +8,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.components.via import via1, via2, viac
-from gdsfactory.types import ComponentSpec, LayerSpec, LayerSpecs
+from gdsfactory.typings import ComponentSpec, LayerSpec, LayerSpecs
 
 
 @gf.cell
@@ -107,7 +107,7 @@ via_stack_slab_npp_m3 = gf.partial(
     layers=("SLAB90", "NPP", "M1"),
     vias=(None, None, viac),
 )
-via_stack_heater_m3 = gf.partial(
+via_stack_heater_mtop = via_stack_heater_m3 = gf.partial(
     via_stack, layers=("HEATER", "M2", "M3"), vias=(via1, via2)
 )
 

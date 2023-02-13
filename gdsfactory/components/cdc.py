@@ -5,11 +5,10 @@ from typing import Tuple
 import gdsfactory as gf
 from gdsfactory import Component
 from gdsfactory.cross_section import strip
-from gdsfactory.types import CrossSectionSpec
+from gdsfactory.typings import CrossSectionSpec
 
 
 def _generate_fins(c, x, fin_size, bend):
-
     num_fins = int(x.width // (2 * fin_size[1]))
     y0 = bend.ports["o1"].x, -num_fins * (2 * fin_size[1]) / 2.0 + fin_size[1]
 
@@ -37,7 +36,6 @@ def _generate_fins(c, x, fin_size, bend):
 
 
 def _generate_bends(c, x_top, x_bot, dx, dy, gap):
-
     input_bend_top = (
         c << gf.components.bend_s(size=(dx, dy), cross_section=x_top.copy()).mirror()
     )
@@ -183,7 +181,6 @@ def cdc(
 
 
 if __name__ == "__main__":
-
     c = cdc(fins=False)
     print(c.ports.keys())
     c.show(show_ports=True)

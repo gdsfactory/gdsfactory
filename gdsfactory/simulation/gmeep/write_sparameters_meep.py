@@ -29,7 +29,7 @@ from gdsfactory.simulation.gmeep.get_simulation import (
     settings_get_simulation,
 )
 from gdsfactory.technology import LayerStack
-from gdsfactory.types import ComponentSpec, PathType, Port, PortSymmetries
+from gdsfactory.typings import ComponentSpec, PathType, Port, PortSymmetries
 
 ncores = multiprocessing.cpu_count()
 
@@ -402,7 +402,6 @@ def write_sparameters_meep(
         termination = [mp.stop_when_energy_decayed(dt=50, decay_by=decay_by)]
 
         if animate:
-
             # Defaults for animation
             if "field_parameters" not in plot_args:
                 plot_args["field_parameters"] = {

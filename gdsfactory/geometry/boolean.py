@@ -9,7 +9,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.component_layout import Polygon, _parse_layer
 from gdsfactory.component_reference import ComponentReference
-from gdsfactory.types import ComponentOrReference, Int2, LayerSpec
+from gdsfactory.typings import ComponentOrReference, Int2, LayerSpec
 
 
 @gf.cell

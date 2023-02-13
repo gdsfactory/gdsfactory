@@ -202,7 +202,6 @@ def break_line(line, other_line):
 
 
 if __name__ == "__main__":
-
     wmode = 1
     wsim = 2
     hclad = 2

@@ -14,7 +14,7 @@ classifiers = [
 	"Programming Language :: Python :: 3.11",
 	"Operating System :: OS Independent",
 ]
-version = "6.30.1"
+version = "6.37.3"
 authors = [
     {name = "gdsfactory community", email = "contact@gdsfactory.com"},
 ]
@@ -67,7 +67,7 @@ full = [
     "scikit-learn",
     "triangle",
     "trimesh",
-    "kweb",
+    "kweb>=0.0.11,<0.1",
     ]
 femwell = ["femwell"]
 database = ["sqlalchemy", "sqlalchemy-utils"]

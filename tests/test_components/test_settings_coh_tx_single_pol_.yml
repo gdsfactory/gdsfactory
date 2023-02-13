@@ -21,7 +21,7 @@ settings:
     phase_shifter: straight_pin
     phase_shifter_length: 100.0
     splitter: mmi1x2
-    with_pads: true
+    with_pads: false
     xspacing: 40.0
   full:
     balanced_phase_shifters: false
@@ -42,7 +42,7 @@ settings:
     phase_shifter: straight_pin
     phase_shifter_length: 100.0
     splitter: mmi1x2
-    with_pads: true
+    with_pads: false
     xspacing: 40.0
   function_name: coh_tx_single_pol
   info: {}

@@ -4,7 +4,7 @@ from typing import Optional, Tuple
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.types import LayerSpec
+from gdsfactory.typings import LayerSpec
 
 
 @gf.cell
@@ -68,7 +68,6 @@ via2 = gf.partial(via, layer="VIA2")
 
 
 if __name__ == "__main__":
-
     c = via()
     # c.pprint()
     print(c)
