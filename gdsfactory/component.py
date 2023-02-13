@@ -21,7 +21,6 @@ import gdstk
 import numpy as np
 import yaml
 from omegaconf import DictConfig, OmegaConf
-from pydantic import BaseModel, Field
 from typing_extensions import Literal
 
 from gdsfactory.component_layout import (
@@ -54,30 +53,6 @@ from gdsfactory.generic_tech import LAYER
 
 Plotter = Literal["holoviews", "matplotlib", "qt", "klayout"]
 Axis = Literal["x", "y"]
-
-
-class GdsWriteSettings(BaseModel):
-    """Settings to use when writing to GDS."""
-
-    flatten_invalid_refs: bool = Field(
-        default=False,
-        description="If true, will auto-correct (and flatten) cell references which are off-grid or rotated by non-manhattan angles.",
-    )
-    unit: float = Field(
-        default=1e-6,
-        description="The units of the database. By default, this is 1e-6, or 1 micron. This means that a length value of 0.001 would represent 1nm.",
-    )
-    on_duplicate_cell: str = Field(
-        default="warn",
-        description="What to do when a duplicate cell is encountered on gds write (usually problematic). The default action is to warn.",
-    )
-    precision: float = Field(
-        default=1e-9,
-        description="The maximum precision of points in the database. For example, a value of 1e-9 would mean that you have a 1nm grid",
-    )
-
-
-DEFAULT_GDS_WRITE_SETTINGS = GdsWriteSettings()
 
 
 class MutabilityError(ValueError):
@@ -1627,14 +1602,9 @@ class Component(_GeometryHelper):
         self,
         gdspath: Optional[PathType] = None,
         gdsdir: Optional[PathType] = None,
-        unit: Optional[float] = None,
-        precision: Optional[float] = None,
         timestamp: Optional[datetime.datetime] = _timestamp2019,
         logging: bool = True,
-        on_duplicate_cell: Optional[str] = None,
         with_oasis: bool = False,
-        max_points: Optional[int] = None,
-        flatten_invalid_refs: Optional[bool] = None,
         **kwargs,
     ) -> Path:
         """Write component to GDS and returns gdspath.
@@ -1667,32 +1637,43 @@ class Component(_GeometryHelper):
 
         """
 
-        from gdsfactory.pdk import get_grid_size, get_constant
+        from gdsfactory.pdk import get_active_pdk
 
-        precision = precision or get_grid_size() * 1e-6
-        max_points = max_points or get_constant("max_points")
-        flatten_invalid_refs = flatten_invalid_refs or get_constant(
-            "flatten_invalid_refs"
-        )
-        precision = precision or get_constant("precision")
-        on_duplicate_cell = on_duplicate_cell or get_constant("on_duplicate_cell")
+        default_settings = get_active_pdk().gds_write_settings
+        default_oasis_settings = get_active_pdk().oasis_settings
 
-        if flatten_invalid_refs:
-            self = flatten_invalid_refs_recursive(self)
+        explicit_gds_settings = {
+            k: v
+            for k, v in kwargs.items()
+            if v is not None and k in default_settings.dict()
+        }
+        explicit_oas_settings = {
+            k: v
+            for k, v in kwargs.items()
+            if v is not None and k in default_oasis_settings.dict()
+        }
+        # update the write settings with any settings explicitly passed
+        write_settings = default_settings.copy(update=explicit_gds_settings)
+        oasis_settings = default_oasis_settings.copy(update=explicit_oas_settings)
+
+        if write_settings.flatten_invalid_refs:
+            top_cell = flatten_invalid_refs_recursive(self)
+        else:
+            top_cell = self
 
         gdsdir = (
             gdsdir or pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
         )
         gdsdir = pathlib.Path(gdsdir)
         if with_oasis:
-            gdspath = gdspath or gdsdir / f"{self.name}.oas"
+            gdspath = gdspath or gdsdir / f"{top_cell.name}.oas"
         else:
-            gdspath = gdspath or gdsdir / f"{self.name}.gds"
+            gdspath = gdspath or gdsdir / f"{top_cell.name}.gds"
         gdspath = pathlib.Path(gdspath)
         gdsdir = gdspath.parent
         gdsdir.mkdir(exist_ok=True, parents=True)
 
-        cells = self.get_dependencies(recursive=True)
+        cells = top_cell.get_dependencies(recursive=True)
         cell_names = [cell.name for cell in list(cells)]
         cell_names_unique = set(cell_names)
 
@@ -1700,23 +1681,23 @@ class Component(_GeometryHelper):
             for cell_name in cell_names_unique:
                 cell_names.remove(cell_name)
 
-            if on_duplicate_cell == "error":
+            if write_settings.on_duplicate_cell == "error":
                 raise ValueError(
-                    f"Duplicated cell names in {self.name!r}: {cell_names!r}"
+                    f"Duplicated cell names in {top_cell.name!r}: {cell_names!r}"
                 )
-            elif on_duplicate_cell in {"warn", "overwrite"}:
-                if on_duplicate_cell == "warn":
+            elif write_settings.on_duplicate_cell in {"warn", "overwrite"}:
+                if write_settings.on_duplicate_cell == "warn":
                     warnings.warn(
-                        f"Duplicated cell names in {self.name!r}:  {cell_names}",
+                        f"Duplicated cell names in {top_cell.name!r}:  {cell_names}",
                     )
                 cells_dict = {cell.name: cell._cell for cell in cells}
                 cells = cells_dict.values()
-            elif on_duplicate_cell is not None:
+            elif write_settings.on_duplicate_cell is not None:
                 raise ValueError(
-                    f"on_duplicate_cell: {on_duplicate_cell!r} not in (None, warn, error, overwrite)"
+                    f"on_duplicate_cell: {write_settings.on_duplicate_cell!r} not in (None, warn, error, overwrite)"
                 )
 
-        all_cells = [self._cell] + sorted(cells, key=lambda cc: cc.name)
+        all_cells = [top_cell._cell] + sorted(cells, key=lambda cc: cc.name)
 
         no_name_cells = [
             cell.name for cell in all_cells if cell.name.startswith("Unnamed")
@@ -1724,20 +1705,24 @@ class Component(_GeometryHelper):
 
         if no_name_cells:
             warnings.warn(
-                f"Component {self.name!r} contains {len(no_name_cells)} Unnamed cells"
+                f"Component {top_cell.name!r} contains {len(no_name_cells)} Unnamed cells"
             )
 
         # for cell in all_cells:
         #     print(cell.name, type(cell))
 
-        lib = gdstk.Library(unit=unit, precision=precision)
-        lib.add(self._cell)
-        lib.add(*self._cell.dependencies(True))
+        lib = gdstk.Library(
+            unit=write_settings.unit, precision=write_settings.precision
+        )
+        lib.add(top_cell._cell)
+        lib.add(*top_cell._cell.dependencies(True))
 
         if with_oasis:
-            lib.write_oas(gdspath, **kwargs)
+            lib.write_oas(gdspath, **oasis_settings.dict())
         else:
-            lib.write_gds(gdspath, timestamp=timestamp, max_points=max_points)
+            lib.write_gds(
+                gdspath, timestamp=timestamp, max_points=write_settings.max_points
+            )
         if logging:
             logger.info(f"Wrote to {str(gdspath)!r}")
         return gdspath
