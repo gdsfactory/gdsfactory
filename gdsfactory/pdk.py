@@ -54,11 +54,14 @@ class GdsWriteSettings(BaseModel):
     )
     unit: float = Field(
         default=1e-6,
-        description="The units of the database. By default, this is 1e-6, or 1 micron. This means that a length value of 0.001 would represent 1nm.",
+        description="The units of coordinates in the database. The default is 1e-6 (1 micron).",
     )
     on_duplicate_cell: str = Field(
         default="warn",
-        description="What to do when a duplicate cell is encountered on gds write (usually problematic). The default action is to warn.",
+        description="""Action to take when a duplicate cell is encountered on gds write (usually problematic). Options are
+                        "warn" (default): overwrite all duplicate cells with one of the duplicates (arbitrarily).
+                        "error": throw a ValueError when attempting to write a gds with duplicate cells.
+                        "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.""",
     )
     precision: float = Field(
         default=1e-9,
