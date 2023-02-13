@@ -76,7 +76,7 @@ class GdsWriteSettings(BaseModel):
 class OasisWriteSettings(BaseModel):
     compression_level: int = Field(
         default=6,
-        description="Level of compression for cells (between 0 and 9). Setting to 0 will disable cell compression, 1 gives the best speed and 9, the best compression.",
+        description="Level of compression for cells (between 0 and 9). Setting to 0 will disable cell compression, 1 gives the best speed, and 9 gives the best compression.",
     )
     detect_rectangles: bool = Field(
         default=True, description="If true, stores rectangles in a compressed format."
