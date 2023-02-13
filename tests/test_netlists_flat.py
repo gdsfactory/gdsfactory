@@ -68,6 +68,5 @@ def test_flatten_netlist_identical_references():
 
 
 if __name__ == "__main__":
-
     test_flatten_netlist_identical_references()
     test_flat_netlist_photonic()

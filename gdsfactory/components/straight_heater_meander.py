@@ -2,20 +2,19 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.via_stack import via_stack_heater_m3
-from gdsfactory.types import ComponentSpec, Floats, LayerSpec, Optional
+from gdsfactory.typings import ComponentSpec, Floats, LayerSpec, Optional
 
 
 @gf.cell
 def straight_heater_meander(
     length: float = 300.0,
     spacing: float = 2.0,
-    cross_section: gf.types.CrossSectionSpec = "strip",
+    cross_section: gf.typings.CrossSectionSpec = "strip",
     heater_width: float = 2.5,
     extension_length: float = 15.0,
     layer_heater: LayerSpec = "HEATER",
     radius: float = 5.0,
-    via_stack: Optional[ComponentSpec] = via_stack_heater_m3,
+    via_stack: Optional[ComponentSpec] = "via_stack_heater_mtop",
     port_orientation1: int = 180,
     port_orientation2: int = 0,
     heater_taper_length: Optional[float] = 10.0,
@@ -99,7 +98,6 @@ def straight_heater_meander(
     Loopbacks
     """
     for row in range(1, rows, 2):
-
         extra_length = 3 * (rows - row - 1) / 2 * radius
         extra_straight1 = c << gf.c.straight(
             length=extra_length, cross_section=cross_section
@@ -156,8 +154,7 @@ def straight_heater_meander(
         heater.movey(spacing * (rows // 2))
 
     if layer_heater and via_stack:
-        via_stackw = via_stack()
-        via_stacke = via_stack()
+        via_stacke = via_stackw = gf.get_component(via_stack)
         dx = via_stackw.get_ports_xsize() / 2 + heater_taper_length or 0
         via_stack_west_center = heater.size_info.cw - (dx, 0)
         via_stack_east_center = heater.size_info.ce + (dx, 0)

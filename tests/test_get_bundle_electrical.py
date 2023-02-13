@@ -10,7 +10,6 @@ from gdsfactory.difftest import difftest
 def test_get_bundle_electrical(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> Component:
-
     lengths = {}
 
     c = gf.Component("test_get_bundle")
@@ -49,7 +48,6 @@ def test_get_bundle_electrical(
 def test_get_bundle_electrical2(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> Component:
-
     lengths = {}
 
     c = gf.Component("pads_bundle_steps")

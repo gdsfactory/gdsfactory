@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 from tqdm.auto import tqdm
 
-from gdsfactory.types import PathType
+from gdsfactory.typings import PathType
 
 
 def pandas_to_numpy(df: pd.DataFrame, port_map=None) -> np.ndarray:

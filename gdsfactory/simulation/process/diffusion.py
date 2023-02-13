@@ -138,7 +138,6 @@ def silicon_diffused_gaussian_profile(
 
 
 if __name__ == "__main__":
-
     import matplotlib.pyplot as plt
 
     # Ts = [800,850,900,950,1000,1050]

@@ -5,7 +5,7 @@ from __future__ import annotations
 import csv
 import pathlib
 from pathlib import Path
-from typing import Iterator, Tuple
+from typing import Iterator, Tuple, List
 
 import numpy as np
 
@@ -13,7 +13,7 @@ import gdsfactory as gf
 from gdsfactory.config import logger
 from gdsfactory.pdk import get_layer
 from gdsfactory.routing.add_fiber_single import add_fiber_single
-from gdsfactory.types import LayerSpec, Optional, PathType
+from gdsfactory.typings import LayerSpec, Optional, PathType
 
 
 def find_labels(
@@ -98,7 +98,7 @@ def write_labels_klayout(
 
 def write_labels_gdstk(
     gdspath: Path,
-    prefix: str = "opt_",
+    prefixes: List[str] = ("opt", "elec"),
     layer_label: LayerSpec = "LABEL",
     filepath: Optional[PathType] = None,
     debug: bool = False,
@@ -117,28 +117,28 @@ def write_labels_gdstk(
         layer_label: for labels to write.
         filepath: for CSV file. Defaults to gdspath with CSV suffix.
         debug: prints the label.
-
     """
     gdspath = pathlib.Path(gdspath)
     filepath = filepath or gdspath.with_suffix(".csv")
     filepath = pathlib.Path(filepath)
     c = gf.import_gds(gdspath)
 
-    labels = []
+    labels = [("text", "x", "y", "rotation")]
     layer_label = get_layer(layer_label)
 
     for label in c.get_labels():
-        if (
-            layer_label
-            and label.layer == layer_label[0]
-            and label.texttype == layer_label[1]
-            and label.text.startswith(prefix)
-        ):
-            x, y = label.origin
-            rot = np.rad2deg(label.rotation)
-            labels += [(label.text, x, y, rot)]
-            if debug:
-                print(label.text, x, y, rot)
+        for prefix in prefixes:
+            if (
+                layer_label
+                and label.layer == layer_label[0]
+                and label.texttype == layer_label[1]
+                and label.text.startswith(prefix)
+            ):
+                x, y = label.origin
+                rot = np.rad2deg(label.rotation)
+                labels += [(label.text, x, y, rot)]
+                if debug:
+                    print(label.text)
 
     with open(filepath, "w", newline="") as f:
         writer = csv.writer(f)
@@ -151,7 +151,7 @@ def test_find_labels() -> None:
     import gdsfactory as gf
 
     c = gf.components.straight(length=124)
-    cc = add_fiber_single(component=c)
+    cc = add_fiber_single(component=c, decorator=gf.add_labels.add_labels_to_ports)
     gdspath = cc.write_gds()
     assert len(list(find_labels(gdspath))) == 4
 

@@ -1,5 +1,54 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [6.37.0](https://github.com/gdsfactory/gdsfactory/pull/1264)
+
+- better port names for grating couplers, include `opt_te_wavelength_fiberAngle`
+- remove grating coupler markers
+- remove `Component.unlock()` in some functions that add labels. Cached components should never be modified.
+- `add_fiber_single` and `add_fiber_array` don't add labels by default
+
+## 6.36.0
+
+- add tests and better docs for get_bundle_all_angle [PR](https://github.com/gdsfactory/gdsfactory/pull/1257)
+- Fix flatten refs recursive [PR](https://github.com/gdsfactory/gdsfactory/pull/1258)
+
+## [6.35.1](https://github.com/gdsfactory/gdsfactory/pull/1254)
+
+- use constants in pdk
+- default max points to 4e3
+
+## 6.35.0
+
+- Set KLayout technology to active PDK if available [PR](https://github.com/gdsfactory/gdsfactory/pull/1250)
+- add thermal disk [PR](https://github.com/gdsfactory/gdsfactory/pull/1250)
+
+## 6.34.0
+
+- deprecate gdsfactory.types in favor of gdsfactory.typings as it was shadowing builtin types module [PR](https://github.com/gdsfactory/gdsfactory/pull/1241)
+    - gdsfactory.types -> gdsfactory.typings
+    - gf.types -> gdsfactory.typings
+- Created meandered heater using doped silicon [PR](https://github.com/gdsfactory/gdsfactory/pull/1242)
+
+## 6.33.0
+
+- fix kweb and set log level to warning instead of debug [PR](https://github.com/gdsfactory/gdsfactory/pull/1237)
+- Fix handling of gdstk.FlexPath in remap_layers [PR](https://github.com/gdsfactory/gdsfactory/pull/1238)
+- make Component.remap_layers safe [PR](https://github.com/gdsfactory/gdsfactory/pull/1240)
+
+## 6.32.0
+
+- add general JAX interpolator [PR](https://github.com/gdsfactory/gdsfactory/pull/1230)
+- add ring_single_pn and ring_double_pn [PR](https://github.com/gdsfactory/gdsfactory/pull/1228)
+
+## 6.31.0
+
+- rename show_jupyter to plot_jupyter [PR](https://github.com/gdsfactory/gdsfactory/pull/1226)
+- use ComponentSpec string for via_stack_heater_mtop and resistance_meander [PR](https://github.com/gdsfactory/gdsfactory/pull/1224)
+
+## 6.30.2
+
+- Fix wafer layer in 3D meshing [PR](https://github.com/gdsfactory/gdsfactory/pull/1222)
+
 ## 6.30.1
 
 - fix extract layers [PR](https://github.com/gdsfactory/gdsfactory/pull/1221)
@@ -88,7 +137,7 @@
 ## [6.19.1](https://github.com/gdsfactory/gdsfactory/pull/1121)
 
 - install tidy3d at the end in make plugins so it installs shapely 1.8.4
-- add LayerStack and LayerLevel to gf.types
+- add LayerStack and LayerLevel to gf.typings
 - silent logger by default
 
 ## 6.19.0
@@ -2097,7 +2146,7 @@
 ## 3.9.9
 
 - pack_row in klayout_yaml_placer also accepts rotation
-- placer uses Literal ('N', 'S', 'E', 'W') from gf.types
+- placer uses Literal ('N', 'S', 'E', 'W') from gf.typings
 - rename label_layer as layer_label for consistency
 
 ## 3.9.8
@@ -2319,7 +2368,7 @@
 - Route and Routes are pydantic.BaseModel instead of dataclasses
 - composed functions get a unique name. You can compose functions with `toolz.compose`
 - add `gf.add_text` for adding text labels to a list of Components
-- add `gf.types.ComponentSweep`
+- add `gf.typings.ComponentSweep`
 - increase MAX_NAME_LENGTH to 100 characters when validating a component
 - add typing_extensions to requirements to keep 3.7 compatibility. Changed `from typing import Literal` (requires python>=3.8) to `from typing_extensions import Literal`
 - add type checking error messages for Component and ComponentReference

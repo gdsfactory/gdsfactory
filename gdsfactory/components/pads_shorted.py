@@ -4,7 +4,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.pad import pad as pad_function
 from gdsfactory.components.rectangle import rectangle
-from gdsfactory.types import ComponentSpec, LayerSpec
+from gdsfactory.typings import ComponentSpec, LayerSpec
 
 
 @gf.cell
@@ -40,6 +40,5 @@ def pads_shorted(
 
 
 if __name__ == "__main__":
-
     c = pads_shorted(metal_width=20)
     c.show(show_ports=True)

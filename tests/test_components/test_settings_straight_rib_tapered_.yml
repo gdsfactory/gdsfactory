@@ -43,6 +43,13 @@ settings:
       with_bbox: true
     function_name: straight
     info:
+      cross_section:
+        function: strip
+        settings:
+          bbox_layers:
+          - SLAB90
+          bbox_offsets:
+          - 3
       length: 10.0
       separation: 3.5
       width: 0.5
@@ -84,6 +91,13 @@ settings:
     port_type: optical
   function_name: extend_ports
   info:
+    cross_section:
+      function: strip
+      settings:
+        bbox_layers:
+        - SLAB90
+        bbox_offsets:
+        - 3
     length: 10.0
     separation: 3.5
     width: 0.5

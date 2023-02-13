@@ -13,7 +13,7 @@ Coordinate = Union[Tuple[float, float], Tuple[int, int]]
 @gf.cell_without_validator
 def seal_ring(
     bbox: Tuple[Coordinate, Coordinate] = ((-1.0, -1.0), (3.0, 4.0)),
-    seal: gf.types.ComponentSpec = via_stack,
+    seal: gf.typings.ComponentSpec = via_stack,
     width: float = 10,
     padding: float = 10.0,
     with_north: bool = True,
@@ -79,7 +79,7 @@ def seal_ring(
 
 if __name__ == "__main__":
     big_square = gf.partial(rectangle, size=(1300, 2600))
-    c = big_square()
-    c.unlock()
+    c = gf.Component("demo")
+    c << big_square()
     c << seal_ring(c.bbox + ((0, 0), (10, 0)), with_south=False)
     c.show(show_ports=True)

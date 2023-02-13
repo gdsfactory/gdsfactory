@@ -23,7 +23,7 @@ def route_quad(
     port2: Port,
     width1: Optional[float] = None,
     width2: Optional[float] = None,
-    layer: gf.types.LayerSpec = "M1",
+    layer: gf.typings.LayerSpec = "M1",
 ) -> gf.Component:
     """Routes a basic quadrilateral polygon directly between two ports.
 

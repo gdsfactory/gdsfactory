@@ -5,7 +5,7 @@ import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.types import CrossSectionSpec
+from gdsfactory.typings import CrossSectionSpec
 
 
 @gf.cell
@@ -40,6 +40,7 @@ def straight(
     c.add_ports(ref.ports)
     c.info["length"] = length
     c.info["width"] = x.width
+    c.info["cross_section"] = cross_section
 
     if x.info:
         c.info.update(x.info)
@@ -58,10 +59,6 @@ def straight(
         for layer, points in zip(x.bbox_layers, padding):
             c.add_polygon(points, layer=layer)
     c.absorb(ref)
-    if x.add_bbox:
-        c = x.add_bbox(c)
-    if x.add_pins:
-        c = x.add_pins(c)
     return c
 
 

@@ -4,7 +4,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.mmi2x2 import mmi2x2
-from gdsfactory.types import ComponentSpec
+from gdsfactory.typings import ComponentSpec
 
 
 @gf.cell

@@ -27,7 +27,7 @@ from gdsfactory.component_layout import (
 )
 from gdsfactory.cross_section import CrossSection, Section, Transition
 from gdsfactory.port import Port
-from gdsfactory.types import (
+from gdsfactory.typings import (
     Coordinates,
     CrossSectionSpec,
     Float2,
@@ -550,6 +550,7 @@ def transition_adiabatic(
         [2] Fu, Yunfei, et al. "Efficient adiabatic silicon-on-insulator waveguide taper."
             Photonics Res., vol. 2, no. 3, 1 June 2014, pp. A41-A44, doi:10.1364/PRJ.2.000A41.
     """
+
     # Define ODE
     def dWdx(w, x, neff_w, wavelength, alpha):
         return alpha * wavelength / (neff_w(w) * w)
@@ -918,7 +919,6 @@ def extrude(
             face = [_rotated_delta(point, center, port_orientation) for point in face]
 
             if warn_off_grid_ports:
-
                 center_snap = snap.snap_to_grid(center, snap_to_grid_nm)
 
                 if center[0] != center_snap[0] or center[1] != center_snap[1]:
@@ -941,12 +941,13 @@ def extrude(
 
     c.info["length"] = float(np.round(p.length(), 3))
 
+    if x.add_bbox:
+        c = x.add_bbox(c)
+    if x.add_pins:
+        c = x.add_pins(c)
+
     if x.decorator:
         c = x.decorator(c) or c
-
-    if x.add_pins:
-        c = x.add_pins(c) or c
-
     return c
 
 

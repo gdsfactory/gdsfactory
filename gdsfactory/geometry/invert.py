@@ -4,7 +4,7 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.geometry.boolean import boolean
-from gdsfactory.types import Int2, LayerSpec, Union
+from gdsfactory.typings import Int2, LayerSpec, Union
 
 
 @gf.cell

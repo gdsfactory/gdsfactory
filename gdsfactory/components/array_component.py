@@ -10,7 +10,7 @@ from gdsfactory.components.straight import straight
 
 @cell
 def array(
-    component: gf.types.ComponentSpec = straight,
+    component: gf.typings.ComponentSpec = straight,
     spacing: Tuple[float, float] = (150.0, 150.0),
     columns: int = 6,
     rows: int = 1,

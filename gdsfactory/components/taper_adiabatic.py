@@ -6,7 +6,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.path import transition_adiabatic
-from gdsfactory.types import CrossSectionSpec
+from gdsfactory.typings import CrossSectionSpec
 
 adiabatic_polyfit_TE1550SOI_220nm = np.array(
     [

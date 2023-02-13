@@ -88,7 +88,7 @@ from gdsfactory.components.dicing_lane import dicing_lane
 from gdsfactory.components.die import die
 from gdsfactory.components.die_bbox import die_bbox
 from gdsfactory.components.die_bbox_frame import die_bbox_frame
-from gdsfactory.components.disk import disk
+from gdsfactory.components.disk import disk, disk_heater
 from gdsfactory.components.edge_coupler_array import (
     edge_coupler_array,
     edge_coupler_array_with_loopback,
@@ -184,7 +184,7 @@ from gdsfactory.components.pad import (
 from gdsfactory.components.pad_gsg import pad_gsg_open, pad_gsg_short
 from gdsfactory.components.pads_shorted import pads_shorted
 from gdsfactory.components.ramp import ramp
-from gdsfactory.components.rectangle import rectangle
+from gdsfactory.components.rectangle import rectangle, marker_te, marker_tm
 from gdsfactory.components.rectangle_with_slits import rectangle_with_slits
 from gdsfactory.components.resistance_meander import resistance_meander
 from gdsfactory.components.resistance_sheet import resistance_sheet
@@ -193,7 +193,9 @@ from gdsfactory.components.ring_crow import ring_crow
 from gdsfactory.components.ring_crow_couplers import ring_crow_couplers
 from gdsfactory.components.ring_double import ring_double
 from gdsfactory.components.ring_double_heater import ring_double_heater
+from gdsfactory.components.ring_double_pn import ring_double_pn
 from gdsfactory.components.ring_single import ring_single
+from gdsfactory.components.ring_single_pn import ring_single_pn
 from gdsfactory.components.ring_single_array import ring_single_array
 from gdsfactory.components.ring_single_bend_coupler import (
     coupler_bend,
@@ -223,6 +225,9 @@ from gdsfactory.components.straight_heater_doped_strip import (
     straight_heater_doped_strip,
 )
 from gdsfactory.components.straight_heater_meander import straight_heater_meander
+from gdsfactory.components.straight_heater_meander_doped import (
+    straight_heater_meander_doped,
+)
 from gdsfactory.components.straight_heater_metal import (
     straight_heater_metal,
     straight_heater_metal_90_90,
@@ -272,6 +277,7 @@ from gdsfactory.components.via_stack import (
     via_stack,
     via_stack_heater_m3,
     via_stack_slab_m3,
+    via_stack_heater_mtop,
 )
 from gdsfactory.components.via_stack_slot import via_stack_slot, via_stack_slot_m1_m2
 from gdsfactory.components.via_stack_with_offset import via_stack_with_offset
@@ -350,6 +356,7 @@ __all__ = [
     "edge_coupler_array_with_loopback",
     "via_stack",
     "via_stack_heater_m3",
+    "via_stack_heater_mtop",
     "via_stack_slab_m3",
     "via_stack_slot",
     "via_stack_slot_m1_m2",
@@ -396,6 +403,7 @@ __all__ = [
     "die_bbox",
     "die_bbox_frame",
     "disk",
+    "disk_heater",
     "ellipse",
     "ellipse_arc",
     "extend_port",
@@ -438,6 +446,8 @@ __all__ = [
     "loss_deembedding_ch12_34",
     "loss_deembedding_ch13_24",
     "loss_deembedding_ch14_23",
+    "marker_te",
+    "marker_tm",
     "mmi_90degree_hybrid",
     "mmi1x2",
     "mmi1x2",
@@ -483,12 +493,14 @@ __all__ = [
     "ring_crow",
     "ring_crow_couplers",
     "ring_double",
+    "ring_double_pn",
     "ring_double_heater",
     "ring_single",
     "ring_single_heater",
     "ring_single_array",
     "ring_single_dut",
     "ring_single_bend_coupler",
+    "ring_single_pn",
     "seal_ring",
     "spiral_double",
     "spiral_external_io",
@@ -506,6 +518,7 @@ __all__ = [
     "straight_heater_metal_undercut",
     "straight_heater_metal_undercut_90_90",
     "straight_heater_meander",
+    "straight_heater_meander_doped",
     "straight_pin",
     "straight_pin_slot",
     "straight_pn",

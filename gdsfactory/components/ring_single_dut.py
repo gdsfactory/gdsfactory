@@ -7,7 +7,7 @@ from gdsfactory.components.coupler_ring import coupler_ring
 from gdsfactory.components.straight import straight
 from gdsfactory.components.taper import taper
 from gdsfactory.snap import assert_on_2nm_grid
-from gdsfactory.types import ComponentSpec
+from gdsfactory.typings import ComponentSpec
 
 taper2 = gf.partial(taper, width2=3)
 
@@ -68,7 +68,6 @@ def ring_single_dut(
     bend = gf.get_component(bend, radius=radius, **kwargs)
 
     c = Component()
-    c.component = component
     cb = c << coupler
     wl = c << straight_side
     dut = c << component if with_component else c << straight_side
@@ -85,7 +84,7 @@ def ring_single_dut(
 
     c.add_port("o2", port=cb.ports["o4"])
     c.add_port("o1", port=cb.ports["o1"])
-    c.copy_child_info(component)
+    c.info["component"] = component.info
     return c
 
 

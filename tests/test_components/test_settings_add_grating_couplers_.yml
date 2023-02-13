@@ -16,6 +16,7 @@ settings:
       with_bbox: true
     function_name: straight
     info:
+      cross_section: strip
       length: 10.0
       separation: 3.5
       width: 0.5
@@ -62,6 +63,7 @@ settings:
         port_type: optical
   function_name: add_grating_couplers
   info:
+    cross_section: strip
     length: 10.0
     polarization: te
     separation: 3.5

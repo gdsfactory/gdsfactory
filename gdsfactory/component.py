@@ -50,6 +50,7 @@ from gdsfactory.port import (
 from gdsfactory.serialization import clean_dict
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.technology import LayerView, LayerViews
+from gdsfactory.generic_tech import LAYER
 
 Plotter = Literal["holoviews", "matplotlib", "qt", "klayout"]
 Axis = Literal["x", "y"]
@@ -333,7 +334,7 @@ class Component(_GeometryHelper):
         - name characters < MAX_NAME_LENGTH
         - is not empty (has references or polygons)
         """
-        MAX_NAME_LENGTH = 100
+        MAX_NAME_LENGTH = 99
         assert isinstance(
             v, Component
         ), f"TypeError, Got {type(v)}, expecting Component"
@@ -660,7 +661,13 @@ class Component(_GeometryHelper):
 
         Keyword Args:
             layer: port GDS layer.
-            prefix: for example "E" for east, "W" for west ...
+            prefix: select ports with prefix in port name.
+            suffix: select ports with port name suffix.
+            orientation: select ports with orientation in degrees.
+            width: select ports with port width.
+            layers_excluded: List of layers to exclude.
+            port_type: select ports with port_type (optical, electrical, vertical_te).
+            clockwise: if True, sort ports clockwise, False: counter-clockwise.
         """
         return select_ports(self.ports, **kwargs)
 
@@ -669,7 +676,9 @@ class Component(_GeometryHelper):
 
         Keyword Args:
             layer: select ports with GDS layer.
-            prefix: select ports with port name.
+            prefix: select ports with prefix in port name.
+            suffix: select ports with port name suffix.
+            orientation: select ports with orientation in degrees.
             orientation: select ports with orientation in degrees.
             width: select ports with port width.
             layers_excluded: List of layers to exclude.
@@ -750,7 +759,7 @@ class Component(_GeometryHelper):
             print(port)
 
     @property
-    def metadata_child(self) -> DictConfig:
+    def metadata_child(self) -> Dict:
         """Returns metadata from child if any, Otherwise returns component own.
 
         metadata Great to access the children metadata at the bottom of the
@@ -761,11 +770,11 @@ class Component(_GeometryHelper):
         while settings.get("child"):
             settings = settings.get("child")
 
-        return DictConfig(dict(settings))
+        return dict(settings)
 
     @property
-    def metadata(self) -> DictConfig:
-        return DictConfig(dict(self.settings))
+    def metadata(self) -> Dict:
+        return dict(self.settings)
 
     def add_port(
         self,
@@ -834,7 +843,10 @@ class Component(_GeometryHelper):
         return p
 
     def add_ports(
-        self, ports: Union[List[Port], Dict[str, Port]], prefix: str = ""
+        self,
+        ports: Union[List[Port], Dict[str, Port]],
+        prefix: str = "",
+        suffix: str = "",
     ) -> None:
         """Add a list or dict of ports.
 
@@ -846,7 +858,7 @@ class Component(_GeometryHelper):
         """
         ports = ports if isinstance(ports, list) else ports.values()
         for port in list(ports):
-            name = f"{prefix}{port.name}" if prefix else port.name
+            name = f"{prefix}{port.name}{suffix}"
             self.add_port(name=name, port=port)
 
     def snap_ports_to_grid(self, nm: int = 1) -> None:
@@ -1266,12 +1278,16 @@ class Component(_GeometryHelper):
         self.plot_klayout()
 
     def plot_klayout(self) -> None:
+        """Returns ipython widget for klayout visualization.
+
+        Defaults to matplotlib if it fails to import ipywidgets.
+        """
         try:
             from gdsfactory.pdk import get_layer_views
             from gdsfactory.widgets.layout_viewer import LayoutViewer
             from IPython.display import display
 
-            gdspath = self.write_gds()
+            gdspath = self.write_gds(logging=False)
             lyp_path = gdspath.with_suffix(".lyp")
 
             layer_views = get_layer_views()
@@ -1283,6 +1299,45 @@ class Component(_GeometryHelper):
                 "You can install `pip install gdsfactory[full]` for better visualization"
             )
             self.plot(plotter="matplotlib")
+
+    def plot_jupyter(self):
+        """Shows current gds in klayout. Uses Kweb if server running.
+
+        if not tries using Klayout widget and finally defaults to matplotlib.
+        """
+        try:
+            import os
+            from gdsfactory.config import PATH
+            from gdsfactory.pdk import get_layer_views
+            from IPython.display import IFrame
+            import kweb.server_jupyter as kj
+            from html import escape
+
+            gdspath = self.write_gds(gdsdir=PATH.gdslib / "extra", logging=False)
+
+            dirpath = pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
+            dirpath.mkdir(exist_ok=True, parents=True)
+            lyp_path = dirpath / "layers.lyp"
+
+            layer_props = get_layer_views()
+            layer_props.to_lyp(filepath=lyp_path)
+
+            src = f"http://127.0.0.1:8000/gds?gds_file={escape(str(gdspath))}&layer_props={escape(str(lyp_path))}"
+            logger.debug(src)
+
+            if kj.jupyter_server and not os.environ.get("DOCS", False):
+                return IFrame(
+                    src=src,
+                    width=1400,
+                    height=600,
+                )
+            else:
+                return self.plot_klayout()
+        except ImportError:
+            print(
+                "You can install `pip install gdsfactory[full]` for better visualization"
+            )
+            return self.plot_klayout()
 
     def plot_matplotlib(self, **kwargs) -> None:
         """Plot component using matplotlib.
@@ -1487,16 +1542,6 @@ class Component(_GeometryHelper):
 
         show(component, **kwargs)
 
-    def show_jupyter(self):
-        """Shows current gds into klayout."""
-        from gdsfactory.config import PATH
-        from IPython.display import IFrame
-
-        gdspath = self.write_gds(gdsdir=PATH.gdslib / "extra")
-        return IFrame(
-            src=f"http://127.0.0.1:8000/gds/{gdspath.stem}", width="100%", height=600
-        )
-
     def to_3d(self, *args, **kwargs):
         """Returns Component 3D trimesh Scene.
 
@@ -1519,6 +1564,7 @@ class Component(_GeometryHelper):
         xsection_bounds=None,
         layer_stack=None,
         wafer_padding=0.0,
+        wafer_layer=LAYER.WAFER,
         *args,
         **kwargs,
     ):
@@ -1543,7 +1589,7 @@ class Component(_GeometryHelper):
             [xmax + wafer_padding, ymax + wafer_padding],
             [xmin - wafer_padding, ymax + wafer_padding],
         ]
-        padded_component.add_polygon(points, layer=(99999, 0))
+        padded_component.add_polygon(points, layer=wafer_layer)
 
         if layer_stack is None:
             raise ValueError(
@@ -1581,12 +1627,14 @@ class Component(_GeometryHelper):
         self,
         gdspath: Optional[PathType] = None,
         gdsdir: Optional[PathType] = None,
-        unit: float = 1e-6,
+        unit: Optional[float] = None,
         precision: Optional[float] = None,
         timestamp: Optional[datetime.datetime] = _timestamp2019,
         logging: bool = True,
-        on_duplicate_cell: Optional[str] = "warn",
+        on_duplicate_cell: Optional[str] = None,
         with_oasis: bool = False,
+        max_points: Optional[int] = None,
+        flatten_invalid_refs: Optional[bool] = None,
         **kwargs,
     ) -> Path:
         """Write component to GDS and returns gdspath.
@@ -1604,10 +1652,33 @@ class Component(_GeometryHelper):
                 "error": throw a ValueError when attempting to write a gds with duplicate cells.
                 "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
                 None: do not try to resolve (at your own risk!)
+            flatten_invalid_refs: flattens component references which have invalid transformations.
+            max_points: Maximal number of vertices per polygon. Polygons with more vertices that this are automatically fractured.
+
+        Keyword Args:
+            outfile: Name of the output file.
+            compression_level: Level of compression for cells (between 0 and 9).
+                Setting to 0 will disable cell compression, 1 gives the best speed and 9, the best compression.
+            detect_rectangles: Store rectangles in compressed format.
+            detect_trapezoids: Store trapezoids in compressed format.
+            circle_tolerance: Tolerance for detecting circles. If less or equal to 0, no detection is performed. Circles are stored in compressed format.
+            validation ("crc32", "checksum32", None): type of validation to include in the saved file.
+            standard_properties: Store standard OASIS properties in the file.
+
         """
-        from gdsfactory.pdk import get_grid_size
+
+        from gdsfactory.pdk import get_grid_size, get_constant
 
         precision = precision or get_grid_size() * 1e-6
+        max_points = max_points or get_constant("max_points")
+        flatten_invalid_refs = flatten_invalid_refs or get_constant(
+            "flatten_invalid_refs"
+        )
+        precision = precision or get_constant("precision")
+        on_duplicate_cell = on_duplicate_cell or get_constant("on_duplicate_cell")
+
+        if flatten_invalid_refs:
+            self = flatten_invalid_refs_recursive(self)
 
         gdsdir = (
             gdsdir or pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
@@ -1666,7 +1737,7 @@ class Component(_GeometryHelper):
         if with_oasis:
             lib.write_oas(gdspath, **kwargs)
         else:
-            lib.write_gds(gdspath, timestamp=timestamp)
+            lib.write_gds(gdspath, timestamp=timestamp, max_points=max_points)
         if logging:
             logger.info(f"Wrote to {str(gdspath)!r}")
         return gdspath
@@ -1680,6 +1751,7 @@ class Component(_GeometryHelper):
         logging: bool = True,
         on_duplicate_cell: Optional[str] = None,
         flatten_invalid_refs: Optional[bool] = None,
+        max_points: Optional[int] = None,
     ) -> Path:
         """Write component to GDS and returns gdspath.
 
@@ -1694,39 +1766,30 @@ class Component(_GeometryHelper):
                 "error": throw a ValueError when attempting to write a gds with duplicate cells.
                 "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
             flatten_invalid_refs: flattens component references which have invalid transformations.
+            max_points: Maximal number of vertices per polygon.
+                Polygons with more vertices that this are automatically fractured.
         """
-        write_settings = DEFAULT_GDS_WRITE_SETTINGS.copy()
-        if flatten_invalid_refs is not None:
-            write_settings.flatten_invalid_refs = flatten_invalid_refs
-        if unit:
-            write_settings.unit = unit
-        if on_duplicate_cell:
-            write_settings.on_duplicate_cell = on_duplicate_cell
-        if precision:
-            write_settings.precision = precision
 
-        if write_settings.flatten_invalid_refs:
-            top_level = flatten_invalid_refs_recursive(self)
-        else:
-            top_level = self
-
-        return top_level._write_library(
+        return self._write_library(
             gdspath=gdspath,
             gdsdir=gdsdir,
-            unit=write_settings.unit,
-            precision=write_settings.precision,
+            unit=unit,
+            precision=precision,
             logging=logging,
-            on_duplicate_cell=write_settings.on_duplicate_cell,
+            on_duplicate_cell=on_duplicate_cell,
+            flatten_invalid_refs=flatten_invalid_refs,
+            max_points=max_points,
         )
 
     def write_oas(
         self,
         gdspath: Optional[PathType] = None,
         gdsdir: Optional[PathType] = None,
-        unit: float = 1e-6,
+        unit: Optional[float] = None,
         precision: Optional[float] = None,
         logging: bool = True,
         on_duplicate_cell: Optional[str] = "warn",
+        flatten_invalid_refs: Optional[bool] = None,
         **kwargs,
     ) -> Path:
         """Write component to GDS and returns gdspath.
@@ -1742,6 +1805,7 @@ class Component(_GeometryHelper):
                 "error": throw a ValueError when attempting to write a gds with duplicate cells.
                 "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
                 None: do not try to resolve (at your own risk!)
+            flatten_invalid_refs: flattens component references which have invalid transformations.
 
         Keyword Args:
             compression_level: Level of compression for cells (between 0 and 9).
@@ -1761,6 +1825,7 @@ class Component(_GeometryHelper):
             logging=logging,
             on_duplicate_cell=on_duplicate_cell,
             with_oasis=True,
+            flatten_invalid_refs=flatten_invalid_refs,
             **kwargs,
         )
 
@@ -1907,11 +1972,7 @@ class Component(_GeometryHelper):
 
         return move(component=self, origin=origin, destination=destination, axis=axis)
 
-    def mirror(
-        self,
-        p1: Float2 = (0, 1),
-        p2: Float2 = (0, 0),
-    ) -> Component:
+    def mirror(self, p1: Float2 = (0, 1), p2: Float2 = (0, 0), **kwargs) -> Component:
         """Returns new Component with a mirrored reference.
 
         Args:
@@ -1920,9 +1981,9 @@ class Component(_GeometryHelper):
         """
         from gdsfactory.functions import mirror
 
-        return mirror(component=self, p1=p1, p2=p2)
+        return mirror(component=self, p1=p1, p2=p2, **kwargs)
 
-    def rotate(self, angle: float = 90) -> Component:
+    def rotate(self, angle: float = 90, **kwargs) -> Component:
         """Returns new component with a rotated reference to the original.
 
         Args:
@@ -1930,7 +1991,7 @@ class Component(_GeometryHelper):
         """
         from gdsfactory.functions import rotate
 
-        return rotate(component=self, angle=angle)
+        return rotate(component=self, angle=angle, **kwargs)
 
     def add_padding(self, **kwargs) -> Component:
         """Returns same component with padding.
@@ -2072,17 +2133,18 @@ class Component(_GeometryHelper):
     def remap_layers(
         self, layermap, include_labels: bool = True, include_paths: bool = True
     ) -> Component:
-        """Moves all polygons in the Component from one layer to another according to the layermap argument.
+        """Returns a copy of the component with remapped layers.
 
         Args:
             layermap: Dictionary of values in format {layer_from : layer_to}.
             include_labels: Selects whether to move Labels along with polygons.
             include_paths: Selects whether to move Paths along with polygons.
         """
+        component = self.copy()
         layermap = {_parse_layer(k): _parse_layer(v) for k, v in layermap.items()}
 
-        all_D = list(self.get_dependencies(True))
-        all_D.append(self)
+        all_D = list(component.get_dependencies(True))
+        all_D.append(component)
         for D in all_D:
             for p in D.polygons:
                 layer = (p.layer, p.datatype)
@@ -2101,14 +2163,19 @@ class Component(_GeometryHelper):
 
             if include_paths:
                 for path in D.paths:
-                    for layer, datatype in zip(path.layers, path.datatypes):
-                        original_layer = (layer, datatype)
-                        original_layer = _parse_layer(original_layer)
+                    new_layers = list(path.layers)
+                    new_datatypes = list(path.datatypes)
+                    for layer_number in range(len(new_layers)):
+                        original_layer = _parse_layer(
+                            (new_layers[layer_number], new_datatypes[layer_number])
+                        )
                         if original_layer in layermap:
                             new_layer = layermap[original_layer]
-                            path.layer = new_layer[0]
-                            path.datatype = new_layer[1]
-        return self
+                            new_layers[layer_number] = new_layer[0]
+                            new_datatypes[layer_number] = new_layer[1]
+                    path.set_layers(*new_layers)
+                    path.set_datatypes(*new_datatypes)
+        return component
 
 
 def copy(
@@ -2248,78 +2315,66 @@ def recurse_structures(
 
 
 def flatten_invalid_refs_recursive(
-    component: Component, grid_size: Optional[float] = None
-) -> Component:
-    """Returns new Component with flattened references.
+    component: Component,
+    grid_size: Optional[float] = None,
+    updated_components=None,
+    traversed_components=None,
+):
+    """Recursively flattens component references which have invalid transformations (i.e. non-90 deg rotations or sub-grid translations) and returns a copy if any subcells have been modified.
+
+    WARNING: this function will produce same-name copies of cells. It is strictly meant to be used on write of the GDS file and
+    should not be mixed with other cells, or you will likely experience issues with duplicate cells
 
     Args:
-        component: to flatten invalid references.
-        grid_size: optional grid size in um.
+        component: the component to fix (in place).
+        grid_size: the GDS grid size, in um, defaults to active PDK.get_grid_size()
+            any translations with higher resolution than this are considered invalid.
+        updated_components: the running dictionary of components which have been modified by this transformation. Should always be None, except for recursive invocations.
+        traversed_components: the set of component names which have been traversed. Should always be None, except for recursive invocations.
     """
     from gdsfactory.decorators import is_invalid_ref
-    from gdsfactory.functions import transformed
-    import networkx as nx
 
-    def _create_dag(component):
-        """DAG where components point to references which then point to components again."""
-        nodes = {}
-        edges = {}
-
-        def _add_nodes_recursive(g, component):
-            g.add_node(component.name)
-            nodes[component.name] = component
-            for ref in component.references:
-                edge_name = f"{component.name}:{ref.name}"
-                g.add_edge(component.name, edge_name)
-                g.add_edge(edge_name, ref.parent.name)
-                edges[edge_name] = ref
-                _add_nodes_recursive(g, ref.parent)
-
-        g = nx.DiGraph()
-        _add_nodes_recursive(g, component)
-
-        return g, nodes, edges
-
-    def _find_leaves(g):
-        leaves = [n for n, d in g.out_degree() if d == 0]
-        return leaves
-
-    def _prune_leaves(g):
-        """Prune components AND references pointing to them at the bottom of the DAG.
-        Helper function
-        """
-        comps = _find_leaves(g)
-        for component in comps:
-            g.remove_node(component)
-        refs = _find_leaves(g)
-        for r in refs:
-            g.remove_node(r)
-        return g, comps, refs
-
-    finished_comps = {}
-    g, comps, refs = _create_dag(component)
-    while True:
-        g, comp_leaves, ref_leaves = _prune_leaves(g)
-        if not comp_leaves:
-            break
-        new_comps = {}
-        for ref_name in ref_leaves:
-            r = refs[ref_name]
-            comp_name, _ = ref_name.split(":")
-            if comp_name in finished_comps:
-                continue
-            new_comps[comp_name] = comps[comp_name] = new_comps.get(
-                comp_name
-            ) or Component(name=comp_name)
-            if is_invalid_ref(r, grid_size):
-                comp = transformed(r, cache=False, decorator=None)  # type: ignore
-                comps[comp.name] = comp
-                r = refs[ref_name] = ComponentReference(comp)
-            comps[comp_name].add(
-                copy_reference(refs[ref_name], parent=comps[r.parent.name])
-            )
-        finished_comps.update(new_comps)
-    return finished_comps[component.name]
+    invalid_refs = []
+    refs = component.references
+    subcell_modified = False
+    if updated_components is None:
+        updated_components = {}
+    if traversed_components is None:
+        traversed_components = set()
+    for ref in refs:
+        # mark any invalid refs for flattening
+        # otherwise, check if there are any modified cells beneath (we need not do this if the ref will be flattened anyways)
+        if is_invalid_ref(ref, grid_size):
+            invalid_refs.append(ref.name)
+        else:
+            # otherwise, recursively flatten refs if the subcell has not already been traversed
+            if ref.parent.name not in traversed_components:
+                flatten_invalid_refs_recursive(
+                    ref.parent,
+                    grid_size=grid_size,
+                    updated_components=updated_components,
+                    traversed_components=traversed_components,
+                )
+            # now, if the ref's cell been modified, mark it as such
+            if ref.parent.name in updated_components:
+                subcell_modified = True
+    if invalid_refs or subcell_modified:
+        new_component = component.copy()
+        new_component.name = component.name
+        # make sure all modified cells have their references updated
+        new_refs = new_component.references.copy()
+        for ref in new_refs:
+            if ref.name in invalid_refs:
+                new_component.flatten_reference(ref)
+            elif (
+                ref.parent.name in updated_components
+                and ref.parent is not updated_components[ref.parent.name]
+            ):
+                ref.parent = updated_components[ref.parent.name]
+        component = new_component
+        updated_components[component.name] = new_component
+    traversed_components.add(component.name)
+    return component
 
 
 def test_same_uid() -> None:
@@ -2452,44 +2507,51 @@ def test_import_gds_settings():
 
 def test_flatten_invalid_refs_recursive():
     import gdsfactory as gf
+    from gdsfactory.difftest import run_xor
+    from gdsfactory.routing.all_angle import get_bundle_all_angle
 
     @gf.cell
     def flat():
         c = gf.Component()
-        mmi1 = (c << gf.components.mmi1x2()).move((0, 1e-4))
-        mmi2 = (c << gf.components.mmi1x2()).rotate(90)
+        mmi1 = (c << gf.components.mmi1x2()).move((0, -1.0005))
+        mmi2 = (c << gf.components.mmi1x2()).rotate(80)
         mmi2.move((40, 20))
-        route = gf.routing.get_route(mmi1.ports["o2"], mmi2.ports["o1"], radius=5)
-        c.add(route.references)
+        bundle = get_bundle_all_angle([mmi1.ports["o2"]], [mmi2.ports["o1"]])
+        for route in bundle:
+            c.add(route.references)
         return c
 
     @gf.cell
     def hierarchy():
         c = gf.Component()
         (c << flat()).rotate(33)
+        (c << flat()).rotate(33).move((0, 100))
         (c << flat()).move((100, 0))
         return c
 
     c_orig = hierarchy()
     c_new = flatten_invalid_refs_recursive(c_orig)
     assert c_new is not c_orig
-    assert c_new != c_orig
-    assert c_orig.references[0].parent.name != c_new.references[0].parent.name
-    assert (
-        c_orig.references[1].parent.references[0].parent.name
-        != c_new.references[1].parent.references[0].parent.name
-    )
+    invalid_refs_filename = "invalid_refs.gds"
+    invalid_refs_fixed_filename = "invalid_refs_fixed.gds"
+    # gds files should still be same to 1nm tolerance
+    c_orig.write_gds(invalid_refs_filename)
+    c_new.write_gds(invalid_refs_fixed_filename)
+    run_xor(invalid_refs_filename, invalid_refs_fixed_filename)
 
 
 if __name__ == "__main__":
-    # import gdsfactory as gf
+    import gdsfactory as gf
+
     # c2 = gf.Component()
-    # c = gf.c.mzi()
+    c = gf.components.mzi(delta_length=20)
     # r = c.ref()
     # c2.copy_child_info(c.named_references["sxt"])
     # test_remap_layers()
     # c = test_get_layers()
     # c.plot_qt()
     # c.ploth()
-    c = test_extract()
-    c.show()
+    # c = test_extract()
+    gdspath = c.write_gds()
+    gf.show(gdspath)
+    # c.show()

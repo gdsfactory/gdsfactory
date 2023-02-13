@@ -3,7 +3,7 @@ from __future__ import annotations
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import bezier
-from gdsfactory.types import CrossSectionSpec, Float2
+from gdsfactory.typings import CrossSectionSpec, Float2
 
 
 @cell

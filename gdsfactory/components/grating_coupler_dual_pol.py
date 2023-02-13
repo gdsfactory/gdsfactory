@@ -9,7 +9,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.types import ComponentSpec, CrossSectionSpec, LayerSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
 # The default values are loosely based on Taillaert et al,
 #  "A Compact Two-Dimensional Grating Coupler Used
@@ -34,7 +34,6 @@ def grating_coupler_dual_pol(
     taper: ComponentSpec = taper_function,
     base_layer: Optional[LayerSpec] = "WG",
     cross_section: CrossSectionSpec = "strip",
-    fiber_marker_layer: LayerSpec = "TE",
     **kwargs,
 ) -> Component:
     r"""2 dimensional, dual polarization grating coupler.
@@ -121,12 +120,10 @@ def grating_coupler_dual_pol(
         center=(0, 0),
         orientation=0,
         width=x_span,
-        layer=fiber_marker_layer,
+        layer=layer,
     )
     c.info["polarization"] = polarization
     c.info["wavelength"] = wavelength
-
-    # --------- Now draw the tapers -----------
 
     # First taper
     taper1 = c << gf.get_component(
@@ -156,9 +153,6 @@ def grating_coupler_dual_pol(
     c.add_port(port=taper2.ports["o1"], name="o2")
 
     gf.asserts.grating_coupler(c)
-
-    # -------- Some final stuff -----
-
     if xs.add_bbox:
         c = xs.add_bbox(c)
     if xs.add_pins:

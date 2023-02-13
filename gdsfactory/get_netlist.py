@@ -27,10 +27,9 @@ import omegaconf
 from gdsfactory import Port
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.name import clean_name
-from gdsfactory.pdk import get_layer
 from gdsfactory.serialization import clean_dict, clean_value_json
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.types import LayerSpec
+from gdsfactory.typings import LayerSpec
 
 
 def get_default_connection_validators():
@@ -66,6 +65,8 @@ def get_instance_name_from_label(
         reference: reference that needs naming.
         layer_label: ignores layer_label[1].
     """
+    from gdsfactory.pdk import get_layer
+
     layer_label = get_layer(layer_label)
 
     x = snap_to_grid(reference.x)

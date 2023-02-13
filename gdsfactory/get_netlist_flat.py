@@ -10,7 +10,8 @@ def get_netlist_flat(
     component: Component,
     **kwargs,
 ) -> Dict[str, Any]:
-    """Parses a recursive netlist for a component as if it was a single netlist of its lowest-level instances.
+    """Parses a recursive netlist for a component as if it was a single netlist \
+            with its lowest-level instances.
 
     Procedure:
         - Recursively parse the recursive dict to generate a unique list of all instances **even if they are reused**
@@ -31,7 +32,7 @@ def get_netlist_flat(
     Args:
         component: to extract flat netlist.
 
-    Keyword Args: (for get_netlist_recursive)
+    Keyword Args:
         component_suffix: suffix to append to each component name.
             useful if to save and reload a back-annotated netlist.
         get_netlist_func: function to extract individual netlists.
@@ -108,7 +109,7 @@ def _get_leaf(
     all_netlists,
     hierarchy_delimiter: str = "~",
 ):
-    """Given a instance,port and its netlist, maps ports down to the lowest hierarchy level."""
+    """Given a instance, port and its netlist, maps ports down to the lowest hierarchy level."""
     instance, port = instance_port.split(",")
     netlist = all_netlists[netlist]["instances"][instance]["component"]
     found_lower_level = netlist in all_netlists.keys()

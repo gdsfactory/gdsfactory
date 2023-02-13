@@ -21,27 +21,30 @@ def test_label_fiber_array_custom(length=LENGTH, cell_name=CELL_NAME) -> Compone
         with_loopback=False,
         component_name=CUSTOM_LABEL,
         cross_section=cross_section,
+        decorator=gf.add_labels.add_labels_to_ports,
     )
     assert len(cte.labels) == 2, len(cte.labels)
     l0 = cte.labels[0].text
     l1 = cte.labels[1].text
 
-    assert l0 == f"opt_te_1530_({CUSTOM_LABEL})_0_o1", l0
-    assert l1 == f"opt_te_1530_({CUSTOM_LABEL})_1_o2", l1
+    gc_name = "grating_coupler_ellipti_dd7f7af4"
+    assert l0 == f"opt-{gc_name}-{CUSTOM_LABEL}-o1", l0
+    assert l1 == f"opt-{gc_name}-{CUSTOM_LABEL}-o2", l1
     return cte
 
 
 def test_label_fiber_single_custom(num_regression, check=True):
     c = gf.components.straight(length=3, cross_section=cross_section)
-    assert len(c.labels) == 0
+    assert len(c.labels) == 0, len(c.labels)
 
     cte = gf.routing.add_fiber_single(
         component=c,
         with_loopback=True,
         component_name=CUSTOM_LABEL,
         cross_section=cross_section,
+        decorator=gf.add_labels.add_labels_to_ports,
     )
-    assert len(cte.labels) == 4
+    assert len(cte.labels) == 4, len(cte.labels)
     labels = {
         label.text: np.array(
             [
@@ -61,9 +64,26 @@ def test_label_fiber_single_custom(num_regression, check=True):
 
 
 if __name__ == "__main__":
-    c = test_label_fiber_array_custom()
-    # c = test_label_fiber_single_custom(None, check=False)
-    c.show(show_ports=True)
+    c = gf.components.straight(length=LENGTH, cross_section=cross_section)
+    # c = gf.routing.add_fiber_array(
+    #     component=c,
+    #     with_loopback=False,
+    #     component_name=CUSTOM_LABEL,
+    #     cross_section=cross_section,
+    #     decorator=gf.add_labels.add_labels_to_ports
+    # )
+
+    # c = gf.routing.add_fiber_single(
+    #     component=c,
+    #     with_loopback=True,
+    #     component_name=CUSTOM_LABEL,
+    #     cross_section=cross_section,
+    #     decorator=gf.add_labels.add_labels_to_ports_opt
+    # )
+
+    # c = test_label_fiber_array_custom()
+    c = test_label_fiber_single_custom(None, check=False)
+    c.show(show_ports=False)
 
     # c = gf.components.straight()
     # assert len(c.labels) == 0

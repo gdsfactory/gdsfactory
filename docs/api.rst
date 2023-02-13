@@ -80,17 +80,35 @@ Classes and functions for construction and manipulation of geometric objects.
    cell_without_validator
 
 
-.. currentmodule:: gdsfactory.types
-.. rubric:: types
+.. currentmodule:: gdsfactory.typings
+.. rubric:: typings
 
 .. autosummary::
    :toctree: _autosummary/
 
-   Layer
-   ComponentSpec
-   LayerSpec
-   CrossSectionSpec
+   Anchor
    CellSpec
+   ComponentFactory
+   ComponentSpec
+   Component
+   CrossSection
+   CrossSectionFactory
+   CrossSectionSpec
+   Layer
+   LayerSpec
+   LayerSpecs
+   LayerLevel
+   Label
+   MultiCrossSectionAngleSpec
+   NetlistModel
+   PathType
+   Route
+   RouteFactory
+   Routes
+   Section
+   Step
+   StepAllAngle
+
 
 *********************
 Pack
@@ -162,15 +180,15 @@ Mode solver Plugins
    group_index
    plot_sweep_width
 
+.. currentmodule:: gdsfactory.simulation.fem.mode_solver
 
-.. currentmodule:: gdsfactory.simulation.eme
-
-.. rubric:: EME
+.. rubric:: Mode solver Femwell
 
 .. autosummary::
    :toctree: _autosummary/
 
-    MEOW
+   compute_cross_section_modes
+
 
 .. currentmodule:: gdsfactory.simulation.modes
 
@@ -189,6 +207,14 @@ Mode solver Plugins
     plot_neff_vs_width
     plot_coupling_vs_gap
 
+.. currentmodule:: gdsfactory.simulation.eme
+
+.. rubric:: EME
+
+.. autosummary::
+   :toctree: _autosummary/
+
+    MEOW
 
 
 ************************
