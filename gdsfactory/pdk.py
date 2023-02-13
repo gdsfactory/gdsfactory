@@ -42,12 +42,57 @@ constants = {
     "fiber_spacing": 50.0,
     "fiber_input_to_output_spacing": 200.0,
     "metal_spacing": 10.0,
-    "max_points": 4000,
-    "unit": 1e-6,
-    "precision": 1e-9,
-    "flatten_invalid_refs": False,
-    "on_duplicate_cell": "warn",
 }
+
+
+class GdsWriteSettings(BaseModel):
+    """Settings to use when writing to GDS."""
+
+    flatten_invalid_refs: bool = Field(
+        default=False,
+        description="If true, will auto-correct (and flatten) cell references which are off-grid or rotated by non-manhattan angles.",
+    )
+    unit: float = Field(
+        default=1e-6,
+        description="The units of the database. By default, this is 1e-6, or 1 micron. This means that a length value of 0.001 would represent 1nm.",
+    )
+    on_duplicate_cell: str = Field(
+        default="warn",
+        description="What to do when a duplicate cell is encountered on gds write (usually problematic). The default action is to warn.",
+    )
+    precision: float = Field(
+        default=1e-9,
+        description="The maximum precision of points in the database. For example, a value of 1e-9 would mean that you have a 1nm grid",
+    )
+    max_points: int = Field(
+        default=4000,
+        description="Maximum number of points to allow in a polygon before fracturing.",
+    )
+
+
+class OasisWriteSettings(BaseModel):
+    compression_level: int = Field(
+        default=6,
+        description="Level of compression for cells (between 0 and 9). Setting to 0 will disable cell compression, 1 gives the best speed and 9, the best compression.",
+    )
+    detect_rectangles: bool = Field(
+        default=True, description="If true, stores rectangles in a compressed format."
+    )
+    detect_trapezoids: bool = Field(
+        default=True, description="If true, stores trapezoids in a compressed format."
+    )
+    circle_tolerance: bool = Field(
+        default=0,
+        description="Tolerance for detecting circles. If less or equal to 0, no detection is performed. Circles are stored in compressed format.",
+    )
+    validation: Optional[str] = Field(
+        default=None,
+        description="Type of validation to include in the saved file ('crc32', 'checksum32', or None).",
+    )
+    standard_properties: bool = Field(
+        default=False,
+        description="If true, stores standard OASIS properties in the file.",
+    )
 
 
 class Pdk(BaseModel):
@@ -97,10 +142,20 @@ class Pdk(BaseModel):
     sparameters_path: Optional[PathType] = None
     modes_path: Optional[PathType] = PATH.modes
     interconnect_cml_path: Optional[PathType] = None
-    grid_size: float = 0.001
     warn_off_grid_ports: bool = False
     constants: Dict[str, Any] = constants
     materials_index: Dict[str, MaterialSpec] = materials_index_default
+    gds_write_settings: GdsWriteSettings = GdsWriteSettings()
+    oasis_settings: OasisWriteSettings = OasisWriteSettings()
+
+    @property
+    def grid_size(self):
+        """The minimum unit resolvable on the layout grid, relative to the unit."""
+        return self.gds_write_settings.precision / self.gds_write_settings.unit
+
+    @grid_size.setter
+    def grid_size(self, value):
+        self.gds_write_settings.precision = value * self.gds_write_settings.unit
 
     class Config:
         """Configuration."""
