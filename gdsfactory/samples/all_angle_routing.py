@@ -47,9 +47,9 @@ def demo_all_angle_routing() -> Component:
 
 
 if __name__ == "__main__":
-    from gdsfactory.component import DEFAULT_GDS_WRITE_SETTINGS
+    from gdsfactory.pdk import get_active_pdk
 
     # IMPORTANT: always use this gds write flag when using non-manhattan features
-    DEFAULT_GDS_WRITE_SETTINGS.flatten_invalid_refs = True
+    get_active_pdk().gds_write_settings.flatten_invalid_refs = True
     c = demo_all_angle_routing()
     c.show(show_ports=True)
