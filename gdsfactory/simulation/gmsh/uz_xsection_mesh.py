@@ -21,7 +21,7 @@ from gdsfactory.simulation.gmsh.parse_layerstack import (
     order_layerstack,
 )
 from gdsfactory.technology import LayerStack
-from gdsfactory.types import ComponentOrReference
+from gdsfactory.typings import ComponentOrReference
 
 
 def get_u_bounds_polygons(
@@ -161,6 +161,7 @@ def uz_xsection_mesh(
     extra_shapes_dict: Optional[OrderedDict] = None,
     merge_by_material: Optional[bool] = False,
     interface_surfaces: Optional[Dict[str, Tuple(float, float)]] = None,
+    **kwargs,
 ):
     """Mesh uz cross-section of component along line u = [[x1,y1] , [x2,y2]].
 
@@ -263,7 +264,6 @@ def uz_xsection_mesh(
 
 
 if __name__ == "__main__":
-
     from gdsfactory.pdk import get_layer_stack
 
     c = gf.component.Component()

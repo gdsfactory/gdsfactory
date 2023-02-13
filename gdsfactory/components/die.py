@@ -8,7 +8,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.components.text import text
-from gdsfactory.types import LayerSpec
+from gdsfactory.typings import LayerSpec
 
 
 @gf.cell

@@ -9,7 +9,7 @@ from gdsfactory.port import Port
 from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.manhattan import generate_manhattan_waypoints
 from gdsfactory.routing.path_length_matching import path_length_matched_points
-from gdsfactory.types import Route
+from gdsfactory.typings import Route
 
 
 def _groups(ports, cut, axis="X"):
@@ -147,7 +147,6 @@ def _get_bundle_corner_waypoints(
     separation: float = 5.0,
     **kwargs,
 ):
-
     nb_ports = len(ports1)
     connections = []
 

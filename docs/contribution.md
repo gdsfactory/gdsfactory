@@ -1,29 +1,27 @@
 # Contributing
 
 gdsfactory is an open source project that welcomes your contributions. How can you contribute?
-You can fork the repo, work on a feature, and then create a Pull Request asking permission to merge your feature into the `main` branch.
-Make sure [GitHub Actions](https://github.com/gdsfactory/gdsfactory/actions) pass.
+You can fork the repo, work on a feature, and then create a Pull Request to merge your feature into the `main` branch.
+This will benefit the project community and make you famous :).
 
-What can you help with? Take a look at the [open issues](https://github.com/gdsfactory/gdsfactory/issues) or add something you need to gdsfactory:
+How can you help? Take a look at the [open issues](https://github.com/gdsfactory/gdsfactory/issues) or add something you need to gdsfactory:
 
 - Any improvements you make (documentation, tutorials or code)
-- Your layout/verification functions that you wrote recently
-- A new device that you found on a paper. It will help your work get citations as other people build upon it.
+- Your design/verification/validation functions that you wrote
+- A new device that you found on a paper so you can use it on your next tapeout. It helps get citations as other people start using or building on top of the work from the paper.
 
 The workflow is:
 
-- Fork the repo
-- `git clone` it into your computer and install it (`./install.bat` for Windows and `make install` for MacOs and Linux)
-- `git add`, `git commit`, `git push` your work as many times as needed (make sure tests are passing)
-- open a Pull request (PR)
+- Fork the repo. This creates a copy into your GitHub account. `git clone` it into your computer and install it (`./install.bat` for Windows and `make install` for MacOs and Linux).
+- `git add`, `git commit`, `git push` your work as many times as needed. Make sure [GitHub Actions](https://github.com/gdsfactory/gdsfactory/actions) pass so it all keeps working correctly.
+- open a Pull request (PR) to merge your improvements to the main repository.
 
 ## Style
 
 
-- You need to follow [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html). You can take a look at the other PCell docstrings.
-- You should make sure tests pass.
-- You should install pre-commit to get the pre-commit checks passing (autoformat the code, run linter ...).
-
+- We follow [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html). You can take a look at the other PCell docstrings.
+- We make sure tests pass on GitHub.
+- We install pre-commit to get the pre-commit checks passing (autoformat the code, run linter ...). If `make install` does not work for you, you can also run:
 
 ```
 pip install -e . pre-commit
@@ -50,19 +48,19 @@ You can run tests with `pytest`. This will run 3 types of tests:
     - you can check out any changes in your library with `gf gds diff ref_layouts/bbox.gds run_layouts/bbox.gds`
     - it will also store all differences in `diff_layouts` and you can combine and show them in KLayout with `make diff`
 
-## Testing your own component factories
+## Testing your own PDK cells
 
-As you create your component functions (known as factories because they return objects) I recommend that you also write tests for the all those new functions that you write. See for example the tests in the [ubc PDK](https://github.com/gdsfactory/ubc)
+As you create your cell functions you should write tests for them. See for example the tests in the [ubc PDK](https://github.com/gdsfactory/ubc)
 
-Pytest-regressions automatically creates the CSV and YAML files for you, as well `gdsfactory.gdsdiff` will store the reference GDS in ref_layouts
+Pytest-regressions automatically creates the CSV and YAML files for you, as well `gdsfactory.gdsdiff` will store the reference GDS in ref_layouts and check for geometry differences using XOR.
 
 gdsfactory is **not** backwards compatible, which means that the package will keep improving and evolving.
 
-1. To make your work stable you should install a specific version and [pin the version](https://martin-thoma.com/python-requirements/) in your `requirements.txt` as `gdsfactory==6.30.1` replacing `6.30.1` by whatever version you end up using.
-2. Before you upgrade gdsfactory make sure you write and run regression tests on your work to check that things behave as expected
+1. To make your work stable you should install a specific version and [pin the version](https://martin-thoma.com/python-requirements/) in your `requirements.txt` or `pyproject.toml` as `gdsfactory==6.37.3` replacing `6.37.3` by whatever version you end up using.
+2. Before you upgrade gdsfactory to a newer version make sure your tests pass to make sure that things behave as expected
 
 
-## gdsdiff
+## Compare gds files
 
 You can use the command line `gf gds diff gds1.gds gds2.gds` to overlay `gds1.gds` and `gds2.gds` files and show them in KLayout.
 
@@ -71,33 +69,24 @@ For example, if you changed the mmi1x2 and made it 5um longer by mistake, you co
 ![](images/git_diff_gds_ex2.png)
 
 
-## Why does gdsfactory exists?
-
-For Photonics IC layout I used [IPKISS](https://github.com/jtambasco/ipkiss) for 7 years. IPKISS is slow with big layouts, so in 2019 I tried all the commercial (Luceda, Cadence, Synopsis) and open source EDA tools (gdstk, gdspy, phidl, picwriter, klayout-zero-pdk, nazca) looking for a fast and easy to use workflow.
-
-The metrics for the benchmark were:
-
-0. Fast
-1. Easy to use and interface with other tools
-2. Maintained / Documented / Popular
-
+## Acks
 
 Gdsfactory leverages KLayout and gdstk python APIs.
 
-What nice things are inspired by gdstk and gdstk?
+What nice things are inspired by gdstk and phidl?
 
-- functional programming that follow UNIX philosophy
-- nice API to create and modify Components
-- Easy definition of paths, cross-sections and extrude them into Components
-- Easy definition of ports, to connect components. Ports in phidl have name, position, width and orientation (in degrees)
+- functional programming follows UNIX philosophy.
+- Create and modify Components using simple functions that can build complexity one level at a time.
+- Define paths and cross-sections and extrude them into Components
+- Define ports, to connect components. Ports in phidl have name, position, width and orientation (in degrees)
   - gdsfactory ports have layer, port_type (optical, electrical, vertical_te, vertical_tm ...) and cross_section
-  - gdsfactory adds renaming ports functions (clockwise, counter_clockwise ...)
+  - gdsfactory adds renaming ports functions for ports (clockwise, counter_clockwise ...)
 
 What nice things come from KLayout?
 
 - GDS viewer. gdsfactory can send GDS files directly to KLayout, you just need to have KLayout open
 - layer colormaps for showing in KLayout, matplotlib, trimesh (using the same colors)
-- fast boolean xor to avoid geometric regressions on Components geometry. Klayout booleans are faster than gdstk ones
+- fast boolean xor to avoid geometric regressions on Components geometry. Klayout booleans are more robust.
 - basic DRC checks
 
 What functionality does gdsfactory provide you on top gdstk/KLayout?

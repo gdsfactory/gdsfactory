@@ -39,6 +39,7 @@ instances:
   straight_1:
     component: straight
     info:
+      cross_section: strip
       length: 95.02
       separation: 3.5
       width: 0.5
@@ -47,6 +48,7 @@ instances:
   straight_2:
     component: straight
     info:
+      cross_section: strip
       length: 79.375
       separation: 3.5
       width: 0.5
@@ -55,6 +57,7 @@ instances:
   straight_3:
     component: straight
     info:
+      cross_section: strip
       length: 0.02
       separation: 3.5
       width: 0.5

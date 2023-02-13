@@ -4,7 +4,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.components.straight import straight
-from gdsfactory.types import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -54,9 +54,6 @@ def coupler_asymmetric(
 
     c.add(wg)
     c.add(bottom_bend)
-
-    # Using absorb here to have a flat cell and avoid
-    # to have deeper hierarchy than needed
     c.absorb(wg)
     c.absorb(bottom_bend)
 
@@ -66,7 +63,6 @@ def coupler_asymmetric(
     )
     c.add_port(name="o3", port=bottom_bend.ports["o2"])
     c.add_port(name="o2", port=wg.ports["o2"])
-
     return c
 
 

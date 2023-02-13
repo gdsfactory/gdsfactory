@@ -16,6 +16,7 @@ You can use 3 circuit simulators:
    :titlesonly:
    :caption: Circuit simulators:
 
-   notebooks/plugins/sax/sax.ipynb
+   notebooks/plugins/sax/01_sax.ipynb
+   notebooks/plugins/sax/02_model_extraction.ipynb
    notebooks/plugins/lumerical/2_interconnect.ipynb
 ```

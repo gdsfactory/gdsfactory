@@ -359,7 +359,6 @@ class DDComponent:
         for regiontype, region_names in c.regions.items():
             for regionname in region_names:
                 if regiontype in refine_regions:
-
                     xs[regionname] = np.array(
                         c.get_mean_edge_from_node_field(regionname, "x")
                     )
@@ -411,7 +410,6 @@ class DDComponent:
 
 
 if __name__ == "__main__":
-
     import gdsfactory as gf
 
     # We choose a representative subdomain of the component

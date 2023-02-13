@@ -19,7 +19,7 @@ from gdsfactory.materials import materials_index as materials_index_default
 from gdsfactory.show import show
 from gdsfactory.symbols import floorplan_with_block_letters
 from gdsfactory.technology import LayerStack, LayerViews
-from gdsfactory.types import (
+from gdsfactory.typings import (
     CellSpec,
     Component,
     ComponentFactory,
@@ -42,6 +42,11 @@ constants = {
     "fiber_spacing": 50.0,
     "fiber_input_to_output_spacing": 200.0,
     "metal_spacing": 10.0,
+    "max_points": 4000,
+    "unit": 1e-6,
+    "precision": 1e-9,
+    "flatten_invalid_refs": False,
+    "on_duplicate_cell": "warn",
 }
 
 
@@ -235,6 +240,7 @@ class Pdk(BaseModel):
             logger.info(f"{message} cell {k!r}")
 
     def remove_cell(self, name: str):
+        """Removes cell from a PDK."""
         if name not in self.cells:
             raise ValueError(f"{name!r} not in {list(self.cells.keys())}")
         self.cells.pop(name)
@@ -249,7 +255,7 @@ class Pdk(BaseModel):
         elif isinstance(cell, str):
             if cell not in cells_and_containers:
                 cells = list(self.cells.keys())
-                containers = list(self.containers.keys())
+                containers = "\n".join(list(self.containers.keys()))
                 raise ValueError(
                     f"{cell!r} from PDK {self.name!r} not in cells: {cells} "
                     f"or containers: {containers}"

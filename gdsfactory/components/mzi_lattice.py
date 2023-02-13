@@ -11,7 +11,7 @@ from gdsfactory.components.mzi import mzi2x2_2x2 as mmi_coupler_function
 from gdsfactory.components.mzi import mzi_coupler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.types import ComponentSpec
+from gdsfactory.typings import ComponentSpec
 
 
 @cell
@@ -91,7 +91,6 @@ def mzi_lattice(
     for length, gap, delta_length in zip(
         coupler_lengths[2:], coupler_gaps[2:], delta_lengths[1:]
     ):
-
         splitter_settings = dict(gap=coupler_gaps[1], length=coupler_lengths[1])
         combiner_settings = dict(length=length, gap=gap)
         splitter1 = gf.get_component(splitter, **splitter_settings)

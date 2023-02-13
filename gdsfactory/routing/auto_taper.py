@@ -2,8 +2,7 @@ import warnings
 from typing import Optional, List
 
 from gdsfactory.component import Port, ComponentReference, Component
-from gdsfactory.pdk import get_cross_section, get_active_pdk, get_layer, get_component
-from gdsfactory.types import CrossSectionSpec
+from gdsfactory.typings import CrossSectionSpec
 
 
 def taper_to_cross_section(
@@ -37,6 +36,13 @@ def taper_to_cross_section(
         c.add(taper)
         c.plot()
     """
+    from gdsfactory.pdk import (
+        get_cross_section,
+        get_active_pdk,
+        get_layer,
+        get_component,
+    )
+
     port_layer = get_layer(port.layer)
     port_width = port.width
     cross_section = get_cross_section(cross_section)
@@ -79,6 +85,8 @@ def _auto_taper(
     auto_taper=True,
     **kwargs,
 ):
+    from gdsfactory.pdk import get_cross_section
+
     if not auto_taper:
         return routing_func(ports1, ports2, cross_section=cross_section, **kwargs)
     tapers = []

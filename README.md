@@ -1,4 +1,4 @@
-# gdsfactory 6.30.1
+# gdsfactory 6.37.3
 
 [![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)](https://gdsfactory.github.io/gdsfactory/)
 [![PyPI](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -30,18 +30,18 @@ It provides you with an end to end flow for building chips.
 You can:
 
 - Design (Layout, Simulation, Optimization)
-  - define parametric cells (PCells) functions in python or YAML. Define routes between component ports.
+  - Define parametric cells (PCells) functions in python or YAML. Define routes between component ports.
   - Test component settings, ports and geometry to avoid unwanted regressions.
   - Capture design intent in a schematic.
-- Verificate (DRC, DFM, LVS)
+- Verify (DRC, DFM, LVS)
   - Run simulations directly from the layout thanks to the simulation interfaces. No need to draw the geometry more than once.
     - Run Component simulations (solve modes, FDTD, EME, TCAD, thermal ...)
     - Run Circuit simulations from the Component netlist (Sparameters, Spice ...)
     - Build Component models and study Design For Manufacturing.
   - Create DRC rule decks in Klayout.
-  - Make sure complex layouts match their design intent (Layout Versus Schematic).
+  - Ensure complex layouts match their design intent (Layout Versus Schematic).
 - Validate
-  - Make sure that as you define the layout you define the test sequence, so when the chips come back you already know how to test them.
+  - Define layout and test sequence simultaneously, so when the chips come back you already know how to test them.
   - Model extraction: extract the important parameters for each component.
   - Build a data pipeline from raw data, to structured data and dashboards for monitoring your chip performance.
 
@@ -50,7 +50,7 @@ As input, you write python or YAML code.
 As output you write a GDSII or OASIS file that you can send to your foundry for fabrication.
 It also exports component settings (for measurement and data analysis) and netlists (for circuit simulations).
 
-![layout_to_components](https://i.imgur.com/JLsvpLv.png)
+![layout_to_components](https://i.imgur.com/S96RSil.png)
 
 ![flow](https://i.imgur.com/XbhWJDz.png)
 
@@ -78,7 +78,7 @@ If you don't have python installed on your system you can [download the gdsfacto
 
 ### 2. Installation for new gdsfactory users
 
-Open Mamba, Miniconda or Anaconda Prompt and then install using pip
+Once you have python installed, open Anaconda Prompt and then install the latest gdsfactory using pip.
 
 ![anaconda prompt](https://i.imgur.com/Fyal5sT.png)
 
@@ -86,6 +86,8 @@ Open Mamba, Miniconda or Anaconda Prompt and then install using pip
 pip install gdsfactory --upgrade
 gf tool install
 ```
+
+Then you need to restart Klayout to make sure you activate the klayout gdsfactory integration.
 
 ### 3. Installation for developers
 
@@ -100,8 +102,6 @@ pre-commit install
 gf tool install
 ```
 
-Then you need to restart Klayout to make sure you activate the klayout gdsfactory integration.
-
 ### Update gdsfactory
 
 - Users can `pip install gdsfactory --upgrade`
@@ -111,7 +111,7 @@ Then you need to restart Klayout to make sure you activate the klayout gdsfactor
 
 You need to install the plugins separately
 
-You can install most plugins with `pip install gdsfactory[full,gmsh,tidy3d,devsim,meow,sax] --upgrade`
+You can install most plugins with `pip install gdsfactory[full,gmsh,tidy3d,devsim,meow,database] --upgrade`
 
 Or you can install only the ones you need.
 
@@ -126,25 +126,28 @@ Or you can install only the ones you need.
 ### Plugins
 
 * [Optimization](https://gdsfactory.github.io/gdsfactory/plugins_optimization.html)
-  - [Ray Tune generic black-box optimiser](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/ray/optimiser.html)
+  - [Ray Tune Generic Black-Box Optimiser](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/ray/optimiser.html)
 * [Meshing](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/devsim/01_pin_waveguide.html#Meshing)
-* [Device simulators](https://gdsfactory.github.io/gdsfactory/plugins_process.html)
-  - [Thermal](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/thermal/thermal.html)
-  - [DEVSIM TCAD simulator](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/devsim/01_pin_waveguide.html)
-  - [Analytical process simulator](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/tcad/02_analytical_process.html)
-  - [Montecarlo implant simulator](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/tcad/03_numerical_implantation.html)
-* [Mode solver](https://gdsfactory.github.io/gdsfactory/plugins_mode_solver.html)
-  - [Finite-element mode solver](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/fem/01_mode_solving.html)
-  - [tidy3d mode solver](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/tidy3d/01_tidy3d_modes.html)
-  - [MPB](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/mpb/001_mpb_waveguide.html)
-  - [EME](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/eme/01_meow.html)
-* [Electro magnetic wave solvers using Finite Difference time domain FDTD](https://gdsfactory.github.io/gdsfactory/plugins_fdtd.html)
+* [Device Simulators](https://gdsfactory.github.io/gdsfactory/plugins_process.html)
+  - [Thermal Simulation](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/thermal/thermal.html)
+  - [DEVSIM TCAD Simulation](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/devsim/01_pin_waveguide.html)
+  - [Analytical Process Simulation](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/tcad/02_analytical_process.html)
+  - [Montecarlo Implant Simulation](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/tcad/03_numerical_implantation.html)
+* [Mode Solvers & Eigenmode Expansion (EME)](https://gdsfactory.github.io/gdsfactory/plugins_mode_solver.html)
+  * Finite Element Mode Solvers
+    - [Femwell](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/fem/01_mode_solving.html)
+  * Finite Difference Mode Solvers
+    - [tidy3d](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/tidy3d/01_tidy3d_modes.html)
+    - [MPB](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/mpb/001_mpb_waveguide.html)
+  * Eigenmode Expansion (EME)
+    - [MEOW](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/eme/01_meow.html)
+* [Electromagnetic Wave Solvers using Finite Difference Time Domain (FDTD)](https://gdsfactory.github.io/gdsfactory/plugins_fdtd.html)
   - [tid3d](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/tidy3d/00_tidy3d.html)
   - [MEEP](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/meep/001_meep_sparameters.html)
   - [Ansys Lumerical FDTD](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/lumerical/1_fdtd_sparameters.html)
-* [Sparameter circuit solver](https://gdsfactory.github.io/gdsfactory/plugins_circuits.html)
+* [S-Parameter Circuit Solvers](https://gdsfactory.github.io/gdsfactory/plugins_circuits.html)
   - [SAX](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/sax/sax.html)
-  - [Ansys Lumerical interconnect](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/lumerical/2_interconnect.html)
+  - [Ansys Lumerical INTERCONNECT](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/lumerical/2_interconnect.html)
 
 ### Docker container
 
@@ -180,6 +183,16 @@ For example, VS Code supports development inside a container, see [Developing in
 
 ---
 
+"The best photonics layout tool I've used so far and it is leaps and bounds ahead of any commercial alternatives out there. Feels like gdsfactory is freeing photonics."
+
+<div style="text-align: right; margin-right: 10%;">Hasitha Jayatilleka - <strong>LightIC Technologies</strong>
+
+---
+
+"As an academic working on large scale silicon photonics at CMOS foundries I've used gdsfactory to go from nothing to full-reticle layouts rapidly (in a few days). I particularly appreciate the full-system approach to photonics, with my layout being connected to circuit simulators which are then connected to device simulators. Moving from legacy tools such as gdspy and phidl to gdsfactory has sped up my workflow at least an order of magnitude."
+
+<div style="text-align: right; margin-right: 10%;">Alex Sludds - <strong>MIT</strong>
+
 ## Acks
 
 Contributors (in chronological order):
@@ -194,16 +207,16 @@ Contributors (in chronological order):
 - Thomas Dorch (Freedom Photonics): Meep's material database access, MPB sidewall angles, and add_pin_path.
 - Jan-David Fischbach (Black semiconductor): improvements in pack_doe.
 - Igal Bayn (Google): documentation improvements and suggestions.
-- Alex Sludds (MIT): tiling fixes.
+- Alex Sludds (MIT): tiling fixes, ring_single_pn, ring_double_pn, straight_heater_meander_doped.
 - Momchil Minkov (Flexcompute): improve tidy3d plugin.
 - Skandan Chandrasekar (BYU): simphony, SiPANN plugins, A-star router.
 - Helge Gehring (Google): simulation plugins (FEM heat solver), improving code quality and new components (spiral paths).
 - Tim Ansell (Google): documentation improvements.
 - Ardavan Oskoii (Google): Meep plugin documentation improvements.
 - Marc de Cea (MIT): ge_detector, grating_coupler_dual, mmi_90degree_hybrid, coherent transceiver, receiver.
-- Bradley Snyder (PHIX): grating_coupler snap to grid fixes.
+- Bradley Snyder (Ygrec Photonics, PHIX): grating_coupler snap to grid fixes.
 - Jonathan Cauchon (Ciena): measurement database.
-- Raphaël Dubé-Demers (EXFO): measurement database.
+- Raphaël Dubé-Demers (EHVA, EXFO): measurement database.
 - Bohan Zhang (Boston University): grating coupler improvements.
 - Niko Savola (IQM): optimization, notebook and code improvements.
 

@@ -11,7 +11,7 @@ from gdsfactory.component_layout import Label
 from gdsfactory.components import grating_coupler_te
 from gdsfactory.components.straight import straight
 from gdsfactory.port import Port
-from gdsfactory.types import (
+from gdsfactory.typings import (
     ComponentReference,
     ComponentSpec,
     CrossSectionSpec,
@@ -128,6 +128,7 @@ def add_fiber_array_siepic(
         grating_coupler=grating_coupler,
         gc_port_name=gc_port_name,
         get_input_labels_function=get_input_labels_function,
+        get_input_label_text_function=get_input_label_text,
         with_loopback=with_loopback,
         optical_routing_type=optical_routing_type,
         layer_label=layer_label,

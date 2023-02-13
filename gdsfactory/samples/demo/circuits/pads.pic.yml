@@ -10,11 +10,10 @@ instances:
   tr:
     component: pad
 
-
 placements:
   tl:
-    x: -300
-    y: 400
+    x: -100
+    y: 500
 
   br:
     x: 400
@@ -35,6 +34,6 @@ routes:
       bl,e3: br,e1
   optical:
     settings:
-      radius: 100
+      radius: 10
     links:
       bl,e4: br,e3

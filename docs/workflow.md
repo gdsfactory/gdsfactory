@@ -6,7 +6,7 @@ You'll need 2 windows:
 2. Klayout to Visualize the GDS files.
 
 `Component.show()` will stream the GDS to KLayout so KLayout needs to be open.
-Make sure you also ran `gf tool install` from the terminal to install the `gdsfactory` to `klayout` interface.
+Make sure you also run `gf tool install` from the terminal to install the `gdsfactory` to `klayout` interface.
 
 
 ## 1. Standard Python flow
@@ -24,6 +24,24 @@ For building large components can use a file-watcher and see your updates in KLa
 
 1. You execute the file watcher `gf watch FolderName` or in the current working directory `gf watch`
 2. The file-watcher re-runs any python file `.py` or YAML `.pic.yaml`.
-3. Thanks to the `cell` cache you can review faster your new component changes in Klayout.
+3. Thanks to the `cell` cache you can see your new component changes live updating the layout in Klayout.
 
-![filewatcher](https://i.imgur.com/WWUHQNe.png)
+![filewatcher](https://i.imgur.com/DNWgVRp.png)
+
+
+## 3. Jupyter Notebook based flow
+
+![notebooks](https://i.imgur.com/jORMG3V.png)
+
+
+```{eval-rst}
+.. toctree::
+   :maxdepth: 2
+   :titlesonly:
+   :caption: workflow examples:
+
+   notebooks/workflow/jupyter_notebooks.ipynb
+   notebooks/workflow/0_layout_summary.ipynb
+   notebooks/workflow/1_mzi.ipynb
+   notebooks/workflow/2_ring.ipynb
+```

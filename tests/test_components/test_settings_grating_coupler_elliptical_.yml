@@ -6,8 +6,6 @@ settings:
     big_last_tooth: false
     cross_section: strip
     fiber_angle: 15.0
-    fiber_marker_layer: TE
-    fiber_marker_width: 11.0
     grating_line_width: 0.343
     layer_slab: SLAB150
     n_periods: 30
@@ -24,8 +22,6 @@ settings:
     big_last_tooth: false
     cross_section: strip
     fiber_angle: 15.0
-    fiber_marker_layer: TE
-    fiber_marker_width: 11.0
     grating_line_width: 0.343
     layer_slab: SLAB150
     n_periods: 30

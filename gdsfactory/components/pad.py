@@ -7,13 +7,13 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
-from gdsfactory.types import ComponentSpec, LayerSpec
+from gdsfactory.typings import ComponentSpec, LayerSpec
 
 
 @cell
 def pad(
     size: Tuple[float, float] = (100.0, 100.0),
-    layer: LayerSpec = "M3",
+    layer: LayerSpec = "MTOP",
     bbox_layers: Optional[Tuple[LayerSpec, ...]] = None,
     bbox_offsets: Optional[Tuple[float, ...]] = None,
     port_inclusion: float = 0,

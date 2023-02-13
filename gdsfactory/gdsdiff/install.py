@@ -5,7 +5,6 @@ import pathlib
 import shutil
 
 if __name__ == "__main__":
-
     home = pathlib.Path.home()
     config_path = home / ".gitconfig"
 

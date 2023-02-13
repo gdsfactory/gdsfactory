@@ -6,7 +6,7 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.routing.get_route import get_route
-from gdsfactory.types import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @cell
@@ -108,10 +108,7 @@ def coh_tx_dual_pol(
         )
         c.add(route.references)
 
-    # ------- In and out couplers (if indicated) -----
-
     if input_coupler:
-        # Add input coupler
         in_coupler = gf.get_component(input_coupler)
         in_coup = c << in_coupler
         in_coup.connect("o1", sp.ports["o1"])
@@ -153,9 +150,8 @@ def coh_tx_dual_pol(
         c.add_port("o2", port=single_tx_1.ports["o2"])
         c.add_port("o3", port=single_tx_2.ports["o2"])
 
-    c.add_ports(single_tx_1.get_ports_list(port_type="electrical"), prefix="pol1")
-    c.add_ports(single_tx_2.get_ports_list(port_type="electrical"), prefix="pol2")
-    c.auto_rename_ports()
+    c.add_ports(single_tx_1.get_ports_list(port_type="electrical"), prefix="pol1_")
+    c.add_ports(single_tx_2.get_ports_list(port_type="electrical"), prefix="pol2_")
     return c
 
 

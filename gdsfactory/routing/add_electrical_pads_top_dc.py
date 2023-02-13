@@ -5,25 +5,23 @@ from typing import Callable
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.pad import pad_array as pad_array_function
 from gdsfactory.components.straight_heater_metal import straight_heater_metal
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.get_bundle import get_bundle_electrical
 from gdsfactory.routing.sort_ports import sort_ports_x
-from gdsfactory.types import ComponentSpec, Float2
+from gdsfactory.typings import ComponentSpec, Float2
 
 
 @cell
 def add_electrical_pads_top_dc(
     component: ComponentSpec = straight_heater_metal,
     spacing: Float2 = (0.0, 100.0),
-    pad_array: ComponentSpec = pad_array_function,
+    pad_array: ComponentSpec = "pad_array",
     select_ports: Callable = select_ports_electrical,
     get_bundle_function: Callable = get_bundle_electrical,
     **kwargs,
 ) -> Component:
-    """Returns new component with electrical ports connected to a pad array at \
-    the top.
+    """Returns new component with electrical ports connected to top pad array.
 
     Args:
         component: component spec to connect to.
@@ -72,7 +70,9 @@ def add_electrical_pads_top_dc(
     for port in ports_component:
         c.ports.pop(port.name)
 
-    c.add_ports(pads.ports)
+    # c.add_ports(pads.ports, prefix=f"elec-{component.name}-")
+    c.add_port(port=pads.ports["e11"], name=f"elec-{component.name}-1")
+    c.add_port(port=pads.ports["e12"], name=f"elec-{component.name}-2")
     c.copy_child_info(component)
     return c
 

@@ -29,6 +29,7 @@ cells:
     info:
       length: 1.234
       width: 0.5
+      cross_section: strip
       separation: 3.5
     info_version: 2
     full:
@@ -52,6 +53,7 @@ settings:
   info:
     length: 1.234
     width: 0.5
+    cross_section: strip
     separation: 3.5
   info_version: 2
   full:

@@ -9,7 +9,7 @@ from gdsfactory.components.grating_coupler_elliptical import (
     grating_tooth_points,
 )
 from gdsfactory.geometry.functions import DEG2RAD
-from gdsfactory.types import CrossSectionSpec, Floats, LayerSpec, Optional
+from gdsfactory.typings import CrossSectionSpec, Floats, LayerSpec, Optional
 
 _gaps = (0.1,) * 10
 _widths = (0.5,) * 10
@@ -28,8 +28,6 @@ def grating_coupler_elliptical_arbitrary(
     layer_grating: Optional[LayerSpec] = None,
     taper_to_slab_offset: float = -3.0,
     polarization: str = "te",
-    fiber_marker_width: float = 11.0,
-    fiber_marker_layer: LayerSpec = "TE",
     spiked: bool = True,
     bias_gap: float = 0,
     cross_section: CrossSectionSpec = "strip",
@@ -54,8 +52,6 @@ def grating_coupler_elliptical_arbitrary(
             if different from cross_section.layer expands taper.
         taper_to_slab_offset: 0 is where taper ends.
         polarization: te or tm.
-        fiber_marker_width: in um.
-        fiber_marker_layer: Optional marker.
         spiked: grating teeth have spikes to avoid drc errors.
         bias_gap: etch gap (um).
             Positive bias increases gap and reduces width to keep period constant.
@@ -136,13 +132,13 @@ def grating_coupler_elliptical_arbitrary(
         c.add_polygon(pts, layer=layer_wg)
 
     x = (taper_length + xis[-1]) / 2
-    name = f"vertical_{polarization.lower()}"
+    name = f"opt_{polarization.lower()}_{int(wavelength*1e3)}_{int(fiber_angle)}"
     c.add_port(
         name=name,
         center=(x, 0),
-        width=fiber_marker_width,
+        width=10,
         orientation=0,
-        layer=fiber_marker_layer,
+        layer=xs.layer,
         port_type=name,
     )
     c.add_port(
@@ -169,12 +165,6 @@ def grating_coupler_elliptical_arbitrary(
             layer_slab,
         )
 
-    if fiber_marker_layer:
-        circle = gf.components.circle(
-            radius=fiber_marker_width / 2, layer=fiber_marker_layer
-        )
-        circle_ref = c.add_ref(circle)
-        circle_ref.movex(x)
     if xs.add_bbox:
         c = xs.add_bbox(c)
     if xs.add_pins:
@@ -210,8 +200,6 @@ def grating_coupler_elliptical_uniform(
         layer_slab: Optional slab.
         taper_to_slab_offset: where 0 is at the start of the taper.
         polarization: te or tm.
-        fiber_marker_width: in um.
-        fiber_marker_layer: Optional marker.
         spiked: grating teeth have spikes to avoid drc errors..
         bias_gap: etch gap (um).
             Positive bias increases gap and reduces width to keep period constant.

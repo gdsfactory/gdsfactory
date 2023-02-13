@@ -35,7 +35,7 @@ from gdsfactory.routing.manhattan import generate_manhattan_waypoints
 from gdsfactory.routing.path_length_matching import path_length_matched_points
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
-from gdsfactory.types import (
+from gdsfactory.typings import (
     ComponentSpec,
     CrossSectionSpec,
     MultiCrossSectionAngleSpec,
@@ -237,7 +237,6 @@ def are_decoupled(
     x2p: float,
     sep: Union[str, float] = "metal_spacing",
 ) -> bool:
-
     sep = gf.get_constant(sep)
     if x2p + sep > x1:
         return False
@@ -640,7 +639,6 @@ def get_bundle_same_axis_no_grouping(
 
     # Do case with wire direct if the ys are close to each other
     for i, _ in enumerate(ports1):
-
         if axis in {"X", "x"}:
             x1 = ports1[i].center[1]
             x2 = ports2[i].center[1]
@@ -703,7 +701,6 @@ def test_get_bundle_small() -> Component:
 
 
 if __name__ == "__main__":
-
     # c = test_connect_corner(None, check=False)
     # c = test_get_bundle_small()
     # c = test_get_bundle_small()

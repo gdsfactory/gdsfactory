@@ -1,14 +1,13 @@
 """Merge mask metadata with test labels to return test_metadata."""
 from __future__ import annotations
 
-import warnings
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from omegaconf import DictConfig, OmegaConf
 
 from gdsfactory.config import logger
-from gdsfactory.types import PathType
+from gdsfactory.typings import PathType
 
 
 def parse_csv_data(
@@ -32,7 +31,7 @@ def parse_csv_data(
     return lines
 
 
-def get_cell_from_label(label: str) -> str:
+def get_cell_from_label_brackets(label: str) -> str:
     """Get cell name from the label (cell_name is in parenthesis)."""
     try:
         cell_name = label.split("(")[1].split(")")[0]
@@ -44,10 +43,24 @@ def get_cell_from_label(label: str) -> str:
     return cell_name
 
 
+def get_cell_from_label(label: str) -> str:
+    """Returns label, assuming opt-GratingName-ComponentName-PortName"""
+
+    if label.startswith("elec"):
+        if not label.split("-"):
+            raise ValueError(f"{label!r} needs to follow elec-ComponentName-PortName")
+        return label.split("-")[1]
+
+    if len(label.split("-")) < 2:
+        raise ValueError(
+            f"{label!r} needs to follow opt-GratingName-ComponentName-PortName"
+        )
+    return label.split("-")[2]
+
+
 def merge_test_metadata(
     labels_path: PathType,
     mask_metadata: Dict[str, Any],
-    labels_prefix: str = "opt",
     get_cell_from_string=get_cell_from_label,
     filepath: Optional[PathType] = None,
 ) -> DictConfig:
@@ -57,7 +70,6 @@ def merge_test_metadata(
     Args:
         labels_path: for test labels in CSV.
         mask_metadata: dict with test metadata.
-        labels_prefix: only select labels with a text prefix.
         get_cell_from_string: returns label string.
         filepath: Optional path to write test metadata.
 
@@ -79,7 +91,7 @@ def merge_test_metadata(
 
     test_metadata = DictConfig({})
 
-    for label, x, y, angle in labels_list:
+    for label, x, y, angle in labels_list[1:]:
         cell = get_cell_from_string(label)
 
         if cell in cells_metadata:
@@ -88,8 +100,7 @@ def merge_test_metadata(
                 x=float(x), y=float(y), text=label, angle=angle
             )
         else:
-            logger.error(f"missing cell metadata for {cell!r}")
-            warnings.warn(f"missing cell metadata for {cell!r}")
+            logger.warning(f"missing cell metadata for {cell!r}")
 
     if filepath:
         filepath = Path(filepath)

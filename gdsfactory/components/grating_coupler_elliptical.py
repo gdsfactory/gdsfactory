@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional
 
 import numpy as np
 from numpy import ndarray
@@ -8,7 +7,7 @@ from numpy import ndarray
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.geometry.functions import DEG2RAD, extrude_path
-from gdsfactory.types import CrossSectionSpec, LayerSpec
+from gdsfactory.typings import CrossSectionSpec, LayerSpec
 
 
 def ellipse_arc(
@@ -95,8 +94,6 @@ def grating_coupler_elliptical(
     layer_slab: LayerSpec = "SLAB150",
     slab_xmin: float = -1.0,
     slab_offset: float = 2.0,
-    fiber_marker_width: Optional[float] = 11.0,
-    fiber_marker_layer: LayerSpec = "TE",
     spiked: bool = True,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
@@ -117,8 +114,6 @@ def grating_coupler_elliptical(
         layer_slab: layer that protects the slab under the grating.
         slab_xmin: where 0 is at the start of the taper.
         slab_offset: in um.
-        fiber_marker_width: width in um.
-        fiber_marker_layer: fiber marker layer.
         spiked: grating teeth have sharp spikes to avoid non-manhattan drc errors.
         cross_section: specification (CrossSection, string or dict).
         kwargs: cross_section settings.
@@ -208,20 +203,14 @@ def grating_coupler_elliptical(
         c.add_polygon(pts, layer)
 
     x = np.round(taper_length + x_output, 3)
-    if fiber_marker_width:
-        circle = gf.components.circle(
-            radius=fiber_marker_width / 2, layer=fiber_marker_layer
-        )
-        circle_ref = c.add_ref(circle)
-        circle_ref.movex(x + fiber_marker_width / 2)
 
-    name = f"vertical_{polarization.lower()}"
+    name = f"opt_{polarization.lower()}_{int(wavelength*1e3)}_{int(fiber_angle)}"
     c.add_port(
         name=name,
-        center=(x + fiber_marker_width / 2, 0),
-        width=fiber_marker_width,
+        center=(x, 0),
+        width=10,
         orientation=0,
-        layer=fiber_marker_layer,
+        layer=layer,
         port_type=name,
     )
 
@@ -253,7 +242,6 @@ def grating_coupler_elliptical(
 grating_coupler_elliptical_tm = gf.partial(
     grating_coupler_elliptical,
     grating_line_width=0.707,
-    fiber_marker_layer="TM",
     polarization="tm",
     taper_length=30,
     slab_xmin=-2,

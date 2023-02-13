@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_quad import route_quad
-from gdsfactory.types import ComponentSpec
+from gdsfactory.typings import ComponentSpec
 
 
 @gf.cell
@@ -15,7 +15,7 @@ def add_electrical_pads_shortest(
     pad_port_spacing: float = 50.0,
     select_ports=select_ports_electrical,
     port_orientation: float = 90,
-    layer: gf.types.LayerSpec = "M3",
+    layer: gf.typings.LayerSpec = "M3",
 ) -> Component:
     """Returns new Component with a pad by each electrical port.
 
@@ -23,7 +23,7 @@ def add_electrical_pads_shortest(
         component: to route.
         pad: pad element or function.
         pad_port_spacing: spacing between pad and port.
-        select_ports: function.
+        select_ports: function to select ports.
         port_orientation: in degrees.
         layer: for the routing.
 
@@ -67,13 +67,10 @@ def add_electrical_pads_shortest(
             p.x = port.x
             c.add_ref(route_quad(port, p.ports["e2"], layer=layer))
 
-        # add pad ports
-        c.add_ports(p.ports, prefix=f"pad{i+1}_")
+        c.add_port(port=p.ports["pad"], name=f"elec-{component.name}-{i+1}")
 
-    # add component ports
     c.add_ports(ref.ports)
 
-    # remove electrical ports
     for port in ports:
         c.ports.pop(port.name)
     c.copy_child_info(component)

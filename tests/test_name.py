@@ -4,7 +4,7 @@ import gdsfactory as gf
 
 
 @gf.cell
-def rectangles(widths: gf.types.Floats) -> gf.Component:
+def rectangles(widths: gf.typings.Floats) -> gf.Component:
     c = gf.Component()
     for width in widths:
         c << gf.components.rectangle(size=(width, width))
