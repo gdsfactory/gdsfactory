@@ -48,13 +48,13 @@ constants = {
 class GdsWriteSettings(BaseModel):
     """Settings to use when writing to GDS."""
 
-    flatten_invalid_refs: bool = Field(
-        default=False,
-        description="If true, will auto-correct (and flatten) cell references which are off-grid or rotated by non-manhattan angles.",
-    )
     unit: float = Field(
         default=1e-6,
         description="The units of coordinates in the database. The default is 1e-6 (1 micron).",
+    )
+    precision: float = Field(
+        default=1e-9,
+        description="The maximum precision of points in the database. For example, a value of 1e-9 would mean that you have a 1nm grid",
     )
     on_duplicate_cell: str = Field(
         default="warn",
@@ -63,9 +63,9 @@ class GdsWriteSettings(BaseModel):
                         "error": throw a ValueError when attempting to write a gds with duplicate cells.
                         "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.""",
     )
-    precision: float = Field(
-        default=1e-9,
-        description="The maximum precision of points in the database. For example, a value of 1e-9 would mean that you have a 1nm grid",
+    flatten_invalid_refs: bool = Field(
+        default=False,
+        description="If true, will auto-correct (and flatten) cell references which are off-grid or rotated by non-manhattan angles.",
     )
     max_points: int = Field(
         default=4000,
