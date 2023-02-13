@@ -1612,11 +1612,13 @@ class Component(_GeometryHelper):
         Args:
             gdspath: GDS file path to write to.
             gdsdir: directory for the GDS file. Defaults to /tmp/randomFile/gdsfactory.
-            unit: unit size for objects in library. 1um by default.
-            precision: for dimensions in the library (m). 1nm by default.
             timestamp: Defaults to 2019-10-25 for consistent hash.
                 If None uses current time.
             logging: disable GDS path logging, for example for showing it in KLayout.
+
+        Keyword Args:
+            unit: unit size for objects in library. 1um by default.
+            precision: for dimensions in the library (m). 1nm by default.
             on_duplicate_cell: specify how to resolve duplicate-named cells. Choose one of the following:
                 "warn" (default): overwrite all duplicate cells with one of the duplicates (arbitrarily).
                 "error": throw a ValueError when attempting to write a gds with duplicate cells.
@@ -1624,8 +1626,6 @@ class Component(_GeometryHelper):
                 None: do not try to resolve (at your own risk!)
             flatten_invalid_refs: flattens component references which have invalid transformations.
             max_points: Maximal number of vertices per polygon. Polygons with more vertices that this are automatically fractured.
-
-        Keyword Args:
             outfile: Name of the output file.
             compression_level: Level of compression for cells (between 0 and 9).
                 Setting to 0 will disable cell compression, 1 gives the best speed and 9, the best compression.
