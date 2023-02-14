@@ -161,7 +161,7 @@ def uz_xsection_mesh(
     extra_shapes_dict: Optional[OrderedDict] = None,
     merge_by_material: Optional[bool] = False,
     interface_surfaces: Optional[Dict[str, Tuple(float, float)]] = None,
-    round_tol: float = 1e-3,
+    round_tol: int = 3,
     simplify_tol: float = 1e-2,
     **kwargs,
 ):
