@@ -145,7 +145,7 @@ def get_simulation_grating_coupler(
         num_modes: number of modes to plot.
         run_time_ps: make sure it's sufficient for the fields to decay.
             defaults to 10ps and automatic shutoff stops earlier if needed.
-        fiber_port_prefix: from component ports.
+        fiber_port_prefix: port prefix to place fiber source.
         fiber_xoffset: fiber center xoffset to fiber_port_name.
         fiber_z: fiber zoffset from grating zmax.
         fiber_mfd: fiber mode field diameter (um). 10.4 for Cband and 9.2um for Oband.
