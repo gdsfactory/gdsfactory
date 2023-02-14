@@ -1245,11 +1245,9 @@ class Component(_GeometryHelper):
         polygons = self._cell.get_polygons(depth=None)
         return {(polygon.layer, polygon.datatype) for polygon in polygons}
 
-    def _repr_html_(self) -> None:
+    def _ipython_display_(self) -> None:
         """Show geometry in KLayout and in matplotlib for Jupyter Notebooks."""
-
         self.show(show_ports=True)  # show in klayout
-        self.__repr__()
         self.plot_klayout()
 
     def plot_klayout(self) -> None:
