@@ -1,0 +1,90 @@
+instances:
+  wg_a1:
+    component: straight
+  wg_a2:
+    component: straight
+  wg_b1:
+    component: straight
+  wg_b2:
+    component: straight
+
+  wg_c1:
+    component: straight
+  wg_c2:
+    component: straight
+
+placements:
+  wg_a1:
+    port: o2
+    x: 0
+    y: 0
+  wg_a2:
+    port: o1
+    x: 2000
+    y: -1000
+
+  wg_b1:
+    port: o2
+    x: 5000
+    y: 0
+  wg_b2:
+    port: o1
+    x: 7000
+    y: -1000
+
+  wg_c1:
+    port: o2
+    x: 0
+    y: -5000
+  wg_c2:
+    port: o1
+    x: 2000
+    y: -6000
+
+routes:
+  r1:
+    routing_strategy: get_bundle_all_angle
+    settings:
+      steps:
+        - x: 3000
+        - dx: 500
+          dy: -1000
+          exit_angle: 0
+        - ds: 400
+        - dy: -1000
+        - x: 1000
+          exit_angle: 90
+    links:
+      wg_a1,o2: wg_a2,o1
+  r2:
+    routing_strategy: get_bundle_all_angle
+    settings:
+      steps:
+        - x: 8000
+        - dx: 500
+          y: -1000
+          cross_section: strip # explicit cross section
+          exit_angle: 0
+        - ds: 400
+        - dy: -1000
+          connector: simple # explicit connector
+        - x: 6000
+          exit_angle: 90
+    links:
+      wg_b1,o2: wg_b2,o1
+  r3:
+    routing_strategy: get_bundle_all_angle
+    settings:
+      steps:
+        - ds: 3000
+          exit_angle: -60
+        - ds: 700
+          exit_angle: 0
+        - ds: 400
+          exit_angle: -90
+        - ds: 1000
+          exit_angle: 180
+        - ds: 3000
+          exit_angle: 90
+    links:
+      wg_c1,o2: wg_c2,o1
