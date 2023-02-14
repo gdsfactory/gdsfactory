@@ -1,0 +1,22 @@
+import numpy as np
+
+from typing import Optional
+# from sqlmodel import Field, SQLModel
+from gdsfactory.database.models import Base
+from sqlalchemy import LargeBinary
+from sqlalchemy import TIMESTAMP, Column, Float, ForeignKey, Integer, String, text, JSON
+
+
+class SParameterResults(Base):
+    __tablename__ = "s_parameter_results"
+    __table_args__ = {"comment": "This table holds scattering parameter results."}
+
+    id = Column(Integer, primary_key=True)
+    created = Column(
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
+    )
+    updated = Column(
+        TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP")
+    )
+    n_ports = Column(Integer, nullable=False)
+    array = Column(JSON, nullable=False)
