@@ -1,8 +1,10 @@
 from sqlalchemy import TIMESTAMP, Column, Float, ForeignKey, Integer, String, text
 from sqlalchemy.dialects.mysql import TEXT
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
+from sqlalchemy.ext.declarative import declarative_base
 
+Base = declarative_base()
+metadata = Base.metadata
 
 
 class Process(Base):
