@@ -1,5 +1,12 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.38.0
+
+- update tidy3d to 1.8.4
+- Add database simulation example notebook [PR](https://github.com/gdsfactory/gdsfactory/pull/1217)
+- Add jinja based YAML circuits [PR](https://github.com/gdsfactory/gdsfactory/pull/1275)
+
+
 ## [6.37.0](https://github.com/gdsfactory/gdsfactory/pull/1264)
 
 - better port names for grating couplers, include `opt_te_wavelength_fiberAngle`
