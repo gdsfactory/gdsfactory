@@ -132,7 +132,7 @@ def get_simulation(
     """
     for setting in settings:
         if setting not in settings_meep:
-            raise ValueError(f"{setting!r} not in {settings_meep}")
+            raise ValueError(f"{setting!r} not in {sorted(settings_meep)}")
 
     layer_stack = layer_stack or get_layer_stack()
     layer_to_thickness = layer_stack.get_layer_to_thickness()
