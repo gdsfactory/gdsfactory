@@ -1,4 +1,4 @@
-name: sample_waypoints_51e45344
+name: sample_waypoints_dac9e992
 settings:
   changed:
     conf:
@@ -21,11 +21,6 @@ settings:
           links:
             b,e11: t,e11
             b,e12: t,e12
-  child: null
-  default:
-    label_instance_function:
-      function: add_instance_label
-    mode: layout
     routing_strategy:
       get_bundle:
         function: get_bundle
@@ -51,6 +46,11 @@ settings:
         function: get_bundle_path_length_match
       get_bundle_same_axis_no_grouping:
         function: get_bundle_same_axis_no_grouping
+  child: null
+  default:
+    label_instance_function:
+      function: add_instance_label
+    mode: layout
   full:
     conf:
       instances:
@@ -107,4 +107,4 @@ settings:
     - b
   info_version: 2
   module: gdsfactory.read.from_yaml
-  name: sample_waypoints_51e45344
+  name: sample_waypoints_dac9e992

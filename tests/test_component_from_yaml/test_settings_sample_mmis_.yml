@@ -1,4 +1,4 @@
-name: sample_mmis_8ba5a8e2
+name: sample_mmis_6fafede2
 settings:
   changed:
     conf:
@@ -34,11 +34,6 @@ settings:
         route_name1:
           links:
             mmi_short,o2: mmi_long,o1
-  child: null
-  default:
-    label_instance_function:
-      function: add_instance_label
-    mode: layout
     routing_strategy:
       get_bundle:
         function: get_bundle
@@ -64,6 +59,11 @@ settings:
         function: get_bundle_path_length_match
       get_bundle_same_axis_no_grouping:
         function: get_bundle_same_axis_no_grouping
+  child: null
+  default:
+    label_instance_function:
+      function: add_instance_label
+    mode: layout
   full:
     conf:
       info:
@@ -136,4 +136,4 @@ settings:
     wavelength: 1.55
   info_version: 2
   module: gdsfactory.read.from_yaml
-  name: sample_mmis_8ba5a8e2
+  name: sample_mmis_6fafede2
