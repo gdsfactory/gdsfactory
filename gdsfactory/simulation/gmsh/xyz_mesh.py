@@ -208,6 +208,8 @@ def xyz_mesh(
     filename: Optional[str] = None,
     verbosity: Optional[bool] = False,
     override_volumes: Optional[Dict] = None,
+    round_tol: int = 3,
+    simplify_tol: float = 1e-2,
 ):
     """Full 3D mesh of component.
 
@@ -219,9 +221,13 @@ def xyz_mesh(
         default_resolution_max (float): gmsh maximal edge length
         filename (str, path): where to save the .msh file
         override_volumes: Dict of {physical: [volume_ids]}. If not None, will manually assign physicals to the volume IDs (after performing coherence), deleting extra volumes
+        round_tol: during gds --> mesh conversion cleanup, number of decimal points at which to round the gdsfactory/shapely points before introducing to gmsh
+        simplify_tol: during gds --> mesh conversion cleanup, shapely "simplify" tolerance (make it so all points are at least separated by this amount)
     """
     # Fuse and cleanup polygons of same layer in case user overlapped them
-    layer_polygons_dict = cleanup_component(component, layerstack)
+    layer_polygons_dict = cleanup_component(
+        component, layerstack, round_tol, simplify_tol
+    )
 
     # GDS polygons to simulation polygons
     buffered_layer_polygons_dict = buffers_to_lists(layer_polygons_dict, layerstack)
@@ -311,10 +317,6 @@ def xyz_mesh(
     else:  # try to smartly reassign volumes
         old_entities = list(pre_removeAllDuplicates - post_removeAllDuplicates)
         new_entities = list(post_removeAllDuplicates - pre_removeAllDuplicates)
-
-        print(pre_removeAllDuplicates, old_entities)
-        print(post_removeAllDuplicates, new_entities)
-        print(broken_shapes.items())
 
         for layername, layer_old_entities in broken_shapes.items():
             layer_new_entities = []
