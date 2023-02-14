@@ -114,9 +114,12 @@ sparameters_path = PATH.sparameters
 
 def rich_output() -> None:
     """Enables rich output."""
-    from rich import pretty
+    try:
+        from rich import pretty
 
-    pretty.install()
+        pretty.install()
+    except ImportError:
+        print("You can install `pip install gdsfactory[full]` for better visualization")
 
 
 def complex_encoder(z):
