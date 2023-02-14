@@ -52,6 +52,7 @@ import importlib
 import io
 import pathlib
 import warnings
+from functools import partial
 from typing import IO, Any, Callable, Dict, List, Optional, Union
 
 import numpy as np
@@ -61,7 +62,6 @@ from typing_extensions import Literal
 from gdsfactory.add_pins import add_instance_label
 from gdsfactory.cell import cell
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.routing.factories import routing_strategy as routing_strategy_factories
 from gdsfactory.typings import Route
 
 valid_placement_keys = [
@@ -492,9 +492,107 @@ ports:
 """
 
 
+def cell_from_yaml(
+    yaml_str: Union[str, pathlib.Path, IO[Any], Dict[str, Any], DictConfig],
+    routing_strategy: Optional[Dict[str, Callable]] = None,
+    label_instance_function: Callable = add_instance_label,
+    name: Optional[str] = None,
+    prefix: Optional[str] = None,
+    **kwargs,
+) -> Callable:
+    """Returns Component factory from YAML string or file.
+
+    YAML includes instances, placements, routes, ports and connections.
+
+    Args:
+        yaml: YAML string or file.
+        routing_strategy: for each route.
+        label_instance_function: to label each instance.
+        name: Optional name.
+        prefix: name prefix.
+        kwargs: function settings for creating YAML PCells.
+
+    .. code::
+
+        valid variables:
+
+        name: Optional Component name
+        settings: Optional variables
+        pdk: overrides
+        info: Optional component info
+            description: just a demo
+            polarization: TE
+            ...
+        instances:
+            name:
+                component: (ComponentSpec)
+                settings (Optional)
+                    length: 10
+                    ...
+        placements:
+            x: Optional[float, str]  str can be instanceName,portName
+            y: Optional[float, str]
+            rotation: Optional[float]
+            mirror: Optional[bool, float] float is x mirror axis
+            port: Optional[str] port anchor
+        connections (Optional): between instances
+        ports (Optional): ports to expose
+        routes (Optional): bundles of routes
+            routeName:
+            library: optical
+            links:
+                instance1,port1: instance2,port2
+
+
+    .. code::
+
+        settings:
+            length_mmi: 5
+
+        instances:
+            mmi_bot:
+              component: mmi1x2
+              settings:
+                width_mmi: 4.5
+                length_mmi: 10
+            mmi_top:
+              component: mmi1x2
+              settings:
+                width_mmi: 4.5
+                length_mmi: ${settings.length_mmi}
+
+        placements:
+            mmi_top:
+                port: o1
+                x: 0
+                y: 0
+            mmi_bot:
+                port: o1
+                x: mmi_top,o2
+                y: mmi_top,o2
+                dx: 30
+                dy: -30
+        routes:
+            optical:
+                library: optical
+                links:
+                    mmi_top,o3: mmi_bot,o1
+
+    """
+    return partial(
+        from_yaml,
+        yaml_str=yaml_str,
+        routing_strategy=routing_strategy,
+        label_instance_function=label_instance_function,
+        name=name,
+        prefix=prefix,
+        **kwargs,
+    )
+
+
 def from_yaml(
     yaml_str: Union[str, pathlib.Path, IO[Any], Dict[str, Any], DictConfig],
-    routing_strategy: Dict[str, Callable] = routing_strategy_factories,
+    routing_strategy: Optional[Dict[str, Callable]] = None,
     label_instance_function: Callable = add_instance_label,
     name: Optional[str] = None,
     prefix: Optional[str] = None,
@@ -579,6 +677,10 @@ def from_yaml(
                     mmi_top,o3: mmi_bot,o1
 
     """
+    from gdsfactory.pdk import get_routing_strategies
+
+    if routing_strategy is None:
+        routing_strategy = get_routing_strategies()
     if isinstance(yaml_str, (str, pathlib.Path, IO)):
         yaml_str = (
             io.StringIO(yaml_str)
@@ -619,7 +721,7 @@ def from_yaml(
 @cell
 def _from_yaml(
     conf,
-    routing_strategy: Dict[str, Callable] = routing_strategy_factories,
+    routing_strategy: Dict[str, Callable],
     label_instance_function: Callable = add_instance_label,
     mode: str = "layout",
 ) -> Component:
