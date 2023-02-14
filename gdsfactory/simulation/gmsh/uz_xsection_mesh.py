@@ -161,6 +161,8 @@ def uz_xsection_mesh(
     extra_shapes_dict: Optional[OrderedDict] = None,
     merge_by_material: Optional[bool] = False,
     interface_surfaces: Optional[Dict[str, Tuple(float, float)]] = None,
+    round_tol: float = 1e-3,
+    simplify_tol: float = 1e-2,
     **kwargs,
 ):
     """Mesh uz cross-section of component along line u = [[x1,y1] , [x2,y2]].
@@ -180,11 +182,15 @@ def uz_xsection_mesh(
         global_meshsize_interpolant_func: interpolating function for global_meshsize_array
         extra_shapes_dict: Optional[OrderedDict] = OrderedDict of {key: geo} with key a label and geo a shapely (Multi)Polygon or (Multi)LineString of extra shapes to override component
         merge_by_material: boolean, if True will merge polygons from layers with the same layer.material. Physical keys will be material in this case.
+        round_tol: during gds --> mesh conversion cleanup, number of decimal points at which to round the gdsfactory/shapely points before introducing to gmsh
+        simplify_tol: during gds --> mesh conversion cleanup, shapely "simplify" tolerance (make it so all points are at least separated by this amount)
     """
     interface_surfaces = interface_surfaces or {}
 
     # Fuse and cleanup polygons of same layer in case user overlapped them
-    layer_polygons_dict = cleanup_component(component, layerstack)
+    layer_polygons_dict = cleanup_component(
+        component, layerstack, round_tol, simplify_tol
+    )
 
     # GDS polygons to simulation polygons
     buffered_layer_polygons_dict, buffered_layerstack = process_buffers(
