@@ -1,4 +1,4 @@
-name: mirror_port_3e7f6307
+name: mirror_port_76e6504a
 settings:
   changed:
     conf:
@@ -19,11 +19,6 @@ settings:
         o1: mmi_long,o3
         o2: mmi_long,o2
         o3: mmi_long,o1
-  child: null
-  default:
-    label_instance_function:
-      function: add_instance_label
-    mode: layout
     routing_strategy:
       get_bundle:
         function: get_bundle
@@ -49,6 +44,11 @@ settings:
         function: get_bundle_path_length_match
       get_bundle_same_axis_no_grouping:
         function: get_bundle_same_axis_no_grouping
+  child: null
+  default:
+    label_instance_function:
+      function: add_instance_label
+    mode: layout
   full:
     conf:
       instances:
@@ -102,4 +102,4 @@ settings:
     - mmi_long
   info_version: 2
   module: gdsfactory.read.from_yaml
-  name: mirror_port_3e7f6307
+  name: mirror_port_76e6504a

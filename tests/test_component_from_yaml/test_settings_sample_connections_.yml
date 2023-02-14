@@ -1,4 +1,4 @@
-name: sample_connections_93c0d1e7
+name: sample_connections_65d4d507
 settings:
   changed:
     conf:
@@ -14,11 +14,6 @@ settings:
           settings:
             length: 1
       name: sample_connections
-  child: null
-  default:
-    label_instance_function:
-      function: add_instance_label
-    mode: layout
     routing_strategy:
       get_bundle:
         function: get_bundle
@@ -44,6 +39,11 @@ settings:
         function: get_bundle_path_length_match
       get_bundle_same_axis_no_grouping:
         function: get_bundle_same_axis_no_grouping
+  child: null
+  default:
+    label_instance_function:
+      function: add_instance_label
+    mode: layout
   full:
     conf:
       connections:
@@ -93,4 +93,4 @@ settings:
     - wgn
   info_version: 2
   module: gdsfactory.read.from_yaml
-  name: sample_connections_93c0d1e7
+  name: sample_connections_65d4d507

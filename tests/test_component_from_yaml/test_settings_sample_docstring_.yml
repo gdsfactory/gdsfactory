@@ -1,4 +1,4 @@
-name: sample_docstring_5eb0f802
+name: sample_docstring_7864c0c5
 settings:
   changed:
     conf:
@@ -29,11 +29,6 @@ settings:
         optical:
           links:
             mmi_top,o3: mmi_bot,o1
-  child: null
-  default:
-    label_instance_function:
-      function: add_instance_label
-    mode: layout
     routing_strategy:
       get_bundle:
         function: get_bundle
@@ -59,6 +54,11 @@ settings:
         function: get_bundle_path_length_match
       get_bundle_same_axis_no_grouping:
         function: get_bundle_same_axis_no_grouping
+  child: null
+  default:
+    label_instance_function:
+      function: add_instance_label
+    mode: layout
   full:
     conf:
       instances:
@@ -123,4 +123,4 @@ settings:
     - mmi_top
   info_version: 2
   module: gdsfactory.read.from_yaml
-  name: sample_docstring_5eb0f802
+  name: sample_docstring_7864c0c5

@@ -1,4 +1,4 @@
-name: component_yaml_ports_d51e1091
+name: component_yaml_ports_9329f23c
 settings:
   changed:
     conf:
@@ -43,11 +43,6 @@ settings:
           orientation: 0
           port_type: optical
           width: 0.45
-  child: null
-  default:
-    label_instance_function:
-      function: add_instance_label
-    mode: layout
     routing_strategy:
       get_bundle:
         function: get_bundle
@@ -73,6 +68,11 @@ settings:
         function: get_bundle_path_length_match
       get_bundle_same_axis_no_grouping:
         function: get_bundle_same_axis_no_grouping
+  child: null
+  default:
+    label_instance_function:
+      function: add_instance_label
+    mode: layout
   full:
     conf:
       instances:
@@ -150,4 +150,4 @@ settings:
     - mmi_bot
   info_version: 2
   module: gdsfactory.read.from_yaml
-  name: component_yaml_ports_d51e1091
+  name: component_yaml_ports_9329f23c

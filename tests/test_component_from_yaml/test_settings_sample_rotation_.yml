@@ -1,4 +1,4 @@
-name: sample_rotation_2b254e13
+name: sample_rotation_0aef407a
 settings:
   changed:
     conf:
@@ -24,11 +24,6 @@ settings:
           rotation: -90
           xmin: r1,east
           ymin: 0
-  child: null
-  default:
-    label_instance_function:
-      function: add_instance_label
-    mode: layout
     routing_strategy:
       get_bundle:
         function: get_bundle
@@ -54,6 +49,11 @@ settings:
         function: get_bundle_path_length_match
       get_bundle_same_axis_no_grouping:
         function: get_bundle_same_axis_no_grouping
+  child: null
+  default:
+    label_instance_function:
+      function: add_instance_label
+    mode: layout
   full:
     conf:
       instances:
@@ -113,4 +113,4 @@ settings:
     - r2
   info_version: 2
   module: gdsfactory.read.from_yaml
-  name: sample_rotation_2b254e13
+  name: sample_rotation_0aef407a

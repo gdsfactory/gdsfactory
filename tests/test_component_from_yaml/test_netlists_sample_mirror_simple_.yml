@@ -16,7 +16,7 @@ instances:
       separation: 3.5
       width: 0.5
     settings: {}
-name: sample_mirror_simple_1bddf846
+name: sample_mirror_simple_f31e619a
 placements:
   b:
     mirror: true
