@@ -76,10 +76,9 @@ def cell_from_yaml_template(
 
     if routing_strategy is None:
         routing_strategy = get_routing_strategies()
-    pic_factory = yaml_cell(
+    return yaml_cell(
         yaml_definition=filename, name=name, routing_strategy=routing_strategy
     )
-    return pic_factory
 
 
 def get_default_settings_dict(default_settings):
@@ -149,8 +148,7 @@ def _evaluate_yaml_template(main_file, default_settings, settings):
     template = jinja2.Template(main_file)
     complete_settings = dict(default_settings)
     complete_settings.update(settings)
-    evaluated_text = template.render(**complete_settings)
-    return evaluated_text
+    return template.render(**complete_settings)
 
 
 def _pic_from_templated_yaml(evaluated_text, name, routing_strategy):
