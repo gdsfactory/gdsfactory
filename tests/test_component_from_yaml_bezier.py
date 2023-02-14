@@ -22,7 +22,8 @@ connections:
 def test_component_from_yaml_bezier() -> Component:
     """bezier does not have cell."""
     c = gf.read.from_yaml(yaml)
-    assert c.name == "test_bezier_03405c97", c.name
+    h = "test_bezier_547c86eb"
+    assert c.name == h, f"h='{c.name}'"
     assert len(c.get_dependencies()) == 2, len(c.get_dependencies())
     assert len(c.ports) == 0, len(c.ports)
     return c

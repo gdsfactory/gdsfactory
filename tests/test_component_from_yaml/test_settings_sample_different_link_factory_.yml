@@ -1,4 +1,4 @@
-name: sample_path_length_matc_80997953
+name: sample_path_length_matc_a159252b
 settings:
   changed:
     conf:
@@ -27,11 +27,6 @@ settings:
           links:
             bl,e3: br,e1
             tl,e3: tr,e1
-  child: null
-  default:
-    label_instance_function:
-      function: add_instance_label
-    mode: layout
     routing_strategy:
       get_bundle:
         function: get_bundle
@@ -57,6 +52,11 @@ settings:
         function: get_bundle_path_length_match
       get_bundle_same_axis_no_grouping:
         function: get_bundle_same_axis_no_grouping
+  child: null
+  default:
+    label_instance_function:
+      function: add_instance_label
+    mode: layout
   full:
     conf:
       instances:
@@ -121,4 +121,4 @@ settings:
     - tr
   info_version: 2
   module: gdsfactory.read.from_yaml
-  name: sample_path_length_matc_80997953
+  name: sample_path_length_matc_a159252b
