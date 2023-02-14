@@ -1,10 +1,6 @@
-import numpy as np
-
-from typing import Optional
 # from sqlmodel import Field, SQLModel
 from gdsfactory.database.models import Base
-from sqlalchemy import LargeBinary
-from sqlalchemy import TIMESTAMP, Column, Float, ForeignKey, Integer, String, text, JSON
+from sqlalchemy import TIMESTAMP, Column, Integer, text, JSON
 
 
 class SParameterResults(Base):
