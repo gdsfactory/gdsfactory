@@ -1,0 +1,252 @@
+instances:
+  {% for i in range(5) %}
+  wg_a1{{ i }}:
+    component: straight
+  wg_a2{{ i }}:
+    component: straight
+    settings:
+      cross_section: strip
+  wg_b1{{ i }}:
+    component: straight
+    settings:
+      cross_section: strip
+  wg_b2{{ i }}:
+    component: straight
+
+  wg_c1{{ i }}:
+    component: straight
+  wg_c2{{ i }}:
+    component: straight
+    settings:
+      cross_section: strip
+  wg_d1{{ i }}:
+    component: straight
+  wg_d2{{ i }}:
+    component: straight
+
+  wg_e1{{ i }}:
+    component: straight
+    settings:
+      cross_section: strip
+
+  wg_e2{{ i }}:
+    component: straight
+    settings:
+      cross_section: strip
+
+  wg_f1{{ i }}:
+    component: straight
+  wg_f2{{ i }}:
+    component: straight
+    settings:
+      cross_section: strip
+
+  wg_g1{{ i }}:
+    component: straight
+  wg_g2{{ i }}:
+    component: straight
+    settings:
+      cross_section: strip
+  {% endfor %}
+
+placements:
+  {% for i in range(5) %}
+  wg_a1{{ i }}:
+    port: o2
+    x: 0
+    y: {{ 0 - 10 * i }}
+  wg_a2{{ i }}:
+    port: o1
+    x: 2000
+    y: {{ -1000 - 15 * i }}
+
+  wg_b1{{ i }}: # angles are splayed, symmetric about center
+    port: o2
+    x: 5000
+    y: {{ 0 - 10 * i }}
+    rotation: {{ (2 - i) * 3 }}
+  wg_b2{{ i }}: # components are both staggered in x/y and angles are splayed
+    port: o1
+    x: {{ 7000 - i * 10 }}
+    y: {{ -1000 - 20 * i }}
+    rotation: {{ i * 2 }}
+
+  wg_c1{{ i }}:
+    port: o2
+    x: 0
+    y: {{ -5000 - 10 * i }}
+  wg_c2{{ i }}:
+    port: o1
+    x: {{ 2000 - i * 10 }}
+    y: {{ -6000 - 20 * i }}
+    rotation: {{ 3 * i }}
+  wg_d1{{ i }}:
+    port: o2
+    x: 5000
+    y: {{ -5000 - 20 * i }}
+    rotation: {{ (2 - i) * 5 }}
+  wg_d2{{ i }}:
+    port: o1
+    x: {{ 7000 - 0 * i }}
+    y: {{ -6000 - 10 * i }}
+    rotation: 0
+
+  wg_e1{{ i }}:
+    port: o2
+    x: 0
+    y: {{ -7000 - 20 * i }}
+  wg_e2{{ i }}:
+    port: o1
+    x: wg_e1{{ i }},o2
+    y: wg_e1{{ i }},o2
+    dx: {{ 10 + i * 100 }}
+
+  wg_f1{{ i }}:
+    port: o2
+    x: 10000
+    y: {{ 0 - 10 * i }}
+  wg_f2{{ i }}:
+    port: o1
+    x: 12000
+    y: {{ -1000 - 15 * i }}
+
+  wg_g1{{ i }}:
+    port: o2
+    x: 10000
+    y: {{ -4000 - 10 * i }}
+  wg_g2{{ i }}:
+    port: o1
+    x: 12000
+    y: {{ -5000 - 15 * i }}
+  {% endfor %}
+
+routes:
+  r1:
+    routing_strategy: get_bundle_all_angle
+    settings:
+      start_angle: 10
+      end_angle: 200
+      end_cross_section: strip
+      steps:
+        - dx: 3000
+        - dx: 500
+          dy: -1000
+          exit_angle: 0
+          separation: 40
+        - ds: 800
+        - dy: -2000
+        - dx: -4000
+          exit_angle: 90
+    links:
+      {% for i in range(5) %}
+      wg_a1{{ i }},o2: wg_a2{{ i }},o1
+      {% endfor %}
+  r2:
+    routing_strategy: get_bundle_all_angle
+    settings:
+      start_angle: 10
+      steps:
+        - dx: 3000
+          cross_section:
+            cross_section: strip
+            settings:
+              width: 2.6
+        - dx: 500
+          dy: -1000
+          exit_angle: 0
+        - ds: 800
+          cross_section: strip
+        - dy: -2000
+        - dx: -4000
+          exit_angle: 90 # you can force the final segment to be manhattan by specifying exit_angle
+    links:
+      {% for i in range(5) %}
+      wg_b1{{ i }},o2: wg_b2{{ i }},o1
+      {% endfor %}
+
+  r3:  # an s-like bundle can be created by setting an appropriate start or end angle. you will get usual benefits of bundle routing
+    routing_strategy: get_bundle_all_angle
+    settings:
+      bend:
+        component: bend_euler
+        settings:
+          cross_section:  # cross section of the bends can be explicitly set, separately from cross_section if specified in the bend component
+            cross_section: strip
+            settings:
+              width: 1.5
+      connector: auto_taper  # use auto_taper connector to explicitly use a cross section type and have it properly auto-taper
+      cross_section:
+        cross_section: strip
+        settings:
+          width: 2.6
+      start_angle: -33  # let's give a start angle which will cause an intersection with the end angle, and create a two-step route
+      end_cross_section:  # you can use the end_cross_section parameter to differentiate the final segment in a two-step route, even if steps are implicit
+        cross_section: strip
+        settings:
+          width: 2.0
+    links:
+      {% for i in range(5) %}
+      wg_c1{{ i }},o2: wg_c2{{ i }},o1
+      {% endfor %}
+
+  r4:  # a step-free bundle with non-intersecting, opposing ports creates s-bends
+    routing_strategy: get_bundle_all_angle
+    settings:
+      end_cross_section: # this will take effect for the route, since it is, after all, the last section
+        cross_section: strip
+        settings:
+          width: 3.5
+    links:
+      {% for i in range(5) %}
+      wg_d1{{ i }},o2: wg_d2{{ i }},o1
+      {% endfor %}
+
+  r5: # example of direct (straight) routes... also a clear demonstration of low_loss cross_section behavior with varied distance
+    routing_strategy: get_bundle_all_angle
+    links:
+      {% for i in range(5) %}
+      wg_e1{{ i }},o2: wg_e2{{ i }},o1
+      {% endfor %}
+
+  r6:
+    routing_strategy: get_bundle_all_angle
+    settings:
+      start_angle: 10
+      end_angle: 200
+      end_cross_section: strip
+      separation: 50  # demonstrating an explicit, big separation
+      steps:
+        - dx: 3000
+        - dx: 500
+          dy: -1000
+          exit_angle: 0
+        - ds: 800
+        - dy: -2000
+        - dx: -4000
+          exit_angle: 90
+    links:
+      {% for i in range(5) %}
+      wg_f1{{ i }},o2: wg_f2{{ i }},o1
+      {% endfor %}
+
+  r7:
+    routing_strategy: get_bundle_all_angle
+    settings:
+      start_angle: 10
+      end_angle: 200
+      end_cross_section: strip
+      separation: 5  # demonstrating an explicit, small separation
+      steps:
+        - dx: 3000
+        - dx: 500
+          dy: -1000
+          exit_angle: 0
+        - ds: 800
+        - dy: -2000
+        - dx: -4000
+          exit_angle: 90
+          separation: 30
+    links:
+      {% for i in range(5) %}
+      wg_g1{{ i }},o2: wg_g2{{ i }},o1
+      {% endfor %}

@@ -2,20 +2,19 @@
 
 from __future__ import annotations
 
+import importlib
 import logging
 import pathlib
 import sys
 import time
 import traceback
-from functools import partial
-from typing import Optional
+from typing import Callable, Optional
 
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 
 from gdsfactory.config import cwd
 from gdsfactory.pdk import get_active_pdk
-from gdsfactory.read.from_yaml import from_yaml
 
 
 class YamlEventHandler(FileSystemEventHandler):
@@ -27,22 +26,33 @@ class YamlEventHandler(FileSystemEventHandler):
 
         self.logger = logger or logging.root
         pdk = get_active_pdk()
-        pdk.register_cells_yaml(dirpath=path)
+        pdk.register_cells_yaml(dirpath=path, update=True)
 
-    def update_cell(self, src_path, update: bool = False) -> None:
-        """Register new YAML file into active pdk.
+    def update_cell(self, src_path, update: bool = False) -> Callable:
+        """Parses a YAML file to a cell function and registers into active pdk.
 
-        pdk.cells[filename] = partial(from_yaml, filepath)
+        Args:
+            src_path: the path to the file
+            update: if True, will update an existing cell function of the same name without raising an error
+        Returns:
+            The cell function parsed from the yaml file.
 
         """
+        from gdsfactory.cell import CACHE
+
         pdk = get_active_pdk()
+        print(f"Active PDK: {pdk.name}")
         filepath = pathlib.Path(src_path)
         cell_name = filepath.stem.split(".")[0]
-        function = partial(from_yaml, filepath)
+        if cell_name in CACHE:
+            CACHE.pop(cell_name)
+        parser = pdk.circuit_yaml_parser
+        function = parser(filepath, name=cell_name)
         try:
             pdk.register_cells_yaml(**{cell_name: function}, update=update)
         except ValueError as e:
             print(e)
+        return function
 
     def on_moved(self, event):
         super().on_moved(event)
@@ -91,8 +101,8 @@ class YamlEventHandler(FileSystemEventHandler):
             filepath = pathlib.Path(filepath)
             if filepath.exists():
                 if str(filepath).endswith(".pic.yml"):
-                    c = from_yaml(filepath)
-                    self.update_cell(filepath, update=True)
+                    cell_func = self.update_cell(filepath, update=True)
+                    c = cell_func()
                     c.show(show_ports=True)
                     # on_yaml_cell_modified.fire(c)
                     return c
@@ -102,18 +112,22 @@ class YamlEventHandler(FileSystemEventHandler):
                     exec(filepath.read_text(), d, d)
                 else:
                     print("Changed file {filepath} ignored (not .pic.yml or .py)")
+
         except Exception as e:
             traceback.print_exc(file=sys.stdout)
             print(e)
 
 
-def watch(path=cwd) -> None:
+def watch(path=cwd, pdk=None) -> None:
     path = str(path)
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s - %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
     )
+    if pdk:
+        pdk_module = importlib.import_module(pdk)
+        pdk_module.PDK.activate()
     event_handler = YamlEventHandler(path=path)
     observer = Observer()
     observer.schedule(event_handler, path, recursive=True)

@@ -1,0 +1,209 @@
+instances:
+  {% for i in range(5) %}
+  wg_ra{{ i }}:
+    component: straight
+  wg_rb{{ i }}:
+    component: straight
+  {% endfor %}
+
+  {% for i in range(5) %}
+  wg_ma{{ i }}:
+    component: straight
+    settings:
+      cross_section: strip
+  wg_mb{{ i }}:
+    component: straight
+    settings:
+      cross_section: strip
+  {% endfor %}
+
+  wg_a1:
+    component: straight
+  wg_a2:
+    component: straight
+
+  wg_b1:
+    component: straight
+    settings:
+      cross_section: strip
+  wg_b2:
+    component: straight
+    settings:
+      cross_section: rib
+
+  wg_c1:
+    component: straight
+  wg_c2:
+    component: straight
+  wg_c3:
+    component: straight
+
+  wg_d1:
+    component: straight
+  wg_d2:
+    component: straight
+
+placements:
+  {% for i in range(5) %}
+  wg_ra{{ i }}:
+    port: o2
+    x: 2500
+    y: {{ -500 - i * 10 }}
+    rotation: -11
+  wg_rb{{ i }}:
+    port: o1
+    x: 4000
+    y: {{ -2500 - i * 20 }}
+    rotation: {{ -20 }}
+  {% endfor %}
+
+  {% for i in range(5) %}
+  wg_ma{{ i }}:
+    port: o2
+    x: 0
+    y: {{ 3000 - i * 10 }}
+  wg_mb{{ i }}:
+    port: o1
+    x: 5000
+    y: {{ -3000 - i * 20 }}
+  {% endfor %}
+
+  wg_a1:
+    port: o2
+    x: 0
+    y: 0
+    rotation: -25
+  wg_a2:
+    port: o1
+    x: 1000
+    y: -1000
+    rotation: -70
+
+  wg_b1:
+    port: o2
+    x: 0
+    y: 1500
+
+
+  wg_b2:
+    port: o1
+    x: 500
+    y: 1900
+    rotation: 170
+
+  wg_c1:
+    port: o1
+    x: 1500
+    y: 1500
+
+  wg_c2:
+    port: o2
+    x: 2500
+    y: 2000
+
+  wg_c3:
+    port: o1
+    x: 1500
+    y: 1700
+
+  wg_d1:
+    port: o1
+    x: 3500
+    y: 1500
+    rotation: 80
+
+  wg_d2:
+    port: o2
+    x: 4000
+    y: 2500
+    rotation: 90
+
+routes:
+  r_offangle_bundle:
+    routing_strategy: get_bundle_all_angle
+    settings:
+      end_cross_section: strip
+      steps:
+        - dx: 400
+          cross_section: rib
+          exit_angle: -70
+        - dy: -500
+          cross_section:
+            cross_section: strip
+            settings:
+              width: 2.6
+        - dx: 2000
+          cross_section: strip
+          exit_angle: -90
+        - dy: -400
+          exit_angle: 180
+{#          dx: -300#}
+{#          cross_section: rib#}
+{#      end_cross_section: strip#}
+{#        - dx: -1000#}
+{#      end_angle: 160#}
+    links:
+  {% for i in range(5) %}  # bundling is currently not supported, but you can template, like so
+      wg_ra{{ i }},o2: wg_rb{{ i }},o1 # partial euler routing also works between two non-orthogonal ports
+  {% endfor %}
+
+  manhattan_like:
+    routing_strategy: get_bundle_all_angle
+    settings:
+      steps:
+        - x: 5000
+        - dy: -2100
+        - x: -500
+          exit_angle: -90
+          cross_section: strip
+    links:
+  {% for i in range(5) %}  # bundling is currently not supported, but you can template, like so
+      wg_ma{{ i }},o2: wg_mb{{ i }},o1 # partial euler routing also works between two non-orthogonal ports
+  {% endfor %}
+
+  angle_step:
+    routing_strategy: get_bundle_all_angle
+    settings:
+      start_angle: -75
+      end_angle: 170  # try me!
+      steps:
+        - dy: -250
+        - dx: 300
+          dy: 300
+          exit_angle: 60
+        - dx: 500
+        - dy: -550
+        - dx: 300
+        - dy: -200
+        - dx: -200
+        - dx: -500
+    links:
+      wg_a1,o2: wg_a2,o1
+
+  transition1:
+    routing_strategy: get_bundle_all_angle
+    settings:
+      start_angle: -20
+      end_angle: 0
+      steps:
+        - ds: 1000
+          exit_angle: 80
+        - ds: 300
+          exit_angle: 40
+    links:
+      wg_b1,o2: wg_b2,o1
+
+  sbend:
+    routing_strategy: get_bundle_all_angle
+    links:
+      wg_c3,o2: wg_c2,o1
+
+  around_the_back:
+    routing_strategy: get_bundle_all_angle
+    links:
+      wg_c1,o2: wg_c2,o2
+
+  sbend_vertical:
+    routing_strategy: get_bundle_all_angle
+    links:
+      wg_d1,o2: wg_d2,o1
