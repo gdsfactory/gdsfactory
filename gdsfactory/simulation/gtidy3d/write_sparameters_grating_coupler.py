@@ -25,7 +25,7 @@ def write_sparameters_grating_coupler(
     dirpath: Optional[PathType] = None,
     overwrite: bool = False,
     port_waveguide_name: str = "o1",
-    fiber_port_name: str = "vertical_te",
+    fiber_port_prefix: str = "opt",
     **kwargs,
 ) -> Dict[str, np.ndarray]:
     """Get sparameter matrix from a gdsfactory grating coupler.
@@ -72,7 +72,7 @@ def write_sparameters_grating_coupler(
         run_time_ps: make sure it's sufficient for the fields to decay.
             defaults to 10ps and counts on the automatic shutoff
             to stop earlier if needed.
-        fiber_port_name: from component ports.
+        fiber_port_prefix: port prefix to place fiber source.
         fiber_xoffset: fiber center xoffset to fiber_port_name.
         fiber_z: fiber zoffset from grating zmax.
         fiber_mfd: fiber mode field diameter (um).
@@ -102,7 +102,7 @@ def write_sparameters_grating_coupler(
     start = time.time()
     sim = get_simulation_grating_coupler(
         component,
-        fiber_port_name=fiber_port_name,
+        fiber_port_prefix=fiber_port_prefix,
         port_waveguide_name=port_waveguide_name,
         **kwargs,
     )
@@ -123,6 +123,16 @@ def write_sparameters_grating_coupler(
     )
     r = monitor_entering / monitor_exiting
     t = monitor_exiting
+
+    fiber_port_name = None
+    for port_name in component.ports.keys():
+        if port_name.startswith(fiber_port_prefix):
+            fiber_port_name = port_name
+
+    if fiber_port_name is None:
+        raise ValueError(
+            f"No port named {fiber_port_prefix!r} in {component.ports.keys()}"
+        )
 
     freqs = sim_data.monitor_data["waveguide"].amps.sel(direction="+").f
     port_name_input = port_waveguide_name
