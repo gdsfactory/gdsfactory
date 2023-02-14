@@ -24,6 +24,7 @@ dependencies = [
     "click",
     "flatdict",
     "gdstk",
+    "jinja2",
     "loguru",
     "matplotlib",
     "numpy",

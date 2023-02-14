@@ -1,0 +1,28 @@
+instances:
+  wg_d1:
+    component: straight
+  wg_d2:
+    component: straight
+
+placements:
+  wg_d1:
+    port: o2
+    x: 0
+    y: -600
+  wg_d2:
+    port: o1
+    x: wg_d1,o2
+    y: wg_d1,o2
+    dx: 1000
+    dy: -1000
+
+
+routes:
+  bad_news:
+    routing_strategy: get_bundle_all_angle
+    settings:
+      steps:
+        - dx: 1000  # exit angle of the first port + explicit x + y makes this route overconstrained
+          dy: -1000
+    links:
+      wg_d1,o2: wg_d2,o1

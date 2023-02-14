@@ -1,0 +1,198 @@
+instances:
+  wg_a1:
+    component: straight
+    settings:
+      cross_section: strip
+  wg_a2:
+    component: straight
+
+  wg_b1:
+    component: straight
+  wg_b2:
+    component: straight
+
+  wg_c1:
+    component: straight
+  wg_c2:
+    component: straight
+
+  wg_d1:
+    component: straight
+  wg_d2:
+    component: straight
+
+  wg_e1:
+    component: straight
+  wg_e2:
+    component: straight
+
+  wg_f1:
+    component: straight
+  wg_f2:
+    component: straight
+  wg_g1:
+    component: straight
+  wg_g2:
+    component: straight
+  wg_h1:
+    component: straight
+  wg_h2:
+    component: straight
+  wg_i1:
+    component: straight
+  wg_i2:
+    component: straight
+
+placements:
+  wg_a1:
+    port: o2
+    x: -500
+    y: 0
+  wg_a2:
+    port: o1
+    x: wg_a1,o2
+    y: wg_a2,o2
+    dx: 183 # this is exactly the size of the transition needed
+  wg_b1:
+    port: o2
+    x: -500
+    y: -200
+  wg_b2:
+    port: o1
+    x: wg_b1,o2
+    y: wg_b1,o2
+    dx: 500
+
+  wg_c1:
+    port: o2
+    x: -500
+    y: -400
+  wg_c2:
+    port: o1
+    x: wg_c1,o2
+    y: wg_c1,o2
+    dx: 500
+
+  wg_d1:
+    port: o2
+    x: 0
+    y: -600
+  wg_d2:
+    port: o1
+    x: wg_d1,o2
+    y: wg_d1,o2
+    dx: 0
+
+  wg_e1:
+    port: o2
+    x: 500
+    y: 0
+  wg_e2:
+    port: o1
+    x: wg_e1,o2
+    y: wg_e1,o2
+    dx: 500
+    dy: -500
+
+  wg_f1:
+    port: o2
+    x: 500
+    y: -600
+  wg_f2:
+    port: o1
+    x: wg_f1,o2
+    y: wg_f1,o2
+    dx: 500
+    dy: -500
+
+  wg_g1:
+    port: o2
+    x: 500
+    y: -1200
+  wg_g2:
+    port: o1
+    x: wg_g1,o2
+    y: wg_g1,o2
+    dx: 1000
+    dy: -1000
+
+  wg_h1:
+    port: o2
+    x: 500
+    y: -2200
+    rotation: 0
+  wg_h2:
+    port: o1
+    x: wg_h1,o2
+    y: wg_h1,o2
+    dx: 1000
+    dy: -1000
+
+  wg_i1:
+    port: o2
+    x: 0
+    y: -800
+  wg_i2:
+    port: o1
+    x: wg_i1,o2
+    y: wg_i1,o2
+    dx: 10
+
+routes:
+  almost_too_close:
+    routing_strategy: get_bundle_all_angle
+    links:
+      wg_a1,o2: wg_a2,o1
+  aligned_but_opposite:
+    routing_strategy: get_bundle_all_angle
+    links:
+      wg_b1,o1: wg_b2,o2
+#  aligned_but_opposite2:
+#    routing_strategy: get_bundle_all_angle
+#    links:
+#      wg_c1,o2: wg_c2,o2
+
+  touching:  # this one is ok... will just have the components touching, nothing between
+    routing_strategy: get_bundle_all_angle
+    links:
+      wg_d1,o2: wg_d2,o1
+
+  s_bend_too_small:
+    routing_strategy: get_bundle_all_angle
+    links:
+      wg_e1,o2: wg_e2,o1
+
+  route_too_tight:
+    routing_strategy: get_bundle_all_angle
+    settings:
+      steps:
+        - dx: 30
+    links:
+      wg_f1,o2: wg_f2,o1
+
+  step_and_switch:
+    routing_strategy: get_bundle_all_angle
+    settings:
+      steps:
+        - dx: 800
+          exit_angle: 10
+    links:
+      wg_g1,o2: wg_g2,o1
+
+  two_step_shuffle:
+    routing_strategy: get_bundle_all_angle
+    settings:
+      steps:
+        - dx: 200
+          exit_angle: 0
+        - dx: 100
+          exit_angle: 0
+    links:
+      wg_h1,o2: wg_h2,o2
+
+#  explicit_opposite_angle:
+#    routing_strategy: get_bundle_all_angle
+#    settings:
+#      start_angle: 0
+#    links:
+#      wg_i1,o1: wg_i2,o2

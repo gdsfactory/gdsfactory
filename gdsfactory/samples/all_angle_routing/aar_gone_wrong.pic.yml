@@ -1,0 +1,105 @@
+instances:
+  wg_a1:
+    component: straight
+    settings:
+      cross_section: strip
+  wg_a2:
+    component: straight
+
+  wg_b1:
+    component: straight
+  wg_b2:
+    component: straight
+
+  wg_d1:
+    component: straight
+  wg_d2:
+    component: straight
+
+  wg_e1:
+    component: straight
+  wg_e2:
+    component: straight
+
+  wg_g1:
+    component: straight
+  wg_g2:
+    component: straight
+  wg_h1:
+    component: straight
+  wg_h2:
+    component: straight
+
+placements:
+  wg_a1:
+    port: o2
+    x: 0
+    y: 0
+  wg_a2:
+    port: o1
+    x: wg_a1,o2
+    y: wg_a2,o2
+    dx: 10
+  wg_b1:
+    port: o2
+    x: 0
+    y: -200
+  wg_b2:
+    port: o1
+    x: wg_b1,o2
+    y: wg_b1,o2
+    dx: 10
+    dy: 100
+    rotation: 180
+
+  wg_d1:
+    port: o2
+    x: 0
+    y: -1600
+  wg_d2:
+    port: o1
+    x: wg_d1,o2
+    y: wg_d1,o2
+    dx: 1000
+    dy: -1000
+
+  wg_e1:
+    port: o2
+    x: 500
+    y: 0
+  wg_e2:
+    port: o1
+    x: wg_e1,o2
+    y: wg_e1,o2
+    dx: 1000
+    dy: -1000
+
+routes:
+  too_close:
+    routing_strategy: get_bundle_all_angle
+    links:
+      wg_a1,o2: wg_a2,o1
+  too_close_parallel:
+    routing_strategy: get_bundle_all_angle
+    links:
+      wg_b1,o2: wg_b2,o1
+
+  route_wont_fit:
+    routing_strategy: get_bundle_all_angle
+    settings:
+      steps:
+        - dx: 1000
+          exit_angle: -90
+    links:
+      wg_d1,o2: wg_d2,o1
+
+  intermediate_route_wont_fit:
+    routing_strategy: get_bundle_all_angle
+    settings:
+      end_angle: 135
+      steps:
+        - dx: 500
+        - dy: -100
+          exit_angle: 225
+    links:
+      wg_e1,o2: wg_e2,o1

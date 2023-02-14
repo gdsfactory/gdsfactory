@@ -1,0 +1,35 @@
+instances:
+  wg_d1:
+    component: straight
+  wg_d2:
+    component: straight
+
+placements:
+  wg_d1:
+    port: o2
+    x: 0
+    y: -600
+  wg_d2:
+    port: o1
+    x: wg_d1,o2
+    y: wg_d1,o2
+    dx: 500
+
+
+routes:
+  bad_news:
+    routing_strategy: get_bundle_all_angle
+    settings:
+      steps:
+        {% for i in range(20) %}
+        - ds: 1000
+          exit_angle: 10 # can't go backwards directly like this
+        - ds: 1000
+          exit_angle: 170
+        {% endfor %}
+        - ds: 1000
+          exit_angle: 0
+        - dx: 4000
+{#          exit_angle: -90#}
+    links:
+      wg_d1,o1: wg_d2,o2
