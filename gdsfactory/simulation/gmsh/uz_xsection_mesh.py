@@ -91,6 +91,7 @@ def get_uz_bounds_layers(
     layer_polygons_dict: Dict[str, Tuple[str, MultiPolygon, MultiPolygon]],
     xsection_bounds: Tuple[Tuple[float, float], Tuple[float, float]],
     layerstack: LayerStack,
+    u_offset: float = 0.0,
 ):
     """Given a component and layer stack, computes the bounding box(es) of each \
             layer in the xsection coordinate system (u,z).
@@ -127,10 +128,10 @@ def get_uz_bounds_layers(
             zmax = layer_dict[next_layername]["zmin"]
 
             # Get bounding box
-            umin_zmin = np.min(inplane_bounds)
-            umax_zmin = np.max(inplane_bounds)
-            umin_zmax = np.min(next_inplane_bounds)
-            umax_zmax = np.max(next_inplane_bounds)
+            umin_zmin = np.min(inplane_bounds) + u_offset
+            umax_zmin = np.max(inplane_bounds) + u_offset
+            umin_zmax = np.min(next_inplane_bounds) + u_offset
+            umax_zmax = np.max(next_inplane_bounds) + u_offset
 
             points = [
                 [umin_zmin, zmin],
@@ -163,6 +164,7 @@ def uz_xsection_mesh(
     interface_surfaces: Optional[Dict[str, Tuple(float, float)]] = None,
     round_tol: int = 3,
     simplify_tol: float = 1e-2,
+    u_offset: float = 0.0,
     **kwargs,
 ):
     """Mesh uz cross-section of component along line u = [[x1,y1] , [x2,y2]].
@@ -184,6 +186,7 @@ def uz_xsection_mesh(
         merge_by_material: boolean, if True will merge polygons from layers with the same layer.material. Physical keys will be material in this case.
         round_tol: during gds --> mesh conversion cleanup, number of decimal points at which to round the gdsfactory/shapely points before introducing to gmsh
         simplify_tol: during gds --> mesh conversion cleanup, shapely "simplify" tolerance (make it so all points are at least separated by this amount)
+        u_offset: quantity to add to the "u" coordinates, useful to convert back to x or y if parallel to those axes
     """
     interface_surfaces = interface_surfaces or {}
 
@@ -199,7 +202,7 @@ def uz_xsection_mesh(
 
     # simulation polygons to u-z coordinates along cross-sectional line
     bounds_dict = get_uz_bounds_layers(
-        buffered_layer_polygons_dict, xsection_bounds, buffered_layerstack
+        buffered_layer_polygons_dict, xsection_bounds, buffered_layerstack, u_offset
     )
 
     # u-z coordinates to gmsh-friendly polygons
@@ -223,20 +226,22 @@ def uz_xsection_mesh(
         zmax = np.max(zs)
         shapes[background_tag] = Polygon(
             [
-                [-1 * background_padding[0], zmin - background_padding[1]],
-                [-1 * background_padding[0], zmax + background_padding[3]],
+                [-1 * background_padding[0] + u_offset, zmin - background_padding[1]],
+                [-1 * background_padding[0] + u_offset, zmax + background_padding[3]],
                 [
                     np.linalg.norm(
                         np.array(xsection_bounds[1]) - np.array(xsection_bounds[0])
                     )
-                    + background_padding[2],
+                    + background_padding[2]
+                    + u_offset,
                     zmax + background_padding[3],
                 ],
                 [
                     np.linalg.norm(
                         np.array(xsection_bounds[1]) - np.array(xsection_bounds[0])
                     )
-                    + background_padding[2],
+                    + background_padding[2]
+                    + u_offset,
                     zmin - background_padding[1],
                 ],
             ]
@@ -318,10 +323,12 @@ if __name__ == "__main__":
         [(4, -15), (4, 15)],
         filtered_layerstack,
         resolutions=resolutions,
-        # background_tag="Oxide",
+        background_tag="Oxide",
+        background_padding=(0, 0, 0, 0),
         filename="mesh.msh",
-        merge_by_material=True,
-        interface_surfaces={"si": (0.002, 0.002, 0.0002)},
+        round_tol=3,
+        simplify_tol=1e-3,
+        u_offset=-15,
     )
 
     import meshio
