@@ -193,6 +193,12 @@ For example, VS Code supports development inside a container, see [Developing in
 
 <div style="text-align: right; margin-right: 10%;">Alex Sludds - <strong>MIT</strong>
 
+---
+
+"I use gdsfactory for all of my photonic tape-outs. The Python interface makes it easy to version control individual photonic components as well as entire layouts, while integrating seamlessly with KLayout and most standard photonic simulation tools, both open-source and commercial.
+
+<div style="text-align: right; margin-right: 10%;">Thomas Dorch - <strong>Freedom Photonics</strong>
+
 ## Acks
 
 Contributors (in chronological order):
