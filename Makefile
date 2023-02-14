@@ -46,7 +46,7 @@ plugins-mamba:
 
 plugins-debian: plugins
 	sudo apt-get update
-	sudo apt-get install -y python3-gmsh
+	sudo apt-get install -y python3-gmsh gmsh
 
 thermal:
 	conda install python-gmsh
