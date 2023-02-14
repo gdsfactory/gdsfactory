@@ -208,7 +208,7 @@ def xyz_mesh(
     filename: Optional[str] = None,
     verbosity: Optional[bool] = False,
     override_volumes: Optional[Dict] = None,
-    round_tol: float = 1e-3,
+    round_tol: int = 3,
     simplify_tol: float = 1e-2,
 ):
     """Full 3D mesh of component.
@@ -317,10 +317,6 @@ def xyz_mesh(
     else:  # try to smartly reassign volumes
         old_entities = list(pre_removeAllDuplicates - post_removeAllDuplicates)
         new_entities = list(post_removeAllDuplicates - pre_removeAllDuplicates)
-
-        print(pre_removeAllDuplicates, old_entities)
-        print(post_removeAllDuplicates, new_entities)
-        print(broken_shapes.items())
 
         for layername, layer_old_entities in broken_shapes.items():
             layer_new_entities = []
