@@ -16,6 +16,7 @@ from gdsfactory.events import Event
 from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.materials import MaterialSpec
 from gdsfactory.materials import materials_index as materials_index_default
+from gdsfactory.read import cell_from_yaml
 from gdsfactory.show import show
 from gdsfactory.symbols import floorplan_with_block_letters
 from gdsfactory.technology import LayerStack, LayerViews
@@ -148,6 +149,8 @@ class Pdk(BaseModel):
     warn_off_grid_ports: bool = False
     constants: Dict[str, Any] = constants
     materials_index: Dict[str, MaterialSpec] = materials_index_default
+    routing_strategies: Optional[Dict[str, Callable]] = None
+    circuit_yaml_parser: Callable = cell_from_yaml
     gds_write_settings: GdsWriteSettings = GdsWriteSettings()
     oasis_settings: OasisWriteSettings = OasisWriteSettings()
 
@@ -271,7 +274,6 @@ class Pdk(BaseModel):
             cell_name: cell function. To update cells dict.
 
         """
-        from gdsfactory.read.from_yaml import from_yaml
 
         message = "Updated" if update else "Registered"
 
@@ -287,7 +289,8 @@ class Pdk(BaseModel):
                     raise ValueError(
                         f"ERROR: Cell name {name!r} from {filepath} already registered."
                     )
-                self.cells[name] = partial(from_yaml, filepath)
+                parser = self.circuit_yaml_parser
+                self.cells[name] = parser(filepath, name=name)
                 on_yaml_cell_registered.fire(name=name, cell=self.cells[name], pdk=self)
                 logger.info(f"{message} cell {name!r}")
 
@@ -596,6 +599,18 @@ def _set_active_pdk(pdk: Pdk) -> None:
     old_pdk = _ACTIVE_PDK
     _ACTIVE_PDK = pdk
     on_pdk_activated.fire(old_pdk=old_pdk, new_pdk=pdk)
+
+
+def get_routing_strategies() -> Dict[str, Callable]:
+    """Gets a dictionary of named routing functions available to the PDK, if defined, or gdsfactory defaults otherwise."""
+    from gdsfactory.routing.factories import (
+        routing_strategy as default_routing_strategies,
+    )
+
+    routing_strategies = get_active_pdk().routing_strategies
+    if routing_strategies is None:
+        routing_strategies = default_routing_strategies
+    return routing_strategies
 
 
 on_pdk_activated: Event = Event()
