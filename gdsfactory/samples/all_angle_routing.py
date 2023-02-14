@@ -2,54 +2,41 @@ from __future__ import annotations
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.read import from_yaml
+from gdsfactory.read import from_yaml, cell_from_yaml_template
+from gdsfactory.routing.factories import routing_strategy
+import pathlib
+
+SAMPLE_DIR = pathlib.Path(__file__).parent / "all_angle_routing"
 
 
 @cell
 def demo_all_angle_routing() -> Component:
     """Demonstrate all-angle routing."""
-    yaml = """
-    instances:
-        mmi_long:
-          component: mmi1x2
-          settings:
-            width_mmi: 4.5
-            length_mmi: 10
-        mmi_short:
-          component: mmi1x2
-          settings:
-            width_mmi: 4.5
-            length_mmi: 5
+    file = SAMPLE_DIR / "aar_basic_01.pic.yml"
+    return from_yaml(file)
 
-    placements:
-        mmi_long:
-            rotation: 190
-            x: 100
-            y: 100
 
-    routes:
-        optical:
-            routing_strategy: get_bundle_all_angle
-            settings:
-                steps:
-                    - ds: 50
-                      exit_angle: 90  # TODO: why do paths cross when set to i.e. 100?
-            links:
-                mmi_short,o2: mmi_long,o3
-                mmi_short,o3: mmi_long,o2
-
-    ports:
-        o2: mmi_short,o1
-        o1: mmi_long,o1
-    """
-
-    return from_yaml(yaml)
+def get_yaml_pics():
+    files = SAMPLE_DIR.glob("*.pic.yml")
+    pics = {}
+    for file in files:
+        name = file.name[: -len(".pic.yml")]
+        pic = cell_from_yaml_template(file, name, routing_strategy=routing_strategy)
+        pics[name] = pic
+    return pics
 
 
 if __name__ == "__main__":
+    from gdsfactory import grid
     from gdsfactory.pdk import get_active_pdk
 
     # IMPORTANT: always use this gds write flag when using non-manhattan features
     get_active_pdk().gds_write_settings.flatten_invalid_refs = True
+
     c = demo_all_angle_routing()
+    pics = get_yaml_pics()
+    # get all the render-able pics: those with "error" in the name intentionally demonstrate errors
+    good_pics = [pic for pic_name, pic in pics.items() if "error" not in pic_name]
+    c = grid(good_pics)
+
     c.show(show_ports=True)
