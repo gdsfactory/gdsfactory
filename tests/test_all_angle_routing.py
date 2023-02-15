@@ -50,3 +50,10 @@ def test_settings(component_name: str, data_regression: DataRegressionFixture) -
     """Avoid regressions when exporting settings."""
     component = AAR_YAML_PICS[component_name]()
     data_regression.check(component.to_dict())
+
+
+if __name__ == "__main__":
+    # name = cells_to_test[0]
+    name = "aar_bundles"
+    c = AAR_YAML_PICS[name]()
+    c.show()
