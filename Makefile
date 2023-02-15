@@ -36,7 +36,7 @@ plugins:
 	conda install -c conda-forge pymeep=*=mpi_mpich_* nlopt -y
 	conda install -c conda-forge slepc4py=*=complex* -y
 	pip install jax jaxlib numpy femwell --upgrade
-	pip install -e .[tidy3d,ray]
+	pip install -e .[tidy3d,ray,sax,devsim,meow,database]
 
 plugins-mamba:
 	mamba install -c conda-forge pymeep=*=mpi_mpich_* nlopt -y

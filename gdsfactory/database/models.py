@@ -420,7 +420,7 @@ if __name__ == "__main__":
     engine = create_engine("sqlite:///database.db", echo=True, future=True)
     metadata.create_all(engine)
 
-    c = gf.c.ring_single(radius=10)
+    c = gf.components.ring_single(radius=10)
 
     with Session(engine) as session:
         w1 = Wafer(name="12", serial_number="ABC")

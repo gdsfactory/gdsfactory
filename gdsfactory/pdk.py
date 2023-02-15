@@ -45,6 +45,8 @@ constants = {
     "metal_spacing": 10.0,
 }
 
+nm = 1e-3
+
 
 class GdsWriteSettings(BaseModel):
     """Settings to use when writing to GDS."""
@@ -126,6 +128,7 @@ class Pdk(BaseModel):
         warn_off_grid_ports: raises warning when extruding paths with offgrid ports.
             For example, if you try to create a waveguide with 1.5nm length.
         constants: dict of constants for the PDK.
+        bend_points_distance: default points distance for bends in um.
 
     """
 
@@ -153,6 +156,7 @@ class Pdk(BaseModel):
     circuit_yaml_parser: Callable = cell_from_yaml
     gds_write_settings: GdsWriteSettings = GdsWriteSettings()
     oasis_settings: OasisWriteSettings = OasisWriteSettings()
+    bend_points_distance: float = 20 * nm
 
     @property
     def grid_size(self):

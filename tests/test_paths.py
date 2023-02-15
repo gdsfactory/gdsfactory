@@ -26,7 +26,7 @@ def test_path():
     P.append(gf.path.straight(length=10))
     P.length()
     P.length()
-    assert np.isclose(P.length(), 107.69901058617913), P.length()
+    assert np.round(P.length(), 3) == 107.697, P.length()
 
     X = gf.CrossSection(width=1, offset=0, layer=(0, 0))
     return gf.path.extrude(P, X)
@@ -182,7 +182,8 @@ def test_copy() -> None:
 
 
 if __name__ == "__main__":
-    c = transition()
+    c = test_path()
+    # c = transition()
     # c.plot()
     c.show(show_ports=False)
 
