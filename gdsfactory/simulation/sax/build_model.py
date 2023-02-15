@@ -118,15 +118,26 @@ class Model:
             ].thickness = thickness
         return perturbed_layerstack
 
-    def get_model_input_output(self):
+    def get_model_input_output(self, type="arange"):
         """Generate training data
 
         Retrieve the input and output data for training the model by getting results on all trainable parameter input combinations.
+
+        Arguments:
+            type: str, arange or corners. Defines the iterator function to use with parameter objects.
         """
-        ranges_dict = {
-            name: parameter.arange()
-            for name, parameter in self.trainable_parameters.items()
-        }
+        if type == "arange":
+            ranges_dict = {
+                name: parameter.arange()
+                for name, parameter in self.trainable_parameters.items()
+            }
+        elif type == "corners":
+            ranges_dict = {
+                name: parameter.corners()
+                for name, parameter in self.trainable_parameters.items()
+            }
+        else:
+            raise ValueError("Type should be arange or corners.")
         input_vectors = []
         output_vectors = []
 
