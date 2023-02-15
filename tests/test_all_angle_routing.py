@@ -53,4 +53,7 @@ def test_settings(component_name: str, data_regression: DataRegressionFixture) -
 
 
 if __name__ == "__main__":
-    c = test_bad_cells_throw_errors()
+    # name = cells_to_test[0]
+    name = "aar_bundles"
+    c = AAR_YAML_PICS[name]()
+    c.show()
