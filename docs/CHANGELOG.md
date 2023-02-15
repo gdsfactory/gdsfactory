@@ -2,7 +2,7 @@
 
 ## 6.38.0
 
-- update tidy3d to 1.8.4
+- update tidy3d from 1.8.3 to 1.8.4
 - Add database simulation example notebook [PR](https://github.com/gdsfactory/gdsfactory/pull/1217)
 - Add jinja based YAML circuits [PR](https://github.com/gdsfactory/gdsfactory/pull/1275)
 
