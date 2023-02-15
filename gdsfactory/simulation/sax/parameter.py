@@ -43,6 +43,10 @@ class Parameter:
         """Given min, max, and step, return array of values between min and max (inclusive)."""
         return np.arange(self.min_value, self.max_value + self.step / 2, self.step)
 
+    def corners(self):
+        """Returns an array of min, nominal, and max values of the parameter."""
+        return np.array([self.min_value, self.nominal_value, self.max_value])
+
 
 class LayerStackThickness(Parameter):
     def __init__(
