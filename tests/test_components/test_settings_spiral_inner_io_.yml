@@ -42,7 +42,7 @@ settings:
     y_straight_inner_top: 50.0
   function_name: spiral_inner_io
   info:
-    length: 11584.394
+    length: 11584.393
   info_version: 2
   module: gdsfactory.components.spiral_inner_io
   name: spiral_inner_io

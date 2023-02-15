@@ -8,7 +8,7 @@ settings:
     heater_to_wg_distance: 1.2
     heater_width: 0.5
     layer_heater: HEATER
-    npoints: 720
+    npoints: null
     radius: 10
     with_bbox: true
   full:
@@ -17,7 +17,7 @@ settings:
     heater_to_wg_distance: 1.2
     heater_width: 0.5
     layer_heater: HEATER
-    npoints: 720
+    npoints: null
     radius: 10
     with_bbox: true
   function_name: bend_circular_heater
