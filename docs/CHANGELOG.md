@@ -5,6 +5,10 @@
 - update tidy3d from 1.8.3 to 1.8.4
 - Add database simulation example notebook [PR](https://github.com/gdsfactory/gdsfactory/pull/1217)
 - Add jinja based YAML circuits [PR](https://github.com/gdsfactory/gdsfactory/pull/1275)
+- [PR](https://github.com/gdsfactory/gdsfactory/pull/1277)
+    - add `Pdk.bend_points_distance` parameter for bends
+    - add database to docs
+    - make sure euler and arc have always enough points, as suggested by Orion in https://github.com/gdsfactory/gdsfactory/issues/1090
 
 
 ## [6.37.0](https://github.com/gdsfactory/gdsfactory/pull/1264)
