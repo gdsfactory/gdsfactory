@@ -5,13 +5,13 @@ from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
 from gdsfactory.path import arc
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.typings import CrossSectionSpec, Optional
 
 
 @gf.cell
 def bend_circular(
     angle: float = 90.0,
-    npoints: int = 720,
+    npoints: Optional[int] = None,
     with_bbox: bool = True,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
@@ -75,8 +75,9 @@ if __name__ == "__main__":
         width=2,
         layer=(0, 0),
         angle=90,
-        cross_section="rib",
+        # cross_section="rib",
         with_bbox=True,
+        radius=50,
     )
     # c = bend_circular()
     # c = bend_circular(cross_section=gf.cross_section.pin, radius=5)

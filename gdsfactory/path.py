@@ -1032,7 +1032,7 @@ def _cut_path_with_ray(
 def arc(
     radius: float = 10.0,
     angle: float = 90,
-    npoints: int = 720,
+    npoints: Optional[int] = None,
     start_angle: Optional[float] = -90,
 ) -> Path:
     """Returns a radial arc.
@@ -1040,7 +1040,7 @@ def arc(
     Args:
         radius: minimum radius of curvature.
         angle: total angle of the curve.
-        npoints: Number of points used per 360 degrees.
+        npoints: Number of points used per 360 degrees. Defaults to pdk.bend_points_distance.
         start_angle: initial angle of the curve for drawing, default -90 degrees.
 
     .. plot::
@@ -1052,7 +1052,13 @@ def arc(
         p.plot()
 
     """
-    npoints = abs(int(npoints * angle / 360))
+    from gdsfactory.pdk import get_active_pdk
+
+    PDK = get_active_pdk()
+
+    npoints = npoints or abs(int(angle / 360 * radius / PDK.bend_points_distance / 2))
+    npoints = max(npoints, int(360 / angle) + 1)
+
     t = np.linspace(
         start_angle * np.pi / 180, (angle + start_angle) * np.pi / 180, npoints
     )
@@ -1092,7 +1098,7 @@ def euler(
     angle: float = 90,
     p: float = 0.5,
     use_eff: bool = False,
-    npoints: int = 720,
+    npoints: Optional[int] = None,
 ) -> Path:
     """Returns an euler bend that adiabatically transitions from straight to curved.
 
@@ -1120,6 +1126,8 @@ def euler(
         p.plot()
 
     """
+    from gdsfactory.pdk import get_active_pdk
+
     if (p < 0) or (p > 1):
         raise ValueError("euler requires argument `p` be between 0 and 1")
     if p == 0:
@@ -1139,7 +1147,11 @@ def euler(
     Rp = R0 / (np.sqrt(p * alpha))
     sp = R0 * np.sqrt(p * alpha)
     s0 = 2 * sp + Rp * alpha * (1 - p)
-    npoints = abs(int(npoints * angle / 360))
+
+    PDK = get_active_pdk()
+    npoints = npoints or abs(int(angle / 360 * radius / PDK.bend_points_distance / 2))
+    npoints = max(npoints, int(360 / angle) + 1)
+
     num_pts_euler = int(np.round(sp / (s0 / 2) * npoints))
     num_pts_arc = npoints - num_pts_euler
 
