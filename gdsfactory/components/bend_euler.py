@@ -8,7 +8,7 @@ from gdsfactory.components.wire import wire_corner
 from gdsfactory.cross_section import strip
 from gdsfactory.path import euler
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.typings import CrossSectionSpec, Optional
 
 
 @gf.cell
@@ -16,7 +16,7 @@ def bend_euler(
     angle: float = 90.0,
     p: float = 0.5,
     with_arc_floorplan: bool = True,
-    npoints: int = 720,
+    npoints: Optional[int] = None,
     direction: str = "ccw",
     with_bbox: bool = True,
     cross_section: CrossSectionSpec = "strip",

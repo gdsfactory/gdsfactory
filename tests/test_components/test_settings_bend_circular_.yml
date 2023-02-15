@@ -5,12 +5,12 @@ settings:
   default:
     angle: 90.0
     cross_section: strip
-    npoints: 720
+    npoints: null
     with_bbox: true
   full:
     angle: 90.0
     cross_section: strip
-    npoints: 720
+    npoints: null
     with_bbox: true
   function_name: bend_circular
   info:

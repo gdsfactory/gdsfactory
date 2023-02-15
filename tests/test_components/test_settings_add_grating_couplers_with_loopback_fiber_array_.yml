@@ -44,7 +44,7 @@ settings:
       y_straight_inner_top: 50.0
     function_name: spiral_inner_io
     info:
-      length: 11584.394
+      length: 11584.393
     info_version: 2
     module: gdsfactory.components.spiral_inner_io
     name: spiral_inner_io
@@ -114,7 +114,7 @@ settings:
     with_loopback: false
   function_name: add_grating_couplers_with_loopback_fiber_array
   info:
-    length: 11584.394
+    length: 11584.393
     polarization: te
     wavelength: 1.53
   info_version: 2
