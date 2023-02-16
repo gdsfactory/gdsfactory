@@ -224,7 +224,7 @@ def cell_without_validator(func):
 _F = TypeVar("_F", bound=Callable)
 
 
-def cell(func: _F, *args, **kwargs) -> _F:
+def cell(func: _F) -> _F:
     """Decorator for Component functions.
 
     Wraps cell_without_validator
@@ -237,22 +237,53 @@ def cell(func: _F, *args, **kwargs) -> _F:
 
     When decorate your functions with @cell you get:
 
-    - CACHE: avoids creating duplicated cells.
-    - name: gives Components a unique name based on parameters.
-    - adds Component.info with default, changed and full component settings.
+    - cache: avoids creating duplicated Components.
+    - name: names Components uniquely name based on parameters.
+    - metadata: adds Component.metadata with default, changed and full component settings.
+
+    Note the cell decorator does not take any arguments.
+    Keyword Args are applied the resulting Component.
 
     Keyword Args:
-        autoname (bool): if True renames component based on args and kwargs.
-        name (str): Optional (ignored when autoname=True).
-        cache (bool): returns component from the cache if it already exists.
-            if False creates a new component.
-            by default True avoids having duplicated cells with the same name.
-        info: updates component.info dict.
-        prefix: name_prefix, defaults to function name.
-        max_name_length: truncates name beyond some characters (32) with a hash.
-        decorator: function to run over the component.
+        autoname (bool): True renames Component based on args and kwargs. Defaults to True.
+        name (str): Optional name.
+        cache (bool): returns Component from the CACHE if it already exists.
+            Avoids having duplicated cells with the same name.
+            If False overrides CACHE creates a new Component.
+        flatten (bool): False by default. True flattens component hierarchy.
+        info: updates Component.info dict.
+        prefix (str): name_prefix, defaults to function name.
+        max_name_length (int): truncates name beyond some characters (32) with a hash.
+        decorator (Callable): function to apply to Component.
+
+
+    A decorator is a function that runs over a function, so when you do.
+
+    .. code::
+
+        import gdsfactory as gf
+
+        @gf.cell
+        def mzi_with_bend():
+            c = gf.Component()
+            mzi = c << gf.components.mzi()
+            bend = c << gf.components.bend_euler()
+            return c
+
+    it’s equivalent to
+
+    .. code::
+
+        def mzi_with_bend():
+            c = gf.Component()
+            mzi = c << gf.components.mzi()
+            bend = c << gf.components.bend_euler(radius=radius)
+            return c
+
+        mzi_with_bend_decorated = gf.cell(mzi_with_bend)
+
     """
-    return cell_without_validator(validate_arguments(func), *args, **kwargs)
+    return cell_without_validator(validate_arguments(func))
 
 
 @cell
