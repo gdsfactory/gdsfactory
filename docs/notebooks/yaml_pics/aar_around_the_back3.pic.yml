@@ -1,0 +1,39 @@
+instances:
+    mmi_long:
+      component: mmi1x2
+      settings:
+        width_mmi: 4.5
+        length_mmi: 10
+    mmi_short:
+      component: mmi1x2
+      settings:
+        width_mmi: 4.5
+        length_mmi: 5
+
+placements:
+    mmi_short:
+        rotation: 180
+    mmi_long:
+        port: o1
+        rotation: -140
+        x: mmi_short,o1
+        y: mmi_short,o1
+        dx: 50
+        dy: 20
+
+routes:
+    optical:
+        routing_strategy: get_bundle_all_angle
+        settings:
+          bend:  # you can specify a custom bend to use, either by name or with expanded syntax as shown
+            component: bend_circular
+            settings:
+              radius: 5
+          start_angle: 90
+          end_angle: 180
+        links:
+            mmi_short,o1: mmi_long,o1
+
+ports:
+    o1: mmi_short,o2
+    o2: mmi_short,o3
