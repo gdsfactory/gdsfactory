@@ -1,0 +1,43 @@
+instances:
+    mmi_long:
+      component: mmi1x2
+      settings:
+        width_mmi: 4.5
+        length_mmi: 10
+    mmi_short:
+      component: mmi1x2
+      settings:
+        width_mmi: 4.5
+        length_mmi: 5
+    obstacle1:
+      component: rectangle
+      settings:
+        layer: M1
+        size: [30, 30]
+
+placements:
+    mmi_short:
+        rotation: 180
+    mmi_long:
+        port: o1
+        rotation: 20
+        x: mmi_short,o1
+        y: mmi_short,o1
+        dx: 120
+        dy: 80
+    obstacle1:
+        port: ce
+        x: mmi_long,o1
+        y: mmi_long,o1
+        dx: -20
+        dy: -10
+
+#routes:
+#    optical:
+#        routing_strategy: get_bundle_all_angle
+#        links:
+#            mmi_short,o1: mmi_long,o1
+
+ports:
+    o1: mmi_short,o2
+    o2: mmi_short,o3

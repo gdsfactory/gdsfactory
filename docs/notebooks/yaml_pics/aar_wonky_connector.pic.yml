@@ -1,0 +1,38 @@
+instances:
+    mmi_long:
+      component: mmi1x2
+      settings:
+        width_mmi: 4.5
+        length_mmi: 10
+    mmi_short:
+      component: mmi1x2
+      settings:
+        width_mmi: 4.5
+        length_mmi: 5
+
+placements:
+    mmi_short:
+        rotation: 180
+    mmi_long:
+        port: o1
+        rotation: 70
+        x: mmi_short,o1
+        y: mmi_short,o1
+        dx: 20
+        dy: 20
+
+routes:
+    optical:
+        routing_strategy: get_bundle_all_angle
+        settings:
+          end_connector: wonky  # using our new, wonky connector for the final segment
+          end_cross_section:  # and for that final segment, also tip the connector to use this cross-section
+            cross_section: strip
+            settings:
+              width: 2.0
+        links:
+            mmi_short,o1: mmi_long,o1
+
+ports:
+    o1: mmi_short,o2
+    o2: mmi_short,o3
