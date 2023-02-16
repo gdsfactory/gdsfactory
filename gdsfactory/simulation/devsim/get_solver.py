@@ -20,10 +20,10 @@ from devsim import (
     write_devices,
 )
 from devsim.python_packages import model_create, simple_physics
-from pdk import get_layer_stack
 from pydantic import Extra
 
-from gdsfactory import Component
+from gdsfactory.pdk import get_layer_stack
+from gdsfactory.component import Component
 from gdsfactory.simulation.devsim.doping import (
     DopingLayerLevel,
     get_doping_info_generic,
