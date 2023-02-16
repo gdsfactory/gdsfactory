@@ -28,7 +28,7 @@ import omegaconf
 from loguru import logger
 from omegaconf import OmegaConf
 
-__version__ = "6.39.0"
+__version__ = "6.40.0"
 PathType = Union[str, pathlib.Path]
 
 home = pathlib.Path.home()
@@ -193,6 +193,5 @@ def set_plot_options(
 
 if __name__ == "__main__":
     # print(PATH.sparameters)
-    # print(CONFIG)
     print_config()
     # write_tech("tech.json")

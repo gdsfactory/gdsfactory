@@ -1,5 +1,5 @@
 project = "gdsfactory"
-release = "6.39.0"
+release = "6.40.0"
 copyright = "2020, MIT License"
 
 html_theme = "sphinx_book_theme"
@@ -38,7 +38,7 @@ exclude_patterns = [
 ]
 
 napoleon_use_param = True
-nbsphinx_timeout = 300
+nbsphinx_timeout = 60  # # Time in seconds
 
 source_suffix = {
     ".rst": "restructuredtext",
