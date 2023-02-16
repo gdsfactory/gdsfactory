@@ -1,0 +1,17 @@
+name: mmi1x2_with_sbend
+settings:
+  changed: {}
+  child: null
+  default:
+    s_bend:
+      function: bend_s
+    with_sbend: false
+  full:
+    s_bend:
+      function: bend_s
+    with_sbend: false
+  function_name: mmi1x2_with_sbend
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.mmi1x2_with_sbend
+  name: mmi1x2_with_sbend
