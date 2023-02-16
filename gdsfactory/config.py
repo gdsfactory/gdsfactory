@@ -193,6 +193,5 @@ def set_plot_options(
 
 if __name__ == "__main__":
     # print(PATH.sparameters)
-    # print(CONFIG)
     print_config()
     # write_tech("tech.json")
