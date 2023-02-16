@@ -507,7 +507,7 @@ def get_bundle_all_angle(
             The first route, between ports1[0] and ports2[0] will take on the role of the primary route,
             and other routes will follow, given the bundling logic.
             It is assume that both ports1 and ports2 are sorted.
-        cross_section: cross section of the bends.
+        cross_section: the default cross-section of the bends.
             Then the specified connector may also use this information for straights in between.
         bend: the default component to use for the bends.
         connector: the default connector to use to connect between two ports.
