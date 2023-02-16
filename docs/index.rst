@@ -16,6 +16,7 @@ Gdsfactory
    plugins_mode_solver
    plugins_fdtd
    plugins_circuits
+   plugins_database
    contribution
    CHANGELOG
    components
