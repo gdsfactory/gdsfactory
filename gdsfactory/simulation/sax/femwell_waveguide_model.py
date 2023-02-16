@@ -89,7 +89,7 @@ if __name__ == "__main__":
         return gf.components.straight(cross_section=rib(width=parameters["width"]))
 
     rib_waveguide_model = FemwellWaveguideModel(
-        component=trainable_straight_rib,
+        trainable_component=trainable_straight_rib,
         layerstack=filtered_layerstack,
         simulation_settings={
             "resolutions": {
@@ -124,6 +124,13 @@ if __name__ == "__main__":
         },
         num_modes=4,
     )
+
+    # Sweep corners
+    input_vectors, output_vectors = rib_waveguide_model.get_model_input_output(
+        type="corners"
+    )
+
+    # Sweep steps
     input_vectors, output_vectors = rib_waveguide_model.get_model_input_output()
     interpolator = rib_waveguide_model.set_nd_nd_interp()
 

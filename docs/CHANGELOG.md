@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.40.0 [PR](https://github.com/gdsfactory/gdsfactory/pull/1281)
+
+- fix devsim plugin
+- run meshing notebooks
+- add variability analysis [PR](https://github.com/gdsfactory/gdsfactory/pull/1280)
+
 ## 6.38.0
 
 - update tidy3d from 1.8.3 to 1.8.4
