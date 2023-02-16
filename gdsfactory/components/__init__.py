@@ -156,6 +156,8 @@ from gdsfactory.components.logo import logo
 from gdsfactory.components.loop_mirror import loop_mirror
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mmi2x2 import mmi2x2
+from gdsfactory.components.mmi1x2_with_sbend import mmi1x2_with_sbend
+from gdsfactory.components.mmi2x2_with_sbend import mmi2x2_with_sbend
 from gdsfactory.components.mmi_90degree_hybrid import mmi_90degree_hybrid
 from gdsfactory.components.mzi import mzi, mzi1x2_2x2, mzi2x2_2x2, mzi_coupler
 from gdsfactory.components.mzi_arm import mzi_arm
@@ -450,8 +452,9 @@ __all__ = [
     "marker_tm",
     "mmi_90degree_hybrid",
     "mmi1x2",
-    "mmi1x2",
     "mmi2x2",
+    "mmi1x2_with_sbend",
+    "mmi2x2_with_sbend",
     "mzi",
     "mzi_arms",
     "mzi_pads_center",
