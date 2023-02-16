@@ -3,18 +3,24 @@ from scipy.interpolate import interp1d
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 from gdsfactory.components.bend_s import bend_s
 
 
 @gf.cell
 def mmi1x2_with_sbend(
-    with_sbend: bool = False,
+    with_sbend: bool = True,
     s_bend: ComponentSpec = bend_s,
+    cross_section: CrossSectionSpec = "strip",
 ) -> Component:
-    """Returns 1x2 splitter
+    """Returns 1x2 splitter for Cband.
 
-    From this paper: https://opg.optica.org/oe/fulltext.cfm?uri=oe-21-1-1310&id=248418
+    https://opg.optica.org/oe/fulltext.cfm?uri=oe-21-1-1310&id=248418
+
+    Args:
+        with_sbend: add sbend.
+        s_bend: S-bend spec.
+        cross_section: spec.
     """
 
     def mmi_widths(t):
@@ -31,23 +37,27 @@ def mmi1x2_with_sbend(
     c = gf.Component()
 
     P = gf.path.straight(length=2, npoints=100)
-    X = gf.CrossSection(width=mmi_widths, offset=0, layer="WG")
-    c << gf.path.extrude(P, cross_section=X)
+    xs = gf.get_cross_section(cross_section)
+    xs.width = mmi_widths
+    c << gf.path.extrude(P, cross_section=xs)
 
     # Add "stub" straight sections for ports
-    input_port_ref = c << gf.components.straight(length=0.25, cross_section="strip")
+    input_port_ref = c << gf.components.straight(
+        length=0.25, cross_section=cross_section
+    )
     input_port_ref.center = (-0.125, 0)
     top_output_port_ref = c << gf.components.straight(
-        length=0.25, cross_section="strip"
+        length=0.25, cross_section=cross_section
     )
     top_output_port_ref.center = (2.125, 0.35)
     bottom_output_port_ref = c << gf.components.straight(
-        length=0.25, cross_section="strip"
+        length=0.25, cross_section=cross_section
     )
     bottom_output_port_ref.center = (2.125, -0.35)
     if with_sbend:
-        top_sbend = c << s_bend()
-        bot_sbend = c << s_bend()
+        sbend = gf.get_component(s_bend, cross_section=cross_section)
+        top_sbend = c << sbend
+        bot_sbend = c << sbend
         bot_sbend.mirror([1, 0])
         top_sbend.connect("o1", destination=top_output_port_ref.ports["o2"])
         bot_sbend.connect("o1", destination=bottom_output_port_ref.ports["o2"])
@@ -64,5 +74,10 @@ def mmi1x2_with_sbend(
 
 
 if __name__ == "__main__":
-    c = mmi1x2_with_sbend(with_sbend=False)
+    # c = mmi1x2_with_sbend(with_sbend=False)
+    # c = mmi1x2_with_sbend(with_sbend=True)
+    c = mmi1x2_with_sbend(
+        with_sbend=True,
+        cross_section=dict(cross_section="strip", settings=dict(layer=(2, 0))),
+    )
     c.show(show_ports=True)
