@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.41.0
+
+- Improve decorator docs [PR](https://github.com/gdsfactory/gdsfactory/pull/1287)
+- Neural net interpolation & MEEP corner iterator [PR](https://github.com/gdsfactory/gdsfactory/pull/1285)
+- add `mmi1x2_with_sbend` and `mmi2x2_with_sbend` [PR](https://github.com/gdsfactory/gdsfactory/pull/1283) and [PR](https://github.com/gdsfactory/gdsfactory/pull/1286)
+
 ## 6.40.0 [PR](https://github.com/gdsfactory/gdsfactory/pull/1281)
 
 - fix devsim plugin
