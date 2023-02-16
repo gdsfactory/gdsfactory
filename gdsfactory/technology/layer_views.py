@@ -567,7 +567,7 @@ class LayerView(BaseModel):
             dither_pattern = f"C{list(custom_hatch_patterns).index(hatch_name)}"
         else:
             logger.warning(
-                f"Dither pattern {hatch_name} does not correspond to any KLayout built-in or custom pattern! Using 'solid' instead."
+                f"Dither pattern {hatch_name!r} does not correspond to any KLayout built-in or custom pattern! Using 'solid' instead."
             )
             dither_pattern = "solid"
 
@@ -579,7 +579,7 @@ class LayerView(BaseModel):
             line_style = f"C{list(custom_line_styles).index(ls_name)}"
         else:
             logger.warning(
-                f"Line style {ls_name} does not correspond to any KLayout built-in or custom pattern! Using 'solid' instead."
+                f"Line style {ls_name!r} does not correspond to any KLayout built-in or custom pattern! Using 'solid' instead."
             )
             line_style = "solid"
 
