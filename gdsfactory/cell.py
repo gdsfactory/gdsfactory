@@ -232,20 +232,20 @@ def cell(func: _F) -> _F:
 
     Implements a cache so that if a component has already been build
     it will return the component from the cache directly.
-    This avoids 2 exact cells that are not references of the same cell
-    You can always over-ride this with `cache = False`.
+    This avoids creating two exact Components that have the same name.
 
     When decorate your functions with @cell you get:
 
     - cache: avoids creating duplicated Components.
     - name: names Components uniquely name based on parameters.
-    - metadata: adds Component.metadata with default, changed and full component settings.
+    - metadata: adds Component.metadata with default, changed and full Args.
 
     Note the cell decorator does not take any arguments.
     Keyword Args are applied the resulting Component.
 
     Keyword Args:
-        autoname (bool): True renames Component based on args and kwargs. Defaults to True.
+        autoname (bool): True renames Component based on args and kwargs.
+            True by default.
         name (str): Optional name.
         cache (bool): returns Component from the CACHE if it already exists.
             Avoids having duplicated cells with the same name.
@@ -253,7 +253,7 @@ def cell(func: _F) -> _F:
         flatten (bool): False by default. True flattens component hierarchy.
         info: updates Component.info dict.
         prefix (str): name_prefix, defaults to function name.
-        max_name_length (int): truncates name beyond some characters (32) with a hash.
+        max_name_length (int): truncates name beyond some characters with a hash.
         decorator (Callable): function to apply to Component.
 
 
