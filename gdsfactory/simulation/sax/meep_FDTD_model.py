@@ -9,6 +9,9 @@ class MeepFDTDModel(Model):
     def __init__(self, **kwargs) -> None:
         """Generic model inferred from MEEP 2.5D FDTD calculations."""
         super().__init__(**kwargs)
+
+        self.output_vector_labels = self.define_output_vector_labels()
+
         return None
 
     # def get_Sparameters(self, input_dict, output_vector_labels):
@@ -18,7 +21,7 @@ class MeepFDTDModel(Model):
     #     output_vectors.append(output_vector)
     #     return sp
 
-    def get_results(self, input_dict):
+    def outputs_from_inputs(self, input_dict):
         """Setup and run a simulation with one set of inputs."""
         param_dict, layerstack_param_dict = self.parse_input_dict(input_dict)
         input_component = self.component(param_dict)
@@ -86,6 +89,7 @@ if __name__ == "__main__":
     }
 
     sim_settings = dict(
+        resolution=10,
         xmargin=1.0,
         ymargin=1.0,
         is_3d=False,
@@ -98,7 +102,7 @@ if __name__ == "__main__":
     )
 
     coupler_model = MeepFDTDModel(
-        component=trainable_coupler,
+        trainable_component=trainable_coupler,
         layerstack=filtered_layerstack,
         simulation_settings={
             "sim_settings": sim_settings,
@@ -119,8 +123,8 @@ if __name__ == "__main__":
         num_modes=1,
     )
 
-    # input_vectors, output_vectors = strip_strip_taper_model.get_data()
-    interpolator = coupler_model.set_nd_nd_interp()
+    input_vectors, output_vectors = coupler_model.get_model_input_output(type="corners")
+    # interpolator = coupler_model.set_nd_nd_interp()
 
     # import jax.numpy as jnp
 

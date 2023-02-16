@@ -6,6 +6,7 @@ import jax.numpy as jnp
 from tqdm.contrib.itertools import product
 
 from gdsfactory.simulation.sax.interpolators import nd_nd_interpolation
+from gdsfactory.simulation.sax.mlp import mlp_regression
 from gdsfactory.simulation.sax.parameter import LayerStackThickness, NamedParameter
 from gdsfactory.technology import LayerStack
 from gdsfactory.typings import PortSymmetries
@@ -37,6 +38,10 @@ class Model:
             - Simulation setup, execution, caching/loading
             - Assembly of simulation results into S-parameters
         is solver-dependent, and hence resides in child classes.
+
+        TODO:
+            - more consistent ordering of input/output data
+            - more JAX, less pure Python
 
         Attributes:
             trainable_component: callable wrapping component associated with model
@@ -118,6 +123,29 @@ class Model:
             ].thickness = thickness
         return perturbed_layerstack
 
+    def define_output_vector_labels(self):
+        """Uses number of component ports, number of modes solved for, and port_symmetries to define smallest output vector."""
+        output_vector_labels_iter = product(
+            range(1, self.num_ports + 1),
+            range(self.num_modes),
+            range(1, self.num_ports + 1),
+            range(self.num_modes),
+        )
+        output_vector_labels = []
+        for output_label in output_vector_labels_iter:
+            output_key1 = f"o{output_label[0]}@{output_label[1]}"
+            output_key2 = f"o{output_label[2]}@{output_label[3]}"
+            if output_key1 != output_key2:
+                output_key = f"{output_key1},{output_key2}"
+                output_vector_labels.append(output_key)
+
+        if self.port_symmetries:
+            for value_list in self.port_symmetries.values():
+                for value in value_list:
+                    output_vector_labels.remove(value)
+
+        return output_vector_labels
+
     def get_model_input_output(self, type="arange"):
         """Generate training data
 
@@ -125,6 +153,11 @@ class Model:
 
         Arguments:
             type: str, arange or corners. Defines the iterator function to use with parameter objects.
+
+        Returns:
+            input_vectors: shape should be [combination_inputs, length trainable_parameters]
+            output_vectors: shape should be [combination_inputs, 2 x num_modes x length port_symmetries]
+                factor of 2 from splitting complex numbers into 2 reals for training
         """
         if type == "arange":
             ranges_dict = {
@@ -158,9 +191,36 @@ class Model:
         )
 
     def set_nd_nd_interp(self):
-        """Returns ND-ND interpolator."""
+        """Returns ND-ND interpolator.
+
+        Returns:
+            self.inference: [callable giving an output_vector given an input_vector]
+            list is of length 2*output_vector length, first output_vector entries are real, second imaginary
+        """
         input_vectors, output_vectors = self.get_model_input_output()
         self.inference = nd_nd_interpolation(input_vectors, output_vectors)
+
+    def set_mlp_interp(self):
+        """Returns multilayer perceptron interpolator.
+
+        Returns:
+            self.inference: [callable giving an output_vector given an input_vector]
+            list is of length 2*output_vector length, first output_vector entries are real, second imaginary
+        """
+        input_vectors, output_vectors = self.get_model_input_output()
+        self.inference = mlp_regression(input_vectors, output_vectors)
+
+    def input_dict_to_input_vector(self, input_dict):
+        """Convert an input_dict with trainable and non-trainable parameters to an input vector on which inference can be performed.
+
+        Find faster way!
+        """
+        return_array = [
+            value
+            for key, value in input_dict.items()
+            if key in self.trainable_parameters.keys()
+        ]
+        return jnp.array(return_array)
 
     def validate(self, num_samples=1):
         """Validates the model by calculating random points within the interpolation range, and comparing to predictions."""
