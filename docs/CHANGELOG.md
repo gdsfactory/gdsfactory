@@ -4,7 +4,7 @@
 
 - Improve decorator docs [PR](https://github.com/gdsfactory/gdsfactory/pull/1287)
 - Neural net interpolation & MEEP corner iterator [PR](https://github.com/gdsfactory/gdsfactory/pull/1285)
-- add `mmi1x2_with_sbend` and `mmi2x2_with_sbend` [PR](https://github.com/gdsfactory/gdsfactory/pull/1283) and [PR](https://github.com/gdsfactory/gdsfactory/pull/1286)
+- add `mmi1x2_with_sbend` and `mmi2x2_with_sbend` [PR](https://github.com/gdsfactory/gdsfactory/pull/1283), [PR](https://github.com/gdsfactory/gdsfactory/pull/1286) and [PR](https://github.com/gdsfactory/gdsfactory/pull/1288)
 
 ## 6.40.0 [PR](https://github.com/gdsfactory/gdsfactory/pull/1281)
 
