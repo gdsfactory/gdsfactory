@@ -118,6 +118,29 @@ class Model:
             ].thickness = thickness
         return perturbed_layerstack
 
+    def define_output_vector_labels(self):
+        """Uses number of component ports, number of modes solved for, and port_symmetries to define smallest output vector."""
+        output_vector_labels_iter = product(
+            range(1, self.num_ports + 1),
+            range(self.num_modes),
+            range(1, self.num_ports + 1),
+            range(self.num_modes),
+        )
+        output_vector_labels = []
+        for output_label in output_vector_labels_iter:
+            output_key1 = f"o{output_label[0]}@{output_label[1]}"
+            output_key2 = f"o{output_label[2]}@{output_label[3]}"
+            if output_key1 != output_key2:
+                output_key = f"{output_key1},{output_key2}"
+                output_vector_labels.append(output_key)
+
+        if self.port_symmetries:
+            for value_list in self.port_symmetries.values():
+                for value in value_list:
+                    output_vector_labels.remove(value)
+
+        return output_vector_labels
+
     def get_model_input_output(self, type="arange"):
         """Generate training data
 
