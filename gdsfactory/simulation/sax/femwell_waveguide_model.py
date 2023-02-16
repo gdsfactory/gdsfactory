@@ -1,4 +1,5 @@
 import jax.numpy as jnp
+import numpy as np
 from sax.utils import reciprocal
 
 from gdsfactory.pdk import _ACTIVE_PDK, get_layer_stack
@@ -36,17 +37,30 @@ class FemwellWaveguideModel(Model):
             overwrite=self.simulation_settings["overwrite"],
             with_cache=True,
         )
-        return [], lams
+
+        # Vector of reals
+        real_neffs = np.real(lams)
+        imag_neffs = np.imag(lams)
+
+        return [], np.hstack((real_neffs, imag_neffs))
 
     def sdict(self, input_dict):
         """Returns S-parameters SDict from component using interpolated neff and length."""
-        neffs = jnp.array(
-            [
-                self.inference[mode](input_dict.values())
-                for mode in range(self.num_modes)
-            ]
+        # Convert input dict to numeric (find better way to do this)
+        input_numeric = self.input_dict_to_input_vector(input_dict)
+
+        real_neffs = jnp.array(
+            [self.inference[mode](input_numeric) for mode in range(self.num_modes)]
         )
-        phase = 2 * jnp.pi * neffs * input_dict["length"] / input_dict["wavelength"]
+        # imag_neffs = jnp.array(
+        #     [
+        #         self.inference[mode](input_numeric)
+        #         for mode in range(self.num_modes, 2 * self.num_modes)
+        #     ]
+        # )  # currently not used
+        phase = (
+            2 * jnp.pi * real_neffs * input_dict["length"] / input_dict["wavelength"]
+        )
         amplitude = jnp.asarray(
             10 ** (-input_dict["loss"] * input_dict["length"] / 20), dtype=complex
         )
@@ -126,13 +140,14 @@ if __name__ == "__main__":
     )
 
     # Sweep corners
-    input_vectors, output_vectors = rib_waveguide_model.get_model_input_output(
-        type="corners"
-    )
+    # input_vectors, output_vectors = rib_waveguide_model.get_model_input_output(
+    #     type="corners"
+    # )
 
     # Sweep steps
-    input_vectors, output_vectors = rib_waveguide_model.get_model_input_output()
+    # input_vectors, output_vectors = rib_waveguide_model.get_model_input_output()
     interpolator = rib_waveguide_model.set_nd_nd_interp()
+    # interpolator = rib_waveguide_model.set_mlp_interp()
 
     params = jnp.stack(
         jnp.broadcast_arrays(
