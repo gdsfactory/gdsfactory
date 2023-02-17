@@ -206,7 +206,7 @@ Contributors (in chronological order):
 - Joaquin Matres (Google): write some documentation pages, help porting from gdspy to gdstk.
 - Damien Bonneau (PsiQuantum): cell decorator, Component routing functions, Klayout placer.
 - Pete Shadbolt (PsiQuantum): Klayout auto-placer, Klayout GDS interface (klive).
-- Troy Tamas (Rockley): get_route_from_steps, netlist driven flow (from_yaml).
+- Troy Tamas (Rockley): yaml-based pics, routers (from steps and all-angle)
 - Floris Laporte (Rockley): netlist extraction and circuit simulation interface with SAX.
 - Alec Hammond (Meta Reality Labs Research): Meep and MPB interface.
 - Simon Bilodeau (Princeton): Meep FDTD write Sparameters, TCAD device simulator.
@@ -225,6 +225,7 @@ Contributors (in chronological order):
 - Raphaël Dubé-Demers (EHVA, EXFO): measurement database.
 - Bohan Zhang (Boston University): grating coupler improvements.
 - Niko Savola (IQM): optimization, notebook and code improvements.
+- Sky Chilstedt (Rockley): improvements to API and docs
 
 Open source heroes:
 
