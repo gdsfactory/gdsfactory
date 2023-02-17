@@ -9,9 +9,15 @@ from collections import defaultdict
 from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
-from gdstk import Label, Polygon
+from gdstk import Polygon
+from gdstk import Label as _Label
 from numpy import cos, pi, sin
 from numpy.linalg import norm
+
+
+class Label(_Label):
+    def __repr__(self) -> str:
+        return f"Label(text={self.text!r}, origin={self.origin}, layer=({self.layer}, {self.texttype}))"
 
 
 def get_polygons(
@@ -705,3 +711,13 @@ def _simplify(points, tolerance=0):
     result2 = _simplify(M[index:], tolerance)
 
     return np.vstack((result1[:-1], result2))
+
+
+if __name__ == "__main__":
+    import gdsfactory as gf
+
+    c = gf.Component()
+    label = c.add_label("hi")
+    print(c.labels[0])
+    # _demo()
+    # s = Step()
