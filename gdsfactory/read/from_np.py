@@ -68,6 +68,6 @@ if __name__ == "__main__":
     c1 = gf.components.straight()
     c1 = gf.components.bend_circular()
     c1 = gf.components.ring_single()
-    img = gf.export.to_np(c1)
+    img = c1.to_np()
     c2 = from_np(img)
     c2.show()
