@@ -2,7 +2,6 @@ import warnings
 from typing import List, Optional, Callable
 
 import numpy as np
-import scipy.optimize
 import shapely.geometry as sg
 from gdsfactory.component import Port, ComponentReference, Component
 from gdsfactory.path import Path
@@ -414,6 +413,7 @@ def _get_bend(
 
 def _get_bend_angles(p0, p1, a0, a1, bend):
     """get the direct line between the two points."""
+    import scipy.optimize
     from gdsfactory.pdk import get_component
 
     a_connect = np.arctan2(p1[1] - p0[1], p1[0] - p0[0])
