@@ -17,9 +17,9 @@ modules:
 isort:skip_file
 """
 from __future__ import annotations
+from warnings import warn
 from functools import partial
 from toolz import compose
-from warnings import warn
 from gdsfactory.component_layout import Group
 from gdsfactory.path import Path
 
@@ -34,7 +34,7 @@ from gdsfactory.cell import clear_cache
 from gdsfactory.show import show
 from gdsfactory.read.import_gds import import_gds
 from gdsfactory.cross_section import CrossSection, Section
-from gdsfactory.typings import Label
+from gdsfactory.component_layout import Label
 from gdsfactory import decorators
 from gdsfactory import cross_section
 from gdsfactory import labels
