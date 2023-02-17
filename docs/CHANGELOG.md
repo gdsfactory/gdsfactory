@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.42.0
+
+- don't expose generic LAYER_VIEWS [PR](https://github.com/gdsfactory/gdsfactory/pull/1295)
+
 ## 6.41.0
 
 - Improve decorator docs [PR](https://github.com/gdsfactory/gdsfactory/pull/1287)
