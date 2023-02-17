@@ -4,7 +4,6 @@ from gdsfactory.generic_tech.layer_stack import LAYER_STACK
 from gdsfactory.technology import LayerViews
 
 LAYER = LayerMap()
-LAYER_VIEWS = LayerViews(filepath=layer_path)
 
 PORT_MARKER_LAYER_TO_TYPE = {
     LAYER.PORT: "optical",
@@ -38,6 +37,8 @@ def get_generic_pdk():
     from gdsfactory.config import sparameters_path
     from gdsfactory.cross_section import cross_sections
     from gdsfactory.pdk import Pdk, constants
+
+    LAYER_VIEWS = LayerViews(filepath=layer_path)
 
     return Pdk(
         name="generic",
