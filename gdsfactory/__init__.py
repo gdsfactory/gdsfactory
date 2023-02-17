@@ -47,7 +47,6 @@ from gdsfactory import snap
 from gdsfactory import read
 from gdsfactory import add_termination
 from gdsfactory import functions
-from gdsfactory import export
 from gdsfactory import geometry
 from gdsfactory import add_ports
 from gdsfactory import write_cells
@@ -63,7 +62,7 @@ from gdsfactory.add_padding import (
 from gdsfactory.fill import fill_rectangle
 from gdsfactory.pack import pack
 from gdsfactory.grid import grid, grid_with_text
-from gdsfactory.generic_tech import LAYER, LAYER_VIEWS, LAYER_STACK
+from gdsfactory.generic_tech import LAYER, LAYER_STACK
 from gdsfactory.pdk import (
     Pdk,
     get_component,
@@ -93,7 +92,6 @@ __all__ = (
     "CrossSection",
     "Group",
     "LAYER",
-    "LAYER_VIEWS",
     "LAYER_STACK",
     "Label",
     "Path",
@@ -116,7 +114,6 @@ __all__ = (
     "compose",
     "cross_section",
     "decorators",
-    "export",
     "fill_rectangle",
     "functions",
     "geometry",
