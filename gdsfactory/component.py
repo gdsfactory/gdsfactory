@@ -48,7 +48,7 @@ from gdsfactory.port import (
 )
 from gdsfactory.serialization import clean_dict
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.technology import LayerView, LayerViews
+from gdsfactory.technology import LayerView, LayerViews, LayerStack
 from gdsfactory.generic_tech import LAYER
 
 Plotter = Literal["holoviews", "matplotlib", "qt", "klayout"]
@@ -1515,87 +1515,6 @@ class Component(_GeometryHelper):
 
         show(component, **kwargs)
 
-    def to_3d(self, *args, **kwargs):
-        """Returns Component 3D trimesh Scene.
-
-        Keyword Args:
-            component: to extrude in 3D.
-            layer_views: layer colors from Klayout Layer Properties file.
-                Defaults to active PDK.layer_views.
-            layer_stack: contains thickness and zmin for each layer.
-                Defaults to active PDK.layer_stack.
-            exclude_layers: layers to exclude.
-        """
-        from gdsfactory.export.to_3d import to_3d
-
-        return to_3d(self, *args, **kwargs)
-
-    def to_gmsh(
-        self,
-        type,
-        z=None,
-        xsection_bounds=None,
-        layer_stack=None,
-        wafer_padding=0.0,
-        wafer_layer=LAYER.WAFER,
-        *args,
-        **kwargs,
-    ):
-        """Returns a gmsh msh of the component for finite element simulation.
-
-        Arguments:
-            type: one of "xy", "uz", or "3D". Determines the type of mesh to return.
-            z: used to define z-slice for xy meshing
-            xsection_bounds: used to define in-plane line for uz meshing
-            wafer_padding: padding beyond bbox to add to WAFER layers.
-
-        Keyword Args:
-            Arguments for the target meshing function in gdsfactory.simulation.gmsh
-        """
-        # Add WAFER layer:
-        padded_component = Component()
-        padded_component << self
-        (xmin, ymin), (xmax, ymax) = self.bbox
-        points = [
-            [xmin - wafer_padding, ymin - wafer_padding],
-            [xmax + wafer_padding, ymin - wafer_padding],
-            [xmax + wafer_padding, ymax + wafer_padding],
-            [xmin - wafer_padding, ymax + wafer_padding],
-        ]
-        padded_component.add_polygon(points, layer=wafer_layer)
-
-        if layer_stack is None:
-            raise ValueError(
-                'A LayerStack must be provided through argument "layer_stack".'
-            )
-        if type == "xy":
-            if z is None:
-                raise ValueError(
-                    'For xy-meshing, a z-value must be provided via the float argument "z".'
-                )
-            from gdsfactory.simulation.gmsh.xy_xsection_mesh import xy_xsection_mesh
-
-            return xy_xsection_mesh(padded_component, z, layer_stack, **kwargs)
-        elif type == "uz":
-            if xsection_bounds is None:
-                raise ValueError(
-                    "For uz-meshing, you must provide a line in the xy-plane "
-                    "via the Tuple argument [[x1,y1], [x2,y2]] xsection_bounds."
-                )
-            from gdsfactory.simulation.gmsh.uz_xsection_mesh import uz_xsection_mesh
-
-            return uz_xsection_mesh(
-                padded_component, xsection_bounds, layer_stack, **kwargs
-            )
-        elif type == "3D":
-            from gdsfactory.simulation.gmsh.xyz_mesh import xyz_mesh
-
-            return xyz_mesh(padded_component, layer_stack, **kwargs)
-        else:
-            raise ValueError(
-                'Required argument "type" must be one of "xy", "uz", or "3D".'
-            )
-
     def _write_library(
         self,
         gdspath: Optional[PathType] = None,
@@ -2168,6 +2087,152 @@ class Component(_GeometryHelper):
                     path.set_layers(*new_layers)
                     path.set_datatypes(*new_datatypes)
         return component
+
+    def to_3d(
+        self,
+        layer_views: Optional[LayerViews] = None,
+        layer_stack: Optional[LayerStack] = None,
+        exclude_layers: Optional[Tuple[Layer, ...]] = None,
+    ):
+        """Return Component 3D trimesh Scene.
+
+        Args:
+            component: to extrude in 3D.
+            layer_views: layer colors from Klayout Layer Properties file.
+                Defaults to active PDK.layer_views.
+            layer_stack: contains thickness and zmin for each layer.
+                Defaults to active PDK.layer_stack.
+            exclude_layers: layers to exclude.
+
+        """
+        from gdsfactory.export.to_3d import to_3d
+
+        return to_3d(
+            self,
+            layer_views=layer_views,
+            layer_stack=layer_stack,
+            exclude_layers=exclude_layers,
+        )
+
+    def to_np(
+        self,
+        nm_per_pixel: int = 20,
+        layers: Layers = ((1, 0),),
+        values: Optional[Tuple[float, ...]] = None,
+        pad_width: int = 1,
+    ) -> np.ndarray:
+        """Returns a pixelated numpy array from Component polygons.
+
+        Args:
+            component: Component.
+            nm_per_pixel: you can go from 20 (coarse) to 4 (fine).
+            layers: to convert. Order matters (latter overwrite former).
+            values: associated to each layer (defaults to 1).
+            pad_width: padding pixels around the image.
+
+        """
+        from gdsfactory.export.to_np import to_np
+
+        return to_np(
+            self,
+            nm_per_pixel=nm_per_pixel,
+            layers=layers,
+            values=values,
+            pad_width=pad_width,
+        )
+
+    def to_stl(
+        self,
+        filepath: str,
+        layer_views: Optional[LayerViews] = None,
+        layer_stack: Optional[LayerStack] = None,
+        exclude_layers: Optional[Tuple[Layer, ...]] = None,
+    ) -> np.ndarray:
+        """Exports a Component into STL.
+
+        Args:
+            component: to export.
+            filepath: to write STL to.
+            layer_views: layer colors from Klayout Layer Properties file.
+            layer_stack: contains thickness and zmin for each layer.
+            exclude_layers: layers to exclude.
+
+        """
+        from gdsfactory.export.to_stl import to_stl
+
+        return to_stl(
+            self,
+            filepath=filepath,
+            layer_views=layer_views,
+            layer_stack=layer_stack,
+            exclude_layers=exclude_layers,
+        )
+
+    def to_gmsh(
+        self,
+        type,
+        z=None,
+        xsection_bounds=None,
+        layer_stack=None,
+        wafer_padding=0.0,
+        wafer_layer=LAYER.WAFER,
+        *args,
+        **kwargs,
+    ):
+        """Returns a gmsh msh of the component for finite element simulation.
+
+        Arguments:
+            type: one of "xy", "uz", or "3D". Determines the type of mesh to return.
+            z: used to define z-slice for xy meshing
+            xsection_bounds: used to define in-plane line for uz meshing
+            wafer_padding: padding beyond bbox to add to WAFER layers.
+
+        Keyword Args:
+            Arguments for the target meshing function in gdsfactory.simulation.gmsh
+        """
+        # Add WAFER layer:
+        padded_component = Component()
+        padded_component << self
+        (xmin, ymin), (xmax, ymax) = self.bbox
+        points = [
+            [xmin - wafer_padding, ymin - wafer_padding],
+            [xmax + wafer_padding, ymin - wafer_padding],
+            [xmax + wafer_padding, ymax + wafer_padding],
+            [xmin - wafer_padding, ymax + wafer_padding],
+        ]
+        padded_component.add_polygon(points, layer=wafer_layer)
+
+        if layer_stack is None:
+            raise ValueError(
+                'A LayerStack must be provided through argument "layer_stack".'
+            )
+        if type == "xy":
+            if z is None:
+                raise ValueError(
+                    'For xy-meshing, a z-value must be provided via the float argument "z".'
+                )
+            from gdsfactory.simulation.gmsh.xy_xsection_mesh import xy_xsection_mesh
+
+            return xy_xsection_mesh(padded_component, z, layer_stack, **kwargs)
+        elif type == "uz":
+            if xsection_bounds is None:
+                raise ValueError(
+                    "For uz-meshing, you must provide a line in the xy-plane "
+                    "via the Tuple argument [[x1,y1], [x2,y2]] xsection_bounds."
+                )
+            from gdsfactory.simulation.gmsh.uz_xsection_mesh import uz_xsection_mesh
+
+            return uz_xsection_mesh(
+                padded_component, xsection_bounds, layer_stack, **kwargs
+            )
+        elif type == "3D":
+            from gdsfactory.simulation.gmsh.xyz_mesh import xyz_mesh
+
+            return xyz_mesh(padded_component, layer_stack, **kwargs)
+        else:
+            raise ValueError(
+                'Required argument "type" must be one of "xy", "uz", or "3D".'
+            )
 
 
 def copy(

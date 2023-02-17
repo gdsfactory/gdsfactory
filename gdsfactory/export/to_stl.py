@@ -3,7 +3,6 @@ from __future__ import annotations
 import pathlib
 from typing import Optional, Tuple
 
-import gdsfactory.generic_tech as generic
 from gdsfactory.component import Component
 from gdsfactory.technology import LayerStack, LayerViews
 from gdsfactory.typings import Layer
@@ -12,8 +11,8 @@ from gdsfactory.typings import Layer
 def to_stl(
     component: Component,
     filepath: str,
-    layer_views: LayerViews = generic.LAYER_VIEWS,
-    layer_stack: LayerStack = generic.LAYER_STACK,
+    layer_views: Optional[LayerViews] = None,
+    layer_stack: Optional[LayerStack] = None,
     exclude_layers: Optional[Tuple[Layer, ...]] = None,
 ) -> None:
     """Exports a Component into STL.
@@ -28,6 +27,10 @@ def to_stl(
     """
     import shapely
     from trimesh.creation import extrude_polygon
+    from gdsfactory.pdk import get_layer_views, get_layer_stack
+
+    layer_views = layer_views or get_layer_views()
+    layer_stack = layer_stack or get_layer_stack()
 
     layer_to_thickness = layer_stack.get_layer_to_thickness()
     layer_to_zmin = layer_stack.get_layer_to_zmin()
@@ -59,7 +62,6 @@ def to_stl(
 
 if __name__ == "__main__":
     import gdsfactory as gf
-    import gdsfactory.generic_tech as generic
 
     c = gf.components.taper_strip_to_ridge()
-    to_stl(c, layer_views=generic.LAYER_VIEWS, filepath="a.stl")
+    to_stl(c, filepath="a.stl")
