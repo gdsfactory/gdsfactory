@@ -150,6 +150,10 @@ def awg(
 
 
 if __name__ == "__main__":
+    from gdsfactory.generic_tech import get_generic_pdk
+
+    PDK = get_generic_pdk()
+    PDK.activate()
     # c = free_propagation_region(inputs=2, outputs=4)
     # print(c.ports.keys())
     c = awg()

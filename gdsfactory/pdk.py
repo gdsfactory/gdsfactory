@@ -13,7 +13,6 @@ from pydantic import BaseModel, Field, validator
 from gdsfactory.config import PATH, logger
 from gdsfactory.containers import containers as containers_default
 from gdsfactory.events import Event
-from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.materials import MaterialSpec
 from gdsfactory.materials import materials_index as materials_index_default
 from gdsfactory.read import cell_from_yaml
@@ -537,8 +536,7 @@ class Pdk(BaseModel):
     #     return self._on_cross_section_registered
 
 
-GENERIC_PDK = get_generic_pdk()
-_ACTIVE_PDK = GENERIC_PDK
+_ACTIVE_PDK = None
 
 
 def get_material_index(material: MaterialSpec, *args, **kwargs) -> Component:
@@ -633,10 +631,6 @@ if __name__ == "__main__":
     from gdsfactory.components import cells
     from gdsfactory.cross_section import cross_sections
 
-    # c = _ACTIVE_PDK.get_component("straight")
-    # print(c.settings)
-    # on_pdk_activated += print
-    # set_active_pdk(GENERIC)
     c = Pdk(
         name="demo",
         cells=cells,
