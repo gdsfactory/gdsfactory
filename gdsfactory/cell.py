@@ -12,6 +12,7 @@ from pydantic import BaseModel, validate_arguments
 from gdsfactory.component import Component
 from gdsfactory.name import MAX_NAME_LENGTH, clean_name, get_name_short
 from gdsfactory.serialization import clean_dict, clean_value_name
+from gdsfactory.config import logger
 
 CACHE: Dict[str, Component] = {}
 
@@ -132,8 +133,25 @@ def cell_without_validator(func):
         changed_arg_names = [carg.split("=")[0] for carg in changed_arg_list]
         changed = {k: changed[k] for k in changed_arg_names}
 
+        pdk = get_active_pdk()
+
+        if pdk is None:
+            logger.warning(
+                "Trying to build a Component with No Active PDK. "
+                "Activating generic PDK by default will be deprecated soon\n"
+                "from gdsfactory.generic_tech import get_generic_pdk \n"
+                "PDK = get_generic_pdk()\n"
+                "PDK.activate()"
+            )
+            from gdsfactory.generic_tech import get_generic_pdk
+
+            pdk = get_generic_pdk()
+            pdk.activate()
+
+            # raise ValueError("No Active PDK")
+
         name = name or name_signature
-        decorator = kwargs.pop("decorator", get_active_pdk().default_decorator)
+        decorator = kwargs.pop("decorator", pdk.default_decorator)
         name = get_name_short(name, max_name_length=max_name_length)
 
         if (

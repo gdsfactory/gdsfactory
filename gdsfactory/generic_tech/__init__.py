@@ -1,5 +1,7 @@
+from gdsfactory.config import layer_path
 from gdsfactory.generic_tech.layer_map import GenericLayerMap as LayerMap
 from gdsfactory.generic_tech.layer_stack import LAYER_STACK
+from gdsfactory.technology import LayerViews
 
 LAYER = LayerMap()
 
@@ -36,12 +38,15 @@ def get_generic_pdk():
     from gdsfactory.cross_section import cross_sections
     from gdsfactory.pdk import Pdk, constants
 
+    LAYER_VIEWS = LayerViews(filepath=layer_path)
+
     return Pdk(
         name="generic",
         cells=cells,
         cross_sections=cross_sections,
         layers=LAYER.dict(),
         layer_stack=LAYER_STACK,
+        layer_views=LAYER_VIEWS,
         layer_transitions=LAYER_TRANSITIONS,
         sparameters_path=sparameters_path,
         constants=constants,
