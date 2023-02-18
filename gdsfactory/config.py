@@ -42,7 +42,6 @@ logpath = home_path / "log.log"
 yamlpath_cwd = cwd / "config.yml"
 yamlpath_default = module_path / "config.yml"
 yamlpath_home = home_path / "config.yml"
-layer_path = module_path / "generic_tech" / "klayout" / "tech" / "layers.lyp"
 
 MAX_NAME_LENGTH = 32
 
@@ -82,6 +81,7 @@ class Paths:
     klayout = generic_tech / "klayout"
     klayout_tech = klayout / "tech"
     klayout_lyp = klayout_tech / "layers.lyp"
+    klayout_yaml = generic_tech / "layer_views.yaml"
     schema_netlist = repo_path / "tests" / "schemas" / "netlist.json"
     netlists = module_path / "samples" / "netlists"
     gdsdir = repo_path / "tests" / "gds"
