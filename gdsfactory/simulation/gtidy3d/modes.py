@@ -150,8 +150,12 @@ class Waveguide(BaseModel):
         wavelength: (um).
         wg_width: waveguide width.
         wg_thickness: thickness waveguide (um).
-        ncore: core refractive index.
-        nclad: cladding refractive index.
+        ncore: core refractive index material spec. Can be:
+            string: material name.
+            float: refractive index.
+            float, float: refractive index real and imaginary part.
+            function: function of wavelength.
+        nclad: cladding refractive index material spec.
         dn_dict: unstructured mesh array with columns field "x", "y", "dn" of local index perturbations to be interpolated.
         slab_thickness: thickness slab (um).
         t_box: thickness BOX (um).
