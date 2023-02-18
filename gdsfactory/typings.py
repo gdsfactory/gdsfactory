@@ -155,6 +155,9 @@ ComponentFactoryDict = Dict[str, ComponentFactory]
 PathType = Union[str, pathlib.Path]
 PathTypes = Tuple[PathType, ...]
 
+
+MaterialSpec = Union[str, float, Tuple[float, float], Callable]
+
 ComponentOrPath = Union[PathType, Component]
 ComponentOrReference = Union[Component, ComponentReference]
 NameToFunctionDict = Dict[str, ComponentFactory]
