@@ -62,7 +62,7 @@ from gdsfactory.add_padding import (
 from gdsfactory.fill import fill_rectangle
 from gdsfactory.pack import pack
 from gdsfactory.grid import grid, grid_with_text
-from gdsfactory.generic_tech import LAYER, LAYER_STACK
+from gdsfactory.generic_tech import LAYER, LAYER_STACK, get_generic_pdk
 from gdsfactory.pdk import (
     Pdk,
     get_component,
@@ -126,6 +126,7 @@ __all__ = (
     "get_cross_section_factories",
     "get_layer",
     "get_padding_points",
+    "get_generic_pdk",
     "grid",
     "grid_with_text",
     "import_gds",
