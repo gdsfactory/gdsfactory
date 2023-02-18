@@ -1,10 +1,6 @@
 """A GDS layer is a tuple of two integers.
 
-You can:
-
-- Load LayerViews from Klayout XML file (.lyp) (recommended)
-- Define your layers in a Pydantic BaseModel
-
+You can maintain LayerViews in YAML (.yaml) or Klayout XML file (.lyp)
 
 """
 from __future__ import annotations

@@ -55,4 +55,5 @@ def get_generic_pdk():
 
 if __name__ == "__main__":
     pdk = get_generic_pdk()
+    # pdk.layer_views.to_yaml('layer_views2.yaml')
     print(pdk.name)
