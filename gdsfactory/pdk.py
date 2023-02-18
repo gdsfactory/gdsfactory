@@ -537,8 +537,7 @@ class Pdk(BaseModel):
     #     return self._on_cross_section_registered
 
 
-GENERIC_PDK = get_generic_pdk()
-_ACTIVE_PDK = GENERIC_PDK
+_ACTIVE_PDK = None
 
 
 def get_material_index(material: MaterialSpec, *args, **kwargs) -> Component:
@@ -570,6 +569,9 @@ def get_layer_stack() -> LayerStack:
 
 
 def get_active_pdk() -> Pdk:
+    if _ACTIVE_PDK is None:
+        generic_pdk = get_generic_pdk()
+        generic_pdk.activate()
     return _ACTIVE_PDK
 
 
