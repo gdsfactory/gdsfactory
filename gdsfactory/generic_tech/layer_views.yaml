@@ -136,21 +136,21 @@ LayerViews:
   MH:
     layer: [47, 0]
     layer_in_name: true
-    hatch_pattern: strongly cross-hatched sparse
+    hatch_pattern: hollow
     transparent: true
     width: 1
     color: "#ff8000"
   M1:
     layer: [41, 0]
     layer_in_name: true
-    hatch_pattern: right-hatched
+    hatch_pattern: hollow
     width: 1
     color: "#01ff6b"
     brightness: -16
   M2:
     layer: [45, 0]
     layer_in_name: true
-    hatch_pattern: right-hatched
+    hatch_pattern: hollow
     width: 1
     color: "#008050"
   M3:
@@ -158,23 +158,23 @@ LayerViews:
     layer_in_name: true
     frame_color: "teal"
     fill_color: "#800057"
-    hatch_pattern: right-hatched
+    hatch_pattern: hollow
   VIAC:
     layer: [40, 0]
     layer_in_name: true
-    hatch_pattern: dotted
+    hatch_pattern: hollow
     width: 1
     color: "#cc4c00"
   VIA1:
     layer: [44, 0]
     layer_in_name: true
-    hatch_pattern: dotted
+    hatch_pattern: hollow
     width: 1
     color: "grey"
   VIA2:
     layer: [43, 0]
     layer_in_name: true
-    hatch_pattern: dotted
+    hatch_pattern: hollow
     width: 1
     color: "#805000"
   CAPACITOR:
