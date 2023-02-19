@@ -440,7 +440,7 @@ class Waveguide(BaseModel):
             return
 
         if isolate:
-            # TODO: make a package that does this automatically
+            # TODO: use process
             import pickle
 
             # Setup paths
