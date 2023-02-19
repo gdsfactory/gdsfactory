@@ -1162,16 +1162,28 @@ class LayerViews(BaseModel):
                 }
             lvs[name] = LayerView(name=name, **lv)
 
-        return LayerViews(
-            layer_views=lvs,
-            custom_dither_patterns={
+        custom_dither_patterns = (
+            {
                 name: HatchPattern(name=name, **dp)
                 for name, dp in properties["CustomDitherPatterns"].items()
-            },
-            custom_line_styles={
+            }
+            if "CustomDitherPatterns" in properties
+            else {}
+        )
+
+        custom_line_styles = (
+            {
                 name: LineStyle(name=name, **ls)
                 for name, ls in properties["CustomLineStyles"].items()
-            },
+            }
+            if "CustomLineStyles" in properties
+            else {}
+        )
+
+        return LayerViews(
+            layer_views=lvs,
+            custom_dither_patterns=custom_dither_patterns,
+            custom_line_styles=custom_line_styles,
         )
 
 
