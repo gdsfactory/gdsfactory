@@ -61,6 +61,10 @@ def array(
 
 
 if __name__ == "__main__":
+    from gdsfactory.generic_tech import get_generic_pdk
+
+    PDK = get_generic_pdk()
+    PDK.activate()
     from gdsfactory.components.pad import pad
 
     # c2 = array(rows=2, columns=2, spacing=(100, 100))

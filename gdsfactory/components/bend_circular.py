@@ -71,6 +71,11 @@ bend_circular180 = gf.partial(bend_circular, angle=180)
 
 
 if __name__ == "__main__":
+    from gdsfactory.generic_tech import get_generic_pdk
+
+    PDK = get_generic_pdk()
+    PDK.activate()
+
     c = bend_circular(
         width=2,
         layer=(0, 0),

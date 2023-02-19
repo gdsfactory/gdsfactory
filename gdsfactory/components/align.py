@@ -116,6 +116,10 @@ def add_frame(
 
 
 if __name__ == "__main__":
+    from gdsfactory.generic_tech import get_generic_pdk
+
+    PDK = get_generic_pdk()
+    PDK.activate()
     # c = gf.components.straight()
     # c = add_frame(component=c)
     c = align_wafer()

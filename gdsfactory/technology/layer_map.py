@@ -39,6 +39,6 @@ LAYER = LayerMap()
 
 
 if __name__ == "__main__":
-    from gdsfactory.config import layer_path
+    from gdsfactory.config import PATH
 
-    print(lyp_to_dataclass(layer_path))
+    print(lyp_to_dataclass(PATH.klayout_lyp))

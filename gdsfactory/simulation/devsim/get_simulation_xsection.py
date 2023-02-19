@@ -22,9 +22,8 @@ from pydantic import BaseModel, Extra
 
 from gdsfactory.config import PATH
 from gdsfactory.simulation.disable_print import disable_print, enable_print
-from gdsfactory.simulation.gtidy3d.materials import si, sio2
 from gdsfactory.simulation.gtidy3d.modes import FilterPol, Precision, Waveguide
-from gdsfactory.types import PathType
+from gdsfactory.typings import PathType, MaterialSpec
 
 nm = 1e-9
 um = 1e-6
@@ -490,6 +489,8 @@ class PINWaveguide(BaseModel):
         cache: Optional[PathType] = PATH.modes,
         precision: Precision = "double",
         filter_pol: Optional[FilterPol] = None,
+        ncore: MaterialSpec = "si",
+        nclad: MaterialSpec = "sio2",
     ) -> Waveguide:
         """Converts the FEM model to a Waveguide object.
 
@@ -502,6 +503,7 @@ class PINWaveguide(BaseModel):
             t_clad: thickness cladding (um).
             xmargin: margin from waveguide edge to each side (um).
             resolution: pixels/um.
+            perturb: add perturbation.
             nmodes: number of modes to compute.
             bend_radius: optional bend radius (um).
             cache: filepath for caching modes. If None does not use file cache.
@@ -509,7 +511,7 @@ class PINWaveguide(BaseModel):
             filter_pol: te, tm or None.
 
         Returns:
-            A tidy3d Waveguide object
+            A tidy3d Waveguide object.
 
         """
         # Create index perturbation
@@ -565,14 +567,13 @@ class PINWaveguide(BaseModel):
             slab_thickness=self.slab_thickness / um,
             t_box=t_box,
             t_clad=t_clad,
-            ncore=si,
-            nclad=sio2,
             xmargin=(self.ppp_offset + self.xmargin) / um,
             resolution=resolution,
             dn_dict=dn_dict,
-            cache=None,
             precision=precision,
             filter_pol=filter_pol,
+            ncore=ncore,
+            nclad=nclad,
         )
 
 
