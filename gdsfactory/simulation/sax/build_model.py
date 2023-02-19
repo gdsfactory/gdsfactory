@@ -140,7 +140,7 @@ class Model:
         """
         for key, value in litho_param_dict.items():
             lithoParameter_obj = self.trainable_parameters[key]
-            current_component = lithoParameter_obj.transformation(
+            current_component = lithoParameter_obj.get_transformation(
                 current_component, value
             )
         return current_component
