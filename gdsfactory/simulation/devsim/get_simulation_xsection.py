@@ -22,7 +22,7 @@ from pydantic import BaseModel, Extra
 
 from gdsfactory.simulation.disable_print import disable_print, enable_print
 from gdsfactory.simulation.gtidy3d.modes import FilterPol, Precision, Waveguide
-from gdsfactory.typings import PathType, MaterialSpec
+from gdsfactory.typings import MaterialSpec
 
 nm = 1e-9
 um = 1e-6
@@ -485,7 +485,7 @@ class PINWaveguide(BaseModel):
         perturb: bool = True,
         nmodes: int = 4,
         bend_radius: Optional[float] = None,
-        cache: Optional[PathType] = None,
+        cache: bool = False,
         precision: Precision = "double",
         filter_pol: Optional[FilterPol] = None,
         ncore: MaterialSpec = "si",
@@ -505,7 +505,7 @@ class PINWaveguide(BaseModel):
             perturb: add perturbation.
             nmodes: number of modes to compute.
             bend_radius: optional bend radius (um).
-            cache: filepath for caching modes. If None does not use file cache.
+            cache: True uses file cache from PDK.modes_path. False skips cache.
             precision: single or double.
             filter_pol: te, tm or None.
 

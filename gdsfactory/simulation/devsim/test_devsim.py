@@ -1,3 +1,4 @@
+import numpy as np
 from gdsfactory.simulation.devsim import get_simulation_xsection
 import gdsfactory as gf
 
@@ -20,18 +21,18 @@ def test_pin_waveguide():
     vmin = 0
     vmax = -5
     voltages = [vmin, vmax]
-    ramp_rate = -0.1
+    Vstep = vmax
 
     for ind, voltage in enumerate(voltages):
         Vinit = 0 if ind == 0 else voltages[ind - 1]
-        c.ramp_voltage(Vfinal=voltage, Vstep=ramp_rate, Vinit=Vinit)
+        c.ramp_voltage(Vfinal=voltage, Vstep=Vstep, Vinit=Vinit)
         waveguide = c.make_waveguide(wavelength=1.55)
         waveguide.compute_modes(isolate=True)
         n_dist[voltage] = waveguide.nx
         neffs[voltage] = waveguide.neffs[0]
 
-    # dn = neffs[vmin] - neffs[vmax]
-    assert neffs[vmin]
+    dn = neffs[vmin] - neffs[vmax]
+    assert np.isclose(dn.real, -0.00011342135795189279), dn.real
 
 
 if __name__ == "__main__":
@@ -48,11 +49,11 @@ if __name__ == "__main__":
     vmin = 0
     vmax = -5
     voltages = [vmin, vmax]
-    ramp_rate = -0.1
+    Vstep = vmax
 
     for ind, voltage in enumerate(voltages):
         Vinit = 0 if ind == 0 else voltages[ind - 1]
-        c.ramp_voltage(Vfinal=voltage, Vstep=ramp_rate, Vinit=Vinit)
+        c.ramp_voltage(Vfinal=voltage, Vstep=Vstep, Vinit=Vinit)
         waveguide = c.make_waveguide(wavelength=1.55)
         waveguide.compute_modes(isolate=True)
         n_dist[voltage] = waveguide.nx
