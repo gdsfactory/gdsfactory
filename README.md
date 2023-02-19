@@ -19,18 +19,16 @@
 
 ![logo](https://i.imgur.com/v4wpHpg.png)
 
-GDSfactory is a design automation tool for photonics and analog circuits.
+gdsfactory is a python library to design chips (Photonics, Analog, Quantum, MEMs ...)
 
-You can describe your circuits in code (python or YAML), verify them (DRC, simulation) and analyze them.
-
-It provides you with an end to end flow for building chips.
+You can describe your circuits in code (python or YAML), verify them (DRC, simulation, extraction) and validate them (to make sure they meet the specifications after fabrication).
 
 ![workflow](https://i.imgur.com/abvxJJw.png)
 
-You can:
+It provides you and end to end design flow to:
 
 - Design (Layout, Simulation, Optimization)
-  - Define parametric cells (PCells) functions in python or YAML. Define routes between component ports.
+  - Define Components using parametric cells functions in python or YAML.
   - Test component settings, ports and geometry to avoid unwanted regressions.
   - Capture design intent in a schematic.
 - Verify (DRC, DFM, LVS)
@@ -41,14 +39,14 @@ You can:
   - Create DRC rule decks in Klayout.
   - Ensure complex layouts match their design intent (Layout Versus Schematic).
 - Validate
-  - Define layout and test sequence simultaneously, so when the chips come back you already know how to test them.
+  - Define layout and test protocols simultaneously, so when the chips come back you already know how to test and analyze them.
   - Model extraction: extract the important parameters for each component.
   - Build a data pipeline from raw data, to structured data and dashboards for monitoring your chip performance.
 
 As input, you write python or YAML code.
 
 As output you write a GDSII or OASIS file that you can send to your foundry for fabrication.
-It also exports component settings (for measurement and data analysis) and netlists (for circuit simulations).
+It also exports component settings (for measurement and data analysis) and netlists (for circuit simulations) in YAML.
 
 ![layout_to_components](https://i.imgur.com/S96RSil.png)
 
@@ -148,6 +146,7 @@ Or you can install only the ones you need.
 * [S-Parameter Circuit Solvers](https://gdsfactory.github.io/gdsfactory/plugins_circuits.html)
   - [SAX](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/sax/sax.html)
   - [Ansys Lumerical INTERCONNECT](https://gdsfactory.github.io/gdsfactory/notebooks/plugins/lumerical/2_interconnect.html)
+* [Database](https://gdsfactory.github.io/gdsfactory/notebooks/12_database.html)
 
 ### Docker container
 
