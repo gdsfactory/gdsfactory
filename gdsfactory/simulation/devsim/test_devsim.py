@@ -23,11 +23,7 @@ def test_pin_waveguide():
     ramp_rate = -0.1
 
     for ind, voltage in enumerate(voltages):
-        if ind == 0:
-            Vinit = 0
-        else:
-            Vinit = voltages[ind - 1]
-
+        Vinit = 0 if ind == 0 else voltages[ind - 1]
         c.ramp_voltage(Vfinal=voltage, Vstep=ramp_rate, Vinit=Vinit)
         waveguide = c.make_waveguide(wavelength=1.55)
         waveguide.compute_modes(isolate=True)
@@ -55,11 +51,7 @@ if __name__ == "__main__":
     ramp_rate = -0.1
 
     for ind, voltage in enumerate(voltages):
-        if ind == 0:
-            Vinit = 0
-        else:
-            Vinit = voltages[ind - 1]
-
+        Vinit = 0 if ind == 0 else voltages[ind - 1]
         c.ramp_voltage(Vfinal=voltage, Vstep=ramp_rate, Vinit=Vinit)
         waveguide = c.make_waveguide(wavelength=1.55)
         waveguide.compute_modes(isolate=True)
