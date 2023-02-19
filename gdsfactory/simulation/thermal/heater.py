@@ -29,7 +29,7 @@ def solve_thermal(
     specific_conductivity: Dict[str, float],
     thermal_diffusivity: Dict[str, float],
     currents: Dict[str, float],
-):
+) -> None:
     """Thermal simulation.
 
     Args:

@@ -115,6 +115,10 @@ def array_with_via_2d(
 
 
 if __name__ == "__main__":
+    from gdsfactory.generic_tech import get_generic_pdk
+
+    PDK = get_generic_pdk()
+    PDK.activate()
     via_stack_big = gf.partial(via_stack_factory, size=(30, 20))
     # c = array_with_via(columns=3, width=10, via_spacing=20, port_orientation=90)
     c = array_with_via_2d(

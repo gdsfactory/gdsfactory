@@ -7,6 +7,9 @@ from gdsfactory.simulation.gmsh.xy_xsection_mesh import xy_xsection_mesh
 from gdsfactory.simulation.gmsh.xyz_mesh import xyz_mesh
 from gdsfactory.technology import LayerStack
 
+PDK = gf.get_generic_pdk()
+PDK.activate()
+
 
 def test_gmsh_uz_xsection_mesh():
     waveguide = gf.components.straight_pin(length=10, taper=None)

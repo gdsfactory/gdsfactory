@@ -126,6 +126,10 @@ def test_array() -> None:
 
 
 if __name__ == "__main__":
+    from gdsfactory.generic_tech import get_generic_pdk
+
+    PDK = get_generic_pdk()
+    PDK.activate()
     # import gdsfactory as gf
     # c1 = gf.components.pad()
     # c2 = array(component=c1, pitch=150, columns=2)

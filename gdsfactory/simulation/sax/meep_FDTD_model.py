@@ -1,8 +1,6 @@
-from gdsfactory.pdk import _ACTIVE_PDK, get_layer_stack
+from gdsfactory.pdk import get_layer_stack
 from gdsfactory.simulation.sax.build_model import Model
 from gdsfactory.simulation.gmeep import write_sparameters_meep
-
-_ACTIVE_PDK.materials_index.update(sin=2)
 
 
 class MeepFDTDModel(Model):

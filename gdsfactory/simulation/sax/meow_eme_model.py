@@ -1,8 +1,6 @@
-from gdsfactory.pdk import _ACTIVE_PDK, get_layer_stack
+from gdsfactory.pdk import get_layer_stack
 from gdsfactory.simulation.eme.meow_eme import MEOW
 from gdsfactory.simulation.sax.build_model import Model
-
-_ACTIVE_PDK.materials_index.update(sin=2)
 
 
 class MeowEMEModel(Model):
@@ -57,6 +55,9 @@ if __name__ == "__main__":
     from gdsfactory.cross_section import rib, strip
     from gdsfactory.simulation.sax.parameter import LayerStackThickness, NamedParameter
     from gdsfactory.technology import LayerStack
+
+    PDK = gf.get_generic_pdk()
+    PDK.activate()
 
     c = gf.components.taper_cross_section_linear(
         cross_section1=rib(width=2), cross_section2=rib(width=0.5)

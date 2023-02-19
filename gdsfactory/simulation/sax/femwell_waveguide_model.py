@@ -2,11 +2,9 @@ import jax.numpy as jnp
 import numpy as np
 from sax.utils import reciprocal
 
-from gdsfactory.pdk import _ACTIVE_PDK, get_layer_stack
+from gdsfactory.pdk import get_layer_stack
 from gdsfactory.simulation.fem.mode_solver import compute_cross_section_modes
 from gdsfactory.simulation.sax.build_model import Model
-
-_ACTIVE_PDK.materials_index.update(sin=2)
 
 
 class FemwellWaveguideModel(Model):
