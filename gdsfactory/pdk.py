@@ -547,8 +547,8 @@ def get_active_pdk() -> Pdk:
         raise ValueError(
             "No active PDK.\n"
             "You can activate the generic PDK using:\n"
-            "from gdsfactory.generic_tech import get_generic_pdk \n"
-            "PDK = get_generic_pdk()\n"
+            "import gdsfactory as gf \n"
+            "PDK = gf.get_generic_pdk()\n"
             "PDK.activate()"
         )
     return _ACTIVE_PDK
