@@ -258,7 +258,9 @@ def write_sparameters_meep(
             where `a` is the angle in radians and `m` the module.
 
     """
-    component = gf.get_component(component)
+    component = (
+        component if isinstance(component, Component) else gf.get_component(component)
+    )
     layer_stack = layer_stack or get_layer_stack()
 
     plot_args = plot_args or {}

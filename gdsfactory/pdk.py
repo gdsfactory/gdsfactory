@@ -174,7 +174,10 @@ class Pdk(BaseModel):
             "cross_sections": {"exclude": True},
             "cells": {"exclude": True},
             "containers": {"exclude": True},
+            "default_symbol_factory": {"exclude": True},
             "default_decorator": {"exclude": True},
+            "materials_index": {"exclude": True},
+            "circuit_yaml_parser": {"exclude": True},
         }
 
     @validator("sparameters_path")
@@ -649,4 +652,4 @@ if __name__ == "__main__":
         # layers=dict(DEVREC=(3, 0), PORTE=(3, 5)),
         sparameters_path="/home",
     )
-    print(c.layers)
+    print(c.json())
