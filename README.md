@@ -225,7 +225,9 @@ Contributors (in chronological order):
 - Raphaël Dubé-Demers (EHVA, EXFO): measurement database.
 - Bohan Zhang (Boston University): grating coupler improvements.
 - Niko Savola (IQM): optimization, notebook and code improvements.
-- Sky Chilstedt (Rockley): improvements to API and docs
+- Sky Chilstedt (Rockley): improvements to API and docs.
+- Lawrence (University of Bristol): for fixing rename ports by orientation.
+- Edward Deacon (University of Bristol): for coupler_straight_asymmetric.
 
 Open source heroes:
 
