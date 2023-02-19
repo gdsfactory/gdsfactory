@@ -3,10 +3,10 @@
 ## [6.43.0](https://github.com/gdsfactory/gdsfactory/pull/1297)
 
 - if no active PDK logger outputs warning, and activates generic PDK. In the future we won't activate the generic pdk by default.
-- fix devsim mode solver interface
 - dither_pattern and hatch_pattern can be None
 - Replace _ACTIVE_PDK with gf.get_active_pdk() as underscored variables are not supposed to be read or modified directly.
 - Add coupler_straight_asymmetric [PR](https://github.com/gdsfactory/gdsfactory/pull/1299)
+- fix devsim plugin and add a test [PR](https://github.com/gdsfactory/gdsfactory/pull/1304) [PR](https://github.com/gdsfactory/gdsfactory/pull/1303)
 
 ## 6.42.0
 
