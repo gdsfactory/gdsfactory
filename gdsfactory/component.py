@@ -1249,6 +1249,7 @@ class Component(_GeometryHelper):
         """Show geometry in KLayout and in matplotlib for Jupyter Notebooks."""
         self.show(show_ports=True)  # show in klayout
         self.plot_klayout()
+        print(self)
 
     def plot_klayout(self) -> None:
         """Returns ipython widget for klayout visualization.
