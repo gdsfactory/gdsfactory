@@ -20,7 +20,6 @@ import pyvista as pv
 from devsim.python_packages import model_create, simple_physics
 from pydantic import BaseModel, Extra
 
-from gdsfactory.config import PATH
 from gdsfactory.simulation.disable_print import disable_print, enable_print
 from gdsfactory.simulation.gtidy3d.modes import FilterPol, Precision, Waveguide
 from gdsfactory.typings import PathType, MaterialSpec
@@ -486,7 +485,7 @@ class PINWaveguide(BaseModel):
         perturb: bool = True,
         nmodes: int = 4,
         bend_radius: Optional[float] = None,
-        cache: Optional[PathType] = PATH.modes,
+        cache: Optional[PathType] = None,
         precision: Precision = "double",
         filter_pol: Optional[FilterPol] = None,
         ncore: MaterialSpec = "si",
@@ -574,6 +573,7 @@ class PINWaveguide(BaseModel):
             filter_pol=filter_pol,
             ncore=ncore,
             nclad=nclad,
+            cache=cache,
         )
 
 
