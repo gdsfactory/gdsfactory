@@ -17,13 +17,12 @@ def coupler_straight_asymmetric(
 
     Args:
         length: of straight.
+        gap: between straights.
         width_top: of top straight.
         width_bot: of bottom straight.
-        gap: between straights.
         kwargs: cross_section settings.
     """
     component = Component()
-    # straight_component = straight(length=length, **kwargs)
 
     top = component << straight(length=length, width=width_top, **kwargs)
     bot = component << straight(length=length, width=width_bot, **kwargs)
@@ -32,9 +31,8 @@ def coupler_straight_asymmetric(
 
     component.add_port("o1", port=bot.ports["o1"])
     component.add_port("o2", port=top.ports["o1"])
-    component.add_port("o3", port=bot.ports["o2"])
-    component.add_port("o4", port=top.ports["o2"])
-    component.auto_rename_ports()
+    component.add_port("o3", port=top.ports["o2"])
+    component.add_port("o4", port=bot.ports["o2"])
     return component
 
 
