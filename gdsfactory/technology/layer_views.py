@@ -737,7 +737,8 @@ class LayerView(BaseModel):
         group_members = {}
         for member in element.iterfind("group-members"):
             member_lv = cls.from_xml_element(member, layer_pattern)
-            group_members[member_lv.name] = member_lv
+            if member_lv:
+                group_members[member_lv.name] = member_lv
 
         if group_members != {}:
             lv.group_members = group_members
