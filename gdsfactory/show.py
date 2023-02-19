@@ -26,11 +26,6 @@ def show(
         timestamp: Defaults to 2019-10-25. If None uses current time.
 
     """
-    if technology is None:
-        from gdsfactory.pdk import get_active_pdk
-
-        technology = get_active_pdk().name
-
     if isinstance(component, pathlib.Path):
         component = str(component)
         return klive.show(component, technology=technology)

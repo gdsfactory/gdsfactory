@@ -3,7 +3,7 @@ LayerViews:
     layer: [1, 0]
     hatch_pattern: dotted
     width: 1
-    color: "black"
+    color: "#ff9d9d"
   WGCLAD:
     layer: [111, 0]
     layer_in_name: true
@@ -21,7 +21,7 @@ LayerViews:
   SLAB90:
     layer: [3, 0]
     layer_in_name: true
-    hatch_pattern: coarsely dotted
+    hatch_pattern: lightly left-hatched
     transparent: true
     width: 1
     color: "#805000"
@@ -68,7 +68,7 @@ LayerViews:
       NPP:
         layer: [24, 0]
         layer_in_name: true
-        hatch_pattern: strongly left-hatched dense
+        hatch_pattern: coarsely dotted
         width: 1
         color: "red"
       P_210:

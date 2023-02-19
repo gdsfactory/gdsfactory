@@ -42,6 +42,10 @@ def bbox(
 
 
 if __name__ == "__main__":
+    from gdsfactory.generic_tech import get_generic_pdk
+
+    PDK = get_generic_pdk()
+    PDK.activate()
     c = gf.Component()
     a = c << gf.components.L()
     c << bbox(bbox=a.bbox, top=10, left=5, right=-2)
