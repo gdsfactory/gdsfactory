@@ -662,6 +662,40 @@ class Component(_GeometryHelper):
         """
         return list(select_ports(self.ports, **kwargs).values())
 
+    def get_ports_pandas(self):
+        import pandas as pd
+
+        col_spec = [
+            "name",
+            "width",
+            "center",
+            "orientation",
+            "layer",
+            "port_type",
+            "shear_angle",
+        ]
+
+        return pd.DataFrame(
+            [port.to_dict() for port in self.get_ports_list()], columns=col_spec
+        )
+
+    def get_ports_polars(self):
+        import polars as pl
+
+        col_spec = {
+            "name": pl.Utf8,
+            "width": pl.Float64,
+            "center": pl.List(pl.Float64),
+            "orientation": pl.Float64,
+            "layer": pl.List(pl.UInt16),
+            "port_type": pl.Utf8,
+            "shear_angle": pl.Float64,
+        }
+
+        return pl.DataFrame(
+            [port.to_dict() for port in self.get_ports_list()], schema=col_spec
+        )
+
     def ref(
         self,
         position: Coordinate = (0, 0),
