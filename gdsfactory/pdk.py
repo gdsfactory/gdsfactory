@@ -120,13 +120,21 @@ class Pdk(BaseModel):
             if can also contain material properties
             (refractive index, nonlinear coefficient, sheet resistance ...).
         layer_views: includes layer name to color, opacity and pattern.
+        layer_transitions: transitions between different cross_sections.
         sparameters_path: to store Sparameters simulations.
         modes_path: to store Sparameters simulations.
         interconnect_cml_path: path to interconnect CML (optional).
-        grid_size: in um. Defaults to 1nm.
         warn_off_grid_ports: raises warning when extruding paths with offgrid ports.
-            For example, if you try to create a waveguide with 1.5nm length.
         constants: dict of constants for the PDK.
+        materials_index: material spec names to material spec, which can be:
+            string: material name.
+            float: refractive index.
+            float, float: refractive index real and imaginary part.
+            function: function of wavelength.
+        routing_strategies: functions enabled to route.
+        circuit_yaml_parser: can parse different YAML formats.
+        gds_write_settings: to write GDSII files.
+        oasis_settings: to write OASIS files.
         bend_points_distance: default points distance for bends in um.
 
     """
@@ -547,7 +555,7 @@ def get_active_pdk() -> Pdk:
     if _ACTIVE_PDK is None:
         logger.warning(
             "No active PDK.\n"
-            "Activating the generic PDK using:\n"
+            "Activating the generic PDK\n"
             "import gdsfactory as gf \n"
             "PDK = gf.get_generic_pdk()\n"
             "PDK.activate()"
