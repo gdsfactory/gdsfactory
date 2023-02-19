@@ -23,8 +23,12 @@ class MeepFDTDModel(Model):
 
     def outputs_from_inputs(self, input_dict):
         """Setup and run a simulation with one set of inputs."""
-        param_dict, layerstack_param_dict = self.parse_input_dict(input_dict)
-        input_component = self.component(param_dict)
+        param_dict, layerstack_param_dict, litho_param_dict = self.parse_input_dict(
+            input_dict
+        )
+        input_component = self.perturb_geometry(
+            self.component(param_dict), litho_param_dict
+        )
         # input_layerstack = self.perturb_layerstack(layerstack_param_dict)
 
         wavelengths = self.non_trainable_parameters["wavelength"]
@@ -54,7 +58,7 @@ class MeepFDTDModel(Model):
 
 if __name__ == "__main__":
     import gdsfactory as gf
-    from gdsfactory.simulation.sax.parameter import NamedParameter
+    from gdsfactory.simulation.sax.parameter import NamedParameter, LithoParameter
     from gdsfactory.technology import LayerStack
 
     c = gf.components.coupler_full(
@@ -109,10 +113,17 @@ if __name__ == "__main__":
         },
         trainable_parameters={
             "coupling_length": NamedParameter(
-                min_value=0.1, max_value=10.1, nominal_value=5, step=10
+                min_value=5, max_value=5, nominal_value=5, step=10
             ),
             "gap": NamedParameter(
-                min_value=0.2, max_value=0.5, nominal_value=0.2, step=0.3
+                min_value=0.2, max_value=0.2, nominal_value=0.2, step=0.3
+            ),
+            "erosion_dilation": LithoParameter(
+                min_value=-0.2,
+                max_value=0.2,
+                nominal_value=0.0,
+                step=0.2,
+                layername="core",
             ),
         },
         non_trainable_parameters={
@@ -123,7 +134,7 @@ if __name__ == "__main__":
         num_modes=1,
     )
 
-    input_vectors, output_vectors = coupler_model.get_model_input_output(type="corners")
+    input_vectors, output_vectors = coupler_model.get_model_input_output(type="arange")
     # interpolator = coupler_model.set_nd_nd_interp()
 
     # import jax.numpy as jnp
