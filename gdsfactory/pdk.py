@@ -543,14 +543,20 @@ _ACTIVE_PDK = None
 
 
 def get_active_pdk() -> Pdk:
+    global _ACTIVE_PDK
     if _ACTIVE_PDK is None:
-        raise ValueError(
+        logger.warning(
             "No active PDK.\n"
-            "You can activate the generic PDK using:\n"
+            "Activating the generic PDK using:\n"
             "import gdsfactory as gf \n"
             "PDK = gf.get_generic_pdk()\n"
             "PDK.activate()"
         )
+        import gdsfactory as gf
+
+        PDK = gf.get_generic_pdk()
+        PDK.activate()
+        _ACTIVE_PDK = PDK
     return _ACTIVE_PDK
 
 
