@@ -1285,17 +1285,33 @@ class Component(_GeometryHelper):
         self.plot_klayout()
         print(self)
 
-    def plot_klayout(self) -> None:
+    def plot_klayout(
+        self,
+        show_ports: bool = True,
+        port_marker_layer: Layer = (1, 10),
+    ) -> None:
         """Returns ipython widget for klayout visualization.
 
         Defaults to matplotlib if it fails to import ipywidgets.
+
+        Args:
+            show_ports: shows component with port markers and labels.
+            port_marker_layer: for the ports.
         """
+        from gdsfactory.add_pins import add_pins_triangle
+
+        if show_ports:
+            component = self.copy()
+            component.name = self.name
+            add_pins_triangle(component=component, layer=port_marker_layer)
+        else:
+            component = self
         try:
             from gdsfactory.pdk import get_layer_views
             from gdsfactory.widgets.layout_viewer import LayoutViewer
             from IPython.display import display
 
-            gdspath = self.write_gds(logging=False)
+            gdspath = component.write_gds(logging=False)
             lyp_path = gdspath.with_suffix(".lyp")
 
             layer_views = get_layer_views()
@@ -1306,7 +1322,7 @@ class Component(_GeometryHelper):
             print(
                 "You can install `pip install gdsfactory[full]` for better visualization"
             )
-            self.plot(plotter="matplotlib")
+            component.plot(plotter="matplotlib")
 
     def plot_jupyter(self):
         """Shows current gds in klayout. Uses Kweb if server running.
