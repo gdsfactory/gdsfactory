@@ -54,6 +54,9 @@ from gdsfactory.components.coupler_asymmetric import coupler_asymmetric
 from gdsfactory.components.coupler_full import coupler_full
 from gdsfactory.components.coupler_ring import coupler_ring
 from gdsfactory.components.coupler_straight import coupler_straight
+from gdsfactory.components.coupler_straight_asymmetric import (
+    coupler_straight_asymmetric,
+)
 from gdsfactory.components.coupler_symmetric import coupler_symmetric
 from gdsfactory.components.cross import cross
 from gdsfactory.components.crossing_waveguide import (
@@ -378,6 +381,7 @@ __all__ = [
     "coupler_full",
     "coupler_ring",
     "coupler_straight",
+    "coupler_straight_asymmetric",
     "coupler_symmetric",
     "cross",
     "crossing",
