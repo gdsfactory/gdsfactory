@@ -1,4 +1,4 @@
-*.py[cod]
+py[cod]
 
 add_type_hints.xonsh
 # C extensions
@@ -48,7 +48,6 @@ var
 sdist
 develop-eggs
 .installed.cfg
-devsim/
 lib/
 lib64
 docs/notebooks/playground_repo
