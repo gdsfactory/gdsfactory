@@ -1,6 +1,12 @@
+from __future__ import annotations
+
+import typing
 from gdsfactory.generic_tech.layer_map import GenericLayerMap as LayerMap
 from gdsfactory.generic_tech.layer_stack import LAYER_STACK
 from gdsfactory.technology import LayerViews
+
+if typing.TYPE_CHECKING:
+    from gdsfactory.pdk import Pdk
 
 LAYER = LayerMap()
 
@@ -31,13 +37,13 @@ LAYER_TRANSITIONS = {
 }
 
 
-def get_generic_pdk():
+def get_generic_pdk() -> Pdk:
     from gdsfactory.components import cells
     from gdsfactory.config import sparameters_path, PATH
     from gdsfactory.cross_section import cross_sections
     from gdsfactory.pdk import Pdk, constants
 
-    LAYER_VIEWS = LayerViews(filepath=PATH.klayout_lyp)
+    LAYER_VIEWS = LayerViews(filepath=PATH.klayout_yaml)
 
     return Pdk(
         name="generic",
@@ -52,7 +58,7 @@ def get_generic_pdk():
     )
 
 
-def write_lyp():
+def write_lyp() -> None:
     """Write from YAML to Klayout lyp file"""
     from gdsfactory.config import PATH
 
@@ -60,7 +66,7 @@ def write_lyp():
     LAYER_VIEWS.to_lyp(PATH.klayout_lyp)
 
 
-def write_yaml():
+def write_yaml() -> None:
     """Write from YAML to Klayout lyp file"""
     from gdsfactory.config import PATH
 
