@@ -9,6 +9,9 @@ import gdsfactory.simulation as sim
 import gdsfactory.simulation.gmeep as gm
 from gdsfactory.generic_tech import LAYER_STACK
 
+PDK = gf.get_generic_pdk()
+PDK.activate()
+
 simulation_settings = dict(resolution=20, is_3d=False)
 
 
