@@ -54,6 +54,9 @@ from gdsfactory.components.coupler_asymmetric import coupler_asymmetric
 from gdsfactory.components.coupler_full import coupler_full
 from gdsfactory.components.coupler_ring import coupler_ring
 from gdsfactory.components.coupler_straight import coupler_straight
+from gdsfactory.components.coupler_straight_asymmetric import (
+    coupler_straight_asymmetric,
+)
 from gdsfactory.components.coupler_symmetric import coupler_symmetric
 from gdsfactory.components.cross import cross
 from gdsfactory.components.crossing_waveguide import (
@@ -159,6 +162,7 @@ from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.components.mmi1x2_with_sbend import mmi1x2_with_sbend
 from gdsfactory.components.mmi2x2_with_sbend import mmi2x2_with_sbend
 from gdsfactory.components.mmi_90degree_hybrid import mmi_90degree_hybrid
+from gdsfactory.components.mode_converter import mode_converter
 from gdsfactory.components.mzi import mzi, mzi1x2_2x2, mzi2x2_2x2, mzi_coupler
 from gdsfactory.components.mzi_arm import mzi_arm
 from gdsfactory.components.mzi_arms import mzi_arms
@@ -378,6 +382,7 @@ __all__ = [
     "coupler_full",
     "coupler_ring",
     "coupler_straight",
+    "coupler_straight_asymmetric",
     "coupler_symmetric",
     "cross",
     "crossing",
@@ -455,6 +460,7 @@ __all__ = [
     "mmi2x2",
     "mmi1x2_with_sbend",
     "mmi2x2_with_sbend",
+    "mode_converter",
     "mzi",
     "mzi_arms",
     "mzi_pads_center",
