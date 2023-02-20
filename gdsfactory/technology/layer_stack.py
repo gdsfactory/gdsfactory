@@ -3,6 +3,7 @@ from typing import Any, Dict, List, Optional, Tuple
 from pydantic import BaseModel, Field
 
 from gdsfactory.technology.layer_views import LayerViews
+from typing_extensions import Literal
 
 
 class LayerLevel(BaseModel):
@@ -44,6 +45,46 @@ class LayerLevel(BaseModel):
     width_to_z: float = 0.0
     z_to_bias: Optional[Tuple[List[float], List[float]]] = None
     info: Dict[str, Any] = {}
+
+
+class DerivedLayerLevel(LayerLevel):
+    layer: Optional[Tuple[int, int]] = None
+    layer1: Optional[Tuple[int, int]]
+    layer2: Optional[Tuple[int, int]]
+    operator: Literal["-", "+", "&", "|"]
+
+    """Level for 3D LayerStack.
+    Parameters:
+        layer1: (GDSII Layer number, GDSII datatype).
+        layer2: (GDSII Layer number, GDSII datatype).
+        operator: can be
+            - not
+            & and
+            | or
+        thickness: layer thickness in um.
+        thickness_tolerance: layer thickness tolerance in um.
+        zmin: height position where material starts in um.
+        material: material name.
+        sidewall_angle: in degrees with respect to normal.
+        width_to_z: if sidewall_angle, relative z-position
+            (0 --> zmin, 1 --> zmin + thickness).
+        z_to_bias: parametrizes shrinking/expansion of the design GDS layer
+            when extruding from zmin (0) to zmin + thickness (1).
+            Defaults no buffering [[0, 1], [0, 0]].
+        info: simulation_info and other types of metadata.
+            mesh_order: lower mesh order (1) will have priority over higher
+                mesh order (2) in the regions where materials overlap.
+            refractive_index: refractive_index
+                can be int, complex or function that depends on wavelength (um).
+            type: grow, etch, implant, or background.
+            mode: octagon, taper, round.
+                https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
+            into: etch into another layer.
+                https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
+            doping_concentration: for implants.
+            resistivity: for metals.
+            bias: in um for the etch.
+    """
 
 
 class LayerStack(BaseModel):
@@ -111,17 +152,32 @@ class LayerStack(BaseModel):
 
     def get_klayout_3d_script(
         self,
-        klayout28: bool = True,
-        print_to_console: bool = True,
         layer_views: Optional[LayerViews] = None,
         dbu: Optional[float] = 0.001,
     ) -> str:
         """Prints script for 2.5 view KLayout information.
 
-        You can add this information in your tech.lyt take a look at
-        gdsfactory/klayout/tech/tech.lyt
+        You can add this information in your tech.lyt
         """
         out = ""
+
+        # define non derived layers
+        out = "\n".join(
+            [
+                f"{layer_name} = input({level.layer[0]}, {level.layer[1]})"
+                for layer_name, level in self.layers.items()
+                if hasattr(level, "layer") and level.layer
+            ]
+        )
+        out += "\n"
+
+        # define derived layers
+        for layer_name, level in self.layers.items():
+            if hasattr(level, "layer1"):
+                out += f"{layer_name} = input({level.layer1[0]}, {level.layer1[1]}) {level.operator} input({level.layer2[0]}, {level.layer2[1]})\n"
+
+        out += "\n"
+
         for layer_name, level in self.layers.items():
             layer = level.layer
             zmin = level.zmin
@@ -135,40 +191,35 @@ class LayerStack(BaseModel):
                 zmin = round(zmin, rnd_pl)
                 zmax = round(zmax, rnd_pl)
 
-            if klayout28:
-                txt = (
-                    f"z("
-                    f"input({layer[0]}, {layer[1]}), "
-                    f"zstart: {zmin}, "
-                    f"zstop: {zmax}, "
-                    f"name: '{layer_name}: {level.material} {layer[0]}/{layer[1]}'"
-                )
-                if layer_views:
-                    txt += ", "
-                    props = layer_views.get_from_tuple(layer)
-                    if props.color.fill == props.color.frame:
-                        txt += f"color: {props.color.fill}"
-                    else:
-                        txt += (
-                            f"fill: {props.color.fill}, " f"frame: {props.color.frame}"
-                        )
+            txt = (
+                f"z("
+                f"{layer_name}, "
+                f"zstart: {zmin}, "
+                f"zstop: {zmax}, "
+                f"name: '{layer_name}: {level.material} {layer[0]}/{layer[1]}'"
+            )
+            if layer_views:
+                txt += ", "
+                props = layer_views.get_from_tuple(layer)
+                if props.color.fill == props.color.frame:
+                    txt += f"color: {props.color.fill}"
+                else:
+                    txt += f"fill: {props.color.fill}, " f"frame: {props.color.frame}"
 
-                txt += ")"
-
-            else:
-                txt = f"{layer[0]}/{layer[1]}: {zmin} {zmax}"
+            txt += ")"
             out += f"{txt}\n"
 
-            if print_to_console:
-                print(txt)
         return out
 
 
 if __name__ == "__main__":
-    import pathlib
+    from gdsfactory.generic_tech import LAYER_STACK
 
-    filepath = pathlib.Path(
-        "/home/jmatres/gdslib/sp/temp/write_sparameters_meep_mpi.json"
-    )
-    ls_json = filepath.read_bytes()
-    ls2 = LayerStack.parse_raw(ls_json)
+    script = LAYER_STACK.get_klayout_3d_script()
+    print(script)
+    # import pathlib
+    # filepath = pathlib.Path(
+    #     "/home/jmatres/gdslib/sp/temp/write_sparameters_meep_mpi.json"
+    # )
+    # ls_json = filepath.read_bytes()
+    # ls2 = LayerStack.parse_raw(ls_json)

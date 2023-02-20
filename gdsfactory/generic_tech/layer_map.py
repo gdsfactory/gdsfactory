@@ -19,6 +19,7 @@ class GenericLayerMap(BaseModel):
     WGCLAD: Layer = (111, 0)
     SLAB150: Layer = (2, 0)
     SLAB90: Layer = (3, 0)
+    SHALLOW_ETCH: Layer = (2, 6)
     DEEPTRENCH: Layer = (4, 0)
     GE: Layer = (5, 0)
     UNDERCUT: Layer = (6, 0)
