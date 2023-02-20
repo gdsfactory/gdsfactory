@@ -1266,7 +1266,7 @@ class Component(_GeometryHelper):
             layer_views = get_layer_views()
             layer_views.to_lyp(filepath=lyp_path)
             layout = LayoutViewer(gdspath, lyp_path)
-            display(layout.image)
+            display(layout.widget)
         except ImportError:
             print(
                 "You can install `pip install gdsfactory[full]` for better visualization"
