@@ -1,5 +1,5 @@
 from gdsfactory.generic_tech.layer_map import LAYER
-from gdsfactory.technology import LayerLevel, LayerStack
+from gdsfactory.technology import LayerLevel, LayerStack, DerivedLayerLevel
 
 nm = 1e-3
 
@@ -7,6 +7,8 @@ nm = 1e-3
 def get_layer_stack(
     thickness_wg: float = 220 * nm,
     thickness_slab_deep_etch: float = 90 * nm,
+    thickness_shallow_etch: float = 90 * nm,
+    sidewall_angle_wg: float = 10,
     thickness_clad: float = 3.0,
     thickness_nitride: float = 350 * nm,
     thickness_ge: float = 500 * nm,
@@ -29,6 +31,8 @@ def get_layer_stack(
     Args:
         thickness_wg: waveguide thickness in um.
         thickness_slab_deep_etch: for deep etched slab.
+        thickness_shallow_etch: thickness for the etch.
+        sidewall_angle_wg: waveguide side angle.
         thickness_clad: cladding thickness in um.
         thickness_nitride: nitride thickness in um.
         thickness_ge: germanium thickness.
@@ -60,13 +64,26 @@ def get_layer_stack(
             material="sio2",
             info={"mesh_order": 99},
         )
-        core = LayerLevel(
-            layer=LAYER.WG,
+        unetched_wg = DerivedLayerLevel(
+            layer1=LAYER.WG,
+            layer2=LAYER.SHALLOW_ETCH,
             thickness=thickness_wg,
+            operator="-",
             zmin=0.0,
             material="si",
             info={"mesh_order": 1},
-            sidewall_angle=10,
+            sidewall_angle=sidewall_angle_wg,
+            width_to_z=0.5,
+        )
+        shallow_etch_slab = DerivedLayerLevel(
+            layer1=LAYER.WG,
+            layer2=LAYER.SHALLOW_ETCH,
+            thickness=thickness_wg - thickness_shallow_etch,
+            operator="&",
+            zmin=0.0,
+            material="si",
+            info={"mesh_order": 1},
+            sidewall_angle=sidewall_angle_wg,
             width_to_z=0.5,
         )
         clad = LayerLevel(
@@ -174,8 +191,9 @@ def get_layer_stack(
 LAYER_STACK = get_layer_stack()
 
 if __name__ == "__main__":
-    ls = get_layer_stack(substrate_thickness=50.0)
-    # print(ls)
-    # ls.get_klayout_3d_script()
+    # ls = get_layer_stack(substrate_thickness=50.0)
+    ls = get_layer_stack()
+    script = ls.get_klayout_3d_script()
+    print(script)
     # print(ls.get_layer_to_material())
     # print(ls.get_layer_to_thickness())

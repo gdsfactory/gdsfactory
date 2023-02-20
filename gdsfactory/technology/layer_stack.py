@@ -60,7 +60,7 @@ class DerivedLayerLevel(LayerLevel):
         operator: can be
             - not
             & and
-            | or
+            | + or
         thickness: layer thickness in um.
         thickness_tolerance: layer thickness tolerance in um.
         zmin: height position where material starts in um.
@@ -158,6 +158,10 @@ class LayerStack(BaseModel):
         """Prints script for 2.5 view KLayout information.
 
         You can add this information in your tech.lyt
+
+        Args:
+            layer_views: optional layer_views.
+            dbu: Optional database unit. Defaults to 1nm.
         """
         out = ""
 
@@ -183,7 +187,13 @@ class LayerStack(BaseModel):
             zmin = level.zmin
             zmax = zmin + level.thickness
 
-            if layer is None:
+            if layer:
+                name = f"{layer_name}: {level.material} {layer[0]}/{layer[1]}"
+
+            elif hasattr(level, "layer1"):
+                name = f"{layer_name}: {level.material}"
+
+            else:
                 continue
 
             if dbu:
@@ -196,7 +206,7 @@ class LayerStack(BaseModel):
                 f"{layer_name}, "
                 f"zstart: {zmin}, "
                 f"zstop: {zmax}, "
-                f"name: '{layer_name}: {level.material} {layer[0]}/{layer[1]}'"
+                f"name: '{name}'"
             )
             if layer_views:
                 txt += ", "

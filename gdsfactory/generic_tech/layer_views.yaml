@@ -25,7 +25,7 @@ LayerViews:
     transparent: true
     width: 1
     color: "#805000"
-  SHALLOWETCH:
+  SHALLOW_ETCH:
     layer: [2, 6]
     layer_in_name: true
     hatch_pattern: coarsely dotted
