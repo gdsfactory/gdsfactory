@@ -1,9 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [6.44.0](https://github.com/gdsfactory/gdsfactory/pull/1312)
+## 6.44.0
 
-- Add layer selector widget to notebook view
-
+- Add layer selector widget to notebook view [PR](https://github.com/gdsfactory/gdsfactory/pull/1312)
+- Sweep Fabrication [PR](https://github.com/gdsfactory/gdsfactory/pull/1309)
 
 ## [6.43.0](https://github.com/gdsfactory/gdsfactory/pull/1297)
 
