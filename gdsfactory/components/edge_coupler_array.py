@@ -38,8 +38,11 @@ def edge_coupler_array(
     c = Component()
     for i in range(n):
         alias = f"ec_{i}"
-        ref = c.add_ref(edge_coupler, x_reflection=x_reflection, alias=alias)
+        ref = c.add_ref(edge_coupler, alias=alias)
         ref.y = i * pitch
+
+        if x_reflection:
+            ref.mirror()
 
         for port in ref.get_ports_list():
             c.add_port(f"{port.name}_{i}", port=port)
@@ -127,6 +130,6 @@ def edge_coupler_array_with_loopback(
 
 if __name__ == "__main__":
     # c = edge_coupler_silicon()
-    # c = edge_coupler_array()
-    c = edge_coupler_array_with_loopback(x_reflection=True)
+    c = edge_coupler_array(x_reflection=False)
+    # c = edge_coupler_array_with_loopback(x_reflection=False)
     c.show(show_ports=True)
