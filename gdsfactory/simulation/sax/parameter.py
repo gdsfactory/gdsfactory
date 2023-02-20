@@ -240,9 +240,18 @@ class LithoParameter(Parameter):
     def layer_round_corners(self, component, round_value):
         temp_component = gf.Component()
         for layer, layer_polygons in component.get_polygons(by_spec=True).items():
-            for layer_polygon in layer_polygons:
-                if layer == self.layer:
-                    shapely_polygon = shapely.geometry.Polygon(layer_polygon)
+            if layer == self.layer:
+                # Make sure all layer polygons are fused properly
+                shapely_polygons = [
+                    shapely.geometry.Polygon(polygon) for polygon in layer_polygons
+                ]
+                shapely_polygons = unary_union(shapely_polygons)
+                # Apply transformation
+                for shapely_polygon in (
+                    shapely_polygons.geoms
+                    if hasattr(shapely_polygons, "geoms")
+                    else [shapely_polygons]
+                ):
                     buffered_polygon = (
                         shapely_polygon.buffer(round_value, join_style=1)
                         .buffer(-2 * round_value, join_style=1)
@@ -251,7 +260,8 @@ class LithoParameter(Parameter):
                     temp_component.add_polygon(
                         buffered_polygon.exterior.coords, layer=layer
                     )
-                else:
+            else:
+                for layer_polygon in layer_polygons:
                     temp_component.add_polygon(layer_polygon, layer=layer)
         # Transform ports
         ports = []
