@@ -66,8 +66,6 @@ You can use the command line `gf gds diff gds1.gds gds2.gds` to overlay `gds1.gd
 
 For example, if you changed the mmi1x2 and made it 5um longer by mistake, you could `gf gds diff ref_layouts/mmi1x2.gds run_layouts/mmi1x2.gds` and see the GDS differences in Klayout.
 
-![](images/git_diff_gds_ex2.png)
-
 
 ## Acks
 
