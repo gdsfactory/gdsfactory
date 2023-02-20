@@ -19,7 +19,9 @@ class FemwellWaveguideModel(Model):
 
     def outputs_from_inputs(self, input_dict):
         """For the mode solver, results vectors is neffs."""
-        param_dict, layerstack_param_dict = self.parse_input_dict(input_dict)
+        param_dict, layerstack_param_dict, litho_param_dict = self.parse_input_dict(
+            input_dict
+        )
         input_crosssection = self.component(param_dict).info["cross_section"]
         input_layerstack = self.perturb_layerstack(layerstack_param_dict)
 
