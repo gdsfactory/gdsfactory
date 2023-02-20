@@ -196,7 +196,7 @@ def compute_component_slice_modes(
         num_modes=num_modes,
         order=order,
         radius=radius,
-        solver="slepc",
+        # solver="slepc",
     )
 
     if with_cache:
