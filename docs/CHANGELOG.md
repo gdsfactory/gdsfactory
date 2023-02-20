@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [6.44.0](https://github.com/gdsfactory/gdsfactory/pull/1312)
+
+- Add layer selector widget to notebook view
+
+
 ## [6.43.0](https://github.com/gdsfactory/gdsfactory/pull/1297)
 
 - if no active PDK logger outputs warning, and activates generic PDK. In the future we won't activate the generic pdk by default.
