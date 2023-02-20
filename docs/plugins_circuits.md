@@ -18,5 +18,6 @@ You can use 3 circuit simulators:
 
    notebooks/plugins/sax/01_sax.ipynb
    notebooks/plugins/sax/02_model_extraction.ipynb
+   notebooks/plugins/sax/03_variability_analysis.ipynb
    notebooks/plugins/lumerical/2_interconnect.ipynb
 ```
