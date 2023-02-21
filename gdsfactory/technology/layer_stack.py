@@ -339,7 +339,7 @@ class LayerStack(BaseModel):
 
         out += "\n"
 
-        for layer_name in unetched_layers_dict.keys():
+        for layer_name in unetched_layers_dict:
             unetched_level = self.layers[layer_name]
             layer = unetched_level.layer
 
