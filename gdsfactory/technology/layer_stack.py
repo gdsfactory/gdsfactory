@@ -55,6 +55,8 @@ class DerivedLayerLevel(LayerLevel):
 
     """Level for 3D LayerStack.
 
+    layer = layer1 operator layer2
+
     Parameters:
         layer: (GDSII Layer number, GDSII datatype) for operation result.
         layer1: (GDSII Layer number, GDSII datatype).
@@ -107,15 +109,14 @@ class LayerStack(BaseModel):
             if isinstance(val, LayerLevel):
                 self.layers[field] = val
 
-    def get_layer_to_thickness(self, component) -> Dict[Tuple[int, int], float]:
+    def get_layer_to_thickness(self) -> Dict[Tuple[int, int], float]:
         """Returns layer tuple to thickness (um)."""
         layer_to_thickness = {}
-        component_layers = component.get_layers()
 
         for level in self.layers.values():
             layer = level.layer
 
-            if layer and level.thickness and layer in component_layers:
+            if layer and level.thickness:
                 layer_to_thickness[layer] = level.thickness
             elif hasattr(level, "operator"):
                 layer_to_thickness[level.layer] = level.thickness
