@@ -35,7 +35,8 @@ class LayerLevel(BaseModel):
             https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
         doping_concentration: for implants.
         resistivity: for metals.
-        bias: in um for the etch.
+        bias: in um for the etch. Can be a single number or 2 numbers (bias_x, bias_y)
+        derived_layer: Optional derived layer, used for layer_type='etch' to define the slab.
         info: simulation_info and other types of metadata.
     """
 
@@ -54,6 +55,7 @@ class LayerLevel(BaseModel):
     doping_concentration: Optional[float] = None
     resistivity: Optional[float] = None
     bias: Optional[Union[Tuple[float, float], float]] = None
+    derived_layer: Optional[Tuple[int, int]] = None
     info: Dict[str, Any] = {}
 
 
@@ -93,41 +95,78 @@ class LayerStack(BaseModel):
         """Returns component with derived layers."""
         import gdstk
 
+        unetched_layers = [
+            layer_name
+            for layer_name, level in self.layers.items()
+            if level.layer and level.layer_type == "grow"
+        ]
+        etch_layers = [
+            layer_name
+            for layer_name, level in self.layers.items()
+            if level.layer and level.layer_type == "etch"
+        ]
+
+        # remove all etched layers from the grown layers
+        unetched_layers_dict = defaultdict(list)
+        for layer_name in etch_layers:
+            level = self.layers[layer_name]
+            into = level.into or []
+            for layer_name_etched in into:
+                unetched_layers_dict[layer_name_etched].append(layer_name)
+                if layer_name_etched in unetched_layers:
+                    unetched_layers.remove(layer_name_etched)
+
         component_layers = component.get_layers()
 
-        non_derived_layers = []
-        derived_levels = []
+        # Define pure grown layers
+        unetched_layer_numbers = [
+            self.layers[layer_name].layer
+            for layer_name in unetched_layers
+            if self.layers[layer_name].layer in component_layers
+        ]
+        component_derived = component.extract(unetched_layer_numbers)
 
-        for level in self.layers.values():
-            layer = level.layer
+        # Define unetched layers
+        polygons_to_remove = []
+        for unetched_layer_name, unetched_layers in unetched_layers_dict.items():
+            layer = self.layers[unetched_layer_name].layer
+            polygons = component.get_polygons(by_spec=layer)
 
-            if layer and level.thickness:
-                if hasattr(level, "operator"):
-                    derived_levels.append(level)
-                elif layer in component_layers:
-                    non_derived_layers.append(layer)
+            # Add all the etching layers (OR)
+            for etching_layers in unetched_layers:
+                layer = self.layers[etching_layers].layer
+                B_polys = component.get_polygons(by_spec=layer)
+                polygons_to_remove = gdstk.boolean(
+                    operand1=polygons_to_remove,
+                    operand2=B_polys,
+                    operation="or",
+                    layer=layer[0],
+                    datatype=layer[1],
+                )
 
-        component_derived = component.extract(layers=non_derived_layers)
+                derived_layer = self.layers[etching_layers].derived_layer
+                if derived_layer:
+                    slab_polygons = gdstk.boolean(
+                        operand1=polygons,
+                        operand2=B_polys,
+                        operation="and",
+                        layer=derived_layer[0],
+                        datatype=derived_layer[1],
+                    )
+                    component_derived.add(slab_polygons)
 
-        for derived_level in derived_levels:
-            if derived_level.operator == "-":
-                operation = "not"
-            elif derived_level.operator == "&":
-                operation = "and"
-            elif derived_level.operator in ["|", "+"]:
-                operation = "or"
-
-            gds_layer, gds_datatype = derived_level.layer
-            A_polys = component.get_polygons(by_spec=derived_level.layer1)
-            B_polys = component.get_polygons(by_spec=derived_level.layer2)
-            p = gdstk.boolean(
-                operand1=A_polys,
-                operand2=B_polys,
-                operation=operation,
-                layer=gds_layer,
-                datatype=gds_datatype,
+            # Remove all etching layers
+            layer = self.layers[unetched_layer_name].layer
+            polygons = component.get_polygons(by_spec=layer)
+            unetched_polys = gdstk.boolean(
+                operand1=polygons,
+                operand2=polygons_to_remove,
+                operation="not",
+                layer=layer[0],
+                datatype=layer[1],
             )
-            component_derived.add(p)
+            component_derived.add(unetched_polys)
+
         component_derived.add_ports(component.ports)
         component_derived.name = f"{component.name}_derived_layers"
         return component_derived
@@ -338,10 +377,10 @@ if __name__ == "__main__":
     component = c = gf.components.grating_coupler_elliptical_trenches()
     # component = c = gf.components.taper_strip_to_ridge_trenches()
 
-    script = LAYER_STACK.get_klayout_3d_script()
-    print(script)
+    # script = LAYER_STACK.get_klayout_3d_script()
+    # print(script)
 
-    layer_stack = LAYER_STACK
+    ls = layer_stack = LAYER_STACK
     layer_to_thickness = layer_stack.get_layer_to_thickness()
 
     c = layer_stack.get_component_with_derived_layers(component)
