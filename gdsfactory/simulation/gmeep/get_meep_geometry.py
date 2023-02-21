@@ -31,20 +31,18 @@ def get_meep_geometry_from_component(
         is_3d: renders in 3D.
         dispersive: add dispersion.
         kwargs: settings.
-
     """
     component = gf.get_component(component=component, **kwargs)
-    component_ref = component.ref()
-
     layer_stack = layer_stack or get_layer_stack()
 
     layer_to_thickness = layer_stack.get_layer_to_thickness()
     layer_to_material = layer_stack.get_layer_to_material()
     layer_to_zmin = layer_stack.get_layer_to_zmin()
     layer_to_sidewall_angle = layer_stack.get_layer_to_sidewall_angle()
+    component_with_booleans = layer_stack.get_component_with_derived_layers(component)
 
     geometry = []
-    layer_to_polygons = component_ref.get_polygons(by_spec=True)
+    layer_to_polygons = component_with_booleans.get_polygons(by_spec=True)
 
     for layer, polygons in layer_to_polygons.items():
         if layer in layer_to_thickness and layer in layer_to_material:
@@ -150,3 +148,13 @@ def get_meep_geometry_from_cross_section(
                     )
                 )
     return geometry
+
+
+if __name__ == "__main__":
+    import gdsfactory.simulation.gmeep as gm
+    import matplotlib.pyplot as plt 
+
+    c = gf.components.taper_strip_to_ridge_trenches()
+    sp = gm.write_sparameters_meep(c, run=False, ymargin_top=3, ymargin_bot=3, is_3d=True)
+    plt.show()
+    # c.show(show_ports=True)

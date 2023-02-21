@@ -213,7 +213,7 @@ def get_simulation_grating_coupler(
     """
     layer_stack = layer_stack or get_layer_stack()
 
-    layer_to_thickness = layer_stack.get_layer_to_thickness(component)
+    layer_to_thickness = layer_stack.get_layer_to_thickness()
     layer_to_material = layer_stack.get_layer_to_material()
     layer_to_zmin = layer_stack.get_layer_to_zmin()
     # layer_to_sidewall_angle = layer_stack.get_layer_to_sidewall_angle()
@@ -330,8 +330,10 @@ def get_simulation_grating_coupler(
 
     structures = [substrate, box, clad]
 
+    component_layers = component_with_booleans.get_layers()
+
     for layer, thickness in layer_to_thickness.items():
-        if layer in layer_to_material:
+        if layer in layer_to_material and layer in component_layers:
             zmin = layer_to_zmin[layer]
             zmax = zmin + thickness
             material_name = layer_to_material[layer]

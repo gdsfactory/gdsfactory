@@ -80,6 +80,13 @@ def write_sparameters_lumerical(
     simulation_settings: SimulationSettingsLumericalFdtd = SIMULATION_SETTINGS_LUMERICAL_FDTD,
     material_name_to_lumerical: Optional[Dict[str, MaterialSpec]] = None,
     delete_fsp_files: bool = True,
+    xmargin: float = 0,
+    ymargin: float = 0,
+    xmargin_left: float = 0,
+    xmargin_right: float = 0,
+    ymargin_top: float = 0,
+    ymargin_bot: float = 0,
+    zmargin: float = 1.0,
     **settings,
 ) -> np.ndarray:
     r"""Returns and writes component Sparameters using Lumerical FDTD.
@@ -123,6 +130,13 @@ def write_sparameters_lumerical(
             or refractive index.
             translate material name in LayerStack to lumerical's database name.
         delete_fsp_files: deletes lumerical fsp files after simulation.
+        xmargin: left/right distance from component to PML.
+        xmargin_left: left distance from component to PML.
+        xmargin_right: right distance from component to PML.
+        ymargin: left/right distance from component to PML.
+        ymargin_top: top distance from component to PML.
+        ymargin_bot: bottom distance from component to PML.
+        zmargin: thickness for cladding above and below core.
 
     Keyword Args:
         background_material: for the background.
@@ -130,9 +144,6 @@ def write_sparameters_lumerical(
         port_height: port height (um).
         port_extension: port extension (um).
         mesh_accuracy: 2 (1: coarse, 2: fine, 3: superfine).
-        zmargin: for the FDTD region (um).
-        ymargin: for the FDTD region (um).
-        xmargin: for the FDTD region (um).
         wavelength_start: 1.2 (um).
         wavelength_stop: 1.6 (um).
         wavelength_points: 500.
@@ -206,8 +217,18 @@ def write_sparameters_lumerical(
     sim_settings.update(**settings)
     ss = SimulationSettingsLumericalFdtd(**sim_settings)
 
+    component_with_booleans = layer_stack.get_component_with_derived_layers(component)
+    component_padding = gf.add_padding_container(
+        component_with_booleans,
+        default=0,
+        top=ymargin or ymargin_top,
+        bottom=ymargin or ymargin_bot,
+        left=xmargin or xmargin_left,
+        right=xmargin or xmargin_right,
+    )
+
     component_extended = gf.components.extend_ports(
-        component, length=ss.distance_source_to_monitors
+        component_padding, length=ss.distance_source_to_monitors
     )
 
     ports = component_extended.get_ports_list(port_type="optical")
@@ -217,9 +238,6 @@ def write_sparameters_lumerical(
     c = gf.components.extension.extend_ports(
         component=component, length=ss.port_extension
     )
-    c.remove_layers(component.layers - set(layer_to_thickness.keys()))
-    c._bb_valid = False
-    c.flatten()
     c.name = "top"
     gdspath = c.write_gds()
 
@@ -235,17 +253,17 @@ def write_sparameters_lumerical(
     fspdir = filepath.parent / f"{filepath.stem}_s-parametersweep"
 
     if run and filepath_npz.exists() and not overwrite:
-        logger.info(f"Reading Sparameters from {filepath_npz}")
+        logger.info(f"Reading Sparameters from {filepath_npz.absolute()!r}")
         return np.load(filepath_npz)
 
     if not run and session is None:
         print(run_false_warning)
 
-    logger.info(f"Writing Sparameters to {filepath_npz}")
-    x_min = (component.xmin - ss.xmargin) * 1e-6
-    x_max = (component.xmax + ss.xmargin) * 1e-6
-    y_min = (component.ymin - ss.ymargin) * 1e-6
-    y_max = (component.ymax + ss.ymargin) * 1e-6
+    logger.info(f"Writing Sparameters to {filepath_npz.absolute()!r}")
+    x_min = (component.xmin - xmargin) * 1e-6
+    x_max = (component.xmax + xmargin) * 1e-6
+    y_min = (component.ymin - ymargin) * 1e-6
+    y_max = (component.ymax + ymargin) * 1e-6
 
     layers_thickness = [
         layer_to_thickness[layer]
@@ -266,12 +284,11 @@ def write_sparameters_lumerical(
     component_zmin = min(layers_zmin)
 
     z = (component_zmin + component_thickness) / 2 * 1e-6
-    z_span = (2 * ss.zmargin + component_thickness) * 1e-6
+    z_span = (2 * zmargin + component_thickness) * 1e-6
 
     x_span = x_max - x_min
     y_span = y_max - y_min
 
-    layers = c.get_layers()
     sim_settings.update(dict(layer_stack=layer_stack.to_dict()))
 
     sim_settings = dict(
@@ -337,9 +354,10 @@ def write_sparameters_lumerical(
         simulation_time=ss.simulation_time,
         simulation_temperature=ss.simulation_temperature,
     )
+    component_layers = component_with_booleans.get_layers()
 
     for layer, thickness in layer_to_thickness.items():
-        if layer not in layers:
+        if layer not in component_layers:
             continue
 
         if layer not in layer_to_material:

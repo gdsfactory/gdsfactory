@@ -200,7 +200,7 @@ def taper_strip_to_ridge_trenches(
     width: float = 0.5,
     slab_offset: float = 3.0,
     trench_width: float = 2.0,
-    trench_layer: LayerSpec = "SLAB90",
+    trench_layer: LayerSpec = "DEEP_ETCH",
     layer_wg: LayerSpec = "WG",
     trench_offset: float = 0.1,
 ) -> gf.Component:
