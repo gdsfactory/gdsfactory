@@ -64,7 +64,8 @@ def get_layer_stack(
             material="sio2",
             info={"mesh_order": 99},
         )
-        unetched_wg = DerivedLayerLevel(
+        core = DerivedLayerLevel(
+            layer=LAYER.WG,
             layer1=LAYER.WG,
             layer2=LAYER.SHALLOW_ETCH,
             thickness=thickness_wg,
@@ -76,6 +77,7 @@ def get_layer_stack(
             width_to_z=0.5,
         )
         shallow_etch_slab = DerivedLayerLevel(
+            layer=LAYER.SLAB150,
             layer1=LAYER.WG,
             layer2=LAYER.SHALLOW_ETCH,
             thickness=thickness_wg - thickness_shallow_etch,

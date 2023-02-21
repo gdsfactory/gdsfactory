@@ -183,12 +183,20 @@ def get_simulation(
     assert isinstance(component, Component)
 
     layer_stack = layer_stack or get_layer_stack()
-    boundary_spec = boundary_spec or td.BoundarySpec.all_sides(boundary=td.PML())
+    if is_3d:
+        boundary_spec = boundary_spec or td.BoundarySpec.all_sides(boundary=td.PML())
+
+    else:
+        boundary_spec = boundary_spec or td.BoundarySpec(
+            x=td.Boundary.pml(),
+            y=td.Boundary.periodic(),
+            z=td.Boundary.pml(),
+        )
 
     wavelength = (wavelength_start + wavelength_stop) / 2
     grid_spec = grid_spec or td.GridSpec.auto(wavelength=wavelength)
 
-    layer_to_thickness = layer_stack.get_layer_to_thickness()
+    layer_to_thickness = layer_stack.get_layer_to_thickness(component)
     layer_to_material = layer_stack.get_layer_to_material()
     layer_to_zmin = layer_stack.get_layer_to_zmin()
     # layer_to_sidewall_angle = layer_stack.get_layer_to_sidewall_angle()
@@ -222,7 +230,11 @@ def get_simulation(
 
     component_extended = component_extended.flatten()
     component_extended.name = component.name
-    gf.show(component_extended)
+    component_extended.show()
+
+    component_extended = layer_stack.get_component_with_derived_layers(
+        component_extended
+    )
 
     component_ref = component_padding.ref()
     component_ref.x = 0
@@ -244,16 +256,10 @@ def get_simulation(
     )
     structures = [clad]
 
-    layers_thickness = [
-        layer_to_thickness[layer]
-        for layer in component.get_layers()
-        if layer in layer_to_thickness
-    ]
-
     if len(layer_to_thickness) < 1:
         raise ValueError(f"{component.get_layers()} not in {layer_to_thickness.keys()}")
 
-    t_core = max(layers_thickness)
+    t_core = max(layer_to_thickness.values())
     cell_thickness = (
         thickness_pml + t_core + thickness_pml + 2 * zmargin if is_3d else 0
     )
@@ -264,9 +270,8 @@ def get_simulation(
         cell_thickness,
     ]
 
-    for layer in component.layers:
-        if layer in layer_to_thickness and layer in layer_to_material:
-            thickness = layer_to_thickness[layer]
+    for layer, thickness in layer_to_thickness.items():
+        if layer in layer_to_material:
             zmin = layer_to_zmin[layer] if is_3d else 0
             zmax = zmin + thickness if is_3d else 0
 
