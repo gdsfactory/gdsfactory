@@ -46,6 +46,7 @@ def to_3d(
 
     component_with_booleans = layer_stack.get_component_with_derived_layers(component)
     component_layers = component_with_booleans.get_layers()
+    component_with_booleans.show()
 
     has_polygons = False
 
@@ -91,8 +92,8 @@ if __name__ == "__main__":
     # c = gf.Component()
     # c << gf.components.straight_heater_metal(length=40)
     # c << gf.c.rectangle(layer=(113, 0))
-    c = gf.components.grating_coupler_elliptical_trenches()
-    # c = gf.components.taper_strip_to_ridge_trenches()
+    # c = gf.components.grating_coupler_elliptical_trenches()
+    c = gf.components.taper_strip_to_ridge_trenches()
 
     c.show()
     s = c.to_3d()
