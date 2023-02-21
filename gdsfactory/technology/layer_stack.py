@@ -221,7 +221,6 @@ class LayerStack(BaseModel):
             layer_views: optional layer_views.
             dbu: Optional database unit. Defaults to 1nm.
         """
-        out = ""
         unetched_layers = [
             layer_name
             for layer_name, level in self.layers.items()
