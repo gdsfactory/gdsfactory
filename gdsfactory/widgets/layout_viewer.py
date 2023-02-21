@@ -29,7 +29,7 @@ class LayoutViewer:
         layer_properties: Optional[str],
         hide_unused_layers: bool = True,
     ):
-        filepath = str(filepath)
+        filepath = filepath
         layer_properties = str(layer_properties)
         self.hide_unused_layers = hide_unused_layers
         self.filepath = filepath
