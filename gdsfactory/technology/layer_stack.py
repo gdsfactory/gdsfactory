@@ -221,7 +221,6 @@ class LayerStack(BaseModel):
             layer_views: optional layer_views.
             dbu: Optional database unit. Defaults to 1nm.
         """
-        out = ""
         unetched_layers = [
             layer_name
             for layer_name, level in self.layers.items()
@@ -243,15 +242,17 @@ class LayerStack(BaseModel):
                 if layer_name_etched in unetched_layers:
                     unetched_layers.remove(layer_name_etched)
 
-        # define layers
-        out = "\n".join(
-            [
-                f"{layer_name} = input({level.layer[0]}, {level.layer[1]})"
-                for layer_name, level in self.layers.items()
-                if level.layer
-            ]
+        out = ""
+        out = (
+            "\n".join(
+                [
+                    f"{layer_name} = input({level.layer[0]}, {level.layer[1]})"
+                    for layer_name, level in self.layers.items()
+                    if level.layer
+                ]
+            )
+            + "\n"
         )
-        out += "\n"
         out += "\n"
 
         # define unetched layers
@@ -340,7 +341,7 @@ class LayerStack(BaseModel):
 
         out += "\n"
 
-        for layer_name in unetched_layers_dict.keys():
+        for layer_name in unetched_layers_dict:
             unetched_level = self.layers[layer_name]
             layer = unetched_level.layer
 
