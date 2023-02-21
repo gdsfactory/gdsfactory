@@ -1,9 +1,12 @@
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple, Callable, Union
+from collections import defaultdict
 
 from typing_extensions import Literal
 from pydantic import BaseModel, Field
 
 from gdsfactory.technology.layer_views import LayerViews
+
+MaterialSpec = Union[str, float, Tuple[float, float], Callable]
 
 
 class LayerLevel(BaseModel):
@@ -21,19 +24,19 @@ class LayerLevel(BaseModel):
         z_to_bias: parametrizes shrinking/expansion of the design GDS layer
             when extruding from zmin (0) to zmin + thickness (1).
             Defaults no buffering [[0, 1], [0, 0]].
+        mesh_order: lower mesh order (1) will have priority over higher
+            mesh order (2) in the regions where materials overlap.
+        refractive_index: refractive_index
+            can be int, complex or function that depends on wavelength (um).
+        type: grow, etch, implant, or background.
+        mode: octagon, taper, round.
+            https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
+        into: etch into another layer.
+            https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
+        doping_concentration: for implants.
+        resistivity: for metals.
+        bias: in um for the etch.
         info: simulation_info and other types of metadata.
-            mesh_order: lower mesh order (1) will have priority over higher
-                mesh order (2) in the regions where materials overlap.
-            refractive_index: refractive_index
-                can be int, complex or function that depends on wavelength (um).
-            type: grow, etch, implant, or background.
-            mode: octagon, taper, round.
-                https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
-            into: etch into another layer.
-                https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
-            doping_concentration: for implants.
-            resistivity: for metals.
-            bias: in um for the etch.
     """
 
     layer: Optional[Tuple[int, int]]
@@ -44,51 +47,14 @@ class LayerLevel(BaseModel):
     sidewall_angle: float = 0.0
     width_to_z: float = 0.0
     z_to_bias: Optional[Tuple[List[float], List[float]]] = None
+    mesh_order: int = 3
+    layer_type: Literal["grow", "etch", "implant", "background"] = "grow"
+    mode: Optional[Literal["octagon", "taper", "round"]] = None
+    into: Optional[List[str]] = None
+    doping_concentration: Optional[float] = None
+    resistivity: Optional[float] = None
+    bias: Optional[Union[Tuple[float, float], float]] = None
     info: Dict[str, Any] = {}
-
-
-class DerivedLayerLevel(LayerLevel):
-    layer: Optional[Tuple[int, int]]
-    layer1: Optional[Tuple[int, int]]
-    layer2: Optional[Tuple[int, int]]
-    operator: Literal["-", "+", "&", "|"]
-
-    """Level for 3D LayerStack.
-
-    layer = layer1 operator layer2
-
-    Parameters:
-        layer: (GDSII Layer number, GDSII datatype) for operation result.
-        layer1: (GDSII Layer number, GDSII datatype).
-        layer2: (GDSII Layer number, GDSII datatype).
-        operator: can be
-            - not
-            & and
-            | + or
-        thickness: layer thickness in um.
-        thickness_tolerance: layer thickness tolerance in um.
-        zmin: height position where material starts in um.
-        material: material name.
-        sidewall_angle: in degrees with respect to normal.
-        width_to_z: if sidewall_angle, relative z-position
-            (0 --> zmin, 1 --> zmin + thickness).
-        z_to_bias: parametrizes shrinking/expansion of the design GDS layer
-            when extruding from zmin (0) to zmin + thickness (1).
-            Defaults no buffering [[0, 1], [0, 0]].
-        info: simulation_info and other types of metadata.
-            mesh_order: lower mesh order (1) will have priority over higher
-                mesh order (2) in the regions where materials overlap.
-            refractive_index: refractive_index
-                can be int, complex or function that depends on wavelength (um).
-            type: grow, etch, implant, or background.
-            mode: octagon, taper, round.
-                https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
-            into: etch into another layer.
-                https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
-            doping_concentration: for implants.
-            resistivity: for metals.
-            bias: in um for the etch.
-    """
 
 
 class LayerStack(BaseModel):
@@ -217,21 +183,52 @@ class LayerStack(BaseModel):
             dbu: Optional database unit. Defaults to 1nm.
         """
         out = ""
+        unetched_layers = [
+            layer_name
+            for layer_name, level in self.layers.items()
+            if level.layer and level.layer_type == "grow"
+        ]
+        etch_layers = [
+            layer_name
+            for layer_name, level in self.layers.items()
+            if level.layer and level.layer_type == "etch"
+        ]
 
-        # define non derived layers
+        # remove all etched layers from the grown layers
+        unetched_layers_dict = defaultdict(list)
+        for layer_name in etch_layers:
+            level = self.layers[layer_name]
+            into = level.into or []
+            for layer_name_etched in into:
+                unetched_layers_dict[layer_name_etched].append(layer_name)
+                if layer_name_etched in unetched_layers:
+                    unetched_layers.remove(layer_name_etched)
+
+        # define layers
         out = "\n".join(
             [
                 f"{layer_name} = input({level.layer[0]}, {level.layer[1]})"
                 for layer_name, level in self.layers.items()
-                if not hasattr(level, "operator") and level.layer
+                if level.layer
             ]
         )
         out += "\n"
+        out += "\n"
 
-        # define derived layers
+
+        # define unetched layers
+        for layer_name_etched, etching_layers in unetched_layers_dict.items():
+            etching_layers = ' - '.join(etching_layers)
+            out += f"unetched_{layer_name_etched} = {layer_name_etched} - {etching_layers}\n"
+
+        out += "\n"
+
+        # define slabs
         for layer_name, level in self.layers.items():
-            if hasattr(level, "operator"):
-                out += f"{layer_name} = input({level.layer1[0]}, {level.layer1[1]}) {level.operator} input({level.layer2[0]}, {level.layer2[1]})\n"
+            if level.layer_type == "etch":
+                into = level.into or []
+                for i, layer1 in enumerate(into):
+                    out += f"slab_{layer1}_{layer_name}_{i} = {layer1} &amp; {layer_name}\n"
 
         out += "\n"
 
@@ -239,26 +236,109 @@ class LayerStack(BaseModel):
             layer = level.layer
             zmin = level.zmin
             zmax = zmin + level.thickness
-
-            if layer:
-                name = f"{layer_name}: {level.material} {layer[0]}/{layer[1]}"
-
-            elif hasattr(level, "operator"):
-                name = f"{layer_name}: {level.material}"
-
-            else:
-                continue
-
             if dbu:
                 rnd_pl = len(str(dbu).split(".")[-1])
                 zmin = round(zmin, rnd_pl)
                 zmax = round(zmax, rnd_pl)
 
+            if layer is None:
+                continue
+
+            elif level.layer_type == "etch":
+                name = f"{layer_name}: {level.material}"
+
+                for i, layer1 in enumerate(into):
+                    unetched_level = self.layers[layer1]
+                    unetched_zmin = unetched_level.zmin
+                    unetched_zmax = unetched_zmin + unetched_level.thickness
+
+                #     unetched_layer_name = f"unetched_{layer1}_{i}"
+                #     name = f"{unetched_layer_name}: {level.material} {layer[0]}/{layer[1]}"
+                #     txt = (
+                #         f"z("
+                #         f"{unetched_layer_name}, "
+                #         f"zstart: {unetched_zmin}, "
+                #         f"zstop: {unetched_zmax}, "
+                #         f"name: '{name}'"
+                #     )
+                #     if layer_views:
+                #         txt += ", "
+                #         props = layer_views.get_from_tuple(layer)
+                #         if props.color.fill == props.color.frame:
+                #             txt += f"color: {props.color.fill}"
+                #         else:
+                #             txt += (
+                #                 f"fill: {props.color.fill}, "
+                #                 f"frame: {props.color.frame}"
+                #             )
+                #     txt += ")"
+                #     out += f"{txt}\n"
+
+                    # slab
+                    slab_layer_name = f"slab_{layer1}_{layer_name}_{i}"
+                    slab_zmin = unetched_level.zmin
+                    slab_zmax = unetched_zmax - level.thickness
+                    name = f"{slab_layer_name}: {level.material} {layer[0]}/{layer[1]}"
+                    txt = (
+                        f"z("
+                        f"{slab_layer_name}, "
+                        f"zstart: {slab_zmin}, "
+                        f"zstop: {slab_zmax}, "
+                        f"name: '{name}'"
+                    )
+                    if layer_views:
+                        txt += ", "
+                        props = layer_views.get_from_tuple(layer)
+                        if props.color.fill == props.color.frame:
+                            txt += f"color: {props.color.fill}"
+                        else:
+                            txt += (
+                                f"fill: {props.color.fill}, "
+                                f"frame: {props.color.frame}"
+                            )
+                    txt += ")"
+                    out += f"{txt}\n"
+
+            elif layer_name in unetched_layers:
+                name = f"{layer_name}: {level.material} {layer[0]}/{layer[1]}"
+
+                txt = (
+                    f"z("
+                    f"{layer_name}, "
+                    f"zstart: {zmin}, "
+                    f"zstop: {zmax}, "
+                    f"name: '{name}'"
+                )
+                if layer_views:
+                    txt += ", "
+                    props = layer_views.get_from_tuple(layer)
+                    if props.color.fill == props.color.frame:
+                        txt += f"color: {props.color.fill}"
+                    else:
+                        txt += (
+                            f"fill: {props.color.fill}, " f"frame: {props.color.frame}"
+                        )
+
+                txt += ")"
+                out += f"{txt}\n"
+
+        out += "\n"
+    
+        for layer_name in unetched_layers_dict.keys():
+            unetched_level = self.layers[layer_name]
+            layer = unetched_level.layer
+
+            unetched_zmin = unetched_level.zmin
+            unetched_zmax = unetched_zmin + unetched_level.thickness
+            name = f"{slab_layer_name}: {unetched_level.material}"
+
+            unetched_layer_name = f"unetched_{layer_name}"
+            name = f"{unetched_layer_name}: {unetched_level.material} {layer[0]}/{layer[1]}"
             txt = (
                 f"z("
-                f"{layer_name}, "
-                f"zstart: {zmin}, "
-                f"zstop: {zmax}, "
+                f"{unetched_layer_name}, "
+                f"zstart: {unetched_zmin}, "
+                f"zstop: {unetched_zmax}, "
                 f"name: '{name}'"
             )
             if layer_views:
@@ -267,8 +347,10 @@ class LayerStack(BaseModel):
                 if props.color.fill == props.color.frame:
                     txt += f"color: {props.color.fill}"
                 else:
-                    txt += f"fill: {props.color.fill}, " f"frame: {props.color.frame}"
-
+                    txt += (
+                        f"fill: {props.color.fill}, "
+                        f"frame: {props.color.frame}"
+                    )
             txt += ")"
             out += f"{txt}\n"
 
@@ -280,15 +362,16 @@ if __name__ == "__main__":
     from gdsfactory.generic_tech import LAYER_STACK
 
     component = c = gf.components.grating_coupler_elliptical_trenches()
+    # component = c = gf.components.taper_strip_to_ridge_trenches()
 
-    # script = LAYER_STACK.get_klayout_3d_script()
-    # print(script)
+    script = LAYER_STACK.get_klayout_3d_script()
+    print(script)
 
     layer_stack = LAYER_STACK
-    layer_to_thickness = layer_stack.get_layer_to_thickness(component)
+    layer_to_thickness = layer_stack.get_layer_to_thickness()
 
-    c2 = layer_stack.get_component_with_derived_layers(component)
-    c2.show(show_ports=True)
+    c = layer_stack.get_component_with_derived_layers(component)
+    c.show(show_ports=True)
 
     # import pathlib
     # filepath = pathlib.Path(

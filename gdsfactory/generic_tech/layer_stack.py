@@ -1,5 +1,5 @@
 from gdsfactory.generic_tech.layer_map import LAYER
-from gdsfactory.technology import LayerLevel, LayerStack, DerivedLayerLevel
+from gdsfactory.technology import LayerLevel, LayerStack
 
 nm = 1e-3
 
@@ -7,8 +7,7 @@ nm = 1e-3
 def get_layer_stack(
     thickness_wg: float = 220 * nm,
     thickness_slab_deep_etch: float = 90 * nm,
-    thickness_shallow_etch: float = 90 * nm,
-    thickness_deep_etch: float = 150 * nm,
+    thickness_slab_shallow_etch: float = 150 * nm,
     sidewall_angle_wg: float = 10,
     thickness_clad: float = 3.0,
     thickness_nitride: float = 350 * nm,
@@ -50,6 +49,9 @@ def get_layer_stack(
         undercut_thickness: thickness of the silicon undercut.
     """
 
+    thickness_deep_etch = thickness_wg - thickness_slab_deep_etch
+    thickness_shallow_etch = thickness_wg - thickness_slab_shallow_etch
+
     class GenericLayerStack(LayerStack):
         substrate = LayerLevel(
             layer=LAYER.WAFER,
@@ -65,41 +67,32 @@ def get_layer_stack(
             material="sio2",
             info={"mesh_order": 99},
         )
-        core = DerivedLayerLevel(
+        core = LayerLevel(
             layer=LAYER.WG,
-            layer1=LAYER.WG,
-            layer2=LAYER.SHALLOW_ETCH,
             thickness=thickness_wg,
-            operator="-",
             zmin=0.0,
             material="si",
-            info={"mesh_order": 1},
+            mesh_order=2,
             sidewall_angle=sidewall_angle_wg,
             width_to_z=0.5,
         )
-        shallow_etch_slab = DerivedLayerLevel(
-            layer=LAYER.SLAB150,
-            layer1=LAYER.WG,
-            layer2=LAYER.SHALLOW_ETCH,
-            thickness=thickness_wg - thickness_shallow_etch,
-            operator="&",
+        shallow_etch = LayerLevel(
+            layer=LAYER.SHALLOW_ETCH,
+            thickness=thickness_shallow_etch,
             zmin=0.0,
             material="si",
-            info={"mesh_order": 1},
-            sidewall_angle=sidewall_angle_wg,
-            width_to_z=0.5,
+            mesh_order=1,
+            layer_type="etch",
+            into=["core"],
         )
-        deep_etch_slab = DerivedLayerLevel(
-            layer=LAYER.SLAB90,
-            layer1=LAYER.WG,
-            layer2=LAYER.DEEP_ETCH,
-            thickness=thickness_wg - thickness_deep_etch,
-            operator="&",
+        deep_etch = LayerLevel(
+            layer=LAYER.DEEP_ETCH,
+            thickness=thickness_deep_etch,
             zmin=0.0,
             material="si",
-            info={"mesh_order": 1},
-            sidewall_angle=sidewall_angle_wg,
-            width_to_z=0.5,
+            mesh_order=1,
+            layer_type="etch",
+            into=["core"],
         )
         clad = LayerLevel(
             # layer=LAYER.WGCLAD,
