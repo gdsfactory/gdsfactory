@@ -9,6 +9,7 @@ try:
         Label,
         Layout,
         Tab,
+        Accordion,
     )
     from ipyevents import Event
     from typing import Optional
@@ -63,9 +64,10 @@ class LayoutViewer:
         )
 
         layer_iter = self.layout_view.begin_layers()
+
         while not layer_iter.at_end():
             props = layer_iter.current()
-            if props.name == button.layer.name:
+            if props.name == button.layer_props.name:
                 props.visible = not props.visible
                 self.layout_view.set_layer_properties(layer_iter, props)
                 self.layout_view.reload_layout(self.layout_view.current_layer_list)
@@ -73,41 +75,57 @@ class LayoutViewer:
             layer_iter.next()
         self.refresh()
 
+    def build_layer_toggle(self, prop_iter: lay.LayerPropertiesIterator):
+        from gdsfactory.utils.color_utils import ensure_six_digit_hex_color
+
+        props = prop_iter.current()
+        layer_color = ensure_six_digit_hex_color(props.eff_fill_color())
+
+        # Would be nice to use LayoutView.icon_for_layer() rather than simple colored box
+        button_layout = Layout(
+            width="5px",
+            height="20px",
+            border=f"solid 2px {layer_color}",
+            display="block",
+        )
+
+        layer_checkbox = Button(
+            style={"button_color": layer_color if props.visible else "transparent"},
+            layout=button_layout,
+        )
+        layer_checkbox.default_color = layer_color
+        layer_checkbox.layer_props = props
+
+        if props.has_children():
+            prop_iter = prop_iter.down_first_child()
+            n_children = prop_iter.num_siblings()
+            # print(f"{props.name} has {n_children} children!")
+            children = []
+            for _i in range(n_children):
+                prop_iter = prop_iter.next()
+                children.append(self.build_layer_toggle(prop_iter))
+            layer_label = Accordion([VBox(children)], titles=(props.name,))
+        else:
+            layer_label = Label(props.name)
+        layer_checkbox.label = layer_label
+
+        layer_checkbox.on_click(self.button_toggle)
+        return HBox([layer_checkbox, layer_label])
+
     def build_layer_selector(self, max_height: float):
         """Builds a widget for toggling layer displays.
 
         Args:
             max_height: Maximum height to set for the widget (likely the height of the pixel buffer).
         """
-        from gdsfactory.utils.color_utils import ensure_six_digit_hex_color
 
         all_boxes = []
 
-        for layer in self.layout_view.each_layer():
-            layer_label = Label(layer.name)
-
-            layer_color = ensure_six_digit_hex_color(layer.eff_fill_color())
-
-            # Would be nice to use LayoutView.icon_for_layer() rather than simple colored box
-            button_layout = Layout(
-                width="5px",
-                height="20px",
-                border=f"solid 2px {layer_color}",
-                display="block",
-            )
-
-            layer_checkbox = Button(
-                style={"button_color": layer_color if layer.visible else "transparent"},
-                layout=button_layout,
-            )
-            layer_checkbox.default_color = layer_color
-            layer_checkbox.layer = layer
-            layer_checkbox.label = layer_label
-
-            layer_checkbox.on_click(self.button_toggle)
-
-            # Use Accordion for grouped LayerViews
-            all_boxes.append(HBox([layer_checkbox, layer_label]))
+        prop_iter = self.layout_view.begin_layers()
+        while not prop_iter.at_end():
+            layer_toggle = self.build_layer_toggle(prop_iter)
+            all_boxes.append(layer_toggle)
+            prop_iter.next()
 
         layers_layout = Layout(
             max_height=f"{max_height}px", overflow_y="auto", display="block"
