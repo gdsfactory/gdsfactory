@@ -84,6 +84,7 @@ def get_layer_stack(
             mesh_order=1,
             layer_type="etch",
             into=["core"],
+            derived_layer=LAYER.SLAB150,
         )
         deep_etch = LayerLevel(
             layer=LAYER.DEEP_ETCH,
@@ -93,6 +94,7 @@ def get_layer_stack(
             mesh_order=1,
             layer_type="etch",
             into=["core"],
+            derived_layer=LAYER.SLAB90,
         )
         clad = LayerLevel(
             # layer=LAYER.WGCLAD,

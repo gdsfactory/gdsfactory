@@ -218,15 +218,15 @@ def get_simulation_grating_coupler(
     layer_to_zmin = layer_stack.get_layer_to_zmin()
     # layer_to_sidewall_angle = layer_stack.get_layer_to_sidewall_angle()
 
-    if is_3d:
-        boundary_spec = boundary_spec or td.BoundarySpec.all_sides(boundary=td.PML())
-
-    else:
-        boundary_spec = boundary_spec or td.BoundarySpec(
+    boundary_spec = boundary_spec or (
+        td.BoundarySpec.all_sides(boundary=td.PML())
+        if is_3d
+        else td.BoundarySpec(
             x=td.Boundary.pml(),
             y=td.Boundary.periodic(),
             z=td.Boundary.pml(),
         )
+    )
 
     grid_spec = grid_spec or td.GridSpec.auto(wavelength=wavelength)
 
@@ -458,14 +458,19 @@ def get_simulation_grating_coupler(
 
     if plot_modes:
         src_plane = td.Box(center=waveguide_port_center, size=waveguide_port_size)
-        ms = td.plugins.ModeSolver(simulation=sim, plane=src_plane, freq=freq0)
-
         mode_spec = td.ModeSpec(num_modes=num_modes)
-        modes = ms.solve(mode_spec=mode_spec)
+
+        ms = td.plugins.ModeSolver(
+            simulation=sim,
+            plane=src_plane,
+            freqs=[freq0],
+            mode_spec=mode_spec,
+        )
+        modes = ms.solve()
 
         print(
             "Effective index of computed modes: ",
-            ", ".join([f"{mode.n_eff:1.4f}" for mode in modes]),
+            ", ".join([f"{n_eff:1.4f}" for n_eff in modes.n_eff.isel(f=0).values]),
         )
 
         if is_3d:
@@ -475,16 +480,16 @@ def get_simulation_grating_coupler(
 
         for mode_ind in range(num_modes):
             if is_3d:
-                abs(modes[mode_ind].field_data.Ey).plot(
+                modes.Ey.isel(mode_index=mode_ind).abs.plot(
                     x="y", y="z", cmap="magma", ax=axs[mode_ind, 0]
                 )
-                abs(modes[mode_ind].field_data.Ez).plot(
+                modes.Ez.isel(mode_index=mode_ind).abs.plot(
                     x="y", y="z", cmap="magma", ax=axs[mode_ind, 1]
                 )
             else:
-                abs(modes[mode_ind].field_data.Ex).plot(ax=axs[mode_ind, 0])
-                abs(modes[mode_ind].field_data.Ey).plot(ax=axs[mode_ind, 1])
-                abs(modes[mode_ind].field_data.Ez).plot(ax=axs[mode_ind, 2])
+                modes.Ex.isel(mode_index=mode_ind).abs.plot(ax=axs[mode_ind, 0])
+                modes.Ey.isel(mode_index=mode_ind).abs.plot(ax=axs[mode_ind, 1])
+                modes.Ez.isel(mode_index=mode_ind).abs.plot(ax=axs[mode_ind, 2])
 
                 axs[mode_ind, 0].set_title(f"|Ex|: mode_index={mode_ind}")
                 axs[mode_ind, 1].set_title(f"|Ey|: mode_index={mode_ind}")
