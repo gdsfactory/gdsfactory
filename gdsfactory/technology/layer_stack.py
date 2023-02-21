@@ -1,9 +1,9 @@
 from typing import Any, Dict, List, Optional, Tuple
 
+from typing_extensions import Literal
 from pydantic import BaseModel, Field
 
 from gdsfactory.technology.layer_views import LayerViews
-from typing_extensions import Literal
 
 
 class LayerLevel(BaseModel):
@@ -48,13 +48,15 @@ class LayerLevel(BaseModel):
 
 
 class DerivedLayerLevel(LayerLevel):
-    layer: Optional[Tuple[int, int]] = None
+    layer: Optional[Tuple[int, int]]
     layer1: Optional[Tuple[int, int]]
     layer2: Optional[Tuple[int, int]]
     operator: Literal["-", "+", "&", "|"]
 
     """Level for 3D LayerStack.
+
     Parameters:
+        layer: (GDSII Layer number, GDSII datatype) for operation result.
         layer1: (GDSII Layer number, GDSII datatype).
         layer2: (GDSII Layer number, GDSII datatype).
         operator: can be
@@ -105,13 +107,63 @@ class LayerStack(BaseModel):
             if isinstance(val, LayerLevel):
                 self.layers[field] = val
 
-    def get_layer_to_thickness(self) -> Dict[Tuple[int, int], float]:
+    def get_layer_to_thickness(self, component) -> Dict[Tuple[int, int], float]:
         """Returns layer tuple to thickness (um)."""
-        return {
-            level.layer: level.thickness
-            for level in self.layers.values()
-            if level.thickness
-        }
+        layer_to_thickness = {}
+        component_layers = component.get_layers()
+
+        for level in self.layers.values():
+            layer = level.layer
+
+            if layer and level.thickness and layer in component_layers:
+                layer_to_thickness[layer] = level.thickness
+            elif hasattr(level, "operator"):
+                layer_to_thickness[level.layer] = level.thickness
+
+        return layer_to_thickness
+
+    def get_component_with_derived_layers(self, component):
+        """Returns component with derived layers."""
+        import gdstk
+
+        component_layers = component.get_layers()
+
+        non_derived_layers = []
+        derived_levels = []
+
+        for level in self.layers.values():
+            layer = level.layer
+
+            if layer and level.thickness:
+                if hasattr(level, "operator"):
+                    derived_levels.append(level)
+                elif layer in component_layers:
+                    non_derived_layers.append(layer)
+
+        component_derived = component.extract(layers=non_derived_layers)
+
+        for derived_level in derived_levels:
+            if derived_level.operator == "-":
+                operation = "not"
+            elif derived_level.operator == "&":
+                operation = "and"
+            elif derived_level.operator in ["|", "+"]:
+                operation = "or"
+
+            gds_layer, gds_datatype = derived_level.layer
+            A_polys = component.get_polygons(by_spec=derived_level.layer1)
+            B_polys = component.get_polygons(by_spec=derived_level.layer2)
+            p = gdstk.boolean(
+                operand1=A_polys,
+                operand2=B_polys,
+                operation=operation,
+                layer=gds_layer,
+                datatype=gds_datatype,
+            )
+            component_derived.add(p)
+        component_derived.add_ports(component.ports)
+        component_derived.name = f"{component.name}_derived_layers"
+        return component_derived
 
     def get_layer_to_zmin(self) -> Dict[Tuple[int, int], float]:
         """Returns layer tuple to z min position (um)."""
@@ -155,9 +207,9 @@ class LayerStack(BaseModel):
         layer_views: Optional[LayerViews] = None,
         dbu: Optional[float] = 0.001,
     ) -> str:
-        """Prints script for 2.5 view KLayout information.
+        """Returns script for 2.5D view in KLayout.
 
-        You can add this information in your tech.lyt
+        You can include this information in your tech.lyt
 
         Args:
             layer_views: optional layer_views.
@@ -170,14 +222,14 @@ class LayerStack(BaseModel):
             [
                 f"{layer_name} = input({level.layer[0]}, {level.layer[1]})"
                 for layer_name, level in self.layers.items()
-                if hasattr(level, "layer") and level.layer
+                if not hasattr(level, "operator") and level.layer
             ]
         )
         out += "\n"
 
         # define derived layers
         for layer_name, level in self.layers.items():
-            if hasattr(level, "layer1"):
+            if hasattr(level, "operator"):
                 out += f"{layer_name} = input({level.layer1[0]}, {level.layer1[1]}) {level.operator} input({level.layer2[0]}, {level.layer2[1]})\n"
 
         out += "\n"
@@ -190,7 +242,7 @@ class LayerStack(BaseModel):
             if layer:
                 name = f"{layer_name}: {level.material} {layer[0]}/{layer[1]}"
 
-            elif hasattr(level, "layer1"):
+            elif hasattr(level, "operator"):
                 name = f"{layer_name}: {level.material}"
 
             else:
@@ -223,10 +275,20 @@ class LayerStack(BaseModel):
 
 
 if __name__ == "__main__":
+    import gdsfactory as gf
     from gdsfactory.generic_tech import LAYER_STACK
 
-    script = LAYER_STACK.get_klayout_3d_script()
-    print(script)
+    component = c = gf.components.grating_coupler_elliptical_trenches()
+
+    # script = LAYER_STACK.get_klayout_3d_script()
+    # print(script)
+
+    layer_stack = LAYER_STACK
+    layer_to_thickness = layer_stack.get_layer_to_thickness(component)
+
+    c2 = layer_stack.get_component_with_derived_layers(component)
+    c2.show(show_ports=True)
+
     # import pathlib
     # filepath = pathlib.Path(
     #     "/home/jmatres/gdslib/sp/temp/write_sparameters_meep_mpi.json"
