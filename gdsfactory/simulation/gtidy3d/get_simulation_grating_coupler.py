@@ -468,25 +468,27 @@ def get_simulation_grating_coupler(
 
         if is_3d:
             fig, axs = plt.subplots(num_modes, 2, figsize=(12, 12))
-        else:
-            fig, axs = plt.subplots(num_modes, 3, figsize=(12, 12))
-
-        for mode_ind in range(num_modes):
-            if is_3d:
+            for mode_ind in range(num_modes):
                 modes.Ey.isel(mode_index=mode_ind).abs.plot(
                     x="y", y="z", cmap="magma", ax=axs[mode_ind, 0]
                 )
                 modes.Ez.isel(mode_index=mode_ind).abs.plot(
                     x="y", y="z", cmap="magma", ax=axs[mode_ind, 1]
                 )
-            else:
-                modes.Ex.isel(mode_index=mode_ind).abs.plot(ax=axs[mode_ind, 0])
-                modes.Ey.isel(mode_index=mode_ind).abs.plot(ax=axs[mode_ind, 1])
-                modes.Ez.isel(mode_index=mode_ind).abs.plot(ax=axs[mode_ind, 2])
+        else:
+            fig, axs = plt.subplots(num_modes, 3, figsize=(12, 12))
+            for mode_ind in range(num_modes):
+                ax1 = axs[mode_ind, 0]
+                ax2 = axs[mode_ind, 1]
+                ax3 = axs[mode_ind, 2]
 
-                axs[mode_ind, 0].set_title(f"|Ex|: mode_index={mode_ind}")
-                axs[mode_ind, 1].set_title(f"|Ey|: mode_index={mode_ind}")
-                axs[mode_ind, 2].set_title(f"|Ez|: mode_index={mode_ind}")
+                modes.Ex.isel(mode_index=mode_ind).abs.plot(ax=ax1)
+                modes.Ey.isel(mode_index=mode_ind).abs.plot(ax=ax2)
+                modes.Ez.isel(mode_index=mode_ind).abs.plot(ax=ax3)
+
+                ax1.set_title(f"|Ex|: mode_index={mode_ind}")
+                ax2.set_title(f"|Ey|: mode_index={mode_ind}")
+                ax3.set_title(f"|Ez|: mode_index={mode_ind}")
 
         if is_3d:
             axs[mode_ind, 0].set_aspect("equal")

@@ -183,7 +183,12 @@ def get_simulation(
     assert isinstance(component, Component)
 
     layer_stack = layer_stack or get_layer_stack()
-    boundary_spec = boundary_spec or td.BoundarySpec.all_sides(boundary=td.PML())
+    boundary_spec = boundary_spec or (
+        td.BoundarySpec.all_sides(boundary=td.PML()) if is_3d else
+        td.BoundarySpec(
+            x=td.Boundary.pml(), y=td.Boundary.periodic(), z=td.Boundary.pml(),
+        )
+    )
 
     wavelength = (wavelength_start + wavelength_stop) / 2
     grid_spec = grid_spec or td.GridSpec.auto(wavelength=wavelength)
@@ -384,16 +389,20 @@ def get_simulation(
             simulation=sim, plane=src_plane, freqs=[freq0], mode_spec=mode_spec
         )
         modes = ms.solve()
-        print("Effective index of computed modes: ", np.array(modes.n_eff))
+
+        print(
+            "Effective index of computed modes: ",
+            ", ".join([f"{n_eff:1.4f}" for n_eff in modes.n_eff.isel(f=0).values]),
+        )
 
         if is_3d:
             fig, axs = plt.subplots(num_modes, 2, figsize=(12, 12))
             for mode_ind in range(num_modes):
-                ms.plot_field(
-                    "Ey", "abs", f=freq0, mode_index=mode_ind, ax=axs[mode_ind, 0]
+                modes.Ey.isel(mode_index=mode_ind).abs.plot(
+                    x="y", y="z", cmap="magma", ax=axs[mode_ind, 0]
                 )
-                ms.plot_field(
-                    "Ez", "abs", f=freq0, mode_index=mode_ind, ax=axs[mode_ind, 1]
+                modes.Ez.isel(mode_index=mode_ind).abs.plot(
+                    x="y", y="z", cmap="magma", ax=axs[mode_ind, 1]
                 )
         else:
             fig, axs = plt.subplots(num_modes, 3, figsize=(12, 12))
@@ -402,9 +411,9 @@ def get_simulation(
                 ax2 = axs[mode_ind, 1]
                 ax3 = axs[mode_ind, 2]
 
-                abs(modes.fields.Ex.sel(mode_index=mode_ind).abs).plot(ax=ax1)
-                abs(modes.fields.Ey.sel(mode_index=mode_ind).abs).plot(ax=ax2)
-                abs(modes.fields.Ez.sel(mode_index=mode_ind).abs).plot(ax=ax3)
+                modes.Ex.isel(mode_index=mode_ind).abs.plot(ax=ax1)
+                modes.Ey.isel(mode_index=mode_ind).abs.plot(ax=ax2)
+                modes.Ez.isel(mode_index=mode_ind).abs.plot(ax=ax3)
 
                 ax1.set_title(f"|Ex|: mode_index={mode_ind}")
                 ax2.set_title(f"|Ey|: mode_index={mode_ind}")
