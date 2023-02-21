@@ -10,7 +10,7 @@ settings:
       end_straight_length: 0.2
       fiber_angle: 15.0
       grating_line_width: 0.343
-      layer_trench: SLAB150
+      layer_trench: SHALLOW_ETCH
       n_periods: 30
       ncladding: 1.443
       neff: 2.638
@@ -25,7 +25,7 @@ settings:
       end_straight_length: 0.2
       fiber_angle: 15.0
       grating_line_width: 0.343
-      layer_trench: SLAB150
+      layer_trench: SHALLOW_ETCH
       n_periods: 30
       ncladding: 1.443
       neff: 2.638
