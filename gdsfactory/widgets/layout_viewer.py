@@ -23,13 +23,25 @@ except ImportError as e:
 
 
 class LayoutViewer:
-    def __init__(self, filepath: str, layer_properties: Optional[str]):
+    def __init__(
+        self,
+        filepath: str,
+        layer_properties: Optional[str],
+        hide_unused_layers: bool = True,
+    ):
         filepath = str(filepath)
         layer_properties = str(layer_properties)
+        self.hide_unused_layers = hide_unused_layers
         self.filepath = filepath
         self.layer_properties = layer_properties
+
         self.layout_view = lay.LayoutView()
         self.load_layout(filepath, layer_properties)
+
+        if self.hide_unused_layers:
+            self.layout_view.remove_unused_layers()
+            self.layout_view.reload_layout(self.layout_view.current_layer_list)
+
         pixel_buffer = self.layout_view.get_pixels_with_options(800, 600)
         png_data = pixel_buffer.to_png_data()
         self.image = Image(value=png_data, format="png")
@@ -52,8 +64,8 @@ class LayoutViewer:
             right_sidebar=self.layer_selector_tabs,
             left_sidebar=None,
             # footer=VBox([self.wheel_info, self.mouse_info]),
-            align_items="bottom",
-            justify_items="center",
+            align_items="top",
+            justify_items="left",
         )
 
     def button_toggle(self, button):
