@@ -215,10 +215,9 @@ class LayerStack(BaseModel):
         out += "\n"
         out += "\n"
 
-
         # define unetched layers
         for layer_name_etched, etching_layers in unetched_layers_dict.items():
-            etching_layers = ' - '.join(etching_layers)
+            etching_layers = " - ".join(etching_layers)
             out += f"unetched_{layer_name_etched} = {layer_name_etched} - {etching_layers}\n"
 
         out += "\n"
@@ -251,28 +250,6 @@ class LayerStack(BaseModel):
                     unetched_level = self.layers[layer1]
                     unetched_zmin = unetched_level.zmin
                     unetched_zmax = unetched_zmin + unetched_level.thickness
-
-                #     unetched_layer_name = f"unetched_{layer1}_{i}"
-                #     name = f"{unetched_layer_name}: {level.material} {layer[0]}/{layer[1]}"
-                #     txt = (
-                #         f"z("
-                #         f"{unetched_layer_name}, "
-                #         f"zstart: {unetched_zmin}, "
-                #         f"zstop: {unetched_zmax}, "
-                #         f"name: '{name}'"
-                #     )
-                #     if layer_views:
-                #         txt += ", "
-                #         props = layer_views.get_from_tuple(layer)
-                #         if props.color.fill == props.color.frame:
-                #             txt += f"color: {props.color.fill}"
-                #         else:
-                #             txt += (
-                #                 f"fill: {props.color.fill}, "
-                #                 f"frame: {props.color.frame}"
-                #             )
-                #     txt += ")"
-                #     out += f"{txt}\n"
 
                     # slab
                     slab_layer_name = f"slab_{layer1}_{layer_name}_{i}"
@@ -323,7 +300,7 @@ class LayerStack(BaseModel):
                 out += f"{txt}\n"
 
         out += "\n"
-    
+
         for layer_name in unetched_layers_dict.keys():
             unetched_level = self.layers[layer_name]
             layer = unetched_level.layer
@@ -347,10 +324,7 @@ class LayerStack(BaseModel):
                 if props.color.fill == props.color.frame:
                     txt += f"color: {props.color.fill}"
                 else:
-                    txt += (
-                        f"fill: {props.color.fill}, "
-                        f"frame: {props.color.frame}"
-                    )
+                    txt += f"fill: {props.color.fill}, " f"frame: {props.color.frame}"
             txt += ")"
             out += f"{txt}\n"
 
