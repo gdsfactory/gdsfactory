@@ -11,8 +11,6 @@ PDK.activate()
 
 def test_meow_defaults():
     c = gf.components.taper_cross_section_linear()
-    c.show()
-
     filtered_layerstack = LayerStack(
         layers={
             k: get_layer_stack().layers[k]
