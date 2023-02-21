@@ -250,7 +250,7 @@ class MEOW:
                     ),
                     h_min=layer.zmin,
                     h_max=layer.zmin + layer.thickness,
-                    mesh_order=layer.info["mesh_order"],
+                    mesh_order=layer.mesh_order,
                 )
             )
         return extrusions
