@@ -23,7 +23,6 @@ def coupler_straight_asymmetric(
         kwargs: cross_section settings.
     """
     component = Component()
-    # straight_component = straight(length=length, **kwargs)
 
     top = component << straight(length=length, width=width_top, **kwargs)
     bot = component << straight(length=length, width=width_bot, **kwargs)
