@@ -6,7 +6,7 @@ settings:
     layer_wg: WG
     length: 10.0
     slab_offset: 3.0
-    trench_layer: SLAB90
+    trench_layer: DEEP_ETCH
     trench_offset: 0.1
     trench_width: 2.0
     width: 0.5
@@ -14,7 +14,7 @@ settings:
     layer_wg: WG
     length: 10.0
     slab_offset: 3.0
-    trench_layer: SLAB90
+    trench_layer: DEEP_ETCH
     trench_offset: 0.1
     trench_width: 2.0
     width: 0.5

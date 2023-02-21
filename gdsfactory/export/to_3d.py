@@ -44,13 +44,20 @@ def to_3d(
     exclude_layers = exclude_layers or ()
     # layers = layer_views.layer_map.values()
 
+    component_with_booleans = layer_stack.get_component_with_derived_layers(component)
+    component_layers = component_with_booleans.get_layers()
+    component_with_booleans.show()
+
     has_polygons = False
 
-    for layer, polygons in component.get_polygons(by_spec=True, as_array=False).items():
+    for layer, polygons in component_with_booleans.get_polygons(
+        by_spec=True, as_array=False
+    ).items():
         if (
             layer not in exclude_layers
             and layer in layer_to_zmin
             and layer in layer_to_thickness
+            and layer in component_layers
         ):
             height = layer_to_thickness[layer]
             zmin = layer_to_zmin[layer]
@@ -82,9 +89,11 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     # c = gf.components.taper_strip_to_ridge()
-    c = gf.Component()
-    c << gf.components.straight_heater_metal(length=40)
-    c << gf.c.rectangle(layer=(113, 0))
+    # c = gf.Component()
+    # c << gf.components.straight_heater_metal(length=40)
+    # c << gf.c.rectangle(layer=(113, 0))
+    c = gf.components.grating_coupler_elliptical_trenches()
+    # c = gf.components.taper_strip_to_ridge_trenches()
 
     c.show()
     s = c.to_3d()

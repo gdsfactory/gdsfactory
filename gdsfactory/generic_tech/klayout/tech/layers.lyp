@@ -52,6 +52,23 @@
   <source>2/0@1</source>
  </properties>
  <properties>
+  <frame-color>#0000ff</frame-color>
+  <fill-color>#0000ff</fill-color>
+  <frame-brightness>0</frame-brightness>
+  <fill-brightness>0</fill-brightness>
+  <dither-pattern>I3</dither-pattern>
+  <line-style/>
+  <valid>true</valid>
+  <visible>true</visible>
+  <transparent>false</transparent>
+  <width/>
+  <marked>false</marked>
+  <xfill>false</xfill>
+  <animation>0</animation>
+  <name>SHALLOW_ETCH 2/6</name>
+  <source>2/6@1</source>
+ </properties>
+ <properties>
   <frame-color>#805000</frame-color>
   <fill-color>#805000</fill-color>
   <frame-brightness>0</frame-brightness>
@@ -69,28 +86,11 @@
   <source>3/0@1</source>
  </properties>
  <properties>
-  <frame-color>#0000ff</frame-color>
-  <fill-color>#0000ff</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I3</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>false</transparent>
-  <width/>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name>SHALLOWETCH 2/6</name>
-  <source>2/6@1</source>
- </properties>
- <properties>
   <frame-color>#cc0000</frame-color>
   <fill-color>#cc0000</fill-color>
   <frame-brightness>0</frame-brightness>
   <fill-brightness>0</fill-brightness>
-  <dither-pattern>I3</dither-pattern>
+  <dither-pattern>I4</dither-pattern>
   <line-style/>
   <valid>true</valid>
   <visible>true</visible>
@@ -99,7 +99,7 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>DEEPETCH 3/6</name>
+  <name>DEEP_ETCH 3/6</name>
   <source>3/6@1</source>
  </properties>
  <properties>

@@ -18,6 +18,11 @@ LayerViews:
     transparent: true
     width: 1
     color: "cyan"
+  SHALLOW_ETCH:
+    layer: [2, 6]
+    layer_in_name: true
+    hatch_pattern: coarsely dotted
+    color: "blue"
   SLAB90:
     layer: [3, 0]
     layer_in_name: true
@@ -25,15 +30,10 @@ LayerViews:
     transparent: true
     width: 1
     color: "#805000"
-  SHALLOWETCH:
-    layer: [2, 6]
-    layer_in_name: true
-    hatch_pattern: coarsely dotted
-    color: "blue"
-  DEEPETCH:
+  DEEP_ETCH:
     layer: [3, 6]
     layer_in_name: true
-    hatch_pattern: coarsely dotted
+    hatch_pattern: left-hatched
     color: "#cc0000"
   SLAB150CLAD:
     layer: [2, 9]

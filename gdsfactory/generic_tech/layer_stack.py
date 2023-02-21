@@ -7,6 +7,8 @@ nm = 1e-3
 def get_layer_stack(
     thickness_wg: float = 220 * nm,
     thickness_slab_deep_etch: float = 90 * nm,
+    thickness_slab_shallow_etch: float = 150 * nm,
+    sidewall_angle_wg: float = 10,
     thickness_clad: float = 3.0,
     thickness_nitride: float = 350 * nm,
     thickness_ge: float = 500 * nm,
@@ -29,6 +31,8 @@ def get_layer_stack(
     Args:
         thickness_wg: waveguide thickness in um.
         thickness_slab_deep_etch: for deep etched slab.
+        thickness_shallow_etch: thickness for the etch.
+        sidewall_angle_wg: waveguide side angle.
         thickness_clad: cladding thickness in um.
         thickness_nitride: nitride thickness in um.
         thickness_ge: germanium thickness.
@@ -44,6 +48,9 @@ def get_layer_stack(
         box_thickness: bottom oxide thickness in um.
         undercut_thickness: thickness of the silicon undercut.
     """
+
+    thickness_deep_etch = thickness_wg - thickness_slab_deep_etch
+    thickness_shallow_etch = thickness_wg - thickness_slab_shallow_etch
 
     class GenericLayerStack(LayerStack):
         substrate = LayerLevel(
@@ -65,9 +72,29 @@ def get_layer_stack(
             thickness=thickness_wg,
             zmin=0.0,
             material="si",
-            info={"mesh_order": 1},
-            sidewall_angle=10,
+            mesh_order=2,
+            sidewall_angle=sidewall_angle_wg,
             width_to_z=0.5,
+        )
+        shallow_etch = LayerLevel(
+            layer=LAYER.SHALLOW_ETCH,
+            thickness=thickness_shallow_etch,
+            zmin=0.0,
+            material="si",
+            mesh_order=1,
+            layer_type="etch",
+            into=["core"],
+            derived_layer=LAYER.SLAB150,
+        )
+        deep_etch = LayerLevel(
+            layer=LAYER.DEEP_ETCH,
+            thickness=thickness_deep_etch,
+            zmin=0.0,
+            material="si",
+            mesh_order=1,
+            layer_type="etch",
+            into=["core"],
+            derived_layer=LAYER.SLAB90,
         )
         clad = LayerLevel(
             # layer=LAYER.WGCLAD,
@@ -174,8 +201,9 @@ def get_layer_stack(
 LAYER_STACK = get_layer_stack()
 
 if __name__ == "__main__":
-    ls = get_layer_stack(substrate_thickness=50.0)
-    # print(ls)
-    # ls.get_klayout_3d_script()
+    # ls = get_layer_stack(substrate_thickness=50.0)
+    ls = get_layer_stack()
+    script = ls.get_klayout_3d_script()
+    print(script)
     # print(ls.get_layer_to_material())
     # print(ls.get_layer_to_thickness())
