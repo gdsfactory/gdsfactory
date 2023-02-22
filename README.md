@@ -227,11 +227,12 @@ Contributors (in chronological order):
 - Sky Chilstedt (Rockley): improvements to API and docs.
 - Lawrence (University of Bristol): for fixing rename ports by orientation.
 - Edward Deacon (University of Bristol): for coupler_straight_asymmetric.
+- Lucas Heitzmann (Flexcompute): for tidy3d simulation plugin and MZI filter example.
 
 Open source heroes:
 
 - Matthias Köfferlein: Klayout
-- Lucas Heitzmann (University of Campinas, Brazil): for gdstk
+- Lucas Heitzmann (Flexcompute): for gdstk
 - Adam McCaughan (NIST): phidl. Inspiration for geometry manipulation.
 - Alex Tait (Queens University): lytest inspiration for gdsfactory testing GDS framework.
 - Thomas Ferreira de Lima (NEC): `pip install klayout` python API.

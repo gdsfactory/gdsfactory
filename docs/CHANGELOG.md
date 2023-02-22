@@ -4,6 +4,9 @@
 
 - Add layer selector widget to notebook view [PR](https://github.com/gdsfactory/gdsfactory/pull/1312)
 - Sweep Fabrication [PR](https://github.com/gdsfactory/gdsfactory/pull/1309)
+- Adding mode converter [PR](https://github.com/gdsfactory/gdsfactory/pull/1325)
+- Add cascaded MZI filter example [PR](https://github.com/gdsfactory/gdsfactory/pull/1323)
+- Derived layers work for more than one etched layer [PR](https://github.com/gdsfactory/gdsfactory/pull/1318)
 
 ## [6.43.0](https://github.com/gdsfactory/gdsfactory/pull/1297)
 
