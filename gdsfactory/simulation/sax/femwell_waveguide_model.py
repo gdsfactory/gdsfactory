@@ -9,7 +9,7 @@ import ray
 from itertools import product
 
 
-@ray.remote
+@ray.remote(num_gpus=1, num_cpus=1)
 def remote_output_from_inputs(
     cross_section,
     layerstack,
@@ -60,6 +60,9 @@ class FemwellWaveguideModel(Model):
         # For all combinations of parameter values
         input_ids = []
         output_ids = []
+        remote_function = remote_output_from_inputs.options(
+            num_cpus=self.num_cpus_per_task, num_gpus=self.num_gpus_per_task
+        )
         for values in product(*ranges_dict.values()):
             # Prepare this specific input vector
             input_dict = dict(
@@ -89,7 +92,7 @@ class FemwellWaveguideModel(Model):
             )
             # Assign the task to a worker as input, new_inputs, output_vector
             input_ids.append(values)
-            output_ids.append(remote_output_from_inputs.remote(**function_input))
+            output_ids.append(remote_function.remote(**function_input))
 
         # Execute the jobs
         results = ray.get(output_ids)

@@ -30,6 +30,8 @@ class Model:
         simulation_settings: Optional[Dict[str, Union[float, str, int, Path]]] = None,
         num_modes: int = 2,
         port_symmetries: Optional[PortSymmetries] = None,
+        num_cpus_per_task: int = 1,
+        num_gpus_per_task: int = 0,
         *args,
         **kwargs,
     ) -> None:
@@ -60,6 +62,8 @@ class Model:
             port_symmetries: as defined in FDTD solvers. Dict establishing equivalency between S-parameters.
                 e.g. {"o1@0,o1@0": ["o2@0,o2@0", "o3@0,o3@0", "o4@0,o4@0"]} means that S22 = S33 = S44 are the same as S11,
                 and hence the output vector for model training will only contain the key S11 to reduce the number of variables to fit.
+            num_cpus_per_task: number of CPUs to assign to each task
+            num_gpus_per_task: number of GPUs to assign to each task
         """
         self.trainable_component = trainable_component
         self.layerstack = layerstack
@@ -83,6 +87,10 @@ class Model:
 
         # self.size_outputs = self.num_ports * self.num_modes
         self.port_symmetries = port_symmetries
+
+        # Resources
+        self.num_cpus_per_task = num_cpus_per_task
+        self.num_gpus_per_task = num_gpus_per_task
 
     def get_nominal_dict(self):
         """Return input_dict of nominal parameter values."""
