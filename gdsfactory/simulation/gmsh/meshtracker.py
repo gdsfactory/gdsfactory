@@ -5,6 +5,7 @@ from collections import OrderedDict
 import shapely
 from shapely.geometry import LineString, Point, Polygon
 from shapely.ops import linemerge, split
+import numpy as np
 
 
 class MeshTracker:
@@ -189,7 +190,10 @@ class MeshTracker:
 
 
 def break_line(line, other_line):
+    initial_settings = np.seterr()
+    np.seterr(invalid="ignore")
     intersections = line.intersection(other_line)
+    np.seterr(**initial_settings)
     if not intersections.is_empty:
         for intersection in (
             intersections.geoms if hasattr(intersections, "geoms") else [intersections]

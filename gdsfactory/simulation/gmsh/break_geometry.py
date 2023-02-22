@@ -5,10 +5,14 @@ from shapely.geometry import LineString, MultiLineString, MultiPolygon, Polygon
 from shapely.ops import linemerge, split
 
 from gdsfactory.simulation.gmsh.parse_gds import tile_shapes
+import numpy as np
 
 
 def break_line(line, other_line):
+    initial_settings = np.seterr()
+    np.seterr(invalid="ignore")
     intersections = line.intersection(other_line)
+    np.seterr(**initial_settings)
     if not intersections.is_empty:
         for intersection in (
             intersections.geoms if hasattr(intersections, "geoms") else [intersections]
