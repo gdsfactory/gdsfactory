@@ -5,6 +5,41 @@ from sax.utils import reciprocal
 from gdsfactory.pdk import get_layer_stack
 from gdsfactory.simulation.fem.mode_solver import compute_cross_section_modes
 from gdsfactory.simulation.sax.build_model import Model
+import ray
+from itertools import product
+
+
+@ray.remote
+def remote_output_from_inputs(
+    cross_section,
+    layerstack,
+    wavelength,
+    num_modes,
+    order,
+    radius,
+    mesh_filename,
+    resolutions,
+    overwrite,
+    with_cache,
+):
+    lams, basis, xs = compute_cross_section_modes(
+        cross_section=cross_section,
+        layerstack=layerstack,
+        wl=wavelength,
+        num_modes=num_modes,
+        order=order,
+        radius=radius,
+        mesh_filename="mesh.msh",
+        resolutions=resolutions,
+        overwrite=overwrite,
+        with_cache=True,
+    )
+
+    # Vector of reals
+    real_neffs = np.real(lams)
+    imag_neffs = np.imag(lams)
+
+    return [], np.hstack((real_neffs, imag_neffs))
 
 
 class FemwellWaveguideModel(Model):
@@ -17,32 +52,63 @@ class FemwellWaveguideModel(Model):
 
         return None
 
-    def outputs_from_inputs(self, input_dict):
+    def get_model_input_output(self, type="arange"):
         """For the mode solver, results vectors is neffs."""
-        param_dict, layerstack_param_dict, litho_param_dict = self.parse_input_dict(
-            input_dict
+
+        # Define possible parameter values
+        ranges_dict = self.arange_inputs(type=type)
+        # For all combinations of parameter values
+        input_ids = []
+        output_ids = []
+        for values in product(*ranges_dict.values()):
+            # Prepare this specific input vector
+            input_dict = dict(
+                zip(ranges_dict.keys(), [float(value) for value in values])
+            )
+            # Parse input vector according to parameter type
+            param_dict, layerstack_param_dict, litho_param_dict = self.parse_input_dict(
+                input_dict
+            )
+            # Apply required transformations depending on parameter type
+            input_crosssection = self.trainable_component(param_dict).info[
+                "cross_section"
+            ]
+            input_layerstack = self.perturb_layerstack(layerstack_param_dict)
+            # Define function input given parameter values and transformed layerstack/component
+            function_input = dict(
+                cross_section=input_crosssection,
+                layerstack=input_layerstack,
+                wavelength=input_dict["wavelength"],
+                num_modes=self.num_modes,
+                order=self.simulation_settings["order"],
+                radius=self.simulation_settings["radius"],
+                mesh_filename="mesh.msh",
+                resolutions=self.simulation_settings["resolutions"],
+                overwrite=self.simulation_settings["overwrite"],
+                with_cache=True,
+            )
+            # Assign the task to a worker as input, new_inputs, output_vector
+            input_ids.append(values)
+            output_ids.append(remote_output_from_inputs.remote(**function_input))
+
+        # Execute the jobs
+        results = ray.get(output_ids)
+
+        # Parse the outputs into input and output vectors
+        input_vectors = []
+        output_vectors = []
+        for input_example, output_example in zip(
+            input_ids, results
+        ):  # TODO no for loops!
+            input_vector = list(input_example)
+            input_vector.extend(output_example[0])
+            input_vectors.append(input_vector)
+            output_vectors.append(output_example[1])
+
+        return (
+            jnp.array(input_vectors),
+            jnp.array(output_vectors),
         )
-        input_crosssection = self.component(param_dict).info["cross_section"]
-        input_layerstack = self.perturb_layerstack(layerstack_param_dict)
-
-        lams, basis, xs = compute_cross_section_modes(
-            cross_section=input_crosssection,
-            layerstack=input_layerstack,
-            wl=input_dict["wavelength"],
-            num_modes=self.num_modes,
-            order=self.simulation_settings["order"],
-            radius=self.simulation_settings["radius"],
-            mesh_filename="mesh.msh",
-            resolutions=self.simulation_settings["resolutions"],
-            overwrite=self.simulation_settings["overwrite"],
-            with_cache=True,
-        )
-
-        # Vector of reals
-        real_neffs = np.real(lams)
-        imag_neffs = np.imag(lams)
-
-        return [], np.hstack((real_neffs, imag_neffs))
 
     def sdict(self, input_dict):
         """Returns S-parameters SDict from component using interpolated neff and length."""
@@ -141,11 +207,11 @@ if __name__ == "__main__":
 
     # Sweep corners
     # input_vectors, output_vectors = rib_waveguide_model.get_model_input_output(
-    #     type="corners"
+    #     type="arange"
     # )
 
     # Sweep steps
-    # input_vectors, output_vectors = rib_waveguide_model.get_model_input_output()
+    input_vectors, output_vectors = rib_waveguide_model.get_model_input_output()
     interpolator = rib_waveguide_model.set_nd_nd_interp()
     # interpolator = rib_waveguide_model.set_mlp_interp()
 

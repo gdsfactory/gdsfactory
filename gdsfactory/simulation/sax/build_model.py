@@ -30,6 +30,8 @@ class Model:
         simulation_settings: Optional[Dict[str, Union[float, str, int, Path]]] = None,
         num_modes: int = 2,
         port_symmetries: Optional[PortSymmetries] = None,
+        *args,
+        **kwargs,
     ) -> None:
         """Utility class which simplifies the execution of simulations to build compact models for circuit simulations.
 
@@ -59,7 +61,7 @@ class Model:
                 e.g. {"o1@0,o1@0": ["o2@0,o2@0", "o3@0,o3@0", "o4@0,o4@0"]} means that S22 = S33 = S44 are the same as S11,
                 and hence the output vector for model training will only contain the key S11 to reduce the number of variables to fit.
         """
-        self.component = trainable_component
+        self.trainable_component = trainable_component
         self.layerstack = layerstack
         self.trainable_parameters = trainable_parameters or {}
         self.non_trainable_parameters = non_trainable_parameters or {}
@@ -168,18 +170,14 @@ class Model:
 
         return output_vector_labels
 
-    def get_model_input_output(self, type="arange"):
-        """Generate training data
-
-        Retrieve the input and output data for training the model by getting results on all trainable parameter input combinations.
+    def arange_inputs(self, type="arange"):
+        """Prepares input vectors for spanning simulation space.
 
         Arguments:
             type: str, arange or corners. Defines the iterator function to use with parameter objects.
 
         Returns:
-            input_vectors: shape should be [combination_inputs, length trainable_parameters]
-            output_vectors: shape should be [combination_inputs, 2 x num_modes x length port_symmetries]
-                factor of 2 from splitting complex numbers into 2 reals for training
+            ranges_dict: dict, with keys parameter names and values arrays of containing all unique parameter values.
         """
         if type == "arange":
             ranges_dict = {
@@ -193,24 +191,25 @@ class Model:
             }
         else:
             raise ValueError("Type should be arange or corners.")
-        input_vectors = []
-        output_vectors = []
 
-        for values in product(*ranges_dict.values(), desc="Getting examples: "):
-            # Compute results for this example
-            input_dict = dict(
-                zip(ranges_dict.keys(), [float(value) for value in values])
-            )
-            new_inputs, output_vector = self.outputs_from_inputs(input_dict)
-            input_vector = list(values)
-            input_vector.extend(iter(new_inputs))
-            input_vectors.append(input_vector)
-            output_vectors.append(output_vector)
+        return ranges_dict
 
-        return (
-            jnp.array(input_vectors),
-            jnp.array(output_vectors),
-        )
+    def get_model_input_output(self, type="arange"):
+        """Generate training data
+
+        Retrieve the input and output data for training the model by getting results on all trainable parameter input combinations.
+
+        **Implemented in the child classes.**
+
+        Arguments:
+            type: str, arange or corners. Defines the iterator function to use with parameter objects.
+
+        Returns:
+            input_vectors: shape should be [combination_inputs, length trainable_parameters]
+            output_vectors: shape should be [combination_inputs, 2 x num_modes x length port_symmetries]
+                factor of 2 from splitting complex numbers into 2 reals for training
+        """
+        return NotImplementedError
 
     def set_nd_nd_interp(self):
         """Returns ND-ND interpolator.
