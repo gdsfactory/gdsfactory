@@ -34,9 +34,6 @@ class SimulationSettingsLumericalFdtd(BaseModel):
     port_margin: float = 1.5
     port_extension: float = 5.0
     mesh_accuracy: int = 2
-    zmargin: float = 1.0
-    ymargin: float = 3.0
-    xmargin: float = 3.0
     wavelength_start: float = 1.2
     wavelength_stop: float = 1.6
     wavelength_points: int = 500

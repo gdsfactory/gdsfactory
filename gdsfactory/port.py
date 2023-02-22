@@ -136,9 +136,8 @@ class Port:
             else self.orientation,
             "layer": self.layer,
             "port_type": self.port_type,
+            "shear_angle": self.shear_angle,
         }
-        if self.shear_angle:
-            d["shear_angle"] = self.shear_angle
         return clean_value_json(d)
 
     def to_yaml(self) -> str:
@@ -978,15 +977,15 @@ __all__ = [
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.Component()
-    cross_section = gf.cross_section.strip
-    c.add_port(
-        "o1",
-        center=(0, 0),
-        orientation=0,
-        port_type="optical",
-        cross_section=cross_section,
-    )
+    # c = gf.Component()
+    # cross_section = gf.cross_section.strip()
+    # c.add_port(
+    #     "o1",
+    #     center=(0, 0),
+    #     orientation=0,
+    #     port_type="optical",
+    #     cross_section=cross_section,
+    # )
 
     # c = gf.components.straight_heater_metal()
     # c.auto_rename_ports()
@@ -999,3 +998,10 @@ if __name__ == "__main__":
     # print(p0)
     # print(type(p0.to_dict()["center"][0]))
     # p = Port("o1", orientation=0, center=(9, 0), layer=(1, 0), cross_section=)
+
+    c = gf.components.component_lattice()
+
+    df = c.get_ports_pandas()
+    print(df)
+
+    c.show()

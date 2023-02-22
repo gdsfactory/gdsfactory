@@ -1,5 +1,6 @@
 import numpy as np
 
+import gdsfactory as gf
 from gdsfactory.generic_tech import LAYER_STACK
 from gdsfactory.simulation.fem.mode_solver import compute_cross_section_modes
 from gdsfactory.technology import LayerStack
@@ -7,6 +8,9 @@ from femwell import mode_solver
 
 
 NUM_MODES = 1
+
+PDK = gf.get_generic_pdk()
+PDK.activate()
 
 
 def compute_modes(

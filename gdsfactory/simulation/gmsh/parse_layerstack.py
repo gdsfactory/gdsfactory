@@ -95,16 +95,13 @@ def order_layerstack(layerstack: LayerStack):
     """Orders layerstack according to mesh_order.
 
     Args:
-        layerstack: LayerStack
+        layerstack: LayerStack.
+
     Returns:
-        List of layernames: layerlevels dicts sorted by their mesh_order
+        List of layernames: layerlevels dicts sorted by their mesh_order.
     """
     layers = layerstack.to_dict()
-    mesh_orders = [
-        value["info"]["mesh_order"]
-        for value in layers.values()
-        if "mesh_order" in value["info"].keys()
-    ]
+    mesh_orders = [value["mesh_order"] for value in layers.values()]
     return [x for _, x in sorted(zip(mesh_orders, layers))]
 
 

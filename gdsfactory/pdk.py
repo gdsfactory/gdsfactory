@@ -13,7 +13,6 @@ from pydantic import BaseModel, Field, validator
 from gdsfactory.config import PATH, logger
 from gdsfactory.containers import containers as containers_default
 from gdsfactory.events import Event
-from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.materials import MaterialSpec
 from gdsfactory.materials import materials_index as materials_index_default
 from gdsfactory.read import cell_from_yaml
@@ -121,13 +120,21 @@ class Pdk(BaseModel):
             if can also contain material properties
             (refractive index, nonlinear coefficient, sheet resistance ...).
         layer_views: includes layer name to color, opacity and pattern.
+        layer_transitions: transitions between different cross_sections.
         sparameters_path: to store Sparameters simulations.
         modes_path: to store Sparameters simulations.
         interconnect_cml_path: path to interconnect CML (optional).
-        grid_size: in um. Defaults to 1nm.
         warn_off_grid_ports: raises warning when extruding paths with offgrid ports.
-            For example, if you try to create a waveguide with 1.5nm length.
         constants: dict of constants for the PDK.
+        materials_index: material spec names to material spec, which can be:
+            string: material name.
+            float: refractive index.
+            float, float: refractive index real and imaginary part.
+            function: function of wavelength.
+        routing_strategies: functions enabled to route.
+        circuit_yaml_parser: can parse different YAML formats.
+        gds_write_settings: to write GDSII files.
+        oasis_settings: to write OASIS files.
         bend_points_distance: default points distance for bends in um.
 
     """
@@ -175,7 +182,10 @@ class Pdk(BaseModel):
             "cross_sections": {"exclude": True},
             "cells": {"exclude": True},
             "containers": {"exclude": True},
+            "default_symbol_factory": {"exclude": True},
             "default_decorator": {"exclude": True},
+            "materials_index": {"exclude": True},
+            "circuit_yaml_parser": {"exclude": True},
         }
 
     @validator("sparameters_path")
@@ -537,65 +547,81 @@ class Pdk(BaseModel):
     #     return self._on_cross_section_registered
 
 
-GENERIC_PDK = get_generic_pdk()
-_ACTIVE_PDK = GENERIC_PDK
-
-
-def get_material_index(material: MaterialSpec, *args, **kwargs) -> Component:
-    return _ACTIVE_PDK.get_material_index(material, *args, **kwargs)
-
-
-def get_component(component: ComponentSpec, **kwargs) -> Component:
-    return _ACTIVE_PDK.get_component(component, **kwargs)
-
-
-def get_cell(cell: CellSpec, **kwargs) -> ComponentFactory:
-    return _ACTIVE_PDK.get_cell(cell, **kwargs)
-
-
-def get_cross_section(cross_section: CrossSectionSpec, **kwargs) -> CrossSection:
-    return _ACTIVE_PDK.get_cross_section(cross_section, **kwargs)
-
-
-def get_layer(layer: LayerSpec) -> Layer:
-    return _ACTIVE_PDK.get_layer(layer)
-
-
-def get_layer_views() -> LayerViews:
-    return _ACTIVE_PDK.get_layer_views()
-
-
-def get_layer_stack() -> LayerStack:
-    return _ACTIVE_PDK.get_layer_stack()
+_ACTIVE_PDK = None
 
 
 def get_active_pdk() -> Pdk:
+    global _ACTIVE_PDK
+    if _ACTIVE_PDK is None:
+        logger.warning(
+            "No active PDK.\n"
+            "Activating the generic PDK\n"
+            "import gdsfactory as gf \n"
+            "PDK = gf.get_generic_pdk()\n"
+            "PDK.activate()"
+        )
+        import gdsfactory as gf
+
+        PDK = gf.get_generic_pdk()
+        PDK.activate()
+        _ACTIVE_PDK = PDK
     return _ACTIVE_PDK
 
 
+def get_material_index(material: MaterialSpec, *args, **kwargs) -> Component:
+    return get_active_pdk().get_material_index(material, *args, **kwargs)
+
+
+def get_component(component: ComponentSpec, **kwargs) -> Component:
+    return get_active_pdk().get_component(component, **kwargs)
+
+
+def get_cell(cell: CellSpec, **kwargs) -> ComponentFactory:
+    return get_active_pdk().get_cell(cell, **kwargs)
+
+
+def get_cross_section(cross_section: CrossSectionSpec, **kwargs) -> CrossSection:
+    return get_active_pdk().get_cross_section(cross_section, **kwargs)
+
+
+def get_layer(layer: LayerSpec) -> Layer:
+    return get_active_pdk().get_layer(layer)
+
+
+def get_layer_views() -> LayerViews:
+    return get_active_pdk().get_layer_views()
+
+
+def get_layer_stack() -> LayerStack:
+    return get_active_pdk().get_layer_stack()
+
+
 def get_grid_size() -> float:
-    return _ACTIVE_PDK.grid_size
+    return get_active_pdk().grid_size
 
 
 def get_constant(constant_name: Any) -> Any:
     """If constant_name is a string returns a the value from the dict."""
-    return _ACTIVE_PDK.get_constant(constant_name)
+    return get_active_pdk().get_constant(constant_name)
 
 
 def get_sparameters_path() -> pathlib.Path:
-    if _ACTIVE_PDK.sparameters_path is None:
+    PDK = get_active_pdk()
+    if PDK.sparameters_path is None:
         raise ValueError(f"{_ACTIVE_PDK.name!r} has no sparameters_path")
-    return _ACTIVE_PDK.sparameters_path
+    return PDK.sparameters_path
 
 
 def get_modes_path() -> Optional[pathlib.Path]:
-    return _ACTIVE_PDK.modes_path
+    PDK = get_active_pdk()
+    return PDK.modes_path
 
 
 def get_interconnect_cml_path() -> pathlib.Path:
-    if _ACTIVE_PDK.interconnect_cml_path is None:
+    PDK = get_active_pdk()
+    if PDK.interconnect_cml_path is None:
         raise ValueError(f"{_ACTIVE_PDK.name!r} has no interconnect_cml_path")
-    return _ACTIVE_PDK.interconnect_cml_path
+    return PDK.interconnect_cml_path
 
 
 def _set_active_pdk(pdk: Pdk) -> None:
@@ -633,10 +659,6 @@ if __name__ == "__main__":
     from gdsfactory.components import cells
     from gdsfactory.cross_section import cross_sections
 
-    # c = _ACTIVE_PDK.get_component("straight")
-    # print(c.settings)
-    # on_pdk_activated += print
-    # set_active_pdk(GENERIC)
     c = Pdk(
         name="demo",
         cells=cells,
@@ -644,4 +666,4 @@ if __name__ == "__main__":
         # layers=dict(DEVREC=(3, 0), PORTE=(3, 5)),
         sparameters_path="/home",
     )
-    print(c.layers)
+    print(c.json())

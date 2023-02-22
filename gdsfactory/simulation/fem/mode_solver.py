@@ -7,7 +7,7 @@ from femwell import mode_solver
 
 import gdsfactory as gf
 from gdsfactory.config import logger
-from gdsfactory.pdk import _ACTIVE_PDK, get_layer_stack
+from gdsfactory.pdk import get_layer_stack, get_material_index
 from gdsfactory.simulation.get_modes_path import get_modes_path_femwell
 from gdsfactory.technology import LayerStack
 from gdsfactory.typings import CrossSectionSpec, PathType, ComponentSpec
@@ -180,11 +180,11 @@ def compute_component_slice_modes(
     for layername, layer in layerstack.layers.items():
         if layername in mesh.subdomains.keys():
             epsilon[basis0.get_dofs(elements=layername)] = (
-                _ACTIVE_PDK.materials_index[layer.material](wl) ** 2
+                get_material_index(layer.material, wl) ** 2
             )
         if "background_tag" in kwargs:
             epsilon[basis0.get_dofs(elements=kwargs["background_tag"])] = (
-                _ACTIVE_PDK.materials_index[kwargs["background_tag"]](wl) ** 2
+                get_material_index(kwargs["background_tag"], wl) ** 2
             )
 
     # Mode solve
@@ -207,6 +207,9 @@ def compute_component_slice_modes(
 
 
 if __name__ == "__main__":
+    PDK = gf.get_generic_pdk()
+    PDK.activate()
+
     start = time.time()
 
     filtered_layerstack = LayerStack(
