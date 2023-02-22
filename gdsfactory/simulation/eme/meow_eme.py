@@ -12,7 +12,7 @@ from tqdm.auto import tqdm
 import gdsfactory as gf
 from gdsfactory.config import logger
 from gdsfactory.generic_tech import LAYER
-from gdsfactory.pdk import _ACTIVE_PDK
+from gdsfactory.pdk import get_active_pdk
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_meow as get_sparameters_path,
 )
@@ -182,7 +182,8 @@ class MEOW:
         """Converts a gdsfactory material into a MEOW material."""
         wavelengths = wavelengths or np.linspace(1.5, 1.6, 101)
         color = color or (0.9, 0.9, 0.9, 0.9)
-        ns = _ACTIVE_PDK.materials_index[material_name](wavelengths)
+        PDK = get_active_pdk()
+        ns = PDK.materials_index[material_name](wavelengths)
         if ns.dtype in [np.float64, np.float32]:
             nr = ns
             ni = np.zeros_like(ns)
@@ -249,7 +250,7 @@ class MEOW:
                     ),
                     h_min=layer.zmin,
                     h_max=layer.zmin + layer.thickness,
-                    mesh_order=layer.info["mesh_order"],
+                    mesh_order=layer.mesh_order,
                 )
             )
         return extrusions

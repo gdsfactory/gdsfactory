@@ -19,7 +19,7 @@ from gdsfactory.technology import LayerStack
 
 def get_simulation_grating_coupler(
     component: Component,
-    port_extension: Optional[float] = 15.0,
+    port_extension: Optional[float] = 10.0,
     layer_stack: Optional[LayerStack] = None,
     thickness_pml: float = 1.0,
     xmargin: float = 0,
@@ -44,7 +44,7 @@ def get_simulation_grating_coupler(
     num_modes: int = 2,
     run_time_ps: float = 10.0,
     fiber_port_prefix: str = "opt",
-    fiber_xoffset: float = 0,
+    fiber_xoffset: float = -7,
     fiber_z: float = 2,
     fiber_mfd: float = 10.4,
     fiber_angle_deg: float = 20.0,
@@ -218,7 +218,16 @@ def get_simulation_grating_coupler(
     layer_to_zmin = layer_stack.get_layer_to_zmin()
     # layer_to_sidewall_angle = layer_stack.get_layer_to_sidewall_angle()
 
-    boundary_spec = boundary_spec or td.BoundarySpec.all_sides(boundary=td.PML())
+    boundary_spec = boundary_spec or (
+        td.BoundarySpec.all_sides(boundary=td.PML())
+        if is_3d
+        else td.BoundarySpec(
+            x=td.Boundary.pml(),
+            y=td.Boundary.periodic(),
+            z=td.Boundary.pml(),
+        )
+    )
+
     grid_spec = grid_spec or td.GridSpec.auto(wavelength=wavelength)
 
     assert isinstance(
@@ -243,8 +252,10 @@ def get_simulation_grating_coupler(
             f"No port named {fiber_port_prefix!r} in {component.ports.keys()}"
         )
 
+    component_with_booleans = layer_stack.get_component_with_derived_layers(component)
+
     component_padding = gf.add_padding_container(
-        component,
+        component_with_booleans,
         default=0,
         top=ymargin or ymargin_top,
         bottom=ymargin or ymargin_bot,
@@ -259,22 +270,17 @@ def get_simulation_grating_coupler(
         else component
     )
 
-    gf.show(component_extended)
     component_extended = component_extended.flatten()
+    component_extended.show()
+
     component_ref = component_padding.ref()
     component_ref.x = 0
     component_ref.y = 0
 
-    layers_thickness = [
-        layer_to_thickness[layer]
-        for layer in component.get_layers()
-        if layer in layer_to_thickness
-    ]
-
     if len(layer_to_thickness) < 1:
         raise ValueError(f"{component.get_layers()} not in {layer_to_thickness.keys()}")
 
-    wg_thickness = max(layers_thickness)
+    wg_thickness = max(layer_to_thickness.values())
     sim_xsize = component_ref.xsize + 2 * thickness_pml
     sim_zsize = (
         thickness_pml + box_thickness + wg_thickness + thickness_pml + 2 * zmargin
@@ -324,9 +330,10 @@ def get_simulation_grating_coupler(
 
     structures = [substrate, box, clad]
 
-    for layer in component.layers:
-        if layer in layer_to_thickness and layer in layer_to_material:
-            thickness = layer_to_thickness[layer]
+    component_layers = component_with_booleans.get_layers()
+
+    for layer, thickness in layer_to_thickness.items():
+        if layer in layer_to_material and layer in component_layers:
             zmin = layer_to_zmin[layer]
             zmax = zmin + thickness
             material_name = layer_to_material[layer]
@@ -394,10 +401,11 @@ def get_simulation_grating_coupler(
     fiber_port = component_ref.ports[fiber_port_name]
     fiber_port_x = fiber_port.x + fiber_xoffset
 
-    assert -sim_size[0] / 2 < fiber_port_x < sim_size[0] / 2, (
-        f"component.ports[{fiber_port_name!r}] + (fiber_xoffset = {fiber_xoffset}). "
-        f"{fiber_port_x} needs to be between {-sim_size[0]/2} and {+sim_size[0]/2}"
-    )
+    if fiber_port_x < -sim_size[0] / 2 or fiber_port_x > sim_size[0] / 2:
+        raise ValueError(
+            f"component_ref.ports[{fiber_port_name!r}] + (fiber_xoffset = {fiber_xoffset}) = "
+            f"{int(fiber_port_x)} needs to be between {-sim_size[0]/2} and {+sim_size[0]/2}"
+        )
 
     # inject Gaussian beam from above and monitors the transmission into the waveguide.
     gaussian_beam = td.GaussianBeam(
@@ -450,14 +458,19 @@ def get_simulation_grating_coupler(
 
     if plot_modes:
         src_plane = td.Box(center=waveguide_port_center, size=waveguide_port_size)
-        ms = td.plugins.ModeSolver(simulation=sim, plane=src_plane, freq=freq0)
-
         mode_spec = td.ModeSpec(num_modes=num_modes)
-        modes = ms.solve(mode_spec=mode_spec)
+
+        ms = td.plugins.ModeSolver(
+            simulation=sim,
+            plane=src_plane,
+            freqs=[freq0],
+            mode_spec=mode_spec,
+        )
+        modes = ms.solve()
 
         print(
             "Effective index of computed modes: ",
-            ", ".join([f"{mode.n_eff:1.4f}" for mode in modes]),
+            ", ".join([f"{n_eff:1.4f}" for n_eff in modes.n_eff.isel(f=0).values]),
         )
 
         if is_3d:
@@ -467,16 +480,16 @@ def get_simulation_grating_coupler(
 
         for mode_ind in range(num_modes):
             if is_3d:
-                abs(modes[mode_ind].field_data.Ey).plot(
+                modes.Ey.isel(mode_index=mode_ind).abs.plot(
                     x="y", y="z", cmap="magma", ax=axs[mode_ind, 0]
                 )
-                abs(modes[mode_ind].field_data.Ez).plot(
+                modes.Ez.isel(mode_index=mode_ind).abs.plot(
                     x="y", y="z", cmap="magma", ax=axs[mode_ind, 1]
                 )
             else:
-                abs(modes[mode_ind].field_data.Ex).plot(ax=axs[mode_ind, 0])
-                abs(modes[mode_ind].field_data.Ey).plot(ax=axs[mode_ind, 1])
-                abs(modes[mode_ind].field_data.Ez).plot(ax=axs[mode_ind, 2])
+                modes.Ex.isel(mode_index=mode_ind).abs.plot(ax=axs[mode_ind, 0])
+                modes.Ey.isel(mode_index=mode_ind).abs.plot(ax=axs[mode_ind, 1])
+                modes.Ez.isel(mode_index=mode_ind).abs.plot(ax=axs[mode_ind, 2])
 
                 axs[mode_ind, 0].set_title(f"|Ex|: mode_index={mode_ind}")
                 axs[mode_ind, 1].set_title(f"|Ey|: mode_index={mode_ind}")
@@ -492,9 +505,11 @@ def get_simulation_grating_coupler(
 if __name__ == "__main__":
     import gdsfactory.simulation.gtidy3d as gt
 
-    c = gf.components.grating_coupler_elliptical_arbitrary(
-        widths=[0.343] * 25, gaps=[0.345] * 25
-    )
+    c = gf.components.grating_coupler_elliptical_trenches()
+
+    # c = gf.components.grating_coupler_elliptical_arbitrary(
+    #     widths=[0.343] * 25, gaps=[0.345] * 25
+    # )
     sim = get_simulation_grating_coupler(
         c,
         plot_modes=False,

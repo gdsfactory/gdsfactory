@@ -77,6 +77,10 @@ def bend_circular_heater(
 
 
 if __name__ == "__main__":
+    from gdsfactory.generic_tech import get_generic_pdk
+
+    PDK = get_generic_pdk()
+    PDK.activate()
     c = bend_circular_heater(heater_width=1)
     print(c.ports)
     c.show(show_ports=True)

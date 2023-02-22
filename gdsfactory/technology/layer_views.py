@@ -1,10 +1,6 @@
 """A GDS layer is a tuple of two integers.
 
-You can:
-
-- Load LayerViews from Klayout XML file (.lyp) (recommended)
-- Define your layers in a Pydantic BaseModel
-
+You can maintain LayerViews in YAML (.yaml) or Klayout XML file (.lyp)
 
 """
 from __future__ import annotations
@@ -411,8 +407,8 @@ class LayerView(BaseModel):
     fill_color: Optional[Color] = None
     frame_brightness: int = 0
     fill_brightness: int = 0
-    hatch_pattern: Union[str, HatchPattern] = "solid"
-    line_style: Union[str, LineStyle] = "solid"
+    hatch_pattern: Optional[Union[str, HatchPattern]] = None
+    line_style: Optional[Union[str, LineStyle]] = None
     valid: bool = True
     visible: bool = True
     transparent: bool = False
@@ -561,7 +557,9 @@ class LayerView(BaseModel):
 
         # If hatch pattern name matches a named (built-in) KLayout pattern, use 'I<idx>' notation
         hatch_name = getattr(self.hatch_pattern, "name", self.hatch_pattern)
-        if hatch_name in _klayout_dither_patterns:
+        if hatch_name is None:
+            dither_pattern = None
+        elif hatch_name in _klayout_dither_patterns:
             dither_pattern = f"I{list(_klayout_dither_patterns).index(hatch_name)}"
         elif hatch_name in custom_hatch_patterns:
             dither_pattern = f"C{list(custom_hatch_patterns).index(hatch_name)}"
@@ -573,7 +571,9 @@ class LayerView(BaseModel):
 
         # If line style name matches a named (built-in) KLayout pattern, use 'I<idx>' notation
         ls_name = getattr(self.line_style, "name", self.line_style)
-        if ls_name in _klayout_line_styles:
+        if ls_name is None:
+            line_style = None
+        elif ls_name in _klayout_line_styles:
             line_style = f"I{list(_klayout_line_styles).index(ls_name)}"
         elif ls_name in custom_line_styles:
             line_style = f"C{list(custom_line_styles).index(ls_name)}"
@@ -737,7 +737,8 @@ class LayerView(BaseModel):
         group_members = {}
         for member in element.iterfind("group-members"):
             member_lv = cls.from_xml_element(member, layer_pattern)
-            group_members[member_lv.name] = member_lv
+            if member_lv:
+                group_members[member_lv.name] = member_lv
 
         if group_members != {}:
             lv.group_members = group_members
@@ -986,8 +987,8 @@ class LayerViews(BaseModel):
 
         filepath = pathlib.Path(filepath)
 
-        if os.path.exists(filepath) and not overwrite:
-            raise OSError("File exists, cannot write.")
+        if filepath.exists() and not overwrite:
+            raise OSError(f"File {str(filepath)!r} exists, cannot write.")
 
         root = ET.Element("layer-properties")
 
@@ -1161,16 +1162,28 @@ class LayerViews(BaseModel):
                 }
             lvs[name] = LayerView(name=name, **lv)
 
-        return LayerViews(
-            layer_views=lvs,
-            custom_dither_patterns={
+        custom_dither_patterns = (
+            {
                 name: HatchPattern(name=name, **dp)
                 for name, dp in properties["CustomDitherPatterns"].items()
-            },
-            custom_line_styles={
+            }
+            if "CustomDitherPatterns" in properties
+            else {}
+        )
+
+        custom_line_styles = (
+            {
                 name: LineStyle(name=name, **ls)
                 for name, ls in properties["CustomLineStyles"].items()
-            },
+            }
+            if "CustomLineStyles" in properties
+            else {}
+        )
+
+        return LayerViews(
+            layer_views=lvs,
+            custom_dither_patterns=custom_dither_patterns,
+            custom_line_styles=custom_line_styles,
         )
 
 
@@ -1211,40 +1224,24 @@ def _name_to_description(name_str) -> str:
 
 
 def test_load_lyp():
-    from gdsfactory.config import layer_path
+    from gdsfactory.config import PATH
 
-    lys = LayerViews(layer_path)
+    lys = LayerViews(PATH.klayout_lyp)
     assert len(lys.layer_views) > 10, len(lys.layer_views)
     return lys
 
 
 if __name__ == "__main__":
-    from gdsfactory.config import PATH, layer_path
-
-    LAYER_VIEWS = LayerViews(filepath=layer_path)
-    LAYER_VIEWS.to_yaml(PATH.generic_tech / "layer_views.yaml")
-
-    LAYER_VIEWS2 = LayerViews(filepath=PATH.generic_tech / "layer_views.yaml")
-    LAYER_VIEWS2.to_lyp(PATH.repo / "extra" / "test_tech" / "layers.lyp")
-
-    assert LAYER_VIEWS == LAYER_VIEWS2
+    test_load_lyp()
     # import gdsfactory as gf
+    # from gdsfactory.config import PATH
 
-    # c = gf.components.rectangle(layer=(123, 0))
-    # c.plot()
+    # gf.config.rich_output()
 
-    # print(LAYER_VIEWS)
-    # print(LAYER_STACK.get_from_tuple((1, 0)))
-    # print(LAYER_STACK.get_layer_to_material())
-    # layer = LayerColor(color="gold")
-    # print(layer)
+    # LAYER_VIEWS = LayerViews(filepath=PATH.klayout_yaml)
+    # LAYER_VIEWS.to_lyp(PATH.klayout_lyp)
+    # print(LAYER_VIEWS.layer_views["Doping"])
 
-    # lys = test_load_lyp()
-    c = LAYER_VIEWS.preview_layerset()
-    c.show(show_ports=True)
-    # print(LAYERS_OPTICAL)
-    # print(layer("wgcore"))
-    # print(layer("wgclad"))
-    # print(layer("padding"))
-    # print(layer("TEXT"))
-    # print(type(layer("wgcore")))
+    # LAYER_VIEWS.to_yaml(PATH.generic_tech / "layer_views.yaml")
+    # LAYER_VIEWS2 = LayerViews(filepath=PATH.generic_tech / "layer_views.yaml")
+    # LAYER_VIEWS2.to_lyp(PATH.repo / "extra" / "test_tech" / "layers.lyp")
