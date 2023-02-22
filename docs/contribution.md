@@ -56,7 +56,7 @@ Pytest-regressions automatically creates the CSV and YAML files for you, as well
 
 gdsfactory is **not** backwards compatible, which means that the package will keep improving and evolving.
 
-1. To make your work stable you should install a specific version and [pin the version](https://martin-thoma.com/python-requirements/) in your `requirements.txt` or `pyproject.toml` as `gdsfactory==6.42.0` replacing `6.42.0` by whatever version you end up using.
+1. To make your work stable you should install a specific version and [pin the version](https://martin-thoma.com/python-requirements/) in your `requirements.txt` or `pyproject.toml` as `gdsfactory==6.43.1` replacing `6.43.1` by whatever version you end up using.
 2. Before you upgrade gdsfactory to a newer version make sure your tests pass to make sure that things behave as expected
 
 
@@ -65,8 +65,6 @@ gdsfactory is **not** backwards compatible, which means that the package will ke
 You can use the command line `gf gds diff gds1.gds gds2.gds` to overlay `gds1.gds` and `gds2.gds` files and show them in KLayout.
 
 For example, if you changed the mmi1x2 and made it 5um longer by mistake, you could `gf gds diff ref_layouts/mmi1x2.gds run_layouts/mmi1x2.gds` and see the GDS differences in Klayout.
-
-![](images/git_diff_gds_ex2.png)
 
 
 ## Acks

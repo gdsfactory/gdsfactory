@@ -69,6 +69,8 @@ Components
 
   import gdsfactory as gf
 
+  PDK = gf.get_generic_pdk()
+  PDK.activate()
   c = gf.components.{name}({kwargs})
   c.plot_matplotlib()
 

@@ -5,7 +5,7 @@ import numpy as np
 import gdsfactory as gf
 import gdsfactory.simulation.gtidy3d as gt
 
-fiber_port_name = "opt_te_1554_15"
+fiber_port_name = "o2"
 
 
 def test_sparameters_grating_coupler(overwrite=True) -> None:
@@ -29,12 +29,11 @@ def test_sparameters_grating_coupler(overwrite=True) -> None:
     sp = dfs[0]
 
     # Check reasonable reflection/transmission
-    assert 1 > np.abs(sp[f"{fiber_port_name}@0,o1@0"]).min() > 0, np.abs(
-        sp[f"{fiber_port_name}@0,o1@0"]
-    ).min()
-    assert (
-        0.3 > np.abs(sp[f"{fiber_port_name}@0,{fiber_port_name}@0"]).max() > 0
-    ), np.abs(sp[f"{fiber_port_name}@0,{fiber_port_name}@0"]).max()
+    transmission = np.abs(sp[f"{fiber_port_name}@0,o1@0"])
+    reflection = np.abs(sp["o1@0,o1@0"])
+
+    assert 1 > transmission.min() > 0.2, transmission.min()
+    assert 0.3 > reflection.max() > 0, reflection.max()
 
 
 if __name__ == "__main__":
@@ -56,10 +55,8 @@ if __name__ == "__main__":
         for fiber_xoffset in offsets
     ]
     sp = dfs[0]
+    transmission = np.abs(sp[f"{fiber_port_name}@0,o1@0"])
+    reflection = np.abs(sp["o1@0,o1@0"])
 
-    assert 1 > np.abs(sp[f"{fiber_port_name}@0,o1@0"]).min() > 0, np.abs(
-        sp[f"{fiber_port_name}@0,o1@0"]
-    ).min()
-    assert (
-        0.3 > np.abs(sp[f"{fiber_port_name}@0,{fiber_port_name}@0"]).max() > 0
-    ), np.abs(sp[f"{fiber_port_name}@0,{fiber_port_name}@0"]).max()
+    assert 1 > transmission.min() > 0.2, transmission.min()
+    assert 0.3 > reflection.max() > 0, reflection.max()

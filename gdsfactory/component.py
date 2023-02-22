@@ -662,6 +662,40 @@ class Component(_GeometryHelper):
         """
         return list(select_ports(self.ports, **kwargs).values())
 
+    def get_ports_pandas(self):
+        import pandas as pd
+
+        col_spec = [
+            "name",
+            "width",
+            "center",
+            "orientation",
+            "layer",
+            "port_type",
+            "shear_angle",
+        ]
+
+        return pd.DataFrame(
+            [port.to_dict() for port in self.get_ports_list()], columns=col_spec
+        )
+
+    def get_ports_polars(self):
+        import polars as pl
+
+        col_spec = {
+            "name": pl.Utf8,
+            "width": pl.Float64,
+            "center": pl.List(pl.Float64),
+            "orientation": pl.Float64,
+            "layer": pl.List(pl.UInt16),
+            "port_type": pl.Utf8,
+            "shear_angle": pl.Float64,
+        }
+
+        return pl.DataFrame(
+            [port.to_dict() for port in self.get_ports_list()], schema=col_spec
+        )
+
     def ref(
         self,
         position: Coordinate = (0, 0),
@@ -1249,29 +1283,46 @@ class Component(_GeometryHelper):
         """Show geometry in KLayout and in matplotlib for Jupyter Notebooks."""
         self.show(show_ports=True)  # show in klayout
         self.plot_klayout()
+        print(self)
 
-    def plot_klayout(self) -> None:
+    def plot_klayout(
+        self,
+        show_ports: bool = True,
+        port_marker_layer: Layer = (1, 10),
+    ) -> None:
         """Returns ipython widget for klayout visualization.
 
         Defaults to matplotlib if it fails to import ipywidgets.
+
+        Args:
+            show_ports: shows component with port markers and labels.
+            port_marker_layer: for the ports.
         """
+        from gdsfactory.add_pins import add_pins_triangle
+
+        if show_ports:
+            component = self.copy()
+            component.name = self.name
+            add_pins_triangle(component=component, layer=port_marker_layer)
+        else:
+            component = self
         try:
             from gdsfactory.pdk import get_layer_views
             from gdsfactory.widgets.layout_viewer import LayoutViewer
             from IPython.display import display
 
-            gdspath = self.write_gds(logging=False)
+            gdspath = component.write_gds(logging=False)
             lyp_path = gdspath.with_suffix(".lyp")
 
             layer_views = get_layer_views()
             layer_views.to_lyp(filepath=lyp_path)
             layout = LayoutViewer(gdspath, lyp_path)
-            display(layout.image)
+            display(layout.widget)
         except ImportError:
             print(
                 "You can install `pip install gdsfactory[full]` for better visualization"
             )
-            self.plot(plotter="matplotlib")
+            component.plot(plotter="matplotlib")
 
     def plot_jupyter(self):
         """Shows current gds in klayout. Uses Kweb if server running.
