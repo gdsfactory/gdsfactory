@@ -7,7 +7,11 @@ from tqdm.contrib.itertools import product
 
 from gdsfactory.simulation.sax.interpolators import nd_nd_interpolation
 from gdsfactory.simulation.sax.mlp import mlp_regression
-from gdsfactory.simulation.sax.parameter import LayerStackThickness, NamedParameter
+from gdsfactory.simulation.sax.parameter import (
+    LayerStackThickness,
+    NamedParameter,
+    LithoParameter,
+)
 from gdsfactory.technology import LayerStack
 from gdsfactory.typings import PortSymmetries
 
@@ -93,7 +97,7 @@ class Model:
         }
 
     def parse_input_dict(self, input_dict):
-        """Separates between LayerStackThickness inputs and NamedParameter inputs.
+        """Separates between LayerStackThickness, NamedParameter, and LithoParameter inputs.
 
         Args:
             input_dict: key needs to match the keys in self.trainable_parameters
@@ -101,15 +105,18 @@ class Model:
         """
         param_dict = {}
         layerstack_param_dict = {}
+        litho_param_dict = {}
         for key, value in input_dict.items():
             if type(self.trainable_parameters[key]) is NamedParameter:
                 param_dict[key] = value
             elif type(self.trainable_parameters[key]) is LayerStackThickness:
                 layerstack_param_dict[key] = value
-        return param_dict, layerstack_param_dict
+            elif type(self.trainable_parameters[key]) is LithoParameter:
+                litho_param_dict[key] = value
+        return param_dict, layerstack_param_dict, litho_param_dict
 
     def perturb_layerstack(self, layerstack_param_dict):
-        """Returns a temporary LayerStack with a new thickness value for the (currently) LayerStackThickness objects in layerstack_param_dict.
+        """Returns a temporary LayerStack with a new thickness value for the (current) LayerStackThickness objects in layerstack_param_dict.
 
         Args:
             layerstack_param_dict: key needs to match a key in self.trainable_parameters having for value a LayerStackThickness object
@@ -122,6 +129,21 @@ class Model:
                 LayerStackThickness_obj.layername
             ].thickness = thickness
         return perturbed_layerstack
+
+    def perturb_geometry(self, current_component, litho_param_dict):
+        """Returns a temporary Component on which all the morphological operations contained in the current litho_param_dict have been applied.
+
+        Args:
+            current_component: the current component, with params_dict already applied
+            litho_param_dict: key needs to match a key in self.trainable_parameters having for value a LithoParameter object
+                                    value is the input to the LithoParameter transformation attribute
+        """
+        for key, value in litho_param_dict.items():
+            lithoParameter_obj = self.trainable_parameters[key]
+            current_component = lithoParameter_obj.get_transformation(
+                current_component, value
+            )
+        return current_component
 
     def define_output_vector_labels(self):
         """Uses number of component ports, number of modes solved for, and port_symmetries to define smallest output vector."""

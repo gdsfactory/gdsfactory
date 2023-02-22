@@ -5,11 +5,12 @@ from gdsfactory.pdk import get_layer_stack
 from gdsfactory.simulation.eme import MEOW
 from gdsfactory.technology import LayerStack
 
+PDK = gf.get_generic_pdk()
+PDK.activate()
+
 
 def test_meow_defaults():
     c = gf.components.taper_cross_section_linear()
-    c.show()
-
     filtered_layerstack = LayerStack(
         layers={
             k: get_layer_stack().layers[k]

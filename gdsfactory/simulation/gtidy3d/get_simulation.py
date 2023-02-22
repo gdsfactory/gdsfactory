@@ -183,7 +183,15 @@ def get_simulation(
     assert isinstance(component, Component)
 
     layer_stack = layer_stack or get_layer_stack()
-    boundary_spec = boundary_spec or td.BoundarySpec.all_sides(boundary=td.PML())
+    if is_3d:
+        boundary_spec = boundary_spec or td.BoundarySpec.all_sides(boundary=td.PML())
+
+    else:
+        boundary_spec = boundary_spec or td.BoundarySpec(
+            x=td.Boundary.pml(),
+            y=td.Boundary.periodic(),
+            z=td.Boundary.pml(),
+        )
 
     wavelength = (wavelength_start + wavelength_stop) / 2
     grid_spec = grid_spec or td.GridSpec.auto(wavelength=wavelength)
@@ -204,8 +212,10 @@ def get_simulation(
         port_source_name = port_source.name
         warnings.warn(f"Selecting port_source_name={port_source_name!r} instead.")
 
+    component_with_booleans = layer_stack.get_component_with_derived_layers(component)
+
     component_padding = gf.add_padding_container(
-        component,
+        component_with_booleans,
         default=0,
         top=ymargin or ymargin_top,
         bottom=ymargin or ymargin_bot,
@@ -222,7 +232,7 @@ def get_simulation(
 
     component_extended = component_extended.flatten()
     component_extended.name = component.name
-    gf.show(component_extended)
+    component_extended.show()
 
     component_ref = component_padding.ref()
     component_ref.x = 0
@@ -244,16 +254,10 @@ def get_simulation(
     )
     structures = [clad]
 
-    layers_thickness = [
-        layer_to_thickness[layer]
-        for layer in component.get_layers()
-        if layer in layer_to_thickness
-    ]
-
     if len(layer_to_thickness) < 1:
         raise ValueError(f"{component.get_layers()} not in {layer_to_thickness.keys()}")
 
-    t_core = max(layers_thickness)
+    t_core = max(layer_to_thickness.values())
     cell_thickness = (
         thickness_pml + t_core + thickness_pml + 2 * zmargin if is_3d else 0
     )
@@ -264,9 +268,10 @@ def get_simulation(
         cell_thickness,
     ]
 
-    for layer in component.layers:
-        if layer in layer_to_thickness and layer in layer_to_material:
-            thickness = layer_to_thickness[layer]
+    component_layers = component_with_booleans.get_layers()
+
+    for layer, thickness in layer_to_thickness.items():
+        if layer in layer_to_material and layer in component_layers:
             zmin = layer_to_zmin[layer] if is_3d else 0
             zmax = zmin + thickness if is_3d else 0
 
@@ -427,7 +432,7 @@ def plot_simulation_yz(
         sim: simulation object.
         z: (um).
         y: (um).
-        wavelength: (um) for epsilon plot if None plot structures.
+        wavelength: (um) for epsilon plot. None plot structures only.
         figsize: figure size.
 
     """
@@ -478,7 +483,7 @@ def plot_simulation_xz(
         sim: simulation object.
         x: (um).
         z: (um).
-        wavelength: (um) for epsilon plot if None plot structures.
+        wavelength: (um) for epsilon plot. None plot structures only.
         figsize: figure size.
 
     """
@@ -501,7 +506,8 @@ plot_simulation = plot_simulation_yz
 
 
 if __name__ == "__main__":
-    c = gf.c.taper_sc_nc(length=10)
+    # c = gf.c.taper_sc_nc(length=10)
+    c = gf.components.taper_strip_to_ridge_trenches()
     s = get_simulation(c, plot_modes=False)
 
     # c = gf.components.mmi1x2()
@@ -521,7 +527,7 @@ if __name__ == "__main__":
     # filepath.write_text(sim.json())
 
     # sim.plotly(z=0)
-    # plot_simulation_yz(sim, wavelength=1.55)
+    plot_simulation_yz(s, wavelength=1.55, y=1)
     # fig = plt.figure(figsize=(11, 4))
     # gs = mpl.gridspec.GridSpec(1, 2, figure=fig, width_ratios=[1, 1.4])
     # ax1 = fig.add_subplot(gs[0, 0])

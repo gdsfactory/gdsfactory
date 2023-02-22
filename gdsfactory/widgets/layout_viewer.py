@@ -1,5 +1,16 @@
 try:
-    from ipywidgets import HTML, Image
+    from ipywidgets import (
+        HTML,
+        Image,
+        AppLayout,
+        VBox,
+        HBox,
+        Button,
+        Label,
+        Layout,
+        Tab,
+        Accordion,
+    )
     from ipyevents import Event
     from typing import Optional
     import klayout.db as db
@@ -12,13 +23,25 @@ except ImportError as e:
 
 
 class LayoutViewer:
-    def __init__(self, filepath: str, layer_properties: Optional[str]):
+    def __init__(
+        self,
+        filepath: str,
+        layer_properties: Optional[str],
+        hide_unused_layers: bool = True,
+    ):
         filepath = str(filepath)
         layer_properties = str(layer_properties)
+        self.hide_unused_layers = hide_unused_layers
         self.filepath = filepath
         self.layer_properties = layer_properties
+
         self.layout_view = lay.LayoutView()
         self.load_layout(filepath, layer_properties)
+
+        if self.hide_unused_layers:
+            self.layout_view.remove_unused_layers()
+            self.layout_view.reload_layout(self.layout_view.current_layer_list)
+
         pixel_buffer = self.layout_view.get_pixels_with_options(800, 600)
         png_data = pixel_buffer.to_png_data()
         self.image = Image(value=png_data, format="png")
@@ -31,6 +54,100 @@ class LayoutViewer:
             source=self.image, watched_events=["mousedown", "mouseup", "mousemove"]
         )
         mouse_event.on_dom_event(self.on_mouse_down)
+
+        self.layer_selector_tabs = self.build_layer_selector(
+            max_height=pixel_buffer.height()
+        )
+
+        self.widget = AppLayout(
+            center=self.image,
+            right_sidebar=self.layer_selector_tabs,
+            left_sidebar=None,
+            # footer=VBox([self.wheel_info, self.mouse_info]),
+            align_items="top",
+            justify_items="left",
+        )
+
+    def button_toggle(self, button):
+        button.style.button_color = (
+            "transparent"
+            if (button.style.button_color == button.default_color)
+            else button.default_color
+        )
+
+        layer_iter = self.layout_view.begin_layers()
+
+        while not layer_iter.at_end():
+            props = layer_iter.current()
+            if props.name == button.layer_props.name:
+                props.visible = not props.visible
+                self.layout_view.set_layer_properties(layer_iter, props)
+                self.layout_view.reload_layout(self.layout_view.current_layer_list)
+                break
+            layer_iter.next()
+        self.refresh()
+
+    def build_layer_toggle(self, prop_iter: lay.LayerPropertiesIterator):
+        from gdsfactory.utils.color_utils import ensure_six_digit_hex_color
+
+        props = prop_iter.current()
+        layer_color = ensure_six_digit_hex_color(props.eff_fill_color())
+
+        # Would be nice to use LayoutView.icon_for_layer() rather than simple colored box
+        button_layout = Layout(
+            width="5px",
+            height="20px",
+            border=f"solid 2px {layer_color}",
+            display="block",
+        )
+
+        layer_checkbox = Button(
+            style={"button_color": layer_color if props.visible else "transparent"},
+            layout=button_layout,
+        )
+        layer_checkbox.default_color = layer_color
+        layer_checkbox.layer_props = props
+
+        if props.has_children():
+            prop_iter = prop_iter.down_first_child()
+            n_children = prop_iter.num_siblings()
+            # print(f"{props.name} has {n_children} children!")
+            children = []
+            for _i in range(n_children):
+                prop_iter = prop_iter.next()
+                children.append(self.build_layer_toggle(prop_iter))
+            layer_label = Accordion([VBox(children)], titles=(props.name,))
+        else:
+            layer_label = Label(props.name)
+        layer_checkbox.label = layer_label
+
+        layer_checkbox.on_click(self.button_toggle)
+        return HBox([layer_checkbox, layer_label])
+
+    def build_layer_selector(self, max_height: float):
+        """Builds a widget for toggling layer displays.
+
+        Args:
+            max_height: Maximum height to set for the widget (likely the height of the pixel buffer).
+        """
+
+        all_boxes = []
+
+        prop_iter = self.layout_view.begin_layers()
+        while not prop_iter.at_end():
+            layer_toggle = self.build_layer_toggle(prop_iter)
+            all_boxes.append(layer_toggle)
+            prop_iter.next()
+
+        layers_layout = Layout(
+            max_height=f"{max_height}px", overflow_y="auto", display="block"
+        )
+        layer_selector = VBox(all_boxes, layout=layers_layout)
+
+        # For when tabs are implemented
+        layer_selector_tabs = Tab([layer_selector])
+        layer_selector_tabs.titles = ("Layers",)
+        return layer_selector_tabs
 
     def load_layout(self, filepath: str, layer_properties: Optional[str]):
         """Loads a GDS layout.

@@ -37,11 +37,15 @@ def to_stl(
     filepath = pathlib.Path(filepath)
     exclude_layers = exclude_layers or []
 
-    for layer, polygons in component.get_polygons(by_spec=True).items():
+    component_with_booleans = layer_stack.get_component_with_derived_layers(component)
+    component_layers = component_with_booleans.get_layers()
+
+    for layer, polygons in component_with_booleans.get_polygons(by_spec=True).items():
         if (
             layer not in exclude_layers
             and layer in layer_to_thickness
             and layer in layer_to_zmin
+            and layer in component_layers
         ):
             height = layer_to_thickness[layer]
             zmin = layer_to_zmin[layer]
@@ -49,6 +53,7 @@ def to_stl(
                 filepath.parent
                 / f"{filepath.stem}_{layer[0]}_{layer[1]}{filepath.suffix}"
             )
+            print(f"Write {filepath_layer.absolute()!r}")
             for polygon in polygons:
                 p = shapely.geometry.Polygon(polygon)
                 mesh = extrude_polygon(p, height=height)
@@ -64,4 +69,5 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.components.taper_strip_to_ridge()
+    c.show()
     to_stl(c, filepath="a.stl")
