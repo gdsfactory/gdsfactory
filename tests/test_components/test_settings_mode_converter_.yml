@@ -1,0 +1,33 @@
+name: mode_converter
+settings:
+  changed: {}
+  child: null
+  default:
+    bend:
+      function: bend_s
+    coupler_straight_asymmetric:
+      function: coupler_straight_asymmetric
+    cross_section: strip
+    gap: 0.3
+    length: 10
+    mm_width: 1.0
+    sm_width: 0.5
+    taper:
+      function: taper
+  full:
+    bend:
+      function: bend_s
+    coupler_straight_asymmetric:
+      function: coupler_straight_asymmetric
+    cross_section: strip
+    gap: 0.3
+    length: 10
+    mm_width: 1.0
+    sm_width: 0.5
+    taper:
+      function: taper
+  function_name: mode_converter
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.mode_converter
+  name: mode_converter

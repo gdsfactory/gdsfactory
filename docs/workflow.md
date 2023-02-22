@@ -44,4 +44,5 @@ For building large components can use a file-watcher and see your updates in KLa
    notebooks/workflow/0_layout_summary.ipynb
    notebooks/workflow/1_mzi.ipynb
    notebooks/workflow/2_ring.ipynb
+   notebooks/workflow/3_cascaded_mzi.ipynb
 ```

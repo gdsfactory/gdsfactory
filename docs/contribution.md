@@ -24,9 +24,17 @@ The workflow is:
 - We install pre-commit to get the pre-commit checks passing (autoformat the code, run linter ...). If `make install` does not work for you, you can also run:
 
 ```
+cd gdsfactory
 pip install -e . pre-commit
 pre-commit install
 gf tool install
+```
+
+Pre-commit makes sure the code is formatted correctly, runs linter (syntax check), checks docstrings ...
+If you forgot to `pre-commit install` you can fix pre-commit issues by running
+
+```
+pre-commit run --all-files
 ```
 
 
