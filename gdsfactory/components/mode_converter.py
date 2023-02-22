@@ -82,6 +82,8 @@ def mode_converter(
 
     l_bot_straight.connect("o1", dc.ports["o1"])
     r_bot_straight.connect("o1", dc.ports["o4"])
+    c.absorb(l_bot_straight)
+    c.absorb(r_bot_straight)
 
     # top right bend with termination
     r1_bend = c << bend
@@ -90,6 +92,7 @@ def mode_converter(
     r1_bend.connect("o1", dc.ports["o3"])
     r2_bend.connect("o1", r1_bend["o2"])
     c.absorb(r1_bend)
+    c.absorb(r2_bend)
 
     # top left bend
     l1_bend = c << bend.mirror()
@@ -98,6 +101,7 @@ def mode_converter(
     l1_bend.connect("o1", dc.ports["o2"])
     l2_bend.connect("o2", l1_bend.ports["o2"])
     c.absorb(l1_bend)
+    c.absorb(l2_bend)
 
     # define ports of mode converter
     c.add_port("o1", port=l_bot_straight.ports["o2"])
@@ -116,4 +120,5 @@ def mode_converter(
 
 if __name__ == "__main__":
     c = mode_converter(bbox_offsets=[0.5], bbox_layers=[(111, 0)])
-    c.show()
+    # c.show(show_ports=True)
+    c.plot_matplotlib()
