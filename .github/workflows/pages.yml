@@ -29,14 +29,27 @@ jobs:
           sudo apt install pandoc
           sudo apt install libglu1-mesa
           make gdslib plugins-debian full
-      - name: Running the Sphinx to gh-pages Action
-        uses: uibcdf/action-sphinx-docs-to-gh-pages@v1.0-beta.2
-        env:
-          TIDY3D_USER: ${{ secrets.TIDY3D_EMAIL }}
-          TIDY3D_PASS: ${{ secrets.TIDY3D_PASSWORD }}
-          DISPLAY: 1.0
-          DOCS: True
+      - name: make docs
+        run: |
+          cd docs
+          make html
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
         with:
-          branch: main
-          dir_docs: docs
-          sphinxopts: ""
+          path: "./docs/build/html/"
+
+  deploy-docs:
+    needs: build-docs
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
