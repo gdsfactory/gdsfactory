@@ -58,39 +58,50 @@ def process_buffers(layer_polygons_dict: Dict, layerstack: LayerStack):
     layerstack = bufferize(layerstack)
 
     for layername, polygons in layer_polygons_dict.items():
-        zs = layerstack.layers[layername].z_to_bias[0]
-        width_buffers = layerstack.layers[layername].z_to_bias[1]
-        for ind, (z, width_buffer) in enumerate(zip(zs[:-1], width_buffers[:-1])):
-            new_zmin = (
-                layerstack.layers[layername].zmin
-                + layerstack.layers[layername].thickness * z
-            )
-            new_thickness = (
-                layerstack.layers[layername].thickness * zs[ind + 1]
-                - layerstack.layers[layername].thickness * z
-            )
-            extended_layerstack_layers[f"{layername}_{z}"] = LayerLevel(
-                layer=layerstack.layers[layername].layer,
-                thickness=new_thickness,
-                zmin=new_zmin,
-                material=layerstack.layers[layername].material,
-                info=layerstack.layers[layername].info,
-            )
-            extended_layer_polygons_dict[f"{layername}_{z}"] = (
-                f"{layername}",
-                f"{layername}_{zs[ind+1]}",
-                polygons.buffer(width_buffer),
-                polygons.buffer(width_buffers[ind + 1]),
-            )
-        extended_layerstack_layers[f"{layername}_{zs[-1]}"] = LayerLevel(
-            layer=layerstack.layers[layername].layer,
-            thickness=0,
-            zmin=layerstack.layers[layername].zmin
-            + layerstack.layers[layername].thickness,
-            material=layerstack.layers[layername].material,
-            info=layerstack.layers[layername].info,
-        )
+        # Check for empty polygons
+        if not polygons.is_empty:
+            zs = layerstack.layers[layername].z_to_bias[0]
+            width_buffers = layerstack.layers[layername].z_to_bias[1]
 
+            for poly_ind, polygon in enumerate(polygons.geoms if hasattr(polygons, "geoms") else [polygons]):
+                for z_ind, (z, width_buffer) in enumerate(
+                    zip(zs[:-1], width_buffers[:-1])
+                ):
+                    new_zmin = (
+                        layerstack.layers[layername].zmin
+                        + layerstack.layers[layername].thickness * z
+                    )
+                    new_thickness = (
+                        layerstack.layers[layername].thickness * zs[z_ind + 1]
+                        - layerstack.layers[layername].thickness * z
+                    )
+                    extended_layerstack_layers[
+                        f"{layername}_{poly_ind}_{z}"
+                    ] = LayerLevel(
+                        layer=layerstack.layers[layername].layer,
+                        thickness=new_thickness,
+                        zmin=new_zmin,
+                        material=layerstack.layers[layername].material,
+                        info=layerstack.layers[layername].info,
+                        mesh_order=layerstack.layers[layername].mesh_order,
+                    )
+                    extended_layer_polygons_dict[f"{layername}_{poly_ind}_{z}"] = (
+                        f"{layername}",
+                        f"{layername}_{poly_ind}_{zs[z_ind+1]}",
+                        polygon.buffer(width_buffer),
+                        polygon.buffer(width_buffers[z_ind + 1]),
+                    )
+                extended_layerstack_layers[
+                    f"{layername}_{poly_ind}_{zs[-1]}"
+                ] = LayerLevel(
+                    layer=layerstack.layers[layername].layer,
+                    thickness=0,
+                    zmin=layerstack.layers[layername].zmin
+                    + layerstack.layers[layername].thickness,
+                    material=layerstack.layers[layername].material,
+                    info=layerstack.layers[layername].info,
+                    mesh_order=layerstack.layers[layername].mesh_order,
+                )
     return extended_layer_polygons_dict, LayerStack(layers=extended_layerstack_layers)
 
 
