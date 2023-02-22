@@ -136,17 +136,17 @@ def write_sparameters_grating_coupler(
 
     freqs = sim_data.monitor_data["waveguide"].amps.sel(direction="+").f
     port_name_input = port_waveguide_name
-    port_name_output = fiber_port_name
+    fiber_port_name = "o2"
 
     key = f"{port_name_input}@0,{port_name_input}@0"
     sp = {"wavelengths": td.constants.C_0 / freqs.values, key: r}
-    key = f"{port_name_output}@0,{port_name_output}@0"
+    key = f"{fiber_port_name}@0,{fiber_port_name}@0"
     sp[key] = r
 
-    key = f"{port_name_input}@0,{port_name_output}@0"
+    key = f"{port_name_input}@0,{fiber_port_name}@0"
     sp[key] = t
 
-    key = f"{port_name_output}@0,{port_name_input}@0"
+    key = f"{fiber_port_name}@0,{port_name_input}@0"
     sp[key] = t
 
     end = time.time()
