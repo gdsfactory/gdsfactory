@@ -41,7 +41,11 @@ def get_u_bounds_polygons(
 
     return_list = []
     for polygon in polygons.geoms if hasattr(polygons, "geoms") else [polygons]:
-        if intersection := polygon.intersection(line):
+        initial_settings = np.seterr()
+        np.seterr(invalid="ignore")
+        intersection = polygon.intersection(line)
+        np.seterr(**initial_settings)
+        if intersection:
             for entry in (
                 intersection.geoms if hasattr(intersection, "geoms") else [intersection]
             ):
