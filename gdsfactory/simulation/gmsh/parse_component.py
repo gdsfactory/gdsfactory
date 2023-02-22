@@ -63,7 +63,9 @@ def process_buffers(layer_polygons_dict: Dict, layerstack: LayerStack):
             zs = layerstack.layers[layername].z_to_bias[0]
             width_buffers = layerstack.layers[layername].z_to_bias[1]
 
-            for poly_ind, polygon in enumerate(polygons.geoms if hasattr(polygons, "geoms") else [polygons]):
+            for poly_ind, polygon in enumerate(
+                polygons.geoms if hasattr(polygons, "geoms") else [polygons]
+            ):
                 for z_ind, (z, width_buffer) in enumerate(
                     zip(zs[:-1], width_buffers[:-1])
                 ):
