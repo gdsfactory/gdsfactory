@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  sphinx_docs_to_gh-pages:
+  build-docs:
     runs-on: ubuntu-latest
     name: Sphinx docs to gh-pages
     steps:
