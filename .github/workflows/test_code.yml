@@ -136,9 +136,3 @@ jobs:
           echo ${{ secrets.TIDY3D_AUTH }} > $HOME/.tidy3d/auth.json
           cd docs
           make html
-      - name: Upload docs as artifact
-        uses: actions/upload-artifact@v3
-        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
-        with:
-          name: docs
-          path: docs/build/html/
