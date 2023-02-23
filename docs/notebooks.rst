@@ -13,6 +13,9 @@ Layout tutorial
    notebooks/03_cells_autoname_and_cache.ipynb
    notebooks/03_layer_stack.ipynb
    notebooks/03_waveguides_paths_crossections.ipynb
+   notebooks/04_components_shapes.ipynb
+   notebooks/04_components_geometry.ipynb
+   notebooks/04_components_pack.ipynb
    notebooks/04_components_.ipynb
    notebooks/04_components_hierarchy.ipynb
    notebooks/08_pdk.ipynb
