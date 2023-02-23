@@ -28,7 +28,7 @@ jobs:
         run: |
           sudo apt install pandoc
           sudo apt install libglu1-mesa
-          make gdslib plugins-debian full
+          make gdslib plugins-debian dev
       - name: make docs
         run: |
           cd docs
