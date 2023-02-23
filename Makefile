@@ -207,7 +207,7 @@ docs:
 	pip install --upgrade jupytext
 	pip install sphinx=="5.3.0"
 	pip install docutils=="0.17.1"
-	jb create docs
+	jb build docs
 
 git-rm-merged:
 	git branch -D `git branch --merged | grep -v \* | xargs`
