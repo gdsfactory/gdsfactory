@@ -15,11 +15,11 @@ execute:
   # execute_notebooks: force
   # execute_notebooks: "off"
   exclude_patterns:
-    - 'notebooks/devsim/01_pin_waveguide'
-    - 'notebooks/lumerical/1_fdtd_sparameters'
-    - 'notebooks/lumerical/2_interconnect'
-    - 'notebooks/12_database'
-    - 'notebooks/ray/optimiser'
+    - '*notebooks/devsim/01_pin_waveguide*'
+    - '*notebooks/lumerical/1_fdtd_sparameters*'
+    - '*notebooks/lumerical/2_interconnect*'
+    - '*notebooks/12_database*'
+    - '*notebooks/ray/optimiser*'
 
 latex:
   latex_engine: pdflatex # one of 'pdflatex', 'xelatex' (recommended for unicode), 'luatex', 'platex', 'uplatex'
