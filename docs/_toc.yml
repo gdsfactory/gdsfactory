@@ -38,6 +38,9 @@ chapters:
   - file: contribution
   - file: CHANGELOG
   - file: components
+  - file: api
+  - file: routing
+  - file: cli
 # - file: notebooks
 # - file: sdl
 # - file: workflow
