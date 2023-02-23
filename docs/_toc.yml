@@ -1,0 +1,56 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: index
+chapters:
+  - file: getting_started
+    sections:
+      - file: notebooks/_2_klayout.ipynb
+      - file: notebooks/_3_vscode.ipynb
+      - file: notebooks/_0_python.ipynb
+      - file: notebooks/_1_git.ipynb
+  - file: tutorial
+    sections:
+      - file: notebooks/00_geometry.ipynb
+      - file: notebooks/01_references.ipynb
+      - file: notebooks/02_movement.ipynb
+      - file: notebooks/03_cells_autoname_and_cache.ipynb
+      - file: notebooks/03_layer_stack.ipynb
+      - file: notebooks/03_waveguides_paths_crossections.ipynb
+      - file: notebooks/04_components_shapes.ipynb
+      - file: notebooks/04_components_geometry.ipynb
+      - file: notebooks/04_components_pack.ipynb
+      - file: notebooks/04_components_.ipynb
+      - file: notebooks/04_components_hierarchy.ipynb
+      - file: notebooks/08_pdk.ipynb
+      - file: notebooks/09_pdk_import.ipynb
+      - file: notebooks/07_mask.ipynb
+      - file: notebooks/04_routing.ipynb
+      - file: notebooks/041_routing_electrical.ipynb
+      - file: notebooks/042_non-manhattan-router.ipynb
+      - file: notebooks/common_mistakes.ipynb
+  - file: sdl
+    sections:
+      - file: notebooks/20_schematic_driven_layout
+      - file: notebooks/10_yaml_component.ipynb
+      - file: notebooks/11_get_netlist.ipynb
+  - file: contribution
+  - file: CHANGELOG
+  - file: components
+# - file: notebooks
+# - file: sdl
+# - file: workflow
+# - file: plugins_optimization
+# - file: plugins_mesh
+# - file: plugins_process
+# - file: plugins_mode_solver
+# - file: plugins_fdtd
+# - file: plugins_circuits
+# - file: plugins_database
+# - file: contribution
+# - file: CHANGELOG
+# - file: components
+# - file: api
+# - file: routing
+# - file: cli

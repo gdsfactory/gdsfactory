@@ -201,6 +201,14 @@ codestyle:
 doc:
 	python docs/write_components_doc.py
 
+docs:
+	pip install git+https://github.com/executablebooks/jupyter-book.git@update-myst-nb
+	pip install --upgrade pydata-sphinx-theme
+	pip install --upgrade jupytext
+	pip install sphinx=="5.3.0"
+	pip install docutils=="0.17.1"
+	jb create docs
+
 git-rm-merged:
 	git branch -D `git branch --merged | grep -v \* | xargs`
 

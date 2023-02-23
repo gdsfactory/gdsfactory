@@ -29,12 +29,11 @@ jobs:
           sudo apt install pandoc
           sudo apt install libglu1-mesa
           make gdslib plugins-debian full
-          cd docs
-          make html
+          make docs
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: "./docs/build/html/"
+          path: "./docs/_build/html/"
 
   deploy-docs:
     needs: build-docs

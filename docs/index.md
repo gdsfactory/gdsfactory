@@ -1,0 +1,5 @@
+```{include} ../README.md
+```
+
+```{tableofcontents}
+```
