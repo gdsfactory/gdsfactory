@@ -41,8 +41,6 @@ class MeepFDTDModel(Model):
 
         self.temp_dir.mkdir(exist_ok=True, parents=True)
 
-        print(self.temp_dir)
-
         return None
 
     # def get_Sparameters(self, input_dict, output_vector_labels):
@@ -84,7 +82,6 @@ class MeepFDTDModel(Model):
             # We cannot serialize components, so save it as gds and import instead
             value_str = [str(value) for value in values]
             current_file = self.temp_dir / "_".join(list(value_str))
-            print(current_file)
             input_component_file = current_file.with_suffix(".gds")
             input_component.write_gds_with_metadata(input_component_file)
 
@@ -109,7 +106,6 @@ class MeepFDTDModel(Model):
         for input_example, output_example in zip(
             input_ids, results
         ):  # TODO no for loops!
-            print(input_example, output_example)
             input_vector = list(input_example)
             input_vector.extend(output_example[0])
             input_vectors.append(input_vector)
