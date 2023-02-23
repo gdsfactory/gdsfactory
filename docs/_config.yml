@@ -8,8 +8,10 @@ logo: logo.png
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
 execute:
+  execute_notebooks: cache
+  timeout: -1
   # execute_notebooks: force
-  execute_notebooks: "off"
+  # execute_notebooks: "off"
   exclude_patterns:
     - "notebooks/devsim"
     - "notebooks/lumerical"
