@@ -290,26 +290,24 @@ def route_sharp(
             If set to a CrossSection: uses the CrossSection parameters for the route
         path_type : {'manhattan', 'L', 'U', 'J', 'C', 'V', 'Z', 'straight', 'manual'}
             Method of waypoint path creation. Should be one of
-                - 'manhattan' - automatic manhattan routing
-                        (see path_manhattan() ).
-                - 'L' - L-shaped path for orthogonal ports that can be directly
-                        connected (see path_L() ).
-                - 'U' - U-shaped path for parallel or facing ports
-                        (see path_U() ).
-                - 'J' - J-shaped path for orthogonal ports that cannot be
-                        directly connected (see path_J() ).
-                - 'C' - C-shaped path for ports that face away from each
-                        other (see path_C() ).
-                - 'Z' - Z-shaped path with three segments for ports at any
-                        angles (see path_Z() ).
-                - 'V' - V-shaped path with two segments for ports at any
-                        angles (see path_V() ).
-                - 'straight' - straight path for ports that face each other
-                        see path_straight() ).
-                - 'manual' - use an explicit waypoint path provided
-                        in manual_path.
-        manual_path : array-like[N][2] or Path
-            Waypoint path for creating a manual route
+            - manhattan: automatic manhattan routing (see path_manhattan() ).
+            - L: L-shaped path for orthogonal ports that can be directly
+                connected (see path_L() ).
+            - U: U-shaped path for parallel or facing ports
+                (see path_U() ).
+            - J: J-shaped path for orthogonal ports that cannot be
+                    directly connected (see path_J() ).
+            - C: C-shaped path for ports that face away from each
+                    other (see path_C() ).
+            - Z: Z-shaped path with three segments for ports at any
+                    angles (see path_Z() ).
+            - V: V-shaped path with two segments for ports at any
+                    angles (see path_V() ).
+            - straight: straight path for ports that face each other
+                    see path_straight() ).
+            - manual: use an explicit waypoint path provided
+                    in manual_path.
+        manual_path: array-like[N][2] or Path Waypoint for  manual route.
         layer: Layer to put route on.
         kwargs: Keyword arguments passed to the waypoint path function.
 
@@ -350,8 +348,8 @@ def route_sharp(
         P = path_straight(port1, port2)
     else:
         raise ValueError(
-            f"""route_sharp() received invalid path_type {path_type} not in
-        {'manhattan', 'L', 'U', 'J', 'C', 'V', 'Z', 'straight', 'manual'}"""
+            f"route_sharp() received invalid path_type {path_type} not in "
+            "{'manhattan', 'L', 'U', 'J', 'C', 'V', 'Z', 'straight', 'manual'}"
         )
 
     if cross_section:
