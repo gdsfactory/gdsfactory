@@ -8,7 +8,12 @@ logo: logo.png
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
 execute:
-  execute_notebooks: on
+  # execute_notebooks: force
+  execute_notebooks: 'off'
+  exclude_patterns:
+    - 'pattern1'
+    - 'notebooks/plugins/devsim'
+    - 'notebooks/plugins/lumerical'
 
 latex:
   latex_engine: pdflatex # one of 'pdflatex', 'xelatex' (recommended for unicode), 'luatex', 'platex', 'uplatex'
@@ -61,3 +66,15 @@ launch_buttons:
   notebook_interface: jupyterlab
   binderhub_url: "https://mybinder.org/v2/gh/gdsfactory/gdsfactory/HEAD"
   colab_url: "https://colab.research.google.com"
+  thebe: true
+
+
+sphinx:
+  extra_extensions:
+  - 'sphinx.ext.autodoc'
+  - 'sphinx.ext.autosummary'
+  - 'sphinx.ext.napoleon'
+  - 'sphinx.ext.viewcode'
+  - 'matplotlib.sphinxext.plot_directive'
+  - "sphinx_click"
+  - "sphinxcontrib.autodoc_pydantic"

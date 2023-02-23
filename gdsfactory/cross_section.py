@@ -48,6 +48,7 @@ class Section(BaseModel):
         hidden: hide layer.
 
     .. code::
+
           0   offset
           |<-------------->|
           |              _____
