@@ -40,6 +40,12 @@ plugins:
 	pip install jax jaxlib numpy femwell --upgrade
 	pip install -e .[tidy3d,ray,sax,devsim,meow,database]
 
+plugins-conda:
+	conda install -c conda-forge pymeep=*=mpi_mpich_* nlopt -y
+	conda install -c conda-forge slepc4py=*=complex* -y
+	pip install jax jaxlib numpy femwell --upgrade
+	pip install -e .[tidy3d,ray,sax,devsim,meow,database]
+
 plugins-mamba:
 	mamba install -c conda-forge pymeep=*=mpi_mpich_* nlopt -y
 	mamba install -c conda-forge slepc4py=*=complex* -y
@@ -71,11 +77,13 @@ update-pre:
 gds:
 	python gdsfactory/components/straight.py
 
+gdslib-clean:
+	rm -rf $(HOME)/.gdsfactory
+
 gdslib:
-	rm -rf $(HOME)/.gdsfactory
 	git clone https://github.com/gdsfactory/gdslib.git -b main $(HOME)/.gdsfactory
+
 gdslib-link:
-	rm -rf $(HOME)/.gdsfactory
 	ln -sf gdslib $(HOME)/.gdsfactory
 
 test:
