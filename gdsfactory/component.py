@@ -1285,6 +1285,18 @@ class Component(_GeometryHelper):
         self.plot_klayout()
         print(self)
 
+    def add_pins_triangle(
+        self,
+        port_marker_layer: Layer = (1, 10),
+    ):
+        """Returns component with triangular pins."""
+        from gdsfactory.add_pins import add_pins_triangle
+
+        component = self.copy()
+        component.name = self.name
+        add_pins_triangle(component=component, layer=port_marker_layer)
+        return component
+
     def plot_klayout(
         self,
         show_ports: bool = True,
@@ -1298,14 +1310,13 @@ class Component(_GeometryHelper):
             show_ports: shows component with port markers and labels.
             port_marker_layer: for the ports.
         """
-        from gdsfactory.add_pins import add_pins_triangle
 
-        if show_ports:
-            component = self.copy()
-            component.name = self.name
-            add_pins_triangle(component=component, layer=port_marker_layer)
-        else:
-            component = self
+        component = (
+            self.add_pins_triangle(self, port_marker_layer=port_marker_layer)
+            if show_ports
+            else self
+        )
+
         try:
             from gdsfactory.pdk import get_layer_views
             from gdsfactory.widgets.layout_viewer import LayoutViewer
@@ -1546,6 +1557,12 @@ class Component(_GeometryHelper):
         from gdsfactory.add_pins import add_pins_triangle
         from gdsfactory.show import show
 
+        component = (
+            self.add_pins_triangle(port_marker_layer=port_marker_layer)
+            if show_ports
+            else self
+        )
+
         if show_subports:
             component = self.copy()
             component.name = self.name
@@ -1556,13 +1573,6 @@ class Component(_GeometryHelper):
                         reference=reference,
                         layer=port_marker_layer,
                     )
-
-        elif show_ports:
-            component = self.copy()
-            component.name = self.name
-            add_pins_triangle(component=component, layer=port_marker_layer)
-        else:
-            component = self
 
         show(component, **kwargs)
 
@@ -2660,6 +2670,6 @@ if __name__ == "__main__":
     # c.plot_qt()
     # c.ploth()
     # c = test_extract()
-    gdspath = c.write_gds()
-    gf.show(gdspath)
-    # c.show()
+    # gdspath = c.write_gds()
+    # gf.show(gdspath)
+    c.show(show_ports=True)
