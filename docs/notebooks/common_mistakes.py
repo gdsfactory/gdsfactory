@@ -187,4 +187,3 @@ for component in c.get_dependencies(recursive=True):
             f"Component {component.name!r} was NOT properly locked. "
             "You need to write it into a function that has the @cell decorator."
         )
-# -

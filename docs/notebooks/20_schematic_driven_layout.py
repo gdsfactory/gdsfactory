@@ -164,4 +164,3 @@ plt.xlabel("λ [nm]")
 plt.ylabel("T")
 plt.grid(True)
 plt.show()
-# -

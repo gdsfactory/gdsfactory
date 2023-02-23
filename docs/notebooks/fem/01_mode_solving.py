@@ -129,4 +129,3 @@ plt.ylim(1.444, np.max(all_lams) + 0.1 * (np.max(all_lams) - 1.444))
 for lams, te_fracs in zip(all_lams.T, all_te_fracs.T):
     plt.plot(widths, lams)
     plt.scatter(widths, lams, c=te_fracs, cmap="cool")
-# -
