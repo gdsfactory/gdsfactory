@@ -14,6 +14,7 @@ from gdsfactory.simulation.sax.parameter import (
 )
 from gdsfactory.technology import LayerStack
 from gdsfactory.typings import PortSymmetries
+import ray
 
 
 class Model:
@@ -30,13 +31,23 @@ class Model:
         simulation_settings: Optional[Dict[str, Union[float, str, int, Path]]] = None,
         num_modes: int = 2,
         port_symmetries: Optional[PortSymmetries] = None,
+        address: str = None,
+        dashboard_port: int = 8265,
+        num_cpus: int = None,
+        num_cpus_per_task: int = 1,
+        # num_gpus_per_task: int = 0,
+        restart_cluster: bool = False,
+        *args,
+        **kwargs,
     ) -> None:
         """Utility class which simplifies the execution of simulations to build compact models for circuit simulations.
+        Aims to be agnostic to the specific simulator being used.
 
         It contains shared utilities for the different types of Models:
             - Optional simulation hyperparameter tuning routine (TODO)
             - Looping over training variables to generate training examples.
             - Consistent formatting of training examples for model building.
+            - Interface with Ray clusters for distributed processing (even locally, this is beneficial)
 
         Other functionality such as
             - Simulation setup, execution, caching/loading
@@ -46,6 +57,7 @@ class Model:
         TODO:
             - more consistent ordering of input/output data
             - more JAX, less pure Python
+            - reuse Ray cluster across different model instances for simultaneous training
 
         Attributes:
             trainable_component: callable wrapping component associated with model
@@ -58,8 +70,14 @@ class Model:
             port_symmetries: as defined in FDTD solvers. Dict establishing equivalency between S-parameters.
                 e.g. {"o1@0,o1@0": ["o2@0,o2@0", "o3@0,o3@0", "o4@0,o4@0"]} means that S22 = S33 = S44 are the same as S11,
                 and hence the output vector for model training will only contain the key S11 to reduce the number of variables to fit.
+            address: of the Ray cluster to connect to. Defaults to finding a local running instance.
+            dashboard_port: IP address of the dashboard to monitor the cluster
+            num_cpus: available to the cluster (if not autoscaling)
+            num_cpus_per_task: number of CPUs to assign to each task
+            num_gpus_per_task: number of GPUs to assign to each task
+            restart_cluster: if instantiating multiple models in the same Python session, whether to restart the cluster.
         """
-        self.component = trainable_component
+        self.trainable_component = trainable_component
         self.layerstack = layerstack
         self.trainable_parameters = trainable_parameters or {}
         self.non_trainable_parameters = non_trainable_parameters or {}
@@ -81,6 +99,18 @@ class Model:
 
         # self.size_outputs = self.num_ports * self.num_modes
         self.port_symmetries = port_symmetries
+
+        # Cluster resources
+        self.num_cpus_per_task = num_cpus_per_task
+        # self.num_gpus_per_task = num_gpus_per_task
+        if restart_cluster and ray.is_initialized():
+            ray.shutdown()
+        if not ray.is_initialized():
+            ray.init(dashboard_port=dashboard_port, num_cpus=num_cpus)
+
+    """
+    PARAMETERS
+    """
 
     def get_nominal_dict(self):
         """Return input_dict of nominal parameter values."""
@@ -145,6 +175,10 @@ class Model:
             )
         return current_component
 
+    """
+    QUEUING
+    """
+
     def define_output_vector_labels(self):
         """Uses number of component ports, number of modes solved for, and port_symmetries to define smallest output vector."""
         output_vector_labels_iter = product(
@@ -168,18 +202,14 @@ class Model:
 
         return output_vector_labels
 
-    def get_model_input_output(self, type="arange"):
-        """Generate training data
-
-        Retrieve the input and output data for training the model by getting results on all trainable parameter input combinations.
+    def arange_inputs(self, type="arange"):
+        """Prepares input vectors for spanning simulation space.
 
         Arguments:
             type: str, arange or corners. Defines the iterator function to use with parameter objects.
 
         Returns:
-            input_vectors: shape should be [combination_inputs, length trainable_parameters]
-            output_vectors: shape should be [combination_inputs, 2 x num_modes x length port_symmetries]
-                factor of 2 from splitting complex numbers into 2 reals for training
+            ranges_dict: dict, with keys parameter names and values arrays of containing all unique parameter values.
         """
         if type == "arange":
             ranges_dict = {
@@ -193,24 +223,64 @@ class Model:
             }
         else:
             raise ValueError("Type should be arange or corners.")
+
+        return ranges_dict
+
+    def get_output_from_inputs(self, labels, values, remote_function):
+        """Get one output vector from a set of inputs.
+
+        How to map parameters to simulation inputs depends on the target simulator.
+
+        Arguments:
+            labels: keys of the parameters
+            values: values of the parameters
+            remote_function: ray remote function object to use for the simulation
+
+        Returns:
+            remote function ID for delayed execution
+            the remote function returns new_inputs, output_vectors
+            new_inputs is an array containing derived inputs (e.g. wavelength in FDTD broadband simulation)
+            output_vectors is a vector of reals representing the output to model (neff, s-params, etc.)
+        """
+        return NotImplementedError
+
+    def get_all_inputs_outputs(self, type="arange"):
+        """Get all outputs given all sets of inputs.
+
+        get_output_from_inputs and remote_function are defined in the child class.
+        """
+        # Define possible parameter values
+        ranges_dict = self.arange_inputs(type=type)
+        # For all combinations of parameter values
+        input_ids = list(product(*ranges_dict.values()))
+        output_ids = [
+            self.get_output_from_inputs(
+                ranges_dict.keys(), values, self.remote_function
+            )
+            for values in product(*ranges_dict.values())
+        ]
+        # Execute the jobs
+        results = ray.get(output_ids)
+
+        # Parse the outputs into input and output vectors
         input_vectors = []
         output_vectors = []
-
-        for values in product(*ranges_dict.values(), desc="Getting examples: "):
-            # Compute results for this example
-            input_dict = dict(
-                zip(ranges_dict.keys(), [float(value) for value in values])
-            )
-            new_inputs, output_vector = self.outputs_from_inputs(input_dict)
-            input_vector = list(values)
-            input_vector.extend(iter(new_inputs))
+        for input_example, output_example in zip(
+            input_ids, results
+        ):  # TODO no for loops!
+            input_vector = list(input_example)
+            input_vector.extend(output_example[0])
             input_vectors.append(input_vector)
-            output_vectors.append(output_vector)
+            output_vectors.append(output_example[1])
 
         return (
             jnp.array(input_vectors),
             jnp.array(output_vectors),
         )
+
+    """
+    MODELS
+    """
 
     def set_nd_nd_interp(self):
         """Returns ND-ND interpolator.
@@ -219,7 +289,7 @@ class Model:
             self.inference: [callable giving an output_vector given an input_vector]
             list is of length 2*output_vector length, first output_vector entries are real, second imaginary
         """
-        input_vectors, output_vectors = self.get_model_input_output()
+        input_vectors, output_vectors = self.get_all_inputs_outputs()
         self.inference = nd_nd_interpolation(input_vectors, output_vectors)
 
     def set_mlp_interp(self):
@@ -229,7 +299,7 @@ class Model:
             self.inference: [callable giving an output_vector given an input_vector]
             list is of length 2*output_vector length, first output_vector entries are real, second imaginary
         """
-        input_vectors, output_vectors = self.get_model_input_output()
+        input_vectors, output_vectors = self.get_all_inputs_outputs()
         self.inference = mlp_regression(input_vectors, output_vectors)
 
     def input_dict_to_input_vector(self, input_dict):
@@ -246,14 +316,18 @@ class Model:
 
     def validate(self, num_samples=1):
         """Validates the model by calculating random points within the interpolation range, and comparing to predictions."""
-        calculated_outputs = []
+        calculated_outputs_ids = []
         inferred_outputs = []
         validation_inputs = []
         for _index in range(num_samples):
             validation_inputs_local = self.get_random_dict()
             validation_inputs.append(validation_inputs_local)
-            calculated_outputs.append(
-                self.outputs_from_inputs(validation_inputs_local)[1]
+            calculated_outputs_ids.append(
+                self.get_output_from_inputs(
+                    validation_inputs_local.keys(),
+                    validation_inputs_local.values(),
+                    self.remote_function,
+                )
             )
             inferred_outputs_local = [
                 self.inference[mode](validation_inputs_local.values())
@@ -261,4 +335,12 @@ class Model:
             ]
             inferred_outputs.append(inferred_outputs_local)
 
+        # Execute the jobs
+        calculated_outputs_results = ray.get(calculated_outputs_ids)
+
+        # Parse the outputs into input and output vectors
+        calculated_outputs = [
+            calculated_output_vector[1]
+            for calculated_output_vector in calculated_outputs_results
+        ]
         return validation_inputs, calculated_outputs, inferred_outputs
