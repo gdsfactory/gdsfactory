@@ -233,6 +233,6 @@ jupytext:
 	jupytext **/*.ipynb --to py
 
 notebooks:
-	jupytext **/*.py --to ipynb
+	jupytext docs/notebooks/**/*.py --to ipynb
 
 .PHONY: gdsdiff build conda gdslib docs doc
