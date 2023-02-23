@@ -153,11 +153,11 @@ def write_sparameters_meep(
         "o3@0,o1@0": ["o1@0,o3@0", "o2@0,o4@0", "o4@0,o2@0"],
         "o4@0,o1@0": ["o1@0,o4@0", "o2@0,o3@0", "o3@0,o2@0"],
     }
+
     - Only simulations using the outer key port names will be run
     - The associated value is another dict whose keys are the S-parameters computed
         when this source is active
     - The values of this inner Dict are lists of s-parameters whose values are copied
-
 
 
     .. code::
@@ -193,6 +193,7 @@ def write_sparameters_meep(
              |       |zmargin_bot            |
              |       |                       |
              |_______|_______________________|
+
 
 
     Args:
