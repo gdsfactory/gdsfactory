@@ -28,9 +28,7 @@ jobs:
         run: |
           sudo apt install pandoc
           sudo apt install libglu1-mesa
-          make gdslib plugins-debian dev
-      - name: make docs
-        run: |
+          make gdslib plugins-debian full
           cd docs
           make html
       - name: Upload artifact
