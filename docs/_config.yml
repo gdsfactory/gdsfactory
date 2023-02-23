@@ -53,3 +53,8 @@ sphinx:
     #autodoc_typehints: description
     autodoc_type_aliases:
       "ComponentSpec": "ComponentSpec"
+    nb_execution_show_tb: True
+    nb_custom_formats:
+        .py:
+            - jupytext.reads
+            - fmt: py
