@@ -6,7 +6,10 @@ sync:
 	jupytext --sync *.ipynb
 
 python:
-	jupytext *.ipynb --to py
+	jupytext **/*.ipynb --to py
+
+notebooks:
+	jupytext **/*.py --to nb
 
 markdown:
 	jupytext *.ipynb --to md
