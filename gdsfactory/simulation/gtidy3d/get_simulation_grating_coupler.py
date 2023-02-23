@@ -382,12 +382,14 @@ def get_simulation_grating_coupler(
     size_x = 0 if size_x < 0.001 else size_x
     size_y = 0 if size_y < 0.001 else size_y
     size_y = size_y if is_3d else td.inf
-    size_z = wg_thickness + 2 * zmargin
+    size_z = wg_thickness + zmargin + box_thickness
     waveguide_port_size = [size_x, size_y, size_z]
     xy_shifted = move_polar_rad_copy(
         np.array(port.center), angle=angle * np.pi / 180, length=port_waveguide_offset
     )
-    waveguide_port_center = xy_shifted.tolist() + [0]  # (x, y, z=0)
+    waveguide_port_center = xy_shifted.tolist() + [
+        (wg_thickness + zmargin - box_thickness) / 2
+    ]  # (x, y, z)
 
     waveguide_monitor = td.ModeMonitor(
         center=waveguide_port_center,
