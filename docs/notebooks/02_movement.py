@@ -1,6 +1,7 @@
 # ---
 # jupyter:
 #   jupytext:
+#     custom_cell_magics: kql
 #     text_representation:
 #       extension: .py
 #       format_name: light
@@ -55,7 +56,7 @@ e2.xmin = e1.xmax
 c
 # -
 
-# Now let's practice moving and rotating the objects:
+# Now you can practice move and rotate the objects.
 
 # + tags=[]
 c = gf.Component("two_ellipses_on_top_of_each_other")

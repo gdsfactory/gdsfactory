@@ -9,7 +9,8 @@ python:
 	jupytext **/*.ipynb --to py
 
 notebooks:
-	jupytext **/*.py --to nb
+	jupytext *.py --to ipynb
+	jupytext **/*.py --to ipynb
 
 markdown:
 	jupytext *.ipynb --to md
