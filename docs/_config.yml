@@ -11,10 +11,10 @@ execute:
   # execute_notebooks: force
   execute_notebooks: "off"
   exclude_patterns:
-    - "notebooks/plugins/devsim"
-    - "notebooks/plugins/lumerical"
+    - "notebooks/devsim"
+    - "notebooks/lumerical"
     - "notebooks/12_database*"
-    - "notebooks/plugins/ray"
+    - "notebooks/ray"
 
 latex:
   latex_engine: pdflatex # one of 'pdflatex', 'xelatex' (recommended for unicode), 'luatex', 'platex', 'uplatex'
