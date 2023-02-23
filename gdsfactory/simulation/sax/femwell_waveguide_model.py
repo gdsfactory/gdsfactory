@@ -9,7 +9,7 @@ import ray
 from itertools import product
 
 
-@ray.remote(num_gpus=1, num_cpus=1)
+@ray.remote(num_cpus=1)
 def remote_output_from_inputs(
     cross_section,
     layerstack,
@@ -61,7 +61,7 @@ class FemwellWaveguideModel(Model):
         input_ids = []
         output_ids = []
         remote_function = remote_output_from_inputs.options(
-            num_cpus=self.num_cpus_per_task, num_gpus=self.num_gpus_per_task
+            num_cpus=self.num_cpus_per_task,  # num_gpus=self.num_gpus_per_task
         )
         for values in product(*ranges_dict.values()):
             # Prepare this specific input vector
