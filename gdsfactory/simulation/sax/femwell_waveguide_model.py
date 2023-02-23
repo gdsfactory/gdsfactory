@@ -104,9 +104,6 @@ class FemwellWaveguideModel(Model):
         # Convert input dict to numeric (find better way to do this)
         input_numeric = self.input_dict_to_input_vector(input_dict)
 
-        print(input_numeric)
-        print(self.inference[0])
-
         real_neffs = jnp.array(
             [self.inference[mode](input_numeric) for mode in range(self.num_modes)]
         )
