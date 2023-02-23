@@ -35,25 +35,51 @@ chapters:
       - file: notebooks/20_schematic_driven_layout
       - file: notebooks/10_yaml_component.ipynb
       - file: notebooks/11_get_netlist.ipynb
+  - file: workflow
+    sections:
+      - file: notebooks/workflow/jupyter_notebooks.ipynb
+      - file: notebooks/workflow/0_layout_summary.ipynb
+      - file: notebooks/workflow/1_mzi.ipynb
+      - file: notebooks/workflow/2_ring.ipynb
+      - file: notebooks/workflow/3_cascaded_mzi.ipynb
+  - file: plugins_optimization
+    sections:
+      - file: notebooks/plugins/ray/optimiser.ipynb
+  - file: plugins_mesh
+    sections:
+      - file: notebooks/plugins/materials.ipynb
+      - file: notebooks/plugins/meshing/01_intro.ipynb
+      - file: notebooks/plugins/meshing/02_2D_xy_mesh.ipynb
+      - file: notebooks/plugins/meshing/03_2D_uz_mesh.ipynb
+      - file: notebooks/plugins/meshing/04_refinement.ipynb
+  - file: plugins_process
+    sections:
+      - file: notebooks/plugins/thermal/thermal.ipynb
+      - file: notebooks/plugins/devsim/01_pin_waveguide.ipynb
+      - file: notebooks/plugins/tcad/02_analytical_process.ipynb
+      - file: notebooks/plugins/tcad/03_numerical_implantation.ipynb
+  - file: plugins_mode_solver
+    sections:
+      - file: notebooks/plugins/fem/01_mode_solving.ipynb
+      - file: notebooks/plugins/tidy3d/01_tidy3d_modes.ipynb
+      - file: notebooks/plugins/mpb/001_mpb_waveguide.ipynb
+      - file: notebooks/plugins/eme/01_meow.ipynb
+  - file: plugins_fdtd
+    sections:
+      - file: notebooks/plugins/tidy3d/00_tidy3d.ipynb
+      - file: notebooks/plugins/meep/001_meep_sparameters.ipynb
+      - file: notebooks/plugins/meep/002_gratings.ipynb
+      - file: notebooks/plugins/lumerical/1_fdtd_sparameters.ipynb
+  - file: plugins_circuits
+    sections:
+      - file: notebooks/plugins/sax/01_sax.ipynb
+      - file: notebooks/plugins/sax/02_model_extraction.ipynb
+      - file: notebooks/plugins/sax/03_variability_analysis.ipynb
+      - file: notebooks/plugins/lumerical/2_interconnect.ipynb
+  - file: notebooks/12_database.ipynb
   - file: contribution
   - file: CHANGELOG
   - file: components
   - file: api
   - file: routing
   - file: cli
-# - file: notebooks
-# - file: sdl
-# - file: workflow
-# - file: plugins_optimization
-# - file: plugins_mesh
-# - file: plugins_process
-# - file: plugins_mode_solver
-# - file: plugins_fdtd
-# - file: plugins_circuits
-# - file: plugins_database
-# - file: contribution
-# - file: CHANGELOG
-# - file: components
-# - file: api
-# - file: routing
-# - file: cli

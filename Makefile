@@ -233,4 +233,4 @@ notebooks:
 	nbstripout --drop-empty-cells docs/notebooks/*.ipynb
 
 
-.PHONY: gdsdiff build conda gdslib
+.PHONY: gdsdiff build conda gdslib docs doc
