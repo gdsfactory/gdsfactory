@@ -1394,7 +1394,7 @@ class Component(_GeometryHelper):
         Args:
             plotter: plot backend ('holoviews', 'matplotlib', 'qt', 'klayout').
         """
-        plotter = plotter or CONF.get("plotter", "klayout")
+        plotter = plotter or CONF.get("plotter", "matplotlib")
 
         if plotter == "klayout":
             self.plot_klayout()

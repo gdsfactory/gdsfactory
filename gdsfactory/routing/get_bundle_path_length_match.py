@@ -83,8 +83,8 @@ def get_bundle_path_length_match(
 
       a1 = 90
       a2 = a1 + 180
-      ports1 = [gf.Port(f"top_{i}", (xs1[i], +0), 0.5, a1, layer="WG") for i in range(N)]
-      ports2 = [gf.Port(f"bot_{i}", (xs2[i], dy), 0.5, a2, layer="WG") for i in range(N)]
+      ports1 = [gf.Port(name=f"top_{i}", center=(xs1[i], +0), width=0.5, orientation=a1, layer="WG") for i in range(N)]
+      ports2 = [gf.Port(name=f"bot_{i}", center=(xs2[i], dy), width=0.5, orientation=a2, layer="WG") for i in range(N)]
 
       routes = gf.routing.get_bundle_path_length_match(ports1, ports2, extra_length=44)
       for route in routes:
