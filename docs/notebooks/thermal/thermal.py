@@ -163,4 +163,3 @@ mesh = from_meshio(
     mesh_from_OrderedDict(polygons, resolutions, default_resolution_max=0.6)
 )
 mesh.draw().show()
-# -

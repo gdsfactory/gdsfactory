@@ -13,3 +13,6 @@ gdsfactory provides you a similar python API to drive 3 different FDTD simulator
   - Lumerical Ansys FDTD
 
 Gdsfactory follows the Sparameters syntax `o1@0,o2@0` where `o1` is the input port `@0` mode 0 (usually fundamental TE mode) and `o2@0` refers to output port `o2` mode 0.
+
+```{tableofcontents}
+```

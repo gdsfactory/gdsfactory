@@ -376,4 +376,3 @@ def chip():
 gf.get_active_pdk().register_cross_sections(strip=gf.cross_section.strip)
 c = chip()
 c
-# -

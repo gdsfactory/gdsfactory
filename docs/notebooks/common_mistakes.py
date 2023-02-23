@@ -97,8 +97,7 @@ def die_bad():
     """c1 is an intermediate Unnamed cell"""
     c1 = gf.Component()
     c1 << gf.components.straight(length=10)
-    c2 = gf.components.die_bbox(c1, street_width=10)
-    return c2
+    return gf.components.die_bbox(c1, street_width=10)
 
 
 c = die_bad(cache=False)
@@ -187,4 +186,3 @@ for component in c.get_dependencies(recursive=True):
             f"Component {component.name!r} was NOT properly locked. "
             "You need to write it into a function that has the @cell decorator."
         )
-# -

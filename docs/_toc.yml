@@ -44,38 +44,38 @@ chapters:
       - file: notebooks/workflow/3_cascaded_mzi
   - file: plugins_optimization
     sections:
-      - file: notebooks/plugins/ray/optimiser
+      - file: notebooks/ray/optimiser
   - file: plugins_mesh
     sections:
-      - file: notebooks/plugins/materials
-      - file: notebooks/plugins/meshing/01_intro
-      - file: notebooks/plugins/meshing/02_2D_xy_mesh
-      - file: notebooks/plugins/meshing/03_2D_uz_mesh
-      - file: notebooks/plugins/meshing/04_refinement
+      - file: notebooks/materials
+      - file: notebooks/meshing/01_intro
+      - file: notebooks/meshing/02_2D_xy_mesh
+      - file: notebooks/meshing/03_2D_uz_mesh
+      - file: notebooks/meshing/04_refinement
   - file: plugins_process
     sections:
-      - file: notebooks/plugins/thermal/thermal
-      - file: notebooks/plugins/devsim/01_pin_waveguide
-      - file: notebooks/plugins/tcad/02_analytical_process
-      - file: notebooks/plugins/tcad/03_numerical_implantation
+      - file: notebooks/thermal/thermal
+      - file: notebooks/devsim/01_pin_waveguide
+      - file: notebooks/tcad/02_analytical_process
+      - file: notebooks/tcad/03_numerical_implantation
   - file: plugins_mode_solver
     sections:
-      - file: notebooks/plugins/fem/01_mode_solving
-      - file: notebooks/plugins/tidy3d/01_tidy3d_modes
-      - file: notebooks/plugins/mpb/001_mpb_waveguide
-      - file: notebooks/plugins/eme/01_meow
+      - file: notebooks/fem/01_mode_solving
+      - file: notebooks/tidy3d/01_tidy3d_modes
+      - file: notebooks/mpb/001_mpb_waveguide
+      - file: notebooks/eme/01_meow
   - file: plugins_fdtd
     sections:
-      - file: notebooks/plugins/tidy3d/00_tidy3d
-      - file: notebooks/plugins/meep/001_meep_sparameters
-      - file: notebooks/plugins/meep/002_gratings
-      - file: notebooks/plugins/lumerical/1_fdtd_sparameters
+      - file: notebooks/tidy3d/00_tidy3d
+      - file: notebooks/meep/001_meep_sparameters
+      - file: notebooks/meep/002_gratings
+      - file: notebooks/lumerical/1_fdtd_sparameters
   - file: plugins_circuits
     sections:
-      - file: notebooks/plugins/sax/01_sax
-      - file: notebooks/plugins/sax/02_model_extraction
-      - file: notebooks/plugins/sax/03_variability_analysis
-      - file: notebooks/plugins/lumerical/2_interconnect
+      - file: notebooks/sax/01_sax
+      - file: notebooks/sax/02_model_extraction
+      - file: notebooks/sax/03_variability_analysis
+      - file: notebooks/lumerical/2_interconnect
   - file: notebooks/12_database
   - file: contribution
   - file: CHANGELOG

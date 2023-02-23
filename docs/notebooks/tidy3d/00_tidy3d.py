@@ -1,6 +1,7 @@
 # ---
 # jupyter:
 #   jupytext:
+#     custom_cell_magics: kql
 #     text_representation:
 #       extension: .py
 #       format_name: light
@@ -263,6 +264,7 @@ f = gt.plot_simulation(sim)
 
 offsets = np.arange(-5, 6, 5)
 offsets = [-10, -5, 0]
+offsets = [0]
 
 dfs = [
     gt.write_sparameters_grating_coupler(
@@ -366,4 +368,3 @@ plt.xlabel("wavelength (um")
 plt.ylabel("Transmission (dB)")
 plt.title("transmission vs xoffset")
 plt.legend()
-# -

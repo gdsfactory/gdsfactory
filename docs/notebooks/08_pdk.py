@@ -1,6 +1,7 @@
 # ---
 # jupyter:
 #   jupytext:
+#     custom_cell_magics: kql
 #     text_representation:
 #       extension: .py
 #       format_name: light
@@ -366,11 +367,11 @@ gc = gf.partial(
 
 c = gf.components.mzi()
 c_gc = gf.routing.add_fiber_array(component=c, grating_coupler=gc, with_loopback=False)
-c_gc
+c_gc.plot()
 
 # + tags=[]
-# c = c_gc.to_3d()
-# c.show(show_ports=True)
+c = c_gc.to_3d()
+c.show(show_ports=True)
 # -
 
 # ### FabB
@@ -499,11 +500,11 @@ c = mzi()
 wg_gc = gf.routing.add_fiber_array(
     component=c, grating_coupler=gc, cross_section=strip, with_loopback=False
 )
-wg_gc
+wg_gc.plot()
 
 # + tags=[]
-# c = wg_gc.to_3d()
-# c.show(show_ports=True)
+c = wg_gc.to_3d()
+c.show(show_ports=True)
 # -
 
 # ### FabC
@@ -725,11 +726,11 @@ mzi_gc = gf.routing.add_fiber_single(
     straight=straight_nc,
     bend=bend_euler_nc,
 )
-mzi_gc
+mzi_gc.plot()
 
 # + tags=[]
-# c = mzi_gc.to_3d()
-# c.show(show_ports=True)
+c = mzi_gc.to_3d()
+c.show(show_ports=True)
 
 # + tags=[]
 ls = get_layer_stack_fab_c()
@@ -915,8 +916,6 @@ def litho_ruler(
 
 c = litho_ruler(cache=False)
 c.plot()
-
-
 # -
 
 # Lets assume that later on you change the code inside the PCell and want to keep a changelog.
@@ -959,4 +958,3 @@ def litho_ruler(
 
 c = litho_ruler(cache=False)
 c.plot()
-# -

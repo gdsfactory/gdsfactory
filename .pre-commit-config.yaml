@@ -20,9 +20,15 @@ repos:
   #       args: [--profile, black, --filter-files]
 
   - repo: https://github.com/psf/black
-    rev: e506c46f7b44e788dfd279e9a474af83e4e03eca
+    rev: 23.1.0
     hooks:
       - id: black
+
+  # - repo: https://github.com/mwouts/jupytext
+  #   rev: v1.14.4 # CURRENT_TAG/COMMIT_HASH
+  #   hooks:
+  #     - id: jupytext
+  #       args: [--sync]
 
   # - repo: https://github.com/omnilib/ufmt
   #   rev: v2.0.0b1
@@ -32,7 +38,7 @@ repos:
     rev: acb5bdec097a7c332f30d1f85dde4d93df62c979
     hooks:
       - id: blacken-docs
-        additional_dependencies: [black==22.3.0]
+        additional_dependencies: [black==23.1.0]
   # - repo: https://github.com/pycqa/flake8
   #   rev: 33e1c55853fbcc454a2343b9b61a0e715a2f74a4
   #   hooks:
@@ -128,9 +134,9 @@ repos:
   #       additional_dependencies: [jupytext, black] # optional, only if you're using Jupytext
   #     - id: nbqa-pyupgrade
   #       args: ["--py37-plus"]
-      # - id: nbqa-flake8
-      # - id: nbqa-isort
-      #   args: ["--float-to-top"]
+  # - id: nbqa-flake8
+  # - id: nbqa-isort
+  #   args: ["--float-to-top"]
   - repo: https://github.com/charliermarsh/ruff-pre-commit
     rev: "v0.0.242"
     hooks:
