@@ -21,7 +21,6 @@ latex:
 # Add a bibtex file so that we can create citations
 
 html:
-  favicon: favicon.ico
   home_page_in_navbar: true
   use_edit_page_button: true
   use_repository_button: true

@@ -79,7 +79,6 @@ chapters:
   - file: notebooks/12_database
   - file: contribution
   - file: CHANGELOG
-  - file: components
   - file: api
   - file: routing
   - file: cli
