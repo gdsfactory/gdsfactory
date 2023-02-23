@@ -40,7 +40,7 @@ def spiral_racetrack(
         cross_section=cross_section,
         **({"nb_points": n_bend_points} if n_bend_points else {}),
     )
-    c.info['length'] = bend_s.info['length']
+    c.info["length"] = bend_s.info["length"]
 
     ports = []
     for port in bend_s.ports.values():
@@ -59,8 +59,8 @@ def spiral_racetrack(
             )
             straight.connect("o1", bend.ports["o2"])
             port = straight.ports["o2"]
-            
-            c.info['length'] += bend.info['length'] + straight.info['length']
+
+            c.info["length"] += bend.info["length"] + straight.info["length"]
         ports.append(port)
 
     c.add_port("o1", port=ports[0])
