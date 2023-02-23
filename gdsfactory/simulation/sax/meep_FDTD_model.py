@@ -2,8 +2,6 @@ from gdsfactory.pdk import get_layer_stack
 from gdsfactory.simulation.sax.build_model import Model
 from gdsfactory.simulation.gmeep import write_sparameters_meep
 import ray
-from itertools import product
-import jax.numpy as jnp
 from pathlib import Path
 from gdsfactory.config import sparameters_path
 from gdsfactory.read import import_gds
@@ -42,8 +40,8 @@ class MeepFDTDModel(Model):
         self.temp_dir.mkdir(exist_ok=True, parents=True)
 
         self.remote_function = remote_output_from_inputs.options(
-                num_cpus=self.num_cpus_per_task,  # num_gpus=self.num_gpus_per_task
-            )
+            num_cpus=self.num_cpus_per_task,  # num_gpus=self.num_gpus_per_task
+        )
 
         return None
 
@@ -68,9 +66,7 @@ class MeepFDTDModel(Model):
             remote function ID for delayed execution
         """
         # Prepare this specific input vector
-        input_dict = dict(
-            zip(labels, [float(value) for value in values])
-        )
+        input_dict = dict(zip(labels, [float(value) for value in values]))
         # Parse input vector according to parameter type
         param_dict, layerstack_param_dict, litho_param_dict = self.parse_input_dict(
             input_dict

@@ -6,7 +6,6 @@ from gdsfactory.pdk import get_layer_stack
 from gdsfactory.simulation.fem.mode_solver import compute_cross_section_modes
 from gdsfactory.simulation.sax.build_model import Model
 import ray
-from itertools import product
 
 
 @ray.remote(num_cpus=1)
@@ -23,7 +22,7 @@ def remote_output_from_inputs(
     with_cache,
 ):
     """Specific simulator, outside the class for stateless remote execution.
-    
+
     Returns:
         new_inputs: numbers from the simulation that we would like to use as model inputs (e.g. wavelength in FDTD)
         output_vectors: vectors of reals capturing the output of the simulation
@@ -50,19 +49,19 @@ def remote_output_from_inputs(
 
 class FemwellWaveguideModel(Model):
     def __init__(self, **kwargs) -> None:
-        """Waveguide model inferred from Femwell mode simulation."""
+        """Waveguide model inferred from Femwell mode simula tion."""
         super().__init__(**kwargs)
 
         # remote function
         self.remote_function = remote_output_from_inputs.options(
-                num_cpus=self.num_cpus_per_task,  # num_gpus=self.num_gpus_per_task
-            )
+            num_cpus=self.num_cpus_per_task,  # num_gpus=self.num_gpus_per_task
+        )
 
         # results vector size
         self.size_results = self.num_modes
 
         return None
-    
+
     def get_output_from_inputs(self, labels, values, remote_function):
         """Get one output vector from a set of inputs.
 
@@ -77,17 +76,13 @@ class FemwellWaveguideModel(Model):
             remote function ID for delayed execution
         """
         # Prepare this specific input vector
-        input_dict = dict(
-            zip(labels, [float(value) for value in values])
-        )
+        input_dict = dict(zip(labels, [float(value) for value in values]))
         # Parse input vector according to parameter type
         param_dict, layerstack_param_dict, litho_param_dict = self.parse_input_dict(
             input_dict
         )
         # Apply required transformations depending on parameter type
-        input_crosssection = self.trainable_component(param_dict).info[
-            "cross_section"
-        ]
+        input_crosssection = self.trainable_component(param_dict).info["cross_section"]
         input_layerstack = self.perturb_layerstack(layerstack_param_dict)
         # Define function input given parameter values and transformed layerstack/component
         function_input = dict(

@@ -16,6 +16,7 @@ from gdsfactory.technology import LayerStack
 from gdsfactory.typings import PortSymmetries
 import ray
 
+
 class Model:
     def __init__(
         self,
@@ -39,7 +40,7 @@ class Model:
         *args,
         **kwargs,
     ) -> None:
-        """Utility class which simplifies the execution of simulations to build compact models for circuit simulations. 
+        """Utility class which simplifies the execution of simulations to build compact models for circuit simulations.
         Aims to be agnostic to the specific simulator being used.
 
         It contains shared utilities for the different types of Models:
@@ -74,7 +75,7 @@ class Model:
             num_cpus: available to the cluster (if not autoscaling)
             num_cpus_per_task: number of CPUs to assign to each task
             num_gpus_per_task: number of GPUs to assign to each task
-            restart_cluster: if instanciating multiple models in the same Python session, whether to restart the cluster.
+            restart_cluster: if instantiating multiple models in the same Python session, whether to restart the cluster.
         """
         self.trainable_component = trainable_component
         self.layerstack = layerstack
@@ -106,7 +107,6 @@ class Model:
             ray.shutdown()
         if not ray.is_initialized():
             ray.init(dashboard_port=dashboard_port, num_cpus=num_cpus)
-
 
     """
     PARAMETERS
@@ -225,7 +225,7 @@ class Model:
             raise ValueError("Type should be arange or corners.")
 
         return ranges_dict
-    
+
     def get_output_from_inputs(self, labels, values, remote_function):
         """Get one output vector from a set of inputs.
 
@@ -254,10 +254,10 @@ class Model:
         # For all combinations of parameter values
         input_ids = list(product(*ranges_dict.values()))
         output_ids = [
-                self.get_output_from_inputs(
-                    ranges_dict.keys(), values, self.remote_function
-                )
-                for values in product(*ranges_dict.values())
+            self.get_output_from_inputs(
+                ranges_dict.keys(), values, self.remote_function
+            )
+            for values in product(*ranges_dict.values())
         ]
         # Execute the jobs
         results = ray.get(output_ids)
@@ -323,8 +323,10 @@ class Model:
             validation_inputs_local = self.get_random_dict()
             validation_inputs.append(validation_inputs_local)
             calculated_outputs_ids.append(
-                                self.get_output_from_inputs(
-                    validation_inputs_local.keys(), validation_inputs_local.values(), self.remote_function
+                self.get_output_from_inputs(
+                    validation_inputs_local.keys(),
+                    validation_inputs_local.values(),
+                    self.remote_function,
                 )
             )
             inferred_outputs_local = [
@@ -337,8 +339,6 @@ class Model:
         calculated_outputs_results = ray.get(calculated_outputs_ids)
 
         # Parse the outputs into input and output vectors
-        input_vectors = []
-        output_vectors = []
         calculated_outputs = [
             calculated_output_vector[1]
             for calculated_output_vector in calculated_outputs_results

@@ -16,11 +16,11 @@
 #
 # You can use gdsfactory simulation plugins to build SDict models for circuit simulations.
 #
-# The parent `Model` class contains common logic for model building such as input-output vector definition from a set of input parameters, as well as fitting of the input-output vector relationships (for instance, through ND-ND interpolation and feedforward neural nets).
+# The parent `Model` class contains common logic for model building such as input-output vector definition from a set of input parameters, as well as fitting of the input-output vector relationships (for instance, through ND-ND interpolation and feedforward neural nets).  It further interfaces with [Ray](https://www.ray.io/) to distribute the required computations seamlessly from laptop, to cluster, to cloud.
 #
 # The children subclasses inherit all of this machinery, but further define solver- or component-specific information such as:
 #
-# - `outputs_from_inputs` method: how the input vectors (typically, `Component` or `LayerStack` arguments) are mapped to output vectors (this could directly be the S-parameters, or some solver results used to generate S-parameters like effective index)
+# - `outputs_from_inputs` method: how the input vectors (`Component`, `LayerStack`, or lithographic transformation arguments) are mapped to output vectors (this could directly be the S-parameters, or some solver results used to generate S-parameters like effective index)
 # - `sdict` method: how the output vectors are mapped to S-parameter dictionaries for circuit simulation (this could directly be the result of `output_from_input`, or some downstream calculation using the output vectors with some extra Component parameters whose effect on the S-parameters is known and does not require training)
 #
 # For instance, consider a `straight` component in the generic LayerStack
@@ -130,11 +130,15 @@ rib_waveguide_model = FemwellWaveguideModel(
 #
 # (3) the entries of `non_trainable_parameters` are required to calculate the S-parameters, but do not appear in the simulator (their effect can be added after intermediate results have been interpolated).
 #
+#
+# We also provide arguments to launch or connect to a Ray cluster to distribute the computations. `address` is the IP of the cluster (defaults to finding a local running instance, or launching one), `dashboard_port` is the local IP to connect to monitor the tasks, `num_cpus` is the total number of CPUs to allocate the cluster (defaults to autoscaling), `num_cpus_per_task` is the number of CPUs each raylet gets by default.
+#
+#
 # ## Training models
 #
 # The Model object can generate input and output vectors requiring modelling from these dicts:
 
-input_vectors, output_vectors = rib_waveguide_model.get_model_input_output()
+input_vectors, output_vectors = rib_waveguide_model.get_all_inputs_outputs()
 
 # From above, we expect the input vector to have a number of rows equal to the set of trainable parameter points, here len(widths) x len(core_thickness) x len(wavelength) = 15, and a number of columns equal to the number of trainable parameters (3):
 
