@@ -1,6 +1,32 @@
 from gdsfactory.pdk import get_layer_stack
 from gdsfactory.simulation.sax.build_model import Model
 from gdsfactory.simulation.gmeep import write_sparameters_meep
+import ray
+from itertools import product
+import jax.numpy as jnp
+from pathlib import Path
+from gdsfactory.config import sparameters_path
+from gdsfactory.read import import_gds
+
+
+@ray.remote(num_cpus=1)
+def remote_output_from_inputs(**kwargs):
+    input_component = import_gds(kwargs["input_component_file"], read_metadata=True)
+    output_vector_labels = kwargs["output_vector_labels"]
+    del kwargs["input_component_file"]
+    del kwargs["output_vector_labels"]
+
+    sp = write_sparameters_meep(input_component, **kwargs)
+
+    new_inputs = []
+    output_vectors = []
+    for wavelength_index, wavelength in enumerate(sp["wavelengths"]):
+        new_inputs.append(wavelength)
+        output_vectors.append(
+            [sp[output_key][wavelength_index] for output_key in output_vector_labels]
+        )
+
+    return new_inputs, output_vectors
 
 
 class MeepFDTDModel(Model):
@@ -9,6 +35,13 @@ class MeepFDTDModel(Model):
         super().__init__(**kwargs)
 
         self.output_vector_labels = self.define_output_vector_labels()
+
+        self.temp_dir = kwargs.get("tempdir") or Path(sparameters_path) / "temp_ray"
+        self.temp_file_str = kwargs.get("tempfile") or "temp_ray"
+
+        self.temp_dir.mkdir(exist_ok=True, parents=True)
+
+        print(self.temp_dir)
 
         return None
 
@@ -19,39 +52,73 @@ class MeepFDTDModel(Model):
     #     output_vectors.append(output_vector)
     #     return sp
 
-    def outputs_from_inputs(self, input_dict):
+    def get_model_input_output(self, type="arange"):
         """Setup and run a simulation with one set of inputs."""
-        param_dict, layerstack_param_dict, litho_param_dict = self.parse_input_dict(
-            input_dict
+        # Define possible parameter values
+        ranges_dict = self.arange_inputs(type=type)
+        # For all combinations of parameter values
+        input_ids = []
+        output_ids = []
+        remote_function = remote_output_from_inputs.options(
+            num_cpus=self.num_cpus_per_task
         )
-        input_component = self.perturb_geometry(
-            self.component(param_dict), litho_param_dict
-        )
-        # input_layerstack = self.perturb_layerstack(layerstack_param_dict)
-
-        wavelengths = self.non_trainable_parameters["wavelength"]
-
-        sim_settings = self.simulation_settings["sim_settings"]
-        sim_settings["wavelength_start"] = wavelengths.min_value
-        sim_settings["wavelength_stop"] = wavelengths.max_value
-        sim_settings["wavelength_points"] = wavelengths.count()
-
-        # TODO: 2.5D setup
-        # In this case multiple wavelengths probably cannot be extracted from a single simulation, or need dispersive material
-        sp = write_sparameters_meep(input_component, **sim_settings)
-        # Reformat with wavelengths as inputs
-        new_inputs = []
-        output_vectors = []
-        for wavelength_index, wavelength in enumerate(sp["wavelengths"]):
-            new_inputs.append(wavelength)
-            output_vectors.append(
-                [
-                    sp[output_key][wavelength_index]
-                    for output_key in self.output_vector_labels
-                ]
+        for values in product(*ranges_dict.values()):
+            # Prepare this specific input vector
+            input_dict = dict(
+                zip(ranges_dict.keys(), [float(value) for value in values])
             )
+            # Parse input vector according to parameter type
+            param_dict, layerstack_param_dict, litho_param_dict = self.parse_input_dict(
+                input_dict
+            )
+            input_component = self.perturb_geometry(
+                self.trainable_component(param_dict), litho_param_dict
+            )
+            wavelengths = self.non_trainable_parameters["wavelength"]
 
-        return new_inputs, output_vectors
+            sim_settings = self.simulation_settings["sim_settings"]
+            sim_settings["wavelength_start"] = wavelengths.min_value
+            sim_settings["wavelength_stop"] = wavelengths.max_value
+            sim_settings["wavelength_points"] = wavelengths.count()
+
+            # We cannot serialize components, so save it as gds and import instead
+            value_str = [str(value) for value in values]
+            current_file = self.temp_dir / "_".join(list(value_str))
+            print(current_file)
+            input_component_file = current_file.with_suffix(".gds")
+            input_component.write_gds_with_metadata(input_component_file)
+
+            # Define function input given parameter values and transformed layerstack/component
+            function_input = dict(
+                input_component_file=input_component_file,
+                cores=self.num_cpus_per_task,
+                output_vector_labels=self.output_vector_labels,
+            )
+            function_input.update(sim_settings)
+            # Assign the task to a worker as input, new_inputs, output_vector
+            input_ids.append(values)
+            # results.append(remote_output_from_inputs(**function_input))
+            output_ids.append(remote_function.remote(**function_input))
+
+        # Execute the jobs
+        results = ray.get(output_ids)
+
+        # Parse the outputs into input and output vectors
+        input_vectors = []
+        output_vectors = []
+        for input_example, output_example in zip(
+            input_ids, results
+        ):  # TODO no for loops!
+            print(input_example, output_example)
+            input_vector = list(input_example)
+            input_vector.extend(output_example[0])
+            input_vectors.append(input_vector)
+            output_vectors.append(output_example[1])
+
+        return (
+            jnp.array(input_vectors),
+            jnp.array(output_vectors),
+        )
 
 
 if __name__ == "__main__":
@@ -98,7 +165,7 @@ if __name__ == "__main__":
         port_source_names=["o1"],
         port_symmetries=port_symmetries_coupler,
         run=True,
-        overwrite=False,
+        overwrite=True,
         layer_stack=filtered_layerstack,
         z=0.1,
     )
@@ -120,7 +187,7 @@ if __name__ == "__main__":
                 min_value=-0.2,
                 max_value=0.2,
                 nominal_value=0.0,
-                step=0.2,
+                step=0.4,
                 layername="core",
             ),
         },
@@ -130,6 +197,7 @@ if __name__ == "__main__":
             ),
         },
         num_modes=1,
+        num_cpus_per_task=1,
     )
 
     input_vectors, output_vectors = coupler_model.get_model_input_output(type="arange")

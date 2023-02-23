@@ -31,7 +31,7 @@ class Model:
         num_modes: int = 2,
         port_symmetries: Optional[PortSymmetries] = None,
         num_cpus_per_task: int = 1,
-        num_gpus_per_task: int = 0,
+        # num_gpus_per_task: int = 0,
         *args,
         **kwargs,
     ) -> None:
@@ -90,7 +90,7 @@ class Model:
 
         # Resources
         self.num_cpus_per_task = num_cpus_per_task
-        self.num_gpus_per_task = num_gpus_per_task
+        # self.num_gpus_per_task = num_gpus_per_task
 
     def get_nominal_dict(self):
         """Return input_dict of nominal parameter values."""
@@ -202,22 +202,22 @@ class Model:
 
         return ranges_dict
 
-    def get_model_input_output(self, type="arange"):
-        """Generate training data
+    # def get_model_input_output(self, type="arange"):
+    #     """Generate training data
 
-        Retrieve the input and output data for training the model by getting results on all trainable parameter input combinations.
+    #     Retrieve the input and output data for training the model by getting results on all trainable parameter input combinations.
 
-        **Implemented in the child classes.**
+    #     **Implemented in the child classes.**
 
-        Arguments:
-            type: str, arange or corners. Defines the iterator function to use with parameter objects.
+    #     Arguments:
+    #         type: str, arange or corners. Defines the iterator function to use with parameter objects.
 
-        Returns:
-            input_vectors: shape should be [combination_inputs, length trainable_parameters]
-            output_vectors: shape should be [combination_inputs, 2 x num_modes x length port_symmetries]
-                factor of 2 from splitting complex numbers into 2 reals for training
-        """
-        return NotImplementedError
+    #     Returns:
+    #         input_vectors: shape should be [combination_inputs, length trainable_parameters]
+    #         output_vectors: shape should be [combination_inputs, 2 x num_modes x length port_symmetries]
+    #             factor of 2 from splitting complex numbers into 2 reals for training
+    #     """
+    #     return NotImplementedError
 
     def set_nd_nd_interp(self):
         """Returns ND-ND interpolator.
