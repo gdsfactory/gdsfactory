@@ -209,6 +209,7 @@ ignore = [
     "B905",  # `zip()` without an explicit `strict=` parameter
     "C408",  # C408 Unnecessary `dict` call (rewrite as a literal)
 ]
+extend-exclude = ["docs/notebooks"]
 
 [tool.mypy]
 python_version = "3.10"
