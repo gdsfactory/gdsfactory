@@ -83,6 +83,7 @@ gdslib-clean:
 
 gdslib:
 	git clone https://github.com/gdsfactory/gdslib.git -b main gdslib
+	rm -rf $(HOME)/.gdsfactory
 	ln -sf gdslib $(HOME)/.gdsfactory
 
 gdslib-link:
