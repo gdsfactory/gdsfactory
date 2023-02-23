@@ -7,6 +7,10 @@
 - Adding mode converter [PR](https://github.com/gdsfactory/gdsfactory/pull/1325)
 - Add cascaded MZI filter example [PR](https://github.com/gdsfactory/gdsfactory/pull/1323)
 - Derived layers work for more than one etched layer [PR](https://github.com/gdsfactory/gdsfactory/pull/1318)
+- switch notebooks to [jupytext](https://marketplace.visualstudio.com/items?itemName=donjayamanne.vscode-jupytext) [PR](https://github.com/gdsfactory/gdsfactory/pull/1335)
+- add mode converter [PR](https://github.com/gdsfactory/gdsfactory/pull/1325)
+- add length to spiral heater [PR](https://github.com/gdsfactory/gdsfactory/pull/1334)
+- Fix port in grating simulation to avoid substrate overlap [PR](https://github.com/gdsfactory/gdsfactory/pull/1329)
 
 ## [6.43.0](https://github.com/gdsfactory/gdsfactory/pull/1297)
 
