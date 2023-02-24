@@ -15,6 +15,7 @@ try:
     from typing import Optional
     import klayout.db as db
     import klayout.lay as lay
+    from gdsfactory.typings import PathType
 except ImportError as e:
     print(
         "You need install jupyter notebook plugin with `pip install gdsfactory[full]`"
@@ -25,19 +26,18 @@ except ImportError as e:
 class LayoutViewer:
     def __init__(
         self,
-        filepath: str,
+        filepath: PathType,
         layer_properties: Optional[str],
         hide_unused_layers: bool = True,
         with_layer_selector: bool = True,
     ):
-        filepath = str(filepath)
         layer_properties = str(layer_properties)
         self.hide_unused_layers = hide_unused_layers
         self.filepath = filepath
         self.layer_properties = layer_properties
 
         self.layout_view = lay.LayoutView()
-        self.load_layout(filepath, layer_properties)
+        self.load_layout(str(filepath), layer_properties)
 
         if self.hide_unused_layers:
             self.layout_view.remove_unused_layers()
