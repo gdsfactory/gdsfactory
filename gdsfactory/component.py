@@ -1306,16 +1306,15 @@ class Component(_GeometryHelper):
         """Returns ipython widget for klayout visualization.
 
         Defaults to widget plotter with layer selector.
-        If GDSFACTORY_LAYOUT_PLOTTER environment variable is set to 'klayout'
-        does not use the layer selector to save memory.
-
-        If it fails defaults to matplotlib.
+        If GDSFACTORY_LAYOUT_PLOTTER environment variable is set to something else
+        it will use a simple image.
+        If it fails to import klayout or ipywidgets it will use matplotlib.
 
         Args:
             show_ports: shows component with port markers and labels.
             port_marker_layer: for the ports.
         """
-        with_widget = os.environ.get("GDSFACTORY_LAYOUT_PLOTTER") != "klayout"
+        with_widget = os.environ.get("GDSFACTORY_LAYOUT_PLOTTER", "widget") == "widget"
 
         component = (
             self.add_pins_triangle(port_marker_layer=port_marker_layer)
