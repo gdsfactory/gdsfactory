@@ -114,8 +114,15 @@ dev = [
     "jupytext",
     ]
 docs = [
+    "autodoc_pydantic",
+    "docutils==0.17.1",
+    "matplotlib",
     "jupytext",
-    'sphinx_click'
+    "sphinx",
+    "sphinx-autodoc-typehints",
+    "sphinx-book-theme==0.3.3",
+    "sphinx-click",
+    "sphinx-copybutton",
     ]
 ray = [
     "ray[tune,air]",
