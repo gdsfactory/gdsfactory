@@ -54,7 +54,7 @@ full = [
     "freetype-py",
     "holoviews",
     "ipympl",
-    "ipywidgets",
+    "ipywidgets==7.7.3",
     "ipyevents",
     "klayout",
     "mapbox_earcut",
