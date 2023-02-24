@@ -115,6 +115,7 @@ dev = [
     ]
 docs = [
     "jupytext",
+    'sphinx_click'
     ]
 ray = [
     "ray[tune,air]",
