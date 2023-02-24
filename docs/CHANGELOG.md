@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.45.0
+
+- propagate cross_section arg into taper [PR](https://github.com/gdsfactory/gdsfactory/pull/1348)
+- use simple image when rendering docs [PR](https://github.com/gdsfactory/gdsfactory/pull/1348)
+- Distributed model building / corner analysis [PR](https://github.com/gdsfactory/gdsfactory/pull/1343)
+
 ## 6.44.0
 
 - Add layer selector widget to notebook view [PR](https://github.com/gdsfactory/gdsfactory/pull/1312)
