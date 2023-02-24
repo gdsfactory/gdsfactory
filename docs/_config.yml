@@ -59,7 +59,15 @@ sphinx:
   config:
     #autodoc_typehints: description
     autodoc_type_aliases:
+      "ComponentFactory": "ComponentFactory"
       "ComponentSpec": "ComponentSpec"
+      "CrossSectionFactory": "CrossSectionFactory"
+      "CrossSectionSpec": "CrossSectionSpec"
+      "LayerSpec": "LayerSpec"
+      "LayerSpecs": "LayerSpecs"
+      "Layer": "Layer"
+      "Layers": "Layers"
+      "PathType": "PathType"
     nb_execution_show_tb: True
     nb_custom_formats:
         .py:
