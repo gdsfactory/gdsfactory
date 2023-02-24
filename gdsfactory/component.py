@@ -1321,6 +1321,7 @@ class Component(_GeometryHelper):
             import klayout.lay as lay
             from IPython.display import display
             from IPython.display import Image
+            from ipywidgets import AppLayout
 
             gdspath = component.write_gds(logging=False)
             lyp_path = gdspath.with_suffix(".lyp")
@@ -1336,7 +1337,8 @@ class Component(_GeometryHelper):
             pixel_buffer = layout_view.get_pixels_with_options(800, 600)
             png_data = pixel_buffer.to_png_data()
             image = Image(png_data)
-            display(image)
+            widget = AppLayout(center=image, left_sidebar=None)
+            display(widget)
         else:
             component.plot_widget(show_ports=False)
 
