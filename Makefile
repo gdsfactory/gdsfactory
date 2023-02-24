@@ -212,6 +212,7 @@ docs:
 
 docs2:
 	export GDSFACTORY_LAYOUT_PLOTTER=klayout
+	jb build docs
 
 git-rm-merged:
 	git branch -D `git branch --merged | grep -v \* | xargs`
