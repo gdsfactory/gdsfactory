@@ -1301,16 +1301,27 @@ class Component(_GeometryHelper):
     def plot_klayout(
         self, show_ports: bool = True, port_marker_layer: Layer = (1, 10)
     ) -> None:
+        """By default uses widget plotter.
+
+        If GDSFACTORY_LAYOUT_PLOTTER environment variable is set to 'klayout'
+        uses a simple image.
+
+        Args:
+            show_ports: if True add port pins.
+            port_marker_layer: layer spec.
+
+        """
         component = (
             self.add_pins_triangle(port_marker_layer=port_marker_layer)
             if show_ports
             else self
         )
-        if os.environ.get("plotter") == "klayout":
+        if os.environ.get("GDSFACTORY_LAYOUT_PLOTTER") == "klayout":
             from gdsfactory.pdk import get_layer_views
             import klayout.lay as lay
             from IPython.display import display
             from IPython.display import Image
+            from ipywidgets import AppLayout
 
             gdspath = component.write_gds(logging=False)
             lyp_path = gdspath.with_suffix(".lyp")
@@ -1326,7 +1337,8 @@ class Component(_GeometryHelper):
             pixel_buffer = layout_view.get_pixels_with_options(800, 600)
             png_data = pixel_buffer.to_png_data()
             image = Image(png_data)
-            display(image)
+            widget = AppLayout(center=image, left_sidebar=None)
+            display(widget)
         else:
             component.plot_widget(show_ports=False)
 
