@@ -12,7 +12,7 @@
 #     name: python3
 # ---
 
-# # Components
+# # Shapes and generic cells
 #
 # gdsfactory provides some generic parametric cells in `gf.components` that you can customize for your application.
 

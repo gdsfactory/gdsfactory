@@ -14,31 +14,24 @@
 
 # # Cell
 #
-# Problem, In GDS format:
+# A cell is a function that returns a Component.
 #
-# - each component must have a unique name. Ideally the name is also consistent from run to run, in case you want to merge GDS files that were created at different times or computers.
-# - two components stored in the GDS file cannot have the same name. They need to be references (instances) of the same component. See `References tutorial`. That way we only have to store the component in memory once and all the references are just pointers to that component.
+# Make sure you add the `@cell` decorator to each function that returns a Component.
 #
-# Solution: You can add the decorator `@gf.cell` to Parametric cell functions that return a Component:
+# `@cell` comes from PCell `parametric cell`, where the function returns a different Component depending on the input parameters.
+#
+# Why do we need cells?
+#
+# - In GDS each component must have a unique name. Ideally the name is also consistent from run to run, in case you want to merge GDS files that were created at different times or computers.
+# - Two components stored in the GDS file cannot have the same name. They need to be references (instances) of the same component. See `References tutorial`. That way we only have to store the component in memory once and all the references are just pointers to that component.
+#
+# What does the `@cell` decorator does?
 #
 # 1. Gives the component a unique name depending on the parameters that you pass to it.
 # 2. Creates a cache of components where we use the name as the key. The first time the function runs, the cache stores the component, so the second time, you get the component directly from the cache, so you don't create the same component twice.
 #
 #
-# Also, thanks to the `@cell` decorator, GDS cells in gdsfactory include an `metadata` dictionary where you can access all component settings:
-#
-# - `changed` settings used to create the component
-# - `default` settings in function signature
-# - `full` full settings
-# - name
-# - function_name
-# - module
-#
-# `@cell` comes from PCell `parametric cell`, where the function returns a different Component depending on the input parameters.
-#
-# Make sure that your components get good names by adding the `@cell` decorator to that each function that returns a Component.
-#
-# A decorator is a function that runs over a function, so when you do
+# A decorator is a function that runs over a function, so when you do.
 #
 # ```python
 # @gf.cell

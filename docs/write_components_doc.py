@@ -23,10 +23,12 @@ with open(filepath, "w+") as f:
     f.write(
         """
 
-You can customize the Gdsfactory generic PDK PCells for your fab and use it as an inspiration to build your own.
+Here are some generic Parametric cell functions.
+
+You can customize them your fab or use them as an inspiration to build your own.
 
 
-Components
+Generic cell functions
 =============================
 """
     )
