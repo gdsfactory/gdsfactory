@@ -207,6 +207,7 @@ docs:
 	pip install --upgrade jupytext
 	pip install sphinx=="5.3.0"
 	pip install docutils=="0.17.1"
+	export plotter = klayout
 	jb build docs
 
 git-rm-merged:

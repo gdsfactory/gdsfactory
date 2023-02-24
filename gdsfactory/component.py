@@ -4,6 +4,7 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 """
 from __future__ import annotations
 
+import os
 import datetime
 import hashlib
 import itertools
@@ -1298,6 +1299,38 @@ class Component(_GeometryHelper):
         return component
 
     def plot_klayout(
+        self, show_ports: bool = True, port_marker_layer: Layer = (1, 10)
+    ) -> None:
+        component = (
+            self.add_pins_triangle(port_marker_layer=port_marker_layer)
+            if show_ports
+            else self
+        )
+        if os.environ.get("plotter") == "klayout":
+            from gdsfactory.pdk import get_layer_views
+            import klayout.lay as lay
+            from IPython.display import display
+            from IPython.display import Image
+
+            gdspath = component.write_gds(logging=False)
+            lyp_path = gdspath.with_suffix(".lyp")
+
+            layer_views = get_layer_views()
+            layer_views.to_lyp(filepath=lyp_path)
+
+            layout_view = lay.LayoutView()
+            layout_view.load_layout(str(gdspath))
+            layout_view.load_layer_props(str(lyp_path))
+
+            layout_view.max_hier()
+            pixel_buffer = layout_view.get_pixels_with_options(800, 600)
+            png_data = pixel_buffer.to_png_data()
+            image = Image(png_data)
+            display(image)
+        else:
+            component.plot_widget(show_ports=False)
+
+    def plot_widget(
         self,
         show_ports: bool = True,
         port_marker_layer: Layer = (1, 10),
@@ -1312,7 +1345,7 @@ class Component(_GeometryHelper):
         """
 
         component = (
-            self.add_pins_triangle(self, port_marker_layer=port_marker_layer)
+            self.add_pins_triangle(port_marker_layer=port_marker_layer)
             if show_ports
             else self
         )
