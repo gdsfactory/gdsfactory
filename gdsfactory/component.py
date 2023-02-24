@@ -4,6 +4,7 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 """
 from __future__ import annotations
 
+import os
 import datetime
 import hashlib
 import itertools
@@ -1285,7 +1286,61 @@ class Component(_GeometryHelper):
         self.plot_klayout()
         print(self)
 
+    def add_pins_triangle(
+        self,
+        port_marker_layer: Layer = (1, 10),
+    ):
+        """Returns component with triangular pins."""
+        from gdsfactory.add_pins import add_pins_triangle
+
+        component = self.copy()
+        component.name = self.name
+        add_pins_triangle(component=component, layer=port_marker_layer)
+        return component
+
     def plot_klayout(
+        self, show_ports: bool = True, port_marker_layer: Layer = (1, 10)
+    ) -> None:
+        """By default uses widget plotter.
+
+        If GDSFACTORY_LAYOUT_PLOTTER environment variable is set to 'klayout'
+        uses a simple image.
+
+        Args:
+            show_ports: if True add port pins.
+            port_marker_layer: layer spec.
+
+        """
+        component = (
+            self.add_pins_triangle(port_marker_layer=port_marker_layer)
+            if show_ports
+            else self
+        )
+        if os.environ.get("GDSFACTORY_LAYOUT_PLOTTER") == "klayout":
+            from gdsfactory.pdk import get_layer_views
+            import klayout.lay as lay
+            from IPython.display import display
+            from IPython.display import Image
+
+            gdspath = component.write_gds(logging=False)
+            lyp_path = gdspath.with_suffix(".lyp")
+
+            layer_views = get_layer_views()
+            layer_views.to_lyp(filepath=lyp_path)
+
+            layout_view = lay.LayoutView()
+            layout_view.load_layout(str(gdspath))
+            layout_view.load_layer_props(str(lyp_path))
+
+            layout_view.max_hier()
+            pixel_buffer = layout_view.get_pixels_with_options(800, 600)
+            png_data = pixel_buffer.to_png_data()
+            image = Image(png_data)
+            display(image)
+        else:
+            component.plot_widget(show_ports=False)
+
+    def plot_widget(
         self,
         show_ports: bool = True,
         port_marker_layer: Layer = (1, 10),
@@ -1298,14 +1353,13 @@ class Component(_GeometryHelper):
             show_ports: shows component with port markers and labels.
             port_marker_layer: for the ports.
         """
-        from gdsfactory.add_pins import add_pins_triangle
 
-        if show_ports:
-            component = self.copy()
-            component.name = self.name
-            add_pins_triangle(component=component, layer=port_marker_layer)
-        else:
-            component = self
+        component = (
+            self.add_pins_triangle(port_marker_layer=port_marker_layer)
+            if show_ports
+            else self
+        )
+
         try:
             from gdsfactory.pdk import get_layer_views
             from gdsfactory.widgets.layout_viewer import LayoutViewer
@@ -1546,6 +1600,12 @@ class Component(_GeometryHelper):
         from gdsfactory.add_pins import add_pins_triangle
         from gdsfactory.show import show
 
+        component = (
+            self.add_pins_triangle(port_marker_layer=port_marker_layer)
+            if show_ports
+            else self
+        )
+
         if show_subports:
             component = self.copy()
             component.name = self.name
@@ -1556,13 +1616,6 @@ class Component(_GeometryHelper):
                         reference=reference,
                         layer=port_marker_layer,
                     )
-
-        elif show_ports:
-            component = self.copy()
-            component.name = self.name
-            add_pins_triangle(component=component, layer=port_marker_layer)
-        else:
-            component = self
 
         show(component, **kwargs)
 
@@ -2660,6 +2713,6 @@ if __name__ == "__main__":
     # c.plot_qt()
     # c.ploth()
     # c = test_extract()
-    gdspath = c.write_gds()
-    gf.show(gdspath)
-    # c.show()
+    # gdspath = c.write_gds()
+    # gf.show(gdspath)
+    c.show(show_ports=True)

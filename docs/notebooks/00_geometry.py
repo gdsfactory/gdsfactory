@@ -1,17 +1,19 @@
 # ---
 # jupyter:
 #   jupytext:
+#     custom_cell_magics: kql
 #     text_representation:
 #       extension: .py
-#       format_name: light
-#       format_version: '1.5'
-#       jupytext_version: 1.14.4
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 # ---
 
+# %% [markdown]
 # # Component
 #
 # Run this notebook in your browser using [Binder](https://mybinder.org/v2/gh/gdsfactory/binder-sandbox/HEAD) or [Colab](https://colab.research.google.com/github/gdsfactory/gdsfactory/blob/main/docs/notebooks/00_geometry.ipynb).
@@ -22,9 +24,10 @@
 #
 # In gdsfactory **all dimensions** are in **microns**
 
+# %% [markdown]
 # Lets add a polygon
 
-# + tags=[]
+# %% tags=[] vscode={"languageId": "python"}
 import gdsfactory as gf
 from gdsfactory.generic_tech import get_generic_pdk
 
@@ -44,13 +47,13 @@ poly1 = c.add_polygon(
 
 # show it in matplotlib and KLayout (you need to have KLayout open and install gdsfactory from the git repo with make install)
 c
-# -
 
+# %% [markdown]
 # **Exercise** :
 #
 # Make a component similar to the one above that has a second polygon in layer (1, 1)
 
-# + tags=[]
+# %% tags=[] vscode={"languageId": "python"}
 c = gf.Component("myComponent2")
 # Create some new geometry from the functions available in the geometry library
 t = gf.components.text("Hello!")
@@ -72,9 +75,7 @@ r.movex(-15)
 print(c)
 c
 
-
-# -
-
+# %% [markdown]
 # ## Connect **ports**
 #
 # Components can have a "Port" that allows you to connect ComponentReferences together like legos.
@@ -82,7 +83,7 @@ c
 # You can write a simple function to make a rectangular straight, assign ports to the ends, and then connect those rectangles together.
 
 
-# +
+# %% vscode={"languageId": "python"}
 @gf.cell
 def straight(length=10, width=1, layer=(1, 0)):
     WG = gf.Component()
@@ -106,7 +107,7 @@ wg3.movey(20).rotate(15)
 
 c
 
-# +
+# %% vscode={"languageId": "python"}
 # Now we can connect everything together using the ports:
 
 # Each straight has two ports: 'W0' and 'E0'.  These are arbitrary
@@ -119,20 +120,22 @@ wg2.connect("o1", wg1.ports["o2"])
 wg3.connect("o1", wg2.ports["o2"])
 
 c
-# -
 
+# %% vscode={"languageId": "python"}
 c.add_port("o1", port=wg1.ports["o1"])
 c.add_port("o2", port=wg3.ports["o2"])
 c
 
+# %% [markdown]
 # As you can see the `red` labels are for the component ports while
 # `blue` labels are for the sub-ports (children ports)
 
+# %% [markdown]
 # ## Move and rotate references
 #
 # You can move, rotate, and reflect references to Components.
 
-# +
+# %% vscode={"languageId": "python"}
 c = gf.Component("straights_connected")
 
 wg1 = c << straight(length=1, layer=(1, 0))
@@ -160,22 +163,26 @@ wg3.move([1, 1], [5, 5], axis="y")
 wg3.movex(0, 10)
 
 c
-# -
 
+# %% [markdown]
 # ## Ports
 #
 # Your straights wg1/wg2/wg3 are references to other waveguide components.
 #
 # If you want to add ports to the new Component `c` you can use `add_port`, where you can create a new port or use an reference an existing port from the underlying reference.
 
+# %% [markdown]
 # You can access the ports of a Component or ComponentReference
 
+# %% vscode={"languageId": "python"}
 wg2.ports
 
+# %% [markdown]
 # ## References
 #
 # Now that we have your component `c` is a multi-straight component, you can add references to that component in a new blank Component `c2`, then add two references and shift one to see the movement.
 
+# %% vscode={"languageId": "python"}
 c2 = gf.Component("MultiMultiWaveguide")
 wg1 = straight()
 wg2 = straight(layer=(2, 0))
@@ -184,10 +191,12 @@ mwg2_ref = c2.add_ref(wg2)
 mwg2_ref.move(destination=[10, 10])
 c2
 
+# %% vscode={"languageId": "python"}
 # Like before, let's connect mwg1 and mwg2 together
 mwg1_ref.connect(port="o2", destination=mwg2_ref.ports["o1"])
 c2
 
+# %% [markdown]
 # ## Labels
 #
 # You can add abstract GDS labels (annotate) to your Components, in order to record information
@@ -195,7 +204,7 @@ c2
 # This label will display in a GDS viewer, but will not be rendered or printed
 # like the polygons created by gf.components.text().
 
-# +
+# %% vscode={"languageId": "python"}
 c2.add_label(text="First label", position=mwg1_ref.center)
 c2.add_label(text="Second label", position=mwg2_ref.center)
 
@@ -209,8 +218,8 @@ c2.add_label(
 # Again, note we have to write the GDS for it to be visible (view in KLayout)
 c2.write_gds("MultiMultiWaveguideWithLabels.gds")
 c2
-# -
 
+# %% [markdown]
 # ## Boolean shapes
 #
 # If you want to subtract one shape from another, merge two shapes, or
@@ -221,15 +230,18 @@ c2
 # Note that 'A+B' is equivalent to 'or', 'A-B' is equivalent to 'not', and
 # 'B-A' is equivalent to 'not' with the operands switched
 
+# %% vscode={"languageId": "python"}
 c = gf.Component()
 e1 = c.add_ref(gf.components.ellipse(layer=(2, 0)))
 e2 = c.add_ref(gf.components.ellipse(radii=(10, 6), layer=(2, 0))).movex(2)
 e3 = c.add_ref(gf.components.ellipse(radii=(10, 4), layer=(2, 0))).movex(5)
 c
 
+# %% vscode={"languageId": "python"}
 c2 = gf.geometry.boolean(A=[e1, e3], B=e2, operation="A-B", layer=(2, 0))
 c2
 
+# %% vscode={"languageId": "python"}
 c = gf.Component("rectangle_with_label")
 r = c << gf.components.rectangle(size=(1, 1))
 r.x = 0
@@ -241,41 +253,48 @@ c.add_label(
 )
 c
 
+# %% [markdown]
 # ## Move Reference by port
 
+# %% vscode={"languageId": "python"}
 c = gf.Component("ref_port_sample")
 mmi = c.add_ref(gf.components.mmi1x2())
 bend = c.add_ref(gf.components.bend_circular(layer=(2, 0)))
 c
 
+# %% vscode={"languageId": "python"}
 bend.connect("o1", mmi.ports["o2"])  # connects follow Source, destination syntax
 c
 
+# %% [markdown]
 # ## Mirror reference
 #
 # By default the mirror works along the x=0 axis.
 
+# %% vscode={"languageId": "python"}
 c = gf.Component("ref_mirror")
 mmi = c.add_ref(gf.components.mmi1x2())
 bend = c.add_ref(gf.components.bend_circular(layer=(2, 0)))
 c
 
+# %% vscode={"languageId": "python"}
 mmi.mirror()
 c
 
+# %% [markdown]
 # ## Write GDS
 #
 # [GDSII](https://en.wikipedia.org/wiki/GDSII) is the Standard format for exchanging CMOS and Photonic circuits.
 #
 # You can write your Component to GDS file.
 
+# %% vscode={"languageId": "python"}
 c.write_gds("demo.gds")
 
+# %% [markdown]
 # You can see the GDS file in Klayout viewer.
 #
 # Sometimes you also want to save the GDS together with metadata (settings, port names, widths, locations ...) in YAML
 
+# %% vscode={"languageId": "python"}
 c.write_gds_with_metadata("demo.gds")
-
-# [based on phidl
-# tutorial](https://github.com/amccaugh/phidl/blob/master/phidl/phidl_tutorial_example.py#L35)

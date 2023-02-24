@@ -165,9 +165,8 @@ def crossing_etched(
 ) -> Component:
     """Waveguide crossing.
 
-    - The full crossing has to be on WG layer (to start with a 220nm slab)
-    - Then we etch the ellipses down to 150nm slabs and we keep linear taper at 220nm.
-    What we write is what we etch on this step
+    Full crossing has to be on WG layer (to start with a 220nm slab).
+    Then we etch the ellipses down to 150nm slabs and we keep linear taper at 220nm.
 
     Args:
         width: input waveguides width.

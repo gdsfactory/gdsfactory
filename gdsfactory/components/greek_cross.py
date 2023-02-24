@@ -59,6 +59,7 @@ def greek_cross(
         materials using suspended Greek cross test structures," IEEE Transactions on
         Semiconductor Manufacturing, vol. 19, no. 1, pp. 2-9, Feb. 2006,
         doi: 10.1109/TSM.2005.863248.
+
     """
     c = gf.Component()
 
