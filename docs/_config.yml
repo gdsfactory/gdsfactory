@@ -69,7 +69,3 @@ sphinx:
       "Layers": "Layers"
       "PathType": "PathType"
     nb_execution_show_tb: True
-    nb_custom_formats:
-      .py:
-        - jupytext.reads
-        - fmt: py
