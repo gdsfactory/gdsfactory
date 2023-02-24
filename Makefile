@@ -208,6 +208,10 @@ docs:
 	pip install docutils=="0.17.1"
 	jb build docs
 
+d:
+	rm -rf docs/_build
+	jb build docs
+
 git-rm-merged:
 	git branch -D `git branch --merged | grep -v \* | xargs`
 
