@@ -3,7 +3,7 @@ help:
 	@echo 'make test:             Run tests with pytest'
 	@echo 'make test-force:       Rebuilds regression test'
 
-full: gdslib plugins
+full: plugins
 	pip install -e .[docs,dev,full,gmsh,tidy3d,devsim,meow,sax]
 
 all: gdslib plugins install full
@@ -82,7 +82,6 @@ gdslib-clean:
 	rm -rf gdslib
 
 gdslib:
-	git clone https://github.com/gdsfactory/gdslib.git -b main gdslib
 	rm -rf $(HOME)/.gdsfactory
 	ln -sf gdslib $(HOME)/.gdsfactory
 

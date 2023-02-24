@@ -91,7 +91,7 @@ devsim = [
     ]
 meow = ["meow-sim"]
 sax = ["sax==0.8.6", "jaxlib", "jax"]
-dev = [
+tests = [
     "autotyping",
     "black>=21",
     "doc8",
@@ -110,19 +110,11 @@ dev = [
     "types-cachetools",
     "xdoctest",
     ]
+dev = [
+    "jupytext",
+    ]
 docs = [
-    "autodoc_pydantic",
-    "docutils==0.17.1",
-    "matplotlib",
-    "myst-parser",
-    "nbsphinx",
-    "sphinx",
-    "sphinx-autodoc-typehints",
-    "sphinx-book-theme==0.3.3",
-    "sphinx-click",
-    "sphinx-copybutton",
-    "sphinx-markdown-tables==0.0.16",
-    "sphinxcontrib-video",
+    "jupytext",
     ]
 ray = [
     "ray[tune,air]",
