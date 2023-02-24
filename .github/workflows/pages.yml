@@ -36,6 +36,7 @@ jobs:
           sudo apt install libglu1-mesa
           make gdslib plugins-debian full
           make notebooks
+          rm docs/notebooks/*.py
           rm docs/notebooks/**/*.py
           make docs
       - name: Upload artifact
