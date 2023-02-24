@@ -1,17 +1,20 @@
+# -*- coding: utf-8 -*-
 # ---
 # jupyter:
 #   jupytext:
+#     custom_cell_magics: kql
 #     text_representation:
 #       extension: .py
-#       format_name: light
-#       format_version: '1.5'
-#       jupytext_version: 1.14.4
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 # ---
 
+# %% [markdown]
 # # Generic_tech
 #
 # gdsfactory includes a generic Technology module in `gdsfactory.generic_tech` that you can use as an inspiration to create your own.
@@ -41,7 +44,7 @@
 # | 64, 0                | FLOORPLAN  | Mask floorplan                                              |
 #
 
-# + tags=[] vscode={"languageId": "python"}
+# %% tags=[] vscode={"languageId": "python"}
 from pydantic import BaseModel
 from typing import Tuple
 
@@ -50,7 +53,7 @@ from gdsfactory.generic_tech import LAYER, LAYER_STACK
 from gdsfactory.generic_tech.get_klayout_pyxs import get_klayout_pyxs
 from gdsfactory.technology import LayerLevel, LayerStack
 
-# + tags=[] vscode={"languageId": "python"}
+# %% tags=[] vscode={"languageId": "python"}
 Layer = Tuple[int, int]
 
 gf.config.rich_output()
@@ -128,17 +131,17 @@ class GenericLayerMap(BaseModel):
 LAYER = GenericLayerMap()
 LAYER
 
-# + tags=[] vscode={"languageId": "python"}
+# %% tags=[] vscode={"languageId": "python"}
 layer_wg = gf.LAYER.WG
 print(layer_wg)
-# -
 
+# %% [markdown]
 # ### Extract layers
 #
 # You can also extract layers using the `extract` function. This function returns a new flattened Component that contains the extracted layers.
 # A flat Component does not have references, and all the polygons are absorbed into the top cell.
 
-# + tags=[] vscode={"languageId": "python"}
+# %% tags=[] vscode={"languageId": "python"}
 from gdsfactory.generic_tech import get_generic_pdk
 
 PDK = get_generic_pdk()
@@ -148,33 +151,33 @@ LAYER_VIEWS = PDK.layer_views
 c = LAYER_VIEWS.preview_layerset()
 c
 
-# + tags=[] vscode={"languageId": "python"}
+# %% tags=[] vscode={"languageId": "python"}
 extract = c.extract(layers=(gf.LAYER.M1, gf.LAYER.VIAC))
 extract
-# -
 
+# %% [markdown]
 # ### Remove layers
 #
 # You can remove layers using the `remove_layers()` function.
 
-# + tags=[] vscode={"languageId": "python"}
+# %% tags=[] vscode={"languageId": "python"}
 removed = extract.remove_layers(layers=(gf.LAYER.VIAC,))
 removed
-# -
 
+# %% [markdown]
 # ### Remap layers
 #
 # You can remap (change the polygons from one layer to another layer) using the `remap_layer`, which will return a new `Component`
 
-# + tags=[] vscode={"languageId": "python"}
+# %% tags=[] vscode={"languageId": "python"}
 c = gf.components.straight(layer=(2, 0))
 c
 
-# + tags=[] vscode={"languageId": "python"}
+# %% tags=[] vscode={"languageId": "python"}
 remap = c.remap_layers(layermap={(2, 0): gf.LAYER.WGN})
 remap
-# -
 
+# %% [markdown]
 # ## LayerViews
 #
 # Klayout shows each GDS layer with a color, style and transparency
@@ -182,54 +185,50 @@ remap
 # You can define your layerViews in a klayout Layer Properties file `layers.lyp` or in `YAML` format
 #
 # We recommend using YAML and then generate the lyp in klayout, as YAML is easier to modify than XML.
-#
-# ```python
-#
-# ```
 
-# + tags=[] vscode={"languageId": "python"}
+# %% tags=[] vscode={"languageId": "python"}
 from IPython.display import Code
 from gdsfactory.config import PATH
 
 Code(filename=PATH.klayout_yaml)
-# -
 
-# Once you modify the `YAML` file you can easily write it to klayout.
+# %% [markdown]
+# Once you modify the `YAML` file you can easily write it to klayout layer properties `lyp`
 
-# + tags=[] vscode={"languageId": "python"}
+# %% tags=[] vscode={"languageId": "python"}
 help(gf.generic_tech.write_lyp)
 
-# + tags=[] vscode={"languageId": "python"}
+# %% tags=[] vscode={"languageId": "python"}
 c = LAYER_VIEWS.preview_layerset()
 c
-# -
 
+# %% [markdown]
 # By default the generic PDK has some layers that are not visible and therefore are not shown.
 
-# + tags=[] vscode={"languageId": "python"}
+# %% tags=[] vscode={"languageId": "python"}
 c_wg_clad = c.extract(layers=gf.LAYER.WGCLAD)
 c_wg_clad
 
-# + tags=[] vscode={"languageId": "python"}
+# %% tags=[] vscode={"languageId": "python"}
 LAYER_VIEWS.layer_views["WGCLAD"]
 
-# + tags=[] vscode={"languageId": "python"}
+# %% tags=[] vscode={"languageId": "python"}
 LAYER_VIEWS.layer_views["WGCLAD"].visible
-# -
 
+# %% [markdown]
 # You can make it visible
 
-# + tags=[] vscode={"languageId": "python"}
+# %% tags=[] vscode={"languageId": "python"}
 LAYER_VIEWS.layer_views["WGCLAD"].visible = True
 
-# + tags=[] vscode={"languageId": "python"}
+# %% tags=[] vscode={"languageId": "python"}
 LAYER_VIEWS.layer_views["WGCLAD"].visible
 
-# + tags=[] vscode={"languageId": "python"}
+# %% tags=[] vscode={"languageId": "python"}
 c_wg_clad = c.extract(layers=gf.LAYER.WGCLAD)
 c_wg_clad
-# -
 
+# %% [markdown]
 # ## LayerStack
 #
 # Each layer also includes the information of thickness and position of each layer.
@@ -242,7 +241,7 @@ c_wg_clad
 #
 # Lets define the layer stack for the generic layers in the generic_technology.
 
-# + tags=[] vscode={"languageId": "python"}
+# %% tags=[] vscode={"languageId": "python"}
 from gdsfactory.generic_tech.layer_map import LAYER
 from gdsfactory.technology import LayerLevel, LayerStack
 
@@ -446,53 +445,53 @@ def get_layer_stack(
 LAYER_STACK = get_layer_stack()
 layer_stack220 = LAYER_STACK
 
-# + tags=[] vscode={"languageId": "python"}
+# %% tags=[] vscode={"languageId": "python"}
 import gdsfactory as gf
 
 c = gf.components.straight_heater_doped_rib(length=100)
 c
 
-# + tags=[] vscode={"languageId": "python"}
+# %% tags=[] vscode={"languageId": "python"}
 scene = c.to_3d(layer_stack=layer_stack220)
 scene.show()
 
-# + tags=[] vscode={"languageId": "python"}
+# %% tags=[] vscode={"languageId": "python"}
 import gdsfactory as gf
 
 c = gf.components.straight_heater_metal(length=40)
 c
 
-# + tags=[] vscode={"languageId": "python"}
+# %% tags=[] vscode={"languageId": "python"}
 scene = c.to_3d(layer_stack=layer_stack220)
 scene.show()
 
-# + tags=[] vscode={"languageId": "python"}
+# %% tags=[] vscode={"languageId": "python"}
 import gdsfactory as gf
 
 c = gf.components.taper_strip_to_ridge_trenches()
 c
 
-# + tags=[] vscode={"languageId": "python"}
+# %% tags=[] vscode={"languageId": "python"}
 scene = c.to_3d(layer_stack=layer_stack220)
 scene.show()
 
-# + tags=[] vscode={"languageId": "python"}
+# %% tags=[] vscode={"languageId": "python"}
 # lets assume we have 900nm silicon instead of 220nm, You will see a much thicker waveguide under the metal heater.
 layer_stack900 = get_layer_stack(thickness_wg=900 * nm)
 scene = c.to_3d(layer_stack=layer_stack900)
 scene.show()
 
-# + tags=[] vscode={"languageId": "python"}
+# %% tags=[] vscode={"languageId": "python"}
 import gdsfactory as gf
 
 c = gf.components.grating_coupler_elliptical_trenches()
 c
 
-# + tags=[] vscode={"languageId": "python"}
+# %% tags=[] vscode={"languageId": "python"}
 scene = c.to_3d()
 scene.show()
-# -
 
+# %% [markdown]
 # ### 3D rendering
 #
 # To render components in 3D you will need to define two things:
@@ -500,23 +499,23 @@ scene.show()
 # 1. LayerStack: for each layer contains thickness of each material and z position
 # 2. LayerViews: for each layer contains view (color, pattern, opacity). You can load it with `gf.technology.LayerView.load_lyp()`
 
-# + tags=[] vscode={"languageId": "python"}
+# %% tags=[] vscode={"languageId": "python"}
 heater = gf.components.straight_heater_metal(length=50)
 heater
 
-# + tags=[] vscode={"languageId": "python"}
+# %% tags=[] vscode={"languageId": "python"}
 scene = heater.to_3d()
 scene.show()
-# -
 
+# %% [markdown]
 # ### Klayout 2.5D view
 #
 # From the `LayerStack` you can generate the KLayout 2.5D view script.
 
-# + tags=[] vscode={"languageId": "python"}
+# %% tags=[] vscode={"languageId": "python"}
 LAYER_STACK.get_klayout_3d_script()
-# -
 
+# %% [markdown]
 # Then you go go Tools → Manage Technologies
 #
 #
@@ -526,6 +525,7 @@ LAYER_STACK.get_klayout_3d_script()
 #
 # ![paste](https://i.imgur.com/CoTythB.png)
 
+# %% [markdown]
 # ### Klayout cross-section
 #
 # You can also install the [KLayout cross-section plugin](https://gdsfactory.github.io/klayout_pyxs/README.html)
@@ -534,7 +534,7 @@ LAYER_STACK.get_klayout_3d_script()
 #
 # This is not integrated with the LayerStack but you can customize the script in `gdsfactory.generic_tech.get_klayout_pyxs` for your technology.
 
-# + tags=[] vscode={"languageId": "python"}
+# %% tags=[] vscode={"languageId": "python"}
 nm = 1e-3
 if __name__ == "__main__":
     script = get_klayout_pyxs(
@@ -585,7 +585,7 @@ if __name__ == "__main__":
     # script_path = pathlib.Path(__file__).parent.absolute() / "xsection_planarized.pyxs"
     # script_path.write_text(script)
     print(script)
-# -
 
 
+# %% [markdown]
 # ![xsection generic](https://i.imgur.com/H5Qiygc.png)
