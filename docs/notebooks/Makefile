@@ -1,6 +1,6 @@
 format:
 	jupytext --pipe black *.ipynb
-	jupytext --pipe black plugins/**/*.ipynb
+	jupytext --pipe black **/*.ipynb
 
 sync:
 	jupytext --sync *.ipynb
@@ -15,7 +15,7 @@ notebooks:
 markdown:
 	jupytext *.ipynb --to md
 	jupytext **/*.ipynb --to md
-	jupytext plugins/**/*.ipynb --to md
+	jupytext **/*.ipynb --to md
 
 clean:
 	nbstripout --drop-empty-cells *.ipynb

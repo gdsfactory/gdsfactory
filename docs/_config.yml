@@ -15,11 +15,11 @@ execute:
   # execute_notebooks: force
   # execute_notebooks: "off"
   exclude_patterns:
-    - '*01_pin_waveguide*'
-    - '*1_fdtd_sparameters*'
-    - '*2_interconnect*'
-    - '*12_database*'
-    - '*optimiser*'
+    - "*01_pin_waveguide*"
+    - "*1_fdtd_sparameters*"
+    - "*2_interconnect*"
+    - "*12_database*"
+    - "*optimiser*"
 
 latex:
   latex_engine: pdflatex # one of 'pdflatex', 'xelatex' (recommended for unicode), 'luatex', 'platex', 'uplatex'
@@ -42,7 +42,7 @@ repository:
 
 launch_buttons:
   notebook_interface: jupyterlab
-  binderhub_url: "https://mybinder.org/v2/gh/gdsfactory/gdsfactory/HEAD"
+  binderhub_url: "https://mybinder.org/v2/gh/gdsfactory/binder-sandbox/HEAD"
   colab_url: "https://colab.research.google.com"
   thebe: true
 
@@ -70,6 +70,6 @@ sphinx:
       "PathType": "PathType"
     nb_execution_show_tb: True
     nb_custom_formats:
-        .py:
-            - jupytext.reads
-            - fmt: py
+      .py:
+        - jupytext.reads
+        - fmt: py
