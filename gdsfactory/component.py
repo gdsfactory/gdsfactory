@@ -1315,7 +1315,7 @@ class Component(_GeometryHelper):
             show_ports: shows component with port markers and labels.
             port_marker_layer: for the ports.
         """
-        with_layer_selector = os.environ.get("GDSFACTORY_LAYOUT_PLOTTER") != "klayout"
+        with_widget = os.environ.get("GDSFACTORY_LAYOUT_PLOTTER") != "klayout"
 
         component = (
             self.add_pins_triangle(port_marker_layer=port_marker_layer)
@@ -1325,7 +1325,7 @@ class Component(_GeometryHelper):
 
         try:
             from gdsfactory.pdk import get_layer_views
-            from gdsfactory.widgets.layout_viewer import LayoutViewer
+            from gdsfactory.widgets.layout_viewer import LayoutViewer, Image
             from IPython.display import display
 
             gdspath = component.write_gds(logging=False)
@@ -1333,10 +1333,24 @@ class Component(_GeometryHelper):
 
             layer_views = get_layer_views()
             layer_views.to_lyp(filepath=lyp_path)
-            layout = LayoutViewer(
-                gdspath, lyp_path, with_layer_selector=with_layer_selector
-            )
-            display(layout.widget)
+
+            if with_widget:
+                layout = LayoutViewer(gdspath, lyp_path)
+                display(layout.widget)
+
+            else:
+                import klayout.db as db  # noqa: F401
+                import klayout.lay as lay
+
+                layout_view = lay.LayoutView()
+                layout_view.load_layout(str(gdspath.absolute()))
+                layout_view.max_hier()
+
+                pixel_buffer = layout_view.get_pixels_with_options(800, 600)
+                png_data = pixel_buffer.to_png_data()
+                image = Image(value=png_data, format="png")
+                display(image)
+
         except ImportError:
             print(
                 "You can install `pip install gdsfactory[full]` for better visualization"
@@ -2680,4 +2694,5 @@ if __name__ == "__main__":
     # c = test_extract()
     # gdspath = c.write_gds()
     # gf.show(gdspath)
-    c.show(show_ports=True)
+    # c.show(show_ports=True)
+    c.plot_klayout()
