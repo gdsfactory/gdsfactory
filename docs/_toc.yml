@@ -4,6 +4,5 @@
 format: jb-book
 root: index
 chapters:
-  - file: getting_started
-    sections:
-      - file: notebooks/_0_python
+  - file: notebooks/_0_python
+  - file: components
