@@ -37,16 +37,18 @@ def mode_converter(
         cross_section: cross_section spec.
         kwargs: cross_section settings.
 
-    o2 ---           --- o4
-          \         /
-           \       /
-            -------
-    o1 -----=======----- o3
-            |-----|
-            length
+    .. code::
 
-    = : multimode width
-    - : singlemode width
+        o2 ---           --- o4
+              \         /
+               \       /
+                -------
+        o1 -----=======----- o3
+                |-----|
+                length
+
+        = : multimode width
+        - : singlemode width
     """
 
     c = Component()

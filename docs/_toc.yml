@@ -6,7 +6,4 @@ root: index
 chapters:
   - file: getting_started
     sections:
-      - file: notebooks/_2_klayout
-      - file: notebooks/_3_vscode
       - file: notebooks/_0_python
-      - file: notebooks/_1_git
