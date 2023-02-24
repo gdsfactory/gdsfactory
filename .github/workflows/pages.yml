@@ -29,7 +29,7 @@ jobs:
           TIDY3D_PASS: ${{ secrets.TIDY3D_PASSWORD }}
           DISPLAY: 1.0
           DOCS: True
-          plotter: klayout
+          GDSFACTORY_LAYOUT_PLOTTER: klayout
         shell: bash -l {0}
         run: |
           sudo apt install pandoc
