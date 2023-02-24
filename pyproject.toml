@@ -116,6 +116,7 @@ docs = [
     "matplotlib",
     "myst-parser",
     "nbsphinx",
+    "jupytext",
     "sphinx",
     "sphinx-autodoc-typehints",
     "sphinx-book-theme==0.3.3",
