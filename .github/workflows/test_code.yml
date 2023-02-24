@@ -135,4 +135,11 @@ jobs:
         run: |
           mkdir -p $HOME/.tidy3d
           echo ${{ secrets.TIDY3D_AUTH }} > $HOME/.tidy3d/auth.json
+          make notebooks
+          rm docs/notebooks/*.py
+          rm docs/notebooks/**/*.py
           make docs
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: "./docs/_build/html/"
