@@ -28,6 +28,7 @@ class LayoutViewer:
         filepath: str,
         layer_properties: Optional[str],
         hide_unused_layers: bool = True,
+        with_layer_selector: bool = True,
     ):
         filepath = str(filepath)
         layer_properties = str(layer_properties)
@@ -55,13 +56,16 @@ class LayoutViewer:
         )
         mouse_event.on_dom_event(self.on_mouse_down)
 
-        self.layer_selector_tabs = self.build_layer_selector(
-            max_height=pixel_buffer.height()
-        )
+        if with_layer_selector:
+            layer_selector_tabs = self.layer_selector_tabs = self.build_layer_selector(
+                max_height=pixel_buffer.height()
+            )
+        else:
+            layer_selector_tabs = None
 
         self.widget = AppLayout(
             center=self.image,
-            right_sidebar=self.layer_selector_tabs,
+            right_sidebar=layer_selector_tabs,
             left_sidebar=None,
             # footer=VBox([self.wheel_info, self.mouse_info]),
             align_items="top",

@@ -1299,62 +1299,23 @@ class Component(_GeometryHelper):
         return component
 
     def plot_klayout(
-        self, show_ports: bool = True, port_marker_layer: Layer = (1, 10)
-    ) -> None:
-        """By default uses widget plotter.
-
-        If GDSFACTORY_LAYOUT_PLOTTER environment variable is set to 'klayout'
-        uses a simple image.
-
-        Args:
-            show_ports: if True add port pins.
-            port_marker_layer: layer spec.
-
-        """
-        component = (
-            self.add_pins_triangle(port_marker_layer=port_marker_layer)
-            if show_ports
-            else self
-        )
-        if os.environ.get("GDSFACTORY_LAYOUT_PLOTTER") == "klayout":
-            from gdsfactory.pdk import get_layer_views
-            import klayout.lay as lay
-            from IPython.display import display
-            from IPython.display import Image
-            from ipywidgets import AppLayout
-
-            gdspath = component.write_gds(logging=False)
-            lyp_path = gdspath.with_suffix(".lyp")
-
-            layer_views = get_layer_views()
-            layer_views.to_lyp(filepath=lyp_path)
-
-            layout_view = lay.LayoutView()
-            layout_view.load_layout(str(gdspath))
-            layout_view.load_layer_props(str(lyp_path))
-
-            layout_view.max_hier()
-            pixel_buffer = layout_view.get_pixels_with_options(800, 600)
-            png_data = pixel_buffer.to_png_data()
-            image = Image(png_data)
-            widget = AppLayout(center=image, left_sidebar=None)
-            display(widget)
-        else:
-            component.plot_widget(show_ports=False)
-
-    def plot_widget(
         self,
         show_ports: bool = True,
         port_marker_layer: Layer = (1, 10),
     ) -> None:
         """Returns ipython widget for klayout visualization.
 
-        Defaults to matplotlib if it fails to import ipywidgets.
+        Defaults to widget plotter with layer selector.
+        If GDSFACTORY_LAYOUT_PLOTTER environment variable is set to 'klayout'
+        does not use the layer selector to save memory.
+
+        If it fails defaults to matplotlib.
 
         Args:
             show_ports: shows component with port markers and labels.
             port_marker_layer: for the ports.
         """
+        with_layer_selector = os.environ.get("GDSFACTORY_LAYOUT_PLOTTER") != "klayout"
 
         component = (
             self.add_pins_triangle(port_marker_layer=port_marker_layer)
@@ -1372,7 +1333,9 @@ class Component(_GeometryHelper):
 
             layer_views = get_layer_views()
             layer_views.to_lyp(filepath=lyp_path)
-            layout = LayoutViewer(gdspath, lyp_path)
+            layout = LayoutViewer(
+                gdspath, lyp_path, with_layer_selector=with_layer_selector
+            )
             display(layout.widget)
         except ImportError:
             print(
