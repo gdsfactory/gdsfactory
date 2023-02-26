@@ -27,6 +27,7 @@ from gdsfactory.simulation.gmeep.write_sparameters_meep import (
 )
 from gdsfactory.technology import LayerStack
 from gdsfactory.typings import ComponentSpec, PathType
+import pickle
 
 ncores = multiprocessing.cpu_count()
 
@@ -160,6 +161,10 @@ def write_sparameters_meep_mpi(
     layer_stack_json = layer_stack.json()
     filepath_json.write_text(layer_stack_json)
 
+    parameters_file = tempfile.with_suffix(".pkl")
+    with open(parameters_file, "wb") as outp:
+        pickle.dump(settings, outp, pickle.HIGHEST_PROTOCOL)
+
     # Save component to disk through gds for gdstk compatibility
     component_file = tempfile.with_suffix(".gds")
     component.write_gds_with_metadata(component_file)
@@ -167,16 +172,21 @@ def write_sparameters_meep_mpi(
     # Write execution file
     script_lines = [
         "import pathlib\n",
+        "import pickle\n",
         "from gdsfactory.simulation.gmeep import write_sparameters_meep\n\n",
         "from gdsfactory.read import import_gds\n",
         "from gdsfactory.technology import LayerStack\n\n",
         "if __name__ == '__main__':\n",
+        f"\twith open(\"{parameters_file}\", 'rb') as inp:\n",
+        "\t\tparameters_dict = pickle.load(inp)\n\n",
         f"\tcomponent = import_gds({str(component_file)!r}, read_metadata=True)\n",
         f"\tfilepath_json = pathlib.Path({str(filepath_json)!r})\n",
         "\tlayer_stack = LayerStack.parse_raw(filepath_json.read_text())\n",
         f"\twrite_sparameters_meep(component=component, overwrite={overwrite}, "
-        f"layer_stack=layer_stack, filepath={str(filepath)!r})",
+        f"layer_stack=layer_stack, filepath={str(filepath)!r},",
     ]
+    script_lines.extend(f'\t\t{key} = parameters_dict["{key}"],\n' for key in settings)
+    script_lines.append("\t)")
 
     script_file = tempfile.with_suffix(".py")
     with open(script_file, "w") as script_file_obj:
@@ -242,8 +252,9 @@ if __name__ == "__main__":
         live_output=True,
         # lazy_parallelism=True,
         lazy_parallelism=False,
-        # temp_dir = "./test/",
-        # filepath="instance_dict.csv",
+        temp_dir="./test/",
+        filepath="instance_dict.csv",
+        resolution=20,
     )
     sp = np.load(filepath)
     print(list(sp.keys()))
