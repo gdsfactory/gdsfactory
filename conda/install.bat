@@ -10,7 +10,8 @@ call pip install gdsfactory[full,gmsh,tidy3d,devsim,meow,ray,database]==6.45.1
 call gf tool install
 
 call conda install -c conda-forge slepc4py=*=complex* -y
-call conda install -c conda-forge git spyder -y
+call conda install -c conda-forge git -y
+call pip install femwell
 
 call python shortcuts.py
 
