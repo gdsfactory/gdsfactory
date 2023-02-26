@@ -4,7 +4,6 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 """
 from __future__ import annotations
 
-import os
 import datetime
 import hashlib
 import itertools
@@ -1298,23 +1297,49 @@ class Component(_GeometryHelper):
         add_pins_triangle(component=component, layer=port_marker_layer)
         return component
 
-    def plot_klayout(
+    def plot_widget(
         self,
         show_ports: bool = True,
         port_marker_layer: Layer = (1, 10),
-    ) -> None:
+    ):
         """Returns ipython widget for klayout visualization.
-
-        Defaults to widget plotter with layer selector.
-        If GDSFACTORY_LAYOUT_PLOTTER environment variable is set to something else
-        it will use a simple image.
-        If it fails to import klayout or ipywidgets it will use matplotlib.
 
         Args:
             show_ports: shows component with port markers and labels.
             port_marker_layer: for the ports.
         """
-        with_widget = os.environ.get("GDSFACTORY_LAYOUT_PLOTTER", "widget") == "widget"
+        from gdsfactory.pdk import get_layer_views
+        from gdsfactory.widgets.layout_viewer import LayoutViewer
+        from IPython.display import display
+
+        component = (
+            self.add_pins_triangle(port_marker_layer=port_marker_layer)
+            if show_ports
+            else self
+        )
+
+        gdspath = component.write_gds(logging=False)
+        lyp_path = gdspath.with_suffix(".lyp")
+
+        layer_views = get_layer_views()
+        layer_views.to_lyp(filepath=lyp_path)
+
+        layout = LayoutViewer(gdspath, lyp_path)
+        display(layout.widget)
+
+    def plot_klayout(
+        self,
+        show_ports: bool = True,
+        port_marker_layer: Layer = (1, 10),
+    ) -> None:
+        """Returns klayout image.
+
+        If it fails to import klayout defaults to matplotlib.
+
+        Args:
+            show_ports: shows component with port markers and labels.
+            port_marker_layer: for the ports.
+        """
 
         component = (
             self.add_pins_triangle(port_marker_layer=port_marker_layer)
@@ -1323,9 +1348,11 @@ class Component(_GeometryHelper):
         )
 
         try:
+            import klayout.db as db  # noqa: F401
+            import klayout.lay as lay
             from gdsfactory.pdk import get_layer_views
-            from gdsfactory.widgets.layout_viewer import LayoutViewer, Image
             from IPython.display import display
+            from ipywidgets import Image
 
             gdspath = component.write_gds(logging=False)
             lyp_path = gdspath.with_suffix(".lyp")
@@ -1333,22 +1360,15 @@ class Component(_GeometryHelper):
             layer_views = get_layer_views()
             layer_views.to_lyp(filepath=lyp_path)
 
-            if with_widget:
-                layout = LayoutViewer(gdspath, lyp_path)
-                display(layout.widget)
+            layout_view = lay.LayoutView()
+            layout_view.load_layout(str(gdspath.absolute()))
+            layout_view.max_hier()
+            layout_view.load_layer_props(str(lyp_path))
 
-            else:
-                import klayout.db as db  # noqa: F401
-                import klayout.lay as lay
-
-                layout_view = lay.LayoutView()
-                layout_view.load_layout(str(gdspath.absolute()))
-                layout_view.max_hier()
-
-                pixel_buffer = layout_view.get_pixels_with_options(800, 600)
-                png_data = pixel_buffer.to_png_data()
-                image = Image(value=png_data, format="png")
-                display(image)
+            pixel_buffer = layout_view.get_pixels_with_options(800, 600)
+            png_data = pixel_buffer.to_png_data()
+            image = Image(value=png_data, format="png")
+            display(image)
 
         except ImportError:
             print(

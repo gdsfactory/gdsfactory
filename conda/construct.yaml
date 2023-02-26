@@ -4,7 +4,6 @@ installer_type: all
 
 channels:
   - https://conda.anaconda.org/conda-forge
-  - https://conda.anaconda.org/flaport
   - http://repo.anaconda.com/pkgs/main/
 
 specs:
@@ -27,8 +26,6 @@ specs:
   - console_shortcut # [win]
   - anaconda-navigator
   - pymeep # [unix]
-  - jax # [unix]
-  - jaxlib # [unix]
   - menuinst # [win]
 
 post_install: install.sh  # [linux]
