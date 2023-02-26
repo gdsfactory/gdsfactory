@@ -12,9 +12,10 @@ import gdsfactory as gf
 
 
 def _check_ports(sp: Dict[str, np.ndarray], ports: Sequence[str]):
+    """Ensure ports exist in Sparameters."""
     for port in ports:
         if port not in sp:
-            raise ValueError(f"Did not find port {port} in {list(sp.keys())}")
+            raise ValueError(f"Did not find port {port!r} in {list(sp.keys())}")
 
 
 def plot_sparameters(

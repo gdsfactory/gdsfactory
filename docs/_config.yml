@@ -20,6 +20,7 @@ execute:
     - "*2_interconnect*"
     - "*12_database*"
     - "*optimiser*"
+    - "*03_numerical_implantation*"
 
 latex:
   latex_engine: pdflatex # one of 'pdflatex', 'xelatex' (recommended for unicode), 'luatex', 'platex', 'uplatex'

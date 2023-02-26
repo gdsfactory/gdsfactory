@@ -13,8 +13,6 @@ specs:
   - pip
   - gdsfactory
   - freetype-py
-  - jupyterlab
-  - networkx
   - bokeh
   - holoviews
   - ipympl
