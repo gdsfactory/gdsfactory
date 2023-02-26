@@ -165,7 +165,7 @@ def plot_loss2x2(
 def plot_backreflection(
     sp: Dict[str, np.ndarray], ports: Sequence[str], ax: Optional[plt.Axes] = None
 ) -> None:
-    """Plots backreflection in dB.
+    """Plots backreflection in dB for coupler.
 
     Args:
         sp: sparameters dict np.ndarray.
@@ -188,7 +188,7 @@ def plot_backreflection(
         ax.plot(x, 10 * np.log10(sum(power.values())), "k--", label="Total")
     ax.set_xlim((x[0], x[-1]))
     ax.set_xlabel("wavelength (nm)")
-    ax.set_ylabel("excess loss (dB)")
+    ax.set_ylabel("reflection (dB)")
     plt.legend()
 
 
