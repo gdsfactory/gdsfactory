@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.47.0
+
+- fix meep MPI [PR](https://github.com/gdsfactory/gdsfactory/pull/1358)
+- add Component.plot_widget() [PR](https://github.com/gdsfactory/gdsfactory/pull/1356)
+- Update S-parameter plotting [PR](https://github.com/gdsfactory/gdsfactory/pull/1354)
+
 ## 6.45.0
 
 - propagate cross_section arg into taper [PR](https://github.com/gdsfactory/gdsfactory/pull/1348)
