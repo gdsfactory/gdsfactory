@@ -8,6 +8,7 @@ import gdsfactory as gf
 import gdsfactory.simulation as sim
 import gdsfactory.simulation.gmeep as gm
 from gdsfactory.generic_tech import LAYER_STACK
+import copy
 
 PDK = gf.get_generic_pdk()
 PDK.activate()
@@ -79,6 +80,16 @@ def test_sparameters_straight_mpi() -> None:
     assert np.allclose(np.abs(sp["o2@0,o1@0"]), 1, atol=1e-02), np.abs(sp["o2@0,o1@0"])
     assert np.allclose(np.abs(sp["o1@0,o1@0"]), 0, atol=5e-02), np.abs(sp["o1@0,o1@0"])
     assert np.allclose(np.abs(sp["o2@0,o2@0"]), 0, atol=5e-02), np.abs(sp["o2@0,o2@0"])
+
+    """Now check different parameters are properly handled."""
+    modified_settings = copy.deepcopy(simulation_settings)
+    modified_settings["wavelength_points"] = 10
+    filepath2 = gm.write_sparameters_meep_mpi(
+        c, ymargin=0, overwrite=True, **modified_settings
+    )
+    sp2 = np.load(filepath2)
+    sp2 = dict(sp2)
+    assert len(sp["wavelengths"]) != len(sp2["wavelengths"])
 
 
 def test_sparameters_straight_batch() -> None:
