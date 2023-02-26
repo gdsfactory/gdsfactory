@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import re
 from functools import partial
+from itertools import combinations
 from typing import Dict, Optional, Sequence, Tuple
 
 import matplotlib.pyplot as plt
@@ -111,61 +112,73 @@ def plot_sparameters_phase(
     plt.show()
 
 
-def plot_imbalance2x2(
-    sp: Dict[str, np.ndarray], port1: str = "o1@0,o3@0", port2: str = "o1@0,o4@0"
-) -> None:
-    """Plots imbalance in % for 2x2 coupler.
-
-    Args:
-        sp: sparameters dict np.ndarray.
-        port1: port1Name@modeIndex.
-        port2: port2Name@modeIndex.
-
-    """
-    if port1 not in sp:
-        raise ValueError(f"{port1!r} not in {list(sp.keys())}")
-
-    if port2 not in sp:
-        raise ValueError(f"{port2!r} not in {list(sp.keys())}")
-
-    y1 = np.abs(sp[port1])
-    y2 = np.abs(sp[port2])
-    imbalance = y1 / y2
-    x = sp["wavelengths"] * 1e3
-    plt.plot(x, abs(imbalance))
-    plt.xlabel("wavelength (nm)")
-    plt.ylabel("imbalance (%)")
-    plt.grid()
-
-
-def plot_loss2x2(
-    sp: Dict[str, np.ndarray], port1: str = "o1@0,o3@0", port2: str = "o1@0,o4@0"
-) -> None:
-    """Plots imbalance in % for 2x2 coupler.
-
-    Args:
-        sp: sparameters dict np.ndarray.
-        port1: port name @ mode index. o1@0 is the fundamental mode for o1 port.
-        port2: port name @ mode index. o1@0 is the fundamental mode for o1 port.
-
-    """
-    if port1 not in sp:
-        raise ValueError(f"{port1!r} not in {list(sp.keys())}")
-
-    if port2 not in sp:
-        raise ValueError(f"{port2!r} not in {list(sp.keys())}")
-    y1 = np.abs(sp[port1])
-    y2 = np.abs(sp[port2])
-    x = sp["wavelengths"] * 1e3
-    plt.plot(x, abs(10 * np.log10(y1**2 + y2**2)))
-    plt.xlabel("wavelength (nm)")
-    plt.ylabel("excess loss (dB)")
-
-
-def plot_backreflection(
+def plot_imbalance(
     sp: Dict[str, np.ndarray], ports: Sequence[str], ax: Optional[plt.Axes] = None
 ) -> None:
-    """Plots backreflection in dB for coupler.
+    """Plots imbalance in dB for coupler.
+    The imbalance is always defined between two ports, so this function plots the
+    imbalance between all unique port combinations.
+
+    Args:
+        sp: sparameters dict np.ndarray.
+        ports: list of port name @ mode index. o1@0 is the fundamental mode for o1 port.
+        ax: matplotlib axis object to draw into.
+
+    """
+    _check_ports(sp, ports)
+
+    power = {port: np.abs(sp[port]) ** 2 for port in ports}
+    x = sp["wavelengths"] * 1e3
+
+    if ax is None:
+        _, ax = plt.subplots()
+
+    for p1, p2 in combinations(ports, 2):
+        p1in, p1out = re.findall(r"\d+", p1)[::2]
+        p2in, p2out = re.findall(r"\d+", p2)[::2]
+        label = f"$S_{{{p1in}{p1out}}}, S_{{{p2in}{p2out}}}$"
+        ax.plot(x, 10 * np.log10(1 - (power[p1] - power[p2])), label=label)
+
+    ax.set_xlim((x[0], x[-1]))
+    ax.set_xlabel("wavelength (nm)")
+    ax.set_ylabel("imbalance (dB)")
+    plt.legend()
+
+
+def plot_loss(
+    sp: Dict[str, np.ndarray], ports: Sequence[str], ax: Optional[plt.Axes] = None
+) -> None:
+    """Plots loss dB for coupler.
+
+    Args:
+        sp: sparameters dict np.ndarray.
+        ports: list of port name @ mode index. o1@0 is the fundamental mode for o1 port.
+        ax: matplotlib axis object to draw into.
+
+    """
+    _check_ports(sp, ports)
+
+    power = {port: np.abs(sp[port]) ** 2 for port in ports}
+    x = sp["wavelengths"] * 1e3
+
+    if ax is None:
+        _, ax = plt.subplots()
+
+    for n, p in power.items():
+        pin, pout = re.findall(r"\d+", n)[::2]
+        ax.plot(x, 10 * np.log10(p), label=f"$|S_{{{pin}{pout}}}|^2$")
+    if len(ports) > 1:
+        ax.plot(x, 10 * np.log10(sum(power.values())), "k--", label="Total")
+    ax.set_xlim((x[0], x[-1]))
+    ax.set_xlabel("wavelength (nm)")
+    ax.set_ylabel("excess loss (dB)")
+    plt.legend()
+
+
+def plot_reflection(
+    sp: Dict[str, np.ndarray], ports: Sequence[str], ax: Optional[plt.Axes] = None
+) -> None:
+    """Plots reflection in dB for coupler.
 
     Args:
         sp: sparameters dict np.ndarray.
@@ -192,10 +205,12 @@ def plot_backreflection(
     plt.legend()
 
 
-plot_loss1x2 = partial(plot_loss2x2, port1="o1@0,o2@0", port2="o1@0,o3@0")
-plot_imbalance1x2 = partial(plot_imbalance2x2, port1="o1@0,o2@0", port2="o1@0,o3@0")
-plot_backreflection1x2 = partial(plot_backreflection, ports=["o1@0,o1@0"])
-plot_backreflection2x2 = partial(plot_backreflection, ports=["o1@0,o1@0", "o2@0,o1@0"])
+plot_loss1x2 = partial(plot_loss, ports=["o1@0,o2@0", "o1@0,o3@0"])
+plot_loss2x2 = partial(plot_loss, ports=["o1@0,o3@0", "o1@0,o4@0"])
+plot_imbalance1x2 = partial(plot_imbalance, ports=["o1@0,o2@0", "o1@0,o3@0"])
+plot_imbalance2x2 = partial(plot_imbalance, ports=["o1@0,o3@0", "o1@0,o4@0"])
+plot_reflection1x2 = partial(plot_reflection, ports=["o1@0,o1@0"])
+plot_reflection2x2 = partial(plot_reflection, ports=["o1@0,o1@0", "o2@0,o1@0"])
 
 if __name__ == "__main__":
     import gdsfactory.simulation as sim
