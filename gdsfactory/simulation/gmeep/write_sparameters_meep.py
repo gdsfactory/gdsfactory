@@ -332,6 +332,7 @@ def write_sparameters_meep(
             port_margin=port_margin,
             port_monitor_offset=port_monitor_offset,
             port_source_offset=port_source_offset,
+            dispersive=dispersive,
             is_3d=is_3d,
             **settings,
         )
