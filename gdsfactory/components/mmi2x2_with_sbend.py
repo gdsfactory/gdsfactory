@@ -13,7 +13,7 @@ def mmi2x2_with_sbend(
 ) -> Component:
     """Returns mmi2x2 for Cband.
 
-    A C_band 2x2MMI in 220nm thick silicon
+    C_band 2x2MMI in 220nm thick silicon
     https://opg.optica.org/oe/fulltext.cfm?uri=oe-25-23-28957&id=376719
 
     Args:
@@ -68,16 +68,16 @@ def mmi2x2_with_sbend(
             "o1", destination=bottom_output_block.ports["o2"]
         )
 
-        c.add_port("o1", port=top_input_sbend_ref.ports["o2"])
-        c.add_port("o2", port=top_output_sbend_ref.ports["o2"])
-        c.add_port("o3", port=bottom_output_sbend_ref.ports["o2"])
-        c.add_port("o4", port=bottom_input_sbend_ref.ports["o2"])
+        c.add_port("o1", port=bottom_input_sbend_ref.ports["o2"])
+        c.add_port("o2", port=top_input_sbend_ref.ports["o2"])
+        c.add_port("o3", port=top_output_sbend_ref.ports["o2"])
+        c.add_port("o4", port=bottom_output_sbend_ref.ports["o2"])
 
     else:
-        c.add_port("o1", port=top_input_block.ports["o1"])
-        c.add_port("o4", port=bottom_input_block.ports["o1"])
-        c.add_port("o2", port=top_output_block.ports["o2"])
-        c.add_port("o3", port=bottom_output_block.ports["o2"])
+        c.add_port("o2", port=top_input_block.ports["o1"])
+        c.add_port("o1", port=bottom_input_block.ports["o1"])
+        c.add_port("o3", port=top_output_block.ports["o2"])
+        c.add_port("o4", port=bottom_output_block.ports["o2"])
     return c
 
 
