@@ -10,6 +10,12 @@ import numpy as np
 import gdsfactory as gf
 
 
+def _check_ports(sp: Dict[str, np.ndarray], ports: Sequence[str]):
+    for port in ports:
+        if port not in sp:
+            raise ValueError(f"Did not find port {port} in {list(sp.keys())}")
+
+
 def plot_sparameters(
     sp: Dict[str, np.ndarray],
     logscale: bool = True,
@@ -167,8 +173,7 @@ def plot_backreflection(
         ax: matplotlib axis object to draw into.
 
     """
-    if not all([p in sp for p in ports]):
-        raise ValueError(f"Did not find all ports {ports} in {list(sp.keys())}")
+    _check_ports(sp, ports)
 
     power = {port: np.abs(sp[port]) ** 2 for port in ports}
     x = sp["wavelengths"] * 1e3
