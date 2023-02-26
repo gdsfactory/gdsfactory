@@ -1,7 +1,8 @@
 from __future__ import annotations
 
+import re
 from functools import partial
-from typing import Dict, Optional, Tuple
+from typing import Dict, Optional, Sequence, Tuple
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -155,9 +156,41 @@ def plot_loss2x2(
     plt.ylabel("excess loss (dB)")
 
 
+def plot_backreflection(
+    sp: Dict[str, np.ndarray], ports: Sequence[str], ax: Optional[plt.Axes] = None
+) -> None:
+    """Plots backreflection in dB.
+
+    Args:
+        sp: sparameters dict np.ndarray.
+        ports: list of port name @ mode index. o1@0 is the fundamental mode for o1 port.
+        ax: matplotlib axis object to draw into.
+
+    """
+    if not all([p in sp for p in ports]):
+        raise ValueError(f"Did not find all ports {ports} in {list(sp.keys())}")
+
+    power = {port: np.abs(sp[port]) ** 2 for port in ports}
+    x = sp["wavelengths"] * 1e3
+
+    if ax is None:
+        _, ax = plt.subplots()
+
+    for n, p in power.items():
+        pin, pout = re.findall(r"\d+", n)[::2]
+        ax.plot(x, 10 * np.log10(p), label=f"$|S_{{{pin}{pout}}}|^2$")
+    if len(ports) > 1:
+        ax.plot(x, 10 * np.log10(sum(power.values())), "k--", label="Total")
+    ax.set_xlim((x[0], x[-1]))
+    ax.set_xlabel("wavelength (nm)")
+    ax.set_ylabel("excess loss (dB)")
+    plt.legend()
+
+
 plot_loss1x2 = partial(plot_loss2x2, port1="o1@0,o2@0", port2="o1@0,o3@0")
 plot_imbalance1x2 = partial(plot_imbalance2x2, port1="o1@0,o2@0", port2="o1@0,o3@0")
-
+plot_backreflection1x2 = partial(plot_backreflection, ports=["o1@0,o1@0"])
+plot_backreflection2x2 = partial(plot_backreflection, ports=["o1@0,o1@0", "o2@0,o1@0"])
 
 if __name__ == "__main__":
     import gdsfactory.simulation as sim
