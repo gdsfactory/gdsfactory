@@ -14,7 +14,9 @@
 
 # # Thermal
 #
-# gdsfactory has an FEM plugin that you can use for thermal simulations.
+# gdsfactory has an FEM [femwell](https://gdsfactory.github.io/gdsfactory/notebooks/fem/01_mode_solving.html) plugin that you can use for thermal simulations.
+# You can simulate directly the component layout and include important effects such as metal dummy fill.
+
 
 # + tags=[]
 import gmsh
