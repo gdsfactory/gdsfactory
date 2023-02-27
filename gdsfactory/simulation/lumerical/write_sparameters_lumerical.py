@@ -228,18 +228,18 @@ def write_sparameters_lumerical(
     )
 
     component_extended = gf.components.extend_ports(
-        component_with_padding, length=ss.distance_source_to_monitors
+        component_with_padding, length=ss.distance_monitors_to_pml
     )
 
     ports = component_extended.get_ports_list(port_type="optical")
     if not ports:
         raise ValueError(f"{component.name!r} does not have any optical ports")
 
-    c = gf.components.extension.extend_ports(
+    component_extended_beyond_pml = gf.components.extension.extend_ports(
         component=component_extended, length=ss.port_extension
     )
-    c.name = "top"
-    gdspath = c.write_gds()
+    component_extended_beyond_pml.name = "top"
+    gdspath = component_extended_beyond_pml.write_gds()
 
     filepath_npz = get_sparameters_path(
         component=component,
@@ -260,10 +260,10 @@ def write_sparameters_lumerical(
         print(run_false_warning)
 
     logger.info(f"Writing Sparameters to {filepath_npz.absolute()!r}")
-    x_min = (component_with_padding.xmin - xmargin) * 1e-6
-    x_max = (component_with_padding.xmax + xmargin) * 1e-6
-    y_min = (component_with_padding.ymin - ymargin) * 1e-6
-    y_max = (component_with_padding.ymax + ymargin) * 1e-6
+    x_min = (component_extended.xmin - xmargin) * 1e-6
+    x_max = (component_extended.xmax + xmargin) * 1e-6
+    y_min = (component_extended.ymin - ymargin) * 1e-6
+    y_max = (component_extended.ymax + ymargin) * 1e-6
 
     layers_thickness = [
         layer_to_thickness[layer]
