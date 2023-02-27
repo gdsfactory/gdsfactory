@@ -1,10 +1,9 @@
 name: gdsfactory
-version: 6.45.0
+version: 6.47.1
 installer_type: all
 
 channels:
   - https://conda.anaconda.org/conda-forge
-  - https://conda.anaconda.org/flaport
   - http://repo.anaconda.com/pkgs/main/
 
 specs:
@@ -13,8 +12,6 @@ specs:
   - pip
   - gdsfactory
   - freetype-py
-  - jupyterlab
-  - networkx
   - bokeh
   - holoviews
   - ipympl
@@ -29,8 +26,6 @@ specs:
   - console_shortcut # [win]
   - anaconda-navigator
   - pymeep # [unix]
-  - jax # [unix]
-  - jaxlib # [unix]
   - menuinst # [win]
 
 post_install: install.sh  # [linux]
