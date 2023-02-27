@@ -15,6 +15,7 @@ from gdsfactory.typings import ComponentSpec, LayerSpec, LayerSpecs
 def via_stack(
     size: Tuple[float, float] = (11.0, 11.0),
     layers: LayerSpecs = ("M1", "M2", "M3"),
+    layer_offsets: Optional[Tuple[float, ...]] = None,
     vias: Optional[Tuple[Optional[ComponentSpec], ...]] = (via1, via2),
     layer_port: LayerSpec = None,
 ) -> Component:
@@ -33,6 +34,8 @@ def via_stack(
     Args:
         size: of the layers.
         layers: layers on which to draw rectangles.
+        layer_offsets: Optional offsets for each layer with respect to size.
+            positive grows, negative shrinks the size.
         vias: vias to use to fill the rectangles.
         layer_port: if None assumes port is on the last layer.
     """
@@ -50,14 +53,15 @@ def via_stack(
     c.info["size"] = (float(size[0]), float(size[1]))
     c.info["layer"] = layer_port
 
-    for layer in layers:
+    layer_offsets = layer_offsets or [0] * len(layers)
+
+    for layer, offset in zip(layers, layer_offsets):
+        size = (width + 2 * offset, height + 2 * offset)
         if layer == layer_port:
-            ref = c << compass(
-                size=(width, height), layer=layer, port_type="electrical"
-            )
+            ref = c << compass(size=size, layer=layer, port_type="electrical")
             c.add_ports(ref.ports)
         else:
-            ref = c << compass(size=(width, height), layer=layer, port_type="placement")
+            ref = c << compass(size=size, layer=layer, port_type="placement")
 
     vias = vias or []
     for via in vias:
