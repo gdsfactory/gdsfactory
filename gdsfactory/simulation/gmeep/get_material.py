@@ -8,7 +8,6 @@ import meep.materials as mat
 import numpy as np
 
 from gdsfactory.materials import material_name_to_meep as material_name_to_meep_default
-from gdsfactory.pdk import get_material_index
 
 MATERIALS = [m for m in dir(mat) if not m.startswith("_")]
 
@@ -40,33 +39,26 @@ def get_material(
     materials = [material.lower() for material in MATERIALS]
     name = name.lower()
 
-    # HOTFIX: Make sure that overrides are applied before any other assignments can occur
-    if not isinstance(material_name_to_meep[name], str):
-        return mp.Medium(epsilon=material_name_to_meep[name] ** 2)
+    if name not in material_name_to_meep and name not in materials:
+        raise KeyError(f"material {name!r} not found in available materials")
+
+    meep_name = material_name_to_meep[name]
+
+    if isinstance(meep_name, (int, float)):
+        # if material is only a number, we can return early regardless of dispersion
+        return mp.Medium(index=meep_name)
+
+    material = getattr(mat, meep_name)
 
     if dispersive:
-        if name in material_name_to_meep.keys():
-            name_or_index = material_name_to_meep[name]
-        else:
-            valid_materials = list(material_name_to_meep.keys())
-            raise ValueError(
-                f"name = {name!r} not in material_name_to_meep {valid_materials}"
-            )
-    else:
-        material_index = get_material_index(name, wavelength)
-        return mp.Medium(epsilon=material_index**2)
+        return material
 
-    name = name_or_index.lower()
-    if name not in materials:
-        raise ValueError(f"material, name = {name!r} not in {MATERIALS}")
-    name = MATERIALS[materials.index(name)]
-    medium = getattr(mat, name)
-    if dispersive:
-        return medium
+    # now what's left is the case of having a dispersive meep medium but a simulation
+    # without dispersion, so we extract the permittivity at the correct wavelength
     try:
-        return mp.Medium(epsilon=medium.epsilon(1 / wavelength)[0][0])
+        return mp.Medium(epsilon=material.epsilon(1 / wavelength)[0][0])
     except ValueError as e:
-        print(f"material = {name!r} wavelength={wavelength}")
+        print(f"material = {name!r} not defined for wavelength={wavelength}")
         raise e
 
 
@@ -101,7 +93,7 @@ def get_index(
 
 def test_index() -> None:
     n = get_index(name="sin")
-    n_reference = 1.9983425877199599
+    n_reference = 1.9962797317138816
     assert np.isclose(n, n_reference), n
 
 
