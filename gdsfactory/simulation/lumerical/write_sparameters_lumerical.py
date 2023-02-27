@@ -218,7 +218,7 @@ def write_sparameters_lumerical(
     ss = SimulationSettingsLumericalFdtd(**sim_settings)
 
     component_with_booleans = layer_stack.get_component_with_derived_layers(component)
-    component_padding = gf.add_padding_container(
+    component_with_padding = gf.add_padding_container(
         component_with_booleans,
         default=0,
         top=ymargin or ymargin_top,
@@ -228,18 +228,18 @@ def write_sparameters_lumerical(
     )
 
     component_extended = gf.components.extend_ports(
-        component_padding, length=ss.distance_source_to_monitors
+        component_with_padding, length=ss.distance_monitors_to_pml
     )
 
-    ports = component_extended.get_ports_list(port_type="optical")
+    ports = component.get_ports_list(port_type="optical")
     if not ports:
         raise ValueError(f"{component.name!r} does not have any optical ports")
 
-    c = gf.components.extension.extend_ports(
-        component=component, length=ss.port_extension
+    component_extended_beyond_pml = gf.components.extension.extend_ports(
+        component=component_extended, length=ss.port_extension
     )
-    c.name = "top"
-    gdspath = c.write_gds()
+    component_extended_beyond_pml.name = "top"
+    gdspath = component_extended_beyond_pml.write_gds()
 
     filepath_npz = get_sparameters_path(
         component=component,
@@ -260,14 +260,14 @@ def write_sparameters_lumerical(
         print(run_false_warning)
 
     logger.info(f"Writing Sparameters to {filepath_npz.absolute()!r}")
-    x_min = (component.xmin - xmargin) * 1e-6
-    x_max = (component.xmax + xmargin) * 1e-6
-    y_min = (component.ymin - ymargin) * 1e-6
-    y_max = (component.ymax + ymargin) * 1e-6
+    x_min = (component_extended.xmin - xmargin) * 1e-6
+    x_max = (component_extended.xmax + xmargin) * 1e-6
+    y_min = (component_extended.ymin - ymargin) * 1e-6
+    y_max = (component_extended.ymax + ymargin) * 1e-6
 
     layers_thickness = [
         layer_to_thickness[layer]
-        for layer in component.get_layers()
+        for layer in component_with_booleans.get_layers()
         if layer in layer_to_thickness
     ]
     if not layers_thickness:
@@ -277,7 +277,7 @@ def write_sparameters_lumerical(
         )
     layers_zmin = [
         layer_to_zmin[layer]
-        for layer in component.get_layers()
+        for layer in component_with_booleans.get_layers()
         if layer in layer_to_zmin
     ]
     component_thickness = max(layers_thickness)
@@ -456,7 +456,7 @@ def write_sparameters_lumerical(
         s.runsweep("s-parameter sweep")
         sp = s.getsweepresult("s-parameter sweep", "S parameters")
         s.exportsweep("s-parameter sweep", str(filepath))
-        logger.info(f"wrote sparameters to {filepath}")
+        logger.info(f"wrote sparameters to {str(filepath)!r}")
 
         sp["wavelengths"] = sp.pop("lambda").flatten() * 1e6
         np.savez_compressed(filepath, **sp)
@@ -480,7 +480,7 @@ def write_sparameters_lumerical(
         if delete_fsp_files and fspdir.exists():
             shutil.rmtree(fspdir)
             logger.info(
-                f"deleting simulation files in {fspdir}. "
+                f"deleting simulation files in {str(fspdir)!r}. "
                 "To keep them, use delete_fsp_files=False flag"
             )
 

@@ -41,7 +41,7 @@ class SimulationSettingsLumericalFdtd(BaseModel):
     simulation_temperature: float = 300
     frequency_dependent_profile: bool = True
     field_profile_samples: int = 15
-    distance_source_to_monitors: float = 0.2
+    distance_monitors_to_pml: float = 0.5
     material_name_to_lumerical: Dict[
         str, MaterialSpec
     ] = material_name_to_lumerical_default
