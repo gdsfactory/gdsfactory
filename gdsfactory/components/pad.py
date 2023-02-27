@@ -25,7 +25,8 @@ def pad(
         size: x, y size.
         layer: pad layer.
         bbox_layers: list of layers.
-        bbox_offsets: list of offsets.
+        bbox_offsets: Optional offsets for each layer with respect to size.
+            positive grows, negative shrinks the size.
         port_inclusion: from edge.
         port_orientation: in degrees.
     """

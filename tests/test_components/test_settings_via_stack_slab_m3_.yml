@@ -19,6 +19,7 @@ settings:
         layer: VIA2
   child: null
   default:
+    layer_offsets: null
     layer_port: null
     layers:
     - M1
@@ -36,6 +37,7 @@ settings:
       settings:
         layer: VIA2
   full:
+    layer_offsets: null
     layer_port: null
     layers:
     - SLAB90
