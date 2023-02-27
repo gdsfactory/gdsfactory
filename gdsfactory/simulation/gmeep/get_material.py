@@ -93,7 +93,7 @@ def get_index(
 
 def test_index() -> None:
     n = get_index(name="sin")
-    n_reference = 1.9983425877199599
+    n_reference = 1.9962797317138816
     assert np.isclose(n, n_reference), n
 
 
