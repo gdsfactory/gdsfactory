@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.47.1
+
+- Fix meep neff fdtd [PR](https://github.com/gdsfactory/gdsfactory/pull/1359)
+- make sure derived layers also work with Lumerical FDTD plugin [PR](https://github.com/gdsfactory/gdsfactory/pull/1360)
+
 ## 6.47.0
 
 - fix meep MPI [PR](https://github.com/gdsfactory/gdsfactory/pull/1358)
