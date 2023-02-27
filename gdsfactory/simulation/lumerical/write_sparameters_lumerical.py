@@ -236,7 +236,7 @@ def write_sparameters_lumerical(
         raise ValueError(f"{component.name!r} does not have any optical ports")
 
     c = gf.components.extension.extend_ports(
-        component=component, length=ss.port_extension
+        component=component_extended, length=ss.port_extension
     )
     c.name = "top"
     gdspath = c.write_gds()
@@ -456,7 +456,7 @@ def write_sparameters_lumerical(
         s.runsweep("s-parameter sweep")
         sp = s.getsweepresult("s-parameter sweep", "S parameters")
         s.exportsweep("s-parameter sweep", str(filepath))
-        logger.info(f"wrote sparameters to {filepath}")
+        logger.info(f"wrote sparameters to {str(filepath)!r}")
 
         sp["wavelengths"] = sp.pop("lambda").flatten() * 1e6
         np.savez_compressed(filepath, **sp)
@@ -480,7 +480,7 @@ def write_sparameters_lumerical(
         if delete_fsp_files and fspdir.exists():
             shutil.rmtree(fspdir)
             logger.info(
-                f"deleting simulation files in {fspdir}. "
+                f"deleting simulation files in {str(fspdir)!r}. "
                 "To keep them, use delete_fsp_files=False flag"
             )
 
