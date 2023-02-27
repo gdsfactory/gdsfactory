@@ -42,11 +42,13 @@ def get_material(
     if name not in material_name_to_meep and name not in materials:
         raise KeyError(f"material {name!r} not found in available materials")
 
-    if isinstance(material_name_to_meep[name], (int, float)):
-        # if material is only a number, we can return early regardless of dispersion
-        return mp.Medium(index=material_name_to_meep[name])
+    meep_name = material_name_to_meep[name]
 
-    material = getattr(mat, MATERIALS[materials.index(name)])
+    if isinstance(meep_name, (int, float)):
+        # if material is only a number, we can return early regardless of dispersion
+        return mp.Medium(index=meep_name)
+
+    material = getattr(mat, meep_name)
 
     if dispersive:
         return material
