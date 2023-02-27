@@ -40,6 +40,10 @@ def get_material(
     materials = [material.lower() for material in MATERIALS]
     name = name.lower()
 
+    # HOTFIX: Make sure that overrides are applied before any other assignments can occur
+    if not isinstance(material_name_to_meep[name], str):
+        return mp.Medium(epsilon=material_name_to_meep[name] ** 2)
+
     if dispersive:
         if name in material_name_to_meep.keys():
             name_or_index = material_name_to_meep[name]
@@ -51,9 +55,6 @@ def get_material(
     else:
         material_index = get_material_index(name, wavelength)
         return mp.Medium(epsilon=material_index**2)
-
-    if not isinstance(name_or_index, str):
-        return mp.Medium(epsilon=name_or_index**2)
 
     name = name_or_index.lower()
     if name not in materials:
