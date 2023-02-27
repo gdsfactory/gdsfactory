@@ -7,17 +7,20 @@ channels:
   - http://repo.anaconda.com/pkgs/main/
 
 specs:
+  - conda<23.1
   - python
   - mamba
   - pip
   - gdsfactory
   - freetype-py
+  - jupyterlab
   - bokeh
   - holoviews
   - ipympl
   - ipywidgets
   - networkx
   - pyglet
+  - scikit-image
   - triangle
   - trimesh
   - pyvista
