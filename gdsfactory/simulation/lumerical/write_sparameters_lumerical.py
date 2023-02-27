@@ -218,7 +218,7 @@ def write_sparameters_lumerical(
     ss = SimulationSettingsLumericalFdtd(**sim_settings)
 
     component_with_booleans = layer_stack.get_component_with_derived_layers(component)
-    component_padding = gf.add_padding_container(
+    component_with_padding = gf.add_padding_container(
         component_with_booleans,
         default=0,
         top=ymargin or ymargin_top,
@@ -228,7 +228,7 @@ def write_sparameters_lumerical(
     )
 
     component_extended = gf.components.extend_ports(
-        component_padding, length=ss.distance_source_to_monitors
+        component_with_padding, length=ss.distance_source_to_monitors
     )
 
     ports = component_extended.get_ports_list(port_type="optical")
@@ -260,14 +260,14 @@ def write_sparameters_lumerical(
         print(run_false_warning)
 
     logger.info(f"Writing Sparameters to {filepath_npz.absolute()!r}")
-    x_min = (component.xmin - xmargin) * 1e-6
-    x_max = (component.xmax + xmargin) * 1e-6
-    y_min = (component.ymin - ymargin) * 1e-6
-    y_max = (component.ymax + ymargin) * 1e-6
+    x_min = (component_with_padding.xmin - xmargin) * 1e-6
+    x_max = (component_with_padding.xmax + xmargin) * 1e-6
+    y_min = (component_with_padding.ymin - ymargin) * 1e-6
+    y_max = (component_with_padding.ymax + ymargin) * 1e-6
 
     layers_thickness = [
         layer_to_thickness[layer]
-        for layer in component.get_layers()
+        for layer in component_with_booleans.get_layers()
         if layer in layer_to_thickness
     ]
     if not layers_thickness:
@@ -277,7 +277,7 @@ def write_sparameters_lumerical(
         )
     layers_zmin = [
         layer_to_zmin[layer]
-        for layer in component.get_layers()
+        for layer in component_with_booleans.get_layers()
         if layer in layer_to_zmin
     ]
     component_thickness = max(layers_thickness)
