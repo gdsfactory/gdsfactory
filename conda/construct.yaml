@@ -18,7 +18,6 @@ specs:
   - ipywidgets
   - networkx
   - pyglet
-  - scikit-image
   - triangle
   - trimesh
   - pyvista
