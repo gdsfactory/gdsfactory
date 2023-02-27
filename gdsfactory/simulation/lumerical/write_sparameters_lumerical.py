@@ -231,7 +231,7 @@ def write_sparameters_lumerical(
         component_with_padding, length=ss.distance_monitors_to_pml
     )
 
-    ports = component_extended.get_ports_list(port_type="optical")
+    ports = component.get_ports_list(port_type="optical")
     if not ports:
         raise ValueError(f"{component.name!r} does not have any optical ports")
 
