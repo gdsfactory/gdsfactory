@@ -819,7 +819,7 @@ def pn(
 @xsection
 def pn_with_trenches(
     width: float = 0.5,
-    layer: LayerSpec = "WG",
+    layer: Optional[LayerSpec] = None,
     layer_trench: LayerSpec = "DEEP_ETCH",
     gap_low_doping: float = 0.0,
     gap_medium_doping: Optional[float] = 0.5,
@@ -850,7 +850,7 @@ def pn_with_trenches(
 
     Args:
         width: width of the ridge in um.
-        layer: ridge layer.
+        layer: ridge layer. None adds only ridge.
         layer_trenches: layer to etch trenches.
         gap_low_doping: from waveguide center to low doping. Only used for PIN.
         gap_medium_doping: from waveguide center to medium doping.
@@ -1001,7 +1001,7 @@ def pn_with_trenches(
     return CrossSection(
         width=width,
         offset=0,
-        layer=None,
+        layer=layer,
         port_names=port_names,
         sections=sections,
         cladding_offsets=cladding_offsets,
