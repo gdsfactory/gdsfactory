@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.48.0
+
+- Transition does not inherit from CrossSection [PR](https://github.com/gdsfactory/gdsfactory/pull/1366)
+- Pin conda and add layer_offsets to via_stack [PR](https://github.com/gdsfactory/gdsfactory/pull/1364)
+- Rework Meep get_materials logic [PR](https://github.com/gdsfactory/gdsfactory/pull/1361)
+
 ## 6.47.1
 
 - Fix meep neff fdtd [PR](https://github.com/gdsfactory/gdsfactory/pull/1359)
