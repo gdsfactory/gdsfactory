@@ -317,6 +317,19 @@ def xsection(func: _F) -> _F:
     """Decorator for CrossSection functions
 
     Validates type annotations with pydantic.
+
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        @gf.cross_section.xsection
+        def xs_sc(width=0.5, **kwargs):
+            xs = gf.cross_section.cross_section(width=width, **kwargs)
+
+        p = gf.path.arc(radius=10, angle=45)
+        c = p.extrude(xs_sc)
+        c.plot()
     """
     return _xsection_without_validator(validate_arguments(func))
 
@@ -467,6 +480,7 @@ def slot(
             the width at t==0 is the width at the beginning of the Path.
             the width at t==1 is the width at the end.
         layer: main section layer.
+        slot_width: in um.
 
     Keyword Args:
         offset: main Section center offset (um) or function from 0 to 1.
@@ -830,6 +844,203 @@ def pn(
         cladding_offsets=cladding_offsets,
         cladding_layers=cladding_layers,
         mirror=mirror,
+    )
+
+
+@xsection
+def pn_with_trenches(
+    width: float = 0.5,
+    layer: LayerSpec = "WG",
+    layer_trench: LayerSpec = "DEEP_ETCH",
+    gap_low_doping: float = 0.0,
+    gap_medium_doping: Optional[float] = 0.5,
+    gap_high_doping: Optional[float] = 1.0,
+    offset_low_doping: Optional[float] = 0.0,
+    width_doping: float = 8.0,
+    width_slab: float = 7.0,
+    width_trench: float = 2.0,
+    layer_p: LayerSpec = "P",
+    layer_pp: LayerSpec = "PP",
+    layer_ppp: LayerSpec = "PPP",
+    layer_n: LayerSpec = "N",
+    layer_np: LayerSpec = "NP",
+    layer_npp: LayerSpec = "NPP",
+    layer_via: Optional[LayerSpec] = None,
+    width_via: float = 1.0,
+    layer_metal: Optional[LayerSpec] = None,
+    width_metal: float = 1.0,
+    port_names: Tuple[str, str] = ("o1", "o2"),
+    bbox_layers: Optional[List[Layer]] = None,
+    bbox_offsets: Optional[List[float]] = None,
+    cladding_layers: Optional[Layers] = cladding_layers_optical,
+    cladding_offsets: Optional[Floats] = cladding_offsets_optical,
+    mirror: bool = False,
+    add_center_section: bool = False,
+    **kwargs,
+) -> CrossSection:
+    """Rib PN doped cross_section.
+
+    Args:
+        width: width of the ridge in um.
+        layer: ridge layer.
+        layer_trenches: layer to etch trenches.
+        gap_low_doping: from waveguide center to low doping. Only used for PIN.
+        gap_medium_doping: from waveguide center to medium doping.
+            None removes medium doping.
+        gap_high_doping: from center to high doping. None removes it.
+        offset_low_doping: from center to junction center.
+        width_doping: in um.
+        width_slab: in um.
+        width_trench: in um.
+        layer_p: p doping layer.
+        layer_pp: p+ doping layer.
+        layer_ppp: p++ doping layer.
+        layer_n: n doping layer.
+        layer_np: n+ doping layer.
+        layer_npp: n++ doping layer.
+        layer_via: via layer.
+        width_via: via width in um.
+        layer_metal: metal layer.
+        width_metal: metal width in um.
+        port_names: input and output port names.
+        bbox_layers: list of layers for rectangular bounding box.
+        bbox_offsets: list of bounding box offsets.
+        bbox_layers: list of layers for rectangular bounding box.
+        bbox_offsets: list of bounding box offsets.
+        cladding_layers: optional list of cladding layers.
+        cladding_offsets: optional list of cladding offsets.
+        mirror: if True, reflects all doping sections.
+        kwargs: cross_section settings.
+
+    .. code::
+
+                                   offset_low_doping
+                                     <------>
+                                    |       |
+                                   wg     junction
+                                 center   center
+                                    |       |
+        _____         ______________|_______ ______         ________
+             |        |             |       |     |         |       |
+             |________|             |             |_________|       |
+                   P                |       |               N       |
+               width_p              |                    width_n    |
+          <-------------------------------->|<--------------------->|
+             <------->              |               |       N+      |
+            width_trench            |               |    width_n    |
+                                    |               |<------------->|
+                                    |<------------->|
+                                    gap_medium_doping
+       <------------------------------------------------------------>
+                                width_slab
+
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        xs = gf.cross_section.pn_with_trenches(width=0.5, gap_low_doping=0, width_doping=2.)
+        p = gf.path.arc(radius=10, angle=45)
+        c = p.extrude(xs)
+        c.plot()
+    """
+    trench_offset = width / 2 + width_trench / 2
+    sections = [Section(width=width_slab, layer=layer)]
+    sections += [
+        Section(width=width_trench, offset=offset, layer=layer_trench)
+        for offset in [+trench_offset, -trench_offset]
+    ]
+    base_offset_low_doping = width_doping / 2 + gap_low_doping / 4
+    width_low_doping = width_doping - gap_low_doping / 2
+
+    n = Section(
+        width=width_low_doping + offset_low_doping,
+        offset=+base_offset_low_doping - offset_low_doping / 2,
+        layer=layer_n,
+    )
+    p = Section(
+        width=width_low_doping - offset_low_doping,
+        offset=-base_offset_low_doping - offset_low_doping / 2,
+        layer=layer_p,
+    )
+    sections.append(n)
+    sections.append(p)
+
+    if gap_medium_doping is not None:
+        width_medium_doping = width_doping - gap_medium_doping
+        offset_medium_doping = width_medium_doping / 2 + gap_medium_doping
+
+        np = Section(
+            width=width_medium_doping,
+            offset=+offset_medium_doping,
+            layer=layer_np,
+        )
+        pp = Section(
+            width=width_medium_doping,
+            offset=-offset_medium_doping,
+            layer=layer_pp,
+        )
+        sections.append(np)
+        sections.append(pp)
+
+    if gap_high_doping is not None:
+        width_high_doping = width_doping - gap_high_doping
+        offset_high_doping = width_high_doping / 2 + gap_high_doping
+        npp = Section(
+            width=width_high_doping, offset=+offset_high_doping, layer=layer_npp
+        )
+        ppp = Section(
+            width=width_high_doping, offset=-offset_high_doping, layer=layer_ppp
+        )
+        sections.append(npp)
+        sections.append(ppp)
+
+    if layer_via is not None:
+        offset = width_high_doping + gap_high_doping - width_via / 2
+        via_top = Section(width=width_via, offset=+offset, layer=layer_via)
+        via_bot = Section(width=width_via, offset=-offset, layer=layer_via)
+        sections.append(via_top)
+        sections.append(via_bot)
+
+    if layer_metal is not None:
+        offset = width_high_doping + gap_high_doping - width_metal / 2
+        port_types = ("electrical", "electrical")
+        metal_top = Section(
+            width=width_via,
+            offset=+offset,
+            layer=layer_metal,
+            port_types=port_types,
+            port_names=("e1_top", "e2_top"),
+        )
+        metal_bot = Section(
+            width=width_via,
+            offset=-offset,
+            layer=layer_metal,
+            port_types=port_types,
+            port_names=("e1_bot", "e2_bot"),
+        )
+        sections.append(metal_top)
+        sections.append(metal_bot)
+
+    bbox_layers = bbox_layers or []
+    bbox_offsets = bbox_offsets or []
+    for layer_cladding, cladding_offset in zip(bbox_layers, bbox_offsets):
+        s = Section(
+            width=width_slab + 2 * cladding_offset, offset=0, layer=layer_cladding
+        )
+        sections.append(s)
+
+    return CrossSection(
+        width=width,
+        offset=0,
+        layer=layer,
+        port_names=port_names,
+        sections=sections,
+        cladding_offsets=cladding_offsets,
+        cladding_layers=cladding_layers,
+        mirror=mirror,
+        add_center_section=add_center_section,
+        **kwargs,
     )
 
 
@@ -1451,7 +1662,7 @@ if __name__ == "__main__":
     #     # offset_low_doping=0,
     #     mirror=False,
     # )
-    xs = pn(width=0.3)
+    xs = pn_with_trenches(width=0.3)
     p = gf.path.straight()
     c = p.extrude(xs)
     c.show()

@@ -46,12 +46,14 @@ Classes and functions for construction and manipulation of geometric objects.
 
    CrossSection
    Transition
+   xsection
    cross_section
    strip
    strip_auto_widen
    heater_metal
    pin
    pn
+   pn_with_trenches
    strip_heater_metal_undercut
    strip_heater_metal
    strip_heater_doped
