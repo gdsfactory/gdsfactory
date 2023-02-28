@@ -21,10 +21,11 @@ settings:
   function_name: bend_euler
   info:
     dy: 10.0
+    function_name: cross_section
     length: 16.637
     radius: 10.0
     radius_min: 7.061
-    separation: 3.5
+    settings: {}
     width: 0.5
   info_version: 2
   module: gdsfactory.components.bend_euler

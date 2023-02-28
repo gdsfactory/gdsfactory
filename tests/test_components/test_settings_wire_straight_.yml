@@ -16,7 +16,18 @@ settings:
   function_name: straight
   info:
     cross_section: metal_routing
+    function_name: cross_section
     length: 10.0
+    settings:
+      layer: M3
+      port_names:
+      - e1
+      - e2
+      port_types:
+      - electrical
+      - electrical
+      radius: null
+      width: 10.0
     width: 10.0
   info_version: 2
   module: gdsfactory.components.straight

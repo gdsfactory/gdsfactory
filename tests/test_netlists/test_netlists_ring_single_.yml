@@ -10,10 +10,12 @@ instances:
     component: bend_euler
     info:
       dy: 10.0
+      function_name: cross_section
       length: 16.637
       radius: 10.0
       radius_min: 7.061
-      separation: 3.5
+      settings:
+        radius: 10.0
       width: 0.5
     settings:
       radius: 10.0
@@ -21,10 +23,12 @@ instances:
     component: bend_euler
     info:
       dy: 10.0
+      function_name: cross_section
       length: 16.637
       radius: 10.0
       radius_min: 7.061
-      separation: 3.5
+      settings:
+        radius: 10.0
       width: 0.5
     settings:
       radius: 10.0
@@ -36,8 +40,9 @@ instances:
     component: straight
     info:
       cross_section: strip
+      function_name: cross_section
       length: 0.6
-      separation: 3.5
+      settings: {}
       width: 0.5
     settings:
       length: 0.6
@@ -45,8 +50,9 @@ instances:
     component: straight
     info:
       cross_section: strip
+      function_name: cross_section
       length: 0.6
-      separation: 3.5
+      settings: {}
       width: 0.5
     settings:
       length: 0.6
@@ -54,8 +60,9 @@ instances:
     component: straight
     info:
       cross_section: strip
+      function_name: cross_section
       length: 4.0
-      separation: 3.5
+      settings: {}
       width: 0.5
     settings:
       length: 4.0

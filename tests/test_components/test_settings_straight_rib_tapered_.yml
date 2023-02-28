@@ -1,11 +1,11 @@
-name: straight_8f94de34_exten_a9416634
+name: straight_2baf67df_exten_7d41518e
 settings:
   changed:
     component:
       function: straight
       settings:
         cross_section:
-          function: strip
+          function: cross_section
           settings:
             bbox_layers:
             - SLAB90
@@ -18,7 +18,7 @@ settings:
   child:
     changed:
       cross_section:
-        function: strip
+        function: cross_section
         settings:
           bbox_layers:
           - SLAB90
@@ -32,7 +32,7 @@ settings:
       with_bbox: true
     full:
       cross_section:
-        function: strip
+        function: cross_section
         settings:
           bbox_layers:
           - SLAB90
@@ -44,18 +44,23 @@ settings:
     function_name: straight
     info:
       cross_section:
-        function: strip
+        function: cross_section
         settings:
           bbox_layers:
           - SLAB90
           bbox_offsets:
           - 3
+      function_name: cross_section
       length: 10.0
-      separation: 3.5
+      settings:
+        bbox_layers:
+        - SLAB90
+        bbox_offsets:
+        - 3
       width: 0.5
     info_version: 2
     module: gdsfactory.components.straight
-    name: straight_8f94de34
+    name: straight_2baf67df
   default:
     centered: false
     component:
@@ -74,7 +79,7 @@ settings:
       function: straight
       settings:
         cross_section:
-          function: strip
+          function: cross_section
           settings:
             bbox_layers:
             - SLAB90
@@ -92,15 +97,20 @@ settings:
   function_name: extend_ports
   info:
     cross_section:
-      function: strip
+      function: cross_section
       settings:
         bbox_layers:
         - SLAB90
         bbox_offsets:
         - 3
+    function_name: cross_section
     length: 10.0
-    separation: 3.5
+    settings:
+      bbox_layers:
+      - SLAB90
+      bbox_offsets:
+      - 3
     width: 0.5
   info_version: 2
   module: gdsfactory.components.extension
-  name: straight_8f94de34_exten_a9416634
+  name: straight_2baf67df_exten_7d41518e

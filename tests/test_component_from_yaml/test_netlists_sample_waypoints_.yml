@@ -28,235 +28,271 @@ instances:
     component: bend_euler
     info:
       dy: 10.0
+      function_name: cross_section
       length: 16.637
       radius: 10.0
       radius_min: 7.061
-      separation: 3.5
+      settings:
+        auto_widen: false
       width: 0.5
     settings:
       auto_widen: false
       cross_section:
-        function: strip
+        function: cross_section
   bend_euler_2:
     component: bend_euler
     info:
       dy: 10.0
+      function_name: cross_section
       length: 16.637
       radius: 10.0
       radius_min: 7.061
-      separation: 3.5
+      settings:
+        auto_widen: false
       width: 0.5
     settings:
       auto_widen: false
       cross_section:
-        function: strip
+        function: cross_section
   bend_euler_3:
     component: bend_euler
     info:
       dy: 10.0
+      function_name: cross_section
       length: 16.637
       radius: 10.0
       radius_min: 7.061
-      separation: 3.5
+      settings:
+        auto_widen: false
       width: 0.5
     settings:
       auto_widen: false
       cross_section:
-        function: strip
+        function: cross_section
   bend_euler_4:
     component: bend_euler
     info:
       dy: 10.0
+      function_name: cross_section
       length: 16.637
       radius: 10.0
       radius_min: 7.061
-      separation: 3.5
+      settings:
+        auto_widen: false
       width: 0.5
     settings:
       auto_widen: false
       cross_section:
-        function: strip
+        function: cross_section
   bend_euler_5:
     component: bend_euler
     info:
       dy: 10.0
+      function_name: cross_section
       length: 16.637
       radius: 10.0
       radius_min: 7.061
-      separation: 3.5
+      settings:
+        auto_widen: false
       width: 0.5
     settings:
       auto_widen: false
       cross_section:
-        function: strip
+        function: cross_section
   bend_euler_6:
     component: bend_euler
     info:
       dy: 10.0
+      function_name: cross_section
       length: 16.637
       radius: 10.0
       radius_min: 7.061
-      separation: 3.5
+      settings:
+        auto_widen: false
       width: 0.5
     settings:
       auto_widen: false
       cross_section:
-        function: strip
+        function: cross_section
   bend_euler_7:
     component: bend_euler
     info:
       dy: 10.0
+      function_name: cross_section
       length: 16.637
       radius: 10.0
       radius_min: 7.061
-      separation: 3.5
+      settings:
+        auto_widen: false
       width: 0.5
     settings:
       auto_widen: false
       cross_section:
-        function: strip
+        function: cross_section
   bend_euler_8:
     component: bend_euler
     info:
       dy: 10.0
+      function_name: cross_section
       length: 16.637
       radius: 10.0
       radius_min: 7.061
-      separation: 3.5
+      settings:
+        auto_widen: false
       width: 0.5
     settings:
       auto_widen: false
       cross_section:
-        function: strip
+        function: cross_section
   straight_1:
     component: straight
     info:
       cross_section:
-        function: strip
+        function: cross_section
+      function_name: cross_section
       length: 290.0
-      separation: 3.5
+      settings:
+        auto_widen: false
       width: 0.5
     settings:
       auto_widen: false
       cross_section:
-        function: strip
+        function: cross_section
       length: 290.0
   straight_10:
     component: straight
     info:
       cross_section:
-        function: strip
+        function: cross_section
+      function_name: cross_section
       length: 440.0
-      separation: 3.5
+      settings:
+        auto_widen: false
       width: 0.5
     settings:
       auto_widen: false
       cross_section:
-        function: strip
+        function: cross_section
       length: 440.0
   straight_2:
     component: straight
     info:
       cross_section:
-        function: strip
+        function: cross_section
+      function_name: cross_section
       length: 380.0
-      separation: 3.5
+      settings:
+        auto_widen: false
       width: 0.5
     settings:
       auto_widen: false
       cross_section:
-        function: strip
+        function: cross_section
       length: 380.0
   straight_3:
     component: straight
     info:
       cross_section:
-        function: strip
+        function: cross_section
+      function_name: cross_section
       length: 80.0
-      separation: 3.5
+      settings:
+        auto_widen: false
       width: 0.5
     settings:
       auto_widen: false
       cross_section:
-        function: strip
+        function: cross_section
       length: 80.0
   straight_4:
     component: straight
     info:
       cross_section:
-        function: strip
+        function: cross_section
+      function_name: cross_section
       length: 630.0
-      separation: 3.5
+      settings:
+        auto_widen: false
       width: 0.5
     settings:
       auto_widen: false
       cross_section:
-        function: strip
+        function: cross_section
       length: 630.0
   straight_5:
     component: straight
     info:
       cross_section:
-        function: strip
+        function: cross_section
+      function_name: cross_section
       length: 590.0
-      separation: 3.5
+      settings:
+        auto_widen: false
       width: 0.5
     settings:
       auto_widen: false
       cross_section:
-        function: strip
+        function: cross_section
       length: 590.0
   straight_6:
     component: straight
     info:
       cross_section:
-        function: strip
+        function: cross_section
+      function_name: cross_section
       length: 140.0
-      separation: 3.5
+      settings:
+        auto_widen: false
       width: 0.5
     settings:
       auto_widen: false
       cross_section:
-        function: strip
+        function: cross_section
       length: 140.0
   straight_7:
     component: straight
     info:
       cross_section:
-        function: strip
+        function: cross_section
+      function_name: cross_section
       length: 380.0
-      separation: 3.5
+      settings:
+        auto_widen: false
       width: 0.5
     settings:
       auto_widen: false
       cross_section:
-        function: strip
+        function: cross_section
       length: 380.0
   straight_8:
     component: straight
     info:
       cross_section:
-        function: strip
+        function: cross_section
+      function_name: cross_section
       length: 380.0
-      separation: 3.5
+      settings:
+        auto_widen: false
       width: 0.5
     settings:
       auto_widen: false
       cross_section:
-        function: strip
+        function: cross_section
       length: 380.0
   straight_9:
     component: straight
     info:
       cross_section:
-        function: strip
+        function: cross_section
+      function_name: cross_section
       length: 630.0
-      separation: 3.5
+      settings:
+        auto_widen: false
       width: 0.5
     settings:
       auto_widen: false
       cross_section:
-        function: strip
+        function: cross_section
       length: 630.0
   t:
     component: pad_array

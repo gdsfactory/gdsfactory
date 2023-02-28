@@ -1,11 +1,11 @@
-name: mzi_4bacbef2
+name: mzi_f7f1cb39
 settings:
   changed:
     bend:
       function: bend_euler
       settings:
         cross_section:
-          function: strip
+          function: cross_section
           settings:
             add_pins:
               function: add_pins
@@ -20,7 +20,7 @@ settings:
             width: 0.9
         with_bbox: true
     cross_section:
-      function: strip
+      function: cross_section
       settings:
         add_pins:
           function: add_pins
@@ -37,7 +37,7 @@ settings:
       function: mmi1x2
       settings:
         cross_section:
-          function: strip
+          function: cross_section
           settings:
             add_pins:
               function: add_pins
@@ -55,7 +55,7 @@ settings:
       function: straight
       settings:
         cross_section:
-          function: strip
+          function: cross_section
           settings:
             add_pins:
               function: add_pins
@@ -97,7 +97,7 @@ settings:
       function: bend_euler
       settings:
         cross_section:
-          function: strip
+          function: cross_section
           settings:
             add_pins:
               function: add_pins
@@ -113,7 +113,7 @@ settings:
         with_bbox: true
     combiner: null
     cross_section:
-      function: strip
+      function: cross_section
       settings:
         add_pins:
           function: add_pins
@@ -140,7 +140,7 @@ settings:
       function: mmi1x2
       settings:
         cross_section:
-          function: strip
+          function: cross_section
           settings:
             add_pins:
               function: add_pins
@@ -158,7 +158,7 @@ settings:
       function: straight
       settings:
         cross_section:
-          function: strip
+          function: cross_section
           settings:
             add_pins:
               function: add_pins
@@ -180,4 +180,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mzi
-  name: mzi_4bacbef2
+  name: mzi_f7f1cb39
