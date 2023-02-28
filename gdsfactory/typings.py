@@ -42,7 +42,7 @@ from typing_extensions import Literal
 
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.component_layout import Label
-from gdsfactory.cross_section import CrossSection, Section
+from gdsfactory.cross_section import CrossSection, Section, Transition
 from gdsfactory.port import Port
 from gdsfactory.technology import LayerLevel, LayerStack
 
@@ -166,6 +166,7 @@ Coordinate = Tuple[float, float]
 Coordinates = Tuple[Coordinate, ...]
 ComponentOrPath = Union[Component, PathType]
 CrossSectionFactory = Callable[..., CrossSection]
+TransitionFactory = Callable[..., Transition]
 CrossSectionOrFactory = Union[CrossSection, Callable[..., CrossSection]]
 PortSymmetries = Dict[str, List[str]]
 PortsDict = Dict[str, Port]
@@ -182,7 +183,12 @@ CellSpec = Union[
 
 ComponentSpecDict = Dict[str, ComponentSpec]
 CrossSectionSpec = Union[
-    str, CrossSectionFactory, CrossSection, Dict[str, Any]
+    str,
+    CrossSectionFactory,
+    CrossSection,
+    Transition,
+    TransitionFactory,
+    Dict[str, Any],
 ]  # cross_section function, function name or dict
 
 MultiCrossSectionAngleSpec = List[Tuple[CrossSectionSpec, Tuple[int, ...]]]

@@ -41,7 +41,7 @@ class Section(BaseModel):
         offset: center offset (um) or function parameterized function from 0 to 1.
              the offset at t==0 is the offset at the beginning of the Path.
              the offset at t==1 is the offset at the end.
-        layer: layer spec.
+        layer: layer spec. If None does not draw the main section.
         port_names: Optional port names.
         port_types: optical, electrical, ...
         name: Optional Section name.
@@ -61,7 +61,7 @@ class Section(BaseModel):
 
     width: Union[float, Callable]
     offset: Union[float, Callable] = 0
-    layer: LayerSpec
+    layer: Optional[LayerSpec] = None
     port_names: Tuple[Optional[str], Optional[str]] = (None, None)
     port_types: Tuple[str, str] = ("optical", "optical")
     name: Optional[str] = None
@@ -80,6 +80,7 @@ class CrossSection(BaseModel):
 
     Parameters:
         layer: main Section layer. Main section name = '_default'.
+            If None does not draw the main section.
         width: main Section width (um) or function parameterized from 0 to 1.
             the width at t==0 is the width at the beginning of the Path.
             the width at t==1 is the width at the end.
@@ -108,15 +109,13 @@ class CrossSection(BaseModel):
         add_bbox: Optional function to add bounding box.
         info: dict with extra settings or useful information.
         name: cross_section name.
-        add_center_section: whether a section with `width` and `layer`
-              is added during extrude.
         mirror: if True, reflects the offsets.
 
     Properties:
         aliases: dict of cross_section aliases.
     """
 
-    layer: LayerSpec
+    layer: Optional[LayerSpec] = None
     width: Union[float, Callable]
     offset: Union[float, Callable] = 0
     radius: Optional[float] = None
@@ -141,7 +140,6 @@ class CrossSection(BaseModel):
     add_bbox: Optional[Callable] = None
     info: Dict[str, Any] = Field(default_factory=dict)
     name: Optional[str] = None
-    add_center_section: bool = True
     mirror: bool = False
 
     def __init__(__pydantic_self__, **data: Any) -> None:
@@ -234,7 +232,7 @@ class CrossSection(BaseModel):
         return c
 
 
-class Transition(CrossSection):
+class Transition(BaseModel):
     """Waveguide information to extrude a path between two CrossSection.
 
     cladding_layers follow path shape, while bbox_layers are rectangular.
@@ -250,30 +248,7 @@ class Transition(CrossSection):
         width: main Section width (um) or function parameterized from 0 to 1.
             the width at t==0 is the width at the beginning of the Path.
             the width at t==1 is the width at the end.
-        offset: main Section center offset (um) or function from 0 to 1.
-             the offset at t==0 is the offset at the beginning of the Path.
-             the offset at t==1 is the offset at the end.
-        radius: main Section bend radius (um).
-        width_wide: wide waveguides width (um) for low loss routing.
-        auto_widen: taper to wide waveguides for low loss routing.
-        auto_widen_minimum_length: minimum straight length for auto_widen.
-        taper_length: taper_length for auto_widen.
-        bbox_layers: list of layers for rectangular bounding box.
-        bbox_offsets: list of bounding box offsets.
-        cladding_layers: list of layers to extrude.
-        cladding_offsets: list of offset from main Section edge.
-        port_names: for input and output ('o1', 'o2').
-        port_types: for input and output: electrical, optical, vertical_te ...
-        min_length: defaults to 1nm = 10e-3um for routing.
-        start_straight_length: straight length at the beginning of the route.
-        end_straight_length: end length at the beginning of the route.
         snap_to_grid: Optional snap points to grid when extruding paths (um).
-        aliases: dict of cross_section aliases.
-        decorator: function when extruding component. For example add_pins.
-        info: dict with extra settings or useful information.
-        name: cross_section name.
-        add_center_section: whether a section with `width` and `layer`
-              is added during extrude.
     """
 
     cross_section1: CrossSection
@@ -282,6 +257,7 @@ class Transition(CrossSection):
     sections: List[Section]
     layer: Optional[LayerSpec] = None
     width: Optional[Union[float, Callable]] = None
+    snap_to_grid: Optional[float] = None
 
 
 def _xsection_without_validator(func):
@@ -338,7 +314,7 @@ def xsection(func: _F) -> _F:
 def cross_section(
     width: Union[Callable, float] = 0.5,
     offset: Union[float, Callable] = 0,
-    layer: LayerSpec = "WG",
+    layer: Optional[LayerSpec] = "WG",
     width_wide: Optional[float] = None,
     auto_widen: bool = False,
     auto_widen_minimum_length: float = 200.0,
@@ -360,7 +336,6 @@ def cross_section(
     decorator: Optional[Callable] = None,
     add_pins: Optional[Callable] = None,
     add_bbox: Optional[Callable] = None,
-    add_center_section: bool = True,
     mirror: bool = False,
     name: Optional[str] = None,
 ) -> CrossSection:
@@ -395,8 +370,6 @@ def cross_section(
         decorator: function to run when converting path to component.
         add_pins: optional function to add pins to component.
         add_bbox: optional function to add bounding box to component.
-        add_center_section: whether a section with `width` and `layer`
-              is added during extrude.
         mirror: if True, reflects the offsets.
         name: cross_section name.
 
@@ -436,7 +409,6 @@ def cross_section(
         decorator=decorator,
         add_bbox=add_bbox,
         add_pins=add_pins,
-        add_center_section=add_center_section,
         mirror=mirror,
         name=name,
     )
@@ -506,8 +478,6 @@ def slot(
         decorator: function to run when converting path to component.
         add_pins: optional function to add pins to component.
         add_bbox: optional function to add bounding box to component.
-        add_center_section: whether a section with `width` and `layer`
-              is added during extrude.
 
     .. plot::
         :include-source:
@@ -528,9 +498,8 @@ def slot(
 
     return strip(
         width=width,
-        layer=layer,
+        layer=None,
         sections=tuple(sections),
-        add_center_section=False,
         **kwargs,
     )
 
@@ -875,7 +844,6 @@ def pn_with_trenches(
     cladding_layers: Optional[Layers] = cladding_layers_optical,
     cladding_offsets: Optional[Floats] = cladding_offsets_optical,
     mirror: bool = False,
-    add_center_section: bool = False,
     **kwargs,
 ) -> CrossSection:
     """Rib PN doped cross_section.
@@ -1033,13 +1001,12 @@ def pn_with_trenches(
     return CrossSection(
         width=width,
         offset=0,
-        layer=layer,
+        layer=None,
         port_names=port_names,
         sections=sections,
         cladding_offsets=cladding_offsets,
         cladding_layers=cladding_layers,
         mirror=mirror,
-        add_center_section=add_center_section,
         **kwargs,
     )
 
@@ -1662,7 +1629,8 @@ if __name__ == "__main__":
     #     # offset_low_doping=0,
     #     mirror=False,
     # )
-    xs = pn_with_trenches(width=0.3)
+    # xs = pn_with_trenches(width=0.3)
+    xs = slot(width=0.3)
     p = gf.path.straight()
     c = p.extrude(xs)
-    c.show()
+    c.show(show_ports=True)
