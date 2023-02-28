@@ -650,9 +650,9 @@ def pn(
     layer_n: LayerSpec = "N",
     layer_np: LayerSpec = "NP",
     layer_npp: LayerSpec = "NPP",
-    layer_via: LayerSpec = None,
+    layer_via: Optional[LayerSpec] = None,
     width_via: float = 1.0,
-    layer_metal: LayerSpec = None,
+    layer_metal: Optional[LayerSpec] = None,
     width_metal: float = 1.0,
     port_names: Tuple[str, str] = ("o1", "o2"),
     bbox_layers: Optional[List[Layer]] = None,
@@ -667,11 +667,11 @@ def pn(
         width: width of the ridge in um.
         layer: ridge layer.
         layer_slab: slab layer.
-        gap_low_doping: from waveguide center to low doping.
+        gap_low_doping: from waveguide center to low doping. Only used for PIN.
         gap_medium_doping: from waveguide center to medium doping.
             None removes medium doping.
         gap_high_doping: from center to high doping. None removes it.
-        offset_low_doping: in um, between waveguide center and junction gap center towards n-side.
+        offset_low_doping: from center to junction center.
         width_doping: in um.
         width_slab: in um.
         layer_p: p doping layer.
@@ -684,37 +684,34 @@ def pn(
         width_via: via width in um.
         layer_metal: metal layer.
         width_metal: metal width in um.
+        port_names: input and output port names.
         bbox_layers: list of layers for rectangular bounding box.
         bbox_offsets: list of bounding box offsets.
-        port_names: for input and output ('o1', 'o2').
         bbox_layers: list of layers for rectangular bounding box.
         bbox_offsets: list of bounding box offsets.
-        mirror: if True, reflects the n and p sections.
+        cladding_layers: optional list of cladding layers.
+        cladding_offsets: optional list of cladding offsets.
+        mirror: if True, reflects all doping sections.
 
     .. code::
 
-                                   layer
-                           |<-------width------->|
-
-                                  offset_low_doping
-                                     <->
-                                     |  |
-                             waveguide   junction
-                                center   center
-                                     |  |
-                           _______________________
-                           |       |         |   |
-        ___________________|       |         |   |__________________________|
-                        P          |         |              N               |
-                    width_p        |         |           width_n            |
-        <------------------------->|         |<---------------------------->|
-                                   |<------->|
-                                    gap_low_doping
-                                     |             |        N+              |
-                                     |             |     width_np           |
-                                     |             |<---------------------->|
-                                     |<----------->|
-                                   gap_medium_doping
+                              offset_low_doping
+                                <------>
+                               |       |
+                              wg     junction
+                            center   center
+                               |       |
+                 ______________|_______|______
+                 |             |       |     |
+        _________|             |       |     |_________________|
+              P                |       |               N       |
+          width_p              |       |            width_n    |
+        <----------------------------->|<--------------------->|
+                               |               |       N+      |
+                               |               |    width_n    |
+                               |               |<------------->|
+                               |<------------->|
+                               gap_medium_doping
 
     .. plot::
         :include-source:
@@ -1481,7 +1478,7 @@ if __name__ == "__main__":
     #     # offset_low_doping=0,
     #     mirror=False,
     # )
-    xs = strip()
-    p = gf.path.arc()
+    xs = pn()
+    p = gf.path.straight()
     c = p.extrude(xs)
     c.show()
