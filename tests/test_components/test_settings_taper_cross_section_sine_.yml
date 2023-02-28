@@ -5,7 +5,7 @@ settings:
   child: null
   default:
     cross_section1:
-      function: strip
+      function: cross_section
       settings:
         sections:
         - hidden: false
@@ -20,7 +20,7 @@ settings:
           - optical
           width: 0.2
     cross_section2:
-      function: strip
+      function: cross_section
       settings:
         sections:
         - hidden: false
@@ -40,7 +40,7 @@ settings:
     width_type: sine
   full:
     cross_section1:
-      function: strip
+      function: cross_section
       settings:
         sections:
         - hidden: false
@@ -55,7 +55,7 @@ settings:
           - optical
           width: 0.2
     cross_section2:
-      function: strip
+      function: cross_section
       settings:
         sections:
         - hidden: false

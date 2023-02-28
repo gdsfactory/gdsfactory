@@ -17,9 +17,9 @@ settings:
     - 10.0
     - 10.0
     ring_cross_sections:
-    - function: strip
-    - function: strip
-    - function: strip
+    - function: cross_section
+    - function: cross_section
+    - function: cross_section
   full:
     bends:
     - function: bend_circular
@@ -35,9 +35,9 @@ settings:
     - 10.0
     - 10.0
     ring_cross_sections:
-    - function: strip
-    - function: strip
-    - function: strip
+    - function: cross_section
+    - function: cross_section
+    - function: cross_section
   function_name: ring_crow_couplers
   info: {}
   info_version: 2

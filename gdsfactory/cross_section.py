@@ -7,13 +7,13 @@ from __future__ import annotations
 import hashlib
 import inspect
 import sys
+import functools
 from collections.abc import Iterable
 from functools import partial
 from inspect import getmembers
-from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+from typing import Any, Callable, Dict, List, Optional, Tuple, Union, TypeVar
 
-import pydantic
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validate_arguments
 from typing_extensions import Literal
 
 
@@ -98,17 +98,22 @@ class CrossSection(BaseModel):
         sections: list of Sections(width, offset, layer, ports).
         port_names: for input and output ('o1', 'o2').
         port_types: for input and output: electrical, optical, vertical_te ...
+        gap: edge to edge waveguide gap for routing.
         min_length: defaults to 1nm = 10e-3um for routing.
         start_straight_length: straight length at the beginning of the route.
         end_straight_length: end length at the beginning of the route.
         snap_to_grid: Optional snap points to grid when extruding paths (um).
-        aliases: dict of cross_section aliases.
         decorator: function when extruding component. For example add_pins.
+        add_pins: Optional function to add pins.
+        add_bbox: Optional function to add bounding box.
         info: dict with extra settings or useful information.
         name: cross_section name.
         add_center_section: whether a section with `width` and `layer`
               is added during extrude.
         mirror: if True, reflects the offsets.
+
+    Properties:
+        aliases: dict of cross_section aliases.
     """
 
     layer: LayerSpec
@@ -126,6 +131,7 @@ class CrossSection(BaseModel):
     sections: List[Section] = Field(default_factory=list)
     port_names: Tuple[str, str] = ("o1", "o2")
     port_types: Tuple[str, str] = ("optical", "optical")
+    gap: float = 3.0
     min_length: float = 10e-3
     start_straight_length: float = 10e-3
     end_straight_length: float = 10e-3
@@ -278,7 +284,44 @@ class Transition(CrossSection):
     width: Optional[Union[float, Callable]] = None
 
 
-@pydantic.validate_arguments
+def _xsection_without_validator(func):
+    """Decorator for cross_section functions
+
+    use xsection instead so it will validate arguments with types.
+    """
+
+    @functools.wraps(func)
+    def _xsection(*args, **kwargs):
+        xs = func(*args, **kwargs)
+
+        sig = inspect.signature(func)
+        args_as_kwargs = dict(zip(sig.parameters.keys(), args))
+        args_as_kwargs.update(kwargs)
+
+        if not isinstance(xs, CrossSection):
+            raise ValueError(
+                f"function {func.__name__!r} return type = {type(xs)}",
+                "make sure that functions with @xsection decorator return a CrossSection",
+            )
+
+        xs.info.update(settings=args_as_kwargs, function_name=func.__name__)
+        return xs
+
+    return _xsection
+
+
+_F = TypeVar("_F", bound=Callable)
+
+
+def xsection(func: _F) -> _F:
+    """Decorator for CrossSection functions
+
+    Validates type annotations with pydantic.
+    """
+    return _xsection_without_validator(validate_arguments(func))
+
+
+@xsection
 def cross_section(
     width: Union[Callable, float] = 0.5,
     offset: Union[float, Callable] = 0,
@@ -291,6 +334,7 @@ def cross_section(
     sections: Optional[Tuple[Section, ...]] = None,
     port_names: Tuple[str, str] = ("o1", "o2"),
     port_types: Tuple[str, str] = ("optical", "optical"),
+    gap: float = 3.0,
     min_length: float = 10e-3,
     start_straight_length: float = 10e-3,
     end_straight_length: float = 10e-3,
@@ -325,6 +369,7 @@ def cross_section(
         sections: list of Sections(width, offset, layer, ports).
         port_names: for input and output ('o1', 'o2').
         port_types: for input and output: electrical, optical, vertical_te ...
+        gap: edge to edge waveguide gap for routing.
         min_length: defaults to 1nm = 10e-3um for routing.
         start_straight_length: straight length at the beginning of the route.
         end_straight_length: end length at the beginning of the route.
@@ -367,6 +412,7 @@ def cross_section(
         cladding_layers=cladding_layers,
         cladding_offsets=cladding_offsets,
         sections=sections or (),
+        gap=gap,
         min_length=min_length,
         start_straight_length=start_straight_length,
         end_straight_length=end_straight_length,
@@ -383,13 +429,7 @@ def cross_section(
     )
 
 
-def strip(width: Union[Callable, float] = 0.5, **kwargs) -> CrossSection:
-    """Returns Strip cross-section."""
-    cs = cross_section(width=width, **kwargs)
-    cs.info["separation"] = width + 3.0
-    return cs
-
-
+strip = cross_section
 strip_auto_widen = partial(strip, width_wide=0.9, auto_widen=True)
 strip_no_pins = partial(
     strip, add_pins=None, add_bbox=None, cladding_layers=None, cladding_offsets=None
@@ -413,6 +453,7 @@ strip_rib_tip = partial(
 )
 
 
+@xsection
 def slot(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -467,22 +508,14 @@ def slot(
     rail_width = (width - slot_width) / 2
     rail_offset = (rail_width + slot_width) / 2
     sections = [
-        Section(width=rail_width, offset=rail_offset, layer=layer, name="left rail"),
+        Section(width=rail_width, offset=rail_offset, layer=layer, name="left_rail"),
         Section(width=rail_width, offset=-rail_offset, layer=layer, name="right rail"),
     ]
-
-    info = dict(
-        width=width,
-        layer=layer,
-        slot_width=slot_width,
-        **kwargs,
-    )
 
     return strip(
         width=width,
         layer=layer,
         sections=tuple(sections),
-        info=info,
         add_center_section=False,
         **kwargs,
     )
@@ -515,7 +548,7 @@ metal_routing = metal3
 npp = partial(metal1, layer="NPP", width=0.5)
 
 
-@pydantic.validate_arguments
+@xsection
 def pin(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -607,33 +640,16 @@ def pin(
             )
             for offset in via_offsets
         ]
-    info = dict(
-        width=width,
-        layer=layer,
-        layer_slab=layer_slab,
-        layers_via_stack1=layers_via_stack1,
-        layers_via_stack2=layers_via_stack2,
-        bbox_offsets_via_stack1=bbox_offsets_via_stack1,
-        bbox_offsets_via_stack2=bbox_offsets_via_stack2,
-        via_stack_width=via_stack_width,
-        via_stack_gap=via_stack_gap,
-        slab_gap=slab_gap,
-        layer_via=layer_via,
-        via_width=via_width,
-        via_offsets=via_offsets,
-        **kwargs,
-    )
 
     return strip(
         width=width,
         layer=layer,
         sections=tuple(sections),
-        info=info,
         **kwargs,
     )
 
 
-@pydantic.validate_arguments
+@xsection
 def pn(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -650,9 +666,9 @@ def pn(
     layer_n: LayerSpec = "N",
     layer_np: LayerSpec = "NP",
     layer_npp: LayerSpec = "NPP",
-    layer_via: LayerSpec = None,
+    layer_via: Optional[LayerSpec] = None,
     width_via: float = 1.0,
-    layer_metal: LayerSpec = None,
+    layer_metal: Optional[LayerSpec] = None,
     width_metal: float = 1.0,
     port_names: Tuple[str, str] = ("o1", "o2"),
     bbox_layers: Optional[List[Layer]] = None,
@@ -667,11 +683,11 @@ def pn(
         width: width of the ridge in um.
         layer: ridge layer.
         layer_slab: slab layer.
-        gap_low_doping: from waveguide center to low doping.
+        gap_low_doping: from waveguide center to low doping. Only used for PIN.
         gap_medium_doping: from waveguide center to medium doping.
             None removes medium doping.
         gap_high_doping: from center to high doping. None removes it.
-        offset_low_doping: in um, between waveguide center and junction gap center towards n-side.
+        offset_low_doping: from center to junction center.
         width_doping: in um.
         width_slab: in um.
         layer_p: p doping layer.
@@ -684,37 +700,34 @@ def pn(
         width_via: via width in um.
         layer_metal: metal layer.
         width_metal: metal width in um.
+        port_names: input and output port names.
         bbox_layers: list of layers for rectangular bounding box.
         bbox_offsets: list of bounding box offsets.
-        port_names: for input and output ('o1', 'o2').
         bbox_layers: list of layers for rectangular bounding box.
         bbox_offsets: list of bounding box offsets.
-        mirror: if True, reflects the n and p sections.
+        cladding_layers: optional list of cladding layers.
+        cladding_offsets: optional list of cladding offsets.
+        mirror: if True, reflects all doping sections.
 
     .. code::
 
-                                   layer
-                           |<-------width------->|
-
-                                  offset_low_doping
-                                     <->
-                                     |  |
-                             waveguide   junction
-                                center   center
-                                     |  |
-                           _______________________
-                           |       |         |   |
-        ___________________|       |         |   |__________________________|
-                        P          |         |              N               |
-                    width_p        |         |           width_n            |
-        <------------------------->|         |<---------------------------->|
-                                   |<------->|
-                                    gap_low_doping
-                                     |             |        N+              |
-                                     |             |     width_np           |
-                                     |             |<---------------------->|
-                                     |<----------->|
-                                   gap_medium_doping
+                              offset_low_doping
+                                <------>
+                               |       |
+                              wg     junction
+                            center   center
+                               |       |
+                 ______________|_______|______
+                 |             |       |     |
+        _________|             |       |     |_________________|
+              P                |       |               N       |
+          width_p              |       |            width_n    |
+        <----------------------------->|<--------------------->|
+                               |               |       N+      |
+                               |               |    width_n    |
+                               |               |<------------->|
+                               |<------------->|
+                               gap_medium_doping
 
     .. plot::
         :include-source:
@@ -808,23 +821,11 @@ def pn(
         )
         sections.append(s)
 
-    info = {
-        "width": width,
-        "layer": layer,
-        "bbox_layers": bbox_layers,
-        "bbox_offsets": bbox_offsets,
-        "gap_low_doping": gap_low_doping,
-        "gap_medium_doping": gap_medium_doping,
-        "gap_high_doping": gap_high_doping,
-        "width_doping": width_doping,
-        "width_slab": width_slab,
-    }
     return CrossSection(
         width=width,
         offset=0,
         layer=layer,
         port_names=port_names,
-        info=info,
         sections=sections,
         cladding_offsets=cladding_offsets,
         cladding_layers=cladding_layers,
@@ -832,7 +833,7 @@ def pn(
     )
 
 
-@pydantic.validate_arguments
+@xsection
 def strip_heater_metal_undercut(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -888,16 +889,6 @@ def strip_heater_metal_undercut(
         c.plot()
     """
     trench_offset = trench_gap + trench_width / 2 + width / 2
-    info = dict(
-        width=width,
-        layer=layer,
-        heater_width=heater_width,
-        trench_width=trench_width,
-        trench_gap=trench_gap,
-        layer_heater=layer_heater,
-        layer_trench=layer_trench,
-        **kwargs,
-    )
     return strip(
         width=width,
         layer=layer,
@@ -911,12 +902,11 @@ def strip_heater_metal_undercut(
             Section(layer=layer_trench, width=trench_width, offset=+trench_offset),
             Section(layer=layer_trench, width=trench_width, offset=-trench_offset),
         ),
-        info=info,
         **kwargs,
     )
 
 
-@pydantic.validate_arguments
+@xsection
 def strip_heater_metal(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -944,13 +934,6 @@ def strip_heater_metal(
         c = p.extrude(xs)
         c.plot()
     """
-    info = dict(
-        width=width,
-        layer=layer,
-        heater_width=heater_width,
-        layer_heater=layer_heater,
-        **kwargs,
-    )
 
     return strip(
         width=width,
@@ -963,12 +946,11 @@ def strip_heater_metal(
                 port_types=port_types_electrical,
             ),
         ),
-        info=info,
         **kwargs,
     )
 
 
-@pydantic.validate_arguments
+@xsection
 def strip_heater_doped(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -1044,7 +1026,7 @@ strip_heater_doped_via_stack = partial(
 )
 
 
-@pydantic.validate_arguments
+@xsection
 def rib_heater_doped(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -1118,7 +1100,7 @@ def rib_heater_doped(
     )
 
 
-@pydantic.validate_arguments
+@xsection
 def rib_heater_doped_via_stack(
     width: float = 0.5,
     layer: LayerSpec = "WG",
@@ -1242,7 +1224,7 @@ def rib_heater_doped_via_stack(
     )
 
 
-@pydantic.validate_arguments
+@xsection
 def pn_ge_detector_si_contacts(
     width_si: float = 6.0,
     layer_si: LayerSpec = "WG",
@@ -1407,23 +1389,11 @@ def pn_ge_detector_si_contacts(
     s = Section(width=width_ge, offset=0, layer=layer_ge)
     sections.append(s)
 
-    info = {
-        "width": width_si,
-        "layer": layer_si,
-        "bbox_layers": bbox_layers,
-        "bbox_offsets": bbox_offsets,
-        "gap_low_doping": gap_low_doping,
-        "gap_medium_doping": gap_medium_doping,
-        "gap_high_doping": gap_high_doping,
-        "width_doping": width_doping,
-        "width_slab": 0.0,
-    }
     return CrossSection(
         width=width_si,
         offset=0,
         layer=layer_si,
         port_names=port_names,
-        info=info,
         sections=sections,
         cladding_offsets=cladding_offsets,
         cladding_layers=cladding_layers,
@@ -1481,7 +1451,7 @@ if __name__ == "__main__":
     #     # offset_low_doping=0,
     #     mirror=False,
     # )
-    xs = strip()
-    p = gf.path.arc()
+    xs = pn(width=0.3)
+    p = gf.path.straight()
     c = p.extrude(xs)
     c.show()

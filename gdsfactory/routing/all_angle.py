@@ -460,8 +460,9 @@ def _get_minimum_separation(refs: List[ComponentReference], *ports) -> float:
     all_ports.extend(ports)
     max_specified_separation = 0
     for port in all_ports:
-        if port.cross_section and "separation" in port.cross_section.info:
-            separation = port.cross_section.info["separation"]
+        if port.cross_section:
+            xs = port.cross_section
+            separation = xs.gap + xs.width
             if separation > max_specified_separation:
                 max_specified_separation = separation
 
