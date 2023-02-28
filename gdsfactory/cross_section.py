@@ -302,6 +302,7 @@ def xsection(func: _F) -> _F:
         @gf.cross_section.xsection
         def xs_sc(width=0.5, **kwargs):
             xs = gf.cross_section.cross_section(width=width, **kwargs)
+            return xs
 
         p = gf.path.arc(radius=10, angle=45)
         c = p.extrude(xs_sc)
