@@ -29,7 +29,6 @@ def taper_cross_section(
         kwargs: cross_section settings for section2.
 
 
-
     .. code::
 
                            _____________________

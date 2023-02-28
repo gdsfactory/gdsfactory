@@ -752,11 +752,11 @@ def extrude(
     c = Component()
 
     x = get_cross_section(cross_section)
-    snap_to_grid_nm = int(1e3 * (x.snap_to_grid or get_grid_size()))
     sections = x.sections or []
     sections = list(sections)
 
-    if x.layer and x.width and x.add_center_section:
+    if isinstance(x, CrossSection):
+        snap_to_grid_nm = int(1e3 * (x.snap_to_grid or get_grid_size()))
         sections += [
             Section(
                 width=x.width,
@@ -767,17 +767,17 @@ def extrude(
             )
         ]
 
-    if x.cladding_layers and x.cladding_offsets:
-        for layer, cladding_offset in zip(x.cladding_layers, x.cladding_offsets):
-            width = x.width(1) if callable(x.width) else x.width
-            width = max(width) if isinstance(width, Iterable) else width
-            sections += [
-                Section(
-                    width=width + 2 * cladding_offset,
-                    offset=x.offset,
-                    layer=get_layer(layer),
-                )
-            ]
+        if x.cladding_layers and x.cladding_offsets:
+            for layer, cladding_offset in zip(x.cladding_layers, x.cladding_offsets):
+                width = x.width(1) if callable(x.width) else x.width
+                width = max(width) if isinstance(width, Iterable) else width
+                sections += [
+                    Section(
+                        width=width + 2 * cladding_offset,
+                        offset=x.offset,
+                        layer=get_layer(layer),
+                    )
+                ]
 
     for section in sections:
         width = section.width
@@ -942,13 +942,13 @@ def extrude(
 
     c.info["length"] = float(np.round(p.length(), 3))
 
-    if x.add_bbox:
-        c = x.add_bbox(c)
-    if x.add_pins:
-        c = x.add_pins(c)
-
-    if x.decorator:
-        c = x.decorator(c) or c
+    if isinstance(x, CrossSection):
+        if x.add_bbox:
+            c = x.add_bbox(c)
+        if x.add_pins:
+            c = x.add_pins(c)
+        if x.decorator:
+            c = x.decorator(c) or c
     return c
 
 

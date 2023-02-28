@@ -25,6 +25,7 @@ from gdsfactory.typings import (
     ComponentFactory,
     ComponentSpec,
     CrossSection,
+    Transition,
     CrossSectionFactory,
     CrossSectionSpec,
     Dict,
@@ -438,9 +439,11 @@ class Pdk(BaseModel):
 
     def get_cross_section(
         self, cross_section: CrossSectionSpec, **kwargs
-    ) -> CrossSection:
+    ) -> Union[CrossSection, Transition]:
         """Returns cross_section from a cross_section spec."""
         if isinstance(cross_section, CrossSection):
+            return cross_section.copy(**kwargs)
+        elif isinstance(cross_section, Transition):
             return cross_section.copy(**kwargs)
         elif callable(cross_section):
             return cross_section(**kwargs)
@@ -476,7 +479,7 @@ class Pdk(BaseModel):
         else:
             raise ValueError(
                 "get_cross_section expects a CrossSectionSpec (CrossSection, "
-                f"CrossSectionFactory, string or dict), got {type(cross_section)}"
+                f"CrossSectionFactory, Transition, string or dict), got {type(cross_section)}"
             )
 
     def get_layer(self, layer: LayerSpec) -> Layer:
