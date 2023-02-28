@@ -91,7 +91,6 @@ class CrossSection(BaseModel):
         auto_widen: taper to wide waveguides for low loss routing.
         auto_widen_minimum_length: minimum straight length for auto_widen.
         taper_length: taper_length for auto_widen.
-        gap: edge to edge waveguide gap for routing.
         bbox_layers: list of layers for rectangular bounding box.
         bbox_offsets: list of bounding box offsets.
         cladding_layers: list of layers to extrude.
@@ -99,6 +98,7 @@ class CrossSection(BaseModel):
         sections: list of Sections(width, offset, layer, ports).
         port_names: for input and output ('o1', 'o2').
         port_types: for input and output: electrical, optical, vertical_te ...
+        gap: edge to edge waveguide gap for routing.
         min_length: defaults to 1nm = 10e-3um for routing.
         start_straight_length: straight length at the beginning of the route.
         end_straight_length: end length at the beginning of the route.
@@ -124,7 +124,6 @@ class CrossSection(BaseModel):
     auto_widen: bool = False
     auto_widen_minimum_length: float = 200.0
     taper_length: float = 10.0
-    gap: float = 3.0
     bbox_layers: List[LayerSpec] = Field(default_factory=list)
     bbox_offsets: List[float] = Field(default_factory=list)
     cladding_layers: Optional[LayerSpecs] = None
@@ -132,6 +131,7 @@ class CrossSection(BaseModel):
     sections: List[Section] = Field(default_factory=list)
     port_names: Tuple[str, str] = ("o1", "o2")
     port_types: Tuple[str, str] = ("optical", "optical")
+    gap: float = 3.0
     min_length: float = 10e-3
     start_straight_length: float = 10e-3
     end_straight_length: float = 10e-3
@@ -334,6 +334,7 @@ def cross_section(
     sections: Optional[Tuple[Section, ...]] = None,
     port_names: Tuple[str, str] = ("o1", "o2"),
     port_types: Tuple[str, str] = ("optical", "optical"),
+    gap: float = 3.0,
     min_length: float = 10e-3,
     start_straight_length: float = 10e-3,
     end_straight_length: float = 10e-3,
@@ -368,6 +369,7 @@ def cross_section(
         sections: list of Sections(width, offset, layer, ports).
         port_names: for input and output ('o1', 'o2').
         port_types: for input and output: electrical, optical, vertical_te ...
+        gap: edge to edge waveguide gap for routing.
         min_length: defaults to 1nm = 10e-3um for routing.
         start_straight_length: straight length at the beginning of the route.
         end_straight_length: end length at the beginning of the route.
@@ -410,6 +412,7 @@ def cross_section(
         cladding_layers=cladding_layers,
         cladding_offsets=cladding_offsets,
         sections=sections or (),
+        gap=gap,
         min_length=min_length,
         start_straight_length=start_straight_length,
         end_straight_length=end_straight_length,
@@ -509,18 +512,10 @@ def slot(
         Section(width=rail_width, offset=-rail_offset, layer=layer, name="right rail"),
     ]
 
-    info = dict(
-        width=width,
-        layer=layer,
-        slot_width=slot_width,
-        **kwargs,
-    )
-
     return strip(
         width=width,
         layer=layer,
         sections=tuple(sections),
-        info=info,
         add_center_section=False,
         **kwargs,
     )
@@ -645,28 +640,11 @@ def pin(
             )
             for offset in via_offsets
         ]
-    info = dict(
-        width=width,
-        layer=layer,
-        layer_slab=layer_slab,
-        layers_via_stack1=layers_via_stack1,
-        layers_via_stack2=layers_via_stack2,
-        bbox_offsets_via_stack1=bbox_offsets_via_stack1,
-        bbox_offsets_via_stack2=bbox_offsets_via_stack2,
-        via_stack_width=via_stack_width,
-        via_stack_gap=via_stack_gap,
-        slab_gap=slab_gap,
-        layer_via=layer_via,
-        via_width=via_width,
-        via_offsets=via_offsets,
-        **kwargs,
-    )
 
     return strip(
         width=width,
         layer=layer,
         sections=tuple(sections),
-        info=info,
         **kwargs,
     )
 
@@ -956,13 +934,6 @@ def strip_heater_metal(
         c = p.extrude(xs)
         c.plot()
     """
-    info = dict(
-        width=width,
-        layer=layer,
-        heater_width=heater_width,
-        layer_heater=layer_heater,
-        **kwargs,
-    )
 
     return strip(
         width=width,
@@ -975,7 +946,6 @@ def strip_heater_metal(
                 port_types=port_types_electrical,
             ),
         ),
-        info=info,
         **kwargs,
     )
 
@@ -1419,23 +1389,11 @@ def pn_ge_detector_si_contacts(
     s = Section(width=width_ge, offset=0, layer=layer_ge)
     sections.append(s)
 
-    info = {
-        "width": width_si,
-        "layer": layer_si,
-        "bbox_layers": bbox_layers,
-        "bbox_offsets": bbox_offsets,
-        "gap_low_doping": gap_low_doping,
-        "gap_medium_doping": gap_medium_doping,
-        "gap_high_doping": gap_high_doping,
-        "width_doping": width_doping,
-        "width_slab": 0.0,
-    }
     return CrossSection(
         width=width_si,
         offset=0,
         layer=layer_si,
         port_names=port_names,
-        info=info,
         sections=sections,
         cladding_offsets=cladding_offsets,
         cladding_layers=cladding_layers,
@@ -1493,7 +1451,7 @@ if __name__ == "__main__":
     #     # offset_low_doping=0,
     #     mirror=False,
     # )
-    xs = strip_heater_metal_undercut(width=0.3)
+    xs = pn(width=0.3)
     p = gf.path.straight()
     c = p.extrude(xs)
     c.show()
