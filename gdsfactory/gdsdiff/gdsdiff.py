@@ -58,16 +58,14 @@ def gdsdiff(
     name: str = "TOP",
     xor: bool = True,
 ) -> Component:
-    """Compare two Components.
+    """Returns two Components overlay and diffs (XOR).
 
     Args:
         component1: Component or path to gds file (reference).
         component2: Component or path to gds file (run).
         name: name of the top cell.
-        xor: makes boolean operation.
+        xor: if True includes boolean operation.
 
-    Returns:
-        Component with both cells (xor, common and diffs).
     """
     if isinstance(component1, (str, pathlib.Path)):
         component1 = import_gds(str(component1), flatten=True, name=f"{name}_old")
