@@ -109,10 +109,9 @@ dev = [
     ]
 docs = [
     "autodoc_pydantic",
-    "docutils==0.17.1",
     "matplotlib",
     "jupytext",
-    "sphinx",
+    "jupyter-book==0.14.0",
     "sphinx-autodoc-typehints",
     "sphinx-book-theme==0.3.3",
     "sphinx-click",
