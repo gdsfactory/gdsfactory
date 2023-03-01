@@ -1,5 +1,2 @@
 ```{include} ../README.md
 ```
-
-```{tableofcontents}
-```

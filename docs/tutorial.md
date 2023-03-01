@@ -11,6 +11,3 @@ If you really want to use notebooks (not recommended) the `Makefile` has some he
 
 - `make notebooks`: makes the `ipynb` notebooks from the `py` python files.
 - `make jupytext`: convert `ipynb` notebooks to python in case you modified the notebooks, so you can track changes.
-
-```{tableofcontents}
-```
