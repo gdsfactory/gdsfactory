@@ -20,6 +20,7 @@ def spiral_racetrack(
     bend_s_factory: ComponentFactory = bend_s,
     cross_section: CrossSectionSpec = "strip",
     n_bend_points=None,
+    open=False,
 ) -> Component:
     """Returns Racetrack-Spiral.
 
@@ -217,6 +218,6 @@ if __name__ == "__main__":
     #     min_radius=3, straight_length=30, spacing=2, num=8
     # )
     # heater.show()
-    c = spiral_racetrack_heater_metal()
+    c = spiral_racetrack(open=True)
     # c = spiral_racetrack_heater_doped()
     c.show(show_ports=True)
