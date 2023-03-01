@@ -32,16 +32,27 @@ def spiral_racetrack(
         bend_factory: factory to generate the bend segments.
         bend_s_factory: factory to generate the s-bend segments.
         cross_section: cross-section of the waveguides.
-
+        open: if True, will build the spiral, but expose the inner ports where the S-bend would be.
     """
     c = gf.Component()
 
-    bend_s = c << bend_s_factory(
-        (straight_length, -min_radius * 2 + 1 * spacings[0]),
-        cross_section=cross_section,
-        **({"nb_points": n_bend_points} if n_bend_points else {}),
-    )
-    c.info["length"] = bend_s.info["length"]
+    if open:
+        bend_s_component = bend_s_factory(
+                (straight_length, -min_radius * 2 + 1 * spacings[0]),
+                cross_section=cross_section,
+                **({"nb_points": n_bend_points} if n_bend_points else {}),
+            )
+        bend_s = type('obj', (object,), {'ports' : bend_s_component.ports})
+        c.info["length"] = 0
+        c.add_port("o3", center=bend_s.ports["o1"].center, orientation=0, cross_section=bend_s.ports["o1"].cross_section)
+        c.add_port("o4", center=bend_s.ports["o2"].center, orientation=180, cross_section=bend_s.ports["o2"].cross_section)
+    else:
+        bend_s = c << bend_s_factory(
+            (straight_length, -min_radius * 2 + 1 * spacings[0]),
+            cross_section=cross_section,
+            **({"nb_points": n_bend_points} if n_bend_points else {}),
+        )
+        c.info["length"] = bend_s.info["length"]
 
     ports = []
     for port in bend_s.ports.values():
@@ -218,6 +229,6 @@ if __name__ == "__main__":
     #     min_radius=3, straight_length=30, spacing=2, num=8
     # )
     # heater.show()
-    c = spiral_racetrack(open=True)
+    c = spiral_racetrack()
     # c = spiral_racetrack_heater_doped()
     c.show(show_ports=True)
