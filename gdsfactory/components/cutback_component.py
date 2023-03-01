@@ -25,6 +25,8 @@ def cutback_component(
 ) -> Component:
     """Returns a daisy chain of components for measuring their loss.
 
+    Works only for components with 2 ports (input, output).
+
     Args:
         component: for cutback.
         cols: number of columns.
