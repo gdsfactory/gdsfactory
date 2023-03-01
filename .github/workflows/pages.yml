@@ -32,7 +32,6 @@ jobs:
           GDSFACTORY_LAYOUT_PLOTTER: klayout
         shell: bash -l {0}
         run: |
-          sudo apt install pandoc
           sudo apt install libglu1-mesa
           make gdslib plugins-debian full
           make notebooks
