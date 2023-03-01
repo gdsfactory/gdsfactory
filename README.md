@@ -215,7 +215,7 @@ Contributors (in chronological order):
 - Simon Bilodeau (Princeton): Meep FDTD write Sparameters, TCAD device simulator.
 - Thomas Dorch (Freedom Photonics): Meep's material database access, MPB sidewall angles, and add_pin_path.
 - Jan-David Fischbach (Black semiconductor): improvements in pack_doe.
-- Igal Bayn (Google): documentation improvements and suggestions.
+- Igal Bayn (Quantum Transistors): documentation improvements and suggestions.
 - Alex Sludds (MIT): tiling fixes, ring_single_pn, ring_double_pn, straight_heater_meander_doped.
 - Momchil Minkov (Flexcompute): improve tidy3d plugin.
 - Skandan Chandrasekar (BYU): simphony, SiPANN plugins, A-star router.
