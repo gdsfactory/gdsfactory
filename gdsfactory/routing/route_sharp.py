@@ -282,34 +282,27 @@ def route_sharp(
     Args:
         port1: start port.
         port2: end port.
-        width: None, int, float, array-like[2], or CrossSection
+        width: None, int, float, array-like[2], or CrossSection.
             If None, the route linearly tapers between the widths the ports
             If set to a single number (e.g. `width=1.7`): makes a fixed-width route
             If set to a 2-element array (e.g. `width=[1.8,2.5]`): makes a route
                 whose width varies linearly from width[0] to width[1]
-            If set to a CrossSection: uses the CrossSection parameters for the route
-        path_type : {'manhattan', 'L', 'U', 'J', 'C', 'V', 'Z', 'straight', 'manual'}
-            Method of waypoint path creation. Should be one of
-            - manhattan: automatic manhattan routing (see path_manhattan() ).
-            - L: L-shaped path for orthogonal ports that can be directly
-                connected (see path_L() ).
-            - U: U-shaped path for parallel or facing ports
-                (see path_U() ).
-            - J: J-shaped path for orthogonal ports that cannot be
-                    directly connected (see path_J() ).
-            - C: C-shaped path for ports that face away from each
-                    other (see path_C() ).
-            - Z: Z-shaped path with three segments for ports at any
-                    angles (see path_Z() ).
-            - V: V-shaped path with two segments for ports at any
-                    angles (see path_V() ).
-            - straight: straight path for ports that face each other
-                    see path_straight() ).
-            - manual: use an explicit waypoint path provided
-                    in manual_path.
+            If set to a CrossSection: uses the CrossSection parameters for the route.
+        path_type : {'manhattan', 'L', 'U', 'J', 'C', 'V', 'Z', 'straight', 'manual'}.
         manual_path: array-like[N][2] or Path Waypoint for  manual route.
         layer: Layer to put route on.
         kwargs: Keyword arguments passed to the waypoint path function.
+
+        Method of waypoint path creation. Should be one of
+        - manhattan: automatic manhattan routing (see path_manhattan() ).
+        - L: L-shaped path for orthogonal ports that can be directly connected.
+        - U: U-shaped path for parallel or facing ports.
+        - J: J-shaped path for orthogonal ports that cannot be directly connected.
+        - C: C-shaped path for ports that face away from each other.
+        - Z: Z-shaped path with three segments for ports at any angles.
+        - V: V-shaped path with two segments for ports at any angles.
+        - straight: straight path for ports that face each other.
+        - manual: use an explicit waypoint path provided in manual_path.
 
     .. plot::
         :include-source:
