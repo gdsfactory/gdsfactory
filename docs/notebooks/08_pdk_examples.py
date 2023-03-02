@@ -25,7 +25,34 @@
 #
 # The waveguide traces are 2um wide.
 
-# %% tags=[] vscode={"languageId": "python"}
+# %% tags=[]
+
+import pathlib
+from typing import Callable, Tuple
+
+import pytest
+from pydantic import BaseModel
+from pytest_regressions.data_regression import DataRegressionFixture
+
+from gdsfactory.add_pins import add_pin_rectangle_inside
+from gdsfactory.component import Component
+from gdsfactory.config import PATH
+from gdsfactory.cross_section import cross_section
+from gdsfactory.decorators import flatten_invalid_refs, has_valid_transformations
+from gdsfactory.difftest import difftest
+from gdsfactory.generic_tech import get_generic_pdk
+from gdsfactory.technology import (
+    LayerLevel,
+    LayerStack,
+    LayerView,
+    LayerViews,
+    lyp_to_dataclass,
+)
+from gdsfactory.typings import Layer, LayerSpec
+
+import gdsfactory as gf
+
+gf.config.rich_output()
 nm = 1e-3
 
 
@@ -111,7 +138,7 @@ c = gf.components.mzi()
 c_gc = gf.routing.add_fiber_array(component=c, grating_coupler=gc, with_loopback=False)
 c_gc.plot()
 
-# %% tags=[] vscode={"languageId": "python"}
+# %% tags=[]
 c = c_gc.to_3d()
 c.show(show_ports=True)
 
@@ -123,7 +150,7 @@ c.show(show_ports=True)
 # Lets say that the waveguides are defined in layer (2, 0) and are 0.3um wide, 1um thick
 #
 
-# %% tags=[] vscode={"languageId": "python"}
+# %% tags=[]
 nm = 1e-3
 
 
@@ -144,7 +171,8 @@ class LayerMap(BaseModel):
 LAYER = LayerMap()
 
 
-# The LayerViews class supports grouping LayerViews within each other. These groups are maintained when exporting a LayerViews object to a KLayout layer properties (.lyp) file.
+# The LayerViews class supports grouping LayerViews within each other.
+# These groups are maintained when exporting a LayerViews object to a KLayout layer properties (.lyp) file.
 class FabBLayerViews(LayerViews):
     WG = LayerView(color="red")
     SLAB150 = LayerView(color="blue")
@@ -244,7 +272,7 @@ wg_gc = gf.routing.add_fiber_array(
 )
 wg_gc.plot()
 
-# %% tags=[] vscode={"languageId": "python"}
+# %% tags=[]
 c = wg_gc.to_3d()
 c.show(show_ports=True)
 
@@ -254,7 +282,7 @@ c.show(show_ports=True)
 # Lets assume that fab C has similar technology to the generic PDK in gdsfactory and that you just want to remap some layers, and adjust the widths.
 #
 
-# %% tags=[] vscode={"languageId": "python"}
+# %% tags=[]
 nm = 1e-3
 
 
@@ -455,10 +483,10 @@ pdk = gf.Pdk(
 pdk.activate()
 
 
-# %% tags=[] vscode={"languageId": "python"}
+# %% tags=[]
 LAYER_VIEWS.layer_map.values()
 
-# %% tags=[] vscode={"languageId": "python"}
+# %% tags=[]
 mzi = mzi_nc()
 mzi_gc = gf.routing.add_fiber_single(
     component=mzi,
@@ -470,9 +498,9 @@ mzi_gc = gf.routing.add_fiber_single(
 )
 mzi_gc.plot()
 
-# %% tags=[] vscode={"languageId": "python"}
+# %% tags=[]
 c = mzi_gc.to_3d()
 c.show(show_ports=True)
 
-# %% tags=[] vscode={"languageId": "python"}
+# %% tags=[]
 ls = get_layer_stack_fab_c()
