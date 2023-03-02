@@ -1,17 +1,19 @@
 # ---
 # jupyter:
 #   jupytext:
+#     custom_cell_magics: kql
 #     text_representation:
 #       extension: .py
-#       format_name: light
-#       format_version: '1.5'
-#       jupytext_version: 1.14.4
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 # ---
 
+# %% [markdown]
 # # Materials
 #
 # - How can you register your own material refractive index info for a particular PDK?
@@ -19,11 +21,10 @@
 #
 # You can define a material by name, real refractive index, complex refractive index (for loss) or by a function of wavelength.
 
-# + tags=[]
+# %% tags=[]
 import numpy as np
 
 import gdsfactory as gf
-import gdsfactory.simulation.gmeep as gm
 import gdsfactory.simulation.gtidy3d as gt
 from gdsfactory.components.taper import taper_sc_nc
 from gdsfactory.pdk import Pdk
@@ -32,7 +33,7 @@ gf.config.rich_output()
 PDK = gf.generic_tech.get_generic_pdk()
 PDK.activate()
 
-# + tags=[]
+# %% tags=[]
 strip = gt.modes.Waveguide(
     wavelength=1.55,
     wg_width=0.5,
@@ -42,14 +43,14 @@ strip = gt.modes.Waveguide(
     nclad="sio2",
 )
 strip.plot_index()
-# -
 
+# %% [markdown]
 # ## Option 1: define material with a value
 
-# + tags=[]
+# %% tags=[]
 PDK.materials_index.update(sin=2)
 
-# + tags=[]
+# %% tags=[]
 strip = gt.modes.Waveguide(
     wavelength=1.55,
     wg_width=0.5,
@@ -60,13 +61,11 @@ strip = gt.modes.Waveguide(
 )
 strip.plot_index()
 
-
-# -
-
+# %% [markdown]
 # ## Option 2: define material with a function
 
 
-# + tags=[]
+# %% tags=[]
 def sin(wav: float) -> float:
     w = [1.3, 1.5]
     n = [1.9, 2.1]
@@ -76,7 +75,7 @@ def sin(wav: float) -> float:
 
 PDK.materials_index.update(sin=sin)
 
-# + tags=[]
+# %% tags=[]
 strip = gt.modes.Waveguide(
     wavelength=1.5,
     wg_width=0.5,
@@ -87,29 +86,21 @@ strip = gt.modes.Waveguide(
 )
 strip.plot_index()
 
-# + tags=[]
+# %% tags=[]
 c = taper_sc_nc(length=10)
 c
 
-# + tags=[]
+# %% tags=[]
 s = gt.get_simulation(c, plot_modes=True)
 fig = gt.plot_simulation_xz(s)
 
-# + tags=[]
-c = taper_sc_nc(length=10)
-gm.write_sparameters_meep(
-    c, ymargin=3, run=False, wavelength_start=1.31, wavelength_stop=1.36
-)
-
-
-# -
-
+# %% [markdown]
 # ## Register materials into a PDK
 #
 # You can register all `materials_index` functions into a PDK.
 
 
-# + tags=[]
+# %% tags=[]
 def sin(wav: float) -> float:
     w = [1.3, 1.5]
     n = [1.9, 2.1]
