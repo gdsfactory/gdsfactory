@@ -47,7 +47,11 @@ MAX_NAME_LENGTH = 32
 
 logger.remove()
 logger.add(sink=sys.stderr, level="INFO")
-logger.info(f"Load {str(module_path)!r} {__version__}")
+
+
+def print_version():
+    """Print gdsfactory version and install directory."""
+    logger.info(f"gdsfactory {__version__} {str(module_path)!r}")
 
 
 default_config = io.StringIO(

@@ -5,7 +5,6 @@ import configparser
 import os
 import pathlib
 import shutil
-import subprocess
 import sys
 from typing import Optional
 
@@ -33,9 +32,7 @@ def make_link(src, dest, overwrite: bool = True) -> None:
         if sys.platform == "win32":
             # https://stackoverflow.com/questions/32877260/privlege-error-trying-to-create-symlink-using-python-on-windows-10
             print("Trying to create a junction instead of a symlink...")
-            proc = subprocess.check_call(f"mklink /J {dest} {src}", shell=True)
-            if proc != 0:
-                print("Could not create link!")
+            shutil.copy(src, dest)
     print("Symlink made:")
     print(f"From: {src}")
     print(f"To:   {dest}")

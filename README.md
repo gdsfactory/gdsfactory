@@ -56,15 +56,15 @@ It provides you a common syntax for design (KLayout, gdstk, Ansys Lumerical, tid
 
 ![tool interfaces](https://i.imgur.com/9fNLRvJ.png)
 
-Multiple Silicon Photonics foundries have gdsfactory PDKs available. Talk to your foundry to access their gdsfactory PDK.
+Multiple Photonic foundries have gdsfactory PDKs available. Talk to your foundry to access their gdsfactory PDK.
 
 You can also access:
 
+- instructions on [how to build your own PDK](https://gdsfactory.github.io/gdsfactory/notebooks/08_pdk.html)
+- instructions on [how to import a PDK from a library of fixed GDS cells](https://gdsfactory.github.io/gdsfactory/notebooks/09_pdk_import.html)
 - open source PDKs available on GitHub
   - [UBCPDK](https://gdsfactory.github.io/ubc/README.html)
   - [skywater130](https://gdsfactory.github.io/skywater130/README.html)
-- instructions on [how to build your own PDK](https://gdsfactory.github.io/gdsfactory/notebooks/08_pdk.html)
-- instructions on [how to import a PDK from a library of fixed GDS cells](https://gdsfactory.github.io/gdsfactory/notebooks/09_pdk_import.html)
 
 ## Installation
 
@@ -140,7 +140,7 @@ Or you can install only the ones you need.
   * Eigenmode Expansion (EME)
     - [MEOW](https://gdsfactory.github.io/gdsfactory/notebooks/eme/01_meow.html)
 * [Electromagnetic Wave Solvers using Finite Difference Time Domain (FDTD)](https://gdsfactory.github.io/gdsfactory/plugins_fdtd.html)
-  - [tid3d](https://gdsfactory.github.io/gdsfactory/notebooks/tidy3d/00_tidy3d.html)
+  - [tidy3d](https://gdsfactory.github.io/gdsfactory/notebooks/tidy3d/00_tidy3d.html)
   - [MEEP](https://gdsfactory.github.io/gdsfactory/notebooks/meep/001_meep_sparameters.html)
   - [Ansys Lumerical FDTD](https://gdsfactory.github.io/gdsfactory/notebooks/lumerical/1_fdtd_sparameters.html)
 * [S-Parameter Circuit Solvers](https://gdsfactory.github.io/gdsfactory/plugins_circuits.html)

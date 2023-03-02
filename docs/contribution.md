@@ -56,24 +56,6 @@ You can run tests with `pytest`. This will run 3 types of tests:
     - you can check out any changes in your library with `gf gds diff ref_layouts/bbox.gds run_layouts/bbox.gds`
     - it will also store all differences in `diff_layouts` and you can combine and show them in KLayout with `make diff`
 
-## Testing your own PDK cells
-
-As you create your cell functions you should write tests for them. See for example the tests in the [ubc PDK](https://github.com/gdsfactory/ubc)
-
-Pytest-regressions automatically creates the CSV and YAML files for you, as well `gdsfactory.gdsdiff` will store the reference GDS in ref_layouts and check for geometry differences using XOR.
-
-gdsfactory is **not** backwards compatible, which means that the package will keep improving and evolving.
-
-1. To make your work stable you should install a specific version and [pin the version](https://martin-thoma.com/python-requirements/) in your `requirements.txt` or `pyproject.toml` as `gdsfactory==6.48.3` replacing `6.48.3` by whatever version you end up using.
-2. Before you upgrade gdsfactory to a newer version make sure your tests pass to make sure that things behave as expected
-
-
-## Compare gds files
-
-You can use the command line `gf gds diff gds1.gds gds2.gds` to overlay `gds1.gds` and `gds2.gds` files and show them in KLayout.
-
-For example, if you changed the mmi1x2 and made it 5um longer by mistake, you could `gf gds diff ref_layouts/mmi1x2.gds run_layouts/mmi1x2.gds` and see the GDS differences in Klayout.
-
 
 ## Acks
 

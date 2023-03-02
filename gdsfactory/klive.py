@@ -1,10 +1,4 @@
-"""Stream GDS to Klayout.
-
-You can install gdsfactory KLayout integration:
-
-- run `gf tool install`
-- install the Klayout plugin through klayout package manager.
-"""
+"""Stream GDS to Klayout. Requires gdsfactory KLayout integration."""
 
 from __future__ import annotations
 
@@ -28,7 +22,6 @@ def show(
         keep_position: keep position and active layers.
         technology: Name of the KLayout technology to use.
         port: klayout server port.
-
     """
     if not os.path.isfile(gds_filename):
         raise ValueError(f"{gds_filename} does not exist")
