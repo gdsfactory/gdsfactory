@@ -33,7 +33,7 @@ def load_mesh_basis(mesh_filename: PathType):
 def compute_cross_section_modes(
     cross_section: CrossSectionSpec,
     layerstack: LayerStack,
-    wl: float = 1.55,
+    wavelength: float = 1.55,
     num_modes: int = 4,
     order: int = 1,
     radius: float = np.inf,
@@ -64,7 +64,7 @@ def compute_cross_section_modes(
         component=c,
         xsection_bounds=xsection_bounds,
         layerstack=layerstack,
-        wl=wl,
+        wavelength=wavelength,
         num_modes=num_modes,
         order=order,
         radius=radius,
@@ -82,7 +82,7 @@ def compute_component_slice_modes(
     component: ComponentSpec,
     xsection_bounds: Tuple[Tuple[float, float], Tuple[float, float]],
     layerstack: LayerStack,
-    wl: float = 1.55,
+    wavelength: float = 1.55,
     num_modes: int = 4,
     order: int = 1,
     radius: float = np.inf,
@@ -92,6 +92,7 @@ def compute_component_slice_modes(
     overwrite: bool = False,
     with_cache: bool = True,
     wafer_padding: float = 2.0,
+    solver: str = "slepc",
     **kwargs,
 ):
     """Calculate effective index of component slice.
@@ -111,6 +112,7 @@ def compute_component_slice_modes(
         with_cache: write modes to filepath cache.
         wafer_padding: padding beyond bbox to add to WAFER layers.
         bend_radius: bend radius for mode solving (typically called from cross_section)
+        solver: can be slepc or scipy.
 
     Keyword Args:
         resolutions (Dict): Pairs {"layername": {"resolution": float, "distance": "float}}
@@ -122,12 +124,12 @@ def compute_component_slice_modes(
         background_padding (Tuple): [xleft, ydown, xright, yup] distances to add to the components and to fill with background_tag.
         global_meshsize_array: np array [x,y,z,lc] to parametrize the mesh.
         global_meshsize_interpolant_func: interpolating function for global_meshsize_array.
-        extra_shapes_dict: Optional[OrderedDict] = OrderedDict of {key: geo} with key a label and geo a shapely (Multi)Polygon or (Multi)LineString of extra shapes to override component.
+        extra_shapes_dict: Optional[OrderedDict] of {key: geo} with key a label and geo a shapely (Multi)Polygon or (Multi)LineString of extra shapes to override component.
         merge_by_material: boolean, if True will merge polygons from layers with the same layer.material. Physical keys will be material in this case.
     """
     sim_settings = dict(
         xsection_bounds=xsection_bounds,
-        wl=wl,
+        wavelength=wavelength,
         num_modes=num_modes,
         radius=radius,
         order=order,
@@ -180,23 +182,23 @@ def compute_component_slice_modes(
     for layername, layer in layerstack.layers.items():
         if layername in mesh.subdomains.keys():
             epsilon[basis0.get_dofs(elements=layername)] = (
-                get_material_index(layer.material, wl) ** 2
+                get_material_index(layer.material, wavelength) ** 2
             )
         if "background_tag" in kwargs:
             epsilon[basis0.get_dofs(elements=kwargs["background_tag"])] = (
-                get_material_index(kwargs["background_tag"], wl) ** 2
+                get_material_index(kwargs["background_tag"], wavelength) ** 2
             )
 
     # Mode solve
     lams, basis, xs = mode_solver.compute_modes(
         basis0,
         epsilon,
-        wavelength=wl,
+        wavelength=wavelength,
         mu_r=1,
         num_modes=num_modes,
         order=order,
         radius=radius,
-        solver="slepc",
+        solver=solver,
     )
 
     if with_cache:
@@ -239,7 +241,7 @@ if __name__ == "__main__":
         lams, basis, xs = compute_cross_section_modes(
             cross_section="rib",
             layerstack=filtered_layerstack,
-            wl=1.55,
+            wavelength=1.55,
             num_modes=4,
             order=1,
             radius=np.inf,
@@ -266,7 +268,7 @@ if __name__ == "__main__":
             component,
             [[0, -3], [0, 3]],
             layerstack=filtered_layerstack,
-            wl=1.55,
+            wavelength=1.55,
             num_modes=4,
             order=1,
             radius=np.inf,
