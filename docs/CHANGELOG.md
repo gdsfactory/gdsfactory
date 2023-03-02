@@ -1,5 +1,13 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [6.49.0](https://github.com/gdsfactory/gdsfactory/pull/1375)
+
+- install uses copy instead of symlink if symlink fails
+- add gf.cross_section.rib_with_trenches
+- use python instead of jupyter notebooks to build docs
+- logger does not automatically print the version of the tool
+- gf --version prints all plugin versions
+
 ## 6.48.0
 
 - Transition does not inherit from CrossSection [PR](https://github.com/gdsfactory/gdsfactory/pull/1366)
