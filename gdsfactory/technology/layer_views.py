@@ -778,13 +778,13 @@ class LayerViews(BaseModel):
             if filepath.suffix == ".lyp":
                 lvs = LayerViews.from_lyp(filepath=filepath)
                 logger.info(
-                    f"Importing LayerViews from KLayout layer properties file: {filepath}."
+                    f"Importing LayerViews from KLayout layer properties file: {str(filepath)!r}."
                 )
             elif filepath.suffix in [".yaml", ".yml"]:
                 lvs = LayerViews.from_yaml(layer_file=filepath)
-                logger.info(f"Importing LayerViews from YAML file: {filepath}.")
+                logger.info(f"Importing LayerViews from YAML file: {str(filepath)!r}.")
             else:
-                raise ValueError(f"Unable to load LayerViews from {filepath}.")
+                raise ValueError(f"Unable to load LayerViews from {str(filepath)!r}.")
 
             data["layer_views"] = lvs.layer_views
             data["custom_line_styles"] = lvs.custom_line_styles
