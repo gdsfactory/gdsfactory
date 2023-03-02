@@ -56,15 +56,15 @@ It provides you a common syntax for design (KLayout, gdstk, Ansys Lumerical, tid
 
 ![tool interfaces](https://i.imgur.com/9fNLRvJ.png)
 
-Multiple Silicon Photonics foundries have gdsfactory PDKs available. Talk to your foundry to access their gdsfactory PDK.
+Multiple Photonic foundries have gdsfactory PDKs available. Talk to your foundry to access their gdsfactory PDK.
 
 You can also access:
 
+- instructions on [how to build your own PDK](https://gdsfactory.github.io/gdsfactory/notebooks/08_pdk.html)
+- instructions on [how to import a PDK from a library of fixed GDS cells](https://gdsfactory.github.io/gdsfactory/notebooks/09_pdk_import.html)
 - open source PDKs available on GitHub
   - [UBCPDK](https://gdsfactory.github.io/ubc/README.html)
   - [skywater130](https://gdsfactory.github.io/skywater130/README.html)
-- instructions on [how to build your own PDK](https://gdsfactory.github.io/gdsfactory/notebooks/08_pdk.html)
-- instructions on [how to import a PDK from a library of fixed GDS cells](https://gdsfactory.github.io/gdsfactory/notebooks/09_pdk_import.html)
 
 ## Installation
 
