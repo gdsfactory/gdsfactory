@@ -22,17 +22,16 @@
 #
 # 1. LayerStack: different layers with different thickness that come from a process.
 # 2. DRC: Manufacturing rules.
-# 3. A library of components. We use Parametric cells to generate components as well as fixed cells that always return the same component.
+# 3. A library of components. You can also use Parametric cell functions to generate components with different parameters.
 #
 # The PDK allows you to register:
 #
-# - `cell` functions that return Components from a ComponentSpec (string, Component, ComponentFactory or dict). Also known as PCells (parametric cells).
+# - `cell` functions that return Components from a ComponentSpec (string, Component, ComponentFactory or dict). Also known as parametric cell functions.
 # - `cross_section` functions that return CrossSection from a CrossSection Spec (string, CrossSection, CrossSectionFactory or dict).
-# - `layers` that return a GDS Layer from a string, an int or a Tuple[int, int].
+# - `layers` that return a GDS Layer (gdslayer, gdspurpose) from a string, an int or a Tuple[int, int].
 #
 #
-# You can only have one active PDK at a time.
-# Thanks to PDK you can access components, cross_sections or layers using a string.
+# Thanks to activating a PDK you can access components, cross_sections or layers using a string, a function or a dict.
 #
 # Depending on the active pdk:
 #
@@ -220,7 +219,8 @@ cells = dict(mmi1x2=mmi1x2, mmi2x2=mmi2x2)
 # %% [markdown]
 # ## PDK
 #
-# You can register Layers, ComponentFactories (Parametric cells) and CrossSectionFactories (cross_sections) into a PDK. Then you can access them by a string after you activate the pdk `PDK.activate()`.
+# You can register Layers, ComponentFactories (Parametric cells) and CrossSectionFactories (cross_sections) into a PDK.
+# Then you can access them by a string after you activate the pdk `PDK.activate()`.
 #
 # ### LayerSpec
 #
@@ -312,8 +312,8 @@ except Exception:
     dirpath = pathlib.Path.cwd()
 
 
-component_names = list(pdk.cells.keys())
-factory = pdk.cells
+component_names = list(pdk1.cells.keys())
+factory = pdk1.cells
 
 
 @pytest.fixture(params=component_names, scope="function")
@@ -347,6 +347,17 @@ def test_assert_ports_on_grid(component_name: str):
 # You can use the command line `gf gds diff gds1.gds gds2.gds` to overlay `gds1.gds` and `gds2.gds` files and show them in KLayout.
 #
 # For example, if you changed the mmi1x2 and made it 5um longer by mistake, you could `gf gds diff ref_layouts/mmi1x2.gds run_layouts/mmi1x2.gds` and see the GDS differences in Klayout.
+
+# %%
+from gdsfactory.gdsdiff import gdsdiff
+
+help(gdsdiff)
+
+# %%
+mmi1 = gf.components.mmi1x2(length_mmi=5)
+mmi2 = gf.components.mmi1x2(length_mmi=6)
+c = gdsdiff(mmi1, mmi2)
+c
 
 # %% [markdown]
 # ## PDK decorator

@@ -10,7 +10,7 @@ logo: logo.png
 execute:
   # execute_notebooks: cache
   timeout: 60
-  allow_errors: false
+  # allow_errors: true
   # timeout: -1
   execute_notebooks: force
   # execute_notebooks: "off"
