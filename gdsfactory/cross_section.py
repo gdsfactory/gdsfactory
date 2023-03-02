@@ -505,6 +505,68 @@ def slot(
     )
 
 
+@xsection
+def rib_with_trenches(
+    width: float = 0.5,
+    width_trench: float = 2.0,
+    width_slab: float = 7.0,
+    layer: Optional[LayerSpec] = "WG",
+    layer_trench: LayerSpec = "DEEP_ETCH",
+    **kwargs,
+) -> CrossSection:
+    """Return CrossSection of rib waveguide defined by trenches.
+
+    Args:
+        width: main Section width (um) or function parameterized from 0 to 1.
+            the width at t==0 is the width at the beginning of the Path.
+            the width at t==1 is the width at the end.
+        width_slab: in um.
+        width_trench: in um.
+        layer: ridge layer. None adds only ridge.
+        layer_trench: layer to etch trenches.
+        kwargs: cross_section settings.
+
+
+    .. code::
+
+
+        _____         __________         ________
+             |        |         |        |
+             |________|         |________|
+
+       __________________________________________
+             <------->                           |
+            width_trench
+                                                 |
+       <---------------------------------------->
+
+
+
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        xs = gf.cross_section.rib_with_trenches(width=0.5)
+        p = gf.path.arc(radius=10, angle=45)
+        c = p.extrude(xs)
+        c.plot()
+    """
+    trench_offset = width / 2 + width_trench / 2
+    sections = [Section(width=width_slab, layer=layer)]
+    sections += [
+        Section(width=width_trench, offset=offset, layer=layer_trench)
+        for offset in [+trench_offset, -trench_offset]
+    ]
+
+    return CrossSection(
+        width=width,
+        layer=None,
+        sections=tuple(sections),
+        **kwargs,
+    )
+
+
 metal1 = partial(
     cross_section,
     layer="M1",
@@ -852,7 +914,7 @@ def pn_with_trenches(
     Args:
         width: width of the ridge in um.
         layer: ridge layer. None adds only ridge.
-        layer_trenches: layer to etch trenches.
+        layer_trench: layer to etch trenches.
         gap_low_doping: from waveguide center to low doping. Only used for PIN.
         gap_medium_doping: from waveguide center to medium doping.
             None removes medium doping.
@@ -1631,7 +1693,8 @@ if __name__ == "__main__":
     #     mirror=False,
     # )
     # xs = pn_with_trenches(width=0.3)
-    xs = slot(width=0.3)
+    # xs = slot(width=0.3)
+    xs = rib_with_trenches()
     p = gf.path.straight()
     c = p.extrude(xs)
     c.show(show_ports=True)
