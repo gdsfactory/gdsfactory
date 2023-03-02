@@ -552,6 +552,8 @@ def rib_with_trenches(
         c = p.extrude(xs)
         c.plot()
     """
+    width_slab = max(width_slab, width + 2 * width_trench)
+
     trench_offset = width / 2 + width_trench / 2
     sections = [Section(width=width_slab, layer=layer)]
     sections += [
