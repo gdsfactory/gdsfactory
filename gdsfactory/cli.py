@@ -20,17 +20,30 @@ VERSION = "6.48.3"
 LAYER_LABEL = LAYER.LABEL
 
 
+plugins = ["ray", "femwell", "devsim", "tidy3d", "meep", "meow", "lumapi", "sax"]
+
+
 def print_version(ctx: Context, param: Option, value: bool) -> None:
     """Prints the version."""
     if not value or ctx.resilient_parsing:
         return
-    click.echo(VERSION)
+    click.echo(f"gdsfactory {VERSION}")
+    for plugin in plugins:
+        try:
+            import importlib
+
+            m = importlib.import_module(plugin)
+            try:
+                click.echo(f"{plugin} {m.__version__}")
+            except AttributeError:
+                click.echo(f"{plugin} installed")
+        except ImportError:
+            click.echo(f"{plugin} not installed")
+
     ctx.exit()
 
 
 # TOOL
-
-
 @click.group()
 def tool() -> None:
     """Commands working with gdsfactory tool."""
@@ -178,4 +191,5 @@ cli.add_command(watch)
 
 
 if __name__ == "__main__":
-    cli()
+    # cli()
+    print_version()

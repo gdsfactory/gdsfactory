@@ -140,7 +140,7 @@ Or you can install only the ones you need.
   * Eigenmode Expansion (EME)
     - [MEOW](https://gdsfactory.github.io/gdsfactory/notebooks/eme/01_meow.html)
 * [Electromagnetic Wave Solvers using Finite Difference Time Domain (FDTD)](https://gdsfactory.github.io/gdsfactory/plugins_fdtd.html)
-  - [tid3d](https://gdsfactory.github.io/gdsfactory/notebooks/tidy3d/00_tidy3d.html)
+  - [tidy3d](https://gdsfactory.github.io/gdsfactory/notebooks/tidy3d/00_tidy3d.html)
   - [MEEP](https://gdsfactory.github.io/gdsfactory/notebooks/meep/001_meep_sparameters.html)
   - [Ansys Lumerical FDTD](https://gdsfactory.github.io/gdsfactory/notebooks/lumerical/1_fdtd_sparameters.html)
 * [S-Parameter Circuit Solvers](https://gdsfactory.github.io/gdsfactory/plugins_circuits.html)
