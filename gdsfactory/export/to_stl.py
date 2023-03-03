@@ -4,14 +4,13 @@ import pathlib
 from typing import Optional, Tuple
 
 from gdsfactory.component import Component
-from gdsfactory.technology import LayerStack, LayerViews
+from gdsfactory.technology import LayerStack
 from gdsfactory.typings import Layer
 
 
 def to_stl(
     component: Component,
     filepath: str,
-    layer_views: Optional[LayerViews] = None,
     layer_stack: Optional[LayerStack] = None,
     exclude_layers: Optional[Tuple[Layer, ...]] = None,
     hull_invalid_polygons: bool = True,
@@ -22,7 +21,6 @@ def to_stl(
     Args:
         component: to export.
         filepath: to write STL to.
-        layer_views: layer colors from Klayout Layer Properties file.
         layer_stack: contains thickness and zmin for each layer.
         exclude_layers: layers to exclude.
         hull_invalid_polygons: If True, replaces invalid polygons (determined by shapely.Polygon.is_valid) with its convex hull.
@@ -32,9 +30,8 @@ def to_stl(
     import shapely
     import trimesh
     from trimesh.creation import extrude_polygon
-    from gdsfactory.pdk import get_layer_views, get_layer_stack
+    from gdsfactory.pdk import get_layer_stack
 
-    layer_views = layer_views or get_layer_views()
     layer_stack = layer_stack or get_layer_stack()
 
     layer_to_thickness = layer_stack.get_layer_to_thickness()
@@ -68,10 +65,6 @@ def to_stl(
 
                 mesh = extrude_polygon(p, height=height)
                 mesh.apply_translation((0, 0, zmin))
-                mesh.visual.face_colors = (
-                    *layer_views.get_from_tuple(layer).fill_color.as_rgb_tuple(),
-                    0.5,
-                )
                 meshes.append(mesh)
 
             layer_mesh = trimesh.util.concatenate(meshes)
