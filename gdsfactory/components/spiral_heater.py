@@ -19,6 +19,7 @@ def spiral_racetrack(
     bend_factory: ComponentFactory = bend_euler,
     bend_s_factory: ComponentFactory = bend_s,
     cross_section: CrossSectionSpec = "strip",
+    cross_section_s: CrossSectionSpec = None,
     n_bend_points: Optional[int] = None,
     with_inner_ports: bool = False,
 ) -> Component:
@@ -40,7 +41,7 @@ def spiral_racetrack(
     if with_inner_ports:
         bend_s_component = bend_s_factory(
             (straight_length, -min_radius * 2 + 1 * spacings[0]),
-            cross_section=cross_section,
+            cross_section=cross_section_s if cross_section_s else cross_section,
             **({"nb_points": n_bend_points} if n_bend_points else {}),
         )
         bend_s = type("obj", (object,), {"ports": bend_s_component.ports})
@@ -60,7 +61,7 @@ def spiral_racetrack(
     else:
         bend_s = c << bend_s_factory(
             (straight_length, -min_radius * 2 + 1 * spacings[0]),
-            cross_section=cross_section,
+            cross_section=cross_section_s if cross_section_s else cross_section,
             **({"nb_points": n_bend_points} if n_bend_points else {}),
         )
         c.info["length"] = bend_s.info["length"]
