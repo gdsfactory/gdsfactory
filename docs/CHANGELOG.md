@@ -1,5 +1,12 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [6.52.0](https://github.com/gdsfactory/gdsfactory/pull/1385)
+
+- install rich, jupytext and klayout, by default with `pip install gdsfactory`
+- logger.level = 'WARNING' by default
+- gf --version prints version of all packages
+- add gf.config.print_version() and gf.config.print_version_pdks()
+
 ## 6.51.0
 
 - Allow to change the crossection of spiral_racetrack [PR](https://github.com/gdsfactory/gdsfactory/pull/1384)
