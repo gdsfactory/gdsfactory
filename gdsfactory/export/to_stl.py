@@ -4,32 +4,35 @@ import pathlib
 from typing import Optional, Tuple
 
 from gdsfactory.component import Component
-from gdsfactory.technology import LayerStack, LayerViews
+from gdsfactory.technology import LayerStack
 from gdsfactory.typings import Layer
 
 
 def to_stl(
     component: Component,
     filepath: str,
-    layer_views: Optional[LayerViews] = None,
     layer_stack: Optional[LayerStack] = None,
     exclude_layers: Optional[Tuple[Layer, ...]] = None,
+    use_layer_name: bool = False,
+    hull_invalid_polygons: bool = True,
+    scale: Optional[float] = None,
 ) -> None:
     """Exports a Component into STL.
 
     Args:
         component: to export.
         filepath: to write STL to.
-        layer_views: layer colors from Klayout Layer Properties file.
         layer_stack: contains thickness and zmin for each layer.
         exclude_layers: layers to exclude.
+        use_layer_name: If True, uses LayerLevel names in output filenames rather than gds_layer and gds_datatype.
+        hull_invalid_polygons: If True, replaces invalid polygons (determined by shapely.Polygon.is_valid) with its convex hull.
+        scale: Optional factor by which to scale meshes before writing.
 
     """
     import shapely
-    from trimesh.creation import extrude_polygon
-    from gdsfactory.pdk import get_layer_views, get_layer_stack
+    import trimesh.creation
+    from gdsfactory.pdk import get_layer_stack
 
-    layer_views = layer_views or get_layer_views()
     layer_stack = layer_stack or get_layer_stack()
 
     layer_to_thickness = layer_stack.get_layer_to_thickness()
@@ -39,30 +42,47 @@ def to_stl(
 
     component_with_booleans = layer_stack.get_component_with_derived_layers(component)
     component_layers = component_with_booleans.get_layers()
-
+    layer_names = list(layer_stack.layers.keys())
+    layer_tuples = list(layer_stack.layers.values())
     for layer, polygons in component_with_booleans.get_polygons(by_spec=True).items():
         if (
-            layer not in exclude_layers
-            and layer in layer_to_thickness
-            and layer in layer_to_zmin
-            and layer in component_layers
+            layer in exclude_layers
+            or layer not in layer_to_thickness
+            or layer not in layer_to_zmin
+            or layer not in component_layers
         ):
-            height = layer_to_thickness[layer]
-            zmin = layer_to_zmin[layer]
-            filepath_layer = (
-                filepath.parent
-                / f"{filepath.stem}_{layer[0]}_{layer[1]}{filepath.suffix}"
-            )
-            print(f"Write {filepath_layer.absolute()!r}")
-            for polygon in polygons:
-                p = shapely.geometry.Polygon(polygon)
-                mesh = extrude_polygon(p, height=height)
-                mesh.apply_translation((0, 0, zmin))
-                mesh.visual.face_colors = (
-                    *layer_views.get_from_tuple(layer).fill_color.as_rgb_tuple(),
-                    0.5,
-                )
-                mesh.export(filepath_layer)
+            continue
+
+        height = layer_to_thickness[layer]
+        zmin = layer_to_zmin[layer]
+
+        layer_name = (
+            layer_names[layer_tuples.index(layer)]
+            if use_layer_name
+            else f"{layer[0]}_{layer[1]}"
+        )
+
+        filepath_layer = (
+            filepath.parent / f"{filepath.stem}_{layer_name}{filepath.suffix}"
+        )
+        print(f"Write {filepath_layer.absolute()!r}")
+        meshes = []
+        for polygon in polygons:
+            p = shapely.geometry.Polygon(polygon)
+
+            if hull_invalid_polygons and not p.is_valid:
+                p = p.convex_hull
+
+            mesh = trimesh.creation.extrude_polygon(p, height=height)
+            mesh.apply_translation((0, 0, zmin))
+            meshes.append(mesh)
+
+        layer_mesh = trimesh.util.concatenate(meshes)
+
+        if scale:
+            layer_mesh.apply_scale(scale)
+
+        layer_mesh.export(filepath_layer)
 
 
 if __name__ == "__main__":
