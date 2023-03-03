@@ -2249,7 +2249,6 @@ class Component(_GeometryHelper):
     def to_stl(
         self,
         filepath: str,
-        layer_views: Optional[LayerViews] = None,
         layer_stack: Optional[LayerStack] = None,
         exclude_layers: Optional[Tuple[Layer, ...]] = None,
     ) -> np.ndarray:
@@ -2258,7 +2257,6 @@ class Component(_GeometryHelper):
         Args:
             component: to export.
             filepath: to write STL to.
-            layer_views: layer colors from Klayout Layer Properties file.
             layer_stack: contains thickness and zmin for each layer.
             exclude_layers: layers to exclude.
 
@@ -2268,7 +2266,6 @@ class Component(_GeometryHelper):
         return to_stl(
             self,
             filepath=filepath,
-            layer_views=layer_views,
             layer_stack=layer_stack,
             exclude_layers=exclude_layers,
         )
