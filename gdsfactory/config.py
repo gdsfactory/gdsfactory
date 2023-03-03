@@ -24,10 +24,14 @@ import subprocess
 from pathlib import Path
 from pprint import pprint
 from typing import Any, Iterable, Optional, Union
+import importlib
 
-import omegaconf
 from loguru import logger
+import omegaconf
 from omegaconf import OmegaConf
+
+from rich.console import Console
+from rich.table import Table
 
 __version__ = "6.51.0"
 PathType = Union[str, pathlib.Path]
@@ -65,11 +69,6 @@ pdks = ["gf45", "tj", "imec", "amf", "sky130", "ubcpdk", "aim", "ct"]
 
 def print_version():
     """Print gdsfactory plugin versions and paths."""
-
-    import importlib
-    from rich.console import Console
-    from rich.table import Table
-
     table = Table(title="Modules")
     table.add_column("Package", justify="right", style="cyan", no_wrap=True)
     table.add_column("version", style="magenta")
@@ -90,6 +89,9 @@ def print_version():
     console = Console()
     console.print(table)
 
+
+def print_version_pdks():
+    """Print gdsfactory PDK versions and paths."""
     table = Table(title="PDKs")
     table.add_column("Package", justify="right", style="cyan", no_wrap=True)
     table.add_column("version", style="magenta")
@@ -105,6 +107,7 @@ def print_version():
         except ImportError:
             table.add_row(pdk, "not installed", "")
 
+    console = Console()
     console.print(table)
 
 

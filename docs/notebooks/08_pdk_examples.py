@@ -53,6 +53,14 @@ nm = 1e-3
 
 gf.config.print_version()
 
+# %%
+gf.config.print_version_pdks()
+
+# %%
+p = gf.get_active_pdk()
+p.name
+
+
 # %% [markdown]
 #
 # ### FabA
