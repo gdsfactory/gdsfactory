@@ -10,6 +10,7 @@ ports:
     - 1
     - 0
     port_type: optical
+    shear_angle: null
   o2:
     name: o2
     width: 0.5
@@ -21,6 +22,7 @@ ports:
     - 1
     - 0
     port_type: optical
+    shear_angle: null
 cells:
   mzi_6f76ede3:
     name: mzi_6f76ede3
@@ -93,7 +95,7 @@ cells:
     info: {}
     info_version: 2
     full:
-      width: 0.5
+      width: null
       width_taper: 1.0
       length_taper: 10.0
       length_mmi: 5.5
@@ -108,7 +110,7 @@ cells:
       cross_section:
         function: cross_section
     default:
-      width: 0.5
+      width: null
       width_taper: 1.0
       length_taper: 10.0
       length_mmi: 5.5
@@ -129,12 +131,14 @@ cells:
       radius_min: 7.061
       radius: 10.0
       width: 0.5
+      settings: {}
+      function_name: cross_section
     info_version: 2
     full:
       angle: 90.0
       p: 0.5
       with_arc_floorplan: true
-      npoints: 720
+      npoints: null
       direction: ccw
       with_bbox: true
       cross_section:
@@ -146,7 +150,7 @@ cells:
       angle: 90.0
       p: 0.5
       with_arc_floorplan: true
-      npoints: 720
+      npoints: null
       direction: ccw
       with_bbox: true
       cross_section: strip
@@ -158,6 +162,10 @@ cells:
     info:
       length: 7.0
       width: 0.5
+      cross_section:
+        function: cross_section
+      settings: {}
+      function_name: cross_section
     info_version: 2
     full:
       length: 7.0
@@ -182,6 +190,10 @@ cells:
     info:
       length: 0.1
       width: 0.5
+      cross_section:
+        function: cross_section
+      settings: {}
+      function_name: cross_section
     info_version: 2
     full:
       length: 0.1
@@ -206,6 +218,10 @@ cells:
     info:
       length: 2.0
       width: 0.5
+      cross_section:
+        function: cross_section
+      settings: {}
+      function_name: cross_section
     info_version: 2
     full:
       length: 2.0
@@ -223,13 +239,45 @@ cells:
       with_bbox: true
       cross_section: strip
     child: null
-  straight_cfd61eb8:
-    name: straight_cfd61eb8
+  straight_735ec446:
+    name: straight_735ec446
     module: gdsfactory.components.straight
     function_name: straight
     info:
       length: 0.09
       width: 0.5
+      cross_section:
+        layer: WG
+        width: 0.5
+        offset: 0.0
+        radius: 10.0
+        width_wide: null
+        auto_widen: false
+        auto_widen_minimum_length: 200.0
+        taper_length: 10.0
+        bbox_layers: []
+        bbox_offsets: []
+        cladding_layers: null
+        cladding_offsets: null
+        sections: []
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        gap: 3.0
+        min_length: 0.01
+        start_straight_length: 0.01
+        end_straight_length: 0.01
+        snap_to_grid: null
+        info:
+          settings: {}
+          function_name: cross_section
+        name: null
+        mirror: false
+      settings: {}
+      function_name: cross_section
     info_version: 2
     full:
       length: 0.09
@@ -255,13 +303,16 @@ cells:
         port_types:
         - optical
         - optical
+        gap: 3.0
         min_length: 0.01
         start_straight_length: 0.01
         end_straight_length: 0.01
         snap_to_grid: null
-        info: {}
+        info:
+          settings: {}
+          function_name: cross_section
         name: null
-        add_center_section: true
+        mirror: false
     changed:
       cross_section:
         layer: WG
@@ -283,13 +334,16 @@ cells:
         port_types:
         - optical
         - optical
+        gap: 3.0
         min_length: 0.01
         start_straight_length: 0.01
         end_straight_length: 0.01
         snap_to_grid: null
-        info: {}
+        info:
+          settings: {}
+          function_name: cross_section
         name: null
-        add_center_section: true
+        mirror: false
       length: 0.09
     default:
       length: 10.0
@@ -297,13 +351,45 @@ cells:
       with_bbox: true
       cross_section: strip
     child: null
-  straight_02201506:
-    name: straight_02201506
+  straight_69c266e8:
+    name: straight_69c266e8
     module: gdsfactory.components.straight
     function_name: straight
     info:
       length: 2.0
       width: 0.5
+      cross_section:
+        layer: WG
+        width: 0.5
+        offset: 0.0
+        radius: 10.0
+        width_wide: null
+        auto_widen: false
+        auto_widen_minimum_length: 200.0
+        taper_length: 10.0
+        bbox_layers: []
+        bbox_offsets: []
+        cladding_layers: null
+        cladding_offsets: null
+        sections: []
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        gap: 3.0
+        min_length: 0.01
+        start_straight_length: 0.01
+        end_straight_length: 0.01
+        snap_to_grid: null
+        info:
+          settings: {}
+          function_name: cross_section
+        name: null
+        mirror: false
+      settings: {}
+      function_name: cross_section
     info_version: 2
     full:
       length: 2.0
@@ -329,13 +415,16 @@ cells:
         port_types:
         - optical
         - optical
+        gap: 3.0
         min_length: 0.01
         start_straight_length: 0.01
         end_straight_length: 0.01
         snap_to_grid: null
-        info: {}
+        info:
+          settings: {}
+          function_name: cross_section
         name: null
-        add_center_section: true
+        mirror: false
     changed:
       cross_section:
         layer: WG
@@ -357,13 +446,16 @@ cells:
         port_types:
         - optical
         - optical
+        gap: 3.0
         min_length: 0.01
         start_straight_length: 0.01
         end_straight_length: 0.01
         snap_to_grid: null
-        info: {}
+        info:
+          settings: {}
+          function_name: cross_section
         name: null
-        add_center_section: true
+        mirror: false
       length: 2.0
     default:
       length: 10.0
@@ -371,13 +463,45 @@ cells:
       with_bbox: true
       cross_section: strip
     child: null
-  straight_d2b07adc:
-    name: straight_d2b07adc
+  straight_c118e222:
+    name: straight_c118e222
     module: gdsfactory.components.straight
     function_name: straight
     info:
       length: 0.01
       width: 0.5
+      cross_section:
+        layer: WG
+        width: 0.5
+        offset: 0.0
+        radius: 10.0
+        width_wide: null
+        auto_widen: false
+        auto_widen_minimum_length: 200.0
+        taper_length: 10.0
+        bbox_layers: []
+        bbox_offsets: []
+        cladding_layers: null
+        cladding_offsets: null
+        sections: []
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        gap: 3.0
+        min_length: 0.01
+        start_straight_length: 0.01
+        end_straight_length: 0.01
+        snap_to_grid: null
+        info:
+          settings: {}
+          function_name: cross_section
+        name: null
+        mirror: false
+      settings: {}
+      function_name: cross_section
     info_version: 2
     full:
       length: 0.01
@@ -403,13 +527,16 @@ cells:
         port_types:
         - optical
         - optical
+        gap: 3.0
         min_length: 0.01
         start_straight_length: 0.01
         end_straight_length: 0.01
         snap_to_grid: null
-        info: {}
+        info:
+          settings: {}
+          function_name: cross_section
         name: null
-        add_center_section: true
+        mirror: false
     changed:
       cross_section:
         layer: WG
@@ -431,13 +558,16 @@ cells:
         port_types:
         - optical
         - optical
+        gap: 3.0
         min_length: 0.01
         start_straight_length: 0.01
         end_straight_length: 0.01
         snap_to_grid: null
-        info: {}
+        info:
+          settings: {}
+          function_name: cross_section
         name: null
-        add_center_section: true
+        mirror: false
       length: 0.01
     default:
       length: 10.0
@@ -445,13 +575,45 @@ cells:
       with_bbox: true
       cross_section: strip
     child: null
-  straight_6613a245:
-    name: straight_6613a245
+  straight_17ac688a:
+    name: straight_17ac688a
     module: gdsfactory.components.straight
     function_name: straight
     info:
       length: 7.0
       width: 0.5
+      cross_section:
+        layer: WG
+        width: 0.5
+        offset: 0.0
+        radius: 10.0
+        width_wide: null
+        auto_widen: false
+        auto_widen_minimum_length: 200.0
+        taper_length: 10.0
+        bbox_layers: []
+        bbox_offsets: []
+        cladding_layers: null
+        cladding_offsets: null
+        sections: []
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        gap: 3.0
+        min_length: 0.01
+        start_straight_length: 0.01
+        end_straight_length: 0.01
+        snap_to_grid: null
+        info:
+          settings: {}
+          function_name: cross_section
+        name: null
+        mirror: false
+      settings: {}
+      function_name: cross_section
     info_version: 2
     full:
       length: 7.0
@@ -477,13 +639,16 @@ cells:
         port_types:
         - optical
         - optical
+        gap: 3.0
         min_length: 0.01
         start_straight_length: 0.01
         end_straight_length: 0.01
         snap_to_grid: null
-        info: {}
+        info:
+          settings: {}
+          function_name: cross_section
         name: null
-        add_center_section: true
+        mirror: false
     changed:
       cross_section:
         layer: WG
@@ -505,13 +670,16 @@ cells:
         port_types:
         - optical
         - optical
+        gap: 3.0
         min_length: 0.01
         start_straight_length: 0.01
         end_straight_length: 0.01
         snap_to_grid: null
-        info: {}
+        info:
+          settings: {}
+          function_name: cross_section
         name: null
-        add_center_section: true
+        mirror: false
       length: 7.0
     default:
       length: 10.0

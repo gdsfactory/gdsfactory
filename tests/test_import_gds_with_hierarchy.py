@@ -14,7 +14,7 @@ gdspath = gf.PATH.gdsdir / "mzi2x2.gds"
 def test_read_gds_hash2() -> gf.Component:
     c = gf.import_gds(gdspath)
 
-    h = "bfc84eea02b07fa0e167223e0fdedc8e8b085026"
+    h = "35fd71f1c17fad9b6bfe077eda4979a4c0b22608"
     assert c.hash_geometry() == h, f"h = {c.hash_geometry()!r}"
     return c
 
@@ -62,7 +62,6 @@ def test_mix_cells_from_gds_and_from_function2() -> None:
     c << gf.components.mzi()
     c << gf.import_gds(gdspath)
     c.write_gds()
-    c.show(show_ports=True)
 
 
 def _write() -> None:
@@ -73,7 +72,7 @@ def _write() -> None:
 
 
 if __name__ == "__main__":
-    _write()
+    # _write()
     # test_read_gds_equivalent2()
 
     c = test_read_gds_hash2()

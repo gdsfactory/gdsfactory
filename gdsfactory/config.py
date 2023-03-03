@@ -47,7 +47,7 @@ yamlpath_home = home_path / "config.yml"
 MAX_NAME_LENGTH = 32
 
 logger.remove()
-logger.add(sink=sys.stderr, level="INFO")
+logger.add(sink=sys.stderr, level="WARNING")
 
 showwarning_ = warnings.showwarning
 
@@ -59,10 +59,53 @@ def showwarning(message, *args, **kwargs):
 
 warnings.showwarning = showwarning
 
+plugins = ["ray", "femwell", "devsim", "tidy3d", "meep", "meow", "lumapi", "sax"]
+pdks = ["gf45", "tj", "imec", "amf", "sky130", "ubcpdk", "aim", "ct"]
+
 
 def print_version():
-    """Print gdsfactory version and install directory."""
-    logger.info(f"gdsfactory {__version__} {str(module_path)!r}")
+    """Print gdsfactory plugin versions and paths."""
+
+    import importlib
+    from rich.console import Console
+    from rich.table import Table
+
+    table = Table(title="Modules")
+    table.add_column("Package", justify="right", style="cyan", no_wrap=True)
+    table.add_column("version", style="magenta")
+    table.add_column("Path", justify="right", style="green")
+
+    table.add_row("gdsfactory", __version__, str(module_path))
+
+    for plugin in plugins:
+        try:
+            m = importlib.import_module(plugin)
+            try:
+                table.add_row(plugin, str(m.__version__), str(m.__path__))
+            except AttributeError:
+                table.add_row(plugin, "", "")
+        except ImportError:
+            table.add_row(plugin, "not installed", "")
+
+    console = Console()
+    console.print(table)
+
+    table = Table(title="PDKs")
+    table.add_column("Package", justify="right", style="cyan", no_wrap=True)
+    table.add_column("version", style="magenta")
+    table.add_column("Path", justify="right", style="green")
+
+    for pdk in pdks:
+        try:
+            m = importlib.import_module(pdk)
+            try:
+                table.add_row(pdk, str(m.__version__), str(m.__path__))
+            except AttributeError:
+                table.add_row(pdk, "", "")
+        except ImportError:
+            table.add_row(pdk, "not installed", "")
+
+    console.print(table)
 
 
 default_config = io.StringIO(
@@ -208,5 +251,6 @@ def set_plot_options(
 
 if __name__ == "__main__":
     # print(PATH.sparameters)
-    print_config()
+    # print_config()
+    print_version()
     # write_tech("tech.json")

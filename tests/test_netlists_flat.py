@@ -62,7 +62,6 @@ def test_flatten_netlist_identical_references():
     vdiv.add_port("gnd1", port=r2.ports["pad2"])
     vdiv.add_port("gnd2", port=r4.ports["pad2"])
     vdiv.add_port("vsig", port=r1.ports["pad1"])
-    vdiv.show(show_ports=True)
 
     assert len(get_netlist_flat(vdiv, allow_multiple=True)["instances"]) == 8
 
