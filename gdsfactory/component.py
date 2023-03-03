@@ -1891,7 +1891,7 @@ class Component(_GeometryHelper):
             with_cells: write cells recursively.
             with_ports: write port information.
         """
-        return OmegaConf.to_yaml(self.to_dict(**kwargs))
+        return OmegaConf.to_yaml(clean_dict(self.to_dict(**kwargs)))
 
     def to_dict_polygons(self) -> Dict[str, Any]:
         """Returns a dict representation of the flattened component."""
