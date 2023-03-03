@@ -1124,16 +1124,16 @@ class LayerViews(BaseModel):
             out_dict["CustomDitherPatterns"] = {
                 name: dp.dict(
                     exclude_none=True, exclude_defaults=True, exclude_unset=True
-                    )
+                )
                 for name, dp in self.custom_dither_patterns.items()
-                }
+            }
         if self.custom_line_styles:
             out_dict["CustomLineStyles"] = {
                 name: ls.dict(
                     exclude_none=True, exclude_defaults=True, exclude_unset=True
-                    )
+                )
                 for name, ls in self.custom_line_styles.items()
-                }
+            }
 
         lf_path.write_bytes(
             yaml.dump(
