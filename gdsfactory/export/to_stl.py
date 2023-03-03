@@ -14,6 +14,7 @@ def to_stl(
     layer_views: Optional[LayerViews] = None,
     layer_stack: Optional[LayerStack] = None,
     exclude_layers: Optional[Tuple[Layer, ...]] = None,
+    hull_invalid_polygons: bool = True,
 ) -> None:
     """Exports a Component into STL.
 
@@ -23,6 +24,7 @@ def to_stl(
         layer_views: layer colors from Klayout Layer Properties file.
         layer_stack: contains thickness and zmin for each layer.
         exclude_layers: layers to exclude.
+        hull_invalid_polygons: If True, replaces invalid polygons (determined by shapely.Polygon.is_valid) with its convex hull.
 
     """
     import shapely
@@ -58,6 +60,10 @@ def to_stl(
             meshes = []
             for polygon in polygons:
                 p = shapely.geometry.Polygon(polygon)
+
+                if hull_invalid_polygons and not p.is_valid:
+                    p = p.convex_hull
+
                 mesh = extrude_polygon(p, height=height)
                 mesh.apply_translation((0, 0, zmin))
                 mesh.visual.face_colors = (
