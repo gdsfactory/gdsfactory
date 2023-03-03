@@ -32,9 +32,8 @@ def to_stl(
     import shapely
     import trimesh
     from trimesh.creation import extrude_polygon
-    from gdsfactory.pdk import get_layer_views, get_layer_stack
+    from gdsfactory.pdk import get_layer_stack
 
-    layer_views = layer_views or get_layer_views()
     layer_stack = layer_stack or get_layer_stack()
 
     layer_to_thickness = layer_stack.get_layer_to_thickness()
@@ -68,10 +67,6 @@ def to_stl(
 
                 mesh = extrude_polygon(p, height=height)
                 mesh.apply_translation((0, 0, zmin))
-                mesh.visual.face_colors = (
-                    *layer_views.get_from_tuple(layer).fill_color.as_rgb_tuple(),
-                    0.5,
-                )
                 meshes.append(mesh)
 
             layer_mesh = trimesh.util.concatenate(meshes)
