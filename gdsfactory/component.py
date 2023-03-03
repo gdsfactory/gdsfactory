@@ -55,6 +55,14 @@ Plotter = Literal["holoviews", "matplotlib", "qt", "klayout"]
 Axis = Literal["x", "y"]
 
 
+class UncachedComponentWarning(UserWarning):
+    pass
+
+
+class UncachedComponentError(ValueError):
+    pass
+
+
 class MutabilityError(ValueError):
     pass
 
@@ -1649,6 +1657,7 @@ class Component(_GeometryHelper):
                     None: do not try to resolve (at your own risk!)
                 flatten_invalid_refs: flattens component references which have invalid transformations.
                 max_points: Maximal number of vertices per polygon. Polygons with more vertices that this are automatically fractured.
+
             Oasis settings:
                 compression_level: Level of compression for cells (between 0 and 9).
                     Setting to 0 will disable cell compression, 1 gives the best speed and 9, the best compression.
@@ -1683,6 +1692,18 @@ class Component(_GeometryHelper):
         # update the write settings with any settings explicitly passed
         write_settings = default_settings.copy(update=explicit_gds_settings)
         oasis_settings = default_oasis_settings.copy(update=explicit_oas_settings)
+
+        for component in self.get_dependencies(recursive=True):
+            if not component._locked:
+                message = (
+                    f"Component {component.name!r} was NOT properly locked. "
+                    "You need to write it into a function that has the @cell decorator."
+                )
+                if write_settings.on_uncached_component == "warn":
+                    warnings.warn(message, UncachedComponentWarning)
+
+                elif write_settings.on_uncached_component == "error":
+                    raise UncachedComponentError(message)
 
         if write_settings.flatten_invalid_refs:
             top_cell = flatten_invalid_refs_recursive(self)
@@ -1759,50 +1780,6 @@ class Component(_GeometryHelper):
         self,
         gdspath: Optional[PathType] = None,
         gdsdir: Optional[PathType] = None,
-        unit: Optional[float] = None,
-        precision: Optional[float] = None,
-        logging: bool = True,
-        on_duplicate_cell: Optional[str] = None,
-        flatten_invalid_refs: Optional[bool] = None,
-        max_points: Optional[int] = None,
-    ) -> Path:
-        """Write component to GDS and returns gdspath.
-
-        Args:
-            gdspath: GDS file path to write to.
-            gdsdir: directory for the GDS file. Defaults to /tmp/randomFile/gdsfactory.
-            unit: unit size for objects in library. 1um by default.
-            precision: for dimensions in the library (m). 1nm by default.
-            logging: disable GDS path logging, for example for showing it in KLayout.
-            on_duplicate_cell: specify how to resolve duplicate-named cells. Choose one of the following:
-                "warn" (default): overwrite all duplicate cells with one of the duplicates (arbitrarily).
-                "error": throw a ValueError when attempting to write a gds with duplicate cells.
-                "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
-            flatten_invalid_refs: flattens component references which have invalid transformations.
-            max_points: Maximal number of vertices per polygon.
-                Polygons with more vertices that this are automatically fractured.
-        """
-
-        return self._write_library(
-            gdspath=gdspath,
-            gdsdir=gdsdir,
-            unit=unit,
-            precision=precision,
-            logging=logging,
-            on_duplicate_cell=on_duplicate_cell,
-            flatten_invalid_refs=flatten_invalid_refs,
-            max_points=max_points,
-        )
-
-    def write_oas(
-        self,
-        gdspath: Optional[PathType] = None,
-        gdsdir: Optional[PathType] = None,
-        unit: Optional[float] = None,
-        precision: Optional[float] = None,
-        logging: bool = True,
-        on_duplicate_cell: Optional[str] = "warn",
-        flatten_invalid_refs: Optional[bool] = None,
         **kwargs,
     ) -> Path:
         """Write component to GDS and returns gdspath.
@@ -1810,6 +1787,38 @@ class Component(_GeometryHelper):
         Args:
             gdspath: GDS file path to write to.
             gdsdir: directory for the GDS file. Defaults to /tmp/randomFile/gdsfactory.
+
+        Keyword Args:
+            unit: unit size for objects in library. 1um by default.
+            precision: for dimensions in the library (m). 1nm by default.
+            logging: disable GDS path logging, for example for showing it in KLayout.
+            on_duplicate_cell: specify how to resolve duplicate-named cells. Choose one of the following:
+                "warn" (default): overwrite all duplicate cells with one of the duplicates (arbitrarily).
+                "error": throw a ValueError when attempting to write a gds with duplicate cells.
+                "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
+            on_uncached_component: Literal["warn", "error"] = "warn"
+            flatten_invalid_refs: flattens component references which have invalid transformations.
+            max_points: Maximal number of vertices per polygon.
+                Polygons with more vertices that this are automatically fractured.
+        """
+
+        return self._write_library(
+            gdspath=gdspath, gdsdir=gdsdir, with_oasis=False, **kwargs
+        )
+
+    def write_oas(
+        self,
+        gdspath: Optional[PathType] = None,
+        gdsdir: Optional[PathType] = None,
+        **kwargs,
+    ) -> Path:
+        """Write component to GDS and returns gdspath.
+
+        Args:
+            gdspath: GDS file path to write to.
+            gdsdir: directory for the GDS file. Defaults to /tmp/randomFile/gdsfactory.
+
+        Keyword Args:
             unit: unit size for objects in library. 1um by default.
             precision: for dimensions in the library (m). 1nm by default.
             logging: disable GDS path logging, for example for showing it in KLayout.
@@ -1818,9 +1827,8 @@ class Component(_GeometryHelper):
                 "error": throw a ValueError when attempting to write a gds with duplicate cells.
                 "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
                 None: do not try to resolve (at your own risk!)
+            on_uncached_component: Literal["warn", "error"] = "warn"
             flatten_invalid_refs: flattens component references which have invalid transformations.
-
-        Keyword Args:
             compression_level: Level of compression for cells (between 0 and 9).
                 Setting to 0 will disable cell compression, 1 gives the best speed and 9, the best compression.
             detect_rectangles: Store rectangles in compressed format.
@@ -1833,12 +1841,7 @@ class Component(_GeometryHelper):
         return self._write_library(
             gdspath=gdspath,
             gdsdir=gdsdir,
-            unit=unit,
-            precision=precision,
-            logging=logging,
-            on_duplicate_cell=on_duplicate_cell,
             with_oasis=True,
-            flatten_invalid_refs=flatten_invalid_refs,
             **kwargs,
         )
 
