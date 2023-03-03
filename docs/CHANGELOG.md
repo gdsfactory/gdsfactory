@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.51.0
+
+- Allow to change the crossection of spiral_racetrack [PR](https://github.com/gdsfactory/gdsfactory/pull/1384)
+- Add sidewall tolerance [PR](https://github.com/gdsfactory/gdsfactory/pull/1382)
+
 ## 6.50.0
 
 - Fix Component.to_stl() [PR](https://github.com/gdsfactory/gdsfactory/pull/1383)
