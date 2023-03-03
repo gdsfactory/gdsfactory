@@ -65,7 +65,9 @@ def to_stl(
         filepath_layer = (
             filepath.parent / f"{filepath.stem}_{layer_name}{filepath.suffix}"
         )
-        print(f"Write {filepath_layer.absolute()!r}")
+        print(
+            f"Write {filepath_layer.absolute()!r} zmin = {zmin:.3f}, height = {height:.3f}"
+        )
         meshes = []
         for polygon in polygons:
             p = shapely.geometry.Polygon(polygon)
