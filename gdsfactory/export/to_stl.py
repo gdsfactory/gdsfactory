@@ -26,6 +26,7 @@ def to_stl(
 
     """
     import shapely
+    import trimesh
     from trimesh.creation import extrude_polygon
     from gdsfactory.pdk import get_layer_views, get_layer_stack
 
@@ -54,6 +55,7 @@ def to_stl(
                 / f"{filepath.stem}_{layer[0]}_{layer[1]}{filepath.suffix}"
             )
             print(f"Write {filepath_layer.absolute()!r}")
+            meshes = []
             for polygon in polygons:
                 p = shapely.geometry.Polygon(polygon)
                 mesh = extrude_polygon(p, height=height)
@@ -62,7 +64,9 @@ def to_stl(
                     *layer_views.get_from_tuple(layer).fill_color.as_rgb_tuple(),
                     0.5,
                 )
-                mesh.export(filepath_layer)
+                meshes.append(mesh)
+            layer_mesh = trimesh.util.concatenate(meshes)
+            layer_mesh.export(filepath_layer)
 
 
 if __name__ == "__main__":
