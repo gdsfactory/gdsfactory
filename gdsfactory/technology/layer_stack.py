@@ -19,6 +19,7 @@ class LayerLevel(BaseModel):
         zmin: height position where material starts in um.
         material: material name.
         sidewall_angle: in degrees with respect to normal.
+        sidewall_angle_tolerance: in degrees.
         width_to_z: if sidewall_angle, relative z-position
             (0 --> zmin, 1 --> zmin + thickness).
         z_to_bias: parametrizes shrinking/expansion of the design GDS layer
@@ -46,6 +47,7 @@ class LayerLevel(BaseModel):
     zmin: float
     material: Optional[str] = None
     sidewall_angle: float = 0.0
+    sidewall_angle_tolerance: Optional[float] = None
     width_to_z: float = 0.0
     z_to_bias: Optional[Tuple[List[float], List[float]]] = None
     mesh_order: int = 3
