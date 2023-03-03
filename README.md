@@ -68,7 +68,7 @@ You can also access:
 
 ## Installation
 
-You have 3 options to install gdsfactory.
+You have 3 options to install gdsfactory:
 
 ### 1. Installation for new python users
 
