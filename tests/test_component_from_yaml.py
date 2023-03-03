@@ -613,8 +613,9 @@ if __name__ == "__main__":
     # c = test_sa
 
     # c = test_netlists("sample_mmis", None, False)
-    yaml_key = "sample_doe_function"
+    # yaml_key = "sample_doe_function"
     # yaml_key = "sample_mmis"
+    yaml_key = "yaml_anchor"
     yaml_string = yaml_strings[yaml_key]
     c = from_yaml(yaml_string)
     # n = c.get_netlist()

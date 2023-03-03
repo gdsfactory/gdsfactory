@@ -42,6 +42,9 @@ dependencies = [
     "types-PyYAML",
     "typing_extensions",
     "watchdog",
+    "jupytext",
+    "rich",
+    "klayout",
 ]
 readme = "README.md"
 requires-python = ">=3.7"
@@ -56,13 +59,11 @@ full = [
     "ipympl",
     "ipywidgets==7.7.3",
     "ipyevents",
-    "klayout",
     "mapbox_earcut",
     "natsort",
     "networkx",
     "pyglet<2",
     "pygmsh",
-    "rich",
     "scikit-fem",
     "scikit-image",
     "scikit-learn",

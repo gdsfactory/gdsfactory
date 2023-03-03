@@ -10,6 +10,7 @@ from click.core import Context, Option
 
 import gdsfactory
 from gdsfactory.config import cwd, print_config
+from gdsfactory.config import print_version as _print_version
 from gdsfactory.generic_tech import LAYER
 from gdsfactory.install import install_gdsdiff, install_klayout_package
 from gdsfactory.technology import lyp_to_dataclass
@@ -20,26 +21,11 @@ VERSION = "6.51.0"
 LAYER_LABEL = LAYER.LABEL
 
 
-plugins = ["ray", "femwell", "devsim", "tidy3d", "meep", "meow", "lumapi", "sax"]
-
-
 def print_version(ctx: Context, param: Option, value: bool) -> None:
     """Prints the version."""
     if not value or ctx.resilient_parsing:
         return
-    click.echo(f"gdsfactory {VERSION}")
-    for plugin in plugins:
-        try:
-            import importlib
-
-            m = importlib.import_module(plugin)
-            try:
-                click.echo(f"{plugin} {m.__version__}")
-            except AttributeError:
-                click.echo(f"{plugin} installed")
-        except ImportError:
-            click.echo(f"{plugin} not installed")
-
+    _print_version()
     ctx.exit()
 
 

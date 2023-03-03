@@ -15,18 +15,14 @@
 
 # %% [markdown]
 # # PDK examples
-
-# %% [markdown]
-# Now you can define PDKs for different Fabs
 #
-# ### FabA
+# Different PDKs have different component libraries, design rules and layer stacks (GDS layers, materials and thickness).
 #
-# FabA only has one waveguide layer available that is defined in GDS layer (30, 0)
+# When you install a PDK you have to make sure you also installed the correct version of gdsfactory.
 #
-# The waveguide traces are 2um wide.
+# Notice that some PDKs may have require different gdsfactory versions.
 
-# %% tags=[]
-
+# %%
 import pathlib
 from typing import Callable, Tuple
 
@@ -54,6 +50,26 @@ import gdsfactory as gf
 
 gf.config.rich_output()
 nm = 1e-3
+
+gf.config.print_version()
+
+# %%
+gf.config.print_version_pdks()
+
+# %%
+p = gf.get_active_pdk()
+p.name
+
+
+# %% [markdown]
+#
+# ### FabA
+#
+# FabA only has one waveguide layer available that is defined in GDS layer (30, 0)
+#
+# The waveguide traces are 2um wide.
+
+# %% tags=[]
 
 
 class LayerMap(BaseModel):
