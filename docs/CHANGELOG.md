@@ -5,6 +5,7 @@
 - Fix Component.to_stl() [PR](https://github.com/gdsfactory/gdsfactory/pull/1383)
 - raise warning with uncached cells [PR](https://github.com/gdsfactory/gdsfactory/pull/1381)
 - improve STL export [PR](https://github.com/gdsfactory/gdsfactory/pull/1380)
+- allow choosing femwell solver in plugin [PR](https://github.com/gdsfactory/gdsfactory/pull/1377)
 
 ## [6.49.0](https://github.com/gdsfactory/gdsfactory/pull/1375)
 
