@@ -13,6 +13,7 @@ def to_stl(
     filepath: str,
     layer_stack: Optional[LayerStack] = None,
     exclude_layers: Optional[Tuple[Layer, ...]] = None,
+    use_layer_name: bool = False,
     hull_invalid_polygons: bool = True,
     scale: Optional[float] = None,
 ) -> None:
@@ -23,13 +24,13 @@ def to_stl(
         filepath: to write STL to.
         layer_stack: contains thickness and zmin for each layer.
         exclude_layers: layers to exclude.
+        use_layer_name: If True, uses LayerLevel names in output filenames rather than gds_layer and gds_datatype.
         hull_invalid_polygons: If True, replaces invalid polygons (determined by shapely.Polygon.is_valid) with its convex hull.
         scale: Optional factor by which to scale meshes before writing.
 
     """
     import shapely
-    import trimesh
-    from trimesh.creation import extrude_polygon
+    import trimesh.creation
     from gdsfactory.pdk import get_layer_stack
 
     layer_stack = layer_stack or get_layer_stack()
@@ -41,7 +42,8 @@ def to_stl(
 
     component_with_booleans = layer_stack.get_component_with_derived_layers(component)
     component_layers = component_with_booleans.get_layers()
-
+    layer_names = list(layer_stack.layers.keys())
+    layer_tuples = list(layer_stack.layers.values())
     for layer, polygons in component_with_booleans.get_polygons(by_spec=True).items():
         if (
             layer not in exclude_layers
@@ -51,9 +53,15 @@ def to_stl(
         ):
             height = layer_to_thickness[layer]
             zmin = layer_to_zmin[layer]
+
+            layer_name = (
+                layer_names[layer_tuples.index(layer)]
+                if use_layer_name
+                else f"{layer[0]}_{layer[1]}"
+            )
+
             filepath_layer = (
-                filepath.parent
-                / f"{filepath.stem}_{layer[0]}_{layer[1]}{filepath.suffix}"
+                filepath.parent / f"{filepath.stem}_{layer_name}{filepath.suffix}"
             )
             print(f"Write {filepath_layer.absolute()!r}")
             meshes = []
@@ -63,7 +71,7 @@ def to_stl(
                 if hull_invalid_polygons and not p.is_valid:
                     p = p.convex_hull
 
-                mesh = extrude_polygon(p, height=height)
+                mesh = trimesh.creation.extrude_polygon(p, height=height)
                 mesh.apply_translation((0, 0, zmin))
                 meshes.append(mesh)
 
