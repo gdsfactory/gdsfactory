@@ -10,6 +10,7 @@ settings:
     cross_section: strip
     length: 1600.0
     length0: 0.0
+    length2: 0.0
     n: 2
   full:
     bend180:
@@ -19,6 +20,7 @@ settings:
     cross_section: strip
     length: 1600.0
     length0: 0.0
+    length2: 0.0
     n: 2
   function_name: delay_snake3
   info: {}
