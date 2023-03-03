@@ -15,6 +15,7 @@ def to_stl(
     layer_stack: Optional[LayerStack] = None,
     exclude_layers: Optional[Tuple[Layer, ...]] = None,
     hull_invalid_polygons: bool = True,
+    scale: Optional[float] = None,
 ) -> None:
     """Exports a Component into STL.
 
@@ -25,6 +26,7 @@ def to_stl(
         layer_stack: contains thickness and zmin for each layer.
         exclude_layers: layers to exclude.
         hull_invalid_polygons: If True, replaces invalid polygons (determined by shapely.Polygon.is_valid) with its convex hull.
+        scale: Optional factor by which to scale meshes before writing.
 
     """
     import shapely
@@ -71,7 +73,12 @@ def to_stl(
                     0.5,
                 )
                 meshes.append(mesh)
+
             layer_mesh = trimesh.util.concatenate(meshes)
+
+            if scale:
+                layer_mesh.apply_scale(scale)
+
             layer_mesh.export(filepath_layer)
 
 
