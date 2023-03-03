@@ -14,6 +14,7 @@ PATH has all your computer specific paths that we do not care to store
 
 from __future__ import annotations
 
+import warnings
 import sys
 import io
 import json
@@ -47,6 +48,16 @@ MAX_NAME_LENGTH = 32
 
 logger.remove()
 logger.add(sink=sys.stderr, level="INFO")
+
+showwarning_ = warnings.showwarning
+
+
+def showwarning(message, *args, **kwargs):
+    logger.warning(message)
+    showwarning_(message, *args, **kwargs)
+
+
+warnings.showwarning = showwarning
 
 
 def print_version():
