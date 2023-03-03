@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.50.0
+
+- Fix Component.to_stl() [PR](https://github.com/gdsfactory/gdsfactory/pull/1383)
+- raise warning with uncached cells [PR](https://github.com/gdsfactory/gdsfactory/pull/1381)
+- improve STL export [PR](https://github.com/gdsfactory/gdsfactory/pull/1380)
+
 ## [6.49.0](https://github.com/gdsfactory/gdsfactory/pull/1375)
 
 - install uses copy instead of symlink if symlink fails
