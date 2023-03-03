@@ -7,11 +7,26 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler180
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
+diagram = r"""
+                 | length0   |
+
+                 >---------\
+                            \bend180.info['length']
+                            /
+       |-------------------/
+       |
+       |------------------->------->|
+                            length2
+       |   delta_length    |        |
+
+"""
+
 
 @gf.cell
 def delay_snake3(
     length: float = 1600.0,
     length0: float = 0.0,
+    length2: float = 0.0,
     n: int = 2,
     bend180: ComponentSpec = bend_euler180,
     cross_section: CrossSectionSpec = "strip",
@@ -21,7 +36,8 @@ def delay_snake3(
 
     Args:
         length: total length.
-        length0: initial offset.
+        length0: start length.
+        length2: end length.
         n: number of loops.
         bend180: ubend spec.
         cross_section: cross_section spec.
@@ -36,9 +52,9 @@ def delay_snake3(
                             /
        |-------------------/
        |
-       |------------------->
-
-       |   delta_length    |
+       |------------------->------->|
+                            length2
+       |   delta_length    |        |
 
 
     """
@@ -47,11 +63,13 @@ def delay_snake3(
         n = n // 2 * 2
     bend180 = gf.get_component(bend180, cross_section=cross_section, **kwargs)
 
-    delta_length = (length - length0 - n * bend180.info["length"]) / n
-    assert (
-        delta_length > 0
-    ), "Snake is too short: either reduce length0, increase the total length,\
-    or decrease n"
+    delta_length = (length - length0 - length2 - n * bend180.info["length"]) / n
+    if delta_length < 0:
+        raise ValueError(
+            "Snake is too short: either reduce length0, length2, "
+            f"increase the total length, or decrease the number of loops (n = {n}). "
+            f"delta_length = {int(delta_length)}\n" + diagram
+        )
 
     s0 = gf.components.straight(cross_section=cross_section, length=length0, **kwargs)
     sd = gf.components.straight(

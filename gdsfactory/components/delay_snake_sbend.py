@@ -6,6 +6,24 @@ from gdsfactory.components.straight import straight
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
+diagram = r"""
+
+                         length1
+         <----------------------------
+               length2    spacing    |
+                _______              |
+               |        \            |
+               |          \          | bend1 radius
+               |            \sbend   |
+          bend2|              \      |
+               |                \    |
+               |                  \__|
+               |
+               ---------------------->----------->
+                   length3              length4
+"""
+
+
 @gf.cell
 def delay_snake_sbend(
     length: float = 100.0,
@@ -77,7 +95,7 @@ def delay_snake_sbend(
     if length2 < 0:
         raise ValueError(
             f"length2 = {length2} < 0. You need to reduce length1 = {length1} "
-            f"or length3 = {length3} or increase length = {length}"
+            f"or length3 = {length3} or increase length = {length}\n" + diagram
         )
 
     straight1 = straight(length=length1, cross_section=cross_section, **kwargs)

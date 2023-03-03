@@ -7,10 +7,24 @@ from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
+diagram = """
+       | length0 | length1 |
+
+                 >---------|
+                           | bend180.length
+       |-------------------|
+       |
+       |------------------->------- |
+                            length2
+       |   delta_length    |        |
+"""
+
+
 @gf.cell
 def delay_snake2(
     length: float = 1600.0,
     length0: float = 0.0,
+    length2: float = 0.0,
     n: int = 2,
     bend180: ComponentSpec = "bend_euler180",
     cross_section: CrossSectionSpec = "strip",
@@ -22,7 +36,8 @@ def delay_snake2(
 
     Args:
         length: total length.
-        length0: initial offset.
+        length0: start length.
+        length2: end length.
         n: number of loops.
         bend180: ubend spec.
         cross_section: cross_section spec.
@@ -33,12 +48,12 @@ def delay_snake2(
        | length0 | length1 |
 
                  >---------|
-                           |  bend180.length
+                           | bend180.length
        |-------------------|
        |
-       |------------------->
-
-       |   delta_length    |
+       |------------------->------- |
+                            length2
+       |   delta_length    |        |
     """
     if n % 2:
         warnings.warn(f"rounding {n} to {n//2 *2}", stacklevel=3)
@@ -46,14 +61,17 @@ def delay_snake2(
 
     bend180 = gf.get_component(bend180, cross_section=cross_section, **kwargs)
 
-    delta_length = (length - length0 - n * bend180.info["length"]) / (n + 1)
+    delta_length = (length - length0 - length2 - n * bend180.info["length"]) / (n + 1)
     length1 = delta_length - length0
-    assert (
-        length1 > 0
-    ), "Snake is too short: either reduce length0, increase the total length,\
-    or decrease n"
+    if length1 < 0:
+        raise ValueError(
+            "Snake is too short: either reduce length0, length2, "
+            f"increase the total length, or decrease the number of loops (n = {n}). "
+            f"length1 = {int(length1)}, delta_length = {int(delta_length)}\n" + diagram
+        )
 
     s1 = gf.components.straight(length=length1, cross_section=cross_section, **kwargs)
+    s2 = gf.components.straight(length=length2, cross_section=cross_section, **kwargs)
     sd = gf.components.straight(
         cross_section=cross_section, length=delta_length, **kwargs
     )
@@ -63,10 +81,12 @@ def delay_snake2(
         "-": (sd, "o1", "o2"),
         ")": (bend180, "o2", "o1"),
         "(": (bend180, "o1", "o2"),
+        ".": (s2, "o1", "o2"),
     }
 
     sequence = "_)" + n // 2 * "-(-)"
     sequence = sequence[:-1]
+    sequence += "."
     return gf.components.component_sequence(
         sequence=sequence, symbol_to_component=symbol_to_component
     )

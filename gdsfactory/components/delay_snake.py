@@ -7,6 +7,20 @@ from gdsfactory.component import Component
 from gdsfactory.routing.manhattan import round_corners
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
+diagram = """
+
+       | L0 |    L2        |
+
+            ->-------------|
+                           | pi * radius
+       |-------------------|
+       |
+       |------------------->
+
+       |        DL         |
+
+"""
+
 
 @gf.cell
 def delay_snake(
@@ -46,10 +60,11 @@ def delay_snake(
     dy = bend90.info["dy"]
     DL = (length + L0 - n * (np.pi * dy + epsilon)) / (2 * n + 1)
     L2 = DL - L0
-    assert (
-        L2 > 0
-    ), "Snake is too short: either reduce L0, increase the total length,\
-    or decrease n"
+    if L2 < 0:
+        raise ValueError(
+            "Snake is too short: either reduce L0, increase "
+            "the total length, or decrease n \n" + diagram
+        )
 
     y = 0
     path = [(0, y), (L2, y)]
