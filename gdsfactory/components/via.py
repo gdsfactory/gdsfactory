@@ -10,7 +10,8 @@ from gdsfactory.typings import LayerSpec
 @gf.cell
 def via(
     size: Tuple[float, float] = (0.7, 0.7),
-    spacing: Tuple[float, float] = (2.0, 2.0),
+    spacing: Optional[Tuple[float, float]] = (2.0, 2.0),
+    gap: Optional[Tuple[float, float]] = None,
     enclosure: float = 1.0,
     layer: LayerSpec = "VIAC",
     bbox_layers: Optional[Tuple[Tuple[int, int], ...]] = None,
@@ -23,6 +24,7 @@ def via(
     Args:
         size: in x, y direction.
         spacing: pitch_x, pitch_y.
+        gap: edge to edge via gap in x, y.
         enclosure: inclusion of via.
         layer: via layer.
         bbox_layers: layers for the bounding box.
@@ -33,8 +35,8 @@ def via(
         enclosure
         _________________________________________
         |<--->                                  |
-        |                      size[0]          |
-        |                      <----->          |
+        |             gap[0]    size[0]         |
+        |             <------> <----->          |
         |      ______          ______           |
         |     |      |        |      |          |
         |     |      |        |      |  size[1] |
@@ -43,6 +45,13 @@ def via(
         |         spacing[0]                    |
         |_______________________________________|
     """
+    if spacing is None and gap is None:
+        raise ValueError("either spacing or gap should be defined")
+    elif spacing is not None and gap is not None:
+        raise ValueError("You can't define spacing and gap at the same time")
+    if spacing is None:
+        spacing = (size[0] + gap[0], size[1] + gap[1])
+
     c = Component()
     c.info["spacing"] = spacing
     c.info["enclosure"] = enclosure
