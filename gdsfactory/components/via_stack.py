@@ -96,8 +96,8 @@ def via_stack_from_rules(
     layer_offsets: Optional[Tuple[float, ...]] = None,
     vias: Optional[Tuple[Optional[ComponentSpec], ...]] = (via1, via2),
     via_min_size: Tuple[Tuple[float, float]] = ((0.2, 0.2), (0.2, 0.2)),
-    via_min_gap: Tuple[Tuple[float, float]] = ((0.1, 0.1), (0.15, 0.15)),
-    via_min_enclosure: Tuple[float] = (0.15, 0.3),
+    via_min_gap: Tuple[Tuple[float, float]] = ((0.1, 0.1), (0.1, 0.1)),
+    via_min_enclosure: Tuple[float] = (0.15, 0.25),
     layer_port: LayerSpec = None,
 ) -> Component:
     """Rectangular via array stack, with optimized dimension for vias.
