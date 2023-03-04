@@ -6,6 +6,7 @@ settings:
     bbox_layers: null
     bbox_offset: 0
     enclosure: 1.0
+    gap: null
     layer: VIAC
     size:
     - 0.7
@@ -17,6 +18,7 @@ settings:
     bbox_layers: null
     bbox_offset: 0
     enclosure: 1.0
+    gap: null
     layer: VIAC
     size:
     - 0.7

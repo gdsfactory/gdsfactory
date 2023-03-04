@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [6.54.0](https://github.com/gdsfactory/gdsfactory/pull/1387)
+
+## [6.53.0](https://github.com/gdsfactory/gdsfactory/pull/1387)
+
+- better error messages for delay_snake
+
 ## [6.52.0](https://github.com/gdsfactory/gdsfactory/pull/1385)
 
 - install rich, jupytext and klayout, by default with `pip install gdsfactory`
