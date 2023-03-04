@@ -83,6 +83,8 @@ gf.config.rich_output()
 PDK = get_generic_pdk()
 PDK.activate()
 
+nm = 1e-3
+
 print(lyp_to_dataclass(PATH.klayout_lyp))
 
 
