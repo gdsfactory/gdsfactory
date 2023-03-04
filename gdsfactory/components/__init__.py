@@ -281,6 +281,7 @@ from gdsfactory.components.via_corner import via_corner
 from gdsfactory.components.via_cutback import via_cutback
 from gdsfactory.components.via_stack import (
     via_stack,
+    via_stack_from_rules,
     via_stack_heater_m3,
     via_stack_slab_m3,
     via_stack_heater_mtop,
@@ -361,6 +362,7 @@ __all__ = [
     "edge_coupler_array",
     "edge_coupler_array_with_loopback",
     "via_stack",
+    "via_stack_from_rules",
     "via_stack_heater_m3",
     "via_stack_heater_mtop",
     "via_stack_slab_m3",

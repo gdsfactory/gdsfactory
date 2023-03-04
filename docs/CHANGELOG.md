@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.55.0
+
+- Add via_stack_from_rules [PR](https://github.com/gdsfactory/gdsfactory/pull/1391)
+- add `gf.fill.fill_rectangle_custom` which allows you to fill a region with a custom cell [PR](https://github.com/gdsfactory/gdsfactory/pull/1392)
+
 ## [6.54.0](https://github.com/gdsfactory/gdsfactory/pull/1388)
 
 - add gap parameter to via
