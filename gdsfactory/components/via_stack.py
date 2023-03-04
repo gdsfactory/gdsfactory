@@ -8,7 +8,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.components.via import via1, via2, viac
-from gdsfactory.typings import ComponentSpec, LayerSpec, LayerSpecs
+from gdsfactory.typings import ComponentSpec, LayerSpec, LayerSpecs, Float2
 
 
 @gf.cell
@@ -90,14 +90,15 @@ def via_stack(
     return c
 
 
+@gf.cell
 def via_stack_from_rules(
-    size: Tuple[float, float] = (1.2, 1.2),
+    size: Float2 = (1.2, 1.2),
     layers: LayerSpecs = ("M1", "M2", "M3"),
     layer_offsets: Optional[Tuple[float, ...]] = None,
     vias: Optional[Tuple[Optional[ComponentSpec], ...]] = (via1, via2),
-    via_min_size: Tuple[Tuple[float, float]] = ((0.2, 0.2), (0.2, 0.2)),
-    via_min_gap: Tuple[Tuple[float, float]] = ((0.1, 0.1), (0.1, 0.1)),
-    via_min_enclosure: Tuple[float] = (0.15, 0.25),
+    via_min_size: Tuple[Float2, ...] = ((0.2, 0.2), (0.2, 0.2)),
+    via_min_gap: Tuple[Float2, ...] = ((0.1, 0.1), (0.1, 0.1)),
+    via_min_enclosure: Float2 = (0.15, 0.25),
     layer_port: LayerSpec = None,
 ) -> Component:
     """Rectangular via array stack, with optimized dimension for vias.
@@ -105,15 +106,15 @@ def via_stack_from_rules(
     Uses inclusion, minimum width, and minimum spacing rules to place the maximum number of individual vias, each with maximum via area.
 
     Args:
-        size: of the layers, len(size)
+        size: of the layers, len(size).
         layers: layers on which to draw rectangles.
         layer_offsets: Optional offsets for each layer with respect to size.
             positive grows, negative shrinks the size.
-        vias: list of base via components to modify
-        via_X: arguments for the via optimization function. All tuples require len = len(size)-1
-            via_min_size: via minimum x, y dimensions
-            via_min_gap: via minimum x, y distances
-            via_min_enclosure: via minimum inclusion into connecting layers
+        vias: list of base via components to modify.
+        via_min_size: via minimum x, y dimensions.
+        via_min_gap: via minimum x, y distances.
+        via_min_enclosure: via minimum inclusion into connecting layers.
+        layer_port: if None assumes port is on the last layer.
     """
     width, height = size
     a = width / 2
