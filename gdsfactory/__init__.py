@@ -52,6 +52,7 @@ from gdsfactory import add_ports
 from gdsfactory import write_cells
 from gdsfactory import add_pins
 from gdsfactory import technology
+from gdsfactory import fill
 
 from gdsfactory.add_tapers import add_tapers
 from gdsfactory.add_padding import (
@@ -114,6 +115,7 @@ __all__ = (
     "compose",
     "cross_section",
     "decorators",
+    "fill",
     "fill_rectangle",
     "functions",
     "geometry",
