@@ -5,17 +5,18 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 from __future__ import annotations
 
 import itertools
-from typing import List, Optional, Union
+from typing import List, Optional, Union, Tuple
 
 import gdstk
 import numpy as np
 from numpy import sqrt
 
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.component_layout import _parse_layer
 from gdsfactory.components.rectangle import rectangle
-from gdsfactory.typings import Float2, Floats, LayerSpecs
+from gdsfactory.typings import Float2, Floats, LayerSpecs, ComponentSpec
 
 
 def _loop_over(var):
@@ -154,7 +155,7 @@ def fill_rectangle(
     margin: float = 5.0,
     fill_densities: Union[float, Floats] = (0.5, 0.25, 0.7),
     fill_inverted: Optional[List[float]] = None,
-    bbox: Optional[Float2] = None,
+    bbox: Optional[object] = None,
 ) -> Component:
     """Returns rectangular fill pattern and fills all empty areas.
 
@@ -200,6 +201,8 @@ def fill_rectangle(
         densities=fill_densities,
         inverted=fill_inverted,
     )
+
+    fill_cell = gf.get_component(fill_cell)
     F = Component()
 
     avoid_layers = [_parse_layer(layer) for layer in _loop_over(avoid_layers)]
@@ -247,6 +250,68 @@ def fill_rectangle(
     return F
 
 
+@cell
+def fill_rectangle_custom(
+    component: Component,
+    fill_cell: ComponentSpec,
+    spacing: Tuple[float, float],
+    avoid_layers: LayerSpecs = None,
+    margin: float = 5.0,
+    bbox: Optional[object] = None,
+) -> Component:
+    """Returns custom fill pattern to fill all empty areas.
+
+    In the input component and returns a component that contains just the fill
+    Dummy fill keeps density constant during fabrication.
+
+    Args:
+        component: Component to fill.
+        fill_cell: Component to use as fill cell.
+        spacing: x, y pitch for fill.
+        avoid_layers: Layers to be avoided (not filled) in D.
+        margin: Margin spacing around avoided areas.
+        bbox: x, y limit the fill pattern to the area defined by this bounding box.
+    """
+    D = component
+    if bbox is None:
+        bbox = D.bbox
+
+    fill_cell = gf.get_component(fill_cell)
+    F = Component()
+    avoid_layers = [_parse_layer(layer) for layer in _loop_over(avoid_layers)]
+    exclude_polys = D.get_polygons(by_spec=True, depth=None, as_array=False)
+
+    if avoid_layers:
+        exclude_polys = {
+            key: exclude_polys[key] for key in exclude_polys if key in avoid_layers
+        }
+
+    exclude_polys = [
+        polygon.points for polygons in exclude_polys.values() for polygon in polygons
+    ]
+
+    include_polys = []
+
+    raster = _rasterize_polygons(
+        polygons=exclude_polys, bounds=bbox, dx=spacing[0], dy=spacing[1]
+    )
+    raster = raster & ~_rasterize_polygons(
+        polygons=include_polys, bounds=bbox, dx=spacing[0], dy=spacing[1]
+    )
+    raster = _expand_raster(raster, distance=margin / np.array(spacing))
+
+    for i in range(np.size(raster, 0)):
+        sub_rasters = [list(g) for k, g in itertools.groupby(raster[i])]
+        j = 0
+        for s in sub_rasters:
+            if s[0] == 0:
+                x, y = _raster_index_to_coords(i, j, bbox, spacing[0], spacing[1])
+                a = F.add_array(fill_cell, columns=len(s), rows=1, spacing=spacing)
+                a.move((x, y))
+            j += len(s)
+    return F
+
+
 def test_fill():
     import gdsfactory as gf
     from gdsfactory.difftest import difftest
@@ -269,43 +334,30 @@ def test_fill():
 
 if __name__ == "__main__":
     # c = test_fill()
-    # c.show()
 
-    import gdsfactory as gf
-
-    # c = gf.components.straight()
-    # c = gf.add_padding_container(c, default=15)
-    # c << fill_rectangle(
-    #     c,
-    #     fill_layers=((2, 0),),
-    #     # fill_densities=(1.0,),
-    #     # fill_densities=0.5,
-    #     # avoid_layers=((1, 0),),
-    #     # bbox=(100.0, 100.0),
-    # )
-    # c.show(show_ports=True)
-    # import gdsfactory as gf
-    # coupler_lengths = [10, 20, 30, 40, 50, 60, 70, 80]
-    # coupler_gaps = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
-    # delta_lengths = [10, 100, 200, 300, 400, 500, 500]
-    # mzi = gf.components.mzi_lattice(
-    #     coupler_lengths=coupler_lengths,
-    #     coupler_gaps=coupler_gaps,
-    #     delta_lengths=delta_lengths,
-    # )
-    # # Add fill
     mzi = gf.components.mzi()
     c = gf.Component("component_with_fill")
     layers = [(1, 0)]
-    fill_size = [0.5, 0.5]
 
-    c << gf.fill_rectangle(
+    # c << fill_rectangle(
+    #     mzi,
+    #     fill_size=(0.5, 0.5),
+    #     fill_layers=layers,
+    #     margin=5,
+    #     fill_densities=[0.8] * len(layers),
+    #     avoid_layers=layers,
+    # )
+
+    # bbox = tuple(map(tuple, mzi.bbox))
+    # bbox = mzi.bbox
+
+    c << fill_rectangle_custom(
         mzi,
-        fill_size=fill_size,
-        fill_layers=layers,
-        margin=5,
-        fill_densities=[0.8] * len(layers),
+        gf.components.rectangle(),
         avoid_layers=layers,
+        margin=5,
+        spacing=(10, 10),
+        bbox=mzi.bbox,
     )
     c << mzi
     c.show(show_ports=True)
