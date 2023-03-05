@@ -149,7 +149,7 @@ def fill_cell_rectangle(
 def fill_rectangle(
     component: Component,
     fill_layers: LayerSpecs,
-    fill_size: Float2 = (5.0, 5.0),
+    fill_size=(5.0, 5.0),
     avoid_layers: LayerSpecs = None,
     include_layers: LayerSpecs = None,
     margin: float = 5.0,

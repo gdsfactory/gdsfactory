@@ -8,12 +8,12 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.components.via import via1, viac
-from gdsfactory.typings import ComponentSpec, Float2, Floats, LayerSpec, LayerSpecs
+from gdsfactory.typings import ComponentSpec, Floats, LayerSpec, LayerSpecs
 
 
 @gf.cell
 def via_stack_slot(
-    size: Float2 = (11.0, 11.0),
+    size=(11.0, 11.0),
     layers: LayerSpecs = ("M1", "M2"),
     layer_offsets: Optional[Floats] = (0, 1.0),
     layer_offsetsx: Optional[Floats] = None,

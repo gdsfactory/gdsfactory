@@ -13,7 +13,7 @@ from gdsfactory.typings import ComponentSpec, LayerSpec, LayerSpecs, Float2
 
 @gf.cell
 def via_stack(
-    size: Tuple[float, float] = (11.0, 11.0),
+    size=(11.0, 11.0),
     layers: LayerSpecs = ("M1", "M2", "M3"),
     layer_offsets: Optional[Tuple[float, ...]] = None,
     vias: Optional[Tuple[Optional[ComponentSpec], ...]] = (via1, via2),
