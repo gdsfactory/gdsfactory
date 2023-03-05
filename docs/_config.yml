@@ -44,11 +44,11 @@ repository:
   branch: main # Which branch of the repository should be used when creating links (optional)
 
 launch_buttons:
-  jupyterhub_url: "https://mybinder.org/v2/gh/gdsfactory/binder-sandbox/HEAD"
+  binderhub_url: "https://mybinder.org/v2/gh/gdsfactory/binder-sandbox/HEAD"
   thebe: true
+  # jupyterhub_url: "https://mybinder.org/v2/gh/gdsfactory/binder-sandbox/HEAD"
   # notebook_interface: jupyterlab
   # colab_url: "https://colab.research.google.com"
-  # binderhub_url: "https://mybinder.org/v2/gh/gdsfactory/binder-sandbox/HEAD"
 
 sphinx:
   extra_extensions:
