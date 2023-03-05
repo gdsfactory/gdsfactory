@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Optional, Tuple
+from typing import Optional
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
@@ -10,7 +10,7 @@ from gdsfactory.typings import Ints, LayerSpec
 
 @cell
 def compass(
-    size: Tuple[float, float] = (4.0, 2.0),
+    size=(4.0, 2.0),
     layer: LayerSpec = "WG",
     port_type: Optional[str] = "placement",
     port_inclusion: float = 0.0,

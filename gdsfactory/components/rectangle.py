@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Optional, Tuple
+from typing import Optional
 from functools import partial
 
 from gdsfactory.cell import cell
@@ -11,7 +11,7 @@ from gdsfactory.typings import Ints, LayerSpec
 
 @cell
 def rectangle(
-    size: Tuple[float, float] = (4.0, 2.0),
+    size=(4.0, 2.0),
     layer: LayerSpec = "WG",
     centered: bool = False,
     port_type: Optional[str] = "placement",
