@@ -27,7 +27,10 @@ def fuse_polygons(component, layername, layer, round_tol=5, simplify_tol=1e-5):
 
     # gdstk union before shapely conversion helps with ill-formed polygons
     layer_component = gf.geometry.offset(
-        layer_component, distance=1, precision=1e-6, layer=layer
+        layer_component, distance=0.001, precision=1e-6, layer=layer
+    )
+    layer_component = gf.geometry.offset(
+        layer_component, distance=-0.001, precision=1e-6, layer=layer
     )
 
     shapely_polygons = [
