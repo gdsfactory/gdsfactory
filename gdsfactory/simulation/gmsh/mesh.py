@@ -126,7 +126,7 @@ def mesh_from_polygons(
     global_meshsize_array: Optional[np.array] = None,
     global_meshsize_interpolant_func: Optional[callable] = NearestNDInterpolator,
     verbosity: Optional[bool] = False,
-    atol: Optional[float] = 1e-3,
+    atol: Optional[float] = 1e-4,
 ):
     """Return a 2D mesh from an ordered dict of shapely polygons.
 

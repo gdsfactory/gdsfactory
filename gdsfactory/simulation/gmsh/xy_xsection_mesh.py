@@ -38,8 +38,8 @@ def xy_xsection_mesh(
     extra_shapes_dict: Optional[OrderedDict] = None,
     merge_by_material: Optional[bool] = False,
     round_tol: int = 3,
-    simplify_tol: float = 1e-2,
-    atol: Optional[float] = 1e-3,
+    simplify_tol: float = 1e-3,
+    atol: Optional[float] = 1e-4,
 ):
     """Mesh xy cross-section of component at height z.
 
