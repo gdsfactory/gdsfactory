@@ -88,6 +88,8 @@ def test_gmsh_xyz_holes():
         resolutions={},
         filename="mesh.msh",
         verbosity=False,
+        simplify_tol=1e-3,
+        round_tol=2,
     )
 
 
