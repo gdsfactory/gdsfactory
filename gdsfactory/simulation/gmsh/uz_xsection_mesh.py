@@ -166,10 +166,10 @@ def uz_xsection_mesh(
     extra_shapes_dict: Optional[OrderedDict] = None,
     merge_by_material: Optional[bool] = False,
     interface_surfaces: Optional[Dict[str, Tuple(float, float)]] = None,
-    round_tol: int = 3,
-    simplify_tol: float = 1e-3,
+    round_tol: int = 4,
+    simplify_tol: float = 1e-4,
     u_offset: float = 0.0,
-    atol: Optional[float] = 1e-4,
+    atol: Optional[float] = 1e-5,
     **kwargs,
 ):
     """Mesh uz cross-section of component along line u = [[x1,y1] , [x2,y2]].

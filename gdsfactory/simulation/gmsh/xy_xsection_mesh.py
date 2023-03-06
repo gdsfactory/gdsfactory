@@ -37,9 +37,9 @@ def xy_xsection_mesh(
     global_meshsize_interpolant_func: Optional[callable] = NearestNDInterpolator,
     extra_shapes_dict: Optional[OrderedDict] = None,
     merge_by_material: Optional[bool] = False,
-    round_tol: int = 3,
-    simplify_tol: float = 1e-3,
-    atol: Optional[float] = 1e-4,
+    round_tol: int = 4,
+    simplify_tol: float = 1e-4,
+    atol: Optional[float] = 1e-5,
 ):
     """Mesh xy cross-section of component at height z.
 
