@@ -1,2 +1,2 @@
 watch:
-	gf watch yaml circuits
+	gf watch .

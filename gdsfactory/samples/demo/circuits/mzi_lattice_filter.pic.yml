@@ -13,10 +13,10 @@ instances:
       dy: -500
 
   gc1:
-    component: ebeam_gc_te1550
+    component: gc_te1550
 
   gc2:
-    component: ebeam_gc_te1550
+    component: gc_te1550
 
 placements:
   mzi2:
