@@ -44,8 +44,8 @@ def spiral_racetrack(
     if with_inner_ports:
         bend_s_component = bend_s_factory(
             (straight_length, -min_radius * 2 + 1 * spacings[0]),
-            cross_section=cross_section_s if cross_section_s else cross_section,
-            **({"nb_points": n_bend_points} if n_bend_points else {}),
+            cross_section=cross_section_s or cross_section,
+            **({"nb_points": n_bend_points} if n_bend_points else {})
         )
         bend_s = type("obj", (object,), {"ports": bend_s_component.ports})
         c.info["length"] = 0
@@ -64,8 +64,8 @@ def spiral_racetrack(
     else:
         bend_s = c << bend_s_factory(
             (straight_length, -min_radius * 2 + 1 * spacings[0]),
-            cross_section=cross_section_s if cross_section_s else cross_section,
-            **({"nb_points": n_bend_points} if n_bend_points else {}),
+            cross_section=cross_section_s or cross_section,
+            **({"nb_points": n_bend_points} if n_bend_points else {})
         )
         c.info["length"] = bend_s.info["length"]
 
@@ -138,7 +138,7 @@ def spiral_racetrack_fixed_length(
 
     # First, we need to get the length of the straight sections to achieve the required length,
     # given the specified parameters
-    spacings = [min_spacing] * (int(n_straight_sections / 2))
+    spacings = [min_spacing] * (n_straight_sections // 2)
 
     straight_length = _req_straight_len(
         total_length,
@@ -185,8 +185,8 @@ def spiral_racetrack_fixed_length(
     sbend_xspan = in_out_port_spacing - (out_wg.ports["o2"].x - in_wg.ports["o1"].x)
     final_sbend = c << bend_s_factory(
         (sbend_xspan, spiral.ports["o1"].y - spiral.ports["o2"].y),
-        cross_section=cross_section_s if cross_section_s else cross_section,
-        **({"nb_points": n_bend_points} if n_bend_points else {}),
+        cross_section=cross_section_s or cross_section,
+        **({"nb_points": n_bend_points} if n_bend_points else {})
     )
 
     final_sbend.connect("o1", out_wg.ports["o2"])
@@ -219,7 +219,7 @@ def _req_straight_len(
 
     # "Brute force" approach - sweep length and save total length
 
-    lens = list()
+    lens = []
 
     straight_lengths = np.linspace(
         0.1 * in_out_port_spacing, 0.8 * in_out_port_spacing, 100
