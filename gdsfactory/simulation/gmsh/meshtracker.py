@@ -9,7 +9,7 @@ import numpy as np
 
 
 class MeshTracker:
-    def __init__(self, model, atol=1e-3):
+    def __init__(self, model, atol=1e-4):
         """Map between shapely and gmsh.
 
         Shapely is useful for built-in geometry equivalencies and extracting orientation, instead of doing it manually

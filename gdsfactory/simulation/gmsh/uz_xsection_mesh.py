@@ -166,9 +166,10 @@ def uz_xsection_mesh(
     extra_shapes_dict: Optional[OrderedDict] = None,
     merge_by_material: Optional[bool] = False,
     interface_surfaces: Optional[Dict[str, Tuple(float, float)]] = None,
-    round_tol: int = 3,
-    simplify_tol: float = 1e-2,
+    round_tol: int = 4,
+    simplify_tol: float = 1e-4,
     u_offset: float = 0.0,
+    atol: Optional[float] = 1e-5,
     **kwargs,
 ):
     """Mesh uz cross-section of component along line u = [[x1,y1] , [x2,y2]].
@@ -191,6 +192,7 @@ def uz_xsection_mesh(
         round_tol: during gds --> mesh conversion cleanup, number of decimal points at which to round the gdsfactory/shapely points before introducing to gmsh
         simplify_tol: during gds --> mesh conversion cleanup, shapely "simplify" tolerance (make it so all points are at least separated by this amount)
         u_offset: quantity to add to the "u" coordinates, useful to convert back to x or y if parallel to those axes
+        atol: tolerance used to establish equivalency between vertices
     """
     interface_surfaces = interface_surfaces or {}
 
@@ -275,6 +277,7 @@ def uz_xsection_mesh(
         default_resolution_max=default_resolution_max,
         global_meshsize_array=global_meshsize_array,
         global_meshsize_interpolant_func=global_meshsize_interpolant_func,
+        atol=atol,
     )
 
 

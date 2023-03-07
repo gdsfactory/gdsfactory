@@ -19,7 +19,7 @@ from gdsfactory.simulation.gmsh.refine import (
 )
 
 
-def define_entities(model, shapes_dict: OrderedDict):
+def define_entities(model, shapes_dict: OrderedDict, atol=1e-3):
     """Adds the polygons and lines from a "shapes_dict" as physical entities in the pygmsh model "model".
 
     Args:
@@ -33,7 +33,7 @@ def define_entities(model, shapes_dict: OrderedDict):
     # Break up lines and polygon edges so that plane is tiled with no partially overlapping line segments
     polygons_broken_dict, lines_broken_dict = break_geometry(shapes_dict)
     # Instantiate shapely to gmsh map
-    meshtracker = MeshTracker(model=model, atol=1e-3)
+    meshtracker = MeshTracker(model=model, atol=atol)
     # Add lines, reusing line segments
     model, meshtracker = add_lines(model, meshtracker, lines_broken_dict)
     # Add surfaces, reusing lines
@@ -126,6 +126,7 @@ def mesh_from_polygons(
     global_meshsize_array: Optional[np.array] = None,
     global_meshsize_interpolant_func: Optional[callable] = NearestNDInterpolator,
     verbosity: Optional[bool] = False,
+    atol: Optional[float] = 1e-4,
 ):
     """Return a 2D mesh from an ordered dict of shapely polygons.
 
@@ -140,6 +141,7 @@ def mesh_from_polygons(
         global_meshsize_array: array [x,y,z,lc] defining local mesh sizes. Not used if None
         global_meshsize_interpolant: interpolation function for array [x,y,z,lc]. Default scipy.interpolate.NearestNDInterpolator
         verbosity: boolean, gmsh stdout as it meshes
+        atol: tolerance used to establish equivalency between vertices
     """
     global_meshsize_callback_bool = global_meshsize_array is not None
 
@@ -153,7 +155,7 @@ def mesh_from_polygons(
     (
         model,
         meshtracker,
-    ) = define_entities(model, shapes_dict)
+    ) = define_entities(model, shapes_dict, atol)
 
     # Synchronize
     model.synchronize()

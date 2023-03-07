@@ -1,11 +1,12 @@
 """Preprocessing involving mostly the GDS polygons."""
 from __future__ import annotations
 
+import gdsfactory as gf
 import shapely
 from shapely.geometry import LineString, MultiLineString, MultiPolygon, Polygon
 
 
-def round_coordinates(geom, ndigits=5):
+def round_coordinates(geom, ndigits=4):
     """Round coordinates to n_digits to eliminate floating point errors."""
 
     def _round_coords(x, y, z=None):
@@ -20,9 +21,21 @@ def round_coordinates(geom, ndigits=5):
     return shapely.ops.transform(_round_coords, geom)
 
 
-def fuse_polygons(component, layername, layer, round_tol=5, simplify_tol=1e-5):
+def fuse_polygons(
+    component, layername, layer, round_tol=4, simplify_tol=1e-4, offset_tol=None
+):
     """Take all polygons from a layer, and returns a single (Multi)Polygon shapely object."""
     layer_component = component.extract(layer)
+
+    # gdstk union before shapely conversion helps with ill-formed polygons
+    offset_tol = offset_tol or gf.get_active_pdk().grid_size
+    layer_component = gf.geometry.offset(
+        layer_component, distance=offset_tol, precision=1e-6, layer=layer
+    )
+    layer_component = gf.geometry.offset(
+        layer_component, distance=-offset_tol, precision=1e-6, layer=layer
+    )
+
     shapely_polygons = [
         round_coordinates(shapely.geometry.Polygon(polygon), round_tol)
         for polygon in layer_component.get_polygons()

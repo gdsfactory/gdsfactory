@@ -37,8 +37,9 @@ def xy_xsection_mesh(
     global_meshsize_interpolant_func: Optional[callable] = NearestNDInterpolator,
     extra_shapes_dict: Optional[OrderedDict] = None,
     merge_by_material: Optional[bool] = False,
-    round_tol: int = 3,
-    simplify_tol: float = 1e-2,
+    round_tol: int = 4,
+    simplify_tol: float = 1e-4,
+    atol: Optional[float] = 1e-5,
 ):
     """Mesh xy cross-section of component at height z.
 
@@ -59,6 +60,7 @@ def xy_xsection_mesh(
         merge_by_material: boolean, if True will merge polygons from layers with the same layer.material. Physical keys will be material in this case.
         round_tol: during gds --> mesh conversion cleanup, number of decimal points at which to round the gdsfactory/shapely points before introducing to gmsh
         simplify_tol: during gds --> mesh conversion cleanup, shapely "simplify" tolerance (make it so all points are at least separated by this amount)
+        atol: tolerance used to establish equivalency between vertices
     """
     # Fuse and cleanup polygons of same layer in case user overlapped them
     layer_polygons_dict = cleanup_component(
@@ -113,6 +115,7 @@ def xy_xsection_mesh(
         default_resolution_max=default_resolution_max,
         global_meshsize_array=global_meshsize_array,
         global_meshsize_interpolant_func=global_meshsize_interpolant_func,
+        atol=atol,
     )
 
 
