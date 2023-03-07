@@ -370,6 +370,9 @@ class LayerStack(BaseModel):
 
         return out
 
+    def filtered(self, layers):
+        return type(self)(layers={k: self.layers[k] for k in layers})
+
 
 if __name__ == "__main__":
     import gdsfactory as gf
