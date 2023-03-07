@@ -21,16 +21,19 @@ def round_coordinates(geom, ndigits=4):
     return shapely.ops.transform(_round_coords, geom)
 
 
-def fuse_polygons(component, layername, layer, round_tol=4, simplify_tol=1e-4):
+def fuse_polygons(
+    component, layername, layer, round_tol=4, simplify_tol=1e-4, offset_tol=None
+):
     """Take all polygons from a layer, and returns a single (Multi)Polygon shapely object."""
     layer_component = component.extract(layer)
 
     # gdstk union before shapely conversion helps with ill-formed polygons
+    offset_tol = offset_tol or gf.get_active_pdk().grid_size
     layer_component = gf.geometry.offset(
-        layer_component, distance=0.001, precision=1e-6, layer=layer
+        layer_component, distance=offset_tol, precision=1e-6, layer=layer
     )
     layer_component = gf.geometry.offset(
-        layer_component, distance=-0.001, precision=1e-6, layer=layer
+        layer_component, distance=-offset_tol, precision=1e-6, layer=layer
     )
 
     shapely_polygons = [
