@@ -52,7 +52,7 @@ nm = 1e-3
 class GdsWriteSettings(BaseModel):
     """Settings to use when writing to GDS."""
 
-    on_uncached_component: Literal["warn", "error"] = "warn"
+    on_uncached_component: Literal["warn", "error", "ignore"] = "warn"
     unit: float = Field(
         default=1e-6,
         description="The units of coordinates in the database. The default is 1e-6 (1 micron).",

@@ -1704,6 +1704,12 @@ class Component(_GeometryHelper):
 
                 elif write_settings.on_uncached_component == "error":
                     raise UncachedComponentError(message)
+                elif write_settings.on_uncached_component == "ignore":
+                    pass
+                else:
+                    raise ValueError(
+                        f"{write_settings.on_uncached_component} is not a valid value of on_uncached_component. Try 'warn', 'error', or 'ignore'."
+                    )
 
         if write_settings.flatten_invalid_refs:
             top_cell = flatten_invalid_refs_recursive(self)
