@@ -2533,6 +2533,10 @@ def _check_uncached_components(component, mode):
 
     if mode == "ignore":
         return
+    elif mode not in valid_modes:
+        raise ValueError(
+            f"{mode} is not a valid value for on_uncached_component. Try one of these: {valid_modes}."
+        )
 
     for sub_component in component.get_dependencies(recursive=True):
         if not sub_component._locked:
@@ -2545,11 +2549,6 @@ def _check_uncached_components(component, mode):
 
             elif mode == "error":
                 raise UncachedComponentError(message)
-
-            elif mode not in valid_modes:
-                raise ValueError(
-                    f"{mode} is not a valid value of on_uncached_component. Try one of these: {valid_modes}."
-                )
 
 
 def test_same_uid() -> None:
