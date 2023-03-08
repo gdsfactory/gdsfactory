@@ -1693,17 +1693,9 @@ class Component(_GeometryHelper):
         write_settings = default_settings.copy(update=explicit_gds_settings)
         oasis_settings = default_oasis_settings.copy(update=explicit_oas_settings)
 
-        for component in self.get_dependencies(recursive=True):
-            if not component._locked:
-                message = (
-                    f"Component {component.name!r} was NOT properly locked. "
-                    "You need to write it into a function that has the @cell decorator."
-                )
-                if write_settings.on_uncached_component == "warn":
-                    warnings.warn(message, UncachedComponentWarning)
-
-                elif write_settings.on_uncached_component == "error":
-                    raise UncachedComponentError(message)
+        _check_uncached_components(
+            component=self, mode=write_settings.on_uncached_component
+        )
 
         if write_settings.flatten_invalid_refs:
             top_cell = flatten_invalid_refs_recursive(self)
@@ -2534,6 +2526,29 @@ def flatten_invalid_refs_recursive(
         updated_components[component.name] = new_component
     traversed_components.add(component.name)
     return component
+
+
+def _check_uncached_components(component, mode):
+    valid_modes = ["warn", "error", "ignore"]
+
+    if mode == "ignore":
+        return
+    elif mode not in valid_modes:
+        raise ValueError(
+            f"{mode} is not a valid value for on_uncached_component. Try one of these: {valid_modes}."
+        )
+
+    for sub_component in component.get_dependencies(recursive=True):
+        if not sub_component._locked:
+            message = (
+                f"Component {sub_component.name!r} was NOT properly locked. "
+                "You need to write it into a function that has the @cell decorator."
+            )
+            if mode == "warn":
+                warnings.warn(message, UncachedComponentWarning)
+
+            elif mode == "error":
+                raise UncachedComponentError(message)
 
 
 def test_same_uid() -> None:
