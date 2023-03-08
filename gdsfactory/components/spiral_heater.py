@@ -134,7 +134,7 @@ def spiral_racetrack_fixed_length(
     c = gf.Component()
 
     if np.mod(n_straight_sections, 2) != 0:
-        raise ValueError("The number of straoght sections has to be even!")
+        raise ValueError("The number of straight sections has to be even!")
 
     # First, we need to get the length of the straight sections to achieve the required length,
     # given the specified parameters
