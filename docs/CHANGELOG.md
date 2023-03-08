@@ -2,9 +2,10 @@
 
 ## 6.56.0
 
-- Filtered layerstack [PR](https://github.com/gdsfactory/gdsfactory/pull/1399)
-- Function to generate a spiral of given length [PR](https://github.com/gdsfactory/gdsfactory/pull/1397)
 - fix polygons at gdstk level before shapely meshing preprocessing [PR](https://github.com/gdsfactory/gdsfactory/pull/1396)
+- add spiral for given length to `gf.components.spiral_racetrack_fixed_length` [PR](https://github.com/gdsfactory/gdsfactory/pull/1397)
+- Don't warn on show [PR](https://github.com/gdsfactory/gdsfactory/pull/1402)
+- adding a method in LayerStack to filter conveniently [PR](https://github.com/gdsfactory/gdsfactory/pull/1300)
 
 ## 6.55.0
 
