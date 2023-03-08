@@ -1038,7 +1038,7 @@ delay_snake2
 
   import gdsfactory as gf
 
-  c = gf.components.delay_snake2(length=1600.0, length0=0.0, n=2, bend180='bend_euler180', cross_section='strip')
+  c = gf.components.delay_snake2(length=1600.0, length0=0.0, length2=0.0, n=2, bend180='bend_euler180', cross_section='strip')
   c.plot_matplotlib()
 
 
@@ -1053,7 +1053,7 @@ delay_snake3
 
   import gdsfactory as gf
 
-  c = gf.components.delay_snake3(length=1600.0, length0=0.0, n=2, cross_section='strip')
+  c = gf.components.delay_snake3(length=1600.0, length0=0.0, length2=0.0, n=2, cross_section='strip')
   c.plot_matplotlib()
 
 
@@ -2677,6 +2677,21 @@ spiral_racetrack
 
 
 
+spiral_racetrack_fixed_length
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.spiral_racetrack_fixed_length
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.spiral_racetrack_fixed_length(total_length=1000, in_out_port_spacing=150, n_straight_sections=8, min_radius=5, min_spacing=5.0, cross_section='strip', with_inner_ports=False)
+  c.plot_matplotlib()
+
+
+
 spiral_racetrack_heater_doped
 ----------------------------------------------------
 
@@ -3468,6 +3483,21 @@ via_stack
   import gdsfactory as gf
 
   c = gf.components.via_stack(size=[11.0, 11.0], layers=['M1', 'M2', 'M3'])
+  c.plot_matplotlib()
+
+
+
+via_stack_from_rules
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.via_stack_from_rules
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.via_stack_from_rules(size=[1.2, 1.2], layers=['M1', 'M2', 'M3'], via_min_size=[[0.2, 0.2], [0.2, 0.2]], via_min_gap=[[0.1, 0.1], [0.1, 0.1]], via_min_enclosure=[0.15, 0.25])
   c.plot_matplotlib()
 
 

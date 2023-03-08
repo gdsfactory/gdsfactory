@@ -1,0 +1,41 @@
+name: spiral_racetrack_fixed_length
+settings:
+  changed: {}
+  child: null
+  default:
+    bend_factory:
+      function: bend_euler
+    bend_s_factory:
+      function: bend_s
+    cross_section: strip
+    cross_section_s: null
+    in_out_port_spacing: 150
+    min_radius: 5
+    min_spacing: 5.0
+    n_bend_points: null
+    n_straight_sections: 8
+    straight_factory:
+      function: straight
+    total_length: 1000
+    with_inner_ports: false
+  full:
+    bend_factory:
+      function: bend_euler
+    bend_s_factory:
+      function: bend_s
+    cross_section: strip
+    cross_section_s: null
+    in_out_port_spacing: 150
+    min_radius: 5
+    min_spacing: 5.0
+    n_bend_points: null
+    n_straight_sections: 8
+    straight_factory:
+      function: straight
+    total_length: 1000
+    with_inner_ports: false
+  function_name: spiral_racetrack_fixed_length
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.spiral_heater
+  name: spiral_racetrack_fixed_length

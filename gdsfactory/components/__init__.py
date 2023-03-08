@@ -215,6 +215,7 @@ from gdsfactory.components.spiral_double import spiral_double
 from gdsfactory.components.spiral_external_io import spiral_external_io
 from gdsfactory.components.spiral_heater import (
     spiral_racetrack,
+    spiral_racetrack_fixed_length,
     spiral_racetrack_heater_doped,
     spiral_racetrack_heater_metal,
 )
@@ -539,6 +540,7 @@ __all__ = [
     "spiral_racetrack",
     "spiral_racetrack_heater_metal",
     "spiral_racetrack_heater_doped",
+    "spiral_racetrack_fixed_length",
     "taper",
     "taper_adiabatic",
     "taper2",

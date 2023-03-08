@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 
+
 if __name__ == "__main__":
     c = gf.components.straight_heater_doped_rib()
     # c = gf.components.mzi_phase_shifter_top_heater_metal()
