@@ -4,6 +4,7 @@ import typing
 from gdsfactory.generic_tech.layer_map import GenericLayerMap as LayerMap
 from gdsfactory.generic_tech.layer_stack import LAYER_STACK
 from gdsfactory.technology import LayerViews
+from gdsfactory.config import PATH
 
 if typing.TYPE_CHECKING:
     from gdsfactory.pdk import Pdk
@@ -58,25 +59,10 @@ def get_generic_pdk() -> Pdk:
     )
 
 
-def write_lyp() -> None:
-    """Write from YAML to Klayout lyp file"""
-    from gdsfactory.config import PATH
-
-    LAYER_VIEWS = LayerViews(filepath=PATH.klayout_yaml)
-    LAYER_VIEWS.to_lyp(PATH.klayout_lyp)
-
-
-def write_yaml() -> None:
-    """Write from YAML to Klayout lyp file"""
-    from gdsfactory.config import PATH
-
-    LAYER_VIEWS = LayerViews(filepath=PATH.klayout_lyp)
-    LAYER_VIEWS.to_yaml(PATH.generic_tech / "layers2.yaml")
-
-
 if __name__ == "__main__":
+    layer_views = LayerViews(filepath=PATH.klayout_yaml)
+    layer_views.to_lyp(PATH.klayout_lyp)
+
     # pdk = get_generic_pdk()
     # pdk.layer_views.to_yaml('layer_views2.yaml')
     # print(pdk.name)
-    write_lyp()
-    # write_yaml()
