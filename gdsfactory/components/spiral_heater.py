@@ -45,7 +45,7 @@ def spiral_racetrack(
         bend_s_component = bend_s_factory(
             (straight_length, -min_radius * 2 + 1 * spacings[0]),
             cross_section=cross_section_s or cross_section,
-            **({"nb_points": n_bend_points} if n_bend_points else {})
+            **({"nb_points": n_bend_points} if n_bend_points else {}),
         )
         bend_s = type("obj", (object,), {"ports": bend_s_component.ports})
         c.info["length"] = 0
@@ -65,7 +65,7 @@ def spiral_racetrack(
         bend_s = c << bend_s_factory(
             (straight_length, -min_radius * 2 + 1 * spacings[0]),
             cross_section=cross_section_s or cross_section,
-            **({"nb_points": n_bend_points} if n_bend_points else {})
+            **({"nb_points": n_bend_points} if n_bend_points else {}),
         )
         c.info["length"] = bend_s.info["length"]
 
@@ -186,7 +186,7 @@ def spiral_racetrack_fixed_length(
     final_sbend = c << bend_s_factory(
         (sbend_xspan, spiral.ports["o1"].y - spiral.ports["o2"].y),
         cross_section=cross_section_s or cross_section,
-        **({"nb_points": n_bend_points} if n_bend_points else {})
+        **({"nb_points": n_bend_points} if n_bend_points else {}),
     )
 
     final_sbend.connect("o1", out_wg.ports["o2"])
