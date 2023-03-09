@@ -5,10 +5,11 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.bend_s import bend_s
+from gdsfactory.components.bend_s import bend_s, get_min_sbend_size
 from gdsfactory.components.straight import straight
 from gdsfactory.typings import ComponentFactory, CrossSectionSpec, Floats, Optional
 from scipy.interpolate import interp1d
+from gdsfactory.routing.get_route import get_route
 
 # import matplotlib.pyplot as plt
 
@@ -25,6 +26,7 @@ def spiral_racetrack(
     cross_section_s: CrossSectionSpec = None,
     n_bend_points: Optional[int] = None,
     with_inner_ports: bool = False,
+    extra_90_deg_bend: bool = False,
 ) -> Component:
     """Returns Racetrack-Spiral.
 
@@ -38,6 +40,8 @@ def spiral_racetrack(
         cross_section: cross-section of the waveguides.
         n_bend_points: optional bend points.
         with_inner_ports: if True, will build the spiral, but expose the inner ports where the S-bend would be.
+        extra_90_deg_bend: if True, we add an additional straight + 90 degree bent at the output, so the
+            output port is looking down.
     """
     c = gf.Component()
 
@@ -91,7 +95,20 @@ def spiral_racetrack(
         ports.append(port)
 
     c.add_port("o1", port=ports[0])
-    c.add_port("o2", port=ports[1])
+
+    if extra_90_deg_bend:
+        bend = c << bend_factory(
+            angle=90,
+            radius=min_radius + np.sum(spacings),
+            p=0,
+            cross_section=cross_section,
+            **({"npoints": n_bend_points} if n_bend_points else {}),
+        )
+        bend.connect("o1", ports[1])
+        c.add_port("o2", port=bend.ports["o2"])
+
+    else:
+        c.add_port("o2", port=ports[1])
     return c
 
 
@@ -133,8 +150,10 @@ def spiral_racetrack_fixed_length(
 
     c = gf.Component()
 
+    xs_s_bend = cross_section_s or cross_section
+
     if np.mod(n_straight_sections, 2) != 0:
-        raise ValueError("The number of straoght sections has to be even!")
+        raise ValueError("The number of straight sections has to be even!")
 
     # First, we need to get the length of the straight sections to achieve the required length,
     # given the specified parameters
@@ -147,7 +166,10 @@ def spiral_racetrack_fixed_length(
         spacings,
         bend_factory,
         bend_s_factory,
+        xs_s_bend,
     )
+
+    # print(straight_length)
 
     spiral = c << spiral_racetrack(
         min_radius=min_radius,
@@ -160,7 +182,10 @@ def spiral_racetrack_fixed_length(
         cross_section_s=cross_section_s,
         n_bend_points=n_bend_points,
         with_inner_ports=with_inner_ports,
+        extra_90_deg_bend=True,
     )
+
+    c.info["length"] = spiral.info["length"]
 
     if spiral.ports["o1"].x > spiral.ports["o2"].x:
         spiral.mirror_x()
@@ -172,28 +197,39 @@ def spiral_racetrack_fixed_length(
     in_wg = c << straight_factory(
         spiral.ports["o1"].x - spiral.xmin, cross_section=cross_section
     )
-    in_wg.mirror_y()
+    if np.mod(n_straight_sections // 2, 2) == 0:
+        in_wg.mirror_y()
     in_wg.connect("o2", spiral.ports["o1"])
 
-    # Straight from "o2" to edge of spiral
-    out_wg = c << straight_factory(
-        spiral.xmax - spiral.ports["o2"].x, cross_section=cross_section
-    )
-    out_wg.connect("o1", spiral.ports["o2"])
+    c.info["length"] += spiral.ports["o1"].x - spiral.xmin
 
-    # S bend from out wg back to input height
-    sbend_xspan = in_out_port_spacing - (out_wg.ports["o2"].x - in_wg.ports["o1"].x)
-    final_sbend = c << bend_s_factory(
-        (sbend_xspan, spiral.ports["o1"].y - spiral.ports["o2"].y),
-        cross_section=cross_section_s or cross_section,
-        **({"nb_points": n_bend_points} if n_bend_points else {}),
+    c.add_port(
+        "o2_temp",
+        center=(spiral.ports["o1"].x + in_out_port_spacing, spiral.ports["o1"].y),
+        orientation=180,
+        cross_section=gf.get_cross_section(xs_s_bend),
     )
 
-    final_sbend.connect("o1", out_wg.ports["o2"])
+    route = get_route(
+        spiral.ports["o2"],
+        c.ports["o2_temp"],
+        straight=straight,
+        bend=bend_factory,
+        cross_section=xs_s_bend,
+    )
+    c.add(route.references)
+
+    c.add_port(
+        "o2",
+        center=(spiral.ports["o1"].x + in_out_port_spacing, spiral.ports["o1"].y),
+        orientation=0,
+        cross_section=gf.get_cross_section(xs_s_bend),
+    )
+
+    c.info["length"] += np.sum([r.info["length"] for r in route.references])
 
     # Ports
     c.add_port("o1", port=in_wg.ports["o1"])
-    c.add_port("o2", port=final_sbend.ports["o2"])
 
     return c
 
@@ -205,6 +241,7 @@ def _req_straight_len(
     spacings: Floats = (1.0, 1.0),
     bend_factory: ComponentFactory = bend_euler,
     bend_s_factory: ComponentFactory = bend_s,
+    cross_section_s_bend: CrossSectionSpec = "strip",
 ):
     """Returns geometrical parameters to make a spiral of a given length.
 
@@ -215,15 +252,25 @@ def _req_straight_len(
         spacings: spacings between adjacent waveguides.
         bend_factory: factory to generate the bend segments.
         bend_s_factory: factory to generate the s-bend segments.
+        cross_section_s_bend: s bend cross section
     """
 
     # "Brute force" approach - sweep length and save total length
 
     lens = []
 
-    straight_lengths = np.linspace(
-        0.1 * in_out_port_spacing, 0.8 * in_out_port_spacing, 100
+    # Figure out the min straight for the spiral so that the inner
+    # s bend has min radius within the bend radius of the waveguide
+    min_straigth_length = get_min_sbend_size(
+        [None, -min_radius * 2 + 1 * spacings[0]], cross_section_s_bend
     )
+
+    if min_straigth_length > 0.8 * in_out_port_spacing:
+        raise ValueError(
+            "The maximum straight length makes the inner s bend too tight. Increase the in-out port spacing."
+        )
+
+    straight_lengths = np.linspace(min_straigth_length, 0.9 * in_out_port_spacing, 100)
 
     for str_len in straight_lengths:
         c = gf.Component()
@@ -236,35 +283,36 @@ def _req_straight_len(
             bend_factory=bend_factory,
             bend_s_factory=bend_s_factory,
             cross_section="strip",
-            cross_section_s="strip",
+            cross_section_s=cross_section_s_bend,
+            extra_90_deg_bend=True,
         )
 
-        len = spiral.info["length"]
+        c.info["length"] = spiral.info["length"]
 
-        # Input waveguide
-        in_wg = c << straight(spiral.ports["o1"].x - spiral.xmin, cross_section="strip")
-        in_wg.connect("o2", spiral.ports["o1"])
-        len = len + spiral.ports["o1"].x - spiral.xmin
+        if spiral.ports["o1"].x > spiral.ports["o2"].x:
+            spiral.mirror_x()
 
-        # Straight from "o2" to edge of spiral
-        out_wg = c << straight(
-            spiral.xmax - spiral.ports["o2"].x, cross_section="strip"
-        )
-        out_wg.connect("o1", spiral.ports["o2"])
-        len = len + spiral.xmax - spiral.ports["o2"].x
+        c.info["length"] += spiral.ports["o1"].x - spiral.xmin
 
-        # S bend from out wg back to input height
-        sbend_xspan = in_out_port_spacing - (out_wg.ports["o2"].x - in_wg.ports["o1"].x)
-        final_sbend = c << bend_s_factory(
-            (sbend_xspan, spiral.ports["o1"].y - spiral.ports["o2"].y),
-            cross_section="strip",
+        c.add_port(
+            "o2",
+            center=(spiral.ports["o1"].x + in_out_port_spacing, spiral.ports["o1"].y),
+            orientation=180,
+            cross_section=gf.get_cross_section(cross_section_s_bend),
         )
 
-        final_sbend.connect("o1", out_wg.ports["o2"])
+        route = get_route(
+            spiral.ports["o2"],
+            c.ports["o2"],
+            straight=straight,
+            bend=bend_factory,
+            cross_section=cross_section_s_bend,
+        )
+        c.add(route.references)
 
-        len = len + final_sbend.info["length"]
+        c.info["length"] += np.sum([r.info["length"] for r in route.references])
 
-        lens.append(len)
+        lens.append(c.info["length"])
 
     # plt.plot(straight_lengths, lens)
     # plt.show(block=True)
