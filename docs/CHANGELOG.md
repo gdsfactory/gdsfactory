@@ -6,10 +6,7 @@
 - add spiral for given length to `gf.components.spiral_racetrack_fixed_length` [PR](https://github.com/gdsfactory/gdsfactory/pull/1397)
 - Don't warn on show [PR](https://github.com/gdsfactory/gdsfactory/pull/1402)
 - adding a method in LayerStack to filter conveniently [PR](https://github.com/gdsfactory/gdsfactory/pull/1300)
-- improve spiral_racetrack and bend_s names to be more consistent [PR](https://github.com/gdsfactory/gdsfactory/pull/1406)
-  - rename raise_exception to check_min_radius
-  - rename `total_length` to `length`
-  - rename `nb_points` to `npoints` for consistency
+- add check_min_radius to bend_s and rename `nb_points` to `npoints` for consistency [PR](https://github.com/gdsfactory/gdsfactory/pull/1406)
 
 ## 6.55.0
 
