@@ -219,6 +219,8 @@ def spiral_racetrack_fixed_length(
     )
     c.add(route.references)
 
+    c.ports.pop("o2_temp")
+
     c.add_port(
         "o2",
         center=(spiral.ports["o1"].x + in_out_port_spacing, spiral.ports["o1"].y),
