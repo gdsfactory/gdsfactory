@@ -41,20 +41,19 @@ def bend_s(
     c.add_ports(bend_ref.ports)
     c.copy_child_info(bend)
 
-    if raise_exception:
-        cross_section = gf.get_cross_section(cross_section, **kwargs)
-        if cross_section.radius is not None:
-            if c.info["min_bend_radius"] < cross_section.radius:
-                raise ValueError(
-                    f"The min bend radius of the generated s bend {c.info['min_bend_radius']} is below the bend radius of the waveguide {cross_section.radius}"
-                )
-    else:
-        cross_section = gf.get_cross_section(cross_section, **kwargs)
-        if cross_section.radius is not None:
-            if c.info["min_bend_radius"] < cross_section.radius:
-                logger.warning(
-                    f"The min bend radius of the generated s bend {c.info['min_bend_radius']} is below the bend radius of the waveguide {cross_section.radius}"
-                )
+    cross_section = gf.get_cross_section(cross_section, **kwargs)
+    if (
+        cross_section.radius is not None
+        and c.info["min_bend_radius"] < cross_section.radius
+    ):
+        if raise_exception:
+            raise ValueError(
+                f"The min bend radius of the generated s bend {c.info['min_bend_radius']} is below the bend radius of the waveguide {cross_section.radius}"
+            )
+        else:
+            logger.warning(
+                f"The min bend radius of the generated s bend {c.info['min_bend_radius']} is below the bend radius of the waveguide {cross_section.radius}"
+            )
 
     return c
 
