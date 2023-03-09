@@ -1,20 +1,22 @@
 from __future__ import annotations
+
+import copy
+import numpy as np
+
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import bezier
 from gdsfactory.typings import CrossSectionSpec, Float2
-import copy
-import numpy as np
 from gdsfactory.config import logger
 
 
 @cell
 def bend_s(
-    size: Float2 = (10.0, 2.0),
+    size: Float2 = (11.0, 2.0),
     nb_points: int = 99,
     cross_section: CrossSectionSpec = "strip",
-    raise_exception: bool = False,
+    check_min_radius: bool = False,
     **kwargs,
 ) -> Component:
     """Return S bend with bezier curve.
@@ -26,6 +28,7 @@ def bend_s(
         size: in x and y direction.
         nb_points: number of points.
         cross_section: spec.
+        check_min_radius: raise ValueError if radius below min_bend_radius.
         kwargs: cross_section settings.
     """
     c = Component()
@@ -46,9 +49,10 @@ def bend_s(
         cross_section.radius is not None
         and c.info["min_bend_radius"] < cross_section.radius
     ):
-        if raise_exception:
+        if check_min_radius:
             raise ValueError(
-                f"The min bend radius of the generated s bend {c.info['min_bend_radius']} is below the bend radius of the waveguide {cross_section.radius}"
+                f"The min bend radius of the generated s bend {c.info['min_bend_radius']} "
+                f"is below the bend radius of the waveguide {cross_section.radius}"
             )
         else:
             logger.warning(
@@ -102,7 +106,9 @@ def get_min_sbend_size(
         sz[ind] = s
         # print(sz)
         try:
-            bend_s(size=sz, cross_section=cross_section, raise_exception=True, **kwargs)
+            bend_s(
+                size=sz, cross_section=cross_section, check_min_radius=True, **kwargs
+            )
             # print(c.info['min_bend_radius'])
             min_size = sizes[i]
         except ValueError:

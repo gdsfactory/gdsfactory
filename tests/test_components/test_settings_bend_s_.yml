@@ -1,4 +1,4 @@
-name: bezier_7020f7b9_bend_s
+name: bezier_c3570097_bend_s
 settings:
   changed: {}
   child:
@@ -6,11 +6,11 @@ settings:
       control_points:
       - - 0
         - 0
-      - - 5.0
+      - - 5.5
         - 0
-      - - 5.0
+      - - 5.5
         - 2.0
-      - - 10.0
+      - - 11.0
         - 2.0
       npoints: 99
     child: null
@@ -34,11 +34,11 @@ settings:
       control_points:
       - - 0
         - 0
-      - - 5.0
+      - - 5.5
         - 0
-      - - 5.0
+      - - 5.5
         - 2.0
-      - - 10.0
+      - - 11.0
         - 2.0
       cross_section: strip
       end_angle: null
@@ -49,30 +49,32 @@ settings:
     function_name: bezier
     info:
       end_angle: 0
-      length: 10.278
-      min_bend_radius: 9.959
+      length: 11.253
+      min_bend_radius: 11.873
       start_angle: 0
     info_version: 2
     module: gdsfactory.components.bezier
-    name: bezier_7020f7b9
+    name: bezier_c3570097
   default:
+    check_min_radius: false
     cross_section: strip
     nb_points: 99
     size:
-    - 10.0
+    - 11.0
     - 2.0
   full:
+    check_min_radius: false
     cross_section: strip
     nb_points: 99
     size:
-    - 10.0
+    - 11.0
     - 2.0
   function_name: bend_s
   info:
     end_angle: 0
-    length: 10.278
-    min_bend_radius: 9.959
+    length: 11.253
+    min_bend_radius: 11.873
     start_angle: 0
   info_version: 2
   module: gdsfactory.components.bend_s
-  name: bezier_7020f7b9_bend_s
+  name: bezier_c3570097_bend_s

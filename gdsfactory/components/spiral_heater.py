@@ -114,7 +114,7 @@ def spiral_racetrack(
 
 @gf.cell
 def spiral_racetrack_fixed_length(
-    total_length: float = 1000,
+    length: float = 1000,
     in_out_port_spacing: float = 150,
     n_straight_sections: int = 8,
     min_radius: float = 5,
@@ -134,7 +134,7 @@ def spiral_racetrack_fixed_length(
     the most important parameter is the length difference between the arms.
 
     Args:
-        total_length: total length of the spiral from input to output ports in um.
+        length: total length of the spiral from input to output ports in um.
         in_out_port_spacing: spacing between input and output ports of the spiral in um.
         n_straight_sections: total number of straight sections for the racetrack spiral. Has to be even.
         min_radius: smallest radius in um.
@@ -160,7 +160,7 @@ def spiral_racetrack_fixed_length(
     spacings = [min_spacing] * (n_straight_sections // 2)
 
     straight_length = _req_straight_len(
-        total_length,
+        length,
         in_out_port_spacing,
         min_radius,
         spacings,
@@ -235,7 +235,7 @@ def spiral_racetrack_fixed_length(
 
 
 def _req_straight_len(
-    total_length: float = 1000,
+    length: float = 1000,
     in_out_port_spacing: float = 100,
     min_radius: float = 5,
     spacings: Floats = (1.0, 1.0),
@@ -246,7 +246,7 @@ def _req_straight_len(
     """Returns geometrical parameters to make a spiral of a given length.
 
     Args:
-        total_length: total length of the spiral from input to output ports in um.
+        length: total length of the spiral from input to output ports in um.
         in_out_port_spacing: spacing between input and output ports of the spiral in um.
         min_radius: smallest radius in um.
         spacings: spacings between adjacent waveguides.
@@ -320,7 +320,7 @@ def _req_straight_len(
     # Now get the required spacing to achieve the required length (interpolate)
     f = interp1d(lens, straight_lengths)
 
-    return f(total_length)
+    return f(length)
 
 
 @gf.cell
@@ -458,6 +458,16 @@ def spiral_racetrack_heater_doped(
     return c
 
 
+def test_length_spiral_racetrack():
+    import numpy as np
+
+    length = 1000
+    c = spiral_racetrack_fixed_length(length=length, cross_section="strip_no_pins")
+    length_computed = c.area() / 0.5
+    np.isclose(length, length_computed)
+    return c
+
+
 if __name__ == "__main__":
     # heater = spiral_racetrack(
     #     min_radius=3.0, straight_length=30.0, spacings=(2, 2, 3, 3, 2, 2)
@@ -472,6 +482,7 @@ if __name__ == "__main__":
     # )
     # heater.show()
     # c = spiral_racetrack(with_inner_ports=True)
-    c = spiral_racetrack_fixed_length(with_inner_ports=False)
+    # c = spiral_racetrack_fixed_length(with_inner_ports=False)
     # c = spiral_racetrack_heater_doped()
+    c = test_length_spiral_racetrack()
     c.show(show_ports=True)
