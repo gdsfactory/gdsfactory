@@ -63,7 +63,7 @@ def fanout2x2(
     dy = y - y0
 
     x = gf.get_cross_section(cross_section, **kwargs)
-    bend = bend_s(size=(dx, dy), nb_points=npoints, cross_section=x)
+    bend = bend_s(size=(dx, dy), npoints=npoints, cross_section=x)
 
     b_tr = bend.ref(port_id="o1", position=p_e1)
     b_br = bend.ref(port_id="o1", position=p_e0, v_mirror=True)
