@@ -364,7 +364,7 @@ bend_s
 
   import gdsfactory as gf
 
-  c = gf.components.bend_s(size=[10.0, 2.0], nb_points=99, cross_section='strip')
+  c = gf.components.bend_s(size=[11.0, 2.0], npoints=99, cross_section='strip', check_min_radius=False)
   c.plot_matplotlib()
 
 
@@ -2672,7 +2672,7 @@ spiral_racetrack
 
   import gdsfactory as gf
 
-  c = gf.components.spiral_racetrack(min_radius=5, straight_length=10.0, spacings=[2, 2, 3, 3, 2, 2], cross_section='strip', with_inner_ports=False)
+  c = gf.components.spiral_racetrack(min_radius=5, straight_length=10.0, spacings=[2, 2, 3, 3, 2, 2], cross_section='strip', with_inner_ports=False, extra_90_deg_bend=False)
   c.plot_matplotlib()
 
 
@@ -2687,7 +2687,7 @@ spiral_racetrack_fixed_length
 
   import gdsfactory as gf
 
-  c = gf.components.spiral_racetrack_fixed_length(total_length=1000, in_out_port_spacing=150, n_straight_sections=8, min_radius=5, min_spacing=5.0, cross_section='strip', with_inner_ports=False)
+  c = gf.components.spiral_racetrack_fixed_length(length=1000, in_out_port_spacing=150, n_straight_sections=8, min_radius=5, min_spacing=5.0, cross_section='strip', with_inner_ports=False)
   c.plot_matplotlib()
 
 

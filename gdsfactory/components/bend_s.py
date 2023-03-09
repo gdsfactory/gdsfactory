@@ -14,7 +14,7 @@ from gdsfactory.config import logger
 @cell
 def bend_s(
     size: Float2 = (11.0, 2.0),
-    nb_points: int = 99,
+    npoints: int = 99,
     cross_section: CrossSectionSpec = "strip",
     check_min_radius: bool = False,
     **kwargs,
@@ -26,7 +26,7 @@ def bend_s(
 
     Args:
         size: in x and y direction.
-        nb_points: number of points.
+        npoints: number of points.
         cross_section: spec.
         check_min_radius: raise ValueError if radius below min_bend_radius.
         kwargs: cross_section settings.
@@ -36,7 +36,7 @@ def bend_s(
 
     bend = bezier(
         control_points=((0, 0), (dx / 2, 0), (dx / 2, dy), (dx, dy)),
-        npoints=nb_points,
+        npoints=npoints,
         cross_section=cross_section,
         **kwargs,
     )

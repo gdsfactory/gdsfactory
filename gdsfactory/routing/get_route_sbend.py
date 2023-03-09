@@ -13,7 +13,7 @@ def get_route_sbend(port1: Port, port2: Port, **kwargs) -> Route:
         port2: end port.
 
     keyword Args:
-        nb_points: number of points.
+        npoints: number of points.
         with_cladding_box: square bounding box to avoid DRC errors.
         cross_section: function.
         kwargs: cross_section settings.

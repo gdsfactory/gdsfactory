@@ -58,14 +58,14 @@ settings:
   default:
     check_min_radius: false
     cross_section: strip
-    nb_points: 99
+    npoints: 99
     size:
     - 11.0
     - 2.0
   full:
     check_min_radius: false
     cross_section: strip
-    nb_points: 99
+    npoints: 99
     size:
     - 11.0
     - 2.0
