@@ -136,9 +136,6 @@ def ring_section_based(
     if add_drop and start_section_at_drop:
         sequence *= 2
 
-    print(sequence)
-    print(sections_dict)
-
     ring = gf.components.component_sequence(
         sequence=sequence, symbol_to_component=sections_dict
     )
@@ -164,8 +161,6 @@ def ring_section_based(
         else gf.get_cross_section(cross_sections[cross_sections_sequence[0]]).layer
     )
     ring_guide = ring.extract([input_xs_layer])
-
-    print(ring_guide.ymin)
 
     # Add bus waveguides
     s = straight(length=ring.xsize, cross_section=bus_cross_section)
@@ -221,6 +216,6 @@ if __name__ == "__main__":
     #                     cross_section = "strip",)
     # print(b.ports)
     # b.rotate(-7.5)
-    c = ring_section_based()
+    c = ring_section_based(add_drop=True)
 
-    c.show()
+    c.show(show_ports=True)
