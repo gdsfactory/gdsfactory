@@ -438,6 +438,12 @@ strip_rib_tip = partial(
     strip, sections=(Section(width=0.2, layer="SLAB90", name="slab"),)
 )
 
+# L shaped waveguide (slab only on one side of the core)
+l_wg = partial(
+    strip,
+    sections=(Section(width=4, layer="SLAB90", name="slab", offset=-2 - 0.25),),
+)
+
 
 @xsection
 def slot(
@@ -539,6 +545,7 @@ def rib_with_trenches(
             width_trench
                                                  |
        <---------------------------------------->
+                    width_slab
 
 
 
@@ -560,6 +567,70 @@ def rib_with_trenches(
         Section(width=width_trench, offset=offset, layer=layer_trench)
         for offset in [+trench_offset, -trench_offset]
     ]
+
+    return CrossSection(
+        width=width,
+        layer=None,
+        sections=tuple(sections),
+        **kwargs,
+    )
+
+
+@xsection
+def l_with_trenches(
+    width: float = 0.5,
+    width_trench: float = 2.0,
+    width_slab: float = 7.0,
+    layer: Optional[LayerSpec] = "WG",
+    layer_trench: LayerSpec = "DEEP_ETCH",
+    **kwargs,
+) -> CrossSection:
+    """Return CrossSection of l waveguide defined by trenches.
+
+    Args:
+        width: main Section width (um) or function parameterized from 0 to 1.
+            the width at t==0 is the width at the beginning of the Path.
+            the width at t==1 is the width at the end.
+        width_slab: in um.
+        width_trench: in um.
+        layer: ridge layer. None adds only ridge.
+        layer_trench: layer to etch trenches.
+        kwargs: cross_section settings.
+
+
+    .. code::
+
+
+        _____         __________
+             |        |         |
+             |________|         |
+
+       _________________________
+             <------->          |
+            width_trench
+                                |
+       <------------------------>
+            width_slab
+
+
+
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        xs = gf.cross_section.l_with_trenches(width=0.5)
+        p = gf.path.arc(radius=10, angle=45)
+        c = p.extrude(xs)
+        c.plot()
+    """
+    width_slab = max(width_slab, width + width_trench)
+
+    trench_offset = -1 * (width / 2 + width_trench / 2)
+    sections = [
+        Section(width=width_slab, layer=layer, offset=-width_slab / 2 + width / 2)
+    ]
+    sections += [Section(width=width_trench, offset=trench_offset, layer=layer_trench)]
 
     return CrossSection(
         width=width,
@@ -1696,7 +1767,20 @@ if __name__ == "__main__":
     # )
     # xs = pn_with_trenches(width=0.3)
     # xs = slot(width=0.3)
-    xs = rib_with_trenches()
+
+    # xs = rib_with_trenches()
+    # p = gf.path.straight()
+    # c = p.extrude(xs)
+
+    xs = l_with_trenches(
+        width=0.5,
+        width_trench=2.0,
+        width_slab=7.0,
+    )
     p = gf.path.straight()
     c = p.extrude(xs)
+
+    # xs = l_wg()
+    # p = gf.path.straight()
+    # c = p.extrude(xs)
     c.show(show_ports=True)
