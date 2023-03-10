@@ -181,6 +181,13 @@ def ring_section_based(
         s_drop.x = r.x
         s_drop.ymin = ring_guide.ymax + gap - s.ysize / 2 + input_xs_width / 2
 
+    # Add ports
+    c.add_port("o1", port=s_add.ports["o1"])
+    c.add_port("o2", port=s_add.ports["o2"])
+    if add_drop:
+        c.add_port("o3", port=s_drop.ports["o1"])
+        c.add_port("o4", port=s_drop.ports["o2"])
+
     return c
 
 
