@@ -13,7 +13,7 @@ def coupler_straight_asymmetric(
     width_bot: float = 1,
     **kwargs,
 ) -> Component:
-    """Coupler_straight_asymmetric with two parallel straights of different widths.
+    """Coupler with two parallel straights of different widths.
 
     Args:
         length: of straight.

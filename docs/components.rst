@@ -588,7 +588,7 @@ coupler
 
   import gdsfactory as gf
 
-  c = gf.components.coupler(gap=0.236, length=20.0, dy=5.0, dx=10.0, cross_section='strip')
+  c = gf.components.coupler(gap=0.236, length=20.0, dy=4.0, dx=10.0, cross_section='strip')
   c.plot_matplotlib()
 
 
@@ -2402,7 +2402,7 @@ ring
 
   import gdsfactory as gf
 
-  c = gf.components.ring(radius=10.0, width=0.5, angle_resolution=2.5, layer='WG')
+  c = gf.components.ring(radius=10.0, width=0.5, angle_resolution=2.5, layer='WG', angle=360)
   c.plot_matplotlib()
 
 
@@ -2478,6 +2478,21 @@ ring_double_pn
   import gdsfactory as gf
 
   c = gf.components.ring_double_pn(add_gap=0.3, drop_gap=0.3, radius=5.0, doping_angle=85, doped_heater=True, doped_heater_angle_buffer=10, doped_heater_layer='NPP', doped_heater_width=0.5, doped_heater_waveguide_offset=2.175)
+  c.plot_matplotlib()
+
+
+
+ring_section_based
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.ring_section_based
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.ring_section_based(gap=0.3, radius=5.0, add_drop=False, cross_sections_sequence='AB', cross_sections_angles=[6, 6], start_angle=10.0, start_section_at_drop=True, bus_cross_section='strip')
   c.plot_matplotlib()
 
 
