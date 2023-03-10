@@ -146,21 +146,40 @@ def ring_section_based(
 
     # Rotate so that the first section is centered at the add bus
     if init_cross_section is not None:
+        ring = ring.rotate(
+            -init_angle / 2
+        )  # also change the component for later bound extraction
         r.rotate(-init_angle / 2)
     else:
+        ring = ring.rotate(-cross_sections_angles[0] / 2)
         r.rotate(-cross_sections_angles[0] / 2)
+
+    # Add bus waveguides
+
+    # Figure out main waveguiding layer of the ring at the ring-bus interface
+    input_xs_layer = (
+        gf.get_cross_section(init_cross_section).layer
+        if init_cross_section
+        else gf.get_cross_section(cross_sections[cross_sections_sequence[0]]).layer
+    )
+    ring_guide = ring.extract([input_xs_layer])
+
+    print(ring_guide.ymin)
 
     # Add bus waveguides
     s = straight(length=ring.xsize, cross_section=bus_cross_section)
 
+    # Figure out main waveguiding layer of the bus at the ring-bus interface
+    input_xs_width = gf.get_cross_section(bus_cross_section).width
+
     s_add = c << s
     s_add.x = r.x
-    s_add.ymax = r.ymin - gap
+    s_add.ymax = ring_guide.ymin - gap + s.ysize / 2 - input_xs_width / 2
 
     if add_drop:
         s_drop = c << s
         s_drop.x = r.x
-        s_drop.ymin = r.ymax + gap
+        s_drop.ymin = ring_guide.ymax + gap - s.ysize / 2 + input_xs_width / 2
 
     return c
 
