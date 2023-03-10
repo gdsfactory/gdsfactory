@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.57.0
+
+- add angle parameter to ring component [PR](https://github.com/gdsfactory/gdsfactory/pull/1407)
+- Added ring resonators with interleaved junction rings [PR](https://github.com/gdsfactory/gdsfactory/pull/1408)
+
 ## 6.56.0
 
 - fix polygons at gdstk level before shapely meshing preprocessing [PR](https://github.com/gdsfactory/gdsfactory/pull/1396)

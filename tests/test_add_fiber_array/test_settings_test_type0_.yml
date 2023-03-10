@@ -19,7 +19,7 @@ settings:
         function: coupler_symmetric
       cross_section: strip
       dx: 10.0
-      dy: 5.0
+      dy: 4.0
       gap: 0.236
       length: 20.0
     full:
@@ -29,13 +29,13 @@ settings:
         function: coupler_symmetric
       cross_section: strip
       dx: 10.0
-      dy: 5.0
+      dy: 4.0
       gap: 0.244
       length: 5.67
     function_name: coupler
     info:
-      length: 10.313
-      min_bend_radius: 9.465
+      length: 10.185
+      min_bend_radius: 11.883
     info_version: 2
     module: gdsfactory.components.coupler
     name: coupler_gap0p244_length5p67
@@ -85,8 +85,8 @@ settings:
       period: 0.6759999999999999
       polarization: te
       wavelength: 1.53
-    length: 10.313
-    min_bend_radius: 9.465
+    length: 10.185
+    min_bend_radius: 11.883
   info_version: 2
   module: gdsfactory.routing.add_fiber_array
   name: coupler_gap0p244_length_0ee3ac51

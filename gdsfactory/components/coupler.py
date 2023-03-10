@@ -17,7 +17,7 @@ def coupler(
     length: float = 20.0,
     coupler_symmetric: ComponentSpec = coupler_symmetric_function,
     coupler_straight: ComponentSpec = coupler_straight_function,
-    dy: float = 5.0,
+    dy: float = 4.0,
     dx: float = 10.0,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
