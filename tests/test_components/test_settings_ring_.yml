@@ -3,11 +3,13 @@ settings:
   changed: {}
   child: null
   default:
+    angle: 360
     angle_resolution: 2.5
     layer: WG
     radius: 10.0
     width: 0.5
   full:
+    angle: 360
     angle_resolution: 2.5
     layer: WG
     radius: 10.0

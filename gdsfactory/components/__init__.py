@@ -209,6 +209,7 @@ from gdsfactory.components.ring_single_bend_coupler import (
 )
 from gdsfactory.components.ring_single_dut import ring_single_dut, taper2
 from gdsfactory.components.ring_single_heater import ring_single_heater
+from gdsfactory.components.ring_section_based import ring_section_based
 from gdsfactory.components.seal_ring import seal_ring
 from gdsfactory.components.snspd import snspd
 from gdsfactory.components.spiral_double import spiral_double
@@ -507,6 +508,7 @@ __all__ = [
     "ring_double",
     "ring_double_pn",
     "ring_double_heater",
+    "ring_section_based",
     "ring_single",
     "ring_single_heater",
     "ring_single_array",

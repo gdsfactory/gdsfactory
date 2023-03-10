@@ -6,9 +6,10 @@ complex junction profiles
 """
 
 from functools import partial
+from typing import Dict, List, Optional
+
 import numpy as np
 import gdsfactory as gf
-from typing import Dict, List, Optional
 from gdsfactory.typings import CrossSectionSpec
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.straight import straight
@@ -24,14 +25,14 @@ def ring_section_based(
     cross_sections: Dict = def_dict,
     cross_sections_sequence: str = "AB",
     cross_sections_angles: Optional[List[float]] = (6, 6),
-    init_cross_section: Optional[CrossSectionSpec] = None,
-    init_angle: Optional[float] = 10.0,
-    init_section_at_drop: bool = True,
+    start_cross_section: Optional[CrossSectionSpec] = None,
+    start_angle: Optional[float] = 10.0,
+    start_section_at_drop: bool = True,
     bus_cross_section: CrossSectionSpec = "strip",
 ) -> gf.Component:
     """Returns a ring made of the specified cross sections.
 
-    We start with init_cross section if indicated, then repeat the sequence in
+    We start with start_cross section if indicated, then repeat the sequence in
     cross_section_sequence until the whole ring is filled.
 
     Args:
@@ -47,11 +48,11 @@ def ring_section_based(
             cross_sections_sequence list (deg). If not indicated, then we assume that
             the sequence is only repeated once and calculate the necessary angular
             length
-        init_cross_section: it is likely that the cross section at the ring-bus junction
+        start_cross_section: it is likely that the cross section at the ring-bus junction
             is different than the sequence we want to repeat. If that's the case, then
             here you indicate the initial cross section.
-        init_angle: angular extent of the initial cross section (deg)
-        init_section_at_drop: if True, the initial section is placed at both ring-bus
+        start_angle: angular extent of the initial cross section (deg)
+        start_section_at_drop: if True, the initial section is placed at both ring-bus
             junctions (only applies if add_drop = True)
         bus_cross_section: cross section for the bus waveguide.
     """
@@ -62,17 +63,16 @@ def ring_section_based(
     angular_extent_sequence = 360
 
     # See if we need to add initial cross sections
-    if init_cross_section is not None:
-        init_xs = gf.get_cross_section(init_cross_section)
-        angular_extent_sequence -= init_angle
+    if start_cross_section is not None:
+        start_xs = gf.get_cross_section(start_cross_section)
+        angular_extent_sequence -= start_angle
 
-        if add_drop and init_section_at_drop:
-            angular_extent_sequence -= init_angle
+        if add_drop and start_section_at_drop:
+            angular_extent_sequence -= start_angle
 
-    n_sections = len(cross_sections_sequence)
     if cross_sections_angles is None:
-        # Calculate the extents of the sequences so they fit
-        if add_drop and init_section_at_drop:
+        n_sections = len(cross_sections_sequence)
+        if add_drop and start_section_at_drop:
             cross_sections_angles = [
                 angular_extent_sequence / (2 * n_sections)
             ] * n_sections
@@ -84,25 +84,26 @@ def ring_section_based(
     sing_seq_angular_extent = np.sum(cross_sections_angles)
     # Make sure we can fit an integer number of sequences into the
     # ring circumference
-    if add_drop and init_section_at_drop:
-        if not (angular_extent_sequence / (sing_seq_angular_extent / 2)).is_integer():
-            raise ValueError(
-                "The specified sequence angles do not result in an integer number of sequences fitting in the ring."
-            )
-        else:
+    if add_drop and start_section_at_drop:
+        if (angular_extent_sequence / (sing_seq_angular_extent / 2)).is_integer():
             n_repeats_seq = int(angular_extent_sequence / (2 * sing_seq_angular_extent))
-    else:
-        if not (angular_extent_sequence / sing_seq_angular_extent).is_integer():
-            raise ValueError(
-                "The specified sequence angles do not result in an integer number of sequences fitting in the ring."
-            )
         else:
-            n_repeats_seq = int(angular_extent_sequence / sing_seq_angular_extent)
+            raise ValueError(
+                "The specified sequence angles do not result in an integer "
+                "number of sequences fitting in the ring."
+            )
+    elif not (angular_extent_sequence / sing_seq_angular_extent).is_integer():
+        raise ValueError(
+            "The specified sequence angles do not result in an integer number "
+            "of sequences fitting in the ring."
+        )
+    else:
+        n_repeats_seq = int(angular_extent_sequence / sing_seq_angular_extent)
 
     # Now we are ready to construct the ring
 
     # We need to create a circular bend for each section
-    sections_dict = dict()
+    sections_dict = {}
 
     for i, key in enumerate(cross_sections.keys()):
         ang = cross_sections_angles[i]
@@ -112,9 +113,9 @@ def ring_section_based(
 
         sections_dict[key] = (b, "o1", "o2")
 
-    if init_cross_section is not None:
+    if start_cross_section is not None:
         b = bend_circular(
-            angle=init_angle, with_bbox=False, cross_section=init_xs, radius=radius
+            angle=start_angle, with_bbox=False, cross_section=start_xs, radius=radius
         )
         if "0" in sections_dict:
             raise ValueError(
@@ -127,13 +128,13 @@ def ring_section_based(
 
     sequence = ""
 
-    if init_cross_section is not None:
+    if start_cross_section is not None:
         sequence += "0"
 
     sequence += cross_sections_sequence * n_repeats_seq
 
-    if add_drop and init_section_at_drop:
-        sequence = sequence * 2
+    if add_drop and start_section_at_drop:
+        sequence *= 2
 
     print(sequence)
     print(sections_dict)
@@ -145,11 +146,11 @@ def ring_section_based(
     r = c << ring
 
     # Rotate so that the first section is centered at the add bus
-    if init_cross_section is not None:
+    if start_cross_section is not None:
         ring = ring.rotate(
-            -init_angle / 2
+            -start_angle / 2
         )  # also change the component for later bound extraction
-        r.rotate(-init_angle / 2)
+        r.rotate(-start_angle / 2)
     else:
         ring = ring.rotate(-cross_sections_angles[0] / 2)
         r.rotate(-cross_sections_angles[0] / 2)
@@ -158,8 +159,8 @@ def ring_section_based(
 
     # Figure out main waveguiding layer of the ring at the ring-bus interface
     input_xs_layer = (
-        gf.get_cross_section(init_cross_section).layer
-        if init_cross_section
+        gf.get_cross_section(start_cross_section).layer
+        if start_cross_section
         else gf.get_cross_section(cross_sections[cross_sections_sequence[0]]).layer
     )
     ring_guide = ring.extract([input_xs_layer])
@@ -187,36 +188,32 @@ def ring_section_based(
 if __name__ == "__main__":
     from gdsfactory.cross_section import rib
 
-    c = gf.Component()
-
     # rib = c << straight(length = 100, cross_section="rib")
     # b_rib = c << bend_circular(angle = 10,
     #                       with_bbox = True,
     #                       cross_section = "slot",
     #                       radius=5)
     # strip = c << straight(length = 100, cross_section="strip")
-
     # strip.ymax = b_rib.ymin - 10
 
-    c << ring_section_based(
+    c = ring_section_based(
         gap=0.3,
         radius=5.0,
         add_drop=True,
         cross_sections={"A": "rib", "B": "slot"},
         cross_sections_sequence="AB",
         cross_sections_angles=[17, 17],
-        init_cross_section=partial(rib, width=0.65),
-        init_angle=10.0,
-        init_section_at_drop=True,
+        start_cross_section=partial(rib, width=0.65),
+        start_angle=10.0,
+        start_section_at_drop=True,
         bus_cross_section="strip",
     )
 
-    """
-    b = c << bend_circular(angle = 15,
-                        with_bbox = True,
-                        cross_section = "strip",)
-    print(b.ports)
-    b.rotate(-7.5)
-    """
+    # b = c << bend_circular(angle = 15,
+    #                     with_bbox = True,
+    #                     cross_section = "strip",)
+    # print(b.ports)
+    # b.rotate(-7.5)
+    c = ring_section_based()
 
     c.show()

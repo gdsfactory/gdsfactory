@@ -1,0 +1,39 @@
+name: ring_section_based
+settings:
+  changed: {}
+  child: null
+  default:
+    add_drop: false
+    bus_cross_section: strip
+    cross_sections:
+      A: rib
+      B: strip
+    cross_sections_angles:
+    - 6
+    - 6
+    cross_sections_sequence: AB
+    gap: 0.3
+    radius: 5.0
+    start_angle: 10.0
+    start_cross_section: null
+    start_section_at_drop: true
+  full:
+    add_drop: false
+    bus_cross_section: strip
+    cross_sections:
+      A: rib
+      B: strip
+    cross_sections_angles:
+    - 6
+    - 6
+    cross_sections_sequence: AB
+    gap: 0.3
+    radius: 5.0
+    start_angle: 10.0
+    start_cross_section: null
+    start_section_at_drop: true
+  function_name: ring_section_based
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.ring_section_based
+  name: ring_section_based
