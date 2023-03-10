@@ -70,9 +70,8 @@ def ring_section_based(
         if add_drop and start_section_at_drop:
             angular_extent_sequence -= start_angle
 
-    n_sections = len(cross_sections_sequence)
     if cross_sections_angles is None:
-        # Calculate the extents of the sequences so they fit
+        n_sections = len(cross_sections_sequence)
         if add_drop and start_section_at_drop:
             cross_sections_angles = [
                 angular_extent_sequence / (2 * n_sections)
@@ -86,26 +85,25 @@ def ring_section_based(
     # Make sure we can fit an integer number of sequences into the
     # ring circumference
     if add_drop and start_section_at_drop:
-        if not (angular_extent_sequence / (sing_seq_angular_extent / 2)).is_integer():
+        if (angular_extent_sequence / (sing_seq_angular_extent / 2)).is_integer():
+            n_repeats_seq = int(angular_extent_sequence / (2 * sing_seq_angular_extent))
+        else:
             raise ValueError(
                 "The specified sequence angles do not result in an integer "
                 "number of sequences fitting in the ring."
             )
-        else:
-            n_repeats_seq = int(angular_extent_sequence / (2 * sing_seq_angular_extent))
+    elif not (angular_extent_sequence / sing_seq_angular_extent).is_integer():
+        raise ValueError(
+            "The specified sequence angles do not result in an integer number "
+            "of sequences fitting in the ring."
+        )
     else:
-        if not (angular_extent_sequence / sing_seq_angular_extent).is_integer():
-            raise ValueError(
-                "The specified sequence angles do not result in an integer number "
-                "of sequences fitting in the ring."
-            )
-        else:
-            n_repeats_seq = int(angular_extent_sequence / sing_seq_angular_extent)
+        n_repeats_seq = int(angular_extent_sequence / sing_seq_angular_extent)
 
     # Now we are ready to construct the ring
 
     # We need to create a circular bend for each section
-    sections_dict = dict()
+    sections_dict = {}
 
     for i, key in enumerate(cross_sections.keys()):
         ang = cross_sections_angles[i]
@@ -136,7 +134,7 @@ def ring_section_based(
     sequence += cross_sections_sequence * n_repeats_seq
 
     if add_drop and start_section_at_drop:
-        sequence = sequence * 2
+        sequence *= 2
 
     print(sequence)
     print(sections_dict)
