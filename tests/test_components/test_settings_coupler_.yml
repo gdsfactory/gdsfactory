@@ -9,7 +9,7 @@ settings:
       function: coupler_symmetric
     cross_section: strip
     dx: 10.0
-    dy: 5.0
+    dy: 4.0
     gap: 0.236
     length: 20.0
   full:
@@ -19,13 +19,13 @@ settings:
       function: coupler_symmetric
     cross_section: strip
     dx: 10.0
-    dy: 5.0
+    dy: 4.0
     gap: 0.236
     length: 20.0
   function_name: coupler
   info:
-    length: 10.314
-    min_bend_radius: 9.451
+    length: 10.186
+    min_bend_radius: 11.857
   info_version: 2
   module: gdsfactory.components.coupler
   name: coupler
