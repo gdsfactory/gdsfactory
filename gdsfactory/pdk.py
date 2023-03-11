@@ -37,7 +37,7 @@ from gdsfactory.typings import (
 
 component_settings = ["function", "component", "settings"]
 cross_section_settings = ["function", "cross_section", "settings"]
-layers_required = ["DEVREC", "PORT", "PORTE"]
+layers_required = []
 
 constants = {
     "fiber_array_spacing": 127.0,
