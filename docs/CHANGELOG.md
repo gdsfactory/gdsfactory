@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.57.1
+
+- add ports to ring_section_based
+- removed required layers from pdk
+
 ## 6.57.0
 
 - add angle parameter to ring component [PR](https://github.com/gdsfactory/gdsfactory/pull/1407)
