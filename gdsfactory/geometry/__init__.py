@@ -11,6 +11,7 @@ from gdsfactory.geometry.check_inclusion import check_inclusion
 from gdsfactory.geometry.check_space import check_space
 from gdsfactory.geometry.check_width import check_width
 from gdsfactory.geometry.invert import invert
+from gdsfactory.geometry.layer_priority import layer_priority
 from gdsfactory.geometry.offset import offset
 from gdsfactory.geometry.outline import outline
 from gdsfactory.geometry.trim import trim
@@ -32,4 +33,5 @@ __all__ = (
     "xor_diff",
     "functions",
     "trim",
+    "layer_priority",
 )
