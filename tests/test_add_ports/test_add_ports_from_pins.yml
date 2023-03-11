@@ -8,6 +8,7 @@ ports:
     name: o1
     orientation: 180
     port_type: optical
+    radius: .inf
     shear_angle: null
     width: 0.5
   o2:
@@ -18,6 +19,7 @@ ports:
     name: o2
     orientation: 0
     port_type: optical
+    radius: .inf
     shear_angle: null
     width: 0.5
 settings: {}
