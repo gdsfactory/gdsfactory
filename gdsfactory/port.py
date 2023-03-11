@@ -79,6 +79,7 @@ class Port:
         parent: Component that port belongs to.
         cross_section: cross_section spec.
         shear_angle: an optional angle to shear port face in degrees.
+        radius: default inf (perfectly staight waveguide), but otherwise used if a port is located in a bend.
     """
 
     def __init__(
@@ -92,6 +93,7 @@ class Port:
         parent: Optional[Component] = None,
         cross_section: Optional[CrossSection] = None,
         shear_angle: Optional[float] = None,
+        radius: Optional[float] = None,
     ) -> None:
         """Initializes Port object."""
         self.name = name
@@ -102,6 +104,7 @@ class Port:
         self.port_type = port_type
         self.cross_section = cross_section
         self.shear_angle = shear_angle
+        self.radius = radius or np.inf
 
         if cross_section is None and layer is None:
             raise ValueError("You need Port to define cross_section or layer")
@@ -137,6 +140,7 @@ class Port:
             "layer": self.layer,
             "port_type": self.port_type,
             "shear_angle": self.shear_angle,
+            "radius": self.radius,
         }
         return clean_value_json(d)
 
@@ -150,13 +154,14 @@ class Port:
             else float(self.orientation),
             "layer": self.layer,
             "port_type": self.port_type,
+            "radius": self.radius,
         }
         d = OmegaConf.create(d)
         return OmegaConf.to_yaml(d)
 
     def __repr__(self) -> str:
         """Return a string representation of the object."""
-        s = f"Port (name {self.name}, center {self.center}, width {self.width}, orientation {self.orientation}, layer {self.layer}, port_type {self.port_type})"
+        s = f"Port (name {self.name}, center {self.center}, width {self.width}, orientation {self.orientation}, layer {self.layer}, port_type {self.port_type}, radius {self.radius})"
         s += f" shear_angle {self.shear_angle}" if self.shear_angle else ""
         return s
 
@@ -975,8 +980,6 @@ __all__ = [
 ]
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
     # c = gf.Component()
     # cross_section = gf.cross_section.strip()
     # c.add_port(
@@ -999,9 +1002,14 @@ if __name__ == "__main__":
     # print(type(p0.to_dict()["center"][0]))
     # p = Port("o1", orientation=0, center=(9, 0), layer=(1, 0), cross_section=)
 
-    c = gf.components.component_lattice()
+    # c = gf.components.component_lattice()
 
-    df = c.get_ports_pandas()
-    print(df)
+    # df = c.get_ports_pandas()
+    # print(df)
 
-    c.show()
+    # c.show()
+
+    p = Port(
+        name="test", orientation=20, center=(0, 0), layer="WG", width=0.5, radius=10
+    )
+    print(p.radius)

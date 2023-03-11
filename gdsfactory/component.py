@@ -681,6 +681,7 @@ class Component(_GeometryHelper):
             "layer",
             "port_type",
             "shear_angle",
+            "radius",
         ]
 
         return pd.DataFrame(
@@ -698,6 +699,7 @@ class Component(_GeometryHelper):
             "layer": pl.List(pl.UInt16),
             "port_type": pl.Utf8,
             "shear_angle": pl.Float64,
+            "radius": pl.Float64,
         }
 
         return pl.DataFrame(
