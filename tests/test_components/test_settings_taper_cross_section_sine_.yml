@@ -7,6 +7,7 @@ settings:
     cross_section1:
       function: cross_section
       settings:
+        radius: 20
         sections:
         - hidden: false
           layer: SLAB90
@@ -22,6 +23,7 @@ settings:
     cross_section2:
       function: cross_section
       settings:
+        radius: 20
         sections:
         - hidden: false
           layer: SLAB90
@@ -42,6 +44,7 @@ settings:
     cross_section1:
       function: cross_section
       settings:
+        radius: 20
         sections:
         - hidden: false
           layer: SLAB90
@@ -57,6 +60,7 @@ settings:
     cross_section2:
       function: cross_section
       settings:
+        radius: 20
         sections:
         - hidden: false
           layer: SLAB90
