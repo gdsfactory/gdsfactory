@@ -7,7 +7,7 @@ channels:
   - http://repo.anaconda.com/pkgs/main/
 
 specs:
-  - conda<23.1
+  - conda
   - python
   - mamba
   - pip
