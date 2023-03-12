@@ -99,7 +99,7 @@ class CrossSection(BaseModel):
         sections: list of Sections(width, offset, layer, ports).
         port_names: for input and output ('o1', 'o2').
         port_types: for input and output: electrical, optical, vertical_te ...
-        gap: edge to edge waveguide gap for routing.
+        gap: edge to edge waveguide spacing for routing.
         min_length: defaults to 1nm = 10e-3um for routing.
         start_straight_length: straight length at the beginning of the route.
         end_straight_length: end length at the beginning of the route.
