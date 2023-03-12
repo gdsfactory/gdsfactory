@@ -1,8 +1,12 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.57.2
+
+- add `gf.geometry.layer_priority` operation [PR](https://github.com/gdsfactory/gdsfactory/pull/1413)
+
 ## 6.57.1
 
-- add ports to ring_section_based
+- add ports to `ring_section_based`
 - removed required layers from pdk
 
 ## 6.57.0
@@ -16,11 +20,11 @@
 - add spiral for given length to `gf.components.spiral_racetrack_fixed_length` [PR](https://github.com/gdsfactory/gdsfactory/pull/1397)
 - Don't warn on show [PR](https://github.com/gdsfactory/gdsfactory/pull/1402)
 - adding a method in LayerStack to filter conveniently [PR](https://github.com/gdsfactory/gdsfactory/pull/1300)
-- add check_min_radius to bend_s and rename `nb_points` to `npoints` for consistency [PR](https://github.com/gdsfactory/gdsfactory/pull/1406)
+- add `check_min_radius` to bend_s and rename `nb_points` to `npoints` for consistency [PR](https://github.com/gdsfactory/gdsfactory/pull/1406)
 
 ## 6.55.0
 
-- Add via_stack_from_rules [PR](https://github.com/gdsfactory/gdsfactory/pull/1391)
+- Add `via_stack_from_rules` [PR](https://github.com/gdsfactory/gdsfactory/pull/1391)
 - add `gf.fill.fill_rectangle_custom` which allows you to fill a region with a custom cell [PR](https://github.com/gdsfactory/gdsfactory/pull/1392)
 
 ## [6.54.0](https://github.com/gdsfactory/gdsfactory/pull/1388)
@@ -29,14 +33,14 @@
 
 ## [6.53.0](https://github.com/gdsfactory/gdsfactory/pull/1387)
 
-- better error messages for delay_snake
+- better error messages for `delay_snake`
 
 ## [6.52.0](https://github.com/gdsfactory/gdsfactory/pull/1385)
 
 - install rich, jupytext and klayout, by default with `pip install gdsfactory`
 - logger.level = 'WARNING' by default
 - gf --version prints version of all packages
-- add gf.config.print_version() and gf.config.print_version_pdks()
+- add `gf.config.print_version()` and `gf.config.print_version_pdks()`
 
 ## 6.51.0
 

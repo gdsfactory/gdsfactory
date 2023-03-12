@@ -1,22 +1,24 @@
+import numpy as np
 import gdsfactory as gf
 from gdsfactory.typings import LayerSpec, ComponentSpec
-import numpy as np
 
 
+@gf.cell
 def layer_priority(
     component: ComponentSpec,
     layer_high_order: LayerSpec,
     layer_low_order: LayerSpec,
     remove_high_order: bool = False,
     **kwargs,
-):
-    """Returns a new component where a specified layer is removed from another.
+) -> gf.Component:
+    """Returns new component after removing one layer from another.
 
     Arguments:
-        layer_high_order: layer used to etch
-        layer_low_order: layer etched into
-        remove_high_order: whether to also remove the high order layer polygons. Useful if the higher order layer is purely logical.
-        kwargs: leyword arguments for boolean difference operation
+        layer_high_order: layer used to etch.
+        layer_low_order: layer etched into.
+        remove_high_order: whether to also remove the high order layer polygons.
+            Useful if the higher order layer is purely logical.
+        kwargs: keyword arguments for boolean difference operation.
     """
     c = gf.Component()
 
@@ -46,11 +48,13 @@ def layer_priority(
     )
 
     # Place all the other layers
-    c << component_minus_layers
-    c << component_high_order_removed_from_low_order
+    a = c << component_minus_layers
+    b = c << component_high_order_removed_from_low_order
 
+    c.absorb(a)
+    c.absorb(b)
     c.add_ports(ports=component.ports)
-
+    c.copy_child_info(component)
     return c
 
 
@@ -108,12 +112,10 @@ if __name__ == "__main__":
 
     c = gf.components.coupler(cross_section=funky_cross_section)
 
-    c_processed = layer_priority(
+    c2 = layer_priority(
         component=c,
         layer_high_order="WG",
         layer_low_order="SLAB150",
         remove_high_order=False,
     )
-    c_processed.show(show_ports=True)
-
-    # test_layer_priority()
+    c2.show(show_ports=True)
