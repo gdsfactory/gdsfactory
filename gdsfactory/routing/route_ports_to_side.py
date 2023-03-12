@@ -8,7 +8,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.port import Port, flipped
 from gdsfactory.routing.get_route import get_route
-from gdsfactory.typings import Route
+from gdsfactory.typings import Route, RouteFactory
 
 
 def sort_key_west_to_east(port: Port) -> float:
@@ -32,7 +32,7 @@ def route_ports_to_side(
     side: str = "north",
     x: Optional[float] = None,
     y: Optional[float] = None,
-    routing_func=get_route,
+    routing_func: Callable = get_route,
     **kwargs,
 ) -> Tuple[List[Route], List[Port]]:
     """Routes ports to a given side.
@@ -126,7 +126,7 @@ def route_ports_to_x(
     extension_length: float = 0.0,
     y0_bottom: Optional[float] = None,
     y0_top: Optional[float] = None,
-    routing_func: Callable = get_route,
+    routing_func: RouteFactory = get_route,
     backward_port_side_split_index: int = 0,
     start_straight_length: float = 0.01,
     dx_start: Optional[float] = None,
@@ -319,11 +319,11 @@ def route_ports_to_y(
     extension_length: float = 0.0,
     extend_left: float = 0.0,
     extend_right: float = 0.0,
-    routing_func: Callable = get_route,
+    routing_func: RouteFactory = get_route,
     backward_port_side_split_index: int = 0,
     start_straight_length: float = 0.01,
-    dx_start: float = None,
-    dy_start: float = None,
+    dx_start: Optional[float] = None,
+    dy_start: Optional[float] = None,
     **routing_func_args: Dict[Any, Any],
 ) -> Tuple[List[Route], List[Port]]:
     """Args are the following.
@@ -556,7 +556,7 @@ def _sample_route_sides() -> Component:
 
 if __name__ == "__main__":
     c = Component("sample_route_sides")
-    dummy = gf.components.nxn(north=2, south=2, west=2, east=2)
+    dummy = gf.components.nxn(north=2, south=2, west=2, east=2, cross_section="nitride")
     sides = ["north", "south", "east", "west"]
     d = 100
     positions = [(0, 0), (d, 0), (d, d), (0, d)]
