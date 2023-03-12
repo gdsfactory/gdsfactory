@@ -1066,6 +1066,7 @@ def route_manhattan(
             cross_section=x,
             with_point_markers=with_point_markers,
             with_sbend=with_sbend,
+            on_route_error=on_route_error,
         )
 
     except RouteError:

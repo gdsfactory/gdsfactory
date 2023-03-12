@@ -415,6 +415,10 @@ def cross_section(
     )
 
 
+radius_nitride = 20
+radius_rib = 20
+
+
 strip = cross_section
 strip_auto_widen = partial(strip, width_wide=0.9, auto_widen=True)
 strip_no_pins = partial(
@@ -422,20 +426,17 @@ strip_no_pins = partial(
 )
 
 # Rib with rectangular slab
-rib = partial(
-    strip,
-    bbox_layers=["SLAB90"],
-    bbox_offsets=[3],
-)
+rib = partial(strip, bbox_layers=["SLAB90"], bbox_offsets=[3], radius=radius_rib)
 
 # Rib with with slab that follows the waveguide core
 rib_conformal = partial(
-    strip,
-    sections=(Section(width=6, layer="SLAB90", name="slab"),),
+    strip, sections=(Section(width=6, layer="SLAB90", name="slab"),), radius=radius_rib
 )
-nitride = partial(strip, layer="WGN", width=1.0)
+nitride = partial(strip, layer="WGN", width=1.0, radius=radius_nitride)
 strip_rib_tip = partial(
-    strip, sections=(Section(width=0.2, layer="SLAB90", name="slab"),)
+    strip,
+    sections=(Section(width=0.2, layer="SLAB90", name="slab"),),
+    radius=radius_nitride,
 )
 
 # L shaped waveguide (slab only on one side of the core)
