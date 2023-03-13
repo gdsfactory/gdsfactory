@@ -41,10 +41,6 @@ gf.config.rich_output()
 PDK = gf.generic_tech.get_generic_pdk()
 PDK.activate()
 
-# %load_ext autoreload
-# %autoreload 2
-# %matplotlib inline
-
 # %%
 nm = 1e-3
 wavelength = np.linspace(1500, 1600) * nm
@@ -93,7 +89,7 @@ fig = gt.plot_simulation(s)
 # ### 3D
 #
 # By default all simulations run in 3D unless indicated otherwise with the `is_3d` argument.
-# 3D simulations still run quite fast thanks to the GPU solver on the server side.
+# 3D simulations run quite fast thanks to the GPU solver on the server side hosted by tidy3d cloud.
 
 # %%
 help(gt.get_simulation)
@@ -433,7 +429,7 @@ for offset in offsets:
     )
     plt.plot(
         sp["wavelengths"],
-        20 * np.log10(np.abs(sp[f"{port_name}@0,o1@0"])),
+        20 * np.log10(np.abs(sp["o2@0,o1@0"])),
         label=str(offset),
     )
 
