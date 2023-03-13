@@ -35,8 +35,8 @@ settings:
   function_name: ring_section_based
   info:
     ring_center:
-    - 0.2616797812147192
-    - 4.99314767377287
+    - 0.262
+    - 4.993
   info_version: 2
   module: gdsfactory.components.ring_section_based
   name: ring_section_based
