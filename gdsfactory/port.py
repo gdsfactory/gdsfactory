@@ -109,6 +109,11 @@ class Port:
         if cross_section is None and width is None:
             raise ValueError("You need Port to define cross_section or width")
 
+        if cross_section and isinstance(cross_section, str):
+            from gdsfactory.pdk import get_cross_section
+
+            cross_section = get_cross_section(cross_section)
+
         if cross_section and not isinstance(cross_section, CrossSection):
             raise ValueError(
                 f"cross_section = {cross_section} is not a valid CrossSection."

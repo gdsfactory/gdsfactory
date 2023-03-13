@@ -8,7 +8,7 @@ from typing import Awaitable
 
 import tidy3d as td
 from tidy3d import web
-from tidy3d.log import WebError
+from tidy3d.exceptions import WebError
 
 import gdsfactory as gf
 from gdsfactory.config import PATH, logger

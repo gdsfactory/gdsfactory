@@ -1,4 +1,4 @@
-name: straight_2baf67df
+name: straight_b4efbeb4
 settings:
   changed:
     cross_section:
@@ -8,6 +8,7 @@ settings:
         - SLAB90
         bbox_offsets:
         - 3
+        radius: 20
   child: null
   default:
     cross_section: strip
@@ -22,6 +23,7 @@ settings:
         - SLAB90
         bbox_offsets:
         - 3
+        radius: 20
     length: 10.0
     npoints: 2
     with_bbox: true
@@ -34,6 +36,7 @@ settings:
         - SLAB90
         bbox_offsets:
         - 3
+        radius: 20
     function_name: cross_section
     length: 10.0
     settings:
@@ -41,7 +44,8 @@ settings:
       - SLAB90
       bbox_offsets:
       - 3
+      radius: 20
     width: 0.5
   info_version: 2
   module: gdsfactory.components.straight
-  name: straight_2baf67df
+  name: straight_b4efbeb4
