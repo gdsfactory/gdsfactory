@@ -1,8 +1,17 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.58.0
+
+- Bump jupyter-book from 0.14.0 to 0.15.0 [PR](https://github.com/gdsfactory/gdsfactory/pull/1416)
+- Bump tidy3d from 1.9.0 to 1.9.3
+- [PR](https://github.com/gdsfactory/gdsfactory/pull/1419)
+    - Port cross_section can be defined by name
+    - snap `center` to grid in ring_section_based
+    - increase bend radius for nitride and rib waveguides
+
 ## 6.57.2
 
-- add `gf.geometry.layer_priority` operation [PR](https://github.com/gdsfactory/gdsfactory/pull/1413)
+- add `gf.geometry.layer_priority` operation [PR](https://github.com/gdsfactory/gdsfactory/pull/1413) [PR](https://github.com/gdsfactory/gdsfactory/pull/1415)
 
 ## 6.57.1
 
