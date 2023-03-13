@@ -588,6 +588,7 @@ def l_with_trenches(
     layer: Optional[LayerSpec] = "WG",
     layer_trench: LayerSpec = "DEEP_ETCH",
     orient: bool = 0,
+    wg_marking_layer: Optional[LayerSpec] = None,
     **kwargs,
 ) -> CrossSection:
     """Return CrossSection of l waveguide defined by trenches.
@@ -651,7 +652,7 @@ def l_with_trenches(
 
     return CrossSection(
         width=width,
-        layer=None,
+        layer=wg_marking_layer,
         sections=tuple(sections),
         **kwargs,
     )
