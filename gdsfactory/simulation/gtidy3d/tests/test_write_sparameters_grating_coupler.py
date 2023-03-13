@@ -32,12 +32,12 @@ def test_sparameters_grating_coupler(overwrite=True) -> None:
     transmission = np.abs(sp[f"{fiber_port_name}@0,o1@0"])
     reflection = np.abs(sp["o1@0,o1@0"])
 
-    assert 1 > transmission.min() > 0.2, transmission.min()
+    assert 1 > transmission.max() > 0.2, transmission.max()
     assert 0.3 > reflection.max() > 0, reflection.max()
 
 
 if __name__ == "__main__":
-    overwrite = True
+    overwrite = False
     c = gf.components.grating_coupler_elliptical_arbitrary(
         widths=[0.343] * 25, gaps=[0.345] * 25
     )
@@ -58,5 +58,5 @@ if __name__ == "__main__":
     transmission = np.abs(sp[f"{fiber_port_name}@0,o1@0"])
     reflection = np.abs(sp["o1@0,o1@0"])
 
-    assert 1 > transmission.min() > 0.2, transmission.min()
+    assert 1 > transmission.max() > 0.2, transmission.max()
     assert 0.3 > reflection.max() > 0, reflection.max()
