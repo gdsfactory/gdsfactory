@@ -519,6 +519,7 @@ def rib_with_trenches(
     width_slab: float = 7.0,
     layer: Optional[LayerSpec] = "WG",
     layer_trench: LayerSpec = "DEEP_ETCH",
+    wg_marking_layer: Optional[LayerSpec] = None,
     **kwargs,
 ) -> CrossSection:
     """Return CrossSection of rib waveguide defined by trenches.
@@ -531,6 +532,8 @@ def rib_with_trenches(
         width_trench: in um.
         layer: ridge layer. None adds only ridge.
         layer_trench: layer to etch trenches.
+        wg_marking_layer: layer to draw over the actual waveguide.
+            THis can be useful for booleans, routing, placement ...
         kwargs: cross_section settings.
 
 
@@ -571,7 +574,7 @@ def rib_with_trenches(
 
     return CrossSection(
         width=width,
-        layer=None,
+        layer=wg_marking_layer,
         sections=tuple(sections),
         **kwargs,
     )
@@ -584,6 +587,7 @@ def l_with_trenches(
     width_slab: float = 7.0,
     layer: Optional[LayerSpec] = "WG",
     layer_trench: LayerSpec = "DEEP_ETCH",
+    orient: bool = 0,
     **kwargs,
 ) -> CrossSection:
     """Return CrossSection of l waveguide defined by trenches.
@@ -596,12 +600,15 @@ def l_with_trenches(
         width_trench: in um.
         layer: ridge layer. None adds only ridge.
         layer_trench: layer to etch trenches.
+        orient: this cross section is not symmetric, so orient allows to
+            switch the orientation
         kwargs: cross_section settings.
 
 
     .. code::
-
-
+                          x = 0
+                           |
+                           |
         _____         __________
              |        |         |
              |________|         |
@@ -609,6 +616,8 @@ def l_with_trenches(
        _________________________
              <------->          |
             width_trench
+                       <-------->
+                          width
                                 |
        <------------------------>
             width_slab
@@ -627,9 +636,16 @@ def l_with_trenches(
     """
     width_slab = max(width_slab, width + width_trench)
 
-    trench_offset = -1 * (width / 2 + width_trench / 2)
+    if not orient:
+        mult = -1
+    else:
+        mult = 1
+
+    trench_offset = mult * (width / 2 + width_trench / 2)
     sections = [
-        Section(width=width_slab, layer=layer, offset=-width_slab / 2 + width / 2)
+        Section(
+            width=width_slab, layer=layer, offset=mult * (width_slab / 2 - width / 2)
+        )
     ]
     sections += [Section(width=width_trench, offset=trench_offset, layer=layer_trench)]
 
