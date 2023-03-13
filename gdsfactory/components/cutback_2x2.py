@@ -79,9 +79,7 @@ def cutback_2x2(
         "A": (component, port1, port3),
         "B": (component, port4, port2),
         "D": (bendu, "o2", "o3"),
-        # "F": (bendu, "o4", "o3"),
         "C": (bendu, "o4", "o1"),
-        # "E": (bendu, "o3", "o4"),
         "-": (straight_double, "o1", "o3"),
         "_": (straight_double, "o2", "o4"),
     }
@@ -93,10 +91,8 @@ def cutback_2x2(
         s += "AB" * cols
         if mirror:
             s += "C" if i % 2 == 0 else "D"
-            s += "F" if i % 2 == 0 else "E"
         else:
             s += "D" if i % 2 == 0 else "C"
-            # s += "E" if i % 2 == 0 else "F"
 
     s = s[:-1]
     s += "-_"
@@ -120,5 +116,5 @@ def cutback_2x2(
 
 
 if __name__ == "__main__":
-    c = cutback_2x2()
+    c = cutback_2x2(cols=2, rows=2, mirror=True)
     c.show(show_ports=True)
