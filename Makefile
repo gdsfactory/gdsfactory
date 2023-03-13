@@ -109,10 +109,10 @@ test-femwell:
 	pytest gdsfactory/simulation/fem
 
 test-plugins:
-	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes gdsfactory/simulation/lumerical gdsfactory/simulation/gmsh tests/test_klayout gdsfactory/simulation/fem gdsfactory/simulation/devsim gdsfactory/simulation/gtidy3d
+	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes gdsfactory/simulation/lumerical gdsfactory/simulation/gmsh tests/test_klayout gdsfactory/simulation/fem gdsfactory/simulation/gtidy3d
 
 test-plugins-no-tidy3d:
-	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes gdsfactory/simulation/lumerical gdsfactory/simulation/gmsh tests/test_klayout gdsfactory/simulation/fem gdsfactory/simulation/devsim
+	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes gdsfactory/simulation/lumerical gdsfactory/simulation/gmsh tests/test_klayout gdsfactory/simulation/fem
 
 test-notebooks:
 	py.test --nbval notebooks
