@@ -637,11 +637,7 @@ def l_with_trenches(
     """
     width_slab = max(width_slab, width + width_trench)
 
-    if not orient:
-        mult = -1
-    else:
-        mult = 1
-
+    mult = 1 if orient else -1
     trench_offset = mult * (width / 2 + width_trench / 2)
     sections = [
         Section(
