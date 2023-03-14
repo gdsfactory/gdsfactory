@@ -858,7 +858,7 @@ cutback_2x2
 
   import gdsfactory as gf
 
-  c = gf.components.cutback_2x2(cols=4, port1='o1', port2='o2', port3='o3', port4='o4')
+  c = gf.components.cutback_2x2(cols=4, rows=5, port1='o1', port2='o2', port3='o3', port4='o4', mirror=False, cross_section='strip')
   c.plot_matplotlib()
 
 
@@ -2492,7 +2492,7 @@ ring_section_based
 
   import gdsfactory as gf
 
-  c = gf.components.ring_section_based(gap=0.3, radius=5.0, add_drop=False, cross_sections_sequence='AB', cross_sections_angles=[6, 6], start_angle=10.0, start_section_at_drop=True, bus_cross_section='strip')
+  c = gf.components.ring_section_based(gap=0.3, radius=5.0, add_drop=False, cross_sections_sequence='AB', start_angle=10.0, start_section_at_drop=True, bus_cross_section='strip')
   c.plot_matplotlib()
 
 
