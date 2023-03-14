@@ -6,7 +6,7 @@ complex junction profiles
 """
 
 from functools import partial
-from typing import Dict, List, Optional
+from typing import Dict, Optional
 
 import numpy as np
 import gdsfactory as gf
@@ -15,6 +15,7 @@ from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.straight import straight
 
 def_dict = {"A": "rib", "B": "strip"}
+def_ang_dict = {"A": 6, "B": 6}
 
 
 @gf.cell
@@ -24,7 +25,7 @@ def ring_section_based(
     add_drop: bool = False,
     cross_sections: Dict = def_dict,
     cross_sections_sequence: str = "AB",
-    cross_sections_angles: Optional[List[float]] = (6, 6),
+    cross_sections_angles: Optional[Dict] = def_ang_dict,
     start_cross_section: Optional[CrossSectionSpec] = None,
     start_angle: Optional[float] = 10.0,
     start_section_at_drop: bool = True,
@@ -45,7 +46,7 @@ def ring_section_based(
             Ex: "AB" means we will put first section A, then section B,
             then section A again... until the ring is filled
         cross_sections_angles: angular extent of each cross section in the
-            cross_sections_sequence list (deg). If not indicated, then we assume that
+            cross_sections dictionary (deg). If not indicated, then we assume that
             the sequence is only repeated once and calculate the necessary angular
             length
         start_cross_section: it is likely that the cross section at the ring-bus junction
@@ -72,16 +73,21 @@ def ring_section_based(
 
     if cross_sections_angles is None:
         n_sections = len(cross_sections_sequence)
+
         if add_drop and start_section_at_drop:
-            cross_sections_angles = [
-                angular_extent_sequence / (2 * n_sections)
-            ] * n_sections
+            sing_sec_ang = angular_extent_sequence / (2 * n_sections)
         else:
-            cross_sections_angles = [angular_extent_sequence / n_sections] * n_sections
+            sing_sec_ang = angular_extent_sequence / n_sections
+
+        cross_sections_angles = dict()
+        for elem in cross_sections_sequence:
+            cross_sections_angles[elem] = sing_sec_ang
 
     # Now make sure that the specified angular extents of the sections
     # are compatible with the ring extent (360 degree)
-    sing_seq_angular_extent = np.sum(cross_sections_angles)
+    sing_seq_angular_extent = np.sum(
+        [cross_sections_angles[sec] for sec in cross_sections_sequence]
+    )
     # Make sure we can fit an integer number of sequences into the
     # ring circumference
     if add_drop and start_section_at_drop:
@@ -105,8 +111,8 @@ def ring_section_based(
     # We need to create a circular bend for each section
     sections_dict = {}
 
-    for i, key in enumerate(cross_sections.keys()):
-        ang = cross_sections_angles[i]
+    for key in cross_sections.keys():
+        ang = cross_sections_angles[key]
         xsec = cross_sections[key]
 
         b = bend_circular(angle=ang, with_bbox=False, cross_section=xsec, radius=radius)
@@ -153,11 +159,11 @@ def ring_section_based(
             radius * np.cos(np.radians(-start_angle / 2)),
         ]
     else:
-        ring = ring.rotate(-cross_sections_angles[0] / 2)
-        r.rotate(-cross_sections_angles[0] / 2)
+        ring = ring.rotate(-cross_sections_angles[sequence[0]] / 2)
+        r.rotate(-cross_sections_angles[sequence[0]] / 2)
         ring_center = [
-            -radius * np.sin(np.radians(-cross_sections_angles[0] / 2)),
-            radius * np.cos(np.radians(-cross_sections_angles[0] / 2)),
+            -radius * np.sin(np.radians(-cross_sections_angles[sequence[0]] / 2)),
+            radius * np.cos(np.radians(-cross_sections_angles[sequence[0]] / 2)),
         ]
     c.info["ring_center"] = gf.snap.snap_to_grid(ring_center)
     # Add bus waveguides
@@ -212,7 +218,7 @@ if __name__ == "__main__":
         add_drop=True,
         cross_sections={"A": "rib", "B": "slot"},
         cross_sections_sequence="AB",
-        cross_sections_angles=[17, 17],
+        cross_sections_angles={"A": 17, "B": 17},
         start_cross_section=partial(rib, width=0.65),
         start_angle=10.0,
         start_section_at_drop=True,
