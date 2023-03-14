@@ -1,78 +1,75 @@
-name: mmi2x2_cutback_2x2_cols_1b7e0b6e
+name: mmi2x2_cutback_2x2
 settings:
-  name: mmi2x2_cutback_2x2_cols_1b7e0b6e
-  module: __main__
-  function_name: cutback_2x2
-  info:
-    components: 18
-  info_version: 2
-  full:
-    component:
-      function: mmi2x2
-    cols: 2
-    rows: 2
-    port1: o1
-    port2: o2
-    port3: o3
-    port4: o4
-    bend180:
-      function: bend_circular
-      settings:
-        angle: 180
-    mirror: true
-    straight_length: null
-    cross_section: strip
-  changed:
-    cols: 2
-    mirror: true
-    rows: 2
-  default:
-    component:
-      function: mmi2x2
-    cols: 4
-    rows: 5
-    port1: o1
-    port2: o2
-    port3: o3
-    port4: o4
-    bend180:
-      function: bend_circular
-      settings:
-        angle: 180
-    mirror: false
-    straight_length: null
-    cross_section: strip
+  changed: {}
   child:
-    name: mmi2x2
-    module: gdsfactory.components.mmi2x2
+    changed: {}
+    child: null
+    default:
+      cross_section: strip
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10.0
+      straight:
+        function: straight
+      taper:
+        function: taper
+      width: null
+      width_mmi: 2.5
+      width_taper: 1.0
+      with_bbox: true
+    full:
+      cross_section: strip
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10.0
+      straight:
+        function: straight
+      taper:
+        function: taper
+      width: null
+      width_mmi: 2.5
+      width_taper: 1.0
+      with_bbox: true
     function_name: mmi2x2
     info: {}
     info_version: 2
-    full:
-      width: null
-      width_taper: 1.0
-      length_taper: 10.0
-      length_mmi: 5.5
-      width_mmi: 2.5
-      gap_mmi: 0.25
-      taper:
-        function: taper
-      straight:
-        function: straight
-      with_bbox: true
-      cross_section: strip
-    changed: {}
-    default:
-      width: null
-      width_taper: 1.0
-      length_taper: 10.0
-      length_mmi: 5.5
-      width_mmi: 2.5
-      gap_mmi: 0.25
-      taper:
-        function: taper
-      straight:
-        function: straight
-      with_bbox: true
-      cross_section: strip
-    child: null
+    module: gdsfactory.components.mmi2x2
+    name: mmi2x2
+  default:
+    bend180:
+      function: bend_circular
+      settings:
+        angle: 180
+    cols: 4
+    component:
+      function: mmi2x2
+    cross_section: strip
+    mirror: false
+    port1: o1
+    port2: o2
+    port3: o3
+    port4: o4
+    rows: 5
+    straight_length: null
+  full:
+    bend180:
+      function: bend_circular
+      settings:
+        angle: 180
+    cols: 4
+    component:
+      function: mmi2x2
+    cross_section: strip
+    mirror: false
+    port1: o1
+    port2: o2
+    port3: o3
+    port4: o4
+    rows: 5
+    straight_length: null
+  function_name: cutback_2x2
+  info:
+    components: 88
+  info_version: 2
+  module: gdsfactory.components.cutback_2x2
+  name: mmi2x2_cutback_2x2

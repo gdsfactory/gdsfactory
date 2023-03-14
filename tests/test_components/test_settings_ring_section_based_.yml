@@ -9,8 +9,8 @@ settings:
       A: rib
       B: strip
     cross_sections_angles:
-    - 6
-    - 6
+      A: 6
+      B: 6
     cross_sections_sequence: AB
     gap: 0.3
     radius: 5.0
@@ -24,8 +24,8 @@ settings:
       A: rib
       B: strip
     cross_sections_angles:
-    - 6
-    - 6
+      A: 6
+      B: 6
     cross_sections_sequence: AB
     gap: 0.3
     radius: 5.0
