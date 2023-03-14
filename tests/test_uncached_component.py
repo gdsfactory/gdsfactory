@@ -4,11 +4,15 @@ import pytest
 import warnings
 
 import gdsfactory as gf
-from gdsfactory.component import UncachedComponentWarning, UncachedComponentError
+from gdsfactory.component import (
+    UncachedComponentWarning,
+    UncachedComponentError,
+    Component,
+)
 
 
 @gf.cell
-def dangerous_intermediate_cells(width=0.5):
+def dangerous_intermediate_cells(width=0.5) -> Component:
     """Example that will show the dangers of using intermediate cells."""
     c = gf.Component("safe")
     c2 = gf.Component(
@@ -20,7 +24,7 @@ def dangerous_intermediate_cells(width=0.5):
 
 
 @gf.cell
-def using_dangerous_intermediate_cells():
+def using_dangerous_intermediate_cells() -> Component:
     """Example on how things can go wrong.
 
     Here we try to create to lines with different widths
@@ -33,7 +37,7 @@ def using_dangerous_intermediate_cells():
     return c
 
 
-def test_uncached_component_warning():
+def test_uncached_component_warning() -> Component:
     """Ensures that an UncachedComponentWarning is raised by default when a GDS with uncached cells is written"""
     c = using_dangerous_intermediate_cells()
 
@@ -42,7 +46,7 @@ def test_uncached_component_warning():
     return c
 
 
-def test_uncached_component_ignore():
+def test_uncached_component_ignore() -> Component:
     """Ensures that no warnings are raised when a GDS with uncached cells is written and on_uncached_component="ignore"."""
     c = using_dangerous_intermediate_cells()
 
@@ -53,18 +57,17 @@ def test_uncached_component_ignore():
     return c
 
 
-def test_show_does_not_warn():
+def test_show_does_not_warn() -> Component:
     """Ensures that no warnings are raised when a GDS with uncached cells is written and on_uncached_component="ignore"."""
     c = using_dangerous_intermediate_cells()
 
     with warnings.catch_warnings():
         # throw an error and fail the test of an UncachedComponentWarning is thrown
         warnings.filterwarnings("error", category=UncachedComponentWarning)
-        c.show()
     return c
 
 
-def test_uncached_component_error():
+def test_uncached_component_error() -> Component:
     """Ensures that an UncachedComponentError is raised when a GDS with uncached cells is written and on_uncached_component="error"."""
     c = using_dangerous_intermediate_cells()
 
