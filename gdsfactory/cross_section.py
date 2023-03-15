@@ -587,7 +587,7 @@ def l_with_trenches(
     width_slab: float = 7.0,
     layer: Optional[LayerSpec] = "WG",
     layer_trench: LayerSpec = "DEEP_ETCH",
-    orient: bool = 0,
+    mirror: bool = False,
     wg_marking_layer: Optional[LayerSpec] = None,
     **kwargs,
 ) -> CrossSection:
@@ -601,8 +601,7 @@ def l_with_trenches(
         width_trench: in um.
         layer: ridge layer. None adds only ridge.
         layer_trench: layer to etch trenches.
-        orient: this cross section is not symmetric, so orient allows to
-            switch the orientation
+        mirror: this cross section is not symmetric and you can switch orientation.
         kwargs: cross_section settings.
 
 
@@ -637,7 +636,7 @@ def l_with_trenches(
     """
     width_slab = max(width_slab, width + width_trench)
 
-    mult = 1 if orient else -1
+    mult = 1 if mirror else -1
     trench_offset = mult * (width / 2 + width_trench / 2)
     sections = [
         Section(
@@ -1971,9 +1970,10 @@ if __name__ == "__main__":
     # p = gf.path.straight()
     # c = p.extrude(xs)
 
-    xs = l_wg_doped_with_trenches(
-        layer="WG", width=0.5, width_trench=2.0, width_slab=7.0, gap_low_doping=0.1
-    )
+    # xs = l_wg_doped_with_trenches(
+    #     layer="WG", width=0.5, width_trench=2.0, width_slab=7.0, gap_low_doping=0.1
+    # )
+    xs = l_with_trenches(mirror=False)
     p = gf.path.straight()
     c = p.extrude(xs)
 

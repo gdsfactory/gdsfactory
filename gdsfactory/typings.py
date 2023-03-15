@@ -190,6 +190,7 @@ CrossSectionSpec = Union[
     TransitionFactory,
     Dict[str, Any],
 ]  # cross_section function, function name or dict
+CrossSectionSpecs = Tuple[CrossSectionSpec, ...]
 
 MultiCrossSectionAngleSpec = List[Tuple[CrossSectionSpec, Tuple[int, ...]]]
 
