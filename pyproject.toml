@@ -42,9 +42,6 @@ dependencies = [
     "types-PyYAML",
     "typing_extensions",
     "watchdog",
-    "jupytext",
-    "rich",
-    "klayout",
 ]
 readme = "README.md"
 requires-python = ">=3.7"
@@ -70,6 +67,9 @@ full = [
     "triangle",
     "trimesh",
     "kweb>=0.0.11,<0.1",
+    "jupytext",
+    "rich",
+    "klayout",
     ]
 femwell = ["femwell"]
 database = ["sqlalchemy", "sqlalchemy-utils"]
