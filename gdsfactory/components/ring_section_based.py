@@ -79,9 +79,7 @@ def ring_section_based(
         else:
             sing_sec_ang = angular_extent_sequence / n_sections
 
-        cross_sections_angles = {
-            elem: sing_sec_ang for elem in cross_sections_sequence
-        }
+        cross_sections_angles = {elem: sing_sec_ang for elem in cross_sections_sequence}
     # Now make sure that the specified angular extents of the sections
     # are compatible with the ring extent (360 degree)
     sing_seq_angular_extent = np.sum(
