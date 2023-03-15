@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.60.1
+
+- Fixing connections on spiral_heater_fixed_length and removing duplicate remove_layers [PR](https://github.com/gdsfactory/gdsfactory/pull/1431)
+
 ## 6.60.0
 
 - make klayout an optional dependency
