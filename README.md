@@ -52,7 +52,7 @@ It also exports component settings (for measurement and data analysis) and netli
 
 ![flow](https://i.imgur.com/XbhWJDz.png)
 
-It provides you a common syntax for design (KLayout, gdstk, Ansys Lumerical, tidy3d, MEEP, MPB, DEVSIM, SAX, ...), verification and validation.
+It provides you a common syntax for design (KLayout, gdstk, Ansys Lumerical, tidy3d, MEEP, MPB, DEVSIM, SAX, MEOW ...), verification and validation.
 
 ![tool interfaces](https://i.imgur.com/9fNLRvJ.png)
 
@@ -109,7 +109,11 @@ gf tool install
 
 You need to install the plugins separately
 
-You can install most plugins with `pip install gdsfactory[full,gmsh,tidy3d,devsim,meow,database] --upgrade`
+You can install most plugins with
+
+```
+pip install gdsfactory[full,gmsh,tidy3d,devsim,meow,database] --upgrade
+```
 
 Or you can install only the ones you need.
 
