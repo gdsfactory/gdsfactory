@@ -42,6 +42,7 @@ dependencies = [
     "types-PyYAML",
     "typing_extensions",
     "watchdog",
+    "rich",
 ]
 readme = "README.md"
 requires-python = ">=3.7"
@@ -68,7 +69,6 @@ full = [
     "trimesh",
     "kweb>=0.0.11,<0.1",
     "jupytext",
-    "rich",
     "klayout",
     ]
 femwell = ["femwell"]
