@@ -197,9 +197,9 @@ def spiral_racetrack_fixed_length(
     in_wg = c << straight_factory(
         spiral.ports["o1"].x - spiral.xmin, cross_section=cross_section
     )
-    if np.mod(n_straight_sections // 2, 2) == 0:
+    if np.mod(n_straight_sections // 2, 2) == 1:
         in_wg.mirror_y()
-    in_wg.connect("o2", spiral.ports["o1"])
+    in_wg.connect("o1", spiral.ports["o1"])
 
     c.info["length"] += spiral.ports["o1"].x - spiral.xmin
 
@@ -231,7 +231,7 @@ def spiral_racetrack_fixed_length(
     c.info["length"] += np.sum([r.info["length"] for r in route.references])
 
     # Ports
-    c.add_port("o1", port=in_wg.ports["o1"])
+    c.add_port("o1", port=in_wg.ports["o2"])
 
     return c
 
