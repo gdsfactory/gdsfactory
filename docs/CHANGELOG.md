@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.60.0
+
+- make klayout an optional dependency
+- fix cutback_2x2 [PR](https://github.com/gdsfactory/gdsfactory/pull/1430)
+
 ## 6.59.1
 
 - Improve cutback_2x2 [PR](https://github.com/gdsfactory/gdsfactory/pull/1422)
