@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.61.0
+
+- Fix font free type [PR](https://github.com/gdsfactory/gdsfactory/pull/1438)
+- ViaStack accounts for offset when placing vias [PR](https://github.com/gdsfactory/gdsfactory/pull/1437)
+
 ## 6.60.1
 
 - Fixing connections on spiral_heater_fixed_length and removing duplicate remove_layers [PR](https://github.com/gdsfactory/gdsfactory/pull/1431)
