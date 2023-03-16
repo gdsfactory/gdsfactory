@@ -139,7 +139,7 @@ if __name__ == "__main__":
     # print(c.ports)
 
     # c = gf.routing.add_fiber_array(ring_single)
-    c = ring_single_pn(width=0.5)
+    c = ring_single_pn()
     c.show(show_ports=True)
 
     # cc = gf.add_pins(c)

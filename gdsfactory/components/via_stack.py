@@ -64,7 +64,7 @@ def via_stack(
             ref = c << compass(size=size, layer=layer, port_type="placement")
 
     vias = vias or []
-    for via_type, offs in zip(vias, layer_offsets[:-1]):
+    for via_type, offs in zip(vias, layer_offsets):
         if via_type is not None:
             via_type = gf.get_component(via_type)
 
@@ -271,7 +271,8 @@ if __name__ == "__main__":
     # print(c.to_dict())
     # c.show(show_ports=True)
 
-    c = via_stack_from_rules()
+    # c = via_stack_from_rules()
+    c = via_stack_heater_mtop()
     c.show(show_ports=True)
 
-    test_via_stack_from_rules()
+    # test_via_stack_from_rules()
