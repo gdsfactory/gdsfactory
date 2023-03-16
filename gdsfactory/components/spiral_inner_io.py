@@ -122,8 +122,17 @@ def spiral_inner_io(
 
         pts_w += [_pt1, _pt2, _pt3, _pt4, _pt5]
 
+    if asymmetric_cross_section:
+        cross_section_bend = gf.partial(cross_section, mirror=True)
+        _bend90 = gf.get_component(bend90, cross_section=cross_section_bend, **kwargs)
+
     route_west = round_corners(
-        pts_w, bend=_bend90, straight=straight, cross_section=cross_section, **kwargs
+        pts_w,
+        bend=_bend90,
+        straight=straight,
+        cross_section=cross_section,
+        mirror=True,
+        **kwargs,
     )
     component.add(route_west.references)
 
@@ -151,13 +160,15 @@ def spiral_inner_io(
         pts_e += [_pt1, _pt2, _pt3, _pt4, _pt5]
 
     if asymmetric_cross_section:
-        cross_section = gf.partial(cross_section, mirror=True)
-        _bend90 = gf.get_component(
-            bend90, cross_section=gf.partial(cross_section_bend, mirror=False), **kwargs
-        )
+        _bend90 = gf.get_component(bend90, cross_section=cross_section, **kwargs)
 
     route_east = round_corners(
-        pts_e, bend=_bend90, straight=straight, cross_section=cross_section, **kwargs
+        pts_e,
+        bend=_bend90,
+        straight=straight,
+        cross_section=cross_section,
+        mirror=True,
+        **kwargs,
     )
     component.add(route_east.references)
 
@@ -251,10 +262,11 @@ def get_straight_length(
 
 if __name__ == "__main__":
     c = gf.components.spiral_inner_io(
-        cross_section=gf.cross_section.pin,
+        # cross_section=gf.cross_section.pin,
+        cross_section="pn_with_trenches",
         waveguide_spacing=25,
         radius=30,
-        cross_section_bend=gf.partial(gf.cross_section.pin, mirror=True),
-        asymmetric_cross_section=True,
+        # cross_section_bend=gf.partial(gf.cross_section.pin, mirror=True),
+        # asymmetric_cross_section=True,
     )
     c.show()
