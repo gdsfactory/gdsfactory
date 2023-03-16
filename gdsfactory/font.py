@@ -79,13 +79,7 @@ def _get_glyph(font, letter):  # noqa: C901
         return font.gds_glyphs[letter]
 
     # Get the font name
-    font_name = font.get_sfnt_name(
-        freetype.TT_NAME_IDS["TT_NAME_ID_PS_NAME"]
-    ).string.decode()
-    if not font_name:
-        # If there is no postscript name, use the family name
-        font_name = font.family_name.replace(" ", "_")
-
+    font_name = font.family_name.decode().replace(" ", "_")
     block_name = f"*char_{font_name}_0x{ord(letter):2X}"
 
     # Load control points from font file
@@ -121,16 +115,16 @@ def _get_glyph(font, letter):  # noqa: C901
 
                 # Then add the control points
                 if ntag & 1:
-                    curve.commands("l", *npoint)
+                    curve.commands("L", *npoint)
                     cpoint += 1
                 elif ntag & 2:
                     # We are at a cubic bezier curve point
                     if cpoint + 3 <= end:
-                        curve.commands("c", *points[cpoint + 1 : cpoint + 4].flatten())
+                        curve.commands("C", *points[cpoint + 1 : cpoint + 4].flatten())
                     elif cpoint + 2 <= end:
                         plist = list(points[cpoint + 1 : cpoint + 3].flatten())
                         plist.extend(points[start])
-                        curve.commands("c", *plist)
+                        curve.commands("C", *plist)
                     else:
                         raise ValueError(
                             "Missing bezier control points. We require at least"
@@ -154,7 +148,7 @@ def _get_glyph(font, letter):  # noqa: C901
                         p2 = (p1 + p2) / 2
 
                     # Add the curve
-                    curve.commands("q", p1[0], p1[1], p2[0], p2[1])
+                    curve.commands("Q", p1[0], p1[1], p2[0], p2[1])
                     cpoint += 2
             else:
                 if tags[cpoint] & 2:
@@ -193,7 +187,7 @@ def _get_glyph(font, letter):  # noqa: C901
                     p2 = (p1 + p2) / 2
 
                 # And add the segment
-                curve.commands("q", p1[0], p1[1], p2[0], p2[1])
+                curve.commands("Q", p1[0], p1[1], p2[0], p2[1])
                 cpoint += 1
         polylines.append(gdstk.Polygon(curve.points()))
 
