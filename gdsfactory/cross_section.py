@@ -792,12 +792,12 @@ def pn(
     offset_low_doping: Optional[float] = 0.0,
     width_doping: float = 8.0,
     width_slab: float = 7.0,
-    layer_p: LayerSpec = "P",
-    layer_pp: LayerSpec = "PP",
-    layer_ppp: LayerSpec = "PPP",
-    layer_n: LayerSpec = "N",
-    layer_np: LayerSpec = "NP",
-    layer_npp: LayerSpec = "NPP",
+    layer_p: Optional[LayerSpec] = "P",
+    layer_pp: Optional[LayerSpec] = "PP",
+    layer_ppp: Optional[LayerSpec] = "PPP",
+    layer_n: Optional[LayerSpec] = "N",
+    layer_np: Optional[LayerSpec] = "NP",
+    layer_npp: Optional[LayerSpec] = "NPP",
     layer_via: Optional[LayerSpec] = None,
     width_via: float = 1.0,
     layer_metal: Optional[LayerSpec] = None,
@@ -876,47 +876,53 @@ def pn(
     base_offset_low_doping = width_doping / 2 + gap_low_doping / 4
     width_low_doping = width_doping - gap_low_doping / 2
 
-    n = Section(
-        width=width_low_doping + offset_low_doping,
-        offset=+base_offset_low_doping - offset_low_doping / 2,
-        layer=layer_n,
-    )
-    p = Section(
-        width=width_low_doping - offset_low_doping,
-        offset=-base_offset_low_doping - offset_low_doping / 2,
-        layer=layer_p,
-    )
-    sections.append(n)
-    sections.append(p)
+    if layer_n:
+        n = Section(
+            width=width_low_doping + offset_low_doping,
+            offset=+base_offset_low_doping - offset_low_doping / 2,
+            layer=layer_n,
+        )
+        sections.append(n)
+    if layer_p:
+        p = Section(
+            width=width_low_doping - offset_low_doping,
+            offset=-base_offset_low_doping - offset_low_doping / 2,
+            layer=layer_p,
+        )
+        sections.append(p)
 
     if gap_medium_doping is not None:
         width_medium_doping = width_doping - gap_medium_doping
         offset_medium_doping = width_medium_doping / 2 + gap_medium_doping
 
-        np = Section(
-            width=width_medium_doping,
-            offset=+offset_medium_doping,
-            layer=layer_np,
-        )
-        pp = Section(
-            width=width_medium_doping,
-            offset=-offset_medium_doping,
-            layer=layer_pp,
-        )
-        sections.append(np)
-        sections.append(pp)
+        if layer_np is not None:
+            np = Section(
+                width=width_medium_doping,
+                offset=+offset_medium_doping,
+                layer=layer_np,
+            )
+            sections.append(np)
+        if layer_pp is not None:
+            pp = Section(
+                width=width_medium_doping,
+                offset=-offset_medium_doping,
+                layer=layer_pp,
+            )
+            sections.append(pp)
 
     if gap_high_doping is not None:
         width_high_doping = width_doping - gap_high_doping
         offset_high_doping = width_high_doping / 2 + gap_high_doping
-        npp = Section(
-            width=width_high_doping, offset=+offset_high_doping, layer=layer_npp
-        )
-        ppp = Section(
-            width=width_high_doping, offset=-offset_high_doping, layer=layer_ppp
-        )
-        sections.append(npp)
-        sections.append(ppp)
+        if layer_npp is not None:
+            npp = Section(
+                width=width_high_doping, offset=+offset_high_doping, layer=layer_npp
+            )
+            sections.append(npp)
+        if layer_ppp is not None:
+            ppp = Section(
+                width=width_high_doping, offset=-offset_high_doping, layer=layer_ppp
+            )
+            sections.append(ppp)
 
     if layer_via is not None:
         offset = width_high_doping + gap_high_doping - width_via / 2
@@ -977,12 +983,12 @@ def pn_with_trenches(
     width_doping: float = 8.0,
     width_slab: float = 7.0,
     width_trench: float = 2.0,
-    layer_p: LayerSpec = "P",
-    layer_pp: LayerSpec = "PP",
-    layer_ppp: LayerSpec = "PPP",
-    layer_n: LayerSpec = "N",
-    layer_np: LayerSpec = "NP",
-    layer_npp: LayerSpec = "NPP",
+    layer_p: Optional[LayerSpec] = "P",
+    layer_pp: Optional[LayerSpec] = "PP",
+    layer_ppp: Optional[LayerSpec] = "PPP",
+    layer_n: Optional[LayerSpec] = "N",
+    layer_np: Optional[LayerSpec] = "NP",
+    layer_npp: Optional[LayerSpec] = "NPP",
     layer_via: Optional[LayerSpec] = None,
     width_via: float = 1.0,
     layer_metal: Optional[LayerSpec] = None,
@@ -1075,47 +1081,53 @@ def pn_with_trenches(
     base_offset_low_doping = width_doping / 2 + gap_low_doping / 4
     width_low_doping = width_doping - gap_low_doping / 2
 
-    n = Section(
-        width=width_low_doping + offset_low_doping,
-        offset=+base_offset_low_doping - offset_low_doping / 2,
-        layer=layer_n,
-    )
-    p = Section(
-        width=width_low_doping - offset_low_doping,
-        offset=-base_offset_low_doping - offset_low_doping / 2,
-        layer=layer_p,
-    )
-    sections.append(n)
-    sections.append(p)
+    if layer_n:
+        n = Section(
+            width=width_low_doping + offset_low_doping,
+            offset=+base_offset_low_doping - offset_low_doping / 2,
+            layer=layer_n,
+        )
+        sections.append(n)
+    if layer_p:
+        p = Section(
+            width=width_low_doping - offset_low_doping,
+            offset=-base_offset_low_doping - offset_low_doping / 2,
+            layer=layer_p,
+        )
+        sections.append(p)
 
     if gap_medium_doping is not None:
         width_medium_doping = width_doping - gap_medium_doping
         offset_medium_doping = width_medium_doping / 2 + gap_medium_doping
 
-        np = Section(
-            width=width_medium_doping,
-            offset=+offset_medium_doping,
-            layer=layer_np,
-        )
-        pp = Section(
-            width=width_medium_doping,
-            offset=-offset_medium_doping,
-            layer=layer_pp,
-        )
-        sections.append(np)
-        sections.append(pp)
+        if layer_np:
+            np = Section(
+                width=width_medium_doping,
+                offset=+offset_medium_doping,
+                layer=layer_np,
+            )
+            sections.append(np)
+        if layer_pp:
+            pp = Section(
+                width=width_medium_doping,
+                offset=-offset_medium_doping,
+                layer=layer_pp,
+            )
+            sections.append(pp)
 
     if gap_high_doping is not None:
         width_high_doping = width_doping - gap_high_doping
         offset_high_doping = width_high_doping / 2 + gap_high_doping
-        npp = Section(
-            width=width_high_doping, offset=+offset_high_doping, layer=layer_npp
-        )
-        ppp = Section(
-            width=width_high_doping, offset=-offset_high_doping, layer=layer_ppp
-        )
-        sections.append(npp)
-        sections.append(ppp)
+        if layer_npp:
+            npp = Section(
+                width=width_high_doping, offset=+offset_high_doping, layer=layer_npp
+            )
+            sections.append(npp)
+        if layer_ppp:
+            ppp = Section(
+                width=width_high_doping, offset=-offset_high_doping, layer=layer_ppp
+            )
+            sections.append(ppp)
 
     if layer_via is not None:
         offset = width_high_doping + gap_high_doping - width_via / 2
