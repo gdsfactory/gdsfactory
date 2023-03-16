@@ -810,6 +810,7 @@ def pn(
     cladding_layers: Optional[Layers] = cladding_layers_optical,
     cladding_offsets: Optional[Floats] = cladding_offsets_optical,
     mirror: bool = False,
+    **kwargs,
 ) -> CrossSection:
     """Rib PN doped cross_section.
 
@@ -961,7 +962,7 @@ def pn(
         )
         sections.append(s)
 
-    return CrossSection(
+    return strip(
         width=width,
         offset=0,
         layer=layer,
@@ -970,6 +971,7 @@ def pn(
         cladding_offsets=cladding_offsets,
         cladding_layers=cladding_layers,
         mirror=mirror,
+        **kwargs,
     )
 
 

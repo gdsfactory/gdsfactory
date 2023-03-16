@@ -251,10 +251,10 @@ def get_straight_length(
 
 if __name__ == "__main__":
     c = gf.components.spiral_inner_io(
-        cross_section=gf.cross_section.pin,
+        cross_section=gf.cross_section.pn,
         waveguide_spacing=25,
         radius=30,
-        cross_section_bend=gf.partial(gf.cross_section.pin, mirror=True),
+        cross_section_bend=gf.partial(gf.cross_section.pn, mirror=True),
         asymmetric_cross_section=True,
     )
     c.show()
