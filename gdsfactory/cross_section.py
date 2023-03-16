@@ -148,10 +148,12 @@ class CrossSection(BaseModel):
 
         if "mirror" in data and data["mirror"]:
             data["offset"] *= -1
-            for section in data["sections"]:
-                section.offset *= -1
-            for offset in data["cladding_offsets"]:
-                offset *= -1
+            if data["sections"]:
+                for section in data["sections"]:
+                    section.offset *= -1
+            if data["cladding_offsets"]:
+                for offset in data["cladding_offsets"]:
+                    offset *= -1
 
     class Config:
         """Configuration."""
