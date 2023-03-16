@@ -88,7 +88,7 @@ def text_freetype(
                 letter_dev = Component()
                 letter_template, advance_x = _get_glyph(font, letter)
                 for poly in letter_template.polygons:
-                    letter_dev.add_polygon(poly.polygons, layer=layer)
+                    letter_dev.add_polygon(poly, layer=layer)
                 ref = char.add_ref(letter_dev)
                 ref.move(destination=(xoffset, 0))
                 ref.magnification = size
