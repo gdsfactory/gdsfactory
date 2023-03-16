@@ -60,7 +60,6 @@ settings:
     cross_section_bend: null
     cross_section_ports: null
     grating_spacing: 200.0
-    reverse_bend_polarity: false
     x_straight_inner_left: 75.0
     x_straight_inner_right: 40.0
     y_straight_inner_bottom: 0.0
@@ -70,7 +69,6 @@ settings:
     cross_section_bend: null
     cross_section_ports: null
     grating_spacing: 200.0
-    reverse_bend_polarity: false
     x_straight_inner_left: 75.0
     x_straight_inner_right: 40.0
     y_straight_inner_bottom: 0.0
