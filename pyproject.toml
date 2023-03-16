@@ -14,7 +14,7 @@ classifiers = [
 	"Programming Language :: Python :: 3.11",
 	"Operating System :: OS Independent",
 ]
-version = "6.60.3"
+version = "6.61.0"
 authors = [
     {name = "gdsfactory community", email = "contact@gdsfactory.com"},
 ]
