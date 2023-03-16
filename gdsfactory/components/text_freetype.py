@@ -32,10 +32,10 @@ def text_freetype(
             (e.g. "Times New Roman"), or by file OTF or TTF filepath.
     """
     t = Component()
-    xoffset = 0
     yoffset = 0
 
     face = font
+    xoffset = 0
     if face == "DEPLOF":
         scaling = size / 1000
 
@@ -54,9 +54,7 @@ def text_freetype(
                 else:
                     valid_chars = "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~µ"
                     warnings.warn(
-                        'text(): Warning, some characters ignored, no geometry for character "%s" with ascii value %s. '
-                        "Valid characters: %s"
-                        % (chr(ascii_val), ascii_val, valid_chars)
+                        f'text(): Warning, some characters ignored, no geometry for character "{chr(ascii_val)}" with ascii value {ascii_val}. Valid characters: {valid_chars}'
                     )
             t.add_ref(char)
             yoffset -= 1500 * scaling
