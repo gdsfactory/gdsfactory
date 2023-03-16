@@ -4,6 +4,7 @@ settings:
   child: null
   default:
     N: 6
+    asymmetric_cross_section: false
     bend180:
       function: bend_euler
       settings:
@@ -23,6 +24,7 @@ settings:
     y_straight_inner_top: 50.0
   full:
     N: 6
+    asymmetric_cross_section: false
     bend180:
       function: bend_euler
       settings:

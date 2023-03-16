@@ -6,6 +6,7 @@ settings:
     bend:
       function: bend_euler
     bend_cross_section: null
+    bent_ports: false
     coupler90:
       function: coupler90
     coupler_straight:
@@ -18,6 +19,7 @@ settings:
     bend:
       function: bend_euler
     bend_cross_section: null
+    bent_ports: false
     coupler90:
       function: coupler90
     coupler_straight:

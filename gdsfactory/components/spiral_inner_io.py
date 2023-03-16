@@ -34,6 +34,7 @@ def spiral_inner_io(
     length: Optional[float] = None,
     cross_section: CrossSectionSpec = "strip",
     cross_section_bend: Optional[CrossSectionSpec] = None,
+    asymmetric_cross_section: bool = False,
     **kwargs,
 ) -> Component:
     """Returns Spiral with ports inside the spiral loop.
@@ -56,6 +57,7 @@ def spiral_inner_io(
             to match the length by a simple 1D interpolation.
         cross_section: spec.
         cross_section_bend: for the bends.
+        asymmetric_cross_section: if the cross_section is asymmetric, it needs to be mirrored at the halfway point
         kwargs: cross_section settings.
     """
     dx = dy = waveguide_spacing
@@ -147,6 +149,12 @@ def spiral_inner_io(
         _pt = _pt5
 
         pts_e += [_pt1, _pt2, _pt3, _pt4, _pt5]
+
+    if asymmetric_cross_section:
+        cross_section = gf.partial(cross_section, mirror=True)
+        _bend90 = gf.get_component(
+            bend90, cross_section=gf.partial(cross_section_bend, mirror=False), **kwargs
+        )
 
     route_east = round_corners(
         pts_e, bend=_bend90, straight=straight, cross_section=cross_section, **kwargs
@@ -242,20 +250,11 @@ def get_straight_length(
 
 
 if __name__ == "__main__":
-    c = spiral_inner_io_fiber_single()
-    # c = spiral_inner_io(radius=20, width=0.2)
-    # cross_section_wide = gf.partial(gf.cross_section.strip_auto_widen)
-
-    # c = spiral_inner_io_fiber_single(
-    #     # width=2,
-    #     # length=10e3,
-    #     # cross_section=cross_section_wide,
-    #     cross_section=gf.cross_section.pin,
-    #     waveguide_spacing=30,
-    #     length=20e3
-    # )
-    # c = gf.add_grating_couplers.add_grating_couplers_with_loopback_fiber_single(
-    #     c,
-    #     loopback_xspacing=100,
-    # )
-    c.show(show_ports=True)
+    c = gf.components.spiral_inner_io(
+        cross_section=gf.cross_section.pin,
+        waveguide_spacing=25,
+        radius=30,
+        cross_section_bend=gf.partial(gf.cross_section.pin, mirror=True),
+        asymmetric_cross_section=True,
+    )
+    c.show()
