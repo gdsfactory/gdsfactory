@@ -17,7 +17,7 @@
  <text>
 import pya
 
-__version__ = "6.61.1"
+__version__ = "6.61.2"
 
 
 def set_menu():
