@@ -320,121 +320,145 @@ LayerViews:
         layer_in_name: true
         width: 1
         color: "#f3ff80"
+        hatch_pattern: solid
       XS_SI:
         layer: [301, 0]
         layer_in_name: true
         width: 1
         color: "black"
+        hatch_pattern: solid
       XS_SIN:
         layer: [319, 0]
         layer_in_name: true
         width: 1
         color: "black"
+        hatch_pattern: solid
       XS_N:
         layer: [320, 0]
         layer_in_name: true
         width: 1
         color: "#008ca5"
+        hatch_pattern: solid
       XS_NPP:
         layer: [321, 0]
         layer_in_name: true
         width: 1
         color: "#004ca5"
+        hatch_pattern: solid
       XS_P:
         layer: [330, 0]
         layer_in_name: true
         width: 1
         color: "#00f233"
+        hatch_pattern: solid
       XS_PDPP:
         layer: [327, 0]
         layer_in_name: true
         width: 1
         color: "#00f233"
+        hatch_pattern: solid
       XS_PPP:
         layer: [331, 0]
         layer_in_name: true
         width: 1
         color: "#00b233"
+        hatch_pattern: solid
       XS_SI_SLAB:
         layer: [313, 0]
         layer_in_name: true
         width: 1
         color: "#80a8ff"
+        hatch_pattern: solid
       XS_OVERLAY:
         layer: [311, 0]
         layer_in_name: true
         width: 1
         color: "blue"
+        hatch_pattern: solid
       XS_OX_SI:
         layer: [302, 0]
         layer_in_name: true
         width: 1
         color: "#f3ff80"
+        hatch_pattern: solid
       XS_GE:
         layer: [315, 0]
         layer_in_name: true
         width: 1
         color: "#004ca5"
+        hatch_pattern: solid
       XS_VIAC:
         layer: [303, 0]
         layer_in_name: true
         width: 1
         color: "grey"
+        hatch_pattern: solid
       XS_M1:
         layer: [304, 0]
         layer_in_name: true
         width: 1
         color: "green"
+        hatch_pattern: solid
       XS_OXIDE_M1:
         layer: [305, 0]
         layer_in_name: true
         width: 1
         color: "#f3ff80"
+        hatch_pattern: solid
       XS_MH:
         layer: [306, 0]
         layer_in_name: true
         width: 1
         color: "green"
+        hatch_pattern: solid
       XS_OXIDE_M2:
         layer: [307, 0]
         layer_in_name: true
         width: 1
         color: "#f3ff80"
+        hatch_pattern: solid
       XS_OXIDE_MH:
         layer: [317, 0]
         layer_in_name: true
         width: 1
         color: "#f3ff80"
+        hatch_pattern: solid
       XS_OXIDE_ML:
         layer: [309, 0]
         layer_in_name: true
         width: 1
         color: "#f3ff80"
+        hatch_pattern: solid
       XS_VIA1:
         layer: [308, 0]
         layer_in_name: true
         width: 1
         color: "grey"
+        hatch_pattern: solid
       XS_M2:
         layer: [399, 0]
         layer_in_name: true
         width: 1
         color: "#805000"
+        hatch_pattern: solid
       XS_OXIDE_M3:
         layer: [311, 0]
         layer_in_name: true
         width: 1
         color: "#f3ff80"
+        hatch_pattern: solid
       XS_VIA2:
         layer: [310, 0]
         layer_in_name: true
         width: 1
         color: "grey"
+        hatch_pattern: solid
       XS_SIN2:
         layer: [305, 0]
         layer_in_name: true
         width: 1
         color: "#805000"
+        hatch_pattern: solid
   DRC_MARKER:
     layer: [205, 0]
     layer_in_name: true
