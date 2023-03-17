@@ -35,6 +35,7 @@ settings:
       delta_length: 10.0
       length_x: 0.1
       length_y: 2.0
+      mirror_bot: false
       nbends: 2
       port_e0_combiner: o3
       port_e0_splitter: o3
@@ -58,6 +59,7 @@ settings:
       delta_length: 10.0
       length_x: 0.1
       length_y: 2.0
+      mirror_bot: false
       nbends: 2
       port_e0_combiner: o4
       port_e0_splitter: o4

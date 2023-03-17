@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.63.0
+
+- add `bend_euler_s.info['length']`
+- add `mzi(mirror_bot=False)` so you can mirror the bottom arm.
+
 ## 6.61.0
 
 - Fix font free type [PR](https://github.com/gdsfactory/gdsfactory/pull/1438)

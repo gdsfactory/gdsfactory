@@ -36,6 +36,7 @@ def mzi(
     cross_section: CrossSectionSpec = "strip",
     cross_section_x_top: Optional[CrossSectionSpec] = None,
     cross_section_x_bot: Optional[CrossSectionSpec] = None,
+    mirror_bot: bool = False,
 ) -> Component:
     """Mzi.
 
@@ -116,6 +117,8 @@ def mzi(
         else gf.get_component(straight_x_bot)
     )
     sxb = c << straight_x_bot
+    if mirror_bot:
+        sxb.mirror()
     sxb.connect("o1", b6.ports["o2"])
 
     b1 = c << bend
