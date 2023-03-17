@@ -42,7 +42,7 @@ def test_uncached_component_warning() -> Component:
     c = using_dangerous_intermediate_cells()
 
     with pytest.warns(UncachedComponentWarning):
-        c.write_gds()
+        c.write_gds(on_uncached_component="warn")
     return c
 
 
@@ -77,6 +77,6 @@ def test_uncached_component_error() -> Component:
 
 
 if __name__ == "__main__":
-    # c = test_uncached_component_warning()
-    c = test_uncached_component_error()
+    c = test_uncached_component_warning()
+    # c = test_uncached_component_error()
     c.show(show_ports=True)
