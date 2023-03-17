@@ -49,7 +49,8 @@ jobs:
           echo $CONDA/bin >> $GITHUB_PATH
       - name: constructor build
         run: |
-          conda install "constructor>=3.4.2" -y
+          conda install mamba -y
+          mamba install "constructor>=3.4.2" -y
           cd conda
           constructor .
       - name: Release
