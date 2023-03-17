@@ -90,6 +90,21 @@ def print_version():
     console.print(table)
 
 
+def print_version_raw():
+    """Print gdsfactory plugin versions and paths."""
+    print("gdsfactory", __version__)
+
+    for plugin in plugins:
+        try:
+            m = importlib.import_module(plugin)
+            try:
+                print(plugin, str(m.__version__))
+            except AttributeError:
+                print(plugin)
+        except ImportError:
+            print(plugin, "not installed", "")
+
+
 def print_version_pdks():
     """Print gdsfactory PDK versions and paths."""
     table = Table(title="PDKs")
@@ -256,5 +271,6 @@ if __name__ == "__main__":
     # print(PATH.sparameters)
     # print_config()
     # print_version()
-    print_version_pdks()
+    print_version_raw()
+    # print_version_pdks()
     # write_tech("tech.json")

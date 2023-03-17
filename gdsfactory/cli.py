@@ -11,6 +11,8 @@ from click.core import Context, Option
 import gdsfactory
 from gdsfactory.config import cwd, print_config
 from gdsfactory.config import print_version as _print_version
+from gdsfactory.config import print_version_raw
+from gdsfactory.config import print_version_pdks
 from gdsfactory.generic_tech import LAYER
 from gdsfactory.install import install_gdsdiff, install_klayout_package
 from gdsfactory.technology import lyp_to_dataclass
@@ -27,6 +29,12 @@ def print_version(ctx: Context, param: Option, value: bool) -> None:
         return
     _print_version()
     ctx.exit()
+
+
+@click.group()
+def version() -> None:
+    """Commands working with gdsfactory tool."""
+    pass
 
 
 # TOOL
@@ -146,6 +154,18 @@ def install() -> None:
     install_gdsdiff()
 
 
+@click.command()
+def raw() -> None:
+    """Show a GDS file using klive."""
+    print_version_raw()
+
+
+@click.command()
+def pdks() -> None:
+    """Show a GDS file using klive."""
+    print_version_pdks()
+
+
 @click.group()
 @click.option(
     "--version",
@@ -168,12 +188,16 @@ gds.add_command(diff)
 tool.add_command(config_get)
 tool.add_command(install)
 
+version.add_command(raw)
+version.add_command(pdks)
+
 # yaml.add_command(webapp)
 # watch.add_command(watch_yaml)
 
 cli.add_command(gds)
 cli.add_command(tool)
 cli.add_command(watch)
+cli.add_command(version)
 
 
 if __name__ == "__main__":
