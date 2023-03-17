@@ -1,1 +1,1 @@
-FROM joamatab/gdsfactory:6.61.2
+FROM joamatab/gdsfactory:6.62.0
