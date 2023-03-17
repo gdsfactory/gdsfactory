@@ -1182,6 +1182,232 @@ def pn_with_trenches(
 
 
 @xsection
+def pn_with_trenches_asymmetric(
+    width: float = 0.5,
+    layer: Optional[LayerSpec] = None,
+    layer_trench: LayerSpec = "DEEP_ETCH",
+    gap_low_doping: Union[float, Tuple[float, float]] = (0.0, 0.0),
+    gap_medium_doping: Optional[Union[float, Tuple[float, float]]] = (0.5, 0.2),
+    gap_high_doping: Optional[Union[float, Tuple[float, float]]] = (1.0, 0.8),
+    width_doping: float = 8.0,
+    width_slab: float = 7.0,
+    width_trench: float = 2.0,
+    layer_p: Optional[LayerSpec] = "P",
+    layer_pp: Optional[LayerSpec] = "PP",
+    layer_ppp: Optional[LayerSpec] = "PPP",
+    layer_n: Optional[LayerSpec] = "N",
+    layer_np: Optional[LayerSpec] = "NP",
+    layer_npp: Optional[LayerSpec] = "NPP",
+    layer_via: Optional[LayerSpec] = None,
+    width_via: float = 1.0,
+    layer_metal: Optional[LayerSpec] = None,
+    width_metal: float = 1.0,
+    port_names: Tuple[str, str] = ("o1", "o2"),
+    bbox_layers: Optional[List[Layer]] = None,
+    bbox_offsets: Optional[List[float]] = None,
+    cladding_layers: Optional[Layers] = cladding_layers_optical,
+    cladding_offsets: Optional[Floats] = cladding_offsets_optical,
+    mirror: bool = False,
+    wg_marking_layer: Optional[LayerSpec] = None,
+    **kwargs,
+) -> CrossSection:
+    """Rib PN doped cross_section with asymmetric dimensions left and right.
+
+    Args:
+        width: width of the ridge in um.
+        layer: ridge layer. None adds only ridge.
+        layer_trench: layer to etch trenches.
+        gap_low_doping: from waveguide center to low doping. Only used for PIN.
+            If a list, it considers the first element is [p_side, n_side]. If a number,
+            it assumes the same for both sides.
+        gap_medium_doping: from waveguide center to medium doping.
+            None removes medium doping.
+            If a list, it considers the first element is [p_side, n_side]. If a number,
+            it assumes the same for both sides.
+        gap_high_doping: from center to high doping. None removes it.
+            If a list, it considers the first element is [p_side, n_side]. If a number,
+            it assumes the same for both sides.
+        width_doping: in um.
+        width_slab: in um.
+        width_trench: in um.
+        layer_p: p doping layer.
+        layer_pp: p+ doping layer.
+        layer_ppp: p++ doping layer.
+        layer_n: n doping layer.
+        layer_np: n+ doping layer.
+        layer_npp: n++ doping layer.
+        layer_via: via layer.
+        width_via: via width in um.
+        layer_metal: metal layer.
+        width_metal: metal width in um.
+        port_names: input and output port names.
+        bbox_layers: list of layers for rectangular bounding box.
+        bbox_offsets: list of bounding box offsets.
+        bbox_layers: list of layers for rectangular bounding box.
+        bbox_offsets: list of bounding box offsets.
+        cladding_layers: optional list of cladding layers.
+        cladding_offsets: optional list of cladding offsets.
+        mirror: if True, reflects all doping sections.
+        kwargs: cross_section settings.
+
+    .. code::
+
+                                   gap_low_doping[1]
+                                     <------>
+                                    |       |
+                                   wg     junction
+                                 center   center
+                                    |       |
+        _____         ______________|_______ ______         ________
+             |        |             |       |     |         |       |
+             |________|             |             |_________|       |
+                   P                |       |               N       |
+               width_p              |                    width_n    |
+          <-------------------------------->|<--------------------->|
+             <------->              |               |       N+      |
+            width_trench            |               |    width_n    |
+                                    |               |<------------->|
+                                    |<------------->|
+                                    gap_medium_doping[1]
+       <------------------------------------------------------------>
+                                width_slab
+
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        xs = gf.cross_section.pn_with_trenches_assymmetric(width=0.5, gap_low_doping=0, width_doping=2.)
+        p = gf.path.arc(radius=10, angle=45)
+        c = p.extrude(xs)
+        c.plot()
+    """
+
+    # Trenches
+    trench_offset = width / 2 + width_trench / 2
+    sections = [Section(width=width_slab, layer=layer)]
+    sections += [
+        Section(width=width_trench, offset=offset, layer=layer_trench)
+        for offset in [+trench_offset, -trench_offset]
+    ]
+
+    if wg_marking_layer is not None:
+        sections += [Section(width=width, offset=0, layer=wg_marking_layer)]
+
+    # Low doping
+    if not isinstance(gap_low_doping, (list, Tuple)):
+        gap_low_doping = [gap_low_doping] * 2
+
+    if layer_n:
+        width_low_doping_n = width_doping - gap_low_doping[1]
+        n = Section(
+            width=width_low_doping_n,
+            offset=width_low_doping_n / 2 + gap_low_doping[1],
+            layer=layer_n,
+        )
+        sections.append(n)
+    if layer_p:
+        width_low_doping_p = width_doping - gap_low_doping[0]
+        p = Section(
+            width=width_low_doping_p,
+            offset=-(width_low_doping_p / 2 + gap_low_doping[0]),
+            layer=layer_p,
+        )
+        sections.append(p)
+
+    if gap_medium_doping is not None:
+        if not isinstance(gap_medium_doping, (list, Tuple)):
+            gap_medium_doping = [gap_medium_doping] * 2
+
+        if layer_np:
+            width_np = width_doping - gap_medium_doping[1]
+            np = Section(
+                width=width_np,
+                offset=width_np / 2 + gap_medium_doping[1],
+                layer=layer_np,
+            )
+            sections.append(np)
+        if layer_pp:
+            width_pp = width_doping - gap_medium_doping[0]
+            pp = Section(
+                width=width_pp,
+                offset=-(width_pp / 2 + gap_medium_doping[0]),
+                layer=layer_pp,
+            )
+            sections.append(pp)
+
+    if gap_high_doping is not None:
+        if not isinstance(gap_high_doping, (list, Tuple)):
+            gap_high_doping = [gap_high_doping] * 2
+
+        if layer_npp:
+            width_npp = width_doping - gap_high_doping[1]
+            npp = Section(
+                width=width_npp,
+                offset=width_npp / 2 + gap_high_doping[1],
+                layer=layer_npp,
+            )
+            sections.append(npp)
+        if layer_ppp:
+            width_ppp = width_doping - gap_high_doping[0]
+            ppp = Section(
+                width=width_ppp,
+                offset=-(width_ppp / 2 + gap_high_doping[0]),
+                layer=layer_ppp,
+            )
+            sections.append(ppp)
+
+    if layer_via is not None:
+        offset_top = width_npp + gap_high_doping[1] - width_via / 2
+        offset_bot = width_ppp + gap_high_doping[0] - width_via / 2
+        via_top = Section(width=width_via, offset=+offset_top, layer=layer_via)
+        via_bot = Section(width=width_via, offset=-offset_bot, layer=layer_via)
+        sections.append(via_top)
+        sections.append(via_bot)
+
+    if layer_metal is not None:
+        offset_top = width_npp + gap_high_doping[1] - width_metal / 2
+        offset_bot = width_ppp + gap_high_doping[0] - width_metal / 2
+        port_types = ("electrical", "electrical")
+        metal_top = Section(
+            width=width_via,
+            offset=+offset_top,
+            layer=layer_metal,
+            port_types=port_types,
+            port_names=("e1_top", "e2_top"),
+        )
+        metal_bot = Section(
+            width=width_via,
+            offset=-offset_bot,
+            layer=layer_metal,
+            port_types=port_types,
+            port_names=("e1_bot", "e2_bot"),
+        )
+        sections.append(metal_top)
+        sections.append(metal_bot)
+
+    bbox_layers = bbox_layers or []
+    bbox_offsets = bbox_offsets or []
+    for layer_cladding, cladding_offset in zip(bbox_layers, bbox_offsets):
+        s = Section(
+            width=width_slab + 2 * cladding_offset, offset=0, layer=layer_cladding
+        )
+        sections.append(s)
+
+    return CrossSection(
+        width=width,
+        offset=0,
+        layer=layer,
+        port_names=port_names,
+        sections=sections,
+        cladding_offsets=cladding_offsets,
+        cladding_layers=cladding_layers,
+        mirror=mirror,
+        **kwargs,
+    )
+
+
+@xsection
 def l_wg_doped_with_trenches(
     width: float = 0.5,
     layer: Optional[LayerSpec] = None,

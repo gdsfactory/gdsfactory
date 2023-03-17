@@ -83,7 +83,7 @@ if __name__ == "__main__":
     # sweep = [resistance_sheet(width=width, layers=((1,0), (1,1))) for width in [1, 10, 100]]
     # c = gf.pack(sweep)[0]
 
-    c = resistance_sheet(width=40)
+    c = resistance_sheet()
     c.show(show_ports=True)
 
     # import gdsfactory as gf

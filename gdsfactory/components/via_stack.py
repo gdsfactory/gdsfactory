@@ -64,7 +64,7 @@ def via_stack(
             ref = c << compass(size=size, layer=layer, port_type="placement")
 
     vias = vias or []
-    for via_type in vias:
+    for via_type, offs in zip(vias, layer_offsets):
         if via_type is not None:
             via_type = gf.get_component(via_type)
 
@@ -72,8 +72,8 @@ def via_stack(
             g = via_type.info["enclosure"]
             pitch_x, pitch_y = via_type.info["spacing"]
 
-            nb_vias_x = (width - w - 2 * g) / pitch_x + 1
-            nb_vias_y = (height - h - 2 * g) / pitch_y + 1
+            nb_vias_x = (width + 2 * offs - w - 2 * g) / pitch_x + 1
+            nb_vias_y = (height + 2 * offs - h - 2 * g) / pitch_y + 1
 
             nb_vias_x = int(floor(nb_vias_x)) or 1
             nb_vias_y = int(floor(nb_vias_y)) or 1
@@ -81,10 +81,10 @@ def via_stack(
                 via_type, columns=nb_vias_x, rows=nb_vias_y, spacing=(pitch_x, pitch_y)
             )
 
-            cw = (width - (nb_vias_x - 1) * pitch_x - w) / 2
-            ch = (height - (nb_vias_y - 1) * pitch_y - h) / 2
-            x0 = -a + cw + w / 2
-            y0 = -b + ch + h / 2
+            cw = (width + 2 * offs - (nb_vias_x - 1) * pitch_x - w) / 2
+            ch = (height + 2 * offs - (nb_vias_y - 1) * pitch_y - h) / 2
+            x0 = -a - offs + cw + w / 2
+            y0 = -b - offs + ch + h / 2
             ref.move((x0, y0))
 
     return c
@@ -271,7 +271,8 @@ if __name__ == "__main__":
     # print(c.to_dict())
     # c.show(show_ports=True)
 
-    c = via_stack_from_rules()
+    # c = via_stack_from_rules()
+    c = via_stack_heater_mtop()
     c.show(show_ports=True)
 
-    test_via_stack_from_rules()
+    # test_via_stack_from_rules()
