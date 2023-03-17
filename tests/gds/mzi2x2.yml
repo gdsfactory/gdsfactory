@@ -57,6 +57,7 @@ cells:
         function: cross_section
       cross_section_x_top: null
       cross_section_x_bot: null
+      mirror_bot: false
     changed:
       cross_section:
         function: cross_section
@@ -87,6 +88,7 @@ cells:
       cross_section: strip
       cross_section_x_top: null
       cross_section_x_bot: null
+      mirror_bot: false
     child: null
   mmi1x2_be5e636a:
     name: mmi1x2_be5e636a
@@ -721,6 +723,7 @@ settings:
       function: cross_section
     cross_section_x_top: null
     cross_section_x_bot: null
+    mirror_bot: false
   changed:
     cross_section:
       function: cross_section
@@ -751,4 +754,5 @@ settings:
     cross_section: strip
     cross_section_x_top: null
     cross_section_x_bot: null
+    mirror_bot: false
   child: null

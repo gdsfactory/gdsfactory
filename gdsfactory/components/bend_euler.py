@@ -103,7 +103,33 @@ bend_euler180 = gf.partial(bend_euler, angle=180)
 
 @gf.cell
 def bend_euler_s(**kwargs) -> Component:
-    """Sbend made of euler bends."""
+    r"""Sbend made of 2 euler bends.
+
+    Keyword Args:
+        angle: total angle of the curve.
+        p: Proportion of the curve that is an Euler curve.
+        with_arc_floorplan: If False: `radius` is the minimum radius of curvature
+          If True: The curve scales such that the endpoints match a bend_circular
+          with parameters `radius` and `angle`.
+        npoints: Number of points used per 360 degrees.
+        direction: cw (clock-wise) or ccw (counter clock-wise).
+        with_bbox: add bbox_layers and bbox_offsets to avoid DRC sharp edges.
+        cross_section: specification (CrossSection, string, CrossSectionFactory dict).
+        kwargs: cross_section settings.
+
+    .. code::
+                      _____ o2
+                     /
+                    /
+                   /
+                  /
+                  |
+                 /
+                /
+               /
+       o1_____/
+
+    """
     c = Component()
     b = bend_euler(**kwargs)
     b1 = c.add_ref(b)
@@ -112,6 +138,7 @@ def bend_euler_s(**kwargs) -> Component:
     b2.connect("o1", b1.ports["o2"])
     c.add_port("o1", port=b1.ports["o1"])
     c.add_port("o2", port=b2.ports["o2"])
+    c.info["length"] = 2 * b.info["length"]
     return c
 
 
@@ -196,12 +223,10 @@ def _compare_bend_euler90():
 
 
 if __name__ == "__main__":
-    from gdsfactory.generic_tech import get_generic_pdk
-
-    PDK = get_generic_pdk()
-    PDK.activate()
-    # c = bend_euler_s()
-    c = bend_euler()
+    # PDK = get_generic_pdk()
+    # PDK.activate()
+    c = bend_euler_s()
+    # c = bend_euler()
     # c = bend_euler(bbox_layers=[(2, 0), (3, 0)], bbox_offsets=[3, 3])
     c.show(show_ports=True)
 
