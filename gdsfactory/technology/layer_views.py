@@ -986,6 +986,8 @@ class LayerViews(BaseModel):
         from gdsfactory.utils.xml_utils import make_pretty_xml
 
         filepath = pathlib.Path(filepath)
+        dirpath = filepath.parent
+        dirpath.mkdir(exist_ok=True, parents=True)
 
         if filepath.exists() and not overwrite:
             raise OSError(f"File {str(filepath)!r} exists, cannot write.")
@@ -1090,7 +1092,7 @@ class LayerViews(BaseModel):
     def to_yaml(
         self, layer_file: Union[str, pathlib.Path], prefer_named_color: bool = True
     ) -> None:
-        """Export layer properties to two yaml files.
+        """Export layer properties to a YAML file.
 
         Args:
             layer_file: Name of the file to write LayerViews to.
@@ -1105,6 +1107,8 @@ class LayerViews(BaseModel):
         )
 
         lf_path = pathlib.Path(layer_file)
+        dirpath = lf_path.parent
+        dirpath.mkdir(exist_ok=True, parents=True)
 
         add_tuple_yaml_presenter()
         add_multiline_str_yaml_presenter()

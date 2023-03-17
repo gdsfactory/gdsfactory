@@ -21,7 +21,6 @@ chapters:
       - file: notebooks/04_components_shapes
       - file: notebooks/04_components_geometry
       - file: notebooks/04_components_pack
-      - file: notebooks/04_components_
       - file: notebooks/04_components_hierarchy
       - file: notebooks/08_pdk
       - file: notebooks/08_pdk_examples
