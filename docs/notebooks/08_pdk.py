@@ -368,6 +368,9 @@ c
 
 # %%
 from gdsfactory.add_pins import add_pins_siepic
+from gdsfactory.technology import LayerViews
+
+LAYER_VIEWS = LayerViews(filepath=PATH.klayout_yaml)
 
 
 def add_pins_bbox_siepic(
@@ -407,7 +410,7 @@ pdk = gf.Pdk(
     layers=LAYER.dict(),
     sparameters_path=gf.config.sparameters_path,
     layer_views=LAYER_VIEWS,
-    layer_stack=LAYER_STACK,
+    # layer_stack=LAYER_STACK,
     # default_decorator=add_pins_bbox_siepic
 )
 pdk.activate()
@@ -424,7 +427,7 @@ pdk = gf.Pdk(
     layers=LAYER.dict(),
     sparameters_path=gf.config.sparameters_path,
     layer_views=LAYER_VIEWS,
-    layer_stack=LAYER_STACK,
+    # layer_stack=LAYER_STACK,
     default_decorator=add_pins_bbox_siepic,
 )
 pdk.activate()
@@ -432,11 +435,10 @@ pdk.activate()
 c1 = gf.components.straight(length=5)
 print(has_valid_transformations(c1))
 c1.layers
+c1
 
 # %% [markdown]
-# if you zoom in you will see a device recognition layer and pins.
-#
-# ![devrec](https://i.imgur.com/U9IPOei.png)
+# You can see a waveguide with device recognition layer and pins.
 #
 
 # %% [markdown]
