@@ -98,7 +98,7 @@ def print_version_raw():
         try:
             m = importlib.import_module(plugin)
             try:
-                print(plugin, str(m.__version__))
+                print(plugin, m.__version__)
             except AttributeError:
                 print(plugin)
         except ImportError:
