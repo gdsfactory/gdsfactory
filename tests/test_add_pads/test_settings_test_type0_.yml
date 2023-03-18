@@ -24,18 +24,18 @@ ports:
     port_type: electrical
     shear_angle: null
     width: 11.0
-  elec-pad_pdk-None-e1:
+  elec-pad_sizepad_size-None-e1:
     center:
     - -16.0
     - 46.5
     layer:
     - 49
     - 0
-    name: elec-pad_pdk-None-e1
+    name: elec-pad_sizepad_size-None-e1
     orientation: 270
     port_type: placement
     shear_angle: null
-    width: 80.0
+    width: 80
   o1:
     center:
     - 0.0
@@ -132,7 +132,9 @@ settings:
       get_input_labels_function: null
       layer_label: TEXT
       pad:
-        function: pad_pdk
+        function: pad
+        settings:
+          size: pad_size
       pad_port_labels: null
       pad_port_name: e1
       pad_spacing: pad_spacing
@@ -154,7 +156,9 @@ settings:
       get_input_labels_function: null
       layer_label: TEXT
       pad:
-        function: pad_pdk
+        function: pad
+        settings:
+          size: pad_size
       pad_port_labels: null
       pad_port_name: e1
       pad_spacing: pad_spacing

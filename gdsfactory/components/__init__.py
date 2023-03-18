@@ -181,6 +181,7 @@ from gdsfactory.components.optimal_step import optimal_step
 from gdsfactory.components.pack_doe import generate_doe, pack_doe, pack_doe_grid
 from gdsfactory.components.pad import (
     pad,
+    pad_rectangular,
     pad_array,
     pad_array0,
     pad_array90,
@@ -486,6 +487,7 @@ __all__ = [
     "pack_doe_grid",
     "pack_doe",
     "pad",
+    "pad_rectangular",
     "pad_array",
     "pad_array0",
     "pad_array180",

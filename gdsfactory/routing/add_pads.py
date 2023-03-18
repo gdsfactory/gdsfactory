@@ -19,7 +19,7 @@ from gdsfactory.typings import (
 )
 
 from gdsfactory.components.straight_heater_metal import straight_heater_metal
-from gdsfactory.components.pad import pad_pdk
+from gdsfactory.components.pad import pad_rectangular
 
 
 @cell
@@ -33,7 +33,7 @@ def add_pads_bot(
     layer_label: LayerSpec = "TEXT",
     pad_port_name: str = "e1",
     pad_port_labels: Optional[Tuple[str, ...]] = None,
-    pad: ComponentSpec = pad_pdk,
+    pad: ComponentSpec = pad_rectangular,
     bend: ComponentSpec = "wire_corner",
     straight_separation: float = 15.0,
     pad_spacing: Union[str, float] = "pad_spacing",
