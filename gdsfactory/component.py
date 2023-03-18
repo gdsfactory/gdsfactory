@@ -801,7 +801,7 @@ class Component(_GeometryHelper):
         orientation: Optional[float] = None,
         port: Optional[Port] = None,
         layer: LayerSpec = None,
-        port_type: str = "optical",
+        port_type: Optional[str] = None,
         cross_section: Optional[CrossSection] = None,
     ) -> Port:
         """Add port to component.
@@ -818,7 +818,7 @@ class Component(_GeometryHelper):
             orientation: in deg.
             port: optional port.
             layer: port layer.
-            port_type: optical, electrical, vertical_dc, vertical_te, vertical_tm.
+            port_type: optical, electrical, vertical_dc, vertical_te, vertical_tm. Defaults to optical.
             cross_section: port cross_section.
         """
         from gdsfactory.pdk import get_layer
@@ -831,6 +831,14 @@ class Component(_GeometryHelper):
             p = port.copy()
             if name is not None:
                 p.name = name
+            if width is not None:
+                p.width = width
+            if orientation is not None:
+                p.orientation = orientation
+            if port_type is not None:
+                p.port_type = port_type
+            if layer is not None:
+                p.layer = layer
             p.parent = self
 
         elif isinstance(name, Port):
@@ -848,7 +856,7 @@ class Component(_GeometryHelper):
                 orientation=orientation,
                 parent=self,
                 layer=layer,
-                port_type=port_type,
+                port_type=port_type or "optical",
                 cross_section=cross_section,
             )
         if name is not None:
@@ -864,6 +872,7 @@ class Component(_GeometryHelper):
         ports: Union[List[Port], Dict[str, Port]],
         prefix: str = "",
         suffix: str = "",
+        **kwargs,
     ) -> None:
         """Add a list or dict of ports.
 
@@ -872,11 +881,12 @@ class Component(_GeometryHelper):
         Args:
             ports: list or dict of ports.
             prefix: to prepend to each port name.
+            suffix: to append to each port name.
         """
         ports = ports if isinstance(ports, list) else ports.values()
         for port in list(ports):
             name = f"{prefix}{port.name}{suffix}"
-            self.add_port(name=name, port=port)
+            self.add_port(name=name, port=port, **kwargs)
 
     def snap_ports_to_grid(self, nm: int = 1) -> None:
         for port in self.ports.values():

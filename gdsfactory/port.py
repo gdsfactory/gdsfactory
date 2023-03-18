@@ -727,9 +727,10 @@ def _rename_ports_clockwise_top_right(
 def rename_ports_by_orientation(
     component: Component,
     layers_excluded: LayerSpec = None,
-    select_ports: Optional[Callable[..., List[Port]]] = None,
+    select_ports: Callable = select_ports,
     function=_rename_ports_facing_side,
     prefix: str = "o",
+    **kwargs,
 ) -> Component:
     """Returns Component with port names based on port orientation (E, N, W, S).
 
@@ -739,6 +740,7 @@ def rename_ports_by_orientation(
         select_ports: function to select_ports.
         function: to rename ports.
         prefix: to add on each port name.
+        kwargs: select_ports settings.
 
     .. code::
 
@@ -755,7 +757,7 @@ def rename_ports_by_orientation(
     direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
 
     ports = component.ports
-    ports = select_ports(ports) if select_ports else ports
+    ports = select_ports(ports, **kwargs)
 
     ports_on_layer = [p for p in ports.values() if p.layer not in layers_excluded]
 
@@ -786,8 +788,10 @@ def auto_rename_ports(
     function=_rename_ports_clockwise,
     select_ports_optical: Optional[Callable] = select_ports_optical,
     select_ports_electrical: Optional[Callable] = select_ports_electrical,
+    prefix: str = "",
     prefix_optical: str = "o",
     prefix_electrical: str = "e",
+    port_type: Optional[str] = None,
     **kwargs,
 ) -> Component:
     """Adds prefix for optical and electrical.
@@ -799,22 +803,41 @@ def auto_rename_ports(
         select_ports_electrical: to select electrical ports.
         prefix_optical: prefix of optical ports.
         prefix_electrical: prefix of electrical ports.
+        port_type: select ports with port type (optical, electrical, vertical_te).
+
+    Keyword Args:
+        prefix: select ports with port name prefix.
+        suffix: select ports with port name suffix.
+        orientation: select ports with orientation in degrees.
+        width: select ports with port width.
+        layers_excluded: List of layers to exclude.
+        clockwise: if True, sort ports clockwise, False: counter-clockwise.
 
     """
-    rename_ports_by_orientation(
-        component=component,
-        select_ports=select_ports_optical,
-        prefix=prefix_optical,
-        function=function,
-        **kwargs,
-    )
-    rename_ports_by_orientation(
-        component=component,
-        select_ports=select_ports_electrical,
-        prefix=prefix_electrical,
-        function=function,
-        **kwargs,
-    )
+    if port_type is None:
+        rename_ports_by_orientation(
+            component=component,
+            select_ports=select_ports_optical,
+            prefix=prefix_optical,
+            function=function,
+            **kwargs,
+        )
+        rename_ports_by_orientation(
+            component=component,
+            select_ports=select_ports_electrical,
+            prefix=prefix_electrical,
+            function=function,
+            **kwargs,
+        )
+    else:
+        rename_ports_by_orientation(
+            component=component,
+            select_ports=select_ports,
+            prefix=prefix,
+            function=function,
+            port_type=port_type,
+            **kwargs,
+        )
     return component
 
 
