@@ -43,7 +43,6 @@ def add_pads_bot(
 
     Args:
         component: component spec to connect to.
-        pad_array: component spec for pad_array.
         select_ports: function to select_ports.
         port_names: optional port names. Overrides select_ports.
         component_name: optional for the label.
@@ -55,7 +54,7 @@ def add_pads_bot(
         pad: spec for route terminations.
         bend: bend spec.
         straight_separation: from edge to edge.
-        pad_spacing: in um.
+        pad_spacing: in um. Defaults to pad_spacing constant from the PDK.
 
     Keyword Args:
         straight: straight spec.
@@ -175,7 +174,6 @@ def add_pads_top(
         component: component spec to connect to.
 
     Keyword Args:
-        pad_array: component spec for pad_array.
         select_ports: function to select_ports.
         port_names: optional port names. Overrides select_ports.
         component_name: optional for the label.

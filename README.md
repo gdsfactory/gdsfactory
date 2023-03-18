@@ -19,7 +19,7 @@
 
 ![logo](https://i.imgur.com/v4wpHpg.png)
 
-gdsfactory is a python library to design chips (Photonics, Analog, Quantum, MEMs, ...)
+gdsfactory is a python library to design chips (Photonics, Analog, Quantum, MEMs, ...). It's like Linux for chip design.
 
 You can describe your circuits in code (python or YAML), verify them (DRC, simulation, extraction) and validate them (to make sure they meet the specifications after fabrication).
 
@@ -56,7 +56,7 @@ It provides you a common syntax for design (KLayout, gdstk, Ansys Lumerical, tid
 
 ![tool interfaces](https://i.imgur.com/9fNLRvJ.png)
 
-Multiple Photonic foundries have gdsfactory PDKs available. Talk to your foundry to access their gdsfactory PDK.
+Multiple foundries have gdsfactory PDKs available. Talk to your foundry to access their gdsfactory PDK.
 
 You can also access:
 
