@@ -10,8 +10,7 @@ from gdsfactory.difftest import difftest
 
 def test_type0() -> Component:
     c = gf.components.straight_heater_metal(length=100.0)
-    cc = gf.routing.add_pads_top(component=c, port_names=("e1",))
-    return cc
+    return gf.routing.add_pads_top(component=c, port_names=("e1",))
 
 
 components = [test_type0]
