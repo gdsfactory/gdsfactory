@@ -1,4 +1,25 @@
 name: spiral_inner_io
+ports:
+  o1:
+    center:
+    - 0.0
+    - 50.0
+    layer: WG
+    name: o1
+    orientation: 270
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 127.0
+    - 50.0
+    layer: WG
+    name: o2
+    orientation: 270
+    port_type: optical
+    shear_angle: null
+    width: 0.5
 settings:
   changed: {}
   child: null

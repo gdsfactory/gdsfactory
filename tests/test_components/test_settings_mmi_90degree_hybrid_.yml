@@ -1,4 +1,77 @@
 name: mmi_90degree_hybrid
+ports:
+  I_out1:
+    center:
+    - 215.0
+    - 3.75
+    layer:
+    - 1
+    - 0
+    name: I_out1
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  I_out2:
+    center:
+    - 215.0
+    - -3.75
+    layer:
+    - 1
+    - 0
+    name: I_out2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  LO_in:
+    center:
+    - -40.0
+    - -1.25
+    layer:
+    - 1
+    - 0
+    name: LO_in
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  Q_out1:
+    center:
+    - 215.0
+    - 1.25
+    layer:
+    - 1
+    - 0
+    name: Q_out1
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  Q_out2:
+    center:
+    - 215.0
+    - -1.25
+    layer:
+    - 1
+    - 0
+    name: Q_out2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  signal_in:
+    center:
+    - -40.0
+    - 3.75
+    layer:
+    - 1
+    - 0
+    name: signal_in
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
 settings:
   changed: {}
   child: null

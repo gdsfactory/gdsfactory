@@ -1,4 +1,29 @@
 name: mzi_e687e91e
+ports:
+  o1:
+    center:
+    - -10.0
+    - 0.0
+    layer:
+    - 34
+    - 0
+    name: o1
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 1.0
+  o2:
+    center:
+    - 81.2
+    - 0.0
+    layer:
+    - 34
+    - 0
+    name: o2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 1.0
 settings:
   changed:
     bend:

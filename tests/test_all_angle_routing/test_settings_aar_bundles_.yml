@@ -1,4 +1,5 @@
 name: aar_bundles
+ports: {}
 settings:
   changed: {}
   child: null

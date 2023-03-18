@@ -1,4 +1,29 @@
 name: bend_circular_heater
+ports:
+  in:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: in
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  out:
+    center:
+    - 10.0
+    - 10.0
+    layer:
+    - 1
+    - 0
+    name: out
+    orientation: 90
+    port_type: optical
+    shear_angle: null
+    width: 0.5
 settings:
   changed: {}
   child: null

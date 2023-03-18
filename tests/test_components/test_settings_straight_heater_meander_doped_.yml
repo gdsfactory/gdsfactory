@@ -1,4 +1,53 @@
 name: straight_heater_meander_doped
+ports:
+  e1:
+    center:
+    - 0.0
+    - 2.0
+    layer:
+    - 45
+    - 0
+    name: e1
+    orientation: 180
+    port_type: electrical
+    shear_angle: null
+    width: 1.5
+  e2:
+    center:
+    - 69.78
+    - 2.0
+    layer:
+    - 45
+    - 0
+    name: e2
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 1.5
+  o1:
+    center:
+    - -25.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 74.778
+    - 6.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
 settings:
   changed: {}
   child: null

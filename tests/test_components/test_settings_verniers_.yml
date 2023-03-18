@@ -1,4 +1,5 @@
 name: verniers
+ports: {}
 settings:
   changed: {}
   child: null

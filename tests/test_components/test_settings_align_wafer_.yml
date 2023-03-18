@@ -1,4 +1,5 @@
 name: align_wafer
+ports: {}
 settings:
   changed: {}
   child: null

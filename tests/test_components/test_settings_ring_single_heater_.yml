@@ -1,4 +1,53 @@
 name: ring_single_heater
+ports:
+  e1:
+    center:
+    - -6.0
+    - 2.0
+    layer:
+    - 49
+    - 0
+    name: e1
+    orientation: 90
+    port_type: electrical
+    shear_angle: null
+    width: 4
+  e2:
+    center:
+    - 2.0
+    - 2.0
+    layer:
+    - 49
+    - 0
+    name: e2
+    orientation: 90
+    port_type: electrical
+    shear_angle: null
+    width: 4
+  o1:
+    center:
+    - -14.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 10.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
 settings:
   changed: {}
   child: null

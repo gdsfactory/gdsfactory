@@ -1,4 +1,29 @@
 name: resistance_sheet
+ports:
+  pad1:
+    center:
+    - -50.0
+    - 0.0
+    layer:
+    - 24
+    - 0
+    name: pad1
+    orientation: 180
+    port_type: vertical_dc
+    shear_angle: null
+    width: 10
+  pad2:
+    center:
+    - 50.0
+    - 0.0
+    layer:
+    - 24
+    - 0
+    name: pad2
+    orientation: 0
+    port_type: vertical_dc
+    shear_angle: null
+    width: 10
 settings:
   changed: {}
   child: null

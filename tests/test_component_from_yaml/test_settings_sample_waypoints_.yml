@@ -1,4 +1,5 @@
 name: sample_waypoints_dac9e992
+ports: {}
 settings:
   changed:
     conf:

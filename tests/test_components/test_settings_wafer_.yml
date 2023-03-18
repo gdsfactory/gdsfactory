@@ -1,4 +1,5 @@
 name: wafer
+ports: {}
 settings:
   changed: {}
   child: null

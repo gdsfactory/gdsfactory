@@ -1,4 +1,77 @@
 name: mzi_2e88f57c_rotate_564dd830
+ports:
+  e1:
+    center:
+    - -22.625
+    - 19.5
+    layer:
+    - 49
+    - 0
+    name: e1
+    orientation: 270
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  e2:
+    center:
+    - -22.625
+    - 87.6
+    layer:
+    - 49
+    - 0
+    name: e2
+    orientation: 90
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  o1:
+    center:
+    - 0.625
+    - -10.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 270
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - -0.625
+    - -10.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 270
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o3:
+    center:
+    - -0.625
+    - 117.2
+    layer:
+    - 1
+    - 0
+    name: o3
+    orientation: 90
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o4:
+    center:
+    - 0.625
+    - 117.2
+    layer:
+    - 1
+    - 0
+    name: o4
+    orientation: 90
+    port_type: optical
+    shear_angle: null
+    width: 0.5
 settings:
   changed:
     component:

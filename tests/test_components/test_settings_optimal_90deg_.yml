@@ -1,4 +1,29 @@
 name: optimal_90deg
+ports:
+  e1:
+    center:
+    - 50.0
+    - 581.746
+    layer:
+    - 1
+    - 0
+    name: e1
+    orientation: 90
+    port_type: optical
+    shear_angle: null
+    width: 100.0
+  e2:
+    center:
+    - 581.746
+    - 50.0
+    layer:
+    - 1
+    - 0
+    name: e2
+    orientation: 0
+    port_type: optical
+    shear_angle: null
+    width: 100.0
 settings:
   changed: {}
   child: null

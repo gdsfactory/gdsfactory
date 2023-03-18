@@ -1,4 +1,5 @@
 name: pixel
+ports: {}
 settings:
   changed: {}
   child: null

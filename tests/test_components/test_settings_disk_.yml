@@ -1,4 +1,29 @@
 name: disk
+ports:
+  o1:
+    center:
+    - -15.55
+    - 5.35
+    layer:
+    - 1
+    - 10
+    name: o1
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 26.25
+    - 5.35
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
 settings:
   changed: {}
   child: null

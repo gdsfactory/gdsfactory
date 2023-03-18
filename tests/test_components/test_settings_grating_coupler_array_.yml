@@ -1,4 +1,77 @@
 name: grating_coupler_array
+ports:
+  o0:
+    center:
+    - -20.097
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o0
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o1:
+    center:
+    - 106.903
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 233.903
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o3:
+    center:
+    - 360.903
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o3
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o4:
+    center:
+    - 487.903
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o4
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o5:
+    center:
+    - 614.903
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o5
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
 settings:
   changed: {}
   child: null

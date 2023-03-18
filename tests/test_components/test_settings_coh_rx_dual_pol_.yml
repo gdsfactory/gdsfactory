@@ -1,4 +1,5 @@
 name: coh_rx_dual_pol
+ports: {}
 settings:
   changed: {}
   child: null

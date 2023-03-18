@@ -1,4 +1,29 @@
 name: snspd
+ports:
+  e1:
+    center:
+    - -2.5
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: e1
+    orientation: 180
+    port_type: placement
+    shear_angle: null
+    width: 0.2
+  e2:
+    center:
+    - 7.5
+    - -8.4
+    layer:
+    - 1
+    - 0
+    name: e2
+    orientation: 0.0
+    port_type: placement
+    shear_angle: null
+    width: 0.2
 settings:
   changed: {}
   child: null

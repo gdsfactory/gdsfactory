@@ -1,4 +1,5 @@
 name: cross
+ports: {}
 settings:
   changed: {}
   child: null

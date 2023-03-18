@@ -1,4 +1,77 @@
 name: coupler_gap0p244_length_0ee3ac51
+ports:
+  opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-loopback0:
+    center:
+    - -314.7
+    - -55.3
+    layer:
+    - 1
+    - 0
+    name: opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-loopback0
+    orientation: 90
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-loopback1:
+    center:
+    - 320.3
+    - -55.3
+    layer:
+    - 1
+    - 0
+    name: opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-loopback1
+    orientation: 90
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-o1:
+    center:
+    - -187.7
+    - -55.3
+    layer:
+    - 1
+    - 0
+    name: opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-o1
+    orientation: 90
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-o2:
+    center:
+    - -60.7
+    - -55.3
+    layer:
+    - 1
+    - 0
+    name: opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-o2
+    orientation: 90
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-o3:
+    center:
+    - 66.3
+    - -55.3
+    layer:
+    - 1
+    - 0
+    name: opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-o3
+    orientation: 90
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-o4:
+    center:
+    - 193.3
+    - -55.3
+    layer:
+    - 1
+    - 0
+    name: opt-grating_coupler_ellipti_dd7f7af4-coupler_gap0p244_length5p67-o4
+    orientation: 90
+    port_type: optical
+    shear_angle: null
+    width: 0.5
 settings:
   changed:
     component:

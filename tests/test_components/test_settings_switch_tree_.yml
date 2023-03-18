@@ -1,4 +1,137 @@
 name: splitter_tree_7c3f8531
+ports:
+  e1_0_1:
+    center:
+    - 19.5
+    - 22.625
+    layer:
+    - 49
+    - 0
+    name: e1_0_1
+    orientation: 180
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  e1_1_3:
+    center:
+    - 519.5
+    - -27.375
+    layer:
+    - 49
+    - 0
+    name: e1_1_3
+    orientation: 180
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  e1_1_7:
+    center:
+    - 519.5
+    - 72.625
+    layer:
+    - 49
+    - 0
+    name: e1_1_7
+    orientation: 180
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  e2_0_2:
+    center:
+    - 371.5
+    - 22.625
+    layer:
+    - 49
+    - 0
+    name: e2_0_2
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  e2_1_4:
+    center:
+    - 871.5
+    - -27.375
+    layer:
+    - 49
+    - 0
+    name: e2_1_4
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  e2_1_8:
+    center:
+    - 871.5
+    - 72.625
+    layer:
+    - 49
+    - 0
+    name: e2_1_8
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  o1_0_0:
+    center:
+    - -10.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1_0_0
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2_1_10:
+    center:
+    - 1401.1
+    - 25.0
+    layer:
+    - 1
+    - 0
+    name: o2_1_10
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2_1_5:
+    center:
+    - 1401.1
+    - -25.0
+    layer:
+    - 1
+    - 0
+    name: o2_1_5
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2_1_6:
+    center:
+    - 1401.1
+    - -75.0
+    layer:
+    - 1
+    - 0
+    name: o2_1_6
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2_1_9:
+    center:
+    - 1401.1
+    - 75.0
+    layer:
+    - 1
+    - 0
+    name: o2_1_9
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
 settings:
   changed:
     coupler:

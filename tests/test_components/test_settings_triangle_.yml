@@ -1,4 +1,5 @@
 name: triangle
+ports: {}
 settings:
   changed: {}
   child: null

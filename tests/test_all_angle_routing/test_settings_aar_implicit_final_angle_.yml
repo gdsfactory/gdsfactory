@@ -1,4 +1,5 @@
 name: aar_implicit_final_angle
+ports: {}
 settings:
   changed: {}
   child: null

@@ -1,4 +1,5 @@
 name: circle
+ports: {}
 settings:
   changed: {}
   child: null

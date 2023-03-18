@@ -1,4 +1,5 @@
 name: via_enclosure2_layerVIA1
+ports: {}
 settings:
   changed:
     enclosure: 2

@@ -1,4 +1,41 @@
 name: grating_coupler_dual_pol
+ports:
+  o1:
+    center:
+    - -155.5
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 0.0
+    - -155.5
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 270
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  vertical_dual:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: vertical_dual
+    orientation: 0
+    port_type: vertical_dual
+    shear_angle: null
+    width: 11
 settings:
   changed: {}
   child: null

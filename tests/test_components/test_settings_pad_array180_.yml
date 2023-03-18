@@ -1,4 +1,41 @@
 name: pad_array_bc0d660e
+ports:
+  e11:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: e11
+    orientation: 180
+    port_type: electrical
+    shear_angle: null
+    width: 100.0
+  e21:
+    center:
+    - 0.0
+    - 150.0
+    layer:
+    - 49
+    - 0
+    name: e21
+    orientation: 180
+    port_type: electrical
+    shear_angle: null
+    width: 100.0
+  e31:
+    center:
+    - 0.0
+    - 300.0
+    layer:
+    - 49
+    - 0
+    name: e31
+    orientation: 180
+    port_type: electrical
+    shear_angle: null
+    width: 100.0
 settings:
   changed:
     columns: 1

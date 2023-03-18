@@ -1,4 +1,5 @@
 name: qrcode
+ports: {}
 settings:
   changed: {}
   child: null

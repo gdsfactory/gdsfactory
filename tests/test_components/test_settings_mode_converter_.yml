@@ -1,4 +1,53 @@
 name: mode_converter
+ports:
+  o1:
+    center:
+    - -11.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - -11.0
+    - 3.05
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o3:
+    center:
+    - 21.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o3
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o4:
+    center:
+    - 21.0
+    - 3.05
+    layer:
+    - 1
+    - 0
+    name: o4
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
 settings:
   changed: {}
   child: null

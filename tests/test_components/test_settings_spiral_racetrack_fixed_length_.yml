@@ -1,4 +1,27 @@
 name: spiral_racetrack_fixed_length
+ports:
+  o1:
+    center:
+    - -20.249
+    - 20.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 150.0
+    - 20.0
+    layer: WG
+    name: o2
+    orientation: 0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
 settings:
   changed: {}
   child: null

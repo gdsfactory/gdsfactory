@@ -1,4 +1,5 @@
 name: fiducial_squares
+ports: {}
 settings:
   changed: {}
   child: null

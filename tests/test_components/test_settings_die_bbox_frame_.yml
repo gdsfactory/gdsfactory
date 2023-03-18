@@ -1,4 +1,5 @@
 name: die_bbox_frame
+ports: {}
 settings:
   changed: {}
   child: null

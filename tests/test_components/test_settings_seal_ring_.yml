@@ -1,4 +1,5 @@
 name: seal_ring
+ports: {}
 settings:
   changed: {}
   child: null

@@ -1,4 +1,5 @@
 name: transition
+ports: {}
 settings:
   changed: {}
   child: null

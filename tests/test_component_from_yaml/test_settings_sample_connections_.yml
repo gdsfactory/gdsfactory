@@ -1,4 +1,5 @@
 name: sample_connections_65d4d507
+ports: {}
 settings:
   changed:
     conf:

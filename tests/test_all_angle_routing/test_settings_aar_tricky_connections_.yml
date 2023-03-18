@@ -1,4 +1,5 @@
 name: aar_tricky_connections
+ports: {}
 settings:
   changed: {}
   child: null

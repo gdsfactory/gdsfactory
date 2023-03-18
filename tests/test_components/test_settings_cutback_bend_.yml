@@ -1,4 +1,29 @@
 name: cutback_bend
+ports:
+  o1:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 270
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - -250.0
+    - 150.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 90
+    port_type: optical
+    shear_angle: null
+    width: 0.5
 settings:
   changed: {}
   child: null

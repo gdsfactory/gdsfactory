@@ -1,4 +1,5 @@
 name: straight_add_grating_couplers
+ports: {}
 settings:
   changed: {}
   child:

@@ -1,4 +1,29 @@
 name: optimal_step
+ports:
+  e1:
+    center:
+    - -38.132
+    - 5.0
+    layer:
+    - 1
+    - 0
+    name: e1
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 10
+  e2:
+    center:
+    - 112.672
+    - 11.0
+    layer:
+    - 1
+    - 0
+    name: e2
+    orientation: 0
+    port_type: optical
+    shear_angle: null
+    width: 22
 settings:
   changed: {}
   child: null
