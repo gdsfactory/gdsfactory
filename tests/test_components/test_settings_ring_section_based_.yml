@@ -1,4 +1,29 @@
 name: ring_section_based
+ports:
+  o1:
+    center:
+    - -4.988
+    - -0.807
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 5.512
+    - -0.807
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
 settings:
   changed: {}
   child: null

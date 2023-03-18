@@ -1,4 +1,5 @@
 name: greek_cross
+ports: {}
 settings:
   changed: {}
   child: null

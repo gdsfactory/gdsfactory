@@ -1,4 +1,29 @@
 name: grating_coupler_rectang_c148e9a3
+ports:
+  o1:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  opt_te_1550_15:
+    center:
+    - 153.5
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: opt_te_1550_15
+    orientation: 0
+    port_type: opt_te_1550_15
+    shear_angle: null
+    width: 11.0
 settings:
   changed: {}
   child: null

@@ -1,4 +1,29 @@
 name: grating_coupler_ellipti_b6bd8130
+ports:
+  o1:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  opt_tm_1554_15:
+    center:
+    - 30.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: opt_tm_1554_15
+    orientation: 0
+    port_type: opt_tm_1554_15
+    shear_angle: null
+    width: 10
 settings:
   changed:
     grating_line_width: 0.707

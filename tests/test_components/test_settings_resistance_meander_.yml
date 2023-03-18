@@ -1,4 +1,5 @@
 name: resistance_meander
+ports: {}
 settings:
   changed: {}
   child: null

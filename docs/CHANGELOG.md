@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.64.0
+
+- add add_pads_bot and add_pads_top [PR](https://github.com/gdsfactory/gdsfactory/pull/1446)
+- improve Component.add_ports [PR](https://github.com/gdsfactory/gdsfactory/pull/1448)
+- add ports info to tests, and add pad_rectangular [PR](https://github.com/gdsfactory/gdsfactory/pull/1449)
+
 ## [6.63.0](https://github.com/gdsfactory/gdsfactory/pull/1445)
 
 - add `bend_euler_s.info['length']`

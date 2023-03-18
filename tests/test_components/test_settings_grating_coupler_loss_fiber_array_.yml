@@ -1,4 +1,5 @@
 name: grating_coupler_loss_fiber_array
+ports: {}
 settings:
   changed: {}
   child: null

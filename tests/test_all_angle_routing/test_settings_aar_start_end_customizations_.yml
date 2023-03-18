@@ -1,4 +1,5 @@
 name: aar_start_end_customizations
+ports: {}
 settings:
   changed: {}
   child: null

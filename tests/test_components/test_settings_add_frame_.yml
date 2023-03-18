@@ -1,4 +1,5 @@
 name: add_frame
+ports: {}
 settings:
   changed: {}
   child: null

@@ -1,4 +1,5 @@
 name: pads_shorted
+ports: {}
 settings:
   changed: {}
   child: null

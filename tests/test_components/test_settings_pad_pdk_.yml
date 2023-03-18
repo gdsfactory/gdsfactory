@@ -1,82 +1,80 @@
-name: compass
+name: pad_pdk
 ports:
   e1:
     center:
-    - -2.0
+    - -40.0
     - 0.0
     layer:
-    - 1
+    - 49
     - 0
     name: e1
     orientation: 180
     port_type: placement
     shear_angle: null
-    width: 2.0
+    width: 80.0
   e2:
     center:
     - 0.0
-    - 1.0
+    - 40.0
     layer:
-    - 1
+    - 49
     - 0
     name: e2
     orientation: 90
     port_type: placement
     shear_angle: null
-    width: 4.0
+    width: 80.0
   e3:
     center:
-    - 2.0
+    - 40.0
     - 0.0
     layer:
-    - 1
+    - 49
     - 0
     name: e3
-    orientation: 0
+    orientation: 0.0
     port_type: placement
     shear_angle: null
-    width: 2.0
+    width: 80.0
   e4:
     center:
     - 0.0
-    - -1.0
+    - -40.0
     layer:
-    - 1
+    - 49
     - 0
     name: e4
     orientation: 270
     port_type: placement
     shear_angle: null
-    width: 4.0
+    width: 80.0
+  pad:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 49
+    - 0
+    name: pad
+    orientation: null
+    port_type: vertical_dc
+    shear_angle: null
+    width: 80.0
 settings:
   changed: {}
   child: null
   default:
-    layer: WG
-    port_inclusion: 0.0
-    port_orientations:
-    - 180
-    - 90
-    - 0
-    - -90
-    port_type: placement
-    size:
-    - 4.0
-    - 2.0
+    pad_width: pad_width
   full:
-    layer: WG
-    port_inclusion: 0.0
-    port_orientations:
-    - 180
-    - 90
+    pad_width: pad_width
+  function_name: pad_pdk
+  info:
+    layer:
+    - 49
     - 0
-    - -90
-    port_type: placement
     size:
-    - 4.0
-    - 2.0
-  function_name: compass
-  info: {}
+    - 80.0
+    - 80.0
   info_version: 2
-  module: gdsfactory.components.compass
-  name: compass
+  module: gdsfactory.components.pad
+  name: pad_pdk

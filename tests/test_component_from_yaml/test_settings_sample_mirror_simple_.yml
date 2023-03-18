@@ -1,4 +1,5 @@
 name: sample_mirror_simple_f31e619a
+ports: {}
 settings:
   changed:
     conf:

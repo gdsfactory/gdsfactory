@@ -1,4 +1,5 @@
 name: rectangle_with_slits
+ports: {}
 settings:
   changed: {}
   child: null

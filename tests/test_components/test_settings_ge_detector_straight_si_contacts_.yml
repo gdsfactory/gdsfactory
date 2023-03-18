@@ -1,4 +1,113 @@
 name: ge_detector_straight_si_contacts
+ports:
+  bot_e1:
+    center:
+    - 0.0
+    - -7.5
+    layer:
+    - 49
+    - 0
+    name: bot_e1
+    orientation: 180
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  bot_e2:
+    center:
+    - 20.0
+    - -2.5
+    layer:
+    - 49
+    - 0
+    name: bot_e2
+    orientation: 90
+    port_type: electrical
+    shear_angle: null
+    width: 40.0
+  bot_e3:
+    center:
+    - 40.0
+    - -7.5
+    layer:
+    - 49
+    - 0
+    name: bot_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  bot_e4:
+    center:
+    - 20.0
+    - -12.5
+    layer:
+    - 49
+    - 0
+    name: bot_e4
+    orientation: 270
+    port_type: electrical
+    shear_angle: null
+    width: 40.0
+  o1:
+    center:
+    - -20.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  top_e1:
+    center:
+    - 0.0
+    - 7.5
+    layer:
+    - 49
+    - 0
+    name: top_e1
+    orientation: 180
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  top_e2:
+    center:
+    - 20.0
+    - 12.5
+    layer:
+    - 49
+    - 0
+    name: top_e2
+    orientation: 90
+    port_type: electrical
+    shear_angle: null
+    width: 40.0
+  top_e3:
+    center:
+    - 40.0
+    - 7.5
+    layer:
+    - 49
+    - 0
+    name: top_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  top_e4:
+    center:
+    - 20.0
+    - 2.5
+    layer:
+    - 49
+    - 0
+    name: top_e4
+    orientation: 270
+    port_type: electrical
+    shear_angle: null
+    width: 40.0
 settings:
   changed: {}
   child: null

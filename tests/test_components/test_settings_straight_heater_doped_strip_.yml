@@ -1,4 +1,125 @@
 name: straight_heater_doped_r_fe4184db
+ports:
+  bot_e1:
+    center:
+    - -0.2
+    - -20.0
+    layer:
+    - 49
+    - 0
+    name: bot_e1
+    orientation: 180
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  bot_e2:
+    center:
+    - 154.8
+    - -15.0
+    layer:
+    - 49
+    - 0
+    name: bot_e2
+    orientation: 90
+    port_type: electrical
+    shear_angle: null
+    width: 310.0
+  bot_e3:
+    center:
+    - 309.8
+    - -20.0
+    layer:
+    - 49
+    - 0
+    name: bot_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  bot_e4:
+    center:
+    - 154.8
+    - -25.0
+    layer:
+    - 49
+    - 0
+    name: bot_e4
+    orientation: 270
+    port_type: electrical
+    shear_angle: null
+    width: 310.0
+  o1:
+    center:
+    - -10.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 310.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  top_e1:
+    center:
+    - -0.2
+    - 20.0
+    layer:
+    - 49
+    - 0
+    name: top_e1
+    orientation: 180
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  top_e2:
+    center:
+    - 154.8
+    - 25.0
+    layer:
+    - 49
+    - 0
+    name: top_e2
+    orientation: 90
+    port_type: electrical
+    shear_angle: null
+    width: 310.0
+  top_e3:
+    center:
+    - 309.8
+    - 20.0
+    layer:
+    - 49
+    - 0
+    name: top_e3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 10.0
+  top_e4:
+    center:
+    - 154.8
+    - 15.0
+    layer:
+    - 49
+    - 0
+    name: top_e4
+    orientation: 270
+    port_type: electrical
+    shear_angle: null
+    width: 310.0
 settings:
   changed:
     cross_section_heater:

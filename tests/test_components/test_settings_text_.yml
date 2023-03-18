@@ -1,4 +1,5 @@
 name: text
+ports: {}
 settings:
   changed: {}
   child: null

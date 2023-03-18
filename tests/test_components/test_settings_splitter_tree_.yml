@@ -1,4 +1,65 @@
 name: splitter_tree
+ports:
+  o1_0_0:
+    center:
+    - -10.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1_0_0
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2_1_1:
+    center:
+    - 195.5
+    - -12.5
+    layer:
+    - 1
+    - 0
+    name: o2_1_1
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2_1_2:
+    center:
+    - 195.5
+    - -37.5
+    layer:
+    - 1
+    - 0
+    name: o2_1_2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2_1_3:
+    center:
+    - 195.5
+    - 37.5
+    layer:
+    - 1
+    - 0
+    name: o2_1_3
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2_1_4:
+    center:
+    - 195.5
+    - 12.5
+    layer:
+    - 1
+    - 0
+    name: o2_1_4
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
 settings:
   changed: {}
   child: null

@@ -1,4 +1,53 @@
 name: straight_heater_metal_u_e2b56ba0
+ports:
+  e1:
+    center:
+    - -10.5
+    - 5.5
+    layer:
+    - 49
+    - 0
+    name: e1
+    orientation: 90
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  e2:
+    center:
+    - 330.5
+    - 5.5
+    layer:
+    - 49
+    - 0
+    name: e2
+    orientation: 90
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  o1:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 320.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
 settings:
   changed:
     port_orientation1: 90

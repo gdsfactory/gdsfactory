@@ -1,4 +1,77 @@
 name: array_with_fanout_2d
+ports:
+  o1_1_1:
+    center:
+    - -45.0
+    - -80.0
+    layer:
+    - 1
+    - 0
+    name: o1_1_1
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o1_2_1:
+    center:
+    - -45.0
+    - 70.0
+    layer:
+    - 1
+    - 0
+    name: o1_2_1
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2_1_1:
+    center:
+    - -45.0
+    - -70.0
+    layer:
+    - 1
+    - 0
+    name: o2_1_1
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2_2_1:
+    center:
+    - -45.0
+    - 80.0
+    layer:
+    - 1
+    - 0
+    name: o2_2_1
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o3_1_1:
+    center:
+    - -45.0
+    - -60.0
+    layer:
+    - 1
+    - 0
+    name: o3_1_1
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o3_2_1:
+    center:
+    - -45.0
+    - 90.0
+    layer:
+    - 1
+    - 0
+    name: o3_2_1
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
 settings:
   changed: {}
   child: null

@@ -1,4 +1,17 @@
 name: via_stack_with_offset
+ports:
+  e1:
+    center:
+    - 0.0
+    - 10.0
+    layer:
+    - 41
+    - 0
+    name: e1
+    orientation: 180
+    port_type: electrical
+    shear_angle: null
+    width: 10
 settings:
   changed: {}
   child: null

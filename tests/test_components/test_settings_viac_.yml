@@ -1,4 +1,5 @@
 name: via
+ports: {}
 settings:
   changed: {}
   child: null

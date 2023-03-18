@@ -1,4 +1,29 @@
 name: aar_basic_01
+ports:
+  o1:
+    center:
+    - 109.848
+    - 101.736
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 10
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - -10.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
 settings:
   changed: {}
   child: null

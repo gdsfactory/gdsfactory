@@ -1860,7 +1860,7 @@ class Component(_GeometryHelper):
         ignore_components_prefix: Optional[List[str]] = None,
         ignore_functions_prefix: Optional[List[str]] = None,
         with_cells: bool = False,
-        with_ports: bool = False,
+        with_ports: bool = True,
     ) -> Dict[str, Any]:
         """Returns Dict representation of a component.
 

@@ -1,4 +1,65 @@
 name: edge_coupler_array
+ports:
+  o1:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 0.0
+    - 127.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o3:
+    center:
+    - 0.0
+    - 254.0
+    layer:
+    - 1
+    - 0
+    name: o3
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o4:
+    center:
+    - 0.0
+    - 381.0
+    layer:
+    - 1
+    - 0
+    name: o4
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o5:
+    center:
+    - 0.0
+    - 508.0
+    layer:
+    - 1
+    - 0
+    name: o5
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
 settings:
   changed: {}
   child: null

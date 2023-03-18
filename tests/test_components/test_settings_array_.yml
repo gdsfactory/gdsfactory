@@ -1,4 +1,149 @@
 name: array
+ports:
+  o1_1_1:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1_1_1
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o1_1_2:
+    center:
+    - 150.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1_1_2
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o1_1_3:
+    center:
+    - 300.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1_1_3
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o1_1_4:
+    center:
+    - 450.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1_1_4
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o1_1_5:
+    center:
+    - 600.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1_1_5
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o1_1_6:
+    center:
+    - 750.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1_1_6
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2_1_1:
+    center:
+    - 10.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o2_1_1
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2_1_2:
+    center:
+    - 160.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o2_1_2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2_1_3:
+    center:
+    - 310.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o2_1_3
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2_1_4:
+    center:
+    - 460.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o2_1_4
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2_1_5:
+    center:
+    - 610.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o2_1_5
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2_1_6:
+    center:
+    - 760.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o2_1_6
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 0.5
 settings:
   changed: {}
   child: null

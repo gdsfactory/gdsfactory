@@ -1,4 +1,53 @@
 name: straight_length20_width_85caa607
+ports:
+  opt-grating_coupler_ellipti_dd7f7af4-straight_length20_width2-loopback0:
+    center:
+    - -180.5
+    - -28.5
+    layer:
+    - 1
+    - 0
+    name: opt-grating_coupler_ellipti_dd7f7af4-straight_length20_width2-loopback0
+    orientation: 90
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  opt-grating_coupler_ellipti_dd7f7af4-straight_length20_width2-loopback1:
+    center:
+    - 200.5
+    - -28.5
+    layer:
+    - 1
+    - 0
+    name: opt-grating_coupler_ellipti_dd7f7af4-straight_length20_width2-loopback1
+    orientation: 90
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  opt-grating_coupler_ellipti_dd7f7af4-straight_length20_width2-o1:
+    center:
+    - -53.5
+    - -28.5
+    layer:
+    - 1
+    - 0
+    name: opt-grating_coupler_ellipti_dd7f7af4-straight_length20_width2-o1
+    orientation: 90
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  opt-grating_coupler_ellipti_dd7f7af4-straight_length20_width2-o2:
+    center:
+    - 73.5
+    - -28.5
+    layer:
+    - 1
+    - 0
+    name: opt-grating_coupler_ellipti_dd7f7af4-straight_length20_width2-o2
+    orientation: 90
+    port_type: optical
+    shear_angle: null
+    width: 0.5
 settings:
   changed:
     component:

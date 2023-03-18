@@ -1,4 +1,5 @@
 name: pad_gsg_short
+ports: {}
 settings:
   changed: {}
   child: null

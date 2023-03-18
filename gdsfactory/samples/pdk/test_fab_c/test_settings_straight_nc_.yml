@@ -1,4 +1,29 @@
 name: straight_f84cb6d2
+ports:
+  o1:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 34
+    - 0
+    name: o1
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 1.0
+  o2:
+    center:
+    - 10.0
+    - 0.0
+    layer:
+    - 34
+    - 0
+    name: o2
+    orientation: 0.0
+    port_type: optical
+    shear_angle: null
+    width: 1.0
 settings:
   changed:
     cross_section:

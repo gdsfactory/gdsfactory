@@ -1,4 +1,5 @@
 name: pad_gsg_short_shortFalse
+ports: {}
 settings:
   changed:
     short: false
