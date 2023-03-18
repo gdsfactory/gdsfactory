@@ -225,3 +225,22 @@ cc
 c = gf.components.straight_heater_metal(length=100.0)
 cc = gf.routing.add_pads_top(component=c, port_names=("e1",))
 cc
+
+# %%
+n = west = north = south = east = 10
+spacing = 20
+c = gf.components.nxn(
+    xsize=n * spacing,
+    ysize=n * spacing,
+    west=west,
+    east=east,
+    north=north,
+    south=south,
+    port_type="electrical",
+    wg_width=10,
+)
+c
+
+# %%
+cc = gf.routing.add_pads_top(component=c)
+cc
