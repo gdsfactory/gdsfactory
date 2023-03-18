@@ -21,8 +21,6 @@ def add_electrical_pads_top(
 ) -> Component:
     """Returns new component with electrical ports connected to top pad array.
 
-
-
     Args:
         component: to route.
         direction: 'top' or 'right', sets direction of the array.

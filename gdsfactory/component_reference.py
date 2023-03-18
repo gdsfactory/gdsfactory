@@ -507,20 +507,18 @@ class ComponentReference(_GeometryHelper):
     ) -> Tuple[ndarray, float]:
         """Apply GDS-type transformation to a port (x_ref)."""
         new_point = np.array(point)
-        new_orientation = orientation or 0
+        new_orientation = orientation
 
         if x_reflection:
             new_point[1] = -new_point[1]
-            new_orientation = -orientation
-        if rotation is not None:
+            new_orientation = None if orientation is None else -orientation
+        if rotation is not None and orientation is not None:
             new_point = _rotate_points(new_point, angle=rotation, center=[0, 0])
             new_orientation += rotation
         if origin is not None:
             new_point = new_point + np.array(origin)
 
-        if orientation is None:
-            new_orientation = orientation
-        else:
+        if orientation is not None:
             new_orientation = mod(new_orientation, 360)
 
         return new_point, new_orientation

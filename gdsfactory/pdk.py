@@ -44,6 +44,8 @@ constants = {
     "fiber_spacing": 50.0,
     "fiber_input_to_output_spacing": 200.0,
     "metal_spacing": 10.0,
+    "pad_spacing": 100.0,
+    "pad_width": 80.0,
 }
 
 nm = 1e-3

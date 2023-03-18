@@ -21,6 +21,7 @@ from gdsfactory.typings import (
     CrossSectionSpec,
     Label,
     LayerSpec,
+    Strs,
 )
 
 
@@ -50,7 +51,7 @@ def route_fiber_array(
     layer_label_loopback: Optional[Tuple[int, int]] = None,
     component_name: Optional[str] = None,
     x_grating_offset: int = 0,
-    optical_port_labels: Optional[Tuple[str, ...]] = None,
+    port_names: Optional[Strs] = None,
     get_input_label_text_loopback_function: Callable = None,
     get_input_label_text_function: Optional[Callable] = None,
     get_input_labels_function: Optional[Callable] = None,
@@ -109,7 +110,7 @@ def route_fiber_array(
         layer_label: for TM labels.
         component_name: name of component.
         x_grating_offset: x offset.
-        optical_port_labels: port labels to route_to_fiber_array.
+        port_names: port labels to route_to_fiber_array.
         get_input_label_text_loopback_function: function to get input labels for grating couplers.
         get_input_label_text_function: for the label.
         get_input_labels_function: for the label.
@@ -134,13 +135,14 @@ def route_fiber_array(
 
     component_name = component_name or component.name
     excluded_ports = excluded_ports or []
-    if optical_port_labels is None:
+    if port_names is None:
         optical_ports = list(select_ports(component.ports).values())
     else:
-        optical_ports = [component.ports[lbl] for lbl in optical_port_labels]
+        optical_ports = [component.ports[lbl] for lbl in port_names]
 
     optical_ports = [p for p in optical_ports if p.name not in excluded_ports]
     N = len(optical_ports)
+
     # optical_ports_labels = [p.name for p in optical_ports]
     # print(optical_ports_labels)
     if N == 0:
@@ -333,6 +335,7 @@ def route_fiber_array(
             straight=straight,
             taper=taper,
             select_ports=select_ports,
+            port_names=port_names,
             cross_section=cross_section,
         )
         elems = route.references
@@ -557,6 +560,7 @@ if __name__ == "__main__":
         grating_coupler=gc,
         nlabels_loopback=1,
         layer=layer,
+        with_loopback=False
         # optical_routing_type=2,
         # fanout_length=20,
         # get_input_label_text_function=None,

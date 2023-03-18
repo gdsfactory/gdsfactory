@@ -47,6 +47,7 @@ def wire_corner(
         port_type="electrical",
     )
     c.info["length"] = width
+    c.info["dy"] = width
     return c
 
 

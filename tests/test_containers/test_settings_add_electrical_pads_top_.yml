@@ -85,6 +85,7 @@ settings:
     layer: MTOP
     pad_array:
       function: pad_array
+    port_names: null
     select_ports:
       function: select_ports
       settings:
@@ -109,6 +110,7 @@ settings:
     layer: MTOP
     pad_array:
       function: pad_array
+    port_names: null
     select_ports:
       function: select_ports
       settings:

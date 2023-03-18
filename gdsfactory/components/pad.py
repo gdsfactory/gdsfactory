@@ -7,7 +7,27 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
-from gdsfactory.typings import ComponentSpec, LayerSpec
+from gdsfactory.typings import ComponentSpec, LayerSpec, Union, Float2
+
+
+@cell
+def pad_pdk(pad_width: Union[str, Float2] = "pad_width", **kwargs) -> Component:
+    """Returns square pad with ports.
+
+    Pad width defaults to `pad_width` constant.
+
+    Keyword Args:
+        size: x, y size.
+        layer: pad layer.
+        bbox_layers: list of layers.
+        bbox_offsets: Optional offsets for each layer with respect to size.
+            positive grows, negative shrinks the size.
+        port_inclusion: from edge.
+        port_orientation: in degrees.
+    """
+    width = gf.get_constant(pad_width)
+    size = (width, width)
+    return pad(size=size, **kwargs)
 
 
 @cell
@@ -19,7 +39,7 @@ def pad(
     port_inclusion: float = 0,
     port_orientation: Optional[float] = None,
 ) -> Component:
-    """Returns rectangular pad with 4 ports (1, 2, 3, 4).
+    """Returns rectangular pad with ports.
 
     Args:
         size: x, y size.
@@ -32,7 +52,9 @@ def pad(
     """
     c = Component()
     layer = gf.get_layer(layer)
-    rect = compass(size=size, layer=layer, port_inclusion=port_inclusion)
+    rect = compass(
+        size=size, layer=layer, port_inclusion=port_inclusion, port_type="electrical"
+    )
     c_ref = c.add_ref(rect)
     c.add_ports(c_ref.ports)
     c.info["size"] = (float(size[0]), float(size[1]))
@@ -111,7 +133,8 @@ pad_array180 = partial(pad_array, orientation=180, columns=1, rows=3)
 
 
 if __name__ == "__main__":
-    c = pad()
+    c = pad_pdk()
+    # c = pad()
     # c = pad(layer_to_inclusion={(3, 0): 10})
     # print(c.ports)
     # c = pad(width=10, height=10)

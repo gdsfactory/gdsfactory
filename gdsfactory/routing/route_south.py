@@ -13,7 +13,7 @@ from gdsfactory.cross_section import strip
 from gdsfactory.port import Port, select_ports_optical
 from gdsfactory.routing.get_route import get_route
 from gdsfactory.routing.utils import direction_ports_from_list_ports, flip
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Number, Routes
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Number, Routes, Strs
 
 
 def route_south(
@@ -27,6 +27,7 @@ def route_south(
     straight: ComponentSpec = straight_function,
     taper: Optional[ComponentSpec] = taper_function,
     select_ports: Callable = select_ports_optical,
+    port_names: Optional[Strs] = None,
     cross_section: CrossSectionSpec = strip,
     **kwargs,
 ) -> Routes:
@@ -43,6 +44,13 @@ def route_south(
             function will be connected. Supplying this information helps
             avoiding straight collisions.
         gc_port_name: grating coupler port name.
+        bend: spec.
+        straight: spec.
+        taper: spec.
+        select_ports: function to select_ports.
+        port_names: optional port names. Overrides select_ports.
+        cross_section: cross_section spec.
+        kwargs: cross_section settings.
 
 
     Works well if the component looks roughly like a rectangular box with:
@@ -72,8 +80,12 @@ def route_south(
         2,
     }, f"optical_routing_type = {optical_routing_type}, not supported "
 
-    optical_ports = list(select_ports(component.ports).values())
-    optical_ports = [p for p in optical_ports if p.name not in excluded_ports]
+    if port_names:
+        optical_ports = [component[port_name] for port_name in port_names]
+    else:
+        optical_ports = list(select_ports(component.ports).values())
+        optical_ports = [p for p in optical_ports if p.name not in excluded_ports]
+
     csi = component.size_info
     references = []
     lengths = []
