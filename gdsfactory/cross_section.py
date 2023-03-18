@@ -662,6 +662,7 @@ metal1 = partial(
     port_names=port_names_electrical,
     port_types=port_types_electrical,
     radius=None,
+    min_length=10,
 )
 metal2 = partial(
     metal1,

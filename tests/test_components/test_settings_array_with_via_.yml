@@ -10,6 +10,7 @@ settings:
       function: cross_section
       settings:
         layer: M2
+        min_length: 10
         port_names:
         - e1
         - e2
@@ -34,6 +35,7 @@ settings:
       function: cross_section
       settings:
         layer: M2
+        min_length: 10
         port_names:
         - e1
         - e2

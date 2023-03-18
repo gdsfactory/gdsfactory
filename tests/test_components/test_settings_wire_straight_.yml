@@ -20,6 +20,7 @@ settings:
     length: 10.0
     settings:
       layer: M3
+      min_length: 10
       port_names:
       - e1
       - e2

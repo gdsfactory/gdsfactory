@@ -108,6 +108,8 @@ add_pads
 .. autosummary::
    :toctree: _autosummary/
 
+   add_pads_top
+   add_pads_bot
    add_electrical_pads_shortest
    add_electrical_pads_top
    add_electrical_pads_top_dc

@@ -6,7 +6,7 @@ from gdsfactory.components.pad import pad_array as pad_array_function
 from gdsfactory.components.straight import straight
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_quad import route_quad
-from gdsfactory.typings import ComponentSpec, Float2
+from gdsfactory.typings import ComponentSpec, Float2, Optional, Strs, Callable
 
 
 @gf.cell
@@ -15,7 +15,8 @@ def add_electrical_pads_top(
     direction: str = "top",
     spacing: Float2 = (0.0, 100.0),
     pad_array: ComponentSpec = pad_array_function,
-    select_ports=select_ports_electrical,
+    select_ports: Callable = select_ports_electrical,
+    port_names: Optional[Strs] = None,
     layer: gf.typings.LayerSpec = "MTOP",
 ) -> Component:
     """Returns new component with electrical ports connected to top pad array.
@@ -26,6 +27,7 @@ def add_electrical_pads_top(
         spacing: component to pad spacing.
         pad_array: function for pad_array.
         select_ports: function to select electrical ports.
+        port_names: optional port names. Overrides select_ports.
         layer: for the routes.
 
     .. plot::
@@ -43,7 +45,9 @@ def add_electrical_pads_top(
 
     c.component = component
     ref = c << component
-    ports_electrical = select_ports(ref.ports)
+
+    ports = [ref[port_name] for port_name in port_names] if port_names else None
+    ports_electrical = ports or select_ports(ref.ports)
     ports_electrical = list(ports_electrical.values())
 
     if direction == "top":

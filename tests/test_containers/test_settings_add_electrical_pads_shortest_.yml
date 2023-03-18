@@ -84,6 +84,7 @@ settings:
     layer: M3
     pad: pad
     pad_port_spacing: 50.0
+    port_names: null
     port_orientation: 90
     select_ports:
       function: select_ports
@@ -105,6 +106,7 @@ settings:
     layer: M3
     pad: pad
     pad_port_spacing: 50.0
+    port_names: null
     port_orientation: 90
     select_ports:
       function: select_ports

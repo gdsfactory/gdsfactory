@@ -40,7 +40,7 @@ def add_fiber_array(
         grating_coupler: spec for route terminations.
         gc_port_name: grating coupler input port name.
         gc_port_labels: grating coupler list of labels.
-        component_name: for the label.
+        component_name: optional for the label.
         select_ports: function to select ports.
         cross_section: cross_section function.
         get_input_labels_function: function to get input labels. None skips labels.
