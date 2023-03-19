@@ -14,12 +14,36 @@ ports:
     width: 0.5
   o2:
     center:
+    - 313.0
+    - 18.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o3:
+    center:
+    - 338.0
+    - 15.0
+    layer:
+    - 1
+    - 0
+    name: o3
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o4:
+    center:
     - 386.0
     - -46.0
     layer:
     - 1
     - 0
-    name: o2
+    name: o4
     orientation: 270
     port_type: optical
     shear_angle: null
@@ -33,6 +57,7 @@ settings:
       function: bend_euler
     cross_section: strip
     length: null
+    ports_inner: true
     x_inner_length_cutback: 300.0
     x_inner_offset: 0.0
     xspacing: 3.0
@@ -44,6 +69,7 @@ settings:
       function: bend_euler
     cross_section: strip
     length: null
+    ports_inner: true
     x_inner_length_cutback: 300.0
     x_inner_offset: 0.0
     xspacing: 3.0
@@ -51,7 +77,7 @@ settings:
     yspacing: 3.0
   function_name: spiral_external_io
   info:
-    length: 9003.302
+    length: 8918.754
   info_version: 2
   module: gdsfactory.components.spiral_external_io
   name: spiral_external_io
