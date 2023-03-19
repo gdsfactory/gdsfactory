@@ -82,4 +82,3 @@ chapters:
   - file: components
   - file: api
   - file: routing
-  - file: cli
