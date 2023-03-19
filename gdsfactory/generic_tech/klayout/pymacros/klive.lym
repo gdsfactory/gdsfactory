@@ -146,7 +146,7 @@ class MyServer(pya.QTcpServer):
 # Start the server
 server = MyServer()
 path = pathlib.Path(__file__).parent.absolute()
-print("klive 6.64.1 is running from {} inside klayout {} with python {}".format(str(path), klayout_version, sys.version))
+print("klive 6.64.2 is running from {} inside klayout {} with python {}".format(str(path), klayout_version, sys.version))
 
 </text>
 </klayout-macro>
