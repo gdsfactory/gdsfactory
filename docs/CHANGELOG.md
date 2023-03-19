@@ -1,10 +1,12 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [6.64.1](https://github.com/gdsfactory/gdsfactory/pull/1450)
+## [6.64.1](https://github.com/gdsfactory/gdsfactory/pull/1451)
 
 - add setter for `Port.x` and `Port.y`
 - metals have default gap = 10
 - `gf.routing.get_bundle(separation=None)` defaults to `cross_section.gap` and `cross_section.width`
+- nicer CLI with rich-click
+- remove CLI from docs
 
 ## 6.64.0
 
