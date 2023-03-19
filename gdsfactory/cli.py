@@ -5,7 +5,6 @@ from __future__ import annotations
 import pathlib
 from typing import Optional
 
-import click
 from click.core import Context, Option
 
 import gdsfactory
@@ -18,6 +17,11 @@ from gdsfactory.install import install_gdsdiff, install_klayout_package
 from gdsfactory.technology import lyp_to_dataclass
 from gdsfactory.typings import PathType
 from gdsfactory.write_cells import write_cells as write_cells_to_separate_gds
+
+try:
+    import rich_click as click
+except ImportError:
+    import click
 
 VERSION = "6.64.0"
 LAYER_LABEL = LAYER.LABEL
@@ -33,14 +37,14 @@ def print_version(ctx: Context, param: Option, value: bool) -> None:
 
 @click.group()
 def version() -> None:
-    """Commands working with gdsfactory tool."""
+    """Commands for printing gdsfactory extension versions."""
     pass
 
 
 # TOOL
 @click.group()
 def tool() -> None:
-    """Commands working with gdsfactory tool."""
+    """Commands install."""
     pass
 
 
@@ -52,8 +56,6 @@ def config_get(key: str) -> None:
 
 
 # GDS
-
-
 @click.group()
 def gds() -> None:
     """Commands for dealing with GDS files."""
@@ -156,13 +158,13 @@ def install() -> None:
 
 @click.command()
 def raw() -> None:
-    """Show a GDS file using klive."""
+    """Show installed plugin versions."""
     print_version_raw()
 
 
 @click.command()
 def pdks() -> None:
-    """Show a GDS file using klive."""
+    """Show installed PDK versions."""
     print_version_pdks()
 
 

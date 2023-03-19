@@ -183,7 +183,6 @@ class Port:
         """TODO!
 
         delete this. Use to_dict instead
-
         """
         return {
             "name": self.name,
@@ -259,6 +258,14 @@ class Port:
     def y(self) -> float:
         """Returns the y-coordinate of the Port center."""
         return self.center[1]
+
+    @x.setter
+    def x(self, value):
+        self.center = (value, self.center[1])
+
+    @y.setter
+    def y(self, value):
+        self.center = (self.center[0], value)
 
     def rotate(self, angle: float = 45, center: Optional[Float2] = None) -> Port:
         """Rotates a Port around the specified center point, if no centerpoint \
@@ -1005,31 +1012,7 @@ __all__ = [
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    # c = gf.Component()
-    # cross_section = gf.cross_section.strip()
-    # c.add_port(
-    #     "o1",
-    #     center=(0, 0),
-    #     orientation=0,
-    #     port_type="optical",
-    #     cross_section=cross_section,
-    # )
-
-    # c = gf.components.straight_heater_metal()
-    # c.auto_rename_ports()
-    # auto_rename_ports_layer_orientation(c)
-    # m = map_ports_layer_to_orientation(c.ports)
-    # pprint(m)
-    # c.show(show_ports=True)
-    # print(p0)
-    # p0 = c.get_ports_list(orientation=0, clockwise=False)[0]
-    # print(p0)
-    # print(type(p0.to_dict()["center"][0]))
-    # p = Port("o1", orientation=0, center=(9, 0), layer=(1, 0), cross_section=)
-
-    c = gf.components.component_lattice()
-
-    df = c.get_ports_pandas()
-    print(df)
-
+    c = gf.c.straight()
+    p2 = c["o2"]
+    p2.x = 20
     c.show()

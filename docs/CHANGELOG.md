@@ -1,8 +1,14 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [6.64.1](https://github.com/gdsfactory/gdsfactory/pull/1450)
+
+- add setter for `Port.x` and `Port.y`
+- metals have default gap = 10
+- `gf.routing.get_bundle(separation=None)` defaults to `cross_section.gap` and `cross_section.width`
+
 ## 6.64.0
 
-- add add_pads_bot and add_pads_top [PR](https://github.com/gdsfactory/gdsfactory/pull/1446)
+- add `add_pads_bot` and add_pads_top [PR](https://github.com/gdsfactory/gdsfactory/pull/1446)
 - improve Component.add_ports [PR](https://github.com/gdsfactory/gdsfactory/pull/1448)
 - add ports info to tests, and add pad_rectangular [PR](https://github.com/gdsfactory/gdsfactory/pull/1449)
 
