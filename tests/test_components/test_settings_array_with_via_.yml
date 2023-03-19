@@ -46,6 +46,7 @@ settings:
     cross_section:
       function: cross_section
       settings:
+        gap: 10
         layer: M2
         min_length: 10
         port_names:
@@ -71,6 +72,7 @@ settings:
     cross_section:
       function: cross_section
       settings:
+        gap: 10
         layer: M2
         min_length: 10
         port_names:
