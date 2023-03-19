@@ -12,7 +12,7 @@ get_bundle calls different function depending on the port orientation.
 from __future__ import annotations
 
 from functools import partial
-from typing import Callable, List, Optional, Union, Iterable
+from typing import Callable, List, Optional, Union
 
 import numpy as np
 from numpy import ndarray
@@ -135,7 +135,7 @@ def get_bundle(
     if separation is None:
         xs = (
             gf.get_cross_section(cross_section[0])
-            if isinstance(cross_section, Iterable)
+            if isinstance(cross_section, (list, tuple))
             else gf.get_cross_section(cross_section)
         )
         separation = xs.width + xs.gap
