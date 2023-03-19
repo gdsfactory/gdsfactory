@@ -5,6 +5,7 @@ import warnings
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler180
+from gdsfactory.components.straight import straight
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 diagram = r"""
@@ -71,20 +72,20 @@ def delay_snake3(
             f"delta_length = {int(delta_length)}\n" + diagram
         )
 
-    s0 = gf.components.straight(cross_section=cross_section, length=length0, **kwargs)
-    sd = gf.components.straight(
-        cross_section=cross_section, length=delta_length, **kwargs
-    )
+    s0 = straight(cross_section=cross_section, length=length0, **kwargs)
+    sd = straight(cross_section=cross_section, length=delta_length, **kwargs)
+    s2 = straight(cross_section=cross_section, length=length2, **kwargs)
 
     symbol_to_component = {
         "_": (s0, "o1", "o2"),
         "-": (sd, "o1", "o2"),
         ")": (bend180, "o2", "o1"),
         "(": (bend180, "o1", "o2"),
+        ".": (s2, "o1", "o2"),
     }
 
     sequence = "_)" + n // 2 * "-(-)"
-    sequence = sequence[:-1]
+    sequence = sequence[:-1] + "."
     return gf.components.component_sequence(
         sequence=sequence, symbol_to_component=symbol_to_component
     )
@@ -103,8 +104,13 @@ if __name__ == "__main__":
     # c = test_delay_snake3_length()
     import numpy as np
 
-    length = 200.0
-    c = delay_snake3(n=2, length=length, length0=50, cross_section="strip_no_pins")
+    length = 1562
+    c = delay_snake3(
+        n=2,
+        length=length,
+        length2=length - 120,
+        cross_section="strip_no_pins",
+    )
     length_computed = c.area() / 0.5
-    np.isclose(length, length_computed)
+    assert np.isclose(length, length_computed), length_computed
     c.show(show_ports=True)
