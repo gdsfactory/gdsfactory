@@ -33,6 +33,7 @@ def spiral_external_io(
     bend: ComponentSpec = bend_euler,
     length: Optional[float] = None,
     cross_section: CrossSectionSpec = "strip",
+    ports_inner: bool = False,
     **kwargs,
 ) -> Component:
     """Returns spiral with input and output ports outside the spiral.
@@ -47,6 +48,7 @@ def spiral_external_io(
         bend: function.
         length: length in um, it is the approximates total length.
         cross_section: spec.
+        ports_inner: if True, removes the internal S-bend and exposes new ports
         kwargs: cross_section settings.
     """
     if length:
@@ -116,24 +118,56 @@ def spiral_external_io(
     pts_e = pts_e[:-2]
 
     # Join the two bits of paths and extrude the spiral geometry
-    route = round_corners(
-        pts_w[::-1] + pts_e,
-        bend=bend,
-        cross_section=cross_section,
-        **kwargs,
-    )
+    if not ports_inner:
+        route = round_corners(
+            pts_w[::-1] + pts_e,
+            bend=bend,
+            cross_section=cross_section,
+            **kwargs,
+        )
+        component.add(route.references)
+        component.add_port("o2", port=route.ports[0])
+        component.add_port("o1", port=route.ports[1])
 
-    component.add(route.references)
-    component.add_port("o2", port=route.ports[0])
-    component.add_port("o1", port=route.ports[1])
+        length = route.length
+    # If inner ports, do not join and layout routes separately
+    else:
+        pts_w[1][0] += bend_radius
+        pts_e[1][0] += bend_radius
+        route_west = round_corners(
+            pts_w[1:],
+            bend=bend,
+            cross_section=cross_section,
+            **kwargs,
+        )
+        route_east = round_corners(
+            pts_e[1:],
+            bend=bend,
+            cross_section=cross_section,
+            **kwargs,
+        )
+        component.add(route_west.references)
+        component.add(route_east.references)
+        component.add_port("o2", port=route_west.ports[0])
+        component.add_port("o1", port=route_east.ports[1])
+        component.add_port("o4", port=route_west.ports[1])
+        component.add_port("o3", port=route_east.ports[0])
+        length = route_west.length + route_east.length
 
-    length = route.length
     component.info["length"] = length
+
     return component
 
 
 if __name__ == "__main__":
-    c = spiral_external_io(auto_widen=True, width_wide=2.0, length=10e3, N=15)
-    # print(c.info['length'])
-    # print(c.info['length'] / 1e4, "cm")
+    spacing = 3
+    c = spiral_external_io(
+        N=15,
+        xspacing=spacing,
+        yspacing=spacing,
+        ports_inner=True,
+        x_inner_length_cutback=0,
+        y_straight_inner_top=0,
+        x_inner_offset=0,
+    )
     c.show(show_ports=True)
