@@ -85,7 +85,7 @@ def delay_snake3(
     }
 
     sequence = "_)" + n // 2 * "-(-)"
-    sequence = sequence[:-1] + "."
+    sequence = f"{sequence[:-1]}."
     return gf.components.component_sequence(
         sequence=sequence, symbol_to_component=symbol_to_component
     )
