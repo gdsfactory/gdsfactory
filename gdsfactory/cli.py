@@ -5,7 +5,6 @@ from __future__ import annotations
 import pathlib
 from typing import Optional
 
-import click
 from click.core import Context, Option
 
 import gdsfactory
@@ -18,6 +17,11 @@ from gdsfactory.install import install_gdsdiff, install_klayout_package
 from gdsfactory.technology import lyp_to_dataclass
 from gdsfactory.typings import PathType
 from gdsfactory.write_cells import write_cells as write_cells_to_separate_gds
+
+try:
+    import rich_click as click
+except ImportError:
+    import click
 
 VERSION = "6.64.0"
 LAYER_LABEL = LAYER.LABEL
