@@ -33,7 +33,7 @@ def spiral_external_io(
     bend: ComponentSpec = bend_euler,
     length: Optional[float] = None,
     cross_section: CrossSectionSpec = "strip",
-    ports_inner: bool = True,
+    ports_inner: bool = False,
     **kwargs,
 ) -> Component:
     """Returns spiral with input and output ports outside the spiral.
