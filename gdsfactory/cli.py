@@ -37,14 +37,14 @@ def print_version(ctx: Context, param: Option, value: bool) -> None:
 
 @click.group()
 def version() -> None:
-    """Commands working with gdsfactory version."""
+    """Commands for printing gdsfactory extension versions."""
     pass
 
 
 # TOOL
 @click.group()
 def tool() -> None:
-    """Commands working with gdsfactory tool."""
+    """Commands install."""
     pass
 
 
