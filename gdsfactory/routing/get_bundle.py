@@ -23,7 +23,6 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.via_corner import via_corner
 from gdsfactory.components.wire import wire_corner
-from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
 from gdsfactory.routing.get_bundle_corner import get_bundle_corner
 from gdsfactory.routing.get_bundle_from_steps import get_bundle_from_steps
@@ -46,7 +45,7 @@ from gdsfactory.typings import (
 def get_bundle(
     ports1: List[Port],
     ports2: List[Port],
-    separation: float = 5.0,
+    separation: Optional[float] = None,
     extension_length: float = 0.0,
     straight: ComponentSpec = straight_function,
     bend: ComponentSpec = bend_euler,
@@ -64,6 +63,7 @@ def get_bundle(
         ports1: list of starting ports.
         ports2: list of end ports.
         separation: bundle separation (center to center).
+            Defaults to cross_section.width + cross_section.gap
         extension_length: adds straight extension.
         bend: function for the bend. Defaults to euler.
         with_sbend: use s_bend routing when there is no space for manhattan routing.
@@ -132,6 +132,9 @@ def get_bundle(
         c.plot()
 
     """
+    xs = gf.get_cross_section(cross_section)
+    separation = separation or xs.width + xs.gap
+
     # convert single port to list
     if isinstance(ports1, Port):
         ports1 = [ports1]
@@ -254,7 +257,7 @@ def get_bundle_same_axis(
     path_length_match_loops: Optional[int] = None,
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
-    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
+    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = "strip",
     **kwargs,
 ) -> List[Route]:
     r"""Semi auto-routing for two lists of ports.
@@ -542,7 +545,7 @@ def get_bundle_same_axis_no_grouping(
     start_straight_length: Optional[float] = None,
     end_straight_length: Optional[float] = None,
     sort_ports: bool = True,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> List[Route]:
     r"""Returns a list of route elements.
