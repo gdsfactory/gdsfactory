@@ -33,7 +33,7 @@ def spiral_external_io(
     bend: ComponentSpec = bend_euler,
     length: Optional[float] = None,
     cross_section: CrossSectionSpec = "strip",
-    ports_inner: bool = False,
+    with_inner_ports: bool = False,
     **kwargs,
 ) -> Component:
     """Returns spiral with input and output ports outside the spiral.
@@ -48,7 +48,7 @@ def spiral_external_io(
         bend: function.
         length: length in um, it is the approximates total length.
         cross_section: spec.
-        ports_inner: if True, removes the internal S-bend and exposes new ports
+        with_inner_ports: if True, removes the internal S-bend and exposes new ports
         kwargs: cross_section settings.
     """
     if length:
@@ -118,7 +118,7 @@ def spiral_external_io(
     pts_e = pts_e[:-2]
 
     # Join the two bits of paths and extrude the spiral geometry
-    if not ports_inner:
+    if not with_inner_ports:
         route = round_corners(
             pts_w[::-1] + pts_e,
             bend=bend,
@@ -165,7 +165,7 @@ if __name__ == "__main__":
         N=15,
         xspacing=spacing,
         yspacing=spacing,
-        ports_inner=True,
+        with_inner_ports=True,
         x_inner_length_cutback=0,
         y_straight_inner_top=0,
         x_inner_offset=0,

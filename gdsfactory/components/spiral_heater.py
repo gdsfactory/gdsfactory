@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import numpy as np
+from scipy.interpolate import interp1d
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -8,10 +9,7 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.bend_s import bend_s, get_min_sbend_size
 from gdsfactory.components.straight import straight
 from gdsfactory.typings import ComponentFactory, CrossSectionSpec, Floats, Optional
-from scipy.interpolate import interp1d
 from gdsfactory.routing.get_route import get_route
-
-# import matplotlib.pyplot as plt
 
 
 @gf.cell
@@ -316,12 +314,8 @@ def _req_straight_len(
 
         lens.append(c.info["length"])
 
-    # plt.plot(straight_lengths, lens)
-    # plt.show(block=True)
-
-    # Now get the required spacing to achieve the required length (interpolate)
+    # get the required spacing to achieve the required length (interpolate)
     f = interp1d(lens, straight_lengths)
-
     return f(length)
 
 

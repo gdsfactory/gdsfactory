@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.64.2
+
+- option to expose internal ports spiral_external_io [PR](https://github.com/gdsfactory/gdsfactory/pull/1452)
+- fix delay_snake3 [PR](https://github.com/gdsfactory/gdsfactory/pull/1453)
+
 ## [6.64.1](https://github.com/gdsfactory/gdsfactory/pull/1451)
 
 - add setter for `Port.x` and `Port.y`
