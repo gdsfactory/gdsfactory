@@ -538,12 +538,12 @@ def rib_with_trenches(
         width: main Section width (um) or function parameterized from 0 to 1.
             the width at t==0 is the width at the beginning of the Path.
             the width at t==1 is the width at the end.
-        width_slab: in um.
         width_trench: in um.
+        width_slab: in um.
         layer: ridge layer. None adds only ridge.
         layer_trench: layer to etch trenches.
         wg_marking_layer: layer to draw over the actual waveguide.
-            THis can be useful for booleans, routing, placement ...
+            This can be useful for booleans, routing, placement ...
         kwargs: cross_section settings.
 
 
