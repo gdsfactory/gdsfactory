@@ -7,7 +7,7 @@ import gdstk
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.component_layout import Polygon, _parse_layer
+from gdsfactory.component_layout import Polygon
 from gdsfactory.component_reference import ComponentReference
 from gdsfactory.typings import ComponentOrReference, Int2, LayerSpec
 
@@ -62,8 +62,7 @@ def boolean(
             elif isinstance(e, Polygon):
                 polys.extend(e.polygons)
 
-    layer = gf.pdk.get_layer(layer)
-    gds_layer, gds_datatype = _parse_layer(layer)
+    gds_layer, gds_datatype = gf.pdk.get_layer(layer)
 
     operation = operation.lower().replace(" ", "")
     if operation == "a-b":

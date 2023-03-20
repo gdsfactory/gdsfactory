@@ -59,7 +59,7 @@ settings:
   default:
     bot: true
     component:
-      function: bend_euler
+      function: coupler
     cross_section: rib_with_trenches
     left: false
     right: false

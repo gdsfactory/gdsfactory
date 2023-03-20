@@ -45,7 +45,7 @@ def straight(
     if x.info:
         c.info.update(x.info)
 
-    if with_bbox and length:
+    if with_bbox and length and x.bbox_layers:
         padding = []
         for offset in x.bbox_offsets:
             points = get_padding_points(

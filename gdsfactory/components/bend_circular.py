@@ -48,7 +48,7 @@ def bend_circular(
     c.info["dy"] = snap_to_grid(float(abs(p.points[0][0] - p.points[-1][0])))
     c.info["radius"] = float(radius)
 
-    if with_bbox:
+    if with_bbox and x.bbox_layers:
         padding = []
         for offset in x.bbox_offsets:
             top = offset if angle == 180 else 0

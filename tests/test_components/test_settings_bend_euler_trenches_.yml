@@ -1,4 +1,4 @@
-name: bend_euler_add_trenches_fd758d07
+name: bend_euler_add_trenches_cb24b746
 ports:
   o1:
     center:
@@ -26,6 +26,8 @@ ports:
     width: 0.5
 settings:
   changed:
+    component:
+      function: bend_euler
     right: true
     top: false
   child:
@@ -92,7 +94,7 @@ settings:
   default:
     bot: true
     component:
-      function: bend_euler
+      function: coupler
     cross_section: rib_with_trenches
     left: false
     right: false
@@ -146,4 +148,4 @@ settings:
     width: 0.5
   info_version: 2
   module: gdsfactory.components.add_trenches
-  name: bend_euler_add_trenches_fd758d07
+  name: bend_euler_add_trenches_cb24b746
