@@ -44,17 +44,36 @@ settings:
     function_name: cross_section
     length: 10.0
     settings:
-      gap: 10
-      layer: M3
-      min_length: 10
+      add_bbox: null
+      add_pins: null
+      auto_widen: false
+      auto_widen_minimum_length: 200.0
+      bbox_layers: null
+      bbox_offsets: null
+      cladding_layers: null
+      cladding_offsets: null
+      decorator: null
+      end_straight_length: 0.01
+      gap: 3.0
+      info: null
+      layer: WG
+      min_length: 0.01
+      mirror: false
+      name: null
+      offset: 0
       port_names:
-      - e1
-      - e2
+      - o1
+      - o2
       port_types:
-      - electrical
-      - electrical
-      radius: null
-      width: 10.0
+      - optical
+      - optical
+      radius: 10.0
+      sections: null
+      snap_to_grid: null
+      start_straight_length: 0.01
+      taper_length: 10.0
+      width: 0.5
+      width_wide: null
     width: 10.0
   info_version: 2
   module: gdsfactory.components.straight

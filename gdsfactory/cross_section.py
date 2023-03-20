@@ -276,6 +276,14 @@ def _xsection_without_validator(func):
         args_as_kwargs = dict(zip(sig.parameters.keys(), args))
         args_as_kwargs.update(kwargs)
 
+        default = {
+            p.name: p.default
+            for p in sig.parameters.values()
+            if p.default != inspect._empty
+        }
+
+        args_as_kwargs.update(**default)
+
         if not isinstance(xs, CrossSection):
             raise ValueError(
                 f"function {func.__name__!r} return type = {type(xs)}",

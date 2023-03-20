@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.65.0
+
+- add `gf.components.add_trenches` with some components that use it (`coupler_trenches`, `bend_euler_trenches`, `ring_single_trenches`, `ring_double_trenches`)
+
 ## 6.64.2
 
 - option to expose internal ports spiral_external_io [PR](https://github.com/gdsfactory/gdsfactory/pull/1452)

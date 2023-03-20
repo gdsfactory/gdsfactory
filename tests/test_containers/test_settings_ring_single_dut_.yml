@@ -2,7 +2,7 @@ name: ring_single_dut_564dd830
 ports:
   o1:
     center:
-    - -9.0
+    - -12.0
     - 0.0
     layer:
     - 1
@@ -14,7 +14,7 @@ ports:
     width: 0.5
   o2:
     center:
-    - 5.0
+    - 8.0
     - 0.0
     layer:
     - 1

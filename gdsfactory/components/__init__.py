@@ -6,7 +6,9 @@ Make sure your components get imported here so the PDK registers them.
 from __future__ import annotations
 
 import sys
+from functools import partial
 
+from gdsfactory.components.add_trenches import add_trenches, add_trenches90
 from gdsfactory.components.add_fiducials import add_fiducials, add_fiducials_offsets
 from gdsfactory.components.add_grating_couplers import (
     add_grating_couplers,
@@ -296,6 +298,13 @@ from gdsfactory.components.wire import wire_corner, wire_straight
 from gdsfactory.components.wire_sbend import wire_sbend
 from gdsfactory.get_factories import get_cells
 
+
+bend_euler_trenches = partial(add_trenches90, component=bend_euler)
+coupler_trenches = partial(add_trenches, component=coupler)
+ring_single_trenches = partial(add_trenches, component=ring_single)
+ring_double_trenches = partial(add_trenches, component=ring_double)
+
+
 _factory_passives = dict(
     bend_circular=bend_circular,
     bend_euler=bend_euler,
@@ -336,6 +345,7 @@ __all__ = [
     "add_grating_couplers",
     "add_grating_couplers_with_loopback_fiber_array",
     "add_grating_couplers_with_loopback_fiber_single",
+    "add_trenches",
     "align_wafer",
     "array",
     "array_with_fanout",
@@ -378,6 +388,7 @@ __all__ = [
     "coh_rx_dual_pol",
     "coh_rx_single_pol",
     "coupler",
+    "coupler_trenches",
     "coupler_bend",
     "coupler90",
     "coupler90bend",
@@ -508,10 +519,12 @@ __all__ = [
     "ring_crow",
     "ring_crow_couplers",
     "ring_double",
+    "ring_double_trenches",
     "ring_double_pn",
     "ring_double_heater",
     "ring_section_based",
     "ring_single",
+    "ring_single_trenches",
     "ring_single_heater",
     "ring_single_array",
     "ring_single_dut",
@@ -585,8 +598,13 @@ cells = get_cells(sys.modules[__name__])
 
 
 if __name__ == "__main__":
-    print(len(cells.keys()))
+    # c = coupler_trenches(width=1)
+    # c = bend_euler_trenches(width=1)
+    # c = ring_single_trenches(width=1)
+    c = ring_double_trenches(width=1)
+    c.show(show_ports=True)
+    # print(len(cells.keys()))
 
-    print("cells")
-    for i in cells.keys():
-        print(i)
+    # print("cells")
+    # for i in cells.keys():
+    #     print(i)

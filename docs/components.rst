@@ -129,6 +129,36 @@ add_grating_couplers_with_loopback_fiber_single
 
 
 
+add_trenches
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.add_trenches
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.add_trenches(cross_section='rib_with_trenches', top=True, bot=True, right=False, left=False)
+  c.plot_matplotlib()
+
+
+
+add_trenches90
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.add_trenches90
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.add_trenches90(cross_section='rib_with_trenches', top=False, bot=True, right=True, left=False)
+  c.plot_matplotlib()
+
+
+
 align_wafer
 ----------------------------------------------------
 
@@ -335,6 +365,21 @@ bend_euler_s
   import gdsfactory as gf
 
   c = gf.components.bend_euler_s()
+  c.plot_matplotlib()
+
+
+
+bend_euler_trenches
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.bend_euler_trenches
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.bend_euler_trenches(cross_section='rib_with_trenches', top=False, bot=True, right=True, left=False)
   c.plot_matplotlib()
 
 
@@ -708,7 +753,7 @@ coupler_ring
 
   import gdsfactory as gf
 
-  c = gf.components.coupler_ring(gap=0.2, radius=5.0, length_x=4.0, cross_section='strip')
+  c = gf.components.coupler_ring(gap=0.2, radius=5.0, length_x=4.0, cross_section='strip', length_extension=3)
   c.plot_matplotlib()
 
 
@@ -754,6 +799,21 @@ coupler_symmetric
   import gdsfactory as gf
 
   c = gf.components.coupler_symmetric(gap=0.234, dy=5.0, dx=10.0, cross_section='strip')
+  c.plot_matplotlib()
+
+
+
+coupler_trenches
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.coupler_trenches
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.coupler_trenches(cross_section='rib_with_trenches', top=True, bot=True, right=False, left=False)
   c.plot_matplotlib()
 
 
@@ -1877,7 +1937,7 @@ mzi
 
   import gdsfactory as gf
 
-  c = gf.components.mzi(delta_length=10.0, length_y=2.0, length_x=0.1, splitter='mmi1x2', with_splitter=True, port_e1_splitter='o2', port_e0_splitter='o3', port_e1_combiner='o2', port_e0_combiner='o3', nbends=2, cross_section='strip')
+  c = gf.components.mzi(delta_length=10.0, length_y=2.0, length_x=0.1, splitter='mmi1x2', with_splitter=True, port_e1_splitter='o2', port_e0_splitter='o3', port_e1_combiner='o2', port_e0_combiner='o3', nbends=2, cross_section='strip', mirror_bot=False)
   c.plot_matplotlib()
 
 
@@ -1892,7 +1952,7 @@ mzi1x2_2x2
 
   import gdsfactory as gf
 
-  c = gf.components.mzi1x2_2x2(delta_length=10.0, length_y=2.0, length_x=0.1, splitter='mmi1x2', with_splitter=True, port_e1_splitter='o2', port_e0_splitter='o3', port_e1_combiner='o3', port_e0_combiner='o4', nbends=2, cross_section='strip')
+  c = gf.components.mzi1x2_2x2(delta_length=10.0, length_y=2.0, length_x=0.1, splitter='mmi1x2', with_splitter=True, port_e1_splitter='o2', port_e0_splitter='o3', port_e1_combiner='o3', port_e0_combiner='o4', nbends=2, cross_section='strip', mirror_bot=False)
   c.plot_matplotlib()
 
 
@@ -1907,7 +1967,7 @@ mzi2x2_2x2
 
   import gdsfactory as gf
 
-  c = gf.components.mzi2x2_2x2(delta_length=10.0, length_y=2.0, length_x=0.1, with_splitter=True, port_e1_splitter='o3', port_e0_splitter='o4', port_e1_combiner='o3', port_e0_combiner='o4', nbends=2, cross_section='strip')
+  c = gf.components.mzi2x2_2x2(delta_length=10.0, length_y=2.0, length_x=0.1, with_splitter=True, port_e1_splitter='o3', port_e0_splitter='o4', port_e1_combiner='o3', port_e0_combiner='o4', nbends=2, cross_section='strip', mirror_bot=False)
   c.plot_matplotlib()
 
 
@@ -1952,7 +2012,7 @@ mzi_coupler
 
   import gdsfactory as gf
 
-  c = gf.components.mzi_coupler(delta_length=10.0, length_y=2.0, length_x=0.1, with_splitter=True, port_e1_splitter='o3', port_e0_splitter='o4', port_e1_combiner='o3', port_e0_combiner='o4', nbends=2, cross_section='strip')
+  c = gf.components.mzi_coupler(delta_length=10.0, length_y=2.0, length_x=0.1, with_splitter=True, port_e1_splitter='o3', port_e0_splitter='o4', port_e1_combiner='o3', port_e0_combiner='o4', nbends=2, cross_section='strip', mirror_bot=False)
   c.plot_matplotlib()
 
 
@@ -2012,7 +2072,7 @@ mzi_phase_shifter
 
   import gdsfactory as gf
 
-  c = gf.components.mzi_phase_shifter(delta_length=10.0, length_y=2.0, length_x=200, straight_x_top='straight_heater_metal', splitter='mmi1x2', with_splitter=True, port_e1_splitter='o2', port_e0_splitter='o3', port_e1_combiner='o2', port_e0_combiner='o3', nbends=2, cross_section='strip')
+  c = gf.components.mzi_phase_shifter(delta_length=10.0, length_y=2.0, length_x=200, straight_x_top='straight_heater_metal', splitter='mmi1x2', with_splitter=True, port_e1_splitter='o2', port_e0_splitter='o3', port_e1_combiner='o2', port_e0_combiner='o3', nbends=2, cross_section='strip', mirror_bot=False)
   c.plot_matplotlib()
 
 
@@ -2027,7 +2087,7 @@ mzi_phase_shifter_top_heater_metal
 
   import gdsfactory as gf
 
-  c = gf.components.mzi_phase_shifter_top_heater_metal(delta_length=10.0, length_y=2.0, length_x=200, splitter='mmi1x2', with_splitter=True, port_e1_splitter='o2', port_e0_splitter='o3', port_e1_combiner='o2', port_e0_combiner='o3', nbends=2, cross_section='strip')
+  c = gf.components.mzi_phase_shifter_top_heater_metal(delta_length=10.0, length_y=2.0, length_x=200, splitter='mmi1x2', with_splitter=True, port_e1_splitter='o2', port_e0_splitter='o3', port_e1_combiner='o2', port_e0_combiner='o3', nbends=2, cross_section='strip', mirror_bot=False)
   c.plot_matplotlib()
 
 
@@ -2272,6 +2332,21 @@ pad_gsg_short
 
 
 
+pad_rectangular
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.pad_rectangular
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.pad_rectangular(size='pad_size', layer='MTOP', port_inclusion=0)
+  c.plot_matplotlib()
+
+
+
 pads_shorted
 ----------------------------------------------------
 
@@ -2482,6 +2557,21 @@ ring_double_pn
 
 
 
+ring_double_trenches
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.ring_double_trenches
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.ring_double_trenches(cross_section='rib_with_trenches', top=True, bot=True, right=False, left=False)
+  c.plot_matplotlib()
+
+
+
 ring_section_based
 ----------------------------------------------------
 
@@ -2587,6 +2677,21 @@ ring_single_pn
 
 
 
+ring_single_trenches
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.ring_single_trenches
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.ring_single_trenches(cross_section='rib_with_trenches', top=True, bot=True, right=False, left=False)
+  c.plot_matplotlib()
+
+
+
 seal_ring
 ----------------------------------------------------
 
@@ -2642,7 +2747,7 @@ spiral_external_io
 
   import gdsfactory as gf
 
-  c = gf.components.spiral_external_io(N=6, x_inner_length_cutback=300.0, x_inner_offset=0.0, y_straight_inner_top=0.0, xspacing=3.0, yspacing=3.0, cross_section='strip')
+  c = gf.components.spiral_external_io(N=6, x_inner_length_cutback=300.0, x_inner_offset=0.0, y_straight_inner_top=0.0, xspacing=3.0, yspacing=3.0, cross_section='strip', with_inner_ports=False)
   c.plot_matplotlib()
 
 
@@ -3467,7 +3572,7 @@ via_corner
 
   import gdsfactory as gf
 
-  c = gf.components.via_corner(cross_section=[[{'function': 'cross_section', 'settings': {'layer': 'M2', 'width': 10.0, 'port_names': ['e1', 'e2'], 'port_types': ['electrical', 'electrical'], 'radius': None}}, [0, 180]], [{'function': 'cross_section', 'settings': {'layer': 'M3', 'width': 10.0, 'port_names': ['e1', 'e2'], 'port_types': ['electrical', 'electrical'], 'radius': None}}, [90, 270]]], layers_labels=['m2', 'm3'])
+  c = gf.components.via_corner(cross_section=[[{'function': 'cross_section', 'settings': {'layer': 'M2', 'width': 10.0, 'port_names': ['e1', 'e2'], 'port_types': ['electrical', 'electrical'], 'radius': None, 'min_length': 10, 'gap': 10}}, [0, 180]], [{'function': 'cross_section', 'settings': {'layer': 'M3', 'width': 10.0, 'port_names': ['e1', 'e2'], 'port_types': ['electrical', 'electrical'], 'radius': None, 'min_length': 10, 'gap': 10}}, [90, 270]]], layers_labels=['m2', 'm3'])
   c.plot_matplotlib()
 
 
