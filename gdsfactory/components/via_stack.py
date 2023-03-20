@@ -126,144 +126,125 @@ def circular_via_stack(
     # stacked with a little bit of an offset
     c = gf.Component()
 
-    if angular_extent > 180:
-        raise ValueError("This is not supported yet!")
-
     layers = layers or []
 
     if layers:
         layer_port = layer_port or layers[-1]
 
-    h_center = radius * np.sin(center_angle * np.pi / 180)
+    init_angle = (center_angle - angular_extent / 2) * np.pi / 180
+    end_angle = (center_angle + angular_extent / 2) * np.pi / 180
 
-    # Need to divide between 2 angular sections for it to work correctly
-    init_angle = (center_angle - angular_extent / 2) % 360
-    end_angle = (center_angle + angular_extent / 2) % 360
+    if init_angle > np.pi:
+        init_angle = init_angle - 2 * np.pi
 
-    if init_angle > end_angle:
-        foo = end_angle
-        end_angle = init_angle
-        init_angle = foo
-
-    if 0 < init_angle < 90 or 270 < init_angle < 360:
-        if end_angle < 90:
-            sections = [(init_angle, end_angle)]
-        else:
-            if end_angle < 270:
-                sections = [(init_angle, 90.0), (90.0, end_angle)]
-            else:
-                sections = [(init_angle, 90.0), (90.0, 270.0), (270.0, end_angle)]
-
-    else:
-        if end_angle < 270.0:
-            sections = [(init_angle, end_angle)]
-        else:
-            if end_angle < 90.0:
-                sections = [(init_angle, 270.0), (270.0, end_angle)]
-            else:
-                sections = [(init_angle, 270.0), (270.0, 90.0), (90.0, end_angle)]
-
-    c = Component()
+    if end_angle > np.pi:
+        end_angle = init_angle - 2 * np.pi
 
     # We do this via-centric: we figure out the min spacing between vias,
     # and from that figure out all the metal dimensions
     # This will of course fail if no via information is provided,
     # but why would you instantiate a ViaStack without any via?
 
-    print(sections)
-    print("----")
+    for level, via_type in enumerate(vias):
+        metal_bottom = layers[level]
+        metal_top = layers[level + 1]
 
-    for sec in sections:
-        cent_angle = (sec[0] + sec[1]) / 2
-        ang_extent = sec[1] - sec[0]
-        print(cent_angle)
-        print(ang_extent)
-        total_height = np.abs(
-            radius
-            * (
-                np.sin((cent_angle + ang_extent / 2) * np.pi / 180)
-                - np.sin((cent_angle - ang_extent / 2) * np.pi / 180)
+        via_type = gf.get_component(via_type)
+
+        # Get via info
+        w, h = via_type.info["size"]
+        g = via_type.info["enclosure"]
+        pitch_x, pitch_y = via_type.info["spacing"]
+
+        nb_vias_x = (width - w - 2 * g) / pitch_x + 1
+        nb_vias_x = int(np.floor(nb_vias_x)) or 1
+
+        size_metal = (width, h + 2 * g)
+
+        # Now start placing via lines at each angle starting from
+        # the initial angle until we reach the end angle
+        ang = init_angle
+
+        while _smaller_angle(ang, init_angle, end_angle):
+            pos = radius * np.array((np.cos(ang), np.sin(ang)))
+
+            ref = c.add_array(
+                via_type, columns=nb_vias_x, rows=1, spacing=(pitch_x, pitch_y)
             )
-        )
+            ref.center = pos
 
-        if 90 < cent_angle < 180 or 270 < cent_angle < 360:
-            print("here")
-            mult = -1
-        else:
-            mult = 0
+            # Place top and bottom metal
+            for metal in [metal_top, metal_bottom]:
+                met = c << gf.components.rectangle(size=size_metal, layer=metal)
+                met.center = pos
 
-        for level, via_type in enumerate(vias):
-            metal_bottom = layers[level]
-            metal_top = layers[level + 1]
+            if np.pi / 2 <= ang <= np.pi or -np.pi <= ang < -np.pi / 2:
+                mult1 = -1
+            else:
+                mult1 = 1
 
-            via_type = gf.get_component(via_type)
+            print(ang * 180 / np.pi)
 
-            # Get via info
-            w, h = via_type.info["size"]
-            g = via_type.info["enclosure"]
-            pitch_x, pitch_y = via_type.info["spacing"]
+            print(pitch_y)
+            print(mult1 * pitch_y / radius + np.sin(ang))
+            print("---")
 
-            min_width = w + g
-            min_height = h + g
+            if mult1 * pitch_y / radius + np.sin(ang) > 1:
+                mult1 = -mult1
 
-            if min_width > width:
-                raise ValueError(
-                    f"The specified circular ViaStack width is too small to fit a via. Width is {width}um and the min is {min_width}um"
-                )
-            if min_height > total_height:
-                raise ValueError(
-                    f"The specified circular ViaStack height is too small to fit a via. Height is {total_height} um and the min is {min_height}um"
-                )
+            print(mult1)
 
-            nb_vias_x = (width - w - 2 * g) / pitch_x + 1
-            nb_vias_y = (total_height - h - 2 * g) / pitch_y + 1
+            new_ang = np.arcsin(mult1 * pitch_y / radius + np.sin(ang))
 
-            nb_vias_x = int(np.floor(nb_vias_x)) or 1
-            nb_vias_y = int(np.floor(nb_vias_y)) or 1
+            if mult1 == -1:
+                if 0 < ang < np.pi:
+                    ang = np.pi - new_ang
+                else:
+                    ang = np.pi + new_ang
+            else:
+                ang = new_ang
 
-            # Now place the via stack line by line so that we place the correct offset to
-            # make it circular, as well as add the metal that encloses the via line
+            # if new_ang < ang:
+            #     # Need to check a bit more
+            #     if 0 < ang < np.pi and -np.pi < new_ang < 0:
+            #         continue
 
-            h = h_center + (nb_vias_y - 1) * pitch_y / 2
+            """
+            print(new_ang*180/np.pi)
+            print('=-=-=')
 
-            print(h)
-            print(radius)
-            print("===")
+            if np.pi/2 <= ang < np.pi:
+                print('a')
+                ang = np.pi - new_ang
+            elif np.pi <= ang < 3*np.pi/2:
+                print('b')
+                ang = np.pi + (2*np.pi - new_ang)
+            #elif 3*np.pi/2 <= ang < 2*np.pi:
+            #    print('c')
+            #    ang = np.pi + (2*np.pi - new_ang)
+            else:
+                ang = new_ang
 
-            angle = np.arcsin(h / (mult * radius))
-            print(angle * 180 / np.pi)
-
-            pos = (radius * np.cos(angle), radius * np.sin(angle))
-            print(pos)
-
-            size_metal = (width, h + 2 * g)
-
-            for _ in range(nb_vias_y):
-                # Place the via line
-                ref = c.add_array(
-                    via_type, columns=nb_vias_x, rows=1, spacing=(pitch_x, pitch_y)
-                )
-                ref.center = pos
-
-                # Place top and bottom metal
-                for metal in [metal_top, metal_bottom]:
-                    met = c << gf.components.rectangle(size=size_metal, layer=metal)
-                    met.center = pos
-
-                h = h - pitch_y
-                angle = np.arcsin(h / (mult * radius))
-                pos = (radius * np.cos(angle), radius * np.sin(angle))
-
-    # # Port placement
-    # for layer in layers:
-    #     size = (width + 2 * offset, height + 2 * offset)
-    #     if layer == layer_port:
-    #         ref = c << compass(size=size, layer=layer, port_type="electrical")
-    #         c.add_ports(ref.ports)
-    #     else:
-    #         ref = c << compass(size=size, layer=layer, port_type="placement")
+            input()
+            """
 
     return c
+
+
+def _smaller_angle(angle, angle1, angle2):
+    """Returns true if angle is outside the
+     bounds of the arc angle defined between
+     angle 1 and angle2.
+
+    But it does so assuming that angle1 and angle2 are between [-pi, pi]
+    and that we are trying to fill an arc
+    """
+
+    if angle2 > angle1:
+        return angle < angle2
+
+    else:
+        return angle > angle2
 
 
 @gf.cell
@@ -453,8 +434,8 @@ if __name__ == "__main__":
 
     c = circular_via_stack(
         radius=20.0,
-        angular_extent=45.0,
-        center_angle=215.0,
+        angular_extent=100,
+        center_angle=90,
         width=5.0,
         layers=("M1", "M2", "M3"),
         vias=(via1, via2),
