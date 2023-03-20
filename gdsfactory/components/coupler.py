@@ -88,7 +88,7 @@ def coupler(
 
 if __name__ == "__main__":
     c = coupler(bbox_offsets=[0.5], bbox_layers=[(111, 0)])
-    c.show()
+    c.show(show_ports=True)
 
     # c = gf.Component()
     # cp1 = c << coupler(gap=0.2)

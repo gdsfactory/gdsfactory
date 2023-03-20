@@ -76,7 +76,7 @@ def bezier(
     c.info["start_angle"] = path.start_angle
     c.info["end_angle"] = path.end_angle
 
-    if with_bbox:
+    if with_bbox and xs.bbox_layers:
         padding = []
         for offset in xs.bbox_offsets:
             points = get_padding_points(

@@ -2,7 +2,7 @@ name: ring_single_array
 ports:
   o1:
     center:
-    - -15.0
+    - -18.0
     - 0.0
     layer:
     - 1
@@ -14,7 +14,7 @@ ports:
     width: 0.5
   o2:
     center:
-    - 50.0
+    - 59.0
     - 0.0
     layer:
     - 1

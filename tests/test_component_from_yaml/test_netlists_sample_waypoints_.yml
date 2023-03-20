@@ -33,7 +33,36 @@ instances:
       radius: 10.0
       radius_min: 7.061
       settings:
+        add_bbox: null
+        add_pins: null
         auto_widen: false
+        auto_widen_minimum_length: 200.0
+        bbox_layers: null
+        bbox_offsets: null
+        cladding_layers: null
+        cladding_offsets: null
+        decorator: null
+        end_straight_length: 0.01
+        gap: 3.0
+        info: null
+        layer: WG
+        min_length: 0.01
+        mirror: false
+        name: null
+        offset: 0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        radius: 10.0
+        sections: null
+        snap_to_grid: null
+        start_straight_length: 0.01
+        taper_length: 10.0
+        width: 0.5
+        width_wide: null
       width: 0.5
     settings:
       auto_widen: false
@@ -48,7 +77,36 @@ instances:
       radius: 10.0
       radius_min: 7.061
       settings:
+        add_bbox: null
+        add_pins: null
         auto_widen: false
+        auto_widen_minimum_length: 200.0
+        bbox_layers: null
+        bbox_offsets: null
+        cladding_layers: null
+        cladding_offsets: null
+        decorator: null
+        end_straight_length: 0.01
+        gap: 3.0
+        info: null
+        layer: WG
+        min_length: 0.01
+        mirror: false
+        name: null
+        offset: 0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        radius: 10.0
+        sections: null
+        snap_to_grid: null
+        start_straight_length: 0.01
+        taper_length: 10.0
+        width: 0.5
+        width_wide: null
       width: 0.5
     settings:
       auto_widen: false
@@ -63,7 +121,36 @@ instances:
       radius: 10.0
       radius_min: 7.061
       settings:
+        add_bbox: null
+        add_pins: null
         auto_widen: false
+        auto_widen_minimum_length: 200.0
+        bbox_layers: null
+        bbox_offsets: null
+        cladding_layers: null
+        cladding_offsets: null
+        decorator: null
+        end_straight_length: 0.01
+        gap: 3.0
+        info: null
+        layer: WG
+        min_length: 0.01
+        mirror: false
+        name: null
+        offset: 0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        radius: 10.0
+        sections: null
+        snap_to_grid: null
+        start_straight_length: 0.01
+        taper_length: 10.0
+        width: 0.5
+        width_wide: null
       width: 0.5
     settings:
       auto_widen: false
@@ -78,7 +165,36 @@ instances:
       radius: 10.0
       radius_min: 7.061
       settings:
+        add_bbox: null
+        add_pins: null
         auto_widen: false
+        auto_widen_minimum_length: 200.0
+        bbox_layers: null
+        bbox_offsets: null
+        cladding_layers: null
+        cladding_offsets: null
+        decorator: null
+        end_straight_length: 0.01
+        gap: 3.0
+        info: null
+        layer: WG
+        min_length: 0.01
+        mirror: false
+        name: null
+        offset: 0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        radius: 10.0
+        sections: null
+        snap_to_grid: null
+        start_straight_length: 0.01
+        taper_length: 10.0
+        width: 0.5
+        width_wide: null
       width: 0.5
     settings:
       auto_widen: false
@@ -93,7 +209,36 @@ instances:
       radius: 10.0
       radius_min: 7.061
       settings:
+        add_bbox: null
+        add_pins: null
         auto_widen: false
+        auto_widen_minimum_length: 200.0
+        bbox_layers: null
+        bbox_offsets: null
+        cladding_layers: null
+        cladding_offsets: null
+        decorator: null
+        end_straight_length: 0.01
+        gap: 3.0
+        info: null
+        layer: WG
+        min_length: 0.01
+        mirror: false
+        name: null
+        offset: 0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        radius: 10.0
+        sections: null
+        snap_to_grid: null
+        start_straight_length: 0.01
+        taper_length: 10.0
+        width: 0.5
+        width_wide: null
       width: 0.5
     settings:
       auto_widen: false
@@ -108,7 +253,36 @@ instances:
       radius: 10.0
       radius_min: 7.061
       settings:
+        add_bbox: null
+        add_pins: null
         auto_widen: false
+        auto_widen_minimum_length: 200.0
+        bbox_layers: null
+        bbox_offsets: null
+        cladding_layers: null
+        cladding_offsets: null
+        decorator: null
+        end_straight_length: 0.01
+        gap: 3.0
+        info: null
+        layer: WG
+        min_length: 0.01
+        mirror: false
+        name: null
+        offset: 0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        radius: 10.0
+        sections: null
+        snap_to_grid: null
+        start_straight_length: 0.01
+        taper_length: 10.0
+        width: 0.5
+        width_wide: null
       width: 0.5
     settings:
       auto_widen: false
@@ -123,7 +297,36 @@ instances:
       radius: 10.0
       radius_min: 7.061
       settings:
+        add_bbox: null
+        add_pins: null
         auto_widen: false
+        auto_widen_minimum_length: 200.0
+        bbox_layers: null
+        bbox_offsets: null
+        cladding_layers: null
+        cladding_offsets: null
+        decorator: null
+        end_straight_length: 0.01
+        gap: 3.0
+        info: null
+        layer: WG
+        min_length: 0.01
+        mirror: false
+        name: null
+        offset: 0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        radius: 10.0
+        sections: null
+        snap_to_grid: null
+        start_straight_length: 0.01
+        taper_length: 10.0
+        width: 0.5
+        width_wide: null
       width: 0.5
     settings:
       auto_widen: false
@@ -138,7 +341,36 @@ instances:
       radius: 10.0
       radius_min: 7.061
       settings:
+        add_bbox: null
+        add_pins: null
         auto_widen: false
+        auto_widen_minimum_length: 200.0
+        bbox_layers: null
+        bbox_offsets: null
+        cladding_layers: null
+        cladding_offsets: null
+        decorator: null
+        end_straight_length: 0.01
+        gap: 3.0
+        info: null
+        layer: WG
+        min_length: 0.01
+        mirror: false
+        name: null
+        offset: 0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        radius: 10.0
+        sections: null
+        snap_to_grid: null
+        start_straight_length: 0.01
+        taper_length: 10.0
+        width: 0.5
+        width_wide: null
       width: 0.5
     settings:
       auto_widen: false
@@ -152,7 +384,36 @@ instances:
       function_name: cross_section
       length: 290.0
       settings:
+        add_bbox: null
+        add_pins: null
         auto_widen: false
+        auto_widen_minimum_length: 200.0
+        bbox_layers: null
+        bbox_offsets: null
+        cladding_layers: null
+        cladding_offsets: null
+        decorator: null
+        end_straight_length: 0.01
+        gap: 3.0
+        info: null
+        layer: WG
+        min_length: 0.01
+        mirror: false
+        name: null
+        offset: 0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        radius: 10.0
+        sections: null
+        snap_to_grid: null
+        start_straight_length: 0.01
+        taper_length: 10.0
+        width: 0.5
+        width_wide: null
       width: 0.5
     settings:
       auto_widen: false
@@ -167,7 +428,36 @@ instances:
       function_name: cross_section
       length: 440.0
       settings:
+        add_bbox: null
+        add_pins: null
         auto_widen: false
+        auto_widen_minimum_length: 200.0
+        bbox_layers: null
+        bbox_offsets: null
+        cladding_layers: null
+        cladding_offsets: null
+        decorator: null
+        end_straight_length: 0.01
+        gap: 3.0
+        info: null
+        layer: WG
+        min_length: 0.01
+        mirror: false
+        name: null
+        offset: 0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        radius: 10.0
+        sections: null
+        snap_to_grid: null
+        start_straight_length: 0.01
+        taper_length: 10.0
+        width: 0.5
+        width_wide: null
       width: 0.5
     settings:
       auto_widen: false
@@ -182,7 +472,36 @@ instances:
       function_name: cross_section
       length: 380.0
       settings:
+        add_bbox: null
+        add_pins: null
         auto_widen: false
+        auto_widen_minimum_length: 200.0
+        bbox_layers: null
+        bbox_offsets: null
+        cladding_layers: null
+        cladding_offsets: null
+        decorator: null
+        end_straight_length: 0.01
+        gap: 3.0
+        info: null
+        layer: WG
+        min_length: 0.01
+        mirror: false
+        name: null
+        offset: 0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        radius: 10.0
+        sections: null
+        snap_to_grid: null
+        start_straight_length: 0.01
+        taper_length: 10.0
+        width: 0.5
+        width_wide: null
       width: 0.5
     settings:
       auto_widen: false
@@ -197,7 +516,36 @@ instances:
       function_name: cross_section
       length: 80.0
       settings:
+        add_bbox: null
+        add_pins: null
         auto_widen: false
+        auto_widen_minimum_length: 200.0
+        bbox_layers: null
+        bbox_offsets: null
+        cladding_layers: null
+        cladding_offsets: null
+        decorator: null
+        end_straight_length: 0.01
+        gap: 3.0
+        info: null
+        layer: WG
+        min_length: 0.01
+        mirror: false
+        name: null
+        offset: 0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        radius: 10.0
+        sections: null
+        snap_to_grid: null
+        start_straight_length: 0.01
+        taper_length: 10.0
+        width: 0.5
+        width_wide: null
       width: 0.5
     settings:
       auto_widen: false
@@ -212,7 +560,36 @@ instances:
       function_name: cross_section
       length: 630.0
       settings:
+        add_bbox: null
+        add_pins: null
         auto_widen: false
+        auto_widen_minimum_length: 200.0
+        bbox_layers: null
+        bbox_offsets: null
+        cladding_layers: null
+        cladding_offsets: null
+        decorator: null
+        end_straight_length: 0.01
+        gap: 3.0
+        info: null
+        layer: WG
+        min_length: 0.01
+        mirror: false
+        name: null
+        offset: 0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        radius: 10.0
+        sections: null
+        snap_to_grid: null
+        start_straight_length: 0.01
+        taper_length: 10.0
+        width: 0.5
+        width_wide: null
       width: 0.5
     settings:
       auto_widen: false
@@ -227,7 +604,36 @@ instances:
       function_name: cross_section
       length: 590.0
       settings:
+        add_bbox: null
+        add_pins: null
         auto_widen: false
+        auto_widen_minimum_length: 200.0
+        bbox_layers: null
+        bbox_offsets: null
+        cladding_layers: null
+        cladding_offsets: null
+        decorator: null
+        end_straight_length: 0.01
+        gap: 3.0
+        info: null
+        layer: WG
+        min_length: 0.01
+        mirror: false
+        name: null
+        offset: 0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        radius: 10.0
+        sections: null
+        snap_to_grid: null
+        start_straight_length: 0.01
+        taper_length: 10.0
+        width: 0.5
+        width_wide: null
       width: 0.5
     settings:
       auto_widen: false
@@ -242,7 +648,36 @@ instances:
       function_name: cross_section
       length: 140.0
       settings:
+        add_bbox: null
+        add_pins: null
         auto_widen: false
+        auto_widen_minimum_length: 200.0
+        bbox_layers: null
+        bbox_offsets: null
+        cladding_layers: null
+        cladding_offsets: null
+        decorator: null
+        end_straight_length: 0.01
+        gap: 3.0
+        info: null
+        layer: WG
+        min_length: 0.01
+        mirror: false
+        name: null
+        offset: 0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        radius: 10.0
+        sections: null
+        snap_to_grid: null
+        start_straight_length: 0.01
+        taper_length: 10.0
+        width: 0.5
+        width_wide: null
       width: 0.5
     settings:
       auto_widen: false
@@ -257,7 +692,36 @@ instances:
       function_name: cross_section
       length: 380.0
       settings:
+        add_bbox: null
+        add_pins: null
         auto_widen: false
+        auto_widen_minimum_length: 200.0
+        bbox_layers: null
+        bbox_offsets: null
+        cladding_layers: null
+        cladding_offsets: null
+        decorator: null
+        end_straight_length: 0.01
+        gap: 3.0
+        info: null
+        layer: WG
+        min_length: 0.01
+        mirror: false
+        name: null
+        offset: 0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        radius: 10.0
+        sections: null
+        snap_to_grid: null
+        start_straight_length: 0.01
+        taper_length: 10.0
+        width: 0.5
+        width_wide: null
       width: 0.5
     settings:
       auto_widen: false
@@ -272,7 +736,36 @@ instances:
       function_name: cross_section
       length: 380.0
       settings:
+        add_bbox: null
+        add_pins: null
         auto_widen: false
+        auto_widen_minimum_length: 200.0
+        bbox_layers: null
+        bbox_offsets: null
+        cladding_layers: null
+        cladding_offsets: null
+        decorator: null
+        end_straight_length: 0.01
+        gap: 3.0
+        info: null
+        layer: WG
+        min_length: 0.01
+        mirror: false
+        name: null
+        offset: 0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        radius: 10.0
+        sections: null
+        snap_to_grid: null
+        start_straight_length: 0.01
+        taper_length: 10.0
+        width: 0.5
+        width_wide: null
       width: 0.5
     settings:
       auto_widen: false
@@ -287,7 +780,36 @@ instances:
       function_name: cross_section
       length: 630.0
       settings:
+        add_bbox: null
+        add_pins: null
         auto_widen: false
+        auto_widen_minimum_length: 200.0
+        bbox_layers: null
+        bbox_offsets: null
+        cladding_layers: null
+        cladding_offsets: null
+        decorator: null
+        end_straight_length: 0.01
+        gap: 3.0
+        info: null
+        layer: WG
+        min_length: 0.01
+        mirror: false
+        name: null
+        offset: 0
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        radius: 10.0
+        sections: null
+        snap_to_grid: null
+        start_straight_length: 0.01
+        taper_length: 10.0
+        width: 0.5
+        width_wide: null
       width: 0.5
     settings:
       auto_widen: false

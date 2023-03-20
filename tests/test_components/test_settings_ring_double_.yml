@@ -2,7 +2,7 @@ name: ring_double
 ports:
   o1:
     center:
-    - -10.01
+    - -13.01
     - 0.0
     layer:
     - 1
@@ -14,7 +14,7 @@ ports:
     width: 0.5
   o2:
     center:
-    - 10.0
+    - 13.0
     - 0.0
     layer:
     - 1
@@ -26,7 +26,7 @@ ports:
     width: 0.5
   o3:
     center:
-    - -10.01
+    - -13.01
     - 21.41
     layer:
     - 1
@@ -38,7 +38,7 @@ ports:
     width: 0.5
   o4:
     center:
-    - 10.0
+    - 13.0
     - 21.41
     layer:
     - 1

@@ -276,6 +276,14 @@ def _xsection_without_validator(func):
         args_as_kwargs = dict(zip(sig.parameters.keys(), args))
         args_as_kwargs.update(kwargs)
 
+        default = {
+            p.name: p.default
+            for p in sig.parameters.values()
+            if p.default != inspect._empty
+        }
+
+        args_as_kwargs.update(**default)
+
         if not isinstance(xs, CrossSection):
             raise ValueError(
                 f"function {func.__name__!r} return type = {type(xs)}",
@@ -530,12 +538,12 @@ def rib_with_trenches(
         width: main Section width (um) or function parameterized from 0 to 1.
             the width at t==0 is the width at the beginning of the Path.
             the width at t==1 is the width at the end.
-        width_slab: in um.
         width_trench: in um.
+        width_slab: in um.
         layer: ridge layer. None adds only ridge.
         layer_trench: layer to etch trenches.
         wg_marking_layer: layer to draw over the actual waveguide.
-            THis can be useful for booleans, routing, placement ...
+            This can be useful for booleans, routing, placement ...
         kwargs: cross_section settings.
 
 

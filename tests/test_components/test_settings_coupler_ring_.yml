@@ -2,7 +2,7 @@ name: coupler_ring
 ports:
   o1:
     center:
-    - -9.0
+    - -12.0
     - 0.0
     layer:
     - 1
@@ -38,7 +38,7 @@ ports:
     width: 0.5
   o4:
     center:
-    - 5.0
+    - 8.0
     - 0.0
     layer:
     - 1
@@ -61,6 +61,7 @@ settings:
       function: coupler_straight
     cross_section: strip
     gap: 0.2
+    length_extension: 3
     length_x: 4.0
     radius: 5.0
   full:
@@ -73,6 +74,7 @@ settings:
       function: coupler_straight
     cross_section: strip
     gap: 0.2
+    length_extension: 3
     length_x: 4.0
     radius: 5.0
   function_name: coupler_ring

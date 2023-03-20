@@ -75,7 +75,7 @@ def bend_euler(
     if x.info:
         c.info.update(x.info)
 
-    if with_bbox:
+    if with_bbox and x.bbox_layers:
         padding = []
         for offset in x.bbox_offsets:
             top = offset if angle == 180 else 0

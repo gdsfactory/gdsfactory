@@ -1,25 +1,61 @@
-name: straight_add_grating_couplers
-ports: {}
+name: bend_euler_add_trenches_cb24b746
+ports:
+  o1:
+    center:
+    - 0.0
+    - 0.0
+    layer:
+    - 1
+    - 0
+    name: o1
+    orientation: 180
+    port_type: optical
+    shear_angle: null
+    width: 0.5
+  o2:
+    center:
+    - 10.0
+    - 10.0
+    layer:
+    - 1
+    - 0
+    name: o2
+    orientation: 90
+    port_type: optical
+    shear_angle: null
+    width: 0.5
 settings:
-  changed: {}
+  changed:
+    component:
+      function: bend_euler
+    right: true
+    top: false
   child:
     changed: {}
     child: null
     default:
+      angle: 90.0
       cross_section: strip
-      length: 10.0
-      npoints: 2
+      direction: ccw
+      npoints: null
+      p: 0.5
+      with_arc_floorplan: true
       with_bbox: true
     full:
+      angle: 90.0
       cross_section: strip
-      length: 10.0
-      npoints: 2
+      direction: ccw
+      npoints: null
+      p: 0.5
+      with_arc_floorplan: true
       with_bbox: true
-    function_name: straight
+    function_name: bend_euler
     info:
-      cross_section: strip
+      dy: 10.0
       function_name: cross_section
-      length: 10.0
+      length: 16.637
+      radius: 10.0
+      radius_min: 7.061
       settings:
         add_bbox: null
         add_pins: null
@@ -53,52 +89,31 @@ settings:
         width_wide: null
       width: 0.5
     info_version: 2
-    module: gdsfactory.components.straight
-    name: straight
+    module: gdsfactory.components.bend_euler
+    name: bend_euler
   default:
+    bot: true
     component:
-      function: straight
-    component_name: null
-    gc_port_name: o1
-    get_input_labels_function:
-      function: get_input_labels
-    grating_coupler:
-      function: grating_coupler_elliptical_trenches
-      settings:
-        polarization: te
-        taper_angle: 35
-    layer_label:
-    - 200
-    - 0
-    select_ports:
-      function: select_ports
-      settings:
-        port_type: optical
+      function: coupler
+    cross_section: rib_with_trenches
+    left: false
+    right: false
+    top: true
   full:
+    bot: true
     component:
-      function: straight
-    component_name: null
-    gc_port_name: o1
-    get_input_labels_function:
-      function: get_input_labels
-    grating_coupler:
-      function: grating_coupler_elliptical_trenches
-      settings:
-        polarization: te
-        taper_angle: 35
-    layer_label:
-    - 200
-    - 0
-    select_ports:
-      function: select_ports
-      settings:
-        port_type: optical
-  function_name: add_grating_couplers
+      function: bend_euler
+    cross_section: rib_with_trenches
+    left: false
+    right: true
+    top: false
+  function_name: add_trenches
   info:
-    cross_section: strip
+    dy: 10.0
     function_name: cross_section
-    length: 10.0
-    polarization: te
+    length: 16.637
+    radius: 10.0
+    radius_min: 7.061
     settings:
       add_bbox: null
       add_pins: null
@@ -130,8 +145,7 @@ settings:
       taper_length: 10.0
       width: 0.5
       width_wide: null
-    wavelength: 1.53
     width: 0.5
   info_version: 2
-  module: gdsfactory.components.add_grating_couplers
-  name: straight_add_grating_couplers
+  module: gdsfactory.components.add_trenches
+  name: bend_euler_add_trenches_cb24b746

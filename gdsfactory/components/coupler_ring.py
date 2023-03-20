@@ -5,6 +5,7 @@ from typing import Optional
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
+from gdsfactory.components.straight import straight
 from gdsfactory.components.coupler90 import coupler90
 from gdsfactory.components.coupler_straight import coupler_straight
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
@@ -20,6 +21,7 @@ def coupler_ring(
     coupler_straight: ComponentSpec = coupler_straight,
     cross_section: CrossSectionSpec = "strip",
     bend_cross_section: Optional[CrossSectionSpec] = None,
+    length_extension: float = 3,
     **kwargs,
 ) -> Component:
     r"""Coupler for ring.
@@ -33,6 +35,7 @@ def coupler_ring(
         coupler_straight: two parallel coupled straight waveguides.
         cross_section: cross_section spec.
         bend_cross_section: optional bend cross_section spec.
+        length_extension: for the ports.
         kwargs: cross_section settings for bend and coupler.
 
     .. code::
@@ -77,10 +80,18 @@ def coupler_ring(
     cbl.mirror(p1=(0, y), p2=(1, y))
     cbl.connect(port="o2", destination=cs.ports["o2"])
 
-    c.add_port("o1", port=cbl.ports["o3"])
-    c.add_port("o2", port=cbl.ports["o4"])
-    c.add_port("o3", port=cbr.ports["o3"])
-    c.add_port("o4", port=cbr.ports["o4"])
+    s = straight(length=length_extension, cross_section=cross_section, **kwargs)
+
+    s1 = c << s
+    s2 = c << s
+
+    s1.connect("o2", cbl["o4"])
+    s2.connect("o1", cbr["o4"])
+
+    c.add_port("o1", port=s1["o1"])
+    c.add_port("o2", port=cbl["o3"])
+    c.add_port("o3", port=cbr["o3"])
+    c.add_port("o4", port=s2["o2"])
 
     c.add_ports(cbl.get_ports_list(port_type="electrical"), prefix="cbl")
     c.add_ports(cbr.get_ports_list(port_type="electrical"), prefix="cbr")
@@ -89,14 +100,15 @@ def coupler_ring(
 
 
 if __name__ == "__main__":
+    c = coupler_ring(radius=20)
     # c = coupler_ring(width=1, layer=(2, 0), length_x=20)
     # c = coupler_ring(cross_section="strip_heater_metal", length_x=20)
 
-    c = gf.Component()
-    c1 = coupler_ring(cladding_layers=[(111, 0)], cladding_offsets=[0.5])
-    d = 0.8
-    c2 = gf.geometry.offset(c1, distance=+d, layer=(111, 0))
-    c3 = gf.geometry.offset(c2, distance=-d, layer=(111, 0))
-    c << c1
-    c << c3
-    c.show()
+    # c = gf.Component()
+    # c1 = coupler_ring(cladding_layers=[(111, 0)], cladding_offsets=[0.5])
+    # d = 0.8
+    # c2 = gf.geometry.offset(c1, distance=+d, layer=(111, 0))
+    # c3 = gf.geometry.offset(c2, distance=-d, layer=(111, 0))
+    # c << c1
+    # c << c3
+    c.show(show_ports=True)
