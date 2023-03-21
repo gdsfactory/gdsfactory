@@ -1312,6 +1312,29 @@ class Component(_GeometryHelper):
         polygons = self._cell.get_polygons(depth=None)
         return {(polygon.layer, polygon.datatype) for polygon in polygons}
 
+    def get_layer_names(self) -> List[Tuple[int, int]]:
+        """Return layer names used in the design.
+
+        .. code ::
+
+            import gdsfactory as gf
+            gf.components.straight().get_names() == ['WG']
+        """
+        import gdsfactory as gf
+
+        PDK = gf.get_active_pdk()
+        LAYERS = PDK.layers
+        name_to_layer = dict(LAYERS)
+        layer_to_name = {v: k for k, v in name_to_layer.items()}
+        layer_names = []
+
+        for layer in self.layers:
+            if layer not in layer_to_name:
+                warnings.warn(f"{layer} not in LayerMap..")
+            else:
+                layer_names.append(layer_to_name[layer])
+        return layer_names
+
     def _ipython_display_(self) -> None:
         """Show geometry in KLayout and in matplotlib for Jupyter Notebooks."""
         self.show(show_ports=True)  # show in klayout
@@ -2742,6 +2765,7 @@ if __name__ == "__main__":
 
     # c2 = gf.Component()
     c = gf.components.mzi(delta_length=20)
+    print(c.get_layer_names())
     # r = c.ref()
     # c2.copy_child_info(c.named_references["sxt"])
     # test_remap_layers()

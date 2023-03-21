@@ -145,7 +145,9 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.components.mmi1x2()
-    print(c.xmin)
-    c.xmin = 0
-    print(c.xmin)
+
+    # print(c.xmin)
+    # c.xmin = 0
+    # print(c.xmin)
+
     c.show(show_ports=True)
