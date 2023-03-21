@@ -96,7 +96,8 @@ def greek_cross(
                 ),
                 layer=layer,
             )
-            c2 << w.move(
+            ref = c2 << w
+            ref.move(
                 np.array(
                     [
                         -1 * pad_offset + cross_implant_length / 2 - contact_buffer / 2,

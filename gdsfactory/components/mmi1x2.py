@@ -142,17 +142,10 @@ def mmi1x2(
 
 
 if __name__ == "__main__":
-    # c = mmi1x2(cross_section=dict(cross_section="rib"))
-    c = mmi1x2()
+    import gdsfactory as gf
+
+    c = gf.components.mmi1x2()
+    print(c.xmin)
+    c.xmin = 0
+    print(c.xmin)
     c.show(show_ports=True)
-
-    # c.pprint_ports()
-
-    # c2 = gf.components.extend_ports(c)
-    # c2.show()
-
-    # print(c.ports)
-    # c = mmi1x2_biased()
-    # print(c.get_optical_ports())
-    # c.write_gds(gf.PATH.gdsdir / "mmi1x2.gds")
-    # print(c.ports["o1"].cross_section.info)
