@@ -15,6 +15,7 @@ from gdsfactory.config import logger
 from gdsfactory.pdk import get_layer_stack, get_material_index
 from gdsfactory.simulation.gtidy3d.materials import get_index, get_medium
 from gdsfactory.technology import LayerStack
+from gdsfactory.typings import CrossSectionSpec
 
 
 def get_simulation_grating_coupler(
@@ -55,6 +56,7 @@ def get_simulation_grating_coupler(
     grid_spec: Optional[td.GridSpec] = None,
     sidewall_angle_deg: float = 0,
     dilation: float = 0.0,
+    cross_section: Optional[CrossSectionSpec] = None,
     **kwargs,
 ) -> td.Simulation:
     r"""Returns Simulation object from a gdsfactory grating coupler component.
@@ -166,14 +168,15 @@ def get_simulation_grating_coupler(
             )
         boundary_spec: Specification of boundary conditions along each dimension.
             Defaults to td.BoundarySpec.all_sides(boundary=td.PML())
-        dilation: float = 0.0
-            Dilation of the polygon in the base by shifting each edge along its
-            normal outwards direction by a distance;
-            a negative value corresponds to erosion.
         sidewall_angle_deg : float = 0
             Angle of the sidewall.
             ``sidewall_angle=0`` (default) specifies vertical wall,
             while ``0<sidewall_angle_deg<90`` for the base to be larger than the top.
+        dilation: float = 0.0
+            Dilation of the polygon in the base by shifting each edge along its
+            normal outwards direction by a distance;
+            a negative value corresponds to erosion.
+        cross_section: optional cross_section to extend ports beyond PML.
 
     keyword Args:
         symmetry: Define Symmetries.
@@ -264,18 +267,20 @@ def get_simulation_grating_coupler(
     )
     component_extended = (
         gf.components.extension.extend_ports(
-            component=component_padding, length=port_extension, centered=True
+            component=component_padding,
+            length=port_extension,
+            centered=True,
+            cross_section=cross_section,
         )
         if port_extension
         else component
     )
 
     component_extended = component_extended.flatten()
-    component_extended.show()
+    component_extended.show(show_ports=True)
 
     component_ref = component_padding.ref()
-    component_ref.x = 0
-    component_ref.y = 0
+    component_ref.center = (0, 0)
 
     if len(layer_to_thickness) < 1:
         raise ValueError(f"{component.get_layers()} not in {layer_to_thickness.keys()}")
