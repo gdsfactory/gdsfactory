@@ -2,7 +2,8 @@
 
 ## 6.65.0
 
-- add `gf.components.add_trenches` with some components that use it (`coupler_trenches`, `bend_euler_trenches`, `ring_single_trenches`, `ring_double_trenches`)
+- add `gf.components.add_trenches` with some components that use it (`coupler_trenches`, `bend_euler_trenches`, `ring_single_trenches`, `ring_double_trenches`) [PR](https://github.com/gdsfactory/gdsfactory/pull/1457)
+- Component.move raises Error [PR](https://github.com/gdsfactory/gdsfactory/pull/1459)
 
 ## 6.64.2
 
