@@ -75,16 +75,16 @@ def union(
 
 def test_union() -> None:
     c = Component()
-    c << gf.components.ellipse(radii=(6, 6)).move((12, 10))
+    c << gf.components.ellipse(radii=(6, 6))
     c << gf.components.ellipse(radii=(10, 4))
     c2 = union(c)
-    assert int(c2.area()) == 238, c2.area()
+    assert int(c2.area()) == 153, c2.area()
 
 
 if __name__ == "__main__":
     test_union()
     c = Component()
-    c << gf.components.ellipse(radii=(6, 6)).move((12, 10))
+    c << gf.components.ellipse(radii=(6, 6))
     c << gf.components.ellipse(radii=(10, 4))
     c2 = union(c)
     c2.show()

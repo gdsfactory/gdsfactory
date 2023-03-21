@@ -39,17 +39,21 @@ def mmi2x2_with_sbend(
     # Add input and output tapers
     top_input_block = c << gf.components.taper(
         length=1, width1=0.5, width2=0.7, cross_section=cross_section
-    ).move((-1, 0.45))
+    )
+    top_input_block.move((-1, 0.45))
     bottom_input_block = c << gf.components.taper(
         length=1, width1=0.5, width2=0.7, cross_section=cross_section
-    ).move((-1, -0.45))
+    )
+    bottom_input_block.move((-1, -0.45))
 
     top_output_block = c << gf.components.taper(
         length=1, width1=0.7, width2=0.5, cross_section=cross_section
-    ).move((8, 0.45))
+    )
+    top_output_block.move((8, 0.45))
     bottom_output_block = c << gf.components.taper(
         length=1, width1=0.7, width2=0.5, cross_section=cross_section
-    ).move((8, -0.45))
+    )
+    bottom_output_block.move((8, -0.45))
 
     if with_sbend:
         sbend = gf.get_component(s_bend, cross_section=cross_section)

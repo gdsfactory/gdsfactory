@@ -90,6 +90,21 @@ c.add_ref(gf.components.bend_euler())
 c.add_ref(gf.components.mzi())
 """
 
+move_error_message = """
+You cannot move a Component. You can create a new Component, add a reference to the other Component and then move the reference.
+
+For example:
+
+# BAD
+c = gf.components.straight()
+c.xmin = 10
+
+# GOOD
+c = gf.Component()
+ref = c.add_ref(gf.components.straight()) # or ref = c << gf.components.straight()
+ref.xmin = 10
+"""
+
 PathType = Union[str, Path]
 Float2 = Tuple[float, float]
 Layer = Tuple[int, int]
@@ -1986,9 +2001,7 @@ class Component(_GeometryHelper):
             destination: x, y.
             axis: x or y.
         """
-        from gdsfactory.functions import move
-
-        return move(component=self, origin=origin, destination=destination, axis=axis)
+        raise ValueError(move_error_message)
 
     def mirror(self, p1: Float2 = (0, 1), p2: Float2 = (0, 0), **kwargs) -> Component:
         """Returns new Component with a mirrored reference.

@@ -49,7 +49,7 @@ def invert(
     # Build the rectangle around the Component D
     R = gf.components.rectangle(
         size=(Temp.xsize + 2 * border, Temp.ysize + 2 * border), centered=True
-    )
+    ).ref()
     R.center = Temp.center
     return boolean(
         A=R,
@@ -62,13 +62,13 @@ def invert(
 
 
 def test_invert() -> None:
-    e1 = gf.components.ellipse(radii=(6, 6)).move((10, 10))
+    e1 = gf.components.ellipse(radii=(6, 6))
     c = invert(e1)
     assert int(c.area()) == 910
 
 
 if __name__ == "__main__":
     # test_invert()
-    e1 = gf.components.ellipse(radii=(6, 6)).move((10, 10))
+    e1 = gf.components.ellipse(radii=(6, 6))
     c = invert(e1)
     c.show(show_ports=True)

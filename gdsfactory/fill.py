@@ -130,12 +130,12 @@ def fill_cell_rectangle(
     for layer, density, inv in zip(layers, densities, inverted):
         rectangle_size = np.array(size) * sqrt(density)
         # r = D.add_ref(rectangle(size = rectangle_size, layer = layer))
-        R = rectangle(size=tuple(rectangle_size), layer=layer, port_type=None)
-        R.center = (0, 0)
+        R = rectangle(
+            size=tuple(rectangle_size), layer=layer, port_type=None, centered=True
+        )
 
         if inv is True:
-            A = rectangle(size=size)
-            A.center = (0, 0)
+            A = rectangle(size=size, centered=True)
             A = A.get_polygons()
             B = R.get_polygons()
             p = gdstk.boolean(A, B, operation="not")
@@ -333,7 +333,7 @@ def test_fill():
 
 
 if __name__ == "__main__":
-    # c = test_fill()
+    c = test_fill()
 
     mzi = gf.components.mzi()
     c = gf.Component("component_with_fill")

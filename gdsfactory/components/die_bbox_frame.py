@@ -72,10 +72,10 @@ def die_bbox_frame(
             sy,
         ]
     )
-    D.add_polygon([+xpts, +ypts], layer=layer)
-    D.add_polygon([-xpts, +ypts], layer=layer)
-    D.add_polygon([+xpts, -ypts], layer=layer)
-    D.add_polygon([-xpts, -ypts], layer=layer)
+    D.add_polygon([x + xpts, y + ypts], layer=layer)
+    D.add_polygon([x - xpts, y + ypts], layer=layer)
+    D.add_polygon([x + xpts, y - ypts], layer=layer)
+    D.add_polygon([x - xpts, y - ypts], layer=layer)
 
     if die_name:
         t = D.add_ref(text(text=die_name, size=text_size, layer=layer))
@@ -94,7 +94,9 @@ def die_bbox_frame(
         elif text_anchor == "se":
             t.xmax, t.ymin = [sx - d, -sy + d]
 
-    return D.move((x, y)).flatten()
+        t.move((x, y))
+
+    return D
 
 
 if __name__ == "__main__":
