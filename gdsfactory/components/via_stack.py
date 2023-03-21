@@ -134,11 +134,15 @@ def circular_via_stack(
     init_angle = (center_angle - angular_extent / 2) * np.pi / 180
     end_angle = (center_angle + angular_extent / 2) * np.pi / 180
 
+    init_angle = init_angle % (2 * np.pi)
     if init_angle > np.pi:
         init_angle = init_angle - 2 * np.pi
 
+    end_angle = end_angle % (2 * np.pi)
     if end_angle > np.pi:
-        end_angle = init_angle - 2 * np.pi
+        end_angle = end_angle - 2 * np.pi
+
+    print(end_angle * 180 / np.pi)
 
     # We do this via-centric: we figure out the min spacing between vias,
     # and from that figure out all the metal dimensions
@@ -146,6 +150,9 @@ def circular_via_stack(
     # but why would you instantiate a ViaStack without any via?
 
     for level, via_type in enumerate(vias):
+        if via_type is None:
+            continue
+
         metal_bottom = layers[level]
         metal_top = layers[level + 1]
 
@@ -178,61 +185,40 @@ def circular_via_stack(
                 met = c << gf.components.rectangle(size=size_metal, layer=metal)
                 met.center = pos
 
-            if np.pi / 2 <= ang <= np.pi or -np.pi <= ang < -np.pi / 2:
-                mult1 = -1
-            else:
-                mult1 = 1
+            # Let's see if we can do something different
+            x, y = pos
+            print(x, y)
 
+            if x > 0:
+                new_y = y + pitch_y
+                mult = 1
+            else:
+                new_y = y - pitch_y
+                mult = -1
+
+            if new_y > radius:
+                new_y = y - pitch_y
+                new_x = -1 * np.sqrt(np.power(radius, 2) - np.power(new_y, 2))
+            elif new_y < -radius:
+                new_y = y + pitch_y
+                new_x = np.sqrt(np.power(radius, 2) - np.power(new_y, 2))
+
+            else:
+                new_x = mult * np.sqrt(np.power(radius, 2) - np.power(new_y, 2))
+
+            print(new_x, new_y)
+            ang = np.arctan2(new_y, new_x)
             print(ang * 180 / np.pi)
 
-            print(pitch_y)
-            print(mult1 * pitch_y / radius + np.sin(ang))
-            print("---")
+            # input()
 
-            if mult1 * pitch_y / radius + np.sin(ang) > 1:
-                mult1 = -mult1
-
-            print(mult1)
-
-            new_ang = np.arcsin(mult1 * pitch_y / radius + np.sin(ang))
-
-            if mult1 == -1:
-                if 0 < ang < np.pi:
-                    ang = np.pi - new_ang
-                else:
-                    ang = np.pi + new_ang
-            else:
-                ang = new_ang
-
-            # if new_ang < ang:
-            #     # Need to check a bit more
-            #     if 0 < ang < np.pi and -np.pi < new_ang < 0:
-            #         continue
-
-            """
-            print(new_ang*180/np.pi)
-            print('=-=-=')
-
-            if np.pi/2 <= ang < np.pi:
-                print('a')
-                ang = np.pi - new_ang
-            elif np.pi <= ang < 3*np.pi/2:
-                print('b')
-                ang = np.pi + (2*np.pi - new_ang)
-            #elif 3*np.pi/2 <= ang < 2*np.pi:
-            #    print('c')
-            #    ang = np.pi + (2*np.pi - new_ang)
-            else:
-                ang = new_ang
-
-            input()
-            """
+        print("LAYER DONE")
 
     return c
 
 
 def _smaller_angle(angle, angle1, angle2):
-    """Returns true if angle is outside the
+    """Returns False if angle is outside the
      bounds of the arc angle defined between
      angle 1 and angle2.
 
@@ -240,11 +226,31 @@ def _smaller_angle(angle, angle1, angle2):
     and that we are trying to fill an arc
     """
 
-    if angle2 > angle1:
-        return angle < angle2
+    if angle2 >= 0 and angle1 >= 0:
+        if angle2 > angle1:
+            return angle < angle2
+        else:
+            # Convert angle to 0, 2pi and see if out of bounds
+            angle = angle + 2 * np.pi * (angle < 0)
+            return not (angle2 < angle < angle1)
+
+    elif angle2 < 0 and angle1 < 0:
+        if angle2 > angle1:
+            return angle < angle2
+        else:
+            return not (angle2 < angle < angle1)
 
     else:
-        return angle > angle2
+        if angle2 < 0:
+            if angle > 0:
+                return True
+            else:
+                return angle < angle2
+        else:
+            if angle < 0:
+                return True
+            else:
+                return angle < angle2
 
 
 @gf.cell
@@ -434,8 +440,8 @@ if __name__ == "__main__":
 
     c = circular_via_stack(
         radius=20.0,
-        angular_extent=100,
-        center_angle=90,
+        angular_extent=300,
+        center_angle=0,
         width=5.0,
         layers=("M1", "M2", "M3"),
         vias=(via1, via2),
