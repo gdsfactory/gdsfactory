@@ -50,7 +50,7 @@ jobs:
       - name: constructor build
         run: |
           conda install mamba -y
-          mamba install "constructor>=3.4.2" -y
+          mamba install constructor -y
           cd conda
           constructor .
       - name: Release
