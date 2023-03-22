@@ -5,7 +5,7 @@ from __future__ import annotations
 import gdstk
 
 import gdsfactory as gf
-from gdsfactory.component_layout import Polygon, _parse_layer
+from gdsfactory.component_layout import Polygon
 from gdsfactory.typings import Component, ComponentReference, LayerSpec
 
 
@@ -19,8 +19,7 @@ def offset(
     tolerance: int = 2,
     layer: LayerSpec = "WG",
 ) -> Component:
-    """Returns an element containing all polygons with an offset Shrinks or \
-    expands a polygon or set of polygons.
+    """Returns new Component with polygons eroded or dilated by an offset.
 
     Args:
         elements: Component(/Reference), list of Component(/Reference), or Polygon
@@ -53,8 +52,7 @@ def offset(
     if len(polygons_to_offset) == 0:
         return gf.Component("offset")
 
-    layer = gf.get_layer(layer)
-    gds_layer, gds_datatype = _parse_layer(layer)
+    gds_layer, gds_datatype = gf.get_layer(layer)
     p = gdstk.offset(
         polygons_to_offset,
         distance=distance,
