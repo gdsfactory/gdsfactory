@@ -166,6 +166,7 @@ from gdsfactory.components.mmi2x2_with_sbend import mmi2x2_with_sbend
 from gdsfactory.components.mmi_90degree_hybrid import mmi_90degree_hybrid
 from gdsfactory.components.mode_converter import mode_converter
 from gdsfactory.components.mzi import mzi, mzi1x2_2x2, mzi2x2_2x2, mzi_coupler
+from gdsfactory.components.mzm import mzm
 from gdsfactory.components.mzi_arm import mzi_arm
 from gdsfactory.components.mzi_arms import mzi_arms
 from gdsfactory.components.mzi_lattice import mzi_lattice, mzi_lattice_mmi
@@ -490,6 +491,7 @@ __all__ = [
     "mzi_phase_shifter_top_heater_metal",
     "mzit",
     "mzit_lattice",
+    "mzm",
     "nxn",
     "optimal_90deg",
     "optimal_hairpin",
