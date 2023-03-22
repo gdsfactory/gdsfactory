@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.65.3
+
+- make sure via stack fits at least one via [PR](https://github.com/gdsfactory/gdsfactory/pull/1461)
+- add `Component.get_layer_names`
+- make rich-click and optional dependency
+
 ## 6.65.0
 
 - add `gf.components.add_trenches` with some components that use it (`coupler_trenches`, `bend_euler_trenches`, `ring_single_trenches`, `ring_double_trenches`) [PR](https://github.com/gdsfactory/gdsfactory/pull/1457)
