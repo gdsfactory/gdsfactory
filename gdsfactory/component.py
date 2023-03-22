@@ -2374,6 +2374,51 @@ class Component(_GeometryHelper):
                 'Required argument "type" must be one of "xy", "uz", or "3D".'
             )
 
+    def offset(
+        self,
+        distance: float = 0.1,
+        polygons=None,
+        use_union: bool = True,
+        precision: float = 1e-4,
+        join: str = "miter",
+        tolerance: int = 2,
+        layer: LayerSpec = "WG",
+    ) -> Component:
+        """Returns new Component with polygons eroded or dilated by an offset.
+
+        Args:
+            distance: Distance to offset polygons. Positive values expand, negative shrink.
+            precision: Desired precision for rounding vertex coordinates.
+            num_divisions: The number of divisions with which the geometry is divided into
+              multiple rectangular regions. This allows for each region to be
+              processed sequentially, which is more computationally efficient.
+            join: {'miter', 'bevel', 'round'} Type of join used to create polygon offset
+            tolerance: For miter joints, this number must be at least 2 represents the
+              maximal distance in multiples of offset between new vertices and their
+              original position before beveling to avoid spikes at acute joints. For
+              round joints, it indicates the curvature resolution in number of
+              points per full circle.
+            layer: Specific layer for new polygons.
+
+        """
+        import gdsfactory as gf
+
+        gds_layer, gds_datatype = gf.get_layer(layer)
+        p = gdstk.offset(
+            polygons or self.get_polygons(),
+            distance=distance,
+            join=join,
+            tolerance=tolerance,
+            precision=precision,
+            use_union=use_union,
+            layer=gds_layer,
+            datatype=gds_datatype,
+        )
+
+        component = gf.Component()
+        component.add_polygon(p, layer=layer)
+        return component
+
 
 def copy(
     D: Component,
