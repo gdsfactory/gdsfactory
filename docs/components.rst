@@ -2122,6 +2122,21 @@ mzit_lattice
 
 
 
+mzm
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.mzm
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.mzm(length_x=500, length_y=2.0, delta_length=0.0, splitter='mmi1x2', combiner='mmi1x2', with_splitter=True, port_e1_splitter='o2', port_e0_splitter='o3', port_e1_combiner='o2', port_e0_combiner='o3', nbends=2, cross_section='strip', mirror_bot=False)
+  c.plot_matplotlib()
+
+
+
 nxn
 ----------------------------------------------------
 
