@@ -38,7 +38,7 @@ def union(
     join_first: bool = True,
     layer: Layer = (1, 0),
 ) -> Component:
-    """Returns inverted union of Component polygons.
+    """Returns new Component with inverted union of Component polygons.
 
     based on phidl.geometry.invert
 
@@ -51,7 +51,6 @@ def union(
         join_first: before offsetting to avoid unnecessary joins
             in adjacent polygons.
         layer: Specific layer to put polygon geometry on.
-
     """
     U = Component()
 
@@ -65,9 +64,13 @@ def union(
             U.add_polygon(unioned_polygons, layer=layer)
     else:
         all_polygons = component.get_polygons(by_spec=False)
-        unioned_polygons = _union_polygons(
-            all_polygons,
-            precision=precision,
+        unioned_polygons = (
+            _union_polygons(
+                all_polygons,
+                precision=precision,
+            )
+            if join_first
+            else all_polygons
         )
         U.add_polygon(unioned_polygons, layer=layer)
     return U
@@ -86,5 +89,5 @@ if __name__ == "__main__":
     c = Component()
     c << gf.components.ellipse(radii=(6, 6))
     c << gf.components.ellipse(radii=(10, 4))
-    c2 = union(c)
+    c2 = union(c, join_first=False)
     c2.show()

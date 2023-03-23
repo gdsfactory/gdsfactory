@@ -9,7 +9,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.component_layout import Polygon
 from gdsfactory.component_reference import ComponentReference
-from gdsfactory.typings import ComponentOrReference, Int2, LayerSpec
+from gdsfactory.typings import ComponentOrReference, LayerSpec
 
 
 @gf.cell
@@ -18,7 +18,6 @@ def boolean(
     B: Union[ComponentOrReference, Tuple[ComponentOrReference, ...]],
     operation: str,
     precision: float = 1e-4,
-    num_divisions: Union[int, Int2] = (1, 1),
     layer: LayerSpec = (1, 0),
 ) -> Component:
     """Performs boolean operations between 2 Component/Reference/list objects.
@@ -34,9 +33,6 @@ def boolean(
         B: Component(/Reference) or list of Component(/References).
         operation: {'not', 'and', 'or', 'xor', 'A-B', 'B-A', 'A+B'}.
         precision: float Desired precision for rounding vertex coordinates.
-        num_divisions: number of divisions with which the geometry is divided into
-          multiple rectangular regions. This allows for each region to be
-          processed sequentially, which is more computationally efficient.
         layer: Specific layer to put polygon geometry on.
 
     Returns: Component with polygon(s) of the boolean operations between
@@ -74,7 +70,7 @@ def boolean(
         operation = "or"
     elif operation not in ["not", "and", "or", "xor", "a-b", "b-a", "a+b"]:
         raise ValueError(
-            "gdsfactory.geometry.boolean() `operation` "
+            f"gdsfactory.geometry.boolean() `operation` = {operation} "
             "parameter not recognized, must be one of the "
             "following:  'not', 'and', 'or', 'xor', 'A-B', "
             "'B-A', 'A+B'"
@@ -140,7 +136,8 @@ if __name__ == "__main__":
 
     n = 50
     c1 = gf.c.array(gf.c.circle(radius=10), columns=n, rows=n)
-    c2 = gf.c.array(gf.c.circle(radius=9), columns=n, rows=n).movex(5)
+    c2 = gf.c.array(gf.c.circle(radius=9), columns=n, rows=n).ref()
+    c2.movex(5)
 
     t0 = time.time()
     c = boolean(c1, c2, operation="xor")

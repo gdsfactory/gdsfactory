@@ -4,7 +4,7 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.geometry.boolean import boolean
-from gdsfactory.typings import Int2, LayerSpec, Union
+from gdsfactory.typings import LayerSpec
 
 
 @gf.cell
@@ -12,7 +12,6 @@ def invert(
     elements,
     border: float = 10.0,
     precision: float = 1e-4,
-    num_divisions: Union[int, Int2] = (1, 1),
     layer: LayerSpec = (1, 0),
 ) -> Component:
     """Creates an inverted version of the input shapes with an additional \
@@ -25,10 +24,6 @@ def invert(
             distance from the edges of the boundary box defining the inverted
             shape to the border, and is applied to all 4 sides of the shape).
         precision: Desired precision for rounding vertex coordinates.
-        num_divisions: array-like[2] of int
-            The number of divisions with which the geometry is divided into
-            multiple rectangular regions. This allows for each region to be
-            processed sequentially, which is more computationally efficient.
         layer: Specific layer(s) to put polygon geometry on.
 
     Returns
@@ -56,7 +51,6 @@ def invert(
         B=Temp,
         operation="A-B",
         precision=precision,
-        num_divisions=num_divisions,
         layer=layer,
     )
 
