@@ -10,6 +10,7 @@ import hashlib
 import itertools
 import math
 import pathlib
+import tempfile
 import warnings
 from collections.abc import Iterable
 from pathlib import Path
@@ -111,7 +112,7 @@ class MutabilityError(ValueError):
     pass
 
 
-def _get_dependencies(component, references_set) -> None:
+def _get_dependencies(component, references_set):
     for ref in component.references:
         references_set.add(ref.ref_cell)
         _get_dependencies(ref.ref_cell, references_set)
@@ -140,6 +141,8 @@ Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
 LayerSpec = Union[str, int, Layer, None]
 
+tmp = pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
+tmp.mkdir(exist_ok=True, parents=True)
 _timestamp2019 = datetime.datetime.fromtimestamp(1572014192.8273)
 MAX_NAME_LENGTH = 32
 
@@ -1442,7 +1445,7 @@ class Component(kf.KCell):
         component_flat.add_ports(self.ports)
         return component_flat
 
-    def flatten_reference(self, ref: ComponentReference) -> None:
+    def flatten_reference(self, ref: ComponentReference):
         """From existing cell replaces reference with a flatten reference \
         which has the transformations already applied.
 
@@ -1551,16 +1554,14 @@ class Component(kf.KCell):
 
             gdspath = self.write_gds(gdsdir=PATH.gdslib / "extra", logging=False)
 
-            dirpath = GDSDIR_TEMP
+            dirpath = pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
             dirpath.mkdir(exist_ok=True, parents=True)
             lyp_path = dirpath / "layers.lyp"
 
             layer_props = get_layer_views()
             layer_props.to_lyp(filepath=lyp_path)
 
-            port = kj.port if hasattr(kj, "port") else 8000
-
-            src = f"http://127.0.0.1:{port}/gds?gds_file={escape(str(gdspath))}&layer_props={escape(str(lyp_path))}"
+            src = f"http://127.0.0.1:8000/gds?gds_file={escape(str(gdspath))}&layer_props={escape(str(lyp_path))}"
             logger.debug(src)
 
             if kj.jupyter_server and not os.environ.get("DOCS", False):
@@ -1694,7 +1695,7 @@ class Component(kf.KCell):
                 layer_view = layer_views.get_from_tuple(layer)
             except ValueError:
                 layers = list(layer_views.get_layer_views().keys())
-                warnings.warn(f"{layer!r} not defined in {layers}", stacklevel=3)
+                warnings.warn(f"{layer!r} not defined in {layers}")
                 layer_view = LayerView(layer=layer)
             # TODO: Match up options with LayerViews
             plots_to_overlay.append(
@@ -1784,7 +1785,7 @@ class Component(kf.KCell):
         Keyword Args:
             Arguments for the target meshing function in gdsfactory.simulation.gmsh
         """
-
+        # Add WAFER layer:
         padded_component = Component()
         padded_component << self
         (xmin, ymin), (xmax, ymax) = self.bbox
@@ -1793,6 +1794,24 @@ class Component(kf.KCell):
             [xmax + wafer_padding, ymin - wafer_padding],
             [xmax + wafer_padding, ymax + wafer_padding],
             [xmin - wafer_padding, ymax + wafer_padding],
+        ]
+        padded_component.add_polygon(points, layer=wafer_layer)
+
+        if layer_stack is None:
+            raise ValueError(
+                'A LayerStack must be provided through argument "layer_stack".'
+            )
+        if type == "xy":
+            if z is None:
+                raise ValueError(
+                    'For xy-meshing, a z-value must be provided via the float argument "z".'
+                )
+            from gdsfactory.simulation.gmsh.xy_xsection_mesh import xy_xsection_mesh
+
+        all_cells = [top_cell._cell] + sorted(cells, key=lambda cc: cc.name)
+
+        no_name_cells = [
+            cell.name for cell in all_cells if cell.name.startswith("Unnamed")
         ]
         padded_component.add_polygon(points, layer=wafer_layer)
 
@@ -2670,7 +2689,7 @@ def test_remove_labels() -> None:
     assert len(c.labels) == 0
 
 
-def test_import_gds_settings() -> None:
+def test_import_gds_settings():
     import gdsfactory as gf
 
     c = gf.components.mzi()
@@ -2680,7 +2699,7 @@ def test_import_gds_settings() -> None:
     assert c3
 
 
-def test_flatten_invalid_refs_recursive() -> None:
+def test_flatten_invalid_refs_recursive():
     import gdsfactory as gf
 
     @gf.cell
