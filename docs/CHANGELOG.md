@@ -1,5 +1,17 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.68.0
+
+- add gf.geometry.fillet and gf.geometry.boolean_polygons [PR](https://github.com/gdsfactory/gdsfactory/pull/1464)
+
+## 6.67.0
+
+- add modulator example [PR](https://github.com/gdsfactory/gdsfactory/pull/1463)
+
+## 6.66.0
+
+- add `Component.offset` [PR](https://github.com/gdsfactory/gdsfactory/pull/1462)
+
 ## 6.65.3
 
 - make sure via stack fits at least one via [PR](https://github.com/gdsfactory/gdsfactory/pull/1461)
