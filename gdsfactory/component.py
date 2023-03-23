@@ -2389,9 +2389,6 @@ class Component(_GeometryHelper):
         Args:
             distance: Distance to offset polygons. Positive values expand, negative shrink.
             precision: Desired precision for rounding vertex coordinates.
-            num_divisions: The number of divisions with which the geometry is divided into
-              multiple rectangular regions. This allows for each region to be
-              processed sequentially, which is more computationally efficient.
             join: {'miter', 'bevel', 'round'} Type of join used to create polygon offset
             tolerance: For miter joints, this number must be at least 2 represents the
               maximal distance in multiples of offset between new vertices and their

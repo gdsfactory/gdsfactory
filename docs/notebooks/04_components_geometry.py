@@ -27,17 +27,13 @@
 #
 #
 # The ``gf.geometry.boolean()`` function can perform AND/OR/NOT/XOR operations, and will return a new geometry with the result of that operation.
-#
-# Speedup note: The ``num_divisions`` argument can be used to divide up the geometry into multiple rectangular regions and process each region sequentially (which is more computationally efficient).  If you have a large geometry that takes a long time to process, try using ``num_divisions = [10,10]`` to optimize the operation.
 
 # %%
 import gdsfactory as gf
 
 E = gf.components.ellipse(radii=(10, 5), layer=(1, 0))
 R = gf.components.rectangle(size=[15, 5], layer=(2, 0))
-C = gf.geometry.boolean(
-    A=E, B=R, operation="not", precision=1e-6, num_divisions=[1, 1], layer=(3, 0)
-)
+C = gf.geometry.boolean(A=E, B=R, operation="not", precision=1e-6, layer=(3, 0))
 # Other operations include 'and', 'or', 'xor', or equivalently 'A-B', 'B-A', 'A+B'
 
 # Plot the originals and the result
@@ -84,9 +80,8 @@ c4
 # %% [markdown]
 # ### Offset
 #
-# The ``offset()`` function takes the polygons of the input geometry, combines them together, and expands/contracts them.  The function returns polygons on a single layer -- it does not respect layers.
-#
-# Speedup note: The ``num_divisions`` argument can be used to divide up the geometry into multiple rectangular regions and process each region sequentially (which is more computationally efficient).  If you have a large geometry that takes a long time to process, try using ``num_divisions = [10,10]`` to optimize the operation.
+# The ``offset()`` function takes the polygons of the input geometry, combines them together, and expands/contracts them.
+# The function returns polygons on a single layer and does not respect layers.
 
 # %%
 import gdsfactory as gf
@@ -336,5 +331,3 @@ c << gf.fill_rectangle(
 
 c << mzi
 c
-
-# %%
