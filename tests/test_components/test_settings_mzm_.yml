@@ -238,7 +238,6 @@ settings:
     splitter: mmi1x2
     straight:
       function: straight
-    straight_y: null
     with_splitter: true
   full:
     bend:
@@ -259,7 +258,6 @@ settings:
     splitter: mmi1x2
     straight:
       function: straight
-    straight_y: null
     with_splitter: true
   function_name: mzm
   info: {}

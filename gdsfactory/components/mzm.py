@@ -24,7 +24,6 @@ def mzm(
     delta_length: float = 0.0,
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
-    straight_y: Optional[ComponentSpec] = None,
     splitter: ComponentSpec = "mmi1x2",
     combiner: Optional[ComponentSpec] = "mmi1x2",
     with_splitter: bool = True,
@@ -44,8 +43,7 @@ def mzm(
         length_y: vertical length for both and top arms.
         delta_length: bottom arm vertical extra length.
         bend: 90 degrees bend spec.
-        straight: straight function.
-        straight_y: straight for length_y and delta_length.
+        straight: straight function for vertical.
         splitter: splitter function.
         combiner: combiner function. Optional adds ports.
         with_splitter: if False removes splitter.
@@ -55,8 +53,6 @@ def mzm(
         port_e0_combiner: east bot combiner port.
         nbends: from straight top/bot to combiner (at least 2).
         cross_section: for routing (sxtop/sxbot to combiner).
-        cross_section_x_top: optional top cross_section (defaults to cross_section).
-        cross_section_x_bot: optional bottom cross_section (defaults to cross_section).
         mirror_bot: mirrors bottom arm.
 
     .. code::
@@ -76,7 +72,6 @@ def mzm(
                      b6__sxbot__b7
                           Lx
     """
-    straight_y = straight_y or straight
 
     bend_spec = bend
     bend = gf.get_component(bend, cross_section=cross_section)
@@ -92,9 +87,7 @@ def mzm(
     b5.mirror()
     b5.connect("o1", cp1.ports[port_e0_splitter])
 
-    syl = c << gf.get_component(
-        straight_y, length=delta_length / 2 + length_y, cross_section=cross_section
-    )
+    syl = c << straight(length=delta_length / 2 + length_y, cross_section=cross_section)
     syl.connect("o1", b5.ports["o2"])
     b6 = c << bend
     b6.connect("o1", syl.ports["o2"])
@@ -108,9 +101,7 @@ def mzm(
     b1 = c << bend
     b1.connect("o1", cp1.ports[port_e1_splitter])
 
-    sytl = c << gf.get_component(
-        straight_y, length=length_y, cross_section=cross_section
-    )
+    sytl = c << straight(length=length_y, cross_section=cross_section)
     sytl.connect("o1", b1.ports["o2"])
 
     b2 = c << bend
