@@ -136,7 +136,8 @@ if __name__ == "__main__":
 
     n = 50
     c1 = gf.c.array(gf.c.circle(radius=10), columns=n, rows=n)
-    c2 = gf.c.array(gf.c.circle(radius=9), columns=n, rows=n).movex(5)
+    c2 = gf.c.array(gf.c.circle(radius=9), columns=n, rows=n).ref()
+    c2.movex(5)
 
     t0 = time.time()
     c = boolean(c1, c2, operation="xor")
