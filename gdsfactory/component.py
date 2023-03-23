@@ -10,16 +10,16 @@ import itertools
 import math
 import pathlib
 import tempfile
-import uuid
 import warnings
-from collections import Counter
 from collections.abc import Iterable
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 import gdstk
+import kfactory as kf
 import numpy as np
 import yaml
+from kfactory import kdb
 from omegaconf import DictConfig, OmegaConf
 from typing_extensions import Literal
 
@@ -28,15 +28,13 @@ from gdsfactory.component_layout import (
     Polygon,
     _align,
     _distribute,
-    _GeometryHelper,
     _parse_layer,
-    get_polygons,
 )
-from gdsfactory.component_reference import ComponentReference, Coordinate, SizeInfo
 from gdsfactory.config import CONF, logger
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.port import (
     Port,
+    port_to_kport,
     auto_rename_ports,
     auto_rename_ports_counter_clockwise,
     auto_rename_ports_layer_orientation,
@@ -48,19 +46,65 @@ from gdsfactory.port import (
 )
 from gdsfactory.serialization import clean_dict
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.technology import LayerView, LayerViews, LayerStack
+from gdsfactory.technology import LayerView, LayerViews
 from gdsfactory.generic_tech import LAYER
 
 Plotter = Literal["holoviews", "matplotlib", "qt", "klayout"]
 Axis = Literal["x", "y"]
 
+Number = Union[float, int]
+Coordinate = Union[Tuple[Number, Number], np.ndarray, List[Number]]
 
-class UncachedComponentWarning(UserWarning):
-    pass
 
+class SizeInfo:
+    def __init__(self, bbox: np.ndarray) -> None:
+        """Initialize this object."""
+        self.west = bbox[0, 0]
+        self.east = bbox[1, 0]
+        self.south = bbox[0, 1]
+        self.north = bbox[1, 1]
 
-class UncachedComponentError(ValueError):
-    pass
+        self.width = self.east - self.west
+        self.height = self.north - self.south
+
+        xc = 0.5 * (self.east + self.west)
+        yc = 0.5 * (self.north + self.south)
+
+        self.sw = np.array([self.west, self.south])
+        self.se = np.array([self.east, self.south])
+        self.nw = np.array([self.west, self.north])
+        self.ne = np.array([self.east, self.north])
+
+        self.cw = np.array([self.west, yc])
+        self.ce = np.array([self.east, yc])
+        self.nc = np.array([xc, self.north])
+        self.sc = np.array([xc, self.south])
+        self.cc = self.center = np.array([xc, yc])
+
+    def get_rect(
+        self, padding=0, padding_w=None, padding_e=None, padding_n=None, padding_s=None
+    ) -> Tuple[Coordinate, Coordinate, Coordinate, Coordinate]:
+        w, e, s, n = self.west, self.east, self.south, self.north
+
+        padding_n = padding if padding_n is None else padding_n
+        padding_e = padding if padding_e is None else padding_e
+        padding_w = padding if padding_w is None else padding_w
+        padding_s = padding if padding_s is None else padding_s
+
+        w = w - padding_w
+        e = e + padding_e
+        s = s - padding_s
+        n = n + padding_n
+
+        return ((w, s), (e, s), (e, n), (w, n))
+
+    @property
+    def rect(self) -> Tuple[Coordinate, Coordinate]:
+        return self.get_rect()
+
+    def __str__(self) -> str:
+        """Return a string representation of the object."""
+        return f"w: {self.west}\ne: {self.east}\ns: {self.south}\nn: {self.north}\n"
 
 
 class MutabilityError(ValueError):
@@ -90,21 +134,6 @@ c.add_ref(gf.components.bend_euler())
 c.add_ref(gf.components.mzi())
 """
 
-move_error_message = """
-You cannot move a Component. You can create a new Component, add a reference to the other Component and then move the reference.
-
-For example:
-
-# BAD
-c = gf.components.straight()
-c.xmin = 10
-
-# GOOD
-c = gf.Component()
-ref = c.add_ref(gf.components.straight()) # or ref = c << gf.components.straight()
-ref.xmin = 10
-"""
-
 PathType = Union[str, Path]
 Float2 = Tuple[float, float]
 Layer = Tuple[int, int]
@@ -123,7 +152,170 @@ def _rnd(arr, precision=1e-4):
     return np.ascontiguousarray(arr.round(ndigits) / precision, dtype=np.int64)
 
 
-class Component(_GeometryHelper):
+class Instance(kf.Instance):
+    def mirror(self):
+        self.trans.mirror = False if self.trans.is_mirror() else True
+
+    def connect(
+        self,
+        port: str,
+        destination: ComponentReference | Port,
+        destination_name: Optional[str] = None,
+        *,
+        mirror: bool = False,
+        allow_width_mismatch: bool = False,
+        allow_layer_mismatch: bool = False,
+        allow_type_mismatch: bool = False,
+    ) -> None:
+        """Function to allow to transform this instance so that a port of this instance is connected (same position with 180° turn) to another instance.
+
+        Args:
+            portname: The name of the port of this instance to be connected
+            other_instance: The other instance or a port
+            other_port_name: The name of the other port. Ignored if :py:attr:`~other_instance` is a port.
+            mirror: Instead of applying klayout.db.Trans.R180 as a connection transformation, use klayout.db.Trans.M90, which effectively means this instance will be mirrored and connected.
+        """
+        import gdsfactory as gf
+
+        portname = port
+        other = destination
+        other_port_name = destination_name
+
+        if isinstance(other, ComponentReference):
+            if other_port_name is None:
+                raise ValueError(
+                    "portname cannot be None if an Instance Object is given"
+                )
+            op = other.ports[other_port_name]
+        p = self.cell.ports[portname]
+        if isinstance(p, gf.Port):
+            p = port_to_kport(p, library=self.cell.library)
+        if isinstance(other, gf.Port):
+            op = port_to_kport(other, library=self.cell.library)
+        else:
+            op = other
+
+        if p.width != op.width and not allow_width_mismatch:
+            raise kf.kcell.PortWidthMismatch(
+                self,
+                other,
+                p,
+                op,
+            )
+        elif (
+            gf.get_layer(p.layer) != gf.get_layer(op.layer) and not allow_layer_mismatch
+        ):
+            raise kf.kcell.PortLayerMismatch(self.cell.library, self, other, p, op)
+        elif p.port_type != op.port_type and not allow_type_mismatch:
+            raise kf.kcell.PortTypeMismatch(self, other, p, op)
+        else:
+            if p.complex() or op.complex():
+                cplx_conn_trans = kdb.DCplxTrans.M90 if mirror else kdb.DCplxTrans.R180
+                self.instance.dcplx_trans = (
+                    op.dcplx_trans(self.cell.library.dbu)
+                    * cplx_conn_trans
+                    * p.dcplx_trans(self.cell.library.dbu).inverted()
+                )
+            else:
+                conn_trans = kdb.Trans.M90 if mirror else kdb.Trans.R180
+                self.instance.trans = op.trans * conn_trans * p.trans.inverted()
+
+    def move(
+        self,
+        origin: Union[Port, Coordinate, str] = (0, 0),
+        destination: Optional[Union[Port, Coordinate, str]] = None,
+        axis: Optional[str] = None,
+    ) -> ComponentReference:
+        """Move the ComponentReference from origin point to destination.
+
+        Both origin and destination can be 1x2 array-like, Port, or a key
+        corresponding to one of the Ports in this device_ref.
+
+        Args:
+            origin: Port, port_name or Coordinate.
+            destination: Port, port_name or Coordinate.
+            axis: for the movement.
+
+        Returns:
+            ComponentReference.
+        """
+        # If only one set of coordinates is defined, make sure it's used to move things
+        if destination is None:
+            destination = origin
+            origin = (0, 0)
+
+        if isinstance(origin, str):
+            if origin not in self.ports:
+                raise ValueError(f"{origin} not in {self.ports.keys()}")
+
+            origin = self.ports[origin]
+            # origin = cast(Port, origin)
+            o = origin.center
+        elif hasattr(origin, "center"):
+            # origin = cast(Port, origin)
+            o = origin.center
+        elif np.array(origin).size == 2:
+            o = origin
+        else:
+            raise ValueError(
+                f"move(origin={origin})\n"
+                f"Invalid origin = {origin!r} needs to be"
+                f"a coordinate, port or port name {list(self.ports.keys())}"
+            )
+
+        if isinstance(destination, str):
+            if destination not in self.ports:
+                raise ValueError(f"{destination} not in {self.ports.keys()}")
+
+            destination = self.ports[destination]
+            d = destination.center
+        if hasattr(destination, "center"):
+            d = destination.center
+        elif np.array(destination).size == 2:
+            d = destination
+
+        else:
+            raise ValueError(
+                f"{self.parent.name}.move(destination={destination!r}) \n"
+                f"Invalid destination = {destination!r} needs to be"
+                f"a coordinate, a port, or a valid port name {list(self.ports.keys())}"
+            )
+
+        # Lock one axis if necessary
+        if axis == "x":
+            d = (d[0], o[1])
+        if axis == "y":
+            d = (o[0], d[1])
+
+        dxdy = np.array(d) - np.array(o)
+
+        self.instance.dtrans = (
+            kf.kdb.DTrans(float(dxdy[0]), float(dxdy[1])) * self.instance.dtrans
+        )
+        return self
+
+    @classmethod
+    def __get_validators__(cls):
+        """Get validators for the Component object."""
+        yield cls.validate
+
+    @classmethod
+    def validate(cls, v):
+        """Pydantic assumes component is valid if the following are true."""
+        MAX_NAME_LENGTH = 100
+        assert isinstance(
+            v, ComponentReference
+        ), f"TypeError, Got {type(v)}, expecting Instance"
+        assert (
+            len(v.name) <= MAX_NAME_LENGTH
+        ), f"name `{v.name}` {len(v.name)} > {MAX_NAME_LENGTH} "
+        return v
+
+
+ComponentReference = Instance
+
+
+class Component(kf.KCell):
     """A Component is an empty canvas where you add polygons, references and ports \
             (to connect to other components).
 
@@ -154,57 +346,90 @@ class Component(_GeometryHelper):
             child: dict info from the children, if any.
     """
 
-    def __init__(
-        self,
-        name: str = "Unnamed",
-        with_uuid: bool = False,
-    ) -> None:
-        """Initialize the Component object."""
-        self.uid = str(uuid.uuid4())[:8]
-        if with_uuid or name == "Unnamed":
-            name += f"_{self.uid}"
+    # def __init__(
+    #     self,
+    #     name: str = "Unnamed",
+    #     with_uuid: bool = False,
+    # ) -> None:
+    #     """Initialize the Component object."""
+    #     self.uid = str(uuid.uuid4())[:8]
+    #     if with_uuid or name == "Unnamed":
+    #         name += f"_{self.uid}"
+    #     self.name = name
+    #     self.info: Dict[str, Any] = {} # user added
+    #     self.settings: Dict[str, Any] = {} # cell decorator adds this
+    #     self._locked = False
+    #     self.get_child_name = False
+    #     self._reference_names_counter = Counter()
+    #     self._reference_names_used = set()
+    #     self._named_references = {}
+    #     self._references = []
+    #     self.ports = {}
 
-        self._cell = gdstk.Cell(name=name)
-        self.name = name
-        self.info: Dict[str, Any] = {}
+    def copy(self) -> "Component":
+        """Copy the full component.
 
-        self.settings: Dict[str, Any] = {}
-        self._locked = False
-        self.get_child_name = False
-        self._reference_names_counter = Counter()
-        self._reference_names_used = set()
-        self._named_references = {}
-        self._references = []
+        Returns:
+            cell: exact copy of the current cell.
+        """
+        kdb_copy = self._kdb_cell.dup()
+        c = Component(library=self.library, kdb_cell=kdb_copy)
+        c.ports = self.ports
+        for inst in self.insts:
+            c.create_inst(inst.cell, inst.instance.trans)
+        c._locked = False
+        return c
 
-        self.ports = {}
+    def create_inst(self, cell: kf.KCell, trans: kdb.Trans = kdb.Trans()) -> Instance:
+        """Add an instance of another KCell.
+
+        Args:
+            cell: The cell to be added.
+            trans: The transformation applied to the reference.
+
+        Returns:
+            :py:class:`~Instance`: The created instance.
+        """
+        ca = self.insert(kdb.CellInstArray(cell._kdb_cell.cell_index(), trans))
+        inst = Instance(cell, ca)
+        self.insts.append(inst)
+        return inst
+
+    def __lshift__(self, cell: kf.KCell) -> Instance:
+        """Convenience function for :py:attr:"~create_inst(cell)`.
+
+        Args:
+            cell: The cell to be added as an instance.
+        """
+        return self.create_inst(cell)
 
     @property
     def references(self):
-        return self._references
+        return self.insts
 
-    @property
-    def polygons(self) -> List[Polygon]:
-        return self._cell.polygons
+    # @property
+    # def polygons(self) -> List[Polygon]:
+    #     return self._cell.polygons
 
     @property
     def area(self) -> float:
-        return self._cell.area
+        return self.bbox().area()
 
-    @property
-    def labels(self) -> List[Label]:
-        return self._cell.labels
+    # @property
+    # def labels(self) -> List[Label]:
+    #     return self._cell.labels
 
-    @property
-    def paths(self):
-        return self._cell.paths
+    # @property
+    # def paths(self):
+    #     return self._cell.paths
 
-    @property
-    def name(self) -> str:
-        return self._cell.name
+    # @property
+    # def name(self) -> str:
+    #     return self._cell.name
 
-    @name.setter
-    def name(self, value):
-        self._cell.name = value
+    # @name.setter
+    # def name(self, value):
+    #     self._cell.name = value
 
     def __iter__(self):
         """You can iterate over polygons, paths, labels and references."""
@@ -213,7 +438,7 @@ class Component(_GeometryHelper):
     def get_polygons(
         self,
         by_spec: Union[bool, Tuple[int, int]] = False,
-        depth: Optional[int] = None,
+        recursive: bool = True,
         include_paths: bool = True,
         as_array: bool = True,
     ) -> Union[List[Polygon], Dict[Tuple[int, int], List[Polygon]]]:
@@ -225,7 +450,7 @@ class Component(_GeometryHelper):
                 polygons of each individual pair (layer, datatype), which
                 are used as keys.  If set to a tuple of (layer, datatype),
                 only polygons with that specification are returned.
-            depth: integer or None
+            recursive: integer or None
                 If not None, defines from how many reference levels to
                 retrieve polygons.  References below this level will result
                 in a bounding box.  If `by_spec` is True the key will be the
@@ -244,13 +469,38 @@ class Component(_GeometryHelper):
             Instances of `FlexPath` and `RobustPath` are also included in
             the result by computing their polygonal boundary.
         """
-        return get_polygons(
-            instance=self,
-            by_spec=by_spec,
-            depth=depth,
-            include_paths=include_paths,
-            as_array=as_array,
-        )
+        if recursive:
+            if by_spec:
+                layer = self.library.layer(*by_spec)
+                return list(kdb.Region(self.begin_shapes_rec(layer)).each())
+
+            else:
+                return {
+                    (layer_info.layer, layer_info.datatype): list(
+                        kdb.Region(self.begin_shapes_rec(layer_index)).each()
+                    )
+                    for layer_index, layer_info in zip(
+                        self.library.layer_indexes(), self.library.layer_infos()
+                    )
+                }
+        else:
+            if by_spec:
+                return [
+                    p.polygon
+                    for p in self.shapes(self.library.layer(*by_spec)).each(
+                        kdb.Shapes.SRegions
+                    )
+                ]
+
+            else:
+                return {
+                    (info.layer, info.datatype): [
+                        p.polygon for p in self.shapes(index).each(kdb.Shapes.SRegions)
+                    ]
+                    for info, index in zip(
+                        self.library.layer_infos(), self.library.layer_indexes()
+                    )
+                }
 
     def get_dependencies(self, recursive: bool = False) -> List[Component]:
         """Return a set of the cells included in this cell as references.
@@ -285,10 +535,6 @@ class Component(_GeometryHelper):
             raise ValueError(f"{key!r} not in {ports}")
 
         return self.ports[key]
-
-    def __lshift__(self, element):
-        """Convenience operator equivalent to add_ref()."""
-        return self.add_ref(element)
 
     def unlock(self) -> None:
         """Only do this if you know what you are doing."""
@@ -349,9 +595,8 @@ class Component(_GeometryHelper):
         self,
         text: str = "hello",
         position: Tuple[float, float] = (0.0, 0.0),
-        magnification: float = 1.0,
+        height: float = 1.0,
         rotation: float = 0,
-        anchor: str = "o",
         layer="TEXT",
         x_reflection=False,
     ) -> Label:
@@ -360,10 +605,8 @@ class Component(_GeometryHelper):
         Args:
             text: Label text.
             position: x-, y-coordinates of the Label location.
-            magnification: Magnification factor for the Label text.
+            height: height the Label text.
             rotation: Angle rotation of the Label text.
-            anchor: {'n', 'e', 's', 'w', 'o', 'ne', 'nw', ...}
-                Position of the anchor relative to the text.
             layer: Specific layer(s) to put Label on.
             x_reflection: True reflects across the horizontal axis before rotation.
         """
@@ -375,17 +618,13 @@ class Component(_GeometryHelper):
 
         if not isinstance(text, str):
             text = text
-        label = Label(
-            text=text,
-            origin=position,
-            anchor=anchor,
-            magnification=magnification,
-            rotation=rotation,
-            layer=gds_layer,
-            texttype=gds_datatype,
-            x_reflection=x_reflection,
-        )
-        self.add(label)
+
+        x, y = position
+        trans = kdb.DTrans(int(rotation / 90), x_reflection, x, y)
+        label = kdb.DText(text, trans)
+        label.height = height
+        layer = self.library.layer(*layer)
+        self.shapes(layer).insert(label)
         return label
 
     @property
@@ -398,6 +637,11 @@ class Component(_GeometryHelper):
         if bbox is None:
             bbox = ((0, 0), (0, 0))
         return np.round(bbox, 3)
+
+    @property
+    def ports(self):
+        """Returns ports dict."""
+        return kf.KCell.ports.get_all(self)
 
     @property
     def ports_layer(self) -> Dict[str, str]:
@@ -611,7 +855,7 @@ class Component(_GeometryHelper):
 
     def assert_ports_on_grid(self, nm: int = 1) -> None:
         """Asserts that all ports are on grid."""
-        for port in self.ports.values():
+        for port in self.ports.copy()._ports:
             port.assert_on_grid(nm=nm)
 
     def get_ports(self, depth=None):
@@ -629,7 +873,7 @@ class Component(_GeometryHelper):
         Returns:
             port_list : list of Port List of all Ports in the Component.
         """
-        port_list = [p._copy() for p in self.ports.values()]
+        port_list = [p._copy() for p in self.ports.copy()._ports]
 
         if depth is None or depth > 0:
             for r in self.references:
@@ -659,13 +903,7 @@ class Component(_GeometryHelper):
 
         Keyword Args:
             layer: port GDS layer.
-            prefix: select ports with prefix in port name.
-            suffix: select ports with port name suffix.
-            orientation: select ports with orientation in degrees.
-            width: select ports with port width.
-            layers_excluded: List of layers to exclude.
-            port_type: select ports with port_type (optical, electrical, vertical_te).
-            clockwise: if True, sort ports clockwise, False: counter-clockwise.
+            prefix: for example "E" for east, "W" for west ...
         """
         return select_ports(self.ports, **kwargs)
 
@@ -674,9 +912,7 @@ class Component(_GeometryHelper):
 
         Keyword Args:
             layer: select ports with GDS layer.
-            prefix: select ports with prefix in port name.
-            suffix: select ports with port name suffix.
-            orientation: select ports with orientation in degrees.
+            prefix: select ports with port name.
             orientation: select ports with orientation in degrees.
             width: select ports with port width.
             layers_excluded: List of layers to exclude.
@@ -684,40 +920,6 @@ class Component(_GeometryHelper):
             clockwise: if True, sort ports clockwise, False: counter-clockwise.
         """
         return list(select_ports(self.ports, **kwargs).values())
-
-    def get_ports_pandas(self):
-        import pandas as pd
-
-        col_spec = [
-            "name",
-            "width",
-            "center",
-            "orientation",
-            "layer",
-            "port_type",
-            "shear_angle",
-        ]
-
-        return pd.DataFrame(
-            [port.to_dict() for port in self.get_ports_list()], columns=col_spec
-        )
-
-    def get_ports_polars(self):
-        import polars as pl
-
-        col_spec = {
-            "name": pl.Utf8,
-            "width": pl.Float64,
-            "center": pl.List(pl.Float64),
-            "orientation": pl.Float64,
-            "layer": pl.List(pl.UInt16),
-            "port_type": pl.Utf8,
-            "shear_angle": pl.Float64,
-        }
-
-        return pl.DataFrame(
-            [port.to_dict() for port in self.get_ports_list()], schema=col_spec
-        )
 
     def ref(
         self,
@@ -767,12 +969,17 @@ class Component(_GeometryHelper):
 
     def __repr__(self) -> str:
         """Return a string representation of the object."""
-        return (
-            f"{self.name}: uid {self.uid}, "
-            f"ports {list(self.ports.keys())}, "
-            f"references {list(self.named_references.keys())}, "
-            f"{len(self.polygons)} polygons"
-        )
+        refs = [
+            f"parent: {inst.cell.name}, ports; {inst.ports}, transformation: {inst.trans}"
+            for inst in self.insts
+        ]
+        return f"{self.name}: uid {self.cell_index()}, ports {list(self.ports)}, references {refs}, {len(self.get_polygons(recursive=False))} polygons"
+        # return (
+        #     f"{self.name}: uid {self.uid}, "
+        #     f"ports {list(self.ports.keys())}, "
+        #     f"references {list(self.named_references.keys())}, "
+        #     f"{len(self.polygons)} polygons"
+        # )
 
     def pprint(self) -> None:
         """Prints component info."""
@@ -791,7 +998,7 @@ class Component(_GeometryHelper):
             print(port)
 
     @property
-    def metadata_child(self) -> Dict:
+    def metadata_child(self) -> DictConfig:
         """Returns metadata from child if any, Otherwise returns component own.
 
         metadata Great to access the children metadata at the bottom of the
@@ -802,11 +1009,11 @@ class Component(_GeometryHelper):
         while settings.get("child"):
             settings = settings.get("child")
 
-        return dict(settings)
+        return DictConfig(dict(settings))
 
     @property
-    def metadata(self) -> Dict:
-        return dict(self.settings)
+    def metadata(self) -> DictConfig:
+        return DictConfig(dict(self.settings))
 
     def add_port(
         self,
@@ -816,9 +1023,9 @@ class Component(_GeometryHelper):
         orientation: Optional[float] = None,
         port: Optional[Port] = None,
         layer: LayerSpec = None,
-        port_type: Optional[str] = None,
+        port_type: str = "optical",
         cross_section: Optional[CrossSection] = None,
-    ) -> Port:
+    ) -> None:
         """Add port to component.
 
         You can copy an existing port like add_port(port = existing_port) or
@@ -833,61 +1040,58 @@ class Component(_GeometryHelper):
             orientation: in deg.
             port: optional port.
             layer: port layer.
-            port_type: optical, electrical, vertical_dc, vertical_te, vertical_tm. Defaults to optical.
+            port_type: optical, electrical, vertical_dc, vertical_te, vertical_tm.
             cross_section: port cross_section.
         """
-        from gdsfactory.pdk import get_layer
+        from gdsfactory.pdk import get_layer, get_cross_section
+
+        if port:
+            name = name if name is not None else port.name
+
+            if isinstance(port, (kf.Port, kf.DPort, kf.ICplxPort, kf.DCplxPort)):
+                return kf.KCell.add_port(self, port=port, name=name)
+
+            elif isinstance(port, Port):
+                p = kf.DCplxPort(
+                    name=name,
+                    position=port.center,
+                    width=port.width,
+                    angle=port.orientation,
+                    layer=self.layer(*port.layer),
+                    port_type=port.port_type,
+                )
+                return kf.KCell.add_port(self, p)
+
+            else:
+                raise ValueError(
+                    f"add_port() needs a Port or kf.Port, got {type(port)}"
+                )
+
+        if layer is None:
+            if cross_section is None:
+                raise ValueError(
+                    f"You need to define layer or cross_section. Got {layer!r} and {cross_section}"
+                )
+            else:
+                xs = get_cross_section(cross_section)
+                layer = xs.layer
 
         layer = get_layer(layer)
 
-        if port:
-            if not isinstance(port, Port):
-                raise ValueError(f"add_port() needs a Port, got {type(port)}")
-            p = port.copy()
-            if name is not None:
-                p.name = name
-            if width is not None:
-                p.width = width
-            if orientation is not None:
-                p.orientation = orientation
-            if port_type is not None:
-                p.port_type = port_type
-            if layer is not None:
-                p.layer = layer
-            p.parent = self
-
-        elif isinstance(name, Port):
-            p = name.copy()
-            p.parent = self
-            name = p.name
-        elif center is None:
-            raise ValueError("Port needs center parameter (x, y) um.")
-
-        else:
-            p = Port(
-                name=name,
-                center=center,
-                width=width,
-                orientation=orientation,
-                parent=self,
-                layer=layer,
-                port_type=port_type or "optical",
-                cross_section=cross_section,
-            )
-        if name is not None:
-            p.name = name
-        if p.name in self.ports:
-            raise ValueError(f"add_port() Port name {p.name!r} exists in {self.name!r}")
-
-        self.ports[p.name] = p
-        return p
+        p = kf.DCplxPort(
+            name=name,
+            position=center,
+            width=width,
+            angle=orientation,
+            layer=self.layer(*layer),
+            port_type=port_type,
+        )
+        return kf.KCell.add_port(self, p)
 
     def add_ports(
         self,
-        ports: Union[List[Port], Dict[str, Port]],
+        ports: Union[List[Port], Dict[str, Port], kf.Ports, kf.kcell.InstancePorts],
         prefix: str = "",
-        suffix: str = "",
-        **kwargs,
     ) -> None:
         """Add a list or dict of ports.
 
@@ -896,46 +1100,56 @@ class Component(_GeometryHelper):
         Args:
             ports: list or dict of ports.
             prefix: to prepend to each port name.
-            suffix: to append to each port name.
         """
-        ports = ports if isinstance(ports, list) else ports.values()
+        if isinstance(ports, (kf.kcell.InstancePorts, kf.Ports)):
+            ports = ports.copy()._ports
+
         for port in list(ports):
-            name = f"{prefix}{port.name}{suffix}"
-            self.add_port(name=name, port=port, **kwargs)
+            name = f"{prefix}{port.name}" if prefix else port.name
+            self.add_port(name=name, port=port)
 
     def snap_ports_to_grid(self, nm: int = 1) -> None:
-        for port in self.ports.values():
+        for port in self.ports.copy()._ports:
             port.snap_to_grid(nm=nm)
 
     def remove_layers(
         self,
         layers: List[LayerSpec],
-        include_labels: bool = True,
-        invert_selection: bool = False,
         recursive: bool = True,
     ) -> Component:
         """Remove a list of layers and returns the same Component.
 
         Args:
             layers: list of layers to remove.
-            include_labels: remove labels on those layers.
-            invert_selection: removes all layers except layers specified.
             recursive: operate on the cells included in this cell.
         """
         from gdsfactory import get_layer
 
-        component = self.flatten() if recursive and self.references else self
-        layers = [get_layer(layer) for layer in layers]
+        for layer in layers:
+            layer = get_layer(layer)
+            self.shapes(self.library.layer(layer[0], layer[1])).clear()
 
-        should_remove = not invert_selection
-        component._cell.filter(
-            spec=layers,
-            remove=should_remove,
-            polygons=True,
-            paths=True,
-            labels=include_labels,
-        )
-        return component
+        if recursive:
+            for cell in self.child_cells():
+                cell.remove_layers(layers, recursive=False)
+
+        return self
+
+    @property
+    def xmin(self):
+        return self.bbox().left
+
+    @property
+    def xmax(self):
+        return self.bbox().right
+
+    @property
+    def ymin(self):
+        return self.bbox().bottom
+
+    @property
+    def ymax(self):
+        return self.bbox().top
 
     def extract(
         self,
@@ -966,7 +1180,7 @@ class Component(_GeometryHelper):
 
         return component
 
-    def add_polygon(self, points, layer=np.nan):
+    def add_polygon(self, points: Union[np.ndarray, kdb.Polygon], layer: LayerSpec):
         """Adds a Polygon to the Component.
 
         Args:
@@ -977,66 +1191,14 @@ class Component(_GeometryHelper):
 
         layer = get_layer(layer)
 
-        if layer is None:
-            return None
+        if not isinstance(points, kdb.DPolygon):
+            points = kdb.DPolygon([kdb.DPoint(point[0], point[1]) for point in points])
 
-        try:
-            if isinstance(layer, set):
-                return [self.add_polygon(points, ly) for ly in layer]
-            elif all(isinstance(ly, (Layer)) for ly in layer):
-                return [self.add_polygon(points, ly) for ly in layer]
-            elif len(layer) > 2:  # Someone wrote e.g. layer = [1,4,5]
-                raise ValueError(
-                    """ [PHIDL] If specifying multiple layers
-                you must use set notation, e.g. {1,5,8} """
-                )
-        except Exception:
-            pass
-
-        if isinstance(points, gdstk.Polygon):
-            # if layer is unspecified or matches original polygon, just add it as-is
-            polygon = points
-            if layer is np.nan or (
-                isinstance(layer, tuple) and (polygon.layer, polygon.datatype) == layer
-            ):
-                polygon = Polygon(polygon.points, polygon.layer, polygon.datatype)
-            else:
-                layer, datatype = _parse_layer(layer)
-                polygon = Polygon(polygon.points, layer, datatype)
-            self._add_polygons(polygon)
-            return polygon
-
-        points = np.asarray(points)
-        if points.ndim == 1:
-            return [self.add_polygon(poly, layer=layer) for poly in points]
-        if layer is np.nan:
-            layer = 0
-
-        if points.ndim == 2:
-            # add single polygon from points
-            if len(points[0]) > 2:
-                # Convert to form [[1,2],[3,4],[5,6]]
-                points = np.column_stack(points)
-            layer, datatype = _parse_layer(layer)
-            polygon = Polygon(points, layer=layer, datatype=datatype)
-            self._add_polygons(polygon)
-            return polygon
-        elif points.ndim == 3:
-            layer, datatype = _parse_layer(layer)
-            polygons = [
-                Polygon(ppoints, layer=layer, datatype=datatype) for ppoints in points
-            ]
-            self._add_polygons(*polygons)
-            return polygons
-        else:
-            raise ValueError(f"Unable to add {points.ndim}-dimensional points object")
+        self.shapes(self.library.layer(layer[0], layer[1])).insert(points)
 
     def _add_polygons(self, *polygons: List[Polygon]):
         self.is_unlocked()
         self._cell.add(*polygons)
-
-    def copy(self) -> Component:
-        return copy(self)
 
     def copy_child_info(self, component: Component) -> None:
         """Copy and settings info from child component into parent.
@@ -1132,16 +1294,17 @@ class Component(_GeometryHelper):
         """
         if not isinstance(component, Component):
             raise TypeError("add_array() needs a Component object.")
-        ref = ComponentReference(
-            component=component,
-            columns=int(round(columns)),
-            rows=int(round(rows)),
-            spacing=spacing,
+        return self.insert(
+            kdb.DCellInstArray(
+                component.cell_index(),
+                # kdb.DTrans.R0,
+                kdb.DVector(),
+                kdb.DVector(spacing[0], 0),
+                kdb.DVector(0, spacing[1]),
+                columns,
+                rows,
+            )
         )
-        ref.name = None
-        self._add(ref)
-        self._register_reference(reference=ref, alias=alias)
-        return ref
 
     def distribute(
         self, elements="all", direction="x", spacing=100, separation=True, edge="center"
@@ -1265,36 +1428,10 @@ class Component(_GeometryHelper):
         """
         if not isinstance(component, Component):
             raise TypeError(f"type = {type(Component)} needs to be a Component.")
-        ref = ComponentReference(component, **kwargs)
-        self._add(ref)
-        self._register_reference(reference=ref, alias=alias)
-        return ref
+        if alias:
+            raise NotImplementedError("not yet")
 
-    def _register_reference(
-        self, reference: ComponentReference, alias: Optional[str] = None
-    ) -> None:
-        component = reference.parent
-        reference.owner = self
-
-        if alias is None:
-            if reference.name is not None:
-                alias = reference.name
-            else:
-                prefix = (
-                    component.settings.function_name
-                    if hasattr(component, "settings")
-                    and hasattr(component.settings, "function_name")
-                    else component.name
-                )
-                self._reference_names_counter.update({prefix: 1})
-                alias = f"{prefix}_{self._reference_names_counter[prefix]}"
-
-                while alias in self._named_references:
-                    self._reference_names_counter.update({prefix: 1})
-                    alias = f"{prefix}_{self._reference_names_counter[prefix]}"
-
-        reference.name = alias
-        self._named_references[alias] = reference
+        return self.create_inst(component)
 
     @property
     def layers(self) -> Set[Tuple[int, int]]:
@@ -1309,128 +1446,37 @@ class Component(_GeometryHelper):
             import gdsfactory as gf
             gf.components.straight().get_layers() == {(1, 0), (111, 0)}
         """
-        polygons = self._cell.get_polygons(depth=None)
-        return {(polygon.layer, polygon.datatype) for polygon in polygons}
+        return {(info.layer, info.datatype) for info in self.library.layer_infos()}
 
-    def get_layer_names(self) -> List[Tuple[int, int]]:
-        """Return layer names used in the design.
-
-        .. code ::
-
-            import gdsfactory as gf
-            gf.components.straight().get_names() == ['WG']
-        """
-        import gdsfactory as gf
-
-        PDK = gf.get_active_pdk()
-        LAYERS = PDK.layers
-        name_to_layer = dict(LAYERS)
-        layer_to_name = {v: k for k, v in name_to_layer.items()}
-        layer_names = []
-
-        for layer in self.layers:
-            if layer not in layer_to_name:
-                warnings.warn(f"{layer} not in LayerMap..")
-            else:
-                layer_names.append(layer_to_name[layer])
-        return layer_names
-
-    def _ipython_display_(self) -> None:
+    def _repr_html_(self) -> None:
         """Show geometry in KLayout and in matplotlib for Jupyter Notebooks."""
+
         self.show(show_ports=True)  # show in klayout
+        self.__repr__()
         self.plot_klayout()
-        print(self)
 
-    def add_pins_triangle(
-        self,
-        port_marker_layer: Layer = (1, 10),
-    ):
-        """Returns component with triangular pins."""
-        from gdsfactory.add_pins import add_pins_triangle
-
-        component = self.copy()
-        component.name = self.name
-        add_pins_triangle(component=component, layer=port_marker_layer)
-        return component
-
-    def plot_widget(
-        self,
-        show_ports: bool = True,
-        port_marker_layer: Layer = (1, 10),
-    ):
+    def plot_klayout(self) -> None:
         """Returns ipython widget for klayout visualization.
 
-        Args:
-            show_ports: shows component with port markers and labels.
-            port_marker_layer: for the ports.
+        Defaults to matplotlib if it fails to import ipywidgets.
         """
-        from gdsfactory.pdk import get_layer_views
-        from gdsfactory.widgets.layout_viewer import LayoutViewer
-        from IPython.display import display
-
-        component = (
-            self.add_pins_triangle(port_marker_layer=port_marker_layer)
-            if show_ports
-            else self
-        )
-
-        gdspath = component.write_gds(logging=False)
-        lyp_path = gdspath.with_suffix(".lyp")
-
-        layer_views = get_layer_views()
-        layer_views.to_lyp(filepath=lyp_path)
-
-        layout = LayoutViewer(gdspath, lyp_path)
-        display(layout.widget)
-
-    def plot_klayout(
-        self,
-        show_ports: bool = True,
-        port_marker_layer: Layer = (1, 10),
-    ) -> None:
-        """Returns klayout image.
-
-        If it fails to import klayout defaults to matplotlib.
-
-        Args:
-            show_ports: shows component with port markers and labels.
-            port_marker_layer: for the ports.
-        """
-
-        component = (
-            self.add_pins_triangle(port_marker_layer=port_marker_layer)
-            if show_ports
-            else self
-        )
-
         try:
-            import klayout.db as db  # noqa: F401
-            import klayout.lay as lay
             from gdsfactory.pdk import get_layer_views
+            from gdsfactory.widgets.layout_viewer import LayoutViewer
             from IPython.display import display
-            from ipywidgets import Image
 
-            gdspath = component.write_gds(logging=False)
+            gdspath = self.write_gds(logging=False)
             lyp_path = gdspath.with_suffix(".lyp")
 
             layer_views = get_layer_views()
             layer_views.to_lyp(filepath=lyp_path)
-
-            layout_view = lay.LayoutView()
-            layout_view.load_layout(str(gdspath.absolute()))
-            layout_view.max_hier()
-            layout_view.load_layer_props(str(lyp_path))
-
-            pixel_buffer = layout_view.get_pixels_with_options(800, 600)
-            png_data = pixel_buffer.to_png_data()
-            image = Image(value=png_data, format="png")
-            display(image)
-
+            layout = LayoutViewer(gdspath, lyp_path)
+            display(layout.image)
         except ImportError:
             print(
                 "You can install `pip install gdsfactory[full]` for better visualization"
             )
-            component.plot(plotter="matplotlib")
+            self.plot(plotter="matplotlib")
 
     def plot_jupyter(self):
         """Shows current gds in klayout. Uses Kweb if server running.
@@ -1502,7 +1548,7 @@ class Component(_GeometryHelper):
         Args:
             plotter: plot backend ('holoviews', 'matplotlib', 'qt', 'klayout').
         """
-        plotter = plotter or CONF.get("plotter", "matplotlib")
+        plotter = plotter or CONF.get("plotter", "klayout")
 
         if plotter == "klayout":
             self.plot_klayout()
@@ -1630,7 +1676,6 @@ class Component(_GeometryHelper):
         self,
         show_ports: bool = False,
         show_subports: bool = False,
-        port_marker_layer: Layer = (1, 10),
         **kwargs,
     ) -> None:
         """Show component in KLayout.
@@ -1641,7 +1686,6 @@ class Component(_GeometryHelper):
 
         Args:
             show_ports: shows component with port markers and labels.
-            show_subports: add ports markers and labels to references.
             port_marker_layer: for the ports.
 
         Keyword Args:
@@ -1651,200 +1695,115 @@ class Component(_GeometryHelper):
             precision: for object dimensions in the library (m). 1nm by default.
             timestamp: Defaults to 2019-10-25. If None uses current time.
         """
-        from gdsfactory.add_pins import add_pins_triangle
         from gdsfactory.show import show
 
-        component = (
-            self.add_pins_triangle(port_marker_layer=port_marker_layer)
-            if show_ports
-            else self
-        )
+        if show_ports:
+            self.draw_ports()
 
-        if show_subports:
-            component = self.copy()
-            component.name = self.name
-            for reference in component.references:
-                if isinstance(component, ComponentReference):
-                    add_pins_triangle(
-                        component=component,
-                        reference=reference,
-                        layer=port_marker_layer,
-                    )
+        show(self, **kwargs)
 
-        show(component, **kwargs)
-
-    def _write_library(
-        self,
-        gdspath: Optional[PathType] = None,
-        gdsdir: Optional[PathType] = None,
-        timestamp: Optional[datetime.datetime] = _timestamp2019,
-        logging: bool = True,
-        with_oasis: bool = False,
-        **kwargs,
-    ) -> Path:
-        """Write component to GDS or OASIS and returns gdspath.
-
-        Args:
-            gdspath: GDS file path to write to.
-            gdsdir: directory for the GDS file. Defaults to /tmp/randomFile/gdsfactory.
-            timestamp: Defaults to 2019-10-25 for consistent hash.
-                If None uses current time.
-            logging: disable GDS path logging, for example for showing it in KLayout.
-            with_oasis: If True, file will be written to OASIS. Otherwise, file will be written to GDS.
+    def to_3d(self, *args, **kwargs):
+        """Returns Component 3D trimesh Scene.
 
         Keyword Args:
-            Keyword arguments will override the active PDK's default GdsWriteSettings and OasisWriteSettings.
-
-            Gds settings:
-                unit: unit size for objects in library. 1um by default.
-                precision: for dimensions in the library (m). 1nm by default.
-                on_duplicate_cell: specify how to resolve duplicate-named cells. Choose one of the following:
-                    "warn" (default): overwrite all duplicate cells with one of the duplicates (arbitrarily).
-                    "error": throw a ValueError when attempting to write a gds with duplicate cells.
-                    "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
-                    None: do not try to resolve (at your own risk!)
-                flatten_invalid_refs: flattens component references which have invalid transformations.
-                max_points: Maximal number of vertices per polygon. Polygons with more vertices that this are automatically fractured.
-
-            Oasis settings:
-                compression_level: Level of compression for cells (between 0 and 9).
-                    Setting to 0 will disable cell compression, 1 gives the best speed and 9, the best compression.
-                detect_rectangles: Store rectangles in compressed format.
-                detect_trapezoids: Store trapezoids in compressed format.
-                circle_tolerance: Tolerance for detecting circles. If less or equal to 0, no detection is performed. Circles are stored in compressed format.
-                validation ("crc32", "checksum32", None): type of validation to include in the saved file.
-                standard_properties: Store standard OASIS properties in the file.
-
+            component: to extrude in 3D.
+            layer_views: layer colors from Klayout Layer Properties file.
+                Defaults to active PDK.layer_views.
+            layer_stack: contains thickness and zmin for each layer.
+                Defaults to active PDK.layer_stack.
+            exclude_layers: layers to exclude.
         """
+        from gdsfactory.export.to_3d import to_3d
 
-        from gdsfactory.pdk import get_active_pdk
+        return to_3d(self, *args, **kwargs)
 
-        if gdspath and gdsdir:
-            warnings.warn(
-                "gdspath and gdsdir have both been specified. gdspath will take precedence and gdsdir will be ignored."
-            )
+    def to_gmsh(
+        self,
+        type,
+        z=None,
+        xsection_bounds=None,
+        layer_stack=None,
+        wafer_padding=0.0,
+        wafer_layer=LAYER.WAFER,
+        *args,
+        **kwargs,
+    ):
+        """Returns a gmsh msh of the component for finite element simulation.
 
-        default_settings = get_active_pdk().gds_write_settings
-        default_oasis_settings = get_active_pdk().oasis_settings
+        Arguments:
+            type: one of "xy", "uz", or "3D". Determines the type of mesh to return.
+            z: used to define z-slice for xy meshing
+            xsection_bounds: used to define in-plane line for uz meshing
+            wafer_padding: padding beyond bbox to add to WAFER layers.
 
-        explicit_gds_settings = {
-            k: v
-            for k, v in kwargs.items()
-            if v is not None and k in default_settings.dict()
-        }
-        explicit_oas_settings = {
-            k: v
-            for k, v in kwargs.items()
-            if v is not None and k in default_oasis_settings.dict()
-        }
-        # update the write settings with any settings explicitly passed
-        write_settings = default_settings.copy(update=explicit_gds_settings)
-        oasis_settings = default_oasis_settings.copy(update=explicit_oas_settings)
-
-        _check_uncached_components(
-            component=self, mode=write_settings.on_uncached_component
-        )
-
-        if write_settings.flatten_invalid_refs:
-            top_cell = flatten_invalid_refs_recursive(self)
-        else:
-            top_cell = self
-
-        gdsdir = (
-            gdsdir or pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
-        )
-        gdsdir = pathlib.Path(gdsdir)
-        if with_oasis:
-            gdspath = gdspath or gdsdir / f"{top_cell.name}.oas"
-        else:
-            gdspath = gdspath or gdsdir / f"{top_cell.name}.gds"
-        gdspath = pathlib.Path(gdspath)
-        gdsdir = gdspath.parent
-        gdsdir.mkdir(exist_ok=True, parents=True)
-
-        cells = top_cell.get_dependencies(recursive=True)
-        cell_names = [cell.name for cell in list(cells)]
-        cell_names_unique = set(cell_names)
-
-        if len(cell_names) != len(set(cell_names)):
-            for cell_name in cell_names_unique:
-                cell_names.remove(cell_name)
-
-            if write_settings.on_duplicate_cell == "error":
-                raise ValueError(
-                    f"Duplicated cell names in {top_cell.name!r}: {cell_names!r}"
-                )
-            elif write_settings.on_duplicate_cell in {"warn", "overwrite"}:
-                if write_settings.on_duplicate_cell == "warn":
-                    warnings.warn(
-                        f"Duplicated cell names in {top_cell.name!r}:  {cell_names}",
-                    )
-                cells_dict = {cell.name: cell._cell for cell in cells}
-                cells = cells_dict.values()
-            elif write_settings.on_duplicate_cell is not None:
-                raise ValueError(
-                    f"on_duplicate_cell: {write_settings.on_duplicate_cell!r} not in (None, warn, error, overwrite)"
-                )
-
-        all_cells = [top_cell._cell] + sorted(cells, key=lambda cc: cc.name)
-
-        no_name_cells = [
-            cell.name for cell in all_cells if cell.name.startswith("Unnamed")
+        Keyword Args:
+            Arguments for the target meshing function in gdsfactory.simulation.gmsh
+        """
+        # Add WAFER layer:
+        padded_component = Component()
+        padded_component << self
+        (xmin, ymin), (xmax, ymax) = self.bbox
+        points = [
+            [xmin - wafer_padding, ymin - wafer_padding],
+            [xmax + wafer_padding, ymin - wafer_padding],
+            [xmax + wafer_padding, ymax + wafer_padding],
+            [xmin - wafer_padding, ymax + wafer_padding],
         ]
+        padded_component.add_polygon(points, layer=wafer_layer)
 
-        if no_name_cells:
-            warnings.warn(
-                f"Component {top_cell.name!r} contains {len(no_name_cells)} Unnamed cells"
+        if layer_stack is None:
+            raise ValueError(
+                'A LayerStack must be provided through argument "layer_stack".'
             )
+        if type == "xy":
+            if z is None:
+                raise ValueError(
+                    'For xy-meshing, a z-value must be provided via the float argument "z".'
+                )
+            from gdsfactory.simulation.gmsh.xy_xsection_mesh import xy_xsection_mesh
 
-        # for cell in all_cells:
-        #     print(cell.name, type(cell))
+            return xy_xsection_mesh(padded_component, z, layer_stack, **kwargs)
+        elif type == "uz":
+            if xsection_bounds is None:
+                raise ValueError(
+                    "For uz-meshing, you must provide a line in the xy-plane "
+                    "via the Tuple argument [[x1,y1], [x2,y2]] xsection_bounds."
+                )
+            from gdsfactory.simulation.gmsh.uz_xsection_mesh import uz_xsection_mesh
 
-        lib = gdstk.Library(
-            unit=write_settings.unit, precision=write_settings.precision
-        )
-        lib.add(top_cell._cell)
-        lib.add(*top_cell._cell.dependencies(True))
+            return uz_xsection_mesh(
+                padded_component, xsection_bounds, layer_stack, **kwargs
+            )
+        elif type == "3D":
+            from gdsfactory.simulation.gmsh.xyz_mesh import xyz_mesh
 
-        if with_oasis:
-            lib.write_oas(gdspath, **oasis_settings.dict())
+            return xyz_mesh(padded_component, layer_stack, **kwargs)
         else:
-            lib.write_gds(
-                gdspath, timestamp=timestamp, max_points=write_settings.max_points
+            raise ValueError(
+                'Required argument "type" must be one of "xy", "uz", or "3D".'
             )
-        if logging:
-            logger.info(f"Wrote to {str(gdspath)!r}")
-        return gdspath
 
     def write_gds(
         self,
         gdspath: Optional[PathType] = None,
         gdsdir: Optional[PathType] = None,
-        **kwargs,
     ) -> Path:
         """Write component to GDS and returns gdspath.
 
         Args:
             gdspath: GDS file path to write to.
             gdsdir: directory for the GDS file. Defaults to /tmp/randomFile/gdsfactory.
-
-        Keyword Args:
-            unit: unit size for objects in library. 1um by default.
-            precision: for dimensions in the library (m). 1nm by default.
-            logging: disable GDS path logging, for example for showing it in KLayout.
-            on_duplicate_cell: specify how to resolve duplicate-named cells. Choose one of the following:
-                "warn" (default): overwrite all duplicate cells with one of the duplicates (arbitrarily).
-                "error": throw a ValueError when attempting to write a gds with duplicate cells.
-                "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
-            on_uncached_component: Literal["warn", "error"] = "warn"
-            flatten_invalid_refs: flattens component references which have invalid transformations.
-            max_points: Maximal number of vertices per polygon.
-                Polygons with more vertices that this are automatically fractured.
         """
-
-        return self._write_library(
-            gdspath=gdspath, gdsdir=gdsdir, with_oasis=False, **kwargs
+        gdsdir = (
+            gdsdir or pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
         )
+        gdsdir = pathlib.Path(gdsdir)
+        gdspath = gdspath or gdsdir / f"{self.name}.gds"
+        gdspath = pathlib.Path(gdspath)
+        gdsdir = gdspath.parent
+        gdsdir.mkdir(exist_ok=True, parents=True)
+        self.write(filename=gdspath)
+        return gdspath
 
     def write_oas(
         self,
@@ -1857,37 +1816,22 @@ class Component(_GeometryHelper):
         Args:
             gdspath: GDS file path to write to.
             gdsdir: directory for the GDS file. Defaults to /tmp/randomFile/gdsfactory.
-
-        Keyword Args:
             unit: unit size for objects in library. 1um by default.
-            precision: for dimensions in the library (m). 1nm by default.
-            logging: disable GDS path logging, for example for showing it in KLayout.
-            on_duplicate_cell: specify how to resolve duplicate-named cells. Choose one of the following:
-                "warn" (default): overwrite all duplicate cells with one of the duplicates (arbitrarily).
-                "error": throw a ValueError when attempting to write a gds with duplicate cells.
-                "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
-                None: do not try to resolve (at your own risk!)
-            on_uncached_component: Literal["warn", "error"] = "warn"
-            flatten_invalid_refs: flattens component references which have invalid transformations.
-            compression_level: Level of compression for cells (between 0 and 9).
-                Setting to 0 will disable cell compression, 1 gives the best speed and 9, the best compression.
-            detect_rectangles: Store rectangles in compressed format.
-            detect_trapezoids: Store trapezoids in compressed format.
-            circle_tolerance: Tolerance for detecting circles. If less or equal to 0, no detection is performed.
-                Circles are stored in compressed format.
-            validation ("crc32", "checksum32", None) – type of validation to include in the saved file.
-            standard_properties: Store standard OASIS properties in the file.
         """
-        return self._write_library(
-            gdspath=gdspath,
-            gdsdir=gdsdir,
-            with_oasis=True,
-            **kwargs,
+        gdsdir = (
+            gdsdir or pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
         )
+        gdsdir = pathlib.Path(gdsdir)
+        gdspath = gdspath or gdsdir / f"{self.name}.oas"
+        gdspath = pathlib.Path(gdspath)
+        gdsdir = gdspath.parent
+        gdsdir.mkdir(exist_ok=True, parents=True)
+        self.write(filename=gdspath)
+        return gdspath
 
     def write_gds_with_metadata(self, *args, **kwargs) -> Path:
         """Write component in GDS and metadata (component settings) in YAML."""
-        gdspath = self.write_gds(*args, **kwargs)
+        gdspath = self.write(*args, **kwargs)
         metadata = gdspath.with_suffix(".yml")
         metadata.write_text(self.to_yaml(with_cells=True, with_ports=True))
         logger.info(f"Write YAML metadata to {str(metadata)!r}")
@@ -1898,7 +1842,7 @@ class Component(_GeometryHelper):
         ignore_components_prefix: Optional[List[str]] = None,
         ignore_functions_prefix: Optional[List[str]] = None,
         with_cells: bool = False,
-        with_ports: bool = True,
+        with_ports: bool = False,
     ) -> Dict[str, Any]:
         """Returns Dict representation of a component.
 
@@ -1934,7 +1878,7 @@ class Component(_GeometryHelper):
             with_cells: write cells recursively.
             with_ports: write port information.
         """
-        return OmegaConf.to_yaml(clean_dict(self.to_dict(**kwargs)))
+        return OmegaConf.to_yaml(self.to_dict(**kwargs))
 
     def to_dict_polygons(self) -> Dict[str, Any]:
         """Returns a dict representation of the flattened component."""
@@ -2024,9 +1968,15 @@ class Component(_GeometryHelper):
             destination: x, y.
             axis: x or y.
         """
-        raise ValueError(move_error_message)
+        from gdsfactory.functions import move
 
-    def mirror(self, p1: Float2 = (0, 1), p2: Float2 = (0, 0), **kwargs) -> Component:
+        return move(component=self, origin=origin, destination=destination, axis=axis)
+
+    def mirror(
+        self,
+        p1: Float2 = (0, 1),
+        p2: Float2 = (0, 0),
+    ) -> Component:
         """Returns new Component with a mirrored reference.
 
         Args:
@@ -2035,9 +1985,9 @@ class Component(_GeometryHelper):
         """
         from gdsfactory.functions import mirror
 
-        return mirror(component=self, p1=p1, p2=p2, **kwargs)
+        return mirror(component=self, p1=p1, p2=p2)
 
-    def rotate(self, angle: float = 90, **kwargs) -> Component:
+    def rotate(self, angle: float = 90) -> Component:
         """Returns new component with a rotated reference to the original.
 
         Args:
@@ -2045,7 +1995,7 @@ class Component(_GeometryHelper):
         """
         from gdsfactory.functions import rotate
 
-        return rotate(component=self, angle=angle, **kwargs)
+        return rotate(component=self, angle=angle)
 
     def add_padding(self, **kwargs) -> Component:
         """Returns same component with padding.
@@ -2076,14 +2026,7 @@ class Component(_GeometryHelper):
             raise ValueError(
                 "The reference you asked to absorb does not exist in this Component."
             )
-        ref_polygons = reference.get_polygons(
-            by_spec=False, include_paths=False, as_array=False
-        )
-        self._add_polygons(*ref_polygons)
-
-        self.add(reference.get_labels())
-        self.add(reference.get_paths())
-        self.remove(reference)
+        reference.flatten()
         return self
 
     def remove(self, items):
@@ -2231,191 +2174,6 @@ class Component(_GeometryHelper):
                     path.set_datatypes(*new_datatypes)
         return component
 
-    def to_3d(
-        self,
-        layer_views: Optional[LayerViews] = None,
-        layer_stack: Optional[LayerStack] = None,
-        exclude_layers: Optional[Tuple[Layer, ...]] = None,
-    ):
-        """Return Component 3D trimesh Scene.
-
-        Args:
-            component: to extrude in 3D.
-            layer_views: layer colors from Klayout Layer Properties file.
-                Defaults to active PDK.layer_views.
-            layer_stack: contains thickness and zmin for each layer.
-                Defaults to active PDK.layer_stack.
-            exclude_layers: layers to exclude.
-
-        """
-        from gdsfactory.export.to_3d import to_3d
-
-        return to_3d(
-            self,
-            layer_views=layer_views,
-            layer_stack=layer_stack,
-            exclude_layers=exclude_layers,
-        )
-
-    def to_np(
-        self,
-        nm_per_pixel: int = 20,
-        layers: Layers = ((1, 0),),
-        values: Optional[Tuple[float, ...]] = None,
-        pad_width: int = 1,
-    ) -> np.ndarray:
-        """Returns a pixelated numpy array from Component polygons.
-
-        Args:
-            component: Component.
-            nm_per_pixel: you can go from 20 (coarse) to 4 (fine).
-            layers: to convert. Order matters (latter overwrite former).
-            values: associated to each layer (defaults to 1).
-            pad_width: padding pixels around the image.
-
-        """
-        from gdsfactory.export.to_np import to_np
-
-        return to_np(
-            self,
-            nm_per_pixel=nm_per_pixel,
-            layers=layers,
-            values=values,
-            pad_width=pad_width,
-        )
-
-    def to_stl(
-        self,
-        filepath: str,
-        layer_stack: Optional[LayerStack] = None,
-        exclude_layers: Optional[Tuple[Layer, ...]] = None,
-    ) -> np.ndarray:
-        """Exports a Component into STL.
-
-        Args:
-            component: to export.
-            filepath: to write STL to.
-            layer_stack: contains thickness and zmin for each layer.
-            exclude_layers: layers to exclude.
-
-        """
-        from gdsfactory.export.to_stl import to_stl
-
-        return to_stl(
-            self,
-            filepath=filepath,
-            layer_stack=layer_stack,
-            exclude_layers=exclude_layers,
-        )
-
-    def to_gmsh(
-        self,
-        type,
-        z=None,
-        xsection_bounds=None,
-        layer_stack=None,
-        wafer_padding=0.0,
-        wafer_layer=LAYER.WAFER,
-        *args,
-        **kwargs,
-    ):
-        """Returns a gmsh msh of the component for finite element simulation.
-
-        Arguments:
-            type: one of "xy", "uz", or "3D". Determines the type of mesh to return.
-            z: used to define z-slice for xy meshing
-            xsection_bounds: used to define in-plane line for uz meshing
-            wafer_padding: padding beyond bbox to add to WAFER layers.
-
-        Keyword Args:
-            Arguments for the target meshing function in gdsfactory.simulation.gmsh
-        """
-        # Add WAFER layer:
-        padded_component = Component()
-        padded_component << self
-        (xmin, ymin), (xmax, ymax) = self.bbox
-        points = [
-            [xmin - wafer_padding, ymin - wafer_padding],
-            [xmax + wafer_padding, ymin - wafer_padding],
-            [xmax + wafer_padding, ymax + wafer_padding],
-            [xmin - wafer_padding, ymax + wafer_padding],
-        ]
-        padded_component.add_polygon(points, layer=wafer_layer)
-
-        if layer_stack is None:
-            raise ValueError(
-                'A LayerStack must be provided through argument "layer_stack".'
-            )
-        if type == "xy":
-            if z is None:
-                raise ValueError(
-                    'For xy-meshing, a z-value must be provided via the float argument "z".'
-                )
-            from gdsfactory.simulation.gmsh.xy_xsection_mesh import xy_xsection_mesh
-
-            return xy_xsection_mesh(padded_component, z, layer_stack, **kwargs)
-        elif type == "uz":
-            if xsection_bounds is None:
-                raise ValueError(
-                    "For uz-meshing, you must provide a line in the xy-plane "
-                    "via the Tuple argument [[x1,y1], [x2,y2]] xsection_bounds."
-                )
-            from gdsfactory.simulation.gmsh.uz_xsection_mesh import uz_xsection_mesh
-
-            return uz_xsection_mesh(
-                padded_component, xsection_bounds, layer_stack, **kwargs
-            )
-        elif type == "3D":
-            from gdsfactory.simulation.gmsh.xyz_mesh import xyz_mesh
-
-            return xyz_mesh(padded_component, layer_stack, **kwargs)
-        else:
-            raise ValueError(
-                'Required argument "type" must be one of "xy", "uz", or "3D".'
-            )
-
-    def offset(
-        self,
-        distance: float = 0.1,
-        polygons=None,
-        use_union: bool = True,
-        precision: float = 1e-4,
-        join: str = "miter",
-        tolerance: int = 2,
-        layer: LayerSpec = "WG",
-    ) -> Component:
-        """Returns new Component with polygons eroded or dilated by an offset.
-
-        Args:
-            distance: Distance to offset polygons. Positive values expand, negative shrink.
-            precision: Desired precision for rounding vertex coordinates.
-            join: {'miter', 'bevel', 'round'} Type of join used to create polygon offset
-            tolerance: For miter joints, this number must be at least 2 represents the
-              maximal distance in multiples of offset between new vertices and their
-              original position before beveling to avoid spikes at acute joints. For
-              round joints, it indicates the curvature resolution in number of
-              points per full circle.
-            layer: Specific layer for new polygons.
-
-        """
-        import gdsfactory as gf
-
-        gds_layer, gds_datatype = gf.get_layer(layer)
-        p = gdstk.offset(
-            polygons or self.get_polygons(),
-            distance=distance,
-            join=join,
-            tolerance=tolerance,
-            precision=precision,
-            use_union=use_union,
-            layer=gds_layer,
-            datatype=gds_datatype,
-        )
-
-        component = gf.Component()
-        component.add_polygon(p, layer=layer)
-        return component
-
 
 def copy(
     D: Component,
@@ -2554,89 +2312,78 @@ def recurse_structures(
 
 
 def flatten_invalid_refs_recursive(
-    component: Component,
-    grid_size: Optional[float] = None,
-    updated_components=None,
-    traversed_components=None,
-):
-    """Recursively flattens component references which have invalid transformations (i.e. non-90 deg rotations or sub-grid translations) and returns a copy if any subcells have been modified.
-
-    WARNING: this function will produce same-name copies of cells. It is strictly meant to be used on write of the GDS file and
-    should not be mixed with other cells, or you will likely experience issues with duplicate cells
+    component: Component, grid_size: Optional[float] = None
+) -> Component:
+    """Returns new Component with flattened references.
 
     Args:
-        component: the component to fix (in place).
-        grid_size: the GDS grid size, in um, defaults to active PDK.get_grid_size()
-            any translations with higher resolution than this are considered invalid.
-        updated_components: the running dictionary of components which have been modified by this transformation. Should always be None, except for recursive invocations.
-        traversed_components: the set of component names which have been traversed. Should always be None, except for recursive invocations.
+        component: to flatten invalid references.
+        grid_size: optional grid size in um.
     """
     from gdsfactory.decorators import is_invalid_ref
+    from gdsfactory.functions import transformed
+    import networkx as nx
 
-    invalid_refs = []
-    refs = component.references
-    subcell_modified = False
-    if updated_components is None:
-        updated_components = {}
-    if traversed_components is None:
-        traversed_components = set()
-    for ref in refs:
-        # mark any invalid refs for flattening
-        # otherwise, check if there are any modified cells beneath (we need not do this if the ref will be flattened anyways)
-        if is_invalid_ref(ref, grid_size):
-            invalid_refs.append(ref.name)
-        else:
-            # otherwise, recursively flatten refs if the subcell has not already been traversed
-            if ref.parent.name not in traversed_components:
-                flatten_invalid_refs_recursive(
-                    ref.parent,
-                    grid_size=grid_size,
-                    updated_components=updated_components,
-                    traversed_components=traversed_components,
-                )
-            # now, if the ref's cell been modified, mark it as such
-            if ref.parent.name in updated_components:
-                subcell_modified = True
-    if invalid_refs or subcell_modified:
-        new_component = component.copy()
-        new_component.name = component.name
-        # make sure all modified cells have their references updated
-        new_refs = new_component.references.copy()
-        for ref in new_refs:
-            if ref.name in invalid_refs:
-                new_component.flatten_reference(ref)
-            elif (
-                ref.parent.name in updated_components
-                and ref.parent is not updated_components[ref.parent.name]
-            ):
-                ref.parent = updated_components[ref.parent.name]
-        component = new_component
-        updated_components[component.name] = new_component
-    traversed_components.add(component.name)
-    return component
+    def _create_dag(component):
+        """DAG where components point to references which then point to components again."""
+        nodes = {}
+        edges = {}
 
+        def _add_nodes_recursive(g, component):
+            g.add_node(component.name)
+            nodes[component.name] = component
+            for ref in component.references:
+                edge_name = f"{component.name}:{ref.name}"
+                g.add_edge(component.name, edge_name)
+                g.add_edge(edge_name, ref.parent.name)
+                edges[edge_name] = ref
+                _add_nodes_recursive(g, ref.parent)
 
-def _check_uncached_components(component, mode):
-    valid_modes = ["warn", "error", "ignore"]
+        g = nx.DiGraph()
+        _add_nodes_recursive(g, component)
 
-    if mode == "ignore":
-        return
-    elif mode not in valid_modes:
-        raise ValueError(
-            f"{mode} is not a valid value for on_uncached_component. Try one of these: {valid_modes}."
-        )
+        return g, nodes, edges
 
-    for sub_component in component.get_dependencies(recursive=True):
-        if not sub_component._locked:
-            message = (
-                f"Component {sub_component.name!r} was NOT properly locked. "
-                "You need to write it into a function that has the @cell decorator."
+    def _find_leaves(g):
+        leaves = [n for n, d in g.out_degree() if d == 0]
+        return leaves
+
+    def _prune_leaves(g):
+        """Prune components AND references pointing to them at the bottom of the DAG.
+        Helper function
+        """
+        comps = _find_leaves(g)
+        for component in comps:
+            g.remove_node(component)
+        refs = _find_leaves(g)
+        for r in refs:
+            g.remove_node(r)
+        return g, comps, refs
+
+    finished_comps = {}
+    g, comps, refs = _create_dag(component)
+    while True:
+        g, comp_leaves, ref_leaves = _prune_leaves(g)
+        if not comp_leaves:
+            break
+        new_comps = {}
+        for ref_name in ref_leaves:
+            r = refs[ref_name]
+            comp_name, _ = ref_name.split(":")
+            if comp_name in finished_comps:
+                continue
+            new_comps[comp_name] = comps[comp_name] = new_comps.get(
+                comp_name
+            ) or Component(name=comp_name)
+            if is_invalid_ref(r, grid_size):
+                comp = transformed(r, cache=False, decorator=None)  # type: ignore
+                comps[comp.name] = comp
+                r = refs[ref_name] = ComponentReference(comp)
+            comps[comp_name].add(
+                copy_reference(refs[ref_name], parent=comps[r.parent.name])
             )
-            if mode == "warn":
-                warnings.warn(message, UncachedComponentWarning)
-
-            elif mode == "error":
-                raise UncachedComponentError(message)
+        finished_comps.update(new_comps)
+    return finished_comps[component.name]
 
 
 def test_same_uid() -> None:
@@ -2769,53 +2516,74 @@ def test_import_gds_settings():
 
 def test_flatten_invalid_refs_recursive():
     import gdsfactory as gf
-    from gdsfactory.difftest import run_xor
-    from gdsfactory.routing.all_angle import get_bundle_all_angle
 
     @gf.cell
     def flat():
         c = gf.Component()
-        mmi1 = (c << gf.components.mmi1x2()).move((0, -1.0005))
-        mmi2 = (c << gf.components.mmi1x2()).rotate(80)
+        mmi1 = (c << gf.components.mmi1x2()).move((0, 1e-4))
+        mmi2 = (c << gf.components.mmi1x2()).rotate(90)
         mmi2.move((40, 20))
-        bundle = get_bundle_all_angle([mmi1.ports["o2"]], [mmi2.ports["o1"]])
-        for route in bundle:
-            c.add(route.references)
+        route = gf.routing.get_route(mmi1.ports["o2"], mmi2.ports["o1"], radius=5)
+        c.add(route.references)
         return c
 
     @gf.cell
     def hierarchy():
         c = gf.Component()
         (c << flat()).rotate(33)
-        (c << flat()).rotate(33).move((0, 100))
         (c << flat()).move((100, 0))
         return c
 
     c_orig = hierarchy()
     c_new = flatten_invalid_refs_recursive(c_orig)
     assert c_new is not c_orig
-    invalid_refs_filename = "invalid_refs.gds"
-    invalid_refs_fixed_filename = "invalid_refs_fixed.gds"
-    # gds files should still be same to 1nm tolerance
-    c_orig.write_gds(invalid_refs_filename)
-    c_new.write_gds(invalid_refs_fixed_filename)
-    run_xor(invalid_refs_filename, invalid_refs_fixed_filename)
+    assert c_new != c_orig
+    assert c_orig.references[0].parent.name != c_new.references[0].parent.name
+    assert (
+        c_orig.references[1].parent.references[0].parent.name
+        != c_new.references[1].parent.references[0].parent.name
+    )
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
+    c = Component("parent")
+    c2 = Component("child")
+    length = 10
+    width = 0.5
+    layer = (1, 0)
+    c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
+    c.add_port(name="o1", center=(0, 0), width=0.5, orientation=180, layer=(1, 0))
+    c.add_port(name="o1", center=(0, 0), width=0.5, orientation=180, layer=(1, 0))
 
+    # print(c2.get_polygons())
+    # print(c2.get_polygons((1, 0)))
+    # print(c2.get_polygons(recursive=False))
+    # print(c2.get_polygons((1, 0), recursive=False))
+    # print(c2)
+    # c2.show(show_ports=True)
+
+    # kf.show('a.gds')
+    # c2.write('a.gds')
+    # layer = (2, 0)
+    # width = 1
+    # c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
+
+    # ref = c << c2
+    # ref.y = 10
+
+    # c2.show()
+
+    # c = gf.c.mzi()
+    # c = gf.c.bend_circular()
+    # c = gf.c.mzi()
+    c.show()
+    # import gdsfactory as gf
     # c2 = gf.Component()
-    c = gf.components.mzi(delta_length=20)
-    print(c.get_layer_names())
     # r = c.ref()
     # c2.copy_child_info(c.named_references["sxt"])
     # test_remap_layers()
     # c = test_get_layers()
     # c.plot_qt()
     # c.ploth()
-    # c = test_extract()
-    # gdspath = c.write_gds()
-    # gf.show(gdspath)
-    # c.show(show_ports=True)
-    c.plot_klayout()
+    c = test_extract()
+    c.show()

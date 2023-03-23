@@ -34,6 +34,8 @@ import typing
 from functools import partial
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
+import kfactory as kf
+from kfactory import kdb
 import numpy as np
 from numpy import ndarray
 from omegaconf import OmegaConf
@@ -51,6 +53,20 @@ Layers = Tuple[Layer, ...]
 LayerSpec = Union[Layer, int, str, None]
 LayerSpecs = Tuple[LayerSpec, ...]
 Float2 = Tuple[float, float]
+
+
+def port_to_kport(port, library):
+    from gdsfactory.pdk import get_layer
+
+    layer = get_layer(port.layer)
+    return kf.DCplxPort(
+        name=port.name,
+        position=(float(port.center[0]), float(port.center[1])),
+        width=port.width,
+        angle=float(port.orientation),
+        layer=library.layer(*layer),
+        port_type=port.port_type,
+    )
 
 
 class PortNotOnGridError(ValueError):
@@ -109,11 +125,6 @@ class Port:
         if cross_section is None and width is None:
             raise ValueError("You need Port to define cross_section or width")
 
-        if cross_section and isinstance(cross_section, str):
-            from gdsfactory.pdk import get_cross_section
-
-            cross_section = get_cross_section(cross_section)
-
         if cross_section and not isinstance(cross_section, CrossSection):
             raise ValueError(
                 f"cross_section = {cross_section} is not a valid CrossSection."
@@ -141,8 +152,9 @@ class Port:
             else self.orientation,
             "layer": self.layer,
             "port_type": self.port_type,
-            "shear_angle": self.shear_angle,
         }
+        if self.shear_angle:
+            d["shear_angle"] = self.shear_angle
         return clean_value_json(d)
 
     def to_yaml(self) -> str:
@@ -173,16 +185,24 @@ class Port:
     @classmethod
     def validate(cls, v):
         """For pydantic assumes Port is valid if has a name and a valid type."""
-        assert isinstance(v, Port), f"TypeError, Got {type(v)}, expecting Port"
+        assert isinstance(
+            v, (Port, kf.Port)
+        ), f"TypeError, Got {type(v)}, expecting Port"
         assert v.name, f"Port has no name, got `{v.name}`"
         # assert v.assert_on_grid(), f"port.center = {v.center} has off-grid points"
         return v
+
+    @property
+    def trans(self):
+        mirror = self.parent.mirror if self.parent else False
+        return kdb.Trans(int(self.orientation / 90), mirror)
 
     @property
     def settings(self):
         """TODO!
 
         delete this. Use to_dict instead
+
         """
         return {
             "name": self.name,
@@ -258,14 +278,6 @@ class Port:
     def y(self) -> float:
         """Returns the y-coordinate of the Port center."""
         return self.center[1]
-
-    @x.setter
-    def x(self, value):
-        self.center = (value, self.center[1])
-
-    @y.setter
-    def y(self, value):
-        self.center = (self.center[0], value)
 
     def rotate(self, angle: float = 45, center: Optional[Float2] = None) -> Port:
         """Rotates a Port around the specified center point, if no centerpoint \
@@ -535,6 +547,9 @@ def select_ports(
     if isinstance(ports, (Component, ComponentReference)):
         ports = ports.ports
 
+    if isinstance(ports, (kf.kcell.InstancePorts, kf.kcell.Ports)):
+        ports = ports.get_all()
+
     if layer:
         ports = {p_name: p for p_name, p in ports.items() if p.layer == layer}
     if prefix:
@@ -734,10 +749,9 @@ def _rename_ports_clockwise_top_right(
 def rename_ports_by_orientation(
     component: Component,
     layers_excluded: LayerSpec = None,
-    select_ports: Callable = select_ports,
+    select_ports: Optional[Callable[..., List[Port]]] = None,
     function=_rename_ports_facing_side,
     prefix: str = "o",
-    **kwargs,
 ) -> Component:
     """Returns Component with port names based on port orientation (E, N, W, S).
 
@@ -747,7 +761,6 @@ def rename_ports_by_orientation(
         select_ports: function to select_ports.
         function: to rename ports.
         prefix: to add on each port name.
-        kwargs: select_ports settings.
 
     .. code::
 
@@ -764,7 +777,7 @@ def rename_ports_by_orientation(
     direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
 
     ports = component.ports
-    ports = select_ports(ports, **kwargs)
+    ports = select_ports(ports) if select_ports else ports
 
     ports_on_layer = [p for p in ports.values() if p.layer not in layers_excluded]
 
@@ -793,12 +806,10 @@ def rename_ports_by_orientation(
 def auto_rename_ports(
     component: Component,
     function=_rename_ports_clockwise,
-    select_ports_optical: Optional[Callable] = select_ports_optical,
-    select_ports_electrical: Optional[Callable] = select_ports_electrical,
-    prefix: str = "",
+    select_ports_optical=select_ports_optical,
+    select_ports_electrical=select_ports_electrical,
     prefix_optical: str = "o",
     prefix_electrical: str = "e",
-    port_type: Optional[str] = None,
     **kwargs,
 ) -> Component:
     """Adds prefix for optical and electrical.
@@ -810,41 +821,22 @@ def auto_rename_ports(
         select_ports_electrical: to select electrical ports.
         prefix_optical: prefix of optical ports.
         prefix_electrical: prefix of electrical ports.
-        port_type: select ports with port type (optical, electrical, vertical_te).
-
-    Keyword Args:
-        prefix: select ports with port name prefix.
-        suffix: select ports with port name suffix.
-        orientation: select ports with orientation in degrees.
-        width: select ports with port width.
-        layers_excluded: List of layers to exclude.
-        clockwise: if True, sort ports clockwise, False: counter-clockwise.
 
     """
-    if port_type is None:
-        rename_ports_by_orientation(
-            component=component,
-            select_ports=select_ports_optical,
-            prefix=prefix_optical,
-            function=function,
-            **kwargs,
-        )
-        rename_ports_by_orientation(
-            component=component,
-            select_ports=select_ports_electrical,
-            prefix=prefix_electrical,
-            function=function,
-            **kwargs,
-        )
-    else:
-        rename_ports_by_orientation(
-            component=component,
-            select_ports=select_ports,
-            prefix=prefix,
-            function=function,
-            port_type=port_type,
-            **kwargs,
-        )
+    rename_ports_by_orientation(
+        component=component,
+        select_ports=select_ports_optical,
+        prefix=prefix_optical,
+        function=function,
+        **kwargs,
+    )
+    rename_ports_by_orientation(
+        component=component,
+        select_ports=select_ports_electrical,
+        prefix=prefix_electrical,
+        function=function,
+        **kwargs,
+    )
     return component
 
 
@@ -854,8 +846,6 @@ auto_rename_ports_counter_clockwise = partial(
 auto_rename_ports_orientation = partial(
     auto_rename_ports, function=_rename_ports_facing_side
 )
-
-auto_rename_ports_electrical = partial(auto_rename_ports, select_ports_optical=None)
 
 
 def map_ports_layer_to_orientation(
@@ -1012,7 +1002,24 @@ __all__ = [
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.c.straight()
-    p2 = c["o2"]
-    p2.x = 20
-    c.show()
+    c = gf.Component()
+    cross_section = gf.cross_section.strip
+    c.add_port(
+        "o1",
+        center=(0, 0),
+        orientation=0,
+        port_type="optical",
+        cross_section=cross_section,
+    )
+
+    # c = gf.components.straight_heater_metal()
+    # c.auto_rename_ports()
+    # auto_rename_ports_layer_orientation(c)
+    # m = map_ports_layer_to_orientation(c.ports)
+    # pprint(m)
+    # c.show(show_ports=True)
+    # print(p0)
+    # p0 = c.get_ports_list(orientation=0, clockwise=False)[0]
+    # print(p0)
+    # print(type(p0.to_dict()["center"][0]))
+    # p = Port("o1", orientation=0, center=(9, 0), layer=(1, 0), cross_section=)

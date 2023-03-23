@@ -8,7 +8,7 @@ from omegaconf import OmegaConf
 
 from gdsfactory.cell import Settings, cell
 from gdsfactory.component import Component
-from gdsfactory.component_reference import ComponentReference
+from gdsfactory.component import ComponentReference
 from gdsfactory.config import logger
 from gdsfactory.name import get_name_short
 
