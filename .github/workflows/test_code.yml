@@ -34,7 +34,7 @@ jobs:
         run: |
           pip install -e .[full,dev] pre-commit
           make gdslib
-          gf tool install
+          gf install klayout-integration
       - name: Test with pytest
         run: pytest
   test_code_coverage_python37:
