@@ -18,6 +18,7 @@ def via_stack(
     layer_offsets: Optional[Tuple[float, ...]] = None,
     vias: Optional[Tuple[Optional[ComponentSpec], ...]] = (via1, via2),
     layer_port: LayerSpec = None,
+    correct_size: bool = True,
 ) -> Component:
     """Rectangular via array stack.
 
@@ -38,10 +39,12 @@ def via_stack(
             positive grows, negative shrinks the size.
         vias: vias to use to fill the rectangles.
         layer_port: if None assumes port is on the last layer.
+        correct_size: if True, if the specified dimensions are too small it increases
+            them to the minimum possible to fit a via
     """
-    width, height = size
-    a = width / 2
-    b = height / 2
+    width_m, height_m = size
+    a = width_m / 2
+    b = height_m / 2
 
     layers = layers or []
 
@@ -49,23 +52,25 @@ def via_stack(
         layer_port = layer_port or layers[-1]
 
     c = Component()
-    c.height = height
+    c.height = height_m
     c.info["size"] = (float(size[0]), float(size[1]))
     c.info["layer"] = layer_port
 
     layer_offsets = layer_offsets or [0] * len(layers)
 
     for layer, offset in zip(layers, layer_offsets):
-        size = (width + 2 * offset, height + 2 * offset)
+        size_m = (width_m + 2 * offset, height_m + 2 * offset)
         if layer == layer_port:
-            ref = c << compass(size=size, layer=layer, port_type="electrical")
+            ref = c << compass(size=size_m, layer=layer, port_type="electrical")
             c.add_ports(ref.ports)
         else:
-            ref = c << compass(size=size, layer=layer, port_type="placement")
+            ref = c << compass(size=size_m, layer=layer, port_type="placement")
 
     vias = vias or []
     for via_type, offs in zip(vias, layer_offsets):
         if via_type is not None:
+            width, height = size
+
             via_type = gf.get_component(via_type)
 
             w, h = via_type.info["size"]
@@ -76,7 +81,14 @@ def via_stack(
             min_height = h + g
 
             if min_width > width or min_height > height:
-                raise ValueError(f"size {size} is too small to fit a {(w, h)} um via")
+                if correct_size:
+                    print("Changing sizes to fit a via! Check this is desired")
+                    width = min_width if min_width > width else width
+                    height = min_height if min_height > height else height
+                else:
+                    raise ValueError(
+                        f"size {size} is too small to fit a {(w, h)} um via"
+                    )
 
             nb_vias_x = (width + 2 * offs - w - 2 * g) / pitch_x + 1
             nb_vias_y = (height + 2 * offs - h - 2 * g) / pitch_y + 1
@@ -87,6 +99,8 @@ def via_stack(
                 via_type, columns=nb_vias_x, rows=nb_vias_y, spacing=(pitch_x, pitch_y)
             )
 
+            a = width / 2
+            b = height / 2
             cw = (width + 2 * offs - (nb_vias_x - 1) * pitch_x - w) / 2
             ch = (height + 2 * offs - (nb_vias_y - 1) * pitch_y - h) / 2
             x0 = -a - offs + cw + w / 2
@@ -187,7 +201,7 @@ def circular_via_stack(
 
             # Let's see if we can do something different
             x, y = pos
-            print(x, y)
+            print(f"x={x}, y={y}")
 
             if x > 0:
                 new_y = y + pitch_y
@@ -198,17 +212,25 @@ def circular_via_stack(
 
             if new_y > radius:
                 new_y = y - pitch_y
+                assert new_y < radius
                 new_x = -1 * np.sqrt(np.power(radius, 2) - np.power(new_y, 2))
             elif new_y < -radius:
                 new_y = y + pitch_y
+                assert new_y > -radius
                 new_x = np.sqrt(np.power(radius, 2) - np.power(new_y, 2))
 
             else:
                 new_x = mult * np.sqrt(np.power(radius, 2) - np.power(new_y, 2))
 
-            print(new_x, new_y)
+            if np.isnan(new_x):
+                print(radius)
+                print(new_y)
+                print(np.power(radius, 2) - np.power(new_y, 2))
+            assert not np.isnan(new_x)
+
+            print(f"new x={new_x}, new y={new_y}")
             ang = np.arctan2(new_y, new_x)
-            print(ang * 180 / np.pi)
+            print(f"new angle = {ang * 180 / np.pi}")
 
             # input()
 
@@ -430,23 +452,23 @@ via_stack_heater_mtop = via_stack_heater_m3 = gf.partial(
 
 
 if __name__ == "__main__":
-    # c = via_stack_m1_m3()
+    c = via_stack_m1_m3(size=(1.0, 1.0))
     # print(c.to_dict())
-    # c.show(show_ports=True)
+    c.show(show_ports=True)
 
     # c = via_stack_from_rules()
     # c = via_stack_heater_mtop()
     # c.show(show_ports=True)
 
-    c = circular_via_stack(
-        radius=20.0,
-        angular_extent=300,
-        center_angle=0,
-        width=5.0,
-        layers=("M1", "M2", "M3"),
-        vias=(via1, via2),
-        layer_port=None,
-    )
-    c.show()
+    # c = circular_via_stack(
+    #     radius=20.0,
+    #     angular_extent=300,
+    #     center_angle=0,
+    #     width=5.0,
+    #     layers=("M1", "M2", "M3"),
+    #     vias=(via1, via2),
+    #     layer_port=None,
+    # )
+    # c.show()
 
     # test_via_stack_from_rules()
