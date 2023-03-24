@@ -1,32 +1,38 @@
-import kfactory as kf
-from kfactory import kdb
+try:
+    import kfactory as kf
+    from kfactory import kdb
 
+    class Region(kdb.Region):
+        def __iadd__(self, offset):
+            """Adds an offset to the layer."""
+            return self.size(int(offset * 1e3))
 
-class Region(kdb.Region):
-    def __iadd__(self, offset):
-        """Adds an offset to the layer."""
-        return self.size(int(offset * 1e3))
+        def __isub__(self, offset):
+            """Adds an offset to the layer."""
+            return self.size(-int(offset * 1e3))
 
-    def __isub__(self, offset):
-        """Adds an offset to the layer."""
-        return self.size(-int(offset * 1e3))
+        def __add__(self, element):
+            if isinstance(element, float):
+                self.size(int(element * 1e3))
 
-    def __add__(self, element):
-        if isinstance(element, float):
-            self.size(int(element * 1e3))
+            elif isinstance(element, kdb.Region):
+                self = self.__or__(element)
 
-        elif isinstance(element, kdb.Region):
-            self = self.__or__(element)
+        def __sub__(self, element):
+            if isinstance(element, float):
+                self.size(-int(element * 1e3))
 
-    def __sub__(self, element):
-        if isinstance(element, float):
-            self.size(-int(element * 1e3))
+            elif isinstance(element, kdb.Region):
+                return super().__sub__(element)
 
-        elif isinstance(element, kdb.Region):
-            return super().__sub__(element)
+        def copy(self):
+            return self.dup()
 
-    def copy(self):
-        return self.dup()
+except ImportError:
+    print(
+        "You can install `pip install gdsfactory[full]` for using dataprep."
+        "And make sure you use python >= 3.10"
+    )
 
 
 class Layout:
