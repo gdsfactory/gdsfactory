@@ -155,7 +155,17 @@ testpaths = ["gdsfactory/", "tests"]
 # addopts = --tb=no
 addopts = '--tb=short --ignore=gdsfactory/schematic_editor.py --ignore=gdsfactory/klayout_tech.py'
 python_files = ["gdsfactory/*.py","tests/*.py"]
-norecursedirs = ["gdsfactory/simulation", "extra/*.py", "gdsfactory/watch.py", "gdsfactory/schematic_editor.py", "gdsfactory/database", "gdsfactory/generic_tech/klayout", "gdsfactory/simulation/simphony", "gdsfactory/tests/test_klayout"]
+norecursedirs = [
+    "gdsfactory/simulation",
+    "extra/*.py",
+    "gdsfactory/watch.py",
+    "gdsfactory/schematic_editor.py",
+    "gdsfactory/database",
+    "gdsfactory/generic_tech/klayout",
+    "gdsfactory/simulation/simphony",
+    "gdsfactory/tests/test_klayout",
+    "gdsfactory/dataprep.py",
+    ]
 
 [tool.flake8]
 max-line-length = 88
