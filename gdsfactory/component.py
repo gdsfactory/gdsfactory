@@ -846,6 +846,8 @@ class Component(_GeometryHelper):
             p = port.copy()
             if name is not None:
                 p.name = name
+            if center is not None:
+                p.center = center
             if width is not None:
                 p.width = width
             if orientation is not None:
