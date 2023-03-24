@@ -80,15 +80,20 @@ def via_stack(
             min_width = w + g
             min_height = h + g
 
-            if min_width > width or min_height > height:
-                if correct_size:
-                    print("Changing sizes to fit a via! Check this is desired")
-                    width = min_width if min_width > width else width
-                    height = min_height if min_height > height else height
-                else:
-                    raise ValueError(
-                        f"size {size} is too small to fit a {(w, h)} um via"
-                    )
+            if (
+                min_width > width
+                and correct_size
+                or min_width <= width
+                and min_height > height
+                and correct_size
+            ):
+                print("Changing sizes to fit a via! Check this is desired")
+                width = max(min_width, width)
+                height = max(min_height, height)
+            elif min_width > width or min_height > height:
+                raise ValueError(
+                    f"size {size} is too small to fit a {(w, h)} um via"
+                )
 
             nb_vias_x = (width + 2 * offs - w - 2 * g) / pitch_x + 1
             nb_vias_y = (height + 2 * offs - h - 2 * g) / pitch_y + 1
@@ -186,7 +191,7 @@ def circular_via_stack(
         # the initial angle until we reach the end angle
         ang = init_angle
 
-        while _smaller_angle(ang, init_angle, end_angle):
+        while _smaller_angle(ang, ang, end_angle):
             pos = radius * np.array((np.cos(ang), np.sin(ang)))
 
             ref = c.add_array(
@@ -251,28 +256,17 @@ def _smaller_angle(angle, angle1, angle2):
     if angle2 >= 0 and angle1 >= 0:
         if angle2 > angle1:
             return angle < angle2
-        else:
-            # Convert angle to 0, 2pi and see if out of bounds
-            angle = angle + 2 * np.pi * (angle < 0)
-            return not (angle2 < angle < angle1)
+        # Convert angle to 0, 2pi and see if out of bounds
+        angle = angle + 2 * np.pi * (angle < 0)
+        return not (angle2 < angle < angle1)
 
     elif angle2 < 0 and angle1 < 0:
-        if angle2 > angle1:
-            return angle < angle2
-        else:
-            return not (angle2 < angle < angle1)
-
+        return angle < angle2 if angle2 > angle1 else not (angle2 < angle < angle1)
     else:
-        if angle2 < 0:
-            if angle > 0:
-                return True
-            else:
-                return angle < angle2
+        if angle2 < 0 and angle > 0 or angle2 >= 0 and angle < 0:
+            return True
         else:
-            if angle < 0:
-                return True
-            else:
-                return angle < angle2
+            return angle < angle2
 
 
 @gf.cell

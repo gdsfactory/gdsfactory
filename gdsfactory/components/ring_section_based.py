@@ -83,8 +83,8 @@ def ring_section_based(
     if cross_sections_angles is None:
         if add_drop:
             n_sections_0 = len(cross_sections_sequence[0])
-            n_sections_1 = len(cross_sections_sequence[1])
             sing_sec_ang_1 = angular_extent_sequence / (2 * n_sections_0)
+            n_sections_1 = len(cross_sections_sequence[1])
             sing_sec_ang_2 = angular_extent_sequence / (2 * n_sections_1)
             cross_sections_angles = {
                 elem: sing_sec_ang_1 for elem in cross_sections_sequence[0]
@@ -199,7 +199,7 @@ def ring_section_based(
             sequence += "1"
 
         seq_2 = cross_sections_sequence[1] * n_repeats_seq_1
-        sequence = sequence + seq_2
+        sequence += seq_2
 
     ring = gf.components.component_sequence(
         sequence=sequence, symbol_to_component=sections_dict
