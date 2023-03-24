@@ -234,7 +234,19 @@ def ring_section_based(
         if start_cross_section
         else gf.get_cross_section(cross_sections[cross_sections_sequence[0]]).layer
     )
-    ring_guide = ring.extract([input_xs_layer])
+    ring_guide_add = ring.extract([input_xs_layer])
+
+    if drop_cross_section:
+        drop_xs_layer = gf.get_cross_section(drop_cross_section).layer
+    elif start_cross_section:
+        drop_xs_layer = input_xs_layer
+    else:
+        drop_xs_layer = gf.get_cross_section(
+            cross_sections[cross_sections_sequence[0]]
+        ).layer
+
+    ring_guide_add = ring.extract([input_xs_layer])
+    ring_guide_drop = ring.extract([drop_xs_layer])
 
     # Add bus waveguides
     s = straight(length=ring.xsize, cross_section=bus_cross_section)
@@ -244,12 +256,13 @@ def ring_section_based(
 
     s_add = c << s
     s_add.x = r.x
-    s_add.ymax = ring_guide.ymin - gap[0] + s.ysize / 2 - input_xs_width / 2
+    s_add.ymax = ring_guide_add.ymin - gap[0] + s.ysize / 2 - input_xs_width / 2
 
     if add_drop:
+        s.mirror((0, 1))
         s_drop = c << s
         s_drop.x = r.x
-        s_drop.ymin = ring_guide.ymax + gap[1] - s.ysize / 2 + input_xs_width / 2
+        s_drop.ymin = ring_guide_drop.ymax + gap[1] - s.ysize / 2 + input_xs_width / 2
 
     # Add ports
     c.add_port("o1", port=s_add.ports["o1"])
