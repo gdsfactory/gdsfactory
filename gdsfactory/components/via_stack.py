@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Optional, Tuple
 
-from numpy import floor
+import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -18,6 +18,7 @@ def via_stack(
     layer_offsets: Optional[Tuple[float, ...]] = None,
     vias: Optional[Tuple[Optional[ComponentSpec], ...]] = (via1, via2),
     layer_port: LayerSpec = None,
+    correct_size: bool = True,
 ) -> Component:
     """Rectangular via array stack.
 
@@ -38,10 +39,12 @@ def via_stack(
             positive grows, negative shrinks the size.
         vias: vias to use to fill the rectangles.
         layer_port: if None assumes port is on the last layer.
+        correct_size: if True, if the specified dimensions are too small it increases
+            them to the minimum possible to fit a via
     """
-    width, height = size
-    a = width / 2
-    b = height / 2
+    width_m, height_m = size
+    a = width_m / 2
+    b = height_m / 2
 
     layers = layers or []
 
@@ -49,23 +52,25 @@ def via_stack(
         layer_port = layer_port or layers[-1]
 
     c = Component()
-    c.height = height
+    c.height = height_m
     c.info["size"] = (float(size[0]), float(size[1]))
     c.info["layer"] = layer_port
 
     layer_offsets = layer_offsets or [0] * len(layers)
 
     for layer, offset in zip(layers, layer_offsets):
-        size = (width + 2 * offset, height + 2 * offset)
+        size_m = (width_m + 2 * offset, height_m + 2 * offset)
         if layer == layer_port:
-            ref = c << compass(size=size, layer=layer, port_type="electrical")
+            ref = c << compass(size=size_m, layer=layer, port_type="electrical")
             c.add_ports(ref.ports)
         else:
-            ref = c << compass(size=size, layer=layer, port_type="placement")
+            ref = c << compass(size=size_m, layer=layer, port_type="placement")
 
     vias = vias or []
     for via_type, offs in zip(vias, layer_offsets):
         if via_type is not None:
+            width, height = size
+
             via_type = gf.get_component(via_type)
 
             w, h = via_type.info["size"]
@@ -75,18 +80,32 @@ def via_stack(
             min_width = w + g
             min_height = h + g
 
-            if min_width > width or min_height > height:
-                raise ValueError(f"size {size} is too small to fit a {(w, h)} um via")
+            if (
+                min_width > width
+                and correct_size
+                or min_width <= width
+                and min_height > height
+                and correct_size
+            ):
+                print("Changing sizes to fit a via! Check this is desired")
+                width = max(min_width, width)
+                height = max(min_height, height)
+            elif min_width > width or min_height > height:
+                raise ValueError(
+                    f"size {size} is too small to fit a {(w, h)} um via"
+                )
 
             nb_vias_x = (width + 2 * offs - w - 2 * g) / pitch_x + 1
             nb_vias_y = (height + 2 * offs - h - 2 * g) / pitch_y + 1
 
-            nb_vias_x = int(floor(nb_vias_x)) or 1
-            nb_vias_y = int(floor(nb_vias_y)) or 1
+            nb_vias_x = int(np.floor(nb_vias_x)) or 1
+            nb_vias_y = int(np.floor(nb_vias_y)) or 1
             ref = c.add_array(
                 via_type, columns=nb_vias_x, rows=nb_vias_y, spacing=(pitch_x, pitch_y)
             )
 
+            a = width / 2
+            b = height / 2
             cw = (width + 2 * offs - (nb_vias_x - 1) * pitch_x - w) / 2
             ch = (height + 2 * offs - (nb_vias_y - 1) * pitch_y - h) / 2
             x0 = -a - offs + cw + w / 2
@@ -94,6 +113,160 @@ def via_stack(
             ref.move((x0, y0))
 
     return c
+
+
+@gf.cell
+def circular_via_stack(
+    radius: float = 10.0,
+    angular_extent: float = 45,
+    center_angle: float = 0,
+    width: float = 5.0,
+    layers: LayerSpecs = ("M1", "M2", "M3"),
+    vias: Tuple[Optional[ComponentSpec], ...] = (via1, via2),
+    layer_port: LayerSpec = None,
+) -> Component:
+    """Circular via array stack.
+
+    Constructs a circular via array stack. It does so
+    by stacking rectangular via stacks offset by a small amount
+    along the specified circumference.
+
+    Args:
+        radius: of the via stack (center).
+        angular_extent: of the via stack.
+        center_angle: of the via stack.
+        width: of the via stack.
+        layers: layers to draw
+        vias: vias to use to fill the rectangles.
+        layer_port: if None assumes port is on the last layer.
+    """
+
+    # We basically just want to place rectangular via stacks
+    # stacked with a little bit of an offset
+    c = gf.Component()
+
+    layers = layers or []
+
+    if layers:
+        layer_port = layer_port or layers[-1]
+
+    init_angle = (center_angle - angular_extent / 2) * np.pi / 180
+    end_angle = (center_angle + angular_extent / 2) * np.pi / 180
+
+    init_angle = init_angle % (2 * np.pi)
+    if init_angle > np.pi:
+        init_angle = init_angle - 2 * np.pi
+
+    end_angle = end_angle % (2 * np.pi)
+    if end_angle > np.pi:
+        end_angle = end_angle - 2 * np.pi
+
+    print(end_angle * 180 / np.pi)
+
+    # We do this via-centric: we figure out the min spacing between vias,
+    # and from that figure out all the metal dimensions
+    # This will of course fail if no via information is provided,
+    # but why would you instantiate a ViaStack without any via?
+
+    for level, via_type in enumerate(vias):
+        if via_type is None:
+            continue
+
+        metal_bottom = layers[level]
+        metal_top = layers[level + 1]
+
+        via_type = gf.get_component(via_type)
+
+        # Get via info
+        w, h = via_type.info["size"]
+        g = via_type.info["enclosure"]
+        pitch_x, pitch_y = via_type.info["spacing"]
+
+        nb_vias_x = (width - w - 2 * g) / pitch_x + 1
+        nb_vias_x = int(np.floor(nb_vias_x)) or 1
+
+        size_metal = (width, h + 2 * g)
+
+        # Now start placing via lines at each angle starting from
+        # the initial angle until we reach the end angle
+        ang = init_angle
+
+        while _smaller_angle(ang, ang, end_angle):
+            pos = radius * np.array((np.cos(ang), np.sin(ang)))
+
+            ref = c.add_array(
+                via_type, columns=nb_vias_x, rows=1, spacing=(pitch_x, pitch_y)
+            )
+            ref.center = pos
+
+            # Place top and bottom metal
+            for metal in [metal_top, metal_bottom]:
+                met = c << gf.components.rectangle(size=size_metal, layer=metal)
+                met.center = pos
+
+            # Let's see if we can do something different
+            x, y = pos
+            print(f"x={x}, y={y}")
+
+            if x > 0:
+                new_y = y + pitch_y
+                mult = 1
+            else:
+                new_y = y - pitch_y
+                mult = -1
+
+            if new_y > radius:
+                new_y = y - pitch_y
+                assert new_y < radius
+                new_x = -1 * np.sqrt(np.power(radius, 2) - np.power(new_y, 2))
+            elif new_y < -radius:
+                new_y = y + pitch_y
+                assert new_y > -radius
+                new_x = np.sqrt(np.power(radius, 2) - np.power(new_y, 2))
+
+            else:
+                new_x = mult * np.sqrt(np.power(radius, 2) - np.power(new_y, 2))
+
+            if np.isnan(new_x):
+                print(radius)
+                print(new_y)
+                print(np.power(radius, 2) - np.power(new_y, 2))
+            assert not np.isnan(new_x)
+
+            print(f"new x={new_x}, new y={new_y}")
+            ang = np.arctan2(new_y, new_x)
+            print(f"new angle = {ang * 180 / np.pi}")
+
+            # input()
+
+        print("LAYER DONE")
+
+    return c
+
+
+def _smaller_angle(angle, angle1, angle2):
+    """Returns False if angle is outside the
+     bounds of the arc angle defined between
+     angle 1 and angle2.
+
+    But it does so assuming that angle1 and angle2 are between [-pi, pi]
+    and that we are trying to fill an arc
+    """
+
+    if angle2 >= 0 and angle1 >= 0:
+        if angle2 > angle1:
+            return angle < angle2
+        # Convert angle to 0, 2pi and see if out of bounds
+        angle = angle + 2 * np.pi * (angle < 0)
+        return not (angle2 < angle < angle1)
+
+    elif angle2 < 0 and angle1 < 0:
+        return angle < angle2 if angle2 > angle1 else not (angle2 < angle < angle1)
+    else:
+        if angle2 < 0 and angle > 0 or angle2 >= 0 and angle < 0:
+            return True
+        else:
+            return angle < angle2
 
 
 @gf.cell
@@ -165,8 +338,8 @@ def via_stack_from_rules(
             nb_vias_x = (width - w - 2 * g) / pitch_x + 1
             nb_vias_y = (height - h - 2 * g) / pitch_y + 1
 
-            nb_vias_x = int(floor(nb_vias_x)) or 1
-            nb_vias_y = int(floor(nb_vias_y)) or 1
+            nb_vias_x = int(np.floor(nb_vias_x)) or 1
+            nb_vias_y = int(np.floor(nb_vias_y)) or 1
             ref = c.add_array(
                 via_type, columns=nb_vias_x, rows=nb_vias_y, spacing=(pitch_x, pitch_y)
             )
@@ -273,12 +446,23 @@ via_stack_heater_mtop = via_stack_heater_m3 = gf.partial(
 
 
 if __name__ == "__main__":
-    # c = via_stack_m1_m3()
+    c = via_stack_m1_m3(size=(1.0, 1.0))
     # print(c.to_dict())
-    # c.show(show_ports=True)
+    c.show(show_ports=True)
 
     # c = via_stack_from_rules()
-    c = via_stack_heater_mtop()
-    c.show(show_ports=True)
+    # c = via_stack_heater_mtop()
+    # c.show(show_ports=True)
+
+    # c = circular_via_stack(
+    #     radius=20.0,
+    #     angular_extent=300,
+    #     center_angle=0,
+    #     width=5.0,
+    #     layers=("M1", "M2", "M3"),
+    #     vias=(via1, via2),
+    #     layer_port=None,
+    # )
+    # c.show()
 
     # test_via_stack_from_rules()
