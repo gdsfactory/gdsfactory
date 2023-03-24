@@ -155,7 +155,7 @@ exclude = '''  # Specify the files/dirs that should be ignored by the black form
 [tool.pytest.ini_options]
 testpaths = ["gdsfactory/", "tests"]
 # addopts = --tb=no
-addopts = '--tb=short --ignore=gdsfactory/schematic_editor.py --ignore=gdsfactory/klayout_tech.py'
+addopts = '--tb=short --ignore=gdsfactory/schematic_editor.py --ignore=gdsfactory/klayout_tech.py --ignore=gdsfactory/dataprep.py'
 python_files = ["gdsfactory/*.py","tests/*.py"]
 norecursedirs = [
     "gdsfactory/simulation",
@@ -166,7 +166,6 @@ norecursedirs = [
     "gdsfactory/generic_tech/klayout",
     "gdsfactory/simulation/simphony",
     "gdsfactory/tests/test_klayout",
-    "gdsfactory/dataprep.py",
     ]
 
 [tool.flake8]
