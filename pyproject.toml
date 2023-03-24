@@ -70,6 +70,8 @@ full = [
     "kweb>=0.0.11,<0.1",
     "jupytext",
     "klayout",
+    "kfactory",
+	"ipytree",
     "rich-click",
     ]
 femwell = ["femwell"]
