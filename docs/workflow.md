@@ -6,7 +6,7 @@ You'll need 2 windows:
 2. Klayout to Visualize the GDS files.
 
 `Component.show()` will stream the GDS to KLayout so KLayout needs to be open.
-Make sure you also run `gf tool install` from the terminal to install the `gdsfactory` to `klayout` interface.
+Make sure you also run `gf install klayout-integration` from the terminal to install the `gdsfactory` to `klayout` interface.
 
 
 ## 1. Standard Python flow

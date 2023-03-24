@@ -82,7 +82,7 @@ Once you have python installed, open Anaconda Prompt and then install the latest
 
 ```
 pip install gdsfactory --upgrade
-gf tool install
+gf install klayout-integration
 ```
 
 Then you need to restart Klayout to make sure you activate the klayout gdsfactory integration.
@@ -97,7 +97,7 @@ git clone https://github.com/gdsfactory/gdsfactory.git
 cd gdsfactory
 pip install -e . pre-commit
 pre-commit install
-gf tool install
+gf install klayout-integration
 ```
 
 ### Update gdsfactory
