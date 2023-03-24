@@ -189,6 +189,8 @@ def spiral_racetrack_fixed_length(
     )
 
     c.info["length"] = spiral.info["length"]
+    c.info["straight_length"] = straight_length
+    c.info["spiral_center"] = spiral.center
 
     if spiral.ports["o1"].x > spiral.ports["o2"].x:
         spiral.mirror_x()
