@@ -79,7 +79,7 @@ class Layout:
         print("visualizing task graph...")
         for layername, layer in self.layermap.items():
             region = getattr(self, layername)
-            if isinstance(region, Delayed) or isinstance(region, Future):
+            if isinstance(region, (Delayed, Future)):
                 tasks.append(region)
                 layer_names.append(layername)
                 named_tasks[layername] = region
