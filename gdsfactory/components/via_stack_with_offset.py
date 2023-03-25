@@ -7,38 +7,38 @@ from numpy import floor
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.via import viac
-from gdsfactory.typings import ComponentSpec, LayerSpecs
+from gdsfactory.components.compass import compass
+from gdsfactory.typings import ComponentSpec, LayerSpecs, Float2
 
 
 @gf.cell
 def via_stack_with_offset(
     layers: LayerSpecs = ("PPP", "M1"),
-    sizes: Tuple[Tuple[float, float], ...] = ((10, 10), (10, 10)),
+    size: Float2 = (10, 10),
+    sizes: Optional[Tuple[Float2, ...]] = None,
     vias: Tuple[Optional[ComponentSpec], ...] = (None, viac),
     offsets: Optional[Tuple[float, ...]] = None,
-    port_orientation: float = 180,
 ) -> Component:
     """Rectangular layer transition with offset between layers.
 
     Args:
         layers: for each via.
-        vias: factory for via or None for no via.
-        sizes: for each via.
-        offsets: for next layer.
-        port_orientation: 180: W0, 0: E0, 90: N0, 270: S0.
+        size: for all vias.
+        sizes: Optional size for each via. Overrides size.
+        vias: factory for each via. None for no via.
+        offsets: center offset for each layer relatively to the previous one.
     """
     c = Component()
-    y0 = y1 = 0
+    y0 = 0
 
     offsets = offsets or [0] * len(layers)
+    sizes = sizes or [size] * len(layers)
 
     for layer, via, size, offset in zip(layers, vias, sizes, offsets):
         width, height = size
         x0 = -width / 2
-        x1 = +width / 2
-        y1 = y0 + height
-        rect_pts = [(x0, y0), (x1, y0), (x1, y1), (x0, y1)]
-        c.add_polygon(rect_pts, layer=layer)
+        ref_bot = c << compass(size=size, layer=layer, port_type="electrical")
+        ref_bot.ymin = y0
 
         if via:
             via = gf.get_component(via)
@@ -64,24 +64,10 @@ def via_stack_with_offset(
             ref.move((x00, y00))
 
         y0 += offset
-        y1 = y0 + height
-        rect_pts = [(x0, y0), (x1, y0), (x1, y1), (x0, y1)]
-        c.add_polygon(rect_pts, layer=layer)
+        ref_top = c << compass(size=size, layer=layer, port_type="electrical")
+        ref_top.ymin = y0
 
-    port_width = height if port_orientation in {0, 180} else width
-
-    if port_orientation not in [0, 90, 270, 180]:
-        raise ValueError(
-            f"Invalid port_orientation = {port_orientation} not in [0, 90, 180, 270]"
-        )
-    c.add_port(
-        name="e1",
-        width=port_width,
-        orientation=port_orientation,
-        center=(0, y1),
-        port_type="electrical",
-        layer=list(layers)[-1],
-    )
+    c.add_ports(ref_top.ports)
     return c
 
 
@@ -91,11 +77,24 @@ via_stack_with_offset_ppp_m1 = gf.partial(
     vias=(None, viac),
 )
 
+via_stack_with_offset_ppp_m1 = gf.partial(
+    via_stack_with_offset,
+    layers=("PPP", "M1"),
+    vias=(None, viac),
+)
+
+via_stack_with_offset_m1_m3 = gf.partial(
+    via_stack_with_offset,
+    layers=("M1", "M2", "M3"),
+    vias=("via1", "via2", None),
+)
+
 
 if __name__ == "__main__":
-    c = via_stack_with_offset_ppp_m1(
-        layers=("SLAB90", "M1"),
-        sizes=((20, 10), (20, 10)),
-        vias=(viac(size=(18, 2), spacing=(5, 5)), None),
-    )
+    # c = via_stack_with_offset_ppp_m1(
+    #     layers=("SLAB90", "M1"),
+    #     sizes=((20, 10), (20, 10)),
+    #     vias=(viac(size=(18, 2), spacing=(5, 5)), None),
+    # )
+    c = via_stack_with_offset_m1_m3(offsets=(5, 5, 5))
     c.show(show_ports=True)
