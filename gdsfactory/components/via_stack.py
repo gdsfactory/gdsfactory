@@ -91,9 +91,7 @@ def via_stack(
                 width = max(min_width, width)
                 height = max(min_height, height)
             elif min_width > width or min_height > height:
-                raise ValueError(
-                    f"size {size} is too small to fit a {(w, h)} um via"
-                )
+                raise ValueError(f"size {size} is too small to fit a {(w, h)} um via")
 
             nb_vias_x = (width + 2 * offs - w - 2 * g) / pitch_x + 1
             nb_vias_y = (height + 2 * offs - h - 2 * g) / pitch_y + 1
