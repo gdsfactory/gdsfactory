@@ -72,7 +72,7 @@ class Layout:
     """
 
     def __init__(self, layermap: Dict[str, Layer], filepath: PathType = None):
-        lib = kf.kcell.KLib()
+        lib = kf.kcell.KLib(allow_duplicate=True)
         lib.read(filename=str(filepath))
         c = lib[0]
 
