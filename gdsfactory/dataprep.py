@@ -11,7 +11,7 @@ except ImportError as e:
     )
     raise e
 
-from gdsfactory.typings import Dict, Layer, PathType
+from gdsfactory.typings import Dict, Layer, PathType, Tuple, LayerSpecs
 
 
 @delayed
@@ -131,3 +131,68 @@ class Layout:
 
     def __delattr__(self, element):
         setattr(self, element, Region())
+
+    def get_fill(
+        self,
+        region,
+        size: Tuple[float, float],
+        spacing: Tuple[float, float],
+        fill_layers: LayerSpecs,
+        fill_name: str = None,
+    ) -> None:
+        """Generates rectangular fill on a set of layers in the region specified.
+
+        Arguments:
+            region: to fill, usually the result of prior boolean operations
+            size: (x,y) dimensions of the fill element (um)
+            spacing: (x,y) spacing of the fill element (um)
+            fill_layers: layers of the fill element (can be multiple)
+
+        Returns:
+            None (adds polygons to the Layout)
+        """
+        fill_name = fill_name or "fill"
+
+        # Region to fill
+        if isinstance(region, Delayed):
+            region = region.compute()
+
+        # KFactory fill cell
+        w = kf.KCell()
+        for layer in fill_layers:
+            layer = kf.klib.layer(*layer)
+            w << kf.pcells.waveguide.waveguide(
+                width=size[0], length=size[1], layer=layer
+            )
+
+        fc_index = w.cell_index()  # fill cell index
+        fc_box = w.bbox().enlarged(spacing[0] / 2 * 1e3, spacing[1] / 2 * 1e3)
+        fill_margin = kf.kdb.Point(0, 0)
+
+        # KFactory fill
+        c = kf.KCell(fill_name)
+        return c.fill_region(region, fc_index, fc_box, None, region, fill_margin, None)
+
+
+if __name__ == "__main__":
+    from gdsfactory.generic_tech.layer_map import LAYER as l
+    import gdsfactory.dataprep as dp
+    import gdsfactory as gf
+    import kfactory as kf
+
+    """
+    GDSFactory part
+    """
+    c = gf.Component()
+
+    ring = c << gf.components.coupler_ring()
+    floorplan = c << gf.components.bbox(ring.bbox, layer=l.FLOORPLAN)
+    c.write_gds("src.gds")
+
+    dask.config.set(scheduler="threads")
+    d = dp.Layout(filepath="src.gds", layermap=dict(l))
+
+    fill_cell = d.get_fill(
+        d.FLOORPLAN - d.WG, size=[0.1, 0.1], spacing=[0.1, 0.1], fill_layers=[l.WG]
+    )
+    fill_cell.write("fill.gds")
