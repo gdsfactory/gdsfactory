@@ -138,6 +138,7 @@ class Layout:
         size: Tuple[float, float],
         spacing: Tuple[float, float],
         fill_layers: LayerSpecs,
+        fill_name: str = None,
     ) -> None:
         """Generates rectangular fill on a set of layers in the region specified.
 
@@ -150,6 +151,7 @@ class Layout:
         Returns:
             None (adds polygons to the Layout)
         """
+        fill_name = fill_name or "fill"
 
         # Region to fill
         if isinstance(region, Delayed):
@@ -168,7 +170,7 @@ class Layout:
         fill_margin = kf.kdb.Point(0, 0)
 
         # KFactory fill
-        c = kf.KCell("filled_cell")
+        c = kf.KCell(fill_name)
         return c.fill_region(region, fc_index, fc_box, None, region, fill_margin, None)
 
 
