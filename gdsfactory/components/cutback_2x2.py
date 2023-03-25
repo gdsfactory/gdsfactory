@@ -150,20 +150,22 @@ def cutback_2x2(
         s += "D" if (i + rows) % 2 == 0 else "C"
 
     s = s[:-1]
+    n = cols * rows * 2
 
     seq = component_sequence(sequence=s, symbol_to_component=symbol_to_component)
 
     c = gf.Component()
-    ref = c << seq
-    c.add_ports(ref.ports)
+    c << seq
+    c.add_port("o1", port=seq.named_references["A1"]["o1"])
+    c.add_port("o2", port=seq.named_references["A1"]["o2"])
+    c.add_port("o3", port=seq.named_references[f"B{n}"]["o2"])
+    c.add_port("o4", port=seq.named_references[f"B{n}"]["o1"])
 
-    n = len(s) - 2
     c.copy_child_info(component)
-    c.info["components"] = n
+    c.info["components"] = 2 * n
     return c
 
 
 if __name__ == "__main__":
-    c = cutback_2x2(cols=3, rows=3, mirror=True)
-    c.write_gds("extra/bend.gds")
+    c = cutback_2x2(cols=3, rows=2, mirror=True)
     c.show(show_ports=True)
