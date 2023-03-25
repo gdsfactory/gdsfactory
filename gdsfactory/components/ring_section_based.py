@@ -147,10 +147,8 @@ def ring_section_based(
     # We need to create a circular bend for each section
     sections_dict = {}
 
-    for key in cross_sections.keys():
+    for key, xsec in cross_sections.items():
         ang = cross_sections_angles[key]
-        xsec = cross_sections[key]
-
         b = bend_circular(angle=ang, with_bbox=False, cross_section=xsec, radius=radius)
 
         sections_dict[key] = (b, "o1", "o2")
