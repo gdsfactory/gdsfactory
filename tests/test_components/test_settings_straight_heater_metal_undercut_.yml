@@ -52,7 +52,6 @@ settings:
   changed: {}
   child: null
   default:
-    cross_section: null
     cross_section_heater: heater_metal
     cross_section_heater_undercut: strip_heater_metal_undercut
     cross_section_waveguide_heater: strip_heater_metal
@@ -68,7 +67,6 @@ settings:
     via_stack: via_stack_heater_mtop
     with_undercut: true
   full:
-    cross_section: null
     cross_section_heater: heater_metal
     cross_section_heater_undercut: strip_heater_metal_undercut
     cross_section_waveguide_heater: strip_heater_metal

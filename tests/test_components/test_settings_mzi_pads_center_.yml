@@ -1,49 +1,25 @@
 name: mzi_pads_center
 ports:
-  e1:
+  bot_e1:
     center:
     - 19.5
     - -80.625
     layer:
     - 49
     - 0
-    name: e1
+    name: bot_e1
     orientation: 180
     port_type: electrical
     shear_angle: null
     width: 11.0
-  e2:
-    center:
-    - 19.5
-    - 60.625
-    layer:
-    - 49
-    - 0
-    name: e2
-    orientation: 180
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  e3:
-    center:
-    - 551.5
-    - 60.625
-    layer:
-    - 49
-    - 0
-    name: e3
-    orientation: 0.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  e4:
+  bot_e2:
     center:
     - 551.5
     - -80.625
     layer:
     - 49
     - 0
-    name: e4
+    name: bot_e2
     orientation: 0.0
     port_type: electrical
     shear_angle: null
@@ -72,6 +48,30 @@ ports:
     port_type: optical
     shear_angle: null
     width: 0.5
+  top_e1:
+    center:
+    - 19.5
+    - 60.625
+    layer:
+    - 49
+    - 0
+    name: top_e1
+    orientation: 180
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_e2:
+    center:
+    - 551.5
+    - 60.625
+    layer:
+    - 49
+    - 0
+    name: top_e2
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
 settings:
   changed: {}
   child: null
@@ -85,10 +85,10 @@ settings:
     metal_route_width: 10
     mzi:
       function: mzi
-    mzi_gnd_bot: e4
-    mzi_gnd_top: e2
-    mzi_sig_bot: e1
-    mzi_sig_top: e3
+    mzi_gnd_bot: bot_e2
+    mzi_gnd_top: top_e1
+    mzi_sig_bot: bot_e1
+    mzi_sig_top: top_e2
     pad:
       function: pad
     pad_gnd_bot: e4_1_2
@@ -115,10 +115,10 @@ settings:
     metal_route_width: 10
     mzi:
       function: mzi
-    mzi_gnd_bot: e4
-    mzi_gnd_top: e2
-    mzi_sig_bot: e1
-    mzi_sig_top: e3
+    mzi_gnd_bot: bot_e2
+    mzi_gnd_top: top_e1
+    mzi_sig_bot: bot_e1
+    mzi_sig_top: top_e2
     pad:
       function: pad
     pad_gnd_bot: e4_1_2

@@ -40,7 +40,9 @@ def bend_port(
     c.component = component
 
     if port_name not in component.ports:
-        raise ValueError(f"port_name {port_name} not in {list(component.ports.keys())}")
+        raise ValueError(
+            f"port_name {port_name!r} not in {list(component.ports.keys())}"
+        )
 
     extension_length = extension_length or abs(
         component.ports[port_name2].center[0] - component.ports[port_name].center[0]
@@ -75,5 +77,7 @@ if __name__ == "__main__":
     # c = gf.components.straight_heater_metal()
     # c = bend_port(component=c, port_name="e1")
     # c = bend_port(component=gf.components.mzi_phase_shifter)
-    c = bend_port()
+
+    c = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
+    c = bend_port(c)
     c.show(show_ports=True)

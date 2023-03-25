@@ -1,149 +1,5 @@
 name: array_564dd830
 ports:
-  e1_1_1:
-    center:
-    - 19.5
-    - 22.625
-    layer:
-    - 49
-    - 0
-    name: e1_1_1
-    orientation: 180
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  e1_1_2:
-    center:
-    - 169.5
-    - 22.625
-    layer:
-    - 49
-    - 0
-    name: e1_1_2
-    orientation: 180
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  e1_1_3:
-    center:
-    - 319.5
-    - 22.625
-    layer:
-    - 49
-    - 0
-    name: e1_1_3
-    orientation: 180
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  e1_1_4:
-    center:
-    - 469.5
-    - 22.625
-    layer:
-    - 49
-    - 0
-    name: e1_1_4
-    orientation: 180
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  e1_1_5:
-    center:
-    - 619.5
-    - 22.625
-    layer:
-    - 49
-    - 0
-    name: e1_1_5
-    orientation: 180
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  e1_1_6:
-    center:
-    - 769.5
-    - 22.625
-    layer:
-    - 49
-    - 0
-    name: e1_1_6
-    orientation: 180
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  e2_1_1:
-    center:
-    - 87.6
-    - 22.625
-    layer:
-    - 49
-    - 0
-    name: e2_1_1
-    orientation: 0.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  e2_1_2:
-    center:
-    - 237.6
-    - 22.625
-    layer:
-    - 49
-    - 0
-    name: e2_1_2
-    orientation: 0.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  e2_1_3:
-    center:
-    - 387.6
-    - 22.625
-    layer:
-    - 49
-    - 0
-    name: e2_1_3
-    orientation: 0.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  e2_1_4:
-    center:
-    - 537.6
-    - 22.625
-    layer:
-    - 49
-    - 0
-    name: e2_1_4
-    orientation: 0.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  e2_1_5:
-    center:
-    - 687.6
-    - 22.625
-    layer:
-    - 49
-    - 0
-    name: e2_1_5
-    orientation: 0.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  e2_1_6:
-    center:
-    - 837.6
-    - 22.625
-    layer:
-    - 49
-    - 0
-    name: e2_1_6
-    orientation: 0.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
   o1_1_1:
     center:
     - -10.0
@@ -432,6 +288,150 @@ ports:
     port_type: optical
     shear_angle: null
     width: 0.5
+  top_e1_1_1:
+    center:
+    - 19.5
+    - 22.625
+    layer:
+    - 49
+    - 0
+    name: top_e1_1_1
+    orientation: 180
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_e1_1_2:
+    center:
+    - 169.5
+    - 22.625
+    layer:
+    - 49
+    - 0
+    name: top_e1_1_2
+    orientation: 180
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_e1_1_3:
+    center:
+    - 319.5
+    - 22.625
+    layer:
+    - 49
+    - 0
+    name: top_e1_1_3
+    orientation: 180
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_e1_1_4:
+    center:
+    - 469.5
+    - 22.625
+    layer:
+    - 49
+    - 0
+    name: top_e1_1_4
+    orientation: 180
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_e1_1_5:
+    center:
+    - 619.5
+    - 22.625
+    layer:
+    - 49
+    - 0
+    name: top_e1_1_5
+    orientation: 180
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_e1_1_6:
+    center:
+    - 769.5
+    - 22.625
+    layer:
+    - 49
+    - 0
+    name: top_e1_1_6
+    orientation: 180
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_e2_1_1:
+    center:
+    - 87.6
+    - 22.625
+    layer:
+    - 49
+    - 0
+    name: top_e2_1_1
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_e2_1_2:
+    center:
+    - 237.6
+    - 22.625
+    layer:
+    - 49
+    - 0
+    name: top_e2_1_2
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_e2_1_3:
+    center:
+    - 387.6
+    - 22.625
+    layer:
+    - 49
+    - 0
+    name: top_e2_1_3
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_e2_1_4:
+    center:
+    - 537.6
+    - 22.625
+    layer:
+    - 49
+    - 0
+    name: top_e2_1_4
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_e2_1_5:
+    center:
+    - 687.6
+    - 22.625
+    layer:
+    - 49
+    - 0
+    name: top_e2_1_5
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_e2_1_6:
+    center:
+    - 837.6
+    - 22.625
+    layer:
+    - 49
+    - 0
+    name: top_e2_1_6
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
 settings:
   changed:
     component:

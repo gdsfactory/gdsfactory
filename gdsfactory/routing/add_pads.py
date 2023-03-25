@@ -36,7 +36,7 @@ def add_pads_bot(
     pad: ComponentSpec = pad_rectangular,
     bend: ComponentSpec = "wire_corner",
     straight_separation: float = 15.0,
-    pad_spacing: Union[str, float] = "pad_spacing",
+    pad_spacing: Union[float, str] = "pad_spacing",
     **kwargs,
 ) -> Component:
     """Returns new component with ports connected bottom pads.
@@ -87,6 +87,8 @@ def add_pads_bot(
     """
     component_new = Component()
     component = gf.get_component(component)
+
+    pad_spacing = gf.get_constant(pad_spacing)
 
     cref = component_new << component
     ports = [cref[port_name] for port_name in port_names] if port_names else None
@@ -227,6 +229,6 @@ if __name__ == "__main__":
     c = gf.components.straight_heater_metal(length=100.0)
     # c = gf.components.straight(length=100.0)
 
-    cc = add_pads_top(component=c, port_names=("e1",))
-    # cc = add_pads_top(component=c, port_names=("e1", "e4"), fanout_length=50)
+    # cc = add_pads_top(component=c, port_names=("e1",))
+    cc = add_pads_top(component=c, port_names=("e1", "e2"), fanout_length=50)
     cc.show(show_ports=True)
