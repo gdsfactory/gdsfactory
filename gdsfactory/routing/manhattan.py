@@ -557,9 +557,6 @@ def get_route_error(
 
     if with_sbend:
         raise RouteError(f"route error for points {points}")
-    import traceback
-
-    traceback.print_stack()
     warnings.warn(f"Route error for points {points}", RouteWarning)
 
     c = Component(f"route_{uuid.uuid4()}"[:16])
