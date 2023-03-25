@@ -114,7 +114,7 @@ def via_stack(
 
 
 @gf.cell
-def circular_via_stack(
+def via_stack_circular(
     radius: float = 10.0,
     angular_extent: float = 45,
     center_angle: float = 0,
@@ -124,6 +124,8 @@ def circular_via_stack(
     layer_port: LayerSpec = None,
 ) -> Component:
     """Circular via array stack.
+
+    FIXME! does not work.
 
     Constructs a circular via array stack. It does so
     by stacking rectangular via stacks offset by a small amount
@@ -159,8 +161,6 @@ def circular_via_stack(
     if end_angle > np.pi:
         end_angle = end_angle - 2 * np.pi
 
-    print(end_angle * 180 / np.pi)
-
     # We do this via-centric: we figure out the min spacing between vias,
     # and from that figure out all the metal dimensions
     # This will of course fail if no via information is provided,
@@ -172,10 +172,8 @@ def circular_via_stack(
 
         metal_bottom = layers[level]
         metal_top = layers[level + 1]
-
         via_type = gf.get_component(via_type)
 
-        # Get via info
         w, h = via_type.info["size"]
         g = via_type.info["enclosure"]
         pitch_x, pitch_y = via_type.info["spacing"]
@@ -204,7 +202,6 @@ def circular_via_stack(
 
             # Let's see if we can do something different
             x, y = pos
-            print(f"x={x}, y={y}")
 
             if x > 0:
                 new_y = y + pitch_y
@@ -230,14 +227,7 @@ def circular_via_stack(
                 print(new_y)
                 print(np.power(radius, 2) - np.power(new_y, 2))
             assert not np.isnan(new_x)
-
-            print(f"new x={new_x}, new y={new_y}")
             ang = np.arctan2(new_y, new_x)
-            print(f"new angle = {ang * 180 / np.pi}")
-
-            # input()
-
-        print("LAYER DONE")
 
     return c
 
@@ -280,7 +270,8 @@ def via_stack_from_rules(
 ) -> Component:
     """Rectangular via array stack, with optimized dimension for vias.
 
-    Uses inclusion, minimum width, and minimum spacing rules to place the maximum number of individual vias, each with maximum via area.
+    Uses inclusion, minimum width, and minimum spacing rules to place the maximum number of individual vias,
+    each with maximum via area.
 
     Args:
         size: of the layers, len(size).
@@ -444,15 +435,17 @@ via_stack_heater_mtop = via_stack_heater_m3 = gf.partial(
 
 
 if __name__ == "__main__":
-    c = via_stack_m1_m3(size=(1.0, 1.0))
-    # print(c.to_dict())
-    c.show(show_ports=True)
+    c = via_stack_heater_mtop(layer_offsets=(0, 1, 2))
 
-    # c = via_stack_from_rules()
-    # c = via_stack_heater_mtop()
+    # c = via_stack_circular()
+    # c = via_stack_m1_m3(size=(1.0, 1.0))
+    # print(c.to_dict())
     # c.show(show_ports=True)
 
-    # c = circular_via_stack(
+    # c = via_stack_from_rules()
+    # c.show(show_ports=True)
+
+    # c = via_stack_circular(
     #     radius=20.0,
     #     angular_extent=300,
     #     center_angle=0,
@@ -461,6 +454,4 @@ if __name__ == "__main__":
     #     vias=(via1, via2),
     #     layer_port=None,
     # )
-    # c.show()
-
-    # test_via_stack_from_rules()
+    c.show(show_ports=True)
