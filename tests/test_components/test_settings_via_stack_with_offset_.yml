@@ -3,7 +3,7 @@ ports:
   e1:
     center:
     - -5.0
-    - 5.0
+    - 10.0
     layer:
     - 41
     - 0
@@ -11,11 +11,11 @@ ports:
     orientation: 180
     port_type: electrical
     shear_angle: null
-    width: 10
+    width: 20
   e2:
     center:
     - 0.0
-    - 10.0
+    - 20.0
     layer:
     - 41
     - 0
@@ -27,7 +27,7 @@ ports:
   e3:
     center:
     - 5.0
-    - 5.0
+    - 10.0
     layer:
     - 41
     - 0
@@ -35,7 +35,7 @@ ports:
     orientation: 0.0
     port_type: electrical
     shear_angle: null
-    width: 10
+    width: 20
   e4:
     center:
     - 0.0

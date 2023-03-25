@@ -37,8 +37,10 @@ def via_stack_with_offset(
     for layer, via, size, offset in zip(layers, vias, sizes, offsets):
         width, height = size
         x0 = -width / 2
-        ref_bot = c << compass(size=size, layer=layer, port_type="electrical")
-        ref_bot.ymin = y0
+        ref_layer = c << compass(
+            size=(width, 2 * height), layer=layer, port_type="electrical"
+        )
+        ref_layer.ymin = y0
 
         if via:
             via = gf.get_component(via)
@@ -64,10 +66,8 @@ def via_stack_with_offset(
             ref.move((x00, y00))
 
         y0 += offset
-        ref_top = c << compass(size=size, layer=layer, port_type="electrical")
-        ref_top.ymin = y0
 
-    c.add_ports(ref_top.ports)
+    c.add_ports(ref_layer.ports)
     return c
 
 
