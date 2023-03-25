@@ -19,7 +19,7 @@ jobs:
     strategy:
       max-parallel: 12
       matrix:
-        python-version: ["3.7", "3.10"]
+        python-version: ["3.10"]
         os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
@@ -37,7 +37,7 @@ jobs:
           gf install klayout-integration
       - name: Test with pytest
         run: pytest
-  test_code_coverage:
+  test_code_coverage_python37:
     runs-on: ubuntu-latest
     needs: [pre-commit]
 
@@ -46,7 +46,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
+          python-version: 3.7
       - name: Install dependencies
         run: |
           make install gdslib
