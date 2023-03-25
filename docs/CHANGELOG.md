@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.69.1
+
+- test cutbacks2x2 [PR](https://github.com/gdsfactory/gdsfactory/pull/1479)
+
 ## 6.69.0
 
 - Some changes to section based ring and ViaStacks [PR](https://github.com/gdsfactory/gdsfactory/pull/1475)
