@@ -68,6 +68,7 @@ settings:
         layer: VIA2
   child: null
   default:
+    correct_size: true
     layer_offsets: null
     layer_port: null
     layers:
@@ -86,6 +87,7 @@ settings:
       settings:
         layer: VIA2
   full:
+    correct_size: true
     layer_offsets: null
     layer_port: null
     layers:

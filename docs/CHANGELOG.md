@@ -1,5 +1,12 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.69.0
+
+- Some changes to section based ring and ViaStacks [PR](https://github.com/gdsfactory/gdsfactory/pull/1475)
+- add dataprep [PR](https://github.com/gdsfactory/gdsfactory/pull/1470)
+- `centre` can now also be specified when `port` is used when using add_port. [PR](https://github.com/gdsfactory/gdsfactory/pull/1478)
+- Add corner rounding to dataprep notebook [PR](https://github.com/gdsfactory/gdsfactory/pull/1477)
+
 ## 6.68.0
 
 - add gf.geometry.fillet and gf.geometry.boolean_polygons [PR](https://github.com/gdsfactory/gdsfactory/pull/1464)

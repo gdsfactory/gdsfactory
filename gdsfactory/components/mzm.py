@@ -152,6 +152,8 @@ def mzm(
 
     c.add_ports(sxt.get_ports_list(port_type="electrical"), prefix="top_")
     c.add_ports(sxb.get_ports_list(port_type="electrical"), prefix="bot_")
+    c.add_ports(sxt.get_ports_list(port_type="placement"), prefix="top_")
+    c.add_ports(sxb.get_ports_list(port_type="placement"), prefix="bot_")
     return c
 
 
