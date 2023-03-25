@@ -26,7 +26,7 @@ LayerViews:
   SLAB90:
     layer: [3, 0]
     layer_in_name: true
-    hatch_pattern: hollow
+    hatch_pattern: coarsely dotted
     transparent: true
     width: 1
     color: "#805000"

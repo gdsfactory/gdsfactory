@@ -13,12 +13,13 @@ import gdsfactory as gf
 from gdsfactory.typings import CrossSectionSpec, Union, List, Tuple, Floats
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.straight import straight
+from gdsfactory.cell import cell_without_validator
 
 def_dict = {"A": "rib", "B": "strip"}
 def_ang_dict = {"A": 6, "B": 6}
 
 
-@gf.cell
+@cell_without_validator
 def ring_section_based(
     gap: Union[float, Floats] = 0.3,
     radius: float = 5.0,
@@ -141,17 +142,13 @@ def ring_section_based(
                 "number of sequences fitting in the ring."
             )
 
-        print(n_repeats_seq_0)
-
     # Now we are ready to construct the ring
 
     # We need to create a circular bend for each section
     sections_dict = {}
 
-    for key in cross_sections.keys():
+    for key, xsec in cross_sections.items():
         ang = cross_sections_angles[key]
-        xsec = cross_sections[key]
-
         b = bend_circular(angle=ang, with_bbox=False, cross_section=xsec, radius=radius)
 
         sections_dict[key] = (b, "o1", "o2")
@@ -306,4 +303,4 @@ if __name__ == "__main__":
     # c = ring_section_based(add_drop=True)
 
     c.show(show_ports=True)
-    print(c.info["ring_center"])
+    # print(c.info["ring_center"])

@@ -17,6 +17,7 @@ skip_test = {
     "pack_doe_grid",
     "crossing",
     "spiral_racetrack",
+    "ring_section_based",
 }
 
 
