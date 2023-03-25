@@ -1,8 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## 6.69.1
+## 6.70.0
 
 - test cutbacks2x2 [PR](https://github.com/gdsfactory/gdsfactory/pull/1479)
+- improve `stack_with_offset` [PR](https://github.com/gdsfactory/gdsfactory/pull/1480)
 
 ## 6.69.0
 
