@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.71.0
+
+- mzi does not rename electrical ports [PR](https://github.com/gdsfactory/gdsfactory/pull/1485)
+- add klayout fill [PR](https://github.com/gdsfactory/gdsfactory/pull/1484)
+
 ## 6.70.0
 
 - test cutbacks2x2 [PR](https://github.com/gdsfactory/gdsfactory/pull/1479)
