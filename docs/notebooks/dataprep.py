@@ -66,12 +66,16 @@ c
 
 # + vscode={"languageId": "python"}
 d = dp.Layout(filepath="src.gds", layermap=dict(l))
-fill_region = d.FLOORPLAN - d.WG + 0.5
-d.SLAB150 = d.WG.copy()
-d.SLAB150 += 3  # size layer by 3 um
-d.SHALLOW_ETCH = d.SLAB150 - d.WG
-c = d.write("dst.gds")
-c
+
+fill_region = d.FLOORPLAN - d.WG
+fill_cell = d.get_fill(
+    fill_region,
+    size=[0.1, 0.1],
+    spacing=[0.1, 0.1],
+    fill_layers=[l.WG, l.M1],
+    fill_name="test",
+)
+fill_cell
 # -
 
 # ## KLayout operations
