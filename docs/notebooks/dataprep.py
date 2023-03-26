@@ -23,6 +23,10 @@ from gdsfactory.generic_tech.layer_map import LAYER as l
 import gdsfactory.dataprep as dp
 import gdsfactory as gf
 
+gf.config.rich_output()
+PDK = gf.generic_tech.get_generic_pdk()
+PDK.activate()
+
 # + vscode={"languageId": "python"}
 c = gf.Component()
 
