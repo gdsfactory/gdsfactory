@@ -75,11 +75,12 @@ def ring_section_based(
         start_xs = gf.get_cross_section(start_cross_section)
         angular_extent_sequence -= start_angle
 
-        if add_drop:
+    if add_drop:
+        if start_cross_section is not None or drop_cross_section is not None:
             angular_extent_sequence -= start_angle
 
-            if not isinstance(cross_sections_sequence, Union[List, Tuple]):
-                cross_sections_sequence = [cross_sections_sequence] * 2
+        if not isinstance(cross_sections_sequence, Union[List, Tuple]):
+            cross_sections_sequence = [cross_sections_sequence] * 2
 
     if cross_sections_angles is None:
         if add_drop:
@@ -118,11 +119,14 @@ def ring_section_based(
         sing_seq_angular_extent_0 = np.sum(
             [cross_sections_angles[sec] for sec in cross_sections_sequence[0]]
         )
+
         sing_seq_angular_extent_1 = np.sum(
             [cross_sections_angles[sec] for sec in cross_sections_sequence[1]]
         )
 
-        if (angular_extent_sequence / (sing_seq_angular_extent_0 * 2)).is_integer():
+        if np.round(
+            angular_extent_sequence / (sing_seq_angular_extent_0 * 2), 5
+        ).is_integer():
             n_repeats_seq_0 = int(
                 angular_extent_sequence / (sing_seq_angular_extent_0 * 2)
             )
@@ -132,7 +136,9 @@ def ring_section_based(
                 "number of sequences fitting in the ring."
             )
 
-        if (angular_extent_sequence / (sing_seq_angular_extent_1 * 2)).is_integer():
+        if np.round(
+            angular_extent_sequence / (sing_seq_angular_extent_1 * 2)
+        ).is_integer():
             n_repeats_seq_1 = int(
                 angular_extent_sequence / (sing_seq_angular_extent_1 * 2)
             )
@@ -229,7 +235,11 @@ def ring_section_based(
     input_xs_layer = (
         gf.get_cross_section(start_cross_section).layer
         if start_cross_section
-        else gf.get_cross_section(cross_sections[cross_sections_sequence[0]]).layer
+        else gf.get_cross_section(
+            cross_sections[cross_sections_sequence[0]]
+            if not add_drop
+            else cross_sections[cross_sections_sequence[0][0]]
+        ).layer
     )
     ring_guide_add = ring.extract([input_xs_layer])
 
@@ -239,7 +249,7 @@ def ring_section_based(
         drop_xs_layer = input_xs_layer
     else:
         drop_xs_layer = gf.get_cross_section(
-            cross_sections[cross_sections_sequence[0]]
+            cross_sections[cross_sections_sequence[1][0]]
         ).layer
 
     ring_guide_add = ring.extract([input_xs_layer])
