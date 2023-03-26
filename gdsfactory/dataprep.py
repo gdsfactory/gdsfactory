@@ -97,7 +97,6 @@ class Layout:
         tasks = []
         layer_names = []
         named_tasks = {}
-        print("visualizing task graph...")
         for layername in self.layermap.keys():
             region = getattr(self, layername)
             if isinstance(region, (Delayed, Future)):
@@ -124,7 +123,7 @@ class Layout:
                 c.shapes(self.lib.layer(layer[0], layer[1])).insert(region)
             except TypeError:
                 raise ValueError(
-                    f"Unexpected type for region {layername}: {type(region)}"
+                    f"Unexpected type for region {layername!r}: {type(region)}"
                 )
         c.write(filename)
         return c
@@ -138,40 +137,38 @@ class Layout:
         size: Tuple[float, float],
         spacing: Tuple[float, float],
         fill_layers: LayerSpecs,
-        fill_name: str = None,
+        fill_name: str = "fill",
+        fill_cell_name: str = "fill_cell",
     ) -> None:
         """Generates rectangular fill on a set of layers in the region specified.
 
-        Arguments:
-            region: to fill, usually the result of prior boolean operations
-            size: (x,y) dimensions of the fill element (um)
-            spacing: (x,y) spacing of the fill element (um)
-            fill_layers: layers of the fill element (can be multiple)
-
-        Returns:
-            None (adds polygons to the Layout)
+        Args:
+            region: to fill, usually the result of prior boolean operations.
+            size: (x,y) dimensions of the fill cell (um).
+            spacing: (x,y) spacing of the fill cell (um).
+            fill_layers: layers of the fill cell (can be multiple).
+            fill_name: fill cell name.
+            fill_cell_name: fill cell name.
         """
-        fill_name = fill_name or "fill"
 
-        # Region to fill
         if isinstance(region, Delayed):
             region = region.compute()
 
-        # KFactory fill cell
-        w = kf.KCell()
+        fill_cell = kf.KCell(fill_cell_name)
         for layer in fill_layers:
             layer = kf.klib.layer(*layer)
-            w << kf.pcells.waveguide.waveguide(
+            fill_cell << kf.pcells.waveguide.waveguide(
                 width=size[0], length=size[1], layer=layer
             )
 
-        fc_index = w.cell_index()  # fill cell index
-        fc_box = w.bbox().enlarged(spacing[0] / 2 * 1e3, spacing[1] / 2 * 1e3)
+        fc_index = fill_cell.cell_index()  # fill cell index
+        fc_box = fill_cell.bbox().enlarged(spacing[0] / 2 * 1e3, spacing[1] / 2 * 1e3)
         fill_margin = kf.kdb.Point(0, 0)
 
-        # KFactory fill
-        c = kf.KCell(fill_name)
-        return c.fill_region(region, fc_index, fc_box, None, region, fill_margin, None)
+        fill = kf.KCell(fill_name)
+        return fill.fill_region(
+            region, fc_index, fc_box, None, region, fill_margin, None
+        )
 
 
 if __name__ == "__main__":
@@ -180,11 +177,7 @@ if __name__ == "__main__":
     import gdsfactory as gf
     import kfactory as kf
 
-    """
-    GDSFactory part
-    """
     c = gf.Component()
-
     ring = c << gf.components.coupler_ring()
     floorplan = c << gf.components.bbox(ring.bbox, layer=l.FLOORPLAN)
     c.write_gds("src.gds")
@@ -193,6 +186,7 @@ if __name__ == "__main__":
     d = dp.Layout(filepath="src.gds", layermap=dict(l))
 
     fill_cell = d.get_fill(
-        d.FLOORPLAN - d.WG, size=[0.1, 0.1], spacing=[0.1, 0.1], fill_layers=[l.WG]
+        d.FLOORPLAN - d.WG, size=(0.1, 0.1), spacing=(0.1, 0.1), fill_layers=(l.WG,)
     )
     fill_cell.write("fill.gds")
+    gf.show("fill.gds")
