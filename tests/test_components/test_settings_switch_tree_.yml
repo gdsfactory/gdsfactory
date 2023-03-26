@@ -1,77 +1,5 @@
 name: splitter_tree_7c3f8531
 ports:
-  e1_0_1:
-    center:
-    - 19.5
-    - 22.625
-    layer:
-    - 49
-    - 0
-    name: e1_0_1
-    orientation: 180
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  e1_1_3:
-    center:
-    - 519.5
-    - -27.375
-    layer:
-    - 49
-    - 0
-    name: e1_1_3
-    orientation: 180
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  e1_1_7:
-    center:
-    - 519.5
-    - 72.625
-    layer:
-    - 49
-    - 0
-    name: e1_1_7
-    orientation: 180
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  e2_0_2:
-    center:
-    - 371.5
-    - 22.625
-    layer:
-    - 49
-    - 0
-    name: e2_0_2
-    orientation: 0.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  e2_1_4:
-    center:
-    - 871.5
-    - -27.375
-    layer:
-    - 49
-    - 0
-    name: e2_1_4
-    orientation: 0.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  e2_1_8:
-    center:
-    - 871.5
-    - 72.625
-    layer:
-    - 49
-    - 0
-    name: e2_1_8
-    orientation: 0.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
   o1_0_0:
     center:
     - -10.0
@@ -132,6 +60,78 @@ ports:
     port_type: optical
     shear_angle: null
     width: 0.5
+  top_e1_0_1:
+    center:
+    - 19.5
+    - 22.625
+    layer:
+    - 49
+    - 0
+    name: top_e1_0_1
+    orientation: 180
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_e1_1_3:
+    center:
+    - 519.5
+    - -27.375
+    layer:
+    - 49
+    - 0
+    name: top_e1_1_3
+    orientation: 180
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_e1_1_7:
+    center:
+    - 519.5
+    - 72.625
+    layer:
+    - 49
+    - 0
+    name: top_e1_1_7
+    orientation: 180
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_e2_0_2:
+    center:
+    - 371.5
+    - 22.625
+    layer:
+    - 49
+    - 0
+    name: top_e2_0_2
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_e2_1_4:
+    center:
+    - 871.5
+    - -27.375
+    layer:
+    - 49
+    - 0
+    name: top_e2_1_4
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_e2_1_8:
+    center:
+    - 871.5
+    - 72.625
+    layer:
+    - 49
+    - 0
+    name: top_e2_1_8
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
 settings:
   changed:
     coupler:

@@ -16,10 +16,10 @@ def mzi_pads_center(
     pad: ComponentSpec = pad_function,
     length_x: float = 500,
     length_y: float = 40,
-    mzi_sig_top: str = "e3",
-    mzi_gnd_top: str = "e2",
-    mzi_sig_bot: str = "e1",
-    mzi_gnd_bot: str = "e4",
+    mzi_sig_top: str = "top_e2",
+    mzi_gnd_top: str = "top_e1",
+    mzi_sig_bot: str = "bot_e1",
+    mzi_gnd_bot: str = "bot_e2",
     pad_sig_bot: str = "e1_1_1",
     pad_sig_top: str = "e3_1_3",
     pad_gnd_bot: str = "e4_1_2",
@@ -125,13 +125,14 @@ def mzi_pads_center(
         width=metal_route_width,
     )
     c.add(route_sig_top.references)
+
     c.add_ports(m.ports)
     return c
 
 
 if __name__ == "__main__":
-    mzi_ps_fa = gf.compose(gf.routing.add_fiber_array, mzi_pads_center)
-    mzi_ps_fs = gf.compose(gf.routing.add_fiber_single, mzi_pads_center)
+    # mzi_ps_fa = gf.compose(gf.routing.add_fiber_array, mzi_pads_center)
+    # mzi_ps_fs = gf.compose(gf.routing.add_fiber_single, mzi_pads_center)
     # c = mzi_ps_fs()
     c = mzi_pads_center()
     c.show(show_ports=True)

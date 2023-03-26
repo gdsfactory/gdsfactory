@@ -603,7 +603,11 @@ def get_grid_size() -> float:
 
 def get_constant(constant_name: Any) -> Any:
     """If constant_name is a string returns a the value from the dict."""
-    return get_active_pdk().get_constant(constant_name)
+    return (
+        get_active_pdk().get_constant(constant_name)
+        if isinstance(constant_name, str)
+        else constant_name
+    )
 
 
 def get_sparameters_path() -> pathlib.Path:

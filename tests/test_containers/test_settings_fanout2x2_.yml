@@ -1,29 +1,5 @@
 name: mzi_2e88f57c_fanout2x2_564dd830
 ports:
-  e1:
-    center:
-    - 19.5
-    - 22.5
-    layer:
-    - 49
-    - 0
-    name: e1
-    orientation: 180
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  e2:
-    center:
-    - 87.6
-    - 22.5
-    layer:
-    - 49
-    - 0
-    name: e2
-    orientation: 0.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
   o1:
     center:
     - -30.0
@@ -72,6 +48,30 @@ ports:
     port_type: optical
     shear_angle: null
     width: 0.5
+  top_e1:
+    center:
+    - 19.5
+    - 22.5
+    layer:
+    - 49
+    - 0
+    name: top_e1
+    orientation: 180
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_e2:
+    center:
+    - 87.6
+    - 22.5
+    layer:
+    - 49
+    - 0
+    name: top_e2
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
 settings:
   changed:
     component:

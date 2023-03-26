@@ -24,7 +24,6 @@ def straight_heater_metal_undercut(
     port_orientation2: int = 0,
     heater_taper_length: Optional[float] = 5.0,
     ohms_per_square: Optional[float] = None,
-    cross_section: Optional[CrossSectionSpec] = None,
     **kwargs,
 ) -> Component:
     """Returns a thermal phase shifter.
@@ -51,6 +50,7 @@ def straight_heater_metal_undercut(
     """
     period = length_undercut + length_undercut_spacing
     n = int((length - 2 * length_straight_input) // period)
+    kwargs.pop("cross_section", "")
 
     length_straight_input = (length - n * period) / 2
 
@@ -162,6 +162,6 @@ if __name__ == "__main__":
 
     c = straight_heater_metal(length=40)
     # n = c.get_netlist()
-    # c.show(show_ports=True)
-    scene = c.to_3d()
-    scene.show()
+    c.show(show_ports=True)
+    # scene = c.to_3d()
+    # scene.show()
