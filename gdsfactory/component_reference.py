@@ -15,4 +15,4 @@ logger.warning(
 )
 
 
-__all__ = "ComponentReference"
+__all__ = ("ComponentReference",)
