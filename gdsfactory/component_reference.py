@@ -1,4 +1,5 @@
 from gdsfactory.config import logger
+from gdsfactory.component import ComponentReference
 
 logger.warning(
     "from gdsfactory.component_reference is deprecated and will be soon removed."
@@ -6,4 +7,4 @@ logger.warning(
 )
 
 
-__all__ = "ComponentReference"
+__all__ = ("ComponentReference",)
