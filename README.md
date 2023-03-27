@@ -241,3 +241,4 @@ Open source heroes:
 - Alex Tait (Queens University): lytest inspiration for gdsfactory testing GDS framework.
 - Thomas Ferreira de Lima (NEC): `pip install klayout` python API.
 - Juan Sanchez: DEVSIM for TCAD simulations.
+- Christophe Geuzaine (University of Liège) and Jean-François Remacle (Université catholique de Louvain) for Gmsh.
