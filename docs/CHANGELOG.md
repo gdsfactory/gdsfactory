@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.72.1
+
+- fixes to `gf.components.ring_section_based` [PR](https://github.com/gdsfactory/gdsfactory/pull/1489)
+
 ## 6.72.0
 
 - add `gf.components.regular_polygon` [PR](https://github.com/gdsfactory/gdsfactory/pull/1487)
