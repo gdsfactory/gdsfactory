@@ -196,6 +196,7 @@ from gdsfactory.components.pads_shorted import pads_shorted
 from gdsfactory.components.ramp import ramp
 from gdsfactory.components.rectangle import rectangle, marker_te, marker_tm
 from gdsfactory.components.rectangle_with_slits import rectangle_with_slits
+from gdsfactory.components.regular_polygon import regular_polygon
 from gdsfactory.components.resistance_meander import resistance_meander
 from gdsfactory.components.resistance_sheet import resistance_sheet
 from gdsfactory.components.ring import ring
@@ -514,6 +515,7 @@ __all__ = [
     "qrcode",
     "ramp",
     "rectangle",
+    "regular_polygon",
     "rectangle_with_slits",
     "resistance_meander",
     "resistance_sheet",
