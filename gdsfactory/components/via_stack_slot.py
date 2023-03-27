@@ -63,6 +63,7 @@ def via_stack_slot(
         |                  size[0]                |
         |                                         |
         |_________________________________________|
+
     """
     if size[0] - 2 * enclosure < 0:
         raise ValueError(

@@ -22,11 +22,32 @@ def via_stack_with_offset(
     """Rectangular layer transition with offset between layers.
 
     Args:
-        layers: for each via.
-        size: for all vias.
-        sizes: Optional size for each via. Overrides size.
-        vias: factory for each via. None for no via.
-        offsets: center offset for each layer relatively to the previous one.
+        layers: layer specs between vias.
+        size: for all vias array.
+        sizes: Optional size for each via array. Overrides size.
+        vias: via spec for previous layer. None for no via.
+        offsets: optional offset for each layer relatively to the previous one.
+            By default it only offsets by size[1] if there is a via.
+
+    .. code::
+
+        side view
+
+         __________________________
+        |                          |
+        |        2 x sizes[2]      | layers[2] vias[1]=None
+        |__________________________|
+        |                          |
+        |        2 x sizes[1]      | layers[1]
+        |__________________________|
+            |     |
+            vias[0]
+         ___|_____|__
+        |            |
+        |  sizes[0]  |  layers[0]
+        |____________|
+
+
     """
     c = Component()
     y0 = 0
@@ -64,8 +85,9 @@ def via_stack_with_offset(
                 via, columns=nb_vias_x, rows=nb_vias_y, spacing=(pitch_x, pitch_y)
             )
             ref.move((x00, y00))
+            y0 += height
 
-        y0 += offset + height
+        y0 += offset
 
     c.add_ports(ref_layer.ports)
     return c
@@ -86,7 +108,7 @@ via_stack_with_offset_ppp_m1 = gf.partial(
 via_stack_with_offset_m1_m3 = gf.partial(
     via_stack_with_offset,
     layers=("M1", "M2", "M3"),
-    vias=("via1", "via2", None),
+    vias=(None, "via1", "via2"),
 )
 
 
@@ -96,5 +118,6 @@ if __name__ == "__main__":
     #     sizes=((20, 10), (20, 10)),
     #     vias=(viac(size=(18, 2), spacing=(5, 5)), None),
     # )
-    c = via_stack_with_offset_m1_m3(offsets=(5, 5, 5))
+    c = via_stack_with_offset_m1_m3()
+    # c = via_stack_with_offset(vias=(None, None))
     c.show(show_ports=True)
