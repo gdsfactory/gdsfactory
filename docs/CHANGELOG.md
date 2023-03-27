@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.72.0
+
+- add `gf.components.regular_polygon` [PR](https://github.com/gdsfactory/gdsfactory/pull/1487)
+
 ## 6.71.0
 
 - mzi does not rename electrical ports [PR](https://github.com/gdsfactory/gdsfactory/pull/1485)
