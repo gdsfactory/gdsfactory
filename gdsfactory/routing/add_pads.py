@@ -89,11 +89,23 @@ def add_pads_bot(
     component = gf.get_component(component)
 
     pad_spacing = gf.get_constant(pad_spacing)
-
     cref = component_new << component
     ports = [cref[port_name] for port_name in port_names] if port_names else None
     ports = ports or select_ports(cref.ports)
     xs = gf.get_cross_section(cross_section)
+
+    pad_component = gf.get_component(pad)
+    if pad_port_name not in pad_component.ports:
+        pad_ports = list(pad_component.ports.keys())
+        raise ValueError(
+            f"pad_port_name = {pad_port_name!r} not in {pad_component.name!r} ports {pad_ports}"
+        )
+
+    pad_orientation = int(pad_component[pad_port_name].orientation)
+    if pad_orientation != 180:
+        raise ValueError(
+            f"port.orientation={pad_orientation} for port {pad_port_name!r} needs to be 180 degrees."
+        )
 
     if not ports:
         raise ValueError(
