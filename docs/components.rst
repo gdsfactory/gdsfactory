@@ -2057,7 +2057,7 @@ mzi_pads_center
 
   import gdsfactory as gf
 
-  c = gf.components.mzi_pads_center(length_x=500, length_y=40, mzi_sig_top='e3', mzi_gnd_top='e2', mzi_sig_bot='e1', mzi_gnd_bot='e4', pad_sig_bot='e1_1_1', pad_sig_top='e3_1_3', pad_gnd_bot='e4_1_2', pad_gnd_top='e2_1_2', delta_length=40.0, end_straight_length=5, start_straight_length=5, metal_route_width=10, cross_section='strip', cross_section_metal='metal_routing', pad_spacing=150.0)
+  c = gf.components.mzi_pads_center(length_x=500, length_y=40, mzi_sig_top='top_e2', mzi_gnd_top='top_e1', mzi_sig_bot='bot_e1', mzi_gnd_bot='bot_e2', pad_sig_bot='e1_1_1', pad_sig_top='e3_1_3', pad_gnd_bot='e4_1_2', pad_gnd_top='e2_1_2', delta_length=40.0, end_straight_length=5, start_straight_length=5, metal_route_width=10, cross_section='strip', cross_section_metal='metal_routing', pad_spacing=150.0)
   c.plot_matplotlib()
 
 
@@ -2452,6 +2452,21 @@ rectangle_with_slits
 
 
 
+regular_polygon
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.regular_polygon
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.regular_polygon(sides=6, side_length=10, layer='WG', port_type='placement')
+  c.plot_matplotlib()
+
+
+
 resistance_meander
 ----------------------------------------------------
 
@@ -2597,7 +2612,7 @@ ring_section_based
 
   import gdsfactory as gf
 
-  c = gf.components.ring_section_based(gap=0.3, radius=5.0, add_drop=False, cross_sections_sequence='AB', start_angle=10.0, start_section_at_drop=True, bus_cross_section='strip')
+  c = gf.components.ring_section_based(gap=0.3, radius=5.0, add_drop=False, cross_sections_sequence='AB', start_angle=10.0, bus_cross_section='strip')
   c.plot_matplotlib()
 
 
@@ -3617,7 +3632,7 @@ via_stack
 
   import gdsfactory as gf
 
-  c = gf.components.via_stack(size=[11.0, 11.0], layers=['M1', 'M2', 'M3'])
+  c = gf.components.via_stack(size=[11.0, 11.0], layers=['M1', 'M2', 'M3'], correct_size=True)
   c.plot_matplotlib()
 
 
@@ -3647,7 +3662,7 @@ via_stack_heater_m3
 
   import gdsfactory as gf
 
-  c = gf.components.via_stack_heater_m3(size=[11.0, 11.0], layers=['HEATER', 'M2', 'M3'])
+  c = gf.components.via_stack_heater_m3(size=[11.0, 11.0], layers=['HEATER', 'M2', 'M3'], correct_size=True)
   c.plot_matplotlib()
 
 
@@ -3662,7 +3677,7 @@ via_stack_heater_mtop
 
   import gdsfactory as gf
 
-  c = gf.components.via_stack_heater_mtop(size=[11.0, 11.0], layers=['HEATER', 'M2', 'M3'])
+  c = gf.components.via_stack_heater_mtop(size=[11.0, 11.0], layers=['HEATER', 'M2', 'M3'], correct_size=True)
   c.plot_matplotlib()
 
 
@@ -3677,7 +3692,7 @@ via_stack_slab_m3
 
   import gdsfactory as gf
 
-  c = gf.components.via_stack_slab_m3(size=[11.0, 11.0], layers=['SLAB90', 'M1', 'M2', 'M3'])
+  c = gf.components.via_stack_slab_m3(size=[11.0, 11.0], layers=['SLAB90', 'M1', 'M2', 'M3'], correct_size=True)
   c.plot_matplotlib()
 
 
@@ -3722,7 +3737,7 @@ via_stack_with_offset
 
   import gdsfactory as gf
 
-  c = gf.components.via_stack_with_offset(layers=['PPP', 'M1'], sizes=[[10, 10], [10, 10]], port_orientation=180)
+  c = gf.components.via_stack_with_offset(layers=['PPP', 'M1'], size=[10, 10])
   c.plot_matplotlib()
 
 
