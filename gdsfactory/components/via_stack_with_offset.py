@@ -65,7 +65,7 @@ def via_stack_with_offset(
             )
             ref.move((x00, y00))
 
-        y0 += offset
+        y0 += offset + height
 
     c.add_ports(ref_layer.ports)
     return c
