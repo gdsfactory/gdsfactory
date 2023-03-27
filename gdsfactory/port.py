@@ -174,7 +174,7 @@ class Port:
     def validate(cls, v):
         """For pydantic assumes Port is valid if has a name and a valid type."""
         assert isinstance(v, Port), f"TypeError, Got {type(v)}, expecting Port"
-        assert v.name, f"Port has no name, got `{v.name}`"
+        assert v.name, f"Port has no name, got {v.name!r}"
         # assert v.assert_on_grid(), f"port.center = {v.center} has off-grid points"
         return v
 
@@ -321,7 +321,7 @@ class Port:
         component_name = self.parent.name
         if not np.isclose(half_width, half_width_correct):
             raise PortNotOnGridError(
-                f"{component_name}, port = {self.name!r}, center = {self.center} "
+                f"{component_name!r}, port = {self.name!r}, center = {self.center} "
                 f"width = {self.width} will create off-grid points",
                 f"you can fix it by changing width to {2*half_width_correct}",
             )
@@ -339,19 +339,19 @@ class Port:
             x = self.y + self.width / 2
             if not np.isclose(snap_to_grid(x, nm=nm), x):
                 raise PortNotOnGridError(
-                    f"{self.name} port in {component_name} has an off-grid point {x}",
+                    f"{self.name!r} port in {component_name!r} has an off-grid point {x}",
                     f"you can fix it by moving the point to {snap_to_grid(x, nm=nm)}",
                 )
         elif self.orientation in [90, 270]:
             x = self.x + self.width / 2
             if not np.isclose(snap_to_grid(x, nm=nm), x):
                 raise PortNotOnGridError(
-                    f"{self.name} port in {component_name} has an off-grid point {x}",
+                    f"{self.name!r} port in {component_name!r} has an off-grid point {x}",
                     f"you can fix it by moving the point to {snap_to_grid(x, nm=nm)}",
                 )
         else:
             raise PortOrientationError(
-                f"{component_name} port {self.name} has invalid orientation"
+                f"{component_name!r} port {self.name!r} has invalid orientation"
                 f" {self.orientation}"
             )
 
