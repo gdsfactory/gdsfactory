@@ -2,12 +2,12 @@ from __future__ import annotations
 
 from typing import Optional
 
+import gdstk
+import numpy as np
+
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
-
-import gdstk
-import numpy as np
 
 
 @cell
@@ -21,17 +21,13 @@ def regular_polygon(
 
     Args:
         sides: number of sides for the polygon.
-        side_length: of the edges
+        side_length: of the edges.
         layer: Specific layer to put polygon geometry on.
         port_type: optical, electrical.
-        port_orientations: list of port_orientations to add.
     """
     c = Component()
-
     polygon = gdstk.regular_polygon((0, 0), side_length, sides)
-
     c.add_polygon(polygon, layer=layer)
-
     a = side_length / (2 * np.tan(np.pi / sides))
 
     if port_type:
@@ -48,7 +44,6 @@ def regular_polygon(
             )
 
     c.auto_rename_ports()
-
     return c
 
 

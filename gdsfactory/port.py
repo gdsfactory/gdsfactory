@@ -326,6 +326,9 @@ class Port:
                 f"you can fix it by changing width to {2*half_width_correct}",
             )
 
+    def assert_manhattan(self, nm: int = 1) -> None:
+        """Ensures port has a valid manhattan orientation (0, 90, 180, 270)."""
+        component_name = self.parent.name
         if self.port_type.startswith("vertical"):
             return
 
