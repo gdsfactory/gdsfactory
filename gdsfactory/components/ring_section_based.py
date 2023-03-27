@@ -236,9 +236,9 @@ def ring_section_based(
         gf.get_cross_section(start_cross_section).layer
         if start_cross_section
         else gf.get_cross_section(
-            cross_sections[cross_sections_sequence[0]]
-            if not add_drop
-            else cross_sections[cross_sections_sequence[0][0]]
+            cross_sections[cross_sections_sequence[0][0]]
+            if add_drop
+            else cross_sections[cross_sections_sequence[0]]
         ).layer
     )
     ring_guide_add = ring.extract([input_xs_layer])
