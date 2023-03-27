@@ -35,18 +35,19 @@ def via_stack_with_offset(
 
          __________________________
         |                          |
-        |        2 x sizes[2]      | layers[2] vias[1]=None
+        |        2 x sizes[2]      | layers[2] vias[2]=None
         |__________________________|
         |                          |
         |        2 x sizes[1]      | layers[1]
         |__________________________|
             |     |
-            vias[0]
+            vias[1]
          ___|_____|__
         |            |
         |  sizes[0]  |  layers[0]
         |____________|
 
+            vias[0] = None
 
     """
     c = Component()
