@@ -3,6 +3,7 @@
 ## 6.72.0
 
 - add `gf.components.regular_polygon` [PR](https://github.com/gdsfactory/gdsfactory/pull/1487)
+- add function to calculate FSR [PR](https://github.com/gdsfactory/gdsfactory/pull/1488)
 
 ## 6.71.0
 
