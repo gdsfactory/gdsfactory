@@ -99,7 +99,7 @@ if __name__ == "__main__":
     print(f"pi_length = {pi_length10:.0f}um for 10nm width variation")
 
     dn = dn1
-    p = mzi(wl, neff=neff, neff1=neff + dn, neff2=neff + dn, delta_length=10)
+    p = mzi(wl, neff=neff, neff1=neff + dn, neff2=neff + dn, delta_length=40)
     plt.plot(wl, p)
     plt.title("MZI")
     plt.xlabel("wavelength (um)")
