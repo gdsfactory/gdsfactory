@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.72.5
+
+- better routing defaults [PR](https://github.com/gdsfactory/gdsfactory/pull/1495)
+
 ## 6.72.4
 
 - better `via_stack_with_offset` [PR](https://github.com/gdsfactory/gdsfactory/pull/1494)
