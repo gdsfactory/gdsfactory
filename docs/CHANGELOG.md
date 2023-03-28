@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.72.4
+
+- better `via_stack_with_offset` [PR](https://github.com/gdsfactory/gdsfactory/pull/1494)
+- adding radius as info for the section based ring [PR](https://github.com/gdsfactory/gdsfactory/pull/1493)
+
 ## 6.72.1
 
 - fixes to `gf.components.ring_section_based` [PR](https://github.com/gdsfactory/gdsfactory/pull/1489)
