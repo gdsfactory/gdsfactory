@@ -141,7 +141,7 @@ settings:
         function: select_ports
         settings:
           port_type: electrical
-      straight_separation: 15.0
+      straight_separation: null
     full:
       bend: wire_corner
       component:
@@ -166,7 +166,7 @@ settings:
         function: select_ports
         settings:
           port_type: electrical
-      straight_separation: 15.0
+      straight_separation: null
     function_name: add_pads_bot
     info:
       resistance: null

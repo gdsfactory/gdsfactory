@@ -64,12 +64,12 @@ def get_route(
     input_port: Port,
     output_port: Port,
     bend: ComponentSpec = bend_euler,
-    with_sbend: bool = True,
+    with_sbend: bool = False,
     straight: ComponentSpec = straight_function,
     taper: Optional[ComponentSpec] = None,
-    start_straight_length: float = 0.01,
-    end_straight_length: float = 0.01,
-    min_straight_length: float = 0.01,
+    start_straight_length: Optional[float] = None,
+    end_straight_length: Optional[float] = None,
+    min_straight_length: Optional[float] = None,
     cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = "strip",
     **kwargs,
 ) -> Route:
@@ -111,14 +111,12 @@ def get_route(
         if isinstance(bend, Component)
         else gf.get_component(bend, cross_section=cross_section, **kwargs)
     )
-
     if taper:
-        if isinstance(cross_section, list):
+        if isinstance(cross_section, (tuple, list)):
             raise ValueError(
                 "Tapers not implemented for routes made from multiple cross_sections."
             )
         x = gf.get_cross_section(cross_section, **kwargs)
-
         taper_length = x.taper_length
         width1 = input_port.width
         auto_widen = x.auto_widen
@@ -151,21 +149,15 @@ def get_route(
 get_route_electrical = partial(
     get_route,
     bend=wire_corner,
-    start_straight_length=10,
-    end_straight_length=10,
     cross_section="metal_routing",
     taper=None,
-    min_straight_length=2.0,
 )
 
 get_route_electrical_m2 = partial(
     get_route,
     bend=wire_corner,
-    start_straight_length=25,
-    end_straight_length=25,
     cross_section=metal2,
     taper=None,
-    min_straight_length=2.0,
 )
 
 get_route_electrical_multilayer = partial(
