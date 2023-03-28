@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.72.6
+
+- fix mzi with new routing defaults [PR](https://github.com/gdsfactory/gdsfactory/pull/1496)
+- better error messages when vias do not fit in `via_stacks`
+
 ## 6.72.5
 
 - better routing defaults [PR](https://github.com/gdsfactory/gdsfactory/pull/1495)
