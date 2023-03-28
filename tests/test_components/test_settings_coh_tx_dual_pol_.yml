@@ -14,7 +14,7 @@ ports:
     width: 0.5
   o2:
     center:
-    - 473.85
+    - 473.77
     - -55.75
     layer:
     - 1
@@ -26,7 +26,7 @@ ports:
     width: 0.5
   o3:
     center:
-    - 473.85
+    - 473.77
     - -238.75
     layer:
     - 1
@@ -230,7 +230,7 @@ ports:
     width: 180.0
   pol1_ps_q_bot_e1:
     center:
-    - 331.1
+    - 331.02
     - -117.5
     layer:
     - 49
@@ -242,7 +242,7 @@ ports:
     width: 10.0
   pol1_ps_q_bot_e2:
     center:
-    - 371.1
+    - 371.02
     - -112.5
     layer:
     - 49
@@ -254,7 +254,7 @@ ports:
     width: 80.0
   pol1_ps_q_bot_e3:
     center:
-    - 411.1
+    - 411.02
     - -117.5
     layer:
     - 49
@@ -266,7 +266,7 @@ ports:
     width: 10.0
   pol1_ps_q_bot_e4:
     center:
-    - 371.1
+    - 371.02
     - -122.5
     layer:
     - 49
@@ -278,7 +278,7 @@ ports:
     width: 80.0
   pol1_ps_q_top_e1:
     center:
-    - 331.1
+    - 331.02
     - -105.5
     layer:
     - 49
@@ -290,7 +290,7 @@ ports:
     width: 10.0
   pol1_ps_q_top_e2:
     center:
-    - 371.1
+    - 371.02
     - -100.5
     layer:
     - 49
@@ -302,7 +302,7 @@ ports:
     width: 80.0
   pol1_ps_q_top_e3:
     center:
-    - 411.1
+    - 411.02
     - -105.5
     layer:
     - 49
@@ -314,7 +314,7 @@ ports:
     width: 10.0
   pol1_ps_q_top_e4:
     center:
-    - 371.1
+    - 371.02
     - -110.5
     layer:
     - 49
@@ -518,7 +518,7 @@ ports:
     width: 180.0
   pol2_ps_q_bot_e1:
     center:
-    - 331.1
+    - 331.02
     - -300.5
     layer:
     - 49
@@ -530,7 +530,7 @@ ports:
     width: 10.0
   pol2_ps_q_bot_e2:
     center:
-    - 371.1
+    - 371.02
     - -295.5
     layer:
     - 49
@@ -542,7 +542,7 @@ ports:
     width: 80.0
   pol2_ps_q_bot_e3:
     center:
-    - 411.1
+    - 411.02
     - -300.5
     layer:
     - 49
@@ -554,7 +554,7 @@ ports:
     width: 10.0
   pol2_ps_q_bot_e4:
     center:
-    - 371.1
+    - 371.02
     - -305.5
     layer:
     - 49
@@ -566,7 +566,7 @@ ports:
     width: 80.0
   pol2_ps_q_top_e1:
     center:
-    - 331.1
+    - 331.02
     - -288.5
     layer:
     - 49
@@ -578,7 +578,7 @@ ports:
     width: 10.0
   pol2_ps_q_top_e2:
     center:
-    - 371.1
+    - 371.02
     - -283.5
     layer:
     - 49
@@ -590,7 +590,7 @@ ports:
     width: 80.0
   pol2_ps_q_top_e3:
     center:
-    - 411.1
+    - 411.02
     - -288.5
     layer:
     - 49
@@ -602,7 +602,7 @@ ports:
     width: 10.0
   pol2_ps_q_top_e4:
     center:
-    - 371.1
+    - 371.02
     - -293.5
     layer:
     - 49
