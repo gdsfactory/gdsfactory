@@ -228,6 +228,7 @@ def ring_section_based(
             radius * np.cos(np.radians(-cross_sections_angles[sequence[0]] / 2)),
         ]
     c.info["ring_center"] = gf.snap.snap_to_grid(ring_center)
+    c.info["ring_radius"] = radius
 
     # Add bus waveguides
 
