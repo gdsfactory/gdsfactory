@@ -71,6 +71,7 @@ def pad(
 
 
 pad_rectangular = partial(pad, size="pad_size")
+pad_small = partial(pad, size=(80, 80))
 
 
 @cell
