@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import warnings
 from typing import Callable, Optional, Tuple
 
 import gdsfactory as gf
@@ -105,7 +104,7 @@ def add_fiber_array(
     )
 
     if int(orientation) != 180:
-        warnings.warn(
+        raise ValueError(
             "add_fiber_array requires a grating coupler port facing west "
             f"(orientation = 180). "
             f"Got orientation = {orientation} degrees for port {gc_port_name!r}"
