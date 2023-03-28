@@ -1,4 +1,5 @@
 from __future__ import annotations
+import warnings
 
 from typing import Optional, Tuple
 
@@ -35,10 +36,10 @@ def via_stack_with_offset(
 
          __________________________
         |                          |
-        |        2 x sizes[2]      | layers[2] vias[2]=None
-        |__________________________|
+        |            sizes[2]      | layers[2]
+        |__________________________|           vias[2] = None
         |                          |
-        |        2 x sizes[1]      | layers[1]
+        |            sizes[1]      | layers[1]
         |__________________________|
             |     |
             vias[1]
@@ -55,12 +56,24 @@ def via_stack_with_offset(
 
     offsets = offsets or [0] * len(layers)
     sizes = sizes or [size] * len(layers)
+    elements = {len(layers), len(sizes), len(vias)}
+    previous_layer = layers[0]
+
+    if len(elements) > 1:
+        warnings.warn(
+            f"Got {len(layers)} layers, {len(sizes)} sizes, {len(vias)} vias "
+        )
 
     for layer, via, size, offset in zip(layers, vias, sizes, offsets):
         width, height = size
         x0 = -width / 2
         ref_layer = c << compass(
-            size=(width, 2 * height), layer=layer, port_type="electrical"
+            size=(width, height), layer=layer, port_type="electrical"
+        )
+        ref_layer.ymin = y0
+
+        ref_layer = c << compass(
+            size=(width, height), layer=previous_layer, port_type="electrical"
         )
         ref_layer.ymin = y0
 
@@ -73,8 +86,8 @@ def via_stack_with_offset(
             nb_vias_x = (width - w - 2 * enclosure) / pitch_x + 1
             nb_vias_y = (height - h - 2 * enclosure) / pitch_y + 1
 
-            nb_vias_x = int(floor(nb_vias_x)) or 1
-            nb_vias_y = int(floor(nb_vias_y)) or 1
+            nb_vias_x = int(abs(floor(nb_vias_x))) or 1
+            nb_vias_y = int(abs(floor(nb_vias_y))) or 1
 
             cw = (width - (nb_vias_x - 1) * pitch_x - w) / 2
             ch = (height - (nb_vias_y - 1) * pitch_y - h) / 2
@@ -87,8 +100,17 @@ def via_stack_with_offset(
             )
             ref.move((x00, y00))
             y0 += height
+            if ref.xsize + enclosure > width or ref.ysize + enclosure > height:
+                warnings.warn(
+                    f"size[0] = {size[0]} for layer {layer} violates min enclosure"
+                    f" {enclosure} for via {via.name!r}"
+                )
+
+        # print(layer, via.name, ref.xsize, width, w+2*enclosure, ref.ysize, height, h+2*enclosure)
+        # print(ref.xsize, width, ref.ysize, height)
 
         y0 += offset
+        previous_layer = layer
 
     c.add_ports(ref_layer.ports)
     return c
@@ -119,6 +141,6 @@ if __name__ == "__main__":
     #     sizes=((20, 10), (20, 10)),
     #     vias=(viac(size=(18, 2), spacing=(5, 5)), None),
     # )
-    c = via_stack_with_offset_m1_m3()
+    c = via_stack_with_offset_m1_m3(sizes=[(3, 10), (4, 20), (0.5, 20)])
     # c = via_stack_with_offset(vias=(None, None))
     c.show(show_ports=True)
