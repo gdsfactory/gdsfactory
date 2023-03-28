@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import warnings
 from typing import Optional, Tuple
 
 import numpy as np
@@ -40,13 +41,20 @@ def via_stack(
         vias: vias to use to fill the rectangles.
         layer_port: if None assumes port is on the last layer.
         correct_size: if True, if the specified dimensions are too small it increases
-            them to the minimum possible to fit a via
+            them to the minimum possible to fit a via.
     """
     width_m, height_m = size
     a = width_m / 2
     b = height_m / 2
 
     layers = layers or []
+    layer_offsets = layer_offsets or [0] * len(layers)
+
+    elements = {len(layers), len(layer_offsets), len(vias)}
+    if len(elements) > 1:
+        warnings.warn(
+            f"Got {len(layers)} layers, {len(layer_offsets)} layer_offsets, {len(vias)} vias "
+        )
 
     if layers:
         layer_port = layer_port or layers[-1]
@@ -55,8 +63,6 @@ def via_stack(
     c.height = height_m
     c.info["size"] = (float(size[0]), float(size[1]))
     c.info["layer"] = layer_port
-
-    layer_offsets = layer_offsets or [0] * len(layers)
 
     for layer, offset in zip(layers, layer_offsets):
         size_m = (width_m + 2 * offset, height_m + 2 * offset)
@@ -67,18 +73,16 @@ def via_stack(
             ref = c << compass(size=size_m, layer=layer, port_type="placement")
 
     vias = vias or []
-    for via_type, offs in zip(vias, layer_offsets):
-        if via_type is not None:
+    for via, offs in zip(vias, layer_offsets):
+        if via is not None:
             width, height = size
+            via = gf.get_component(via)
+            w, h = via.info["size"]
+            enclosure = via.info["enclosure"]
+            pitch_x, pitch_y = via.info["spacing"]
 
-            via_type = gf.get_component(via_type)
-
-            w, h = via_type.info["size"]
-            g = via_type.info["enclosure"]
-            pitch_x, pitch_y = via_type.info["spacing"]
-
-            min_width = w + g
-            min_height = h + g
+            min_width = w + enclosure
+            min_height = h + enclosure
 
             if (
                 min_width > width
@@ -87,20 +91,25 @@ def via_stack(
                 and min_height > height
                 and correct_size
             ):
-                print("Changing sizes to fit a via! Check this is desired")
+                warnings.warn("Changing sizes to fit a via! Check this is desired")
                 width = max(min_width, width)
                 height = max(min_height, height)
             elif min_width > width or min_height > height:
                 raise ValueError(f"size {size} is too small to fit a {(w, h)} um via")
 
-            nb_vias_x = (width + 2 * offs - w - 2 * g) / pitch_x + 1
-            nb_vias_y = (height + 2 * offs - h - 2 * g) / pitch_y + 1
+            nb_vias_x = abs(width + 2 * offs - w - 2 * enclosure) / pitch_x + 1
+            nb_vias_y = abs(height + 2 * offs - h - 2 * enclosure) / pitch_y + 1
 
             nb_vias_x = int(np.floor(nb_vias_x)) or 1
             nb_vias_y = int(np.floor(nb_vias_y)) or 1
             ref = c.add_array(
-                via_type, columns=nb_vias_x, rows=nb_vias_y, spacing=(pitch_x, pitch_y)
+                via, columns=nb_vias_x, rows=nb_vias_y, spacing=(pitch_x, pitch_y)
             )
+            if ref.xsize + enclosure > width or ref.ysize + enclosure > height:
+                warnings.warn(
+                    f"size = {size} for layer {layer} violates min enclosure"
+                    f" {enclosure} for via {via.name!r}"
+                )
 
             a = width / 2
             b = height / 2
@@ -166,17 +175,17 @@ def via_stack_circular(
     # This will of course fail if no via information is provided,
     # but why would you instantiate a ViaStack without any via?
 
-    for level, via_type in enumerate(vias):
-        if via_type is None:
+    for level, via in enumerate(vias):
+        if via is None:
             continue
 
         metal_bottom = layers[level]
         metal_top = layers[level + 1]
-        via_type = gf.get_component(via_type)
+        via = gf.get_component(via)
 
-        w, h = via_type.info["size"]
-        g = via_type.info["enclosure"]
-        pitch_x, pitch_y = via_type.info["spacing"]
+        w, h = via.info["size"]
+        g = via.info["enclosure"]
+        pitch_x, pitch_y = via.info["spacing"]
 
         nb_vias_x = (width - w - 2 * g) / pitch_x + 1
         nb_vias_x = int(np.floor(nb_vias_x)) or 1
@@ -191,7 +200,7 @@ def via_stack_circular(
             pos = radius * np.array((np.cos(ang), np.sin(ang)))
 
             ref = c.add_array(
-                via_type, columns=nb_vias_x, rows=1, spacing=(pitch_x, pitch_y)
+                via, columns=nb_vias_x, rows=1, spacing=(pitch_x, pitch_y)
             )
             ref.center = pos
 
@@ -315,14 +324,14 @@ def via_stack_from_rules(
     ):
         if current_via is not None:
             # Optimize via
-            via_type = gf.get_component(
+            via = gf.get_component(
                 optimized_via(current_via, size, min_size, min_gap, min_enclosure)
             )
-            c.info["vias"].append(via_type.info)
+            c.info["vias"].append(via.info)
 
-            w, h = via_type.info["size"]
-            g = via_type.info["enclosure"]
-            pitch_x, pitch_y = via_type.info["spacing"]
+            w, h = via.info["size"]
+            g = via.info["enclosure"]
+            pitch_x, pitch_y = via.info["spacing"]
 
             nb_vias_x = (width - w - 2 * g) / pitch_x + 1
             nb_vias_y = (height - h - 2 * g) / pitch_y + 1
@@ -330,7 +339,7 @@ def via_stack_from_rules(
             nb_vias_x = int(np.floor(nb_vias_x)) or 1
             nb_vias_y = int(np.floor(nb_vias_y)) or 1
             ref = c.add_array(
-                via_type, columns=nb_vias_x, rows=nb_vias_y, spacing=(pitch_x, pitch_y)
+                via, columns=nb_vias_x, rows=nb_vias_y, spacing=(pitch_x, pitch_y)
             )
 
             cw = (width - (nb_vias_x - 1) * pitch_x - w) / 2
@@ -411,7 +420,7 @@ def test_via_stack_from_rules():
 via_stack_m1_m3 = gf.partial(
     via_stack,
     layers=("M1", "M2", "M3"),
-    vias=(via1, via2),
+    vias=(via1, via2, None),
 )
 
 via_stack_slab_m3 = gf.partial(
@@ -435,10 +444,10 @@ via_stack_heater_mtop = via_stack_heater_m3 = gf.partial(
 
 
 if __name__ == "__main__":
-    c = via_stack_heater_mtop(layer_offsets=(0, 1, 2))
+    # c = via_stack_heater_mtop(layer_offsets=(0, 1, 2))
 
     # c = via_stack_circular()
-    # c = via_stack_m1_m3(size=(1.0, 1.0))
+    c = via_stack_m1_m3(size=(4.5, 4.5))
     # print(c.to_dict())
     # c.show(show_ports=True)
 

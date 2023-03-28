@@ -216,7 +216,7 @@ def write_cells(
 def test_write_cells_recursively():
     gdspath = PATH.gdsdir / "mzi2x2.gds"
     gdspaths = write_cells(gdspath=gdspath, dirpath="extra/gds", recursively=True)
-    assert len(gdspaths) == 10, len(gdspaths)
+    assert len(gdspaths) == 9, len(gdspaths)
 
 
 def test_write_cells():

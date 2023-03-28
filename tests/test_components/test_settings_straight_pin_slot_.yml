@@ -144,6 +144,7 @@ settings:
         - function: via
           settings:
             layer: VIA2
+        - null
     via_stack_slab:
       function: via_stack_slot
       settings:
@@ -180,6 +181,7 @@ settings:
         - function: via
           settings:
             layer: VIA2
+        - null
     via_stack_slab:
       function: via_stack_slot
       settings:

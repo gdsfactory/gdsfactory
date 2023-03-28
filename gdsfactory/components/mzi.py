@@ -142,7 +142,8 @@ def mzi(
     sxt.connect("o1", b2.ports["o1"])
 
     cp2.mirror()
-    cp2.xmin = sxt.ports["o2"].x + bend.info["radius"] * nbends + 0.1
+    xs = gf.get_cross_section(cross_section)
+    cp2.xmin = sxt.ports["o2"].x + bend.info["radius"] * nbends + 2 * xs.min_length
 
     route = get_route(
         sxt.ports["o2"],
@@ -159,6 +160,7 @@ def mzi(
         straight=straight,
         bend=bend_spec,
         cross_section=cross_section,
+        with_sbend=False,
     )
     c.add(route.references)
 
@@ -210,12 +212,13 @@ mzi_coupler = partial(
 
 
 if __name__ == "__main__":
+    c = mzi(cross_section="nitride")
     # c = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
     # c.show(show_ports=True)
 
-    c = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
-    c2 = gf.routing.add_fiber_array(c)
-    c2.show()
+    # c = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
+    # c2 = gf.routing.add_fiber_array(c)
+    c.show()
 
     # c1.write_gds("a.gds")
 

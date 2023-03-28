@@ -110,7 +110,7 @@ ports:
     width: 0.5
   out_o1:
     center:
-    - 581.1
+    - 581.02
     - 0.0
     layer:
     - 1
