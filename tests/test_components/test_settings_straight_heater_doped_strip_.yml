@@ -192,6 +192,7 @@ settings:
         - function: via
           settings:
             layer: VIA2
+        - null
     via_stack_metal_size:
     - 10.0
     - 10.0
@@ -257,6 +258,7 @@ settings:
         - function: via
           settings:
             layer: VIA2
+        - null
     via_stack_metal_size:
     - 10.0
     - 10.0
