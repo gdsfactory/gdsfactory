@@ -61,7 +61,8 @@ def via_stack_with_offset(
     elements = {len(layers), len(sizes), len(vias)}
     if len(elements) > 1:
         warnings.warn(
-            f"Got {len(layers)} layers, {len(sizes)} sizes, {len(vias)} vias "
+            f"Got {len(layers)} layers, {len(sizes)} sizes, {len(vias)} vias ",
+            stacklevel=3,
         )
 
     for layer, via, size, offset in zip(layers, vias, sizes, offsets):
@@ -103,7 +104,8 @@ def via_stack_with_offset(
             if ref.xsize + enclosure > width or ref.ysize + enclosure > height:
                 warnings.warn(
                     f"size = {size} for layer {layer} violates min enclosure"
-                    f" {enclosure} for via {via.name!r}"
+                    f" {enclosure} for via {via.name!r}",
+                    stacklevel=3,
                 )
 
         # print(layer, via.name, ref.xsize, width, w+2*enclosure, ref.ysize, height, h+2*enclosure)

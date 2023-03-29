@@ -151,6 +151,7 @@ settings:
         - function: via
           settings:
             layer: VIA2
+        - null
     via_stack_spacing: 2
     via_stack_width: 10.0
   full:
@@ -178,6 +179,7 @@ settings:
         - function: via
           settings:
             layer: VIA2
+        - null
     via_stack_spacing: 2
     via_stack_width: 10.0
   function_name: straight_pin
