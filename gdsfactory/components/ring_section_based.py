@@ -267,7 +267,7 @@ def ring_section_based(
     s_add.ymax = ring_guide_add.ymin - gap[0] + s.ysize / 2 - input_xs_width / 2
 
     if add_drop:
-        #s.mirror((0, 1))
+        # s.mirror((0, 1))
         s_drop = c << s
         s_drop.mirror_y()
         s_drop.x = r.x
