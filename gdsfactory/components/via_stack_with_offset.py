@@ -9,7 +9,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.via import viac
 from gdsfactory.components.compass import compass
-from gdsfactory.typings import ComponentSpec, LayerSpecs, Float2
+from gdsfactory.typings import ComponentSpec, LayerSpecs, Float2, Floats
 
 
 @gf.cell
@@ -17,6 +17,7 @@ def via_stack_with_offset(
     layers: LayerSpecs = ("PPP", "M1"),
     size: Float2 = (10, 10),
     sizes: Optional[Tuple[Float2, ...]] = None,
+    layer_offsets: Optional[Floats] = None,
     vias: Tuple[Optional[ComponentSpec], ...] = (None, viac),
     offsets: Optional[Tuple[float, ...]] = None,
 ) -> Component:
@@ -26,6 +27,8 @@ def via_stack_with_offset(
         layers: layer specs between vias.
         size: for all vias array.
         sizes: Optional size for each via array. Overrides size.
+        layer_offsets: Optional offsets for each layer with respect to size.
+            positive grows, negative shrinks the size.
         vias: via spec for previous layer. None for no via.
         offsets: optional offset for each layer relatively to the previous one.
             By default it only offsets by size[1] if there is a via.
@@ -36,10 +39,10 @@ def via_stack_with_offset(
 
          __________________________
         |                          |
-        |            sizes[2]      | layers[2]
+        |                          | layers[2]
         |__________________________|           vias[2] = None
         |                          |
-        |            sizes[1]      | layers[1]
+        | layer_offsets[1]+size    | layers[1]
         |__________________________|
             |     |
             vias[1]
@@ -54,19 +57,27 @@ def via_stack_with_offset(
     c = Component()
     y0 = 0
 
-    offsets = offsets or [0] * len(layers)
-    sizes = sizes or [size] * len(layers)
-    previous_layer = layers[0]
+    if sizes and layer_offsets:
+        raise ValueError("You need to set either sizes or layer_offsets")
 
-    elements = {len(layers), len(sizes), len(vias)}
+    offsets = offsets or [0] * len(layers)
+    layer_offsets = layer_offsets or [0] * len(layers)
+    previous_layer = layers[0]
+    sizes = sizes or [size] * len(layers)
+
+    elements = {len(layers), len(layer_offsets), len(vias), len(sizes)}
     if len(elements) > 1:
         warnings.warn(
-            f"Got {len(layers)} layers, {len(sizes)} sizes, {len(vias)} vias ",
+            f"Got {len(layers)} layers, {len(layer_offsets)} layer_offsets, {len(vias)} vias, {len(sizes)} sizes",
             stacklevel=3,
         )
 
-    for layer, via, size, offset in zip(layers, vias, sizes, offsets):
+    for layer, via, size, size_offset, offset in zip(
+        layers, vias, sizes, layer_offsets, offsets
+    ):
         width, height = size
+        width += 2 * size_offset
+        height += 2 * size_offset
         x0 = -width / 2
         ref_layer = c << compass(
             size=(width, height), layer=layer, port_type="electrical"
@@ -138,11 +149,11 @@ via_stack_with_offset_m1_m3 = gf.partial(
 
 
 if __name__ == "__main__":
-    # c = via_stack_with_offset_ppp_m1(
-    #     layers=("SLAB90", "M1"),
-    #     sizes=((20, 10), (20, 10)),
-    #     vias=(viac(size=(18, 2), spacing=(5, 5)), None),
-    # )
-    c = via_stack_with_offset_m1_m3(sizes=[(3, 10), (4, 20), (0.5, 20)])
+    c = via_stack_with_offset(
+        layers=("M1", "M2", "M3"),
+        sizes=((10, 10), (20, 20), (50, 30)),
+        vias=(None, "via1", "via2"),
+    )
+    # c = via_stack_with_offset_m1_m3(layer_offsets=[0, 5, 10])
     # c = via_stack_with_offset(vias=(None, None))
     c.show(show_ports=True)

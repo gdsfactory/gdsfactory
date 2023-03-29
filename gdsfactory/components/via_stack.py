@@ -9,14 +9,14 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.components.via import via1, via2, viac
-from gdsfactory.typings import ComponentSpec, LayerSpec, LayerSpecs, Float2
+from gdsfactory.typings import ComponentSpec, LayerSpec, LayerSpecs, Float2, Floats
 
 
 @gf.cell
 def via_stack(
     size=(11.0, 11.0),
     layers: LayerSpecs = ("M1", "M2", "M3"),
-    layer_offsets: Optional[Tuple[float, ...]] = None,
+    layer_offsets: Optional[Floats] = None,
     vias: Optional[Tuple[Optional[ComponentSpec], ...]] = (via1, via2, None),
     layer_port: LayerSpec = None,
     correct_size: bool = True,
