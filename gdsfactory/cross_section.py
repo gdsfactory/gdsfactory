@@ -644,7 +644,7 @@ def l_with_trenches(
         c = p.extrude(xs)
         c.plot()
     """
-    width_slab = max(width_slab, width + width_trench)
+    # width_slab = max(width_slab, width + width_trench)
 
     mult = 1 if mirror else -1
     trench_offset = mult * (width / 2 + width_trench / 2)
