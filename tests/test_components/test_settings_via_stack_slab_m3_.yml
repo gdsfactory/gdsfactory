@@ -1,4 +1,4 @@
-name: via_stack_327a8764
+name: via_stack_1aea6be4
 ports:
   e1:
     center:
@@ -66,6 +66,7 @@ settings:
     - function: via
       settings:
         layer: VIA2
+    - null
   child: null
   default:
     correct_size: true
@@ -86,6 +87,7 @@ settings:
     - function: via
       settings:
         layer: VIA2
+    - null
   full:
     correct_size: true
     layer_offsets: null
@@ -109,6 +111,7 @@ settings:
     - function: via
       settings:
         layer: VIA2
+    - null
   function_name: via_stack
   info:
     layer: M3
@@ -117,4 +120,4 @@ settings:
     - 11.0
   info_version: 2
   module: gdsfactory.components.via_stack
-  name: via_stack_327a8764
+  name: via_stack_1aea6be4

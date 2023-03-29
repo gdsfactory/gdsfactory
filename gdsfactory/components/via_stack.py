@@ -9,15 +9,15 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.components.via import via1, via2, viac
-from gdsfactory.typings import ComponentSpec, LayerSpec, LayerSpecs, Float2
+from gdsfactory.typings import ComponentSpec, LayerSpec, LayerSpecs, Float2, Floats
 
 
 @gf.cell
 def via_stack(
     size=(11.0, 11.0),
     layers: LayerSpecs = ("M1", "M2", "M3"),
-    layer_offsets: Optional[Tuple[float, ...]] = None,
-    vias: Optional[Tuple[Optional[ComponentSpec], ...]] = (via1, via2),
+    layer_offsets: Optional[Floats] = None,
+    vias: Optional[Tuple[Optional[ComponentSpec], ...]] = (via1, via2, None),
     layer_port: LayerSpec = None,
     correct_size: bool = True,
 ) -> Component:
@@ -53,7 +53,8 @@ def via_stack(
     elements = {len(layers), len(layer_offsets), len(vias)}
     if len(elements) > 1:
         warnings.warn(
-            f"Got {len(layers)} layers, {len(layer_offsets)} layer_offsets, {len(vias)} vias "
+            f"Got {len(layers)} layers, {len(layer_offsets)} layer_offsets, {len(vias)} vias",
+            stacklevel=3,
         )
 
     if layers:
@@ -73,9 +74,11 @@ def via_stack(
             ref = c << compass(size=size_m, layer=layer, port_type="placement")
 
     vias = vias or []
-    for via, offs in zip(vias, layer_offsets):
+    for via, offset in zip(vias, layer_offsets):
         if via is not None:
             width, height = size
+            width += 2 * offset
+            height += 2 * offset
             via = gf.get_component(via)
             w, h = via.info["size"]
             enclosure = via.info["enclosure"]
@@ -91,14 +94,17 @@ def via_stack(
                 and min_height > height
                 and correct_size
             ):
-                warnings.warn("Changing sizes to fit a via! Check this is desired")
+                warnings.warn(
+                    f"Changing size from ({width}, {height}) to ({min_width}, {min_height}) to fit a via!",
+                    stacklevel=3,
+                )
                 width = max(min_width, width)
                 height = max(min_height, height)
             elif min_width > width or min_height > height:
                 raise ValueError(f"size {size} is too small to fit a {(w, h)} um via")
 
-            nb_vias_x = abs(width + 2 * offs - w - 2 * enclosure) / pitch_x + 1
-            nb_vias_y = abs(height + 2 * offs - h - 2 * enclosure) / pitch_y + 1
+            nb_vias_x = abs(width - w - 2 * enclosure) / pitch_x + 1
+            nb_vias_y = abs(height - h - 2 * enclosure) / pitch_y + 1
 
             nb_vias_x = int(np.floor(nb_vias_x)) or 1
             nb_vias_y = int(np.floor(nb_vias_y)) or 1
@@ -108,15 +114,16 @@ def via_stack(
             if ref.xsize + enclosure > width or ref.ysize + enclosure > height:
                 warnings.warn(
                     f"size = {size} for layer {layer} violates min enclosure"
-                    f" {enclosure} for via {via.name!r}"
+                    f" {enclosure} for via {via.name!r}",
+                    stacklevel=3,
                 )
 
             a = width / 2
             b = height / 2
-            cw = (width + 2 * offs - (nb_vias_x - 1) * pitch_x - w) / 2
-            ch = (height + 2 * offs - (nb_vias_y - 1) * pitch_y - h) / 2
-            x0 = -a - offs + cw + w / 2
-            y0 = -b - offs + ch + h / 2
+            cw = (width - (nb_vias_x - 1) * pitch_x - w) / 2
+            ch = (height - (nb_vias_y - 1) * pitch_y - h) / 2
+            x0 = -a + cw + w / 2
+            y0 = -b + ch + h / 2
             ref.move((x0, y0))
 
     return c
@@ -363,11 +370,11 @@ def optimized_via(
     Uses inclusion, minimum width, and minimum spacing rules to place the maximum number of individual vias, with maximum via area.
 
     Arguments:
-        base_via: to modify
-        size: of the target enclosing medium
-        min_via_size: minimum size the vias can take
-        min_via_gap: minimum distance between vias
-        min_via_enclosure: minimum distance between edge of enclosing medium and nearest via edge
+        base_via: to modify.
+        size: of the target enclosing medium.
+        min_via_size: minimum size the vias can take.
+        min_via_gap: minimum distance between vias.
+        min_via_enclosure: minimum distance between edge of enclosing medium and nearest via edge.
     """
     via_size = [0, 0]
     for dim in [0, 1]:
@@ -426,7 +433,7 @@ via_stack_m1_m3 = gf.partial(
 via_stack_slab_m3 = gf.partial(
     via_stack,
     layers=("SLAB90", "M1", "M2", "M3"),
-    vias=(viac, via1, via2),
+    vias=(viac, via1, via2, None),
 )
 via_stack_npp_m1 = gf.partial(
     via_stack,
@@ -444,10 +451,10 @@ via_stack_heater_mtop = via_stack_heater_m3 = gf.partial(
 
 
 if __name__ == "__main__":
+    c = via_stack_slab_m3()
     # c = via_stack_heater_mtop(layer_offsets=(0, 1, 2))
-
     # c = via_stack_circular()
-    c = via_stack_m1_m3(size=(4.5, 4.5))
+    # c = via_stack_m1_m3(size=(4.5, 4.5))
     # print(c.to_dict())
     # c.show(show_ports=True)
 
