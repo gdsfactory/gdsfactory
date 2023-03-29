@@ -1,5 +1,13 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.72.8
+
+- gf.components.array has optional size
+
+## 6.72.7
+
+- Mirroring drop waveguide for asymmetric waveguides in section based ring [PR](https://github.com/gdsfactory/gdsfactory/pull/1498)
+
 ## 6.72.6
 
 - fix mzi with new routing defaults [PR](https://github.com/gdsfactory/gdsfactory/pull/1496)

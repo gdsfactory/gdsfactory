@@ -2057,7 +2057,7 @@ mzi_pads_center
 
   import gdsfactory as gf
 
-  c = gf.components.mzi_pads_center(length_x=500, length_y=40, mzi_sig_top='top_e2', mzi_gnd_top='top_e1', mzi_sig_bot='bot_e1', mzi_gnd_bot='bot_e2', pad_sig_bot='e1_1_1', pad_sig_top='e3_1_3', pad_gnd_bot='e4_1_2', pad_gnd_top='e2_1_2', delta_length=40.0, end_straight_length=5, start_straight_length=5, metal_route_width=10, cross_section='strip', cross_section_metal='metal_routing', pad_spacing=150.0)
+  c = gf.components.mzi_pads_center(length_x=500, length_y=40, mzi_sig_top='top_e2', mzi_gnd_top='top_e1', mzi_sig_bot='bot_e1', mzi_gnd_bot='bot_e2', pad_sig_bot='e1_1_1', pad_sig_top='e3_1_3', pad_gnd_bot='e4_1_2', pad_gnd_top='e2_1_2', delta_length=40.0, cross_section='strip', cross_section_metal='metal_routing', pad_spacing='pad_spacing')
   c.plot_matplotlib()
 
 
@@ -3602,7 +3602,7 @@ via_corner
 
   import gdsfactory as gf
 
-  c = gf.components.via_corner(cross_section=[[{'function': 'cross_section', 'settings': {'layer': 'M2', 'width': 10.0, 'port_names': ['e1', 'e2'], 'port_types': ['electrical', 'electrical'], 'radius': None, 'min_length': 10, 'gap': 10}}, [0, 180]], [{'function': 'cross_section', 'settings': {'layer': 'M3', 'width': 10.0, 'port_names': ['e1', 'e2'], 'port_types': ['electrical', 'electrical'], 'radius': None, 'min_length': 10, 'gap': 10}}, [90, 270]]], layers_labels=['m2', 'm3'])
+  c = gf.components.via_corner(cross_section=[[{'function': 'cross_section', 'settings': {'layer': 'M2', 'width': 10.0, 'port_names': ['e1', 'e2'], 'port_types': ['electrical', 'electrical'], 'radius': None, 'min_length': 5, 'gap': 5}}, [0, 180]], [{'function': 'cross_section', 'settings': {'layer': 'M3', 'width': 10.0, 'port_names': ['e1', 'e2'], 'port_types': ['electrical', 'electrical'], 'radius': None, 'min_length': 5, 'gap': 5}}, [90, 270]]], layers_labels=['m2', 'm3'])
   c.plot_matplotlib()
 
 

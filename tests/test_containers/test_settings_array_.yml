@@ -453,6 +453,7 @@ settings:
     component:
       function: straight
     rows: 1
+    size: null
     spacing:
     - 150.0
     - 150.0
@@ -472,6 +473,7 @@ settings:
           function: mmi2x2
         straight_x_top: straight_heater_metal
     rows: 1
+    size: null
     spacing:
     - 150.0
     - 150.0
