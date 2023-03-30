@@ -10,7 +10,7 @@ from gdsfactory.typings import (
 )
 
 
-def over_and_under(
+def get_polygons_over_under(
     component: ComponentOrReference,
     layers: LayerSpecs,
     distances: Floats,
@@ -20,13 +20,13 @@ def over_and_under(
     tolerance: int = 2,
 ) -> List[gdstk.Polygon]:
     """Returns list polygons dilated and eroded by an offset.
-    This cleans min width errors equal to distances.
+    Cleans min width gap and acute angle DRC errors equal to distances.
 
     Args:
         component: Component containing polygons to offset.
         layers: list of layers to remove min gap errors.
         distances: Distance to offset polygons.
-            Positive values expand, negative shrink.
+            By expanding and shrinking it merges polygons.
             If you want to fix min gaps of 0.5 use 0.5.
         precision: Desired precision for rounding vertex coordinates.
         join: {'miter', 'bevel', 'round'} Type of join used to create polygon offset
@@ -73,13 +73,11 @@ def over_and_under(
 
 
 @gf.cell
-def over_and_under_decorator(
-    component: ComponentSpec, layers: LayerSpecs, **kwargs
-) -> Component:
+def over_under(component: ComponentSpec, layers: LayerSpecs, **kwargs) -> Component:
     c = Component()
     _component = gf.get_component(component)
     ref = c << _component
-    p = over_and_under(component=_component, layers=layers, **kwargs)
+    p = get_polygons_over_under(component=_component, layers=layers, **kwargs)
     c.add(p)
     c.copy_child_info(_component)
     c.add_ports(ref.ports)
@@ -90,20 +88,22 @@ if __name__ == "__main__":
     from functools import partial
     import gdsfactory as gf
 
-    over_and_under_slab = partial(over_and_under, layers=((2, 0)), distances=(0.5,))
-    over_and_under_slab_decorator = partial(
-        over_and_under_decorator, layers=((2, 0)), distances=(0.5,)
-    )
-    c = gf.components.coupler_ring(
-        cladding_layers=((2, 0)),
-        cladding_offsets=(0.2,),
-        decorator=over_and_under_slab_decorator,
+    # over_under_slab = partial(over_under, layers=((2, 0)), distances=(0.5,))
+    # c = gf.components.coupler_ring(
+    #     cladding_layers=((2, 0)),
+    #     cladding_offsets=(0.2,),
+    #     decorator=over_under_slab,
+    # )
+    get_polygons_over_under_slab = partial(
+        get_polygons_over_under, layers=((2, 0)), distances=(0.5,)
     )
 
-    # c = gf.Component("compnent_clean")
-    # c << gf.components.coupler_ring(
-    #     cladding_layers=((2, 0)),
-    #     cladding_offsets=(0.2,),  # decorator=over_and_under_slab_decorator
-    # )
-    # c.add(over_and_under_slab(c))
+    c = gf.Component("compnent_clean")
+    ref = c << gf.components.coupler_ring(
+        cladding_layers=((2, 0)),
+        cladding_offsets=(0.2,),  # decorator=over_under_slab_decorator
+    )
+    polygons = get_polygons_over_under_slab(ref)
+    c.add(polygons)
+
     c.show()

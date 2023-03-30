@@ -34,12 +34,8 @@ PDK.activate()
 # %%
 from functools import partial
 import gdsfactory as gf
-from gdsfactory.geometry.maskprep import over_and_under, over_and_under_decorator
+from gdsfactory.geometry.maskprep import get_polygons_over_under, over_under
 
-over_and_under_slab = partial(over_and_under, layers=((2, 0)), distances=(0.5,))
-over_and_under_slab_decorator = partial(
-    over_and_under_decorator, layers=((2, 0)), distances=(0.5,)
-)
 c = gf.components.coupler_ring(
     cladding_layers=((2, 0)),
     cladding_offsets=(0.2,),
@@ -51,23 +47,32 @@ c
 # ### Use it as a decorator
 
 # %%
+over_under_slab = partial(over_under, layers=((2, 0)), distances=(0.5,))
+
 c = gf.components.coupler_ring(
     cladding_layers=((2, 0)),
     cladding_offsets=(0.2,),
-    decorator=over_and_under_slab_decorator,
+    decorator=over_under_slab,
 )
 c
 
 # %% [markdown]
-# ### Get the polygons on top
+# ### Get polygons
+#
+# You can also add the polygons on top.
 
 # %%
-c = gf.Component("compnent_clean")
-c << gf.components.coupler_ring(
-    cladding_layers=((2, 0)),
-    cladding_offsets=(0.2,),  # decorator=over_and_under_slab_decorator
+get_polygons_over_under_slab = partial(
+    get_polygons_over_under, layers=((2, 0)), distances=(0.5,)
 )
-c.add(over_and_under_slab(c))
+
+c = gf.Component("compnent_clean")
+ref = c << gf.components.coupler_ring(
+    cladding_layers=((2, 0)),
+    cladding_offsets=(0.2,),  # decorator=over_under_slab_decorator
+)
+polygons = get_polygons_over_under_slab(ref)
+c.add(polygons)
 c
 
 

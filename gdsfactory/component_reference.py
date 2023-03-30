@@ -6,7 +6,7 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 from __future__ import annotations
 
 import typing
-from typing import Any, Dict, List, Optional, Tuple, Union, cast
+from typing import Any, Dict, List, Optional, Tuple, Union, cast, Set
 
 import gdstk
 import numpy as np
@@ -324,6 +324,10 @@ class ComponentReference(_GeometryHelper):
 
     def get_bounding_box(self):
         return self._reference.bounding_box()
+
+    @property
+    def layers(self) -> Set[Tuple[int, int]]:
+        return self.parent.layers
 
     @property
     def settings(self):
