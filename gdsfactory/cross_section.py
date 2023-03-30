@@ -576,10 +576,12 @@ def rib_with_trenches(
     width_slab = max(width_slab, width + 2 * width_trench)
 
     trench_offset = width / 2 + width_trench / 2
-    sections = [Section(width=width_slab, layer=layer)]
+    sections = [Section(width=width_slab, layer=layer, name="slab")]
     sections += [
-        Section(width=width_trench, offset=offset, layer=layer_trench)
-        for offset in [+trench_offset, -trench_offset]
+        Section(
+            width=width_trench, offset=offset, layer=layer_trench, name=f"trench_{i}"
+        )
+        for i, offset in enumerate([+trench_offset, -trench_offset])
     ]
 
     return CrossSection(
