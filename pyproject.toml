@@ -74,7 +74,6 @@ full = [
 	"ipytree",
     "rich-click",
     "ipycytoscape",
-    "dask[distributed]"
     ]
 femwell = ["femwell"]
 database = ["sqlalchemy", "sqlalchemy-utils"]
@@ -118,6 +117,7 @@ docs = [
     "matplotlib",
     "jupytext",
     "jupyter-book==0.15.1",
+    "pydata_sphinx_theme==0.13.1",
     "sphinx-autodoc-typehints",
     "sphinx-click",
     ]
@@ -155,7 +155,7 @@ exclude = '''  # Specify the files/dirs that should be ignored by the black form
 [tool.pytest.ini_options]
 testpaths = ["gdsfactory/", "tests"]
 # addopts = --tb=no
-addopts = '--tb=short --ignore=gdsfactory/schematic_editor.py --ignore=gdsfactory/klayout_tech.py --ignore=gdsfactory/dataprep.py'
+addopts = '--tb=short --ignore=gdsfactory/schematic_editor.py --ignore=gdsfactory/klayout_tech.py --ignore=gdsfactory/geometry/maskprep_flat.py'
 python_files = ["gdsfactory/*.py","tests/*.py"]
 norecursedirs = [
     "gdsfactory/simulation",

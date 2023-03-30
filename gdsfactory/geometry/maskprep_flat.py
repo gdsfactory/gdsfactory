@@ -1,12 +1,9 @@
 try:
     import kfactory as kf
     from kfactory import kdb
-    from dask.delayed import delayed, Delayed
-    from dask.distributed import Future
-    import dask
 except ImportError as e:
     print(
-        "You can install `pip install gdsfactory[full]` for using dataprep. "
+        "You can install `pip install gdsfactory[full]` for using maskprep. "
         "And make sure you use python >= 3.10"
     )
     raise e
@@ -14,22 +11,18 @@ except ImportError as e:
 from gdsfactory.typings import Dict, Layer, PathType, Tuple, LayerSpecs
 
 
-@delayed
 def size(region: kdb.Region, offset: float):
     return region.dup().size(int(offset * 1e3))
 
 
-@delayed
 def boolean_or(region1: kdb.Region, region2: kdb.Region):
     return region1.__or__(region2)
 
 
-@delayed
 def boolean_not(region1: kdb.Region, region2: kdb.Region):
     return kdb.Region.__sub__(region1, region2)
 
 
-@delayed
 def copy(region: kdb.Region):
     return region.dup()
 
@@ -47,7 +40,7 @@ class Region(kdb.Region):
         if isinstance(element, (float, int)):
             return size(self, element)
 
-        elif isinstance(element, (kdb.Region, Delayed)):
+        elif isinstance(element, kdb.Region):
             return boolean_or(self, element)
         else:
             raise ValueError(f"Cannot add type {type(element)} to region")
@@ -56,15 +49,15 @@ class Region(kdb.Region):
         if isinstance(element, (float, int)):
             return size(self, -element)
 
-        elif isinstance(element, (kdb.Region, Delayed)):
+        elif isinstance(element, kdb.Region):
             return boolean_not(self, element)
 
     def copy(self):
         return self.dup()
 
 
-class Layout:
-    """Layout processor for dataprep.
+class RegionCollection:
+    """RegionCollection of region per layer.
 
     Args:
         layermap: dict of layernames to layer numbers {'WG': (1, 0)}
@@ -86,25 +79,6 @@ class Layout:
         self.layermap = layermap
         self.lib = lib
 
-    def calculate(self):
-        tasks = {layername: getattr(self, layername) for layername in self.layermap}
-        results = dask.compute(tasks)
-        for layername, result in results[0].items():
-            setattr(self, layername, result)
-
-    def visualize(self, filename):
-        """Visualize task graph."""
-        tasks = []
-        layer_names = []
-        named_tasks = {}
-        for layername in self.layermap.keys():
-            region = getattr(self, layername)
-            if isinstance(region, (Delayed, Future)):
-                tasks.append(region)
-                layer_names.append(layername)
-                named_tasks[layername] = region
-        dask.visualize(named_tasks, filename=filename)
-
     def write(self, filename, cellname: str = "out") -> kf.KCell:
         """Write gds.
 
@@ -112,13 +86,10 @@ class Layout:
             filepath: gdspath.
             cellname: for top cell.
         """
-        self.calculate()
         c = kf.KCell(cellname, self.lib)
 
         for layername, layer in self.layermap.items():
             region = getattr(self, layername)
-            if isinstance(region, Delayed):
-                region = region.compute()
             try:
                 c.shapes(self.lib.layer(layer[0], layer[1])).insert(region)
             except TypeError:
@@ -151,9 +122,6 @@ class Layout:
             fill_cell_name: fill cell name.
         """
 
-        if isinstance(region, Delayed):
-            region = region.compute()
-
         fill_cell = kf.KCell(fill_cell_name)
         for layer in fill_layers:
             layer = kf.klib.layer(*layer)
@@ -173,7 +141,7 @@ class Layout:
 
 if __name__ == "__main__":
     from gdsfactory.generic_tech.layer_map import LAYER as l
-    import gdsfactory.dataprep as dp
+    import gdsfactory.geometry.maskprep_flat as dp
     import gdsfactory as gf
     import kfactory as kf
 
@@ -182,9 +150,7 @@ if __name__ == "__main__":
     floorplan = c << gf.components.bbox(ring.bbox, layer=l.FLOORPLAN)
     c.write_gds("src.gds")
 
-    dask.config.set(scheduler="threads")
-    d = dp.Layout(filepath="src.gds", layermap=dict(l))
-
+    d = dp.RegionCollection(filepath="src.gds", layermap=dict(l))
     fill_cell = d.get_fill(
         d.FLOORPLAN - d.WG, size=(0.1, 0.1), spacing=(0.1, 0.1), fill_layers=(l.WG,)
     )
