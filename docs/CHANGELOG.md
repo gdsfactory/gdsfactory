@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.73.2
+
+- extend kwargs #1507 to all `cross_section` functions [PR](https://github.com/gdsfactory/gdsfactory/pull/1508)
+
 ## 6.73.0
 
 - better `maskprep` [PR](https://github.com/gdsfactory/gdsfactory/pull/1500)
