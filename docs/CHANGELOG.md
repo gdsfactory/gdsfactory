@@ -3,6 +3,7 @@
 ## 6.73.0
 
 - better `maskprep` [PR](https://github.com/gdsfactory/gdsfactory/pull/1500)
+- add names to trench (for taper) [PR](https://github.com/gdsfactory/gdsfactory/pull/1501)
 
 ## 6.72.9
 
