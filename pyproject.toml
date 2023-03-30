@@ -74,7 +74,6 @@ full = [
 	"ipytree",
     "rich-click",
     "ipycytoscape",
-    "dask[distributed]"
     ]
 femwell = ["femwell"]
 database = ["sqlalchemy", "sqlalchemy-utils"]
