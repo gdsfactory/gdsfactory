@@ -509,7 +509,9 @@ def slot(
     """
     rail_width = (width - slot_width) / 2
     rail_offset = (rail_width + slot_width) / 2
-    sections = [
+
+    sections = kwargs.pop("sections", [])
+    sections += [
         Section(width=rail_width, offset=rail_offset, layer=layer, name="left_rail"),
         Section(width=rail_width, offset=-rail_offset, layer=layer, name="right rail"),
     ]
@@ -576,12 +578,9 @@ def rib_with_trenches(
     width_slab = max(width_slab, width + 2 * width_trench)
 
     trench_offset = width / 2 + width_trench / 2
-    if "sections" in kwargs:
-        sections = kwargs["sections"]
-        sections += [Section(width=width_slab, layer=layer, name="slab")]
-        del kwargs["sections"]
-    else:
-        sections = [Section(width=width_slab, layer=layer, name="slab")]
+
+    sections = kwargs.pop("sections", [])
+    sections += [Section(width=width_slab, layer=layer, name="slab")]
     sections += [
         Section(
             width=width_trench, offset=offset, layer=layer_trench, name=f"trench_{i}"
@@ -655,7 +654,8 @@ def l_with_trenches(
 
     mult = 1 if mirror else -1
     trench_offset = mult * (width / 2 + width_trench / 2)
-    sections = [
+    sections = kwargs.pop("sections", [])
+    sections += [
         Section(
             width=width_slab, layer=layer, offset=mult * (width_slab / 2 - width / 2)
         )
@@ -764,7 +764,8 @@ def pin(
     slab_width = width + 2 * via_stack_gap + 2 * via_stack_width - 2 * slab_gap
     via_stack_offset = width / 2 + via_stack_gap + via_stack_width / 2
 
-    sections = [Section(width=slab_width, layer=layer_slab, name="slab")]
+    sections = kwargs.pop("sections", [])
+    sections += [Section(width=slab_width, layer=layer_slab, name="slab")]
     sections += [
         Section(
             layer=layer,
@@ -892,7 +893,9 @@ def pn(
         c.plot()
     """
     slab = Section(width=width_slab, offset=0, layer=layer_slab)
-    sections = [slab]
+
+    sections = kwargs.pop("sections", [])
+    sections += [slab]
     base_offset_low_doping = width_doping / 2 + gap_low_doping / 4
     width_low_doping = width_doping - gap_low_doping / 2
 
@@ -1090,7 +1093,8 @@ def pn_with_trenches(
         c.plot()
     """
     trench_offset = width / 2 + width_trench / 2
-    sections = [Section(width=width_slab, layer=layer)]
+    sections = kwargs.pop("sections", [])
+    sections += [Section(width=width_slab, layer=layer)]
     sections += [
         Section(width=width_trench, offset=offset, layer=layer_trench)
         for offset in [+trench_offset, -trench_offset]
@@ -1302,7 +1306,8 @@ def pn_with_trenches_asymmetric(
 
     # Trenches
     trench_offset = width / 2 + width_trench / 2
-    sections = [Section(width=width_slab, layer=layer)]
+    sections = kwargs.pop("sections", [])
+    sections += [Section(width=width_slab, layer=layer)]
     sections += [
         Section(width=width_trench, offset=offset, layer=layer_trench)
         for offset in [+trench_offset, -trench_offset]
@@ -1519,7 +1524,8 @@ def l_wg_doped_with_trenches(
     """
 
     trench_offset = -1 * (width / 2 + width_trench / 2)
-    sections = [
+    sections = kwargs.pop("sections", [])
+    sections += [
         Section(width=width_slab, layer=layer, offset=-1 * (width_slab / 2 - width / 2))
     ]
     sections += [Section(width=width_trench, offset=trench_offset, layer=layer_trench)]
@@ -1652,19 +1658,22 @@ def strip_heater_metal_undercut(
         c.plot()
     """
     trench_offset = trench_gap + trench_width / 2 + width / 2
+    sections = kwargs.pop("sections", [])
+    sections += [
+        Section(
+            layer=layer_heater,
+            width=heater_width,
+            port_names=port_names_electrical,
+            port_types=port_types_electrical,
+        ),
+        Section(layer=layer_trench, width=trench_width, offset=+trench_offset),
+        Section(layer=layer_trench, width=trench_width, offset=-trench_offset),
+    ]
+
     return strip(
         width=width,
         layer=layer,
-        sections=(
-            Section(
-                layer=layer_heater,
-                width=heater_width,
-                port_names=port_names_electrical,
-                port_types=port_types_electrical,
-            ),
-            Section(layer=layer_trench, width=trench_width, offset=+trench_offset),
-            Section(layer=layer_trench, width=trench_width, offset=-trench_offset),
-        ),
+        sections=sections,
         **kwargs,
     )
 
@@ -1698,17 +1707,20 @@ def strip_heater_metal(
         c.plot()
     """
 
+    sections = kwargs.pop("sections", [])
+    sections += [
+        Section(
+            layer=layer_heater,
+            width=heater_width,
+            port_names=port_names_electrical,
+            port_types=port_types_electrical,
+        )
+    ]
+
     return strip(
         width=width,
         layer=layer,
-        sections=(
-            Section(
-                layer=layer_heater,
-                width=heater_width,
-                port_names=port_names_electrical,
-                port_types=port_types_electrical,
-            ),
-        ),
+        sections=sections,
         **kwargs,
     )
 
@@ -1756,7 +1768,8 @@ def strip_heater_doped(
     """
     heater_offset = width / 2 + heater_gap + heater_width / 2
 
-    sections = [
+    sections = kwargs.pop("sections", [])
+    sections += [
         Section(
             layer=layer,
             width=heater_width + 2 * cladding_offset,
@@ -1842,7 +1855,7 @@ def rib_heater_doped(
         slab_width = width + heater_gap + heater_width + slab_gap
         slab_offset = +slab_width / 2
 
-    sections = []
+    sections = kwargs.pop("sections", [])
 
     if with_bot_heater:
         sections += [
@@ -1938,7 +1951,8 @@ def rib_heater_doped_via_stack(
 
     heater_offset = width / 2 + heater_gap + heater_width / 2
     via_stack_offset = width / 2 + via_stack_gap + via_stack_width / 2
-    sections = [
+    sections = kwargs.pop("sections", [])
+    sections += [
         Section(width=slab_width, layer=layer_slab, offset=slab_offset, name="slab"),
     ]
     if with_bot_heater:
