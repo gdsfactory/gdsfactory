@@ -73,37 +73,53 @@ def get_polygons_over_under(
 
 
 @gf.cell
-def over_under(component: ComponentSpec, layers: LayerSpecs, **kwargs) -> Component:
+def over_under(
+    component: ComponentSpec,
+    layers: LayerSpecs,
+    remove_original: bool = False,
+    **kwargs,
+) -> Component:
     c = Component()
     _component = gf.get_component(component)
-    ref = c << _component
     p = get_polygons_over_under(component=_component, layers=layers, **kwargs)
-    c.add(p)
-    c.copy_child_info(_component)
-    c.add_ports(ref.ports)
-    return c
+
+    ref = c << _component
+
+    if remove_original:
+        new_c = c.remove_layers(layers)
+    else:
+        new_c = c
+
+    new_c.add(p)
+    new_c.copy_child_info(_component)
+    new_c.add_ports(ref.ports)
+    return new_c
 
 
 if __name__ == "__main__":
     from functools import partial
     import gdsfactory as gf
 
-    # over_under_slab = partial(over_under, layers=((2, 0)), distances=(0.5,))
-    # c = gf.components.coupler_ring(
-    #     cladding_layers=((2, 0)),
-    #     cladding_offsets=(0.2,),
-    #     decorator=over_under_slab,
-    # )
-    get_polygons_over_under_slab = partial(
-        get_polygons_over_under, layers=((2, 0)), distances=(0.5,)
+    over_under_slab = partial(
+        over_under, layers=((2, 0)), distances=(0.5,), remove_original=True
     )
 
-    c = gf.Component("compnent_clean")
-    ref = c << gf.components.coupler_ring(
+    c = gf.components.coupler_ring(
         cladding_layers=((2, 0)),
-        cladding_offsets=(0.2,),  # decorator=over_under_slab_decorator
+        cladding_offsets=(0.2,),
+        decorator=over_under_slab,
     )
-    polygons = get_polygons_over_under_slab(ref)
-    c.add(polygons)
+
+    # get_polygons_over_under_slab = partial(
+    #     get_polygons_over_under, layers=((2, 0)), distances=(0.5,)
+    # )
+
+    # c = gf.Component("compnent_clean")
+    # ref = c << gf.components.coupler_ring(
+    #     cladding_layers=((2, 0)),
+    #     cladding_offsets=(0.2,),  # decorator=over_under_slab_decorator
+    # )
+    # polygons = get_polygons_over_under_slab(ref)
+    # c.add(polygons)
 
     c.show()
