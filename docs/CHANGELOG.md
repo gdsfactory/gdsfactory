@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.73.0
+
+- better `maskprep` [PR](https://github.com/gdsfactory/gdsfactory/pull/1500)
+
 ## 6.72.9
 
 - better `via_stack_with_offset` [PR](https://github.com/gdsfactory/gdsfactory/pull/1499)

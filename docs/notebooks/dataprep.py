@@ -16,17 +16,67 @@
 # %% [markdown]
 # # Maskprep
 #
-# When building a reticle sometimes you want to do boolean operations
+# When building a reticle sometimes you want to do boolean operations. This is usually known as maskprep or dataprep.
 #
+# You can do this at the component level or at the top reticle assembled level, each having different advantages
+#
+#
+# ## Component level
 
 # %%
 from gdsfactory.generic_tech.layer_map import LAYER as l
-import gdsfactory.geometry.maskprep_flat as dp
 import gdsfactory as gf
 
 gf.config.rich_output()
 PDK = gf.generic_tech.get_generic_pdk()
 PDK.activate()
+
+# %%
+from functools import partial
+import gdsfactory as gf
+from gdsfactory.geometry.maskprep import over_and_under, over_and_under_decorator
+
+over_and_under_slab = partial(over_and_under, layers=((2, 0)), distances=(0.5,))
+over_and_under_slab_decorator = partial(
+    over_and_under_decorator, layers=((2, 0)), distances=(0.5,)
+)
+c = gf.components.coupler_ring(
+    cladding_layers=((2, 0)),
+    cladding_offsets=(0.2,),
+)
+c
+
+
+# %% [markdown]
+# ### Use it as a decorator
+
+# %%
+c = gf.components.coupler_ring(
+    cladding_layers=((2, 0)),
+    cladding_offsets=(0.2,),
+    decorator=over_and_under_slab_decorator,
+)
+c
+
+# %% [markdown]
+# ### Get the polygons on top
+
+# %%
+c = gf.Component("compnent_clean")
+c << gf.components.coupler_ring(
+    cladding_layers=((2, 0)),
+    cladding_offsets=(0.2,),  # decorator=over_and_under_slab_decorator
+)
+c.add(over_and_under_slab(c))
+c
+
+
+# %% [markdown]
+# ## Reticle level (flat)
+#
+# ### Size
+#
+# You can copy/size layers
 
 # %%
 c = gf.Component()
@@ -36,12 +86,9 @@ floorplan = c << gf.components.bbox(device.bbox, layer=l.FLOORPLAN)
 c.write_gds("src.gds")
 c
 
-# %% [markdown]
-# ## Size
-#
-# You can copy/size layers
-
 # %%
+import gdsfactory.geometry.maskprep_flat as dp
+
 d = dp.RegionCollection(filepath="src.gds", layermap=dict(l))
 d.SLAB150 = d.WG.copy()  # copy layer
 d.SLAB150 += 4  # size layer by 4 um
@@ -50,7 +97,7 @@ c = d.write("dst.gds")
 c
 
 # %% [markdown]
-# ## Booleans
+# ### Booleans
 #
 # You can derive layers and do boolean operations.
 
@@ -65,7 +112,7 @@ c
 
 
 # %% [markdown]
-# ## Fill
+# ### Fill
 #
 # You can add rectangular fill, using booleans to decide where to add it:
 
@@ -83,7 +130,7 @@ fill_cell = d.get_fill(
 fill_cell
 
 # %% [markdown]
-# ## KLayout operations
+# ### KLayout operations
 #
 # Any operation from Klayout Region can be called directly:
 
