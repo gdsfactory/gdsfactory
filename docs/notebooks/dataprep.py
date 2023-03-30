@@ -18,10 +18,15 @@
 #
 # When building a reticle sometimes you want to do boolean operations. This is usually known as maskprep or dataprep.
 #
-# You can do this at the component level or at the top reticle assembled level, each having different advantages
+# You can do this at the component level or at the top reticle assembled level, each having different advantages and disadvantages.
 #
 #
 # ## Component level
+#
+#
+# Lets try to remove acute angles that can cause min space DRC violations (Design Rule Checking). This happens a lot when you have cladding layers and couplers.
+#
+# ### Remove acute angles
 
 # %%
 from gdsfactory.generic_tech.layer_map import LAYER as l
@@ -44,7 +49,9 @@ c
 
 
 # %% [markdown]
-# ### Use it as a decorator
+# ### Decorator
+#
+# A decorator is a function that calls a function [see Python intro](https://gdsfactory.github.io/gdsfactory/notebooks/_0_python.html) or read some python books.
 
 # %%
 over_under_slab = partial(over_under, layers=((2, 0)), distances=(0.5,))
@@ -59,7 +66,7 @@ c
 # %% [markdown]
 # ### Get polygons
 #
-# You can also add the polygons on top.
+# You can also remove acute angles by adding extra polygons on top.
 
 # %%
 get_polygons_over_under_slab = partial(
@@ -77,7 +84,38 @@ c
 
 
 # %% [markdown]
-# ## Reticle level (flat)
+# ### Invert tone
+#
+# Sometimes you need to define not what you keep (positive resist) but what you etch (negative resist).
+# We have some useful functions to invert the tone.
+
+# %%
+c = gf.components.add_trenches(component=gf.components.coupler)
+c
+
+# %%
+c = gf.components.add_trenches(component=gf.components.ring_single)
+c
+
+# %%
+c = gf.components.add_trenches(
+    component=gf.components.grating_coupler_elliptical_lumerical(layer_slab=None)
+)
+c
+
+
+# %%
+c = gf.components.add_trenches90(component=gf.components.bend_euler(radius=20))
+c
+
+# %% [markdown]
+# ## Flatten top level
+#
+# You can flatten the hierarchy and use klayout LayerProcessor to create a `RegionCollection` where you can easily grow and shrink layers.
+#
+# The advantage is that this can easily clean up routing, proximity effects, boolean operations on big masks.
+#
+# The disadvantage is that the design is no longer hierarchical and can take up more space.
 #
 # ### Size
 #

@@ -105,6 +105,15 @@ gf install klayout-integration
 - Users can `pip install gdsfactory --upgrade`
 - Developers can `git pull` on the repository you downloaded and installed on your computer.
 
+
+This code will tell you which gdsfactory you are using
+```
+import gdsfactory as gf
+
+gf.config.print_version()
+```
+
+
 ### Install gdsfactory plugins
 
 You need to install the plugins separately
