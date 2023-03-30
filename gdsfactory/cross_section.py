@@ -578,7 +578,7 @@ def rib_with_trenches(
     trench_offset = width / 2 + width_trench / 2
     if "sections" in kwargs:
         sections = kwargs["sections"]
-        kwargs["sections"] += [Section(width=width_slab, layer=layer, name="slab")]
+        sections += [Section(width=width_slab, layer=layer, name="slab")]
         del kwargs["sections"]
     else:
         sections = [Section(width=width_slab, layer=layer, name="slab")]
