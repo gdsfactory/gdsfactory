@@ -67,11 +67,32 @@ class MutabilityError(ValueError):
     pass
 
 
+class ManualNamingWarning(UserWarning):
+    pass
+
+
 def _get_dependencies(component, references_set):
     for ref in component.references:
         references_set.add(ref.ref_cell)
         _get_dependencies(ref.ref_cell, references_set)
 
+
+_manual_naming = """
+Naming a component manually is dangerous and can create duplicated cells. Adding a unique ID to your name for your own safety.
+
+# BAD
+c = gf.Component("Im_dangerous_and_will_regret_it")
+c.add_ref(gf.components.mzi())
+
+# GOOD
+@gf.cell
+def my_safe_pcell(delta_length=10):
+    c = gf.Component()
+    c.add_ref(gf.components.mzi(delta_length=delta_length))
+    return c
+
+c = my_safe_pcell()
+"""
 
 mutability_error_message = """
 You cannot modify a Component after creation as it will affect all of its instances.
@@ -156,13 +177,17 @@ class Component(_GeometryHelper):
 
     def __init__(
         self,
-        name: str = "Unnamed",
+        name: Optional[str] = None,
         with_uuid: bool = False,
     ) -> None:
         """Initialize the Component object."""
         self.uid = str(uuid.uuid4())[:8]
-        if with_uuid or name == "Unnamed":
-            name += f"_{self.uid}"
+
+        if name:
+            warnings.warn(_manual_naming)
+
+        name = name or "Unnamed"
+        name += f"_{self.uid}"
 
         self._cell = gdstk.Cell(name=name)
         self.name = name
@@ -204,6 +229,7 @@ class Component(_GeometryHelper):
 
     @name.setter
     def name(self, value):
+        warnings.warn(_manual_naming)
         self._cell.name = value
 
     def __iter__(self):
@@ -2807,9 +2833,9 @@ def test_flatten_invalid_refs_recursive():
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    # c2 = gf.Component()
-    c = gf.components.mzi(delta_length=20)
-    print(c.get_layer_names())
+    c = gf.Component("hi")
+    # c = gf.components.mzi(delta_length=20)
+    # print(c.get_layer_names())
     # r = c.ref()
     # c2.copy_child_info(c.named_references["sxt"])
     # test_remap_layers()
