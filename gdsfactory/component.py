@@ -184,13 +184,13 @@ class Component(_GeometryHelper):
         self.uid = str(uuid.uuid4())[:8]
 
         if name:
-            warnings.warn(_manual_naming, stacklevel=3)
+            warnings.warn(_manual_naming, stacklevel=2)
             name += f"_{self.uid}"
 
         name = name or "Unnamed"
 
         self._cell = gdstk.Cell(name=name)
-        self.name = name
+        self._cell.name = name
         self.info: Dict[str, Any] = {}
 
         self.settings: Dict[str, Any] = {}
@@ -229,7 +229,7 @@ class Component(_GeometryHelper):
 
     @name.setter
     def name(self, value):
-        warnings.warn(_manual_naming, stacklevel=3)
+        warnings.warn(_manual_naming, stacklevel=2)
         self._cell.name = value
 
     def __iter__(self):
