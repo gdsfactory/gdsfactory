@@ -50,8 +50,6 @@ jobs:
       - name: constructor build
         run: |
           conda info
-          conda install conda-libmamba-solver -y
-          conda config --set solver libmamba
           conda install constructor -y
           cd conda
           constructor .
