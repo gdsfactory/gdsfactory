@@ -31,6 +31,7 @@ def ring_section_based(
     start_angle: Optional[float] = 10.0,
     drop_cross_section: Optional[CrossSectionSpec] = None,
     bus_cross_section: CrossSectionSpec = "strip",
+    ang_res: Optional[int] = 0.1,
 ) -> gf.Component:
     """Returns a ring made of the specified cross sections.
 
@@ -60,6 +61,7 @@ def ring_section_based(
         drop_cross_section: cross section for the drop port. If not indicated, we assume
             it is the same as init_cross_section.
         bus_cross_section: cross section for the bus waveguide.
+        ang_res: angular resolution to draw the bends for each section
     """
 
     c = gf.Component()
@@ -155,13 +157,23 @@ def ring_section_based(
 
     for key, xsec in cross_sections.items():
         ang = cross_sections_angles[key]
-        b = bend_circular(angle=ang, with_bbox=False, cross_section=xsec, radius=radius)
+        b = bend_circular(
+            angle=ang,
+            with_bbox=False,
+            cross_section=xsec,
+            radius=radius,
+            npoints=np.round(ang / ang_res) + 1 if ang_res is not None else None,
+        )
 
         sections_dict[key] = (b, "o1", "o2")
 
     if start_cross_section is not None:
         b = bend_circular(
-            angle=start_angle, with_bbox=False, cross_section=start_xs, radius=radius
+            angle=start_angle,
+            with_bbox=False,
+            cross_section=start_xs,
+            radius=radius,
+            npoints=np.round(ang / ang_res) + 1 if ang_res is not None else None,
         )
         if "0" in sections_dict:
             raise ValueError(
@@ -175,6 +187,7 @@ def ring_section_based(
             with_bbox=False,
             cross_section=gf.get_cross_section(drop_cross_section),
             radius=radius,
+            npoints=np.round(ang / ang_res) + 1 if ang_res is not None else None,
         )
         if "1" in sections_dict:
             raise ValueError(

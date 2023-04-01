@@ -21,7 +21,6 @@ def get_polygons_over_under(
 ) -> List[gdstk.Polygon]:
     """Returns list polygons dilated and eroded by an offset.
     Cleans min width gap and acute angle DRC errors equal to distances.
-
     Args:
         component: Component containing polygons to offset.
         layers: list of layers to remove min gap errors.
@@ -36,10 +35,8 @@ def get_polygons_over_under(
           round joints, it indicates the curvature resolution in number of
           points per full circle.
         layer: Specific layer to put polygon geometry on.
-
     Returns:
         Component containing a polygon(s) with the specified offset applied.
-
     """
     polygons = []
 
