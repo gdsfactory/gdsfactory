@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.74.0
+
+- add flag to Remove original layer in maskprep [PR](https://github.com/gdsfactory/gdsfactory/pull/1516)
+- Adding an additional parameter `ang_res` to control the angular resolution of each section. [PR](https://github.com/gdsfactory/gdsfactory/pull/1513)
+
 ## 6.73.2
 
 - extend kwargs #1507 to all `cross_section` functions [PR](https://github.com/gdsfactory/gdsfactory/pull/1508)
