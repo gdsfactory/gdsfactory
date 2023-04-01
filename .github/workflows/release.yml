@@ -49,8 +49,10 @@ jobs:
           echo $CONDA/bin >> $GITHUB_PATH
       - name: constructor build
         run: |
-          conda install mamba -y
-          mamba install constructor -y
+          conda info
+          conda install conda-libmamba-solver -y
+          conda config --set solver libmamba
+          conda install constructor -y
           cd conda
           constructor .
       - name: Release
