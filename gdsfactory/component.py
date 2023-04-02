@@ -1040,6 +1040,13 @@ class Component(_GeometryHelper):
     def copy(self) -> Component:
         return copy(self)
 
+    def add_ref_container(self, component: Component) -> ComponentReference:
+        """Add reference, ports and copy_child_info."""
+        ref = self << component
+        self.add_ports(ref.ports)
+        self.copy_child_info(component)
+        return ref
+
     def copy_child_info(self, component: Component) -> None:
         """Copy and settings info from child component into parent.
 
