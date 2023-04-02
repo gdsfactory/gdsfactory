@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.75.0
+
+- Layer views update [PR](https://github.com/gdsfactory/gdsfactory/pull/1518)
+- add `Component.add_ref_container()` convenient method to add reference into a new Component (container), [PR](https://github.com/gdsfactory/gdsfactory/pull/1519)
+
 ## 6.74.0
 
 - add flag to Remove original layer in maskprep [PR](https://github.com/gdsfactory/gdsfactory/pull/1516)
