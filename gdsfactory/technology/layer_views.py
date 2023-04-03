@@ -822,6 +822,8 @@ class LayerViews(BaseModel):
             )
         if layer_view is None:
             layer_view = LayerView(name=name, **kwargs)
+        if layer_view.name is None:
+            layer_view.name = name
         self.layer_views[name] = layer_view
 
         # If the dither pattern is a CustomDitherPattern, add it to custom_patterns
