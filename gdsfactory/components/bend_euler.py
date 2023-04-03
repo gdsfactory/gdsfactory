@@ -77,12 +77,14 @@ def bend_euler(
 
     if with_bbox and x.bbox_layers:
         padding = []
+        angle = int(angle)
         for offset in x.bbox_offsets:
-            top = offset if angle == 180 else 0
+            top = offset if angle in [180, -180, -90] else 0
+            bottom = 0 if angle in [-90] else offset
             points = get_padding_points(
                 component=c,
                 default=0,
-                bottom=offset,
+                bottom=bottom,
                 right=offset,
                 top=top,
             )
@@ -225,8 +227,8 @@ def _compare_bend_euler90():
 if __name__ == "__main__":
     # PDK = get_generic_pdk()
     # PDK.activate()
-    c = bend_euler_s()
-    # c = bend_euler()
+    # c = bend_euler_s()
+    c = bend_euler(cross_section="rib", angle=180)
     # c = bend_euler(bbox_layers=[(2, 0), (3, 0)], bbox_offsets=[3, 3])
     c.show(show_ports=True)
 
