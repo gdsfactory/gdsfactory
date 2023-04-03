@@ -87,7 +87,7 @@ gmsh = [
     "trimesh",
     "shapely",
     ]
-tidy3d = ["tidy3d==1.9.3"]
+tidy3d = ["tidy3d==2.0.2"]
 devsim = [
     "devsim",
     "mkl",
