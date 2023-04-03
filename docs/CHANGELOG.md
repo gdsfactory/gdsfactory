@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.76.0
+
+- add gerber file support [PR](https://github.com/gdsfactory/gdsfactory/pull/1521)
+- bends bbox works now for -90 and -180 deg [PR](https://github.com/gdsfactory/gdsfactory/pull/1522)
+
 ## 6.75.0
 
 - Layer views update [PR](https://github.com/gdsfactory/gdsfactory/pull/1518)
