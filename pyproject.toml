@@ -116,7 +116,7 @@ docs = [
     "autodoc_pydantic",
     "jupytext",
     "jupyter-book==0.15.1",
-    "pydata_sphinx_theme==0.13.1",
+    "pydata_sphinx_theme==0.13.3",
     ]
 ray = [
     "ray[tune,air]",
