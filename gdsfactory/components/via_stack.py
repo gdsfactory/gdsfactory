@@ -435,6 +435,11 @@ via_stack_slab_m3 = gf.partial(
     layers=("SLAB90", "M1", "M2", "M3"),
     vias=(viac, via1, via2, None),
 )
+via_stack_slab_m2 = gf.partial(
+    via_stack,
+    layers=("SLAB90", "M1", "M2"),
+    vias=(viac, via1, None),
+)
 via_stack_npp_m1 = gf.partial(
     via_stack,
     layers=("WG", "NPP", "M1"),
