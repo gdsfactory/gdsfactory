@@ -19,6 +19,7 @@ def boolean(
     operation: str,
     precision: float = 1e-4,
     layer: LayerSpec = (1, 0),
+    name: str = None,
 ) -> Component:
     """Performs boolean operations between 2 Component/Reference/list objects.
 
@@ -34,6 +35,7 @@ def boolean(
         operation: {'not', 'and', 'or', 'xor', 'A-B', 'B-A', 'A+B'}.
         precision: float Desired precision for rounding vertex coordinates.
         layer: Specific layer to put polygon geometry on.
+        name: optional name to give the returned component
 
     Returns: Component with polygon(s) of the boolean operations between
       the 2 input Components performed.
@@ -45,7 +47,10 @@ def boolean(
     'B-A' is equivalent to 'not' with the operands switched.
 
     """
-    D = Component()
+    if name is None:
+        D = Component()
+    else:
+        D = Component(name)
     A_polys = []
     B_polys = []
     A = list(A) if isinstance(A, (list, tuple)) else [A]

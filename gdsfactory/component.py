@@ -942,8 +942,14 @@ class Component(_GeometryHelper):
     def extract(
         self,
         layers: List[Union[Tuple[int, int], str]],
+        name: str = None,
     ) -> Component:
-        """Extract polygons from a Component and returns a new Component."""
+        """Extract polygons from a Component and returns a new Component.
+
+        Arguments:
+            layers: to extract
+            name: optional name to give the returned component
+        """
         from gdsfactory.pdk import get_layer
 
         if type(layers) not in (list, tuple):
@@ -953,7 +959,11 @@ class Component(_GeometryHelper):
         # component = self.copy()
         # component._cell.filter(spec=layers, remove=False)
 
-        component = Component()
+        if name is None:
+            component = Component()
+        else:
+            component = Component(name)
+
         poly_dict = self.get_polygons(by_spec=True, include_paths=False)
 
         for layer in layers:
