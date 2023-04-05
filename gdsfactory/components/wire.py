@@ -72,10 +72,11 @@ def wire_corner45(
         )
 
     c = Component()
+
     a = width / 2
 
-    xpts = [0, radius - a, radius + a, 0]
-    ypts = [a, radius, radius, -a]
+    xpts = [0, radius + a, radius + a, -np.sqrt(2) * width]
+    ypts = [-a, radius, radius + np.sqrt(2) * width, -a]
 
     c.add_polygon([xpts, ypts], layer=layer)
     c.add_port(
