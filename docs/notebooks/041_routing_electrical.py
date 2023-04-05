@@ -92,11 +92,32 @@ route = gf.routing.get_route_electrical_multilayer(
 )
 c.add(route.references)
 c
+# -
 
-# %% [markdown]
+# There is also `bend = wire_corner45` for 45deg bend corner with parametrizable "radius":
+
+c = gf.Component("pads_with_routes_with_wire_corner45")
+pt = c << gf.components.pad_array(orientation=270, columns=1)
+pb = c << gf.components.pad_array(orientation=90, columns=1)
+pt.move((300, 300))
+route = gf.routing.get_route_electrical(
+    pt.ports["e11"], pb.ports["e11"], bend="wire_corner45", radius=30
+)
+c.add(route.references)
+c
+
+c = gf.Component("pads_with_routes_with_wire_corner45")
+pt = c << gf.components.pad_array(orientation=270, columns=1)
+pb = c << gf.components.pad_array(orientation=90, columns=1)
+pt.move((300, 300))
+route = gf.routing.get_route_electrical(
+    pt.ports["e11"], pb.ports["e11"], bend="wire_corner45", radius=100
+)
+c.add(route.references)
+c
+
 # ### route_quad
 
-# %%
 c = gf.Component("pads_route_quad")
 pt = c << gf.components.pad_array(orientation=270, columns=3)
 pb = c << gf.components.pad_array(orientation=90, columns=3)
