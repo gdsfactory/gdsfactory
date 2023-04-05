@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.77.0
+
+- add wire corner45 [PR](https://github.com/gdsfactory/gdsfactory/pull/1529)
+- improve detector [PR](https://github.com/gdsfactory/gdsfactory/pull/1523)
+
 ## 6.76.0
 
 - add gerber file support [PR](https://github.com/gdsfactory/gdsfactory/pull/1521)

@@ -142,6 +142,7 @@ settings:
           settings:
             layer: VIA2
         - null
+    via_stack_offset: 0.0
     via_stack_spacing: 5.0
     via_stack_width: 10.0
   full:
@@ -175,6 +176,7 @@ settings:
           settings:
             layer: VIA2
         - null
+    via_stack_offset: 0.0
     via_stack_spacing: 5.0
     via_stack_width: 10.0
   function_name: ge_detector_straight_si_contacts
