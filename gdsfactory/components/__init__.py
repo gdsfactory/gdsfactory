@@ -296,7 +296,7 @@ from gdsfactory.components.via_stack import (
 from gdsfactory.components.via_stack_slot import via_stack_slot, via_stack_slot_m1_m2
 from gdsfactory.components.via_stack_with_offset import via_stack_with_offset
 from gdsfactory.components.wafer import wafer
-from gdsfactory.components.wire import wire_corner, wire_straight
+from gdsfactory.components.wire import wire_corner, wire_straight, wire_corner45
 from gdsfactory.components.wire_sbend import wire_sbend
 from gdsfactory.get_factories import get_cells
 
@@ -594,6 +594,7 @@ __all__ = [
     "via_corner",
     "wafer",
     "wire_corner",
+    "wire_corner45",
     "wire_sbend",
     "wire_straight",
 ]

@@ -6,6 +6,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
 from gdsfactory.typings import CrossSectionSpec
+import numpy as np
 
 wire_straight = gf.partial(straight, cross_section="metal_routing")
 
@@ -48,6 +49,52 @@ def wire_corner(
     )
     c.info["length"] = width
     c.info["dy"] = width
+    return c
+
+
+@gf.cell
+def wire_corner45(
+    cross_section: CrossSectionSpec = "metal_routing", radius: float = 10, **kwargs
+) -> Component:
+    """Returns 90 degrees electrical corner wire.
+
+    Args:
+        cross_section: spec.
+        kwargs: cross_section settings.
+    """
+    x = gf.get_cross_section(cross_section, **kwargs)
+    layer = x.layer
+    width = x.width
+    radius = x.radius if radius is None else radius
+    if radius is None:
+        raise ValueError(
+            "Radius needs to be specified in wire_corner45 or in the cross_section."
+        )
+
+    c = Component()
+    a = width / 2
+
+    xpts = [0, radius - a, radius + a, 0]
+    ypts = [a, radius, radius, -a]
+
+    c.add_polygon([xpts, ypts], layer=layer)
+    c.add_port(
+        name="e1",
+        center=(0, 0),
+        width=width,
+        orientation=180,
+        layer=layer,
+        port_type="electrical",
+    )
+    c.add_port(
+        name="e2",
+        center=(radius, radius),
+        width=width,
+        orientation=90,
+        layer=layer,
+        port_type="electrical",
+    )
+    c.info["length"] = np.sqrt(2) * radius
     return c
 
 
