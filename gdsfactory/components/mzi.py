@@ -188,8 +188,8 @@ def mzi(
     c.auto_rename_ports(port_type="optical", prefix="o")
 
     if return_all_optical_ports:
-        c.add_ports(straight_x_top.get_ports_list(port_type="optical"), prefix="top_")
-        c.add_ports(straight_x_bot.get_ports_list(port_type="optical"), prefix="bot_")
+        c.add_ports(sxt.get_ports_list(port_type="optical"), prefix="top_")
+        c.add_ports(sxb.get_ports_list(port_type="optical"), prefix="bot_")
 
     return c
 
