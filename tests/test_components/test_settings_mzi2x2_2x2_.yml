@@ -75,6 +75,7 @@ settings:
     port_e0_splitter: o3
     port_e1_combiner: o2
     port_e1_splitter: o2
+    return_all_optical_ports: false
     splitter: mmi1x2
     straight:
       function: straight
@@ -99,6 +100,7 @@ settings:
     port_e0_splitter: o4
     port_e1_combiner: o3
     port_e1_splitter: o3
+    return_all_optical_ports: false
     splitter:
       function: mmi2x2
     straight:
