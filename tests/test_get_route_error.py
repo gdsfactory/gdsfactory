@@ -6,9 +6,10 @@ import gdsfactory as gf
 from gdsfactory.routing.manhattan import RouteWarning
 
 
+@gf.cell
 def test_route_error():
     """Ensures that an impossible route raises RouteWarning."""
-    c = gf.Component("test_route_error")
+    c = gf.Component()
     w = gf.components.straight()
     left = c << w
     right = c << w
