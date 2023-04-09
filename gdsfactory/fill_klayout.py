@@ -3,11 +3,11 @@ from __future__ import annotations
 
 from typing import Optional, Tuple
 
-import gdsfactory as gf
-from gdsfactory.typings import PathType, LayerSpecs, LayerSpec
-
 import kfactory as kf
 import klayout.db as kdb
+
+import gdsfactory as gf
+from gdsfactory.typings import PathType, LayerSpecs, LayerSpec
 
 
 def fill(
@@ -43,11 +43,11 @@ def fill(
         gdspath_out: Optional GDS output. Defaults to input.
     """
 
-    lib = kf.kcell.KLib()
+    lib = kf.klib
     lib.read(filename=str(gdspath))
     cell = lib[cell_name or 0]
 
-    fill = kf.KCell(fill_name)
+    c = kf.KCell(fill_name)
 
     if create_new_fill_cell:
         if lib.has_cell(fill_cell_name):
@@ -88,7 +88,7 @@ def fill(
     region.size(-layer_to_fill_margin * 1e3)
     region_to_fill = region - region_avoid_all
 
-    fill.fill_region(
+    c.fill_region(
         region_to_fill,
         fill_cell_index,
         fill_cell_box,
@@ -97,12 +97,12 @@ def fill(
 
     if keep_shapes:
         for layer in cell.klib.layer_infos():
-            fill.shapes(fill.klib.layer(layer)).insert(
+            c.shapes(c.klib.layer(layer)).insert(
                 cell.begin_shapes_rec(cell.klib.layer(layer))
             )
 
     gdspath_out = gdspath_out or gdspath
-    fill.write(str(gdspath_out))
+    c.write(str(gdspath_out))
 
 
 @gf.cell
@@ -119,18 +119,21 @@ if __name__ == "__main__":
     c.show()
     gdspath = c.write_gds("mzi_fill.gds")
 
-    use_fill_cell = True  # Segfaults
     use_fill_cell = False  # Works
+    use_fill_cell = True  # Segfaults
 
     if use_fill_cell:
         fill(
             gdspath,
             fill_layers=("WG",),
             layer_to_fill=gf.LAYER.PADDING,
+            layers_to_avoid=((gf.LAYER.WG, 0),),
             fill_cell_name="pad_size2__2",
             create_new_fill_cell=False,
             fill_spacing=(1, 1),
             fill_size=(1, 1),
+            keep_shapes=False,
+            layer_to_fill_margin=25,
         )
     else:
         fill(
@@ -143,6 +146,7 @@ if __name__ == "__main__":
             fill_spacing=(1, 1),
             fill_size=(1, 1),
             layer_to_fill_margin=25,
+            keep_shapes=True,
         )
     gf.show(gdspath)
 
