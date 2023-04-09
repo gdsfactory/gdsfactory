@@ -87,6 +87,9 @@ gmsh = [
     "trimesh",
     "shapely",
     ]
+auto-route = [
+    "jumanji[train]",
+]
 tidy3d = ["tidy3d==1.9.3"]
 devsim = [
     "devsim",
