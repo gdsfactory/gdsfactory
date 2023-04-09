@@ -70,8 +70,14 @@ def fill(
     layer_to_fill = cell.klib.layer(*layer_to_fill)
     region = kdb.Region()
     region_ = kdb.Region()
-    for layer in cell.klib.layer_indices():
-        region_.insert(cell.begin_shapes_rec(layer)) if layer != layer_to_fill else None
+
+    if layers_to_avoid:
+        for layer in layers_to_avoid:
+            layer = gf.get_layer(layer)
+            layer = kf.klib.layer(*layer)
+            region_.insert(
+                cell.begin_shapes_rec(layer)
+            ) if layer != layer_to_fill else None
 
     region.insert(cell.begin_shapes_rec(layer_to_fill))
     region = region - region_
@@ -110,6 +116,7 @@ if __name__ == "__main__":
         gdspath,
         fill_layers=("WG",),
         layer_to_fill=gf.LAYER.PADDING,
+        layers_to_avoid=(gf.LAYER.PADDING, gf.LAYER.WG),
         fill_cell_name="fill_cell",
         with_new_fill_cell=True,
         fill_spacing=(1, 1),
