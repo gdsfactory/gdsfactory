@@ -17,7 +17,8 @@ def fill(
     layers_to_avoid: LayerSpecs = None,
     layers_to_avoid_margin: float = 0,
     cell_name: Optional[str] = None,
-    fill_cell_name: Optional[str] = None,
+    fill_cell_name: str = "fill_cell",
+    with_new_fill_cell: bool = False,
     fill_layers: LayerSpecs = None,
     fill_size: Tuple[float, float] = (10, 10),
     fill_spacing: Tuple[float, float] = (20, 20),
@@ -28,30 +29,36 @@ def fill(
 
     Args:
         gdspath: GDS input.
-        gdspath_out: Optional GDS output. Defaults to input.
+        layer_to_fill:
+        layer_to_fill_margin:
+        layers_to_avoid:
+        layers_to_avoid_margin:
         cell_name: Optional cell to fill. Defaults to top cell.
         fill_cell_name: Optional cell name to use as fill.
+        with_new_fill_cell: creates new fill cell, otherwise uses fill_cell_name from gdspath.
         fill_layers:
         fill_size:
         fill_spacing:
         fill_name: name of the cell containing all fill cells.
+        gdspath_out: Optional GDS output. Defaults to input.
     """
 
     lib = kf.kcell.KLib()
     lib.read(filename=str(gdspath))
     cell = lib[cell_name or 0]
 
-    if fill_cell_name:
-        fill_cell = lib[fill_cell_name]
-
-    else:
-        fill_cell = kf.KCell("fill_cell")
+    if with_new_fill_cell:
+        if lib.has_cell(fill_cell_name):
+            raise ValueError(f"{fill_cell_name!r} already in {str(gdspath)!r}")
+        fill_cell = kf.KCell(fill_cell_name)
         for layer in fill_layers:
             layer = gf.get_layer(layer)
             layer = kf.klib.layer(*layer)
             fill_cell << kf.pcells.waveguide.waveguide(
                 width=fill_size[0], length=fill_size[1], layer=layer
             )
+    else:
+        fill_cell = lib[fill_cell_name]
 
     fill_cell_index = fill_cell.cell_index()  # fill cell index
     fill_cell_box = fill_cell.bbox().enlarged(
@@ -76,12 +83,13 @@ def fill(
         fill_cell_box,
         fill_margin,
     )
-    gdspath_out = gdspath_out or gdspath
     for layer in cell.klib.layer_infos():
         fill.shapes(fill.klib.layer(layer)).insert(
             cell.begin_shapes_rec(cell.klib.layer(layer))
         )
     # fill.shapes(layer_to_fill).insert(cell.shapes(layer_to_fill))
+
+    gdspath_out = gdspath_out or gdspath
     fill.write(str(gdspath_out))
 
 
@@ -102,7 +110,10 @@ if __name__ == "__main__":
         gdspath,
         fill_layers=("WG",),
         layer_to_fill=gf.LAYER.PADDING,
-        fill_cell_name="pad_size2__2",
+        # fill_cell_name="pad_size2__2",
+        fill_cell_name="demo",
+        # cell_name='cell_with_pad',
+        with_new_fill_cell=True,
         fill_spacing=(1, 1),
         fill_size=(1, 1),
     )
