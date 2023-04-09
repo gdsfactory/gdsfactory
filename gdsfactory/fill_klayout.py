@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Optional, Tuple
 
 import gdsfactory as gf
-from gdsfactory.typings import PathType, LayerSpecs, Layer
+from gdsfactory.typings import PathType, LayerSpecs, LayerSpec
 
 import kfactory as kf
 import klayout.db as kdb
@@ -12,14 +12,13 @@ import klayout.db as kdb
 
 def fill(
     gdspath,
-    layer_to_fill: Layer,
+    layer_to_fill: LayerSpec,
     layer_to_fill_margin: float = 0,
-    layers_to_avoid: LayerSpecs = None,
-    layers_to_avoid_margin: float = 0,
+    layers_to_avoid: Optional[Tuple[LayerSpec, float], ...] = None,
     cell_name: Optional[str] = None,
     fill_cell_name: str = "fill_cell",
     create_new_fill_cell: bool = False,
-    include_old_shapes: bool = False,
+    keep_shapes: bool = False,
     fill_layers: LayerSpecs = None,
     fill_size: Tuple[float, float] = (10, 10),
     fill_spacing: Tuple[float, float] = (20, 20),
@@ -30,16 +29,16 @@ def fill(
 
     Args:
         gdspath: GDS input.
-        layer_to_fill:
-        layer_to_fill_margin:
-        layers_to_avoid:
-        layers_to_avoid_margin:
+        layer_to_fill: Layer that defines the region to fill.
+        layer_to_fill_margin: in um.
+        layers_to_avoid: Layer to avoid to margin ((LAYER.WG, 3.5), (LAYER.SLAB, 2)).
         cell_name: Optional cell to fill. Defaults to top cell.
         fill_cell_name: Optional cell name to use as fill.
         create_new_fill_cell: creates new fill cell, otherwise uses fill_cell_name from gdspath.
-        fill_layers:
-        fill_size:
-        fill_spacing:
+        keep_shapes: keep gds shapes.
+        fill_layers: if create_new_fill_cell=True, defines new fill layers.
+        fill_size: if create_new_fill_cell=True, defines new fill size.
+        fill_spacing: fill pitch in x and y.
         fill_name: name of the cell containing all fill cells.
         gdspath_out: Optional GDS output. Defaults to input.
     """
@@ -72,18 +71,22 @@ def fill(
     layer_to_fill = gf.get_layer(layer_to_fill)
     layer_to_fill = cell.klib.layer(*layer_to_fill)
     region = kdb.Region()
-    region_ = kdb.Region()
+    region_avoid_all = kdb.Region()
 
     if layers_to_avoid:
-        for layer in layers_to_avoid:
+        for layer, margin in layers_to_avoid:
             layer = gf.get_layer(layer)
             layer = kf.klib.layer(*layer)
-            region_.insert(
+            region_avoid = kdb.Region()
+            region_avoid.insert(
                 cell.begin_shapes_rec(layer)
             ) if layer != layer_to_fill else None
+            region_avoid = region_avoid.size(margin * 1e3)
+            region_avoid_all = region_avoid_all + region_avoid
 
     region.insert(cell.begin_shapes_rec(layer_to_fill))
-    region_to_fill = region - region_
+    region.size(-layer_to_fill_margin * 1e3)
+    region_to_fill = region - region_avoid_all
 
     fill.fill_region(
         region_to_fill,
@@ -92,7 +95,7 @@ def fill(
         fill_margin,
     )
 
-    if include_old_shapes:
+    if keep_shapes:
         for layer in cell.klib.layer_infos():
             fill.shapes(fill.klib.layer(layer)).insert(
                 cell.begin_shapes_rec(cell.klib.layer(layer))
@@ -115,25 +118,32 @@ if __name__ == "__main__":
     c = cell_with_pad()
     c.show()
     gdspath = c.write_gds("mzi_fill.gds")
-    fill(
-        gdspath,
-        fill_layers=("WG",),
-        layer_to_fill=gf.LAYER.PADDING,
-        layers_to_avoid=(gf.LAYER.PADDING, gf.LAYER.WG),
-        fill_cell_name="fill_cell",
-        create_new_fill_cell=True,
-        fill_spacing=(1, 1),
-        fill_size=(1, 1),
-    )
-    # fill(
-    #     gdspath,
-    #     fill_layers=("WG",),
-    #     layer_to_fill=gf.LAYER.PADDING,
-    #     fill_cell_name="pad_size2__2",
-    #     create_new_fill_cell=False,
-    #     fill_spacing=(1, 1),
-    #     fill_size=(1, 1),
-    # )
+
+    use_fill_cell = True  # Segfaults
+    use_fill_cell = False  # Works
+
+    if use_fill_cell:
+        fill(
+            gdspath,
+            fill_layers=("WG",),
+            layer_to_fill=gf.LAYER.PADDING,
+            fill_cell_name="pad_size2__2",
+            create_new_fill_cell=False,
+            fill_spacing=(1, 1),
+            fill_size=(1, 1),
+        )
+    else:
+        fill(
+            gdspath,
+            fill_layers=("WG",),
+            layer_to_fill=gf.LAYER.PADDING,
+            layers_to_avoid=((gf.LAYER.WG, 0),),
+            fill_cell_name="fill_cell",
+            create_new_fill_cell=True,
+            fill_spacing=(1, 1),
+            fill_size=(1, 1),
+            layer_to_fill_margin=25,
+        )
     gf.show(gdspath)
 
     # # import gdsfactory.fill_processor as fill
