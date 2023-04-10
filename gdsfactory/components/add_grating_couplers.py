@@ -69,14 +69,15 @@ def add_grating_couplers(
         io_gratings.append(gc_ref)
         c.add(gc_ref)
 
-    labels = get_input_labels_function(
-        io_gratings,
-        list(component.ports.values()),
-        component_name=component_name,
-        layer_label=layer_label,
-        gc_port_name=gc_port_name,
-    )
-    c.add(labels)
+    if get_input_labels_function:
+        labels = get_input_labels_function(
+            io_gratings,
+            list(component.ports.values()),
+            component_name=component_name,
+            layer_label=layer_label,
+            gc_port_name=gc_port_name,
+        )
+        c.add(labels)
     c.copy_child_info(component)
     return c
 
@@ -135,14 +136,15 @@ def add_grating_couplers_with_loopback_fiber_single(
         c.add(gc_ref)
         c.add_port(name=port.name, port=port)
 
-    labels = get_input_labels_function(
-        io_gratings,
-        optical_ports,
-        component_name=component_name,
-        layer_label=layer_label,
-        gc_port_name=gc_port_name,
-    )
-    c.add(labels)
+    if get_input_labels_function:
+        labels = get_input_labels_function(
+            io_gratings,
+            optical_ports,
+            component_name=component_name,
+            layer_label=layer_label,
+            gc_port_name=gc_port_name,
+        )
+        c.add(labels)
 
     p2 = optical_ports[0]
     p1 = optical_ports[-1]
@@ -215,7 +217,7 @@ def add_grating_couplers_with_loopback_fiber_array(
     component_name: Optional[str] = None,
     with_loopback: bool = False,
     nlabels_loopback: int = 2,
-    get_input_labels_function: Callable = get_input_labels,
+    get_input_labels_function: Optional[Callable] = get_input_labels,
     cross_section: CrossSectionSpec = strip,
     select_ports: Callable = select_ports_optical,
     loopback_yspacing: float = 4.0,
@@ -287,14 +289,15 @@ def add_grating_couplers_with_loopback_fiber_array(
         gc_ref.connect(gc.ports[gc_port_name].name, port)
         references += [gc_ref]
 
-    labels = get_input_labels_function(
-        io_gratings=references,
-        ordered_ports=optical_ports,
-        component_name=component_name,
-        layer_label=layer_label,
-        gc_port_name=gc_port_name,
-    )
-    c.add(labels)
+    if get_input_labels_function:
+        labels = get_input_labels_function(
+            io_gratings=references,
+            ordered_ports=optical_ports,
+            component_name=component_name,
+            layer_label=layer_label,
+            gc_port_name=gc_port_name,
+        )
+        c.add(labels)
 
     if with_loopback:
         y0 = references[0].ports[gc_port_name].y - loopback_yspacing
@@ -349,7 +352,7 @@ def add_grating_couplers_with_loopback_fiber_array(
             ordered_ports_loopback = [port0, port1]
         if nlabels_loopback == 0:
             pass
-        elif 0 < nlabels_loopback <= 2:
+        elif 0 < nlabels_loopback <= 2 and get_input_labels_function:
             c.add(
                 get_input_labels_function(
                     io_gratings=io_gratings_loopback,

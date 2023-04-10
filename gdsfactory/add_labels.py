@@ -12,6 +12,16 @@ from gdsfactory.port import Port
 from gdsfactory.typings import ComponentOrReference, Label, LayerSpec
 
 
+def get_input_label_text_dash(
+    port: Port,
+    gc: Union[ComponentReference, Component],
+    gc_index: Optional[int] = None,
+    component_name: Optional[str] = None,
+    prefix: str = "",
+) -> str:
+    return f"{gc.name}-{component_name or port.parent.name}-{port.name}"
+
+
 def get_input_label_text(
     port: Port,
     gc: Union[ComponentReference, Component],
