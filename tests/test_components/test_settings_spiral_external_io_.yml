@@ -38,6 +38,7 @@ settings:
     x_inner_offset: 0.0
     xspacing: 3.0
     y_straight_inner_top: 0.0
+    y_straight_outer_offset: 0.0
     yspacing: 3.0
   full:
     N: 6
@@ -50,6 +51,7 @@ settings:
     x_inner_offset: 0.0
     xspacing: 3.0
     y_straight_inner_top: 0.0
+    y_straight_outer_offset: 0.0
     yspacing: 3.0
   function_name: spiral_external_io
   info:
