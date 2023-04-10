@@ -34,6 +34,8 @@ def spiral_external_io(
     length: Optional[float] = None,
     cross_section: CrossSectionSpec = "strip",
     with_inner_ports: bool = False,
+    y_straight_outer_offset: float = 0.0,
+    inner_loop_spacing_offset: float = 0.0,
     **kwargs,
 ) -> Component:
     """Returns spiral with input and output ports outside the spiral.
@@ -49,6 +51,8 @@ def spiral_external_io(
         length: length in um, it is the approximates total length.
         cross_section: spec.
         with_inner_ports: if True, removes the internal S-bend and exposes new ports
+        y_straight_outer_offset: amount to add/remove to the last points at the outer output of the spiral
+        inner_loop_spacing_offset: extra difference between the inner ports
         kwargs: cross_section settings.
     """
     if length:
@@ -64,7 +68,7 @@ def spiral_external_io(
     _, rx180 = get_bend_port_distances(_bend180)  # rx180, second arg since we rotate
 
     component = Component()
-    inner_loop_spacing = 2 * bend_radius + 5.0
+    inner_loop_spacing = 2 * bend_radius + 5.0 + inner_loop_spacing_offset
 
     # Create manhattan path going from west grating to westmost port of bend 180
     x_inner_length = x_inner_length_cutback + 5.0 + xspacing
@@ -81,6 +85,7 @@ def spiral_external_io(
         y1 = y_straight_inner_top + ry + (2 * i + 1) * yspacing
         x2 = inner_loop_spacing + 2 * rx + x_inner_length + (2 * i + 1) * xspacing
         y3 = -ry - (2 * i + 2) * yspacing
+        y3 += 0 if i < N - 1 else y_straight_outer_offset
         x4 = -(2 * i + 1) * xspacing
         if i == N - 1:
             x4 = x4 - rx180 + xspacing
@@ -104,6 +109,7 @@ def spiral_external_io(
         y1 = y_straight_inner_top + ry + (2 * i) * yspacing
         x2 = inner_loop_spacing + 2 * rx + x_inner_length + 2 * i * xspacing
         y3 = -ry - (2 * i + 1) * yspacing
+        y3 += 0 if i < N - 1 else y_straight_outer_offset
         x4 = -2 * i * xspacing
 
         _pt1 = np.array([_pt[0], y1])
