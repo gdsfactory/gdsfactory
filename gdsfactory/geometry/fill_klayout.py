@@ -3,9 +3,6 @@ from __future__ import annotations
 
 from typing import Optional, Tuple
 
-import kfactory as kf
-import klayout.db as kdb
-
 import gdsfactory as gf
 from gdsfactory.typings import PathType, LayerSpecs, LayerSpec
 
@@ -42,6 +39,8 @@ def fill(
         fill_name: name of the cell containing all fill cells.
         gdspath_out: Optional GDS output. Defaults to input.
     """
+    import kfactory as kf
+    import klayout.db as kdb
 
     lib = kf.klib
     lib.read(filename=str(gdspath))

@@ -156,6 +156,7 @@ addopts = '--tb=short --ignore=gdsfactory/schematic_editor.py --ignore=gdsfactor
 python_files = ["gdsfactory/*.py","tests/*.py"]
 norecursedirs = [
     "gdsfactory/simulation",
+    "gdsfactory/geometry",
     "extra/*.py",
     "gdsfactory/watch.py",
     "gdsfactory/schematic_editor.py",
