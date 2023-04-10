@@ -96,6 +96,7 @@ settings:
         with_bbox: true
   child: null
   default:
+    add_optical_ports: false
     bend:
       function: bend_euler
     combiner: null
@@ -119,6 +120,7 @@ settings:
     straight_y: null
     with_splitter: true
   full:
+    add_optical_ports: false
     bend:
       function: bend_euler
       settings:

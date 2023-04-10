@@ -60,6 +60,7 @@ settings:
       function: mmi2x2
   child: null
   default:
+    add_optical_ports: false
     bend:
       function: bend_euler
     combiner: null
@@ -75,7 +76,6 @@ settings:
     port_e0_splitter: o3
     port_e1_combiner: o2
     port_e1_splitter: o2
-    return_all_optical_ports: false
     splitter: mmi1x2
     straight:
       function: straight
@@ -84,6 +84,7 @@ settings:
     straight_y: null
     with_splitter: true
   full:
+    add_optical_ports: false
     bend:
       function: bend_euler
     combiner:
@@ -100,7 +101,6 @@ settings:
     port_e0_splitter: o4
     port_e1_combiner: o3
     port_e1_splitter: o3
-    return_all_optical_ports: false
     splitter:
       function: mmi2x2
     straight:
