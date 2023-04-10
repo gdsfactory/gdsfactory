@@ -1,4 +1,4 @@
-name: via_stack_ab402aa5
+name: via_stack_675ddacd
 ports:
   e1:
     center:
@@ -54,8 +54,17 @@ settings:
     - HEATER
     - M2
     - M3
+    vias:
+    - function: via
+      settings:
+        enclosure: 2
+        layer: VIA1
+    - function: via
+      settings:
+        layer: VIA2
   child: null
   default:
+    correct_size: true
     layer_offsets: null
     layer_port: null
     layers:
@@ -73,7 +82,9 @@ settings:
     - function: via
       settings:
         layer: VIA2
+    - null
   full:
+    correct_size: true
     layer_offsets: null
     layer_port: null
     layers:
@@ -99,4 +110,4 @@ settings:
     - 11.0
   info_version: 2
   module: gdsfactory.components.via_stack
-  name: via_stack_ab402aa5
+  name: via_stack_675ddacd

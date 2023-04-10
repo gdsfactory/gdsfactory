@@ -153,6 +153,7 @@ settings:
     component:
       function: straight
     rows: 1
+    size: null
     spacing:
     - 150.0
     - 150.0
@@ -162,6 +163,7 @@ settings:
     component:
       function: straight
     rows: 1
+    size: null
     spacing:
     - 150.0
     - 150.0

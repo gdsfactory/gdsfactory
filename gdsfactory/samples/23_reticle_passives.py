@@ -5,7 +5,7 @@ import pandas as pd
 import gdsfactory as gf
 from gdsfactory.typings import Component
 
-debug = True
+debug = False
 nlabels = 12
 
 

@@ -20,9 +20,9 @@
 #
 # ![workflow](https://i.imgur.com/yquTcM7.png)
 
-# You have 2 ways to install the KLayout gdsfactory plugin to be able to see live updates on your GDS files:
+# You can install the KLayout gdsfactory plugin to be able to see live updates on your GDS files:
 #
-# - from the terminal by typing `gf tool install` after installing gdsfactory `pip install gdsfactory`
+# - from the terminal by typing `gf install klayout-integration` after installing gdsfactory `pip install gdsfactory`
 # - using KLayout package manager (see image below), Tools --> Manage Packages
 #
 # ![KLayout package](https://i.imgur.com/AkfcCms.png)

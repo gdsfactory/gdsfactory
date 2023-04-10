@@ -84,7 +84,6 @@ settings:
         with_undercut: false
       child: null
       default:
-        cross_section: null
         cross_section_heater: heater_metal
         cross_section_heater_undercut: strip_heater_metal_undercut
         cross_section_waveguide_heater: strip_heater_metal
@@ -100,7 +99,6 @@ settings:
         via_stack: via_stack_heater_mtop
         with_undercut: true
       full:
-        cross_section: null
         cross_section_heater: heater_metal
         cross_section_heater_undercut: strip_heater_metal_undercut
         cross_section_waveguide_heater: strip_heater_metal
@@ -143,7 +141,7 @@ settings:
         function: select_ports
         settings:
           port_type: electrical
-      straight_separation: 15.0
+      straight_separation: null
     full:
       bend: wire_corner
       component:
@@ -168,7 +166,7 @@ settings:
         function: select_ports
         settings:
           port_type: electrical
-      straight_separation: 15.0
+      straight_separation: null
     function_name: add_pads_bot
     info:
       resistance: null

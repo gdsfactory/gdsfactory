@@ -113,7 +113,8 @@ def mzm(
     if combiner:
         cp2 = c << cp2
         cp2.mirror()
-        cp2.xmin = sxt.ports["o2"].x + bend.info["radius"] * nbends + 0.1
+        xs = gf.get_cross_section(cross_section)
+        cp2.xmin = sxt.ports["o2"].x + bend.info["radius"] * nbends + 2 * xs.min_length
 
         route = get_route(
             sxt.ports["o2"],
@@ -152,6 +153,8 @@ def mzm(
 
     c.add_ports(sxt.get_ports_list(port_type="electrical"), prefix="top_")
     c.add_ports(sxb.get_ports_list(port_type="electrical"), prefix="bot_")
+    c.add_ports(sxt.get_ports_list(port_type="placement"), prefix="top_")
+    c.add_ports(sxb.get_ports_list(port_type="placement"), prefix="bot_")
     return c
 
 

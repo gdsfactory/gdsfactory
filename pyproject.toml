@@ -14,7 +14,7 @@ classifiers = [
 	"Programming Language :: Python :: 3.11",
 	"Operating System :: OS Independent",
 ]
-version = "6.68.0"
+version = "6.78.0"
 authors = [
     {name = "gdsfactory community", email = "contact@gdsfactory.com"},
 ]
@@ -70,7 +70,10 @@ full = [
     "kweb>=0.0.11,<0.1",
     "jupytext",
     "klayout",
+    "kfactory",
+	"ipytree",
     "rich-click",
+    "ipycytoscape",
     ]
 femwell = ["femwell"]
 database = ["sqlalchemy", "sqlalchemy-utils"]
@@ -111,11 +114,9 @@ dev = [
     ]
 docs = [
     "autodoc_pydantic",
-    "matplotlib",
     "jupytext",
     "jupyter-book==0.15.1",
-    "sphinx-autodoc-typehints",
-    "sphinx-click",
+    "pydata_sphinx_theme==0.13.1",
     ]
 ray = [
     "ray[tune,air]",
@@ -151,9 +152,18 @@ exclude = '''  # Specify the files/dirs that should be ignored by the black form
 [tool.pytest.ini_options]
 testpaths = ["gdsfactory/", "tests"]
 # addopts = --tb=no
-addopts = '--tb=short --ignore=gdsfactory/schematic_editor.py --ignore=gdsfactory/klayout_tech.py'
+addopts = '--tb=short --ignore=gdsfactory/schematic_editor.py --ignore=gdsfactory/klayout_tech.py --ignore=gdsfactory/geometry/maskprep_flat.py'
 python_files = ["gdsfactory/*.py","tests/*.py"]
-norecursedirs = ["gdsfactory/simulation", "extra/*.py", "gdsfactory/watch.py", "gdsfactory/schematic_editor.py", "gdsfactory/database", "gdsfactory/generic_tech/klayout", "gdsfactory/simulation/simphony", "gdsfactory/tests/test_klayout"]
+norecursedirs = [
+    "gdsfactory/simulation",
+    "extra/*.py",
+    "gdsfactory/watch.py",
+    "gdsfactory/schematic_editor.py",
+    "gdsfactory/database",
+    "gdsfactory/generic_tech/klayout",
+    "gdsfactory/simulation/simphony",
+    "gdsfactory/tests/test_klayout",
+    ]
 
 [tool.flake8]
 max-line-length = 88
@@ -201,6 +211,7 @@ ignore = [
     "C901",  # too complex
     "B905",  # `zip()` without an explicit `strict=` parameter
     "C408",  # C408 Unnecessary `dict` call (rewrite as a literal)
+    "B904",
 ]
 extend-exclude = ["docs/notebooks"]
 

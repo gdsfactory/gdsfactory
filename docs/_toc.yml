@@ -30,6 +30,7 @@ chapters:
       - file: notebooks/041_routing_electrical
       - file: notebooks/042_non-manhattan-router
       - file: notebooks/common_mistakes
+      - file: notebooks/dataprep
   - file: sdl
     sections:
       - file: notebooks/20_schematic_driven_layout

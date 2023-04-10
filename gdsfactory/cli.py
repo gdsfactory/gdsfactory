@@ -23,7 +23,7 @@ try:
 except ImportError:
     import click
 
-VERSION = "6.68.0"
+VERSION = "6.78.0"
 LAYER_LABEL = LAYER.LABEL
 
 
@@ -41,9 +41,9 @@ def version() -> None:
     pass
 
 
-# TOOL
+# install
 @click.group()
-def tool() -> None:
+def install() -> None:
     """Commands install."""
     pass
 
@@ -150,8 +150,8 @@ def diff(gdspath1: str, gdspath2: str, xor: bool = False) -> None:
 
 
 @click.command()
-def install() -> None:
-    """Install Klive and generic tech layermap."""
+def klayout_integration() -> None:
+    """Install generic Klayout layermap, klive and git diff."""
     install_klayout_package()
     install_gdsdiff()
 
@@ -187,8 +187,7 @@ gds.add_command(merge_gds)
 gds.add_command(show)
 gds.add_command(diff)
 
-tool.add_command(config_get)
-tool.add_command(install)
+install.add_command(klayout_integration)
 
 version.add_command(raw)
 version.add_command(pdks)
@@ -197,7 +196,7 @@ version.add_command(pdks)
 # watch.add_command(watch_yaml)
 
 cli.add_command(gds)
-cli.add_command(tool)
+cli.add_command(install)
 cli.add_command(watch)
 cli.add_command(version)
 

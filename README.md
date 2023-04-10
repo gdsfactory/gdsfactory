@@ -1,4 +1,4 @@
-# gdsfactory 6.68.0
+# gdsfactory 6.78.0
 
 [![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)](https://gdsfactory.github.io/gdsfactory/)
 [![PyPI](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -82,7 +82,7 @@ Once you have python installed, open Anaconda Prompt and then install the latest
 
 ```
 pip install gdsfactory --upgrade
-gf tool install
+gf install klayout-integration
 ```
 
 Then you need to restart Klayout to make sure you activate the klayout gdsfactory integration.
@@ -97,13 +97,22 @@ git clone https://github.com/gdsfactory/gdsfactory.git
 cd gdsfactory
 pip install -e . pre-commit
 pre-commit install
-gf tool install
+gf install klayout-integration
 ```
 
 ### Update gdsfactory
 
 - Users can `pip install gdsfactory --upgrade`
 - Developers can `git pull` on the repository you downloaded and installed on your computer.
+
+
+This code will tell you which gdsfactory you are using
+```
+import gdsfactory as gf
+
+gf.config.print_version()
+```
+
 
 ### Install gdsfactory plugins
 
@@ -241,3 +250,4 @@ Open source heroes:
 - Alex Tait (Queens University): lytest inspiration for gdsfactory testing GDS framework.
 - Thomas Ferreira de Lima (NEC): `pip install klayout` python API.
 - Juan Sanchez: DEVSIM for TCAD simulations.
+- Christophe Geuzaine (University of Liège) and Jean-François Remacle (Université catholique de Louvain) for Gmsh.

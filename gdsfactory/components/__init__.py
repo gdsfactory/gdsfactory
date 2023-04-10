@@ -196,6 +196,7 @@ from gdsfactory.components.pads_shorted import pads_shorted
 from gdsfactory.components.ramp import ramp
 from gdsfactory.components.rectangle import rectangle, marker_te, marker_tm
 from gdsfactory.components.rectangle_with_slits import rectangle_with_slits
+from gdsfactory.components.regular_polygon import regular_polygon
 from gdsfactory.components.resistance_meander import resistance_meander
 from gdsfactory.components.resistance_sheet import resistance_sheet
 from gdsfactory.components.ring import ring
@@ -295,7 +296,7 @@ from gdsfactory.components.via_stack import (
 from gdsfactory.components.via_stack_slot import via_stack_slot, via_stack_slot_m1_m2
 from gdsfactory.components.via_stack_with_offset import via_stack_with_offset
 from gdsfactory.components.wafer import wafer
-from gdsfactory.components.wire import wire_corner, wire_straight
+from gdsfactory.components.wire import wire_corner, wire_straight, wire_corner45
 from gdsfactory.components.wire_sbend import wire_sbend
 from gdsfactory.get_factories import get_cells
 
@@ -514,6 +515,7 @@ __all__ = [
     "qrcode",
     "ramp",
     "rectangle",
+    "regular_polygon",
     "rectangle_with_slits",
     "resistance_meander",
     "resistance_sheet",
@@ -592,6 +594,7 @@ __all__ = [
     "via_corner",
     "wafer",
     "wire_corner",
+    "wire_corner45",
     "wire_sbend",
     "wire_straight",
 ]

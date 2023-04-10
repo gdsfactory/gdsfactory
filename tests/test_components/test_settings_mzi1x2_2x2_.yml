@@ -14,7 +14,7 @@ ports:
     width: 0.5
   o2:
     center:
-    - 81.2
+    - 81.12
     - 0.625
     layer:
     - 1
@@ -26,7 +26,7 @@ ports:
     width: 0.5
   o3:
     center:
-    - 81.2
+    - 81.12
     - -0.625
     layer:
     - 1

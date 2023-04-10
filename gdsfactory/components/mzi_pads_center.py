@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.components.mzi import mzi as mzi_function
-from gdsfactory.components.pad import pad as pad_function
+from gdsfactory.components.pad import pad_small
 from gdsfactory.components.straight_heater_metal import straight_heater_metal
 from gdsfactory.routing.get_route import get_route
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Union
 
 
 @gf.cell
@@ -13,24 +13,22 @@ def mzi_pads_center(
     ps_top: ComponentSpec = straight_heater_metal,
     ps_bot: ComponentSpec = straight_heater_metal,
     mzi: ComponentSpec = mzi_function,
-    pad: ComponentSpec = pad_function,
+    pad: ComponentSpec = pad_small,
     length_x: float = 500,
     length_y: float = 40,
-    mzi_sig_top: str = "e3",
-    mzi_gnd_top: str = "e2",
-    mzi_sig_bot: str = "e1",
-    mzi_gnd_bot: str = "e4",
+    mzi_sig_top: str = "top_e2",
+    mzi_gnd_top: str = "top_e1",
+    mzi_sig_bot: str = "bot_e1",
+    mzi_gnd_bot: str = "bot_e2",
     pad_sig_bot: str = "e1_1_1",
     pad_sig_top: str = "e3_1_3",
     pad_gnd_bot: str = "e4_1_2",
     pad_gnd_top: str = "e2_1_2",
     delta_length: float = 40.0,
-    end_straight_length: float = 5,
-    start_straight_length: float = 5,
-    metal_route_width: float = 10,
     cross_section: CrossSectionSpec = "strip",
     cross_section_metal: CrossSectionSpec = "metal_routing",
-    pad_spacing: float = 150.0,
+    pad_spacing: Union[float, str] = "pad_spacing",
+    **kwargs,
 ) -> gf.Component:
     """Return Mzi phase shifter with pads in the middle.
 
@@ -53,14 +51,14 @@ def mzi_pads_center(
         pad_gnd_bot: port name for top pad.
         pad_gnd_top: port name for top pad.
         delta_length: mzi length imbalance.
-        end_straight_length: for routing metal.
-        start_straight_length: for routing metal.
-        metal_route_width: for routing metal.
         cross_section: for the mzi.
         cross_section_metal: for routing metal.
         pad_spacing: pad pitch in um.
+        kwargs: routing settings.
     """
     c = gf.Component()
+
+    pad_spacing = gf.get_constant(pad_spacing)
 
     mzi_ps = mzi(
         length_x=length_x,
@@ -88,9 +86,7 @@ def mzi_pads_center(
         pads.ports[pad_sig_bot],
         cross_section=cross_section_metal,
         bend=gf.components.wire_corner,
-        start_straight_length=start_straight_length,
-        end_straight_length=end_straight_length,
-        width=metal_route_width,
+        **kwargs,
     )
     c.add(route_sig_bot.references)
 
@@ -99,9 +95,7 @@ def mzi_pads_center(
         pads.ports[pad_gnd_bot],
         cross_section=cross_section_metal,
         bend=gf.components.wire_corner,
-        start_straight_length=start_straight_length,
-        end_straight_length=end_straight_length,
-        width=metal_route_width,
+        **kwargs,
     )
     c.add(route_gnd_bot.references)
     route_gnd_top = get_route(
@@ -109,9 +103,7 @@ def mzi_pads_center(
         pads.ports[pad_gnd_top],
         cross_section=cross_section_metal,
         bend=gf.components.wire_corner,
-        start_straight_length=start_straight_length,
-        end_straight_length=end_straight_length,
-        width=metal_route_width,
+        **kwargs,
     )
     c.add(route_gnd_top.references)
 
@@ -120,18 +112,17 @@ def mzi_pads_center(
         pads.ports[pad_sig_top],
         cross_section=cross_section_metal,
         bend=gf.components.wire_corner,
-        start_straight_length=start_straight_length,
-        end_straight_length=end_straight_length,
-        width=metal_route_width,
+        **kwargs,
     )
     c.add(route_sig_top.references)
+
     c.add_ports(m.ports)
     return c
 
 
 if __name__ == "__main__":
-    mzi_ps_fa = gf.compose(gf.routing.add_fiber_array, mzi_pads_center)
-    mzi_ps_fs = gf.compose(gf.routing.add_fiber_single, mzi_pads_center)
+    # mzi_ps_fa = gf.compose(gf.routing.add_fiber_array, mzi_pads_center)
+    # mzi_ps_fs = gf.compose(gf.routing.add_fiber_single, mzi_pads_center)
     # c = mzi_ps_fs()
     c = mzi_pads_center()
     c.show(show_ports=True)

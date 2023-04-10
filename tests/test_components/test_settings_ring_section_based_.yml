@@ -37,11 +37,11 @@ settings:
       A: 6
       B: 6
     cross_sections_sequence: AB
+    drop_cross_section: null
     gap: 0.3
     radius: 5.0
     start_angle: 10.0
     start_cross_section: null
-    start_section_at_drop: true
   full:
     add_drop: false
     bus_cross_section: strip
@@ -52,11 +52,11 @@ settings:
       A: 6
       B: 6
     cross_sections_sequence: AB
+    drop_cross_section: null
     gap: 0.3
     radius: 5.0
     start_angle: 10.0
     start_cross_section: null
-    start_section_at_drop: true
   function_name: ring_section_based
   info:
     ring_center:

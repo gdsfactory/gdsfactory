@@ -178,7 +178,12 @@ def gen_op_blocking(pts, snap_res=0.05, margin=0.3):
 
 if __name__ == "__main__":
     import numpy as np
+    import gdsfactory as gf
 
     pts = [(x, x**2) for x in np.linspace(0, 1, 5)]
-    c = pixelate(pts)
+    pts2 = pixelate(pts, min_pixel_size=1e-3, margin=0)
+    c = gf.Component()
+    c.add_polygon(pts2, layer=(1, 0))
+    c.add_polygon(pts, layer=(2, 0))
+    c.show()
     print(c)

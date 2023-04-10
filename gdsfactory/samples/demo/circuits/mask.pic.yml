@@ -7,7 +7,7 @@ instances:
     settings:
       doe: ring_single
       settings:
-        radius: [30, 50, 20]
+        radius: [5, 10, 20]
         length_x: [1, 2, 3]
       do_permutations: True
       function:

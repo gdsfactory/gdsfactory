@@ -34,7 +34,7 @@ jobs:
         run: |
           pip install -e .[full,dev] pre-commit
           make gdslib
-          gf tool install
+          gf install klayout-integration
       - name: Test with pytest
         run: pytest
   test_code_coverage_python37:
@@ -105,14 +105,14 @@ jobs:
     strategy:
       max-parallel: 12
       matrix:
-        python-version: [3.9]
+        python-version: ['3.10']
         os: [ubuntu-latest]
 
     steps:
       - uses: actions/checkout@v3
       - uses: conda-incubator/setup-miniconda@v2
         with:
-          python-version: 3.9
+          python-version: '3.10'
           channels: conda-forge,defaults
           channel-priority: true
           activate-environment: anaconda-client-env

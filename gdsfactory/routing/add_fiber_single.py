@@ -144,6 +144,13 @@ def add_fiber_single(
     if gc_port_name not in gc.ports:
         raise ValueError(f"{gc_port_name!r} not in {list(gc.ports.keys())}")
 
+    gc_port_orientation = int(gc.ports[gc_port_name].orientation)
+
+    if gc_port_orientation != 180:
+        raise ValueError(
+            f"{gc_port_name!r} orientation {gc_port_orientation} needs to be 180 deg."
+        )
+
     gc_port_to_edge = abs(gc.xmax - gc.ports[gc_port_name].center[0])
 
     c = Component()
@@ -270,6 +277,7 @@ if __name__ == "__main__":
     # from gdsfactory.samples.big_device import big_device
     # w = h = 18 * 50
     # c = big_device(spacing=50.0, size=(w, h))
+    gc = gf.functions.rotate90(gf.components.grating_coupler_elliptical_arbitrary)
     c = gf.c.mmi2x2()
-    cc = gf.routing.add_fiber_single(component=c)
+    cc = gf.routing.add_fiber_array(component=c, grating_coupler=gc)
     cc.show(show_ports=True)

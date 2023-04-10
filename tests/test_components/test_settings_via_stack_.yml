@@ -52,6 +52,7 @@ settings:
   changed: {}
   child: null
   default:
+    correct_size: true
     layer_offsets: null
     layer_port: null
     layers:
@@ -69,7 +70,9 @@ settings:
     - function: via
       settings:
         layer: VIA2
+    - null
   full:
+    correct_size: true
     layer_offsets: null
     layer_port: null
     layers:
@@ -87,6 +90,7 @@ settings:
     - function: via
       settings:
         layer: VIA2
+    - null
   function_name: via_stack
   info:
     layer: M3

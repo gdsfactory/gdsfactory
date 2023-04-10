@@ -77,6 +77,7 @@ settings:
     text_offset:
     - 10
     - 20
+    text_rotation: 0
     x_reflection: false
   full:
     edge_coupler:
@@ -92,6 +93,7 @@ settings:
     text_offset:
     - 10
     - 20
+    text_rotation: 0
     x_reflection: false
   function_name: edge_coupler_array
   info: {}

@@ -1,29 +1,5 @@
 name: mzi_2e88f57c_add_paddin_91e6753c
 ports:
-  e1:
-    center:
-    - 19.5
-    - 22.625
-    layer:
-    - 49
-    - 0
-    name: e1
-    orientation: 180
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  e2:
-    center:
-    - 87.6
-    - 22.625
-    layer:
-    - 49
-    - 0
-    name: e2
-    orientation: 0.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
   o1:
     center:
     - -10.0
@@ -50,7 +26,7 @@ ports:
     width: 0.5
   o3:
     center:
-    - 117.2
+    - 117.12
     - 0.625
     layer:
     - 1
@@ -62,7 +38,7 @@ ports:
     width: 0.5
   o4:
     center:
-    - 117.2
+    - 117.12
     - -0.625
     layer:
     - 1
@@ -72,6 +48,30 @@ ports:
     port_type: optical
     shear_angle: null
     width: 0.5
+  top_e1:
+    center:
+    - 19.5
+    - 22.625
+    layer:
+    - 49
+    - 0
+    name: top_e1
+    orientation: 180
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_e2:
+    center:
+    - 87.6
+    - 22.625
+    layer:
+    - 49
+    - 0
+    name: top_e2
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
 settings:
   changed:
     component:

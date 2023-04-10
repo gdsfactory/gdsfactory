@@ -35,8 +35,8 @@ def add_pads_bot(
     pad_port_labels: Optional[Tuple[str, ...]] = None,
     pad: ComponentSpec = pad_rectangular,
     bend: ComponentSpec = "wire_corner",
-    straight_separation: float = 15.0,
-    pad_spacing: Union[str, float] = "pad_spacing",
+    straight_separation: Optional[None] = None,
+    pad_spacing: Union[float, str] = "pad_spacing",
     **kwargs,
 ) -> Component:
     """Returns new component with ports connected bottom pads.
@@ -53,7 +53,7 @@ def add_pads_bot(
         pad_port_labels: pad list of labels.
         pad: spec for route terminations.
         bend: bend spec.
-        straight_separation: from edge to edge.
+        straight_separation: from wire edge to edge. Defaults to xs.width+xs.gap
         pad_spacing: in um. Defaults to pad_spacing constant from the PDK.
 
     Keyword Args:
@@ -88,10 +88,26 @@ def add_pads_bot(
     component_new = Component()
     component = gf.get_component(component)
 
+    pad_spacing = gf.get_constant(pad_spacing)
     cref = component_new << component
     ports = [cref[port_name] for port_name in port_names] if port_names else None
     ports = ports or select_ports(cref.ports)
     xs = gf.get_cross_section(cross_section)
+
+    straight_separation = straight_separation or xs.width + xs.gap
+
+    pad_component = gf.get_component(pad)
+    if pad_port_name not in pad_component.ports:
+        pad_ports = list(pad_component.ports.keys())
+        raise ValueError(
+            f"pad_port_name = {pad_port_name!r} not in {pad_component.name!r} ports {pad_ports}"
+        )
+
+    pad_orientation = int(pad_component[pad_port_name].orientation)
+    if pad_orientation != 180:
+        raise ValueError(
+            f"port.orientation={pad_orientation} for port {pad_port_name!r} needs to be 180 degrees."
+        )
 
     if not ports:
         raise ValueError(
@@ -227,6 +243,6 @@ if __name__ == "__main__":
     c = gf.components.straight_heater_metal(length=100.0)
     # c = gf.components.straight(length=100.0)
 
-    cc = add_pads_top(component=c, port_names=("e1",))
-    # cc = add_pads_top(component=c, port_names=("e1", "e4"), fanout_length=50)
+    # cc = add_pads_top(component=c, port_names=("e1",))
+    cc = add_pads_top(component=c, port_names=("e1", "e2"), fanout_length=50)
     cc.show(show_ports=True)

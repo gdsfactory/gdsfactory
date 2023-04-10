@@ -1,49 +1,25 @@
 name: mzi_pads_center
 ports:
-  e1:
+  bot_e1:
     center:
     - 19.5
     - -80.625
     layer:
     - 49
     - 0
-    name: e1
+    name: bot_e1
     orientation: 180
     port_type: electrical
     shear_angle: null
     width: 11.0
-  e2:
-    center:
-    - 19.5
-    - 60.625
-    layer:
-    - 49
-    - 0
-    name: e2
-    orientation: 180
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  e3:
-    center:
-    - 551.5
-    - 60.625
-    layer:
-    - 49
-    - 0
-    name: e3
-    orientation: 0.0
-    port_type: electrical
-    shear_angle: null
-    width: 11.0
-  e4:
+  bot_e2:
     center:
     - 551.5
     - -80.625
     layer:
     - 49
     - 0
-    name: e4
+    name: bot_e2
     orientation: 0.0
     port_type: electrical
     shear_angle: null
@@ -62,7 +38,7 @@ ports:
     width: 0.5
   o2:
     center:
-    - 581.1
+    - 581.02
     - 0.0
     layer:
     - 1
@@ -72,6 +48,30 @@ ports:
     port_type: optical
     shear_angle: null
     width: 0.5
+  top_e1:
+    center:
+    - 19.5
+    - 60.625
+    layer:
+    - 49
+    - 0
+    name: top_e1
+    orientation: 180
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
+  top_e2:
+    center:
+    - 551.5
+    - 60.625
+    layer:
+    - 49
+    - 0
+    name: top_e2
+    orientation: 0.0
+    port_type: electrical
+    shear_angle: null
+    width: 11.0
 settings:
   changed: {}
   child: null
@@ -79,23 +79,25 @@ settings:
     cross_section: strip
     cross_section_metal: metal_routing
     delta_length: 40.0
-    end_straight_length: 5
     length_x: 500
     length_y: 40
-    metal_route_width: 10
     mzi:
       function: mzi
-    mzi_gnd_bot: e4
-    mzi_gnd_top: e2
-    mzi_sig_bot: e1
-    mzi_sig_top: e3
+    mzi_gnd_bot: bot_e2
+    mzi_gnd_top: top_e1
+    mzi_sig_bot: bot_e1
+    mzi_sig_top: top_e2
     pad:
       function: pad
+      settings:
+        size:
+        - 80
+        - 80
     pad_gnd_bot: e4_1_2
     pad_gnd_top: e2_1_2
     pad_sig_bot: e1_1_1
     pad_sig_top: e3_1_3
-    pad_spacing: 150.0
+    pad_spacing: pad_spacing
     ps_bot:
       function: straight_heater_metal_undercut
       settings:
@@ -104,28 +106,29 @@ settings:
       function: straight_heater_metal_undercut
       settings:
         with_undercut: false
-    start_straight_length: 5
   full:
     cross_section: strip
     cross_section_metal: metal_routing
     delta_length: 40.0
-    end_straight_length: 5
     length_x: 500
     length_y: 40
-    metal_route_width: 10
     mzi:
       function: mzi
-    mzi_gnd_bot: e4
-    mzi_gnd_top: e2
-    mzi_sig_bot: e1
-    mzi_sig_top: e3
+    mzi_gnd_bot: bot_e2
+    mzi_gnd_top: top_e1
+    mzi_sig_bot: bot_e1
+    mzi_sig_top: top_e2
     pad:
       function: pad
+      settings:
+        size:
+        - 80
+        - 80
     pad_gnd_bot: e4_1_2
     pad_gnd_top: e2_1_2
     pad_sig_bot: e1_1_1
     pad_sig_top: e3_1_3
-    pad_spacing: 150.0
+    pad_spacing: pad_spacing
     ps_bot:
       function: straight_heater_metal_undercut
       settings:
@@ -134,7 +137,6 @@ settings:
       function: straight_heater_metal_undercut
       settings:
         with_undercut: false
-    start_straight_length: 5
   function_name: mzi_pads_center
   info: {}
   info_version: 2

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import warnings
 from typing import Optional
 
 from numpy import floor
@@ -31,7 +32,7 @@ def via_stack_slot(
         layers: layers on which to draw rectangles.
         layer_offsets: cladding_offset for each layer.
         layer_offsetsx: optional xoffset for layers, defaults to layer_offsets.
-        layer_offsetsx: optional yoffset for layers, defaults to layer_offsets.
+        layer_offsetsy: optional yoffset for layers, defaults to layer_offsets.
         layer_port: if None assumes port is on the last layer.
         via: via to use to fill the rectangles.
         enclosure: of the via by rectangle.
@@ -63,6 +64,7 @@ def via_stack_slot(
         |                  size[0]                |
         |                                         |
         |_________________________________________|
+
     """
     if size[0] - 2 * enclosure < 0:
         raise ValueError(
@@ -83,6 +85,17 @@ def via_stack_slot(
 
     layer_offsetsx = list(layer_offsetsx) + [0] * len(layers)
     layer_offsetsy = list(layer_offsetsy) + [0] * len(layers)
+
+    elements = {
+        len(layers),
+        len(layer_offsets),
+        len(layer_offsetsx),
+        len(layer_offsetsy),
+    }
+    if len(elements) > 1:
+        warnings.warn(
+            f"Got {len(layers)} layers, {len(layer_offsets)} layer_offsets, {len(layer_offsetsx)} layer_offsetsx, {len(layer_offsetsy)} layer_offsetsy."
+        )
 
     for layer, offsetx, offsety in zip(layers, layer_offsetsx, layer_offsetsy):
         ref = c << compass(

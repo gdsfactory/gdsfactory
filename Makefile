@@ -11,11 +11,11 @@ all: gdslib plugins install full
 install:
 	pip install -e .[full,dev] pre-commit
 	pre-commit install
-	gf tool install
+	gf install klayout-integration
 
 dev: full
 	pre-commit install
-	gf tool install
+	gf install klayout-integration
 
 mamba:
 	bash conda/mamba.sh

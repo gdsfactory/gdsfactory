@@ -1,5 +1,86 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.77.0
+
+- add wire corner45 [PR](https://github.com/gdsfactory/gdsfactory/pull/1529)
+- improve detector [PR](https://github.com/gdsfactory/gdsfactory/pull/1523)
+
+## 6.76.0
+
+- add gerber file support [PR](https://github.com/gdsfactory/gdsfactory/pull/1521)
+- bends bbox works now for -90 and -180 deg [PR](https://github.com/gdsfactory/gdsfactory/pull/1522)
+
+## 6.75.0
+
+- Layer views update [PR](https://github.com/gdsfactory/gdsfactory/pull/1518)
+- add `Component.add_ref_container()` convenient method to add reference into a new Component (container), [PR](https://github.com/gdsfactory/gdsfactory/pull/1519)
+
+## 6.74.0
+
+- add flag to Remove original layer in maskprep [PR](https://github.com/gdsfactory/gdsfactory/pull/1516)
+- Adding an additional parameter `ang_res` to control the angular resolution of each section. [PR](https://github.com/gdsfactory/gdsfactory/pull/1513)
+
+## 6.73.2
+
+- extend kwargs #1507 to all `cross_section` functions [PR](https://github.com/gdsfactory/gdsfactory/pull/1508)
+
+## 6.73.0
+
+- better `maskprep` [PR](https://github.com/gdsfactory/gdsfactory/pull/1500)
+- add names to trench (for taper) [PR](https://github.com/gdsfactory/gdsfactory/pull/1501)
+
+## 6.72.9
+
+- better `via_stack_with_offset` [PR](https://github.com/gdsfactory/gdsfactory/pull/1499)
+
+## 6.72.8
+
+- gf.components.array has optional size
+
+## 6.72.7
+
+- Mirroring drop waveguide for asymmetric waveguides in section based ring [PR](https://github.com/gdsfactory/gdsfactory/pull/1498)
+
+## 6.72.6
+
+- fix mzi with new routing defaults [PR](https://github.com/gdsfactory/gdsfactory/pull/1496)
+- better error messages when vias do not fit in `via_stacks`
+
+## 6.72.5
+
+- better routing defaults [PR](https://github.com/gdsfactory/gdsfactory/pull/1495)
+
+## 6.72.4
+
+- better `via_stack_with_offset` [PR](https://github.com/gdsfactory/gdsfactory/pull/1494)
+- adding radius as info for the section based ring [PR](https://github.com/gdsfactory/gdsfactory/pull/1493)
+
+## 6.72.1
+
+- fixes to `gf.components.ring_section_based` [PR](https://github.com/gdsfactory/gdsfactory/pull/1489)
+
+## 6.72.0
+
+- add `gf.components.regular_polygon` [PR](https://github.com/gdsfactory/gdsfactory/pull/1487)
+- add function to calculate FSR [PR](https://github.com/gdsfactory/gdsfactory/pull/1488)
+
+## 6.71.0
+
+- mzi does not rename electrical ports [PR](https://github.com/gdsfactory/gdsfactory/pull/1485)
+- add klayout fill [PR](https://github.com/gdsfactory/gdsfactory/pull/1484)
+
+## 6.70.0
+
+- test cutbacks2x2 [PR](https://github.com/gdsfactory/gdsfactory/pull/1479)
+- improve `stack_with_offset` [PR](https://github.com/gdsfactory/gdsfactory/pull/1480)
+
+## 6.69.0
+
+- Some changes to section based ring and ViaStacks [PR](https://github.com/gdsfactory/gdsfactory/pull/1475)
+- add dataprep [PR](https://github.com/gdsfactory/gdsfactory/pull/1470)
+- `centre` can now also be specified when `port` is used when using add_port. [PR](https://github.com/gdsfactory/gdsfactory/pull/1478)
+- Add corner rounding to dataprep notebook [PR](https://github.com/gdsfactory/gdsfactory/pull/1477)
+
 ## 6.68.0
 
 - add gf.geometry.fillet and gf.geometry.boolean_polygons [PR](https://github.com/gdsfactory/gdsfactory/pull/1464)

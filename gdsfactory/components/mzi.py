@@ -142,7 +142,8 @@ def mzi(
     sxt.connect("o1", b2.ports["o1"])
 
     cp2.mirror()
-    cp2.xmin = sxt.ports["o2"].x + bend.info["radius"] * nbends + 0.1
+    xs = gf.get_cross_section(cross_section)
+    cp2.xmin = sxt.ports["o2"].x + bend.info["radius"] * nbends + 2 * xs.min_length
 
     route = get_route(
         sxt.ports["o2"],
@@ -159,6 +160,7 @@ def mzi(
         straight=straight,
         bend=bend_spec,
         cross_section=cross_section,
+        with_sbend=False,
     )
     c.add(route.references)
 
@@ -170,14 +172,17 @@ def mzi(
     cp2.name = "cp2"
 
     if with_splitter:
-        c.add_ports(cp1.get_ports_list(orientation=180), prefix="in")
+        c.add_ports(cp1.get_ports_list(orientation=180), prefix="in_")
     else:
         c.add_port("o1", port=b1.ports["o1"])
         c.add_port("o2", port=b5.ports["o1"])
-    c.add_ports(cp2.get_ports_list(orientation=0), prefix="out")
-    c.add_ports(sxt.get_ports_list(port_type="electrical"), prefix="top")
-    c.add_ports(sxb.get_ports_list(port_type="electrical"), prefix="bot")
-    c.auto_rename_ports()
+    c.add_ports(cp2.get_ports_list(orientation=0), prefix="ou_")
+
+    c.add_ports(sxt.get_ports_list(port_type="electrical"), prefix="top_")
+    c.add_ports(sxb.get_ports_list(port_type="electrical"), prefix="bot_")
+    c.add_ports(sxt.get_ports_list(port_type="placement"), prefix="top_")
+    c.add_ports(sxb.get_ports_list(port_type="placement"), prefix="bot_")
+    c.auto_rename_ports(port_type="optical", prefix="o")
     return c
 
 
@@ -207,12 +212,13 @@ mzi_coupler = partial(
 
 
 if __name__ == "__main__":
+    c = mzi(cross_section="nitride")
     # c = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
     # c.show(show_ports=True)
 
-    c = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
-    c2 = gf.routing.add_fiber_array(c)
-    c2.show()
+    # c = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
+    # c2 = gf.routing.add_fiber_array(c)
+    c.show()
 
     # c1.write_gds("a.gds")
 
