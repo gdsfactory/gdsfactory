@@ -192,7 +192,7 @@ def fill_tiled(
 
 
 if __name__ == "__main__":
-    import gdsfactory.fill_processor as fill
+    import gdsfactory.geometry.fill_tiled as fill
     import gdsfactory as gf
 
     c = kf.KCell("ToFill")

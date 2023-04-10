@@ -15,11 +15,11 @@ def fill(
     cell_name: Optional[str] = None,
     fill_cell_name: str = "fill_cell",
     create_new_fill_cell: bool = False,
-    keep_shapes: bool = False,
+    include_original: bool = False,
     fill_layers: LayerSpecs = None,
     fill_size: Tuple[float, float] = (10, 10),
     fill_spacing: Tuple[float, float] = (20, 20),
-    fill_name: str = "fill",
+    fill_name: Optional[str] = None,
     gdspath_out: Optional[PathType] = None,
 ) -> None:
     """Write gds file with fill.
@@ -32,11 +32,11 @@ def fill(
         cell_name: Optional cell to fill. Defaults to top cell.
         fill_cell_name: Optional cell name to use as fill.
         create_new_fill_cell: creates new fill cell, otherwise uses fill_cell_name from gdspath.
-        keep_shapes: keep gds shapes.
+        include_original: True include original gdspath. False returns only fill.
         fill_layers: if create_new_fill_cell=True, defines new fill layers.
         fill_size: if create_new_fill_cell=True, defines new fill size.
         fill_spacing: fill pitch in x and y.
-        fill_name: name of the cell containing all fill cells.
+        fill_name: name of the cell containing all fill cells. Defaults to Cell_fill.
         gdspath_out: Optional GDS output. Defaults to input.
     """
     import kfactory as kf
@@ -45,12 +45,18 @@ def fill(
     lib = kf.klib
     lib.read(filename=str(gdspath))
     cell = lib[cell_name or 0]
+    fill_name = fill_name or f"{cell.name}_fill"
 
     c = kf.KCell(fill_name)
 
     if create_new_fill_cell:
         if lib.has_cell(fill_cell_name):
             raise ValueError(f"{fill_cell_name!r} already in {str(gdspath)!r}")
+
+        if not fill_layers:
+            raise ValueError(
+                "You need to pass fill_layers if create_new_fill_cell=True"
+            )
         fill_cell = kf.KCell(fill_cell_name)
         for layer in fill_layers:
             layer = gf.get_layer(layer)
@@ -94,11 +100,8 @@ def fill(
         fill_margin,
     )
 
-    if keep_shapes:
-        for layer in cell.klib.layer_infos():
-            c.shapes(c.klib.layer(layer)).insert(
-                cell.begin_shapes_rec(cell.klib.layer(layer))
-            )
+    if include_original:
+        c << cell
 
     gdspath_out = gdspath_out or gdspath
     c.write(str(gdspath_out))
@@ -118,20 +121,21 @@ if __name__ == "__main__":
     c.show()
     gdspath = c.write_gds("mzi_fill.gds")
 
-    use_fill_cell = False  # Works
-    use_fill_cell = True  # Segfaults
+    use_fill_cell = False
+    use_fill_cell = True
 
     if use_fill_cell:
         fill(
             gdspath,
             fill_layers=("WG",),
             layer_to_fill=gf.LAYER.PADDING,
-            layers_to_avoid=((gf.LAYER.WG, 0),),
+            layers_to_avoid=((gf.LAYER.WG, 0), (gf.LAYER.M3, 0)),
+            # layers_to_avoid=((gf.LAYER.WG, 0),),
             fill_cell_name="pad_size2__2",
             create_new_fill_cell=False,
             fill_spacing=(1, 1),
             fill_size=(1, 1),
-            keep_shapes=False,
+            include_original=True,
             layer_to_fill_margin=25,
         )
     else:
@@ -145,7 +149,7 @@ if __name__ == "__main__":
             fill_spacing=(1, 1),
             fill_size=(1, 1),
             layer_to_fill_margin=25,
-            keep_shapes=True,
+            include_original=True,
         )
     gf.show(gdspath)
 
