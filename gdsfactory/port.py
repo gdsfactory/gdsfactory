@@ -55,7 +55,7 @@ LayerSpecs = Tuple[LayerSpec, ...]
 Float2 = Tuple[float, float]
 
 
-def port_to_kport(port, library):
+def port_to_kport(port, library, in_dbu=False):
     from gdsfactory.pdk import get_layer
 
     layer = get_layer(port.layer)
@@ -64,6 +64,13 @@ def port_to_kport(port, library):
         position=(float(port.center[0]), float(port.center[1])),
         width=port.width,
         angle=float(port.orientation),
+        layer=library.layer(*layer),
+        port_type=port.port_type,
+    ) if not in_dbu else kf.Port(
+        name=port.name,
+        position=(port.center[0] / library.dbu, port.center[1] / library.dbu),
+        width=port.width / library.dbu,
+        angle=float(port.orientation) // 90,
         layer=library.layer(*layer),
         port_type=port.port_type,
     )
@@ -553,7 +560,8 @@ def select_ports(
     if isinstance(ports, (kf.kcell.InstancePorts, kf.kcell.Ports)):
         ports = ports.get_all()
 
-    if layer:
+    if layer is not None:
+        print(layer)
         ports = {p_name: p for p_name, p in ports.items() if p.layer == layer}
     if prefix:
         ports = {
