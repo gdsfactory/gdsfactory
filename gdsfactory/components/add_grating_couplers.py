@@ -24,7 +24,12 @@ from gdsfactory.routing.utils import (
     check_ports_have_equal_spacing,
     direction_ports_from_list_ports,
 )
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Label, PortsDict
+from gdsfactory.typings import (
+    ComponentSpec,
+    CrossSectionSpec,
+    PortsDict,
+    LabelListFactory,
+)
 
 
 @cell
@@ -33,7 +38,7 @@ def add_grating_couplers(
     grating_coupler: ComponentSpec = grating_coupler_te,
     layer_label: Tuple[int, int] = (200, 0),
     gc_port_name: str = "o1",
-    get_input_labels_function: Callable[..., List[Label]] = get_input_labels,
+    get_input_labels_function: Optional[LabelListFactory] = get_input_labels,
     select_ports: Callable[..., PortsDict] = select_ports_optical,
     component_name: Optional[str] = None,
 ) -> Component:
@@ -88,7 +93,7 @@ def add_grating_couplers_with_loopback_fiber_single(
     grating_coupler: ComponentSpec = grating_coupler_te,
     layer_label: Optional[Tuple[int, int]] = (200, 0),
     gc_port_name: str = "o1",
-    get_input_labels_function: Callable[..., List[Label]] = get_input_labels,
+    get_input_labels_function: Optional[LabelListFactory] = get_input_labels,
     get_input_label_text_loopback_function: Callable = get_input_label_text_loopback,
     select_ports: Callable[..., PortsDict] = select_ports_optical,
     with_loopback: bool = True,
@@ -217,7 +222,7 @@ def add_grating_couplers_with_loopback_fiber_array(
     component_name: Optional[str] = None,
     with_loopback: bool = False,
     nlabels_loopback: int = 2,
-    get_input_labels_function: Optional[Callable] = get_input_labels,
+    get_input_labels_function: Optional[LabelListFactory] = get_input_labels,
     cross_section: CrossSectionSpec = strip,
     select_ports: Callable = select_ports_optical,
     loopback_yspacing: float = 4.0,

@@ -19,7 +19,7 @@ def get_input_label_text_dash(
     component_name: Optional[str] = None,
     prefix: str = "",
 ) -> str:
-    return f"{gc.name}-{component_name or port.parent.name}-{port.name}"
+    return f"{prefix}{gc.name}-{component_name or port.parent.name}-{port.name}"
 
 
 def get_input_label_text(
