@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## 6.78.0
+## 6.79.0
 
 - add klayout fill [PR](https://github.com/gdsfactory/gdsfactory/pull/1535)
 - improve spiral [PR](https://github.com/gdsfactory/gdsfactory/pull/1537)
