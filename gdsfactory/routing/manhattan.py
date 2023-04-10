@@ -4,7 +4,7 @@ import uuid
 import warnings
 from typing import Callable, Dict, List, Optional, Tuple, Union
 
-import gdstk
+import kfactory as kf
 import numpy as np
 from numpy import bool_, ndarray
 
@@ -65,7 +65,7 @@ def _get_unique_port_facing(
                 break
     else:
         ports_selected = select_ports_list(
-            ports=ports, orientation=orientation, layer=gf.get_layer(layer)
+            ports=ports, orientation=orientation, layer=layer
         )
 
     if len(ports_selected) > 1:
@@ -141,13 +141,14 @@ def gen_sref(
     else:
         port_position = structure.ports[port_name].center
 
-    ref = gf.ComponentReference(component=structure, origin=(0, 0))
+    c = gf.Component()
+    ref = c << structure
 
     if x_reflection:  # Vertical mirror: Reflection across x-axis
         y0 = port_position[1]
-        ref.mirror(p1=(0, y0), p2=(1, y0))
+        ref.mirror()
 
-    ref.rotate(rotation_angle, center=port_position)
+    ref.rotate(rotation_angle)
     ref.move(port_position, position)
     return ref
 
@@ -560,14 +561,7 @@ def get_route_error(
     warnings.warn(f"Route error for points {points}", RouteWarning)
 
     c = Component(f"route_{uuid.uuid4()}"[:16])
-    path = gdstk.FlexPath(
-        points,
-        width=width,
-        simple_path=True,
-        layer=layer_path[0],
-        datatype=layer_path[1],
-    )
-    c.add(path)
+    
     ref = ComponentReference(c)
     port1 = gf.Port(
         name="p1", center=points[0], width=width, layer=layer_path, orientation=0
@@ -575,6 +569,8 @@ def get_route_error(
     port2 = gf.Port(
         name="p2", center=points[1], width=width, layer=layer_path, orientation=0
     )
+
+
 
     point_marker = gf.components.rectangle(
         size=(width * 2, width * 2), centered=True, layer=layer_marker
@@ -723,13 +719,16 @@ def round_corners(
             with_sbend=with_sbend,
         )
 
+    layer = bend90.klib.layer(*get_layer(layer))
     try:
+        print(layer)
         pname_west, pname_north = (
             p.name for p in _get_bend_ports(bend=bend90, layer=layer)
         )
     except ValueError as exc:
+        print(exc)
         raise ValueError(
-            f"Did not find 2 ports on layer {layer}. Got {list(bend90.ports.values())}"
+            f"Did not find 2 ports on layer {layer}. Got {list(bend90.ports)}"
         ) from exc
     n_o_bends = points.shape[0] - 2
     total_length += n_o_bends * bend_length
@@ -751,14 +750,14 @@ def round_corners(
         if abs(dx_points) < TOLERANCE:
             matching_ports = [
                 port
-                for port in bend_ref.ports.values()
+                for port in bend_ref.ports
                 if np.isclose(port.x, points[i][0])
             ]
 
         if abs(dy_points) < TOLERANCE:
             matching_ports = [
                 port
-                for port in bend_ref.ports.values()
+                for port in bend_ref.ports
                 if np.isclose(port.y, points[i][1])
             ]
 
@@ -994,7 +993,7 @@ def generate_manhattan_waypoints(
 
 
 def _get_bend_size(bend90: Component):
-    p1, p2 = list(bend90.ports.values())[:2]
+    p1, p2 = list(bend90.ports)[:2]
     bsx = abs(p2.x - p1.x)
     bsy = abs(p2.y - p1.y)
     return max(bsx, bsy)
@@ -1048,6 +1047,9 @@ def route_manhattan(
         min_straight_length = min_straight_length or x.min_length
 
     try:
+        kf.routing.manhattan.route_manhattan(
+
+        )
         points = generate_manhattan_waypoints(
             input_port,
             output_port,
