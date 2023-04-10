@@ -58,6 +58,7 @@ cells:
       cross_section_x_top: null
       cross_section_x_bot: null
       mirror_bot: false
+      add_optical_ports_arms: false
     changed:
       cross_section:
         function: cross_section
@@ -89,6 +90,7 @@ cells:
       cross_section_x_top: null
       cross_section_x_bot: null
       mirror_bot: false
+      add_optical_ports_arms: false
     child: null
   mmi1x2_be5e636a:
     name: mmi1x2_be5e636a
@@ -1092,6 +1094,7 @@ settings:
     cross_section_x_top: null
     cross_section_x_bot: null
     mirror_bot: false
+    add_optical_ports_arms: false
   changed:
     cross_section:
       function: cross_section
@@ -1123,4 +1126,5 @@ settings:
     cross_section_x_top: null
     cross_section_x_bot: null
     mirror_bot: false
+    add_optical_ports_arms: false
   child: null
