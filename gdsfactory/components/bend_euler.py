@@ -228,8 +228,11 @@ if __name__ == "__main__":
     # PDK = get_generic_pdk()
     # PDK.activate()
     # c = bend_euler_s()
-    c = bend_euler(cross_section="rib", angle=180)
+    # c = bend_euler(cross_section="rib", angle=180)
     # c = bend_euler(bbox_layers=[(2, 0), (3, 0)], bbox_offsets=[3, 3])
+    p = 1
+    c = bend_euler(p=p, radius=20)
+    print(p, c.info["radius_min"])
     c.show(show_ports=True)
 
     # c = bend_euler(direction="cw")
