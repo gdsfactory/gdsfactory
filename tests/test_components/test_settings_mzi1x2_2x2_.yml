@@ -44,6 +44,7 @@ settings:
     port_e1_combiner: o3
   child: null
   default:
+    add_optical_ports_arms: false
     bend:
       function: bend_euler
     combiner: null
@@ -67,6 +68,7 @@ settings:
     straight_y: null
     with_splitter: true
   full:
+    add_optical_ports_arms: false
     bend:
       function: bend_euler
     combiner:
