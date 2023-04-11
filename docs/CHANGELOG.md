@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.80.0 [PR](https://github.com/gdsfactory/gdsfactory/pull/1539)
+
+- add function that returns labels with `GratingName-ComponentName-PortName`
+- make it default for `gf.routing.add_fiber_single` and `gf.routing.add_fiber_array`
+- for disabling automated measurement labels you can define `layer_label=None`
+
 ## 6.79.0
 
 - add klayout fill [PR](https://github.com/gdsfactory/gdsfactory/pull/1535)
