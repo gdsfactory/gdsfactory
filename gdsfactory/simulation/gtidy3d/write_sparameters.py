@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from typing import Awaitable
 import time
 
 import numpy as np
@@ -25,6 +26,7 @@ from gdsfactory.typings import (
     Port,
     PortSymmetries,
     Tuple,
+    Sparameters,
 )
 
 
@@ -75,7 +77,7 @@ def write_sparameters(
     run: bool = True,
     overwrite: bool = False,
     **kwargs,
-) -> Dict[str, np.ndarray]:
+) -> Sparameters:
     """Get full sparameter matrix from a gdsfactory Component.
 
     Simulates each time using a different input port (by default, all of them)
@@ -236,16 +238,19 @@ def write_sparameters(
     return sp
 
 
-def write_sparameters_batch(jobs: List[Dict[str, Any]], **kwargs) -> List[np.ndarray]:
-    """Returns Sparameters for a list of write_sparameters_grating_coupler kwargs \
-            where it runs each simulation in parallel.
+def write_sparameters_batch(
+    jobs: List[Dict[str, Any]], **kwargs
+) -> List[Awaitable[Sparameters]]:
+    """Returns Sparameters for a list of write_sparameters.
+
+    Each job runs in separate thread and is non blocking.
+    You need to get the results using sp.result().
 
     Args:
         jobs: list of kwargs for write_sparameters_grating_coupler.
         kwargs: simulation settings.
     """
-    sp = [_executor.submit(write_sparameters, **job, **kwargs) for job in jobs]
-    return [spi.result() for spi in sp]
+    return [_executor.submit(write_sparameters, **job, **kwargs) for job in jobs]
 
 
 write_sparameters_1x1 = gf.partial(

@@ -45,7 +45,7 @@ def _get_results(
 
     hash_to_id = {d["taskName"][:32]: d["task_id"] for d in web.get_tasks()}
     filepath = str(dirpath / f"{sim_hash}.hdf5")
-    job = web.Job(simulation=sim, task_name=task_name)
+    job = web.Job(simulation=sim, task_name=task_name, verbose=False)
 
     # Results in local storage
     if sim_path.exists():

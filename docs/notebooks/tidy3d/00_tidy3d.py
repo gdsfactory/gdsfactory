@@ -436,3 +436,35 @@ plt.xlabel("wavelength (um")
 plt.ylabel("Transmission (dB)")
 plt.title("transmission vs xoffset")
 plt.legend()
+
+# %% [markdown]
+# ## Run jobs in parallel
+#
+# You can run multiple simulations in parallel on separate threads.
+#
+# Only when you `sp.result()` you will wait for the simulations to finish.
+
+# %%
+c = gf.components.grating_coupler_elliptical_lumerical()
+fiber_angles = [3, 5, 7]
+jobs = [
+    dict(component=c, is_3d=False, fiber_angle_deg=fiber_angle_deg)
+    for fiber_angle_deg in fiber_angles
+]
+sps = gt.write_sparameters_grating_coupler_batch(jobs)
+
+# %%
+for sp, fiber_angle_deg in zip(sps, fiber_angles):
+    sp = sp.result()
+    plt.plot(
+        sp["wavelengths"],
+        20 * np.log10(np.abs(sp["o2@0,o1@0"])),
+        label=str(fiber_angle_deg),
+    )
+
+plt.xlabel("wavelength (um")
+plt.ylabel("Transmission (dB)")
+plt.title("transmission vs fiber angle (degrees)")
+plt.legend()
+
+# %%
