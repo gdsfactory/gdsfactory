@@ -76,7 +76,7 @@ def write_sparameters(
     dirpath: Optional[PathType] = None,
     run: bool = True,
     overwrite: bool = False,
-    verbose: bool = True,
+    verbose: bool = False,
     **kwargs,
 ) -> Sparameters:
     """Get full sparameter matrix from a gdsfactory Component.

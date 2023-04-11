@@ -24,14 +24,14 @@ ports:
     port_type: electrical
     shear_angle: null
     width: 11.0
-  elec-pad_sizepad_size-None-e1:
+  elec-pad_sizepad_size-straight_heater_metal_u_b4c23abf-e1:
     center:
     - -16.0
     - 46.5
     layer:
     - 49
     - 0
-    name: elec-pad_sizepad_size-None-e1
+    name: elec-pad_sizepad_size-straight_heater_metal_u_b4c23abf-e1
     orientation: 270
     port_type: placement
     shear_angle: null
