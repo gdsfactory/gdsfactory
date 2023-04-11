@@ -27,7 +27,6 @@
 # Tidy3d provides you with a material database of dispersive materials.
 
 # %% tags=[]
-# basic ipython configuration (reload source code automatically and plots inline)
 from gdsfactory.components.taper import taper_sc_nc
 import gdsfactory.simulation as sim
 import gdsfactory.simulation.gtidy3d as gt

@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pydantic
 import tidy3d as td
+from tidy3d.plugins.mode import ModeSolver
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -385,7 +386,7 @@ def get_simulation(
     if plot_modes:
         mode_spec = td.ModeSpec(num_modes=num_modes)
         src_plane = td.Box(center=source_center_offset, size=source_size)
-        ms = td.plugins.ModeSolver(
+        ms = ModeSolver(
             simulation=sim, plane=src_plane, freqs=[freq0], mode_spec=mode_spec
         )
         modes = ms.solve()
