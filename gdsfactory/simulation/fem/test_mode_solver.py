@@ -52,7 +52,7 @@ def compute_modes(
 
 def test_compute_cross_section_mode():
     lams, basis, xs = compute_modes()
-    assert len(lams) == NUM_MODES
+    assert len(lams) == NUM_MODES, len(lams)
 
 
 def test_compute_cross_section_mode_cache():
@@ -72,7 +72,8 @@ def test_compute_cross_section_mode_cache():
 
 
 if __name__ == "__main__":
-    test_compute_cross_section_mode_cache()
+    test_compute_cross_section_mode()
+    # test_compute_cross_section_mode_cache()
     # lams, basis, xs = compute_modes(with_cache=True, overwrite=False)
     # mode_solver.plot_mode(
     #     basis=basis,

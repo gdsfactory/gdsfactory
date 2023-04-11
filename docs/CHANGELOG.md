@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.81.0 [PR](https://github.com/gdsfactory/gdsfactory/pull/1541)
+
+- bring back multithreaded simulations with batch. Thanks to verbose flag is possible now.
+- update tidy3d to latest version
+
+
 ## 6.80.0 [PR](https://github.com/gdsfactory/gdsfactory/pull/1539)
 
 - add function that returns labels with `GratingName-ComponentName-PortName`
