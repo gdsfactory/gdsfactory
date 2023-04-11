@@ -20,6 +20,7 @@ def get_input_label_text_dash(
     prefix: str = "",
     suffix: str = "",
 ) -> str:
+    """Returns text with `GratingName-ComponentName-PortName`."""
     gc_name = gc.name if isinstance(gc, Component) else gc.parent.name
     return f"{prefix}{gc_name}-{component_name or port.parent.name}-{port.name}{suffix}"
 
@@ -31,6 +32,7 @@ def get_input_label_text_dash_loopback(
     component_name: Optional[str] = None,
     prefix: str = "",
 ) -> str:
+    """Returns text with `GratingName-ComponentName-Loopback`."""
     gc_name = gc.name if isinstance(gc, Component) else gc.parent.name
     return f"{prefix}{gc_name}-{component_name or port.parent.name}-loopback_{gc_index}"
 
@@ -40,8 +42,9 @@ def get_input_label_text(
     gc: Union[ComponentReference, Component],
     gc_index: Optional[int] = None,
     component_name: Optional[str] = None,
-    prefix: str = "",
-    label_prefix: str = "opt",
+    component_prefix: str = "",
+    prefix: str = "opt",
+    suffix: str = "",
 ) -> str:
     """Returns text string for an optical port based on grating coupler.
 
@@ -49,11 +52,11 @@ def get_input_label_text(
 
     Args:
         port: to label.
-        gc: grating coupler.
+        gc: grating coupler component or reference.
         gc_index: grating_coupler index, which grating_coupler we are labelling.
         component_name: optional name.
-        prefix: prefix on the label cell_name.
-        label_prefix: prefix to add.
+        component_prefix: component prefix.
+        prefix: prefix to add to the label.
     """
     polarization = gc.info.get("polarization") or gc.metadata_child.get("polarization")
     wavelength = gc.info.get("wavelength") or gc.metadata_child.get("wavelength")
@@ -67,7 +70,7 @@ def get_input_label_text(
 
     component_name = component_name or port.parent.metadata_child.get("name")
 
-    text = f"{label_prefix}_{polarization}_{int(wavelength*1e3)}_({prefix}{component_name})"
+    text = f"{prefix}_{polarization}_{int(wavelength*1e3)}_({component_prefix}{component_name}){suffix}"
     if isinstance(gc_index, int):
         text += f"_{gc_index}_{port.name}"
     else:
@@ -384,6 +387,5 @@ if __name__ == "__main__":
     # c = test_add_labels_electrical()
     # c = gf.routing.add_fiber_single(c)
 
-    c = gf.components.pad()
-    add_labels_to_ports_vertical_dc(c)
+    c = gf.components.pad(decorator=add_labels_to_ports_vertical_dc)
     c.show(show_ports=True)
