@@ -36,6 +36,7 @@ def write_sparameters_grating_coupler(
     overwrite: bool = False,
     port_waveguide_name: str = "o1",
     fiber_port_prefix: str = "opt",
+    verbose: bool = False,
     **kwargs,
 ) -> Sparameters:
     """Get sparameter matrix from a gdsfactory grating coupler.
@@ -49,6 +50,7 @@ def write_sparameters_grating_coupler(
         dirpath: directory to store sparameters in npz.
             Defaults to active Pdk.sparameters_path.
         overwrite: overwrites stored Sparameter npz results.
+        verbose: prints info messages and progressbars.
 
     Keyword Args:
         port_extension: extend ports beyond the PML.
@@ -116,7 +118,7 @@ def write_sparameters_grating_coupler(
         port_waveguide_name=port_waveguide_name,
         **kwargs,
     )
-    sim_data = get_results(sim)
+    sim_data = get_results(sim, verbose=verbose)
     sim_data = sim_data.result()
 
     direction_inp = "+"
@@ -182,6 +184,7 @@ def write_sparameters_grating_coupler_batch(
         jobs: list of kwargs for write_sparameters_grating_coupler.
         kwargs: simulation settings.
     """
+    kwargs.update(verbose=False)
     return [
         _executor.submit(write_sparameters_grating_coupler, **job, **kwargs)
         for job in jobs

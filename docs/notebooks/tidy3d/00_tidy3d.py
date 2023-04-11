@@ -468,3 +468,22 @@ plt.title("transmission vs fiber angle (degrees)")
 plt.legend()
 
 # %%
+bend_radius = [1, 2]
+jobs = [
+    dict(component=gf.components.bend_circular(radius=radius)) for radius in bend_radius
+]
+sps = gt.write_sparameters_batch(jobs)
+
+# %%
+for sp, radius in zip(sps, bend_radius):
+    sp = sp.result()
+    plt.plot(
+        sp["wavelengths"],
+        20 * np.log10(np.abs(sp["o2@0,o1@0"])),
+        label=str(radius),
+    )
+
+plt.xlabel("wavelength (um")
+plt.ylabel("Transmission (dB)")
+plt.title("transmission vs bend radius (um)")
+plt.legend()

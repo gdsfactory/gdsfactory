@@ -76,6 +76,7 @@ def write_sparameters(
     dirpath: Optional[PathType] = None,
     run: bool = True,
     overwrite: bool = False,
+    verbose: bool = True,
     **kwargs,
 ) -> Sparameters:
     """Get full sparameter matrix from a gdsfactory Component.
@@ -104,6 +105,7 @@ def write_sparameters(
             Defaults to active Pdk.sparameters_path.
         run: runs simulation, if False, only plots simulation.
         overwrite: overwrites stored Sparameter npz results.
+        verbose: prints info messages and progressbars.
 
     Keyword Args:
         port_extension: extend ports beyond the PML.
@@ -186,7 +188,7 @@ def write_sparameters(
         return sp
 
     start = time.time()
-    batch_data = get_results_batch(sims)
+    batch_data = get_results_batch(sims, verbose=verbose)
 
     def get_sparameter(
         port_name_source: str,
@@ -250,6 +252,7 @@ def write_sparameters_batch(
         jobs: list of kwargs for write_sparameters_grating_coupler.
         kwargs: simulation settings.
     """
+    kwargs.update(verbose=False)
     return [_executor.submit(write_sparameters, **job, **kwargs) for job in jobs]
 
 
