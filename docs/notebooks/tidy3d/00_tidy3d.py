@@ -273,11 +273,12 @@ sim.plot.plot_imbalance2x2(sp)
 
 # %%
 jobs = [dict(component=gf.c.straight(length=1.11 + i)) for i in [1, 2]]
-dfs = gt.write_sparameters_batch_1x1(jobs)
+sps = gt.write_sparameters_batch_1x1(jobs)
 
 # %%
-df1 = dfs[0]
-sim.plot.plot_sparameters(df1)
+sp0 = sps[0]
+sp = sp0.result()
+sim.plot.plot_sparameters(sp)
 
 # %% [markdown]
 # ## get_simulation_grating_coupler
@@ -487,3 +488,5 @@ plt.xlabel("wavelength (um")
 plt.ylabel("Transmission (dB)")
 plt.title("transmission vs bend radius (um)")
 plt.legend()
+
+# %%
