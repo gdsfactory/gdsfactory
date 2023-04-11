@@ -15,7 +15,10 @@ from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.route_fiber_single import route_fiber_single
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
-from gdsfactory.add_labels import get_input_label_text_dash
+from gdsfactory.add_labels import (
+    get_input_label_text_dash,
+    get_input_label_text_dash_loopback,
+)
 
 
 @cell
@@ -36,7 +39,7 @@ def add_fiber_single(
     zero_port: Optional[str] = "o1",
     get_input_label_text_loopback_function: Optional[
         Callable
-    ] = get_input_label_text_dash,
+    ] = get_input_label_text_dash_loopback,
     get_input_label_text_function: Optional[Callable] = get_input_label_text_dash,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = "strip",
@@ -292,6 +295,6 @@ if __name__ == "__main__":
         component=c,
         grating_coupler=gc,
         # layer_label="TEXT"
-        layer_label=None,
+        # layer_label=None,
     )
     cc.show(show_ports=False)
