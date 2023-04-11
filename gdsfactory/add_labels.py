@@ -24,6 +24,17 @@ def get_input_label_text_dash(
     return f"{prefix}{gc_name}-{component_name or port.parent.name}-{port.name}{suffix}"
 
 
+def get_input_label_text_dash_loopback(
+    port: Port,
+    gc: Union[ComponentReference, Component],
+    gc_index: Optional[int] = None,
+    component_name: Optional[str] = None,
+    prefix: str = "",
+) -> str:
+    gc_name = gc.name if isinstance(gc, Component) else gc.parent.name
+    return f"{prefix}{gc_name}-{component_name or port.parent.name}-loopback_{gc_index}"
+
+
 def get_input_label_text(
     port: Port,
     gc: Union[ComponentReference, Component],
@@ -66,9 +77,6 @@ def get_input_label_text(
 
 
 get_input_label_text_loopback = partial(get_input_label_text, prefix="loopback_")
-get_input_label_text_dash_loopback = partial(
-    get_input_label_text_dash, prefix="loopback_"
-)
 
 
 def get_input_label(
@@ -100,8 +108,7 @@ def get_input_label(
     if gc_port_name is None:
         gc_port_name = list(gc.ports.values())[0].name
 
-    layer_label = gf.get_layer(layer_label)
-    layer, texttype = _parse_layer(layer_label)
+    layer, texttype = gf.get_layer(layer_label)
     return Label(
         text=text,
         origin=gc.ports[gc_port_name].center,

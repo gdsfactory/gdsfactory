@@ -226,12 +226,12 @@ if __name__ == "__main__":
     # pprint(cc.get_json())
     # c = gf.components.coupler(gap=0.2, length=5.6)
     # c = gf.components.straight()
-    # c = gf.components.mmi2x2()
+    c = gf.components.mmi2x2()
     # c = gf.components.ring_single()
     # c = gf.components.straight_heater_metal()
     # c = gf.components.spiral(direction="NORTH")
 
-    c = gf.components.bend_euler(info=dict(doe="bends"))
+    # c = gf.components.bend_euler(info=dict(doe="bends"))
     cc = add_fiber_array(c, layer_label="TEXT", layer_label_loopback="TEXT")
 
     # cc = add_fiber_array(
