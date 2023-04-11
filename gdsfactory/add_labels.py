@@ -18,8 +18,10 @@ def get_input_label_text_dash(
     gc_index: Optional[int] = None,
     component_name: Optional[str] = None,
     prefix: str = "",
+    suffix: str = "",
 ) -> str:
-    return f"{prefix}{gc.name}-{component_name or port.parent.name}-{port.name}"
+    gc_name = gc.name if isinstance(gc, Component) else gc.parent.name
+    return f"{prefix}{gc_name}-{component_name or port.parent.name}-{port.name}{suffix}"
 
 
 def get_input_label_text(
@@ -63,8 +65,10 @@ def get_input_label_text(
     return text
 
 
-def get_input_label_text_loopback(prefix: str = "loopback_", **kwargs):
-    return get_input_label_text(prefix=prefix, **kwargs)
+get_input_label_text_loopback = partial(get_input_label_text, prefix="loopback_")
+get_input_label_text_dash_loopback = partial(
+    get_input_label_text_dash, prefix="loopback_"
+)
 
 
 def get_input_label(

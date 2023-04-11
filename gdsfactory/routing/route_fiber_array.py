@@ -23,6 +23,11 @@ from gdsfactory.typings import (
     LayerSpec,
     Strs,
 )
+from gdsfactory.add_labels import (
+    get_input_label_text_dash,
+    get_input_label_text_dash_loopback,
+)
+from gdsfactory.routing.get_input_labels import get_input_labels_dash
 
 
 def route_fiber_array(
@@ -47,14 +52,14 @@ def route_fiber_array(
     route_filter: Callable = get_route_from_waypoints,
     gc_port_name: str = "o1",
     gc_rotation: int = -90,
-    layer_label: LayerSpec = "TEXT",
-    layer_label_loopback: Optional[Tuple[int, int]] = None,
+    layer_label: LayerSpec = None,
+    layer_label_loopback: LayerSpec = None,
     component_name: Optional[str] = None,
     x_grating_offset: int = 0,
     port_names: Optional[Strs] = None,
-    get_input_label_text_loopback_function: Callable = None,
-    get_input_label_text_function: Optional[Callable] = None,
-    get_input_labels_function: Optional[Callable] = None,
+    get_input_label_text_loopback_function: Callable = get_input_label_text_dash_loopback,
+    get_input_label_text_function: Optional[Callable] = get_input_label_text_dash,
+    get_input_labels_function: Optional[Callable] = get_input_labels_dash,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = strip,
     **kwargs,
@@ -107,7 +112,7 @@ def route_fiber_array(
         route_filter: straight and bend factories
         gc_port_name: grating_coupler port name, where to route straights.
         gc_rotation: grating_coupler rotation (deg).
-        layer_label: for TM labels.
+        layer_label: for measurement labels.
         component_name: name of component.
         x_grating_offset: x offset.
         port_names: port labels to route_to_fiber_array.
@@ -471,19 +476,20 @@ def route_fiber_array(
             nlabels_loopback > 0
             and get_input_labels_function
             and get_input_label_text_function
+            and layer_label_loopback
         ):
             elements.extend(
                 get_input_labels_function(
                     io_gratings=io_gratings_loopback,
                     ordered_ports=ordered_ports_loopback,
                     component_name=component_name,
-                    layer_label=layer_label_loopback or layer_label,
+                    layer_label=layer_label_loopback,
                     gc_port_name=gc_port_name,
                     get_input_label_text_function=get_input_label_text_loopback_function,
                 )
             )
 
-    if get_input_labels_function and get_input_label_text_function:
+    if get_input_labels_function and get_input_label_text_function and layer_label:
         elements.extend(
             get_input_labels_function(
                 io_gratings=io_gratings,
@@ -526,6 +532,8 @@ def demo() -> None:
 
 
 if __name__ == "__main__":
+    from gdsfactory.routing.get_input_labels import get_input_labels_dash
+
     # layer = (2, 0)
     # c = gf.components.straight(layer=layer)
     # gc = gf.components.grating_coupler_elliptical_te(layer=layer, taper_length=30)
@@ -554,13 +562,16 @@ if __name__ == "__main__":
     ci = gf.components.mmi2x2()
     ci = gf.components.straight_heater_metal()
     gc = gf.components.grating_coupler_elliptical_te(layer=layer, taper_length=30)
-    gc.xmin = -20
     elements, gc, ports, ports_loopback, ports_component = route_fiber_array(
         component=ci,
         grating_coupler=gc,
         nlabels_loopback=1,
         layer=layer,
-        with_loopback=False
+        # with_loopback=False,
+        layer_label="TEXT",
+        layer_label_loopback="TEXT"
+        # get_input_labels_function=get_input_labels_dash
+        # get_input_labels_function=None
         # optical_routing_type=2,
         # fanout_length=20,
         # get_input_label_text_function=None,
