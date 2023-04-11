@@ -476,6 +476,7 @@ def route_fiber_array(
             nlabels_loopback > 0
             and get_input_labels_function
             and get_input_label_text_function
+            and layer_label
             and layer_label_loopback
         ):
             elements.extend(
