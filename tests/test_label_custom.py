@@ -21,6 +21,7 @@ def test_label_fiber_array_custom(length=LENGTH, cell_name=CELL_NAME) -> Compone
         with_loopback=False,
         component_name=CUSTOM_LABEL,
         cross_section=cross_section,
+        layer_label=None,
         decorator=gf.add_labels.add_labels_to_ports,
     )
     assert len(cte.labels) == 2, len(cte.labels)
@@ -42,6 +43,7 @@ def test_label_fiber_single_custom(num_regression, check=True):
         with_loopback=True,
         component_name=CUSTOM_LABEL,
         cross_section=cross_section,
+        layer_label=None,
         decorator=gf.add_labels.add_labels_to_ports,
     )
     assert len(cte.labels) == 4, len(cte.labels)

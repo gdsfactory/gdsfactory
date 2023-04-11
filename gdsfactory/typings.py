@@ -194,6 +194,8 @@ CrossSectionSpecs = Tuple[CrossSectionSpec, ...]
 
 MultiCrossSectionAngleSpec = List[Tuple[CrossSectionSpec, Tuple[int, ...]]]
 
+LabelListFactory = Callable[..., List[Label]]
+
 
 class Route(BaseModel):
     references: List[ComponentReference]
