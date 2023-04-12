@@ -17,7 +17,8 @@ def mode_converter(
     coupler_straight_asymmetric: ComponentSpec = coupler_straight_asymmetric_function,
     bend: ComponentSpec = bend_s,
     taper: ComponentSpec = taper_function,
-    mm_width: float = 1.0,
+    mc_mm_width: float = 1,
+    mm_width: float = 1.2,
     sm_width: float = 0.5,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
@@ -57,7 +58,7 @@ def mode_converter(
         coupler_straight_asymmetric,
         length=length,
         gap=gap,
-        width_bot=mm_width,
+        width_bot=mc_mm_width,
         width_top=sm_width,
         **kwargs,
     )
@@ -66,9 +67,9 @@ def mode_converter(
 
     bot_taper = gf.get_component(
         taper,
-        width1=mm_width,
-        width2=sm_width,
-        length=bend.xsize,
+        width1=mc_mm_width,
+        width2=mm_width,
+        length=100*abs(mc_mm_width-mm_width),
         **kwargs,
     )
 
