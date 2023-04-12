@@ -9,6 +9,7 @@ from gdsfactory.components.bend_euler import bend_euler_s
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
+
 @gf.cell
 def mode_converter(
     gap: float = 0.3,
