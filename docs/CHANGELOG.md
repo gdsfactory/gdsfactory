@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.82.0 [PR](https://github.com/gdsfactory/gdsfactory/pull/1544)
+
+- fix tiling stitching issues
+
 ## 6.81.1 [PR](https://github.com/gdsfactory/gdsfactory/pull/1543)
 
 - improve mode converter
