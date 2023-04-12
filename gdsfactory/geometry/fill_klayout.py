@@ -121,8 +121,8 @@ if __name__ == "__main__":
     c.show()
     gdspath = c.write_gds("mzi_fill.gds")
 
-    use_fill_cell = False
     use_fill_cell = True
+    use_fill_cell = False
     spacing = 50
 
     if use_fill_cell:

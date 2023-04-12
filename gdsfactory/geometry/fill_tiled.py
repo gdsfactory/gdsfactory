@@ -23,7 +23,6 @@ class FillOperator(kdb.TileOutputReceiver):
         column_step: kdb.Vector,
         fill_margin: kdb.Vector = kdb.Vector(0, 0),
         remaining_polygons: Optional[kdb.Region] = None,
-        glue_box: kdb.Box = kdb.Box(),
     ) -> None:
         self.klib = klib
         self.top_cell = top_cell
@@ -33,7 +32,7 @@ class FillOperator(kdb.TileOutputReceiver):
         self.column_step = column_step
         self.fill_margin = fill_margin
         self.remaining_polygons = remaining_polygons
-        self.glue_box = glue_box
+        self.glue_box = self.top_cell.bbox()
 
     def put(
         self,
@@ -44,16 +43,19 @@ class FillOperator(kdb.TileOutputReceiver):
         dbu: float,
         clip: bool,
     ) -> None:
-        self.top_cell.fill_region_multi(
-            region,
-            self.fill_cell_index,
-            self.fc_bbox,
-            self.row_step,
-            self.column_step,
-            self.fill_margin,
-            self.remaining_polygons,
-            self.glue_box,
-        )
+        while not region.is_empty():
+            self.top_cell.fill_region(
+                region,
+                self.fill_cell_index,
+                self.fc_bbox,
+                self.row_step,
+                self.column_step,
+                tile.p1,
+                region,
+                self.fill_margin,
+                None,
+                self.glue_box,
+            )
 
 
 def fill_tiled(
@@ -74,13 +76,11 @@ def fill_tiled(
     tp.threads = n_threads
 
     if tile_size is None:
-        tp.tile_size(
-            100 * (fill_cell.dbbox().width() + x_space) + x_space,
-            100 * (fill_cell.dbbox().height() + y_space) + y_space,
+        tile_size = (
+            100 * (fill_cell.dbbox().width() + x_space),
+            100 * (fill_cell.dbbox().height() + y_space),
         )
-    else:
-        tp.tile_size(*tile_size)  # tile size in um
-    # tp.tile_border(fill_cell.dbbox().width() * 2, fill_cell.dbbox().height() * 2)
+    tp.tile_size(*tile_size)
 
     layer_names: list[str] = []
     for layer, _ in fill_layers:
@@ -112,14 +112,12 @@ def fill_tiled(
             c.klib,
             c,
             fill_cell.cell_index(),
-            fc_bbox=fill_cell.bbox().enlarged(
-                int(x_space / 2 / c.klib.dbu), int(y_space / 2 / c.klib.dbu)
-            ),
+            fc_bbox=fill_cell.bbox(),
             row_step=kdb.Vector(
-                fill_cell.bbox().width() + int(x_space / 2 / c.klib.dbu), 0
+                fill_cell.bbox().width() + int(x_space / c.klib.dbu), 0
             ),
             column_step=kdb.Vector(
-                0, fill_cell.bbox().height() + int(y_space / 2 / c.klib.dbu)
+                0, fill_cell.bbox().height() + int(y_space / c.klib.dbu)
             ),
         ),
     )
