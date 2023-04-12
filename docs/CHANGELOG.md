@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.81.1 [PR](https://github.com/gdsfactory/gdsfactory/pull/1543)
+
+- improve mode converter
+
 ## 6.81.0 [PR](https://github.com/gdsfactory/gdsfactory/pull/1541)
 
 - bring back multithreaded simulations with batch. Thanks to verbose flag is possible now.
