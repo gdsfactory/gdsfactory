@@ -5,22 +5,21 @@ from gdsfactory.component import Component
 from gdsfactory.components.coupler_straight_asymmetric import (
     coupler_straight_asymmetric as coupler_straight_asymmetric_function,
 )
-from gdsfactory.components.bend_euler import bend_euler
+from gdsfactory.components.bend_euler import bend_euler_s
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
-
 
 @gf.cell
 def mode_converter(
     gap: float = 0.3,
     length: float = 10,
     coupler_straight_asymmetric: ComponentSpec = coupler_straight_asymmetric_function,
-    bend: ComponentSpec = bend_euler,
+    bend: ComponentSpec = gf.partial(bend_euler_s, angle=45),
     taper: ComponentSpec = taper_function,
     mm_width: float = 1.2,
     mc_mm_width: float = 1,
     sm_width: float = 0.5,
-    taper_length: float = 50,
+    taper_length: float = 25,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
