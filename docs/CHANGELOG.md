@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.83.0
+
+- extrude transitions [PR](https://github.com/gdsfactory/gdsfactory/pull/1548)
+- add PSR [PR](https://github.com/gdsfactory/gdsfactory/pull/1546)
+
 ## 6.82.0 [PR](https://github.com/gdsfactory/gdsfactory/pull/1544)
 
 - fix tiling stitching issues
