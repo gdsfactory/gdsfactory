@@ -43,7 +43,6 @@ def polarization_splitter_rotator(
         length_out: Length of the splitter region in um.
         dy: Port-to-port distance between the splitter region in um.
         cross_section: cross-section spec.
-        coupling_length: Length of the coupling region in um.
 
     Keyword Args:
         cross_section kwargs.
