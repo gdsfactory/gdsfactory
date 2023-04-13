@@ -582,6 +582,7 @@ def transition(
     cross_section1: CrossSection,
     cross_section2: CrossSection,
     width_type: WidthTypes = "sine",
+    **kwargs,
 ) -> Transition:
     """Returns a smoothly-transitioning between two CrossSections.
 
@@ -693,6 +694,7 @@ def transition(
         width_type=width_type,
         sections=sections,
         width=max([X1.width, X2.width]),
+        **kwargs,
     )
 
 
