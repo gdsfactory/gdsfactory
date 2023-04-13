@@ -193,7 +193,9 @@ from gdsfactory.components.pad import (
 )
 from gdsfactory.components.pad_gsg import pad_gsg_open, pad_gsg_short
 from gdsfactory.components.pads_shorted import pads_shorted
-from gdsfactory.components.polarization_splitter_rotator import polarization_splitter_rotator
+from gdsfactory.components.polarization_splitter_rotator import (
+    polarization_splitter_rotator,
+)
 from gdsfactory.components.ramp import ramp
 from gdsfactory.components.rectangle import rectangle, marker_te, marker_tm
 from gdsfactory.components.rectangle_with_slits import rectangle_with_slits

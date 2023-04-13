@@ -9,7 +9,9 @@ from gdsfactory.component import Component
 
 from gdsfactory.components.taper import taper
 from gdsfactory.components.bezier import bezier
-from gdsfactory.components.coupler_straight_asymmetric import coupler_straight_asymmetric
+from gdsfactory.components.coupler_straight_asymmetric import (
+    coupler_straight_asymmetric,
+)
 
 from gdsfactory.typings import CrossSectionSpec, Float2, Float3
 
@@ -59,7 +61,7 @@ def polarization_splitter_rotator(
     w3, w4 = width_coupler
     if len(length_taper_in) == 2:
         l1, l2 = length_taper_in
-        l3 = l1 * (w3 - w2)/(w1 - w0)
+        l3 = l1 * (w3 - w2) / (w1 - w0)
     else:
         l1, l2, l3 = length_taper_in
 
@@ -68,25 +70,28 @@ def polarization_splitter_rotator(
     taper_in3 = c << taper(length=l3, width1=w2, width2=w3, cross_section=x)
 
     coupler = c << coupler_straight_asymmetric(
-        length = length_coupler,
-        gap = gap,
-        width_top = w4,
-        width_bot = w3,
-        cross_section=x
+        length=length_coupler, gap=gap, width_top=w4, width_bot=w3, cross_section=x
     )
 
     def bend_s_width(t: ndarray) -> ndarray:
         return w4 + (width_out - w4) * t
-    
+
     x_bend = x.copy(width=bend_s_width)
 
     bend_s_var = c << bezier(
-        control_points=((0, 0), (length_out / 2, 0), (length_out / 2, dy), (length_out, dy)),
+        control_points=(
+            (0, 0),
+            (length_out / 2, 0),
+            (length_out / 2, dy),
+            (length_out, dy),
+        ),
         cross_section=x_bend,
-        **kwargs
+        **kwargs,
     )
 
-    taper_out = c << taper(length=length_out, width1=w3, width2=width_out, cross_section=x)
+    taper_out = c << taper(
+        length=length_out, width1=w3, width2=width_out, cross_section=x
+    )
 
     taper_in3.connect("o2", destination=coupler.ports["o1"])
     taper_in2.connect("o2", destination=taper_in3.ports["o1"])
@@ -113,5 +118,5 @@ def polarization_splitter_rotator(
 
 
 if __name__ == "__main__":
-    c = polarization_splitter_rotator(length_taper_in=(10,69))
+    c = polarization_splitter_rotator(length_taper_in=(10, 69))
     c.show(show_ports=True)
