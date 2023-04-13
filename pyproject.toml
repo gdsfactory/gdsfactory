@@ -75,7 +75,7 @@ full = [
     "rich-click",
     "ipycytoscape",
     ]
-femwell = ["femwell"]
+femwell = ["femwell<=0.0.18"]
 database = ["sqlalchemy", "sqlalchemy-utils"]
 gmsh = [
     "gmsh",
