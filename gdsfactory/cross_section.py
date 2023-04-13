@@ -128,8 +128,8 @@ class CrossSection(BaseModel):
     cladding_layers: Optional[LayerSpecs] = None
     cladding_offsets: Optional[Floats] = None
     sections: List[Section] = Field(default_factory=list)
-    port_names: Tuple[str, str] = ("o1", "o2")
-    port_types: Tuple[str, str] = ("optical", "optical")
+    port_names: Tuple[Optional[str], Optional[str]] = ("o1", "o2")
+    port_types: Tuple[Optional[str], Optional[str]] = ("optical", "optical")
     gap: float = 3.0
     min_length: float = 10e-3
     start_straight_length: float = 10e-3
@@ -234,7 +234,7 @@ class CrossSection(BaseModel):
         return c
 
 
-class Transition(BaseModel):
+class Transition(CrossSection):
     """Waveguide information to extrude a path between two CrossSection.
 
     cladding_layers follow path shape, while bbox_layers are rectangular.
