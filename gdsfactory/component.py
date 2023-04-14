@@ -1031,7 +1031,7 @@ class Component(kf.KCell):
         layer: LayerSpec = None,
         port_type: str = "optical",
         cross_section: Optional[CrossSection] = None,
-    ) -> None:
+    ) -> kf.DCplxPort:
         """Add port to component.
 
         You can copy an existing port like add_port(port = existing_port) or
@@ -1055,7 +1055,8 @@ class Component(kf.KCell):
             name = name if name is not None else port.name
 
             if isinstance(port, (kf.Port, kf.DPort, kf.ICplxPort, kf.DCplxPort)):
-                return kf.KCell.add_port(self, port=port, name=name)
+                kf.KCell.add_port(self, port=port, name=name)
+                return port
 
             elif isinstance(port, Port):
                 port.orientation = float(port.orientation)
@@ -1067,7 +1068,8 @@ class Component(kf.KCell):
                     layer=self.layer(*get_layer(port.layer)),
                     port_type=port.port_type,
                 )
-                return kf.KCell.add_port(self, p)
+                kf.KCell.add_port(self, p)
+                return p
 
             else:
                 raise ValueError(
@@ -1093,7 +1095,8 @@ class Component(kf.KCell):
             layer=self.layer(*layer),
             port_type=port_type,
         )
-        return kf.KCell.add_port(self, p)
+        kf.KCell.add_port(self, p)
+        return p
 
     def add_ports(
         self,
@@ -2560,7 +2563,9 @@ if __name__ == "__main__":
     layer = (1, 0)
     c2.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
     c.add_port(name="o1", center=(0, 0), width=0.5, orientation=180, layer=(1, 0))
-    c.add_port(name="o1", center=(0, 0), width=0.5, orientation=180, layer=(1, 0))
+    c.add_port(name="o2", center=(length, 0), width=0.5, orientation=180, layer=(1, 0))
+
+    c << c2
 
     # print(c2.get_polygons())
     # print(c2.get_polygons((1, 0)))
@@ -2577,7 +2582,6 @@ if __name__ == "__main__":
 
     # ref = c << c2
     # ref.y = 10
-
     # c2.show()
 
     # c = gf.c.mzi()
@@ -2592,5 +2596,5 @@ if __name__ == "__main__":
     # c = test_get_layers()
     # c.plot_qt()
     # c.ploth()
-    c = test_extract()
-    c.show()
+    # c = test_extract()
+    # c.show()

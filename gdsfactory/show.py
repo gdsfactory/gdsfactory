@@ -38,9 +38,7 @@ def show(
 
     elif hasattr(component, "write_gds"):
         # don't raise warnings for uncached cells when simply showing
-        gdspath = component.write_gds(
-            logging=False, on_uncached_component="ignore", **kwargs
-        )
+        gdspath = component.write_gds(**kwargs)
         klive.show(gdspath, technology=technology)
     else:
         raise ValueError(
