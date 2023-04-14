@@ -193,6 +193,9 @@ from gdsfactory.components.pad import (
 )
 from gdsfactory.components.pad_gsg import pad_gsg_open, pad_gsg_short
 from gdsfactory.components.pads_shorted import pads_shorted
+from gdsfactory.components.polarization_splitter_rotator import (
+    polarization_splitter_rotator,
+)
 from gdsfactory.components.ramp import ramp
 from gdsfactory.components.rectangle import rectangle, marker_te, marker_tm
 from gdsfactory.components.rectangle_with_slits import rectangle_with_slits
@@ -296,7 +299,7 @@ from gdsfactory.components.via_stack import (
 from gdsfactory.components.via_stack_slot import via_stack_slot, via_stack_slot_m1_m2
 from gdsfactory.components.via_stack_with_offset import via_stack_with_offset
 from gdsfactory.components.wafer import wafer
-from gdsfactory.components.wire import wire_corner, wire_straight
+from gdsfactory.components.wire import wire_corner, wire_straight, wire_corner45
 from gdsfactory.components.wire_sbend import wire_sbend
 from gdsfactory.get_factories import get_cells
 
@@ -511,6 +514,7 @@ __all__ = [
     "pad_gsg_open",
     "pad_gsg_short",
     "pads_shorted",
+    "polarization_splitter_rotator",
     "pixel",
     "qrcode",
     "ramp",
@@ -594,6 +598,7 @@ __all__ = [
     "via_corner",
     "wafer",
     "wire_corner",
+    "wire_corner45",
     "wire_sbend",
     "wire_straight",
 ]

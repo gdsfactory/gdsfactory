@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 import time
-from typing import Dict, Optional
+from typing import Optional
+from typing import Awaitable
 
 import numpy as np
 import tidy3d as td
 from omegaconf import OmegaConf
+
 
 import gdsfactory as gf
 from gdsfactory.config import logger
@@ -13,11 +15,19 @@ from gdsfactory.serialization import clean_value_json
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_tidy3d as get_sparameters_path,
 )
-from gdsfactory.simulation.gtidy3d.get_results import get_results
+from gdsfactory.simulation.gtidy3d.get_results import get_results, _executor
 from gdsfactory.simulation.gtidy3d.get_simulation_grating_coupler import (
     get_simulation_grating_coupler,
 )
-from gdsfactory.typings import Component, ComponentSpec, PathType
+from gdsfactory.typings import (
+    Component,
+    ComponentSpec,
+    PathType,
+    Sparameters,
+    Dict,
+    Any,
+    List,
+)
 
 
 def write_sparameters_grating_coupler(
@@ -26,8 +36,9 @@ def write_sparameters_grating_coupler(
     overwrite: bool = False,
     port_waveguide_name: str = "o1",
     fiber_port_prefix: str = "opt",
+    verbose: bool = False,
     **kwargs,
-) -> Dict[str, np.ndarray]:
+) -> Sparameters:
     """Get sparameter matrix from a gdsfactory grating coupler.
 
     Assumes grating coupler waveguide port is facing to the left (west).
@@ -39,6 +50,7 @@ def write_sparameters_grating_coupler(
         dirpath: directory to store sparameters in npz.
             Defaults to active Pdk.sparameters_path.
         overwrite: overwrites stored Sparameter npz results.
+        verbose: prints info messages and progressbars.
 
     Keyword Args:
         port_extension: extend ports beyond the PML.
@@ -106,7 +118,7 @@ def write_sparameters_grating_coupler(
         port_waveguide_name=port_waveguide_name,
         **kwargs,
     )
-    sim_data = get_results(sim)
+    sim_data = get_results(sim, verbose=verbose)
     sim_data = sim_data.result()
 
     direction_inp = "+"
@@ -160,17 +172,50 @@ def write_sparameters_grating_coupler(
     return sp
 
 
+def write_sparameters_grating_coupler_batch(
+    jobs: List[Dict[str, Any]], **kwargs
+) -> List[Awaitable[Sparameters]]:
+    """Returns Sparameters for a list of write_sparameters.
+
+    Each job runs in separate thread and is non blocking.
+    You need to get the results using sp.result().
+
+    Args:
+        jobs: list of kwargs for write_sparameters_grating_coupler.
+        kwargs: simulation settings.
+    """
+    kwargs.update(verbose=False)
+    return [
+        _executor.submit(write_sparameters_grating_coupler, **job, **kwargs)
+        for job in jobs
+    ]
+
+
 if __name__ == "__main__":
+    c = gf.components.grating_coupler_elliptical_lumerical()  # inverse design grating
+    offsets = [0, 5]
+    fiber_angle_deg = 8
+
+    jobs = [
+        dict(
+            component=c,
+            is_3d=False,
+            fiber_angle_deg=fiber_angle_deg,
+            fiber_xoffset=fiber_xoffset,
+        )
+        for fiber_xoffset in offsets
+    ]
+    sps = write_sparameters_grating_coupler_batch(jobs)
+
     # import matplotlib.pyplot as plt
     # import gdsfactory.simulation as sim
 
-    c = gf.components.grating_coupler_elliptical_lumerical()  # inverse design grating
-    sp = write_sparameters_grating_coupler(
-        c,
-        is_3d=False,
-        fiber_angle_deg=-5,
-        fiber_xoffset=+2,
-    )
+    # sp = write_sparameters_grating_coupler(
+    #     c,
+    #     is_3d=False,
+    #     fiber_angle_deg=-5,
+    #     fiber_xoffset=+2,
+    # )
 
     # sim.plot.plot_sparameters(sp)
 

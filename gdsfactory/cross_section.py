@@ -128,8 +128,8 @@ class CrossSection(BaseModel):
     cladding_layers: Optional[LayerSpecs] = None
     cladding_offsets: Optional[Floats] = None
     sections: List[Section] = Field(default_factory=list)
-    port_names: Tuple[str, str] = ("o1", "o2")
-    port_types: Tuple[str, str] = ("optical", "optical")
+    port_names: Tuple[Optional[str], Optional[str]] = ("o1", "o2")
+    port_types: Tuple[Optional[str], Optional[str]] = ("optical", "optical")
     gap: float = 3.0
     min_length: float = 10e-3
     start_straight_length: float = 10e-3
@@ -234,7 +234,7 @@ class CrossSection(BaseModel):
         return c
 
 
-class Transition(BaseModel):
+class Transition(CrossSection):
     """Waveguide information to extrude a path between two CrossSection.
 
     cladding_layers follow path shape, while bbox_layers are rectangular.
@@ -251,6 +251,29 @@ class Transition(BaseModel):
             the width at t==0 is the width at the beginning of the Path.
             the width at t==1 is the width at the end.
         snap_to_grid: Optional snap points to grid when extruding paths (um).
+        radius: main Section bend radius (um).
+        width_wide: wide waveguides width (um) for low loss routing.
+        auto_widen: taper to wide waveguides for low loss routing.
+        auto_widen_minimum_length: minimum straight length for auto_widen.
+        taper_length: taper_length for auto_widen.
+        bbox_layers: list of layers for rectangular bounding box.
+        bbox_offsets: list of bounding box offsets.
+        cladding_layers: list of layers to extrude.
+        cladding_offsets: list of offset from main Section edge.
+        sections: list of Sections(width, offset, layer, ports).
+        port_names: for input and output ('o1', 'o2').
+        port_types: for input and output: electrical, optical, vertical_te ...
+        gap: edge to edge waveguide spacing for routing.
+        min_length: defaults to 1nm = 10e-3um for routing.
+        start_straight_length: straight length at the beginning of the route.
+        end_straight_length: end length at the beginning of the route.
+        snap_to_grid: Optional snap points to grid when extruding paths (um).
+        decorator: function when extruding component. For example add_pins.
+        add_pins: Optional function to add pins.
+        add_bbox: Optional function to add bounding box.
+        info: dict with extra settings or useful information.
+        name: cross_section name.
+        mirror: if True, reflects the offsets.
     """
 
     cross_section1: CrossSection
@@ -260,6 +283,8 @@ class Transition(BaseModel):
     layer: Optional[LayerSpec] = None
     width: Optional[Union[float, Callable]] = None
     snap_to_grid: Optional[float] = None
+    port_names: Tuple[Optional[str], Optional[str]] = (None, None)
+    port_types: Tuple[Optional[str], Optional[str]] = ("optical", "optical")
 
 
 def _xsection_without_validator(func):

@@ -27,7 +27,6 @@
 # Tidy3d provides you with a material database of dispersive materials.
 
 # %% tags=[]
-# basic ipython configuration (reload source code automatically and plots inline)
 from gdsfactory.components.taper import taper_sc_nc
 import gdsfactory.simulation as sim
 import gdsfactory.simulation.gtidy3d as gt
@@ -274,11 +273,12 @@ sim.plot.plot_imbalance2x2(sp)
 
 # %%
 jobs = [dict(component=gf.c.straight(length=1.11 + i)) for i in [1, 2]]
-dfs = gt.write_sparameters_batch_1x1(jobs)
+sps = gt.write_sparameters_batch_1x1(jobs)
 
 # %%
-df1 = dfs[0]
-sim.plot.plot_sparameters(df1)
+sp0 = sps[0]
+sp = sp0.result()
+sim.plot.plot_sparameters(sp)
 
 # %% [markdown]
 # ## get_simulation_grating_coupler
@@ -437,3 +437,56 @@ plt.xlabel("wavelength (um")
 plt.ylabel("Transmission (dB)")
 plt.title("transmission vs xoffset")
 plt.legend()
+
+# %% [markdown]
+# ## Run jobs in parallel
+#
+# You can run multiple simulations in parallel on separate threads.
+#
+# Only when you `sp.result()` you will wait for the simulations to finish.
+
+# %%
+c = gf.components.grating_coupler_elliptical_lumerical()
+fiber_angles = [3, 5, 7]
+jobs = [
+    dict(component=c, is_3d=False, fiber_angle_deg=fiber_angle_deg)
+    for fiber_angle_deg in fiber_angles
+]
+sps = gt.write_sparameters_grating_coupler_batch(jobs)
+
+# %%
+for sp, fiber_angle_deg in zip(sps, fiber_angles):
+    sp = sp.result()
+    plt.plot(
+        sp["wavelengths"],
+        20 * np.log10(np.abs(sp["o2@0,o1@0"])),
+        label=str(fiber_angle_deg),
+    )
+
+plt.xlabel("wavelength (um")
+plt.ylabel("Transmission (dB)")
+plt.title("transmission vs fiber angle (degrees)")
+plt.legend()
+
+# %%
+bend_radius = [1, 2]
+jobs = [
+    dict(component=gf.components.bend_circular(radius=radius)) for radius in bend_radius
+]
+sps = gt.write_sparameters_batch(jobs)
+
+# %%
+for sp, radius in zip(sps, bend_radius):
+    sp = sp.result()
+    plt.plot(
+        sp["wavelengths"],
+        20 * np.log10(np.abs(sp["o2@0,o1@0"])),
+        label=str(radius),
+    )
+
+plt.xlabel("wavelength (um")
+plt.ylabel("Transmission (dB)")
+plt.title("transmission vs bend radius (um)")
+plt.legend()
+
+# %%

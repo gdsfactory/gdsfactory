@@ -15,6 +15,7 @@ from gdsfactory.typings import (
     CrossSectionSpec,
     LayerSpec,
 )
+from gdsfactory.routing.get_input_labels import get_input_labels_dash
 
 
 @gf.cell
@@ -26,7 +27,7 @@ def add_fiber_array(
     component_name: Optional[str] = None,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = "strip",
-    get_input_labels_function: Optional[Callable] = None,
+    get_input_labels_function: Optional[Callable] = get_input_labels_dash,
     layer_label: LayerSpec = "TEXT",
     **kwargs,
 ) -> Component:
@@ -201,6 +202,8 @@ def demo_te_and_tm():
 
 
 if __name__ == "__main__":
+    from gdsfactory.routing.get_input_labels import get_input_labels_dash
+
     # test_type0()
     gcte = gf.components.grating_coupler_te
     gctm = gf.components.grating_coupler_tm
@@ -223,27 +226,29 @@ if __name__ == "__main__":
     # pprint(cc.get_json())
     # c = gf.components.coupler(gap=0.2, length=5.6)
     # c = gf.components.straight()
-    # c = gf.components.mmi2x2()
+    c = gf.components.mmi2x2()
     # c = gf.components.ring_single()
     # c = gf.components.straight_heater_metal()
     # c = gf.components.spiral(direction="NORTH")
 
-    c = gf.components.bend_euler(info=dict(doe="bends"))
-    cc = add_fiber_array(
-        component=c,
-        # optical_routing_type=0,
-        # optical_routing_type=1,
-        # optical_routing_type=2,
-        # layer_label=layer_label,
-        # get_route_factory=route_fiber_single,
-        # get_route_factory=route_fiber_array,
-        grating_coupler=gctm,
-        # grating_coupler=[gcte, gctm, gcte, gctm],
-        # grating_coupler=gf.functions.rotate(gcte, angle=180),
-        auto_widen=True,
-        # layer=(2, 0),
-        # gc_port_labels=["loop_in", "in", "out", "loop_out"],
-        cross_section=strip,
-        info=dict(a=1),
-    )
-    cc.show(show_ports=True)
+    # c = gf.components.bend_euler(info=dict(doe="bends"))
+    cc = add_fiber_array(c, layer_label="TEXT", layer_label_loopback="TEXT")
+
+    # cc = add_fiber_array(
+    #     component=c,
+    #     # optical_routing_type=0,
+    #     # optical_routing_type=1,
+    #     # optical_routing_type=2,
+    #     # layer_label=layer_label,
+    #     # get_route_factory=route_fiber_single,
+    #     # get_route_factory=route_fiber_array,
+    #     grating_coupler=gctm,
+    #     # grating_coupler=[gcte, gctm, gcte, gctm],
+    #     # grating_coupler=gf.functions.rotate(gcte, angle=180),
+    #     auto_widen=True,
+    #     # layer=(2, 0),
+    #     # gc_port_labels=["loop_in", "in", "out", "loop_out"],
+    #     cross_section=strip,
+    #     info=dict(a=1),
+    # )
+    cc.show(show_ports=False)

@@ -58,7 +58,6 @@ sphinx:
     - "sphinx.ext.napoleon"
     - "sphinx.ext.viewcode"
     - "matplotlib.sphinxext.plot_directive"
-    - "sphinx_click"
     - "sphinxcontrib.autodoc_pydantic"
   config:
     #autodoc_typehints: description

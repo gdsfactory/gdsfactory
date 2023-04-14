@@ -65,7 +65,7 @@ class KLayoutTechnology(BaseModel):
         if not self.technology.name:
             self.technology.name = self.name
 
-        self.technology.layer_views_file = lyp_path.name
+        self.technology.layer_properties_file = lyp_path.name
         # TODO: Also interop with xs scripts?
 
         # Write lyp to file

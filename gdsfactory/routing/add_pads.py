@@ -87,6 +87,7 @@ def add_pads_bot(
     """
     component_new = Component()
     component = gf.get_component(component)
+    component_name = component_name or component.name
 
     pad_spacing = gf.get_constant(pad_spacing)
     cref = component_new << component

@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.coupler_straight_asymmetric import (
     coupler_straight_asymmetric as coupler_straight_asymmetric_function,
 )
-from gdsfactory.components.bend_s import bend_s
+from gdsfactory.components.bend_euler import bend_euler_s
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
@@ -15,10 +15,12 @@ def mode_converter(
     gap: float = 0.3,
     length: float = 10,
     coupler_straight_asymmetric: ComponentSpec = coupler_straight_asymmetric_function,
-    bend: ComponentSpec = bend_s,
+    bend: ComponentSpec = gf.partial(bend_euler_s, angle=45),
     taper: ComponentSpec = taper_function,
-    mm_width: float = 1.0,
+    mm_width: float = 1.2,
+    mc_mm_width: float = 1,
     sm_width: float = 0.5,
+    taper_length: float = 25,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
@@ -32,7 +34,8 @@ def mode_converter(
         gap: directional coupler gap.
         length: coupler length interaction.
         coupler_straight_asymmetric: spec.
-        mm_width: multimode waveguide width.
+        mm_width: input/output multimode waveguide width.
+        mc_mm_width: mode converter multimode waveguide width
         sm_width: single mode waveguide width.
         cross_section: cross_section spec.
         kwargs: cross_section settings.
@@ -57,7 +60,7 @@ def mode_converter(
         coupler_straight_asymmetric,
         length=length,
         gap=gap,
-        width_bot=mm_width,
+        width_bot=mc_mm_width,
         width_top=sm_width,
         **kwargs,
     )
@@ -66,9 +69,9 @@ def mode_converter(
 
     bot_taper = gf.get_component(
         taper,
-        width1=mm_width,
-        width2=sm_width,
-        length=bend.xsize,
+        width1=mc_mm_width,
+        width2=mm_width,
+        length=taper_length,
         **kwargs,
     )
 

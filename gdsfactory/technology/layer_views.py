@@ -703,33 +703,33 @@ class LayerView(BaseModel):
             return None
 
         # Translate KLayout index to hatch name
-        hatch_pattern = element.find("dither-pattern").text
-        if hatch_pattern and re.match(r"I\d+", hatch_pattern):
+        hatch_pattern = element.find("dither-pattern")
+        if hatch_pattern and re.match(r"I\d+", hatch_pattern.text):
             hatch_pattern = list(_klayout_dither_patterns.keys())[
-                int(hatch_pattern[1:])
+                int(hatch_pattern.text[1:])
             ]
 
         # Translate KLayout index to line style name
-        line_style = element.find("line-style").text
-        if line_style and re.match(r"I\d+", line_style):
-            line_style = list(_klayout_line_styles.keys())[int(line_style[1:])]
+        line_style = element.find("line-style")
+        if line_style and re.match(r"I\d+", line_style.text):
+            line_style = list(_klayout_line_styles.keys())[int(line_style.text[1:])]
 
         lv = LayerView(
             name=name,
             layer=cls._process_layer(element.find("source").text, layer_pattern),
-            fill_color=element.find("fill-color").text,
-            frame_color=element.find("frame-color").text,
+            fill_color=getattr(element.find("fill-color"), "text", None),
+            frame_color=getattr(element.find("frame-color"), "text", None),
             fill_brightness=element.find("fill-brightness").text or 0,
             frame_brightness=element.find("frame-brightness").text or 0,
-            hatch_pattern=hatch_pattern or "solid",
-            line_style=line_style or "solid",
-            valid=element.find("valid").text,
-            visible=element.find("visible").text,
-            transparent=element.find("transparent").text,
-            width=element.find("width").text,
-            marked=element.find("marked").text,
-            xfill=element.find("xfill").text,
-            animation=element.find("animation").text,
+            hatch_pattern=hatch_pattern or None,
+            line_style=line_style or None,
+            valid=getattr(element.find("valid"), "text", True),
+            visible=getattr(element.find("visible"), "text", True),
+            transparent=getattr(element.find("transparent"), "text", False),
+            width=getattr(element.find("width"), "text", None),
+            marked=getattr(element.find("marked"), "text", False),
+            xfill=getattr(element.find("xfill"), "text", False),
+            animation=getattr(element.find("animation"), "text", False),
             layer_in_name=layer_in_name,
         )
 
@@ -822,6 +822,8 @@ class LayerViews(BaseModel):
             )
         if layer_view is None:
             layer_view = LayerView(name=name, **kwargs)
+        if layer_view.name is None:
+            layer_view.name = name
         self.layer_views[name] = layer_view
 
         # If the dither pattern is a CustomDitherPattern, add it to custom_patterns
@@ -1119,21 +1121,21 @@ class LayerViews(BaseModel):
             for name, lv in self.layer_views.items()
         }
 
-        out_dict = {
-            "LayerViews": lvs,
-            "CustomDitherPatterns": {
+        out_dict = {"LayerViews": lvs}
+        if self.custom_dither_patterns:
+            out_dict["CustomDitherPatterns"] = {
                 name: dp.dict(
                     exclude_none=True, exclude_defaults=True, exclude_unset=True
                 )
                 for name, dp in self.custom_dither_patterns.items()
-            },
-            "CustomLineStyles": {
+            }
+        if self.custom_line_styles:
+            out_dict["CustomLineStyles"] = {
                 name: ls.dict(
                     exclude_none=True, exclude_defaults=True, exclude_unset=True
                 )
                 for name, ls in self.custom_line_styles.items()
-            },
-        }
+            }
 
         lf_path.write_bytes(
             yaml.dump(

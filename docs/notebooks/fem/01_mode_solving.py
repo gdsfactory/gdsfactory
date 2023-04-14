@@ -14,7 +14,7 @@
 
 # # Finite-element mode solver
 #
-# You can mesh any component cross-section and solve the PDEs thanks to [femwell](https://helgegehring.github.io/femwell/intro.html) mode - solver.
+# You can mesh any component cross-section and solve the PDEs thanks to [femwell](https://helgegehring.github.io/femwell) mode - solver.
 #
 # Unlike other mode solvers, this actually uses the component geometry instead of a hardcoded geometry.
 #
