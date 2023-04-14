@@ -368,9 +368,9 @@ class Component(kf.KCell):
     #     self.get_child_name = False
     #     self._reference_names_counter = Counter()
     #     self._reference_names_used = set()
-    #     self._named_references = {}
     #     self._references = []
     #     self.ports = {}
+    #     self._named_references = {}
 
     def copy(self) -> "Component":
         """Copy the full component.
@@ -595,7 +595,8 @@ class Component(kf.KCell):
 
     @property
     def named_references(self):
-        return self._named_references
+        # return self._named_references # FIXME
+        return {}
 
     def add_label(
         self,
@@ -1438,8 +1439,8 @@ class Component(kf.KCell):
         """
         if not isinstance(component, Component):
             raise TypeError(f"type = {type(Component)} needs to be a Component.")
-        if alias:
-            raise NotImplementedError("not yet")
+        # if alias: FIXME
+        #     raise NotImplementedError("not yet")
 
         return self.create_inst(component)
 
