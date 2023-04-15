@@ -230,9 +230,16 @@ if __name__ == "__main__":
     # c = bend_euler_s()
     # c = bend_euler(cross_section="rib", angle=180)
     # c = bend_euler(bbox_layers=[(2, 0), (3, 0)], bbox_offsets=[3, 3])
-    p = 1
-    c = bend_euler(p=p, radius=20)
-    print(p, c.info["radius_min"])
+
+    import numpy as np
+
+    c = gf.Component()
+    ps = np.arange(0, 1.1, 0.2)
+    for p in ps:
+        b = bend_euler(p=p, radius=10)
+        print(p, b.info["radius_min"])
+        c << b
+
     c.show(show_ports=True)
 
     # c = bend_euler(direction="cw")
