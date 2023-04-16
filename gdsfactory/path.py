@@ -725,7 +725,6 @@ def extrude(
           polygon by more than the value listed here will be removed.
         shear_angle_start: an optional angle to shear the starting face by (in degrees).
         shear_angle_end: an optional angle to shear the ending face by (in degrees).
-
     """
     from gdsfactory.pdk import (
         get_active_pdk,
@@ -766,6 +765,7 @@ def extrude(
                 layer=get_layer(x.layer),
                 port_names=x.port_names,
                 port_types=x.port_types,
+                insets=None,
             )
         ]
 
@@ -780,8 +780,8 @@ def extrude(
                         layer=get_layer(layer),
                     )
                 ]
-
     for section in sections:
+        p_sec = p.copy()
         width = section.width
         offset = section.offset
         layer = get_layer(section.layer)
@@ -801,30 +801,50 @@ def extrude(
         ):
             xsection_points.append([layer[0], layer[1]])
 
-        # print(offset, type(offset))
+        if section.insets:
+            p_pts = p_sec.points
+
+            new_x_start = p.xmin + section.insets[0]
+            new_x_stop = p.xmax - section.insets[1]
+
+            if new_x_start > np.max(p_pts[:, 0]) or new_x_stop < np.min(p_pts[:, 0]):
+                warnings.warn(
+                    f"Cannot apply delay to Section '{section.name}', delay results in points outside of original path."
+                )
+                continue
+
+            new_start_idx = np.argwhere(p_pts[:, 0] > new_x_start)[0, 0]
+            new_stop_idx = np.argwhere(p_pts[:, 0] < new_x_stop)[-1, 0]
+
+            new_start_point = [new_x_start, p_pts[new_start_idx, 1]]
+            new_stop_point = [new_x_stop, p_pts[new_stop_idx, 1]]
+
+            p_sec = Path(
+                [new_start_point, *p_pts[new_start_idx:new_stop_idx], new_stop_point]
+            )
+
         if callable(offset):
-            P_offset = p.copy()
-            P_offset.offset(offset)
-            points = P_offset.points
-            start_angle = P_offset.start_angle
-            end_angle = P_offset.end_angle
+            p_sec.offset(offset)
+            points = p_sec.points
+            start_angle = p_sec.start_angle
+            end_angle = p_sec.end_angle
             offset = 0
         else:
-            points = p.points
-            start_angle = p.start_angle
-            end_angle = p.end_angle
+            points = p_sec.points
+            start_angle = p_sec.start_angle
+            end_angle = p_sec.end_angle
 
         if callable(width):
             # Compute lengths
-            dx = np.diff(p.points[:, 0])
-            dy = np.diff(p.points[:, 1])
+            dx = np.diff(p_sec.points[:, 0])
+            dy = np.diff(p_sec.points[:, 1])
             lengths = np.cumsum(np.sqrt(dx**2 + dy**2))
             lengths = np.concatenate([[0], lengths])
             width = width(lengths / lengths[-1])
         dy = offset + width / 2
         # _points = _shear_face(points, dy, shear_angle_start, shear_angle_end)
 
-        points1 = p._centerpoint_offset_curve(
+        points1 = p_sec._centerpoint_offset_curve(
             points,
             offset_distance=dy,
             start_angle=start_angle,
@@ -833,7 +853,7 @@ def extrude(
         dy = offset - width / 2
         # _points = _shear_face(points, dy, shear_angle_start, shear_angle_end)
 
-        points2 = p._centerpoint_offset_curve(
+        points2 = p_sec._centerpoint_offset_curve(
             points,
             offset_distance=dy,
             start_angle=start_angle,
@@ -880,7 +900,7 @@ def extrude(
         points_poly = np.concatenate([points1, points2[::-1, :]])
 
         layers = layer if hidden else [layer, layer]
-        if not hidden and p.length() > 1e-3:
+        if not hidden and p_sec.length() > 1e-3:
             c.add_polygon(points_poly, layer=layer)
 
         pdk = get_active_pdk()
@@ -889,7 +909,7 @@ def extrude(
         # Add port_names if they were specified
         if port_names[0] is not None:
             port_width = width if np.isscalar(width) else width[0]
-            port_orientation = (p.start_angle + 180) % 360
+            port_orientation = (p_sec.start_angle + 180) % 360
             center = points[0]
             face = [points1[0], points2[0]]
             face = [_rotated_delta(point, center, port_orientation) for point in face]
@@ -916,7 +936,7 @@ def extrude(
             port1.info["face"] = face
         if port_names[1] is not None:
             port_width = width if np.isscalar(width) else width[-1]
-            port_orientation = (p.end_angle) % 360
+            port_orientation = (p_sec.end_angle) % 360
             center = points[-1]
             face = [points1[-1], points2[-1]]
             face = [_rotated_delta(point, center, port_orientation) for point in face]
