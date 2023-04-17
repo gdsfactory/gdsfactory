@@ -33,6 +33,7 @@ settings:
       settings:
         sections:
         - hidden: false
+          insets: null
           layer: SLAB90
           name: slab
           offset: 0
@@ -96,6 +97,7 @@ settings:
       settings:
         sections:
         - hidden: false
+          insets: null
           layer: SLAB90
           name: slab
           offset: 0
