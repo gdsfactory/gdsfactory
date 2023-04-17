@@ -4,7 +4,6 @@ import uuid
 import warnings
 from typing import Callable, Dict, List, Optional, Tuple, Union
 
-import kfactory as kf
 import numpy as np
 from numpy import bool_, ndarray
 
@@ -145,7 +144,7 @@ def gen_sref(
     ref = c << structure
 
     if x_reflection:  # Vertical mirror: Reflection across x-axis
-        y0 = port_position[1]
+        port_position[1]
         ref.mirror()
 
     ref.rotate(rotation_angle)
@@ -561,7 +560,7 @@ def get_route_error(
     warnings.warn(f"Route error for points {points}", RouteWarning)
 
     c = Component(f"route_{uuid.uuid4()}"[:16])
-    
+
     ref = ComponentReference(c)
     port1 = gf.Port(
         name="p1", center=points[0], width=width, layer=layer_path, orientation=0
@@ -569,8 +568,6 @@ def get_route_error(
     port2 = gf.Port(
         name="p2", center=points[1], width=width, layer=layer_path, orientation=0
     )
-
-
 
     point_marker = gf.components.rectangle(
         size=(width * 2, width * 2), centered=True, layer=layer_marker
@@ -749,16 +746,12 @@ def round_corners(
 
         if abs(dx_points) < TOLERANCE:
             matching_ports = [
-                port
-                for port in bend_ref.ports
-                if np.isclose(port.x, points[i][0])
+                port for port in bend_ref.ports if np.isclose(port.x, points[i][0])
             ]
 
         if abs(dy_points) < TOLERANCE:
             matching_ports = [
-                port
-                for port in bend_ref.ports
-                if np.isclose(port.y, points[i][1])
+                port for port in bend_ref.ports if np.isclose(port.y, points[i][1])
             ]
 
         if matching_ports:
@@ -1047,9 +1040,7 @@ def route_manhattan(
         min_straight_length = min_straight_length or x.min_length
 
     try:
-        kf.routing.manhattan.route_manhattan(
-
-        )
+        # kf.routing.manhattan.route_manhattan()
         points = generate_manhattan_waypoints(
             input_port,
             output_port,
