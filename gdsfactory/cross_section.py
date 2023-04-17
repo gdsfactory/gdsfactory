@@ -41,6 +41,8 @@ class Section(BaseModel):
         offset: center offset (um) or function parameterized function from 0 to 1.
              the offset at t==0 is the offset at the beginning of the Path.
              the offset at t==1 is the offset at the end.
+        insets: distance (um) in x to inset section relative to end of the Path
+             (i.e. (start inset, stop_inset)).
         layer: layer spec. If None does not draw the main section.
         port_names: Optional port names.
         port_types: optical, electrical, ...
@@ -61,6 +63,7 @@ class Section(BaseModel):
 
     width: Union[float, Callable]
     offset: Union[float, Callable] = 0
+    insets: Optional[tuple] = None
     layer: Optional[LayerSpec] = None
     port_names: Tuple[Optional[str], Optional[str]] = (None, None)
     port_types: Tuple[str, str] = ("optical", "optical")

@@ -33,7 +33,7 @@ from gdsfactory.cell import cell_without_validator
 from gdsfactory.cell import clear_cache
 from gdsfactory.show import show
 from gdsfactory.read.import_gds import import_gds
-from gdsfactory.cross_section import CrossSection, Section
+from gdsfactory.cross_section import CrossSection, Section, xsection
 from gdsfactory.component_layout import Label
 from gdsfactory import decorators
 from gdsfactory import cross_section
@@ -143,6 +143,7 @@ __all__ = (
     "typings",
     "technology",
     "write_cells",
+    "xsection",
     "PATH",
 )
 __version__ = "6.84.0"

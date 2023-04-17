@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.85.0
+
+- add section inset [PR](https://github.com/gdsfactory/gdsfactory/pull/1555)
+
 ## 6.84.0
 
 - better_cutback component [PR](https://github.com/gdsfactory/gdsfactory/pull/1554)

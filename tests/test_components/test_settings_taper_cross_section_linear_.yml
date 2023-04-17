@@ -36,6 +36,7 @@ settings:
         radius: 20
         sections:
         - hidden: false
+          insets: null
           layer: SLAB90
           name: slab
           offset: 0
@@ -52,6 +53,7 @@ settings:
         radius: 20
         sections:
         - hidden: false
+          insets: null
           layer: SLAB90
           name: slab
           offset: 0
@@ -73,6 +75,7 @@ settings:
         radius: 20
         sections:
         - hidden: false
+          insets: null
           layer: SLAB90
           name: slab
           offset: 0
@@ -89,6 +92,7 @@ settings:
         radius: 20
         sections:
         - hidden: false
+          insets: null
           layer: SLAB90
           name: slab
           offset: 0
