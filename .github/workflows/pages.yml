@@ -33,10 +33,10 @@ jobs:
         shell: bash -l {0}
         run: |
           sudo apt install libglu1-mesa
-          make gdslib plugins-debian full
-          make docs
           mkdir -p $HOME/.tidy3d
           echo ${{ secrets.TIDY3D_AUTH }} > $HOME/.tidy3d/config
+          make gdslib plugins-debian full
+          make docs
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
