@@ -72,7 +72,7 @@ print(
 # + tags=[]
 @gf.cell
 def coupler_straight(
-    gap: float, length: float, cross_section: gf.types.CrossSectionSpec = "strip"
+    gap: float, length: float, cross_section: gf.typings.CrossSectionSpec = "strip"
 ) -> gf.Component:
     cs = gf.get_cross_section(cross_section)
     Δy = (cs.width + gap) / 2
@@ -105,7 +105,7 @@ def coupler_splitter(
     gap: float,
     separation: float = 4.0,
     bend_factor: float = 3.0,
-    cross_section: gf.types.CrossSectionSpec = "strip",
+    cross_section: gf.typings.CrossSectionSpec = "strip",
 ) -> gf.Component:
     cs = gf.get_cross_section(cross_section)
     Δy = (cs.width + gap) / 2
@@ -148,7 +148,7 @@ def coupler_symmetric(
     length: float,
     separation: float = 4.0,
     bend_factor: float = 3.0,
-    cross_section: gf.types.CrossSectionSpec = "strip",
+    cross_section: gf.typings.CrossSectionSpec = "strip",
 ) -> gf.Component:
     splitter = coupler_splitter(
         gap, separation=separation, bend_factor=bend_factor, cross_section=cross_section
@@ -425,7 +425,7 @@ print(f"Path difference (ΔL = {length_delta}, Lπ = {length_pi}):", mzi_deltas)
 def mzi_arms(
     mzi_delta: float,
     separation: float = 4.0,
-    cross_section: gf.types.CrossSectionSpec = "strip",
+    cross_section: gf.typings.CrossSectionSpec = "strip",
 ) -> gf.Component:
     bend = gf.components.bend_euler(cross_section=cross_section)
 
@@ -505,7 +505,7 @@ def cascaded_mzi(
     mzi_deltas,
     separation: float = 4.0,
     bend_factor: float = 3.0,
-    cross_section: gf.types.CrossSectionSpec = "strip",
+    cross_section: gf.typings.CrossSectionSpec = "strip",
 ) -> gf.Component:
     assert len(coupler_lengths) > 0
     assert len(coupler_gaps) == len(coupler_lengths)
@@ -614,7 +614,7 @@ straight_model()
 
 
 # + tags=[]
-def bend_model(cross_section: gf.types.CrossSectionSpec = "strip"):
+def bend_model(cross_section: gf.typings.CrossSectionSpec = "strip"):
     s = gt.write_sparameters(
         component=gf.components.bend_euler(cross_section=cross_section),
         num_modes=2,
@@ -658,7 +658,7 @@ def coupler_model(
     length: float = 1.0,
     separation: float = 4.0,
     bend_factor: float = 3.0,
-    cross_section: gf.types.CrossSectionSpec = "strip",
+    cross_section: gf.typings.CrossSectionSpec = "strip",
 ):
     s = gt.write_sparameters(
         component=coupler_symmetric(
