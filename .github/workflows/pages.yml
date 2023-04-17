@@ -35,6 +35,7 @@ jobs:
           sudo apt install libglu1-mesa
           make gdslib plugins-debian full
           make docs
+          echo ${{ secrets.TIDY3D_AUTH }} > $HOME/.tidy3d/auth.json
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
