@@ -8,18 +8,18 @@ from gdsfactory.components.cross import cross
 from gdsfactory.components.pad import pad
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.via_stack import via_stack
-from gdsfactory.typings import LayerSpecs, ComponentSpec
+from gdsfactory.typings import LayerSpecs, ComponentSpec, Floats
 from gdsfactory.components.via_stack import via_stack_npp_m1
 
 
 @gf.cell
 def greek_cross(
-    cross_struct_length: float = 30.0,
-    cross_struct_width: float = 2.0,
-    cross_struct_layers: LayerSpecs = ("WG",),
-    cross_implant_length: float = 30.0,
-    cross_implant_width: float = 4.0,
-    cross_implant_layers: LayerSpecs = ("N",),
+    length: float = 30,
+    layers: LayerSpecs = (
+        "WG",
+        "N",
+    ),
+    widths: Floats = (2.0, 3.0),
     via_stack: ComponentSpec = via_stack_npp_m1,
 ) -> gf.Component:
     """Simple greek cross with via stacks at the endpoints.
@@ -60,20 +60,13 @@ def greek_cross(
     c = gf.Component()
 
     # Layout cross
-    for layer in cross_struct_layers:
+    for layer, width in zip(layers, widths):
         cross_ref = c << gf.get_component(
             cross,
-            length=cross_struct_length,
-            width=cross_struct_width,
+            length=length,
+            width=width,
             layer=layer,
             port_type="electrical",
-        )
-    for layer in cross_implant_layers:
-        c << gf.get_component(
-            cross,
-            length=cross_implant_length,
-            width=cross_implant_width,
-            layer=layer,
         )
 
     # Add via
