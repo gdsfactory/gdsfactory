@@ -20,7 +20,7 @@ def greek_cross(
     cross_implant_length: float = 30.0,
     cross_implant_width: float = 4.0,
     cross_implant_layers: LayerSpecs = ("N",),
-    via: ComponentSpec = via_stack_npp_m1,
+    via_stack: ComponentSpec = via_stack_npp_m1,
 ) -> gf.Component:
     """Simple greek cross with via stacks at the endpoints.
 
@@ -78,9 +78,9 @@ def greek_cross(
 
     # Add via
     for port in cross_ref.get_ports_list():
-        via_ref = c << gf.get_component(via)
-        via_ref.connect("e1", port)
-        c.add_port(name=port.name, port=via_ref.ports["e3"])
+        via_stack_ref = c << gf.get_component(via_stack)
+        via_stack_ref.connect("e1", port)
+        c.add_port(name=port.name, port=via_stack_ref.ports["e3"])
 
     c.auto_rename_ports()
 
