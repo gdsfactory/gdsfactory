@@ -8,11 +8,87 @@ from gdsfactory.components.cross import cross
 from gdsfactory.components.pad import pad
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.via_stack import via_stack
-from gdsfactory.typings import LayerSpecs
+from gdsfactory.typings import LayerSpecs, ComponentSpec
+from gdsfactory.components.via_stack import via_stack_npp_m1
 
 
 @gf.cell
 def greek_cross(
+    cross_struct_length: float = 30.0,
+    cross_struct_width: float = 2.0,
+    cross_struct_layers: LayerSpecs = ("WG",),
+    cross_implant_length: float = 30.0,
+    cross_implant_width: float = 4.0,
+    cross_implant_layers: LayerSpecs = ("N",),
+    via: ComponentSpec = via_stack_npp_m1,
+) -> gf.Component:
+    """Simple greek cross with via stacks at the endpoints.
+
+    A greek cross is a process control monitor for dopant sheet resistivity and linewidth variation.
+
+    Args:
+        cross_struct_length: length of structural part of cross e.g. silicon core.
+        cross_struct_width: width of structural part of cross  e.g. silicon core.
+        cross_struct_layers: layers to be considered "structural".
+        cross_implant_length: length of implantation part of cross.
+        cross_implant_width: width of implantation part of cross.
+        cross_implant_layers: layers to be considered "implants".
+        via: via component to attach to the cross.
+
+    .. code::
+
+            via_stack
+            <------->
+            _________ cross_implant_length, cross_struct_length
+            |       |<------->
+        4x  |       |         ↓
+            |       |======== cross_implant_width, cross_struct_width
+            |_______|         ↑
+
+
+    References:
+    - Walton, Anthony J.. “MICROELECTRONIC TEST STRUCTURES.” (1999).
+    - W. Versnel, Analysis of the Greek cross, a Van der Pauw structure with finite
+        contacts, Solid-State Electronics, Volume 22, Issue 11, 1979, Pages 911-914,
+        ISSN 0038-1101, https://doi.org/10.1016/0038-1101(79)90061-3.
+    - S. Enderling et al., "Sheet resistance measurement of non-standard cleanroom
+        materials using suspended Greek cross test structures," IEEE Transactions on
+        Semiconductor Manufacturing, vol. 19, no. 1, pp. 2-9, Feb. 2006,
+        doi: 10.1109/TSM.2005.863248.
+    - https://download.tek.com/document/S530_VanDerPauwSheetRstnce.pdf
+    """
+    c = gf.Component()
+
+    # Layout cross
+    for layer in cross_struct_layers:
+        cross_ref = c << gf.get_component(
+            cross,
+            length=cross_struct_length,
+            width=cross_struct_width,
+            layer=layer,
+            port_type="electrical",
+        )
+    for layer in cross_implant_layers:
+        c << gf.get_component(
+            cross,
+            length=cross_implant_length,
+            width=cross_implant_width,
+            layer=layer,
+        )
+
+    # Add via
+    for port in cross_ref.get_ports_list():
+        via_ref = c << gf.get_component(via)
+        via_ref.connect("e1", port)
+        c.add_port(name=port.name, port=via_ref.ports["e3"])
+
+    c.auto_rename_ports()
+
+    return c
+
+
+@gf.cell
+def greek_cross_offset_pads(
     cross_struct_length: float = 30.0,
     cross_struct_width: float = 1.0,
     cross_struct_layers: LayerSpecs = ("WG",),
@@ -24,7 +100,7 @@ def greek_cross(
     contact_buffer: float = 10,
     pad_width: float = 50,
 ) -> gf.Component:
-    """Process control monitor for dopant sheet resistivity and linewidth variation.
+    """Greek cross, with silicon islands on each side of the cross to place larger contacting regions.
 
     Args:
         cross_struct_length: length of structural part of cross e.g. silicon core.
