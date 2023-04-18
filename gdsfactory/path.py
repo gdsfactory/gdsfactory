@@ -630,14 +630,20 @@ def transition(
     ]
 
     if X1.cladding_layers:
+        cladding_simplify = X1.cladding_simplify or [None] * len(X1.cladding_layers)
         sections1 += [
-            Section(width=X1.width + 2 * offset, layer=layer)
-            for offset, layer in zip(X1.cladding_offsets, X2.cladding_layers)
+            Section(width=X1.width + 2 * offset, layer=layer, simplify=simplify)
+            for offset, layer, simplify in zip(
+                X1.cladding_offsets, X1.cladding_layers, cladding_simplify
+            )
         ]
     if X2.cladding_layers:
+        cladding_simplify = X2.cladding_simplify or [None] * len(X2.cladding_layers)
         sections2 += [
             Section(width=X2.width + 2 * offset, layer=layer)
-            for offset, layer in zip(X2.cladding_offsets, X2.cladding_layers)
+            for offset, layer, simplify in zip(
+                X2.cladding_offsets, X2.cladding_layers, cladding_simplify
+            )
         ]
 
     for section1, section2 in zip(sections1, sections2):
@@ -770,7 +776,10 @@ def extrude(
         ]
 
         if x.cladding_layers and x.cladding_offsets:
-            for layer, cladding_offset in zip(x.cladding_layers, x.cladding_offsets):
+            cladding_simplify = x.cladding_simplify or [None] * len(x.cladding_layers)
+            for layer, cladding_offset, with_simplify in zip(
+                x.cladding_layers, x.cladding_offsets, cladding_simplify
+            ):
                 width = x.width(1) if callable(x.width) else x.width
                 width = max(width) if isinstance(width, Iterable) else width
                 sections += [
@@ -778,8 +787,10 @@ def extrude(
                         width=width + 2 * cladding_offset,
                         offset=x.offset,
                         layer=get_layer(layer),
+                        simplify=with_simplify,
                     )
                 ]
+
     for section in sections:
         p_sec = p.copy()
         width = section.width
@@ -887,9 +898,11 @@ def extrude(
         if isinstance(simplify, bool):
             raise ValueError("simplify argument must be a number (e.g. 1e-3) or None")
 
-        if simplify is not None:
-            points1 = _simplify(points1, tolerance=simplify)
-            points2 = _simplify(points2, tolerance=simplify)
+        with_simplify = section.simplify or simplify
+
+        if with_simplify:
+            points1 = _simplify(points1, tolerance=with_simplify)
+            points2 = _simplify(points2, tolerance=with_simplify)
 
         if x.snap_to_grid:
             points = snap.snap_to_grid(points, snap_to_grid_nm)
@@ -1467,13 +1480,15 @@ def _demo_variable_offset() -> None:
 
 if __name__ == "__main__":
     import numpy as np
+    import gdsfactory as gf
 
-    points = np.array([(20, 10), (40, 10), (20, 40), (50, 40), (50, 20), (70, 20)])
+    # nm = 1e-3
 
-    p = smooth(points=points)
+    # points = np.array([(20, 10), (40, 10), (20, 40), (50, 40), (50, 20), (70, 20)])
+
+    # p = smooth(points=points)
     # p = arc(start_angle=0)
-    c = p.extrude(layer=(1, 0), width=0.1)
-
+    # c = p.extrude(layer=(1, 0), width=0.1, simplify=50 * nm)
     # p = straight()
     # p.plot()
 
@@ -1487,4 +1502,12 @@ if __name__ == "__main__":
 
     # c = p.extrude(layer=(1, 0), width=0.1)
     # c = gf.read.from_phidl(c)
+    c = gf.components.splitter_tree(
+        noutputs=2**2,
+        spacing=(120.0, 50.0),
+        # bend_length=30,
+        # bend_s=None,
+        cross_section="rib_conformal2",
+    )
+
     c.show()
