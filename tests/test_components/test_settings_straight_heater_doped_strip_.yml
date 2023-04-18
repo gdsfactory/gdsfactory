@@ -155,6 +155,7 @@ settings:
           port_types:
           - optical
           - optical
+          simplify: null
           width: 0.2
     cross_section_heater:
       function: rib_heater_doped
@@ -222,6 +223,7 @@ settings:
           port_types:
           - optical
           - optical
+          simplify: null
           width: 0.2
     cross_section_heater:
       function: strip_heater_doped

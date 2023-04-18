@@ -16,6 +16,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union, TypeVar
 from pydantic import BaseModel, Field, validate_arguments
 from typing_extensions import Literal
 
+nm = 1e-3
 
 Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
@@ -29,6 +30,7 @@ port_types_electrical = ("electrical", "electrical")
 
 cladding_layers_optical = None
 cladding_offsets_optical = None
+cladding_simplify_optical = None
 
 
 class Section(BaseModel):
@@ -48,6 +50,10 @@ class Section(BaseModel):
         port_types: optical, electrical, ...
         name: Optional Section name.
         hidden: hide layer.
+        simplify: Optional Tolerance value for the simplification algorithm.
+          All points that can be removed without changing the resulting.
+          polygon by more than the value listed here will be removed.
+
 
     .. code::
 
@@ -69,6 +75,7 @@ class Section(BaseModel):
     port_types: Tuple[str, str] = ("optical", "optical")
     name: Optional[str] = None
     hidden: bool = False
+    simplify: Optional[float] = None
 
     class Config:
         """pydantic basemodel config."""
@@ -99,6 +106,9 @@ class CrossSection(BaseModel):
         bbox_offsets: list of bounding box offsets.
         cladding_layers: list of layers to extrude.
         cladding_offsets: list of offset from main Section edge.
+        cladding_simplify: Optional Tolerance value for the simplification algorithm.
+          All points that can be removed without changing the resulting.
+          polygon by more than the value listed here will be removed.
         sections: list of Sections(width, offset, layer, ports).
         port_names: for input and output ('o1', 'o2').
         port_types: for input and output: electrical, optical, vertical_te ...
@@ -130,6 +140,7 @@ class CrossSection(BaseModel):
     bbox_offsets: List[float] = Field(default_factory=list)
     cladding_layers: Optional[LayerSpecs] = None
     cladding_offsets: Optional[Floats] = None
+    cladding_simplify: Optional[Floats] = (cladding_simplify_optical,)
     sections: List[Section] = Field(default_factory=list)
     port_names: Tuple[Optional[str], Optional[str]] = ("o1", "o2")
     port_types: Tuple[Optional[str], Optional[str]] = ("optical", "optical")
@@ -263,6 +274,9 @@ class Transition(CrossSection):
         bbox_offsets: list of bounding box offsets.
         cladding_layers: list of layers to extrude.
         cladding_offsets: list of offset from main Section edge.
+        cladding_simplify: Optional Tolerance value for the simplification algorithm.
+          All points that can be removed without changing the resulting.
+          polygon by more than the value listed here will be removed.
         sections: list of Sections(width, offset, layer, ports).
         port_names: for input and output ('o1', 'o2').
         port_types: for input and output: electrical, optical, vertical_te ...
@@ -371,6 +385,7 @@ def cross_section(
     bbox_offsets: Optional[List[float]] = None,
     cladding_layers: Optional[LayerSpecs] = None,
     cladding_offsets: Optional[Floats] = None,
+    cladding_simplify: Optional[Floats] = cladding_simplify_optical,
     info: Optional[Dict[str, Any]] = None,
     decorator: Optional[Callable] = None,
     add_pins: Optional[Callable] = None,
@@ -405,6 +420,9 @@ def cross_section(
         bbox_offsets: list of bounding box offsets.
         cladding_layers: list of layers to extrude.
         cladding_offsets: list of offset from main Section edge.
+        cladding_simplify: Optional Tolerance value for the simplification algorithm.
+          All points that can be removed without changing the resulting.
+          polygon by more than the value listed here will be removed.
         info: settings info.
         decorator: function to run when converting path to component.
         add_pins: optional function to add pins to component.
@@ -436,6 +454,7 @@ def cross_section(
         bbox_offsets=bbox_offsets or [],
         cladding_layers=cladding_layers,
         cladding_offsets=cladding_offsets,
+        cladding_simplify=cladding_simplify,
         sections=sections or (),
         gap=gap,
         min_length=min_length,
@@ -468,7 +487,16 @@ rib = partial(strip, bbox_layers=["SLAB90"], bbox_offsets=[3], radius=radius_rib
 
 # Rib with with slab that follows the waveguide core
 rib_conformal = partial(
-    strip, sections=(Section(width=6, layer="SLAB90", name="slab"),), radius=radius_rib
+    strip,
+    sections=(Section(width=6, layer="SLAB90", name="slab", simplify=50 * nm),),
+    radius=radius_rib,
+)
+rib_conformal2 = partial(
+    strip,
+    radius=radius_rib,
+    cladding_layers=("SLAB90",),
+    cladding_offsets=(3,),
+    cladding_simplify=(50 * nm,),
 )
 nitride = partial(strip, layer="WGN", width=1.0, radius=radius_nitride)
 strip_rib_tip = partial(
@@ -520,6 +548,9 @@ def slot(
         bbox_offsets: list of bounding box offsets.
         cladding_layers: list of layers to extrude.
         cladding_offsets: list of offset from main Section edge.
+        cladding_simplify: Optional Tolerance value for the simplification algorithm.
+          All points that can be removed without changing the resulting.
+          polygon by more than the value listed here will be removed.
         info: settings info.
         decorator: function to run when converting path to component.
         add_pins: optional function to add pins to component.
@@ -855,6 +886,7 @@ def pn(
     bbox_offsets: Optional[List[float]] = None,
     cladding_layers: Optional[Layers] = cladding_layers_optical,
     cladding_offsets: Optional[Floats] = cladding_offsets_optical,
+    cladding_simplify: Optional[Floats] = cladding_simplify_optical,
     mirror: bool = False,
     **kwargs,
 ) -> CrossSection:
@@ -888,6 +920,9 @@ def pn(
         bbox_offsets: list of bounding box offsets.
         cladding_layers: optional list of cladding layers.
         cladding_offsets: optional list of cladding offsets.
+        cladding_simplify: Optional Tolerance value for the simplification algorithm.
+          All points that can be removed without changing the resulting.
+          polygon by more than the value listed here will be removed.
         mirror: if True, reflects all doping sections.
 
     .. code::
@@ -1018,6 +1053,7 @@ def pn(
         sections=sections,
         cladding_offsets=cladding_offsets,
         cladding_layers=cladding_layers,
+        cladding_simplify=cladding_simplify,
         mirror=mirror,
         **kwargs,
     )
@@ -1050,6 +1086,7 @@ def pn_with_trenches(
     bbox_offsets: Optional[List[float]] = None,
     cladding_layers: Optional[Layers] = cladding_layers_optical,
     cladding_offsets: Optional[Floats] = cladding_offsets_optical,
+    cladding_simplify: Optional[Floats] = cladding_simplify_optical,
     mirror: bool = False,
     wg_marking_layer: Optional[LayerSpec] = None,
     **kwargs,
@@ -1085,6 +1122,9 @@ def pn_with_trenches(
         bbox_offsets: list of bounding box offsets.
         cladding_layers: optional list of cladding layers.
         cladding_offsets: optional list of cladding offsets.
+        cladding_simplify: Optional Tolerance value for the simplification algorithm.
+          All points that can be removed without changing the resulting.
+          polygon by more than the value listed here will be removed.
         mirror: if True, reflects all doping sections.
         kwargs: cross_section settings.
 
@@ -1224,6 +1264,7 @@ def pn_with_trenches(
         port_names=port_names,
         sections=sections,
         cladding_offsets=cladding_offsets,
+        cladding_simplify=cladding_simplify,
         cladding_layers=cladding_layers,
         mirror=mirror,
         **kwargs,
@@ -1613,7 +1654,9 @@ def l_wg_doped_with_trenches(
     bbox_offsets = bbox_offsets or []
     for layer_cladding, cladding_offset in zip(bbox_layers, bbox_offsets):
         s = Section(
-            width=width_slab + 2 * cladding_offset, offset=0, layer=layer_cladding
+            width=width_slab + 2 * cladding_offset,
+            offset=0,
+            layer=layer_cladding,
         )
         sections.append(s)
 

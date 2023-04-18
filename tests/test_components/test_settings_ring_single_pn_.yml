@@ -43,6 +43,7 @@ settings:
           port_types:
           - optical
           - optical
+          simplify: null
           width: 4.85
     doped_heater: true
     doped_heater_angle_buffer: 10
@@ -107,6 +108,7 @@ settings:
           port_types:
           - optical
           - optical
+          simplify: null
           width: 4.85
     doped_heater: true
     doped_heater_angle_buffer: 10
