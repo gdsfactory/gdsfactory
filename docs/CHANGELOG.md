@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.86.0
+
+- add optional parameter cladding simplify [PR](https://github.com/gdsfactory/gdsfactory/pull/1558)
+
 ## 6.85.0
 
 - add section inset [PR](https://github.com/gdsfactory/gdsfactory/pull/1555)
