@@ -769,6 +769,7 @@ def extrude(
                 width=x.width,
                 offset=x.offset,
                 layer=get_layer(x.layer),
+                simplify=x.simplify,
                 port_names=x.port_names,
                 port_types=x.port_types,
                 insets=None,

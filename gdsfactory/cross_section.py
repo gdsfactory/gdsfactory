@@ -98,6 +98,7 @@ class CrossSection(BaseModel):
              the offset at t==0 is the offset at the beginning of the Path.
              the offset at t==1 is the offset at the end.
         radius: main Section bend radius (um).
+        simplify: main Section Optional Tolerance value for the simplification algorithm.
         width_wide: wide waveguides width (um) for low loss routing.
         auto_widen: taper to wide waveguides for low loss routing.
         auto_widen_minimum_length: minimum straight length for auto_widen.
@@ -133,6 +134,7 @@ class CrossSection(BaseModel):
     offset: Union[float, Callable] = 0
     radius: Optional[float] = None
     width_wide: Optional[float] = None
+    simplify: Optional[float] = None
     auto_widen: bool = False
     auto_widen_minimum_length: float = 200.0
     taper_length: float = 10.0
@@ -198,6 +200,7 @@ class CrossSection(BaseModel):
                 width=self.width,
                 offset=self.offset,
                 layer=self.layer,
+                simplify=self.simplify,
                 port_names=self.port_names,
                 port_types=self.port_types,
                 name="_default",
@@ -588,6 +591,7 @@ def rib_with_trenches(
     width: float = 0.5,
     width_trench: float = 2.0,
     width_slab: float = 7.0,
+    simplify_slab: Optional[float] = None,
     layer: Optional[LayerSpec] = "WG",
     layer_trench: LayerSpec = "DEEP_ETCH",
     wg_marking_layer: Optional[LayerSpec] = None,
@@ -639,7 +643,9 @@ def rib_with_trenches(
     trench_offset = width / 2 + width_trench / 2
 
     sections = kwargs.pop("sections", [])
-    sections += [Section(width=width_slab, layer=layer, name="slab")]
+    sections += [
+        Section(width=width_slab, layer=layer, name="slab", simplify=simplify_slab)
+    ]
     sections += [
         Section(
             width=width_trench, offset=offset, layer=layer_trench, name=f"trench_{i}"
