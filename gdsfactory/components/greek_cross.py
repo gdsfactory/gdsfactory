@@ -27,23 +27,20 @@ def greek_cross(
     A greek cross is a process control monitor for dopant sheet resistivity and linewidth variation.
 
     Args:
-        cross_struct_length: length of structural part of cross e.g. silicon core.
-        cross_struct_width: width of structural part of cross  e.g. silicon core.
-        cross_struct_layers: layers to be considered "structural".
-        cross_implant_length: length of implantation part of cross.
-        cross_implant_width: width of implantation part of cross.
-        cross_implant_layers: layers to be considered "implants".
+        length: length of cross arms
+        layers: list of layers
+        widths: list of widths (same order as layers)
         via: via component to attach to the cross.
 
     .. code::
 
             via_stack
             <------->
-            _________ cross_implant_length, cross_struct_length
-            |       |<------->
-        4x  |       |         ↓
-            |       |======== cross_implant_width, cross_struct_width
-            |_______|         ↑
+            _________       length          ________
+            |       |<-------------------->|
+        2x  |       |         ↓            |
+            |       |======== width =======|
+            |_______|         ↑            |________
 
 
     References:
