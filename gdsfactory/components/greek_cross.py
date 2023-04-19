@@ -10,6 +10,7 @@ from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.via_stack import via_stack
 from gdsfactory.typings import LayerSpecs, ComponentSpec, Floats
 from gdsfactory.components.via_stack import via_stack_npp_m1
+from gdsfactory.cross_section import Section, cross_section
 
 
 @gf.cell
@@ -72,13 +73,21 @@ def greek_cross(
         via_stack_ref.connect("e1", port)
         c.add_port(name=port.name, port=via_stack_ref.ports["e3"])
 
-        # Extend cross fully under the via
-        for layer in layers:
-            cross_extended = c << rectangle(
-                size=via_stack_ref.info["size"], layer=layer
-            )
-            cross_extended.xmin = via_stack_ref.xmin
-            cross_extended.ymin = via_stack_ref.ymin
+        # Extend cross under via
+        sections = (
+            []
+            if len(layers) == 1
+            else [Section(width=x, layer=y) for x, y in zip(widths[1:], layers[1:])]
+        )
+        cross_extended = c << gf.components.straight(
+            length=via_stack_ref.info["size"][0],
+            cross_section=cross_section(
+                width=widths[0],
+                layer=layers[0],
+                sections=sections,
+            ),
+        )
+        cross_extended.connect("o1", destination=port)
 
     c.auto_rename_ports()
 
