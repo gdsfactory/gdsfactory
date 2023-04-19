@@ -101,7 +101,7 @@ def greek_cross_with_pads(
     greek_cross_component: ComponentSpec = greek_cross,
     pad_via: ComponentSpec = via_stack_m1_m3,
     xs_metal: CrossSectionSpec = metal1,
-):
+) -> gf.Component:
     """Greek cross under 4 DC pads, ready to test.
 
     Arguments:
@@ -251,5 +251,6 @@ def greek_cross_offset_pads(
 
 
 if __name__ == "__main__":
+    # c = greek_cross_offset_pads()
     c = greek_cross_with_pads()
     c.show(show_ports=True)

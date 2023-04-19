@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.88.0
+
+- better greek cross [PR](https://github.com/gdsfactory/gdsfactory/pull/1561) [PR](https://github.com/gdsfactory/gdsfactory/pull/1560)
+
 ## 6.86.0
 
 - add optional parameter cladding simplify [PR](https://github.com/gdsfactory/gdsfactory/pull/1558)

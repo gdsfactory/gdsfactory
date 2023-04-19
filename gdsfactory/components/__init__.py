@@ -150,7 +150,11 @@ from gdsfactory.components.grating_coupler_rectangular_arbitrary_slab import (
     grating_coupler_rectangular_arbitrary_slab,
 )
 from gdsfactory.components.grating_coupler_tree import grating_coupler_tree
-from gdsfactory.components.greek_cross import greek_cross
+from gdsfactory.components.greek_cross import (
+    greek_cross,
+    greek_cross_with_pads,
+    greek_cross_offset_pads,
+)
 from gdsfactory.components.hline import hline
 from gdsfactory.components.interdigital_capacitor import interdigital_capacitor
 from gdsfactory.components.L import L
@@ -464,6 +468,8 @@ __all__ = [
     "grating_taper_points",
     "grating_tooth_points",
     "greek_cross",
+    "greek_cross_with_pads",
+    "greek_cross_offset_pads",
     "hline",
     "interdigital_capacitor",
     "litho_calipers",
