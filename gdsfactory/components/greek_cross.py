@@ -39,7 +39,7 @@ def greek_cross(
             _________       length          ________
             |       |<-------------------->|
         2x  |       |         ↓            |
-            |       |======== width =======|
+            |=======|======== width =======|=======
             |_______|         ↑            |________
 
 
@@ -66,11 +66,18 @@ def greek_cross(
             port_type="electrical",
         )
 
-    # Add via
+    # Add via, and extend cross fully udner the via
     for port in cross_ref.get_ports_list():
         via_stack_ref = c << gf.get_component(via_stack)
         via_stack_ref.connect("e1", port)
         c.add_port(name=port.name, port=via_stack_ref.ports["e3"])
+
+        for layer in layers:
+            cross_extended = c << rectangle(
+                size=via_stack_ref.info["size"], layer=layer
+            )
+            cross_extended.xmin = via_stack_ref.xmin
+            cross_extended.ymin = via_stack_ref.ymin
 
     c.auto_rename_ports()
 
