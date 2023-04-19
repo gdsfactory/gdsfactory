@@ -8,9 +8,9 @@ from gdsfactory.components.cross import cross
 from gdsfactory.components.pad import pad
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.via_stack import via_stack
-from gdsfactory.typings import LayerSpecs, ComponentSpec, Floats
-from gdsfactory.components.via_stack import via_stack_npp_m1
-from gdsfactory.cross_section import Section, cross_section
+from gdsfactory.typings import LayerSpecs, ComponentSpec, Floats, CrossSectionSpec
+from gdsfactory.components.via_stack import via_stack_npp_m1, via_stack_m1_m3
+from gdsfactory.cross_section import Section, cross_section, metal1
 
 
 @gf.cell
@@ -90,6 +90,61 @@ def greek_cross(
         cross_extended.connect("o1", destination=port)
 
     c.auto_rename_ports()
+
+    return c
+
+
+@gf.cell
+def greek_cross_with_pads(
+    pad: ComponentSpec = pad,
+    pad_spacing: float = 150.0,
+    greek_cross_component: ComponentSpec = greek_cross,
+    pad_via: ComponentSpec = via_stack_m1_m3,
+    xs_metal: CrossSectionSpec = metal1,
+):
+    """Greek cross under 4 DC pads, ready to test.
+
+    Arguments:
+        pad: component to use for probe pads
+        pad_spacing: spacing between pads
+        greek_cross_component: component to use for greek cross
+        pad_via: via to add to the pad
+        xs_metal: cross-section for cross via to pad via wiring
+    """
+    c = gf.Component()
+
+    # Cross
+    cross_ref = c << gf.get_component(greek_cross_component)
+    cross_ref.x = (
+        2 * pad_spacing - (pad_spacing - gf.get_component(pad).info["size"][0]) / 2
+    )
+
+    cross_pad_via_port_pairs = {
+        0: ("e1", "e2"),
+        1: ("e4", "e2"),
+        2: ("e2", "e4"),
+        3: ("e3", "e4"),
+    }
+
+    # Vias to pads
+    for index in range(4):
+        pad_ref = c << gf.get_component(pad)
+        pad_ref.x = index * pad_spacing + pad_ref.xsize / 2
+        via_ref = c << gf.get_component(pad_via)
+        if index < 2:
+            via_ref.connect("e2", destination=pad_ref.ports["e4"])
+        else:
+            via_ref.connect("e4", destination=pad_ref.ports["e2"])
+
+        route = gf.routing.get_route(
+            cross_ref[cross_pad_via_port_pairs[index][0]],
+            via_ref[cross_pad_via_port_pairs[index][1]],
+            cross_section=xs_metal,
+            bend=gf.c.wire_corner,
+            start_straight_length=5,
+            end_straight_length=5,
+        )
+        c.add(route.references)
 
     return c
 
@@ -196,5 +251,5 @@ def greek_cross_offset_pads(
 
 
 if __name__ == "__main__":
-    c = greek_cross()
+    c = greek_cross_with_pads()
     c.show(show_ports=True)
