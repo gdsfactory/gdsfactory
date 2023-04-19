@@ -115,7 +115,9 @@ def greek_cross_with_pads(
 
     # Cross
     cross_ref = c << gf.get_component(greek_cross_component)
-    cross_ref.x = 2 * pad_spacing
+    cross_ref.x = (
+        2 * pad_spacing - (pad_spacing - gf.get_component(pad).info["size"][0]) / 2
+    )
 
     cross_pad_via_port_pairs = {
         0: ("e1", "e2"),
