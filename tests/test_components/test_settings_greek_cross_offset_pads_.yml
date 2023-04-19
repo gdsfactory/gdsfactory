@@ -1,4 +1,4 @@
-name: greek_cross
+name: greek_cross_offset_pads
 ports:
   e1:
     center:
@@ -97,4 +97,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.greek_cross
-  name: greek_cross
+  name: greek_cross_offset_pads
