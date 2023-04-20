@@ -56,15 +56,21 @@ It provides you a common syntax for design (KLayout, gdstk, Ansys Lumerical, tid
 
 ![tool interfaces](https://i.imgur.com/9fNLRvJ.png)
 
-Multiple foundries have gdsfactory PDKs available. Talk to your foundry to access their gdsfactory PDK.
+Multiple foundries have gdsfactory PDKs available. Talk to your foundry to access their gdsfactory PDK. Foundries in alphabetical order:
+
+- AIM photonics PDK
+- AMF photonics PDK
+- TowerSemi PH18 photonics PDK
+- GlobalFoundries 45SPCLO Photonics PDK
+- IMEC photonics PDK
+- [GlobalFoundries 180nm MCU CMOS PDK](https://github.com/gdsfactory/gf180) (open source)
+- [SiEPIC Ebeam UBC PDK](https://gdsfactory.github.io/ubc) (open source)
+- [Skywater130 CMOS PDK](https://gdsfactory.github.io/skywater130/README.html) (open source)
 
 You can also access:
 
 - instructions on [how to build your own PDK](https://gdsfactory.github.io/gdsfactory/notebooks/08_pdk.html)
 - instructions on [how to import a PDK from a library of fixed GDS cells](https://gdsfactory.github.io/gdsfactory/notebooks/09_pdk_import.html)
-- open source PDKs available on GitHub
-  - [UBCPDK](https://gdsfactory.github.io/ubc/README.html)
-  - [skywater130](https://gdsfactory.github.io/skywater130/README.html)
 
 ## Installation
 
@@ -105,16 +111,15 @@ gf install klayout-integration
 - Users can `pip install gdsfactory --upgrade`
 - Developers can `git pull` on the repository you downloaded and installed on your computer.
 
-
 This code will tell you which gdsfactory you are using
+
 ```
 import gdsfactory as gf
 
 gf.config.print_version()
 ```
 
-
-### Install gdsfactory plugins
+### Plugins
 
 You need to install the plugins separately
 
@@ -133,9 +138,6 @@ Or you can install only the ones you need.
 - `pip install gdsfactory[meow]` for EME (Eigen Mode Expansion) simulations.
 - `mamba install pymeep=*=mpi_mpich_* -y` for open source FDTD MEEP simulations. Notice that it works for MacOS and Linux, so for Windows you need to use the [WSL (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install).
 
-
-### Plugins
-
 * [Optimization](https://gdsfactory.github.io/gdsfactory/plugins_optimization.html)
   - [Ray Tune Generic Black-Box Optimiser](https://gdsfactory.github.io/gdsfactory/notebooks/ray/optimiser.html)
 * [Meshing](https://gdsfactory.github.io/gdsfactory/notebooks/devsim/01_pin_waveguide.html#Meshing)
@@ -145,12 +147,12 @@ Or you can install only the ones you need.
   - [Analytical Process Simulation](https://gdsfactory.github.io/gdsfactory/notebooks/tcad/02_analytical_process.html)
   - [Montecarlo Implant Simulation](https://gdsfactory.github.io/gdsfactory/notebooks/tcad/03_numerical_implantation.html)
 * [Mode Solvers & Eigenmode Expansion (EME)](https://gdsfactory.github.io/gdsfactory/plugins_mode_solver.html)
-  * Finite Element Mode Solvers
+  - Finite Element Mode Solvers
     - [Femwell](https://gdsfactory.github.io/gdsfactory/notebooks/fem/01_mode_solving.html)
-  * Finite Difference Mode Solvers
+  - Finite Difference Mode Solvers
     - [tidy3d](https://gdsfactory.github.io/gdsfactory/notebooks/tidy3d/01_tidy3d_modes.html)
     - [MPB](https://gdsfactory.github.io/gdsfactory/notebooks/mpb/001_mpb_waveguide.html)
-  * Eigenmode Expansion (EME)
+  - Eigenmode Expansion (EME)
     - [MEOW](https://gdsfactory.github.io/gdsfactory/notebooks/eme/01_meow.html)
 * [Electromagnetic Wave Solvers using Finite Difference Time Domain (FDTD)](https://gdsfactory.github.io/gdsfactory/plugins_fdtd.html)
   - [tidy3d](https://gdsfactory.github.io/gdsfactory/notebooks/tidy3d/00_tidy3d.html)
