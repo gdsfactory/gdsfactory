@@ -69,7 +69,7 @@ def greek_cross(
     for layer, width, offset in zip(layers, widths, offsets):
         cross_ref = c << gf.get_component(
             cross,
-            length=length + offset,
+            length=length + 2 * offset,
             width=width,
             layer=layer,
             port_type="electrical",
