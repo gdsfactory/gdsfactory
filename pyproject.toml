@@ -65,7 +65,6 @@ full = [
     "scikit-fem",
     "scikit-image",
     "scikit-learn",
-    "triangle",
     "trimesh",
     "kweb>=0.0.11,<0.1",
     "jupytext",
