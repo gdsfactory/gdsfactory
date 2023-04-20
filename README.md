@@ -19,7 +19,7 @@
 
 ![logo](https://i.imgur.com/v4wpHpg.png)
 
-gdsfactory is a python library to design chips (Photonics, Analog, Quantum, MEMs, ...). It's like Linux for chip design.
+gdsfactory is a python library to design chips (Photonics, Analog, Quantum, MEMs, ...). It's like Android or Linux for chip design.
 
 You can describe your circuits in code (python or YAML), verify them (DRC, simulation, extraction) and validate them (to make sure they meet the specifications after fabrication).
 
@@ -56,7 +56,7 @@ It provides you a common syntax for design (KLayout, gdstk, Ansys Lumerical, tid
 
 ![tool interfaces](https://i.imgur.com/9fNLRvJ.png)
 
-Multiple foundries have gdsfactory PDKs available. Talk to your foundry to access their gdsfactory PDK. Foundries in alphabetical order:
+Multiple foundries have gdsfactory PDKs available. Talk to your foundry to access their gdsfactory PDK as some are only provided under NDA:
 
 - AIM photonics PDK
 - AMF photonics PDK
@@ -109,9 +109,12 @@ gf install klayout-integration
 ### Update gdsfactory
 
 - Users can `pip install gdsfactory --upgrade`
-- Developers can `git pull` on the repository you downloaded and installed on your computer.
+- Developers can `git pull` the GitHub repository you downloaded and installed on your computer.
 
-This code will tell you which gdsfactory you are using
+Some PDKs may require a specific versions of gdsfactory, so make sure you install the correct gdsfactory version specified in the `pyproject.toml` file. This will automatically happen when you install gdsfactory as one of the PDK dependencies. For example `pip install gf180` will install the latest gdsfactory version that has been tested for the GlobalFoundries180 PDK.
+
+
+This code will tell you which gdsfactory you are using:
 
 ```
 import gdsfactory as gf
@@ -121,9 +124,9 @@ gf.config.print_version()
 
 ### Plugins
 
-You need to install the plugins separately
+You need to install the plugins separately.
 
-You can install most plugins with
+You can install most plugins with:
 
 ```
 pip install gdsfactory[full,gmsh,tidy3d,devsim,meow,database] --upgrade
@@ -165,7 +168,7 @@ Or you can install only the ones you need.
 
 ### Docker container
 
-Alternatively, one may use the pre-built Docker image from [hub.docker.com/r/joamatab/gdsfactory](https://hub.docker.com/r/joamatab/gdsfactory) or build it yourself with
+Alternatively, one may use the pre-built Docker image from [hub.docker.com/r/joamatab/gdsfactory](https://hub.docker.com/r/joamatab/gdsfactory) or build it yourself with:
 
 ```bash
 docker build -t joamatab/gdsfactory .
