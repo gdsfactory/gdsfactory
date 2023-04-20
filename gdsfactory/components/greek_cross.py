@@ -10,7 +10,7 @@ from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.via_stack import via_stack
 from gdsfactory.typings import LayerSpecs, ComponentSpec, Floats, CrossSectionSpec
 from gdsfactory.components.via_stack import via_stack_npp_m1, via_stack_m1_m3
-from gdsfactory.cross_section import Section, cross_section, metal1
+from gdsfactory.cross_section import metal1
 
 
 @gf.cell
@@ -32,8 +32,7 @@ def greek_cross(
         length: length of cross arms
         layers: list of layers
         widths: list of widths (same order as layers)
-        offsets: how much to extend each layer beyond the cross (negative shortens it compared to others)
-            if the offset is 0.0 (default) or positive, it is extended under the via.
+        offsets: how much to extend each layer beyond the cross of length "length" (negative shorter, positive longer)
         via: via component to attach to the cross.
 
     .. code::
@@ -67,42 +66,26 @@ def greek_cross(
     offsets = offsets or (0.0,) * len(layers)
 
     # Layout cross
-    max_offset = max(offsets)
     for layer, width, offset in zip(layers, widths, offsets):
-        cross_ref_cur = c << gf.get_component(
+        cross_ref = c << gf.get_component(
             cross,
             length=length + offset,
             width=width,
             layer=layer,
             port_type="electrical",
         )
-        if offset == max_offset:
-            cross_ref = cross_ref_cur
+        cross_offset = offset
+
+    port_at_length = [
+        port.move_polar_copy(d=cross_offset, angle=180 + port.orientation)
+        for port in cross_ref.get_ports_list()
+    ]
 
     # Add via
-    for port in cross_ref.get_ports_list():
+    for port in port_at_length:
         via_stack_ref = c << gf.get_component(via_stack)
         via_stack_ref.connect("e1", port)
         c.add_port(name=port.name, port=via_stack_ref.ports["e3"])
-
-        # Extend cross under via
-        sections = []
-        for width, layer, offset in zip(widths[1:], layers[1:], offsets[1:]):
-            if offset >= 0.0:
-                sections.append(Section(width=width, layer=layer))
-
-        main_section = sections[0]
-        other_sections = sections[1:]
-
-        cross_extended = c << gf.components.straight(
-            length=via_stack_ref.info["size"][0],
-            cross_section=cross_section(
-                width=main_section.width,
-                layer=main_section.layer,
-                sections=other_sections,
-            ),
-        )
-        cross_extended.connect("o1", destination=port)
 
     c.auto_rename_ports()
 
