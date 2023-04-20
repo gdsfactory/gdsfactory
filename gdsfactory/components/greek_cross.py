@@ -21,6 +21,7 @@ def greek_cross(
         "N",
     ),
     widths: Floats = (2.0, 3.0),
+    offsets: Floats = None,
     via_stack: ComponentSpec = via_stack_npp_m1,
 ) -> gf.Component:
     """Simple greek cross with via stacks at the endpoints.
@@ -31,6 +32,8 @@ def greek_cross(
         length: length of cross arms
         layers: list of layers
         widths: list of widths (same order as layers)
+        offsets: how much to extend each layer beyond the cross (negative shortens it compared to others)
+            if the offset is 0.0 (default) or positive, it is extended under the via.
         via: via component to attach to the cross.
 
     .. code::
@@ -39,9 +42,10 @@ def greek_cross(
             <------->
             _________       length          ________
             |       |<-------------------->|
-        2x  |       |         ↓            |
-            |=======|======== width =======|=======
-            |_______|         ↑            |________
+        2x  |       |     |   ↓       |<-->|
+            |       |======== width =======|
+            |_______|<--> |   ↑       |<-->|________
+                    offset            offset
 
 
     References:
@@ -57,15 +61,23 @@ def greek_cross(
     """
     c = gf.Component()
 
+    if len(layers) != len(widths):
+        raise ValueError("len(layers) must equal len(widths).")
+
+    offsets = offsets or (0.0,) * len(layers)
+
     # Layout cross
-    for layer, width in zip(layers, widths):
-        cross_ref = c << gf.get_component(
+    max_offset = max(offsets)
+    for layer, width, offset in zip(layers, widths, offsets):
+        cross_ref_cur = c << gf.get_component(
             cross,
-            length=length,
+            length=length + offset,
             width=width,
             layer=layer,
             port_type="electrical",
         )
+        if offset == max_offset:
+            cross_ref = cross_ref_cur
 
     # Add via
     for port in cross_ref.get_ports_list():
@@ -74,17 +86,20 @@ def greek_cross(
         c.add_port(name=port.name, port=via_stack_ref.ports["e3"])
 
         # Extend cross under via
-        sections = (
-            []
-            if len(layers) == 1
-            else [Section(width=x, layer=y) for x, y in zip(widths[1:], layers[1:])]
-        )
+        sections = []
+        for width, layer, offset in zip(widths[1:], layers[1:], offsets[1:]):
+            if offset >= 0.0:
+                sections.append(Section(width=width, layer=layer))
+
+        main_section = sections[0]
+        other_sections = sections[1:]
+
         cross_extended = c << gf.components.straight(
             length=via_stack_ref.info["size"][0],
             cross_section=cross_section(
-                width=widths[0],
-                layer=layers[0],
-                sections=sections,
+                width=main_section.width,
+                layer=main_section.layer,
+                sections=other_sections,
             ),
         )
         cross_extended.connect("o1", destination=port)
