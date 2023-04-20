@@ -211,43 +211,13 @@ For example, VS Code supports development inside a container, see [Developing in
 
 <div style="text-align: right; margin-right: 10%;">Thomas Dorch - <strong>Freedom Photonics</strong>
 
-## Acks
+## Contributors
 
-Contributors (in chronological order):
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
 
-- Joaquin Matres (Google): write some documentation pages, help porting from gdspy to gdstk.
-- Damien Bonneau (PsiQuantum): cell decorator, Component routing functions, Klayout placer.
-- Pete Shadbolt (PsiQuantum): Klayout auto-placer, Klayout GDS interface (klive).
-- Troy Tamas (Rockley): yaml-based pics, routers (from steps and all-angle)
-- Floris Laporte (Rockley): netlist extraction and circuit simulation interface with SAX.
-- Alec Hammond (Meta Reality Labs Research): Meep and MPB interface.
-- Simon Bilodeau (Princeton): Meep FDTD write Sparameters, TCAD device simulator.
-- Thomas Dorch (Freedom Photonics): Meep's material database access, MPB sidewall angles, and add_pin_path.
-- Jan-David Fischbach (Black semiconductor): improvements in pack_doe.
-- Igal Bayn (Quantum Transistors): documentation improvements and suggestions.
-- Alex Sludds (MIT): tiling fixes, ring_single_pn, ring_double_pn, straight_heater_meander_doped.
-- Momchil Minkov (Flexcompute): improve tidy3d plugin.
-- Skandan Chandrasekar (BYU): simphony, SiPANN plugins, A-star router.
-- Helge Gehring (Google): simulation plugins (FEM heat solver), improving code quality and new components (spiral paths).
-- Tim Ansell (Google): documentation improvements.
-- Ardavan Oskoii (Google): Meep plugin documentation improvements.
-- Marc de Cea (MIT): ge_detector, grating_coupler_dual, mmi_90degree_hybrid, coherent transceiver, receiver.
-- Bradley Snyder (Ygrec Photonics, PHIX): grating_coupler snap to grid fixes.
-- Jonathan Cauchon (Ciena): measurement database.
-- Raphaël Dubé-Demers (EHVA, EXFO): measurement database.
-- Bohan Zhang (Boston University): grating coupler improvements.
-- Niko Savola (IQM): optimization, notebook and code improvements.
-- Sky Chilstedt (Rockley): improvements to API and docs.
-- Lawrence (University of Bristol): for fixing rename ports by orientation.
-- Edward Deacon (University of Bristol): for coupler_straight_asymmetric.
-- Lucas Heitzmann (Flexcompute): for tidy3d simulation plugin and MZI filter example.
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
 
-Open source heroes:
-
-- Matthias Köfferlein: Klayout
-- Lucas Heitzmann (Flexcompute): for gdstk
-- Adam McCaughan (NIST): phidl. Inspiration for geometry manipulation.
-- Alex Tait (Queens University): lytest inspiration for gdsfactory testing GDS framework.
-- Thomas Ferreira de Lima (NEC): `pip install klayout` python API.
-- Juan Sanchez: DEVSIM for TCAD simulations.
-- Christophe Geuzaine (University of Liège) and Jean-François Remacle (Université catholique de Louvain) for Gmsh.
+<!-- ALL-CONTRIBUTORS-LIST:END -->
