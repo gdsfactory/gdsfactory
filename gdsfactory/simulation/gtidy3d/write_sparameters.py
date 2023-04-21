@@ -269,14 +269,13 @@ write_sparameters_batch_1x1 = gf.partial(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-    import gdsfactory.simulation as sim
+    import gdsfactory.simulation as gs
 
     # c = gf.components.straight(length=2.1)
-    c = gf.c.straight()
-    c = gf.components.mmi1x2()
+    c = gf.c.straight(length=2.123)
+    # c = gf.components.mmi1x2()
     sp = write_sparameters(c, is_3d=True, port_source_names=None, overwrite=False)
-    sim.plot.plot_sparameters(sp)
+    gs.plot.plot_sparameters(sp)
 
     # t = sp.o1@0,o2@0
     # print(f"Transmission = {t}")

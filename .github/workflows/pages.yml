@@ -6,6 +6,9 @@ on:
       - main
   workflow_dispatch:
 
+concurrency:
+  cancel-in-progress: true
+
 jobs:
   build-docs:
     runs-on: ubuntu-latest
