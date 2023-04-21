@@ -20,7 +20,12 @@ jobs:
       max-parallel: 12
       matrix:
         python-version: ["3.10"]
-        os: [ubuntu-latest, windows-latest, macos-latest, macos-latest-arm]
+        include:
+          - { os: ubuntu-latest, platform: linux, arch: 64 }
+          - { os: ubuntu-latest, platform: linux, arch: aarch64 }
+          - { os: ubuntu-latest, platform: linux, arch: ppc64le }
+          - { os: macos-latest, platform: osx, arch: 64 }
+          - { os: macos-latest, platform: osx, arch: arm64 }
 
     steps:
       - uses: actions/checkout@v3
