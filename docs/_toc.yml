@@ -78,8 +78,8 @@ chapters:
       - file: notebooks/sax/03_variability_analysis
       - file: notebooks/lumerical/2_interconnect
   - file: notebooks/12_database
-  - file: contribution
-  - file: CHANGELOG
   - file: components
   - file: api
   - file: routing
+  - file: contribution
+  - file: CHANGELOG
