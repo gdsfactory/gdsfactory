@@ -74,13 +74,24 @@ You can also access:
 
 ## Installation
 
-You have 3 options to install gdsfactory:
+You have 2 options to install gdsfactory:
 
-### 1. Installation for new python users
+### 1. Installation for new users
 
 If you don't have python installed on your system you can [download the gdsfactory installer](https://github.com/gdsfactory/gdsfactory/releases) that includes python3, miniconda and all gdsfactory plugins.
 
-### 2. Installation for new gdsfactory users
+
+You can also install python with mamba package manager (faster than conda):
+
+| OS      | Architecture          | Download  |
+| --------|-----------------------|-----------|
+| Linux   | x86_64 (amd64)        | [Mambaforge-Linux-x86_64](https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh) |
+| Linux   | aarch64 (arm64)       | [Mambaforge-Linux-aarch64](https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-aarch64.sh) |
+| Linux   | ppc64le (POWER8/9)    | [Mambaforge-Linux-ppc64le](https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-ppc64le.sh) |
+| OS X    | x86_64                | [Mambaforge-MacOSX-x86_64](https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-MacOSX-x86_64.sh) |
+| OS X    | arm64 (Apple Silicon) | [Mambaforge-MacOSX-arm64](https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-MacOSX-arm64.sh) |
+| Windows | x86_64                | [Mambaforge-Windows-x86_64](https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Windows-x86_64.exe) |
+
 
 Once you have python installed, open Anaconda Prompt and then install the latest gdsfactory using pip.
 
@@ -93,7 +104,7 @@ gf install klayout-integration
 
 Then you need to restart Klayout to make sure you activate the klayout gdsfactory integration.
 
-### 3. Installation for developers
+### 2. Installation for developers
 
 For developers you need to fork the GitHub repository, git clone it (download it), git add, git commit, git push your improvement. Then pull request your changes to the main branch from the GitHub website.
 For that you can install gdsfactory locally on your computer in `-e` edit mode.
