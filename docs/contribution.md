@@ -6,8 +6,8 @@ This will benefit the project community and make you famous :).
 
 How can you help? Take a look at the [open issues](https://github.com/gdsfactory/gdsfactory/issues) or add something you need to gdsfactory:
 
-- Any improvements you make (documentation, tutorials or code). Just find a typo and submit a PR!
-- Your design/verification/validation functions that you wrote, or rewrite some part tutorial that is not clear.
+- Documentation, tutorials or code improvements. Just find a typo and submit a PR!
+- Design/verification/validation improvements.
 - A new device that you found on a paper so you can use it on your next tapeout. It helps get citations as other people start using or building on top of the work from the paper.
 
 The workflow is:
