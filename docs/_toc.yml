@@ -36,6 +36,8 @@ chapters:
       - file: notebooks/042_non-manhattan-router
       - file: notebooks/common_mistakes
       - file: notebooks/dataprep
+  - file: api
+  - file: routing
   - file: workflow
     sections:
       - file: notebooks/workflow/jupyter_notebooks
@@ -79,7 +81,5 @@ chapters:
       - file: notebooks/lumerical/2_interconnect
   - file: notebooks/12_database
   - file: components
-  - file: api
-  - file: routing
   - file: contribution
   - file: CHANGELOG
