@@ -10,32 +10,34 @@ chapters:
       - file: notebooks/_3_vscode
       - file: notebooks/_0_python
       - file: notebooks/_1_git
-  - file: tutorial
+  - file: pdk
+    sections:
+      - file: notebooks/08_pdk
+      - file: notebooks/03_layer_stack
+      - file: notebooks/08_pdk_examples
+      - file: notebooks/09_pdk_import
+      - file: notebooks/20_schematic_driven_layout
+      - file: notebooks/10_yaml_component
+      - file: notebooks/11_get_netlist
+  - file: layout
     sections:
       - file: notebooks/00_geometry
       - file: notebooks/01_references
       - file: notebooks/02_movement
       - file: notebooks/03_cells_autoname_and_cache
-      - file: notebooks/03_layer_stack
       - file: notebooks/03_waveguides_paths_crossections
       - file: notebooks/04_components_shapes
       - file: notebooks/04_components_geometry
       - file: notebooks/04_components_pack
       - file: notebooks/04_components_hierarchy
-      - file: notebooks/08_pdk
-      - file: notebooks/08_pdk_examples
-      - file: notebooks/09_pdk_import
       - file: notebooks/07_mask
       - file: notebooks/04_routing
       - file: notebooks/041_routing_electrical
       - file: notebooks/042_non-manhattan-router
       - file: notebooks/common_mistakes
       - file: notebooks/dataprep
-  - file: sdl
-    sections:
-      - file: notebooks/20_schematic_driven_layout
-      - file: notebooks/10_yaml_component
-      - file: notebooks/11_get_netlist
+  - file: api
+  - file: routing
   - file: workflow
     sections:
       - file: notebooks/workflow/jupyter_notebooks
@@ -78,8 +80,6 @@ chapters:
       - file: notebooks/sax/03_variability_analysis
       - file: notebooks/lumerical/2_interconnect
   - file: notebooks/12_database
+  - file: components
   - file: contribution
   - file: CHANGELOG
-  - file: components
-  - file: api
-  - file: routing

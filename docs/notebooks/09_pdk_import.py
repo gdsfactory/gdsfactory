@@ -16,16 +16,16 @@
 # %% [markdown]
 # # Import PDK
 #
-# ## Import PDK in GDS format
+# ## Import PDK from GDS files
 #
-# To import a PDK from GDS format into gdsfactory you need:
+# To import a PDK from GDS files into gdsfactory you need:
 #
-# - GDS file with all the cells that you want to import in the PDK (or separate GDS files, where each file contains a GDS design)
+# - GDS file with all the cells that you want to import in the PDK (or separate GDS files, where each file contains a GDS design).
 #
 # Ideally you also get:
 #
-# - Klayout layer properties files, to define the Layers that you can use when creating new custom Components. This allows you to define the LayerMap that maps Layer_name to (GDS_LAYER, GDS_PuRPOSE)
-# - layer_stack information (material index, thickness, z positions of each layer)
+# - Klayout layer properties files, to define the Layers that you can use when creating new custom Components. This allows you to define the LayerMap that maps Layer_name to (GDS_LAYER, GDS_PuRPOSE).
+# - layer_stack information (material index, thickness, z positions of each layer).
 # - DRC rules. If you don't get this you can easily build one using klayout.
 #
 # GDS files are great for describing geometry thanks to the concept of References, where you store any geometry only once in memory.
@@ -146,7 +146,7 @@ c3.ports
 # %% [markdown]
 # Foundries provide PDKs in different formats and commercial tools.
 #
-# The easiest way to import a PDK into gdsfactory is to
+# The easiest way to import a PDK into gdsfactory is to:
 #
 # 1. have each GDS cell into a separate GDS file
 # 2. have one GDS file with all the cells inside
@@ -154,7 +154,7 @@ c3.ports
 #
 # With that you can easily create the PDK as as python package.
 #
-# Thanks to having a gdsfactory PDK as a python package you can
+# Thanks to having a gdsfactory PDK as a python package you can:
 #
 # - version control your PDK using GIT to keep track of changes and work on a team
 #     - write tests of your pdk components to avoid unwanted changes from one component to another.
@@ -167,7 +167,7 @@ c3.ports
 #
 # To create a **Python** package you can start from a customizable template (thanks to cookiecutter)
 #
-# I usually create a python package by running this 2 commands inside a terminal
+# You can create a python package by running this 2 commands inside a terminal:
 #
 # ```
 # pip install cookiecutter

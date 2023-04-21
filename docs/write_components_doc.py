@@ -23,12 +23,12 @@ with open(filepath, "w+") as f:
     f.write(
         """
 
-Here are some generic Parametric cell functions.
+Here are some generic Parametric cells.
 
 You can customize them your fab or use them as an inspiration to build your own.
 
 
-Generic cell functions
+Parametric cells
 =============================
 """
     )
