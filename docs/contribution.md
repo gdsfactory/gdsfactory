@@ -18,16 +18,14 @@ The workflow is:
 
 ## Style
 
-
-- We follow [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html). You can take a look at the other PCell docstrings.
-- We make sure tests pass on GitHub.
-- We install pre-commit to get the pre-commit checks passing (autoformat the code, run linter ...). If `make install` does not work for you, you can also run:
+- Follow [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html). You can take a look at some existing gdsfactory code.
+- Make sure tests pass on GitHub.
+- Install pre-commit to get the pre-commit checks passing (autoformat the code, run linter ...). You can also install pre-commit:
 
 ```
 cd gdsfactory
 pip install -e . pre-commit
 pre-commit install
-gf tool install
 ```
 
 Pre-commit makes sure the code is formatted correctly, runs linter (syntax check), checks docstrings ...
@@ -37,7 +35,6 @@ If you forgot to `pre-commit install` you can fix pre-commit issues by running
 pre-commit run --all-files
 ```
 
-
 ## Tests
 
 `pytest` runs 3 types of tests:
@@ -45,7 +42,7 @@ pre-commit run --all-files
 You can run tests with `pytest`. This will run 3 types of tests:
 
 - pytest will test any function that starts with `test_`. You can assert the number of polygons, the name, the length of a route or whatever you want.
-- regressions tests: avoids unwanted regressions by storing Components port locations in CSV and metadata in YAML files. You can force to regenerate the reference files running `make test-force` from the repo root directory.
+- regressions tests: avoids unwanted regressions by storing Components port locations in CSV and metadata in YAML files. You can force to regenerate the reference files running `pytest --force-regen -s` from the repo root directory.
   - `tests/test_containers.py` stores container settings in YAML and port locations in a CSV file
   - `tests/components/test_components.py` stores all the component settings in YAML
   - `tests/components/test_ports.py` stores all port locations in a CSV file
@@ -54,8 +51,6 @@ You can run tests with `pytest`. This will run 3 types of tests:
   - lytest: writes all components GDS in `run_layouts` and compares them with `ref_layouts`
     - when running the test it will do a boolean of the `run_layout` and the `ref_layout` and raise an error for any significant differences.
     - you can check out any changes in your library with `gf gds diff ref_layouts/bbox.gds run_layouts/bbox.gds`
-    - it will also store all differences in `diff_layouts` and you can combine and show them in KLayout with `make diff`
-
 
 ## Acks
 
@@ -67,8 +62,8 @@ What nice things are inspired by gdstk and phidl?
 - Create and modify Components using simple functions that can build complexity one level at a time.
 - Define paths and cross-sections and extrude them into Components
 - Define ports, to connect components. Ports in phidl have name, position, width and orientation (in degrees)
-  - gdsfactory ports have layer, port_type (optical, electrical, vertical_te, vertical_tm ...) and cross_section
-  - gdsfactory adds renaming ports functions for ports (clockwise, counter_clockwise ...)
+  - gdsfactory ports have layer, `port_type` (`optical`, `electrical`, `vertical_te`, `vertical_tm` ...) and `cross_section`
+  - gdsfactory adds renaming ports functions for ports (clockwise, counter-clockwise ...)
 
 What nice things come from KLayout?
 
@@ -100,14 +95,12 @@ What functionality does gdsfactory provide you on top gdstk/KLayout?
 - export netlist in YAML format
 - plugins to compute Sparameters using for example Lumerical, meep or tidy3d
 
-
-
 gdsfactory is written in python and requires some basic knowledge of python. If you are new to python you can find many free online resources to learn:
 
 - [books](https://jakevdp.github.io/PythonDataScienceHandbook/index.html)
 - [youTube videos](https://www.youtube.com/c/anthonywritescode)
 - courses
-    - [scientific computing](https://nbviewer.org/github/jrjohansson/scientific-python-lectures/blob/master/Lecture-0-Scientific-Computing-with-Python.ipynb)
-    - [numerical python](http://jrjohansson.github.io/numericalpython.html)
-    - [python](https://dabeaz-course.github.io/practical-python/Notes/01_Introduction/01_Python.html)
+  - [scientific computing](https://nbviewer.org/github/jrjohansson/scientific-python-lectures/blob/master/Lecture-0-Scientific-Computing-with-Python.ipynb)
+  - [numerical python](http://jrjohansson.github.io/numericalpython.html)
+  - [python](https://dabeaz-course.github.io/practical-python/Notes/01_Introduction/01_Python.html)
 - [open source best practices](https://opensource.guide/best-practices/)

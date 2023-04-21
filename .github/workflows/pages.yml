@@ -27,6 +27,7 @@ jobs:
         env:
           TIDY3D_USER: ${{ secrets.TIDY3D_EMAIL }}
           TIDY3D_PASS: ${{ secrets.TIDY3D_PASSWORD }}
+          SIMCLOUD_APIKEY: ${{ secrets.SIMCLOUD_APIKEY }}
           DISPLAY: 1.0
           DOCS: True
           GDSFACTORY_LAYOUT_PLOTTER: klayout
