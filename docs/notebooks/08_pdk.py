@@ -18,15 +18,15 @@
 #
 # gdsfactory includes a generic PDK, that you can use as an inspiration to create your own.
 #
-# What is a PDK? PDK stands for process design kit. It includes:
+# A process design kit (PDK) includes:
 #
-# 1. LayerStack: different layers with different thickness that come from a process.
-# 2. DRC: Manufacturing rules.
-# 3. A library of components. You can also use Parametric cell functions to generate components with different parameters.
+# 1. LayerStack: different layers with different thickness, z-position, materials and colors.
+# 2. Design rule checking deck DRC: Manufacturing rules capturing min feature size, min spacing ... for the process.
+# 3. A library of Fixed or Parametric cells.
 #
 # The PDK allows you to register:
 #
-# - `cell` functions that return Components from a ComponentSpec (string, Component, ComponentFactory or dict). Also known as parametric cell functions.
+# - `cell` parametric cells that return Components from a ComponentSpec (string, Component, ComponentFactory or dict). Also known as parametric cell functions.
 # - `cross_section` functions that return CrossSection from a CrossSection Spec (string, CrossSection, CrossSectionFactory or dict).
 # - `layers` that return a GDS Layer (gdslayer, gdspurpose) from a string, an int or a Tuple[int, int].
 #

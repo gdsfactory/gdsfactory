@@ -2293,19 +2293,21 @@ class Component(_GeometryHelper):
             pad_width=pad_width,
         )
 
-    def to_stl(
+    def write_stl(
         self,
         filepath: str,
         layer_stack: Optional[LayerStack] = None,
         exclude_layers: Optional[Tuple[Layer, ...]] = None,
     ) -> np.ndarray:
-        """Exports a Component into STL.
+        """Write a Component to STL for 3D printing.
 
         Args:
-            component: to export.
             filepath: to write STL to.
             layer_stack: contains thickness and zmin for each layer.
             exclude_layers: layers to exclude.
+            use_layer_name: If True, uses LayerLevel names in output filenames rather than gds_layer and gds_datatype.
+            hull_invalid_polygons: If True, replaces invalid polygons (determined by shapely.Polygon.is_valid) with its convex hull.
+            scale: Optional factor by which to scale meshes before writing.
 
         """
         from gdsfactory.export.to_stl import to_stl
