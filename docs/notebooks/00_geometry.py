@@ -16,8 +16,6 @@
 # %% [markdown]
 # # Component
 #
-# Run this notebook in your browser using [Binder](https://mybinder.org/v2/gh/gdsfactory/binder-sandbox/HEAD) or [Colab](https://colab.research.google.com/github/gdsfactory/gdsfactory/blob/main/docs/notebooks/00_geometry.ipynb).
-#
 # A `Component` is like an empty canvas, where you can add polygons, references to other Components and ports (to connect to other components)
 #
 # ![](https://i.imgur.com/oeuKGsc.png)
