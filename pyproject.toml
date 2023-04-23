@@ -75,7 +75,7 @@ full = [
     "ipycytoscape",
     ]
 femwell = ["femwell<=0.0.18"]
-database = ["sqlalchemy", "sqlalchemy-utils"]
+data = ["sqlalchemy", "sqlalchemy-utils", "dagster", "dagit"]
 gmsh = [
     "gmsh",
     "h5py",
