@@ -3,6 +3,7 @@ py[cod]
 add_type_hints.xonsh
 # C extensions
 *.so
+conda/
 *.properties
 *.sqlite3
 *.hdf5
