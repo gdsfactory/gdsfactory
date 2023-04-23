@@ -101,21 +101,36 @@ def merge_gds(
     c.show(show_ports=True)
 
 
-# @click.group()
-# def watch() -> None:
-#     """Watch YAML or python files."""
-#     pass
-# @click.option("--debug", "-d", default=False, help="debug", is_flag=True)
-# @click.command()
-# def webapp(debug: bool = False) -> None:
-#     """Opens YAML based webapp."""
-#     from gdsfactory.icyaml import app
+DEFAULT_PORT = 8765
+DEFAULT_HOST = "localhost"
 
-#     if debug:
-#         app.run_debug()
 
-#     else:
-#         app.run()
+@click.option(
+    "--host",
+    "-h",
+    type=click.STRING,
+    default=DEFAULT_HOST,
+    help="Host to run server on",
+    show_default=True,
+)
+@click.option(
+    "--port",
+    "-p",
+    type=click.INT,
+    help=f"Port to run server on - defaults to {DEFAULT_PORT}",
+    default=DEFAULT_PORT,
+    show_default=True,
+)
+@click.command()
+def web(
+    host: str,
+    port: int,
+) -> None:
+    """Opens web viewer."""
+    import uvicorn
+    from gdsfactory.plugins.kweb.main import app
+
+    uvicorn.run(app, host=host, port=port)
 
 
 @click.argument("path", type=click.Path(exists=True), required=False, default=cwd)
@@ -192,7 +207,7 @@ install.add_command(klayout_integration)
 version.add_command(raw)
 version.add_command(pdks)
 
-# yaml.add_command(webapp)
+cli.add_command(web)
 # watch.add_command(watch_yaml)
 
 cli.add_command(gds)
