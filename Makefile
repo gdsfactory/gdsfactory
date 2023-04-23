@@ -93,6 +93,9 @@ test:
 test-force:
 	pytest --force-regen -s
 
+test-watch:
+	ptw
+
 test-meep:
 	pytest gdsfactory/simulation/gmeep
 
