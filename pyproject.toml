@@ -148,22 +148,22 @@ exclude = '''  # Specify the files/dirs that should be ignored by the black form
 )/
 '''
 
-[tool.pytest.ini_options]
-testpaths = ["gdsfactory/", "tests"]
-# addopts = --tb=no
-addopts = '--tb=short --ignore=gdsfactory/schematic_editor.py --ignore=gdsfactory/klayout_tech.py --ignore=gdsfactory/geometry/maskprep_flat.py --ignore=gdsfactory/fill_klayout.py'
-python_files = ["gdsfactory/*.py","tests/*.py"]
-norecursedirs = [
-    "gdsfactory/simulation",
-    "gdsfactory/geometry",
-    "extra/*.py",
-    "gdsfactory/watch.py",
-    "gdsfactory/schematic_editor.py",
-    "gdsfactory/database",
-    "gdsfactory/generic_tech/klayout",
-    "gdsfactory/simulation/simphony",
-    "gdsfactory/tests/test_klayout",
-    ]
+# [tool.pytest.ini_options]
+# testpaths = ["gdsfactory/", "tests"]
+# # addopts = --tb=no
+# addopts = '--tb=short --ignore=gdsfactory/schematic_editor.py --ignore=gdsfactory/klayout_tech.py --ignore=gdsfactory/geometry/maskprep_flat.py --ignore=gdsfactory/fill_klayout.py'
+# python_files = ["gdsfactory/*.py","tests/*.py"]
+# norecursedirs = [
+#     "gdsfactory/simulation",
+#     "gdsfactory/geometry",
+#     "extra/*.py",
+#     "gdsfactory/watch.py",
+#     "gdsfactory/schematic_editor.py",
+#     "gdsfactory/database",
+#     "gdsfactory/generic_tech/klayout",
+#     "gdsfactory/simulation/simphony",
+#     "gdsfactory/tests/test_klayout",
+#     ]
 
 [tool.flake8]
 max-line-length = 88
