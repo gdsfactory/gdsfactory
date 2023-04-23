@@ -75,7 +75,7 @@ full = [
     "ipycytoscape",
     ]
 femwell = ["femwell<=0.0.18"]
-database = ["sqlalchemy", "sqlalchemy-utils"]
+database = ["sqlalchemy", "sqlalchemy-utils", "dagster", "dagit"]
 gmsh = [
     "gmsh",
     "h5py",
@@ -154,6 +154,7 @@ testpaths = ["gdsfactory/", "tests"]
 addopts = '--tb=short --ignore=gdsfactory/schematic_editor.py --ignore=gdsfactory/klayout_tech.py --ignore=gdsfactory/geometry/maskprep_flat.py --ignore=gdsfactory/fill_klayout.py'
 python_files = ["gdsfactory/*.py","tests/*.py"]
 norecursedirs = [
+    "gdsfactory/plugins",
     "gdsfactory/simulation",
     "gdsfactory/geometry",
     "extra/*.py",

@@ -22,8 +22,9 @@ def adapt_numpy_array(numpy_array):
     return AsIs(tuple(numpy_array))
 
 
-register_adapter(np.float64, adapt_numpy_float64)
-register_adapter(np.int64, adapt_numpy_int64)
-register_adapter(np.float32, adapt_numpy_float32)
-register_adapter(np.int32, adapt_numpy_int32)
-register_adapter(np.ndarray, adapt_numpy_array)
+if __name__ == "__main__":
+    register_adapter(np.float64, adapt_numpy_float64)
+    register_adapter(np.int64, adapt_numpy_int64)
+    register_adapter(np.float32, adapt_numpy_float32)
+    register_adapter(np.int32, adapt_numpy_int32)
+    register_adapter(np.ndarray, adapt_numpy_array)

@@ -37,8 +37,8 @@
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
-import gdsfactory.database as gd
-from gdsfactory.database import create_engine
+import gdsfactory.plugins.database as gd
+from gdsfactory.plugins.database import create_engine
 import gdsfactory as gf
 from gdsfactory.generic_tech import get_generic_pdk
 
