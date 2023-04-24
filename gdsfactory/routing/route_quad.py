@@ -101,6 +101,23 @@ def route_quad(
     return component
 
 
+def test_manhattan_route_quad():
+    c = gf.Component("route")
+    pad1 = c << gf.components.pad(size=(50, 50))
+    pad2 = c << gf.components.pad(size=(10, 10))
+    pad2.movex(100)
+    pad2.movey(50)
+    route_gnd = c << route_quad(
+        pad1.ports["e2"],
+        pad2.ports["e4"],
+        width1=None,
+        width2=None,
+        manhattan_min_step=0.1,
+    )
+
+    assert np.shape(route_gnd.get_polygons()) == (1, 802, 2)
+
+
 if __name__ == "__main__":
     # c = gf.Component()
     # mzi = c << gf.components.mzi_phase_shifter()
@@ -119,16 +136,18 @@ if __name__ == "__main__":
 
     # c.show(show_ports=True)
 
-    c = gf.Component("route")
-    pad1 = c << gf.components.pad(size=(50, 50))
-    pad2 = c << gf.components.pad(size=(10, 10))
-    pad2.movex(100)
-    pad2.movey(50)
-    route_gnd = c << route_quad(
-        pad1.ports["e2"],
-        pad2.ports["e4"],
-        width1=None,
-        width2=None,
-        manhattan_min_step=0.1,
-    )
-    c.show()
+    # c = gf.Component("route")
+    # pad1 = c << gf.components.pad(size=(50, 50))
+    # pad2 = c << gf.components.pad(size=(10, 10))
+    # pad2.movex(100)
+    # pad2.movey(50)
+    # route_gnd = c << route_quad(
+    #     pad1.ports["e2"],
+    #     pad2.ports["e4"],
+    #     width1=None,
+    #     width2=None,
+    #     manhattan_min_step=0.1,
+    # )
+    # c.show()
+
+    test_manhattan_route_quad()
