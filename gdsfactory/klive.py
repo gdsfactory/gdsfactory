@@ -2,11 +2,14 @@
 
 from __future__ import annotations
 
+import pathlib
+import shutil
 import json
 import os
 import socket
 from pathlib import Path
 from typing import Union, Optional
+from gdsfactory.config import PATH
 
 
 def show(
@@ -25,6 +28,10 @@ def show(
     """
     if not os.path.isfile(gds_filename):
         raise ValueError(f"{gds_filename} does not exist")
+
+    gds_filename = pathlib.Path(gds_filename)
+    shutil.copy(gds_filename, PATH.gds / gds_filename.name)
+
     data = {
         "gds": os.path.abspath(gds_filename),
         "keep_position": keep_position,

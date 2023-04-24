@@ -162,6 +162,7 @@ class Paths:
     netlists = module_path / "samples" / "netlists"
     gdsdir = repo_path / "tests" / "gds"
     gdslib = repo_path / "gdslib"
+    gds = module_path / "plugins" / "kweb" / "gds_files"
     modes = gdslib / "modes"
     gdsdiff = gdslib / "gds"
     sparameters = gdslib / "sp"

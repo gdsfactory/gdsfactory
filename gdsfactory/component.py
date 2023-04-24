@@ -2817,7 +2817,7 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     # c2 = gf.Component()
-    c = gf.components.mzi(delta_length=20)
+    c = gf.components.mzi()
     print(c.get_layer_names())
     # r = c.ref()
     # c2.copy_child_info(c.named_references["sxt"])
@@ -2829,4 +2829,4 @@ if __name__ == "__main__":
     # gdspath = c.write_gds()
     # gf.show(gdspath)
     # c.show(show_ports=True)
-    c.plot_klayout()
+    c.show()

@@ -4,6 +4,7 @@ add_type_hints.xonsh
 # C extensions
 *.so
 conda/
+gdsfactory/plugins/kweb/gds_files/
 *.properties
 *.sqlite3
 *.hdf5
