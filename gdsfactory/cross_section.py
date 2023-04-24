@@ -638,8 +638,6 @@ def rib_with_trenches(
         c = p.extrude(xs)
         c.plot()
     """
-    width_slab = max(width_slab, width + 2 * width_trench)
-
     trench_offset = width / 2 + width_trench / 2
 
     sections = kwargs.pop("sections", [])
@@ -2323,9 +2321,10 @@ if __name__ == "__main__":
     # xs = l_wg_doped_with_trenches(
     #     layer="WG", width=0.5, width_trench=2.0, width_slab=7.0, gap_low_doping=0.1
     # )
-    xs = l_with_trenches(mirror=False)
-    p = gf.path.straight()
-    c = p.extrude(xs)
+    # p = gf.path.straight()
+    # c = p.extrude(cross_section=xs)
+    xs = rib_with_trenches()
+    c = gf.components.straight(cross_section=xs)
 
     # xs = l_wg()
     # p = gf.path.straight()
