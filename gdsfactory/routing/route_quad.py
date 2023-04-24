@@ -7,6 +7,8 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.port import Port
+from gdsfactory.geometry.manhattanize import manhattanize_polygon
+import gdstk
 
 
 def _get_rotated_basis(theta):
@@ -24,6 +26,7 @@ def route_quad(
     width1: Optional[float] = None,
     width2: Optional[float] = None,
     layer: gf.typings.LayerSpec = "M1",
+    manhattan_min_step: float = None,
 ) -> gf.Component:
     """Routes a basic quadrilateral polygon directly between two ports.
 
@@ -33,6 +36,7 @@ def route_quad(
         width1: Width of quadrilateral at ports. If None, uses port widths.
         width2: Width of quadrilateral at ports. If None, uses port widths.
         layer: Layer to put the route on.
+        manhattan: if not none, min step to manhattanize the polygon
 
     .. plot::
         :include-source:
@@ -73,7 +77,13 @@ def route_quad(
     vertices = [vert for _, vert in sorted(zip(angles, vertices), key=lambda x: x[0])]
 
     component = gf.Component()
-    component.add_polygon(points=vertices, layer=layer)
+    if manhattan_min_step:
+        poly = gdstk.Polygon(vertices)
+        component.add_polygon(
+            points=manhattanize_polygon(poly, min_step=manhattan_min_step), layer=layer
+        )
+    else:
+        component.add_polygon(points=vertices, layer=layer)
     component.add_port(
         name="e1",
         center=port1.center,
@@ -89,6 +99,23 @@ def route_quad(
         layer=layer,
     )
     return component
+
+
+def test_manhattan_route_quad():
+    c = gf.Component("route")
+    pad1 = c << gf.components.pad(size=(50, 50))
+    pad2 = c << gf.components.pad(size=(10, 10))
+    pad2.movex(100)
+    pad2.movey(50)
+    route_gnd = c << route_quad(
+        pad1.ports["e2"],
+        pad2.ports["e4"],
+        width1=None,
+        width2=None,
+        manhattan_min_step=0.1,
+    )
+
+    assert np.shape(route_gnd.get_polygons()) == (1, 802, 2)
 
 
 if __name__ == "__main__":
@@ -109,15 +136,18 @@ if __name__ == "__main__":
 
     # c.show(show_ports=True)
 
-    c = gf.Component("route")
-    pad1 = c << gf.components.pad(size=(50, 50))
-    pad2 = c << gf.components.pad(size=(10, 10))
-    pad2.movex(100)
-    pad2.movey(50)
-    route_gnd = c << route_quad(
-        pad1.ports["e2"],
-        pad2.ports["e4"],
-        width1=None,
-        width2=None,
-    )
-    c.show()
+    # c = gf.Component("route")
+    # pad1 = c << gf.components.pad(size=(50, 50))
+    # pad2 = c << gf.components.pad(size=(10, 10))
+    # pad2.movex(100)
+    # pad2.movey(50)
+    # route_gnd = c << route_quad(
+    #     pad1.ports["e2"],
+    #     pad2.ports["e4"],
+    #     width1=None,
+    #     width2=None,
+    #     manhattan_min_step=0.1,
+    # )
+    # c.show()
+
+    test_manhattan_route_quad()
