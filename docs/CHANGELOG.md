@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.89.0
+
+- add manhattan [PR](https://github.com/gdsfactory/gdsfactory/pull/1579)
+- fixes `rib_with_trenches` [PR](https://github.com/gdsfactory/gdsfactory/pull/1581)
+
 ## 6.88.1
 
 - remove triangle dependency for M1 compatibility [PR](https://github.com/gdsfactory/gdsfactory/pull/1567)
