@@ -68,6 +68,7 @@ full = [
     "trimesh",
     "fastapi",
     "uvicorn[standard]",
+    "python-multipart",
     "jinja2",
     "jupytext",
     "klayout",

@@ -3,13 +3,11 @@
 from __future__ import annotations
 
 import pathlib
-import shutil
 import json
 import os
 import socket
 from pathlib import Path
 from typing import Union, Optional
-from gdsfactory.config import PATH
 
 
 def show(
@@ -30,7 +28,6 @@ def show(
         raise ValueError(f"{gds_filename} does not exist")
 
     gds_filename = pathlib.Path(gds_filename)
-    shutil.copy(gds_filename, PATH.gds / gds_filename.name)
 
     data = {
         "gds": os.path.abspath(gds_filename),
@@ -49,10 +46,28 @@ def show(
     except OSError:
         pass
 
+    # try:
+    #     from gdsfactory.plugins.web.server import host, port
+
+    #     conn = socket.create_connection((host, port), timeout=1.0)
+    #     data = {
+    #         "gds_file": os.path.abspath(gds_filename),
+    #     }
+    #     data_string = json.dumps(data)
+    #     data_string = data_string + "\n"
+    #     data_string = (
+    #         data_string.encode() if hasattr(data_string, "encode") else data_string
+    #     )
+    #     conn.sendall(data_string)
+    #     conn.close()
+    # except OSError:
+    #     pass
+
 
 if __name__ == "__main__":
     import gdsfactory as gf
 
+    # c = gf.components.mzi()
     c = gf.components.straight()
     # gdspath = c.write_gds()
     # show(gdspath)

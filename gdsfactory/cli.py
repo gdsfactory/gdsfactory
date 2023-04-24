@@ -128,7 +128,7 @@ def web(
 ) -> None:
     """Opens web viewer."""
     import uvicorn
-    from gdsfactory.plugins.kweb.main import app
+    from gdsfactory.plugins.web.main import app
 
     uvicorn.run(app, host=host, port=port)
 

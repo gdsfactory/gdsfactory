@@ -54,6 +54,8 @@ from gdsfactory.generic_tech import LAYER
 Plotter = Literal["holoviews", "matplotlib", "qt", "klayout"]
 Axis = Literal["x", "y"]
 
+GDSDIR_TEMP = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
+
 
 class UncachedComponentWarning(UserWarning):
     pass
@@ -1759,9 +1761,7 @@ class Component(_GeometryHelper):
         else:
             top_cell = self
 
-        gdsdir = (
-            gdsdir or pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
-        )
+        gdsdir = gdsdir or GDSDIR_TEMP
         gdsdir = pathlib.Path(gdsdir)
         if with_oasis:
             gdspath = gdspath or gdsdir / f"{top_cell.name}.oas"

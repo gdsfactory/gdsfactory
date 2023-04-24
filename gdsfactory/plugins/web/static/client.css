@@ -86,3 +86,12 @@ div .menu-right-frame {
 .layer-visible-cell {
   padding-right: 0.5rem;
 }
+
+a {
+  padding: 5px;
+  margin: 10px;
+  display: inline-block;
+  border: solid;
+  border-width: 2px;
+  color: red;
+}

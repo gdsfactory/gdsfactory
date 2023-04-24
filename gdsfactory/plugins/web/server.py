@@ -1,33 +1,30 @@
 #!/usr/bin/env python3
 
+import os
 import asyncio
 import json
-from collections.abc import Callable
-from pathlib import Path
-from typing import Any
+from loguru import logger
 
-from klayout import db
-from klayout import lay
-from fastapi import WebSocket
 from starlette.endpoints import WebSocketEndpoint
+from fastapi import WebSocket
+
+import klayout.db as db
+import klayout.lay as lay
+
+from gdsfactory.component import GDSDIR_TEMP
+
+import gdsfactory as gf
 
 host = "localhost"
 port = 8765
-
-layout_url = (
-    "https://github.com/KLayout/klayout/blob/master/testdata/gds/t10.gds?raw=true"
-)
-
-
-# TODO: Not sure `WebSocket` is the right type here
 
 
 class LayoutViewServerEndpoint(WebSocketEndpoint):
     encoding = "text"
 
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
+        logger.info("Initialized websocket")
         _params = self.scope["query_string"].decode("utf-8")
         _params_splitted = _params.split("&")
         params = {}
@@ -35,33 +32,46 @@ class LayoutViewServerEndpoint(WebSocketEndpoint):
             key, value = _param.split("=")
             params[key] = value
 
-        self.url = params["gds_file"]
-        self.layer_props = params.get("layer_props", None)
+        # print("args:", args)
+        # print("kwargs:", kwargs)
+        # self.url = params["gds_file"].replace('/', '\\')
+        # self.layer_props = params.get("layer_props", None)
+        layer_props_filename = GDSDIR_TEMP / "layer_props.lyp"
+        gf.get_active_pdk().layer_views.to_lyp(layer_props_filename)
+        self.layer_props = layer_props_filename
+        # path_params = args[0]['path_params']
+        # cell_name = path_params["cell_name"]
+        cell_name = params["variant"]
+        self.url = f"{str(GDSDIR_TEMP)}/{cell_name}.gds"
+        # c = gf.get_component(cell_name)
+        gds_path = GDSDIR_TEMP / f"{cell_name}.gds"
+        # c.write_gds(gds_path)
+        self.gds_path = str(gds_path)
 
-    async def on_connect(self, websocket: WebSocket) -> None:
+    async def on_connect(self, websocket):
         await websocket.accept()
         await self.connection(websocket)
 
-    async def on_receive(self, websocket: WebSocket, data: str) -> None:
+    async def on_receive(self, websocket, data):
         await self.reader(websocket, data)
 
-    async def on_disconnect(self, websocket: WebSocket, close_code: int) -> None:
+    async def on_disconnect(self, websocket, close_code):
         pass
 
-    async def send_image(self, websocket: WebSocket, data: bytes) -> None:
-        await websocket.send_bytes(data)
+    async def send_image(self, websocket, data):
+        await websocket.send_text(data)
 
-    def image_updated(self, websocket: WebSocket) -> None:
+    def image_updated(self, websocket):
         pixel_buffer = self.layout_view.get_screenshot_pixels()
         asyncio.create_task(self.send_image(websocket, pixel_buffer.to_png_data()))
 
-    def mode_dump(self) -> list[str]:
+    def mode_dump(self):
         return self.layout_view.mode_names()
 
-    def annotation_dump(self) -> list[str]:
+    def annotation_dump(self):
         return [d[1] for d in self.layout_view.annotation_templates()]
 
-    def layer_dump(self) -> list[dict[str, object]]:
+    def layer_dump(self):
         js = []
         for layer in self.layout_view.each_layer():
             js.append(
@@ -83,10 +93,10 @@ class LayoutViewServerEndpoint(WebSocketEndpoint):
             )
         return js
 
-    async def connection(self, websocket: WebSocket, path: str | None = None) -> None:
+    async def connection(self, websocket: WebSocket, path: str = None) -> None:
         self.layout_view = lay.LayoutView()
         self.layout_view.load_layout(self.url)
-        if Path(self.layer_props).is_file():
+        if self.layer_props is not None:
             self.layout_view.load_layer_props(self.layer_props)
         self.layout_view.max_hier()
 
@@ -103,15 +113,13 @@ class LayoutViewServerEndpoint(WebSocketEndpoint):
 
         asyncio.create_task(self.timer(websocket))
 
-    async def timer(self, websocket: WebSocket) -> None:
-        self.layout_view.on_image_updated_event = (  # type: ignore[attr-defined]
-            lambda: self.image_updated(websocket)
-        )
+    async def timer(self, websocket):
+        self.layout_view.on_image_updated_event = lambda: self.image_updated(websocket)
         while True:
-            self.layout_view.timer()  # type: ignore[attr-defined]
+            self.layout_view.timer()
             await asyncio.sleep(0.01)
 
-    def buttons_from_js(self, js: dict[str, int]) -> int:
+    def buttons_from_js(self, js):
         buttons = 0
         k = js["k"]
         b = js["b"]
@@ -129,9 +137,7 @@ class LayoutViewServerEndpoint(WebSocketEndpoint):
             buttons |= lay.ButtonState.MidButton
         return buttons
 
-    def wheel_event(
-        self, function: Callable[[int, bool, db.Point, int], None], js: dict[str, int]
-    ) -> None:
+    def wheel_event(self, function, js):
         delta = 0
         dx = js["dx"]
         dy = js["dy"]
@@ -146,12 +152,10 @@ class LayoutViewServerEndpoint(WebSocketEndpoint):
                 delta, horizontal, db.Point(js["x"], js["y"]), self.buttons_from_js(js)
             )
 
-    def mouse_event(
-        self, function: Callable[[db.Point, int], None], js: dict[str, int]
-    ) -> None:
+    def mouse_event(self, function, js):
         function(db.Point(js["x"], js["y"]), self.buttons_from_js(js))
 
-    async def reader(self, websocket: WebSocket, data: str) -> None:
+    async def reader(self, websocket, data: str):
         js = json.loads(data)
         msg = js["msg"]
         if msg == "quit":
@@ -182,31 +186,34 @@ class LayoutViewServerEndpoint(WebSocketEndpoint):
         elif msg == "mode_select":
             self.layout_view.switch_mode(js["mode"])
         elif msg == "mouse_move":
-            self.mouse_event(
-                self.layout_view.send_mouse_move_event, js  # type: ignore[arg-type]
-            )
+            self.mouse_event(self.layout_view.send_mouse_move_event, js)
         elif msg == "mouse_pressed":
-            self.mouse_event(
-                self.layout_view.send_mouse_press_event, js  # type: ignore[arg-type]
-            )
+            self.mouse_event(self.layout_view.send_mouse_press_event, js)
         elif msg == "mouse_released":
-            self.mouse_event(
-                self.layout_view.send_mouse_release_event, js  # type: ignore[arg-type]
-            )
+            self.mouse_event(self.layout_view.send_mouse_release_event, js)
         elif msg == "mouse_enter":
             self.layout_view.send_enter_event()
         elif msg == "mouse_leave":
             self.layout_view.send_leave_event()
         elif msg == "mouse_dblclick":
-            self.mouse_event(
-                self.layout_view.send_mouse_double_clicked_event,
-                js,
-            )
+            self.mouse_event(self.layout_view.send_mouse_double_clicked_event, js)
         elif msg == "wheel":
-            self.wheel_event(
-                self.layout_view.send_wheel_event, js  # type: ignore[arg-type]
-            )
+            self.wheel_event(self.layout_view.send_wheel_event, js)
 
 
-# server = LayoutViewServerEndpoint(layout_url)
-# server.run()
+def get_layer_properties():
+    layer_props_filename = "layer_props.lyp"
+    if not os.path.isfile(layer_props_filename):
+        gf.get_active_pdk().layer_views.to_lyp(layer_props_filename)
+    return layer_props_filename
+
+
+def get_layout_view(component: gf.Component):
+    gds_path = GDSDIR_TEMP / f"{component.name}.gds"
+    component.write_gds(gdspath=str(gds_path))
+    layout_view = lay.LayoutView()
+    layout_view.load_layout(str(gds_path))
+    layer_props = get_layer_properties()
+    layout_view.load_layer_props(layer_props)
+    layout_view.max_hier()
+    return layout_view
