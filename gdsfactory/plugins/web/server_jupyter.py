@@ -5,7 +5,7 @@ import socket
 # import requests
 import uvicorn
 
-from kweb.main import app
+from gdsfactory.plugins.web.main import app
 
 global jupyter_server
 jupyter_server = None

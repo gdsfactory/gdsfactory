@@ -8,8 +8,8 @@ from fastapi.templating import Jinja2Templates
 from starlette.routing import WebSocketRoute
 from starlette.templating import _TemplateResponse
 
-from kweb import __version__ as version
-from kweb.server import LayoutViewServerEndpoint
+from gdsfactory.plugins.web import __version__ as version
+from gdsfactory.plugins.web.server import LayoutViewServerEndpoint
 
 module_path = Path(__file__).parent.absolute()
 home_path = Path.home() / ".gdsfactory" / "extra"
@@ -25,7 +25,7 @@ templates = Jinja2Templates(directory=module_path / "templates")
 
 @app.get("/")
 async def root() -> dict[str, str]:
-    return {"message": "Welcome to kweb visualizer"}
+    return {"message": "Welcome to gdsfactory.plugins.web visualizer"}
 
 
 @app.get("/gds", response_class=HTMLResponse)
@@ -79,4 +79,4 @@ async def gds_view_static(
 
 @app.get("/status")
 async def status() -> dict[str, Any]:
-    return {"server": "kweb", "version": version}
+    return {"server": "gdsfactory.plugins.web", "version": version}

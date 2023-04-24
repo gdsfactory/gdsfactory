@@ -6,9 +6,8 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-# NOTE: import db to enable stream format readers
-import klayout.db as db
-import klayout.lay as lay
+from klayout import db
+from klayout import lay
 from fastapi import WebSocket
 from starlette.endpoints import WebSocketEndpoint
 
