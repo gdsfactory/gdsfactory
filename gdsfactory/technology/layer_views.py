@@ -13,7 +13,7 @@ import xml.etree.ElementTree as ET
 from typing import Dict, Optional, Set, Tuple, Union
 
 import numpy as np
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 from pydantic.color import Color, ColorType
 
 from gdsfactory.config import logger
@@ -284,9 +284,9 @@ class HatchPattern(BaseModel):
     class Config:
         """YAML output uses name as the key."""
 
-        fields = {"name": {"exclude": True}}
+        Annotated = {"name": {"exclude": True}}
 
-    @validator("custom_pattern")
+    @field_validator("custom_pattern")
     def check_pattern_klayout(cls, pattern: Optional[str], **kwargs) -> Optional[str]:
         if pattern is None:
             return None
@@ -334,9 +334,9 @@ class LineStyle(BaseModel):
     class Config:
         """YAML output uses name as the key."""
 
-        fields = {"name": {"exclude": True}}
+        Annotated = {"name": {"exclude": True}}
 
-    @validator("custom_style")
+    @field_validator("custom_style")
     def check_pattern(cls, pattern: Optional[str], **kwargs) -> Optional[str]:
         if pattern is None:
             return None
@@ -421,7 +421,7 @@ class LayerView(BaseModel):
     class Config:
         """YAML output uses name as the key."""
 
-        fields = {"name": {"exclude": True}}
+        Annotated = {"name": {"exclude": True}}
 
     def __init__(
         self,
@@ -1238,7 +1238,8 @@ def test_load_lyp():
 
 
 if __name__ == "__main__":
-    test_load_lyp()
+    pass
+    # test_load_lyp()
     # import gdsfactory as gf
     # from gdsfactory.config import PATH
 
