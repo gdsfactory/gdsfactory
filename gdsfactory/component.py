@@ -1055,7 +1055,7 @@ class Component(kf.KCell):
         if port:
             name = name if name is not None else port.name
 
-            if isinstance(port, (kf.Port, kf.DPort, kf.ICplxPort, kf.Port)):
+            if isinstance(port, kf.Port):
                 kf.KCell.add_port(self, port=port, name=name)
                 return port
 
