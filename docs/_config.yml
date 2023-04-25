@@ -21,8 +21,8 @@ execute:
     - "*12_database*"
     - "*optimiser*"
     - "*03_numerical_implantation*"
-    # - "*02_model_extraction*"
-    # - "*jupyter_notebooks*"
+    - "*02_model_extraction*"
+    - "*jupyter_notebooks*"
 
 latex:
   latex_engine: pdflatex # one of 'pdflatex', 'xelatex' (recommended for unicode), 'luatex', 'platex', 'uplatex'
