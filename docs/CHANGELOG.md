@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.89.1
+
+- improve manhattanization [PR](https://github.com/gdsfactory/gdsfactory/pull/1582)
+
 ## 6.89.0
 
 - add manhattan [PR](https://github.com/gdsfactory/gdsfactory/pull/1579)
