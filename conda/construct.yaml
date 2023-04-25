@@ -8,7 +8,7 @@ channels:
   - https://repo.anaconda.com/pkgs/msys2/
 
 specs:
-  - conda
+  - conda==22.11.1
   - python
   - mamba
   - pip
