@@ -3,83 +3,89 @@
 
 format: jb-book
 root: index
-chapters:
-  - file: getting_started
-    sections:
-      - file: notebooks/_2_klayout
-      - file: notebooks/_3_vscode
-      - file: notebooks/_0_python
-      - file: notebooks/_1_git
-  - file: pdk
-    sections:
-      - file: notebooks/08_pdk
-      - file: notebooks/03_layer_stack
-      - file: notebooks/08_pdk_examples
-      - file: notebooks/09_pdk_import
-      - file: notebooks/20_schematic_driven_layout
-      - file: notebooks/10_yaml_component
-      - file: notebooks/11_get_netlist
-  - file: layout
-    sections:
-      - file: notebooks/00_geometry
-      - file: notebooks/01_references
-      - file: notebooks/02_movement
-      - file: notebooks/03_cells_autoname_and_cache
-      - file: notebooks/03_waveguides_paths_crossections
-      - file: notebooks/04_components_shapes
-      - file: notebooks/04_components_geometry
-      - file: notebooks/04_components_pack
-      - file: notebooks/04_components_hierarchy
-      - file: notebooks/07_mask
-      - file: notebooks/04_routing
-      - file: notebooks/041_routing_electrical
-      - file: notebooks/042_non-manhattan-router
-      - file: notebooks/common_mistakes
-      - file: notebooks/dataprep
-  - file: api
-  - file: routing
-  - file: workflow
-    sections:
-      - file: notebooks/workflow/jupyter_notebooks
-      - file: notebooks/workflow/0_layout_summary
-      - file: notebooks/workflow/1_mzi
-      - file: notebooks/workflow/2_ring
-      - file: notebooks/workflow/3_cascaded_mzi
-  - file: plugins_optimization
-    sections:
-      - file: notebooks/ray/optimiser
-  - file: plugins_mesh
-    sections:
-      - file: notebooks/materials
-      - file: notebooks/meshing/01_intro
-      - file: notebooks/meshing/02_2D_xy_mesh
-      - file: notebooks/meshing/03_2D_uz_mesh
-      - file: notebooks/meshing/04_refinement
-  - file: plugins_process
-    sections:
-      - file: notebooks/thermal/thermal
-      - file: notebooks/devsim/01_pin_waveguide
-      - file: notebooks/tcad/02_analytical_process
-      - file: notebooks/tcad/03_numerical_implantation
-  - file: plugins_mode_solver
-    sections:
-      - file: notebooks/fem/01_mode_solving
-      - file: notebooks/tidy3d/01_tidy3d_modes
-      - file: notebooks/mpb/001_mpb_waveguide
-      - file: notebooks/eme/01_meow
-  - file: plugins_fdtd
-    sections:
-      - file: notebooks/tidy3d/00_tidy3d
-      - file: notebooks/meep/001_meep_sparameters
-      - file: notebooks/meep/002_gratings
-      - file: notebooks/lumerical/1_fdtd_sparameters
-  - file: plugins_circuits
-    sections:
-      - file: notebooks/sax/01_sax
-      - file: notebooks/sax/02_model_extraction
-      - file: notebooks/sax/03_variability_analysis
-      - file: notebooks/lumerical/2_interconnect
-  - file: notebooks/12_database
-  - file: components
-  - file: contribution
-  - file: CHANGELOG
+parts:
+- caption: Introduction
+  chapters:
+    - file: getting_started
+      sections:
+        - file: notebooks/_2_klayout
+        - file: notebooks/_3_vscode
+        - file: notebooks/_0_python
+        - file: notebooks/_1_git
+    - file: pdk
+      sections:
+        - file: notebooks/08_pdk
+        - file: notebooks/03_layer_stack
+        - file: notebooks/08_pdk_examples
+        - file: notebooks/09_pdk_import
+        - file: notebooks/20_schematic_driven_layout
+        - file: notebooks/10_yaml_component
+        - file: notebooks/11_get_netlist
+    - file: layout
+      sections:
+        - file: notebooks/00_geometry
+        - file: notebooks/01_references
+        - file: notebooks/02_movement
+        - file: notebooks/03_cells_autoname_and_cache
+        - file: notebooks/03_waveguides_paths_crossections
+        - file: notebooks/04_components_shapes
+        - file: notebooks/04_components_geometry
+        - file: notebooks/04_components_pack
+        - file: notebooks/04_components_hierarchy
+        - file: notebooks/07_mask
+        - file: notebooks/04_routing
+        - file: notebooks/041_routing_electrical
+        - file: notebooks/042_non-manhattan-router
+        - file: notebooks/common_mistakes
+        - file: notebooks/dataprep
+    - file: workflow
+      sections:
+        - file: notebooks/workflow/jupyter_notebooks
+        - file: notebooks/workflow/0_layout_summary
+        - file: notebooks/workflow/1_mzi
+        - file: notebooks/workflow/2_ring
+        - file: notebooks/workflow/3_cascaded_mzi
+- caption: Plugins
+  chapters:
+    - file: plugins_optimization
+      sections:
+        - file: notebooks/ray/optimiser
+    - file: plugins_mesh
+      sections:
+        - file: notebooks/materials
+        - file: notebooks/meshing/01_intro
+        - file: notebooks/meshing/02_2D_xy_mesh
+        - file: notebooks/meshing/03_2D_uz_mesh
+        - file: notebooks/meshing/04_refinement
+    - file: plugins_process
+      sections:
+        - file: notebooks/thermal/thermal
+        - file: notebooks/devsim/01_pin_waveguide
+        - file: notebooks/tcad/02_analytical_process
+        - file: notebooks/tcad/03_numerical_implantation
+    - file: plugins_mode_solver
+      sections:
+        - file: notebooks/fem/01_mode_solving
+        - file: notebooks/tidy3d/01_tidy3d_modes
+        - file: notebooks/mpb/001_mpb_waveguide
+        - file: notebooks/eme/01_meow
+    - file: plugins_fdtd
+      sections:
+        - file: notebooks/tidy3d/00_tidy3d
+        - file: notebooks/meep/001_meep_sparameters
+        - file: notebooks/meep/002_gratings
+        - file: notebooks/lumerical/1_fdtd_sparameters
+    - file: plugins_circuits
+      sections:
+        - file: notebooks/sax/01_sax
+        - file: notebooks/sax/02_model_extraction
+        - file: notebooks/sax/03_variability_analysis
+        - file: notebooks/lumerical/2_interconnect
+    - file: notebooks/12_database
+- caption: Reference
+  chapters:
+    - file: api
+    - file: routing
+    - file: components
+    - file: contribution
+    - file: CHANGELOG
