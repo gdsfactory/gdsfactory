@@ -1032,7 +1032,7 @@ class Component(kf.KCell):
         layer: LayerSpec = None,
         port_type: str = "optical",
         cross_section: Optional[CrossSection] = None,
-    ) -> kf.DCplxPort:
+    ) -> kf.Port:
         """Add port to component.
 
         You can copy an existing port like add_port(port = existing_port) or
@@ -1055,13 +1055,13 @@ class Component(kf.KCell):
         if port:
             name = name if name is not None else port.name
 
-            if isinstance(port, (kf.Port, kf.DPort, kf.ICplxPort, kf.DCplxPort)):
+            if isinstance(port, (kf.Port, kf.DPort, kf.ICplxPort, kf.Port)):
                 kf.KCell.add_port(self, port=port, name=name)
                 return port
 
             elif isinstance(port, Port):
                 port.orientation = float(port.orientation)
-                p = kf.DCplxPort(
+                p = kf.Port(
                     name=name,
                     position=port.center,
                     width=port.width,
@@ -1088,7 +1088,7 @@ class Component(kf.KCell):
 
         layer = get_layer(layer)
 
-        p = kf.DCplxPort(
+        p = kf.Port(
             name=name,
             position=center,
             width=width,
@@ -1511,7 +1511,7 @@ class Component(kf.KCell):
             layer_props = get_layer_views()
             layer_props.to_lyp(filepath=lyp_path)
 
-            src = f"http://127.0.0.1:8000/gds?gds_file={escape(str(gdspath))}&layer_props={escape(str(lyp_path))}"
+            src = f"http://127.0.0.1:{kj.port}/gds?gds_file={escape(str(gdspath))}&layer_props={escape(str(lyp_path))}"
             logger.debug(src)
 
             if kj.jupyter_server and not os.environ.get("DOCS", False):
@@ -1712,21 +1712,6 @@ class Component(kf.KCell):
             self.draw_ports()
 
         show(self, **kwargs)
-
-    def to_3d(self, *args, **kwargs):
-        """Returns Component 3D trimesh Scene.
-
-        Keyword Args:
-            component: to extrude in 3D.
-            layer_views: layer colors from Klayout Layer Properties file.
-                Defaults to active PDK.layer_views.
-            layer_stack: contains thickness and zmin for each layer.
-                Defaults to active PDK.layer_stack.
-            exclude_layers: layers to exclude.
-        """
-        from gdsfactory.export.to_3d import to_3d
-
-        return to_3d(self, *args, **kwargs)
 
     def to_gmsh(
         self,
@@ -2183,6 +2168,127 @@ class Component(kf.KCell):
                             new_datatypes[layer_number] = new_layer[1]
                     path.set_layers(*new_layers)
                     path.set_datatypes(*new_datatypes)
+        return component
+
+    def to_3d(
+        self,
+        layer_views: Optional[LayerViews] = None,
+        layer_stack: Optional = None,
+        exclude_layers: Optional[Tuple[Layer, ...]] = None,
+    ):
+        """Return Component 3D trimesh Scene.
+
+        Args:
+            component: to extrude in 3D.
+            layer_views: layer colors from Klayout Layer Properties file.
+                Defaults to active PDK.layer_views.
+            layer_stack: contains thickness and zmin for each layer.
+                Defaults to active PDK.layer_stack.
+            exclude_layers: layers to exclude.
+
+        """
+        from gdsfactory.export.to_3d import to_3d
+
+        return to_3d(
+            self,
+            layer_views=layer_views,
+            layer_stack=layer_stack,
+            exclude_layers=exclude_layers,
+        )
+
+    def to_np(
+        self,
+        nm_per_pixel: int = 20,
+        layers: Layers = ((1, 0),),
+        values: Optional[Tuple[float, ...]] = None,
+        pad_width: int = 1,
+    ) -> np.ndarray:
+        """Returns a pixelated numpy array from Component polygons.
+
+        Args:
+            component: Component.
+            nm_per_pixel: you can go from 20 (coarse) to 4 (fine).
+            layers: to convert. Order matters (latter overwrite former).
+            values: associated to each layer (defaults to 1).
+            pad_width: padding pixels around the image.
+
+        """
+        from gdsfactory.export.to_np import to_np
+
+        return to_np(
+            self,
+            nm_per_pixel=nm_per_pixel,
+            layers=layers,
+            values=values,
+            pad_width=pad_width,
+        )
+
+    def write_stl(
+        self,
+        filepath: str,
+        layer_stack: Optional = None,
+        exclude_layers: Optional[Tuple[Layer, ...]] = None,
+    ) -> np.ndarray:
+        """Write a Component to STL for 3D printing.
+
+        Args:
+            filepath: to write STL to.
+            layer_stack: contains thickness and zmin for each layer.
+            exclude_layers: layers to exclude.
+            use_layer_name: If True, uses LayerLevel names in output filenames rather than gds_layer and gds_datatype.
+            hull_invalid_polygons: If True, replaces invalid polygons (determined by shapely.Polygon.is_valid) with its convex hull.
+            scale: Optional factor by which to scale meshes before writing.
+
+        """
+        from gdsfactory.export.to_stl import to_stl
+
+        return to_stl(
+            self,
+            filepath=filepath,
+            layer_stack=layer_stack,
+            exclude_layers=exclude_layers,
+        )
+
+    def offset(
+        self,
+        distance: float = 0.1,
+        polygons=None,
+        use_union: bool = True,
+        precision: float = 1e-4,
+        join: str = "miter",
+        tolerance: int = 2,
+        layer: LayerSpec = "WG",
+    ) -> Component:
+        """Returns new Component with polygons eroded or dilated by an offset.
+
+        Args:
+            distance: Distance to offset polygons. Positive values expand, negative shrink.
+            precision: Desired precision for rounding vertex coordinates.
+            join: {'miter', 'bevel', 'round'} Type of join used to create polygon offset
+            tolerance: For miter joints, this number must be at least 2 represents the
+              maximal distance in multiples of offset between new vertices and their
+              original position before beveling to avoid spikes at acute joints. For
+              round joints, it indicates the curvature resolution in number of
+              points per full circle.
+            layer: Specific layer for new polygons.
+
+        """
+        import gdsfactory as gf
+
+        gds_layer, gds_datatype = gf.get_layer(layer)
+        p = gdstk.offset(
+            polygons or self.get_polygons(),
+            distance=distance,
+            join=join,
+            tolerance=tolerance,
+            precision=precision,
+            use_union=use_union,
+            layer=gds_layer,
+            datatype=gds_datatype,
+        )
+
+        component = gf.Component()
+        component.add_polygon(p, layer=layer)
         return component
 
 

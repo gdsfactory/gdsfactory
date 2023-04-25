@@ -58,6 +58,7 @@ settings:
       settings:
         sections:
         - hidden: false
+          insets: null
           layer: SLAB90
           name: slab
           offset: 0
@@ -67,6 +68,7 @@ settings:
           port_types:
           - optical
           - optical
+          simplify: null
           width: 4.85
     doped_heater: true
     doped_heater_angle_buffer: 10
@@ -122,6 +124,7 @@ settings:
       settings:
         sections:
         - hidden: false
+          insets: null
           layer: SLAB90
           name: slab
           offset: 0
@@ -131,6 +134,7 @@ settings:
           port_types:
           - optical
           - optical
+          simplify: null
           width: 4.85
     doped_heater: true
     doped_heater_angle_buffer: 10

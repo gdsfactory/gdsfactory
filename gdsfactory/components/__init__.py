@@ -150,7 +150,11 @@ from gdsfactory.components.grating_coupler_rectangular_arbitrary_slab import (
     grating_coupler_rectangular_arbitrary_slab,
 )
 from gdsfactory.components.grating_coupler_tree import grating_coupler_tree
-from gdsfactory.components.greek_cross import greek_cross
+from gdsfactory.components.greek_cross import (
+    greek_cross,
+    greek_cross_with_pads,
+    greek_cross_offset_pads,
+)
 from gdsfactory.components.hline import hline
 from gdsfactory.components.interdigital_capacitor import interdigital_capacitor
 from gdsfactory.components.L import L
@@ -193,6 +197,9 @@ from gdsfactory.components.pad import (
 )
 from gdsfactory.components.pad_gsg import pad_gsg_open, pad_gsg_short
 from gdsfactory.components.pads_shorted import pads_shorted
+from gdsfactory.components.polarization_splitter_rotator import (
+    polarization_splitter_rotator,
+)
 from gdsfactory.components.ramp import ramp
 from gdsfactory.components.rectangle import rectangle, marker_te, marker_tm
 from gdsfactory.components.rectangle_with_slits import rectangle_with_slits
@@ -461,6 +468,8 @@ __all__ = [
     "grating_taper_points",
     "grating_tooth_points",
     "greek_cross",
+    "greek_cross_with_pads",
+    "greek_cross_offset_pads",
     "hline",
     "interdigital_capacitor",
     "litho_calipers",
@@ -511,6 +520,7 @@ __all__ = [
     "pad_gsg_open",
     "pad_gsg_short",
     "pads_shorted",
+    "polarization_splitter_rotator",
     "pixel",
     "qrcode",
     "ramp",

@@ -26,6 +26,7 @@ def _get_results(
     sim: td.Simulation,
     dirpath: PathType = PATH.results_tidy3d,
     overwrite: bool = False,
+    verbose: bool = False,
 ) -> td.SimulationData:
     """Return SimulationData results from simulation.
 
@@ -38,14 +39,15 @@ def _get_results(
         sim: tidy3d Simulation.
         dirpath: to store results locally.
         overwrite: overwrites the data even when path exists.
+        verbose: prints info messages and progressbars.
     """
     task_name = sim_hash = get_sim_hash(sim)
     sim_path = dirpath / f"{sim_hash}.hdf5"
     logger.info(f"running simulation {sim_hash!r}")
 
-    hash_to_id = {d["task_name"][:32]: d["task_id"] for d in web.get_tasks()}
+    hash_to_id = {d["taskName"][:32]: d["task_id"] for d in web.get_tasks()}
     filepath = str(dirpath / f"{sim_hash}.hdf5")
-    job = web.Job(simulation=sim, task_name=task_name)
+    job = web.Job(simulation=sim, task_name=task_name, verbose=verbose)
 
     # Results in local storage
     if sim_path.exists():
@@ -74,6 +76,7 @@ def get_results(
     sim: td.Simulation,
     dirpath=PATH.results_tidy3d,
     overwrite: bool = True,
+    verbose: bool = False,
 ) -> Awaitable[td.SimulationData]:
     """Return a List of SimulationData from a Simulation.
 
@@ -85,6 +88,7 @@ def get_results(
         sims: List[Simulation]
         dirpath: to store results locally
         overwrite: overwrites the data even if path exists. Keep True.
+        verbose: prints info messages and progressbars.
 
     .. code::
         import gdsfactory.simulation.tidy3d as gt
@@ -95,12 +99,13 @@ def get_results(
         sim_data = sim_data.result() # waits for results
 
     """
-    return _executor.submit(_get_results, sim, dirpath, overwrite)
+    return _executor.submit(_get_results, sim, dirpath, overwrite, verbose)
 
 
 def get_results_batch(
     sims: td.Simulation,
     dirpath=PATH.results_tidy3d,
+    verbose: bool = True,
 ) -> td.BatchData:
     """Return a  a list of Simulation.
 
@@ -108,6 +113,7 @@ def get_results_batch(
         sims: List[Simulation]
         dirpath: to store results locally
         overwrite: overwrites the data even if path exists. Keep True.
+        verbose: prints info messages and progressbars.
 
     .. code::
         import gdsfactory.simulation.tidy3d as gt
@@ -119,7 +125,7 @@ def get_results_batch(
 
     """
     task_names = [get_sim_hash(sim) for sim in sims]
-    batch = web.Batch(simulations=dict(zip(task_names, sims)))
+    batch = web.Batch(simulations=dict(zip(task_names, sims)), verbose=verbose)
     return batch.run(path_dir=dirpath)
 
 

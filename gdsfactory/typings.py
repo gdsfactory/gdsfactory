@@ -172,6 +172,8 @@ PortSymmetries = Dict[str, List[str]]
 PortsDict = Dict[str, Port]
 PortsList = Dict[str, Port]
 
+Sparameters = Dict[str, np.ndarray]
+
 ComponentSpec = Union[
     str, ComponentFactory, Component, Dict[str, Any]
 ]  # PCell function, function name, dict or Component
@@ -193,6 +195,8 @@ CrossSectionSpec = Union[
 CrossSectionSpecs = Tuple[CrossSectionSpec, ...]
 
 MultiCrossSectionAngleSpec = List[Tuple[CrossSectionSpec, Tuple[int, ...]]]
+
+LabelListFactory = Callable[..., List[Label]]
 
 
 class Route(BaseModel):

@@ -99,6 +99,7 @@ settings:
       straight_x_top: straight_heater_metal
     child: null
     default:
+      add_optical_ports_arms: false
       bend:
         function: bend_euler
       combiner: null
@@ -122,6 +123,7 @@ settings:
       straight_y: null
       with_splitter: true
     full:
+      add_optical_ports_arms: false
       bend:
         function: bend_euler
       combiner:
@@ -159,7 +161,9 @@ settings:
       function: cross_section
     gc_port_name: o1
     get_input_label_text_loopback_function:
-      function: get_input_label_text_loopback
+      function: get_input_label_text
+      settings:
+        prefix: loopback_
     get_input_labels_function:
       function: get_input_labels
     grating_coupler:
@@ -195,7 +199,9 @@ settings:
       function: cross_section
     gc_port_name: o1
     get_input_label_text_loopback_function:
-      function: get_input_label_text_loopback
+      function: get_input_label_text
+      settings:
+        prefix: loopback_
     get_input_labels_function:
       function: get_input_labels
     grating_coupler:

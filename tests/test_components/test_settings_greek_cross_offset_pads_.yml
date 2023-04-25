@@ -1,0 +1,40 @@
+name: greek_cross_offset_pads
+ports: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    contact_buffer: 10
+    contact_layers:
+    - WG
+    - NPP
+    contact_offset: 10
+    cross_implant_layers:
+    - N
+    cross_implant_length: 30.0
+    cross_implant_width: 2.0
+    cross_struct_layers:
+    - WG
+    cross_struct_length: 30.0
+    cross_struct_width: 1.0
+    pad_width: 50
+  full:
+    contact_buffer: 10
+    contact_layers:
+    - WG
+    - NPP
+    contact_offset: 10
+    cross_implant_layers:
+    - N
+    cross_implant_length: 30.0
+    cross_implant_width: 2.0
+    cross_struct_layers:
+    - WG
+    cross_struct_length: 30.0
+    cross_struct_width: 1.0
+    pad_width: 50
+  function_name: greek_cross_offset_pads
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.greek_cross
+  name: greek_cross_offset_pads

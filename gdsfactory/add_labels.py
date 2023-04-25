@@ -12,13 +12,39 @@ from gdsfactory.port import Port
 from gdsfactory.typings import ComponentOrReference, Label, LayerSpec
 
 
-def get_input_label_text(
+def get_input_label_text_dash(
     port: Port,
     gc: Union[ComponentReference, Component],
     gc_index: Optional[int] = None,
     component_name: Optional[str] = None,
     prefix: str = "",
-    label_prefix: str = "opt",
+    suffix: str = "",
+) -> str:
+    """Returns text with `GratingName-ComponentName-PortName`."""
+    gc_name = gc.name if isinstance(gc, Component) else gc.parent.name
+    return f"{prefix}{gc_name}-{component_name or port.parent.name}-{port.name}{suffix}"
+
+
+def get_input_label_text_dash_loopback(
+    port: Port,
+    gc: Union[ComponentReference, Component],
+    gc_index: Optional[int] = None,
+    component_name: Optional[str] = None,
+    prefix: str = "",
+) -> str:
+    """Returns text with `GratingName-ComponentName-Loopback`."""
+    gc_name = gc.name if isinstance(gc, Component) else gc.parent.name
+    return f"{prefix}{gc_name}-{component_name or port.parent.name}-loopback_{gc_index}"
+
+
+def get_input_label_text(
+    port: Port,
+    gc: Union[ComponentReference, Component],
+    gc_index: Optional[int] = None,
+    component_name: Optional[str] = None,
+    component_prefix: str = "",
+    prefix: str = "opt",
+    suffix: str = "",
 ) -> str:
     """Returns text string for an optical port based on grating coupler.
 
@@ -26,11 +52,11 @@ def get_input_label_text(
 
     Args:
         port: to label.
-        gc: grating coupler.
+        gc: grating coupler component or reference.
         gc_index: grating_coupler index, which grating_coupler we are labelling.
         component_name: optional name.
-        prefix: prefix on the label cell_name.
-        label_prefix: prefix to add.
+        component_prefix: component prefix.
+        prefix: prefix to add to the label.
     """
     polarization = gc.info.get("polarization") or gc.metadata_child.get("polarization")
     wavelength = gc.info.get("wavelength") or gc.metadata_child.get("wavelength")
@@ -44,7 +70,7 @@ def get_input_label_text(
 
     component_name = component_name or port.parent.metadata_child.get("name")
 
-    text = f"{label_prefix}_{polarization}_{int(wavelength*1e3)}_({prefix}{component_name})"
+    text = f"{prefix}_{polarization}_{int(wavelength*1e3)}_({component_prefix}{component_name}){suffix}"
     if isinstance(gc_index, int):
         text += f"_{gc_index}_{port.name}"
     else:
@@ -53,8 +79,7 @@ def get_input_label_text(
     return text
 
 
-def get_input_label_text_loopback(prefix: str = "loopback_", **kwargs):
-    return get_input_label_text(prefix=prefix, **kwargs)
+get_input_label_text_loopback = partial(get_input_label_text, prefix="loopback_")
 
 
 def get_input_label(
@@ -86,8 +111,7 @@ def get_input_label(
     if gc_port_name is None:
         gc_port_name = list(gc.ports.values())[0].name
 
-    layer_label = gf.get_layer(layer_label)
-    layer, texttype = _parse_layer(layer_label)
+    layer, texttype = gf.get_layer(layer_label)
     return Label(
         text=text,
         origin=gc.ports[gc_port_name].center,
@@ -95,6 +119,11 @@ def get_input_label(
         layer=layer,
         texttype=texttype,
     )
+
+
+get_input_label_dash = partial(
+    get_input_label, get_input_label_text_function=get_input_label_text_dash
+)
 
 
 def get_input_label_electrical(
@@ -363,6 +392,5 @@ if __name__ == "__main__":
     # c = test_add_labels_electrical()
     # c = gf.routing.add_fiber_single(c)
 
-    c = gf.components.pad()
-    add_labels_to_ports_vertical_dc(c)
+    c = gf.components.pad(decorator=add_labels_to_ports_vertical_dc)
     c.show(show_ports=True)

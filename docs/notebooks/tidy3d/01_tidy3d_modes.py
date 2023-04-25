@@ -1,17 +1,19 @@
 # ---
 # jupyter:
 #   jupytext:
+#     custom_cell_magics: kql
 #     text_representation:
 #       extension: .py
-#       format_name: light
-#       format_version: '1.5'
-#       jupytext_version: 1.14.4
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 # ---
 
+# %% [markdown]
 # # Tidy3D mode solver
 #
 # Tidy3d comes with an open source FDFD [mode solver](https://docs.flexcompute.com/projects/tidy3d/en/latest/notebooks/ModeSolver.html)
@@ -24,7 +26,7 @@
 #
 # For a 220 nm height x 450 nm width the effective index is 2.466
 
-# + tags=[]
+# %% tags=[]
 import numpy as np
 import gdsfactory.simulation.gtidy3d as gt
 import matplotlib.pyplot as plt
@@ -35,8 +37,8 @@ PDK = gf.generic_tech.get_generic_pdk()
 PDK.activate()
 
 nm = 1e-3
-# -
 
+# %%
 strip = gt.modes.Waveguide(
     wavelength=1.55,
     wg_width=0.5,
@@ -47,11 +49,14 @@ strip = gt.modes.Waveguide(
 )
 strip.plot_index()
 
+# %%
 strip.plot_Ex(0)  # TE
 strip.plot_Ey(1)  # TM
 
+# %%
 strip.neffs[0].real
 
+# %%
 rib = gt.modes.Waveguide(
     wavelength=1.55,
     wg_width=0.5,
@@ -62,9 +67,11 @@ rib = gt.modes.Waveguide(
 )
 rib.plot_index()
 
+# %%
 rib.plot_Ex(mode_index=0)
 rib.plot_Ey(mode_index=0)
 
+# %%
 nitride = gt.modes.Waveguide(
     wavelength=1.55,
     wg_width=1.0,
@@ -77,6 +84,7 @@ nitride.plot_index()
 nitride.plot_Ex(0)
 nitride.plot_Ey(0)
 
+# %% [markdown]
 # ## Sweep width
 #
 # You can sweep the waveguide width and compute the modes.
@@ -86,6 +94,7 @@ nitride.plot_Ey(0)
 # Notice that waveguides wider than 0.450 um support more than one TE mode. Therefore the maximum width for single mode operation is 0.450 um.
 #
 
+# %%
 df = gt.modes.sweep_width(
     width1=200 * nm,
     width2=1000 * nm,
@@ -108,6 +117,7 @@ gt.modes.plot_sweep_width(
 )
 plt.axhline(y=1.44, color="k", linestyle="--")
 
+# %% [markdown]
 # **Exercises**
 #
 # - What is the maximum width to support a single TE mode at 1310 nm?
@@ -115,11 +125,12 @@ plt.axhline(y=1.44, color="k", linestyle="--")
 # - For two 500x220nm Silicon waveguides surrounded by SiO2, what is the coupling length (100% coupling) for 200 nm gap?
 #
 
+# %% [markdown]
 # ## Group index
 #
 # You can also compute the group index for a waveguide.
 
-# +
+# %%
 nm = 1e-3
 
 ng = gt.modes.group_index(
@@ -132,7 +143,7 @@ ng = gt.modes.group_index(
 )
 print(ng)
 
-# +
+# %%
 nm = 1e-3
 wg_widths = np.array([490, 500, 510]) * nm
 wg_settings = dict(
@@ -149,12 +160,13 @@ ng = [
 plt.plot(wg_widths * 1e3, ng)
 plt.xlabel("waveguide width (nm)")
 plt.ylabel("ng")
-# -
 
+# %% [markdown]
 # ## Bend modes
 #
 # You can compute bend modes specifying the bend radius.
 
+# %%
 strip_bend = gt.modes.Waveguide(
     wavelength=1.55,
     wg_width=0.5,
@@ -165,14 +177,17 @@ strip_bend = gt.modes.Waveguide(
     nclad="sio2",
 )
 
+# %%
 # plot the fundamental TE mode
 strip_bend.plot_Ex(0)
 strip_bend.plot_Ey(0)
 
+# %%
 # plot the fundamental TM mode
 strip_bend.plot_Ex(1)
 strip_bend.plot_Ey(1)
 
+# %% [markdown]
 # ## Bend loss
 #
 # You can also compute the losses coming from the mode mismatch from the bend into a straight waveguide.
@@ -183,7 +198,7 @@ strip_bend.plot_Ey(1)
 #
 # [from paper](https://ieeexplore.ieee.org/ielaam/50/8720127/8684870-aam.pdf)
 
-# +
+# %%
 r, integral = gt.modes.sweep_bend_loss(
     wavelength=1.55,
     wg_width=0.5,
@@ -202,13 +217,14 @@ plt.plot(r, integral, ".")
 plt.xlabel("bend radius (um)")
 plt.ylabel("Transmission")
 plt.show()
-# -
 
+# %%
 dB_cm = 2  # dB/cm
 length = 2 * np.pi * r * 1e-6
 propagation_loss = dB_cm * length * 1e2
 propagation_loss
 
+# %%
 plt.title("Bend90 loss for TE polarization")
 plt.plot(r, -10 * np.log10(integral), ".", label="mode loss")
 plt.plot(r, propagation_loss, ".", label="propagation loss")
@@ -216,7 +232,7 @@ plt.xlabel("bend radius (um)")
 plt.ylabel("Loss (dB)")
 plt.legend()
 
-# +
+# %%
 r, integral = gt.modes.sweep_bend_loss(
     wavelength=1.55,
     wg_width=0.5,
@@ -236,13 +252,14 @@ plt.plot(r, integral, ".")
 plt.xlabel("bend radius (um)")
 plt.ylabel("Transmission")
 plt.show()
-# -
 
+# %%
 dB_cm = 1  # dB/cm
 length = 2 * np.pi * r * 1e-6
 propagation_loss = dB_cm * length * 1e2
 propagation_loss
 
+# %%
 plt.plot(r, -10 * np.log10(integral), ".", label="mode loss")
 plt.plot(r, propagation_loss, ".", label="propagation loss")
 plt.title("Bend90 loss for TM polarization")
@@ -250,11 +267,13 @@ plt.xlabel("bend radius (um)")
 plt.ylabel("Loss (dB)")
 plt.legend()
 
+# %% [markdown]
 # **Exercises**
 #
 # - For a 500nm wide 220nm thick Silicon waveguide surrounded by SiO2, what is the minimum bend radius to have less than 0.04dB loss for TE polarization at 1550nm?
 # - For a 500nm wide 220nm thick Silicon waveguide surrounded by SiO2, what is the minimum bend radius to have 99% power transmission for TM polarization at 1550nm?
 
+# %% [markdown]
 # ## Waveguide coupler
 #
 # You can also compute the modes of a waveguide coupler.
@@ -274,6 +293,7 @@ plt.legend()
 #
 # ```
 
+# %%
 c = gt.modes.WaveguideCoupler(
     wavelength=1.55,
     wg_width1=500 * nm,
@@ -286,9 +306,11 @@ c = gt.modes.WaveguideCoupler(
 )
 c.plot_index()
 
+# %%
 c.plot_Ex(0, plot_power=False)  # even
 c.plot_Ex(1, plot_power=False)  # odd
 
+# %%
 c = gt.modes.WaveguideCoupler(
     wavelength=1.55,
     wg_width1=500 * nm,
@@ -301,9 +323,11 @@ c = gt.modes.WaveguideCoupler(
 )
 c.plot_index()
 
+# %%
 c.plot_Ex(0, plot_power=False)  # even
 c.plot_Ex(1, plot_power=False)  # odd
 
+# %%
 nm = 1e-3
 si = gt.modes.si
 sio2 = gt.modes.sio2
@@ -319,6 +343,7 @@ c = gt.modes.WaveguideCoupler(
 )
 c.plot_index()
 
+# %%
 gaps = [150, 200, 250, 300]
 coupling_length = [
     gt.modes.WaveguideCoupler(
@@ -334,11 +359,12 @@ coupling_length = [
     for gap in gaps
 ]
 
+# %%
 plt.plot(gaps, coupling_length, ".")
 plt.xlabel("gap (nm)")
 plt.ylabel("100% coupling length (um)")
 
-# + tags=[]
+# %% tags=[]
 df = gt.modes.find_coupling_vs_gap(
     wg_width1=500 * nm,
     wg_width2=500 * nm,

@@ -4,6 +4,9 @@ settings:
   changed: {}
   child: null
   default:
+    cross_section: strip
+    get_input_label:
+      function: get_input_label
     grating_coupler:
       function: grating_coupler_elliptical_trenches
       settings:
@@ -13,7 +16,11 @@ settings:
     - 0
     - 2
     pitch: 127.0
+    port_name: o1
   full:
+    cross_section: strip
+    get_input_label:
+      function: get_input_label
     grating_coupler:
       function: grating_coupler_elliptical_trenches
       settings:
@@ -23,6 +30,7 @@ settings:
     - 0
     - 2
     pitch: 127.0
+    port_name: o1
   function_name: loss_deembedding_ch12_34
   info: {}
   info_version: 2

@@ -1,5 +1,69 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.89.4
+
+- fix `grating_coupler_loss` structures [PR](https://github.com/gdsfactory/gdsfactory/pull/1589)
+
+## 6.89.1
+
+- improve manhattanization [PR](https://github.com/gdsfactory/gdsfactory/pull/1582)
+
+## 6.89.0
+
+- add manhattan [PR](https://github.com/gdsfactory/gdsfactory/pull/1579)
+- fixes `rib_with_trenches` [PR](https://github.com/gdsfactory/gdsfactory/pull/1581)
+
+## 6.88.1
+
+- remove triangle dependency for M1 compatibility [PR](https://github.com/gdsfactory/gdsfactory/pull/1567)
+
+## 6.88.0
+
+- better greek cross [PR](https://github.com/gdsfactory/gdsfactory/pull/1561) [PR](https://github.com/gdsfactory/gdsfactory/pull/1560)
+
+## 6.86.0
+
+- add optional parameter cladding simplify [PR](https://github.com/gdsfactory/gdsfactory/pull/1558)
+
+## 6.85.0
+
+- add section inset [PR](https://github.com/gdsfactory/gdsfactory/pull/1555)
+
+## 6.84.0
+
+- better_cutback component [PR](https://github.com/gdsfactory/gdsfactory/pull/1554)
+
+## 6.83.0
+
+- extrude transitions [PR](https://github.com/gdsfactory/gdsfactory/pull/1548)
+- add PSR [PR](https://github.com/gdsfactory/gdsfactory/pull/1546)
+
+## 6.82.0 [PR](https://github.com/gdsfactory/gdsfactory/pull/1544)
+
+- fix tiling stitching issues
+
+## 6.81.1 [PR](https://github.com/gdsfactory/gdsfactory/pull/1543)
+
+- improve mode converter
+
+## 6.81.0 [PR](https://github.com/gdsfactory/gdsfactory/pull/1541)
+
+- bring back multithreaded simulations with batch. Thanks to verbose flag is possible now.
+- update tidy3d to latest version
+
+
+## 6.80.0 [PR](https://github.com/gdsfactory/gdsfactory/pull/1539)
+
+- add function that returns labels with `GratingName-ComponentName-PortName`
+- make it default for `gf.routing.add_fiber_single` and `gf.routing.add_fiber_array`
+- for disabling automated measurement labels you can define `layer_label=None`
+
+## 6.79.0
+
+- add klayout fill [PR](https://github.com/gdsfactory/gdsfactory/pull/1535)
+- improve spiral [PR](https://github.com/gdsfactory/gdsfactory/pull/1537)
+- add `add_optical_ports_arms` flag to MZI [PR](https://github.com/gdsfactory/gdsfactory/pull/1538)
+
 ## 6.77.0
 
 - add wire corner45 [PR](https://github.com/gdsfactory/gdsfactory/pull/1529)

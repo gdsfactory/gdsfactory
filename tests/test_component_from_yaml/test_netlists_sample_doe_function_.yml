@@ -62,7 +62,11 @@ instances:
             cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function: null
+            get_input_labels_function:
+              function: get_input_labels
+              settings:
+                get_input_label_text_function:
+                  function: get_input_label_text_dash
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -84,7 +88,11 @@ instances:
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function: null
+            get_input_labels_function:
+              function: get_input_labels
+              settings:
+                get_input_label_text_function:
+                  function: get_input_label_text_dash
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -149,7 +157,11 @@ instances:
             cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function: null
+            get_input_labels_function:
+              function: get_input_labels
+              settings:
+                get_input_label_text_function:
+                  function: get_input_label_text_dash
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -171,7 +183,11 @@ instances:
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function: null
+            get_input_labels_function:
+              function: get_input_labels
+              settings:
+                get_input_label_text_function:
+                  function: get_input_label_text_dash
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -236,7 +252,11 @@ instances:
             cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function: null
+            get_input_labels_function:
+              function: get_input_labels
+              settings:
+                get_input_label_text_function:
+                  function: get_input_label_text_dash
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -258,7 +278,11 @@ instances:
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function: null
+            get_input_labels_function:
+              function: get_input_labels
+              settings:
+                get_input_label_text_function:
+                  function: get_input_label_text_dash
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -323,7 +347,11 @@ instances:
             cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function: null
+            get_input_labels_function:
+              function: get_input_labels
+              settings:
+                get_input_label_text_function:
+                  function: get_input_label_text_dash
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -345,7 +373,11 @@ instances:
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function: null
+            get_input_labels_function:
+              function: get_input_labels
+              settings:
+                get_input_label_text_function:
+                  function: get_input_label_text_dash
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -410,7 +442,11 @@ instances:
             cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function: null
+            get_input_labels_function:
+              function: get_input_labels
+              settings:
+                get_input_label_text_function:
+                  function: get_input_label_text_dash
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -432,7 +468,11 @@ instances:
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function: null
+            get_input_labels_function:
+              function: get_input_labels
+              settings:
+                get_input_label_text_function:
+                  function: get_input_label_text_dash
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -497,7 +537,11 @@ instances:
             cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function: null
+            get_input_labels_function:
+              function: get_input_labels
+              settings:
+                get_input_label_text_function:
+                  function: get_input_label_text_dash
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -519,7 +563,11 @@ instances:
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function: null
+            get_input_labels_function:
+              function: get_input_labels
+              settings:
+                get_input_label_text_function:
+                  function: get_input_label_text_dash
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -584,7 +632,11 @@ instances:
             cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function: null
+            get_input_labels_function:
+              function: get_input_labels
+              settings:
+                get_input_label_text_function:
+                  function: get_input_label_text_dash
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -606,7 +658,11 @@ instances:
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function: null
+            get_input_labels_function:
+              function: get_input_labels
+              settings:
+                get_input_label_text_function:
+                  function: get_input_label_text_dash
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -671,7 +727,11 @@ instances:
             cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function: null
+            get_input_labels_function:
+              function: get_input_labels
+              settings:
+                get_input_label_text_function:
+                  function: get_input_label_text_dash
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -693,7 +753,11 @@ instances:
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function: null
+            get_input_labels_function:
+              function: get_input_labels
+              settings:
+                get_input_label_text_function:
+                  function: get_input_label_text_dash
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -758,7 +822,11 @@ instances:
             cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function: null
+            get_input_labels_function:
+              function: get_input_labels
+              settings:
+                get_input_label_text_function:
+                  function: get_input_label_text_dash
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -780,7 +848,11 @@ instances:
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function: null
+            get_input_labels_function:
+              function: get_input_labels
+              settings:
+                get_input_label_text_function:
+                  function: get_input_label_text_dash
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -845,7 +917,11 @@ instances:
             cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function: null
+            get_input_labels_function:
+              function: get_input_labels
+              settings:
+                get_input_label_text_function:
+                  function: get_input_label_text_dash
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -867,7 +943,11 @@ instances:
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function: null
+            get_input_labels_function:
+              function: get_input_labels
+              settings:
+                get_input_label_text_function:
+                  function: get_input_label_text_dash
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -932,7 +1012,11 @@ instances:
             cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function: null
+            get_input_labels_function:
+              function: get_input_labels
+              settings:
+                get_input_label_text_function:
+                  function: get_input_label_text_dash
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -954,7 +1038,11 @@ instances:
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function: null
+            get_input_labels_function:
+              function: get_input_labels
+              settings:
+                get_input_label_text_function:
+                  function: get_input_label_text_dash
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -1019,7 +1107,11 @@ instances:
             cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function: null
+            get_input_labels_function:
+              function: get_input_labels
+              settings:
+                get_input_label_text_function:
+                  function: get_input_label_text_dash
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:
@@ -1041,7 +1133,11 @@ instances:
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
-            get_input_labels_function: null
+            get_input_labels_function:
+              function: get_input_labels
+              settings:
+                get_input_label_text_function:
+                  function: get_input_label_text_dash
             grating_coupler:
               function: grating_coupler_elliptical_trenches
               settings:

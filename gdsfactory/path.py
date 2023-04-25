@@ -582,6 +582,7 @@ def transition(
     cross_section1: CrossSection,
     cross_section2: CrossSection,
     width_type: WidthTypes = "sine",
+    **kwargs,
 ) -> Transition:
     """Returns a smoothly-transitioning between two CrossSections.
 
@@ -629,14 +630,20 @@ def transition(
     ]
 
     if X1.cladding_layers:
+        cladding_simplify = X1.cladding_simplify or [None] * len(X1.cladding_layers)
         sections1 += [
-            Section(width=X1.width + 2 * offset, layer=layer)
-            for offset, layer in zip(X1.cladding_offsets, X2.cladding_layers)
+            Section(width=X1.width + 2 * offset, layer=layer, simplify=simplify)
+            for offset, layer, simplify in zip(
+                X1.cladding_offsets, X1.cladding_layers, cladding_simplify
+            )
         ]
     if X2.cladding_layers:
+        cladding_simplify = X2.cladding_simplify or [None] * len(X2.cladding_layers)
         sections2 += [
             Section(width=X2.width + 2 * offset, layer=layer)
-            for offset, layer in zip(X2.cladding_offsets, X2.cladding_layers)
+            for offset, layer, simplify in zip(
+                X2.cladding_offsets, X2.cladding_layers, cladding_simplify
+            )
         ]
 
     for section1, section2 in zip(sections1, sections2):
@@ -693,6 +700,7 @@ def transition(
         width_type=width_type,
         sections=sections,
         width=max([X1.width, X2.width]),
+        **kwargs,
     )
 
 
@@ -723,7 +731,6 @@ def extrude(
           polygon by more than the value listed here will be removed.
         shear_angle_start: an optional angle to shear the starting face by (in degrees).
         shear_angle_end: an optional angle to shear the ending face by (in degrees).
-
     """
     from gdsfactory.pdk import (
         get_active_pdk,
@@ -762,13 +769,18 @@ def extrude(
                 width=x.width,
                 offset=x.offset,
                 layer=get_layer(x.layer),
+                simplify=x.simplify,
                 port_names=x.port_names,
                 port_types=x.port_types,
+                insets=None,
             )
         ]
 
         if x.cladding_layers and x.cladding_offsets:
-            for layer, cladding_offset in zip(x.cladding_layers, x.cladding_offsets):
+            cladding_simplify = x.cladding_simplify or [None] * len(x.cladding_layers)
+            for layer, cladding_offset, with_simplify in zip(
+                x.cladding_layers, x.cladding_offsets, cladding_simplify
+            ):
                 width = x.width(1) if callable(x.width) else x.width
                 width = max(width) if isinstance(width, Iterable) else width
                 sections += [
@@ -776,10 +788,12 @@ def extrude(
                         width=width + 2 * cladding_offset,
                         offset=x.offset,
                         layer=get_layer(layer),
+                        simplify=with_simplify,
                     )
                 ]
 
     for section in sections:
+        p_sec = p.copy()
         width = section.width
         offset = section.offset
         layer = get_layer(section.layer)
@@ -799,30 +813,50 @@ def extrude(
         ):
             xsection_points.append([layer[0], layer[1]])
 
-        # print(offset, type(offset))
+        if section.insets:
+            p_pts = p_sec.points
+
+            new_x_start = p.xmin + section.insets[0]
+            new_x_stop = p.xmax - section.insets[1]
+
+            if new_x_start > np.max(p_pts[:, 0]) or new_x_stop < np.min(p_pts[:, 0]):
+                warnings.warn(
+                    f"Cannot apply delay to Section '{section.name}', delay results in points outside of original path."
+                )
+                continue
+
+            new_start_idx = np.argwhere(p_pts[:, 0] > new_x_start)[0, 0]
+            new_stop_idx = np.argwhere(p_pts[:, 0] < new_x_stop)[-1, 0]
+
+            new_start_point = [new_x_start, p_pts[new_start_idx, 1]]
+            new_stop_point = [new_x_stop, p_pts[new_stop_idx, 1]]
+
+            p_sec = Path(
+                [new_start_point, *p_pts[new_start_idx:new_stop_idx], new_stop_point]
+            )
+
         if callable(offset):
-            P_offset = p.copy()
-            P_offset.offset(offset)
-            points = P_offset.points
-            start_angle = P_offset.start_angle
-            end_angle = P_offset.end_angle
+            p_sec.offset(offset)
+            points = p_sec.points
+            start_angle = p_sec.start_angle
+            end_angle = p_sec.end_angle
             offset = 0
         else:
-            points = p.points
-            start_angle = p.start_angle
-            end_angle = p.end_angle
+            points = p_sec.points
+            start_angle = p_sec.start_angle
+            end_angle = p_sec.end_angle
 
         if callable(width):
             # Compute lengths
-            dx = np.diff(p.points[:, 0])
-            dy = np.diff(p.points[:, 1])
+            dx = np.diff(p_sec.points[:, 0])
+            dy = np.diff(p_sec.points[:, 1])
             lengths = np.cumsum(np.sqrt(dx**2 + dy**2))
             lengths = np.concatenate([[0], lengths])
             width = width(lengths / lengths[-1])
         dy = offset + width / 2
         # _points = _shear_face(points, dy, shear_angle_start, shear_angle_end)
 
-        points1 = p._centerpoint_offset_curve(
+        points1 = p_sec._centerpoint_offset_curve(
             points,
             offset_distance=dy,
             start_angle=start_angle,
@@ -831,7 +865,7 @@ def extrude(
         dy = offset - width / 2
         # _points = _shear_face(points, dy, shear_angle_start, shear_angle_end)
 
-        points2 = p._centerpoint_offset_curve(
+        points2 = p_sec._centerpoint_offset_curve(
             points,
             offset_distance=dy,
             start_angle=start_angle,
@@ -865,9 +899,11 @@ def extrude(
         if isinstance(simplify, bool):
             raise ValueError("simplify argument must be a number (e.g. 1e-3) or None")
 
-        if simplify is not None:
-            points1 = _simplify(points1, tolerance=simplify)
-            points2 = _simplify(points2, tolerance=simplify)
+        with_simplify = section.simplify or simplify
+
+        if with_simplify:
+            points1 = _simplify(points1, tolerance=with_simplify)
+            points2 = _simplify(points2, tolerance=with_simplify)
 
         if x.snap_to_grid:
             points = snap.snap_to_grid(points, snap_to_grid_nm)
@@ -878,7 +914,7 @@ def extrude(
         points_poly = np.concatenate([points1, points2[::-1, :]])
 
         layers = layer if hidden else [layer, layer]
-        if not hidden and p.length() > 1e-3:
+        if not hidden and p_sec.length() > 1e-3:
             c.add_polygon(points_poly, layer=layer)
 
         pdk = get_active_pdk()
@@ -887,7 +923,7 @@ def extrude(
         # Add port_names if they were specified
         if port_names[0] is not None:
             port_width = width if np.isscalar(width) else width[0]
-            port_orientation = (p.start_angle + 180) % 360
+            port_orientation = (p_sec.start_angle + 180) % 360
             center = points[0]
             face = [points1[0], points2[0]]
             face = [_rotated_delta(point, center, port_orientation) for point in face]
@@ -914,7 +950,7 @@ def extrude(
             port1.info["face"] = face
         if port_names[1] is not None:
             port_width = width if np.isscalar(width) else width[-1]
-            port_orientation = (p.end_angle) % 360
+            port_orientation = (p_sec.end_angle) % 360
             center = points[-1]
             face = [points1[-1], points2[-1]]
             face = [_rotated_delta(point, center, port_orientation) for point in face]
@@ -1445,13 +1481,15 @@ def _demo_variable_offset() -> None:
 
 if __name__ == "__main__":
     import numpy as np
+    import gdsfactory as gf
 
-    points = np.array([(20, 10), (40, 10), (20, 40), (50, 40), (50, 20), (70, 20)])
+    # nm = 1e-3
 
-    p = smooth(points=points)
+    # points = np.array([(20, 10), (40, 10), (20, 40), (50, 40), (50, 20), (70, 20)])
+
+    # p = smooth(points=points)
     # p = arc(start_angle=0)
-    c = p.extrude(layer=(1, 0), width=0.1)
-
+    # c = p.extrude(layer=(1, 0), width=0.1, simplify=50 * nm)
     # p = straight()
     # p.plot()
 
@@ -1465,4 +1503,12 @@ if __name__ == "__main__":
 
     # c = p.extrude(layer=(1, 0), width=0.1)
     # c = gf.read.from_phidl(c)
+    c = gf.components.splitter_tree(
+        noutputs=2**2,
+        spacing=(120.0, 50.0),
+        # bend_length=30,
+        # bend_s=None,
+        cross_section="rib_conformal2",
+    )
+
     c.show()

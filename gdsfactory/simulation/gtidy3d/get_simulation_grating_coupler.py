@@ -7,6 +7,7 @@ from typing import Dict, Optional
 import matplotlib.pyplot as plt
 import numpy as np
 import tidy3d as td
+from tidy3d.plugins.mode import ModeSolver
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -467,7 +468,7 @@ def get_simulation_grating_coupler(
         src_plane = td.Box(center=waveguide_port_center, size=waveguide_port_size)
         mode_spec = td.ModeSpec(num_modes=num_modes)
 
-        ms = td.plugins.ModeSolver(
+        ms = ModeSolver(
             simulation=sim,
             plane=src_plane,
             freqs=[freq0],

@@ -59,20 +59,24 @@ def port_to_kport(port, library, in_dbu=False):
     from gdsfactory.pdk import get_layer
 
     layer = get_layer(port.layer)
-    return kf.DCplxPort(
-        name=port.name,
-        position=(float(port.center[0]), float(port.center[1])),
-        width=port.width,
-        angle=float(port.orientation),
-        layer=library.layer(*layer),
-        port_type=port.port_type,
-    ) if not in_dbu else kf.Port(
-        name=port.name,
-        position=(port.center[0] / library.dbu, port.center[1] / library.dbu),
-        width=port.width / library.dbu,
-        angle=float(port.orientation) // 90,
-        layer=library.layer(*layer),
-        port_type=port.port_type,
+    return (
+        kf.Port(
+            name=port.name,
+            position=(float(port.center[0]), float(port.center[1])),
+            width=port.width,
+            angle=float(port.orientation),
+            layer=library.layer(*layer),
+            port_type=port.port_type,
+        )
+        if not in_dbu
+        else kf.Port(
+            name=port.name,
+            position=(port.center[0] / library.dbu, port.center[1] / library.dbu),
+            width=port.width / library.dbu,
+            angle=float(port.orientation) // 90,
+            layer=library.layer(*layer),
+            port_type=port.port_type,
+        )
     )
 
 

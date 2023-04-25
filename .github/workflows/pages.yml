@@ -27,12 +27,15 @@ jobs:
         env:
           TIDY3D_USER: ${{ secrets.TIDY3D_EMAIL }}
           TIDY3D_PASS: ${{ secrets.TIDY3D_PASSWORD }}
+          SIMCLOUD_APIKEY: ${{ secrets.SIMCLOUD_APIKEY }}
           DISPLAY: 1.0
           DOCS: True
           GDSFACTORY_LAYOUT_PLOTTER: klayout
         shell: bash -l {0}
         run: |
           sudo apt install libglu1-mesa
+          mkdir -p $HOME/.tidy3d
+          echo ${{ secrets.TIDY3D_AUTH }} > $HOME/.tidy3d/config
           make gdslib plugins-debian full
           make docs
       - name: Upload artifact
@@ -54,4 +57,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v2
