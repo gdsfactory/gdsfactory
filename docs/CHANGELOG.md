@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.89.4
+
+- fix `grating_coupler_loss` structures [PR](https://github.com/gdsfactory/gdsfactory/pull/1589)
+
 ## 6.89.1
 
 - improve manhattanization [PR](https://github.com/gdsfactory/gdsfactory/pull/1582)
