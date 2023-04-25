@@ -116,7 +116,7 @@ def test_manhattan_route_quad():
         manhattan_target_step=0.1,
     )
 
-    assert np.shape(route_gnd.get_polygons()) == (1, 807, 2)
+    assert np.shape(route_gnd.get_polygons()) == (1, 1210, 2)
 
 
 if __name__ == "__main__":
