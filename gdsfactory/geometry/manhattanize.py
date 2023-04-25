@@ -33,7 +33,7 @@ def manhattanize_polygon(
             num_steps = np.min([num_x_steps, num_y_steps])
             x_step = dx / num_steps
             y_step = dy / num_steps
-            cur_x = pt1[0] - 0.5 * x_step
+            cur_x = pt1[0]
             cur_y = pt1[1]
             for _ in range(num_steps):
                 p_manhattan.extend(
