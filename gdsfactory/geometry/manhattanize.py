@@ -31,7 +31,7 @@ def manhattanize_polygon(
         else:
             num_x_steps = abs(int(np.ceil(dx / target_step)))
             num_y_steps = abs(int(np.ceil(dy / target_step)))
-            num_steps = np.min([num_x_steps, num_y_steps])
+            num_steps = np.min([num_x_steps, num_y_steps]) + 1
             x_step = dx / num_steps
             y_step = dy / num_steps
             cur_x = pt1[0]
@@ -67,10 +67,8 @@ def test_manhattanize():
     init_poly = c.add_polygon(poly, layer=1)
     final_poly = c.add_polygon(manhattanize_polygon(poly, target_step=0.05), layer=2)
 
-    print(len(final_poly.points))
-
     assert len(init_poly.points) == 4
-    assert len(final_poly.points) == 342
+    assert len(final_poly.points) == 354
 
 
 if __name__ == "__main__":
@@ -86,4 +84,4 @@ if __name__ == "__main__":
 
     c.show()
 
-    test_manhattanize()
+    # test_manhattanize()
