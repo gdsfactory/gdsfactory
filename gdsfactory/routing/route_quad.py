@@ -26,7 +26,7 @@ def route_quad(
     width1: Optional[float] = None,
     width2: Optional[float] = None,
     layer: gf.typings.LayerSpec = "M1",
-    manhattan_min_step: float = None,
+    manhattan_target_step: float = None,
 ) -> gf.Component:
     """Routes a basic quadrilateral polygon directly between two ports.
 
@@ -77,10 +77,11 @@ def route_quad(
     vertices = [vert for _, vert in sorted(zip(angles, vertices), key=lambda x: x[0])]
 
     component = gf.Component()
-    if manhattan_min_step:
+    if manhattan_target_step:
         poly = gdstk.Polygon(vertices)
         component.add_polygon(
-            points=manhattanize_polygon(poly, min_step=manhattan_min_step), layer=layer
+            points=manhattanize_polygon(poly, target_step=manhattan_target_step),
+            layer=layer,
         )
     else:
         component.add_polygon(points=vertices, layer=layer)
@@ -112,10 +113,12 @@ def test_manhattan_route_quad():
         pad2.ports["e4"],
         width1=None,
         width2=None,
-        manhattan_min_step=0.1,
+        manhattan_target_step=0.1,
     )
 
-    assert np.shape(route_gnd.get_polygons()) == (1, 802, 2)
+    print(np.shape(route_gnd.get_polygons()))
+
+    assert np.shape(route_gnd.get_polygons()) == (1, 1202, 2)
 
 
 if __name__ == "__main__":
