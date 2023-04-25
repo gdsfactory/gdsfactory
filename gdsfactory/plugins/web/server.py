@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import os
 import asyncio
 import json
 from loguru import logger
@@ -36,13 +35,13 @@ class LayoutViewServerEndpoint(WebSocketEndpoint):
         # print("kwargs:", kwargs)
         # self.url = params["gds_file"].replace('/', '\\')
         # self.layer_props = params.get("layer_props", None)
-        layer_props_filename = GDSDIR_TEMP / "layer_props.lyp"
-        gf.get_active_pdk().layer_views.to_lyp(layer_props_filename)
-        self.layer_props = layer_props_filename
+        lyp_path = GDSDIR_TEMP / "layer_props.lyp"
+        gf.get_active_pdk().layer_views.to_lyp(lyp_path)
+        self.layer_props = lyp_path
         # path_params = args[0]['path_params']
         # cell_name = path_params["cell_name"]
         cell_name = params["variant"]
-        self.url = f"{str(GDSDIR_TEMP)}/{cell_name}.gds"
+        self.url = str(GDSDIR_TEMP / f"{cell_name}.gds")
         # c = gf.get_component(cell_name)
         gds_path = GDSDIR_TEMP / f"{cell_name}.gds"
         # c.write_gds(gds_path)
@@ -97,7 +96,7 @@ class LayoutViewServerEndpoint(WebSocketEndpoint):
         self.layout_view = lay.LayoutView()
         self.layout_view.load_layout(self.url)
         if self.layer_props is not None:
-            self.layout_view.load_layer_props(self.layer_props)
+            self.layout_view.load_layer_props(str(self.layer_props))
         self.layout_view.max_hier()
 
         await websocket.send_text(
@@ -201,11 +200,10 @@ class LayoutViewServerEndpoint(WebSocketEndpoint):
             self.wheel_event(self.layout_view.send_wheel_event, js)
 
 
-def get_layer_properties():
-    layer_props_filename = "layer_props.lyp"
-    if not os.path.isfile(layer_props_filename):
-        gf.get_active_pdk().layer_views.to_lyp(layer_props_filename)
-    return layer_props_filename
+def get_layer_properties() -> str:
+    lyp_path = GDSDIR_TEMP / "layers.lyp"
+    lyp_path = gf.get_active_pdk().layer_views.to_lyp(lyp_path)
+    return str(lyp_path)
 
 
 def get_layout_view(component: gf.Component):
@@ -213,7 +211,7 @@ def get_layout_view(component: gf.Component):
     component.write_gds(gdspath=str(gds_path))
     layout_view = lay.LayoutView()
     layout_view.load_layout(str(gds_path))
-    layer_props = get_layer_properties()
-    layout_view.load_layer_props(layer_props)
+    lyp_path = get_layer_properties()
+    layout_view.load_layer_props(str(lyp_path))
     layout_view.max_hier()
     return layout_view

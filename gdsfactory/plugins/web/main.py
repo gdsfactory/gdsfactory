@@ -44,24 +44,6 @@ async def root(request: Request):
     )
 
 
-# @app.get("/gds", response_class=HTMLResponse)
-# async def gds_view(request: Request, gds_file: str, layer_props: str = home_path):
-#     return templates.TemplateResponse(
-#         "client.html",
-#         {
-#             "request": request,
-#             "url": str(
-#                 request.url.scheme
-#                 + "://"
-#                 + request.url.hostname
-#                 + ":"
-#                 + str(request.url.port)
-#                 + request.url.path,
-#             ),
-#             "gds_file": gds_file,
-#             # "layer_props": layer_props,
-#         },
-#     )
 LOADED_COMPONENTS = {}
 
 
