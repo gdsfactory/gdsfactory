@@ -79,12 +79,8 @@ def route_quad(
     component = gf.Component()
     if manhattan_target_step:
         poly = gdstk.Polygon(vertices)
-        polygon_to_add = gdstk.offset(
-            manhattanize_polygon(poly, target_step=manhattan_target_step),
-            distance=manhattan_target_step,
-        )
         component.add_polygon(
-            points=polygon_to_add,
+            points=manhattanize_polygon(poly, target_step=manhattan_target_step),
             layer=layer,
         )
     else:
