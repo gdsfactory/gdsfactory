@@ -28,6 +28,7 @@ def manhattanize_polygon(
         dy = pt2[1] - pt1[1]
         if dx == 0 or dy == 0:
             p_manhattan.append(pt1)
+            p_manhattan.append(pt2)
         else:
             num_x_steps = abs(int(np.ceil(dx / target_step)))
             num_y_steps = abs(int(np.ceil(dy / target_step)))
