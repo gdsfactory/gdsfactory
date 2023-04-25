@@ -121,6 +121,11 @@ def get_input_label(
     )
 
 
+get_input_label_dash = partial(
+    get_input_label, get_input_label_text_function=get_input_label_text_dash
+)
+
+
 def get_input_label_electrical(
     port: Port,
     gc_index: int = 0,
