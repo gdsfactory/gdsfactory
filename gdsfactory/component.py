@@ -54,6 +54,8 @@ from gdsfactory.generic_tech import LAYER
 Plotter = Literal["holoviews", "matplotlib", "qt", "klayout"]
 Axis = Literal["x", "y"]
 
+GDSDIR_TEMP = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
+
 
 class UncachedComponentWarning(UserWarning):
     pass
@@ -1473,7 +1475,7 @@ class Component(_GeometryHelper):
             layer_props = get_layer_views()
             layer_props.to_lyp(filepath=lyp_path)
 
-            src = f"http://127.0.0.1:8000/gds?gds_file={escape(str(gdspath))}&layer_props={escape(str(lyp_path))}"
+            src = f"http://127.0.0.1:{kj.port}/gds?gds_file={escape(str(gdspath))}&layer_props={escape(str(lyp_path))}"
             logger.debug(src)
 
             if kj.jupyter_server and not os.environ.get("DOCS", False):
@@ -1769,9 +1771,7 @@ class Component(_GeometryHelper):
         else:
             top_cell = self
 
-        gdsdir = (
-            gdsdir or pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
-        )
+        gdsdir = gdsdir or GDSDIR_TEMP
         gdsdir = pathlib.Path(gdsdir)
         if with_oasis:
             gdspath = gdspath or gdsdir / f"{top_cell.name}.oas"
@@ -2303,19 +2303,21 @@ class Component(_GeometryHelper):
             pad_width=pad_width,
         )
 
-    def to_stl(
+    def write_stl(
         self,
         filepath: str,
         layer_stack: Optional[LayerStack] = None,
         exclude_layers: Optional[Tuple[Layer, ...]] = None,
     ) -> np.ndarray:
-        """Exports a Component into STL.
+        """Write a Component to STL for 3D printing.
 
         Args:
-            component: to export.
             filepath: to write STL to.
             layer_stack: contains thickness and zmin for each layer.
             exclude_layers: layers to exclude.
+            use_layer_name: If True, uses LayerLevel names in output filenames rather than gds_layer and gds_datatype.
+            hull_invalid_polygons: If True, replaces invalid polygons (determined by shapely.Polygon.is_valid) with its convex hull.
+            scale: Optional factor by which to scale meshes before writing.
 
         """
         from gdsfactory.export.to_stl import to_stl
@@ -2825,7 +2827,7 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     # c2 = gf.Component()
-    c = gf.components.mzi(delta_length=20)
+    c = gf.components.mzi()
     print(c.get_layer_names())
     # r = c.ref()
     # c2.copy_child_info(c.named_references["sxt"])
@@ -2837,4 +2839,4 @@ if __name__ == "__main__":
     # gdspath = c.write_gds()
     # gf.show(gdspath)
     # c.show(show_ports=True)
-    c.plot_klayout()
+    c.show()

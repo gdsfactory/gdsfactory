@@ -35,6 +35,7 @@ settings:
         radius: 20
         sections:
         - hidden: false
+          insets: null
           layer: SLAB90
           name: slab
           offset: 0
@@ -44,6 +45,7 @@ settings:
           port_types:
           - optical
           - optical
+          simplify: null
           width: 0.2
     cross_section2:
       function: cross_section
@@ -51,6 +53,7 @@ settings:
         radius: 20
         sections:
         - hidden: false
+          insets: null
           layer: SLAB90
           name: slab
           offset: 0
@@ -60,6 +63,7 @@ settings:
           port_types:
           - optical
           - optical
+          simplify: 0.05
           width: 6.0
     length: 10
     linear: false
@@ -72,6 +76,7 @@ settings:
         radius: 20
         sections:
         - hidden: false
+          insets: null
           layer: SLAB90
           name: slab
           offset: 0
@@ -81,6 +86,7 @@ settings:
           port_types:
           - optical
           - optical
+          simplify: null
           width: 0.2
     cross_section2:
       function: cross_section
@@ -88,6 +94,7 @@ settings:
         radius: 20
         sections:
         - hidden: false
+          insets: null
           layer: SLAB90
           name: slab
           offset: 0
@@ -97,6 +104,7 @@ settings:
           port_types:
           - optical
           - optical
+          simplify: 0.05
           width: 6.0
     length: 10
     linear: false

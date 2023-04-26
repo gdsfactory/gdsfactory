@@ -1,4 +1,4 @@
-# Plugins: Device simulators
+# Device simulators
 
 ```{tableofcontents}
 ```

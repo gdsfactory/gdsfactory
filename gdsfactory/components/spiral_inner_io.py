@@ -250,11 +250,14 @@ def get_straight_length(
 
 
 if __name__ == "__main__":
+    import gdsfactory as gf
+
+    cross_section = gf.cross_section.rib_conformal2
+
     c = gf.components.spiral_inner_io(
-        cross_section=gf.cross_section.pn,
-        waveguide_spacing=25,
+        cross_section=cross_section,
+        waveguide_spacing=6,
         radius=30,
-        cross_section_bend=gf.partial(gf.cross_section.pn, mirror=True),
         asymmetric_cross_section=True,
     )
     c.show()

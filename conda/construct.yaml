@@ -1,5 +1,5 @@
 name: gdsfactory
-version: 6.84.0
+version: 6.90.6
 installer_type: all
 
 channels:
@@ -22,7 +22,6 @@ specs:
   - networkx
   - pyglet
   - scikit-image
-  - triangle
   - trimesh
   - pyvista
   - mkl

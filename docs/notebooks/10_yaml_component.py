@@ -698,7 +698,7 @@ instances:
 display(x, out)
 # -
 
-# # `cell_from_yaml_template`: Jinja-template-based Parser
+# ## `cell_from_yaml_template`: Jinja-template-based Parser
 # An optional parser variant is also available which is capable of parsing jinja templating directives within the yaml-based cells. This can give python-like flexibility inside the otherwise declaratively-defined yaml circuit syntax.
 
 # +
@@ -828,7 +828,7 @@ bc2 = big_cell(
 )
 bc2
 
-# # Choosing your preferred yaml parser
+# ## Choosing your preferred yaml parser
 #
 
 # In general, the jinja-yaml parser has a superset of the functionalities and syntax of the standard yaml parser. The one notable exception is with `settings`. When reading any yaml files with `settings` blocks, the default settings will be read and applied, but they will not be settable, as the jinja parser has a different mechanism for setting injection with the `default_settings` block and jinja2.

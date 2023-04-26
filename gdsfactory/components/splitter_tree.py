@@ -148,19 +148,21 @@ if __name__ == "__main__":
 
     import gdsfactory as gf
 
+    # c = splitter_tree(
+    #     coupler=gf.partial(mmi2x2, gap_mmi=2.0, width_mmi=5.0),
+    #     # noutputs=128 * 2,
+    #     # noutputs=2 ** 3,
+    #     noutputs=2**2,
+    #     # bend_s=None,
+    #     # dy=100.0,
+    #     # layer=(2, 0),
+    # )
     c = splitter_tree(
-        coupler=gf.partial(mmi2x2, gap_mmi=2.0, width_mmi=5.0),
-        # noutputs=128 * 2,
-        # noutputs=2 ** 3,
         noutputs=2**2,
-        # bend_s=None,
-        # dy=100.0,
-        # layer=(2, 0),
-    )
-    c = splitter_tree(
-        noutputs=2**2,
+        spacing=(120.0, 50.0),
         # bend_length=30,
-        bend_s=None,
+        # bend_s=None,
+        cross_section="rib_conformal2",
     )
     c.show(show_ports=True)
     # print(len(c.ports))

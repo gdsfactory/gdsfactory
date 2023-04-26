@@ -91,9 +91,10 @@ jobs:
         env:
           TIDY3D_USER: ${{ secrets.TIDY3D_EMAIL }}
           TIDY3D_PASS: ${{ secrets.TIDY3D_PASSWORD }}
+          SIMCLOUD_APIKEY: ${{ secrets.SIMCLOUD_APIKEY }}
         run: |
           mkdir -p $HOME/.tidy3d
-          echo ${{ secrets.TIDY3D_AUTH }} > $HOME/.tidy3d/auth.json
+          echo ${{ secrets.TIDY3D_AUTH }} > $HOME/.tidy3d/config
           if [ ${{ secrets.TIDY3D_AUTH }} ]; then
             make test-plugins
           else
@@ -134,5 +135,5 @@ jobs:
           GDSFACTORY_LAYOUT_PLOTTER: klayout
         run: |
           mkdir -p $HOME/.tidy3d
-          echo ${{ secrets.TIDY3D_AUTH }} > $HOME/.tidy3d/auth.json
+          echo ${{ secrets.TIDY3D_AUTH }} > $HOME/.tidy3d/config
           make docs

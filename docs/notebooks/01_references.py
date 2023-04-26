@@ -14,9 +14,7 @@
 
 # # References and ports
 #
-# GDS allows your the component once in memory and Reference or Instance the component multiple times.
-#
-# `gdstk` and `gdspy` calls it `Reference` and `klayout` calls it `Instance`
+# gdsfactory defines your component once in memory and can add multiple References (Instances) to the same component.
 
 # As you build components you can include references to other components. Adding a reference is like having a pointer to a component.
 #
@@ -189,7 +187,7 @@ c4
 # gf.components.array?
 # -
 
-# You can also create an array of references for periodic structures. Lets create a [Distributed Bragg Reflector](https://picwriter.readthedocs.io/en/latest/components/dbr.html)
+# You can also create an array of references for periodic structures. Let's create a [Distributed Bragg Reflector](https://picwriter.readthedocs.io/en/latest/components/dbr.html)
 
 
 # +
@@ -261,20 +259,20 @@ c.add_port("o3", port=mmi["o3"])
 c
 # -
 
-# ## Port naming
+# ## Port
 #
-# You have the freedom to name the ports as you want, and you can use `gf.port.auto_rename_ports(prefix='o')` to rename them later on.
+# You can name the ports as you want and use `gf.port.auto_rename_ports(prefix='o')` to rename them later on.
 #
 # Here is the default naming convention.
 #
-# Ports are numbered clock-wise starting from the bottom left corner
+# Ports are numbered clock-wise starting from the bottom left corner.
 #
-# Optical ports have `o` prefix and Electrical ports `e` prefix
+# Optical ports have `o` prefix and Electrical ports `e` prefix.
 #
-# The port naming comes in most cases from the `gdsfactory.cross_section`. For example
+# The port naming comes in most cases from the `gdsfactory.cross_section`. For example:
 #
-# - `gdsfactory.cross_section.strip`  has ports `o1` for input and `o2` for output
-# - `gdsfactory.cross_section.metal1` has ports `e1` for input and `e2` for output
+# - `gdsfactory.cross_section.strip`  has ports `o1` for input and `o2` for output.
+# - `gdsfactory.cross_section.metal1` has ports `e1` for input and `e2` for output.
 
 # + tags=[]
 size = 4
@@ -403,14 +401,14 @@ df
 df[df.port_type == "optical"]
 # -
 
-# ## pins
+# ## Port markers (Pins)
 #
-# You can add pins (port markers) to each port. Each foundry PDK does this differently, so gdsfactory supports all of them.
+# You can add pins (port markers) to each port. Different foundries do this differently, so gdsfactory supports all of them.
 #
-# - square with port inside the component
-# - square centered (half inside, half outside component)
-# - triangular
-# - path (SiEPIC)
+# - square with port inside the component.
+# - square centered (half inside, half outside component).
+# - triangular pointing towards the outside of the port.
+# - path (SiEPIC).
 #
 #
 # by default Component.show() will add triangular pins, so you can see the direction of the port in Klayout.
@@ -419,7 +417,7 @@ gf.components.mmi1x2(decorator=gf.add_pins.add_pins)
 
 gf.components.mmi1x2(decorator=gf.add_pins.add_pins_triangle)
 
-# ## component_sequence
+# ## Component_sequence
 #
 # When you have repetitive connections you can describe the connectivity as an ASCII map
 

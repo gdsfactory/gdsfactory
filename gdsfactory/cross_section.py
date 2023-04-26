@@ -16,6 +16,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union, TypeVar
 from pydantic import BaseModel, Field, validate_arguments
 from typing_extensions import Literal
 
+nm = 1e-3
 
 Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
@@ -23,12 +24,14 @@ WidthTypes = Literal["sine", "linear", "parabolic"]
 
 LayerSpec = Union[Layer, int, str]
 LayerSpecs = Union[List[LayerSpec], Tuple[LayerSpec, ...]]
+
 Floats = Tuple[float, ...]
 port_names_electrical = ("e1", "e2")
 port_types_electrical = ("electrical", "electrical")
 
 cladding_layers_optical = None
 cladding_offsets_optical = None
+cladding_simplify_optical = None
 
 
 class Section(BaseModel):
@@ -41,11 +44,17 @@ class Section(BaseModel):
         offset: center offset (um) or function parameterized function from 0 to 1.
              the offset at t==0 is the offset at the beginning of the Path.
              the offset at t==1 is the offset at the end.
+        insets: distance (um) in x to inset section relative to end of the Path
+             (i.e. (start inset, stop_inset)).
         layer: layer spec. If None does not draw the main section.
         port_names: Optional port names.
         port_types: optical, electrical, ...
         name: Optional Section name.
         hidden: hide layer.
+        simplify: Optional Tolerance value for the simplification algorithm.
+          All points that can be removed without changing the resulting.
+          polygon by more than the value listed here will be removed.
+
 
     .. code::
 
@@ -61,11 +70,13 @@ class Section(BaseModel):
 
     width: Union[float, Callable]
     offset: Union[float, Callable] = 0
+    insets: Optional[tuple] = None
     layer: Optional[LayerSpec] = None
     port_names: Tuple[Optional[str], Optional[str]] = (None, None)
     port_types: Tuple[str, str] = ("optical", "optical")
     name: Optional[str] = None
     hidden: bool = False
+    simplify: Optional[float] = None
 
     class Config:
         """pydantic basemodel config."""
@@ -88,6 +99,7 @@ class CrossSection(BaseModel):
              the offset at t==0 is the offset at the beginning of the Path.
              the offset at t==1 is the offset at the end.
         radius: main Section bend radius (um).
+        simplify: main Section Optional Tolerance value for the simplification algorithm.
         width_wide: wide waveguides width (um) for low loss routing.
         auto_widen: taper to wide waveguides for low loss routing.
         auto_widen_minimum_length: minimum straight length for auto_widen.
@@ -96,6 +108,9 @@ class CrossSection(BaseModel):
         bbox_offsets: list of bounding box offsets.
         cladding_layers: list of layers to extrude.
         cladding_offsets: list of offset from main Section edge.
+        cladding_simplify: Optional Tolerance value for the simplification algorithm.
+          All points that can be removed without changing the resulting.
+          polygon by more than the value listed here will be removed.
         sections: list of Sections(width, offset, layer, ports).
         port_names: for input and output ('o1', 'o2').
         port_types: for input and output: electrical, optical, vertical_te ...
@@ -120,6 +135,7 @@ class CrossSection(BaseModel):
     offset: Union[float, Callable] = 0
     radius: Optional[float] = None
     width_wide: Optional[float] = None
+    simplify: Optional[float] = None
     auto_widen: bool = False
     auto_widen_minimum_length: float = 200.0
     taper_length: float = 10.0
@@ -127,6 +143,7 @@ class CrossSection(BaseModel):
     bbox_offsets: List[float] = Field(default_factory=list)
     cladding_layers: Optional[LayerSpecs] = None
     cladding_offsets: Optional[Floats] = None
+    cladding_simplify: Optional[Floats] = (cladding_simplify_optical,)
     sections: List[Section] = Field(default_factory=list)
     port_names: Tuple[Optional[str], Optional[str]] = ("o1", "o2")
     port_types: Tuple[Optional[str], Optional[str]] = ("optical", "optical")
@@ -184,6 +201,7 @@ class CrossSection(BaseModel):
                 width=self.width,
                 offset=self.offset,
                 layer=self.layer,
+                simplify=self.simplify,
                 port_names=self.port_names,
                 port_types=self.port_types,
                 name="_default",
@@ -234,6 +252,9 @@ class CrossSection(BaseModel):
         return c
 
 
+CrossSectionSpec = Union[CrossSection, Callable, Dict[str, Any]]
+
+
 class Transition(CrossSection):
     """Waveguide information to extrude a path between two CrossSection.
 
@@ -260,6 +281,9 @@ class Transition(CrossSection):
         bbox_offsets: list of bounding box offsets.
         cladding_layers: list of layers to extrude.
         cladding_offsets: list of offset from main Section edge.
+        cladding_simplify: Optional Tolerance value for the simplification algorithm.
+          All points that can be removed without changing the resulting.
+          polygon by more than the value listed here will be removed.
         sections: list of Sections(width, offset, layer, ports).
         port_names: for input and output ('o1', 'o2').
         port_types: for input and output: electrical, optical, vertical_te ...
@@ -276,8 +300,8 @@ class Transition(CrossSection):
         mirror: if True, reflects the offsets.
     """
 
-    cross_section1: CrossSection
-    cross_section2: CrossSection
+    cross_section1: CrossSectionSpec
+    cross_section2: CrossSectionSpec
     width_type: WidthTypes = "sine"
     sections: List[Section]
     layer: Optional[LayerSpec] = None
@@ -368,6 +392,7 @@ def cross_section(
     bbox_offsets: Optional[List[float]] = None,
     cladding_layers: Optional[LayerSpecs] = None,
     cladding_offsets: Optional[Floats] = None,
+    cladding_simplify: Optional[Floats] = cladding_simplify_optical,
     info: Optional[Dict[str, Any]] = None,
     decorator: Optional[Callable] = None,
     add_pins: Optional[Callable] = None,
@@ -402,6 +427,9 @@ def cross_section(
         bbox_offsets: list of bounding box offsets.
         cladding_layers: list of layers to extrude.
         cladding_offsets: list of offset from main Section edge.
+        cladding_simplify: Optional Tolerance value for the simplification algorithm.
+          All points that can be removed without changing the resulting.
+          polygon by more than the value listed here will be removed.
         info: settings info.
         decorator: function to run when converting path to component.
         add_pins: optional function to add pins to component.
@@ -433,6 +461,7 @@ def cross_section(
         bbox_offsets=bbox_offsets or [],
         cladding_layers=cladding_layers,
         cladding_offsets=cladding_offsets,
+        cladding_simplify=cladding_simplify,
         sections=sections or (),
         gap=gap,
         min_length=min_length,
@@ -465,7 +494,16 @@ rib = partial(strip, bbox_layers=["SLAB90"], bbox_offsets=[3], radius=radius_rib
 
 # Rib with with slab that follows the waveguide core
 rib_conformal = partial(
-    strip, sections=(Section(width=6, layer="SLAB90", name="slab"),), radius=radius_rib
+    strip,
+    sections=(Section(width=6, layer="SLAB90", name="slab", simplify=50 * nm),),
+    radius=radius_rib,
+)
+rib_conformal2 = partial(
+    strip,
+    radius=radius_rib,
+    cladding_layers=("SLAB90",),
+    cladding_offsets=(3,),
+    cladding_simplify=(50 * nm,),
 )
 nitride = partial(strip, layer="WGN", width=1.0, radius=radius_nitride)
 strip_rib_tip = partial(
@@ -517,6 +555,9 @@ def slot(
         bbox_offsets: list of bounding box offsets.
         cladding_layers: list of layers to extrude.
         cladding_offsets: list of offset from main Section edge.
+        cladding_simplify: Optional Tolerance value for the simplification algorithm.
+          All points that can be removed without changing the resulting.
+          polygon by more than the value listed here will be removed.
         info: settings info.
         decorator: function to run when converting path to component.
         add_pins: optional function to add pins to component.
@@ -554,6 +595,7 @@ def rib_with_trenches(
     width: float = 0.5,
     width_trench: float = 2.0,
     width_slab: float = 7.0,
+    simplify_slab: Optional[float] = None,
     layer: Optional[LayerSpec] = "WG",
     layer_trench: LayerSpec = "DEEP_ETCH",
     wg_marking_layer: Optional[LayerSpec] = None,
@@ -600,12 +642,12 @@ def rib_with_trenches(
         c = p.extrude(xs)
         c.plot()
     """
-    width_slab = max(width_slab, width + 2 * width_trench)
-
     trench_offset = width / 2 + width_trench / 2
 
     sections = kwargs.pop("sections", [])
-    sections += [Section(width=width_slab, layer=layer, name="slab")]
+    sections += [
+        Section(width=width_slab, layer=layer, name="slab", simplify=simplify_slab)
+    ]
     sections += [
         Section(
             width=width_trench, offset=offset, layer=layer_trench, name=f"trench_{i}"
@@ -852,6 +894,7 @@ def pn(
     bbox_offsets: Optional[List[float]] = None,
     cladding_layers: Optional[Layers] = cladding_layers_optical,
     cladding_offsets: Optional[Floats] = cladding_offsets_optical,
+    cladding_simplify: Optional[Floats] = cladding_simplify_optical,
     mirror: bool = False,
     **kwargs,
 ) -> CrossSection:
@@ -885,6 +928,9 @@ def pn(
         bbox_offsets: list of bounding box offsets.
         cladding_layers: optional list of cladding layers.
         cladding_offsets: optional list of cladding offsets.
+        cladding_simplify: Optional Tolerance value for the simplification algorithm.
+          All points that can be removed without changing the resulting.
+          polygon by more than the value listed here will be removed.
         mirror: if True, reflects all doping sections.
 
     .. code::
@@ -1015,6 +1061,7 @@ def pn(
         sections=sections,
         cladding_offsets=cladding_offsets,
         cladding_layers=cladding_layers,
+        cladding_simplify=cladding_simplify,
         mirror=mirror,
         **kwargs,
     )
@@ -1047,6 +1094,7 @@ def pn_with_trenches(
     bbox_offsets: Optional[List[float]] = None,
     cladding_layers: Optional[Layers] = cladding_layers_optical,
     cladding_offsets: Optional[Floats] = cladding_offsets_optical,
+    cladding_simplify: Optional[Floats] = cladding_simplify_optical,
     mirror: bool = False,
     wg_marking_layer: Optional[LayerSpec] = None,
     **kwargs,
@@ -1082,6 +1130,9 @@ def pn_with_trenches(
         bbox_offsets: list of bounding box offsets.
         cladding_layers: optional list of cladding layers.
         cladding_offsets: optional list of cladding offsets.
+        cladding_simplify: Optional Tolerance value for the simplification algorithm.
+          All points that can be removed without changing the resulting.
+          polygon by more than the value listed here will be removed.
         mirror: if True, reflects all doping sections.
         kwargs: cross_section settings.
 
@@ -1221,6 +1272,7 @@ def pn_with_trenches(
         port_names=port_names,
         sections=sections,
         cladding_offsets=cladding_offsets,
+        cladding_simplify=cladding_simplify,
         cladding_layers=cladding_layers,
         mirror=mirror,
         **kwargs,
@@ -1610,7 +1662,9 @@ def l_wg_doped_with_trenches(
     bbox_offsets = bbox_offsets or []
     for layer_cladding, cladding_offset in zip(bbox_layers, bbox_offsets):
         s = Section(
-            width=width_slab + 2 * cladding_offset, offset=0, layer=layer_cladding
+            width=width_slab + 2 * cladding_offset,
+            offset=0,
+            layer=layer_cladding,
         )
         sections.append(s)
 
@@ -2271,9 +2325,12 @@ if __name__ == "__main__":
     # xs = l_wg_doped_with_trenches(
     #     layer="WG", width=0.5, width_trench=2.0, width_slab=7.0, gap_low_doping=0.1
     # )
-    xs = l_with_trenches(mirror=False)
-    p = gf.path.straight()
-    c = p.extrude(xs)
+    # p = gf.path.straight()
+    # c = p.extrude(cross_section=xs)
+
+    # xs = rib_with_trenches() # FIXME
+    # c = gf.components.straight(cross_section=xs)
+    c = gf.components.straight(cross_section="strip")
 
     # xs = l_wg()
     # p = gf.path.straight()

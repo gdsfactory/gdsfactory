@@ -145,6 +145,7 @@ settings:
         radius: 20
         sections:
         - hidden: false
+          insets: null
           layer: SLAB90
           name: slab
           offset: 0
@@ -154,6 +155,7 @@ settings:
           port_types:
           - optical
           - optical
+          simplify: null
           width: 0.2
     cross_section_heater:
       function: rib_heater_doped
@@ -211,6 +213,7 @@ settings:
         radius: 20
         sections:
         - hidden: false
+          insets: null
           layer: SLAB90
           name: slab
           offset: 0
@@ -220,6 +223,7 @@ settings:
           port_types:
           - optical
           - optical
+          simplify: null
           width: 0.2
     cross_section_heater:
       function: strip_heater_doped
