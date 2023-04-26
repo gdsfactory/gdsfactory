@@ -24,12 +24,14 @@ def get_kwargs_hash(**kwargs) -> str:
     kwargs_string = "_".join(kwargs_list)
     return hashlib.md5(kwargs_string.encode()).hexdigest()
 
+
 def get_component_hash(component: gf.Component) -> str:
     with tempfile.NamedTemporaryFile() as file:
         path = os.path.abspath(file.name)
         component.write_gds(path)
         hash = hashlib.md5(file.read()).hexdigest()
         return hash
+
 
 def _get_sparameters_path(
     component: ComponentSpec,

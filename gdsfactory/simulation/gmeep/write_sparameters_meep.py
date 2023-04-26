@@ -310,7 +310,7 @@ def write_sparameters_meep(
     filepath = pathlib.Path(filepath)
     filepath_sim_settings = filepath.with_suffix(".yml")
 
-    # FIXME: Ideally, we should split sim settings generation from doing the 
+    # FIXME: Ideally, we should split sim settings generation from doing the
     #        simulation... this is a hack.
     if only_return_filepath_sim_settings:
         return filepath_sim_settings
