@@ -54,6 +54,8 @@ from gdsfactory.generic_tech import LAYER
 Plotter = Literal["holoviews", "matplotlib", "qt", "klayout"]
 Axis = Literal["x", "y"]
 
+GDSDIR_TEMP = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
+
 
 class UncachedComponentWarning(UserWarning):
     pass
@@ -1759,9 +1761,7 @@ class Component(_GeometryHelper):
         else:
             top_cell = self
 
-        gdsdir = (
-            gdsdir or pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
-        )
+        gdsdir = gdsdir or GDSDIR_TEMP
         gdsdir = pathlib.Path(gdsdir)
         if with_oasis:
             gdspath = gdspath or gdsdir / f"{top_cell.name}.oas"
@@ -2817,7 +2817,7 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     # c2 = gf.Component()
-    c = gf.components.mzi(delta_length=20)
+    c = gf.components.mzi()
     print(c.get_layer_names())
     # r = c.ref()
     # c2.copy_child_info(c.named_references["sxt"])
@@ -2829,4 +2829,4 @@ if __name__ == "__main__":
     # gdspath = c.write_gds()
     # gf.show(gdspath)
     # c.show(show_ports=True)
-    c.plot_klayout()
+    c.show()
