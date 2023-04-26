@@ -562,10 +562,11 @@ def select_ports(
         ports = ports.ports
 
     if isinstance(ports, (kf.kcell.InstancePorts, kf.kcell.Ports)):
-        ports = ports.get_all()
+        raise ValueError("got kfactory ports")
+        # ports = ports.get_all_named()
+        # ports = {port.name: port_to_kport(port) for port in ports.values()}
 
     if layer is not None:
-        print(layer)
         ports = {p_name: p for p_name, p in ports.items() if p.layer == layer}
     if prefix:
         ports = {

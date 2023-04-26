@@ -646,9 +646,10 @@ class Component(kf.KCell):
         return np.round(bbox, 3)
 
     # @property
-    def ports(self):
-        """Returns ports dict."""
-        return self.ports.get_all(self)
+    # def ports(self):
+    #     """Returns ports dict."""
+    #     return {port.name: port_to_kport(port) for port in self.ports.values()}
+    # return self.ports.get_all(self)
 
     @property
     def ports_layer(self) -> Dict[str, str]:

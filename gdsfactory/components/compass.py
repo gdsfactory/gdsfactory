@@ -84,7 +84,6 @@ def compass(
                 port_type=port_type,
             )
 
-        c.auto_rename_ports()
     return c
 
 
