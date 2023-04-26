@@ -3,120 +3,72 @@
 import hashlib
 import os
 import tempfile
-from contextlib import contextmanager
-from pathlib import Path
-from typing import Callable, NamedTuple
+from typing import Optional, List
+from functools import lru_cache
 
 import boto3
 import boto3.session
 import numpy as np
 import pandas as pd
-import pymysql
+from sqlmodel import SQLModel, Field, Session as _Session, create_engine
 
 import gdsfactory as gf
 import gdsfactory.simulation.gmeep as gm
 
-# Models (1 to 1 match with components in db)
+class Session(_Session):
+    def safe_add(self, model: SQLModel):
+        """ adds a model to the database, but ignores it if it's already in there."""
+        return self.execute(model.__class__.__table__.insert().prefix_with("IGNORE").values([model.dict()])) # type: ignore
+    def safe_add_all(self, models: List[SQLModel]):
+        """ adds a model to the database, but ignores it if it's already in there."""
+        cls = models[0].__class__
+        assert all([model.__class__ is cls for model in models])
+        return self.execute(cls.__table__.insert().prefix_with("IGNORE").values([model.dict() for model in models])) # type: ignore
+
+class Component(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    function_name: str = Field(min_length=1, max_length=20)
+    module: str = Field(min_length=1, max_length=40)
+    name: str = Field(min_length=1, max_length=40)
+    hash: str = Field(min_length=32, max_length=32, unique=True)
+
+class Simulation(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    function_name: str = Field(min_length=1, max_length=20)
+    hash: str = Field(min_length=32, max_length=32, unique=True)
+    component_hash: str = Field(min_length=32, max_length=32, unique=True)
+    wavelength: float
+    port_in: str = Field(min_length=1, max_length=10)
+    port_out: str = Field(min_length=1, max_length=10)
+    abs: float
+    angle: float
 
 
-class ComponentModel(NamedTuple):
-    function_name: str
-    module: str
-    name: str
-    hash: str
+@lru_cache(maxsize=None)
+def get_database_engine():
+    host=os.getenv("PS_HOST", "")
+    database=os.getenv("PS_DATABASE", "")
+    username=os.getenv("PS_USERNAME", "")
+    password=os.getenv("PS_PASSWORD", "")
+    ssl_ca=os.getenv("PS_SSL_CERT", "")
+    connection_string = f"mysql+pymysql://{username}:{password}@{host}/{database}"
+    engine = create_engine(connection_string, echo=True, connect_args={"ssl": {"ca": ssl_ca}})
+    return engine
 
+@lru_cache(maxsize=None)
+def s3_client():
+    return boto3.client("s3")
 
-# Other
-
-
-def temporary_path(filename: str = "") -> str:
+def get_component_hash(component: gf.Component) -> str:
     with tempfile.NamedTemporaryFile() as file:
         path = os.path.abspath(file.name)
-    if not filename:
-        return path
-    dirpath, _ = os.path.split(path)
-    path = os.path.join(dirpath, filename)
-    return path
+        component.write_gds(path)
+        hash = hashlib.md5(file.read()).hexdigest()
+        return hash
 
 
-def file_hash(path: str | Path):
-    with open(path, "rb") as file:
-        hex = hashlib.md5(file.read()).hexdigest()
-    return hex
-
-
-@contextmanager
-def comp_and_yaml_temp_files(basename: str = ""):
-    temppath = temporary_path(basename)
-    comppath = Path(f"{temppath}.gds")
-    yamlpath = Path(f"{temppath}.yml")
-    try:
-        yield comppath, yamlpath
-    finally:
-        comppath.touch()
-        yamlpath.touch()
-        os.remove(comppath)
-        os.remove(yamlpath)
-
-
-@contextmanager
-def database_cursor():
-    conn = pymysql.connect(
-        host=os.getenv("PS_HOST", ""),
-        database=os.getenv("PS_DATABASE", ""),
-        user=os.getenv("PS_USERNAME", ""),
-        password=os.getenv("PS_PASSWORD", ""),
-        ssl_ca=os.getenv("PS_SSL_CERT", ""),
-    )
-    cursor = conn.cursor()
-    yield cursor
-    conn.commit()
-    cursor.close()
-    conn.close()
-
-
-def select_rows(table: str, num_rows: int):
-    query = f"SELECT * FROM {table} LIMIT {num_rows:.0f}"
-    print(query)
-    with database_cursor() as cursor:
-        cursor.execute(query)
-        rows = cursor.fetchall()
-    for row in rows:
-        print(row)
-
-
-def component_model(component: gf.Component):
-    with comp_and_yaml_temp_files() as (comppath, yamlpath):
-        component.write_gds(comppath)
-        with open(yamlpath, "w") as file:
-            file.write(component.to_yaml())
-        function_name = component.metadata["function_name"]
-        module = component.metadata["module"]
-        hash = file_hash(comppath)
-        name = component.name
-    return ComponentModel(function_name, module, name, hash)
-
-
-def upload_component(component: gf.Component, db_cursor, s3_client):
-    my_component_model = component_model(component)
-    fields = ", ".join(my_component_model._fields)
-    values = ", ".join(f"'{c}'" for c in my_component_model)
-    query = f"INSERT INTO Component ({fields}) VALUES ({values})"
-    print(query)
-    db_cursor.execute(query)
-    with comp_and_yaml_temp_files(basename=my_component_model.hash) as (
-        comppath,
-        yamlpath,
-    ):
-        component.write_gds(comppath)
-        with open(yamlpath, "w") as file:
-            file.write(component.to_yaml())
-        s3_client.upload_file(
-            comppath, "gdslib", f"Component/{os.path.basename(comppath)}"
-        )
-        s3_client.upload_file(
-            yamlpath, "gdslib", f"Component/{os.path.basename(yamlpath)}"
-        )
+def get_s3_key_from_hash(prefix: str, hash: str, ext: str="gds") -> str:
+    return os.path.join(f"{prefix}/{ext}/{hash}.{ext}")
 
 def convert_to_db_format(sp: dict) -> pd.DataFrame:
     df = pd.DataFrame(sp)
@@ -138,28 +90,63 @@ def convert_to_db_format(sp: dict) -> pd.DataFrame:
 
     return pd.concat(dfs, axis=0)
 
-
 if __name__ == "__main__":
-    components = [
-        gf.components.mzi(delta_length=3),
-        gf.components.taper(length=100),
-    ]
-    s3_client = boto3.client("s3")
-    with database_cursor() as cursor:
-        for component in components:
-            try:
-                upload_component(component, cursor, s3_client)
-                print(f"successfully added {component.name}.")
-            except pymysql.err.IntegrityError:
-                print(
-                    f"unable to add {component.name}. Maybe it exists already in the database?"
-                )
+    component = gf.components.taper(length=100)
+    component_yaml = component.to_yaml()
 
-    comp = gf.components.taper()
-    with tempfile.TemporaryDirectory() as tmpdir:
-        sp = gm.write_sparameters_meep_1x1(comp, is_3d=False, dirpath=tmpdir)
-        ymlpath = next(fn for fn in os.listdir(tmpdir) if fn.endswith(".yml"))
-        print(ymlpath)
+    component_model = Component(
+        function_name = component.metadata['function_name'],
+        module = component.metadata['module'],
+        name = component.name,
+        hash = get_component_hash(component),
+    )
+    engine = get_database_engine()
+    with Session(engine) as session:
+        session.safe_add(component_model)
+        session.commit()
 
+    s3 = s3_client()
+    with tempfile.TemporaryDirectory() as tempdir:
+        component_gds_path = os.path.join(tempdir, f"{component_model.hash}.gds")
+        component_yaml_path = os.path.join(tempdir, f"{component_model.hash}.yml")
+        component.write_gds(component_gds_path)
+        with open(component_yaml_path, "w") as file:
+            file.write(component_yaml)
+
+        component_key = get_s3_key_from_hash("component", component_model.hash, "gds")
+        component_yaml_key = get_s3_key_from_hash("component", component_model.hash, "yml")
+        s3.upload_file(component_gds_path, "gdslib", component_key)
+        s3.upload_file(component_yaml_path, "gdslib", component_yaml_key)
+
+    #with tempfile.TemporaryDirectory() as tmpdir:
+    tmpdir = "/tmp"
+    tmppath = gm.write_sparameters_meep_1x1(component, is_3d=False, dirpath=tmpdir, only_return_filepath_sim_settings=True) # TODO: split simulation yaml file generation and actual simulation...
+    simulation_hash = str(tmppath)[-36:-4]
+    sp = gm.write_sparameters_meep_1x1(component, is_3d=False, dirpath=tmpdir)
+    yaml_filename = next(fn for fn in os.listdir(tmpdir) if fn.endswith(".yml"))
+    yaml_path = os.path.join(tmpdir, yaml_filename)
     df = convert_to_db_format(sp)
-    print(df)
+    df['component_hash'] = component_model.hash
+    df['hash'] = simulation_hash
+    df['function_name'] = "write_sparameters_meep_1x1"
+    df = df[['function_name', 'hash', 'component_hash', 'wavelength', 'port_in', 'port_out', 'abs', 'angle']]
+    simulation_models = []
+    for function_name, hash, component_hash, wavelength, port_in, port_out, abs, angle in df.values:
+        simulation_model = Simulation(
+            function_name=function_name, 
+            hash=hash, 
+            component_hash=component_hash, 
+            wavelength=wavelength, 
+            port_in=port_in, 
+            port_out=port_out, 
+            abs=abs, 
+            angle=angle
+        )
+        simulation_models.append(simulation_model)
+    with Session(engine) as session:
+        session.safe_add_all(simulation_models)
+        session.commit()
+
+    s3 = s3_client()
+    yaml_key = get_s3_key_from_hash("simulation", simulation_hash, "yml")
+    s3.upload_file(yaml_path, "gdslib", yaml_key)
