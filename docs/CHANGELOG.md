@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.89.7
+
+- gdslib replacement with database s3 bucket [PR](https://github.com/gdsfactory/gdsfactory/pull/1594)
+- add `zmin_tolerance` [PR](https://github.com/gdsfactory/gdsfactory/pull/1596)
+
 ## 6.89.4
 
 - fix `grating_coupler_loss` structures [PR](https://github.com/gdsfactory/gdsfactory/pull/1589)
