@@ -70,12 +70,9 @@ class LayerStack(BaseModel):
 
     layers: Optional[Dict[str, LayerLevel]] = Field(default_factory=dict)
 
-    def __init__(self, **data: Any):
+    def model_post_init(self, __context: Any) -> None:
         """Add LayerLevels automatically for subclassed LayerStacks."""
-        super().__init__(**data)
-
-        for field in self.dict():
-            val = getattr(self, field)
+        for field, val in self.model_dump().items():
             if isinstance(val, LayerLevel):
                 self.layers[field] = val
 

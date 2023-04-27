@@ -10,11 +10,12 @@ import pathlib
 import re
 import typing
 import xml.etree.ElementTree as ET
-from typing import Dict, Optional, Set, Tuple, Union
+from typing import Any, Dict, Optional, Set, Tuple, Union
 
 import numpy as np
 from pydantic import BaseModel, Field, field_validator
 from pydantic.color import Color, ColorType
+from pydantic.decorators import model_validator
 
 from gdsfactory.config import logger
 
@@ -411,39 +412,37 @@ class LayerView(BaseModel):
     animation: int = 0
     group_members: Optional[Dict[str, LayerView]] = Field(default_factory=dict)
 
-    def __init__(
-        self,
-        gds_layer: Optional[int] = None,
-        gds_datatype: Optional[int] = None,
-        color: Optional[ColorType] = None,
-        brightness: Optional[int] = None,
-        **data,
-    ):
-        """Initialize LayerView object."""
-        if (gds_layer is not None) and (gds_datatype is not None):
-            if "layer" in data and data["layer"] is not None:
-                raise KeyError(
-                    "Specify either 'layer' or both 'gds_layer' and 'gds_datatype'."
-                )
-            data["layer"] = (gds_layer, gds_datatype)
+    @model_validator(mode="before")
+    def pre_init(self, data: Any, __info: Any) -> Any:
+        # can't do custom __init__ in pydantic v2, so replace it with this mode='before' model_validator
+        if isinstance(data, dict):
+            gds_layer: Optional[int] = data.pop("gds_layer", None)
+            gds_datatype: Optional[int] = data.pop("gds_datatype", None)
+            color: Optional[ColorType] = data.pop("color", None)
+            brightness: Optional[int] = data.pop("brightness", None)
+            if (gds_layer is not None) and (gds_datatype is not None):
+                if "layer" in data and data["layer"] is not None:
+                    raise KeyError(
+                        "Specify either 'layer' or both 'gds_layer' and 'gds_datatype'."
+                    )
+                data["layer"] = (gds_layer, gds_datatype)
 
-        if color is not None:
-            if "fill_color" in data or "frame_color" in data:
-                raise KeyError(
-                    "Specify either a single 'color' or both 'frame_color' and 'fill_color'."
-                )
-            data["fill_color"] = data["frame_color"] = color
-        if brightness is not None:
-            if "fill_brightness" in data or "frame_brightness" in data:
-                raise KeyError(
-                    "Specify either a single 'brightness' or both 'frame_brightness' and 'fill_brightness'."
-                )
-            data["fill_brightness"] = data["frame_brightness"] = brightness
+            if color is not None:
+                if "fill_color" in data or "frame_color" in data:
+                    raise KeyError(
+                        "Specify either a single 'color' or both 'frame_color' and 'fill_color'."
+                    )
+                data["fill_color"] = data["frame_color"] = color
+            if brightness is not None:
+                if "fill_brightness" in data or "frame_brightness" in data:
+                    raise KeyError(
+                        "Specify either a single 'brightness' or both 'frame_brightness' and 'fill_brightness'."
+                    )
+                data["fill_brightness"] = data["frame_brightness"] = brightness
+        return data
 
-        super().__init__(**data)
-
-        # Iterate through all items, adding group members as needed
-        for name, field in self.__fields__.items():
+    def model_post_init(self, __context: Any) -> None:
+        for name, field in self.model_fields.items():
             default = field.get_default()
             if isinstance(default, LayerView):
                 self.group_members[name] = default
@@ -749,49 +748,52 @@ class LayerViews(BaseModel):
     custom_line_styles: Dict[str, LineStyle] = Field(default_factory=dict)
     layer_map: Union[Dict[str, Layer], BaseModel] = Field(default_factory=dict)
 
-    def __init__(
-        self,
-        filepath: Optional[PathLike] = None,
-        layer_map: Union[Dict[str, Layer], BaseModel] = None,
-        **data,
-    ):
+    @model_validator(mode="before")
+    def pre_init(self, data: Any, __info: Any) -> Any:
         """Initialize LayerViews object.
 
         Args:
             filepath: can be YAML or LYP.
             layer_map: Optional layermap.
         """
-        if filepath is not None:
-            filepath = pathlib.Path(filepath)
-            if filepath.suffix == ".lyp":
-                lvs = LayerViews.from_lyp(filepath=filepath)
-                logger.info(
-                    f"Importing LayerViews from KLayout layer properties file: {str(filepath)!r}."
-                )
-            elif filepath.suffix in [".yaml", ".yml"]:
-                lvs = LayerViews.from_yaml(layer_file=filepath)
-                logger.info(f"Importing LayerViews from YAML file: {str(filepath)!r}.")
-            else:
-                raise ValueError(f"Unable to load LayerViews from {str(filepath)!r}.")
+        # can't do custom __init__ in pydantic v2, so replace it with this mode='before' model_validator
+        if isinstance(data, dict):
+            filepath = data.pop("filepath", None)
+            layer_map = data.pop("layer_map", None)
 
-            data["layer_views"] = lvs.layer_views
-            data["custom_line_styles"] = lvs.custom_line_styles
-            data["custom_dither_patterns"] = lvs.custom_dither_patterns
+            if filepath is not None:
+                filepath = pathlib.Path(filepath)
+                if filepath.suffix == ".lyp":
+                    lvs = LayerViews.from_lyp(filepath=filepath)
+                    logger.info(
+                        f"Importing LayerViews from KLayout layer properties file: {str(filepath)!r}."
+                    )
+                elif filepath.suffix in [".yaml", ".yml"]:
+                    lvs = LayerViews.from_yaml(layer_file=filepath)
+                    logger.info(
+                        f"Importing LayerViews from YAML file: {str(filepath)!r}."
+                    )
+                else:
+                    raise ValueError(
+                        f"Unable to load LayerViews from {str(filepath)!r}."
+                    )
 
-        if isinstance(layer_map, BaseModel):
-            layer_map = layer_map.dict()
+                data["layer_views"] = lvs.layer_views
+                data["custom_line_styles"] = lvs.custom_line_styles
+                data["custom_dither_patterns"] = lvs.custom_dither_patterns
 
-        if layer_map is not None:
-            data["layer_map"] = layer_map
+            if isinstance(layer_map, BaseModel):
+                layer_map = layer_map.model_dump()
 
-        super().__init__(**data)
+            if layer_map is not None:
+                data["layer_map"] = layer_map
+        return data
 
-        for name in self.dict():
-            lv = getattr(self, name)
+    def model_post_init(self, __context: Any) -> None:
+        for name, lv in self.model_dump().items():
             if isinstance(lv, LayerView):
-                #
                 if (self.layer_map is not None) and (name in self.layer_map.keys()):
-                    lv_dict = lv.dict(exclude={"layer", "name"})
+                    lv_dict = lv.model_dump(exclude={"layer", "name"})
                     lv = LayerView(layer=self.layer_map[name], name=name, **lv_dict)
                 self.add_layer_view(name=name, layer_view=lv)
 

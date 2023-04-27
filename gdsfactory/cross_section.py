@@ -14,6 +14,7 @@ from inspect import getmembers
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union, TypeVar
 
 from pydantic import BaseModel, Field, validate_arguments, ConfigDict
+from pydantic.decorators import model_validator
 from typing_extensions import Literal
 
 nm = 1e-3
@@ -156,18 +157,31 @@ class CrossSection(BaseModel):
     name: Optional[str] = None
     mirror: bool = False
 
-    def __init__(__pydantic_self__, **data: Any) -> None:
-        """Extend BaseModel init to process mirroring."""
-        super().__init__(**data)
-
-        if "mirror" in data and data["mirror"]:
-            data["offset"] *= -1
-            if data["sections"]:
-                for section in data["sections"]:
-                    section.offset *= -1
-            if data["cladding_offsets"]:
-                for offset in data["cladding_offsets"]:
-                    offset *= -1
+    @model_validator(mode="wrap")
+    @classmethod
+    def init_model(
+        cls, value: Any, handler: Callable[[Any], CrossSection]
+    ) -> CrossSection:
+        # Can't do custom __init__ in v2, so replaced it with this model_validator
+        if isinstance(value, CrossSection):
+            return value
+        self = handler(value)
+        if isinstance(value, dict):
+            # Something seems weird about this -- it won't actually affect the result instance
+            # Should this instead be operating on properties of `self`?
+            # Seemed a bit weird in the original __init__ as well
+            #
+            # If this is meant to be modifying attributes of the instance, I would recommend
+            # replacing this @model_validator with model_post_init that does the following via attribute access
+            if "mirror" in value and value["mirror"]:
+                value["offset"] *= -1
+                if value["sections"]:
+                    for section in value["sections"]:
+                        section.offset *= -1
+                if value["cladding_offsets"]:
+                    for offset in value["cladding_offsets"]:
+                        offset *= -1
+        return self
 
     # Configuration.
     model_config = ConfigDict(extra="forbid")
