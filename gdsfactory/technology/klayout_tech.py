@@ -7,7 +7,7 @@ import pathlib
 import xml.etree.ElementTree as ET
 from typing import List, Optional, Tuple
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 from gdsfactory.config import PATH
 from gdsfactory.technology import LayerViews
@@ -143,10 +143,8 @@ class KLayoutTechnology(BaseModel):
         # Write lyt to file
         lyt_path.write_bytes(make_pretty_xml(root))
 
-    class Config:
-        """Allow db.Technology type."""
-
-        arbitrary_types_allowed = True
+    # Allow db.Technology type.
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
 
 layer_views = LayerViews.from_lyp(str(PATH.klayout_lyp))

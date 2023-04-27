@@ -1,6 +1,6 @@
 from typing import Dict
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 from gdsfactory.materials import MaterialSpec
 from gdsfactory.materials import (
@@ -46,10 +46,8 @@ class SimulationSettingsLumericalFdtd(BaseModel):
         str, MaterialSpec
     ] = material_name_to_lumerical_default
 
-    class Config:
-        """pydantic basemodel config."""
-
-        arbitrary_types_allowed = True
+    # pydantic basemodel config.
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
 
 SIMULATION_SETTINGS_LUMERICAL_FDTD = SimulationSettingsLumericalFdtd()

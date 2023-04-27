@@ -15,7 +15,7 @@ def lyp_to_dataclass(
         raise FileExistsError(f"You can delete {filepathout}")
 
     script = """
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from gdsfactory.typings import Layer
 
 
@@ -26,9 +26,7 @@ class LayerMap(BaseModel):
         script += f"    {layer_name}: Layer = ({layer.layer[0]}, {layer.layer[1]})\n"
 
     script += """
-    class Config:
-        frozen = True
-        extra = "forbid"
+    model_config = ConfigDict(frozen=True, extra="forbid")
 
 
 LAYER = LayerMap()

@@ -13,7 +13,7 @@ from functools import partial
 from inspect import getmembers
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union, TypeVar
 
-from pydantic import BaseModel, Field, validate_arguments
+from pydantic import BaseModel, Field, validate_arguments, ConfigDict
 from typing_extensions import Literal
 
 nm = 1e-3
@@ -77,10 +77,8 @@ class Section(BaseModel):
     hidden: bool = False
     simplify: Optional[float] = None
 
-    class Config:
-        """pydantic basemodel config."""
-
-        extra = "forbid"
+    # pydantic basemodel config.
+    model_config = ConfigDict(extra="forbid")
 
 
 class CrossSection(BaseModel):
@@ -151,9 +149,9 @@ class CrossSection(BaseModel):
     start_straight_length: float = 10e-3
     end_straight_length: float = 10e-3
     snap_to_grid: Optional[float] = None
-    decorator: Optional[Callable] = None
-    add_pins: Optional[Callable] = None
-    add_bbox: Optional[Callable] = None
+    decorator: Optional[Callable] = Field(default=None, exclude=True)
+    add_pins: Optional[Callable] = Field(default=None, exclude=True)
+    add_bbox: Optional[Callable] = Field(default=None, exclude=True)
     info: Dict[str, Any] = Field(default_factory=dict)
     name: Optional[str] = None
     mirror: bool = False
@@ -171,15 +169,8 @@ class CrossSection(BaseModel):
                 for offset in data["cladding_offsets"]:
                     offset *= -1
 
-    class Config:
-        """Configuration."""
-
-        extra = "forbid"
-        Annotated = {
-            "decorator": {"exclude": True},
-            "add_pins": {"exclude": True},
-            "add_bbox": {"exclude": True},
-        }
+    # Configuration.
+    model_config = ConfigDict(extra="forbid")
 
     def copy(self, **kwargs):
         """Returns a CrossSection copy."""

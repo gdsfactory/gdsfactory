@@ -9,7 +9,7 @@ from typing_extensions import Literal
 
 import numpy as np
 from omegaconf import DictConfig
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, ConfigDict
 
 from gdsfactory.config import PATH, logger
 from gdsfactory.containers import containers as containers_default
@@ -145,13 +145,13 @@ class Pdk(BaseModel):
     """
 
     name: str
-    cross_sections: Dict[str, CrossSectionFactory] = Field(default_factory=dict)
-    cells: Dict[str, ComponentFactory] = Field(default_factory=dict)
+    cross_sections: Dict[str, CrossSectionFactory] = Field(default_factory=dict, exclude=True)
+    cells: Dict[str, ComponentFactory] = Field(default_factory=dict, exclude=True)
     symbols: Dict[str, ComponentFactory] = Field(default_factory=dict)
-    default_symbol_factory: Callable = floorplan_with_block_letters
-    containers: Dict[str, ComponentFactory] = containers_default
+    default_symbol_factory: Callable = Field(default=floorplan_with_block_letters, exclude=True)
+    containers: Dict[str, ComponentFactory] = Field(default=containers_default, exclude=True)
     base_pdk: Optional[Pdk] = None
-    default_decorator: Optional[Callable[[Component], None]] = None
+    default_decorator: Optional[Callable[[Component], None]] = Field(default=None, exclude=True)
     layers: Dict[str, Layer] = Field(default_factory=dict)
     layer_stack: Optional[LayerStack] = None
     layer_views: Optional[LayerViews] = None
@@ -163,9 +163,9 @@ class Pdk(BaseModel):
     interconnect_cml_path: Optional[PathType] = None
     warn_off_grid_ports: bool = False
     constants: Dict[str, Any] = constants
-    materials_index: Dict[str, MaterialSpec] = materials_index_default
+    materials_index: Dict[str, MaterialSpec] = Field(default=materials_index_default, exclude=True)
     routing_strategies: Optional[Dict[str, Callable]] = None
-    circuit_yaml_parser: Callable = cell_from_yaml
+    circuit_yaml_parser: Callable = Field(default=cell_from_yaml, exclude=True)
     gds_write_settings: GdsWriteSettings = GdsWriteSettings()
     oasis_settings: OasisWriteSettings = OasisWriteSettings()
     bend_points_distance: float = 20 * nm
@@ -179,19 +179,8 @@ class Pdk(BaseModel):
     def grid_size(self, value):
         self.gds_write_settings.precision = value * self.gds_write_settings.unit
 
-    class Config:
-        """Configuration."""
-
-        extra = "forbid"
-        Annotated = {
-            "cross_sections": {"exclude": True},
-            "cells": {"exclude": True},
-            "containers": {"exclude": True},
-            "default_symbol_factory": {"exclude": True},
-            "default_decorator": {"exclude": True},
-            "materials_index": {"exclude": True},
-            "circuit_yaml_parser": {"exclude": True},
-        }
+    # Configuration.
+    model_config = ConfigDict(extra="forbid")
 
     @field_validator("sparameters_path")
     def is_pathlib_path(cls, path):

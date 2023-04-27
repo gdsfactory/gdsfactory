@@ -1,6 +1,6 @@
 from typing import Tuple
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 Layer = Tuple[int, int]
 
@@ -68,11 +68,8 @@ class GenericLayerMap(BaseModel):
     SOURCE: Layer = (110, 0)
     MONITOR: Layer = (101, 0)
 
-    class Config:
-        """pydantic config."""
-
-        frozen = True
-        extra = "forbid"
+    # pydantic config.
+    model_config = ConfigDict(frozen=True, extra="forbid")
 
 
 LAYER = GenericLayerMap()

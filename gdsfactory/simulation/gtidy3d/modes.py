@@ -25,7 +25,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from matplotlib import colors
-from pydantic import BaseModel, Extra
+from pydantic import BaseModel, ConfigDict
 import pydantic
 from scipy.constants import c as SPEED_OF_LIGHT
 from scipy.interpolate import griddata
@@ -217,10 +217,8 @@ class Waveguide(BaseModel):
     top_sigma: Optional[float] = 10 * nm
     top_k: Optional[float] = 0.1
 
-    class Config:
-        """Config for Waveguide."""
-
-        extra = Extra.allow
+    # Config for Waveguide.
+    model_config = ConfigDict(extra="allow")
 
     @property
     def cache_path(self) -> Optional[PathType]:

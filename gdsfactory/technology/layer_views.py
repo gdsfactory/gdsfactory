@@ -277,14 +277,10 @@ class HatchPattern(BaseModel):
         custom_pattern: Pattern defining custom shape.
     """
 
-    name: str
+    # exclude name because YAML output uses name as the key
+    name: str = Field(exclude=True)
     order: Optional[int] = None
     custom_pattern: Optional[str] = None
-
-    class Config:
-        """YAML output uses name as the key."""
-
-        Annotated = {"name": {"exclude": True}}
 
     @field_validator("custom_pattern")
     def check_pattern_klayout(cls, pattern: Optional[str], **kwargs) -> Optional[str]:
@@ -327,14 +323,10 @@ class LineStyle(BaseModel):
         custom_style: Line style to use.
     """
 
-    name: str
+    # exclude name because YAML output uses name as the key
+    name: str = Field(exclude=True)
     order: Optional[int] = None
     custom_style: Optional[str] = None
-
-    class Config:
-        """YAML output uses name as the key."""
-
-        Annotated = {"name": {"exclude": True}}
 
     @field_validator("custom_style")
     def check_pattern(cls, pattern: Optional[str], **kwargs) -> Optional[str]:
@@ -399,7 +391,8 @@ class LayerView(BaseModel):
         group_members: Add a list of group members to the LayerView.
     """
 
-    name: Optional[str] = None
+    # exclude name because YAML output uses name as the key
+    name: Optional[str] = Field(default=None, exclude=True)
     info: Optional[str] = None
     layer: Optional[Layer] = None
     layer_in_name: bool = False
@@ -417,11 +410,6 @@ class LayerView(BaseModel):
     xfill: bool = False
     animation: int = 0
     group_members: Optional[Dict[str, LayerView]] = Field(default_factory=dict)
-
-    class Config:
-        """YAML output uses name as the key."""
-
-        Annotated = {"name": {"exclude": True}}
 
     def __init__(
         self,

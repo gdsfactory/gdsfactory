@@ -4,7 +4,7 @@ from enum import Enum
 from typing import Any, Dict, List, Optional, Union
 
 import yaml
-from pydantic import AnyUrl, BaseModel, Extra, Field
+from pydantic import AnyUrl, BaseModel, Field, ConfigDict
 
 import gdsfactory as gf
 
@@ -21,10 +21,8 @@ class RouteSettings(BaseModel):
         5.0, description="The minimum separation between routes in the bundle [um]."
     )
 
-    class Config:
-        """Extra config."""
-
-        extra = Extra.allow
+    # Extra config.
+    model_config = ConfigDict(frozen=True, extra="allow")
 
 
 class RoutingStrategy(BaseModel):
@@ -34,10 +32,8 @@ class RoutingStrategy(BaseModel):
 class Links(BaseModel):
     pass
 
-    class Config:
-        """Extra config."""
-
-        extra = Extra.allow
+    # Extra config.
+    model_config = ConfigDict(frozen=True, extra="allow")
 
 
 class PortEnum(Enum):
@@ -54,10 +50,8 @@ class PortEnum(Enum):
 
 
 class Placement(BaseModel):
-    class Config:
-        """Extra config."""
-
-        extra = Extra.forbid
+    # Extra config.
+    model_config = ConfigDict(extra="forbid")
 
     x: Optional[Union[str, float]] = Field(
         None,
@@ -90,10 +84,8 @@ class Placement(BaseModel):
 
 
 class Instance(BaseModel):
-    class Config:
-        """Extra config."""
-
-        extra = Extra.forbid
+    # Extra config.
+    model_config = ConfigDict(extra="forbid")
 
     component: str
     settings: Optional[Dict[str, Any]] = Field(
@@ -102,10 +94,8 @@ class Instance(BaseModel):
 
 
 class Route(BaseModel):
-    class Config:
-        """Extra config."""
-
-        extra = Extra.forbid
+    # Extra config.
+    model_config = ConfigDict(extra="forbid")
 
     routing_strategy: Optional[RoutingStrategy] = None
     settings: Optional[RouteSettings] = None

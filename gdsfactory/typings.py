@@ -37,7 +37,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 import gdstk
 import numpy as np
 from omegaconf import OmegaConf
-from pydantic import BaseModel, Extra
+from pydantic import BaseModel, ConfigDict
 from typing_extensions import Literal
 
 from gdsfactory.component import Component, ComponentReference
@@ -111,10 +111,8 @@ class StepAllAngle:
 
     """
 
-    class Config:
-        """Config for Steps with all angle."""
-
-        extra = Extra.forbid
+    # Config for Steps with all angle.
+    model_config = ConfigDict(extra="forbid")
 
 
 Anchor = Literal[
@@ -205,11 +203,8 @@ class Route(BaseModel):
     ports: Tuple[Port, Port]
     length: float
 
-    class Config:
-        """Config for Route."""
-
-        extra = Extra.forbid
-        arbitrary_types_allowed = True
+    # Config for Route.
+    model_config = ConfigDict(extra="forbid", arbitrary_types_allowed=True)
 
 
 class Routes(BaseModel):
@@ -218,18 +213,15 @@ class Routes(BaseModel):
     ports: Optional[List[Port]] = None
     bend_radius: Optional[List[float]] = None
 
-    class Config:
-        """Config for Routes."""
-
-        extra = Extra.forbid
+    # Config for Routes.
+    model_config = ConfigDict(extra="forbid")
 
 
 class ComponentModel(BaseModel):
     component: Union[str, Dict[str, Any]]
     settings: Optional[Dict[str, Any]]
 
-    class Config:
-        extra = Extra.forbid
+    model_config = ConfigDict(extra="forbid")
 
 
 class PlacementModel(BaseModel):
@@ -245,8 +237,7 @@ class PlacementModel(BaseModel):
     rotation: int = 0
     mirror: bool = False
 
-    class Config:
-        extra = Extra.forbid
+    model_config = ConfigDict(extra="forbid")
 
 
 class RouteModel(BaseModel):
@@ -254,8 +245,7 @@ class RouteModel(BaseModel):
     settings: Optional[Dict[str, Any]] = None
     routing_strategy: Optional[str] = None
 
-    class Config:
-        extra = Extra.forbid
+    model_config = ConfigDict(extra="forbid")
 
 
 class NetlistModel(BaseModel):
@@ -282,8 +272,7 @@ class NetlistModel(BaseModel):
     settings: Optional[Dict[str, Any]] = None
     ports: Optional[Dict[str, str]] = None
 
-    class Config:
-        extra = Extra.forbid
+    model_config = ConfigDict(extra="forbid")
 
 
 RouteFactory = Callable[..., Route]

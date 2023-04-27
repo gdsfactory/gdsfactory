@@ -57,7 +57,7 @@ import pathlib
 from typing import Callable, Tuple
 
 import pytest
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from pytest_regressions.data_regression import DataRegressionFixture
 
 from gdsfactory.add_pins import add_pin_rectangle_inside
@@ -131,9 +131,7 @@ class LayerMap(BaseModel):
     WGN: Layer = (34, 0)
     WGNCLAD: Layer = (36, 0)
 
-    class Config:
-        frozen = True
-        extra = "forbid"
+    model_config = ConfigDict(frozen=True, extra="forbid")
 
 
 LAYER = LayerMap()

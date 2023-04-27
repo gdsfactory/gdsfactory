@@ -1,7 +1,7 @@
 from typing import Callable
 
 import numpy as np
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 import gdsfactory as gf
 from gdsfactory.types import Layer
@@ -23,11 +23,8 @@ class DopingLayerLevel(BaseModel):
     z_profile: Callable
     # xy_profile: Optional[Callable] = None # not implemented yet
 
-    class Config:
-        """pydantic config."""
-
-        frozen = True
-        extra = "forbid"
+    # pydantic config.
+    model_config = ConfigDict(frozen=True, extra="forbid")
 
 
 cm3_to_um3 = 1e-12
