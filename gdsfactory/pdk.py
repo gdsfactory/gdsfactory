@@ -145,13 +145,21 @@ class Pdk(BaseModel):
     """
 
     name: str
-    cross_sections: Dict[str, CrossSectionFactory] = Field(default_factory=dict, exclude=True)
+    cross_sections: Dict[str, CrossSectionFactory] = Field(
+        default_factory=dict, exclude=True
+    )
     cells: Dict[str, ComponentFactory] = Field(default_factory=dict, exclude=True)
     symbols: Dict[str, ComponentFactory] = Field(default_factory=dict)
-    default_symbol_factory: Callable = Field(default=floorplan_with_block_letters, exclude=True)
-    containers: Dict[str, ComponentFactory] = Field(default=containers_default, exclude=True)
+    default_symbol_factory: Callable = Field(
+        default=floorplan_with_block_letters, exclude=True
+    )
+    containers: Dict[str, ComponentFactory] = Field(
+        default=containers_default, exclude=True
+    )
     base_pdk: Optional[Pdk] = None
-    default_decorator: Optional[Callable[[Component], None]] = Field(default=None, exclude=True)
+    default_decorator: Optional[Callable[[Component], None]] = Field(
+        default=None, exclude=True
+    )
     layers: Dict[str, Layer] = Field(default_factory=dict)
     layer_stack: Optional[LayerStack] = None
     layer_views: Optional[LayerViews] = None
@@ -163,7 +171,9 @@ class Pdk(BaseModel):
     interconnect_cml_path: Optional[PathType] = None
     warn_off_grid_ports: bool = False
     constants: Dict[str, Any] = constants
-    materials_index: Dict[str, MaterialSpec] = Field(default=materials_index_default, exclude=True)
+    materials_index: Dict[str, MaterialSpec] = Field(
+        default=materials_index_default, exclude=True
+    )
     routing_strategies: Optional[Dict[str, Callable]] = None
     circuit_yaml_parser: Callable = Field(default=cell_from_yaml, exclude=True)
     gds_write_settings: GdsWriteSettings = GdsWriteSettings()
