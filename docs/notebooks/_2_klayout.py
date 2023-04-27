@@ -14,7 +14,7 @@
 
 # # KLayout integration
 #
-# In gdsfactory code driven flow you define your components, circuits and reticles in python or YAML code.
+# [Klayout](https://www.klayout.de/) is an open source layout viewer and editor. In gdsfactory code driven flow you define your components, circuits and reticles in python or YAML code.
 #
 # For rapid iteration, gdsfactory comes with a Klayout macro `klive` that runs inside klayout, so that when you run `component.show()` in python, it displays your GDS in Klayout.
 #
@@ -33,9 +33,9 @@
 # - generic layermap: for the generic gdsfactory technology.
 # - generic DRC: for generic gdsfactory technology
 
-# ## KLayout DRC
+# ## KLayout Design Rule Checking (DRC)
 #
-# You can write DRC rule decks from gdsfactory and customize the shortcut to run the DRC macro in Klayout.
+# Your device can be fabricated correctly when it meets the Design Rules, you can write DRC rules from gdsfactory and customize the shortcut to run the checks in Klayout.
 #
 # Here are some rules explained in [repo generic DRC technology](https://github.com/klayoutmatthias/si4all) and [video](https://peertube.f-si.org/videos/watch/addc77a0-8ac7-4742-b7fb-7d24360ceb97)
 #
@@ -78,7 +78,7 @@ drc_rule_deck = write_drc_deck_macro(
 
 # ## KLayout connectivity checks
 #
-# Thanks to [SiEPIC-Tools](https://github.com/SiEPIC/SiEPIC-Tools) klayout macro gdsfactory supports component overlap and connectivity checks.
+# Thanks to [SiEPIC-Tools](https://github.com/SiEPIC/SiEPIC-Tools) klayout macro gdsfactory you can run component overlap and connectivity checks.
 #
 # This is enabled by default for any components in the [ubcpdk](https://gdsfactory.github.io/ubc/README.html) cross_section, thanks to having `add_pins=add_pins_siepic` and `add_bbox=add_bbox_siepic` by default.
 #
