@@ -34,6 +34,7 @@ settings:
       function: bend_euler
     cross_section: strip
     cross_section_bend: null
+    cross_section_bend180: null
     grating_spacing: 127.0
     length: null
     straight:
@@ -54,6 +55,7 @@ settings:
       function: bend_euler
     cross_section: strip
     cross_section_bend: null
+    cross_section_bend180: null
     grating_spacing: 127.0
     length: null
     straight:
