@@ -82,7 +82,7 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/gdsfactory:latest,${{ secrets.DOCKERHUB_USERNAME }}/gdsfactory:6.90.8
           file: .devcontainer/Dockerfile.dev
       - name: Build and push minimal
-        id: docker_build
+        id: docker_build_minimal
         uses: docker/build-push-action@v4
         with:
           push: true
