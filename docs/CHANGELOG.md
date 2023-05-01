@@ -2302,7 +2302,7 @@
 
 - Consider only passed component args and kwargs when calculating hash for component name
 - replace `_clean_value` by `clean_value_json`
-- delete `tech.Library` as it's not being used. You can just use a dict of functions instead
+- delete `tech.klib` as it's not being used. You can just use a dict of functions instead
 
 ## 3.11.5
 

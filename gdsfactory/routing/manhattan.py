@@ -1040,15 +1040,17 @@ def route_manhattan(
         min_straight_length = min_straight_length or x.min_length
 
     try:
-        # kf.routing.manhattan.route_manhattan()
-        points = generate_manhattan_waypoints(
+        import kfactory as kf
+
+        pts = kf.routing.manhattan.route_manhattan(
             input_port,
             output_port,
             start_straight_length=start_straight_length,
             end_straight_length=end_straight_length,
-            min_straight_length=min_straight_length,
-            bend=bend,
-            cross_section=x,
+            bend90_radius=x.radius / kf.KLib().dbu,
+        )
+        points = np.ndarray(
+            [[pt.x * kf.KLib().dbu, pt.y * kf.KLib().dbu] for pt in pts]
         )
         return round_corners(
             points=points,

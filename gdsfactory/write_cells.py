@@ -129,7 +129,7 @@ def write_cells_recursively(
     for c in cell.dependencies(True):
         gdspath = dirpath / f"{c.name}.gds"
 
-        lib = gdstk.Library(unit=unit, precision=precision)
+        lib = gdstk.klib(unit=unit, precision=precision)
         lib.add(cell)
         lib.add(*cell.dependencies(True))
         lib.write_gds(gdspath)
@@ -194,7 +194,7 @@ def write_cells(
 
             gdspath = dirpath / f"{cell.name}.gds"
 
-            lib = gdstk.Library(unit=unit, precision=precision)
+            lib = gdstk.klib(unit=unit, precision=precision)
             lib.add(cell)
             lib.add(*cell.dependencies(True))
             lib.write_gds(gdspath)

@@ -368,9 +368,9 @@ class Component(kf.KCell):
     #     self.get_child_name = False
     #     self._reference_names_counter = Counter()
     #     self._reference_names_used = set()
+    _named_references = {}
     #     self._references = []
-    #     self.ports = {}
-    #     self._named_references = {}
+    ports = {}
 
     def copy(self) -> "Component":
         """Copy the full component.
@@ -645,11 +645,10 @@ class Component(kf.KCell):
             bbox = ((0, 0), (0, 0))
         return np.round(bbox, 3)
 
-    # @property
-    # def ports(self):
-    #     """Returns ports dict."""
-    #     return {port.name: port_to_kport(port) for port in self.ports.values()}
-    # return self.ports.get_all(self)
+    @property
+    def ports(self):
+        """Returns ports dict."""
+        return self._ports.get_all(self)
 
     @property
     def ports_layer(self) -> Dict[str, str]:
@@ -1097,8 +1096,8 @@ class Component(kf.KCell):
             layer=self.layer(*layer),
             port_type=port_type,
         )
-        kf.KCell.add_port(self, p)
-        return p
+        self.ports
+        return kf.KCell.add_port(self, p)
 
     def add_ports(
         self,

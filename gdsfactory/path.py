@@ -933,7 +933,8 @@ def extrude(
                 if center[0] != center_snap[0] or center[1] != center_snap[1]:
                     warnings.warn(f"Port center {center} has off-grid ports")
 
-            port1 = c.add_port(
+            print(port_orientation)
+            c.add_port(
                 port=Port(
                     name=port_names[0],
                     layer=get_layer(layers[0]),
@@ -947,7 +948,7 @@ def extrude(
                     shear_angle=shear_angle_start,
                 )
             )
-            port1.info["face"] = face
+            # c.ports[port_names[0]].orientation["face"] = face
         if port_names[1] is not None:
             port_width = width if np.isscalar(width) else width[-1]
             port_orientation = (p_sec.end_angle) % 360
@@ -960,7 +961,7 @@ def extrude(
 
                 if center[0] != center_snap[0] or center[1] != center_snap[1]:
                     warnings.warn(f"Port center {center} has off-grid ports")
-            port2 = c.add_port(
+            c.add_port(
                 port=Port(
                     name=port_names[1],
                     layer=get_layer(layers[1]),
@@ -974,7 +975,7 @@ def extrude(
                     shear_angle=shear_angle_end,
                 )
             )
-            port2.info["face"] = face
+            # port2.info["face"] = face
 
     c.info["length"] = float(np.round(p.length(), 3))
 
