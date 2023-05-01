@@ -7,7 +7,7 @@ import gdsfactory as gf
 from gdsfactory.containers import containers
 from gdsfactory.difftest import difftest
 
-component = gf.components.mzi2x2_2x2()
+component = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
 
 skip_test = {
     "pack_doe",

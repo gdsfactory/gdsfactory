@@ -4,7 +4,7 @@ wavelength = 2*period*neff
 period = wavelength/2/neff
 
 dbr default parameters are from Stephen Lin thesis
-https://open.klib.ubc.ca/cIRcle/collections/ubctheses/24/items/1.0388871
+https://open.library.ubc.ca/cIRcle/collections/ubctheses/24/items/1.0388871
 
 Period: 318nm, width: 500nm, dw: 20 ~ 120 nm.
 """

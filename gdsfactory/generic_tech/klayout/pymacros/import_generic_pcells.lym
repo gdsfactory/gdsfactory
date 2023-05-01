@@ -252,7 +252,7 @@ class PCellFactory(pya.PCellDeclarationHelper):
 
         return top
 
-generic_lib = fl.klib(
+generic_lib = fl.library(
     "GDSFactory generic PDK",
     pcells=[],
     cells=[],
