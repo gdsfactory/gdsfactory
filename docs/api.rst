@@ -73,7 +73,7 @@ Classes and functions for construction and manipulation of geometric objects.
 
 .. currentmodule:: gdsfactory.geometry
 
-.. rubric:: transitions
+.. rubric:: geometry
 
 .. autosummary::
    :toctree: _autosummary/

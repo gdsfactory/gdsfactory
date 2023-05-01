@@ -2,8 +2,6 @@
 Plugins API
 ####################
 
-.. currentmodule:: gdsfactory
-
 
 *********************
 Klayout DRC
@@ -74,7 +72,7 @@ Mode solver Plugins
 
 .. currentmodule:: gdsfactory.simulation.eme
 
-.. rubric:: EME
+.. rubric:: EME (Eigen Mode Expansion)
 
 .. autosummary::
    :toctree: _autosummary/

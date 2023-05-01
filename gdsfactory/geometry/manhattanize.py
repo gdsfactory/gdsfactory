@@ -18,6 +18,20 @@ def manhattanize_polygon(
 
     Returns:
         manhattanized polygon
+
+    .. plot::
+      :include-source:
+
+      import gdsfactory as gf
+      c = gf.Component()
+
+      poly = gdstk.rectangle((-2, -2), (2, 2))
+      poly.rotate(np.pi / 4)
+      poly.scale(1, 0.5)
+      init_poly = c.add_polygon(poly, layer=1)
+      final_poly = c.add_polygon(manhattanize_polygon(poly), layer=2)
+      c.plot_matplotlib()
+
     """
     p_manhattan = []
     points = list(p.points)
@@ -78,11 +92,8 @@ if __name__ == "__main__":
     poly = gdstk.rectangle((-2, -2), (2, 2))
     poly.rotate(np.pi / 4)
     poly.scale(1, 0.5)
-
     init_poly = c.add_polygon(poly, layer=1)
-
     final_poly = c.add_polygon(manhattanize_polygon(poly), layer=2)
-
     c.show()
 
     # test_manhattanize()
