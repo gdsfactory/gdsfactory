@@ -79,5 +79,12 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: joamatab/gdsfactory:latest,joamatab/gdsfactory:6.90.8
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/gdsfactory:latest,${{ secrets.DOCKERHUB_USERNAME }}/gdsfactory:6.90.8
           file: .devcontainer/Dockerfile.dev
+      - name: Build and push minimal
+        id: docker_build
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/gdsfactory_minimal:latest,${{ secrets.DOCKERHUB_USERNAME }}/gdsfactory_minimal:6.90.8
+          file: .devcontainer/Dockerfile.dev_minimal
