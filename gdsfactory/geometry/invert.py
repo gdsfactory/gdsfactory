@@ -30,6 +30,15 @@ def invert(
         D: A Component containing the inverted version of the input shape(s) and the
         corresponding border(s).
 
+    .. plot::
+      :include-source:
+
+      import gdsfactory as gf
+
+      e1 = gf.components.ellipse(radii=(6, 6))
+      c = invert(e1)
+      c.plot_matplotlib()
+
     """
     Temp = Component()
     if type(elements) is not list:

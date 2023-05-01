@@ -19,6 +19,20 @@ def fillet(
         radius: Fillet radius. You can also define a value for each vertex.
         tolerance: for calculating the polygonal approximation of the filleted corners.
 
+    .. plot::
+      :include-source:
+
+      import gdsfactory as gf
+
+      points = [(0, 0), (1.2, 0), (1.2, 0.3), (1, 0.3), (1.5, 1), (0, 1.5)]
+      o = gdstk.Polygon(points, datatype=1)
+
+      o = gf.components.mzi()
+      p = fillet(o, radius=0.3)
+      c = gf.Component("demo")
+      c.add_polygon(p)
+      c.plot_matplotlib()
+
     """
 
     if hasattr(operand, "get_polygons"):

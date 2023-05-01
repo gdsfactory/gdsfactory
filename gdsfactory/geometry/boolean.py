@@ -40,9 +40,21 @@ def boolean(
 
     Notes
     -----
-    'A+B' is equivalent to 'or'.
-    'A-B' is equivalent to 'not'.
-    'B-A' is equivalent to 'not' with the operands switched.
+    - 'A+B' is equivalent to 'or'.
+    - 'A-B' is equivalent to 'not'.
+    - 'B-A' is equivalent to 'not' with the operands switched.
+
+    .. plot::
+      :include-source:
+
+      import gdsfactory as gf
+
+      c1 = gf.c.array(gf.c.circle(radius=10), columns=n, rows=n)
+      c2 = gf.c.array(gf.c.circle(radius=9), columns=n, rows=n).ref()
+      c2.movex(5)
+
+      c = boolean(c1, c2, operation="xor")
+      c.plot_matplotlib()
 
     """
     D = Component()

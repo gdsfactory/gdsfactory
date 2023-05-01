@@ -40,7 +40,7 @@ def union(
 ) -> Component:
     """Returns new Component with inverted union of Component polygons.
 
-    based on phidl.geometry.invert
+    based on phidl.geometry.union
 
     Args:
         component: Component(/Reference), list of Component(/Reference), or Polygon

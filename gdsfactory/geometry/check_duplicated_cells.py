@@ -7,6 +7,8 @@ from typing import Union
 def check_duplicated_cells(gdspath: Union[Path, str]):
     """Reads cell and checks for duplicated cells.
 
+    klayout will fail to load the layout if it finds any duplicated cells.
+
     Args:
         gdspath: path to GDS or Component
 

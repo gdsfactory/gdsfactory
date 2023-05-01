@@ -85,7 +85,8 @@ parts:
 - caption: Reference
   chapters:
     - file: api
-    - file: routing
+    - file: api_routing
+    - file: api_plugins
     - file: components
     - file: contribution
     - file: CHANGELOG
