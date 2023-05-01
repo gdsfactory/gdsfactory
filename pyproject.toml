@@ -74,7 +74,7 @@ dependencies = [
     "rich-click",
     "ipycytoscape",
     ]
-    femwell = ["femwell<=0.0.18"]
+    femwell = ["femwell==0.0.18"]
     database = ["sqlalchemy", "sqlalchemy-utils", "dagster", "dagit"]
     gmsh = [
       "gmsh",
