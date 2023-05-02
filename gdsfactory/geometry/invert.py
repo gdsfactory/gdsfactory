@@ -36,7 +36,7 @@ def invert(
       import gdsfactory as gf
 
       e1 = gf.components.ellipse(radii=(6, 6))
-      c = invert(e1)
+      c = gf.geometry.invert(e1)
       c.plot_matplotlib()
 
     """
