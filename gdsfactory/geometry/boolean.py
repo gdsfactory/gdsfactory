@@ -49,8 +49,8 @@ def boolean(
 
       import gdsfactory as gf
 
-      c1 = gf.c.array(gf.c.circle(radius=10), columns=n, rows=n)
-      c2 = gf.c.array(gf.c.circle(radius=9), columns=n, rows=n).ref()
+      c1 = gf.components.circle(radius=10).ref()
+      c2 = gf.components.circle(radius=9).ref()
       c2.movex(5)
 
       c = boolean(c1, c2, operation="xor")

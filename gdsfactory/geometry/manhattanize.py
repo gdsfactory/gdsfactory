@@ -12,9 +12,9 @@ def manhattanize_polygon(
 
     Implemented in pure Python, and hence only suited to small polygons.
 
-    Arguments:
-        p: input polygon
-        target_step: target staircase step size
+    Args:
+        p: input polygon.
+        target_step: target staircase step size.
 
     Returns:
         manhattanized polygon
@@ -29,7 +29,8 @@ def manhattanize_polygon(
       poly.rotate(np.pi / 4)
       poly.scale(1, 0.5)
       init_poly = c.add_polygon(poly, layer=1)
-      final_poly = c.add_polygon(manhattanize_polygon(poly), layer=2)
+      final_poly = gf.geometry.manhattanize_polygon(poly)
+      c.add_polygon(final_poly, layer=2)
       c.plot_matplotlib()
 
     """

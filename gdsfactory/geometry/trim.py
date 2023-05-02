@@ -38,7 +38,7 @@ def trim(
 
       import gdsfactory as gf
       c = gf.components.straight_pin(length=10, taper=None)
-      trimmed_c = trim(component=c, domain=[[0, -5], [0, 5], [5, 5], [5, -5]])
+      trimmed_c = gf.geometry.trim(component=c, domain=[[0, -5], [0, 5], [5, 5], [5, -5]])
       trimmed_c.plot_matplotlib()
     """
     domain_shape = gdstk.Polygon(domain)
