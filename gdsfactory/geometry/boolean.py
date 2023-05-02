@@ -53,7 +53,7 @@ def boolean(
       c2 = gf.components.circle(radius=9).ref()
       c2.movex(5)
 
-      c = boolean(c1, c2, operation="xor")
+      c = gf.geometry.boolean(c1, c2, operation="xor")
       c.plot_matplotlib()
 
     """
