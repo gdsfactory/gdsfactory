@@ -16,7 +16,7 @@ from gdsfactory.read.import_gds import import_gds
 from gdsfactory.typings import PathType
 
 script_prefix = """
-from pathlib import PosixPath
+from pathlib import PosixPath, WindowsPath
 from functools import partial
 import gdsfactory as gf
 
