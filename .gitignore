@@ -1,6 +1,7 @@
 py[cod]
 
 add_type_hints.xonsh
+gdsfactory/plugins/dagster/tmp*
 # C extensions
 *.so
 conda/
