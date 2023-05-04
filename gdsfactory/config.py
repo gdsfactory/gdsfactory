@@ -21,6 +21,7 @@ import json
 import os
 import pathlib
 import subprocess
+import tempfile
 from pathlib import Path
 from pprint import pprint
 from typing import Any, Iterable, Optional, Union
@@ -49,6 +50,7 @@ yamlpath_default = module_path / "config.yml"
 yamlpath_home = home_path / "config.yml"
 
 MAX_NAME_LENGTH = 32
+GDSDIR_TEMP = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
 
 logger.remove()
 logger.add(sink=sys.stderr, level="WARNING")
@@ -168,8 +170,8 @@ class Paths:
     optimiser = repo_path / "tune"
     notebooks = repo_path / "docs" / "notebooks"
     gds_ref = gdslib / "gds"
-    gds_run = gdslib / "gds"
-    gds_diff = gdslib / "gds"
+    gds_run = GDSDIR_TEMP / "gds_run"
+    gds_diff = GDSDIR_TEMP / "gds_diff"
 
 
 def read_config(

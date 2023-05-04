@@ -150,9 +150,9 @@ def difftest(
         else f"{component.name}"
     )
     filename = f"{test_name}.gds"
-    ref_file = dirpath_ref / "gds_ref" / filename
-    run_file = dirpath_run / "gds_run" / filename
-    diff_file = dirpath_diff / "gds_diff" / filename
+    ref_file = dirpath_ref / filename
+    run_file = dirpath_run / filename
+    diff_file = dirpath_diff / filename
 
     component.write_gds(gdspath=run_file)
 
