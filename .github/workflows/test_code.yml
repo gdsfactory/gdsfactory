@@ -31,6 +31,7 @@ jobs:
           cache-dependency-path: pyproject.toml
       - name: Install dependencies
         env:
+          AWS_EC2_METADATA_DISABLED: true
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
@@ -98,6 +99,7 @@ jobs:
           TIDY3D_USER: ${{ secrets.TIDY3D_EMAIL }}
           TIDY3D_PASS: ${{ secrets.TIDY3D_PASSWORD }}
           SIMCLOUD_APIKEY: ${{ secrets.SIMCLOUD_APIKEY }}
+          AWS_EC2_METADATA_DISABLED: true
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
@@ -140,6 +142,7 @@ jobs:
           DISPLAY: 1.0
           DOCS: True
           GDSFACTORY_LAYOUT_PLOTTER: klayout
+          AWS_EC2_METADATA_DISABLED: true
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
