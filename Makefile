@@ -3,10 +3,10 @@ help:
 	@echo 'make test:             Run tests with pytest'
 	@echo 'make test-force:       Rebuilds regression test'
 
-full: data plugins
+full: plugins
 	pip install -e .[docs,dev,full,gmsh,tidy3d,devsim,meow,sax]
 
-all: data plugins install full
+all: plugins install full
 
 install:
 	pip install -e .[full,dev] pre-commit
