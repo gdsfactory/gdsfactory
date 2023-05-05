@@ -1,28 +1,21 @@
-name: addS3BucketAWS
-# Controls when the action will run.
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
   push:
-   branches: [ remove_gdslib ]
-# Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+    branches:
+      - remove_gdslib
 jobs:
-# This workflow contains a single job called "build"
   build:
-# The type of runner that the job will run on
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Dummy test
+      - uses: actions/checkout@v3
+      - name: Create Test Files
         run: |
           echo "Uploading to S3"
       - uses: keithweaver/aws-s3-github-action@v1.0.0
-      - name: Upload to S3
+        name: Copy Single File
         with:
           command: cp
           source: ./gdslib/
           destination: s3://gdslib/
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-east-1
+          aws_region: us-west-2
