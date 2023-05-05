@@ -32,8 +32,8 @@ jobs:
       - name: Install dependencies
         env:
           AWS_EC2_METADATA_DISABLED: true
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.GDSLIB_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.GDSLIB_AWS_SECRET_ACCESS_KEY }}
         run: |
           pip install -e .[full,dev] pre-commit
           make data-download
@@ -51,8 +51,8 @@ jobs:
           python-version: 3.7
       - name: Install dependencies
         env:
-          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_access_key_id: ${{ secrets.GDSLIB_AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.GDSLIB_AWS_SECRET_ACCESS_KEY }}
         run: |
           make install data-download
       - name: Test with pytest
@@ -100,8 +100,8 @@ jobs:
           TIDY3D_PASS: ${{ secrets.TIDY3D_PASSWORD }}
           SIMCLOUD_APIKEY: ${{ secrets.SIMCLOUD_APIKEY }}
           AWS_EC2_METADATA_DISABLED: true
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.GDSLIB_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.GDSLIB_AWS_SECRET_ACCESS_KEY }}
         run: |
           mkdir -p $HOME/.tidy3d
           echo ${{ secrets.TIDY3D_AUTH }} > $HOME/.tidy3d/config
@@ -143,8 +143,8 @@ jobs:
           DOCS: True
           GDSFACTORY_LAYOUT_PLOTTER: klayout
           AWS_EC2_METADATA_DISABLED: true
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.GDSLIB_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.GDSLIB_AWS_SECRET_ACCESS_KEY }}
         run: |
           make data-download
           mkdir -p $HOME/.tidy3d
