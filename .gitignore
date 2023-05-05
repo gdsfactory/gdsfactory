@@ -44,7 +44,7 @@ deprecated/
 pip-wheel-metadata/
 pdk_docs/
 build
-gdslib/
+# gdslib/
 eggs
 parts
 bin
