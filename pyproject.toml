@@ -69,13 +69,21 @@ dependencies = [
     "kweb>=0.0.11,<0.1",
     "jupytext",
     "klayout",
-    "kfactory",
+    "kfactory==0.6.3",
     "ipytree",
     "rich-click",
     "ipycytoscape",
     ]
     femwell = ["femwell==0.0.18"]
-    database = ["sqlalchemy", "sqlalchemy-utils", "dagster", "dagit"]
+    database = [
+    "sqlalchemy",
+    "sqlalchemy-utils",
+    "dagster",
+    "dagit",
+    "sqlmodel",
+    "boto3",
+    "pymysql",
+    ]
     gmsh = [
       "gmsh",
       "h5py",
@@ -120,11 +128,6 @@ dependencies = [
     ray = [
       "ray[tune,air]",
       "hyperopt"
-    ]
-    db = [
-      "pymysql",
-      "sqlmodel",
-      "boto3",
     ]
 
     [tool.setuptools.packages]

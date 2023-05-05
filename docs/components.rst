@@ -1517,7 +1517,7 @@ grating_coupler_loss_fiber_array
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_loss_fiber_array(pitch=127.0, input_port_indexes=[0, 1])
+  c = gf.components.grating_coupler_loss_fiber_array(pitch=127.0, input_port_indexes=[0, 1], port_name='o1', cross_section='strip')
   c.plot_matplotlib()
 
 
@@ -1802,7 +1802,7 @@ loss_deembedding_ch12_34
 
   import gdsfactory as gf
 
-  c = gf.components.loss_deembedding_ch12_34(pitch=127.0, input_port_indexes=[0, 2])
+  c = gf.components.loss_deembedding_ch12_34(pitch=127.0, input_port_indexes=[0, 2], port_name='o1', cross_section='strip')
   c.plot_matplotlib()
 
 
@@ -1817,7 +1817,7 @@ loss_deembedding_ch13_24
 
   import gdsfactory as gf
 
-  c = gf.components.loss_deembedding_ch13_24(pitch=127.0, input_port_indexes=[0, 1], cross_section='strip')
+  c = gf.components.loss_deembedding_ch13_24(pitch=127.0, input_port_indexes=[0, 1], cross_section='strip', port_name='o1')
   c.plot_matplotlib()
 
 
@@ -1832,7 +1832,7 @@ loss_deembedding_ch14_23
 
   import gdsfactory as gf
 
-  c = gf.components.loss_deembedding_ch14_23(pitch=127.0, input_port_indexes=[0, 1])
+  c = gf.components.loss_deembedding_ch14_23(pitch=127.0, input_port_indexes=[0, 1], cross_section='strip', port_name='o1')
   c.plot_matplotlib()
 
 
