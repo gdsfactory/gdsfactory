@@ -9,7 +9,6 @@ import hashlib
 import itertools
 import math
 import pathlib
-import tempfile
 import uuid
 import warnings
 from collections import Counter
@@ -33,7 +32,7 @@ from gdsfactory.component_layout import (
     get_polygons,
 )
 from gdsfactory.component_reference import ComponentReference, Coordinate, SizeInfo
-from gdsfactory.config import CONF, logger
+from gdsfactory.config import CONF, logger, GDSDIR_TEMP
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.port import (
     Port,
@@ -53,8 +52,6 @@ from gdsfactory.generic_tech import LAYER
 
 Plotter = Literal["holoviews", "matplotlib", "qt", "klayout"]
 Axis = Literal["x", "y"]
-
-GDSDIR_TEMP = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
 
 
 class UncachedComponentWarning(UserWarning):
@@ -113,8 +110,6 @@ Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
 LayerSpec = Union[str, int, Layer, None]
 
-tmp = pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
-tmp.mkdir(exist_ok=True, parents=True)
 _timestamp2019 = datetime.datetime.fromtimestamp(1572014192.8273)
 MAX_NAME_LENGTH = 32
 
@@ -1458,7 +1453,7 @@ class Component(_GeometryHelper):
 
             gdspath = self.write_gds(gdsdir=PATH.gdslib / "extra", logging=False)
 
-            dirpath = pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
+            dirpath = GDSDIR_TEMP
             dirpath.mkdir(exist_ok=True, parents=True)
             lyp_path = dirpath / "layers.lyp"
 

@@ -13,7 +13,6 @@ import pandas as pd
 from sqlmodel import SQLModel, Field, Session as _Session, create_engine
 
 import gdsfactory as gf
-import gdsfactory.simulation.gmeep as gm
 
 
 class Session(_Session):
@@ -56,10 +55,9 @@ def get_database_engine():
     password = os.getenv("PS_PASSWORD", "")
     ssl_ca = os.getenv("PS_SSL_CERT", "")
     connection_string = f"mysql+pymysql://{username}:{password}@{host}/{database}"
-    engine = create_engine(
+    return create_engine(
         connection_string, echo=True, connect_args={"ssl": {"ca": ssl_ca}}
     )
-    return engine
 
 
 @lru_cache(maxsize=None)
@@ -71,8 +69,7 @@ def get_component_hash(component: gf.Component) -> str:
     with tempfile.NamedTemporaryFile() as file:
         path = os.path.abspath(file.name)
         component.write_gds(path)
-        hash = hashlib.md5(file.read()).hexdigest()
-        return hash
+        return hashlib.md5(file.read()).hexdigest()
 
 
 def get_s3_key_from_hash(prefix: str, hash: str, ext: str = "gds") -> str:
@@ -85,7 +82,6 @@ def convert_to_db_format(sp: dict) -> pd.DataFrame:
     dfs = []
     for c in df.columns:
         port_in, port_out = (p.strip() for p in c.split(","))
-        df[c].values
         cdf = pd.DataFrame(
             {
                 "wavelength": wls,
@@ -101,6 +97,8 @@ def convert_to_db_format(sp: dict) -> pd.DataFrame:
 
 
 if __name__ == "__main__":
+    import gdsfactory.simulation.gmeep as gm
+
     component = gf.components.taper(length=100)
     component_yaml = component.to_yaml()
 
