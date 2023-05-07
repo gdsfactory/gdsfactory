@@ -9,8 +9,5 @@ logger.info('Starting HEATER DERIVATIONS')
 # ====================
 
 # straight_heater_metal
-#straight_heater_metal_con = m2.covering(via1).interacting(heater)
-#straight_heater_metal_res = heater.interacting(wg).not(straight_heater_metal_con)
-
-straight_heater_metal_con = m2.covering(via1).and(heater.covering(wg))
-straight_heater_metal_res = heater.interacting(wg).not(straight_heater_metal_con)
+straight_heater_metal_res = heater.interacting(wg).and(heater_mk)
+straight_heater_metal_con = heater.not(straight_heater_metal_res).interacting(m2.covering(via1))

@@ -116,7 +116,7 @@ class NResistor < RBA::DeviceClassResistor
   def initialize
     super
     enable_parameter('R', false)
-    enable_parameter('W', false)
-    enable_parameter('L', false)
+    enable_parameter('W', true)
+    enable_parameter('L', true)
   end
 end

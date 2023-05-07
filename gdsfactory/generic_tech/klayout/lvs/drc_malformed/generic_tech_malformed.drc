@@ -1,3 +1,87 @@
+#===========================================================================================================
+#------------------------------ GENERIC TECH DRC-malformed RULE DECK ---------------------------------------
+#===========================================================================================================
+require 'time'
+require 'logger'
+
+exec_start_time = Time.now
+
+logger = Logger.new($stdout)
+
+logger.formatter = proc do |_severity, datetime, _progname, msg|
+  "#{datetime}: Memory Usage (" + `pmap #{Process.pid} | tail -1`[10, 40].strip + ") : #{msg}
+"
+end
+
+#================================================
+#----------------- FILE SETUP -------------------
+#================================================
+logger.info("Starting running GENERIC TECH DRC-malformed Klayout DRC runset on #{$input}")
+logger.info("Ruby Version for klayout: #{RUBY_VERSION}")
+
+if $input
+  if $topcell
+    source($input, $topcell)
+  else
+    source($input)
+  end
+end
+
+table_name = $table_name || 'main'
+
+logger.info("table_name selected  #{table_name}")
+
+logger.info('Loading database to memory is complete.')
+
+if $report
+  logger.info("GENERIC TECH Klayout DRC-malformed runset output at: #{$report}")
+  report('DRC Run Report at', $report)
+else
+  layout_dir = Pathname.new(RBA::CellView.active.filename).parent.realpath
+  report_path = layout_dir.join('malformed_drc.lyrdb').to_s
+  logger.info("GENERIC TECH DRC-malformed runset output at default location: #{report_path}")
+  report('DRC Run Report at', report_path)
+end
+
+#================================================
+#------------------ SWITCHES --------------------
+#================================================
+logger.info('Evaluate switches.')
+
+if $thr
+  threads($thr)
+  logger.info("Number of threads to use  #{$thr}")
+else
+  threads(`"nproc"`)
+  logger.info("Number of threads to use #{`"nproc"`}")
+end
+
+#=== PRINT DETAILS ===
+if $verbose == 'true'
+  logger.info("Verbose mode: #{$verbose}")
+  verbose(true)
+else
+  verbose(false)
+  logger.info('Verbose mode: false')
+end
+
+# === TILING MODE ===
+case $run_mode
+when 'tiling'
+  tiles(500.um)
+  tile_borders(10.um)
+  logger.info('Tiling  mode is enabled.')
+
+when 'deep'
+  #=== HIER MODE ===
+  deep
+  logger.info('deep  mode is enabled.')
+else
+  #=== FLAT MODE ===
+  flat
+  logger.info('flat  mode is enabled.')
+end
+
 #================================================
 #------------- LAYERS DERIVATIONS ---------------
 #================================================
@@ -249,5 +333,37 @@ logger.info("Total no. of polygons in the design is #{polygons_count}")
 
 logger.info('Starting deriving base layers.')
 
-#=== BULK LAYER ===
-sub = polygon_layer
+#================================================
+#------------- LAYERS DERIVATIONS ---------------
+#================================================
+
+#================================================
+#------------- LAYERS CONNECTIONS ---------------
+#================================================
+
+#================================================
+#------------ PRE-DEFINED FUNCTIONS -------------
+#================================================
+
+# === LAYOUT EXTENT ===
+CHIP = extent.sized(0.0)
+logger.info("Total area of the design is #{CHIP.area} um^2.")
+
+#===============================================
+#----------------- DRC RUNSET ------------------
+#===============================================
+
+## Malformed straight_heater_metal
+logger.info('Executing Malformed straight_heater_metal device')
+
+malformed_straight_heater_metal = heater.and(wg).not_interacting(heater_mk)
+malformed_straight_heater_metal.output('straight_heater_metal', 
+                                       'straight_heater_metal: straight_heater_metal device should be covered by heater_mk (47/1) layer' )
+
+#============================================
+#----------------- DRC END ------------------
+#============================================
+
+exec_end_time = Time.now
+run_time = exec_end_time - exec_start_time
+logger.info("#{$table_name} DRC Total Run time #{run_time} seconds")
