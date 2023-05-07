@@ -10,4 +10,3 @@
     ┣ 📁layout                       Layout gds file for each device.
     ┣ 📁netlist                      Spice netlist file for each device.
  ```
- 

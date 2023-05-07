@@ -166,7 +166,7 @@ if $schematic
   logger.info("Netlist file: #{$schematic}")
 else
   exts = ["spice", "cdl"]
-  candidates = exts.map{|ext| "#{source.cell_name}.#{ext}"}  
+  candidates = exts.map{|ext| "#{source.cell_name}.#{ext}"}
   netlists = candidates.select{|f| File.exist?(f)}
   if netlists.empty?
     error("Netlist not found, tried: #{candidates}")

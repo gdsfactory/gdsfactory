@@ -241,12 +241,12 @@ def generate_klayout_switches(arguments, layout_path, netlist_path):
 
 def build_switches_string(sws: dict):
     """
-    build_switches_string Build swtiches string from dictionary.
+    build_switches_string Build switches string from dictionary.
 
     Parameters
     ----------
     sws : dict
-        Dictionary that holds the Antenna swithces.
+        Dictionary that holds the Antenna switches.
     """
     return " ".join(f"-rd {k}={v}" for k, v in sws.items())
 
@@ -288,7 +288,9 @@ def run_check(lvs_file: str, path: str, run_dir: str, sws: dict):
 
     """
 
-    logging.info(f'Running GENERIC TECH {lvs_file} checks on design {path} on cell {sws["topcell"]}')
+    logging.info(
+        f'Running GENERIC TECH {lvs_file} checks on design {path} on cell {sws["topcell"]}'
+    )
 
     layout_base_name = os.path.basename(path).split(".")[0]
     new_sws = sws.copy()
@@ -320,7 +322,7 @@ def main(lvs_run_dir: str, arguments: dict):
     ## Check Klayout version
     check_klayout_version()
 
-    ## Check layout file existance
+    ## Check layout file existence
     layout_path = arguments["--layout"]
     if not os.path.exists(arguments["--layout"]):
         logging.error(
@@ -331,7 +333,7 @@ def main(lvs_run_dir: str, arguments: dict):
     ## Check layout type
     layout_path = check_layout_type(layout_path)
 
-    # Check netlist file existance
+    # Check netlist file existence
     netlist_path = arguments["--netlist"]
     if not os.path.exists(arguments["--netlist"]):
         logging.error(
@@ -339,7 +341,9 @@ def main(lvs_run_dir: str, arguments: dict):
         )
         exit(1)
 
-    lvs_rule_deck = os.path.join(os.path.dirname(os.path.abspath(__file__)), "generic_tech.lvs")
+    lvs_rule_deck = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "generic_tech.lvs"
+    )
 
     ## Get run switches
     switches = generate_klayout_switches(arguments, layout_path, netlist_path)
@@ -352,7 +356,6 @@ def main(lvs_run_dir: str, arguments: dict):
 
 
 if __name__ == "__main__":
-
     # arguments
     arguments = docopt(__doc__, version="RUN LVS: 1.0")
 

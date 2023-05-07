@@ -203,18 +203,17 @@
  </d25>
  <connectivity>
   <connection>NP,VIAC,Metal1</connection>
-  <connection>PP,VIAC,Metal1</connection>  
+  <connection>PP,VIAC,Metal1</connection>
   <connection>Metal1,VIA1,Metal2</connection>
   <connection>Metal2,VIA2,Metal3</connection>
 
   <symbols>NP='22/0'</symbols>
   <symbols>PP='23/0'</symbols>
-  <symbols>VIAC='40/0'</symbols>  
+  <symbols>VIAC='40/0'</symbols>
   <symbols>Metal1='41/0'</symbols>
-  <symbols>VIA1='44/0'</symbols>  
+  <symbols>VIA1='44/0'</symbols>
   <symbols>Metal2='45/0'</symbols>
-  <symbols>VIA2='43/0'</symbols>  
+  <symbols>VIA2='43/0'</symbols>
   <symbols>Metal3='49/0'</symbols>
  </connectivity>
 </technology>
-

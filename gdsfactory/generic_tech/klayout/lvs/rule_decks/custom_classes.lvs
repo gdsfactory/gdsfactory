@@ -120,4 +120,3 @@ class NResistor < RBA::DeviceClassResistor
     enable_parameter('L', false)
   end
 end
-
