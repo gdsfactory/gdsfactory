@@ -281,7 +281,7 @@ def run_check(drc_file: str, drc_name: str, path: str, run_dir: str, sws: dict):
 
     ## Using print because of the multiprocessing
     logging.info(
-        "Running Global Foundries 180nm MCU {} checks on design {} on cell {}:".format(
+        "Running GENERIC TECH DRC-malformed {} checks on design {} on cell {}:".format(
             path, drc_name, sws["topcell"]
         )
     )

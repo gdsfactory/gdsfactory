@@ -88,3 +88,7 @@ The result is a database file (`<your_design_name>.lvsdb`) contains LVS extracti
 You could view it on your file using: `klayout <input_gds_file> -mn <resut_db_file> `, or you could view it on your gds file via netlist browser option in tools menu using klayout GUI.
 
 You could also find the extracted netlist generated from your design at (`<your_design_name>.cir`) in your run directory.
+
+## **DRC-malformed**
+
+You need to make sure that your design is passing [DRC-malformed](drc_malformed/README.md) runset, to be able to use LVS properly.
