@@ -1,0 +1,17 @@
+#================================================
+#------------ DEVICES CONNECTIVITY --------------
+#================================================
+
+logger.info('Starting HEATER LVS connectivity setup')
+
+#================================
+# ----- GENERAL CONNECTIONS -----
+#================================
+
+# %include general_connections.lvs
+
+#===============================
+# ----- HEATER CONNECTIONS -----
+#===============================
+
+# %include heater_connections.lvs

@@ -1,0 +1,26 @@
+#================================
+# ----- GENERAL CONNECTIONS -----
+#================================
+
+logger.info('Starting GENERIC TECH LVS connectivity setup (Inter-layer)')
+
+# Inter-layer
+connect(np, viac)
+connect(pp, viac)
+connect(viac, m1)
+connect(m1, via1)
+connect(via1, m2)
+connect(m2, via2)
+connect(via2, m3)
+
+# Attaching labels
+
+logger.info('Starting GENERIC TECH LVS connectivity setup (Global)')
+
+# Global
+connect_global(sub, substrate_name)
+
+logger.info('Starting GENERIC TECH LVS connectivity setup (Multifinger Devices)')
+
+# Multifinger Devices
+connect_implicit('*')
