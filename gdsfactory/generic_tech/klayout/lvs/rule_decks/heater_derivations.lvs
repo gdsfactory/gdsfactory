@@ -1,0 +1,16 @@
+#==============================
+# ---- HEATER DERIVATIONS -----
+#==============================
+
+logger.info('Starting HEATER DERIVATIONS')
+
+# ====================
+# --- HEATER METAL ---
+# ====================
+
+# straight_heater_metal
+#straight_heater_metal_con = m2.covering(via1).interacting(heater)
+#straight_heater_metal_res = heater.interacting(wg).not(straight_heater_metal_con)
+
+straight_heater_metal_con = m2.covering(via1).and(heater.covering(wg))
+straight_heater_metal_res = heater.interacting(wg).not(straight_heater_metal_con)
