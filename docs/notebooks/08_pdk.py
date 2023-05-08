@@ -16,7 +16,7 @@
 # %% [markdown]
 # # PDK
 #
-# gdsfactory includes a generic PDK, that you can use as an inspiration to create your own.
+# gdsfactory includes a generic Process Design Kit (PDK), that you can use as an inspiration to create your own.
 #
 # A process design kit (PDK) includes:
 #
