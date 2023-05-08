@@ -232,6 +232,6 @@ For example, VS Code supports development inside a container, see [Developing in
 
 Thanks to all the contributors that make this awesome project possible!
 
-[![Meet our contributors!](https://contrib.rocks/image?repo=gdsfactory/gdsfactory-miniconda)](https://github.com/gdsfactory/gdsfactory/graphs/contributors)
+[![Meet our contributors!](https://contrib.rocks/image?repo=gdsfactory/gdsfactory)](https://github.com/gdsfactory/gdsfactory/graphs/contributors)
 
 _Made with [contributors-img](https://contrib.rocks)._
