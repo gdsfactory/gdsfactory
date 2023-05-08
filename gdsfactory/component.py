@@ -1393,6 +1393,7 @@ class Component(_GeometryHelper):
         self,
         show_ports: bool = True,
         port_marker_layer: Layer = (1, 10),
+        show_labels: bool = False,
     ) -> None:
         """Returns klayout image.
 
@@ -1401,6 +1402,7 @@ class Component(_GeometryHelper):
         Args:
             show_ports: shows component with port markers and labels.
             port_marker_layer: for the ports.
+            show_labels: shows labels.
         """
 
         component = (
@@ -1426,6 +1428,8 @@ class Component(_GeometryHelper):
             layout_view.load_layout(str(gdspath.absolute()))
             layout_view.max_hier()
             layout_view.load_layer_props(str(lyp_path))
+
+            layout_view.set_config("text-visible", "true" if show_labels else "false")
 
             pixel_buffer = layout_view.get_pixels_with_options(800, 600)
             png_data = pixel_buffer.to_png_data()
