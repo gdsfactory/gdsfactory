@@ -51,6 +51,8 @@ jobs:
           echo $CONDA/bin >> $GITHUB_PATH
       - name: constructor build
         run: |
+          conda info
+          conda install constructor -y
           cd conda
           constructor .
       - name: Release
