@@ -1,5 +1,51 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.92.0
+
+- show labels in klayout [PR](https://github.com/gdsfactory/gdsfactory/pull/1622)
+
+## 6.91.0
+
+- replace with database s3 bucket [PR](https://github.com/gdsfactory/gdsfactory/pull/1617)
+
+## 6.89.7
+
+- gdslib replacement with database s3 bucket [PR](https://github.com/gdsfactory/gdsfactory/pull/1594)
+- add `zmin_tolerance` [PR](https://github.com/gdsfactory/gdsfactory/pull/1596)
+
+## 6.89.4
+
+- fix `grating_coupler_loss` structures [PR](https://github.com/gdsfactory/gdsfactory/pull/1589)
+
+## 6.89.1
+
+- improve manhattanization [PR](https://github.com/gdsfactory/gdsfactory/pull/1582)
+
+## 6.89.0
+
+- add manhattan [PR](https://github.com/gdsfactory/gdsfactory/pull/1579)
+- fixes `rib_with_trenches` [PR](https://github.com/gdsfactory/gdsfactory/pull/1581)
+
+## 6.88.1
+
+- remove triangle dependency for M1 compatibility [PR](https://github.com/gdsfactory/gdsfactory/pull/1567)
+
+## 6.88.0
+
+- better greek cross [PR](https://github.com/gdsfactory/gdsfactory/pull/1561) [PR](https://github.com/gdsfactory/gdsfactory/pull/1560)
+
+## 6.86.0
+
+- add optional parameter cladding simplify [PR](https://github.com/gdsfactory/gdsfactory/pull/1558)
+
+## 6.85.0
+
+- add section inset [PR](https://github.com/gdsfactory/gdsfactory/pull/1555)
+
+## 6.84.0
+
+- better_cutback component [PR](https://github.com/gdsfactory/gdsfactory/pull/1554)
+
 ## 6.83.0
 
 - extrude transitions [PR](https://github.com/gdsfactory/gdsfactory/pull/1548)

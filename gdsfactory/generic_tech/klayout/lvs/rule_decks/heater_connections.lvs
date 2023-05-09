@@ -1,0 +1,7 @@
+#==============================
+# ---- HEATER CONNECTIONS -----
+#==============================
+
+logger.info('Starting LVS HEATER CONNECTIONS')
+
+connect(straight_heater_metal_con, via1)

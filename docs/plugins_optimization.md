@@ -1,4 +1,4 @@
-# Plugins: Optimization
+# Optimization
 
 ```{tableofcontents}
 ```

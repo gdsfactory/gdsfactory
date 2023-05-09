@@ -96,6 +96,7 @@ settings:
           bbox_offsets: null
           cladding_layers: null
           cladding_offsets: null
+          cladding_simplify: null
           decorator: null
           end_straight_length: 0.01
           gap: 3.0
@@ -159,6 +160,7 @@ settings:
         bbox_offsets: null
         cladding_layers: null
         cladding_offsets: null
+        cladding_simplify: null
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
@@ -254,6 +256,7 @@ settings:
       bbox_offsets: null
       cladding_layers: null
       cladding_offsets: null
+      cladding_simplify: null
       decorator: null
       end_straight_length: 0.01
       gap: 3.0

@@ -37,6 +37,23 @@ def offset(
     Returns:
         Component containing a polygon(s) with the specified offset applied.
 
+    .. plot::
+      :include-source:
+
+      import gdsfactory as gf
+      c = gf.Component()
+      layer_slab = (2, 0)
+      c1 = gf.components.coupler_ring(
+          cladding_layers=[layer_slab], cladding_offsets=[0.5]
+      )
+      d = 0.8
+      c2 = gf.geometry.offset(c1, distance=+d, layer=layer_slab)
+      c3 = gf.geometry.offset(c2, distance=-d, layer=layer_slab)
+
+      c << c1.extract(layers=("WG",))
+      c << c3
+      c.plot_matplotlib()
+
     """
     if not isinstance(elements, list):
         elements = [elements]

@@ -1,8 +1,11 @@
 py[cod]
 
 add_type_hints.xonsh
+gdsfactory/generic_tech/klayout/klayoutrc
+gdsfactory/plugins/dagster/tmp*
 # C extensions
 *.so
+conda/
 *.properties
 *.sqlite3
 *.hdf5
@@ -15,6 +18,8 @@ add_type_hints.xonsh
 *.db
 *.tar
 *.html
+yarn.lock
+node_modules/
 test_mask_metadata.csv
 test_mask_metadata.yml
 gdsfactory/simulation/spins/grating_full_opt/

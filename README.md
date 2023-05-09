@@ -1,4 +1,4 @@
-# gdsfactory 6.83.0
+# gdsfactory 6.92.1
 
 [![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)](https://gdsfactory.github.io/gdsfactory/)
 [![PyPI](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -19,9 +19,9 @@
 
 ![logo](https://i.imgur.com/v4wpHpg.png)
 
-gdsfactory is a python library to design chips (Photonics, Analog, Quantum, MEMs, ...). It's like Linux for chip design.
+gdsfactory is a python library to design chips (Photonics, Analog, Quantum, MEMs, ...), 3D objects for 3D printing or PCBs. It's like Android or Linux for hardware design.
 
-You can describe your circuits in code (python or YAML), verify them (DRC, simulation, extraction) and validate them (to make sure they meet the specifications after fabrication).
+You can describe your hardware in code (python or YAML), verify them (DRC, simulation, extraction) and validate them (to make sure they meet the specifications after fabrication).
 
 ![workflow](https://i.imgur.com/abvxJJw.png)
 
@@ -56,25 +56,42 @@ It provides you a common syntax for design (KLayout, gdstk, Ansys Lumerical, tid
 
 ![tool interfaces](https://i.imgur.com/9fNLRvJ.png)
 
-Multiple foundries have gdsfactory PDKs available. Talk to your foundry to access their gdsfactory PDK.
+Multiple foundries have gdsfactory PDKs available. Talk to your foundry to access their gdsfactory PDK as some are only provided under NDA:
+
+- AIM photonics PDK
+- AMF photonics PDK
+- TowerSemi PH18 photonics PDK
+- GlobalFoundries 45SPCLO Photonics PDK
+- IMEC photonics PDK
+- [GlobalFoundries 180nm MCU CMOS PDK](https://gdsfactory.github.io/gf180/) (open source)
+- [SiEPIC Ebeam UBC PDK](https://gdsfactory.github.io/ubc) (open source)
+- [Skywater130 CMOS PDK](https://gdsfactory.github.io/skywater130) (open source)
 
 You can also access:
 
 - instructions on [how to build your own PDK](https://gdsfactory.github.io/gdsfactory/notebooks/08_pdk.html)
 - instructions on [how to import a PDK from a library of fixed GDS cells](https://gdsfactory.github.io/gdsfactory/notebooks/09_pdk_import.html)
-- open source PDKs available on GitHub
-  - [UBCPDK](https://gdsfactory.github.io/ubc/README.html)
-  - [skywater130](https://gdsfactory.github.io/skywater130/README.html)
 
 ## Installation
 
-You have 3 options to install gdsfactory:
+You have 2 options to install gdsfactory:
 
-### 1. Installation for new python users
+### 1. Installation for new users
 
 If you don't have python installed on your system you can [download the gdsfactory installer](https://github.com/gdsfactory/gdsfactory/releases) that includes python3, miniconda and all gdsfactory plugins.
 
-### 2. Installation for new gdsfactory users
+
+You can also install python with mamba package manager (faster than conda):
+
+| OS      | Architecture          | Download  |
+| --------|-----------------------|-----------|
+| Linux   | x86_64 (amd64)        | [Mambaforge-Linux-x86_64](https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh) |
+| Linux   | aarch64 (arm64)       | [Mambaforge-Linux-aarch64](https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-aarch64.sh) |
+| Linux   | ppc64le (POWER8/9)    | [Mambaforge-Linux-ppc64le](https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-ppc64le.sh) |
+| OS X    | x86_64                | [Mambaforge-MacOSX-x86_64](https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-MacOSX-x86_64.sh) |
+| OS X    | arm64 (Apple Silicon) | [Mambaforge-MacOSX-arm64](https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-MacOSX-arm64.sh) |
+| Windows | x86_64                | [Mambaforge-Windows-x86_64](https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Windows-x86_64.exe) |
+
 
 Once you have python installed, open Anaconda Prompt and then install the latest gdsfactory using pip.
 
@@ -87,7 +104,7 @@ gf install klayout-integration
 
 Then you need to restart Klayout to make sure you activate the klayout gdsfactory integration.
 
-### 3. Installation for developers
+### 2. Installation for developers
 
 For developers you need to fork the GitHub repository, git clone it (download it), git add, git commit, git push your improvement. Then pull request your changes to the main branch from the GitHub website.
 For that you can install gdsfactory locally on your computer in `-e` edit mode.
@@ -103,38 +120,37 @@ gf install klayout-integration
 ### Update gdsfactory
 
 - Users can `pip install gdsfactory --upgrade`
-- Developers can `git pull` on the repository you downloaded and installed on your computer.
+- Developers can `git pull` the GitHub repository you downloaded and installed on your computer.
+
+Some PDKs may require a specific versions of gdsfactory, so make sure you install the correct gdsfactory version specified in the `pyproject.toml` file. This will automatically happen when you install gdsfactory as one of the PDK dependencies. For example `pip install gf180` will install the latest gdsfactory version that has been tested for the GlobalFoundries180 PDK.
 
 
-This code will tell you which gdsfactory you are using
+This code will tell you which gdsfactory you are using:
+
 ```
 import gdsfactory as gf
 
 gf.config.print_version()
 ```
 
+### Plugins
 
-### Install gdsfactory plugins
+You need to install the plugins separately.
 
-You need to install the plugins separately
-
-You can install most plugins with
+You can install most plugins with:
 
 ```
-pip install gdsfactory[full,gmsh,tidy3d,devsim,meow,database] --upgrade
+pip install "gdsfactory[full,gmsh,tidy3d,devsim,meow,database]" --upgrade
 ```
 
 Or you can install only the ones you need.
 
-- `pip install gdsfactory[full]` for 3D rendering.
-- `pip install gdsfactory[tidy3d]` tidy3d plugin for FDTD simulations on the cloud.
-- `pip install gdsfactory[gmsh]` for mesh plugins.
-- `pip install gdsfactory[devsim]` for TCAD simulations.
-- `pip install gdsfactory[meow]` for EME (Eigen Mode Expansion) simulations.
+- `pip install "gdsfactory[full]"` for 3D rendering.
+- `pip install "gdsfactory[tidy3d]"` tidy3d plugin for FDTD simulations on the cloud.
+- `pip install "gdsfactory[gmsh]"` for mesh plugins.
+- `pip install "gdsfactory[devsim]"` for TCAD simulations.
+- `pip install "gdsfactory[meow]"` for EME (Eigen Mode Expansion) simulations.
 - `mamba install pymeep=*=mpi_mpich_* -y` for open source FDTD MEEP simulations. Notice that it works for MacOS and Linux, so for Windows you need to use the [WSL (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install).
-
-
-### Plugins
 
 * [Optimization](https://gdsfactory.github.io/gdsfactory/plugins_optimization.html)
   - [Ray Tune Generic Black-Box Optimiser](https://gdsfactory.github.io/gdsfactory/notebooks/ray/optimiser.html)
@@ -145,12 +161,12 @@ Or you can install only the ones you need.
   - [Analytical Process Simulation](https://gdsfactory.github.io/gdsfactory/notebooks/tcad/02_analytical_process.html)
   - [Montecarlo Implant Simulation](https://gdsfactory.github.io/gdsfactory/notebooks/tcad/03_numerical_implantation.html)
 * [Mode Solvers & Eigenmode Expansion (EME)](https://gdsfactory.github.io/gdsfactory/plugins_mode_solver.html)
-  * Finite Element Mode Solvers
+  - Finite Element Mode Solvers
     - [Femwell](https://gdsfactory.github.io/gdsfactory/notebooks/fem/01_mode_solving.html)
-  * Finite Difference Mode Solvers
+  - Finite Difference Mode Solvers
     - [tidy3d](https://gdsfactory.github.io/gdsfactory/notebooks/tidy3d/01_tidy3d_modes.html)
     - [MPB](https://gdsfactory.github.io/gdsfactory/notebooks/mpb/001_mpb_waveguide.html)
-  * Eigenmode Expansion (EME)
+  - Eigenmode Expansion (EME)
     - [MEOW](https://gdsfactory.github.io/gdsfactory/notebooks/eme/01_meow.html)
 * [Electromagnetic Wave Solvers using Finite Difference Time Domain (FDTD)](https://gdsfactory.github.io/gdsfactory/plugins_fdtd.html)
   - [tidy3d](https://gdsfactory.github.io/gdsfactory/notebooks/tidy3d/00_tidy3d.html)
@@ -163,7 +179,7 @@ Or you can install only the ones you need.
 
 ### Docker container
 
-Alternatively, one may use the pre-built Docker image from [hub.docker.com/r/joamatab/gdsfactory](https://hub.docker.com/r/joamatab/gdsfactory) or build it yourself with
+Alternatively, one may use the pre-built Docker image from [hub.docker.com/r/joamatab/gdsfactory](https://hub.docker.com/r/joamatab/gdsfactory) or build it yourself with:
 
 ```bash
 docker build -t joamatab/gdsfactory .
@@ -185,69 +201,35 @@ For example, VS Code supports development inside a container, see [Developing in
 
 "I've used **gdsfactory** since 2017 for all my chip tapeouts. I love that it is fast, easy to use, and easy to extend. It's the only tool that allows us to have an end-to-end chip design flow (design, verification and validation)."
 
-<div style="text-align: right; margin-right: 10%;">Joaquin Matres - <strong>Google</strong>
+<div style="text-align: right; margin-right: 10%;">Joaquin Matres - <strong>Google</strong></div>
 
 ---
 
 "I've relied on **gdsfactory** for several tapeouts over the years. It's the only tool I've found that gives me the flexibility and scalability I need for a variety of projects."
 
-<div style="text-align: right; margin-right: 10%;">Alec Hammond - <strong>Meta Reality Labs Research</strong>
+<div style="text-align: right; margin-right: 10%;">Alec Hammond - <strong>Meta Reality Labs Research</strong></div>
 
 ---
 
 "The best photonics layout tool I've used so far and it is leaps and bounds ahead of any commercial alternatives out there. Feels like gdsfactory is freeing photonics."
 
-<div style="text-align: right; margin-right: 10%;">Hasitha Jayatilleka - <strong>LightIC Technologies</strong>
+<div style="text-align: right; margin-right: 10%;">Hasitha Jayatilleka - <strong>LightIC Technologies</strong></div>
 
 ---
 
 "As an academic working on large scale silicon photonics at CMOS foundries I've used gdsfactory to go from nothing to full-reticle layouts rapidly (in a few days). I particularly appreciate the full-system approach to photonics, with my layout being connected to circuit simulators which are then connected to device simulators. Moving from legacy tools such as gdspy and phidl to gdsfactory has sped up my workflow at least an order of magnitude."
 
-<div style="text-align: right; margin-right: 10%;">Alex Sludds - <strong>MIT</strong>
+<div style="text-align: right; margin-right: 10%;">Alex Sludds - <strong>MIT</strong></div>
 
 ---
 
 "I use gdsfactory for all of my photonic tape-outs. The Python interface makes it easy to version control individual photonic components as well as entire layouts, while integrating seamlessly with KLayout and most standard photonic simulation tools, both open-source and commercial.
 
-<div style="text-align: right; margin-right: 10%;">Thomas Dorch - <strong>Freedom Photonics</strong>
+<div style="text-align: right; margin-right: 10%;">Thomas Dorch - <strong>Freedom Photonics</strong></div>
 
-## Acks
 
-Contributors (in chronological order):
+## Contributors
 
-- Joaquin Matres (Google): write some documentation pages, help porting from gdspy to gdstk.
-- Damien Bonneau (PsiQuantum): cell decorator, Component routing functions, Klayout placer.
-- Pete Shadbolt (PsiQuantum): Klayout auto-placer, Klayout GDS interface (klive).
-- Troy Tamas (Rockley): yaml-based pics, routers (from steps and all-angle)
-- Floris Laporte (Rockley): netlist extraction and circuit simulation interface with SAX.
-- Alec Hammond (Meta Reality Labs Research): Meep and MPB interface.
-- Simon Bilodeau (Princeton): Meep FDTD write Sparameters, TCAD device simulator.
-- Thomas Dorch (Freedom Photonics): Meep's material database access, MPB sidewall angles, and add_pin_path.
-- Jan-David Fischbach (Black semiconductor): improvements in pack_doe.
-- Igal Bayn (Quantum Transistors): documentation improvements and suggestions.
-- Alex Sludds (MIT): tiling fixes, ring_single_pn, ring_double_pn, straight_heater_meander_doped.
-- Momchil Minkov (Flexcompute): improve tidy3d plugin.
-- Skandan Chandrasekar (BYU): simphony, SiPANN plugins, A-star router.
-- Helge Gehring (Google): simulation plugins (FEM heat solver), improving code quality and new components (spiral paths).
-- Tim Ansell (Google): documentation improvements.
-- Ardavan Oskoii (Google): Meep plugin documentation improvements.
-- Marc de Cea (MIT): ge_detector, grating_coupler_dual, mmi_90degree_hybrid, coherent transceiver, receiver.
-- Bradley Snyder (Ygrec Photonics, PHIX): grating_coupler snap to grid fixes.
-- Jonathan Cauchon (Ciena): measurement database.
-- Raphaël Dubé-Demers (EHVA, EXFO): measurement database.
-- Bohan Zhang (Boston University): grating coupler improvements.
-- Niko Savola (IQM): optimization, notebook and code improvements.
-- Sky Chilstedt (Rockley): improvements to API and docs.
-- Lawrence (University of Bristol): for fixing rename ports by orientation.
-- Edward Deacon (University of Bristol): for coupler_straight_asymmetric.
-- Lucas Heitzmann (Flexcompute): for tidy3d simulation plugin and MZI filter example.
+Thanks to all the contributors that make this awesome project possible!
 
-Open source heroes:
-
-- Matthias Köfferlein: Klayout
-- Lucas Heitzmann (Flexcompute): for gdstk
-- Adam McCaughan (NIST): phidl. Inspiration for geometry manipulation.
-- Alex Tait (Queens University): lytest inspiration for gdsfactory testing GDS framework.
-- Thomas Ferreira de Lima (NEC): `pip install klayout` python API.
-- Juan Sanchez: DEVSIM for TCAD simulations.
-- Christophe Geuzaine (University of Liège) and Jean-François Remacle (Université catholique de Louvain) for Gmsh.
+[![Meet our contributors!](https://contrib.rocks/image?repo=gdsfactory/gdsfactory)](https://github.com/gdsfactory/gdsfactory/graphs/contributors)

@@ -7,49 +7,49 @@ build-backend = "flit_core.buildapi"
 name = "gdsfactory"
 description = "python library to generate GDS layouts"
 classifiers = [
-	"Programming Language :: Python :: 3.7",
-	"Programming Language :: Python :: 3.8",
-	"Programming Language :: Python :: 3.9",
-	"Programming Language :: Python :: 3.10",
-	"Programming Language :: Python :: 3.11",
-	"Operating System :: OS Independent",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Operating System :: OS Independent",
 ]
-version = "6.83.0"
+version = "6.92.1"
 authors = [
-    {name = "gdsfactory community", email = "contact@gdsfactory.com"},
+{name = "gdsfactory community", email = "contact@gdsfactory.com"},
 ]
 keywords = ["eda", "photonics", "python"]
 license = {file = "LICENSE"}
 dependencies = [
-    "click",
-    "flatdict",
-    "gdstk",
-    "jinja2",
-    "loguru",
-    "matplotlib",
-    "numpy",
-    "omegaconf",
-    "orjson",
-    "pandas",
-    "pydantic",
-    "pyyaml",
-    "qrcode",
-    "rectpack",
-    "scipy",
-    "shapely",
-    "toolz",
-    "tqdm",
-    "types-PyYAML",
-    "typing_extensions",
-    "watchdog",
-    "rich",
-]
-readme = "README.md"
-requires-python = ">=3.7"
+  "click",
+  "flatdict",
+  "gdstk",
+  "jinja2",
+  "loguru",
+  "matplotlib",
+  "numpy",
+  "omegaconf",
+  "orjson",
+  "pandas",
+  "pydantic",
+  "pyyaml",
+  "qrcode",
+  "rectpack",
+  "scipy",
+  "shapely",
+  "toolz",
+  "tqdm",
+  "types-PyYAML",
+  "typing_extensions",
+  "watchdog",
+  "rich",
+  ]
+  readme = "README.md"
+  requires-python = ">=3.7"
 
 
-[project.optional-dependencies]
-full = [
+  [project.optional-dependencies]
+  full = [
     "autograd",
     "bokeh",
     "freetype-py",
@@ -65,177 +65,185 @@ full = [
     "scikit-fem",
     "scikit-image",
     "scikit-learn",
-    "triangle",
     "trimesh",
     "kweb>=0.0.11,<0.1",
     "jupytext",
     "klayout",
     "kfactory",
-	"ipytree",
+    "ipytree",
     "rich-click",
     "ipycytoscape",
     ]
-femwell = ["femwell"]
-database = ["sqlalchemy", "sqlalchemy-utils"]
-gmsh = [
-    "gmsh",
-    "h5py",
-    "mapbox_earcut",
-    "meshio",
-    "pygmsh",
-    "pyvista",
-    "trimesh",
-    "shapely",
+    femwell = ["femwell==0.0.18"]
+    database = [
+    "sqlalchemy",
+    "sqlalchemy-utils",
+    "dagster",
+    "dagit",
+    "sqlmodel",
+    "boto3",
+    "pymysql",
     ]
-tidy3d = ["tidy3d==2.0.3"]
-devsim = [
-    "devsim",
-    "mkl",
-    "pyvista",
-    "tidy3d",
+    gmsh = [
+      "gmsh",
+      "h5py",
+      "mapbox_earcut",
+      "meshio",
+      "pygmsh",
+      "pyvista",
+      "trimesh",
+      "shapely",
     ]
-meow = ["meow-sim"]
-sax = ["sax==0.8.6", "jaxlib", "jax"]
-dev = [
-    "autotyping",
-    "black>=21",
-    "doc8",
-    "ipykernel",
-    "jsondiff",
-    "mypy",
-    "pre-commit",
-    "pylsp-mypy",
-    "pytest",
-    "pytest-cov",
-    "pytest_regressions",
-    "types-PyYAML",
-    "types-cachetools",
-    "xdoctest",
+    tidy3d = ["tidy3d==2.0.3"]
+    devsim = [
+      "devsim",
+      "mkl",
+      "pyvista",
+      "tidy3d",
     ]
-docs = [
-    "autodoc_pydantic",
-    "jupytext",
-    "jupyter-book==0.15.1",
-    "pydata_sphinx_theme==0.13.1",
+    meow = ["meow-sim"]
+    sax = ["sax>=0.8.6", "jaxlib", "jax"]
+    dev = [
+      "autotyping",
+      "black>=21",
+      "doc8",
+      "ipykernel",
+      "jsondiff",
+      "mypy",
+      "pre-commit",
+      "pylsp-mypy",
+      "pytest",
+      "pytest-cov",
+      "pytest_regressions",
+      "types-PyYAML",
+      "types-cachetools",
+      "xdoctest",
     ]
-ray = [
-    "ray[tune,air]",
-    "hyperopt"
+    docs = [
+      "autodoc_pydantic",
+      "jupytext",
+      "jupyter-book==0.15.1",
+      "pydata_sphinx_theme==0.13.1",
+    ]
+    ray = [
+      "ray[tune,air]",
+      "hyperopt"
     ]
 
-[tool.setuptools.packages]
-find = {}
+    [tool.setuptools.packages]
+    find = {}
 
-[project.scripts]
-gf = "gdsfactory.cli:cli"
+    [project.scripts]
+    gf = "gdsfactory.cli:cli"
 
-[tool.black]
-line-length = 88
-target-version = ['py310']
-include = '\.pyi?$'
-exclude = '''  # Specify the files/dirs that should be ignored by the black formatter
-/(
-    \.eggs
-  | \.git
-  | \.hg
-  | \.mypy_cache
-  | \.tox
-  | \.venv
-  | env
-  | _build
-  | buck-out
-  | build
-  | dist
-)/
-'''
+    [tool.black]
+    line-length = 88
+    target-version = ['py310']
+    include = '\.pyi?$'
+    exclude = '''  # Specify the files/dirs that should be ignored by the black formatter
+    /(
+        \.eggs
+        | \.git
+        | \.hg
+        | \.mypy_cache
+        | \.tox
+        | \.venv
+        | env
+        | _build
+        | buck-out
+        | build
+        | dist
+     )/
+    '''
 
-[tool.pytest.ini_options]
-testpaths = ["gdsfactory/", "tests"]
+    [tool.pytest.ini_options]
+    testpaths = ["gdsfactory/", "tests"]
 # addopts = --tb=no
-addopts = '--tb=short --ignore=gdsfactory/schematic_editor.py --ignore=gdsfactory/klayout_tech.py --ignore=gdsfactory/geometry/maskprep_flat.py --ignore=gdsfactory/fill_klayout.py'
-python_files = ["gdsfactory/*.py","tests/*.py"]
-norecursedirs = [
-    "gdsfactory/simulation",
-    "gdsfactory/geometry",
-    "extra/*.py",
-    "gdsfactory/watch.py",
-    "gdsfactory/schematic_editor.py",
-    "gdsfactory/database",
-    "gdsfactory/generic_tech/klayout",
-    "gdsfactory/simulation/simphony",
-    "gdsfactory/tests/test_klayout",
+    addopts = '--tb=short --ignore=gdsfactory/schematic_editor.py --ignore=gdsfactory/klayout_tech.py --ignore=gdsfactory/geometry/maskprep_flat.py --ignore=gdsfactory/fill_klayout.py'
+    python_files = ["gdsfactory/*.py","tests/*.py"]
+    norecursedirs = [
+      "gdsfactory/plugins",
+      "gdsfactory/simulation",
+      "gdsfactory/geometry",
+      "extra/*.py",
+      "gdsfactory/watch.py",
+      "gdsfactory/schematic_editor.py",
+      "gdsfactory/database",
+      "gdsfactory/generic_tech/klayout",
+      "gdsfactory/simulation/simphony",
+      "gdsfactory/tests/test_klayout",
     ]
 
-[tool.flake8]
-max-line-length = 88
-max-complexity = 57
-select = ["B","C","E","F","W","T4","B9"]
-ignore = [ "E501", "E503", "E722", "W503", "W503", "E203", "B950", "B305", "B018", "B902", "B020", "B905"]
-extend-ignore = "RST303"
+    [tool.flake8]
+    max-line-length = 88
+    max-complexity = 57
+    select = ["B","C","E","F","W","T4","B9"]
+    ignore = [ "E501", "E503", "E722", "W503", "W503", "E203", "B950", "B305", "B018", "B902", "B020", "B905"]
+    extend-ignore = "RST303"
 
-exclude = [
-    ".git",
-    "__pycache__",
-    "lib",
-    "docs/source/conf.py",
-    "build",
-    "dist",
-    ".ipynb_checkpoints",
-    ".tox",
-    "extra",
-    "deprecated",
-    "gdslib",
-    ".mypy_cache",
-    "venv",
-    "devsim"
+    exclude = [
+      ".git",
+      "__pycache__",
+      "lib",
+      "docs/source/conf.py",
+      "build",
+      "dist",
+      ".ipynb_checkpoints",
+      ".tox",
+      "extra",
+      "deprecated",
+      "gdslib",
+      ".mypy_cache",
+      "venv",
+      "devsim"
     ]
 
-[tool.commitizen]
-name = "cz_conventional_commits"
-version = "0.1.0"
-version_files = [
-    "pyproject.toml:version",
-]
+    [tool.commitizen]
+    name = "cz_conventional_commits"
+    version = "0.1.0"
+    version_files = [
+      "pyproject.toml:version",
+    ]
 
-[tool.ruff]
-select = [
-    "E",  # pycodestyle errors
-    "W",  # pycodestyle warnings
-    "F",  # pyflakes
-    # "I",  # isort
-    "C",  # flake8-comprehensions
-    "B",  # flake8-bugbear
-]
-ignore = [
-    "E501",  # line too long, handled by black
-    "B008",  # do not perform function calls in argument defaults
-    "C901",  # too complex
-    "B905",  # `zip()` without an explicit `strict=` parameter
-    "C408",  # C408 Unnecessary `dict` call (rewrite as a literal)
-    "B904",
-]
-extend-exclude = ["docs/notebooks"]
+    [tool.ruff]
+    select = [
+      "E",  # pycodestyle errors
+      "W",  # pycodestyle warnings
+      "F",  # pyflakes
+# "I",  # isort
+      "C",  # flake8-comprehensions
+      "B",  # flake8-bugbear
+    ]
+    ignore = [
+      "E501",  # line too long, handled by black
+      "B008",  # do not perform function calls in argument defaults
+      "C901",  # too complex
+      "B905",  # `zip()` without an explicit `strict=` parameter
+      "C408",  # C408 Unnecessary `dict` call (rewrite as a literal)
+      "B904",
+    ]
+    extend-exclude = ["docs/notebooks"]
 
-[tool.mypy]
-python_version = "3.10"
-strict = true
+    [tool.mypy]
+    python_version = "3.10"
+    strict = true
 
-[tool.pylsp-mypy]
-enabled = true
-live_mode = true
-strict = true
+    [tool.pylsp-mypy]
+    enabled = true
+    live_mode = true
+    strict = true
 
-[tool.isort]
-multi_line_output = 3
-line_length = 88
-include_trailing_comma = true
-skip = "gdsfactory/__init__.py"
+    [tool.isort]
+    multi_line_output = 3
+    line_length = 88
+    include_trailing_comma = true
+    skip = "gdsfactory/__init__.py"
 
-[tool.setuptools.package-data]
-mypkg = ["*.gds", "*.lym", "*.lyp", "*.lyt", "*.csv", "*.yaml", "*.md", "LICENSE"]
+    [tool.setuptools.package-data]
+    mypkg = ["*.gds", "*.lym", "*.lyp", "*.lyt", "*.csv", "*.yaml", "*.md", "LICENSE"]
 
-[tool.pydocstyle]
-inherit = false
-match = "(?!test).*\\.py"
-add-ignore = ["D100","D101","D102","D103","D104","D203","D405","D417"]
-convention = "google"
+    [tool.pydocstyle]
+    inherit = false
+    match = "(?!test).*\\.py"
+    add-ignore = ["D100","D101","D102","D103","D104","D203","D405","D417"]
+    convention = "google"

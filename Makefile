@@ -3,10 +3,10 @@ help:
 	@echo 'make test:             Run tests with pytest'
 	@echo 'make test-force:       Rebuilds regression test'
 
-full: gdslib plugins
+full: plugins
 	pip install -e .[docs,dev,full,gmsh,tidy3d,devsim,meow,sax]
 
-all: gdslib plugins install full
+all: plugins install full
 
 install:
 	pip install -e .[full,dev] pre-commit
@@ -35,8 +35,7 @@ major:
 plugins:
 	conda install -c conda-forge pymeep=*=mpi_mpich_* nlopt -y
 	conda install -c conda-forge slepc4py=*=complex* -y
-	pip install jax jaxlib numpy femwell --upgrade
-	pip install -e .[tidy3d,ray,sax,devsim,meow,database]
+	pip install -e .[tidy3d,ray,sax,devsim,meow,database,femwell]
 
 plugins-conda:
 	conda install -c conda-forge pymeep=*=mpi_mpich_* nlopt -y
@@ -75,26 +74,30 @@ update-pre:
 gds:
 	python gdsfactory/components/straight.py
 
-gdslib-clean:
-	rm -rf $(HOME)/.gdsfactory
-	rm -rf gdslib
+data-upload:
+	aws s3 sync data s3://gdslib
+	# gh release upload v6.90.3 data/gds/*.gds --clobber
+	# gh release upload v6.90.3 data/sp/*.npz --clobber
+	# gh release upload v6.90.3 data/sp/*.yml --clobber
+	# gh release upload v6.90.3 data/modes/*.msh --clobber
+	# gh release upload v6.90.3 data/modes/*.npz --clobber
 
-gdslib:
-	git clone https://github.com/gdsfactory/gdslib.git -b main gdslib
-	rm -rf $(HOME)/.gdsfactory
-	ln -sf gdslib $(HOME)/.gdsfactory
-
-gdslib-link:
-	ln -sf gdslib $(HOME)/.gdsfactory
+data-download:
+	aws s3 sync s3://gdslib data
+	# gh release download v6.90.3 -D data/gds/*.gds --clobber
+	# gh release download v6.90.3 data/sp/*.npz --clobber
+	# gh release download v6.90.3 data/sp/*.yml --clobber
+	# gh release download v6.90.3 data/modes/*.msh --clobber
+	# gh release download v6.90.3 data/modes/*.npz --clobber
 
 test:
 	pytest -s
 
 test-force:
-	echo 'Regenerating component metadata for regression test. Make sure there are not any unwanted regressions because this will overwrite them'
-	rm -rf gdslib/gds/gds_ref
-	rm -rf gdsfactory/samples/pdk/test_fab_c.gds
-	pytest --force-regen
+	pytest --force-regen -s
+
+test-watch:
+	ptw
 
 test-meep:
 	pytest gdsfactory/simulation/gmeep

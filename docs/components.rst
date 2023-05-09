@@ -1,11 +1,11 @@
 
 
-Here are some generic Parametric cell functions.
+Here are some generic Parametric cells.
 
 You can customize them your fab or use them as an inspiration to build your own.
 
 
-Generic cell functions
+Parametric cells
 =============================
 
 
@@ -1008,7 +1008,7 @@ cutback_component
 
   import gdsfactory as gf
 
-  c = gf.components.cutback_component(cols=4, rows=5, port1='o1', port2='o2', mirror=False, cross_section='strip')
+  c = gf.components.cutback_component(cols=4, rows=5, port1='o1', port2='o2', mirror=False, mirror1=False, mirror2=False, cross_section='strip')
   c.plot_matplotlib()
 
 
@@ -1023,7 +1023,7 @@ cutback_component_mirror
 
   import gdsfactory as gf
 
-  c = gf.components.cutback_component_mirror(cols=4, rows=5, port1='o1', port2='o2', mirror=True, cross_section='strip')
+  c = gf.components.cutback_component_mirror(cols=4, rows=5, port1='o1', port2='o2', mirror=True, mirror1=False, mirror2=False, cross_section='strip')
   c.plot_matplotlib()
 
 
@@ -1233,7 +1233,7 @@ edge_coupler_array
 
   import gdsfactory as gf
 
-  c = gf.components.edge_coupler_array(n=5, pitch=127.0, x_reflection=False, text_offset=[10, 20])
+  c = gf.components.edge_coupler_array(n=5, pitch=127.0, x_reflection=False, text_offset=[10, 20], text_rotation=0)
   c.plot_matplotlib()
 
 
@@ -1248,7 +1248,7 @@ edge_coupler_array_with_loopback
 
   import gdsfactory as gf
 
-  c = gf.components.edge_coupler_array_with_loopback(cross_section='strip', radius=30, n=8, pitch=127.0, extension_length=1.0, right_loopback=True, x_reflection=False, text_offset=[0, 0])
+  c = gf.components.edge_coupler_array_with_loopback(cross_section='strip', radius=30, n=8, pitch=127.0, extension_length=1.0, right_loopback=True, x_reflection=False, text_offset=[0, 0], text_rotation=0)
   c.plot_matplotlib()
 
 
@@ -1367,7 +1367,7 @@ ge_detector_straight_si_contacts
 
   import gdsfactory as gf
 
-  c = gf.components.ge_detector_straight_si_contacts(length=80.0, via_stack_width=10.0, via_stack_spacing=5.0)
+  c = gf.components.ge_detector_straight_si_contacts(length=80.0, via_stack_width=10.0, via_stack_spacing=5.0, via_stack_offset=0.0)
   c.plot_matplotlib()
 
 
@@ -1517,7 +1517,7 @@ grating_coupler_loss_fiber_array
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_loss_fiber_array(pitch=127.0, input_port_indexes=[0, 1])
+  c = gf.components.grating_coupler_loss_fiber_array(pitch=127.0, input_port_indexes=[0, 1], port_name='o1', cross_section='strip')
   c.plot_matplotlib()
 
 
@@ -1652,7 +1652,37 @@ greek_cross
 
   import gdsfactory as gf
 
-  c = gf.components.greek_cross(cross_struct_length=30.0, cross_struct_width=1.0, cross_struct_layers=['WG'], cross_implant_length=30.0, cross_implant_width=2.0, cross_implant_layers=['N'], contact_layers=['WG', 'NPP'], contact_offset=10, contact_buffer=10, pad_width=50)
+  c = gf.components.greek_cross(length=30, layers=['WG', 'N'], widths=[2.0, 3.0])
+  c.plot_matplotlib()
+
+
+
+greek_cross_offset_pads
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.greek_cross_offset_pads
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.greek_cross_offset_pads(cross_struct_length=30.0, cross_struct_width=1.0, cross_struct_layers=['WG'], cross_implant_length=30.0, cross_implant_width=2.0, cross_implant_layers=['N'], contact_layers=['WG', 'NPP'], contact_offset=10, contact_buffer=10, pad_width=50)
+  c.plot_matplotlib()
+
+
+
+greek_cross_with_pads
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.greek_cross_with_pads
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.greek_cross_with_pads(pad_spacing=150.0)
   c.plot_matplotlib()
 
 
@@ -1772,7 +1802,7 @@ loss_deembedding_ch12_34
 
   import gdsfactory as gf
 
-  c = gf.components.loss_deembedding_ch12_34(pitch=127.0, input_port_indexes=[0, 2])
+  c = gf.components.loss_deembedding_ch12_34(pitch=127.0, input_port_indexes=[0, 2], port_name='o1', cross_section='strip')
   c.plot_matplotlib()
 
 
@@ -1787,7 +1817,7 @@ loss_deembedding_ch13_24
 
   import gdsfactory as gf
 
-  c = gf.components.loss_deembedding_ch13_24(pitch=127.0, input_port_indexes=[0, 1], cross_section='strip')
+  c = gf.components.loss_deembedding_ch13_24(pitch=127.0, input_port_indexes=[0, 1], cross_section='strip', port_name='o1')
   c.plot_matplotlib()
 
 
@@ -1802,7 +1832,7 @@ loss_deembedding_ch14_23
 
   import gdsfactory as gf
 
-  c = gf.components.loss_deembedding_ch14_23(pitch=127.0, input_port_indexes=[0, 1])
+  c = gf.components.loss_deembedding_ch14_23(pitch=127.0, input_port_indexes=[0, 1], cross_section='strip', port_name='o1')
   c.plot_matplotlib()
 
 
@@ -1922,7 +1952,7 @@ mode_converter
 
   import gdsfactory as gf
 
-  c = gf.components.mode_converter(gap=0.3, length=10, mm_width=1.0, sm_width=0.5, cross_section='strip')
+  c = gf.components.mode_converter(gap=0.3, length=10, mm_width=1.2, mc_mm_width=1, sm_width=0.5, taper_length=25, cross_section='strip')
   c.plot_matplotlib()
 
 
@@ -1937,7 +1967,7 @@ mzi
 
   import gdsfactory as gf
 
-  c = gf.components.mzi(delta_length=10.0, length_y=2.0, length_x=0.1, splitter='mmi1x2', with_splitter=True, port_e1_splitter='o2', port_e0_splitter='o3', port_e1_combiner='o2', port_e0_combiner='o3', nbends=2, cross_section='strip', mirror_bot=False)
+  c = gf.components.mzi(delta_length=10.0, length_y=2.0, length_x=0.1, splitter='mmi1x2', with_splitter=True, port_e1_splitter='o2', port_e0_splitter='o3', port_e1_combiner='o2', port_e0_combiner='o3', nbends=2, cross_section='strip', mirror_bot=False, add_optical_ports_arms=False)
   c.plot_matplotlib()
 
 
@@ -1952,7 +1982,7 @@ mzi1x2_2x2
 
   import gdsfactory as gf
 
-  c = gf.components.mzi1x2_2x2(delta_length=10.0, length_y=2.0, length_x=0.1, splitter='mmi1x2', with_splitter=True, port_e1_splitter='o2', port_e0_splitter='o3', port_e1_combiner='o3', port_e0_combiner='o4', nbends=2, cross_section='strip', mirror_bot=False)
+  c = gf.components.mzi1x2_2x2(delta_length=10.0, length_y=2.0, length_x=0.1, splitter='mmi1x2', with_splitter=True, port_e1_splitter='o2', port_e0_splitter='o3', port_e1_combiner='o3', port_e0_combiner='o4', nbends=2, cross_section='strip', mirror_bot=False, add_optical_ports_arms=False)
   c.plot_matplotlib()
 
 
@@ -1967,7 +1997,7 @@ mzi2x2_2x2
 
   import gdsfactory as gf
 
-  c = gf.components.mzi2x2_2x2(delta_length=10.0, length_y=2.0, length_x=0.1, with_splitter=True, port_e1_splitter='o3', port_e0_splitter='o4', port_e1_combiner='o3', port_e0_combiner='o4', nbends=2, cross_section='strip', mirror_bot=False)
+  c = gf.components.mzi2x2_2x2(delta_length=10.0, length_y=2.0, length_x=0.1, with_splitter=True, port_e1_splitter='o3', port_e0_splitter='o4', port_e1_combiner='o3', port_e0_combiner='o4', nbends=2, cross_section='strip', mirror_bot=False, add_optical_ports_arms=False)
   c.plot_matplotlib()
 
 
@@ -2012,7 +2042,7 @@ mzi_coupler
 
   import gdsfactory as gf
 
-  c = gf.components.mzi_coupler(delta_length=10.0, length_y=2.0, length_x=0.1, with_splitter=True, port_e1_splitter='o3', port_e0_splitter='o4', port_e1_combiner='o3', port_e0_combiner='o4', nbends=2, cross_section='strip', mirror_bot=False)
+  c = gf.components.mzi_coupler(delta_length=10.0, length_y=2.0, length_x=0.1, with_splitter=True, port_e1_splitter='o3', port_e0_splitter='o4', port_e1_combiner='o3', port_e0_combiner='o4', nbends=2, cross_section='strip', mirror_bot=False, add_optical_ports_arms=False)
   c.plot_matplotlib()
 
 
@@ -2072,7 +2102,7 @@ mzi_phase_shifter
 
   import gdsfactory as gf
 
-  c = gf.components.mzi_phase_shifter(delta_length=10.0, length_y=2.0, length_x=200, straight_x_top='straight_heater_metal', splitter='mmi1x2', with_splitter=True, port_e1_splitter='o2', port_e0_splitter='o3', port_e1_combiner='o2', port_e0_combiner='o3', nbends=2, cross_section='strip', mirror_bot=False)
+  c = gf.components.mzi_phase_shifter(delta_length=10.0, length_y=2.0, length_x=200, straight_x_top='straight_heater_metal', splitter='mmi1x2', with_splitter=True, port_e1_splitter='o2', port_e0_splitter='o3', port_e1_combiner='o2', port_e0_combiner='o3', nbends=2, cross_section='strip', mirror_bot=False, add_optical_ports_arms=False)
   c.plot_matplotlib()
 
 
@@ -2087,7 +2117,7 @@ mzi_phase_shifter_top_heater_metal
 
   import gdsfactory as gf
 
-  c = gf.components.mzi_phase_shifter_top_heater_metal(delta_length=10.0, length_y=2.0, length_x=200, splitter='mmi1x2', with_splitter=True, port_e1_splitter='o2', port_e0_splitter='o3', port_e1_combiner='o2', port_e0_combiner='o3', nbends=2, cross_section='strip', mirror_bot=False)
+  c = gf.components.mzi_phase_shifter_top_heater_metal(delta_length=10.0, length_y=2.0, length_x=200, splitter='mmi1x2', with_splitter=True, port_e1_splitter='o2', port_e0_splitter='o3', port_e1_combiner='o2', port_e0_combiner='o3', nbends=2, cross_section='strip', mirror_bot=False, add_optical_ports_arms=False)
   c.plot_matplotlib()
 
 
@@ -2392,6 +2422,21 @@ pixel
 
 
 
+polarization_splitter_rotator
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.polarization_splitter_rotator
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.polarization_splitter_rotator(width_taper_in=[0.54, 0.69, 0.83], length_taper_in=[4.0, 44.0], width_coupler=[0.9, 0.405], length_coupler=7.0, gap=0.15, width_out=0.54, length_out=14.33, dy=5.0, cross_section='strip')
+  c.plot_matplotlib()
+
+
+
 qrcode
 ----------------------------------------------------
 
@@ -2612,7 +2657,7 @@ ring_section_based
 
   import gdsfactory as gf
 
-  c = gf.components.ring_section_based(gap=0.3, radius=5.0, add_drop=False, cross_sections_sequence='AB', start_angle=10.0, bus_cross_section='strip')
+  c = gf.components.ring_section_based(gap=0.3, radius=5.0, add_drop=False, cross_sections_sequence='AB', start_angle=10.0, bus_cross_section='strip', ang_res=0.1)
   c.plot_matplotlib()
 
 
@@ -2777,7 +2822,7 @@ spiral_external_io
 
   import gdsfactory as gf
 
-  c = gf.components.spiral_external_io(N=6, x_inner_length_cutback=300.0, x_inner_offset=0.0, y_straight_inner_top=0.0, xspacing=3.0, yspacing=3.0, cross_section='strip', with_inner_ports=False)
+  c = gf.components.spiral_external_io(N=6, x_inner_length_cutback=300.0, x_inner_offset=0.0, y_straight_inner_top=0.0, xspacing=3.0, yspacing=3.0, cross_section='strip', with_inner_ports=False, y_straight_outer_offset=0.0, inner_loop_spacing_offset=0.0)
   c.plot_matplotlib()
 
 
@@ -3783,6 +3828,21 @@ wire_corner
   import gdsfactory as gf
 
   c = gf.components.wire_corner(cross_section='metal_routing')
+  c.plot_matplotlib()
+
+
+
+wire_corner45
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.wire_corner45
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.wire_corner45(cross_section='metal_routing', radius=10)
   c.plot_matplotlib()
 
 

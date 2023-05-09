@@ -139,7 +139,8 @@ def write_sparameters_meep(
     decay_by: float = 1e-3,
     is_3d: bool = False,
     z: float = 0,
-    plot_args: Dict = None,
+    plot_args: Optional[Dict] = None,
+    only_return_filepath_sim_settings=False,
     **settings,
 ) -> Dict:
     r"""Returns Sparameters and writes them to npz filepath.
@@ -308,6 +309,11 @@ def write_sparameters_meep(
     sim_settings["component"] = component.to_dict()
     filepath = pathlib.Path(filepath)
     filepath_sim_settings = filepath.with_suffix(".yml")
+
+    # FIXME: Ideally, we should split sim settings generation from doing the
+    #        simulation... this is a hack.
+    if only_return_filepath_sim_settings:
+        return filepath_sim_settings
 
     # filepath_sim_settings.write_text(OmegaConf.to_yaml(sim_settings))
     # logger.info(f"Write simulation settings to {filepath_sim_settings!r}")

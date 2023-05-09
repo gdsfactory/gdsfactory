@@ -9,7 +9,6 @@ import hashlib
 import itertools
 import math
 import pathlib
-import tempfile
 import uuid
 import warnings
 from collections import Counter
@@ -33,7 +32,7 @@ from gdsfactory.component_layout import (
     get_polygons,
 )
 from gdsfactory.component_reference import ComponentReference, Coordinate, SizeInfo
-from gdsfactory.config import CONF, logger
+from gdsfactory.config import CONF, logger, GDSDIR_TEMP
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.port import (
     Port,
@@ -111,8 +110,6 @@ Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
 LayerSpec = Union[str, int, Layer, None]
 
-tmp = pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
-tmp.mkdir(exist_ok=True, parents=True)
 _timestamp2019 = datetime.datetime.fromtimestamp(1572014192.8273)
 MAX_NAME_LENGTH = 32
 
@@ -1396,6 +1393,7 @@ class Component(_GeometryHelper):
         self,
         show_ports: bool = True,
         port_marker_layer: Layer = (1, 10),
+        show_labels: bool = False,
     ) -> None:
         """Returns klayout image.
 
@@ -1404,6 +1402,7 @@ class Component(_GeometryHelper):
         Args:
             show_ports: shows component with port markers and labels.
             port_marker_layer: for the ports.
+            show_labels: shows labels.
         """
 
         component = (
@@ -1429,6 +1428,8 @@ class Component(_GeometryHelper):
             layout_view.load_layout(str(gdspath.absolute()))
             layout_view.max_hier()
             layout_view.load_layer_props(str(lyp_path))
+
+            layout_view.set_config("text-visible", "true" if show_labels else "false")
 
             pixel_buffer = layout_view.get_pixels_with_options(800, 600)
             png_data = pixel_buffer.to_png_data()
@@ -1456,14 +1457,14 @@ class Component(_GeometryHelper):
 
             gdspath = self.write_gds(gdsdir=PATH.gdslib / "extra", logging=False)
 
-            dirpath = pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
+            dirpath = GDSDIR_TEMP
             dirpath.mkdir(exist_ok=True, parents=True)
             lyp_path = dirpath / "layers.lyp"
 
             layer_props = get_layer_views()
             layer_props.to_lyp(filepath=lyp_path)
 
-            src = f"http://127.0.0.1:8000/gds?gds_file={escape(str(gdspath))}&layer_props={escape(str(lyp_path))}"
+            src = f"http://127.0.0.1:{kj.port}/gds?gds_file={escape(str(gdspath))}&layer_props={escape(str(lyp_path))}"
             logger.debug(src)
 
             if kj.jupyter_server and not os.environ.get("DOCS", False):
@@ -1759,9 +1760,7 @@ class Component(_GeometryHelper):
         else:
             top_cell = self
 
-        gdsdir = (
-            gdsdir or pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
-        )
+        gdsdir = gdsdir or GDSDIR_TEMP
         gdsdir = pathlib.Path(gdsdir)
         if with_oasis:
             gdspath = gdspath or gdsdir / f"{top_cell.name}.oas"
@@ -2293,19 +2292,21 @@ class Component(_GeometryHelper):
             pad_width=pad_width,
         )
 
-    def to_stl(
+    def write_stl(
         self,
         filepath: str,
         layer_stack: Optional[LayerStack] = None,
         exclude_layers: Optional[Tuple[Layer, ...]] = None,
     ) -> np.ndarray:
-        """Exports a Component into STL.
+        """Write a Component to STL for 3D printing.
 
         Args:
-            component: to export.
             filepath: to write STL to.
             layer_stack: contains thickness and zmin for each layer.
             exclude_layers: layers to exclude.
+            use_layer_name: If True, uses LayerLevel names in output filenames rather than gds_layer and gds_datatype.
+            hull_invalid_polygons: If True, replaces invalid polygons (determined by shapely.Polygon.is_valid) with its convex hull.
+            scale: Optional factor by which to scale meshes before writing.
 
         """
         from gdsfactory.export.to_stl import to_stl
@@ -2815,7 +2816,7 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     # c2 = gf.Component()
-    c = gf.components.mzi(delta_length=20)
+    c = gf.components.mzi()
     print(c.get_layer_names())
     # r = c.ref()
     # c2.copy_child_info(c.named_references["sxt"])
@@ -2827,4 +2828,4 @@ if __name__ == "__main__":
     # gdspath = c.write_gds()
     # gf.show(gdspath)
     # c.show(show_ports=True)
-    c.plot_klayout()
+    c.show()

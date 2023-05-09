@@ -1,4 +1,4 @@
-# Layout Tutorial
+# Layout
 
 You can open the tutorial python files with [jupytext](https://jupytext.readthedocs.io/en/latest/).
 Jupytext is a python package to open and edit jupyter notebooks as python or markdown files.

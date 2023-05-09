@@ -1,0 +1,16 @@
+************************************************************************
+* SPICE Netlist
+************************************************************************
+.PARAM
+************************************************************************
+
+.SUBCKT straight_heater_metal R1_t1 R1_t2
++ R2_t1 R2_t2
++ R3_t1 R3_t2
++ R4_t1 R4_t2
+
+R1 R1_t1 R1_t2 straight_heater_metal W=10u L=50u
+R2 R2_t1 R2_t2 straight_heater_metal W=10u L=100u
+R3 R3_t1 R3_t2 straight_heater_metal W=5u L=100u
+R4 R4_t1 R4_t2 straight_heater_metal W=10u L=50u
+.ENDS
