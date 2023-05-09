@@ -44,6 +44,8 @@ jobs:
           channels: conda-forge,defaults
           channel-priority: true
           activate-environment: anaconda-client-env
+          mamba-version: "*"
+          # environment-file: conda/construct_env.yaml
       - name: Add conda to system path
         run: |
           echo $CONDA/bin >> $GITHUB_PATH
