@@ -53,8 +53,8 @@ def find_modes_waveguide(
           |     <---------->
           |      ___________   _ _ _
           |     |           |       |
-        sz|_____|  core_material    |_______|
-          |                         | core_thickness
+        sz|_____|           |_______|
+          |     core_material       | core_thickness
           |slab_thickness    nslab  |
           |_________________________|
           |
@@ -74,8 +74,8 @@ def find_modes_waveguide(
           |     <---------->     gaps[0]    <---------->
           |      ___________ <-------------> ___________      _
           |     |           |               |           |     |
-        sz|_____|  core_material    |_______________|           |_____|
-          |                                                   | core_thickness
+        sz|_____|           |_______________|           |_____|
+          |    core_material                                  | core_thickness
           |slab_thickness        nslab                        |
           |___________________________________________________|
           |

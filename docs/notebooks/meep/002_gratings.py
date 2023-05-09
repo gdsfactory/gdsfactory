@@ -34,7 +34,7 @@
 #                    clad_material            | top_clad_thickness
 #                                _ _ _| _ _ _ _ _ _  _
 #                 _|-|_|-|_|-|___     |              _| etch_depth
-#                  core_material        |     |core_thickness
+#                core_material        |     |core_thickness
 #                 ______________|_ _ _|_ _ _ _ _ _ _ _
 #                                     |
 #                  nbox               |box_thickness

@@ -72,7 +72,7 @@
 #           |      ___________   _ _ _
 #           |     |           |       |
 #         sz|     |           |       |
-#           |     |  core_material    |       | core_thickness
+#           |     |  core_material    | core_thickness
 #           |     |           |       |
 #           |     |___________|  _ _ _|
 #           |
@@ -418,8 +418,8 @@ plt.xlabel("simulation size in y (um)")
 #           |     <---------->     gaps[0]    <---------->
 #           |      ___________ <-------------> ___________      _
 #           |     |           |               |           |     |
-#         sz|_____|  core_material    |_______________|           |_____|
-#           |                                                   | core_thickness
+#         sz|_____|           |_______________|           |_____|
+#           |    core_material                                  | core_thickness
 #           |slab_thickness        nslab                        |
 #           |___________________________________________________|
 #           |
