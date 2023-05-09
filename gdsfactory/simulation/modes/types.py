@@ -434,10 +434,10 @@ class Waveguide(BaseModel):
 
     Args:
         wg_width: um
-        wg_thickness: um
+        core_thickness: um
         slab_thickness: um
-        ncore: core refractive index.
-        nclad: cladding refractive index.
+        core_material: core refractive index.
+        clad_material: cladding refractive index.
         sy: float
         sz: float
         resolution: int
@@ -447,10 +447,10 @@ class Waveguide(BaseModel):
     """
 
     wg_width: float = 0.45
-    wg_thickness: float = 0.22
+    core_thickness: float = 0.22
     slab_thickness: float = 0
-    ncore: float = 3.47
-    nclad: float = 1.44
+    core_material: float = 3.47
+    clad_material: float = 1.44
     sy: float = 2.0
     sz: float = 2.0
     resolution: int = 32

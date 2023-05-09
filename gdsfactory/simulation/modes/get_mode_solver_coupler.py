@@ -23,10 +23,10 @@ def get_mode_solver_coupler(
     gap: float = 0.2,
     wg_widths: Optional[Floats] = None,
     gaps: Optional[Floats] = None,
-    wg_thickness: float = 0.22,
+    core_thickness: float = 0.22,
     slab_thickness: float = 0.0,
-    ncore: float = 3.47,
-    nclad: float = 1.44,
+    core_material: float = 3.47,
+    clad_material: float = 1.44,
     nslab: Optional[float] = None,
     ymargin: float = 2.0,
     sz: float = 2.0,
@@ -41,11 +41,11 @@ def get_mode_solver_coupler(
         gap: for the case of only two waveguides.
         wg_widths: list or tuple of waveguide widths.
         gaps: list or tuple of waveguide gaps.
-        wg_thickness: wg thickness (um).
+        core_thickness: wg thickness (um).
         slab_thickness: thickness for the waveguide slab.
-        ncore: core material refractive index.
-        nclad: clad material refractive index.
-        nslab: Optional slab material refractive index. Defaults to ncore.
+        core_material: core material refractive index.
+        clad_material: clad material refractive index.
+        nslab: Optional slab material refractive index. Defaults to core_material.
         ymargin: margin in y.
         sz: simulation region thickness (um).
         resolution: resolution (pixels/um).
@@ -63,13 +63,13 @@ def get_mode_solver_coupler(
           |     <---------->     gaps[0]    <---------->
           |      ___________ <-------------> ___________      _
           |     |           |               |           |     |
-        sz|_____|  ncore    |_______________|           |_____|
-          |                                                   | wg_thickness
+        sz|_____|  core_material    |_______________|           |_____|
+          |                                                   | core_thickness
           |slab_thickness        nslab                        |
           |___________________________________________________|
           |
           |<--->                                         <--->
-          |ymargin               nclad                   ymargin
+          |ymargin               clad_material                   ymargin
           |____________________________________________________
           <--------------------------------------------------->
                                    sy
@@ -77,9 +77,9 @@ def get_mode_solver_coupler(
     """
     wg_widths = wg_widths or (wg_width, wg_width)
     gaps = gaps or (gap,)
-    material_core = mp.Medium(index=ncore)
-    material_clad = mp.Medium(index=nclad)
-    material_slab = mp.Medium(index=nslab or ncore)
+    material_core = mp.Medium(index=core_material)
+    material_clad = mp.Medium(index=clad_material)
+    material_slab = mp.Medium(index=nslab or core_material)
 
     # Define the computational cell.  We'll make x the propagation direction.
     # the other cell sizes should be big enough so that the boundaries are
@@ -103,10 +103,10 @@ def get_mode_solver_coupler(
                         mp.Vector3(x=1, y=y + wg_width, z=slab_thickness),
                         mp.Vector3(x=1, y=y, z=slab_thickness),
                     ],
-                    height=wg_thickness - slab_thickness,
+                    height=core_thickness - slab_thickness,
                     center=mp.Vector3(
                         y=y + wg_width / 2,
-                        z=slab_thickness + (wg_thickness - slab_thickness) / 2,
+                        z=slab_thickness + (core_thickness - slab_thickness) / 2,
                     ),
                     # If only 1 angle is specified, use it for all waveguides
                     sidewall_angle=np.deg2rad(sidewall_angles)
@@ -118,9 +118,9 @@ def get_mode_solver_coupler(
         else:
             geometry.append(
                 mp.Block(
-                    size=mp.Vector3(mp.inf, wg_width, wg_thickness),
+                    size=mp.Vector3(mp.inf, wg_width, core_thickness),
                     material=material_core,
-                    center=mp.Vector3(y=y + wg_width / 2, z=wg_thickness / 2),
+                    center=mp.Vector3(y=y + wg_width / 2, z=core_thickness / 2),
                 )
             )
 
@@ -150,7 +150,7 @@ def get_mode_solver_coupler(
     wg_widths_str = "_".join([str(i) for i in wg_widths])
     gaps_str = "_".join([str(i) for i in gaps])
     filename_prefix = (
-        tmp / f"coupler_{wg_widths_str}_{gaps_str}_{wg_thickness}_{slab_thickness}"
+        tmp / f"coupler_{wg_widths_str}_{gaps_str}_{core_thickness}_{slab_thickness}"
     )
 
     mode_solver = mpb.ModeSolver(
@@ -166,10 +166,10 @@ def get_mode_solver_coupler(
     mode_solver.info = dict(
         wg_widths=wg_widths,
         gaps=gaps,
-        wg_thickness=wg_thickness,
+        core_thickness=core_thickness,
         slab_thickness=slab_thickness,
-        ncore=ncore,
-        nclad=nclad,
+        core_material=core_material,
+        clad_material=clad_material,
         sy=sy,
         sz=sz,
         resolution=resolution,

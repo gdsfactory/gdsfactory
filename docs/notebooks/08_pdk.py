@@ -129,7 +129,7 @@ class LayerMap(BaseModel):
     VIAC: Layer = (40, 0)
     WGCLAD: Layer = (111, 0)
     WGN: Layer = (34, 0)
-    WGNCLAD: Layer = (36, 0)
+    WGclad_material: Layer = (36, 0)
 
     class Config:
         frozen = True

@@ -71,11 +71,11 @@ if __name__ == "__main__":
     nm = 1e-3
     strip = gt.modes.Waveguide(
         wavelength=1.55,
-        wg_width=500 * nm,
-        wg_thickness=220 * nm,
+        core_width=500 * nm,
+        core_thickness=220 * nm,
         slab_thickness=0.0,
-        ncore=gt.modes.si,
-        nclad=gt.modes.sio2,
+        core_material=gt.modes.si,
+        clad_material=gt.modes.sio2,
     )
 
     neff = 2.46  # Effective index of the waveguides
@@ -145,23 +145,23 @@ import matplotlib.pyplot as plt
 nm = 1e-3
 strip = gt.modes.Waveguide(
     wavelength=1.55,
-    wg_width=0.5,
-    wg_thickness=0.22,
+    core_width=0.5,
+    core_thickness=0.22,
     slab_thickness=0.0,
-    ncore="si",
-    nclad="sio2",
+    core_material="si",
+    clad_material="sio2",
 )
 strip.plot_Ex(0)  # TE
 # -
 
 nm = 1e-3
 ng = gt.modes.group_index(
-    wg_width=500 * nm,
+    core_width=500 * nm,
     wavelength=1.55,
-    wg_thickness=220 * nm,
+    core_thickness=220 * nm,
     slab_thickness=0 * nm,
-    ncore="si",
-    nclad="sio2",
+    core_material="si",
+    clad_material="sio2",
 )
 print(ng)
 

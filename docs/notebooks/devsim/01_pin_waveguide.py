@@ -62,8 +62,8 @@ PDK.activate()
 
 nm = 1e-9
 c = get_simulation_xsection.PINWaveguide(
-    wg_width=500 * nm,
-    wg_thickness=220 * nm,
+    core_width=500 * nm,
+    core_thickness=220 * nm,
     slab_thickness=90 * nm,
 )
 
@@ -167,10 +167,10 @@ plt.imshow(
     np.log(np.abs(np.real(n_dist[0].T - n_undoped.T))),
     origin="lower",
     extent=[
-        -c.xmargin - c.ppp_offset - c.wg_width / 2,
-        c.xmargin + c.npp_offset + c.wg_width / 2,
+        -c.xmargin - c.ppp_offset - c.core_width / 2,
+        c.xmargin + c.npp_offset + c.core_width / 2,
         0,
-        c.t_clad + c.t_box + c.wg_thickness,
+        c.t_clad + c.t_box + c.core_thickness,
     ],
 )
 plt.colorbar(label="$log10(|n_{doped} - n_{undoped}|)$")
@@ -183,10 +183,10 @@ plt.imshow(
     np.log(np.abs(np.real(n_dist[-4].T - n_undoped.T))),
     origin="lower",
     extent=[
-        -c.xmargin - c.ppp_offset - c.wg_width / 2,
-        c.xmargin + c.npp_offset + c.wg_width / 2,
+        -c.xmargin - c.ppp_offset - c.core_width / 2,
+        c.xmargin + c.npp_offset + c.core_width / 2,
         0,
-        c.t_clad + c.t_box + c.wg_thickness,
+        c.t_clad + c.t_box + c.core_thickness,
     ],
 )
 plt.colorbar(label="$log10(|n_{doped} - n_{undoped}|)$")
@@ -199,10 +199,10 @@ plt.imshow(
     np.log(np.abs(np.imag(n_dist[0].T - n_undoped.T))),
     origin="lower",
     extent=[
-        -c.xmargin - c.ppp_offset - c.wg_width / 2,
-        c.xmargin + c.npp_offset + c.wg_width / 2,
+        -c.xmargin - c.ppp_offset - c.core_width / 2,
+        c.xmargin + c.npp_offset + c.core_width / 2,
         0,
-        c.t_clad + c.t_box + c.wg_thickness,
+        c.t_clad + c.t_box + c.core_thickness,
     ],
 )
 plt.colorbar(label=r"$log10(|\kappa_{doped} - \kappa_{undoped}|)$")
@@ -215,10 +215,10 @@ plt.imshow(
     np.log(np.abs(np.imag(n_dist[-4].T))),
     origin="lower",
     extent=[
-        -c.xmargin - c.ppp_offset - c.wg_width / 2,
-        c.xmargin + c.npp_offset + c.wg_width / 2,
+        -c.xmargin - c.ppp_offset - c.core_width / 2,
+        c.xmargin + c.npp_offset + c.core_width / 2,
         0,
-        c.t_clad + c.t_box + c.wg_thickness,
+        c.t_clad + c.t_box + c.core_thickness,
     ],
 )
 plt.colorbar(label=r"$log10(|\kappa_{doped} - \kappa_{undoped}|)$")

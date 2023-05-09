@@ -24,7 +24,7 @@ settings:
     - 2
     - 0
     n_periods: 30
-    nclad: 1.443
+    clad_material: 1.443
     neff: 2.638
     polarization: te
     slab_offset: 2
@@ -49,7 +49,7 @@ settings:
     - 0
     layer_slab: null
     n_periods: 30
-    nclad: 1.443
+    clad_material: 1.443
     neff: 2.638
     polarization: te
     slab_offset: 2

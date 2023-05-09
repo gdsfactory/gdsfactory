@@ -18,10 +18,10 @@ tmp.mkdir(exist_ok=True)
 @pydantic.validate_arguments
 def get_mode_solver_rib(
     wg_width: float = 0.45,
-    wg_thickness: float = 0.22,
+    core_thickness: float = 0.22,
     slab_thickness: float = 0.0,
-    ncore: float = 3.47,
-    nclad: float = 1.44,
+    core_material: float = 3.47,
+    clad_material: float = 1.44,
     nslab: Optional[float] = None,
     sy: float = 2.0,
     sz: float = 2.0,
@@ -33,11 +33,11 @@ def get_mode_solver_rib(
 
     Args:
         wg_width: wg_width (um).
-        wg_thickness: wg thickness (um).
+        core_thickness: wg thickness (um).
         slab_thickness: thickness for the waveguide slab.
-        ncore: core material refractive index.
-        nclad: clad material refractive index.
-        nslab: Optional slab material refractive index. Defaults to ncore.
+        core_material: core material refractive index.
+        clad_material: clad material refractive index.
+        nslab: Optional slab material refractive index. Defaults to core_material.
         sy: simulation region width (um).
         sz: simulation region height (um).
         resolution: resolution (pixels/um).
@@ -56,20 +56,20 @@ def get_mode_solver_rib(
           |     <---------->
           |      ___________   _ _ _
           |     |           |       |
-        sz|_____|  ncore    |_______|
-          |                         | wg_thickness
+        sz|_____|  core_material    |_______|
+          |                         | core_thickness
           |slab_thickness    nslab  |
           |_________________________|
           |
-          |        nclad
+          |        clad_material
           |__________________________
           <------------------------>
                         sy
 
     """
-    material_core = mp.Medium(index=ncore)
-    material_clad = mp.Medium(index=nclad)
-    material_slab = mp.Medium(index=nslab or ncore)
+    material_core = mp.Medium(index=core_material)
+    material_clad = mp.Medium(index=clad_material)
+    material_slab = mp.Medium(index=nslab or core_material)
 
     # Define the computational cell.  We'll make x the propagation direction.
     # the other cell sizes should be big enough so that the boundaries are
@@ -86,7 +86,7 @@ def get_mode_solver_rib(
                     mp.Vector3(x=1, y=wg_width / 2, z=0),
                     mp.Vector3(x=1, y=-wg_width / 2, z=0),
                 ],
-                height=wg_thickness - slab_thickness,
+                height=core_thickness - slab_thickness,
                 center=mp.Vector3(z=0),
                 sidewall_angle=np.deg2rad(sidewall_angle),
                 material=material_core,
@@ -95,7 +95,7 @@ def get_mode_solver_rib(
     else:
         geometry.append(
             mp.Block(
-                size=mp.Vector3(mp.inf, wg_width, wg_thickness),
+                size=mp.Vector3(mp.inf, wg_width, core_thickness),
                 material=material_core,
                 center=mp.Vector3(z=0),
             )
@@ -121,7 +121,7 @@ def get_mode_solver_rib(
     # is the corresponding column in the output if you grep for "freqs:".)
     # use this prefix for output files
 
-    filename_prefix = tmp / f"rib_{wg_width}_{wg_thickness}_{slab_thickness}"
+    filename_prefix = tmp / f"rib_{wg_width}_{core_thickness}_{slab_thickness}"
 
     mode_solver = mpb.ModeSolver(
         geometry_lattice=geometry_lattice,
@@ -135,10 +135,10 @@ def get_mode_solver_rib(
     mode_solver.nmodes = nmodes
     mode_solver.info = dict(
         wg_width=wg_width,
-        wg_thickness=wg_thickness,
+        core_thickness=core_thickness,
         slab_thickness=slab_thickness,
-        ncore=ncore,
-        nclad=nclad,
+        core_material=core_material,
+        clad_material=clad_material,
         sy=sy,
         sz=sz,
         resolution=resolution,
@@ -153,7 +153,7 @@ if __name__ == "__main__":
     m = get_mode_solver_rib(
         slab_thickness=0.25,
         # slab_thickness=0.,
-        wg_thickness=0.5,
+        core_thickness=0.5,
         resolution=64,
         nslab=2,
     )

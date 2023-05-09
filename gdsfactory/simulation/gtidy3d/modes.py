@@ -289,6 +289,8 @@ class Waveguide(pydantic.BaseModel):
         """
         self_data = self.waveguide.mode_solver.data
         other_data = waveguide.waveguide.mode_solver.data
+        # self_data = self._data
+        # other_data = waveguide._data
         return self_data.outer_dot(other_data, conjugate).squeeze(drop=True).values
 
     def plot_structure(self) -> None:
@@ -495,7 +497,7 @@ def _sweep(waveguide: Waveguide, attribute: str, **sweep_kwargs) -> xarray.DataA
     The returned array uses the sweep arguments and the mode index as
     coordinates to organize the data.
 
-    Parameters:
+    Args:
         waveguide: base waveguide geometry.
         attribute: desired waveguide attribute (retrieved with getattr).
         sweep_kwargs: Waveguide arguments and values to sweep.
@@ -594,9 +596,8 @@ def sweep_bend_mismatch(
         waveguide: base waveguide geometry.
         bend_radii: radii values to sweep.
     """
-    kwargs = {
-        k: getattr(waveguide, k) for k in waveguide.__fields__ if k != "bend_radius"
-    }
+    kwargs = dict(waveguide)
+    kwargs.pop("bend_radius")
     straight = Waveguide(**kwargs)
 
     results = []
@@ -688,6 +689,7 @@ if __name__ == "__main__":
     # Strip bend mismatch
 
     radii = np.arange(6, 21)
+    radii = np.arange(6, 7)
     bend = Waveguide(
         wavelength=1.55,
         core_width=0.5,
@@ -705,25 +707,26 @@ if __name__ == "__main__":
     ax[1].set(xlabel="Radius (μm)", ylabel="Mismatch (dB)")
     ax[1].grid()
     fig.suptitle("Strip waveguide bend")
+    print(bend.filepath)
 
     # Effective index sweep
 
-    wg = Waveguide(
-        wavelength=1.55,
-        core_width=0.5,
-        core_thickness=0.22,
-        core_material="si",
-        clad_material="sio2",
-        num_modes=2,
-    )
+    # wg = Waveguide(
+    #     wavelength=1.55,
+    #     core_width=0.5,
+    #     core_thickness=0.22,
+    #     core_material="si",
+    #     clad_material="sio2",
+    #     num_modes=2,
+    # )
 
-    t = np.linspace(0.2, 0.25, 6)
-    w = np.linspace(0.4, 0.6, 5)
-    n_eff = sweep_n_eff(wg, core_width=w, core_thickness=t)
+    # t = np.linspace(0.2, 0.25, 6)
+    # w = np.linspace(0.4, 0.6, 5)
+    # n_eff = sweep_n_eff(wg, core_width=w, core_thickness=t)
 
-    fig, ax = pyplot.subplots(1, 2, tight_layout=True, figsize=(9, 4))
-    n_eff.sel(mode_index=0).real.plot(ax=ax[0])
-    n_eff.sel(mode_index=1).real.plot(ax=ax[1])
-    fig.suptitle("Effective index sweep")
+    # fig, ax = pyplot.subplots(1, 2, tight_layout=True, figsize=(9, 4))
+    # n_eff.sel(mode_index=0).real.plot(ax=ax[0])
+    # n_eff.sel(mode_index=1).real.plot(ax=ax[1])
+    # fig.suptitle("Effective index sweep")
 
-    pyplot.show()
+    # pyplot.show()

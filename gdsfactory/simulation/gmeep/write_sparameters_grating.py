@@ -36,8 +36,8 @@ nSiO2 = 1.44
 Floats = Tuple[float, ...]
 
 
-def fiber_ncore(fiber_numerical_aperture, fiber_nclad):
-    return (fiber_numerical_aperture**2 + fiber_nclad**2) ** 0.5
+def fiber_core_material(fiber_numerical_aperture, fiber_clad_material):
+    return (fiber_numerical_aperture**2 + fiber_clad_material**2) ** 0.5
 
 
 def write_sparameters_grating(
@@ -60,7 +60,7 @@ def write_sparameters_grating(
         dirpath: directory path.
         decay_by: field decay to stop simulation.
         verbosity: print messages.
-        ncores: number of cores.
+        core_materials: number of cores.
 
     Keyword Args:
         period: fiber grating period in um.
@@ -72,17 +72,17 @@ def write_sparameters_grating(
         fiber_xposition: xposition.
         fiber_core_diameter: fiber diameter.
         fiber_numerical_aperture: NA.
-        fiber_nclad: fiber cladding index.
+        fiber_clad_material: fiber cladding index.
         nwg: waveguide index.
         nslab: slab refractive index.
-        nclad: top cladding index.
+        clad_material: top cladding index.
         nbox: box index bottom.
         nsubstrate: index substrate.
         pml_thickness: pml_thickness (um).
         substrate_thickness: substrate_thickness (um).
         box_thickness: thickness for bottom cladding (um).
-        wg_thickness: wg_thickness (um).
-        slab_thickness: slab thickness (um). etch_depth=wg_thickness-slab_thickness.
+        core_thickness: core_thickness (um).
+        slab_thickness: slab thickness (um). etch_depth=core_thickness-slab_thickness.
         top_clad_thickness: thickness of the top cladding.
         air_gap_thickness: air gap thickness.
         fiber_thickness: fiber_thickness.
@@ -108,10 +108,10 @@ def write_sparameters_grating(
                                  | air_gap_thickness
                             _ _ _| _ _ _ _ _ _  _
                                  |
-                nclad            | top_clad_thickness
+                clad_material            | top_clad_thickness
                             _ _ _| _ _ _ _ _ _  _
              _|-|_|-|_|-|___     |              _| etch_depth
-              ncore        |     |core_thickness
+              core_material        |     |core_thickness
              ______________|_ _ _|_ _ _ _ _ _ _ _
                                  |
               nbox               |box_thickness
@@ -268,7 +268,7 @@ def write_sparameters_grating_mpi(
     filepath = temp_dir / temp_file_str
 
     # Add parallelism info
-    instance["ncores"] = cores
+    instance["core_materials"] = cores
 
     # Write execution file
     script_lines = [
@@ -384,9 +384,9 @@ if __name__ == "__main__":
     #     fiber_xposition=0.0,
     #     fiber_core_diameter=9,
     #     fiber_numerical_aperture=fiber_numerical_aperture,
-    #     fiber_nclad=1.43482,
-    #     ncore=3.47,
-    #     nclad=1.44,
+    #     fiber_clad_material=1.43482,
+    #     core_material=3.47,
+    #     clad_material=1.44,
     #     nbox=1.44,
     #     nsubstrate=3.47,
     #     pml_thickness=1.0,

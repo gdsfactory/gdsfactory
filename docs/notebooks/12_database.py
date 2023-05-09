@@ -155,11 +155,11 @@ import numpy as np
 
 #         strip = gt.modes.Waveguide(
 #             wavelength=wavelength,
-#             wg_width=0.5,
-#             wg_thickness=0.22,
+#             core_width=0.5,
+#             core_thickness=0.22,
 #             slab_thickness=0.0,
-#             ncore="si",
-#             nclad="sio2",
+#             core_material="si",
+#             clad_material="sio2",
 #         )
 #         strip.compute_modes()
 #         strip.schema()

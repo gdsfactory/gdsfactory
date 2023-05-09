@@ -29,7 +29,7 @@ from gdsfactory.technology import LayerStack
 from gdsfactory.typings import ComponentSpec, PathType
 import pickle
 
-ncores = multiprocessing.cpu_count()
+core_materials = multiprocessing.cpu_count()
 
 temp_dir_default = Path(sparameters_path) / "temp"
 
@@ -43,7 +43,7 @@ def _python() -> str:
 def write_sparameters_meep_mpi(
     component: ComponentSpec,
     layer_stack: Optional[LayerStack] = None,
-    cores: int = ncores,
+    cores: int = core_materials,
     filepath: Optional[PathType] = None,
     dirpath: Optional[PathType] = None,
     temp_dir: Path = temp_dir_default,

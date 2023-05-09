@@ -53,12 +53,12 @@ def find_modes_waveguide(
           |     <---------->
           |      ___________   _ _ _
           |     |           |       |
-        sz|_____|  ncore    |_______|
-          |                         | wg_thickness
+        sz|_____|  core_material    |_______|
+          |                         | core_thickness
           |slab_thickness    nslab  |
           |_________________________|
           |
-          |        nclad
+          |        clad_material
           |__________________________
           <------------------------>
                         sy
@@ -74,13 +74,13 @@ def find_modes_waveguide(
           |     <---------->     gaps[0]    <---------->
           |      ___________ <-------------> ___________      _
           |     |           |               |           |     |
-        sz|_____|  ncore    |_______________|           |_____|
-          |                                                   | wg_thickness
+        sz|_____|  core_material    |_______________|           |_____|
+          |                                                   | core_thickness
           |slab_thickness        nslab                        |
           |___________________________________________________|
           |
           |<--->                                         <--->
-          |ymargin               nclad                   ymargin
+          |ymargin               clad_material                   ymargin
           |____________________________________________________
           <--------------------------------------------------->
                                    sy
@@ -97,10 +97,10 @@ def find_modes_waveguide(
 
     Keyword Args:
         wg_width: wg_width (um).
-        wg_thickness: wg height (um).
+        core_thickness: wg height (um).
         slab_thickness: thickness for the waveguide slab.
-        ncore: core material refractive index.
-        nclad: clad material refractive index.
+        core_material: core material refractive index.
+        clad_material: clad material refractive index.
         sy: simulation region width (um).
         sz: simulation region height (um).
         resolution: resolution (pixels/um).
@@ -111,11 +111,11 @@ def find_modes_waveguide(
         gap: for the case of only two waveguides.
         wg_widths: list or tuple of waveguide widths.
         gaps: list or tuple of waveguide gaps.
-        wg_thickness: wg height (um).
+        core_thickness: wg height (um).
         slab_thickness: thickness for the waveguide slab.
-        ncore: core material refractive index.
-        nclad: clad material refractive index.
-        nslab: Optional slab material refractive index. Defaults to ncore.
+        core_material: core material refractive index.
+        clad_material: clad material refractive index.
+        nslab: Optional slab material refractive index. Defaults to core_material.
         ymargin: margin in y.
         sz: simulation region thickness (um).
         resolution: resolution (pixels/um).

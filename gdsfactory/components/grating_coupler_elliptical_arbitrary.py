@@ -23,7 +23,7 @@ def grating_coupler_elliptical_arbitrary(
     taper_angle: float = 60.0,
     wavelength: float = 1.554,
     fiber_angle: float = 15.0,
-    nclad: float = 1.443,
+    clad_material: float = 1.443,
     layer_slab: LayerSpec = "SLAB150",
     layer_grating: Optional[LayerSpec] = None,
     taper_to_slab_offset: float = -3.0,
@@ -36,7 +36,7 @@ def grating_coupler_elliptical_arbitrary(
     r"""Grating coupler with parametrization based on Lumerical FDTD simulation.
 
     The ellipticity is derived from Lumerical knowledge base
-    it depends on fiber_angle (degrees), neff, and nclad
+    it depends on fiber_angle (degrees), neff, and clad_material
 
     Args:
         gaps: list of gaps.
@@ -45,7 +45,7 @@ def grating_coupler_elliptical_arbitrary(
         taper_angle: grating flare angle.
         wavelength: grating transmission central wavelength (um).
         fiber_angle: fibre angle in degrees determines ellipticity.
-        nclad: cladding effective index to compute ellipticity.
+        clad_material: cladding effective index to compute ellipticity.
         layer_slab: Optional slab.
         layer_grating: Optional layer for grating.
             by default None uses cross_section.layer.
@@ -90,11 +90,11 @@ def grating_coupler_elliptical_arbitrary(
     gaps = gf.snap.snap_to_grid(np.array(gaps) + bias_gap)
     widths = gf.snap.snap_to_grid(np.array(widths) - bias_gap)
     periods = [g + w for g, w in zip(gaps, widths)]
-    neffs = [wavelength / p + nclad * sthc for p in periods]
-    ds = [neff**2 - nclad**2 * sthc**2 for neff in neffs]
+    neffs = [wavelength / p + clad_material * sthc for p in periods]
+    ds = [neff**2 - clad_material**2 * sthc**2 for neff in neffs]
     a1s = [round(wavelength * neff / d, 3) for neff, d in zip(neffs, ds)]
     b1s = [round(wavelength / np.sqrt(d), 3) for d in ds]
-    x1s = [round(wavelength * nclad * sthc / d, 3) for d in ds]
+    x1s = [round(wavelength * clad_material * sthc / d, 3) for d in ds]
     xis = np.add(
         taper_length + np.cumsum(periods), -widths / 2
     )  # position of middle of each tooth
@@ -183,7 +183,7 @@ def grating_coupler_elliptical_uniform(
     r"""Grating coupler with parametrization based on Lumerical FDTD simulation.
 
     The ellipticity is derived from Lumerical knowledge base
-    it depends on fiber_angle (degrees), neff, and nclad
+    it depends on fiber_angle (degrees), neff, and clad_material
 
     Args:
         n_periods: number of grating periods.
@@ -196,7 +196,7 @@ def grating_coupler_elliptical_uniform(
         wavelength: grating transmission central wavelength (um).
         fiber_angle: fibre angle in degrees determines ellipticity.
         neff: tooth effective index to compute ellipticity.
-        nclad: cladding effective index to compute ellipticity.
+        clad_material: cladding effective index to compute ellipticity.
         layer_slab: Optional slab.
         taper_to_slab_offset: where 0 is at the start of the taper.
         polarization: te or tm.

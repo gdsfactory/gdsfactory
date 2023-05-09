@@ -11,7 +11,7 @@ def test_pin_waveguide():
     nm = 1e-9
     c = get_simulation_xsection.PINWaveguide(
         wg_width=500 * nm,
-        wg_thickness=220 * nm,
+        core_thickness=220 * nm,
         slab_thickness=90 * nm,
     )
     c.ddsolver()
@@ -39,7 +39,7 @@ if __name__ == "__main__":
     nm = 1e-9
     c = get_simulation_xsection.PINWaveguide(
         wg_width=500 * nm,
-        wg_thickness=220 * nm,
+        core_thickness=220 * nm,
         slab_thickness=90 * nm,
     )
     c.ddsolver()

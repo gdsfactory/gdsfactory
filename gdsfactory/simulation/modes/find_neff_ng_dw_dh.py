@@ -53,7 +53,7 @@ def find_neff_ng_dw_dh(
         clad: clad material name.
 
     Keyword Args:
-        wg_thickness: wg height (um).
+        core_thickness: wg height (um).
         sx: supercell width (um).
         sy: supercell height (um).
         resolution: (pixels/um).
@@ -81,7 +81,7 @@ def find_neff_ng_dw_dh(
                 core=core,
                 clad=clad,
                 wg_width=width + dwi,
-                wg_thickness=thickness + dhi,
+                core_thickness=thickness + dhi,
                 wavelength=wavelength,
                 mode_number=mode_number,
                 **kwargs,
@@ -112,7 +112,7 @@ def plot_neff_ng_dw_dh(
     """
     filepath = pathlib.Path(PATH.modes / "mpb_dw_dh_dispersion.csv")
     m = find_mode_dispersion(
-        wg_width=width, wg_thickness=thickness, wavelength=wavelength
+        wg_width=width, core_thickness=thickness, wavelength=wavelength
     )
     neff0 = m.neff
     ng0 = m.ng
