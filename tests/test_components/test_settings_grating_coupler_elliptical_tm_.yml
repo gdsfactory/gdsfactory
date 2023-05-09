@@ -40,7 +40,7 @@ settings:
     grating_line_width: 0.343
     layer_slab: SLAB150
     n_periods: 30
-    clad_material: 1.443
+    nclad: 1.443
     neff: 2.638
     polarization: te
     slab_offset: 2.0
@@ -56,7 +56,7 @@ settings:
     grating_line_width: 0.707
     layer_slab: SLAB150
     n_periods: 16
-    clad_material: 1.443
+    nclad: 1.443
     neff: 1.8
     polarization: tm
     slab_offset: 2.0

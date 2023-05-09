@@ -44,7 +44,7 @@ settings:
     - 0.1
     layer_grating: null
     layer_slab: SLAB150
-    clad_material: 1.443
+    nclad: 1.443
     polarization: te
     spiked: true
     taper_angle: 60.0
@@ -79,7 +79,7 @@ settings:
     - 0.1
     layer_grating: null
     layer_slab: SLAB150
-    clad_material: 1.443
+    nclad: 1.443
     polarization: te
     spiked: true
     taper_angle: 60.0

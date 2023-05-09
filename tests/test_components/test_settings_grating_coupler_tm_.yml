@@ -37,7 +37,7 @@ settings:
     grating_line_width: 0.343
     layer_trench: SHALLOW_ETCH
     n_periods: 30
-    clad_materialding: 1.443
+    ncladding: 1.443
     neff: 2.638
     p_start: 26
     polarization: te
@@ -52,7 +52,7 @@ settings:
     grating_line_width: 0.6
     layer_trench: SHALLOW_ETCH
     n_periods: 30
-    clad_materialding: 1.443
+    ncladding: 1.443
     neff: 1.8
     p_start: 26
     polarization: tm
