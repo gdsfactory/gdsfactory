@@ -1,4 +1,4 @@
-# Globalfoundries GENERIC TECH LVS Tests
+# GENERIC TECH LVS Tests
 
 
 ## Folder Structure
