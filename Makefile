@@ -4,7 +4,7 @@ help:
 	@echo 'make test-force:       Rebuilds regression test'
 
 full: plugins
-	pip install -e .[docs,dev,full,gmsh,tidy3d,devsim,meow,sax]
+	pip install -e .[docs,dev,full,gmsh,tidy3d,devsim,meow,sax,database]
 
 all: plugins install full
 
