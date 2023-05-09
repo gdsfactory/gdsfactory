@@ -80,7 +80,7 @@ def find_neff_ng_dw_dh(
             m = find_mode_dispersion(
                 core=core,
                 clad=clad,
-                wg_width=width + dwi,
+                core_width=width + dwi,
                 core_thickness=thickness + dhi,
                 wavelength=wavelength,
                 mode_number=mode_number,
@@ -112,7 +112,7 @@ def plot_neff_ng_dw_dh(
     """
     filepath = pathlib.Path(PATH.modes / "mpb_dw_dh_dispersion.csv")
     m = find_mode_dispersion(
-        wg_width=width, core_thickness=thickness, wavelength=wavelength
+        core_width=width, core_thickness=thickness, wavelength=wavelength
     )
     neff0 = m.neff
     ng0 = m.ng

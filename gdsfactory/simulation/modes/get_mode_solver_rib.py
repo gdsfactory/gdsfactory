@@ -17,7 +17,7 @@ tmp.mkdir(exist_ok=True)
 
 @pydantic.validate_arguments
 def get_mode_solver_rib(
-    wg_width: float = 0.45,
+    core_width: float = 0.45,
     core_thickness: float = 0.22,
     slab_thickness: float = 0.0,
     core_material: float = 3.47,
@@ -32,7 +32,7 @@ def get_mode_solver_rib(
     """Returns a mode_solver simulation.
 
     Args:
-        wg_width: wg_width (um).
+        core_width: core_width (um).
         core_thickness: wg thickness (um).
         slab_thickness: thickness for the waveguide slab.
         core_material: core material refractive index.
@@ -43,7 +43,7 @@ def get_mode_solver_rib(
         resolution: resolution (pixels/um).
         nmodes: number of modes.
         sidewall_angle: waveguide sidewall angle (degrees),
-            tapers from wg_width at top of slab, upwards, to top of waveguide
+            tapers from core_width at top of slab, upwards, to top of waveguide
             with respect to the normal.
             a sidewall_angle = 10, will have 80 degrees with respect to the substrate.
 
@@ -81,10 +81,10 @@ def get_mode_solver_rib(
         geometry.append(
             mp.Prism(
                 vertices=[
-                    mp.Vector3(y=-wg_width / 2, z=0),
-                    mp.Vector3(y=wg_width / 2, z=0),
-                    mp.Vector3(x=1, y=wg_width / 2, z=0),
-                    mp.Vector3(x=1, y=-wg_width / 2, z=0),
+                    mp.Vector3(y=-core_width / 2, z=0),
+                    mp.Vector3(y=core_width / 2, z=0),
+                    mp.Vector3(x=1, y=core_width / 2, z=0),
+                    mp.Vector3(x=1, y=-core_width / 2, z=0),
                 ],
                 height=core_thickness - slab_thickness,
                 center=mp.Vector3(z=0),
@@ -95,7 +95,7 @@ def get_mode_solver_rib(
     else:
         geometry.append(
             mp.Block(
-                size=mp.Vector3(mp.inf, wg_width, core_thickness),
+                size=mp.Vector3(mp.inf, core_width, core_thickness),
                 material=material_core,
                 center=mp.Vector3(z=0),
             )
@@ -121,7 +121,7 @@ def get_mode_solver_rib(
     # is the corresponding column in the output if you grep for "freqs:".)
     # use this prefix for output files
 
-    filename_prefix = tmp / f"rib_{wg_width}_{core_thickness}_{slab_thickness}"
+    filename_prefix = tmp / f"rib_{core_width}_{core_thickness}_{slab_thickness}"
 
     mode_solver = mpb.ModeSolver(
         geometry_lattice=geometry_lattice,
@@ -134,7 +134,7 @@ def get_mode_solver_rib(
     )
     mode_solver.nmodes = nmodes
     mode_solver.info = dict(
-        wg_width=wg_width,
+        core_width=core_width,
         core_thickness=core_thickness,
         slab_thickness=slab_thickness,
         core_material=core_material,

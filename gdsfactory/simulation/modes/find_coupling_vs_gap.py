@@ -82,9 +82,9 @@ def find_coupling_vs_gap(
         overwrite: overwrites results even if found on disk.
 
     Keyword Args:
-        wg_width: wg_width (um) for the symmetric case.
+        core_width: core_width (um) for the symmetric case.
         gap: for the case of only two waveguides.
-        wg_widths: list or tuple of waveguide widths.
+        core_widths: list or tuple of waveguide widths.
         gaps: list or tuple of waveguide gaps.
         core_thickness: wg height (um)
         slab_thickness: thickness for the waveguide slab
@@ -96,7 +96,7 @@ def find_coupling_vs_gap(
         resolution: resolution (pixels/um).
         nmodes: number of modes.
         sidewall_angles: waveguide sidewall angle (radians),
-            tapers from wg_width at top of slab, upwards, to top of waveguide.
+            tapers from core_width at top of slab, upwards, to top of waveguide.
 
     """
     if filepath and not overwrite and pathlib.Path(filepath).exists():

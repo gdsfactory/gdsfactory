@@ -80,14 +80,14 @@ def find_mode_dispersion(
 
 
 if __name__ == "__main__":
-    m = find_mode_dispersion(wg_width=0.45, core_thickness=0.22)
+    m = find_mode_dispersion(core_width=0.45, core_thickness=0.22)
     print(m.ng)
     # test_ng()
     # print(get_index(name="Si"))
     # ngs = []
     # for wavelength_step in [0.001, 0.01]:
     #     neff, ng = find_modes_waveguide_dispersion(
-    #         wg_width=0.45, core_thickness=0.22, wavelength_step=wavelength_step
+    #         core_width=0.45, core_thickness=0.22, wavelength_step=wavelength_step
     #     )
     #     ngs.append(ng)
     #     print(wavelength_step, ng)

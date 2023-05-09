@@ -433,7 +433,7 @@ class Waveguide(BaseModel):
     """Waveguide Model.
 
     Args:
-        wg_width: um
+        core_width: um
         core_thickness: um
         slab_thickness: um
         core_material: core refractive index.
@@ -446,7 +446,7 @@ class Waveguide(BaseModel):
 
     """
 
-    wg_width: float = 0.45
+    core_width: float = 0.45
     core_thickness: float = 0.22
     slab_thickness: float = 0
     core_material: float = 3.47

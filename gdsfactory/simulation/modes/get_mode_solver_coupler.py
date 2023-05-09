@@ -19,9 +19,9 @@ Floats = Tuple[float, ...]
 
 @pydantic.validate_arguments
 def get_mode_solver_coupler(
-    wg_width: float = 0.5,
+    core_width: float = 0.5,
     gap: float = 0.2,
-    wg_widths: Optional[Floats] = None,
+    core_widths: Optional[Floats] = None,
     gaps: Optional[Floats] = None,
     core_thickness: float = 0.22,
     slab_thickness: float = 0.0,
@@ -37,9 +37,9 @@ def get_mode_solver_coupler(
     """Returns mode_solver simulation.
 
     Args:
-        wg_width: wg_width (um) for the symmetric case.
+        core_width: core_width (um) for the symmetric case.
         gap: for the case of only two waveguides.
-        wg_widths: list or tuple of waveguide widths.
+        core_widths: list or tuple of waveguide widths.
         gaps: list or tuple of waveguide gaps.
         core_thickness: wg thickness (um).
         slab_thickness: thickness for the waveguide slab.
@@ -51,7 +51,7 @@ def get_mode_solver_coupler(
         resolution: resolution (pixels/um).
         nmodes: number of modes.
         sidewall_angles: waveguide sidewall angle (degrees),
-            tapers from wg_width at top of slab, upwards, to top of waveguide
+            tapers from core_width at top of slab, upwards, to top of waveguide
             a sidewall_angle = 10, will have 80 degrees with respect to the substrate.
 
     ::
@@ -75,7 +75,7 @@ def get_mode_solver_coupler(
                                    sy
 
     """
-    wg_widths = wg_widths or (wg_width, wg_width)
+    core_widths = core_widths or (core_width, core_width)
     gaps = gaps or (gap,)
     material_core = mp.Medium(index=core_material)
     material_clad = mp.Medium(index=clad_material)
@@ -85,7 +85,7 @@ def get_mode_solver_coupler(
     # the other cell sizes should be big enough so that the boundaries are
     # far away from the mode field.
 
-    sy = np.sum(wg_widths) + np.sum(gaps) + 2 * ymargin
+    sy = np.sum(core_widths) + np.sum(gaps) + 2 * ymargin
     geometry_lattice = mp.Lattice(size=mp.Vector3(0, sy, sz))
 
     geometry = []
@@ -93,19 +93,19 @@ def get_mode_solver_coupler(
     y = -sy / 2 + ymargin
 
     gaps = list(gaps) + [0]
-    for i, wg_width in enumerate(wg_widths):
+    for i, core_width in enumerate(core_widths):
         if sidewall_angles:
             geometry.append(
                 mp.Prism(
                     vertices=[
                         mp.Vector3(y=y, z=slab_thickness),
-                        mp.Vector3(y=y + wg_width, z=slab_thickness),
-                        mp.Vector3(x=1, y=y + wg_width, z=slab_thickness),
+                        mp.Vector3(y=y + core_width, z=slab_thickness),
+                        mp.Vector3(x=1, y=y + core_width, z=slab_thickness),
                         mp.Vector3(x=1, y=y, z=slab_thickness),
                     ],
                     height=core_thickness - slab_thickness,
                     center=mp.Vector3(
-                        y=y + wg_width / 2,
+                        y=y + core_width / 2,
                         z=slab_thickness + (core_thickness - slab_thickness) / 2,
                     ),
                     # If only 1 angle is specified, use it for all waveguides
@@ -118,13 +118,13 @@ def get_mode_solver_coupler(
         else:
             geometry.append(
                 mp.Block(
-                    size=mp.Vector3(mp.inf, wg_width, core_thickness),
+                    size=mp.Vector3(mp.inf, core_width, core_thickness),
                     material=material_core,
-                    center=mp.Vector3(y=y + wg_width / 2, z=core_thickness / 2),
+                    center=mp.Vector3(y=y + core_width / 2, z=core_thickness / 2),
                 )
             )
 
-        y += gaps[i] + wg_width
+        y += gaps[i] + core_width
 
     # define the 2D blocks for the strip and substrate
     geometry += [
@@ -147,10 +147,10 @@ def get_mode_solver_coupler(
     # is the corresponding column in the output if you grep for "freqs:".)
     # use this prefix for output files
 
-    wg_widths_str = "_".join([str(i) for i in wg_widths])
+    core_widths_str = "_".join([str(i) for i in core_widths])
     gaps_str = "_".join([str(i) for i in gaps])
     filename_prefix = (
-        tmp / f"coupler_{wg_widths_str}_{gaps_str}_{core_thickness}_{slab_thickness}"
+        tmp / f"coupler_{core_widths_str}_{gaps_str}_{core_thickness}_{slab_thickness}"
     )
 
     mode_solver = mpb.ModeSolver(
@@ -164,7 +164,7 @@ def get_mode_solver_coupler(
     )
     mode_solver.nmodes = nmodes
     mode_solver.info = dict(
-        wg_widths=wg_widths,
+        core_widths=core_widths,
         gaps=gaps,
         core_thickness=core_thickness,
         slab_thickness=slab_thickness,
@@ -185,7 +185,7 @@ if __name__ == "__main__":
         slab_thickness=90e-3,
         nslab=2,
         gap=0.5,
-        wg_width=1,
+        core_width=1,
         resolution=64,
         sidewall_angles=(10.0, 20.0),
     )

@@ -96,7 +96,7 @@ def find_modes_waveguide(
         kwargs: waveguide settings.
 
     Keyword Args:
-        wg_width: wg_width (um).
+        core_width: core_width (um).
         core_thickness: wg height (um).
         slab_thickness: thickness for the waveguide slab.
         core_material: core material refractive index.
@@ -107,9 +107,9 @@ def find_modes_waveguide(
         nmodes: number of modes to compute.
 
     Keyword Args:
-        wg_width: wg_width (um) for the symmetric case.
+        core_width: core_width (um) for the symmetric case.
         gap: for the case of only two waveguides.
-        wg_widths: list or tuple of waveguide widths.
+        core_widths: list or tuple of waveguide widths.
         gaps: list or tuple of waveguide gaps.
         core_thickness: wg height (um).
         slab_thickness: thickness for the waveguide slab.
@@ -121,7 +121,7 @@ def find_modes_waveguide(
         resolution: resolution (pixels/um).
         nmodes: number of modes.
         sidewall_angles: waveguide sidewall angle (radians),
-            tapers from wg_width at top of slab, upwards, to top of waveguide.
+            tapers from core_width at top of slab, upwards, to top of waveguide.
 
     Returns: Dict[mode_number, Mode]
 
@@ -223,7 +223,7 @@ find_modes_coupler = partial(find_modes_waveguide, single_waveguide=False)
 
 
 if __name__ == "__main__":
-    m = find_modes_waveguide(wg_width=0.5)
+    m = find_modes_waveguide(core_width=0.5)
     print(m)
 
     m1 = m[1]

@@ -20,19 +20,19 @@ rib_width = 550 * nm
 
 find_coupling_strip = gf.partial(
     find_coupling,
-    wg_width=strip_width,
+    core_width=strip_width,
     core_thickness=core_thickness,
     slab_thickness=0.0,
 )
 find_coupling_rib = gf.partial(
     find_coupling,
-    wg_width=rib_width,
+    core_width=rib_width,
     core_thickness=core_thickness,
     slab_thickness=slab_thickness,
 )
 find_coupling_nitride = gf.partial(
     find_coupling,
-    wg_width=1.0,
+    core_width=1.0,
     slab_thickness=0.0,
     core_material=2.0,
     core_thickness=nitride_thickness,
@@ -46,13 +46,13 @@ find_coupling_vs_gap_strip = gf.partial(
 )
 find_coupling_vs_gap_rib = gf.partial(
     find_coupling_vs_gap,
-    wg_width=rib_width,
+    core_width=rib_width,
     core_thickness=core_thickness,
     slab_thickness=slab_thickness,
 )
 find_coupling_vs_gap_nitride = gf.partial(
     find_coupling_vs_gap,
-    wg_width=1.0,
+    core_width=1.0,
     slab_thickness=0.0,
     core_material=2.0,
     core_thickness=nitride_thickness,

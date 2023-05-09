@@ -52,12 +52,12 @@ def find_neff_vs_width(
 
     width = np.linspace(width1, width2, steps)
     neff = {mode_number: [] for mode_number in range(1, nmodes + 1)}
-    for wg_width in tqdm(width):
+    for core_width in tqdm(width):
         modes = find_modes_waveguide(
             wavelength=wavelength,
             parity=parity,
             nmodes=nmodes,
-            wg_width=wg_width,
+            core_width=core_width,
             **kwargs,
         )
         for mode_number in range(1, nmodes + 1):
