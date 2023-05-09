@@ -113,7 +113,7 @@ def grating_coupler_elliptical_lumerical(
         wavelength: grating transmission central wavelength (um).
         fiber_angle: fibre angle in degrees determines ellipticity.
         neff: tooth effective index.
-        clad_material: cladding effective index.
+        nclad: cladding effective index.
         polarization: te or tm.
         spiked: grating teeth include sharp spikes to avoid non-manhattan drc errors.
         cross_section: cross_section spec for waveguide port.

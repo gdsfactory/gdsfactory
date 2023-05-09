@@ -19,7 +19,7 @@ def grating_coupler_elliptical_trenches(
     fiber_angle: float = 15.0,
     grating_line_width: float = 0.343,
     neff: float = 2.638,  # tooth effective index
-    clad_materialding: float = 1.443,  # cladding index
+    ncladding: float = 1.443,  # cladding index
     layer_trench: LayerSpec = "SHALLOW_ETCH",
     p_start: int = 26,
     n_periods: int = 30,
@@ -40,7 +40,7 @@ def grating_coupler_elliptical_trenches(
         fiber_angle: fibre polish angle in degrees.
         grating_line_width: of the 220 ridge.
         neff: tooth effective index.
-        clad_materialding: cladding index.
+        ncladding: cladding index.
         layer_trench: for the trench.
         p_start: first tooth.
         n_periods: number of grating teeth.
@@ -64,10 +64,10 @@ def grating_coupler_elliptical_trenches(
 
     # Compute some ellipse parameters
     sthc = np.sin(fiber_angle * DEG2RAD)
-    d = neff**2 - clad_materialding**2 * sthc**2
+    d = neff**2 - ncladding**2 * sthc**2
     a1 = wavelength * neff / d
     b1 = wavelength / np.sqrt(d)
-    x1 = wavelength * clad_materialding * sthc / d
+    x1 = wavelength * ncladding * sthc / d
 
     a1 = round(a1, 3)
     b1 = round(b1, 3)

@@ -88,7 +88,7 @@ def grating_coupler_elliptical(
     fiber_angle: float = 15.0,
     grating_line_width: float = 0.343,
     neff: float = 2.638,  # tooth effective index
-    clad_material: float = 1.443,
+    nclad: float = 1.443,
     n_periods: int = 30,
     big_last_tooth: bool = False,
     layer_slab: LayerSpec = "SLAB150",
@@ -108,7 +108,7 @@ def grating_coupler_elliptical(
         fiber_angle: fibre angle in degrees determines ellipticity.
         grating_line_width: in um.
         neff: tooth effective index.
-        clad_material: cladding effective index.
+        nclad: cladding effective index.
         n_periods: number of periods.
         big_last_tooth: adds a big_last_tooth.
         layer_slab: layer that protects the slab under the grating.
@@ -137,10 +137,10 @@ def grating_coupler_elliptical(
 
     # Compute some ellipse parameters
     sthc = np.sin(fiber_angle * DEG2RAD)
-    d = neff**2 - clad_material**2 * sthc**2
+    d = neff**2 - nclad**2 * sthc**2
     a1 = wavelength * neff / d
     b1 = wavelength / np.sqrt(d)
-    x1 = wavelength * clad_material * sthc / d
+    x1 = wavelength * nclad * sthc / d
 
     a1 = round(a1, 3)
     b1 = round(b1, 3)
