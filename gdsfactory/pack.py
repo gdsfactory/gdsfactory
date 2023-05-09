@@ -100,6 +100,8 @@ def pack(
     precision: float = 1e-2,
     text: Optional[ComponentSpec] = None,
     text_prefix: str = "",
+    text_mirror: bool = False,
+    text_rotation: int = 0,
     text_offsets: Tuple[Float2, ...] = ((0, 0),),
     text_anchors: Tuple[Anchor, ...] = ("cc",),
     name_prefix: Optional[str] = None,
@@ -121,11 +123,13 @@ def pack(
         precision: Desired precision for rounding vertex coordinates.
         text: Optional function to add text labels.
         text_prefix: for labels. For example. 'A' will produce 'A1', 'A2', ...
+        text_mirror: if True mirrors text.
+        text_rotation: Optional text rotation.
         text_offsets: relative to component size info anchor. Defaults to center.
         text_anchors: relative to component (ce cw nc ne nw sc se sw center cc).
         name_prefix: for each packed component (avoids the Unnamed cells warning).
             Note that the suffix contains a uuid so the name will not be deterministic.
-        rotation: for each component in degrees.
+        rotation: optional component rotation in degrees.
         h_mirror: horizontal mirror in y axis (x, 1) (1, 0). This is the most common.
         v_mirror: vertical mirror using x axis (1, y) (0, y).
         add_ports_prefix: adds port names with prefix.
@@ -220,6 +224,10 @@ def pack(
             if text:
                 for text_offset, text_anchor in zip(text_offsets, text_anchors):
                     label = packed << text(f"{text_prefix}{index}")
+                    if text_mirror:
+                        label.mirror()
+                    if text_rotation:
+                        label.rotate(text_rotation)
                     label.move(
                         np.array(text_offset) + getattr(d.size_info, text_anchor)
                     )
@@ -295,6 +303,7 @@ if __name__ == "__main__":
         name_prefix="demo",
         text_anchors=["nc"],
         text_offsets=[(-10, 0)],
+        text_mirror=True,
         v_mirror=True,
     )
     c = p[0]
