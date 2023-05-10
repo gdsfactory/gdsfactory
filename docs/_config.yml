@@ -18,7 +18,6 @@ execute:
     - "*01_pin_waveguide*"
     - "*1_fdtd_sparameters*"
     - "*2_interconnect*"
-    - "*12_database*"
     - "*optimiser*"
     - "*03_numerical_implantation*"
     - "*02_model_extraction*"

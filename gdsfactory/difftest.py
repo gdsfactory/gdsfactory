@@ -124,9 +124,10 @@ def run_xor(file1, file2, tolerance: int = 1, verbose: bool = False) -> None:
 def difftest(
     component: Component,
     test_name: Optional[str] = None,
-    dirpath_ref: pathlib.Path = PATH.gds_ref,
-    dirpath_run: pathlib.Path = PATH.gds_run,
-    dirpath_diff: pathlib.Path = PATH.gds_diff,
+    dirpath: pathlib.Path = PATH.gdslib,
+    dirpath_ref: Optional[pathlib.Path] = PATH.gds_ref,
+    dirpath_run: Optional[pathlib.Path] = PATH.gds_run,
+    dirpath_diff: Optional[pathlib.Path] = PATH.gds_diff,
 ) -> None:
     """Avoids GDS regressions tests on the GeometryDifference.
 
@@ -139,7 +140,10 @@ def difftest(
     Args:
         component: to test if it has changed.
         test_name: used to store the GDS file.
-        dirpath: defaults to cwd refers to where the test is being invoked.
+        dirpath: default directory for storing reference/run/diff files.
+        dirpath_ref: optional directory for storing reference files.
+        dirpath_run: optional directory for storing run files.
+        dirpath_diff: optional directory for storing diff files.
     """
     # containers function_name is different from component.name
     # we store the container with a different name from original component
@@ -150,6 +154,10 @@ def difftest(
         else f"{component.name}"
     )
     filename = f"{test_name}.gds"
+    dirpath_ref = dirpath_ref or dirpath / "gds_ref"
+    dirpath_run = dirpath_run or dirpath / "gds_run"
+    dirpath_diff = dirpath_diff or dirpath / "gds_diff"
+
     ref_file = dirpath_ref / filename
     run_file = dirpath_run / filename
     diff_file = dirpath_diff / filename
