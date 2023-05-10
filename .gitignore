@@ -5,6 +5,7 @@ gdsfactory/generic_tech/klayout/klayoutrc
 gdsfactory/plugins/dagster/tmp*
 # C extensions
 *.so
+*.l2n
 conda/
 *.properties
 *.sqlite3
