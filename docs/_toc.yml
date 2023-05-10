@@ -21,6 +21,7 @@ parts:
         - file: notebooks/20_schematic_driven_layout
         - file: notebooks/10_yaml_component
         - file: notebooks/11_get_netlist
+        - file: notebooks/11_get_netlist_spice
     - file: layout
       sections:
         - file: notebooks/00_geometry
