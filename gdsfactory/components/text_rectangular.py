@@ -39,7 +39,7 @@ def text_rectangular(
             if character == " ":
                 xoffset += pixel_size * 6
             elif character.upper() not in characters:
-                print(f"skipping character {character} not in font")
+                print(f"skipping character {character!r} not in font")
             else:
                 pixels = characters[character.upper()]
                 ref = component.add_ref(
@@ -60,7 +60,7 @@ def text_rectangular(
         elif justify == "center":
             ref.move(origin=ref.center, destination=position, axis="x")
         else:
-            raise ValueError(f"justify = {justify} not valid (left, center, right)")
+            raise ValueError(f"justify = {justify!r} not valid (left, center, right)")
 
     return component
 

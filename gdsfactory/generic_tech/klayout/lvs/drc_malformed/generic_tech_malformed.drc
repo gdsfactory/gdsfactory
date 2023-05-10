@@ -357,7 +357,7 @@ logger.info("Total area of the design is #{CHIP.area} um^2.")
 logger.info('Executing Malformed straight_heater_metal device')
 
 malformed_straight_heater_metal = heater.and(wg).not_interacting(heater_mk)
-malformed_straight_heater_metal.output('straight_heater_metal', 
+malformed_straight_heater_metal.output('straight_heater_metal',
                                        'straight_heater_metal: straight_heater_metal device should be covered by heater_mk (47/1) layer' )
 
 #============================================

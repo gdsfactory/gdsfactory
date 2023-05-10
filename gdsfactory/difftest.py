@@ -124,7 +124,9 @@ def run_xor(file1, file2, tolerance: int = 1, verbose: bool = False) -> None:
 def difftest(
     component: Component,
     test_name: Optional[str] = None,
-    dirpath: pathlib.Path = PATH.gdsdiff,
+    dirpath_ref: pathlib.Path = PATH.gds_ref,
+    dirpath_run: pathlib.Path = PATH.gds_run,
+    dirpath_diff: pathlib.Path = PATH.gds_diff,
 ) -> None:
     """Avoids GDS regressions tests on the GeometryDifference.
 
@@ -148,9 +150,9 @@ def difftest(
         else f"{component.name}"
     )
     filename = f"{test_name}.gds"
-    ref_file = dirpath / "gds_ref" / filename
-    run_file = dirpath / "gds_run" / filename
-    diff_file = dirpath / "gds_diff" / filename
+    ref_file = dirpath_ref / filename
+    run_file = dirpath_run / filename
+    diff_file = dirpath_diff / filename
 
     component.write_gds(gdspath=run_file)
 

@@ -9,7 +9,6 @@ import hashlib
 import itertools
 import math
 import pathlib
-import tempfile
 import uuid
 import warnings
 from collections import Counter
@@ -33,7 +32,7 @@ from gdsfactory.component_layout import (
     get_polygons,
 )
 from gdsfactory.component_reference import ComponentReference, Coordinate, SizeInfo
-from gdsfactory.config import CONF, logger
+from gdsfactory.config import CONF, logger, GDSDIR_TEMP
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.port import (
     Port,
@@ -53,8 +52,6 @@ from gdsfactory.generic_tech import LAYER
 
 Plotter = Literal["holoviews", "matplotlib", "qt", "klayout"]
 Axis = Literal["x", "y"]
-
-GDSDIR_TEMP = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
 
 
 class UncachedComponentWarning(UserWarning):
@@ -113,8 +110,6 @@ Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
 LayerSpec = Union[str, int, Layer, None]
 
-tmp = pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
-tmp.mkdir(exist_ok=True, parents=True)
 _timestamp2019 = datetime.datetime.fromtimestamp(1572014192.8273)
 MAX_NAME_LENGTH = 32
 
@@ -1398,6 +1393,7 @@ class Component(_GeometryHelper):
         self,
         show_ports: bool = True,
         port_marker_layer: Layer = (1, 10),
+        show_labels: bool = False,
     ) -> None:
         """Returns klayout image.
 
@@ -1406,6 +1402,7 @@ class Component(_GeometryHelper):
         Args:
             show_ports: shows component with port markers and labels.
             port_marker_layer: for the ports.
+            show_labels: shows labels.
         """
 
         component = (
@@ -1431,6 +1428,8 @@ class Component(_GeometryHelper):
             layout_view.load_layout(str(gdspath.absolute()))
             layout_view.max_hier()
             layout_view.load_layer_props(str(lyp_path))
+
+            layout_view.set_config("text-visible", "true" if show_labels else "false")
 
             pixel_buffer = layout_view.get_pixels_with_options(800, 600)
             png_data = pixel_buffer.to_png_data()
@@ -1458,7 +1457,7 @@ class Component(_GeometryHelper):
 
             gdspath = self.write_gds(gdsdir=PATH.gdslib / "extra", logging=False)
 
-            dirpath = pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
+            dirpath = GDSDIR_TEMP
             dirpath.mkdir(exist_ok=True, parents=True)
             lyp_path = dirpath / "layers.lyp"
 

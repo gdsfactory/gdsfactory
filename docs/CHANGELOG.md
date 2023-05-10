@@ -1,5 +1,13 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.92.0
+
+- show labels in klayout [PR](https://github.com/gdsfactory/gdsfactory/pull/1622)
+
+## 6.91.0
+
+- replace with database s3 bucket [PR](https://github.com/gdsfactory/gdsfactory/pull/1617)
+
 ## 6.89.7
 
 - gdslib replacement with database s3 bucket [PR](https://github.com/gdsfactory/gdsfactory/pull/1594)

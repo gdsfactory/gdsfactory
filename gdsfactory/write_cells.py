@@ -83,7 +83,7 @@ def get_import_gds_script(dirpath: PathType, module: Optional[str] = None) -> st
     """
     dirpath = pathlib.Path(dirpath)
     if not dirpath.exists():
-        raise ValueError(f"{dirpath.absolute()!r} does not exist.")
+        raise ValueError(f"{str(dirpath.absolute())!r} does not exist.")
 
     gdspaths = list(dirpath.glob("*.gds")) + list(dirpath.glob("*.GDS"))
 
@@ -93,7 +93,7 @@ def get_import_gds_script(dirpath: PathType, module: Optional[str] = None) -> st
     logger.info(f"Writing {len(gdspaths)} cells from {dirpath.absolute()!r}")
 
     script = [script_prefix]
-    script += [f"gdsdir = {dirpath.absolute()!r}\n"]
+    script += [f"gdsdir = {str(dirpath.absolute())!r}\n"]
     script += [
         "import_gds = partial(gf.import_gds, gdsdir=gdsdir, decorator=add_ports)\n"
     ]

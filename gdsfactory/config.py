@@ -21,6 +21,7 @@ import json
 import os
 import pathlib
 import subprocess
+import tempfile
 from pathlib import Path
 from pprint import pprint
 from typing import Any, Iterable, Optional, Union
@@ -33,7 +34,7 @@ from omegaconf import OmegaConf
 from rich.console import Console
 from rich.table import Table
 
-__version__ = "6.90.9"
+__version__ = "6.92.1"
 PathType = Union[str, pathlib.Path]
 
 home = pathlib.Path.home()
@@ -49,6 +50,7 @@ yamlpath_default = module_path / "config.yml"
 yamlpath_home = home_path / "config.yml"
 
 MAX_NAME_LENGTH = 32
+GDSDIR_TEMP = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
 
 logger.remove()
 logger.add(sink=sys.stderr, level="WARNING")
@@ -156,18 +158,20 @@ class Paths:
     generic_tech = module / "generic_tech"
     klayout = generic_tech / "klayout"
     klayout_tech = klayout / "tech"
-    klayout_lyp = klayout_tech / "layers.lyp"
+    klayout_lyp = klayout_tech / "generic_tech.lyp"
     klayout_yaml = generic_tech / "layer_views.yaml"
     schema_netlist = repo_path / "tests" / "schemas" / "netlist.json"
     netlists = module_path / "samples" / "netlists"
     gdsdir = repo_path / "tests" / "gds"
-    gdslib = repo_path / "gdslib"
+    gdslib = repo_path / "data"
     modes = gdslib / "modes"
-    gdsdiff = gdslib / "gds"
     sparameters = gdslib / "sp"
     interconnect = gdslib / "interconnect"
     optimiser = repo_path / "tune"
     notebooks = repo_path / "docs" / "notebooks"
+    gds_ref = gdslib / "gds"
+    gds_run = GDSDIR_TEMP / "gds_run"
+    gds_diff = GDSDIR_TEMP / "gds_diff"
 
 
 def read_config(

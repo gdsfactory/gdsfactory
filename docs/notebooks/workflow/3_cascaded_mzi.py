@@ -1,27 +1,29 @@
+# -*- coding: utf-8 -*-
 # ---
 # jupyter:
 #   jupytext:
+#     custom_cell_magics: kql
 #     text_representation:
 #       extension: .py
-#       format_name: light
-#       format_version: '1.5'
-#       jupytext_version: 1.14.4
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 # ---
 
-# + [markdown] tags=[]
+# %% [markdown]
 # # Cascaded MZI Filter
 #
-# This example shows how to assemble components together to form a complex component that can be simulated by integrating `gdsfactory`, `tidy3d`, and `sax`.  The design is based on the first stage of the Coarse Wavelength Division Multiplexer presented in [S. Dwivedi, P. De Heyn, P. Absil, J. Van Campenhout and W. Bogaerts, “Coarse wavelength division multiplexer on silicon-on-insulator for 100 GbE,” _2015 IEEE 12th International Conference on Group IV Photonics (GFP)_, Vancouver, BC, Canada, 2015, pp. 9-10, doi: 10.1109/Group4.2015.7305928.](https://doi.org/10.1109/Group4.2015.7305928)
+# This example shows how to assemble components together to form a complex component that can be simulated by integrating `gdsfactory`, `tidy3d`, and `sax`.  The design is based on the first stage of the Coarse Wavelength Division Multiplexer presented in S. Dwivedi, P. De Heyn, P. Absil, J. Van Campenhout and W. Bogaerts, “Coarse wavelength division multiplexer on silicon-on-insulator for 100 GbE,” _2015 IEEE 12th International Conference on Group IV Photonics (GFP)_, Vancouver, BC, Canada, 2015, pp. 9-10, doi: [10.1109/Group4.2015.7305928](https://doi.org/10.1109/Group4.2015.7305928).
 #
 # Each filter stage is formed by 4 cascaded Mach-Zenhder Interferometers (MZIs) with predefined delays for the central wavelength.  Symmetrical Direction Couplers (DCs) are used to mix the signals at the ends of the MZI arms.  In order to facilitate fabrication, all DC gaps are kept equal, so the power transfer ratios are defined by the coupling length of the DCs.
 #
 # We will design each DC through 3D FDTD simulations to guarantee the desired power ratios, which have been calculated to provide maximally flat response.  The S parameters computed through FDTD are latter used in the full circuit simulation along with models for staight and curved waveguide sections, leading to an accurate model that exhibits features similar to those found in experimental data.
 
-# + tags=[]
+# %%
 import gdsfactory as gf
 import gdsfactory.simulation.gtidy3d as gt
 
@@ -36,11 +38,11 @@ import numpy as np
 
 import matplotlib.pyplot as plt
 
-# -
 
+# %% [markdown]
 # We start by loading the desired PDK and setting the main geometry and filter parameters, such as DC gap and central wavelength.
 
-# + tags=[]
+# %%
 fsr = 0.01
 gap = 0.15
 width = 0.45
@@ -63,13 +65,11 @@ print(
 - {box.material} clad with {box.thickness}µm"""
 )
 
-
-# -
-
+# %% [markdown]
 # The first component we need to design is the DC.  We model the coupling reagion first:
 
 
-# + tags=[]
+# %%
 @gf.cell
 def coupler_straight(
     gap: float, length: float, cross_section: gf.typings.CrossSectionSpec = "strip"
@@ -93,13 +93,11 @@ def coupler_straight(
 
 coupler_straight(gap, 2.0, cross_section=cross_section)
 
-
-# -
-
+# %% [markdown]
 # Next, we design the waveguide separating region using S bends.
 
 
-# + tags=[]
+# %%
 @gf.cell
 def coupler_splitter(
     gap: float,
@@ -135,13 +133,11 @@ coupler_splitter(
     gap, separation=separation, bend_factor=bend_factor, cross_section=cross_section
 )
 
-
-# -
-
+# %% [markdown]
 # To complete the DC, we join the previous designs in a full component.
 
 
-# + tags=[]
+# %%
 @gf.cell
 def coupler_symmetric(
     gap: float,
@@ -179,11 +175,11 @@ coupler_symmetric(
     bend_factor=bend_factor,
     cross_section=cross_section,
 )
-# -
 
+# %% [markdown]
 # We use the `tidy3d` plugin to atumatically create an FDTD simulation of the complete DC.  We can inspect the simulation and port modes before running it to make sure our design is correct.
 
-# + tags=[]
+# %%
 coupler = coupler_symmetric(
     gap,
     2.0,
@@ -211,28 +207,33 @@ simulation = gt.get_simulation(
 
 simulation.plot(z=0)
 simulation.plot(x=0)
-# -
 
+# %% [markdown]
 # Because of the smooth S bend regions, the usual analytical models to calculate the power ratio of the DC give only a rough estimate.  We sweep a range of DC lengths based on those estimates to find the dimensions required in our design for the given PDK.
 
-# + tags=[]
+# %%
 sim_lengths = np.linspace(0.0, 12.0, 13)
-s_params_list = [
-    gt.write_sparameters(
-        component=coupler_symmetric(
-            gap,
-            length,
-            separation=separation,
-            bend_factor=bend_factor,
-            cross_section=cross_section,
-        ),
-        ymargin=2.0,
-        num_modes=2,
-        port_source_names=["o1"],
-        **sim_specs,
-    )
-    for length in sim_lengths
-]
+
+sims = gt.write_sparameters_batch(
+    [
+        {
+            "component": coupler_symmetric(
+                gap,
+                length,
+                separation=separation,
+                bend_factor=bend_factor,
+                cross_section=cross_section,
+            ),
+            "port_source_names": ["o1"],
+            "ymargin": 2.0,
+            "num_modes": 2,
+        }
+        for length in sim_lengths
+    ],
+    **sim_specs,
+)
+
+s_params_list = [sim.result() for sim in sims]
 
 wavelengths = s_params_list[0]["wavelengths"]
 drop = np.array([np.abs(s["o3@0,o1@0"]) ** 2 for s in s_params_list])
@@ -261,15 +262,13 @@ ax[1, 1].set_ylabel("Loss")
 ax[0, 0].legend()
 fig.tight_layout()
 
-
-# -
-
+# %% [markdown]
 # Now we crete a fitting function to calculate the DC length for a given power ratio.
 #
 # In the filter specification, the desired ratios are 0.5, 0.13, 0.12, 0.5, and 0.25.  We calculate the DC lengths accordingly.
 
 
-# + tags=[]
+# %%
 def coupler_length(λ: float = 1.55, power_ratio: float = 0.5):
     i0 = np.argmin(np.abs(wavelengths - λ))
     i1 = min(i0 + 1, len(wavelengths) - 1) if λ > wavelengths[i] else max(i0 - 1, 0)
@@ -295,33 +294,37 @@ power_ratios = [0.50, 0.13, 0.12, 0.50, 0.25]
 lengths = [coupler_length(lda_c, pr) for pr in power_ratios]
 print("Power ratios:", power_ratios)
 print("Lengths:", lengths)
-# -
 
+# %% [markdown]
 # Finally, we simulate the DCs with the calculated lengths to guarantee the fitting error is within tolerance.  As expected, all DCs have the correct power ratios at the central wavelength.
 
-# + tags=[]
-s_params_list = [
-    gt.write_sparameters(
-        component=coupler_symmetric(
-            gap,
-            length,
-            separation=separation,
-            bend_factor=bend_factor,
-            cross_section=cross_section,
-        ),
-        ymargin=2.0,
-        num_modes=2,
-        port_source_names=["o1"],
-        port_symmetries={
-            "o1@0,o1@0": {"o2@0,o2@0", "o3@0,o3@0", "o4@0,o4@0"},
-            "o2@0,o1@0": {"o1@0,o2@0", "o4@0,o3@0", "o3@0,o4@0"},
-            "o3@0,o1@0": {"o1@0,o3@0", "o4@0,o2@0", "o2@0,o4@0"},
-            "o4@0,o1@0": {"o1@0,o4@0", "o3@0,o2@0", "o2@0,o3@0"},
-        },
-        **sim_specs,
-    )
-    for length in lengths
-]
+# %%
+sims = gt.write_sparameters_batch(
+    [
+        {
+            "component": coupler_symmetric(
+                gap,
+                length,
+                separation=separation,
+                bend_factor=bend_factor,
+                cross_section=cross_section,
+            ),
+            "ymargin": 2.0,
+            "num_modes": 2,
+            "port_source_names": ["o1"],
+            "port_symmetries": {
+                "o1@0,o1@0": {"o2@0,o2@0", "o3@0,o3@0", "o4@0,o4@0"},
+                "o2@0,o1@0": {"o1@0,o2@0", "o4@0,o3@0", "o3@0,o4@0"},
+                "o3@0,o1@0": {"o1@0,o3@0", "o4@0,o2@0", "o2@0,o4@0"},
+                "o4@0,o1@0": {"o1@0,o4@0", "o3@0,o2@0", "o2@0,o3@0"},
+            },
+        }
+        for length in lengths
+    ],
+    **sim_specs,
+)
+
+s_params_list = [sim.result() for sim in sims]
 
 fig, ax = plt.subplots(1, 3, figsize=(12, 3))
 errors = []
@@ -349,9 +352,7 @@ fig.tight_layout()
 
 print(errors)
 
-
-# -
-
+# %% [markdown]
 # Now we have to design the arms of each MZI.  The most important parameter here is their free spectral range (FSR), which comes from the path length difference and the group index of the waveguide at the central wavelength:
 #
 # $$\text{FSR} = \frac{\lambda_c^2}{n_g \Delta L}$$
@@ -361,7 +362,7 @@ print(errors)
 # The path length differences for the MZIs are $\Delta L$,  $2\Delta L$, $L_\pi - 2\Delta L$, and $-2\Delta L$, with $L_\pi$ the length required for $\pi$ phase shift (negative values indicate a delay in the opposite arm to positive values).
 
 
-# + tags=[]
+# %%
 def group_index(
     waveguide: gt.modes.Waveguide, mode: int = 0, wavelength_delta: float = 0.01
 ):
@@ -415,13 +416,11 @@ mzi_deltas = [
 ]
 print(f"Path difference (ΔL = {length_delta}, Lπ = {length_pi}):", mzi_deltas)
 
-
-# -
-
+# %% [markdown]
 # Next we create a helper function that returns the MZI arms for a given length difference, respecting the bend radius defined in our PDK.
 
 
-# + tags=[]
+# %%
 def mzi_arms(
     mzi_delta: float,
     separation: float = 4.0,
@@ -491,13 +490,11 @@ def mzi_arms(
 
 mzi_arms(mzi_deltas[0], separation=separation, cross_section=cross_section)
 
-
-# -
-
+# %% [markdown]
 # Now we can put all pieces together to layout the complete cascaded MZI filter:
 
 
-# + tags=[]
+# %%
 @gf.cell
 def cascaded_mzi(
     coupler_gaps,
@@ -559,20 +556,20 @@ layout = cascaded_mzi(
     cross_section=cross_section,
 )
 layout
-# -
 
+# %% [markdown]
 # Finally, we want to build a complete simulation of the filter based on individual models for its components.
 #
 # We extract the filter netlist and verify we'll need models for the straight and bend sections, as well as for the DCs.
 
-# + tags=[]
+# %%
 netlist = layout.get_netlist()
 set(v["component"] for v in netlist["instances"].values())
-# -
 
+# %% [markdown]
 # The model for the straight sections is based directly on the waveguide mode, including dispersion effects.
 
-# + tags=[]
+# %%
 straight_wavelengths = jnp.linspace(wavelengths[0], wavelengths[-1], 11)
 straight_neffs = np.empty(straight_wavelengths.size, dtype=complex)
 
@@ -588,7 +585,7 @@ plt.xlabel("λ (µm)")
 plt.ylabel("n_eff")
 
 
-# + tags=[]
+# %%
 @jax.jit
 def straight_model(wl=1.55, length: float = 1.0):
     s21 = jnp.exp(
@@ -605,15 +602,13 @@ def straight_model(wl=1.55, length: float = 1.0):
 
 straight_model()
 
-
-# -
-
+# %% [markdown]
 # For the bends, we want to include the full S matrix, because we are not using a circular shape, so simple modal decomposition becomes less accurate.  Similarly, we want to use the full simulated S matrix from the DCs in our model, instead of analytical approximations.
 #
 # We encapsulate the S parameter calculation in a helper function that generates the `jax` model for each component.
 
 
-# + tags=[]
+# %%
 def bend_model(cross_section: gf.typings.CrossSectionSpec = "strip"):
     s = gt.write_sparameters(
         component=gf.components.bend_euler(cross_section=cross_section),
@@ -639,7 +634,7 @@ def bend_model(cross_section: gf.typings.CrossSectionSpec = "strip"):
 
 bend_model(cross_section=cross_section)()
 
-# + tags=[]
+# %%
 c = gf.Component(name="bend")
 ref = c.add_ref(gf.components.bend_euler(cross_section=cross_section))
 c.add_ports(ref.ports)
@@ -652,7 +647,7 @@ plt.plot(wavelengths, jnp.abs(s[("o1", "o2")]) ** 2)
 plt.xlabel("λ (µm)")
 
 
-# + tags=[]
+# %%
 def coupler_model(
     gap: float = 0.1,
     length: float = 1.0,
@@ -711,13 +706,11 @@ coupler_model(
     cross_section=cross_section,
 )()
 
-
-# -
-
+# %% [markdown]
 # We must take care of using one model for each DC based on its length, so we use another helper function that iterates over the netlist instances and generates the appropriate model for each one:
 
 
-# + tags=[]
+# %%
 def patch_netlist(netlist, models, models_to_patch):
     instances = netlist["instances"]
     for name in instances:
@@ -766,11 +759,11 @@ for i, (pr, l) in enumerate(pl_set):
 
 ax[0].legend()
 fig.tight_layout()
-# -
 
+# %% [markdown]
 # Finally, we can simulate the complete filter response around the central wavelength and get the desired FSR and box-like shape.
 
-# + tags=[]
+# %%
 fig, ax = plt.subplots(1, 1, figsize=(12, 4))
 
 layout = cascaded_mzi(
