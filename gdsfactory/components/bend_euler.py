@@ -120,16 +120,17 @@ def bend_euler_s(**kwargs) -> Component:
         kwargs: cross_section settings.
 
     .. code::
-                      _____ o2
+
+                        _____ o2
+                       /
+                      /
                      /
                     /
+                    |
                    /
                   /
-                  |
                  /
-                /
-               /
-       o1_____/
+         o1_____/
 
     """
     c = Component()

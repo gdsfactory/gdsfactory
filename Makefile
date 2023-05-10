@@ -75,7 +75,7 @@ gds:
 	python gdsfactory/components/straight.py
 
 data-upload:
-	aws s3 sync data s3://gdslib --no-sign-request
+	aws s3 sync data s3://gdslib
 	# gh release upload v6.90.3 data/gds/*.gds --clobber
 	# gh release upload v6.90.3 data/sp/*.npz --clobber
 	# gh release upload v6.90.3 data/sp/*.yml --clobber

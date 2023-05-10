@@ -153,4 +153,6 @@ jobs:
           mkdir -p $HOME/.tidy3d
           echo ${{ secrets.TIDY3D_AUTH }} > $HOME/.tidy3d/config
           make docs
-          make data-upload
+          if [ ${{ secrets.TIDY3D_AUTH }} ]; then
+            make data-upload
+          fi
