@@ -7,7 +7,7 @@ import gdsfactory as gf
 
 @gf.cell
 def pads_with_routes(radius: float = 10):
-    """Returns MZI interferometer with bend."""
+    """Returns 2 pads connected with metal wires."""
     c = gf.Component()
     pad = gf.components.pad()
 
