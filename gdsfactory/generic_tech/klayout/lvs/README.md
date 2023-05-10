@@ -46,7 +46,7 @@ Example:
 
 - `--topcell=<topcell_name>`            Topcell name to use.
 
-- `--run_mode=<run_mode>`               Select klayout mode Allowed modes (flat , deep, tiling). [default: deep]
+- `--run_mode=<run_mode>`               Select klayout mode Allowed modes (flat , deep, tiling). [default: flat]
 
 - `--lvs_sub=<sub_name>`                Substrate name used in your design.
 
