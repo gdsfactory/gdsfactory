@@ -825,20 +825,22 @@ def auto_rename_ports(
 
     """
     if port_type is None:
-        rename_ports_by_orientation(
-            component=component,
-            select_ports=select_ports_optical,
-            prefix=prefix_optical,
-            function=function,
-            **kwargs,
-        )
-        rename_ports_by_orientation(
-            component=component,
-            select_ports=select_ports_electrical,
-            prefix=prefix_electrical,
-            function=function,
-            **kwargs,
-        )
+        if select_ports_optical:
+            rename_ports_by_orientation(
+                component=component,
+                select_ports=select_ports_optical,
+                prefix=prefix_optical,
+                function=function,
+                **kwargs,
+            )
+        if select_ports_electrical:
+            rename_ports_by_orientation(
+                component=component,
+                select_ports=select_ports_electrical,
+                prefix=prefix_electrical,
+                function=function,
+                **kwargs,
+            )
     else:
         rename_ports_by_orientation(
             component=component,
