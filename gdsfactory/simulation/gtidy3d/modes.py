@@ -313,7 +313,7 @@ class Waveguide(pydantic.BaseModel):
         Parameters:
             field_name: one of 'Ex', 'Ey', 'Ez', 'Hx', 'Hy', 'Hz'.
             value: component of the field to plot. One of 'real',
-                'imag', 'abs', 'phase'.
+                'imag', 'abs', 'phase', 'dB'.
             mode_index: mode selection.
             kwargs: keyword arguments passed to xarray.DataArray.plot.
         """
@@ -324,10 +324,15 @@ class Waveguide(pydantic.BaseModel):
             data = data.imag
         elif value == "abs":
             data = np.abs(data)
+        elif value == "dB":
+            data = 20 * np.log10(np.abs(data))
+            data -= np.max(data)
         elif value == "phase":
             data = np.arctan2(data.imag, data.real)
         else:
-            raise ValueError("value must be one of 'real', 'imag', 'abs', 'phase'")
+            raise ValueError(
+                "value must be one of 'real', 'imag', 'abs', 'phase', 'dB'"
+            )
         data_array = xarray.DataArray(
             data.T, coords={"y": self._data["y"], "x": self._data["x"]}
         )
@@ -631,83 +636,93 @@ def sweep_coupling_length(
 
 
 if __name__ == "__main__":
-    from matplotlib import pyplot
+    import matplotlib.pyplot as plt
 
-    # Rib waveguide
-
-    rib = Waveguide(
+    strip = Waveguide(
         wavelength=1.55,
         core_width=0.5,
-        core_thickness=0.25,
-        slab_thickness=0.07,
-        core_material="si",
-        clad_material="sio2",
-        group_index_step=True,
-        num_modes=2,
-    )
-    print("\nRib:", rib)
-    print("Effective indices:", rib.n_eff)
-    print("Group indices:", rib.n_group)
-    print("Mode areas:", rib.mode_area)
-
-    fig, ax = pyplot.subplots(2, rib.num_modes + 1, tight_layout=True, figsize=(12, 8))
-    rib.plot_index(ax=ax[0, 0])
-    rib.waveguide.plot_structures(z=0, ax=ax[1, 0])
-    rib.waveguide.plot_grid(z=0, ax=ax[1, 0])
-    for i in range(rib.num_modes):
-        rib.plot_field("Ex", mode_index=i, ax=ax[0, i + 1])
-        rib.plot_field("Ey", mode_index=i, ax=ax[1, i + 1])
-        ax[0, i + 1].set_title(f"Mode {i}")
-    fig.suptitle("Rib waveguide")
-
-    # Strip waveguide coupler
-
-    coupler = WaveguideCoupler(
-        wavelength=1.55,
-        core_width=(0.45, 0.45),
         core_thickness=0.22,
+        slab_thickness=0.0,
         core_material="si",
         clad_material="sio2",
-        num_modes=4,
-        gap=0.1,
     )
+    strip.plot_field(field_name="Ex", mode_index=0, value="dB")  # TE
+    plt.show()
 
-    print("\nCoupler:", coupler)
-    print("Effective indices:", coupler.n_eff)
-    print("Mode areas:", coupler.mode_area)
-    print("Coupling length:", coupler.coupling_length())
+    # from matplotlib import pyplot
+    # rib = Waveguide(
+    #     wavelength=1.55,
+    #     core_width=0.5,
+    #     core_thickness=0.25,
+    #     slab_thickness=0.07,
+    #     core_material="si",
+    #     clad_material="sio2",
+    #     group_index_step=True,
+    #     num_modes=2,
+    # )
+    # print("\nRib:", rib)
+    # print("Effective indices:", rib.n_eff)
+    # print("Group indices:", rib.n_group)
+    # print("Mode areas:", rib.mode_area)
 
-    gaps = np.linspace(0.05, 0.15, 11)
-    lengths = sweep_coupling_length(coupler, gaps)
+    # fig, ax = pyplot.subplots(2, rib.num_modes + 1, tight_layout=True, figsize=(12, 8))
+    # rib.plot_index(ax=ax[0, 0])
+    # rib.waveguide.plot_structures(z=0, ax=ax[1, 0])
+    # rib.waveguide.plot_grid(z=0, ax=ax[1, 0])
+    # for i in range(rib.num_modes):
+    #     rib.plot_field("Ex", mode_index=i, ax=ax[0, i + 1])
+    #     rib.plot_field("Ey", mode_index=i, ax=ax[1, i + 1])
+    #     ax[0, i + 1].set_title(f"Mode {i}")
+    # fig.suptitle("Rib waveguide")
 
-    _, ax = pyplot.subplots(1, 1)
-    ax.plot(gaps, lengths)
-    ax.set(xlabel="Gap (μm)", ylabel="Coupling length (μm)")
-    ax.legend(["TE", "TM"])
-    ax.grid()
+    # # Strip waveguide coupler
 
-    # Strip bend mismatch
+    # coupler = WaveguideCoupler(
+    #     wavelength=1.55,
+    #     core_width=(0.45, 0.45),
+    #     core_thickness=0.22,
+    #     core_material="si",
+    #     clad_material="sio2",
+    #     num_modes=4,
+    #     gap=0.1,
+    # )
 
-    radii = np.arange(6, 21)
-    radii = np.arange(6, 7)
-    bend = Waveguide(
-        wavelength=1.55,
-        core_width=0.5,
-        core_thickness=0.25,
-        core_material="si",
-        clad_material="sio2",
-        num_modes=1,
-        bend_radius=radii.min(),
-    )
-    mismatch = sweep_bend_mismatch(bend, radii)
+    # print("\nCoupler:", coupler)
+    # print("Effective indices:", coupler.n_eff)
+    # print("Mode areas:", coupler.mode_area)
+    # print("Coupling length:", coupler.coupling_length())
 
-    fig, ax = pyplot.subplots(1, 2, tight_layout=True, figsize=(9, 4))
-    bend.plot_field("Ex", ax=ax[0])
-    ax[1].plot(radii, 10 * np.log10(mismatch))
-    ax[1].set(xlabel="Radius (μm)", ylabel="Mismatch (dB)")
-    ax[1].grid()
-    fig.suptitle("Strip waveguide bend")
-    print(bend.filepath)
+    # gaps = np.linspace(0.05, 0.15, 11)
+    # lengths = sweep_coupling_length(coupler, gaps)
+
+    # _, ax = pyplot.subplots(1, 1)
+    # ax.plot(gaps, lengths)
+    # ax.set(xlabel="Gap (μm)", ylabel="Coupling length (μm)")
+    # ax.legend(["TE", "TM"])
+    # ax.grid()
+
+    # # Strip bend mismatch
+
+    # radii = np.arange(6, 21)
+    # radii = np.arange(6, 7)
+    # bend = Waveguide(
+    #     wavelength=1.55,
+    #     core_width=0.5,
+    #     core_thickness=0.25,
+    #     core_material="si",
+    #     clad_material="sio2",
+    #     num_modes=1,
+    #     bend_radius=radii.min(),
+    # )
+    # mismatch = sweep_bend_mismatch(bend, radii)
+
+    # fig, ax = pyplot.subplots(1, 2, tight_layout=True, figsize=(9, 4))
+    # bend.plot_field("Ex", ax=ax[0])
+    # ax[1].plot(radii, 10 * np.log10(mismatch))
+    # ax[1].set(xlabel="Radius (μm)", ylabel="Mismatch (dB)")
+    # ax[1].grid()
+    # fig.suptitle("Strip waveguide bend")
+    # print(bend.filepath)
 
     # Effective index sweep
 
