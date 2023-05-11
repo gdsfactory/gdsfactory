@@ -91,7 +91,7 @@ class SubcircuitModelsReader < RBA::NetlistSpiceReaderDelegate
       # we need to translate the parameter values from SI to um values:
       device.set_parameter('W', ((params['W'] || 0.0) * (params['PAR'] || 1.0)) * 1e6)
       device.set_parameter('L', ((params['L'] || 0.0) * (params['S'] || 1.0)) * 1e6)
-      device.set_parameter('R', (params['R'] * (params['S'] || 1.0) / (params['PAR'] || 1.0)))
+      device.set_parameter('R', ((params['R'] || 0.0) * (params['S'] || 1.0) / (params['PAR'] || 1.0)))
 
     else
       return super
