@@ -1004,10 +1004,34 @@ class Component(_GeometryHelper):
                 polygon = Polygon(polygon.points, layer, datatype)
             self._add_polygons(polygon)
             return polygon
-        if hasattr(points, "exterior"):  # points is a shapely Polygon
+
+        elif hasattr(points, "geoms"):
+            for geom in points.geoms:
+                polygon = self.add_polygon(geom, layer=layer)
+            return polygon
+        elif hasattr(points, "exterior"):  # points is a shapely Polygon
             layer, datatype = _parse_layer(layer)
-            points = np.round(points.exterior.coords, 3)
-            polygon = gdstk.Polygon(points, layer, datatype)
+            points_on_grid = np.round(points.exterior.coords, 3)
+            polygon = gdstk.Polygon(points_on_grid, layer, datatype)
+
+            if points.interiors:
+                from shapely import get_coordinates
+
+                points_on_grid_interior = np.round(get_coordinates(points.interiors), 3)
+                polygon_interior = gdstk.Polygon(
+                    points_on_grid_interior, layer, datatype
+                )
+                polygons = gdstk.boolean(
+                    polygon,
+                    polygon_interior,
+                    operation="not",
+                    layer=layer,
+                    datatype=datatype,
+                )
+                for polygon in polygons:
+                    self._add_polygons(polygon)
+                return polygon
+
             self._add_polygons(polygon)
             return polygon
 
