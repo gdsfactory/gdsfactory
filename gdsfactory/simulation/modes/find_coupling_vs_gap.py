@@ -82,21 +82,21 @@ def find_coupling_vs_gap(
         overwrite: overwrites results even if found on disk.
 
     Keyword Args:
-        wg_width: wg_width (um) for the symmetric case.
+        core_width: core_width (um) for the symmetric case.
         gap: for the case of only two waveguides.
-        wg_widths: list or tuple of waveguide widths.
+        core_widths: list or tuple of waveguide widths.
         gaps: list or tuple of waveguide gaps.
-        wg_thickness: wg height (um)
+        core_thickness: wg height (um)
         slab_thickness: thickness for the waveguide slab
-        ncore: core material refractive index
-        nclad: clad material refractive index
-        nslab: Optional slab material refractive index. Defaults to ncore.
+        core_material: core material refractive index
+        clad_material: clad material refractive index
+        nslab: Optional slab material refractive index. Defaults to core_material.
         ymargin: margin in y.
         sz: simulation region thickness (um).
         resolution: resolution (pixels/um).
         nmodes: number of modes.
         sidewall_angles: waveguide sidewall angle (radians),
-            tapers from wg_width at top of slab, upwards, to top of waveguide.
+            tapers from core_width at top of slab, upwards, to top of waveguide.
 
     """
     if filepath and not overwrite and pathlib.Path(filepath).exists():

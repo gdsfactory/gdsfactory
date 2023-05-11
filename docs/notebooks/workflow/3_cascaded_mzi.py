@@ -386,11 +386,11 @@ def mzi_path_difference(waveguide: gt.modes.Waveguide, group_index: float, fsr: 
 
 
 mode_solver_specs = dict(
-    wg_width=width,
-    wg_thickness=core.thickness,
+    core_width=width,
+    core_thickness=core.thickness,
     slab_thickness=0,
-    ncore=core.material,
-    nclad=clad.material,
+    core_material=core.material,
+    clad_material=clad.material,
     nmodes=2,
     xmargin=2.0,
     t_box=min(2.0, box.thickness),

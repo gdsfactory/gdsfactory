@@ -21,8 +21,8 @@ nSi = 3.48
 nSiO2 = 1.44
 
 
-def fiber_ncore(fiber_numerical_aperture, fiber_nclad):
-    return (fiber_numerical_aperture**2 + fiber_nclad**2) ** 0.5
+def fiber_core_material(fiber_numerical_aperture, fiber_clad_material):
+    return (fiber_numerical_aperture**2 + fiber_clad_material**2) ** 0.5
 
 
 def get_simulation_grating_farfield(
@@ -36,9 +36,9 @@ def get_simulation_grating_farfield(
     fiber_xposition: float = 1.0,
     fiber_core_diameter: float = 10.4,
     fiber_numerical_aperture: float = 0.14,
-    fiber_nclad: float = nSiO2,
-    ncore: float = nSi,
-    nclad: float = nSiO2,
+    fiber_clad_material: float = nSiO2,
+    core_material: float = nSi,
+    clad_material: float = nSiO2,
     nsubstrate: float = nSi,
     pml_thickness: float = 1,
     box_thickness: float = 2.0,
@@ -53,8 +53,8 @@ def get_simulation_grating_farfield(
 
     FIXME! needs some more work.
 
-    na**2 = ncore**2 - nclad**2
-    ncore = sqrt(na**2 + ncore**2)
+    na**2 = core_material**2 - clad_material**2
+    core_material = sqrt(na**2 + core_material**2)
 
     Args:
         period: fiber grating period.
@@ -69,9 +69,9 @@ def get_simulation_grating_farfield(
         fiber_xposition: xposition.
         fiber_core_diameter: fiber diameter.
         fiber_numerical_aperture: NA.
-        fiber_nclad: fiber cladding index.
-        ncore: fiber index core.
-        nclad: top cladding index.
+        fiber_clad_material: fiber cladding index.
+        core_material: fiber index core.
+        clad_material: top cladding index.
         nbox: box index bottom.
         nsubstrate: index substrate.
         pml_thickness: pml_thickness (um).
@@ -103,10 +103,10 @@ def get_simulation_grating_farfield(
         fiber_xposition=fiber_xposition,
         fiber_core_diameter=fiber_core_diameter,
         fiber_numerical_aperture=fiber_core_diameter,
-        fiber_nclad=fiber_nclad,
+        fiber_clad_material=fiber_clad_material,
         resolution=resolution,
-        ncore=ncore,
-        nclad=nclad,
+        core_material=core_material,
+        clad_material=clad_material,
         nsubstrate=nsubstrate,
         n_periods=n_periods,
         box_thickness=box_thickness,
@@ -122,8 +122,8 @@ def get_simulation_grating_farfield(
 
     substrate_thickness = 1.0
     hair = 4
-    core_material = mp.Medium(index=ncore)
-    clad_material = mp.Medium(index=nclad)
+    core_material = mp.Medium(index=core_material)
+    clad_material = mp.Medium(index=clad_material)
     fiber_angle = np.radians(fiber_angle_deg)
 
     y_offset = 0
@@ -182,9 +182,11 @@ def get_simulation_grating_farfield(
     fiber_clad = 120
     hfiber_geom = 100  # Some large number to make fiber extend into PML
 
-    fiber_ncore = (fiber_numerical_aperture**2 + fiber_nclad**2) ** 0.5
-    fiber_clad_material = mp.Medium(index=fiber_nclad)
-    fiber_core_material = mp.Medium(index=fiber_ncore)
+    fiber_core_material = (
+        fiber_numerical_aperture**2 + fiber_clad_material**2
+    ) ** 0.5
+    fiber_clad_material = mp.Medium(index=fiber_clad_material)
+    fiber_core_material = mp.Medium(index=fiber_core_material)
 
     geometry = [
         mp.Block(

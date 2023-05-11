@@ -277,7 +277,7 @@ cells:
       - 2
       - 0
       n_periods: 30
-      ncladding: 1.443
+      clad_materialding: 1.443
       neff: 2.638
       p_start: 26
       polarization: te
@@ -301,7 +301,7 @@ cells:
       - 2
       - 0
       n_periods: 30
-      ncladding: 1.443
+      clad_materialding: 1.443
       neff: 2.638
       p_start: 26
       polarization: te

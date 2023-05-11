@@ -31,7 +31,7 @@ from gdsfactory.simulation.gmeep.get_simulation import (
 from gdsfactory.technology import LayerStack
 from gdsfactory.typings import ComponentSpec, PathType, Port, PortSymmetries
 
-ncores = multiprocessing.cpu_count()
+core_materials = multiprocessing.cpu_count()
 
 
 def remove_simulation_kwargs(d: Dict[str, Any]) -> Dict[str, Any]:

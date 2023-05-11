@@ -1567,7 +1567,7 @@
 
 ## [5.7.0](https://github.com/gdsfactory/gdsfactory/pull/400)
 
-- tidy3d mode solver accepts ncore and nclad floats.
+- tidy3d mode solver accepts core_material and clad_material floats.
 - add file cache to tidy3d to `gt.modes.find_modes`
 - fix get_bundle [issue](https://github.com/gdsfactory/gdsfactory/issues/396)
 - clean cross-sections [PR](https://github.com/gdsfactory/gdsfactory/pull/398/files)

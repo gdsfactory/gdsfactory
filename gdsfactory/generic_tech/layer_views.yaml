@@ -114,7 +114,7 @@ LayerViews:
     transparent: true
     width: 1
     color: "#ff8000"
-  WGNCLAD:
+  WGclad_material:
     layer: [36, 0]
     layer_in_name: true
     hatch_pattern: coarsely dotted
