@@ -1005,6 +1005,36 @@ class Component(_GeometryHelper):
             self._add_polygons(polygon)
             return polygon
 
+        elif hasattr(points, "geoms"):
+            for geom in points.geoms:
+                polygon = self.add_polygon(geom, layer=layer)
+            return polygon
+        elif hasattr(points, "exterior"):  # points is a shapely Polygon
+            layer, datatype = _parse_layer(layer)
+            points_on_grid = np.round(points.exterior.coords, 3)
+            polygon = gdstk.Polygon(points_on_grid, layer, datatype)
+
+            if points.interiors:
+                from shapely import get_coordinates
+
+                points_on_grid_interior = np.round(get_coordinates(points.interiors), 3)
+                polygon_interior = gdstk.Polygon(
+                    points_on_grid_interior, layer, datatype
+                )
+                polygons = gdstk.boolean(
+                    polygon,
+                    polygon_interior,
+                    operation="not",
+                    layer=layer,
+                    datatype=datatype,
+                )
+                for polygon in polygons:
+                    self._add_polygons(polygon)
+                return polygon
+
+            self._add_polygons(polygon)
+            return polygon
+
         points = np.asarray(points)
         if points.ndim == 1:
             return [self.add_polygon(poly, layer=layer) for poly in points]
@@ -2815,9 +2845,14 @@ def test_flatten_invalid_refs_recursive():
 if __name__ == "__main__":
     import gdsfactory as gf
 
+    c = gf.Component()
+    p = c.add_polygon(
+        [(-8, 6, 7, 9), (-6, 8, 17, 5)], layer=(1, 0)
+    )  # GDS layers are tuples of ints (but if we use only one number it assumes the other number is 0)
+
     # c2 = gf.Component()
-    c = gf.components.mzi()
-    print(c.get_layer_names())
+    # c = gf.components.mzi()
+    # print(c.get_layer_names())
     # r = c.ref()
     # c2.copy_child_info(c.named_references["sxt"])
     # test_remap_layers()

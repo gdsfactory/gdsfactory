@@ -79,4 +79,5 @@ def heater_lvs() -> gf.Component:
 
 if __name__ == "__main__":
     c = heater_lvs()
+    c.write_gds("straight_heater_metal.gds")
     c.show()
