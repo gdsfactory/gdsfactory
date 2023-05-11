@@ -293,9 +293,9 @@ class Waveguide(pydantic.BaseModel):
         # other_data = waveguide._data
         return self_data.outer_dot(other_data, conjugate).squeeze(drop=True).values
 
-    def plot_structure(self) -> None:
-        """Plot the waveguide structure."""
-        self.waveguide.plot_structures(x=0)
+    def plot_grid(self) -> None:
+        """Plot the waveguide grid."""
+        self.waveguide.plot_grid(z=0)
 
     def plot_index(self, **kwargs) -> None:
         """Plot the waveguide index distribution.
@@ -646,7 +646,8 @@ if __name__ == "__main__":
         core_material="si",
         clad_material="sio2",
     )
-    strip.plot_field(field_name="Ex", mode_index=0, value="dB")  # TE
+    # strip.plot_field(field_name="Ex", mode_index=0, value="dB")  # TE
+    strip.plot_grid()
     plt.show()
 
     # from matplotlib import pyplot

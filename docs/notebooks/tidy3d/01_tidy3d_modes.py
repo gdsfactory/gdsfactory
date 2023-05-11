@@ -51,6 +51,9 @@ strip = gt.modes.Waveguide(
 strip.plot_index()
 
 # %%
+strip.plot_grid()
+
+# %%
 strip.plot_field(field_name="Ex", mode_index=0)  # TE
 
 # %%
