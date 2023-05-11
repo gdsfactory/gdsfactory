@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.93.0
+
+- add shapely polygon support and examples [PR](https://github.com/gdsfactory/gdsfactory/pull/1634)
+- mode solver update [PR](https://github.com/gdsfactory/gdsfactory/pull/1628)
+
 ## 6.92.0
 
 - show labels in klayout [PR](https://github.com/gdsfactory/gdsfactory/pull/1622)
