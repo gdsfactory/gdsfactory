@@ -54,6 +54,9 @@ strip.plot_index()
 strip.plot_field(field_name="Ex", mode_index=0)  # TE
 
 # %%
+strip.plot_field(field_name="Ex", mode_index=0, value="dB")  # TE
+
+# %%
 # strip._waveguide.plot_field(field_name="Ex", mode_index=0,scale='dB')
 
 # %%
