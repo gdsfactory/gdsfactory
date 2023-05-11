@@ -1004,6 +1004,12 @@ class Component(_GeometryHelper):
                 polygon = Polygon(polygon.points, layer, datatype)
             self._add_polygons(polygon)
             return polygon
+        if hasattr(points, "exterior"):  # points is a shapely Polygon
+            layer, datatype = _parse_layer(layer)
+            points = np.round(points.exterior.coords, 3)
+            polygon = gdstk.Polygon(points, layer, datatype)
+            self._add_polygons(polygon)
+            return polygon
 
         points = np.asarray(points)
         if points.ndim == 1:
@@ -2815,9 +2821,14 @@ def test_flatten_invalid_refs_recursive():
 if __name__ == "__main__":
     import gdsfactory as gf
 
+    c = gf.Component()
+    p = c.add_polygon(
+        [(-8, 6, 7, 9), (-6, 8, 17, 5)], layer=(1, 0)
+    )  # GDS layers are tuples of ints (but if we use only one number it assumes the other number is 0)
+
     # c2 = gf.Component()
-    c = gf.components.mzi()
-    print(c.get_layer_names())
+    # c = gf.components.mzi()
+    # print(c.get_layer_names())
     # r = c.ref()
     # c2.copy_child_info(c.named_references["sxt"])
     # test_remap_layers()
