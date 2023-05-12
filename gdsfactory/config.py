@@ -34,7 +34,7 @@ from omegaconf import OmegaConf
 from rich.console import Console
 from rich.table import Table
 
-__version__ = "6.92.2"
+__version__ = "6.93.0"
 PathType = Union[str, pathlib.Path]
 
 home = pathlib.Path.home()
@@ -169,6 +169,8 @@ class Paths:
     interconnect = gdslib / "interconnect"
     optimiser = repo_path / "tune"
     notebooks = repo_path / "docs" / "notebooks"
+    plugins = module / "plugins"
+    web = plugins / "web"
     gds_ref = gdslib / "gds"
     gds_run = GDSDIR_TEMP / "gds_run"
     gds_diff = GDSDIR_TEMP / "gds_diff"

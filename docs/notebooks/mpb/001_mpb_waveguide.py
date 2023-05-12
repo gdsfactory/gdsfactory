@@ -27,7 +27,7 @@
 #
 # Lets find the modes supported by a waveguide for a particular waveguide geometry and wavelength.
 #
-# A waveguide is like a pipe to guide the light and is made of a higher refractive index core `ncore` surrounded by a lower refractive index cladding `nclad`
+# A waveguide is like a pipe to guide the light and is made of a higher refractive index core `core_material` surrounded by a lower refractive index cladding `clad_material`
 #
 #
 # ```bash
@@ -39,7 +39,7 @@
 #           |      ___________   _ _ _
 #           |     |           |       |
 #         sz|_____|           |_______|
-#           |                         | wg_thickness
+#           |                         | core_thickness
 #           |slab_thickness           |
 #           |_________________________|
 #           |
@@ -72,11 +72,11 @@
 #           |      ___________   _ _ _
 #           |     |           |       |
 #         sz|     |           |       |
-#           |     |  ncore    |       | wg_thickness
+#           |     |  core_material    | core_thickness
 #           |     |           |       |
 #           |     |___________|  _ _ _|
 #           |
-#           |        nclad
+#           |        clad_material
 #           |__________________________
 #           <------------------------>
 #                         sy
@@ -101,10 +101,10 @@ PDK.activate()
 
 modes = gm.find_modes_waveguide(
     parity=mp.NO_PARITY,
-    wg_width=0.4,
-    ncore=3.47,
-    nclad=1.44,
-    wg_thickness=0.22,
+    core_width=0.4,
+    core_material=3.47,
+    clad_material=1.44,
+    core_thickness=0.22,
     resolution=40,
     sy=3,
     sz=3,
@@ -147,10 +147,10 @@ m3.neff
 
 modes = gm.find_modes_waveguide(
     parity=mp.NO_PARITY,
-    wg_width=0.4,
-    ncore=3.47,
-    nclad=1.44,
-    wg_thickness=0.22,
+    core_width=0.4,
+    core_material=3.47,
+    clad_material=1.44,
+    core_thickness=0.22,
     resolution=40,
     sidewall_angle=10,
 )
@@ -161,10 +161,10 @@ m1.plot_eps()
 
 modes = gm.find_modes_waveguide(
     parity=mp.NO_PARITY,
-    wg_width=0.4,
-    ncore=3.47,
-    nclad=1.44,
-    wg_thickness=0.22,
+    core_width=0.4,
+    core_material=3.47,
+    clad_material=1.44,
+    core_thickness=0.22,
     resolution=60,
     sidewall_angle=10,
     slab_thickness=90e-3,
@@ -205,10 +205,10 @@ modes = gm.find_modes_waveguide(
     mode_number=1,
     parity=mp.EVEN_Y + mp.ODD_Z,
     nmodes=2,
-    wg_width=1.0,
-    ncore=3.47,
-    nclad=1.44,
-    wg_thickness=0.22,
+    core_width=1.0,
+    core_material=3.47,
+    clad_material=1.44,
+    core_thickness=0.22,
     resolution=32,
     sy=6,
     sz=6,
@@ -223,10 +223,10 @@ modes = gm.find_modes_waveguide(
     mode_number=1,
     parity=mp.ODD_Y,
     nmodes=2,
-    wg_width=0.20,
-    ncore=3.47,
-    nclad=1.44,
-    wg_thickness=0.22,
+    core_width=0.20,
+    core_material=3.47,
+    clad_material=1.44,
+    core_thickness=0.22,
     resolution=20,
     sy=5,
     sz=5,
@@ -248,10 +248,10 @@ gm.plot_neff_vs_width(df)
 # ### Rib
 
 modes = gm.find_modes_waveguide(
-    wg_width=0.4,
-    ncore=3.47,
-    nclad=1.44,
-    wg_thickness=220e-3,
+    core_width=0.4,
+    core_material=3.47,
+    clad_material=1.44,
+    core_thickness=220e-3,
     resolution=20,
     sz=6,
     sy=6,
@@ -277,10 +277,10 @@ gm.plot_neff_vs_width(df)
 # ### Nitride
 
 modes = gm.find_modes_waveguide(
-    wg_width=1.0,
-    ncore=2.0,
-    nclad=1.44,
-    wg_thickness=400e-3,
+    core_width=1.0,
+    core_material=2.0,
+    clad_material=1.44,
+    core_thickness=400e-3,
     sz=6,
     sy=10,
     nmodes=4,
@@ -303,8 +303,8 @@ m3.plot_ey()
 df = gm.find_neff_vs_width(
     width1=0.5,
     width2=1.2,
-    wg_thickness=0.4,
-    ncore=2.0,
+    core_thickness=0.4,
+    core_material=2.0,
     sy=10.0,
     resolution=15,
     filepath="neff_vs_width_nitride.csv",
@@ -344,7 +344,11 @@ neffs = []
 
 for resolution in resolutions:
     modes = gm.find_modes_waveguide(
-        wg_width=0.5, ncore=3.5, nclad=1.44, wg_thickness=0.22, resolution=resolution
+        core_width=0.5,
+        core_material=3.5,
+        clad_material=1.44,
+        core_thickness=0.22,
+        resolution=resolution,
     )
     mode = modes[1]
     neffs.append(mode.neff)
@@ -360,7 +364,12 @@ neffs = []
 
 for sz in szs:
     modes = gm.find_modes_waveguide(
-        wg_width=0.5, ncore=3.5, nclad=1.44, wg_thickness=0.22, resolution=20, sz=sz
+        core_width=0.5,
+        core_material=3.5,
+        clad_material=1.44,
+        core_thickness=0.22,
+        resolution=20,
+        sz=sz,
     )
     mode = modes[1]
     neffs.append(mode.neff)
@@ -376,7 +385,12 @@ neffs = []
 
 for sy in sys:
     modes = gm.find_modes_waveguide(
-        wg_width=0.5, ncore=3.5, nclad=1.44, wg_thickness=0.22, resolution=20, sy=sy
+        core_width=0.5,
+        core_material=3.5,
+        clad_material=1.44,
+        core_thickness=0.22,
+        resolution=20,
+        sy=sy,
     )
     mode = modes[1]
     neffs.append(mode.neff)
@@ -404,13 +418,13 @@ plt.xlabel("simulation size in y (um)")
 #           |     <---------->     gaps[0]    <---------->
 #           |      ___________ <-------------> ___________      _
 #           |     |           |               |           |     |
-#         sz|_____|  ncore    |_______________|           |_____|
-#           |                                                   | wg_thickness
+#         sz|_____|           |_______________|           |_____|
+#           |    core_material                                  | core_thickness
 #           |slab_thickness        nslab                        |
 #           |___________________________________________________|
 #           |
 #           |<--->                                         <--->
-#           |ymargin               nclad                   ymargin
+#           |ymargin               clad_material                   ymargin
 #           |____________________________________________________
 #           <--------------------------------------------------->
 #                                    sy
@@ -419,11 +433,11 @@ plt.xlabel("simulation size in y (um)")
 # ```
 
 modes = gm.find_modes_coupler(
-    wg_widths=(0.5, 0.5),
+    core_width=(0.5, 0.5),
     gaps=(0.2,),
-    ncore=3.47,
-    nclad=1.44,
-    wg_thickness=0.22,
+    core_material=3.47,
+    clad_material=1.44,
+    core_thickness=0.22,
     resolution=20,
     sz=6,
     nmodes=4,
@@ -471,11 +485,11 @@ gaps = [0.2, 0.25, 0.3]
 
 for gap in gaps:
     modes = gm.find_modes_coupler(
-        wg_widths=(0.5, 0.5),
+        core_width=(0.5, 0.5),
         gaps=(gap,),
-        ncore=3.47,
-        nclad=1.44,
-        wg_thickness=0.22,
+        core_material=3.47,
+        clad_material=1.44,
+        core_thickness=0.22,
         resolution=20,
         sz=6,
         nmodes=4,
@@ -529,8 +543,8 @@ plt.xlabel("gap (um)")
 dn_dt_si = 1.87e-4
 dn_dt_sio2 = 8.5e-6
 
-wg_widths = np.arange(0.4, 1.3, 0.2)
-wg_widths
+core_width = np.arange(0.4, 1.3, 0.2)
+core_width
 
 filepath = pathlib.Path("neff_vs_temperature.csv")
 
@@ -541,13 +555,13 @@ if filepath.exists:
 
 else:
     dneffs = []
-    for wg_width in tqdm(wg_widths):
+    for core_width in tqdm(core_width):
         dt = 0
         modes_t0 = gm.find_modes_waveguide(
-            wg_width=wg_width,
-            ncore=3.47 + dn_dt_si * dt,
-            nclad=1.44 + dn_dt_sio2 * dt,
-            wg_thickness=0.22,
+            core_width=core_width,
+            core_material=3.47 + dn_dt_si * dt,
+            clad_material=1.44 + dn_dt_sio2 * dt,
+            core_thickness=0.22,
             resolution=20,
             sy=6,
             sz=6,
@@ -558,10 +572,10 @@ else:
 
         dt = 10
         modes_t1 = gm.find_modes_waveguide(
-            wg_width=wg_width,
-            ncore=3.47 + dn_dt_si * dt,
-            nclad=1.44 + dn_dt_sio2 * dt,
-            wg_thickness=0.22,
+            core_width=core_width,
+            core_material=3.47 + dn_dt_si * dt,
+            clad_material=1.44 + dn_dt_sio2 * dt,
+            core_thickness=0.22,
             resolution=20,
             sy=6,
             sz=6,
@@ -573,20 +587,20 @@ else:
         dneff = neff_t1 - neff_t0
         dneffs.append(dneff)
 
-    df = pd.DataFrame(dict(wg_width=wg_widths, dneff=dneffs))
+    df = pd.DataFrame(dict(core_width=core_width, dneff=dneffs))
     df.to_csv(filepath)
 # -
 
-wg_widths = df.wg_width
+core_width = df.core_width
 dneffs = df.dneff
 
-plt.plot(wg_widths, np.array(dneffs) / dt, ".-")
+plt.plot(core_width, np.array(dneffs) / dt, ".-")
 plt.xlabel("waveguide width (um)")
 plt.ylabel("dneff / dT")
 
 # + tags=[]
 dndt = np.array(dneffs) / dt
-plt.plot(wg_widths, dndt / max(dndt) * 100, ".-")
+plt.plot(core_width, dndt / max(dndt) * 100, ".-")
 plt.title("waveguide dn/dT")
 plt.xlabel("waveguide width (um)")
 plt.ylabel("dn/dT (%)")

@@ -28,7 +28,7 @@ from gdsfactory.simulation.gmeep.write_sparameters_meep_mpi import (
 )
 from gdsfactory.technology import LayerStack
 
-ncores = multiprocessing.cpu_count()
+core_materials = multiprocessing.cpu_count()
 
 temp_dir_default = Path(sparameters_path) / "temp"
 

@@ -1,6 +1,10 @@
 from __future__ import annotations
 
-import meep as mp
+try:
+    import meep as mp
+except ModuleNotFoundError as e:
+    print("You need to 'conda install -c conda-forge pymeep=*=mpi_mpich_* nlopt -y'")
+    raise e
 
 from gdsfactory.config import logger
 from gdsfactory.simulation import plot, port_symmetries
