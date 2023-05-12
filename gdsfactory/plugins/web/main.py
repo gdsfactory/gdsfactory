@@ -31,14 +31,14 @@ templates = Jinja2Templates(directory=PATH.web / "templates")
 
 
 def load_pdk() -> gf.Pdk:
-    pdk = os.environ.get("PDK", None)
+    pdk = os.environ.get("PDK", "generic")
 
-    if pdk:
+    if pdk == "generic":
+        active_pdk = gf.get_active_pdk()
+    else:
         active_module = importlib.import_module(pdk)
         active_pdk = active_module.PDK
         active_pdk.activate()
-    else:
-        active_pdk = gf.get_active_pdk()
     return active_pdk
 
 

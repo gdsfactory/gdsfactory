@@ -106,6 +106,13 @@ DEFAULT_HOST = "localhost"
 
 
 @click.option(
+    "--pdk",
+    type=click.STRING,
+    default="generic",
+    help="Process Design Kit (PDK) to activate",
+    show_default=True,
+)
+@click.option(
     "--host",
     "-h",
     type=click.STRING,
@@ -123,12 +130,16 @@ DEFAULT_HOST = "localhost"
 )
 @click.command()
 def web(
+    pdk: str,
     host: str,
     port: int,
 ) -> None:
     """Opens web viewer."""
     import uvicorn
     from gdsfactory.plugins.web.main import app
+    import os
+
+    os.environ["PDK"] = pdk
 
     uvicorn.run(app, host=host, port=port)
 
