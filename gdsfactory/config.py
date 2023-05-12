@@ -169,6 +169,8 @@ class Paths:
     interconnect = gdslib / "interconnect"
     optimiser = repo_path / "tune"
     notebooks = repo_path / "docs" / "notebooks"
+    plugins = module / "plugins"
+    web = plugins / "web"
     gds_ref = gdslib / "gds"
     gds_run = GDSDIR_TEMP / "gds_run"
     gds_diff = GDSDIR_TEMP / "gds_diff"

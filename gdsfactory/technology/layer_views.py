@@ -977,7 +977,7 @@ class LayerViews(BaseModel):
 
     def to_lyp(
         self, filepath: Union[str, pathlib.Path], overwrite: bool = True
-    ) -> None:
+    ) -> pathlib.Path:
         """Write all layer properties to a KLayout .lyp file.
 
         Args:
@@ -1011,6 +1011,7 @@ class LayerViews(BaseModel):
             root.append(ls.to_klayout_xml())
 
         filepath.write_bytes(make_pretty_xml(root))
+        return filepath
 
     @staticmethod
     def from_lyp(

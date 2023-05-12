@@ -7,6 +7,7 @@ gdsfactory/plugins/dagster/tmp*
 *.so
 *.l2n
 conda/
+gdsfactory/plugins/kweb/gds_files/
 *.properties
 *.sqlite3
 *.hdf5

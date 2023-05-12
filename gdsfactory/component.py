@@ -2851,6 +2851,8 @@ if __name__ == "__main__":
     )  # GDS layers are tuples of ints (but if we use only one number it assumes the other number is 0)
 
     # c2 = gf.Component()
+    c = gf.components.mzi()
+    print(c.get_layer_names())
     # c = gf.components.mzi()
     # print(c.get_layer_names())
     # r = c.ref()
