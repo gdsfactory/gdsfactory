@@ -100,8 +100,9 @@ class KLayoutTechnology(BaseModel):
 
         self.technology.layer_properties_file = lyp_path.name
 
-        self.layer_views.to_lyp(lyp_path)
-        print(f"Wrote {str(lyp_path)!r}")
+        if self.layer_views:
+            self.layer_views.to_lyp(lyp_path)
+            print(f"Wrote {str(lyp_path)!r}")
 
         root = ET.XML(self.technology.to_xml().encode("utf-8"))
 
@@ -144,30 +145,35 @@ class KLayoutTechnology(BaseModel):
             d25_path.write_bytes(d25_script.encode("utf-8"))
             print(f"Wrote {str(d25_path)!r}")
 
-        if self.connectivity is not None:
-            src_element = [e for e in list(root) if e.tag == "connectivity"]
-            if len(src_element) != 1:
-                raise KeyError("Could not get a single index for the src element.")
-            src_element = src_element[0]
-            layers = set()
-            for layer_name_c1, layer_name_via, layer_name_c2 in self.connectivity:
-                connection = ",".join([layer_name_c1, layer_name_via, layer_name_c2])
+        self._define_connections(root)
 
-                layers.add(layer_name_c1)
-                layers.add(layer_name_via)
-                layers.add(layer_name_c2)
-
-                ET.SubElement(src_element, "connection").text = connection
-
-            if self.layer_map:
-                for layer in layers:
-                    ET.SubElement(
-                        src_element, "symbols"
-                    ).text = f"{layer}='{self.layer_map[layer][0]}/{self.layer_map[layer][1]}'"
-
-        # Write lyt to file
         lyt_path.write_bytes(make_pretty_xml(root))
         print(f"Wrote {str(lyt_path)!r}")
+
+    def _define_connections(self, root) -> None:
+        if not self.connectivity:
+            return
+        src_element = [e for e in list(root) if e.tag == "connectivity"]
+        if len(src_element) != 1:
+            raise KeyError("Could not get a single index for the src element.")
+        src_element = src_element[0]
+        layers = set()
+        for layer_name_c1, layer_name_via, layer_name_c2 in self.connectivity:
+            connection = ",".join([layer_name_c1, layer_name_via, layer_name_c2])
+
+            layers.add(layer_name_c1)
+            layers.add(layer_name_via)
+            layers.add(layer_name_c2)
+
+            ET.SubElement(src_element, "connection").text = connection
+
+        if self.layer_map:
+            for layer in layers:
+                ET.SubElement(
+                    src_element, "symbols"
+                ).text = (
+                    f"{layer}='{self.layer_map[layer][0]}/{self.layer_map[layer][1]}'"
+                )
 
     class Config:
         """Allow db.Technology type."""
