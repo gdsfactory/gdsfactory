@@ -400,7 +400,7 @@ mode_solver_specs = dict(
 )
 
 waveguide_solver = gt.modes.Waveguide(wavelength=lda_c, **mode_solver_specs)
-waveguide_solver.plot_Ex(mode_index=0, plot_power=False)
+waveguide_solver.plot_field(field_name="Ex", mode_index=0)
 
 ng = group_index(waveguide_solver)
 ne = waveguide_solver.neffs.flat[0].real
