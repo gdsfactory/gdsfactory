@@ -5,7 +5,7 @@ This module enables conversion between gdsfactory settings and KLayout technolog
 
 import pathlib
 import xml.etree.ElementTree as ET
-from typing import List, Optional, Tuple
+from typing import List, Optional, Tuple, Dict
 
 from pydantic import BaseModel, Field
 
@@ -24,6 +24,7 @@ class KLayoutTechnology(BaseModel):
 
     Properties:
         name: technology name.
+        layer_map: Maps names to GDS layer numbers.
         layer_views: Defines all the layer display properties needed for a .lyp file from LayerView objects.
         technology: KLayout Technology object from the KLayout API. Set name, dbu, etc.
         connectivity: List of layer names connectivity for netlist tracing.
@@ -33,6 +34,7 @@ class KLayoutTechnology(BaseModel):
     import klayout.db as db
 
     name: str
+    layer_map: Dict[str, Layer]
     layer_views: Optional[LayerViews] = None
     technology: db.Technology = Field(default_factory=db.Technology)
     connectivity: Optional[List[ConductorViaConductorName]] = None
@@ -120,18 +122,21 @@ class KLayoutTechnology(BaseModel):
             if len(src_element) != 1:
                 raise KeyError("Could not get a single index for the src element.")
             src_element = src_element[0]
+            layers = set()
             for layer_name_c1, layer_name_via, layer_name_c2 in self.connectivity:
-                layer_c1 = self.layer_views[layer_name_c1].layer
-                layer_via = self.layer_views[layer_name_via].layer
-                layer_c2 = self.layer_views[layer_name_c2].layer
-                connection = ",".join(
-                    [
-                        f"{layer[0]}/{layer[1]}"
-                        for layer in [layer_c1, layer_via, layer_c2]
-                    ]
-                )
+                connection = ",".join([layer_name_c1, layer_name_via, layer_name_c2])
+
+                layers.add(layer_name_c1)
+                layers.add(layer_name_via)
+                layers.add(layer_name_c2)
 
                 ET.SubElement(src_element, "connection").text = connection
+
+            if self.layer_map:
+                for layer in layers:
+                    ET.SubElement(
+                        src_element, "symbols"
+                    ).text = f"{layer}='{self.layer_map[layer][0]}/{self.layer_map[layer][1]}'"
 
         # Write lyt to file
         lyt_path.write_bytes(make_pretty_xml(root))
@@ -164,7 +169,7 @@ def yaml_test():
 
 
 if __name__ == "__main__":
-    from gdsfactory.generic_tech import LAYER_STACK
+    from gdsfactory.generic_tech import LAYER_STACK, LAYER
 
     lyp = LayerViews(PATH.klayout_yaml)
     # lyp = LayerViews.from_lyp(str(PATH.klayout_yaml))
@@ -180,7 +185,7 @@ if __name__ == "__main__":
     ]
 
     c = generic_tech = KLayoutTechnology(
-        name="generic_tech", layer_views=lyp, connectivity=connectivity
+        name="generic_tech", layer_views=lyp, connectivity=connectivity, layer_map=LAYER
     )
     tech_dir = PATH.klayout_tech
     # tech_dir = pathlib.Path("/home/jmatres/.klayout/salt/gdsfactory/tech/")
