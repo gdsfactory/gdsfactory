@@ -78,7 +78,6 @@ def straight_heater_metal_lvs() -> gf.Component:
 
 
 if __name__ == "__main__":
-
     testcase_path = os.path.dirname(os.path.abspath(__file__))
     heater_path = os.path.join(testcase_path, "straight_heater_metal.gds")
 
