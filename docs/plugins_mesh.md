@@ -1,4 +1,4 @@
-# Plugins: Materials and Mesh
+# Materials and mesh
 
 
 ```{tableofcontents}

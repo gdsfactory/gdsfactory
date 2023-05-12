@@ -1,5 +1,36 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.93.0
+
+- add shapely polygon support and examples [PR](https://github.com/gdsfactory/gdsfactory/pull/1634)
+- mode solver update [PR](https://github.com/gdsfactory/gdsfactory/pull/1628)
+
+## 6.92.0
+
+- show labels in klayout [PR](https://github.com/gdsfactory/gdsfactory/pull/1622)
+
+## 6.91.0
+
+- replace with database s3 bucket [PR](https://github.com/gdsfactory/gdsfactory/pull/1617)
+
+## 6.89.7
+
+- gdslib replacement with database s3 bucket [PR](https://github.com/gdsfactory/gdsfactory/pull/1594)
+- add `zmin_tolerance` [PR](https://github.com/gdsfactory/gdsfactory/pull/1596)
+
+## 6.89.4
+
+- fix `grating_coupler_loss` structures [PR](https://github.com/gdsfactory/gdsfactory/pull/1589)
+
+## 6.89.1
+
+- improve manhattanization [PR](https://github.com/gdsfactory/gdsfactory/pull/1582)
+
+## 6.89.0
+
+- add manhattan [PR](https://github.com/gdsfactory/gdsfactory/pull/1579)
+- fixes `rib_with_trenches` [PR](https://github.com/gdsfactory/gdsfactory/pull/1581)
+
 ## 6.88.1
 
 - remove triangle dependency for M1 compatibility [PR](https://github.com/gdsfactory/gdsfactory/pull/1567)
@@ -1541,7 +1572,7 @@
 
 ## [5.7.0](https://github.com/gdsfactory/gdsfactory/pull/400)
 
-- tidy3d mode solver accepts ncore and nclad floats.
+- tidy3d mode solver accepts core_material and clad_material floats.
 - add file cache to tidy3d to `gt.modes.find_modes`
 - fix get_bundle [issue](https://github.com/gdsfactory/gdsfactory/issues/396)
 - clean cross-sections [PR](https://github.com/gdsfactory/gdsfactory/pull/398/files)

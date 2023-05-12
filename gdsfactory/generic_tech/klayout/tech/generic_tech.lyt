@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <technology>
- <name>generic</name>
- <description/>
+ <name>generic_tech</name>
+ <description>generic_tech TECHNOLOGY</description>
  <group/>
  <dbu>0.001</dbu>
  <base-path/>
- <original-base-path>/home/jmatres/gdsfactory/gdsfactory/generic_tech/klayout/tech</original-base-path>
- <layer-properties_file>layers.lyp</layer-properties_file>
+ <original-base-path>$PDK_ROOT/klayout/tech</original-base-path>
+ <layer-properties_file>generic_tech.lyp</layer-properties_file>
  <add-other-layers>true</add-other-layers>
  <reader-options>
   <gds2>
@@ -120,7 +120,6 @@
   </mag>
  </reader-options>
  <writer-options>
-  <format>GDS2</format>
   <gds2>
    <write-timestamps>true</write-timestamps>
    <write-cell-properties>false</write-cell-properties>
@@ -153,18 +152,68 @@
    <write-timestamp>true</write-timestamp>
   </mag>
  </writer-options>
+ <d25>
+  <src># Provide z stack information here
+#
+# Each line is one layer. The specification consists of a layer specification, a colon and arguments.
+# The arguments are named (like "x=...") or in serial. Parameters are separated by comma or blanks.
+# Named arguments are:
+#
+#   zstart   The lower z position of the extruded layer in µm
+#   zstop    The upper z position of the extruded layer in µm
+#   height   The height of the extruded layer in µm
+#
+# 'height', 'zstart' and 'zstop' can be used in any combination. If no value is given for 'zstart',
+# the upper level of the previous layer will be used.
+#
+# If a single unnamed parameter is given, it corresponds to 'height'. Two parameters correspond to
+# 'zstart' and 'zstop'.
+#
+# Examples:
+#   1: 0.5 1.5                    # extrude layer 1/0 from 0.5 to 1.5 vertically
+#   1/0: 0.5 1.5                  # same with explicit datatype
+#   1: zstop=1.5, zstart=0.5      # same with named parameters
+#   1: height=1.0, zstop=1.5      # same with z stop minus height
+#   1: 1.0 zstop=1.5              # same with height as unnamed parameter
+#
+# VARIABLES
+#
+# You can declare variables with:
+#   var name = value
+#
+# You can use variables inside numeric expressions.
+# Example:
+#   var hmetal = 0.48
+#   7/0: 0.5 0.5+hmetal*2        # 2x thick metal
+#
+# You cannot use variables inside layer specifications currently.
+#
+# CONDITIONALS
+#
+# You can enable or disable branches of the table using 'if', 'else', 'elseif' and 'end':
+# Example:
+#   var thick_m1 = true
+#   if thickm1
+#     1: 0.5 1.5
+#   else
+#     1: 0.5 1.2
+#   end
+
+</src>
+ </d25>
  <connectivity>
-  <stack>
-   <name/>
-   <description/>
-   <connection>41/0,44/0,45/0
-</connection>
-   <connection>45/0,43/0,49/0
-</connection>
-  </stack>
-  <connection>41/0,44/0,45/0
-</connection>
-  <connection>45/0,43/0,49/0
-</connection>
+  <connection>NP,VIAC,Metal1</connection>
+  <connection>PP,VIAC,Metal1</connection>
+  <connection>Metal1,VIA1,Metal2</connection>
+  <connection>Metal2,VIA2,Metal3</connection>
+
+  <symbols>NP='22/0'</symbols>
+  <symbols>PP='23/0'</symbols>
+  <symbols>VIAC='40/0'</symbols>
+  <symbols>Metal1='41/0'</symbols>
+  <symbols>VIA1='44/0'</symbols>
+  <symbols>Metal2='45/0'</symbols>
+  <symbols>VIA2='43/0'</symbols>
+  <symbols>Metal3='49/0'</symbols>
  </connectivity>
 </technology>

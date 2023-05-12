@@ -1,4 +1,4 @@
-# gdsfactory 6.89.0
+# gdsfactory 6.93.0
 
 [![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)](https://gdsfactory.github.io/gdsfactory/)
 [![PyPI](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -63,9 +63,9 @@ Multiple foundries have gdsfactory PDKs available. Talk to your foundry to acces
 - TowerSemi PH18 photonics PDK
 - GlobalFoundries 45SPCLO Photonics PDK
 - IMEC photonics PDK
-- [GlobalFoundries 180nm MCU CMOS PDK](https://github.com/gdsfactory/gf180) (open source)
+- [GlobalFoundries 180nm MCU CMOS PDK](https://gdsfactory.github.io/gf180/) (open source)
 - [SiEPIC Ebeam UBC PDK](https://gdsfactory.github.io/ubc) (open source)
-- [Skywater130 CMOS PDK](https://gdsfactory.github.io/skywater130/README.html) (open source)
+- [Skywater130 CMOS PDK](https://gdsfactory.github.io/skywater130) (open source)
 
 You can also access:
 
@@ -201,36 +201,35 @@ For example, VS Code supports development inside a container, see [Developing in
 
 "I've used **gdsfactory** since 2017 for all my chip tapeouts. I love that it is fast, easy to use, and easy to extend. It's the only tool that allows us to have an end-to-end chip design flow (design, verification and validation)."
 
-<div style="text-align: right; margin-right: 10%;">Joaquin Matres - <strong>Google</strong>
+<div style="text-align: right; margin-right: 10%;">Joaquin Matres - <strong>Google</strong></div>
 
 ---
 
 "I've relied on **gdsfactory** for several tapeouts over the years. It's the only tool I've found that gives me the flexibility and scalability I need for a variety of projects."
 
-<div style="text-align: right; margin-right: 10%;">Alec Hammond - <strong>Meta Reality Labs Research</strong>
+<div style="text-align: right; margin-right: 10%;">Alec Hammond - <strong>Meta Reality Labs Research</strong></div>
 
 ---
 
 "The best photonics layout tool I've used so far and it is leaps and bounds ahead of any commercial alternatives out there. Feels like gdsfactory is freeing photonics."
 
-<div style="text-align: right; margin-right: 10%;">Hasitha Jayatilleka - <strong>LightIC Technologies</strong>
+<div style="text-align: right; margin-right: 10%;">Hasitha Jayatilleka - <strong>LightIC Technologies</strong></div>
 
 ---
 
 "As an academic working on large scale silicon photonics at CMOS foundries I've used gdsfactory to go from nothing to full-reticle layouts rapidly (in a few days). I particularly appreciate the full-system approach to photonics, with my layout being connected to circuit simulators which are then connected to device simulators. Moving from legacy tools such as gdspy and phidl to gdsfactory has sped up my workflow at least an order of magnitude."
 
-<div style="text-align: right; margin-right: 10%;">Alex Sludds - <strong>MIT</strong>
+<div style="text-align: right; margin-right: 10%;">Alex Sludds - <strong>MIT</strong></div>
 
 ---
 
 "I use gdsfactory for all of my photonic tape-outs. The Python interface makes it easy to version control individual photonic components as well as entire layouts, while integrating seamlessly with KLayout and most standard photonic simulation tools, both open-source and commercial.
 
-<div style="text-align: right; margin-right: 10%;">Thomas Dorch - <strong>Freedom Photonics</strong>
+<div style="text-align: right; margin-right: 10%;">Thomas Dorch - <strong>Freedom Photonics</strong></div>
 
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
 
-<!-- ALL-CONTRIBUTORS-LIST:END -->
+## Contributors
+
+Thanks to all the contributors that make this awesome project possible!
+
+[![Meet our contributors!](https://contrib.rocks/image?repo=gdsfactory/gdsfactory)](https://github.com/gdsfactory/gdsfactory/graphs/contributors)

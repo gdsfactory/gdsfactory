@@ -1,4 +1,4 @@
-# Plugins: FDTD
+# FDTD
 
 Finite difference time domain (FDTD) simulations directly solve Maxwell’s equations, which are the fundamental description of the physics of classical electrodynamics.
 

@@ -95,7 +95,7 @@ class PINWaveguide(BaseModel):
 
     Parameters:
         wg_width: waveguide width.
-        wg_thickness: thickness waveguide (um).
+        core_thickness: thickness waveguide (um).
         p_offset: offset between waveguide center and P-doping in um
             negative to push toward n-side.
         n_offset: offset between waveguide center and N-doping in um
@@ -127,7 +127,7 @@ class PINWaveguide(BaseModel):
                         p_offset n_offset
                              <-> <->
          xcontact          _____|_____ _ _ _ _ _ _ _ _ _
-          <---->          |  |     |  |                | wg_thickness
+          <---->          |  |     |  |                | core_thickness
           ======__________|  |     |  |__________======| _
           |          |       |     |         |         | |
           |  Ppp+P   |   P   |  i  |    N    |  Npp+N  | | slab_thickness
@@ -140,7 +140,7 @@ class PINWaveguide(BaseModel):
     """
 
     wg_width: float
-    wg_thickness: float
+    core_thickness: float
     p_offset: float = 0.0
     n_offset: float = 0.0
     ppp_offset: float = 0.5 * um
@@ -171,7 +171,7 @@ class PINWaveguide(BaseModel):
 
     # @property
     # def t_sim(self):
-    #     return self.t_box + self.wg_thickness + self.t_clad
+    #     return self.t_box + self.core_thickness + self.t_clad
 
     # @property
     # def w_sim(self):
@@ -184,7 +184,7 @@ class PINWaveguide(BaseModel):
         self.xppp = -self.ppp_offset - self.wg_width / 2
         self.xnpp = self.npp_offset + self.wg_width / 2
         ymin = 0 / cm
-        ymax = (self.wg_thickness) / cm
+        ymax = (self.core_thickness) / cm
         xmin_waveguide = (-self.wg_width / 2) / cm
         xmax_waveguide = (self.wg_width / 2) / cm
         yslab = (self.slab_thickness) / cm
@@ -488,8 +488,8 @@ class PINWaveguide(BaseModel):
         cache: bool = False,
         precision: Precision = "double",
         filter_pol: Optional[FilterPol] = None,
-        ncore: MaterialSpec = "si",
-        nclad: MaterialSpec = "sio2",
+        core_material: MaterialSpec = "si",
+        clad_material: MaterialSpec = "sio2",
     ) -> Waveguide:
         """Converts the FEM model to a Waveguide object.
 
@@ -562,7 +562,7 @@ class PINWaveguide(BaseModel):
         return Waveguide(
             wavelength=wavelength,
             wg_width=self.wg_width / um,
-            wg_thickness=self.wg_thickness / um,
+            core_thickness=self.core_thickness / um,
             slab_thickness=self.slab_thickness / um,
             t_box=t_box,
             t_clad=t_clad,
@@ -571,8 +571,8 @@ class PINWaveguide(BaseModel):
             dn_dict=dn_dict,
             precision=precision,
             filter_pol=filter_pol,
-            ncore=ncore,
-            nclad=nclad,
+            core_material=core_material,
+            clad_material=clad_material,
             cache=cache,
         )
 
@@ -580,7 +580,7 @@ class PINWaveguide(BaseModel):
 if __name__ == "__main__":
     c = PINWaveguide(
         wg_width=500 * nm,
-        wg_thickness=220 * nm,
+        core_thickness=220 * nm,
         slab_thickness=90 * nm,
     )
     c.ddsolver()

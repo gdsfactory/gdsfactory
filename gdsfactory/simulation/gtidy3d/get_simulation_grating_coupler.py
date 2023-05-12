@@ -102,7 +102,7 @@ def get_simulation_grating_coupler(
                                         |
                    clad_material        | fiber_z
                     _   _   _      _ _ _|_ _ _ _ _ _ _
-                   | | | | | |          ||wg_thickness
+                   | | | | | |          ||core_thickness
                   _| |_| |_| |__________||___
                                         || |
         waveguide            |          || | slab_thickness
@@ -286,10 +286,10 @@ def get_simulation_grating_coupler(
     if len(layer_to_thickness) < 1:
         raise ValueError(f"{component.get_layers()} not in {layer_to_thickness.keys()}")
 
-    wg_thickness = max(layer_to_thickness.values())
+    core_thickness = max(layer_to_thickness.values())
     sim_xsize = component_ref.xsize + 2 * thickness_pml
     sim_zsize = (
-        thickness_pml + box_thickness + wg_thickness + thickness_pml + 2 * zmargin
+        thickness_pml + box_thickness + core_thickness + thickness_pml + 2 * zmargin
     )
     sim_ysize = component_ref.ysize + 2 * thickness_pml if is_3d else 0
     sim_size = [
@@ -388,13 +388,13 @@ def get_simulation_grating_coupler(
     size_x = 0 if size_x < 0.001 else size_x
     size_y = 0 if size_y < 0.001 else size_y
     size_y = size_y if is_3d else td.inf
-    size_z = wg_thickness + zmargin + box_thickness
+    size_z = core_thickness + zmargin + box_thickness
     waveguide_port_size = [size_x, size_y, size_z]
     xy_shifted = move_polar_rad_copy(
         np.array(port.center), angle=angle * np.pi / 180, length=port_waveguide_offset
     )
     waveguide_port_center = xy_shifted.tolist() + [
-        (wg_thickness + zmargin - box_thickness) / 2
+        (core_thickness + zmargin - box_thickness) / 2
     ]  # (x, y, z)
 
     waveguide_monitor = td.ModeMonitor(

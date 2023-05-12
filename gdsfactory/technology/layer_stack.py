@@ -17,6 +17,7 @@ class LayerLevel(BaseModel):
         thickness: layer thickness in um.
         thickness_tolerance: layer thickness tolerance in um.
         zmin: height position where material starts in um.
+        zmin_tolerance: layer height tolerance in um.
         material: material name.
         sidewall_angle: in degrees with respect to normal.
         sidewall_angle_tolerance: in degrees.
@@ -45,6 +46,7 @@ class LayerLevel(BaseModel):
     thickness: float
     thickness_tolerance: Optional[float] = None
     zmin: float
+    zmin_tolerance: Optional[float] = None
     material: Optional[str] = None
     sidewall_angle: float = 0.0
     sidewall_angle_tolerance: Optional[float] = None

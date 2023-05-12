@@ -24,6 +24,7 @@ WidthTypes = Literal["sine", "linear", "parabolic"]
 
 LayerSpec = Union[Layer, int, str]
 LayerSpecs = Union[List[LayerSpec], Tuple[LayerSpec, ...]]
+
 Floats = Tuple[float, ...]
 port_names_electrical = ("e1", "e2")
 port_types_electrical = ("electrical", "electrical")
@@ -251,6 +252,9 @@ class CrossSection(BaseModel):
         return c
 
 
+CrossSectionSpec = Union[CrossSection, Callable, Dict[str, Any]]
+
+
 class Transition(CrossSection):
     """Waveguide information to extrude a path between two CrossSection.
 
@@ -296,8 +300,8 @@ class Transition(CrossSection):
         mirror: if True, reflects the offsets.
     """
 
-    cross_section1: CrossSection
-    cross_section2: CrossSection
+    cross_section1: CrossSectionSpec
+    cross_section2: CrossSectionSpec
     width_type: WidthTypes = "sine"
     sections: List[Section]
     layer: Optional[LayerSpec] = None
@@ -638,8 +642,6 @@ def rib_with_trenches(
         c = p.extrude(xs)
         c.plot()
     """
-    width_slab = max(width_slab, width + 2 * width_trench)
-
     trench_offset = width / 2 + width_trench / 2
 
     sections = kwargs.pop("sections", [])
@@ -2323,9 +2325,12 @@ if __name__ == "__main__":
     # xs = l_wg_doped_with_trenches(
     #     layer="WG", width=0.5, width_trench=2.0, width_slab=7.0, gap_low_doping=0.1
     # )
-    xs = l_with_trenches(mirror=False)
-    p = gf.path.straight()
-    c = p.extrude(xs)
+    # p = gf.path.straight()
+    # c = p.extrude(cross_section=xs)
+
+    # xs = rib_with_trenches() # FIXME
+    # c = gf.components.straight(cross_section=xs)
+    c = gf.components.straight(cross_section="strip")
 
     # xs = l_wg()
     # p = gf.path.straight()

@@ -1,20 +1,23 @@
 # ---
 # jupyter:
 #   jupytext:
+#     custom_cell_magics: kql
 #     text_representation:
 #       extension: .py
-#       format_name: light
-#       format_version: '1.5'
-#       jupytext_version: 1.14.4
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 # ---
 
+# %% [markdown]
 # # Database
 #
-# This notebook shows how to use a database for storing and loading simulation results.
+# This notebook shows how to use a database for storing and loading simulation and measurement results.
+#
 # The interface employs [SQLAlchemy](https://www.sqlalchemy.org/), which is installed if you supplied the `[database]` option during gdsfactory installation.
 #
 # ```
@@ -28,58 +31,48 @@
 #
 # ## Overview
 #
-# 1. You can create an ad-hoc SQLite database, which will store data in a single file (`database.db` in this case) or use the PostgreSQL Docker image for more robust self-hosted handling as an example. This method may be easily be extended for multiple users.
+# 1. You can create an ad-hoc SQLite database, which will store data in a single file (`database.db` in this case) or use the PostgreSQL web hosted database.
 # 2. We add wafer and component data to the database
 # 3. We add simulation data to the database
-# 4. For a more scalable database you can use Litestream. This _streams_ the SQLite database to Amazon, Azure, Google Cloud or a similar online database.
 
-# + tags=[]
+# %% tags=[]
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
-import gdsfactory.plugins.database as gd
-from gdsfactory.plugins.database import create_engine
+import gdsfactory.plugins.database.models as gd
 import gdsfactory as gf
 from gdsfactory.generic_tech import get_generic_pdk
 
 gf.config.rich_output()
 PDK = get_generic_pdk()
 PDK.activate()
-# -
 
-# `gm.metadata` houses the gdsfactory-specific models. These are effectively SQLAlchemy commands.
-#
-# SQLite should work out-of-the-box and generates a `.db` file storing the database.
-#
-# As an example, a more robust database for multiple users may be implemented with [PostgreSQL](https://www.postgresql.org/). With Docker, one may simply run
-# ```bash
-# docker run --name gds-postgresql -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -e POSTGRES_USER=user -d postgres
-# ```
-# and connect to `localhost:5432` for a database. Setting this up on a server with a more persistent config using [Docker Compose](https://docs.docker.com/compose/) is recommended.
+# %%
 
-# + tags=[]
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session
+import gdsfactory as gf
+from gdsfactory.plugins.database import models as m
+
 engine = create_engine("sqlite:///database.db", echo=True, future=True)
-# engine = create_engine("postgresql://user:mysecretpassword@localhost", echo=True, future=True)
-gd.metadata.create_all(engine)
+m.metadata.create_all(engine)
 
-# + tags=[]
 c = gf.components.ring_single(radius=10)
 
-# + tags=[]
 with Session(engine) as session:
-    w1 = gd.Wafer(name="12", serial_number="ABC")
-    r1 = gd.Reticle(name="sky1", wafer_id=w1.id, wafer=w1)
-    d1 = gd.Die(name="d00", reticle_id=r1.id, reticle=r1)
-    c1 = gd.Component(name=c.name, die_id=d1.id, die=d1)
+    w1 = m.Wafer(name="12", serial_number="ABC")
+    r1 = m.Reticle(name="sky1", wafer_id=w1.id, wafer=w1)
+    d1 = m.Die(name="d00", reticle_id=r1.id, reticle=r1)
+    c1 = m.Component(name=c.name, die_id=d1.id, die=d1)
 
     component_settings = []
 
     for key, value in c.settings.changed.items():
-        s = gd.ComponentInfo(component=c1, component_id=c1.id, name=key, value=value)
+        s = m.ComponentInfo(component=c1, component_id=c1.id, name=key, value=value)
         component_settings.append(s)
 
     for port in c.ports.values():
-        s = gd.Port(
+        s = m.Port(
             component=c1,
             component_id=c1.id,
             port_type=port.port_type,
@@ -89,21 +82,19 @@ with Session(engine) as session:
         )
         component_settings.append(s)
 
-    # add objects
     session.add_all([w1, r1, d1, c1])
-    # session.add_all(component_settings)
-
-    # flush changes to the database
+    session.add_all(component_settings)
     session.commit()
-# -
 
+
+# %% [markdown]
 # ## Querying the database
 #
 # In this section, we show different ways to query the database using SQLAlchemy.
 #
 # Individual rows of a selected model, in this case `Wafer`, from the database are fetched as follows:
 
-# + tags=[]
+# %% tags=[]
 with Session(engine) as session:
     # Two ways to do the same thing
     for wafer in session.query(gd.Wafer):
@@ -117,10 +108,11 @@ with Session(engine) as session:
     # Get the `Wafer` from a child `Reticle`
     for reticle in session.query(gd.Reticle).all():
         print(reticle.name, reticle.wafer.name)
-# -
 
+# %% [markdown]
 # Manual SQL commands may naturally be used as well.
 
+# %%
 # Notice how this is different from session
 with engine.connect() as connection:
     if engine.dialect.name == "postgresql":
@@ -131,96 +123,113 @@ with engine.connect() as connection:
     for row in cursor:
         print(row)
 
-# ### Adding simulation results
+# %% [markdown]
+# ## Add simulation results
 #
+# We can store simulation results as binary blobs of data in cloud buckets (AWS S3, Google Cloud Storage ...)
 #
-# TODO
-# ```
-# - [ ] Use results to add data for a chip
-#
-# ```
-#
-#
-# Lets assume your chip has sinusoidal data
 
-import numpy as np
-
-
-# +
-# import gdsfactory.simulation.gtidy3d as gt
-
-# with Session(engine) as session:
-
-#     for wavelength in (1.2, 1.4, 1.55):
-
-#         strip = gt.modes.Waveguide(
-#             wavelength=wavelength,
-#             wg_width=0.5,
-#             wg_thickness=0.22,
-#             slab_thickness=0.0,
-#             ncore="si",
-#             nclad="sio2",
-#         )
-#         strip.compute_modes()
-#         strip.schema()
-
-#         # gm.ComputedResult(
-#         #     strip.neffs, strip.nmodes
-#         # )
-
-#         session.add(gm.Result(name='WG', type='Waveguide', value=strip))
-
-#     session.commit()
-# -
-
+# %% [markdown]
 # ### Sparameters example
 #
 # Let's simulate S-parameters with `meep` and store the results
 
-# +
-import math
-import gdsfactory.simulation.gmeep as gmeep
+# %%
+import tempfile
+import os
 
+import gdsfactory.simulation.gmeep as gm
+from gdsfactory.plugins.database.db_upload import (
+    Component,
+    Simulation,
+    get_database_engine,
+    get_component_hash,
+    get_s3_key_from_hash,
+    convert_to_db_format,
+    s3_client,
+)
+
+component = gf.components.taper(length=100)
+component_yaml = component.to_yaml()
+
+component_model = Component(
+    function_name=component.metadata["function_name"],
+    module=component.metadata["module"],
+    name=component.name,
+    hash=get_component_hash(component),
+)
+engine = get_database_engine()
 with Session(engine) as session:
-    component = gf.components.mmi1x2()
-    s_params = gmeep.write_sparameters_meep(
-        component=component,
-        run=True,
-        wavelength_start=1.5,
-        wavelength_stop=1.6,
-        wavelength_points=2,
-    )
-
-    # The result below stores a JSON, these are supported in SQLite
-    # and should be efficient to query in PostgreSQL
-    # Some serialisation was done with `GdsfactoryJSONEncoder`
-    session.add(
-        gd.SParameterResults(array=s_params, n_ports=int(math.sqrt(len(s_params) - 1)))
-    )
-
+    session.add(component_model)
     session.commit()
-# -
 
-# Interesting queries might include filtering numerical quantities.
+s3 = s3_client()
+with tempfile.TemporaryDirectory() as tempdir:
+    component_gds_path = os.path.join(tempdir, f"{component_model.hash}.gds")
+    component_yaml_path = os.path.join(tempdir, f"{component_model.hash}.yml")
+    component.write_gds(component_gds_path)
+    with open(component_yaml_path, "w") as file:
+        file.write(component_yaml)
 
+    component_key = get_s3_key_from_hash("component", component_model.hash, "gds")
+    component_yaml_key = get_s3_key_from_hash("component", component_model.hash, "yml")
+    s3.upload_file(component_gds_path, "gdslib", component_key)
+    s3.upload_file(component_yaml_path, "gdslib", component_yaml_key)
+
+# with tempfile.TemporaryDirectory() as tmpdir:
+tmpdir = "/tmp"
+tmppath = gm.write_sparameters_meep_1x1(
+    component, is_3d=False, dirpath=tmpdir, only_return_filepath_sim_settings=True
+)  # TODO: split simulation yaml file generation and actual simulation...
+simulation_hash = str(tmppath)[-36:-4]
+sp = gm.write_sparameters_meep_1x1(component, is_3d=False, dirpath=tmpdir)
+yaml_filename = next(fn for fn in os.listdir(tmpdir) if fn.endswith(".yml"))
+yaml_path = os.path.join(tmpdir, yaml_filename)
+df = convert_to_db_format(sp)
+df["component_hash"] = component_model.hash
+df["hash"] = simulation_hash
+df["function_name"] = "write_sparameters_meep_1x1"
+df = df[
+    [
+        "function_name",
+        "hash",
+        "component_hash",
+        "wavelength",
+        "port_in",
+        "port_out",
+        "abs",
+        "angle",
+    ]
+]
+simulation_models = []
+for (
+    function_name,
+    hash,
+    component_hash,
+    wavelength,
+    port_in,
+    port_out,
+    abs,
+    angle,
+) in df.values:
+    simulation_model = Simulation(
+        function_name=function_name,
+        hash=hash,
+        component_hash=component_hash,
+        wavelength=wavelength,
+        port_in=port_in,
+        port_out=port_out,
+        abs=abs,
+        angle=angle,
+    )
+    simulation_models.append(simulation_model)
 with Session(engine) as session:
-    # here .all() returns other data than the name as well
-    for row in session.query(gd.SParameterResults).all():
-        print(row.array)
+    session.safe_add_all(simulation_models)
+    session.commit()
 
-    # for row in session.query(gd.SParameterResults.array).filter(
-    #     gd.SParameterResults.array['wavelengths'][0].astext.cast(float) > 1.4
-    # ).all():
-    #     print(row)
+s3 = s3_client()
+yaml_key = get_s3_key_from_hash("simulation", simulation_hash, "yml")
+s3.upload_file(yaml_path, "gdslib", yaml_key)
 
-with Session(engine) as session:
-    # here .all() returns other data than the name as well
-    for row in session.query(gd.ComputedResult.name.label("TODO")).all():
-        print(row)
 
-    for row in (
-        session.query(gd.ComputedResult.value)
-        .filter(gd.ComputedResult.value >= 2)
-        .all()
-    ):
-        print(row)
+# %%

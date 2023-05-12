@@ -9,7 +9,6 @@ import hashlib
 import itertools
 import math
 import pathlib
-import tempfile
 import uuid
 import warnings
 from collections import Counter
@@ -33,7 +32,7 @@ from gdsfactory.component_layout import (
     get_polygons,
 )
 from gdsfactory.component_reference import ComponentReference, Coordinate, SizeInfo
-from gdsfactory.config import CONF, logger
+from gdsfactory.config import CONF, logger, GDSDIR_TEMP
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.port import (
     Port,
@@ -53,8 +52,6 @@ from gdsfactory.generic_tech import LAYER
 
 Plotter = Literal["holoviews", "matplotlib", "qt", "klayout"]
 Axis = Literal["x", "y"]
-
-GDSDIR_TEMP = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
 
 
 class UncachedComponentWarning(UserWarning):
@@ -113,8 +110,6 @@ Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
 LayerSpec = Union[str, int, Layer, None]
 
-tmp = pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
-tmp.mkdir(exist_ok=True, parents=True)
 _timestamp2019 = datetime.datetime.fromtimestamp(1572014192.8273)
 MAX_NAME_LENGTH = 32
 
@@ -1010,6 +1005,36 @@ class Component(_GeometryHelper):
             self._add_polygons(polygon)
             return polygon
 
+        elif hasattr(points, "geoms"):
+            for geom in points.geoms:
+                polygon = self.add_polygon(geom, layer=layer)
+            return polygon
+        elif hasattr(points, "exterior"):  # points is a shapely Polygon
+            layer, datatype = _parse_layer(layer)
+            points_on_grid = np.round(points.exterior.coords, 3)
+            polygon = gdstk.Polygon(points_on_grid, layer, datatype)
+
+            if points.interiors:
+                from shapely import get_coordinates
+
+                points_on_grid_interior = np.round(get_coordinates(points.interiors), 3)
+                polygon_interior = gdstk.Polygon(
+                    points_on_grid_interior, layer, datatype
+                )
+                polygons = gdstk.boolean(
+                    polygon,
+                    polygon_interior,
+                    operation="not",
+                    layer=layer,
+                    datatype=datatype,
+                )
+                for polygon in polygons:
+                    self._add_polygons(polygon)
+                return polygon
+
+            self._add_polygons(polygon)
+            return polygon
+
         points = np.asarray(points)
         if points.ndim == 1:
             return [self.add_polygon(poly, layer=layer) for poly in points]
@@ -1398,6 +1423,7 @@ class Component(_GeometryHelper):
         self,
         show_ports: bool = True,
         port_marker_layer: Layer = (1, 10),
+        show_labels: bool = False,
     ) -> None:
         """Returns klayout image.
 
@@ -1406,6 +1432,7 @@ class Component(_GeometryHelper):
         Args:
             show_ports: shows component with port markers and labels.
             port_marker_layer: for the ports.
+            show_labels: shows labels.
         """
 
         component = (
@@ -1431,6 +1458,8 @@ class Component(_GeometryHelper):
             layout_view.load_layout(str(gdspath.absolute()))
             layout_view.max_hier()
             layout_view.load_layer_props(str(lyp_path))
+
+            layout_view.set_config("text-visible", "true" if show_labels else "false")
 
             pixel_buffer = layout_view.get_pixels_with_options(800, 600)
             png_data = pixel_buffer.to_png_data()
@@ -1458,7 +1487,7 @@ class Component(_GeometryHelper):
 
             gdspath = self.write_gds(gdsdir=PATH.gdslib / "extra", logging=False)
 
-            dirpath = pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
+            dirpath = GDSDIR_TEMP
             dirpath.mkdir(exist_ok=True, parents=True)
             lyp_path = dirpath / "layers.lyp"
 
@@ -2816,9 +2845,16 @@ def test_flatten_invalid_refs_recursive():
 if __name__ == "__main__":
     import gdsfactory as gf
 
+    c = gf.Component()
+    p = c.add_polygon(
+        [(-8, 6, 7, 9), (-6, 8, 17, 5)], layer=(1, 0)
+    )  # GDS layers are tuples of ints (but if we use only one number it assumes the other number is 0)
+
     # c2 = gf.Component()
     c = gf.components.mzi()
     print(c.get_layer_names())
+    # c = gf.components.mzi()
+    # print(c.get_layer_names())
     # r = c.ref()
     # c2.copy_child_info(c.named_references["sxt"])
     # test_remap_layers()

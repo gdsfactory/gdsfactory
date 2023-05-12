@@ -16,7 +16,7 @@
 # %% [markdown]
 # # Geometry
 #
-# gdsfactory provides some geometric functions
+# gdsfactory provides you with some geometric functions
 
 # %% [markdown]
 # ## Boolean / outline / offset / invert

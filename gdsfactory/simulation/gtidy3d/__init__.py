@@ -7,7 +7,11 @@ solver](https://simulation.cloud/)
 
 from __future__ import annotations
 
-import tidy3d as td
+try:
+    import tidy3d as td
+except ModuleNotFoundError as e:
+    print("You need to 'pip install tidy3d'")
+    raise e
 
 from gdsfactory.config import logger
 from gdsfactory.simulation.gtidy3d import materials, modes, utils

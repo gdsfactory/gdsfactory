@@ -44,6 +44,8 @@ jobs:
           channels: conda-forge,defaults
           channel-priority: true
           activate-environment: anaconda-client-env
+          mamba-version: "*"
+          # environment-file: conda/construct_env.yaml
       - name: Add conda to system path
         run: |
           echo $CONDA/bin >> $GITHUB_PATH
@@ -58,9 +60,9 @@ jobs:
         with:
           fail_on_unmatched_files: false
           files: |
-            conda/gdsfactory-6.89.0-Linux-x86_64.sh
-            conda/gdsfactory-6.89.0-Windows-x86_64.exe
-            conda/gdsfactory-6.89.0-MacOSX-x86_64.pkg
+            conda/gdsfactory-6.93.0-Linux-x86_64.sh
+            conda/gdsfactory-6.93.0-Windows-x86_64.exe
+            conda/gdsfactory-6.93.0-MacOSX-x86_64.pkg
   release_docker:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
     runs-on: ubuntu-latest
@@ -79,5 +81,12 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: joamatab/gdsfactory:latest,joamatab/gdsfactory:6.89.0
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/gdsfactory:latest,${{ secrets.DOCKERHUB_USERNAME }}/gdsfactory:6.93.0
           file: .devcontainer/Dockerfile.dev
+      - name: Build and push minimal
+        id: docker_build_minimal
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/gdsfactory_minimal:latest,${{ secrets.DOCKERHUB_USERNAME }}/gdsfactory_minimal:6.93.0
+          file: .devcontainer/Dockerfile.dev_minimal

@@ -2891,7 +2891,7 @@ layer_views:
     visible: true
     width: 1
     xfill: false
-  WGNCLAD:
+  WGclad_material:
     animation: 0
     dither_pattern: I3
     fill_brightness: 0

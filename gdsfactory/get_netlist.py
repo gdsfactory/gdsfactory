@@ -93,7 +93,7 @@ def get_netlist_yaml(
     tolerance: int = 5,
     exclude_port_types: Optional[List] = None,
     **kwargs,
-) -> Dict:
+) -> str:
     """Returns instances, connections and placements yaml string content."""
     return omegaconf.OmegaConf.to_yaml(
         get_netlist(
