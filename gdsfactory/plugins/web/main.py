@@ -1,6 +1,8 @@
 import base64
+import os
 from pathlib import Path
 from typing import Optional
+import importlib
 
 from fastapi import FastAPI, Form, Request
 from starlette.routing import WebSocketRoute
@@ -28,9 +30,21 @@ app.mount("/static", StaticFiles(directory=PATH.web / "static"), name="static")
 templates = Jinja2Templates(directory=PATH.web / "templates")
 
 
+def load_pdk() -> gf.Pdk:
+    pdk = os.environ.get("PDK", None)
+
+    if pdk:
+        active_module = importlib.import_module(pdk)
+        active_pdk = active_module.PDK
+        active_pdk.activate()
+    else:
+        active_pdk = gf.get_active_pdk()
+    return active_pdk
+
+
 @app.get("/", response_class=HTMLResponse)
 async def root(request: Request):
-    active_pdk = gf.get_active_pdk()
+    active_pdk = load_pdk()
     pdk_name = active_pdk.name
     components = list(active_pdk.cells.keys())
     return templates.TemplateResponse(
@@ -112,3 +126,7 @@ async def search(name: str = Form(...)):
         return RedirectResponse("/", status_code=status.HTTP_404_NOT_FOUND)
     logger.info(f"Successfully found {name}! Redirecting...")
     return RedirectResponse(f"/view/{name}", status_code=status.HTTP_302_FOUND)
+
+
+if __name__ == "__main__":
+    pdk = load_pdk()
