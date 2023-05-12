@@ -83,4 +83,3 @@ if __name__ == "__main__":
 
     c = straight_heater_metal_lvs()
     c.write_gds(heater_path)
-
