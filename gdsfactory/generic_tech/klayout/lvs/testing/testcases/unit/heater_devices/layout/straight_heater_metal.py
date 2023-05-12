@@ -1,11 +1,11 @@
 import gdsfactory as gf
-
+import os
 
 straight_heater_metal_mk = (47, 1)
 
 
 @gf.cell
-def heater_lvs() -> gf.Component:
+def straight_heater_metal_lvs() -> gf.Component:
     c = gf.Component()
 
     c1 = c << gf.components.straight_heater_metal(length=50, heater_width=10)
@@ -78,6 +78,8 @@ def heater_lvs() -> gf.Component:
 
 
 if __name__ == "__main__":
-    c = heater_lvs()
-    c.write_gds("straight_heater_metal.gds")
-    c.show()
+    testcase_path = os.path.dirname(os.path.abspath(__file__))
+    heater_path = os.path.join(testcase_path, "straight_heater_metal.gds")
+
+    c = straight_heater_metal_lvs()
+    c.write_gds(heater_path)
