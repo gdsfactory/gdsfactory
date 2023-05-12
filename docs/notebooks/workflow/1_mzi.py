@@ -78,8 +78,8 @@ if __name__ == "__main__":
         core_width=500 * nm,
         core_thickness=220 * nm,
         slab_thickness=0.0,
-        core_material=gt.modes.si,
-        clad_material=gt.modes.sio2,
+        core_material="si",
+        clad_material="sio2",
     )
 
     neff = 2.46  # Effective index of the waveguides
@@ -281,3 +281,5 @@ plt.xlabel("λ [nm]")
 plt.ylabel("T")
 plt.grid(True)
 plt.show()
+
+# %%
