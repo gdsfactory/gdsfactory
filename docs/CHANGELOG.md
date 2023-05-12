@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.94.0
+
+- define connectivity for klayout [PR](https://github.com/gdsfactory/gdsfactory/pull/1635)
+- add `gf web` [PR](https://github.com/gdsfactory/gdsfactory/pull/1584)
+
 ## 6.93.0
 
 - add shapely polygon support and examples [PR](https://github.com/gdsfactory/gdsfactory/pull/1634)
