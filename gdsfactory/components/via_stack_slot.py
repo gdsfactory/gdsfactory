@@ -80,11 +80,9 @@ def via_stack_slot(
     c = Component()
     c.info["size"] = (float(size[0]), float(size[1]))
 
+    layer_offsets = layer_offsets or [0] * len(layers)
     layer_offsetsx = layer_offsetsx or layer_offsets
     layer_offsetsy = layer_offsetsy or layer_offsets
-
-    layer_offsetsx = list(layer_offsetsx) + [0] * len(layers)
-    layer_offsetsy = list(layer_offsetsy) + [0] * len(layers)
 
     elements = {
         len(layers),
