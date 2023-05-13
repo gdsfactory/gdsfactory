@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import pathlib
 from dataclasses import asdict, is_dataclass
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from gdsfactory.config import logger
 from gdsfactory.install import get_klayout_path
