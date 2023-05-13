@@ -18,7 +18,7 @@ from typing import List, Optional
 
 from gdsfactory.config import logger
 from gdsfactory.install import get_klayout_path
-from gdsfactory.typings import Dict, Layer, PathType
+from gdsfactory.typings import CrossSectionSpec, Dict, Layer, PathType
 
 layer_name_to_min_width: Dict[str, float]
 
@@ -129,6 +129,28 @@ if border_area &gt;= 1.dbu * 1.dbu
 end
 
 """
+
+
+def connectivity_checks(WG_cross_sections: List[CrossSectionSpec], pin_widths: Union[List[float], float]):
+    """Return script for photonic port connectivity check. Assumes the photonic port pins are inside the Component.
+
+    Args:
+        WG_cross_sections: list of waveguide layers to run check for.
+        pin_widths: list of port pin widths or a single port pin width/
+    """
+    connectivity_check = ""
+    for i, layer_name in enumerate(WG_cross_sections):
+        layer = gf.pdk.get_cross_section(layer_name).width
+        layer_name = gf.pdk.get_cross_section(layer_name).layer
+        connectivity_check = connectivity_check.join(
+            f"""{layer_name}2 = {layer_name}.merged\n
+{layer_name}2 = {layer_name}2.rectangles.without_area({layer} * {pin_widths if isinstance(pin_widths, float) else pin_widths[i]}) - {layer_name}2.rectangles.with_area({layer} * 2 * {pin_widths if isinstance(pin_widths, float) else pin_widths[i]})\n
+{layer_name}2.output(\"port alignment error\")\n
+{layer_name}.non_rectangles.output(\"port width check\")\n\n"""
+            )
+
+
+    return connectivity_check
 
 
 def write_layer_definition(layers: Dict[str, Layer]) -> List[str]:
@@ -316,6 +338,7 @@ if __name__ == "__main__":
         rule_enclosing(layer1="VIAC", layer2="M1", value=0.2),
         rule_area(layer="WG", min_area_um2=0.05),
         rule_not_inside(layer="VIAC", not_inside="NPP"),
+        connectivity_checks(["strip"], 0.05),
     ]
 
     drc_rule_deck = write_drc_deck_macro(rules=rules, layers=gf.LAYER, mode="tiled")
