@@ -256,6 +256,9 @@ gs.plot_model(coupler_sc)
 # You can also fit a model from Sparameter FDTD simulation data from tidy3d, Lumerical or MEEP.
 
 # %%
+sp = gt.write_sparameters(component=gf.components.mmi1x2, run=False)
+
+# %%
 sp = gt.write_sparameters(component=gf.components.mmi1x2)
 
 # %%
@@ -626,8 +629,7 @@ for i, (wl, w) in enumerate(zip(tqdm(wavelengths.ravel()), widths.ravel())):
         core_material="si",
         clad_material="sio2",
     )
-    wg.compute_modes()
-    neffs_[i] = wg.neffs[0].real
+    neffs_[i] = wg.n_eff[0].real
 
 # %%
 plt.pcolormesh(wavelengths, widths, neffs)

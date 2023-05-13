@@ -325,8 +325,8 @@ c.plot_field(field_name="Ex", mode_index=1)  # TE
 # %%
 coupler = gt.modes.WaveguideCoupler(
     wavelength=1.55,
-    core_width=(0.45, 0.45),
-    core_thickness=0.22,
+    core_width=(450 * nm, 450 * nm),
+    core_thickness=220 * nm,
     core_material="si",
     clad_material="sio2",
     num_modes=4,
