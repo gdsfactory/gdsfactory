@@ -86,13 +86,12 @@ def via_stack_slot(
 
     elements = {
         len(layers),
-        len(layer_offsets),
         len(layer_offsetsx),
         len(layer_offsetsy),
     }
     if len(elements) > 1:
         warnings.warn(
-            f"Got {len(layers)} layers, {len(layer_offsets)} layer_offsets, {len(layer_offsetsx)} layer_offsetsx, {len(layer_offsetsy)} layer_offsetsy."
+            f"Got {len(layers)} layers, {len(layer_offsetsx)} layer_offsetsx, {len(layer_offsetsy)} layer_offsetsy."
         )
 
     for layer, offsetx, offsety in zip(layers, layer_offsetsx, layer_offsetsy):
