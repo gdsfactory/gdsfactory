@@ -24,19 +24,17 @@
 # We will design each DC through 3D FDTD simulations to guarantee the desired power ratios, which have been calculated to provide maximally flat response.  The S parameters computed through FDTD are latter used in the full circuit simulation along with models for staight and curved waveguide sections, leading to an accurate model that exhibits features similar to those found in experimental data.
 
 # %%
-import gdsfactory as gf
-import gdsfactory.simulation.gtidy3d as gt
-
-import tidy3d as td
+import numpy as np
+import matplotlib.pyplot as plt
 
 import jax
 import jax.numpy as jnp
 
+import tidy3d as td
 import sax
 
-import numpy as np
-
-import matplotlib.pyplot as plt
+import gdsfactory as gf
+import gdsfactory.simulation.gtidy3d as gt
 
 
 # %% [markdown]
@@ -363,27 +361,11 @@ print(errors)
 
 
 # %%
-def group_index(
-    waveguide: gt.modes.Waveguide, mode: int = 0, wavelength_delta: float = 0.01
-):
-    arg_dict = waveguide.dict()
-    kwargs = {k: arg_dict[k] for k in waveguide.settings}
-    kwargs["wavelength"] = waveguide.wavelength - wavelength_delta
-    w0 = gt.modes.Waveguide(**kwargs)
-    kwargs["wavelength"] = waveguide.wavelength + wavelength_delta
-    w2 = gt.modes.Waveguide(**kwargs)
-    waveguide.compute_modes()
-    n1 = waveguide.neffs.flat[mode].real
-    w0.compute_modes()
-    n0 = w0.neffs.flat[mode].real
-    w2.compute_modes()
-    n2 = w2.neffs.flat[mode].real
-    return n1 - waveguide.wavelength * (n2 - n0) / (2 * wavelength_delta)
-
-
 def mzi_path_difference(waveguide: gt.modes.Waveguide, group_index: float, fsr: float):
     return waveguide.wavelength**2 / (fsr * group_index)
 
+
+nm = 1e-3
 
 mode_solver_specs = dict(
     core_width=width,
@@ -397,13 +379,14 @@ mode_solver_specs = dict(
     t_clad=min(2.0, clad.thickness),
     resolution=200,
     precision="double",
+    group_index_step=10 * nm,
 )
 
 waveguide_solver = gt.modes.Waveguide(wavelength=lda_c, **mode_solver_specs)
-waveguide_solver.plot_field(field_name="Ex", mode_index=0)
 
-ng = group_index(waveguide_solver)
-ne = waveguide_solver.neffs.flat[0].real
+waveguide_solver.plot_field(field_name="Ex", mode_index=0)
+ng = waveguide_solver.n_group[0]
+ne = waveguide_solver.n_eff[0].real
 print(f"ne = {ne}, ng = {ng}")
 
 length_delta = mzi_path_difference(waveguide_solver, ng, fsr)
@@ -577,8 +560,7 @@ for i in range(straight_wavelengths.size):
     waveguide_solver = gt.modes.Waveguide(
         wavelength=straight_wavelengths[i], **mode_solver_specs
     )
-    waveguide_solver.compute_modes()
-    straight_neffs[i] = waveguide_solver.neffs[0]
+    straight_neffs[i] = waveguide_solver.n_eff[0]
 
 plt.plot(straight_wavelengths, straight_neffs.real)
 plt.xlabel("λ (µm)")
@@ -644,6 +626,7 @@ x, _ = sax.circuit(
 
 s = x(wl=wavelengths)
 plt.plot(wavelengths, jnp.abs(s[("o1", "o2")]) ** 2)
+plt.ylabel("S21")
 plt.xlabel("λ (µm)")
 
 
@@ -788,3 +771,5 @@ ax.plot(lda, 20 * jnp.log10(jnp.abs(s[("o1", "o4")])), label="Thru")
 ax.set_ylim(-30, 0)
 ax.set_xlabel("λ (µm)")
 ax.legend()
+
+# %%
