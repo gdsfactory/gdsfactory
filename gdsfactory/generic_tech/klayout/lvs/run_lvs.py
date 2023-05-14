@@ -2,7 +2,7 @@
 
 Usage:
     run_lvs.py (--help| -h)
-    run_lvs.py (--layout=<layout_path>) (--netlist=<netlist_path>) [--thr=<thr>] [--run_dir=<run_dir_path>] [--topcell=<topcell_name>] [--run_mode=<run_mode>] [--verbose] [--lvs_sub=<sub_name>] [--no_net_names] [--spice_comments] [--scale] [--schematic_simplify] [--net_only] [--top_lvl_pins] [--combine] [--purge] [--purge_nets]
+    run_lvs.py (--layout=<layout_path>) (--netlist=<netlist_path>) [--thr=<thr>] [--run_dir=<run_dir_path>] [--topcell=<topcell_name>] [--run_mode=<run_mode>] [--verbose] [--lvs_sub=<sub_name>] [--no_net_names] [--spice_comments] [--scale]
 
 Options:
     --help -h                           Print this help message.
@@ -17,12 +17,6 @@ Options:
     --no_net_names                      Discard net names in extracted netlist.
     --spice_comments                    Enable netlist comments in extracted netlist.
     --scale                             Enable scale of 1e6 in extracted netlist.
-    --schematic_simplify                Enable schematic simplification in input netlist.
-    --net_only                          Enable netlist object creation only in extracted netlist.
-    --top_lvl_pins                      Enable top level pins only in extracted netlist.
-    --combine                           Enable netlist combine only in extracted netlist.
-    --purge                             Enable netlist purge all only in extracted netlist.
-    --purge_nets                        Enable netlist purge nets only in extracted netlist.
 """
 
 from docopt import docopt
@@ -201,36 +195,6 @@ def generate_klayout_switches(arguments, layout_path, netlist_path):
         switches["scale"] = "true"
     else:
         switches["scale"] = "false"
-
-    if arguments["--schematic_simplify"]:
-        switches["schematic_simplify"] = "true"
-    else:
-        switches["schematic_simplify"] = "false"
-
-    if arguments["--net_only"]:
-        switches["net_only"] = "true"
-    else:
-        switches["net_only"] = "false"
-
-    if arguments["--top_lvl_pins"]:
-        switches["top_lvl_pins"] = "true"
-    else:
-        switches["top_lvl_pins"] = "false"
-
-    if arguments["--combine"]:
-        switches["combine"] = "true"
-    else:
-        switches["combine"] = "false"
-
-    if arguments["--purge"]:
-        switches["purge"] = "true"
-    else:
-        switches["purge"] = "false"
-
-    if arguments["--purge_nets"]:
-        switches["purge_nets"] = "true"
-    else:
-        switches["purge_nets"] = "false"
 
     switches["topcell"] = get_run_top_cell_name(arguments, layout_path)
     switches["input"] = os.path.abspath(layout_path)

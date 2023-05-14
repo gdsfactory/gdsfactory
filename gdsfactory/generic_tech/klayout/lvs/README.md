@@ -30,7 +30,7 @@ The `run_lvs.py` script takes your input gds and netlist files to run LVS rule d
 Example:
 ```bash
     python3 testing/testcases/unit/heater_devices/layout/straight_heater_metal.py
-    python3 run_lvs.py --layout=testing/testcases/unit/heater_devices/layout/straight_heater_metal.gds --netlist=testing/testcases/unit/heater_devices/netlist/straight_heater_metal.spice --run_mode=deep --run_dir=lvs_straight_heater_metal --top_lvl_pins
+    python3 run_lvs.py --layout=testing/testcases/unit/heater_devices/layout/straight_heater_metal.gds --netlist=testing/testcases/unit/heater_devices/netlist/straight_heater_metal.spice --run_mode=deep --run_dir=lvs_straight_heater_metal
 ```
 
 ### Options
