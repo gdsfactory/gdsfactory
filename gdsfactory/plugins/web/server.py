@@ -13,6 +13,7 @@ import klayout.lay as lay
 from gdsfactory.component import GDSDIR_TEMP
 
 import gdsfactory as gf
+from typing import Optional
 
 host = "localhost"
 port = 8765
@@ -92,7 +93,9 @@ class LayoutViewServerEndpoint(WebSocketEndpoint):
             )
         return js
 
-    async def connection(self, websocket: WebSocket, path: str = None) -> None:
+    async def connection(
+        self, websocket: WebSocket, path: Optional[str] = None
+    ) -> None:
         self.layout_view = lay.LayoutView()
         self.layout_view.load_layout(self.url)
         if self.layer_props is not None:

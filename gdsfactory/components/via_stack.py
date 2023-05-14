@@ -18,7 +18,7 @@ def via_stack(
     layers: LayerSpecs = ("M1", "M2", "M3"),
     layer_offsets: Optional[Floats] = None,
     vias: Optional[Tuple[Optional[ComponentSpec], ...]] = (via1, via2, None),
-    layer_port: LayerSpec = None,
+    layer_port: Optional[LayerSpec] = None,
     correct_size: bool = True,
 ) -> Component:
     """Rectangular via array stack.
@@ -137,7 +137,7 @@ def via_stack_circular(
     width: float = 5.0,
     layers: LayerSpecs = ("M1", "M2", "M3"),
     vias: Tuple[Optional[ComponentSpec], ...] = (via1, via2),
-    layer_port: LayerSpec = None,
+    layer_port: Optional[LayerSpec] = None,
 ) -> Component:
     """Circular via array stack.
 
@@ -282,7 +282,7 @@ def via_stack_from_rules(
     via_min_size: Tuple[Float2, ...] = ((0.2, 0.2), (0.2, 0.2)),
     via_min_gap: Tuple[Float2, ...] = ((0.1, 0.1), (0.1, 0.1)),
     via_min_enclosure: Float2 = (0.15, 0.25),
-    layer_port: LayerSpec = None,
+    layer_port: Optional[LayerSpec] = None,
 ) -> Component:
     """Rectangular via array stack, with optimized dimension for vias.
 

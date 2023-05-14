@@ -314,7 +314,7 @@ def add_pin_path(
     port: Port,
     pin_length: float = 2 * nm,
     layer: LayerSpec = "PORT",
-    layer_label: LayerSpec = None,
+    layer_label: Optional[LayerSpec] = None,
 ) -> None:
     """Add half out path pin to a component.
 

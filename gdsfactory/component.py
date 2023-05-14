@@ -812,7 +812,7 @@ class Component(_GeometryHelper):
         width: Optional[float] = None,
         orientation: Optional[float] = None,
         port: Optional[Port] = None,
-        layer: LayerSpec = None,
+        layer: Optional[LayerSpec] = None,
         port_type: Optional[str] = None,
         cross_section: Optional[CrossSection] = None,
     ) -> Port:

@@ -330,7 +330,7 @@ class DDComponent:
     def get_refined_mesh(
         self,
         factor: float = 2.0,
-        refine_dict: Dict[str, Dict] = None,
+        refine_dict: Optional[Dict[str, Dict]] = None,
         refine_regions: Tuple[str, ...] = ("si",),
     ):
         """Refines the mesh based on simulation result.

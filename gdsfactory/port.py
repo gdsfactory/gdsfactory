@@ -736,7 +736,7 @@ def _rename_ports_clockwise_top_right(
 
 def rename_ports_by_orientation(
     component: Component,
-    layers_excluded: LayerSpec = None,
+    layers_excluded: Optional[LayerSpec] = None,
     select_ports: Callable = select_ports,
     function=_rename_ports_facing_side,
     prefix: str = "o",

@@ -19,7 +19,7 @@ def via_stack_slot(
     layer_offsets: Optional[Floats] = (0, 1.0),
     layer_offsetsx: Optional[Floats] = None,
     layer_offsetsy: Optional[Floats] = None,
-    layer_port: LayerSpec = None,
+    layer_port: Optional[LayerSpec] = None,
     via: ComponentSpec = via1,
     enclosure: float = 1.0,
     ysize: float = 0.5,

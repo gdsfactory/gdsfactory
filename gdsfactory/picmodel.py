@@ -165,7 +165,7 @@ class SchematicConfiguration(BaseModel):
         name: str,
         component: Union[str, gf.Component],
         placement: Optional[Placement] = None,
-        settings: Dict[str, Any] = None,
+        settings: Optional[Dict[str, Any]] = None,
     ) -> None:
         if isinstance(component, gf.Component):
             component_name = component.settings.function_name

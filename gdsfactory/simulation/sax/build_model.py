@@ -22,18 +22,18 @@ class Model:
         self,
         trainable_component: callable,
         layerstack: LayerStack,
-        trainable_parameters: Dict[
-            str, Union[LayerStackThickness, NamedParameter]
+        trainable_parameters: Optional[
+            Dict[str, Union[LayerStackThickness, NamedParameter]]
         ] = None,
-        non_trainable_parameters: Dict[
-            str, Union[LayerStackThickness, NamedParameter]
+        non_trainable_parameters: Optional[
+            Dict[str, Union[LayerStackThickness, NamedParameter]]
         ] = None,
         simulation_settings: Optional[Dict[str, Union[float, str, int, Path]]] = None,
         num_modes: int = 2,
         port_symmetries: Optional[PortSymmetries] = None,
-        address: str = None,
+        address: Optional[str] = None,
         dashboard_port: int = 8265,
-        num_cpus: int = None,
+        num_cpus: Optional[int] = None,
         num_cpus_per_task: int = 1,
         # num_gpus_per_task: int = 0,
         restart_cluster: bool = False,

@@ -764,7 +764,7 @@ class LayerViews(BaseModel):
     def __init__(
         self,
         filepath: Optional[PathLike] = None,
-        layer_map: Union[Dict[str, Layer], BaseModel] = None,
+        layer_map: Optional[Union[Dict[str, Layer], BaseModel]] = None,
         **data,
     ) -> None:
         """Initialize LayerViews object.
