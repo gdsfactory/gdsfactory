@@ -1366,7 +1366,7 @@ class Component(_GeometryHelper):
 
         for layer in self.layers:
             if layer not in layer_to_name:
-                warnings.warn(f"{layer} not in LayerMap..")
+                warnings.warn(f"{layer} not in LayerMap.", stacklevel=3)
             else:
                 layer_names.append(layer_to_name[layer])
         return layer_names
@@ -1628,7 +1628,7 @@ class Component(_GeometryHelper):
                 layer_view = layer_views.get_from_tuple(layer)
             except ValueError:
                 layers = list(layer_views.get_layer_views().keys())
-                warnings.warn(f"{layer!r} not defined in {layers}")
+                warnings.warn(f"{layer!r} not defined in {layers}", stacklevel=3)
                 layer_view = LayerView(layer=layer)
             # TODO: Match up options with LayerViews
             plots_to_overlay.append(
@@ -1761,7 +1761,8 @@ class Component(_GeometryHelper):
 
         if gdspath and gdsdir:
             warnings.warn(
-                "gdspath and gdsdir have both been specified. gdspath will take precedence and gdsdir will be ignored."
+                "gdspath and gdsdir have both been specified. gdspath will take precedence and gdsdir will be ignored.",
+                stacklevel=3,
             )
 
         default_settings = get_active_pdk().gds_write_settings
@@ -1816,6 +1817,7 @@ class Component(_GeometryHelper):
                 if write_settings.on_duplicate_cell == "warn":
                     warnings.warn(
                         f"Duplicated cell names in {top_cell.name!r}:  {cell_names}",
+                        stacklevel=3,
                     )
                 cells_dict = {cell.name: cell._cell for cell in cells}
                 cells = cells_dict.values()
@@ -1832,7 +1834,8 @@ class Component(_GeometryHelper):
 
         if no_name_cells:
             warnings.warn(
-                f"Component {top_cell.name!r} contains {len(no_name_cells)} Unnamed cells"
+                f"Component {top_cell.name!r} contains {len(no_name_cells)} Unnamed cells",
+                stacklevel=3,
             )
 
         # for cell in all_cells:

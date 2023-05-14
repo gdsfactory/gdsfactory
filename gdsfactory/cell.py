@@ -4,7 +4,7 @@ from __future__ import annotations
 import functools
 import hashlib
 import inspect
-from typing import Any, Callable, Dict, Optional, Tuple, TypeVar
+from typing import Any, Callable, Dict, Optional, Tuple
 from typing_extensions import ParamSpec
 
 import toolz
@@ -19,6 +19,7 @@ CACHE: Dict[str, Component] = {}
 INFO_VERSION = 2
 
 CellSettings = ParamSpec("CellSettings")
+_F = Callable[CellSettings, Component]
 
 
 class CellReturnTypeError(ValueError):
@@ -225,9 +226,6 @@ def cell_without_validator(func) -> Callable[CellSettings, Component]:
         return component
 
     return _cell
-
-
-_F = TypeVar("_F", bound=Callable)
 
 
 def cell(func: Callable[CellSettings, Component]) -> Callable[CellSettings, Component]:
