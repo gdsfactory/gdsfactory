@@ -159,11 +159,11 @@ def waveguide(wl=1.55, wl0=1.55, neff=2.34, ng=3.4, length=10.0, loss=0.0) -> sa
 
 strip = gt.modes.Waveguide(
     wavelength=1.55,
-    wg_width=0.5,
-    wg_thickness=0.22,
+    core_width=0.5,
+    core_thickness=0.22,
     slab_thickness=0.0,
-    ncore="si",
-    nclad="sio2",
+    core_material="si",
+    clad_material="sio2",
 )
 strip.plot_Ex(0)  # TE
 
@@ -172,12 +172,12 @@ neff
 
 nm = 1e-3
 ng = gt.modes.group_index(
-    wg_width=500 * nm,
+    core_width=500 * nm,
     wavelength=1.55,
-    wg_thickness=220 * nm,
+    core_thickness=220 * nm,
     slab_thickness=0 * nm,
-    ncore="si",
-    nclad="sio2",
+    core_material="si",
+    clad_material="sio2",
 )
 ng
 
@@ -196,13 +196,13 @@ c
 nm = 1e-3
 cp = gt.modes.WaveguideCoupler(
     wavelength=1.55,
-    wg_width1=500 * nm,
-    wg_width2=500 * nm,
+    core_width1=500 * nm,
+    core_width2=500 * nm,
     gap=200 * nm,
-    wg_thickness=220 * nm,
+    core_thickness=220 * nm,
     slab_thickness=0 * nm,
-    ncore="si",
-    nclad="sio2",
+    core_material="si",
+    clad_material="sio2",
 )
 cp.plot_Ex(0, plot_power=False)  # even mode
 cp.plot_Ex(1, plot_power=False)  # odd mode
@@ -210,12 +210,12 @@ cp.plot_Ex(1, plot_power=False)  # odd mode
 help(gt.modes.find_coupling_vs_gap)
 
 df = gt.modes.find_coupling_vs_gap(
-    wg_width1=500 * nm,
-    wg_width2=500 * nm,
-    wg_thickness=220 * nm,
+    core_width1=500 * nm,
+    core_width2=500 * nm,
+    core_thickness=220 * nm,
     slab_thickness=0 * nm,
-    ncore="si",
-    nclad="sio2",
+    core_material="si",
+    clad_material="sio2",
 )
 df
 
@@ -582,12 +582,12 @@ neffs_ = neffs.ravel()
 for i, (wl, w) in enumerate(zip(tqdm(wavelengths.ravel()), widths.ravel())):
     wg = gt.modes.Waveguide(
         wavelength=wl,
-        wg_width=w,
+        core_width=w,
         mode_number=1,
-        wg_thickness=0.22,
+        core_thickness=0.22,
         slab_thickness=0.0,
-        ncore="si",
-        nclad="sio2",
+        core_material="si",
+        clad_material="sio2",
     )
     wg.compute_modes()
     neffs_[i] = wg.neffs[0].real

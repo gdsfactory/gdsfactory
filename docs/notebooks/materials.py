@@ -36,11 +36,11 @@ PDK.activate()
 # %% tags=[]
 strip = gt.modes.Waveguide(
     wavelength=1.55,
-    wg_width=0.5,
-    wg_thickness=0.22,
+    core_width=0.5,
+    core_thickness=0.22,
     slab_thickness=0.0,
-    ncore="si",
-    nclad="sio2",
+    core_material="si",
+    clad_material="sio2",
 )
 strip.plot_index()
 
@@ -53,11 +53,11 @@ PDK.materials_index.update(sin=2)
 # %% tags=[]
 strip = gt.modes.Waveguide(
     wavelength=1.55,
-    wg_width=0.5,
-    wg_thickness=0.22,
+    core_width=0.5,
+    core_thickness=0.22,
     slab_thickness=0.0,
-    ncore="sin",
-    nclad="sio2",
+    core_material="sin",
+    clad_material="sio2",
 )
 strip.plot_index()
 
@@ -78,11 +78,11 @@ PDK.materials_index.update(sin=sin)
 # %% tags=[]
 strip = gt.modes.Waveguide(
     wavelength=1.5,
-    wg_width=0.5,
-    wg_thickness=0.22,
+    core_width=0.5,
+    core_thickness=0.22,
     slab_thickness=0.0,
-    ncore="sin",
-    nclad="sio2",
+    core_material="sin",
+    clad_material="sio2",
 )
 strip.plot_index()
 

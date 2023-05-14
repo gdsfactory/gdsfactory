@@ -40,11 +40,11 @@ def neff_domain_convergence_test(
         stdout: convergence test output.
 
     Keyword Args:
-        wg_width: wg_width (um).
-        wg_thickness: wg height (um).
+        core_width: core_width (um).
+        core_thickness: wg height (um).
         slab_thickness: thickness for the waveguide slab.
-        ncore: core material refractive index.
-        nclad: clad material refractive index.
+        core_material: core material refractive index.
+        clad_material: clad material refractive index.
         sy: INITIAL simulation region width (um).
         sz: INITIAL simulation region height (um).
         resolution: INITIAL resolution (pixels/um).
@@ -144,11 +144,11 @@ def neff_resolution_convergence_test(
         stdout: convergence test output
 
     Keyword Args:
-        wg_width: wg_width (um)
-        wg_thickness: wg height (um)
+        core_width: core_width (um)
+        core_thickness: wg height (um)
         slab_thickness: thickness for the waveguide slab
-        ncore: core material refractive index
-        nclad: clad material refractive index
+        core_material: core material refractive index
+        clad_material: clad material refractive index
         sy: INITIAL simulation region width (um)
         sz: INITIAL simulation region height (um)
         resolution: INITIAL resolution (pixels/um)

@@ -29,7 +29,7 @@ def find_mode_dispersion(
         mode_number: mode index to compute (1: fundamental mode).
 
     Keyword Args:
-        wg_thickness: wg height (um).
+        core_thickness: wg height (um).
         sx: supercell width (um).
         sy: supercell height (um).
         resolution: (pixels/um).
@@ -47,12 +47,27 @@ def find_mode_dispersion(
     wc = wavelength
     w1 = wavelength + wavelength_step
 
-    ncore = partial(get_index, name=core)
-    nclad = partial(get_index, name=clad)
+    core_material = partial(get_index, name=core)
+    clad_material = partial(get_index, name=clad)
 
-    m0 = find_modes_waveguide(wavelength=w0, ncore=ncore(w0), nclad=nclad(w0), **kwargs)
-    mc = find_modes_waveguide(wavelength=wc, ncore=ncore(wc), nclad=nclad(wc), **kwargs)
-    m1 = find_modes_waveguide(wavelength=w1, ncore=ncore(w1), nclad=nclad(w1), **kwargs)
+    m0 = find_modes_waveguide(
+        wavelength=w0,
+        core_material=core_material(w0),
+        clad_material=clad_material(w0),
+        **kwargs,
+    )
+    mc = find_modes_waveguide(
+        wavelength=wc,
+        core_material=core_material(wc),
+        clad_material=clad_material(wc),
+        **kwargs,
+    )
+    m1 = find_modes_waveguide(
+        wavelength=w1,
+        core_material=core_material(w1),
+        clad_material=clad_material(w1),
+        **kwargs,
+    )
 
     n0 = m0[mode_number].neff
     nc = mc[mode_number].neff
@@ -65,14 +80,14 @@ def find_mode_dispersion(
 
 
 if __name__ == "__main__":
-    m = find_mode_dispersion(wg_width=0.45, wg_thickness=0.22)
+    m = find_mode_dispersion(core_width=0.45, core_thickness=0.22)
     print(m.ng)
     # test_ng()
     # print(get_index(name="Si"))
     # ngs = []
     # for wavelength_step in [0.001, 0.01]:
     #     neff, ng = find_modes_waveguide_dispersion(
-    #         wg_width=0.45, wg_thickness=0.22, wavelength_step=wavelength_step
+    #         core_width=0.45, core_thickness=0.22, wavelength_step=wavelength_step
     #     )
     #     ngs.append(ng)
     #     print(wavelength_step, ng)
