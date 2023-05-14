@@ -2,6 +2,10 @@ import gdsfactory as gf
 import os
 
 straight_heater_metal_mk = (47, 1)
+m3_cross_section = gf.CrossSection(
+    layer=(49, 0),
+    width=10,
+)
 
 
 @gf.cell
@@ -74,6 +78,43 @@ def straight_heater_metal_lvs() -> gf.Component:
     c8_mk.center = c8.center
     c9_mk.center = c9.center
     c10_mk.center = c10.center
+
+    heater_12_route = gf.routing.get_route(
+        c1.ports["o1"], c2.ports["o1"], cross_section=m3_cross_section
+    )
+    heater_23_route = gf.routing.get_route(
+        c2.ports["o2"], c3.ports["o2"], cross_section=m3_cross_section
+    )
+    heater_34_route = gf.routing.get_route(
+        c3.ports["o1"], c4.ports["o1"], cross_section=m3_cross_section
+    )
+    heater_45_route = gf.routing.get_route(
+        c4.ports["o2"], c5.ports["o2"], cross_section=m3_cross_section
+    )
+    heater_56_route = gf.routing.get_route(
+        c5.ports["o1"], c6.ports["o1"], cross_section=m3_cross_section
+    )
+    heater_67_route = gf.routing.get_route(
+        c6.ports["o2"], c7.ports["o2"], cross_section=m3_cross_section
+    )
+    heater_78_route = gf.routing.get_route(
+        c7.ports["o1"], c8.ports["o1"], cross_section=m3_cross_section
+    )
+    heater_89_route = gf.routing.get_route(
+        c8.ports["o2"], c9.ports["o2"], cross_section=m3_cross_section
+    )
+    heater_910_route = gf.routing.get_route(
+        c9.ports["o1"], c10.ports["o1"], cross_section=m3_cross_section
+    )
+    c.add(heater_12_route.references)
+    c.add(heater_23_route.references)
+    c.add(heater_34_route.references)
+    c.add(heater_45_route.references)
+    c.add(heater_56_route.references)
+    c.add(heater_67_route.references)
+    c.add(heater_78_route.references)
+    c.add(heater_89_route.references)
+    c.add(heater_910_route.references)
     return c
 
 

@@ -11,7 +11,7 @@ Options:
     --thr=<thr>                         The number of threads used in run.
     --run_dir=<run_dir_path>            Run directory to save all the results [default: pwd]
     --topcell=<topcell_name>            Topcell name to use.
-    --run_mode=<run_mode>               Select klayout mode Allowed modes (flat , deep, tiling). [default: flat ]
+    --run_mode=<run_mode>               Select klayout mode Allowed modes (flat , deep, tiling). [default: deep ]
     --lvs_sub=<sub_name>                Substrate name used in your design.
     --verbose                           Detailed rule execution log for debugging.
     --no_net_names                      Discard net names in extracted netlist.
