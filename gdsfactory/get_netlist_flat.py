@@ -1,6 +1,6 @@
 from __future__ import annotations
 from collections.abc import Iterable
-from typing import Any, Dict, List
+from typing import Optional, Any, Dict, List
 from gdsfactory.component import Component
 import gdsfactory as gf
 from gdsfactory.get_netlist import get_netlist_recursive
@@ -254,7 +254,7 @@ def _flatten_hierarchy(
 def _flatten_hierarchy_recurse(
     netlist_name: str,
     all_netlists: List[Dict[str, any]],
-    hierarchy: str = None,
+    hierarchy: Optional[str] = None,
     hierarchy_delimiter: str = "~",
     component_instance_delimiter: str = ";",
 ) -> Dict[str, Any]:

@@ -176,7 +176,7 @@ class Pdk(BaseModel):
         return self.gds_write_settings.precision / self.gds_write_settings.unit
 
     @grid_size.setter
-    def grid_size(self, value):
+    def grid_size(self, value) -> None:
         self.gds_write_settings.precision = value * self.gds_write_settings.unit
 
     class Config:

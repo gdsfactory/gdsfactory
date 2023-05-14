@@ -11,6 +11,7 @@ from gdsfactory.components.via_stack import via_stack
 from gdsfactory.typings import LayerSpecs, ComponentSpec, Floats, CrossSectionSpec
 from gdsfactory.components.via_stack import via_stack_npp_m1, via_stack_m1_m3
 from gdsfactory.cross_section import metal1
+from typing import Optional
 
 
 @gf.cell
@@ -21,7 +22,7 @@ def greek_cross(
         "N",
     ),
     widths: Floats = (2.0, 3.0),
-    offsets: Floats = None,
+    offsets: Optional[Floats] = None,
     via_stack: ComponentSpec = via_stack_npp_m1,
 ) -> gf.Component:
     """Simple greek cross with via stacks at the endpoints.

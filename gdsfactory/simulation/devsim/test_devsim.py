@@ -6,7 +6,7 @@ PDK = gf.get_generic_pdk()
 PDK.activate()
 
 
-def test_pin_waveguide():
+def test_pin_waveguide() -> None:
     """Test reverse bias waveguide."""
     nm = 1e-9
     c = get_simulation_xsection.PINWaveguide(

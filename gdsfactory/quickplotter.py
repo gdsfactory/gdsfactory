@@ -64,14 +64,14 @@ _quickplot_options = {
 }
 
 
-def _zoom_factory(axis, scale_factor=1.4):
+def _zoom_factory(axis, scale_factor=1.4) -> None:
     """Returns zooming functionality to axis.
 
     From https://gist.github.com/tacaswell/3144287
 
     """
 
-    def zoom_fun(event, ax, scale):
+    def zoom_fun(event, ax, scale) -> None:
         """Zoom when scrolling."""
         if event.inaxes == axis:
             scale_factor = np.power(scale, -event.step)
@@ -100,7 +100,7 @@ _qp_objects = {}
 def _rectangle_selector_factory(fig, ax):
     from matplotlib.widgets import RectangleSelector
 
-    def line_select_callback(eclick, erelease):
+    def line_select_callback(eclick, erelease) -> None:
         x1, y1 = eclick.xdata, eclick.ydata
         x2, y2 = erelease.xdata, erelease.ydata
         left = min(x1, x2)
@@ -458,7 +458,7 @@ def _draw_port_as_point(ax, port, **kwargs):
 
 
 class ViewerWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize the object."""
         super().__init__()
 
@@ -517,7 +517,7 @@ class ViewerWindow(QMainWindow):
 
 
 class Viewer(QGraphicsView):
-    def __init__(self, gridsize_label, position_label, help_label):
+    def __init__(self, gridsize_label, position_label, help_label) -> None:
         """Initialize the object."""
         QGraphicsView.__init__(self)
 
@@ -568,7 +568,7 @@ class Viewer(QGraphicsView):
 
     def add_polygons(
         self, polygons, fill_color="#A8F22A", frame_color="#A8F22A", alpha=1.0
-    ):
+    ) -> None:
         qcolor_fill = QColor()
         qcolor_fill.setNamedColor(fill_color)
         qcolor_fill.setAlphaF(alpha)
@@ -596,7 +596,7 @@ class Viewer(QGraphicsView):
                 self.scene_ymin = min(self.scene_ymin, sr.top())
                 self.scene_ymax = max(self.scene_ymax, sr.bottom())
 
-    def reset_view(self):
+    def reset_view(self) -> None:
         # The SceneRect controls how far you can pan, make it larger than
         # just the bounding box so middle-click panning works
         panning_rect = QRectF(self.scene_bounding_rect)
@@ -610,7 +610,7 @@ class Viewer(QGraphicsView):
 
         self.update_grid()
 
-    def add_port(self, port, is_subport=False):
+    def add_port(self, port, is_subport=False) -> None:
         if (port.width is None) or (port.width == 0):
             x, y = port.center
             cs = 1  # cross size
@@ -648,7 +648,7 @@ class Viewer(QGraphicsView):
 
     #        self.portlabels.append(qtext)
 
-    def add_aliases(self, aliases):
+    def add_aliases(self, aliases) -> None:
         for name, ref in aliases.items():
             qtext = self.scene.addText(str(name), self.portfont)
             x, y = ref.center
@@ -656,22 +656,22 @@ class Viewer(QGraphicsView):
             qtext.setFlag(QGraphicsItem.ItemIgnoresTransformations)
             self.aliasitems += [qtext]
 
-    def set_port_visibility(self, visible=True):
+    def set_port_visibility(self, visible=True) -> None:
         for item in self.portitems:
             item.setVisible(visible)
         self.ports_visible = visible
 
-    def set_subport_visibility(self, visible=True):
+    def set_subport_visibility(self, visible=True) -> None:
         for item in self.subportitems:
             item.setVisible(visible)
         self.subports_visible = visible
 
-    def set_alias_visibility(self, visible=True):
+    def set_alias_visibility(self, visible=True) -> None:
         for item in self.aliasitems:
             item.setVisible(visible)
         self.aliases_visible = visible
 
-    def initialize(self):
+    def initialize(self) -> None:
         self.scene.clear()
         self.polygons = {}
         self.portitems = []
@@ -690,7 +690,7 @@ class Viewer(QGraphicsView):
         self.scene_ymin = 0
         self.scene_ymax = 1
 
-    def finalize(self):
+    def finalize(self) -> None:
         self.scene_bounding_rect = QRectF(
             QPointF(self.scene_xmin, self.scene_ymin),
             QPointF(self.scene_xmax, self.scene_ymax),
@@ -706,7 +706,7 @@ class Viewer(QGraphicsView):
     # ==============================================================================
     #   Grid creation
     # ==============================================================================
-    def update_grid(self):
+    def update_grid(self) -> None:
         grid_pixels = 50
         grid_snaps = [1, 2, 4]
 
@@ -736,11 +736,11 @@ class Viewer(QGraphicsView):
         self.grid_size_snapped = grid_size_snapped
         self.update_gridsize_label()
 
-    def update_gridsize_label(self):
+    def update_gridsize_label(self) -> None:
         self.gridsize_label.setText(f"grid size = {str(self.grid_size_snapped)}")
         self.gridsize_label.move(QPoint(5, self.height() - 25))
 
-    def update_mouse_position_label(self):
+    def update_mouse_position_label(self) -> None:
         self.position_label.setText(
             "X = {:0.4f} / Y = {:0.4f}".format(
                 self.mouse_position[0], self.mouse_position[1]
@@ -748,11 +748,11 @@ class Viewer(QGraphicsView):
         )
         self.position_label.move(QPoint(self.width() - 250, self.height() - 25))
 
-    def update_help_label(self):
+    def update_help_label(self) -> None:
         self.help_label.setText('Press "?" key for help')
         self.help_label.move(QPoint(self.width() - 175, 0))
 
-    def create_grid(self):
+    def create_grid(self) -> None:
         self.gridlinesx = [
             self.scene.addLine(-10, -10, 10, 10, self.gridpen) for _ in range(300)
         ]
@@ -766,7 +766,7 @@ class Viewer(QGraphicsView):
     # ==============================================================================
     #  Mousewheel zoom, taken from http://stackoverflow.com/a/29026916
     # ==============================================================================
-    def wheelEvent(self, event):
+    def wheelEvent(self, event) -> None:
         # Zoom Factor
         zoom_percentage = 1.4
 
@@ -812,13 +812,13 @@ class Viewer(QGraphicsView):
 
         self.update_grid()
 
-    def zoom_view(self, zoom_factor):
+    def zoom_view(self, zoom_factor) -> None:
         old_center = self.mapToScene(self.rect().center())
         self.scale(zoom_factor, zoom_factor)
         self.centerOn(old_center)
         self.zoom_factor_total *= zoom_factor
 
-    def resizeEvent(self, event):
+    def resizeEvent(self, event) -> None:
         super(QGraphicsView, self).resizeEvent(event)
         if self.scene_bounding_rect is not None:
             self.reset_view()
@@ -826,7 +826,7 @@ class Viewer(QGraphicsView):
         self.update_mouse_position_label()
         self.update_help_label()
 
-    def mousePressEvent(self, event):
+    def mousePressEvent(self, event) -> None:
         super(QGraphicsView, self).mousePressEvent(event)
         # ==============================================================================
         #  Zoom to rectangle, from
@@ -847,7 +847,7 @@ class Viewer(QGraphicsView):
             self.setCursor(QtCore.Qt.ClosedHandCursor)
             self._dragPos = event.pos()
 
-    def mouseMoveEvent(self, event):
+    def mouseMoveEvent(self, event) -> None:
         super(QGraphicsView, self).mouseMoveEvent(event)
 
         # # Useful debug
@@ -880,7 +880,7 @@ class Viewer(QGraphicsView):
 
     #            event.accept()
 
-    def mouseReleaseEvent(self, event):
+    def mouseReleaseEvent(self, event) -> None:
         if event.button() == Qt.RightButton:
             self.rubberBand.hide()
             rb_rect = QRect(self._rb_origin, event.pos())
@@ -906,7 +906,7 @@ class Viewer(QGraphicsView):
             self._mousePressed = None
             self.update_grid()
 
-    def keyPressEvent(self, event):
+    def keyPressEvent(self, event) -> None:
         if event.key() == Qt.Key_Escape:
             self.reset_view()
 
