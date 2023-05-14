@@ -21,7 +21,7 @@ port = 8765
 class LayoutViewServerEndpoint(WebSocketEndpoint):
     encoding = "text"
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         logger.info("Initialized websocket")
         _params = self.scope["query_string"].decode("utf-8")
@@ -47,20 +47,20 @@ class LayoutViewServerEndpoint(WebSocketEndpoint):
         # c.write_gds(gds_path)
         self.gds_path = str(gds_path)
 
-    async def on_connect(self, websocket):
+    async def on_connect(self, websocket) -> None:
         await websocket.accept()
         await self.connection(websocket)
 
-    async def on_receive(self, websocket, data):
+    async def on_receive(self, websocket, data) -> None:
         await self.reader(websocket, data)
 
-    async def on_disconnect(self, websocket, close_code):
+    async def on_disconnect(self, websocket, close_code) -> None:
         pass
 
-    async def send_image(self, websocket, data):
+    async def send_image(self, websocket, data) -> None:
         await websocket.send_text(data)
 
-    def image_updated(self, websocket):
+    def image_updated(self, websocket) -> None:
         pixel_buffer = self.layout_view.get_screenshot_pixels()
         asyncio.create_task(self.send_image(websocket, pixel_buffer.to_png_data()))
 
@@ -112,7 +112,7 @@ class LayoutViewServerEndpoint(WebSocketEndpoint):
 
         asyncio.create_task(self.timer(websocket))
 
-    async def timer(self, websocket):
+    async def timer(self, websocket) -> None:
         self.layout_view.on_image_updated_event = lambda: self.image_updated(websocket)
         while True:
             self.layout_view.timer()
@@ -136,7 +136,7 @@ class LayoutViewServerEndpoint(WebSocketEndpoint):
             buttons |= lay.ButtonState.MidButton
         return buttons
 
-    def wheel_event(self, function, js):
+    def wheel_event(self, function, js) -> None:
         delta = 0
         dx = js["dx"]
         dy = js["dy"]
@@ -151,10 +151,10 @@ class LayoutViewServerEndpoint(WebSocketEndpoint):
                 delta, horizontal, db.Point(js["x"], js["y"]), self.buttons_from_js(js)
             )
 
-    def mouse_event(self, function, js):
+    def mouse_event(self, function, js) -> None:
         function(db.Point(js["x"], js["y"]), self.buttons_from_js(js))
 
-    async def reader(self, websocket, data: str):
+    async def reader(self, websocket, data: str) -> None:
         js = json.loads(data)
         msg = js["msg"]
         if msg == "quit":

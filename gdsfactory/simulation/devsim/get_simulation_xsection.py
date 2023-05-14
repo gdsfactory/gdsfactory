@@ -350,7 +350,9 @@ class PINWaveguide(BaseModel):
                 )
                 simple_physics.CreateSiliconPotentialOnlyContact(device, region, i)
 
-    def drift_diffusion_initial_solution(self, device, region, circuit_contacts=None):
+    def drift_diffusion_initial_solution(
+        self, device, region, circuit_contacts=None
+    ) -> None:
         # drift diffusion solution variables
         model_create.CreateSolution(device, region, "Electrons")
         model_create.CreateSolution(device, region, "Holes")

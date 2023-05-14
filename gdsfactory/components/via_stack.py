@@ -396,7 +396,7 @@ def optimized_via(
     )
 
 
-def test_via_stack_from_rules():
+def test_via_stack_from_rules() -> None:
     # Check that vias are generated with larger than min dimensions if possible
     size = (1.2, 1.2)
     layers = ("M1", "M2", "M3")

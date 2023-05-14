@@ -15,7 +15,7 @@ from gdsfactory.typings import CrossSectionSpec, LayerSpec, Route
 
 
 class Node:
-    def __init__(self, parent=None, position: tuple = ()):
+    def __init__(self, parent=None, position: tuple = ()) -> None:
         """Initializes a node. A node is a point on the grid."""
         self.parent = parent  # parent node of current node
         self.position = position  # position of current node

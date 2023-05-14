@@ -121,7 +121,7 @@ class PicYamlConfiguration(BaseModel):
 
     def add_instance(
         self, name: str, component: gf.Component, placement: Optional[Placement] = None
-    ):
+    ) -> None:
         component_name = component.settings.function_name
         component_settings = component.settings.changed
         self.instances[name] = Instance(
@@ -131,11 +131,11 @@ class PicYamlConfiguration(BaseModel):
             placement = Placement()
         self.placements[name] = placement
 
-    def move_instance_to(self, name: str, x: float, y: float):
+    def move_instance_to(self, name: str, x: float, y: float) -> None:
         self.placements[name].x = x
         self.placements[name].y = y
 
-    def move_instance(self, name: str, dx: float, dy: float):
+    def move_instance(self, name: str, dx: float, dy: float) -> None:
         if not self.placements[name].dx:
             self.placements[name].dx = 0
         self.placements[name].dx += dx
@@ -143,7 +143,7 @@ class PicYamlConfiguration(BaseModel):
             self.placements[name].dy = 0
         self.placements[name].dy += dy
 
-    def to_yaml(self, filename):
+    def to_yaml(self, filename) -> None:
         netlist = self.dict()
         with open(filename, mode="w") as f:
             yaml.dump(netlist, f, default_flow_style=None, sort_keys=False)
@@ -166,7 +166,7 @@ class SchematicConfiguration(BaseModel):
         component: Union[str, gf.Component],
         placement: Optional[Placement] = None,
         settings: Dict[str, Any] = None,
-    ):
+    ) -> None:
         if isinstance(component, gf.Component):
             component_name = component.settings.function_name
             component_settings = component.settings.changed

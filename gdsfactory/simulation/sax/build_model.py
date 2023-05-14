@@ -282,7 +282,7 @@ class Model:
     MODELS
     """
 
-    def set_nd_nd_interp(self):
+    def set_nd_nd_interp(self) -> None:
         """Returns ND-ND interpolator.
 
         Returns:
@@ -292,7 +292,7 @@ class Model:
         input_vectors, output_vectors = self.get_all_inputs_outputs()
         self.inference = nd_nd_interpolation(input_vectors, output_vectors)
 
-    def set_mlp_interp(self):
+    def set_mlp_interp(self) -> None:
         """Returns multilayer perceptron interpolator.
 
         Returns:

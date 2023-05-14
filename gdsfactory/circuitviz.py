@@ -78,7 +78,7 @@ class LineSegment(NamedTuple):
     name: str
 
 
-def _enlarge_limits(ax, x, y, w=0.0, h=0.0):
+def _enlarge_limits(ax, x, y, w=0.0, h=0.0) -> None:
     xlim = ax.get_xlim()
     ylim = ax.get_ylim()
     x_min, x_max = xlim if xlim != (0.0, 1.0) else (np.inf, -np.inf)
@@ -168,7 +168,7 @@ def viz_bk(
     dss = data["dss"] = _get_column_data_sources(srcs)
     netlist = data["netlist"]
 
-    def cb_rect_on_change_data(attr, old, new):
+    def cb_rect_on_change_data(attr, old, new) -> None:
         tags = np.array(old["tag"], dtype=object)
         xy_old = np.stack([old["x"], old["y"]], 1)
         xy_new = np.stack([new["x"], new["y"]], 1)
@@ -233,11 +233,11 @@ def viz_bk(
                     v.data = data
         save_netlist(netlist, netlist_filename)
 
-    def cb_rect_selected_on_change_indices(attr, old, new):
+    def cb_rect_selected_on_change_indices(attr, old, new) -> None:
         if len(new) > 1:
             data["dss"]["Rect"].selected.indices = [new[0]]
 
-    def cp_double_tap(event):
+    def cp_double_tap(event) -> None:
         # only works on 'hierarchical netlists...'
         if netlist is None:
             return
@@ -323,7 +323,7 @@ def viz_bk(
     fig.yaxis.major_label_text_font_size = "0pt"
     fig.match_aspect = True
 
-    def bkapp(doc):
+    def bkapp(doc) -> None:
         doc.add_root(fig)
         data["doc"] = doc
 
@@ -341,7 +341,7 @@ def is_output_port(port):
     return port.startswith("out")
 
 
-def is_input_port(port):
+def is_input_port(port) -> bool:
     return not is_output_port(port)
 
 
@@ -457,7 +457,9 @@ def viz_netlist(netlist, instances, instance_size=20):
     return els
 
 
-def show_netlist(schematic: SchematicConfiguration, instances: Dict, netlist_filename):
+def show_netlist(
+    schematic: SchematicConfiguration, instances: Dict, netlist_filename
+) -> None:
     global data
     data["netlist"] = schematic
     fig = bp.figure(width=800, height=500)
@@ -473,7 +475,7 @@ def show_netlist(schematic: SchematicConfiguration, instances: Dict, netlist_fil
 
 def update_schematic_plot(
     schematic: SchematicConfiguration, instances: Dict, *args, **kwargs
-):
+) -> None:
     global data
 
     if "doc" in data:
@@ -489,13 +491,13 @@ def update_schematic_plot(
 
 def _update_schematic_plot(
     schematic: SchematicConfiguration, instances: Dict, *args, **kwargs
-):
+) -> None:
     srcs = _get_sources(viz_netlist(schematic, instances=instances))
     for k in srcs:
         data["dss"][k].data = srcs[k]
 
 
-def add_instance(name: str, component):
+def add_instance(name: str, component) -> None:
     inst_viz = viz_instance(
         data["netlist"], instance_name=name, component=component, instance_size=0
     )
@@ -511,7 +513,7 @@ def get_deltas(netlist):
     }
 
 
-def apply_deltas(netlist, deltas):
+def apply_deltas(netlist, deltas) -> None:
     for k, d in deltas.items():
         netlist.placements[k].dx = d["dx"]
         netlist.placements[k].dy = d["dy"]

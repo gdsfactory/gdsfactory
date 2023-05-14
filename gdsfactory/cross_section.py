@@ -2289,7 +2289,7 @@ def get_cross_section_factories(
 cross_sections = get_cross_section_factories(sys.modules[__name__])
 
 
-def test_copy():
+def test_copy() -> None:
     import gdsfactory as gf
 
     p = gf.path.straight()

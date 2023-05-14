@@ -66,7 +66,7 @@ class MutabilityError(ValueError):
     pass
 
 
-def _get_dependencies(component, references_set):
+def _get_dependencies(component, references_set) -> None:
     for ref in component.references:
         references_set.add(ref.ref_cell)
         _get_dependencies(ref.ref_cell, references_set)
@@ -200,7 +200,7 @@ class Component(_GeometryHelper):
         return self._cell.name
 
     @name.setter
-    def name(self, value):
+    def name(self, value) -> None:
         self._cell.name = value
 
     def __iter__(self):
@@ -1060,7 +1060,7 @@ class Component(_GeometryHelper):
         else:
             raise ValueError(f"Unable to add {points.ndim}-dimensional points object")
 
-    def _add_polygons(self, *polygons: List[Polygon]):
+    def _add_polygons(self, *polygons: List[Polygon]) -> None:
         self.is_unlocked()
         self._cell.add(*polygons)
 
@@ -1257,7 +1257,7 @@ class Component(_GeometryHelper):
         component_flat.add_ports(self.ports)
         return component_flat
 
-    def flatten_reference(self, ref: ComponentReference):
+    def flatten_reference(self, ref: ComponentReference) -> None:
         """From existing cell replaces reference with a flatten reference \
         which has the transformations already applied.
 
@@ -1393,7 +1393,7 @@ class Component(_GeometryHelper):
         self,
         show_ports: bool = True,
         port_marker_layer: Layer = (1, 10),
-    ):
+    ) -> None:
         """Returns ipython widget for klayout visualization.
 
         Args:
@@ -2797,7 +2797,7 @@ def test_remove_labels() -> None:
     assert len(c.labels) == 0
 
 
-def test_import_gds_settings():
+def test_import_gds_settings() -> None:
     import gdsfactory as gf
 
     c = gf.components.mzi()
@@ -2807,7 +2807,7 @@ def test_import_gds_settings():
     assert c3
 
 
-def test_flatten_invalid_refs_recursive():
+def test_flatten_invalid_refs_recursive() -> None:
     import gdsfactory as gf
     from gdsfactory.difftest import run_xor
     from gdsfactory.routing.all_angle import get_bundle_all_angle

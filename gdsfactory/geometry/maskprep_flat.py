@@ -64,7 +64,7 @@ class RegionCollection:
         filepath: to read GDS from.
     """
 
-    def __init__(self, layermap: Dict[str, Layer], filepath: PathType = None):
+    def __init__(self, layermap: Dict[str, Layer], filepath: PathType = None) -> None:
         lib = kf.kcell.KLib()
         lib.read(filename=str(filepath))
         c = lib[0]
@@ -99,7 +99,7 @@ class RegionCollection:
         c.write(filename)
         return c
 
-    def __delattr__(self, element):
+    def __delattr__(self, element) -> None:
         setattr(self, element, Region())
 
     def get_fill(

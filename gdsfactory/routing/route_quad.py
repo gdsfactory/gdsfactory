@@ -102,7 +102,7 @@ def route_quad(
     return component
 
 
-def test_manhattan_route_quad():
+def test_manhattan_route_quad() -> None:
     c = gf.Component("route")
     pad1 = c << gf.components.pad(size=(50, 50))
     pad2 = c << gf.components.pad(size=(10, 10))

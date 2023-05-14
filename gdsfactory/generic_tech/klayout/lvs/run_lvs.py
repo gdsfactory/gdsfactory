@@ -33,7 +33,7 @@ from datetime import datetime
 from subprocess import check_call
 
 
-def check_klayout_version():
+def check_klayout_version() -> None:
     """
     check_klayout_version checks klayout version and makes sure it would work with the LVS.
     """
@@ -251,7 +251,7 @@ def build_switches_string(sws: dict):
     return " ".join(f"-rd {k}={v}" for k, v in sws.items())
 
 
-def check_lvs_results(results_db_files: list):
+def check_lvs_results(results_db_files: list) -> None:
     """
     check_lvs_results Checks the results db generated from run and report at the end if the LVS run failed or passed.
 
@@ -307,7 +307,7 @@ def run_check(lvs_file: str, path: str, run_dir: str, sws: dict):
     return report_path
 
 
-def main(lvs_run_dir: str, arguments: dict):
+def main(lvs_run_dir: str, arguments: dict) -> None:
     """
     main function to run the LVS.
 

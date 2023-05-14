@@ -20,14 +20,16 @@ def install_design_kit(
     session: object,
     install_dir: pathlib.Path = PATH.interconnect,
     overwrite: bool = False,
-):
+) -> None:
     from gdsfactory.pdk import get_interconnect_cml_path
 
     cml_path = get_interconnect_cml_path()
     session.installdesignkit(str(cml_path), str(install_dir), overwrite)
 
 
-def set_named_settings(session: object, simulation_settings: dict, element: str):
+def set_named_settings(
+    session: object, simulation_settings: dict, element: str
+) -> None:
     for param, val in zip(simulation_settings.keys(), simulation_settings.values()):
         session.setnamed(element, param, val)
 
@@ -426,7 +428,7 @@ def run_wavelength_sweep(
 
 def plot_wavelength_sweep(
     ports_out, results, result_name: str = "TE Transmission", show: bool = True
-):
+) -> None:
     import matplotlib.pyplot as plt
 
     for port in ports_out:

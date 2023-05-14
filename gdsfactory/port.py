@@ -260,11 +260,11 @@ class Port:
         return self.center[1]
 
     @x.setter
-    def x(self, value):
+    def x(self, value) -> None:
         self.center = (value, self.center[1])
 
     @y.setter
-    def y(self, value):
+    def y(self, value) -> None:
         self.center = (self.center[0], value)
 
     def rotate(self, angle: float = 45, center: Optional[Float2] = None) -> Port:
