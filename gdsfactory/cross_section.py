@@ -15,6 +15,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union, TypeVar
 
 from pydantic import BaseModel, Field, validate_arguments
 from typing_extensions import Literal
+from gdsfactory.add_pins import add_pins_inside1nm, add_pins_siepic_optical
 
 nm = 1e-3
 
@@ -483,11 +484,12 @@ radius_nitride = 20
 radius_rib = 20
 
 
-strip = cross_section
+strip = partial(cross_section, add_pins=add_pins_inside1nm)
 strip_auto_widen = partial(strip, width_wide=0.9, auto_widen=True)
 strip_no_pins = partial(
     strip, add_pins=None, add_bbox=None, cladding_layers=None, cladding_offsets=None
 )
+strip_siepic = partial(cross_section, add_pins=add_pins_siepic_optical)
 
 # Rib with rectangular slab
 rib = partial(strip, bbox_layers=["SLAB90"], bbox_offsets=[3], radius=radius_rib)
