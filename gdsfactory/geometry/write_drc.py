@@ -334,16 +334,16 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     rules = [
-        rule_min_width_or_space(layer="WG", width=0.2, space=0.2),
+        # rule_min_width_or_space(layer="WG", width=0.2, space=0.2),
         # rule_width(layer="WG", value=0.2),
         # rule_space(layer="WG", value=0.2),
-        rule_separation(layer1="HEATER", layer2="M1", value=1.0),
-        rule_enclosing(layer1="VIAC", layer2="M1", value=0.2),
-        rule_area(layer="WG", min_area_um2=0.05),
-        rule_not_inside(layer="VIAC", not_inside="NPP"),
-        rule_density(
-            layer="WG", layer_floorplan="FLOORPLAN", min_density=0.5, max_density=0.6
-        ),
+        # rule_separation(layer1="HEATER", layer2="M1", value=1.0),
+        # rule_enclosing(layer1="VIAC", layer2="M1", value=0.2),
+        # rule_area(layer="WG", min_area_um2=0.05),
+        # rule_not_inside(layer="VIAC", not_inside="NPP"),
+        # rule_density(
+        #     layer="WG", layer_floorplan="FLOORPLAN", min_density=0.5, max_density=0.6
+        # ),
         connectivity_checks(["strip"], 1 * nm),
     ]
 
