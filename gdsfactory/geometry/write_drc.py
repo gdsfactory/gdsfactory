@@ -131,15 +131,15 @@ end
 """
 
 
-def connectivity_checks(WG_cross_sections: List[CrossSectionSpec], pin_widths: Union[List[float], float]):
+def connectivity_checks(cross_sections: List[CrossSectionSpec], pin_widths: Union[List[float], float]):
     """Return script for photonic port connectivity check. Assumes the photonic port pins are inside the Component.
 
     Args:
-        WG_cross_sections: list of waveguide layers to run check for.
+        cross_sections: list of waveguide layers to run check for.
         pin_widths: list of port pin widths or a single port pin width/
     """
     connectivity_check = ""
-    for i, layer_name in enumerate(WG_cross_sections):
+    for i, layer_name in enumerate(cross_sections):
         layer = gf.pdk.get_cross_section(layer_name).width
         layer_name = gf.pdk.get_cross_section(layer_name).layer
         connectivity_check = connectivity_check.join(
