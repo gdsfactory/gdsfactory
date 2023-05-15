@@ -9,7 +9,7 @@ import numpy as np
 
 
 class MeshTracker:
-    def __init__(self, model, atol=1e-4) -> None:
+    def __init__(self, model, atol=1e-4):
         """Map between shapely and gmsh.
 
         Shapely is useful for built-in geometry equivalencies and extracting orientation, instead of doing it manually
@@ -144,7 +144,7 @@ class MeshTracker:
             self.xy_segments_secondary_labels.append(None)
         return gmsh_segment, orientation
 
-    def add_get_xy_line(self, shapely_xy_curve, label, zs=None) -> None:
+    def add_get_xy_line(self, shapely_xy_curve, label, zs=None):
         """Add a shapely line (multi-point line) to the gmsh model in the xy plane, or retrieve the existing gmsh segment with equivalent coordinates (within tol.).
 
         Args:

@@ -32,7 +32,7 @@ def run_fragmented_calculation(
     save_path: Path,
     trim_settings=None,
     step: int = 1000,
-) -> None:
+):
     """Runs a TRIM calculations in series, with each batch no more than 1000 ions to avoid crashes.
 
     Arguments:
@@ -68,7 +68,7 @@ def run_parallel_fragmented_calculation(
     trim_settings=None,
     step: int = 1000,
     cores: int = 4,
-) -> None:
+):
     """Runs "cores" TRIM series calculations in parallel, with each batch no more than 1000 ions to avoid crashes.
 
     Arguments:

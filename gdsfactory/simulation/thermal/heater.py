@@ -170,7 +170,7 @@ def solve_thermal(
     cax = divider.append_axes("right", size="5%", pad=0.05)
     fig.colorbar(field, cax=cax)
 
-    def update(event) -> None:
+    def update(event):
         t, u = event
         title.set_text(f"$t$ = {t * 1e6:.2f}us")
         field.set_array(u)

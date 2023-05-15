@@ -210,7 +210,7 @@ def xyz_mesh(
     override_volumes: Optional[Dict] = None,
     round_tol: int = 3,
     simplify_tol: float = 1e-3,
-) -> bool:
+):
     """Full 3D mesh of component.
 
     Args:

@@ -11,7 +11,7 @@ PDK = gf.get_generic_pdk()
 PDK.activate()
 
 
-def test_gmsh_uz_xsection_mesh() -> None:
+def test_gmsh_uz_xsection_mesh():
     waveguide = gf.components.straight_pin(length=10, taper=None)
 
     filtered_layerstack = LayerStack(
@@ -40,7 +40,7 @@ def test_gmsh_uz_xsection_mesh() -> None:
     )
 
 
-def test_gmsh_xy_xsection_mesh() -> None:
+def test_gmsh_xy_xsection_mesh():
     import gdsfactory as gf
 
     waveguide = gf.components.straight_pin(length=10, taper=None)
@@ -72,7 +72,7 @@ def test_gmsh_xy_xsection_mesh() -> None:
     )
 
 
-def test_gmsh_xyz_holes() -> None:
+def test_gmsh_xyz_holes():
     c = gf.component.Component()
     c << gf.get_component(gf.components.ring_crow)
 

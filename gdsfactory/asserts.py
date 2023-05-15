@@ -20,14 +20,12 @@ def grating_coupler(gc: Component) -> None:
 
     if "o1" not in gc.ports:
         warnings.warn(
-            f"grating_coupler {gc.name} should have a o1 port. It has {gc.ports}",
-            stacklevel=3,
+            f"grating_coupler {gc.name} should have a o1 port. It has {gc.ports}"
         )
     if "o1" in gc.ports and gc.ports["o1"].orientation != 180:
         warnings.warn(
             f"grating_coupler {gc.name} orientation = {gc.ports['o1'].orientation}"
-            " should be 180 degrees",
-            stacklevel=3,
+            " should be 180 degrees"
         )
 
 
@@ -35,11 +33,7 @@ def version(
     requirement: str, current: str = __version__, package_name="gdsfactory"
 ) -> None:
     """Raises error if current version does not match requirement."""
-    try:
-        import semantic_version
-    except ModuleNotFoundError as e:
-        print("You need to 'pip install semantic-version'")
-        raise e
+    import semantic_version
 
     s = semantic_version.SimpleSpec(requirement)
     if not s.match(semantic_version.Version(current)):

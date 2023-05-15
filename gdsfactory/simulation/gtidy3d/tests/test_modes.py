@@ -5,7 +5,7 @@ import numpy as np
 import gdsfactory.simulation.gtidy3d as gt
 
 
-def test_neff() -> None:
+def test_neff():
     wg = gt.modes.Waveguide(
         wavelength=1.55,
         core_width=0.5,
@@ -18,7 +18,7 @@ def test_neff() -> None:
     assert np.isclose(n_eff, 2.447, rtol=0.1), n_eff
 
 
-def test_neff_high_accuracy() -> None:
+def test_neff_high_accuracy():
     wg = gt.modes.Waveguide(
         wavelength=1.55,
         core_width=0.5,

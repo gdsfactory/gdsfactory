@@ -4,7 +4,7 @@ from typing import Callable
 
 
 class Event:
-    def __init__(self) -> None:
+    def __init__(self):
         """Initialize the object."""
         self._handlers = []
 
@@ -18,7 +18,7 @@ class Event:
         self._handlers.remove(handler)
         return self
 
-    def add_handler(self, handler: Callable) -> None:
+    def add_handler(self, handler: Callable):
         """Adds a handler that will be executed when this event is fired.
 
         Args:
@@ -27,11 +27,11 @@ class Event:
         """
         self._handlers.append(handler)
 
-    def clear_handlers(self) -> None:
+    def clear_handlers(self):
         """Clear all handlers."""
         self._handlers.clear()
 
-    def fire(self, *args, **kwargs) -> None:
+    def fire(self, *args, **kwargs):
         """Fires an event, calling all handlers with the passed arguments."""
         for eventhandler in self._handlers:
             eventhandler(*args, **kwargs)

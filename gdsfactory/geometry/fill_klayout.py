@@ -16,7 +16,7 @@ def fill(
     fill_cell_name: str = "fill_cell",
     create_new_fill_cell: bool = False,
     include_original: bool = False,
-    fill_layers: Optional[LayerSpecs] = None,
+    fill_layers: LayerSpecs = None,
     fill_size: Tuple[float, float] = (10, 10),
     fill_spacing: Tuple[float, float] = (20, 20),
     fill_name: Optional[str] = None,

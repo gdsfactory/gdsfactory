@@ -888,7 +888,7 @@ def get_bundle_all_angle(
             )
             report_segment_separation = None
 
-            def _report_separations_w_steps(refs) -> None:
+            def _report_separations_w_steps(refs):
                 segment_separations.append(_get_minimum_separation(refs))
 
             if steps:

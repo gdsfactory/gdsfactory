@@ -213,13 +213,13 @@ def write_cells(
     return gdspaths
 
 
-def test_write_cells_recursively() -> None:
+def test_write_cells_recursively():
     gdspath = PATH.gdsdir / "mzi2x2.gds"
     gdspaths = write_cells(gdspath=gdspath, dirpath="extra/gds", recursively=True)
     assert len(gdspaths) == 9, len(gdspaths)
 
 
-def test_write_cells() -> None:
+def test_write_cells():
     gdspath = PATH.gdsdir / "alphabet_3top_cells.gds"
     gdspaths = write_cells(gdspath=gdspath, dirpath="extra/gds", recursively=False)
     assert len(gdspaths) == 3, len(gdspaths)

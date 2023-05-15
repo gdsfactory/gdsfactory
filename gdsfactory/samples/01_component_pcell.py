@@ -37,7 +37,7 @@ def straight_wide(
     return wg
 
 
-def test_straight_wide(data_regression) -> None:
+def test_straight_wide(data_regression):
     component = straight_wide()
     data_regression.check(component.to_dict())
 

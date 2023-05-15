@@ -143,9 +143,7 @@ def extend_ports(
 
     for port_name in ports_to_extend_names:
         if port_name not in port_names_all:
-            warnings.warn(
-                f"Port Name {port_name!r} not in {port_names_all}", stacklevel=3
-            )
+            warnings.warn(f"Port Name {port_name!r} not in {port_names_all}")
 
     for port in ports_all:
         port_name = port.name

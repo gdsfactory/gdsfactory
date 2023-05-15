@@ -58,7 +58,7 @@ logger.add(sink=sys.stderr, level="WARNING")
 showwarning_ = warnings.showwarning
 
 
-def showwarning(message, *args, **kwargs) -> None:
+def showwarning(message, *args, **kwargs):
     logger.warning(message)
     showwarning_(message, *args, **kwargs)
 
@@ -69,7 +69,7 @@ plugins = ["ray", "femwell", "devsim", "tidy3d", "meep", "meow", "lumapi", "sax"
 pdks = ["gf45", "tj", "imec", "amf", "sky130", "ubcpdk", "aim", "ct"]
 
 
-def print_version() -> None:
+def print_version():
     """Print gdsfactory plugin versions and paths."""
     table = Table(title="Modules")
     table.add_column("Package", justify="right", style="cyan", no_wrap=True)
@@ -92,7 +92,7 @@ def print_version() -> None:
     console.print(table)
 
 
-def print_version_raw() -> None:
+def print_version_raw():
     """Print gdsfactory plugin versions and paths."""
     print("gdsfactory", __version__)
 
@@ -107,7 +107,7 @@ def print_version_raw() -> None:
             print(plugin, "not installed", "")
 
 
-def print_version_pdks() -> None:
+def print_version_pdks():
     """Print gdsfactory PDK versions and paths."""
     table = Table(title="PDKs")
     table.add_column("Package", justify="right", style="cyan", no_wrap=True)

@@ -184,7 +184,7 @@ class KLayoutTechnology(BaseModel):
 layer_views = LayerViews.from_lyp(str(PATH.klayout_lyp))
 
 
-def yaml_test() -> None:
+def yaml_test():
     tech_dir = PATH.repo / "extra" / "test_tech"
 
     # Load from existing layer properties file

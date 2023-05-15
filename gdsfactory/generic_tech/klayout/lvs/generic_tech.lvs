@@ -88,34 +88,43 @@ device_scaling(1_000_000) if $DEV_SCALE
 logger.info("LVS device_scaling option: #{DEV_SCALE}")
 
 # SCH_SIMPLE
-SCH_SIMPLE = bool_check?(false)
+SCH_SIMPLE = bool_check?($schematic_simplify)
 
 logger.info("Selected SCH_SIMPLE option: #{SCH_SIMPLE}")
 
 # NET_ONLY
-NET_ONLY = bool_check?(true)
+NET_ONLY = bool_check?($net_only)
 
 logger.info("Selected NET_ONLY option: #{NET_ONLY}")
 
 # TOP_LVL_PINS
-TOP_LVL_PINS = bool_check?(true)
+TOP_LVL_PINS = bool_check?($top_lvl_pins)
 
 logger.info("Selected TOP_LVL_PINS option: #{TOP_LVL_PINS}")
 
 # COMBINE
-COMBINE = bool_check?(false)
+COMBINE = bool_check?($combine)
 
 logger.info("Selected COMBINE option: #{COMBINE}")
 
 # PURGE
-PURGE = bool_check?(true)
+PURGE = bool_check?($purge)
 
 logger.info("Selected PURGE option: #{PURGE}")
 
 # PURGE_NETS
-PURGE_NETS = bool_check?(true)
+PURGE_NETS = bool_check?($purge_nets)
 
 logger.info("Selected PURGE_NETS option: #{PURGE_NETS}")
+
+# SIMPLIFY
+SIMPLIFY = if NET_ONLY || TOP_LVL_PINS || COMBINE || PURGE || PURGE_NETS
+             false
+           else
+             true
+           end
+
+logger.info("Selected SIMPLIFY option: #{SIMPLIFY}")
 
 #=== PRINT DETAILS ===
 logger.info("Verbose mode: #{$verbose}")
@@ -223,6 +232,9 @@ logger.info('Starting GENERIC TECH LVS comparison section')
 
 #=== FLATTEN CELLS ===
 align
+
+#=== NETLIST EXTRACTION ===
+netlist.simplify if SIMPLIFY
 
 #=== NETLIST OPTIONS ===
 netlist if NET_ONLY

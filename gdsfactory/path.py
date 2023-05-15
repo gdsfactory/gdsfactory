@@ -54,7 +54,7 @@ class Path(_GeometryHelper):
 
     """
 
-    def __init__(self, path=None) -> None:
+    def __init__(self, path=None):
         """Creates an empty path."""
         self.points = np.array([[0, 0]], dtype=np.float64)
         self.start_angle = 0
@@ -85,7 +85,7 @@ class Path(_GeometryHelper):
                     "an array-like[N][2] list of points, or a list of these"
                 )
 
-    def __len__(self) -> int:
+    def __len__(self):
         """Returns path points."""
         return len(self.points)
 

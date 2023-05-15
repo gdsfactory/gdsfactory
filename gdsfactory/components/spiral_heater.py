@@ -12,9 +12,9 @@ from gdsfactory.typings import (
     ComponentFactory,
     CrossSectionSpec,
     Floats,
+    Optional,
 )
 from gdsfactory.routing.get_route import get_route
-from typing import Optional
 
 
 @gf.cell
@@ -26,7 +26,7 @@ def spiral_racetrack(
     bend_factory: ComponentFactory = bend_euler,
     bend_s_factory: ComponentFactory = bend_s,
     cross_section: CrossSectionSpec = "strip",
-    cross_section_s: Optional[CrossSectionSpec] = None,
+    cross_section_s: CrossSectionSpec = None,
     n_bend_points: Optional[int] = None,
     with_inner_ports: bool = False,
     extra_90_deg_bend: bool = False,
@@ -126,7 +126,7 @@ def spiral_racetrack_fixed_length(
     bend_factory: ComponentFactory = bend_euler,
     bend_s_factory: ComponentFactory = bend_s,
     cross_section: CrossSectionSpec = "strip",
-    cross_section_s: Optional[CrossSectionSpec] = None,
+    cross_section_s: CrossSectionSpec = None,
     n_bend_points: Optional[int] = None,
     with_inner_ports: bool = False,
 ) -> Component:

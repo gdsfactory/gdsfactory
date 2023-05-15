@@ -142,7 +142,7 @@ class _GeometryHelper:
         return np.sum(self.bbox, 0) / 2
 
     @center.setter
-    def center(self, destination) -> None:
+    def center(self, destination):
         """Sets the center of the bounding box.
 
         Args:
@@ -156,7 +156,7 @@ class _GeometryHelper:
         return np.sum(self.bbox, 0)[0] / 2
 
     @x.setter
-    def x(self, destination) -> None:
+    def x(self, destination):
         """Sets the x-coordinate of the center of the bounding box.
 
         Args:
@@ -171,7 +171,7 @@ class _GeometryHelper:
         return np.sum(self.bbox, 0)[1] / 2
 
     @y.setter
-    def y(self, destination) -> None:
+    def y(self, destination):
         """Sets the y-coordinate of the center of the bounding box.
 
         Args:
@@ -187,7 +187,7 @@ class _GeometryHelper:
         return self.bbox[1][0]
 
     @xmax.setter
-    def xmax(self, destination) -> None:
+    def xmax(self, destination):
         """Sets the x-coordinate of the maximum edge of the bounding box.
 
         Args:
@@ -202,7 +202,7 @@ class _GeometryHelper:
         return self.bbox[1][1]
 
     @ymax.setter
-    def ymax(self, destination) -> None:
+    def ymax(self, destination):
         """Sets the y-coordinate of the maximum edge of the bounding box.
 
         Args:
@@ -216,7 +216,7 @@ class _GeometryHelper:
         return self.bbox[0][0]
 
     @xmin.setter
-    def xmin(self, destination) -> None:
+    def xmin(self, destination):
         """Sets the x-coordinate of the minimum edge of the bounding box.
 
         Args:
@@ -230,7 +230,7 @@ class _GeometryHelper:
         return self.bbox[0][1]
 
     @ymin.setter
-    def ymin(self, destination) -> None:
+    def ymin(self, destination):
         """Sets the y-coordinate of the minimum edge of the bounding box.
 
         Args:
@@ -300,7 +300,7 @@ class Group(_GeometryHelper):
     """Group objects together so you can manipulate them as a single object \
             (move/rotate/mirror)."""
 
-    def __init__(self, *args) -> None:
+    def __init__(self, *args):
         """Initialize Group."""
         self.elements = []
         self.add(args)

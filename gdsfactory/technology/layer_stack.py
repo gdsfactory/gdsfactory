@@ -72,7 +72,7 @@ class LayerStack(BaseModel):
 
     layers: Optional[Dict[str, LayerLevel]] = Field(default_factory=dict)
 
-    def __init__(self, **data: Any) -> None:
+    def __init__(self, **data: Any):
         """Add LayerLevels automatically for subclassed LayerStacks."""
         super().__init__(**data)
 

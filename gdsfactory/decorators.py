@@ -72,7 +72,7 @@ def _demo_non_manhattan() -> Component:
     return c
 
 
-def test_flatten_invalid_refs() -> None:
+def test_flatten_invalid_refs():
     c1 = _demo_non_manhattan()
     assert not has_valid_transformations(c1)
 

@@ -26,7 +26,7 @@ def route_quad(
     width1: Optional[float] = None,
     width2: Optional[float] = None,
     layer: gf.typings.LayerSpec = "M1",
-    manhattan_target_step: Optional[float] = None,
+    manhattan_target_step: float = None,
 ) -> gf.Component:
     """Routes a basic quadrilateral polygon directly between two ports.
 
@@ -102,7 +102,7 @@ def route_quad(
     return component
 
 
-def test_manhattan_route_quad() -> None:
+def test_manhattan_route_quad():
     c = gf.Component("route")
     pad1 = c << gf.components.pad(size=(50, 50))
     pad2 = c << gf.components.pad(size=(10, 10))

@@ -414,7 +414,7 @@ def _make_warning(ports: List[str], values: Any, message: str) -> Dict[str, Any]
     return clean_dict(w)
 
 
-def _null_validator(port1: Port, port2: Port, port_names, warnings) -> None:
+def _null_validator(port1: Port, port2: Port, port_names, warnings):
     pass
 
 

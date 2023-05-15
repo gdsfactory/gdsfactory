@@ -34,7 +34,7 @@ def get_bundle_from_steps(
     cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = "strip",
     sort_ports: bool = True,
     separation: Optional[float] = None,
-    path_length_match_loops: Optional[int] = None,
+    path_length_match_loops: int = None,
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
     **kwargs,

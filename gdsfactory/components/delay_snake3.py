@@ -91,7 +91,7 @@ def delay_snake3(
     )
 
 
-def test_length_delay_snake3() -> None:
+def test_length_delay_snake3():
     import numpy as np
 
     length = 200.0

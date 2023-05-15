@@ -4,7 +4,6 @@ Reference: Selberherr, S. (1984). Process Modeling. In: Analysis and Simulation 
 import numpy as np
 
 from gdsfactory.simulation.process.silicon import ni
-from typing import Optional
 
 
 diffusion_in_silicon = {
@@ -54,8 +53,8 @@ diffusion_in_silicon = {
 def D(
     dopant: str,
     T: float,
-    n: Optional[float] = None,
-    p: Optional[float] = None,
+    n: float = None,
+    p: float = None,
 ):
     """
     Diffusion coefficient of dopants in silicon.

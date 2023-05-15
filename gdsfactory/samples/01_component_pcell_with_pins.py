@@ -29,7 +29,7 @@ def straight_narrow(
     return wg
 
 
-def test_straight_narrow(data_regression) -> None:
+def test_straight_narrow(data_regression):
     component = straight_narrow()
     data_regression.check(component.to_dict())
 

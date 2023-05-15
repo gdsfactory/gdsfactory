@@ -430,7 +430,7 @@ class LayerView(BaseModel):
         color: Optional[ColorType] = None,
         brightness: Optional[int] = None,
         **data,
-    ) -> None:
+    ):
         """Initialize LayerView object."""
         if (gds_layer is not None) and (gds_datatype is not None):
             if "layer" in data and data["layer"] is not None:
@@ -499,17 +499,17 @@ class LayerView(BaseModel):
                     _dict.pop(f"fill_{key}")
         return _dict
 
-    def __str__(self) -> str:
+    def __str__(self):
         """Returns a formatted view of properties and their values."""
         return "LayerView:\n\t" + "\n\t".join(
             [f"{k}: {v}" for k, v in self.dict().items()]
         )
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         """Returns a formatted view of properties and their values."""
         return self.__str__()
 
-    def get_alpha(self) -> float:
+    def get_alpha(self):
         if not self.visible:
             return 0.0
         elif not self.transparent:
@@ -764,9 +764,9 @@ class LayerViews(BaseModel):
     def __init__(
         self,
         filepath: Optional[PathLike] = None,
-        layer_map: Optional[Union[Dict[str, Layer], BaseModel]] = None,
+        layer_map: Union[Dict[str, Layer], BaseModel] = None,
         **data,
-    ) -> None:
+    ):
         """Initialize LayerViews object.
 
         Args:

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import itertools
-from typing import Optional, Dict, List, Tuple
+from typing import Dict, List, Tuple
 
 from numpy import float64
 
@@ -137,7 +137,7 @@ def component_lattice(
         CXX
         C-X
         """,
-    symbol_to_component: Optional[Dict[str, Component]] = None,
+    symbol_to_component: Dict[str, Component] = None,
     grid_per_unit: int = 1000,
 ) -> Component:
     """Return a lattice Component of N inputs and outputs Columns must have.

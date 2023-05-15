@@ -13,7 +13,6 @@ import klayout.lay as lay
 from gdsfactory.component import GDSDIR_TEMP
 
 import gdsfactory as gf
-from typing import Optional
 
 host = "localhost"
 port = 8765
@@ -22,7 +21,7 @@ port = 8765
 class LayoutViewServerEndpoint(WebSocketEndpoint):
     encoding = "text"
 
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         logger.info("Initialized websocket")
         _params = self.scope["query_string"].decode("utf-8")
@@ -48,20 +47,20 @@ class LayoutViewServerEndpoint(WebSocketEndpoint):
         # c.write_gds(gds_path)
         self.gds_path = str(gds_path)
 
-    async def on_connect(self, websocket) -> None:
+    async def on_connect(self, websocket):
         await websocket.accept()
         await self.connection(websocket)
 
-    async def on_receive(self, websocket, data) -> None:
+    async def on_receive(self, websocket, data):
         await self.reader(websocket, data)
 
-    async def on_disconnect(self, websocket, close_code) -> None:
+    async def on_disconnect(self, websocket, close_code):
         pass
 
-    async def send_image(self, websocket, data) -> None:
+    async def send_image(self, websocket, data):
         await websocket.send_text(data)
 
-    def image_updated(self, websocket) -> None:
+    def image_updated(self, websocket):
         pixel_buffer = self.layout_view.get_screenshot_pixels()
         asyncio.create_task(self.send_image(websocket, pixel_buffer.to_png_data()))
 
@@ -93,9 +92,7 @@ class LayoutViewServerEndpoint(WebSocketEndpoint):
             )
         return js
 
-    async def connection(
-        self, websocket: WebSocket, path: Optional[str] = None
-    ) -> None:
+    async def connection(self, websocket: WebSocket, path: str = None) -> None:
         self.layout_view = lay.LayoutView()
         self.layout_view.load_layout(self.url)
         if self.layer_props is not None:
@@ -115,7 +112,7 @@ class LayoutViewServerEndpoint(WebSocketEndpoint):
 
         asyncio.create_task(self.timer(websocket))
 
-    async def timer(self, websocket) -> None:
+    async def timer(self, websocket):
         self.layout_view.on_image_updated_event = lambda: self.image_updated(websocket)
         while True:
             self.layout_view.timer()
@@ -139,7 +136,7 @@ class LayoutViewServerEndpoint(WebSocketEndpoint):
             buttons |= lay.ButtonState.MidButton
         return buttons
 
-    def wheel_event(self, function, js) -> None:
+    def wheel_event(self, function, js):
         delta = 0
         dx = js["dx"]
         dy = js["dy"]
@@ -154,10 +151,10 @@ class LayoutViewServerEndpoint(WebSocketEndpoint):
                 delta, horizontal, db.Point(js["x"], js["y"]), self.buttons_from_js(js)
             )
 
-    def mouse_event(self, function, js) -> None:
+    def mouse_event(self, function, js):
         function(db.Point(js["x"], js["y"]), self.buttons_from_js(js))
 
-    async def reader(self, websocket, data: str) -> None:
+    async def reader(self, websocket, data: str):
         js = json.loads(data)
         msg = js["msg"]
         if msg == "quit":

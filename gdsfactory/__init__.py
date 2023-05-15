@@ -81,7 +81,7 @@ c = components
 
 def __getattr__(name):
     if name == "types":
-        warn("gdsfactory.types has been renamed to gdsfactory.typings", stacklevel=3)
+        warn("gdsfactory.types has been renamed to gdsfactory.typings")
         return typings
     raise AttributeError(f"No module named {name}")
 

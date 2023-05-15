@@ -1,4 +1,4 @@
-def add_color_yaml_presenter(prefer_named_color: bool = True) -> None:
+def add_color_yaml_presenter(prefer_named_color: bool = True):
     import yaml
     from pydantic.color import Color
 
@@ -14,7 +14,7 @@ def add_color_yaml_presenter(prefer_named_color: bool = True) -> None:
     yaml.representer.SafeRepresenter.add_representer(Color, _color_presenter)
 
 
-def add_tuple_yaml_presenter() -> None:
+def add_tuple_yaml_presenter():
     import yaml
 
     def _tuple_presenter(dumper: yaml.Dumper, data: tuple) -> yaml.SequenceNode:
@@ -24,7 +24,7 @@ def add_tuple_yaml_presenter() -> None:
     yaml.representer.SafeRepresenter.add_representer(tuple, _tuple_presenter)
 
 
-def add_multiline_str_yaml_presenter() -> None:
+def add_multiline_str_yaml_presenter():
     import yaml
 
     def _str_presenter(dumper: yaml.Dumper, data: str) -> yaml.ScalarNode:

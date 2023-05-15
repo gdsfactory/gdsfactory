@@ -220,7 +220,7 @@ class ComponentReference(_GeometryHelper):
         return self._reference.origin
 
     @origin.setter
-    def origin(self, value) -> None:
+    def origin(self, value):
         self._reference.origin = value
 
     @property
@@ -228,7 +228,7 @@ class ComponentReference(_GeometryHelper):
         return self._reference.magnification
 
     @magnification.setter
-    def magnification(self, value) -> None:
+    def magnification(self, value):
         self._reference.magnification = value
 
     @property
@@ -236,7 +236,7 @@ class ComponentReference(_GeometryHelper):
         return np.rad2deg(self._reference.rotation)
 
     @rotation.setter
-    def rotation(self, value) -> None:
+    def rotation(self, value):
         self._reference.rotation = np.deg2rad(value)
 
     @property
@@ -244,19 +244,19 @@ class ComponentReference(_GeometryHelper):
         return self._reference.x_reflection
 
     @x_reflection.setter
-    def x_reflection(self, value) -> None:
+    def x_reflection(self, value):
         self._reference.x_reflection = value
 
-    def _set_ref_cell(self, value) -> None:
+    def _set_ref_cell(self, value):
         self._ref_cell = value
         self._reference.cell = value._cell
 
     @ref_cell.setter
-    def ref_cell(self, value) -> None:
+    def ref_cell(self, value):
         self._set_ref_cell(value)
 
     @parent.setter
-    def parent(self, value) -> None:
+    def parent(self, value):
         self._set_ref_cell(value)
 
     def get_polygons(
@@ -837,7 +837,7 @@ class ComponentReference(_GeometryHelper):
         return snap_to_grid(ports_ccw[0].y - ports_cw[0].y)
 
 
-def test_move() -> None:
+def test_move():
     import gdsfactory as gf
 
     c = gf.Component()
@@ -846,7 +846,7 @@ def test_move() -> None:
     bend.move("o1", mzi.ports["o2"])
 
 
-def test_get_polygons() -> None:
+def test_get_polygons():
     import gdsfactory as gf
 
     ref = gf.components.straight()
@@ -863,7 +863,7 @@ def test_get_polygons() -> None:
     assert isinstance(p4[0], Polygon)
 
 
-def test_get_polygons_ref() -> None:
+def test_get_polygons_ref():
     import gdsfactory as gf
 
     ref = gf.components.straight().ref()
@@ -880,7 +880,7 @@ def test_get_polygons_ref() -> None:
     assert isinstance(p4[0], Polygon)
 
 
-def test_pads_no_orientation() -> None:
+def test_pads_no_orientation():
     import gdsfactory as gf
 
     c = gf.Component("pads_no_orientation")

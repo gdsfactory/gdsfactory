@@ -40,7 +40,7 @@ def add_keepout(
     return c
 
 
-def test_add_keepout() -> None:
+def test_add_keepout():
     from gdsfactory.components.straight import straight
 
     c = straight()
