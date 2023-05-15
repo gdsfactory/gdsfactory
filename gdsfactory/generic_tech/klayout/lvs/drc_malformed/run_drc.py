@@ -56,7 +56,7 @@ def get_rules_with_violations(results_database):
     return all_violating_rules
 
 
-def check_drc_results(results_db_files: list):
+def check_drc_results(results_db_files: list) -> None:
     """
     check_drc_results Checks the results db generated from run and report at the end if the DRC run failed or passed.
     This function will exit with 1 if there are violations.
@@ -179,7 +179,7 @@ def generate_klayout_switches(arguments, layout_path):
     return switches
 
 
-def check_klayout_version():
+def check_klayout_version() -> None:
     """
     check_klayout_version checks klayout version and makes sure it would work with the DRC.
     """
@@ -305,7 +305,7 @@ def run_single_processor(
     layout_path: str,
     switches: dict,
     drc_run_dir: str,
-):
+) -> None:
     """
     run_single_processor run the drc checks as single run.
 
@@ -338,7 +338,7 @@ def run_single_processor(
     check_drc_results(list_res_db_files)
 
 
-def main(drc_run_dir: str, now_str: str, arguments: dict):
+def main(drc_run_dir: str, now_str: str, arguments: dict) -> None:
     """
     main function to run the DRC.
 

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Callable, List
+from typing import Optional, Callable, List
 
 import numpy as np
 
@@ -61,7 +61,7 @@ def get_bundle_corner(
     ports2: List[Port],
     route_filter: Callable[..., Route] = get_route_from_waypoints,
     separation: float = 5.0,
-    path_length_match_loops: int = None,
+    path_length_match_loops: Optional[int] = None,
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
     **kwargs,

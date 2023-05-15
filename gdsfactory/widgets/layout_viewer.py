@@ -29,7 +29,7 @@ class LayoutViewer:
         layer_properties: Optional[str],
         hide_unused_layers: bool = True,
         with_layer_selector: bool = True,
-    ):
+    ) -> None:
         filepath = str(filepath)
         layer_properties = str(layer_properties)
         self.hide_unused_layers = hide_unused_layers
@@ -72,7 +72,7 @@ class LayoutViewer:
             justify_items="left",
         )
 
-    def button_toggle(self, button):
+    def button_toggle(self, button) -> None:
         button.style.button_color = (
             "transparent"
             if (button.style.button_color == button.default_color)
@@ -153,7 +153,7 @@ class LayoutViewer:
         layer_selector_tabs.titles = ("Layers",)
         return layer_selector_tabs
 
-    def load_layout(self, filepath: str, layer_properties: Optional[str]):
+    def load_layout(self, filepath: str, layer_properties: Optional[str]) -> None:
         """Loads a GDS layout.
 
         Args:
@@ -165,7 +165,7 @@ class LayoutViewer:
         if layer_properties:
             self.layout_view.load_layer_props(layer_properties)
 
-    def refresh(self):
+    def refresh(self) -> None:
         pixel_buffer = self.layout_view.get_pixels_with_options(800, 600)
         png_data = pixel_buffer.to_png_data()
         self.image.value = png_data
@@ -195,7 +195,7 @@ class LayoutViewer:
 
         return buttons
 
-    def on_scroll(self, event):
+    def on_scroll(self, event) -> None:
         delta = event["deltaY"]
         # x = event["offsetX"]
         # y = event["offsetY"]
@@ -209,7 +209,7 @@ class LayoutViewer:
             self.layout_view.zoom_out()
         self.refresh()
 
-    def on_mouse_down(self, event):
+    def on_mouse_down(self, event) -> None:
         x = event["offsetX"]
         y = event["offsetY"]
         moved_x = event["movementX"]
