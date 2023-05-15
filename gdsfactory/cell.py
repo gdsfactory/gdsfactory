@@ -4,7 +4,8 @@ from __future__ import annotations
 import functools
 import hashlib
 import inspect
-from typing import Any, Callable, Dict, Optional, Tuple, TypeVar
+from typing import Any, Callable, Dict, Optional, Tuple
+from typing_extensions import ParamSpec
 
 import toolz
 from pydantic import BaseModel, validate_arguments
@@ -16,6 +17,9 @@ from gdsfactory.serialization import clean_dict, clean_value_name
 CACHE: Dict[str, Component] = {}
 
 INFO_VERSION = 2
+
+CellSettings = ParamSpec("CellSettings")
+_F = Callable[CellSettings, Component]
 
 
 class CellReturnTypeError(ValueError):
@@ -60,7 +64,7 @@ class Settings(BaseModel):
     child: Optional[Dict[str, Any]] = None
 
 
-def cell_without_validator(func):
+def cell_without_validator(func) -> Callable[CellSettings, Component]:
     """Decorator for Component functions.
 
     Similar to cell decorator but does not enforce argument types.
@@ -224,10 +228,7 @@ def cell_without_validator(func):
     return _cell
 
 
-_F = TypeVar("_F", bound=Callable)
-
-
-def cell(func: _F) -> _F:
+def cell(func: Callable[CellSettings, Component]) -> Callable[CellSettings, Component]:
     """Decorator for Component functions.
 
     Wraps cell_without_validator

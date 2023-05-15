@@ -32,7 +32,7 @@ def get_mode_solver_coupler(
     sz: float = 2.0,
     resolution: int = 32,
     nmodes: int = 4,
-    sidewall_angles: Union[Tuple[float, ...], float] = None,
+    sidewall_angles: Optional[Union[Tuple[float, ...], float]] = None,
 ) -> mpb.ModeSolver:
     """Returns mode_solver simulation.
 

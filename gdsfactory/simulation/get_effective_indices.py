@@ -103,7 +103,7 @@ def get_effective_indices(
     return np.sqrt(indices).tolist()
 
 
-def test_effective_index():
+def test_effective_index() -> None:
     neff = get_effective_indices(
         core_material=3.4777,
         clad_materialding=1.444,

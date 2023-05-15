@@ -9,7 +9,7 @@ PDK = gf.get_generic_pdk()
 PDK.activate()
 
 
-def test_meow_defaults():
+def test_meow_defaults() -> None:
     c = gf.components.taper_cross_section_linear()
     filtered_layerstack = LayerStack(
         layers={
@@ -42,7 +42,7 @@ def test_meow_defaults():
             assert np.abs(sp[key]) ** 2 > 0.2
 
 
-def test_cells():
+def test_cells() -> None:
     layerstack = LayerStack(
         layers={
             k: get_layer_stack().layers[k]

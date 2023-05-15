@@ -24,7 +24,7 @@ class FileStorage(BaseModel):
     def read(self, filename: str) -> np.ndarray:
         raise NotImplementedError("need to implement")
 
-    def _write_local_cache(self, filename: str, data):
+    def _write_local_cache(self, filename: str, data) -> None:
         if not self.dirpath:
             return
         filepath = self.dirpath / f"{self.filetype}/{filename}.npz"

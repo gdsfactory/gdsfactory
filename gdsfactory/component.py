@@ -66,7 +66,7 @@ class MutabilityError(ValueError):
     pass
 
 
-def _get_dependencies(component, references_set):
+def _get_dependencies(component, references_set) -> None:
     for ref in component.references:
         references_set.add(ref.ref_cell)
         _get_dependencies(ref.ref_cell, references_set)
@@ -200,7 +200,7 @@ class Component(_GeometryHelper):
         return self._cell.name
 
     @name.setter
-    def name(self, value):
+    def name(self, value) -> None:
         self._cell.name = value
 
     def __iter__(self):
@@ -812,7 +812,7 @@ class Component(_GeometryHelper):
         width: Optional[float] = None,
         orientation: Optional[float] = None,
         port: Optional[Port] = None,
-        layer: LayerSpec = None,
+        layer: Optional[LayerSpec] = None,
         port_type: Optional[str] = None,
         cross_section: Optional[CrossSection] = None,
     ) -> Port:
@@ -1060,7 +1060,7 @@ class Component(_GeometryHelper):
         else:
             raise ValueError(f"Unable to add {points.ndim}-dimensional points object")
 
-    def _add_polygons(self, *polygons: List[Polygon]):
+    def _add_polygons(self, *polygons: List[Polygon]) -> None:
         self.is_unlocked()
         self._cell.add(*polygons)
 
@@ -1257,7 +1257,7 @@ class Component(_GeometryHelper):
         component_flat.add_ports(self.ports)
         return component_flat
 
-    def flatten_reference(self, ref: ComponentReference):
+    def flatten_reference(self, ref: ComponentReference) -> None:
         """From existing cell replaces reference with a flatten reference \
         which has the transformations already applied.
 
@@ -1366,7 +1366,7 @@ class Component(_GeometryHelper):
 
         for layer in self.layers:
             if layer not in layer_to_name:
-                warnings.warn(f"{layer} not in LayerMap..")
+                warnings.warn(f"{layer} not in LayerMap.", stacklevel=3)
             else:
                 layer_names.append(layer_to_name[layer])
         return layer_names
@@ -1393,7 +1393,7 @@ class Component(_GeometryHelper):
         self,
         show_ports: bool = True,
         port_marker_layer: Layer = (1, 10),
-    ):
+    ) -> None:
         """Returns ipython widget for klayout visualization.
 
         Args:
@@ -1628,7 +1628,7 @@ class Component(_GeometryHelper):
                 layer_view = layer_views.get_from_tuple(layer)
             except ValueError:
                 layers = list(layer_views.get_layer_views().keys())
-                warnings.warn(f"{layer!r} not defined in {layers}")
+                warnings.warn(f"{layer!r} not defined in {layers}", stacklevel=3)
                 layer_view = LayerView(layer=layer)
             # TODO: Match up options with LayerViews
             plots_to_overlay.append(
@@ -1761,7 +1761,8 @@ class Component(_GeometryHelper):
 
         if gdspath and gdsdir:
             warnings.warn(
-                "gdspath and gdsdir have both been specified. gdspath will take precedence and gdsdir will be ignored."
+                "gdspath and gdsdir have both been specified. gdspath will take precedence and gdsdir will be ignored.",
+                stacklevel=3,
             )
 
         default_settings = get_active_pdk().gds_write_settings
@@ -1816,6 +1817,7 @@ class Component(_GeometryHelper):
                 if write_settings.on_duplicate_cell == "warn":
                     warnings.warn(
                         f"Duplicated cell names in {top_cell.name!r}:  {cell_names}",
+                        stacklevel=3,
                     )
                 cells_dict = {cell.name: cell._cell for cell in cells}
                 cells = cells_dict.values()
@@ -1832,7 +1834,8 @@ class Component(_GeometryHelper):
 
         if no_name_cells:
             warnings.warn(
-                f"Component {top_cell.name!r} contains {len(no_name_cells)} Unnamed cells"
+                f"Component {top_cell.name!r} contains {len(no_name_cells)} Unnamed cells",
+                stacklevel=3,
             )
 
         # for cell in all_cells:
@@ -2797,7 +2800,7 @@ def test_remove_labels() -> None:
     assert len(c.labels) == 0
 
 
-def test_import_gds_settings():
+def test_import_gds_settings() -> None:
     import gdsfactory as gf
 
     c = gf.components.mzi()
@@ -2807,7 +2810,7 @@ def test_import_gds_settings():
     assert c3
 
 
-def test_flatten_invalid_refs_recursive():
+def test_flatten_invalid_refs_recursive() -> None:
     import gdsfactory as gf
     from gdsfactory.difftest import run_xor
     from gdsfactory.routing.all_angle import get_bundle_all_angle

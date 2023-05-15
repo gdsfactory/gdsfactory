@@ -260,11 +260,11 @@ class Port:
         return self.center[1]
 
     @x.setter
-    def x(self, value):
+    def x(self, value) -> None:
         self.center = (value, self.center[1])
 
     @y.setter
-    def y(self, value):
+    def y(self, value) -> None:
         self.center = (self.center[0], value)
 
     def rotate(self, angle: float = 45, center: Optional[Float2] = None) -> Port:
@@ -736,7 +736,7 @@ def _rename_ports_clockwise_top_right(
 
 def rename_ports_by_orientation(
     component: Component,
-    layers_excluded: LayerSpec = None,
+    layers_excluded: Optional[LayerSpec] = None,
     select_ports: Callable = select_ports,
     function=_rename_ports_facing_side,
     prefix: str = "o",

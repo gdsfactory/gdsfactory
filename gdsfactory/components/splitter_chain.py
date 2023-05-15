@@ -62,4 +62,3 @@ if __name__ == "__main__":
     # component = splitter_chain(splitter=gf.components.mmi1x2, columns=4)
     component = splitter_chain()
     component.show()
-    component.pprint

@@ -50,12 +50,12 @@ def compute_modes(
     return lams, basis, xs
 
 
-def test_compute_cross_section_mode():
+def test_compute_cross_section_mode() -> None:
     lams, basis, xs = compute_modes()
     assert len(lams) == NUM_MODES, len(lams)
 
 
-def test_compute_cross_section_mode_cache():
+def test_compute_cross_section_mode_cache() -> None:
     # write mode in cache
     lams, basis, xs = compute_modes(with_cache=True, overwrite=False)
 

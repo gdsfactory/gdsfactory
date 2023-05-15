@@ -2,11 +2,12 @@ from __future__ import annotations
 
 import asyncio
 from pathlib import Path
+from typing import Optional
 
 
 async def handle_return(
     out_or_err: asyncio.streams.StreamReader,
-    log_file: Path = None,
+    log_file: Optional[Path] = None,
     to_console: bool = True,
 ) -> None:
     with open(log_file, "w") as f:

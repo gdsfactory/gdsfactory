@@ -37,7 +37,7 @@ class BoardOptions(BaseModel):
 resolutions = {1e-3: 3, 1e-4: 4, 1e-5: 5, 1e-6: 6}
 
 
-def number(n):
+def number(n) -> str:
     i = int(round(n * 10000))
     return "%07d" % i
 

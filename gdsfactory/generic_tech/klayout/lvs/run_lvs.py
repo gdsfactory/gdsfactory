@@ -2,7 +2,7 @@
 
 Usage:
     run_lvs.py (--help| -h)
-    run_lvs.py (--layout=<layout_path>) (--netlist=<netlist_path>) [--thr=<thr>] [--run_dir=<run_dir_path>] [--topcell=<topcell_name>] [--run_mode=<run_mode>] [--verbose] [--lvs_sub=<sub_name>] [--no_net_names] [--spice_comments] [--scale] [--schematic_simplify] [--net_only] [--top_lvl_pins] [--combine] [--purge] [--purge_nets]
+    run_lvs.py (--layout=<layout_path>) (--netlist=<netlist_path>) [--thr=<thr>] [--run_dir=<run_dir_path>] [--topcell=<topcell_name>] [--run_mode=<run_mode>] [--verbose] [--lvs_sub=<sub_name>] [--no_net_names] [--spice_comments] [--scale]
 
 Options:
     --help -h                           Print this help message.
@@ -11,18 +11,12 @@ Options:
     --thr=<thr>                         The number of threads used in run.
     --run_dir=<run_dir_path>            Run directory to save all the results [default: pwd]
     --topcell=<topcell_name>            Topcell name to use.
-    --run_mode=<run_mode>               Select klayout mode Allowed modes (flat , deep, tiling). [default: flat ]
+    --run_mode=<run_mode>               Select klayout mode Allowed modes (flat , deep, tiling). [default: deep ]
     --lvs_sub=<sub_name>                Substrate name used in your design.
     --verbose                           Detailed rule execution log for debugging.
     --no_net_names                      Discard net names in extracted netlist.
     --spice_comments                    Enable netlist comments in extracted netlist.
     --scale                             Enable scale of 1e6 in extracted netlist.
-    --schematic_simplify                Enable schematic simplification in input netlist.
-    --net_only                          Enable netlist object creation only in extracted netlist.
-    --top_lvl_pins                      Enable top level pins only in extracted netlist.
-    --combine                           Enable netlist combine only in extracted netlist.
-    --purge                             Enable netlist purge all only in extracted netlist.
-    --purge_nets                        Enable netlist purge nets only in extracted netlist.
 """
 
 from docopt import docopt
@@ -33,7 +27,7 @@ from datetime import datetime
 from subprocess import check_call
 
 
-def check_klayout_version():
+def check_klayout_version() -> None:
     """
     check_klayout_version checks klayout version and makes sure it would work with the LVS.
     """
@@ -202,36 +196,6 @@ def generate_klayout_switches(arguments, layout_path, netlist_path):
     else:
         switches["scale"] = "false"
 
-    if arguments["--schematic_simplify"]:
-        switches["schematic_simplify"] = "true"
-    else:
-        switches["schematic_simplify"] = "false"
-
-    if arguments["--net_only"]:
-        switches["net_only"] = "true"
-    else:
-        switches["net_only"] = "false"
-
-    if arguments["--top_lvl_pins"]:
-        switches["top_lvl_pins"] = "true"
-    else:
-        switches["top_lvl_pins"] = "false"
-
-    if arguments["--combine"]:
-        switches["combine"] = "true"
-    else:
-        switches["combine"] = "false"
-
-    if arguments["--purge"]:
-        switches["purge"] = "true"
-    else:
-        switches["purge"] = "false"
-
-    if arguments["--purge_nets"]:
-        switches["purge_nets"] = "true"
-    else:
-        switches["purge_nets"] = "false"
-
     switches["topcell"] = get_run_top_cell_name(arguments, layout_path)
     switches["input"] = os.path.abspath(layout_path)
     switches["schematic"] = os.path.abspath(netlist_path)
@@ -251,7 +215,7 @@ def build_switches_string(sws: dict):
     return " ".join(f"-rd {k}={v}" for k, v in sws.items())
 
 
-def check_lvs_results(results_db_files: list):
+def check_lvs_results(results_db_files: list) -> None:
     """
     check_lvs_results Checks the results db generated from run and report at the end if the LVS run failed or passed.
 
@@ -307,7 +271,7 @@ def run_check(lvs_file: str, path: str, run_dir: str, sws: dict):
     return report_path
 
 
-def main(lvs_run_dir: str, arguments: dict):
+def main(lvs_run_dir: str, arguments: dict) -> None:
     """
     main function to run the LVS.
 

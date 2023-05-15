@@ -782,7 +782,7 @@ def pin(
     via_stack_width: float = 9.0,
     via_stack_gap: float = 0.55,
     slab_gap: float = -0.2,
-    layer_via: LayerSpec = None,
+    layer_via: Optional[LayerSpec] = None,
     via_width: float = 1,
     via_offsets: Optional[Tuple[float, ...]] = None,
     **kwargs,
@@ -2100,9 +2100,9 @@ def pn_ge_detector_si_contacts(
     layer_n: LayerSpec = "N",
     layer_np: LayerSpec = "NP",
     layer_npp: LayerSpec = "NPP",
-    layer_via: LayerSpec = None,
+    layer_via: Optional[LayerSpec] = None,
     width_via: float = 1.0,
-    layer_metal: LayerSpec = None,
+    layer_metal: Optional[LayerSpec] = None,
     port_names: Tuple[str, str] = ("o1", "o2"),
     bbox_layers: Optional[List[Layer]] = None,
     bbox_offsets: Optional[List[float]] = None,
@@ -2293,7 +2293,7 @@ def get_cross_section_factories(
 cross_sections = get_cross_section_factories(sys.modules[__name__])
 
 
-def test_copy():
+def test_copy() -> None:
     import gdsfactory as gf
 
     p = gf.path.straight()
