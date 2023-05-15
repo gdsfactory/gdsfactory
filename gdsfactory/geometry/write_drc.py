@@ -143,10 +143,11 @@ def connectivity_checks(WG_cross_sections: List[CrossSectionSpec], pin_widths: U
         layer = gf.pdk.get_cross_section(layer_name).width
         layer_name = gf.pdk.get_cross_section(layer_name).layer
         connectivity_check = connectivity_check.join(
-            f"""{layer_name}2 = {layer_name}.merged\n
-{layer_name}2 = {layer_name}2.rectangles.without_area({layer} * {pin_widths if isinstance(pin_widths, float) else pin_widths[i]}) - {layer_name}2.rectangles.with_area({layer} * 2 * {pin_widths if isinstance(pin_widths, float) else pin_widths[i]})\n
-{layer_name}2.output(\"port alignment error\")\n
-{layer_name}.non_rectangles.output(\"port width check\")\n\n"""
+            f"""{layer_name}_PIN2 = {layer_name}_PIN.sized(0.0).merged\n
+{layer_name}_PIN2 = {layer_name}_PIN2.rectangles.without_area({layer} * {pin_widths if isinstance(pin_widths, float) else pin_widths[i]}) - {layer_name}_PIN2.rectangles.with_area({layer} * 2 * {pin_widths if isinstance(pin_widths, float) else pin_widths[i]})\n
+{layer_name}_PIN2.output(\"port alignment error\")\n
+{layer_name}_PIN2 = {layer_name}_PIN.sized(0.0).merged\n
+{layer_name}_PIN2.non_rectangles.output(\"port width check\")\n\n"""
             )
 
 
@@ -341,5 +342,8 @@ if __name__ == "__main__":
         connectivity_checks(["strip"], 0.05),
     ]
 
-    drc_rule_deck = write_drc_deck_macro(rules=rules, layers=gf.LAYER, mode="tiled")
+    layers = gf.LAYER.dict()
+    layers.update({"WG_PIN": (1, 10)})
+
+    drc_rule_deck = write_drc_deck_macro(rules=rules, layers=layers, mode="tiled")
     print(drc_rule_deck)
