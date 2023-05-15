@@ -131,25 +131,25 @@ end
 """
 
 
-def connectivity_checks(WG_cross_sections: List[CrossSectionSpec], pin_widths: Union[List[float], float]):
+def connectivity_checks(
+    cross_sections: List[CrossSectionSpec], pin_widths: Union[List[float], float]
+) -> str:
     """Return script for photonic port connectivity check. Assumes the photonic port pins are inside the Component.
 
     Args:
-        WG_cross_sections: list of waveguide layers to run check for.
-        pin_widths: list of port pin widths or a single port pin width/
+        cross_sections: list of waveguide layers to check connectivity.
+        pin_widths: list of port pin widths or a single port pin width.
     """
     connectivity_check = ""
-    for i, layer_name in enumerate(WG_cross_sections):
+    for i, layer_name in enumerate(cross_sections):
         layer = gf.pdk.get_cross_section(layer_name).width
         layer_name = gf.pdk.get_cross_section(layer_name).layer
         connectivity_check = connectivity_check.join(
-            f"""{layer_name}_PIN2 = {layer_name}_PIN.sized(0.0).merged\n
-{layer_name}_PIN2 = {layer_name}_PIN2.rectangles.without_area({layer} * {pin_widths if isinstance(pin_widths, float) else pin_widths[i]}) - {layer_name}_PIN2.rectangles.with_area({layer} * 2 * {pin_widths if isinstance(pin_widths, float) else pin_widths[i]})\n
-{layer_name}_PIN2.output(\"port alignment error\")\n
-{layer_name}_PIN2 = {layer_name}_PIN.sized(0.0).merged\n
-{layer_name}_PIN2.non_rectangles.output(\"port width check\")\n\n"""
-            )
-
+            f"""{layer_name}2 = {layer_name}.merged\n
+{layer_name}2 = {layer_name}2.rectangles.without_area({layer} * {pin_widths if isinstance(pin_widths, float) else pin_widths[i]}) - {layer_name}2.rectangles.with_area({layer} * 2 * {pin_widths if isinstance(pin_widths, float) else pin_widths[i]})\n
+{layer_name}2.output(\"port alignment error\")\n
+{layer_name}.non_rectangles.output(\"port width check\")\n\n"""
+        )
 
     return connectivity_check
 
@@ -344,8 +344,5 @@ if __name__ == "__main__":
         connectivity_checks(["strip"], 1 * nm),
     ]
 
-    layers = gf.LAYER.dict()
-    layers.update({"WG_PIN": (1, 10)})
-
-    drc_rule_deck = write_drc_deck_macro(rules=rules, layers=layers, mode="tiled")
+    drc_rule_deck = write_drc_deck_macro(rules=rules, layers=gf.LAYER, mode="tiled")
     print(drc_rule_deck)
