@@ -18,9 +18,10 @@ from typing import List, Optional
 
 from gdsfactory.config import logger
 from gdsfactory.install import get_klayout_path
-from gdsfactory.typings import Dict, Layer, PathType
+from gdsfactory.typings import Dict, Layer, PathType, CrossSectionSpec, Union
 
 layer_name_to_min_width: Dict[str, float]
+nm = 1e-3
 
 
 def rule_min_width_or_space(width: float, space: float, layer: str) -> str:
@@ -158,6 +159,30 @@ def write_drc_deck(rules: List[str], layers: Dict[str, Layer]) -> str:
     script += ["\n"]
     script += rules
     return "\n".join(script)
+
+
+def connectivity_checks(
+    cross_sections: List[CrossSectionSpec], pin_widths: Union[List[float], float]
+):
+    """Return script for photonic port connectivity check. Assumes the photonic port pins are inside the Component.
+
+    Args:
+        cross_sections: list of waveguide layers to run check for.
+        pin_widths: list of port pin widths or a single port pin width/
+    """
+    connectivity_check = ""
+    for i, layer_name in enumerate(cross_sections):
+        layer = gf.pdk.get_cross_section(layer_name).width
+        layer_name = gf.pdk.get_cross_section(layer_name).layer
+        connectivity_check = connectivity_check.join(
+            f"""{layer_name}_PIN2 = {layer_name}_PIN.sized(0.0).merged\n
+{layer_name}_PIN2 = {layer_name}_PIN2.rectangles.without_area({layer} * {pin_widths if isinstance(pin_widths, float) else pin_widths[i]}) - {layer_name}_PIN2.rectangles.with_area({layer} * 2 * {pin_widths if isinstance(pin_widths, float) else pin_widths[i]})\n
+{layer_name}_PIN2.output(\"port alignment error\")\n
+{layer_name}_PIN2 = {layer_name}_PIN.sized(0.0).merged\n
+{layer_name}_PIN2.non_rectangles.output(\"port width check\")\n\n"""
+        )
+
+    return connectivity_check
 
 
 modes = ["tiled", "default", "deep"]
@@ -309,13 +334,17 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     rules = [
-        rule_min_width_or_space(layer="WG", width=0.2, space=0.2),
+        # rule_min_width_or_space(layer="WG", width=0.2, space=0.2),
         # rule_width(layer="WG", value=0.2),
         # rule_space(layer="WG", value=0.2),
-        rule_separation(layer1="HEATER", layer2="M1", value=1.0),
-        rule_enclosing(layer1="VIAC", layer2="M1", value=0.2),
-        rule_area(layer="WG", min_area_um2=0.05),
-        rule_not_inside(layer="VIAC", not_inside="NPP"),
+        # rule_separation(layer1="HEATER", layer2="M1", value=1.0),
+        # rule_enclosing(layer1="VIAC", layer2="M1", value=0.2),
+        # rule_area(layer="WG", min_area_um2=0.05),
+        # rule_not_inside(layer="VIAC", not_inside="NPP"),
+        # rule_density(
+        #     layer="WG", layer_floorplan="FLOORPLAN", min_density=0.5, max_density=0.6
+        # ),
+        connectivity_checks(["strip"], 1 * nm),
     ]
 
     drc_rule_deck = write_drc_deck_macro(rules=rules, layers=gf.LAYER, mode="tiled")

@@ -26,7 +26,7 @@ from gdsfactory.path import Path
 
 # NOTE: import order matters. Only change the order if you know what you are doing
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.config import CONF, call_if_func, PATH
+from gdsfactory.config import CONF, call_if_func, PATH, logger
 from gdsfactory.port import Port
 from gdsfactory.cell import cell
 from gdsfactory.cell import cell_without_validator
@@ -133,6 +133,7 @@ __all__ = (
     "grid_with_text",
     "import_gds",
     "labels",
+    "logger",
     "pack",
     "partial",
     "path",

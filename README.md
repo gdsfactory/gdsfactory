@@ -19,7 +19,9 @@
 
 ![logo](https://i.imgur.com/v4wpHpg.png)
 
-gdsfactory is a python library to design chips (Photonics, Analog, Quantum, MEMs, ...), 3D objects for 3D printing or PCBs. It's like Android or Linux for hardware design.
+gdsfactory: An open source platform for end to-end photonic chip design and validation.
+
+gdsfactory is a python library to design chips (Photonics, Analog, Quantum, MEMs, ...), objects for 3D printing or PCBs.
 
 You can describe your hardware in code (python or YAML), verify them (DRC, simulation, extraction) and validate them (to make sure they meet the specifications after fabrication).
 
