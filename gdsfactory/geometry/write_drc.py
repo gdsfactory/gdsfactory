@@ -184,8 +184,6 @@ def write_drc_deck(rules: List[str], layers: Dict[str, Layer]) -> str:
     return "\n".join(script)
 
 
-<<<<<<< Updated upstream
-=======
 def connectivity_checks(
     cross_sections: List[CrossSectionSpec], pin_widths: Union[List[float], float]
 ) -> str:
@@ -215,7 +213,6 @@ WG_PIN_CHECK2.non_rectangles.output(\"port width check\")\n\n"""
     return connectivity_check
 
 
->>>>>>> Stashed changes
 modes = ["tiled", "default", "deep"]
 
 
