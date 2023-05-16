@@ -76,6 +76,7 @@ def print_version() -> None:
     table.add_column("version", style="magenta")
     table.add_column("Path", justify="right", style="green")
 
+    table.add_row("python", sys.version, str(sys.executable))
     table.add_row("gdsfactory", __version__, str(module_path))
 
     for plugin in plugins:
@@ -94,6 +95,7 @@ def print_version() -> None:
 
 def print_version_raw() -> None:
     """Print gdsfactory plugin versions and paths."""
+    print("python", sys.version)
     print("gdsfactory", __version__)
 
     for plugin in plugins:
@@ -276,7 +278,7 @@ def set_plot_options(
 if __name__ == "__main__":
     # print(PATH.sparameters)
     # print_config()
-    # print_version()
-    print_version_raw()
+    print_version()
+    # print_version_raw()
     # print_version_pdks()
     # write_tech("tech.json")
