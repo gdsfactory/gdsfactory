@@ -155,7 +155,6 @@ def ring_single_bend_coupler(
         kwargs: cross_section settings.
     """
     c = Component()
-    length_x = 0
 
     cb = c << coupler_ring_bend(
         radius=radius,
@@ -166,21 +165,17 @@ def ring_single_bend_coupler(
         bend=bend,
     )
 
-    cross_section = cross_section_outer
+    cross_section = cross_section_inner
     sy = straight(length=length_y, cross_section=cross_section, **kwargs)
     b = gf.get_component(bend, cross_section=cross_section, radius=radius, **kwargs)
-    sx = straight(length=length_x, cross_section=cross_section, **kwargs)
     sl = c << sy
     sr = c << sy
     bl = c << b
     br = c << b
-    st = c << sx
 
     sl.connect(port="o1", destination=cb.ports["o2"])
     bl.connect(port="o2", destination=sl.ports["o2"])
-
-    st.connect(port="o2", destination=bl.ports["o1"])
-    br.connect(port="o2", destination=st.ports["o1"])
+    br.connect(port="o2", destination=bl.ports["o1"])
     sr.connect(port="o1", destination=br.ports["o1"])
     sr.connect(port="o2", destination=cb.ports["o3"])
 
