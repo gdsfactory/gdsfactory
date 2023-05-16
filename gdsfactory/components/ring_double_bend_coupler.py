@@ -21,7 +21,7 @@ def ring_double_bend_coupler(
     cross_section_outer: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
-    r"""Returns ring with curved coupler.
+    r"""Returns ring with double curved couplers.
 
     TODO: enable euler bends.
 
