@@ -467,7 +467,9 @@ def add_pins(
 
 add_pins_triangle = partial(add_pins, function=add_pin_triangle)
 add_pins_center = partial(add_pins, function=add_pin_rectangle)
-add_pin_inside1nm = partial(add_pin_rectangle_inside, pin_length=1 * nm)
+add_pin_inside1nm = partial(
+    add_pin_rectangle_inside, pin_length=1 * nm, layer_label=None
+)
 add_pins_inside1nm = partial(add_pins, function=add_pin_inside1nm)
 
 

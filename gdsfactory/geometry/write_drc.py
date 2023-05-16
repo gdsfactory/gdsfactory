@@ -163,7 +163,7 @@ def write_drc_deck(rules: List[str], layers: Dict[str, Layer]) -> str:
 
 def connectivity_checks(
     cross_sections: List[CrossSectionSpec], pin_widths: Union[List[float], float]
-):
+) -> str:
     """Return script for photonic port connectivity check. Assumes the photonic port pins are inside the Component.
 
     Args:
@@ -171,12 +171,15 @@ def connectivity_checks(
         pin_widths: list of port pin widths or a single port pin width/
     """
     connectivity_check = ""
-    for i, layer_name in enumerate(cross_sections):
+
+    pin_widths = [pin_widths] if isinstance(pin_widths, (float, int)) else pin_widths
+
+    for pin_width, layer_name in zip(pin_widths, cross_sections):
         layer = gf.pdk.get_cross_section(layer_name).width
         layer_name = gf.pdk.get_cross_section(layer_name).layer
         connectivity_check = connectivity_check.join(
-            f"""{layer_name}_PIN2 = {layer_name}_PIN.sized(0.0).merged\n
-{layer_name}_PIN2 = {layer_name}_PIN2.rectangles.without_area({layer} * {pin_widths if isinstance(pin_widths, float) else pin_widths[i]}) - {layer_name}_PIN2.rectangles.with_area({layer} * 2 * {pin_widths if isinstance(pin_widths, float) else pin_widths[i]})\n
+            f"""{layer_name}_PIN2 = {layer_name}_PIN.merged\n
+{layer_name}_PIN2 = {layer_name}_PIN2.rectangles.without_area({layer} * {2*pin_width})\n
 {layer_name}_PIN2.output(\"port alignment error\")\n
 {layer_name}_PIN2 = {layer_name}_PIN.sized(0.0).merged\n
 {layer_name}_PIN2.non_rectangles.output(\"port width check\")\n\n"""
