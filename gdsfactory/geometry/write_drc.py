@@ -16,6 +16,7 @@ import pathlib
 from dataclasses import asdict, is_dataclass
 from typing import List, Optional, Union
 
+import gdsfactory as gf
 from gdsfactory.config import logger
 from gdsfactory.install import get_klayout_path
 from gdsfactory.typings import CrossSectionSpec, Dict, Layer, PathType
@@ -183,6 +184,38 @@ def write_drc_deck(rules: List[str], layers: Dict[str, Layer]) -> str:
     return "\n".join(script)
 
 
+<<<<<<< Updated upstream
+=======
+def connectivity_checks(
+    cross_sections: List[CrossSectionSpec], pin_widths: Union[List[float], float]
+) -> str:
+    """Return script for photonic port connectivity check. Assumes the photonic port pins are inside the Component.
+
+    Args:
+        cross_sections: list of waveguide layers to run check for.
+        pin_widths: list of port pin widths or a single port pin width/
+    """
+    connectivity_check = f"""WG_PIN_CHECK2 = WG_PIN_CHECK.merged\n
+WG_PIN_CHECK2 = WG_PIN_CHECK2.rectangles.without_area({gf.pdk.get_cross_section(cross_sections[0]).width} * {2 * pin_widths[0] if not isinstance(pin_widths, float) else 2 * pin_widths})"""
+
+    if len(cross_sections) > 1:
+        for i, layer_name in enumerate(cross_sections[1:]):
+            layer = gf.pdk.get_cross_section(layer_name).width
+            # layer_name = gf.pdk.get_cross_section(layer_name).layer
+            connectivity_check += (
+    f"""- WG_PIN_CHECK2.rectangles.with_area({layer} * {2 * pin_widths[i] if not isinstance(pin_widths, float) else 2 * pin_widths}) """
+            )
+
+    connectivity_check += (
+f"""\nWG_PIN_CHECK2.output(\"port alignment error\")\n
+WG_PIN_CHECK2 = WG_PIN_CHECK.sized(0.0).merged\n
+WG_PIN_CHECK2.non_rectangles.output(\"port width check\")\n\n"""
+        )
+
+    return connectivity_check
+
+
+>>>>>>> Stashed changes
 modes = ["tiled", "default", "deep"]
 
 
