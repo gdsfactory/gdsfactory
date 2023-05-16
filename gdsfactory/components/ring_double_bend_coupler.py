@@ -3,7 +3,6 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular
-from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.ring_single_bend_coupler import coupler_ring_bend
 from gdsfactory.components.straight import straight
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
@@ -13,7 +12,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 def ring_double_bend_coupler(
     radius: float = 5.0,
     gap: float = 0.2,
-    coupling_angle_coverage: float = 180.0,
+    coupling_angle_coverage: float = 70.0,
     bend: ComponentSpec = bend_circular,
     length_x: float = 0.6,
     length_y: float = 0.6,
@@ -47,7 +46,7 @@ def ring_double_bend_coupler(
         cross_section_outer=cross_section_outer,
         bend=bend,
     )
-    
+
     xi = gf.get_cross_section(cross_section_inner)
     xo = gf.get_cross_section(cross_section_outer)
     half_height = radius + xi.width / 2 + gap + xo.width + length_y / 2
@@ -57,7 +56,7 @@ def ring_double_bend_coupler(
             "The coupling_angle_coverage is too large for the given bend radius: "
             + "the coupling waveguides will overlap."
         )
-    
+
     cb = c << c_halfring
     ct = c << c_halfring
 
@@ -75,12 +74,13 @@ def ring_double_bend_coupler(
     c.absorb(ct)
     c.absorb(sl)
     c.absorb(sr)
-    
+
     c.add_port("o1", port=cb.ports["o1"])
     c.add_port("o2", port=ct.ports["o4"])
     c.add_port("o3", port=ct.ports["o1"])
     c.add_port("o4", port=cb.ports["o4"])
     return c
+
 
 if __name__ == "__main__":
     # c = coupler_bend(radius=5)
