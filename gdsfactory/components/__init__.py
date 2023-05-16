@@ -197,6 +197,7 @@ from gdsfactory.components.ring import ring
 from gdsfactory.components.ring_crow import ring_crow
 from gdsfactory.components.ring_crow_couplers import ring_crow_couplers
 from gdsfactory.components.ring_double import ring_double
+from gdsfactory.components.ring_double_bend_coupler import ring_double_bend_coupler
 from gdsfactory.components.ring_double_heater import ring_double_heater
 from gdsfactory.components.ring_double_pn import ring_double_pn
 from gdsfactory.components.ring_single import ring_single
@@ -502,6 +503,7 @@ __all__ = [
     "ring_double",
     "ring_double_pn",
     "ring_double_heater",
+    "ring_double_bend_coupler",
     "ring_single",
     "ring_single_heater",
     "ring_single_array",
