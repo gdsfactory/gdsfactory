@@ -114,9 +114,7 @@ def coupler_ring_bend(
         cross_section_outer=cross_section_outer,
         bend=bend,
     )
-    sin = gf.get_component(
-        straight, length=length_x, cross_section=cross_section_inner
-    )
+    sin = gf.get_component(straight, length=length_x, cross_section=cross_section_inner)
     sout = gf.get_component(
         straight, length=length_x, cross_section=cross_section_outer
     )
