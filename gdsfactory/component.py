@@ -1494,7 +1494,9 @@ class Component(_GeometryHelper):
             layer_props = get_layer_views()
             layer_props.to_lyp(filepath=lyp_path)
 
-            src = f"http://127.0.0.1:{kj.port}/gds?gds_file={escape(str(gdspath))}&layer_props={escape(str(lyp_path))}"
+            port = kj.port if hasattr(kj, "port") else 8000
+
+            src = f"http://127.0.0.1:{port}/gds?gds_file={escape(str(gdspath))}&layer_props={escape(str(lyp_path))}"
             logger.debug(src)
 
             if kj.jupyter_server and not os.environ.get("DOCS", False):
