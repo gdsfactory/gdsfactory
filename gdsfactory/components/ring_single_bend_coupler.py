@@ -87,6 +87,7 @@ def coupler_ring_bend(
     radius: float = 10.0,
     coupler_gap: float = 0.2,
     coupling_angle_coverage: float = 90.0,
+    length_x: float = 0.0,
     cross_section_inner: CrossSectionSpec = "strip",
     cross_section_outer: CrossSectionSpec = "strip",
     bend: ComponentSpec = bend_circular,
@@ -99,6 +100,7 @@ def coupler_ring_bend(
         angle_inner: of the inner bend, from beginning to end. Depending on the bend chosen, gap may not be preserved.
         angle_outer: of the outer bend, from beginning to end. Depending on the bend chosen, gap may not be preserved.
         bend: for bend.
+        length_x: horizontal straight length.
         cross_section_inner: spec inner bend.
         cross_section_outer: spec outer bend.
         kwargs:
@@ -112,14 +114,27 @@ def coupler_ring_bend(
         cross_section_outer=cross_section_outer,
         bend=bend,
     )
+    sin = gf.get_component(straight, length=length_x, cross_section=cross_section_inner)
+    sout = gf.get_component(
+        straight, length=length_x, cross_section=cross_section_outer
+    )
 
     coupler_right = c << cp
     coupler_left = c << cp.mirror()
+    straight_inner = c << sin
+    straight_inner.movex(-length_x / 2)
+    straight_outer = c << sout
+    straight_outer.movex(-length_x / 2)
 
-    coupler_left.connect("o1", coupler_right.ports["o1"])
+    coupler_left.connect("o1", straight_outer.ports["o1"])
+    straight_inner.connect("o1", coupler_left.ports["o2"])
+    coupler_right.connect("o2", straight_inner.ports["o2"])
+    straight_outer.connect("o2", coupler_right.ports["o1"])
 
     c.absorb(coupler_right)
     c.absorb(coupler_left)
+    c.absorb(straight_inner)
+    c.absorb(straight_outer)
 
     c.add_port("o1", port=coupler_left.ports["o3"])
     c.add_port("o2", port=coupler_left.ports["o4"])
@@ -134,6 +149,7 @@ def ring_single_bend_coupler(
     gap: float = 0.2,
     coupling_angle_coverage: float = 180.0,
     bend: ComponentSpec = bend_circular,
+    length_x: float = 0.6,
     length_y: float = 0.6,
     cross_section_inner: CrossSectionSpec = "strip",
     cross_section_outer: CrossSectionSpec = "strip",
@@ -141,7 +157,7 @@ def ring_single_bend_coupler(
 ) -> Component:
     r"""Returns ring with curved coupler.
 
-    TODO: enable euler bends. add length_x option.
+    TODO: enable euler bends.
 
     Args:
         radius: um.
@@ -149,27 +165,32 @@ def ring_single_bend_coupler(
         angle_inner: of the inner bend, from beginning to end. Depending on the bend chosen, gap may not be preserved.
         angle_outer: of the outer bend, from beginning to end. Depending on the bend chosen, gap may not be preserved.
         bend: for bend.
+        length_x: horizontal straight length.
         length_y: vertical straight length.
         cross_section_inner: spec inner bend.
         cross_section_outer: spec outer bend.
         kwargs: cross_section settings.
     """
     c = Component()
-    length_x = 0
 
     cb = c << coupler_ring_bend(
         radius=radius,
         coupler_gap=gap,
         coupling_angle_coverage=coupling_angle_coverage,
+        length_x=length_x,
         cross_section_inner=cross_section_inner,
         cross_section_outer=cross_section_outer,
         bend=bend,
     )
 
-    cross_section = cross_section_outer
-    sy = straight(length=length_y, cross_section=cross_section, **kwargs)
+    cross_section = cross_section_inner
+    sx = gf.get_component(
+        straight, length=length_x, cross_section=cross_section, **kwargs
+    )
+    sy = gf.get_component(
+        straight, length=length_y, cross_section=cross_section, **kwargs
+    )
     b = gf.get_component(bend, cross_section=cross_section, radius=radius, **kwargs)
-    sx = straight(length=length_x, cross_section=cross_section, **kwargs)
     sl = c << sy
     sr = c << sy
     bl = c << b
@@ -178,7 +199,6 @@ def ring_single_bend_coupler(
 
     sl.connect(port="o1", destination=cb.ports["o2"])
     bl.connect(port="o2", destination=sl.ports["o2"])
-
     st.connect(port="o2", destination=bl.ports["o1"])
     br.connect(port="o2", destination=st.ports["o1"])
     sr.connect(port="o1", destination=br.ports["o1"])
