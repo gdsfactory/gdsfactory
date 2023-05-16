@@ -76,6 +76,7 @@ def print_version() -> None:
     table.add_column("version", style="magenta")
     table.add_column("Path", justify="right", style="green")
 
+    table.add_row("python", sys.version, str(sys.executable))
     table.add_row("gdsfactory", __version__, str(module_path))
 
     for plugin in plugins:
