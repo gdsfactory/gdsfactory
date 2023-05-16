@@ -51,7 +51,7 @@ def ring_double_bend_coupler(
     xi = gf.get_cross_section(cross_section_inner)
     xo = gf.get_cross_section(cross_section_outer)
     half_height = radius + xi.width / 2 + gap + xo.width + length_y / 2
-    print(half_height, c_halfring.ysize)
+
     if c_halfring.ysize > half_height:
         raise ValueError(
             "The coupling_angle_coverage is too large for the given bend radius: "
