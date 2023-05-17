@@ -24,14 +24,14 @@ def write_connectivity_checks(
     """Return script for photonic port connectivity check. Assumes the photonic port pins are inside the Component.
 
     Args:
-        connectivity_checks: list of connectivity check objects to check for.
+        connectivity_checks: list of connectivity objects to check for.
     """
     script = ""
 
     for cc in connectivity_checks:
         xs = gf.get_cross_section(cc.cross_section)
         if not xs.name:
-            raise ValueError(f"You need to define {xs}.name")
+            raise ValueError("You need to define cross_section name")
         script += f"""{xs.name}_pin = input{cc.pin_layer}
 {xs.name}_pin = {xs.name}_pin.merged\n
 {xs.name}_pin2 = {xs.name}_pin.rectangles.without_area({xs.width} * {2 * cc.pin_length})"""

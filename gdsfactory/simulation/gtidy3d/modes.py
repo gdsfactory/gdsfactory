@@ -127,6 +127,11 @@ class Waveguide(pydantic.BaseModel):
     _cached_data = pydantic.PrivateAttr()
     _waveguide = pydantic.PrivateAttr()
 
+    class Config:
+        """pydantic config."""
+
+        extra = "forbid"
+
     @property
     def cache_path(self) -> Optional[PathType]:
         """Cache directory"""

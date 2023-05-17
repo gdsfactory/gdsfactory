@@ -1,18 +1,19 @@
 # ---
 # jupyter:
 #   jupytext:
+#     custom_cell_magics: kql
 #     text_representation:
 #       extension: .py
-#       format_name: light
-#       format_version: '1.5'
-#       jupytext_version: 1.14.4
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 # ---
 
-# + [markdown] tags=[]
+# %% [markdown] tags=[]
 # # MPB mode-solver
 #
 # [MPB](https://mpb.readthedocs.io/en/latest/Python_Tutorial/#our-first-band-structure) is a free open source software to compute:
@@ -82,7 +83,7 @@
 #                         sy
 # ```
 
-# + tags=[]
+# %% tags=[]
 import pandas as pd
 import pathlib
 from tqdm.auto import tqdm
@@ -97,8 +98,8 @@ from gdsfactory.generic_tech import get_generic_pdk
 gf.config.rich_output()
 PDK = get_generic_pdk()
 PDK.activate()
-# -
 
+# %%
 modes = gm.find_modes_waveguide(
     parity=mp.NO_PARITY,
     core_width=0.4,
@@ -114,37 +115,51 @@ m1 = modes[1]
 m2 = modes[2]
 m3 = modes[3]
 
+# %% [markdown]
 # As you can see the refractive index goes from 1.44 `SiO2` Silicon dioxide to 3.47 `Silicon`.
 
+# %%
 m1.plot_eps()
 
+# %%
 m1.neff
 
+# %%
 m1.plot_ey()
 
+# %%
 m2.plot_e_all()
 
+# %%
 m1.plot_e()
 
+# %% [markdown]
 # As you can see the first order mode has most power in y-direction `Ey`. This type of mode is called TE (transverse-electric)
 #
 # On the other hand the second order mode has most of the light in the `Ex`. This mode is called TM (transverse-magnetic)
 
+# %%
 m2.plot_e_all()
 
+# %%
 m3.plot_e()  # not guided
 
+# %%
 m1.neff
 
+# %%
 m2.neff
 
+# %%
 # the third mode does not propagate and its neff is below the cladding index
 m3.neff
 
+# %% [markdown]
 # ### Sidewall angle
 #
 # You can also specify the sidewall angle.
 
+# %%
 modes = gm.find_modes_waveguide(
     parity=mp.NO_PARITY,
     core_width=0.4,
@@ -159,6 +174,7 @@ m2 = modes[2]
 m3 = modes[3]
 m1.plot_eps()
 
+# %%
 modes = gm.find_modes_waveguide(
     parity=mp.NO_PARITY,
     core_width=0.4,
@@ -174,20 +190,25 @@ m2 = modes[2]
 m3 = modes[3]
 m1.plot_eps()
 
+# %% [markdown]
 # ### Rib waveguides
 #
 # Rib waveguides have a slab (not fully etched)
 
+# %%
 modes = gm.find_modes_waveguide(
     mode_number=1, nmodes=2, slab_thickness=90e-3, resolution=40
 )
 m1 = modes[1]
 m2 = modes[2]
 
+# %%
 m1.plot_eps()
 
+# %%
 m1.plot_e_all()
 
+# %% [markdown]
 # ## Symmetries
 #
 # You can exploit symmetries to reduce computation time as well as finding only (TE or TM) modes
@@ -201,6 +222,7 @@ m1.plot_e_all()
 #
 # You can define an even Y parity to find only the TM modes
 
+# %%
 modes = gm.find_modes_waveguide(
     mode_number=1,
     parity=mp.EVEN_Y + mp.ODD_Z,
@@ -217,8 +239,10 @@ m1 = modes[1]
 m2 = modes[2]
 m1.plot_e()
 
+# %% [markdown]
 # ### ODD_Y (TE)
 
+# %%
 modes = gm.find_modes_waveguide(
     mode_number=1,
     parity=mp.ODD_Y,
@@ -234,19 +258,25 @@ modes = gm.find_modes_waveguide(
 m1 = modes[1]
 m2 = modes[2]
 
+# %%
 m1.plot_e()
 
+# %% [markdown]
 # ## Sweep waveguide width
 #
 # ### Strip
 
+# %%
 df = gm.find_neff_vs_width(filepath="neff_vs_width.csv")
 df
 
+# %%
 gm.plot_neff_vs_width(df)
 
+# %% [markdown]
 # ### Rib
 
+# %%
 modes = gm.find_modes_waveguide(
     core_width=0.4,
     core_material=3.47,
@@ -262,20 +292,26 @@ m1 = modes[1]
 m2 = modes[2]
 m3 = modes[3]
 
+# %%
 m1.plot_eps()
 m1.neff
 
+# %%
 m1.plot_e()
 m1.neff
 
+# %%
 m2.plot_e()
 m2.neff
 
+# %%
 df = gm.find_neff_vs_width(slab_thickness=90e-3, filepath="neff_vs_width_rib.csv")
 gm.plot_neff_vs_width(df)
 
+# %% [markdown]
 # ### Nitride
 
+# %%
 modes = gm.find_modes_waveguide(
     core_width=1.0,
     core_material=2.0,
@@ -290,16 +326,22 @@ m1 = modes[1]
 m2 = modes[2]
 m3 = modes[3]
 
+# %%
 m1.plot_eps()
 
+# %%
 m1.plot_ey()
 
+# %%
 m1.plot_e_all()
 
+# %%
 m2.plot_ex()
 
+# %%
 m3.plot_ey()
 
+# %%
 df = gm.find_neff_vs_width(
     width1=0.5,
     width2=1.2,
@@ -311,6 +353,7 @@ df = gm.find_neff_vs_width(
 )
 gm.plot_neff_vs_width(df)
 
+# %% [markdown]
 # ## Dispersion
 #
 # To get the effective index we only need to compute the mode propagation constant at a single frequency.
@@ -321,14 +364,16 @@ gm.plot_neff_vs_width(df)
 #
 # To compute the resonances in MZI interferometers or ring resonators you need to use `ng`
 
-# +
-# gm.find_mode_dispersion?
-# -
+# %%
+help(gm.find_mode_dispersion)
 
+# %%
 m = gm.find_mode_dispersion()
 
+# %%
 m.ng
 
+# %% [markdown]
 # ## Convergence tests
 #
 # Before launching a set of simulations you need to make sure you have the correct simulation settings:
@@ -338,7 +383,7 @@ m.ng
 # - sy: Size of the simulation region in the y-direction (default=4.0)
 #
 
-# +
+# %%
 resolutions = np.linspace(10, 50, 5)
 neffs = []
 
@@ -352,13 +397,13 @@ for resolution in resolutions:
     )
     mode = modes[1]
     neffs.append(mode.neff)
-# -
 
+# %%
 plt.plot(resolutions, neffs, "o-")
 plt.ylabel("neff")
 plt.xlabel("resolution (pixels/um)")
 
-# +
+# %%
 szs = np.linspace(4, 6, 6)
 neffs = []
 
@@ -373,13 +418,13 @@ for sz in szs:
     )
     mode = modes[1]
     neffs.append(mode.neff)
-# -
 
+# %%
 plt.plot(szs, neffs, "o-")
 plt.ylabel("neff")
 plt.xlabel("simulation size in z(um)")
 
-# +
+# %%
 sys = np.linspace(2, 6, 6)
 neffs = []
 
@@ -394,12 +439,13 @@ for sy in sys:
     )
     mode = modes[1]
     neffs.append(mode.neff)
-# -
 
+# %%
 plt.plot(sys, neffs, "o-")
 plt.ylabel("neff")
 plt.xlabel("simulation size in y (um)")
 
+# %% [markdown]
 # ## Find modes coupler
 #
 # When two waveguides are close to each other, they support modes that travel with different index (speed). One of the modes is an even mode, while the other one is an odd mode.
@@ -432,8 +478,9 @@ plt.xlabel("simulation size in y (um)")
 #
 # ```
 
+# %%
 modes = gm.find_modes_coupler(
-    core_width=(0.5, 0.5),
+    core_widths=(0.5, 0.5),
     gaps=(0.2,),
     core_material=3.47,
     clad_material=1.44,
@@ -446,18 +493,22 @@ m1 = modes[1]
 m2 = modes[2]
 m3 = modes[3]
 
+# %%
 m1.plot_eps()
 
+# %%
 m1.plot_ey()  # even mode
 
+# %%
 m2.plot_ey()  # odd mode
 
+# %% [markdown]
 # ### Find coupling vs gap
 
-# +
+# %%
 # gm.find_coupling_vs_gap?
 
-# +
+# %%
 df = gm.coupler.find_coupling_vs_gap(
     gap1=0.2,
     gap2=0.4,
@@ -470,7 +521,7 @@ df = gm.coupler.find_coupling_vs_gap(
 plt.title("strip 500x200 coupling")
 gm.plot_coupling_vs_gap(df)
 
-# +
+# %%
 df = gm.coupler.find_coupling_vs_gap_nitride(
     filepath="find_coupling_vs_gap_nitride.csv"
 )
@@ -478,14 +529,14 @@ df = gm.coupler.find_coupling_vs_gap_nitride(
 plt.title("nitride 1000x400 nitride")
 gm.plot_coupling_vs_gap(df)
 
-# +
+# %%
 ne = []
 no = []
 gaps = [0.2, 0.25, 0.3]
 
 for gap in gaps:
     modes = gm.find_modes_coupler(
-        core_width=(0.5, 0.5),
+        core_widths=(0.5, 0.5),
         gaps=(gap,),
         core_material=3.47,
         clad_material=1.44,
@@ -498,38 +549,38 @@ for gap in gaps:
     no.append(modes[2].neff)
 
 
-# -
-
-
+# %%
 def coupling_length(
     neff1: float,
     neff2: float,
     power_ratio: float = 1.0,
     wavelength: float = 1.55,
 ) -> float:
-    """
-    Returns the coupling length (um) of the directional coupler
-    to achieve power_ratio
+    """Returns the coupling length (um) of the directional coupler
+    to achieve power_ratio.
 
     Args:
         neff1: even supermode of the directional coupler.
         neff2: odd supermode of the directional coupler.
-        power_ratio: p2/p1, where 1 means 100% power transfer
-        wavelength: in um
+        power_ratio: p2/p1, where 1 means 100% power transfer.
+        wavelength: in um.
 
     """
     dneff = (neff1 - neff2).real
     return wavelength / (np.pi * dneff) * np.arcsin(np.sqrt(power_ratio))
 
 
+# %%
 lc = [
     coupling_length(neff1=neff1, neff2=neff2) for gap, neff1, neff2 in zip(gaps, ne, no)
 ]
 
+# %%
 plt.plot(gaps, lc, ".-")
 plt.ylabel("100% coupling length (um)")
 plt.xlabel("gap (um)")
 
+# %% [markdown]
 # ## Heater efficiency
 #
 # You can simulate the index change effect from a heater in MPB
@@ -540,15 +591,18 @@ plt.xlabel("gap (um)")
 #
 # What is the optimal waveguide width for maximum index change?
 
+# %%
 dn_dt_si = 1.87e-4
 dn_dt_sio2 = 8.5e-6
 
+# %%
 core_width = np.arange(0.4, 1.3, 0.2)
 core_width
 
+# %%
 filepath = pathlib.Path("neff_vs_temperature.csv")
 
-# +
+# %%
 if filepath.exists:
     df = pd.read_csv(filepath)
     dt = 10
@@ -589,16 +643,17 @@ else:
 
     df = pd.DataFrame(dict(core_width=core_width, dneff=dneffs))
     df.to_csv(filepath)
-# -
 
+# %%
 core_width = df.core_width
 dneffs = df.dneff
 
+# %%
 plt.plot(core_width, np.array(dneffs) / dt, ".-")
 plt.xlabel("waveguide width (um)")
 plt.ylabel("dneff / dT")
 
-# + tags=[]
+# %% tags=[]
 dndt = np.array(dneffs) / dt
 plt.plot(core_width, dndt / max(dndt) * 100, ".-")
 plt.title("waveguide dn/dT")

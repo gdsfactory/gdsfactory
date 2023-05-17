@@ -42,7 +42,7 @@ import gdsfactory as gf
 from gdsfactory.geometry.maskprep import get_polygons_over_under, over_under
 
 c = gf.components.coupler_ring(
-    cladding_layers=((2, 0)),
+    cladding_layers=((2, 0),),
     cladding_offsets=(0.2,),
 )
 c
@@ -54,7 +54,7 @@ c
 # A decorator is a function that calls a function [see Python intro](https://gdsfactory.github.io/gdsfactory/notebooks/_0_python.html) or read some python books.
 
 # %%
-over_under_slab = partial(over_under, layers=((2, 0)), distances=(0.5,))
+over_under_slab = partial(over_under, layers=((2, 0),), distances=(0.5,))
 
 c = gf.components.coupler_ring(
     cladding_layers=((2, 0)),

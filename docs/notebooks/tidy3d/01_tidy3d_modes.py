@@ -84,9 +84,9 @@ rib.plot_field(field_name="Ex", mode_index=0)  # TE
 nitride = gt.modes.Waveguide(
     wavelength=1.55,
     core_width=1.0,
-    core_thickness=0.4,
+    core_thickness=400 * nm,
     slab_thickness=0.0,
-    core_material="si",
+    core_material="sin",
     clad_material="sio2",
 )
 nitride.plot_index()
@@ -240,14 +240,14 @@ nitride_bend = gt.modes.Waveguide(
     core_width=1000 * nm,
     core_thickness=400 * nm,
     slab_thickness=0.0,
-    bend_radius=15,
-    core_material="si",
+    bend_radius=30,
+    core_material="sin",
     clad_material="sio2",
 )
-nitride_bend.plot_field(field_name="Ex", mode_index=0)  # TE
+nitride_bend.plot_field(field_name="Ex", mode_index=0, value="abs")  # TE
 
 # %%
-radii = np.array([15, 20])
+radii = np.array([30, 35, 40])
 bend = gt.modes.Waveguide(
     wavelength=1.55,
     core_width=1000 * nm,
@@ -258,11 +258,6 @@ bend = gt.modes.Waveguide(
     bend_radius=radii.min(),
 )
 mismatch = gt.modes.sweep_bend_mismatch(bend, radii)
-
-plt.plot(radii, 10 * np.log10(mismatch))
-plt.title("Nitride waveguide bend")
-plt.xlabel("Radius (μm)")
-plt.ylabel("Mismatch (dB)")
 
 
 # %%

@@ -90,6 +90,9 @@ data-download:
 	# gh release download v6.90.3 data/modes/*.msh --clobber
 	# gh release download v6.90.3 data/modes/*.npz --clobber
 
+data-clean:
+	aws s3 rm data s3://gdslib/gds
+
 test:
 	pytest -s
 

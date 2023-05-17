@@ -164,8 +164,8 @@ def waveguide(wl=1.55, wl0=1.55, neff=2.34, ng=3.4, length=10.0, loss=0.0) -> sa
 nm = 1e-3
 strip = gt.modes.Waveguide(
     wavelength=1.55,
-    core_width=0.5,
-    core_thickness=0.22,
+    core_width=500 * nm,
+    core_thickness=220 * nm,
     slab_thickness=0.0,
     core_material="si",
     clad_material="sio2",
@@ -218,11 +218,11 @@ cp.plot_field(field_name="Ex", mode_index=1)  # odd mode
 coupler = gt.modes.WaveguideCoupler(
     wavelength=1.55,
     core_width=(0.45, 0.45),
-    core_thickness=0.22,
+    core_thickness=220 * nm,
     core_material="si",
     clad_material="sio2",
     num_modes=4,
-    gap=0.1,
+    gap=100 * nm,
 )
 
 print("\nCoupler:", coupler)
@@ -612,8 +612,9 @@ plt.show()
 # To improve the waveguide model you need to find the effective index of the waveguide in relation to its parameters (width and thickness) using an open source mode solver.
 
 # %%
+nm = 1e-3
 wavelengths = np.linspace(1.5, 1.6, 10)
-widths = np.linspace(0.4, 0.6, 5)
+widths = np.linspace(400 * nm, 600 * nm, 5)
 
 wavelengths, widths = np.mgrid[1.5:1.6:10j, 0.4:0.6:5j]
 neffs = np.zeros_like(wavelengths)
@@ -623,8 +624,8 @@ for i, (wl, w) in enumerate(zip(tqdm(wavelengths.ravel()), widths.ravel())):
     wg = gt.modes.Waveguide(
         wavelength=wl,
         core_width=w,
-        mode_number=1,
-        core_thickness=0.22,
+        num_modes=1,
+        core_thickness=220 * nm,
         slab_thickness=0.0,
         core_material="si",
         clad_material="sio2",
