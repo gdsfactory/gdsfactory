@@ -44,6 +44,7 @@ jobs:
           if [ ${{ secrets.TIDY3D_AUTH }} ]; then
             make data-upload
           fi
+          python tests/test_doc_errors.py
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
