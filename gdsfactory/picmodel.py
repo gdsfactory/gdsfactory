@@ -10,9 +10,13 @@ import gdsfactory as gf
 
 
 class CrossSection(BaseModel):
-    __root__: str = Field(
+    root: str = Field(
         ..., description="A cross section to use for waveguides or traces."
     )
+    # TODO I am unsure about what this should be in pydantic v2
+    # __root__: str = Field(
+    #     ..., description="A cross section to use for waveguides or traces."
+    # )
 
 
 class RouteSettings(BaseModel):
@@ -28,7 +32,12 @@ class RouteSettings(BaseModel):
 
 
 class RoutingStrategy(BaseModel):
-    __root__: str = Field(..., description="The type of routing to use")
+    root: str = Field(..., description="The type of routing to use")
+    # TODO I am unsure about what this should be in pydantic v2
+    # __root__: str = Field(
+    #     ..., description="A cross section to use for waveguides or traces."
+    # )
+    # __root__: str = Field(..., description="The type of routing to use")
 
 
 class Links(BaseModel):

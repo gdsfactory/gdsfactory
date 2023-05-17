@@ -7,7 +7,8 @@ import pathlib
 import xml.etree.ElementTree as ET
 from typing import List, Optional, Tuple, Dict
 
-from pydantic import BaseModel, Field
+import pydantic
+from pydantic import BaseModel
 
 from gdsfactory.config import PATH
 from gdsfactory.technology import LayerViews, LayerStack
@@ -42,6 +43,10 @@ suffix_d25 = """
 """
 
 
+class IgnoredType:
+    pass
+
+
 class KLayoutTechnology(BaseModel):
     """A container for working with KLayout technologies (requires KLayout Python package).
 
@@ -55,16 +60,21 @@ class KLayoutTechnology(BaseModel):
         connectivity: List of layer names connectivity for netlist tracing.
     """
 
-    # TODO: Add import method
-    # TODO: Also interop with xs scripts?
-    import klayout.db as db
-
     name: str
     layer_map: Dict[str, Layer]
     layer_views: Optional[LayerViews] = None
     layer_stack: Optional[LayerStack] = None
-    technology: db.Technology = Field(default_factory=db.Technology)
+    # technology: IgnoredType = Field(default_factory=db.Technology)
     connectivity: Optional[List[ConductorViaConductorName]] = None
+
+    @pydantic.computed_field
+    def technology(self) -> IgnoredType:
+        # TODO: Add import method
+        # Is this good enough?
+        # TODO: Also interop with xs scripts?
+        import klayout.db as db
+
+        return db.Technology()
 
     def write_tech(
         self,
@@ -178,9 +188,10 @@ class KLayoutTechnology(BaseModel):
     class Config:
         """Allow db.Technology type."""
 
-        import klayout.db as db
-
-        ignored_types = (db.Technology,)
+        # TODO this validator doesn't work, need our own
+        # import klayout.db as db
+        #
+        ignored_types = (IgnoredType,)
         arbitrary_types_allowed = True
         extra = "allow"
 
