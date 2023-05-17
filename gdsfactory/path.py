@@ -796,21 +796,24 @@ def extrude(
         p_sec = p.copy()
         width = section.width
         offset = section.offset
-        layer = get_layer(section.layer)
+        layer = section.layer
         port_names = section.port_names
         port_types = section.port_types
         hidden = section.hidden
 
         if isinstance(width, (int, float)) and isinstance(offset, (int, float)):
             xsection_points.append([width, offset])
-        if isinstance(layer, int):
+        elif isinstance(layer, int):
             layer = (layer, 0)
-        if (
+        elif (
             isinstance(layer, Iterable)
             and len(layer) == 2
             and isinstance(layer[0], int)
             and isinstance(layer[1], int)
         ):
+            xsection_points.append([layer[0], layer[1]])
+        elif isinstance(layer, str):
+            layer = get_layer(layer)
             xsection_points.append([layer[0], layer[1]])
 
         if section.insets:
@@ -821,7 +824,8 @@ def extrude(
 
             if new_x_start > np.max(p_pts[:, 0]) or new_x_stop < np.min(p_pts[:, 0]):
                 warnings.warn(
-                    f"Cannot apply delay to Section '{section.name}', delay results in points outside of original path."
+                    f"Cannot apply delay to Section '{section.name}', delay results in points outside of original path.",
+                    stacklevel=3,
                 )
                 continue
 
