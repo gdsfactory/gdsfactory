@@ -35,9 +35,9 @@ from functools import partial
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 import numpy as np
+import pydantic
 from numpy import ndarray
 from omegaconf import OmegaConf
-
 from gdsfactory.component_layout import _rotate_points
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.serialization import clean_value_json
@@ -65,7 +65,7 @@ class PortOrientationError(ValueError):
     pass
 
 
-class Port:
+class Port(pydantic.BaseModel):
     """Ports are useful to connect Components with each other.
 
     Args:
@@ -354,6 +354,9 @@ class Port:
                 f"{component_name!r} port {self.name!r} has invalid orientation"
                 f" {self.orientation}"
             )
+
+    class Config:
+        arbitrary_types_allowed = True
 
 
 PortsMap = Dict[str, List[Port]]

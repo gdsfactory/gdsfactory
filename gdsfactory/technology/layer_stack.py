@@ -381,6 +381,10 @@ class LayerStack(BaseModel):
     def filtered(self, layers):
         return type(self)(layers={k: self.layers[k] for k in layers})
 
+    class Config:
+        arbitrary_types_allowed = True
+        ignored_types = (LayerLevel,)
+
 
 if __name__ == "__main__":
     from gdsfactory.technology.klayout_tech import KLayoutTechnology

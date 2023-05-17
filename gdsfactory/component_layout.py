@@ -13,6 +13,7 @@ from gdstk import Polygon
 from gdstk import Label as _Label
 from numpy import cos, pi, sin
 from numpy.linalg import norm
+from pydantic import BaseModel
 
 
 class Label(_Label):
@@ -128,7 +129,7 @@ def _parse_layer(layer):
     return (gds_layer, gds_datatype)
 
 
-class _GeometryHelper:
+class _GeometryHelper(BaseModel):
     """Helper class for a class with functions move() and the property bbox.
 
     It uses that function+property to enable you to do things like check what the
@@ -294,6 +295,9 @@ class _GeometryHelper:
         else:
             G = Group([self, element])
         return G
+
+    class Config:
+        arbitrary_types_allowed = True
 
 
 class Group(_GeometryHelper):

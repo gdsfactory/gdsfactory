@@ -221,6 +221,7 @@ class Routes(BaseModel):
     class Config:
         """Config for Routes."""
 
+        arbitrary_types_allowed = True
         extra = Extra.forbid
 
 
