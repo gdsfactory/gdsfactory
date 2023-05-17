@@ -244,7 +244,7 @@ nitride_bend = gt.modes.Waveguide(
     core_material="sin",
     clad_material="sio2",
 )
-nitride_bend.plot_field(field_name="Ex", mode_index=0, value="real")  # TE
+nitride_bend.plot_field(field_name="Ex", mode_index=0, value="abs")  # TE
 
 # %%
 radii = np.array([30, 35, 40])
