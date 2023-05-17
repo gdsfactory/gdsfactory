@@ -315,6 +315,7 @@ deep
 
     script += drc_script_end
     filepath = filepath or get_klayout_path() / "drc" / f"{name}.lydrc"
+    filepath = pathlib.Path(filepath)
     dirpath = filepath.parent
     dirpath.mkdir(parents=True, exist_ok=True)
     filepath = pathlib.Path(filepath)

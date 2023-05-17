@@ -17,7 +17,6 @@ Klayout DRC
    write_drc_deck_macro
    rule_width
    rule_space
-   rule_min_width_or_space
    rule_separation
    rule_enclosing
    rule_area
