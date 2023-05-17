@@ -177,7 +177,7 @@ class CrossSection(BaseModel):
         """Configuration."""
 
         extra = "forbid"
-        fields = {
+        Annotated = {
             "decorator": {"exclude": True},
             "add_pins": {"exclude": True},
             "add_bbox": {"exclude": True},

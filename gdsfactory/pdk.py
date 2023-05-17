@@ -9,7 +9,7 @@ from typing_extensions import Literal
 
 import numpy as np
 from omegaconf import DictConfig
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 
 from gdsfactory.config import PATH, logger
 from gdsfactory.containers import containers as containers_default
@@ -183,7 +183,7 @@ class Pdk(BaseModel):
         """Configuration."""
 
         extra = "forbid"
-        fields = {
+        Annotated = {
             "cross_sections": {"exclude": True},
             "cells": {"exclude": True},
             "containers": {"exclude": True},
@@ -193,7 +193,7 @@ class Pdk(BaseModel):
             "circuit_yaml_parser": {"exclude": True},
         }
 
-    @validator("sparameters_path")
+    @field_validator("sparameters_path")
     def is_pathlib_path(cls, path):
         return pathlib.Path(path)
 
