@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pyvista as pv
 from devsim.python_packages import model_create, simple_physics
-from pydantic import BaseModel, Extra
+from pydantic import BaseModel
 
 from gdsfactory.simulation.disable_print import disable_print, enable_print
 from gdsfactory.simulation.gtidy3d.modes import FilterPol, Precision, Waveguide
@@ -167,7 +167,7 @@ class PINWaveguide(BaseModel):
     class Config:
         """Enable adding new."""
 
-        extra = Extra.allow
+        extra = "allow"
 
     # @property
     # def t_sim(self):

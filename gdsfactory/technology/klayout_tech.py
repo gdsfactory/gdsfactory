@@ -178,7 +178,11 @@ class KLayoutTechnology(BaseModel):
     class Config:
         """Allow db.Technology type."""
 
+        import klayout.db as db
+
+        ignored_types = (db.Technology,)
         arbitrary_types_allowed = True
+        extra = "allow"
 
 
 layer_views = LayerViews.from_lyp(str(PATH.klayout_lyp))

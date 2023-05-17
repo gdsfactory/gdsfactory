@@ -32,7 +32,7 @@ def coupling_length(
     return wavelength / (np.pi * dneff) * np.arcsin(np.sqrt(power_ratio))
 
 
-@pydantic.validate_arguments
+@pydantic.validate_call
 def find_coupling(
     gap: float = 0.2, power_ratio: float = 1.0, wavelength: float = 1.55, **kwargs
 ) -> float:
@@ -57,7 +57,7 @@ def find_coupling(
     )
 
 
-@pydantic.validate_arguments
+@pydantic.validate_call
 def find_coupling_vs_gap(
     gap1: float = 0.2,
     gap2: float = 0.4,

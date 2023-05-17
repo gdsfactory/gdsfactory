@@ -4,7 +4,7 @@ from enum import Enum
 from typing import Any, Dict, List, Optional, Union
 
 import yaml
-from pydantic import AnyUrl, BaseModel, Extra, Field
+from pydantic import AnyUrl, BaseModel, Field
 
 import gdsfactory as gf
 
@@ -24,7 +24,7 @@ class RouteSettings(BaseModel):
     class Config:
         """Extra config."""
 
-        extra = Extra.allow
+        extra = "allow"
 
 
 class RoutingStrategy(BaseModel):
@@ -37,7 +37,7 @@ class Links(BaseModel):
     class Config:
         """Extra config."""
 
-        extra = Extra.allow
+        extra = "allow"
 
 
 class PortEnum(Enum):
@@ -57,7 +57,7 @@ class Placement(BaseModel):
     class Config:
         """Extra config."""
 
-        extra = Extra.forbid
+        extra = "allow"
 
     x: Optional[Union[str, float]] = Field(
         None,
@@ -93,7 +93,7 @@ class Instance(BaseModel):
     class Config:
         """Extra config."""
 
-        extra = Extra.forbid
+        extra = "allow"
 
     component: str
     settings: Optional[Dict[str, Any]] = Field(
@@ -105,7 +105,7 @@ class Route(BaseModel):
     class Config:
         """Extra config."""
 
-        extra = Extra.forbid
+        extra = "allow"
 
     routing_strategy: Optional[RoutingStrategy] = None
     settings: Optional[RouteSettings] = None

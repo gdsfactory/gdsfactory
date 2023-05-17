@@ -37,7 +37,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 import gdstk
 import numpy as np
 from omegaconf import OmegaConf
-from pydantic import BaseModel, Extra
+from pydantic import BaseModel
 from typing_extensions import Literal
 
 from gdsfactory.component import Component, ComponentReference
@@ -114,7 +114,7 @@ class StepAllAngle:
     class Config:
         """Config for Steps with all angle."""
 
-        extra = Extra.forbid
+        extra = "allow"
 
 
 Anchor = Literal[
@@ -208,7 +208,7 @@ class Route(BaseModel):
     class Config:
         """Config for Route."""
 
-        extra = Extra.forbid
+        extra = "allow"
         arbitrary_types_allowed = True
 
 
@@ -222,7 +222,7 @@ class Routes(BaseModel):
         """Config for Routes."""
 
         arbitrary_types_allowed = True
-        extra = Extra.forbid
+        extra = "allow"
 
 
 class ComponentModel(BaseModel):
@@ -230,7 +230,7 @@ class ComponentModel(BaseModel):
     settings: Optional[Dict[str, Any]]
 
     class Config:
-        extra = Extra.forbid
+        extra = "allow"
 
 
 class PlacementModel(BaseModel):
@@ -247,7 +247,7 @@ class PlacementModel(BaseModel):
     mirror: bool = False
 
     class Config:
-        extra = Extra.forbid
+        extra = "allow"
 
 
 class RouteModel(BaseModel):
@@ -256,7 +256,7 @@ class RouteModel(BaseModel):
     routing_strategy: Optional[str] = None
 
     class Config:
-        extra = Extra.forbid
+        extra = "allow"
 
 
 class NetlistModel(BaseModel):
@@ -284,7 +284,7 @@ class NetlistModel(BaseModel):
     ports: Optional[Dict[str, str]] = None
 
     class Config:
-        extra = Extra.forbid
+        extra = "allow"
 
 
 RouteFactory = Callable[..., Route]

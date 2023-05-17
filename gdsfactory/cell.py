@@ -8,7 +8,7 @@ from typing import Any, Callable, Dict, Optional, Tuple
 from typing_extensions import ParamSpec
 
 import toolz
-from pydantic import BaseModel, validate_arguments
+from pydantic import BaseModel, validate_call
 
 from gdsfactory.component import Component
 from gdsfactory.name import MAX_NAME_LENGTH, clean_name, get_name_short
@@ -287,7 +287,7 @@ def cell(func: Callable[CellSettings, Component]) -> Callable[CellSettings, Comp
         mzi_with_bend_decorated = gf.cell(mzi_with_bend)
 
     """
-    return cell_without_validator(validate_arguments(func))
+    return cell_without_validator(validate_call(func))
 
 
 @cell

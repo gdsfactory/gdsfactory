@@ -26,7 +26,7 @@ width0 = 465 * nm
 thickness0 = 215 * nm
 
 
-@pydantic.validate_arguments
+@pydantic.validate_call
 def find_neff_ng_dw_dh(
     width: float = width0,
     thickness: float = thickness0,

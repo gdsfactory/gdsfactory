@@ -13,7 +13,7 @@ from functools import partial
 from inspect import getmembers
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union, TypeVar
 
-from pydantic import BaseModel, Field, validate_arguments
+from pydantic import BaseModel, Field, validate_call
 from typing_extensions import Literal
 from gdsfactory.add_pins import add_pins_inside1nm, add_pins_siepic_optical
 
@@ -368,7 +368,7 @@ def xsection(func: _F) -> _F:
         c = p.extrude(xs_sc)
         c.plot()
     """
-    return _xsection_without_validator(validate_arguments(func))
+    return _xsection_without_validator(validate_call(func))
 
 
 @xsection

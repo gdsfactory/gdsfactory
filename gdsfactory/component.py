@@ -4,6 +4,7 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 """
 from __future__ import annotations
 
+# import pydantic
 import datetime
 import hashlib
 import itertools
@@ -150,6 +151,11 @@ class Component(_GeometryHelper):
             default: default component settings.
             child: dict info from the children, if any.
     """
+
+    # @pydantic.computed_field
+    # @property
+    # def uid(self) -> str:
+    #     return str(uuid.uuid4())[:8]
 
     def __init__(
         self,

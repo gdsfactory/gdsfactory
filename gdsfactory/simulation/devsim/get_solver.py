@@ -20,7 +20,6 @@ from devsim import (
     write_devices,
 )
 from devsim.python_packages import model_create, simple_physics
-from pydantic import Extra
 
 from gdsfactory.pdk import get_layer_stack
 from gdsfactory.component import Component
@@ -144,7 +143,7 @@ class DDComponent:
     class Config:
         """Enable adding new."""
 
-        extra = Extra.allow
+        extra = "allow"
 
     def set_extended_precision(self) -> None:
         set_parameter(name="extended_solver", value=True)

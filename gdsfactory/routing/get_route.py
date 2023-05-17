@@ -36,7 +36,7 @@ from __future__ import annotations
 
 from functools import partial
 from typing import Callable, Optional, Union
-from pydantic import validate_arguments
+from pydantic import validate_call
 
 import numpy as np
 
@@ -59,7 +59,7 @@ from gdsfactory.typings import (
 )
 
 
-@validate_arguments
+@validate_call
 def get_route(
     input_port: Port,
     output_port: Port,

@@ -455,7 +455,7 @@ class LayerView(BaseModel):
         super().__init__(**data)
 
         # Iterate through all items, adding group members as needed
-        for name, field in self.__fields__.items():
+        for name, field in self.model_fields.items():
             default = field.get_default()
             if isinstance(default, LayerView):
                 self.group_members[name] = default
@@ -798,7 +798,7 @@ class LayerViews(BaseModel):
 
         super().__init__(**data)
 
-        for name in self.dict():
+        for name in self.model_dump():
             lv = getattr(self, name)
             if isinstance(lv, LayerView):
                 #

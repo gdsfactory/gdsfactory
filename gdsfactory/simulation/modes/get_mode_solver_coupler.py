@@ -17,7 +17,7 @@ tmp.mkdir(exist_ok=True)
 Floats = Tuple[float, ...]
 
 
-@pydantic.validate_arguments
+@pydantic.validate_call
 def get_mode_solver_coupler(
     core_width: float = 0.5,
     gap: float = 0.2,

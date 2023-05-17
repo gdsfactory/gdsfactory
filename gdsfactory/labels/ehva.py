@@ -39,7 +39,7 @@ prefix_to_type_default = {
 }
 
 
-@pydantic.validate_arguments
+@pydantic.validate_call
 def add_label_ehva(
     component: gf.Component,
     die: str = "demo",

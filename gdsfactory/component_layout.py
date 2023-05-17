@@ -297,6 +297,7 @@ class _GeometryHelper(BaseModel):
         return G
 
     class Config:
+        extra = "allow"
         arbitrary_types_allowed = True
 
 

@@ -39,7 +39,7 @@ def _python() -> str:
     return sys.executable
 
 
-@pydantic.validate_arguments
+@pydantic.validate_call
 def write_sparameters_meep_mpi(
     component: ComponentSpec,
     layer_stack: Optional[LayerStack] = None,

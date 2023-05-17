@@ -22,7 +22,7 @@ from gdsfactory.technology import LayerStack
 from gdsfactory.typings import ComponentSpec, Float2
 
 
-@pydantic.validate_arguments
+@pydantic.validate_call
 def get_simulation(
     component: ComponentSpec,
     port_extension: Optional[float] = 4.0,

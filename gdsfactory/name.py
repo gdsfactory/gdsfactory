@@ -9,7 +9,7 @@ import pydantic
 MAX_NAME_LENGTH = 32
 
 
-@pydantic.validate_arguments
+@pydantic.validate_call
 def get_name_short(name: str, max_name_length=MAX_NAME_LENGTH) -> str:
     """Returns a short name."""
     if len(name) > max_name_length:

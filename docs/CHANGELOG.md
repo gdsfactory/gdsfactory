@@ -3126,7 +3126,7 @@
 - pass cross_section functions to component factories instead of registering waveguides in TECH.waveguide
 - snap_to_grid is now a cross_section property
 - replace Waveguide with gdsfactory.cross_section functions
-- add pydantic.validate_arguments to cross_section
+- add pydantic.validate_call to cross_section
 - functools.partial have unique names
 - partial functions include settings for JSON and name
 - include xor flag when doing a gdsdiff
@@ -3349,11 +3349,11 @@
 - get_netlist returns cleaned names for components (-3.2 -> m3p2)
 - add pp.assert_version
 - fix naming for components with long funcnames (already over 24 chars + 8 chars for name hash) to keep name shorter than 32 chars
-- add pydantic validate_arguments decorator. @pp.cell_with_validator
+- add pydantic validate_call decorator. @pp.cell_with_validator
 
 ```
-from pydantic import validate_arguments
-@validate_arguments
+from pydantic import validate_call
+@validate_call
 ```
 
 ## 2.4.9

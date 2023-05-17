@@ -13,7 +13,7 @@ from gdsfactory.simulation.modes.find_modes import find_modes_waveguide
 from gdsfactory.typings import Optional, PathType
 
 
-@pydantic.validate_arguments
+@pydantic.validate_call
 def find_neff_vs_width(
     width1: float = 0.2,
     width2: float = 1.0,

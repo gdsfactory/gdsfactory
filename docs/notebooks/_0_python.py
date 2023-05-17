@@ -37,7 +37,7 @@
 # In gdsfactory you will write functions instead of classes. Functions are easier to write and combine, and have clearly defined inputs and outputs.
 
 # %% tags=[]
-from pydantic import validate_arguments
+from pydantic import validate_call
 
 import gdsfactory as gf
 
@@ -108,7 +108,7 @@ component
 
 
 # %%
-@validate_arguments
+@validate_call
 def double(x: float) -> float:
     return 2 * x
 
@@ -126,7 +126,7 @@ def double(x: float) -> float:
     return 2 * x
 
 
-double_with_validator = validate_arguments(double)
+double_with_validator = validate_call(double)
 x = 1.5
 y = double_with_validator(x)
 print(y)

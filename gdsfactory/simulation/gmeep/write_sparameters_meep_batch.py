@@ -33,7 +33,7 @@ core_materials = multiprocessing.cpu_count()
 temp_dir_default = Path(sparameters_path) / "temp"
 
 
-@pydantic.validate_arguments
+@pydantic.validate_call
 def write_sparameters_meep_batch(
     jobs: List[Dict],
     cores_per_run: int = 2,

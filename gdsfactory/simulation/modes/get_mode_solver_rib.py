@@ -15,7 +15,7 @@ tmp = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "meep"
 tmp.mkdir(exist_ok=True)
 
 
-@pydantic.validate_arguments
+@pydantic.validate_call
 def get_mode_solver_rib(
     core_width: float = 0.45,
     core_thickness: float = 0.22,
