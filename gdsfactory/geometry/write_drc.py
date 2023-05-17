@@ -17,7 +17,6 @@ from dataclasses import asdict, is_dataclass
 from typing import List, Optional, Union
 
 import gdsfactory as gf
-from gdsfactory.config import logger
 from gdsfactory.install import get_klayout_path
 from gdsfactory.typings import CrossSectionSpec, Dict, Layer, PathType
 
@@ -320,7 +319,7 @@ deep
     dirpath.mkdir(parents=True, exist_ok=True)
     filepath = pathlib.Path(filepath)
     filepath.write_text(script)
-    logger.info(f"Wrote DRC deck to {str(filepath)!r} with shortcut {shortcut!r}")
+    print(f"Wrote DRC deck to {str(filepath)!r} with shortcut {shortcut!r}")
     return script
 
 
