@@ -296,9 +296,9 @@ class _GeometryHelper(BaseModel):
             G = Group([self, element])
         return G
 
-    class Config:
-        extra = "allow"
-        arbitrary_types_allowed = True
+    # class Config:
+    # extra = "allow"
+    # arbitrary_types_allowed = True
 
 
 class Group(_GeometryHelper):

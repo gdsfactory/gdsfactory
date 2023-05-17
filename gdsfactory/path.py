@@ -14,6 +14,7 @@ from collections.abc import Iterable
 from typing import Callable, Optional, Union
 
 import numpy as np
+import pydantic
 from numpy import mod, pi
 
 from gdsfactory import snap
@@ -54,12 +55,44 @@ class Path(_GeometryHelper):
 
     """
 
+    @pydantic.computed_field
+    def points(self) -> np.ndarray:
+        return self._points
+
+    @points.setter
+    def points(self, points: np.ndarray) -> None:
+        self._points = points
+
+    @pydantic.computed_field
+    def start_angle(self) -> float:
+        return 0
+
+    @start_angle.setter
+    def start_angle(self, start_angle: float) -> None:
+        self._start_angle = start_angle
+
+    @pydantic.computed_field
+    def end_angle(self) -> float:
+        return 0
+
+    @end_angle.setter
+    def end_angle(self, end_angle: float) -> None:
+        self._end_angle = end_angle
+
+    @pydantic.computed_field
+    def info(self) -> dict:
+        return {}
+
+    @info.setter
+    def info(self, info: dict) -> None:
+        self._info = info
+
     def __init__(self, path=None) -> None:
         """Creates an empty path."""
-        self.points = np.array([[0, 0]], dtype=np.float64)
-        self.start_angle = 0
-        self.end_angle = 0
-        self.info = {}
+        self._points = np.array([[0, 0]], dtype=np.float64)
+        self._start_angle = 0
+        self._end_angle = 0
+        self._info = {}
         if path is not None:
             # If array[N][2]
             if (

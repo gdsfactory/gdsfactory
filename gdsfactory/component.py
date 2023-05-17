@@ -4,7 +4,7 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 """
 from __future__ import annotations
 
-# import pydantic
+import pydantic
 import datetime
 import hashlib
 import itertools
@@ -152,10 +152,31 @@ class Component(_GeometryHelper):
             child: dict info from the children, if any.
     """
 
+    @pydantic.computed_field
+    @property
+    def uid(self) -> str:
+        return str(uuid.uuid4())[:8]
+
+    @pydantic.computed_field
+    def info(self) -> dict:
+        return {}
+
+    @pydantic.computed_field
+    def settings(self) -> dict:
+        return {}
+
+    @pydantic.computed_field
+    def get_child_name(self) -> bool:
+        return False
+
+    @pydantic.computed_field
+    def ports(self) -> dict:
+        return {}
+
+    # TODO different initializer
     # @pydantic.computed_field
-    # @property
-    # def uid(self) -> str:
-    #     return str(uuid.uuid4())[:8]
+    # def name(self) -> dict:
+    #     return f"_{self.uid}"
 
     def __init__(
         self,
@@ -163,23 +184,23 @@ class Component(_GeometryHelper):
         with_uuid: bool = False,
     ) -> None:
         """Initialize the Component object."""
-        self.uid = str(uuid.uuid4())[:8]
+        # self.uid = str(uuid.uuid4())[:8]
         if with_uuid or name == "Unnamed":
             name += f"_{self.uid}"
 
         self._cell = gdstk.Cell(name=name)
         self.name = name
-        self.info: Dict[str, Any] = {}
+        # self.info: Dict[str, Any] = {}
 
-        self.settings: Dict[str, Any] = {}
+        # self.settings: Dict[str, Any] = {}
         self._locked = False
-        self.get_child_name = False
+        # self.get_child_name = False
         self._reference_names_counter = Counter()
         self._reference_names_used = set()
         self._named_references = {}
         self._references = []
 
-        self.ports = {}
+        # self.ports = {}
 
     @property
     def references(self):
