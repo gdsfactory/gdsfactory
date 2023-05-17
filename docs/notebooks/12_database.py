@@ -21,7 +21,7 @@
 # The interface employs [SQLAlchemy](https://www.sqlalchemy.org/), which is installed if you supplied the `[database]` option during gdsfactory installation.
 #
 # ```
-# pip install gdsfactory[database]
+# pip install "gdsfactory[database]"
 # ```
 #
 # The idea is to store simulation, fabrication and measurement data.
@@ -124,112 +124,7 @@ with engine.connect() as connection:
         print(row)
 
 # %% [markdown]
-# ## Add simulation results
+# ## Add binary files
 #
-# We can store simulation results as binary blobs of data in cloud buckets (AWS S3, Google Cloud Storage ...)
+# We can store measurements simulation results as binary blobs of data in cloud buckets (AWS S3, Google Cloud Storage ...) and index them into our database
 #
-
-# %% [markdown]
-# ### Sparameters example
-#
-# Let's simulate S-parameters with `meep` and store the results
-
-# %%
-import tempfile
-import os
-
-import gdsfactory.simulation.gmeep as gm
-from gdsfactory.plugins.database.db_upload import (
-    Component,
-    Simulation,
-    get_database_engine,
-    get_component_hash,
-    get_s3_key_from_hash,
-    convert_to_db_format,
-    s3_client,
-)
-
-component = gf.components.taper(length=100)
-component_yaml = component.to_yaml()
-
-component_model = Component(
-    function_name=component.metadata["function_name"],
-    module=component.metadata["module"],
-    name=component.name,
-    hash=get_component_hash(component),
-)
-engine = get_database_engine()
-with Session(engine) as session:
-    session.add(component_model)
-    session.commit()
-
-s3 = s3_client()
-with tempfile.TemporaryDirectory() as tempdir:
-    component_gds_path = os.path.join(tempdir, f"{component_model.hash}.gds")
-    component_yaml_path = os.path.join(tempdir, f"{component_model.hash}.yml")
-    component.write_gds(component_gds_path)
-    with open(component_yaml_path, "w") as file:
-        file.write(component_yaml)
-
-    component_key = get_s3_key_from_hash("component", component_model.hash, "gds")
-    component_yaml_key = get_s3_key_from_hash("component", component_model.hash, "yml")
-    s3.upload_file(component_gds_path, "gdslib", component_key)
-    s3.upload_file(component_yaml_path, "gdslib", component_yaml_key)
-
-# with tempfile.TemporaryDirectory() as tmpdir:
-tmpdir = "/tmp"
-tmppath = gm.write_sparameters_meep_1x1(
-    component, is_3d=False, dirpath=tmpdir, only_return_filepath_sim_settings=True
-)  # TODO: split simulation yaml file generation and actual simulation...
-simulation_hash = str(tmppath)[-36:-4]
-sp = gm.write_sparameters_meep_1x1(component, is_3d=False, dirpath=tmpdir)
-yaml_filename = next(fn for fn in os.listdir(tmpdir) if fn.endswith(".yml"))
-yaml_path = os.path.join(tmpdir, yaml_filename)
-df = convert_to_db_format(sp)
-df["component_hash"] = component_model.hash
-df["hash"] = simulation_hash
-df["function_name"] = "write_sparameters_meep_1x1"
-df = df[
-    [
-        "function_name",
-        "hash",
-        "component_hash",
-        "wavelength",
-        "port_in",
-        "port_out",
-        "abs",
-        "angle",
-    ]
-]
-simulation_models = []
-for (
-    function_name,
-    hash,
-    component_hash,
-    wavelength,
-    port_in,
-    port_out,
-    abs,
-    angle,
-) in df.values:
-    simulation_model = Simulation(
-        function_name=function_name,
-        hash=hash,
-        component_hash=component_hash,
-        wavelength=wavelength,
-        port_in=port_in,
-        port_out=port_out,
-        abs=abs,
-        angle=angle,
-    )
-    simulation_models.append(simulation_model)
-with Session(engine) as session:
-    session.safe_add_all(simulation_models)
-    session.commit()
-
-s3 = s3_client()
-yaml_key = get_s3_key_from_hash("simulation", simulation_hash, "yml")
-s3.upload_file(yaml_path, "gdslib", yaml_key)
-
-
-# %%
