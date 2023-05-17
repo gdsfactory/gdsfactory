@@ -155,4 +155,4 @@ jobs:
           if [ ${{ secrets.TIDY3D_AUTH }} ]; then
             make data-upload
           fi
-          python tests/test_docs_errors.py
+          python tests/test_doc_errors.py
