@@ -24,7 +24,7 @@ def write_connectivity_checks(
     """Return script for photonic port connectivity check. Assumes the photonic port pins are inside the Component.
 
     Args:
-        connectivity_checks: list of connectivity check objects to check for.
+        connectivity_checks: list of connectivity objects to check for.
     """
     script = ""
 
