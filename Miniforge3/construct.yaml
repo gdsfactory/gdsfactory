@@ -51,10 +51,8 @@ specs:
   - scikit-image
   - trimesh
   - pyvista
-  - mkl
   - console_shortcut # [win]
-  - anaconda-navigator
-  - pymeep # [unix]
+  - anaconda-navigator # [win]
   - menuinst # [win]
 welcome_image: ../docs/logo.png # [win]
 header_image: ../docs/logo.png # [win]
