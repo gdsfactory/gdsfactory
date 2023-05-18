@@ -1,18 +1,3 @@
-# ---
-# jupyter:
-#   jupytext:
-#     custom_cell_magics: kql
-#     text_representation:
-#       extension: .py
-#       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.14.5
-#   kernelspec:
-#     display_name: Python 3 (ipykernel)
-#     language: python
-#     name: python3
-# ---
-
 # %% [markdown]
 # # Die assembly
 #
@@ -227,7 +212,7 @@ gh_ymin
 # %% [markdown]
 # You can also add text labels to each element of the sweep
 
-# %% vscode={"languageId": "markdown"}
+# %%
 gh_ymin = gf.grid_with_text(
     sweep, shape=(1, len(sweep)), align_y="ymin", text=text_metal3
 )
@@ -236,7 +221,7 @@ gh_ymin
 # %% [markdown]
 # You can modify the text by customizing the `text_function` that you pass to `grid_with_text`
 
-# %% vscode={"languageId": "markdown"}
+# %%
 gh_ymin_m2 = gf.grid_with_text(
     sweep, shape=(1, len(sweep)), align_y="ymin", text=text_metal2
 )
@@ -253,7 +238,7 @@ gh_ymin_m2
 #
 # You can define a Component top cell reticle or die using `grid` and `pack` python functions.
 
-# %% vscode={"languageId": "markdown"}
+# %%
 text_metal3 = gf.partial(
     gf.components.text_rectangular_multi_layer, layers=(gf.LAYER.M3,)
 )

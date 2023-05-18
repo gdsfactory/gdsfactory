@@ -1,18 +1,3 @@
-# ---
-# jupyter:
-#   jupytext:
-#     custom_cell_magics: kql
-#     text_representation:
-#       extension: .py
-#       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.14.5
-#   kernelspec:
-#     display_name: Python 3 (ipykernel)
-#     language: python
-#     name: python3
-# ---
-
 # %% [markdown]
 # # Import PDK
 #
@@ -37,7 +22,7 @@
 # - `Component.write_gds()` saves GDS
 # - `Component.write_gds_metadata()` save GDS + YAML metadata
 
-# %% vscode={"languageId": "python"}
+# %%
 from typing import Dict, Tuple
 
 # Lets generate the script that we need to have to each GDS cell into gdsfactory
@@ -57,13 +42,13 @@ c
 # %% [markdown]
 # You can write **GDS** files only
 
-# %% vscode={"languageId": "python"}
+# %%
 gdspath = c.write_gds("extra/mzi.gds")
 
 # %% [markdown]
 # Or **GDS** with **YAML** metadata information (ports, settings, cells ...)
 
-# %% vscode={"languageId": "python"}
+# %%
 gdspath = c.write_gds_with_metadata("extra/mzi.gds")
 
 # %% [markdown]
@@ -72,7 +57,7 @@ gdspath = c.write_gds_with_metadata("extra/mzi.gds")
 # - cells (flat list of cells)
 # - info (function name, module, changed settings, full settings, default settings)
 
-# %% vscode={"languageId": "python"}
+# %%
 c.metadata.keys()
 
 # %% [markdown]
@@ -80,27 +65,27 @@ c.metadata.keys()
 #
 # `import_gds` reads the same GDS file from disk without losing any information
 
-# %% vscode={"languageId": "python"}
+# %%
 gf.clear_cache()
 
 c = gf.import_gds(gdspath, read_metadata=True)
 c
 
-# %% vscode={"languageId": "python"}
+# %%
 c2 = gf.import_gds(gdspath, name="mzi_sample", read_metadata=True)
 c2
 
-# %% vscode={"languageId": "python"}
+# %%
 c2.name
 
-# %% vscode={"languageId": "python"}
+# %%
 c3 = gf.routing.add_fiber_single(c2)
 c3
 
-# %% vscode={"languageId": "python"}
+# %%
 gdspath = c3.write_gds_with_metadata("extra/pdk.gds")
 
-# %% vscode={"languageId": "python"}
+# %%
 gf.labels.write_labels.write_labels_klayout(gdspath, layer_label=gf.LAYER.LABEL)
 
 # %% [markdown]
@@ -119,28 +104,28 @@ gf.labels.write_labels.write_labels_klayout(gdspath, layer_label=gf.LAYER.LABEL)
 #
 # Lets add pins, save a GDS and then import it back.
 
-# %% vscode={"languageId": "python"}
+# %%
 c = gf.components.straight(
     decorator=gf.add_pins.add_pins
 )  # add pins inside the component
 c
 
-# %% vscode={"languageId": "python"}
+# %%
 gdspath = c.write_gds("extra/wg.gds")
 
-# %% vscode={"languageId": "python"}
+# %%
 gf.clear_cache()
 c2 = gf.import_gds(gdspath)
 c2
 
-# %% vscode={"languageId": "python"}
+# %%
 c2.ports  # import_gds does not automatically add the pins
 
-# %% vscode={"languageId": "python"}
+# %%
 c3 = gf.import_gds(gdspath, decorator=gf.add_ports.add_ports_from_markers_inside)
 c3
 
-# %% vscode={"languageId": "python"}
+# %%
 c3.ports
 
 # %% [markdown]
@@ -179,10 +164,10 @@ c3.ports
 #
 # Then you can add the information about the GDS files and the Layers inside that package
 
-# %% vscode={"languageId": "python"}
+# %%
 print(lyp_to_dataclass(PATH.klayout_lyp))
 
-# %% vscode={"languageId": "python"}
+# %%
 # lets create a sample PDK (for demo purposes only) using GDSfactory
 # if the PDK is in a commercial tool you can also do this. Make sure you save a single pdk.gds
 
@@ -196,23 +181,23 @@ sample_pdk_cells = gf.grid(
 sample_pdk_cells.write_gds("extra/pdk.gds")
 sample_pdk_cells
 
-# %% vscode={"languageId": "python"}
+# %%
 sample_pdk_cells.get_dependencies()
 
-# %% vscode={"languageId": "python"}
+# %%
 # we write the sample PDK into a single GDS file
 gf.clear_cache()
 gf.write_cells.write_cells(
     gdspath="extra/pdk.gds", dirpath="extra/gds", recursively=True
 )
 
-# %% vscode={"languageId": "python"}
+# %%
 print(gf.write_cells.get_import_gds_script("extra/gds"))
 
 # %% [markdown]
 # You can also include the code to plot each fix cell in the docstring.
 
-# %% vscode={"languageId": "python"}
+# %%
 print(gf.write_cells.get_import_gds_script("extra/gds", module="samplepdk.components"))
 
 # %% [markdown]

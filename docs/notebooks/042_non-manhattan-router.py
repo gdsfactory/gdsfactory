@@ -1,17 +1,3 @@
-# ---
-# jupyter:
-#   jupytext:
-#     text_representation:
-#       extension: .py
-#       format_name: light
-#       format_version: '1.5'
-#       jupytext_version: 1.14.5
-#   kernelspec:
-#     display_name: Python 3 (ipykernel)
-#     language: python
-#     name: python3
-# ---
-
 # # Non manhattan routing
 #
 # gdsfactory provides functions to connect and route components ports that are off-grid or have non manhattan orientations (0, 90, 180, 270 degrees)
@@ -233,7 +219,7 @@ show_yaml_pic(sample_dir / "aar_bundles01.pic.yml")
 
 show_yaml_pic(sample_dir / "aar_bundles02.pic.yml")
 
-# + tags=["remove-cell"] language="html"
+# + language="html"
 # <style>
 #   table {margin-left: 0 !important;}
 # </style>

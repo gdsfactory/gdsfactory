@@ -236,6 +236,9 @@ nbqa:
 jupytext:
 	jupytext **/*.ipynb --to py
 
+jupytext-clean:
+	jupytext docs/**/*.py --to py
+
 notebooks:
 	jupytext docs/notebooks/**/*.py --to ipynb
 	jupytext docs/notebooks/*.py --to ipynb

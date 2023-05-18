@@ -238,6 +238,11 @@ dependencies = [
     live_mode = true
     strict = true
 
+    [tool.jupytext]
+    formats = "docs"
+    notebook_metadata_filter = "-all"
+    cell_metadata_filter = "-all"
+
     [tool.isort]
     multi_line_output = 3
     line_length = 88

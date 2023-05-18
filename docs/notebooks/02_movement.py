@@ -1,23 +1,8 @@
-# ---
-# jupyter:
-#   jupytext:
-#     custom_cell_magics: kql
-#     text_representation:
-#       extension: .py
-#       format_name: light
-#       format_version: '1.5'
-#       jupytext_version: 1.14.5
-#   kernelspec:
-#     display_name: Python 3 (ipykernel)
-#     language: python
-#     name: python3
-# ---
-
 # # Movement
 #
 # You can move, rotate and mirror ComponentReference as well as `Port`, `Polygon`, `ComponentReference`, `Label`, and `Group`
 
-# + attributes={"classes": [], "id": "", "n": "1"}
+# +
 import gdsfactory as gf
 
 gf.config.rich_output()
@@ -40,14 +25,13 @@ rect1 = c << R
 rect2 = c << R
 
 c
+# -
 
-# + attributes={"classes": [], "id": "", "n": "13"}
 c = gf.Component("move_one_ellipse")
 e1 = c << gf.components.ellipse(radii=(10, 5), layer=(2, 0))
 e2 = c << gf.components.ellipse(radii=(10, 5), layer=(2, 0))
 e1.movex(10)
 c
-# -
 
 c = gf.Component("move_one_ellipse_xmin")
 e1 = c << gf.components.ellipse(radii=(10, 5), layer=(2, 0))
@@ -77,7 +61,7 @@ e2 = c << e
 e2.move([5, 5])  # Translate by dx = 5, dy = 5
 c
 
-# + attributes={"classes": [], "id": "", "n": "2"}
+# +
 c = gf.Component("rectangles")
 r = gf.components.rectangle(size=(10, 5), layer=(2, 0))
 rect1 = c << r
@@ -116,7 +100,6 @@ c
 # - `bbox`: bounding box (see note below) in format ((xmin,ymin),(xmax,ymax))
 # - `center`: center of bounding box
 
-# + attributes={"classes": [], "id": "", "n": "3"}
 print("bounding box:")
 print(
     text.bbox
@@ -128,12 +111,11 @@ print("center:")
 print(text.center)  # Gives you the center coordinate of its bounding box
 print("xmax")
 print(text.xmax)  # Gives you the rightmost (+x) edge of the text bounding box
-# -
 
 # Let's use these properties to manipulate our shapes to arrange them a little
 # better
 
-# + attributes={"classes": [], "id": "", "n": "4"}
+# +
 c = gf.Component("canvas")
 text = c << gf.components.text("hello")
 E = gf.components.ellipse(radii=(10, 5), layer=(3, 0))
@@ -173,7 +155,7 @@ c
 # we can also manipulate the whole Component if we want.  Let's try mirroring the
 # whole Component `D`:
 
-# + attributes={"classes": [], "id": "", "n": "5"}
+# +
 print(c.xmax)  # Prints out '10.0'
 
 c2 = c.mirror((0, 1))  # Mirror across line made by (0,0) and (0,1)
@@ -188,19 +170,17 @@ bbox = text.bbox
 c << gf.components.bbox(bbox=bbox, layer=(2, 0))
 c
 
-# + attributes={"classes": [], "id": "", "n": "6"}
 # gf.get_padding_points can also add a bbox with respect to the bounding box edges
 c = gf.Component("sample_padding")
 text = c << gf.components.text("bye")
 device_bbox = text.bbox
 c.add_polygon(gf.get_padding_points(text, default=1), layer=(2, 0))
 c
-# -
 
 # When we query the properties of D, they will be calculated with respect to this
 # bounding-rectangle.  For instance:
 
-# + attributes={"classes": [], "id": "", "n": "7"}
+# +
 print("Center of Component c:")
 print(c.center)
 
@@ -217,15 +197,12 @@ D
 #
 # For instance you can combine two expressions:
 
-# + attributes={"classes": [], "id": "", "n": "8"}
 rect1.rotate(angle=37)
 rect1.move([10, 20])
 D
-# -
 
 # ...into this single-line expression
 
-# + attributes={"classes": [], "id": "", "n": "9"}
 D = gf.Component("single_expression")
 R = gf.components.rectangle(size=(10, 3), layer=(2, 0))
 rect1 = D << R

@@ -1,20 +1,4 @@
-# ---
-# jupyter:
-#   jupytext:
-#     text_representation:
-#       extension: .py
-#       format_name: light
-#       format_version: '1.5'
-#       jupytext_version: 1.14.5
-#   kernelspec:
-#     display_name: Python 3 (ipykernel)
-#     language: python
-#     name: python3
-# ---
-
-# + [markdown] slideshow={"slide_type": "slide"}
 # # Git: Version control intro
-# -
 
 # “Revision control, also known as version control, source control
 # manages changes to documents, programs, and other information stored as computer files -- Wikipedia
@@ -30,9 +14,7 @@
 # * Freedom (exploratory branching)
 # * Collaboration (synchronization)
 
-# + [markdown] slideshow={"slide_type": "slide"}
 # ## Git is an enabling technology: Use version control for everything
-# -
 
 # * Write documents (never get `paper_v5_john_jane_final_oct22_really_final.tex` by email again!)
 # * Write code
@@ -46,9 +28,7 @@
 # 4. Remotes for collaborating in a small team
 # 5. distributed collaboration with large teams with GitHub/GitLab
 
-# + [markdown] slideshow={"slide_type": "slide"}
 # ## Very high level picture: an overview of key concepts
-# -
 
 # The **commit**: *a snapshot of work at a point in time* Every ball in this diagram represents a commit of all the files in a code repository, that we can go later in time, compare it with. We can also add labels/tags to this commits in case we want to develop new features.
 #
@@ -103,9 +83,7 @@
 # ![key](https://i.imgur.com/33nnXKy.png)
 # ![key2](https://i.imgur.com/OjA2dPs.png)
 
-# + [markdown] slideshow={"slide_type": "slide"}
 # ## Stage 1: Local, single-user, linear workflow
-# -
 
 # Simply type `git` to see a full list of all the 'core' commands.  We'll now go through most of these via small practical exercises:
 
@@ -113,11 +91,9 @@
 
 # We are going to create a test repo for git to play
 
-# + [markdown] slideshow={"slide_type": "slide"}
 # ### `git init`: create an empty repository
 #
 # first we create a folder called `playground_repo`
-# -
 
 # ! mkdir playground_repo
 
@@ -147,9 +123,7 @@
 
 # !ls
 
-# + [markdown] slideshow={"slide_type": "slide"}
 # ### `git add`: tell git about this new file
-# -
 
 # !git add README.md
 
@@ -157,9 +131,7 @@
 
 # !git status
 
-# + [markdown] slideshow={"slide_type": "slide"}
 # ### `git commit`: permanently record our changes in git's database
-# -
 
 # For now, we are *always* going to call `git commit` either with the `-a` option *or* with specific filenames (`git commit file1 file2...`).  This delays the discussion of an aspect of git called the *index* (often referred to also as the 'staging area') that we will cover later.  Most everyday work in regular scientific practice doesn't require understanding the extra moving parts that the index involves, so on a first round we'll bypass it.  Later on we will discuss how to use it to achieve more fine-grained control of what and how git records our actions.
 
@@ -167,9 +139,7 @@
 
 # In the commit above, we  used the `-m` flag to specify a message at the command line.  If we don't do that, git will open the editor we specified in our configuration above and require that we enter a message.  By default, git refuses to record changes that don't have a message to go along with them (though you can obviously 'cheat' by using an empty or meaningless string: git only tries to facilitate best practices, it's not your nanny).
 
-# + [markdown] slideshow={"slide_type": "slide"}
 # ### `git log`: what has been committed so far
-# -
 
 # !git log
 
@@ -222,9 +192,7 @@
 
 # And `git rm` works in a similar fashion removing the file from your repo.
 
-# + [markdown] slideshow={"slide_type": "slide"}
 # ## Local user, branching
-# -
 
 # What is a branch?  A branch is a label for the state of a GIT repositories. It makes it easy to develop features and go back and forth between the original `main` and the copy `feature branch` version of the files inside the GIT repo
 #
@@ -272,9 +240,7 @@
 # !git merge emojis -m 'merge emojis'
 # !git slog
 
-# + [markdown] slideshow={"slide_type": "slide"}
 # ## Using remotes as a single user
-# -
 
 # We are now going to introduce the concept of a *remote repository*: a pointer to another copy of the repository that lives on a different location.  This can be simply a different path on the filesystem or a server on the internet.
 #
@@ -322,9 +288,7 @@
 
 # *Note:* While it's a good idea to understand the basics of fixing merge conflicts by hand, in some cases you may find the use of an automated tool useful.  Git supports multiple [merge tools](https://www.kernel.org/pub/software/scm/git/docs/git-mergetool.html): a merge tool is a piece of software that conforms to a basic interface and knows how to merge two files into a new one.  Since these are typically graphical tools, there are various to choose from for the different operating systems, and as long as they obey a basic command structure, git can work with any of them.
 
-# + [markdown] slideshow={"slide_type": "slide"}
 # ## Git resources
-# -
 
 # this tutorial is based on  [Francisco Perez GIT notebook](https://github.com/fperez/reprosw)  and has some ideas from the other links:
 #

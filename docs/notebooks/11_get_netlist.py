@@ -1,19 +1,4 @@
 # -*- coding: utf-8 -*-
-# ---
-# jupyter:
-#   jupytext:
-#     custom_cell_magics: kql
-#     text_representation:
-#       extension: .py
-#       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.14.5
-#   kernelspec:
-#     display_name: Python 3 (ipykernel)
-#     language: python
-#     name: python3
-# ---
-
 # %% [markdown]
 # # Netlist extractor YAML
 #
@@ -23,7 +8,7 @@
 #
 # `get_netlist` converts `Component` into a YAML `Dict`
 
-# %% vscode={"languageId": "python"}
+# %%
 from omegaconf import OmegaConf
 
 import gdsfactory as gf
@@ -33,30 +18,30 @@ gf.config.rich_output()
 PDK = get_generic_pdk()
 PDK.activate()
 
-# %% vscode={"languageId": "python"}
+# %%
 c = gf.components.ring_single()
 c
 
-# %% vscode={"languageId": "python"}
+# %%
 c.plot_netlist()
 
-# %% vscode={"languageId": "python"}
+# %%
 n = c.get_netlist()
 
-# %% vscode={"languageId": "python"}
+# %%
 c.write_netlist("ring.yml")
 
-# %% vscode={"languageId": "python"}
+# %%
 n = OmegaConf.load("ring.yml")
 
-# %% vscode={"languageId": "python"}
+# %%
 i = list(n["instances"].keys())
 i
 
-# %% vscode={"languageId": "python"}
+# %%
 instance_name0 = i[0]
 
-# %% vscode={"languageId": "python"}
+# %%
 n["instances"][instance_name0]["settings"]
 
 
@@ -66,7 +51,7 @@ n["instances"][instance_name0]["settings"]
 # By default get netlist names each `instance` with the name of the `reference`
 
 
-# %% vscode={"languageId": "python"}
+# %%
 @gf.cell
 def mzi_with_bend_automatic_naming():
     c = gf.Component()
@@ -80,7 +65,7 @@ c = mzi_with_bend_automatic_naming()
 c.plot_netlist()
 
 
-# %% vscode={"languageId": "python"}
+# %%
 @gf.cell
 def mzi_with_bend_deterministic_names_using_alias():
     c = gf.Component()
@@ -93,19 +78,19 @@ def mzi_with_bend_deterministic_names_using_alias():
 c = mzi_with_bend_deterministic_names_using_alias()
 c.plot_netlist()
 
-# %% vscode={"languageId": "python"}
+# %%
 c = gf.components.mzi()
 c
 
-# %% vscode={"languageId": "python"}
+# %%
 c = gf.components.mzi()
 n = c.get_netlist()
 print(c.get_netlist().keys())
 
-# %% vscode={"languageId": "python"}
+# %%
 c.plot_netlist()
 
-# %% vscode={"languageId": "python"}
+# %%
 n.keys()
 
 
@@ -115,7 +100,7 @@ n.keys()
 # Lets make a connectivity **error**, for example connecting ports on the wrong layer
 
 
-# %% vscode={"languageId": "python"}
+# %%
 @gf.cell
 def mmi_with_bend():
     c = gf.Component()
@@ -128,13 +113,13 @@ def mmi_with_bend():
 c = mmi_with_bend()
 c
 
-# %% vscode={"languageId": "python"}
+# %%
 n = c.get_netlist()
 
-# %% vscode={"languageId": "python"}
+# %%
 print(n["warnings"])
 
-# %% vscode={"languageId": "python"}
+# %%
 c.plot_netlist()
 
 # %% [markdown]
@@ -146,28 +131,28 @@ c.plot_netlist()
 #
 # `get_netlist_recursive()` returns a recursive netlist.
 
-# %% vscode={"languageId": "python"}
+# %%
 c = gf.components.ring_single()
 c
 
-# %% vscode={"languageId": "python"}
+# %%
 c.plot_netlist()
 
-# %% vscode={"languageId": "python"}
+# %%
 c = gf.components.ring_double()
 c
 
-# %% vscode={"languageId": "python"}
+# %%
 c.plot_netlist()
 
-# %% vscode={"languageId": "python"}
+# %%
 c = gf.components.mzit()
 c
 
-# %% vscode={"languageId": "python"}
+# %%
 c.plot_netlist()
 
-# %% vscode={"languageId": "python"}
+# %%
 coupler_lengths = [10, 20, 30]
 coupler_gaps = [0.1, 0.2, 0.3]
 delta_lengths = [10, 100]
@@ -179,10 +164,10 @@ c = gf.components.mzi_lattice(
 )
 c
 
-# %% vscode={"languageId": "python"}
+# %%
 c.plot_netlist()
 
-# %% vscode={"languageId": "python"}
+# %%
 coupler_lengths = [10, 20, 30, 40]
 coupler_gaps = [0.1, 0.2, 0.4, 0.5]
 delta_lengths = [10, 100, 200]
@@ -194,16 +179,16 @@ c = gf.components.mzi_lattice(
 )
 c
 
-# %% vscode={"languageId": "python"}
+# %%
 n = c.get_netlist()
 
-# %% vscode={"languageId": "python"}
+# %%
 c.plot_netlist()
 
-# %% vscode={"languageId": "python"}
+# %%
 n_recursive = c.get_netlist_recursive()
 
-# %% vscode={"languageId": "python"}
+# %%
 n_recursive.keys()
 
 # %% [markdown]
@@ -211,25 +196,25 @@ n_recursive.keys()
 #
 # You can also flatten the recursive netlist
 
-# %% vscode={"languageId": "python"}
+# %%
 flat_netlist = c.get_netlist_flat()
 
 # %% [markdown]
 # The flat netlist contains the same keys as a regular netlist:
 
-# %% vscode={"languageId": "python"}
+# %%
 flat_netlist.keys()
 
 # %% [markdown]
 # However, its instances are flattened and uniquely renamed according to hierarchy:
 
-# %% vscode={"languageId": "python"}
+# %%
 flat_netlist["instances"].keys()
 
 # %% [markdown]
 # Placement information is accumulated, and connections and ports are mapped, respectively, to the ports of the unique instances or the component top level ports. This can be plotted:
 
-# %% vscode={"languageId": "python"}
+# %%
 c.plot_netlist_flat(with_labels=False)  # labels get cluttered
 
 # %% [markdown]
@@ -239,7 +224,7 @@ c.plot_netlist_flat(with_labels=False)  # labels get cluttered
 #
 # For instance, consider a resistor network with one shared node:
 
-# %% vscode={"languageId": "python"}
+# %%
 vdiv = gf.Component("voltageDivider")
 r1 = vdiv << gf.components.resistance_sheet()
 r2 = vdiv << gf.components.resistance_sheet()
@@ -252,11 +237,11 @@ r4.connect("pad2", r2.ports["pad1"], preserve_orientation=True)
 
 vdiv
 
-# %% vscode={"languageId": "python"}
+# %%
 try:
     vdiv.get_netlist_flat()
 except Exception as exc:
     print(exc)
 
-# %% vscode={"languageId": "python"}
+# %%
 vdiv.get_netlist_flat(allow_multiple=True)

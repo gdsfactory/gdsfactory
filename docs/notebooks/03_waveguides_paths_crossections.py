@@ -1,20 +1,5 @@
 # -*- coding: utf-8 -*-
-# ---
-# jupyter:
-#   jupytext:
-#     custom_cell_magics: kql
-#     text_representation:
-#       extension: .py
-#       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.14.5
-#   kernelspec:
-#     display_name: Python 3 (ipykernel)
-#     language: python
-#     name: python3
-# ---
-
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # # Path and CrossSection
 #
 # You can create a `Path` in gdsfactory and extrude it with an arbitrary `CrossSection`.
@@ -32,7 +17,7 @@
 # Let's start out by creating a blank `Path` and using the built-in functions to
 # make a few smooth turns.
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -57,31 +42,31 @@ P.append(gf.path.straight(length=10))
 
 f = P.plot()
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 p2 = P.copy().rotate()
 f = p2.plot()
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 P.points - p2.points
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # You can also modify our Path in the same ways as any other gdsfactory object:
 #
 # - Manipulation with `move()`, `rotate()`, `mirror()`, etc
 # - Accessing properties like `xmin`, `y`, `center`, `bbox`, etc
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 P.movey(10)
 P.xmin = 20
 f = P.plot()
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # You can also check the length of the curve with the `length()` method:
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 P.length()
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # ## CrossSection
 #
 # Now that you've got your path defined, the next step is to define the cross-section of the path. To do this, you can create a blank `CrossSection` and add whatever cross-sections you want to it.
@@ -92,34 +77,34 @@ P.length()
 #
 # The simplest option is to just set the cross-section to be a constant width by passing a number to `extrude()` like so:
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 # Extrude the Path and the CrossSection
 c = gf.path.extrude(P, layer=(1, 0), width=1.5)
 c
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # ### Option 2: Linearly-varying width
 #
 # A slightly more advanced version is to make the cross-section width vary linearly from start to finish by passing a 2-element list to `extrude()` like so:
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 # Extrude the Path and the CrossSection
 c = gf.path.extrude(P, layer=(1, 0), widths=(1, 3))
 c
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # ### Option 3: Arbitrary Cross-section
 #
 # You can also extrude an arbitrary cross_section
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # Now, what if we want a more complicated straight?  For instance, in some
 # photonic applications it's helpful to have a shallow etch that appears on either
 # side of the straight (often called a trench or sleeve).  Additionally, it might be nice
 # to have a Port on either end of the center section so we can snap other
 # geometries to it.  Let's try adding something like that in:
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 p = gf.path.straight()
 
 # Add a few "sections" to the cross-section
@@ -132,14 +117,14 @@ x = gf.CrossSection(
 c = gf.path.extrude(p, cross_section=x)
 c
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 p = gf.path.arc()
 
 # Combine the Path and the CrossSection
 b = gf.path.extrude(p, cross_section=x)
 b
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # ## Building Paths quickly
 #
 # You can pass `append()` lists of path segments.  This makes it easy to combine
@@ -148,7 +133,7 @@ b
 # **Example 1:** Assemble a complex path by making a list of Paths and passing it
 # to `append()`
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 P = gf.Path()
 
 # Create the basic Path components
@@ -173,11 +158,11 @@ P.append(
 
 f = P.plot()
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # **Example 2:** Create an "S-turn" just by making a list of `[left_turn,
 # right_turn]`
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 P = gf.Path()
 
 # Create an "S-turn" just by making a list
@@ -186,11 +171,11 @@ s_turn = [left_turn, right_turn]
 P.append(s_turn)
 f = P.plot()
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # **Example 3:** Repeat the S-turn 3 times by nesting our S-turn list in another
 # list
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 P = gf.Path()
 
 # Create an "S-turn" using a list
@@ -202,24 +187,24 @@ triple_s_turn = [s_turn, s_turn, s_turn]
 P.append(triple_s_turn)
 f = P.plot()
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # Note you can also use the Path() constructor to immediately construct your Path:
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 P = gf.Path([straight, left_turn, straight, right_turn, straight])
 f = P.plot()
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # ## Waypoint smooth paths
 #
 # You can also build smooth paths between waypoints with the `smooth()` function
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 points = np.array([(20, 10), (40, 10), (20, 40), (50, 40), (50, 20), (70, 20)])
 plt.plot(points[:, 0], points[:, 1], ".-")
 plt.axis("equal")
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 points = np.array([(20, 10), (40, 10), (20, 40), (50, 40), (50, 20), (70, 20)])
 
 P = gf.path.smooth(
@@ -230,21 +215,21 @@ P = gf.path.smooth(
 )
 f = P.plot()
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # ## Waypoint sharp paths
 #
 # It's also possible to make more traditional angular paths (e.g. electrical wires) in a few different ways.
 #
 # **Example 1:** Using a simple list of points
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 P = gf.Path([(20, 10), (30, 10), (40, 30), (50, 30), (50, 20), (70, 20)])
 f = P.plot()
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # **Example 2:** Using the "turn and move" method, where you manipulate the end angle of the Path so that when you append points to it, they're in the correct direction.  *Note: It is crucial that the number of points per straight section is set to 2 (`pp.straight(length, num_pts = 2)`) otherwise the extrusion algorithm will show defects.*
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 P = gf.Path()
 P.append(gf.path.straight(length=10, npoints=2))
 P.end_angle += 90  # "Turn" 90 deg (left)
@@ -255,7 +240,7 @@ P.end_angle = 0  # Force the direction to be 0 degrees
 P.append(gf.path.straight(length=10, npoints=2))  # "Walk" length of 10
 f = P.plot()
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 s1 = gf.Section(width=1.5, offset=2.5, layer=(2, 0))
 s2 = gf.Section(width=1.5, offset=-2.5, layer=(3, 0))
 X = gf.CrossSection(width=1, offset=0, layer=(1, 0), sections=[s1, s2])
@@ -263,7 +248,7 @@ component = gf.path.extrude(P, X)
 component
 
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # ## Custom curves
 #
 # Now let's have some fun and try to make a loop-de-loop structure with parallel
@@ -277,7 +262,7 @@ component
 # path.
 
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 def looploop(num_pts=1000):
     """Simple limacon looping curve"""
     t = np.linspace(-np.pi, 0, num_pts)
@@ -306,17 +291,17 @@ X = gf.CrossSection(
 c = gf.path.extrude(P, X)
 c
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # You can create Paths from any array of points -- just be sure that they form
 # smooth curves!  If we examine our path `P` we can see that all we've simply
 # created a long list of points:
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 path_points = P.points  # Curve points are stored as a numpy array in P.points
 print(np.shape(path_points))  # The shape of the array is Nx2
 print(len(P))  # Equivalently, use len(P) to see how many points are inside
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # ## Simplifying / reducing point usage
 #
 # One of the chief concerns of generating smooth curves is that too many points
@@ -333,30 +318,30 @@ print(len(P))  # Equivalently, use len(P) to see how many points are inside
 # within `1e-3` distance from the original (for the default 1 micron unit size,
 # this corresponds to 1 nanometer resolution):
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 # The remaining points form a identical line to within `1e-3` from the original
 c = gf.path.extrude(p=P, cross_section=X, simplify=1e-3)
 c
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # Let's say we need fewer points.  We can increase the simplify tolerance by
 # specifying `simplify = 1e-1`.  This drops the number of points to ~400 points
 # form a line that is identical to within `1e-1` distance from the original:
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 c = gf.path.extrude(P, cross_section=X, simplify=1e-1)
 c
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # Taken to absurdity, what happens if we set `simplify = 0.3`?  Once again, the
 # ~200 remaining points form a line that is within `0.3` units from the original
 # -- but that line looks pretty bad.
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 c = gf.path.extrude(P, cross_section=X, simplify=0.3)
 c
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # ## Curvature calculation
 #
 # The `Path` class has a `curvature()` method that computes the curvature `K` of
@@ -370,7 +355,7 @@ c
 # interpolated, and sudden changes in point density along the curve can cause
 # discontinuities.
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 straight_points = 100
 
 P = gf.Path()
@@ -395,33 +380,33 @@ P.append(
 
 f = P.plot()
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # Arc paths are equivalent to `bend_circular` and euler paths are equivalent to `bend_euler`
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 s, K = P.curvature()
 plt.plot(s, K, ".-")
 plt.xlabel("Position along curve (arc length)")
 plt.ylabel("Curvature")
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 P = gf.path.euler(radius=3, angle=90, p=1.0, use_eff=False)
 P.append(gf.path.euler(radius=3, angle=90, p=0.2, use_eff=False))
 P.append(gf.path.euler(radius=3, angle=90, p=0.0, use_eff=False))
 P.plot()
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 s, K = P.curvature()
 plt.plot(s, K, ".-")
 plt.xlabel("Position along curve (arc length)")
 plt.ylabel("Curvature")
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # You can compare two 90 degrees euler bend with 180 euler bend.
 #
 # A 180 euler bend is shorter, and has less loss than two 90 degrees euler bend.
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 straight_points = 100
 
 P = gf.Path()
@@ -436,13 +421,13 @@ P.append(
 
 f = P.plot()
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 s, K = P.curvature()
 plt.plot(s, K, ".-")
 plt.xlabel("Position along curve (arc length)")
 plt.ylabel("Curvature")
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # ## Transitioning between cross-sections
 #
 # Often a critical element of building paths is being able to transition between
@@ -456,7 +441,7 @@ plt.ylabel("Curvature")
 # function will try to match names between the two input cross-sections, and any
 # names not present in both inputs will be skipped.
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 # Create our first CrossSection
 s1 = gf.Section(width=2.2, offset=0, layer=(3, 0), name="etch")
 s2 = gf.Section(width=1.1, offset=3, layer=(1, 0), name="wg2")
@@ -496,13 +481,13 @@ wg2ref.movex(7.5)
 
 c
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # Now let's create the transitional CrossSection by calling `transition()` with
 # these two CrossSections as input. If we want the width to vary as a smooth
 # sinusoid between the sections, we can set `width_type` to `'sine'`
 # (alternatively we could also use `'linear'`).
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 # Create the transitional CrossSection
 Xtrans = gf.path.transition(cross_section1=X1, cross_section2=X2, width_type="sine")
 # Create a Path for the transitional CrossSection to follow
@@ -511,17 +496,17 @@ P3 = gf.path.straight(length=15, npoints=100)
 straight_transition = gf.path.extrude(P3, Xtrans)
 straight_transition
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 wg1
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 wg2
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # Now that we have all of our components, let's `connect()` everything and see
 # what it looks like
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 c = gf.Component("transition_demo")
 
 wg1ref = c << wg1
@@ -533,11 +518,11 @@ wg2ref.connect("o1", wgtref.ports["o2"])
 
 c
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # Note that since `transition()` outputs a `CrossSection`, we can make the
 # transition follow an arbitrary path:
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 # Transition along a curving Path
 P4 = gf.path.euler(radius=25, angle=45, p=0.5, use_eff=False)
 wg_trans = gf.path.extrude(P4, Xtrans)
@@ -553,7 +538,7 @@ wg2_ref.connect("o1", wgt_ref.ports["o2"])
 c
 
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # ## Variable width / offset
 #
 # In some instances, you may want to vary the width or offset of the path's cross-
@@ -565,7 +550,7 @@ c
 # Path and the width at `t==1` is the width at the end.
 
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 def my_custom_width_fun(t):
     # Note: Custom width/offset functions MUST be vectorizable--you must be able
     # to call them with an array input like my_custom_width_fun([0, 0.1, 0.2, 0.3, 0.4])
@@ -585,11 +570,11 @@ c = gf.path.extrude(P, cross_section=X)
 c
 
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # We can do the same thing with the offset argument:
 
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 def my_custom_offset_fun(t):
     # Note: Custom width/offset functions MUST be vectorizable--you must be able
     # to call them with an array input like my_custom_offset_fun([0, 0.1, 0.2, 0.3, 0.4])
@@ -611,7 +596,7 @@ c = gf.path.extrude(P, cross_section=X)
 c
 
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # ## Offsetting a Path
 #
 # Sometimes it's convenient to start with a simple Path and offset the line it
@@ -620,7 +605,7 @@ c
 # function to directly modify each Path.
 
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 def my_custom_offset_fun(t):
     # Note: Custom width/offset functions MUST be vectorizable--you must be able
     # to call them with an array input like my_custom_offset_fun([0, 0.1, 0.2, 0.3, 0.4])
@@ -640,7 +625,7 @@ f = P1.plot()
 # %%
 f2 = P2.plot()
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # ## Modifying a CrossSection
 #
 # In case you need to modify the CrossSection, it can be done simply by specifying
@@ -648,7 +633,7 @@ f2 = P2.plot()
 # Here is an example where we name one of thee cross-sectional elements
 # `'myelement1'` and `'myelement2'`:
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 # Create the Path
 P = gf.path.arc(radius=10, angle=45)
 
@@ -667,11 +652,11 @@ X = gf.CrossSection(
 c = gf.path.extrude(P, X)
 c
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # In case we want to change any of the CrossSection elements, we simply access the
 # Python dictionary that specifies that element and modify the values
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 # Create our first CrossSection
 s1 = gf.Section(width=2.2, offset=0, layer=(3, 0), name="etch")
 s2 = gf.Section(width=1.1, offset=3, layer=(1, 0), name="wg2")
@@ -719,17 +704,17 @@ wg2_ref.connect("o1", wgt_ref.ports["o2"])
 
 c
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 len(c.references)
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # **Note**
 #
 # Any unnamed section in the CrossSection won't be transitioned.
 #
 # If you don't add any named sections in a cross-section it will give you an error when making a transition
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 P = gf.Path()
 P.append(gf.path.arc(radius=10, angle=90))  # Circular arc
 P.append(gf.path.straight(length=10))  # Straight section
@@ -742,17 +727,17 @@ P.append(gf.path.straight(length=10))
 
 f = P.plot()
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 X1 = gf.CrossSection(width=1, offset=0, layer=(2, 0))
 c = gf.path.extrude(P, X1)
 c
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 X2 = gf.CrossSection(width=2, offset=0, layer=(2, 0))
 c = gf.path.extrude(P, X2)
 c
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # For example this will give you an error
 # ```
 # T = gf.path.transition(X, X2)
@@ -760,7 +745,7 @@ c
 #
 # **Solution**
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 P = gf.path.straight(length=10, npoints=101)
 
 s = gf.Section(width=3, offset=0, layer=gf.LAYER.SLAB90)
@@ -775,22 +760,22 @@ X1 = gf.CrossSection(
 c = gf.path.extrude(P, X1)
 c
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 X2 = gf.CrossSection(
     width=3, offset=0, layer=gf.LAYER.WG, name="core", port_names=("o1", "o2")
 )
 c2 = gf.path.extrude(P, X2)
 c2
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 T = gf.path.transition(X1, X2)
 c3 = gf.path.extrude(P, T)
 c3
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 c4 = gf.Component("demo_transition2")
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 start_ref = c4 << c
 trans_ref = c4 << c3
 end_ref = c4 << c2
@@ -798,10 +783,10 @@ end_ref = c4 << c2
 trans_ref.connect("o1", start_ref.ports["o2"])
 end_ref.connect("o1", trans_ref.ports["o2"])
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 c4
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # ## cross-section
 #
 # You can create functions that return a cross_section in 2 ways:
@@ -811,10 +796,10 @@ c4
 #
 # What parameters do `cross_section` take?
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 help(gf.cross_section.cross_section)
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 pin = gf.partial(
     gf.cross_section.strip,
     layer=(2, 0),
@@ -824,18 +809,18 @@ pin = gf.partial(
     ),
 )
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 c = gf.components.straight(cross_section=pin)
 c
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 pin5 = gf.components.straight(cross_section=pin, length=5)
 pin5
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # finally, you can also pass most components Dict that define the cross-section
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 gf.components.straight(
     layer=(1, 0),
     width=0.5,
@@ -845,7 +830,7 @@ gf.components.straight(
     ),
 )
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 # Create our first CrossSection
 s1 = gf.Section(width=0.2, offset=0, layer=(3, 0), name="slab")
 X1 = gf.CrossSection(
@@ -880,15 +865,15 @@ P3 = gf.path.straight(length=15, npoints=100)
 straight_transition = gf.path.extrude(P3, Xtrans)
 straight_transition
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 s = straight_transition.to_3d()
 s.show()
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # ## Waveguides with Shear Faces
 # By default, an extruded path will end in a face orthogonal to the direction of the path. In some cases, it is desired to have a sheared face that tilts at a given angle from this orthogonal baseline. This can be done by supplying the parameters `shear_angle_start` and `shear_angle_end` to the `extrude()` function.
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 P = gf.path.straight(length=10)
 
 s = gf.Section(width=3, offset=0, layer=gf.LAYER.SLAB90)
@@ -903,35 +888,35 @@ X1 = gf.CrossSection(
 c = gf.path.extrude(P, X1, shear_angle_start=10, shear_angle_end=45)
 c
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # By default, the shear angle parameters are `None`, in which case shearing will not be applied to the face.
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 c = gf.path.extrude(P, X1, shear_angle_start=None, shear_angle_end=10)
 c
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # Shearing should work on paths of arbitrary orientation, as long as their end segments are sufficiently long.
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 angle = 45
 P = gf.path.straight(length=10).rotate(angle)
 c = gf.path.extrude(P, X1, shear_angle_start=angle, shear_angle_end=angle)
 c
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # For a non-linear path or width profile, the algorithm will intersect the path when sheared inwards and extrapolate linearly going outwards.
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 angle = 15
 P = gf.path.euler()
 c = gf.path.extrude(P, X1, shear_angle_start=angle, shear_angle_end=angle)
 c
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # The port location, width and orientation remains the same for a sheared component. However, an additional property, `shear_angle` is set to the value of the shear angle. In general, shear ports can be safely connected together.
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 P = gf.path.straight(length=10)
 P_skinny = gf.path.straight(length=0.5)
 
@@ -959,12 +944,12 @@ print(c1.ports["o1"].to_dict())
 print(c3.ports["o2"].to_dict())
 circuit
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # ### Transitions with Shear faces
 #
 # You can also create a transition with a shear face
 
-# %% pycharm={"name": "#%%\n"}
+# %%
 P = gf.path.straight(length=10)
 
 s = gf.Section(width=3, offset=0, layer=gf.LAYER.SLAB90, name="slab")
@@ -989,7 +974,7 @@ t = gf.path.transition(X1, X2, width_type="linear")
 c = gf.path.extrude(P, t, shear_angle_start=10, shear_angle_end=45)
 c
 
-# %% [markdown] pycharm={"name": "#%% md\n"}
+# %% [markdown]
 # This will also work with curves and non-linear width profiles. Keep in mind that points outside the original geometry will be extrapolated linearly.
 
 # %%
