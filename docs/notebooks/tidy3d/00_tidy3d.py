@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.11.2
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -26,7 +26,7 @@
 #
 # Tidy3d provides you with a material database of dispersive materials.
 
-# %% tags=[]
+# %%
 from gdsfactory.components.taper import taper_sc_nc
 import gdsfactory.simulation as sim
 import gdsfactory.simulation.gtidy3d as gt
@@ -364,7 +364,7 @@ plt.ylabel("Transmission (dB)")
 plt.title("transmission vs fiber xoffset (um)")
 plt.legend()
 
-# %% tags=[]
+# %%
 sp.keys()
 
 # %%

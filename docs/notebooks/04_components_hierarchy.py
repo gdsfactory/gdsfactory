@@ -5,7 +5,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.4
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -18,7 +18,7 @@
 #
 # You can define components Parametric cells (waveguides, bends, couplers) with basic input parameters (width, length, radius ...) and reuse the PCells in more complex PCells.
 
-# + tags=[]
+# +
 from functools import partial
 import toolz
 
@@ -32,7 +32,7 @@ PDK = get_generic_pdk()
 PDK.activate()
 
 
-# + tags=[]
+# +
 @gf.cell
 def bend_with_straight(
     bend: ComponentSpec = gf.components.bend_euler,
@@ -65,52 +65,40 @@ c
 
 # ### 1. string
 
-# + tags=[]
 c = bend_with_straight(bend="bend_circular")
 c
-# -
 
 # ### 2. dict
 # Lets **customize** the functions that we pass.
 # For example, we want to increase the radius of the bend from the default 10um to 20um.
 
-# + tags=[]
 c = bend_with_straight(bend=dict(component="bend_circular", settings=dict(radius=20)))
 c
-# -
 
 # ### 3. function
 #
 # Partial lets you define different default parameters for a function, so you can modify the settings for the child cells.
 
-# + tags=[]
 c = bend_with_straight(bend=gf.partial(gf.components.bend_circular, radius=30))
 c
 
-# + tags=[]
 bend20 = partial(gf.components.bend_circular, radius=20)
 b = bend20()
 b
 
-# + tags=[]
 type(bend20)
 
-# + tags=[]
 bend20.func.__name__
 
-# + tags=[]
 bend20.keywords
 
-# + tags=[]
 b = bend_with_straight(bend=bend20)
 print(b.metadata["info"]["length"])
 b
 
-# + tags=[]
 # You can still modify the bend to have any bend radius
 b3 = bend20(radius=10)
 b3
-# -
 
 # ## PDK custom fab
 #
@@ -120,13 +108,10 @@ b3
 #
 # You can also access `functools.partial` from `gf.partial`
 
-# + tags=[]
 pad = gf.partial(gf.components.pad, layer=(41, 0))
 
-# + tags=[]
 c = pad()
 c
-# -
 
 # ## Composing functions
 #
@@ -134,37 +119,29 @@ c
 #
 # Lets say that we want to add tapers and grating couplers to a wide waveguide.
 
-# + tags=[]
 c1 = gf.components.straight()
 c1
 
-# + tags=[]
 straight_wide = gf.partial(gf.components.straight, width=3)
 c3 = straight_wide()
 c3
 
-# + tags=[]
 c1 = gf.components.straight(width=3)
 c1
 
-# + tags=[]
 c2 = gf.add_tapers(c1)
 c2
 
-# + tags=[]
 c2.metadata_child["changed"]  # You can still access the child metadata
 
-# + tags=[]
 c3 = gf.routing.add_fiber_array(c2, with_loopback=False)
 c3
 
-# + tags=[]
 c3.metadata_child["changed"]  # You can still access the child metadata
-# -
 
 # Lets do it with a **single** step thanks to `toolz.pipe`
 
-# + tags=[]
+# +
 add_fiber_array = gf.partial(gf.routing.add_fiber_array, with_loopback=False)
 add_tapers = gf.add_tapers
 
@@ -177,41 +154,30 @@ c3
 #
 # For example:
 
-# + tags=[]
 add_tapers_fiber_array = toolz.compose_left(add_tapers, add_fiber_array)
 c4 = add_tapers_fiber_array(c1)
 c4
-# -
 
 # is equivalent to
 
-# + tags=[]
 c5 = add_fiber_array(add_tapers(c1))
 c5
-# -
 
 # as well as equivalent to
 
-# + tags=[]
 add_tapers_fiber_array = toolz.compose(add_fiber_array, add_tapers)
 c6 = add_tapers_fiber_array(c1)
 c6
-# -
 
 # or
 
-# + tags=[]
 c7 = toolz.pipe(c1, add_tapers, add_fiber_array)
 c7
 
-# + tags=[]
 c7.metadata_child["changed"]  # You can still access the child metadata
 
-# + tags=[]
 c7.metadata["child"]["child"]["name"]
 
-# + tags=[]
 c7.metadata["child"]["child"]["function_name"]
 
-# + tags=[]
 c7.metadata["changed"].keys()

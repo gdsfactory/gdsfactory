@@ -5,7 +5,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.4
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -22,7 +22,7 @@
 #
 # Lets add two references in a component.
 
-# + tags=[]
+# +
 from typing import Optional
 
 import toolz

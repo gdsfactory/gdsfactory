@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.11.2
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -52,7 +52,7 @@
 #
 # Lets generate the layers definition code from a KLayout `lyp` file.
 
-# %% tags=[]
+# %%
 import pathlib
 from typing import Callable, Tuple
 
@@ -88,7 +88,7 @@ nm = 1e-3
 print(lyp_to_dataclass(PATH.klayout_lyp))
 
 
-# %% tags=[]
+# %%
 class LayerMap(BaseModel):
     WG: Layer = (1, 0)
     DEVREC: Layer = (68, 0)
@@ -172,14 +172,14 @@ LAYER = LayerMap()
 #
 # You can create a `CrossSection` from scratch or you can customize the cross_section functions in `gf.cross_section`
 
-# %% tags=[]
+# %%
 strip2 = gf.partial(gf.cross_section.strip, layer=(2, 0))
 
-# %% tags=[]
+# %%
 c = gf.components.straight(cross_section=strip2)
 c
 
-# %% tags=[]
+# %%
 pin = gf.partial(
     gf.cross_section.strip,
     sections=(
@@ -190,16 +190,16 @@ pin = gf.partial(
 c = gf.components.straight(cross_section=pin)
 c
 
-# %% tags=[]
+# %%
 strip_wide = gf.partial(gf.cross_section.strip, width=3)
 
 
-# %% tags=[]
+# %%
 strip = gf.partial(
     gf.cross_section.strip, auto_widen=True
 )  # auto_widen tapers to wider waveguides for lower loss in long straight sections.
 
-# %% tags=[]
+# %%
 cross_sections = dict(strip_wide=strip_wide, pin=pin, strip=strip)
 
 # %% [markdown]
@@ -212,7 +212,7 @@ cross_sections = dict(strip_wide=strip_wide, pin=pin, strip=strip)
 #
 # For example, you can make some wide MMIs for a particular technology. Lets say the best MMI width you found it to be 9um.
 
-# %% tags=[]
+# %%
 mmi1x2 = gf.partial(gf.components.mmi1x2, width_mmi=9)
 mmi2x2 = gf.partial(gf.components.mmi2x2, width_mmi=9)
 
@@ -228,7 +228,7 @@ cells = dict(mmi1x2=mmi1x2, mmi2x2=mmi2x2)
 #
 # You can access layers from the active Pdk using the layer name or a tuple/list of two numbers.
 
-# %% tags=[]
+# %%
 from gdsfactory.generic_tech import get_generic_pdk
 
 generic_pdk = get_generic_pdk()
@@ -244,10 +244,10 @@ pdk1 = gf.Pdk(
 )
 pdk1.activate()
 
-# %% tags=[]
+# %%
 pdk1.get_layer("WG")
 
-# %% tags=[]
+# %%
 pdk1.get_layer([1, 0])
 
 # %% [markdown]
@@ -255,14 +255,14 @@ pdk1.get_layer([1, 0])
 #
 # You can access cross_sections from the pdk from the cross_section name, or using a dict to customize the CrossSection
 
-# %% tags=[]
+# %%
 pdk1.get_cross_section("pin")
 
-# %% tags=[]
+# %%
 cross_section_spec_string = "pin"
 gf.components.straight(cross_section=cross_section_spec_string)
 
-# %% tags=[]
+# %%
 cross_section_spec_dict = dict(cross_section="pin", settings=dict(width=2))
 print(pdk1.get_cross_section(cross_section_spec_dict))
 wg_pin = gf.components.straight(cross_section=cross_section_spec_dict)
@@ -273,10 +273,10 @@ wg_pin
 #
 # You can get Component from the active pdk using the cell name (string) or a dict.
 
-# %% tags=[]
+# %%
 pdk1.get_component("mmi1x2")
 
-# %% tags=[]
+# %%
 pdk1.get_component(dict(component="mmi1x2", settings=dict(length_mmi=10)))
 
 # %% [markdown]
@@ -297,7 +297,7 @@ pdk1.get_component(dict(component="mmi1x2", settings=dict(length_mmi=10)))
 #
 #
 
-# %% tags=[]
+# %%
 """This code tests all your cells in the PDK
 
 it will test 3 things:

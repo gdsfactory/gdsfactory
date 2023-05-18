@@ -5,7 +5,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.4
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -56,7 +56,7 @@
 #
 # Lets see how it works.
 
-# + tags=[]
+# +
 from gdsfactory.cell import print_cache
 import gdsfactory as gf
 
@@ -77,15 +77,15 @@ def mzi_with_bend(radius: float = 10.0) -> gf.Component:
 c = mzi_with_bend()
 print(f"this cell {c.name!r} does NOT get automatic name")
 c
+# -
 
-# + tags=[]
 mzi_with_bend_decorated = gf.cell(mzi_with_bend)
 c = mzi_with_bend_decorated(radius=10)
 print(f"this cell {c.name!r} gets automatic name thanks to the `cell` decorator")
 c
 
 
-# + tags=[]
+# +
 @gf.cell
 def mzi_with_bend(radius: float = 10.0) -> gf.Component:
     c = gf.Component()
@@ -99,7 +99,9 @@ print(f"this cell {c.name!r} gets automatic name thanks to the `cell` decorator"
 c
 
 
-# + tags=[]
+# -
+
+
 @gf.cell
 def wg(length=10, width=1, layer=(1, 0)):
     print("BUILDING waveguide")
@@ -114,11 +116,9 @@ def wg(length=10, width=1, layer=(1, 0)):
     return c
 
 
-# -
-
 # See how the cells get the name from the parameters that you pass them
 
-# + tags=[]
+# +
 c = wg()
 print(c)
 
@@ -133,9 +133,7 @@ print(c)
 
 # Sometimes when you are changing the inside code of the function, you need to use `cache=False` to **ignore** the cache.
 
-# + tags=[]
 c = wg(cache=False)
-# -
 
 # ## Metadata
 #
@@ -154,35 +152,23 @@ c = wg(cache=False)
 #     - name: for the component
 # - ports: port name, width, orientation
 
-# + tags=[]
 c = wg()
 
-# + tags=[]
 c.metadata["changed"]
 
-# + tags=[]
 c.metadata["default"]
 
-# + tags=[]
 c.metadata["full"]
 
-# + tags=[]
 c.pprint()
-# -
 
 # thanks to `gf.cell` you can also add any metadata `info` relevant to the cell
 
-# + tags=[]
 c = wg(length=3, info=dict(polarization="te", wavelength=1.55))
 
-# + tags=[]
 c.pprint()
 
-# + tags=[]
 print(c.metadata["info"]["wavelength"])
-
-
-# -
 
 # ## Cache
 #
@@ -191,7 +177,6 @@ print(c.metadata["info"]["wavelength"])
 # from the cache
 
 
-# + tags=[]
 @gf.cell
 def wg(length=10, width=1):
     c = gf.Component()
@@ -200,46 +185,35 @@ def wg(length=10, width=1):
     return c
 
 
-# + tags=[]
+# +
 gf.clear_cache()
 
 wg1 = wg()  # cell builds a straight
 print(wg1)
+# -
 
-# + tags=[]
 wg2 = wg()
 # cell returns the same straight as before without having to run the function
 print(wg2)  # notice that they have the same uuid (unique identifier)
 
-# + tags=[]
 wg2
-# -
 
 # Lets say that you change the code of the straight function in a Jupyter Notebook like this one.  (I mostly use Vim/VsCode/Pycharm for creating new cells in python)
 
-# + tags=[]
 print_cache()
 
-# + tags=[]
 wg3 = wg()
 wg4 = wg(length=11)
 
-# + tags=[]
 print_cache()
 
-# + tags=[]
 gf.clear_cache()
-# -
 
 # To enable nice notebook tutorials, every time we show a cell in Matplotlib or Klayout, you can clear the cache,
 #
 # in case you want to develop cells in Jupyter Notebooks or an IPython kernel
 
-# + tags=[]
 print_cache()  # cache is now empty
-
-
-# -
 
 # ## Validate argument types
 #
@@ -278,7 +252,7 @@ print_cache()  # cache is now empty
 # by default `@cell` validates all arguments using [pydantic](https://pydantic-docs.helpmanual.io/usage/validation_decorator/#argument-types)
 
 
-# + tags=[]
+# +
 @gf.cell
 def straigth_waveguide(length: float):
     print(type(length))

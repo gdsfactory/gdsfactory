@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.11.2
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -27,7 +27,7 @@
 #
 # For a 220 nm height x 450 nm width the effective index is 2.466
 
-# %% tags=[]
+# %%
 import numpy as np
 import gdsfactory.simulation.gtidy3d as gt
 import matplotlib.pyplot as plt

@@ -5,7 +5,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.4
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -41,7 +41,7 @@
 # +
 # # %matplotlib widget
 
-# + tags=[]
+# +
 import ipywidgets
 from IPython.display import display
 
@@ -122,7 +122,6 @@ f({"new": x.value})
 #
 # Lets place an `mmi_long` where you can place the `W0` port at `x=20, y=10`
 
-# + tags=[]
 x.value = """
 name: mmis
 instances:
@@ -145,7 +144,6 @@ placements:
         mirror: False
 """
 display(x, out)
-# -
 
 x.value = """
 name: mmi_mirror

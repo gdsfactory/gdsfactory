@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.11.2
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -36,7 +36,7 @@
 #
 # In gdsfactory you will write functions instead of classes. Functions are easier to write and combine, and have clearly defined inputs and outputs.
 
-# %% tags=[]
+# %%
 from pydantic import validate_arguments
 
 import gdsfactory as gf
@@ -55,7 +55,7 @@ c
 # Functions have clear inputs and outputs, they usually accept some parameters (strings, floats, ints ...) and return other parameters
 
 
-# %% tags=[]
+# %%
 def double(x):
     return 2 * x
 
@@ -68,7 +68,7 @@ print(y)
 # It's also nice to add `type annotations` to your functions to clearly define what are the input/output types (string, int, float ...)
 
 
-# %% tags=[]
+# %%
 def double(x: float) -> float:
     return 2 * x
 
@@ -79,7 +79,7 @@ def double(x: float) -> float:
 # A factory is a function that returns an object. In gdsfactory many functions return a `Component` object
 
 
-# %% tags=[]
+# %%
 def bend(radius: float = 5) -> gf.typings.Component:
     return gf.components.bend_euler(radius=radius)
 
@@ -89,7 +89,7 @@ component = bend(radius=10)
 print(component)
 component.plot()
 
-# %% tags=[]
+# %%
 component
 
 # %% [markdown]
@@ -177,7 +177,7 @@ y = [double(x) for x in range(3)]  # much shorter and easier to read
 print(y)
 
 
-# %% [markdown] tags=[]
+# %% [markdown]
 # ## Functional programming
 #
 # Functional programming follows linux philosophy:

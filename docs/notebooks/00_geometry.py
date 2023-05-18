@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.11.2
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -27,7 +27,7 @@
 #
 # You can add polygons to different layers.
 
-# %% tags=[]
+# %%
 import gdsfactory as gf
 from gdsfactory.generic_tech import get_generic_pdk
 
@@ -53,7 +53,7 @@ c
 #
 # Make a component similar to the one above that has a second polygon in layer (2, 0)
 
-# %% tags=[]
+# %%
 c = gf.Component("myComponent2")
 # Create some new geometry from the functions available in the geometry library
 t = gf.components.text("Hello!")

@@ -225,6 +225,7 @@ dependencies = [
       "B905",  # `zip()` without an explicit `strict=` parameter
       "C408",  # C408 Unnecessary `dict` call (rewrite as a literal)
       "B904",
+      "B028",  # stacklevel
     ]
     extend-exclude = ["docs/notebooks"]
 

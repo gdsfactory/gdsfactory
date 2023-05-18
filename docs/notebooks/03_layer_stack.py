@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.11.2
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -44,7 +44,7 @@
 # | 64, 0                | FLOORPLAN  | Mask floorplan                                              |
 #
 
-# %% tags=[]
+# %%
 from pydantic import BaseModel
 from typing import Tuple
 
@@ -53,7 +53,7 @@ from gdsfactory.generic_tech import LAYER, LAYER_STACK
 from gdsfactory.generic_tech.get_klayout_pyxs import get_klayout_pyxs
 from gdsfactory.technology import LayerLevel, LayerStack, LayerViews
 
-# %% tags=[]
+# %%
 Layer = Tuple[int, int]
 
 gf.config.rich_output()
@@ -131,7 +131,7 @@ class GenericLayerMap(BaseModel):
 LAYER = GenericLayerMap()
 LAYER
 
-# %% tags=[]
+# %%
 layer_wg = gf.LAYER.WG
 print(layer_wg)
 
@@ -141,7 +141,7 @@ print(layer_wg)
 # You can also extract layers using the `extract` function. This function returns a new flattened Component that contains the extracted layers.
 # A flat Component does not have references, and all the polygons are absorbed into the top cell.
 
-# %% tags=[]
+# %%
 from gdsfactory.generic_tech import get_generic_pdk
 
 PDK = get_generic_pdk()
@@ -151,7 +151,7 @@ LAYER_VIEWS = PDK.layer_views
 c = LAYER_VIEWS.preview_layerset()
 c
 
-# %% tags=[]
+# %%
 extract = c.extract(layers=(gf.LAYER.M1, gf.LAYER.VIAC))
 extract
 
@@ -160,7 +160,7 @@ extract
 #
 # You can remove layers using the `remove_layers()` function.
 
-# %% tags=[]
+# %%
 removed = extract.remove_layers(layers=(gf.LAYER.VIAC,))
 removed
 
@@ -169,11 +169,11 @@ removed
 #
 # You can remap (change the polygons from one layer to another layer) using the `remap_layer`, which will return a new `Component`
 
-# %% tags=[]
+# %%
 c = gf.components.straight(layer=(2, 0))
 c
 
-# %% tags=[]
+# %%
 remap = c.remap_layers(layermap={(2, 0): gf.LAYER.WGN})
 remap
 
@@ -186,7 +186,7 @@ remap
 #
 # We recommend using YAML and then generate the lyp in klayout, as YAML is easier to modify than XML.
 
-# %% tags=[]
+# %%
 from IPython.display import Code
 from gdsfactory.config import PATH
 
@@ -228,33 +228,33 @@ LAYER_VIEWS.to_yaml("extra/layers.yaml")
 #
 # You can preview all the layers defined in your `LayerViews`
 
-# %% tags=[]
+# %%
 c = LAYER_VIEWS.preview_layerset()
 c
 
 # %% [markdown]
 # By default the generic PDK has some layers that are not visible and therefore are not shown.
 
-# %% tags=[]
+# %%
 c_wg_clad = c.extract(layers=gf.LAYER.WGCLAD)
 c_wg_clad
 
-# %% tags=[]
+# %%
 LAYER_VIEWS.layer_views["WGCLAD"]
 
-# %% tags=[]
+# %%
 LAYER_VIEWS.layer_views["WGCLAD"].visible
 
 # %% [markdown]
 # You can make it visible
 
-# %% tags=[]
+# %%
 LAYER_VIEWS.layer_views["WGCLAD"].visible = True
 
-# %% tags=[]
+# %%
 LAYER_VIEWS.layer_views["WGCLAD"].visible
 
-# %% tags=[]
+# %%
 c_wg_clad = c.extract(layers=gf.LAYER.WGCLAD)
 c_wg_clad
 
@@ -271,7 +271,7 @@ c_wg_clad
 #
 # Lets define the layer stack for the generic layers in the generic_technology.
 
-# %% tags=[]
+# %%
 from gdsfactory.generic_tech.layer_map import LAYER
 from gdsfactory.technology import LayerLevel, LayerStack
 
@@ -475,49 +475,49 @@ def get_layer_stack(
 LAYER_STACK = get_layer_stack()
 layer_stack220 = LAYER_STACK
 
-# %% tags=[]
+# %%
 import gdsfactory as gf
 
 c = gf.components.straight_heater_doped_rib(length=100)
 c
 
-# %% tags=[]
+# %%
 scene = c.to_3d(layer_stack=layer_stack220)
 scene.show()
 
-# %% tags=[]
+# %%
 import gdsfactory as gf
 
 c = gf.components.straight_heater_metal(length=40)
 c
 
-# %% tags=[]
+# %%
 scene = c.to_3d(layer_stack=layer_stack220)
 scene.show()
 
-# %% tags=[]
+# %%
 import gdsfactory as gf
 
 c = gf.components.taper_strip_to_ridge_trenches()
 c
 
-# %% tags=[]
+# %%
 scene = c.to_3d(layer_stack=layer_stack220)
 scene.show()
 
-# %% tags=[]
+# %%
 # lets assume we have 900nm silicon instead of 220nm, You will see a much thicker waveguide under the metal heater.
 layer_stack900 = get_layer_stack(thickness_wg=900 * nm)
 scene = c.to_3d(layer_stack=layer_stack900)
 scene.show()
 
-# %% tags=[]
+# %%
 import gdsfactory as gf
 
 c = gf.components.grating_coupler_elliptical_trenches()
 c
 
-# %% tags=[]
+# %%
 scene = c.to_3d()
 scene.show()
 
@@ -529,11 +529,11 @@ scene.show()
 # 1. LayerStack: for each layer contains thickness of each material and z position
 # 2. LayerViews: for each layer contains view (color, pattern, opacity). You can load it with `gf.technology.LayerView.load_lyp()`
 
-# %% tags=[]
+# %%
 heater = gf.components.straight_heater_metal(length=50)
 heater
 
-# %% tags=[]
+# %%
 scene = heater.to_3d()
 scene.show()
 
@@ -542,7 +542,7 @@ scene.show()
 #
 # From the `LayerStack` you can generate the KLayout 2.5D view script.
 
-# %% tags=[]
+# %%
 LAYER_STACK.get_klayout_3d_script()
 
 # %% [markdown]
@@ -564,7 +564,7 @@ LAYER_STACK.get_klayout_3d_script()
 #
 # This is not integrated with the LayerStack but you can customize the script in `gdsfactory.generic_tech.get_klayout_pyxs` for your technology.
 
-# %% tags=[]
+# %%
 nm = 1e-3
 if __name__ == "__main__":
     script = get_klayout_pyxs(

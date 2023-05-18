@@ -6,14 +6,14 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.11.2
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 # ---
 
-# %% [markdown] tags=[]
+# %% [markdown]
 # # MPB mode-solver
 #
 # [MPB](https://mpb.readthedocs.io/en/latest/Python_Tutorial/#our-first-band-structure) is a free open source software to compute:
@@ -83,7 +83,7 @@
 #                         sy
 # ```
 
-# %% tags=[]
+# %%
 import pandas as pd
 import pathlib
 from tqdm.auto import tqdm
@@ -653,7 +653,7 @@ plt.plot(core_width, np.array(dneffs) / dt, ".-")
 plt.xlabel("waveguide width (um)")
 plt.ylabel("dneff / dT")
 
-# %% tags=[]
+# %%
 dndt = np.array(dneffs) / dt
 plt.plot(core_width, dndt / max(dndt) * 100, ".-")
 plt.title("waveguide dn/dT")

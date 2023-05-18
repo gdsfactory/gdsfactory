@@ -5,7 +5,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.4
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -48,7 +48,7 @@
 #
 # **Solution**: Use the `gf.cell` decorator for automatic naming your components.
 
-# + tags=[]
+# +
 import gdsfactory as gf
 
 gf.config.rich_output()
@@ -144,7 +144,7 @@ c = die_flat(cache=False)
 print(c.references)
 c
 
-# + tags=[]
+# +
 import gdsfactory as gf
 
 
@@ -178,8 +178,8 @@ def using_dangerous_intermediate_cells():
 
 c = using_dangerous_intermediate_cells()
 c
+# -
 
-# + tags=[]
 for component in c.get_dependencies(recursive=True):
     if not component._locked:
         print(
