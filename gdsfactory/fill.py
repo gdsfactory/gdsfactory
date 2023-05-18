@@ -16,7 +16,13 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.component_layout import _parse_layer
 from gdsfactory.components.rectangle import rectangle
-from gdsfactory.typings import Float2, Floats, LayerSpecs, ComponentSpec
+from gdsfactory.typings import (
+    Float2,
+    Floats,
+    LayerSpecs,
+    ComponentSpec,
+    ComponentOrReference,
+)
 
 
 def _loop_over(var):
@@ -147,11 +153,11 @@ def fill_cell_rectangle(
 
 @cell
 def fill_rectangle(
-    component: Component,
+    component: ComponentOrReference,
     fill_layers: LayerSpecs,
     fill_size=(5.0, 5.0),
-    avoid_layers: LayerSpecs = None,
-    include_layers: LayerSpecs = None,
+    avoid_layers: Optional[LayerSpecs] = None,
+    include_layers: Optional[LayerSpecs] = None,
     margin: float = 5.0,
     fill_densities: Union[float, Floats] = (0.5, 0.25, 0.7),
     fill_inverted: Optional[List[float]] = None,
@@ -255,7 +261,7 @@ def fill_rectangle_custom(
     component: Component,
     fill_cell: ComponentSpec,
     spacing: Tuple[float, float],
-    avoid_layers: LayerSpecs = None,
+    avoid_layers: Optional[LayerSpecs] = None,
     margin: float = 5.0,
     bbox: Optional[object] = None,
 ) -> Component:

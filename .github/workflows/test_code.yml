@@ -11,10 +11,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-      - uses: pre-commit/action@v3.0.0
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+          cache: "pip"
+          cache-dependency-path: pyproject.toml
+      - name: Test pre-commit hooks
+        run: |
+          python -m pip install --upgrade pip
+          pip install pre-commit
+          pre-commit run -a
   test_code:
-    needs: [pre-commit]
     runs-on: ${{ matrix.os }}
     strategy:
       max-parallel: 12
@@ -31,15 +39,24 @@ jobs:
           cache: "pip"
           cache-dependency-path: pyproject.toml
       - name: Install dependencies
+        env:
+          AWS_EC2_METADATA_DISABLED: true
+          AWS_ACCESS_KEY_ID: ${{ secrets.GDSLIB_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.GDSLIB_AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-west-2
         run: |
           pip install -e .[full,dev] pre-commit
-          make gdslib
+          make data-download
           gf install klayout-integration
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gdsfactory/
+          key: ${{ hashFiles('.github/sim_version') }}
       - name: Test with pytest
         run: pytest
   test_code_coverage_python37:
     runs-on: ubuntu-latest
-    needs: [pre-commit]
 
     steps:
       - uses: actions/checkout@v3
@@ -47,9 +64,18 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: 3.7
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gdsfactory/
+          key: ${{ hashFiles('.github/sim_version') }}
       - name: Install dependencies
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.GDSLIB_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.GDSLIB_AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-west-2
         run: |
-          make install gdslib
+          make install data-download
       - name: Test with pytest
         run: |
           pytest --cov=gdsfactory
@@ -59,7 +85,6 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: false
   test_code_plugins:
-    needs: [pre-commit]
     runs-on: ${{ matrix.os }}
     strategy:
       max-parallel: 12
@@ -68,6 +93,11 @@ jobs:
         os: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gdsfactory/
+          key: ${{ hashFiles('.github/sim_version') }}
       - uses: conda-incubator/setup-miniconda@v2
         with:
           python-version: ${{ matrix.python-version }}
@@ -78,9 +108,13 @@ jobs:
         run: |
           echo $CONDA/bin >> $GITHUB_PATH
       - name: Install dependencies
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.GDSLIB_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.GDSLIB_AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-west-2
         run: |
           python -m pip install --upgrade pip
-          make gdslib plugins-debian
+          make data-download plugins-debian
           make install
           conda list > requirements.txt
       - uses: actions/upload-artifact@v3
@@ -92,6 +126,9 @@ jobs:
           TIDY3D_USER: ${{ secrets.TIDY3D_EMAIL }}
           TIDY3D_PASS: ${{ secrets.TIDY3D_PASSWORD }}
           SIMCLOUD_APIKEY: ${{ secrets.SIMCLOUD_APIKEY }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.GDSLIB_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.GDSLIB_AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-west-2
         run: |
           mkdir -p $HOME/.tidy3d
           echo ${{ secrets.TIDY3D_AUTH }} > $HOME/.tidy3d/config
@@ -101,7 +138,6 @@ jobs:
             make test-plugins-no-tidy3d
           fi
   test_docs:
-    needs: [pre-commit]
     runs-on: ${{ matrix.os }}
     strategy:
       max-parallel: 12
@@ -111,6 +147,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gdsfactory/
+          key: ${{ hashFiles('.github/sim_version') }}
       - uses: conda-incubator/setup-miniconda@v2
         with:
           python-version: '3.10'
@@ -123,9 +164,8 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          sudo apt install pandoc
           sudo apt install libglu1-mesa libxi-dev libxmu-dev libglu1-mesa-dev
-          make gdslib plugins-debian full
+          make plugins-debian full
       - name: Test documentation
         env:
           TIDY3D_USER: ${{ secrets.TIDY3D_EMAIL }}
@@ -133,7 +173,15 @@ jobs:
           DISPLAY: 1.0
           DOCS: True
           GDSFACTORY_LAYOUT_PLOTTER: klayout
+          AWS_ACCESS_KEY_ID: ${{ secrets.GDSLIB_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.GDSLIB_AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-west-2
         run: |
+          make data-download
           mkdir -p $HOME/.tidy3d
           echo ${{ secrets.TIDY3D_AUTH }} > $HOME/.tidy3d/config
           make docs
+          if [ ${{ secrets.TIDY3D_AUTH }} ]; then
+            make data-upload
+          fi
+          python tests/test_doc_errors.py

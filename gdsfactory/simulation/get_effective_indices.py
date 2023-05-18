@@ -10,9 +10,9 @@ from typing_extensions import Literal
 
 
 def get_effective_indices(
-    ncore: float,
+    core_material: float,
     nsubstrate: float,
-    ncladding: float,
+    clad_materialding: float,
     thickness: float,
     wavelength: float,
     polarization: Literal["te", "tm"],
@@ -30,9 +30,9 @@ def get_effective_indices(
     .. code::
 
         -----------------      |
-        ncladding             inf
+        clad_materialding             inf
         -----------------      |
-        ncore              thickness
+        core_material              thickness
         -----------------      |
         nsubstrate            inf
         -----------------      |
@@ -42,8 +42,8 @@ def get_effective_indices(
         import gdsfactory.simulation as sim
 
         neffs = sim.get_effective_indices(
-            ncore=3.4777,
-            ncladding=1.444,
+            core_material=3.4777,
+            clad_materialding=1.444,
             nsubstrate=1.444,
             thickness=0.22,
             wavelength=1.55,
@@ -51,8 +51,8 @@ def get_effective_indices(
         )
 
     """
-    epsilon_core = ncore**2
-    epsilon_cladding = ncladding**2
+    epsilon_core = core_material**2
+    epsilon_cladding = clad_materialding**2
     epsilon_substrate = nsubstrate**2
 
     thickness *= 1e-6
@@ -103,10 +103,10 @@ def get_effective_indices(
     return np.sqrt(indices).tolist()
 
 
-def test_effective_index():
+def test_effective_index() -> None:
     neff = get_effective_indices(
-        ncore=3.4777,
-        ncladding=1.444,
+        core_material=3.4777,
+        clad_materialding=1.444,
         nsubstrate=1.444,
         thickness=0.22,
         wavelength=1.55,
@@ -118,8 +118,8 @@ def test_effective_index():
 if __name__ == "__main__":
     print(
         get_effective_indices(
-            ncore=3.4777,
-            ncladding=1.444,
+            core_material=3.4777,
+            clad_materialding=1.444,
             nsubstrate=1.444,
             thickness=0.22,
             wavelength=1.55,

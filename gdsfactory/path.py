@@ -54,7 +54,7 @@ class Path(_GeometryHelper):
 
     """
 
-    def __init__(self, path=None):
+    def __init__(self, path=None) -> None:
         """Creates an empty path."""
         self.points = np.array([[0, 0]], dtype=np.float64)
         self.start_angle = 0
@@ -85,7 +85,7 @@ class Path(_GeometryHelper):
                     "an array-like[N][2] list of points, or a list of these"
                 )
 
-    def __len__(self):
+    def __len__(self) -> int:
         """Returns path points."""
         return len(self.points)
 
@@ -821,7 +821,8 @@ def extrude(
 
             if new_x_start > np.max(p_pts[:, 0]) or new_x_stop < np.min(p_pts[:, 0]):
                 warnings.warn(
-                    f"Cannot apply delay to Section '{section.name}', delay results in points outside of original path."
+                    f"Cannot apply delay to Section '{section.name}', delay results in points outside of original path.",
+                    stacklevel=3,
                 )
                 continue
 

@@ -6,7 +6,7 @@ from gdsfactory.simulation.modes.find_modes import find_modes_waveguide
 
 
 def test_find_modes_waveguide() -> None:
-    modes = find_modes_waveguide(wg_width=0.45, resolution=20, cache=None)
+    modes = find_modes_waveguide(core_width=0.45, resolution=20, cache=None)
     m1 = modes[1]
     m2 = modes[2]
 
@@ -20,7 +20,7 @@ def test_find_modes_waveguide() -> None:
     assert np.isclose(m2.neff, neff2), m2.neff
 
     # Using cache
-    modes = find_modes_waveguide(wg_width=0.45, resolution=20)
+    modes = find_modes_waveguide(core_width=0.45, resolution=20)
     m1 = modes[1]
     m2 = modes[2]
 
@@ -30,7 +30,7 @@ def test_find_modes_waveguide() -> None:
 
 if __name__ == "__main__":
     test_find_modes_waveguide()
-    # ms = get_mode_solver_rib(wg_width=0.45)
+    # ms = get_mode_solver_rib(core_width=0.45)
     # modes = find_neff(mode_solver=ms)
     # m1 = modes[1]
     # m2 = modes[2]

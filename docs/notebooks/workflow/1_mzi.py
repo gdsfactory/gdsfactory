@@ -1,25 +1,29 @@
+# -*- coding: utf-8 -*-
 # ---
 # jupyter:
 #   jupytext:
+#     custom_cell_magics: kql
 #     text_representation:
 #       extension: .py
-#       format_name: light
-#       format_version: '1.5'
-#       jupytext_version: 1.14.4
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 # ---
 
+# %% [markdown]
 # # MZI filter
 #
 # In this example we will go over a [Mach–Zehnder interferometer](https://en.wikipedia.org/wiki/Mach%E2%80%93Zehnder_interferometer) filter design.
 #
 
+# %% [markdown]
 # ## Calculations
 
-# + tags=[]
+# %% tags=[]
 from typing import Optional
 
 import numpy as np
@@ -71,11 +75,11 @@ if __name__ == "__main__":
     nm = 1e-3
     strip = gt.modes.Waveguide(
         wavelength=1.55,
-        wg_width=500 * nm,
-        wg_thickness=220 * nm,
+        core_width=500 * nm,
+        core_thickness=220 * nm,
         slab_thickness=0.0,
-        ncore=gt.modes.si,
-        nclad=gt.modes.sio2,
+        core_material="si",
+        clad_material="sio2",
     )
 
     neff = 2.46  # Effective index of the waveguides
@@ -131,13 +135,13 @@ if __name__ == "__main__":
     plt.grid()
     plt.legend()
     plt.show()
-# -
 
+# %% [markdown]
 # ## Mode solver
 #
 # For waveguides you can compute the EM modes.
 
-# +
+# %%
 import numpy as np
 import gdsfactory.simulation.gtidy3d as gt
 import matplotlib.pyplot as plt
@@ -145,26 +149,20 @@ import matplotlib.pyplot as plt
 nm = 1e-3
 strip = gt.modes.Waveguide(
     wavelength=1.55,
-    wg_width=0.5,
-    wg_thickness=0.22,
+    core_width=0.5,
+    core_thickness=0.22,
     slab_thickness=0.0,
-    ncore="si",
-    nclad="sio2",
+    core_material="si",
+    clad_material="sio2",
+    group_index_step=10 * nm,
 )
-strip.plot_Ex(0)  # TE
-# -
+strip.plot_field(field_name="Ex", mode_index=0)  # TE
 
-nm = 1e-3
-ng = gt.modes.group_index(
-    wg_width=500 * nm,
-    wavelength=1.55,
-    wg_thickness=220 * nm,
-    slab_thickness=0 * nm,
-    ncore="si",
-    nclad="sio2",
-)
-print(ng)
+# %%
+ng = strip.n_group[0]
+ng
 
+# %% [markdown]
 # ## FDTD
 #
 # Lets compute the Sparameters of a 1x2 power splitter using [tidy3D](https://docs.flexcompute.com/projects/tidy3d/en/latest/), which is a fast GPU based FDTD commercial solver.
@@ -173,24 +171,28 @@ print(ng)
 #
 # ![cloud_model](https://i.imgur.com/5VTCPLR.png)
 
-# +
+# %%
 import gdsfactory.simulation as sim
 import gdsfactory as gf
 import gdsfactory.simulation.gtidy3d as gt
 
 import gdsfactory.components as pdk
 
-# -
 
+# %%
 c = pdk.mmi1x2()
 c
 
+# %%
 sp = gt.write_sparameters(c)
 
+# %%
 sim.plot.plot_sparameters(sp)
 
+# %%
 sim.plot.plot_loss1x2(sp)
 
+# %% [markdown]
 # ## Circuit simulation
 #
 # For the simulations you need to build Sparameters models for your components using FDTD or other methods.
@@ -212,10 +214,11 @@ sim.plot.plot_loss1x2(sp)
 # pip install "gdsfactory[tidy3d,sax]"
 # ```
 
+# %%
 mzi10 = gf.components.mzi(splitter=c, delta_length=10)
 mzi10
 
-# +
+# %%
 import matplotlib.pyplot as plt
 import numpy as np
 import jax.numpy as jnp
@@ -226,7 +229,7 @@ import gdsfactory as gf
 import gdsfactory.simulation.sax as gsax
 
 
-# +
+# %%
 def straight(wl=1.5, length=10.0, neff=2.4) -> sax.SDict:
     wl0 = 1.5  # center wavelength for which the waveguide model is defined
     return sax.reciprocal({("o1", "o2"): jnp.exp(2j * jnp.pi * neff * length / wl)})
@@ -237,8 +240,7 @@ def bend_euler(wl=1.5, length=20.0):
     return {k: 0.99 * v for k, v in straight(wl=wl, length=length).items()}
 
 
-# -
-
+# %%
 mmi1x2 = gsax.read.model_from_npz(sp)
 models = {
     "bend_euler": bend_euler,
@@ -246,9 +248,11 @@ models = {
     "straight": straight,
 }
 
+# %%
 netlist = mzi10.get_netlist()
 circuit, _ = sax.circuit(netlist=netlist, models=models)
 
+# %%
 wl = np.linspace(1.5, 1.6)
 S = circuit(wl=wl)
 plt.figure(figsize=(14, 4))
@@ -259,12 +263,15 @@ plt.ylabel("T")
 plt.grid(True)
 plt.show()
 
+# %%
 mzi20 = gf.components.mzi(splitter=c, delta_length=20)
 mzi20
 
+# %%
 netlist = mzi20.get_netlist()
 circuit, _ = sax.circuit(netlist=netlist, models=models)
 
+# %%
 wl = np.linspace(1.5, 1.6)
 S = circuit(wl=wl)
 plt.figure(figsize=(14, 4))
@@ -274,3 +281,5 @@ plt.xlabel("λ [nm]")
 plt.ylabel("T")
 plt.grid(True)
 plt.show()
+
+# %%

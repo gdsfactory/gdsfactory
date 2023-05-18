@@ -166,20 +166,20 @@ sp = gm.write_sparameters_meep(c, run=False)
 # For faster simulations you can do an effective mode approximation, to compute the mode of the slab and run a 2D simulation to speed your [simulations](https://www.lumerical.com/learn/whitepapers/lumericals-2-5d-fdtd-propagation-method/)
 
 # + id="VlVLdT3EA56h"
-ncore = sim.get_effective_indices(
-    ncore=3.4777,
-    ncladding=1.444,
+core_material = sim.get_effective_indices(
+    core_material=3.4777,
+    clad_materialding=1.444,
     nsubstrate=1.444,
     thickness=0.22,
     wavelength=1.55,
     polarization="te",
 )[0]
 
-ncore
+core_material
 
 # + id="otBqKwoXA56h"
 sp = gm.write_sparameters_meep(
-    c, resolution=20, is_3d=False, material_name_to_meep=dict(si=ncore)
+    c, resolution=20, is_3d=False, material_name_to_meep=dict(si=core_material)
 )
 
 # + id="kZGNjAX6A56h"

@@ -369,7 +369,7 @@ def write_schema(model: BaseModel = NetlistModel) -> None:
     schema_path_json.write_text(json.dumps(OmegaConf.to_container(d)))
 
 
-def _demo():
+def _demo() -> None:
     write_schema()
 
     import jsonschema

@@ -1,4 +1,4 @@
-# gdsfactory 6.90.5
+# gdsfactory 6.94.1
 
 [![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)](https://gdsfactory.github.io/gdsfactory/)
 [![PyPI](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -19,7 +19,9 @@
 
 ![logo](https://i.imgur.com/v4wpHpg.png)
 
-gdsfactory is a python library to design chips (Photonics, Analog, Quantum, MEMs, ...), 3D objects for 3D printing or PCBs. It's like Android or Linux for hardware design.
+gdsfactory: An open source platform for end to-end photonic chip design and validation.
+
+gdsfactory is a python library to design chips (Photonics, Analog, Quantum, MEMs, ...), objects for 3D printing or PCBs.
 
 You can describe your hardware in code (python or YAML), verify them (DRC, simulation, extraction) and validate them (to make sure they meet the specifications after fabrication).
 
@@ -63,9 +65,9 @@ Multiple foundries have gdsfactory PDKs available. Talk to your foundry to acces
 - TowerSemi PH18 photonics PDK
 - GlobalFoundries 45SPCLO Photonics PDK
 - IMEC photonics PDK
-- [GlobalFoundries 180nm MCU CMOS PDK](https://github.com/gdsfactory/gf180) (open source)
+- [GlobalFoundries 180nm MCU CMOS PDK](https://gdsfactory.github.io/gf180/) (open source)
 - [SiEPIC Ebeam UBC PDK](https://gdsfactory.github.io/ubc) (open source)
-- [Skywater130 CMOS PDK](https://gdsfactory.github.io/skywater130/README.html) (open source)
+- [Skywater130 CMOS PDK](https://gdsfactory.github.io/skywater130) (open source)
 
 You can also access:
 
@@ -227,10 +229,9 @@ For example, VS Code supports development inside a container, see [Developing in
 
 <div style="text-align: right; margin-right: 10%;">Thomas Dorch - <strong>Freedom Photonics</strong></div>
 
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
 
-<!-- ALL-CONTRIBUTORS-LIST:END -->
+## Contributors
+
+Thanks to all the contributors that make this awesome project possible!
+
+[![Meet our contributors!](https://contrib.rocks/image?repo=gdsfactory/gdsfactory)](https://github.com/gdsfactory/gdsfactory/graphs/contributors)

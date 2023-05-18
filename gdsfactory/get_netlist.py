@@ -93,7 +93,7 @@ def get_netlist_yaml(
     tolerance: int = 5,
     exclude_port_types: Optional[List] = None,
     **kwargs,
-) -> Dict:
+) -> str:
     """Returns instances, connections and placements yaml string content."""
     return omegaconf.OmegaConf.to_yaml(
         get_netlist(
@@ -414,7 +414,7 @@ def _make_warning(ports: List[str], values: Any, message: str) -> Dict[str, Any]
     return clean_dict(w)
 
 
-def _null_validator(port1: Port, port2: Port, port_names, warnings):
+def _null_validator(port1: Port, port2: Port, port_names, warnings) -> None:
     pass
 
 

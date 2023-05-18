@@ -21,6 +21,7 @@ import json
 import os
 import pathlib
 import subprocess
+import tempfile
 from pathlib import Path
 from pprint import pprint
 from typing import Any, Iterable, Optional, Union
@@ -33,7 +34,7 @@ from omegaconf import OmegaConf
 from rich.console import Console
 from rich.table import Table
 
-__version__ = "6.90.5"
+__version__ = "6.94.1"
 PathType = Union[str, pathlib.Path]
 
 home = pathlib.Path.home()
@@ -49,6 +50,7 @@ yamlpath_default = module_path / "config.yml"
 yamlpath_home = home_path / "config.yml"
 
 MAX_NAME_LENGTH = 32
+GDSDIR_TEMP = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
 
 logger.remove()
 logger.add(sink=sys.stderr, level="WARNING")
@@ -56,7 +58,7 @@ logger.add(sink=sys.stderr, level="WARNING")
 showwarning_ = warnings.showwarning
 
 
-def showwarning(message, *args, **kwargs):
+def showwarning(message, *args, **kwargs) -> None:
     logger.warning(message)
     showwarning_(message, *args, **kwargs)
 
@@ -67,13 +69,14 @@ plugins = ["ray", "femwell", "devsim", "tidy3d", "meep", "meow", "lumapi", "sax"
 pdks = ["gf45", "tj", "imec", "amf", "sky130", "ubcpdk", "aim", "ct"]
 
 
-def print_version():
+def print_version() -> None:
     """Print gdsfactory plugin versions and paths."""
     table = Table(title="Modules")
     table.add_column("Package", justify="right", style="cyan", no_wrap=True)
     table.add_column("version", style="magenta")
     table.add_column("Path", justify="right", style="green")
 
+    table.add_row("python", sys.version, str(sys.executable))
     table.add_row("gdsfactory", __version__, str(module_path))
 
     for plugin in plugins:
@@ -90,8 +93,9 @@ def print_version():
     console.print(table)
 
 
-def print_version_raw():
+def print_version_raw() -> None:
     """Print gdsfactory plugin versions and paths."""
+    print("python", sys.version)
     print("gdsfactory", __version__)
 
     for plugin in plugins:
@@ -105,7 +109,7 @@ def print_version_raw():
             print(plugin, "not installed", "")
 
 
-def print_version_pdks():
+def print_version_pdks() -> None:
     """Print gdsfactory PDK versions and paths."""
     table = Table(title="PDKs")
     table.add_column("Package", justify="right", style="cyan", no_wrap=True)
@@ -156,18 +160,23 @@ class Paths:
     generic_tech = module / "generic_tech"
     klayout = generic_tech / "klayout"
     klayout_tech = klayout / "tech"
-    klayout_lyp = klayout_tech / "layers.lyp"
+    klayout_lyp = klayout_tech / "generic_tech.lyp"
     klayout_yaml = generic_tech / "layer_views.yaml"
     schema_netlist = repo_path / "tests" / "schemas" / "netlist.json"
     netlists = module_path / "samples" / "netlists"
     gdsdir = repo_path / "tests" / "gds"
-    gdslib = repo_path / "gdslib"
+    gdslib = home / ".gdsfactory"
     modes = gdslib / "modes"
-    gdsdiff = gdslib / "gds"
     sparameters = gdslib / "sp"
     interconnect = gdslib / "interconnect"
     optimiser = repo_path / "tune"
     notebooks = repo_path / "docs" / "notebooks"
+    plugins = module / "plugins"
+    web = plugins / "web"
+    test_data = repo / "test-data"
+    gds_ref = test_data / "gds"
+    gds_run = GDSDIR_TEMP / "gds_run"
+    gds_diff = GDSDIR_TEMP / "gds_diff"
 
 
 def read_config(
@@ -270,7 +279,7 @@ def set_plot_options(
 if __name__ == "__main__":
     # print(PATH.sparameters)
     # print_config()
-    # print_version()
-    print_version_raw()
+    print_version()
+    # print_version_raw()
     # print_version_pdks()
     # write_tech("tech.json")

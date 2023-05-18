@@ -1,0 +1,258 @@
+#=======================================================================================================================
+# --------------------------------------------- GENERIC TECH LVS RULE DECK ---------------------------------------------
+#=======================================================================================================================
+
+require 'time'
+require 'logger'
+require 'etc'
+
+exec_start_time = Time.now
+
+logger = Logger.new($stdout)
+
+logger.formatter = proc do |_severity, datetime, _progname, msg|
+  "#{datetime}: Memory Usage (" + `pmap #{Process.pid} | tail -1`[10, 40].strip + ") : #{msg}
+"
+end
+
+#================================================
+#----------------- FILE SETUP -------------------
+#================================================
+logger.info("Starting running GENERIC TECH Klayout LVS runset on #{$input}")
+logger.info("Ruby Version for klayout: #{RUBY_VERSION}")
+
+if $input
+  if $topcell
+    source($input, $topcell)
+  else
+    source($input)
+  end
+end
+
+logger.info('Loading database to memory is complete.')
+
+if $report
+  logger.info("GENERIC TECH Klayout LVS runset output at: #{$report}")
+  report_lvs($report)
+else
+  layout_dir = Pathname.new(RBA::CellView.active.filename).parent.realpath
+  report_path = layout_dir.join("#{source.cell_name}.lvsdb").to_s
+  logger.info("GENERIC TECH Klayout LVS runset output at default location: #{source.cell_name}.lvsdb")
+  report_lvs($report_path)
+end
+
+if $target_netlist
+  logger.info("LVS extracted netlist at: #{$target_netlist}")
+  target_netlist($target_netlist)
+else
+  layout_dir = Pathname.new(RBA::CellView.active.filename).parent.realpath
+  netlist_path = layout_dir.join("#{source.cell_name}_extracted.cir").to_s
+  logger.info("GENERIC TECH Klayout LVS extracted netlist file at: #{source.cell_name}_extracted.cir")
+  target_netlist($netlist_path,
+                 write_spice(spice_with_net_names, spice_with_comments), 'Extracted by KLayout with GENERIC TECH LVS runset')
+end
+
+#================================================
+#------------------ SWITCHES --------------------
+#================================================
+logger.info('Evaluate switches.')
+
+def bool_check?(obj)
+  obj.to_s.downcase == 'true'
+end
+
+#=== GET SUBSTRATE NAME ===
+substrate_name = $lvs_sub || 'generic_tech_gnd'
+
+logger.info("Substrate name used: #{$lvs_sub}")
+
+#=== NET NAMES OPTION ===
+# true: use net names instead of numbers
+# false: use numbers for nets
+SPICE_WITH_NET_NAMES = bool_check?($spice_net_names)
+
+logger.info("Extracted netlist with net names: #{SPICE_WITH_NET_NAMES}")
+
+#=== COMMENTS OPTION ===
+# true: put in comments with details
+# false: no comments
+SPICE_WITH_COMMENTS = bool_check?($spice_comments)
+
+logger.info("Extracted netlist with comments in details: #{SPICE_WITH_COMMENTS}")
+
+#=== EXTRACTION SCALE ===
+DEV_SCALE = bool_check?($scale)
+
+device_scaling(1_000_000) if $DEV_SCALE
+
+logger.info("LVS device_scaling option: #{DEV_SCALE}")
+
+# SCH_SIMPLE
+SCH_SIMPLE = bool_check?(false)
+
+logger.info("Selected SCH_SIMPLE option: #{SCH_SIMPLE}")
+
+# NET_ONLY
+NET_ONLY = bool_check?(true)
+
+logger.info("Selected NET_ONLY option: #{NET_ONLY}")
+
+# TOP_LVL_PINS
+TOP_LVL_PINS = bool_check?(true)
+
+logger.info("Selected TOP_LVL_PINS option: #{TOP_LVL_PINS}")
+
+# COMBINE
+COMBINE = bool_check?(false)
+
+logger.info("Selected COMBINE option: #{COMBINE}")
+
+# PURGE
+PURGE = bool_check?(true)
+
+logger.info("Selected PURGE option: #{PURGE}")
+
+# PURGE_NETS
+PURGE_NETS = bool_check?(true)
+
+logger.info("Selected PURGE_NETS option: #{PURGE_NETS}")
+
+#=== PRINT DETAILS ===
+logger.info("Verbose mode: #{$verbose}")
+if $verbose == 'true'
+  verbose(true)
+else
+  verbose(false)
+end
+
+# === TILING MODE ===
+case $run_mode
+when 'tiling'
+  tiles(500.um)
+  tile_borders(10.um)
+  logger.info('Tiling  mode is enabled.')
+
+when 'deep'
+  #=== HIER MODE ===
+  deep
+  logger.info('deep  mode is enabled.')
+else
+  #=== FLAT MODE ===
+  flat
+  logger.info('flat  mode is enabled.')
+end
+
+#================================================
+# --------------- CUSTOM CLASSES ----------------
+#================================================
+
+# %include rule_decks/custom_classes.lvs
+
+# Instantiate a reader using the new delegate
+reader = RBA::NetlistSpiceReader.new(SubcircuitModelsReader.new)
+
+#=== GET NETLIST ===
+if $schematic
+  schematic($schematic, reader)
+  logger.info("Netlist file: #{$schematic}")
+else
+  exts = ["spice", "cdl"]
+  candidates = exts.map{|ext| "#{source.cell_name}.#{ext}"}
+  netlists = candidates.select{|f| File.exist?(f)}
+  if netlists.empty?
+    error("Netlist not found, tried: #{candidates}")
+  else
+    schematic(netlists[0], reader)
+    logger.info("Netlist file: #{netlists[0]}")
+  end
+end
+
+#================================================
+#------------- LAYERS DEFINITIONS ---------------
+#================================================
+
+# %include rule_decks/layers_definitions.lvs
+
+#================================================================
+#------------------------- MAIN RUNSET --------------------------
+#================================================================
+
+logger.info('Starting GENERIC TECH LVS runset')
+
+#================================================
+#------------- LAYERS DERIVATIONS ---------------
+#================================================
+
+logger.info('Starting base layers derivations')
+
+#==================================
+# ------ GENERAL DERIVATIONS ------
+#==================================
+
+# %include rule_decks/general_derivations.lvs
+
+#================================
+# ----- HEATER DERIVATIONS ------
+#================================
+
+# %include rule_decks/heater_derivations.lvs
+
+#================================================
+#------------ DEVICES CONNECTIVITY --------------
+#================================================
+
+# %include rule_decks/devices_connections.lvs
+
+#================================================
+# ------------- HEATER EXTRACTION ---------------
+#================================================
+
+logger.info('Starting GENERIC TECH LVS DEVICES EXTRACTION')
+
+#==============================
+# ---- HEATER EXTRACTIONS -----
+#==============================
+
+# %include rule_decks/heater_extraction.lvs
+
+#================================================
+#------------- COMPARISON OPTIONS ---------------
+#================================================
+
+logger.info('Starting GENERIC TECH LVS comparison section')
+
+#=== FLATTEN CELLS ===
+align
+
+#=== NETLIST OPTIONS ===
+netlist if NET_ONLY
+
+netlist.make_top_level_pins if TOP_LVL_PINS
+
+netlist.combine_devices if COMBINE
+
+netlist.purge if PURGE
+
+netlist.purge_nets if PURGE_NETS
+
+#=== SCHEMATIC OPTIONS ===
+schematic.simplify if SCH_SIMPLE
+
+#=== IGNORE EXTREME VALUES ===
+max_res(1e7)
+
+compare
+
+exec_end_time = Time.now
+run_time = exec_end_time - exec_start_time
+logger.info(format('LVS Total Run time %f seconds', run_time))
+
+if !compare
+  logger.info('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+  logger.error("ERROR : Netlists don't match")
+  logger.info('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+else
+  logger.info('==========================================')
+  logger.info('INFO : Congratulations! Netlists match.')
+  logger.info('==========================================')
+end

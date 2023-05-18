@@ -45,11 +45,11 @@ if __name__ == "__main__":
     nm = 1e-3
     strip = gt.modes.Waveguide(
         wavelength=1.55,
-        wg_width=500 * nm,
-        wg_thickness=220 * nm,
+        core_width=500 * nm,
+        core_thickness=220 * nm,
         slab_thickness=0.0,
-        ncore=gt.modes.si,
-        nclad=gt.modes.sio2,
+        core_material="si",
+        clad_material="sio2",
     )
 
     neff = 2.46  # Effective index of the waveguides

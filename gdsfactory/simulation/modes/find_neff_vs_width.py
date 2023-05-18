@@ -40,8 +40,8 @@ def find_neff_vs_width(
 
     Keyword Args:
         slab_thickness: thickness for the waveguide slab in um.
-        ncore: core material refractive index.
-        nclad: clad material refractive index.
+        core_material: core material refractive index.
+        clad_material: clad material refractive index.
         sy: simulation region width (um).
         sz: simulation region height (um).
         resolution: resolution (pixels/um).
@@ -52,12 +52,12 @@ def find_neff_vs_width(
 
     width = np.linspace(width1, width2, steps)
     neff = {mode_number: [] for mode_number in range(1, nmodes + 1)}
-    for wg_width in tqdm(width):
+    for core_width in tqdm(width):
         modes = find_modes_waveguide(
             wavelength=wavelength,
             parity=parity,
             nmodes=nmodes,
-            wg_width=wg_width,
+            core_width=core_width,
             **kwargs,
         )
         for mode_number in range(1, nmodes + 1):

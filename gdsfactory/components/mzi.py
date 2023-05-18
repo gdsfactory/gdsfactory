@@ -228,7 +228,7 @@ if __name__ == "__main__":
     # c.show(show_ports=True)
 
     # c = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
-    # c2 = gf.routing.add_fiber_array(c)
+    c = gf.routing.add_fiber_array(c)
     c.show()
 
     # c1.write_gds("a.gds")

@@ -19,6 +19,7 @@ from gdsfactory.geometry.outline import outline
 from gdsfactory.geometry.trim import trim
 from gdsfactory.geometry.union import union
 from gdsfactory.geometry.xor_diff import xor_diff
+from gdsfactory.geometry.manhattanize import manhattanize_polygon
 
 __all__ = (
     "boolean",
@@ -30,12 +31,13 @@ __all__ = (
     "check_space",
     "check_width",
     "fillet",
+    "functions",
     "invert",
+    "layer_priority",
+    "manhattanize_polygon",
     "offset",
     "outline",
+    "trim",
     "union",
     "xor_diff",
-    "functions",
-    "trim",
-    "layer_priority",
 )

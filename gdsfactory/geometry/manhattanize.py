@@ -12,12 +12,27 @@ def manhattanize_polygon(
 
     Implemented in pure Python, and hence only suited to small polygons.
 
-    Arguments:
-        p: input polygon
-        target_step: target staircase step size
+    Args:
+        p: input polygon.
+        target_step: target staircase step size.
 
     Returns:
         manhattanized polygon
+
+    .. plot::
+      :include-source:
+
+      import gdsfactory as gf
+      c = gf.Component()
+
+      poly = gdstk.rectangle((-2, -2), (2, 2))
+      poly.rotate(np.pi / 4)
+      poly.scale(1, 0.5)
+      init_poly = c.add_polygon(poly, layer=1)
+      final_poly = gf.geometry.manhattanize_polygon(poly)
+      c.add_polygon(final_poly, layer=2)
+      c.plot_matplotlib()
+
     """
     p_manhattan = []
     points = list(p.points)
@@ -60,7 +75,7 @@ def manhattanize_polygon(
     return gdstk.Polygon(p_manhattan)
 
 
-def test_manhattanize():
+def test_manhattanize() -> None:
     c = gf.Component("route")
     poly = gdstk.rectangle((-2, -2), (2, 2))
     poly.rotate(np.pi / 4)
@@ -78,11 +93,8 @@ if __name__ == "__main__":
     poly = gdstk.rectangle((-2, -2), (2, 2))
     poly.rotate(np.pi / 4)
     poly.scale(1, 0.5)
-
     init_poly = c.add_polygon(poly, layer=1)
-
     final_poly = c.add_polygon(manhattanize_polygon(poly), layer=2)
-
     c.show()
 
     # test_manhattanize()

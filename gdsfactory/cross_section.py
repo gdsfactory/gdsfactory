@@ -15,6 +15,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union, TypeVar
 
 from pydantic import BaseModel, Field, validate_arguments
 from typing_extensions import Literal
+from gdsfactory.add_pins import add_pins_inside1nm, add_pins_siepic_optical
 
 nm = 1e-3
 
@@ -484,10 +485,13 @@ radius_rib = 20
 
 
 strip = cross_section
+strip_pins = partial(cross_section, add_pins=add_pins_inside1nm, name="strip")
+# strip = strip_pins
 strip_auto_widen = partial(strip, width_wide=0.9, auto_widen=True)
 strip_no_pins = partial(
     strip, add_pins=None, add_bbox=None, cladding_layers=None, cladding_offsets=None
 )
+strip_siepic = partial(cross_section, add_pins=add_pins_siepic_optical)
 
 # Rib with rectangular slab
 rib = partial(strip, bbox_layers=["SLAB90"], bbox_offsets=[3], radius=radius_rib)
@@ -778,7 +782,7 @@ def pin(
     via_stack_width: float = 9.0,
     via_stack_gap: float = 0.55,
     slab_gap: float = -0.2,
-    layer_via: LayerSpec = None,
+    layer_via: Optional[LayerSpec] = None,
     via_width: float = 1,
     via_offsets: Optional[Tuple[float, ...]] = None,
     **kwargs,
@@ -2096,9 +2100,9 @@ def pn_ge_detector_si_contacts(
     layer_n: LayerSpec = "N",
     layer_np: LayerSpec = "NP",
     layer_npp: LayerSpec = "NPP",
-    layer_via: LayerSpec = None,
+    layer_via: Optional[LayerSpec] = None,
     width_via: float = 1.0,
-    layer_metal: LayerSpec = None,
+    layer_metal: Optional[LayerSpec] = None,
     port_names: Tuple[str, str] = ("o1", "o2"),
     bbox_layers: Optional[List[Layer]] = None,
     bbox_offsets: Optional[List[float]] = None,
@@ -2289,7 +2293,7 @@ def get_cross_section_factories(
 cross_sections = get_cross_section_factories(sys.modules[__name__])
 
 
-def test_copy():
+def test_copy() -> None:
     import gdsfactory as gf
 
     p = gf.path.straight()

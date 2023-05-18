@@ -20,7 +20,7 @@ from gdsfactory.pdk import get_active_pdk
 class YamlEventHandler(FileSystemEventHandler):
     """Captures pic.yml file change events."""
 
-    def __init__(self, logger=None, path: Optional[str] = None):
+    def __init__(self, logger=None, path: Optional[str] = None) -> None:
         """Initialize the YAML event handler."""
         super().__init__()
 
@@ -54,7 +54,7 @@ class YamlEventHandler(FileSystemEventHandler):
             print(e)
         return function
 
-    def on_moved(self, event):
+    def on_moved(self, event) -> None:
         super().on_moved(event)
 
         what = "directory" if event.is_directory else "file"
@@ -63,7 +63,7 @@ class YamlEventHandler(FileSystemEventHandler):
             self.update_cell(event.dest_path)
             self.get_component(event.src_path)
 
-    def on_created(self, event):
+    def on_created(self, event) -> None:
         super().on_created(event)
 
         what = "directory" if event.is_directory else "file"
@@ -72,7 +72,7 @@ class YamlEventHandler(FileSystemEventHandler):
             self.update_cell(event.src_path)
             self.get_component(event.src_path)
 
-    def on_deleted(self, event):
+    def on_deleted(self, event) -> None:
         super().on_deleted(event)
 
         what = "directory" if event.is_directory else "file"
@@ -84,7 +84,7 @@ class YamlEventHandler(FileSystemEventHandler):
             cell_name = filepath.stem.split(".")[0]
             pdk.remove_cell(cell_name)
 
-    def on_modified(self, event):
+    def on_modified(self, event) -> None:
         super().on_modified(event)
 
         what = "directory" if event.is_directory else "file"

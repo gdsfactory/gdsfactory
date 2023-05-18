@@ -20,7 +20,11 @@
 #
 # ![workflow](https://i.imgur.com/yquTcM7.png)
 
-# You can install the KLayout gdsfactory plugin to be able to see live updates on your GDS files:
+# You can install the klayout klive plugin to be able to see live updates on your GDS files:
+
+# ![KLayout package](https://i.imgur.com/IZWH6U0.png)
+
+# You can install the klayout integration to install the generic layermap:
 #
 # - from the terminal by typing `gf install klayout-integration` after installing gdsfactory `pip install gdsfactory`
 # - using KLayout package manager (see image below), Tools --> Manage Packages
@@ -29,7 +33,6 @@
 
 # What does the klayout integration installs?
 #
-# - Klive: connects python to klayout, to show GDS files directly, when running `component.show()`
 # - generic layermap: for the generic gdsfactory technology.
 # - generic DRC: for generic gdsfactory technology
 

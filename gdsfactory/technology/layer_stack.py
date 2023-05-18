@@ -70,7 +70,7 @@ class LayerStack(BaseModel):
 
     layers: Optional[Dict[str, LayerLevel]] = Field(default_factory=dict)
 
-    def __init__(self, **data: Any):
+    def __init__(self, **data: Any) -> None:
         """Add LayerLevels automatically for subclassed LayerStacks."""
         super().__init__(**data)
 
@@ -306,13 +306,14 @@ class LayerStack(BaseModel):
                     if layer_views:
                         txt += ", "
                         props = layer_views.get_from_tuple(layer)
-                        if props.color.fill == props.color.frame:
-                            txt += f"color: {props.color.fill}"
-                        else:
-                            txt += (
-                                f"fill: {props.color.fill}, "
-                                f"frame: {props.color.frame}"
-                            )
+                        if hasattr(props, "color"):
+                            if props.color.fill == props.color.frame:
+                                txt += f"color: {props.color.fill}"
+                            else:
+                                txt += (
+                                    f"fill: {props.color.fill}, "
+                                    f"frame: {props.color.frame}"
+                                )
                     txt += ")"
                     out += f"{txt}\n"
 
@@ -329,12 +330,14 @@ class LayerStack(BaseModel):
                 if layer_views:
                     txt += ", "
                     props = layer_views.get_from_tuple(layer)
-                    if props.color.fill == props.color.frame:
-                        txt += f"color: {props.color.fill}"
-                    else:
-                        txt += (
-                            f"fill: {props.color.fill}, " f"frame: {props.color.frame}"
-                        )
+                    if hasattr(props, "color"):
+                        if props.color.fill == props.color.frame:
+                            txt += f"color: {props.color.fill}"
+                        else:
+                            txt += (
+                                f"fill: {props.color.fill}, "
+                                f"frame: {props.color.frame}"
+                            )
 
                 txt += ")"
                 out += f"{txt}\n"
@@ -361,10 +364,13 @@ class LayerStack(BaseModel):
             if layer_views:
                 txt += ", "
                 props = layer_views.get_from_tuple(layer)
-                if props.color.fill == props.color.frame:
-                    txt += f"color: {props.color.fill}"
-                else:
-                    txt += f"fill: {props.color.fill}, " f"frame: {props.color.frame}"
+                if hasattr(props, "color"):
+                    if props.color.fill == props.color.frame:
+                        txt += f"color: {props.color.fill}"
+                    else:
+                        txt += (
+                            f"fill: {props.color.fill}, " f"frame: {props.color.frame}"
+                        )
             txt += ")"
             out += f"{txt}\n"
 
@@ -375,20 +381,23 @@ class LayerStack(BaseModel):
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-    from gdsfactory.generic_tech import LAYER_STACK
+    from gdsfactory.technology.klayout_tech import KLayoutTechnology
+    from gdsfactory.config import PATH
 
-    component = c = gf.components.grating_coupler_elliptical_trenches()
+    # import gdsfactory as gf
+    # from gdsfactory.generic_tech import LAYER_STACK
+
+    # component = c = gf.components.grating_coupler_elliptical_trenches()
     # component = c = gf.components.taper_strip_to_ridge_trenches()
 
     # script = LAYER_STACK.get_klayout_3d_script()
     # print(script)
 
-    ls = layer_stack = LAYER_STACK
-    layer_to_thickness = layer_stack.get_layer_to_thickness()
+    # ls = layer_stack = LAYER_STACK
+    # layer_to_thickness = layer_stack.get_layer_to_thickness()
 
-    c = layer_stack.get_component_with_derived_layers(component)
-    c.show(show_ports=True)
+    # c = layer_stack.get_component_with_derived_layers(component)
+    # c.show(show_ports=True)
 
     # import pathlib
     # filepath = pathlib.Path(
@@ -396,3 +405,22 @@ if __name__ == "__main__":
     # )
     # ls_json = filepath.read_bytes()
     # ls2 = LayerStack.parse_raw(ls_json)
+
+    from gdsfactory.generic_tech import LAYER_STACK
+
+    lyp = LayerViews.from_lyp(str(PATH.klayout_lyp))
+
+    # str_xml = open(PATH.klayout_tech / "tech.lyt").read()
+    # new_tech = db.Technology.technology_from_xml(str_xml)
+    # generic_tech = KLayoutTechnology(layer_views=lyp)
+    connectivity = [("M1", "VIA1", "M2"), ("M2", "VIA2", "M3")]
+
+    c = generic_tech = KLayoutTechnology(
+        name="generic_tech", layer_views=lyp, connectivity=connectivity
+    )
+    tech_dir = PATH.klayout_tech
+    # tech_dir = pathlib.Path("/home/jmatres/.klayout/salt/gdsfactory/tech/")
+    tech_dir.mkdir(exist_ok=True, parents=True)
+    generic_tech.write_tech(tech_dir=tech_dir, layer_stack=LAYER_STACK)
+
+    # yaml_test()

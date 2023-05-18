@@ -9,8 +9,10 @@ import hashlib
 import itertools
 import math
 import pathlib
-import tempfile
+import uuid
 import warnings
+from copy import deepcopy
+from collections import Counter
 from collections.abc import Iterable
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
@@ -111,7 +113,7 @@ class MutabilityError(ValueError):
     pass
 
 
-def _get_dependencies(component, references_set):
+def _get_dependencies(component, references_set) -> None:
     for ref in component.references:
         references_set.add(ref.ref_cell)
         _get_dependencies(ref.ref_cell, references_set)
@@ -140,8 +142,6 @@ Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
 LayerSpec = Union[str, int, Layer, None]
 
-tmp = pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
-tmp.mkdir(exist_ok=True, parents=True)
 _timestamp2019 = datetime.datetime.fromtimestamp(1572014192.8273)
 MAX_NAME_LENGTH = 32
 
@@ -1208,7 +1208,7 @@ class Component(kf.KCell):
 
         self.shapes(self.klib.layer(layer[0], layer[1])).insert(points)
 
-    def _add_polygons(self, *polygons: List[Polygon]):
+    def _add_polygons(self, *polygons: List[Polygon]) -> None:
         self.is_unlocked()
         self._cell.add(*polygons)
 
@@ -1396,7 +1396,7 @@ class Component(kf.KCell):
         component_flat.add_ports(self.ports)
         return component_flat
 
-    def flatten_reference(self, ref: ComponentReference):
+    def flatten_reference(self, ref: ComponentReference) -> None:
         """From existing cell replaces reference with a flatten reference \
         which has the transformations already applied.
 
@@ -1505,14 +1505,16 @@ class Component(kf.KCell):
 
             gdspath = self.write_gds(gdsdir=PATH.gdslib / "extra", logging=False)
 
-            dirpath = pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
+            dirpath = GDSDIR_TEMP
             dirpath.mkdir(exist_ok=True, parents=True)
             lyp_path = dirpath / "layers.lyp"
 
             layer_props = get_layer_views()
             layer_props.to_lyp(filepath=lyp_path)
 
-            src = f"http://127.0.0.1:{kj.port}/gds?gds_file={escape(str(gdspath))}&layer_props={escape(str(lyp_path))}"
+            port = kj.port if hasattr(kj, "port") else 8000
+
+            src = f"http://127.0.0.1:{port}/gds?gds_file={escape(str(gdspath))}&layer_props={escape(str(lyp_path))}"
             logger.debug(src)
 
             if kj.jupyter_server and not os.environ.get("DOCS", False):
@@ -1646,7 +1648,7 @@ class Component(kf.KCell):
                 layer_view = layer_views.get_from_tuple(layer)
             except ValueError:
                 layers = list(layer_views.get_layer_views().keys())
-                warnings.warn(f"{layer!r} not defined in {layers}")
+                warnings.warn(f"{layer!r} not defined in {layers}", stacklevel=3)
                 layer_view = LayerView(layer=layer)
             # TODO: Match up options with LayerViews
             plots_to_overlay.append(
@@ -1736,21 +1738,91 @@ class Component(kf.KCell):
         Keyword Args:
             Arguments for the target meshing function in gdsfactory.simulation.gmsh
         """
-        # Add WAFER layer:
-        padded_component = Component()
-        padded_component << self
-        (xmin, ymin), (xmax, ymax) = self.bbox
-        points = [
-            [xmin - wafer_padding, ymin - wafer_padding],
-            [xmax + wafer_padding, ymin - wafer_padding],
-            [xmax + wafer_padding, ymax + wafer_padding],
-            [xmin - wafer_padding, ymax + wafer_padding],
+
+        from gdsfactory.pdk import get_active_pdk
+
+        if gdspath and gdsdir:
+            warnings.warn(
+                "gdspath and gdsdir have both been specified. gdspath will take precedence and gdsdir will be ignored.",
+                stacklevel=3,
+            )
+
+        default_settings = get_active_pdk().gds_write_settings
+        default_oasis_settings = get_active_pdk().oasis_settings
+
+        explicit_gds_settings = {
+            k: v
+            for k, v in kwargs.items()
+            if v is not None and k in default_settings.dict()
+        }
+        explicit_oas_settings = {
+            k: v
+            for k, v in kwargs.items()
+            if v is not None and k in default_oasis_settings.dict()
+        }
+        # update the write settings with any settings explicitly passed
+        write_settings = default_settings.copy(update=explicit_gds_settings)
+        oasis_settings = default_oasis_settings.copy(update=explicit_oas_settings)
+
+        _check_uncached_components(
+            component=self, mode=write_settings.on_uncached_component
+        )
+
+        if write_settings.flatten_invalid_refs:
+            top_cell = flatten_invalid_refs_recursive(self)
+        else:
+            top_cell = self
+
+        gdsdir = gdsdir or GDSDIR_TEMP
+        gdsdir = pathlib.Path(gdsdir)
+        if with_oasis:
+            gdspath = gdspath or gdsdir / f"{top_cell.name}.oas"
+        else:
+            gdspath = gdspath or gdsdir / f"{top_cell.name}.gds"
+        gdspath = pathlib.Path(gdspath)
+        gdsdir = gdspath.parent
+        gdsdir.mkdir(exist_ok=True, parents=True)
+
+        cells = top_cell.get_dependencies(recursive=True)
+        cell_names = [cell.name for cell in list(cells)]
+        cell_names_unique = set(cell_names)
+
+        if len(cell_names) != len(set(cell_names)):
+            for cell_name in cell_names_unique:
+                cell_names.remove(cell_name)
+
+            if write_settings.on_duplicate_cell == "error":
+                raise ValueError(
+                    f"Duplicated cell names in {top_cell.name!r}: {cell_names!r}"
+                )
+            elif write_settings.on_duplicate_cell in {"warn", "overwrite"}:
+                if write_settings.on_duplicate_cell == "warn":
+                    warnings.warn(
+                        f"Duplicated cell names in {top_cell.name!r}:  {cell_names}",
+                        stacklevel=3,
+                    )
+                cells_dict = {cell.name: cell._cell for cell in cells}
+                cells = cells_dict.values()
+            elif write_settings.on_duplicate_cell is not None:
+                raise ValueError(
+                    f"on_duplicate_cell: {write_settings.on_duplicate_cell!r} not in (None, warn, error, overwrite)"
+                )
+
+        all_cells = [top_cell._cell] + sorted(cells, key=lambda cc: cc.name)
+
+        no_name_cells = [
+            cell.name for cell in all_cells if cell.name.startswith("Unnamed")
         ]
         padded_component.add_polygon(points, layer=wafer_layer)
 
         if layer_stack is None:
             raise ValueError(
                 'A LayerStack must be provided through argument "layer_stack".'
+            )
+        if no_name_cells:
+            warnings.warn(
+                f"Component {top_cell.name!r} contains {len(no_name_cells)} Unnamed cells",
+                stacklevel=3,
             )
         if type == "xy":
             if z is None:
@@ -2622,7 +2694,7 @@ def test_remove_labels() -> None:
     assert len(c.labels) == 0
 
 
-def test_import_gds_settings():
+def test_import_gds_settings() -> None:
     import gdsfactory as gf
 
     c = gf.components.mzi()
@@ -2632,7 +2704,7 @@ def test_import_gds_settings():
     assert c3
 
 
-def test_flatten_invalid_refs_recursive():
+def test_flatten_invalid_refs_recursive() -> None:
     import gdsfactory as gf
 
     @gf.cell

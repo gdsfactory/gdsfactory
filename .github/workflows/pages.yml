@@ -14,6 +14,11 @@ jobs:
       - name: Cancel Workflow Action
         uses: styfle/cancel-workflow-action@0.11.0
       - uses: actions/checkout@v3
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gdsfactory/
+          key: ${{ hashFiles('.github/sim_version') }}
       - uses: conda-incubator/setup-miniconda@v2
         with:
           python-version: '3.10'
@@ -31,13 +36,20 @@ jobs:
           DISPLAY: 1.0
           DOCS: True
           GDSFACTORY_LAYOUT_PLOTTER: klayout
+          AWS_ACCESS_KEY_ID: ${{ secrets.GDSLIB_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.GDSLIB_AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-west-2
         shell: bash -l {0}
         run: |
           sudo apt install libglu1-mesa
           mkdir -p $HOME/.tidy3d
           echo ${{ secrets.TIDY3D_AUTH }} > $HOME/.tidy3d/config
-          make gdslib plugins-debian full
+          make data-download plugins-debian full
           make docs
+          if [ ${{ secrets.TIDY3D_AUTH }} ]; then
+            make data-upload
+          fi
+          python tests/test_doc_errors.py
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:

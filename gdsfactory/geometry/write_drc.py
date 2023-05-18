@@ -14,26 +14,49 @@ from __future__ import annotations
 
 import pathlib
 from dataclasses import asdict, is_dataclass
-from typing import List, Optional
+from typing import List, Optional, Union
 
-from gdsfactory.config import logger
+import gdsfactory as gf
 from gdsfactory.install import get_klayout_path
-from gdsfactory.typings import Dict, Layer, PathType
+from gdsfactory.typings import CrossSectionSpec, Dict, Layer, PathType
 
 layer_name_to_min_width: Dict[str, float]
 
 
-def rule_min_width_or_space(width: float, space: float, layer: str) -> str:
-    """Min width or space violations.
+def get_drc_script_start(name, shortcut) -> str:
+    return f"""<?xml version="1.0" encoding="utf-8"?>
+<klayout-macro>
+ <description>{name} DRC</description>
+ <version/>
+ <category>drc</category>
+ <prolog/>
+ <epilog/>
+ <doc/>
+ <autorun>false</autorun>
+ <autorun-early>false</autorun-early>
+ <shortcut>{shortcut}</shortcut>
+ <show-in-menu>true</show-in-menu>
+ <group-name>drc_scripts</group-name>
+ <menu-path>tools_menu.drc.end</menu-path>
+ <interpreter>dsl</interpreter>
+ <dsl-interpreter-name>drc-dsl-xml</dsl-interpreter-name>
+ <text># {name} DRC
 
-    It's a more efficient check thanks to the universal DRC notation.
-    https://klayout.de/doc/manual/drc_runsets.html
-    """
-    error = f"{layer} min width {width}um or min space {space}um"
-    return (
-        f"{layer}.drc((width < {width}) | (space < {space}))"
-        f".output({error!r}, {error!r})"
-    )
+# Read about Klayout DRC scripts in the User Manual under "Design Rule Check (DRC)"
+# Based on https://gdsfactory.github.io/gdsfactory/notebooks/_2_klayout.html#Klayout-DRC
+# and https://gdsfactory.github.io/gdsfactory/api.html#klayout-drc
+
+report("{name} DRC")
+time_start = Time.now
+"""
+
+
+drc_script_end = r"""
+time_end = Time.now
+print "run time #{(time_end-time_start).round(3)} seconds \n"
+</text>
+</klayout-macro>
+"""
 
 
 def rule_not_inside(layer: str, not_inside: str) -> str:
@@ -131,6 +154,30 @@ end
 """
 
 
+def connectivity_checks(
+    WG_cross_sections: List[CrossSectionSpec], pin_widths: Union[List[float], float]
+):
+    """Return script for photonic port connectivity check. Assumes the photonic port pins are inside the Component.
+
+    Args:
+        WG_cross_sections: list of waveguide layers to run check for.
+        pin_widths: list of port pin widths or a single port pin width/
+    """
+    connectivity_check = ""
+    for i, layer_name in enumerate(WG_cross_sections):
+        layer = gf.pdk.get_cross_section(layer_name).width
+        layer_name = gf.pdk.get_cross_section(layer_name).layer
+        connectivity_check = connectivity_check.join(
+            f"""{layer_name}_PIN2 = {layer_name}_PIN.sized(0.0).merged\n
+{layer_name}_PIN2 = {layer_name}_PIN2.rectangles.without_area({layer} * {pin_widths if isinstance(pin_widths, float) else pin_widths[i]}) - {layer_name}_PIN2.rectangles.with_area({layer} * 2 * {pin_widths if isinstance(pin_widths, float) else pin_widths[i]})\n
+{layer_name}_PIN2.output(\"port alignment error\")\n
+{layer_name}_PIN2 = {layer_name}_PIN.sized(0.0).merged\n
+{layer_name}_PIN2.non_rectangles.output(\"port width check\")\n\n"""
+        )
+
+    return connectivity_check
+
+
 def write_layer_definition(layers: Dict[str, Layer]) -> List[str]:
     """Returns layers definition script for KLayout.
 
@@ -143,7 +190,7 @@ def write_layer_definition(layers: Dict[str, Layer]) -> List[str]:
     return [f"{key} = input({value[0]}, {value[1]})" for key, value in layers.items()]
 
 
-def write_drc_deck(rules: List[str], layers: Dict[str, Layer]) -> str:
+def write_drc_deck(rules: List[str], layers: Optional[Dict[str, Layer]] = None) -> str:
     """Returns drc_rule_deck for KLayout.
 
     based on https://github.com/klayoutmatthias/si4all
@@ -154,7 +201,8 @@ def write_drc_deck(rules: List[str], layers: Dict[str, Layer]) -> str:
 
     """
     script = []
-    script += write_layer_definition(layers=layers)
+    if layers:
+        script += write_layer_definition(layers=layers)
     script += ["\n"]
     script += rules
     return "\n".join(script)
@@ -165,7 +213,7 @@ modes = ["tiled", "default", "deep"]
 
 def write_drc_deck_macro(
     rules: List[str],
-    layers: Dict[str, Layer],
+    layers: Optional[Dict[str, Layer]] = None,
     name: str = "generic",
     filepath: Optional[PathType] = None,
     shortcut: str = "Ctrl+Shift+D",
@@ -231,7 +279,6 @@ def write_drc_deck_macro(
         rules = [
             rule_width(layer="WG", value=0.2),
             rule_space(layer="WG", value=0.2),
-            rule_min_width_or_space(layer="WG", width=0.2, space=0.2), # faster
             rule_separation(layer1="HEATER", layer2="M1", value=1.0),
             rule_enclosing(layer1="VIAC", layer2="M1", value=0.2),
             rule_area(layer="WG", min_area_um2=0.05),
@@ -248,31 +295,7 @@ def write_drc_deck_macro(
     if mode not in modes:
         raise ValueError(f"{mode!r} not in {modes}")
 
-    script = f"""<?xml version="1.0" encoding="utf-8"?>
-<klayout-macro>
- <description>{name} DRC</description>
- <version/>
- <category>drc</category>
- <prolog/>
- <epilog/>
- <doc/>
- <autorun>false</autorun>
- <autorun-early>false</autorun-early>
- <shortcut>{shortcut}</shortcut>
- <show-in-menu>true</show-in-menu>
- <group-name>drc_scripts</group-name>
- <menu-path>tools_menu.drc.end</menu-path>
- <interpreter>dsl</interpreter>
- <dsl-interpreter-name>drc-dsl-xml</dsl-interpreter-name>
- <text># {name} DRC
-
-# Read about Klayout DRC scripts in the User Manual under "Design Rule Check (DRC)"
-# Based on https://gdsfactory.github.io/gdsfactory/notebooks/_2_klayout.html#Klayout-DRC
-# and https://gdsfactory.github.io/gdsfactory/api.html#klayout-drc
-
-report("{name} DRC")
-time_start = Time.now
-"""
+    script = get_drc_script_start(name=name, shortcut=shortcut)
 
     if mode == "tiled":
         script += f"""
@@ -290,33 +313,29 @@ deep
 
     script += write_drc_deck(rules=rules, layers=layers)
 
-    script += r"""
-time_end = Time.now
-print "run time #{(time_end-time_start).round(3)} seconds \n"
-</text>
-</klayout-macro>
-"""
+    script += drc_script_end
     filepath = filepath or get_klayout_path() / "drc" / f"{name}.lydrc"
+    filepath = pathlib.Path(filepath)
     dirpath = filepath.parent
     dirpath.mkdir(parents=True, exist_ok=True)
     filepath = pathlib.Path(filepath)
     filepath.write_text(script)
-    logger.info(f"Wrote DRC deck to {str(filepath)!r} with shortcut {shortcut!r}")
+    print(f"Wrote DRC deck to {str(filepath)!r} with shortcut {shortcut!r}")
     return script
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
     rules = [
-        rule_min_width_or_space(layer="WG", width=0.2, space=0.2),
-        # rule_width(layer="WG", value=0.2),
-        # rule_space(layer="WG", value=0.2),
+        rule_width(layer="WG", value=0.2),
+        rule_space(layer="WG", value=0.2),
         rule_separation(layer1="HEATER", layer2="M1", value=1.0),
         rule_enclosing(layer1="VIAC", layer2="M1", value=0.2),
         rule_area(layer="WG", min_area_um2=0.05),
         rule_not_inside(layer="VIAC", not_inside="NPP"),
     ]
 
-    drc_rule_deck = write_drc_deck_macro(rules=rules, layers=gf.LAYER, mode="tiled")
+    layers = gf.LAYER.dict()
+    layers.update({"WG_PIN": (1, 10)})
+
+    drc_rule_deck = write_drc_deck_macro(rules=rules, layers=layers, mode="tiled")
     print(drc_rule_deck)

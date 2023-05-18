@@ -16,7 +16,7 @@
 # %% [markdown]
 # # PDK
 #
-# gdsfactory includes a generic PDK, that you can use as an inspiration to create your own.
+# gdsfactory includes a generic Process Design Kit (PDK), that you can use as an inspiration to create your own.
 #
 # A process design kit (PDK) includes:
 #
@@ -129,7 +129,7 @@ class LayerMap(BaseModel):
     VIAC: Layer = (40, 0)
     WGCLAD: Layer = (111, 0)
     WGN: Layer = (34, 0)
-    WGNCLAD: Layer = (36, 0)
+    WGclad_material: Layer = (36, 0)
 
     class Config:
         frozen = True
@@ -292,7 +292,7 @@ pdk1.get_component(dict(component="mmi1x2", settings=dict(length_mmi=10)))
 #
 # gdsfactory is **not** backwards compatible, which means that the package will keep improving and evolving.
 #
-# 1. To make your work stable you should install a specific version and [pin the version](https://martin-thoma.com/python-requirements/) in your `requirements.txt` or `pyproject.toml` as `gdsfactory==6.90.5` replacing `6.90.5` by whatever version you end up using.
+# 1. To make your work stable you should install a specific version and [pin the version](https://martin-thoma.com/python-requirements/) in your `requirements.txt` or `pyproject.toml` as `gdsfactory==6.94.1` replacing `6.94.1` by whatever version you end up using.
 # 2. Before you upgrade gdsfactory to a newer version make sure your tests pass to make sure that things behave as expected
 #
 #

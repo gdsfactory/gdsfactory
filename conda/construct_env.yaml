@@ -1,0 +1,11 @@
+name: constructor_env
+
+channels:
+  - conda-forge
+
+dependencies:
+  - conda==22.11.1
+  - python
+  - mamba
+  - pip
+  - constructor

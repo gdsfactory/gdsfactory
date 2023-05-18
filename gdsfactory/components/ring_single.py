@@ -4,7 +4,7 @@ import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler_ring import coupler_ring as coupler_ring_function
 from gdsfactory.components.straight import straight
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -15,7 +15,7 @@ def ring_single(
     length_y: float = 0.6,
     coupler_ring: ComponentSpec = coupler_ring_function,
     bend: ComponentSpec = bend_euler,
-    cross_section: ComponentSpec = "strip",
+    cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> gf.Component:
     """Returns a single ring.

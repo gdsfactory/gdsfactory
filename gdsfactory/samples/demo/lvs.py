@@ -7,7 +7,7 @@ import gdsfactory as gf
 
 @gf.cell
 def pads_with_routes(radius: float = 10):
-    """Returns MZI interferometer with bend."""
+    """Returns 2 pads connected with metal wires."""
     c = gf.Component()
     pad = gf.components.pad()
 
@@ -34,3 +34,16 @@ def pads_with_routes(radius: float = 10):
 if __name__ == "__main__":
     c = pads_with_routes(radius=100)
     c.show(show_ports=True)
+    gdspath = c.write_gds()
+
+    import kfactory as kf
+
+    lib = kf.kcell.KLib()
+    lib.read(filename=str(gdspath))
+    c = lib[0]
+
+    l2n = kf.kdb.LayoutToNetlist(c.begin_shapes_rec(0))
+    for l_idx in c.klib.layer_indices():
+        l2n.connect(l2n.make_layer(l_idx, f"layer{l_idx}"))
+    l2n.extract_netlist()
+    print(l2n.netlist().to_s())

@@ -9,7 +9,7 @@ import sys
 from typing import Optional
 
 
-def remove_path_or_dir(dest: pathlib.Path):
+def remove_path_or_dir(dest: pathlib.Path) -> None:
     if dest.is_dir():
         os.unlink(dest)
     else:
@@ -61,7 +61,7 @@ def install_gdsdiff() -> None:
             f.write("*.gds diff=gds_diff\n")
 
 
-def write_git_config(git_config_path):
+def write_git_config(git_config_path) -> None:
     """Write GIT config."""
     print("gdsdiff shows boolean differences in Klayout")
     print("git diff FILE.GDS")
@@ -132,7 +132,9 @@ def install_klayout_package() -> None:
     )
 
 
-def install_klayout_technology(tech_dir: pathlib.Path, tech_name: Optional[str] = None):
+def install_klayout_technology(
+    tech_dir: pathlib.Path, tech_name: Optional[str] = None
+) -> None:
     """Install technology to KLayout."""
     _install_to_klayout(
         src=tech_dir,

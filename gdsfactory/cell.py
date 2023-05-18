@@ -10,12 +10,14 @@ import toolz
 from pydantic import BaseModel, validate_arguments
 
 from gdsfactory.component import Component
-from gdsfactory.name import MAX_NAME_LENGTH, clean_name, get_name_short
+from gdsfactory.name import clean_name, get_name_short
 from gdsfactory.serialization import clean_dict, clean_value_name
 
 CACHE: Dict[str, Component] = {}
 
 INFO_VERSION = 2
+
+_F = TypeVar("_F", bound=Callable)
 
 
 class CellReturnTypeError(ValueError):
@@ -60,7 +62,7 @@ class Settings(BaseModel):
     child: Optional[Dict[str, Any]] = None
 
 
-def cell_without_validator(func):
+def cell_without_validator(func: _F) -> _F:
     """Decorator for Component functions.
 
     Similar to cell decorator but does not enforce argument types.
@@ -70,16 +72,26 @@ def cell_without_validator(func):
 
     @functools.wraps(func)
     def _cell(*args, **kwargs):
-        from gdsfactory.pdk import _ACTIVE_PDK
+        from gdsfactory.pdk import get_active_pdk
 
-        with_hash = kwargs.pop("with_hash", False)
-        autoname = kwargs.pop("autoname", True)
-        name = kwargs.pop("name", None)
-        cache = kwargs.pop("cache", True)
-        flatten = kwargs.pop("flatten", False)
-        info = kwargs.pop("info", {})
-        prefix = kwargs.pop("prefix", func.__name__)
-        max_name_length = kwargs.pop("max_name_length", MAX_NAME_LENGTH)
+        active_pdk = get_active_pdk()
+        cell_decorator_settings = active_pdk.cell_decorator_settings
+
+        with_hash = kwargs.pop("with_hash", cell_decorator_settings.with_hash)
+        autoname = kwargs.pop("autoname", cell_decorator_settings.autoname)
+        name = kwargs.pop("name", cell_decorator_settings.name)
+        cache = kwargs.pop("cache", cell_decorator_settings.cache)
+        flatten = kwargs.pop("flatten", cell_decorator_settings.flatten)
+        info = kwargs.pop("info", cell_decorator_settings.info)
+        prefix = kwargs.pop(
+            "prefix",
+            func.__name__
+            if cell_decorator_settings.prefix is None
+            else cell_decorator_settings.prefix,
+        )
+        max_name_length = kwargs.pop(
+            "max_name_length", cell_decorator_settings.max_name_length
+        )
 
         sig = inspect.signature(func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), args))
@@ -131,10 +143,7 @@ def cell_without_validator(func):
         # filter the changed dictionary to only keep entries which have truly changed
         changed_arg_names = [carg.split("=")[0] for carg in changed_arg_list]
         changed = {k: changed[k] for k in changed_arg_names}
-
-        pdk = _ACTIVE_PDK
-        default_decorator = pdk.default_decorator if pdk else None
-
+        default_decorator = active_pdk.default_decorator if active_pdk else None
         name = name or name_signature
         decorator = kwargs.pop("decorator", default_decorator)
         name = get_name_short(name, max_name_length=max_name_length)
@@ -222,9 +231,6 @@ def cell_without_validator(func):
         return component
 
     return _cell
-
-
-_F = TypeVar("_F", bound=Callable)
 
 
 def cell(func: _F) -> _F:

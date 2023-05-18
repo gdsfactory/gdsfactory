@@ -23,7 +23,9 @@
 # In gdsfactory **all dimensions** are in **microns**
 
 # %% [markdown]
-# Lets add a polygon
+# ## Polygons
+#
+# You can add polygons to different layers.
 
 # %% tags=[]
 import gdsfactory as gf
@@ -49,7 +51,7 @@ c
 # %% [markdown]
 # **Exercise** :
 #
-# Make a component similar to the one above that has a second polygon in layer (1, 1)
+# Make a component similar to the one above that has a second polygon in layer (2, 0)
 
 # %% tags=[]
 c = gf.Component("myComponent2")
@@ -74,11 +76,76 @@ print(c)
 c
 
 # %% [markdown]
+# You define polygons both from `gdstk` or `Shapely`
+
+# %%
+from shapely.geometry.polygon import Polygon
+import gdstk
+import gdsfactory as gf
+
+c = gf.Component("Mixed_polygons")
+p0 = Polygon(zip((-8, 6, 7, 9), (-6, 8, 17, 5)))
+p1 = p0.buffer(1)
+p2 = p1.simplify(tolerance=0.1)
+c.add_polygon(p0, layer=0)
+c.add_polygon(p1, layer=1)
+c.add_polygon(p2, layer=2)
+
+c.add_polygon([(-8, 6, 7, 9), (-6, 8, 17, 5)], layer=3)
+c
+
+# %%
+p0
+
+# %%
+p1 = p0.buffer(1)
+p1
+
+# %%
+pnot = p1 - p0
+pnot
+
+# %%
+c = gf.Component("exterior")
+c.add_polygon(pnot, layer=3)
+c
+
+# %%
+p_small = p0.buffer(-1)
+p_small
+
+# %%
+p_or = pnot | p_small
+p_or
+
+# %%
+c = gf.Component("p_or")
+c.add_polygon(p_or, layer=1)
+c
+
+# %%
+import shapely as sp
+
+p5 = sp.envelope(p0)
+p5
+
+# %%
+p6 = p5 - p0
+p6
+
+# %%
+c = gf.Component("p6")
+c.add_polygon(p6, layer=1)
+c
+
+# %% [markdown]
 # ## Connect **ports**
 #
 # Components can have a "Port" that allows you to connect ComponentReferences together like legos.
 #
 # You can write a simple function to make a rectangular straight, assign ports to the ends, and then connect those rectangles together.
+#
+# Notice that `connect` transform each reference but things won't remain connected if you move any of the references afterwards.
 
 
 # %%
@@ -178,7 +245,7 @@ wg2.ports
 # %% [markdown]
 # ## References
 #
-# Now that we have your component `c` is a multi-straight component, you can add references to that component in a new blank Component `c2`, then add two references and shift one to see the movement.
+# Now that your component `c` is a multi-straight component, you can add references to that component in a new blank Component `c2`, then add two references and shift one to see the movement.
 
 # %%
 c2 = gf.Component("MultiMultiWaveguide")
@@ -197,24 +264,21 @@ c2
 # %% [markdown]
 # ## Labels
 #
-# You can add abstract GDS labels (annotate) to your Components, in order to record information
+# You can add abstract GDS labels to annotate your Components, in order to record information
 # directly into the final GDS file without putting any extra geometry onto any layer
 # This label will display in a GDS viewer, but will not be rendered or printed
-# like the polygons created by gf.components.text().
+# like the polygons created by `gf.components.text()`.
 
 # %%
 c2.add_label(text="First label", position=mwg1_ref.center)
 c2.add_label(text="Second label", position=mwg2_ref.center)
 
-# It's very useful for recording information about the devices or layout
+# labels are useful for recording information
 c2.add_label(
     text=f"The x size of this\nlayout is {c2.xsize}",
     position=(c2.xmax, c2.ymax),
     layer=(10, 0),
 )
-
-# Again, note we have to write the GDS for it to be visible (view in KLayout)
-c2.write_gds("MultiMultiWaveguideWithLabels.gds")
 c2
 
 # %% [markdown]

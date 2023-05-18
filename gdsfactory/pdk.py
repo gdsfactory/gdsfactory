@@ -6,6 +6,7 @@ import warnings
 from functools import partial
 from typing import Any, Callable, Optional, Union, Tuple
 from typing_extensions import Literal
+from gdsfactory.name import MAX_NAME_LENGTH
 
 import numpy as np
 from omegaconf import DictConfig
@@ -105,6 +106,43 @@ class OasisWriteSettings(BaseModel):
     )
 
 
+class CellDecoratorSettings(BaseModel):
+    """Settings for cell_without_validator decorator function in gdsfactory.cell."""
+
+    with_hash: bool = Field(
+        default=False,
+        description="If true, will append a hash of the cell to the cell name.",
+    )
+    autoname: bool = Field(
+        default=True,
+        description="If true, will automatically name the cell based on its parameters.",
+    )
+    name: Optional[str] = Field(
+        default=None,
+        description="If set, will override the cell name with this value.",
+    )
+    cache: bool = Field(
+        default=True,
+        description="If true, will cache the cell in the gdsfactory.cell.CACHE",
+    )
+    flatten: bool = Field(
+        default=False,
+        description="If true, will flatten the cell before returning it.",
+    )
+    info: Dict[str, Any] = Field(
+        default={},
+        description="Additional information to store in the cell.",
+    )
+    prefix: Optional[str] = Field(
+        default=None,
+        description="If set, will prepend this string to the cell name.",
+    )
+    max_name_length: int = Field(
+        default=MAX_NAME_LENGTH,
+        description="Maximum length of the cell name.",
+    )
+
+
 class Pdk(BaseModel):
     """Store layers, cross_sections, cell functions, simulation_settings ...
 
@@ -140,6 +178,7 @@ class Pdk(BaseModel):
         circuit_yaml_parser: can parse different YAML formats.
         gds_write_settings: to write GDSII files.
         oasis_settings: to write OASIS files.
+        cell_decorator_settings: settings for cell_without_validator decorator function in gdsfactory.cell.
         bend_points_distance: default points distance for bends in um.
 
     """
@@ -168,6 +207,7 @@ class Pdk(BaseModel):
     circuit_yaml_parser: Callable = cell_from_yaml
     gds_write_settings: GdsWriteSettings = GdsWriteSettings()
     oasis_settings: OasisWriteSettings = OasisWriteSettings()
+    cell_decorator_settings: CellDecoratorSettings = CellDecoratorSettings()
     bend_points_distance: float = 20 * nm
 
     @property
@@ -176,7 +216,7 @@ class Pdk(BaseModel):
         return self.gds_write_settings.precision / self.gds_write_settings.unit
 
     @grid_size.setter
-    def grid_size(self, value):
+    def grid_size(self, value) -> None:
         self.gds_write_settings.precision = value * self.gds_write_settings.unit
 
     class Config:
