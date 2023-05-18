@@ -173,7 +173,8 @@ class Paths:
     notebooks = repo_path / "docs" / "notebooks"
     plugins = module / "plugins"
     web = plugins / "web"
-    gds_ref = repo / "gdsfactory-test-data" / "gds"
+    test_data = repo / "test-data"
+    gds_ref = test_data / "gds"
     gds_run = GDSDIR_TEMP / "gds_run"
     gds_diff = GDSDIR_TEMP / "gds_diff"
 

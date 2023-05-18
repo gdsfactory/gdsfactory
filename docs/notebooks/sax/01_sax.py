@@ -277,21 +277,16 @@ gs.plot_model(mmi1x2, ports2=("o2", "o3"))
 # You can fit a sax model to Sparameter FDTD simulation data.
 
 # %%
+filepath = gf.config.PATH.test_data / "sp" / "coupler_G224n_L20_S220.csv"
+
 coupler_fdtd = gs.read.model_from_csv(
-    filepath=gf.config.sparameters_path / "coupler" / "coupler_G224n_L20_S220.csv",
+    filepath=filepath,
     xkey="wavelength_nm",
     prefix="S",
     xunits=1e-3,
 )
 
 # %%
-gs.plot_model(coupler_fdtd)
-
-# %%
-# lumerical simulation (different coupler)
-coupler_fdtd = gs.read.model_from_csv(
-    filepath=gf.config.sparameters_path / "coupler_057254c0_00cc8908.csv",
-)
 gs.plot_model(coupler_fdtd)
 
 # %% [markdown]
@@ -301,7 +296,6 @@ gs.plot_model(coupler_fdtd)
 f = jnp.linspace(constants.c / 1.0e-6, constants.c / 2.0e-6, 500) * 1e-12  # THz
 wl = constants.c / (f * 1e12) * 1e6  # um
 
-filepath = gf.config.sparameters_path / "coupler" / "coupler_G224n_L20_S220.csv"
 coupler_fdtd = gs.read.model_from_csv(
     filepath, xkey="wavelength_nm", prefix="S", xunits=1e-3
 )
@@ -354,8 +348,8 @@ def fsm(x):
     return fX(x) @ asm + bsm  # fit symmetric module fiir
 
 
-plt.plot(wl, jnp.abs(s))
-plt.plot(wl, fsm(wl))
+plt.plot(wl, jnp.abs(s), label="data")
+plt.plot(wl, fsm(wl), label="fit")
 plt.grid(True)
 plt.xlabel("Frequency [THz]")
 plt.ylabel("Transmission")
@@ -372,8 +366,8 @@ def fsp(x):
     return fX(x) @ asp + bsp  # fit symmetric phase
 
 
-plt.plot(wl, jnp.unwrap(jnp.angle(s)))
-plt.plot(wl, fsp(wl))
+plt.plot(wl, jnp.unwrap(jnp.angle(s)), label="data")
+plt.plot(wl, fsp(wl), label="fit")
 plt.grid(True)
 plt.xlabel("Frequency [THz]")
 plt.ylabel("Angle [rad]")
