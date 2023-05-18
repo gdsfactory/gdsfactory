@@ -64,6 +64,17 @@ class Settings(BaseModel):
     child: Optional[Dict[str, Any]] = None
 
 
+class CellDecoratorSettings:
+    with_hash = False
+    autoname = True
+    name = None
+    cache = True
+    flatten = False
+    info = {}
+    prefix = None
+    max_name_length = MAX_NAME_LENGTH
+
+
 def cell_without_validator(func) -> Callable[CellSettings, Component]:
     """Decorator for Component functions.
 
@@ -76,14 +87,14 @@ def cell_without_validator(func) -> Callable[CellSettings, Component]:
     def _cell(*args, **kwargs):
         from gdsfactory.pdk import _ACTIVE_PDK
 
-        with_hash = kwargs.pop("with_hash", False)
-        autoname = kwargs.pop("autoname", True)
-        name = kwargs.pop("name", None)
-        cache = kwargs.pop("cache", True)
-        flatten = kwargs.pop("flatten", False)
-        info = kwargs.pop("info", {})
-        prefix = kwargs.pop("prefix", func.__name__)
-        max_name_length = kwargs.pop("max_name_length", MAX_NAME_LENGTH)
+        with_hash = kwargs.pop("with_hash", CellDecoratorSettings.with_hash)
+        autoname = kwargs.pop("autoname", CellDecoratorSettings.autoname)
+        name = kwargs.pop("name", CellDecoratorSettings.name)
+        cache = kwargs.pop("cache", CellDecoratorSettings.cache)
+        flatten = kwargs.pop("flatten", CellDecoratorSettings.flatten)
+        info = kwargs.pop("info", CellDecoratorSettings.info)
+        prefix = kwargs.pop("prefix", func.__name__ if CellDecoratorSettings.prefix is None else CellDecoratorSettings.prefix)
+        max_name_length = kwargs.pop("max_name_length", CellDecoratorSettings.max_name_length)
 
         sig = inspect.signature(func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), args))
