@@ -11,7 +11,7 @@ import toolz
 from pydantic import BaseModel, validate_arguments
 
 from gdsfactory.component import Component
-from gdsfactory.name import MAX_NAME_LENGTH, clean_name, get_name_short
+from gdsfactory.name import clean_name, get_name_short
 from gdsfactory.serialization import clean_dict, clean_value_name
 
 CACHE: Dict[str, Component] = {}
@@ -64,17 +64,6 @@ class Settings(BaseModel):
     child: Optional[Dict[str, Any]] = None
 
 
-class CellDecoratorSettings:
-    with_hash = False
-    autoname = True
-    name = None
-    cache = True
-    flatten = False
-    info = {}
-    prefix = None
-    max_name_length = MAX_NAME_LENGTH
-
-
 def cell_without_validator(func) -> Callable[CellSettings, Component]:
     """Decorator for Component functions.
 
@@ -86,15 +75,16 @@ def cell_without_validator(func) -> Callable[CellSettings, Component]:
     @functools.wraps(func)
     def _cell(*args, **kwargs):
         from gdsfactory.pdk import _ACTIVE_PDK
+        cell_decorator_settings = _ACTIVE_PDK.cell_decorator_settings
 
-        with_hash = kwargs.pop("with_hash", CellDecoratorSettings.with_hash)
-        autoname = kwargs.pop("autoname", CellDecoratorSettings.autoname)
-        name = kwargs.pop("name", CellDecoratorSettings.name)
-        cache = kwargs.pop("cache", CellDecoratorSettings.cache)
-        flatten = kwargs.pop("flatten", CellDecoratorSettings.flatten)
-        info = kwargs.pop("info", CellDecoratorSettings.info)
-        prefix = kwargs.pop("prefix", func.__name__ if CellDecoratorSettings.prefix is None else CellDecoratorSettings.prefix)
-        max_name_length = kwargs.pop("max_name_length", CellDecoratorSettings.max_name_length)
+        with_hash = kwargs.pop("with_hash", cell_decorator_settings.with_hash)
+        autoname = kwargs.pop("autoname", cell_decorator_settings.autoname)
+        name = kwargs.pop("name", cell_decorator_settings.name)
+        cache = kwargs.pop("cache", cell_decorator_settings.cache)
+        flatten = kwargs.pop("flatten", cell_decorator_settings.flatten)
+        info = kwargs.pop("info", cell_decorator_settings.info)
+        prefix = kwargs.pop("prefix", func.__name__ if cell_decorator_settings.prefix is None else cell_decorator_settings.prefix)
+        max_name_length = kwargs.pop("max_name_length", cell_decorator_settings.max_name_length)
 
         sig = inspect.signature(func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), args))
