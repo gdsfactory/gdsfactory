@@ -481,6 +481,8 @@ class ComponentReference(_GeometryHelper):
         for name in local_names:
             if name not in parent_names:
                 self._local_ports.pop(name)
+        for k in list(self._local_ports):
+            self._local_ports[k].reference = self
         return self._local_ports
 
     @property

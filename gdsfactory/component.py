@@ -2466,6 +2466,20 @@ class Component(_GeometryHelper):
         component.add_polygon(p, layer=layer)
         return component
 
+def declarative_component(cls):
+    decl = cls()
+    comp = Component()
+    for k, v in decl.__class__.__dict__.items():
+        if k.startswith("_") or callable(v):
+            continue
+        ref = (comp << v)
+        setattr(comp, k, ref)
+        setattr(decl, k, ref)
+    for p1, p2 in decl.connections():
+        p1.reference.connect(p1.name, p2.reference.ports[p2.name])
+    for name, p in decl.ports().items():
+        comp.add_port(name, port=p.reference.ports[p.name])
+    return comp
 
 def copy(
     D: Component,
@@ -2876,3 +2890,7 @@ if __name__ == "__main__":
     # gf.show(gdspath)
     # c.show(show_ports=True)
     c.show()
+from .component import Component
+
+
+

@@ -25,7 +25,7 @@ from gdsfactory.path import Path
 
 
 # NOTE: import order matters. Only change the order if you know what you are doing
-from gdsfactory.component import Component, ComponentReference
+from gdsfactory.component import Component, ComponentReference, declarative_component
 from gdsfactory.config import CONF, call_if_func, PATH, logger
 from gdsfactory.port import Port
 from gdsfactory.cell import cell
@@ -89,6 +89,7 @@ def __getattr__(name):
 __all__ = (
     "CONF",
     "Component",
+    "declarative_component",
     "ComponentReference",
     "CrossSection",
     "Group",
