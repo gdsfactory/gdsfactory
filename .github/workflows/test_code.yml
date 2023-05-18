@@ -97,6 +97,7 @@ jobs:
         with:
           path: |
             ~/.gdsfactory/
+          key: ${{ hashFiles('.github/sim_version') }}
       - uses: conda-incubator/setup-miniconda@v2
         with:
           python-version: ${{ matrix.python-version }}
@@ -150,6 +151,7 @@ jobs:
         with:
           path: |
             ~/.gdsfactory/
+          key: ${{ hashFiles('.github/sim_version') }}
       - uses: conda-incubator/setup-miniconda@v2
         with:
           python-version: '3.10'
