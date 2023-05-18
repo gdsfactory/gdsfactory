@@ -149,7 +149,7 @@ smooth_c
 import gdsfactory as gf
 from gdsfactory.simulation.sax.parameter import NamedParameter
 from gdsfactory.technology import LayerStack
-from gdsfactory.pdk import _ACTIVE_PDK, get_layer_stack
+from gdsfactory.pdk import get_layer_stack
 
 
 # gdsfactory layerstack
