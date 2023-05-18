@@ -17,7 +17,7 @@ modules:
 isort:skip_file
 """
 from __future__ import annotations
-from warnings import warn
+import warnings
 from functools import partial
 from toolz import compose
 from gdsfactory.component_layout import Group
@@ -81,7 +81,10 @@ c = components
 
 def __getattr__(name):
     if name == "types":
-        warn("gdsfactory.types has been renamed to gdsfactory.typings", stacklevel=3)
+        warnings.warn(
+            "gdsfactory.types has been renamed to gdsfactory.typings and will be deprecated soon.",
+            stacklevel=3,
+        )
         return typings
     raise AttributeError(f"No module named {name}")
 
