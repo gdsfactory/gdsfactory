@@ -516,7 +516,7 @@ class WaveguideCoupler(Waveguide):
     def coupling_length(self, power_ratio: float = 1.0) -> float:
         """Coupling length calculated from the effective mode indices.
 
-        Parameters:
+        Args:
             power_ratio: desired coupling power ratio.
         """
         m = (self.n_eff.size // 2) * 2
@@ -574,7 +574,7 @@ def sweep_n_eff(waveguide: Waveguide, **sweep_kwargs) -> np.ndarray:
     The returned array uses the sweep arguments and the mode index as
     coordinates to organize the data.
 
-    Parameters:
+    Args:
         waveguide: base waveguide geometry.
         sweep_kwargs: Waveguide arguments and values to sweep.
 
@@ -594,7 +594,7 @@ def sweep_n_group(waveguide: Waveguide, **sweep_kwargs) -> np.ndarray:
     The returned array uses the sweep arguments and the mode index as
     coordinates to organize the data.
 
-    Parameters:
+    Args:
         waveguide: base waveguide geometry.
         sweep_kwargs: Waveguide arguments and values to sweep.
 
@@ -614,7 +614,7 @@ def sweep_mode_area(waveguide: Waveguide, **sweep_kwargs) -> np.ndarray:
     The returned array uses the sweep arguments and the mode index as
     coordinates to organize the data.
 
-    Parameters:
+    Args:
         waveguide: base waveguide geometry.
         sweep_kwargs: Waveguide arguments and values to sweep.
 
@@ -636,7 +636,7 @@ def sweep_bend_mismatch(
     The loss is squared because you hit the bend loss twice
     (from bend to straight and from straight to bend).
 
-    Parameters:
+    Args:
         waveguide: base waveguide geometry.
         bend_radii: radii values to sweep.
     """

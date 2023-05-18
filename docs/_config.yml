@@ -8,11 +8,11 @@ logo: logo.png
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
 execute:
-  # execute_notebooks: cache
-  # timeout: 60
+  execute_notebooks: cache
+  timeout: 60
   allow_errors: false
-  timeout: -1
-  execute_notebooks: force
+  # timeout: -1
+  # execute_notebooks: force
   # execute_notebooks: "off"
   exclude_patterns:
     - "*01_pin_waveguide*"

@@ -37,10 +37,10 @@ Mode solver Plugins
 
    Waveguide
    WaveguideCoupler
-   sweep_width
-   sweep_bend_loss
-   group_index
-   plot_sweep_width
+   sweep_n_eff
+   sweep_n_group
+   sweep_bend_mismatch
+   sweep_coupling_length
 
 .. currentmodule:: gdsfactory.simulation.fem.mode_solver
 
