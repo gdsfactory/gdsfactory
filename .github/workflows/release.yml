@@ -56,7 +56,7 @@ jobs:
         run: |
           conda info
           conda install conda-libmamba-solve
-          conda install constructor -y
+          conda create -n demo --experimental-solver=libmamba --dry-run install constructor -y
           cd conda
           constructor .
       - name: Release
