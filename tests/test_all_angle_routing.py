@@ -41,7 +41,7 @@ def test_gds(component_name: str) -> None:
 
 def test_bad_cells_throw_errors(bad_component_name):
     bad_func = AAR_YAML_PICS[bad_component_name]
-    with pytest.raises(Exception):
+    with pytest.raises(ValueError):
         bad_func()
 
 
@@ -54,5 +54,7 @@ def test_settings(component_name: str, data_regression: DataRegressionFixture) -
 if __name__ == "__main__":
     # name = cells_to_test[0]
     name = "aar_bundles"
+    name = "aar_error_intermediate_180"
+    name = "aar_error_overconstrained"
     c = AAR_YAML_PICS[name]()
     c.show()

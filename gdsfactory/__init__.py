@@ -17,7 +17,7 @@ modules:
 isort:skip_file
 """
 from __future__ import annotations
-from warnings import warn
+import warnings
 from functools import partial
 from toolz import compose
 from gdsfactory.component_layout import Group
@@ -25,7 +25,7 @@ from gdsfactory.path import Path
 
 
 # NOTE: import order matters. Only change the order if you know what you are doing
-from gdsfactory.component import Component, ComponentReference
+from gdsfactory.component import Component, ComponentReference, declarative_component
 from gdsfactory.config import CONF, call_if_func, PATH, logger
 from gdsfactory.port import Port
 from gdsfactory.cell import cell
@@ -81,7 +81,10 @@ c = components
 
 def __getattr__(name):
     if name == "types":
-        warn("gdsfactory.types has been renamed to gdsfactory.typings", stacklevel=3)
+        warnings.warn(
+            "gdsfactory.types has been renamed to gdsfactory.typings and will be deprecated soon.",
+            stacklevel=3,
+        )
         return typings
     raise AttributeError(f"No module named {name}")
 
@@ -89,6 +92,7 @@ def __getattr__(name):
 __all__ = (
     "CONF",
     "Component",
+    "declarative_component",
     "ComponentReference",
     "CrossSection",
     "Group",
@@ -147,4 +151,4 @@ __all__ = (
     "xsection",
     "PATH",
 )
-__version__ = "6.94.1"
+__version__ = "6.95.0"

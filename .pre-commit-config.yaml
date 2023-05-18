@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: 5191f112dfd133e97acba8c2162c37d8613cf54b
+    rev: ca84e500209b3757213759d4d522f8ed307cd638
     hooks:
       - id: check-yaml
         exclude: ^(conda\.recipe/meta\.yaml|conda_build/templates/.*\.yaml|docs/click/meta\.yaml|conda/meta\.yaml|conda/construct.yaml|.*\.pic\.yml|Miniforge3/construct.yaml)
@@ -20,9 +20,14 @@ repos:
   #       args: [--profile, black, --filter-files]
 
   - repo: https://github.com/psf/black
-    rev: 23.1.0
+    rev: 23.3.0
     hooks:
       - id: black
+  - repo: https://github.com/mwouts/jupytext
+    rev: 79351dfac9fde7c72cc73d553f662b4887bc63f5  # CURRENT_TAG/COMMIT_HASH
+    hooks:
+    - id: jupytext
+      args: [--from, py, --to, py]
 
   # - repo: https://github.com/mwouts/jupytext
   #   rev: v1.14.4 # CURRENT_TAG/COMMIT_HASH
@@ -35,10 +40,10 @@ repos:
   #   hooks:
   #     - id: ufmt
   - repo: https://github.com/asottile/blacken-docs
-    rev: acb5bdec097a7c332f30d1f85dde4d93df62c979
+    rev: 7b71075ceb458be255e24da587c0275818b51faa
     hooks:
       - id: blacken-docs
-        additional_dependencies: [black==23.1.0]
+        additional_dependencies: [black==23.3.0]
   # - repo: https://github.com/pycqa/flake8
   #   rev: 33e1c55853fbcc454a2343b9b61a0e715a2f74a4
   #   hooks:
@@ -59,7 +64,7 @@ repos:
   #       args: [--py37-plus, --keep-runtime-typing]
 
   - repo: https://github.com/codespell-project/codespell
-    rev: ea349a2ab846ace712f81b50825942935805d531
+    rev: ad3ff374e97e29ca87c94b5dc7eccdd29adc6296
     hooks:
       - id: codespell
         args: ["-L TE,TE/TM,te,ba,FPR,fpr_spacing,ro,nd,donot,schem"]
@@ -138,6 +143,6 @@ repos:
   # - id: nbqa-isort
   #   args: ["--float-to-top"]
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: "v0.0.242"
+    rev: "7c149cf0b9d2c4f7558de1ea5d2c137ca074d9d0"
     hooks:
       - id: ruff

@@ -5,7 +5,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.4
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -20,10 +20,10 @@
 #
 # They are used when other resolutions are not provided, and `default_resolution_max` effectively sets the minimum length possible, since when conflicting resolution at a point are given, the smallest one is taken.
 
-# + tags=[]
+# +
 # # %matplotlib widget
 
-# + tags=[]
+# +
 from itertools import product
 import numpy as np
 import gdsfactory as gf
@@ -72,7 +72,7 @@ def mesh_with_physicals(mesh, filename):
 
 # With `default_resolution_max` set to 1 um and `default_resolution_min` set to 100 nm:
 
-# + tags=[]
+# +
 mesh = waveguide_trimmed.to_gmsh(
     type="uz",
     xsection_bounds=[(4, -4), (4, 4)],
@@ -91,7 +91,6 @@ mesh.draw().plot()
 
 # With `default_resolution_max` set to 300 nm and `default_resolution_max` set to 50 nm:
 
-# + tags=[]
 mesh = waveguide_trimmed.to_gmsh(
     type="uz",
     xsection_bounds=[(4, -4), (4, 4)],
@@ -105,7 +104,6 @@ mesh = waveguide_trimmed.to_gmsh(
 mesh = mesh_with_physicals(mesh, filename)
 mesh = from_meshio(mesh)
 mesh.draw().show()
-# -
 
 # ## Label-wise coarse resolution control
 #
@@ -115,7 +113,7 @@ mesh.draw().show()
 #
 # For example, to refine within the core only, one could use:
 
-# + tags=[]
+# +
 resolutions = {}
 resolutions["core"] = {"resolution": 0.05, "distance": 0}
 
@@ -135,7 +133,7 @@ mesh.draw().show()
 
 # Adding a dropoff at the interface:
 
-# + tags=[]
+# +
 resolutions = {}
 resolutions["core"] = {"resolution": 0.05, "distance": 5}
 
@@ -155,7 +153,7 @@ mesh.draw().show()
 
 # Refining multiple elements simultaneously:
 
-# + tags=[]
+# +
 resolutions = {}
 resolutions["core"] = {"resolution": 0.05, "distance": 1}
 resolutions["slab90"] = {"resolution": 0.02, "distance": 1}
@@ -186,7 +184,7 @@ mesh.draw().show()
 #
 # For instance, if one wants to refine in a circle around the waveguide core, and have some asymmetry about the y-axis, a meshsize array like so could be defined:
 
-# + tags=[]
+# +
 xs = np.linspace(-2, 10, 800)
 ys = np.linspace(-2, 3, 800)
 global_meshsize_array = []

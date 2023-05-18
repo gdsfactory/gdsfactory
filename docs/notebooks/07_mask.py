@@ -1,18 +1,3 @@
-# ---
-# jupyter:
-#   jupytext:
-#     custom_cell_magics: kql
-#     text_representation:
-#       extension: .py
-#       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.11.2
-#   kernelspec:
-#     display_name: Python 3 (ipykernel)
-#     language: python
-#     name: python3
-# ---
-
 # %% [markdown]
 # # Die assembly
 #
@@ -41,7 +26,7 @@
 #
 # Labels follow format `opt_in_{polarization}_{wavelength}_device_{username}_({component_name})-{gc_index}-{port.name}`
 
-# %% tags=[]
+# %%
 import ipywidgets
 from IPython.display import display
 from omegaconf import OmegaConf
@@ -55,16 +40,16 @@ gf.config.rich_output()
 PDK = get_generic_pdk()
 PDK.activate()
 
-# %% tags=[]
+# %%
 mmi = gf.components.mmi2x2()
 mmi_te_siepic = gf.labels.add_fiber_array_siepic(component=mmi)
 mmi_te_siepic.plot_klayout(show_ports=False)
 mmi_te_siepic.show()
 
-# %% tags=[]
+# %%
 mmi_te_siepic.ports
 
-# %% tags=[]
+# %%
 labels = mmi_te_siepic.get_labels()
 
 for label in labels:
@@ -73,7 +58,7 @@ for label in labels:
 # %% [markdown]
 # ### 2. EHVA labels
 
-# %% tags=[]
+# %%
 add_label_ehva_demo = gf.partial(add_label_ehva, die="demo_die")
 mmi = gf.c.mmi2x2(length_mmi=2.2)
 mmi_te_ehva = gf.routing.add_fiber_array(
@@ -82,7 +67,7 @@ mmi_te_ehva = gf.routing.add_fiber_array(
 mmi_te_ehva.plot_klayout(show_ports=False)
 mmi_te_ehva.show()
 
-# %% tags=[]
+# %%
 labels = mmi_te_ehva.get_labels(depth=0)
 
 for label in labels:
@@ -102,7 +87,7 @@ for label in labels:
 #
 # ```
 
-# %% tags=[]
+# %%
 add_label_ehva_demo = gf.partial(
     add_label_ehva,
     die="demo_die",
@@ -115,7 +100,7 @@ mmi_te_ehva = gf.routing.add_fiber_array(
 mmi_te_ehva.plot_klayout(show_ports=False)
 mmi_te_ehva.show()
 
-# %% tags=[]
+# %%
 labels = mmi_te_ehva.get_labels(depth=0)
 
 for label in labels:
@@ -139,7 +124,7 @@ c2.show()
 #
 # Lets start with a resistance sweep, where you change the resistance width to measure sheet resistance.
 
-# %% tags=[]
+# %%
 sweep = [gf.components.resistance_sheet(width=width) for width in [1, 10, 100]]
 m = gf.pack(sweep)
 c = m[0]
@@ -148,17 +133,17 @@ c
 # %% [markdown]
 # Then we add spirals with different lengths to measure waveguide propagation loss.
 
-# %% tags=[]
+# %%
 spiral = gf.components.spiral_inner_io_fiber_single()
 spiral
 
-# %% tags=[]
+# %%
 spiral_te = gf.routing.add_fiber_single(
     gf.functions.rotate(gf.components.spiral_inner_io_fiber_single, 90)
 )
 spiral_te
 
-# %% tags=[]
+# %%
 # which is equivalent to
 spiral_te = gf.compose(
     gf.routing.add_fiber_single,
@@ -168,7 +153,7 @@ spiral_te = gf.compose(
 c = spiral_te(length=10e3)
 c
 
-# %% tags=[]
+# %%
 add_label_ehva_mpw1 = gf.partial(gf.labels.add_label_ehva, die="mpw1")
 add_fiber_single_no_labels = gf.partial(
     gf.routing.add_fiber_single,
@@ -191,7 +176,7 @@ c
 #
 # For example you can add prefix `S` at the `north-center` of each spiral using `text_rectangular` which is DRC clean and anchored on `nc` (north-center)
 
-# %% tags=[]
+# %%
 text_metal3 = gf.partial(
     gf.components.text_rectangular_multi_layer, layers=(gf.LAYER.M3,)
 )
@@ -200,7 +185,7 @@ m = gf.pack(sweep, text=text_metal3, text_anchors=("nc",), text_prefix="s")
 c = m[0]
 c
 
-# %% tags=[]
+# %%
 text_metal2 = gf.partial(gf.components.text, layer=gf.LAYER.M2)
 
 m = gf.pack(sweep, text=text_metal2, text_anchors=("nc",), text_prefix="s")
@@ -212,22 +197,22 @@ c
 #
 # You can also pack components with a constant spacing.
 
-# %% tags=[]
+# %%
 g = gf.grid(sweep)
 g
 
-# %% tags=[]
+# %%
 gh = gf.grid(sweep, shape=(1, len(sweep)))
 gh
 
-# %% tags=[]
+# %%
 gh_ymin = gf.grid(sweep, shape=(1, len(sweep)), align_y="ymin")
 gh_ymin
 
 # %% [markdown]
 # You can also add text labels to each element of the sweep
 
-# %% tags=[] vscode={"languageId": "markdown"}
+# %%
 gh_ymin = gf.grid_with_text(
     sweep, shape=(1, len(sweep)), align_y="ymin", text=text_metal3
 )
@@ -236,7 +221,7 @@ gh_ymin
 # %% [markdown]
 # You can modify the text by customizing the `text_function` that you pass to `grid_with_text`
 
-# %% tags=[] vscode={"languageId": "markdown"}
+# %%
 gh_ymin_m2 = gf.grid_with_text(
     sweep, shape=(1, len(sweep)), align_y="ymin", text=text_metal2
 )
@@ -253,7 +238,7 @@ gh_ymin_m2
 #
 # You can define a Component top cell reticle or die using `grid` and `pack` python functions.
 
-# %% tags=[] vscode={"languageId": "markdown"}
+# %%
 text_metal3 = gf.partial(
     gf.components.text_rectangular_multi_layer, layers=(gf.LAYER.M3,)
 )
@@ -267,7 +252,7 @@ gratings_sweep = [
 gratings = grid(gratings_sweep, text=None)
 gratings
 
-# %% tags=[]
+# %%
 gratings_sweep = [
     gf.components.grating_coupler_elliptical(taper_angle=taper_angle)
     for taper_angle in [20, 30, 40]
@@ -281,14 +266,14 @@ gratings = grid(
 )
 gratings
 
-# %% tags=[]
+# %%
 sweep_resistance = [
     gf.components.resistance_sheet(width=width) for width in [1, 10, 100]
 ]
 resistance = gf.pack(sweep_resistance)[0]
 resistance
 
-# %% tags=[]
+# %%
 spiral_te = gf.compose(
     gf.routing.add_fiber_single,
     gf.functions.rotate90,
@@ -298,7 +283,7 @@ sweep_spirals = [spiral_te(length=length) for length in [10e3, 20e3, 30e3]]
 spirals = gf.pack(sweep_spirals)[0]
 spirals
 
-# %% tags=[]
+# %%
 mask = gf.pack([spirals, resistance, gratings])[0]
 mask
 
@@ -308,7 +293,7 @@ mask
 # For more complex mask, you can also create a new cell to build up more complexity
 
 
-# %% tags=[]
+# %%
 @gf.cell
 def mask():
     c = gf.Component()
@@ -346,10 +331,10 @@ c
 #
 # `# %matplotlib widget`  -> `%matplotlib widget`
 
-# %% tags=[]
+# %%
 # # %matplotlib widget
 
-# %% tags=[]
+# %%
 x = ipywidgets.Textarea(rows=20, columns=480)
 
 x.value = """
@@ -410,7 +395,7 @@ f({"new": x.value})
 #
 # `pack_doe_grid` places each component on a regular grid
 
-# %% tags=[]
+# %%
 x.value = """
 name: mask_compact
 
@@ -449,12 +434,12 @@ placements:
 
 display(x, out)
 
-# %% [markdown] tags=[]
+# %% [markdown]
 # ## Metadata
 #
 # When saving GDS files is also convenient to store the metadata settings that you used to generate the GDS file.
 
-# %% tags=[]
+# %%
 import gdsfactory as gf
 
 
@@ -477,13 +462,13 @@ c.pprint()
 gdspath = c.write_gds_with_metadata("demo.gds")
 
 
-# %% tags=[]
+# %%
 from IPython.display import Code
 
 metadata = gdspath.with_suffix(".yml")
 Code(metadata)
 
-# %% tags=[]
+# %%
 import pandas as pd
 from omegaconf import OmegaConf
 import gdsfactory as gf
@@ -500,7 +485,7 @@ def mzi_te(**kwargs) -> gf.Component:
 c = mzi_te()
 c
 
-# %% tags=[]
+# %%
 c = gf.grid(
     [mzi_te()] * 2,
     decorator=gf.add_labels.add_labels_to_ports,
@@ -513,10 +498,10 @@ csvpath = gf.labels.write_labels.write_labels_gdstk(gdspath, debug=True)
 df = pd.read_csv(csvpath)
 c
 
-# %% tags=[]
+# %%
 df
 
-# %% tags=[]
+# %%
 mzis = [mzi_te()] * 2
 spirals = [
     gf.routing.add_fiber_array(gf.components.spiral_external_io(length=length))
@@ -534,26 +519,26 @@ csvpath = gf.labels.write_labels.write_labels_gdstk(gdspath, debug=True)
 df = pd.read_csv(csvpath)
 c
 
-# %% tags=[]
+# %%
 gdspath = c.write_gds_with_metadata(gdsdir="extra")
 
-# %% tags=[]
+# %%
 yaml_path = gdspath.with_suffix(".yml")
 
-# %% tags=[]
+# %%
 labels_path = gf.labels.write_labels.write_labels_gdstk(
     gdspath=gdspath, layer_label=(201, 0)
 )
 
-# %% tags=[]
+# %%
 mask_metadata = OmegaConf.load(yaml_path)
 
-# %% tags=[]
+# %%
 test_metadata = tm = gf.labels.merge_test_metadata(
     labels_path=labels_path, mask_metadata=mask_metadata
 )
 
-# %% tags=[]
+# %%
 tm.keys()
 
 # %% [markdown]
@@ -566,11 +551,11 @@ tm.keys()
 #
 # ```
 
-# %% tags=[]
+# %%
 spiral_names = [s for s in test_metadata.keys() if s.startswith("spiral")]
 spiral_names
 
-# %% tags=[]
+# %%
 spiral_lengths = [
     test_metadata[spiral_name].info.length for spiral_name in spiral_names
 ]

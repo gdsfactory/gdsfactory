@@ -5,7 +5,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.4
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -16,7 +16,7 @@
 #
 # You can supply the argument `type="xy"` and a `z`-value, to mesh arbitrary `Component` planar cross-sections.
 
-# + tags=[]
+# +
 from gdsfactory.pdk import get_layer_stack
 from gdsfactory.technology import LayerStack, LayerLevel
 from gdsfactory.simulation.gmsh.mesh import create_physical_mesh
@@ -31,8 +31,8 @@ PDK.activate()
 
 waveguide = gf.components.straight_pin(length=10, taper=None)
 waveguide
+# -
 
-# + tags=[]
 filtered_layerstack = LayerStack(
     layers={
         k: get_layer_stack().layers[k]
@@ -44,7 +44,7 @@ filtered_layerstack = LayerStack(
     }
 )
 
-# + tags=[]
+# +
 filename = "mesh"
 
 
@@ -57,7 +57,6 @@ def mesh_with_physicals(mesh, filename):
 
 # At `z=0.09` um, according to the layer stack above we should see polygons from all three layers:
 
-# + tags=[]
 filename = "mesh"
 mesh = waveguide.to_gmsh(
     type="xy", z=0.09, layer_stack=filtered_layerstack, filename=f"{filename}.msh"
@@ -65,35 +64,30 @@ mesh = waveguide.to_gmsh(
 mesh = mesh_with_physicals(mesh, filename)
 mesh = from_meshio(mesh)
 mesh.draw().plot()
-# -
 
 # At `z=0`, you can see only the core and slab:
 
-# + tags=[]
 mesh = waveguide.to_gmsh(
     type="xy", z=0.0, layer_stack=filtered_layerstack, filename=f"{filename}.msh"
 )
 mesh = mesh_with_physicals(mesh, filename)
 mesh = from_meshio(mesh)
 mesh.draw().plot()
-# -
 
 # At `z=1.0`, you can only see the vias appear:
 
-# + tags=[]
 mesh = waveguide.to_gmsh(
     type="xy", z=1.0, layer_stack=filtered_layerstack, filename=f"{filename}.msh"
 )
 mesh = mesh_with_physicals(mesh, filename)
 mesh = from_meshio(mesh)
 mesh.draw().plot()
-# -
 
 # ## Controlling meshing domain
 #
 # You can use functions that return other components to modify the simulation domain, for instance `gdsfactory.geometry.trim`:
 
-# + tags=[]
+# +
 waveguide_trimmed = gf.Component()
 waveguide_trimmed.add_ref(
     gf.geometry.trim(
@@ -103,8 +97,8 @@ waveguide_trimmed.add_ref(
 )
 
 waveguide_trimmed
+# -
 
-# + tags=[]
 mesh = waveguide_trimmed.to_gmsh(
     type="xy", z=0.09, layer_stack=filtered_layerstack, filename=f"{filename}.msh"
 )

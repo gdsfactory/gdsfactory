@@ -1,18 +1,3 @@
-# ---
-# jupyter:
-#   jupytext:
-#     custom_cell_magics: kql
-#     text_representation:
-#       extension: .py
-#       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.11.2
-#   kernelspec:
-#     display_name: Python 3 (ipykernel)
-#     language: python
-#     name: python3
-# ---
-
 # %% [markdown]
 # # Database
 #
@@ -35,7 +20,7 @@
 # 2. We add wafer and component data to the database
 # 3. We add simulation data to the database
 
-# %% tags=[]
+# %%
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
@@ -94,7 +79,7 @@ with Session(engine) as session:
 #
 # Individual rows of a selected model, in this case `Wafer`, from the database are fetched as follows:
 
-# %% tags=[]
+# %%
 with Session(engine) as session:
     # Two ways to do the same thing
     for wafer in session.query(gd.Wafer):

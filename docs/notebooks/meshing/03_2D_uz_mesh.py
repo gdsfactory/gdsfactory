@@ -5,7 +5,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.4
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -16,7 +16,7 @@
 #
 # You can mesh an out of plane `Component` cross-section by supplying the argument `type="uz"` and a `xsection_bounds` under the form `[[x1,y1], [x2,y2]]`, which parametrizes a line in `u`-coordinates
 
-# + tags=[]
+# +
 from gdsfactory.pdk import get_layer_stack
 from gdsfactory.technology import LayerStack, LayerLevel
 import gdsfactory as gf
@@ -39,8 +39,8 @@ waveguide_trimmed.add_ref(
 )
 
 waveguide_trimmed
+# -
 
-# + tags=[]
 filtered_layerstack = LayerStack(
     layers={
         k: get_layer_stack().layers[k]
@@ -52,7 +52,7 @@ filtered_layerstack = LayerStack(
     }
 )
 
-# + tags=[]
+# +
 filename = "mesh"
 
 
@@ -65,7 +65,6 @@ def mesh_with_physicals(mesh, filename):
 
 # Choosing the line going from `y=-4` to `y=4` at `x=4`, which crosses slab, via, and core:
 
-# + tags=[]
 mesh = waveguide_trimmed.to_gmsh(
     type="uz",
     xsection_bounds=[(4, -4), (4, 4)],
@@ -75,7 +74,6 @@ mesh = waveguide_trimmed.to_gmsh(
 mesh = mesh_with_physicals(mesh, filename)
 mesh = from_meshio(mesh)
 mesh.draw().plot()
-# -
 
 # We can plot as usual (note that the `u-z` coordinates we are working in still map to `xy` for the plotter):
 
@@ -83,7 +81,6 @@ mesh.draw().plot()
 #
 # You can add a convenience argument to add a background mesh around the geometry (instead of defining a dummy polygon and layer in the layerstack with low mesh_order):
 
-# + tags=[]
 mesh = waveguide_trimmed.to_gmsh(
     type="uz",
     xsection_bounds=[(4, -4), (4, 4)],

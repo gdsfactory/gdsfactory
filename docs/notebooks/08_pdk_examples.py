@@ -1,18 +1,3 @@
-# ---
-# jupyter:
-#   jupytext:
-#     custom_cell_magics: kql
-#     text_representation:
-#       extension: .py
-#       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.11.2
-#   kernelspec:
-#     display_name: Python 3 (ipykernel)
-#     language: python
-#     name: python3
-# ---
-
 # %% [markdown]
 # # PDK examples
 #
@@ -69,7 +54,7 @@ p.name
 #
 # The waveguide traces are 2um wide.
 
-# %% tags=[]
+# %%
 
 
 class LayerMap(BaseModel):
@@ -154,7 +139,7 @@ c = gf.components.mzi()
 c_gc = gf.routing.add_fiber_array(component=c, grating_coupler=gc, with_loopback=False)
 c_gc.plot()
 
-# %% tags=[]
+# %%
 c = c_gc.to_3d()
 c.show(show_ports=True)
 
@@ -166,7 +151,7 @@ c.show(show_ports=True)
 # Lets say that the waveguides are defined in layer (2, 0) and are 0.3um wide, 1um thick
 #
 
-# %% tags=[]
+# %%
 nm = 1e-3
 
 
@@ -288,7 +273,7 @@ wg_gc = gf.routing.add_fiber_array(
 )
 wg_gc.plot()
 
-# %% tags=[]
+# %%
 c = wg_gc.to_3d()
 c.show(show_ports=True)
 
@@ -298,7 +283,7 @@ c.show(show_ports=True)
 # Lets assume that fab C has similar technology to the generic PDK in gdsfactory and that you just want to remap some layers, and adjust the widths.
 #
 
-# %% tags=[]
+# %%
 nm = 1e-3
 
 
@@ -499,10 +484,10 @@ pdk = gf.Pdk(
 pdk.activate()
 
 
-# %% tags=[]
+# %%
 LAYER_VIEWS.layer_map.values()
 
-# %% tags=[]
+# %%
 mzi = mzi_nc()
 mzi_gc = gf.routing.add_fiber_single(
     component=mzi,
@@ -514,9 +499,9 @@ mzi_gc = gf.routing.add_fiber_single(
 )
 mzi_gc.plot()
 
-# %% tags=[]
+# %%
 c = mzi_gc.to_3d()
 c.show(show_ports=True)
 
-# %% tags=[]
+# %%
 ls = get_layer_stack_fab_c()

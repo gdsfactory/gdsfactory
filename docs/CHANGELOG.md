@@ -1,5 +1,12 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 6.95.0
+
+- add `Component.write_gds(with_metadata=True) flag and deprecate `Component.write_gds_with_metadata()` [PR](https://github.com/gdsfactory/gdsfactory/pull/1668)
+- tidy3d.ModeSolver supports multiple wavelengths [PR](https://github.com/gdsfactory/gdsfactory/pull/1673)
+- remove S3 bucket [PR](https://github.com/gdsfactory/gdsfactory/pull/1670)
+- Added CellDecoratorSettings to give ability to change default behavior of cell_without_validator function [PR](https://github.com/gdsfactory/gdsfactory/pull/1659)
+
 ## 6.94.0
 
 - define connectivity for klayout [PR](https://github.com/gdsfactory/gdsfactory/pull/1635)

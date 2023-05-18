@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.11.2
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -20,7 +20,7 @@
 #
 # Thanks to [kweb](https://github.com/gdsfactory/kweb) you can use the webapp version on klayout in your browser or inside jupyter notebooks.
 
-# %% tags=[]
+# %%
 import kweb.server_jupyter as kj  # requires `pip install gdsfactory[full]` or `pip install kweb`
 import gdsfactory as gf
 
@@ -31,10 +31,10 @@ PDK.activate()
 gf.config.set_log_level("DEBUG")
 kj.start()
 
-# %% tags=[]
+# %%
 c = gf.components.mzi()
 
-# %% tags=[]
+# %%
 c.plot_jupyter()
 
 # %%

@@ -1,20 +1,4 @@
-# ---
-# jupyter:
-#   jupytext:
-#     text_representation:
-#       extension: .py
-#       format_name: light
-#       format_version: '1.5'
-#       jupytext_version: 1.14.4
-#   kernelspec:
-#     display_name: Python 3 (ipykernel)
-#     language: python
-#     name: python3
-# ---
-
-# + [markdown] tags=[]
 # # VScode, PyCharm, Spyder, JupyterLab integration
-# -
 
 # You can launch jupyterlab or VSCode from the anaconda navigator
 #
@@ -58,7 +42,6 @@
 #
 # ![pycharm](https://i.imgur.com/bK11wZW.png)
 
-# + [markdown] tags=[]
 # ## Spyder
 #
 # Spyder is the most similar IDE to Matlab.

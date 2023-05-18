@@ -5,7 +5,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.4
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -46,7 +46,7 @@
 # You can setup the simulation by defining a strip waveguide cross-section.
 # You can change waveguide geometry (core thickness, slab thickness, core width), doping configuration (dopant level, dopant positions), as well as hyperparameters like adaptive mesh resolution at all the interfaces.
 
-# + tags=[]
+# +
 import numpy as np
 import matplotlib.pyplot as plt
 from gdsfactory.simulation.devsim import get_simulation_xsection
@@ -57,7 +57,7 @@ gf.config.rich_output()
 PDK = gf.get_generic_pdk()
 PDK.activate()
 
-# + tags=[]
+# +
 # %%capture
 
 nm = 1e-9
@@ -79,31 +79,23 @@ c.ddsolver()
 #
 # `list_fields()` returns the header of the mesh, which lists all possible fields.
 
-# + tags=[]
 c.list_fields()
-# -
 
 # Finite-element field information can be plotted using pyvista (note that lengths in DEVSIM are cm by default):
 
-# + tags=[]
 c.plot(scalars="NetDoping")
 
-# + tags=[]
 c.plot(scalars="Electrons", log_scale=True)
-# -
 
 # ### Solve
 #
 # Using default DEVSIM silicon models, we iteratively solve for the self-consistent carrier distribution for 0.5V of applied forward voltage, iterating with 0.1V steps, and then visualize the electron concentration:
 
-# + tags=[]
 # %%capture
 # Find a solution with 1V across the junction, ramping by 0.1V steps
 c.ramp_voltage(Vfinal=0.5, Vstep=0.1)
 
-# + tags=[]
 c.plot(scalars="Electrons", log_scale=True)
-# -
 
 # and similarly for reverse-bias:
 

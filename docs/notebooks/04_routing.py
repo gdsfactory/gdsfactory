@@ -1,18 +1,3 @@
-# ---
-# jupyter:
-#   jupytext:
-#     custom_cell_magics: kql
-#     text_representation:
-#       extension: .py
-#       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.11.2
-#   kernelspec:
-#     display_name: Python 3 (ipykernel)
-#     language: python
-#     name: python3
-# ---
-
 # %% [markdown]
 # # Routing
 #
@@ -1387,7 +1372,7 @@ c
 # Routing allows you to define routes to optical or electrical IO (grating couplers or electrical pads)
 
 
-# %% attributes={"classes": [], "id": "", "n": "1"}
+# %%
 @gf.cell
 def big_device(w=400.0, h=400.0, N=16, port_pitch=15.0, layer=LAYER.WG, wg_width=0.5):
     """big component with N ports on each side"""

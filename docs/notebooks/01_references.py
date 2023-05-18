@@ -1,18 +1,3 @@
-# ---
-# jupyter:
-#   jupytext:
-#     custom_cell_magics: kql
-#     text_representation:
-#       extension: .py
-#       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.11.2
-#   kernelspec:
-#     display_name: Python 3 (ipykernel)
-#     language: python
-#     name: python3
-# ---
-
 # %% [markdown]
 # # References and ports
 #
@@ -32,7 +17,7 @@
 #
 # You can start by making a blank `Component` and add a single polygon to it.
 
-# %% tags=[]
+# %%
 import gdsfactory as gf
 
 gf.config.rich_output()
@@ -202,7 +187,7 @@ c3
 #
 # gdsfactory provides you with similar functions in `gf.components.array` and `gf.components.array_2d`
 
-# %% tags=[]
+# %%
 c4 = gf.Component("demo_array")  # Create a new blank Component
 aref = c4 << gf.components.array(component=c, columns=3, rows=2)
 c4.add_ports(aref.get_ports_list())
@@ -306,40 +291,40 @@ c
 # - `gdsfactory.cross_section.strip`  has ports `o1` for input and `o2` for output.
 # - `gdsfactory.cross_section.metal1` has ports `e1` for input and `e2` for output.
 
-# %% tags=[]
+# %%
 size = 4
 c = gf.components.nxn(west=2, south=2, north=2, east=2, xsize=size, ysize=size)
 c
 
-# %% tags=[]
+# %%
 c = gf.components.straight_heater_metal(length=30)
 c
 
-# %% tags=[]
+# %%
 c.ports
 
 # %% [markdown]
 # You can get the optical ports by `layer`
 
-# %% tags=[]
+# %%
 c.get_ports_dict(layer=(1, 0))
 
 # %% [markdown]
 # or by `width`
 
-# %% tags=[]
+# %%
 c.get_ports_dict(width=0.5)
 
-# %% tags=[]
+# %%
 c0 = gf.components.straight_heater_metal()
 c0.ports
 
-# %% tags=[]
+# %%
 c1 = c0.copy()
 c1.auto_rename_ports_layer_orientation()
 c1.ports
 
-# %% tags=[]
+# %%
 c2 = c0.copy()
 c2.auto_rename_ports()
 c2.ports
@@ -366,17 +351,17 @@ c2.ports
 #
 # ```
 
-# %% tags=[]
+# %%
 c = gf.Component("demo_ports")
 nxn = gf.components.nxn(west=2, north=2, east=2, south=2, xsize=4, ysize=4)
 ref = c.add_ref(nxn)
 c.add_ports(ref.ports)
 c
 
-# %% tags=[]
+# %%
 ref.get_ports_list()  # by default returns ports clockwise starting from bottom left west facing port
 
-# %% tags=[]
+# %%
 c.auto_rename_ports()
 c
 
@@ -394,26 +379,26 @@ c
 #
 # ```
 
-# %% tags=[]
+# %%
 c.auto_rename_ports_counter_clockwise()
 c
 
-# %% tags=[]
+# %%
 c.get_ports_list(clockwise=False)
 
-# %% tags=[]
+# %%
 c.ports_layer
 
-# %% tags=[]
+# %%
 c.port_by_orientation_cw("W0")
 
-# %% tags=[]
+# %%
 c.port_by_orientation_ccw("W1")
 
 # %% [markdown]
 # Lets extend the East facing ports (orientation = 0 deg)
 
-# %% tags=[]
+# %%
 cross_section = gf.cross_section.strip()
 
 nxn = gf.components.nxn(
@@ -422,14 +407,14 @@ nxn = gf.components.nxn(
 c = gf.components.extension.extend_ports(component=nxn, orientation=0)
 c
 
-# %% tags=[]
+# %%
 c.ports
 
-# %% tags=[]
+# %%
 df = c.get_ports_pandas()
 df
 
-# %% tags=[]
+# %%
 df[df.port_type == "optical"]
 
 # %% [markdown]
