@@ -87,8 +87,7 @@ test-data:
 	git clone https://github.com/gdsfactory/gdsfactory-test-data.git -b test-data test-data
 
 data-download: test-data
-	cd test-data
-	git pull
+	echo 'Make sure you git pull inside test-data folder'
 	# aws s3 sync s3://gdslib data --no-sign-request
 	# gh release download v6.90.3 -D data/gds/*.gds --clobber
 	# gh release download v6.90.3 data/sp/*.npz --clobber
