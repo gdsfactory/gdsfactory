@@ -251,13 +251,11 @@ class Component(_GeometryHelper):
         )
 
     def get_dependencies(self, recursive: bool = False) -> List[Component]:
-        """Return a set of the cells included in this cell as references.
+        """Return a list of Components referenced by this Component.
 
         Args:
             recursive: If True returns dependencies recursively.
 
-        Returns:
-            out: list of Components referenced by this Component.
         """
         if not recursive:
             return list({ref.parent for ref in self.references})
@@ -1727,6 +1725,7 @@ class Component(_GeometryHelper):
         timestamp: Optional[datetime.datetime] = _timestamp2019,
         logging: bool = True,
         with_oasis: bool = False,
+        with_metadata: bool = False,
         **kwargs,
     ) -> Path:
         """Write component to GDS or OASIS and returns gdspath.
@@ -1738,6 +1737,7 @@ class Component(_GeometryHelper):
                 If None uses current time.
             logging: disable GDS path logging, for example for showing it in KLayout.
             with_oasis: If True, file will be written to OASIS. Otherwise, file will be written to GDS.
+            with_metadata: writes metadata in YAML format.
 
         Keyword Args:
             Keyword arguments will override the active PDK's default GdsWriteSettings and OasisWriteSettings.
@@ -1862,6 +1862,11 @@ class Component(_GeometryHelper):
             )
         if logging:
             logger.info(f"Wrote to {str(gdspath)!r}")
+        if with_metadata:
+            metadata = gdspath.with_suffix(".yml")
+            metadata.write_text(self.to_yaml(with_cells=True, with_ports=True))
+            logger.info(f"Write YAML metadata to {str(metadata)!r}")
+
         return gdspath
 
     def write_gds(
@@ -1888,6 +1893,7 @@ class Component(_GeometryHelper):
             flatten_invalid_refs: flattens component references which have invalid transformations.
             max_points: Maximal number of vertices per polygon.
                 Polygons with more vertices that this are automatically fractured.
+            with_metadata: writes metadata in YAML format.
         """
 
         return self._write_library(
@@ -1935,6 +1941,11 @@ class Component(_GeometryHelper):
 
     def write_gds_with_metadata(self, *args, **kwargs) -> Path:
         """Write component in GDS and metadata (component settings) in YAML."""
+        warnings.warn(
+            "Component.write_gds_with_metadata() is deprecated. "
+            "Use Component.write_gds(with_metadata=True) or Component.write_oas(with_metadata=True).",
+            stacklevel=3,
+        )
         gdspath = self.write_gds(*args, **kwargs)
         metadata = gdspath.with_suffix(".yml")
         metadata.write_text(self.to_yaml(with_cells=True, with_ports=True))
