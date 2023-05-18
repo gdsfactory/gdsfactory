@@ -165,7 +165,7 @@ class Paths:
     schema_netlist = repo_path / "tests" / "schemas" / "netlist.json"
     netlists = module_path / "samples" / "netlists"
     gdsdir = repo_path / "tests" / "gds"
-    gdslib = repo_path / "data"
+    gdslib = home / ".gdsfactory"
     modes = gdslib / "modes"
     sparameters = gdslib / "sp"
     interconnect = gdslib / "interconnect"
@@ -173,7 +173,7 @@ class Paths:
     notebooks = repo_path / "docs" / "notebooks"
     plugins = module / "plugins"
     web = plugins / "web"
-    gds_ref = gdslib / "gds"
+    gds_ref = repo / "gdsfactory-test-data" / "gds"
     gds_run = GDSDIR_TEMP / "gds_run"
     gds_diff = GDSDIR_TEMP / "gds_diff"
 
