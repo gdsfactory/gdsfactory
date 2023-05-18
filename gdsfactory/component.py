@@ -1004,7 +1004,9 @@ class Component(_GeometryHelper):
                 layer, datatype = _parse_layer(layer)
                 polygon = Polygon(polygon.points, layer, datatype)
             
-            polygon.properties = deepcopy(points.properties)
+            if hasattr(points, "properties"):
+                polygon.properties = deepcopy(points.properties)
+                
             self._add_polygons(polygon)
             return polygon
 
