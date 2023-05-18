@@ -52,6 +52,7 @@ jobs:
         with:
           path: |
             ~/.gdsfactory/
+          key: ${{ hashFiles('.github/sim_version') }}
       - name: Test with pytest
         run: pytest
   test_code_coverage_python37:
@@ -67,6 +68,7 @@ jobs:
         with:
           path: |
             ~/.gdsfactory/
+          key: ${{ hashFiles('.github/sim_version') }}
       - name: Install dependencies
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.GDSLIB_AWS_ACCESS_KEY_ID }}
