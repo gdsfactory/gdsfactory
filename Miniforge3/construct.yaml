@@ -1,0 +1,59 @@
+{% set version = os.environ.get("MINIFORGE_VERSION", "23.1.0-2") %}
+{% set name = os.environ.get("MINIFORGE_NAME", "Miniforge3") %}
+
+name: {{ name }}
+version: {{ version }}
+company: conda-forge
+
+channels:
+  # specifying the channel with the full URL adds two channels
+  # when the end user adds the channel without the full URL
+  # - https://conda.anaconda.org/conda-forge
+  - conda-forge
+
+write_condarc: True
+# keep pkgs for space-saving implications for hardlinks when create new environments
+# and keep the same with Miniconda
+keep_pkgs: True
+license_file: ../LICENSE
+
+# During the interactive installation, these variables are checked.
+# During batch installation, conda is never initialized
+initialize_conda: True
+initialize_by_default: False
+
+specs:
+{% if name.endswith("pypy3") %}
+  - python 3.9.* *_pypy
+{% else %}
+  - python 3.10.*
+{% endif %}
+
+{% if name.startswith("Mambaforge") %}
+  - mamba 1.4.2
+{% endif %}
+  - conda {{ version.split("-")[0] }}
+
+  - pip
+  - miniforge_console_shortcut 1.*  # [win]
+  - mamba
+  - gdsfactory
+  - freetype-py
+  - jupyterlab
+  - bokeh
+  - holoviews
+  - ipympl
+  - ipywidgets
+  - networkx
+  - pyglet
+  - scikit-image
+  - trimesh
+  - pyvista
+  - mkl
+  - console_shortcut # [win]
+  - anaconda-navigator
+  - pymeep # [unix]
+  - menuinst # [win]
+welcome_image: ../docs/logo.png # [win]
+header_image: ../docs/logo.png # [win]
+icon_image: ../docs/logo256x256.png # [win]

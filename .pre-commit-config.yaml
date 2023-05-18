@@ -3,7 +3,7 @@ repos:
     rev: 5191f112dfd133e97acba8c2162c37d8613cf54b
     hooks:
       - id: check-yaml
-        exclude: ^(conda\.recipe/meta\.yaml|conda_build/templates/.*\.yaml|docs/click/meta\.yaml|conda/meta\.yaml|conda/construct.yaml|.*\.pic\.yml)
+        exclude: ^(conda\.recipe/meta\.yaml|conda_build/templates/.*\.yaml|docs/click/meta\.yaml|conda/meta\.yaml|conda/construct.yaml|.*\.pic\.yml|Miniforge3/construct.yaml)
       - id: end-of-file-fixer
       - id: trailing-whitespace
       # - id: requirements-txt-fixer
