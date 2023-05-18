@@ -41,7 +41,6 @@ specs:
   - mamba
   - gdsfactory
   - freetype-py
-  - jupyterlab
   - bokeh
   - holoviews
   - ipympl
