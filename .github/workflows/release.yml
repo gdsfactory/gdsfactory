@@ -1,8 +1,9 @@
 name: Release PyPI, installers and docker container
 
 on:
+  pull_request:
   push:
-    tags: "v*"
+    # tags: "v*"
 
 jobs:
   release_pypi:
