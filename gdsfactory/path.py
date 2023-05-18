@@ -821,7 +821,8 @@ def extrude(
 
             if new_x_start > np.max(p_pts[:, 0]) or new_x_stop < np.min(p_pts[:, 0]):
                 warnings.warn(
-                    f"Cannot apply delay to Section '{section.name}', delay results in points outside of original path."
+                    f"Cannot apply delay to Section '{section.name}', delay results in points outside of original path.",
+                    stacklevel=3,
                 )
                 continue
 
