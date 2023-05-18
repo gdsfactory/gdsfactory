@@ -28,7 +28,7 @@ jobs:
           twine upload dist/*
 
   release_installers:
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+    # if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
     runs-on: ${{ matrix.os }}
     strategy:
       max-parallel: 12
@@ -50,8 +50,11 @@ jobs:
         run: |
           echo $CONDA/bin >> $GITHUB_PATH
       - name: constructor build
+        env:
+          CONDA_SOLVER: libmamba
         run: |
           conda info
+          conda install conda-libmamba-solve
           conda install constructor -y
           cd conda
           constructor .
