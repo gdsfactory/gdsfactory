@@ -3,13 +3,15 @@
 
 name: {{ name }}
 version: {{ version }}
-company: conda-forge
+company: gdsfactory
 
 channels:
   # specifying the channel with the full URL adds two channels
   # when the end user adds the channel without the full URL
   # - https://conda.anaconda.org/conda-forge
   - conda-forge
+  - http://repo.anaconda.com/pkgs/main/
+  - https://repo.anaconda.com/pkgs/msys2/
 
 write_condarc: True
 # keep pkgs for space-saving implications for hardlinks when create new environments
