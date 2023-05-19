@@ -2,7 +2,7 @@ name: disk_heater
 ports:
   e1:
     center:
-    - -22.55
+    - -22.551
     - 0.251
     layer:
     - 49
@@ -14,7 +14,7 @@ ports:
     width: 10.0
   e2:
     center:
-    - 33.25
+    - 33.251
     - 0.251
     layer:
     - 49

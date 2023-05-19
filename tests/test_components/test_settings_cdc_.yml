@@ -54,6 +54,16 @@ settings:
   default:
     cross_section:
       function: cross_section
+      settings:
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+        name: strip
     dc: 0.5
     dx: 10.0
     dy: 5.0
@@ -69,6 +79,16 @@ settings:
   full:
     cross_section:
       function: cross_section
+      settings:
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+        name: strip
     dc: 0.5
     dx: 10.0
     dy: 5.0

@@ -72,7 +72,7 @@ class GdsWriteSettings(BaseModel):
                         "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.""",
     )
     flatten_invalid_refs: bool = Field(
-        default=False,
+        default=True,
         description="If true, will auto-correct (and flatten) cell references which are off-grid or rotated by non-manhattan angles.",
     )
     max_points: int = Field(
