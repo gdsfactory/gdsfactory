@@ -2,6 +2,10 @@
 
 ## 6.95.0
 
+- add pins and `flatten_invalid_refs` [PR](https://github.com/gdsfactory/gdsfactory/pull/1674)
+
+## 6.95.0
+
 - add `Component.write_gds(with_metadata=True) flag and deprecate `Component.write_gds_with_metadata()` [PR](https://github.com/gdsfactory/gdsfactory/pull/1668)
 - tidy3d.ModeSolver supports multiple wavelengths [PR](https://github.com/gdsfactory/gdsfactory/pull/1673)
 - remove S3 bucket [PR](https://github.com/gdsfactory/gdsfactory/pull/1670)
