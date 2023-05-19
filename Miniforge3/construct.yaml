@@ -38,13 +38,9 @@ specs:
 
   - pip
   - miniforge_console_shortcut 1.*  # [win]
-  - mamba
   - gdsfactory
   - freetype-py
   - bokeh
-  - holoviews
-  - ipympl
-  - ipywidgets
   - networkx
   - pyglet
   - scikit-image
@@ -53,3 +49,6 @@ specs:
   - console_shortcut # [win]
   - anaconda-navigator # [win]
   - menuinst # [win]
+  # - holoviews # [win,unix]
+  # - ipympl # [win,unix]
+  # - ipywidgets # [win, unix]
