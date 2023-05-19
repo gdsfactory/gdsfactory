@@ -11,6 +11,8 @@ from gdsfactory.geometry.write_drc import write_drc_deck_macro
 
 layer_name_to_min_width: Dict[str, float]
 
+nm = 1e-3
+
 
 class ConnectivyCheck(BaseModel):
     cross_section: CrossSectionSpec
@@ -19,9 +21,37 @@ class ConnectivyCheck(BaseModel):
 
 
 def write_connectivity_checks(
+    pin_widths: List[float], pin_layer: Layer, pin_length: float = 1 * nm
+):
+    """Return script for port connectivity check.
+    Assumes the port pins are inside the Component.
+
+    Args:
+        pin_widths: list of pin widths allowed.
+        pin_layer: for the pin markers.
+        pin_length: in um.
+    """
+
+    script = f"""pin = input{pin_layer}
+pin = pin.merged\n
+pin2 = pin.rectangles.without_area({pin_widths[0]} * {2 * pin_length})"""
+
+    for w in pin_widths[1:]:
+        script += f" - pin.rectangles.with_area({w} * {2 * pin_length})"
+
+    script += """\npin2.output(\"port alignment error\")\n
+pin2 = pin.sized(0.0).merged\n
+pin2.non_rectangles.output(\"port width check\")\n\n"""
+
+    return script
+
+
+def write_connectivity_checks_per_section(
     connectivity_checks: List[ConnectivyCheck],
 ) -> str:
-    """Return script for photonic port connectivity check. Assumes the photonic port pins are inside the Component.
+    """Return script for port connectivity check.
+    Assumes the port pins are inside the Component and each cross_section has pins on a different layer.
+    This is not the recommended way as it only supports two widths per cross_section (cross_section.width and cross_section.width_wide)
 
     Args:
         connectivity_checks: list of connectivity objects to check for.
@@ -47,6 +77,8 @@ def write_connectivity_checks(
 
 
 if __name__ == "__main__":
+    from gdsfactory.generic_tech import LAYER
+
     nm = 1e-3
 
     connectivity_checks = [
@@ -55,7 +87,12 @@ if __name__ == "__main__":
             cross_section="strip_auto_widen", pin_length=1 * nm, pin_layer=(1, 10)
         )
     ]
-    rules = [write_connectivity_checks(connectivity_checks=connectivity_checks)]
+    rules = [
+        write_connectivity_checks_per_section(connectivity_checks=connectivity_checks)
+    ]
 
+    rules = [
+        write_connectivity_checks(pin_widths=[0.5, 0.9, 0.45], pin_layer=LAYER.PORT)
+    ]
     script = write_drc_deck_macro(rules=rules, layers=None)
     print(script)

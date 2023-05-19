@@ -131,16 +131,6 @@ def grating_coupler_elliptical_arbitrary(
         )
         c.add_polygon(pts, layer=layer_wg)
 
-    x = (taper_length + xis[-1]) / 2
-    name = f"opt_{polarization.lower()}_{int(wavelength*1e3)}_{int(fiber_angle)}"
-    c.add_port(
-        name=name,
-        center=(x, 0),
-        width=10,
-        orientation=0,
-        layer=xs.layer,
-        port_type=name,
-    )
     c.add_port(
         name="o1",
         center=(x_output, 0),
@@ -170,6 +160,16 @@ def grating_coupler_elliptical_arbitrary(
     if xs.add_pins:
         c = xs.add_pins(c)
 
+    x = (taper_length + xis[-1]) / 2
+    name = f"opt_{polarization.lower()}_{int(wavelength*1e3)}_{int(fiber_angle)}"
+    c.add_port(
+        name=name,
+        center=(x, 0),
+        width=10,
+        orientation=0,
+        layer=xs.layer,
+        port_type=name,
+    )
     return c
 
 
