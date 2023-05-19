@@ -1,4 +1,4 @@
-name: mmi1x2_1fb8ba6f
+name: mmi1x2_b84370c5
 ports:
   o1:
     center:
@@ -51,6 +51,7 @@ settings:
         layer:
         - 34
         - 0
+        name: strip
         width: 1.0
     width: 1.0
     width_mmi: 3
@@ -80,6 +81,7 @@ settings:
         layer:
         - 34
         - 0
+        name: strip
         width: 1.0
     gap_mmi: 0.25
     length_mmi: 5.5
@@ -94,4 +96,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mmi1x2
-  name: mmi1x2_1fb8ba6f
+  name: mmi1x2_b84370c5

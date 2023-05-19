@@ -23,11 +23,11 @@ repos:
     rev: 23.3.0
     hooks:
       - id: black
-  - repo: https://github.com/mwouts/jupytext
-    rev: 79351dfac9fde7c72cc73d553f662b4887bc63f5  # CURRENT_TAG/COMMIT_HASH
-    hooks:
-    - id: jupytext
-      args: [--from, py, --to, py]
+  # - repo: https://github.com/mwouts/jupytext
+  #   rev: 79351dfac9fde7c72cc73d553f662b4887bc63f5  # CURRENT_TAG/COMMIT_HASH
+  #   hooks:
+  #   - id: jupytext
+  #     args: [--from, py, --to, py]
 
   # - repo: https://github.com/mwouts/jupytext
   #   rev: v1.14.4 # CURRENT_TAG/COMMIT_HASH

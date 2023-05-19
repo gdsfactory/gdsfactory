@@ -1,4 +1,4 @@
-name: bend_euler_f84cb6d2
+name: bend_euler_af89db80
 ports:
   o1:
     center:
@@ -39,6 +39,7 @@ settings:
         layer:
         - 34
         - 0
+        name: strip
         width: 1.0
   child: null
   default:
@@ -64,6 +65,7 @@ settings:
         layer:
         - 34
         - 0
+        name: strip
         width: 1.0
     direction: ccw
     npoints: null
@@ -112,4 +114,4 @@ settings:
     width: 1.0
   info_version: 2
   module: gdsfactory.components.bend_euler
-  name: bend_euler_f84cb6d2
+  name: bend_euler_af89db80

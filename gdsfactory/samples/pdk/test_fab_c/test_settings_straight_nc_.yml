@@ -1,4 +1,4 @@
-name: straight_f84cb6d2
+name: straight_af89db80
 ports:
   o1:
     center:
@@ -39,6 +39,7 @@ settings:
         layer:
         - 34
         - 0
+        name: strip
         width: 1.0
   child: null
   default:
@@ -60,6 +61,7 @@ settings:
         layer:
         - 34
         - 0
+        name: strip
         width: 1.0
     length: 10.0
     npoints: 2
@@ -79,6 +81,7 @@ settings:
         layer:
         - 34
         - 0
+        name: strip
         width: 1.0
     function_name: cross_section
     length: 10.0
@@ -117,4 +120,4 @@ settings:
     width: 1.0
   info_version: 2
   module: gdsfactory.components.straight
-  name: straight_f84cb6d2
+  name: straight_af89db80
