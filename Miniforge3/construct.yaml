@@ -38,7 +38,6 @@ specs:
 
   - pip
   - miniforge_console_shortcut 1.*  # [win]
-  - gdsfactory
   - freetype-py
   - bokeh
   - networkx
@@ -47,8 +46,9 @@ specs:
   - trimesh
   - pyvista
   - console_shortcut # [win]
-  - anaconda-navigator # [win]
   - menuinst # [win]
+  # - gdsfactory
+  # - anaconda-navigator # [win]
   # - holoviews # [win,unix]
   # - ipympl # [win,unix]
   # - ipywidgets # [win, unix]
