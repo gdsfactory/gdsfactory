@@ -151,4 +151,4 @@ __all__ = (
     "xsection",
     "PATH",
 )
-__version__ = "6.95.0"
+__version__ = "6.96.0"
