@@ -4,6 +4,8 @@ from __future__ import annotations
 import functools
 import hashlib
 import inspect
+from dataclasses import dataclass
+from functools import wraps
 from typing import Any, Callable, Dict, Optional, Tuple, TypeVar
 
 import toolz
@@ -293,6 +295,26 @@ def cell(func: _F) -> _F:
 
     """
     return cell_without_validator(validate_arguments(func))
+
+def declarative_cell(cls):
+    cls = dataclass(cls)
+    @wraps(cls)
+    def cell(*args, **kwargs):
+        decl = cls(*args, **kwargs)
+        decl.instances()
+        comp = Component()
+        for k, c in vars(decl).items():
+            if not isinstance(c, Component):
+                continue
+            ref = (comp << c)
+            setattr(comp, k, ref)
+            setattr(decl, k, ref)
+        for p1, p2 in decl.connections():
+            p1.reference.connect(p1.name, p2.reference.ports[p2.name])
+        for name, p in decl.ports().items():
+            comp.add_port(name, port=p.reference.ports[p.name])
+        return comp
+    return cell
 
 
 @cell
