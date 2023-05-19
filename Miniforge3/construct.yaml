@@ -53,6 +53,3 @@ specs:
   - console_shortcut # [win]
   - anaconda-navigator # [win]
   - menuinst # [win]
-welcome_image: ../docs/logo.png # [win]
-header_image: ../docs/logo.png # [win]
-icon_image: ../docs/logo256x256.png # [win]
