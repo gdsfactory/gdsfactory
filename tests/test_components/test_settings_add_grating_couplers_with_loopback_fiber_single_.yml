@@ -138,6 +138,16 @@ settings:
     component_name: null
     cross_section:
       function: cross_section
+      settings:
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+        name: strip
     gc_port_name: o1
     get_input_label_text_loopback_function:
       function: get_input_label_text
@@ -166,6 +176,16 @@ settings:
     component_name: null
     cross_section:
       function: cross_section
+      settings:
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+        name: strip
     gc_port_name: o1
     get_input_label_text_loopback_function:
       function: get_input_label_text

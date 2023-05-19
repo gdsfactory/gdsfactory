@@ -108,7 +108,7 @@ def _get_bend_ports(bend):
 
 
 LOW_LOSS_CROSS_SECTIONS = [
-    {"cross_section": "strip", "settings": {"width": 1.0}},
+    {"cross_section": "strip", "settings": {"width": 0.9}},
     "strip",
 ]
 

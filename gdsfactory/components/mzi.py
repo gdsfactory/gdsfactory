@@ -233,6 +233,8 @@ if __name__ == "__main__":
 
     # c = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
     c = gf.routing.add_fiber_array(c)
+    # gdspath = c.write_gds(flatten_invalid_refs=True)
+    # gf.show(gdspath)
     c.show()
 
     # c1.write_gds("a.gds")

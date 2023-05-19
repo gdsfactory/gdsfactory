@@ -1,4 +1,4 @@
-name: grating_coupler_ellipti_514a8b8c
+name: grating_coupler_ellipti_9a60b03b
 ports:
   o1:
     center:
@@ -39,6 +39,7 @@ settings:
         layer:
         - 34
         - 0
+        name: strip
         width: 1.0
     grating_line_width: 0.6
     layer_slab: null
@@ -74,6 +75,7 @@ settings:
         layer:
         - 34
         - 0
+        name: strip
         width: 1.0
     fiber_angle: 15.0
     grating_line_width: 0.6
@@ -94,4 +96,4 @@ settings:
     wavelength: 1.554
   info_version: 2
   module: gdsfactory.components.grating_coupler_elliptical
-  name: grating_coupler_ellipti_514a8b8c
+  name: grating_coupler_ellipti_9a60b03b

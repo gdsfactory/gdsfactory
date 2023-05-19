@@ -142,6 +142,15 @@ settings:
     cross_section:
       function: cross_section
       settings:
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+        name: strip
         radius: 20
         sections:
         - hidden: false
@@ -210,6 +219,15 @@ settings:
     cross_section:
       function: cross_section
       settings:
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+        name: strip
         radius: 20
         sections:
         - hidden: false
