@@ -526,6 +526,7 @@ class Component(_GeometryHelper):
     def write_netlist(self, filepath: str) -> None:
         """Write netlist in YAML."""
         netlist = self.get_netlist()
+        netlist = clean_dict(netlist)
         OmegaConf.save(netlist, filepath)
 
     def write_netlist_dot(self, filepath: Optional[str] = None) -> None:
