@@ -323,16 +323,20 @@ def _xsection_without_validator(func):
         xs = func(*args, **kwargs)
 
         sig = inspect.signature(func)
-        args_as_kwargs = dict(zip(sig.parameters.keys(), args))
-        args_as_kwargs.update(kwargs)
 
-        default = {
+        # Collect args passed into function into dict
+        args_as_kwargs = dict(zip(sig.parameters.keys(), args))
+
+        # Get settings from default arguments in function signature
+        settings = {
             p.name: p.default
             for p in sig.parameters.values()
             if p.default != inspect._empty
         }
 
-        args_as_kwargs.update(**default)
+        # Update with args and kwargs, overriding defaults
+        settings.update(args_as_kwargs)
+        settings.update(kwargs)
 
         if not isinstance(xs, CrossSection):
             raise ValueError(
@@ -340,7 +344,7 @@ def _xsection_without_validator(func):
                 "make sure that functions with @xsection decorator return a CrossSection",
             )
 
-        xs.info.update(settings=args_as_kwargs, function_name=func.__name__)
+        xs.info.update(settings=settings, function_name=func.__name__)
         return xs
 
     return _xsection
