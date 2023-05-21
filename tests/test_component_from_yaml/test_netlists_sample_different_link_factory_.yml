@@ -30,7 +30,14 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -45,7 +52,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -53,7 +60,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -85,7 +92,14 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -100,7 +114,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -108,7 +122,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -140,7 +154,14 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -155,7 +176,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -163,7 +184,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -195,7 +216,14 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -210,7 +238,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -218,7 +246,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -250,7 +278,14 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -265,7 +300,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -273,7 +308,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -305,7 +340,14 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -320,7 +362,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -328,7 +370,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -360,7 +402,14 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -375,7 +424,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -383,7 +432,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -415,7 +464,14 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -430,7 +486,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -438,7 +494,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -470,7 +526,14 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -485,7 +548,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -493,7 +556,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -525,7 +588,14 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -540,7 +610,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -548,7 +618,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -580,7 +650,14 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -595,7 +672,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -603,7 +680,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -635,7 +712,14 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -650,7 +734,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -658,7 +742,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -719,7 +803,14 @@ instances:
       length: 200.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -734,7 +825,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -742,7 +833,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -784,7 +875,14 @@ instances:
       length: 610.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -799,7 +897,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -807,7 +905,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -849,7 +947,14 @@ instances:
       length: 340.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -864,7 +969,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -872,7 +977,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -914,7 +1019,14 @@ instances:
       length: 250.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -929,7 +1041,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -937,7 +1049,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -979,7 +1091,14 @@ instances:
       length: 250.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -994,7 +1113,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -1002,7 +1121,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -1044,7 +1163,14 @@ instances:
       length: 580.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -1059,7 +1185,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -1067,7 +1193,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -1109,7 +1235,14 @@ instances:
       length: 170.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -1124,7 +1257,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -1132,7 +1265,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -1174,7 +1307,14 @@ instances:
       length: 340.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -1189,7 +1329,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -1197,7 +1337,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -1239,7 +1379,14 @@ instances:
       length: 250.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -1254,7 +1401,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -1262,7 +1409,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -1304,7 +1451,14 @@ instances:
       length: 250.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -1319,7 +1473,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -1327,7 +1481,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01

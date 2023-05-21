@@ -144,7 +144,7 @@ class CrossSection(BaseModel):
     bbox_offsets: List[float] = Field(default_factory=list)
     cladding_layers: Optional[LayerSpecs] = None
     cladding_offsets: Optional[Floats] = None
-    cladding_simplify: Optional[Floats] = (cladding_simplify_optical,)
+    cladding_simplify: Optional[Floats] = cladding_simplify_optical
     sections: List[Section] = Field(default_factory=list)
     port_names: Tuple[Optional[str], Optional[str]] = ("o1", "o2")
     port_types: Tuple[Optional[str], Optional[str]] = ("optical", "optical")

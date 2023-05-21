@@ -93,11 +93,20 @@ settings:
     length: 10.0
     settings:
       add_bbox: null
-      add_pins: null
+      add_pins:
+        function: add_pins
+        settings:
+          function:
+            function: add_pin_rectangle_inside
+            settings:
+              layer_label: null
+              pin_length: 0.001
       auto_widen: false
       auto_widen_minimum_length: 200.0
-      bbox_layers: null
-      bbox_offsets: null
+      bbox_layers:
+      - SLAB90
+      bbox_offsets:
+      - 3
       cladding_layers: null
       cladding_offsets: null
       cladding_simplify: null
@@ -108,7 +117,7 @@ settings:
       layer: WG
       min_length: 0.01
       mirror: false
-      name: null
+      name: strip
       offset: 0
       port_names:
       - o1
@@ -116,7 +125,7 @@ settings:
       port_types:
       - optical
       - optical
-      radius: 10.0
+      radius: 20
       sections: null
       snap_to_grid: null
       start_straight_length: 0.01
