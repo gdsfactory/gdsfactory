@@ -55,9 +55,13 @@ def difftest(ref: gf.Component, comp: gf.Component):
     def text_diff_b(bnota: kdb.Text, prop_id: int):
         get_texts(ld.layer_index_b(), b_texts)
 
-    ld.on_polygon_in_a_only(lambda poly_anotb, propid: polygon_diff_a(poly_anotb, propid))
+    ld.on_polygon_in_a_only(
+        lambda poly_anotb, propid: polygon_diff_a(poly_anotb, propid)
+    )
 
-    ld.on_polygon_in_b_only(lambda poly_anotb, propid: polygon_diff_b(poly_anotb, propid))
+    ld.on_polygon_in_b_only(
+        lambda poly_anotb, propid: polygon_diff_b(poly_anotb, propid)
+    )
 
     ld.on_text_in_a_only(lambda anotb, propid: text_diff_a(anotb, propid))
 
