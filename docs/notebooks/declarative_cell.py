@@ -16,6 +16,18 @@
 
 # %% [markdown]
 # # Declarative Cell
+#
+# Declarative and imperative code are two programming paradigms with distinct characteristics:
+#
+# -  Imperative programming explicitly defines step-by-step instructions, controlling the flow of execution. It involves manipulating mutable state and can be verbose and harder to read.
+# -  Declarative programming focuses on describing the desired outcome, relying on systems or frameworks to handle implementation details. It minimizes mutable state, resulting in concise and expressive code.
+#
+#
+# gdsfactory supports imperative and declarative:
+#
+# - imperative: Most of the examples on the layout tutorial follow imperative.
+# - declarative: YAML and Schematic driven flow follow the declarative paradigm. We also have a python alternative described below.
+#
 
 # %%
 import gdsfactory as gf
