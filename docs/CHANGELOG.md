@@ -1,10 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.96.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.98.0...main)
 
-- improve declarative cell
-- control Sbend resolution [PR](https://github.com/gdsfactory/gdsfactory/commit/db5a802c8161e2ea6c5cc1350bfc87a439bbd4ea)
-- repair symmetries for tidy3d [PR](https://github.com/gdsfactory/gdsfactory/pull/1683)
+## [6.98.0](https://github.com/gdsfactory/gdsfactory/compare/v6.98.0...v6.97.1)
+
+- add component overlap [PR](https://github.com/gdsfactory/gdsfactory/pull/1689/)
 
 ## [6.97.1](https://github.com/gdsfactory/gdsfactory/compare/v6.97.0...v6.97.1)
 
@@ -13,6 +13,9 @@
 
 ## [6.97.0](https://github.com/gdsfactory/gdsfactory/compare/v6.96.0...v6.97.0)
 
+- improve declarative cell
+- control Sbend resolution [PR](https://github.com/gdsfactory/gdsfactory/commit/db5a802c8161e2ea6c5cc1350bfc87a439bbd4ea)
+- repair symmetries for tidy3d [PR](https://github.com/gdsfactory/gdsfactory/pull/1683)
 
 ## [6.96.0](https://github.com/gdsfactory/gdsfactory/compare/v6.95.0...v6.96.0)
 
