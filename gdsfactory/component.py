@@ -1022,13 +1022,13 @@ class Component(kf.KCell):
         _ref.move(center, position)
         return _ref
 
-    def __repr__(self) -> str:
-        """Return a string representation of the object."""
-        refs = [
-            f"parent: {inst.cell.name}, ports; {inst.ports}, transformation: {inst.trans}"
-            for inst in self.insts
-        ]
-        return f"{self.name}: uid {self.cell_index()}, ports {list(self.ports)}, references {refs}, {len(self.get_polygons(recursive=False))} polygons"
+    # def __repr__(self) -> str:
+    #     """Return a string representation of the object."""
+    #     refs = [
+    #         f"parent: {inst.cell.name}, ports; {inst.ports}, transformation: {inst.trans}"
+    #         for inst in self.insts
+    #     ]
+    #     return f"{self.name}: uid {self.cell_index()}, ports {list(self.ports)}, references {refs}, {len(self.get_polygons(recursive=False))} polygons"
         # return (
         #     f"{self.name}: uid {self.uid}, "
         #     f"ports {list(self.ports.get_all_named.keys())}, "

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import uuid
 import warnings
 from typing import Callable, Dict, List, Optional, Tuple, Union
 
@@ -14,6 +15,7 @@ from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.cross_section import strip
 from gdsfactory.geometry.functions import angles_deg
 from gdsfactory.port import Port, port_to_kport, select_ports_list
+from gdsfactory.routing.get_route_sbend import get_route_sbend
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.typs import (
     ComponentSpec,
@@ -719,9 +721,9 @@ def round_corners(
     layer = bend90.kcl.layer(*get_layer(layer))
     try:
         print(layer)
-        pname_west, pname_north = [
+        pname_west, pname_north = list(
             p.name for p in _get_bend_ports(bend=bend90, layer=layer)
-        ]
+        )
     except ValueError as exc:
         print(exc)
         raise ValueError(
@@ -759,9 +761,7 @@ def round_corners(
 
         if matching_ports:
             next_port = matching_ports[0]
-            other_port_name = set(bend_ref.ports.get_all_named.keys()) - {
-                next_port.name
-            }
+            other_port_name = set(bend_ref.ports.copy().get_all_named().keys()) - {next_port.name}
             other_port = bend_ref.ports[list(other_port_name)[0]]
             bend_points.extend(((next_port.d.x, next_port.d.y), (other_port.d.x, other_port.d.y)))
             previous_port_point = (other_port.d.x, other_port.d.y)
@@ -856,9 +856,9 @@ def round_corners(
             length = length - 2 * taper_length
             taper_origin = straight_origin
 
-            pname_west, pname_east = [
+            pname_west, pname_east = list(
                 p.name for p in _get_straight_ports(taper, layer=layer)
-            ]
+            )
             taper_ref = taper.ref(
                 position=taper_origin, port_id=pname_west, rotation=angle
             )
@@ -1073,18 +1073,13 @@ def route_manhattan(
         #     on_route_error=on_route_error,
         # )
         import kfactory as kf
-
         print(input_port)
         points = kf.routing.manhattan.route_manhattan(
-            port_to_kport(input_port, kf.kcl)
-            if isinstance(input_port, gf.Port)
-            else input_port,
-            port_to_kport(output_port, kf.kcl)
-            if isinstance(output_port, gf.Port)
-            else output_port,
+            port_to_kport(input_port, kf.kcl) if isinstance(input_port, gf.Port) else input_port,
+            port_to_kport(output_port, kf.kcl) if isinstance(output_port, gf.Port) else output_port,
             bend.info["radius"] / kf.kcl.dbu,
             start_straight_length / kf.kcl.dbu,
-            end_straight_length / kf.kcl.dbu,
+            end_straight_length / kf.kcl.dbu
         )
 
         points = [np.array((p.x * bend.kcl.dbu, p.y * bend.kcl.dbu)) for p in points]
