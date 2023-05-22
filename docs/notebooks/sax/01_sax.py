@@ -292,6 +292,7 @@ coupler_fdtd = gs.read.model_from_csv(
 gs.plot_model(coupler_fdtd)
 
 # %% [markdown]
+#
 # %% [markdown]
 # Lets fit the coupler spectrum with a linear regression `sklearn` fit
 
@@ -471,7 +472,6 @@ def coupler(wl=1.5):
 f = jnp.linspace(constants.c / 1.0e-6, constants.c / 2.0e-6, 500) * 1e-12  # THz
 wl = constants.c / (f * 1e12) * 1e6  # um
 
-filepath = gf.config.sparameters_path / "coupler" / "coupler_G224n_L20_S220.csv"
 coupler_fdtd = gs.read.model_from_csv(
     filepath, xkey="wavelength_nm", prefix="S", xunits=1e-3
 )
@@ -502,7 +502,6 @@ plt.plot(wl, dP_, label="ΔΦ (model)", color="C2")
 plt.xlabel("Frequency [THz]")
 plt.ylabel("Transmission")
 plt.figlegend(bbox_to_anchor=(1.08, 0.9))
-plt.savefig("fdtd_vs_model.png", bbox_inches="tight")
 plt.show()
 
 # %% [markdown]
