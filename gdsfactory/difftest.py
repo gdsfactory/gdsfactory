@@ -22,11 +22,8 @@ import shutil
 from typing import Optional
 
 import gdsfactory as gf
-from gdsfactory.component import Component
 from gdsfactory.config import PATH, logger
-from gdsfactory.gdsdiff.gdsdiff import gdsdiff
 
-import pathlib
 from typing import Optional
 
 from kfactory import KCell, KLib, kdb
@@ -126,7 +123,8 @@ def run_xor(file1, file2, tolerance: int = 1, verbose: bool = False) -> None:
         )
 
 
-def difftest(component: gf.Component, 
+def difftest(
+    component: gf.Component,
     test_name: gf.Component,
     dirpath: Optional[pathlib.Path] = PATH.gdslib,
     dirpath_ref: Optional[pathlib.Path] = PATH.gds_ref,
@@ -217,10 +215,14 @@ def difftest(component: gf.Component,
         get_region(ld.layer_index_b, b_regions).insert(bnota)
 
     def cell_diff_a(anotb: kdb.Cell):
-        get_region(ld.layer_index_a, a_regions).insert(anotb.begin_shapes_rec(ld.layer_index_a()))
+        get_region(ld.layer_index_a, a_regions).insert(
+            anotb.begin_shapes_rec(ld.layer_index_a())
+        )
 
     def cell_diff_b(anotb: kdb.Cell):
-        get_region(ld.layer_index_b, b_regions).insert(anotb.begin_shapes_rec(ld.layer_index_b()))
+        get_region(ld.layer_index_b, b_regions).insert(
+            anotb.begin_shapes_rec(ld.layer_index_b())
+        )
 
     def text_diff_a(anotb: kdb.Text, prop_id: int):
         get_texts(ld.layer_index_a(), a_texts).insert(anotb)
@@ -245,7 +247,7 @@ def difftest(component: gf.Component,
             ref._kdb_cell.shapes(layer()).insert(region) if region else None
 
         for layer, region in b_regions.items():
-            comp._kdb_cell.shapes(layer()).insert(region) 
+            comp._kdb_cell.shapes(layer()).insert(region)
 
         for layer, region in a_texts.items():
             ref._kdb_cell.shapes(layer()).insert(region)
@@ -271,7 +273,6 @@ def difftest(component: gf.Component,
                 raise
             xor = val.upper().startswith("D")
             if xor:
-                
                 c.write(diff_file)
                 c.show()
 
