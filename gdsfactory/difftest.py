@@ -162,24 +162,26 @@ def difftest(component: gf.Component,
     dirpath_run = dirpath_run or dirpath / "gds_run"
     dirpath_diff = dirpath_diff or dirpath / "gds_diff"
 
-    ref_file = dirpath_ref / filename
+    ref_file = dirpath_ref / (component.name + ".gds")
     run_file = dirpath_run / filename
 
     diff_file = dirpath_diff / filename
 
-    ref = gf.get_component(ref)
-    comp = gf.get_component(comp)
+    ref = gf.get_component(component)
+    comp = gf.get_component(test_name)
 
-    ref.write_gds(ref_file)
-    comp.write_gds(run_file)
+    ref_file = ref.write_gds()
+    run_file = comp.write_gds()
 
     ref = KLib()
-    ref.read("ref.gds")
+    ref.read(ref_file)
     ref = ref[0]
+    print(ref.name)
 
     comp = KLib()
-    comp.read("comp.gds")
+    comp.read(run_file)
     comp = comp[0]
+    print(ref._kdb_cell.name, comp._kdb_cell.name)
 
     ld = kdb.LayoutDiff()
 
@@ -187,6 +189,10 @@ def difftest(component: gf.Component,
     a_texts: dict[int, kdb.Texts] = {}
     b_regions: dict[int, kdb.Region] = {}
     b_texts: dict[int, kdb.Texts] = {}
+
+    def on_begin_cell(cell: kdb.Cell, cell_b: kdb.Cell):
+        print(cell.name)
+        print(cell_b.name)
 
     def get_region(key, regions: dict[int, kdb.Region]) -> kdb.Region:
         if key not in regions:
@@ -210,81 +216,81 @@ def difftest(component: gf.Component,
     def polygon_diff_b(bnota: kdb.Polygon, prop_id: int):
         get_region(ld.layer_index_b, b_regions).insert(bnota)
 
+    def cell_diff_a(anotb: kdb.Cell):
+        get_region(ld.layer_index_a, a_regions).insert(anotb.begin_shapes_rec(ld.layer_index_a()))
+
+    def cell_diff_b(anotb: kdb.Cell):
+        get_region(ld.layer_index_b, b_regions).insert(anotb.begin_shapes_rec(ld.layer_index_b()))
+
     def text_diff_a(anotb: kdb.Text, prop_id: int):
-        get_texts(ld.layer_index_a(), a_texts)
+        get_texts(ld.layer_index_a(), a_texts).insert(anotb)
 
     def text_diff_b(bnota: kdb.Text, prop_id: int):
-        get_texts(ld.layer_index_b(), b_texts)
+        get_texts(ld.layer_index_b(), b_texts).insert(bnota)
 
-    ld.on_polygon_in_a_only(
-        lambda poly_anotb, propid: polygon_diff_a(poly_anotb, propid)
-    )
+    ld.on_begin_cell = on_begin_cell
+    ld.on_cell_in_a_only = lambda anotb: cell_diff_a(anotb)
+    ld.on_cell_in_b_only = lambda anotb: cell_diff_b(anotb)
+    ld.on_polygon_in_a_only = lambda anotb, prop_id: polygon_diff_a(anotb, prop_id)
+    ld.on_polygon_in_b_only = lambda anotb, prop_id: polygon_diff_b(anotb, prop_id)
+    ld.on_text_in_a_only = lambda anotb, prop_id: text_diff_b(anotb, prop_id)
+    ld.on_begin_layer = lambda li, la, lb: print(li, la, lb)
+    ld.on_end_polygon_differences = lambda: print("end polygons")
 
-    ld.on_polygon_in_b_only(
-        lambda poly_anotb, propid: polygon_diff_b(poly_anotb, propid)
-    )
+    if not ld.compare(ref._kdb_cell, comp._kdb_cell, kdb.LayoutDiff.Verbose):
+        ref = KCell()
+        comp = KCell()
+        for layer, region in a_regions.items():
+            print(layer)
+            ref._kdb_cell.shapes(layer()).insert(region) if region else None
 
-    ld.on_text_in_a_only(lambda anotb, propid: text_diff_a(anotb, propid))
+        for layer, region in b_regions.items():
+            comp._kdb_cell.shapes(layer()).insert(region) 
 
-    ld.on_text_in_b_only(lambda anotb, propid: text_diff_b(anotb, propid))
+        for layer, region in a_texts.items():
+            ref._kdb_cell.shapes(layer()).insert(region)
 
-    try: 
-        if not ld.compare(ref._kdb_cell, comp._kdb_cell, kdb.LayoutDiff.Verbose):
-            ref = KCell()
-            comp = KCell()
-            for layer, region in a_regions:
-                ref.shapes(layer).insert(region)
+        for layer, region in b_texts.items():
+            comp._kdb_cell.shapes(layer()).insert(region)
 
-            for layer, region in b_regions:
-                comp.shapes(layer).inser(region)
+        c = KCell()
+        c << ref
+        c << comp
 
-            for layer, region in a_texts:
-                ref.shapes(layer).insert(region)
+        print(
+            f"\ngds_run {filename!r} changed from gds_ref {str(ref_file)!r}\n"
+            "You can check the differences in Klayout GUI or run XOR with\n"
+            f"gf gds diff --xor {ref_file} {run_file}\n"
+        )
 
-            for layer, region in b_texts:
-                comp.shapes(layer).insert(region)
-
-            c = KCell()
-            c << ref
-            c << comp
-
-            print(
-                f"\ngds_run {filename!r} changed from gds_ref {str(ref_file)!r}\n"
-                "You can check the differences in Klayout GUI or run XOR with\n"
-                f"gf gds diff --xor {ref_file} {run_file}\n"
+        try:
+            val = input(
+                "Save current GDS as new reference (Y) or show differences (d)? [Y/n/d]"
             )
+            if val.upper().startswith("N"):
+                raise
+            xor = val.upper().startswith("D")
+            if xor:
+                
+                c.write(diff_file)
+                c.show()
 
-            try:
-                val = input(
-                    "Save current GDS as new reference (Y) or show differences (d)? [Y/n/d]"
-                )
+                val = input("Save current GDS as the new reference (Y)? [Y/n]")
                 if val.upper().startswith("N"):
                     raise
-                xor = val.upper().startswith("D")
-                if xor:
-                    
-                    c.write_gds(diff_file)
-                    c.show(show_ports=False)
 
-                    val = input("Save current GDS as the new reference (Y)? [Y/n]")
-                    if val.upper().startswith("N"):
-                        raise
-
-                logger.info(f"deleting file {str(ref_file)!r}")
-                ref_file.unlink()
-                shutil.copy(run_file, ref_file)
-                raise
-            except OSError as exc:
-                raise GeometryDifference(
-                    "\n"
-                    f"{filename!r} changed from reference {str(ref_file)!r}\n"
-                    "To step over each error you can run `pytest -s`\n"
-                    "So you can check the differences in Klayout GUI\n"
-                ) from exc
-    except Exception as e:
-        raise e
-        
+            logger.info(f"deleting file {str(ref_file)!r}")
+            ref_file.unlink()
+            shutil.copy(run_file, ref_file)
+            raise
+        except OSError as exc:
+            raise GeometryDifference(
+                "\n"
+                f"{filename!r} changed from reference {str(ref_file)!r}\n"
+                "To step over each error you can run `pytest -s`\n"
+                "So you can check the differences in Klayout GUI\n"
+            ) from exc
 
 
 if __name__ == "__main__":
-    difftest(gf.components.mzi(), gf.components.mzi())
+    difftest(gf.components.mzi(), gf.components.mmi1x2())
