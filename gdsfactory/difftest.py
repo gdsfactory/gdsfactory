@@ -1,17 +1,133 @@
-"""Layout Diff utils."""
+"""GDS regression test. Adapted from lytest.
+
+TODO: adapt it into pytest_regressions
+from __future__ import annotations
+from pytest_regressions.file_regression import FileRegressionFixture
+class GdsRegressionFixture(FileRegressionFixture):
+    def check(self,
+        contents,
+        extension=".gds",
+        basename=None,
+        fullpath=None,
+        binary=False,
+        obtained_filename=None,
+        check_fn=None,
+            ):
+        try:
+            difftest(c)
+"""
+import os
+import pathlib
+import shutil
+from typing import Optional
+
+import gdsfactory as gf
+from gdsfactory.component import Component
+from gdsfactory.config import PATH, logger
+from gdsfactory.gdsdiff.gdsdiff import gdsdiff
 
 import pathlib
 from typing import Optional
 
 from kfactory import KLib, kdb
 
-import gdsfactory as gf
-from gdsfactory.config import PATH
+
+class GeometryDifference(Exception):
+    pass
+
+
+def run_xor(file1, file2, tolerance: int = 1, verbose: bool = False) -> None:
+    """Returns nothing.
+
+    Raises a GeometryDifference if there are differences detected.
+
+    Args:
+        file1: ref gdspath.
+        file2: run gdspath.
+        tolerance: in nm.
+        verbose: prints output.
+    """
+    import klayout.db as kdb
+
+    l1 = kdb.Layout()
+    l1.read(file1)
+
+    l2 = kdb.Layout()
+    l2.read(file2)
+
+    # Check that same set of layers are present
+    layer_pairs = []
+    for ll1 in l1.layer_indices():
+        li1 = l1.get_info(ll1)
+        ll2 = l2.find_layer(l1.get_info(ll1))
+        if ll2 is None:
+            raise GeometryDifference(
+                f"Layer {li1} of layout {file1!r} not present in layout {file2!r}."
+            )
+
+        layer_pairs.append((ll1, ll2))
+
+    for ll2 in l2.layer_indices():
+        li2 = l2.get_info(ll2)
+        ll1 = l1.find_layer(l2.get_info(ll2))
+        if ll1 is None:
+            raise GeometryDifference(
+                f"Layer {li2} of layout {file2!r} not present in layout {file1!r}."
+            )
+
+    # Check that topcells are the same
+    tc1_names = [tc.name for tc in l1.top_cells()]
+    tc2_names = [tc.name for tc in l2.top_cells()]
+    tc1_names.sort()
+    tc2_names.sort()
+    if tc1_names != tc2_names:
+        raise GeometryDifference(
+            f"Missing topcell on one of the layouts, or name differs:\n{tc1_names!r}\n{tc2_names!r}"
+        )
+    topcell_pairs = [(l1.cell(tc1_n), l2.cell(tc1_n)) for tc1_n in tc1_names]
+    # Check that dbu are the same
+    if (l1.dbu - l2.dbu) > 1e-6:
+        raise GeometryDifference(
+            f"Database unit of layout {file1!r} ({l1.dbu}) differs from that of layout {file2!r} ({l2.dbu})."
+        )
+
+    # Run the difftool
+    diff = False
+    for tc1, tc2 in topcell_pairs:
+        for ll1, ll2 in layer_pairs:
+            r1 = kdb.Region(tc1.begin_shapes_rec(ll1))
+            r2 = kdb.Region(tc2.begin_shapes_rec(ll2))
+
+            rxor = r1 ^ r2
+
+            if tolerance > 0:
+                rxor.size(-tolerance)
+
+            if not rxor.is_empty():
+                diff = True
+                if verbose:
+                    print(
+                        f"{rxor.size()} differences found in {tc1.name!r} on layer {l1.get_info(ll1)}."
+                    )
+
+            elif verbose:
+                print(
+                    f"No differences found in {tc1.name!r} on layer {l1.get_info(ll1)}."
+                )
+
+    if diff:
+        fn_abgd = []
+        for fn in [file1, file2]:
+            head, tail = os.path.split(fn)
+            abgd = os.path.join(os.path.basename(head), tail)
+            fn_abgd.append(abgd)
+        raise GeometryDifference(
+            "Differences found between layouts {} and {}".format(*fn_abgd)
+        )
 
 
 def difftest(component: gf.Component, 
-    comp: gf.Component,
-    dirpath: pathlib.Path = PATH.gdslib,
+    test_name: gf.Component,
     dirpath_ref: Optional[pathlib.Path] = PATH.gds_ref,
     dirpath_run: Optional[pathlib.Path] = PATH.gds_run,
     dirpath_diff: Optional[pathlib.Path] = PATH.gds_diff,
@@ -47,12 +163,12 @@ def difftest(component: gf.Component,
 
     ref_file = dirpath_ref / filename
     run_file = dirpath_run / filename
-    diff_file = dirpath_diff / filename
+
     ref = gf.get_component(ref)
     comp = gf.get_component(comp)
 
-    ref.write_gds("ref.gds")
-    comp.write_gds("comp.gds")
+    ref.write_gds(ref_file)
+    comp.write_gds(run_file)
 
     ref = KLib()
     ref.read("ref.gds")
@@ -109,26 +225,42 @@ def difftest(component: gf.Component,
 
     ld.on_text_in_b_only(lambda anotb, propid: text_diff_b(anotb, propid))
 
-    if not ld.compare(ref._kdb_cell, comp._kdb_cell, kdb.LayoutDiff.Verbose):
-        ref = KCell()
-        comp = KCell()
-        for layer, region in a_regions:
-            ref.shapes(layer).insert(region)
+    try: 
+        if not ld.compare(ref._kdb_cell, comp._kdb_cell, kdb.LayoutDiff.Verbose):
+            ref = KCell()
+            comp = KCell()
+            for layer, region in a_regions:
+                ref.shapes(layer).insert(region)
 
-        for layer, region in b_regions:
-            comp.shapes(layer).inser(region)
+            for layer, region in b_regions:
+                comp.shapes(layer).inser(region)
 
-        for layer, region in a_texts:
-            ref.shapes(layer).insert(region)
+            for layer, region in a_texts:
+                ref.shapes(layer).insert(region)
 
-        for layer, region in b_texts:
-            comp.shapes(layer).insert(region)
+            for layer, region in b_texts:
+                comp.shapes(layer).insert(region)
 
-        c = KCell()
-        c << ref
-        c << comp
+            c = KCell()
+            c << ref
+            c << comp
+            c.show()
+            
+            val = input("Save current GDS as the new reference (Y)? [Y/n]")
+            if val.upper().startswith("N"):
+                raise
 
-        
+            logger.info(f"deleting file {str(ref_file)!r}")
+            ref_file.unlink()
+            shutil.copy(run_file, ref_file)
+            raise
+    except OSError as exc:
+        raise GeometryDifference(
+            "\n"
+            f"{filename!r} changed from reference {str(ref_file)!r}\n"
+            "To step over each error you can run `pytest -s`\n"
+            "So you can check the differences in Klayout GUI\n"
+        ) from exc
 
 
 if __name__ == "__main__":
