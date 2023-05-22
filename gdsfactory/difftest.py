@@ -123,7 +123,7 @@ def run_xor(file1, file2, tolerance: int = 1, verbose: bool = False) -> None:
 
 def difftest(
     component: gf.Component,
-    test_name: gf.Component,
+    test_name: Optional[gf.Component] = None,
     dirpath: Optional[pathlib.Path] = PATH.gdslib,
     dirpath_ref: Optional[pathlib.Path] = PATH.gds_ref,
     dirpath_run: Optional[pathlib.Path] = PATH.gds_run,
