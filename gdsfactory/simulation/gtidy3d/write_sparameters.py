@@ -218,14 +218,16 @@ def write_sparameters(
             sp["wavelengths"] = get_wavelengths(port_name=port_name, sim_data=sim_data)
 
         def convert_old_fmt(s_name):
-            if len(s_name) == 3 and s_name[0]=="s":
-                s_name = f"{port_names[int(s_name[1])-1]}@0,{port_names[int(s_name[2])-1]}@0"
+            if len(s_name) == 3 and s_name[0] == "s":
+                s_name = (
+                    f"{port_names[int(s_name[1])-1]}@0,{port_names[int(s_name[2])-1]}@0"
+                )
             return s_name
-        
+
         if bool(port_symmetries):
             for key, symmetries in port_symmetries.items():
                 for sym in symmetries:
-                    n_key = convert_old_fmt(key) # TODO contribute back
+                    n_key = convert_old_fmt(key)  # TODO contribute back
                     n_sym = convert_old_fmt(sym)
                     if n_key in sp:
                         sp[n_sym] = sp[n_key]
@@ -235,8 +237,13 @@ def write_sparameters(
     for port_source_name, (_sim_name, sim_data) in zip(
         port_source_names, batch_data.items()
     ):
-        sp.update(get_sparameter(port_source_name, sim_data, 
-                                 port_symmetries=port_symmetries.get(port_source_name, {})))
+        sp.update(
+            get_sparameter(
+                port_source_name,
+                sim_data,
+                port_symmetries=port_symmetries.get(port_source_name, {}),
+            )
+        )
 
     end = time.time()
     np.savez_compressed(filepath, **sp)
