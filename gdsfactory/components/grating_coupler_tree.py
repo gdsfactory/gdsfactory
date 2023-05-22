@@ -6,7 +6,7 @@ from gdsfactory.components.grating_coupler_elliptical import (
     grating_coupler_elliptical_te,
 )
 from gdsfactory.components.straight_array import straight_array
-from gdsfactory.typings import ComponentSpec, LayerSpec
+from gdsfactory.typs import ComponentSpec, LayerSpec
 
 
 @gf.cell

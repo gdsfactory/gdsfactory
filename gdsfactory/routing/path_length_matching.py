@@ -13,7 +13,7 @@ from gdsfactory.routing.manhattan import (
     _is_vertical,
     remove_flat_angles,
 )
-from gdsfactory.typings import (
+from gdsfactory.typs import (
     ComponentSpec,
     CrossSectionSpec,
     MultiCrossSectionAngleSpec,

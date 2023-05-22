@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Tuple
 
 from gdsfactory.component import Component
-from gdsfactory.typings import ComponentOrPath
+from gdsfactory.typs import ComponentOrPath
 
 
 def check_space(

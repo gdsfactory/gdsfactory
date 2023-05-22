@@ -19,7 +19,7 @@ from gdsfactory.simulation.gtidy3d.get_results import get_results, _executor
 from gdsfactory.simulation.gtidy3d.get_simulation_grating_coupler import (
     get_simulation_grating_coupler,
 )
-from gdsfactory.typings import (
+from gdsfactory.typs import (
     Component,
     ComponentSpec,
     PathType,
@@ -137,13 +137,13 @@ def write_sparameters_grating_coupler(
     t = monitor_exiting
 
     fiber_port_name = None
-    for port_name in component.ports.keys():
+    for port_name in component.ports.get_all_named.keys():
         if port_name.startswith(fiber_port_prefix):
             fiber_port_name = port_name
 
     if fiber_port_name is None:
         raise ValueError(
-            f"No port named {fiber_port_prefix!r} in {component.ports.keys()}"
+            f"No port named {fiber_port_prefix!r} in {component.ports.get_all_named.keys()}"
         )
 
     freqs = sim_data.monitor_data["waveguide"].amps.sel(direction="+").f

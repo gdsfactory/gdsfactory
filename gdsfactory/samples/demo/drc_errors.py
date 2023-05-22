@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import Float2, Layer
+from gdsfactory.typs import Float2, Layer
 
 layer = gf.LAYER.WG
 

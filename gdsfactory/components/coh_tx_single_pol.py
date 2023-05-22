@@ -6,7 +6,7 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.routing.get_route import get_route
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec
 
 default_mzm = dict(
     component="mzi",

@@ -29,7 +29,7 @@ from gdsfactory.component import Component, ComponentReference
 from gdsfactory.name import clean_name
 from gdsfactory.serialization import clean_dict, clean_value_json
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import LayerSpec
+from gdsfactory.typs import LayerSpec
 
 
 def get_default_connection_validators():

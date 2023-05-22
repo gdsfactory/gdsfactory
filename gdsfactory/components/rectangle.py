@@ -6,7 +6,7 @@ from functools import partial
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
-from gdsfactory.typings import Ints, LayerSpec
+from gdsfactory.typs import Ints, LayerSpec
 
 
 @cell

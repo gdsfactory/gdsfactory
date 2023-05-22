@@ -7,7 +7,7 @@ from gdsfactory.components.coupler_ring import coupler_ring
 from gdsfactory.components.straight import straight
 from gdsfactory.components.taper import taper
 from gdsfactory.snap import assert_on_2nm_grid
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.typs import ComponentSpec
 
 taper2 = gf.partial(taper, width2=3)
 

@@ -16,7 +16,7 @@ from gdsfactory.simulation.get_sparameters_path import (
 )
 from gdsfactory.simulation.gtidy3d.get_results import _executor, get_results_batch
 from gdsfactory.simulation.gtidy3d.get_simulation import get_simulation, plot_simulation
-from gdsfactory.typings import (
+from gdsfactory.typs import (
     Any,
     ComponentSpec,
     Dict,

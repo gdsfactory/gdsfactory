@@ -6,7 +6,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.components.text import text
-from gdsfactory.typings import Anchor, LayerSpec
+from gdsfactory.typs import Anchor, LayerSpec
 
 Coordinate = Union[Tuple[float, float], Tuple[int, int]]
 

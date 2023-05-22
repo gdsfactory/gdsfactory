@@ -6,7 +6,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.cross_section import strip
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.typs import CrossSectionSpec
 
 
 @gf.cell
@@ -155,6 +155,6 @@ if __name__ == "__main__":
     PDK = get_generic_pdk()
     PDK.activate()
     # c = free_propagation_region(inputs=2, outputs=4)
-    # print(c.ports.keys())
+    # print(c.ports.get_all_named.keys())
     c = awg()
     c.show(show_ports=True)

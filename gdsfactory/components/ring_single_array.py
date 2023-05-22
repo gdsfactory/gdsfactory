@@ -6,7 +6,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.ring_single import ring_single
 from gdsfactory.components.straight import straight
-from gdsfactory.typings import ComponentFactory, CrossSectionSpec
+from gdsfactory.typs import ComponentFactory, CrossSectionSpec
 
 _list_of_dicts = (
     dict(length_x=10.0, radius=5.0),

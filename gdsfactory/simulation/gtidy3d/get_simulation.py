@@ -19,7 +19,7 @@ from gdsfactory.pdk import get_layer_stack, get_material_index
 from gdsfactory.routing.sort_ports import sort_ports_x, sort_ports_y
 from gdsfactory.simulation.gtidy3d.materials import get_index, get_medium
 from gdsfactory.technology import LayerStack
-from gdsfactory.typings import ComponentSpec, Float2
+from gdsfactory.typs import ComponentSpec, Float2
 
 
 @pydantic.validate_arguments
@@ -207,7 +207,7 @@ def get_simulation(
     ), f"component needs to be a gf.Component, got Type {type(component)}"
     if port_source_name not in component.ports:
         warnings.warn(
-            f"port_source_name={port_source_name!r} not in {list(component.ports.keys())}"
+            f"port_source_name={port_source_name!r} not in {list(component.ports.get_all_named.keys())}"
         )
         port_source = component.get_ports_list(port_type="optical")[0]
         port_source_name = port_source.name

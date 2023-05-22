@@ -11,7 +11,7 @@ from gdsfactory.components.ge_detector_straight_si_contacts import (
     ge_detector_straight_si_contacts,
 )
 from gdsfactory.components.mmi_90degree_hybrid import mmi_90degree_hybrid
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec
 
 
 @cell
@@ -118,7 +118,7 @@ def coh_rx_single_pol(
     # of the 90 degree hybrid to avoid crossings
     hybrid_ports = {"I_out1": pd_i1, "I_out2": pd_i2, "Q_out1": pd_q1, "Q_out2": pd_q2}
 
-    port_names = hybrid_ports.keys()
+    port_names = hybrid_ports.get_all_named.keys()
     ports_y_pos = [hybrid.ports[port_name].y for port_name in port_names]
     inds = np.argsort(ports_y_pos)
     port_names = list(port_names)

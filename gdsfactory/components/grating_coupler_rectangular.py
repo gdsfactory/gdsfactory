@@ -8,7 +8,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec, LayerSpec
 
 
 @gf.cell

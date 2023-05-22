@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.components.straight import straight
 from gdsfactory.port import select_ports_optical
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -80,7 +80,7 @@ def fanout2x2(
     c.min_bend_radius = bend.info["min_bend_radius"]
 
     optical_ports = select_ports(ref.ports)
-    for port_name in ref.ports.keys():
+    for port_name in ref.ports.get_all_named.keys():
         if port_name not in optical_ports:
             c.add_port(port_name, port=ref.ports[port_name])
     c.copy_child_info(component)

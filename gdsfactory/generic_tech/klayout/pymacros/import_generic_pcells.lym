@@ -120,7 +120,7 @@ class PCellFactory(pya.PCellDeclarationHelper):
                 new_params[name] = _validate_parameter(name, param)
             except ValueError as e:
                 raise ValueError(f'Parameter {name} is not valid: {e}')
-        new_params.update({'routes': Parameter('routes', kind=Parameter.KEYWORD_ONLY, default=[f'{port}->{None}@{None}' for port in self.component().ports.keys()], annotation=list)})
+        new_params.update({'routes': Parameter('routes', kind=Parameter.KEYWORD_ONLY, default=[f'{port}->{None}@{None}' for port in self.component().ports.get_all_named.keys()], annotation=list)})
         new_params.update({'route_function': Parameter('route_function', kind=Parameter.KEYWORD_ONLY, default="route_manhattan", annotation=str)})
         return new_params
 

@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_quad import route_quad
-from gdsfactory.typings import ComponentSpec, Optional, Strs, Callable
+from gdsfactory.typs import ComponentSpec, Optional, Strs, Callable
 
 
 @gf.cell
@@ -16,7 +16,7 @@ def add_electrical_pads_shortest(
     select_ports: Callable = select_ports_electrical,
     port_names: Optional[Strs] = None,
     port_orientation: float = 90,
-    layer: gf.typings.LayerSpec = "M3",
+    layer: gf.typs.LayerSpec = "M3",
 ) -> Component:
     """Returns new Component with a pad by each electrical port.
 

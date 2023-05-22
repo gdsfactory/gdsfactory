@@ -7,7 +7,7 @@ from gdsfactory.add_pins import LayerSpec
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.components.via_stack import via_stack_heater_m3
-from gdsfactory.typings import ComponentSpec, Float2
+from gdsfactory.typs import ComponentSpec, Float2
 
 
 @gf.cell

@@ -8,7 +8,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.taper import taper_strip_to_ridge
 from gdsfactory.components.via_stack import via_stack_slab_m3
 from gdsfactory.cross_section import pin, pn
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -91,5 +91,5 @@ straight_pn = gf.partial(straight_pin, cross_section=pn, length=2000)
 
 if __name__ == "__main__":
     c = straight_pin(length=40)
-    # print(c.ports.keys())
+    # print(c.ports.get_all_named.keys())
     c.show(show_ports=True)

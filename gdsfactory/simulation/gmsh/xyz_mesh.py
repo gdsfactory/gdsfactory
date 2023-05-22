@@ -8,7 +8,7 @@ from gdsfactory.simulation.gmsh.parse_component import buffers_to_lists
 from gdsfactory.simulation.gmsh.parse_gds import cleanup_component
 from gdsfactory.simulation.gmsh.parse_layerstack import order_layerstack
 from gdsfactory.technology import LayerStack
-from gdsfactory.typings import ComponentOrReference
+from gdsfactory.typs import ComponentOrReference
 
 
 def add_get_point(occ, x, y, z, points_dict):

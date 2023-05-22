@@ -44,7 +44,7 @@ from gdsfactory.technology import (
     LayerViews,
     lyp_to_dataclass,
 )
-from gdsfactory.typings import Layer, LayerSpec
+from gdsfactory.typs import Layer, LayerSpec
 
 import gdsfactory as gf
 

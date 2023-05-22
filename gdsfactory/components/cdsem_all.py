@@ -10,7 +10,7 @@ from gdsfactory.components.cdsem_bend180 import cdsem_bend180
 from gdsfactory.components.cdsem_straight import cdsem_straight
 from gdsfactory.components.cdsem_straight_density import cdsem_straight_density
 from gdsfactory.components.text_rectangular import text_rectangular
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec
 
 text_rectangular_mini = partial(text_rectangular, size=1)
 

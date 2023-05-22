@@ -5,7 +5,7 @@ from typing import List
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.port import Port
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
-from gdsfactory.typings import Route
+from gdsfactory.typs import Route
 
 
 def get_bundle_sbend(

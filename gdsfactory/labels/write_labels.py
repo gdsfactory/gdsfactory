@@ -13,7 +13,7 @@ import gdsfactory as gf
 from gdsfactory.config import logger
 from gdsfactory.pdk import get_layer
 from gdsfactory.routing.add_fiber_single import add_fiber_single
-from gdsfactory.typings import LayerSpec, Optional, PathType
+from gdsfactory.typs import LayerSpec, Optional, PathType
 
 
 def find_labels(

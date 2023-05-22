@@ -5,7 +5,7 @@ from typing import Optional
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.taper_cross_section import taper_cross_section
-from gdsfactory.typings import CrossSectionSpec, LayerSpecs
+from gdsfactory.typs import CrossSectionSpec, LayerSpecs
 
 
 @gf.cell

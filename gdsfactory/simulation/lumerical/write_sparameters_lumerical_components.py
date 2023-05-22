@@ -9,7 +9,7 @@ import gdsfactory as gf
 from gdsfactory.simulation.lumerical.write_sparameters_lumerical import (
     write_sparameters_lumerical,
 )
-from gdsfactory.typings import ComponentSpec, List
+from gdsfactory.typs import ComponentSpec, List
 
 
 def write_sparameters_lumerical_components(

@@ -1,7 +1,7 @@
 import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec
 from gdsfactory.components.bend_s import bend_s
 
 

@@ -24,7 +24,7 @@ from gdsfactory.routing.utils import (
     check_ports_have_equal_spacing,
     direction_ports_from_list_ports,
 )
-from gdsfactory.typings import (
+from gdsfactory.typs import (
     ComponentSpec,
     CrossSectionSpec,
     PortsDict,

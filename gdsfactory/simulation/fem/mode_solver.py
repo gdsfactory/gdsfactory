@@ -10,7 +10,7 @@ from gdsfactory.config import logger
 from gdsfactory.pdk import get_layer_stack, get_material_index
 from gdsfactory.simulation.get_modes_path import get_modes_path_femwell
 from gdsfactory.technology import LayerStack
-from gdsfactory.typings import CrossSectionSpec, PathType, ComponentSpec
+from gdsfactory.typs import CrossSectionSpec, PathType, ComponentSpec
 
 from skfem import (
     Basis,

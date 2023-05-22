@@ -18,7 +18,7 @@ import meep as mp
 import numpy as np
 
 from gdsfactory.serialization import clean_value_name
-from gdsfactory.typings import Floats
+from gdsfactory.typs import Floats
 
 nm = 1e-3
 nSi = 3.47

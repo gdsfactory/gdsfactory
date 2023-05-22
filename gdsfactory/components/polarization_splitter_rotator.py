@@ -13,7 +13,7 @@ from gdsfactory.components.coupler_straight_asymmetric import (
     coupler_straight_asymmetric,
 )
 
-from gdsfactory.typings import CrossSectionSpec, Float2, Float3
+from gdsfactory.typs import CrossSectionSpec, Float2, Float3
 
 
 @gf.cell

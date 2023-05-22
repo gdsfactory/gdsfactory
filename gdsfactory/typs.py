@@ -200,8 +200,8 @@ LabelListFactory = Callable[..., List[Label]]
 
 
 class Route(BaseModel):
-    references: List[ComponentReference]
-    labels: Optional[List[gdstk.Label]] = None
+    references: List
+    labels: Optional[List[Label]] = None
     ports: Tuple[Port, Port]
     length: float
 
@@ -213,7 +213,7 @@ class Route(BaseModel):
 
 
 class Routes(BaseModel):
-    references: List[ComponentReference]
+    references: List
     lengths: List[float]
     ports: Optional[List[Port]] = None
     bend_radius: Optional[List[float]] = None

@@ -6,7 +6,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.components.optimal_hairpin import optimal_hairpin
-from gdsfactory.typings import Float2, LayerSpec, Optional
+from gdsfactory.typs import Float2, LayerSpec, Optional
 
 
 @cell

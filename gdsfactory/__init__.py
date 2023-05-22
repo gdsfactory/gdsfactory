@@ -41,7 +41,7 @@ from gdsfactory import labels
 from gdsfactory import asserts
 from gdsfactory import components
 from gdsfactory import routing
-from gdsfactory import typings
+from gdsfactory import typs
 from gdsfactory import path
 from gdsfactory import snap
 from gdsfactory import read
@@ -82,7 +82,7 @@ c = components
 def __getattr__(name):
     if name == "types":
         warn("gdsfactory.types has been renamed to gdsfactory.typings", stacklevel=3)
-        return typings
+        return typs
     raise AttributeError(f"No module named {name}")
 
 
@@ -141,7 +141,7 @@ __all__ = (
     "routing",
     "show",
     "snap",
-    "typings",
+    "typs",
     "technology",
     "write_cells",
     "xsection",

@@ -27,7 +27,7 @@ def coupler_straight(
     # bot.ymax = 0
     # top.ymin = gap
 
-    top.movey(straight_component.info["width"] + gap)
+    top.move((straight_component._kdb_cell.dbbox().center().x, straight_component.info["width"] + gap))
 
     component.add_port("o1", port=bot.ports["o1"])
     component.add_port("o2", port=top.ports["o1"])

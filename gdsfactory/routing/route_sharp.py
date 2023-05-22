@@ -11,7 +11,7 @@ from gdsfactory.cross_section import CrossSection
 from gdsfactory.path import Path, transition
 from gdsfactory.port import Port
 from gdsfactory.routing.route_quad import _get_rotated_basis
-from gdsfactory.typings import CrossSectionSpec, LayerSpec
+from gdsfactory.typs import CrossSectionSpec, LayerSpec
 
 
 def path_straight(port1: Port, port2: Port) -> Path:

@@ -6,7 +6,7 @@ import gdsfactory as gf
 from gdsfactory.components.straight import straight
 from gdsfactory.difftest import difftest
 from gdsfactory.port import Port
-from gdsfactory.typings import ComponentSpec, Routes
+from gdsfactory.typs import ComponentSpec, Routes
 
 
 def get_routes_straight(

@@ -9,7 +9,7 @@ from gdsfactory.port import port_array
 from gdsfactory.routing.get_route_sbend import get_route_sbend
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
 from gdsfactory.routing.utils import direction_ports_from_list_ports, flip
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.typs import ComponentSpec
 
 
 @cell
@@ -52,7 +52,7 @@ def fanout_component(
 
     for port_name in port_names:
         if port_name not in ref.ports:
-            raise ValueError(f"{port_name} not in {list(ref.ports.keys())}")
+            raise ValueError(f"{port_name} not in {list(ref.ports.get_all_named.keys())}")
 
     ports1 = [p for p in ref.ports.values() if p.name in port_names]
     port = ports1[0]
@@ -87,7 +87,7 @@ def fanout_ports(
     pitch: Tuple[float, float] = (0.0, 20.0),
     dx: float = 20.0,
     **kwargs,
-) -> List[gf.typings.Route]:
+) -> List[gf.typs.Route]:
     """Returns fanout Sbend routes.
 
     Args:
@@ -117,7 +117,7 @@ def fanout_ports(
 def test_fanout_ports() -> Component:
     c = gf.components.mmi2x2()
     ports = c.get_ports_dict(orientation=0)
-    port_names = list(ports.keys())
+    port_names = list(ports.get_all_named.keys())
     c2 = fanout_component(component=c, port_names=port_names)
     d = direction_ports_from_list_ports(c2.get_ports_list())
     assert len(d["E"]) == 2, len(d["E"]) == 2
@@ -146,4 +146,4 @@ if __name__ == "__main__":
     # for route in routes:
     #     c.add(route.references)
     # c.show(show_ports=True)
-    # print(cc.ports.keys())
+    # print(cc.ports.get_all_named.keys())

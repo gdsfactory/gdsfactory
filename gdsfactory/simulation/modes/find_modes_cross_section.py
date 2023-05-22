@@ -26,7 +26,7 @@ from gdsfactory.simulation.modes.get_mode_solver_cross_section import (
     get_mode_solver_cross_section,
 )
 from gdsfactory.simulation.modes.types import Mode
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.typs import CrossSectionSpec
 
 mpb.Verbosity(0)
 

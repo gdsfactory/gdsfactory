@@ -8,7 +8,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats, LayerSpec
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec, Floats, LayerSpec
 
 _gaps = (0.2,) * 10
 _widths = (0.5,) * 10

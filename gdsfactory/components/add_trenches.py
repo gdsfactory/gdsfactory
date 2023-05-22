@@ -3,7 +3,7 @@ from functools import partial
 
 import gdsfactory as gf
 
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec
 from gdsfactory.components.bbox import bbox
 from gdsfactory.components.coupler import coupler
 from gdsfactory.components.bend_euler import bend_euler

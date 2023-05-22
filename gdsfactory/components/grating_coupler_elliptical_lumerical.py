@@ -9,7 +9,7 @@ from gdsfactory.components.grating_coupler_elliptical_arbitrary import (
     grating_coupler_elliptical_arbitrary,
 )
 from gdsfactory.config import PATH
-from gdsfactory.typings import Floats, LayerSpec
+from gdsfactory.typs import Floats, LayerSpec
 
 parameters = (
     -2.4298362615732447,

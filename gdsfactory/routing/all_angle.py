@@ -7,8 +7,8 @@ from gdsfactory.component import Port, ComponentReference, Component
 from gdsfactory.path import Path
 from gdsfactory.generic_tech.layer_map import LAYER
 from gdsfactory.get_netlist import difference_between_angles
-from gdsfactory.typings import CrossSectionSpec, Route, ComponentSpec, StepAllAngle
-from gdsfactory.typings import STEP_DIRECTIVES_ALL_ANGLE as STEP_DIRECTIVES
+from gdsfactory.typs import CrossSectionSpec, Route, ComponentSpec, StepAllAngle
+from gdsfactory.typs import STEP_DIRECTIVES_ALL_ANGLE as STEP_DIRECTIVES
 from gdsfactory.routing.auto_taper import (
     taper_to_cross_section,
     _get_taper_io_port_names,
@@ -103,7 +103,7 @@ def _line_intercept(p1, a1, p2, a2):
 
 def _get_bend_ports(bend):
     # this is a bit of a hack, but o1 < o2, in0 < out0, hopefully there are no other wacky conventions!
-    sorted_port_names = sorted(bend.ports.keys())
+    sorted_port_names = sorted(bend.ports.get_all_named.keys())
     return [bend.ports[n] for n in sorted_port_names]
 
 

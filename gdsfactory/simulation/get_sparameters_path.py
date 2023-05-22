@@ -13,7 +13,7 @@ import gdsfactory as gf
 from gdsfactory.generic_tech import LAYER_STACK
 from gdsfactory.name import clean_value
 from gdsfactory.pdk import get_sparameters_path
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.typs import ComponentSpec
 
 
 def get_kwargs_hash(**kwargs) -> str:

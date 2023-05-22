@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import Floats, LayerSpec
+from gdsfactory.typs import Floats, LayerSpec
 
 
 @gf.cell

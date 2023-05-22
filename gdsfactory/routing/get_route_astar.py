@@ -11,7 +11,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.wire import wire_corner
 from gdsfactory.routing import get_route_from_waypoints
 from gdsfactory.routing.manhattan import route_manhattan
-from gdsfactory.typings import CrossSectionSpec, LayerSpec, Route
+from gdsfactory.typs import CrossSectionSpec, LayerSpec, Route
 
 
 class Node:

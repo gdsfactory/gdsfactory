@@ -8,7 +8,7 @@ import pydantic
 import gdsfactory as gf
 from gdsfactory.name import clean_name
 from gdsfactory.snap import snap_to_grid as snap
-from gdsfactory.typings import Layer
+from gdsfactory.typs import Layer
 
 
 class Dft(pydantic.BaseModel):

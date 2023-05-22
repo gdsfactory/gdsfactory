@@ -7,7 +7,7 @@ from gdsfactory.add_padding import get_padding_points
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.port import Port
-from gdsfactory.typings import CrossSectionSpec, LayerSpec
+from gdsfactory.typs import CrossSectionSpec, LayerSpec
 
 
 @cell

@@ -8,7 +8,7 @@ from gdsfactory.components.cross import cross
 from gdsfactory.components.pad import pad
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.via_stack import via_stack
-from gdsfactory.typings import LayerSpecs, ComponentSpec, Floats, CrossSectionSpec
+from gdsfactory.typs import LayerSpecs, ComponentSpec, Floats, CrossSectionSpec
 from gdsfactory.components.via_stack import via_stack_npp_m1, via_stack_m1_m3
 from gdsfactory.cross_section import metal1
 from typing import Optional

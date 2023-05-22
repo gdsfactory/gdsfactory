@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.typs import ComponentSpec
 
 
 @cell

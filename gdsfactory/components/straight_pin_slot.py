@@ -9,7 +9,7 @@ from gdsfactory.components.taper import taper_strip_to_ridge
 from gdsfactory.components.via_stack import via_stack_m1_m3
 from gdsfactory.components.via_stack_slot import via_stack_slot_slab_m1
 from gdsfactory.cross_section import pin, pn
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell

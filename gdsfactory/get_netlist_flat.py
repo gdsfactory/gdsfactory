@@ -160,7 +160,7 @@ def _map_connections_ports(
 
     # Starting point is ports of the leaf instance
     leaf_instance = hierarchy[-1][1]
-    leaf_instance_ports = list(gf.get_component(hierarchy[-1][0]).ports.keys())
+    leaf_instance_ports = list(gf.get_component(hierarchy[-1][0]).ports.get_all_named.keys())
 
     for leaf_portname in leaf_instance_ports:
         current_connections = []

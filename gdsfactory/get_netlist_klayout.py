@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from gdsfactory.typings import ComponentOrPath
+from gdsfactory.typs import ComponentOrPath
 
 
 def get_netlist_klayout(gdspath: ComponentOrPath) -> None:

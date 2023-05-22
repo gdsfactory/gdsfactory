@@ -8,7 +8,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.constants import _glyph, _indent, _width
-from gdsfactory.typings import Coordinate, LayerSpec
+from gdsfactory.typs import Coordinate, LayerSpec
 
 
 @gf.cell

@@ -62,7 +62,7 @@ from typing_extensions import Literal
 from gdsfactory.add_pins import add_instance_label
 from gdsfactory.cell import cell
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.typings import Route
+from gdsfactory.typs import Route
 
 valid_placement_keys = [
     "x",
@@ -186,7 +186,7 @@ def _move_ref(
         port_name not in instances[instance_name_ref].ports
         and port_name not in valid_anchor_keywords
     ):
-        ports = list(instances[instance_name_ref].ports.keys())
+        ports = list(instances[instance_name_ref].ports.get_all_named.keys())
         raise ValueError(
             f"port = {port_name!r} can be a port_name in {ports}, "
             f"an anchor {valid_anchor_keywords} for {instance_name_ref!r}, "
@@ -275,7 +275,7 @@ def place(
                 ref.mirror_x(x0=mirror)
             else:
                 raise ValueError(
-                    f"{mirror!r} can only be a port name {ref.ports.keys()}, "
+                    f"{mirror!r} can only be a port name {ref.ports.get_all_named.keys()}, "
                     "x value or True/False"
                 )
 
@@ -286,7 +286,7 @@ def place(
                     f"Port {port!r} is neither a valid port on {ref.parent.name!r}"
                     " nor a recognized anchor keyword.\n"
                     "Valid ports: \n"
-                    f"{list(ref.ports.keys())}. \n"
+                    f"{list(ref.ports.get_all_named.keys())}. \n"
                     "Valid keywords: \n"
                     f"{valid_anchor_point_keywords}",
                 )
@@ -442,12 +442,12 @@ def make_connection(
 
     if port_src_name not in instance_src.ports:
         raise ValueError(
-            f"{port_src_name} not in {list(instance_src.ports.keys())} for"
+            f"{port_src_name} not in {list(instance_src.ports.get_all_named.keys())} for"
             f" {instance_src_name!r} "
         )
     if port_dst_name not in instance_dst.ports:
         raise ValueError(
-            f"{port_dst_name!r} not in {list(instance_dst.ports.keys())} for"
+            f"{port_dst_name!r} not in {list(instance_dst.ports.get_all_named.keys())} for"
             f" {instance_dst_name!r}"
         )
     port_dst = instance_dst.ports[port_dst_name]
@@ -887,7 +887,7 @@ def _from_yaml(
                     for port_src_name in ports1names:
                         if port_src_name not in instance_src.ports:
                             raise ValueError(
-                                f"{port_src_name!r} not in {list(instance_src.ports.keys())}"
+                                f"{port_src_name!r} not in {list(instance_src.ports.get_all_named.keys())}"
                                 f"for {instance_src_name!r} "
                             )
                         ports1.append(instance_src.ports[port_src_name])
@@ -895,7 +895,7 @@ def _from_yaml(
                     for port_dst_name in ports2names:
                         if port_dst_name not in instance_dst.ports:
                             raise ValueError(
-                                f"{port_dst_name!r} not in {list(instance_dst.ports.keys())}"
+                                f"{port_dst_name!r} not in {list(instance_dst.ports.get_all_named.keys())}"
                                 f"for {instance_dst_name!r}"
                             )
                         ports2.append(instance_dst.ports[port_dst_name])
@@ -923,13 +923,13 @@ def _from_yaml(
 
                     if port_src_name not in instance_src.ports:
                         raise ValueError(
-                            f"{port_src_name!r} not in {list(instance_src.ports.keys())} for"
+                            f"{port_src_name!r} not in {list(instance_src.ports.get_all_named.keys())} for"
                             f" {instance_src_name!r} "
                         )
 
                     if port_dst_name not in instance_dst.ports:
                         raise ValueError(
-                            f"{port_dst_name!r} not in {list(instance_dst.ports.keys())} for"
+                            f"{port_dst_name!r} not in {list(instance_dst.ports.get_all_named.keys())} for"
                             f" {instance_dst_name!r}"
                         )
 
@@ -972,7 +972,7 @@ def _from_yaml(
 
                 if instance_port_name not in instance.ports:
                     raise ValueError(
-                        f"{instance_port_name!r} not in {list(instance.ports.keys())} for"
+                        f"{instance_port_name!r} not in {list(instance.ports.get_all_named.keys())} for"
                         f" {instance_name!r} "
                     )
                 c.add_port(port_name, port=instance.ports[instance_port_name])

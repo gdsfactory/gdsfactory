@@ -14,7 +14,7 @@ from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.route_fiber_single import route_fiber_single
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec, LayerSpec
 from gdsfactory.add_labels import (
     get_input_label_text_dash,
     get_input_label_text_dash_loopback,
@@ -148,7 +148,7 @@ def add_fiber_single(
     gc = gf.get_component(gc)
 
     if gc_port_name not in gc.ports:
-        raise ValueError(f"{gc_port_name!r} not in {list(gc.ports.keys())}")
+        raise ValueError(f"{gc_port_name!r} not in {list(gc.ports.get_all_named.keys())}")
 
     gc_port_orientation = int(gc.ports[gc_port_name].orientation)
 

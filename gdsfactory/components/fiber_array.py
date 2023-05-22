@@ -3,7 +3,7 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.fiber import circle
-from gdsfactory.typings import LayerSpec
+from gdsfactory.typs import LayerSpec
 
 
 @gf.cell

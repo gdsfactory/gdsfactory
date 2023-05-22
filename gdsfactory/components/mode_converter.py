@@ -7,7 +7,7 @@ from gdsfactory.components.coupler_straight_asymmetric import (
 )
 from gdsfactory.components.bend_euler import bend_euler_s
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell

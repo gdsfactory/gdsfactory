@@ -4,7 +4,7 @@ from typing import Union, List
 
 import gdstk
 
-from gdsfactory.typings import Component, ComponentReference
+from gdsfactory.typs import Component, ComponentReference
 
 
 def fillet(

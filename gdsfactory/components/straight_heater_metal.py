@@ -5,7 +5,7 @@ from typing import Optional
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec
 
 
 @cell
@@ -94,34 +94,34 @@ def straight_heater_metal_undercut(
     c.add_ports(sequence.ports)
 
     if via_stack:
-        refs = list(sequence.named_references.keys())
+        refs = list(sequence.named_references.get_inst_names().keys())
         via_stackw = via_stacke = gf.get_component(via_stack)
         via_stack_west_center = sequence.named_references[refs[0]].size_info.cw
         via_stack_east_center = sequence.named_references[refs[-1]].size_info.ce
         dx = via_stackw.get_ports_xsize() / 2 + heater_taper_length or 0
 
-        via_stack_west = c << via_stackw
-        via_stack_east = c << via_stacke
-        via_stack_west.move(via_stack_west_center - (dx, 0))
-        via_stack_east.move(via_stack_east_center + (dx, 0))
-        c.add_port(
-            "e1", port=via_stack_west.get_ports_list(orientation=port_orientation1)[0]
-        )
-        c.add_port(
-            "e2", port=via_stack_east.get_ports_list(orientation=port_orientation2)[0]
-        )
-        if heater_taper_length:
-            x = gf.get_cross_section(cross_section_heater, width=heater_width)
-            taper = gf.components.taper(
-                width1=via_stackw.ports["e1"].width,
-                width2=heater_width,
-                length=heater_taper_length,
-                cross_section=x,
-            )
-            taper1 = c << taper
-            taper2 = c << taper
-            taper1.connect("o1", via_stack_west.ports["e3"])
-            taper2.connect("o1", via_stack_east.ports["e1"])
+        # via_stack_west = c << via_stackw
+        # via_stack_east = c << via_stacke
+        # via_stack_west.move(via_stack_west_center - (dx, 0))
+        # via_stack_east.move(via_stack_east_center + (dx, 0))
+        # c.add_port(
+        #     "e1", port=via_stack_west.get_ports_list(orientation=port_orientation1)[0]
+        # )
+        # c.add_port(
+        #     "e2", port=via_stack_east.get_ports_list(orientation=port_orientation2)[0]
+        # )
+        # if heater_taper_length:
+        #     x = gf.get_cross_section(cross_section_heater, width=heater_width)
+        #     taper = gf.components.taper(
+        #         width1=via_stackw.ports["e1"].width,
+        #         width2=heater_width,
+        #         length=heater_taper_length,
+        #         cross_section=x,
+        #     )
+        #     taper1 = c << taper
+        #     taper2 = c << taper
+        #     taper1.connect("o1", via_stack_west.ports["e3"])
+        #     taper2.connect("o1", via_stack_east.ports["e1"])
 
     c.info["resistance"] = (
         ohms_per_square * heater_width * length if ohms_per_square else None

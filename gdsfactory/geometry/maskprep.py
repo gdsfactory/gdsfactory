@@ -2,7 +2,7 @@ from functools import partial
 
 import gdstk
 import gdsfactory as gf
-from gdsfactory.typings import (
+from gdsfactory.typs import (
     LayerSpecs,
     Floats,
     List,

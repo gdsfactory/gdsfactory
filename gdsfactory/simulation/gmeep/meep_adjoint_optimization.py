@@ -14,7 +14,7 @@ import gdsfactory as gf
 from gdsfactory import Component
 from gdsfactory.simulation.gmeep import get_simulation
 from gdsfactory.technology import LayerStack
-from gdsfactory.typings import Layer
+from gdsfactory.typs import Layer
 
 
 def get_meep_adjoint_optimizer(

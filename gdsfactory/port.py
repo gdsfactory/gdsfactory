@@ -561,10 +561,11 @@ def select_ports(
     if isinstance(ports, (Component, ComponentReference)):
         ports = ports.ports
 
-    if isinstance(ports, (kf.kcell.InstancePorts, kf.kcell.Ports)):
-        raise ValueError("got kfactory ports")
-        # ports = ports.get_all_named()
-        # ports = {port.name: port_to_kport(port) for port in ports.values()}
+    if isinstance(ports, kf.kcell.Ports):
+        ports = ports.get_all_named()
+
+    if isinstance(ports, kf.kcell.InstancePorts):
+        ports = ports.copy().get_all_named()
 
     if layer is not None:
         ports = {p_name: p for p_name, p in ports.items() if p.layer == layer}
@@ -815,7 +816,7 @@ def rename_ports_by_orientation(
             direction_ports["S"].append(p)
 
     function(direction_ports, prefix=prefix)
-    component.ports = {p.name: p for p in component.ports.values()}
+
     return component
 
 
@@ -839,10 +840,14 @@ def auto_rename_ports(
         prefix_electrical: prefix of electrical ports.
 
     """
+    try:
+        prefix = kwargs.pop("prefix")
+    except KeyError:
+        prefix = prefix_optical
     rename_ports_by_orientation(
         component=component,
         select_ports=select_ports_optical,
-        prefix=prefix_optical,
+        prefix=prefix,
         function=function,
         **kwargs,
     )

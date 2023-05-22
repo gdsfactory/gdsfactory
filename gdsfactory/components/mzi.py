@@ -12,7 +12,7 @@ from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.routing.get_route import get_route
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec
 
 
 @cell
@@ -187,7 +187,7 @@ def mzi(
     c.add_ports(sxt.get_ports_list(port_type="placement"), prefix="top_")
     c.add_ports(sxb.get_ports_list(port_type="placement"), prefix="bot_")
 
-    c.auto_rename_ports(port_type="optical", prefix="o")
+    c.auto_rename_ports(prefix="o")
 
     if add_optical_ports_arms:
         c.add_ports(sxt.get_ports_list(port_type="optical"), prefix="top_")

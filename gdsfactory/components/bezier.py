@@ -9,7 +9,7 @@ import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
 from gdsfactory.geometry.functions import angles_deg, curvature, path_length, snap_angle
-from gdsfactory.typings import Coordinate, Coordinates, CrossSectionSpec
+from gdsfactory.typs import Coordinate, Coordinates, CrossSectionSpec
 
 
 def bezier_curve(t: ndarray, control_points: Coordinates) -> ndarray:

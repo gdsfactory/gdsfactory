@@ -22,7 +22,7 @@ from pydantic import BaseModel, Extra
 
 from gdsfactory.simulation.disable_print import disable_print, enable_print
 from gdsfactory.simulation.gtidy3d.modes import FilterPol, Precision, Waveguide
-from gdsfactory.typings import MaterialSpec
+from gdsfactory.typs import MaterialSpec
 
 nm = 1e-9
 um = 1e-6

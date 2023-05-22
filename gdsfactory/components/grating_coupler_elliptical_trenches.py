@@ -6,7 +6,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical import grating_tooth_points
 from gdsfactory.geometry.functions import DEG2RAD
-from gdsfactory.typings import CrossSectionSpec, LayerSpec
+from gdsfactory.typs import CrossSectionSpec, LayerSpec
 
 
 @gf.cell
@@ -128,6 +128,7 @@ def grating_coupler_elliptical_trenches(
         layer=layer,
         cross_section=xs,
     )
+    print(c.ports["o1"])
     c.info["period"] = period
     c.info["polarization"] = polarization
     c.info["wavelength"] = wavelength
@@ -155,6 +156,6 @@ if __name__ == "__main__":
     # print(c.polarization)
     # c = grating_coupler_te(end_straight_length=10)
     # c = grating_coupler_tm()
-    # print(c.ports.keys())
+    # print(c.ports.get_all_named.keys())
     c = gf.routing.add_fiber_array(grating_coupler=grating_coupler_elliptical_trenches)
     c.show(show_ports=True)

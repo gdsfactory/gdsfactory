@@ -332,7 +332,7 @@ def viz_bk(
 
 def get_ports(component):
     comp = component
-    return natsorted(comp.ports.keys())
+    return natsorted(comp.ports.get_all_named.keys())
 
 
 def is_output_port(port):

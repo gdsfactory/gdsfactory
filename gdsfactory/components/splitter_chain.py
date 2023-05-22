@@ -4,7 +4,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.components.mmi1x2 import mmi1x2
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.typs import ComponentSpec
 
 
 @gf.cell

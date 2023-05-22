@@ -5,7 +5,7 @@ from typing import Union, List
 import gdstk
 
 import gdsfactory as gf
-from gdsfactory.typings import Component, ComponentReference, LayerSpec
+from gdsfactory.typs import Component, ComponentReference, LayerSpec
 
 
 def boolean_polygons(

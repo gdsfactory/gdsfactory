@@ -18,7 +18,7 @@ from gdsfactory.simulation.get_sparameters_path import (
 )
 from gdsfactory.simulation.gmsh.parse_layerstack import list_unique_layerstack_z
 from gdsfactory.technology import LayerStack
-from gdsfactory.typings import PathType
+from gdsfactory.typs import PathType
 
 ColorRGB = Tuple[float, float, float]
 

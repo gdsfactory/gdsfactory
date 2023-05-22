@@ -5,7 +5,7 @@ from typing import Tuple
 import gdsfactory as gf
 from gdsfactory import Component
 from gdsfactory.cross_section import strip
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.typs import CrossSectionSpec
 
 
 def _generate_fins(c, x, fin_size, bend):
@@ -182,5 +182,5 @@ def cdc(
 
 if __name__ == "__main__":
     c = cdc(fins=False)
-    print(c.ports.keys())
+    print(c.ports.get_all_named.keys())
     c.show(show_ports=True)

@@ -14,7 +14,7 @@ from gdsfactory.port import Port
 from gdsfactory.routing.get_bundle_from_waypoints import get_bundle_from_waypoints
 from gdsfactory.routing.manhattan import _is_horizontal, _is_vertical
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
-from gdsfactory.typings import (
+from gdsfactory.typs import (
     ComponentSpec,
     CrossSectionSpec,
     MultiCrossSectionAngleSpec,

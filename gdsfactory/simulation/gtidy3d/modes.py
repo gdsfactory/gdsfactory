@@ -27,7 +27,7 @@ from tqdm.auto import tqdm
 from gdsfactory.config import logger
 from gdsfactory.serialization import clean_value_name
 from gdsfactory.pdk import MaterialSpec, get_material_index, get_modes_path
-from gdsfactory.typings import PathType
+from gdsfactory.typs import PathType
 
 
 Precision = Literal["single", "double"]

@@ -7,7 +7,7 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
-from gdsfactory.typings import ComponentSpec, LayerSpec, Union, Float2
+from gdsfactory.typs import ComponentSpec, LayerSpec, Union, Float2
 
 
 @cell
@@ -125,7 +125,7 @@ if __name__ == "__main__":
     # c = pad(layer_to_inclusion={(3, 0): 10})
     # print(c.ports)
     # c = pad(width=10, height=10)
-    # print(c.ports.keys())
+    # print(c.ports.get_all_named.keys())
     # c = pad_array90()
     # c = pad_array0()
     # c = pad_array270()

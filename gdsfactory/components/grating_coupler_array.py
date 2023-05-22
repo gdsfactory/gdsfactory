@@ -3,7 +3,7 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical import grating_coupler_elliptical
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.typs import ComponentSpec
 
 
 @gf.cell

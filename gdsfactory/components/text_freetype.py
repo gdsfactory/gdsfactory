@@ -8,7 +8,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.constants import _glyph, _indent, _width
-from gdsfactory.typings import LayerSpec
+from gdsfactory.typs import LayerSpec
 
 
 @gf.cell

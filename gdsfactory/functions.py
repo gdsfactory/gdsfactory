@@ -20,7 +20,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
 from gdsfactory.components.text_rectangular import text_rectangular_multi_layer
 from gdsfactory.port import auto_rename_ports
-from gdsfactory.typings import (
+from gdsfactory.typs import (
     Anchor,
     Axis,
     ComponentSpec,
@@ -215,7 +215,7 @@ def move_port_to_zero(component: Component, port_name: str = "o1"):
     """
     if port_name not in component.ports:
         raise ValueError(
-            f"port_name = {port_name!r} not in {list(component.ports.keys())}"
+            f"port_name = {port_name!r} not in {list(component.ports.get_all_named.keys())}"
         )
     return move(component, -component.ports[port_name].center)
 

@@ -37,7 +37,7 @@ from gdsfactory.components.coupler_straight import (
 from gdsfactory.components.straight import straight
 from gdsfactory.cross_section import strip
 from gdsfactory.snap import assert_on_2nm_grid
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec
 import gdsfactory as gf
 
 gf.config.rich_output()

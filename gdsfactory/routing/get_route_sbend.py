@@ -2,7 +2,8 @@ from __future__ import annotations
 
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.port import Port
-from gdsfactory.typings import Route
+from gdsfactory.typs import Route
+import kfactory as kf
 
 
 def get_route_sbend(port1: Port, port2: Port, **kwargs) -> Route:
@@ -34,14 +35,14 @@ def get_route_sbend(port1: Port, port2: Port, **kwargs) -> Route:
         c.plot()
 
     """
-    ysize = port2.center[1] - port1.center[1]
-    xsize = port2.center[0] - port1.center[0]
+    ysize = (port2.y - port1.y) / kf.kcl.dbu
+    xsize = (port2.x - port1.x) / kf.kcl.dbu
     size = (xsize, ysize)
 
     bend = bend_s(size=size, **kwargs)
 
     bend_ref = bend.ref()
-    bend_ref.connect(list(bend_ref.ports.keys())[0], port1)
+    bend_ref.connect(list(bend_ref.ports.copy().get_all_named().keys())[0], port1)
 
     orthogonality_error = abs(abs(port1.orientation - port2.orientation) - 180)
     if orthogonality_error > 0.1:

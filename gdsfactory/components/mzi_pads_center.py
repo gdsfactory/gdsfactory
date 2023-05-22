@@ -5,7 +5,7 @@ from gdsfactory.components.mzi import mzi as mzi_function
 from gdsfactory.components.pad import pad_small
 from gdsfactory.components.straight_heater_metal import straight_heater_metal
 from gdsfactory.routing.get_route import get_route
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Union
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec, Union
 
 
 @gf.cell
@@ -69,7 +69,7 @@ def mzi_pads_center(
         cross_section=cross_section,
     )
 
-    port_names = list(mzi_ps.ports.keys())
+    port_names = list(mzi_ps.ports.get_all_named.keys())
     for port_name in [mzi_sig_top, mzi_gnd_top, mzi_sig_bot, mzi_gnd_bot]:
         if port_name not in port_names:
             raise ValueError(f"port {port_name!r} not in {port_names}")

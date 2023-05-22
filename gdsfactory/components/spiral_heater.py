@@ -8,7 +8,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.bend_s import bend_s, get_min_sbend_size
 from gdsfactory.components.straight import straight
-from gdsfactory.typings import (
+from gdsfactory.typs import (
     ComponentFactory,
     CrossSectionSpec,
     Floats,

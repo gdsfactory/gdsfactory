@@ -14,7 +14,7 @@ from pydantic import validate_arguments
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.name import get_name_short
-from gdsfactory.typings import Anchor, ComponentSpec, Float2, Number
+from gdsfactory.typs import Anchor, ComponentSpec, Float2, Number
 
 
 def _pack_single_bin(

@@ -8,7 +8,7 @@ from pydantic import validate_arguments
 
 from gdsfactory.cell import _F, cell_without_validator
 from gdsfactory.component import Component
-from gdsfactory.typings import LayerSpecs
+from gdsfactory.typs import LayerSpecs
 
 
 def symbol(func: _F, *args, **kwargs) -> _F:

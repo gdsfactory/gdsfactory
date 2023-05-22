@@ -9,7 +9,7 @@ import gdsfactory as gf
 from gdsfactory.pdk import get_layer_stack
 from gdsfactory.simulation.gmeep.get_material import get_material
 from gdsfactory.technology import LayerStack
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec
 
 
 def get_meep_geometry_from_component(

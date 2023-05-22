@@ -9,7 +9,7 @@ from gdsfactory.components.bend_circular import bend_circular, bend_circular180
 from gdsfactory.components.bend_euler import bend_euler, bend_euler180
 from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.straight import straight
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.typs import ComponentSpec
 
 
 def _get_bend_size(bend90: Component) -> float64:

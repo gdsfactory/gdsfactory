@@ -50,7 +50,7 @@ from gdsfactory.components.wire import wire_corner
 from gdsfactory.cross_section import metal2, metal3
 from gdsfactory.port import Port
 from gdsfactory.routing.manhattan import round_corners, route_manhattan
-from gdsfactory.typings import (
+from gdsfactory.typs import (
     ComponentSpec,
     Coordinates,
     CrossSectionSpec,
@@ -111,6 +111,7 @@ def get_route(
         if isinstance(bend, Component)
         else gf.get_component(bend, cross_section=cross_section, **kwargs)
     )
+    print(bend90.ports)
     if taper:
         if isinstance(cross_section, (tuple, list)):
             raise ValueError(

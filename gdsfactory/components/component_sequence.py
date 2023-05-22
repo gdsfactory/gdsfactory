@@ -5,7 +5,7 @@ from typing import Dict, Optional, Tuple
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.typs import ComponentSpec
 
 
 class SequenceGenerator:
@@ -137,7 +137,7 @@ def component_sequence(
     except KeyError as exc:
         raise KeyError(
             f"{prev_device.parent.name!r} input_port {input_port!r} "
-            f"not in {list(prev_device.ports.keys())}"
+            f"not in {list(prev_device.ports.get_all_named.keys())}"
         ) from exc
 
     while index < len(sequence):
@@ -170,7 +170,7 @@ def component_sequence(
         except KeyError as exc:
             raise KeyError(
                 f"{prev_device.parent.name!r} port {prev_port!r} "
-                f"not in {list(prev_device.ports.keys())}"
+                f"not in {list(prev_device.ports.get_all_named.keys())}"
             ) from exc
 
         prev_device = ref

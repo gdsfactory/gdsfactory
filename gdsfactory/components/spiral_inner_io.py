@@ -11,7 +11,7 @@ from gdsfactory.components.bend_euler import bend_euler, bend_euler180
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.routing.manhattan import round_corners
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec
 
 
 def get_bend_port_distances(bend: Component) -> Tuple[float, float]:

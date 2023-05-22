@@ -7,7 +7,7 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler_ring import coupler_ring as _coupler_ring
 from gdsfactory.components.straight import straight
 from gdsfactory.components.via_stack import via_stack_heater_mtop
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec, Float2
 
 via_stack_heater_mtop_mini = gf.partial(via_stack_heater_mtop, size=(4, 4))
 

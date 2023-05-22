@@ -13,7 +13,7 @@ from gdsfactory.cross_section import strip
 from gdsfactory.port import Port, select_ports_optical
 from gdsfactory.routing.get_route import get_route
 from gdsfactory.routing.utils import direction_ports_from_list_ports, flip
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Number, Routes, Strs
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec, Number, Routes, Strs
 
 
 def route_south(

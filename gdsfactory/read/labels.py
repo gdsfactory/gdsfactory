@@ -9,7 +9,7 @@ from omegaconf import DictConfig, OmegaConf
 import gdsfactory as gf
 from gdsfactory.component_layout import _rotate_points
 from gdsfactory.name import clean_name
-from gdsfactory.typings import LayerSpec, PathType
+from gdsfactory.typs import LayerSpec, PathType
 
 
 def read_labels_yaml(

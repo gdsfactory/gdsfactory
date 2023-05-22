@@ -18,7 +18,7 @@ from typing import List, Optional, Union
 
 import gdsfactory as gf
 from gdsfactory.install import get_klayout_path
-from gdsfactory.typings import CrossSectionSpec, Dict, Layer, PathType
+from gdsfactory.typs import CrossSectionSpec, Dict, Layer, PathType
 
 layer_name_to_min_width: Dict[str, float]
 

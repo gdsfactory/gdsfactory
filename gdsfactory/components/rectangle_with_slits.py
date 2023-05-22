@@ -9,7 +9,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.array_component import array
 from gdsfactory.components.rectangle import rectangle
-from gdsfactory.typings import Float2, LayerSpec
+from gdsfactory.typs import Float2, LayerSpec
 
 
 @cell

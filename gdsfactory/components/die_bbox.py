@@ -8,7 +8,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.text import text
-from gdsfactory.typings import Anchor, ComponentSpec, LayerSpec
+from gdsfactory.typs import Anchor, ComponentSpec, LayerSpec
 
 big_square = gf.partial(rectangle, size=(1300, 2600))
 

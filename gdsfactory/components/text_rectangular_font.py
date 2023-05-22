@@ -7,7 +7,7 @@ import numpy as np
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.typings import LayerSpec
+from gdsfactory.typs import LayerSpec
 
 character_a = """
  XXX

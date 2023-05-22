@@ -4,7 +4,7 @@ import gdstk
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import Layer
+from gdsfactory.typs import Layer
 
 
 def _union_polygons(polygons, precision: float = 1e-4):

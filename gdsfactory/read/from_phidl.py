@@ -8,7 +8,7 @@ import gdstk
 
 from gdsfactory.component import Component, Port
 from gdsfactory.read.import_gds import import_gds
-from gdsfactory.typings import Layer
+from gdsfactory.typs import Layer
 
 
 @lru_cache(maxsize=None)

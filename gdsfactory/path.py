@@ -27,7 +27,7 @@ from gdsfactory.component_layout import (
 )
 from gdsfactory.cross_section import CrossSection, Section, Transition
 from gdsfactory.port import Port
-from gdsfactory.typings import (
+from gdsfactory.typs import (
     Coordinates,
     CrossSectionSpec,
     Float2,
@@ -835,6 +835,7 @@ def extrude(
             p_sec = Path(
                 [new_start_point, *p_pts[new_start_idx:new_stop_idx], new_stop_point]
             )
+            print(p_sec.start_angle)
 
         if callable(offset):
             p_sec.offset(offset)
@@ -925,6 +926,7 @@ def extrude(
         if port_names[0] is not None:
             port_width = width if np.isscalar(width) else width[0]
             port_orientation = (p_sec.start_angle + 180) % 360
+            print(p_sec.start_angle)
             center = points[0]
             face = [points1[0], points2[0]]
             face = [_rotated_delta(point, center, port_orientation) for point in face]
@@ -934,6 +936,7 @@ def extrude(
                 if center[0] != center_snap[0] or center[1] != center_snap[1]:
                     warnings.warn(f"Port center {center} has off-grid ports")
 
+            print(port_orientation)
             port1 = c.add_port(
                 port=Port(
                     name=port_names[0],
@@ -1180,6 +1183,7 @@ def euler(
     else:
         mirror = False
 
+    print(angle)
     R0 = 1
     alpha = np.radians(angle)
     Rp = R0 / (np.sqrt(p * alpha))

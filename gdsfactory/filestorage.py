@@ -9,7 +9,7 @@ from pydantic import BaseModel
 from typing_extensions import Literal
 
 from gdsfactory.config import PATH
-from gdsfactory.typings import Optional, PathType
+from gdsfactory.typs import Optional, PathType
 
 FileTypes = Literal["sparameters", "modes", "gds", "measurements"]
 

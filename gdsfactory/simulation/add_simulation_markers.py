@@ -11,7 +11,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.pdk import get_layer_stack
 from gdsfactory.technology import LayerLevel
-from gdsfactory.typings import ComponentSpec, Layer, LayerSpec
+from gdsfactory.typs import ComponentSpec, Layer, LayerSpec
 
 
 @gf.cell
@@ -85,7 +85,7 @@ def add_simulation_markers(
     component = gf.get_component(component)
 
     ref = c << component
-    port_names = list(ref.ports.keys())
+    port_names = list(ref.ports.get_all_named.keys())
 
     layer_stack = get_layer_stack()
 
@@ -100,7 +100,7 @@ def add_simulation_markers(
     ), f"component needs to be a gf.Component, got Type {type(component)}"
 
     # Add port monitors
-    for port_name in ref.ports.keys():
+    for port_name in ref.ports.get_all_named.keys():
         port = ref.ports[port_name]
         add_pin_rectangle(c, port=port, port_margin=port_margin, layer=layer_monitor)
         layer_stack.layers["monitor"] = LayerLevel(

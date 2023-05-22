@@ -20,7 +20,7 @@ from gdsfactory.technology import (
     LayerStack,
     SimulationSettingsLumericalFdtd,
 )
-from gdsfactory.typings import ComponentSpec, PathType
+from gdsfactory.typs import ComponentSpec, PathType
 
 run_false_warning = """
 You have passed run=False to debug the simulation
@@ -560,4 +560,4 @@ if __name__ == "__main__":
     # c = gf.components.mmi1x2()
     # print(r)
     # print(r.keys())
-    # print(component.ports.keys())
+    # print(component.ports.get_all_named.keys())

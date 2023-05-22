@@ -14,7 +14,7 @@ from gdsfactory.simulation.gmeep.get_meep_geometry import (
     get_meep_geometry_from_cross_section,
 )
 from gdsfactory.technology import LayerStack
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.typs import CrossSectionSpec
 
 mpb.Verbosity(0)
 

@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.component_layout import _parse_layer
 from gdsfactory.generic_tech import LAYER
 from gdsfactory.geometry.functions import polygon_grow
-from gdsfactory.typings import Layers
+from gdsfactory.typs import Layers
 
 
 @cell

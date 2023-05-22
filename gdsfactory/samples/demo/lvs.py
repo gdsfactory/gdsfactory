@@ -43,7 +43,7 @@ if __name__ == "__main__":
     c = lib[0]
 
     l2n = kf.kdb.LayoutToNetlist(c.begin_shapes_rec(0))
-    for l_idx in c.klib.layer_indices():
+    for l_idx in c.kcl.layer_indices():
         l2n.connect(l2n.make_layer(l_idx, f"layer{l_idx}"))
     l2n.extract_netlist()
     print(l2n.netlist().to_s())

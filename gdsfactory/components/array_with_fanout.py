@@ -9,7 +9,7 @@ from gdsfactory.components.array_component import array
 from gdsfactory.components.straight import straight
 from gdsfactory.port import auto_rename_ports
 from gdsfactory.routing.sort_ports import sort_ports_x
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec
 
 
 @cell
@@ -133,7 +133,7 @@ if __name__ == "__main__":
     # import gdsfactory as gf
     # c1 = gf.components.pad()
     # c2 = array(component=c1, pitch=150, columns=2)
-    # print(c2.ports.keys())
+    # print(c2.ports.get_all_named.keys())
     # c = array_with_fanout(
     #     columns=3,
     #     waveguide_pitch=20,

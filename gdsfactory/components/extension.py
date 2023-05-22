@@ -12,7 +12,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.cross_section import cross_section as cross_section_function
 from gdsfactory.port import Port
-from gdsfactory.typings import ComponentSpec, Coordinate, CrossSectionSpec, Layer
+from gdsfactory.typs import ComponentSpec, Coordinate, CrossSectionSpec, Layer
 
 DEG2RAD = np.pi / 180
 
@@ -168,7 +168,7 @@ def extend_ports(
                     length=length,
                     cross_section=cross_section_extension,
                 )
-            port_labels = list(extension_component.ports.keys())
+            port_labels = list(extension_component.ports.get_all_named.keys())
             port1 = port1 or port_labels[0]
             port2 = port2 or port_labels[-1]
 

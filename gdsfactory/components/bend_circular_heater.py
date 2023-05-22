@@ -5,7 +5,7 @@ from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
 from gdsfactory.path import arc
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import CrossSectionSpec, LayerSpec, Optional
+from gdsfactory.typs import CrossSectionSpec, LayerSpec, Optional
 
 
 @gf.cell

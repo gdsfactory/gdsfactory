@@ -8,7 +8,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coh_rx_single_pol import coh_rx_single_pol
 from gdsfactory.routing.get_route import get_route, get_route_from_waypoints
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec
 
 
 @cell

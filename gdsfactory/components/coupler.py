@@ -8,7 +8,7 @@ from gdsfactory.components.coupler_straight import (
 from gdsfactory.components.coupler_symmetric import (
     coupler_symmetric as coupler_symmetric_function,
 )
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell

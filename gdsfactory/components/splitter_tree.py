@@ -8,7 +8,7 @@ import gdsfactory as gf
 from gdsfactory.components.bend_s import bend_s as bend_s_function
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mmi2x2 import mmi2x2
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec, Float2
 
 
 @gf.cell

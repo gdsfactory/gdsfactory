@@ -16,7 +16,7 @@ from gdsfactory.routing.manhattan import (
 )
 from gdsfactory.routing.path_length_matching import path_length_matched_points
 from gdsfactory.routing.route_ports_to_side import route_ports_to_side
-from gdsfactory.typings import ComponentSpec, Route
+from gdsfactory.typs import ComponentSpec, Route
 
 
 def _groups(

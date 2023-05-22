@@ -25,7 +25,7 @@ def route_quad(
     port2: Port,
     width1: Optional[float] = None,
     width2: Optional[float] = None,
-    layer: gf.typings.LayerSpec = "M1",
+    layer: gf.typs.LayerSpec = "M1",
     manhattan_target_step: Optional[float] = None,
 ) -> gf.Component:
     """Routes a basic quadrilateral polygon directly between two ports.

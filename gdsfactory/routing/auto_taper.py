@@ -2,7 +2,7 @@ import warnings
 from typing import Optional, List
 
 from gdsfactory.component import Port, ComponentReference, Component
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.typs import CrossSectionSpec
 
 
 def taper_to_cross_section(
@@ -74,7 +74,7 @@ def taper_to_cross_section(
 
 def _get_taper_io_port_names(component: Component) -> List[str]:
     # this is kind of a hack, but o1 < o2, in0 < out0... hopefully nobody has any other wacky conventions!
-    return sorted(component.ports.keys())
+    return sorted(component.ports.get_all_named.keys())
 
 
 def _auto_taper(

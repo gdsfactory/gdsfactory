@@ -8,7 +8,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.port import Port, flipped
 from gdsfactory.routing.get_route import get_route
-from gdsfactory.typings import Route, RouteFactory
+from gdsfactory.typs import Route, RouteFactory
 
 
 def sort_key_west_to_east(port: Port) -> float:

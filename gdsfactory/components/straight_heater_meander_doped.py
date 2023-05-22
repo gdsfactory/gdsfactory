@@ -4,7 +4,7 @@ from typing import List
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import ComponentSpec, Floats, LayerSpec, Optional
+from gdsfactory.typs import ComponentSpec, Floats, LayerSpec, Optional
 from gdsfactory.cross_section import Section
 from gdsfactory.components.via_stack import via_stack
 from gdsfactory.components.via import via
@@ -36,7 +36,7 @@ via_stack = gf.partial(
 def straight_heater_meander_doped(
     length: float = 300.0,
     spacing: float = 2.0,
-    cross_section: gf.typings.CrossSectionSpec = "strip",
+    cross_section: gf.typs.CrossSectionSpec = "strip",
     heater_width: float = 1.5,
     extension_length: float = 15.0,
     layers_doping: List[LayerSpec] = ("P", "PP", "PPP"),

@@ -5,7 +5,7 @@ from numpy import cos, pi, sin
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import LayerSpec, Optional
+from gdsfactory.typs import LayerSpec, Optional
 
 
 @gf.cell

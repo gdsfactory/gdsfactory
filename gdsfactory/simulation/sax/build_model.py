@@ -13,7 +13,7 @@ from gdsfactory.simulation.sax.parameter import (
     LithoParameter,
 )
 from gdsfactory.technology import LayerStack
-from gdsfactory.typings import PortSymmetries
+from gdsfactory.typs import PortSymmetries
 import ray
 
 

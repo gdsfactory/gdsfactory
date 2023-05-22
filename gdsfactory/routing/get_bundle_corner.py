@@ -9,7 +9,9 @@ from gdsfactory.port import Port
 from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.manhattan import generate_manhattan_waypoints
 from gdsfactory.routing.path_length_matching import path_length_matched_points
-from gdsfactory.typings import Route
+from gdsfactory.typs import Route
+
+from kfactory import kdb
 
 
 def _groups(ports, cut, axis="X"):
@@ -46,11 +48,15 @@ def _transform_ports(ports, rotation, origin=(0, 0), x_reflection=False):
     ports_transformed = []
     for p in ports:
         new_port = p.copy()
+        port_center = p.center if isinstance(p, Port) else (p.d.x, p.d.y)
         new_center, new_orientation = _transform_port(
-            p.center, p.orientation, origin, rotation, x_reflection
+            port_center, p.orientation, origin, rotation, x_reflection
         )
-        new_port.center = new_center
-        new_port.new_orientation = new_orientation
+        if isinstance(new_port, Port):
+            new_port.center = new_center
+            new_port.new_orientation = new_orientation
+        else:
+            new_port.dcplx_trans = kdb.DCplxTrans(1.0, new_orientation, False, float(new_center[0]), float(new_center[1]))
         ports_transformed.append(new_port)
 
     return ports_transformed
@@ -196,7 +202,7 @@ def _get_bundle_corner_waypoints(
     are_right = max(xs) < min(xe)
     are_left = min(xs) > max(xe)
 
-    assert are_above or are_below, "corner_bundle - ports should be below or above"
+    assert are_above or are_below, f"corner_bundle - ports should be below or above. {ports1, ports2}"
     assert are_right or are_left, "corner_bundle - ports should be left or right"
 
     start_sort_type = ["Y", "-X", "-Y", "X"]

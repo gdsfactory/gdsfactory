@@ -23,7 +23,7 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.via_corner import via_corner
 from gdsfactory.components.wire import wire_corner
-from gdsfactory.port import Port
+from gdsfactory.port import Port, port_to_kport
 from gdsfactory.routing.get_bundle_corner import get_bundle_corner
 from gdsfactory.routing.get_bundle_from_steps import get_bundle_from_steps
 from gdsfactory.routing.get_bundle_from_waypoints import get_bundle_from_waypoints
@@ -34,7 +34,7 @@ from gdsfactory.routing.manhattan import generate_manhattan_waypoints
 from gdsfactory.routing.path_length_matching import path_length_matched_points
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
-from gdsfactory.typings import (
+from gdsfactory.typs import (
     ComponentSpec,
     CrossSectionSpec,
     MultiCrossSectionAngleSpec,
@@ -175,8 +175,8 @@ def get_bundle(
         raise ValueError(f"All start port angles {start_port_angles} must be equal")
 
     params = {
-        "ports1": ports1,
-        "ports2": ports2,
+        "ports1": [port_to_kport(p, bend.kcl) for p in ports1 if isinstance(p, Port)],
+        "ports2": [port_to_kport(p, bend.kcl) for p in ports2 if isinstance(p, Port)],
         "separation": separation,
         "bend": bend,
         "straight": straight,

@@ -13,7 +13,7 @@ from gdsfactory.component import _timestamp2019
 from gdsfactory.config import PATH, logger
 from gdsfactory.name import clean_name
 from gdsfactory.read.import_gds import import_gds
-from gdsfactory.typings import PathType
+from gdsfactory.typs import PathType
 
 script_prefix = """
 from pathlib import PosixPath

@@ -8,7 +8,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.grid import grid, grid_with_text
 from gdsfactory.pack import pack
-from gdsfactory.typings import CellSpec, ComponentSpec, Optional
+from gdsfactory.typs import CellSpec, ComponentSpec, Optional
 
 _doe = "mmi1x2"
 _settings = dict(length_mmi=[2.5, 100], width_mmi=[4, 10])

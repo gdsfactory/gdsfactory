@@ -6,7 +6,7 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
-from gdsfactory.typings import ComponentSpec, LayerSpec
+from gdsfactory.typs import ComponentSpec, LayerSpec
 
 
 @cell

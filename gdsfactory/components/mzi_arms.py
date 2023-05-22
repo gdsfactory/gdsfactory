@@ -8,7 +8,7 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mzi_arm import mzi_arm
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.typs import ComponentSpec
 
 
 @cell

@@ -9,7 +9,7 @@ from gdsfactory.components.grating_coupler_elliptical import (
     grating_tooth_points,
 )
 from gdsfactory.geometry.functions import DEG2RAD
-from gdsfactory.typings import CrossSectionSpec, Floats, LayerSpec, Optional
+from gdsfactory.typs import CrossSectionSpec, Floats, LayerSpec, Optional
 
 _gaps = (0.1,) * 10
 _widths = (0.5,) * 10

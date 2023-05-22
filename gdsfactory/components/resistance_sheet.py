@@ -6,7 +6,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.components.via_stack import via_stack_slab_npp_m3
-from gdsfactory.typings import ComponentSpec, Floats, LayerSpecs, Optional
+from gdsfactory.typs import ComponentSpec, Floats, LayerSpecs, Optional
 
 pad_via_stack_slab_npp = partial(via_stack_slab_npp_m3, size=(80, 80))
 

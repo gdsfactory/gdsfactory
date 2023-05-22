@@ -6,7 +6,7 @@ from typing import Tuple
 from gdsfactory.component import Component
 from gdsfactory.config import logger
 from gdsfactory.read.import_gds import import_gds
-from gdsfactory.typings import ComponentOrPath, PathType
+from gdsfactory.typs import ComponentOrPath, PathType
 
 
 def from_gdspaths(cells: Tuple[ComponentOrPath, ...]) -> Component:

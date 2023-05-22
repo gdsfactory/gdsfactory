@@ -6,7 +6,7 @@ from gdsfactory.components.bend_euler import bend_euler180
 from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.straight import straight
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Optional
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec, Optional
 
 
 @gf.cell

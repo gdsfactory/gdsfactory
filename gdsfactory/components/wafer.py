@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import gdsfactory as gf
-from gdsfactory.typings import Component, ComponentSpec, Optional, Tuple
+from gdsfactory.typs import Component, ComponentSpec, Optional, Tuple
 
 _cols_200mm_wafer = (2, 6, 6, 8, 8, 6, 6, 2)
 

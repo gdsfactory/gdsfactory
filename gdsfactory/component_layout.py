@@ -10,14 +10,21 @@ from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
 from gdstk import Polygon
-from gdstk import Label as _Label
 from numpy import cos, pi, sin
 from numpy.linalg import norm
+from kfactory import kdb
 
 
-class Label(_Label):
-    def __repr__(self) -> str:
-        return f"Label(text={self.text!r}, origin={self.origin}, layer=({self.layer}, {self.texttype}))"
+class Label:
+    def __init__(self, text, origin, layer, texttype, anchor=None) -> None:
+        self.text = text
+        self.origin = origin
+        self.layer = layer
+        self.texttype = texttype
+        self.anchor = anchor
+
+    def to_Text(self) -> str:
+        return kdb.Text(f"Label(text={self.text!r}, origin={self.origin}, layer=({self.layer}, {self.texttype}))", kdb.Trans())
 
 
 def get_polygons(

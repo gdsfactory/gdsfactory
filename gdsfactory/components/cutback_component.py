@@ -7,7 +7,7 @@ from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.straight import straight
 from gdsfactory.components.taper import taper
 from gdsfactory.components.taper_from_csv import taper_0p5_to_3_l36
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Optional
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec, Optional
 
 
 @gf.cell

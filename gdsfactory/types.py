@@ -1,5 +1,5 @@
 from gdsfactory.config import logger
-from gdsfactory.typings import (
+from gdsfactory.typs import (
     Callable,
     Component,
     ComponentFactory,

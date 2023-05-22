@@ -5,7 +5,7 @@ from typing import List, Optional, Tuple
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.typings import ComponentSpec, LayerSpec
+from gdsfactory.typs import ComponentSpec, LayerSpec
 
 
 def get_padding_points(

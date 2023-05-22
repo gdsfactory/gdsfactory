@@ -29,7 +29,7 @@ from gdsfactory.simulation.gmeep.get_simulation import (
     settings_get_simulation,
 )
 from gdsfactory.technology import LayerStack
-from gdsfactory.typings import ComponentSpec, PathType, Port, PortSymmetries
+from gdsfactory.typs import ComponentSpec, PathType, Port, PortSymmetries
 
 core_materials = multiprocessing.cpu_count()
 
@@ -62,7 +62,7 @@ def parse_port_eigenmode_coeff(port_name: str, ports: Dict[str, Port], sim_dict:
 
     """
     if port_name not in ports:
-        raise ValueError(f"port = {port_name!r} not in {list(ports.keys())}.")
+        raise ValueError(f"port = {port_name!r} not in {list(ports.get_all_named.keys())}.")
 
     orientation = ports[port_name].orientation
 

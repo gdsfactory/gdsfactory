@@ -8,7 +8,7 @@ from gdsfactory.component import Component
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_fiber_array import route_fiber_array
 from gdsfactory.routing.sort_ports import sort_ports_x
-from gdsfactory.typings import (
+from gdsfactory.typs import (
     ComponentSpec,
     Optional,
     Strs,
@@ -99,7 +99,7 @@ def add_pads_bot(
 
     pad_component = gf.get_component(pad)
     if pad_port_name not in pad_component.ports:
-        pad_ports = list(pad_component.ports.keys())
+        pad_ports = list(pad_component.ports.get_all_named.keys())
         raise ValueError(
             f"pad_port_name = {pad_port_name!r} not in {pad_component.name!r} ports {pad_ports}"
         )
@@ -112,7 +112,7 @@ def add_pads_bot(
 
     if not ports:
         raise ValueError(
-            f"select_ports or port_names did not match any ports in {list(component.ports.keys())}"
+            f"select_ports or port_names did not match any ports in {list(component.ports.get_all_named.keys())}"
         )
 
     (

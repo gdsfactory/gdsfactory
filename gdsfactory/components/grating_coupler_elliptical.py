@@ -7,7 +7,7 @@ from numpy import ndarray
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.geometry.functions import DEG2RAD, extrude_path
-from gdsfactory.typings import CrossSectionSpec, LayerSpec
+from gdsfactory.typs import CrossSectionSpec, LayerSpec
 
 
 def ellipse_arc(

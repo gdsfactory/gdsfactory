@@ -5,7 +5,7 @@ from typing import Optional
 import numpy as np
 
 from gdsfactory.component import Component
-from gdsfactory.typings import Floats, Layers
+from gdsfactory.typs import Floats, Layers
 
 
 def to_np(

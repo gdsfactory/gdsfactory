@@ -8,7 +8,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.taper_cross_section import taper_cross_section
 from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports_optical
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec
 
 
 @cell

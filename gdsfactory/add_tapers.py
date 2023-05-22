@@ -7,7 +7,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.port import Port, select_ports_optical
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.typs import ComponentSpec
 
 
 def get_ports_and_tapers(
@@ -54,7 +54,7 @@ def add_tapers(
     ports_to_taper = select_ports(component.ports) if select_ports else component.ports
     ports_to_taper_names = [p.name for p in ports_to_taper.values()]
 
-    for port_name, port in component.ports.items():
+    for port_name, port in component.ports.get_all_named().items():
         if port.name in ports_to_taper_names:
             taper_ref = c << taper(width2=port.width)
             taper_ref.connect(taper_ref.ports[taper_port_name2].name, port)
@@ -76,7 +76,7 @@ if __name__ == "__main__":
     # c2 = gf.routing.add_fiber_single(c1, with_loopback=False)
     # c2.show()
 
-    # print(cc.ports.keys())
+    # print(cc.ports.get_all_named.keys())
     # print(cc.settings.keys())
     # cc.show(show_ports=True)
 

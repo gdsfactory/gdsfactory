@@ -9,7 +9,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.component_layout import _parse_layer
 from gdsfactory.port import Port
-from gdsfactory.typings import ComponentOrReference, Label, LayerSpec
+from gdsfactory.typs import ComponentOrReference, Label, LayerSpec
 
 
 def get_input_label_text_dash(
@@ -21,7 +21,7 @@ def get_input_label_text_dash(
     suffix: str = "",
 ) -> str:
     """Returns text with `GratingName-ComponentName-PortName`."""
-    gc_name = gc.name if isinstance(gc, Component) else gc.parent.name
+    gc_name = gc.name
     return f"{prefix}{gc_name}-{component_name or port.parent.name}-{port.name}{suffix}"
 
 
@@ -33,7 +33,7 @@ def get_input_label_text_dash_loopback(
     prefix: str = "",
 ) -> str:
     """Returns text with `GratingName-ComponentName-Loopback`."""
-    gc_name = gc.name if isinstance(gc, Component) else gc.parent.name
+    gc_name = gc.name
     return f"{prefix}{gc_name}-{component_name or port.parent.name}-loopback_{gc_index}"
 
 
@@ -114,7 +114,7 @@ def get_input_label(
     layer, texttype = gf.get_layer(layer_label)
     return Label(
         text=text,
-        origin=gc.ports[gc_port_name].center,
+        origin=(gc.ports[gc_port_name].d.x, gc.ports[gc_port_name].d.y),
         anchor="o",
         layer=layer,
         texttype=texttype,

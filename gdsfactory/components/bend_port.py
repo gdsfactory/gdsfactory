@@ -5,7 +5,7 @@ from typing import Optional
 import gdsfactory as gf
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.straight_heater_metal import straight_heater_metal
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -41,7 +41,7 @@ def bend_port(
 
     if port_name not in component.ports:
         raise ValueError(
-            f"port_name {port_name!r} not in {list(component.ports.keys())}"
+            f"port_name {port_name!r} not in {list(component.ports.get_all_named.keys())}"
         )
 
     extension_length = extension_length or abs(

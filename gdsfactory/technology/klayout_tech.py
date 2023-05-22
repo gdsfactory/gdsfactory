@@ -11,7 +11,7 @@ from pydantic import BaseModel, Field
 
 from gdsfactory.config import PATH
 from gdsfactory.technology import LayerViews, LayerStack
-from gdsfactory.typings import PathType
+from gdsfactory.typs import PathType
 
 Layer = Tuple[int, int]
 ConductorViaConductorName = Tuple[str, str, str]

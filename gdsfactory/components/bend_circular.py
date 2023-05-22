@@ -5,7 +5,7 @@ from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
 from gdsfactory.path import arc
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import CrossSectionSpec, Optional
+from gdsfactory.typs import CrossSectionSpec, Optional
 
 
 @gf.cell
@@ -99,7 +99,7 @@ if __name__ == "__main__":
     # c = bend_circular_deep_rib()
     # print(c.ports)
     # print(c.length, np.pi * 10)
-    # print(c.ports.keys())
+    # print(c.ports.get_all_named.keys())
     # print(c.ports['o2'].center)
     # print(c.settings)
     # c = bend_circular_slot()

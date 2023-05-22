@@ -5,7 +5,7 @@ from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Optional
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec, Optional
 
 
 @gf.cell

@@ -3,7 +3,7 @@ from __future__ import annotations
 import pandas as pd
 
 import gdsfactory as gf
-from gdsfactory.typings import Component
+from gdsfactory.typs import Component
 
 debug = False
 nlabels = 12

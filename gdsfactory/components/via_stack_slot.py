@@ -9,7 +9,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.components.via import via1, viac
-from gdsfactory.typings import ComponentSpec, Floats, LayerSpec, LayerSpecs
+from gdsfactory.typs import ComponentSpec, Floats, LayerSpec, LayerSpecs
 
 
 @gf.cell

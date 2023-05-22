@@ -11,7 +11,7 @@ from gdsfactory.component_layout import Label
 from gdsfactory.components import grating_coupler_te
 from gdsfactory.components.straight import straight
 from gdsfactory.port import Port
-from gdsfactory.typings import (
+from gdsfactory.typs import (
     ComponentReference,
     ComponentSpec,
     CrossSectionSpec,

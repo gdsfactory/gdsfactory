@@ -6,7 +6,7 @@ from typing import List
 from pydantic import BaseModel
 
 import gdsfactory as gf
-from gdsfactory.typings import CrossSectionSpec, Dict, Layer
+from gdsfactory.typs import CrossSectionSpec, Dict, Layer
 from gdsfactory.geometry.write_drc import write_drc_deck_macro
 
 layer_name_to_min_width: Dict[str, float]

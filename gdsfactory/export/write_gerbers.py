@@ -116,7 +116,7 @@ def write_gerbers(
 if __name__ == "__main__":
     import gdsfactory as gf
     from gdsfactory.config import PATH
-    from gdsfactory.typings import Layer
+    from gdsfactory.typs import Layer
 
     from gdsfactory.technology import LayerStack, LayerLevel, LayerView, LayerViews
 

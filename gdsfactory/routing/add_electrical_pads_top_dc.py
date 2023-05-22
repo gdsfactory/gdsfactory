@@ -9,7 +9,7 @@ from gdsfactory.components.straight_heater_metal import straight_heater_metal
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.get_bundle import get_bundle_electrical
 from gdsfactory.routing.sort_ports import sort_ports_x
-from gdsfactory.typings import ComponentSpec, Float2, Optional, Strs
+from gdsfactory.typs import ComponentSpec, Float2, Optional, Strs
 
 
 @cell
@@ -51,7 +51,7 @@ def add_electrical_pads_top_dc(
 
     if not ports:
         raise ValueError(
-            f"select_ports or port_names did not match any ports in {list(component.ports.keys())}"
+            f"select_ports or port_names did not match any ports in {list(component.ports.get_all_named.keys())}"
         )
 
     ports_component = list(ports.values()) if isinstance(ports, dict) else ports

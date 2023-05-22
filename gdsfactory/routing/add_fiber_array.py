@@ -9,7 +9,7 @@ from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.route_fiber_array import route_fiber_array
 from gdsfactory.routing.sort_ports import sort_ports_x
-from gdsfactory.typings import (
+from gdsfactory.typs import (
     ComponentSpec,
     ComponentSpecOrList,
     CrossSectionSpec,
@@ -92,8 +92,8 @@ def add_fiber_array(
         gc = grating_coupler
     gc = gf.get_component(gc)
 
-    if gc_port_name not in gc.ports:
-        gc_ports = list(gc.ports.keys())
+    if gc_port_name not in gc.ports.get_all_named():
+        gc_ports = list(gc.ports.get_all_named().keys())
         raise ValueError(f"gc_port_name = {gc_port_name!r} not in {gc_ports}")
 
     orientation = gc.ports[gc_port_name].orientation
@@ -111,8 +111,8 @@ def add_fiber_array(
             f"Got orientation = {orientation} degrees for port {gc_port_name!r}"
         )
 
-    if gc_port_name not in gc.ports:
-        raise ValueError(f"gc_port_name={gc_port_name!r} not in {gc.ports.keys()}")
+    if gc_port_name not in gc.ports.get_all_named():
+        raise ValueError(f"gc_port_name={gc_port_name!r} not in {gc.ports.get_all_named.keys()}")
 
     component_name = component_name or component.metadata_child.get(
         "name", component.name
@@ -146,7 +146,10 @@ def add_fiber_array(
         return component
 
     for e in elements:
-        component_new.add(e)
+        if not isinstance(e, str):
+            component_new.add(e)
+        else:
+            component_new.add_label(e)
     for io_gratings in io_gratings_lines:
         component_new.add(io_gratings)
 

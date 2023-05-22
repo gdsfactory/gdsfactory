@@ -13,7 +13,7 @@ from gdsfactory.component import Component
 from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports
 from gdsfactory.technology import LayerLevel, LayerStack
-from gdsfactory.typings import Layer
+from gdsfactory.typs import Layer
 
 
 class LayerMap(BaseModel):

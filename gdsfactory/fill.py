@@ -16,7 +16,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.component_layout import _parse_layer
 from gdsfactory.components.rectangle import rectangle
-from gdsfactory.typings import (
+from gdsfactory.typs import (
     Float2,
     Floats,
     LayerSpecs,

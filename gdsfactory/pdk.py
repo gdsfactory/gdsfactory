@@ -21,7 +21,7 @@ from gdsfactory.read import cell_from_yaml
 from gdsfactory.show import show
 from gdsfactory.symbols import floorplan_with_block_letters
 from gdsfactory.technology import LayerStack, LayerViews
-from gdsfactory.typings import (
+from gdsfactory.typs import (
     CellSpec,
     Component,
     ComponentFactory,

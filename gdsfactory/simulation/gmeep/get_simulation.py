@@ -144,7 +144,7 @@ def get_simulation(
     wavelength = (wavelength_start + wavelength_stop) / 2
 
     wavelengths = np.linspace(wavelength_start, wavelength_stop, wavelength_points)
-    port_names = list(component_ref.ports.keys())
+    port_names = list(component_ref.ports.get_all_named.keys())
 
     if port_source_name not in port_names:
         warnings.warn(f"port_source_name={port_source_name!r} not in {port_names}")
@@ -263,7 +263,7 @@ def get_simulation(
 
     # Add port monitors dict
     monitors = {}
-    for port_name in component_ref.ports.keys():
+    for port_name in component_ref.ports.get_all_named.keys():
         port = component_ref.ports[port_name]
         angle_rad = np.radians(port.orientation)
         width = port.width + 2 * port_margin

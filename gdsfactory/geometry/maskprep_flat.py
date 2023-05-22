@@ -8,7 +8,7 @@ except ImportError as e:
     )
     raise e
 
-from gdsfactory.typings import Dict, Layer, PathType, Tuple, LayerSpecs
+from gdsfactory.typs import Dict, Layer, PathType, Tuple, LayerSpecs
 from typing import Optional
 
 
@@ -127,7 +127,7 @@ class RegionCollection:
 
         fill_cell = kf.KCell(fill_cell_name)
         for layer in fill_layers:
-            layer = kf.klib.layer(*layer)
+            layer = kf.kcl.layer(*layer)
             fill_cell << kf.pcells.waveguide.waveguide(
                 width=size[0], length=size[1], layer=layer
             )

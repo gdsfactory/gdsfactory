@@ -12,7 +12,7 @@ from gdsfactory.components.pad import pad
 from gdsfactory.components.straight import straight
 from gdsfactory.components.via_stack import via_stack as via_stack_factory
 from gdsfactory.cross_section import metal2
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec, Float2
 
 
 @cell

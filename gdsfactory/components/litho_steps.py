@@ -5,7 +5,7 @@ from typing import Tuple
 import gdsfactory as gf
 from gdsfactory import components as pc
 from gdsfactory.component import Component
-from gdsfactory.typings import LayerSpec
+from gdsfactory.typs import LayerSpec
 
 
 @gf.cell

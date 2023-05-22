@@ -7,7 +7,7 @@ from typing import Any, Dict, List, Optional
 from omegaconf import DictConfig, OmegaConf
 
 from gdsfactory.config import logger
-from gdsfactory.typings import PathType
+from gdsfactory.typs import PathType
 
 
 def parse_csv_data(

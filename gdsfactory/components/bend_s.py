@@ -7,7 +7,7 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import bezier
-from gdsfactory.typings import CrossSectionSpec, Float2
+from gdsfactory.typs import CrossSectionSpec, Float2
 from gdsfactory.config import logger
 
 

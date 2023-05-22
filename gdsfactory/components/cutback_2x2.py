@@ -6,7 +6,7 @@ from gdsfactory.components.bend_circular import bend_circular180
 from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.components.straight import straight
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Optional
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec, Optional
 
 
 @gf.cell

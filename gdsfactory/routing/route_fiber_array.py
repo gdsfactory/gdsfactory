@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import Callable, List, Optional, Tuple, Union
 
+import numpy as np
+
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.bend_euler import bend_euler
@@ -12,10 +14,10 @@ from gdsfactory.cross_section import strip
 from gdsfactory.port import Port, select_ports_optical
 from gdsfactory.routing.get_bundle import get_bundle, get_min_spacing
 from gdsfactory.routing.get_route import get_route_from_waypoints
-from gdsfactory.routing.manhattan import generate_manhattan_waypoints, round_corners
+from gdsfactory.routing.manhattan import generate_manhattan_waypoints, round_corners, route_manhattan
 from gdsfactory.routing.route_south import route_south
 from gdsfactory.routing.utils import direction_ports_from_list_ports
-from gdsfactory.typings import (
+from gdsfactory.typs import (
     ComponentSpec,
     ComponentSpecOrList,
     CrossSectionSpec,
@@ -165,9 +167,9 @@ def route_fiber_array(
         grating_coupler = gf.call_if_func(grating_coupler)
         grating_couplers = [grating_coupler] * N
 
-    if gc_port_name not in grating_coupler.ports:
+    if gc_port_name not in grating_coupler.ports.get_all_named():
         raise ValueError(
-            f"{gc_port_name!r} not in {list(grating_coupler.ports.keys())}"
+            f"{gc_port_name!r} not in {list(grating_coupler.ports.get_all_named.keys())}"
         )
 
     # Now:
@@ -199,7 +201,7 @@ def route_fiber_array(
     is_big_component = (
         (K > 2)
         or (max(pxs) - min(pxs) > fiber_spacing - delta_gr_min)
-        or (component.xsize > fiber_spacing)
+        or (component.ref().xsize > fiber_spacing)
     )
     if optical_routing_type is None:
         optical_routing_type = 1 if is_big_component else 0
@@ -420,7 +422,7 @@ def route_fiber_array(
             grating_coupler.ref(
                 position=(
                     x_c - offset + ii * fiber_spacing,
-                    io_gratings_lines[-1][0].ports[gc_port_name].y,
+                    io_gratings_lines[-1][0].ports[gc_port_name].d.y,
                 ),
                 rotation=gc_rotation,
                 port_id=gc_port_name,
@@ -432,8 +434,8 @@ def route_fiber_array(
         ports_loopback.append(port0)
         ports_loopback.append(port1)
 
-        p0 = port0.center
-        p1 = port1.center
+        p0 = np.array((port0.d.x, port0.d.y))
+        p1 = np.array((port1.d.x, port1.d.y))
 
         dy = bend90.info["dy"]
         dx = max(2 * dy, fiber_spacing / 2)
@@ -454,11 +456,10 @@ def route_fiber_array(
         io_gratings_lines += [[gca1], [gca2]]
         # elements.extend([gca1, gca2])
 
-        route = round_corners(
-            points=points,
-            straight=straight,
+        route = route_manhattan(
+            port0,
+            port1,
             bend=bend90,
-            cross_section=cross_section,
         )
         elements.extend(route.references)
         if nlabels_loopback == 1:

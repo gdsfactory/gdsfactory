@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from gdsfactory.typings import ComponentModel, Dict, List, Optional
+from gdsfactory.typs import ComponentModel, Dict, List, Optional
 
 
 class Schematic:

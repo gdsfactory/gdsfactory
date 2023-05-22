@@ -11,7 +11,7 @@ from gdsfactory.components.mzi import mzi2x2_2x2 as mmi_coupler_function
 from gdsfactory.components.mzi import mzi_coupler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.typs import ComponentSpec
 
 
 @cell

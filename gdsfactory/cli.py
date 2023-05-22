@@ -15,7 +15,7 @@ from gdsfactory.config import print_version_pdks
 from gdsfactory.generic_tech import LAYER
 from gdsfactory.install import install_gdsdiff, install_klayout_package
 from gdsfactory.technology import lyp_to_dataclass
-from gdsfactory.typings import PathType
+from gdsfactory.typs import PathType
 from gdsfactory.write_cells import write_cells as write_cells_to_separate_gds
 
 try:

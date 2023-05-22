@@ -9,7 +9,7 @@ from gdsfactory.components.via_stack import via_stack_m1_m3 as via_stack_metal_f
 from gdsfactory.components.via_stack import via_stack_slab_npp_m3
 from gdsfactory.cross_section import rib_heater_doped, strip_rib_tip
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell

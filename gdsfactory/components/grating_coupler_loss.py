@@ -11,7 +11,7 @@ from gdsfactory.components.grating_coupler_elliptical_trenches import grating_co
 from gdsfactory.port import Port
 from gdsfactory.routing.get_route import get_route
 from gdsfactory.routing.manhattan import round_corners
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec
 
 
 def connect_loopback(

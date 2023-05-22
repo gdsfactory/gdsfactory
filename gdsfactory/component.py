@@ -156,8 +156,24 @@ class Instance(kf.Instance):
     def mirror(self):
         self.trans.mirror = False if self.trans.is_mirror() else True
 
-    def rotate(self, angle):
-        self.transform(kf.kdb.DTrans(angle, False, 0, 0))
+    def rotate(self, angle, origin: Optional[Tuple[float]] = (0, 0)):
+        self.transform(kf.kdb.DTrans(angle, False, *origin))
+
+
+    @property
+    def xsize(self):
+        return self.cell._kdb_cell.dbbox().width()
+
+
+    @property
+    def ysize(self):
+        return self.cell._kdb_cell.dbbox().height()
+
+
+    @property
+    def size_info(self):
+        dbbox = self.cell._kdb_cell.dbbox()
+        return SizeInfo(np.asarray([[dbbox.p1.x, dbbox.p2.x], [dbbox.p1.y, dbbox.p2.y]]))
 
     def connect(
         self,
@@ -192,9 +208,9 @@ class Instance(kf.Instance):
             op = other.ports[other_port_name]
         p = self.cell.ports[portname]
         if isinstance(p, gf.Port):
-            p = port_to_kport(p, library=self.cell.klib)
+            p = port_to_kport(p, library=self.cell.kcl)
         if isinstance(other, gf.Port):
-            op = port_to_kport(other, library=self.cell.klib, in_dbu=True)
+            op = port_to_kport(other, library=self.cell.kcl)
             print(op)
             if isinstance(port, kf.Port):
                 op = kf.Port(port=op)
@@ -211,20 +227,28 @@ class Instance(kf.Instance):
         elif (
             gf.get_layer(p.layer) != gf.get_layer(op.layer) and not allow_layer_mismatch
         ):
-            raise kf.kcell.PortLayerMismatch(self.cell.klib, self, other, p, op)
+            raise kf.kcell.PortLayerMismatch(self.cell.kcl, self, other, p, op)
         elif p.port_type != op.port_type and not allow_type_mismatch:
             raise kf.kcell.PortTypeMismatch(self, other, p, op)
         else:
-            if p.complex() or op.complex():
-                cplx_conn_trans = kdb.DCplxTrans.M90 if mirror else kdb.DCplxTrans.R180
-                self.instance.dcplx_trans = (
-                    op.dcplx_trans(self.cell.klib.dbu)
-                    * cplx_conn_trans
-                    * p.dcplx_trans(self.cell.klib.dbu).inverted()
-                )
-            else:
-                conn_trans = kdb.Trans.M90 if mirror else kdb.Trans.R180
-                self.instance.trans = op.trans * conn_trans * p.trans.inverted()
+            self.align(p, op)
+
+    
+    def get_ports_list(self, **kwargs) -> List[Port]:
+        """Returns list of ports.
+
+        Keyword Args:
+            layer: select ports with GDS layer.
+            prefix: select ports with port name.
+            orientation: select ports with orientation in degrees.
+            width: select ports with port width.
+            layers_excluded: List of layers to exclude.
+            port_type: select ports with port_type (optical, electrical, vertical_te).
+            clockwise: if True, sort ports clockwise, False: counter-clockwise.
+        """
+        return list(select_ports(self.ports, **kwargs).values())
+
+
 
     def move(
         self,
@@ -252,7 +276,7 @@ class Instance(kf.Instance):
 
         if isinstance(origin, str):
             if origin not in self.ports:
-                raise ValueError(f"{origin} not in {self.ports.keys()}")
+                raise ValueError(f"{origin} not in {self.ports.get_all_named.keys()}")
 
             origin = self.ports[origin]
             # origin = cast(Port, origin)
@@ -266,12 +290,12 @@ class Instance(kf.Instance):
             raise ValueError(
                 f"move(origin={origin})\n"
                 f"Invalid origin = {origin!r} needs to be"
-                f"a coordinate, port or port name {list(self.ports.keys())}"
+                f"a coordinate, port or port name {list(self.ports.copy().get_all_named().keys())}"
             )
 
         if isinstance(destination, str):
             if destination not in self.ports:
-                raise ValueError(f"{destination} not in {self.ports.keys()}")
+                raise ValueError(f"{destination} not in {self.ports.get_all_named.keys()}")
 
             destination = self.ports[destination]
             d = destination.center
@@ -284,7 +308,7 @@ class Instance(kf.Instance):
             raise ValueError(
                 f"{self.parent.name}.move(destination={destination!r}) \n"
                 f"Invalid destination = {destination!r} needs to be"
-                f"a coordinate, a port, or a valid port name {list(self.ports.keys())}"
+                f"a coordinate, a port, or a valid port name {list(self.ports.get_all_named.keys())}"
             )
 
         # Lock one axis if necessary
@@ -295,9 +319,7 @@ class Instance(kf.Instance):
 
         dxdy = np.array(d) - np.array(o)
 
-        self.instance.dtrans = (
-            kf.kdb.DTrans(float(dxdy[0]), float(dxdy[1])) * self.instance.dtrans
-        )
+        self = self.transform(kf.kdb.Trans(0, False, dxdy[0] / self.kcl.dbu, dxdy[1] / self.kcl.dbu))
         return self
 
     @classmethod
@@ -379,7 +401,7 @@ class Component(kf.KCell):
             cell: exact copy of the current cell.
         """
         kdb_copy = self._kdb_cell.dup()
-        c = Component(library=self.klib, kdb_cell=kdb_copy)
+        c = Component(library=self.kcl, kdb_cell=kdb_copy)
         c.ports = self.ports
         for inst in self.insts:
             c.create_inst(inst.cell, inst.instance.trans)
@@ -396,8 +418,11 @@ class Component(kf.KCell):
         Returns:
             :py:class:`~Instance`: The created instance.
         """
-        ca = self.insert(kdb.CellInstArray(cell.cell_index(), trans))
-        inst = Instance(cell, ca)
+        from gdsfactory.pdk import get_layer
+
+        ca = self.insert(kdb.CellInstArray(cell._kdb_cell, trans)) if not isinstance(cell, Label) else kf.Instance(self.kcl, self.kcl.insert(self._kdb_cell.cell_index(), self.kcl.layer(get_layer("TEXT")[0], get_layer("TEXT")[1]), kdb.Texts([cell.to_Text()])))
+        kcl = cell.kcl if not isinstance(cell, Label) else self.kcl
+        inst = Instance(kcl, ca)
         self.insts.append(inst)
         return inst
 
@@ -477,7 +502,7 @@ class Component(kf.KCell):
         """
         if recursive:
             if by_spec:
-                layer = self.klib.layer(*by_spec)
+                layer = self.kcl.layer(*by_spec)
                 return list(kdb.Region(self.begin_shapes_rec(layer)).each())
 
             else:
@@ -486,14 +511,14 @@ class Component(kf.KCell):
                         kdb.Region(self.begin_shapes_rec(layer_index)).each()
                     )
                     for layer_index, layer_info in zip(
-                        self.klib.layer_indexes(), self.klib.layer_infos()
+                        self.kcl.layer_indexes(), self.kcl.layer_infos()
                     )
                 }
         else:
             if by_spec:
                 return [
                     p.polygon
-                    for p in self.shapes(self.klib.layer(*by_spec)).each(
+                    for p in self.shapes(self.kcl.layer(*by_spec)).each(
                         kdb.Shapes.SRegions
                     )
                 ]
@@ -504,7 +529,7 @@ class Component(kf.KCell):
                         p.polygon for p in self.shapes(index).each(kdb.Shapes.SRegions)
                     ]
                     for info, index in zip(
-                        self.klib.layer_infos(), self.klib.layer_indexes()
+                        self.kcl.layer_infos(), self.kcl.layer_indexes()
                     )
                 }
 
@@ -537,7 +562,7 @@ class Component(kf.KCell):
     def __getitem__(self, key):
         """Access reference ports."""
         if key not in self.ports:
-            ports = list(self.ports.keys())
+            ports = list(self.ports.get_all_named.keys())
             raise ValueError(f"{key!r} not in {ports}")
 
         return self.ports[key]
@@ -595,8 +620,7 @@ class Component(kf.KCell):
 
     @property
     def named_references(self):
-        # return self._named_references # FIXME
-        return {}
+        return self.references
 
     def add_label(
         self,
@@ -630,7 +654,7 @@ class Component(kf.KCell):
         trans = kdb.DTrans(int(rotation / 90), x_reflection, x, y)
         label = kdb.DText(text, trans)
         label.height = height
-        layer = self.klib.layer(*layer)
+        layer = self.kcl.layer(*layer)
         self.shapes(layer).insert(label)
         return label
 
@@ -640,7 +664,7 @@ class Component(kf.KCell):
 
         it snaps to 3 decimals in um (0.001um = 1nm precision)
         """
-        bbox = self._cell.bounding_box()
+        bbox = [[self._kdb_cell.dbbox().p1.x, self._kdb_cell.dbbox().p2.x], [self._kdb_cell.dbbox().p1.y, self._kdb_cell.dbbox().p2.y]]
         if bbox is None:
             bbox = ((0, 0), (0, 0))
         return np.round(bbox, 3)
@@ -947,17 +971,23 @@ class Component(kf.KCell):
                 This is the most common mirror.
             v_mirror: vertical mirror using x axis (1, y) (0, y).
         """
-        _ref = ComponentReference(self)
+        c = Component()
 
-        if port_id and port_id not in self.ports:
-            raise ValueError(f"port {port_id} not in {self.ports.keys()}")
+        _ref = c << self
+        _ref = Instance(self.kcl, _ref)
 
-        origin = self.ports[port_id].center if port_id else (0, 0)
+        if port_id:
+            if port_id not in self.ports.get_all_named():
+                raise ValueError(f"port {port_id} not in {self.ports.get_all_named().keys()}")
+            else:
+                port = self.ports[port_id]
+
+        origin = (port.d.x, port.d.y) if port_id else (0, 0)
         if h_mirror:
-            _ref.mirror_x(port_id)
+            _ref.trans.M90
 
         if v_mirror:
-            _ref.mirror_y(port_id)
+            _ref.mirror()
 
         if rotation != 0:
             _ref.rotate(rotation, origin)
@@ -984,7 +1014,7 @@ class Component(kf.KCell):
         return f"{self.name}: uid {self.cell_index()}, ports {list(self.ports)}, references {refs}, {len(self.get_polygons(recursive=False))} polygons"
         # return (
         #     f"{self.name}: uid {self.uid}, "
-        #     f"ports {list(self.ports.keys())}, "
+        #     f"ports {list(self.ports.get_all_named.keys())}, "
         #     f"references {list(self.named_references.keys())}, "
         #     f"{len(self.polygons)} polygons"
         # )
@@ -1062,11 +1092,12 @@ class Component(kf.KCell):
 
             elif isinstance(port, Port):
                 port.orientation = float(port.orientation)
+                print(port.orientation, name)
                 p = kf.Port(
                     name=name,
                     position=port.center,
                     width=port.width,
-                    angle=port.orientation,
+                    angle=int(port.orientation // 90),
                     layer=self.layer(*get_layer(port.layer)),
                     port_type=port.port_type,
                 )
@@ -1093,7 +1124,7 @@ class Component(kf.KCell):
             name=name,
             position=center,
             width=width,
-            angle=orientation,
+            angle=int(orientation // 90),
             layer=self.layer(*layer),
             port_type=port_type,
         )
@@ -1139,7 +1170,7 @@ class Component(kf.KCell):
 
         for layer in layers:
             layer = get_layer(layer)
-            self.shapes(self.klib.layer(layer[0], layer[1])).clear()
+            self.shapes(self.kcl.layer(layer[0], layer[1])).clear()
 
         if recursive:
             for cell in self.child_cells():
@@ -1149,19 +1180,19 @@ class Component(kf.KCell):
 
     @property
     def xmin(self):
-        return self.bbox().left
+        return self.bbox[0][0]
 
     @property
     def xmax(self):
-        return self.bbox().right
+        return self.bbox[0][1]
 
     @property
     def ymin(self):
-        return self.bbox().bottom
+        return self.bbox[1][0]
 
     @property
     def ymax(self):
-        return self.bbox().top
+        return self.bbox[1][1]
 
     def extract(
         self,
@@ -1206,7 +1237,7 @@ class Component(kf.KCell):
         if not isinstance(points, kdb.DPolygon):
             points = kdb.DPolygon([kdb.DPoint(point[0], point[1]) for point in points])
 
-        self.shapes(self.klib.layer(layer[0], layer[1])).insert(points)
+        self.shapes(self.kcl.layer(layer[0], layer[1])).insert(points)
 
     def _add_polygons(self, *polygons: List[Polygon]) -> None:
         self.is_unlocked()
@@ -1258,11 +1289,10 @@ class Component(kf.KCell):
             MutabilityError: if component is locked.
         """
         self.is_unlocked()
-        if isinstance(element, ComponentReference):
-            self._cell.add(element._reference)
-            self._references.append(element)
+        if isinstance(element, (ComponentReference, kdb.Instance)):
+            self.insts.append(element)
         else:
-            self.cell.add(element)
+            self << element
 
     def add(self, element) -> None:
         """Add a new element or list of elements to this Component.
@@ -1275,7 +1305,6 @@ class Component(kf.KCell):
             MutabilityError: if component is locked.
         """
         if isinstance(element, ComponentReference):
-            self._register_reference(element)
             self._add(element)
         elif isinstance(element, Iterable):
             for subelement in element:
@@ -1306,17 +1335,21 @@ class Component(kf.KCell):
         """
         if not isinstance(component, Component):
             raise TypeError("add_array() needs a Component object.")
-        return self.insert(
-            kdb.DCellInstArray(
-                component.cell_index(),
-                # kdb.DTrans.R0,
-                kdb.DVector(),
-                kdb.DVector(spacing[0], 0),
-                kdb.DVector(0, spacing[1]),
-                columns,
-                rows,
+        return Instance(
+            self.kcl,
+            self.insert(
+                kdb.DCellInstArray(
+                    component.cell_index(),
+                    # kdb.DTrans.R0,
+                    kdb.DVector(),
+                    kdb.DVector(spacing[0], 0),
+                    kdb.DVector(0, spacing[1]),
+                    columns,
+                    rows,
+                )
             )
         )
+
 
     def distribute(
         self, elements="all", direction="x", spacing=100, separation=True, edge="center"
@@ -1458,7 +1491,7 @@ class Component(kf.KCell):
             import gdsfactory as gf
             gf.components.straight().get_layers() == {(1, 0), (111, 0)}
         """
-        return {(info.layer, info.datatype) for info in self.klib.layer_infos()}
+        return {(info.layer, info.datatype) for info in self.kcl.layer_infos()}
 
     def _repr_html_(self) -> None:
         """Show geometry in KLayout and in matplotlib for Jupyter Notebooks."""

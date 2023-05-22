@@ -3,7 +3,7 @@ from __future__ import annotations
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.cross import cross
-from gdsfactory.typings import ComponentSpec, LayerSpecs
+from gdsfactory.typs import ComponentSpec, LayerSpecs
 
 
 @cell

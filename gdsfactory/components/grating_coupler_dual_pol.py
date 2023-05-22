@@ -9,7 +9,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec, LayerSpec
 
 # The default values are loosely based on Taillaert et al,
 #  "A Compact Two-Dimensional Grating Coupler Used

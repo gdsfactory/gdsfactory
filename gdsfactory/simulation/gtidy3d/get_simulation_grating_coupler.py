@@ -16,7 +16,7 @@ from gdsfactory.config import logger
 from gdsfactory.pdk import get_layer_stack, get_material_index
 from gdsfactory.simulation.gtidy3d.materials import get_index, get_medium
 from gdsfactory.technology import LayerStack
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.typs import CrossSectionSpec
 
 
 def get_simulation_grating_coupler(
@@ -240,20 +240,20 @@ def get_simulation_grating_coupler(
 
     if port_waveguide_name not in component.ports:
         warnings.warn(
-            f"port_waveguide_name={port_waveguide_name!r} not in {component.ports.keys()}"
+            f"port_waveguide_name={port_waveguide_name!r} not in {component.ports.get_all_named.keys()}"
         )
         port_waveguide = component.get_ports_list()[0]
         port_waveguide_name = port_waveguide.name
         warnings.warn(f"Selecting port_waveguide_name={port_waveguide_name!r} instead.")
 
     fiber_port_name = None
-    for port_name in component.ports.keys():
+    for port_name in component.ports.get_all_named.keys():
         if port_name.startswith(fiber_port_prefix):
             fiber_port_name = port_name
 
     if fiber_port_name is None:
         raise ValueError(
-            f"No port named {fiber_port_prefix!r} in {component.ports.keys()}"
+            f"No port named {fiber_port_prefix!r} in {component.ports.get_all_named.keys()}"
         )
 
     component_with_booleans = layer_stack.get_component_with_derived_layers(component)

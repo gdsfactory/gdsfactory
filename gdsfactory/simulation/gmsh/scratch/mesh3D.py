@@ -6,7 +6,7 @@ import pygmsh
 
 from gdsfactory.pdk import get_layer_stack
 from gdsfactory.technology import LayerStack
-from gdsfactory.typings import ComponentOrReference, Layer
+from gdsfactory.typs import ComponentOrReference, Layer
 
 
 def surface_loop_from_vertices(model, xmin, xmax, ymin, ymax, zmin, zmax, resolution):

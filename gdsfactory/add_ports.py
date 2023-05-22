@@ -10,7 +10,7 @@ from numpy import arctan2, degrees, isclose
 from gdsfactory.component import Component
 from gdsfactory.port import Port, read_port_markers, sort_ports_clockwise
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.typings import LayerSpec
+from gdsfactory.typs import LayerSpec
 
 
 def add_ports_from_markers_square(
@@ -256,7 +256,7 @@ def add_ports_from_markers_center(
 
     for port_name, port in ports.items():
         if port_name in component.ports:
-            component_ports = list(component.ports.keys())
+            component_ports = list(component.ports.get_all_named.keys())
             raise ValueError(
                 f"port {port_name!r} already in {component_ports}. "
                 "You can pass a port_name_prefix to add it with a different name."
@@ -336,7 +336,7 @@ def add_ports_from_labels(
                 orientation = 270
 
         if fail_on_duplicates and port_name in component.ports:
-            component_ports = list(component.ports.keys())
+            component_ports = list(component.ports.get_all_named.keys())
             raise ValueError(
                 f"port {port_name!r} already in {component_ports}. "
                 "You can pass a port_name_prefix to add it with a different name."

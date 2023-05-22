@@ -4,7 +4,7 @@ from functools import partial
 import numpy as np
 import gdsfactory as gf
 from gdsfactory.cross_section import Section
-from gdsfactory.typings import ComponentSpec, CrossSection, LayerSpec
+from gdsfactory.typs import ComponentSpec, CrossSection, LayerSpec
 from gdsfactory.components.via_stack import via_stack
 from gdsfactory.components.via import via
 

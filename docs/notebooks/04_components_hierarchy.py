@@ -22,7 +22,7 @@
 from functools import partial
 import toolz
 
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.typs import ComponentSpec
 
 import gdsfactory as gf
 from gdsfactory.generic_tech import get_generic_pdk

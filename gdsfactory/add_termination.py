@@ -8,7 +8,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.port import Port
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.typs import ComponentSpec
 
 terminator_function = partial(taper_function, width2=0.1)
 

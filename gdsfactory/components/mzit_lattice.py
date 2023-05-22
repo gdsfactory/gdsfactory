@@ -5,7 +5,7 @@ from typing import Tuple
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.mzit import mzit
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.typs import ComponentSpec
 
 
 @gf.cell

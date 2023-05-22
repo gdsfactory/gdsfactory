@@ -15,7 +15,7 @@ from gdsfactory.routing.get_bundle import (
 from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.path_length_matching import path_length_matched_points
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
-from gdsfactory.typings import (
+from gdsfactory.typs import (
     ComponentSpec,
     CrossSectionSpec,
     MultiCrossSectionAngleSpec,

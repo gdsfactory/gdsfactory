@@ -7,7 +7,7 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.cross_section import strip
 from gdsfactory.difftest import difftest
 from gdsfactory.port import Port
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Routes
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec, Routes
 
 
 def get_routes_bend180(

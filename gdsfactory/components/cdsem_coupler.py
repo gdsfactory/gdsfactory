@@ -10,7 +10,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.coupler_straight import coupler_straight
 from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.grid import grid
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
+from gdsfactory.typs import ComponentSpec, CrossSectionSpec
 
 text_rectangular_mini = partial(text_rectangular, size=1)
 

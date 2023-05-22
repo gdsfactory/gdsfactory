@@ -5,7 +5,7 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
-from gdsfactory.typings import CrossSectionSpec
+from gdsfactory.typs import CrossSectionSpec
 import numpy as np
 
 wire_straight = gf.partial(straight, cross_section="metal_routing")

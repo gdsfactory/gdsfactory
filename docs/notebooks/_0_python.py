@@ -80,7 +80,7 @@ def double(x: float) -> float:
 
 
 # %% tags=[]
-def bend(radius: float = 5) -> gf.typings.Component:
+def bend(radius: float = 5) -> gf.typs.Component:
     return gf.components.bend_euler(radius=radius)
 
 

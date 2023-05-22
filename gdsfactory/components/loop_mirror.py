@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.spiral_external_io import spiral_external_io
 from gdsfactory.routing.manhattan import route_manhattan
-from gdsfactory.typings import ComponentSpec
+from gdsfactory.typs import ComponentSpec
 
 
 @gf.cell

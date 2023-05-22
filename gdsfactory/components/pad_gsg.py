@@ -5,7 +5,7 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.components.pad import pad as pad_function
 from gdsfactory.components.rectangle import rectangle
-from gdsfactory.typings import ComponentSpec, Float2, LayerSpec
+from gdsfactory.typs import ComponentSpec, Float2, LayerSpec
 
 rectangle_m3 = gf.partial(rectangle, layer="M3")
 

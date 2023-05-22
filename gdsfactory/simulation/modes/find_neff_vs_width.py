@@ -10,7 +10,7 @@ import pydantic
 from tqdm.auto import tqdm
 
 from gdsfactory.simulation.modes.find_modes import find_modes_waveguide
-from gdsfactory.typings import Optional, PathType
+from gdsfactory.typs import Optional, PathType
 
 
 @pydantic.validate_arguments

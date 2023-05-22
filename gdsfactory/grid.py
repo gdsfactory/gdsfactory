@@ -13,7 +13,7 @@ from gdsfactory.component import Component
 from gdsfactory.component_layout import Group
 from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.components.triangles import triangle
-from gdsfactory.typings import Anchor, ComponentSpec, Float2
+from gdsfactory.typs import Anchor, ComponentSpec, Float2
 
 
 @cell

@@ -26,7 +26,7 @@ from gdsfactory.simulation.gmeep.write_sparameters_meep import (
     settings_write_sparameters_meep,
 )
 from gdsfactory.technology import LayerStack
-from gdsfactory.typings import ComponentSpec, PathType
+from gdsfactory.typs import ComponentSpec, PathType
 import pickle
 
 core_materials = multiprocessing.cpu_count()
