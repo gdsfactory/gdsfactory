@@ -29,7 +29,7 @@ from gdsfactory.gdsdiff.gdsdiff import gdsdiff
 import pathlib
 from typing import Optional
 
-from kfactory import KLib, kdb
+from kfactory import KCell, KLib, kdb
 
 
 class GeometryDifference(Exception):
@@ -128,6 +128,7 @@ def run_xor(file1, file2, tolerance: int = 1, verbose: bool = False) -> None:
 
 def difftest(component: gf.Component, 
     test_name: gf.Component,
+    dirpath: Optional[pathlib.Path] = PATH.gdslib,
     dirpath_ref: Optional[pathlib.Path] = PATH.gds_ref,
     dirpath_run: Optional[pathlib.Path] = PATH.gds_run,
     dirpath_diff: Optional[pathlib.Path] = PATH.gds_diff,
@@ -163,6 +164,8 @@ def difftest(component: gf.Component,
 
     ref_file = dirpath_ref / filename
     run_file = dirpath_run / filename
+
+    diff_file = dirpath_diff / filename
 
     ref = gf.get_component(ref)
     comp = gf.get_component(comp)
@@ -244,23 +247,43 @@ def difftest(component: gf.Component,
             c = KCell()
             c << ref
             c << comp
-            c.show()
-            
-            val = input("Save current GDS as the new reference (Y)? [Y/n]")
-            if val.upper().startswith("N"):
-                raise
 
-            logger.info(f"deleting file {str(ref_file)!r}")
-            ref_file.unlink()
-            shutil.copy(run_file, ref_file)
-            raise
-    except OSError as exc:
-        raise GeometryDifference(
-            "\n"
-            f"{filename!r} changed from reference {str(ref_file)!r}\n"
-            "To step over each error you can run `pytest -s`\n"
-            "So you can check the differences in Klayout GUI\n"
-        ) from exc
+            print(
+                f"\ngds_run {filename!r} changed from gds_ref {str(ref_file)!r}\n"
+                "You can check the differences in Klayout GUI or run XOR with\n"
+                f"gf gds diff --xor {ref_file} {run_file}\n"
+            )
+
+            try:
+                val = input(
+                    "Save current GDS as new reference (Y) or show differences (d)? [Y/n/d]"
+                )
+                if val.upper().startswith("N"):
+                    raise
+                xor = val.upper().startswith("D")
+                if xor:
+                    
+                    c.write_gds(diff_file)
+                    c.show(show_ports=False)
+
+                    val = input("Save current GDS as the new reference (Y)? [Y/n]")
+                    if val.upper().startswith("N"):
+                        raise
+
+                logger.info(f"deleting file {str(ref_file)!r}")
+                ref_file.unlink()
+                shutil.copy(run_file, ref_file)
+                raise
+            except OSError as exc:
+                raise GeometryDifference(
+                    "\n"
+                    f"{filename!r} changed from reference {str(ref_file)!r}\n"
+                    "To step over each error you can run `pytest -s`\n"
+                    "So you can check the differences in Klayout GUI\n"
+                ) from exc
+    except Exception as e:
+        raise e
+        
 
 
 if __name__ == "__main__":
