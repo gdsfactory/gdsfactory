@@ -24,8 +24,6 @@ from typing import Optional
 import gdsfactory as gf
 from gdsfactory.config import PATH, logger
 
-from typing import Optional
-
 from kfactory import KCell, KLib, kdb
 
 
