@@ -52,9 +52,11 @@ jobs:
         with:
           path: |
             ~/.gdsfactory/
-          key: ${{ hashFiles('.github/sim_version') }}
+          key: 0.0.1
       - name: Test with pytest
-        run: pytest
+        run: |
+          tree ~/.gdsfactory
+          pytest
   test_code_coverage_python37:
     runs-on: ubuntu-latest
 
@@ -106,6 +108,7 @@ jobs:
           activate-environment: anaconda-client-env
       - name: Add conda to system path
         run: |
+          tree ~/.gdsfactory
           echo $CONDA/bin >> $GITHUB_PATH
       - name: Install dependencies
         env:
