@@ -948,7 +948,7 @@ def map_ports_to_orientation_cw(
         else:
             direction_ports["S"].append(p)
     function(direction_ports)
-    return dict({p.name: p.name_original for p in ports_on_layer})
+    return {p.name: p.name_original for p in ports_on_layer}
 
 
 map_ports_to_orientation_ccw = partial(

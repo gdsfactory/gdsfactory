@@ -14,7 +14,7 @@ from gdsfactory.cross_section import strip
 from gdsfactory.port import Port, select_ports_optical
 from gdsfactory.routing.get_bundle import get_bundle, get_min_spacing
 from gdsfactory.routing.get_route import get_route_from_waypoints
-from gdsfactory.routing.manhattan import generate_manhattan_waypoints, round_corners, route_manhattan
+from gdsfactory.routing.manhattan import generate_manhattan_waypoints, route_manhattan
 from gdsfactory.routing.route_south import route_south
 from gdsfactory.routing.utils import direction_ports_from_list_ports
 from gdsfactory.typs import (
@@ -443,7 +443,7 @@ def route_fiber_array(
         gc_east = max(gci.size_info.east for gci in grating_couplers)
         y_bot_align_route = gc_east + straight_to_grating_spacing
 
-        points = [
+        [
             p0,
             p0 + (0, dy),
             p0 + (dx, dy),

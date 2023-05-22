@@ -95,10 +95,10 @@ def straight_heater_metal_undercut(
 
     if via_stack:
         refs = list(sequence.named_references.get_inst_names().keys())
-        via_stackw = via_stacke = gf.get_component(via_stack)
-        via_stack_west_center = sequence.named_references[refs[0]].size_info.cw
-        via_stack_east_center = sequence.named_references[refs[-1]].size_info.ce
-        dx = via_stackw.get_ports_xsize() / 2 + heater_taper_length or 0
+        via_stackw = gf.get_component(via_stack)
+        sequence.named_references[refs[0]].size_info.cw
+        sequence.named_references[refs[-1]].size_info.ce
+        via_stackw.get_ports_xsize() / 2 + heater_taper_length or 0
 
         # via_stack_west = c << via_stackw
         # via_stack_east = c << via_stacke

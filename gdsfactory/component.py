@@ -4,15 +4,13 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 """
 from __future__ import annotations
 
+import tempfile
 import datetime
 import hashlib
 import itertools
 import math
 import pathlib
-import uuid
 import warnings
-from copy import deepcopy
-from collections import Counter
 from collections.abc import Iterable
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
@@ -32,7 +30,7 @@ from gdsfactory.component_layout import (
     _distribute,
     _parse_layer,
 )
-from gdsfactory.config import CONF, logger
+from gdsfactory.config import CONF, logger, GDSDIR_TEMP
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.port import (
     Port,
@@ -159,21 +157,20 @@ class Instance(kf.Instance):
     def rotate(self, angle, origin: Optional[Tuple[float]] = (0, 0)):
         self.transform(kf.kdb.DTrans(angle, False, *origin))
 
-
     @property
     def xsize(self):
         return self.cell._kdb_cell.dbbox().width()
-
 
     @property
     def ysize(self):
         return self.cell._kdb_cell.dbbox().height()
 
-
     @property
     def size_info(self):
         dbbox = self.cell._kdb_cell.dbbox()
-        return SizeInfo(np.asarray([[dbbox.p1.x, dbbox.p2.x], [dbbox.p1.y, dbbox.p2.y]]))
+        return SizeInfo(
+            np.asarray([[dbbox.p1.x, dbbox.p2.x], [dbbox.p1.y, dbbox.p2.y]])
+        )
 
     def connect(
         self,
@@ -233,7 +230,6 @@ class Instance(kf.Instance):
         else:
             self.align(p, op)
 
-    
     def get_ports_list(self, **kwargs) -> List[Port]:
         """Returns list of ports.
 
@@ -247,8 +243,6 @@ class Instance(kf.Instance):
             clockwise: if True, sort ports clockwise, False: counter-clockwise.
         """
         return list(select_ports(self.ports, **kwargs).values())
-
-
 
     def move(
         self,
@@ -295,7 +289,9 @@ class Instance(kf.Instance):
 
         if isinstance(destination, str):
             if destination not in self.ports:
-                raise ValueError(f"{destination} not in {self.ports.get_all_named.keys()}")
+                raise ValueError(
+                    f"{destination} not in {self.ports.get_all_named.keys()}"
+                )
 
             destination = self.ports[destination]
             d = destination.center
@@ -319,7 +315,9 @@ class Instance(kf.Instance):
 
         dxdy = np.array(d) - np.array(o)
 
-        self = self.transform(kf.kdb.Trans(0, False, dxdy[0] / self.kcl.dbu, dxdy[1] / self.kcl.dbu))
+        self = self.transform(
+            kf.kdb.Trans(0, False, dxdy[0] / self.kcl.dbu, dxdy[1] / self.kcl.dbu)
+        )
         return self
 
     @classmethod
@@ -420,7 +418,18 @@ class Component(kf.KCell):
         """
         from gdsfactory.pdk import get_layer
 
-        ca = self.insert(kdb.CellInstArray(cell._kdb_cell, trans)) if not isinstance(cell, Label) else kf.Instance(self.kcl, self.kcl.insert(self._kdb_cell.cell_index(), self.kcl.layer(get_layer("TEXT")[0], get_layer("TEXT")[1]), kdb.Texts([cell.to_Text()])))
+        ca = (
+            self.insert(kdb.CellInstArray(cell._kdb_cell, trans))
+            if not isinstance(cell, Label)
+            else kf.Instance(
+                self.kcl,
+                self.kcl.insert(
+                    self._kdb_cell.cell_index(),
+                    self.kcl.layer(get_layer("TEXT")[0], get_layer("TEXT")[1]),
+                    kdb.Texts([cell.to_Text()]),
+                ),
+            )
+        )
         kcl = cell.kcl if not isinstance(cell, Label) else self.kcl
         inst = Instance(kcl, ca)
         self.insts.append(inst)
@@ -664,7 +673,10 @@ class Component(kf.KCell):
 
         it snaps to 3 decimals in um (0.001um = 1nm precision)
         """
-        bbox = [[self._kdb_cell.dbbox().p1.x, self._kdb_cell.dbbox().p2.x], [self._kdb_cell.dbbox().p1.y, self._kdb_cell.dbbox().p2.y]]
+        bbox = [
+            [self._kdb_cell.dbbox().p1.x, self._kdb_cell.dbbox().p2.x],
+            [self._kdb_cell.dbbox().p1.y, self._kdb_cell.dbbox().p2.y],
+        ]
         if bbox is None:
             bbox = ((0, 0), (0, 0))
         return np.round(bbox, 3)
@@ -978,7 +990,9 @@ class Component(kf.KCell):
 
         if port_id:
             if port_id not in self.ports.get_all_named():
-                raise ValueError(f"port {port_id} not in {self.ports.get_all_named().keys()}")
+                raise ValueError(
+                    f"port {port_id} not in {self.ports.get_all_named().keys()}"
+                )
             else:
                 port = self.ports[port_id]
 
@@ -1347,9 +1361,8 @@ class Component(kf.KCell):
                     columns,
                     rows,
                 )
-            )
+            ),
         )
-
 
     def distribute(
         self, elements="all", direction="x", spacing=100, separation=True, edge="center"
@@ -1772,90 +1785,20 @@ class Component(kf.KCell):
             Arguments for the target meshing function in gdsfactory.simulation.gmsh
         """
 
-        from gdsfactory.pdk import get_active_pdk
-
-        if gdspath and gdsdir:
-            warnings.warn(
-                "gdspath and gdsdir have both been specified. gdspath will take precedence and gdsdir will be ignored.",
-                stacklevel=3,
-            )
-
-        default_settings = get_active_pdk().gds_write_settings
-        default_oasis_settings = get_active_pdk().oasis_settings
-
-        explicit_gds_settings = {
-            k: v
-            for k, v in kwargs.items()
-            if v is not None and k in default_settings.dict()
-        }
-        explicit_oas_settings = {
-            k: v
-            for k, v in kwargs.items()
-            if v is not None and k in default_oasis_settings.dict()
-        }
-        # update the write settings with any settings explicitly passed
-        write_settings = default_settings.copy(update=explicit_gds_settings)
-        oasis_settings = default_oasis_settings.copy(update=explicit_oas_settings)
-
-        _check_uncached_components(
-            component=self, mode=write_settings.on_uncached_component
-        )
-
-        if write_settings.flatten_invalid_refs:
-            top_cell = flatten_invalid_refs_recursive(self)
-        else:
-            top_cell = self
-
-        gdsdir = gdsdir or GDSDIR_TEMP
-        gdsdir = pathlib.Path(gdsdir)
-        if with_oasis:
-            gdspath = gdspath or gdsdir / f"{top_cell.name}.oas"
-        else:
-            gdspath = gdspath or gdsdir / f"{top_cell.name}.gds"
-        gdspath = pathlib.Path(gdspath)
-        gdsdir = gdspath.parent
-        gdsdir.mkdir(exist_ok=True, parents=True)
-
-        cells = top_cell.get_dependencies(recursive=True)
-        cell_names = [cell.name for cell in list(cells)]
-        cell_names_unique = set(cell_names)
-
-        if len(cell_names) != len(set(cell_names)):
-            for cell_name in cell_names_unique:
-                cell_names.remove(cell_name)
-
-            if write_settings.on_duplicate_cell == "error":
-                raise ValueError(
-                    f"Duplicated cell names in {top_cell.name!r}: {cell_names!r}"
-                )
-            elif write_settings.on_duplicate_cell in {"warn", "overwrite"}:
-                if write_settings.on_duplicate_cell == "warn":
-                    warnings.warn(
-                        f"Duplicated cell names in {top_cell.name!r}:  {cell_names}",
-                        stacklevel=3,
-                    )
-                cells_dict = {cell.name: cell._cell for cell in cells}
-                cells = cells_dict.values()
-            elif write_settings.on_duplicate_cell is not None:
-                raise ValueError(
-                    f"on_duplicate_cell: {write_settings.on_duplicate_cell!r} not in (None, warn, error, overwrite)"
-                )
-
-        all_cells = [top_cell._cell] + sorted(cells, key=lambda cc: cc.name)
-
-        no_name_cells = [
-            cell.name for cell in all_cells if cell.name.startswith("Unnamed")
+        padded_component = Component()
+        padded_component << self
+        (xmin, ymin), (xmax, ymax) = self.bbox
+        points = [
+            [xmin - wafer_padding, ymin - wafer_padding],
+            [xmax + wafer_padding, ymin - wafer_padding],
+            [xmax + wafer_padding, ymax + wafer_padding],
+            [xmin - wafer_padding, ymax + wafer_padding],
         ]
         padded_component.add_polygon(points, layer=wafer_layer)
 
         if layer_stack is None:
             raise ValueError(
                 'A LayerStack must be provided through argument "layer_stack".'
-            )
-        if no_name_cells:
-            warnings.warn(
-                f"Component {top_cell.name!r} contains {len(no_name_cells)} Unnamed cells",
-                stacklevel=3,
             )
         if type == "xy":
             if z is None:

@@ -192,6 +192,7 @@ def read_config(
     return config
 
 
+GDSDIR_TEMP = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
 CONF = read_config()
 PATH = Paths()
 sparameters_path = PATH.sparameters
