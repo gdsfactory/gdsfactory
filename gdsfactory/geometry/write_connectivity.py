@@ -21,7 +21,10 @@ class ConnectivyCheck(BaseModel):
 
 
 def write_connectivity_checks(
-    pin_widths: List[float], pin_layer: Layer, pin_length: float = 1 * nm
+    pin_widths: List[float],
+    pin_layer: Layer,
+    pin_length: float = 1 * nm,
+    DEVREC_layer: Layer = "DEVREC",
 ):
     """Return script for port connectivity check.
     Assumes the port pins are inside the Component.
@@ -31,6 +34,7 @@ def write_connectivity_checks(
         pin_layer: for the pin markers.
         pin_length: in um.
     """
+    DEVREC_layer = gf.get_layer(DEVREC_layer)
 
     script = f"""pin = input{pin_layer}
 pin = pin.merged\n
@@ -43,11 +47,16 @@ pin2 = pin.rectangles.without_area({pin_widths[0]} * {2 * pin_length})"""
 pin2 = pin.sized(0.0).merged\n
 pin2.non_rectangles.output(\"port width check\")\n\n"""
 
+    script += f"""DEVREC = input{DEVREC_layer}.raw.merged(2)\n
+DEVREC.overlapping(DEVREC).output("Component overlap")\n
+    """
+
     return script
 
 
 def write_connectivity_checks_per_section(
     connectivity_checks: List[ConnectivyCheck],
+    DEVREC_layer: Layer,
 ) -> str:
     """Return script for port connectivity check.
     Assumes the port pins are inside the Component and each cross_section has pins on a different layer.
@@ -57,6 +66,7 @@ def write_connectivity_checks_per_section(
         connectivity_checks: list of connectivity objects to check for.
     """
     script = ""
+    DEVREC_layer = gf.get_layer(DEVREC_layer)
 
     for cc in connectivity_checks:
         xs = gf.get_cross_section(cc.cross_section)
@@ -73,6 +83,10 @@ def write_connectivity_checks_per_section(
 {xs.name}_pin2 = {xs.name}_pin.sized(0.0).merged\n
 {xs.name}_pin2.non_rectangles.output(\"port width check\")\n\n"""
 
+    script += f"""DEVREC = input{DEVREC_layer}.raw.merged(2)\n
+DEVREC.overlapping(DEVREC).output("Component overlap")\n
+    """
+
     return script
 
 
@@ -88,7 +102,8 @@ if __name__ == "__main__":
         )
     ]
     rules = [
-        write_connectivity_checks_per_section(connectivity_checks=connectivity_checks)
+        write_connectivity_checks_per_section(connectivity_checks=connectivity_checks),
+        "DEVREC",
     ]
 
     rules = [
