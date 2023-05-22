@@ -132,9 +132,11 @@ jobs:
         run: |
           mkdir -p $HOME/.tidy3d
           echo ${{ secrets.TIDY3D_AUTH }} > $HOME/.tidy3d/config
-          if [ ${{ secrets.TIDY3D_AUTH }} ]; then
+          if [ -n "${{ secrets.TIDY3D_AUTH }}" ]; then
+            echo "tidy3d credentials Variable is set. testing tidy3d..."
             make test-plugins
           else
+            echo "tidy3d credentials Variable is not set. Skipping tidy3 tests..."
             make test-plugins-no-tidy3d
           fi
   test_docs:

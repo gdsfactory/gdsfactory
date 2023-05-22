@@ -227,7 +227,7 @@ def write_sparameters(
         if bool(port_symmetries):
             for key, symmetries in port_symmetries.items():
                 for sym in symmetries:
-                    n_key = convert_old_fmt(key)  # TODO contribute back
+                    n_key = convert_old_fmt(key)
                     n_sym = convert_old_fmt(sym)
                     if n_key in sp:
                         sp[n_sym] = sp[n_key]
