@@ -6,6 +6,10 @@
 - control Sbend resolution [PR](https://github.com/gdsfactory/gdsfactory/commit/db5a802c8161e2ea6c5cc1350bfc87a439bbd4ea)
 - repair symmetries for tidy3d [PR](https://github.com/gdsfactory/gdsfactory/pull/1683)
 
+## [6.98.0](https://github.com/gdsfactory/gdsfactory/compare/v6.97.0...v6.98.0)
+
+- fix snapping issues [PR](https://github.com/gdsfactory/gdsfactory/pull/1685)
+- rename `write_gerbers` to `Component.write_gerber` [PR](https://github.com/gdsfactory/gdsfactory/pull/1687)
 
 ## [6.97.0](https://github.com/gdsfactory/gdsfactory/compare/v6.96.0...v6.97.0)
 
