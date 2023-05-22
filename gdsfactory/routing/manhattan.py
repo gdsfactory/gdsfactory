@@ -27,7 +27,7 @@ from gdsfactory.typs import (
     Route,
 )
 
-TOLERANCE = 10000000000000
+TOLERANCE = 0.001
 DEG2RAD = np.pi / 180
 RAD2DEG = 1 / DEG2RAD
 
@@ -581,7 +581,6 @@ def get_route_error(
 
     references = references or []
     references += point_markers
-    print(references)
     return Route(references=references, ports=[port1, port2], length=-1, labels=labels)
 
 
@@ -633,6 +632,7 @@ def round_corners(
         layer = x.layer
 
     layer = get_layer(layer)
+    print(points)
     points = (
         gf.snap.snap_to_grid(points, nm=snap_to_grid_nm) if snap_to_grid_nm else points
     )
@@ -747,12 +747,12 @@ def round_corners(
 
         if abs(dx_points) < TOLERANCE:
             matching_ports = [
-                port for port in bend_ref.ports if np.isclose(port.x, points[i][0])
+                port for port in bend_ref.ports if np.isclose(port.d.x, points[i][0])
             ]
 
         if abs(dy_points) < TOLERANCE:
             matching_ports = [
-                port for port in bend_ref.ports if np.isclose(port.y, points[i][1])
+                port for port in bend_ref.ports if np.isclose(port.d.y, points[i][1])
             ]
 
         print(abs(dx_points), abs(dy_points))
@@ -763,8 +763,8 @@ def round_corners(
                 next_port.name
             }
             other_port = bend_ref.ports[list(other_port_name)[0]]
-            bend_points.extend((next_port.center, other_port.center))
-            previous_port_point = other_port.center
+            bend_points.extend(((next_port.d.x, next_port.d.y), (other_port.d.x, other_port.d.y)))
+            previous_port_point = (other_port.d.x, other_port.d.y)
 
         try:
             straight_sections += [

@@ -3,6 +3,8 @@ from __future__ import annotations
 
 from typing import List, Optional
 
+import numpy as np
+
 import gdsfactory as gf
 from gdsfactory.component import ComponentReference
 from gdsfactory.port import Port
@@ -78,11 +80,13 @@ def add_loopback(
     )
 
     gsi = gc.size_info
-    p0 = gca1.ports[grating_port_name].center
-    p1 = gca2.ports[grating_port_name].center
+    port0 = gca1.ports[grating_port_name]
+    p0 = np.array([port0.d.x, port0.d.y])
+    port1 = gca2.ports[grating_port_name]
+    p1 = np.array([port1.d.x, port1.d.y])
     bend90 = bend(**kwargs)
 
-    a = abs(bend90.info["dy"]) if hasattr(bend90, "dx") else bend90.xsize + 0.5
+    a = abs(bend90.info["dy"]) if hasattr(bend90, "dx") else bend90._kdb_cell.dbbox().width() + 0.5
     b = max(2 * a, grating_separation / 2)
     b = b if inside else -b
 
