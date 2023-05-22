@@ -157,28 +157,29 @@ wg3.movey(20).rotate(15)
 
 c
 
-# %%
+# %% [markdown]
 # Now we can connect everything together using the ports:
 
-# Each straight has two ports: 'W0' and 'E0'.  These are arbitrary
+# Each straight has two ports: 'o1' and 'o2', respectively on the East and West sides of the rectangular straight component. These are arbitrary
 # names defined in our straight() function above
 
+# %%
 # Let's keep wg1 in place on the bottom, and connect the other straights to it.
-# To do that, on wg2 we'll grab the "W0" port and connect it to the "E0" on wg1:
+# To do that, on wg2 we'll grab the "o1" port and connect it to the "o2" on wg1:
 wg2.connect("o1", wg1.ports["o2"])
-# Next, on wg3 let's grab the "W0" port and connect it to the "E0" on wg2:
+# Next, on wg3 let's grab the "o1" port and connect it to the "o2" on wg2:
 wg3.connect("o1", wg2.ports["o2"])
 
 c
+
+# %% [markdown]
+# Ports can be added by copying existing ports. In the exemple below, ports are added at the component-level on c from the existing ports of children wg1 and wg3 
+# (i.e. eastmost and westmost ports)
 
 # %%
 c.add_port("o1", port=wg1.ports["o1"])
 c.add_port("o2", port=wg3.ports["o2"])
 c
-
-# %% [markdown]
-# As you can see the `red` labels are for the component ports while
-# `blue` labels are for the sub-ports (children ports)
 
 # %% [markdown]
 # ## Move and rotate references
@@ -206,10 +207,10 @@ wg1.move([10, 5])
 # Shift the second straight over by dx = 10, dy = 0
 wg2.move(origin=[0, 0], destination=[10, 0])
 
-# Shift the third straight over by dx = 0, dy = 4
+# Shift the third straight over by dx = 0, dy = 4. The translation movement consist of the difference between the values of the destination and the origin and can optionally be limited in a single axis.
 wg3.move([1, 1], [5, 5], axis="y")
 
-# Move "from" x=0 "to" x=10 (dx=10)
+# Then, move again the third straight "from" x=0 "to" x=10 (dx=10)
 wg3.movex(0, 10)
 
 c
