@@ -36,7 +36,7 @@ ports:
     width: 10.0
   opt_te_1530_15-straight_aa0e8b9c-loopback2:
     center:
-    - -127.66800000000002
+    - -127.66799999999999
     - -63.22299999999998
     layer:
     - 1
