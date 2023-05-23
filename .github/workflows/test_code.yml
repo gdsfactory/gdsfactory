@@ -49,12 +49,6 @@ jobs:
           pip install -e .[full,dev] pre-commit
           make data-download
           gf install klayout-integration
-      - uses: actions/cache@v3
-        with:
-          path: |
-            ~/.gdsfactory/
-          key: 0.0.1
-          restore-keys: 0.0.1
       - name: Test with pytest
         run: |
           pytest
@@ -142,12 +136,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/cache@v3
-        with:
-          path: |
-            ~/.gdsfactory/
-          key: 0.0.1
-          restore-keys: 0.0.1
       - uses: conda-incubator/setup-miniconda@v2
         with:
           python-version: "3.10"
@@ -177,7 +165,7 @@ jobs:
           mkdir -p $HOME/.tidy3d
           echo ${{ secrets.TIDY3D_AUTH }} > $HOME/.tidy3d/config
           make docs
-          if [ ${{ secrets.TIDY3D_AUTH }} ]; then
-            make data-upload
-          fi
+          cd test-data
+          make add
+          cd ..
           python tests/test_doc_errors.py
