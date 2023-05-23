@@ -22,6 +22,7 @@ gdsfactory/plugins/kweb/gds_files/
 *.db
 *.tar
 *.html
+sim_ref.yaml
 yarn.lock
 node_modules/
 test_mask_metadata.csv
