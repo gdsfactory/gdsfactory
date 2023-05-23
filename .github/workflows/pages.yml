@@ -18,15 +18,16 @@ jobs:
         with:
           path: |
             ~/.gdsfactory/
-          key: ${{ hashFiles('.github/sim_version') }}
+          key: 0.0.1
       - uses: conda-incubator/setup-miniconda@v2
         with:
-          python-version: '3.10'
+          python-version: "3.10"
           channels: conda-forge,defaults
           channel-priority: true
           activate-environment: anaconda-client-env
       - name: Add conda to system path
         run: |
+          tree ~/.gdsfactory
           echo $CONDA/bin >> $GITHUB_PATH
       - name: Installing the library
         env:
@@ -50,6 +51,11 @@ jobs:
             make data-upload
           fi
           python tests/test_doc_errors.py
+      - uses: actions/cache/save@v3
+        if: always() // or any other condition to invoke the save action
+        with:
+          path: ~/.gdsfactory
+          key: 0.0.1
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:

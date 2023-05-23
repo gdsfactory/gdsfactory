@@ -15,8 +15,6 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
-          cache: "pip"
-          cache-dependency-path: pyproject.toml
       - name: Test pre-commit hooks
         run: |
           python -m pip install --upgrade pip
@@ -32,12 +30,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/pip
+          key: ${{ hashFiles('pyproject.toml') }}
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-          cache: "pip"
-          cache-dependency-path: pyproject.toml
       - name: Install dependencies
         env:
           AWS_EC2_METADATA_DISABLED: true
@@ -52,9 +53,10 @@ jobs:
         with:
           path: |
             ~/.gdsfactory/
-          key: ${{ hashFiles('.github/sim_version') }}
+          key: 0.0.1
       - name: Test with pytest
-        run: pytest
+        run: |
+          pytest
   test_code_coverage_python37:
     runs-on: ubuntu-latest
 
@@ -97,7 +99,7 @@ jobs:
         with:
           path: |
             ~/.gdsfactory/
-          key: ${{ hashFiles('.github/sim_version') }}
+          key: 0.0.1
       - uses: conda-incubator/setup-miniconda@v2
         with:
           python-version: ${{ matrix.python-version }}
@@ -144,7 +146,7 @@ jobs:
     strategy:
       max-parallel: 12
       matrix:
-        python-version: ['3.10']
+        python-version: ["3.10"]
         os: [ubuntu-latest]
 
     steps:
@@ -153,10 +155,10 @@ jobs:
         with:
           path: |
             ~/.gdsfactory/
-          key: ${{ hashFiles('.github/sim_version') }}
+          key: 0.0.1
       - uses: conda-incubator/setup-miniconda@v2
         with:
-          python-version: '3.10'
+          python-version: "3.10"
           channels: conda-forge,defaults
           channel-priority: true
           activate-environment: anaconda-client-env
@@ -187,3 +189,8 @@ jobs:
             make data-upload
           fi
           python tests/test_doc_errors.py
+      - uses: actions/cache/save@v3
+        if: always()
+        with:
+          path: ~/.gdsfactory
+          key: 0.0.1
