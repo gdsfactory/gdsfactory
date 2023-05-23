@@ -18,7 +18,7 @@ jobs:
         with:
           path: |
             ~/.gdsfactory/
-          key: 0.0.1-${{ github.run_id }}
+          key: 0.0.1
           restore-keys: 0.0.1
       - uses: conda-incubator/setup-miniconda@v2
         with:
@@ -28,7 +28,6 @@ jobs:
           activate-environment: anaconda-client-env
       - name: Add conda to system path
         run: |
-          tree ~/.gdsfactory
           echo $CONDA/bin >> $GITHUB_PATH
       - name: Installing the library
         env:

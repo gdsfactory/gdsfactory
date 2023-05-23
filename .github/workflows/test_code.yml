@@ -53,7 +53,7 @@ jobs:
         with:
           path: |
             ~/.gdsfactory/
-          key: 0.0.1-${{ github.run_id }}
+          key: 0.0.1
           restore-keys: 0.0.1
       - name: Test with pytest
         run: |
@@ -146,7 +146,7 @@ jobs:
         with:
           path: |
             ~/.gdsfactory/
-          key: 0.0.1-${{ github.run_id }}
+          key: 0.0.1
           restore-keys: 0.0.1
       - uses: conda-incubator/setup-miniconda@v2
         with:
