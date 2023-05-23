@@ -95,7 +95,7 @@ class PINWaveguide(BaseModel):
     """Silicon PIN junction waveguide Model.
 
     Parameters:
-        wg_width: waveguide width.
+        core_width: waveguide width.
         core_thickness: thickness waveguide (um).
         p_offset: offset between waveguide center and P-doping in um
             negative to push toward n-side.
@@ -106,8 +106,8 @@ class PINWaveguide(BaseModel):
         npp_offset: offset between waveguide center and Npp-doping in um
             negative to push toward p-side) NOT IMPLEMENTED.
         slab_thickness: thickness slab (um).
-        t_box: thickness BOX (um).
-        t_clad: thickness cladding (um).
+        box_thickness: thickness BOX (um).
+        clad_thickness: thickness cladding (um).
         p_conc: low-doping acceptor concentration (/cm3).
         n_conc: low-doping donor concentration (/cm3).
         ppp_conc: high-doping acceptor concentration (/cm3).
@@ -140,15 +140,15 @@ class PINWaveguide(BaseModel):
 
     """
 
-    wg_width: float
+    core_width: float
     core_thickness: float
     p_offset: float = 0.0
     n_offset: float = 0.0
     ppp_offset: float = 0.5 * um
     npp_offset: float = 0.5 * um
     slab_thickness: float
-    t_box: float = 2.0 * um
-    t_clad: float = 2.0 * um
+    box_thickness: float = 2.0 * um
+    clad_thickness: float = 2.0 * um
     p_conc: float = 1e17
     n_conc: float = 1e17
     ppp_conc: float = 1e17
@@ -172,7 +172,7 @@ class PINWaveguide(BaseModel):
 
     # @property
     # def t_sim(self):
-    #     return self.t_box + self.core_thickness + self.t_clad
+    #     return self.box_thickness + self.core_thickness + self.clad_thickness
 
     # @property
     # def w_sim(self):
@@ -180,14 +180,14 @@ class PINWaveguide(BaseModel):
 
     def create_2d_mesh(self, device) -> None:
         """Creates a 2D mesh."""
-        xmin = (-self.xmargin - self.ppp_offset - self.wg_width / 2) / cm
-        xmax = (self.xmargin + self.npp_offset + self.wg_width / 2) / cm
-        self.xppp = -self.ppp_offset - self.wg_width / 2
-        self.xnpp = self.npp_offset + self.wg_width / 2
+        xmin = (-self.xmargin - self.ppp_offset - self.core_width / 2) / cm
+        xmax = (self.xmargin + self.npp_offset + self.core_width / 2) / cm
+        self.xppp = -self.ppp_offset - self.core_width / 2
+        self.xnpp = self.npp_offset + self.core_width / 2
         ymin = 0 / cm
         ymax = (self.core_thickness) / cm
-        xmin_waveguide = (-self.wg_width / 2) / cm
-        xmax_waveguide = (self.wg_width / 2) / cm
+        xmin_waveguide = (-self.core_width / 2) / cm
+        xmax_waveguide = (self.core_width / 2) / cm
         yslab = (self.slab_thickness) / cm
 
         devsim.create_2d_mesh(mesh="dio")
@@ -482,9 +482,9 @@ class PINWaveguide(BaseModel):
     def make_waveguide(
         self,
         wavelength: float,
-        t_box: float = 2.0,
-        t_clad: float = 2.0,
-        resolution: int = 200,
+        box_thickness: float = 2.0,
+        clad_thickness: float = 2.0,
+        grid_resolution: int = 200,
         perturb: bool = True,
         nmodes: int = 4,
         bend_radius: Optional[float] = None,
@@ -500,10 +500,10 @@ class PINWaveguide(BaseModel):
 
         Args:
             wavelength: (um).
-            t_box: thickness BOX (um).
-            t_clad: thickness cladding (um).
+            box_thickness: thickness BOX (um).
+            clad_thickness: thickness cladding (um).
             xmargin: margin from waveguide edge to each side (um).
-            resolution: wavelength resolution of the computation grid.
+            grid_resolution: wavelength resolution of the computation grid.
             perturb: add perturbation.
             nmodes: number of modes to compute.
             bend_radius: optional bend radius (um).
@@ -552,7 +552,7 @@ class PINWaveguide(BaseModel):
         dn_dict = (
             {
                 "x": x_fem * cm / um,
-                "y": y_fem * cm / um + t_box,
+                "y": y_fem * cm / um + box_thickness,
                 "dn": dn_fem + 1j * dk_fem,
             }
             if perturb
@@ -562,13 +562,13 @@ class PINWaveguide(BaseModel):
         # Create perturbed waveguide, handle like regular mode
         return Waveguide(
             wavelength=wavelength,
-            core_width=self.wg_width / um,
+            core_width=self.core_width / um,
             core_thickness=self.core_thickness / um,
             slab_thickness=self.slab_thickness / um,
-            box_thickness=t_box,
-            clad_thickness=t_clad,
+            box_thickness=box_thickness,
+            clad_thickness=clad_thickness,
             side_margin=(self.ppp_offset + self.xmargin) / um,
-            grid_resolution=resolution,
+            grid_resolution=grid_resolution,
             #dn_dict=dn_dict,
             precision=precision,
             core_material=core_material,
@@ -591,7 +591,7 @@ def clear_devsim_cache() -> None:
 
 if __name__ == "__main__":
     c = PINWaveguide(
-        wg_width=500 * nm,
+        core_width=500 * nm,
         core_thickness=220 * nm,
         slab_thickness=90 * nm,
     )
