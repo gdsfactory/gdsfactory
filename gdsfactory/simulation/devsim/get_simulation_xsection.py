@@ -12,6 +12,7 @@ From Chrostowski, L., & Hochberg, M. (2015). Silicon Photonics Design: From Devi
 from __future__ import annotations
 
 from typing import Optional
+import warnings
 
 import devsim
 import matplotlib.pyplot as plt
@@ -574,6 +575,18 @@ class PINWaveguide(BaseModel):
             clad_material=clad_material,
             cache=cache,
         )
+
+
+def clear_devsim_cache() -> None:
+    try:
+        devsim.delete_mesh(mesh="dio")
+    except devsim.error:
+        warnings.warn("No mesh to delete.")
+
+    try:
+        devsim.delete_device(device="MyDevice")
+    except devsim.error:
+        warnings.warn("No device to delete.")
 
 
 if __name__ == "__main__":
