@@ -163,6 +163,8 @@ class Waveguide(pydantic.BaseModel):
     @property
     def waveguide(self):
         """Tidy3D waveguide used by this instance."""
+        # if (not hasattr(self, "_waveguide")
+        #         or isinstance(self.core_material, td.CustomMedium)):
         if not hasattr(self, "_waveguide"):
             # To include a dn -> custom medium
             if isinstance(self.core_material, td.CustomMedium):
