@@ -106,7 +106,7 @@ class Waveguide(pydantic.BaseModel):
     wavelength: Union[float, Sequence[float], Any]
     core_width: float
     core_thickness: float
-    core_material: MaterialSpec
+    core_material: Union[MaterialSpec, td.CustomMedium]
     clad_material: MaterialSpec
     box_material: Optional[MaterialSpec] = None
     slab_thickness: float = 0.0
@@ -164,7 +164,11 @@ class Waveguide(pydantic.BaseModel):
     def waveguide(self):
         """Tidy3D waveguide used by this instance."""
         if not hasattr(self, "_waveguide"):
-            core_medium = get_medium(self.core_material)
+            # To include a dn -> custom medium
+            if isinstance(self.core_material, td.CustomMedium):
+                core_medium = self.core_material
+            else:
+                core_medium = get_medium(self.core_material)
             clad_medium = get_medium(self.clad_material)
             box_medium = get_medium(self.box_material) if self.box_material else None
 
