@@ -75,7 +75,7 @@ gds:
 	python gdsfactory/components/straight.py
 
 test-data:
-	git clone git@github.com:gdsfactory/gdsfactory-test-data.git test-data
+	gh repo clone gdsfactory/gdsfactory-test-data test-data
 
 test-data-no-ssh:
 	git clone https://github.com/gdsfactory/gdsfactory-test-data.git test-data
@@ -84,14 +84,7 @@ link-data:
 	rm -rf $(HOME)/.gdsfactory
 	ln -sf test-data $(HOME)/.gdsfactory
 
-data-download: test-data
-	echo 'Make sure you git pull inside test-data folder'
-	# aws s3 sync s3://gdslib data --no-sign-request
-	# gh release download v6.90.3 -D data/gds/*.gds --clobber
-	# gh release download v6.90.3 data/sp/*.npz --clobber
-	# gh release download v6.90.3 data/sp/*.yml --clobber
-	# gh release download v6.90.3 data/modes/*.msh --clobber
-	# gh release download v6.90.3 data/modes/*.npz --clobber
+data-download: test-data link-data
 
 test:
 	pytest -s
