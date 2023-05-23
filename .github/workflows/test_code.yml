@@ -190,7 +190,7 @@ jobs:
           fi
           python tests/test_doc_errors.py
       - uses: actions/cache/save@v3
-        if: always() // or any other condition to invoke the save action
+        if: always()
         with:
           path: ~/.gdsfactory
           key: 0.0.1
