@@ -68,7 +68,7 @@ dependencies = [
     "trimesh",
     "jupytext",
     "klayout",
-    "kfactory",
+    "kfactory==0.7.0",
     "ipytree",
     "rich-click",
     "ipycytoscape",
