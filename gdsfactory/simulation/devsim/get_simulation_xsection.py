@@ -21,7 +21,7 @@ from devsim.python_packages import model_create, simple_physics
 from pydantic import BaseModel, Extra
 
 from gdsfactory.simulation.disable_print import disable_print, enable_print
-from gdsfactory.simulation.gtidy3d.modes import FilterPol, Precision, Waveguide
+from gdsfactory.simulation.gtidy3d.modes import Precision, Waveguide
 from gdsfactory.typings import MaterialSpec
 
 nm = 1e-9
@@ -489,7 +489,6 @@ class PINWaveguide(BaseModel):
         bend_radius: Optional[float] = None,
         cache: bool = False,
         precision: Precision = "double",
-        filter_pol: Optional[FilterPol] = None,
         core_material: MaterialSpec = "si",
         clad_material: MaterialSpec = "sio2",
     ) -> Waveguide:
@@ -503,13 +502,12 @@ class PINWaveguide(BaseModel):
             t_box: thickness BOX (um).
             t_clad: thickness cladding (um).
             xmargin: margin from waveguide edge to each side (um).
-            resolution: pixels/um.
+            resolution: wavelength resolution of the computation grid.
             perturb: add perturbation.
             nmodes: number of modes to compute.
             bend_radius: optional bend radius (um).
             cache: True uses file cache from PDK.modes_path. False skips cache.
             precision: single or double.
-            filter_pol: te, tm or None.
 
         Returns:
             A tidy3d Waveguide object.
@@ -563,16 +561,15 @@ class PINWaveguide(BaseModel):
         # Create perturbed waveguide, handle like regular mode
         return Waveguide(
             wavelength=wavelength,
-            wg_width=self.wg_width / um,
+            core_width=self.wg_width / um,
             core_thickness=self.core_thickness / um,
             slab_thickness=self.slab_thickness / um,
-            t_box=t_box,
-            t_clad=t_clad,
-            xmargin=(self.ppp_offset + self.xmargin) / um,
-            resolution=resolution,
-            dn_dict=dn_dict,
+            box_thickness=t_box,
+            clad_thickness=t_clad,
+            side_margin=(self.ppp_offset + self.xmargin) / um,
+            grid_resolution=resolution,
+            #dn_dict=dn_dict,
             precision=precision,
-            filter_pol=filter_pol,
             core_material=core_material,
             clad_material=clad_material,
             cache=cache,
