@@ -53,7 +53,8 @@ jobs:
         with:
           path: |
             ~/.gdsfactory/
-          key: 0.0.1
+          key: 0.0.1-${{ github.run_id }}
+          restore-keys: 0.0.1
       - name: Test with pytest
         run: |
           pytest
@@ -66,11 +67,6 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: 3.7
-      - uses: actions/cache@v3
-        with:
-          path: |
-            ~/.gdsfactory/
-          key: ${{ hashFiles('.github/sim_version') }}
       - name: Install dependencies
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.GDSLIB_AWS_ACCESS_KEY_ID }}
@@ -95,11 +91,6 @@ jobs:
         os: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/cache@v3
-        with:
-          path: |
-            ~/.gdsfactory/
-          key: 0.0.1
       - uses: conda-incubator/setup-miniconda@v2
         with:
           python-version: ${{ matrix.python-version }}
@@ -155,7 +146,8 @@ jobs:
         with:
           path: |
             ~/.gdsfactory/
-          key: 0.0.1
+          key: 0.0.1-${{ github.run_id }}
+          restore-keys: 0.0.1
       - uses: conda-incubator/setup-miniconda@v2
         with:
           python-version: "3.10"
@@ -189,8 +181,3 @@ jobs:
             make data-upload
           fi
           python tests/test_doc_errors.py
-      - uses: actions/cache/save@v3
-        if: always()
-        with:
-          path: ~/.gdsfactory
-          key: 0.0.1

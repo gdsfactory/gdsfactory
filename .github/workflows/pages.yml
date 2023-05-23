@@ -18,7 +18,8 @@ jobs:
         with:
           path: |
             ~/.gdsfactory/
-          key: 0.0.1
+          key: 0.0.1-${{ github.run_id }}
+          restore-keys: 0.0.1
       - uses: conda-incubator/setup-miniconda@v2
         with:
           python-version: "3.10"
@@ -51,11 +52,6 @@ jobs:
             make data-upload
           fi
           python tests/test_doc_errors.py
-      - uses: actions/cache/save@v3
-        if: always()
-        with:
-          path: ~/.gdsfactory
-          key: 0.0.1
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
