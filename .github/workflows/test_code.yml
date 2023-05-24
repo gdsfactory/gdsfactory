@@ -47,7 +47,8 @@ jobs:
           AWS_DEFAULT_REGION: us-west-2
           GH_TOKEN: ${{ secrets.JMATRES_TOKEN }}
         run: |
-          gh auth login --with-token ${{ secrets.JMATRES_TOKEN }}
+          echo ${{ secrets.JMATRES_TOKEN }} > token
+          gh auth login --with-token < token
           pip install -e .[full,dev] pre-commit
           make data-download
           gf install klayout-integration
@@ -70,7 +71,8 @@ jobs:
           AWS_DEFAULT_REGION: us-west-2
           GH_TOKEN: ${{ secrets.JMATRES_TOKEN }}
         run: |
-          gh auth login --with-token ${{ secrets.JMATRES_TOKEN }}
+          echo ${{ secrets.JMATRES_TOKEN }} > token
+          gh auth login --with-token < token
           make install data-download
       - name: Test with pytest
         run: |
@@ -166,7 +168,8 @@ jobs:
           AWS_DEFAULT_REGION: us-west-2
           GH_TOKEN: ${{ secrets.JMATRES_TOKEN }}
         run: |
-          gh auth login --with-token ${{ secrets.JMATRES_TOKEN }}
+          echo ${{ secrets.JMATRES_TOKEN }} > token
+          gh auth login --with-token < token
           make data-download
           mkdir -p $HOME/.tidy3d
           echo ${{ secrets.TIDY3D_AUTH }} > $HOME/.tidy3d/config

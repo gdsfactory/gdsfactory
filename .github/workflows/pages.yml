@@ -37,7 +37,8 @@ jobs:
           GH_TOKEN: ${{ secrets.JMATRES_TOKEN }}
         shell: bash -l {0}
         run: |
-          gh auth login --with-token ${{ secrets.JMATRES_TOKEN }}
+          echo ${{ secrets.JMATRES_TOKEN }} > token
+          gh auth login --with-token < token
           sudo apt install libglu1-mesa
           mkdir -p $HOME/.tidy3d
           make data-download plugins-debian full
