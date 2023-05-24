@@ -45,6 +45,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.GDSLIB_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.GDSLIB_AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-west-2
+          GH_TOKEN: ${{ secrets.JMATRES_TOKEN }}
         run: |
           pip install -e .[full,dev] pre-commit
           make data-download
@@ -99,6 +100,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.GDSLIB_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.GDSLIB_AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-west-2
+          GH_TOKEN: ${{ secrets.JMATRES.TOKEN }}
         run: |
           python -m pip install --upgrade pip
           make data-download plugins-debian
@@ -160,7 +162,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.GDSLIB_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.GDSLIB_AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-west-2
-          GITHUB_TOKEN: ${{ secrets.JMATRES_TOKEN }}
+          GH_TOKEN: ${{ secrets.JMATRES_TOKEN }}
         run: |
           make data-download
           mkdir -p $HOME/.tidy3d
