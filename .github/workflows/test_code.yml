@@ -160,7 +160,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.GDSLIB_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.GDSLIB_AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-west-2
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.JMATRES_TOKEN }}
         run: |
           make data-download
           mkdir -p $HOME/.tidy3d
