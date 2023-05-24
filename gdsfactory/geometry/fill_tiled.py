@@ -3,10 +3,10 @@ from typing import Iterable, Optional
 try:
     import kfactory as kf
     from kfactory import KCell, KCLayout, LayerEnum, kdb
-    from kfactory.config import logger
+    from kfactory.conf import logger
 except ImportError as e:
     print(
-        "You can install `pip install gdsfactory[full]` for using maskprep. "
+        "You can install `pip install gdsfactory[kfactory]` for using maskprep. "
         "And make sure you use python >= 3.10"
     )
     raise e
