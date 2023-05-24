@@ -51,12 +51,20 @@ jobs:
           pip install -e .[full,dev] pre-commit
           make data-download
           gf install klayout-integration
-          cd test-data
-          make add
-          cd ..
+          touch ~/.gdsfactory/hi
       - name: Test with pytest
         run: |
           pytest
+      - name: Pushes to another repository
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.JMATRES_TOKEN }}
+        with:
+          source-directory: 'test-data'
+          destination-github-username: 'jmatres'
+          destination-repository-name: 'gdsfactory-test-data'
+          user-email: carles3@pina.cat
+          target-branch: test-data
   test_code_coverage_python37:
     runs-on: ubuntu-latest
 

@@ -75,9 +75,6 @@ gds:
 	python gdsfactory/components/straight.py
 
 test-data:
-	gh repo clone gdsfactory/gdsfactory-test-data test-data
-
-test-data-no-ssh:
 	git clone https://github.com/gdsfactory/gdsfactory-test-data.git test-data
 
 link-data:
