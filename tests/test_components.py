@@ -31,7 +31,7 @@ def component_name(request) -> str:
 def test_gds(component_name: str) -> None:
     """Avoid regressions in GDS geometry shapes and layers."""
     component = cells[component_name]()
-    difftest(component, test_name=component_name)
+    difftest(component, component_name)
 
 
 def test_settings(component_name: str, data_regression: DataRegressionFixture) -> None:

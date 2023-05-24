@@ -16,15 +16,15 @@ class GdsRegressionFixture(FileRegressionFixture):
         try:
             difftest(c)
 """
-import filecmp
 import os
 import pathlib
 import shutil
 from typing import Optional
 
-from gdsfactory.component import Component
+import gdsfactory as gf
 from gdsfactory.config import PATH, logger
-from gdsfactory.gdsdiff.gdsdiff import gdsdiff
+
+from kfactory import KCell, KCLayout, kdb
 
 
 class GeometryDifference(Exception):
@@ -122,9 +122,9 @@ def run_xor(file1, file2, tolerance: int = 1, verbose: bool = False) -> None:
 
 
 def difftest(
-    component: Component,
-    test_name: Optional[str] = None,
-    dirpath: pathlib.Path = PATH.gdslib,
+    component: gf.Component,
+    test_name: Optional[gf.Component] = None,
+    dirpath: Optional[pathlib.Path] = PATH.gdslib,
     dirpath_ref: Optional[pathlib.Path] = PATH.gds_ref,
     dirpath_run: Optional[pathlib.Path] = PATH.gds_run,
     dirpath_diff: Optional[pathlib.Path] = PATH.gds_diff,
@@ -158,28 +158,103 @@ def difftest(
     dirpath_run = dirpath_run or dirpath / "gds_run"
     dirpath_diff = dirpath_diff or dirpath / "gds_diff"
 
-    ref_file = dirpath_ref / filename
+    ref_file = dirpath_ref / f"{component.name}.gds"
     run_file = dirpath_run / filename
+
     diff_file = dirpath_diff / filename
 
-    component.write_gds(gdspath=run_file)
+    ref = gf.get_component(component)
+    comp = gf.get_component(test_name)
 
-    if not ref_file.exists():
-        component.write_gds(gdspath=ref_file)
-        raise AssertionError(
-            f"Reference GDS file for {test_name!r} not found. Writing to {ref_file!r}"
+    ref_file = ref.write_gds()
+    run_file = comp.write_gds()
+
+    ref = KCLayout()
+    ref.read(ref_file)
+    ref = ref[0]
+
+    comp = KCLayout()
+    comp.read(run_file)
+    comp = comp[0]
+
+    ld = kdb.LayoutDiff()
+
+    a_regions: dict[int, kdb.Region] = {}
+    a_texts: dict[int, kdb.Texts] = {}
+    b_regions: dict[int, kdb.Region] = {}
+    b_texts: dict[int, kdb.Texts] = {}
+
+    def on_begin_cell(cell: kdb.Cell, cell_b: kdb.Cell):
+        print(cell.name)
+        print(cell_b.name)
+
+    def get_region(key, regions: dict[int, kdb.Region]) -> kdb.Region:
+        if key not in regions:
+            reg = kdb.Region()
+            regions[key] = reg
+            return reg
+        else:
+            return regions[key]
+
+    def get_texts(key, texts_dict: dict[int, kdb.Texts]) -> kdb.Texts:
+        if key not in texts_dict:
+            texts = kdb.Texts()
+            texts_dict[key] = texts
+            return texts
+        else:
+            return texts_dict[key]
+
+    def polygon_diff_a(anotb: kdb.Polygon, prop_id: int):
+        get_region(ld.layer_index_a, a_regions).insert(anotb)
+
+    def polygon_diff_b(bnota: kdb.Polygon, prop_id: int):
+        get_region(ld.layer_index_b, b_regions).insert(bnota)
+
+    def cell_diff_a(anotb: kdb.Cell):
+        get_region(ld.layer_index_a, a_regions).insert(
+            anotb.begin_shapes_rec(ld.layer_index_a())
         )
 
-    if filecmp.cmp(ref_file, run_file, shallow=False):
-        return
+    def cell_diff_b(anotb: kdb.Cell):
+        get_region(ld.layer_index_b, b_regions).insert(
+            anotb.begin_shapes_rec(ld.layer_index_b())
+        )
 
-    try:
-        run_xor(str(ref_file), str(run_file), tolerance=1, verbose=False)
-    except GeometryDifference as error:
-        logger.error(error)
-        diff = gdsdiff(ref_file, run_file, name=test_name, xor=False)
-        diff.write_gds(diff_file)
-        diff.show(show_ports=False)
+    def text_diff_a(anotb: kdb.Text, prop_id: int):
+        get_texts(ld.layer_index_a(), a_texts).insert(anotb)
+
+    def text_diff_b(bnota: kdb.Text, prop_id: int):
+        get_texts(ld.layer_index_b(), b_texts).insert(bnota)
+
+    ld.on_begin_cell = on_begin_cell
+    ld.on_cell_in_a_only = lambda anotb: cell_diff_a(anotb)
+    ld.on_cell_in_b_only = lambda anotb: cell_diff_b(anotb)
+    ld.on_polygon_in_a_only = lambda anotb, prop_id: polygon_diff_a(anotb, prop_id)
+    ld.on_polygon_in_b_only = lambda anotb, prop_id: polygon_diff_b(anotb, prop_id)
+    ld.on_text_in_a_only = lambda anotb, prop_id: text_diff_b(anotb, prop_id)
+    ld.on_begin_layer = lambda li, la, lb: print(li, la, lb)
+    ld.on_end_polygon_differences = lambda: print("end polygons")
+
+    if not ld.compare(ref._kdb_cell, comp._kdb_cell, kdb.LayoutDiff.Verbose):
+        ref = KCell(f"{test_name}_ref")
+        run = KCell(f"{test_name}_run")
+        for layer, region in a_regions.items():
+            ref._kdb_cell.shapes(layer()).insert(region) if region else None
+
+        for layer, region in b_regions.items():
+            run._kdb_cell.shapes(layer()).insert(region)
+
+        for layer, region in a_texts.items():
+            ref._kdb_cell.shapes(layer()).insert(region)
+
+        for layer, region in b_texts.items():
+            run._kdb_cell.shapes(layer()).insert(region)
+
+        c = KCell(f"{test_name}_diffs")
+        c << ref
+        c << run
+        c.show()
+
         print(
             f"\ngds_run {filename!r} changed from gds_ref {str(ref_file)!r}\n"
             "You can check the differences in Klayout GUI or run XOR with\n"
@@ -194,9 +269,8 @@ def difftest(
                 raise
             xor = val.upper().startswith("D")
             if xor:
-                diff = gdsdiff(ref_file, run_file, name=test_name, xor=xor)
-                diff.write_gds(diff_file)
-                diff.show(show_ports=False)
+                c.write(diff_file)
+                c.show()
 
                 val = input("Save current GDS as the new reference (Y)? [Y/n]")
                 if val.upper().startswith("N"):
@@ -216,8 +290,4 @@ def difftest(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
-    c = gf.components.straight()
-    difftest(c)
-    # test_component(c, None, None)
+    difftest(gf.components.mzi(delta_length=100), "mzi")
