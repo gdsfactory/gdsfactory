@@ -81,7 +81,7 @@ jobs:
     strategy:
       max-parallel: 12
       matrix:
-        python-version: ["3.7", "3.10"]
+        python-version: ["3.10"]
         os: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v3
@@ -118,7 +118,7 @@ jobs:
           AWS_DEFAULT_REGION: us-west-2
         run: |
           mkdir -p $HOME/.tidy3d
-          if [ -n "${{ secrets.TIDY3D_AUTH }}" ]; then
+          if [ -n "${{ secrets.SIMCLOUD_APIKEY }}" ]; then
             echo "tidy3d credentials Variable is set. testing tidy3d..."
             make test-plugins
           else
