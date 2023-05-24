@@ -61,7 +61,7 @@ def fill(
         for layer in fill_layers:
             layer = gf.get_layer(layer)
             layer = kf.kcl.layer(*layer)
-            fill_cell << kf.pcells.waveguide.waveguide(
+            fill_cell << kf.cells.waveguide.waveguide(
                 width=fill_size[0], length=fill_size[1], layer=layer
             )
     else:
