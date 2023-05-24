@@ -42,7 +42,7 @@ def fill(
     import kfactory as kf
     import klayout.db as kdb
 
-    lib = kf.klib
+    lib = kf.kcl
     lib.read(filename=str(gdspath))
     cell = lib[cell_name or 0]
     fill_name = fill_name or f"{cell.name}_fill"
@@ -60,7 +60,7 @@ def fill(
         fill_cell = kf.KCell(fill_cell_name)
         for layer in fill_layers:
             layer = gf.get_layer(layer)
-            layer = kf.klib.layer(*layer)
+            layer = kf.kcl.layer(*layer)
             fill_cell << kf.pcells.waveguide.waveguide(
                 width=fill_size[0], length=fill_size[1], layer=layer
             )
@@ -74,14 +74,14 @@ def fill(
     fill_margin = kf.kdb.Point(0, 0)
 
     layer_to_fill = gf.get_layer(layer_to_fill)
-    layer_to_fill = cell.klib.layer(*layer_to_fill)
+    layer_to_fill = cell.kcl.layer(*layer_to_fill)
     region = kdb.Region()
     region_avoid_all = kdb.Region()
 
     if layers_to_avoid:
         for layer, margin in layers_to_avoid:
             layer = gf.get_layer(layer)
-            layer = kf.klib.layer(*layer)
+            layer = kf.kcl.layer(*layer)
             region_avoid = kdb.Region()
             region_avoid.insert(
                 cell.begin_shapes_rec(layer)

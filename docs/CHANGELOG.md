@@ -2,6 +2,9 @@
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.98.0...main)
 
+- update kfactory [PR](https://github.com/gdsfactory/gdsfactory/pull/1695)
+- fix tidy3d 2D FDTD sims and update tidy3d [PR](https://github.com/gdsfactory/gdsfactory/pull/1697)
+
 ## [6.98.0](https://github.com/gdsfactory/gdsfactory/compare/v6.98.0...v6.97.1)
 
 - add component overlap [PR](https://github.com/gdsfactory/gdsfactory/pull/1689/)
