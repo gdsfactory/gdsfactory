@@ -68,7 +68,6 @@ dependencies = [
     "trimesh",
     "jupytext",
     "klayout",
-    "kfactory==0.7.0",
     "ipytree",
     "rich-click",
     "ipycytoscape",
@@ -78,6 +77,7 @@ dependencies = [
     "fastapi",
     "uvicorn[standard]",
     ]
+    kfactory = ["kfactory==0.7.0"]
     femwell = ["femwell==0.0.18"]
     database = [
     "sqlalchemy",
