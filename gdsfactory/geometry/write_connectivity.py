@@ -57,7 +57,7 @@ DEVREC.overlapping(DEVREC).output("Component overlap")\n
 
 def write_connectivity_checks_per_section(
     connectivity_checks: List[ConnectivyCheck],
-    device_layer: LayerSpec,
+    device_layer: LayerSpec = None,
 ) -> str:
     """Return script for port connectivity check.
     Assumes the port pins are inside the Component and each cross_section has pins on a different layer.
@@ -85,7 +85,8 @@ def write_connectivity_checks_per_section(
 {xs.name}_pin2 = {xs.name}_pin.sized(0.0).merged\n
 {xs.name}_pin2.non_rectangles.output(\"port width check\")\n\n"""
 
-    script += f"""DEVREC = input{device_layer}.raw.merged(2)\n
+    if device_layer:
+        script += f"""DEVREC = input{device_layer}.raw.merged(2)\n
 DEVREC.overlapping(DEVREC).output("Component overlap")\n
     """
 
