@@ -49,8 +49,8 @@ jobs:
           GH_TOKEN: ${{ secrets.JMATRES_TOKEN }}
         run: |
           pip install -e .[full,dev] pre-commit
-          touch ~/.gdsfactory/hi2
           make data-download
+          touch ~/.gdsfactory/hi2
           gf install klayout-integration
           cd test-data
           make add
