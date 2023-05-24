@@ -104,7 +104,7 @@ pip install gdsfactory --upgrade
 gf install klayout-integration
 ```
 
-Then you need install Klayout `klive` integration in the klayout GUI in Tools --> Manage Packages --> Install New Packages --> Klive
+Then you can install Klayout-live `klive` integration in the klayout GUI --> Tools --> Manage Packages --> Install New Packages --> Klive
 
 ### 2. Installation for developers
 
