@@ -2,6 +2,8 @@
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.98.0...main)
 
+- update kfactory [PR](https://github.com/gdsfactory/gdsfactory/pull/1695)
+
 ## [6.98.0](https://github.com/gdsfactory/gdsfactory/compare/v6.98.0...v6.97.1)
 
 - add component overlap [PR](https://github.com/gdsfactory/gdsfactory/pull/1689/)

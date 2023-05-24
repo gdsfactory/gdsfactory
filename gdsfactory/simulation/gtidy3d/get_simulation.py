@@ -188,8 +188,10 @@ def get_simulation(
         boundary_spec = boundary_spec or td.BoundarySpec.all_sides(boundary=td.PML())
 
     else:
-        boundary_spec = boundary_spec or td.BoundarySpec.all_sides(
-            boundary=td.Periodic()
+        boundary_spec = boundary_spec or td.BoundarySpec(
+            x=td.Boundary.pml(),
+            y=td.Boundary.periodic(),
+            z=td.Boundary.pml(),
         )
 
     wavelength = (wavelength_start + wavelength_stop) / 2

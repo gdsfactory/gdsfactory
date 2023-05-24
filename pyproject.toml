@@ -98,7 +98,7 @@ dependencies = [
       "trimesh",
       "shapely",
     ]
-    tidy3d = ["tidy3d==2.1.1"]
+    tidy3d = ["tidy3d==2.2.1"]
     devsim = [
       "devsim",
       "mkl",
