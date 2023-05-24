@@ -68,7 +68,7 @@ class RegionCollection:
     def __init__(
         self, layermap: Dict[str, Layer], filepath: Optional[PathType] = None
     ) -> None:
-        lib = kf.kcell.KLib()
+        lib = kf.kcell.KCLayout()
         lib.read(filename=str(filepath))
         c = lib[0]
 
@@ -127,7 +127,7 @@ class RegionCollection:
 
         fill_cell = kf.KCell(fill_cell_name)
         for layer in fill_layers:
-            layer = kf.klib.layer(*layer)
+            layer = kf.kcl.layer(*layer)
             fill_cell << kf.pcells.waveguide.waveguide(
                 width=size[0], length=size[1], layer=layer
             )
