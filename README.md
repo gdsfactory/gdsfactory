@@ -1,4 +1,4 @@
-# gdsfactory 6.97.1
+# gdsfactory 6.98.0
 
 [![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)](https://gdsfactory.github.io/gdsfactory/)
 [![PyPI](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -104,7 +104,7 @@ pip install gdsfactory --upgrade
 gf install klayout-integration
 ```
 
-Then you can install Klayout-live `klive` integration in the klayout GUI --> Tools --> Manage Packages --> Install New Packages --> Klive
+Then you can install Klayout-live `klive` integration in the klayout GUI `Tools --> Manage Packages --> Install New Packages --> Klive` and restart klayout.
 
 ### 2. Installation for developers
 

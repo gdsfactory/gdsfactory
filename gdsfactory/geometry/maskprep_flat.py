@@ -128,7 +128,7 @@ class RegionCollection:
         fill_cell = kf.KCell(fill_cell_name)
         for layer in fill_layers:
             layer = kf.kcl.layer(*layer)
-            fill_cell << kf.pcells.waveguide.waveguide(
+            fill_cell << kf.cells.waveguide.waveguide(
                 width=size[0], length=size[1], layer=layer
             )
 
