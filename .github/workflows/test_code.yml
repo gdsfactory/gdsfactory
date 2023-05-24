@@ -53,6 +53,7 @@ jobs:
           gf install klayout-integration
           cd test-data
           make add
+          cd ..
       - name: Test with pytest
         run: |
           pytest
