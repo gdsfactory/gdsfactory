@@ -34,12 +34,11 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.GDSLIB_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.GDSLIB_AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-west-2
-          GH_TOKEN: ${{ secrets.JMATRES.TOKEN }}
+          GH_TOKEN: ${{ secrets.JMATRES_TOKEN }}
         shell: bash -l {0}
         run: |
           sudo apt install libglu1-mesa
           mkdir -p $HOME/.tidy3d
-          echo ${{ secrets.TIDY3D_AUTH }} > $HOME/.tidy3d/config
           make data-download plugins-debian full
           make docs
           cd test-data

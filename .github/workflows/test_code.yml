@@ -67,6 +67,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.GDSLIB_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.GDSLIB_AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-west-2
+          GH_TOKEN: ${{ secrets.JMATRES_TOKEN }}
         run: |
           make install data-download
       - name: Test with pytest
@@ -100,10 +101,10 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.GDSLIB_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.GDSLIB_AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-west-2
-          GH_TOKEN: ${{ secrets.JMATRES.TOKEN }}
+          GH_TOKEN: ${{ secrets.JMATRES_TOKEN }}
         run: |
           python -m pip install --upgrade pip
-          make data-download plugins-debian
+          make plugins-debian
           make install
           conda list > requirements.txt
       - uses: actions/upload-artifact@v3
@@ -120,7 +121,6 @@ jobs:
           AWS_DEFAULT_REGION: us-west-2
         run: |
           mkdir -p $HOME/.tidy3d
-          echo ${{ secrets.TIDY3D_AUTH }} > $HOME/.tidy3d/config
           if [ -n "${{ secrets.TIDY3D_AUTH }}" ]; then
             echo "tidy3d credentials Variable is set. testing tidy3d..."
             make test-plugins
