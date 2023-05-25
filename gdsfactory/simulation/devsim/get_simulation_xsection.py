@@ -489,7 +489,7 @@ class PINWaveguide(BaseModel):
         wavelength: float,
         box_thickness: float = 2.0,
         clad_thickness: float = 2.0,
-        grid_resolution: int = 200,
+        grid_resolution: int = 100,
         perturb: bool = True,
         nmodes: int = 4,
         bend_radius: Optional[float] = None,
