@@ -124,11 +124,8 @@ for ind, voltage in enumerate(voltages):
 
     c.ramp_voltage(Vfinal=voltage, Vstep=ramp_rate, Vinit=Vinit)
     waveguide = c.make_waveguide(wavelength=1.55)
-    waveguide.compute_modes(
-        isolate=True
-    )  # Isolate flag runs the mode solver in another interpreter, use if solver has issues
-    n_dist[voltage] = waveguide.nx
-    neffs[voltage] = waveguide.neffs[0]
+    n_dist[voltage] = waveguide.index.values
+    neffs[voltage] = waveguide.n_eff[0]
 
 # +
 voltage_list = sorted(neffs.items())
@@ -153,7 +150,7 @@ plt.ylabel(r"$\alpha (dB/cm)$")
 
 c_undoped = c.make_waveguide(wavelength=1.55, perturb=False, precision="double")
 c_undoped.compute_modes()
-n_undoped = c_undoped.nx
+n_undoped = c_undoped.index.values
 
 plt.imshow(
     np.log(np.abs(np.real(n_dist[0].T - n_undoped.T))),
@@ -162,7 +159,7 @@ plt.imshow(
         -c.xmargin - c.ppp_offset - c.core_width / 2,
         c.xmargin + c.npp_offset + c.core_width / 2,
         0,
-        c.t_clad + c.t_box + c.core_thickness,
+        c.clad_thickness + c.box_thickness + c.core_thickness,
     ],
 )
 plt.colorbar(label="$log10(|n_{doped} - n_{undoped}|)$")
@@ -178,7 +175,7 @@ plt.imshow(
         -c.xmargin - c.ppp_offset - c.core_width / 2,
         c.xmargin + c.npp_offset + c.core_width / 2,
         0,
-        c.t_clad + c.t_box + c.core_thickness,
+        c.clad_thickness + c.box_thickness + c.core_thickness,
     ],
 )
 plt.colorbar(label="$log10(|n_{doped} - n_{undoped}|)$")
@@ -194,7 +191,7 @@ plt.imshow(
         -c.xmargin - c.ppp_offset - c.core_width / 2,
         c.xmargin + c.npp_offset + c.core_width / 2,
         0,
-        c.t_clad + c.t_box + c.core_thickness,
+        c.clad_thickness + c.box_thickness + c.core_thickness,
     ],
 )
 plt.colorbar(label=r"$log10(|\kappa_{doped} - \kappa_{undoped}|)$")
@@ -210,7 +207,7 @@ plt.imshow(
         -c.xmargin - c.ppp_offset - c.core_width / 2,
         c.xmargin + c.npp_offset + c.core_width / 2,
         0,
-        c.t_clad + c.t_box + c.core_thickness,
+        c.clad_thickness + c.box_thickness + c.core_thickness,
     ],
 )
 plt.colorbar(label=r"$log10(|\kappa_{doped} - \kappa_{undoped}|)$")
