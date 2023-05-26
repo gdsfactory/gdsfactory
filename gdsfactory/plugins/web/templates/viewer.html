@@ -1,0 +1,44 @@
+{% include 'header.html' %}
+{% include 'navbar.html' %}
+<div class="container" style="margin-top: 1em;">
+    <h1>{{cell_name}}</h1>
+    {% if variant %}
+    <h2>({{variant}})</h2>
+    {% endif %}
+
+    <div class="viewer-panel">
+        <div class="viewer-panel-sub">
+            <div class="viewer-frame-cell">
+                <div class="menu-left-frame" id="modes"></div>
+                <div class="menu-right-frame" id="menu"></div>
+                <div class="viewer-frame" id="layout-view">
+                    <canvas id="layout_canvas" width="1000" height="800"></canvas>
+                </div>
+            </div>
+            <div class="viewer-layers-cell">
+                <div class="viewer-layers" id="layers"></div>
+            </div>
+        </div>
+    </div>
+    <h2>Parameters</h2>
+    <form action="/update/{{cell_name}}" method="POST">
+    <button type="submit" class="btn btn-primary">Update</button>
+    {% for setting_name, setting_value in component.settings.default.items()%}
+        <div class="mb-3">
+            <label for="{{setting_name}}" class="form-label">{{setting_name}}</label>
+            {% if setting_name in component.settings.changed %}
+            <input type="text" class="form-control" id="{{setting_name}}" name="{{setting_name}}" value="{{component.settings.changed[setting_name]}}"">
+            {% else %}
+            <input type="text" class="form-control" id="{{setting_name}}" name="{{setting_name}}" placeholder="{{setting_value}}">
+            {% endif %}
+        </div>
+    {% endfor %}
+    </form>
+</div>
+<script>
+    var current_url="{{ url }}";
+    var cell_variant = "{{ variant or cell_name }}";
+    var initial_image_data = "data:image/jpeg;base64,{{ initial_view | safe }}";
+</script>
+<script src="{{url_for('static', path='/client.js')}}"></script>
+{% include 'footer.html' %}
