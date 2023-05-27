@@ -1,4 +1,3 @@
-import numpy as np
 from gdsfactory.simulation.devsim import get_simulation_xsection
 import gdsfactory as gf
 
@@ -30,7 +29,7 @@ def test_pin_waveguide() -> None:
         n_dist[voltage] = waveguide.index.values
         neffs[voltage] = waveguide.n_eff[0]
 
-    dn = neffs[vmin] - neffs[vmax]
+    # dn = neffs[vmin] - neffs[vmax]
 
     # TODO: Find a correct value to test devsim
     # assert np.isclose(dn.real, -0.00011342135795189279), dn.real

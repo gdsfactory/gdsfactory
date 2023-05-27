@@ -24,7 +24,7 @@ from pydantic import BaseModel, Extra
 import tidy3d as td
 
 from gdsfactory.simulation.disable_print import disable_print, enable_print
-from gdsfactory.simulation.gtidy3d.materials import get_medium, get_nk
+from gdsfactory.simulation.gtidy3d.materials import get_nk
 from gdsfactory.simulation.gtidy3d.modes import Precision, Waveguide
 from gdsfactory.typings import MaterialSpec
 
