@@ -528,7 +528,9 @@ class PINWaveguide(BaseModel):
                 slab_thickness=self.slab_thickness / um,
                 box_thickness=box_thickness,
                 clad_thickness=clad_thickness,
-                side_margin=(self.ppp_offset + self.xmargin) / um,
+                side_margin=max(
+                    self.ppp_offset + self.xmargin, self.npp_offset + self.xmargin
+                ) / um,
                 grid_resolution=grid_resolution,
                 precision=precision,
                 core_material=core_material,
@@ -662,7 +664,9 @@ class PINWaveguide(BaseModel):
                 slab_thickness=self.slab_thickness / um,
                 box_thickness=box_thickness,
                 clad_thickness=clad_thickness,
-                side_margin=(self.ppp_offset + self.xmargin) / um,
+                side_margin=max(
+                    self.ppp_offset + self.xmargin, self.npp_offset + self.xmargin
+                ) / um,
                 grid_resolution=grid_resolution,
                 precision=precision,
                 core_material=core_material_pertub,
@@ -678,7 +682,9 @@ class PINWaveguide(BaseModel):
                 slab_thickness=self.slab_thickness / um,
                 box_thickness=box_thickness,
                 clad_thickness=clad_thickness,
-                side_margin=(self.ppp_offset + self.xmargin) / um,
+                side_margin=max(
+                    self.ppp_offset + self.xmargin, self.npp_offset + self.xmargin
+                ) / um,
                 grid_resolution=grid_resolution,
                 precision=precision,
                 core_material=core_material,
