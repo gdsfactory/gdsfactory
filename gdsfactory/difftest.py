@@ -89,63 +89,6 @@ def difftest(
 
     ld = kdb.LayoutDiff()
 
-    a_regions: dict[int, kdb.Region] = {}
-    a_texts: dict[int, kdb.Texts] = {}
-    b_regions: dict[int, kdb.Region] = {}
-    b_texts: dict[int, kdb.Texts] = {}
-
-    def on_begin_cell(cell: kdb.Cell, cell_b: kdb.Cell):
-        pass
-        # print(cell.name)
-        # print(cell_b.name)
-
-    def get_region(key, regions: dict[int, kdb.Region]) -> kdb.Region:
-        if key not in regions:
-            reg = kdb.Region()
-            regions[key] = reg
-            return reg
-        else:
-            return regions[key]
-
-    def get_texts(key, texts_dict: dict[int, kdb.Texts]) -> kdb.Texts:
-        if key not in texts_dict:
-            texts = kdb.Texts()
-            texts_dict[key] = texts
-            return texts
-        else:
-            return texts_dict[key]
-
-    def polygon_diff_a(anotb: kdb.Polygon, prop_id: int):
-        get_region(ld.layer_index_a, a_regions).insert(anotb)
-
-    def polygon_diff_b(bnota: kdb.Polygon, prop_id: int):
-        get_region(ld.layer_index_b, b_regions).insert(bnota)
-
-    def cell_diff_a(anotb: kdb.Cell):
-        get_region(ld.layer_index_a, a_regions).insert(
-            anotb.begin_shapes_rec(ld.layer_index_a())
-        )
-
-    def cell_diff_b(anotb: kdb.Cell):
-        get_region(ld.layer_index_b, b_regions).insert(
-            anotb.begin_shapes_rec(ld.layer_index_b())
-        )
-
-    def text_diff_a(anotb: kdb.Text, prop_id: int):
-        get_texts(ld.layer_index_a(), a_texts).insert(anotb)
-
-    def text_diff_b(bnota: kdb.Text, prop_id: int):
-        get_texts(ld.layer_index_b(), b_texts).insert(bnota)
-
-    ld.on_begin_cell = on_begin_cell
-    ld.on_cell_in_a_only = lambda anotb: cell_diff_a(anotb)
-    ld.on_cell_in_b_only = lambda anotb: cell_diff_b(anotb)
-    ld.on_polygon_in_a_only = lambda anotb, prop_id: polygon_diff_a(anotb, prop_id)
-    ld.on_polygon_in_b_only = lambda anotb, prop_id: polygon_diff_b(anotb, prop_id)
-    ld.on_text_in_a_only = lambda anotb, prop_id: text_diff_b(anotb, prop_id)
-    ld.on_begin_layer = lambda li, la, lb: print(li, la, lb)
-    ld.on_end_polygon_differences = lambda: None  # print("end polygons")
-
     if not ld.compare(ref._kdb_cell, run._kdb_cell, kdb.LayoutDiff.Verbose):
         c = KCell(f"{test_name}_diffs")
         refdiff = KCell(f"{test_name}_ref")
