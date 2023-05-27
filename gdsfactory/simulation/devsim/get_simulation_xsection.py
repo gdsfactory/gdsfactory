@@ -530,7 +530,8 @@ class PINWaveguide(BaseModel):
                 clad_thickness=clad_thickness,
                 side_margin=max(
                     self.ppp_offset + self.xmargin, self.npp_offset + self.xmargin
-                ) / um,
+                )
+                / um,
                 grid_resolution=grid_resolution,
                 precision=precision,
                 core_material=core_material,
@@ -632,10 +633,11 @@ class PINWaveguide(BaseModel):
             else:
                 name_material = "core_material_with_carriers"
 
-            eps_real = n_dataset ** 2 - k_dataset ** 2
+            eps_real = n_dataset**2 - k_dataset**2
             eps_imag = 2 * n_dataset * k_dataset
             eps_diag_data = td.ScalarFieldDataArray(
-                eps_real + 1.j * eps_imag, coords=dict(x=X, y=Y, z=Z, f=freqs))
+                eps_real + 1.0j * eps_imag, coords=dict(x=X, y=Y, z=Z, f=freqs)
+            )
 
             eps_perturb = td.PermittivityDataset(
                 eps_xx=eps_diag_data, eps_yy=eps_diag_data, eps_zz=eps_diag_data
@@ -666,7 +668,8 @@ class PINWaveguide(BaseModel):
                 clad_thickness=clad_thickness,
                 side_margin=max(
                     self.ppp_offset + self.xmargin, self.npp_offset + self.xmargin
-                ) / um,
+                )
+                / um,
                 grid_resolution=grid_resolution,
                 precision=precision,
                 core_material=core_material_pertub,
@@ -684,7 +687,8 @@ class PINWaveguide(BaseModel):
                 clad_thickness=clad_thickness,
                 side_margin=max(
                     self.ppp_offset + self.xmargin, self.npp_offset + self.xmargin
-                ) / um,
+                )
+                / um,
                 grid_resolution=grid_resolution,
                 precision=precision,
                 core_material=core_material,
