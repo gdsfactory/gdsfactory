@@ -16,7 +16,6 @@ class GdsRegressionFixture(FileRegressionFixture):
         try:
             difftest(c)
 """
-import os
 import pathlib
 import shutil
 from typing import Optional
@@ -29,96 +28,6 @@ from kfactory import KCell, KCLayout, kdb
 
 class GeometryDifference(Exception):
     pass
-
-
-def run_xor(file1, file2, tolerance: int = 1, verbose: bool = False) -> None:
-    """Returns nothing.
-
-    Raises a GeometryDifference if there are differences detected.
-
-    Args:
-        file1: ref gdspath.
-        file2: run gdspath.
-        tolerance: in nm.
-        verbose: prints output.
-    """
-    import klayout.db as kdb
-
-    l1 = kdb.Layout()
-    l1.read(file1)
-
-    l2 = kdb.Layout()
-    l2.read(file2)
-
-    # Check that same set of layers are present
-    layer_pairs = []
-    for ll1 in l1.layer_indices():
-        li1 = l1.get_info(ll1)
-        ll2 = l2.find_layer(l1.get_info(ll1))
-        if ll2 is None:
-            raise GeometryDifference(
-                f"Layer {li1} of layout {file1!r} not present in layout {file2!r}."
-            )
-
-        layer_pairs.append((ll1, ll2))
-
-    for ll2 in l2.layer_indices():
-        li2 = l2.get_info(ll2)
-        ll1 = l1.find_layer(l2.get_info(ll2))
-        if ll1 is None:
-            raise GeometryDifference(
-                f"Layer {li2} of layout {file2!r} not present in layout {file1!r}."
-            )
-
-    # Check that topcells are the same
-    tc1_names = [tc.name for tc in l1.top_cells()]
-    tc2_names = [tc.name for tc in l2.top_cells()]
-    tc1_names.sort()
-    tc2_names.sort()
-    if tc1_names != tc2_names:
-        raise GeometryDifference(
-            f"Missing topcell on one of the layouts, or name differs:\n{tc1_names!r}\n{tc2_names!r}"
-        )
-    topcell_pairs = [(l1.cell(tc1_n), l2.cell(tc1_n)) for tc1_n in tc1_names]
-    # Check that dbu are the same
-    if (l1.dbu - l2.dbu) > 1e-6:
-        raise GeometryDifference(
-            f"Database unit of layout {file1!r} ({l1.dbu}) differs from that of layout {file2!r} ({l2.dbu})."
-        )
-
-    # Run the difftool
-    diff = False
-    for tc1, tc2 in topcell_pairs:
-        for ll1, ll2 in layer_pairs:
-            r1 = kdb.Region(tc1.begin_shapes_rec(ll1))
-            r2 = kdb.Region(tc2.begin_shapes_rec(ll2))
-
-            rxor = r1 ^ r2
-
-            if tolerance > 0:
-                rxor.size(-tolerance)
-
-            if not rxor.is_empty():
-                diff = True
-                if verbose:
-                    print(
-                        f"{rxor.size()} differences found in {tc1.name!r} on layer {l1.get_info(ll1)}."
-                    )
-
-            elif verbose:
-                print(
-                    f"No differences found in {tc1.name!r} on layer {l1.get_info(ll1)}."
-                )
-
-    if diff:
-        fn_abgd = []
-        for fn in [file1, file2]:
-            head, tail = os.path.split(fn)
-            abgd = os.path.join(os.path.basename(head), tail)
-            fn_abgd.append(abgd)
-        raise GeometryDifference(
-            "Differences found between layouts {} and {}".format(*fn_abgd)
-        )
 
 
 def difftest(
@@ -161,21 +70,21 @@ def difftest(
     ref_file = dirpath_ref / f"{component.name}.gds"
     run_file = dirpath_run / filename
 
-    diff_file = dirpath_diff / filename
+    dirpath_diff / filename
 
     ref = gf.get_component(component)
-    comp = gf.get_component(test_name)
+    run = gf.get_component(test_name)
 
     ref_file = ref.write_gds()
-    run_file = comp.write_gds()
+    run_file = run.write_gds()
 
     ref = KCLayout()
     ref.read(ref_file)
     ref = ref[0]
 
-    comp = KCLayout()
-    comp.read(run_file)
-    comp = comp[0]
+    run = KCLayout()
+    run.read(run_file)
+    run = run[0]
 
     ld = kdb.LayoutDiff()
 
@@ -185,8 +94,9 @@ def difftest(
     b_texts: dict[int, kdb.Texts] = {}
 
     def on_begin_cell(cell: kdb.Cell, cell_b: kdb.Cell):
-        print(cell.name)
-        print(cell_b.name)
+        pass
+        # print(cell.name)
+        # print(cell_b.name)
 
     def get_region(key, regions: dict[int, kdb.Region]) -> kdb.Region:
         if key not in regions:
@@ -233,9 +143,9 @@ def difftest(
     ld.on_polygon_in_b_only = lambda anotb, prop_id: polygon_diff_b(anotb, prop_id)
     ld.on_text_in_a_only = lambda anotb, prop_id: text_diff_b(anotb, prop_id)
     ld.on_begin_layer = lambda li, la, lb: print(li, la, lb)
-    ld.on_end_polygon_differences = lambda: print("end polygons")
+    ld.on_end_polygon_differences = lambda: None  # print("end polygons")
 
-    if not ld.compare(ref._kdb_cell, comp._kdb_cell, kdb.LayoutDiff.Verbose):
+    if not ld.compare(ref._kdb_cell, run._kdb_cell, kdb.LayoutDiff.Verbose):
         ref = KCell(f"{test_name}_ref")
         run = KCell(f"{test_name}_run")
         for layer, region in a_regions.items():
@@ -262,19 +172,9 @@ def difftest(
         )
 
         try:
-            val = input(
-                "Save current GDS as new reference (Y) or show differences (d)? [Y/n/d]"
-            )
+            val = input("Save current GDS as the new reference (Y)? [Y/n]")
             if val.upper().startswith("N"):
                 raise
-            xor = val.upper().startswith("D")
-            if xor:
-                c.write(diff_file)
-                c.show()
-
-                val = input("Save current GDS as the new reference (Y)? [Y/n]")
-                if val.upper().startswith("N"):
-                    raise
 
             logger.info(f"deleting file {str(ref_file)!r}")
             ref_file.unlink()
