@@ -177,6 +177,7 @@ class Paths:
     gds_ref = test_data / "gds"
     gds_run = GDSDIR_TEMP / "gds_run"
     gds_diff = GDSDIR_TEMP / "gds_diff"
+    cwd = cwd
 
 
 def read_config(

@@ -21,7 +21,7 @@ import shutil
 from typing import Optional
 
 import gdsfactory as gf
-from gdsfactory.config import PATH, logger
+from gdsfactory.config import PATH, logger, GDSDIR_TEMP
 
 from kfactory import KCell, KCLayout, kdb
 
@@ -33,10 +33,7 @@ class GeometryDifference(Exception):
 def difftest(
     component: gf.Component,
     test_name: Optional[gf.Component] = None,
-    dirpath: Optional[pathlib.Path] = PATH.gdslib,
-    dirpath_ref: Optional[pathlib.Path] = PATH.gds_ref,
-    dirpath_run: Optional[pathlib.Path] = PATH.gds_run,
-    dirpath_diff: Optional[pathlib.Path] = PATH.gds_diff,
+    dirpath: Optional[pathlib.Path] = None,
     xor: bool = True,
 ) -> None:
     """Avoids GDS regressions tests on the GeometryDifference.
@@ -50,10 +47,7 @@ def difftest(
     Args:
         component: to test if it has changed.
         test_name: used to store the GDS file.
-        dirpath: default directory for storing reference/run/diff files.
-        dirpath_ref: optional directory for storing reference files.
-        dirpath_run: optional directory for storing run files.
-        dirpath_diff: optional directory for storing diff files.
+        dirpath: default directory for storing reference files.
     """
     # containers function_name is different from component.name
     # we store the container with a different name from original component
@@ -64,29 +58,24 @@ def difftest(
         else f"{component.name}"
     )
     filename = f"{test_name}.gds"
-    dirpath_ref = dirpath_ref or dirpath / "gds_ref"
-    dirpath_run = dirpath_run or dirpath / "gds_run"
-    dirpath_diff = dirpath_diff or dirpath / "gds_diff"
+    dirpath = dirpath or PATH.cwd
+    dirpath_ref = dirpath / "gds_ref"
+    dirpath_run = GDSDIR_TEMP / "gds_run"
 
-    ref_file = dirpath_ref / f"{component.name}.gds"
+    ref_file = dirpath_ref / f"{test_name}.gds"
     run_file = dirpath_run / filename
 
-    dirpath_diff / filename
+    run = gf.get_component(component)
+    run_file = run.write_gds(dirpath_run)
 
-    ref = gf.get_component(component)
-    run = gf.get_component(test_name)
+    if not ref_file.exists():
+        component.write_gds(gdspath=ref_file)
+        raise AssertionError(
+            f"Reference GDS file for {test_name!r} not found. Writing to {ref_file!r}"
+        )
 
-    ref_file = ref.write_gds()
-    run_file = run.write_gds()
-
-    ref = KCLayout()
-    ref.read(ref_file)
-    ref = ref[0]
-
-    run = KCLayout()
-    run.read(run_file)
-    run = run[0]
-
+    ref = read_top_cell(ref_file)
+    run = read_top_cell(run_file)
     ld = kdb.LayoutDiff()
 
     if not ld.compare(ref._kdb_cell, run._kdb_cell, kdb.LayoutDiff.Verbose):
@@ -113,7 +102,7 @@ def difftest(
                     layer_tuple = c.kcl.layer_infos()[layer]
                     region_xor = region_ref ^ region_run
                     diff.shapes(layer).insert(region_xor)
-                    c << diff
+            c << diff
 
         c.show()
 
@@ -124,14 +113,7 @@ def difftest(
         )
 
         try:
-            val = input("Save current GDS as the new reference (Y)? [Y/n]")
-            if val.upper().startswith("N"):
-                raise
-
-            logger.info(f"deleting file {str(ref_file)!r}")
-            ref_file.unlink()
-            shutil.copy(run_file, ref_file)
-            raise
+            overwrite(ref_file, run_file)
         except OSError as exc:
             raise GeometryDifference(
                 "\n"
@@ -141,5 +123,22 @@ def difftest(
             ) from exc
 
 
+def overwrite(ref_file, run_file):
+    val = input("Save current GDS as the new reference (Y)? [Y/n]")
+    if val.upper().startswith("N"):
+        raise GeometryDifference
+
+    logger.info(f"deleting file {str(ref_file)!r}")
+    ref_file.unlink()
+    shutil.copy(run_file, ref_file)
+    raise GeometryDifference
+
+
+def read_top_cell(arg0):
+    kcl = KCLayout()
+    kcl.read(arg0)
+    return kcl[0]
+
+
 if __name__ == "__main__":
-    difftest(gf.components.mzi(delta_length=100), "mzi")
+    difftest(gf.components.mzi, "mzi")
