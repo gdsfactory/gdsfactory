@@ -37,6 +37,7 @@ def difftest(
     dirpath_ref: Optional[pathlib.Path] = PATH.gds_ref,
     dirpath_run: Optional[pathlib.Path] = PATH.gds_run,
     dirpath_diff: Optional[pathlib.Path] = PATH.gds_diff,
+    xor: bool = True,
 ) -> None:
     """Avoids GDS regressions tests on the GeometryDifference.
 
@@ -146,23 +147,31 @@ def difftest(
     ld.on_end_polygon_differences = lambda: None  # print("end polygons")
 
     if not ld.compare(ref._kdb_cell, run._kdb_cell, kdb.LayoutDiff.Verbose):
-        ref = KCell(f"{test_name}_ref")
-        run = KCell(f"{test_name}_run")
-        for layer, region in a_regions.items():
-            ref._kdb_cell.shapes(layer()).insert(region) if region else None
-
-        for layer, region in b_regions.items():
-            run._kdb_cell.shapes(layer()).insert(region)
-
-        for layer, region in a_texts.items():
-            ref._kdb_cell.shapes(layer()).insert(region)
-
-        for layer, region in b_texts.items():
-            run._kdb_cell.shapes(layer()).insert(region)
-
         c = KCell(f"{test_name}_diffs")
-        c << ref
-        c << run
+        refdiff = KCell(f"{test_name}_ref")
+        rundiff = KCell(f"{test_name}_run")
+
+        refdiff.copy_tree(ref._kdb_cell)
+        rundiff.copy_tree(run._kdb_cell)
+        c << refdiff
+        c << rundiff
+
+        if xor:
+            diff = KCell(f"{test_name}_diff")
+
+            for layer in c.kcl.layer_infos():
+                layer = ref.layer(layer)
+                region_run = kdb.Region(run.begin_shapes_rec(layer))
+                region_ref = kdb.Region(ref.begin_shapes_rec(layer))
+
+                region_diff = region_run - region_ref
+
+                if not region_diff.is_empty():
+                    layer_tuple = c.kcl.layer_infos()[layer]
+                    region_xor = region_ref ^ region_run
+                    diff.shapes(layer).insert(region_xor)
+                    c << diff
+
         c.show()
 
         print(
