@@ -60,13 +60,13 @@ def difftest(
     filename = f"{test_name}.gds"
     dirpath = dirpath or PATH.cwd
     dirpath_ref = dirpath / "gds_ref"
-    dirpath_run = GDSDIR_TEMP / "gds_run"
+    dirpath_run = GDSDIR_TEMP 
 
     ref_file = dirpath_ref / f"{test_name}.gds"
     run_file = dirpath_run / filename
 
     run = gf.get_component(component)
-    run_file = run.write_gds(dirpath_run)
+    run_file = run.write_gds(gdspath=run_file)
 
     if not ref_file.exists():
         component.write_gds(gdspath=ref_file)
