@@ -31,7 +31,7 @@ from gdsfactory.component_layout import (
     _distribute,
     _parse_layer,
 )
-from gdsfactory.config import CONF, logger, GDSDIR_TEMP
+from gdsfactory.config import CONF, logger
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.port import (
     Port,
@@ -231,7 +231,7 @@ class Instance(kf.Instance):
         elif p.port_type != op.port_type and not allow_type_mismatch:
             raise kf.kcell.PortTypeMismatch(self, other, p, op)
         else:
-            self.align(p, op)
+            self.connect(p, op)
 
     def get_ports_list(self, **kwargs) -> List[Port]:
         """Returns list of ports.
@@ -1029,12 +1029,12 @@ class Component(kf.KCell):
     #         for inst in self.insts
     #     ]
     #     return f"{self.name}: uid {self.cell_index()}, ports {list(self.ports)}, references {refs}, {len(self.get_polygons(recursive=False))} polygons"
-        # return (
-        #     f"{self.name}: uid {self.uid}, "
-        #     f"ports {list(self.ports.get_all_named.keys())}, "
-        #     f"references {list(self.named_references.keys())}, "
-        #     f"{len(self.polygons)} polygons"
-        # )
+    # return (
+    #     f"{self.name}: uid {self.uid}, "
+    #     f"ports {list(self.ports.get_all_named.keys())}, "
+    #     f"references {list(self.named_references.keys())}, "
+    #     f"{len(self.polygons)} polygons"
+    # )
 
     def pprint(self) -> None:
         """Prints component info."""
@@ -1810,9 +1810,7 @@ class Component(kf.KCell):
 
         all_cells = [top_cell._cell] + sorted(cells, key=lambda cc: cc.name)
 
-        no_name_cells = [
-            cell.name for cell in all_cells if cell.name.startswith("Unnamed")
-        ]
+        [cell.name for cell in all_cells if cell.name.startswith("Unnamed")]
         padded_component.add_polygon(points, layer=wafer_layer)
 
         if layer_stack is None:

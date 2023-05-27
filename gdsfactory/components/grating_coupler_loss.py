@@ -19,7 +19,7 @@ def connect_loopback(
     port1: Port,
     a: float,
     b: float,
-    y_bot_align_route: float,
+    y_bot_connect_route: float,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> List[ComponentReference]:
@@ -30,8 +30,8 @@ def connect_loopback(
         p0,
         p0 + (0, a),
         p0 + (b, a),
-        p0 + (b, y_bot_align_route),
-        p1 + (-b, y_bot_align_route),
+        p0 + (b, y_bot_connect_route),
+        p1 + (-b, y_bot_connect_route),
         p1 + (-b, a),
         p1 + (0, a),
         p1,
@@ -98,11 +98,11 @@ def loss_deembedding_ch13_24(
     p3 = gc_ports[3]
     a = radius + 5.0  # 0.5
     b = max(2 * a, pitch / 2)
-    y_bot_align_route = -gsi.width - 5.0
+    y_bot_connect_route = -gsi.width - 5.0
 
     c.add(
         connect_loopback(
-            p1, p3, a, b, y_bot_align_route, cross_section=cross_section, **kwargs
+            p1, p3, a, b, y_bot_connect_route, cross_section=cross_section, **kwargs
         )
     )
     for i, index in enumerate(input_port_indexes):

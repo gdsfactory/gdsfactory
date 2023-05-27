@@ -22,7 +22,7 @@ def grating_coupler_tree(
 ) -> Component:
     """Array of straights connected with grating couplers.
 
-    useful to align the 4 corners of the chip
+    useful to connect the 4 corners of the chip
 
     Args:
         n: number of gratings.
