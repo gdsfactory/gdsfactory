@@ -171,6 +171,7 @@ def write_sparameters(
     component_ref = component.ref()
     ports = component_ref.ports
     port_names = [port.name for port in list(ports.values())]
+    port_symmetries_sources = [key.split("@")[0] for key in port_symmetries]
 
     sims = []
     sp = {}
@@ -178,9 +179,11 @@ def write_sparameters(
     port_source_names = port_source_names or port_names
 
     for port_name in port_source_names:
-        if port_name in port_symmetries or not port_symmetries:
+        if port_name not in port_symmetries_sources:
             sim = get_simulation(component, port_source_name=port_name, **kwargs)
             sims.append(sim)
+        else:
+            print(f"leveraging port_symmetries for {port_name!r}")
 
     if not run:
         sim = sims[0]
@@ -199,7 +202,7 @@ def write_sparameters(
         """Return Component sparameter for a particular port Index n.
 
         Args:
-            port_name: source port name.
+            port_name_source: source port name.
             sim_data: simulation data.
             port_symmetries: to save simulations.
             kwargs: simulation settings.
@@ -217,26 +220,23 @@ def write_sparameters(
             sp[key] = sij
             sp["wavelengths"] = get_wavelengths(port_name=port_name, sim_data=sim_data)
 
-        def convert_old_fmt(s_name):
-            if len(s_name) == 3 and s_name[0]=="s":
-                s_name = f"{port_names[int(s_name[1])-1]}@0,{port_names[int(s_name[2])-1]}@0"
-            return s_name
-        
         if bool(port_symmetries):
             for key, symmetries in port_symmetries.items():
                 for sym in symmetries:
-                    n_key = convert_old_fmt(key) # TODO contribute back
-                    n_sym = convert_old_fmt(sym)
-                    if n_key in sp:
-                        sp[n_sym] = sp[n_key]
+                    if key in sp:
+                        sp[sym] = sp[key]
 
         return sp
 
     for port_source_name, (_sim_name, sim_data) in zip(
         port_source_names, batch_data.items()
     ):
-        sp.update(get_sparameter(port_source_name, sim_data, 
-                                 port_symmetries=port_symmetries.get(port_source_name, {})))
+        sp.update(
+            get_sparameter(
+                port_source_name,
+                sim_data,
+            )
+        )
 
     end = time.time()
     np.savez_compressed(filepath, **sp)
@@ -277,13 +277,14 @@ write_sparameters_batch_1x1 = gf.partial(
 
 
 if __name__ == "__main__":
-    import gdsfactory.simulation as gs
-
     # c = gf.components.straight(length=2.1)
-    c = gf.c.straight(length=2.123)
+    # c = gf.c.straight(length=2.123)
     # c = gf.components.mmi1x2()
-    sp = write_sparameters(c, is_3d=True, port_source_names=None, overwrite=False)
-    gs.plot.plot_sparameters(sp)
+    # sp = write_sparameters(c, is_3d=True, port_source_names=None, overwrite=False)
+    # gs.plot.plot_sparameters(sp)
+    c = gf.components.straight(length=3)
+    sp = write_sparameters_1x1(c, overwrite=True, is_3d=False)
+    print(sp)
 
     # t = sp.o1@0,o2@0
     # print(f"Transmission = {t}")

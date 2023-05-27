@@ -6,7 +6,7 @@ from typing import List
 from pydantic import BaseModel
 
 import gdsfactory as gf
-from gdsfactory.typings import CrossSectionSpec, Dict, Layer
+from gdsfactory.typings import CrossSectionSpec, Dict, Layer, LayerSpec
 from gdsfactory.geometry.write_drc import write_drc_deck_macro
 
 layer_name_to_min_width: Dict[str, float]
@@ -21,7 +21,10 @@ class ConnectivyCheck(BaseModel):
 
 
 def write_connectivity_checks(
-    pin_widths: List[float], pin_layer: Layer, pin_length: float = 1 * nm
+    pin_widths: List[float],
+    pin_layer: Layer,
+    pin_length: float = 1 * nm,
+    device_layer: LayerSpec = "DEVREC",
 ):
     """Return script for port connectivity check.
     Assumes the port pins are inside the Component.
@@ -30,7 +33,9 @@ def write_connectivity_checks(
         pin_widths: list of pin widths allowed.
         pin_layer: for the pin markers.
         pin_length: in um.
+        device_layer: device recognizion layer.
     """
+    device_layer = gf.get_layer(device_layer)
 
     script = f"""pin = input{pin_layer}
 pin = pin.merged\n
@@ -43,11 +48,16 @@ pin2 = pin.rectangles.without_area({pin_widths[0]} * {2 * pin_length})"""
 pin2 = pin.sized(0.0).merged\n
 pin2.non_rectangles.output(\"port width check\")\n\n"""
 
+    script += f"""DEVREC = input{device_layer}.raw.merged(2)\n
+DEVREC.overlapping(DEVREC).output("Component overlap")\n
+    """
+
     return script
 
 
 def write_connectivity_checks_per_section(
     connectivity_checks: List[ConnectivyCheck],
+    device_layer: LayerSpec = None,
 ) -> str:
     """Return script for port connectivity check.
     Assumes the port pins are inside the Component and each cross_section has pins on a different layer.
@@ -55,8 +65,10 @@ def write_connectivity_checks_per_section(
 
     Args:
         connectivity_checks: list of connectivity objects to check for.
+        device_layer: device recognizion layer.
     """
     script = ""
+    device_layer = gf.get_layer(device_layer)
 
     for cc in connectivity_checks:
         xs = gf.get_cross_section(cc.cross_section)
@@ -73,6 +85,11 @@ def write_connectivity_checks_per_section(
 {xs.name}_pin2 = {xs.name}_pin.sized(0.0).merged\n
 {xs.name}_pin2.non_rectangles.output(\"port width check\")\n\n"""
 
+    if device_layer:
+        script += f"""DEVREC = input{device_layer}.raw.merged(2)\n
+DEVREC.overlapping(DEVREC).output("Component overlap")\n
+    """
+
     return script
 
 
@@ -88,7 +105,8 @@ if __name__ == "__main__":
         )
     ]
     rules = [
-        write_connectivity_checks_per_section(connectivity_checks=connectivity_checks)
+        write_connectivity_checks_per_section(connectivity_checks=connectivity_checks),
+        "DEVREC",
     ]
 
     rules = [

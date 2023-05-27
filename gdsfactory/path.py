@@ -813,7 +813,7 @@ def extrude(
         ):
             xsection_points.append([layer[0], layer[1]])
 
-        if section.insets:
+        if section.insets and section.insets != (0, 0):
             p_pts = p_sec.points
 
             new_x_start = p.xmin + section.insets[0]

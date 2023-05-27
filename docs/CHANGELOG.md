@@ -1,5 +1,36 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.98.2...main)
+
+## [6.98.2](https://github.com/gdsfactory/gdsfactory/compare/v6.98.2...v6.98.1)
+
+- only use section.insets if they are not (0, 0) [PR](https://github.com/gdsfactory/gdsfactory/commit/9bffa6d84f4fe427e74cd6193c3afdc731bb0deb)
+- fix webapp [PR](https://github.com/gdsfactory/gdsfactory/pull/1701)
+
+## [6.98.1](https://github.com/gdsfactory/gdsfactory/compare/v6.98.1...v6.98.0)
+
+- update kfactory [PR](https://github.com/gdsfactory/gdsfactory/pull/1695)
+- fix tidy3d 2D FDTD sims and update tidy3d [PR](https://github.com/gdsfactory/gdsfactory/pull/1697)
+
+## [6.98.0](https://github.com/gdsfactory/gdsfactory/compare/v6.98.0...v6.97.1)
+
+- add component overlap [PR](https://github.com/gdsfactory/gdsfactory/pull/1689/)
+
+## [6.97.1](https://github.com/gdsfactory/gdsfactory/compare/v6.97.0...v6.97.1)
+
+- fix snapping issues [PR](https://github.com/gdsfactory/gdsfactory/pull/1685)
+- rename `write_gerbers` to `Component.write_gerber` [PR](https://github.com/gdsfactory/gdsfactory/pull/1687)
+
+## [6.97.0](https://github.com/gdsfactory/gdsfactory/compare/v6.96.0...v6.97.0)
+
+- improve declarative cell
+- control Sbend resolution [PR](https://github.com/gdsfactory/gdsfactory/commit/db5a802c8161e2ea6c5cc1350bfc87a439bbd4ea)
+- repair symmetries for tidy3d [PR](https://github.com/gdsfactory/gdsfactory/pull/1683)
+
+## [6.96.0](https://github.com/gdsfactory/gdsfactory/compare/v6.95.0...v6.96.0)
+
+- flatten invalid refs
+
 ## 6.95.0
 
 - add pins and `flatten_invalid_refs` [PR](https://github.com/gdsfactory/gdsfactory/pull/1674)
