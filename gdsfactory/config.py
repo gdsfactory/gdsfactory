@@ -51,6 +51,7 @@ yamlpath_home = home_path / "config.yml"
 
 MAX_NAME_LENGTH = 32
 GDSDIR_TEMP = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
+GDSDIR_TEMP.mkdir(parents=True, exist_ok=True)
 
 logger.remove()
 logger.add(sink=sys.stderr, level="WARNING")
