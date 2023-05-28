@@ -154,8 +154,8 @@ class CrossSection(BaseModel):
     end_straight_length: float = 10e-3
     snap_to_grid: Optional[float] = None
     decorator: Optional[Callable] = None
-    add_pins: Optional[Callable] = None
-    add_bbox: Optional[Callable] = None
+    add_pins: Optional[Callable] = Field(default=None, exclude=True)
+    add_bbox: Optional[Callable] = Field(default=None, exclude=True)
     info: Dict[str, Any] = Field(default_factory=dict)
     name: Optional[str] = None
     mirror: bool = False

@@ -318,4 +318,5 @@ if __name__ == "__main__":
         radius=30,
     )
     c.add(route.references)
+    print([i.name for i in c.get_dependencies()])
     c.show()

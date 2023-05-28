@@ -60,16 +60,16 @@ def difftest(
     filename = f"{test_name}.gds"
     dirpath = dirpath or PATH.cwd
     dirpath_ref = dirpath / "gds_ref"
-    dirpath_run = GDSDIR_TEMP 
+    dirpath_run = GDSDIR_TEMP
 
     ref_file = dirpath_ref / f"{test_name}.gds"
     run_file = dirpath_run / filename
 
-    run = gf.get_component(component)
-    run_file = run.write_gds(gdspath=run_file)
+    component = gf.get_component(component)
+    run_file = component.write_gds(gdspath=run_file)
 
     if not ref_file.exists():
-        component.write_gds(gdspath=ref_file)
+        shutil.copy(run_file, ref_file)
         raise AssertionError(
             f"Reference GDS file for {test_name!r} not found. Writing to {ref_file!r}"
         )
@@ -78,7 +78,7 @@ def difftest(
     run = read_top_cell(run_file)
     ld = kdb.LayoutDiff()
 
-    if not ld.compare(ref._kdb_cell, run._kdb_cell, kdb.LayoutDiff.Verbose):
+    if not ld.compare(ref._kdb_cell, run._kdb_cell):
         c = KCell(f"{test_name}_diffs")
         refdiff = KCell(f"{test_name}_ref")
         rundiff = KCell(f"{test_name}_run")
@@ -137,8 +137,37 @@ def overwrite(ref_file, run_file):
 def read_top_cell(arg0):
     kcl = KCLayout()
     kcl.read(arg0)
-    return kcl[0]
+    return kcl[kcl.top_cell().name]
 
 
 if __name__ == "__main__":
-    difftest(gf.components.mzi, "mzi")
+    # print([i.name for i in c.get_dependencies()])
+    # c.show()
+    # c.name = "mzi"
+    c = gf.components.mzi()
+    difftest(c, "mzi")
+
+    # component = gf.components.mzi()
+    # test_name = "mzi"
+    # filename = f"{test_name}.gds"
+    # dirpath = PATH.cwd
+    # dirpath_ref = dirpath / "gds_ref"
+    # dirpath_run = GDSDIR_TEMP
+
+    # ref_file = dirpath_ref / f"{test_name}.gds"
+    # run_file = dirpath_run / filename
+
+    # run = gf.get_component(component)
+    # run_file = run.write_gds(gdspath=run_file)
+
+    # if not ref_file.exists():
+    #     component.write_gds(gdspath=ref_file)
+    #     raise AssertionError(
+    #         f"Reference GDS file for {test_name!r} not found. Writing to {ref_file!r}"
+    #     )
+
+    # ref = read_top_cell(ref_file)
+    # run = read_top_cell(run_file)
+    # ld = kdb.LayoutDiff()
+
+    # print(ld.compare(ref._kdb_cell, run._kdb_cell))
