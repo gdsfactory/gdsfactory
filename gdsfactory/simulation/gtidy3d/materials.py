@@ -61,7 +61,7 @@ def get_nk(
     wavelength: float = 1.55,
     material_name_to_medium: Dict[str, PoleResidue] = MATERIAL_NAME_TO_MEDIUM,
 ) -> float:
-    """Return refractive index and optical extinction coeffcient
+    """Return refractive index and optical extinction coefficient
     from material database.
 
     Args:
