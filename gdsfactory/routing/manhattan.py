@@ -829,6 +829,7 @@ def round_corners(
 
         with_taper = False
         # wg_width = list(bend90.ports.values())[0].width
+        length = snap_to_grid(length)
         total_length += length
 
         if (
