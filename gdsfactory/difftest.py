@@ -158,10 +158,10 @@ def difftest(
     dirpath_run = dirpath_run or dirpath / "gds_run"
     dirpath_diff = dirpath_diff or dirpath / "gds_diff"
 
-    ref_file = dirpath_ref / filename
-    run_file = dirpath_run / filename
+    ref_file = dirpath_ref + filename
+    run_file = dirpath_run + filename
 
-    diff_file = dirpath_diff / filename
+    diff_file = dirpath_diff + filename
 
     ref = gf.get_component(component)
     if isinstance(test_name, gf.Component):
