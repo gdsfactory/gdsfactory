@@ -56,6 +56,29 @@ def get_index(
     return n
 
 
+def get_nk(
+    name_or_index: Union[str, float],
+    wavelength: float = 1.55,
+    material_name_to_medium: Dict[str, PoleResidue] = MATERIAL_NAME_TO_MEDIUM,
+) -> float:
+    """Return refractive index and optical extinction coefficient
+    from material database.
+
+    Args:
+        wavelength: wavelength (um).
+        name_or_index: material name or refractive index.
+        material_name_to_medium: map name to medium.
+
+    """
+    eps_complex = get_epsilon(
+        wavelength=wavelength,
+        name_or_index=name_or_index,
+        material_name_to_medium=material_name_to_medium,
+    )
+    n, k = td.Medium.eps_complex_to_nk(eps_complex)
+    return n, k
+
+
 def get_medium(
     name_or_index: Union[str, float],
     material_name_to_medium: Dict[str, PoleResidue] = MATERIAL_NAME_TO_MEDIUM,

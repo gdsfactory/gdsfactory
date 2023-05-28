@@ -1,6 +1,13 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.98.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.98.2...main)
+
+## [6.98.2](https://github.com/gdsfactory/gdsfactory/compare/v6.98.2...v6.98.1)
+
+- only use section.insets if they are not (0, 0) [PR](https://github.com/gdsfactory/gdsfactory/commit/9bffa6d84f4fe427e74cd6193c3afdc731bb0deb)
+- fix webapp [PR](https://github.com/gdsfactory/gdsfactory/pull/1701)
+
+## [6.98.1](https://github.com/gdsfactory/gdsfactory/compare/v6.98.1...v6.98.0)
 
 - update kfactory [PR](https://github.com/gdsfactory/gdsfactory/pull/1695)
 - fix tidy3d 2D FDTD sims and update tidy3d [PR](https://github.com/gdsfactory/gdsfactory/pull/1697)

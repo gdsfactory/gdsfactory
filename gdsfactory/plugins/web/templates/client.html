@@ -1,0 +1,32 @@
+<!doctype html>
+
+<html>
+<head>
+  <link rel="stylesheet" href={{ url_for("static", path="client.css") }}></link>
+</head>
+<body>
+
+<div class="viewer-panel">
+  <div class="viewer-panel-sub">
+    <div class="viewer-frame-cell">
+      <div class="menu-left-frame" id="modes"></div>
+      <div class="menu-right-frame" id="menu"></div>
+      <div class="viewer-frame" id="layout-view">
+        <canvas id="layout_canvas"></canvas>
+      </div>
+    </div>
+    <div class="viewer-layers-cell">
+      <div class="viewer-layers" id="layers"></div>
+    </div>
+  </div>
+</div>
+
+<div id="message">
+</div>
+
+<!-- needs to go here as the simple script will access the DOM -->
+<script>var ws_url="{{ url }}"; var cell_name="{{ cell_name }}";</script>
+<script type="text/javascript" src="{{ url_for("static", path="client.js") }}"></script>
+
+</body>
+</html>

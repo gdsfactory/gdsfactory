@@ -9,6 +9,7 @@ from gdsfactory.simulation.devsim.get_simulation_xsection import (
     dalpha_carriers,
     dn_carriers,
     k_to_alpha,
+    clear_devsim_cache,
 )
 from gdsfactory.simulation.devsim.get_solver import DDComponent
 
@@ -21,5 +22,6 @@ __all__ = [
     "k_to_alpha",
     "PINWaveguide",
     "DDComponent",
+    "clear_devsim_cache",
 ]
 __version__ = "0.0.1"
