@@ -168,14 +168,14 @@ def difftest(
         comp = gf.get_component(test_name)
         run_file = comp.write_gds()
 
-    ref_file = ref.write_gds()
+    run_file = ref.write_gds()
 
     ref = KCLayout()
-    ref.read(str(ref_file))
+    ref.read(str(run_file))
     ref = ref[0]
 
     comp = KCLayout()
-    comp.read(str(run_file))
+    comp.read(str(ref_file))
     comp = comp[0]
 
     ld = kdb.LayoutDiff()
@@ -289,4 +289,4 @@ def difftest(
 
 
 if __name__ == "__main__":
-    difftest(gf.components.mmi1x2(), gf.components.rectangle())
+    difftest(gf.components.mmi1x2())
