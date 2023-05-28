@@ -173,7 +173,7 @@ wg3.connect("o1", wg2.ports["o2"])
 c
 
 # %% [markdown]
-# Ports can be added by copying existing ports. In the exemple below, ports are added at the component-level on c from the existing ports of children wg1 and wg3 
+# Ports can be added by copying existing ports. In the example below, ports are added at the component-level on c from the existing ports of children wg1 and wg3
 # (i.e. eastmost and westmost ports)
 
 # %%
@@ -320,7 +320,7 @@ c
 # %% [markdown]
 # ## Mirror reference
 #
-# By default the mirror works along the y-axis. 
+# By default the mirror works along the y-axis.
 
 # %%
 c = gf.Component("ref_mirror")
@@ -363,7 +363,7 @@ c
 # Sometimes you also want to save the GDS together with metadata (settings, port names, widths, locations ...) in YAML
 
 # %%
-c.write_gds("demo.gds",with_metadata=True)
+c.write_gds("demo.gds", with_metadata=True)
 
 # %%
 c.write_oas("demo.oas")
