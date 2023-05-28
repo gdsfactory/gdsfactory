@@ -164,11 +164,9 @@ def difftest(
     diff_file = dirpath_diff / filename
 
     ref = gf.get_component(component)
-    try:
+    if isinstance(test_name, Component):
         comp = gf.get_component(test_name)
         run_file = comp.write_gds()
-    except:
-        pass
 
     ref_file = ref.write_gds()
 
@@ -266,10 +264,10 @@ def difftest(
         )
         if val.upper().startswith("N"):
             raise GeometryDifference(
-            "\n"
-            f"{filename!r} changed from reference {str(ref_file)!r}\n"
-            "To step over each error you can run `pytest -s`\n"
-            "So you can check the differences in Klayout GUI\n"
+                "\n"
+                f"{filename!r} changed from reference {str(ref_file)!r}\n"
+                "To step over each error you can run `pytest -s`\n"
+                "So you can check the differences in Klayout GUI\n"
             )
         xor = val.upper().startswith("D")
         if xor:
