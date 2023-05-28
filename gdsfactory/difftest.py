@@ -232,7 +232,7 @@ def difftest(
 
     if not ld.compare(ref._kdb_cell, comp._kdb_cell, kdb.LayoutDiff.Verbose):
         ref_2 = KCell(ref.name)
-        comp_2 = KCell("reference")
+        comp_2 = KCell(comp.name + "polygons_not_in_" + ref.name)
         for layer, region in a_regions.items():
             idx = ref_2.kcl.layer(ref.kcl.layer_infos()[layer])
             ref_2.shapes(idx).insert(region)
