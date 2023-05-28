@@ -42,7 +42,7 @@ def clean_value_json(value: Any) -> Any:
     from gdsfactory.path import Path
 
     if isinstance(value, pydantic.BaseModel):
-        return value.dict(exclude={'info', 'add_pins', 'sections'})
+        return clean_dict(value.dict())
 
     elif hasattr(value, "get_component_spec"):
         return value.get_component_spec()
