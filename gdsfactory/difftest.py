@@ -171,11 +171,11 @@ def difftest(
     ref_file = ref.write_gds()
 
     ref = KCLayout()
-    ref.read(ref_file)
+    ref.read(str(ref_file))
     ref = ref[0]
 
     comp = KCLayout()
-    comp.read(run_file)
+    comp.read(str(run_file))
     comp = comp[0]
 
     ld = kdb.LayoutDiff()
