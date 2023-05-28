@@ -50,7 +50,9 @@ yamlpath_default = module_path / "config.yml"
 yamlpath_home = home_path / "config.yml"
 
 MAX_NAME_LENGTH = 32
-GDSDIR_TEMP = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
+GDSDI
+
+R_TEMP = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
 GDSDIR_TEMP.mkdir(parents=True, exist_ok=True)
 
 logger.remove()
@@ -176,8 +178,8 @@ class Paths:
     web = plugins / "web"
     test_data = repo / "test-data"
     gds_ref = test_data / "gds"
-    gds_run = pathlib.Path(GDSDIR_TEMP) / "gds_run"
-    gds_diff = pathlib.Path(GDSDIR_TEMP) / "gds_diff"
+    gds_run = GDSDIR_TEMP / "gds_run"
+    gds_diff = GDSDIR_TEMP / "gds_diff"
 
 
 def read_config(
