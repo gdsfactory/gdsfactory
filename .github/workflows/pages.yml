@@ -18,10 +18,11 @@ jobs:
         with:
           path: |
             ~/.gdsfactory/
-          key: ${{ hashFiles('.github/sim_version') }}
+          key: 0.0.1
+          restore-keys: 0.0.1
       - uses: conda-incubator/setup-miniconda@v2
         with:
-          python-version: '3.10'
+          python-version: "3.10"
           channels: conda-forge,defaults
           channel-priority: true
           activate-environment: anaconda-client-env

@@ -39,6 +39,9 @@ parts:
         - file: notebooks/042_non-manhattan-router
         - file: notebooks/common_mistakes
         - file: notebooks/dataprep
+    - file: verification
+      sections:
+        - file: notebooks/21_drc
     - file: workflow
       sections:
         - file: notebooks/workflow/jupyter_notebooks

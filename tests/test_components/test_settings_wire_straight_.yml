@@ -55,25 +55,25 @@ settings:
       cladding_simplify: null
       decorator: null
       end_straight_length: 0.01
-      gap: 3.0
+      gap: 5
       info: null
-      layer: WG
-      min_length: 0.01
+      layer: M3
+      min_length: 5
       mirror: false
       name: null
       offset: 0
       port_names:
-      - o1
-      - o2
+      - e1
+      - e2
       port_types:
-      - optical
-      - optical
-      radius: 10.0
+      - electrical
+      - electrical
+      radius: null
       sections: null
       snap_to_grid: null
       start_straight_length: 0.01
       taper_length: 10.0
-      width: 0.5
+      width: 10.0
       width_wide: null
     width: 10.0
   info_version: 2

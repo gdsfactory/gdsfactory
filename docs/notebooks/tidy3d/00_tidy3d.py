@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.14.5
+#       jupytext_version: 1.11.2
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -220,11 +220,11 @@ fig = gt.plot_simulation(s)
 # We call this `1x1` port symmetry
 
 # %%
-df = gt.write_sparameters_1x1(c)
-sim.plot.plot_sparameters(df)
+sp = gt.write_sparameters_1x1(c)
+sim.plot.plot_sparameters(sp)
 
 # %%
-sim.plot.plot_sparameters(df, keys=("o2@0,o1@0",))
+sim.plot.plot_sparameters(sp, keys=("o2@0,o1@0",))
 
 # %%
 c = gf.components.mmi1x2()

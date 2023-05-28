@@ -526,6 +526,7 @@ class Component(_GeometryHelper):
     def write_netlist(self, filepath: str) -> None:
         """Write netlist in YAML."""
         netlist = self.get_netlist()
+        netlist = clean_dict(netlist)
         OmegaConf.save(netlist, filepath)
 
     def write_netlist_dot(self, filepath: Optional[str] = None) -> None:
@@ -2348,7 +2349,7 @@ class Component(_GeometryHelper):
         filepath: str,
         layer_stack: Optional[LayerStack] = None,
         exclude_layers: Optional[Tuple[Layer, ...]] = None,
-    ) -> np.ndarray:
+    ) -> None:
         """Write a Component to STL for 3D printing.
 
         Args:
@@ -2362,11 +2363,21 @@ class Component(_GeometryHelper):
         """
         from gdsfactory.export.to_stl import to_stl
 
-        return to_stl(
+        to_stl(
             self,
             filepath=filepath,
             layer_stack=layer_stack,
             exclude_layers=exclude_layers,
+        )
+
+    def write_gerber(self, dirpath, layermap_to_gerber_layer, options) -> None:
+        from gdsfactory.export.to_gerber import to_gerber
+
+        to_gerber(
+            self,
+            dirpath=dirpath,
+            layermap_to_gerber_layer=layermap_to_gerber_layer,
+            options=options,
         )
 
     def to_gmsh(

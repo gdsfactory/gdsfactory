@@ -20,8 +20,6 @@ Classes and functions for construction and manipulation of geometric objects.
    read.import_gds
    read.from_yaml
    read.from_np
-   read.from_phidl
-   read.from_dphox
 
 .. currentmodule:: gdsfactory.path
 
