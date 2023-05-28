@@ -428,15 +428,16 @@ def test_hashes() -> None:
     import gdsfactory as gf
 
     c = gf.components.mzi()
-    names1 = set([i.name for i in c.get_dependencies()])
+    names1 = {i.name for i in c.get_dependencies()}
     gf.clear_cache()
     c = gf.components.mzi()
-    names2 = set([i.name for i in c.get_dependencies()])
+    names2 = {i.name for i in c.get_dependencies()}
     assert names1 == names2
 
 
 if __name__ == "__main__":
     import gdsfactory as gf
+
     c = gf.c.mzi()
     print(c.name)
 

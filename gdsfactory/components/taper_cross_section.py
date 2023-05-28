@@ -1,5 +1,5 @@
 from __future__ import annotations
-from functools import partial 
+from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.cell import cell

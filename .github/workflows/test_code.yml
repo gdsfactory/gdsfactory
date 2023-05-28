@@ -46,7 +46,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.GDSLIB_AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-west-2
         run: |
-          pip install -e .[full,dev] pre-commit
+          make install
           make data-download
           gf install klayout-integration
       - name: Test with pytest
