@@ -50,9 +50,7 @@ yamlpath_default = module_path / "config.yml"
 yamlpath_home = home_path / "config.yml"
 
 MAX_NAME_LENGTH = 32
-GDSDI
-
-R_TEMP = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
+GDSDIR_TEMP = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
 GDSDIR_TEMP.mkdir(parents=True, exist_ok=True)
 
 logger.remove()
