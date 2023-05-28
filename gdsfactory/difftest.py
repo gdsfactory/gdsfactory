@@ -166,7 +166,7 @@ def difftest(
     ref = gf.get_component(component)
     if isinstance(test_name, gf.Component):
         comp = gf.get_component(test_name)
-        run_file = comp.write_gds()
+        ref_file = comp.write_gds()
 
     run_file = ref.write_gds()
 
