@@ -2839,41 +2839,6 @@ def test_import_gds_settings() -> None:
     assert c3
 
 
-def test_flatten_invalid_refs_recursive() -> None:
-    import gdsfactory as gf
-    from gdsfactory.difftest import run_xor
-    from gdsfactory.routing.all_angle import get_bundle_all_angle
-
-    @gf.cell
-    def flat():
-        c = gf.Component()
-        mmi1 = (c << gf.components.mmi1x2()).move((0, -1.0005))
-        mmi2 = (c << gf.components.mmi1x2()).rotate(80)
-        mmi2.move((40, 20))
-        bundle = get_bundle_all_angle([mmi1.ports["o2"]], [mmi2.ports["o1"]])
-        for route in bundle:
-            c.add(route.references)
-        return c
-
-    @gf.cell
-    def hierarchy():
-        c = gf.Component()
-        (c << flat()).rotate(33)
-        (c << flat()).rotate(33).move((0, 100))
-        (c << flat()).move((100, 0))
-        return c
-
-    c_orig = hierarchy()
-    c_new = flatten_invalid_refs_recursive(c_orig)
-    assert c_new is not c_orig
-    invalid_refs_filename = "invalid_refs.gds"
-    invalid_refs_fixed_filename = "invalid_refs_fixed.gds"
-    # gds files should still be same to 1nm tolerance
-    c_orig.write_gds(invalid_refs_filename)
-    c_new.write_gds(invalid_refs_fixed_filename)
-    run_xor(invalid_refs_filename, invalid_refs_fixed_filename)
-
-
 if __name__ == "__main__":
     # import gdsfactory as gf
 

@@ -42,7 +42,7 @@ def clean_value_json(value: Any) -> Any:
     from gdsfactory.path import Path
 
     if isinstance(value, pydantic.BaseModel):
-        return value.dict(exclude={'info', 'add_pins'})
+        return value.dict(exclude={'info', 'add_pins', 'sections'})
 
     elif hasattr(value, "get_component_spec"):
         return value.get_component_spec()
@@ -133,7 +133,13 @@ if __name__ == "__main__":
     # d = clean_value_json(f)
     # print(f"{d!r}")
 
-    f = gf.partial(gf.c.straight, length=3)
+    # f = gf.partial(gf.c.straight, length=3)
+    # c = f()
+    # d = clean_value_json(c)
+    # print(d, d)
+
+    f = gf.partial(gf.cross_section.strip, width=3)
     c = f()
     d = clean_value_json(c)
+    print(get_hash(d))
     print(d, d)

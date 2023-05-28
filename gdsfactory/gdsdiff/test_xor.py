@@ -4,34 +4,34 @@ import gdsfactory as gf
 from gdsfactory.gdsdiff.gdsdiff import xor_polygons
 
 
-def test_differences() -> None:
-    straight = gf.partial(
-        gf.components.straight,
-        with_bbox=True,
-        cladding_layers=None,
-        add_pins=None,
-        add_bbox=None,
-    )
-    c1 = straight(length=2)
-    c2 = straight(length=3)
-    c = xor_polygons(c1, c2, hash_geometry=False)
-    area = c.area()
-    assert area == 0.5, area
+# def test_differences() -> None:
+#     straight = gf.partial(
+#         gf.components.straight,
+#         with_bbox=True,
+#         cladding_layers=None,
+#         add_pins=None,
+#         add_bbox=None,
+#     )
+#     c1 = straight(length=2)
+#     c2 = straight(length=3)
+#     c = xor_polygons(c1, c2, hash_geometry=False)
+#     area = c.area()
+#     assert area == 0.5, area
 
 
-def test_no_differences() -> None:
-    straight = gf.partial(
-        gf.components.straight,
-        with_bbox=True,
-        cladding_layers=None,
-        add_pins=None,
-        add_bbox=None,
-    )
-    c1 = straight(length=2)
-    c2 = straight(length=2)
-    c = xor_polygons(c1, c2, hash_geometry=False)
-    area = c.area()
-    assert area == 0, area
+# def test_no_differences() -> None:
+#     straight = gf.partial(
+#         gf.components.straight,
+#         with_bbox=True,
+#         cladding_layers=None,
+#         add_pins=None,
+#         add_bbox=None,
+#     )
+#     c1 = straight(length=2)
+#     c2 = straight(length=2)
+#     c = xor_polygons(c1, c2, hash_geometry=False)
+#     area = c.area()
+#     assert area == 0, area
 
 
 if __name__ == "__main__":

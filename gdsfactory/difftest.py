@@ -33,7 +33,7 @@ class GeometryDifference(Exception):
 def difftest(
     component: gf.Component,
     test_name: Optional[gf.Component] = None,
-    dirpath: Optional[pathlib.Path] = None,
+    dirpath: pathlib.Path = PATH.gds_ref,
     xor: bool = True,
 ) -> None:
     """Avoids GDS regressions tests on the GeometryDifference.
@@ -58,8 +58,7 @@ def difftest(
         else f"{component.name}"
     )
     filename = f"{test_name}.gds"
-    dirpath = dirpath or PATH.cwd
-    dirpath_ref = dirpath / "gds_ref"
+    dirpath_ref = dirpath
     dirpath_run = GDSDIR_TEMP
 
     ref_file = dirpath_ref / f"{test_name}.gds"
@@ -79,9 +78,9 @@ def difftest(
     ld = kdb.LayoutDiff()
 
     if not ld.compare(ref._kdb_cell, run._kdb_cell):
-        c = KCell(f"{test_name}_diffs")
-        refdiff = KCell(f"{test_name}_ref")
-        rundiff = KCell(f"{test_name}_run")
+        c = KCell(f"{test_name}_difftest")
+        refdiff = KCell(f"{test_name}_old")
+        rundiff = KCell(f"{test_name}_new")
 
         refdiff.copy_tree(ref._kdb_cell)
         rundiff.copy_tree(run._kdb_cell)
@@ -89,19 +88,29 @@ def difftest(
         c << rundiff
 
         if xor:
-            diff = KCell(f"{test_name}_diff")
+            diff = KCell(f"{test_name}_xor")
 
             for layer in c.kcl.layer_infos():
-                layer = ref.layer(layer)
-                region_run = kdb.Region(run.begin_shapes_rec(layer))
-                region_ref = kdb.Region(ref.begin_shapes_rec(layer))
+                if layer in run.kcl.layer_infos() and layer in ref.kcl.layer_infos():
+                    layer_ref = ref.layer(layer)
+                    layer_run = run.layer(layer)
 
-                region_diff = region_run - region_ref
+                    region_run = kdb.Region(run.begin_shapes_rec(layer_run))
+                    region_ref = kdb.Region(ref.begin_shapes_rec(layer_ref))
+                    region_diff = region_run - region_ref
 
-                if not region_diff.is_empty():
-                    layer_tuple = c.kcl.layer_infos()[layer]
-                    region_xor = region_ref ^ region_run
-                    diff.shapes(layer).insert(region_xor)
+                    if not region_diff.is_empty():
+                        region_xor = region_ref ^ region_run
+                        diff.shapes(layer_ref).insert(region_xor)
+                elif layer in run.kcl.layer_infos():
+                    layer = run.layer(layer)
+                    region = kdb.Region(run.begin_shapes_rec(layer))
+                    diff.shapes(layer).insert(region)
+                else:
+                    layer = ref.layer(layer)
+                    region = kdb.Region(ref.begin_shapes_rec(layer))
+                    diff.shapes(layer).insert(region)
+
             c << diff
 
         c.show()
@@ -144,8 +153,8 @@ if __name__ == "__main__":
     # print([i.name for i in c.get_dependencies()])
     # c.show()
     # c.name = "mzi"
-    c = gf.components.mzi()
-    difftest(c, "mzi")
+    c = gf.components.straight(layer=(1, 0))
+    difftest(c, "straight", dirpath=PATH.cwd)
 
     # component = gf.components.mzi()
     # test_name = "mzi"

@@ -334,7 +334,7 @@ def test_fill():
         # bbox=(100.0, 100.0),
     )
     c << fill
-    difftest(c)
+    difftest(c, test_name='fill')
     return c
 
 
