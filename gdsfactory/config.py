@@ -175,8 +175,8 @@ class Paths:
     web = plugins / "web"
     test_data = repo / "test-data"
     gds_ref = test_data / "gds"
-    gds_run = GDSDIR_TEMP / "gds_run"
-    gds_diff = GDSDIR_TEMP / "gds_diff"
+    gds_run = pathlib.Path(GDSDIR_TEMP) / "gds_run"
+    gds_diff = pathlib.Path(GDSDIR_TEMP) / "gds_diff"
 
 
 def read_config(
