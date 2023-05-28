@@ -249,7 +249,7 @@ def difftest(
             idx = comp_2.kcl.layer(comp.kcl.layer_infos()[layer])
             comp_2.shapes(idx).insert(region)
 
-        c = KCell("Polygon diffs")
+        c = KCell("Polygon diffs" + ref.name + comp.name)
         c << ref_2
         c << comp_2
 
