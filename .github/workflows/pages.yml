@@ -37,6 +37,7 @@ jobs:
           DISPLAY: 1.0
           DOCS: True
           GDSFACTORY_LAYOUT_PLOTTER: klayout
+          KFACTORY_DISPLAY_TYPE: image
           AWS_ACCESS_KEY_ID: ${{ secrets.GDSLIB_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.GDSLIB_AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-west-2
