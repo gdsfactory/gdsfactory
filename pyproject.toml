@@ -77,7 +77,7 @@ dependencies = [
     "fastapi",
     "uvicorn[standard]",
     ]
-    kfactory = ["kfactory==0.7.0"]
+    kfactory = ["kfactory==0.7.2"]
     femwell = ["femwell==0.0.18"]
     database = [
     "sqlalchemy",
