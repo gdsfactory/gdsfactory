@@ -16,6 +16,7 @@ class GdsRegressionFixture(FileRegressionFixture):
         try:
             difftest(c)
 """
+import filecmp
 import pathlib
 import shutil
 from typing import Optional
@@ -49,8 +50,6 @@ def difftest(
         test_name: used to store the GDS file.
         dirpath: default directory for storing reference files.
     """
-    # containers function_name is different from component.name
-    # we store the container with a different name from original component
     test_name = test_name or (
         f"{component.function_name}_{component.name}"
         if hasattr(component, "function_name")
@@ -72,6 +71,9 @@ def difftest(
         raise AssertionError(
             f"Reference GDS file for {test_name!r} not found. Writing to {ref_file!r}"
         )
+
+    if filecmp.cmp(ref_file, run_file, shallow=False):
+        return
 
     ref = read_top_cell(ref_file)
     run = read_top_cell(run_file)
