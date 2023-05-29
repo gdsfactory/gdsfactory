@@ -169,7 +169,7 @@ class Component(_GeometryHelper):
 
         self.settings: Dict[str, Any] = {}
         self._locked = False
-        self.get_child_name = False
+        self._get_child_name = False
         self._reference_names_counter = Counter()
         self._reference_names_used = set()
         self._named_references = {}
@@ -1124,7 +1124,7 @@ class Component(_GeometryHelper):
                 f"{type(component)}" "is not a Component or ComponentReference"
             )
 
-        self.get_child_name = True
+        self._get_child_name = True
         self.child = component
         self.info.update(component.info)
         self.settings.update(component.settings)
