@@ -78,7 +78,7 @@ full = [
 "uvicorn[standard]",
 ]
 kfactory = ["kfactory[git]==0.7.2"]
-femwell = ["femwell==0.0.18"]
+femwell = ["femwell==0.1.0"]
 database = [
 "sqlalchemy",
 "sqlalchemy-utils",
