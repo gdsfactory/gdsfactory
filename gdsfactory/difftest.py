@@ -108,7 +108,7 @@ def difftest(
     ld.on_text_in_a_only = lambda anotb, prop_id: text_diff_a(anotb, prop_id)
     ld.on_text_in_b_only = lambda anotb, prop_id: text_diff_b(anotb, prop_id)
 
-    if not ld.compare(ref._kdb_cell, run._kdb_cell, kdb.LayoutDiff.Verbose):
+    if not ld.compare(ref._kdb_cell, run._kdb_cell, kdb.LayoutDiff.Verbose, 1):
         c = KCell(f"{test_name}_difftest")
         refdiff = KCell(f"{test_name}_old")
         rundiff = KCell(f"{test_name}_new")
