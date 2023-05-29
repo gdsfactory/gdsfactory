@@ -128,7 +128,6 @@ def cell_without_validator(func: _F) -> _F:
         # if any args were different from default, append a hash of those args.
         # else, keep only the base name
         named_args_string = "_".join(changed_arg_list)
-
         # print(named_args_string)
 
         if changed_arg_list:

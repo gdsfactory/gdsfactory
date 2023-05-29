@@ -54,7 +54,7 @@ def clean_value_json(value: Any) -> Any:
         return int(value)
 
     elif isinstance(value, (float, np.inexact, np.float64)):
-        return float(np.round(value, DEFAULT_SERIALIZATION_MAX_DIGITS))
+        return np.round(value, DEFAULT_SERIALIZATION_MAX_DIGITS)
 
     elif isinstance(value, np.ndarray):
         value = np.round(value, DEFAULT_SERIALIZATION_MAX_DIGITS)
@@ -72,7 +72,8 @@ def clean_value_json(value: Any) -> Any:
         return {"function": func.__name__, "settings": args_as_kwargs}
 
     elif hasattr(value, "to_dict"):
-        return value.to_dict()
+        # print(type(value))
+        return clean_dict(value.to_dict())
     elif callable(value) and isinstance(value, toolz.functoolz.Compose):
         value = [clean_value_json(value.first)] + [
             clean_value_json(func) for func in value.funcs
