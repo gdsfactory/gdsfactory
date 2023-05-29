@@ -52,7 +52,7 @@ jobs:
       - name: Test with pytest
         run: |
           pytest
-  test_code_coverage_python37:
+  test_code_coverage:
     runs-on: ubuntu-latest
 
     steps:
@@ -60,7 +60,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.7
+          python-version: '3.10'
       - name: Install dependencies
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.GDSLIB_AWS_ACCESS_KEY_ID }}
