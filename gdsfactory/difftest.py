@@ -157,9 +157,8 @@ def difftest(
         except OSError as exc:
             raise GeometryDifference(
                 "\n"
-                f"{filename!r} changed from reference {str(ref_file)!r}\n"
-                "To step over each error you can run `pytest -s`\n"
-                "So you can check the differences in Klayout GUI\n"
+                f"{filename!r} changed from reference {str(ref_file)!r}. "
+                "Run `pytest -s` to step and check differences in klayout GUI."
             ) from exc
 
 
