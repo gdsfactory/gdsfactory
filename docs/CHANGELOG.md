@@ -1,8 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.98.2...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.100.0...main)
 
 ## [6.100.0](https://github.com/gdsfactory/gdsfactory/compare/v6.100.0...v6.99.0)
+
+- add `get_polygon_bbox` and `get_polygon_enclosure` that return a shapely polygon [PR](https://github.com/gdsfactory/gdsfactory/pull/1709)
 
 ## [6.99.0](https://github.com/gdsfactory/gdsfactory/compare/v6.99.0...v6.98.2)
 
@@ -22,7 +24,7 @@
 
 ## [6.98.0](https://github.com/gdsfactory/gdsfactory/compare/v6.98.0...v6.97.1)
 
-- add component overlap [PR](https://github.com/gdsfactory/gdsfactory/pull/1689/)
+- add verification functions to check for component overlap [PR](https://github.com/gdsfactory/gdsfactory/pull/1689/)
 
 ## [6.97.1](https://github.com/gdsfactory/gdsfactory/compare/v6.97.0...v6.97.1)
 
