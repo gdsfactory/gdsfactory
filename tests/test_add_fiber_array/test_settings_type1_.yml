@@ -163,7 +163,7 @@ settings:
   function_name: add_fiber_array
   info:
     grating_coupler:
-      period: 0.6759999999999999
+      period: 0.676
       polarization: te
       wavelength: 1.53
     length: 10.19

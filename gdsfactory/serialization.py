@@ -14,7 +14,7 @@ import pydantic
 import toolz
 from omegaconf import DictConfig, OmegaConf
 
-DEFAULT_SERIALIZATION_MAX_DIGITS = 8
+DEFAULT_SERIALIZATION_MAX_DIGITS = 3
 """By default, the maximum number of digits retained when serializing float-like arrays"""
 
 
@@ -54,7 +54,7 @@ def clean_value_json(value: Any) -> Any:
         return int(value)
 
     elif isinstance(value, (float, np.inexact, np.float64)):
-        return float(value)
+        return float(np.round(value, DEFAULT_SERIALIZATION_MAX_DIGITS))
 
     elif isinstance(value, np.ndarray):
         value = np.round(value, DEFAULT_SERIALIZATION_MAX_DIGITS)
@@ -92,7 +92,7 @@ def clean_value_json(value: Any) -> Any:
         value = [clean_value_json(i) for i in value]
 
     elif isinstance(value, gdstk.Polygon):
-        value = np.round(value.points, 3)
+        value = np.round(value.points, DEFAULT_SERIALIZATION_MAX_DIGITS)
     else:
         try:
             value_json = orjson.dumps(

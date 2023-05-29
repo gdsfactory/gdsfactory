@@ -38,7 +38,7 @@ settings:
       wavelength: 1.53
     function_name: grating_coupler_elliptical_trenches
     info:
-      period: 0.6759999999999999
+      period: 0.676
       polarization: te
       wavelength: 1.53
     info_version: 2
@@ -60,7 +60,7 @@ settings:
         taper_angle: 35
   function_name: grating_coupler_loss_fiber_single
   info:
-    period: 0.6759999999999999
+    period: 0.676
     polarization: te
     wavelength: 1.53
   info_version: 2

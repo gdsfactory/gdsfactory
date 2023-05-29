@@ -45,7 +45,7 @@ settings:
     separation: 2.0
   function_name: spiral_double
   info:
-    length: 635.0904965875375
+    length: 635.09
   info_version: 2
   module: gdsfactory.components.spiral_double
   name: spiral_double

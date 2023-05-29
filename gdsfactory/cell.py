@@ -129,6 +129,8 @@ def cell_without_validator(func: _F) -> _F:
         # else, keep only the base name
         named_args_string = "_".join(changed_arg_list)
 
+        # print(named_args_string)
+
         if changed_arg_list:
             named_args_string = (
                 hashlib.md5(named_args_string.encode()).hexdigest()[:8]
