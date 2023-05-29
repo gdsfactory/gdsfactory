@@ -2,6 +2,8 @@
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.98.2...main)
 
+## [6.100.0](https://github.com/gdsfactory/gdsfactory/compare/v6.100.0...v6.99.0)
+
 ## [6.99.0](https://github.com/gdsfactory/gdsfactory/compare/v6.99.0...v6.98.2)
 
 - improve difftest [PR](https://github.com/gdsfactory/gdsfactory/pull/1703)

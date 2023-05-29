@@ -797,8 +797,7 @@ def widths(xw, yw, wmaps, x, y):
     map_coordinates = partial(
         jax.scipy.ndimage.map_coordinates, coordinates=coords, order=1, mode="nearest"
     )
-    w = jax.vmap(map_coordinates)(wmaps)
-    return w
+    return jax.vmap(map_coordinates)(wmaps)
 
 
 # %% [markdown]
