@@ -60,9 +60,9 @@ jobs:
         with:
           fail_on_unmatched_files: false
           files: |
-            conda/gdsfactory-6.99.0-Linux-x86_64.sh
-            conda/gdsfactory-6.99.0-Windows-x86_64.exe
-            conda/gdsfactory-6.99.0-MacOSX-x86_64.pkg
+            conda/gdsfactory-6.100.0-Linux-x86_64.sh
+            conda/gdsfactory-6.100.0-Windows-x86_64.exe
+            conda/gdsfactory-6.100.0-MacOSX-x86_64.pkg
   release_docker:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
     runs-on: ubuntu-latest
@@ -81,12 +81,12 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/gdsfactory:latest,${{ secrets.DOCKERHUB_USERNAME }}/gdsfactory:6.99.0
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/gdsfactory:latest,${{ secrets.DOCKERHUB_USERNAME }}/gdsfactory:6.100.0
           file: .devcontainer/Dockerfile.dev
       - name: Build and push minimal
         id: docker_build_minimal
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/gdsfactory_minimal:latest,${{ secrets.DOCKERHUB_USERNAME }}/gdsfactory_minimal:6.99.0
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/gdsfactory_minimal:latest,${{ secrets.DOCKERHUB_USERNAME }}/gdsfactory_minimal:6.100.0
           file: .devcontainer/Dockerfile.dev_minimal
