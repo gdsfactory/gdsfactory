@@ -1,21 +1,4 @@
-"""GDS regression test. Adapted from lytest.
-
-TODO: adapt it into pytest_regressions
-from __future__ import annotations
-from pytest_regressions.file_regression import FileRegressionFixture
-class GdsRegressionFixture(FileRegressionFixture):
-    def check(self,
-        contents,
-        extension=".gds",
-        basename=None,
-        fullpath=None,
-        binary=False,
-        obtained_filename=None,
-        check_fn=None,
-            ):
-        try:
-            difftest(c)
-"""
+"""GDS regression test. Inspired by lytest."""
 import filecmp
 import pathlib
 import shutil
@@ -79,7 +62,53 @@ def difftest(
     run = read_top_cell(run_file)
     ld = kdb.LayoutDiff()
 
-    if not ld.compare(ref._kdb_cell, run._kdb_cell):
+    a_regions: dict[int, kdb.Region] = {}
+    a_texts: dict[int, kdb.Texts] = {}
+    b_regions: dict[int, kdb.Region] = {}
+    b_texts: dict[int, kdb.Texts] = {}
+
+    def get_region(key, regions: dict[int, kdb.Region]) -> kdb.Region:
+        if key not in regions:
+            reg = kdb.Region()
+            regions[key] = reg
+            return reg
+        else:
+            return regions[key]
+
+    def get_texts(key, texts_dict: dict[int, kdb.Texts]) -> kdb.Texts:
+        if key not in texts_dict:
+            texts = kdb.Texts()
+            texts_dict[key] = texts
+            return texts
+        else:
+            return texts_dict[key]
+
+    def polygon_diff_a(anotb: kdb.Polygon, prop_id: int):
+        get_region(ld.layer_index_a(), a_regions).insert(anotb)
+
+    def polygon_diff_b(bnota: kdb.Polygon, prop_id: int):
+        get_region(ld.layer_index_b(), b_regions).insert(bnota)
+
+    def cell_diff_a(cell: kdb.Cell):
+        print(f"{cell.name} only in old")
+
+    def cell_diff_b(cell: kdb.Cell):
+        print(f"{cell.name} only in new")
+
+    def text_diff_a(anotb: kdb.Text, prop_id: int):
+        get_texts(ld.layer_index_a(), a_texts).insert(anotb)
+
+    def text_diff_b(bnota: kdb.Text, prop_id: int):
+        get_texts(ld.layer_index_b(), b_texts).insert(bnota)
+
+    ld.on_cell_in_a_only = lambda anotb: cell_diff_a(anotb)
+    ld.on_cell_in_b_only = lambda anotb: cell_diff_b(anotb)
+    ld.on_polygon_in_a_only = lambda anotb, prop_id: polygon_diff_a(anotb, prop_id)
+    ld.on_polygon_in_b_only = lambda anotb, prop_id: polygon_diff_b(anotb, prop_id)
+    ld.on_text_in_a_only = lambda anotb, prop_id: text_diff_a(anotb, prop_id)
+    ld.on_text_in_b_only = lambda anotb, prop_id: text_diff_b(anotb, prop_id)
+
+    if not ld.compare(ref._kdb_cell, run._kdb_cell, kdb.LayoutDiff.Verbose):
         c = KCell(f"{test_name}_difftest")
         refdiff = KCell(f"{test_name}_old")
         rundiff = KCell(f"{test_name}_new")
@@ -155,7 +184,8 @@ if __name__ == "__main__":
     # print([i.name for i in c.get_dependencies()])
     # c.show()
     # c.name = "mzi"
-    c = gf.components.straight(layer=(1, 0))
+    c = gf.components.straight(layer=(2, 0))
+    c.show()
     difftest(c, "straight", dirpath=PATH.cwd)
 
     # component = gf.components.mzi()

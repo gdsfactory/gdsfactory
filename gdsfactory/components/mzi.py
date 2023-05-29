@@ -223,7 +223,7 @@ mzi_coupler = partial(
 
 if __name__ == "__main__":
     c = mzi()
-    print([i.name for i in c.get_dependencies()])
+    print(sorted([i.name for i in c.get_dependencies()]))
     # from gdsfactory import get_generic_pdk
 
     # pdk = get_generic_pdk()

@@ -57,4 +57,5 @@ if __name__ == "__main__":
     # name = "aar_error_intermediate_180"
     # name = "aar_error_overconstrained"
     c = AAR_YAML_PICS[name]()
+    print(sorted([i.name for i in c.get_dependencies()]))
     c.show()
