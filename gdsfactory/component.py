@@ -17,6 +17,7 @@ from collections.abc import Iterable
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
+import shapely
 import gdstk
 import numpy as np
 import yaml
@@ -168,7 +169,7 @@ class Component(_GeometryHelper):
 
         self.settings: Dict[str, Any] = {}
         self._locked = False
-        self.get_child_name = False
+        self._get_child_name = False
         self._reference_names_counter = Counter()
         self._reference_names_used = set()
         self._named_references = {}
@@ -208,12 +209,46 @@ class Component(_GeometryHelper):
         """You can iterate over polygons, paths, labels and references."""
         return itertools.chain(self.polygons, self.paths, self.labels, self.references)
 
+    def get_polygon_enclosure(self) -> shapely.Polygon:
+        return shapely.Polygon(self._cell.convex_hull())
+
+    def get_polygon_bbox(
+        self,
+        default: float = 0.0,
+        top: Optional[float] = None,
+        bottom: Optional[float] = None,
+        right: Optional[float] = None,
+        left: Optional[float] = None,
+    ) -> shapely.Polygon:
+        """Returns shapely Polygon with padding.
+
+        Args:
+            default: default padding in um.
+            top: north padding in um.
+            bottom: south padding in um.
+            right: east padding in um.
+            left: west padding in um.
+        """
+        (xmin, ymin), (xmax, ymax) = self.bbox
+        top = top if top is not None else default
+        bottom = bottom if bottom is not None else default
+        right = right if right is not None else default
+        left = left if left is not None else default
+        points = [
+            [xmin - left, ymin - bottom],
+            [xmax + right, ymin - bottom],
+            [xmax + right, ymax + top],
+            [xmin - left, ymax + top],
+        ]
+        return shapely.Polygon(points)
+
     def get_polygons(
         self,
         by_spec: Union[bool, Tuple[int, int]] = False,
         depth: Optional[int] = None,
         include_paths: bool = True,
         as_array: bool = True,
+        as_shapely: bool = False,
     ) -> Union[List[Polygon], Dict[Tuple[int, int], List[Polygon]]]:
         """Return a list of polygons in this cell.
 
@@ -248,6 +283,7 @@ class Component(_GeometryHelper):
             depth=depth,
             include_paths=include_paths,
             as_array=as_array,
+            as_shapely=as_shapely,
         )
 
     def get_dependencies(self, recursive: bool = False) -> List[Component]:
@@ -1088,7 +1124,7 @@ class Component(_GeometryHelper):
                 f"{type(component)}" "is not a Component or ComponentReference"
             )
 
-        self.get_child_name = True
+        self._get_child_name = True
         self.child = component
         self.info.update(component.info)
         self.settings.update(component.settings)
@@ -1995,25 +2031,6 @@ class Component(_GeometryHelper):
             with_ports: write port information.
         """
         return OmegaConf.to_yaml(clean_dict(self.to_dict(**kwargs)))
-
-    def to_dict_polygons(self) -> Dict[str, Any]:
-        """Returns a dict representation of the flattened component."""
-        d = {}
-        polygons = {}
-        layer_to_polygons = self.get_polygons(by_spec=True)
-
-        for layer, polygons_layer in layer_to_polygons.items():
-            layer_name = f"{layer[0]}_{layer[1]}"
-            for polygon in polygons_layer:
-                polygons[layer_name] = [tuple(snap_to_grid(v)) for v in polygon]
-
-        ports = {port.name: port.settings for port in self.get_ports_list()}
-        clean_dict(ports)
-        clean_dict(polygons)
-        d.info = self.info
-        d.polygons = polygons
-        d.ports = ports
-        return d
 
     def auto_rename_ports(self, **kwargs) -> None:
         """Rename ports by orientation NSEW (north, south, east, west).

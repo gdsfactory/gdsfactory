@@ -190,7 +190,7 @@ def cell_without_validator(func: _F) -> _F:
                 "make sure that functions with @cell decorator return a Component",
             )
 
-        if metadata_child and component.get_child_name:
+        if metadata_child and component._get_child_name:
             component_name = f"{metadata_child.get('name')}_{name}"
             component_name = get_name_short(
                 component_name, max_name_length=max_name_length

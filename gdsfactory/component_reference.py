@@ -5,6 +5,7 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 
 from __future__ import annotations
 
+import shapely
 import typing
 from typing import Any, Dict, List, Optional, Tuple, Union, cast, Set
 
@@ -259,12 +260,46 @@ class ComponentReference(_GeometryHelper):
     def parent(self, value) -> None:
         self._set_ref_cell(value)
 
+    def get_polygon_enclosure(self) -> shapely.Polygon:
+        return shapely.Polygon(self._reference.convex_hull())
+
+    def get_polygon_bbox(
+        self,
+        default: float = 0.0,
+        top: Optional[float] = None,
+        bottom: Optional[float] = None,
+        right: Optional[float] = None,
+        left: Optional[float] = None,
+    ) -> shapely.Polygon:
+        """Returns shapely Polygon with padding.
+
+        Args:
+            default: default padding in um.
+            top: north padding in um.
+            bottom: south padding in um.
+            right: east padding in um.
+            left: west padding in um.
+        """
+        (xmin, ymin), (xmax, ymax) = self.bbox
+        top = top if top is not None else default
+        bottom = bottom if bottom is not None else default
+        right = right if right is not None else default
+        left = left if left is not None else default
+        points = [
+            [xmin - left, ymin - bottom],
+            [xmax + right, ymin - bottom],
+            [xmax + right, ymax + top],
+            [xmin - left, ymax + top],
+        ]
+        return shapely.Polygon(points)
+
     def get_polygons(
         self,
         by_spec: bool = False,
         depth: Optional[int] = None,
         include_paths: bool = True,
         as_array: bool = True,
+        as_shapely: bool = False,
     ) -> Union[List[Polygon], Dict[Tuple[int, int], List[Polygon]]]:
         """Return the list of polygons created by this reference.
 
@@ -300,6 +335,7 @@ class ComponentReference(_GeometryHelper):
             depth=depth,
             include_paths=include_paths,
             as_array=as_array,
+            as_shapely=as_shapely,
         )
 
     def get_labels(self, depth=None, set_transform=True):

@@ -1,3 +1,19 @@
+# ---
+# jupyter:
+#   jupytext:
+#     cell_metadata_filter: title,-all
+#     custom_cell_magics: kql
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
+#   kernelspec:
+#     display_name: base
+#     language: python
+#     name: python3
+# ---
+
 # %% [markdown]
 # # Component
 #
@@ -123,6 +139,41 @@ c = gf.Component("p6")
 c.add_polygon(p6, layer=1)
 c
 
+# %%
+c = gf.Component("enclosure1")
+r = c << gf.components.ring_single()
+c
+
+
+# %%
+c = gf.Component("enclosure2")
+r = c << gf.components.ring_single()
+p = c.get_polygon_bbox()
+c.add_polygon(p, layer=(2, 0))
+c
+
+# %%
+c = gf.Component("enclosure3")
+r = c << gf.components.ring_single()
+p = c.get_polygon_bbox(top=3, bottom=3)
+c.add_polygon(p, layer=(2, 0))
+c
+
+# %%
+c = gf.Component("enclosure3")
+r = c << gf.components.ring_single()
+p = c.get_polygon_enclosure()
+c.add_polygon(p, layer=(2, 0))
+c
+
+# %%
+c = gf.Component("enclosure3")
+r = c << gf.components.ring_single()
+p = c.get_polygon_enclosure()
+p2 = p.buffer(3)
+c.add_polygon(p2, layer=(2, 0))
+c
+
 # %% [markdown]
 # ## Connect **ports**
 #
@@ -159,7 +210,7 @@ c
 
 # %% [markdown]
 # Now we can connect everything together using the ports:
-
+#
 # Each straight has two ports: 'o1' and 'o2', respectively on the East and West sides of the rectangular straight component. These are arbitrary
 # names defined in our straight() function above
 
@@ -333,6 +384,7 @@ mmi.mirror()
 c
 
 # %% [markdown]
+#
 # %% mirror_y and mirror_x are also available
 mmi.mirror_y()
 c
