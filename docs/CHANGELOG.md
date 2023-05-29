@@ -2,6 +2,12 @@
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.98.2...main)
 
+## [6.99.0](https://github.com/gdsfactory/gdsfactory/compare/v6.99.0...v6.98.2)
+
+- improve difftest [PR](https://github.com/gdsfactory/gdsfactory/pull/1703)
+- fix devsim [PR](https://github.com/gdsfactory/gdsfactory/pull/1704)
+- update tidy3d to 2.2.2
+
 ## [6.98.2](https://github.com/gdsfactory/gdsfactory/compare/v6.98.2...v6.98.1)
 
 - only use section.insets if they are not (0, 0) [PR](https://github.com/gdsfactory/gdsfactory/commit/9bffa6d84f4fe427e74cd6193c3afdc731bb0deb)
