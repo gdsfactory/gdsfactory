@@ -26,6 +26,7 @@ def get_polygons(
     depth: Optional[int] = None,
     include_paths: bool = True,
     as_array: bool = True,
+    as_shapely: bool = False,
 ) -> Union[List[Polygon], Dict[Tuple[int, int], List[Polygon]]]:
     """Return a list of polygons in this cell.
 
@@ -89,7 +90,12 @@ def get_polygons(
 
     if not as_array:
         return polygons
-    if by_spec is not True:
+    elif as_shapely:
+        from shapely.geometry.polygon import Polygon
+
+        return [Polygon(polygon.points) for polygon in polygons]
+
+    elif by_spec is not True:
         return [polygon.points for polygon in polygons]
     layer_to_polygons = defaultdict(list)
     for layer, polygons_list in polygons.items():
