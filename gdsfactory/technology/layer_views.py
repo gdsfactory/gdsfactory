@@ -1230,12 +1230,11 @@ def _name_to_description(name_str) -> str:
     return " ".join(fields[1:]) if len(fields) > 1 else ""
 
 
-def test_load_lyp():
+def test_load_lyp() -> None:
     from gdsfactory.config import PATH
 
     lys = LayerViews(PATH.klayout_lyp)
     assert len(lys.layer_views) > 10, len(lys.layer_views)
-    return lys
 
 
 if __name__ == "__main__":

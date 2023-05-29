@@ -182,9 +182,10 @@ def test_copy() -> None:
 
 
 if __name__ == "__main__":
-    c = test_path()
-    # c = transition()
+    # c = test_path()
+    c = transition()
     # c.plot()
+    print([i.name for i in c.get_dependencies()])
     c.show(show_ports=False)
 
     # c = test_path()

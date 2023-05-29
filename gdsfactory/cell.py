@@ -128,6 +128,7 @@ def cell_without_validator(func: _F) -> _F:
         # if any args were different from default, append a hash of those args.
         # else, keep only the base name
         named_args_string = "_".join(changed_arg_list)
+        # print(named_args_string)
 
         if changed_arg_list:
             named_args_string = (
@@ -424,123 +425,31 @@ def straight_with_pins(**kwargs) -> Component:
     return c
 
 
+def test_hashes() -> None:
+    import gdsfactory as gf
+
+    c = gf.components.mzi()
+    names1 = {i.name for i in c.get_dependencies()}
+    gf.clear_cache()
+    c = gf.components.mzi()
+    names2 = {i.name for i in c.get_dependencies()}
+    assert names1 == names2
+
+
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    @gf.declarative_cell
-    class mzi:
-        delta_length: float = 10.0
+    c = gf.c.mzi()
+    print(c.name)
 
-        def instances(self):
-            self.mmi_in = gf.components.mmi1x2()
-            self.mmi_out = gf.components.mmi2x2()
-            self.straight_top1 = gf.components.straight(length=self.delta_length / 2)
-            self.straight_top2 = gf.components.straight(length=self.delta_length / 2)
-            self.bend_top1 = gf.components.bend_euler()
-            self.bend_top2 = gf.components.bend_euler().mirror()
-            self.bend_top3 = gf.components.bend_euler().mirror()
-            self.bend_top4 = gf.components.bend_euler()
-            self.bend_btm1 = gf.components.bend_euler().mirror()
-            self.bend_btm2 = gf.components.bend_euler()
-            self.bend_btm3 = gf.components.bend_euler()
-            self.bend_btm4 = gf.components.bend_euler().mirror()
+    # c = gf.components.mzi()
+    # names1 = set([i.name for i in c.get_dependencies()])
+    # gf.clear_cache()
+    # c = gf.components.mzi()
+    # names2 = set([i.name for i in c.get_dependencies()])
+    # assert names1 == names2
 
-        def connections(self):
-            return [
-                (self.bend_top1.ports["o1"], self.mmi_in.ports["o2"]),
-                (self.straight_top1.ports["o1"], self.bend_top1.ports["o2"]),
-                (self.bend_top2.ports["o1"], self.straight_top1.ports["o2"]),
-                (self.bend_top3.ports["o1"], self.bend_top2.ports["o2"]),
-                (self.straight_top2.ports["o1"], self.bend_top3.ports["o2"]),
-                (self.bend_top4.ports["o1"], self.straight_top2.ports["o2"]),
-                (self.bend_btm1.ports["o1"], self.mmi_in.ports["o3"]),
-                (self.bend_btm2.ports["o1"], self.bend_btm1.ports["o2"]),
-                (self.bend_btm3.ports["o1"], self.bend_btm2.ports["o2"]),
-                (self.bend_btm4.ports["o1"], self.bend_btm3.ports["o2"]),
-                (self.mmi_out.ports["o1"], self.bend_btm4.ports["o2"]),
-            ]
-
-        def ports(self):
-            return {
-                "o1": self.mmi_in.ports["o1"],
-                "o2": self.mmi_out.ports["o3"],
-                "o3": self.mmi_out.ports["o4"],
-            }
-
-    @gf.declarative_cell
-    class mzi_lattice_fixme:
-        """does not work"""
-
-        delta_lengths: Tuple[float, ...] = (10.0, 100)
-
-        def instances(self):
-            self.mzis = {}
-            for i, d in enumerate(self.delta_lengths):
-                self.mzis[i] = mzi(delta_length=d).ref()
-
-        def connections(self):
-            return [
-                (self.mzis[i + 1]["o1"], self.mzis[i]["o2"])
-                for i in range(len(self.mzis) - 1)
-            ]
-
-        def ports(self):
-            return {
-                "o1": self.mzis[0].ports["o1"],
-                "o2": self.mzis[len(self.mzis) - 1].ports["o2"],
-            }
-
-    @gf.declarative_cell
-    class mzi_lattice:
-        """Works"""
-
-        delta_length1: float = 10.0
-        delta_length2: float = 100.0
-
-        def instances(self):
-            self.mzi1 = mzi(delta_length=self.delta_length1)
-            self.mzi2 = mzi(delta_length=self.delta_length2)
-
-        def connections(self):
-            return [
-                (self.mzi2["o1"], self.mzi1.ports["o2"]),
-            ]
-
-        def ports(self):
-            return {
-                "o1": self.mzi1.ports["o1"],
-                "o2": self.mzi2.ports["o2"],
-            }
-
-    @gf.declarative_cell
-    class mzi_lattice_with_routes:
-        """Works"""
-
-        delta_length1: float = 10.0
-        delta_length2: float = 100.0
-
-        def instances(self):
-            self.mzi1 = mzi(delta_length=self.delta_length1)
-            self.mzi2 = mzi(delta_length=self.delta_length2)
-
-        def placements(self):
-            pass
-
-        def routes(self):
-            return [
-                (self.mzi2["o1"], self.mzi1.ports["o2"]),
-            ]
-
-        def ports(self):
-            return {
-                "o1": self.mzi1.ports["o1"],
-                "o2": self.mzi2.ports["o2"],
-            }
-
-    # c = mzi(delta_length=10)
-    # c = mzi()
-    c = mzi_lattice()
-    c.show()
+    # test_hashes()
 
     # test_names()
     # c = wg()

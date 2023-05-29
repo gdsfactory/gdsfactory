@@ -1,5 +1,4 @@
 py[cod]
-
 add_type_hints.xonsh
 gdsfactory/generic_tech/klayout/klayoutrc
 gdsfactory/plugins/dagster/tmp*
@@ -231,7 +230,6 @@ htmlcov/
 .coverage
 .coverage.*
 .cache
-nosetests.xml
 coverage.xml
 *.cover
 .hypothesis/

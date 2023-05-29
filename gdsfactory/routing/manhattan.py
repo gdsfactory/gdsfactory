@@ -603,7 +603,6 @@ def round_corners(
     cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
     on_route_error: Callable = get_route_error,
     with_point_markers: bool = False,
-    snap_to_grid_nm: Optional[int] = 1,
     with_sbend: bool = False,
     **kwargs,
 ) -> Route:
@@ -624,7 +623,6 @@ def round_corners(
         cross_section: spec.
         on_route_error: function to run when route fails.
         with_point_markers: add route points markers (easy for debugging).
-        snap_to_grid_nm: nm to snap to grid.
         with_sbend: add sbend in case there are routing errors.
         kwargs: cross_section settings.
 
@@ -640,10 +638,6 @@ def round_corners(
         layer = x.layer
 
     layer = get_layer(layer)
-    points = (
-        gf.snap.snap_to_grid(points, nm=snap_to_grid_nm) if snap_to_grid_nm else points
-    )
-
     references = []
 
     bend90 = (

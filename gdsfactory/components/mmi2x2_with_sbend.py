@@ -32,56 +32,67 @@ def mmi2x2_with_sbend(
 
     P = gf.path.straight(length=2 * 2.4 + 2 * 1.6, npoints=5)
 
-    xs = gf.get_cross_section(cross_section)
+    xs = gf.get_cross_section(cross_section, add_pins=None)
     xs.width = mmi_widths
-    c << gf.path.extrude(P, cross_section=xs)
+    ref = c << gf.path.extrude(P, cross_section=xs)
 
     # Add input and output tapers
-    top_input_block = c << gf.components.taper(
-        length=1, width1=0.5, width2=0.7, cross_section=cross_section
+    taper = gf.components.taper(
+        length=1, width1=0.5, width2=0.7, cross_section=cross_section, add_pins=None
     )
-    top_input_block.move((-1, 0.45))
-    bottom_input_block = c << gf.components.taper(
-        length=1, width1=0.5, width2=0.7, cross_section=cross_section
-    )
-    bottom_input_block.move((-1, -0.45))
+    topl_taper = c << taper
+    topl_taper.move((-1, 0.45))
+    botl_taper = c << taper
+    botl_taper.move((-1, -0.45))
 
-    top_output_block = c << gf.components.taper(
-        length=1, width1=0.7, width2=0.5, cross_section=cross_section
-    )
-    top_output_block.move((8, 0.45))
-    bottom_output_block = c << gf.components.taper(
-        length=1, width1=0.7, width2=0.5, cross_section=cross_section
-    )
-    bottom_output_block.move((8, -0.45))
+    topr_taper = c << taper
+    topr_taper.mirror()
+    topr_taper.move((9, 0.45))
+
+    botr_taper = c << taper
+    botr_taper.mirror()
+    botr_taper.move((9, -0.45))
 
     if with_sbend:
-        sbend = gf.get_component(s_bend, cross_section=cross_section)
+        sbend = gf.get_component(s_bend, cross_section=cross_section, add_pins=None)
 
-        top_input_sbend_ref = c << sbend
-        top_input_sbend_ref.mirror([0, 1])
-        bottom_input_sbend_ref = c << sbend
-        top_output_sbend_ref = c << sbend
-        bottom_output_sbend_ref = c << sbend
-        bottom_output_sbend_ref.mirror([0, 1])
+        topl_sbend = c << sbend
+        topl_sbend.mirror([0, 1])
+        botl_sbend = c << sbend
+        topr_sbend = c << sbend
+        botr_sbend = c << sbend
+        botr_sbend.mirror([0, 1])
 
-        top_input_sbend_ref.connect("o1", destination=top_input_block.ports["o1"])
-        bottom_input_sbend_ref.connect("o1", destination=bottom_input_block.ports["o1"])
-        top_output_sbend_ref.connect("o1", destination=top_output_block.ports["o2"])
-        bottom_output_sbend_ref.connect(
-            "o1", destination=bottom_output_block.ports["o2"]
-        )
+        topl_sbend.connect("o1", destination=topl_taper.ports["o1"])
+        botl_sbend.connect("o1", destination=botl_taper.ports["o1"])
+        topr_sbend.connect("o1", destination=topr_taper.ports["o1"])
+        botr_sbend.connect("o1", destination=botr_taper.ports["o1"])
 
-        c.add_port("o1", port=bottom_input_sbend_ref.ports["o2"])
-        c.add_port("o2", port=top_input_sbend_ref.ports["o2"])
-        c.add_port("o3", port=top_output_sbend_ref.ports["o2"])
-        c.add_port("o4", port=bottom_output_sbend_ref.ports["o2"])
+        c.add_port("o1", port=botl_sbend.ports["o2"])
+        c.add_port("o2", port=topl_sbend.ports["o2"])
+        c.add_port("o3", port=topr_sbend.ports["o2"])
+        c.add_port("o4", port=botr_sbend.ports["o2"])
 
+        c.absorb(topr_sbend)
+        c.absorb(topl_sbend)
+        c.absorb(botr_sbend)
+        c.absorb(botl_sbend)
     else:
-        c.add_port("o2", port=top_input_block.ports["o1"])
-        c.add_port("o1", port=bottom_input_block.ports["o1"])
-        c.add_port("o3", port=top_output_block.ports["o2"])
-        c.add_port("o4", port=bottom_output_block.ports["o2"])
+        c.add_port("o2", port=topl_taper.ports["o1"])
+        c.add_port("o1", port=botl_taper.ports["o1"])
+        c.add_port("o3", port=topr_taper.ports["o2"])
+        c.add_port("o4", port=botr_taper.ports["o2"])
+
+    xs = gf.get_cross_section(cross_section)
+    if xs.add_pins:
+        c = xs.add_pins(c)
+
+    c.absorb(ref)
+
+    c.absorb(topr_taper)
+    c.absorb(topl_taper)
+    c.absorb(botr_taper)
+    c.absorb(botl_taper)
     return c
 
 
@@ -90,5 +101,5 @@ if __name__ == "__main__":
         with_sbend=True,
         cross_section=dict(cross_section="strip", settings=dict(layer=(2, 0))),
     )
-    # c = mmi2x2_with_sbend(with_sbend=False)
-    c.show(show_ports=True)
+    c = mmi2x2_with_sbend()
+    c.show(show_ports=False)

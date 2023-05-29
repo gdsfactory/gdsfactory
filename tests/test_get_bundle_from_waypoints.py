@@ -106,7 +106,7 @@ def test_get_bundle_from_waypointsC(
 def test_get_bundle_from_waypoints_staggered(
     data_regression: DataRegressionFixture,
     check: bool = True,
-):
+) -> Component:
     c = gf.Component()
     r = c << gf.components.array(
         component=gf.components.straight, rows=2, columns=1, spacing=(0, 20)

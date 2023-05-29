@@ -9,7 +9,7 @@ full: plugins
 all: plugins install full
 
 install:
-	pip install -e .[full,dev] pre-commit
+	pip install -e .[full,dev,kfactory] pre-commit
 	pre-commit install
 	gf install klayout-integration
 

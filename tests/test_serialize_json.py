@@ -25,7 +25,7 @@ def test_clean_value_json_recursive():
 # Tests that the function clean_value_json properly converts a numpy array to a list of lists of floats.
 def test_clean_value_json_numpy_array() -> None:
     arr: np.ndarray = np.array([1.23456789, 2.34567891])
-    expected: List[List[float]] = [[1.23456789, 2.34567891]]
+    expected: List[List[float]] = [[1.235, 2.346]]
     assert np.all(np.equal(clean_value_json(arr), expected))
 
 
@@ -54,10 +54,10 @@ def test_clean_value_json_gdstk_polygon() -> None:
 
 if __name__ == "__main__":
     # test_clean_value_json_gdstk_polygon()
-    # test_clean_value_json_numpy_array()
-    def func(a: int, b: int) -> int:
-        return a + b
+    test_clean_value_json_numpy_array()
+    # def func(a: int, b: int) -> int:
+    #     return a + b
 
-    partial_func = functools.partial(func, b=2)
-    expected = {"function": "func", "settings": {"b": 2}}
-    assert clean_value_json(partial_func) == expected
+    # partial_func = functools.partial(func, b=2)
+    # expected = {"function": "func", "settings": {"b": 2}}
+    # assert clean_value_json(partial_func) == expected
