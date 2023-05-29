@@ -54,7 +54,7 @@ def clean_value_json(value: Any) -> Any:
         return int(value)
 
     elif isinstance(value, (float, np.inexact, np.float64)):
-        return np.round(value, DEFAULT_SERIALIZATION_MAX_DIGITS)
+        return float(np.round(value, DEFAULT_SERIALIZATION_MAX_DIGITS))
 
     elif isinstance(value, np.ndarray):
         value = np.round(value, DEFAULT_SERIALIZATION_MAX_DIGITS)
