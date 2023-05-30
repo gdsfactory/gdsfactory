@@ -35,6 +35,7 @@ gdsfactory/schema.yaml
 sim_run.yaml
 docs/notebooks/ring.yml
 .ruff_cache/
+Pipfile
 
 # Packages
 *.egg

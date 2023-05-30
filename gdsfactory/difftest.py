@@ -7,15 +7,6 @@ from typing import Optional, Union
 import gdsfactory as gf
 from gdsfactory.config import PATH, logger, GDSDIR_TEMP
 
-try:
-    from kfactory import KCell, KCLayout, kdb
-except ImportError as e:
-    print(
-        "You can install `pip install gdsfactory[kfactory]` for using maskprep. "
-        "And make sure you use python >= 3.10"
-    )
-    raise e
-
 
 class GeometryDifference(Exception):
     pass
@@ -28,6 +19,14 @@ def files_are_different(
     ref_file: PathType, run_file: PathType, xor: bool = True, test_name: str = ""
 ) -> bool:
     """Returns True if files are different"""
+    try:
+        from kfactory import KCell, kdb
+    except ImportError as e:
+        print(
+            "You can install `pip install gdsfactory[kfactory]` for using maskprep. "
+            "And make sure you use python >= 3.10"
+        )
+        raise e
     ref = read_top_cell(ref_file)
     run = read_top_cell(run_file)
     ld = kdb.LayoutDiff()
@@ -194,6 +193,8 @@ def overwrite(ref_file, run_file):
 
 
 def read_top_cell(arg0):
+    from kfactory import KCLayout
+
     kcl = KCLayout()
     kcl.read(arg0)
     return kcl[kcl.top_cell().name]
