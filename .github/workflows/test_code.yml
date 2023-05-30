@@ -48,8 +48,6 @@ jobs:
         run: |
           make install
           make data-download
-          gf install klayout-genericpdk
-          gf install git-diff
       - name: Test with pytest
         run: |
           pytest

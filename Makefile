@@ -12,6 +12,7 @@ install:
 	pip install -e .[full,dev,kfactory] pre-commit
 	pre-commit install
 	gf install klayout-genericpdk
+	gf install git-diff
 
 dev: full
 	pre-commit install
