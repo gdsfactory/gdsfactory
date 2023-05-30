@@ -71,11 +71,12 @@ def _write_git_attributes() -> None:
     line_to_add = "*.gds diff=gdsdiff\n"
 
     # Specify the path to the .config/git/attributes file
-    file_path = home / ".config/git/attributes"
+    dirpath = home / ".config" / "git"
+    dirpath.mkdir(exist_ok=True, parents=True)
+    file_path = dirpath / "attributes"
 
     # Read the file to check if the line already exists
-    with open(file_path, "r") as file:
-        file_content = file.read()
+    file_content = file_path.read_text() if file_path.exists() else ""
 
     # Add the line only if it doesn't exist
     if line_to_add not in file_content:
