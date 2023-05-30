@@ -1,6 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.101.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.101.1...main)
+
+## [6.101.1](https://github.com/gdsfactory/gdsfactory/compare/v6.101.1...v6.101.0)
+
+- fix kfactory dependency [PR](https://github.com/gdsfactory/gdsfactory/pull/1714)
 
 ## [6.101.0](https://github.com/gdsfactory/gdsfactory/compare/v6.101.0...v6.100.0)
 
