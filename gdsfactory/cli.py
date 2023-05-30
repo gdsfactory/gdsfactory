@@ -175,9 +175,14 @@ def diff(gdspath1: str, gdspath2: str, xor: bool = False) -> None:
 
 
 @click.command()
-def klayout_integration() -> None:
-    """Install Klayout generic pdk."""
+def klayout_genericpdk() -> None:
+    """Install Klayout generic PDK."""
     install_klayout_package()
+
+
+@click.command()
+def git_diff() -> None:
+    """Install git diff."""
     install_gdsdiff()
 
 
@@ -212,7 +217,8 @@ gds.add_command(merge_gds)
 gds.add_command(show)
 gds.add_command(diff)
 
-install.add_command(klayout_integration)
+install.add_command(klayout_genericpdk)
+install.add_command(git_diff)
 
 version.add_command(raw)
 version.add_command(pdks)
