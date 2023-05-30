@@ -1,6 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.100.0...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.101.0...main)
+
+## [6.101.0](https://github.com/gdsfactory/gdsfactory/compare/v6.101.0...v6.100.0)
+
+- fix git diff gds [PR](https://github.com/gdsfactory/gdsfactory/pull/1712)
 
 ## [6.100.0](https://github.com/gdsfactory/gdsfactory/compare/v6.100.0...v6.99.0)
 
