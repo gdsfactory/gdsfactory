@@ -8,6 +8,8 @@ import shutil
 import sys
 from typing import Optional
 
+home = pathlib.Path.home()
+
 
 def remove_path_or_dir(dest: pathlib.Path) -> None:
     if dest.is_dir():
@@ -64,7 +66,6 @@ def _write_git_config() -> None:
 
 def _write_git_attributes() -> None:
     """Write git attributes in ~/.config/git/attributes."""
-    home = pathlib.Path.home()
     git_config = home / ".config" / "git"
     git_config.mkdir(exist_ok=True, parents=True)
     line_to_add = "*.gds diff=gdsdiff\n"
@@ -85,7 +86,6 @@ def _write_git_attributes() -> None:
 def get_klayout_path() -> pathlib.Path:
     """Returns KLayout path."""
     klayout_folder = "KLayout" if sys.platform == "win32" else ".klayout"
-    home = pathlib.Path.home()
     return home / klayout_folder
 
 
@@ -114,7 +114,7 @@ def _install_to_klayout(
 
     """
     klayout_folder = "KLayout" if sys.platform == "win32" else ".klayout"
-    subdir = pathlib.Path.home() / klayout_folder / klayout_subdir_name
+    subdir = home / klayout_folder / klayout_subdir_name
     dest = subdir / package_name
     subdir.mkdir(exist_ok=True, parents=True)
     make_link(src, dest)
