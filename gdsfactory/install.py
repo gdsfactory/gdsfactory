@@ -149,4 +149,4 @@ if __name__ == "__main__":
     src = cwd / "generic_tech" / "klayout" / "tech"
 
     install_gdsdiff()
-    install_klayout_package()
+    # install_klayout_package()
