@@ -38,46 +38,48 @@ def make_link(src, dest, overwrite: bool = True) -> None:
 
 
 def install_gdsdiff() -> None:
-    """Install gdsdiff tool."""
-    home = pathlib.Path.home()
-    git_config_path = home / ".gitconfig"
-    git_attributes_path = home / ".gitattributes"
-
-    if git_config_path.exists():
-        git_config_str = open(git_config_path).read()
-    else:
-        git_config_str = "empty"
-
-    git_attributes_str = (
-        open(git_attributes_path).read() if git_attributes_path.exists() else "empty"
-    )
-
-    if "gds_diff" not in git_config_str:
-        write_git_config(git_config_path)
-    if "gds_diff" not in git_attributes_str:
-        print("Appending the gdsdiff command to your ~/.gitattributes")
-
-        with open(git_attributes_path, "a") as f:
-            f.write("*.gds diff=gds_diff\n")
-
-
-def write_git_config(git_config_path) -> None:
-    """Write GIT config."""
-    print("gdsdiff shows boolean differences in Klayout")
+    """Install gdsdiff tool for GIT."""
+    print("gdsdiff shows boolean differences in Klayout so you can run:")
     print("git diff FILE.GDS")
-    print("Appending the gdsdiff command to your ~/.gitconfig")
+    print("Adding gdsdiff command to ~/.gitconfig and ~/.config/git/attributes")
+    _write_git_config()
+    _write_git_attributes()
 
+
+def _write_git_config() -> None:
+    """Write GIT config in ~/.gitconfig."""
+    git_config_path = home / ".gitconfig"
     config = configparser.RawConfigParser()
     config.read(git_config_path)
-    key = 'diff "gds_diff"'
+    key = 'diff "gdsdiff"'
 
     if key not in config.sections():
         config.add_section(key)
-        config.set(key, "command", "python -m gdsfactory.gdsdiff.gds_diff_git")
+        config.set(key, "command", "python -m gdsfactory.difftest_git")
         config.set(key, "binary", "True")
 
         with open(git_config_path, "w+") as f:
             config.write(f, space_around_delimiters=True)
+
+
+def _write_git_attributes() -> None:
+    """Write git attributes in ~/.config/git/attributes."""
+    home = pathlib.Path.home()
+    git_config = home / ".config" / "git"
+    git_config.mkdir(exist_ok=True, parents=True)
+    line_to_add = "*.gds diff=gdsdiff\n"
+
+    # Specify the path to the .config/git/attributes file
+    file_path = home / ".config/git/attributes"
+
+    # Read the file to check if the line already exists
+    with open(file_path, "r") as file:
+        file_content = file.read()
+
+    # Add the line only if it doesn't exist
+    if line_to_add not in file_content:
+        with open(file_path, "a") as file:
+            file.write(line_to_add)
 
 
 def get_klayout_path() -> pathlib.Path:
@@ -122,7 +124,6 @@ def install_klayout_package() -> None:
     """Install gdsfactory KLayout package.
 
     Equivalent to using KLayout package manager.
-
     """
     cwd = pathlib.Path(__file__).resolve().parent
     _install_to_klayout(
@@ -148,5 +149,6 @@ if __name__ == "__main__":
     home = pathlib.Path.home()
     src = cwd / "generic_tech" / "klayout" / "tech"
 
+    # write_git_attributes()
     install_gdsdiff()
     # install_klayout_package()

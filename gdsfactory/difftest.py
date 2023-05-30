@@ -2,7 +2,7 @@
 import filecmp
 import pathlib
 import shutil
-from typing import Optional
+from typing import Optional, Union
 
 import gdsfactory as gf
 from gdsfactory.config import PATH, logger, GDSDIR_TEMP
@@ -21,50 +21,13 @@ class GeometryDifference(Exception):
     pass
 
 
-def difftest(
-    component: gf.Component,
-    test_name: Optional[gf.Component] = None,
-    dirpath: pathlib.Path = PATH.gds_ref,
-    xor: bool = True,
-) -> None:
-    """Avoids GDS regressions tests on the GeometryDifference.
+PathType = Union[pathlib.Path, str]
 
-    If files are the same it returns None. If files are different runs XOR
-    between new component and the GDS reference stored in dirpath and
-    raises GeometryDifference if there are differences and show differences in KLayout.
 
-    If it runs for the fist time it just stores the GDS reference.
-
-    Args:
-        component: to test if it has changed.
-        test_name: used to store the GDS file.
-        dirpath: default directory for storing reference files.
-    """
-    test_name = test_name or (
-        f"{component.function_name}_{component.name}"
-        if hasattr(component, "function_name")
-        and component.name != component.function_name
-        else f"{component.name}"
-    )
-    filename = f"{test_name}.gds"
-    dirpath_ref = dirpath
-    dirpath_run = GDSDIR_TEMP
-
-    ref_file = dirpath_ref / f"{test_name}.gds"
-    run_file = dirpath_run / filename
-
-    component = gf.get_component(component)
-    run_file = component.write_gds(gdspath=run_file)
-
-    if not ref_file.exists():
-        shutil.copy(run_file, ref_file)
-        raise AssertionError(
-            f"Reference GDS file for {test_name!r} not found. Writing to {ref_file!r}"
-        )
-
-    if filecmp.cmp(ref_file, run_file, shallow=False):
-        return
-
+def files_are_different(
+    ref_file: PathType, run_file: PathType, xor: bool = True, test_name: str = ""
+) -> bool:
+    """Returns True if files are different"""
     ref = read_top_cell(ref_file)
     run = read_top_cell(run_file)
     ld = kdb.LayoutDiff()
@@ -152,13 +115,63 @@ def difftest(
             c << diff
 
         c.show()
+        return True
+    return False
 
+
+def difftest(
+    component: gf.Component,
+    test_name: Optional[gf.Component] = None,
+    dirpath: pathlib.Path = PATH.gds_ref,
+    xor: bool = True,
+) -> None:
+    """Avoids GDS regressions tests on the GeometryDifference.
+
+    If files are the same it returns None. If files are different runs XOR
+    between new component and the GDS reference stored in dirpath and
+    raises GeometryDifference if there are differences and show differences in KLayout.
+
+    If it runs for the fist time it just stores the GDS reference.
+
+    Args:
+        component: to test if it has changed.
+        test_name: used to store the GDS file.
+        dirpath: default directory for storing reference files.
+        xor: runs XOR.
+    """
+    test_name = test_name or (
+        f"{component.function_name}_{component.name}"
+        if hasattr(component, "function_name")
+        and component.name != component.function_name
+        else f"{component.name}"
+    )
+    filename = f"{test_name}.gds"
+    dirpath_ref = dirpath
+    dirpath_run = GDSDIR_TEMP
+
+    ref_file = dirpath_ref / f"{test_name}.gds"
+    run_file = dirpath_run / filename
+
+    component = gf.get_component(component)
+    run_file = component.write_gds(gdspath=run_file)
+
+    if not ref_file.exists():
+        shutil.copy(run_file, ref_file)
+        raise AssertionError(
+            f"Reference GDS file for {test_name!r} not found. Writing to {ref_file!r}"
+        )
+
+    if filecmp.cmp(ref_file, run_file, shallow=False):
+        return
+
+    if files_are_different(
+        ref_file=ref_file, run_file=run_file, xor=xor, test_name=test_name
+    ):
         print(
             f"\ngds_run {filename!r} changed from gds_ref {str(ref_file)!r}\n"
             "You can check the differences in Klayout GUI or run XOR with\n"
             f"gf gds diff --xor {ref_file} {run_file}\n"
         )
-
         try:
             overwrite(ref_file, run_file)
         except OSError as exc:
@@ -190,7 +203,7 @@ if __name__ == "__main__":
     # print([i.name for i in c.get_dependencies()])
     # c.show()
     # c.name = "mzi"
-    c = gf.components.straight(layer=(2, 0))
+    c = gf.components.straight(layer=(1, 0))
     c.show()
     difftest(c, "straight", dirpath=PATH.cwd)
 
@@ -203,7 +216,6 @@ if __name__ == "__main__":
 
     # ref_file = dirpath_ref / f"{test_name}.gds"
     # run_file = dirpath_run / filename
-
     # run = gf.get_component(component)
     # run_file = run.write_gds(gdspath=run_file)
 
