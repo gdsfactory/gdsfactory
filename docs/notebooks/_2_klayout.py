@@ -12,7 +12,7 @@
 
 # You can install the klayout integration to install the generic layermap:
 #
-# - from the terminal by typing `gf install klayout-integration` after installing gdsfactory `pip install gdsfactory`
+# - from the terminal by typing `gf install klayout-genericpdk` after installing gdsfactory `pip install gdsfactory`
 # - using KLayout package manager (see image below), Tools --> Manage Packages
 #
 # ![KLayout package](https://i.imgur.com/AkfcCms.png)

@@ -3,7 +3,7 @@ try:
     from kfactory import kdb
 except ImportError as e:
     print(
-        "You can install `pip install gdsfactory[full]` for using maskprep. "
+        "You can install `pip install gdsfactory[kfactory]` for using maskprep. "
         "And make sure you use python >= 3.10"
     )
     raise e

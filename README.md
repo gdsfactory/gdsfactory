@@ -101,7 +101,7 @@ Once you have python installed, open Anaconda Prompt and then install the latest
 
 ```
 pip install gdsfactory --upgrade
-gf install klayout-integration
+gf install klayout-genericpdk
 ```
 
 Then you can install Klayout-live `klive` integration in the klayout GUI `Tools --> Manage Packages --> Install New Packages --> Klive` and restart klayout.
@@ -116,7 +116,7 @@ git clone https://github.com/gdsfactory/gdsfactory.git
 cd gdsfactory
 pip install -e . pre-commit
 pre-commit install
-gf install klayout-integration
+gf install klayout-genericpdk
 ```
 
 ### Update gdsfactory

@@ -169,16 +169,20 @@ def show(filename: str) -> None:
 @click.option("--xor", "-x", default=False, help="include xor", is_flag=True)
 def diff(gdspath1: str, gdspath2: str, xor: bool = False) -> None:
     """Show boolean difference between two GDS files."""
-    from gdsfactory.gdsdiff.gdsdiff import gdsdiff
+    from gdsfactory.difftest import files_are_different
 
-    diff = gdsdiff(gdspath1, gdspath2, xor=xor)
-    diff.show()
+    files_are_different(gdspath1, gdspath2, xor=xor)
 
 
 @click.command()
-def klayout_integration() -> None:
-    """Install generic Klayout layermap, klive and git diff."""
+def klayout_genericpdk() -> None:
+    """Install Klayout generic PDK."""
     install_klayout_package()
+
+
+@click.command()
+def git_diff() -> None:
+    """Install git diff."""
     install_gdsdiff()
 
 
@@ -213,7 +217,8 @@ gds.add_command(merge_gds)
 gds.add_command(show)
 gds.add_command(diff)
 
-install.add_command(klayout_integration)
+install.add_command(klayout_genericpdk)
+install.add_command(git_diff)
 
 version.add_command(raw)
 version.add_command(pdks)

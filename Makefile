@@ -11,11 +11,12 @@ all: plugins install full
 install:
 	pip install -e .[full,dev,kfactory] pre-commit
 	pre-commit install
-	gf install klayout-integration
+	gf install klayout-genericpdk
+	gf install git-diff
 
 dev: full
 	pre-commit install
-	gf install klayout-integration
+	gf install klayout-genericpdk
 
 mamba:
 	bash conda/mamba.sh

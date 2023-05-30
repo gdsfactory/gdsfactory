@@ -48,7 +48,6 @@ jobs:
         run: |
           make install
           make data-download
-          gf install klayout-integration
       - name: Test with pytest
         run: |
           pytest
