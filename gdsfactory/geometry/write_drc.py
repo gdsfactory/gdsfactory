@@ -319,7 +319,7 @@ deep
     dirpath = filepath.parent
     dirpath.mkdir(parents=True, exist_ok=True)
     filepath = pathlib.Path(filepath)
-    filepath.write_text(script)
+    filepath.write_text(script, encoding="UTF-8")
     print(f"Wrote DRC deck to {str(filepath)!r} with shortcut {shortcut!r}")
     return script
 
