@@ -115,6 +115,7 @@ For that you can install gdsfactory locally on your computer in `-e` edit mode.
 git clone https://github.com/gdsfactory/gdsfactory.git
 cd gdsfactory
 pip install -e . pre-commit
+# pip install -e .[full,gmsh,tidy3d,devsim,meow,database] # Install all plugins
 pre-commit install
 gf install klayout-genericpdk
 ```
