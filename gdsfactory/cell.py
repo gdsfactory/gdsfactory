@@ -9,7 +9,7 @@ from functools import wraps
 from typing import Any, Callable, Dict, Optional, Tuple, TypeVar, Type
 
 import toolz
-from pydantic import BaseModel, validate_arguments
+from pydantic.v1 import BaseModel, validate_arguments
 
 from gdsfactory.component import Component
 from gdsfactory.name import clean_name, get_name_short
@@ -240,7 +240,7 @@ def cell(func: _F) -> _F:
     """Decorator for Component functions.
 
     Wraps cell_without_validator
-    Validates type annotations with pydantic.
+    Validates type annotations with pydantic.v1.
 
     Implements a cache so that if a component has already been build
     it will return the component from the cache directly.

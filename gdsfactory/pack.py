@@ -9,7 +9,7 @@ import warnings
 from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
-from pydantic import validate_arguments
+from pydantic.v1 import validate_arguments
 
 import gdsfactory as gf
 from gdsfactory.component import Component

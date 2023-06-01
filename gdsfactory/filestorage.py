@@ -5,7 +5,7 @@ from __future__ import annotations
 from io import BytesIO
 
 import numpy as np
-from pydantic import BaseModel
+from pydantic.v1 import BaseModel
 from typing_extensions import Literal
 
 from gdsfactory.config import PATH

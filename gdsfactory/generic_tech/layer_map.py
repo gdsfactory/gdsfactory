@@ -1,6 +1,6 @@
 from typing import Tuple
 
-from pydantic import BaseModel
+from pydantic.v1 import BaseModel
 
 Layer = Tuple[int, int]
 

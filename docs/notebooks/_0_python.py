@@ -22,7 +22,7 @@
 # In gdsfactory you will write functions instead of classes. Functions are easier to write and combine, and have clearly defined inputs and outputs.
 
 # %%
-from pydantic import validate_arguments
+from pydantic.v1 import validate_arguments
 
 import gdsfactory as gf
 
@@ -88,7 +88,7 @@ component
 #
 # For that you will see a `@cell` decorator on many component functions.
 #
-# The validation functionality comes from the [pydantic](https://pydantic-docs.helpmanual.io/) package
+# The validation functionality comes from the [pydantic.v1](https://pydantic.v1-docs.helpmanual.io/) package
 # and is available to you automatically when using the `@cell` decorator
 
 

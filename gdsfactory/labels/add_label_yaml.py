@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import List, Optional
 
 import flatdict
-import pydantic
+import pydantic.v1
 
 import gdsfactory as gf
 from gdsfactory.name import clean_name
@@ -24,7 +24,7 @@ port_prefixes = [
 ]
 
 
-@pydantic.validate_arguments
+@pydantic.v1.validate_arguments
 def add_label_yaml(
     component: gf.Component,
     port_prefixes: List[str] = ("opt_", "_elec"),

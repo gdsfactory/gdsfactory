@@ -4,7 +4,7 @@ from __future__ import annotations
 import pathlib
 from typing import Tuple, Union
 
-from pydantic import BaseModel
+from pydantic.v1 import BaseModel
 
 from gdsfactory.technology import LayerLevel, LayerStack
 

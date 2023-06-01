@@ -42,7 +42,7 @@ import pathlib
 from typing import Callable, Tuple
 
 import pytest
-from pydantic import BaseModel
+from pydantic.v1 import BaseModel
 from pytest_regressions.data_regression import DataRegressionFixture
 
 from gdsfactory.add_pins import add_pin_rectangle_inside

@@ -10,7 +10,7 @@ from typing import Any, Dict
 import gdstk
 import numpy as np
 import orjson
-import pydantic
+import pydantic.v1
 import toolz
 from omegaconf import DictConfig, OmegaConf
 
@@ -41,7 +41,7 @@ def clean_value_json(value: Any) -> Any:
     """Return JSON serializable object."""
     from gdsfactory.path import Path
 
-    if isinstance(value, pydantic.BaseModel):
+    if isinstance(value, pydantic.v1.BaseModel):
         return clean_dict(value.dict())
 
     elif hasattr(value, "get_component_spec"):

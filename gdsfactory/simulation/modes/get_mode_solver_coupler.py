@@ -6,7 +6,7 @@ from typing import Optional, Tuple, Union
 
 import meep as mp
 import numpy as np
-import pydantic
+import pydantic.v1
 from meep import mpb
 
 mpb.Verbosity(0)
@@ -17,7 +17,7 @@ tmp.mkdir(exist_ok=True)
 Floats = Tuple[float, ...]
 
 
-@pydantic.validate_arguments
+@pydantic.v1.validate_arguments
 def get_mode_solver_coupler(
     core_width: float = 0.5,
     gap: float = 0.2,

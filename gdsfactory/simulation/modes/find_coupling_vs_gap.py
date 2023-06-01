@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import meep as mp
 import numpy as np
 import pandas as pd
-import pydantic
+import pydantic.v1
 from tqdm.auto import tqdm
 
 from gdsfactory.simulation.modes.find_modes import find_modes_coupler
@@ -32,7 +32,7 @@ def coupling_length(
     return wavelength / (np.pi * dneff) * np.arcsin(np.sqrt(power_ratio))
 
 
-@pydantic.validate_arguments
+@pydantic.v1.validate_arguments
 def find_coupling(
     gap: float = 0.2, power_ratio: float = 1.0, wavelength: float = 1.55, **kwargs
 ) -> float:
@@ -57,7 +57,7 @@ def find_coupling(
     )
 
 
-@pydantic.validate_arguments
+@pydantic.v1.validate_arguments
 def find_coupling_vs_gap(
     gap1: float = 0.2,
     gap2: float = 0.4,

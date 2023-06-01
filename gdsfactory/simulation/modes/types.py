@@ -5,7 +5,7 @@ from typing import Callable, Dict, List, Optional, Union
 import matplotlib.pyplot as plt
 import numpy as np
 from meep import mpb
-from pydantic import BaseModel
+from pydantic.v1 import BaseModel
 from scipy.interpolate import RectBivariateSpline
 
 from gdsfactory.typings import Array

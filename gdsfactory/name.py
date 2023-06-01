@@ -4,12 +4,12 @@ from __future__ import annotations
 import hashlib
 from typing import Any
 
-import pydantic
+import pydantic.v1
 
 MAX_NAME_LENGTH = 32
 
 
-@pydantic.validate_arguments
+@pydantic.v1.validate_arguments
 def get_name_short(name: str, max_name_length=MAX_NAME_LENGTH) -> str:
     """Returns a short name."""
     if len(name) > max_name_length:

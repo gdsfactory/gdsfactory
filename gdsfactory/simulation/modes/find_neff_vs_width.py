@@ -6,14 +6,14 @@ import matplotlib.pyplot as plt
 import meep as mp
 import numpy as np
 import pandas as pd
-import pydantic
+import pydantic.v1
 from tqdm.auto import tqdm
 
 from gdsfactory.simulation.modes.find_modes import find_modes_waveguide
 from gdsfactory.typings import Optional, PathType
 
 
-@pydantic.validate_arguments
+@pydantic.v1.validate_arguments
 def find_neff_vs_width(
     width1: float = 0.2,
     width2: float = 1.0,

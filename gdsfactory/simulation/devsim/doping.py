@@ -1,7 +1,7 @@
 from typing import Callable
 
 import numpy as np
-from pydantic import BaseModel
+from pydantic.v1 import BaseModel
 
 import gdsfactory as gf
 from gdsfactory.types import Layer

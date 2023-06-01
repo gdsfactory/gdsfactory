@@ -11,7 +11,7 @@ from pprint import pprint
 from typing import Dict, List, Optional
 
 import numpy as np
-import pydantic
+import pydantic.v1
 from tqdm.auto import tqdm
 
 import gdsfactory as gf
@@ -33,7 +33,7 @@ core_materials = multiprocessing.cpu_count()
 temp_dir_default = Path(sparameters_path) / "temp"
 
 
-@pydantic.validate_arguments
+@pydantic.v1.validate_arguments
 def write_sparameters_meep_batch(
     jobs: List[Dict],
     cores_per_run: int = 2,

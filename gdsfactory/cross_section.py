@@ -13,7 +13,7 @@ from functools import partial
 from inspect import getmembers
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union, TypeVar
 
-from pydantic import BaseModel, Field, validate_arguments
+from pydantic.v1 import BaseModel, Field, validate_arguments
 from typing_extensions import Literal
 from gdsfactory.add_pins import add_pins_inside1nm, add_pins_siepic_optical
 

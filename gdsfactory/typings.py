@@ -37,7 +37,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 import gdstk
 import numpy as np
 from omegaconf import OmegaConf
-from pydantic import BaseModel, Extra
+from pydantic.v1 import BaseModel, Extra
 from typing_extensions import Literal
 
 from gdsfactory.component import Component, ComponentReference

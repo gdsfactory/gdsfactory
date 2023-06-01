@@ -13,13 +13,13 @@ import xml.etree.ElementTree as ET
 from typing import Dict, Optional, Set, Tuple, Union
 
 import numpy as np
-from pydantic import BaseModel, Field, validator
-from pydantic.color import Color, ColorType
+from pydantic.v1 import BaseModel, Field, validator
+from pydantic.v1.color import Color, ColorType
 
 from gdsfactory.config import logger
 
 if typing.TYPE_CHECKING:
-    from pydantic.typing import AbstractSetIntStr, DictStrAny, MappingIntStrAny
+    from pydantic.v1.typing import AbstractSetIntStr, DictStrAny, MappingIntStrAny
 
 PathLike = Union[pathlib.Path, str]
 

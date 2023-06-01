@@ -7,7 +7,7 @@ from typing import Dict, Optional
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
-import pydantic
+import pydantic.v1
 import tidy3d as td
 from tidy3d.plugins.mode import ModeSolver
 
@@ -22,7 +22,7 @@ from gdsfactory.technology import LayerStack
 from gdsfactory.typings import ComponentSpec, Float2
 
 
-@pydantic.validate_arguments
+@pydantic.v1.validate_arguments
 def get_simulation(
     component: ComponentSpec,
     port_extension: Optional[float] = 4.0,

@@ -13,7 +13,7 @@ import pathlib
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import pydantic
+import pydantic.v1
 from scipy.interpolate import interp2d
 
 from gdsfactory.config import PATH
@@ -26,7 +26,7 @@ width0 = 465 * nm
 thickness0 = 215 * nm
 
 
-@pydantic.validate_arguments
+@pydantic.v1.validate_arguments
 def find_neff_ng_dw_dh(
     width: float = width0,
     thickness: float = thickness0,

@@ -5,7 +5,7 @@ import tempfile
 from typing import Dict, Optional, Union
 
 import meep as mp
-import pydantic
+import pydantic.v1
 from meep import mpb
 
 import gdsfactory as gf
@@ -22,7 +22,7 @@ tmp = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "meep"
 tmp.mkdir(exist_ok=True)
 
 
-@pydantic.validate_arguments
+@pydantic.v1.validate_arguments
 def get_mode_solver_cross_section(
     cross_section: CrossSectionSpec = "strip",
     sy: float = 2.0,

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import pydantic
+import pydantic.v1
 import pytest
 
 import gdsfactory as gf
@@ -29,7 +29,7 @@ def test_validator_fail_name_too_long() -> None:
     component = gf.Component(name="a" * 200)
 
     # component_with_straight(component=component)
-    with pytest.raises(pydantic.ValidationError):
+    with pytest.raises(pydantic.v1.ValidationError):
         component_with_straight(component=component)
 
 

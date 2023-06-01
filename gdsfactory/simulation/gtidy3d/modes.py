@@ -17,7 +17,7 @@ import hashlib
 import itertools
 
 import numpy as np
-import pydantic
+import pydantic.v1
 import tidy3d as td
 from tidy3d.plugins import waveguide
 from typing_extensions import Literal
@@ -35,7 +35,7 @@ from gdsfactory.simulation.gtidy3d.materials import get_medium
 Precision = Literal["single", "double"]
 
 
-class Waveguide(pydantic.BaseModel):
+class Waveguide(pydantic.v1.BaseModel):
     """Waveguide Model.
 
     All dimensions must be specified in μm (1e-6 m).
@@ -126,15 +126,15 @@ class Waveguide(pydantic.BaseModel):
     max_grid_scaling: float = 1.2
     cache: bool = True
 
-    _cached_data = pydantic.PrivateAttr()
-    _waveguide = pydantic.PrivateAttr()
+    _cached_data = pydantic.v1.PrivateAttr()
+    _waveguide = pydantic.v1.PrivateAttr()
 
     class Config:
-        """pydantic config."""
+        """pydantic.v1 config."""
 
         extra = "forbid"
 
-    @pydantic.validator("wavelength")
+    @pydantic.v1.validator("wavelength")
     def _fix_wavelength_type(cls, value):
         return np.array(value, dtype=float)
 

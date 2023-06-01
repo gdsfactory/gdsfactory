@@ -36,7 +36,7 @@ from __future__ import annotations
 
 from functools import partial
 from typing import Callable, Optional, Union
-from pydantic import validate_arguments
+from pydantic.v1 import validate_arguments
 
 import numpy as np
 

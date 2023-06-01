@@ -12,7 +12,7 @@ from functools import lru_cache, partial
 
 import numpy as np
 from omegaconf import OmegaConf
-from pydantic import validate_arguments
+from pydantic.v1 import validate_arguments
 
 from gdsfactory import ComponentReference
 from gdsfactory.cell import cell

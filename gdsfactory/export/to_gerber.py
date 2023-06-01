@@ -10,7 +10,7 @@ from typing_extensions import Literal
 from typing import Optional, List, Dict, Tuple
 from pathlib import Path
 
-from pydantic import BaseModel, Field
+from pydantic.v1 import BaseModel, Field
 
 from gdsfactory import Component
 

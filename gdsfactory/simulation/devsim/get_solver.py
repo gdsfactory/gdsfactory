@@ -20,7 +20,7 @@ from devsim import (
     write_devices,
 )
 from devsim.python_packages import model_create, simple_physics
-from pydantic import Extra
+from pydantic.v1 import Extra
 
 from gdsfactory.pdk import get_layer_stack
 from gdsfactory.component import Component

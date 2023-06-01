@@ -11,7 +11,7 @@ import time
 from pathlib import Path
 from typing import Optional
 
-import pydantic
+import pydantic.v1
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -39,7 +39,7 @@ def _python() -> str:
     return sys.executable
 
 
-@pydantic.validate_arguments
+@pydantic.v1.validate_arguments
 def write_sparameters_meep_mpi(
     component: ComponentSpec,
     layer_stack: Optional[LayerStack] = None,

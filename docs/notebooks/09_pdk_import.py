@@ -231,7 +231,7 @@ print(gf.write_cells.get_import_gds_script("extra/gds", module="samplepdk.compon
 #
 # ```
 #
-# from pydantic import BaseModel
+# from pydantic.v1 import BaseModel
 #
 #
 # class LayerMap(BaseModel):

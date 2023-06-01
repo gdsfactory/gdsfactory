@@ -11,7 +11,7 @@ from typing import Any, Dict, List, Optional
 
 import meep as mp
 import numpy as np
-import pydantic
+import pydantic.v1
 from omegaconf import OmegaConf
 from tqdm.auto import tqdm
 
@@ -110,7 +110,7 @@ def parse_port_eigenmode_coeff(port_name: str, ports: Dict[str, Port], sim_dict:
     return coeff_in, coeff_out
 
 
-@pydantic.validate_arguments
+@pydantic.v1.validate_arguments
 def write_sparameters_meep(
     component: ComponentSpec,
     port_source_names: Optional[List[str]] = None,
@@ -371,7 +371,7 @@ def write_sparameters_meep(
     sp = {}  # Sparameters dict
     start = time.time()
 
-    @pydantic.validate_arguments
+    @pydantic.v1.validate_arguments
     def sparameter_calculation(
         port_source_name: str,
         component: Component,

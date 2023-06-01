@@ -4,7 +4,7 @@ import functools
 from typing import Callable
 
 import gdstk
-from pydantic import validate_arguments
+from pydantic.v1 import validate_arguments
 
 from gdsfactory.cell import _F, cell_without_validator
 from gdsfactory.component import Component

@@ -15,7 +15,7 @@ def lyp_to_dataclass(
         raise FileExistsError(f"You can delete {filepathout}")
 
     script = """
-from pydantic import BaseModel
+from pydantic.v1 import BaseModel
 from gdsfactory.typings import Layer
 
 

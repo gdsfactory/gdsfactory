@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import pytest
-from pydantic import ValidationError
+from pydantic.v1 import ValidationError
 
 import gdsfactory as gf
 

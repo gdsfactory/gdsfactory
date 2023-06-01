@@ -2,7 +2,7 @@ from typing import Any, Dict, List, Optional, Tuple, Callable, Union
 from collections import defaultdict
 
 from typing_extensions import Literal
-from pydantic import BaseModel, Field
+from pydantic.v1 import BaseModel, Field
 
 from gdsfactory.technology.layer_views import LayerViews
 

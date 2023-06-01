@@ -10,7 +10,7 @@ from gdsfactory.name import MAX_NAME_LENGTH
 
 import numpy as np
 from omegaconf import DictConfig
-from pydantic import BaseModel, Field, validator
+from pydantic.v1 import BaseModel, Field, validator
 
 from gdsfactory.config import PATH, logger
 from gdsfactory.containers import containers as containers_default

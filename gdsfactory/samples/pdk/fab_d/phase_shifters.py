@@ -1,12 +1,12 @@
 from __future__ import annotations
 
-import pydantic
+import pydantic.v1
 
 import gdsfactory as gf
 from gdsfactory.typings import Layer
 
 
-@pydantic.dataclasses.dataclass
+@pydantic.v1.dataclasses.dataclass
 class LayerMap:
     WG: Layer = (2, 0)
     SLAB: Layer = (41, 0)

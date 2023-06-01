@@ -5,7 +5,7 @@ from __future__ import annotations
 import pathlib
 from typing import Callable
 
-from pydantic import BaseModel
+from pydantic.v1 import BaseModel
 
 import gdsfactory as gf
 from gdsfactory.add_pins import add_pin_rectangle_inside

@@ -4,7 +4,7 @@ from enum import Enum
 from typing import Any, Dict, List, Optional, Union
 
 import yaml
-from pydantic import AnyUrl, BaseModel, Extra, Field
+from pydantic.v1 import AnyUrl, BaseModel, Extra, Field
 
 import gdsfactory as gf
 

@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Dict, List, Optional, Tuple
 
 import flatdict
-import pydantic
+import pydantic.v1
 
 import gdsfactory as gf
 from gdsfactory.name import clean_name
@@ -11,7 +11,7 @@ from gdsfactory.snap import snap_to_grid as snap
 from gdsfactory.typings import Layer
 
 
-class Dft(pydantic.BaseModel):
+class Dft(pydantic.v1.BaseModel):
     pad_size: Tuple[int, int] = (100, 100)
     pad_pitch: int = 125
     pad_width: int = 100
@@ -39,7 +39,7 @@ prefix_to_type_default = {
 }
 
 
-@pydantic.validate_arguments
+@pydantic.v1.validate_arguments
 def add_label_ehva(
     component: gf.Component,
     die: str = "demo",
