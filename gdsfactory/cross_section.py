@@ -392,7 +392,7 @@ def cross_section(
     min_length: float = 10e-3,
     start_straight_length: float = 10e-3,
     end_straight_length: float = 10e-3,
-    snap_to_grid: Optional[float] = None,
+    snap_to_grid: Optional[float] = 1 * nm,
     bbox_layers: Optional[List[LayerSpec]] = None,
     bbox_offsets: Optional[List[float]] = None,
     cladding_layers: Optional[LayerSpecs] = None,

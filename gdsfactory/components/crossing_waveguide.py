@@ -273,7 +273,6 @@ def crossing45(
     p_s = x.ports["o4"].center
 
     # Flatten the crossing - not an SRef anymore
-    c.absorb(x)
     dx = dx or port_spacing
     dy = port_spacing / 2
 
@@ -287,7 +286,7 @@ def crossing45(
         npoints=npoints,
         alpha=alpha,
     )
-    cpts = tuple(gf.snap.snap_to_grid(cpts).tolist())
+    # cpts = tuple(gf.snap.snap_to_grid(cpts).tolist())
 
     bend = bezier(
         control_points=cpts,
@@ -311,6 +310,7 @@ def crossing45(
         # cmp_ref = _cmp.ref()
         c.add(cmp_ref)
         c.absorb(cmp_ref)
+    c.absorb(x)
 
     c.info["bezier_length"] = bend.info["length"]
     c.info["min_bend_radius"] = b_br.info["min_bend_radius"]
@@ -479,8 +479,8 @@ def _demo() -> None:
 
 
 if __name__ == "__main__":
-    # c = crossing45()
-    c = compensation_path()
+    c = crossing45()
+    # c = compensation_path()
     # c = crossing(
     #     cross_section=dict(
     #         cross_section="strip",
