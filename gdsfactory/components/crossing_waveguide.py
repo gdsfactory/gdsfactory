@@ -287,6 +287,7 @@ def crossing45(
         npoints=npoints,
         alpha=alpha,
     )
+    cpts = tuple(gf.snap.snap_to_grid(cpts).tolist())
 
     bend = bezier(
         control_points=cpts,
