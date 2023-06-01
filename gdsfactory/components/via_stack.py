@@ -451,7 +451,7 @@ via_stack_slab_npp_m3 = gf.partial(
     vias=(None, None, viac),
 )
 via_stack_heater_mtop = via_stack_heater_m3 = gf.partial(
-    via_stack, layers=("HEATER", "M2", "M3"), vias=(via1, via2)
+    via_stack, layers=("HEATER", "M2", "M3"), vias=(None, via1, via2)
 )
 
 
