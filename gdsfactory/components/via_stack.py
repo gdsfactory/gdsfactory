@@ -456,7 +456,21 @@ via_stack_heater_mtop = via_stack_heater_m3 = gf.partial(
 
 
 if __name__ == "__main__":
-    c = via_stack_slab_m3()
+    # c = via_stack_slab_m3()
+    # c = gf.pack([via_stack_slab_m3, via_stack_heater_mtop])[0]
+
+    c = gf.Component("offgrid_demo")
+    v1 = c << via_stack_slab_m3()
+    v2 = c << via_stack_slab_m3()
+    v2.x = 20.0005
+    c.show()
+
+    # c2 = gf.Component()
+    # c21 = c2 << c
+    # c22 = c2 << c
+    # c22.x = 20.0005 + 30
+    # c2.show()
+
     # c = via_stack_heater_mtop(layer_offsets=(0, 1, 2))
     # c = via_stack_circular()
     # c = via_stack_m1_m3(size=(4.5, 4.5))
@@ -475,4 +489,4 @@ if __name__ == "__main__":
     #     vias=(via1, via2),
     #     layer_port=None,
     # )
-    c.show(show_ports=True)
+    # c.show(show_ports=True)
