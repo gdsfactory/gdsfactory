@@ -56,7 +56,7 @@ def add_tapers(
 
     for port_name, port in component.ports.get_all_named().items():
         if port.name in ports_to_taper_names:
-            taper_ref = c << taper(width2=port.width)
+            taper_ref = c << taper(width2=port.d.width)
             taper_ref.connect(taper_ref.ports[taper_port_name2].name, port)
             c.add_port(name=port_name, port=taper_ref.ports[taper_port_name1])
         else:

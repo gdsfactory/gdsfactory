@@ -10,7 +10,6 @@ import hashlib
 import itertools
 import math
 import pathlib
-import tempfile
 import warnings
 from collections.abc import Iterable
 from pathlib import Path
@@ -231,7 +230,7 @@ class Instance(kf.Instance):
         elif p.port_type != op.port_type and not allow_type_mismatch:
             raise kf.kcell.PortTypeMismatch(self, other, p, op)
         else:
-            self.connect(p, op)
+            super().connect(p, op)
 
     def get_ports_list(self, **kwargs) -> List[Port]:
         """Returns list of ports.
@@ -1112,8 +1111,11 @@ class Component(kf.KCell):
                 print(port.orientation, name)
                 p = kf.Port(
                     name=name,
-                    position=port.center,
-                    width=port.width,
+                    position=(
+                        port.center[0] / self.kcl.dbu,
+                        port.center[1] / self.kcl.dbu,
+                    ),
+                    width=int(port.width / self.kcl.dbu),
                     angle=int(port.orientation // 90),
                     layer=self.layer(*get_layer(port.layer)),
                     port_type=port.port_type,
@@ -1139,8 +1141,8 @@ class Component(kf.KCell):
 
         p = kf.Port(
             name=name,
-            position=center,
-            width=width,
+            position=(center[0] / self.kcl.dbu, center[1] / self.kcl.dbu),
+            width=int(width / self.kcl.dbu),
             angle=int(orientation // 90),
             layer=self.layer(*layer),
             port_type=port_type,
@@ -1808,7 +1810,7 @@ class Component(kf.KCell):
                 )
             from gdsfactory.simulation.gmsh.xy_xsection_mesh import xy_xsection_mesh
 
-        all_cells = [top_cell._cell] + sorted(cells, key=lambda cc: cc.name)
+        all_cells = [self.kcl.top_cell()] + sorted(self.insts, key=lambda cc: cc.name)
 
         [cell.name for cell in all_cells if cell.name.startswith("Unnamed")]
         padded_component.add_polygon(points, layer=wafer_layer)
@@ -1822,7 +1824,6 @@ class Component(kf.KCell):
                 raise ValueError(
                     'For xy-meshing, a z-value must be provided via the float argument "z".'
                 )
-            from gdsfactory.simulation.gmsh.xy_xsection_mesh import xy_xsection_mesh
 
             return xy_xsection_mesh(padded_component, z, layer_stack, **kwargs)
         elif type == "uz":

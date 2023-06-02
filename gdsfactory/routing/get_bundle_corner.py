@@ -56,7 +56,9 @@ def _transform_ports(ports, rotation, origin=(0, 0), x_reflection=False):
             new_port.center = new_center
             new_port.new_orientation = new_orientation
         else:
-            new_port.dcplx_trans = kdb.DCplxTrans(1.0, new_orientation, False, float(new_center[0]), float(new_center[1]))
+            new_port.dcplx_trans = kdb.DCplxTrans(
+                1.0, new_orientation, False, float(new_center[0]), float(new_center[1])
+            )
         ports_transformed.append(new_port)
 
     return ports_transformed
@@ -161,6 +163,7 @@ def _get_bundle_corner_waypoints(
 
     for p in ports2:
         p.orientation = p.orientation % 360
+    print(ports1, ports2)
 
     port_angles1 = {p.orientation for p in ports1}
     port_angles2 = {p.orientation for p in ports2}
@@ -202,7 +205,9 @@ def _get_bundle_corner_waypoints(
     are_right = max(xs) < min(xe)
     are_left = min(xs) > max(xe)
 
-    assert are_above or are_below, f"corner_bundle - ports should be below or above. {ports1, ports2}"
+    assert (
+        are_above or are_below
+    ), f"corner_bundle - ports should be below or above. {ports1, ports2}"
     assert are_right or are_left, "corner_bundle - ports should be left or right"
 
     start_sort_type = ["Y", "-X", "-Y", "X"]

@@ -13,7 +13,7 @@ from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.cross_section import strip
 from gdsfactory.geometry.functions import angles_deg
-from gdsfactory.port import Port, port_to_kport, select_ports_list
+from gdsfactory.port import Port, select_ports_list
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.typs import (
     ComponentSpec,
@@ -136,7 +136,7 @@ def gen_sref(
     if port_name is None:
         port_position = np.array([0, 0])
     else:
-        port_position = (structure.ports[port_name].d.x, structure.ports[port_name].d.y)
+        port_position = (structure.ports[port_name].x, structure.ports[port_name].y)
 
     c = gf.Component()
     ref = c << structure
@@ -258,9 +258,9 @@ def _generate_route_manhattan_points(
     threshold = TOLERANCE
 
     # transform I/O to the case where output is at (0, 0) pointing east (180)
-    p_input = (input_port.d.x, input_port.d.y)
+    p_input = (input_port.x, input_port.y)
     try:
-        p_output = np.array((output_port.d.x, output_port.d.y))
+        p_output = np.array((output_port.x, output_port.y))
     except AttributeError:
         p_output = np.array(output_port.center)
     pts_io = np.stack([p_input, p_output], axis=0)
@@ -471,7 +471,7 @@ def _get_bend_reference_parameters(
         (False, -1, -1): (270, True),  # H R270 + vertical mirror
     }
 
-    b1, b2 = ((p.d.x, p.d.y) for p in _get_bend_ports(bend=bend_cell, layer=port_layer))
+    b1, b2 = ((p.x, p.y) for p in _get_bend_ports(bend=bend_cell, layer=port_layer))
 
     bsx = b2[0] - b1[0]
     bsy = b2[1] - b1[1]
@@ -747,12 +747,12 @@ def round_corners(
 
         if abs(dx_points) < TOLERANCE:
             matching_ports = [
-                port for port in bend_ref.ports if np.isclose(port.d.x, points[i][0])
+                port for port in bend_ref.ports if np.isclose(port.x, points[i][0])
             ]
 
         if abs(dy_points) < TOLERANCE:
             matching_ports = [
-                port for port in bend_ref.ports if np.isclose(port.d.y, points[i][1])
+                port for port in bend_ref.ports if np.isclose(port.y, points[i][1])
             ]
 
         print(abs(dx_points), abs(dy_points))
@@ -764,9 +764,9 @@ def round_corners(
             }
             other_port = bend_ref.ports[list(other_port_name)[0]]
             bend_points.extend(
-                ((next_port.d.x, next_port.d.y), (other_port.d.x, other_port.d.y))
+                ((next_port.x, next_port.y), (other_port.x, other_port.y))
             )
-            previous_port_point = (other_port.d.x, other_port.d.y)
+            previous_port_point = (other_port.x, other_port.y)
 
         try:
             straight_sections += [
@@ -787,7 +787,7 @@ def round_corners(
 
         port = bend_ref.ports[pname_north]
         print(len(bend_points))
-        p0_straight = (port.d.x, port.d.y)
+        p0_straight = (port.x, port.y)
         bend_orientation = bend_ref.ports[pname_north].orientation
 
     bend_points.append(points[-1])
@@ -890,7 +890,7 @@ def round_corners(
         c = Component()
         wg_ref = c << wg
         port_ = wg.ports[pname_west]
-        wg_ref.move((port_.d.x, port_.d.y), (0, 0))
+        wg_ref.move((port_.x, port_.y), (0, 0))
         if mirror_straight:
             wg_ref.mirror_y(list(wg_ref.ports.values())[0].name)
 
@@ -1055,15 +1055,15 @@ def route_manhattan(
 
     try:
         # kf.routing.manhattan.route_manhattan()
-        # points = generate_manhattan_waypoints(
-        #     input_port,
-        #     output_port,
-        #     start_straight_length=start_straight_length,
-        #     end_straight_length=end_straight_length,
-        #     min_straight_length=min_straight_length,
-        #     bend=bend,
-        #     cross_section=x,
-        # )
+        points = generate_manhattan_waypoints(
+            input_port,
+            output_port,
+            start_straight_length=start_straight_length,
+            end_straight_length=end_straight_length,
+            min_straight_length=min_straight_length,
+            bend=bend,
+            cross_section=x,
+        )
         # return round_corners(
         #     points=points,
         #     straight=straight,
@@ -1074,22 +1074,21 @@ def route_manhattan(
         #     with_sbend=with_sbend,
         #     on_route_error=on_route_error,
         # )
-        import kfactory as kf
 
-        print(input_port)
-        points = kf.routing.manhattan.route_manhattan(
-            port_to_kport(input_port, kf.kcl)
-            if isinstance(input_port, gf.Port)
-            else input_port,
-            port_to_kport(output_port, kf.kcl)
-            if isinstance(output_port, gf.Port)
-            else output_port,
-            bend.info["radius"] / kf.kcl.dbu,
-            start_straight_length / kf.kcl.dbu,
-            end_straight_length / kf.kcl.dbu,
-        )
+        # print(input_port)
+        # points = kf.routing.manhattan.route_manhattan(
+        #     port_to_kport(input_port, kf.kcl)
+        #     if isinstance(input_port, gf.Port)
+        #     else input_port,
+        #     port_to_kport(output_port, kf.kcl)
+        #     if isinstance(output_port, gf.Port)
+        #     else output_port,
+        #     bend.info["radius"] / kf.kcl.dbu,
+        #     start_straight_length / kf.kcl.dbu,
+        #     end_straight_length / kf.kcl.dbu,
+        # )
 
-        points = [np.array((p.x * bend.kcl.dbu, p.y * bend.kcl.dbu)) for p in points]
+        # points = [np.array((p.x * bend.kcl.dbu, p.y * bend.kcl.dbu)) for p in points]
         return round_corners(
             points=points,
             straight=straight,
