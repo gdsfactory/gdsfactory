@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from functools import partial
 from typing import Optional
 
 import numpy as np
@@ -16,7 +17,6 @@ from gdsfactory.components.bezier import (
 )
 from gdsfactory.components.ellipse import ellipse
 from gdsfactory.components.taper import taper
-from gdsfactory.cross_section import strip_no_pins
 from gdsfactory.geometry.functions import path_length
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
@@ -237,6 +237,7 @@ def crossing45(
     alpha: float = 0.08,
     npoints: int = 101,
     cross_section: CrossSectionSpec = "strip",
+    cross_section_bends: CrossSectionSpec = "strip_no_pins",
 ) -> Component:
     r"""Returns 45deg crossing with bends.
 
@@ -261,7 +262,9 @@ def crossing45(
         ---    ----
 
     """
-    crossing = gf.get_component(crossing, cross_section=strip_no_pins)
+    crossing = gf.get_component(
+        crossing, cross_section=cross_section_bends or cross_section
+    )
 
     c = Component()
     x = c << crossing
@@ -293,7 +296,7 @@ def crossing45(
         start_angle=start_angle,
         end_angle=end_angle,
         npoints=npoints,
-        cross_section=strip_no_pins,
+        cross_section=cross_section_bends,
     )
 
     tol = 1e-2
@@ -333,9 +336,13 @@ def crossing45(
     return c
 
 
+crossing45_pins = partial(crossing45, cross_section="strip")
+
+
 @cell
 def compensation_path(
-    crossing45: ComponentSpec = crossing45,
+    crossing45: ComponentSpec = crossing45_pins,
+    crossing: ComponentSpec = crossing,
     direction: str = "top",
     cross_section: CrossSectionSpec = "strip",
 ) -> Component:
@@ -421,7 +428,7 @@ def compensation_path(
     sbend = bezier(control_points=get_control_pts(x0, y_bend))
 
     c = Component()
-    crossing0 = c << crossing45.crossing
+    crossing0 = c << gf.get_component(crossing)
 
     sbend_left = sbend.ref(
         position=crossing0.ports["o1"], port_id="o2", v_mirror=v_mirror

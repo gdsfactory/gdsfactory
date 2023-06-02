@@ -423,7 +423,6 @@ def route_fiber_array(
                     io_gratings_lines[-1][0].ports[gc_port_name].y,
                 ),
                 rotation=gc_rotation,
-                port_id=gc_port_name,
             )
             for ii in [grating_indices[0] - 1, grating_indices[-1] + 1]
         )
