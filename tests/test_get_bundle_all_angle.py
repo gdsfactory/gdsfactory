@@ -27,7 +27,7 @@ def test_get_bundle_all_angle(
     lengths = {}
     for i, route in enumerate(routes):
         c.add(route.references)
-        lengths[i] = route.length
+        lengths[i] = float(route.length)
 
     if check:
         data_regression.check(lengths)
