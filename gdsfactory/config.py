@@ -34,7 +34,7 @@ from omegaconf import OmegaConf
 from rich.console import Console
 from rich.table import Table
 
-__version__ = "6.101.2"
+__version__ = "6.102.0"
 PathType = Union[str, pathlib.Path]
 
 home = pathlib.Path.home()
