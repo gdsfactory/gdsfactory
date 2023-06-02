@@ -3,6 +3,7 @@ from typing import List, Optional, Callable
 
 import numpy as np
 import shapely.geometry as sg
+from gdsfactory.components.straight import straight
 from gdsfactory.component import Port, ComponentReference, Component
 from gdsfactory.path import Path
 from gdsfactory.generic_tech.layer_map import LAYER
@@ -28,7 +29,7 @@ def get_connector(name: str) -> Connector:
     Gets a connector function by name.
 
     Args:
-        name: the name of the connector function to retrieve
+        name: the name of the connector function to retrieve.
 
     Returns:
         The specified connector function.
@@ -208,11 +209,12 @@ def straight_connector(
     Connects between the two ports with a straight of the given cross-section.
 
     Args:
-        port1: the starting port
-        port2: the ending port
-        cross_section: the cross-section to use
+        port1: the starting port.
+        port2: the ending port.
+        cross_section: the cross-section to use.
+
     Returns:
-        A list of component references comprising the connection
+        A list of component references comprising the connection.
     """
     if np.array_equal(port1.center, port2.center):
         return []
@@ -225,10 +227,10 @@ def straight_connector(
             message=f"Not enough room to route between ports: {port1} and {port2}",
         )
 
-    straight_component = extrude(path, cross_section=cross_section)
-    # straight_component = get_component(straight, length=distance, cross_section=cross_section)
+    length = np.linalg.norm(port1.center - port2.center)
+    straight_component = straight(length=length, cross_section=cross_section)
     straight_ref = ComponentReference(straight_component)
-    # straight_ref.connect('in0', port1)
+    straight_ref.connect(list(straight_component.ports.keys())[0], port1)
     return [straight_ref]
 
 
@@ -242,12 +244,13 @@ def auto_taper_connector(
     Connects the two ports with a straight in the specified cross_section, adding tapers at either end if necessary.
 
     Args:
-        port1: the first port
-        port2: the final port
-        cross_section: the primary cross section to use for the route
-        inner_connector: the connector to use after attaching tapers
+        port1: the first port.
+        port2: the final port.
+        cross_section: the primary cross section to use for the route.
+        inner_connector: the connector to use after attaching tapers.
+
     Returns:
-        A list of references comprising the connection
+        A list of references comprising the connection.
     """
     taper1 = taper_to_cross_section(port1, cross_section)
     taper2 = taper_to_cross_section(port2, cross_section)

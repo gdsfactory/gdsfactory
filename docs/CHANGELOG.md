@@ -2,6 +2,10 @@
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.101.1...main)
 
+## [6.102.0](https://github.com/gdsfactory/gdsfactory/compare/v6.102.0...v6.101.1)
+
+- fix snapping references [PR](https://github.com/gdsfactory/gdsfactory/pull/1719)
+
 ## [6.101.1](https://github.com/gdsfactory/gdsfactory/compare/v6.101.1...v6.101.0)
 
 - fix kfactory dependency [PR](https://github.com/gdsfactory/gdsfactory/pull/1714)
