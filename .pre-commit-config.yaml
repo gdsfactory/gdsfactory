@@ -6,62 +6,17 @@ repos:
         exclude: ^(conda\.recipe/meta\.yaml|conda_build/templates/.*\.yaml|docs/click/meta\.yaml|conda/meta\.yaml|conda/construct.yaml|.*\.pic\.yml)
       - id: end-of-file-fixer
       - id: trailing-whitespace
-      # - id: requirements-txt-fixer
-  # - repo: https://github.com/hakancelikdev/unimport
-  #   rev: 33ead41ee30f1d323a9c2fcfd0114297efbbc4d5
-  #   hooks:
-  #     - id: unimport
-  #       args: [--remove, --include-star-import]
-  # - repo: https://github.com/pycqa/isort
-  #   rev: 03a9949368bc8ce115a8ff9ce7f4904def9df721
-  #   hooks:
-  #     - id: isort
-  #       files: gdsfactory/.*
-  #       args: [--profile, black, --filter-files]
 
   - repo: https://github.com/psf/black
     rev: 23.3.0
     hooks:
       - id: black
-  # - repo: https://github.com/mwouts/jupytext
-  #   rev: 79351dfac9fde7c72cc73d553f662b4887bc63f5  # CURRENT_TAG/COMMIT_HASH
-  #   hooks:
-  #   - id: jupytext
-  #     args: [--from, py, --to, py]
 
-  # - repo: https://github.com/mwouts/jupytext
-  #   rev: v1.14.4 # CURRENT_TAG/COMMIT_HASH
-  #   hooks:
-  #     - id: jupytext
-  #       args: [--sync]
-
-  # - repo: https://github.com/omnilib/ufmt
-  #   rev: v2.0.0b1
-  #   hooks:
-  #     - id: ufmt
   - repo: https://github.com/asottile/blacken-docs
     rev: 7b71075ceb458be255e24da587c0275818b51faa
     hooks:
       - id: blacken-docs
         additional_dependencies: [black==23.3.0]
-  # - repo: https://github.com/pycqa/flake8
-  #   rev: 33e1c55853fbcc454a2343b9b61a0e715a2f74a4
-  #   hooks:
-  #     - id: flake8
-  #       entry: pflake8
-  #       additional_dependencies: [flake8-docstrings, pyproject-flake8]
-
-  # - repo: https://github.com/kynan/nbstripout
-  #   rev: e4c5b4dcbab4afa0b88b7a9243db42b1a8d95dde
-  #   hooks:
-  #     - id: nbstripout
-  #       files: .ipynb
-
-  # - repo: https://github.com/asottile/pyupgrade
-  #   rev: 97ed6fb3cf2e650d4f762ba231c3f04c41797710
-  #   hooks:
-  #     - id: pyupgrade
-  #       args: [--py37-plus, --keep-runtime-typing]
 
   - repo: https://github.com/codespell-project/codespell
     rev: ad3ff374e97e29ca87c94b5dc7eccdd29adc6296
@@ -71,78 +26,12 @@ repos:
         additional_dependencies:
           - tomli
 
-  # - repo: https://github.com/shellcheck-py/shellcheck-py
-  #   rev: 98854f809ca9d0e235c0bd5c0ad5e986e02120a4
-  #   hooks:
-  #     - id: shellcheck
-
-  # - repo: https://github.com/pre-commit/pygrep-hooks
-  #   rev: v1.10.0 # Use the ref you want to point at
-  #   hooks:
-  #     - id: python-use-type-annotations
-
-  # - repo: https://github.com/PyCQA/bandit
-  #   rev: 91c4d979550888c8d190898279bfdb0af732791e
-  #   hooks:
-  #     - id: bandit
-  #       args: [--exit-zero]
-        # ignore all tests, not just tests data
-        exclude: ^tests/
-  # - repo: https://github.com/PyCQA/pylint
-  #   rev: v2.14.1
-  #   hooks:
-  #     - id: pylint
-  #       args: [--exit-zero]
-  # - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
-  #   rev: 6565d773ca281682d7062d4c0be74538cc474cc9
-  #   hooks:
-  #     - id: pretty-format-java
-  #       args: [--autofix]
-  #     - id: pretty-format-kotlin
-  #       args: [--autofix]
-  #     - id: pretty-format-yaml
-  #       args: [--autofix, --indent, "2"]
-  # - repo: https://github.com/adrienverge/yamllint.git
-  #   rev: v1.21.0 # or higher tag
-  #   hooks:
-  #       - id: yamllint
-  #         args: [--format, parsable, --strict]
-  # - repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
-  #   rev: 0.1.0 # or specific tag
-  #   hooks:
-  #       - id: yamlfmt
-  # - repo: https://github.com/pre-commit/mirrors-mypy
-  #   rev: "214c33306afe17f1cc7d2d55e4da705b6ebe0627"
-  #   hooks:
-  #     - id: mypy
-  #       exclude: ^(docs/|example-plugin/|tests/fixtures)
-  #       additional_dependencies:
-  #         - "pydantic"
-  # - repo: https://github.com/terrencepreilly/darglint
-  #   rev: master
-  #   hooks:
-  #       - id: darglint
-  #
-  # - repo: https://github.com/pycqa/pydocstyle
-  #   rev: "6.2.2"
-  #   hooks:
-  #     - id: pydocstyle
-  #       additional_dependencies: ["pydocstyle[toml]"]
-  # - repo: https://github.com/asottile/reorder_python_imports
-  #   rev: 2b2f0c74acdb3de316e23ceb7dd0d7945c354050
-  #   hooks:
-  #     - id: reorder-python-imports
-  # - repo: https://github.com/nbQA-dev/nbQA
-  #   rev: 3e5186603806260939b5f1b0372c058203c65553
-  #   hooks:
-  #     - id: nbqa-black
-  #       additional_dependencies: [jupytext, black] # optional, only if you're using Jupytext
-  #     - id: nbqa-pyupgrade
-  #       args: ["--py37-plus"]
-  # - id: nbqa-flake8
-  # - id: nbqa-isort
-  #   args: ["--float-to-top"]
   - repo: https://github.com/charliermarsh/ruff-pre-commit
     rev: "7c149cf0b9d2c4f7558de1ea5d2c137ca074d9d0"
     hooks:
       - id: ruff
+
+  - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
+    rev: d2425a62376c2197448cce2f825d5a0c3926b862
+    hooks:
+      - id: pretty-format-toml
