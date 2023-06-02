@@ -16,6 +16,7 @@ from gdsfactory.components.bezier import (
 )
 from gdsfactory.components.ellipse import ellipse
 from gdsfactory.components.taper import taper
+from gdsfactory.cross_section import strip_no_pins
 from gdsfactory.geometry.functions import path_length
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
@@ -260,7 +261,7 @@ def crossing45(
         ---    ----
 
     """
-    crossing = gf.get_component(crossing)
+    crossing = gf.get_component(crossing, cross_section=strip_no_pins)
 
     c = Component()
     x = c << crossing
@@ -286,13 +287,13 @@ def crossing45(
         npoints=npoints,
         alpha=alpha,
     )
-    # cpts = tuple(gf.snap.snap_to_grid(cpts).tolist())
 
     bend = bezier(
         control_points=cpts,
         start_angle=start_angle,
         end_angle=end_angle,
         npoints=npoints,
+        cross_section=strip_no_pins,
     )
 
     tol = 1e-2
@@ -479,8 +480,8 @@ def _demo() -> None:
 
 
 if __name__ == "__main__":
-    c = crossing45()
-    # c = compensation_path()
+    # c = crossing45()
+    c = compensation_path()
     # c = crossing(
     #     cross_section=dict(
     #         cross_section="strip",
