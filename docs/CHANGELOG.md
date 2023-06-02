@@ -5,6 +5,7 @@
 ## [6.102.0](https://github.com/gdsfactory/gdsfactory/compare/v6.102.0...v6.101.1)
 
 - fix snapping references [PR](https://github.com/gdsfactory/gdsfactory/pull/1719)
+- re-enable all angle routing tests [PR](https://github.com/gdsfactory/gdsfactory/pull/1721)
 
 ## [6.101.1](https://github.com/gdsfactory/gdsfactory/compare/v6.101.1...v6.101.0)
 
