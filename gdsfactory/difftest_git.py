@@ -24,7 +24,7 @@ def gdsdiff_git(
         new_hex: ignore.
         new_mode: ignore.
     """
-    files_are_different(curr_file, old_file, xor=True)
+    files_are_different(old_file, curr_file, xor=True)
 
 
 if __name__ == "__main__":

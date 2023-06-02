@@ -222,7 +222,7 @@ class ComponentReference(_GeometryHelper):
 
     @origin.setter
     def origin(self, value) -> None:
-        self._reference.origin = value
+        self._reference.origin = snap_to_grid(value)
 
     @property
     def magnification(self) -> float:
@@ -383,9 +383,9 @@ class ComponentReference(_GeometryHelper):
         """
         return self._reference.get_paths(depth=depth)
 
-    def translate(self, dx, dy):
+    def translate(self, dx, dy) -> ComponentReference:
         x0, y0 = self._reference.origin
-        self._reference.origin = (x0 + dx, y0 + dy)
+        self.origin = (x0 + dx, y0 + dy)
         return self
 
     def area(self, by_spec=False):

@@ -261,7 +261,8 @@ def _generate_route_manhattan_points(
 
     # transform I/O to the case where output is at (0, 0) pointing east (180)
     p_input = input_port.center
-    p_output = np.array(output_port.center)
+    p_input = snap_to_grid(p_input)
+    p_output = snap_to_grid(np.array(output_port.center))
     pts_io = np.stack([p_input, p_output], axis=0)
     angle = output_port.orientation
 
@@ -411,6 +412,7 @@ def _generate_route_manhattan_points(
                     # no viable solution for this case. May result in crossed straights
                     p = (p[0], p[1] + sigp * (s + bs1))
                     a = 180
+            p = snap_to_grid(p)
             points += [p]
             s = min_straight_length + bs1
         points = np.stack([np.array(_p) for _p in points], axis=0)
@@ -684,6 +686,7 @@ def round_corners(
     # Remove any flat angle, otherwise the algorithm won't work
     points = remove_flat_angles(points)
     points = np.array(points)
+    points = snap_to_grid(points)
 
     straight_sections = []  # (p0, angle, length)
     p0_straight = points[0]
@@ -784,6 +787,7 @@ def round_corners(
         bend_orientation = bend_ref.ports[pname_north].orientation
 
     bend_points.append(points[-1])
+    bend_points = snap_to_grid(bend_points)
 
     try:
         straight_sections += [

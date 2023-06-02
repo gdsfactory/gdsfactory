@@ -3,7 +3,7 @@ ports:
   opt-grating_coupler_ellipti_dd7f7af4-straight_length20_width2-loopback0:
     center:
     - -180.5
-    - -28.5
+    - -28.972
     layer:
     - 1
     - 0
@@ -15,7 +15,7 @@ ports:
   opt-grating_coupler_ellipti_dd7f7af4-straight_length20_width2-loopback1:
     center:
     - 200.5
-    - -28.5
+    - -28.972
     layer:
     - 1
     - 0
@@ -121,7 +121,7 @@ settings:
           - optical
           radius: 10.0
           sections: null
-          snap_to_grid: null
+          snap_to_grid: 0.001
           start_straight_length: 0.01
           taper_length: 10.0
           width: 2
@@ -192,7 +192,7 @@ settings:
         - optical
         radius: 10.0
         sections: null
-        snap_to_grid: null
+        snap_to_grid: 0.001
         start_straight_length: 0.01
         taper_length: 10.0
         width: 2
@@ -295,7 +295,7 @@ settings:
       - optical
       radius: 10.0
       sections: null
-      snap_to_grid: null
+      snap_to_grid: 0.001
       start_straight_length: 0.01
       taper_length: 10.0
       width: 2
