@@ -35,3 +35,4 @@ repos:
     rev: d2425a62376c2197448cce2f825d5a0c3926b862
     hooks:
       - id: pretty-format-toml
+        args: [--autofix]
