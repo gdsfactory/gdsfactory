@@ -45,6 +45,7 @@ def grating_coupler_elliptical_trenches(
         p_start: first tooth.
         n_periods: number of grating teeth.
         end_straight_length: at the end of straight.
+        cross_section: cross_section spec.
         kwargs: cross_section settings.
 
 
@@ -101,9 +102,9 @@ def grating_coupler_elliptical_trenches(
     y = wg_width / 2 + np.tan(taper_angle / 2 * np.pi / 180) * xmax
     pts = [
         (x_output, -wg_width / 2),
-        (x_output, wg_width / 2),
-        (xmax, y),
-        (xmax + end_straight_length, y),
+        (x_output, +wg_width / 2),
+        (xmax, +y),
+        (xmax + end_straight_length, +y),
         (xmax + end_straight_length, -y),
         (xmax, -y),
     ]
@@ -151,10 +152,11 @@ grating_coupler_tm = gf.partial(
 
 
 if __name__ == "__main__":
+    c = grating_coupler_te()
     # c = grating_coupler_elliptical_trenches(polarization="TE")
     # print(c.polarization)
     # c = grating_coupler_te(end_straight_length=10)
     # c = grating_coupler_tm()
     # print(c.ports.keys())
-    c = gf.routing.add_fiber_array(grating_coupler=grating_coupler_elliptical_trenches)
+    # c = gf.routing.add_fiber_array(grating_coupler=grating_coupler_elliptical_trenches)
     c.show(show_ports=True)
