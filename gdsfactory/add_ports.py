@@ -189,7 +189,7 @@ def add_ports_from_markers_center(
         pymax = ymax
         pymin = ymin
 
-        orientation = 0
+        orientation = -1
 
         if dy < dx if short_ports else dx < dy:
             if x > xc:  # east
@@ -210,19 +210,19 @@ def add_ports_from_markers_center(
                 width = dx
                 y = ymin if inside else y
 
-        elif pxmax > xmax - tol:  # east
+        elif pxmax > xc - tol:  # east
             orientation = 0
             width = dy
             x = xmax if inside else x
-        elif pxmin < xmin + tol:  # west
+        elif pxmin < xc + tol:  # west
             orientation = 180
             width = dy
             x = xmin if inside else x
-        elif pymax > ymax - tol:  # north
+        elif pymax > yc - tol:  # north
             orientation = 90
             width = dx
             y = ymax if inside else y
-        elif pymin < ymin + tol:  # south
+        elif pymin < yc + tol:  # south
             orientation = 270
             width = dx
             y = ymin if inside else y
@@ -236,6 +236,9 @@ def add_ports_from_markers_center(
             orientation = 180
             width = dy
             x = xmin if inside else x
+
+        if orientation == -1:
+            raise ValueError(f"Unable to detector port at ({x}, {y})")
 
         x = snap_to_grid(x)
         y = snap_to_grid(y)

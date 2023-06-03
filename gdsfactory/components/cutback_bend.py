@@ -22,6 +22,7 @@ def _get_bend_size(bend90: Component) -> float64:
 @cell
 def cutback_bend(
     bend90: ComponentSpec = bend_euler,
+    straight: ComponentSpec = straight,
     straight_length: float = 5.0,
     rows: int = 6,
     columns: int = 5,
@@ -33,6 +34,7 @@ def cutback_bend(
 
     Args:
         bend90: bend spec.
+        straight: straight spec.
         straight_length: in um.
         rows: number of rows.
         columns: number of columns.
@@ -76,6 +78,7 @@ def cutback_bend(
 @cell
 def cutback_bend90(
     bend90: ComponentSpec = bend_euler,
+    straight: ComponentSpec = straight,
     straight_length: float = 5.0,
     rows: int = 6,
     columns: int = 6,
@@ -86,6 +89,7 @@ def cutback_bend90(
 
     Args:
         bend90: bend spec.
+        straight: straight spec.
         straight_length: in um.
         rows: number of rows.
         columns: number of columns.
@@ -129,6 +133,7 @@ def cutback_bend90(
 @cell
 def staircase(
     bend90: ComponentSpec = bend_euler,
+    straight: ComponentSpec = straight,
     length_v: float = 5.0,
     length_h: float = 5.0,
     rows: int = 4,
@@ -138,6 +143,7 @@ def staircase(
 
     Args:
         bend90: bend spec.
+        straight: straight spec.
         length_v: vertical length.
         length_h: vertical length.
         rows: number of rows.
@@ -170,6 +176,7 @@ def staircase(
 @cell
 def cutback_bend180(
     bend180: ComponentSpec = bend_euler180,
+    straight: ComponentSpec = straight,
     straight_length: float = 5.0,
     rows: int = 6,
     columns: int = 6,
@@ -180,6 +187,7 @@ def cutback_bend180(
 
     Args:
         bend180: bend spec.
+        straight: straight spec.
         straight_length: in um.
         rows: number of rows.
         columns: number of columns.
