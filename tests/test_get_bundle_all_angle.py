@@ -38,4 +38,5 @@ def test_get_bundle_all_angle(
 
 if __name__ == "__main__":
     c = test_get_bundle_all_angle(None, False)
+    c = c.flatten()
     c.show(show_ports=True)

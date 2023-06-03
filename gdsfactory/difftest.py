@@ -204,7 +204,7 @@ if __name__ == "__main__":
     # print([i.name for i in c.get_dependencies()])
     # c.show()
     # c.name = "mzi"
-    c = gf.components.straight(layer=(1, 0))
+    c = gf.components.straight(length=20, layer=(1, 0))
     c.show()
     difftest(c, "straight", dirpath=PATH.cwd)
 
