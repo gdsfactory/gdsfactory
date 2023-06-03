@@ -84,18 +84,14 @@ def add_ports_from_markers_center(
     auto_rename_ports: bool = True,
     debug: bool = False,
 ) -> Component:
-    """Add ports from rectangular pin markers.
-
-    markers at port center, so half of the marker goes inside and half outside the port.
-
-    guess port orientation from the component center (xcenter)
+    """Add ports from pins guessing port orientation from component boundary.
 
     Args:
         component: to read polygons from and to write ports to.
         pin_layer: GDS layer for maker [int, int].
         port_layer: for the new created port.
         inside: True-> markers  inside. False-> markers at center.
-        tol: tolerance for comparing how rectangular is the pin.
+        tol: tolerance area to search ports at component boundaries xmin, ymin, xmax, xmax.
         pin_extra_width: 2*offset from pin to straight.
         min_pin_area_um2: ignores pins with area smaller than min_pin_area_um2.
         max_pin_area_um2: ignore pins for area above certain size.
@@ -165,11 +161,11 @@ def add_ports_from_markers_center(
 
     for i, p in enumerate(port_markers.polygons):
         port_name = f"{port_name_prefix}{i+1}" if port_name_prefix else str(i)
-        (xmin, ymin), (xmax, ymax) = p.bounding_box()
+        (pxmin, pymin), (pxmax, pymax) = p.bounding_box()
         x, y = np.sum(p.bounding_box(), 0) / 2
 
-        dy = ymax - ymin
-        dx = xmax - xmin
+        dy = pymax - pymin
+        dx = pxmax - pxmin
 
         if min_pin_area_um2 and dx * dy < min_pin_area_um2:
             if debug:
@@ -184,58 +180,58 @@ def add_ports_from_markers_center(
                 print(f"skipping square port at ({x}, {y})")
             continue
 
-        pxmax = xmax
-        pxmin = xmin
-        pymax = ymax
-        pymin = ymin
+        orientation = -1
 
-        orientation = 0
-
+        # rectangular ports orientation is easier to detect
         if dy < dx if short_ports else dx < dy:
             if x > xc:  # east
                 orientation = 0
                 width = dy
-                x = xmax if inside else x
+                x = pxmax if inside else x
             elif x < xc:  # west
                 orientation = 180
                 width = dy
-                x = xmin if inside else x
+                x = pxmin if inside else x
         elif dy > dx if short_ports else dx > dy:
             if y > yc:  # north
                 orientation = 90
                 width = dx
-                y = ymax if inside else y
+                y = pymax if inside else y
             elif y < yc:  # south
                 orientation = 270
                 width = dx
-                y = ymin if inside else y
+                y = pymin if inside else y
 
+        # square ports ports are harder to detect orientation
         elif pxmax > xmax - tol:  # east
             orientation = 0
             width = dy
-            x = xmax if inside else x
+            x = pxmax if inside else x
         elif pxmin < xmin + tol:  # west
             orientation = 180
             width = dy
-            x = xmin if inside else x
+            x = pxmin if inside else x
         elif pymax > ymax - tol:  # north
             orientation = 90
             width = dx
-            y = ymax if inside else y
+            y = pymax if inside else y
         elif pymin < ymin + tol:  # south
             orientation = 270
             width = dx
-            y = ymin if inside else y
+            y = pymin if inside else y
 
         elif pxmax > xc:
             orientation = 0
             width = dy
-            x = xmax if inside else x
+            x = pxmax if inside else x
 
         elif pxmax < xc:
             orientation = 180
             width = dy
-            x = xmin if inside else x
+            x = pxmin if inside else x
+
+        if orientation == -1:
+            raise ValueError(f"Unable to detector port at ({x}, {y})")
 
         x = snap_to_grid(x)
         y = snap_to_grid(y)
