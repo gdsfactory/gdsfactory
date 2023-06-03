@@ -33,6 +33,8 @@ settings:
     columns: 6
     rows: 6
     spacing: 5
+    straight:
+      function: straight
     straight_length: 5.0
   full:
     bend90:
@@ -40,6 +42,8 @@ settings:
     columns: 6
     rows: 6
     spacing: 5
+    straight:
+      function: straight
     straight_length: 5.0
   function_name: cutback_bend90
   info:

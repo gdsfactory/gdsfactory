@@ -33,12 +33,16 @@ settings:
     length_h: 5.0
     length_v: 5.0
     rows: 4
+    straight:
+      function: straight
   full:
     bend90:
       function: bend_euler
     length_h: 5.0
     length_v: 5.0
     rows: 4
+    straight:
+      function: straight
   function_name: staircase
   info:
     n_bends: 8
