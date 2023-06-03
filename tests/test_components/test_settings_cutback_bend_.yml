@@ -32,12 +32,16 @@ settings:
       function: bend_euler
     columns: 5
     rows: 6
+    straight:
+      function: straight
     straight_length: 5.0
   full:
     bend90:
       function: bend_euler
     columns: 5
     rows: 6
+    straight:
+      function: straight
     straight_length: 5.0
   function_name: cutback_bend
   info:
