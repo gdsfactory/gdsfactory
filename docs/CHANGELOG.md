@@ -1,6 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.101.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.102.1...main)
+
+## [6.102.1](https://github.com/gdsfactory/gdsfactory/compare/v6.102.1...v6.102.0)
+
+- improve script to extract ports [PR](https://github.com/gdsfactory/gdsfactory/pull/1725)
 
 ## [6.102.0](https://github.com/gdsfactory/gdsfactory/compare/v6.102.0...v6.101.1)
 
