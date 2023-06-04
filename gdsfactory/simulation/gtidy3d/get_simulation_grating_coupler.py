@@ -278,6 +278,7 @@ def get_simulation_grating_coupler(
     )
 
     component_extended = component_extended.flatten()
+    component_extended.name = component.name
     component_extended.show(show_ports=True)
 
     component_ref = component_padding.ref()
