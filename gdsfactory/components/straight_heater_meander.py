@@ -71,9 +71,9 @@ def straight_heater_meander(
     )
     ports = {}
 
-    """
-    Straights
-    """
+    ##############
+    # Straights
+    ##############
     for row, straight_width in enumerate(straight_widths):
         cross_section1 = gf.get_cross_section(cross_section, width=straight_width)
         straight = gf.c.straight(
@@ -94,9 +94,9 @@ def straight_heater_meander(
         ports[f"o1_{row+1}"] = straight_ref.ports["o1"]
         ports[f"o2_{row+1}"] = straight_ref.ports["o2"]
 
-    """
-    Loopbacks
-    """
+    ##############
+    # loopbacks
+    ##############
     for row in range(1, rows, 2):
         extra_length = 3 * (rows - row - 1) / 2 * radius
         extra_straight1 = c << gf.c.straight(
@@ -158,9 +158,6 @@ def straight_heater_meander(
         dx = via_stackw.get_ports_xsize() / 2 + heater_taper_length or 0
         via_stack_west_center = heater.size_info.cw - (dx, 0)
         via_stack_east_center = heater.size_info.ce + (dx, 0)
-
-        via_stack_east_center = gf.snap.snap_to_grid(via_stack_east_center, nm=10)
-        via_stack_west_center = gf.snap.snap_to_grid(via_stack_west_center, nm=10)
 
         via_stack_west = c << via_stackw
         via_stack_east = c << via_stacke
