@@ -119,7 +119,7 @@ gmsh = [
   "trimesh",
   "shapely"
 ]
-kfactory = ["kfactory[git]==0.7.2"]
+kfactory = ["kfactory[git]==0.7.5"]
 meow = ["meow-sim"]
 ray = ["ray[tune,air]", "hyperopt"]
 sax = ["sax>=0.8.6", "jaxlib", "jax"]
