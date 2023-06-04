@@ -1,1 +1,1 @@
-FROM joamatab/gdsfactory:6.102.1
+FROM joamatab/gdsfactory:6.102.2

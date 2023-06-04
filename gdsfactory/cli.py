@@ -23,7 +23,7 @@ try:
 except ImportError:
     import click
 
-VERSION = "6.102.1"
+VERSION = "6.102.2"
 LAYER_LABEL = LAYER.LABEL
 
 
