@@ -2,6 +2,10 @@
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.102.1...main)
 
+## [6.102.3](https://github.com/gdsfactory/gdsfactory/compare/v6.102.3...v6.102.0)
+
+- fix heater meander issues [PR](https://github.com/gdsfactory/gdsfactory/pull/1727)
+
 ## [6.102.1](https://github.com/gdsfactory/gdsfactory/compare/v6.102.1...v6.102.0)
 
 - improve script to extract ports [PR](https://github.com/gdsfactory/gdsfactory/pull/1725)
