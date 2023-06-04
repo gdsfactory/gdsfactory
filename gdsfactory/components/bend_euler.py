@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import numpy as np
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
@@ -7,7 +8,6 @@ from gdsfactory.components.straight import straight
 from gdsfactory.components.wire import wire_corner
 from gdsfactory.cross_section import strip
 from gdsfactory.path import euler
-from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import CrossSectionSpec, Optional
 
 
@@ -66,9 +66,9 @@ def bend_euler(
     )
     ref = c << p.extrude(x)
     c.add_ports(ref.ports)
-    c.info["length"] = snap_to_grid(p.length())
-    c.info["dy"] = snap_to_grid(abs(float(p.points[0][0] - p.points[-1][0])))
-    c.info["radius_min"] = snap_to_grid(p.info["Rmin"])
+    c.info["length"] = np.round(p.length(), 3)
+    c.info["dy"] = np.round(abs(float(p.points[0][0] - p.points[-1][0])), 3)
+    c.info["radius_min"] = np.round(p.info["Rmin"], 3)
     c.info["radius"] = radius
     c.info["width"] = x.width
 
@@ -232,19 +232,17 @@ if __name__ == "__main__":
     # c = bend_euler(cross_section="rib", angle=180)
     # c = bend_euler(bbox_layers=[(2, 0), (3, 0)], bbox_offsets=[3, 3])
 
-    import numpy as np
+    # c = gf.Component()
+    # ps = np.arange(0, 1.1, 0.2)
+    # for p in ps:
+    #     b = bend_euler(p=p, radius=10)
+    #     print(p, b.info["radius_min"])
+    #     c << b
 
-    c = gf.Component()
-    ps = np.arange(0, 1.1, 0.2)
-    for p in ps:
-        b = bend_euler(p=p, radius=10)
-        print(p, b.info["radius_min"])
-        c << b
-
-    c.show(show_ports=True)
+    # c.show(show_ports=True)
 
     # c = bend_euler(direction="cw")
-    # c = bend_euler(angle=270)
+    c = bend_euler()
     # c.pprint()
     # p = euler()
     # c = bend_straight_bend()
