@@ -765,7 +765,8 @@ class ComponentReference(_GeometryHelper):
             port: origin (port, or port name) to connect.
             destination: destination port.
             overlap: how deep does the port go inside.
-            preserve_orientation: if True, will not rotate the reference to align the port orientations; reference will keep its orientation pre-connection.
+            preserve_orientation: True, does not rotate the reference to align port
+                orientation and reference keep its orientation pre-connection.
 
         Returns:
             ComponentReference: with correct rotation to connect to destination.
