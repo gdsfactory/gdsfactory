@@ -85,9 +85,22 @@ class Path(_GeometryHelper):
                     "an array-like[N][2] list of points, or a list of these"
                 )
 
+    def __repr__(self) -> str:
+        """Returns path points."""
+        return f"Path(start_angle={self.start_angle}, end_angle={self.end_angle}, points={self.points})"
+
     def __len__(self) -> int:
         """Returns path points."""
         return len(self.points)
+
+    def __iadd__(self, path_or_points) -> Path:
+        """Adds points to current path."""
+        return self.append(path_or_points)
+
+    def __add__(self, path) -> Path:
+        """Returns new path concatenating current and new path."""
+        new = self.copy()
+        return new.append(path)
 
     @property
     def bbox(self):
@@ -1519,9 +1532,7 @@ if __name__ == "__main__":
     )
 
     Xtrans = gf.path.transition(cross_section1=X1, cross_section2=X2, width_type="sine")
-
     c = p.extrude(cross_section=Xtrans)
-    print(c.name)
     # c = gf.components.splitter_tree(
     #     noutputs=2**2,
     #     spacing=(120.0, 50.0),
