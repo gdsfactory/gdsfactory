@@ -4,17 +4,18 @@ To create a component you need to extrude the path with a cross-section.
 """
 from __future__ import annotations
 
+import functools
 import hashlib
 import inspect
 import sys
-import functools
 from collections.abc import Iterable
 from functools import partial
 from inspect import getmembers
-from typing import Any, Callable, Dict, List, Optional, Tuple, Union, TypeVar
+from typing import Any, Callable, Dict, List, Optional, Tuple, TypeVar, Union
 
 from pydantic import BaseModel, Field, validate_arguments
 from typing_extensions import Literal
+
 from gdsfactory.add_pins import add_pins_inside1nm, add_pins_siepic_optical
 
 nm = 1e-3
@@ -2317,11 +2318,9 @@ if __name__ == "__main__":
     # )
     # xs = pn_with_trenches(width=0.3)
     # xs = slot(width=0.3)
-
     # xs = rib_with_trenches()
     # p = gf.path.straight()
     # c = p.extrude(xs)
-
     # xs = l_with_trenches(
     #     width=0.5,
     #     width_trench=2.0,
@@ -2329,13 +2328,11 @@ if __name__ == "__main__":
     # )
     # p = gf.path.straight()
     # c = p.extrude(xs)
-
     # xs = l_wg_doped_with_trenches(
     #     layer="WG", width=0.5, width_trench=2.0, width_slab=7.0, gap_low_doping=0.1
     # )
     # p = gf.path.straight()
     # c = p.extrude(cross_section=xs)
-
     # xs = rib_with_trenches() # FIXME
     # c = gf.components.straight(cross_section=xs)
     c = gf.components.straight(cross_section="strip")

@@ -1,12 +1,14 @@
 from __future__ import annotations
 
+from functools import partial
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.triangles import triangle
 from gdsfactory.typings import ComponentSpec, Float2, LayerSpec
 
-triangle_metal = gf.partial(triangle, layer="M3", xtop=2)
+triangle_metal = partial(triangle, layer="M3", xtop=2)
 
 
 @gf.cell

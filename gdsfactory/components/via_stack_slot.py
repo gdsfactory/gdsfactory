@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import warnings
+from functools import partial
 from typing import Optional
 
 from numpy import floor
@@ -112,9 +113,9 @@ def via_stack_slot(
     return c
 
 
-via_stack_slot_m1_m2 = gf.partial(via_stack_slot, layers=("M1", "M2"), via=via1)
+via_stack_slot_m1_m2 = partial(via_stack_slot, layers=("M1", "M2"), via=via1)
 
-via_stack_slot_slab_m1 = gf.partial(via_stack_slot, layers=("M1",), via=viac)
+via_stack_slot_slab_m1 = partial(via_stack_slot, layers=("M1",), via=viac)
 
 
 if __name__ == "__main__":

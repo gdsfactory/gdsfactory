@@ -6,11 +6,11 @@ See Also:
 - https://github.com/opiopan/pcb-tools-extension
 - https://github.com/jamesbowman/cuflow/blob/master/gerber.py
 """
-from typing_extensions import Literal
-from typing import Optional, List, Dict, Tuple
 from pathlib import Path
+from typing import Dict, List, Optional, Tuple
 
 from pydantic import BaseModel, Field
+from typing_extensions import Literal
 
 from gdsfactory import Component
 
@@ -120,9 +120,8 @@ def to_gerber(
 if __name__ == "__main__":
     import gdsfactory as gf
     from gdsfactory.config import PATH
+    from gdsfactory.technology import LayerLevel, LayerStack, LayerView, LayerViews
     from gdsfactory.typings import Layer
-
-    from gdsfactory.technology import LayerStack, LayerLevel, LayerView, LayerViews
 
     class LayerMap(BaseModel):
         F_Cu: Layer = (1, 0)

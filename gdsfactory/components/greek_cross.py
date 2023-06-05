@@ -1,5 +1,6 @@
 """Greek cross test structure."""
 from itertools import product
+from typing import Optional
 
 import numpy as np
 
@@ -7,11 +8,9 @@ import gdsfactory as gf
 from gdsfactory.components.cross import cross
 from gdsfactory.components.pad import pad
 from gdsfactory.components.rectangle import rectangle
-from gdsfactory.components.via_stack import via_stack
-from gdsfactory.typings import LayerSpecs, ComponentSpec, Floats, CrossSectionSpec
-from gdsfactory.components.via_stack import via_stack_npp_m1, via_stack_m1_m3
+from gdsfactory.components.via_stack import via_stack, via_stack_m1_m3, via_stack_npp_m1
 from gdsfactory.cross_section import metal1
-from typing import Optional
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Floats, LayerSpecs
 
 
 @gf.cell

@@ -1,7 +1,8 @@
-import gdsfactory as gf
-from gdstk import Polygon
-import numpy as np
 import gdstk
+import numpy as np
+from gdstk import Polygon
+
+import gdsfactory as gf
 
 
 def manhattanize_polygon(

@@ -5,7 +5,7 @@ import shutil
 from typing import Optional, Union
 
 import gdsfactory as gf
-from gdsfactory.config import PATH, logger, GDSDIR_TEMP
+from gdsfactory.config import GDSDIR_TEMP, PATH, logger
 
 
 class GeometryDifference(Exception):

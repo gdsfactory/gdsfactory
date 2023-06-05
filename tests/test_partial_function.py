@@ -1,14 +1,15 @@
 from __future__ import annotations
+from functools import partial
 
 import gdsfactory as gf
 
 
 def test_partial_function_with_kwargs() -> None:
-    mmi400 = gf.partial(gf.components.mmi1x2, width=0.4)
-    mmi400_args = gf.partial(gf.components.mmi1x2, 0.4)
-    mmi600 = gf.partial(gf.components.mmi1x2, width=0.6)
-    mzi400 = gf.partial(gf.components.mzi, splitter=mmi400)
-    mzi600 = gf.partial(gf.components.mzi, splitter=mmi600)
+    mmi400 = partial(gf.components.mmi1x2, width=0.4)
+    mmi400_args = partial(gf.components.mmi1x2, 0.4)
+    mmi600 = partial(gf.components.mmi1x2, width=0.6)
+    mzi400 = partial(gf.components.mzi, splitter=mmi400)
+    mzi600 = partial(gf.components.mzi, splitter=mmi600)
 
     c400 = mzi400()
     c600 = mzi600()
@@ -23,9 +24,9 @@ def test_partial_function_with_kwargs() -> None:
 
 
 def test_partial_function_without_kwargs() -> None:
-    r1 = gf.partial(gf.components.rectangle, size=(4, 2))
-    r2 = gf.partial(gf.components.rectangle, size=(4, 2))
-    r3 = gf.partial(gf.components.rectangle, (4, 2))
+    r1 = partial(gf.components.rectangle, size=(4, 2))
+    r2 = partial(gf.components.rectangle, size=(4, 2))
+    r3 = partial(gf.components.rectangle, (4, 2))
 
     c1 = r1()
     c2 = r2()
@@ -37,10 +38,10 @@ def test_partial_function_without_kwargs() -> None:
 if __name__ == "__main__":
     # test_partial_function_with_kwargs()
     test_partial_function_without_kwargs()
-    # mmi400 = gf.partial(gf.components.mmi1x2, width=0.4)
-    # mmi600 = gf.partial(gf.components.mmi1x2, width=0.6)
-    # mzi400 = gf.partial(gf.components.mzi, splitter=mmi400)
-    # mzi600 = gf.partial(gf.components.mzi, splitter=mmi600)
+    # mmi400 = partial(gf.components.mmi1x2, width=0.4)
+    # mmi600 = partial(gf.components.mmi1x2, width=0.6)
+    # mzi400 = partial(gf.components.mzi, splitter=mmi400)
+    # mzi600 = partial(gf.components.mzi, splitter=mmi600)
     # c400 = mzi400()
     # c600 = mzi600()
     # print(c400.name, c600.name)

@@ -11,26 +11,24 @@ tidy3d can:
 
 from __future__ import annotations
 
-import pathlib
-from typing import Optional, Tuple, Union, Sequence, Any
 import hashlib
 import itertools
+import pathlib
+from typing import Any, Optional, Sequence, Tuple, Union
 
 import numpy as np
 import pydantic
 import tidy3d as td
-from tidy3d.plugins import waveguide
-from typing_extensions import Literal
 import xarray
+from tidy3d.plugins import waveguide
 from tqdm.auto import tqdm
+from typing_extensions import Literal
 
 from gdsfactory.config import logger
-from gdsfactory.serialization import clean_value_name
 from gdsfactory.pdk import MaterialSpec, get_modes_path
-from gdsfactory.typings import PathType
-
+from gdsfactory.serialization import clean_value_name
 from gdsfactory.simulation.gtidy3d.materials import get_medium
-
+from gdsfactory.typings import PathType
 
 Precision = Literal["single", "double"]
 
@@ -696,7 +694,6 @@ if __name__ == "__main__":
     #         )
     #         pyplot.figure()
     #         strip.plot_field(field_name="Ex", mode_index=0, wavelength=1.55, value="real")
-
     # rib = Waveguide(
     #     wavelength=1.55,
     #     core_width=0.5,
@@ -721,7 +718,6 @@ if __name__ == "__main__":
     #     rib.plot_field("Ey", mode_index=i, ax=ax[1, i + 1])
     #     ax[0, i + 1].set_title(f"Mode {i}")
     # fig.suptitle("Rib waveguide")
-
     # # Strip waveguide coupler
     #
     # coupler = WaveguideCoupler(
@@ -747,7 +743,6 @@ if __name__ == "__main__":
     # ax.set(xlabel="Gap (μm)", ylabel="Coupling length (μm)")
     # ax.legend(["TE", "TM"])
     # ax.grid()
-
     # # Strip bend mismatch
     #
     # radii = np.arange(7, 21)
@@ -768,7 +763,6 @@ if __name__ == "__main__":
     # ax[1].set(xlabel="Radius (μm)", ylabel="Mismatch (dB)")
     # ax[1].grid()
     # fig.suptitle("Strip waveguide bend")
-
     # Effective index sweep
 
     wg = Waveguide(

@@ -1,5 +1,5 @@
-from gdsfactory.simulation.sax.parameter import LithoParameter
 import gdsfactory as gf
+from gdsfactory.simulation.sax.parameter import LithoParameter
 
 
 def test_litho_parameters() -> None:

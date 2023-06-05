@@ -1,8 +1,10 @@
 from __future__ import annotations
+
 from collections.abc import Iterable
-from typing import Optional, Any, Dict, List
-from gdsfactory.component import Component
+from typing import Any, Dict, List, Optional
+
 import gdsfactory as gf
+from gdsfactory.component import Component
 from gdsfactory.get_netlist import get_netlist_recursive
 
 

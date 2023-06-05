@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import numpy as np
+
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component

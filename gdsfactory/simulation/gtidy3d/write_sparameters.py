@@ -1,7 +1,8 @@
 from __future__ import annotations
 
-from typing import Awaitable
 import time
+from functools import partial
+from typing import Awaitable
 
 import numpy as np
 import tidy3d as td
@@ -25,8 +26,8 @@ from gdsfactory.typings import (
     PathType,
     Port,
     PortSymmetries,
-    Tuple,
     Sparameters,
+    Tuple,
 )
 
 
@@ -264,14 +265,14 @@ def write_sparameters_batch(
     return [_executor.submit(write_sparameters, **job, **kwargs) for job in jobs]
 
 
-write_sparameters_1x1 = gf.partial(
+write_sparameters_1x1 = partial(
     write_sparameters, port_symmetries=port_symmetries.port_symmetries_1x1
 )
-write_sparameters_crossing = gf.partial(
+write_sparameters_crossing = partial(
     write_sparameters, port_symmetries=port_symmetries.port_symmetries_crossing
 )
 
-write_sparameters_batch_1x1 = gf.partial(
+write_sparameters_batch_1x1 = partial(
     write_sparameters_batch, port_symmetries=port_symmetries.port_symmetries_1x1
 )
 

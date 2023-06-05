@@ -1,14 +1,15 @@
 from functools import partial
 
 import gdstk
+
 import gdsfactory as gf
 from gdsfactory.typings import (
-    LayerSpecs,
-    Floats,
-    List,
     Component,
     ComponentOrReference,
     ComponentSpec,
+    Floats,
+    LayerSpecs,
+    List,
 )
 
 

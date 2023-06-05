@@ -9,11 +9,12 @@ from functools import partial
 from typing import Dict, Optional
 
 import numpy as np
+
 import gdsfactory as gf
-from gdsfactory.typings import CrossSectionSpec, Union, List, Tuple, Floats
+from gdsfactory.cell import cell_without_validator
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.straight import straight
-from gdsfactory.cell import cell_without_validator
+from gdsfactory.typings import CrossSectionSpec, Floats, List, Tuple, Union
 
 def_dict = {"A": "rib", "B": "strip"}
 def_ang_dict = {"A": 6, "B": 6}

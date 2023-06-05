@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from typing import List, Optional, Tuple
 from functools import partial
+from typing import List, Optional, Tuple
 
 import gdsfactory as gf
 from gdsfactory.cell import cell

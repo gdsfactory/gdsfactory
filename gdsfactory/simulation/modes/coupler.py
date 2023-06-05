@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 import pathlib
+from functools import partial
 
-import gdsfactory as gf
 from gdsfactory.simulation.modes.find_coupling_vs_gap import (
     find_coupling,
     find_coupling_vs_gap,
@@ -18,19 +18,19 @@ strip_width = 500 * nm
 rib_width = 550 * nm
 
 
-find_coupling_strip = gf.partial(
+find_coupling_strip = partial(
     find_coupling,
     core_width=strip_width,
     core_thickness=core_thickness,
     slab_thickness=0.0,
 )
-find_coupling_rib = gf.partial(
+find_coupling_rib = partial(
     find_coupling,
     core_width=rib_width,
     core_thickness=core_thickness,
     slab_thickness=slab_thickness,
 )
-find_coupling_nitride = gf.partial(
+find_coupling_nitride = partial(
     find_coupling,
     core_width=1.0,
     slab_thickness=0.0,
@@ -41,16 +41,16 @@ find_coupling_nitride = gf.partial(
 )
 
 
-find_coupling_vs_gap_strip = gf.partial(
+find_coupling_vs_gap_strip = partial(
     find_coupling_vs_gap,
 )
-find_coupling_vs_gap_rib = gf.partial(
+find_coupling_vs_gap_rib = partial(
     find_coupling_vs_gap,
     core_width=rib_width,
     core_thickness=core_thickness,
     slab_thickness=slab_thickness,
 )
-find_coupling_vs_gap_nitride = gf.partial(
+find_coupling_vs_gap_nitride = partial(
     find_coupling_vs_gap,
     core_width=1.0,
     slab_thickness=0.0,

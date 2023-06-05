@@ -1,13 +1,11 @@
 from __future__ import annotations
 
 import time
-from typing import Optional
-from typing import Awaitable
+from typing import Awaitable, Optional
 
 import numpy as np
 import tidy3d as td
 from omegaconf import OmegaConf
-
 
 import gdsfactory as gf
 from gdsfactory.config import logger
@@ -15,18 +13,18 @@ from gdsfactory.serialization import clean_value_json
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_tidy3d as get_sparameters_path,
 )
-from gdsfactory.simulation.gtidy3d.get_results import get_results, _executor
+from gdsfactory.simulation.gtidy3d.get_results import _executor, get_results
 from gdsfactory.simulation.gtidy3d.get_simulation_grating_coupler import (
     get_simulation_grating_coupler,
 )
 from gdsfactory.typings import (
+    Any,
     Component,
     ComponentSpec,
+    Dict,
+    List,
     PathType,
     Sparameters,
-    Dict,
-    Any,
-    List,
 )
 
 

@@ -11,15 +11,15 @@ import math
 import pathlib
 import uuid
 import warnings
-from copy import deepcopy
 from collections import Counter
 from collections.abc import Iterable
+from copy import deepcopy
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
-import shapely
 import gdstk
 import numpy as np
+import shapely
 import yaml
 from omegaconf import DictConfig, OmegaConf
 from typing_extensions import Literal
@@ -34,8 +34,9 @@ from gdsfactory.component_layout import (
     get_polygons,
 )
 from gdsfactory.component_reference import ComponentReference, Coordinate, SizeInfo
-from gdsfactory.config import CONF, logger, GDSDIR_TEMP
+from gdsfactory.config import CONF, GDSDIR_TEMP, logger
 from gdsfactory.cross_section import CrossSection
+from gdsfactory.generic_tech import LAYER
 from gdsfactory.port import (
     Port,
     auto_rename_ports,
@@ -49,8 +50,7 @@ from gdsfactory.port import (
 )
 from gdsfactory.serialization import clean_dict
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.technology import LayerView, LayerViews, LayerStack
-from gdsfactory.generic_tech import LAYER
+from gdsfactory.technology import LayerStack, LayerView, LayerViews
 
 Plotter = Literal["holoviews", "matplotlib", "qt", "klayout"]
 Axis = Literal["x", "y"]
@@ -1440,9 +1440,10 @@ class Component(_GeometryHelper):
             show_ports: shows component with port markers and labels.
             port_marker_layer: for the ports.
         """
+        from IPython.display import display
+
         from gdsfactory.pdk import get_layer_views
         from gdsfactory.widgets.layout_viewer import LayoutViewer
-        from IPython.display import display
 
         component = (
             self.add_pins_triangle(port_marker_layer=port_marker_layer)
@@ -1484,9 +1485,10 @@ class Component(_GeometryHelper):
         try:
             import klayout.db as db  # noqa: F401
             import klayout.lay as lay
-            from gdsfactory.pdk import get_layer_views
             from IPython.display import display
             from ipywidgets import Image
+
+            from gdsfactory.pdk import get_layer_views
 
             gdspath = component.write_gds(logging=False)
             lyp_path = gdspath.with_suffix(".lyp")
@@ -1519,11 +1521,13 @@ class Component(_GeometryHelper):
         """
         try:
             import os
+            from html import escape
+
+            import kweb.server_jupyter as kj
+            from IPython.display import IFrame
+
             from gdsfactory.config import PATH
             from gdsfactory.pdk import get_layer_views
-            from IPython.display import IFrame
-            import kweb.server_jupyter as kj
-            from html import escape
 
             gdspath = self.write_gds(gdsdir=PATH.gdslib / "extra", logging=False)
 

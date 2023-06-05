@@ -5,12 +5,12 @@ This module enables conversion between gdsfactory settings and KLayout technolog
 
 import pathlib
 import xml.etree.ElementTree as ET
-from typing import List, Optional, Tuple, Dict
+from typing import Dict, List, Optional, Tuple
 
 from pydantic import BaseModel, Field
 
 from gdsfactory.config import PATH
-from gdsfactory.technology import LayerViews, LayerStack
+from gdsfactory.technology import LayerStack, LayerViews
 from gdsfactory.typings import PathType
 
 Layer = Tuple[int, int]
@@ -203,7 +203,7 @@ def yaml_test() -> None:
 
 
 if __name__ == "__main__":
-    from gdsfactory.generic_tech import LAYER_STACK, LAYER
+    from gdsfactory.generic_tech import LAYER, LAYER_STACK
 
     lyp = LayerViews(PATH.klayout_yaml)
     # lyp = LayerViews.from_lyp(str(PATH.klayout_yaml))

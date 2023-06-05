@@ -1,4 +1,5 @@
 from __future__ import annotations
+from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.add_labels import (
@@ -8,7 +9,7 @@ from gdsfactory.add_labels import (
 )
 from gdsfactory.component import Component
 
-straight = gf.partial(
+straight = partial(
     gf.components.straight,
     with_bbox=True,
     cladding_layers=None,

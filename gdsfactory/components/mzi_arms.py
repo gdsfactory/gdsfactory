@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from functools import partial
 from typing import Optional
 
 from gdsfactory.cell import cell
@@ -160,7 +161,7 @@ if __name__ == "__main__":
     # print(delta_length)
     # c = mzi_arms(delta_length=delta_length, with_splitter=False)
     # c.pprint_netlist()
-    mmi2x2 = gf.partial(gf.components.mmi2x2, width_mmi=5, gap_mmi=2)
+    mmi2x2 = partial(gf.components.mmi2x2, width_mmi=5, gap_mmi=2)
     c = mzi_arms(delta_length=10, combiner=mmi2x2)
     c.show(show_ports=True)
 

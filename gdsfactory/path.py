@@ -1495,13 +1495,12 @@ def _demo_variable_offset() -> None:
 
 if __name__ == "__main__":
     import numpy as np
+
     import gdsfactory as gf
 
     # nm = 1e-3
-
     # points = np.array([(20, 10), (40, 10), (20, 40), (50, 40), (50, 20), (70, 20)])
     # p = smooth(points=points)
-
     # p = arc(start_angle=0)
     # c = p.extrude(layer=(1, 0), width=0.1, simplify=50 * nm)
     p = straight()

@@ -5,12 +5,12 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 
 from __future__ import annotations
 
-import shapely
 import typing
-from typing import Any, Dict, List, Optional, Tuple, Union, cast, Set
+from typing import Any, Dict, List, Optional, Set, Tuple, Union, cast
 
 import gdstk
 import numpy as np
+import shapely
 from numpy import cos, float64, int64, mod, ndarray, pi, sin
 
 from gdsfactory.component_layout import Polygon, _GeometryHelper, get_polygons

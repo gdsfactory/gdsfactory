@@ -19,12 +19,13 @@ Options:
     --scale                             Enable scale of 1e6 in extracted netlist.
 """
 
-from docopt import docopt
-import os
 import logging
-import klayout.db
+import os
 from datetime import datetime
 from subprocess import check_call
+
+import klayout.db
+from docopt import docopt
 
 
 def check_klayout_version() -> None:

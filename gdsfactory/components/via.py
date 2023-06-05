@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from functools import partial
 from typing import Optional, Tuple
 
 import gdsfactory as gf
@@ -71,9 +72,9 @@ def via(
     return c
 
 
-viac = gf.partial(via, layer="VIAC")
-via1 = gf.partial(via, layer="VIA1", enclosure=2)
-via2 = gf.partial(via, layer="VIA2")
+viac = partial(via, layer="VIAC")
+via1 = partial(via, layer="VIA1", enclosure=2)
+via2 = partial(via, layer="VIA2")
 
 
 if __name__ == "__main__":

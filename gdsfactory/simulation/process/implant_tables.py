@@ -1,9 +1,10 @@
 """
 Reference: Selberherr, S. (1984). Process Modeling. In: Analysis and Simulation of Semiconductor Devices. Springer, Vienna. https://doi.org/10.1007/978-3-7091-8752-4_3
 """
+from pathlib import Path
+
 import numpy as np
 from scipy import interpolate, optimize
-from pathlib import Path
 
 """um length units, energy in keV"""
 depth_in_silicon = {

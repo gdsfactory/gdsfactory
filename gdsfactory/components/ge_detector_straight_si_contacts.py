@@ -7,7 +7,7 @@ from typing import Optional
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.taper import taper as taper_func
-from gdsfactory.components.via_stack import via_stack_slab_m3, via_stack_slab_m2
+from gdsfactory.components.via_stack import via_stack_slab_m2, via_stack_slab_m3
 from gdsfactory.cross_section import pn_ge_detector_si_contacts
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Tuple, Union
 

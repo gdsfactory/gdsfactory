@@ -763,7 +763,8 @@
 ## 6.3.0
 
 - Schematic-Driven Layout flow [PR](https://github.com/gdsfactory/gdsfactory/pull/920)
-- from __future__ import annotations to all files and makes the docs cleaner by rendering the type aliases rather than the expanded type [PR](https://github.com/gdsfactory/gdsfactory/pull/923)
+- from __future__ import annotations
+from functools import partial to all files and makes the docs cleaner by rendering the type aliases rather than the expanded type [PR](https://github.com/gdsfactory/gdsfactory/pull/923)
 - Add routes to gdsfactory klayout macro [PR](https://github.com/gdsfactory/gdsfactory/pull/918)
 - fix missing conversion from rad (gdstk) to deg [PR](https://github.com/gdsfactory/gdsfactory/pull/927)
 - better error message when failing to import missing gdscell [PR](https://github.com/gdsfactory/gdsfactory/pull/926)

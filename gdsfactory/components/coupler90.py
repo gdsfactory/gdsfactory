@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from functools import partial
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular
@@ -66,7 +68,7 @@ def coupler90(
     return c
 
 
-coupler90circular = gf.partial(coupler90, bend=bend_circular)
+coupler90circular = partial(coupler90, bend=bend_circular)
 
 
 if __name__ == "__main__":

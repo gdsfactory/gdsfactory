@@ -1,20 +1,21 @@
 try:
+    from typing import Optional
+
+    import klayout.db as db
+    import klayout.lay as lay
+    from ipyevents import Event
     from ipywidgets import (
         HTML,
-        Image,
+        Accordion,
         AppLayout,
-        VBox,
-        HBox,
         Button,
+        HBox,
+        Image,
         Label,
         Layout,
         Tab,
-        Accordion,
+        VBox,
     )
-    from ipyevents import Event
-    from typing import Optional
-    import klayout.db as db
-    import klayout.lay as lay
 except ImportError as e:
     print(
         "You need install jupyter notebook plugin with `pip install gdsfactory[full]`"

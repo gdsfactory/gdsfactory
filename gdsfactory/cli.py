@@ -10,8 +10,7 @@ from click.core import Context, Option
 import gdsfactory
 from gdsfactory.config import cwd, print_config
 from gdsfactory.config import print_version as _print_version
-from gdsfactory.config import print_version_raw
-from gdsfactory.config import print_version_pdks
+from gdsfactory.config import print_version_pdks, print_version_raw
 from gdsfactory.generic_tech import LAYER
 from gdsfactory.install import install_gdsdiff, install_klayout_package
 from gdsfactory.technology import lyp_to_dataclass
@@ -135,9 +134,11 @@ def web(
     port: int,
 ) -> None:
     """Opens web viewer."""
-    import uvicorn
-    from gdsfactory.plugins.web.main import app
     import os
+
+    import uvicorn
+
+    from gdsfactory.plugins.web.main import app
 
     os.environ["PDK"] = pdk
 

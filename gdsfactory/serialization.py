@@ -2,10 +2,10 @@
 from __future__ import annotations
 
 import functools
-from functools import partial
 import hashlib
 import inspect
 import pathlib
+from functools import partial
 from typing import Any, Dict
 
 import gdstk
@@ -134,7 +134,6 @@ if __name__ == "__main__":
     # f = partial(gf.c.straight, length=3)
     # d = clean_value_json(f)
     # print(f"{d!r}")
-
     # f = partial(gf.c.straight, length=3)
     # c = f()
     # d = clean_value_json(c)

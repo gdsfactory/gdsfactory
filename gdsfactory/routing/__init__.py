@@ -8,8 +8,8 @@ from gdsfactory.routing.add_electrical_pads_top import add_electrical_pads_top
 from gdsfactory.routing.add_electrical_pads_top_dc import add_electrical_pads_top_dc
 from gdsfactory.routing.add_fiber_array import add_fiber_array
 from gdsfactory.routing.add_fiber_single import add_fiber_single
-from gdsfactory.routing.add_pads import add_pads_top, add_pads_bot
-
+from gdsfactory.routing.add_pads import add_pads_bot, add_pads_top
+from gdsfactory.routing.all_angle import get_bundle_all_angle
 from gdsfactory.routing.fanout import fanout_component, fanout_ports
 from gdsfactory.routing.fanout2x2 import fanout2x2
 from gdsfactory.routing.get_bundle import (
@@ -52,8 +52,6 @@ from gdsfactory.routing.route_ports_to_side import route_ports_to_side
 from gdsfactory.routing.route_quad import route_quad
 from gdsfactory.routing.route_sharp import route_sharp
 from gdsfactory.routing.route_south import route_south
-
-from gdsfactory.routing.all_angle import get_bundle_all_angle
 
 __all__ = [
     "add_electrical_pads_shortest",

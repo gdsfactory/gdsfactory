@@ -6,8 +6,8 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 from __future__ import annotations
 
 import warnings
-from typing import Any, Dict, List, Optional, Tuple
 from functools import partial
+from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
 from pydantic import validate_arguments

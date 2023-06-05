@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from typing import Optional
 from functools import partial
+from typing import Optional
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component

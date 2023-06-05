@@ -1,11 +1,11 @@
 import jax.numpy as jnp
 import numpy as np
+import ray
 from sax.utils import reciprocal
 
 from gdsfactory.pdk import get_layer_stack
 from gdsfactory.simulation.fem.mode_solver import compute_cross_section_modes
 from gdsfactory.simulation.sax.build_model import Model
-import ray
 
 
 @ray.remote(num_cpus=1)

@@ -5,7 +5,7 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 from __future__ import annotations
 
 import itertools
-from typing import List, Optional, Union, Tuple
+from typing import List, Optional, Tuple, Union
 
 import gdstk
 import numpy as np
@@ -17,11 +17,11 @@ from gdsfactory.component import Component
 from gdsfactory.component_layout import _parse_layer
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.typings import (
+    ComponentOrReference,
+    ComponentSpec,
     Float2,
     Floats,
     LayerSpecs,
-    ComponentSpec,
-    ComponentOrReference,
 )
 
 

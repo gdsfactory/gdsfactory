@@ -6,7 +6,7 @@ import hashlib
 import inspect
 from dataclasses import dataclass
 from functools import wraps
-from typing import Any, Callable, Dict, Optional, Tuple, TypeVar, Type
+from typing import Any, Callable, Dict, Optional, Tuple, Type, TypeVar
 
 import toolz
 from pydantic import BaseModel, validate_arguments
