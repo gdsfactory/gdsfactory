@@ -1,8 +1,9 @@
 from __future__ import annotations
 
+from functools import partial
+
 from numpy import float64
 
-import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular, bend_circular180
@@ -233,8 +234,8 @@ def cutback_bend180(
     return c
 
 
-cutback_bend180circular = gf.partial(cutback_bend180, bend180=bend_circular180)
-cutback_bend90circular = gf.partial(cutback_bend90, bend90=bend_circular)
+cutback_bend180circular = partial(cutback_bend180, bend180=bend_circular180)
+cutback_bend90circular = partial(cutback_bend90, bend90=bend_circular)
 
 if __name__ == "__main__":
     # c = cutback_bend()

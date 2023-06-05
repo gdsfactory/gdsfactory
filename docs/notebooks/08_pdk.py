@@ -40,6 +40,7 @@
 # %%
 import pathlib
 from typing import Callable, Tuple
+from functools import partial
 
 import pytest
 from pydantic import BaseModel
@@ -158,14 +159,14 @@ LAYER = LayerMap()
 # You can create a `CrossSection` from scratch or you can customize the cross_section functions in `gf.cross_section`
 
 # %%
-strip2 = gf.partial(gf.cross_section.strip, layer=(2, 0))
+strip2 = partial(gf.cross_section.strip, layer=(2, 0))
 
 # %%
 c = gf.components.straight(cross_section=strip2)
 c
 
 # %%
-pin = gf.partial(
+pin = partial(
     gf.cross_section.strip,
     sections=(
         gf.Section(width=2, layer=gf.LAYER.N, offset=+1),
@@ -176,11 +177,11 @@ c = gf.components.straight(cross_section=pin)
 c
 
 # %%
-strip_wide = gf.partial(gf.cross_section.strip, width=3)
+strip_wide = partial(gf.cross_section.strip, width=3)
 
 
 # %%
-strip = gf.partial(
+strip = partial(
     gf.cross_section.strip, auto_widen=True
 )  # auto_widen tapers to wider waveguides for lower loss in long straight sections.
 
@@ -198,8 +199,8 @@ cross_sections = dict(strip_wide=strip_wide, pin=pin, strip=strip)
 # For example, you can make some wide MMIs for a particular technology. Lets say the best MMI width you found it to be 9um.
 
 # %%
-mmi1x2 = gf.partial(gf.components.mmi1x2, width_mmi=9)
-mmi2x2 = gf.partial(gf.components.mmi2x2, width_mmi=9)
+mmi1x2 = partial(gf.components.mmi1x2, width_mmi=9)
+mmi2x2 = partial(gf.components.mmi2x2, width_mmi=9)
 
 cells = dict(mmi1x2=mmi1x2, mmi2x2=mmi2x2)
 

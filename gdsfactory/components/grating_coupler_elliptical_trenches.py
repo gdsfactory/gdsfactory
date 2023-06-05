@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from functools import partial
+
 import numpy as np
 
 import gdsfactory as gf
@@ -139,11 +141,11 @@ def grating_coupler_elliptical_trenches(
     return c
 
 
-grating_coupler_te = gf.partial(
+grating_coupler_te = partial(
     grating_coupler_elliptical_trenches, polarization="te", taper_angle=35
 )
 
-grating_coupler_tm = gf.partial(
+grating_coupler_tm = partial(
     grating_coupler_elliptical_trenches,
     polarization="tm",
     neff=1.8,

@@ -3,6 +3,10 @@ from __future__ import annotations
 from typing import Callable, List, Optional, Tuple, Union
 
 import gdsfactory as gf
+from gdsfactory.add_labels import (
+    get_input_label_text_dash,
+    get_input_label_text_dash_loopback,
+)
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
@@ -11,10 +15,12 @@ from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port, select_ports_optical
 from gdsfactory.routing.get_bundle import get_bundle, get_min_spacing
+from gdsfactory.routing.get_input_labels import get_input_labels_dash
 from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.manhattan import generate_manhattan_waypoints, round_corners
 from gdsfactory.routing.route_south import route_south
 from gdsfactory.routing.utils import direction_ports_from_list_ports
+from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import (
     ComponentSpec,
     ComponentSpecOrList,
@@ -23,12 +29,6 @@ from gdsfactory.typings import (
     LayerSpec,
     Strs,
 )
-from gdsfactory.add_labels import (
-    get_input_label_text_dash,
-    get_input_label_text_dash_loopback,
-)
-from gdsfactory.routing.get_input_labels import get_input_labels_dash
-from gdsfactory.snap import snap_to_grid
 
 
 def route_fiber_array(

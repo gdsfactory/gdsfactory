@@ -5,6 +5,7 @@ import functools
 import hashlib
 import inspect
 import pathlib
+from functools import partial
 from typing import Any, Dict
 
 import gdstk
@@ -130,16 +131,15 @@ def get_hash(value: Any) -> str:
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    # f = gf.partial(gf.c.straight, length=3)
+    # f = partial(gf.c.straight, length=3)
     # d = clean_value_json(f)
     # print(f"{d!r}")
-
-    # f = gf.partial(gf.c.straight, length=3)
+    # f = partial(gf.c.straight, length=3)
     # c = f()
     # d = clean_value_json(c)
     # print(d, d)
 
-    f = gf.partial(gf.cross_section.strip, width=3)
+    f = partial(gf.cross_section.strip, width=3)
     c = f()
     d = clean_value_json(c)
     print(get_hash(d))

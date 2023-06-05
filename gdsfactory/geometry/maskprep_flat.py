@@ -8,8 +8,9 @@ except ImportError as e:
     )
     raise e
 
-from gdsfactory.typings import Dict, Layer, PathType, Tuple, LayerSpecs
 from typing import Optional
+
+from gdsfactory.typings import Dict, Layer, LayerSpecs, PathType, Tuple
 
 
 def size(region: kdb.Region, offset: float):
@@ -143,10 +144,11 @@ class RegionCollection:
 
 
 if __name__ == "__main__":
-    from gdsfactory.generic_tech.layer_map import LAYER as l
-    import gdsfactory.geometry.maskprep_flat as dp
-    import gdsfactory as gf
     import kfactory as kf
+
+    import gdsfactory as gf
+    import gdsfactory.geometry.maskprep_flat as dp
+    from gdsfactory.generic_tech.layer_map import LAYER as l
 
     c = gf.Component()
     ring = c << gf.components.coupler_ring()

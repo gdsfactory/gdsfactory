@@ -1,4 +1,5 @@
 from __future__ import annotations
+from functools import partial
 
 from pytest_regressions.data_regression import DataRegressionFixture
 
@@ -13,7 +14,7 @@ def test_get_bundle_west_to_north(
     lengths = {}
 
     c = gf.Component("test_get_bundle_west_to_north")
-    pad = gf.partial(gf.components.pad, size=(10, 10))
+    pad = partial(gf.components.pad, size=(10, 10))
     c = gf.Component()
     pad_south = gf.components.pad_array(orientation=270, spacing=(15.0, 0.0), pad=pad)
     pad_north = gf.components.pad_array(orientation=90, spacing=(15.0, 0.0), pad=pad)

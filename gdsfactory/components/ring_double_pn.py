@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 from functools import partial
+
 import numpy as np
+
 import gdsfactory as gf
+from gdsfactory.components.via import via
+from gdsfactory.components.via_stack import via_stack
 from gdsfactory.cross_section import Section
 from gdsfactory.typings import ComponentSpec, CrossSection, LayerSpec
-from gdsfactory.components.via_stack import via_stack
-from gdsfactory.components.via import via
 
 
 @gf.cell
@@ -19,7 +21,7 @@ def ring_double_pn(
         gf.cross_section.strip,
         sections=(Section(width=2 * 2.425, layer="SLAB90", name="slab"),),
     ),
-    pn_cross_section: CrossSection = gf.partial(
+    pn_cross_section: CrossSection = partial(
         gf.cross_section.pn,
         width_doping=2.425,
         width_slab=2 * 2.425,
@@ -33,19 +35,19 @@ def ring_double_pn(
     doped_heater_layer: LayerSpec = "NPP",
     doped_heater_width: float = 0.5,
     doped_heater_waveguide_offset: float = 2.175,
-    heater_vias: ComponentSpec = gf.partial(
+    heater_vias: ComponentSpec = partial(
         via_stack,
         size=(0.5, 0.5),
         layers=("M1", "M2"),
         vias=(
-            gf.partial(
+            partial(
                 via,
                 layer="VIAC",
                 size=(0.1, 0.1),
                 spacing=(0.2, 0.2),
                 enclosure=0.1,
             ),
-            gf.partial(
+            partial(
                 via,
                 layer="VIA1",
                 size=(0.1, 0.1),

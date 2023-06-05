@@ -6,7 +6,7 @@ from gdsfactory.components.pad import pad_array as pad_array_function
 from gdsfactory.components.straight import straight
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_quad import route_quad
-from gdsfactory.typings import ComponentSpec, Float2, Optional, Strs, Callable
+from gdsfactory.typings import Callable, ComponentSpec, Float2, Optional, Strs
 
 
 @gf.cell

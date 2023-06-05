@@ -1,6 +1,7 @@
 """Spiral with grating couplers inside to save space."""
 from __future__ import annotations
 
+from functools import partial
 from typing import Optional, Tuple
 
 import numpy as np
@@ -261,8 +262,8 @@ if __name__ == "__main__":
 
     c = gf.components.spiral_inner_io(
         cross_section=cross_section,
-        cross_section_bend=gf.partial(cross_section, mirror=True),
-        # cross_section_bend180=gf.partial(cross_section, mirror=True),
+        cross_section_bend=partial(cross_section, mirror=True),
+        # cross_section_bend180=partial(cross_section, mirror=True),
         waveguide_spacing=20,
         radius=30,
         asymmetric_cross_section=True,

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import inspect
-from typing import List, Tuple, Callable
+from typing import Callable, List, Tuple
 
 import gdsfactory as gf
 from gdsfactory.add_labels import get_input_label as get_input_label_function

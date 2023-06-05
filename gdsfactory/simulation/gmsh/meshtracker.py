@@ -2,10 +2,10 @@ from __future__ import annotations
 
 from collections import OrderedDict
 
+import numpy as np
 import shapely
 from shapely.geometry import LineString, Point, Polygon
 from shapely.ops import linemerge, split
-import numpy as np
 
 
 class MeshTracker:

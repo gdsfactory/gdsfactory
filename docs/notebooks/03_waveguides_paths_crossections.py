@@ -29,6 +29,7 @@
 #
 
 # %%
+from functools import partial
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -845,7 +846,7 @@ c4
 help(gf.cross_section.cross_section)
 
 # %%
-pin = gf.partial(
+pin = partial(
     gf.cross_section.strip,
     layer=(2, 0),
     sections=(

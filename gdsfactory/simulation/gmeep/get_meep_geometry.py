@@ -151,8 +151,9 @@ def get_meep_geometry_from_cross_section(
 
 
 if __name__ == "__main__":
-    import gdsfactory.simulation.gmeep as gm
     import matplotlib.pyplot as plt
+
+    import gdsfactory.simulation.gmeep as gm
 
     c = gf.components.taper_strip_to_ridge_trenches()
     sp = gm.write_sparameters_meep(

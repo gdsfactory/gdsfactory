@@ -15,6 +15,7 @@
 #     - `get_bundle_path_length_match`
 
 # %%
+from functools import partial
 import numpy as np
 
 from gdsfactory import LAYER
@@ -1132,7 +1133,7 @@ c
 # %%
 c = gf.Component("get_route_from_steps_sample")
 w = gf.components.array(
-    gf.partial(gf.components.straight, layer=(2, 0)),
+    partial(gf.components.straight, layer=(2, 0)),
     rows=3,
     columns=1,
     spacing=(0, 50),

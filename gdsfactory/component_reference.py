@@ -5,12 +5,12 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 
 from __future__ import annotations
 
-import shapely
 import typing
-from typing import Any, Dict, List, Optional, Tuple, Union, cast, Set
+from typing import Any, Dict, List, Optional, Set, Tuple, Union, cast
 
 import gdstk
 import numpy as np
+import shapely
 from numpy import cos, float64, int64, mod, ndarray, pi, sin
 
 from gdsfactory.component_layout import Polygon, _GeometryHelper, get_polygons
@@ -765,7 +765,8 @@ class ComponentReference(_GeometryHelper):
             port: origin (port, or port name) to connect.
             destination: destination port.
             overlap: how deep does the port go inside.
-            preserve_orientation: if True, will not rotate the reference to align the port orientations; reference will keep its orientation pre-connection.
+            preserve_orientation: True, does not rotate the reference to align port
+                orientation and reference keep its orientation pre-connection.
 
         Returns:
             ComponentReference: with correct rotation to connect to destination.

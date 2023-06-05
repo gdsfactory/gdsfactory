@@ -1,11 +1,11 @@
 """Like Gmsh OCC kernel BooleanFragments, but (1) uses a meshorder to avoid generation of new surfaces, which (2) allows keeping track of physicals."""
 from collections import OrderedDict
 
+import numpy as np
 from shapely.geometry import LineString, MultiLineString, MultiPolygon, Polygon
 from shapely.ops import linemerge, split
 
 from gdsfactory.simulation.gmsh.parse_gds import tile_shapes
-import numpy as np
 
 
 def break_line(line, other_line):

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import uuid
 import warnings
+from functools import partial
 from typing import Callable, Dict, List, Optional, Tuple, Union
 
 import gdstk
@@ -872,7 +873,7 @@ def round_corners(
             kwargs_wide.update(width=width_wide)
 
             if callable(cross_section):
-                cross_section_wide = gf.partial(cross_section, **kwargs_wide)
+                cross_section_wide = partial(cross_section, **kwargs_wide)
             else:
                 cross_section_wide = x.copy(width=width_wide)
             wg = gf.get_component(

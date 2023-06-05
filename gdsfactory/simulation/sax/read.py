@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import pathlib
+from functools import partial
 from typing import Union
 
 import jax
@@ -158,12 +159,12 @@ def model_from_component(component, simulator: Simulator, **kwargs) -> Model:
     return model_from_csv(filepath=filepath)
 
 
-model_from_component_lumerical = gf.partial(model_from_component, simulator="fdtd")
+model_from_component_lumerical = partial(model_from_component, simulator="fdtd")
 
 
 if __name__ == "__main__":
-    # mmi1x2 = gf.partial(model_from_component_lumerical, component=gf.components.mmi1x2)
-    # mmi2x2 = gf.partial(model_from_component_lumerical, component=gf.components.mmi2x2)
+    # mmi1x2 = partial(model_from_component_lumerical, component=gf.components.mmi1x2)
+    # mmi2x2 = partial(model_from_component_lumerical, component=gf.components.mmi2x2)
 
     # grating_coupler_elliptical = model_from_csv(
     #     filepath=sparameters_path / "grating_coupler_ellipti_9d85a0c6_18c08cac.csv"
@@ -193,7 +194,7 @@ if __name__ == "__main__":
     # sax.plot.plot_model(model)
     # plt.show()
     #  This looks correct
-    # coupler_fdtd = gf.partial(
+    # coupler_fdtd = partial(
     #     sdict_from_csv,
     #     filepath=gf.config.sparameters_path / "coupler" / "coupler_G224n_L20_S220.csv",
     #     xkey="wavelength_nm",

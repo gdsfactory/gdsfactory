@@ -3,18 +3,18 @@ from pathlib import Path
 from typing import Dict, Optional, Union
 
 import jax.numpy as jnp
+import ray
 from tqdm.contrib.itertools import product
 
 from gdsfactory.simulation.sax.interpolators import nd_nd_interpolation
 from gdsfactory.simulation.sax.mlp import mlp_regression
 from gdsfactory.simulation.sax.parameter import (
     LayerStackThickness,
-    NamedParameter,
     LithoParameter,
+    NamedParameter,
 )
 from gdsfactory.technology import LayerStack
 from gdsfactory.typings import PortSymmetries
-import ray
 
 
 class Model:

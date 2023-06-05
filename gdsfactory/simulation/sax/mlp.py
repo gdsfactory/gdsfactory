@@ -1,8 +1,8 @@
 # flake8: noqa
 import jax
 import jax.numpy as jnp
-import numpy as np
 import jax.random as jran
+import numpy as np
 
 
 def mlp_regression(

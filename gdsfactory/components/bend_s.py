@@ -1,14 +1,15 @@
 from __future__ import annotations
 
 import copy
+
 import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import bezier
-from gdsfactory.typings import CrossSectionSpec, Float2
 from gdsfactory.config import logger
+from gdsfactory.typings import CrossSectionSpec, Float2
 
 
 @cell

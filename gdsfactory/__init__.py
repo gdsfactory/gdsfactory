@@ -17,8 +17,8 @@ modules:
 isort:skip_file
 """
 from __future__ import annotations
-import warnings
 from functools import partial
+import warnings
 from toolz import compose
 from gdsfactory.component_layout import Group
 from gdsfactory.path import Path

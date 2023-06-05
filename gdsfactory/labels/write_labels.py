@@ -5,7 +5,7 @@ from __future__ import annotations
 import csv
 import pathlib
 from pathlib import Path
-from typing import Iterator, Tuple, List
+from typing import Iterator, List, Tuple
 
 import numpy as np
 

@@ -9,8 +9,8 @@ from collections import defaultdict
 from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
-from gdstk import Polygon
 from gdstk import Label as _Label
+from gdstk import Polygon
 from numpy import cos, pi, sin
 from numpy.linalg import norm
 

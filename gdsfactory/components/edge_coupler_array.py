@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from functools import partial
+
 import numpy as np
 
 import gdsfactory as gf
@@ -9,7 +11,7 @@ from gdsfactory.components.taper import taper
 from gdsfactory.components.text import text_rectangular
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2, Optional
 
-edge_coupler_silicon = gf.partial(taper, width2=0.2, length=100, with_two_ports=False)
+edge_coupler_silicon = partial(taper, width2=0.2, length=100, with_two_ports=False)
 
 
 @gf.cell
@@ -102,7 +104,7 @@ def edge_coupler_array_with_loopback(
             component=ec,
             port_names=("o1", "o2"),
             length=extension_length,
-            extension=gf.partial(
+            extension=partial(
                 gf.c.straight, cross_section=cross_section, length=extension_length
             ),
         )

@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Optional, Tuple
 
 import gdsfactory as gf
-from gdsfactory.typings import PathType, LayerSpecs, LayerSpec
+from gdsfactory.typings import LayerSpec, LayerSpecs, PathType
 
 
 def fill(

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from functools import partial
 from typing import Dict, List, Optional, Tuple
 
 import flatdict
@@ -119,7 +120,7 @@ CIRCUIT NAME:{component.name}
 
 
 if __name__ == "__main__":
-    add_label_ehva_demo = gf.partial(
+    add_label_ehva_demo = partial(
         add_label_ehva,
         die="demo_die",
         metadata_include_parent=["grating_coupler:settings:polarization"],

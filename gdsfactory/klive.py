@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
-import pathlib
 import json
 import os
+import pathlib
 import socket
 from pathlib import Path
-from typing import Union, Optional
+from typing import Optional, Union
 
 
 def show(
