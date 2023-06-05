@@ -8,6 +8,7 @@ import numbers
 from collections import defaultdict
 from typing import Dict, List, Optional, Tuple, Union
 
+import shapely as sp
 import numpy as np
 from gdstk import Label as _Label
 from gdstk import Polygon
@@ -27,6 +28,7 @@ def get_polygons(
     include_paths: bool = True,
     as_array: bool = True,
     as_shapely: bool = False,
+    as_shapely_merged: bool = False,
 ) -> Union[List[Polygon], Dict[Tuple[int, int], List[Polygon]]]:
     """Return a list of polygons in this cell.
 
@@ -44,6 +46,7 @@ def get_polygons(
         include_paths: If True, polygonal representation of paths are also included in the result.
         as_array: when as_array=false, return the Polygon objects instead.
             polygon objects have more information (especially when by_spec=False) and are faster to retrieve.
+        as_shapely: returns shapely polygons.
 
     Returns
         out: list of array-like[N][2] or dictionary
@@ -90,10 +93,12 @@ def get_polygons(
 
     if not as_array:
         return polygons
-    elif as_shapely:
-        from shapely.geometry.polygon import Polygon
+    elif as_shapely_merged:
+        polygons = [sp.Polygon(polygon.points) for polygon in polygons]
+        return sp.polygonize(polygons)
 
-        return [Polygon(polygon.points) for polygon in polygons]
+    elif as_shapely:
+        return [sp.Polygon(polygon.points) for polygon in polygons]
 
     elif by_spec is not True:
         return [polygon.points for polygon in polygons]
@@ -131,6 +136,10 @@ def _parse_layer(layer):
             that could not be interpreted as a layer: layer = %s"""
             % layer
         )
+    if not isinstance(gds_layer, int):
+        raise ValueError(f"invalid layer {layer}")
+    if not isinstance(gds_datatype, int):
+        raise ValueError(f"invalid layer {layer}")
     return (gds_layer, gds_datatype)
 
 

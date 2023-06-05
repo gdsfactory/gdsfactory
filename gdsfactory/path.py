@@ -87,7 +87,11 @@ class Path(_GeometryHelper):
 
     def __repr__(self) -> str:
         """Returns path points."""
-        return f"Path(start_angle={self.start_angle}, end_angle={self.end_angle}, points={self.points})"
+        return (
+            f"Path(start_angle={self.start_angle}, "
+            f"end_angle={self.end_angle}, "
+            f"points={self.points})"
+        )
 
     def __len__(self) -> int:
         """Returns path points."""

@@ -300,6 +300,7 @@ class ComponentReference(_GeometryHelper):
         include_paths: bool = True,
         as_array: bool = True,
         as_shapely: bool = False,
+        as_shapely_merged: bool = False,
     ) -> Union[List[Polygon], Dict[Tuple[int, int], List[Polygon]]]:
         """Return the list of polygons created by this reference.
 
@@ -318,6 +319,8 @@ class ComponentReference(_GeometryHelper):
             as_array: when as_array=false, return the Polygon objects instead.
                 polygon objects have more information (especially when by_spec=False)
                 and are faster to retrieve.
+            as_shapely: returns shapely polygons.
+            as_shapely_merged: returns a shapely polygonize.
 
         Returns
             out : list of array-like[N][2] or dictionary
@@ -336,6 +339,7 @@ class ComponentReference(_GeometryHelper):
             include_paths=include_paths,
             as_array=as_array,
             as_shapely=as_shapely,
+            as_shapely_merged=as_shapely_merged,
         )
 
     def get_labels(self, depth=None, set_transform=True):
