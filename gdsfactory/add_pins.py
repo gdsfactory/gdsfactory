@@ -49,12 +49,12 @@ def add_bbox(
     from gdsfactory.pdk import get_layer
 
     bbox_layer = get_layer(bbox_layer)
-    component_ = component.copy()
-    component_ = component_.flatten(bbox_layer)
+    polygons = component.get_polygons(as_array=False)
+    polygons_ = gdstk.boolean(
+        polygons, [], "not", layer=bbox_layer[0], datatype=bbox_layer[1]
+    )
 
-    component_.name = "outline"
-
-    component << component_
+    component.add(polygons_)
 
     return component
 
