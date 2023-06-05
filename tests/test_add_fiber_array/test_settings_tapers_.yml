@@ -3,7 +3,7 @@ ports:
   opt-grating_coupler_ellipti_dd7f7af4-straight_length20_width2-loopback0:
     center:
     - -180.5
-    - -28.972
+    - -28.5
     layer:
     - 1
     - 0
@@ -15,7 +15,7 @@ ports:
   opt-grating_coupler_ellipti_dd7f7af4-straight_length20_width2-loopback1:
     center:
     - 200.5
-    - -28.972
+    - -28.5
     layer:
     - 1
     - 0
