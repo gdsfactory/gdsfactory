@@ -286,7 +286,7 @@ class _GeometryHelper:
             origin = 0
         return self.move(origin=(0, origin), destination=(0, destination))
 
-    def __add__(self, element):
+    def __add__(self, element) -> Group:
         """Adds an element to a Group.
 
         Args:

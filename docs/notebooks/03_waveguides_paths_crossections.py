@@ -1,4 +1,20 @@
 # -*- coding: utf-8 -*-
+# ---
+# jupyter:
+#   jupytext:
+#     cell_metadata_filter: -all
+#     custom_cell_magics: kql
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
+#   kernelspec:
+#     display_name: base
+#     language: python
+#     name: python3
+# ---
+
 # %% [markdown]
 # # Path and CrossSection
 #
@@ -11,11 +27,6 @@
 # - Specify `CrossSection` with layers and offsets.
 # - Extrude `Path` with a `CrossSection` to create a Component with the path polygons in it.
 #
-# ## Path
-#
-# The first step is to generate the list of points we want the path to follow.
-# Let's start out by creating a blank `Path` and using the built-in functions to
-# make a few smooth turns.
 
 # %%
 import matplotlib.pyplot as plt
@@ -30,15 +41,35 @@ gf.config.rich_output()
 PDK = get_generic_pdk()
 PDK.activate()
 
+# %% [markdown]
+# ## Path
+#
+# The first step is to generate the list of points we want the path to follow.
+# Let's start out by creating a blank `Path` and using the built-in functions to
+# make a few smooth turns.
+
+# %%
+p1 = gf.path.straight(length=5)
+p2 = gf.path.euler(radius=5, angle=45, p=0.5, use_eff=False)
+p = p1 + p2
+f = p.plot()
+
+# %%
+p1 = gf.path.straight(length=5)
+p2 = gf.path.euler(radius=5, angle=45, p=0.5, use_eff=False)
+p = p2 + p1
+f = p.plot()
+
+# %%
 P = gf.Path()
-P.append(gf.path.arc(radius=10, angle=90))  # Circular arc
-P.append(gf.path.straight(length=10))  # Straight section
-P.append(gf.path.euler(radius=3, angle=-90))  # Euler bend (aka "racetrack" curve)
-P.append(gf.path.straight(length=40))
-P.append(gf.path.arc(radius=8, angle=-45))
-P.append(gf.path.straight(length=10))
-P.append(gf.path.arc(radius=8, angle=45))
-P.append(gf.path.straight(length=10))
+P += gf.path.arc(radius=10, angle=90)  # Circular arc
+P += gf.path.straight(length=10)  # Straight section
+P += gf.path.euler(radius=3, angle=-90)  # Euler bend (aka "racetrack" curve)
+P += gf.path.straight(length=40)
+P += gf.path.arc(radius=8, angle=-45)
+P += gf.path.straight(length=10)
+P += gf.path.arc(radius=8, angle=45)
+P += gf.path.straight(length=10)
 
 f = P.plot()
 
@@ -158,6 +189,20 @@ P.append(
 
 f = P.plot()
 
+# %%
+P = (
+    straight
+    + left_turn
+    + straight
+    + right_turn
+    + straight
+    + straight
+    + right_turn
+    + left_turn
+    + straight
+)
+f = P.plot()
+
 # %% [markdown]
 # **Example 2:** Create an "S-turn" just by making a list of `[left_turn,
 # right_turn]`
@@ -227,17 +272,17 @@ P = gf.Path([(20, 10), (30, 10), (40, 30), (50, 30), (50, 20), (70, 20)])
 f = P.plot()
 
 # %% [markdown]
-# **Example 2:** Using the "turn and move" method, where you manipulate the end angle of the Path so that when you append points to it, they're in the correct direction.  *Note: It is crucial that the number of points per straight section is set to 2 (`pp.straight(length, num_pts = 2)`) otherwise the extrusion algorithm will show defects.*
+# **Example 2:** Using the "turn and move" method, where you manipulate the end angle of the Path so that when you append points to it, they're in the correct direction.  *Note: It is crucial that the number of points per straight section is set to 2 (`gf.path.straight(length, num_pts = 2)`) otherwise the extrusion algorithm will show defects.*
 
 # %%
 P = gf.Path()
-P.append(gf.path.straight(length=10, npoints=2))
+P += gf.path.straight(length=10, npoints=2)
 P.end_angle += 90  # "Turn" 90 deg (left)
-P.append(gf.path.straight(length=10, npoints=2))  # "Walk" length of 10
+P += gf.path.straight(length=10, npoints=2)  # "Walk" length of 10
 P.end_angle += -135  # "Turn" -135 degrees (right)
-P.append(gf.path.straight(length=15, npoints=2))  # "Walk" length of 10
+P += gf.path.straight(length=15, npoints=2)  # "Walk" length of 10
 P.end_angle = 0  # Force the direction to be 0 degrees
-P.append(gf.path.straight(length=10, npoints=2))  # "Walk" length of 10
+P += gf.path.straight(length=10, npoints=2)  # "Walk" length of 10
 f = P.plot()
 
 # %%
@@ -791,7 +836,7 @@ c4
 #
 # You can create functions that return a cross_section in 2 ways:
 #
-# - `gf.partial` can customize an existing cross-section for example `gf.cross_section.strip`
+# - `functools.partial` can customize an existing cross-section for example `gf.cross_section.strip`
 # - define a function that returns a cross_section
 #
 # What parameters do `cross_section` take?
