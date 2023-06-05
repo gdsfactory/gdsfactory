@@ -10,7 +10,6 @@ def test_path_near_collinear() -> None:
     assert c
 
 
-@gf.cell
 def test_path_port_types() -> None:
     """Test path with different port types."""
     s = gf.Section(
