@@ -24,9 +24,9 @@ import yaml
 from omegaconf import DictConfig, OmegaConf
 from typing_extensions import Literal
 
+from gdsfactory.polygon import Polygon
 from gdsfactory.component_layout import (
     Label,
-    Polygon,
     _align,
     _distribute,
     _GeometryHelper,
@@ -220,7 +220,7 @@ class Component(_GeometryHelper):
         right: Optional[float] = None,
         left: Optional[float] = None,
     ) -> shapely.Polygon:
-        """Returns shapely Polygon with padding.
+        """Returns shapely Polygon with bounding box.
 
         Args:
             default: default padding in um.
@@ -249,6 +249,7 @@ class Component(_GeometryHelper):
         include_paths: bool = True,
         as_array: bool = True,
         as_shapely: bool = False,
+        as_shapely_merged: bool = False,
     ) -> Union[List[Polygon], Dict[Tuple[int, int], List[Polygon]]]:
         """Return a list of polygons in this cell.
 
@@ -266,6 +267,8 @@ class Component(_GeometryHelper):
             include_paths: If True, polygonal representation of paths are also included in the result.
             as_array: when as_array=false, return the Polygon objects instead.
                 polygon objects have more information (especially when by_spec=False) and are faster to retrieve.
+            as_shapely: returns shapely polygons.
+            as_shapely_merged: returns a shapely polygonize.
 
         Returns
             out: list of array-like[N][2] or dictionary
@@ -284,6 +287,7 @@ class Component(_GeometryHelper):
             include_paths=include_paths,
             as_array=as_array,
             as_shapely=as_shapely,
+            as_shapely_merged=as_shapely_merged,
         )
 
     def get_dependencies(self, recursive: bool = False) -> List[Component]:
@@ -1001,7 +1005,9 @@ class Component(_GeometryHelper):
 
         return component
 
-    def add_polygon(self, points, layer=np.nan):
+    def add_polygon(
+        self, points, layer: str | int | tuple[int, int] | np.nan = np.nan
+    ) -> Polygon:
         """Adds a Polygon to the Component.
 
         Args:
@@ -1010,34 +1016,23 @@ class Component(_GeometryHelper):
         """
         from gdsfactory.pdk import get_layer
 
-        layer = get_layer(layer)
-
         if layer is None:
             return None
+        elif isinstance(layer, set):
+            polygons = [self.add_polygon(points, ly) for ly in layer]
+            return polygons[0]
 
-        try:
-            if isinstance(layer, set):
-                return [self.add_polygon(points, ly) for ly in layer]
-            elif all(isinstance(ly, (Layer)) for ly in layer):
-                return [self.add_polygon(points, ly) for ly in layer]
-            elif len(layer) > 2:  # Someone wrote e.g. layer = [1,4,5]
-                raise ValueError(
-                    """ [PHIDL] If specifying multiple layers
-                you must use set notation, e.g. {1,5,8} """
-                )
-        except Exception:
-            pass
-
+        layer = get_layer(layer)
         if isinstance(points, gdstk.Polygon):
             # if layer is unspecified or matches original polygon, just add it as-is
             polygon = points
             if layer is np.nan or (
                 isinstance(layer, tuple) and (polygon.layer, polygon.datatype) == layer
             ):
-                polygon = Polygon(polygon.points, polygon.layer, polygon.datatype)
+                polygon = Polygon(polygon.points, (polygon.layer, polygon.datatype))
             else:
                 layer, datatype = _parse_layer(layer)
-                polygon = Polygon(polygon.points, layer, datatype)
+                polygon = Polygon(polygon.points, (layer, datatype))
 
             if hasattr(points, "properties"):
                 polygon.properties = deepcopy(points.properties)
@@ -1052,15 +1047,13 @@ class Component(_GeometryHelper):
         elif hasattr(points, "exterior"):  # points is a shapely Polygon
             layer, datatype = _parse_layer(layer)
             points_on_grid = np.round(points.exterior.coords, 3)
-            polygon = gdstk.Polygon(points_on_grid, layer, datatype)
+            polygon = Polygon(points_on_grid, (layer, datatype))
 
             if points.interiors:
                 from shapely import get_coordinates
 
                 points_on_grid_interior = np.round(get_coordinates(points.interiors), 3)
-                polygon_interior = gdstk.Polygon(
-                    points_on_grid_interior, layer, datatype
-                )
+                polygon_interior = Polygon(points_on_grid_interior, (layer, datatype))
                 polygons = gdstk.boolean(
                     polygon,
                     polygon_interior,
@@ -1087,14 +1080,12 @@ class Component(_GeometryHelper):
                 # Convert to form [[1,2],[3,4],[5,6]]
                 points = np.column_stack(points)
             layer, datatype = _parse_layer(layer)
-            polygon = Polygon(points, layer=layer, datatype=datatype)
+            polygon = Polygon(points, (layer, datatype))
             self._add_polygons(polygon)
             return polygon
         elif points.ndim == 3:
             layer, datatype = _parse_layer(layer)
-            polygons = [
-                Polygon(ppoints, layer=layer, datatype=datatype) for ppoints in points
-            ]
+            polygons = [Polygon(ppoints, (layer, datatype)) for ppoints in points]
             self._add_polygons(*polygons)
             return polygons
         else:

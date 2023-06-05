@@ -140,6 +140,26 @@ c.add_polygon(p6, layer=1)
 c
 
 # %%
+c = gf.Component("demo_multilayer")
+p0 = c.add_polygon(p0, layer={2, 3})
+c
+
+# %%
+c = gf.Component("demo_mirror")
+p0 = c.add_polygon(p0, layer=1)
+p9 = c.add_polygon(p0, layer=2)
+p9.mirror()
+c
+
+# %%
+c = gf.Component("demo_xmin")
+p0 = c.add_polygon(p0, layer=1)
+p9 = c.add_polygon(p0, layer=2)
+p9.mirror()
+p9.xmin = p0.xmax
+c
+
+# %%
 c = gf.Component("enclosure1")
 r = c << gf.components.ring_single()
 c
