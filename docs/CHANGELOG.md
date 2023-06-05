@@ -3192,7 +3192,7 @@
 ## 3.0.2
 
 - add straight_rib, straight_heater_metal and straight_heater_doped
-- `xs2 = gf.partial(cross_section)` does not require defining `xs2.__name__`
+- `xs2 = partial(cross_section)` does not require defining `xs2.__name__`
 - replace gf.extend[.] with gf.components.extension.
 - Component.show() uses `add_pins_triangle` as default to show port orientation
 - add gf.comtainers.bend_port

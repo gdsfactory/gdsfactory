@@ -9,6 +9,7 @@
 
 # %%
 import pathlib
+from functools import partial
 from typing import Callable, Tuple
 
 import pytest
@@ -107,9 +108,9 @@ LAYER_STACK = get_layer_stack_faba()
 WIDTH = 2
 
 # Specify a cross_section to use
-strip = gf.partial(gf.cross_section.cross_section, width=WIDTH, layer=LAYER.WG)
+strip = partial(gf.cross_section.cross_section, width=WIDTH, layer=LAYER.WG)
 
-mmi1x2 = gf.partial(
+mmi1x2 = partial(
     gf.components.mmi1x2,
     width=WIDTH,
     width_taper=WIDTH,
@@ -131,7 +132,7 @@ fab_a = gf.Pdk(
 )
 fab_a.activate()
 
-gc = gf.partial(
+gc = partial(
     gf.components.grating_coupler_elliptical_te, layer=LAYER.WG, cross_section=strip
 )
 
@@ -221,7 +222,7 @@ BBOX_OFFSETS = (3, 3)
 
 # use cladding_layers and cladding_offsets if the foundry prefers conformal blocking doping layers instead of squared
 # bbox_layers and bbox_offsets makes rectangular waveguides.
-strip = gf.partial(
+strip = partial(
     gf.cross_section.cross_section,
     width=WIDTH,
     layer=LAYER.WG,
@@ -231,17 +232,17 @@ strip = gf.partial(
     cladding_offsets=BBOX_OFFSETS,
 )
 
-straight = gf.partial(gf.components.straight, cross_section=strip)
-bend_euler = gf.partial(gf.components.bend_euler, cross_section=strip)
-mmi1x2 = gf.partial(
+straight = partial(gf.components.straight, cross_section=strip)
+bend_euler = partial(gf.components.bend_euler, cross_section=strip)
+mmi1x2 = partial(
     gf.components.mmi1x2,
     cross_section=strip,
     width=WIDTH,
     width_taper=WIDTH,
     width_mmi=4 * WIDTH,
 )
-mzi = gf.partial(gf.components.mzi, cross_section=strip, splitter=mmi1x2)
-gc = gf.partial(
+mzi = partial(gf.components.mzi, cross_section=strip, splitter=mmi1x2)
+gc = partial(
     gf.components.grating_coupler_elliptical_te, layer=LAYER.WG, cross_section=strip
 )
 
@@ -387,7 +388,7 @@ bbox_layers = [LAYER.WGN_CLAD]
 bbox_offsets = [3]
 
 # Nitride Cband
-xs_nc = gf.partial(
+xs_nc = partial(
     cross_section,
     width=WIDTH_NITRIDE_CBAND,
     layer=LAYER.WGN,
@@ -396,7 +397,7 @@ xs_nc = gf.partial(
     add_pins=add_pins,
 )
 # Nitride Oband
-xs_no = gf.partial(
+xs_no = partial(
     cross_section,
     width=WIDTH_NITRIDE_OBAND,
     layer=LAYER.WGN,
@@ -409,34 +410,34 @@ xs_no = gf.partial(
 cross_sections = dict(xs_nc=xs_nc, xs_no=xs_no, strip=xs_nc)
 
 # LEAF cells have pins
-mmi1x2_nc = gf.partial(
+mmi1x2_nc = partial(
     gf.components.mmi1x2,
     width=WIDTH_NITRIDE_CBAND,
     cross_section=xs_nc,
 )
-mmi1x2_no = gf.partial(
+mmi1x2_no = partial(
     gf.components.mmi1x2,
     width=WIDTH_NITRIDE_OBAND,
     cross_section=xs_no,
 )
-bend_euler_nc = gf.partial(
+bend_euler_nc = partial(
     gf.components.bend_euler,
     cross_section=xs_nc,
 )
-straight_nc = gf.partial(
+straight_nc = partial(
     gf.components.straight,
     cross_section=xs_nc,
 )
-bend_euler_no = gf.partial(
+bend_euler_no = partial(
     gf.components.bend_euler,
     cross_section=xs_no,
 )
-straight_no = gf.partial(
+straight_no = partial(
     gf.components.straight,
     cross_section=xs_no,
 )
 
-gc_nc = gf.partial(
+gc_nc = partial(
     gf.components.grating_coupler_elliptical_te,
     grating_line_width=0.6,
     layer=LAYER.WGN,
@@ -444,14 +445,14 @@ gc_nc = gf.partial(
 )
 
 # HIERARCHICAL cells are made of leaf cells
-mzi_nc = gf.partial(
+mzi_nc = partial(
     gf.components.mzi,
     cross_section=xs_nc,
     splitter=mmi1x2_nc,
     straight=straight_nc,
     bend=bend_euler_nc,
 )
-mzi_no = gf.partial(
+mzi_no = partial(
     gf.components.mzi,
     cross_section=xs_no,
     splitter=mmi1x2_no,

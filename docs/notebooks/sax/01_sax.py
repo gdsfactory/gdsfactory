@@ -182,7 +182,7 @@ ng = strip.n_group[0]
 ng
 
 # %%
-straight_sc = gf.partial(gs.models.straight, neff=neff, ng=ng)
+straight_sc = partial(gs.models.straight, neff=neff, ng=ng)
 
 # %%
 gs.plot_model(straight_sc)
@@ -240,14 +240,14 @@ plt.ylabel("Coupling length (μm)")
 # For a 200nm gap the effective index difference `dn` is `0.026`, which means that there is 100% power coupling over 29.4
 
 # %%
-coupler_sc = gf.partial(gs.models.coupler, dn=0.026, length=0, coupling0=0)
+coupler_sc = partial(gs.models.coupler, dn=0.026, length=0, coupling0=0)
 gs.plot_model(coupler_sc)
 
 # %% [markdown]
 # If we ignore the coupling from the bend `coupling0 = 0` we know that for a 3dB coupling we need half of the `lc` length, which is the length needed to coupler `100%` of power.
 
 # %%
-coupler_sc = gf.partial(gs.models.coupler, dn=0.026, length=29.4 / 2, coupling0=0)
+coupler_sc = partial(gs.models.coupler, dn=0.026, length=29.4 / 2, coupling0=0)
 gs.plot_model(coupler_sc)
 
 # %% [markdown]

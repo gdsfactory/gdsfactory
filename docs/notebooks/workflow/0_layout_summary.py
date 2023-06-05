@@ -25,6 +25,7 @@
 # +
 from typing import Optional
 
+from functools import partial
 import toolz
 from omegaconf import OmegaConf
 
@@ -305,7 +306,7 @@ ring
 #
 # You can use `functools.partial` to customize the default settings from any component
 
-ring_single3 = gf.partial(ring_single, radius=3)
+ring_single3 = partial(ring_single, radius=3)
 ring_single3()
 
 ring_array = gf.components.ring_single_array(
