@@ -28,6 +28,7 @@ from gdsfactory.add_labels import (
     get_input_label_text_dash_loopback,
 )
 from gdsfactory.routing.get_input_labels import get_input_labels_dash
+from gdsfactory.snap import snap_to_grid
 
 
 def route_fiber_array(
@@ -418,11 +419,14 @@ def route_fiber_array(
     if with_loopback:
         gca1, gca2 = (
             grating_coupler.ref(
-                position=(
-                    x_c - offset + ii * fiber_spacing,
-                    io_gratings_lines[-1][0].ports[gc_port_name].y,
+                position=snap_to_grid(
+                    (
+                        x_c - offset + ii * fiber_spacing,
+                        io_gratings_lines[-1][0].ports[gc_port_name].y,
+                    )
                 ),
                 rotation=gc_rotation,
+                port_id=gc_port_name,
             )
             for ii in [grating_indices[0] - 1, grating_indices[-1] + 1]
         )
@@ -459,6 +463,9 @@ def route_fiber_array(
             bend=bend90,
             cross_section=cross_section,
         )
+        # gca1.connect(gc_port_name, route.ports[0])
+        # gca2.connect(gc_port_name, route.ports[1])
+
         elements.extend(route.references)
         if nlabels_loopback == 1:
             io_gratings_loopback = [gca1]
