@@ -2,7 +2,11 @@
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.102.1...main)
 
-## [6.102.3](https://github.com/gdsfactory/gdsfactory/compare/v6.102.3...v6.102.0)
+## [6.102.4](https://github.com/gdsfactory/gdsfactory/compare/v6.102.4...v6.102.3)
+
+- fix loopback snapping [PR](https://github.com/gdsfactory/gdsfactory/pull/1729)
+
+## [6.102.3](https://github.com/gdsfactory/gdsfactory/compare/v6.102.3...v6.102.1)
 
 - fix heater meander issues [PR](https://github.com/gdsfactory/gdsfactory/pull/1727)
 
