@@ -124,4 +124,4 @@ if __name__ == "__main__":
     # c.pprint()
     # c = bend_s_biased()
     # print(c.info["min_bend_radius"])
-    c.show(show_ports=False)
+    c.show(show_ports=True)
