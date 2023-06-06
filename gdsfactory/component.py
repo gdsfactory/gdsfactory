@@ -2827,23 +2827,15 @@ def hash_file(filepath):
     return md5.hexdigest()
 
 
-def test_bbox_reference() -> Component:
+def test_bbox_reference() -> None:
     import gdsfactory as gf
 
-    c = gf.Component("component_with_offgrid_polygons")
+    c = gf.Component()
     c1 = c << gf.components.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
     c2 = c << gf.components.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
     c2.xmin = c1.xmax
 
-    assert c2.xsize == 2e-3
-    return c2
-
-
-def test_bbox_component() -> None:
-    import gdsfactory as gf
-
-    c = gf.components.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
-    assert c.xsize == 2e-3
+    assert c2.xsize == 1.5e-3
 
 
 def test_remap_layers() -> None:

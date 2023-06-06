@@ -118,7 +118,7 @@ settings:
       - optical
       radius: 10.0
       sections: null
-      snap_to_grid: 0.001
+      snap_to_grid: null
       start_straight_length: 0.01
       taper_length: 10.0
       width: 1.0
