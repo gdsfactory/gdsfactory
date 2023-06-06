@@ -49,10 +49,9 @@ from gdsfactory.port import (
     select_ports,
 )
 from gdsfactory.serialization import clean_dict
-from gdsfactory.snap import snap_to_grid
 from gdsfactory.technology import LayerStack, LayerView, LayerViews
 
-Plotter = Literal["holoviews", "matplotlib", "qt", "klayout"]
+valid_plotters = ["holoviews", "matplotlib", "widget", "klayout", "qt"]
 Axis = Literal["x", "y"]
 
 
@@ -131,7 +130,7 @@ class Component(_GeometryHelper):
     - can return ports by type (optical, electrical ...)
     - can return netlist for circuit simulation
     - can write to GDS, OASIS
-    - can show in KLayout, matplotlib, 3D, QT viewer, holoviews
+    - can show in KLayout, matplotlib, 3D
     - can return copy, mirror, flattened (no references)
 
     Args:
@@ -426,14 +425,11 @@ class Component(_GeometryHelper):
 
     @property
     def bbox(self):
-        """Returns the bounding box of the ComponentReference.
-
-        it snaps to 3 decimals in um (0.001um = 1nm precision)
-        """
+        """Returns the bounding box of the ComponentReference."""
         bbox = self._cell.bounding_box()
         if bbox is None:
             bbox = ((0, 0), (0, 0))
-        return np.round(bbox, 3)
+        return np.array(bbox)
 
     @property
     def ports_layer(self) -> Dict[str, str]:
@@ -469,7 +465,7 @@ class Component(_GeometryHelper):
         """
         ports_cw = self.get_ports_list(clockwise=True, **kwargs)
         ports_ccw = self.get_ports_list(clockwise=False, **kwargs)
-        return snap_to_grid(ports_ccw[0].x - ports_cw[0].x)
+        return ports_ccw[0].x - ports_cw[0].x
 
     def get_ports_ysize(self, **kwargs) -> float:
         """Returns ydistance from east to west ports.
@@ -484,7 +480,7 @@ class Component(_GeometryHelper):
         """
         ports_cw = self.get_ports_list(clockwise=True, **kwargs)
         ports_ccw = self.get_ports_list(clockwise=False, **kwargs)
-        return snap_to_grid(ports_ccw[0].y - ports_cw[0].y)
+        return ports_ccw[0].y - ports_cw[0].y
 
     def plot_netlist(
         self, with_labels: bool = True, font_weight: str = "normal", **kwargs
@@ -1405,7 +1401,10 @@ class Component(_GeometryHelper):
     def _ipython_display_(self) -> None:
         """Show geometry in KLayout and in matplotlib for Jupyter Notebooks."""
         self.show(show_ports=True)  # show in klayout
-        self.plot_klayout()
+        if CONF.display_type == "klayout":
+            self.plot_klayout()
+        else:
+            self.plot_widget()
         print(self)
 
     def add_pins_triangle(
@@ -1434,7 +1433,15 @@ class Component(_GeometryHelper):
         from IPython.display import display
 
         from gdsfactory.pdk import get_layer_views
-        from gdsfactory.widgets.layout_viewer import LayoutViewer
+        from gdsfactory.plugins.widget.interactive import LayoutWidget
+
+        try:
+            import kfactory as kf
+        except ImportError as e:
+            print(
+                "You need install kfactory plugin with `pip install gdsfactory[kfactory]`"
+            )
+            raise e
 
         component = (
             self.add_pins_triangle(port_marker_layer=port_marker_layer)
@@ -1445,11 +1452,17 @@ class Component(_GeometryHelper):
         gdspath = component.write_gds(logging=False)
         lyp_path = gdspath.with_suffix(".lyp")
 
+        kcl = kf.KCLayout()
+        kcl.read(gdspath)
+        top_cell = kcl.top_cell()
+        c = kf.KCell(top_cell.name)
+        c.copy_tree(top_cell)
+
         layer_views = get_layer_views()
         layer_views.to_lyp(filepath=lyp_path)
 
-        layout = LayoutViewer(gdspath, lyp_path)
-        display(layout.widget)
+        lw = LayoutWidget(cell=c, layer_properties=lyp_path)
+        display(lw.widget)
 
     def plot_klayout(
         self,
@@ -1571,18 +1584,24 @@ class Component(_GeometryHelper):
 
         quickplot(self, **kwargs)
 
-    def plot(self, plotter: Optional[Plotter] = None, **kwargs) -> None:
+    def plot(self, plotter: str | None = None, **kwargs) -> None:
         """Returns component plot using klayout, matplotlib, holoviews or qt.
 
         We recommend using klayout.
 
         Args:
-            plotter: plot backend ('holoviews', 'matplotlib', 'qt', 'klayout').
+            plotter: plot backend ('matplotlib', 'widget', 'klayout').
         """
-        plotter = plotter or CONF.get("plotter", "matplotlib")
+        plotter = plotter or CONF.display_type
+
+        if plotter not in valid_plotters:
+            raise ValueError(f"{plotter!r} not in {valid_plotters}")
 
         if plotter == "klayout":
             self.plot_klayout()
+            return
+        elif plotter == "widget":
+            self.plot_widget()
             return
 
         elif plotter == "matplotlib":
@@ -1602,12 +1621,15 @@ class Component(_GeometryHelper):
             return self.plot_holoviews(**kwargs)
 
         elif plotter == "qt":
+            warnings.warn(
+                "qt plotter is deprecated. "
+                "Use the default Component.plot(), Component.plot_klayout() or Component.plot_widget()",
+                stacklevel=3,
+            )
             from gdsfactory.quickplotter import quickplot2
 
             quickplot2(self)
             return
-        else:
-            raise ValueError(f"{plotter!r} not in {Plotter}")
 
     def plot_holoviews(
         self,
@@ -1629,6 +1651,12 @@ class Component(_GeometryHelper):
         """
         from gdsfactory.add_pins import get_pin_triangle_polygon_tip
         from gdsfactory.generic_tech import LAYER_VIEWS
+
+        warnings.warn(
+            "holoviews plotter is deprecated. "
+            "Use the default Component.plot(), Component.plot_klayout() or Component.plot_widget()",
+            stacklevel=3,
+        )
 
         if layer_views is None:
             layer_views = LAYER_VIEWS
@@ -2801,23 +2829,15 @@ def hash_file(filepath):
     return md5.hexdigest()
 
 
-def test_bbox_reference() -> Component:
+def test_bbox_reference() -> None:
     import gdsfactory as gf
 
-    c = gf.Component("component_with_offgrid_polygons")
+    c = gf.Component()
     c1 = c << gf.components.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
     c2 = c << gf.components.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
     c2.xmin = c1.xmax
 
-    assert c2.xsize == 2e-3
-    return c2
-
-
-def test_bbox_component() -> None:
-    import gdsfactory as gf
-
-    c = gf.components.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
-    assert c.xsize == 2e-3
+    assert c2.xsize == 1.5e-3
 
 
 def test_remap_layers() -> None:

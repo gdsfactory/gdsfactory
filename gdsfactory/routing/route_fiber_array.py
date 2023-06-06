@@ -20,7 +20,6 @@ from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.manhattan import generate_manhattan_waypoints, round_corners
 from gdsfactory.routing.route_south import route_south
 from gdsfactory.routing.utils import direction_ports_from_list_ports
-from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import (
     ComponentSpec,
     ComponentSpecOrList,
@@ -133,11 +132,6 @@ def route_fiber_array(
     """
     fiber_spacing = gf.get_constant(fiber_spacing)
     cross_section = x = gf.get_cross_section(cross_section, **kwargs)
-    radius = x.radius
-
-    assert isinstance(
-        radius, (int, float)
-    ), f"radius = {radius} {type (radius)} needs to be int or float"
 
     component_name = component_name or component.name
     excluded_ports = excluded_ports or []
@@ -419,11 +413,9 @@ def route_fiber_array(
     if with_loopback:
         gca1, gca2 = (
             grating_coupler.ref(
-                position=snap_to_grid(
-                    (
-                        x_c - offset + ii * fiber_spacing,
-                        io_gratings_lines[-1][0].ports[gc_port_name].y,
-                    )
+                position=(
+                    x_c - offset + ii * fiber_spacing,
+                    io_gratings_lines[-1][0].ports[gc_port_name].y,
                 ),
                 rotation=gc_rotation,
                 port_id=gc_port_name,

@@ -1,21 +1,14 @@
-"""Gdsfactory loads configuration from 3 files, high priority overwrites low.
+"""Gdsfactory loads configuration pydantic.
 
-priority:
-
-1. A config.yml found in the current working directory (highest priority)
-2. ~/.gdsfactory/config.yml specific for the machine
-3. the yamlpath_default in gdsfactory.technology.yml (lowest priority)
-
-You can access the CONF dictionary with `print_config`
-
-PATH has all your computer specific paths that we do not care to store
-
+You can set environment variables.
 """
 
 from __future__ import annotations
 
+import traceback
+from itertools import takewhile
 import importlib
-import io
+import re
 import json
 import os
 import pathlib
@@ -25,13 +18,16 @@ import tempfile
 import warnings
 from pathlib import Path
 from pprint import pprint
-from typing import Any, Iterable, Optional, Union
+from typing import Any, Optional, Union, ClassVar, Literal, TYPE_CHECKING
 
-import omegaconf
-from loguru import logger
-from omegaconf import OmegaConf
+import loguru
+from loguru import logger as logger
+from pydantic import BaseModel, BaseSettings, Field
 from rich.console import Console
 from rich.table import Table
+
+if TYPE_CHECKING:
+    from loguru import Logger
 
 __version__ = "6.102.4"
 PathType = Union[str, pathlib.Path]
@@ -129,13 +125,91 @@ def print_version_pdks() -> None:
     console.print(table)
 
 
-default_config = io.StringIO(
+def get_number_of_cores() -> int:
+    """Get number of cores/threads available.
+
+    On (most) linux we can get it through the scheduling affinity. Otherwise,
+    fall back to the multiprocessing cpu count.
     """
-plotter: matplotlib
-sparameters_path: ${oc.env:HOME}/.gdsfactory/sparameters/generic
-show_ports: True
-"""
-)
+    try:
+        threads = len(os.sched_getaffinity(0))
+    except AttributeError:
+        import multiprocessing
+
+        threads = multiprocessing.cpu_count()
+    return threads
+
+
+def tracing_formatter(record: loguru.Record) -> str:
+    """Traceback filtering.
+
+    Filter out frames coming from Loguru internals.
+    """
+    frames = takewhile(
+        lambda f: "/loguru/" not in f.filename, traceback.extract_stack()
+    )
+    stack = " > ".join(f"{f.filename}:{f.name}:{f.lineno}" for f in frames)
+    record["extra"]["stack"] = stack
+
+    if record["extra"].get("with_backtrace", False):
+        return (
+            "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | <level>{level: <8}</level>"
+            " | <cyan>{extra[stack]}</cyan> - <level>{message}</level>\n{exception}"
+        )
+
+    else:
+        return (
+            "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | <level>{level: <8}"
+            "</level> | <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan>"
+            " - <level>{message}</level>\n{exception}"
+        )
+
+
+class LogFilter(BaseModel):
+    """Filter certain messages by log level or regex.
+
+    Filtered messages are not evaluated and discarded.
+    """
+
+    level: Literal[
+        "TRACE", "DEBUG", "INFO", "SUCCESS", "WARNING", "ERROR", "CRITICAL"
+    ] = "INFO"
+    regex: str | None = None
+
+    def __call__(self, record: loguru.Record) -> bool:
+        """Loguru needs the filter to be callable."""
+        levelno = logger.level(self.level).no
+        if self.regex is None:
+            return record["level"].no >= levelno
+        else:
+            return record["level"].no >= levelno and not bool(
+                re.search(self.regex, record["message"])
+            )
+
+
+class Settings(BaseSettings):
+    """GDSFACTORY settings object."""
+
+    n_threads: int = get_number_of_cores()
+    logger: ClassVar[Logger] = logger
+    logfilter: LogFilter = Field(default_factory=LogFilter)
+    display_type: Literal["widget", "image", "docs"] = "widget"
+
+    def __init__(self, **data: Any):
+        """Set log filter and run pydantic."""
+        super().__init__(**data)
+        self.logger.remove()
+        self.logger.add(sys.stdout, format=tracing_formatter, filter=self.logfilter)
+        self.logger.info("LogLevel: {}", self.logfilter.level)
+
+    class Config:
+        """Pydantic settings."""
+
+        validation = False
+        arbitrary_types_allowed = True
+        fields = {"logger": {"exclude": True}}
+        env_prefix = "gdsfactory_"
+        env_nested_delimiter = "_"
 
 
 def set_log_level(level: str, sink=sys.stderr) -> None:
@@ -179,20 +253,7 @@ class Paths:
     cwd = cwd
 
 
-def read_config(
-    yamlpaths: Iterable[PathType] = (yamlpath_default, yamlpath_home, yamlpath_cwd),
-) -> omegaconf.DictConfig:
-    config = OmegaConf.load(default_config)
-    for yamlpath in set(yamlpaths):
-        yamlpath = pathlib.Path(yamlpath)
-        if os.access(yamlpath, os.R_OK) and yamlpath.exists():
-            logger.info(f"loading tech config from {yamlpath}")
-            config_new = OmegaConf.load(yamlpath)
-            config = OmegaConf.merge(config, config_new)
-    return config
-
-
-CONF = read_config()
+CONF = Settings()
 PATH = Paths()
 sparameters_path = PATH.sparameters
 
@@ -277,9 +338,10 @@ def set_plot_options(
 
 
 if __name__ == "__main__":
+    pass
     # print(PATH.sparameters)
     # print_config()
-    print_version()
+    # print_version()
     # print_version_raw()
     # print_version_pdks()
     # write_tech("tech.json")

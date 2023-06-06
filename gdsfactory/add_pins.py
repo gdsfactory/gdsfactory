@@ -18,8 +18,6 @@ import numpy as np
 from numpy import ndarray
 from omegaconf import OmegaConf
 
-from gdsfactory.snap import snap_to_grid
-
 if TYPE_CHECKING:
     from gdsfactory.component import Component
     from gdsfactory.component_reference import ComponentReference
@@ -509,12 +507,10 @@ def add_instance_label(
         instance_name
         or f"{reference.parent.name},{int(reference.x)},{int(reference.y)}"
     )
-    x = snap_to_grid(reference.x)
-    y = snap_to_grid(reference.y)
 
     component.add_label(
         text=instance_name,
-        position=(x, y),
+        position=reference.center,
         layer=layer,
     )
 

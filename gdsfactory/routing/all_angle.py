@@ -918,7 +918,11 @@ def get_bundle_all_angle(
             this_separation = _get_minimum_separation(final_connection, port1)
             segment_separations.append(this_separation)
         route_length = sum(r.info["length"] for r in route_refs)
-        route = Route(references=route_refs, ports=(port1, port2), length=route_length)
+        route = Route(
+            references=route_refs,
+            ports=(port1, port2),
+            length=np.round(route_length, 3),
+        )
         routes.append(route)
         is_primary_route = False
     return routes

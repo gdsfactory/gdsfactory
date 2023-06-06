@@ -14,7 +14,7 @@ ports:
     width: 0.2
   e2:
     center:
-    - 7.501
+    - 7.5
     - -8.4
     layer:
     - 1

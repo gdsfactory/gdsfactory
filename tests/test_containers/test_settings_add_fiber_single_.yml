@@ -3,7 +3,7 @@ ports:
   opt_te_1530_15-mzi_2e88f57c-0-0:
     center:
     - -25.6
-    - -59.169
+    - -59.168
     layer:
     - 1
     - 0
@@ -15,7 +15,7 @@ ports:
   opt_te_1530_15-mzi_2e88f57c-0-1:
     center:
     - 24.4
-    - -59.169
+    - -59.168
     layer:
     - 1
     - 0
@@ -51,7 +51,7 @@ ports:
   opt_te_1530_15-mzi_2e88f57c-loopback1:
     center:
     - -88.823
-    - -59.169
+    - -59.168
     layer:
     - 1
     - 0

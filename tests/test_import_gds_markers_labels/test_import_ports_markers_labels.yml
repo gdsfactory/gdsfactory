@@ -4,7 +4,7 @@ ports:
   opt_te_1530_15-straight_aa0e8b9c-0-0:
     center:
     - 117.669
-    - -1.2117206521823529e-14
+    - -0.0
     layer:
     - 1
     - 0
@@ -15,7 +15,7 @@ ports:
   opt_te_1530_15-straight_aa0e8b9c-1-0:
     center:
     - -127.669
-    - 9.454824380477183e-15
+    - 0.0
     layer:
     - 1
     - 0
@@ -25,8 +25,8 @@ ports:
     width: 10.0
   opt_te_1530_15-straight_aa0e8b9c-loopback1:
     center:
-    - 117.66799999999999
-    - -63.22400000000001
+    - 117.669
+    - -63.223
     layer:
     - 1
     - 0
@@ -37,7 +37,7 @@ ports:
   opt_te_1530_15-straight_aa0e8b9c-loopback2:
     center:
     - -127.669
-    - -63.22299999999999
+    - -63.223
     layer:
     - 1
     - 0
