@@ -1439,7 +1439,7 @@ class Component(_GeometryHelper):
             import kfactory as kf
         except ImportError as e:
             print(
-                "You need install jupyter notebook plugin with `pip install kfactory[ipy]`"
+                "You need install kfactory plugin with `pip install gdsfactory[kfactory]`"
             )
             raise e
 
@@ -1455,12 +1455,14 @@ class Component(_GeometryHelper):
         kcl = kf.KCLayout()
         kcl.read(gdspath)
         top_cell = kcl.top_cell()
+        c = kf.KCell(top_cell.name)
+        c.copy_tree(top_cell)
 
         layer_views = get_layer_views()
         layer_views.to_lyp(filepath=lyp_path)
 
-        layout = LayoutWidget(top_cell, lyp_path)
-        display(layout.widget)
+        lw = LayoutWidget(cell=c, layer_properties=lyp_path)
+        display(lw.widget)
 
     def plot_klayout(
         self,
