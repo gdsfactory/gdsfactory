@@ -2,6 +2,13 @@
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.102.1...main)
 
+## [6.103.0](https://github.com/gdsfactory/gdsfactory/compare/v6.103.0...v6.102.4)
+
+- add `gf.Polygon`
+- add `gf.Polygon.to_shapely()`
+- add `gf.Polygon.from_shapely()`
+- add `gf.Polygon.snap()`
+
 ## [6.102.4](https://github.com/gdsfactory/gdsfactory/compare/v6.102.4...v6.102.3)
 
 - fix loopback snapping [PR](https://github.com/gdsfactory/gdsfactory/pull/1729)

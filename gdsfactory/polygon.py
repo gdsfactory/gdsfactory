@@ -8,6 +8,7 @@ import numpy as np
 import shapely as sp
 import gdstk
 from gdsfactory.component_layout import _GeometryHelper, _parse_move, _simplify
+from gdsfactory.snap import snap_to_grid
 
 
 class Polygon(gdstk.Polygon, _GeometryHelper):
@@ -84,7 +85,7 @@ class Polygon(gdstk.Polygon, _GeometryHelper):
         Ramer-Douglas-Peucker algorithm.
 
         Args:
-            tolerance : float
+            tolerance: float
                 Tolerance value for the simplification algorithm.  All points that
                 can be removed without changing the resulting polygon by more than
                 the value listed here will be removed. Also known as `epsilon` here
@@ -94,8 +95,22 @@ class Polygon(gdstk.Polygon, _GeometryHelper):
         points = _simplify(self.points, tolerance=tolerance)
         return Polygon(points, (self.layer, self.datatype))
 
+    def snap(self, nm: int = 1) -> sp.Polygon:
+        """Returns new polygon snap points to grid"""
+        points = snap_to_grid(self.points, nm=nm)
+        return Polygon(points, (self.layer, self.datatype))
+
     def to_shapely(self) -> sp.Polygon:
         return sp.Polygon(self.points)
+
+    @classmethod
+    def from_shapely(cls, polygon: sp.Polygon, layer) -> Polygon:
+        from gdsfactory.pdk import get_layer
+
+        layer, datatype = get_layer(layer)
+        points_on_grid = np.round(polygon.exterior.coords, 3)
+        polygon = Polygon(points_on_grid, (layer, datatype))
+        return polygon
 
 
 if __name__ == "__main__":
