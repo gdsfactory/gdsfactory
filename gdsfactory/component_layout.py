@@ -95,7 +95,10 @@ def get_polygons(
         return polygons
     elif as_shapely_merged:
         polygons = [sp.Polygon(polygon.points) for polygon in polygons]
-        return sp.polygonize(polygons)
+        p = sp.Polygon()
+        for polygon in polygons:
+            p = p | polygon
+        return p
 
     elif as_shapely:
         return [sp.Polygon(polygon.points) for polygon in polygons]
@@ -731,8 +734,17 @@ def _simplify(points, tolerance=0):
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.Component()
-    label = c.add_label("hi")
-    print(c.labels[0])
+    # c = gf.Component()
+    # label = c.add_label("hi")
+    # print(c.labels[0])
     # _demo()
     # s = Step()
+
+    c = gf.Component("bend")
+    b = c << gf.components.bend_circular(angle=30)
+    s = c << gf.components.straight(length=5)
+    s.connect("o1", b.ports["o2"])
+    p = c.get_polygons(as_shapely_merged=True)
+    c2 = gf.Component()
+    c2.add_polygon(p, layer=(1, 0))
+    c2.show()
