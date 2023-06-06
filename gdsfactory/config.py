@@ -29,7 +29,7 @@ from rich.table import Table
 if TYPE_CHECKING:
     from loguru import Logger
 
-__version__ = "6.102.4"
+__version__ = "6.103.0"
 PathType = Union[str, pathlib.Path]
 
 home = pathlib.Path.home()
