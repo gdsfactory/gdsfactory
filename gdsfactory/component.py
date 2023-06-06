@@ -1592,7 +1592,7 @@ class Component(_GeometryHelper):
         Args:
             plotter: plot backend ('matplotlib', 'widget', 'klayout').
         """
-        plotter = plotter or CONF.get("plotter", "matplotlib")
+        plotter = plotter or CONF.display_type
 
         if plotter not in valid_plotters:
             raise ValueError(f"{plotter!r} not in {valid_plotters}")
@@ -1601,7 +1601,7 @@ class Component(_GeometryHelper):
             self.plot_klayout()
             return
         elif plotter == "widget":
-            self.plot_klayout()
+            self.plot_widget()
             return
 
         elif plotter == "matplotlib":
@@ -1623,7 +1623,7 @@ class Component(_GeometryHelper):
         elif plotter == "qt":
             warnings.warn(
                 "qt plotter is deprecated. "
-                "Use Component.plot_klayout() or Component.plot_widget()",
+                "Use the default Component.plot(), Component.plot_klayout() or Component.plot_widget()",
                 stacklevel=3,
             )
             from gdsfactory.quickplotter import quickplot2
@@ -1654,7 +1654,7 @@ class Component(_GeometryHelper):
 
         warnings.warn(
             "holoviews plotter is deprecated. "
-            "Use Component.plot_klayout() or Component.plot_widget()",
+            "Use the default Component.plot(), Component.plot_klayout() or Component.plot_widget()",
             stacklevel=3,
         )
 

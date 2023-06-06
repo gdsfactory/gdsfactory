@@ -9,7 +9,8 @@
     - add `gf.Polygon.from_shapely()`
     - add `gf.Polygon.snap()`
 - add `gf.components.coupler_bent`
-- fix 1nm gaps coming from forcing snapping to grid
+    - fix 1nm gaps coming from forcing snapping to grid
+- improve widget
 
 ## [6.102.4](https://github.com/gdsfactory/gdsfactory/compare/v6.102.4...v6.102.3)
 

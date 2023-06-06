@@ -1,15 +1,6 @@
-"""Gdsfactory loads configuration from 3 files, high priority overwrites low.
+"""Gdsfactory loads configuration pydantic.
 
-priority:
-
-1. A config.yml found in the current working directory (highest priority)
-2. ~/.gdsfactory/config.yml specific for the machine
-3. the yamlpath_default in gdsfactory.technology.yml (lowest priority)
-
-You can access the CONF dictionary with `print_config`
-
-PATH has all your computer specific paths that we do not care to store
-
+You can set environment variables.
 """
 
 from __future__ import annotations
@@ -18,7 +9,6 @@ import traceback
 from itertools import takewhile
 import importlib
 import re
-import io
 import json
 import os
 import pathlib
@@ -133,15 +123,6 @@ def print_version_pdks() -> None:
 
     console = Console()
     console.print(table)
-
-
-default_config = io.StringIO(
-    """
-plotter: ${oc.env:GDSFACTORY_LAYOUT_PLOTTER}
-sparameters_path: ${oc.env:HOME}/.gdsfactory/sparameters/generic
-show_ports: True
-"""
-)
 
 
 def get_number_of_cores() -> int:
