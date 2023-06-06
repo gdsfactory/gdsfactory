@@ -51,7 +51,7 @@ from gdsfactory.port import (
 from gdsfactory.serialization import clean_dict
 from gdsfactory.technology import LayerStack, LayerView, LayerViews
 
-Plotter = Literal["holoviews", "matplotlib", "qt", "klayout"]
+valid_plotters = ["holoviews", "matplotlib", "widget", "klayout", "qt"]
 Axis = Literal["x", "y"]
 
 
@@ -130,7 +130,7 @@ class Component(_GeometryHelper):
     - can return ports by type (optical, electrical ...)
     - can return netlist for circuit simulation
     - can write to GDS, OASIS
-    - can show in KLayout, matplotlib, 3D, QT viewer, holoviews
+    - can show in KLayout, matplotlib, 3D
     - can return copy, mirror, flattened (no references)
 
     Args:
@@ -1401,7 +1401,10 @@ class Component(_GeometryHelper):
     def _ipython_display_(self) -> None:
         """Show geometry in KLayout and in matplotlib for Jupyter Notebooks."""
         self.show(show_ports=True)  # show in klayout
-        self.plot_klayout()
+        if CONF.display_type == "klayout":
+            self.plot_klayout()
+        else:
+            self.plot_widget()
         print(self)
 
     def add_pins_triangle(
@@ -1430,7 +1433,15 @@ class Component(_GeometryHelper):
         from IPython.display import display
 
         from gdsfactory.pdk import get_layer_views
-        from gdsfactory.widgets.layout_viewer import LayoutViewer
+        from gdsfactory.plugins.widget.interactive import LayoutWidget
+
+        try:
+            import kfactory as kf
+        except ImportError as e:
+            print(
+                "You need install jupyter notebook plugin with `pip install kfactory[ipy]`"
+            )
+            raise e
 
         component = (
             self.add_pins_triangle(port_marker_layer=port_marker_layer)
@@ -1441,10 +1452,14 @@ class Component(_GeometryHelper):
         gdspath = component.write_gds(logging=False)
         lyp_path = gdspath.with_suffix(".lyp")
 
+        kcl = kf.KCLayout()
+        kcl.read(gdspath)
+        top_cell = kcl.top_cell()
+
         layer_views = get_layer_views()
         layer_views.to_lyp(filepath=lyp_path)
 
-        layout = LayoutViewer(gdspath, lyp_path)
+        layout = LayoutWidget(top_cell, lyp_path)
         display(layout.widget)
 
     def plot_klayout(
@@ -1567,17 +1582,23 @@ class Component(_GeometryHelper):
 
         quickplot(self, **kwargs)
 
-    def plot(self, plotter: Optional[Plotter] = None, **kwargs) -> None:
+    def plot(self, plotter: str | None = None, **kwargs) -> None:
         """Returns component plot using klayout, matplotlib, holoviews or qt.
 
         We recommend using klayout.
 
         Args:
-            plotter: plot backend ('holoviews', 'matplotlib', 'qt', 'klayout').
+            plotter: plot backend ('matplotlib', 'widget', 'klayout').
         """
         plotter = plotter or CONF.get("plotter", "matplotlib")
 
+        if plotter not in valid_plotters:
+            raise ValueError(f"{plotter!r} not in {valid_plotters}")
+
         if plotter == "klayout":
+            self.plot_klayout()
+            return
+        elif plotter == "widget":
             self.plot_klayout()
             return
 
@@ -1598,12 +1619,15 @@ class Component(_GeometryHelper):
             return self.plot_holoviews(**kwargs)
 
         elif plotter == "qt":
+            warnings.warn(
+                "qt plotter is deprecated. "
+                "Use Component.plot_klayout() or Component.plot_widget()",
+                stacklevel=3,
+            )
             from gdsfactory.quickplotter import quickplot2
 
             quickplot2(self)
             return
-        else:
-            raise ValueError(f"{plotter!r} not in {Plotter}")
 
     def plot_holoviews(
         self,
@@ -1625,6 +1649,12 @@ class Component(_GeometryHelper):
         """
         from gdsfactory.add_pins import get_pin_triangle_polygon_tip
         from gdsfactory.generic_tech import LAYER_VIEWS
+
+        warnings.warn(
+            "holoviews plotter is deprecated. "
+            "Use Component.plot_klayout() or Component.plot_widget()",
+            stacklevel=3,
+        )
 
         if layer_views is None:
             layer_views = LAYER_VIEWS
