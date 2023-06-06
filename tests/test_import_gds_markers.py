@@ -4,7 +4,7 @@ import gdsfactory as gf
 from gdsfactory.read.import_gds import import_gds
 
 
-def test_import_ports_inside(data_regression) -> gf.Component:
+def test_import_ports_inside(data_regression) -> None:
     """Make sure you can import the ports"""
     c0 = gf.components.straight(decorator=gf.add_pins.add_pins)
     gdspath = c0.write_gds()
@@ -14,10 +14,9 @@ def test_import_ports_inside(data_regression) -> gf.Component:
     assert len(c1.ports) == 2, f"{len(c1.ports)}"
     if data_regression:
         data_regression.check(c1.to_dict())
-    return c1
 
 
-def test_import_ports_center(data_regression) -> gf.Component:
+def test_import_ports_center(data_regression) -> None:
     """Make sure you can import the ports"""
     c0 = gf.components.straight(decorator=gf.add_pins.add_pins_center)
     gdspath = c0.write_gds()
@@ -27,10 +26,9 @@ def test_import_ports_center(data_regression) -> gf.Component:
     assert len(c1.ports) == 2, f"{len(c1.ports)}"
     if data_regression:
         data_regression.check(c1.to_dict())
-    return c1
 
 
-def test_import_ports_siepic(data_regression) -> gf.Component:
+def test_import_ports_siepic(data_regression) -> None:
     """Make sure you can import the ports"""
     c0 = gf.components.straight(
         decorator=gf.add_pins.add_pins_siepic, cross_section="strip_no_pins"
@@ -42,7 +40,6 @@ def test_import_ports_siepic(data_regression) -> gf.Component:
     assert len(c1.ports) == 2, f"{len(c1.ports)}"
     if data_regression:
         data_regression.check(c1.to_dict())
-    return c1
 
 
 if __name__ == "__main__":
