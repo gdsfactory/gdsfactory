@@ -5,9 +5,11 @@
 ## [6.103.0](https://github.com/gdsfactory/gdsfactory/compare/v6.103.0...v6.102.4)
 
 - add `gf.Polygon`
-- add `gf.Polygon.to_shapely()`
-- add `gf.Polygon.from_shapely()`
-- add `gf.Polygon.snap()`
+    - add `gf.Polygon.to_shapely()`
+    - add `gf.Polygon.from_shapely()`
+    - add `gf.Polygon.snap()`
+- add `gf.components.coupler_bent`
+- fix 1nm gaps coming from forcing snapping to grid
 
 ## [6.102.4](https://github.com/gdsfactory/gdsfactory/compare/v6.102.4...v6.102.3)
 

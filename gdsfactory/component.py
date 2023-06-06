@@ -49,7 +49,6 @@ from gdsfactory.port import (
     select_ports,
 )
 from gdsfactory.serialization import clean_dict
-from gdsfactory.snap import snap_to_grid
 from gdsfactory.technology import LayerStack, LayerView, LayerViews
 
 Plotter = Literal["holoviews", "matplotlib", "qt", "klayout"]
@@ -426,14 +425,11 @@ class Component(_GeometryHelper):
 
     @property
     def bbox(self):
-        """Returns the bounding box of the ComponentReference.
-
-        it snaps to 3 decimals in um (0.001um = 1nm precision)
-        """
+        """Returns the bounding box of the ComponentReference."""
         bbox = self._cell.bounding_box()
         if bbox is None:
             bbox = ((0, 0), (0, 0))
-        return np.round(bbox, 3)
+        return np.array(bbox)
 
     @property
     def ports_layer(self) -> Dict[str, str]:
@@ -469,7 +465,7 @@ class Component(_GeometryHelper):
         """
         ports_cw = self.get_ports_list(clockwise=True, **kwargs)
         ports_ccw = self.get_ports_list(clockwise=False, **kwargs)
-        return snap_to_grid(ports_ccw[0].x - ports_cw[0].x)
+        return ports_ccw[0].x - ports_cw[0].x
 
     def get_ports_ysize(self, **kwargs) -> float:
         """Returns ydistance from east to west ports.
@@ -484,7 +480,7 @@ class Component(_GeometryHelper):
         """
         ports_cw = self.get_ports_list(clockwise=True, **kwargs)
         ports_ccw = self.get_ports_list(clockwise=False, **kwargs)
-        return snap_to_grid(ports_ccw[0].y - ports_cw[0].y)
+        return ports_ccw[0].y - ports_cw[0].y
 
     def plot_netlist(
         self, with_labels: bool = True, font_weight: str = "normal", **kwargs

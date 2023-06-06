@@ -27,6 +27,7 @@ def big_device(
         spacing: in um.
         layer: spec.
         wg_width: waveguide width in um.
+        cross_section: spec.
 
     """
     component = gf.Component()

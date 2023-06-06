@@ -21,7 +21,6 @@ from gdsfactory.port import (
     map_ports_to_orientation_cw,
     select_ports,
 )
-from gdsfactory.snap import snap_to_grid
 
 if typing.TYPE_CHECKING:
     from gdsfactory.component import Component
@@ -222,7 +221,7 @@ class ComponentReference(_GeometryHelper):
 
     @origin.setter
     def origin(self, value) -> None:
-        self._reference.origin = snap_to_grid(value)
+        self._reference.origin = value
 
     @property
     def magnification(self) -> float:
@@ -470,7 +469,7 @@ class ComponentReference(_GeometryHelper):
         bbox = self.get_bounding_box()
         if bbox is None:
             bbox = ((0, 0), (0, 0))
-        return np.round(bbox, 3)
+        return np.array(bbox)
 
     @classmethod
     def __get_validators__(cls):
@@ -859,10 +858,6 @@ class ComponentReference(_GeometryHelper):
         key2 = m[key]
         return self.ports[key2]
 
-    def snap_ports_to_grid(self, nm: int = 1) -> None:
-        for port in self.ports.values():
-            port.snap_to_grid(nm=nm)
-
     def get_ports_xsize(self, **kwargs) -> float:
         """Return xdistance from east to west ports.
 
@@ -871,13 +866,13 @@ class ComponentReference(_GeometryHelper):
         """
         ports_cw = self.get_ports_list(clockwise=True, **kwargs)
         ports_ccw = self.get_ports_list(clockwise=False, **kwargs)
-        return snap_to_grid(ports_ccw[0].x - ports_cw[0].x)
+        return ports_ccw[0].x - ports_cw[0].x
 
     def get_ports_ysize(self, **kwargs) -> float:
         """Returns ydistance from east to west ports."""
         ports_cw = self.get_ports_list(clockwise=True, **kwargs)
         ports_ccw = self.get_ports_list(clockwise=False, **kwargs)
-        return snap_to_grid(ports_ccw[0].y - ports_cw[0].y)
+        return ports_ccw[0].y - ports_cw[0].y
 
 
 def test_move() -> None:

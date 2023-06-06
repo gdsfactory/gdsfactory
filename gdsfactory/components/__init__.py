@@ -49,6 +49,7 @@ from gdsfactory.components.component_lattice import component_lattice
 from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.copy_layers import copy_layers
 from gdsfactory.components.coupler import coupler
+from gdsfactory.components.coupler_bent import coupler_bent
 from gdsfactory.components.coupler90 import coupler90, coupler90circular
 from gdsfactory.components.coupler90bend import coupler90bend
 from gdsfactory.components.coupler_adiabatic import coupler_adiabatic
@@ -398,6 +399,7 @@ __all__ = [
     "coupler",
     "coupler_trenches",
     "coupler_bend",
+    "coupler_bent",
     "coupler90",
     "coupler90bend",
     "coupler90circular",
@@ -515,7 +517,6 @@ __all__ = [
     "pad_array180",
     "pad_array270",
     "pad_array90",
-    "pad_gsg",
     "pad_gsg_open",
     "pad_gsg_short",
     "pads_shorted",
