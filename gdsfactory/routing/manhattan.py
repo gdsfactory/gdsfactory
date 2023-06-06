@@ -922,7 +922,7 @@ def round_corners(
 
     port_input = list(wg_refs[0].ports.values())[0]
     port_output = list(wg_refs[-1].ports.values())[port_index_out]
-    length = np.round(float(total_length), 3)
+    length = float(np.round(total_length, 3))
     return Route(
         references=references,
         ports=(port_input, port_output),
