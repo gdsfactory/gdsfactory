@@ -2,7 +2,7 @@
 
 gdsfactory is an open source project that welcomes your contributions. How can you contribute?
 You can fork the repo, work on a feature, and then create a Pull Request to merge your feature into the `main` branch.
-This will benefit the project community and make you famous :).
+This will benefit other project community members and make you famous :).
 
 How can you help? Take a look at the [open issues](https://github.com/gdsfactory/gdsfactory/issues) or add something you need to gdsfactory:
 
@@ -12,9 +12,11 @@ How can you help? Take a look at the [open issues](https://github.com/gdsfactory
 
 The workflow is:
 
-- Fork the repo. This creates a copy into your GitHub account. `git clone` it into your computer and install it (`./install.bat` for Windows and `make install` for MacOs and Linux).
+- Fork the repo. This creates a copy into your GitHub account namespace. `git clone` it into your computer and install it.
 - `git add`, `git commit`, `git push` your work as many times as needed. Make sure [GitHub Actions](https://github.com/gdsfactory/gdsfactory/actions) pass so it all keeps working correctly.
 - open a Pull request (PR) to merge your improvements to the main repository.
+
+![git flow](https://i.imgur.com/kNc40fI.png)
 
 ## Style
 
