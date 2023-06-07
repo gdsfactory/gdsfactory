@@ -1,6 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.102.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.103.1...main)
+
+## [6.103.1](https://github.com/gdsfactory/gdsfactory/compare/v6.103.1...v6.103.0)
+
+- fix jupyter widget [PR](https://github.com/gdsfactory/gdsfactory/pull/1740)
 
 ## [6.103.0](https://github.com/gdsfactory/gdsfactory/compare/v6.103.0...v6.102.4)
 
