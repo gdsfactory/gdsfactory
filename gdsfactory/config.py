@@ -174,7 +174,7 @@ class LogFilter(BaseModel):
     level: Literal[
         "TRACE", "DEBUG", "INFO", "SUCCESS", "WARNING", "ERROR", "CRITICAL"
     ] = "INFO"
-    regex: str | None = None
+    regex: Optional[str] = None
 
     def __call__(self, record: loguru.Record) -> bool:
         """Loguru needs the filter to be callable."""

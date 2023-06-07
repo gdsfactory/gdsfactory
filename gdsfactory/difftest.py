@@ -153,6 +153,7 @@ def difftest(
     )
     filename = f"{test_name}.gds"
     dirpath_ref = dirpath
+    dirpath_ref.mkdir(exist_ok=True, parents=True)
     dirpath_run = GDSDIR_TEMP
 
     ref_file = dirpath_ref / f"{test_name}.gds"
