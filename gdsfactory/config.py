@@ -193,7 +193,7 @@ class Settings(BaseSettings):
     n_threads: int = get_number_of_cores()
     logger: ClassVar[Logger] = logger
     logfilter: LogFilter = Field(default_factory=LogFilter)
-    display_type: Literal["widget", "image", "docs"] = "widget"
+    display_type: Literal["widget", "klayout", "docs"] = "widget"
 
     def __init__(self, **data: Any):
         """Set log filter and run pydantic."""
@@ -205,7 +205,7 @@ class Settings(BaseSettings):
     class Config:
         """Pydantic settings."""
 
-        validation = False
+        validation = True
         arbitrary_types_allowed = True
         fields = {"logger": {"exclude": True}}
         env_prefix = "gdsfactory_"

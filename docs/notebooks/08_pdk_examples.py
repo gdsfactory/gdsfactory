@@ -34,7 +34,7 @@ from pytest_regressions.data_regression import DataRegressionFixture
 
 from gdsfactory.add_pins import add_pin_rectangle_inside
 from gdsfactory.component import Component
-from gdsfactory.config import PATH
+from gdsfactory.config import PATH, CONF
 from gdsfactory.cross_section import cross_section
 from gdsfactory.decorators import flatten_invalid_refs, has_valid_transformations
 from gdsfactory.difftest import difftest
@@ -47,20 +47,23 @@ from gdsfactory.technology import (
     lyp_to_dataclass,
 )
 from gdsfactory.typings import Layer, LayerSpec
-
 import gdsfactory as gf
 
 gf.config.rich_output()
 nm = 1e-3
 
+
+# %%
+CONF.display_type = "klayout"
+
+p = gf.get_active_pdk()
+p.name
+
+# %%
 gf.config.print_version()
 
 # %%
 gf.config.print_version_pdks()
-
-# %%
-p = gf.get_active_pdk()
-p.name
 
 
 # %% [markdown]
@@ -154,11 +157,11 @@ gc = partial(
 
 c = gf.components.mzi()
 c_gc = gf.routing.add_fiber_array(component=c, grating_coupler=gc, with_loopback=False)
-c_gc.plot()
+c_gc
 
 # %%
-c = c_gc.to_3d()
-c.show(show_ports=True)
+scene = c_gc.to_3d()
+scene.show(show_ports=True)
 
 # %% [markdown]
 # ### FabB
@@ -288,11 +291,11 @@ c = mzi()
 wg_gc = gf.routing.add_fiber_array(
     component=c, grating_coupler=gc, cross_section=strip, with_loopback=False
 )
-wg_gc.plot()
+wg_gc.plot_klayout()
 
 # %%
-c = wg_gc.to_3d()
-c.show(show_ports=True)
+scene = wg_gc.to_3d()
+scene.show(show_ports=True)
 
 # %% [markdown]
 # ### FabC
