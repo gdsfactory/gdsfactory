@@ -1,4 +1,4 @@
-"""Interactivate jupyter widget."""
+"""Jupyter widget to view the layout using klayout python API in jupyter notebooks."""
 
 try:
     from pathlib import Path

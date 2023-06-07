@@ -1,3 +1,19 @@
+# ---
+# jupyter:
+#   jupytext:
+#     cell_metadata_filter: -all
+#     custom_cell_magics: kql
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
+#   kernelspec:
+#     display_name: base
+#     language: python
+#     name: python3
+# ---
+
 # %% [markdown]
 # # PDK
 #
@@ -337,15 +353,14 @@ def test_assert_ports_on_grid(component_name: str):
 # For example, if you changed the mmi1x2 and made it 5um longer by mistake, you could `gf gds diff ref_layouts/mmi1x2.gds run_layouts/mmi1x2.gds` and see the GDS differences in Klayout.
 
 # %%
-from gdsfactory.gdsdiff import gdsdiff
-
-help(gdsdiff)
+help(gf.diff)
 
 # %%
 mmi1 = gf.components.mmi1x2(length_mmi=5)
 mmi2 = gf.components.mmi1x2(length_mmi=6)
-c = gdsdiff(mmi1, mmi2)
-c
+gds1 = mmi1.write_gds()
+gds2 = mmi2.write_gds()
+gf.diff(gds1, gds2)
 
 # %% [markdown]
 # ## PDK decorator

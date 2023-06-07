@@ -15,10 +15,17 @@ class GeometryDifference(Exception):
 PathType = Union[pathlib.Path, str]
 
 
-def files_are_different(
+def diff(
     ref_file: PathType, run_file: PathType, xor: bool = True, test_name: str = ""
 ) -> bool:
-    """Returns True if files are different"""
+    """Returns True if files are different, prints differences and shows them in klayout.
+
+    Args:
+        ref_file: reference (old) file.
+        run_file: run (new) file.
+        xor: runs xor on every layer between ref and run files.
+        test_name: prefix for the new cell.
+    """
     try:
         from kfactory import KCell, kdb
     except ImportError as e:
@@ -163,9 +170,7 @@ def difftest(
     if filecmp.cmp(ref_file, run_file, shallow=False):
         return
 
-    if files_are_different(
-        ref_file=ref_file, run_file=run_file, xor=xor, test_name=test_name
-    ):
+    if diff(ref_file=ref_file, run_file=run_file, xor=xor, test_name=test_name):
         print(
             f"\ngds_run {filename!r} changed from gds_ref {str(ref_file)!r}\n"
             "You can check the differences in Klayout GUI or run XOR with\n"

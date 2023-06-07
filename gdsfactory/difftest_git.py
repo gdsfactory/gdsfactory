@@ -1,6 +1,6 @@
 import sys
 
-from gdsfactory.difftest import files_are_different
+from gdsfactory.difftest import diff
 
 
 def gdsdiff_git(
@@ -25,7 +25,7 @@ def gdsdiff_git(
         new_hex: ignore.
         new_mode: ignore.
     """
-    files_are_different(old_file, curr_file, xor=True)
+    diff(old_file, curr_file, xor=True)
 
 
 if __name__ == "__main__":
