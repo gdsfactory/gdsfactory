@@ -451,6 +451,8 @@ c1
 
 # %%
 from gdsfactory.generic_tech import get_generic_pdk
+import gdsfactory as gf
+from gdsfactory.typings import LayerSpec, Tuple
 
 PDK = get_generic_pdk()
 PDK.activate()
@@ -487,7 +489,7 @@ def litho_ruler(
     return D
 
 
-c = litho_ruler(cache=False)
+c = litho_ruler()
 c.plot()
 
 # %% [markdown]
@@ -531,3 +533,5 @@ def litho_ruler(
 
 c = litho_ruler(cache=False)
 c.plot()
+
+# %%

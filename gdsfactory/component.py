@@ -51,7 +51,13 @@ from gdsfactory.port import (
 from gdsfactory.serialization import clean_dict
 from gdsfactory.technology import LayerStack, LayerView, LayerViews
 
-valid_plotters = ["holoviews", "matplotlib", "widget", "klayout", "qt"]
+valid_plotters = [
+    "holoviews",
+    "matplotlib",
+    "widget",
+    "klayout",
+    "qt",
+]  # qt and holoviews
 Axis = Literal["x", "y"]
 
 
@@ -1455,8 +1461,9 @@ class Component(_GeometryHelper):
         kcl = kf.KCLayout()
         kcl.read(gdspath)
         top_cell = kcl.top_cell()
-        c = kf.KCell(top_cell.name)
-        c.copy_tree(top_cell)
+        c = kcl.dup()[top_cell.name]
+        # c = kf.KCell(top_cell.name, all)
+        # c.copy_tree(top_cell)
 
         layer_views = get_layer_views()
         layer_views.to_lyp(filepath=lyp_path)
