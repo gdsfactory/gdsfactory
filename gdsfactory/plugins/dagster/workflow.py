@@ -1,6 +1,6 @@
 from typing import Dict
-from dagster import Definitions
-from dagster import asset, ConfigurableResource
+
+from dagster import ConfigurableResource, Definitions, asset
 
 
 class ReaderResource(ConfigurableResource):

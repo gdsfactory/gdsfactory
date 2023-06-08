@@ -1,21 +1,20 @@
 import base64
+import importlib
 import os
 from pathlib import Path
 from typing import Optional
-import importlib
 
-from fastapi import FastAPI, Form, Request
-from starlette.routing import WebSocketRoute
+import orjson
+from fastapi import FastAPI, Form, Request, status
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from fastapi import status
+from loguru import logger
+from starlette.routing import WebSocketRoute
 
 import gdsfactory as gf
-from loguru import logger
-import orjson
-from gdsfactory.plugins.web.server import LayoutViewServerEndpoint, get_layout_view
 from gdsfactory.config import PATH
+from gdsfactory.plugins.web.server import LayoutViewServerEndpoint, get_layout_view
 
 module_path = Path(__file__).parent.absolute()
 

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from functools import partial
 from typing import Optional
 
 import gdsfactory as gf
@@ -129,17 +130,17 @@ def straight_heater_metal_undercut(
     return c
 
 
-straight_heater_metal = gf.partial(
+straight_heater_metal = partial(
     straight_heater_metal_undercut,
     with_undercut=False,
 )
-straight_heater_metal_90_90 = gf.partial(
+straight_heater_metal_90_90 = partial(
     straight_heater_metal_undercut,
     with_undercut=False,
     port_orientation1=90,
     port_orientation2=90,
 )
-straight_heater_metal_undercut_90_90 = gf.partial(
+straight_heater_metal_undercut_90_90 = partial(
     straight_heater_metal_undercut,
     with_undercut=False,
     port_orientation1=90,

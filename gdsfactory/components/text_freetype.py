@@ -56,7 +56,8 @@ def text_freetype(
                     warnings.warn(
                         f'text(): Warning, some characters ignored, no geometry for character "{chr(ascii_val)}" with ascii value {ascii_val}. Valid characters: {valid_chars}'
                     )
-            t.add_ref(char)
+            ref = t.add_ref(char)
+            t.absorb(ref)
             yoffset -= 1500 * scaling
             xoffset = 0
     else:
@@ -109,5 +110,7 @@ def text_freetype(
 
 
 if __name__ == "__main__":
-    c2 = text_freetype("hello", font="Times New Roman")
-    c2.show(show_ports=True)
+    # c2 = text_freetype("hello", font="Times New Roman")
+    # print(c2.name)
+    c2 = text_freetype()
+    c2.show()

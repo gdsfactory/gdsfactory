@@ -34,7 +34,14 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -49,7 +56,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -69,6 +76,16 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
   bend_euler_2:
     component: bend_euler
     info:
@@ -79,7 +96,14 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -94,7 +118,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -114,6 +138,16 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
   bend_euler_3:
     component: bend_euler
     info:
@@ -124,7 +158,14 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -139,7 +180,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -159,6 +200,16 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
   bend_euler_4:
     component: bend_euler
     info:
@@ -169,7 +220,14 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -184,7 +242,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -204,6 +262,16 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
   bend_euler_5:
     component: bend_euler
     info:
@@ -214,7 +282,14 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -229,7 +304,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -249,6 +324,16 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
   bend_euler_6:
     component: bend_euler
     info:
@@ -259,7 +344,14 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -274,7 +366,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -294,6 +386,16 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
   bend_euler_7:
     component: bend_euler
     info:
@@ -304,7 +406,14 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -319,7 +428,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -339,6 +448,16 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
   bend_euler_8:
     component: bend_euler
     info:
@@ -349,7 +468,14 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -364,7 +490,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -384,16 +510,43 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
   straight_1:
     component: straight
     info:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       function_name: cross_section
       length: 290.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -408,7 +561,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -428,17 +581,44 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       length: 290.0
   straight_10:
     component: straight
     info:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       function_name: cross_section
       length: 440.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -453,7 +633,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -473,17 +653,44 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       length: 440.0
   straight_2:
     component: straight
     info:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       function_name: cross_section
       length: 380.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -498,7 +705,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -518,17 +725,44 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       length: 380.0
   straight_3:
     component: straight
     info:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       function_name: cross_section
       length: 80.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -543,7 +777,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -563,17 +797,44 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       length: 80.0
   straight_4:
     component: straight
     info:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       function_name: cross_section
       length: 630.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -588,7 +849,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -608,17 +869,44 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       length: 630.0
   straight_5:
     component: straight
     info:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       function_name: cross_section
       length: 590.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -633,7 +921,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -653,17 +941,44 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       length: 590.0
   straight_6:
     component: straight
     info:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       function_name: cross_section
       length: 140.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -678,7 +993,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -698,17 +1013,44 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       length: 140.0
   straight_7:
     component: straight
     info:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       function_name: cross_section
       length: 380.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -723,7 +1065,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -743,17 +1085,44 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       length: 380.0
   straight_8:
     component: straight
     info:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       function_name: cross_section
       length: 380.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -768,7 +1137,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -788,17 +1157,44 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       length: 380.0
   straight_9:
     component: straight
     info:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       function_name: cross_section
       length: 630.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -813,7 +1209,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -833,6 +1229,16 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       length: 630.0
   t:
     component: pad_array

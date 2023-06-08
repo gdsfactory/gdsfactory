@@ -3,13 +3,14 @@ try:
     from kfactory import kdb
 except ImportError as e:
     print(
-        "You can install `pip install gdsfactory[full]` for using maskprep. "
+        "You can install `pip install gdsfactory[kfactory]` for using maskprep. "
         "And make sure you use python >= 3.10"
     )
     raise e
 
-from gdsfactory.typings import Dict, Layer, PathType, Tuple, LayerSpecs
 from typing import Optional
+
+from gdsfactory.typings import Dict, Layer, LayerSpecs, PathType, Tuple
 
 
 def size(region: kdb.Region, offset: float):
@@ -68,7 +69,7 @@ class RegionCollection:
     def __init__(
         self, layermap: Dict[str, Layer], filepath: Optional[PathType] = None
     ) -> None:
-        lib = kf.kcell.KLib()
+        lib = kf.kcell.KCLayout()
         lib.read(filename=str(filepath))
         c = lib[0]
 
@@ -127,8 +128,8 @@ class RegionCollection:
 
         fill_cell = kf.KCell(fill_cell_name)
         for layer in fill_layers:
-            layer = kf.klib.layer(*layer)
-            fill_cell << kf.pcells.waveguide.waveguide(
+            layer = kf.kcl.layer(*layer)
+            fill_cell << kf.cells.waveguide.waveguide(
                 width=size[0], length=size[1], layer=layer
             )
 
@@ -143,10 +144,11 @@ class RegionCollection:
 
 
 if __name__ == "__main__":
-    from gdsfactory.generic_tech.layer_map import LAYER as l
-    import gdsfactory.geometry.maskprep_flat as dp
-    import gdsfactory as gf
     import kfactory as kf
+
+    import gdsfactory as gf
+    import gdsfactory.geometry.maskprep_flat as dp
+    from gdsfactory.generic_tech.layer_map import LAYER as l
 
     c = gf.Component()
     ring = c << gf.components.coupler_ring()

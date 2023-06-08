@@ -1,4 +1,4 @@
-# gdsfactory 6.95.0
+# gdsfactory 6.103.3
 
 [![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)](https://gdsfactory.github.io/gdsfactory/)
 [![PyPI](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -100,11 +100,12 @@ Once you have python installed, open Anaconda Prompt and then install the latest
 ![anaconda prompt](https://i.imgur.com/Fyal5sT.png)
 
 ```
+mamba install gdstk -y
 pip install gdsfactory --upgrade
-gf install klayout-integration
+gf install klayout-genericpdk
 ```
 
-Then you need to restart Klayout to make sure you activate the klayout gdsfactory integration.
+Then you can install Klayout-live `klive` integration in the klayout GUI `Tools --> Manage Packages --> Install New Packages --> Klive` and restart klayout.
 
 ### 2. Installation for developers
 
@@ -114,9 +115,11 @@ For that you can install gdsfactory locally on your computer in `-e` edit mode.
 ```
 git clone https://github.com/gdsfactory/gdsfactory.git
 cd gdsfactory
+mamba install gdstk -y
 pip install -e . pre-commit
+# pip install -e .[full,gmsh,tidy3d,devsim,meow,database] # Install all plugins
 pre-commit install
-gf install klayout-integration
+gf install klayout-genericpdk
 ```
 
 ### Update gdsfactory

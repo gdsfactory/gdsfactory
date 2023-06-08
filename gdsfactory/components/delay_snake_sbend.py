@@ -5,7 +5,6 @@ from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
-
 diagram = r"""
 
                          length1

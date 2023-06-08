@@ -1,10 +1,11 @@
 from __future__ import annotations
 
 import typing
+
+from gdsfactory.config import PATH
 from gdsfactory.generic_tech.layer_map import GenericLayerMap as LayerMap
 from gdsfactory.generic_tech.layer_stack import LAYER_STACK
 from gdsfactory.technology import LayerViews
-from gdsfactory.config import PATH
 
 if typing.TYPE_CHECKING:
     from gdsfactory.pdk import Pdk
@@ -40,7 +41,7 @@ LAYER_TRANSITIONS = {
 
 def get_generic_pdk() -> Pdk:
     from gdsfactory.components import cells
-    from gdsfactory.config import sparameters_path, PATH
+    from gdsfactory.config import PATH, sparameters_path
     from gdsfactory.cross_section import cross_sections
     from gdsfactory.pdk import Pdk, constants
 

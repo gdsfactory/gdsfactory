@@ -1,7 +1,7 @@
 import pathlib
 from inspect import Parameter, Signature, signature
 from io import IOBase
-from typing import Optional, Dict, Callable, Union, IO, Any, Iterable, Tuple
+from typing import IO, Any, Callable, Dict, Iterable, Optional, Tuple, Union
 
 import jinja2
 import yaml

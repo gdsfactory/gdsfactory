@@ -89,7 +89,14 @@ settings:
         length: 20.0
         settings:
           add_bbox: null
-          add_pins: null
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
           auto_widen: false
           auto_widen_minimum_length: 200.0
           bbox_layers: null
@@ -104,7 +111,7 @@ settings:
           layer: WG
           min_length: 0.01
           mirror: false
-          name: null
+          name: strip
           offset: 0
           port_names:
           - o1
@@ -117,7 +124,7 @@ settings:
           snap_to_grid: null
           start_straight_length: 0.01
           taper_length: 10.0
-          width: 0.5
+          width: 2
           width_wide: null
         width: 2.0
       info_version: 2
@@ -153,7 +160,14 @@ settings:
       length: 20.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -168,7 +182,7 @@ settings:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -181,7 +195,7 @@ settings:
         snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
-        width: 0.5
+        width: 2
         width_wide: null
       width: 2.0
     info_version: 2
@@ -249,7 +263,14 @@ settings:
     length: 20.0
     settings:
       add_bbox: null
-      add_pins: null
+      add_pins:
+        function: add_pins
+        settings:
+          function:
+            function: add_pin_rectangle_inside
+            settings:
+              layer_label: null
+              pin_length: 0.001
       auto_widen: false
       auto_widen_minimum_length: 200.0
       bbox_layers: null
@@ -264,7 +285,7 @@ settings:
       layer: WG
       min_length: 0.01
       mirror: false
-      name: null
+      name: strip
       offset: 0
       port_names:
       - o1
@@ -277,7 +298,7 @@ settings:
       snap_to_grid: null
       start_straight_length: 0.01
       taper_length: 10.0
-      width: 0.5
+      width: 2
       width_wide: null
     width: 2.0
   info_version: 2

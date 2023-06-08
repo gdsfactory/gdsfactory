@@ -85,9 +85,26 @@ class Path(_GeometryHelper):
                     "an array-like[N][2] list of points, or a list of these"
                 )
 
+    def __repr__(self) -> str:
+        """Returns path points."""
+        return (
+            f"Path(start_angle={self.start_angle}, "
+            f"end_angle={self.end_angle}, "
+            f"points={self.points})"
+        )
+
     def __len__(self) -> int:
         """Returns path points."""
         return len(self.points)
+
+    def __iadd__(self, path_or_points) -> Path:
+        """Adds points to current path."""
+        return self.append(path_or_points)
+
+    def __add__(self, path) -> Path:
+        """Returns new path concatenating current and new path."""
+        new = self.copy()
+        return new.append(path)
 
     @property
     def bbox(self):
@@ -380,8 +397,8 @@ class Path(_GeometryHelper):
         assert isinstance(v, Path), f"TypeError, Got {type(v)}, expecting Path"
         return v
 
-    def to_dict(self):
-        return self.hash_geometry()
+    def to_dict(self) -> dict[str, str]:
+        return dict(hash=self.hash_geometry())
 
     def plot(self) -> None:
         """Plot path in matplotlib.
@@ -813,7 +830,7 @@ def extrude(
         ):
             xsection_points.append([layer[0], layer[1]])
 
-        if section.insets:
+        if section.insets and section.insets != (0, 0):
             p_pts = p_sec.points
 
             new_x_start = p.xmin + section.insets[0]
@@ -1482,34 +1499,48 @@ def _demo_variable_offset() -> None:
 
 if __name__ == "__main__":
     import numpy as np
+
     import gdsfactory as gf
 
     # nm = 1e-3
-
     # points = np.array([(20, 10), (40, 10), (20, 40), (50, 40), (50, 20), (70, 20)])
-
     # p = smooth(points=points)
     # p = arc(start_angle=0)
     # c = p.extrude(layer=(1, 0), width=0.1, simplify=50 * nm)
-    # p = straight()
+    p = straight()
     # p.plot()
 
-    # from phidl.path import smooth
-    # p = smooth(
-    #     points=points,
-    #     radius=2,
-    #     # bend=gf.path.euler,
-    #     use_eff=False,
-    # )
-
     # c = p.extrude(layer=(1, 0), width=0.1)
-    # c = gf.read.from_phidl(c)
-    c = gf.components.splitter_tree(
-        noutputs=2**2,
-        spacing=(120.0, 50.0),
-        # bend_length=30,
-        # bend_s=None,
-        cross_section="rib_conformal2",
+    s1 = gf.Section(width=2.2, offset=0, layer=(3, 0), name="etch")
+    s2 = gf.Section(width=1.1, offset=3, layer=(1, 0), name="wg2")
+    X1 = gf.CrossSection(
+        width=1.2,
+        offset=0,
+        layer=(2, 0),
+        name="wg",
+        port_names=("in1", "out1"),
+        sections=[s1, s2],
     )
 
+    # Create the second CrossSection that we want to transition to
+    s1 = gf.Section(width=3.5, offset=0, layer=(3, 0), name="etch")
+    s2 = gf.Section(width=3, offset=5, layer=(1, 0), name="wg2")
+    X2 = gf.CrossSection(
+        width=1,
+        offset=0,
+        layer=(2, 0),
+        name="wg",
+        port_names=("in1", "out1"),
+        sections=[s1, s2],
+    )
+
+    Xtrans = gf.path.transition(cross_section1=X1, cross_section2=X2, width_type="sine")
+    c = p.extrude(cross_section=Xtrans)
+    # c = gf.components.splitter_tree(
+    #     noutputs=2**2,
+    #     spacing=(120.0, 50.0),
+    #     # bend_length=30,
+    #     # bend_s=None,
+    #     cross_section="rib_conformal2",
+    # )
     c.show()

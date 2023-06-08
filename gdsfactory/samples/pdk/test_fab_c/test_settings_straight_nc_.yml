@@ -1,4 +1,4 @@
-name: straight_f84cb6d2
+name: straight_af89db80
 ports:
   o1:
     center:
@@ -39,6 +39,7 @@ settings:
         layer:
         - 34
         - 0
+        name: strip
         width: 1.0
   child: null
   default:
@@ -60,6 +61,7 @@ settings:
         layer:
         - 34
         - 0
+        name: strip
         width: 1.0
     length: 10.0
     npoints: 2
@@ -79,16 +81,21 @@ settings:
         layer:
         - 34
         - 0
+        name: strip
         width: 1.0
     function_name: cross_section
     length: 10.0
     settings:
       add_bbox: null
-      add_pins: null
+      add_pins:
+        function: add_pins
       auto_widen: false
       auto_widen_minimum_length: 200.0
-      bbox_layers: null
-      bbox_offsets: null
+      bbox_layers:
+      - - 36
+        - 0
+      bbox_offsets:
+      - 3
       cladding_layers: null
       cladding_offsets: null
       cladding_simplify: null
@@ -96,10 +103,12 @@ settings:
       end_straight_length: 0.01
       gap: 3.0
       info: null
-      layer: WG
+      layer:
+      - 34
+      - 0
       min_length: 0.01
       mirror: false
-      name: null
+      name: strip
       offset: 0
       port_names:
       - o1
@@ -112,9 +121,9 @@ settings:
       snap_to_grid: null
       start_straight_length: 0.01
       taper_length: 10.0
-      width: 0.5
+      width: 1.0
       width_wide: null
     width: 1.0
   info_version: 2
   module: gdsfactory.components.straight
-  name: straight_f84cb6d2
+  name: straight_af89db80

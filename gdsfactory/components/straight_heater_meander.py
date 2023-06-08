@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from functools import partial
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, Floats, LayerSpec, Optional
@@ -71,16 +73,16 @@ def straight_heater_meander(
     )
     ports = {}
 
-    """
-    Straights
-    """
+    ##############
+    # Straights
+    ##############
     for row, straight_width in enumerate(straight_widths):
         cross_section1 = gf.get_cross_section(cross_section, width=straight_width)
         straight = gf.c.straight(
             length=straight_length - 2 * taper_length, cross_section=cross_section1
         )
 
-        taper = gf.partial(
+        taper = partial(
             gf.c.taper_cross_section_linear,
             cross_section1=cross_section1,
             cross_section2=cross_section2,
@@ -94,9 +96,9 @@ def straight_heater_meander(
         ports[f"o1_{row+1}"] = straight_ref.ports["o1"]
         ports[f"o2_{row+1}"] = straight_ref.ports["o2"]
 
-    """
-    Loopbacks
-    """
+    ##############
+    # loopbacks
+    ##############
     for row in range(1, rows, 2):
         extra_length = 3 * (rows - row - 1) / 2 * radius
         extra_straight1 = c << gf.c.straight(
@@ -143,7 +145,7 @@ def straight_heater_meander(
     c.add_port("o2", port=straight2.ports["o2"])
 
     if layer_heater:
-        heater_cross_section = gf.partial(
+        heater_cross_section = partial(
             gf.cross_section.cross_section, width=heater_width, layer=layer_heater
         )
 
@@ -158,9 +160,6 @@ def straight_heater_meander(
         dx = via_stackw.get_ports_xsize() / 2 + heater_taper_length or 0
         via_stack_west_center = heater.size_info.cw - (dx, 0)
         via_stack_east_center = heater.size_info.ce + (dx, 0)
-
-        via_stack_east_center = gf.snap.snap_to_grid(via_stack_east_center, nm=10)
-        via_stack_west_center = gf.snap.snap_to_grid(via_stack_west_center, nm=10)
 
         via_stack_west = c << via_stackw
         via_stack_east = c << via_stacke
@@ -222,7 +221,7 @@ if __name__ == "__main__":
         taper_length=10,
         # taper_length=10,
         length=1000,
-        # cross_section=gf.partial(gf.cross_section.strip, width=0.8),
+        # cross_section=partial(gf.cross_section.strip, width=0.8),
     )
     c.show(show_ports=True)
     # scene = c.to_3d()

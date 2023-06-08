@@ -6,6 +6,7 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 from __future__ import annotations
 
 import warnings
+from functools import partial
 from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
@@ -139,13 +140,14 @@ def pack(
         :include-source:
 
         import gdsfactory as gf
+        from functools import partial
 
         components = [gf.components.triangle(x=i) for i in range(1, 10)]
         c = gf.pack(
             components,
             spacing=20.0,
             max_size=(100, 100),
-            text=gf.partial(gf.components.text, justify="center"),
+            text=partial(gf.components.text, justify="center"),
             text_prefix="R",
             name_prefix="demo",
             text_anchors=["nc"],
@@ -298,7 +300,7 @@ if __name__ == "__main__":
         [gf.components.straight(length=i) for i in [1, 1]],
         spacing=20.0,
         max_size=(100, 100),
-        text=gf.partial(gf.components.text, justify="center"),
+        text=partial(gf.components.text, justify="center"),
         text_prefix="R",
         name_prefix="demo",
         text_anchors=["nc"],

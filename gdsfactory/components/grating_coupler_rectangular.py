@@ -101,17 +101,6 @@ def grating_coupler_rectangular(
         cgrating.xmin = gf.snap.snap_to_grid(x0 + i * period)
         cgrating.y = 0
 
-    xport = np.round((x0 + cgrating.x) / 2, 3)
-
-    name = f"opt_{polarization.lower()}_{int(wavelength*1e3)}_{int(fiber_angle)}"
-    c.add_port(
-        name=name,
-        port_type=name,
-        center=(xport, 0),
-        orientation=0,
-        width=width_grating,
-        layer=layer,
-    )
     c.info["polarization"] = polarization
     c.info["wavelength"] = wavelength
     gf.asserts.grating_coupler(c)
@@ -134,6 +123,17 @@ def grating_coupler_rectangular(
         c = xs.add_bbox(c)
     if xs.add_pins:
         c = xs.add_pins(c)
+
+    xport = np.round((x0 + cgrating.x) / 2, 3)
+    name = f"opt_{polarization.lower()}_{int(wavelength*1e3)}_{int(fiber_angle)}"
+    c.add_port(
+        name=name,
+        port_type=name,
+        center=(xport, 0),
+        orientation=0,
+        width=width_grating,
+        layer=layer,
+    )
     return c
 
 

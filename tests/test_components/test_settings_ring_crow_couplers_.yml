@@ -67,8 +67,38 @@ settings:
     - 10.0
     ring_cross_sections:
     - function: cross_section
+      settings:
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+        name: strip
     - function: cross_section
+      settings:
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+        name: strip
     - function: cross_section
+      settings:
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+        name: strip
   full:
     bends:
     - function: bend_circular
@@ -85,8 +115,38 @@ settings:
     - 10.0
     ring_cross_sections:
     - function: cross_section
+      settings:
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+        name: strip
     - function: cross_section
+      settings:
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+        name: strip
     - function: cross_section
+      settings:
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+        name: strip
   function_name: ring_crow_couplers
   info: {}
   info_version: 2

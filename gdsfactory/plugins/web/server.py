@@ -2,18 +2,16 @@
 
 import asyncio
 import json
-from loguru import logger
-
-from starlette.endpoints import WebSocketEndpoint
-from fastapi import WebSocket
+from typing import Optional
 
 import klayout.db as db
 import klayout.lay as lay
-
-from gdsfactory.component import GDSDIR_TEMP
+from fastapi import WebSocket
+from loguru import logger
+from starlette.endpoints import WebSocketEndpoint
 
 import gdsfactory as gf
-from typing import Optional
+from gdsfactory.component import GDSDIR_TEMP
 
 host = "localhost"
 port = 8765

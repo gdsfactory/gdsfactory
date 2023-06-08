@@ -1,3 +1,19 @@
+# ---
+# jupyter:
+#   jupytext:
+#     cell_metadata_filter: title,-all
+#     custom_cell_magics: kql
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
+#   kernelspec:
+#     display_name: base
+#     language: python
+#     name: python3
+# ---
+
 # %% [markdown]
 # # Component
 #
@@ -123,6 +139,61 @@ c = gf.Component("p6")
 c.add_polygon(p6, layer=1)
 c
 
+# %%
+c = gf.Component("demo_multilayer")
+p0 = c.add_polygon(p0, layer={2, 3})
+c
+
+# %%
+c = gf.Component("demo_mirror")
+p0 = c.add_polygon(p0, layer=1)
+p9 = c.add_polygon(p0, layer=2)
+p9.mirror()
+c
+
+# %%
+c = gf.Component("demo_xmin")
+p0 = c.add_polygon(p0, layer=1)
+p9 = c.add_polygon(p0, layer=2)
+p9.mirror()
+p9.xmin = p0.xmax
+c
+
+# %%
+c = gf.Component("enclosure1")
+r = c << gf.components.ring_single()
+c
+
+
+# %%
+c = gf.Component("enclosure2")
+r = c << gf.components.ring_single()
+p = c.get_polygon_bbox()
+c.add_polygon(p, layer=(2, 0))
+c
+
+# %%
+c = gf.Component("enclosure3")
+r = c << gf.components.ring_single()
+p = c.get_polygon_bbox(top=3, bottom=3)
+c.add_polygon(p, layer=(2, 0))
+c
+
+# %%
+c = gf.Component("enclosure3")
+r = c << gf.components.ring_single()
+p = c.get_polygon_enclosure()
+c.add_polygon(p, layer=(2, 0))
+c
+
+# %%
+c = gf.Component("enclosure3")
+r = c << gf.components.ring_single()
+p = c.get_polygon_enclosure()
+p2 = p.buffer(3)
+c.add_polygon(p2, layer=(2, 0))
+c
+
 # %% [markdown]
 # ## Connect **ports**
 #
@@ -157,28 +228,29 @@ wg3.movey(20).rotate(15)
 
 c
 
-# %%
+# %% [markdown]
 # Now we can connect everything together using the ports:
-
-# Each straight has two ports: 'W0' and 'E0'.  These are arbitrary
+#
+# Each straight has two ports: 'o1' and 'o2', respectively on the East and West sides of the rectangular straight component. These are arbitrary
 # names defined in our straight() function above
 
+# %%
 # Let's keep wg1 in place on the bottom, and connect the other straights to it.
-# To do that, on wg2 we'll grab the "W0" port and connect it to the "E0" on wg1:
+# To do that, on wg2 we'll grab the "o1" port and connect it to the "o2" on wg1:
 wg2.connect("o1", wg1.ports["o2"])
-# Next, on wg3 let's grab the "W0" port and connect it to the "E0" on wg2:
+# Next, on wg3 let's grab the "o1" port and connect it to the "o2" on wg2:
 wg3.connect("o1", wg2.ports["o2"])
 
 c
+
+# %% [markdown]
+# Ports can be added by copying existing ports. In the example below, ports are added at the component-level on c from the existing ports of children wg1 and wg3
+# (i.e. eastmost and westmost ports)
 
 # %%
 c.add_port("o1", port=wg1.ports["o1"])
 c.add_port("o2", port=wg3.ports["o2"])
 c
-
-# %% [markdown]
-# As you can see the `red` labels are for the component ports while
-# `blue` labels are for the sub-ports (children ports)
 
 # %% [markdown]
 # ## Move and rotate references
@@ -206,10 +278,10 @@ wg1.move([10, 5])
 # Shift the second straight over by dx = 10, dy = 0
 wg2.move(origin=[0, 0], destination=[10, 0])
 
-# Shift the third straight over by dx = 0, dy = 4
+# Shift the third straight over by dx = 0, dy = 4. The translation movement consist of the difference between the values of the destination and the origin and can optionally be limited in a single axis.
 wg3.move([1, 1], [5, 5], axis="y")
 
-# Move "from" x=0 "to" x=10 (dx=10)
+# Then, move again the third straight "from" x=0 "to" x=10 (dx=10)
 wg3.movex(0, 10)
 
 c
@@ -219,7 +291,7 @@ c
 #
 # Your straights wg1/wg2/wg3 are references to other waveguide components.
 #
-# If you want to add ports to the new Component `c` you can use `add_port`, where you can create a new port or use an reference an existing port from the underlying reference.
+# If you want to add ports to the new Component `c` you can use `add_port`, where you can create a new port or use a reference to an existing port from the underlying reference.
 
 # %% [markdown]
 # You can access the ports of a Component or ComponentReference
@@ -233,7 +305,7 @@ wg2.ports
 # Now that your component `c` is a multi-straight component, you can add references to that component in a new blank Component `c2`, then add two references and shift one to see the movement.
 
 # %%
-c2 = gf.Component("MultiMultiWaveguide")
+c2 = gf.Component("MultiWaveguides")
 wg1 = straight()
 wg2 = straight(layer=(2, 0))
 mwg1_ref = c2.add_ref(wg1)
@@ -267,26 +339,7 @@ c2.add_label(
 c2
 
 # %% [markdown]
-# ## Boolean shapes
-#
-# If you want to subtract one shape from another, merge two shapes, or
-# perform an XOR on them, you can do that with the `boolean()` function.
-#
-#
-# The ``operation`` argument should be {not, and, or, xor, 'A-B', 'B-A', 'A+B'}.
-# Note that 'A+B' is equivalent to 'or', 'A-B' is equivalent to 'not', and
-# 'B-A' is equivalent to 'not' with the operands switched
-
-# %%
-c = gf.Component()
-e1 = c.add_ref(gf.components.ellipse(layer=(2, 0)))
-e2 = c.add_ref(gf.components.ellipse(radii=(10, 6), layer=(2, 0))).movex(2)
-e3 = c.add_ref(gf.components.ellipse(radii=(10, 4), layer=(2, 0))).movex(5)
-c
-
-# %%
-c2 = gf.geometry.boolean(A=[e1, e3], B=e2, operation="A-B", layer=(2, 0))
-c2
+# Another simple example
 
 # %%
 c = gf.Component("rectangle_with_label")
@@ -299,6 +352,28 @@ c.add_label(
     layer=(1, 0),
 )
 c
+
+# %% [markdown]
+# ## Boolean shapes
+#
+# If you want to subtract one shape from another, merge two shapes, or
+# perform an XOR on them, you can do that with the `boolean()` function.
+#
+#
+# The ``operation`` argument should be {not, and, or, xor, 'A-B', 'B-A', 'A+B'}.
+# Note that 'A+B' is equivalent to 'or', 'A-B' is equivalent to 'not', and
+# 'B-A' is equivalent to 'not' with the operands switched
+
+# %%
+c = gf.Component("boolean_demo")
+e1 = c.add_ref(gf.components.ellipse(layer=(2, 0)))
+e2 = c.add_ref(gf.components.ellipse(radii=(10, 6), layer=(2, 0))).movex(2)
+e3 = c.add_ref(gf.components.ellipse(radii=(10, 4), layer=(2, 0))).movex(5)
+c
+
+# %%
+c2 = gf.geometry.boolean(A=[e1, e3], B=e2, operation="A-B", layer=(2, 0))
+c2
 
 # %% [markdown]
 # ## Move Reference by port
@@ -316,7 +391,7 @@ c
 # %% [markdown]
 # ## Mirror reference
 #
-# By default the mirror works along the x=0 axis.
+# By default the mirror works along the y-axis.
 
 # %%
 c = gf.Component("ref_mirror")
@@ -326,6 +401,16 @@ c
 
 # %%
 mmi.mirror()
+c
+
+# %% [markdown]
+#
+# %% mirror_y and mirror_x are also available
+mmi.mirror_y()
+c
+
+# %%
+mmi.mirror_x()
 c
 
 # %% [markdown]
@@ -350,7 +435,7 @@ c
 # Sometimes you also want to save the GDS together with metadata (settings, port names, widths, locations ...) in YAML
 
 # %%
-c.write_gds_with_metadata("demo.gds")
+c.write_gds("demo.gds", with_metadata=True)
 
 # %%
 c.write_oas("demo.oas")

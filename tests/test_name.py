@@ -1,4 +1,5 @@
 from __future__ import annotations
+from functools import partial
 
 import gdsfactory as gf
 
@@ -14,13 +15,13 @@ def rectangles(widths: gf.typings.Floats) -> gf.Component:
 
 
 def test_name_partial_functions() -> None:
-    s1 = gf.partial(gf.components.straight)
-    s2 = gf.partial(gf.components.straight, length=5)
-    s3 = gf.partial(gf.components.straight, 5)
+    s1 = partial(gf.components.straight)
+    s2 = partial(gf.components.straight, length=5)
+    s3 = partial(gf.components.straight, 5)
 
-    m1 = gf.partial(gf.components.mzi, straight=s1)()
-    m2 = gf.partial(gf.components.mzi, straight=s2)()
-    m3 = gf.partial(gf.components.mzi, straight=s3)()
+    m1 = partial(gf.components.mzi, straight=s1)()
+    m2 = partial(gf.components.mzi, straight=s2)()
+    m3 = partial(gf.components.mzi, straight=s3)()
 
     # print(m1.name)
     # print(m2.name)

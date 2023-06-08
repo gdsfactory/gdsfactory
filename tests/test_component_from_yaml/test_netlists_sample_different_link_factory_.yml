@@ -30,7 +30,14 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -45,7 +52,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -53,7 +60,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -64,6 +71,16 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       radius: 10
   bend_euler_10:
     component: bend_euler
@@ -75,7 +92,14 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -90,7 +114,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -98,7 +122,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -109,6 +133,16 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       radius: 10
   bend_euler_11:
     component: bend_euler
@@ -120,7 +154,14 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -135,7 +176,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -143,7 +184,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -154,6 +195,16 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       radius: 10
   bend_euler_12:
     component: bend_euler
@@ -165,7 +216,14 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -180,7 +238,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -188,7 +246,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -199,6 +257,16 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       radius: 10
   bend_euler_2:
     component: bend_euler
@@ -210,7 +278,14 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -225,7 +300,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -233,7 +308,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -244,6 +319,16 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       radius: 10
   bend_euler_3:
     component: bend_euler
@@ -255,7 +340,14 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -270,7 +362,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -278,7 +370,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -289,6 +381,16 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       radius: 10
   bend_euler_4:
     component: bend_euler
@@ -300,7 +402,14 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -315,7 +424,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -323,7 +432,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -334,6 +443,16 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       radius: 10
   bend_euler_5:
     component: bend_euler
@@ -345,7 +464,14 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -360,7 +486,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -368,7 +494,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -379,6 +505,16 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       radius: 10
   bend_euler_6:
     component: bend_euler
@@ -390,7 +526,14 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -405,7 +548,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -413,7 +556,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -424,6 +567,16 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       radius: 10
   bend_euler_7:
     component: bend_euler
@@ -435,7 +588,14 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -450,7 +610,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -458,7 +618,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -469,6 +629,16 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       radius: 10
   bend_euler_8:
     component: bend_euler
@@ -480,7 +650,14 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -495,7 +672,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -503,7 +680,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -514,6 +691,16 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       radius: 10
   bend_euler_9:
     component: bend_euler
@@ -525,7 +712,14 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -540,7 +734,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -548,7 +742,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -559,6 +753,16 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       radius: 10
   bl:
     component: pad
@@ -585,11 +789,28 @@ instances:
     info:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       function_name: cross_section
       length: 200.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -604,7 +825,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -612,7 +833,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -623,6 +844,16 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       length: 200.0
       radius: 10
   straight_10:
@@ -630,11 +861,28 @@ instances:
     info:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       function_name: cross_section
       length: 610.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -649,7 +897,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -657,7 +905,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -668,6 +916,16 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       length: 610.0
       radius: 10
   straight_2:
@@ -675,11 +933,28 @@ instances:
     info:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       function_name: cross_section
       length: 340.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -694,7 +969,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -702,7 +977,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -713,6 +988,16 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       length: 340.0
       radius: 10
   straight_3:
@@ -720,11 +1005,28 @@ instances:
     info:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       function_name: cross_section
       length: 250.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -739,7 +1041,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -747,7 +1049,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -758,6 +1060,16 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       length: 250.0
       radius: 10
   straight_4:
@@ -765,11 +1077,28 @@ instances:
     info:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       function_name: cross_section
       length: 250.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -784,7 +1113,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -792,7 +1121,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -803,6 +1132,16 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       length: 250.0
       radius: 10
   straight_5:
@@ -810,11 +1149,28 @@ instances:
     info:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       function_name: cross_section
       length: 580.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -829,7 +1185,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -837,7 +1193,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -848,6 +1204,16 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       length: 580.0
       radius: 10
   straight_6:
@@ -855,11 +1221,28 @@ instances:
     info:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       function_name: cross_section
       length: 170.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -874,7 +1257,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -882,7 +1265,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -893,6 +1276,16 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       length: 170.0
       radius: 10
   straight_7:
@@ -900,11 +1293,28 @@ instances:
     info:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       function_name: cross_section
       length: 340.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -919,7 +1329,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -927,7 +1337,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -938,6 +1348,16 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       length: 340.0
       radius: 10
   straight_8:
@@ -945,11 +1365,28 @@ instances:
     info:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       function_name: cross_section
       length: 250.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -964,7 +1401,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -972,7 +1409,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -983,6 +1420,16 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       length: 250.0
       radius: 10
   straight_9:
@@ -990,11 +1437,28 @@ instances:
     info:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       function_name: cross_section
       length: 250.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
@@ -1009,7 +1473,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -1017,7 +1481,7 @@ instances:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 10
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -1028,6 +1492,16 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
+          name: strip
       length: 250.0
       radius: 10
   tl:

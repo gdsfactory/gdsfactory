@@ -3,14 +3,14 @@ Based on Gerber file spec:
 https://www.ucamco.com/files/downloads/file_en/456/gerber-layer-format-specification-revision-2022-02_en.pdf
 
 See Also:
-    https://github.com/opiopan/pcb-tools-extension
-    https://github.com/jamesbowman/cuflow/blob/master/gerber.py
+- https://github.com/opiopan/pcb-tools-extension
+- https://github.com/jamesbowman/cuflow/blob/master/gerber.py
 """
-from typing_extensions import Literal
-from typing import Optional, List, Dict, Tuple
 from pathlib import Path
+from typing import Dict, List, Optional, Tuple
 
 from pydantic import BaseModel, Field
+from typing_extensions import Literal
 
 from gdsfactory import Component
 
@@ -63,19 +63,23 @@ def polygon(pp):
     return "G36*\n" + points(pp) + "G37*\n" + "\n"
 
 
-def write_gerbers(
+def to_gerber(
     component: Component,
     dirpath: Path,
     layermap_to_gerber_layer: Dict[Tuple[int, int], GerberLayer],
     options: GerberOptions = Field(default_factory=dict),
 ) -> None:
-    """Writes each layer to a different file.
+    """Writes each layer to a different Gerber file.
 
     Args:
         component: to export.
         dirpath: directory path.
         layermap_to_gerber_layer: map of GDS layer to GerberLayer.
         options: to save.
+            header: Optional[List[str]] = None
+            mode: Literal["mm", "in"] = "mm"
+            resolution: float = 1e-6
+            int_size: int = 4
     """
     for layer_tup, layer in layermap_to_gerber_layer.items():
         filename = (dirpath / layer.name.replace(" ", "_")).with_suffix(".gbr")
@@ -116,9 +120,8 @@ def write_gerbers(
 if __name__ == "__main__":
     import gdsfactory as gf
     from gdsfactory.config import PATH
+    from gdsfactory.technology import LayerLevel, LayerStack, LayerView, LayerViews
     from gdsfactory.typings import Layer
-
-    from gdsfactory.technology import LayerStack, LayerLevel, LayerView, LayerViews
 
     class LayerMap(BaseModel):
         F_Cu: Layer = (1, 0)
@@ -251,7 +254,7 @@ if __name__ == "__main__":
     # This requires that the PCB technology (commented-out code above) is installed
     c.show(technology="PCB")
 
-    write_gerbers(
+    to_gerber(
         c,
         dirpath=gerber_path,
         layermap_to_gerber_layer=layermap_to_gerber,

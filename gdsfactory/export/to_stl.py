@@ -31,6 +31,7 @@ def to_stl(
     """
     import shapely
     import trimesh.creation
+
     from gdsfactory.pdk import get_layer_stack
 
     layer_stack = layer_stack or get_layer_stack()

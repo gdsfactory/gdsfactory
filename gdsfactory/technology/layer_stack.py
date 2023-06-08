@@ -1,8 +1,8 @@
-from typing import Any, Dict, List, Optional, Tuple, Callable, Union
 from collections import defaultdict
+from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
-from typing_extensions import Literal
 from pydantic import BaseModel, Field
+from typing_extensions import Literal
 
 from gdsfactory.technology.layer_views import LayerViews
 
@@ -383,32 +383,26 @@ class LayerStack(BaseModel):
 
 
 if __name__ == "__main__":
-    from gdsfactory.technology.klayout_tech import KLayoutTechnology
     from gdsfactory.config import PATH
 
     # import gdsfactory as gf
     # from gdsfactory.generic_tech import LAYER_STACK
-
     # component = c = gf.components.grating_coupler_elliptical_trenches()
     # component = c = gf.components.taper_strip_to_ridge_trenches()
-
     # script = LAYER_STACK.get_klayout_3d_script()
     # print(script)
-
     # ls = layer_stack = LAYER_STACK
     # layer_to_thickness = layer_stack.get_layer_to_thickness()
-
     # c = layer_stack.get_component_with_derived_layers(component)
     # c.show(show_ports=True)
-
     # import pathlib
     # filepath = pathlib.Path(
     #     "/home/jmatres/gdslib/sp/temp/write_sparameters_meep_mpi.json"
     # )
     # ls_json = filepath.read_bytes()
     # ls2 = LayerStack.parse_raw(ls_json)
-
     from gdsfactory.generic_tech import LAYER_STACK
+    from gdsfactory.technology.klayout_tech import KLayoutTechnology
 
     lyp = LayerViews.from_lyp(str(PATH.klayout_lyp))
 

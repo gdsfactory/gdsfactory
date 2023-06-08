@@ -39,8 +39,9 @@ def mzi(
 
 
 if __name__ == "__main__":
-    import gdsfactory.simulation.gtidy3d as gt
     import matplotlib.pyplot as plt
+
+    import gdsfactory.simulation.gtidy3d as gt
 
     nm = 1e-3
     strip = gt.modes.Waveguide(

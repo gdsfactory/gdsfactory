@@ -29,9 +29,9 @@ Specs:
 """
 from __future__ import annotations
 
+import dataclasses
 import json
 import pathlib
-import dataclasses
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 import gdstk
@@ -45,7 +45,6 @@ from gdsfactory.component_layout import Label
 from gdsfactory.cross_section import CrossSection, Section, Transition
 from gdsfactory.port import Port
 from gdsfactory.technology import LayerLevel, LayerStack
-
 
 STEP_DIRECTIVES = {
     "x",

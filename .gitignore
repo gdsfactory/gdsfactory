@@ -1,9 +1,9 @@
 py[cod]
-
 add_type_hints.xonsh
 gdsfactory/generic_tech/klayout/klayoutrc
 gdsfactory/plugins/dagster/tmp*
 docs/notebooks/sax/fdtd_vs_model.png
+gdsfactory/generic_tech/klayout/tech/generic_tech.py
 test-data
 # C extensions
 *.so
@@ -21,7 +21,7 @@ gdsfactory/plugins/kweb/gds_files/
 *.svg
 *.db
 *.tar
-*.html
+sim_ref.yaml
 yarn.lock
 node_modules/
 test_mask_metadata.csv
@@ -36,6 +36,7 @@ gdsfactory/schema.yaml
 sim_run.yaml
 docs/notebooks/ring.yml
 .ruff_cache/
+Pipfile
 
 # Packages
 *.egg
@@ -171,7 +172,6 @@ Icon?
 *.ppt
 *.gif
 *.pptx
-*.js
 *.prj
 *.swp
 *.lms
@@ -232,7 +232,6 @@ htmlcov/
 .coverage
 .coverage.*
 .cache
-nosetests.xml
 coverage.xml
 *.cover
 .hypothesis/

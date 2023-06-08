@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from functools import partial
 from typing import Callable, Tuple
 
 import gdsfactory as gf
@@ -84,9 +85,9 @@ def text_rectangular_multi_layer(
         justify: left, right or center
         font: function that returns dictionary of characters
     """
-    func = gf.partial(
+    func = partial(
         copy_layers,
-        factory=gf.partial(text_factory, text=text, **kwargs),
+        factory=partial(text_factory, text=text, **kwargs),
         layers=layers,
     )
     return func()

@@ -178,6 +178,7 @@ def gen_op_blocking(pts, snap_res=0.05, margin=0.3):
 
 if __name__ == "__main__":
     import numpy as np
+
     import gdsfactory as gf
 
     pts = [(x, x**2) for x in np.linspace(0, 1, 5)]

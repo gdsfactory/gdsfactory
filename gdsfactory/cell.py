@@ -4,7 +4,9 @@ from __future__ import annotations
 import functools
 import hashlib
 import inspect
-from typing import Any, Callable, Dict, Optional, Tuple, TypeVar
+from dataclasses import dataclass
+from functools import wraps
+from typing import Any, Callable, Dict, Optional, Tuple, Type, TypeVar
 
 import toolz
 from pydantic import BaseModel, validate_arguments
@@ -126,6 +128,7 @@ def cell_without_validator(func: _F) -> _F:
         # if any args were different from default, append a hash of those args.
         # else, keep only the base name
         named_args_string = "_".join(changed_arg_list)
+        # print(named_args_string)
 
         if changed_arg_list:
             named_args_string = (
@@ -187,7 +190,7 @@ def cell_without_validator(func: _F) -> _F:
                 "make sure that functions with @cell decorator return a Component",
             )
 
-        if metadata_child and component.get_child_name:
+        if metadata_child and component._get_child_name:
             component_name = f"{metadata_child.get('name')}_{name}"
             component_name = get_name_short(
                 component_name, max_name_length=max_name_length
@@ -295,6 +298,53 @@ def cell(func: _F) -> _F:
     return cell_without_validator(validate_arguments(func))
 
 
+def declarative_cell(cls: Type[Any]) -> Callable[..., Component]:
+    """
+    TODO:
+
+    - add placements
+    - add routes
+
+    """
+    cls = dataclass(cls)
+
+    @wraps(cls)
+    def cell(*args, **kwargs):
+        decl = cls(*args, **kwargs)
+
+        sig = inspect.signature(cls)
+        args_as_kwargs = dict(zip(sig.parameters.keys(), args))
+        args_as_kwargs.update(kwargs)
+
+        args_list = [
+            f"{key}={clean_value_name(args_as_kwargs[key])}"
+            for key in sorted(args_as_kwargs.keys())
+        ]
+        named_args_string = "_".join(args_list)
+        component_name = clean_name(f"{cls.__name__}_{named_args_string}")
+        if component_name in CACHE:
+            return CACHE[component_name]
+
+        decl.instances()
+        comp = Component()
+        comp.name = component_name
+
+        for k, c in vars(decl).items():
+            if not isinstance(c, Component):
+                continue
+            ref = comp << c
+            setattr(comp, k, ref)
+            setattr(decl, k, ref)
+        for p1, p2 in decl.connections():
+            p1.reference.connect(p1.name, p2.reference.ports[p2.name])
+        for name, p in decl.ports().items():
+            comp.add_port(name, port=p.reference.ports[p.name])
+        CACHE[component_name] = comp
+        return comp
+
+    return cell
+
+
 @cell
 def wg(length: int = 3, layer: Tuple[int, int] = (1, 0)) -> Component:
     """Dummy component for testing."""
@@ -375,9 +425,34 @@ def straight_with_pins(**kwargs) -> Component:
     return c
 
 
+def test_hashes() -> None:
+    import gdsfactory as gf
+
+    c = gf.components.mzi()
+    names1 = {i.name for i in c.get_dependencies()}
+    gf.clear_cache()
+    c = gf.components.mzi()
+    names2 = {i.name for i in c.get_dependencies()}
+    assert names1 == names2
+
+
 if __name__ == "__main__":
-    test_names()
-    c = wg()
+    import gdsfactory as gf
+
+    c = gf.c.mzi()
+    print(c.name)
+
+    # c = gf.components.mzi()
+    # names1 = set([i.name for i in c.get_dependencies()])
+    # gf.clear_cache()
+    # c = gf.components.mzi()
+    # names2 = set([i.name for i in c.get_dependencies()])
+    # assert names1 == names2
+
+    # test_hashes()
+
+    # test_names()
+    # c = wg()
     # test_import_gds_settings()
 
     # import gdsfactory as gf

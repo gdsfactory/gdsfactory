@@ -2,13 +2,14 @@
 
 from __future__ import annotations
 
+import copy
+
 import numpy as np
 
 import gdsfactory as gf
 import gdsfactory.simulation as sim
 import gdsfactory.simulation.gmeep as gm
 from gdsfactory.generic_tech import LAYER_STACK
-import copy
 
 PDK = gf.get_generic_pdk()
 PDK.activate()

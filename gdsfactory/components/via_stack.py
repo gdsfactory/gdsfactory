@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import warnings
+from functools import partial
 from typing import Optional, Tuple
 
 import numpy as np
@@ -9,7 +10,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.components.via import via1, via2, viac
-from gdsfactory.typings import ComponentSpec, LayerSpec, LayerSpecs, Float2, Floats
+from gdsfactory.typings import ComponentSpec, Float2, Floats, LayerSpec, LayerSpecs
 
 
 @gf.cell
@@ -387,7 +388,7 @@ def optimized_via(
                 "Cannot fit vias with specified minimum dimensions in provided space."
             ) from e
 
-    return gf.partial(
+    return partial(
         base_via,
         size=via_size,
         gap=min_via_gap,
@@ -424,39 +425,53 @@ def test_via_stack_from_rules() -> None:
     )
 
 
-via_stack_m1_m3 = gf.partial(
+via_stack_m1_m3 = partial(
     via_stack,
     layers=("M1", "M2", "M3"),
     vias=(via1, via2, None),
 )
 
-via_stack_slab_m3 = gf.partial(
+via_stack_slab_m3 = partial(
     via_stack,
     layers=("SLAB90", "M1", "M2", "M3"),
     vias=(viac, via1, via2, None),
 )
-via_stack_slab_m2 = gf.partial(
+via_stack_slab_m2 = partial(
     via_stack,
     layers=("SLAB90", "M1", "M2"),
     vias=(viac, via1, None),
 )
-via_stack_npp_m1 = gf.partial(
+via_stack_npp_m1 = partial(
     via_stack,
     layers=("WG", "NPP", "M1"),
     vias=(None, None, viac),
 )
-via_stack_slab_npp_m3 = gf.partial(
+via_stack_slab_npp_m3 = partial(
     via_stack,
     layers=("SLAB90", "NPP", "M1"),
     vias=(None, None, viac),
 )
-via_stack_heater_mtop = via_stack_heater_m3 = gf.partial(
-    via_stack, layers=("HEATER", "M2", "M3"), vias=(via1, via2)
+via_stack_heater_mtop = via_stack_heater_m3 = partial(
+    via_stack, layers=("HEATER", "M2", "M3"), vias=(None, via1, via2)
 )
 
 
 if __name__ == "__main__":
-    c = via_stack_slab_m3()
+    # c = via_stack_slab_m3()
+    # c = gf.pack([via_stack_slab_m3, via_stack_heater_mtop])[0]
+
+    c = gf.Component("offgrid_demo")
+    v1 = c << via_stack_slab_m3()
+    v2 = c << via_stack_slab_m3()
+    v2.x = 20.0005
+    c.show()
+
+    # c2 = gf.Component()
+    # c21 = c2 << c
+    # c22 = c2 << c
+    # c22.x = 20.0005 + 30
+    # c2.show()
+
     # c = via_stack_heater_mtop(layer_offsets=(0, 1, 2))
     # c = via_stack_circular()
     # c = via_stack_m1_m3(size=(4.5, 4.5))
@@ -475,4 +490,4 @@ if __name__ == "__main__":
     #     vias=(via1, via2),
     #     layer_port=None,
     # )
-    c.show(show_ports=True)
+    # c.show(show_ports=True)

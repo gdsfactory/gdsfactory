@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from functools import partial
+
 import pydantic
 
 import gdsfactory as gf
@@ -18,38 +20,38 @@ class LayerMap:
 LAYER = LayerMap()
 
 
-xs_strip = gf.partial(gf.cross_section.strip, layer=LAYER.WG, width=1)
+xs_strip = partial(gf.cross_section.strip, layer=LAYER.WG, width=1)
 
 
-xs_strip_heater_metal = gf.partial(
+xs_strip_heater_metal = partial(
     gf.cross_section.strip_heater_metal, layer=LAYER.WG, width=1
 )
-xs_rib_heater_doped = gf.partial(
+xs_rib_heater_doped = partial(
     gf.cross_section.rib_heater_doped, layer=LAYER.WG, width=1, layer_slab=LAYER.SLAB
 )
-xs_strip_heater_doped = gf.partial(
+xs_strip_heater_doped = partial(
     gf.cross_section.strip_heater_doped,
     layer=LAYER.WG,
     width=1,
     layers_heater=(LAYER.WG, LAYER.HEATER),
     bbox_offsets_heater=(0, 0.1),
 )
-xs_rib_pin = gf.partial(
+xs_rib_pin = partial(
     gf.cross_section.pin, layer=LAYER.WG, width=1, layer_slab=LAYER.SLAB
 )
 
 
-ps_heater_metal = gf.partial(
+ps_heater_metal = partial(
     gf.components.straight_heater_metal,
     cross_section_heater=xs_strip_heater_metal,
 )
-ps_heater_doped = gf.partial(
+ps_heater_doped = partial(
     gf.components.straight_heater_doped_strip,
     cross_section=xs_strip,
     cross_section_heater=xs_strip_heater_doped,
     info=dict(docstring="doping density = X", polarization="te", wavelength=1.55),
 )
-ps_pin = gf.partial(
+ps_pin = partial(
     gf.components.straight_pin,
     cross_section=xs_rib_pin,
 )

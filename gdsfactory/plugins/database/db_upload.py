@@ -3,14 +3,16 @@
 import hashlib
 import os
 import tempfile
-from typing import Optional, List
 from functools import lru_cache
+from typing import List, Optional
 
 import boto3
 import boto3.session
 import numpy as np
 import pandas as pd
-from sqlmodel import SQLModel, Field, Session as _Session, create_engine
+from sqlmodel import Field
+from sqlmodel import Session as _Session
+from sqlmodel import SQLModel, create_engine
 
 import gdsfactory as gf
 

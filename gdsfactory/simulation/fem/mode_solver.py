@@ -1,17 +1,9 @@
 import pathlib
-from typing import Optional, Tuple
 import time
+from typing import Optional, Tuple
 
 import numpy as np
 from femwell import mode_solver
-
-import gdsfactory as gf
-from gdsfactory.config import logger
-from gdsfactory.pdk import get_layer_stack, get_material_index
-from gdsfactory.simulation.get_modes_path import get_modes_path_femwell
-from gdsfactory.technology import LayerStack
-from gdsfactory.typings import CrossSectionSpec, PathType, ComponentSpec
-
 from skfem import (
     Basis,
     ElementTriN1,
@@ -21,6 +13,13 @@ from skfem import (
     ElementTriP2,
     Mesh,
 )
+
+import gdsfactory as gf
+from gdsfactory.config import logger
+from gdsfactory.pdk import get_layer_stack, get_material_index
+from gdsfactory.simulation.get_modes_path import get_modes_path_femwell
+from gdsfactory.technology import LayerStack
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, PathType
 
 
 def load_mesh_basis(mesh_filename: PathType):

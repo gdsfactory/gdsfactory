@@ -11,8 +11,8 @@ from gdsfactory.component import Component
 from gdsfactory.difftest import difftest
 
 
-@cell
-def test_path():
+def test_append() -> None:
+    """Append paths."""
     P = gf.Path()
     P.append(gf.path.arc(radius=10, angle=90))  # Circular arc
     P.append(gf.path.straight(length=10))  # Straight section
@@ -24,25 +24,7 @@ def test_path():
     P.append(gf.path.straight(length=10))
     P.append(gf.path.arc(radius=8, angle=45))
     P.append(gf.path.straight(length=10))
-    P.length()
-    P.length()
     assert np.round(P.length(), 3) == 107.697, P.length()
-
-    X = gf.CrossSection(width=1, offset=0, layer=(0, 0))
-    return gf.path.extrude(P, X)
-
-
-@cell
-def rename():
-    p = gf.path.arc()
-
-    s1 = gf.Section(width=3, offset=2, layer=(2, 0))
-    s2 = gf.Section(width=3, offset=-2, layer=(2, 0))
-    X = gf.CrossSection(
-        width=1, offset=0, layer=(0, 0), port_names=("in", "out"), sections=[s1, s2]
-    )
-
-    return gf.path.extrude(p, cross_section=X)
 
 
 def looploop(num_pts=1000):
@@ -55,7 +37,7 @@ def looploop(num_pts=1000):
 
 
 @cell
-def double_loop():
+def double_loop() -> Component:
     # Create the path points
     P = gf.Path()
     P.append(gf.path.arc(radius=10, angle=90))
@@ -80,7 +62,7 @@ def double_loop():
 
 
 @cell
-def transition():
+def transition() -> Component:
     c = gf.Component()
     s1 = gf.Section(width=2.2, offset=0, layer=(3, 0), name="etch")
     s2 = gf.Section(width=1.1, offset=3, layer=(1, 0), name="wg2")
@@ -127,8 +109,6 @@ def transition():
 
 
 component_factory = dict(
-    test_path=test_path,
-    rename=rename,
     transition=transition,
 )
 
@@ -181,68 +161,31 @@ def test_copy() -> None:
     assert len(d) == 0, d
 
 
+def test_path_add() -> None:
+    p1 = gf.path.straight(length=5)
+    p2 = gf.path.straight(length=5)
+    p3 = p1 + p2
+    assert p3.length() == 10
+
+    p2 += p1
+    assert p2.length() == 10
+
+    p1 = gf.path.straight(length=5)
+    p2 = gf.path.euler(radius=5, angle=45, p=0.5, use_eff=False)
+
+    p = p2 + p1
+    assert p.start_angle == 0
+    assert p.end_angle == 45
+
+
 if __name__ == "__main__":
-    c = test_path()
+    # test_append()
     # c = transition()
-    # c.plot()
+
+    p1 = gf.path.straight(length=5)
+    p2 = gf.path.euler(radius=5, angle=45, p=0.5, use_eff=False)
+    p = p2 + p1
+    # assert p.start_angle == 45
+    # assert p.end_angle == 0
+    c = p.extrude(cross_section="strip")
     c.show(show_ports=False)
-
-    # c = test_path()
-    # print(c.name)
-
-    # test_copy()
-    # c = test_layers2()
-    # c = transition()
-    # c = double_loop()
-    # c = rename()
-    # c.pprint()
-
-    # c.show(show_ports=True)
-
-    # c = gf.Component()
-    # s1 = gf.Section(width=2.2, offset=0, layer=(3, 0), name="etch")
-    # s2 = gf.Section(width=1.1, offset=3, layer=(1, 0), name="wg2")
-    # X1 = gf.CrossSection(
-    #     width=1.2,
-    #     offset=0,
-    #     layer=(2, 0),
-    #     name="wg",
-    #     port_names=("in1", "out1"),
-    #     sections=[s1, s2],
-    # )
-
-    # # Create the second CrossSection that we want to transition to
-    # s1 = gf.Section(width=3.5, offset=0, layer=(3, 0), name="etch")
-    # s2 = gf.Section(width=3, offset=5, layer=(1, 0), name="wg2")
-    # X2 = gf.CrossSection(
-    #     width=1,
-    #     offset=0,
-    #     layer=(2, 0),
-    #     name="wg",
-    #     port_names=("in1", "out1"),
-    #     sections=[s1, s2],
-    # )
-
-    # Xtrans = gf.path.transition(cross_section1=X1, cross_section2=X2, width_type="sine")
-
-    # P1 = gf.path.straight(length=5)
-    # P2 = gf.path.straight(length=5)
-
-    # wg1 = gf.path.extrude(P1, X1)
-    # wg2 = gf.path.extrude(P2, X2)
-
-    # P4 = gf.path.euler(radius=25, angle=45, p=0.5, use_eff=False)
-    # wg_trans = gf.path.extrude(P4, Xtrans)
-
-    # # print("wg1", wg1)
-    # # print("wg2", wg2)
-    # # print("wg3", wg_trans)
-    # # wg_trans.pprint()
-
-    # wg1_ref = c << wg1
-    # wgt_ref = c << wg_trans
-    # wgt_ref.connect("in1", wg1_ref.ports["out1"])
-
-    # wg2_ref = c << wg2
-    # wg2_ref.connect("in1", wgt_ref.ports["out1"])
-    # c.show(show_ports=True)

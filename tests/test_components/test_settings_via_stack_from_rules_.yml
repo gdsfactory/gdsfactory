@@ -122,18 +122,18 @@ settings:
     vias:
     - enclosure: 0.15
       size:
-      - 0.2333333333333333
-      - 0.2333333333333333
+      - 0.233
+      - 0.233
       spacing:
-      - 0.3333333333333333
-      - 0.3333333333333333
+      - 0.333
+      - 0.333
     - enclosure: 0.25
       size:
-      - 0.29999999999999993
-      - 0.29999999999999993
+      - 0.3
+      - 0.3
       spacing:
-      - 0.3999999999999999
-      - 0.3999999999999999
+      - 0.4
+      - 0.4
   info_version: 2
   module: gdsfactory.components.via_stack
   name: via_stack_from_rules

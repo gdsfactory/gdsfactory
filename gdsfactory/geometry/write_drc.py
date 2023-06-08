@@ -108,7 +108,7 @@ def rule_area(layer: str, min_area_um2: float = 2.0) -> str:
 
 min_{layer}_a = {min_area_um2}.um2
 r_{layer}_a = {layer}.with_area(0, min_{layer}_a)
-r_{layer}_a.output("{layer.upper()}_A: {layer} area &lt; min_{layer}_a µm²")
+r_{layer}_a.output("{layer.upper()}_A: {layer} area &lt; min_{layer}_a um2")
 """
 
 
@@ -319,7 +319,7 @@ deep
     dirpath = filepath.parent
     dirpath.mkdir(parents=True, exist_ok=True)
     filepath = pathlib.Path(filepath)
-    filepath.write_text(script)
+    filepath.write_text(script, encoding="UTF-8")
     print(f"Wrote DRC deck to {str(filepath)!r} with shortcut {shortcut!r}")
     return script
 

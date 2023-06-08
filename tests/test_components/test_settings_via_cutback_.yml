@@ -16,6 +16,7 @@ settings:
         - M2
         - M3
         vias:
+        - null
         - function: via
           settings:
             enclosure: 2
@@ -44,6 +45,7 @@ settings:
         - M2
         - M3
         vias:
+        - null
         - function: via
           settings:
             enclosure: 2

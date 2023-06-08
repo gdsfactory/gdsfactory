@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from functools import partial
 from typing import Optional
 
 import gdsfactory as gf
@@ -9,7 +10,7 @@ from gdsfactory.components.straight import straight
 from gdsfactory.components.via_stack import via_stack_heater_mtop
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Float2
 
-via_stack_heater_mtop_mini = gf.partial(via_stack_heater_mtop, size=(4, 4))
+via_stack_heater_mtop_mini = partial(via_stack_heater_mtop, size=(4, 4))
 
 
 @gf.cell

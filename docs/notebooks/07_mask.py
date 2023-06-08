@@ -28,6 +28,7 @@
 
 # %%
 import ipywidgets
+from functools import partial
 from IPython.display import display
 from omegaconf import OmegaConf
 
@@ -59,7 +60,7 @@ for label in labels:
 # ### 2. EHVA labels
 
 # %%
-add_label_ehva_demo = gf.partial(add_label_ehva, die="demo_die")
+add_label_ehva_demo = partial(add_label_ehva, die="demo_die")
 mmi = gf.c.mmi2x2(length_mmi=2.2)
 mmi_te_ehva = gf.routing.add_fiber_array(
     mmi, get_input_labels_function=None, decorator=add_label_ehva_demo
@@ -88,7 +89,7 @@ for label in labels:
 # ```
 
 # %%
-add_label_ehva_demo = gf.partial(
+add_label_ehva_demo = partial(
     add_label_ehva,
     die="demo_die",
     metadata_include_parent=["grating_coupler:settings:polarization"],
@@ -154,8 +155,8 @@ c = spiral_te(length=10e3)
 c
 
 # %%
-add_label_ehva_mpw1 = gf.partial(gf.labels.add_label_ehva, die="mpw1")
-add_fiber_single_no_labels = gf.partial(
+add_label_ehva_mpw1 = partial(gf.labels.add_label_ehva, die="mpw1")
+add_fiber_single_no_labels = partial(
     gf.routing.add_fiber_single,
     get_input_label_text_function=None,
     decorator=add_label_ehva_mpw1,
@@ -177,16 +178,14 @@ c
 # For example you can add prefix `S` at the `north-center` of each spiral using `text_rectangular` which is DRC clean and anchored on `nc` (north-center)
 
 # %%
-text_metal3 = gf.partial(
-    gf.components.text_rectangular_multi_layer, layers=(gf.LAYER.M3,)
-)
+text_metal3 = partial(gf.components.text_rectangular_multi_layer, layers=(gf.LAYER.M3,))
 
 m = gf.pack(sweep, text=text_metal3, text_anchors=("nc",), text_prefix="s")
 c = m[0]
 c
 
 # %%
-text_metal2 = gf.partial(gf.components.text, layer=gf.LAYER.M2)
+text_metal2 = partial(gf.components.text, layer=gf.LAYER.M2)
 
 m = gf.pack(sweep, text=text_metal2, text_anchors=("nc",), text_prefix="s")
 c = m[0]
@@ -239,11 +238,9 @@ gh_ymin_m2
 # You can define a Component top cell reticle or die using `grid` and `pack` python functions.
 
 # %%
-text_metal3 = gf.partial(
-    gf.components.text_rectangular_multi_layer, layers=(gf.LAYER.M3,)
-)
-grid = gf.partial(gf.grid_with_text, text=text_metal3)
-pack = gf.partial(gf.pack, text=text_metal3)
+text_metal3 = partial(gf.components.text_rectangular_multi_layer, layers=(gf.LAYER.M3,))
+grid = partial(gf.grid_with_text, text=text_metal3)
+pack = partial(gf.pack, text=text_metal3)
 
 gratings_sweep = [
     gf.components.grating_coupler_elliptical(taper_angle=taper_angle)

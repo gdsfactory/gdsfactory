@@ -10,8 +10,7 @@ from click.core import Context, Option
 import gdsfactory
 from gdsfactory.config import cwd, print_config
 from gdsfactory.config import print_version as _print_version
-from gdsfactory.config import print_version_raw
-from gdsfactory.config import print_version_pdks
+from gdsfactory.config import print_version_pdks, print_version_raw
 from gdsfactory.generic_tech import LAYER
 from gdsfactory.install import install_gdsdiff, install_klayout_package
 from gdsfactory.technology import lyp_to_dataclass
@@ -23,7 +22,7 @@ try:
 except ImportError:
     import click
 
-VERSION = "6.95.0"
+VERSION = "6.103.3"
 LAYER_LABEL = LAYER.LABEL
 
 
@@ -135,9 +134,11 @@ def web(
     port: int,
 ) -> None:
     """Opens web viewer."""
-    import uvicorn
-    from gdsfactory.plugins.web.main import app
     import os
+
+    import uvicorn
+
+    from gdsfactory.plugins.web.main import app
 
     os.environ["PDK"] = pdk
 
@@ -169,16 +170,20 @@ def show(filename: str) -> None:
 @click.option("--xor", "-x", default=False, help="include xor", is_flag=True)
 def diff(gdspath1: str, gdspath2: str, xor: bool = False) -> None:
     """Show boolean difference between two GDS files."""
-    from gdsfactory.gdsdiff.gdsdiff import gdsdiff
+    from gdsfactory.difftest import diff
 
-    diff = gdsdiff(gdspath1, gdspath2, xor=xor)
-    diff.show()
+    diff(gdspath1, gdspath2, xor=xor)
 
 
 @click.command()
-def klayout_integration() -> None:
-    """Install generic Klayout layermap, klive and git diff."""
+def klayout_genericpdk() -> None:
+    """Install Klayout generic PDK."""
     install_klayout_package()
+
+
+@click.command()
+def git_diff() -> None:
+    """Install git diff."""
     install_gdsdiff()
 
 
@@ -213,7 +218,8 @@ gds.add_command(merge_gds)
 gds.add_command(show)
 gds.add_command(diff)
 
-install.add_command(klayout_integration)
+install.add_command(klayout_genericpdk)
+install.add_command(git_diff)
 
 version.add_command(raw)
 version.add_command(pdks)

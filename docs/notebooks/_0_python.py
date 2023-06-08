@@ -23,6 +23,7 @@
 
 # %%
 from pydantic import validate_arguments
+from functools import partial
 
 import gdsfactory as gf
 
@@ -179,7 +180,7 @@ print(y)
 #
 # The following two functions are equivalent in functionality.
 #
-# Notice how the second one is shorter, more readable and easier to maintain thanks to `gf.partial`
+# Notice how the second one is shorter, more readable and easier to maintain thanks to `partial`
 
 
 # %%
@@ -187,7 +188,7 @@ def ring_sc(gap=0.3, **kwargs):
     return gf.components.ring_single(gap=gap, **kwargs)
 
 
-ring_sc = gf.partial(gf.components.ring_single, gap=0.3)
+ring_sc = partial(gf.components.ring_single, gap=0.3)
 
 # %% [markdown]
 # As you customize more parameters, it's more obvious that the second one is easier to maintain
@@ -198,7 +199,7 @@ def ring_sc(gap=0.3, radius=10, **kwargs):
     return gf.components.ring_single(gap=gap, radius=radius, **kwargs)
 
 
-ring_sc = gf.partial(gf.components.ring_single, gap=0.3, radius=10)
+ring_sc = partial(gf.components.ring_single, gap=0.3, radius=10)
 
 # %% [markdown]
 # ### compose
@@ -206,7 +207,7 @@ ring_sc = gf.partial(gf.components.ring_single, gap=0.3, radius=10)
 # `gf.compose` combines two functions into one.
 
 # %%
-ring_sc = gf.partial(gf.components.ring_single, radius=10)
+ring_sc = partial(gf.components.ring_single, radius=10)
 add_gratings = gf.routing.add_fiber_array
 
 ring_sc_gc = gf.compose(add_gratings, ring_sc)

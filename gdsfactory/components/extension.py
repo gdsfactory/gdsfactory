@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import warnings
+from functools import partial
 from typing import List, Optional, Tuple, Union
 
 import numpy as np
@@ -191,7 +192,7 @@ def test_extend_ports() -> Component:
     import gdsfactory.components as pc
 
     width = 0.5
-    xs_strip = gf.partial(
+    xs_strip = partial(
         gf.cross_section.strip,
         width=width,
         cladding_layers=None,
@@ -251,7 +252,7 @@ if __name__ == "__main__":
     # c = test_extend_ports()
 
     # width = 0.5
-    # xs_strip = gf.partial(
+    # xs_strip = partial(
     #     gf.cross_section.strip,
     #     width=width,
     #     cladding_layers=None,

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import itertools
-from typing import Optional, Dict, List, Tuple
+from typing import Dict, List, Optional, Tuple
 
 from numpy import float64
 
@@ -294,14 +294,16 @@ def parse_lattice(
 
 
 if __name__ == "__main__":
-    components_dict = {
-        "C": gf.routing.fanout2x2(component=gf.components.coupler(), port_spacing=40.0),
-        "X": crossing45(port_spacing=40.0),
-        "-": compensation_path(crossing45=crossing45(port_spacing=40.0)),
-    }
-    c = gf.components.component_lattice(symbol_to_component=components_dict)
+    # components_dict = {
+    #     "C": gf.routing.fanout2x2(component=gf.components.coupler(), port_spacing=40.0),
+    #     "X": crossing45(port_spacing=40.0),
+    #     "-": compensation_path(crossing45=crossing45(port_spacing=40.0)),
+    # }
+    # c = gf.components.component_lattice(symbol_to_component=components_dict)
     # c= gf.routing.fanout2x2(component=gf.components.coupler(), port_spacing=40.0)
     # c= crossing45(port_spacing=40.0)
     # c = compensation_path(crossing45=crossing45(port_spacing=40.0))
-    c.pprint_ports()
+    # c.pprint_ports()
+    # c = compensation_path()
+    c = component_lattice()
     c.show(show_ports=True)

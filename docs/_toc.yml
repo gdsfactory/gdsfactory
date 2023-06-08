@@ -12,6 +12,7 @@ parts:
         - file: notebooks/_3_vscode
         - file: notebooks/_0_python
         - file: notebooks/_1_git
+        - file: notebooks/_4_gdsfactory
     - file: pdk
       sections:
         - file: notebooks/08_pdk
@@ -39,6 +40,9 @@ parts:
         - file: notebooks/042_non-manhattan-router
         - file: notebooks/common_mistakes
         - file: notebooks/dataprep
+    - file: verification
+      sections:
+        - file: notebooks/21_drc
     - file: workflow
       sections:
         - file: notebooks/workflow/jupyter_notebooks

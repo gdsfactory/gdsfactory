@@ -1,27 +1,28 @@
 from __future__ import annotations
 
+from functools import partial
 from typing import List
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import ComponentSpec, Floats, LayerSpec, Optional
-from gdsfactory.cross_section import Section
-from gdsfactory.components.via_stack import via_stack
 from gdsfactory.components.via import via
+from gdsfactory.components.via_stack import via_stack
+from gdsfactory.cross_section import Section
+from gdsfactory.typings import ComponentSpec, Floats, LayerSpec, Optional
 
-via_stack = gf.partial(
+via_stack = partial(
     via_stack,
     size=(1.5, 1.5),
     layers=("M1", "M2"),
     vias=(
-        gf.partial(
+        partial(
             via,
             layer="VIAC",
             size=(0.1, 0.1),
             spacing=(0.2, 0.2),
             enclosure=0.1,
         ),
-        gf.partial(
+        partial(
             via,
             layer="VIA1",
             size=(0.1, 0.1),
@@ -105,7 +106,7 @@ def straight_heater_meander_doped(
             length=straight_length - 2 * taper_length, cross_section=cross_section1
         )
 
-        taper = gf.partial(
+        taper = partial(
             gf.c.taper_cross_section_linear,
             cross_section1=cross_section1,
             cross_section2=cross_section2,
@@ -173,7 +174,7 @@ def straight_heater_meander_doped(
         sectionlist = ()
         for doping_layer in layers_doping:
             sectionlist += (Section(layer=doping_layer, width=heater_width, offset=0),)
-        heater_cross_section = gf.partial(
+        heater_cross_section = partial(
             gf.cross_section.cross_section,
             width=heater_width,
             layer="WG",
@@ -239,7 +240,7 @@ if __name__ == "__main__":
         taper_length=10,
         # taper_length=10,
         length=1000,
-        # cross_section=gf.partial(gf.cross_section.strip, width=0.8),
+        # cross_section=partial(gf.cross_section.strip, width=0.8),
     )
     c.show(show_ports=True)
     # scene = c.to_3d()

@@ -53,8 +53,10 @@ def test_settings(component_name: str, data_regression: DataRegressionFixture) -
 
 if __name__ == "__main__":
     # name = cells_to_test[0]
-    name = "aar_bundles"
-    name = "aar_error_intermediate_180"
-    name = "aar_error_overconstrained"
+    # name = "aar_bundles"
+    name = "aar_gone_wrong"
+    # name = "aar_error_intermediate_180"
+    # name = "aar_error_overconstrained"
     c = AAR_YAML_PICS[name]()
+    print(sorted([i.name for i in c.get_dependencies()]))
     c.show()

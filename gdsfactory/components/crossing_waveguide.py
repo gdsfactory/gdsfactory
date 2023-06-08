@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from functools import partial
 from typing import Optional
 
 import numpy as np
@@ -236,6 +237,7 @@ def crossing45(
     alpha: float = 0.08,
     npoints: int = 101,
     cross_section: CrossSectionSpec = "strip",
+    cross_section_bends: CrossSectionSpec = "strip_no_pins",
 ) -> Component:
     r"""Returns 45deg crossing with bends.
 
@@ -260,7 +262,9 @@ def crossing45(
         ---    ----
 
     """
-    crossing = gf.get_component(crossing)
+    crossing = gf.get_component(
+        crossing, cross_section=cross_section_bends or cross_section
+    )
 
     c = Component()
     x = c << crossing
@@ -273,7 +277,6 @@ def crossing45(
     p_s = x.ports["o4"].center
 
     # Flatten the crossing - not an SRef anymore
-    c.absorb(x)
     dx = dx or port_spacing
     dy = port_spacing / 2
 
@@ -293,6 +296,7 @@ def crossing45(
         start_angle=start_angle,
         end_angle=end_angle,
         npoints=npoints,
+        cross_section=cross_section_bends,
     )
 
     tol = 1e-2
@@ -310,6 +314,7 @@ def crossing45(
         # cmp_ref = _cmp.ref()
         c.add(cmp_ref)
         c.absorb(cmp_ref)
+    c.absorb(x)
 
     c.info["bezier_length"] = bend.info["length"]
     c.info["min_bend_radius"] = b_br.info["min_bend_radius"]
@@ -331,9 +336,13 @@ def crossing45(
     return c
 
 
+crossing45_pins = partial(crossing45, cross_section="strip")
+
+
 @cell
 def compensation_path(
-    crossing45: ComponentSpec = crossing45,
+    crossing45: ComponentSpec = crossing45_pins,
+    crossing: ComponentSpec = crossing,
     direction: str = "top",
     cross_section: CrossSectionSpec = "strip",
 ) -> Component:
@@ -419,7 +428,7 @@ def compensation_path(
     sbend = bezier(control_points=get_control_pts(x0, y_bend))
 
     c = Component()
-    crossing0 = c << crossing45.crossing
+    crossing0 = c << gf.get_component(crossing)
 
     sbend_left = sbend.ref(
         position=crossing0.ports["o1"], port_id="o2", v_mirror=v_mirror

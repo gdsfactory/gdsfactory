@@ -54,6 +54,7 @@ settings:
   default:
     alpha: 0.08
     cross_section: strip
+    cross_section_bends: strip_no_pins
     crossing:
       function: crossing
     dx: null
@@ -62,6 +63,7 @@ settings:
   full:
     alpha: 0.08
     cross_section: strip
+    cross_section_bends: strip_no_pins
     crossing:
       function: crossing
     dx: null
