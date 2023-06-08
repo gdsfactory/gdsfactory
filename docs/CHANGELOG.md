@@ -1,4 +1,4 @@
-# [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
+# [Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.103.1...main)
 
