@@ -18,7 +18,8 @@ import tempfile
 import warnings
 from pathlib import Path
 from pprint import pprint
-from typing import Any, Optional, Union, ClassVar, Literal, TYPE_CHECKING
+from typing_extensions import Literal
+from typing import Any, Optional, Union, ClassVar, TYPE_CHECKING
 
 import loguru
 from loguru import logger as logger
