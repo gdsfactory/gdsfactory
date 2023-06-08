@@ -12,8 +12,10 @@ home = pathlib.Path.home()
 
 
 def remove_path_or_dir(dest: pathlib.Path) -> None:
-    if dest.is_dir():
+    if dest.is_symlink():
         os.unlink(dest)
+    elif dest.is_dir():
+        shutil.rmtree(dest)
     else:
         os.remove(dest)
 
@@ -151,5 +153,5 @@ if __name__ == "__main__":
     src = cwd / "generic_tech" / "klayout" / "tech"
 
     # write_git_attributes()
-    install_gdsdiff()
-    # install_klayout_package()
+    # install_gdsdiff()
+    install_klayout_package()
