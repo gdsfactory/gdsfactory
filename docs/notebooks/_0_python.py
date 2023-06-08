@@ -144,7 +144,18 @@ x = 1
 y = double_with_validator(x)
 print(y, type(x), type(y))
 
-y = [double(x) for x in range(3)]
+# %% [markdown]
+# ## List comprehensions
+#
+# You will also see some list comprehensions, which are common in python.
+#
+# For example, you can write many loops in one line
+
+# %%
+y = []
+for x in range(3):
+    y.append(double(x))
+
 print(y)
 
 # %%
