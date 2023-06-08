@@ -34,7 +34,7 @@ specs:
 {% if name.startswith("Mambaforge") %}
   - mamba 1.4.2
 {% endif %}
-  - conda {{ version.split("-")[0] }}
+  - conda
 
   - pip
   - miniforge_console_shortcut 1.*  # [win]
