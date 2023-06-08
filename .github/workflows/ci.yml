@@ -1,9 +1,7 @@
 name: Build miniforge
 on:
-  pull_request:
   push:
-    branches:
-      - main
+    tags: "v*"
 
 jobs:
   build:
