@@ -40,3 +40,5 @@ for TEST_IMAGE_NAME in ${TEST_IMAGE_NAMES}; do
     -v "$(pwd):${CONSTRUCT_ROOT}" -e CONSTRUCT_ROOT \
     "${DOCKER_ARCH}/${TEST_IMAGE_NAME}" /construct/scripts/test.sh
 done
+
+make full
