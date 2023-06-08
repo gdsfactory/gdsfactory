@@ -37,7 +37,7 @@ def show(
     data_string = json.dumps(data)
     try:
         conn = socket.create_connection(("127.0.0.1", port), timeout=1.0)
-        data_string = data_string + "\n"
+        data_string += "\n"
         data_string = (
             data_string.encode() if hasattr(data_string, "encode") else data_string
         )

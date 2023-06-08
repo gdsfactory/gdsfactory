@@ -546,7 +546,7 @@ layout
 # We extract the filter netlist and verify we'll need models for the straight and bend sections, as well as for the DCs.
 
 netlist = layout.get_netlist()
-set(v["component"] for v in netlist["instances"].values())
+{v["component"] for v in netlist["instances"].values()}
 
 # The model for the straight sections is based directly on the waveguide mode, including dispersion effects.
 
@@ -710,7 +710,7 @@ def patch_netlist(netlist, models, models_to_patch):
     return netlist, models
 
 
-pl_set = sorted(set((pr, l) for pr, l in zip(power_ratios, lengths)))
+pl_set = sorted(set(zip(power_ratios, lengths)))
 fig, ax = plt.subplots(len(pl_set), 1, figsize=(4, 3 * len(pl_set)))
 
 for i, (pr, l) in enumerate(pl_set):
