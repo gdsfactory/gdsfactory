@@ -337,7 +337,6 @@ def set_plot_options(
         zoom_factor=zoom_factor,
     )
 
-
     # print(PATH.sparameters)
     # print_config()
     # print_version()
