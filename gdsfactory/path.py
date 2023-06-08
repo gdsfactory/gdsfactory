@@ -855,15 +855,10 @@ def extrude(
 
         if callable(offset):
             p_sec.offset(offset)
-            points = p_sec.points
-            start_angle = p_sec.start_angle
-            end_angle = p_sec.end_angle
             offset = 0
-        else:
-            points = p_sec.points
-            start_angle = p_sec.start_angle
-            end_angle = p_sec.end_angle
-
+        end_angle = p_sec.end_angle
+        start_angle = p_sec.start_angle
+        points = p_sec.points
         if callable(width):
             # Compute lengths
             dx = np.diff(p_sec.points[:, 0])

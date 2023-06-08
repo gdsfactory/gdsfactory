@@ -114,9 +114,7 @@ mesh.draw().show()
 # For example, to refine within the core only, one could use:
 
 # +
-resolutions = {}
-resolutions["core"] = {"resolution": 0.05, "distance": 0}
-
+resolutions = {"core": {"resolution": 0.05, "distance": 0}}
 mesh = waveguide_trimmed.to_gmsh(
     type="uz",
     xsection_bounds=[(4, -4), (4, 4)],
@@ -134,9 +132,7 @@ mesh.draw().show()
 # Adding a dropoff at the interface:
 
 # +
-resolutions = {}
-resolutions["core"] = {"resolution": 0.05, "distance": 5}
-
+resolutions = {"core": {"resolution": 0.05, "distance": 5}}
 mesh = waveguide_trimmed.to_gmsh(
     type="uz",
     xsection_bounds=[(4, -4), (4, 4)],
@@ -154,12 +150,12 @@ mesh.draw().show()
 # Refining multiple elements simultaneously:
 
 # +
-resolutions = {}
-resolutions["core"] = {"resolution": 0.05, "distance": 1}
-resolutions["slab90"] = {"resolution": 0.02, "distance": 1}
-resolutions["via_contact"] = {"resolution": 0.2, "distance": 0}
-resolutions["oxide"] = {"resolution": 1, "distance": 0}
-
+resolutions = {
+    "core": {"resolution": 0.05, "distance": 1},
+    "slab90": {"resolution": 0.02, "distance": 1},
+    "via_contact": {"resolution": 0.2, "distance": 0},
+    "oxide": {"resolution": 1, "distance": 0},
+}
 mesh = waveguide_trimmed.to_gmsh(
     type="uz",
     xsection_bounds=[(4, -4), (4, 4)],

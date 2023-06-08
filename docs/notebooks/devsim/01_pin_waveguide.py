@@ -117,11 +117,7 @@ n_dist = {}
 neffs = {}
 
 for ind, voltage in enumerate(voltages):
-    if ind == 0:
-        Vinit = 0
-    else:
-        Vinit = voltages[ind - 1]
-
+    Vinit = 0 if ind == 0 else voltages[ind - 1]
     c.ramp_voltage(Vfinal=voltage, Vstep=ramp_rate, Vinit=Vinit)
     waveguide = c.make_waveguide(wavelength=1.55)
     n_dist[voltage] = waveguide.index.values

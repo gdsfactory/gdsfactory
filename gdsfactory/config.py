@@ -338,8 +338,6 @@ def set_plot_options(
     )
 
 
-if __name__ == "__main__":
-    pass
     # print(PATH.sparameters)
     # print_config()
     # print_version()

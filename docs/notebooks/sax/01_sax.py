@@ -1040,12 +1040,11 @@ def phase_shifter_heater(
     phase = 2 * jnp.pi * neff * length / wl + deltaphi
     amplitude = jnp.asarray(10 ** (-loss * length / 20), dtype=complex)
     transmission = amplitude * jnp.exp(1j * phase)
-    sdict = sax.reciprocal(
+    return sax.reciprocal(
         {
             ("o1", "o2"): transmission,
         }
     )
-    return sdict
 
 
 models = {

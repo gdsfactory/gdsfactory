@@ -74,7 +74,7 @@ def cutback_component(
         a = "!A" if mirror1 else "A"
         b = "!B" if mirror2 else "B"
 
-        s += (a + "." + b) * cols if straight_length_pair else (a + b) * cols
+        s += f"{a}.{b}" * cols if straight_length_pair else (a + b) * cols
         if mirror:
             s += "C" if i % 2 == 0 else "D"
         else:
@@ -84,7 +84,7 @@ def cutback_component(
     s += "-_"
 
     for i in range(rows):
-        s += (a + "." + b) * cols if straight_length_pair else (a + b) * cols
+        s += f"{a}.{b}" * cols if straight_length_pair else (a + b) * cols
         s += "D" if (i + rows) % 2 == 0 else "C"
 
     s = s[:-1]
