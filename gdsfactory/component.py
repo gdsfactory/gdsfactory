@@ -1916,7 +1916,9 @@ class Component(_GeometryHelper):
         #     print(cell.name, type(cell))
 
         lib = gdstk.Library(
-            name=write_settings.lib_name, unit=write_settings.unit, precision=write_settings.precision
+            name=write_settings.lib_name,
+            unit=write_settings.unit,
+            precision=write_settings.precision,
         )
         lib.add(top_cell._cell)
         lib.add(*top_cell._cell.dependencies(True))

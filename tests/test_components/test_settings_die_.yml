@@ -14,6 +14,8 @@ settings:
     - 10000.0
     street_length: 1000.0
     street_width: 100.0
+    text_component:
+      function: text
     text_location: SW
     text_size: 100.0
   full:
@@ -27,6 +29,8 @@ settings:
     - 10000.0
     street_length: 1000.0
     street_width: 100.0
+    text_component:
+      function: text
     text_location: SW
     text_size: 100.0
   function_name: die
