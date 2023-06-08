@@ -75,6 +75,21 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: false
+  test_code_python37:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.7'
+      - name: Install dependencies
+        run: |
+          pip install -e .[full,dev] pre-commit
+      - name: Test with pytest
+        run: |
+          pytest gdsfactory/components
   test_code_plugins:
     runs-on: ${{ matrix.os }}
     strategy:
