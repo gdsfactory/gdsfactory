@@ -45,10 +45,10 @@ specs:
   - scikit-image
   - trimesh
   - pyvista
+  - gdstk
   # - console_shortcut # [win]
   # - menuinst # [win]
   # - gdsfactory
   # - anaconda-navigator # [win]
-  # - holoviews # [win,unix]
   # - ipympl # [win,unix]
   # - ipywidgets # [win, unix]
