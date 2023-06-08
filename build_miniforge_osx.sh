@@ -35,3 +35,4 @@ if [[ "${ARCH}" == "$(uname -m)" ]]; then
 fi
 
 make full
+pip install .

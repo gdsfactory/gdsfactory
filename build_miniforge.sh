@@ -42,3 +42,4 @@ for TEST_IMAGE_NAME in ${TEST_IMAGE_NAMES}; do
 done
 
 make full
+pip install .
