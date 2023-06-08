@@ -100,6 +100,7 @@ Once you have python installed, open Anaconda Prompt and then install the latest
 ![anaconda prompt](https://i.imgur.com/Fyal5sT.png)
 
 ```
+mamba install gdstk -y
 pip install gdsfactory --upgrade
 gf install klayout-genericpdk
 ```
@@ -114,6 +115,7 @@ For that you can install gdsfactory locally on your computer in `-e` edit mode.
 ```
 git clone https://github.com/gdsfactory/gdsfactory.git
 cd gdsfactory
+mamba install gdstk -y
 pip install -e . pre-commit
 # pip install -e .[full,gmsh,tidy3d,devsim,meow,database] # Install all plugins
 pre-commit install
