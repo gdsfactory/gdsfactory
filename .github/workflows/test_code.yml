@@ -86,7 +86,7 @@ jobs:
           python-version: '3.7'
       - name: Install dependencies
         run: |
-          make install
+          pip install -e .[full,dev] pre-commit
       - name: Test with pytest
         run: |
           pytest gdsfactory/components
