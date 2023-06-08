@@ -57,6 +57,10 @@ class GdsWriteSettings(BaseModel):
     """Settings to use when writing to GDS."""
 
     on_uncached_component: Literal["warn", "error", "ignore"] = "ignore"
+    lib_name: str = Field(
+        default="library",
+        description="Name of the GDS library to write to. Default is 'library'.",
+    )
     unit: float = Field(
         default=1e-6,
         description="The units of coordinates in the database. The default is 1e-6 (1 micron).",
