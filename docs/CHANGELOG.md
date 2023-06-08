@@ -2,6 +2,10 @@
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.103.1...main)
 
+## [6.103.3](https://github.com/gdsfactory/gdsfactory/compare/v6.103.3...v6.103.1)
+
+- add python3.7 bare bones tests [PR](https://github.com/gdsfactory/gdsfactory/pull/1745)
+
 ## [6.103.1](https://github.com/gdsfactory/gdsfactory/compare/v6.103.1...v6.103.0)
 
 - fix jupyter widget [PR](https://github.com/gdsfactory/gdsfactory/pull/1740)
