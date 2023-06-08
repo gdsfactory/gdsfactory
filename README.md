@@ -2,7 +2,7 @@
 
 [![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)](https://gdsfactory.github.io/gdsfactory/)
 [![PyPI](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
-[![Conda Version](https://img.shields.io/conda/vn/conda-forge/gdsfactory.svg)](https://anaconda.org/conda-forge/gdsfactory)
+[![Conda Version](https://img.shields.io/conda/vn/gdsfactory/gdsfactory.svg)](https://anaconda.org/gdsfactory/gdsfactory)
 [![Dockerhub](https://img.shields.io/docker/pulls/joamatab/gdsfactory)](https://hub.docker.com/r/joamatab/gdsfactory)
 [![PyPI Python](https://img.shields.io/pypi/pyversions/gdsfactory.svg)](https://pypi.python.org/pypi/gdsfactory)
 [![issues](https://img.shields.io/github/issues/gdsfactory/gdsfactory)](https://github.com/gdsfactory/gdsfactory/issues)
@@ -87,12 +87,10 @@ You can also install python with mamba package manager (faster than conda):
 
 | OS      | Architecture          | Download  |
 | --------|-----------------------|-----------|
-| Linux   | x86_64 (amd64)        | [Mambaforge-Linux-x86_64](https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh) |
-| Linux   | aarch64 (arm64)       | [Mambaforge-Linux-aarch64](https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-aarch64.sh) |
-| Linux   | ppc64le (POWER8/9)    | [Mambaforge-Linux-ppc64le](https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-ppc64le.sh) |
-| OS X    | x86_64                | [Mambaforge-MacOSX-x86_64](https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-MacOSX-x86_64.sh) |
-| OS X    | arm64 (Apple Silicon) | [Mambaforge-MacOSX-arm64](https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-MacOSX-arm64.sh) |
-| Windows | x86_64                | [Mambaforge-Windows-x86_64](https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Windows-x86_64.exe) |
+| Linux   | x86_64 (amd64)        | [Linux-x86_64](https://github.com/gdsfactory/gdsfactory/releases/latest/download/Mambaforge-Linux-x86_64.sh) |
+| OS X    | x86_64                | [MacOSX-x86_64](https://github.com/gdsfactory/gdsfactory/releases/latest/download/Mambaforge-MacOSX-x86_64.sh) |
+| OS X    | arm64 (Apple Silicon) | [MacOSX-arm64](https://github.com/gdsfactory/gdsfactory/releases/latest/download/Mambaforge-MacOSX-arm64.sh) |
+| Windows | x86_64                | [Windows-x86_64](https://github.com/gdsfactory/gdsfactory/releases/latest/download/Mambaforge-Windows-x86_64.exe) |
 
 
 Once you have python installed, open Anaconda Prompt and then install the latest gdsfactory using pip.
