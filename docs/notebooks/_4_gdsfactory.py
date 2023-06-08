@@ -34,17 +34,16 @@ def get_total_downloads(package_name):
         response = requests.get(url, params={"last_day": end_date})
         data = response.json()
 
-        if response.status_code == 200:
-            statistics.extend(
-                [(entry["date"], entry["downloads"]) for entry in data["data"]]
-            )
-            if "next_day" in data:
-                end_date = data["next_day"]
-            else:
-                break
-        else:
+        if response.status_code != 200:
             return None
 
+        statistics.extend(
+            [(entry["date"], entry["downloads"]) for entry in data["data"]]
+        )
+        if "next_day" in data:
+            end_date = data["next_day"]
+        else:
+            break
     statistics.sort(key=lambda x: x[0])  # Sort by date
     dates, downloads = zip(*statistics)
     cumulative_downloads = [sum(downloads[: i + 1]) for i in range(len(downloads))]
@@ -139,7 +138,7 @@ nx.draw_networkx_edges(
 nx.draw_networkx_labels(dependency_graph, pos, font_size=10, font_weight="bold")
 
 # Customize plot appearance
-plt.title("Dependency Graph for {}".format(package_name))
+plt.title(f"Dependency Graph for {package_name}")
 plt.axis("off")
 plt.tight_layout()
 
@@ -215,7 +214,7 @@ nx.draw_networkx_edges(
 nx.draw_networkx_labels(dependency_graph, pos, font_size=10, font_weight="bold")
 
 # Customize plot appearance
-plt.title("Dependency Graph for {}".format(package_name))
+plt.title(f"Dependency Graph for {package_name}")
 plt.axis("off")
 plt.tight_layout()
 
@@ -297,7 +296,7 @@ for edge in edges:
 
 # Create the layout for the graph
 layout = go.Layout(
-    title="Dependency Graph for {}".format(package_name),
+    title=f"Dependency Graph for {package_name}",
     title_font=dict(size=20),
     showlegend=False,
     hovermode="closest",

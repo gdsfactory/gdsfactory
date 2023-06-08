@@ -62,8 +62,8 @@ def bend_circular_heater(
     if with_bbox and x.bbox_layers:
         padding = []
         for offset in x.bbox_offsets:
-            top = offset if angle in [180, -180, -90] else 0
-            bottom = 0 if angle in [-90] else offset
+            top = offset if angle in {180, -180, -90} else 0
+            bottom = 0 if angle in {-90} else offset
             points = get_padding_points(
                 component=c,
                 default=0,
