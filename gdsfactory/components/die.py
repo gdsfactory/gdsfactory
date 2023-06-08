@@ -8,7 +8,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.components.text import text
-from gdsfactory.typings import LayerSpec
+from gdsfactory.typings import LayerSpec, ComponentSpec
 
 
 @gf.cell
@@ -23,6 +23,7 @@ def die(
     bbox_layer: Optional[LayerSpec] = "FLOORPLAN",
     draw_corners: bool = True,
     draw_dicing_lane: bool = True,
+    text_component: ComponentSpec = text,
 ) -> gf.Component:
     """Returns basic die with 4 right angle corners marking the boundary of the.
 
@@ -39,6 +40,7 @@ def die(
         bbox_layer: optional bbox layer.
         draw_corners: around die.
         draw_dicing_lane: around die.
+        text_component: component to use for generating text
     """
     c = gf.Component(name="die")
     sx, sy = size[0] / 2, size[1] / 2
@@ -67,7 +69,7 @@ def die(
         c.add_polygon([[sx, sy], [sx, -sy], [-sx, -sy], [-sx, sy]], layer=bbox_layer)
 
     if die_name:
-        t = c.add_ref(text(text=die_name, size=text_size, layer=layer))
+        t = c.add_ref(text_component(text=die_name, size=text_size, layer=layer))
 
         d = street_width + 20
         if type(text_location) is str:
