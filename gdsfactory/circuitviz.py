@@ -6,13 +6,18 @@ import bokeh.events as be
 import numpy as np
 import pandas as pd
 import yaml
-from bokeh import io as bio
-from bokeh import models as bm
-from bokeh import plotting as bp
-from natsort import natsorted
+
 
 import gdsfactory as gf
 from gdsfactory.picmodel import PicYamlConfiguration, Placement, SchematicConfiguration
+
+try:
+    from bokeh import io as bio
+    from bokeh import models as bm
+    from bokeh import plotting as bp
+    from natsort import natsorted
+except ImportError:
+    print("No bokeh and natsort found!\n" "pip install bokeh natsort")
 
 data = {
     "srcs": defaultdict(lambda: defaultdict(lambda: [])),
