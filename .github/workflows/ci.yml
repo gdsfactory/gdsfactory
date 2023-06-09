@@ -97,3 +97,4 @@ jobs:
         fail_on_unmatched_files: false
         files: |
           conda/constructor/build/${{ matrix.MINIFORGE_NAME }}-${{ matrix.OS_NAME }}-${{ matrix.ARCH }}*
+      if: startsWith(github.ref, 'refs/tags/')
