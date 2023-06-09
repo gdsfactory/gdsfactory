@@ -1,24 +1,12 @@
 """Routes bundles of ports (river routing)."""
 from __future__ import annotations
 
-from typing import Callable, List, Optional, Union
+from typing import List
 
-from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.straight import straight as _straight
-from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.cross_section import strip
+from gdsfactory.config import logger
 from gdsfactory.port import Port
-from gdsfactory.routing.get_bundle import (
-    _get_bundle_waypoints,
-    compute_ports_max_displacement,
-)
-from gdsfactory.routing.get_route import get_route_from_waypoints
-from gdsfactory.routing.path_length_matching import path_length_matched_points
-from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
+from gdsfactory.routing.get_bundle import get_bundle
 from gdsfactory.typings import (
-    ComponentSpec,
-    CrossSectionSpec,
-    MultiCrossSectionAngleSpec,
     Route,
 )
 
@@ -26,21 +14,14 @@ from gdsfactory.typings import (
 def get_bundle_path_length_match(
     ports1: List[Port],
     ports2: List[Port],
-    separation: float = 30.0,
-    end_straight_length: Optional[float] = None,
     extra_length: float = 0.0,
     nb_loops: int = 1,
     modify_segment_i: int = -2,
-    bend: ComponentSpec = bend_euler,
-    straight: ComponentSpec = _straight,
-    taper: Optional[ComponentSpec] = taper_function,
-    start_straight_length: float = 0.0,
-    route_filter: Callable = get_route_from_waypoints,
-    sort_ports: bool = True,
-    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
     **kwargs,
 ) -> List[Route]:
     """Returns list of routes that are path length matched.
+
+    TODO: remove.
 
     Args:
         ports1: list of ports.
@@ -94,53 +75,17 @@ def get_bundle_path_length_match(
       c.plot()
 
     """
-    extra_length /= 2
-
-    # Heuristic to get a correct default end_straight_offset to leave
-    # enough space for path-length compensation
-    if sort_ports:
-        ports1, ports2 = sort_ports_function(ports1, ports2)
-
-    if end_straight_length is None:
-        if modify_segment_i == -2:
-            end_straight_length = (
-                compute_ports_max_displacement(ports1, ports2) / (2 * nb_loops)
-                + separation
-                + extra_length
-            )
-        else:
-            end_straight_length = 0
-
-    list_of_waypoints = _get_bundle_waypoints(
+    logger.warning(
+        "get_bundle_path_length_match is deprecated and will be removed!. Use get_bundle instead, which can also do path_length_match",
+        DeprecationWarning,
+    )
+    return get_bundle(
         ports1=ports1,
         ports2=ports2,
-        separation=separation,
-        end_straight_length=end_straight_length,
-        start_straight_length=start_straight_length,
-        cross_section=cross_section,
-        **kwargs,
+        path_length_match_loops=nb_loops,
+        path_length_match_extra_length=extra_length,
+        path_length_match_modify_segment_i=modify_segment_i,
     )
-
-    list_of_waypoints = path_length_matched_points(
-        list_of_waypoints,
-        extra_length=extra_length,
-        bend=bend,
-        nb_loops=nb_loops,
-        modify_segment_i=modify_segment_i,
-        cross_section=cross_section,
-        **kwargs,
-    )
-    return [
-        route_filter(
-            waypoints,
-            bend=bend,
-            straight=straight,
-            taper=taper,
-            cross_section=cross_section,
-            **kwargs,
-        )
-        for waypoints in list_of_waypoints
-    ]
 
 
 if __name__ == "__main__":
