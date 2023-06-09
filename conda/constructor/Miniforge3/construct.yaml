@@ -45,10 +45,9 @@ specs:
   - scikit-image
   - trimesh
   - pyvista
-  - gdstk
+  - gdsfactory
   # - console_shortcut # [win]
   # - menuinst # [win]
-  # - gdsfactory
   # - anaconda-navigator # [win]
   # - ipympl # [win,unix]
   # - ipywidgets # [win, unix]
