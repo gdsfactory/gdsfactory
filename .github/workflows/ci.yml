@@ -58,6 +58,7 @@ jobs:
         TARGET_PLATFORM: ${{ matrix.TARGET_PLATFORM }}
         TEST_IMAGE_NAMES: ${{ matrix.TEST_IMAGE_NAMES }}
       run: |
+        cd conda/constructor
         if [[ "$GITHUB_REF" == refs/tags/* ]]; then
           export MINIFORGE_VERSION=${GITHUB_REF##*/};
         fi
@@ -87,7 +88,7 @@ jobs:
       if: always()
       uses: actions/upload-artifact@v3
       with:
-        path: build/${{ matrix.MINIFORGE_NAME }}-${{ matrix.OS_NAME }}-${{ matrix.ARCH }}*
+        path: conda/constructor/build/${{ matrix.MINIFORGE_NAME }}-${{ matrix.OS_NAME }}-${{ matrix.ARCH }}*
         name: ${{ matrix.MINIFORGE_NAME }}-${{ matrix.OS_NAME }}-${{ matrix.ARCH }}
 
     - name: upload release
@@ -95,4 +96,4 @@ jobs:
       with:
         fail_on_unmatched_files: false
         files: |
-          build/${{ matrix.MINIFORGE_NAME }}-${{ matrix.OS_NAME }}-${{ matrix.ARCH }}*
+          conda/constructor/build/${{ matrix.MINIFORGE_NAME }}-${{ matrix.OS_NAME }}-${{ matrix.ARCH }}*

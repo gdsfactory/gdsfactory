@@ -33,6 +33,3 @@ bash scripts/build.sh
 if [[ "${ARCH}" == "$(uname -m)" ]]; then
   bash scripts/test.sh
 fi
-
-make full
-pip install .
