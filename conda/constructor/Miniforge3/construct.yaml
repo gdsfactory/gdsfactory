@@ -51,4 +51,4 @@ specs:
   # - anaconda-navigator # [win]
   # - ipympl # [win,unix]
   # - ipywidgets # [win, unix]
-post_install: install.sh  # [unix]
+# post_install: install.sh  # [unix]
