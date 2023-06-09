@@ -80,8 +80,7 @@ You have 2 options to install gdsfactory:
 
 ### 1. Installation for new users
 
-If you don't have python installed on your system you can [download the gdsfactory installer](https://github.com/gdsfactory/gdsfactory/releases) that includes python3, miniconda and all gdsfactory plugins.
-
+If you don't have python installed on your system you can [download the gdsfactory installer](https://github.com/gdsfactory/gdsfactory/releases) that includes python3, miniconda and gdsfactory.
 
 You can also install python with mamba package manager (faster than conda):
 
@@ -115,7 +114,7 @@ git clone https://github.com/gdsfactory/gdsfactory.git
 cd gdsfactory
 mamba install gdstk -y
 pip install -e . pre-commit
-# pip install -e .[full,gmsh,tidy3d,devsim,meow,database] # Install all plugins
+pip install -e .[full,gmsh,tidy3d,devsim,meow,database] # Install all plugins
 pre-commit install
 gf install klayout-genericpdk
 ```
