@@ -30,7 +30,8 @@ from gdsfactory.typings import (
     Route,
 )
 
-TOLERANCE = 0.001
+nm = 1e-3
+TOLERANCE = 1 * nm
 DEG2RAD = np.pi / 180
 RAD2DEG = 1 / DEG2RAD
 
@@ -165,7 +166,7 @@ def get_straight_distance(p0: ndarray, p1: ndarray) -> float:
         return np.abs(p0[1] - p1[1])
     if _is_horizontal(p0, p1):
         return np.abs(p0[0] - p1[0])
-
+    print(f"Waveguide points {p0} {p1} are not manhattan")
     raise RouteError(f"Waveguide points {p0} {p1} are not manhattan")
 
 
@@ -804,11 +805,12 @@ def round_corners(
 
     # ensure bend connectivity
     for i, point in enumerate(points[:-1]):
-        sx = np.sign(points[i + 1][0] - point[0])
-        sy = np.sign(points[i + 1][1] - point[1])
-        bsx = np.sign(bend_points[2 * i + 1][0] - bend_points[2 * i][0])
-        bsy = np.sign(bend_points[2 * i + 1][1] - bend_points[2 * i][1])
+        sx = np.sign(np.round(points[i + 1][0] - point[0], 3))
+        sy = np.sign(np.round(points[i + 1][1] - point[1], 3))
+        bsx = np.sign(np.round(bend_points[2 * i + 1][0] - bend_points[2 * i][0], 3))
+        bsy = np.sign(np.round(bend_points[2 * i + 1][1] - bend_points[2 * i][1], 3))
         if bsx * sx == -1 or bsy * sy == -1:
+            print(f"No enough space for a route between {point} and {points[i+1]}")
             return on_route_error(
                 points=points,
                 cross_section=None if multi_cross_section else x,
