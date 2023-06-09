@@ -17,7 +17,7 @@ write_condarc: True
 # keep pkgs for space-saving implications for hardlinks when create new environments
 # and keep the same with Miniconda
 keep_pkgs: True
-license_file: ../../../LICENSE
+license_file: ../LICENSE
 
 # During the interactive installation, these variables are checked.
 # During batch installation, conda is never initialized
