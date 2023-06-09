@@ -10,7 +10,8 @@
     "vscode": {
       "extensions": [
         "ms-toolsai.jupyter",
-        "ms-python.python"
+        "ms-python.python",
+        "congyiwu.vscode-jupytext"
       ]
     }
   }
