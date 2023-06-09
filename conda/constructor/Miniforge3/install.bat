@@ -6,7 +6,7 @@ call conda activate
 
 call pip install sax jax sklearn
 call pip install "jaxlib[cuda111]" -f https://whls.blob.core.windows.net/unstable/index.html --use-deprecated legacy-resolver
-call pip install gdsfactory[full,dev,gmsh,tidy3d,devsim,meow,ray,database,kfactory]==6.103.6
+call pip install gdsfactory[full,dev,gmsh,tidy3d,devsim,meow,ray,database,kfactory]==6.103.7
 
 call conda install -c conda-forge slepc4py=*=complex* -y
 call conda install -c conda-forge git -y
