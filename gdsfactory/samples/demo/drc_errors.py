@@ -1,3 +1,4 @@
+"""Write GDS with sample errors."""
 from __future__ import annotations
 
 import gdsfactory as gf
