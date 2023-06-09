@@ -8,7 +8,6 @@ test-data
 # C extensions
 *.so
 *.l2n
-conda/
 gdsfactory/plugins/kweb/gds_files/
 *.properties
 *.sqlite3
