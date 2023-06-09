@@ -4,12 +4,12 @@ help:
 	@echo 'make test-force:       Rebuilds regression test'
 
 full: plugins
-	pip install -e .[docs,dev,ray,full,gmsh,tidy3d,devsim,meow,sax,database,kfactory,femwell]
+	pip install -e .[docs,dev,full]
 
 all: plugins install full
 
 install:
-	pip install -e .[full,dev,kfactory] pre-commit
+	pip install -e .[full,dev] pre-commit
 	pre-commit install
 	gf install klayout-genericpdk
 	gf install git-diff
