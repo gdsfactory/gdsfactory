@@ -16,8 +16,8 @@ _cached_fonts = {}
 
 try:
     import freetype
-except ImportError as e:
-    raise ImportError(
+except ImportError:
+    print(
         "gdsfactory requires freetype to use real fonts. "
         "Either use the default DEPLOF font or install the freetype package:"
         "\n\n $ pip install freetype-py"
@@ -25,7 +25,7 @@ except ImportError as e:
         "file in their Python package directory /freetype/ with the correct one"
         "from here: https://github.com/ubawurinna/freetype-windows-binaries"
         " -- be sure to rename 'freetype.dll' to 'libfreetype.dll') "
-    ) from e
+    )
 
 
 def _get_font_by_file(file):

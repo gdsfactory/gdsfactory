@@ -47,41 +47,7 @@ requires-python = ">=3.7"
 version = "6.104.2"
 
 [project.optional-dependencies]
-database = [
-  "sqlalchemy",
-  "sqlalchemy-utils",
-  "dagster",
-  "dagit",
-  "sqlmodel",
-  "boto3",
-  "pymysql"
-]
-dev = [
-  "autotyping",
-  "black>=21",
-  "doc8",
-  "ipykernel",
-  "jsondiff",
-  "mypy",
-  "pre-commit",
-  "pylsp-mypy",
-  "pytest",
-  "pytest-cov",
-  "pytest_regressions",
-  "types-PyYAML",
-  "types-cachetools",
-  "xdoctest"
-]
-devsim = ["devsim", "mkl", "pyvista", "tidy3d"]
-docs = [
-  "autodoc_pydantic",
-  "jupytext",
-  "jupyter-book==0.15.1",
-  "pydata_sphinx_theme==0.13.1",
-  "plotly"
-]
-femwell = ["femwell==0.0.18"]
-full = [
+cad = [
   "autograd",
   "bokeh",
   "freetype-py",
@@ -108,6 +74,108 @@ full = [
   "fastapi",
   "uvicorn[standard]"
 ]
+database = [
+  "sqlalchemy",
+  "sqlalchemy-utils",
+  "dagster",
+  "dagit",
+  "sqlmodel",
+  "boto3",
+  "pymysql"
+]
+dev = [
+  "autotyping",
+  "black>=21",
+  "doc8",
+  "ipykernel",
+  "jsondiff",
+  "mypy",
+  "pre-commit",
+  "pylsp-mypy",
+  "pytest",
+  "pytest-cov",
+  "pytest_regressions",
+  "types-PyYAML",
+  "types-cachetools",
+  "xdoctest"
+]
+devsim = [
+  "devsim",
+  "mkl",
+  "pyvista",
+  "tidy3d"
+]
+docs = [
+  "autodoc_pydantic",
+  "jupytext",
+  "jupyter-book==0.15.1",
+  "pydata_sphinx_theme==0.13.1",
+  "plotly"
+]
+femwell = [
+  "femwell==0.0.18"
+]
+full = [
+  "sqlalchemy",
+  "sqlalchemy-utils",
+  "dagster",
+  "dagit",
+  "sqlmodel",
+  "boto3",
+  "pymysql",
+  # devsim
+  "devsim",
+  "mkl",
+  "pyvista",
+  "tidy3d",
+  # docs
+  "jupytext",
+  "femwell==0.0.18",
+  # cad
+  "autograd",
+  "bokeh",
+  "freetype-py",
+  "ipympl",
+  "ipywidgets==7.7.3",
+  "ipyevents",
+  "mapbox_earcut",
+  "natsort",
+  "networkx",
+  "pyglet<2",
+  "pygmsh",
+  "scikit-fem",
+  "scikit-image",
+  "scikit-learn",
+  "trimesh",
+  "jupytext",
+  "klayout",
+  "ipytree",
+  "rich-click",
+  "ipycytoscape",
+  "kweb>=0.0.11,<0.1",
+  "jinja2",
+  "python-multipart",
+  "fastapi",
+  "uvicorn[standard]",
+  # gmsh
+  "gmsh",
+  "h5py",
+  "mapbox_earcut",
+  "meshio",
+  "pygmsh",
+  "pyvista",
+  "trimesh",
+  "shapely",
+  # kfactory
+  "kfactory[git,ipy]==0.7.5",
+  "meow-sim",
+  # ray
+  "ray[tune,air]",
+  "hyperopt",
+  # sax
+  "sax[nojax]==0.8.6",
+  "tidy3d==2.2.2"
+]
 gmsh = [
   "gmsh",
   "h5py",
@@ -118,11 +186,24 @@ gmsh = [
   "trimesh",
   "shapely"
 ]
-kfactory = ["kfactory[git,ipy]==0.7.5"]
-meow = ["meow-sim"]
-ray = ["ray[tune,air]", "hyperopt"]
-sax = ["sax>=0.8.6", "jaxlib", "jax"]
-tidy3d = ["tidy3d==2.2.2"]
+kfactory = [
+  "kfactory[git,ipy]==0.7.5"
+]
+meow = [
+  "meow-sim"
+]
+ray = [
+  "ray[tune,air]",
+  "hyperopt"
+]
+sax = [
+  "sax>=0.8.6",
+  "jaxlib",
+  "jax"
+]
+tidy3d = [
+  "tidy3d==2.2.2"
+]
 
 [project.scripts]
 gf = "gdsfactory.cli:cli"
