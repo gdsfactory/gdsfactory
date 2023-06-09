@@ -8,7 +8,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.components.text import text
-from gdsfactory.typings import LayerSpec, ComponentSpec
+from gdsfactory.typings import LayerSpec, ComponentSpec, Float2
 
 
 @gf.cell
@@ -18,7 +18,7 @@ def die(
     street_length: float = 1000.0,
     die_name: Optional[str] = "chip99",
     text_size: float = 100.0,
-    text_location: Union[str, Tuple[float, float]] = "SW",
+    text_location: Union[str, Float2] = "SW",
     layer: LayerSpec = "FLOORPLAN",
     bbox_layer: Optional[LayerSpec] = "FLOORPLAN",
     draw_corners: bool = True,
