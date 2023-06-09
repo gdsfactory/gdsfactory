@@ -51,3 +51,6 @@ specs:
   # - anaconda-navigator # [win]
   # - ipympl # [win,unix]
   # - ipywidgets # [win, unix]
+  - pip:
+    - kfactory
+    - jupytext
