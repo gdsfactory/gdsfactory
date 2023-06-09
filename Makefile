@@ -63,9 +63,6 @@ gmsh:
 meep:
 	conda install pymeep=*=mpi_mpich_* -y
 
-sax:
-	pip install jax jaxlib
-
 publish:
 	anaconda upload environment.yml
 

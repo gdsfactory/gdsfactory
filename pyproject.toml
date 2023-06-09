@@ -172,10 +172,8 @@ full = [
   # ray
   "ray[tune,air]",
   "hyperopt",
-  # ray
-  "sax>=0.8.6",
-  "jaxlib",
-  "jax",
+  # sax
+  "sax[nojax]==0.8.6",
   "tidy3d==2.2.2"
 ]
 gmsh = [
