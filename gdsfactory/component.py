@@ -1439,15 +1439,16 @@ class Component(_GeometryHelper):
         from IPython.display import display
 
         from gdsfactory.pdk import get_layer_views
-        from gdsfactory.plugins.widget.interactive import LayoutWidget
 
         try:
             import kfactory as kf
-        except ImportError as e:
+            from gdsfactory.plugins.widget.interactive import LayoutWidget
+        except ImportError:
             print(
                 "You need install kfactory plugin with `pip install gdsfactory[kfactory]`"
             )
-            raise e
+            self.plot_klayout()
+            return
 
         component = (
             self.add_pins_triangle(port_marker_layer=port_marker_layer)
