@@ -9,7 +9,7 @@ full: plugins
 all: plugins install full
 
 install:
-	pip install -e .[cad,dev] pre-commit
+	pip install -e .[kfactory,dev] pre-commit
 	pre-commit install
 	gf install klayout-genericpdk
 	gf install git-diff
