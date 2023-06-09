@@ -8,7 +8,7 @@ from typing import Optional
 from click.core import Context, Option
 
 import gdsfactory
-from gdsfactory.config import cwd, print_config
+from gdsfactory.config import cwd, print_config, PATH
 from gdsfactory.config import print_version as _print_version
 from gdsfactory.config import print_version_pdks, print_version_raw
 from gdsfactory.generic_tech import LAYER
@@ -52,6 +52,30 @@ def install() -> None:
 def config_get(key: str) -> None:
     """Shows key values from CONFIG."""
     print_config(key)
+
+
+# download
+@click.group()
+def download() -> None:
+    """Commands for downloading files."""
+    pass
+
+
+def download_github_repo(repo_url, output_dir) -> None:
+    import git
+
+    git.Repo.clone_from(repo_url, output_dir)
+    print(f"Repository cloned successfully to: {output_dir}")
+
+
+@click.argument("dirname", required=False, default="notebooks")
+@click.argument("dirpath", required=False, default=PATH.cwd)
+@click.command(name="notebooks")
+def notebooks(dirpath, dirname) -> None:
+    """Download jupyter notebooks"""
+    repo_url = "https://github.com/gdsfactory/gdsfactory"
+    output_dir = pathlib.Path(dirpath) / dirname
+    download_github_repo(repo_url=repo_url, output_dir=output_dir)
 
 
 # GDS
@@ -224,6 +248,8 @@ install.add_command(git_diff)
 version.add_command(raw)
 version.add_command(pdks)
 
+download.add_command(notebooks)
+
 cli.add_command(web)
 # watch.add_command(watch_yaml)
 
@@ -232,7 +258,8 @@ cli.add_command(install)
 cli.add_command(watch)
 cli.add_command(version)
 
+cli.add_command(download)
 
 if __name__ == "__main__":
-    # cli()
-    print_version()
+    cli()
+    # print_version()
