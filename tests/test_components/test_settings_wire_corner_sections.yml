@@ -28,12 +28,12 @@ settings:
   changed: {}
   child: null
   default:
-    cross_section: metal_routing
+    cross_section: metal_slotted
     radius: 10
   full:
-    cross_section: metal_routing
+    cross_section: metal_slotted
     radius: 10
-  function_name: wire_corner45
+  function_name: wire_corner_sections
   info:
     length: 14.142
   info_version: 2
