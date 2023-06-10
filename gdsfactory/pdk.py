@@ -5,7 +5,7 @@ from __future__ import annotations
 import pathlib
 import warnings
 from functools import partial
-from typing import Any, Callable, Optional, Tuple, Union
+from typing import Any, Callable, Optional, Tuple, Union, List
 
 import numpy as np
 from omegaconf import DictConfig
