@@ -105,8 +105,6 @@ def wire_corner45(
 @gf.cell
 def wire_corner_sections(
     cross_section: CrossSectionSpec = "metal_routing",
-    mirror_e1: bool = False,
-    mirror_e2: bool = False,
     **kwargs,
 ) -> Component:
     """Returns 90 degrees electrical corner wire, where all cross_section sections properly represented.
@@ -115,8 +113,6 @@ def wire_corner_sections(
 
     Args:
         cross_section: spec.
-        mirror_e1: whether to mirror the e1 port cross_section w.r.t. input xsection
-        mirror_e2: whether to mirror the e2 port cross_section w.r.t. input xsection
         kwargs: cross_section settings.
     """
     x = gf.get_cross_section(cross_section, **kwargs)
@@ -179,8 +175,8 @@ if __name__ == "__main__":
     xsection = gf.cross_section.cross_section(
         width=0.4, offset=0, layer="M1", sections=[section1, section2]
     )
-    c = wire_corner_sections(cross_section=xsection)
-    c.show(show_ports=True)
+    # c = wire_corner_sections(cross_section=xsection)
+    # c.show(show_ports=True)
     # c.pprint_ports()
     # c.pprint()
 
