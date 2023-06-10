@@ -39,7 +39,6 @@ from gdsfactory.typings import (
 
 component_settings = ["function", "component", "settings"]
 cross_section_settings = ["function", "cross_section", "settings"]
-layers_required = []
 
 constants = {
     "fiber_array_spacing": 127.0,
@@ -242,7 +241,10 @@ class Pdk(BaseModel):
     def is_pathlib_path(cls, path):
         return pathlib.Path(path)
 
-    def validate_layers(self):
+    def validate_layers(self, layers_required: Optional[List[Layer]] = None):
+        """Raises ValueError if layers_required are not in Pdk."""
+        if layers_required is None:
+            layers_required = []
         for layer in layers_required:
             if layer not in self.layers:
                 raise ValueError(
@@ -276,7 +278,8 @@ class Pdk(BaseModel):
 
             if not self.default_decorator:
                 self.default_decorator = self.base_pdk.default_decorator
-        self.validate_layers()
+        layers_required = []
+        self.validate_layers(layers_required)
         _set_active_pdk(self)
 
     def register_cells(self, **kwargs) -> None:
