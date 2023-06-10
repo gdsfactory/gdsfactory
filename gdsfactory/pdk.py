@@ -243,6 +243,8 @@ class Pdk(BaseModel):
 
     def validate_layers(self, layers_required: Optional[List[Layer]] = None):
         """Raises ValueError if layers_required are not in Pdk."""
+        if layers_required is None:
+            layers_required = []
         for layer in layers_required:
             if layer not in self.layers:
                 raise ValueError(
