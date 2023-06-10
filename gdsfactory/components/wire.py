@@ -152,15 +152,15 @@ def wire_corner_sections(
         name="e1",
         center=(xmin, -(xmin + ymax) / 2),
         orientation=180,
-        cross_section=cross_section,
-        layer=cross_section.layer,
+        cross_section=x,
+        layer=x.layer,
     )
     c.add_port(
         name="e2",
         center=((xmin + ymax) / 2, ymax),
         orientation=90,
-        cross_section=cross_section,
-        layer=cross_section.layer,
+        cross_section=x,
+        layer=x.layer,
     )
     c.info["length"] = ymax - xmin
     c.info["dy"] = ymax - xmin
@@ -175,24 +175,26 @@ if __name__ == "__main__":
     xsection = gf.cross_section.cross_section(
         width=0.4, offset=0, layer="M1", sections=[section1, section2]
     )
-    # c = wire_corner_sections(cross_section=xsection)
-    # c.show(show_ports=True)
+    from gdsfactory.cross_section import metal_slotted
+
+    c = wire_corner_sections(cross_section=metal_slotted)
+    c.show(show_ports=True)
     # c.pprint_ports()
     # c.pprint()
 
-    port1 = gf.Port(name="init", orientation=270, center=(0, 0), cross_section=xsection)
-    port2 = gf.Port(
-        name="final", orientation=0, center=(-20, -20), cross_section=xsection
-    )
+    # port1 = gf.Port(name="init", orientation=270, center=(0, 0), cross_section=metal_slotted)
+    # port2 = gf.Port(
+    #     name="final", orientation=0, center=(-20, -20), cross_section=metal_slotted
+    # )
 
-    c = gf.Component()
-    route = gf.routing.get_route_electrical(
-        input_port=port1,
-        output_port=port2,
-        bend=wire_corner_sections(cross_section=xsection),
-        cross_section=xsection,
-    )
-    c.add(route.references)
-    c.show()
+    # c = gf.Component()
+    # route = gf.routing.get_route_electrical(
+    #     input_port=port1,
+    #     output_port=port2,
+    #     bend=wire_corner_sections(cross_section=xsection),
+    #     cross_section=xsection,
+    # )
+    # c.add(route.references)
+    # c.show()
 
     # print(yaml.dump(c.to_dict()))

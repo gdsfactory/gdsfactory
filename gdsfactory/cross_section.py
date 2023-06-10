@@ -253,6 +253,20 @@ class CrossSection(BaseModel):
                 c.add_polygon(points, layer=layer)
         return c
 
+    def get_xmin_xmax(self):
+        """Returns the min and max extent of the cross_section across all sections."""
+        main_width = self.width
+        main_offset = self.offset
+        xmin = main_offset - main_width / 2
+        xmax = main_offset + main_width / 2
+        for section in self.sections:
+            width = section.width
+            offset = section.offset
+            xmin = min(xmin, offset - width / 2)
+            xmax = max(xmax, offset + width / 2)
+
+        return xmin, xmax
+
 
 CrossSectionSpec = Union[CrossSection, Callable, Dict[str, Any]]
 
@@ -773,6 +787,17 @@ heater_metal = partial(
 metal3_with_bend = partial(metal1, layer="M3", radius=10)
 metal_routing = metal3
 npp = partial(metal1, layer="NPP", width=0.5)
+
+metal_slotted = partial(
+    cross_section,
+    width=10,
+    offset=0,
+    layer="M3",
+    sections=[
+        Section(width=10, layer="M3", offset=11),
+        Section(width=10, layer="M3", offset=-11),
+    ],
+)
 
 
 @xsection
