@@ -219,7 +219,6 @@ def get_layer_stack():
 layer_stack = get_layer_stack()
 
 # +
-# NBVAL_SKIP
 
 c = gf.components.straight()
 s = sim.write_sparameters_lumerical(c, layer_stack=layer_stack, run=False, session=s)

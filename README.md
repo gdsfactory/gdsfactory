@@ -76,6 +76,8 @@ You can also access:
 
 ## Installation
 
+We recommend using python3.10 or python3.11
+
 You have 2 options to install gdsfactory:
 
 ### 1. Installation for new users
