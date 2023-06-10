@@ -10,10 +10,10 @@
 
 # ![KLayout package](https://i.imgur.com/IZWH6U0.png)
 
-# You can install the klayout integration to install the generic layermap:
+# You can install the klayout generic pdk (layermap and DRC) in 2 ways:
 #
-# - from the terminal by typing `gf install klayout-genericpdk` after installing gdsfactory `pip install gdsfactory`
-# - using KLayout package manager (see image below), Tools --> Manage Packages
+# 1. from the terminal by typing `gf install klayout-genericpdk` after installing gdsfactory `pip install gdsfactory`
+# 2. using KLayout package manager (see image below), Tools --> Manage Packages
 #
 # ![KLayout package](https://i.imgur.com/AkfcCms.png)
 
