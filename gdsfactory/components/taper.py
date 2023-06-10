@@ -45,17 +45,22 @@ def taper(
     if width2 is None:
         width2 = width1
 
+    c = gf.Component()
+
     y1 = width1 / 2
     y2 = width2 / 2
-
     x1 = x.copy(width=width1)
     x2 = x.copy(width=width2)
-
     xpts = [0, length, length, 0]
     ypts = [y1, y2, -y2, -y1]
-
-    c = gf.Component()
     c.add_polygon((xpts, ypts), layer=layer)
+
+    for section in x.sections:
+        layer = section.layer
+        y1 = section.width / 2
+        y2 = y1 + (width2 - width1)
+        ypts = [y1, y2, -y2, -y1]
+        c.add_polygon((xpts, ypts), layer=layer)
 
     if x.cladding_layers and x.cladding_offsets:
         for layer, offset in zip(x.cladding_layers, x.cladding_offsets):
@@ -268,8 +273,9 @@ if __name__ == "__main__":
     #     ]
     # )
     # c.write_gds_with_metadata("extra/tapers.gds")
+    xs = gf.get_cross_section("rib_conformal")
 
-    c = taper(width2=1)
+    c = taper(width2=1, cross_section="rib_conformal")
     # c = taper_strip_to_ridge()
     # print(c.get_optical_ports())
     # c = taper_strip_to_ridge_trenches()
