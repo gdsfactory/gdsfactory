@@ -2,7 +2,11 @@
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.103.1...main)
 
-## [6.105.0](https://github.com/gdsfactory/gdsfactory/compare/v6.103.3...v6.103.3)
+## [6.106.0](https://github.com/gdsfactory/gdsfactory/compare/v6.105.3...v6.103.3)
+
+- add `fraction_te` to tidy3d mode solver.
+
+## [6.105.0](https://github.com/gdsfactory/gdsfactory/compare/v6.105.3...v6.103.3)
 
 - fix installer.
 - add die text location [PR](https://github.com/gdsfactory/gdsfactory/pull/1760)
