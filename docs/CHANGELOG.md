@@ -7,6 +7,7 @@
 - fix installer.
 - add die text location [PR](https://github.com/gdsfactory/gdsfactory/pull/1760)
 - make validate layers more generic [PR](https://github.com/gdsfactory/gdsfactory/pull/1761)
+- fix taper [PR](https://github.com/gdsfactory/gdsfactory/pull/1762)
 
 ## [6.103.3](https://github.com/gdsfactory/gdsfactory/compare/v6.103.3...v6.103.1)
 
