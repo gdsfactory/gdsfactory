@@ -98,7 +98,7 @@ Once you have python installed, open Anaconda Prompt and then install the latest
 
 ```
 mamba install gdstk -y
-pip install gdsfactory --upgrade
+pip install "gdsfactory[full]" --upgrade
 gf install klayout-genericpdk
 ```
 
@@ -114,7 +114,7 @@ git clone https://github.com/gdsfactory/gdsfactory.git
 cd gdsfactory
 mamba install gdstk -y
 pip install -e . pre-commit
-pip install -e .[full,gmsh,tidy3d,devsim,meow,database] # Install all plugins
+pip install -e .[full] # Install most plugins
 pre-commit install
 gf install klayout-genericpdk
 ```
@@ -137,15 +137,11 @@ gf.config.print_version()
 
 ### Plugins
 
-You need to install the plugins separately.
-
-You can install most plugins with:
+You need to install each plugin separately or install most plugins with:
 
 ```
 pip install "gdsfactory[full]" --upgrade
 ```
-
-Or you can install only the ones you need.
 
 - `pip install "gdsfactory[cad]"` 3D rendering.
 - `pip install "gdsfactory[tidy3d]"` FDTD simulations on the cloud.
@@ -153,6 +149,7 @@ Or you can install only the ones you need.
 - `pip install "gdsfactory[devsim]"` TCAD.
 - `pip install "gdsfactory[meow]"` EME (Eigen Mode Expansion).
 - `pip install "gdsfactory[femwell]"` Finite Element Method Solver (heaters, modes, TCAD, RF waveguides).
+- `pip install "gdsfactory[sax]"` Sparameter circuit solver.
 - `mamba install pymeep=*=mpi_mpich_* -y` for open source FDTD MEEP. Notice that it works for MacOS and Linux, so for Windows you need to use the [WSL (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install).
 
 * [Optimization](https://gdsfactory.github.io/gdsfactory/plugins_optimization.html)
@@ -187,7 +184,6 @@ Alternatively, one may use the pre-built Docker image from [hub.docker.com/r/joa
 ```bash
 docker build -t joamatab/gdsfactory .
 ```
-
 For example, VS Code supports development inside a container, see [Developing inside a Container](https://code.visualstudio.com/docs/devcontainers/containers) for details.
 
 ## Getting started

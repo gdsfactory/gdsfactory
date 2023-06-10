@@ -2,6 +2,12 @@
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.103.1...main)
 
+## [6.105.0](https://github.com/gdsfactory/gdsfactory/compare/v6.103.3...v6.103.3)
+
+- fix installer.
+- add die text location [PR](https://github.com/gdsfactory/gdsfactory/pull/1760)
+- make validate layers more generic [PR](https://github.com/gdsfactory/gdsfactory/pull/1761)
+
 ## [6.103.3](https://github.com/gdsfactory/gdsfactory/compare/v6.103.3...v6.103.1)
 
 - add python3.7 bare bones tests [PR](https://github.com/gdsfactory/gdsfactory/pull/1745)
