@@ -65,7 +65,7 @@ c
 #
 # Partial lets you define different default parameters for a function, so you can modify the settings for the child cells.
 
-c = bend_with_straight(bend=gf.partial(gf.components.bend_circular, radius=30))
+c = bend_with_straight(bend=partial(gf.components.bend_circular, radius=30))
 c
 
 bend20 = partial(gf.components.bend_circular, radius=20)
@@ -92,9 +92,9 @@ b3
 #
 # Lets say that this PDK uses layer (41, 0) for the pads (instead of the layer used in the generic pad function).
 #
-# You can also access `functools.partial` from `gf.partial`
+# You can also access `functools.partial` from `partial`
 
-pad = gf.partial(gf.components.pad, layer=(41, 0))
+pad = partial(gf.components.pad, layer=(41, 0))
 
 c = pad()
 c
@@ -108,7 +108,7 @@ c
 c1 = gf.components.straight()
 c1
 
-straight_wide = gf.partial(gf.components.straight, width=3)
+straight_wide = partial(gf.components.straight, width=3)
 c3 = straight_wide()
 c3
 
@@ -128,7 +128,7 @@ c3.metadata_child["changed"]  # You can still access the child metadata
 # Lets do it with a **single** step thanks to `toolz.pipe`
 
 # +
-add_fiber_array = gf.partial(gf.routing.add_fiber_array, with_loopback=False)
+add_fiber_array = partial(gf.routing.add_fiber_array, with_loopback=False)
 add_tapers = gf.add_tapers
 
 # pipe is more readable than the equivalent add_fiber_array(add_tapers(c1))

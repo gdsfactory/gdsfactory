@@ -11,17 +11,17 @@ From Chrostowski, L., & Hochberg, M. (2015). Silicon Photonics Design: From Devi
 
 from __future__ import annotations
 
-from typing import Optional
 import warnings
+from typing import Optional
 
 import devsim
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.interpolate import griddata
 import pyvista as pv
+import tidy3d as td
 from devsim.python_packages import model_create, simple_physics
 from pydantic import BaseModel, Extra
-import tidy3d as td
+from scipy.interpolate import griddata
 
 from gdsfactory.simulation.disable_print import disable_print, enable_print
 from gdsfactory.simulation.gtidy3d.materials import get_nk

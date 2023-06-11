@@ -1,11 +1,11 @@
 """
 Reference: Selberherr, S. (1984). Process Modeling. In: Analysis and Simulation of Semiconductor Devices. Springer, Vienna. https://doi.org/10.1007/978-3-7091-8752-4_3
 """
+from typing import Optional
+
 import numpy as np
 
 from gdsfactory.simulation.process.silicon import ni
-from typing import Optional
-
 
 diffusion_in_silicon = {
     "boron": {
@@ -143,10 +143,8 @@ if __name__ == "__main__":
 
     # Ts = [800,850,900,950,1000,1050]
     # conc = np.logspace(18,21,100)
-
     # for T in Ts:
     #     plt.loglog(conc, D("phosphorus", T, n=conc, p=conc), label=T)
-
     # plt.xlabel("Acceptor concentration (cm-3)")
     # plt.ylabel("Diffusivity (cm2 s-1)")
     # plt.title("Intrinsic diffusivity (n=p=ni)")

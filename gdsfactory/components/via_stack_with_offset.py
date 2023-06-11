@@ -1,15 +1,16 @@
 from __future__ import annotations
-import warnings
 
+import warnings
+from functools import partial
 from typing import Optional, Tuple
 
 from numpy import floor
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.via import viac
 from gdsfactory.components.compass import compass
-from gdsfactory.typings import ComponentSpec, LayerSpecs, Float2, Floats
+from gdsfactory.components.via import viac
+from gdsfactory.typings import ComponentSpec, Float2, Floats, LayerSpecs
 
 
 @gf.cell
@@ -129,19 +130,19 @@ def via_stack_with_offset(
     return c
 
 
-via_stack_with_offset_ppp_m1 = gf.partial(
+via_stack_with_offset_ppp_m1 = partial(
     via_stack_with_offset,
     layers=("PPP", "M1"),
     vias=(None, viac),
 )
 
-via_stack_with_offset_ppp_m1 = gf.partial(
+via_stack_with_offset_ppp_m1 = partial(
     via_stack_with_offset,
     layers=("PPP", "M1"),
     vias=(None, viac),
 )
 
-via_stack_with_offset_m1_m3 = gf.partial(
+via_stack_with_offset_m1_m3 = partial(
     via_stack_with_offset,
     layers=("M1", "M2", "M3"),
     vias=(None, "via1", "via2"),

@@ -44,7 +44,7 @@ license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
 requires-python = ">=3.7"
-version = "6.102.4"
+version = "6.103.2"
 
 [project.optional-dependencies]
 database = [
@@ -85,7 +85,6 @@ full = [
   "autograd",
   "bokeh",
   "freetype-py",
-  "holoviews",
   "ipympl",
   "ipywidgets==7.7.3",
   "ipyevents",
@@ -119,7 +118,7 @@ gmsh = [
   "trimesh",
   "shapely"
 ]
-kfactory = ["kfactory[git]==0.7.5"]
+kfactory = ["kfactory[git,ipy]==0.7.5"]
 meow = ["meow-sim"]
 ray = ["ray[tune,air]", "hyperopt"]
 sax = ["sax>=0.8.6", "jaxlib", "jax"]

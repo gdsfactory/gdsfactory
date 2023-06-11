@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from functools import partial
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.typings import ComponentSpec, Floats, LayerSpec, Optional
@@ -80,7 +82,7 @@ def straight_heater_meander(
             length=straight_length - 2 * taper_length, cross_section=cross_section1
         )
 
-        taper = gf.partial(
+        taper = partial(
             gf.c.taper_cross_section_linear,
             cross_section1=cross_section1,
             cross_section2=cross_section2,
@@ -143,7 +145,7 @@ def straight_heater_meander(
     c.add_port("o2", port=straight2.ports["o2"])
 
     if layer_heater:
-        heater_cross_section = gf.partial(
+        heater_cross_section = partial(
             gf.cross_section.cross_section, width=heater_width, layer=layer_heater
         )
 
@@ -219,7 +221,7 @@ if __name__ == "__main__":
         taper_length=10,
         # taper_length=10,
         length=1000,
-        # cross_section=gf.partial(gf.cross_section.strip, width=0.8),
+        # cross_section=partial(gf.cross_section.strip, width=0.8),
     )
     c.show(show_ports=True)
     # scene = c.to_3d()

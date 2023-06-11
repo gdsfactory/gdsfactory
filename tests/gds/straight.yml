@@ -52,7 +52,7 @@ cells:
         min_length: 0.01
         start_straight_length: 0.01
         end_straight_length: 0.01
-        snap_to_grid: 0.001
+        snap_to_grid: null
         bbox_layers: null
         bbox_offsets: null
         cladding_layers: null
@@ -115,7 +115,7 @@ settings:
       min_length: 0.01
       start_straight_length: 0.01
       end_straight_length: 0.01
-      snap_to_grid: 0.001
+      snap_to_grid: null
       bbox_layers: null
       bbox_offsets: null
       cladding_layers: null

@@ -6,10 +6,10 @@ from gdsfactory.config import logger
 from gdsfactory.simulation.devsim.get_simulation_xsection import (
     PINWaveguide,
     alpha_to_k,
+    clear_devsim_cache,
     dalpha_carriers,
     dn_carriers,
     k_to_alpha,
-    clear_devsim_cache,
 )
 from gdsfactory.simulation.devsim.get_solver import DDComponent
 

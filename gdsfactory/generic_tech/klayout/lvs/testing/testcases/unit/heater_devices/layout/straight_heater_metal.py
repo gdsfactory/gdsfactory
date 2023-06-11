@@ -1,5 +1,6 @@
-import gdsfactory as gf
 import os
+
+import gdsfactory as gf
 
 straight_heater_metal_mk = (47, 1)
 m3_cross_section = gf.CrossSection(

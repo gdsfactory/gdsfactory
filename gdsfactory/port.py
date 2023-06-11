@@ -146,10 +146,11 @@ class Port:
         return clean_value_json(d)
 
     def to_yaml(self) -> str:
+        x, y = np.round(self.center, 3)
         d = {
             "name": self.name,
             "width": float(self.width),
-            "center": [float(self.center[0]), float(self.center[1])],
+            "center": [float(x), float(y)],
             "orientation": float(self.orientation)
             if self.orientation
             else float(self.orientation),

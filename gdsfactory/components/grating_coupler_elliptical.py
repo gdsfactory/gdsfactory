@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from functools import partial
 
 import numpy as np
 from numpy import ndarray
@@ -239,7 +240,7 @@ def grating_coupler_elliptical(
     return c
 
 
-grating_coupler_elliptical_tm = gf.partial(
+grating_coupler_elliptical_tm = partial(
     grating_coupler_elliptical,
     grating_line_width=0.707,
     polarization="tm",

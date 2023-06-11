@@ -1,5 +1,5 @@
-from gdsfactory.simulation.devsim import get_simulation_xsection
 import gdsfactory as gf
+from gdsfactory.simulation.devsim import get_simulation_xsection
 
 PDK = gf.get_generic_pdk()
 PDK.activate()

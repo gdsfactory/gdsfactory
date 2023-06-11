@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from functools import partial
 from typing import List, Optional
 
 import gdsfactory as gf
@@ -242,10 +243,10 @@ def taper_strip_to_ridge_trenches(
     return c
 
 
-taper_strip_to_slab150 = gf.partial(taper_strip_to_ridge, layer_slab="SLAB150")
+taper_strip_to_slab150 = partial(taper_strip_to_ridge, layer_slab="SLAB150")
 
 # taper StripCband to NitrideCband
-taper_sc_nc = gf.partial(
+taper_sc_nc = partial(
     taper_strip_to_ridge,
     layer_wg="WG",
     layer_slab="WGN",

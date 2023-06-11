@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from functools import partial
 from typing import Optional
 
 import gdsfactory as gf
@@ -47,5 +48,5 @@ def terminator(
 
 
 if __name__ == "__main__":
-    c = terminator(cross_section_input=gf.partial(gf.cross_section.strip, width=10))
+    c = terminator(cross_section_input=partial(gf.cross_section.strip, width=10))
     c.show(show_ports=True)

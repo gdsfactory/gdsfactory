@@ -5,7 +5,7 @@ from __future__ import annotations
 import csv
 import pathlib
 from pathlib import Path
-from typing import Iterator, Tuple, List
+from typing import Iterator, List, Tuple
 
 import numpy as np
 
@@ -134,7 +134,7 @@ def write_labels_gdstk(
                 and label.texttype == layer_label[1]
                 and label.text.startswith(prefix)
             ):
-                x, y = label.origin
+                x, y = np.round(label.origin, 3)
                 rot = np.rad2deg(label.rotation)
                 labels += [(label.text, x, y, rot)]
                 if debug:

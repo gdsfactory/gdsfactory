@@ -1,3 +1,19 @@
+# ---
+# jupyter:
+#   jupytext:
+#     cell_metadata_filter: -all
+#     custom_cell_magics: kql
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
+#   kernelspec:
+#     display_name: base
+#     language: python
+#     name: python3
+# ---
+
 # %% [markdown]
 # # PDK
 #
@@ -40,6 +56,7 @@
 # %%
 import pathlib
 from typing import Callable, Tuple
+from functools import partial
 
 import pytest
 from pydantic import BaseModel
@@ -158,14 +175,14 @@ LAYER = LayerMap()
 # You can create a `CrossSection` from scratch or you can customize the cross_section functions in `gf.cross_section`
 
 # %%
-strip2 = gf.partial(gf.cross_section.strip, layer=(2, 0))
+strip2 = partial(gf.cross_section.strip, layer=(2, 0))
 
 # %%
 c = gf.components.straight(cross_section=strip2)
 c
 
 # %%
-pin = gf.partial(
+pin = partial(
     gf.cross_section.strip,
     sections=(
         gf.Section(width=2, layer=gf.LAYER.N, offset=+1),
@@ -176,11 +193,11 @@ c = gf.components.straight(cross_section=pin)
 c
 
 # %%
-strip_wide = gf.partial(gf.cross_section.strip, width=3)
+strip_wide = partial(gf.cross_section.strip, width=3)
 
 
 # %%
-strip = gf.partial(
+strip = partial(
     gf.cross_section.strip, auto_widen=True
 )  # auto_widen tapers to wider waveguides for lower loss in long straight sections.
 
@@ -198,8 +215,8 @@ cross_sections = dict(strip_wide=strip_wide, pin=pin, strip=strip)
 # For example, you can make some wide MMIs for a particular technology. Lets say the best MMI width you found it to be 9um.
 
 # %%
-mmi1x2 = gf.partial(gf.components.mmi1x2, width_mmi=9)
-mmi2x2 = gf.partial(gf.components.mmi2x2, width_mmi=9)
+mmi1x2 = partial(gf.components.mmi1x2, width_mmi=9)
+mmi2x2 = partial(gf.components.mmi2x2, width_mmi=9)
 
 cells = dict(mmi1x2=mmi1x2, mmi2x2=mmi2x2)
 
@@ -277,7 +294,7 @@ pdk1.get_component(dict(component="mmi1x2", settings=dict(length_mmi=10)))
 #
 # gdsfactory is **not** backwards compatible, which means that the package will keep improving and evolving.
 #
-# 1. To make your work stable you should install a specific version and [pin the version](https://martin-thoma.com/python-requirements/) in your `requirements.txt` or `pyproject.toml` as `gdsfactory==6.102.4` replacing `6.102.4` by whatever version you end up using.
+# 1. To make your work stable you should install a specific version and [pin the version](https://martin-thoma.com/python-requirements/) in your `requirements.txt` or `pyproject.toml` as `gdsfactory==6.103.2` replacing `6.103.2` by whatever version you end up using.
 # 2. Before you upgrade gdsfactory to a newer version make sure your tests pass to make sure that things behave as expected
 #
 #
@@ -336,15 +353,14 @@ def test_assert_ports_on_grid(component_name: str):
 # For example, if you changed the mmi1x2 and made it 5um longer by mistake, you could `gf gds diff ref_layouts/mmi1x2.gds run_layouts/mmi1x2.gds` and see the GDS differences in Klayout.
 
 # %%
-from gdsfactory.gdsdiff import gdsdiff
-
-help(gdsdiff)
+help(gf.diff)
 
 # %%
 mmi1 = gf.components.mmi1x2(length_mmi=5)
 mmi2 = gf.components.mmi1x2(length_mmi=6)
-c = gdsdiff(mmi1, mmi2)
-c
+gds1 = mmi1.write_gds()
+gds2 = mmi2.write_gds()
+gf.diff(gds1, gds2)
 
 # %% [markdown]
 # ## PDK decorator
@@ -435,6 +451,8 @@ c1
 
 # %%
 from gdsfactory.generic_tech import get_generic_pdk
+import gdsfactory as gf
+from gdsfactory.typings import LayerSpec, Tuple
 
 PDK = get_generic_pdk()
 PDK.activate()
@@ -471,7 +489,7 @@ def litho_ruler(
     return D
 
 
-c = litho_ruler(cache=False)
+c = litho_ruler()
 c.plot()
 
 # %% [markdown]
@@ -515,3 +533,5 @@ def litho_ruler(
 
 c = litho_ruler(cache=False)
 c.plot()
+
+# %%

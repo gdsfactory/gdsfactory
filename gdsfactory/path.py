@@ -85,9 +85,26 @@ class Path(_GeometryHelper):
                     "an array-like[N][2] list of points, or a list of these"
                 )
 
+    def __repr__(self) -> str:
+        """Returns path points."""
+        return (
+            f"Path(start_angle={self.start_angle}, "
+            f"end_angle={self.end_angle}, "
+            f"points={self.points})"
+        )
+
     def __len__(self) -> int:
         """Returns path points."""
         return len(self.points)
+
+    def __iadd__(self, path_or_points) -> Path:
+        """Adds points to current path."""
+        return self.append(path_or_points)
+
+    def __add__(self, path) -> Path:
+        """Returns new path concatenating current and new path."""
+        new = self.copy()
+        return new.append(path)
 
     @property
     def bbox(self):
@@ -1482,13 +1499,12 @@ def _demo_variable_offset() -> None:
 
 if __name__ == "__main__":
     import numpy as np
+
     import gdsfactory as gf
 
     # nm = 1e-3
-
     # points = np.array([(20, 10), (40, 10), (20, 40), (50, 40), (50, 20), (70, 20)])
     # p = smooth(points=points)
-
     # p = arc(start_angle=0)
     # c = p.extrude(layer=(1, 0), width=0.1, simplify=50 * nm)
     p = straight()
@@ -1519,9 +1535,7 @@ if __name__ == "__main__":
     )
 
     Xtrans = gf.path.transition(cross_section1=X1, cross_section2=X2, width_type="sine")
-
     c = p.extrude(cross_section=Xtrans)
-    print(c.name)
     # c = gf.components.splitter_tree(
     #     noutputs=2**2,
     #     spacing=(120.0, 50.0),

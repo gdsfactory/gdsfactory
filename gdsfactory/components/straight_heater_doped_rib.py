@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from functools import partial
 from typing import Optional, Tuple
 
 import gdsfactory as gf
@@ -96,7 +97,7 @@ def straight_heater_doped_rib(
 
     """
     c = Component()
-    cross_section_heater = gf.partial(
+    cross_section_heater = partial(
         cross_section_heater,
         heater_width=heater_width,
         heater_gap=heater_gap,

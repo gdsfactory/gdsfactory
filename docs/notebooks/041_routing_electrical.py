@@ -14,6 +14,7 @@
 # `get_route_electrical` has `bend = wire_corner` with a 90deg bend corner.
 
 # +
+from functools import partial
 import gdsfactory as gf
 from gdsfactory.generic_tech import get_generic_pdk
 
@@ -166,7 +167,7 @@ c
 # +
 c = gf.Component("pads_bundle_steps")
 pt = c << gf.components.pad_array(
-    gf.partial(gf.components.pad, size=(30, 30)),
+    partial(gf.components.pad, size=(30, 30)),
     orientation=270,
     columns=3,
     spacing=(50, 0),

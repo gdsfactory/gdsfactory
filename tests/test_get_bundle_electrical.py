@@ -1,4 +1,5 @@
 from __future__ import annotations
+from functools import partial
 
 from pytest_regressions.data_regression import DataRegressionFixture
 
@@ -52,7 +53,7 @@ def test_get_bundle_electrical2(
 
     c = gf.Component("pads_bundle_steps")
     pt = c << gf.components.pad_array(
-        gf.partial(gf.components.pad, size=(30, 30)),
+        partial(gf.components.pad, size=(30, 30)),
         orientation=270,
         columns=3,
         spacing=(50, 0),

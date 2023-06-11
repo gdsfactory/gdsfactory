@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from functools import partial
 from typing import List, Optional, Union
 
 import numpy as np
@@ -15,11 +16,11 @@ from gdsfactory.routing.get_bundle_from_waypoints import get_bundle_from_waypoin
 from gdsfactory.routing.manhattan import _is_horizontal, _is_vertical
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
 from gdsfactory.typings import (
+    STEP_DIRECTIVES,
     ComponentSpec,
     CrossSectionSpec,
     MultiCrossSectionAngleSpec,
     Route,
-    STEP_DIRECTIVES,
     Step,
 )
 
@@ -65,7 +66,7 @@ def get_bundle_from_steps(
 
         c = gf.Component("get_route_from_steps_sample")
         w = gf.components.array(
-            gf.partial(gf.components.straight, layer=(2, 0)),
+            partial(gf.components.straight, layer=(2, 0)),
             rows=3,
             columns=1,
             spacing=(0, 50),
@@ -172,11 +173,11 @@ def get_bundle_from_steps(
     )
 
 
-get_bundle_from_steps_electrical = gf.partial(
+get_bundle_from_steps_electrical = partial(
     get_bundle_from_steps, bend=wire_corner, cross_section="metal_routing"
 )
 
-get_bundle_from_steps_electrical_multilayer = gf.partial(
+get_bundle_from_steps_electrical_multilayer = partial(
     get_bundle_from_steps,
     bend=via_corner,
     cross_section=[
@@ -190,7 +191,7 @@ def _demo() -> None:
     c = gf.Component("get_route_from_steps_sample")
 
     w = gf.components.array(
-        gf.partial(gf.components.straight, layer=(2, 0)),
+        partial(gf.components.straight, layer=(2, 0)),
         rows=3,
         columns=1,
         spacing=(0, 50),
@@ -219,7 +220,7 @@ if __name__ == "__main__":
 
     c = gf.Component("pads_bundle_steps")
     pt = c << gf.components.pad_array(
-        gf.partial(gf.components.pad, size=(30, 30)),
+        partial(gf.components.pad, size=(30, 30)),
         orientation=270,
         columns=3,
         spacing=(50, 0),

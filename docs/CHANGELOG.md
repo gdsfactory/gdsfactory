@@ -1,6 +1,20 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.102.1...main)
+## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.103.1...main)
+
+## [6.103.1](https://github.com/gdsfactory/gdsfactory/compare/v6.103.1...v6.103.0)
+
+- fix jupyter widget [PR](https://github.com/gdsfactory/gdsfactory/pull/1740)
+
+## [6.103.0](https://github.com/gdsfactory/gdsfactory/compare/v6.103.0...v6.102.4)
+
+- add `gf.Polygon` [PR](https://github.com/gdsfactory/gdsfactory/pull/1736)
+    - add `gf.Polygon.to_shapely()`
+    - add `gf.Polygon.from_shapely()`
+    - add `gf.Polygon.snap()`
+- add `gf.components.coupler_bent`
+    - fix 1nm gaps coming from forcing snapping to grid
+- improve widget [PR](https://github.com/gdsfactory/gdsfactory/pull/1738)
 
 ## [6.102.4](https://github.com/gdsfactory/gdsfactory/compare/v6.102.4...v6.102.3)
 
@@ -763,7 +777,8 @@
 ## 6.3.0
 
 - Schematic-Driven Layout flow [PR](https://github.com/gdsfactory/gdsfactory/pull/920)
-- from __future__ import annotations to all files and makes the docs cleaner by rendering the type aliases rather than the expanded type [PR](https://github.com/gdsfactory/gdsfactory/pull/923)
+- from __future__ import annotations
+from functools import partial to all files and makes the docs cleaner by rendering the type aliases rather than the expanded type [PR](https://github.com/gdsfactory/gdsfactory/pull/923)
 - Add routes to gdsfactory klayout macro [PR](https://github.com/gdsfactory/gdsfactory/pull/918)
 - fix missing conversion from rad (gdstk) to deg [PR](https://github.com/gdsfactory/gdsfactory/pull/927)
 - better error message when failing to import missing gdscell [PR](https://github.com/gdsfactory/gdsfactory/pull/926)
@@ -3192,7 +3207,7 @@
 ## 3.0.2
 
 - add straight_rib, straight_heater_metal and straight_heater_doped
-- `xs2 = gf.partial(cross_section)` does not require defining `xs2.__name__`
+- `xs2 = partial(cross_section)` does not require defining `xs2.__name__`
 - replace gf.extend[.] with gf.components.extension.
 - Component.show() uses `add_pins_triangle` as default to show port orientation
 - add gf.comtainers.bend_port

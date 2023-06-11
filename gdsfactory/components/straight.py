@@ -61,9 +61,9 @@ def straight(
 
 
 if __name__ == "__main__":
-    # c = straight(cross_section=gf.partial('metal_routing', width=2), with_hash=False)
+    # c = straight(cross_section=partial('metal_routing', width=2), with_hash=False)
     # c = straight(
-    #     cross_section=gf.partial(gf.cross_section.strip, width=2), with_hash=False
+    #     cross_section=partial(gf.cross_section.strip, width=2), with_hash=False
     # )
     # c = straight(cladding_offset=2.5)
 

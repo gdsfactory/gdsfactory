@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from functools import partial
 from typing import List, Optional, Tuple
 
 import gdsfactory as gf
@@ -182,6 +183,6 @@ def add_padding_to_size_container(
 if __name__ == "__main__":
     # test_container()
 
-    p = gf.partial(add_padding, layers=["SLAB150"])
+    p = partial(add_padding, layers=["SLAB150"])
     c = gf.components.straight(length=10, decorator=p)
     c.show()

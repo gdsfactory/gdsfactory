@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from functools import partial
+
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
@@ -68,7 +70,7 @@ def bend_circular(
     return c
 
 
-bend_circular180 = gf.partial(bend_circular, angle=180)
+bend_circular180 = partial(bend_circular, angle=180)
 
 
 if __name__ == "__main__":

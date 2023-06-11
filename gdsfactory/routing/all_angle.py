@@ -1,21 +1,20 @@
 import warnings
-from typing import List, Optional, Callable
+from typing import Callable, List, Optional
 
 import numpy as np
 import shapely.geometry as sg
+
+from gdsfactory.component import Component, ComponentReference, Port
 from gdsfactory.components.straight import straight
-from gdsfactory.component import Port, ComponentReference, Component
-from gdsfactory.path import Path
 from gdsfactory.generic_tech.layer_map import LAYER
 from gdsfactory.get_netlist import difference_between_angles
-from gdsfactory.typings import CrossSectionSpec, Route, ComponentSpec, StepAllAngle
-from gdsfactory.typings import STEP_DIRECTIVES_ALL_ANGLE as STEP_DIRECTIVES
+from gdsfactory.path import Path, extrude
 from gdsfactory.routing.auto_taper import (
-    taper_to_cross_section,
     _get_taper_io_port_names,
+    taper_to_cross_section,
 )
-from gdsfactory.path import extrude
-
+from gdsfactory.typings import STEP_DIRECTIVES_ALL_ANGLE as STEP_DIRECTIVES
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec, Route, StepAllAngle
 
 BEND_PATH_FUNCS = {
     # 'euler_bend': euler_path,
@@ -417,6 +416,7 @@ def _get_bend(
 def _get_bend_angles(p0, p1, a0, a1, bend):
     """get the direct line between the two points."""
     import scipy.optimize
+
     from gdsfactory.pdk import get_component
 
     a_connect = np.arctan2(p1[1] - p0[1], p1[0] - p0[0])
@@ -918,7 +918,11 @@ def get_bundle_all_angle(
             this_separation = _get_minimum_separation(final_connection, port1)
             segment_separations.append(this_separation)
         route_length = sum(r.info["length"] for r in route_refs)
-        route = Route(references=route_refs, ports=(port1, port2), length=route_length)
+        route = Route(
+            references=route_refs,
+            ports=(port1, port2),
+            length=np.round(route_length, 3),
+        )
         routes.append(route)
         is_primary_route = False
     return routes

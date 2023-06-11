@@ -1,13 +1,13 @@
 from typing import Optional
 
 import numpy as np
-
-from gdsfactory.pdk import get_layer_stack
-from gdsfactory.technology import LayerStack
-import gdsfactory as gf
 import shapely
 from shapely.affinity import translate
 from shapely.ops import unary_union
+
+import gdsfactory as gf
+from gdsfactory.pdk import get_layer_stack
+from gdsfactory.technology import LayerStack
 
 
 class Parameter:

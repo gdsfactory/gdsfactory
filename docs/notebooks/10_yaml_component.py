@@ -30,6 +30,7 @@
 # +
 import ipywidgets
 from IPython.display import display
+from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.generic_tech import get_generic_pdk
@@ -615,8 +616,8 @@ display(x, out)
 # You can leverage netlist defined components to define more complex circuits
 
 # +
-mmi1x2_faba = gf.partial(gf.components.mmi1x2, length_mmi=30)
-mmi2x2_faba = gf.partial(gf.components.mmi2x2, length_mmi=30)
+mmi1x2_faba = partial(gf.components.mmi1x2, length_mmi=30)
+mmi2x2_faba = partial(gf.components.mmi2x2, length_mmi=30)
 gf.get_active_pdk().register_cells(mmi1x2_faba=mmi1x2_faba, mmi2x2_faba=mmi2x2_faba)
 
 x.value = """

@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 from typing import List
+
 from pydantic import BaseModel
 
 import gdsfactory as gf
-from gdsfactory.typings import CrossSectionSpec, Dict, Layer, LayerSpec
 from gdsfactory.geometry.write_drc import write_drc_deck_macro
+from gdsfactory.typings import CrossSectionSpec, Dict, Layer, LayerSpec
 
 layer_name_to_min_width: Dict[str, float]
 

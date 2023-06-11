@@ -27,8 +27,8 @@ from gdsfactory.routing.utils import (
 from gdsfactory.typings import (
     ComponentSpec,
     CrossSectionSpec,
-    PortsDict,
     LabelListFactory,
+    PortsDict,
 )
 
 

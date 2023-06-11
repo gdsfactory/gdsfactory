@@ -6,6 +6,7 @@ import inspect
 import multiprocessing
 import pathlib
 import time
+from functools import partial
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -533,11 +534,11 @@ def write_sparameters_meep(
         return sp
 
 
-write_sparameters_meep_1x1 = gf.partial(
+write_sparameters_meep_1x1 = partial(
     write_sparameters_meep, port_symmetries=port_symmetries.port_symmetries_1x1
 )
 
-write_sparameters_meep_1x1_bend90 = gf.partial(
+write_sparameters_meep_1x1_bend90 = partial(
     write_sparameters_meep,
     ymargin=0,
     ymargin_bot=3,

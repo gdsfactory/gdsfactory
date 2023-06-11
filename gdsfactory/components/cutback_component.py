@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from functools import partial
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler180
@@ -99,11 +101,11 @@ def cutback_component(
     return c
 
 
-# straight_wide = gf.partial(straight, width=3, length=20)
-# bend180_wide = gf.partial(bend_euler180, width=3)
-component_flipped = gf.partial(taper, width2=0.5, width1=3)
-straight_long = gf.partial(straight, length=20)
-cutback_component_mirror = gf.partial(cutback_component, mirror=True)
+# straight_wide = partial(straight, width=3, length=20)
+# bend180_wide = partial(bend_euler180, width=3)
+component_flipped = partial(taper, width2=0.5, width1=3)
+straight_long = partial(straight, length=20)
+cutback_component_mirror = partial(cutback_component, mirror=True)
 
 
 if __name__ == "__main__":

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import pathlib
 import tempfile
+from functools import partial
 from typing import Dict, Optional, Union
 
 import meep as mp
@@ -113,7 +114,7 @@ def get_mode_solver_cross_section(
     return mode_solver
 
 
-get_mode_solver_rib = gf.partial(get_mode_solver_cross_section, cross_section="rib")
+get_mode_solver_rib = partial(get_mode_solver_cross_section, cross_section="rib")
 
 
 if __name__ == "__main__":

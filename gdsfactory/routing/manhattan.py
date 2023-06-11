@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import uuid
 import warnings
+from functools import partial
 from typing import Callable, Dict, List, Optional, Tuple, Union
 
 import gdstk
@@ -17,7 +18,6 @@ from gdsfactory.cross_section import strip
 from gdsfactory.geometry.functions import angles_deg
 from gdsfactory.port import Port, select_ports_list
 from gdsfactory.routing.get_route_sbend import get_route_sbend
-from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import (
     ComponentSpec,
     Coordinate,
@@ -260,9 +260,8 @@ def _generate_route_manhattan_points(
     threshold = TOLERANCE
 
     # transform I/O to the case where output is at (0, 0) pointing east (180)
-    p_input = input_port.center
-    p_input = snap_to_grid(p_input)
-    p_output = snap_to_grid(np.array(output_port.center))
+    p_input = np.array(input_port.center)
+    p_output = np.array(output_port.center)
     pts_io = np.stack([p_input, p_output], axis=0)
     angle = output_port.orientation
 
@@ -412,7 +411,6 @@ def _generate_route_manhattan_points(
                     # no viable solution for this case. May result in crossed straights
                     p = (p[0], p[1] + sigp * (s + bs1))
                     a = 180
-            p = snap_to_grid(p)
             points += [p]
             s = min_straight_length + bs1
         points = np.stack([np.array(_p) for _p in points], axis=0)
@@ -686,7 +684,6 @@ def round_corners(
     # Remove any flat angle, otherwise the algorithm won't work
     points = remove_flat_angles(points)
     points = np.array(points)
-    points = snap_to_grid(points)
 
     straight_sections = []  # (p0, angle, length)
     p0_straight = points[0]
@@ -787,7 +784,6 @@ def round_corners(
         bend_orientation = bend_ref.ports[pname_north].orientation
 
     bend_points.append(points[-1])
-    bend_points = snap_to_grid(bend_points)
 
     try:
         straight_sections += [
@@ -833,7 +829,6 @@ def round_corners(
 
         with_taper = False
         # wg_width = list(bend90.ports.values())[0].width
-        length = snap_to_grid(length)
         total_length += length
 
         if (
@@ -872,7 +867,7 @@ def round_corners(
             kwargs_wide.update(width=width_wide)
 
             if callable(cross_section):
-                cross_section_wide = gf.partial(cross_section, **kwargs_wide)
+                cross_section_wide = partial(cross_section, **kwargs_wide)
             else:
                 cross_section_wide = x.copy(width=width_wide)
             wg = gf.get_component(
@@ -927,7 +922,7 @@ def round_corners(
 
     port_input = list(wg_refs[0].ports.values())[0]
     port_output = list(wg_refs[-1].ports.values())[port_index_out]
-    length = snap_to_grid(float(total_length))
+    length = float(np.round(total_length, 3))
     return Route(
         references=references,
         ports=(port_input, port_output),

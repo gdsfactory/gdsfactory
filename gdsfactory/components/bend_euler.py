@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+from functools import partial
+
 import numpy as np
+
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
@@ -100,7 +103,7 @@ def bend_euler(
     return c
 
 
-bend_euler180 = gf.partial(bend_euler, angle=180)
+bend_euler180 = partial(bend_euler, angle=180)
 
 
 @gf.cell

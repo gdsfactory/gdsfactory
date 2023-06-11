@@ -6,13 +6,11 @@ from numpy import ndarray
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-
-from gdsfactory.components.taper import taper
 from gdsfactory.components.bezier import bezier
 from gdsfactory.components.coupler_straight_asymmetric import (
     coupler_straight_asymmetric,
 )
-
+from gdsfactory.components.taper import taper
 from gdsfactory.typings import CrossSectionSpec, Float2, Float3
 
 

@@ -679,7 +679,7 @@ get_bundle_electrical = partial(
     get_bundle, bend=wire_corner, cross_section="metal_routing"
 )
 
-get_bundle_electrical_multilayer = gf.partial(
+get_bundle_electrical_multilayer = partial(
     get_bundle,
     bend=via_corner,
     cross_section=[
@@ -742,7 +742,7 @@ if __name__ == "__main__":
         [c2.ports["o1"], c2.ports["o2"]],
         radius=5,
         # layer=(2, 0),
-        straight=gf.partial(gf.components.straight, layer=(1, 0), width=1),
+        straight=partial(gf.components.straight, layer=(1, 0), width=1),
     )
     for route in routes:
         c.add(route.references)

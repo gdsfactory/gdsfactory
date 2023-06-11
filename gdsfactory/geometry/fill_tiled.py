@@ -188,8 +188,8 @@ def fill_tiled(
 
 
 if __name__ == "__main__":
-    import gdsfactory.geometry.fill_tiled as fill
     import gdsfactory as gf
+    import gdsfactory.geometry.fill_tiled as fill
 
     c = kf.KCell("ToFill")
     c.shapes(kf.kcl.layer(1, 0)).insert(

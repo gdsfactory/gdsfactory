@@ -1,11 +1,10 @@
 import numpy as np
+from femwell import mode_solver
 
 import gdsfactory as gf
 from gdsfactory.generic_tech import LAYER_STACK
 from gdsfactory.simulation.fem.mode_solver import compute_cross_section_modes
 from gdsfactory.technology import LayerStack
-from femwell import mode_solver
-
 
 NUM_MODES = 1
 

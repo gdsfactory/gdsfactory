@@ -17,8 +17,8 @@ modules:
 isort:skip_file
 """
 from __future__ import annotations
-import warnings
 from functools import partial
+import warnings
 from toolz import compose
 from gdsfactory.component_layout import Group
 from gdsfactory.path import Path
@@ -36,6 +36,9 @@ from gdsfactory.show import show
 from gdsfactory.read.import_gds import import_gds
 from gdsfactory.cross_section import CrossSection, Section, xsection
 from gdsfactory.component_layout import Label
+from gdsfactory.polygon import Polygon
+from gdsfactory.difftest import difftest, diff
+
 from gdsfactory import decorators
 from gdsfactory import cross_section
 from gdsfactory import labels
@@ -120,6 +123,8 @@ __all__ = (
     "compose",
     "cross_section",
     "decorators",
+    "diff",
+    "difftest",
     "fill",
     "fill_rectangle",
     "functions",
@@ -141,6 +146,7 @@ __all__ = (
     "logger",
     "pack",
     "partial",
+    "Polygon",
     "path",
     "read",
     "routing",
@@ -152,4 +158,4 @@ __all__ = (
     "xsection",
     "PATH",
 )
-__version__ = "6.102.4"
+__version__ = "6.103.2"

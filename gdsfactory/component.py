@@ -11,22 +11,22 @@ import math
 import pathlib
 import uuid
 import warnings
-from copy import deepcopy
 from collections import Counter
 from collections.abc import Iterable
+from copy import deepcopy
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
-import shapely
 import gdstk
 import numpy as np
+import shapely
 import yaml
 from omegaconf import DictConfig, OmegaConf
 from typing_extensions import Literal
 
+from gdsfactory.polygon import Polygon
 from gdsfactory.component_layout import (
     Label,
-    Polygon,
     _align,
     _distribute,
     _GeometryHelper,
@@ -34,8 +34,9 @@ from gdsfactory.component_layout import (
     get_polygons,
 )
 from gdsfactory.component_reference import ComponentReference, Coordinate, SizeInfo
-from gdsfactory.config import CONF, logger, GDSDIR_TEMP
+from gdsfactory.config import CONF, GDSDIR_TEMP, logger
 from gdsfactory.cross_section import CrossSection
+from gdsfactory.generic_tech import LAYER
 from gdsfactory.port import (
     Port,
     auto_rename_ports,
@@ -48,11 +49,15 @@ from gdsfactory.port import (
     select_ports,
 )
 from gdsfactory.serialization import clean_dict
-from gdsfactory.snap import snap_to_grid
-from gdsfactory.technology import LayerView, LayerViews, LayerStack
-from gdsfactory.generic_tech import LAYER
+from gdsfactory.technology import LayerStack, LayerView, LayerViews
 
-Plotter = Literal["holoviews", "matplotlib", "qt", "klayout"]
+valid_plotters = [
+    "holoviews",
+    "matplotlib",
+    "widget",
+    "klayout",
+    "qt",
+]  # qt and holoviews
 Axis = Literal["x", "y"]
 
 
@@ -131,7 +136,7 @@ class Component(_GeometryHelper):
     - can return ports by type (optical, electrical ...)
     - can return netlist for circuit simulation
     - can write to GDS, OASIS
-    - can show in KLayout, matplotlib, 3D, QT viewer, holoviews
+    - can show in KLayout, matplotlib, 3D
     - can return copy, mirror, flattened (no references)
 
     Args:
@@ -220,7 +225,7 @@ class Component(_GeometryHelper):
         right: Optional[float] = None,
         left: Optional[float] = None,
     ) -> shapely.Polygon:
-        """Returns shapely Polygon with padding.
+        """Returns shapely Polygon with bounding box.
 
         Args:
             default: default padding in um.
@@ -249,6 +254,7 @@ class Component(_GeometryHelper):
         include_paths: bool = True,
         as_array: bool = True,
         as_shapely: bool = False,
+        as_shapely_merged: bool = False,
     ) -> Union[List[Polygon], Dict[Tuple[int, int], List[Polygon]]]:
         """Return a list of polygons in this cell.
 
@@ -266,6 +272,8 @@ class Component(_GeometryHelper):
             include_paths: If True, polygonal representation of paths are also included in the result.
             as_array: when as_array=false, return the Polygon objects instead.
                 polygon objects have more information (especially when by_spec=False) and are faster to retrieve.
+            as_shapely: returns shapely polygons.
+            as_shapely_merged: returns a shapely polygonize.
 
         Returns
             out: list of array-like[N][2] or dictionary
@@ -284,6 +292,7 @@ class Component(_GeometryHelper):
             include_paths=include_paths,
             as_array=as_array,
             as_shapely=as_shapely,
+            as_shapely_merged=as_shapely_merged,
         )
 
     def get_dependencies(self, recursive: bool = False) -> List[Component]:
@@ -422,14 +431,11 @@ class Component(_GeometryHelper):
 
     @property
     def bbox(self):
-        """Returns the bounding box of the ComponentReference.
-
-        it snaps to 3 decimals in um (0.001um = 1nm precision)
-        """
+        """Returns the bounding box of the ComponentReference."""
         bbox = self._cell.bounding_box()
         if bbox is None:
             bbox = ((0, 0), (0, 0))
-        return np.round(bbox, 3)
+        return np.array(bbox)
 
     @property
     def ports_layer(self) -> Dict[str, str]:
@@ -465,7 +471,7 @@ class Component(_GeometryHelper):
         """
         ports_cw = self.get_ports_list(clockwise=True, **kwargs)
         ports_ccw = self.get_ports_list(clockwise=False, **kwargs)
-        return snap_to_grid(ports_ccw[0].x - ports_cw[0].x)
+        return ports_ccw[0].x - ports_cw[0].x
 
     def get_ports_ysize(self, **kwargs) -> float:
         """Returns ydistance from east to west ports.
@@ -480,7 +486,7 @@ class Component(_GeometryHelper):
         """
         ports_cw = self.get_ports_list(clockwise=True, **kwargs)
         ports_ccw = self.get_ports_list(clockwise=False, **kwargs)
-        return snap_to_grid(ports_ccw[0].y - ports_cw[0].y)
+        return ports_ccw[0].y - ports_cw[0].y
 
     def plot_netlist(
         self, with_labels: bool = True, font_weight: str = "normal", **kwargs
@@ -1001,7 +1007,9 @@ class Component(_GeometryHelper):
 
         return component
 
-    def add_polygon(self, points, layer=np.nan):
+    def add_polygon(
+        self, points, layer: str | int | tuple[int, int] | np.nan = np.nan
+    ) -> Polygon:
         """Adds a Polygon to the Component.
 
         Args:
@@ -1010,34 +1018,23 @@ class Component(_GeometryHelper):
         """
         from gdsfactory.pdk import get_layer
 
-        layer = get_layer(layer)
-
         if layer is None:
             return None
+        elif isinstance(layer, set):
+            polygons = [self.add_polygon(points, ly) for ly in layer]
+            return polygons[0]
 
-        try:
-            if isinstance(layer, set):
-                return [self.add_polygon(points, ly) for ly in layer]
-            elif all(isinstance(ly, (Layer)) for ly in layer):
-                return [self.add_polygon(points, ly) for ly in layer]
-            elif len(layer) > 2:  # Someone wrote e.g. layer = [1,4,5]
-                raise ValueError(
-                    """ [PHIDL] If specifying multiple layers
-                you must use set notation, e.g. {1,5,8} """
-                )
-        except Exception:
-            pass
-
+        layer = get_layer(layer)
         if isinstance(points, gdstk.Polygon):
             # if layer is unspecified or matches original polygon, just add it as-is
             polygon = points
             if layer is np.nan or (
                 isinstance(layer, tuple) and (polygon.layer, polygon.datatype) == layer
             ):
-                polygon = Polygon(polygon.points, polygon.layer, polygon.datatype)
+                polygon = Polygon(polygon.points, (polygon.layer, polygon.datatype))
             else:
                 layer, datatype = _parse_layer(layer)
-                polygon = Polygon(polygon.points, layer, datatype)
+                polygon = Polygon(polygon.points, (layer, datatype))
 
             if hasattr(points, "properties"):
                 polygon.properties = deepcopy(points.properties)
@@ -1052,15 +1049,13 @@ class Component(_GeometryHelper):
         elif hasattr(points, "exterior"):  # points is a shapely Polygon
             layer, datatype = _parse_layer(layer)
             points_on_grid = np.round(points.exterior.coords, 3)
-            polygon = gdstk.Polygon(points_on_grid, layer, datatype)
+            polygon = Polygon(points_on_grid, (layer, datatype))
 
             if points.interiors:
                 from shapely import get_coordinates
 
                 points_on_grid_interior = np.round(get_coordinates(points.interiors), 3)
-                polygon_interior = gdstk.Polygon(
-                    points_on_grid_interior, layer, datatype
-                )
+                polygon_interior = Polygon(points_on_grid_interior, (layer, datatype))
                 polygons = gdstk.boolean(
                     polygon,
                     polygon_interior,
@@ -1087,14 +1082,12 @@ class Component(_GeometryHelper):
                 # Convert to form [[1,2],[3,4],[5,6]]
                 points = np.column_stack(points)
             layer, datatype = _parse_layer(layer)
-            polygon = Polygon(points, layer=layer, datatype=datatype)
+            polygon = Polygon(points, (layer, datatype))
             self._add_polygons(polygon)
             return polygon
         elif points.ndim == 3:
             layer, datatype = _parse_layer(layer)
-            polygons = [
-                Polygon(ppoints, layer=layer, datatype=datatype) for ppoints in points
-            ]
+            polygons = [Polygon(ppoints, (layer, datatype)) for ppoints in points]
             self._add_polygons(*polygons)
             return polygons
         else:
@@ -1414,7 +1407,10 @@ class Component(_GeometryHelper):
     def _ipython_display_(self) -> None:
         """Show geometry in KLayout and in matplotlib for Jupyter Notebooks."""
         self.show(show_ports=True)  # show in klayout
-        self.plot_klayout()
+        if CONF.display_type == "klayout":
+            self.plot_klayout()
+        else:
+            self.plot_widget()
         print(self)
 
     def add_pins_triangle(
@@ -1440,9 +1436,18 @@ class Component(_GeometryHelper):
             show_ports: shows component with port markers and labels.
             port_marker_layer: for the ports.
         """
-        from gdsfactory.pdk import get_layer_views
-        from gdsfactory.widgets.layout_viewer import LayoutViewer
         from IPython.display import display
+
+        from gdsfactory.pdk import get_layer_views
+        from gdsfactory.plugins.widget.interactive import LayoutWidget
+
+        try:
+            import kfactory as kf
+        except ImportError as e:
+            print(
+                "You need install kfactory plugin with `pip install gdsfactory[kfactory]`"
+            )
+            raise e
 
         component = (
             self.add_pins_triangle(port_marker_layer=port_marker_layer)
@@ -1453,11 +1458,18 @@ class Component(_GeometryHelper):
         gdspath = component.write_gds(logging=False)
         lyp_path = gdspath.with_suffix(".lyp")
 
+        kcl = kf.KCLayout()
+        kcl.read(gdspath)
+        top_cell = kcl.top_cell()
+        c = kcl.dup()[top_cell.name]
+        # c = kf.KCell(top_cell.name, all)
+        # c.copy_tree(top_cell)
+
         layer_views = get_layer_views()
         layer_views.to_lyp(filepath=lyp_path)
 
-        layout = LayoutViewer(gdspath, lyp_path)
-        display(layout.widget)
+        lw = LayoutWidget(cell=c, layer_properties=lyp_path)
+        display(lw.widget)
 
     def plot_klayout(
         self,
@@ -1484,9 +1496,10 @@ class Component(_GeometryHelper):
         try:
             import klayout.db as db  # noqa: F401
             import klayout.lay as lay
-            from gdsfactory.pdk import get_layer_views
             from IPython.display import display
             from ipywidgets import Image
+
+            from gdsfactory.pdk import get_layer_views
 
             gdspath = component.write_gds(logging=False)
             lyp_path = gdspath.with_suffix(".lyp")
@@ -1519,11 +1532,13 @@ class Component(_GeometryHelper):
         """
         try:
             import os
+            from html import escape
+
+            import kweb.server_jupyter as kj
+            from IPython.display import IFrame
+
             from gdsfactory.config import PATH
             from gdsfactory.pdk import get_layer_views
-            from IPython.display import IFrame
-            import kweb.server_jupyter as kj
-            from html import escape
 
             gdspath = self.write_gds(gdsdir=PATH.gdslib / "extra", logging=False)
 
@@ -1576,18 +1591,24 @@ class Component(_GeometryHelper):
 
         quickplot(self, **kwargs)
 
-    def plot(self, plotter: Optional[Plotter] = None, **kwargs) -> None:
+    def plot(self, plotter: str | None = None, **kwargs) -> None:
         """Returns component plot using klayout, matplotlib, holoviews or qt.
 
         We recommend using klayout.
 
         Args:
-            plotter: plot backend ('holoviews', 'matplotlib', 'qt', 'klayout').
+            plotter: plot backend ('matplotlib', 'widget', 'klayout').
         """
-        plotter = plotter or CONF.get("plotter", "matplotlib")
+        plotter = plotter or CONF.display_type
+
+        if plotter not in valid_plotters:
+            raise ValueError(f"{plotter!r} not in {valid_plotters}")
 
         if plotter == "klayout":
             self.plot_klayout()
+            return
+        elif plotter == "widget":
+            self.plot_widget()
             return
 
         elif plotter == "matplotlib":
@@ -1607,12 +1628,15 @@ class Component(_GeometryHelper):
             return self.plot_holoviews(**kwargs)
 
         elif plotter == "qt":
+            warnings.warn(
+                "qt plotter is deprecated. "
+                "Use the default Component.plot(), Component.plot_klayout() or Component.plot_widget()",
+                stacklevel=3,
+            )
             from gdsfactory.quickplotter import quickplot2
 
             quickplot2(self)
             return
-        else:
-            raise ValueError(f"{plotter!r} not in {Plotter}")
 
     def plot_holoviews(
         self,
@@ -1634,6 +1658,12 @@ class Component(_GeometryHelper):
         """
         from gdsfactory.add_pins import get_pin_triangle_polygon_tip
         from gdsfactory.generic_tech import LAYER_VIEWS
+
+        warnings.warn(
+            "holoviews plotter is deprecated. "
+            "Use the default Component.plot(), Component.plot_klayout() or Component.plot_widget()",
+            stacklevel=3,
+        )
 
         if layer_views is None:
             layer_views = LAYER_VIEWS
@@ -2806,23 +2836,15 @@ def hash_file(filepath):
     return md5.hexdigest()
 
 
-def test_bbox_reference() -> Component:
+def test_bbox_reference() -> None:
     import gdsfactory as gf
 
-    c = gf.Component("component_with_offgrid_polygons")
+    c = gf.Component()
     c1 = c << gf.components.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
     c2 = c << gf.components.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
     c2.xmin = c1.xmax
 
-    assert c2.xsize == 2e-3
-    return c2
-
-
-def test_bbox_component() -> None:
-    import gdsfactory as gf
-
-    c = gf.components.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
-    assert c.xsize == 2e-3
+    assert c2.xsize == 1.5e-3
 
 
 def test_remap_layers() -> None:

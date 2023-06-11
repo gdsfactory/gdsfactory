@@ -68,4 +68,251 @@ else:
     print(f"Failed to retrieve download statistics for package '{package_name}'.")
 
 
+# %% [markdown]
+# ## dependencies
+
 # %%
+import pkg_resources
+import networkx as nx
+import matplotlib.pyplot as plt
+
+
+def build_dependency_graph(package_name):
+    graph = nx.DiGraph()
+    visited = set()
+
+    def traverse_dependencies(package):
+        if package not in visited:
+            visited.add(package)
+            graph.add_node(package)
+
+            try:
+                dependencies = pkg_resources.get_distribution(package).requires()
+                for dependency in dependencies:
+                    graph.add_edge(package, dependency)
+                    traverse_dependencies(dependency)
+            except pkg_resources.DistributionNotFound:
+                # Package is not installed or cannot be found
+                pass
+
+    traverse_dependencies(package_name)
+    return graph
+
+
+# Specify the name of the package you want to build the dependency graph for
+package_name = "gdsfactory"
+
+# Build the dependency graph
+dependency_graph = build_dependency_graph(package_name)
+
+# Customize the graph layout
+pos = nx.spring_layout(dependency_graph, k=0.25)
+
+# Increase the figure size to accommodate the graph
+plt.figure(figsize=(12, 8))
+
+# Draw nodes with different styles for the main package and its dependencies
+nx.draw_networkx_nodes(
+    dependency_graph, pos, node_color="lightblue", node_size=1000, alpha=0.9
+)
+nx.draw_networkx_nodes(
+    dependency_graph,
+    pos,
+    nodelist=[package_name],
+    node_color="salmon",
+    node_size=1200,
+    alpha=0.9,
+)
+
+# Draw edges with different styles for the main package and its dependencies
+nx.draw_networkx_edges(dependency_graph, pos, edge_color="gray", alpha=0.5)
+nx.draw_networkx_edges(
+    dependency_graph,
+    pos,
+    edgelist=[(package_name, dep) for dep in dependency_graph[package_name]],
+    edge_color="red",
+    alpha=0.7,
+    width=2,
+)
+
+# Draw node labels
+nx.draw_networkx_labels(dependency_graph, pos, font_size=10, font_weight="bold")
+
+# Customize plot appearance
+plt.title("Dependency Graph for {}".format(package_name))
+plt.axis("off")
+plt.tight_layout()
+
+# Show the graph
+plt.show()
+
+
+# %%
+import pkg_resources
+import networkx as nx
+import matplotlib.pyplot as plt
+
+
+def build_dependency_graph(package_name):
+    graph = nx.DiGraph()
+    visited = set()
+
+    def traverse_dependencies(package):
+        if package not in visited:
+            visited.add(package)
+            graph.add_node(package)
+
+            try:
+                dependencies = pkg_resources.get_distribution(package).requires()
+                for dependency in dependencies:
+                    graph.add_edge(package, dependency)
+                    traverse_dependencies(dependency)
+            except pkg_resources.DistributionNotFound:
+                # Package is not installed or cannot be found
+                pass
+
+    traverse_dependencies(package_name)
+    return graph
+
+
+# Specify the name of the package you want to build the dependency graph for
+package_name = "gdsfactory"
+
+# Build the dependency graph
+dependency_graph = build_dependency_graph(package_name)
+
+# Customize the graph layout
+pos = nx.spring_layout(dependency_graph, k=0.25)
+
+# Increase the figure size to accommodate the graph
+plt.figure(figsize=(12, 8))
+
+# Draw nodes with different styles for the main package and its dependencies
+nx.draw_networkx_nodes(
+    dependency_graph, pos, node_color="lightblue", node_size=1000, alpha=0.9
+)
+nx.draw_networkx_nodes(
+    dependency_graph,
+    pos,
+    nodelist=[package_name],
+    node_color="salmon",
+    node_size=1200,
+    alpha=0.9,
+)
+
+# Draw edges with different styles for the main package and its dependencies
+nx.draw_networkx_edges(dependency_graph, pos, edge_color="gray", alpha=0.5)
+nx.draw_networkx_edges(
+    dependency_graph,
+    pos,
+    edgelist=[(package_name, dep) for dep in dependency_graph[package_name]],
+    edge_color="red",
+    alpha=0.7,
+    width=2,
+)
+
+# Draw node labels
+nx.draw_networkx_labels(dependency_graph, pos, font_size=10, font_weight="bold")
+
+# Customize plot appearance
+plt.title("Dependency Graph for {}".format(package_name))
+plt.axis("off")
+plt.tight_layout()
+
+# Show the graph
+plt.show()
+
+
+# %%
+import pkg_resources
+import networkx as nx
+import plotly.graph_objects as go
+
+
+def build_dependency_graph(package_name):
+    graph = nx.DiGraph()
+    visited = set()
+
+    def traverse_dependencies(package):
+        if package not in visited:
+            visited.add(package)
+            graph.add_node(package)
+
+            try:
+                dependencies = pkg_resources.get_distribution(package).requires()
+                for dependency in dependencies:
+                    graph.add_edge(package, dependency)
+                    traverse_dependencies(dependency)
+            except pkg_resources.DistributionNotFound:
+                # Package is not installed or cannot be found
+                pass
+
+    traverse_dependencies(package_name)
+    return graph
+
+
+# Specify the name of the package you want to build the dependency graph for
+package_name = "gdsfactory"
+
+# Build the dependency graph
+dependency_graph = build_dependency_graph(package_name)
+
+# Create nodes and edges
+nodes = dependency_graph.nodes()
+edges = dependency_graph.edges()
+
+# Create Plotly nodes
+node_trace = go.Scatter(
+    x=[],
+    y=[],
+    text=[],
+    mode="markers",
+    hoverinfo="text",
+    marker=dict(size=15, color="lightblue", line_width=2),
+)
+
+# Create Plotly edges
+edge_trace = go.Scatter(
+    x=[],
+    y=[],
+    line=dict(width=1, color="gray"),
+    hoverinfo="none",
+    mode="lines",
+)
+
+# Assign positions to nodes
+pos = nx.spring_layout(dependency_graph, k=0.2)
+for node in nodes:
+    x, y = pos[node]
+    node_trace["x"] += (x,)
+    node_trace["y"] += (y,)
+    node_trace["text"] += (node,)
+
+# Assign positions to edges
+for edge in edges:
+    x0, y0 = pos[edge[0]]
+    x1, y1 = pos[edge[1]]
+    edge_trace["x"] += (x0, x1, None)
+    edge_trace["y"] += (y0, y1, None)
+
+# Create the layout for the graph
+layout = go.Layout(
+    title="Dependency Graph for {}".format(package_name),
+    title_font=dict(size=20),
+    showlegend=False,
+    hovermode="closest",
+    margin=dict(b=20, l=5, r=5, t=40),
+    xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+    yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+)
+
+# Combine nodes and edges into a data list
+data = [edge_trace, node_trace]
+
+# Create the figure and plot the graph
+fig = go.Figure(data=data, layout=layout)
+fig.show()
+
+
+# %%
+len(nodes)

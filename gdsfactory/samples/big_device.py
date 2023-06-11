@@ -6,8 +6,8 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory import LAYER, Port
-from gdsfactory.typings import CrossSectionSpec
 from gdsfactory.component import Component
+from gdsfactory.typings import CrossSectionSpec
 
 
 @gf.cell
@@ -27,6 +27,7 @@ def big_device(
         spacing: in um.
         layer: spec.
         wg_width: waveguide width in um.
+        cross_section: spec.
 
     """
     component = gf.Component()

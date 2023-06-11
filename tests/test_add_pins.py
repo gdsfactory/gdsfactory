@@ -1,4 +1,5 @@
 from __future__ import annotations
+from functools import partial
 
 import pytest
 
@@ -11,9 +12,9 @@ from gdsfactory.generic_tech import get_generic_pdk
 cladding_layers_optical_siepic = ("DEVREC",)  # for SiEPIC verification
 cladding_offsets_optical_siepic = (0,)  # for SiEPIC verification
 
-add_pins_siepic_100nm = gf.partial(add_pins_siepic, pin_length=0.1)
+add_pins_siepic_100nm = partial(add_pins_siepic, pin_length=0.1)
 
-strip_siepic = gf.partial(
+strip_siepic = partial(
     gf.cross_section.cross_section,
     add_pins=add_pins_siepic_100nm,
     add_bbox=add_bbox_siepic,
