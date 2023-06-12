@@ -1,4 +1,4 @@
-name: bend_euler_af89db80
+name: bend_euler_9f43c11f
 ports:
   o1:
     center:
@@ -29,6 +29,8 @@ settings:
     cross_section:
       function: cross_section
       settings:
+        add_bbox:
+          function: add_bbox
         add_pins:
           function: add_pins
         bbox_layers:
@@ -55,6 +57,8 @@ settings:
     cross_section:
       function: cross_section
       settings:
+        add_bbox:
+          function: add_bbox
         add_pins:
           function: add_pins
         bbox_layers:
@@ -80,7 +84,8 @@ settings:
     radius: 10.0
     radius_min: 7.061
     settings:
-      add_bbox: null
+      add_bbox:
+        function: add_bbox
       add_pins:
         function: add_pins
       auto_widen: false
@@ -120,4 +125,4 @@ settings:
     width: 1.0
   info_version: 2
   module: gdsfactory.components.bend_euler
-  name: bend_euler_af89db80
+  name: bend_euler_9f43c11f

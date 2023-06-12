@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.14.5
+#       jupytext_version: 1.11.2
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -117,22 +117,16 @@ strip = gt.modes.Waveguide(
 )
 w = np.linspace(400 * nm, 1000 * nm, 7)
 n_eff = gt.modes.sweep_n_eff(strip, core_width=w)
+fraction_te = gt.modes.sweep_fraction_te(strip, core_width=w)
 
 for i in range(4):
-    plt.plot(w, n_eff.sel(mode_index=i).real, label=f"{i}", marker=".")
-plt.axhline(y=1.44, color="k")
+    plt.plot(w, n_eff.sel(mode_index=i).real, c="k")
+    plt.scatter(w, n_eff.sel(mode_index=i).real, c=fraction_te.sel(mode_index=i))
+plt.axhline(y=1.44, color="k", ls="--")
+plt.colorbar().set_label("TE fraction")
+plt.xlabel("Width of waveguide µm")
+plt.ylabel("Effective refractive index")
 plt.title("Effective index sweep")
-
-# %%
-t = np.linspace(0.2, 0.25, 6)
-w = np.linspace(0.4, 0.6, 5)
-n_eff = gt.modes.sweep_n_eff(strip, core_width=w, core_thickness=t)
-
-fig, ax = plt.subplots(1, 2, tight_layout=True, figsize=(9, 4))
-n_eff.sel(mode_index=0).real.plot(ax=ax[0])
-n_eff.sel(mode_index=1).real.plot(ax=ax[1])
-fig.suptitle("Effective index sweep")
-
 
 # %% [markdown]
 # **Exercises**

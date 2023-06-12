@@ -45,9 +45,8 @@ def test_pack() -> None:
 
 
 if __name__ == "__main__":
-    # c = test_grid()
-    c = test_pack()
-    c.show()
+    # test_grid()
+    test_pack()
     # c = gf.pack(
     #     [mzi_te()] * 2,
     #     add_ports_suffix=True,

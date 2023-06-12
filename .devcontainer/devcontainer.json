@@ -4,16 +4,14 @@
     "cpus": 2
   },
   "waitFor": "onCreateCommand",
-  "updateContentCommand": "make install plugins-debian",
+  "updateContentCommand": "make full",
   "postCreateCommand": "",
   "customizations": {
-    "codespaces": {
-      "openFiles": []
-    },
     "vscode": {
       "extensions": [
         "ms-toolsai.jupyter",
-        "ms-python.python"
+        "ms-python.python",
+        "congyiwu.vscode-jupytext"
       ]
     }
   }

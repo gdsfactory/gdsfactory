@@ -20,6 +20,7 @@ from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.manhattan import generate_manhattan_waypoints, round_corners
 from gdsfactory.routing.route_south import route_south
 from gdsfactory.routing.utils import direction_ports_from_list_ports
+from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import (
     ComponentSpec,
     ComponentSpecOrList,
@@ -269,6 +270,10 @@ def route_fiber_array(
     gr_coupler_y_sep = grating_coupler_si.height + y_gr_gap + dy
 
     offset = (nb_ports_per_line - 1) * fiber_spacing / 2 - x_grating_offset
+    offset = snap_to_grid(offset)
+    x_c = snap_to_grid(x_c)
+    y0_optical = snap_to_grid(y0_optical)
+    gr_coupler_y_sep = snap_to_grid(gr_coupler_y_sep)
     io_gratings_lines = []  # [[gr11, gr12, gr13...], [gr21, gr22, gr23...] ...]
 
     if grating_indices is None:

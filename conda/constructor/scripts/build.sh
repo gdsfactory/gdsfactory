@@ -33,7 +33,7 @@ fi
 
 echo "***** Copy file for installer construction *****"
 cp -R Miniforge3 "${TEMP_DIR}/"
-cp LICENSE "${TEMP_DIR}/"
+# cp LICENSE "${TEMP_DIR}/"
 
 ls -al "${TEMP_DIR}"
 

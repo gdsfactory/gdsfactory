@@ -34,6 +34,29 @@ def _rotate(v: ndarray, m: ndarray) -> ndarray:
     return np.dot(m, v)
 
 
+def add_bbox(
+    component: Component,
+    bbox_layer: LayerSpec = "DEVREC",
+) -> Component:
+    """Add bbox on outline.
+
+    Args:
+        component: component to add bbox.
+        bbox_layer: bbox layer.
+    """
+    from gdsfactory.pdk import get_layer
+
+    bbox_layer = get_layer(bbox_layer)
+    polygons = component.get_polygons(as_array=False)
+    polygons_ = gdstk.boolean(
+        polygons, [], "not", layer=bbox_layer[0], datatype=bbox_layer[1]
+    )
+
+    component.add(polygons_)
+
+    return component
+
+
 def add_bbox_siepic(
     component: Component,
     bbox_layer: LayerSpec = "DEVREC",

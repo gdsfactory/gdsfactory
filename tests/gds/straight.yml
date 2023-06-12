@@ -68,7 +68,8 @@ cells:
               settings:
                 pin_length: 0.001
                 layer_label: null
-        add_bbox: null
+        add_bbox:
+          function: add_bbox
         mirror: false
         name: strip
       function_name: cross_section
@@ -131,7 +132,8 @@ settings:
             settings:
               pin_length: 0.001
               layer_label: null
-      add_bbox: null
+      add_bbox:
+        function: add_bbox
       mirror: false
       name: strip
     function_name: cross_section

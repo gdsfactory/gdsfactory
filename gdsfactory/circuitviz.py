@@ -1,18 +1,24 @@
+import contextlib
 from collections import defaultdict
 from functools import partial
 from typing import Dict, List, NamedTuple, Union
 
-import bokeh.events as be
 import numpy as np
 import pandas as pd
 import yaml
-from bokeh import io as bio
-from bokeh import models as bm
-from bokeh import plotting as bp
-from natsort import natsorted
+
 
 import gdsfactory as gf
 from gdsfactory.picmodel import PicYamlConfiguration, Placement, SchematicConfiguration
+
+try:
+    import bokeh.events as be
+    from bokeh import io as bio
+    from bokeh import models as bm
+    from bokeh import plotting as bp
+    from natsort import natsorted
+except ImportError:
+    print("No bokeh and natsort found!\n" "pip install bokeh natsort")
 
 data = {
     "srcs": defaultdict(lambda: defaultdict(lambda: [])),
@@ -43,10 +49,8 @@ def save_netlist(netlist, filename):
             if pv:
                 for kk in ["x", "y"]:
                     if kk in pv:
-                        try:
+                        with contextlib.suppress(Exception):
                             pv[kk] = float(pv[kk])
-                        except Exception:
-                            pass
             else:
                 p.pop(pk)
         yaml.dump(d, f, sort_keys=False, default_flow_style=None)
