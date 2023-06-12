@@ -101,7 +101,6 @@ dev = [
 ]
 devsim = [
   "devsim",
-  "mkl",
   "pyvista",
   "tidy3d"
 ]
@@ -125,9 +124,7 @@ full = [
   "pymysql",
   # devsim
   "devsim",
-  "mkl",
   "pyvista",
-  "tidy3d",
   # docs
   "jupytext",
   "femwell==0.0.18",
