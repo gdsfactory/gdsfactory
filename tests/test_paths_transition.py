@@ -3,7 +3,7 @@ from __future__ import annotations
 import gdsfactory as gf
 
 
-def test_path_transition_class():
+def test_path_transition_class() -> None:
     P = gf.path.straight(length=10, npoints=101)
 
     s = gf.Section(width=3, offset=0, layer=gf.LAYER.SLAB90)
@@ -21,19 +21,21 @@ def test_path_transition_class():
     )
 
     T = gf.path.transition(X1, X2)
-    return gf.path.extrude(P, T)
+    c = gf.path.extrude(P, T)
+    assert c
 
 
-def test_path_transition_function():
+def test_path_transition_function() -> None:
     P = gf.path.straight(length=10, npoints=101)
     X1 = gf.cross_section.cross_section(width=1)
     X2 = gf.cross_section.cross_section(width=3)
     T = gf.path.transition(X1, X2)
     P = gf.path.straight(length=10, npoints=101)
-    return gf.path.extrude(P, T)
+    c = gf.path.extrude(P, T)
+    assert c
 
 
-def test_path_transitions():
+def test_path_transitions() -> None:
     import gdsfactory as gf
 
     # Create our first CrossSection
@@ -94,14 +96,13 @@ def test_path_transitions():
 
     wg3 = c << straight_transition
     wg3.movey(10)
-    return c
+    assert c
 
 
 if __name__ == "__main__":
     # c = test_path_transitions()
     # c= test_path_transition_function()
-    c = test_path_transition_class()
-    c.show(show_ports=True)
+    test_path_transition_class()
 
     # test_path_transition_class()
 

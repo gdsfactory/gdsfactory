@@ -2,8 +2,8 @@ name: mzi_2e88f57c_add_gratin_8f3eef46
 ports:
   loopback1:
     center:
-    - 175.173
-    - -0.625
+    - 175.423
+    - -0.624
     layer:
     - 1
     - 0
@@ -14,8 +14,8 @@ ports:
     width: 0.5
   loopback2:
     center:
-    - 175.173
-    - -0.625
+    - 175.423
+    - -0.624
     layer:
     - 1
     - 0
@@ -99,6 +99,7 @@ settings:
       straight_x_top: straight_heater_metal
     child: null
     default:
+      add_optical_ports_arms: false
       bend:
         function: bend_euler
       combiner: null
@@ -122,6 +123,7 @@ settings:
       straight_y: null
       with_splitter: true
     full:
+      add_optical_ports_arms: false
       bend:
         function: bend_euler
       combiner:
@@ -157,9 +159,21 @@ settings:
     component_name: null
     cross_section:
       function: cross_section
+      settings:
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+        name: strip
     gc_port_name: o1
     get_input_label_text_loopback_function:
-      function: get_input_label_text_loopback
+      function: get_input_label_text
+      settings:
+        prefix: loopback_
     get_input_labels_function:
       function: get_input_labels
     grating_coupler:
@@ -193,9 +207,21 @@ settings:
     component_name: null
     cross_section:
       function: cross_section
+      settings:
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+        name: strip
     gc_port_name: o1
     get_input_label_text_loopback_function:
-      function: get_input_label_text_loopback
+      function: get_input_label_text
+      settings:
+        prefix: loopback_
     get_input_labels_function:
       function: get_input_labels
     grating_coupler:

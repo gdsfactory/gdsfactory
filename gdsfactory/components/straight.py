@@ -4,7 +4,6 @@ from __future__ import annotations
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
-from gdsfactory.snap import snap_to_grid
 from gdsfactory.typings import CrossSectionSpec
 
 
@@ -30,7 +29,6 @@ def straight(
         o1 -------------- o2
                 length
     """
-    length = snap_to_grid(length)
     p = gf.path.straight(length=length, npoints=npoints)
     x = gf.get_cross_section(cross_section, **kwargs)
 
@@ -63,14 +61,16 @@ def straight(
 
 
 if __name__ == "__main__":
-    # c = straight(cross_section=gf.partial('metal_routing', width=2), with_hash=False)
+    # c = straight(cross_section=partial('metal_routing', width=2), with_hash=False)
     # c = straight(
-    #     cross_section=gf.partial(gf.cross_section.strip, width=2), with_hash=False
+    #     cross_section=partial(gf.cross_section.strip, width=2), with_hash=False
     # )
     # c = straight(cladding_offset=2.5)
 
     nm = 1e-3
-    c = straight(width=101 * nm)
+    xs = gf.cross_section.strip()
+    print(dict(xs))
+    c = straight(cross_section=xs)
     print(c.name)
 
     # strip2 = gf.get_cross_section("strip", layer=(2, 0))

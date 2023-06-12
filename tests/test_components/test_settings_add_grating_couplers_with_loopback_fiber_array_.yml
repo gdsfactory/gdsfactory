@@ -16,6 +16,7 @@ settings:
         function: bend_euler
       cross_section: strip
       cross_section_bend: null
+      cross_section_bend180: null
       grating_spacing: 127.0
       length: null
       straight:
@@ -36,6 +37,7 @@ settings:
         function: bend_euler
       cross_section: strip
       cross_section_bend: null
+      cross_section_bend180: null
       grating_spacing: 127.0
       length: null
       straight:
@@ -60,6 +62,16 @@ settings:
     component_name: null
     cross_section:
       function: cross_section
+      settings:
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+        name: strip
     excluded_ports: null
     gc_port_name: o1
     gc_rotation: -90
@@ -92,6 +104,16 @@ settings:
     component_name: null
     cross_section:
       function: cross_section
+      settings:
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+        name: strip
     excluded_ports: null
     gc_port_name: o1
     gc_rotation: -90

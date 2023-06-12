@@ -37,6 +37,7 @@ def mzi(
     cross_section_x_top: Optional[CrossSectionSpec] = None,
     cross_section_x_bot: Optional[CrossSectionSpec] = None,
     mirror_bot: bool = False,
+    add_optical_ports_arms: bool = False,
 ) -> Component:
     """Mzi.
 
@@ -60,6 +61,9 @@ def mzi(
         cross_section: for routing (sxtop/sxbot to combiner).
         cross_section_x_top: optional top cross_section (defaults to cross_section).
         cross_section_x_bot: optional bottom cross_section (defaults to cross_section).
+        mirror_bot: if true, mirrors the bottom arm.
+        add_optical_ports_arms: add all other optical ports in the arms
+            with top_ and bot_ prefix.
 
     .. code::
 
@@ -182,7 +186,13 @@ def mzi(
     c.add_ports(sxb.get_ports_list(port_type="electrical"), prefix="bot_")
     c.add_ports(sxt.get_ports_list(port_type="placement"), prefix="top_")
     c.add_ports(sxb.get_ports_list(port_type="placement"), prefix="bot_")
+
     c.auto_rename_ports(port_type="optical", prefix="o")
+
+    if add_optical_ports_arms:
+        c.add_ports(sxt.get_ports_list(port_type="optical"), prefix="top_")
+        c.add_ports(sxb.get_ports_list(port_type="optical"), prefix="bot_")
+
     return c
 
 
@@ -212,12 +222,21 @@ mzi_coupler = partial(
 
 
 if __name__ == "__main__":
-    c = mzi(cross_section="nitride")
+    c = mzi()
+    print(sorted([i.name for i in c.get_dependencies()]))
+    # from gdsfactory import get_generic_pdk
+
+    # pdk = get_generic_pdk()
+    # pdk.activate()
+
+    # c = mzi(cross_section="strip")
     # c = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
     # c.show(show_ports=True)
 
     # c = gf.components.mzi2x2_2x2(straight_x_top="straight_heater_metal")
-    # c2 = gf.routing.add_fiber_array(c)
+    c = gf.routing.add_fiber_array(c)
+    # gdspath = c.write_gds(flatten_invalid_refs=True)
+    # gf.show(gdspath)
     c.show()
 
     # c1.write_gds("a.gds")

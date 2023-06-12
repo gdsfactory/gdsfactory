@@ -1,6 +1,7 @@
 # ---
 # jupyter:
 #   jupytext:
+#     cell_metadata_filter: -all
 #     custom_cell_magics: kql
 #     text_representation:
 #       extension: .py
@@ -8,7 +9,7 @@
 #       format_version: '1.3'
 #       jupytext_version: 1.11.2
 #   kernelspec:
-#     display_name: Python 3 (ipykernel)
+#     display_name: base
 #     language: python
 #     name: python3
 # ---
@@ -24,6 +25,7 @@
 
 # %%
 import pathlib
+from functools import partial
 from typing import Callable, Tuple
 
 import pytest
@@ -32,7 +34,7 @@ from pytest_regressions.data_regression import DataRegressionFixture
 
 from gdsfactory.add_pins import add_pin_rectangle_inside
 from gdsfactory.component import Component
-from gdsfactory.config import PATH
+from gdsfactory.config import PATH, CONF
 from gdsfactory.cross_section import cross_section
 from gdsfactory.decorators import flatten_invalid_refs, has_valid_transformations
 from gdsfactory.difftest import difftest
@@ -45,20 +47,23 @@ from gdsfactory.technology import (
     lyp_to_dataclass,
 )
 from gdsfactory.typings import Layer, LayerSpec
-
 import gdsfactory as gf
 
 gf.config.rich_output()
 nm = 1e-3
 
+
+# %%
+CONF.display_type = "klayout"
+
+p = gf.get_active_pdk()
+p.name
+
+# %%
 gf.config.print_version()
 
 # %%
 gf.config.print_version_pdks()
-
-# %%
-p = gf.get_active_pdk()
-p.name
 
 
 # %% [markdown]
@@ -69,7 +74,7 @@ p.name
 #
 # The waveguide traces are 2um wide.
 
-# %% tags=[]
+# %%
 
 
 class LayerMap(BaseModel):
@@ -122,9 +127,9 @@ LAYER_STACK = get_layer_stack_faba()
 WIDTH = 2
 
 # Specify a cross_section to use
-strip = gf.partial(gf.cross_section.cross_section, width=WIDTH, layer=LAYER.WG)
+strip = partial(gf.cross_section.cross_section, width=WIDTH, layer=LAYER.WG)
 
-mmi1x2 = gf.partial(
+mmi1x2 = partial(
     gf.components.mmi1x2,
     width=WIDTH,
     width_taper=WIDTH,
@@ -146,17 +151,17 @@ fab_a = gf.Pdk(
 )
 fab_a.activate()
 
-gc = gf.partial(
+gc = partial(
     gf.components.grating_coupler_elliptical_te, layer=LAYER.WG, cross_section=strip
 )
 
 c = gf.components.mzi()
 c_gc = gf.routing.add_fiber_array(component=c, grating_coupler=gc, with_loopback=False)
-c_gc.plot()
+c_gc
 
-# %% tags=[]
-c = c_gc.to_3d()
-c.show(show_ports=True)
+# %%
+scene = c_gc.to_3d()
+scene.show(show_ports=True)
 
 # %% [markdown]
 # ### FabB
@@ -166,7 +171,7 @@ c.show(show_ports=True)
 # Lets say that the waveguides are defined in layer (2, 0) and are 0.3um wide, 1um thick
 #
 
-# %% tags=[]
+# %%
 nm = 1e-3
 
 
@@ -236,7 +241,7 @@ BBOX_OFFSETS = (3, 3)
 
 # use cladding_layers and cladding_offsets if the foundry prefers conformal blocking doping layers instead of squared
 # bbox_layers and bbox_offsets makes rectangular waveguides.
-strip = gf.partial(
+strip = partial(
     gf.cross_section.cross_section,
     width=WIDTH,
     layer=LAYER.WG,
@@ -246,17 +251,17 @@ strip = gf.partial(
     cladding_offsets=BBOX_OFFSETS,
 )
 
-straight = gf.partial(gf.components.straight, cross_section=strip)
-bend_euler = gf.partial(gf.components.bend_euler, cross_section=strip)
-mmi1x2 = gf.partial(
+straight = partial(gf.components.straight, cross_section=strip)
+bend_euler = partial(gf.components.bend_euler, cross_section=strip)
+mmi1x2 = partial(
     gf.components.mmi1x2,
     cross_section=strip,
     width=WIDTH,
     width_taper=WIDTH,
     width_mmi=4 * WIDTH,
 )
-mzi = gf.partial(gf.components.mzi, cross_section=strip, splitter=mmi1x2)
-gc = gf.partial(
+mzi = partial(gf.components.mzi, cross_section=strip, splitter=mmi1x2)
+gc = partial(
     gf.components.grating_coupler_elliptical_te, layer=LAYER.WG, cross_section=strip
 )
 
@@ -286,11 +291,11 @@ c = mzi()
 wg_gc = gf.routing.add_fiber_array(
     component=c, grating_coupler=gc, cross_section=strip, with_loopback=False
 )
-wg_gc.plot()
+wg_gc.plot_klayout()
 
-# %% tags=[]
-c = wg_gc.to_3d()
-c.show(show_ports=True)
+# %%
+scene = wg_gc.to_3d()
+scene.show(show_ports=True)
 
 # %% [markdown]
 # ### FabC
@@ -298,7 +303,7 @@ c.show(show_ports=True)
 # Lets assume that fab C has similar technology to the generic PDK in gdsfactory and that you just want to remap some layers, and adjust the widths.
 #
 
-# %% tags=[]
+# %%
 nm = 1e-3
 
 
@@ -402,7 +407,7 @@ bbox_layers = [LAYER.WGN_CLAD]
 bbox_offsets = [3]
 
 # Nitride Cband
-xs_nc = gf.partial(
+xs_nc = partial(
     cross_section,
     width=WIDTH_NITRIDE_CBAND,
     layer=LAYER.WGN,
@@ -411,7 +416,7 @@ xs_nc = gf.partial(
     add_pins=add_pins,
 )
 # Nitride Oband
-xs_no = gf.partial(
+xs_no = partial(
     cross_section,
     width=WIDTH_NITRIDE_OBAND,
     layer=LAYER.WGN,
@@ -424,34 +429,34 @@ xs_no = gf.partial(
 cross_sections = dict(xs_nc=xs_nc, xs_no=xs_no, strip=xs_nc)
 
 # LEAF cells have pins
-mmi1x2_nc = gf.partial(
+mmi1x2_nc = partial(
     gf.components.mmi1x2,
     width=WIDTH_NITRIDE_CBAND,
     cross_section=xs_nc,
 )
-mmi1x2_no = gf.partial(
+mmi1x2_no = partial(
     gf.components.mmi1x2,
     width=WIDTH_NITRIDE_OBAND,
     cross_section=xs_no,
 )
-bend_euler_nc = gf.partial(
+bend_euler_nc = partial(
     gf.components.bend_euler,
     cross_section=xs_nc,
 )
-straight_nc = gf.partial(
+straight_nc = partial(
     gf.components.straight,
     cross_section=xs_nc,
 )
-bend_euler_no = gf.partial(
+bend_euler_no = partial(
     gf.components.bend_euler,
     cross_section=xs_no,
 )
-straight_no = gf.partial(
+straight_no = partial(
     gf.components.straight,
     cross_section=xs_no,
 )
 
-gc_nc = gf.partial(
+gc_nc = partial(
     gf.components.grating_coupler_elliptical_te,
     grating_line_width=0.6,
     layer=LAYER.WGN,
@@ -459,14 +464,14 @@ gc_nc = gf.partial(
 )
 
 # HIERARCHICAL cells are made of leaf cells
-mzi_nc = gf.partial(
+mzi_nc = partial(
     gf.components.mzi,
     cross_section=xs_nc,
     splitter=mmi1x2_nc,
     straight=straight_nc,
     bend=bend_euler_nc,
 )
-mzi_no = gf.partial(
+mzi_no = partial(
     gf.components.mzi,
     cross_section=xs_no,
     splitter=mmi1x2_no,
@@ -499,10 +504,10 @@ pdk = gf.Pdk(
 pdk.activate()
 
 
-# %% tags=[]
+# %%
 LAYER_VIEWS.layer_map.values()
 
-# %% tags=[]
+# %%
 mzi = mzi_nc()
 mzi_gc = gf.routing.add_fiber_single(
     component=mzi,
@@ -514,9 +519,9 @@ mzi_gc = gf.routing.add_fiber_single(
 )
 mzi_gc.plot()
 
-# %% tags=[]
+# %%
 c = mzi_gc.to_3d()
 c.show(show_ports=True)
 
-# %% tags=[]
+# %%
 ls = get_layer_stack_fab_c()

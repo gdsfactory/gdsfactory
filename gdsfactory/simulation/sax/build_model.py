@@ -3,18 +3,18 @@ from pathlib import Path
 from typing import Dict, Optional, Union
 
 import jax.numpy as jnp
+import ray
 from tqdm.contrib.itertools import product
 
 from gdsfactory.simulation.sax.interpolators import nd_nd_interpolation
 from gdsfactory.simulation.sax.mlp import mlp_regression
 from gdsfactory.simulation.sax.parameter import (
     LayerStackThickness,
-    NamedParameter,
     LithoParameter,
+    NamedParameter,
 )
 from gdsfactory.technology import LayerStack
 from gdsfactory.typings import PortSymmetries
-import ray
 
 
 class Model:
@@ -22,18 +22,18 @@ class Model:
         self,
         trainable_component: callable,
         layerstack: LayerStack,
-        trainable_parameters: Dict[
-            str, Union[LayerStackThickness, NamedParameter]
+        trainable_parameters: Optional[
+            Dict[str, Union[LayerStackThickness, NamedParameter]]
         ] = None,
-        non_trainable_parameters: Dict[
-            str, Union[LayerStackThickness, NamedParameter]
+        non_trainable_parameters: Optional[
+            Dict[str, Union[LayerStackThickness, NamedParameter]]
         ] = None,
         simulation_settings: Optional[Dict[str, Union[float, str, int, Path]]] = None,
         num_modes: int = 2,
         port_symmetries: Optional[PortSymmetries] = None,
-        address: str = None,
+        address: Optional[str] = None,
         dashboard_port: int = 8265,
-        num_cpus: int = None,
+        num_cpus: Optional[int] = None,
         num_cpus_per_task: int = 1,
         # num_gpus_per_task: int = 0,
         restart_cluster: bool = False,
@@ -282,7 +282,7 @@ class Model:
     MODELS
     """
 
-    def set_nd_nd_interp(self):
+    def set_nd_nd_interp(self) -> None:
         """Returns ND-ND interpolator.
 
         Returns:
@@ -292,7 +292,7 @@ class Model:
         input_vectors, output_vectors = self.get_all_inputs_outputs()
         self.inference = nd_nd_interpolation(input_vectors, output_vectors)
 
-    def set_mlp_interp(self):
+    def set_mlp_interp(self) -> None:
         """Returns multilayer perceptron interpolator.
 
         Returns:

@@ -5,7 +5,7 @@ from __future__ import annotations
 import pya
 
 
-def set_shortcuts():
+def set_shortcuts() -> None:
     config = pya.Application.instance().get_config("key-bindings")
     if config == "":
         print("WARNING: get_config(key-bindings) returned null")

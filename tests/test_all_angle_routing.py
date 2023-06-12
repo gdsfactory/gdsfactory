@@ -1,7 +1,6 @@
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
-from gdsfactory.config import PATH
 from gdsfactory.difftest import difftest
 import gdsfactory.samples.all_angle_routing as aar_samples
 from gdsfactory.pdk import get_active_pdk
@@ -32,7 +31,7 @@ def test_gds(component_name: str) -> None:
 
     try:
         component = AAR_YAML_PICS[component_name]()
-        difftest(component, test_name=component_name, dirpath=PATH.gdsdiff)
+        difftest(component, test_name=component_name)
     finally:
         # reset back to what it was, so we don't mess up other tests
         get_active_pdk().gds_write_settings.flatten_invalid_refs = (
@@ -42,7 +41,7 @@ def test_gds(component_name: str) -> None:
 
 def test_bad_cells_throw_errors(bad_component_name):
     bad_func = AAR_YAML_PICS[bad_component_name]
-    with pytest.raises(Exception):
+    with pytest.raises(ValueError):
         bad_func()
 
 
@@ -54,6 +53,10 @@ def test_settings(component_name: str, data_regression: DataRegressionFixture) -
 
 if __name__ == "__main__":
     # name = cells_to_test[0]
-    name = "aar_bundles"
+    # name = "aar_bundles"
+    name = "aar_gone_wrong"
+    # name = "aar_error_intermediate_180"
+    # name = "aar_error_overconstrained"
     c = AAR_YAML_PICS[name]()
+    print(sorted([i.name for i in c.get_dependencies()]))
     c.show()

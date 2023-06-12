@@ -1,3 +1,4 @@
+"""Sample DRC deck for the generic PDK."""
 from __future__ import annotations
 
 import pathlib

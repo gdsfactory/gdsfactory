@@ -164,6 +164,8 @@ def grid_with_text(
     text_prefix: str = "",
     text_offsets: Tuple[Float2, ...] = ((0, 0),),
     text_anchors: Tuple[Anchor, ...] = ("cc",),
+    text_mirror: bool = False,
+    text_rotation: int = 0,
     text: Optional[ComponentSpec] = text_rectangular,
     labels: Optional[Tuple[str, ...]] = None,
     **kwargs,
@@ -175,6 +177,8 @@ def grid_with_text(
         text_prefix: for labels. For example. 'A' will produce 'A1', 'A2', ...
         text_offsets: relative to component anchor. Defaults to center.
         text_anchors: relative to component (ce cw nc ne nw sc se sw center cc).
+        text_mirror: if True mirrors text.
+        text_rotation: Optional text rotation.
         text: function to add text labels.
         labels: optional, specify a tuple of labels rather than using a text_prefix.
 
@@ -228,6 +232,10 @@ def grid_with_text(
                 else:
                     label = f"{text_prefix}{i}"
                 t = c << text(label)
+                if text_mirror:
+                    t.mirror()
+                if text_rotation:
+                    t.rotate(text_rotation)
                 t.move(np.array(text_offset) + getattr(ref.size_info, text_anchor))
     return c
 

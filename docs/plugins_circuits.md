@@ -1,4 +1,4 @@
-# Plugins: Circuit simulators
+# Circuit simulators
 
 Frequency circuit simulators solve the Sparameters of a circuit that connects several components, each of which is described by its Sparameters.
 

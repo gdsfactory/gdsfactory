@@ -1,4 +1,4 @@
-# Plugins: Mode solvers
+# Mode solvers
 
 A mode solver computes the modes supported by a waveguide cross-section at a particular wavelength. Modes are definite-frequency eigenstates of Maxwell's equations.
 

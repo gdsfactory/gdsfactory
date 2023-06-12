@@ -194,7 +194,7 @@ def run_meep_adjoint_optimizer(
     upper_bound: Any = 1,
     maxeval: int = 10,
     get_optimized_component: bool = False,
-    opt: OptimizationProblem = None,
+    opt: Optional[OptimizationProblem] = None,
     **kwargs,
 ) -> Union[ndarray, Component]:
     """Run adjoint optimization using Meep.

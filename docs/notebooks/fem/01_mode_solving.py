@@ -5,7 +5,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.4
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -68,12 +68,12 @@ filtered_layerstack.layers[
     "slab90"
 ].thickness = 0.09  # Perturb the layerstack before simulating
 
-resolutions = {}
-resolutions["core"] = {"resolution": 0.02, "distance": 2}
-resolutions["clad"] = {"resolution": 0.2, "distance": 1}
-resolutions["box"] = {"resolution": 0.2, "distance": 1}
-resolutions["slab90"] = {"resolution": 0.05, "distance": 1}
-
+resolutions = {
+    "core": {"resolution": 0.02, "distance": 2},
+    "clad": {"resolution": 0.2, "distance": 1},
+    "box": {"resolution": 0.2, "distance": 1},
+    "slab90": {"resolution": 0.05, "distance": 1},
+}
 lams, basis, xs = compute_cross_section_modes(
     cross_section=rib(width=0.6),
     layerstack=filtered_layerstack,

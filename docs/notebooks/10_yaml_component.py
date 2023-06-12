@@ -1,17 +1,3 @@
-# ---
-# jupyter:
-#   jupytext:
-#     text_representation:
-#       extension: .py
-#       format_name: light
-#       format_version: '1.5'
-#       jupytext_version: 1.14.4
-#   kernelspec:
-#     display_name: Python 3 (ipykernel)
-#     language: python
-#     name: python3
-# ---
-
 # # YAML Place and AutoRoute
 #
 # You have two options for working with gdsfactory:
@@ -41,9 +27,10 @@
 # +
 # # %matplotlib widget
 
-# + tags=[]
+# +
 import ipywidgets
 from IPython.display import display
+from functools import partial
 
 import gdsfactory as gf
 from gdsfactory.generic_tech import get_generic_pdk
@@ -122,7 +109,6 @@ f({"new": x.value})
 #
 # Lets place an `mmi_long` where you can place the `W0` port at `x=20, y=10`
 
-# + tags=[]
 x.value = """
 name: mmis
 instances:
@@ -145,7 +131,6 @@ placements:
         mirror: False
 """
 display(x, out)
-# -
 
 x.value = """
 name: mmi_mirror
@@ -631,8 +616,8 @@ display(x, out)
 # You can leverage netlist defined components to define more complex circuits
 
 # +
-mmi1x2_faba = gf.partial(gf.components.mmi1x2, length_mmi=30)
-mmi2x2_faba = gf.partial(gf.components.mmi2x2, length_mmi=30)
+mmi1x2_faba = partial(gf.components.mmi1x2, length_mmi=30)
+mmi2x2_faba = partial(gf.components.mmi2x2, length_mmi=30)
 gf.get_active_pdk().register_cells(mmi1x2_faba=mmi1x2_faba, mmi2x2_faba=mmi2x2_faba)
 
 x.value = """
@@ -698,7 +683,7 @@ instances:
 display(x, out)
 # -
 
-# # `cell_from_yaml_template`: Jinja-template-based Parser
+# ## `cell_from_yaml_template`: Jinja-template-based Parser
 # An optional parser variant is also available which is capable of parsing jinja templating directives within the yaml-based cells. This can give python-like flexibility inside the otherwise declaratively-defined yaml circuit syntax.
 
 # +
@@ -828,7 +813,7 @@ bc2 = big_cell(
 )
 bc2
 
-# # Choosing your preferred yaml parser
+# ## Choosing your preferred yaml parser
 #
 
 # In general, the jinja-yaml parser has a superset of the functionalities and syntax of the standard yaml parser. The one notable exception is with `settings`. When reading any yaml files with `settings` blocks, the default settings will be read and applied, but they will not be settable, as the jinja parser has a different mechanism for setting injection with the `default_settings` block and jinja2.

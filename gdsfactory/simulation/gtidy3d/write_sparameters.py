@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import time
+from functools import partial
+from typing import Awaitable
 
 import numpy as np
 import tidy3d as td
@@ -24,6 +26,7 @@ from gdsfactory.typings import (
     PathType,
     Port,
     PortSymmetries,
+    Sparameters,
     Tuple,
 )
 
@@ -74,8 +77,9 @@ def write_sparameters(
     dirpath: Optional[PathType] = None,
     run: bool = True,
     overwrite: bool = False,
+    verbose: bool = False,
     **kwargs,
-) -> Dict[str, np.ndarray]:
+) -> Sparameters:
     """Get full sparameter matrix from a gdsfactory Component.
 
     Simulates each time using a different input port (by default, all of them)
@@ -102,6 +106,7 @@ def write_sparameters(
             Defaults to active Pdk.sparameters_path.
         run: runs simulation, if False, only plots simulation.
         overwrite: overwrites stored Sparameter npz results.
+        verbose: prints info messages and progressbars.
 
     Keyword Args:
         port_extension: extend ports beyond the PML.
@@ -167,6 +172,7 @@ def write_sparameters(
     component_ref = component.ref()
     ports = component_ref.ports
     port_names = [port.name for port in list(ports.values())]
+    port_symmetries_sources = [key.split("@")[0] for key in port_symmetries]
 
     sims = []
     sp = {}
@@ -174,9 +180,11 @@ def write_sparameters(
     port_source_names = port_source_names or port_names
 
     for port_name in port_source_names:
-        if port_name not in port_symmetries:
+        if port_name not in port_symmetries_sources:
             sim = get_simulation(component, port_source_name=port_name, **kwargs)
             sims.append(sim)
+        else:
+            print(f"leveraging port_symmetries for {port_name!r}")
 
     if not run:
         sim = sims[0]
@@ -184,7 +192,7 @@ def write_sparameters(
         return sp
 
     start = time.time()
-    batch_data = get_results_batch(sims)
+    batch_data = get_results_batch(sims, verbose=verbose)
 
     def get_sparameter(
         port_name_source: str,
@@ -195,7 +203,7 @@ def write_sparameters(
         """Return Component sparameter for a particular port Index n.
 
         Args:
-            port_name: source port name.
+            port_name_source: source port name.
             sim_data: simulation data.
             port_symmetries: to save simulations.
             kwargs: simulation settings.
@@ -224,7 +232,12 @@ def write_sparameters(
     for port_source_name, (_sim_name, sim_data) in zip(
         port_source_names, batch_data.items()
     ):
-        sp.update(get_sparameter(port_source_name, sim_data))
+        sp.update(
+            get_sparameter(
+                port_source_name,
+                sim_data,
+            )
+        )
 
     end = time.time()
     np.savez_compressed(filepath, **sp)
@@ -236,39 +249,43 @@ def write_sparameters(
     return sp
 
 
-def write_sparameters_batch(jobs: List[Dict[str, Any]], **kwargs) -> List[np.ndarray]:
-    """Returns Sparameters for a list of write_sparameters_grating_coupler kwargs \
-            where it runs each simulation in parallel.
+def write_sparameters_batch(
+    jobs: List[Dict[str, Any]], **kwargs
+) -> List[Awaitable[Sparameters]]:
+    """Returns Sparameters for a list of write_sparameters.
+
+    Each job runs in separate thread and is non blocking.
+    You need to get the results using sp.result().
 
     Args:
         jobs: list of kwargs for write_sparameters_grating_coupler.
         kwargs: simulation settings.
     """
-    sp = [_executor.submit(write_sparameters, **job, **kwargs) for job in jobs]
-    return [spi.result() for spi in sp]
+    kwargs.update(verbose=False)
+    return [_executor.submit(write_sparameters, **job, **kwargs) for job in jobs]
 
 
-write_sparameters_1x1 = gf.partial(
+write_sparameters_1x1 = partial(
     write_sparameters, port_symmetries=port_symmetries.port_symmetries_1x1
 )
-write_sparameters_crossing = gf.partial(
+write_sparameters_crossing = partial(
     write_sparameters, port_symmetries=port_symmetries.port_symmetries_crossing
 )
 
-write_sparameters_batch_1x1 = gf.partial(
+write_sparameters_batch_1x1 = partial(
     write_sparameters_batch, port_symmetries=port_symmetries.port_symmetries_1x1
 )
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-    import gdsfactory.simulation as sim
-
     # c = gf.components.straight(length=2.1)
-    c = gf.c.straight()
-    c = gf.components.mmi1x2()
-    sp = write_sparameters(c, is_3d=True, port_source_names=None, overwrite=False)
-    sim.plot.plot_sparameters(sp)
+    # c = gf.c.straight(length=2.123)
+    # c = gf.components.mmi1x2()
+    # sp = write_sparameters(c, is_3d=True, port_source_names=None, overwrite=False)
+    # gs.plot.plot_sparameters(sp)
+    c = gf.components.straight(length=3)
+    sp = write_sparameters_1x1(c, overwrite=True, is_3d=False)
+    print(sp)
 
     # t = sp.o1@0,o2@0
     # print(f"Transmission = {t}")

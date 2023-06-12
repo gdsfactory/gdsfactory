@@ -146,10 +146,11 @@ class Port:
         return clean_value_json(d)
 
     def to_yaml(self) -> str:
+        x, y = np.round(self.center, 3)
         d = {
             "name": self.name,
             "width": float(self.width),
-            "center": [float(self.center[0]), float(self.center[1])],
+            "center": [float(x), float(y)],
             "orientation": float(self.orientation)
             if self.orientation
             else float(self.orientation),
@@ -260,11 +261,11 @@ class Port:
         return self.center[1]
 
     @x.setter
-    def x(self, value):
+    def x(self, value) -> None:
         self.center = (value, self.center[1])
 
     @y.setter
-    def y(self, value):
+    def y(self, value) -> None:
         self.center = (self.center[0], value)
 
     def rotate(self, angle: float = 45, center: Optional[Float2] = None) -> Port:
@@ -736,7 +737,7 @@ def _rename_ports_clockwise_top_right(
 
 def rename_ports_by_orientation(
     component: Component,
-    layers_excluded: LayerSpec = None,
+    layers_excluded: Optional[LayerSpec] = None,
     select_ports: Callable = select_ports,
     function=_rename_ports_facing_side,
     prefix: str = "o",
@@ -825,20 +826,22 @@ def auto_rename_ports(
 
     """
     if port_type is None:
-        rename_ports_by_orientation(
-            component=component,
-            select_ports=select_ports_optical,
-            prefix=prefix_optical,
-            function=function,
-            **kwargs,
-        )
-        rename_ports_by_orientation(
-            component=component,
-            select_ports=select_ports_electrical,
-            prefix=prefix_electrical,
-            function=function,
-            **kwargs,
-        )
+        if select_ports_optical:
+            rename_ports_by_orientation(
+                component=component,
+                select_ports=select_ports_optical,
+                prefix=prefix_optical,
+                function=function,
+                **kwargs,
+            )
+        if select_ports_electrical:
+            rename_ports_by_orientation(
+                component=component,
+                select_ports=select_ports_electrical,
+                prefix=prefix_electrical,
+                function=function,
+                **kwargs,
+            )
     else:
         rename_ports_by_orientation(
             component=component,
@@ -940,7 +943,7 @@ def map_ports_to_orientation_cw(
         else:
             direction_ports["S"].append(p)
     function(direction_ports)
-    return dict({p.name: p.name_original for p in ports_on_layer})
+    return {p.name: p.name_original for p in ports_on_layer}
 
 
 map_ports_to_orientation_ccw = partial(

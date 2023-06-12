@@ -5,7 +5,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.4
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -18,7 +18,7 @@
 # You can simulate directly the component layout and include important effects such as metal dummy fill.
 
 
-# + tags=[]
+# +
 import gmsh
 import gdsfactory as gf
 from gdsfactory.simulation.gmsh.mesh import create_physical_mesh
@@ -37,11 +37,10 @@ gf.generic_tech.LAYER_STACK.layers["heater"].zmin = 2.2
 
 heater = gf.components.straight_heater_metal(length=50, heater_width=2)
 heater
+# -
 
-# + tags=[]
 print(gf.generic_tech.LAYER_STACK.layers.keys())
 
-# + tags=[]
 filtered_layerstack = LayerStack(
     layers={
         k: gf.pdk.get_layer_stack().layers[k]
@@ -49,7 +48,7 @@ filtered_layerstack = LayerStack(
     }
 )
 
-# + tags=[]
+# +
 filename = "mesh"
 
 
@@ -58,7 +57,8 @@ def mesh_with_physicals(mesh, filename):
     return create_physical_mesh(mesh_from_file, "triangle", prune_z=True)
 
 
-# + tags=[]
+# -
+
 mesh = heater.to_gmsh(
     type="uz",
     xsection_bounds=[(4, -4), (4, 4)],
@@ -69,7 +69,6 @@ mesh = mesh_with_physicals(mesh, filename)
 mesh = from_meshio(mesh)
 mesh.draw().plot()
 
-# + [markdown] tags=[]
 # FIXME!
 #
 # ```python
@@ -88,11 +87,10 @@ mesh.draw().plot()
 #     currents={"heater": 0.007},
 # )
 # ```
-# -
 
 # Example based on [femwell](https://helgegehring.github.io/femwell/index.html)
 
-# + tags=[]
+# +
 from collections import OrderedDict
 
 import matplotlib.pyplot as plt
@@ -106,7 +104,7 @@ from femwell.mesh import mesh_from_OrderedDict
 from femwell.mode_solver import compute_modes, plot_mode
 from femwell.thermal import solve_thermal
 
-# + tags=[]
+# +
 w_sim = 8 * 2
 h_clad = 2.8
 h_box = 1

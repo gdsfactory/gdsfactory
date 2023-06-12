@@ -1,21 +1,23 @@
 """PDK stores layers, cross_sections, cell functions ..."""
 
 from __future__ import annotations
+
 import pathlib
 import warnings
 from functools import partial
-from typing import Any, Callable, Optional, Union, Tuple
-from typing_extensions import Literal
+from typing import Any, Callable, Optional, Tuple, Union, List
 
 import numpy as np
 from omegaconf import DictConfig
 from pydantic import BaseModel, Field, validator
+from typing_extensions import Literal
 
 from gdsfactory.config import PATH, logger
 from gdsfactory.containers import containers as containers_default
 from gdsfactory.events import Event
 from gdsfactory.materials import MaterialSpec
 from gdsfactory.materials import materials_index as materials_index_default
+from gdsfactory.name import MAX_NAME_LENGTH
 from gdsfactory.read import cell_from_yaml
 from gdsfactory.show import show
 from gdsfactory.symbols import floorplan_with_block_letters
@@ -26,18 +28,17 @@ from gdsfactory.typings import (
     ComponentFactory,
     ComponentSpec,
     CrossSection,
-    Transition,
     CrossSectionFactory,
     CrossSectionSpec,
     Dict,
     Layer,
     LayerSpec,
     PathType,
+    Transition,
 )
 
 component_settings = ["function", "component", "settings"]
 cross_section_settings = ["function", "cross_section", "settings"]
-layers_required = []
 
 constants = {
     "fiber_array_spacing": 127.0,
@@ -55,6 +56,10 @@ class GdsWriteSettings(BaseModel):
     """Settings to use when writing to GDS."""
 
     on_uncached_component: Literal["warn", "error", "ignore"] = "ignore"
+    lib_name: str = Field(
+        default="library",
+        description="Name of the GDS library to write to. Default is 'library'.",
+    )
     unit: float = Field(
         default=1e-6,
         description="The units of coordinates in the database. The default is 1e-6 (1 micron).",
@@ -71,7 +76,7 @@ class GdsWriteSettings(BaseModel):
                         "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.""",
     )
     flatten_invalid_refs: bool = Field(
-        default=False,
+        default=True,
         description="If true, will auto-correct (and flatten) cell references which are off-grid or rotated by non-manhattan angles.",
     )
     max_points: int = Field(
@@ -102,6 +107,43 @@ class OasisWriteSettings(BaseModel):
     standard_properties: bool = Field(
         default=False,
         description="If true, stores standard OASIS properties in the file.",
+    )
+
+
+class CellDecoratorSettings(BaseModel):
+    """Settings for cell_without_validator decorator function in gdsfactory.cell."""
+
+    with_hash: bool = Field(
+        default=False,
+        description="If true, will append a hash of the cell to the cell name.",
+    )
+    autoname: bool = Field(
+        default=True,
+        description="If true, will automatically name the cell based on its parameters.",
+    )
+    name: Optional[str] = Field(
+        default=None,
+        description="If set, will override the cell name with this value.",
+    )
+    cache: bool = Field(
+        default=True,
+        description="If true, will cache the cell in the gdsfactory.cell.CACHE",
+    )
+    flatten: bool = Field(
+        default=False,
+        description="If true, will flatten the cell before returning it.",
+    )
+    info: Dict[str, Any] = Field(
+        default={},
+        description="Additional information to store in the cell.",
+    )
+    prefix: Optional[str] = Field(
+        default=None,
+        description="If set, will prepend this string to the cell name.",
+    )
+    max_name_length: int = Field(
+        default=MAX_NAME_LENGTH,
+        description="Maximum length of the cell name.",
     )
 
 
@@ -140,6 +182,7 @@ class Pdk(BaseModel):
         circuit_yaml_parser: can parse different YAML formats.
         gds_write_settings: to write GDSII files.
         oasis_settings: to write OASIS files.
+        cell_decorator_settings: settings for cell_without_validator decorator function in gdsfactory.cell.
         bend_points_distance: default points distance for bends in um.
 
     """
@@ -168,6 +211,7 @@ class Pdk(BaseModel):
     circuit_yaml_parser: Callable = cell_from_yaml
     gds_write_settings: GdsWriteSettings = GdsWriteSettings()
     oasis_settings: OasisWriteSettings = OasisWriteSettings()
+    cell_decorator_settings: CellDecoratorSettings = CellDecoratorSettings()
     bend_points_distance: float = 20 * nm
 
     @property
@@ -176,7 +220,7 @@ class Pdk(BaseModel):
         return self.gds_write_settings.precision / self.gds_write_settings.unit
 
     @grid_size.setter
-    def grid_size(self, value):
+    def grid_size(self, value) -> None:
         self.gds_write_settings.precision = value * self.gds_write_settings.unit
 
     class Config:
@@ -197,7 +241,10 @@ class Pdk(BaseModel):
     def is_pathlib_path(cls, path):
         return pathlib.Path(path)
 
-    def validate_layers(self):
+    def validate_layers(self, layers_required: Optional[List[Layer]] = None):
+        """Raises ValueError if layers_required are not in Pdk."""
+        if layers_required is None:
+            layers_required = []
         for layer in layers_required:
             if layer not in self.layers:
                 raise ValueError(
@@ -231,7 +278,8 @@ class Pdk(BaseModel):
 
             if not self.default_decorator:
                 self.default_decorator = self.base_pdk.default_decorator
-        self.validate_layers()
+        layers_required = []
+        self.validate_layers(layers_required)
         _set_active_pdk(self)
 
     def register_cells(self, **kwargs) -> None:

@@ -5,43 +5,73 @@ This module enables conversion between gdsfactory settings and KLayout technolog
 
 import pathlib
 import xml.etree.ElementTree as ET
-from typing import List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 
 from pydantic import BaseModel, Field
 
 from gdsfactory.config import PATH
-from gdsfactory.technology import LayerViews
+from gdsfactory.technology import LayerStack, LayerViews
+from gdsfactory.typings import PathType
 
 Layer = Tuple[int, int]
 ConductorViaConductorName = Tuple[str, str, str]
+
+prefix_d25 = """<?xml version="1.0" encoding="utf-8"?>
+<klayout-macro>
+ <description/>
+ <version/>
+ <category>d25</category>
+ <prolog/>
+ <epilog/>
+ <doc/>
+ <autorun>false</autorun>
+ <autorun-early>false</autorun-early>
+ <priority>0</priority>
+ <shortcut/>
+ <show-in-menu>true</show-in-menu>
+ <group-name>d25_scripts</group-name>
+ <menu-path>tools_menu.d25.end</menu-path>
+ <interpreter>dsl</interpreter>
+ <dsl-interpreter-name>d25-dsl-xml</dsl-interpreter-name>
+ <text>
+
+"""
+suffix_d25 = """
+</text>
+</klayout-macro>
+"""
 
 
 class KLayoutTechnology(BaseModel):
     """A container for working with KLayout technologies (requires KLayout Python package).
 
-    Useful for importing/exporting Layer Properties (.lyp) and Technology (.lyt) files.
+    Useful to import/export Layer Properties (.lyp) and Technology (.lyt) files.
 
     Properties:
+        name: technology name.
+        layer_map: Maps names to GDS layer numbers.
         layer_views: Defines all the layer display properties needed for a .lyp file from LayerView objects.
         technology: KLayout Technology object from the KLayout API. Set name, dbu, etc.
         connectivity: List of layer names connectivity for netlist tracing.
     """
 
     # TODO: Add import method
+    # TODO: Also interop with xs scripts?
     import klayout.db as db
 
     name: str
+    layer_map: Dict[str, Layer]
     layer_views: Optional[LayerViews] = None
+    layer_stack: Optional[LayerStack] = None
     technology: db.Technology = Field(default_factory=db.Technology)
     connectivity: Optional[List[ConductorViaConductorName]] = None
 
-    def export_technology_files(
+    def write_tech(
         self,
-        tech_dir: str,
+        tech_dir: PathType,
         lyp_filename: str = "layers.lyp",
         lyt_filename: str = "tech.lyt",
-        d25_filename: str = "generic.lyd25",
-        layer_stack: Optional = None,
+        d25_filename: Optional[str] = None,
         mebes_config: Optional[dict] = None,
     ) -> None:
         """Write technology files into 'tech_dir'.
@@ -50,26 +80,29 @@ class KLayoutTechnology(BaseModel):
             tech_dir: Where to write the technology files to.
             lyp_filename: Name of the layer properties file.
             lyt_filename: Name of the layer technology file.
-            d25_filename: Name of the 2.5D stack file (only works on KLayout >= 0.28)
-            layer_stack: If specified, write a 2.5D section in the technology file based on the LayerStack.
+            d25_filename: Name of the 2.5D stack file (only works on KLayout >= 0.28). Defaults to self.name.
             mebes_config: A dictionary specifying the KLayout mebes reader config.
+
         """
         from gdsfactory.utils.xml_utils import make_pretty_xml
 
-        # Format file names if necessary
+        d25_filename = d25_filename or f"{self.name}.lyd25"
+
         tech_path = pathlib.Path(tech_dir)
         lyp_path = tech_path / lyp_filename
         lyt_path = tech_path / lyt_filename
         d25_path = tech_path / "d25" / d25_filename
+        d25_dir = tech_path / "d25"
+        d25_dir.mkdir(exist_ok=True, parents=True)
 
         if not self.technology.name:
             self.technology.name = self.name
 
         self.technology.layer_properties_file = lyp_path.name
-        # TODO: Also interop with xs scripts?
 
-        # Write lyp to file
-        self.layer_views.to_lyp(lyp_path)
+        if self.layer_views:
+            self.layer_views.to_lyp(lyp_path)
+            print(f"Wrote {str(lyp_path)!r}")
 
         root = ET.XML(self.technology.to_xml().encode("utf-8"))
 
@@ -99,49 +132,48 @@ class KLayoutTechnology(BaseModel):
         lefdef_idx = list(reader_opts).index(reader_opts.find("lefdef"))
         reader_opts.insert(lefdef_idx + 1, mebes)
 
-        if layer_stack is not None:
-            # KLayout 0.27.x won't have a way to read/write the 2.5D info for technologies, so add manually to xml
-            d25_element = root.find("d25")
-
-            # Would be nice to have a klayout.__version__ to check
-            klayout28 = d25_element is None
-
+        if self.layer_stack:
             dbu = len(str(self.technology.dbu).split(".")[-1])
-
-            d25_script = layer_stack.get_klayout_3d_script(
-                klayout28=klayout28,
-                layer_views=self.layer_views,
-                dbu=dbu,
-            )
-
-            if klayout28:
-                d25_script = f"# {self.name!r} 2.5D script generated by GDSFactory\n\n{d25_script}"
-                d25_path.write_bytes(d25_script.encode("utf-8"))
-            else:
-                src_element = d25_element.find("src")
-                src_element.text = d25_script
-
-        # root['connectivity']['connection']= '41/0,44/0,45/0'
-        if self.connectivity is not None:
-            src_element = [e for e in list(root) if e.tag == "connectivity"]
-            if len(src_element) != 1:
-                raise KeyError("Could not get a single index for the src element.")
-            src_element = src_element[0]
-            for layer_name_c1, layer_name_via, layer_name_c2 in self.connectivity:
-                layer_c1 = self.layer_views.layer_views[layer_name_c1].layer
-                layer_via = self.layer_views.layer_views[layer_name_via].layer
-                layer_c2 = self.layer_views.layer_views[layer_name_c2].layer
-                connection = ",".join(
-                    [
-                        f"{layer[0]}/{layer[1]}"
-                        for layer in [layer_c1, layer_via, layer_c2]
-                    ]
+            d25_script = (
+                prefix_d25
+                + self.layer_stack.get_klayout_3d_script(
+                    layer_views=self.layer_views,
+                    dbu=dbu,
                 )
+                + suffix_d25
+            )
+            d25_path.write_bytes(d25_script.encode("utf-8"))
+            print(f"Wrote {str(d25_path)!r}")
 
-                ET.SubElement(src_element, "connection").text = connection
+        self._define_connections(root)
 
-        # Write lyt to file
         lyt_path.write_bytes(make_pretty_xml(root))
+        print(f"Wrote {str(lyt_path)!r}")
+
+    def _define_connections(self, root) -> None:
+        if not self.connectivity:
+            return
+        src_element = [e for e in list(root) if e.tag == "connectivity"]
+        if len(src_element) != 1:
+            raise KeyError("Could not get a single index for the src element.")
+        src_element = src_element[0]
+        layers = set()
+        for layer_name_c1, layer_name_via, layer_name_c2 in self.connectivity:
+            connection = ",".join([layer_name_c1, layer_name_via, layer_name_c2])
+
+            layers.add(layer_name_c1)
+            layers.add(layer_name_via)
+            layers.add(layer_name_c2)
+
+            ET.SubElement(src_element, "connection").text = connection
+
+        if self.layer_map:
+            for layer in layers:
+                ET.SubElement(
+                    src_element, "symbols"
+                ).text = (
+                    f"{layer}='{self.layer_map[layer][0]}/{self.layer_map[layer][1]}'"
+                )
 
     class Config:
         """Allow db.Technology type."""
@@ -152,7 +184,7 @@ class KLayoutTechnology(BaseModel):
 layer_views = LayerViews.from_lyp(str(PATH.klayout_lyp))
 
 
-def yaml_test():
+def yaml_test() -> None:
     tech_dir = PATH.repo / "extra" / "test_tech"
 
     # Load from existing layer properties file
@@ -171,21 +203,27 @@ def yaml_test():
 
 
 if __name__ == "__main__":
-    from gdsfactory.generic_tech import LAYER_STACK
+    from gdsfactory.generic_tech import LAYER, LAYER_STACK
 
-    lyp = LayerViews.from_lyp(str(PATH.klayout_lyp))
+    lyp = LayerViews(PATH.klayout_yaml)
+    # lyp = LayerViews.from_lyp(str(PATH.klayout_yaml))
 
     # str_xml = open(PATH.klayout_tech / "tech.lyt").read()
     # new_tech = db.Technology.technology_from_xml(str_xml)
     # generic_tech = KLayoutTechnology(layer_views=lyp)
-    connectivity = [("M1", "VIA1", "M2"), ("M2", "VIA2", "M3")]
+    connectivity = [
+        ("NPP", "VIAC", "M1"),
+        ("PPP", "VIAC", "M1"),
+        ("M1", "VIA1", "M2"),
+        ("M2", "VIA2", "M3"),
+    ]
 
     c = generic_tech = KLayoutTechnology(
-        name="test_tech", layer_views=lyp, connectivity=connectivity
+        name="generic_tech", layer_views=lyp, connectivity=connectivity, layer_map=LAYER
     )
-    tech_dir = PATH.repo / "extra" / "test_tech"
+    tech_dir = PATH.klayout_tech
     # tech_dir = pathlib.Path("/home/jmatres/.klayout/salt/gdsfactory/tech/")
     tech_dir.mkdir(exist_ok=True, parents=True)
-    generic_tech.export_technology_files(tech_dir=tech_dir, layer_stack=LAYER_STACK)
+    generic_tech.write_tech(tech_dir=tech_dir, layer_stack=LAYER_STACK)
 
     # yaml_test()

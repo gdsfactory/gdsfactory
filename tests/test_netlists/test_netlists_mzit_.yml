@@ -27,13 +27,21 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         cladding_layers: null
         cladding_offsets: null
+        cladding_simplify: null
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
@@ -41,7 +49,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -54,7 +62,7 @@ instances:
         snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
-        width: 0.5
+        width: 0.45
         width_wide: null
       width: 0.45
     settings:
@@ -69,13 +77,21 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         cladding_layers: null
         cladding_offsets: null
+        cladding_simplify: null
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
@@ -83,7 +99,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -96,7 +112,7 @@ instances:
         snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
-        width: 0.5
+        width: 0.45
         width_wide: null
       width: 0.45
     settings:
@@ -111,13 +127,21 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         cladding_layers: null
         cladding_offsets: null
+        cladding_simplify: null
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
@@ -125,7 +149,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -138,7 +162,7 @@ instances:
         snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
-        width: 0.5
+        width: 0.55
         width_wide: null
       width: 0.55
     settings:
@@ -153,13 +177,21 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         cladding_layers: null
         cladding_offsets: null
+        cladding_simplify: null
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
@@ -167,7 +199,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -180,7 +212,7 @@ instances:
         snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
-        width: 0.5
+        width: 0.55
         width_wide: null
       width: 0.55
     settings:
@@ -211,13 +243,21 @@ instances:
       length: 1.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         cladding_layers: null
         cladding_offsets: null
+        cladding_simplify: null
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
@@ -225,7 +265,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -238,7 +278,7 @@ instances:
         snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
-        width: 0.5
+        width: 0.55
         width_wide: null
       width: 0.55
     settings:
@@ -252,13 +292,21 @@ instances:
       length: 3.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         cladding_layers: null
         cladding_offsets: null
+        cladding_simplify: null
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
@@ -266,7 +314,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -279,7 +327,7 @@ instances:
         snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
-        width: 0.5
+        width: 0.55
         width_wide: null
       width: 0.55
     settings:
@@ -293,13 +341,21 @@ instances:
       length: 4.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         cladding_layers: null
         cladding_offsets: null
+        cladding_simplify: null
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
@@ -307,7 +363,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -320,7 +376,7 @@ instances:
         snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
-        width: 0.5
+        width: 0.55
         width_wide: null
       width: 0.55
     settings:
@@ -334,13 +390,21 @@ instances:
       length: 3.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         cladding_layers: null
         cladding_offsets: null
+        cladding_simplify: null
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
@@ -348,7 +412,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -361,7 +425,7 @@ instances:
         snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
-        width: 0.5
+        width: 0.55
         width_wide: null
       width: 0.55
     settings:
@@ -375,13 +439,21 @@ instances:
       length: 1.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         cladding_layers: null
         cladding_offsets: null
+        cladding_simplify: null
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
@@ -389,7 +461,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -402,7 +474,7 @@ instances:
         snap_to_grid: null
         start_straight_length: 0.01
         taper_length: 10.0
-        width: 0.5
+        width: 0.45
         width_wide: null
       width: 0.45
     settings:

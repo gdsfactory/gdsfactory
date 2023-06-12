@@ -18,8 +18,6 @@ import numpy as np
 from numpy import ndarray
 from omegaconf import OmegaConf
 
-from gdsfactory.snap import snap_to_grid
-
 if TYPE_CHECKING:
     from gdsfactory.component import Component
     from gdsfactory.component_reference import ComponentReference
@@ -314,7 +312,7 @@ def add_pin_path(
     port: Port,
     pin_length: float = 2 * nm,
     layer: LayerSpec = "PORT",
-    layer_label: LayerSpec = None,
+    layer_label: Optional[LayerSpec] = None,
 ) -> None:
     """Add half out path pin to a component.
 
@@ -467,6 +465,10 @@ def add_pins(
 
 add_pins_triangle = partial(add_pins, function=add_pin_triangle)
 add_pins_center = partial(add_pins, function=add_pin_rectangle)
+add_pin_inside1nm = partial(
+    add_pin_rectangle_inside, pin_length=1 * nm, layer_label=None
+)
+add_pins_inside1nm = partial(add_pins, function=add_pin_inside1nm)
 
 
 def add_settings_label(
@@ -505,12 +507,10 @@ def add_instance_label(
         instance_name
         or f"{reference.parent.name},{int(reference.x)},{int(reference.y)}"
     )
-    x = snap_to_grid(reference.x)
-    y = snap_to_grid(reference.y)
 
     component.add_label(
         text=instance_name,
-        position=(x, y),
+        position=reference.center,
         layer=layer,
     )
 

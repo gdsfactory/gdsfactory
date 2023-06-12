@@ -3,8 +3,8 @@ polarization: None
 ports:
   opt_te_1530_15-straight_aa0e8b9c-0-0:
     center:
-    - 117.66850000000001
-    - -1.2172687056884808e-14
+    - 117.669
+    - -0.0
     layer:
     - 1
     - 0
@@ -14,8 +14,8 @@ ports:
     width: 10.0
   opt_te_1530_15-straight_aa0e8b9c-1-0:
     center:
-    - -127.66850000000001
-    - 9.510304915538464e-15
+    - -127.669
+    - 0.0
     layer:
     - 1
     - 0
@@ -25,8 +25,8 @@ ports:
     width: 10.0
   opt_te_1530_15-straight_aa0e8b9c-loopback1:
     center:
-    - 117.66799999999999
-    - -63.22300000000001
+    - 117.669
+    - -63.223
     layer:
     - 1
     - 0
@@ -36,8 +36,8 @@ ports:
     width: 10.0
   opt_te_1530_15-straight_aa0e8b9c-loopback2:
     center:
-    - -127.66800000000002
-    - -63.22299999999998
+    - -127.669
+    - -63.223
     layer:
     - 1
     - 0

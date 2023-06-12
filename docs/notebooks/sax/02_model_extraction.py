@@ -5,7 +5,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.4
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -156,9 +156,7 @@ print(np.shape(output_vectors))
 
 # Typically we are not interested in these vectors per say, but in some interpolation model between them. One way is to perform ND-ND interpolation:
 
-# + tags=[]
 rib_waveguide_model.set_nd_nd_interp()
-# -
 
 # The populates the model with an interpolator
 #
@@ -202,11 +200,8 @@ validation_inputs, calculated_outputs, inferred_outputs = rib_waveguide_model.va
 
 validation_inputs
 
-# + tags=[]
 input_vectors
 
-# + tags=[]
 output_vectors
-# -
 
 # While the trend seems reasonable, the model above could benefit from more examples or better simulation parameter tuning.

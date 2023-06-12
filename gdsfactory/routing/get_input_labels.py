@@ -1,8 +1,13 @@
 from __future__ import annotations
 
+from functools import partial
 from typing import List
 
-from gdsfactory.add_labels import get_input_label, get_input_label_text
+from gdsfactory.add_labels import (
+    get_input_label,
+    get_input_label_text,
+    get_input_label_text_dash,
+)
 from gdsfactory.component import ComponentReference
 from gdsfactory.port import Port
 from gdsfactory.typings import Label, LayerSpec
@@ -41,3 +46,9 @@ def get_input_labels(
         elements += [label]
 
     return elements
+
+
+get_input_labels_dash = partial(
+    get_input_labels,
+    get_input_label_text_function=get_input_label_text_dash,
+)

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from functools import partial
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler180
@@ -19,7 +21,10 @@ def cutback_component(
     port2: str = "o2",
     bend180: ComponentSpec = bend_euler180,
     mirror: bool = False,
+    mirror1: bool = False,
+    mirror2: bool = False,
     straight_length: Optional[float] = None,
+    straight_length_pair: Optional[float] = None,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
@@ -35,7 +40,10 @@ def cutback_component(
         port2: name of second optical port.
         bend180: ubend.
         mirror: Flips component. Useful when 'o2' is the port that you want to route to.
+        mirror1: mirrors first component.
+        mirror2: mirrors second component.
         straight_length: length of the straight section between cutbacks.
+        straight_length_pair: length of the straight section between each component pair.
         cross_section: specification (CrossSection, string or dict).
         kwargs: component settings.
     """
@@ -46,6 +54,7 @@ def cutback_component(
     straight_component = straight(
         length=straight_length or xs.radius * 2, cross_section=xs
     )
+    straight_pair = straight(length=straight_length_pair or 0, cross_section=xs)
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
@@ -55,13 +64,17 @@ def cutback_component(
         "C": (bendu, "o2", "o1"),
         "-": (straight_component, "o1", "o2"),
         "_": (straight_component, "o2", "o1"),
+        ".": (straight_pair, "o2", "o1"),
     }
 
     # Generate the sequence of staircases
 
     s = ""
     for i in range(rows):
-        s += "AB" * cols
+        a = "!A" if mirror1 else "A"
+        b = "!B" if mirror2 else "B"
+
+        s += f"{a}.{b}" * cols if straight_length_pair else (a + b) * cols
         if mirror:
             s += "C" if i % 2 == 0 else "D"
         else:
@@ -71,7 +84,7 @@ def cutback_component(
     s += "-_"
 
     for i in range(rows):
-        s += "AB" * cols
+        s += f"{a}.{b}" * cols if straight_length_pair else (a + b) * cols
         s += "D" if (i + rows) % 2 == 0 else "C"
 
     s = s[:-1]
@@ -82,17 +95,17 @@ def cutback_component(
     ref = c << seq
     c.add_ports(ref.ports)
 
-    n = len(s) - 2
+    n = 2 * s.count("A")
     c.copy_child_info(component)
     c.info["components"] = n
     return c
 
 
-# straight_wide = gf.partial(straight, width=3, length=20)
-# bend180_wide = gf.partial(bend_euler180, width=3)
-component_flipped = gf.partial(taper, width2=0.5, width1=3)
-straight_long = gf.partial(straight, length=20)
-cutback_component_mirror = gf.partial(cutback_component, mirror=True)
+# straight_wide = partial(straight, width=3, length=20)
+# bend180_wide = partial(bend_euler180, width=3)
+component_flipped = partial(taper, width2=0.5, width1=3)
+straight_long = partial(straight, length=20)
+cutback_component_mirror = partial(cutback_component, mirror=True)
 
 
 if __name__ == "__main__":

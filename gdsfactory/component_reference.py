@@ -6,10 +6,11 @@ Adapted from PHIDL https://github.com/amccaugh/phidl/ by Adam McCaughan
 from __future__ import annotations
 
 import typing
-from typing import Any, Dict, List, Optional, Tuple, Union, cast, Set
+from typing import Any, Dict, List, Optional, Set, Tuple, Union, cast
 
 import gdstk
 import numpy as np
+import shapely
 from numpy import cos, float64, int64, mod, ndarray, pi, sin
 
 from gdsfactory.component_layout import Polygon, _GeometryHelper, get_polygons
@@ -20,7 +21,6 @@ from gdsfactory.port import (
     map_ports_to_orientation_cw,
     select_ports,
 )
-from gdsfactory.snap import snap_to_grid
 
 if typing.TYPE_CHECKING:
     from gdsfactory.component import Component
@@ -220,7 +220,7 @@ class ComponentReference(_GeometryHelper):
         return self._reference.origin
 
     @origin.setter
-    def origin(self, value):
+    def origin(self, value) -> None:
         self._reference.origin = value
 
     @property
@@ -228,7 +228,7 @@ class ComponentReference(_GeometryHelper):
         return self._reference.magnification
 
     @magnification.setter
-    def magnification(self, value):
+    def magnification(self, value) -> None:
         self._reference.magnification = value
 
     @property
@@ -236,7 +236,7 @@ class ComponentReference(_GeometryHelper):
         return np.rad2deg(self._reference.rotation)
 
     @rotation.setter
-    def rotation(self, value):
+    def rotation(self, value) -> None:
         self._reference.rotation = np.deg2rad(value)
 
     @property
@@ -244,20 +244,53 @@ class ComponentReference(_GeometryHelper):
         return self._reference.x_reflection
 
     @x_reflection.setter
-    def x_reflection(self, value):
+    def x_reflection(self, value) -> None:
         self._reference.x_reflection = value
 
-    def _set_ref_cell(self, value):
+    def _set_ref_cell(self, value) -> None:
         self._ref_cell = value
         self._reference.cell = value._cell
 
     @ref_cell.setter
-    def ref_cell(self, value):
+    def ref_cell(self, value) -> None:
         self._set_ref_cell(value)
 
     @parent.setter
-    def parent(self, value):
+    def parent(self, value) -> None:
         self._set_ref_cell(value)
+
+    def get_polygon_enclosure(self) -> shapely.Polygon:
+        return shapely.Polygon(self._reference.convex_hull())
+
+    def get_polygon_bbox(
+        self,
+        default: float = 0.0,
+        top: Optional[float] = None,
+        bottom: Optional[float] = None,
+        right: Optional[float] = None,
+        left: Optional[float] = None,
+    ) -> shapely.Polygon:
+        """Returns shapely Polygon with padding.
+
+        Args:
+            default: default padding in um.
+            top: north padding in um.
+            bottom: south padding in um.
+            right: east padding in um.
+            left: west padding in um.
+        """
+        (xmin, ymin), (xmax, ymax) = self.bbox
+        top = top if top is not None else default
+        bottom = bottom if bottom is not None else default
+        right = right if right is not None else default
+        left = left if left is not None else default
+        points = [
+            [xmin - left, ymin - bottom],
+            [xmax + right, ymin - bottom],
+            [xmax + right, ymax + top],
+            [xmin - left, ymax + top],
+        ]
+        return shapely.Polygon(points)
 
     def get_polygons(
         self,
@@ -265,6 +298,8 @@ class ComponentReference(_GeometryHelper):
         depth: Optional[int] = None,
         include_paths: bool = True,
         as_array: bool = True,
+        as_shapely: bool = False,
+        as_shapely_merged: bool = False,
     ) -> Union[List[Polygon], Dict[Tuple[int, int], List[Polygon]]]:
         """Return the list of polygons created by this reference.
 
@@ -283,6 +318,8 @@ class ComponentReference(_GeometryHelper):
             as_array: when as_array=false, return the Polygon objects instead.
                 polygon objects have more information (especially when by_spec=False)
                 and are faster to retrieve.
+            as_shapely: returns shapely polygons.
+            as_shapely_merged: returns a shapely polygonize.
 
         Returns
             out : list of array-like[N][2] or dictionary
@@ -300,6 +337,8 @@ class ComponentReference(_GeometryHelper):
             depth=depth,
             include_paths=include_paths,
             as_array=as_array,
+            as_shapely=as_shapely,
+            as_shapely_merged=as_shapely_merged,
         )
 
     def get_labels(self, depth=None, set_transform=True):
@@ -347,9 +386,9 @@ class ComponentReference(_GeometryHelper):
         """
         return self._reference.get_paths(depth=depth)
 
-    def translate(self, dx, dy):
+    def translate(self, dx, dy) -> ComponentReference:
         x0, y0 = self._reference.origin
-        self._reference.origin = (x0 + dx, y0 + dy)
+        self.origin = (x0 + dx, y0 + dy)
         return self
 
     def area(self, by_spec=False):
@@ -430,7 +469,7 @@ class ComponentReference(_GeometryHelper):
         bbox = self.get_bounding_box()
         if bbox is None:
             bbox = ((0, 0), (0, 0))
-        return np.round(bbox, 3)
+        return np.array(bbox)
 
     @classmethod
     def __get_validators__(cls):
@@ -481,6 +520,8 @@ class ComponentReference(_GeometryHelper):
         for name in local_names:
             if name not in parent_names:
                 self._local_ports.pop(name)
+        for k in list(self._local_ports):
+            self._local_ports[k].reference = self
         return self._local_ports
 
     @property
@@ -727,7 +768,8 @@ class ComponentReference(_GeometryHelper):
             port: origin (port, or port name) to connect.
             destination: destination port.
             overlap: how deep does the port go inside.
-            preserve_orientation: if True, will not rotate the reference to align the port orientations; reference will keep its orientation pre-connection.
+            preserve_orientation: True, does not rotate the reference to align port
+                orientation and reference keep its orientation pre-connection.
 
         Returns:
             ComponentReference: with correct rotation to connect to destination.
@@ -816,10 +858,6 @@ class ComponentReference(_GeometryHelper):
         key2 = m[key]
         return self.ports[key2]
 
-    def snap_ports_to_grid(self, nm: int = 1) -> None:
-        for port in self.ports.values():
-            port.snap_to_grid(nm=nm)
-
     def get_ports_xsize(self, **kwargs) -> float:
         """Return xdistance from east to west ports.
 
@@ -828,16 +866,16 @@ class ComponentReference(_GeometryHelper):
         """
         ports_cw = self.get_ports_list(clockwise=True, **kwargs)
         ports_ccw = self.get_ports_list(clockwise=False, **kwargs)
-        return snap_to_grid(ports_ccw[0].x - ports_cw[0].x)
+        return ports_ccw[0].x - ports_cw[0].x
 
     def get_ports_ysize(self, **kwargs) -> float:
         """Returns ydistance from east to west ports."""
         ports_cw = self.get_ports_list(clockwise=True, **kwargs)
         ports_ccw = self.get_ports_list(clockwise=False, **kwargs)
-        return snap_to_grid(ports_ccw[0].y - ports_cw[0].y)
+        return ports_ccw[0].y - ports_cw[0].y
 
 
-def test_move():
+def test_move() -> None:
     import gdsfactory as gf
 
     c = gf.Component()
@@ -846,7 +884,7 @@ def test_move():
     bend.move("o1", mzi.ports["o2"])
 
 
-def test_get_polygons():
+def test_get_polygons() -> None:
     import gdsfactory as gf
 
     ref = gf.components.straight()
@@ -863,7 +901,7 @@ def test_get_polygons():
     assert isinstance(p4[0], Polygon)
 
 
-def test_get_polygons_ref():
+def test_get_polygons_ref() -> None:
     import gdsfactory as gf
 
     ref = gf.components.straight().ref()
@@ -880,7 +918,7 @@ def test_get_polygons_ref():
     assert isinstance(p4[0], Polygon)
 
 
-def test_pads_no_orientation():
+def test_pads_no_orientation() -> None:
     import gdsfactory as gf
 
     c = gf.Component("pads_no_orientation")

@@ -1,10 +1,10 @@
-from itertools import count
-from pathlib import Path
-import shutil
-from srim import TRIM
 import os
-from itertools import repeat
+import shutil
+from itertools import count, repeat
+from pathlib import Path
+
 import pandas as pd
+from srim import TRIM
 
 
 def fragment(step, total):
@@ -32,7 +32,7 @@ def run_fragmented_calculation(
     save_path: Path,
     trim_settings=None,
     step: int = 1000,
-):
+) -> None:
     """Runs a TRIM calculations in series, with each batch no more than 1000 ions to avoid crashes.
 
     Arguments:
@@ -68,7 +68,7 @@ def run_parallel_fragmented_calculation(
     trim_settings=None,
     step: int = 1000,
     cores: int = 4,
-):
+) -> None:
     """Runs "cores" TRIM series calculations in parallel, with each batch no more than 1000 ions to avoid crashes.
 
     Arguments:
@@ -132,8 +132,9 @@ def read_ranges(save_path):
 
 if __name__ == "__main__":
     from pathlib import Path
-    from srim import Ion, Layer, Target
+
     import matplotlib.pyplot as plt
+    from srim import Ion, Layer, Target
 
     # Define implant
     energy = 1.0e5

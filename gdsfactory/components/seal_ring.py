@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from functools import partial
 from typing import Tuple, Union
 
 import gdsfactory as gf
@@ -43,7 +44,7 @@ def seal_ring(
     sx = xmax - xmin
     sy = ymax - ymin
 
-    snap = gf.partial(snap_to_grid, nm=2)
+    snap = partial(snap_to_grid, nm=2)
     sx = snap(sx)
     sy = snap(sy)
 
@@ -78,7 +79,7 @@ def seal_ring(
 
 
 if __name__ == "__main__":
-    big_square = gf.partial(rectangle, size=(1300, 2600))
+    big_square = partial(rectangle, size=(1300, 2600))
     c = gf.Component("demo")
     c << big_square()
     c << seal_ring(c.bbox + ((0, 0), (10, 0)), with_south=False)

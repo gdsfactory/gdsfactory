@@ -1,22 +1,21 @@
-# ---
-# jupyter:
-#   jupytext:
-#     text_representation:
-#       extension: .py
-#       format_name: light
-#       format_version: '1.5'
-#       jupytext_version: 1.14.4
-#   kernelspec:
-#     display_name: Python 3 (ipykernel)
-#     language: python
-#     name: python3
-# ---
-
-# # Routing optical and RF ports
+# %% [markdown]
+# # Routing
 #
 # Optical and high speed RF ports have an orientation that routes need to follow to avoid sharp turns that produce reflections.
+#
+# we have routing functions that route:
+#
+# - single route between 2 ports
+#     - `get_route`
+#     - `get_route_from_steps`
+#     - `get_route_astar`
+# - group of routes between 2 groups of ports using a river/bundle/bus router. At the moment it works only when all ports on each group have the same orientation.
+#     - `get_bundle`
+#     - `get_bundle_from_steps`
+#     - `get_bundle_path_length_match`
 
-# +
+# %%
+from functools import partial
 import numpy as np
 
 from gdsfactory import LAYER
@@ -30,22 +29,23 @@ from gdsfactory.generic_tech import get_generic_pdk
 gf.config.rich_output()
 PDK = get_generic_pdk()
 PDK.activate()
-# -
 
+# %%
 c = gf.Component("sample_no_routes")
 mmi1 = c << gf.components.mmi1x2()
 mmi2 = c << gf.components.mmi1x2()
 mmi2.move((100, 50))
 c
 
+# %% [markdown]
 # ## get_route
 #
 # `get_route` returns a Manhattan route between 2 ports
 
-# +
-# gf.routing.get_route?
-# -
+# %%
+help(gf.routing.get_route)
 
+# %%
 c = gf.Component("sample_connect")
 mmi1 = c << gf.components.mmi1x2()
 mmi2 = c << gf.components.mmi1x2()
@@ -54,12 +54,15 @@ route = gf.routing.get_route(mmi1.ports["o2"], mmi2.ports["o1"])
 c.add(route.references)
 c
 
+# %%
 route
 
+# %% [markdown]
 # **Problem**: get_route with obstacles
 #
 # sometimes there are obstacles that connect strip does not see!
 
+# %%
 c = gf.Component("sample_problem")
 mmi1 = c << gf.components.mmi1x2()
 mmi2 = c << gf.components.mmi1x2()
@@ -70,12 +73,13 @@ route = gf.routing.get_route(mmi1.ports["o2"], mmi2.ports["o2"])
 c.add(route.references)
 c
 
+# %% [markdown]
 # **Solutions:**
 #
 # - specify the route waypoints
 # - specify the route steps
 
-# +
+# %%
 c = gf.Component("sample_avoid_obstacle")
 mmi1 = c << gf.components.mmi1x2()
 mmi2 = c << gf.components.mmi1x2()
@@ -95,16 +99,20 @@ route = gf.routing.get_route_from_waypoints(
 )
 c.add(route.references)
 c
-# -
 
+# %%
 route.length
 
+# %%
 route.ports
 
+# %%
 route.references
 
+# %% [markdown]
 # Lets say that we want to extrude the waveguide using a different waveguide crosssection, for example using a different layer
 
+# %%
 c = gf.Component("sample_connect_metal")
 mmi1 = c << gf.components.mmi1x2()
 mmi2 = c << gf.components.mmi1x2()
@@ -115,11 +123,10 @@ route = gf.routing.get_route(
 c.add(route.references)
 c
 
-# ## auto_widen
-#
+# %% [markdown]
 # To reduce loss and phase errors you can also auto-widen waveguide routes straight sections that are longer than a certain length.
 
-# +
+# %%
 c = gf.Component("sample_connect_auto_widen")
 mmi1 = c << gf.components.mmi1x2()
 mmi2 = c << gf.components.mmi1x2()
@@ -135,56 +142,13 @@ route = gf.routing.get_route(
 )
 c.add(route.references)
 c
-# -
 
-# ## get_route_from_waypoints
-#
-# Sometimes you need to set up a route with custom waypoints. `get_route_from_waypoints` is a manual version of `get_route`
-
-# +
-c = gf.Component("waypoints_sample")
-
-w = gf.components.straight()
-left = c << w
-right = c << w
-right.move((100, 80))
-
-obstacle = gf.components.rectangle(size=(100, 10))
-obstacle1 = c << obstacle
-obstacle2 = c << obstacle
-obstacle1.ymin = 40
-obstacle2.xmin = 25
-
-
-p0x, p0y = left.ports["o2"].center
-p1x, p1y = right.ports["o2"].center
-o = 10  # vertical offset to overcome bottom obstacle
-ytop = 20
-
-
-routes = gf.routing.get_route_from_waypoints(
-    [
-        (p0x, p0y),
-        (p0x + o, p0y),
-        (p0x + o, ytop),
-        (p1x + o, ytop),
-        (p1x + o, p1y),
-        (p1x, p1y),
-    ],
-)
-c.add(routes.references)
-c
-# -
-
+# %% [markdown]
 # ## get_route_from_steps
 #
-# As you can see waypoints can only change one point (x or y) at a time, making the waypoint definition a bit redundant.
-#
-# You can also use a `get_route_from_steps` which is a more concise route definition, that supports defining only the new steps `x` or `y` together with increments `dx` or `dy`
-#
-# `get_route_from_steps` is a manual version of `get_route` and a more concise and convenient version of `get_route_from_waypoints`
+# `get_route_from_steps` is a manual version of `get_route` supports defining only the new steps `x` or `y` together with increments `dx` or `dy`
 
-# +
+# %%
 c = gf.Component("get_route_from_steps")
 w = gf.components.straight()
 left = c << w
@@ -213,7 +177,7 @@ routes = gf.routing.get_route_from_steps(
 c.add(routes.references)
 c
 
-# +
+# %%
 c = gf.Component("get_route_from_steps_shorter_syntax")
 w = gf.components.straight()
 left = c << w
@@ -241,13 +205,13 @@ routes = gf.routing.get_route_from_steps(
 )
 c.add(routes.references)
 c
-# -
 
+# %% [markdown]
 # ## get_route_astar
 #
 # A* is a routing algorithm that avoid obstacles. See [wikipedia](https://en.wikipedia.org/wiki/A*_search_algorithm) and [animation](https://github.com/zhm-real/PathPlanning)
 
-# +
+# %%
 c = gf.Component("get_route_astar")
 cross_section = gf.get_cross_section("metal1", width=3)
 w = gf.components.straight(cross_section=cross_section)
@@ -276,11 +240,11 @@ routes = gf.routing.get_route_astar(
 
 c.add(routes.references)
 c
-# -
 
+# %% [markdown]
 # By default it avoids all obstacles on every layer, but you can explicitly define the layers to avoid using `avoid_layers`.
 
-# +
+# %%
 c = gf.Component("get_route_astar_avoid_layers")
 cross_section = gf.get_cross_section("metal1", width=3)
 w = gf.components.straight(cross_section=cross_section)
@@ -311,7 +275,7 @@ routes = gf.routing.get_route_astar(
 c.add(routes.references)
 c
 
-# +
+# %%
 c = gf.Component("get_route_astar_strip")
 rect1 = c << gf.components.rectangle()
 rect2 = c << gf.components.rectangle()
@@ -331,7 +295,7 @@ c.add(route.references)
 
 c
 
-# +
+# %%
 c = gf.Component("get_route_astar_strip_avoid_layers")
 rect1 = c << gf.components.rectangle()
 rect2 = c << gf.components.rectangle()
@@ -351,11 +315,11 @@ route = gf.routing.get_route_astar(
 )
 c.add(route.references)
 c
-# -
 
+# %% [markdown]
 # The resolution decides how many "leaps/hops" the algorithm has to do. For a layout like this, where the default resolution (1 micron) is much smaller than the distance between the obstacles (~15+ microns), it has to step through too many points and that takes a long time. Increasing the resolution to about 5 microns fixes it (for this layout).
 
-# +
+# %%
 c = gf.Component("get_route_astar_resolution")
 w = gf.components.straight()
 left = c << w
@@ -381,15 +345,22 @@ route = gf.routing.get_route_astar(
 )
 c.add(route.references)
 c
-# -
 
+# %% [markdown]
 # ## get_bundle
+#
+# To route groups of ports avoiding waveguide collisions, you should use `get_bundle` instead of `get_route`.
+#
+# `get_bundle` uses a river/bundle/bus router.
+#
+# At the moment it works only when each group of ports have the same orientation.
+#
 #
 # **Problem**
 #
 # See the route collisions When connecting groups of ports using `get_route` manhattan single-route router
 
-# +
+# %%
 xs_top = [0, 10, 20, 40, 50, 80]
 pitch = 127
 N = len(xs_top)
@@ -419,13 +390,13 @@ for p1, p2 in zip(top_ports, bottom_ports):
     c.add(route.references)
 
 c
-# -
 
+# %% [markdown]
 # **solution**
 #
 # `get_bundle` provides you with river routing capabilities, that you can use to route bundles of ports without collisions
 
-# +
+# %%
 c = gf.Component(name="connect_bundle_solution")
 routes = gf.routing.get_bundle(top_ports, bottom_ports)
 for route in routes:
@@ -433,7 +404,7 @@ for route in routes:
 
 c
 
-# +
+# %%
 ys_right = [0, 10, 20, 40, 50, 80]
 pitch = 127.0
 N = len(ys_right)
@@ -460,7 +431,7 @@ for route in routes:
     c.add(route.references)
 c
 
-# +
+# %%
 xs_top = [0, 10, 20, 40, 50, 80]
 pitch = 127.0
 N = len(xs_top)
@@ -492,13 +463,11 @@ for route in routes:
 
 c
 
-
-# -
-
+# %% [markdown]
 # `get_bundle` can also route bundles through corners
 
 
-# +
+# %%
 @cell
 def test_connect_corner(N=6, config="A"):
     d = 10.0
@@ -711,13 +680,13 @@ def test_connect_corner(N=6, config="A"):
 
 c = test_connect_corner(config="A")
 c
-# -
 
+# %%
 c = test_connect_corner(config="C")
 c
 
 
-# +
+# %%
 @cell
 def test_connect_bundle_udirect(dy=200, orientation=270, layer=(1, 0)):
     xs1 = [-100, -90, -80, -55, -35, 24, 0] + [200, 210, 240]
@@ -784,7 +753,7 @@ c = test_connect_bundle_udirect()
 c
 
 
-# +
+# %%
 @cell
 def test_connect_bundle_u_indirect(dy=-200, orientation=180, layer=(1, 0)):
     xs1 = [-100, -90, -80, -55, -35] + [200, 210, 240]
@@ -847,7 +816,7 @@ c = test_connect_bundle_u_indirect(orientation=0)
 c
 
 
-# +
+# %%
 @gf.cell
 def test_north_to_south(layer=(1, 0)):
     dy = 200.0
@@ -883,7 +852,7 @@ c = test_north_to_south()
 c
 
 
-# +
+# %%
 @gf.cell
 def demo_connect_bundle():
     """combines all the connect_bundle tests"""
@@ -913,7 +882,7 @@ def demo_connect_bundle():
 c = demo_connect_bundle()
 c
 
-# +
+# %%
 c = gf.Component("route_bend_5um")
 c1 = c << gf.components.mmi2x2()
 c2 = c << gf.components.mmi2x2()
@@ -925,8 +894,8 @@ routes = gf.routing.get_bundle(
 for route in routes:
     c.add(route.references)
 c
-# -
 
+# %%
 c = gf.Component("electrical")
 c1 = c << gf.components.pad()
 c2 = c << gf.components.pad()
@@ -938,7 +907,7 @@ for route in routes:
     c.add(route.references)
 c
 
-# +
+# %%
 c = gf.Component("get_bundle_with_ubends_bend_from_top")
 pad_array = gf.components.pad_array()
 
@@ -964,7 +933,7 @@ for route in routes:
     c.add(route.references)
 c
 
-# +
+# %%
 c = gf.Component("get_bundle_with_ubends_bend_from_bottom")
 pad_array = gf.components.pad_array()
 
@@ -989,18 +958,20 @@ routes = gf.routing.get_bundle(
 for route in routes:
     c.add(route.references)
 c
-# -
 
+# %% [markdown]
 # **Problem**
 #
 # Sometimes 90 degrees routes do not have enough space for a Manhattan route
 
+# %%
 c = gf.Component("route_fail_1")
 c1 = c << gf.components.nxn(east=3, ysize=20)
 c2 = c << gf.components.nxn(west=3)
 c2.move((80, 0))
 c
 
+# %%
 c = gf.Component("route_fail_v2")
 c1 = c << gf.components.nxn(east=3, ysize=20)
 c2 = c << gf.components.nxn(west=3)
@@ -1014,7 +985,7 @@ for route in routes:
     c.add(route.references)
 c
 
-# +
+# %%
 c = gf.Component("route_fail_v3")
 pitch = 2.0
 ys_left = [0, 10, 20]
@@ -1036,12 +1007,13 @@ routes = gf.routing.get_bundle(right_ports, left_ports, radius=5)
 for route in routes:
     c.add(route.references)
 c
-# -
 
+# %% [markdown]
 # **Solution**
 #
 # Add Sbend routes using `get_bundle_sbend`
 
+# %%
 c = gf.Component("route_solution_1_get_bundle_sbend")
 c1 = c << gf.components.nxn(east=3, ysize=20)
 c2 = c << gf.components.nxn(west=3)
@@ -1053,8 +1025,10 @@ for route in routes:
     c.add(route.references)
 c
 
+# %% [markdown]
 # You can also `get_bundle` adding `with_sbend=True`
 
+# %%
 c = gf.Component("route_solution_2_get_bundle")
 c1 = c << gf.components.nxn(east=3, ysize=20)
 c2 = c << gf.components.nxn(west=3)
@@ -1069,6 +1043,7 @@ for route in routes:
 c
 
 
+# %% [markdown]
 # ## get_bundle_from_waypoints
 #
 # While `get_bundle` routes bundles of ports automatically, you can also use `get_bundle_from_waypoints` to manually specify the route waypoints.
@@ -1076,7 +1051,7 @@ c
 # You can think of `get_bundle_from_waypoints` as a manual version of `get_bundle`
 
 
-# +
+# %%
 @gf.cell
 def test_connect_bundle_waypoints(layer=(1, 0)):
     """Connect bundle of ports with bundle of routes following a list of waypoints."""
@@ -1125,7 +1100,7 @@ def test_connect_bundle_waypoints(layer=(1, 0)):
 cell = test_connect_bundle_waypoints()
 cell
 
-# +
+# %%
 c = gf.Component("demo_get_bundle")
 r = c << gf.components.array(
     component=gf.components.straight, rows=2, columns=1, spacing=(0, 20)
@@ -1151,14 +1126,14 @@ routes = gf.routing.get_bundle_from_waypoints(ports1, ports2, waypoints=waypoint
 for route in routes:
     c.add(route.references)
 c
-# -
 
+# %% [markdown]
 # ## get_bundle_from_steps
 
-# +
+# %%
 c = gf.Component("get_route_from_steps_sample")
 w = gf.components.array(
-    gf.partial(gf.components.straight, layer=(2, 0)),
+    partial(gf.components.straight, layer=(2, 0)),
     rows=3,
     columns=1,
     spacing=(0, 50),
@@ -1180,13 +1155,13 @@ for route in routes:
     c.add(route.references)
 
 c
-# -
 
+# %% [markdown]
 # ## get_bundle_path_length_match
 #
 # Sometimes you need to set up a route a bundle of ports that need to keep the same lengths
 
-# +
+# %%
 c = gf.Component("path_length_match_sample")
 dy = 2000.0
 xs1 = [-500, -300, -100, -90, -80, -55, -35, 200, 210, 240, 500, 650]
@@ -1214,13 +1189,13 @@ for route in routes:
     c.add(route.references)
     print(route.length)
 c
-# -
 
+# %% [markdown]
 # ### Add extra length
 #
 # You can also add some extra length to all the routes
 
-# +
+# %%
 c = gf.Component("path_length_match_sample_extra_length")
 
 dy = 2000.0
@@ -1248,13 +1223,13 @@ for route in routes:
     c.add(route.references)
     print(route.length)
 c
-# -
 
+# %% [markdown]
 # ### increase number of loops
 #
 # You can also increase the number of loops
 
-# +
+# %%
 c = gf.Component("path_length_match_sample_nb_loops")
 
 dy = 2000.0
@@ -1285,7 +1260,7 @@ for route in routes:
     print(route.length)
 c
 
-# +
+# %%
 c = gf.Component("demo_problem_path_length_match")
 c1 = c << gf.components.straight_array(spacing=90)
 c2 = c << gf.components.straight_array(spacing=5)
@@ -1306,7 +1281,7 @@ for route in routes:
     c.add(route.references)
 c
 
-# +
+# %%
 c = gf.Component("demo_solution_path_lenght_match")
 c1 = c << gf.components.straight_array(spacing=90)
 c2 = c << gf.components.straight_array(spacing=5)
@@ -1326,31 +1301,35 @@ routes = gf.routing.get_bundle_path_length_match(
 for route in routes:
     c.add(route.references)
 c
-# -
 
+# %% [markdown]
 # ## Route to IO (Pads, grating couplers ...)
 #
 #
 # ### Route to electrical pads
 
+# %%
 mzi = gf.components.straight_heater_metal(length=30)
 mzi
 
+# %%
 mzi = gf.components.mzi_phase_shifter(
     length_x=30, straight_x_top=gf.components.straight_heater_metal_90_90
 )
 mzi_te = gf.routing.add_electrical_pads_top(component=mzi, layer=(41, 0))
 mzi_te
 
+# %%
 hr = gf.components.straight_heater_metal()
 cc = gf.routing.add_electrical_pads_shortest(component=hr, layer=(41, 0))
 cc
 
+# %%
 c = gf.components.mzi_phase_shifter_top_heater_metal(length_x=70)
 cc = gf.routing.add_electrical_pads_shortest(component=c, layer=(41, 0))
 cc
 
-# +
+# %%
 # Solution: you can use define the pads separate and route metal lines to them
 
 c = gf.Component("mzi_with_pads")
@@ -1362,7 +1341,7 @@ c2.x = 0
 c1.x = 0
 c
 
-# +
+# %%
 c = gf.Component("mzi_with_pads_top")
 c1 = c << gf.components.mzi_phase_shifter(
     straight_x_top=gf.components.straight_heater_metal_90_90, length_x=70  # 150
@@ -1388,15 +1367,13 @@ for route in routes:
 
 c
 
-
-# -
-
+# %% [markdown]
 # ### Route to Fiber Array
 #
 # Routing allows you to define routes to optical or electrical IO (grating couplers or electrical pads)
 
 
-# + attributes={"classes": [], "id": "", "n": "1"}
+# %%
 @gf.cell
 def big_device(w=400.0, h=400.0, N=16, port_pitch=15.0, layer=LAYER.WG, wg_width=0.5):
     """big component with N ports on each side"""
@@ -1453,15 +1430,16 @@ def big_device(w=400.0, h=400.0, N=16, port_pitch=15.0, layer=LAYER.WG, wg_width
 component = big_device(N=10)
 c = gf.routing.add_fiber_array(component=component, radius=10.0, fanout_length=60.0)
 c
-# -
 
+# %%
 c = gf.components.ring_double(width=0.8)
 cc = gf.routing.add_fiber_array(component=c, taper_length=150)
 cc
 
+# %% [markdown]
 # You can also mix and match `TE` and `TM` grating couplers
 
-# +
+# %%
 import gdsfactory as gf
 
 c = gf.components.mzi_phase_shifter()
@@ -1474,38 +1452,46 @@ cc = gf.routing.add_fiber_array(
     radius=20,
 )
 cc
-# -
 
+# %% [markdown]
 # ### Route to fiber single
 
+# %%
 c = gf.components.ring_single()
 cc = gf.routing.add_fiber_single(component=c)
 cc
 
+# %%
 c = gf.components.ring_single()
 cc = gf.routing.add_fiber_single(component=c, with_loopback=False)
 cc
 
+# %%
 c = gf.components.mmi2x2()
 cc = gf.routing.add_fiber_single(component=c, with_loopback=False)
 cc
 
+# %%
 c = gf.components.mmi1x2()
 cc = gf.routing.add_fiber_single(component=c, with_loopback=False, fiber_spacing=150)
 cc
 
+# %%
 c = gf.components.mmi1x2()
 cc = gf.routing.add_fiber_single(component=c, with_loopback=False, fiber_spacing=50)
 cc
 
+# %%
 c = gf.components.crossing()
 cc = gf.routing.add_fiber_single(component=c, with_loopback=False)
 cc
 
+# %%
 c = gf.components.cross(length=200, width=2, port_type="optical")
 cc = gf.routing.add_fiber_single(component=c, with_loopback=False)
 cc
 
+# %%
 c = gf.components.spiral_double()
 cc = gf.routing.add_fiber_single(component=c, with_loopback=False)
 cc

@@ -1,10 +1,12 @@
-from gdsfactory.pdk import get_layer_stack
-from gdsfactory.simulation.sax.build_model import Model
-from gdsfactory.simulation.gmeep import write_sparameters_meep
-import ray
 from pathlib import Path
+
+import ray
+
 from gdsfactory.config import sparameters_path
+from gdsfactory.pdk import get_layer_stack
 from gdsfactory.read import import_gds
+from gdsfactory.simulation.gmeep import write_sparameters_meep
+from gdsfactory.simulation.sax.build_model import Model
 
 
 @ray.remote(num_cpus=1)
@@ -100,7 +102,7 @@ class MeepFDTDModel(Model):
 
 if __name__ == "__main__":
     import gdsfactory as gf
-    from gdsfactory.simulation.sax.parameter import NamedParameter, LithoParameter
+    from gdsfactory.simulation.sax.parameter import LithoParameter, NamedParameter
     from gdsfactory.technology import LayerStack
 
     c = gf.components.coupler_full(

@@ -17,7 +17,7 @@ def mzi_te(**kwargs) -> Component:
     return c
 
 
-def test_grid() -> Component:
+def test_grid() -> None:
     c = gf.grid(
         [mzi_te()] * 2,
         decorator=gf.add_labels.add_labels_to_ports,
@@ -29,10 +29,9 @@ def test_grid() -> Component:
 
     df = pd.read_csv(csvpath)
     assert len(df) == nlabels, len(df)
-    return c
 
 
-def test_pack() -> Component:
+def test_pack() -> None:
     c = gf.pack(
         [mzi_te()] * 2,
         add_ports_suffix=True,
@@ -43,7 +42,6 @@ def test_pack() -> Component:
     csvpath = gf.labels.write_labels.write_labels_gdstk(gdspath, debug=debug)
     df = pd.read_csv(csvpath)
     assert len(df) == nlabels, len(df)
-    return c
 
 
 if __name__ == "__main__":

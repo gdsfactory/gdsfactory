@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from functools import partial
+
 import numpy as np
 
 import gdsfactory as gf
@@ -45,6 +47,7 @@ def grating_coupler_elliptical_trenches(
         p_start: first tooth.
         n_periods: number of grating teeth.
         end_straight_length: at the end of straight.
+        cross_section: cross_section spec.
         kwargs: cross_section settings.
 
 
@@ -101,24 +104,13 @@ def grating_coupler_elliptical_trenches(
     y = wg_width / 2 + np.tan(taper_angle / 2 * np.pi / 180) * xmax
     pts = [
         (x_output, -wg_width / 2),
-        (x_output, wg_width / 2),
-        (xmax, y),
-        (xmax + end_straight_length, y),
+        (x_output, +wg_width / 2),
+        (xmax, +y),
+        (xmax + end_straight_length, +y),
         (xmax + end_straight_length, -y),
         (xmax, -y),
     ]
     c.add_polygon(pts, layer)
-
-    x = np.round(taper_length + period * n_periods / 2, 3)
-    name = f"opt_{polarization.lower()}_{int(wavelength*1e3)}_{int(fiber_angle)}"
-    c.add_port(
-        name=name,
-        center=(x, 0),
-        width=10,
-        orientation=0,
-        layer=layer,
-        port_type=name,
-    )
 
     c.add_port(
         name="o1",
@@ -135,14 +127,25 @@ def grating_coupler_elliptical_trenches(
         c = xs.add_bbox(c)
     if xs.add_pins:
         c = xs.add_pins(c)
+
+    x = np.round(taper_length + period * n_periods / 2, 3)
+    name = f"opt_{polarization.lower()}_{int(wavelength*1e3)}_{int(fiber_angle)}"
+    c.add_port(
+        name=name,
+        center=(x, 0),
+        width=10,
+        orientation=0,
+        layer=layer,
+        port_type=name,
+    )
     return c
 
 
-grating_coupler_te = gf.partial(
+grating_coupler_te = partial(
     grating_coupler_elliptical_trenches, polarization="te", taper_angle=35
 )
 
-grating_coupler_tm = gf.partial(
+grating_coupler_tm = partial(
     grating_coupler_elliptical_trenches,
     polarization="tm",
     neff=1.8,
@@ -151,10 +154,11 @@ grating_coupler_tm = gf.partial(
 
 
 if __name__ == "__main__":
+    c = grating_coupler_te()
     # c = grating_coupler_elliptical_trenches(polarization="TE")
     # print(c.polarization)
     # c = grating_coupler_te(end_straight_length=10)
     # c = grating_coupler_tm()
     # print(c.ports.keys())
-    c = gf.routing.add_fiber_array(grating_coupler=grating_coupler_elliptical_trenches)
+    # c = gf.routing.add_fiber_array(grating_coupler=grating_coupler_elliptical_trenches)
     c.show(show_ports=True)

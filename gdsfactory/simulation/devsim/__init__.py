@@ -6,6 +6,7 @@ from gdsfactory.config import logger
 from gdsfactory.simulation.devsim.get_simulation_xsection import (
     PINWaveguide,
     alpha_to_k,
+    clear_devsim_cache,
     dalpha_carriers,
     dn_carriers,
     k_to_alpha,
@@ -21,5 +22,6 @@ __all__ = [
     "k_to_alpha",
     "PINWaveguide",
     "DDComponent",
+    "clear_devsim_cache",
 ]
 __version__ = "0.0.1"

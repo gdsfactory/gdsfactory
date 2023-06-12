@@ -430,7 +430,7 @@ class LayerView(BaseModel):
         color: Optional[ColorType] = None,
         brightness: Optional[int] = None,
         **data,
-    ):
+    ) -> None:
         """Initialize LayerView object."""
         if (gds_layer is not None) and (gds_datatype is not None):
             if "layer" in data and data["layer"] is not None:
@@ -499,17 +499,17 @@ class LayerView(BaseModel):
                     _dict.pop(f"fill_{key}")
         return _dict
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Returns a formatted view of properties and their values."""
         return "LayerView:\n\t" + "\n\t".join(
             [f"{k}: {v}" for k, v in self.dict().items()]
         )
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Returns a formatted view of properties and their values."""
         return self.__str__()
 
-    def get_alpha(self):
+    def get_alpha(self) -> float:
         if not self.visible:
             return 0.0
         elif not self.transparent:
@@ -764,9 +764,9 @@ class LayerViews(BaseModel):
     def __init__(
         self,
         filepath: Optional[PathLike] = None,
-        layer_map: Union[Dict[str, Layer], BaseModel] = None,
+        layer_map: Optional[Union[Dict[str, Layer], BaseModel]] = None,
         **data,
-    ):
+    ) -> None:
         """Initialize LayerViews object.
 
         Args:
@@ -977,7 +977,7 @@ class LayerViews(BaseModel):
 
     def to_lyp(
         self, filepath: Union[str, pathlib.Path], overwrite: bool = True
-    ) -> None:
+    ) -> pathlib.Path:
         """Write all layer properties to a KLayout .lyp file.
 
         Args:
@@ -1011,6 +1011,7 @@ class LayerViews(BaseModel):
             root.append(ls.to_klayout_xml())
 
         filepath.write_bytes(make_pretty_xml(root))
+        return filepath
 
     @staticmethod
     def from_lyp(
@@ -1229,12 +1230,11 @@ def _name_to_description(name_str) -> str:
     return " ".join(fields[1:]) if len(fields) > 1 else ""
 
 
-def test_load_lyp():
+def test_load_lyp() -> None:
     from gdsfactory.config import PATH
 
     lys = LayerViews(PATH.klayout_lyp)
     assert len(lys.layer_views) > 10, len(lys.layer_views)
-    return lys
 
 
 if __name__ == "__main__":

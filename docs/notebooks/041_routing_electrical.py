@@ -1,18 +1,3 @@
-# ---
-# jupyter:
-#   jupytext:
-#     custom_cell_magics: kql
-#     text_representation:
-#       extension: .py
-#       format_name: light
-#       format_version: '1.5'
-#       jupytext_version: 1.14.5
-#   kernelspec:
-#     display_name: Python 3 (ipykernel)
-#     language: python
-#     name: python3
-# ---
-
 # # Routing electrical
 #
 # For routing low speed DC electrical ports you can use sharp corners instead of smooth bends.
@@ -29,6 +14,7 @@
 # `get_route_electrical` has `bend = wire_corner` with a 90deg bend corner.
 
 # +
+from functools import partial
 import gdsfactory as gf
 from gdsfactory.generic_tech import get_generic_pdk
 
@@ -181,7 +167,7 @@ c
 # +
 c = gf.Component("pads_bundle_steps")
 pt = c << gf.components.pad_array(
-    gf.partial(gf.components.pad, size=(30, 30)),
+    partial(gf.components.pad, size=(30, 30)),
     orientation=270,
     columns=3,
     spacing=(50, 0),

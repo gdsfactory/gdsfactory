@@ -1,0 +1,15 @@
+FROM codercom/code-server:latest
+
+# Install additional dependencies
+RUN apt-get update && apt-get install -y python3-gmsh gmsh
+
+# Install VSCode extensions
+RUN code-server --install-extension gdsfactory
+
+RUN pip install gdsfactory[kfactory,full,dev]
+
+# Expose the port for web app
+EXPOSE 8000
+
+# Start the web app
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

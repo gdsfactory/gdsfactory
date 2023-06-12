@@ -5,7 +5,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.4
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -31,10 +31,10 @@
 #                                     | air_gap_thickness
 #                                _ _ _| _ _ _ _ _ _  _
 #                                     |
-#                    nclad            | top_clad_thickness
+#                    clad_material            | top_clad_thickness
 #                                _ _ _| _ _ _ _ _ _  _
 #                 _|-|_|-|_|-|___     |              _| etch_depth
-#                  ncore        |     |core_thickness
+#                core_material        |     |core_thickness
 #                 ______________|_ _ _|_ _ _ _ _ _ _ _
 #                                     |
 #                  nbox               |box_thickness

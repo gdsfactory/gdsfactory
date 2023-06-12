@@ -5,21 +5,20 @@ from typing import Callable
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
+from gdsfactory.components.pad import pad_rectangular
+from gdsfactory.components.straight_heater_metal import straight_heater_metal
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_fiber_array import route_fiber_array
 from gdsfactory.routing.sort_ports import sort_ports_x
 from gdsfactory.typings import (
     ComponentSpec,
-    Optional,
-    Strs,
     CrossSectionSpec,
     LayerSpec,
+    Optional,
+    Strs,
     Tuple,
     Union,
 )
-
-from gdsfactory.components.straight_heater_metal import straight_heater_metal
-from gdsfactory.components.pad import pad_rectangular
 
 
 @cell
@@ -87,6 +86,7 @@ def add_pads_bot(
     """
     component_new = Component()
     component = gf.get_component(component)
+    component_name = component_name or component.name
 
     pad_spacing = gf.get_constant(pad_spacing)
     cref = component_new << component

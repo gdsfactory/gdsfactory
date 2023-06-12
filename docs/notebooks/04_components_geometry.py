@@ -1,22 +1,7 @@
-# ---
-# jupyter:
-#   jupytext:
-#     custom_cell_magics: kql
-#     text_representation:
-#       extension: .py
-#       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.11.2
-#   kernelspec:
-#     display_name: Python 3 (ipykernel)
-#     language: python
-#     name: python3
-# ---
-
 # %% [markdown]
 # # Geometry
 #
-# gdsfactory provides some geometric functions
+# gdsfactory provides you with some geometric functions
 
 # %% [markdown]
 # ## Boolean / outline / offset / invert
@@ -326,4 +311,117 @@ c << gf.fill_rectangle(
 )
 
 c << mzi
+c
+
+# %% [markdown]
+# For large fill regions you can use klayout.
+#
+# ### Custom fill cell
+#
+# You can use a custom cell as a fill.
+
+# %%
+from gdsfactory.geometry.fill_klayout import fill
+import gdsfactory as gf
+
+
+@gf.cell
+def cell_with_pad():
+    c = gf.Component()
+    c << gf.components.mzi(decorator=gf.add_padding)
+    pad = c << gf.components.pad(size=(2, 2))
+    pad.movey(10)
+    return c
+
+
+c = cell_with_pad()
+gdspath = c.write_gds("mzi_fill.gds")
+c
+
+# %%
+spacing = 20
+fill(
+    gdspath,
+    fill_layers=("WG",),
+    layer_to_fill=gf.LAYER.PADDING,
+    layers_to_avoid=((gf.LAYER.WG, 0), (gf.LAYER.M3, 0)),
+    fill_cell_name="pad_size2__2",
+    create_new_fill_cell=False,
+    fill_spacing=(spacing, spacing),
+    fill_size=(1, 1),
+    include_original=True,
+    layer_to_fill_margin=25,
+)
+
+c_fill = gf.import_gds(gdspath)
+c_fill
+
+# %% [markdown]
+# ### Fill cell (by layer)
+#
+# You can also fill specific layers.
+
+# %%
+c = cell_with_pad()
+gdspath = c.write_gds()
+
+# %%
+fill(
+    gdspath,
+    fill_layers=("WG",),
+    layer_to_fill=gf.LAYER.PADDING,
+    layers_to_avoid=((gf.LAYER.WG, 0),),
+    fill_cell_name="fill_custom_",
+    create_new_fill_cell=True,
+    fill_spacing=(1, 1),
+    fill_size=(10, 10),
+    layer_to_fill_margin=25,
+    include_original=True,
+    fill_name="component_with_fill_",
+)
+
+c_fill = gf.import_gds(gdspath)
+c_fill
+
+# %% [markdown]
+# ### Tiling processor
+#
+# For big layouts you can use klayout tiling processor.
+
+# %%
+import gdsfactory.geometry.fill_tiled as fill
+import gdsfactory as gf
+import kfactory as kf
+
+c = kf.KCell("ToFill")
+c.shapes(kf.kcl.layer(1, 0)).insert(
+    kf.kdb.DPolygon.ellipse(kf.kdb.DBox(5000, 3000), 512)
+)
+c.shapes(kf.kcl.layer(10, 0)).insert(
+    kf.kdb.DPolygon(
+        [kf.kdb.DPoint(0, 0), kf.kdb.DPoint(5000, 0), kf.kdb.DPoint(5000, 3000)]
+    )
+)
+
+fc = kf.KCell("fill")
+fc.shapes(fc.kcl.layer(2, 0)).insert(kf.kdb.DBox(20, 40))
+fc.shapes(fc.kcl.layer(3, 0)).insert(kf.kdb.DBox(30, 15))
+
+# fill.fill_tiled(c, fc, [(kf.kcl.layer(1,0), 0)], exclude_layers = [(kf.kcl.layer(10,0), 100), (kf.kcl.layer(2,0), 0), (kf.kcl.layer(3,0),0)], x_space=5, y_space=5)
+fill.fill_tiled(
+    c,
+    fc,
+    [(kf.kcl.layer(1, 0), 0)],
+    exclude_layers=[
+        (kf.kcl.layer(10, 0), 100),
+        (kf.kcl.layer(2, 0), 0),
+        (kf.kcl.layer(3, 0), 0),
+    ],
+    x_space=5,
+    y_space=5,
+)
+
+gdspath = "mzi_fill.gds"
+c.write(gdspath)
+c = gf.import_gds(gdspath)
 c

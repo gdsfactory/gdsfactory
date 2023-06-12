@@ -5,7 +5,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.4
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -60,7 +60,7 @@
 #
 # First, you can start with a gdsfactory `Component`
 
-# + tags=[]
+# +
 import meshio
 from skfem.io import from_meshio
 
@@ -83,7 +83,6 @@ waveguide
 
 # We can filter this stack to only focus on some layers:
 
-# + tags=[]
 filtered_layerstack = LayerStack(
     layers={
         k: LAYER_STACK.layers[k]
@@ -95,7 +94,7 @@ filtered_layerstack = LayerStack(
     }
 )
 
-# + tags=[]
+# +
 filename = "mesh"
 
 
@@ -104,18 +103,16 @@ def mesh_with_physicals(mesh, filename):
     return create_physical_mesh(mesh_from_file, "triangle", prune_z=True)
 
 
-# + tags=[]
+# -
+
 scene = waveguide.to_3d(layer_stack=filtered_layerstack)
 scene.show()
-# -
 
 # The various processing and meshing functions are located under `gdsfactory.simulation.gmsh` and can be called from there, but a shortcut is implemented to mesh directly from a component:
 
-# + tags=[]
 mesh = waveguide.to_gmsh(
     type="xy", z=0.09, layer_stack=filtered_layerstack, filename="mesh.msh"
 )
-# -
 
 # This returns a gmsh `.msh` mesh, also saved in `filename` if provided, which can be processed:
 
@@ -129,7 +126,7 @@ mesh.draw().plot()
 
 # [meshio](https://github.com/nschloe/meshio) can also be used to convert the `.msh` to another arbitrary format, to observe for instance with `Paraview`. This is useful, for instance to preprocess the `msh` file using the `create_mesh` utility in order to consolidate entities with the same label:
 
-# + tags=[]
+# +
 mesh_from_file = meshio.read("mesh.msh")
 
 triangle_mesh = create_physical_mesh(mesh_from_file, "triangle", prune_z=True)
@@ -144,7 +141,7 @@ mesh.draw().plot()
 #
 # ![](https://imgur.com/zBn5596.png)
 
-# + tags=[]
+# +
 line_mesh = create_physical_mesh(mesh_from_file, "line", prune_z=True)
 meshio.write("facet_mesh.xdmf", line_mesh)
 

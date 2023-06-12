@@ -5,7 +5,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.4
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -30,7 +30,7 @@
 # 4. Corner rounding
 # 5. Corner analysis
 
-# + tags=[]
+# +
 import gdsfactory as gf
 
 c = gf.Component("myComponent")
@@ -83,23 +83,21 @@ c
 #
 # A `LithoParameter` of `type = "layer_dilation_erosion"` parametrizes a layerwise growing (positive value) or shrinking (negative value) of the geometry. Note that the ports are properly resized when they are on the transformed layer:
 
-# + tags=[]
+# +
 from gdsfactory.simulation.sax.parameter import LithoParameter
 
 param = LithoParameter(layername="core")
 eroded_c = param.layer_dilation_erosion(c, 0.2)
 eroded_c
+# -
 
-# + tags=[]
 param = LithoParameter(layername="core")
 eroded_c = param.layer_dilation_erosion(c, -0.3)
 eroded_c
 
-# + tags=[]
 param = LithoParameter(layername="slab90")
 eroded_c = param.layer_dilation_erosion(c, 0.2)
 eroded_c
-# -
 
 # ### Offsets
 #
@@ -107,16 +105,13 @@ eroded_c
 # This is captured by layerwise `type = "layer_x_offset"` and  `type = "layer_x_offset"`.
 # Note that ports are also translated:
 
-# + tags=[]
 param = LithoParameter(layername="core")
 offset_c = param.layer_x_offset(c, 0.5)
 offset_c
 
-# + tags=[]
 param = LithoParameter(layername="core")
 offset_c = param.layer_y_offset(c, -0.5)
 offset_c
-# -
 
 # ## Corner rounding
 #
@@ -124,16 +119,13 @@ offset_c
 # An erosion --> dilation --> erosion sequence, accessible with `type = "layer_round_corners"` can be done to parametrize corner rounding.
 # For ports, here parts of the geometry overlapping with ports are patched to prevent the ports from being off the layer.
 
-# + tags=[]
 param = LithoParameter(layername="core")
 smooth_c = param.layer_round_corners(c, 0.1)
 smooth_c
 
-# + tags=[]
 param = LithoParameter(layername="core")
 smooth_c = param.layer_round_corners(c, 0.4)
 smooth_c
-# -
 
 # ## Corner analysis
 #
@@ -145,11 +137,11 @@ smooth_c
 #
 # Here, we are only interested in variability analysis of the geometry, and so we create a trainable coupler with fixed length and gap:
 
-# + tags=[]
+# +
 import gdsfactory as gf
 from gdsfactory.simulation.sax.parameter import NamedParameter
 from gdsfactory.technology import LayerStack
-from gdsfactory.pdk import _ACTIVE_PDK, get_layer_stack
+from gdsfactory.pdk import get_layer_stack
 
 
 # gdsfactory layerstack
@@ -181,7 +173,7 @@ c
 
 # When defining the model, we add the LithoParameter `erosion_magnitude`. For all models, a `TransformParameter` which if set, will offset the provided component prior to simulation, emulating erosion (when <1), nominal behaviour (when 1) and dilation (when >1). This morphological transformation is currently global; more advanced spatially-correlated filters are an obvious next step.
 
-# + tags=[]
+# +
 from gdsfactory.simulation.sax.meep_FDTD_model import MeepFDTDModel
 
 # Simulation settings

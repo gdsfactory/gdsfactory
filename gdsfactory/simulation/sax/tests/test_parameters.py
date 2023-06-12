@@ -1,8 +1,8 @@
-from gdsfactory.simulation.sax.parameter import LithoParameter
 import gdsfactory as gf
+from gdsfactory.simulation.sax.parameter import LithoParameter
 
 
-def test_litho_parameters():
+def test_litho_parameters() -> None:
     c = gf.Component("myComponent")
     c.add_polygon(
         [[2.8, 3], [5, 3], [5, 0.8]],

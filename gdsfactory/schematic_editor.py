@@ -16,7 +16,9 @@ from gdsfactory.picmodel import (
 
 
 class SchematicEditor:
-    def __init__(self, filename: Union[str, Path], pdk: Optional[gf.Pdk] = None):
+    def __init__(
+        self, filename: Union[str, Path], pdk: Optional[gf.Pdk] = None
+    ) -> None:
         """An interactive Schematic editor, meant to be used from a Jupyter Notebook.
 
         Args:
@@ -140,12 +142,12 @@ class SchematicEditor:
         instance_port_selector._row = row
         return row
 
-    def _update_instance_options(self, **kwargs):
+    def _update_instance_options(self, **kwargs) -> None:
         inst_names = self._schematic.instances.keys()
         for inst_box in self._inst_boxes:
             inst_box.options = list(inst_names)
 
-    def _make_instance_removable(self, instance_name, **kwargs):
+    def _make_instance_removable(self, instance_name, **kwargs) -> None:
         for row in self._instance_grid.children:
             if row._instance_box.value == instance_name:
                 row._remove_button.disabled = False
@@ -174,7 +176,7 @@ class SchematicEditor:
             [inst1_selector, port1_selector, inst2_selector, port2_selector]
         )
 
-    def _add_row_when_full(self, change):
+    def _add_row_when_full(self, change) -> None:
         if change["old"] == "" and change["new"] != "":
             this_box = change["owner"]
             last_box = self._instance_grid.children[-1].children[0]
@@ -187,7 +189,7 @@ class SchematicEditor:
                 )
                 new_row._associated_component = None
 
-    def _add_net_row_when_full(self, change):
+    def _add_net_row_when_full(self, change) -> None:
         if change["old"] == "" and change["new"] != "":
             this_box = change["owner"]
             last_box = self._net_grid.children[-1].children[0]
@@ -201,13 +203,13 @@ class SchematicEditor:
                     child.observe(self._on_net_modified, names=["value"])
                 new_row._associated_component = None
 
-    def _update_schematic_plot(self, **kwargs):
+    def _update_schematic_plot(self, **kwargs) -> None:
         circuitviz.update_schematic_plot(
             schematic=self._schematic,
             instances=self.symbols,
         )
 
-    def _on_instance_component_modified(self, change):
+    def _on_instance_component_modified(self, change) -> None:
         this_box = change["owner"]
         inst_box = this_box._instance_selector
         inst_name = inst_box.value
@@ -219,7 +221,7 @@ class SchematicEditor:
         elif change["new"] != change["old"]:
             self.update_component(instance=inst_name, component=component_name)
 
-    def _on_remove_button_clicked(self, button):
+    def _on_remove_button_clicked(self, button) -> None:
         row = button._row
         self.remove_instance(instance_name=row._instance_box.value)
         self._instance_grid.children = tuple(
@@ -245,7 +247,7 @@ class SchematicEditor:
         net_data = [d for d in net_data if "" not in d]
         return net_data
 
-    def _on_net_modified(self, change):
+    def _on_net_modified(self, change) -> None:
         if change["new"] == change["old"]:
             return
         net_data = self._get_net_data()
@@ -272,7 +274,7 @@ class SchematicEditor:
     def port_widget(self):
         return self._port_grid
 
-    def visualize(self):
+    def visualize(self) -> None:
         circuitviz.show_netlist(self.schematic, self.symbols, self.path)
 
         self.on_instance_added.append(self._update_schematic_plot)
@@ -301,23 +303,27 @@ class SchematicEditor:
             insts[inst_name] = self.pdk.get_symbol(component_spec)
         return insts
 
-    def add_instance(self, instance_name: str, component: Union[str, gf.Component]):
+    def add_instance(
+        self, instance_name: str, component: Union[str, gf.Component]
+    ) -> None:
         self._schematic.add_instance(name=instance_name, component=component)
         for callback in self.on_instance_added:
             callback(instance_name=instance_name)
 
-    def remove_instance(self, instance_name: str):
+    def remove_instance(self, instance_name: str) -> None:
         self._schematic.instances.pop(instance_name)
         if instance_name in self._schematic.placements:
             self._schematic.placements.pop(instance_name)
         for callback in self.on_instance_removed:
             callback(instance_name=instance_name)
 
-    def update_component(self, instance, component):
+    def update_component(self, instance, component) -> None:
         self._schematic.instances[instance].component = component
         self.update_settings(instance=instance, clear_existing=True)
 
-    def update_settings(self, instance, clear_existing: bool = False, **settings):
+    def update_settings(
+        self, instance, clear_existing: bool = False, **settings
+    ) -> None:
         old_settings = self._schematic.instances[instance].settings.copy()
         if clear_existing:
             self._schematic.instances[instance].settings.clear()
@@ -358,12 +364,12 @@ class SchematicEditor:
     def schematic(self):
         return self._schematic
 
-    def write_netlist(self, **kwargs):
+    def write_netlist(self, **kwargs) -> None:
         netlist = self.get_netlist()
         with open(self.path, mode="w") as f:
             yaml.dump(netlist, f, default_flow_style=None, sort_keys=False)
 
-    def load_netlist(self):
+    def load_netlist(self) -> None:
         with open(self.path) as f:
             netlist = yaml.safe_load(f)
 

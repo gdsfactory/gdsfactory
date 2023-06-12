@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Tuple
+from typing import Optional, Tuple
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -14,7 +14,7 @@ from sax.typing_ import Model
 def plot_model(
     model: Model,
     port1: str = "o1",
-    ports2: Tuple[str, ...] = None,
+    ports2: Optional[Tuple[str, ...]] = None,
     logscale: bool = True,
     fig=None,
     wavelength_start: float = 1.5,

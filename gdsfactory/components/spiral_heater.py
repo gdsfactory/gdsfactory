@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Optional
+
 import numpy as np
 from scipy.interpolate import interp1d
 
@@ -8,13 +10,8 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.bend_s import bend_s, get_min_sbend_size
 from gdsfactory.components.straight import straight
-from gdsfactory.typings import (
-    ComponentFactory,
-    CrossSectionSpec,
-    Floats,
-    Optional,
-)
 from gdsfactory.routing.get_route import get_route
+from gdsfactory.typings import ComponentFactory, CrossSectionSpec, Floats
 
 
 @gf.cell
@@ -26,7 +23,7 @@ def spiral_racetrack(
     bend_factory: ComponentFactory = bend_euler,
     bend_s_factory: ComponentFactory = bend_s,
     cross_section: CrossSectionSpec = "strip",
-    cross_section_s: CrossSectionSpec = None,
+    cross_section_s: Optional[CrossSectionSpec] = None,
     n_bend_points: Optional[int] = None,
     with_inner_ports: bool = False,
     extra_90_deg_bend: bool = False,
@@ -126,7 +123,7 @@ def spiral_racetrack_fixed_length(
     bend_factory: ComponentFactory = bend_euler,
     bend_s_factory: ComponentFactory = bend_s,
     cross_section: CrossSectionSpec = "strip",
-    cross_section_s: CrossSectionSpec = None,
+    cross_section_s: Optional[CrossSectionSpec] = None,
     n_bend_points: Optional[int] = None,
     with_inner_ports: bool = False,
 ) -> Component:

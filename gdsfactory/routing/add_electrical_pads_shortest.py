@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_quad import route_quad
-from gdsfactory.typings import ComponentSpec, Optional, Strs, Callable
+from gdsfactory.typings import Callable, ComponentSpec, Optional, Strs
 
 
 @gf.cell

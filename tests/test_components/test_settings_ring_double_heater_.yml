@@ -101,6 +101,7 @@ settings:
         - 4
         - 4
         vias:
+        - null
         - function: via
           settings:
             enclosure: 2
@@ -137,6 +138,7 @@ settings:
         - 4
         - 4
         vias:
+        - null
         - function: via
           settings:
             enclosure: 2

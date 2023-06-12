@@ -16,13 +16,21 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         cladding_layers: null
         cladding_offsets: null
+        cladding_simplify: null
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
@@ -30,7 +38,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -57,13 +65,21 @@ instances:
       radius_min: 7.061
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         cladding_layers: null
         cladding_offsets: null
+        cladding_simplify: null
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
@@ -71,7 +87,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -106,13 +122,21 @@ instances:
       length: 19.99
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         cladding_layers: null
         cladding_offsets: null
+        cladding_simplify: null
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
@@ -120,7 +144,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -146,13 +170,21 @@ instances:
       length: 18.75
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         cladding_layers: null
         cladding_offsets: null
+        cladding_simplify: null
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
@@ -160,7 +192,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -186,13 +218,21 @@ instances:
       length: 0.01
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
         bbox_layers: null
         bbox_offsets: null
         cladding_layers: null
         cladding_offsets: null
+        cladding_simplify: null
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
@@ -200,7 +240,7 @@ instances:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1

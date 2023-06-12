@@ -1,10 +1,11 @@
 from __future__ import annotations
 
+import pathlib
+
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.read import from_yaml, cell_from_yaml_template
+from gdsfactory.read import cell_from_yaml_template, from_yaml
 from gdsfactory.routing.factories import routing_strategy
-import pathlib
 
 SAMPLE_DIR = pathlib.Path(__file__).parent / "all_angle_routing"
 

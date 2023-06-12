@@ -5,7 +5,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.4
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -22,9 +22,10 @@
 #
 # Lets add two references in a component.
 
-# + tags=[]
+# +
 from typing import Optional
 
+from functools import partial
 import toolz
 from omegaconf import OmegaConf
 
@@ -305,7 +306,7 @@ ring
 #
 # You can use `functools.partial` to customize the default settings from any component
 
-ring_single3 = gf.partial(ring_single, radius=3)
+ring_single3 = partial(ring_single, radius=3)
 ring_single3()
 
 ring_array = gf.components.ring_single_array(

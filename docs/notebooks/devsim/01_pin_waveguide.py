@@ -5,7 +5,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.4
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -46,7 +46,7 @@
 # You can setup the simulation by defining a strip waveguide cross-section.
 # You can change waveguide geometry (core thickness, slab thickness, core width), doping configuration (dopant level, dopant positions), as well as hyperparameters like adaptive mesh resolution at all the interfaces.
 
-# + tags=[]
+# +
 import numpy as np
 import matplotlib.pyplot as plt
 from gdsfactory.simulation.devsim import get_simulation_xsection
@@ -57,13 +57,13 @@ gf.config.rich_output()
 PDK = gf.get_generic_pdk()
 PDK.activate()
 
-# + tags=[]
+# +
 # %%capture
 
 nm = 1e-9
 c = get_simulation_xsection.PINWaveguide(
-    wg_width=500 * nm,
-    wg_thickness=220 * nm,
+    core_width=500 * nm,
+    core_thickness=220 * nm,
     slab_thickness=90 * nm,
 )
 
@@ -79,31 +79,23 @@ c.ddsolver()
 #
 # `list_fields()` returns the header of the mesh, which lists all possible fields.
 
-# + tags=[]
 c.list_fields()
-# -
 
 # Finite-element field information can be plotted using pyvista (note that lengths in DEVSIM are cm by default):
 
-# + tags=[]
 c.plot(scalars="NetDoping")
 
-# + tags=[]
 c.plot(scalars="Electrons", log_scale=True)
-# -
 
 # ### Solve
 #
 # Using default DEVSIM silicon models, we iteratively solve for the self-consistent carrier distribution for 0.5V of applied forward voltage, iterating with 0.1V steps, and then visualize the electron concentration:
 
-# + tags=[]
 # %%capture
 # Find a solution with 1V across the junction, ramping by 0.1V steps
 c.ramp_voltage(Vfinal=0.5, Vstep=0.1)
 
-# + tags=[]
 c.plot(scalars="Electrons", log_scale=True)
-# -
 
 # and similarly for reverse-bias:
 
@@ -125,18 +117,11 @@ n_dist = {}
 neffs = {}
 
 for ind, voltage in enumerate(voltages):
-    if ind == 0:
-        Vinit = 0
-    else:
-        Vinit = voltages[ind - 1]
-
+    Vinit = 0 if ind == 0 else voltages[ind - 1]
     c.ramp_voltage(Vfinal=voltage, Vstep=ramp_rate, Vinit=Vinit)
     waveguide = c.make_waveguide(wavelength=1.55)
-    waveguide.compute_modes(
-        isolate=True
-    )  # Isolate flag runs the mode solver in another interpreter, use if solver has issues
-    n_dist[voltage] = waveguide.nx
-    neffs[voltage] = waveguide.neffs[0]
+    n_dist[voltage] = waveguide.index.values
+    neffs[voltage] = waveguide.n_eff[0]
 
 # +
 voltage_list = sorted(neffs.items())
@@ -161,16 +146,16 @@ plt.ylabel(r"$\alpha (dB/cm)$")
 
 c_undoped = c.make_waveguide(wavelength=1.55, perturb=False, precision="double")
 c_undoped.compute_modes()
-n_undoped = c_undoped.nx
+n_undoped = c_undoped.index.values
 
 plt.imshow(
     np.log(np.abs(np.real(n_dist[0].T - n_undoped.T))),
     origin="lower",
     extent=[
-        -c.xmargin - c.ppp_offset - c.wg_width / 2,
-        c.xmargin + c.npp_offset + c.wg_width / 2,
+        -c.xmargin - c.ppp_offset - c.core_width / 2,
+        c.xmargin + c.npp_offset + c.core_width / 2,
         0,
-        c.t_clad + c.t_box + c.wg_thickness,
+        c.clad_thickness + c.box_thickness + c.core_thickness,
     ],
 )
 plt.colorbar(label="$log10(|n_{doped} - n_{undoped}|)$")
@@ -183,10 +168,10 @@ plt.imshow(
     np.log(np.abs(np.real(n_dist[-4].T - n_undoped.T))),
     origin="lower",
     extent=[
-        -c.xmargin - c.ppp_offset - c.wg_width / 2,
-        c.xmargin + c.npp_offset + c.wg_width / 2,
+        -c.xmargin - c.ppp_offset - c.core_width / 2,
+        c.xmargin + c.npp_offset + c.core_width / 2,
         0,
-        c.t_clad + c.t_box + c.wg_thickness,
+        c.clad_thickness + c.box_thickness + c.core_thickness,
     ],
 )
 plt.colorbar(label="$log10(|n_{doped} - n_{undoped}|)$")
@@ -199,10 +184,10 @@ plt.imshow(
     np.log(np.abs(np.imag(n_dist[0].T - n_undoped.T))),
     origin="lower",
     extent=[
-        -c.xmargin - c.ppp_offset - c.wg_width / 2,
-        c.xmargin + c.npp_offset + c.wg_width / 2,
+        -c.xmargin - c.ppp_offset - c.core_width / 2,
+        c.xmargin + c.npp_offset + c.core_width / 2,
         0,
-        c.t_clad + c.t_box + c.wg_thickness,
+        c.clad_thickness + c.box_thickness + c.core_thickness,
     ],
 )
 plt.colorbar(label=r"$log10(|\kappa_{doped} - \kappa_{undoped}|)$")
@@ -215,10 +200,10 @@ plt.imshow(
     np.log(np.abs(np.imag(n_dist[-4].T))),
     origin="lower",
     extent=[
-        -c.xmargin - c.ppp_offset - c.wg_width / 2,
-        c.xmargin + c.npp_offset + c.wg_width / 2,
+        -c.xmargin - c.ppp_offset - c.core_width / 2,
+        c.xmargin + c.npp_offset + c.core_width / 2,
         0,
-        c.t_clad + c.t_box + c.wg_thickness,
+        c.clad_thickness + c.box_thickness + c.core_thickness,
     ],
 )
 plt.colorbar(label=r"$log10(|\kappa_{doped} - \kappa_{undoped}|)$")

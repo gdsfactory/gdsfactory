@@ -2,7 +2,7 @@ name: ring_single_bend_coupler
 ports:
   o1:
     center:
-    - -15.7
+    - -16.0
     - 15.7
     layer:
     - 1
@@ -14,7 +14,7 @@ ports:
     width: 0.5
   o2:
     center:
-    - 15.7
+    - 16.0
     - 15.7
     layer:
     - 1
@@ -34,6 +34,7 @@ settings:
     cross_section_inner: strip
     cross_section_outer: strip
     gap: 0.2
+    length_x: 0.6
     length_y: 0.6
     radius: 5.0
   full:
@@ -43,6 +44,7 @@ settings:
     cross_section_inner: strip
     cross_section_outer: strip
     gap: 0.2
+    length_x: 0.6
     length_y: 0.6
     radius: 5.0
   function_name: ring_single_bend_coupler

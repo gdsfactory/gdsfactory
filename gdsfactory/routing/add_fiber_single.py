@@ -3,7 +3,11 @@ from __future__ import annotations
 from typing import Callable, Optional
 
 import gdsfactory as gf
-from gdsfactory.add_labels import get_input_label_text_loopback
+from gdsfactory.add_labels import (
+    get_input_label_text_dash,
+    get_input_label_text_dash_loopback,
+    get_input_label_text_loopback,
+)
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
@@ -33,8 +37,10 @@ def add_fiber_single(
     component_name: Optional[str] = None,
     gc_port_name: str = "o1",
     zero_port: Optional[str] = "o1",
-    get_input_label_text_loopback_function: Optional[Callable] = None,
-    get_input_label_text_function: Optional[Callable] = None,
+    get_input_label_text_loopback_function: Optional[
+        Callable
+    ] = get_input_label_text_dash_loopback,
+    get_input_label_text_function: Optional[Callable] = get_input_label_text_dash,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
@@ -176,7 +182,7 @@ def add_fiber_single(
                 gc_ref.connect(gc_port_name, port)
                 grating_couplers.append(gc_ref)
 
-        if get_input_label_text_function:
+        if get_input_label_text_function and layer_label:
             elements = get_input_labels(
                 io_gratings=grating_couplers,
                 ordered_ports=list(cr.ports.values()),
@@ -245,7 +251,11 @@ def add_fiber_single(
 
         c.add_port(name=f"{pname}-{component_name}-loopback1", port=gci.ports[pname])
         c.add_port(name=f"{pname}-{component_name}-loopback2", port=gco.ports[pname])
-        if get_input_label_text_function and get_input_label_text_loopback_function:
+        if (
+            layer_label
+            and get_input_label_text_function
+            and get_input_label_text_loopback_function
+        ):
             text = get_input_label_text_loopback_function(
                 port=port, gc=gc, gc_index=0, component_name=component_name
             )
@@ -277,7 +287,14 @@ if __name__ == "__main__":
     # from gdsfactory.samples.big_device import big_device
     # w = h = 18 * 50
     # c = big_device(spacing=50.0, size=(w, h))
-    gc = gf.functions.rotate90(gf.components.grating_coupler_elliptical_arbitrary)
+    # gc = gf.functions.rotate90(gf.components.grating_coupler_elliptical_arbitrary)
+
+    gc = gf.components.grating_coupler_elliptical_arbitrary
     c = gf.c.mmi2x2()
-    cc = gf.routing.add_fiber_array(component=c, grating_coupler=gc)
-    cc.show(show_ports=True)
+    cc = gf.routing.add_fiber_single(
+        component=c,
+        grating_coupler=gc,
+        # layer_label="TEXT"
+        # layer_label=None,
+    )
+    cc.show(show_ports=False)

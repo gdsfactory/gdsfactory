@@ -1,0 +1,15 @@
+#================================
+# ---- HEATER EXTRACTIONS -----
+#================================
+
+logger.info('Starting HEATER EXTRACTION')
+
+# ====================
+# --- HEATER METAL ---
+# ====================
+
+# straight_heater_metal
+logger.info('Extracting straight_heater_metal device')
+extract_devices(resistor('straight_heater_metal', 0.09, NResistor), { 'R'  => straight_heater_metal_res,
+                                                                      'C'  => straight_heater_metal_con,
+                                                                    })

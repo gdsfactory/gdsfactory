@@ -1,4 +1,4 @@
-name: straight_b4efbeb4_exten_40ee8edc
+name: straight_8e35eabb_exten_d0cae039
 ports:
   o1:
     center:
@@ -32,10 +32,19 @@ settings:
         cross_section:
           function: cross_section
           settings:
+            add_pins:
+              function: add_pins
+              settings:
+                function:
+                  function: add_pin_rectangle_inside
+                  settings:
+                    layer_label: null
+                    pin_length: 0.001
             bbox_layers:
             - SLAB90
             bbox_offsets:
             - 3
+            name: strip
             radius: 20
     extension:
       function: taper_strip_to_ridge
@@ -46,10 +55,19 @@ settings:
       cross_section:
         function: cross_section
         settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
           bbox_layers:
           - SLAB90
           bbox_offsets:
           - 3
+          name: strip
           radius: 20
     child: null
     default:
@@ -61,10 +79,19 @@ settings:
       cross_section:
         function: cross_section
         settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
           bbox_layers:
           - SLAB90
           bbox_offsets:
           - 3
+          name: strip
           radius: 20
       length: 10.0
       npoints: 2
@@ -74,22 +101,41 @@ settings:
       cross_section:
         function: cross_section
         settings:
+          add_pins:
+            function: add_pins
+            settings:
+              function:
+                function: add_pin_rectangle_inside
+                settings:
+                  layer_label: null
+                  pin_length: 0.001
           bbox_layers:
           - SLAB90
           bbox_offsets:
           - 3
+          name: strip
           radius: 20
       function_name: cross_section
       length: 10.0
       settings:
         add_bbox: null
-        add_pins: null
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         auto_widen: false
         auto_widen_minimum_length: 200.0
-        bbox_layers: null
-        bbox_offsets: null
+        bbox_layers:
+        - SLAB90
+        bbox_offsets:
+        - 3
         cladding_layers: null
         cladding_offsets: null
+        cladding_simplify: null
         decorator: null
         end_straight_length: 0.01
         gap: 3.0
@@ -97,7 +143,7 @@ settings:
         layer: WG
         min_length: 0.01
         mirror: false
-        name: null
+        name: strip
         offset: 0
         port_names:
         - o1
@@ -105,7 +151,7 @@ settings:
         port_types:
         - optical
         - optical
-        radius: 10.0
+        radius: 20
         sections: null
         snap_to_grid: null
         start_straight_length: 0.01
@@ -115,7 +161,7 @@ settings:
       width: 0.5
     info_version: 2
     module: gdsfactory.components.straight
-    name: straight_b4efbeb4
+    name: straight_8e35eabb
   default:
     centered: false
     component:
@@ -136,10 +182,19 @@ settings:
         cross_section:
           function: cross_section
           settings:
+            add_pins:
+              function: add_pins
+              settings:
+                function:
+                  function: add_pin_rectangle_inside
+                  settings:
+                    layer_label: null
+                    pin_length: 0.001
             bbox_layers:
             - SLAB90
             bbox_offsets:
             - 3
+            name: strip
             radius: 20
     cross_section: null
     extension:
@@ -155,22 +210,41 @@ settings:
     cross_section:
       function: cross_section
       settings:
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
         bbox_layers:
         - SLAB90
         bbox_offsets:
         - 3
+        name: strip
         radius: 20
     function_name: cross_section
     length: 10.0
     settings:
       add_bbox: null
-      add_pins: null
+      add_pins:
+        function: add_pins
+        settings:
+          function:
+            function: add_pin_rectangle_inside
+            settings:
+              layer_label: null
+              pin_length: 0.001
       auto_widen: false
       auto_widen_minimum_length: 200.0
-      bbox_layers: null
-      bbox_offsets: null
+      bbox_layers:
+      - SLAB90
+      bbox_offsets:
+      - 3
       cladding_layers: null
       cladding_offsets: null
+      cladding_simplify: null
       decorator: null
       end_straight_length: 0.01
       gap: 3.0
@@ -178,7 +252,7 @@ settings:
       layer: WG
       min_length: 0.01
       mirror: false
-      name: null
+      name: strip
       offset: 0
       port_names:
       - o1
@@ -186,7 +260,7 @@ settings:
       port_types:
       - optical
       - optical
-      radius: 10.0
+      radius: 20
       sections: null
       snap_to_grid: null
       start_straight_length: 0.01
@@ -196,4 +270,4 @@ settings:
     width: 0.5
   info_version: 2
   module: gdsfactory.components.extension
-  name: straight_b4efbeb4_exten_40ee8edc
+  name: straight_8e35eabb_exten_d0cae039

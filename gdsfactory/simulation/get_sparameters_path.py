@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import hashlib
+import os
 import pathlib
+import tempfile
 from copy import deepcopy
 from functools import partial
 from pathlib import Path
@@ -20,7 +22,15 @@ def get_kwargs_hash(**kwargs) -> str:
     """Returns kwargs parameters hash."""
     kwargs_list = [f"{key}={clean_value(kwargs[key])}" for key in sorted(kwargs.keys())]
     kwargs_string = "_".join(kwargs_list)
-    return hashlib.md5(kwargs_string.encode()).hexdigest()[:8]
+    return hashlib.md5(kwargs_string.encode()).hexdigest()
+
+
+def get_component_hash(component: gf.Component) -> str:
+    with tempfile.NamedTemporaryFile() as file:
+        path = os.path.abspath(file.name)
+        component.write_gds(path)
+        hash = hashlib.md5(file.read()).hexdigest()
+        return hash
 
 
 def _get_sparameters_path(
@@ -47,8 +57,13 @@ def _get_sparameters_path(
         if hasattr(component, "function_name")
         else dirpath
     )
+
+    component_hash = get_component_hash(component)
+    kwargs_hash = get_kwargs_hash(**kwargs)
+    simulation_hash = hashlib.md5((component_hash + kwargs_hash).encode()).hexdigest()
+
     dirpath.mkdir(exist_ok=True, parents=True)
-    return dirpath / f"{component.name}_{get_kwargs_hash(**kwargs)}.npz"
+    return dirpath / f"{component.name}_{simulation_hash}.npz"
 
 
 def _get_sparameters_data(**kwargs) -> np.ndarray:

@@ -1,17 +1,3 @@
-# ---
-# jupyter:
-#   jupytext:
-#     text_representation:
-#       extension: .py
-#       format_name: light
-#       format_version: '1.5'
-#       jupytext_version: 1.14.4
-#   kernelspec:
-#     display_name: Python 3 (ipykernel)
-#     language: python
-#     name: python3
-# ---
-
 # # Non manhattan routing
 #
 # gdsfactory provides functions to connect and route components ports that are off-grid or have non manhattan orientations (0, 90, 180, 270 degrees)
@@ -54,8 +40,6 @@ help(c1.write_gds)
 
 gdspath = c1.write_gds(flatten_invalid_refs=True)
 c2 = gf.import_gds(gdspath)
-c2
-
 has_valid_transformations(c1)  # has gap issues
 
 has_valid_transformations(c2)  # works perfect
@@ -70,9 +54,90 @@ has_valid_transformations(c2)  # works perfect
 pdk = gf.get_active_pdk()
 pdk.gds_write_settings.flatten_invalid_refs = True
 
+
 # With this flag set, invalid references will be flattened by default, preventing gaps and errors in downstream tools which may not support cell references with arbitrary rotation, without needing to specify this on each GDS write.
 #
 # You should note, however, that this will *not* fix all gaps between faces of unequal length, as it is *impossible* to guarantee this for diagonal line segments of unequal lengths constrained to end on integer grid values.
+
+# ## Avoid Non manhattan connections
+#
+# ### Extrude at the end (ideal)
+#
+# Some connections are hard to fix due to the ports of the bends being slightly off-center.
+#
+# For that the best is to concatenate the path first and then extrude last.
+
+
+# +
+@gf.cell
+def demo_non_manhattan_extrude_fix():
+    c = gf.Component("bend")
+    p1 = gf.path.arc(angle=30)
+    p2 = gf.path.straight(length=5)
+    p = p1 + p2
+    c = p.extrude(cross_section="strip")
+    return c
+
+
+c1 = demo_non_manhattan_extrude_fix()
+c1
+# -
+
+# ### Fix polygons
+#
+# You can also fix polygons by merge
+
+# +
+import gdsfactory as gf
+
+c = gf.Component("bend")
+b = c << gf.components.bend_circular(angle=30)
+s = c << gf.components.straight(length=5)
+s.connect("o1", b.ports["o2"])
+p = c.get_polygons(as_shapely_merged=True)
+c2 = gf.Component("bend_fixed")
+c2.add_polygon(p, layer=(1, 0))
+c2
+
+# +
+import gdsfactory as gf
+
+c = gf.Component("bend")
+b = c << gf.components.bend_circular(angle=30)
+s = c << gf.components.straight(length=5)
+s.connect("o1", b.ports["o2"])
+p_shapely = c.get_polygons(as_shapely_merged=True)
+p = gf.Polygon.from_shapely(p_shapely, layer=(1, 0))
+p = p.snap(nm=5)
+c2 = gf.Component("bend_fixed")
+c2.add_polygon(p, layer=(1, 0))
+c2
+# -
+
+p_shapely
+
+
+# +
+@gf.cell
+def demo_non_manhattan_merge_polygons():
+    c = gf.Component("bend")
+    b = c << gf.components.bend_circular(angle=30)
+    s = c << gf.components.straight(length=5)
+    s.connect("o1", b.ports["o2"])
+    p = c.get_polygons(as_shapely_merged=True)
+    p = gf.Polygon.from_shapely(polygon=p, layer=(1, 0))
+    p.simplify(tolerance=0.1)
+
+    c2 = gf.Component()
+    p3 = c2.add_polygon(p)
+    c2.add_port("o1", port=b["o1"])
+    c2.add_port("o2", port=s["o2"])
+    return c2
+
+
+c1 = demo_non_manhattan_merge_polygons(cache=False)
+c1
+# -
 
 # ## Non-manhattan router
 # <div class="alert alert-block alert-warning">
@@ -233,7 +298,7 @@ show_yaml_pic(sample_dir / "aar_bundles01.pic.yml")
 
 show_yaml_pic(sample_dir / "aar_bundles02.pic.yml")
 
-# + tags=["remove-cell"] language="html"
+# + language="html"
 # <style>
 #   table {margin-left: 0 !important;}
 # </style>

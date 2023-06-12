@@ -14,7 +14,7 @@ ports:
     width: 0.5
   o2:
     center:
-    - 203.28
+    - 203.282
     - 0.0
     layer:
     - 1
@@ -35,6 +35,8 @@ settings:
     columns: 6
     rows: 6
     spacing: 3
+    straight:
+      function: straight
     straight_length: 5.0
   full:
     bend180:
@@ -44,6 +46,8 @@ settings:
     columns: 6
     rows: 6
     spacing: 3
+    straight:
+      function: straight
     straight_length: 5.0
   function_name: cutback_bend180
   info:

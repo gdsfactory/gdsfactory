@@ -10,8 +10,7 @@ from click.core import Context, Option
 import gdsfactory
 from gdsfactory.config import cwd, print_config
 from gdsfactory.config import print_version as _print_version
-from gdsfactory.config import print_version_raw
-from gdsfactory.config import print_version_pdks
+from gdsfactory.config import print_version_pdks, print_version_raw
 from gdsfactory.generic_tech import LAYER
 from gdsfactory.install import install_gdsdiff, install_klayout_package
 from gdsfactory.technology import lyp_to_dataclass
@@ -23,7 +22,7 @@ try:
 except ImportError:
     import click
 
-VERSION = "6.78.0"
+VERSION = "6.106.0"
 LAYER_LABEL = LAYER.LABEL
 
 
@@ -101,21 +100,49 @@ def merge_gds(
     c.show(show_ports=True)
 
 
-# @click.group()
-# def watch() -> None:
-#     """Watch YAML or python files."""
-#     pass
-# @click.option("--debug", "-d", default=False, help="debug", is_flag=True)
-# @click.command()
-# def webapp(debug: bool = False) -> None:
-#     """Opens YAML based webapp."""
-#     from gdsfactory.icyaml import app
+DEFAULT_PORT = 8765
+DEFAULT_HOST = "localhost"
 
-#     if debug:
-#         app.run_debug()
 
-#     else:
-#         app.run()
+@click.option(
+    "--pdk",
+    type=click.STRING,
+    default="generic",
+    help="Process Design Kit (PDK) to activate",
+    show_default=True,
+)
+@click.option(
+    "--host",
+    "-h",
+    type=click.STRING,
+    default=DEFAULT_HOST,
+    help="Host to run server on",
+    show_default=True,
+)
+@click.option(
+    "--port",
+    "-p",
+    type=click.INT,
+    help=f"Port to run server on - defaults to {DEFAULT_PORT}",
+    default=DEFAULT_PORT,
+    show_default=True,
+)
+@click.command()
+def web(
+    pdk: str,
+    host: str,
+    port: int,
+) -> None:
+    """Opens web viewer."""
+    import os
+
+    import uvicorn
+
+    from gdsfactory.plugins.web.main import app
+
+    os.environ["PDK"] = pdk
+
+    uvicorn.run(app, host=host, port=port)
 
 
 @click.argument("path", type=click.Path(exists=True), required=False, default=cwd)
@@ -143,16 +170,20 @@ def show(filename: str) -> None:
 @click.option("--xor", "-x", default=False, help="include xor", is_flag=True)
 def diff(gdspath1: str, gdspath2: str, xor: bool = False) -> None:
     """Show boolean difference between two GDS files."""
-    from gdsfactory.gdsdiff.gdsdiff import gdsdiff
+    from gdsfactory.difftest import diff
 
-    diff = gdsdiff(gdspath1, gdspath2, xor=xor)
-    diff.show()
+    diff(gdspath1, gdspath2, xor=xor)
 
 
 @click.command()
-def klayout_integration() -> None:
-    """Install generic Klayout layermap, klive and git diff."""
+def klayout_genericpdk() -> None:
+    """Install Klayout generic PDK."""
     install_klayout_package()
+
+
+@click.command()
+def git_diff() -> None:
+    """Install git diff."""
     install_gdsdiff()
 
 
@@ -187,12 +218,13 @@ gds.add_command(merge_gds)
 gds.add_command(show)
 gds.add_command(diff)
 
-install.add_command(klayout_integration)
+install.add_command(klayout_genericpdk)
+install.add_command(git_diff)
 
 version.add_command(raw)
 version.add_command(pdks)
 
-# yaml.add_command(webapp)
+cli.add_command(web)
 # watch.add_command(watch_yaml)
 
 cli.add_command(gds)

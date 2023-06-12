@@ -1,13 +1,13 @@
 from typing import Optional
 
 import numpy as np
-
-from gdsfactory.pdk import get_layer_stack
-from gdsfactory.technology import LayerStack
-import gdsfactory as gf
 import shapely
 from shapely.affinity import translate
 from shapely.ops import unary_union
+
+import gdsfactory as gf
+from gdsfactory.pdk import get_layer_stack
+from gdsfactory.technology import LayerStack
 
 
 class Parameter:
@@ -27,7 +27,7 @@ class Parameter:
             step: size of the step going from min_value to max_value when generating data.
         """
 
-    def sample(self, rand_val: float = None):
+    def sample(self, rand_val: Optional[float] = None):
         """Return a random value within a parameter allowable values.
 
         User can provide their own random number between 0 and 1 (mapping to a value between min and max), or default to uniform sampling.

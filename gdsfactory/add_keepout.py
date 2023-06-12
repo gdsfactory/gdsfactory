@@ -40,32 +40,25 @@ def add_keepout(
     return c
 
 
-def test_add_keepout():
+def test_add_keepout() -> None:
     from gdsfactory.components.straight import straight
 
     c = straight()
     polygons = len(c.get_polygons())
     target_layers = [LAYER.WG]
     keepout_layers = [LAYER.NO_TILE_SI]
-    # print(len(c.get_polygons()))
 
     assert len(c.get_polygons()) == polygons
-    c = add_keepout(
+    assert add_keepout(
         component=c, target_layers=target_layers, keepout_layers=keepout_layers
     )
-    # print(len(c.get_polygons()))
-    # assert (
-    #     len(c.get_polygons()) == polygons + 1
-    # ), f"{len(c.get_polygons())} != {polygons + 1}"
-    # return c
 
 
 if __name__ == "__main__":
-    test_add_keepout()
-    # from gdsfactory.components.straight import straight
+    from gdsfactory.components.straight import straight
 
-    # c = straight()
-    # target_layers = [LAYER.WG]
-    # keepout_layers = [LAYER.SLAB150]
-    # c = add_keepout(c, target_layers, keepout_layers)
-    # c.show(show_ports=True)
+    c = straight()
+    target_layers = [LAYER.WG]
+    keepout_layers = [LAYER.SLAB150]
+    c = add_keepout(c, target_layers, keepout_layers)
+    c.show(show_ports=True)

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Union, List
+from typing import List, Union
 
 import gdstk
 

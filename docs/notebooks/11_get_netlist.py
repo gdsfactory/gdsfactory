@@ -1,26 +1,30 @@
+# -*- coding: utf-8 -*-
 # ---
 # jupyter:
 #   jupytext:
+#     cell_metadata_filter: -all
+#     custom_cell_magics: kql
 #     text_representation:
 #       extension: .py
-#       format_name: light
-#       format_version: '1.5'
-#       jupytext_version: 1.14.4
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
 #   kernelspec:
-#     display_name: Python 3 (ipykernel)
+#     display_name: base
 #     language: python
 #     name: python3
 # ---
 
-# # Netlist extractor
+# %% [markdown]
+# # Netlist extractor YAML
 #
 # Any component can extract its netlist with `get_netlist`
 #
 # While `gf.read.from_yaml` converts a `YAML Dict` into a `Component`
 #
-# `get_netlist` converts `Component` into a `Dict`
+# `get_netlist` converts `Component` into a YAML `Dict`
 
-# +
+# %%
 from omegaconf import OmegaConf
 
 import gdsfactory as gf
@@ -29,33 +33,48 @@ from gdsfactory.generic_tech import get_generic_pdk
 gf.config.rich_output()
 PDK = get_generic_pdk()
 PDK.activate()
-# -
 
+# %%
+c = gf.components.mzi()
+c
+
+# %%
+c.plot_netlist()
+
+# %%
 c = gf.components.ring_single()
 c
 
+# %%
 c.plot_netlist()
 
+# %%
 n = c.get_netlist()
 
+# %%
 c.write_netlist("ring.yml")
 
+# %%
 n = OmegaConf.load("ring.yml")
 
+# %%
 i = list(n["instances"].keys())
 i
 
+# %%
 instance_name0 = i[0]
 
+# %%
 n["instances"][instance_name0]["settings"]
 
 
+# %% [markdown]
 # ## Instance names
 #
 # By default get netlist names each `instance` with the name of the `reference`
 
 
-# +
+# %%
 @gf.cell
 def mzi_with_bend_automatic_naming():
     c = gf.Component()
@@ -69,7 +88,7 @@ c = mzi_with_bend_automatic_naming()
 c.plot_netlist()
 
 
-# +
+# %%
 @gf.cell
 def mzi_with_bend_deterministic_names_using_alias():
     c = gf.Component()
@@ -81,26 +100,30 @@ def mzi_with_bend_deterministic_names_using_alias():
 
 c = mzi_with_bend_deterministic_names_using_alias()
 c.plot_netlist()
-# -
 
+# %%
 c = gf.components.mzi()
 c
 
+# %%
 c = gf.components.mzi()
 n = c.get_netlist()
 print(c.get_netlist().keys())
 
+# %%
 c.plot_netlist()
 
+# %%
 n.keys()
 
 
+# %% [markdown]
 # ## warnings
 #
 # Lets make a connectivity **error**, for example connecting ports on the wrong layer
 
 
-# +
+# %%
 @gf.cell
 def mmi_with_bend():
     c = gf.Component()
@@ -112,14 +135,17 @@ def mmi_with_bend():
 
 c = mmi_with_bend()
 c
-# -
 
+# %%
 n = c.get_netlist()
 
+# %%
 print(n["warnings"])
 
+# %%
 c.plot_netlist()
 
+# %% [markdown]
 # ## get_netlist_recursive
 #
 # When you do `get_netlist()` for a component it will only show connections for the instances that belong to that component.
@@ -128,22 +154,28 @@ c.plot_netlist()
 #
 # `get_netlist_recursive()` returns a recursive netlist.
 
+# %%
 c = gf.components.ring_single()
 c
 
+# %%
 c.plot_netlist()
 
+# %%
 c = gf.components.ring_double()
 c
 
+# %%
 c.plot_netlist()
 
+# %%
 c = gf.components.mzit()
 c
 
+# %%
 c.plot_netlist()
 
-# +
+# %%
 coupler_lengths = [10, 20, 30]
 coupler_gaps = [0.1, 0.2, 0.3]
 delta_lengths = [10, 100]
@@ -154,11 +186,11 @@ c = gf.components.mzi_lattice(
     delta_lengths=delta_lengths,
 )
 c
-# -
 
+# %%
 c.plot_netlist()
 
-# +
+# %%
 coupler_lengths = [10, 20, 30, 40]
 coupler_gaps = [0.1, 0.2, 0.4, 0.5]
 delta_lengths = [10, 100, 200]
@@ -169,41 +201,53 @@ c = gf.components.mzi_lattice(
     delta_lengths=delta_lengths,
 )
 c
-# -
 
+# %%
 n = c.get_netlist()
 
+# %%
 c.plot_netlist()
 
+# %%
 n_recursive = c.get_netlist_recursive()
 
+# %%
 n_recursive.keys()
 
+# %% [markdown]
 # ## get_netlist_flat
 #
 # You can also flatten the recursive netlist
 
+# %%
 flat_netlist = c.get_netlist_flat()
 
+# %% [markdown]
 # The flat netlist contains the same keys as a regular netlist:
 
+# %%
 flat_netlist.keys()
 
+# %% [markdown]
 # However, its instances are flattened and uniquely renamed according to hierarchy:
 
+# %%
 flat_netlist["instances"].keys()
 
+# %% [markdown]
 # Placement information is accumulated, and connections and ports are mapped, respectively, to the ports of the unique instances or the component top level ports. This can be plotted:
 
+# %%
 c.plot_netlist_flat(with_labels=False)  # labels get cluttered
 
+# %% [markdown]
 # ## allow_multiple_connections
 #
 # The default `get_netlist` function (also used by default by `get_netlist_recurse` and `get_netlist_flat`) can identify more than two ports sharing the same connection through the `allow_multiple` flag.
 #
 # For instance, consider a resistor network with one shared node:
 
-# +
+# %%
 vdiv = gf.Component("voltageDivider")
 r1 = vdiv << gf.components.resistance_sheet()
 r2 = vdiv << gf.components.resistance_sheet()
@@ -215,11 +259,12 @@ r3.connect("pad1", r2.ports["pad1"], preserve_orientation=True)
 r4.connect("pad2", r2.ports["pad1"], preserve_orientation=True)
 
 vdiv
-# -
 
+# %%
 try:
     vdiv.get_netlist_flat()
 except Exception as exc:
     print(exc)
 
+# %%
 vdiv.get_netlist_flat(allow_multiple=True)

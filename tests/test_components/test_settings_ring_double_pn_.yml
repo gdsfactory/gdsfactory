@@ -56,8 +56,18 @@ settings:
     cross_section:
       function: cross_section
       settings:
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+        name: strip
         sections:
         - hidden: false
+          insets: null
           layer: SLAB90
           name: slab
           offset: 0
@@ -67,6 +77,7 @@ settings:
           port_types:
           - optical
           - optical
+          simplify: null
           width: 4.85
     doped_heater: true
     doped_heater_angle_buffer: 10
@@ -120,8 +131,18 @@ settings:
     cross_section:
       function: cross_section
       settings:
+        add_pins:
+          function: add_pins
+          settings:
+            function:
+              function: add_pin_rectangle_inside
+              settings:
+                layer_label: null
+                pin_length: 0.001
+        name: strip
         sections:
         - hidden: false
+          insets: null
           layer: SLAB90
           name: slab
           offset: 0
@@ -131,6 +152,7 @@ settings:
           port_types:
           - optical
           - optical
+          simplify: null
           width: 4.85
     doped_heater: true
     doped_heater_angle_buffer: 10

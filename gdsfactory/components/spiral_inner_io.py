@@ -1,6 +1,7 @@
 """Spiral with grating couplers inside to save space."""
 from __future__ import annotations
 
+from functools import partial
 from typing import Optional, Tuple
 
 import numpy as np
@@ -34,6 +35,7 @@ def spiral_inner_io(
     length: Optional[float] = None,
     cross_section: CrossSectionSpec = "strip",
     cross_section_bend: Optional[CrossSectionSpec] = None,
+    cross_section_bend180: Optional[CrossSectionSpec] = None,
     asymmetric_cross_section: bool = False,
     **kwargs,
 ) -> Component:
@@ -57,12 +59,16 @@ def spiral_inner_io(
             to match the length by a simple 1D interpolation.
         cross_section: spec.
         cross_section_bend: for the bends.
+        cross_section_bend180: for 180 bend.
         asymmetric_cross_section: if the cross_section is asymmetric, it needs to be mirrored at the halfway point
         kwargs: cross_section settings.
     """
     dx = dy = waveguide_spacing
     cross_section_bend = cross_section_bend or cross_section
+    cross_section_bend180 = cross_section_bend180 or cross_section_bend
+
     xs_bend = gf.get_cross_section(cross_section_bend, **kwargs)
+    xs = gf.get_cross_section(cross_section, **kwargs)
 
     if length:
         x_straight_inner_left = get_straight_length(
@@ -77,7 +83,7 @@ def spiral_inner_io(
             waveguide_spacing=waveguide_spacing,
         )
 
-    _bend180 = gf.get_component(bend180, cross_section=cross_section_bend, **kwargs)
+    _bend180 = gf.get_component(bend180, cross_section=cross_section_bend180, **kwargs)
     _bend90 = gf.get_component(bend90, cross_section=cross_section_bend, **kwargs)
 
     rx, ry = get_bend_port_distances(_bend90)
@@ -151,10 +157,9 @@ def spiral_inner_io(
         pts_e += [_pt1, _pt2, _pt3, _pt4, _pt5]
 
     if asymmetric_cross_section:
-        cross_section = gf.partial(cross_section, mirror=True)
-        _bend90 = gf.get_component(
-            bend90, cross_section=gf.partial(cross_section_bend, mirror=False), **kwargs
-        )
+        cross_section = xs_bend
+        cross_section_bend = xs
+        _bend90 = gf.get_component(bend90, cross_section=cross_section_bend, **kwargs)
 
     route_east = round_corners(
         pts_e, bend=_bend90, straight=straight, cross_section=cross_section, **kwargs
@@ -250,11 +255,17 @@ def get_straight_length(
 
 
 if __name__ == "__main__":
+    import gdsfactory as gf
+
+    cross_section = gf.cross_section.rib_conformal2
+    cross_section = gf.cross_section.pn
+
     c = gf.components.spiral_inner_io(
-        cross_section=gf.cross_section.pn,
-        waveguide_spacing=25,
+        cross_section=cross_section,
+        cross_section_bend=partial(cross_section, mirror=True),
+        # cross_section_bend180=partial(cross_section, mirror=True),
+        waveguide_spacing=20,
         radius=30,
-        cross_section_bend=gf.partial(gf.cross_section.pn, mirror=True),
         asymmetric_cross_section=True,
     )
     c.show()

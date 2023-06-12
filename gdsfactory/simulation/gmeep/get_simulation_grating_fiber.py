@@ -25,8 +25,8 @@ nSi = 3.47
 nSiO2 = 1.44
 
 
-def fiber_ncore(fiber_numerical_aperture, fiber_nclad):
-    return (fiber_numerical_aperture**2 + fiber_nclad**2) ** 0.5
+def fiber_core_material(fiber_numerical_aperture, fiber_clad_material):
+    return (fiber_numerical_aperture**2 + fiber_clad_material**2) ** 0.5
 
 
 def get_simulation_grating_fiber(
@@ -39,16 +39,16 @@ def get_simulation_grating_fiber(
     fiber_xposition: float = 1.0,
     fiber_core_diameter: float = 10.4,
     fiber_numerical_aperture: float = 0.14,
-    fiber_nclad: float = nSiO2,
+    fiber_clad_material: float = nSiO2,
     nwg: float = nSi,
     nslab: Optional[float] = None,
-    nclad: float = nSiO2,
+    clad_material: float = nSiO2,
     nbox: float = nSiO2,
     nsubstrate: float = nSi,
     pml_thickness: float = 1.0,
     substrate_thickness: float = 1.0,
     box_thickness: float = 2.0,
-    wg_thickness: float = 220 * nm,
+    core_thickness: float = 220 * nm,
     slab_thickness: float = 150 * nm,
     top_clad_thickness: float = 2.0,
     air_gap_thickness: float = 1.0,
@@ -66,8 +66,8 @@ def get_simulation_grating_fiber(
 ) -> Dict[str, Any]:
     r"""Returns simulation results from grating coupler with fiber.
 
-    na**2 = ncore**2 - nclad**2
-    ncore = sqrt(na**2 + ncore**2)
+    na**2 = core_material**2 - clad_material**2
+    core_material = sqrt(na**2 + core_material**2)
 
     Args:
         period: fiber grating period in um.
@@ -79,17 +79,17 @@ def get_simulation_grating_fiber(
         fiber_xposition: xposition.
         fiber_core_diameter: fiber diameter. 10.4 for Cband and 9.2um for Oband.
         fiber_numerical_aperture: NA.
-        fiber_nclad: fiber cladding index.
+        fiber_clad_material: fiber cladding index.
         nwg: waveguide index.
         nslab: slab refractive index.
-        nclad: top cladding index.
+        clad_material: top cladding index.
         nbox: box index bottom.
         nsubstrate: index substrate.
         pml_thickness: pml_thickness (um).
         substrate_thickness: substrate_thickness (um).
         box_thickness: thickness for bottom cladding (um).
-        wg_thickness: wg_thickness (um).
-        slab_thickness: slab thickness (um). etch_depth=wg_thickness-slab_thickness.
+        core_thickness: core_thickness (um).
+        slab_thickness: slab thickness (um). etch_depth=core_thickness-slab_thickness.
         top_clad_thickness: thickness of the top cladding.
         air_gap_thickness: air gap thickness.
         fiber_thickness: fiber_thickness.
@@ -116,11 +116,11 @@ def get_simulation_grating_fiber(
                                     | air_gap_thickness
                                _ _ _| _ _ _ _ _ _  _
                                     |
-                   nclad            | top_clad_thickness
+                   clad_material            | top_clad_thickness
                 _   _   _      _ _ _| _ _ _ _ _ _  _
           nwg _| |_| |_| |__________|              _
                                     |               |
-                 nslab              |wg_thickness   | slab_thickness
+                 nslab              |core_thickness   | slab_thickness
                 ______________ _ _ _|_ _ _ _ _ _ _ _|
                                     |
                  nbox               |box_thickness
@@ -149,15 +149,15 @@ def get_simulation_grating_fiber(
         fiber_xposition=fiber_xposition,
         fiber_core_diameter=fiber_core_diameter,
         fiber_numerical_aperture=fiber_numerical_aperture,
-        fiber_nclad=fiber_nclad,
+        fiber_clad_material=fiber_clad_material,
         nwg=nwg,
-        nclad=nclad,
+        clad_material=clad_material,
         nbox=nbox,
         nsubstrate=nsubstrate,
         pml_thickness=pml_thickness,
         substrate_thickness=substrate_thickness,
         box_thickness=box_thickness,
-        wg_thickness=wg_thickness,
+        core_thickness=core_thickness,
         top_clad_thickness=top_clad_thickness,
         air_gap_thickness=air_gap_thickness,
         fiber_thickness=fiber_thickness,
@@ -182,7 +182,7 @@ def get_simulation_grating_fiber(
         +pml_thickness
         + substrate_thickness
         + box_thickness
-        + wg_thickness
+        + core_thickness
         + top_clad_thickness
         + air_gap_thickness
         + fiber_thickness
@@ -192,7 +192,7 @@ def get_simulation_grating_fiber(
     # Assume fiber port dominates
     fiber_port_y = (
         -sz / 2
-        + wg_thickness
+        + core_thickness
         + top_clad_thickness
         + air_gap_thickness
         + fiber_port_y_offset_from_air
@@ -209,11 +209,13 @@ def get_simulation_grating_fiber(
     # Materials from indices
     slab_material = mp.Medium(index=nslab)
     wg_material = mp.Medium(index=nwg)
-    top_clad_material = mp.Medium(index=nclad)
+    top_clad_material = mp.Medium(index=clad_material)
     bottom_clad_material = mp.Medium(index=nbox)
-    fiber_ncore = (fiber_numerical_aperture**2 + fiber_nclad**2) ** 0.5
-    fiber_clad_material = mp.Medium(index=fiber_nclad)
-    fiber_core_material = mp.Medium(index=fiber_ncore)
+    fiber_core_material = (
+        fiber_numerical_aperture**2 + fiber_clad_material**2
+    ) ** 0.5
+    fiber_clad_material = mp.Medium(index=fiber_clad_material)
+    fiber_core_material = mp.Medium(index=fiber_core_material)
 
     # Useful reference point
     grating_start = (
@@ -228,7 +230,7 @@ def get_simulation_grating_fiber(
         +pml_thickness
         + substrate_thickness
         + box_thickness
-        + wg_thickness
+        + core_thickness
         + top_clad_thickness
         + air_gap_thickness
         + fiber_port_y_offset_from_air
@@ -242,7 +244,7 @@ def get_simulation_grating_fiber(
         +pml_thickness
         + substrate_thickness
         + box_thickness / 2
-        + wg_thickness / 2
+        + core_thickness / 2
         + top_clad_thickness / 2
     )
     waveguide_port_x = grating_start - waveguide_port_x_offset_from_grating_start
@@ -250,7 +252,7 @@ def get_simulation_grating_fiber(
         waveguide_port_x, waveguide_port_y
     )  # grating_start - dtaper, 0)
     waveguide_port_size = mp.Vector3(
-        0, box_thickness + wg_thickness / 2 + top_clad_thickness
+        0, box_thickness + core_thickness / 2 + top_clad_thickness
     )
     waveguide_port_direction = mp.X
 
@@ -261,7 +263,7 @@ def get_simulation_grating_fiber(
     geometry = [
         mp.Block(
             material=fiber_clad_material,
-            center=mp.Vector3(0, waveguide_port_y - wg_thickness / 2),
+            center=mp.Vector3(0, waveguide_port_y - core_thickness / 2),
             size=mp.Vector3(fiber_clad, hfiber_geom),
             e1=mp.Vector3(x=1).rotate(mp.Vector3(z=1), -1 * fiber_angle),
             e2=mp.Vector3(y=1).rotate(mp.Vector3(z=1), -1 * fiber_angle),
@@ -289,7 +291,7 @@ def get_simulation_grating_fiber(
                     +pml_thickness
                     + substrate_thickness
                     + box_thickness
-                    + wg_thickness
+                    + core_thickness
                     + top_clad_thickness
                     + air_gap_thickness / 2
                 ),
@@ -308,11 +310,11 @@ def get_simulation_grating_fiber(
                     +pml_thickness
                     + substrate_thickness
                     + box_thickness
-                    + wg_thickness / 2
+                    + core_thickness / 2
                     + top_clad_thickness / 2
                 ),
             ),
-            size=mp.Vector3(mp.inf, wg_thickness + top_clad_thickness),
+            size=mp.Vector3(mp.inf, core_thickness + top_clad_thickness),
         )
     )
     # Bottom cladding
@@ -345,7 +347,7 @@ def get_simulation_grating_fiber(
         )
     )
 
-    etch_depth = wg_thickness - slab_thickness
+    etch_depth = core_thickness - slab_thickness
     x = grating_start
 
     # grating teeth
@@ -360,7 +362,7 @@ def get_simulation_grating_fiber(
                         +pml_thickness
                         + substrate_thickness
                         + box_thickness
-                        + wg_thickness
+                        + core_thickness
                         - etch_depth / 2
                     ),
                 ),
@@ -380,7 +382,7 @@ def get_simulation_grating_fiber(
                     +pml_thickness
                     + substrate_thickness
                     + box_thickness
-                    + wg_thickness
+                    + core_thickness
                     - etch_depth / 2
                 ),
             ),
@@ -560,17 +562,17 @@ if __name__ == "__main__":
         fiber_xposition=0.0,
         fiber_core_diameter=9,
         fiber_numerical_aperture=fiber_na,
-        fiber_nclad=nSiO2,
+        fiber_clad_material=nSiO2,
         # material parameters
         nwg=3.47,
-        nclad=1.44,
+        clad_material=1.44,
         nbox=1.44,
         nsubstrate=3.47,
         # stack parameters
         pml_thickness=1.0,
         substrate_thickness=1.0,
         box_thickness=2.0,
-        wg_thickness=220 * nm,
+        core_thickness=220 * nm,
         top_clad_thickness=2.0,
         air_gap_thickness=1.0,
         fiber_thickness=2.0,

@@ -5,7 +5,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.4
+#       jupytext_version: 1.14.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -219,7 +219,6 @@ def get_layer_stack():
 layer_stack = get_layer_stack()
 
 # +
-# NBVAL_SKIP
 
 c = gf.components.straight()
 s = sim.write_sparameters_lumerical(c, layer_stack=layer_stack, run=False, session=s)

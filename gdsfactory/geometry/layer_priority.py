@@ -1,6 +1,7 @@
 import numpy as np
+
 import gdsfactory as gf
-from gdsfactory.typings import LayerSpec, ComponentSpec
+from gdsfactory.typings import ComponentSpec, LayerSpec
 
 
 @gf.cell

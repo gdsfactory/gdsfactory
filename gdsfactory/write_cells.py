@@ -20,10 +20,10 @@ from pathlib import PosixPath
 from functools import partial
 import gdsfactory as gf
 
-add_ports_optical = gf.partial(
+add_ports_optical = partial(
     gf.add_ports.add_ports_from_markers_inside, pin_layer=(1, 0), port_layer=(2, 0)
 )
-add_ports_electrical = gf.partial(
+add_ports_electrical = partial(
     gf.add_ports.add_ports_from_markers_inside, pin_layer=(41, 0), port_layer=(1, 0)
 )
 add_ports = gf.compose(add_ports_optical, add_ports_electrical)
@@ -83,7 +83,7 @@ def get_import_gds_script(dirpath: PathType, module: Optional[str] = None) -> st
     """
     dirpath = pathlib.Path(dirpath)
     if not dirpath.exists():
-        raise ValueError(f"{dirpath.absolute()!r} does not exist.")
+        raise ValueError(f"{str(dirpath.absolute())!r} does not exist.")
 
     gdspaths = list(dirpath.glob("*.gds")) + list(dirpath.glob("*.GDS"))
 
@@ -93,7 +93,7 @@ def get_import_gds_script(dirpath: PathType, module: Optional[str] = None) -> st
     logger.info(f"Writing {len(gdspaths)} cells from {dirpath.absolute()!r}")
 
     script = [script_prefix]
-    script += [f"gdsdir = {dirpath.absolute()!r}\n"]
+    script += [f"gdsdir = {str(dirpath.absolute())!r}\n"]
     script += [
         "import_gds = partial(gf.import_gds, gdsdir=gdsdir, decorator=add_ports)\n"
     ]
@@ -213,13 +213,13 @@ def write_cells(
     return gdspaths
 
 
-def test_write_cells_recursively():
+def test_write_cells_recursively() -> None:
     gdspath = PATH.gdsdir / "mzi2x2.gds"
     gdspaths = write_cells(gdspath=gdspath, dirpath="extra/gds", recursively=True)
     assert len(gdspaths) == 9, len(gdspaths)
 
 
-def test_write_cells():
+def test_write_cells() -> None:
     gdspath = PATH.gdsdir / "alphabet_3top_cells.gds"
     gdspaths = write_cells(gdspath=gdspath, dirpath="extra/gds", recursively=False)
     assert len(gdspaths) == 3, len(gdspaths)

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <technology>
- <name>generic</name>
+ <name>generic_tech</name>
  <description/>
  <group/>
  <dbu>0.001</dbu>
  <base-path/>
- <original-base-path>/home/jmatres/gdsfactory/gdsfactory/generic_tech/klayout/tech</original-base-path>
+ <original-base-path/>
  <layer-properties_file>layers.lyp</layer-properties_file>
  <add-other-layers>true</add-other-layers>
  <reader-options>
@@ -115,8 +115,7 @@
    <create-other-layers>true</create-other-layers>
    <keep-layer-names>false</keep-layer-names>
    <merge>true</merge>
-   <lib-paths>
-   </lib-paths>
+   <lib-paths/>
   </mag>
  </reader-options>
  <writer-options>
@@ -134,8 +133,8 @@
   </gds2>
   <oasis>
    <compression-level>2</compression-level>
-   <write-cblocks>false</write-cblocks>
-   <strict-mode>false</strict-mode>
+   <write-cblocks>true</write-cblocks>
+   <strict-mode>true</strict-mode>
    <write-std-properties>1</write-std-properties>
    <subst-char>*</subst-char>
    <permissive>false</permissive>
@@ -154,17 +153,17 @@
   </mag>
  </writer-options>
  <connectivity>
-  <stack>
-   <name/>
-   <description/>
-   <connection>41/0,44/0,45/0
-</connection>
-   <connection>45/0,43/0,49/0
-</connection>
-  </stack>
-  <connection>41/0,44/0,45/0
-</connection>
-  <connection>45/0,43/0,49/0
-</connection>
+  <connection>NPP,VIAC,M1</connection>
+  <connection>PPP,VIAC,M1</connection>
+  <connection>M1,VIA1,M2</connection>
+  <connection>M2,VIA2,M3</connection>
+  <symbols>VIA2='43/0'</symbols>
+  <symbols>VIA1='44/0'</symbols>
+  <symbols>M1='41/0'</symbols>
+  <symbols>NPP='24/0'</symbols>
+  <symbols>PPP='25/0'</symbols>
+  <symbols>M3='49/0'</symbols>
+  <symbols>M2='45/0'</symbols>
+  <symbols>VIAC='40/0'</symbols>
  </connectivity>
 </technology>

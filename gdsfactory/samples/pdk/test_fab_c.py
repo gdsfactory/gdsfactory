@@ -7,6 +7,7 @@ the same repo as you store the code. See code below
 
 ```
 from __future__ import annotations
+from functools import partial
 import pathlib
 
 dirpath = pathlib.Path(__file__).absolute().with_suffix(".gds")

@@ -29,9 +29,9 @@ Specs:
 """
 from __future__ import annotations
 
+import dataclasses
 import json
 import pathlib
-import dataclasses
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 import gdstk
@@ -45,7 +45,6 @@ from gdsfactory.component_layout import Label
 from gdsfactory.cross_section import CrossSection, Section, Transition
 from gdsfactory.port import Port
 from gdsfactory.technology import LayerLevel, LayerStack
-
 
 STEP_DIRECTIVES = {
     "x",
@@ -172,6 +171,8 @@ PortSymmetries = Dict[str, List[str]]
 PortsDict = Dict[str, Port]
 PortsList = Dict[str, Port]
 
+Sparameters = Dict[str, np.ndarray]
+
 ComponentSpec = Union[
     str, ComponentFactory, Component, Dict[str, Any]
 ]  # PCell function, function name, dict or Component
@@ -193,6 +194,8 @@ CrossSectionSpec = Union[
 CrossSectionSpecs = Tuple[CrossSectionSpec, ...]
 
 MultiCrossSectionAngleSpec = List[Tuple[CrossSectionSpec, Tuple[int, ...]]]
+
+LabelListFactory = Callable[..., List[Label]]
 
 
 class Route(BaseModel):
@@ -365,7 +368,7 @@ def write_schema(model: BaseModel = NetlistModel) -> None:
     schema_path_json.write_text(json.dumps(OmegaConf.to_container(d)))
 
 
-def _demo():
+def _demo() -> None:
     write_schema()
 
     import jsonschema

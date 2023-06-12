@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import warnings
+from functools import partial
 from typing import Optional
 
 from numpy import floor
@@ -19,7 +20,7 @@ def via_stack_slot(
     layer_offsets: Optional[Floats] = (0, 1.0),
     layer_offsetsx: Optional[Floats] = None,
     layer_offsetsy: Optional[Floats] = None,
-    layer_port: LayerSpec = None,
+    layer_port: Optional[LayerSpec] = None,
     via: ComponentSpec = via1,
     enclosure: float = 1.0,
     ysize: float = 0.5,
@@ -80,21 +81,18 @@ def via_stack_slot(
     c = Component()
     c.info["size"] = (float(size[0]), float(size[1]))
 
+    layer_offsets = layer_offsets or [0] * len(layers)
     layer_offsetsx = layer_offsetsx or layer_offsets
     layer_offsetsy = layer_offsetsy or layer_offsets
 
-    layer_offsetsx = list(layer_offsetsx) + [0] * len(layers)
-    layer_offsetsy = list(layer_offsetsy) + [0] * len(layers)
-
     elements = {
         len(layers),
-        len(layer_offsets),
         len(layer_offsetsx),
         len(layer_offsetsy),
     }
     if len(elements) > 1:
         warnings.warn(
-            f"Got {len(layers)} layers, {len(layer_offsets)} layer_offsets, {len(layer_offsetsx)} layer_offsetsx, {len(layer_offsetsy)} layer_offsetsy."
+            f"Got {len(layers)} layers, {len(layer_offsetsx)} layer_offsetsx, {len(layer_offsetsy)} layer_offsetsy."
         )
 
     for layer, offsetx, offsety in zip(layers, layer_offsetsx, layer_offsetsy):
@@ -115,9 +113,9 @@ def via_stack_slot(
     return c
 
 
-via_stack_slot_m1_m2 = gf.partial(via_stack_slot, layers=("M1", "M2"), via=via1)
+via_stack_slot_m1_m2 = partial(via_stack_slot, layers=("M1", "M2"), via=via1)
 
-via_stack_slot_slab_m1 = gf.partial(via_stack_slot, layers=("M1",), via=viac)
+via_stack_slot_slab_m1 = partial(via_stack_slot, layers=("M1",), via=viac)
 
 
 if __name__ == "__main__":

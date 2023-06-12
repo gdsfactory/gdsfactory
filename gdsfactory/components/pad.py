@@ -7,7 +7,7 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
-from gdsfactory.typings import ComponentSpec, LayerSpec, Union, Float2
+from gdsfactory.typings import ComponentSpec, Float2, LayerSpec, Union
 
 
 @cell

@@ -32,6 +32,7 @@ def get_layer_stack(
         thickness_wg: waveguide thickness in um.
         thickness_slab_deep_etch: for deep etched slab.
         thickness_shallow_etch: thickness for the etch.
+        thickness_shallow_etch: in um.
         sidewall_angle_wg: waveguide side angle.
         thickness_clad: cladding thickness in um.
         thickness_nitride: nitride thickness in um.

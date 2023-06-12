@@ -1,18 +1,3 @@
-# ---
-# jupyter:
-#   jupytext:
-#     custom_cell_magics: kql
-#     text_representation:
-#       extension: .py
-#       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.11.2
-#   kernelspec:
-#     display_name: Python 3 (ipykernel)
-#     language: python
-#     name: python3
-# ---
-
 # %% [markdown]
 # # Python intro
 #
@@ -36,8 +21,9 @@
 #
 # In gdsfactory you will write functions instead of classes. Functions are easier to write and combine, and have clearly defined inputs and outputs.
 
-# %% tags=[]
+# %%
 from pydantic import validate_arguments
+from functools import partial
 
 import gdsfactory as gf
 
@@ -55,7 +41,7 @@ c
 # Functions have clear inputs and outputs, they usually accept some parameters (strings, floats, ints ...) and return other parameters
 
 
-# %% tags=[]
+# %%
 def double(x):
     return 2 * x
 
@@ -68,7 +54,7 @@ print(y)
 # It's also nice to add `type annotations` to your functions to clearly define what are the input/output types (string, int, float ...)
 
 
-# %% tags=[]
+# %%
 def double(x: float) -> float:
     return 2 * x
 
@@ -79,7 +65,7 @@ def double(x: float) -> float:
 # A factory is a function that returns an object. In gdsfactory many functions return a `Component` object
 
 
-# %% tags=[]
+# %%
 def bend(radius: float = 5) -> gf.typings.Component:
     return gf.components.bend_euler(radius=radius)
 
@@ -89,7 +75,7 @@ component = bend(radius=10)
 print(component)
 component.plot()
 
-# %% tags=[]
+# %%
 component
 
 # %% [markdown]
@@ -177,7 +163,7 @@ y = [double(x) for x in range(3)]  # much shorter and easier to read
 print(y)
 
 
-# %% [markdown] tags=[]
+# %% [markdown]
 # ## Functional programming
 #
 # Functional programming follows linux philosophy:
@@ -194,7 +180,7 @@ print(y)
 #
 # The following two functions are equivalent in functionality.
 #
-# Notice how the second one is shorter, more readable and easier to maintain thanks to `gf.partial`
+# Notice how the second one is shorter, more readable and easier to maintain thanks to `partial`
 
 
 # %%
@@ -202,7 +188,7 @@ def ring_sc(gap=0.3, **kwargs):
     return gf.components.ring_single(gap=gap, **kwargs)
 
 
-ring_sc = gf.partial(gf.components.ring_single, gap=0.3)
+ring_sc = partial(gf.components.ring_single, gap=0.3)
 
 # %% [markdown]
 # As you customize more parameters, it's more obvious that the second one is easier to maintain
@@ -213,7 +199,7 @@ def ring_sc(gap=0.3, radius=10, **kwargs):
     return gf.components.ring_single(gap=gap, radius=radius, **kwargs)
 
 
-ring_sc = gf.partial(gf.components.ring_single, gap=0.3, radius=10)
+ring_sc = partial(gf.components.ring_single, gap=0.3, radius=10)
 
 # %% [markdown]
 # ### compose
@@ -221,7 +207,7 @@ ring_sc = gf.partial(gf.components.ring_single, gap=0.3, radius=10)
 # `gf.compose` combines two functions into one.
 
 # %%
-ring_sc = gf.partial(gf.components.ring_single, radius=10)
+ring_sc = partial(gf.components.ring_single, radius=10)
 add_gratings = gf.routing.add_fiber_array
 
 ring_sc_gc = gf.compose(add_gratings, ring_sc)

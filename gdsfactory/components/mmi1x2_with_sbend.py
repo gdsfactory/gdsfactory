@@ -2,8 +2,8 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 from gdsfactory.components.bend_s import bend_s
+from gdsfactory.typings import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -38,39 +38,48 @@ def mmi1x2_with_sbend(
     c = gf.Component()
 
     P = gf.path.straight(length=2, npoints=100)
-    xs = gf.get_cross_section(cross_section)
+    xs = gf.get_cross_section(cross_section, add_pins=None)
     xs.width = mmi_widths
-    c << gf.path.extrude(P, cross_section=xs)
+    ref = c << gf.path.extrude(P, cross_section=xs)
 
     # Add "stub" straight sections for ports
-    input_port_ref = c << gf.components.straight(
-        length=0.25, cross_section=cross_section
+    straight = gf.components.straight(
+        length=0.25, cross_section=cross_section, add_pins=None
     )
-    input_port_ref.center = (-0.125, 0)
-    top_output_port_ref = c << gf.components.straight(
-        length=0.25, cross_section=cross_section
-    )
-    top_output_port_ref.center = (2.125, 0.35)
-    bottom_output_port_ref = c << gf.components.straight(
-        length=0.25, cross_section=cross_section
-    )
-    bottom_output_port_ref.center = (2.125, -0.35)
+    sl = c << straight
+    sl.center = (-0.125, 0)
+    s_topr = c << straight
+    s_topr.center = (2.125, 0.35)
+    s_botr = c << straight
+    s_botr.center = (2.125, -0.35)
+
     if with_sbend:
-        sbend = gf.get_component(s_bend, cross_section=cross_section)
+        sbend = gf.get_component(s_bend, cross_section=cross_section, add_pins=None)
         top_sbend = c << sbend
         bot_sbend = c << sbend
         bot_sbend.mirror([1, 0])
-        top_sbend.connect("o1", destination=top_output_port_ref.ports["o2"])
-        bot_sbend.connect("o1", destination=bottom_output_port_ref.ports["o2"])
-        c.add_port("o1", port=input_port_ref.ports["o1"])
+        top_sbend.connect("o1", destination=s_topr.ports["o2"])
+        bot_sbend.connect("o1", destination=s_botr.ports["o2"])
+        c.add_port("o1", port=sl.ports["o1"])
         c.add_port("o2", port=top_sbend.ports["o2"])
         c.add_port("o3", port=bot_sbend.ports["o2"])
 
-    else:
-        c.add_port("o1", port=input_port_ref.ports["o1"])
-        c.add_port("o2", port=top_output_port_ref.ports["o2"])
-        c.add_port("o3", port=bottom_output_port_ref.ports["o2"])
+        c.absorb(top_sbend)
+        c.absorb(bot_sbend)
 
+    else:
+        c.add_port("o1", port=sl.ports["o1"])
+        c.add_port("o2", port=s_topr.ports["o2"])
+        c.add_port("o3", port=s_botr.ports["o2"])
+
+    if xs.add_pins:
+        c = xs.add_pins(c)
+
+    c.absorb(ref)
+
+    c.absorb(sl)
+    c.absorb(s_topr)
+    c.absorb(s_botr)
     return c
 
 

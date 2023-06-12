@@ -1,11 +1,10 @@
 import numpy as np
+from femwell import mode_solver
 
 import gdsfactory as gf
 from gdsfactory.generic_tech import LAYER_STACK
 from gdsfactory.simulation.fem.mode_solver import compute_cross_section_modes
 from gdsfactory.technology import LayerStack
-from femwell import mode_solver
-
 
 NUM_MODES = 1
 
@@ -50,12 +49,12 @@ def compute_modes(
     return lams, basis, xs
 
 
-def test_compute_cross_section_mode():
+def test_compute_cross_section_mode() -> None:
     lams, basis, xs = compute_modes()
-    assert len(lams) == NUM_MODES
+    assert len(lams) == NUM_MODES, len(lams)
 
 
-def test_compute_cross_section_mode_cache():
+def test_compute_cross_section_mode_cache() -> None:
     # write mode in cache
     lams, basis, xs = compute_modes(with_cache=True, overwrite=False)
 
@@ -72,7 +71,8 @@ def test_compute_cross_section_mode_cache():
 
 
 if __name__ == "__main__":
-    test_compute_cross_section_mode_cache()
+    test_compute_cross_section_mode()
+    # test_compute_cross_section_mode_cache()
     # lams, basis, xs = compute_modes(with_cache=True, overwrite=False)
     # mode_solver.plot_mode(
     #     basis=basis,

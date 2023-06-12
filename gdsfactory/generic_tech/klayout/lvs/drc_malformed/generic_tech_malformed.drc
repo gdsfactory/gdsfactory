@@ -1,0 +1,369 @@
+#===========================================================================================================
+#------------------------------ GENERIC TECH DRC-malformed RULE DECK ---------------------------------------
+#===========================================================================================================
+require 'time'
+require 'logger'
+
+exec_start_time = Time.now
+
+logger = Logger.new($stdout)
+
+logger.formatter = proc do |_severity, datetime, _progname, msg|
+  "#{datetime}: Memory Usage (" + `pmap #{Process.pid} | tail -1`[10, 40].strip + ") : #{msg}
+"
+end
+
+#================================================
+#----------------- FILE SETUP -------------------
+#================================================
+logger.info("Starting running GENERIC TECH DRC-malformed Klayout DRC runset on #{$input}")
+logger.info("Ruby Version for klayout: #{RUBY_VERSION}")
+
+if $input
+  if $topcell
+    source($input, $topcell)
+  else
+    source($input)
+  end
+end
+
+table_name = $table_name || 'main'
+
+logger.info("table_name selected  #{table_name}")
+
+logger.info('Loading database to memory is complete.')
+
+if $report
+  logger.info("GENERIC TECH Klayout DRC-malformed runset output at: #{$report}")
+  report('DRC Run Report at', $report)
+else
+  layout_dir = Pathname.new(RBA::CellView.active.filename).parent.realpath
+  report_path = layout_dir.join('malformed_drc.lyrdb').to_s
+  logger.info("GENERIC TECH DRC-malformed runset output at default location: #{report_path}")
+  report('DRC Run Report at', report_path)
+end
+
+#================================================
+#------------------ SWITCHES --------------------
+#================================================
+logger.info('Evaluate switches.')
+
+if $thr
+  threads($thr)
+  logger.info("Number of threads to use  #{$thr}")
+else
+  threads(`"nproc"`)
+  logger.info("Number of threads to use #{`"nproc"`}")
+end
+
+#=== PRINT DETAILS ===
+if $verbose == 'true'
+  logger.info("Verbose mode: #{$verbose}")
+  verbose(true)
+else
+  verbose(false)
+  logger.info('Verbose mode: false')
+end
+
+# === TILING MODE ===
+case $run_mode
+when 'tiling'
+  tiles(500.um)
+  tile_borders(10.um)
+  logger.info('Tiling  mode is enabled.')
+
+when 'deep'
+  #=== HIER MODE ===
+  deep
+  logger.info('deep  mode is enabled.')
+else
+  #=== FLAT MODE ===
+  flat
+  logger.info('flat  mode is enabled.')
+end
+
+#================================================
+#------------- LAYERS DERIVATIONS ---------------
+#================================================
+
+polygons_count = 0
+logger.info('Read in polygons from layers.')
+
+def get_polygons(layer, data_type)
+  ps = polygons(layer, data_type)
+  $run_mode == 'deep' ? ps : ps.merged
+end
+
+wafer = get_polygons(99999, 0)
+count = wafer.count
+logger.info("wafer has #{count} polygons")
+polygons_count += count
+
+wg = get_polygons(1, 0)
+count = wg.count
+logger.info("wg has #{count} polygons")
+polygons_count += count
+
+wgclad = get_polygons(111, 0)
+count = wgclad.count
+logger.info("wgclad has #{count} polygons")
+polygons_count += count
+
+slab150 = get_polygons(2, 0)
+count = slab150.count
+logger.info("slab150 has #{count} polygons")
+polygons_count += count
+
+slab90 = get_polygons(3, 0)
+count = slab90.count
+logger.info("slab90 has #{count} polygons")
+polygons_count += count
+
+deeptrench = get_polygons(4, 0)
+count = deeptrench.count
+logger.info("deeptrench has #{count} polygons")
+polygons_count += count
+
+ge = get_polygons(5, 0)
+count = ge.count
+logger.info("ge has #{count} polygons")
+polygons_count += count
+
+undercut = get_polygons(6, 0)
+count = undercut.count
+logger.info("undercut has #{count} polygons")
+polygons_count += count
+
+wgn = get_polygons(34, 0)
+count = wgn.count
+logger.info("wgn has #{count} polygons")
+polygons_count += count
+
+wgn_clad = get_polygons(36, 0)
+count = wgn_clad.count
+logger.info("wgn_clad has #{count} polygons")
+polygons_count += count
+
+n = get_polygons(20, 0)
+count = n.count
+logger.info("n has #{count} polygons")
+polygons_count += count
+
+np = get_polygons(22, 0)
+count = np.count
+logger.info("np has #{count} polygons")
+polygons_count += count
+
+npp = get_polygons(24, 0)
+count = npp.count
+logger.info("npp has #{count} polygons")
+polygons_count += count
+
+p = get_polygons(21, 0)
+count = p.count
+logger.info("p has #{count} polygons")
+polygons_count += count
+
+pp = get_polygons(23, 0)
+count = pp.count
+logger.info("pp has #{count} polygons")
+polygons_count += count
+
+ppp = get_polygons(25, 0)
+count = ppp.count
+logger.info("ppp has #{count} polygons")
+polygons_count += count
+
+gen = get_polygons(26, 0)
+count = gen.count
+logger.info("gen has #{count} polygons")
+polygons_count += count
+
+gep = get_polygons(27, 0)
+count = gep.count
+logger.info("gep has #{count} polygons")
+polygons_count += count
+
+heater = get_polygons(47, 0)
+count = heater.count
+logger.info("heater has #{count} polygons")
+polygons_count += count
+
+heater_mk = get_polygons(47, 1)
+count = heater_mk.count
+logger.info("heater_mk has #{count} polygons")
+polygons_count += count
+
+m1 = get_polygons(41, 0)
+count = m1.count
+logger.info("m1 has #{count} polygons")
+polygons_count += count
+
+m2 = get_polygons(45, 0)
+count = m2.count
+logger.info("m2 has #{count} polygons")
+polygons_count += count
+
+m3 = get_polygons(49, 0)
+count = m3.count
+logger.info("m3 has #{count} polygons")
+polygons_count += count
+
+viac = get_polygons(40, 0)
+count = viac.count
+logger.info("viac has #{count} polygons")
+polygons_count += count
+
+via1 = get_polygons(44, 0)
+count = via1.count
+logger.info("via1 has #{count} polygons")
+polygons_count += count
+
+via2 = get_polygons(43, 0)
+count = via2.count
+logger.info("via2 has #{count} polygons")
+polygons_count += count
+
+padopen = get_polygons(46, 0)
+count = padopen.count
+logger.info("padopen has #{count} polygons")
+polygons_count += count
+
+dicing = get_polygons(100, 0)
+count = dicing.count
+logger.info("dicing has #{count} polygons")
+polygons_count += count
+
+no_tile_si = get_polygons(71, 0)
+count = no_tile_si.count
+logger.info("no_tile_si has #{count} polygons")
+polygons_count += count
+
+padding = get_polygons(67, 0)
+count = padding.count
+logger.info("padding has #{count} polygons")
+polygons_count += count
+
+devrec = get_polygons(68, 0)
+count = devrec.count
+logger.info("devrec has #{count} polygons")
+polygons_count += count
+
+floorplan = get_polygons(64, 0)
+count = floorplan.count
+logger.info("floorplan has #{count} polygons")
+polygons_count += count
+
+text = get_polygons(66, 0)
+count = text.count
+logger.info("text has #{count} polygons")
+polygons_count += count
+
+port = get_polygons(1, 10)
+count = port.count
+logger.info("port has #{count} polygons")
+polygons_count += count
+
+porte = get_polygons(1, 11)
+count = porte.count
+logger.info("porte has #{count} polygons")
+polygons_count += count
+
+porth = get_polygons(70, 0)
+count = porth.count
+logger.info("porth has #{count} polygons")
+polygons_count += count
+
+show_ports = get_polygons(1, 12)
+count = show_ports.count
+logger.info("show_ports has #{count} polygons")
+polygons_count += count
+
+label = get_polygons(201, 0)
+count = label.count
+logger.info("label has #{count} polygons")
+polygons_count += count
+
+label_settings = get_polygons(202, 0)
+count = label_settings.count
+logger.info("label_settings has #{count} polygons")
+polygons_count += count
+
+te = get_polygons(203, 0)
+count = te.count
+logger.info("te has #{count} polygons")
+polygons_count += count
+
+tm = get_polygons(204, 0)
+count = tm.count
+logger.info("tm has #{count} polygons")
+polygons_count += count
+
+drc_marker = get_polygons(205, 0)
+count = drc_marker.count
+logger.info("drc_marker has #{count} polygons")
+polygons_count += count
+
+label_instance = get_polygons(206, 0)
+count = label_instance.count
+logger.info("label_instance has #{count} polygons")
+polygons_count += count
+
+error_marker = get_polygons(207, 0)
+count = error_marker.count
+logger.info("error_marker has #{count} polygons")
+polygons_count += count
+
+error_path = get_polygons(208, 0)
+count = error_path.count
+logger.info("error_path has #{count} polygons")
+polygons_count += count
+
+source = get_polygons(110, 0)
+count = source.count
+logger.info("source has #{count} polygons")
+polygons_count += count
+
+monitor = get_polygons(101, 0)
+count = monitor.count
+logger.info("monitor has #{count} polygons")
+polygons_count += count
+
+logger.info("Total no. of polygons in the design is #{polygons_count}")
+
+logger.info('Starting deriving base layers.')
+
+#================================================
+#------------- LAYERS DERIVATIONS ---------------
+#================================================
+
+#================================================
+#------------- LAYERS CONNECTIONS ---------------
+#================================================
+
+#================================================
+#------------ PRE-DEFINED FUNCTIONS -------------
+#================================================
+
+# === LAYOUT EXTENT ===
+CHIP = extent.sized(0.0)
+logger.info("Total area of the design is #{CHIP.area} um^2.")
+
+#===============================================
+#----------------- DRC RUNSET ------------------
+#===============================================
+
+## Malformed straight_heater_metal
+logger.info('Executing Malformed straight_heater_metal device')
+
+malformed_straight_heater_metal = heater.and(wg).not_interacting(heater_mk)
+malformed_straight_heater_metal.output('straight_heater_metal',
+                                       'straight_heater_metal: straight_heater_metal device should be covered by heater_mk (47/1) layer' )
+
+#============================================
+#----------------- DRC END ------------------
+#============================================
+
+exec_end_time = Time.now
+run_time = exec_end_time - exec_start_time
+logger.info("#{$table_name} DRC Total Run time #{run_time} seconds")

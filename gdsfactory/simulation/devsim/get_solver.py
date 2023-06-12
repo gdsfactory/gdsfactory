@@ -22,8 +22,8 @@ from devsim import (
 from devsim.python_packages import model_create, simple_physics
 from pydantic import Extra
 
-from gdsfactory.pdk import get_layer_stack
 from gdsfactory.component import Component
+from gdsfactory.pdk import get_layer_stack
 from gdsfactory.simulation.devsim.doping import (
     DopingLayerLevel,
     get_doping_info_generic,
@@ -32,7 +32,7 @@ from gdsfactory.simulation.devsim.get_simulation import create_2Duz_simulation
 from gdsfactory.technology import LayerStack
 
 
-def set_universal_parameters(device, region):
+def set_universal_parameters(device, region) -> None:
     universal = {
         "q": 1.6e-19,  # , 'coul'),
         "k": 1.3806503e-23,  # , 'J/K'),
@@ -146,7 +146,7 @@ class DDComponent:
 
         extra = Extra.allow
 
-    def set_extended_precision(self):
+    def set_extended_precision(self) -> None:
         set_parameter(name="extended_solver", value=True)
         set_parameter(name="extended_model", value=True)
         set_parameter(name="extended_equation", value=True)
@@ -175,7 +175,9 @@ class DDComponent:
                 )
                 simple_physics.CreateSiliconPotentialOnlyContact(device, region, i)
 
-    def drift_diffusion_initial_solution(self, device, region, circuit_contacts=None):
+    def drift_diffusion_initial_solution(
+        self, device, region, circuit_contacts=None
+    ) -> None:
         # drift diffusion solution variables
         model_create.CreateSolution(device, region, "Electrons")
         model_create.CreateSolution(device, region, "Holes")
@@ -328,7 +330,7 @@ class DDComponent:
     def get_refined_mesh(
         self,
         factor: float = 2.0,
-        refine_dict: Dict[str, Dict] = None,
+        refine_dict: Optional[Dict[str, Dict]] = None,
         refine_regions: Tuple[str, ...] = ("si",),
     ):
         """Refines the mesh based on simulation result.
