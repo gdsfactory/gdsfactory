@@ -80,6 +80,8 @@ def big_device(
             width=wg_width,
         )
         component.add_port(port)
+
+    component = gf.add_pins.add_pins_inside1nm(component)
     component.auto_rename_ports()
     xs = gf.get_cross_section(cross_section)
     if xs.add_pins:
@@ -90,4 +92,5 @@ def big_device(
 if __name__ == "__main__":
     c = big_device()
     c = gf.routing.add_fiber_array(c)
-    c.show(show_ports=False)
+    c.write_gds("./test.gds")
+    c.show(show_ports=True)
