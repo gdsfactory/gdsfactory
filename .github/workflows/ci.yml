@@ -1,7 +1,7 @@
 name: Build miniforge
 on:
   push:
-    # tags: "v*"
+    tags: "v*"
 
 jobs:
   build:
