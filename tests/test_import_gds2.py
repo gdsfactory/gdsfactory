@@ -10,7 +10,7 @@ import gdsfactory as gf
 def test_read_gds_hash() -> gf.Component:
     gdspath = gf.PATH.gdsdir / "straight.gds"
     c = gf.import_gds(gdspath)
-    h = "c956390621a5322a185cd20b0072a778fc613195"
+    h = "c2831a9be134b00fa6037168306a6a81136af921"
     assert c.hash_geometry() == h, f"h = {c.hash_geometry()!r}"
     return c
 

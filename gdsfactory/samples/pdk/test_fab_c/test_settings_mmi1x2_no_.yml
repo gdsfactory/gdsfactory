@@ -1,4 +1,4 @@
-name: mmi1x2_fc7db243
+name: mmi1x2_99aa74e4
 ports:
   o1:
     center:
@@ -41,6 +41,8 @@ settings:
     cross_section:
       function: cross_section
       settings:
+        add_bbox:
+          function: add_bbox
         add_pins:
           function: add_pins
         bbox_layers:
@@ -70,6 +72,8 @@ settings:
     cross_section:
       function: cross_section
       settings:
+        add_bbox:
+          function: add_bbox
         add_pins:
           function: add_pins
         bbox_layers:
@@ -95,4 +99,4 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mmi1x2
-  name: mmi1x2_fc7db243
+  name: mmi1x2_99aa74e4

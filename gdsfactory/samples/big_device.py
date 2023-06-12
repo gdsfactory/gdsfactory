@@ -92,5 +92,5 @@ def big_device(
 if __name__ == "__main__":
     c = big_device()
     c = gf.routing.add_fiber_array(c)
-    c.write_gds("./test.gds")
-    c.show(show_ports=True)
+    # c.write_gds("./test.gds")
+    c.show(show_ports=False)

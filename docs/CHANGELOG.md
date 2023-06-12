@@ -2,7 +2,12 @@
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.103.1...main)
 
-## [6.106.0](https://github.com/gdsfactory/gdsfactory/compare/v6.105.3...v6.103.3)
+## [6.107.0](https://github.com/gdsfactory/gdsfactory/compare/v6.107.0...v6.106.0)
+
+- check for component overlap [PR](https://github.com/gdsfactory/gdsfactory/pull/1730)
+- add wire corner with sections [PR](https://github.com/gdsfactory/gdsfactory/pull/1766)
+
+## [6.106.0](https://github.com/gdsfactory/gdsfactory/compare/v6.106.0...v6.105.0)
 
 - add `fraction_te` to tidy3d mode solver.
 

@@ -8,8 +8,9 @@ def test_remap_layers():
     c = gf.components.straight(length=1, width=0.5, add_pins=add_pins_siepic)
     c2 = c.remap_layers({gf.LAYER.WG: gf.LAYER.WGN, gf.LAYER.PORT: gf.LAYER.PORTE})
 
-    assert len(c.polygons) == 1, len(c.polygons)
-    assert len(c2.polygons) == 1, len(c2.polygons)
+    p = 2
+    assert len(c.polygons) == p, len(c.polygons)
+    assert len(c2.polygons) == p, len(c2.polygons)
     assert len(c.paths) == 2, len(c.paths)
     assert len(c2.paths) == 2, len(c2.paths)
     assert gf.LAYER.WG in c.layers

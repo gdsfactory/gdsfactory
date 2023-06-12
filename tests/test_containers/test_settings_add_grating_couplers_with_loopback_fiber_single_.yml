@@ -2,7 +2,7 @@ name: mzi_2e88f57c_add_gratin_8f3eef46
 ports:
   loopback1:
     center:
-    - 175.423
+    - 175.424
     - -0.624
     layer:
     - 1
@@ -14,7 +14,7 @@ ports:
     width: 0.5
   loopback2:
     center:
-    - 175.423
+    - 175.424
     - -0.624
     layer:
     - 1
@@ -160,6 +160,8 @@ settings:
     cross_section:
       function: cross_section
       settings:
+        add_bbox:
+          function: add_bbox
         add_pins:
           function: add_pins
           settings:
@@ -208,6 +210,8 @@ settings:
     cross_section:
       function: cross_section
       settings:
+        add_bbox:
+          function: add_bbox
         add_pins:
           function: add_pins
           settings:
