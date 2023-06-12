@@ -5,7 +5,7 @@ cd ..\condabin
 call conda activate
 
 call pip install "jaxlib[cuda111]" -f https://whls.blob.core.windows.net/unstable/index.html --use-deprecated legacy-resolver
-call pip install sax jax sklearn
+call pip install sax jax
 call pip install gdsfactory[full]==6.106.0
 
 call conda install -c conda-forge slepc4py=*=complex* -y
