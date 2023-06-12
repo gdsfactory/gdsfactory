@@ -367,13 +367,18 @@ def _extract_connections_two_sweep(
                 raise ValueError(f"Found multiple connections at {xy}:{ports_at_xy}")
 
             else:
+                print("debugging netlist")
+                print(ports_at_xy)
                 num_ports = len(ports_at_xy)
                 for portindex1, portindex2 in zip(
                     range(-1, num_ports - 1), range(num_ports)
                 ):
                     port1 = ports[ports_at_xy[portindex1]]
                     port2 = ports[ports_at_xy[portindex2]]
-                    connection_validator(port1, port2, ports_at_xy, warnings)
+                    print("port1 and 2")
+                    print(port1)
+                    print(port2)
+                    # connection_validator(port1, port2, ports_at_xy, warnings)
                     connections.append(
                         [ports_at_xy[portindex1], ports_at_xy[portindex2]]
                     )
