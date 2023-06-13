@@ -49,7 +49,7 @@ def add_bbox(
     bbox_layer = get_layer(bbox_layer)
     polygons = component.get_polygons(as_array=False)
     polygons_ = gdstk.boolean(
-        polygons, [], "not", layer=bbox_layer[0], datatype=bbox_layer[1]
+        polygons, [], "or", layer=bbox_layer[0], datatype=bbox_layer[1]
     )
 
     component.add(polygons_)

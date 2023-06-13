@@ -8,8 +8,7 @@ instances:
       function_name: cross_section
       length: 0.5
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -57,8 +56,7 @@ instances:
       function_name: cross_section
       length: 1.0
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:

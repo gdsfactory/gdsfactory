@@ -127,8 +127,7 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -206,8 +205,7 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
