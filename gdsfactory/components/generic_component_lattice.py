@@ -5,7 +5,8 @@ import numpy as np
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.array_component import array
+
+# from gdsfactory.components.array_component import array
 from gdsfactory.components.straight import straight
 from gdsfactory.routing import get_route
 
@@ -69,17 +70,20 @@ def generic_component_lattice(physical_network: list) -> Component:
     y_mode_pitch = y_length / mode_amount
 
     # Create all the waveguides inputs and outputs
-    array_ports = C << array(
-        component=straight(length=1, width=0.5),
-        columns=mode_amount,
-        rows=mode_amount,
-        spacing=(x_mode_pitch, -y_mode_pitch),
-    )
-    # ports.movex(-x_length/4)
-    # ports_index = mode_amount - 1
+    # Originally implemented in gdsfactory array but got netlist errors
+    interconnection_ports_array = []
+    for column_j in range(mode_amount):
+        interconnection_ports_array.append([])
+        for row_i in range(mode_amount):
+            interconnection_ports_array[column_j].extend(
+                [C << straight(length=1, width=0.5)]
+            )
+            interconnection_ports_array[column_j][row_i].move(
+                destination=(x_mode_pitch * row_i, -y_mode_pitch * column_j)
+            )
 
     # C.add_ports(array_ports.get_ports_list())
-    print(array_ports.get_ports_list())
+    # print(array_ports.get_ports_list())
     # Move to the right size
 
     # Place the components in between the corresponding waveguide modes
@@ -118,23 +122,23 @@ def generic_component_lattice(physical_network: list) -> Component:
                 # Connect the adjacent input waveguide ports to the first element columns
                 # if j == 0:
                 route_0 = get_route(
-                    array_ports.ports["o2_" + str(i + 1) + "_" + str(j + 1)],
+                    interconnection_ports_array[j][i].ports["o2"],
                     element_references[k].ports["o2"],
                     radius=5,
                 )
                 route_i = get_route(
-                    array_ports.ports["o2_" + str(i + 2) + "_" + str(j + 1)],
+                    interconnection_ports_array[j][i + 1].ports["o2"],
                     element_references[k].ports["o1"],
                     radius=5,
                 )
                 # Connect output of the component to the component
                 route_0_out = get_route(
-                    array_ports.ports["o1_" + str(i + 1) + "_" + str(j + 2)],
+                    interconnection_ports_array[j + 1][i].ports["o1"],
                     element_references[k].ports["o3"],
                     radius=5,
                 )
                 route_i_out = get_route(
-                    array_ports.ports["o1_" + str(i + 2) + "_" + str(j + 2)],
+                    interconnection_ports_array[j + 1][i + 1].ports["o1"],
                     element_references[k].ports["o4"],
                     radius=5,
                 )
@@ -150,16 +154,16 @@ def generic_component_lattice(physical_network: list) -> Component:
                 if i == 0:
                     # If at start then just connect top
                     route_i = get_route(
-                        array_ports.ports["o2_" + str(i + 1) + "_" + str(j + 1)],
-                        array_ports.ports["o1_" + str(i + 1) + "_" + str(j + 2)],
+                        interconnection_ports_array[j][i].ports["o2"],
+                        interconnection_ports_array[j + 1][i].ports["o1"],
                         radius=5,
                     )
                     C.add(route_i.references)
                 elif i == (len(column_j) - 1):
                     # If at end then connect bottom
                     route_i = get_route(
-                        array_ports.ports["o2_" + str(i + 2) + "_" + str(j + 1)],
-                        array_ports.ports["o1_" + str(i + 2) + "_" + str(j + 2)],
+                        interconnection_ports_array[j][i + 1].ports["o2"],
+                        interconnection_ports_array[j + 1][i + 1].ports["o1"],
                         radius=5,
                     )
                     C.add(route_i.references)
@@ -170,8 +174,8 @@ def generic_component_lattice(physical_network: list) -> Component:
                     elif column_j[i - 1] == 0:
                         # If previous element is zero then connect top straight
                         route_i = get_route(
-                            array_ports.ports["o2_" + str(i + 1) + "_" + str(j + 1)],
-                            array_ports.ports["o1_" + str(i + 1) + "_" + str(j + 2)],
+                            interconnection_ports_array[j][i].ports["o2"],
+                            interconnection_ports_array[j + 1][i].ports["o1"],
                             radius=5,
                         )
                         C.add(route_i.references)
@@ -182,8 +186,8 @@ def generic_component_lattice(physical_network: list) -> Component:
                 elif column_j[i - 1] == 0:
                     # If previous element is zero then connect top straight
                     route_i = get_route(
-                        array_ports.ports["o2_" + str(i + 1) + "_" + str(j + 1)],
-                        array_ports.ports["o1_" + str(i + 1) + "_" + str(j + 2)],
+                        interconnection_ports_array[j][i].ports["o2"],
+                        interconnection_ports_array[j + 1][i].ports["o1"],
                         radius=5,
                     )
                     C.add(route_i.references)
