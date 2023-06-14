@@ -70,7 +70,11 @@ def clean_value_json(value: Any) -> Any:
         func = value.func
         while hasattr(func, "func"):
             func = func.func
-        return {"function": func.__name__, "settings": args_as_kwargs}
+        return {
+            "function": func.__name__,
+            "settings": args_as_kwargs,
+            "module": func.__module__,
+        }
 
     elif hasattr(value, "to_dict"):
         # print(type(value))
@@ -80,7 +84,7 @@ def clean_value_json(value: Any) -> Any:
             clean_value_json(func) for func in value.funcs
         ]
     elif callable(value) and hasattr(value, "__name__"):
-        value = {"function": value.__name__}
+        value = {"function": value.__name__, "module": value.__module__}
     elif isinstance(value, Path):
         value = value.hash_geometry()
     elif isinstance(value, pathlib.Path):

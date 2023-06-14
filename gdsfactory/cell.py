@@ -87,7 +87,7 @@ def cell_without_validator(func: _F) -> _F:
         info = kwargs.pop("info", cell_decorator_settings.info)
         prefix = kwargs.pop(
             "prefix",
-            func.__name__
+            f"{func.__name__}-{func.__module__}"
             if cell_decorator_settings.prefix is None
             else cell_decorator_settings.prefix,
         )
