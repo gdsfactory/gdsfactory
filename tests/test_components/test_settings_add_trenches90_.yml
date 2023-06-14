@@ -57,8 +57,7 @@ settings:
       radius: 10.0
       radius_min: 7.061
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -124,8 +123,7 @@ settings:
     radius: 10.0
     radius_min: 7.061
     settings:
-      add_bbox:
-        function: add_bbox
+      add_bbox: null
       add_pins:
         function: add_pins
         settings:

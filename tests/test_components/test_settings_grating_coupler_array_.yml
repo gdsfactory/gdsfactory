@@ -2,7 +2,7 @@ name: grating_coupler_array
 ports:
   o0:
     center:
-    - -20.098
+    - -20.097
     - 0.0
     layer:
     - 1
@@ -14,7 +14,7 @@ ports:
     width: 0.5
   o1:
     center:
-    - 106.902
+    - 106.903
     - 0.0
     layer:
     - 1
@@ -26,7 +26,7 @@ ports:
     width: 0.5
   o2:
     center:
-    - 233.902
+    - 233.903
     - 0.0
     layer:
     - 1
@@ -38,7 +38,7 @@ ports:
     width: 0.5
   o3:
     center:
-    - 360.902
+    - 360.903
     - 0.0
     layer:
     - 1
@@ -50,7 +50,7 @@ ports:
     width: 0.5
   o4:
     center:
-    - 487.902
+    - 487.903
     - 0.0
     layer:
     - 1
@@ -62,7 +62,7 @@ ports:
     width: 0.5
   o5:
     center:
-    - 614.902
+    - 614.903
     - 0.0
     layer:
     - 1

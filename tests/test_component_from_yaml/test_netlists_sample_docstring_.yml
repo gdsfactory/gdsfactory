@@ -15,8 +15,7 @@ instances:
       radius: 10.0
       radius_min: 7.061
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -65,8 +64,7 @@ instances:
       radius: 10.0
       radius_min: 7.061
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -123,8 +121,7 @@ instances:
       function_name: cross_section
       length: 19.99
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -172,8 +169,7 @@ instances:
       function_name: cross_section
       length: 18.75
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -221,8 +217,7 @@ instances:
       function_name: cross_section
       length: 0.01
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:

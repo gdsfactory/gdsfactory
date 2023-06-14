@@ -33,8 +33,7 @@ instances:
       radius: 10.0
       radius_min: 7.061
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -78,8 +77,7 @@ instances:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox
+          add_bbox: null
           add_pins:
             function: add_pins
             settings:
@@ -98,8 +96,7 @@ instances:
       radius: 10.0
       radius_min: 7.061
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -143,8 +140,7 @@ instances:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox
+          add_bbox: null
           add_pins:
             function: add_pins
             settings:
@@ -163,8 +159,7 @@ instances:
       radius: 10.0
       radius_min: 7.061
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -208,8 +203,7 @@ instances:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox
+          add_bbox: null
           add_pins:
             function: add_pins
             settings:
@@ -228,8 +222,7 @@ instances:
       radius: 10.0
       radius_min: 7.061
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -273,8 +266,7 @@ instances:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox
+          add_bbox: null
           add_pins:
             function: add_pins
             settings:
@@ -293,8 +285,7 @@ instances:
       radius: 10.0
       radius_min: 7.061
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -338,8 +329,7 @@ instances:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox
+          add_bbox: null
           add_pins:
             function: add_pins
             settings:
@@ -358,8 +348,7 @@ instances:
       radius: 10.0
       radius_min: 7.061
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -403,8 +392,7 @@ instances:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox
+          add_bbox: null
           add_pins:
             function: add_pins
             settings:
@@ -423,8 +411,7 @@ instances:
       radius: 10.0
       radius_min: 7.061
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -468,8 +455,7 @@ instances:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox
+          add_bbox: null
           add_pins:
             function: add_pins
             settings:
@@ -488,8 +474,7 @@ instances:
       radius: 10.0
       radius_min: 7.061
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -533,8 +518,7 @@ instances:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox
+          add_bbox: null
           add_pins:
             function: add_pins
             settings:
@@ -550,8 +534,7 @@ instances:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox
+          add_bbox: null
           add_pins:
             function: add_pins
             settings:
@@ -564,8 +547,7 @@ instances:
       function_name: cross_section
       length: 290.0
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -609,8 +591,7 @@ instances:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox
+          add_bbox: null
           add_pins:
             function: add_pins
             settings:
@@ -627,8 +608,7 @@ instances:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox
+          add_bbox: null
           add_pins:
             function: add_pins
             settings:
@@ -641,8 +621,7 @@ instances:
       function_name: cross_section
       length: 440.0
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -686,8 +665,7 @@ instances:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox
+          add_bbox: null
           add_pins:
             function: add_pins
             settings:
@@ -704,8 +682,7 @@ instances:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox
+          add_bbox: null
           add_pins:
             function: add_pins
             settings:
@@ -718,8 +695,7 @@ instances:
       function_name: cross_section
       length: 380.0
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -763,8 +739,7 @@ instances:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox
+          add_bbox: null
           add_pins:
             function: add_pins
             settings:
@@ -781,8 +756,7 @@ instances:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox
+          add_bbox: null
           add_pins:
             function: add_pins
             settings:
@@ -795,8 +769,7 @@ instances:
       function_name: cross_section
       length: 80.0
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -840,8 +813,7 @@ instances:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox
+          add_bbox: null
           add_pins:
             function: add_pins
             settings:
@@ -858,8 +830,7 @@ instances:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox
+          add_bbox: null
           add_pins:
             function: add_pins
             settings:
@@ -872,8 +843,7 @@ instances:
       function_name: cross_section
       length: 630.0
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -917,8 +887,7 @@ instances:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox
+          add_bbox: null
           add_pins:
             function: add_pins
             settings:
@@ -935,8 +904,7 @@ instances:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox
+          add_bbox: null
           add_pins:
             function: add_pins
             settings:
@@ -949,8 +917,7 @@ instances:
       function_name: cross_section
       length: 590.0
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -994,8 +961,7 @@ instances:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox
+          add_bbox: null
           add_pins:
             function: add_pins
             settings:
@@ -1012,8 +978,7 @@ instances:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox
+          add_bbox: null
           add_pins:
             function: add_pins
             settings:
@@ -1026,8 +991,7 @@ instances:
       function_name: cross_section
       length: 140.0
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -1071,8 +1035,7 @@ instances:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox
+          add_bbox: null
           add_pins:
             function: add_pins
             settings:
@@ -1089,8 +1052,7 @@ instances:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox
+          add_bbox: null
           add_pins:
             function: add_pins
             settings:
@@ -1103,8 +1065,7 @@ instances:
       function_name: cross_section
       length: 380.0
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -1148,8 +1109,7 @@ instances:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox
+          add_bbox: null
           add_pins:
             function: add_pins
             settings:
@@ -1166,8 +1126,7 @@ instances:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox
+          add_bbox: null
           add_pins:
             function: add_pins
             settings:
@@ -1180,8 +1139,7 @@ instances:
       function_name: cross_section
       length: 380.0
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -1225,8 +1183,7 @@ instances:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox
+          add_bbox: null
           add_pins:
             function: add_pins
             settings:
@@ -1243,8 +1200,7 @@ instances:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox
+          add_bbox: null
           add_pins:
             function: add_pins
             settings:
@@ -1257,8 +1213,7 @@ instances:
       function_name: cross_section
       length: 630.0
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -1302,8 +1257,7 @@ instances:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox
+          add_bbox: null
           add_pins:
             function: add_pins
             settings:

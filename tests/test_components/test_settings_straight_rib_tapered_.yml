@@ -1,4 +1,4 @@
-name: straight_83b1b4cc_exten_51e1eb21
+name: straight_1dc14831_exten_a87df102
 ports:
   o1:
     center:
@@ -32,8 +32,7 @@ settings:
         cross_section:
           function: cross_section
           settings:
-            add_bbox:
-              function: add_bbox
+            add_bbox: null
             add_pins:
               function: add_pins
               settings:
@@ -57,8 +56,7 @@ settings:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox
+          add_bbox: null
           add_pins:
             function: add_pins
             settings:
@@ -83,8 +81,7 @@ settings:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox
+          add_bbox: null
           add_pins:
             function: add_pins
             settings:
@@ -107,8 +104,7 @@ settings:
       cross_section:
         function: cross_section
         settings:
-          add_bbox:
-            function: add_bbox
+          add_bbox: null
           add_pins:
             function: add_pins
             settings:
@@ -126,8 +122,7 @@ settings:
       function_name: cross_section
       length: 10.0
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -170,7 +165,7 @@ settings:
       width: 0.5
     info_version: 2
     module: gdsfactory.components.straight
-    name: straight_83b1b4cc
+    name: straight_1dc14831
   default:
     centered: false
     component:
@@ -191,8 +186,7 @@ settings:
         cross_section:
           function: cross_section
           settings:
-            add_bbox:
-              function: add_bbox
+            add_bbox: null
             add_pins:
               function: add_pins
               settings:
@@ -221,8 +215,7 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -240,8 +233,7 @@ settings:
     function_name: cross_section
     length: 10.0
     settings:
-      add_bbox:
-        function: add_bbox
+      add_bbox: null
       add_pins:
         function: add_pins
         settings:
@@ -284,4 +276,4 @@ settings:
     width: 0.5
   info_version: 2
   module: gdsfactory.components.extension
-  name: straight_83b1b4cc_exten_51e1eb21
+  name: straight_1dc14831_exten_a87df102

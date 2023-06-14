@@ -15,7 +15,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, TypeVar, Union
 
 from pydantic import BaseModel, Field, validate_arguments
 from typing_extensions import Literal
-from gdsfactory.add_pins import add_pins_inside1nm, add_pins_siepic_optical, add_bbox
+from gdsfactory.add_pins import add_pins_inside1nm, add_pins_siepic_optical
 
 nm = 1e-3
 
@@ -504,7 +504,7 @@ radius_rib = 20
 
 # strip = cross_section
 strip_pins = partial(
-    cross_section, add_pins=add_pins_inside1nm, name="strip", add_bbox=add_bbox
+    cross_section, add_pins=add_pins_inside1nm, name="strip", add_bbox=None
 )
 strip = strip_pins
 strip_auto_widen = partial(strip, width_wide=0.9, auto_widen=True)
