@@ -1,4 +1,4 @@
-name: straight_9f43c11f
+name: straight_df3841b1
 ports:
   o1:
     center:
@@ -29,8 +29,7 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
         bbox_layers:
@@ -53,8 +52,7 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
         bbox_layers:
@@ -75,8 +73,7 @@ settings:
     cross_section:
       function: cross_section
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
         bbox_layers:
@@ -92,8 +89,7 @@ settings:
     function_name: cross_section
     length: 10.0
     settings:
-      add_bbox:
-        function: add_bbox
+      add_bbox: null
       add_pins:
         function: add_pins
       auto_widen: false
@@ -133,4 +129,4 @@ settings:
     width: 1.0
   info_version: 2
   module: gdsfactory.components.straight
-  name: straight_9f43c11f
+  name: straight_df3841b1

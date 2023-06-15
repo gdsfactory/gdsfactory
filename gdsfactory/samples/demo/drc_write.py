@@ -34,3 +34,4 @@ if __name__ == "__main__":
     drc_rule_deck = write_drc_deck_macro(
         rules=rules, layers=gf.LAYER, shortcut="Ctrl+Shift+D", filepath=filepath
     )
+    print(drc_rule_deck)

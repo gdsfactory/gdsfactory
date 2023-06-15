@@ -88,8 +88,7 @@ settings:
         function_name: cross_section
         length: 20.0
         settings:
-          add_bbox:
-            function: add_bbox
+          add_bbox: null
           add_pins:
             function: add_pins
             settings:
@@ -160,8 +159,7 @@ settings:
       function_name: cross_section
       length: 20.0
       settings:
-        add_bbox:
-          function: add_bbox
+        add_bbox: null
         add_pins:
           function: add_pins
           settings:
@@ -264,8 +262,7 @@ settings:
       wavelength: 1.53
     length: 20.0
     settings:
-      add_bbox:
-        function: add_bbox
+      add_bbox: null
       add_pins:
         function: add_pins
         settings:
