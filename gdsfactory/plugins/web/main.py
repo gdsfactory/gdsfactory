@@ -6,6 +6,7 @@ from typing import Optional
 
 import orjson
 from fastapi import FastAPI, Form, Request, status
+from gdsfactory.plugins.web.middleware import ProxiedHeadersMiddleware
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -21,6 +22,7 @@ module_path = Path(__file__).parent.absolute()
 app = FastAPI(
     routes=[WebSocketRoute("/view/{cell_name}/ws", endpoint=LayoutViewServerEndpoint)]
 )
+app.add_middleware(ProxiedHeadersMiddleware)
 # app = FastAPI()
 app.mount("/static", StaticFiles(directory=PATH.web / "static"), name="static")
 
@@ -40,9 +42,30 @@ def load_pdk() -> gf.Pdk:
         active_pdk.activate()
     return active_pdk
 
+def get_url(request: Request) -> str:
+    port_mod = ""
+    if request.url.port is not None and len(str(request.url).split("."))<3:
+        port_mod = ":" + str(request.url.port)
+
+    hostname = request.url.hostname
+
+    if "github" in hostname:
+        port_mod = ""
+
+    url = str(
+        request.url.scheme
+        + "://"
+        + (hostname or "localhost")
+        + port_mod
+        + request.url.path
+    )
+
+    return url
 
 @app.get("/", response_class=HTMLResponse)
 async def root(request: Request):
+    if "preview.app.github" in str(request.url):
+        return RedirectResponse(str(request.url).replace(".preview", ""))
     active_pdk = load_pdk()
     pdk_name = active_pdk.name
     components = list(active_pdk.cells.keys())
@@ -62,6 +85,9 @@ LOADED_COMPONENTS = {}
 
 @app.get("/view/{cell_name}", response_class=HTMLResponse)
 async def view_cell(request: Request, cell_name: str, variant: Optional[str] = None):
+    if "preview.app.github" in str(request.url):
+        return RedirectResponse(str(request.url).replace(".preview", ""))
+
     if variant in LOADED_COMPONENTS:
         component = LOADED_COMPONENTS[variant]
     else:
@@ -79,14 +105,7 @@ async def view_cell(request: Request, cell_name: str, variant: Optional[str] = N
             "title": "Viewer",
             "initial_view": b64_data,
             "component": component,
-            "url": str(
-                request.url.scheme
-                + "://"
-                + request.url.hostname
-                + ":"
-                + str(request.url.port)
-                + request.url.path
-            ),
+            "url": get_url(request),
         },
     )
 
