@@ -9,8 +9,9 @@ Headers = List[Tuple[bytes, bytes]]
 
 # modification to resolve Connection: keep-alive vs. upgrade conflict
 # conflict described here: https://github.com/orgs/community/discussions/57596
-# doesn't seem to work as intended, as the upgrade decision is made 
+# doesn't seem to work as intended, as the upgrade decision is made
 # before the request goes through the middleware
+
 
 class ProxiedHeadersMiddleware:
     """
@@ -37,23 +38,22 @@ class ProxiedHeadersMiddleware:
         Map X-Forwarded-Host to host and X-Forwarded-Prefix to prefix.
 
         """
-        upgrade = len([q for p, q in source 
-            if "connection" in str(p) and "upgrade" in str(q)])
+        upgrade = len(
+            [q for p, q in source if "connection" in str(p) and "upgrade" in str(q)]
+        )
 
         source = dict(source)
-        if upgrade: #resolve conflict with priority of upgrade
+        if upgrade:  # resolve conflict with priority of upgrade
             source[b"connection"] = b"upgrade"
 
-        if b'x-forwarded-host' in source:
-            source.update({b'host': source[b'x-forwarded-host']})
-            source.pop(b'x-forwarded-host')
+        if b"x-forwarded-host" in source:
+            source.update({b"host": source[b"x-forwarded-host"]})
+            source.pop(b"x-forwarded-host")
 
-        if b'x-forwarded-prefix' in source:
-            source.update({
-                b'host': source[b'host'] + source[b'x-forwarded-prefix']
-            })
-            source.pop(b'x-forwarded-prefix')
+        if b"x-forwarded-prefix" in source:
+            source.update({b"host": source[b"host"] + source[b"x-forwarded-prefix"]})
+            source.pop(b"x-forwarded-prefix")
 
         source = [(k, v) for k, v in source.items()]
-        
+
         return source

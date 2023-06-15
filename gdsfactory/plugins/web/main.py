@@ -42,9 +42,10 @@ def load_pdk() -> gf.Pdk:
         active_pdk.activate()
     return active_pdk
 
+
 def get_url(request: Request) -> str:
     port_mod = ""
-    if request.url.port is not None and len(str(request.url).split("."))<3:
+    if request.url.port is not None and len(str(request.url).split(".")) < 3:
         port_mod = ":" + str(request.url.port)
 
     hostname = request.url.hostname
@@ -61,6 +62,7 @@ def get_url(request: Request) -> str:
     )
 
     return url
+
 
 @app.get("/", response_class=HTMLResponse)
 async def root(request: Request):
