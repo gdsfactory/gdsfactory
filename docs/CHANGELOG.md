@@ -6,6 +6,9 @@
 
 - check for component overlap [PR](https://github.com/gdsfactory/gdsfactory/pull/1730)
 - add wire corner with sections [PR](https://github.com/gdsfactory/gdsfactory/pull/1766)
+- update femwell to 0.1.0 [PR](https://github.com/gdsfactory/gdsfactory/pull/1775)
+- enable kweb on GitHub codespaces [PR](https://github.com/gdsfactory/gdsfactory/pull/1774)
+- active PDK does not clear cache [PR](https://github.com/gdsfactory/gdsfactory/pull/1773)
 
 ## [6.106.0](https://github.com/gdsfactory/gdsfactory/compare/v6.106.0...v6.105.0)
 
