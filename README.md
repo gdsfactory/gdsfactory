@@ -76,9 +76,10 @@ You can also access:
 
 ## Installation
 
-We recommend using python3.10 or python3.11
+Use python3.10 or python3.11, as some tools like kfactory do not work older versions of python. We recommend [VSCode](https://code.visualstudio.com/) as an IDE.
 
 You have 2 options to install gdsfactory:
+
 
 ### 1. Installation for new users
 
@@ -99,12 +100,11 @@ Once you have python installed, open Anaconda Prompt and then install the latest
 ![anaconda prompt](https://i.imgur.com/Fyal5sT.png)
 
 ```
-mamba install gdstk -y
+conda install gdstk -y
 pip install "gdsfactory[full]" --upgrade
-gf install klayout-genericpdk
 ```
 
-Then you can install Klayout-live `klive` integration in the klayout GUI `Tools --> Manage Packages --> Install New Packages --> Klive` and restart klayout.
+Then you can install Klayout-live `klive` integration in the klayout GUI `Tools --> Manage Packages --> Install New Packages --> Klive` as well as the genericpdk layermap `Tools --> Manage Packages --> Install New Packages --> gdsfactory` and restart klayout.
 
 ### 2. Installation for developers
 

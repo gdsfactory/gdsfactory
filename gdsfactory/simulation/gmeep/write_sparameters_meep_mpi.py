@@ -168,7 +168,7 @@ def write_sparameters_meep_mpi(
 
     # Save component to disk through gds for gdstk compatibility
     component_file = tempfile.with_suffix(".gds")
-    component.write_gds_with_metadata(component_file)
+    component.write_gds(component_file, with_metadata=True)
 
     # Write execution file
     script_lines = [

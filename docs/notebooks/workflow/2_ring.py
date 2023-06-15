@@ -234,7 +234,7 @@ m = reticle(cache=False)
 m
 # -
 
-gdspath = m.write_gds_with_metadata(gdspath="mask.gds")
+gdspath = m.write_gds(gdspath="mask.gds", with_metadata=True)
 
 # Make sure you save the GDS with metadata so when the chip comes back you remember what you have on it.
 #

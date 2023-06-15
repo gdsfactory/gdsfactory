@@ -456,7 +456,7 @@ def wg():
 
 c = wg()
 c.pprint()
-gdspath = c.write_gds_with_metadata("demo.gds")
+gdspath = c.write_gds("demo.gds", with_metadata=True)
 
 
 # %%
@@ -517,7 +517,7 @@ df = pd.read_csv(csvpath)
 c
 
 # %%
-gdspath = c.write_gds_with_metadata(gdsdir="extra")
+gdspath = c.write_gds(gdsdir="extra")
 
 # %%
 yaml_path = gdspath.with_suffix(".yml")

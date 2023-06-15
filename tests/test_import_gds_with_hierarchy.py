@@ -11,12 +11,11 @@ from gdsfactory.cross_section import cross_section
 gdspath = gf.PATH.gdsdir / "mzi2x2.gds"
 
 
-def test_read_gds_hash2() -> gf.Component:
+def test_read_gds_hash2() -> None:
     c = gf.import_gds(gdspath)
 
     h = "2300f7a05e32689af867fb6aa7c6928a711ad474"
     assert c.hash_geometry() == h, f"h = {c.hash_geometry()!r}"
-    return c
 
 
 def test_read_gds_with_settings2(data_regression: DataRegressionFixture) -> None:
@@ -67,8 +66,7 @@ def test_mix_cells_from_gds_and_from_function2() -> None:
 def _write() -> None:
     splitter = gf.components.mmi1x2(cross_section=cross_section)
     c1 = gf.components.mzi(splitter=splitter, cross_section=cross_section)
-    c1.write_gds_with_metadata(gdspath=gdspath)
-    c1.show()
+    c1.write_gds(gdspath=gdspath, with_metadata=True)
 
 
 if __name__ == "__main__":
