@@ -27,11 +27,11 @@
 import gdsfactory as gf
 from gdsfactory.geometry.write_drc import (
     rule_area,
-    rule_density,
     rule_enclosing,
     rule_separation,
     rule_space,
     rule_width,
+    rule_density,
     write_drc_deck_macro,
 )
 
@@ -134,7 +134,8 @@ def snapping_error(gap: float = 1e-3) -> Component:
 def errors() -> Component:
     components = [width_min(), gap_min(), separation(), enclosing()]
     c = gf.pack(components, spacing=1.5)
-    return c[0]
+    c = gf.add_padding_container(c[0], layers=(gf.LAYER.FLOORPLAN,), default=5)
+    return c
 
 
 c = errors()

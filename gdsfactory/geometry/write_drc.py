@@ -156,7 +156,7 @@ end
 
 def connectivity_checks(
     WG_cross_sections: List[CrossSectionSpec], pin_widths: Union[List[float], float]
-):
+) -> str:
     """Return script for photonic port connectivity check. Assumes the photonic port pins are inside the Component.
 
     Args:
@@ -221,7 +221,6 @@ def write_drc_deck_macro(
     threads: int = 4,
     tile_size: int = 500,
     tile_borders: Optional[int] = None,
-    **kwargs,
 ) -> str:
     """Write KLayout DRC macro.
 

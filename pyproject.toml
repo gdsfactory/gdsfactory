@@ -44,7 +44,7 @@ license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
 requires-python = ">=3.7"
-version = "6.106.0"
+version = "6.107.0"
 
 [project.optional-dependencies]
 cad = [
@@ -112,7 +112,7 @@ docs = [
   "plotly"
 ]
 femwell = [
-  "femwell==0.0.18"
+  "femwell==0.1.0"
 ]
 full = [
   "sqlalchemy",
@@ -127,7 +127,7 @@ full = [
   "pyvista",
   # docs
   "jupytext",
-  "femwell==0.0.18",
+  "femwell==0.1.0",
   # cad
   "autograd",
   "bokeh",
@@ -149,7 +149,7 @@ full = [
   "ipytree",
   "rich-click",
   "ipycytoscape",
-  "kweb>=0.0.11,<0.1",
+  "kweb>=0.0.11,<0.2",
   "jinja2",
   "python-multipart",
   "fastapi",
