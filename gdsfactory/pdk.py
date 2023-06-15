@@ -252,7 +252,11 @@ class Pdk(BaseModel):
                 )
 
     def activate(self) -> None:
-        """Set current pdk to as the active pdk."""
+        """Set current pdk to the active pdk (if not already active)."""
+        global _ACTIVE_PDK
+        if self is _ACTIVE_PDK:
+            return None
+        
         from gdsfactory.cell import clear_cache
 
         logger.info(f"{self.name!r} PDK is now active")
