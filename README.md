@@ -76,7 +76,7 @@ You can also access:
 
 ## Installation
 
-Use python3.10 or python3.11, as some tools like kfactory do not work older versions of python. We recommend [VSCode](https://code.visualstudio.com/) as an IDE.
+Use python3.10 or python3.11, as some tools like kfactory are not available for older versions of python. We recommend [VSCode](https://code.visualstudio.com/) as an IDE.
 
 You have 2 options to install gdsfactory:
 
