@@ -87,7 +87,7 @@ def cell_without_validator(func: _F) -> _F:
         info = kwargs.pop("info", cell_decorator_settings.info)
         prefix = kwargs.pop(
             "prefix",
-            f"{func.__name__}-{func.__module__}"
+            func.__name__
             if cell_decorator_settings.prefix is None
             else cell_decorator_settings.prefix,
         )
@@ -131,17 +131,19 @@ def cell_without_validator(func: _F) -> _F:
         # print(named_args_string)
 
         if changed_arg_list:
-            named_args_string = (
-                hashlib.md5(named_args_string.encode()).hexdigest()[:8]
-                if with_hash
-                or len(named_args_string) > 28
-                or "'" in named_args_string
-                or "{" in named_args_string
-                else named_args_string
-            )
-            name_signature = clean_name(f"{prefix}_{named_args_string}")
+            named_args_and_module_string = f" {named_args_string}_{func.__module__}"
         else:
-            name_signature = prefix
+            named_args_and_module_string = func.__module__
+
+        named_args_and_module_string = (
+            hashlib.md5(named_args_and_module_string.encode()).hexdigest()[:8]
+            if with_hash
+            or len(named_args_and_module_string) > 28
+            or "'" in named_args_and_module_string
+            or "{" in named_args_and_module_string
+            else named_args_and_module_string
+        )
+        name_signature = clean_name(f"{prefix}_{named_args_and_module_string}")
 
         # filter the changed dictionary to only keep entries which have truly changed
         changed_arg_names = [carg.split("=")[0] for carg in changed_arg_list]
