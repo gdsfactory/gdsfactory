@@ -83,6 +83,8 @@ resolutions = {
     "box": {"resolution": 0.2, "distance": 1},
     "slab90": {"resolution": 0.05, "distance": 1},
 }
+
+# %%
 modes = compute_cross_section_modes(
     cross_section=rib(width=0.6),
     layerstack=filtered_layerstack,
@@ -123,7 +125,7 @@ for i, width in enumerate(tqdm(widths)):
         num_modes=num_modes,
         resolutions=resolutions,
         wafer_padding=2,
-        solver="scipy",
+        solver="slepc",
     )
     all_neffs[i] = np.real([mode.n_eff for mode in modes])
     all_te_fracs[i, :] = [mode.te_fraction for mode in modes]
