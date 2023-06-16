@@ -24,6 +24,7 @@ execute:
     - "*03_cascaded_mzi*"
     - "*001_meep_sparameters*"
     - "*jupyter_notebooks*"
+    - "*20_schematic_driven_layout*"
 
 latex:
   latex_engine: pdflatex # one of 'pdflatex', 'xelatex' (recommended for unicode), 'luatex', 'platex', 'uplatex'
