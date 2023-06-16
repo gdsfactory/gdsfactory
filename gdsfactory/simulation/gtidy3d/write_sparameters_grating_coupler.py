@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import time
 from typing import Awaitable, Optional
+import pathlib
 
 import numpy as np
 import tidy3d as td
@@ -31,6 +32,7 @@ from gdsfactory.typings import (
 def write_sparameters_grating_coupler(
     component: ComponentSpec,
     dirpath: Optional[PathType] = None,
+    filepath: Optional[PathType] = None,
     overwrite: bool = False,
     port_waveguide_name: str = "o1",
     fiber_port_prefix: str = "opt",
@@ -47,6 +49,7 @@ def write_sparameters_grating_coupler(
         component: grating coupler gdsfactory Component to simulate.
         dirpath: directory to store sparameters in npz.
             Defaults to active Pdk.sparameters_path.
+        filepath: optional sparameters file.
         overwrite: overwrites stored Sparameter npz results.
         verbose: prints info messages and progressbars.
 
@@ -96,11 +99,12 @@ def write_sparameters_grating_coupler(
     component = gf.get_component(component)
     assert isinstance(component, Component)
 
-    filepath = get_sparameters_path(
+    filepath = filepath or get_sparameters_path(
         component=component,
         dirpath=dirpath,
         **kwargs,
     )
+    filepath = pathlib.Path(filepath)
     filepath_sim_settings = filepath.with_suffix(".yml")
     if filepath.exists():
         if overwrite:

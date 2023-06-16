@@ -3,6 +3,7 @@ from __future__ import annotations
 import time
 from functools import partial
 from typing import Awaitable
+import pathlib
 
 import numpy as np
 import tidy3d as td
@@ -75,6 +76,7 @@ def write_sparameters(
     port_symmetries: Optional[PortSymmetries] = None,
     port_source_names: Optional[List[str]] = None,
     dirpath: Optional[PathType] = None,
+    filepath: Optional[PathType] = None,
     run: bool = True,
     overwrite: bool = False,
     verbose: bool = False,
@@ -104,6 +106,7 @@ def write_sparameters(
         port_symmetries: Dict to specify port symmetries, to save number of simulations
         dirpath: directory to store sparameters in npz.
             Defaults to active Pdk.sparameters_path.
+        filepath: optional sparameters file.
         run: runs simulation, if False, only plots simulation.
         overwrite: overwrites stored Sparameter npz results.
         verbose: prints info messages and progressbars.
@@ -158,11 +161,12 @@ def write_sparameters(
 
     """
     component = gf.get_component(component)
-    filepath = get_sparameters_path(
+    filepath = filepath or get_sparameters_path(
         component=component,
         dirpath=dirpath,
         **kwargs,
     )
+    filepath = pathlib.Path(filepath)
     filepath_sim_settings = filepath.with_suffix(".yml")
     if filepath.exists() and not overwrite and run:
         logger.info(f"Simulation loaded from {filepath!r}")

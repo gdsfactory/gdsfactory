@@ -20,6 +20,8 @@
 #
 # To run, you need to [create an account](https://simulation.cloud/) and add credits. The number of credits that each simulation takes depends on the simulation computation time.
 #
+# We have commented the `write_sparameters` functions to save on credits when running these simulations.
+#
 # ![cloud_model](https://i.imgur.com/5VTCPLR.png)
 #
 # ## Materials
@@ -27,14 +29,15 @@
 # Tidy3d provides you with a material database of dispersive materials.
 
 # %%
+import matplotlib.pyplot as plt
+import numpy as np
 from gdsfactory.components.taper import taper_sc_nc
 import gdsfactory.simulation as sim
 import gdsfactory.simulation.gtidy3d as gt
 import gdsfactory as gf
+from gdsfactory.config import PATH
 from tidy3d import web
 import tidy3d as td
-import matplotlib.pyplot as plt
-import numpy as np
 
 gf.config.rich_output()
 PDK = gf.generic_tech.get_generic_pdk()
@@ -220,7 +223,10 @@ fig = gt.plot_simulation(s)
 # We call this `1x1` port symmetry
 
 # %%
-sp = gt.write_sparameters_1x1(c)
+# sp = gt.write_sparameters_1x1(c)
+sp = np.load(
+    PATH.sparameters_repo / "bend_circular_radius2_9d7742b34c224827aeae808dc986308e.npz"
+)
 sim.plot.plot_sparameters(sp)
 
 # %%
