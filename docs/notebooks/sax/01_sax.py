@@ -255,28 +255,11 @@ gs.plot_model(coupler_sc)
 #
 # You can also fit a model from Sparameter FDTD simulation data from tidy3d, Lumerical or MEEP.
 
-# %%
-sp = gt.write_sparameters(component=gf.components.mmi1x2, run=False)
-
-# %%
-sp = gt.write_sparameters(component=gf.components.mmi1x2)
-
-# %%
-import gdsfactory.simulation as sim
-
-filepath = sim.get_sparameters_data_tidy3d(component=gf.components.mmi1x2)
-mmi1x2 = gs.read.model_from_npz(filepath=filepath)
-gs.plot_model(mmi1x2)
-
-# %%
-gs.plot_model(mmi1x2, ports2=("o2", "o3"))
-
 # %% [markdown]
 # ## Model fit
 #
 # You can fit a sax model to Sparameter FDTD simulation data.
 
-# %%
 # %%
 filepath = gf.config.PATH.test_data / "sp" / "coupler_G224n_L20_S220.csv"
 
@@ -291,8 +274,6 @@ coupler_fdtd = gs.read.model_from_csv(
 # %%
 gs.plot_model(coupler_fdtd)
 
-# %% [markdown]
-#
 # %% [markdown]
 # Lets fit the coupler spectrum with a linear regression `sklearn` fit
 
