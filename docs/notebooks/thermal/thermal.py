@@ -1,24 +1,26 @@
 # ---
 # jupyter:
 #   jupytext:
+#     custom_cell_magics: kql
 #     text_representation:
 #       extension: .py
-#       format_name: light
-#       format_version: '1.5'
-#       jupytext_version: 1.14.5
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 # ---
 
+# %% [markdown]
 # # Thermal
 #
 # gdsfactory has an FEM [femwell](https://gdsfactory.github.io/gdsfactory/notebooks/fem/01_mode_solving.html) plugin that you can use for thermal simulations.
 # You can simulate directly the component layout and include important effects such as metal dummy fill.
 
 
-# +
+# %%
 import gmsh
 import gdsfactory as gf
 from gdsfactory.simulation.gmsh.mesh import create_physical_mesh
@@ -37,10 +39,11 @@ gf.generic_tech.LAYER_STACK.layers["heater"].zmin = 2.2
 
 heater = gf.components.straight_heater_metal(length=50, heater_width=2)
 heater
-# -
 
+# %%
 print(gf.generic_tech.LAYER_STACK.layers.keys())
 
+# %%
 filtered_layerstack = LayerStack(
     layers={
         k: gf.pdk.get_layer_stack().layers[k]
@@ -48,7 +51,7 @@ filtered_layerstack = LayerStack(
     }
 )
 
-# +
+# %%
 filename = "mesh"
 
 
@@ -57,8 +60,7 @@ def mesh_with_physicals(mesh, filename):
     return create_physical_mesh(mesh_from_file, "triangle", prune_z=True)
 
 
-# -
-
+# %%
 mesh = heater.to_gmsh(
     type="uz",
     xsection_bounds=[(4, -4), (4, 4)],
@@ -69,6 +71,7 @@ mesh = mesh_with_physicals(mesh, filename)
 mesh = from_meshio(mesh)
 mesh.draw().plot()
 
+# %% [markdown]
 # FIXME!
 #
 # ```python
@@ -88,9 +91,10 @@ mesh.draw().plot()
 # )
 # ```
 
+# %% [markdown]
 # Example based on [femwell](https://helgegehring.github.io/femwell/index.html)
 
-# +
+# %%
 from collections import OrderedDict
 
 import matplotlib.pyplot as plt
@@ -100,23 +104,27 @@ from skfem import Basis, ElementTriP0
 from skfem.io import from_meshio
 from tqdm import tqdm
 
+from femwell.maxwell.waveguide import compute_modes
 from femwell.mesh import mesh_from_OrderedDict
-from femwell.mode_solver import compute_modes, plot_mode
 from femwell.thermal import solve_thermal
 
-# +
+# %%
 w_sim = 8 * 2
 h_clad = 2.8
-h_box = 1
+h_box = 2
 w_core = 0.5
 h_core = 0.22
-offset_heater = 2.2
 h_heater = 0.14
 w_heater = 2
+offset_heater = 2 + (h_core + h_heater) / 2
+h_silicon = 0.5
 
 polygons = OrderedDict(
     bottom=LineString(
-        [(-w_sim / 2, -h_core / 2 - h_box), (w_sim / 2, -h_core / 2 - h_box)]
+        [
+            (-w_sim / 2, -h_core / 2 - h_box - h_silicon),
+            (w_sim / 2, -h_core / 2 - h_box - h_silicon),
+        ]
     ),
     core=Polygon(
         [
@@ -150,6 +158,14 @@ polygons = OrderedDict(
             (w_sim / 2, -h_core / 2),
         ]
     ),
+    wafer=Polygon(
+        [
+            (-w_sim / 2, -h_core / 2 - h_box - h_silicon),
+            (-w_sim / 2, -h_core / 2 - h_box),
+            (w_sim / 2, -h_core / 2 - h_box),
+            (w_sim / 2, -h_core / 2 - h_box - h_silicon),
+        ]
+    ),
 )
 
 resolutions = dict(
@@ -163,3 +179,59 @@ mesh = from_meshio(
     mesh_from_OrderedDict(polygons, resolutions, default_resolution_max=0.6)
 )
 mesh.draw().show()
+
+# %% [markdown]
+# And then we solve it!
+
+# %% tags=["remove-stderr"]
+currents = np.linspace(0.0, 7.4e-3, 10)
+current_densities = currents / polygons["heater"].area
+neffs = []
+
+for current_density in tqdm(current_densities):
+    basis0 = Basis(mesh, ElementTriP0(), intorder=4)
+    thermal_conductivity_p0 = basis0.zeros()
+    for domain, value in {
+        "core": 90,
+        "box": 1.38,
+        "clad": 1.38,
+        "heater": 28,
+        "wafer": 148,
+    }.items():
+        thermal_conductivity_p0[basis0.get_dofs(elements=domain)] = value
+    thermal_conductivity_p0 *= 1e-12  # 1e-12 -> conversion from 1/m^2 -> 1/um^2
+
+    basis, temperature = solve_thermal(
+        basis0,
+        thermal_conductivity_p0,
+        specific_conductivity={"heater": 2.3e6},
+        current_densities={"heater": current_density},
+        fixed_boundaries={"bottom": 0},
+    )
+
+    if current_density == current_densities[-1]:
+        basis.plot(temperature, shading="gouraud", colorbar=True)
+        plt.show()
+
+    temperature0 = basis0.project(basis.interpolate(temperature))
+    epsilon = basis0.zeros() + (1.444 + 1.00e-5 * temperature0) ** 2
+    epsilon[basis0.get_dofs(elements="core")] = (
+        3.4777 + 1.86e-4 * temperature0[basis0.get_dofs(elements="core")]
+    ) ** 2
+    # basis0.plot(epsilon, colorbar=True).show()
+
+    modes = compute_modes(basis0, epsilon, wavelength=1.55, num_modes=1, solver="scipy")
+
+    if current_density == current_densities[-1]:
+        modes[0].show(modes[0].E.real)
+
+    neffs.append(np.real(modes[0].n_eff))
+
+print(f"Phase shift: {2 * np.pi / 1.55 * (neffs[-1] - neffs[0]) * 320}")
+plt.xlabel("Current / mA")
+plt.ylabel("Effective refractive index $n_{eff}$")
+plt.plot(currents * 1e3, neffs)
+plt.show()
+
+
+# %%
