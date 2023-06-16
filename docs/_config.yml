@@ -9,7 +9,7 @@ logo: logo.png
 # See https://jupyterbook.org/content/execute.html
 execute:
   execute_notebooks: cache
-  timeout: 60
+  timeout: 600
   allow_errors: false
   # timeout: -1
   # execute_notebooks: force
