@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import gdsfactory as gf
+from gdsfactory import Section
 from gdsfactory.generic_tech import LAYER
 
 
@@ -60,6 +61,58 @@ def test_transition_cross_section() -> None:
     c = gf.components.straight(length=length, cross_section=transition)
     assert c.ports["o1"].width == w1
     assert c.ports["o2"].width == w2
+
+
+def dummy_cladded_wg_cs(intent_layer, core_layer, core_width, clad_layer, clad_width):
+    sections = (
+        Section(width=core_width, offset=0, layer=core_layer, name="core"),
+        Section(width=clad_width, offset=0, layer=clad_layer, name="clad"),
+    )
+    return gf.cross_section.cross_section(
+        width=core_width, sections=sections, layer=intent_layer
+    )
+
+
+def test_transition_cross_section_different_layers() -> None:
+    core_width = 1
+    w1 = 1
+    w2 = 5
+    length = 10
+
+    intent_layer_1 = (852, 21)
+    intent_layer_2 = (853, 21)
+
+    # in platforms with multiple waveguide types, it is useful to use separate intent layers for the different cross sections
+    # this will simulate a transition between waveguides with different intent layers (which i just made up arbitrarily for this test)
+    # but shared physical layers
+    cs1 = dummy_cladded_wg_cs(
+        intent_layer=intent_layer_1,
+        core_layer="WG",
+        core_width=core_width,
+        clad_layer="WGCLAD",
+        clad_width=w1,
+    )
+    cs2 = dummy_cladded_wg_cs(
+        intent_layer=intent_layer_2,
+        core_layer="WG",
+        core_width=core_width,
+        clad_layer="WGCLAD",
+        clad_width=w2,
+    )
+    transition = gf.path.transition(cs1, cs2, port_names=(None, None))
+
+    c = gf.components.straight(length=length, cross_section=transition)
+    c.show()
+    assert c.ports["o1"].width == core_width
+    assert c.ports["o2"].width == core_width
+    assert c.ports["o1"].layer == intent_layer_1
+    assert c.ports["o2"].layer == intent_layer_2
+
+    # area of a trapezoid
+    expected_area = (w1 + w2) / 2 * length
+    # TODO: restore and replace after area() function is fixed
+    # assert c.area() == expected_area
+    assert c._cell.area(True)[gf.get_layer("WGCLAD")] == expected_area
 
 
 if __name__ == "__main__":
