@@ -21,11 +21,11 @@ execute:
     - "*optimiser*"
     - "*03_numerical_implantation*"
     - "*02_model_extraction*"
-    - "*03_cascaded_mzi*"
     - "*001_meep_sparameters*"
-    - "*jupyter_notebooks*"
     - "*20_schematic_driven_layout*"
-    - "*00_tidy3d.ipynb"
+    # - "*00_tidy3d.ipynb"
+    # - "*03_cascaded_mzi*"
+    # - "*jupyter_notebooks*"
 
 latex:
   latex_engine: pdflatex # one of 'pdflatex', 'xelatex' (recommended for unicode), 'luatex', 'platex', 'uplatex'
