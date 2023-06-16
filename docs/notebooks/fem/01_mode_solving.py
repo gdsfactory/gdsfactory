@@ -92,7 +92,7 @@ modes = compute_cross_section_modes(
 )
 
 # %% [markdown]
-# The solver returns the effective indices (lams), FEM basis functions (basis) and eigenvectors (xs):
+# The solver returns the list of modes
 
 # %%
 mode = modes[0]
@@ -109,31 +109,32 @@ print(modes[0].te_fraction)
 # ## Sweep waveguide width
 
 # %%
-widths = np.linspace(0.2, 2, 20)
+widths = np.linspace(0.2, 2, 10)
 num_modes = 4
-all_lams = np.zeros((widths.shape[0], num_modes))
+all_neffs = np.zeros((widths.shape[0], num_modes))
 all_te_fracs = np.zeros((widths.shape[0], num_modes))
 
+
 for i, width in enumerate(tqdm(widths)):
-    lams, basis, xs = compute_cross_section_modes(
+    modes = compute_cross_section_modes(
         cross_section=gf.cross_section.strip(width=width),
         layerstack=filtered_layerstack,
         wavelength=1.55,
         num_modes=num_modes,
         resolutions=resolutions,
         wafer_padding=2,
+        solver="scipy",
     )
-    all_lams[i] = lams
-    all_te_fracs[i, :] = [
-        mode_solver.calculate_te_frac(basis, xs[idx]) for idx in range(num_modes)
-    ]
+    all_neffs[i] = np.real([mode.n_eff for mode in modes])
+    all_te_fracs[i, :] = [mode.te_fraction for mode in modes]
+
 
 # %%
-all_lams = np.real(all_lams)
-plt.xlabel("waveguide Width [µm]")
+all_neffs = np.real(all_neffs)
+plt.xlabel("Width of waveguide  µm")
 plt.ylabel("Effective refractive index")
-plt.ylim(1.444, np.max(all_lams) + 0.1 * (np.max(all_lams) - 1.444))
-
-for lams, te_fracs in zip(all_lams.T, all_te_fracs.T):
+plt.ylim(1.444, np.max(all_neffs) + 0.1 * (np.max(all_neffs) - 1.444))
+for lams, te_fracs in zip(all_neffs.T, all_te_fracs.T):
     plt.plot(widths, lams)
     plt.scatter(widths, lams, c=te_fracs, cmap="cool")
+plt.colorbar().set_label("TE fraction")
