@@ -1,17 +1,20 @@
+# -*- coding: utf-8 -*-
 # ---
 # jupyter:
 #   jupytext:
+#     custom_cell_magics: kql
 #     text_representation:
 #       extension: .py
-#       format_name: light
-#       format_version: '1.5'
-#       jupytext_version: 1.14.5
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.2
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 # ---
 
+# %% [markdown]
 # # Ring filter
 #
 # ## Calculations
@@ -28,7 +31,7 @@
 # - VpiL
 # - Resistance
 
-# +
+# %% vscode={"languageId": "python"}
 import numpy as np
 import gdsfactory as gf
 
@@ -108,8 +111,8 @@ if __name__ == "__main__":
     plt.grid()
     plt.legend()
     plt.show()
-# -
 
+# %% [markdown]
 # ## Layout
 #
 # gdsfactory easily enables you to layout Component with as many levels of hierarchy as you need.
@@ -118,7 +121,7 @@ if __name__ == "__main__":
 #
 # Lets add two references in a component.
 
-# +
+# %% vscode={"languageId": "python"}
 from typing import Optional
 
 import toolz
@@ -139,21 +142,26 @@ import gdsfactory as gf
 
 c = gf.components.ring_single_heater(gap=0.2, radius=10, length_x=4)
 c
-# -
 
+# %% vscode={"languageId": "python"}
 scene = c.to_3d()
 scene.show()
 
+# %% [markdown]
 # Lets define a ring function that also accepts other component specs for the subcomponents (straight, coupler, bend)
 
+# %% vscode={"languageId": "python"}
 ring = gf.components.ring_single_heater(gap=0.2, radius=10, length_x=4)
 ring_with_grating_couplers = gf.routing.add_fiber_array(ring)
 ring_with_grating_couplers
 
+# %% vscode={"languageId": "python"}
 gf.routing.add_electrical_pads_top_dc(ring_with_grating_couplers)
 
+# %% vscode={"languageId": "python"}
 gf.routing.add_electrical_pads_top(ring_with_grating_couplers)
 
+# %% [markdown]
 # ## Top reticle assembly
 #
 # Once you have your components and circuits defined, you can add them into a top reticle Component for fabrication.
@@ -165,7 +173,7 @@ gf.routing.add_electrical_pads_top(ring_with_grating_couplers)
 # - make sure you will be able to test te devices after fabrication. Obey DFT (design for testing) rules. For example, if your test setup works only for fiber array, what is the fiber array spacing (127 or 250um?)
 # - if you plan to package your device, make sure you follow your packaging guidelines from your packaging house (min pad size, min pad pitch, max number of rows for wire bonding ...)
 
-# +
+# %% vscode={"languageId": "python"}
 nm = 1e-3
 ring_te = toolz.compose(gf.routing.add_fiber_array, gf.components.ring_single)
 
@@ -197,7 +205,7 @@ def reticle(size=(1000, 1000)):
 m = reticle(cache=False)
 m
 
-# +
+# %% vscode={"languageId": "python"}
 nm = 1e-3
 ring_te = toolz.compose(gf.routing.add_fiber_array, gf.components.ring_single)
 rings = gf.grid([ring_te(radius=r) for r in [10, 20, 50]])
@@ -232,18 +240,22 @@ def reticle(size=(1000, 1000)):
 
 m = reticle(cache=False)
 m
-# -
 
+# %% vscode={"languageId": "python"}
 gdspath = m.write_gds(gdspath="mask.gds", with_metadata=True)
 
+# %% [markdown]
 # Make sure you save the GDS with metadata so when the chip comes back you remember what you have on it.
 #
 # You can also save the labels for automatic testing.
 
+# %% vscode={"languageId": "python"}
 labels_path = gdspath.with_suffix(".csv")
 gf.labels.write_labels.write_labels_klayout(gdspath=gdspath, layer_label=(66, 0))
 
+# %% vscode={"languageId": "python"}
 mask_metadata = OmegaConf.load(gdspath.with_suffix(".yml"))
 tm = gf.labels.merge_test_metadata(mask_metadata=mask_metadata, labels_path=labels_path)
 
+# %% vscode={"languageId": "python"}
 tm.keys()
