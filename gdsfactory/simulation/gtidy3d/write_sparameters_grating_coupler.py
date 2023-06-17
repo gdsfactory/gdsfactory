@@ -107,7 +107,7 @@ def write_sparameters_grating_coupler(
         dirpath=dirpath,
         **kwargs,
     )
-    filepath = pathlib.Path(filepath)
+    filepath = pathlib.Path(filepath).with_suffix(".npz")
     filepath_sim_settings = filepath.with_suffix(".yml")
 
     if filepath.exists() and not overwrite and run:
@@ -212,7 +212,7 @@ if __name__ == "__main__":
             is_3d=False,
             fiber_angle_deg=fiber_angle_deg,
             fiber_xoffset=fiber_xoffset,
-            filepath=PATH.sparameters_repo / f"gc_offset{fiber_xoffset}",
+            filepath=PATH.sparameters_repo / f"gc_offset{fiber_xoffset}.npz",
         )
         for fiber_xoffset in offsets
     ]
