@@ -112,7 +112,7 @@ docs = [
   "plotly"
 ]
 femwell = [
-  "femwell==0.1.0"
+  "femwell==0.1.2"
 ]
 full = [
   "sqlalchemy",
@@ -127,7 +127,7 @@ full = [
   "pyvista",
   # docs
   "jupytext",
-  "femwell==0.1.0",
+  "femwell==0.1.2",
   # cad
   "autograd",
   "bokeh",
