@@ -5,7 +5,7 @@
 ## [6.107.1](https://github.com/gdsfactory/gdsfactory/compare/v6.107.1...v6.107.0)
 
 - fix transitions [PR](https://github.com/gdsfactory/gdsfactory/pull/1777)
-- improve docs [PR](https://github.com/gdsfactory/gdsfactory/pull/1776)
+- improve docs and fix tidy3d local cache [PR](https://github.com/gdsfactory/gdsfactory/pull/1776)
 
 ## [6.107.0](https://github.com/gdsfactory/gdsfactory/compare/v6.107.0...v6.106.0)
 

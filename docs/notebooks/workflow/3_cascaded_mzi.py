@@ -594,10 +594,12 @@ straight_model()
 
 # %%
 def bend_model(cross_section: gf.typings.CrossSectionSpec = "strip"):
+    component = gf.components.bend_euler(cross_section=cross_section)
     s = gt.write_sparameters(
-        component=gf.components.bend_euler(cross_section=cross_section),
+        component=component,
         num_modes=2,
         port_source_names=["o1"],
+        filepath=PATH.sparameters_repo / f"{component.name}.npz",
         **sim_specs,
     )
     wavelengths = s.pop("wavelengths")
@@ -640,17 +642,19 @@ def coupler_model(
     bend_factor: float = 3.0,
     cross_section: gf.typings.CrossSectionSpec = "strip",
 ):
+    component = coupler_symmetric(
+        gap,
+        length,
+        separation=separation,
+        bend_factor=bend_factor,
+        cross_section=cross_section,
+    )
     s = gt.write_sparameters(
-        component=coupler_symmetric(
-            gap,
-            length,
-            separation=separation,
-            bend_factor=bend_factor,
-            cross_section=cross_section,
-        ),
+        component=component,
         ymargin=2.0,
         num_modes=2,
         port_source_names=["o1"],
+        filepath=PATH.sparameters_repo / f"{component.name}.npz",
         **sim_specs,
     )
     wavelengths = s.pop("wavelengths")
