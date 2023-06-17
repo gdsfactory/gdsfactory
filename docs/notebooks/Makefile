@@ -20,3 +20,7 @@ markdown:
 clean:
 	nbstripout --drop-empty-cells *.ipynb
 	nbstripout --drop-empty-cells **/*.ipynb
+
+rm:
+	rm *.ipynb
+	rm **/*.ipynb

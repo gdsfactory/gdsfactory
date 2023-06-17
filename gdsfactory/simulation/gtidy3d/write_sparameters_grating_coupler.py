@@ -18,6 +18,7 @@ from gdsfactory.simulation.gtidy3d.get_results import _executor, get_results
 from gdsfactory.simulation.gtidy3d.get_simulation_grating_coupler import (
     get_simulation_grating_coupler,
 )
+from gdsfactory.simulation.gtidy3d.get_simulation import plot_simulation
 from gdsfactory.typings import (
     Any,
     Component,
@@ -37,6 +38,7 @@ def write_sparameters_grating_coupler(
     port_waveguide_name: str = "o1",
     fiber_port_prefix: str = "opt",
     verbose: bool = False,
+    run: bool = True,
     **kwargs,
 ) -> Sparameters:
     """Get sparameter matrix from a gdsfactory grating coupler.
@@ -52,6 +54,7 @@ def write_sparameters_grating_coupler(
         filepath: optional sparameters file.
         overwrite: overwrites stored Sparameter npz results.
         verbose: prints info messages and progressbars.
+        run: runs simulation, if False, only plots simulation.
 
     Keyword Args:
         port_extension: extend ports beyond the PML.
@@ -106,20 +109,22 @@ def write_sparameters_grating_coupler(
     )
     filepath = pathlib.Path(filepath)
     filepath_sim_settings = filepath.with_suffix(".yml")
-    if filepath.exists():
-        if overwrite:
-            filepath.unlink()
 
-        else:
-            logger.info(f"Simulation loaded from {filepath!r}")
-            return dict(np.load(filepath))
-    start = time.time()
+    if filepath.exists() and not overwrite and run:
+        logger.info(f"Simulation loaded from {filepath!r}")
+        return dict(np.load(filepath))
+
     sim = get_simulation_grating_coupler(
         component,
         fiber_port_prefix=fiber_port_prefix,
         port_waveguide_name=port_waveguide_name,
         **kwargs,
     )
+    if not run:
+        plot_simulation(sim)
+        return {}
+
+    start = time.time()
     sim_data = get_results(sim, verbose=verbose)
     sim_data = sim_data.result()
 
@@ -194,20 +199,36 @@ def write_sparameters_grating_coupler_batch(
 
 
 if __name__ == "__main__":
+    from gdsfactory.config import PATH
+
     c = gf.components.grating_coupler_elliptical_lumerical()  # inverse design grating
     offsets = [0, 5]
+    offsets = [0]
     fiber_angle_deg = 8
 
-    jobs = [
-        dict(
+    dfs = [
+        write_sparameters_grating_coupler(
             component=c,
             is_3d=False,
             fiber_angle_deg=fiber_angle_deg,
             fiber_xoffset=fiber_xoffset,
+            filepath=PATH.sparameters_repo / f"gc_offset{fiber_xoffset}",
         )
         for fiber_xoffset in offsets
     ]
-    sps = write_sparameters_grating_coupler_batch(jobs)
+
+    # jobs = [
+    #     dict(
+    #         component=c,
+    #         is_3d=False,
+    #         fiber_angle_deg=fiber_angle_deg,
+    #         fiber_xoffset=fiber_xoffset,
+    #         filepath=PATH.sparameters_repo
+    #         / f"gc_angle{fiber_angle_deg}_offset{fiber_xoffset}",
+    #     )
+    #     for fiber_xoffset in offsets
+    # ]
+    # sps = write_sparameters_grating_coupler_batch(jobs)
 
     # import matplotlib.pyplot as plt
     # import gdsfactory.simulation as sim
