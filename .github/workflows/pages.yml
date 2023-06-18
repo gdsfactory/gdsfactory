@@ -47,9 +47,6 @@ jobs:
           mkdir -p $HOME/.tidy3d
           make data-download plugins-debian full
           make docs
-          if [ ${{ secrets.TIDY3D_AUTH }} ]; then
-            make data-upload
-          fi
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:

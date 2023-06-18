@@ -83,7 +83,9 @@ test-data:
 
 data-download: test-data
 	echo 'Make sure you git pull inside test-data folder'
-	# aws s3 sync s3://gdslib data --no-sign-request
+
+data-download-old:
+	aws s3 sync s3://gdslib data --no-sign-request
 	# gh release download v6.90.3 -D data/gds/*.gds --clobber
 	# gh release download v6.90.3 data/sp/*.npz --clobber
 	# gh release download v6.90.3 data/sp/*.yml --clobber
@@ -202,6 +204,8 @@ autopep8:
 codestyle:
 	pycodestyle --max-line-length=88
 
+doc:
+	python .github/write_components_doc.py
 
 docs:
 	jb build docs
