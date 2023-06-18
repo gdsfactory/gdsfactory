@@ -19,11 +19,11 @@
 
 ![logo](https://i.imgur.com/v4wpHpg.png)
 
-gdsfactory: An open source platform for end to-end photonic chip design and validation.
+gdsfactory: An open source platform for end to-end chip design and validation.
 
 gdsfactory is a python library to design chips (Photonics, Analog, Quantum, MEMs, ...), objects for 3D printing or PCBs.
 
-You can describe your hardware in code (python or YAML), verify them (DRC, simulation, extraction) and validate them (to make sure they meet the specifications after fabrication).
+You can describe your hardware in code (python or YAML), verify it (DRC, simulation, extraction) and validate it (to make sure it meets your specifications after fabrication).
 
 ![workflow](https://i.imgur.com/abvxJJw.png)
 
@@ -108,17 +108,17 @@ Then you can install Klayout-live `klive` integration in the klayout GUI `Tools 
 
 ### 2. Installation for developers
 
-For developers you need to fork the GitHub repository, git clone it (download it), git add, git commit, git push your improvement. Then pull request your changes to the main branch from the GitHub website.
+As a developer, if you are on windows you need to download [Git](https://git-scm.com/download/win) or [GitHub Desktop](https://desktop.github.com/).
+
+Then you need to fork the [GitHub repository](https://github.com/gdsfactory/gdsfactory), git clone it (download it), git add, git commit, git push your improvement. Then pull request your changes to the main branch from the GitHub website.
 For that you can install gdsfactory locally on your computer in `-e` edit mode.
 
 ```
 git clone https://github.com/gdsfactory/gdsfactory.git
 cd gdsfactory
 mamba install gdstk -y
-pip install -e . pre-commit
-pip install -e .[full] # Install most plugins
+pip install -e .[full] pre-commit
 pre-commit install
-gf install klayout-genericpdk
 ```
 
 ### Update gdsfactory
@@ -144,6 +144,8 @@ You need to install each plugin separately or install most plugins with:
 ```
 pip install "gdsfactory[full]" --upgrade
 ```
+
+Install only the group plugins you need `pip install gdsfactory[cad,tidy3d]` or each plugin individually:
 
 - `pip install "gdsfactory[cad]"` 3D rendering.
 - `pip install "gdsfactory[tidy3d]"` FDTD simulations on the cloud.
