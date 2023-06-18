@@ -23,15 +23,12 @@ mamba:
 
 patch:
 	bumpversion patch
-	python docs/write_components_doc.py
 
 minor:
 	bumpversion minor
-	python docs/write_components_doc.py
 
 major:
 	bumpversion major
-	python docs/write_components_doc.py
 
 plugins:
 	conda install -c conda-forge pymeep=*=mpi_mpich_* nlopt -y
@@ -205,8 +202,6 @@ autopep8:
 codestyle:
 	pycodestyle --max-line-length=88
 
-doc:
-	python docs/write_components_doc.py
 
 docs:
 	jb build docs
