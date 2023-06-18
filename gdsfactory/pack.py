@@ -294,7 +294,7 @@ if __name__ == "__main__":
     # c = test_pack()
     # c.show(show_ports=True)
     # c.pprint()
-    # c.write_gds_with_metadata("mask.gds")
+    # c.("mask.gds")
 
     p = pack(
         [gf.components.straight(length=i) for i in [1, 1]],

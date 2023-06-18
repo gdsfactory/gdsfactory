@@ -81,8 +81,8 @@ def mmi2x2_with_sbend(
     else:
         c.add_port("o2", port=topl_taper.ports["o1"])
         c.add_port("o1", port=botl_taper.ports["o1"])
-        c.add_port("o3", port=topr_taper.ports["o2"])
-        c.add_port("o4", port=botr_taper.ports["o2"])
+        c.add_port("o3", port=topr_taper.ports["o1"])
+        c.add_port("o4", port=botr_taper.ports["o1"])
 
     xs = gf.get_cross_section(cross_section)
     if xs.add_pins:
@@ -98,9 +98,9 @@ def mmi2x2_with_sbend(
 
 
 if __name__ == "__main__":
-    c = mmi2x2_with_sbend(
-        with_sbend=True,
-        cross_section=dict(cross_section="strip", settings=dict(layer=(2, 0))),
-    )
-    c = mmi2x2_with_sbend()
-    c.show(show_ports=False)
+    # c = mmi2x2_with_sbend(
+    #     with_sbend=True,
+    #     cross_section=dict(cross_section="strip", settings=dict(layer=(2, 0))),
+    # )
+    c = mmi2x2_with_sbend(with_sbend=False)
+    c.show(show_ports=True)

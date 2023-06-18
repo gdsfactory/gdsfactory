@@ -49,7 +49,7 @@ gdspath = c.write_gds("extra/mzi.gds")
 # Or **GDS** with **YAML** metadata information (ports, settings, cells ...)
 
 # %%
-gdspath = c.write_gds_with_metadata("extra/mzi.gds")
+gdspath = c.write_gds("extra/mzi.gds", with_metadata=True)
 
 # %% [markdown]
 # This created a `mzi.yml` file that contains:
@@ -83,7 +83,7 @@ c3 = gf.routing.add_fiber_single(c2)
 c3
 
 # %%
-gdspath = c3.write_gds_with_metadata("extra/pdk.gds")
+gdspath = c3.write_gds("extra/pdk.gds", with_metadata=True)
 
 # %%
 gf.labels.write_labels.write_labels_klayout(gdspath, layer_label=gf.LAYER.LABEL)

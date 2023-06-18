@@ -1,11 +1,11 @@
 import inspect
-import pathlib
 
 import gdsfactory as gf
 from gdsfactory.serialization import clean_value_json
+from gdsfactory.config import PATH
 
 
-filepath = pathlib.Path(__file__).parent.absolute() / "components.rst"
+filepath = PATH.repo / "docs" / "components.rst"
 
 skip = {}
 

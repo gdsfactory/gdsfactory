@@ -272,7 +272,7 @@ if __name__ == "__main__":
     #         for length in [1, 2, 3]
     #     ]
     # )
-    # c.write_gds_with_metadata("extra/tapers.gds")
+    # c.("extra/tapers.gds")
     xs = gf.get_cross_section("rib_conformal")
 
     c = taper(width2=1, cross_section="rib_conformal")

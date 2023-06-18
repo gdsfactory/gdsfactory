@@ -26,13 +26,14 @@ def greek_cross(
 ) -> gf.Component:
     """Simple greek cross with via stacks at the endpoints.
 
-    A greek cross is a process control monitor for dopant sheet resistivity and linewidth variation.
+    Process control monitor for dopant sheet resistivity and linewidth variation.
 
     Args:
-        length: length of cross arms
-        layers: list of layers
-        widths: list of widths (same order as layers)
-        offsets: how much to extend each layer beyond the cross of length "length" (negative shorter, positive longer)
+        length: length of cross arms.
+        layers: list of layers.
+        widths: list of widths (same order as layers).
+        offsets: how much to extend each layer beyond the cross length
+            negative shorter, positive longer.
         via: via component to attach to the cross.
 
     .. code::

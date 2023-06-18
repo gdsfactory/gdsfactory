@@ -2,6 +2,11 @@
 
 ## [Unreleased](https://github.com/gdsfactory/gdsfactory/compare/v6.103.1...main)
 
+## [6.107.1](https://github.com/gdsfactory/gdsfactory/compare/v6.107.1...v6.107.0)
+
+- fix transitions [PR](https://github.com/gdsfactory/gdsfactory/pull/1777)
+- improve docs and fix tidy3d local cache [PR](https://github.com/gdsfactory/gdsfactory/pull/1776)
+
 ## [6.107.0](https://github.com/gdsfactory/gdsfactory/compare/v6.107.0...v6.106.0)
 
 - check for component overlap [PR](https://github.com/gdsfactory/gdsfactory/pull/1730)

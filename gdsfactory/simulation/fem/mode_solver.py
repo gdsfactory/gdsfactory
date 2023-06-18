@@ -33,13 +33,36 @@ def compute_cross_section_modes(
     num_modes: int = 4,
     order: int = 1,
     radius: float = np.inf,
-    mesh_filename: str = "mesh.msh",
     wafer_padding: float = 2.0,
     **kwargs,
 ) -> Modes:
     """Calculate effective index of a cross-section.
 
     Defines a "straight" component of the cross_section, and calls compute_component_slice_modes.
+
+    Args:
+        cross_section:
+        layerstack:
+        wavelength: in um.
+        num_modes: to compute.
+        order: order of the mesh elements. 1: linear, 2: quadratic.
+        radius: defaults to inf.
+        wafer_padding: in um.
+
+    Keyword Args:
+        solver: can be slepc or scipy.
+        resolutions (Dict): Pairs {"layername": {"resolution": float, "distance": "float}}
+            to roughly control mesh refinement within and away from entity, respectively.
+        mesh_scaling_factor (float): factor multiply mesh geometry by.
+        default_resolution_min (float): gmsh minimal edge length.
+        default_resolution_max (float): gmsh maximal edge length.
+        background_tag (str): name of the background layer to add (default: no background added).
+        background_padding (Tuple): [xleft, ydown, xright, yup] distances to add to the components and to fill with background_tag.
+        global_meshsize_array: np array [x,y,z,lc] to parametrize the mesh.
+        global_meshsize_interpolant_func: interpolating function for global_meshsize_array.
+        extra_shapes_dict: Optional[OrderedDict] of {key: geo} with key a label and geo a shapely (Multi)Polygon or (Multi)LineString of extra shapes to override component.
+        merge_by_material: boolean, if True will merge polygons from layers with the same layer.material. Physical keys will be material in this case.
+
     """
     # Get meshable component from cross-section
     c = gf.components.straight(length=10, cross_section=cross_section)
@@ -182,7 +205,6 @@ if __name__ == "__main__":
             num_modes=4,
             order=1,
             radius=np.inf,
-            mesh_filename="mesh.msh",
             resolutions=resolutions,
         )
         mode = modes[0]

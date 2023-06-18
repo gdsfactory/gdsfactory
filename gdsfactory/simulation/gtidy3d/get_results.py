@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import pathlib
 import concurrent.futures
 import hashlib
 from typing import Awaitable
@@ -41,35 +42,37 @@ def _get_results(
         overwrite: overwrites the data even when path exists.
         verbose: prints info messages and progressbars.
     """
-    task_name = sim_hash = get_sim_hash(sim)
-    sim_path = dirpath / f"{sim_hash}.hdf5"
-    logger.info(f"running simulation {sim_hash!r}")
+    sim_hash = get_sim_hash(sim)
+    dirpath = pathlib.Path(dirpath)
+    filename = f"{sim_hash}.hdf5"
+    filepath = dirpath / filename
 
-    hash_to_id = {d["taskName"][:32]: d["task_id"] for d in web.get_tasks()}
-    filepath = str(dirpath / f"{sim_hash}.hdf5")
-    job = web.Job(simulation=sim, task_name=task_name, verbose=verbose)
+    # Look for results in local storage
+    if filepath.exists():
+        logger.info(f"Simulation results for {sim_hash!r} found in {filepath}")
+        return td.SimulationData.from_file(str(filepath))
 
-    # Results in local storage
-    if sim_path.exists():
-        task_id = hash_to_id[sim_hash]
-        logger.info(f"{sim_path!r} for task_id {task_id!r} found in local storage")
-        return td.SimulationData.from_file(filepath)
+    # Look for results in tidy3d server storage
+    hash_to_id = {d["taskName"]: d["task_id"] for d in web.get_tasks()}
 
-    # Results in server storage
     if sim_hash in hash_to_id:
         task_id = hash_to_id[sim_hash]
         web.monitor(task_id)
 
         try:
-            return web.load(task_id=task_id, path=filepath, replace_existing=overwrite)
+            return web.load(task_id=task_id, path=filename, replace_existing=overwrite)
         except WebError:
-            logger.info(f"task_id {task_id!r} exists but no results found.")
+            print(f"task_id {task_id!r} exists but no results found.")
         except Exception:
-            logger.info(f"task_id {task_id!r} exists but unexpected error encountered.")
+            print(f"task_id {task_id!r} exists but unexpected error encountered.")
+
+    # Only run
+    logger.info(f"running simulation {sim_hash!r}")
+    job = web.Job(simulation=sim, task_name=sim_hash, verbose=verbose)
 
     # Run simulation if results not found in local or server storage
-    logger.info(f"sending task_name {task_name!r} to tidy3d server.")
-    return job.run(path=filepath)
+    logger.info(f"sending Simulation {sim_hash!r} to tidy3d server.")
+    return job.run(path=str(filepath))
 
 
 def get_results(
@@ -134,4 +137,7 @@ if __name__ == "__main__":
 
     component = gf.components.straight(length=3)
     sim = gt.get_simulation(component=component)
+    sim_hash = get_sim_hash(sim)
+    # hash_to_id = {d["taskName"]: d["task_id"] for d in web.get_tasks()}
+
     r = sim_data = get_results(sim=sim).result()
