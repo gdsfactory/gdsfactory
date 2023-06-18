@@ -125,7 +125,7 @@ for i, width in enumerate(tqdm(widths)):
         num_modes=num_modes,
         resolutions=resolutions,
         wafer_padding=2,
-        solver="slepc",
+        solver="scipy",
     )
     all_neffs[i] = np.real([mode.n_eff for mode in modes])
     all_te_fracs[i, :] = [mode.te_fraction for mode in modes]
@@ -137,6 +137,6 @@ plt.xlabel("Width of waveguide  µm")
 plt.ylabel("Effective refractive index")
 plt.ylim(1.444, np.max(all_neffs) + 0.1 * (np.max(all_neffs) - 1.444))
 for lams, te_fracs in zip(all_neffs.T, all_te_fracs.T):
-    plt.plot(widths, lams)
+    plt.plot(widths, lams, c="k")
     plt.scatter(widths, lams, c=te_fracs, cmap="cool")
 plt.colorbar().set_label("TE fraction")
