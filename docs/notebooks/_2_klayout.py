@@ -1,6 +1,6 @@
 # # KLayout integration
 #
-# [Klayout](https://www.klayout.de/) is an open source layout viewer and editor. In gdsfactory code driven flow you define your components, circuits and reticles in python or YAML code.
+# [Klayout](https://www.klayout.de/build.html) is an open source layout viewer and editor. In gdsfactory code driven flow you define your components, circuits and reticles in python or YAML code.
 #
 # For rapid iteration, gdsfactory comes with a Klayout macro `klive` that runs inside klayout, so that when you run `component.show()` in python, it displays your GDS in Klayout.
 #

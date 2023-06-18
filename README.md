@@ -108,7 +108,7 @@ Then you can install Klayout-live `klive` integration in the klayout GUI `Tools 
 
 ### 2. Installation for developers
 
-As a developer, if you are on windows you need to download [Git](https://git-scm.com/download/win) or [GitHub Desktop](https://desktop.github.com/).
+As a developer, if you are on windows you need to download [Git](https://git-scm.com/download/win) and optionally [GitHub Desktop](https://desktop.github.com/).
 
 Then you need to fork the [GitHub repository](https://github.com/gdsfactory/gdsfactory), git clone it (download it), git add, git commit, git push your improvement. Then pull request your changes to the main branch from the GitHub website.
 For that you can install gdsfactory locally on your computer in `-e` edit mode.
