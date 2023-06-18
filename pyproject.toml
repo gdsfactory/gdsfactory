@@ -44,7 +44,7 @@ license = {file = "LICENSE"}
 name = "gdsfactory"
 readme = "README.md"
 requires-python = ">=3.7"
-version = "6.107.0"
+version = "6.107.1"
 
 [project.optional-dependencies]
 cad = [
