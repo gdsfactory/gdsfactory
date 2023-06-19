@@ -115,5 +115,14 @@ def test_transition_cross_section_different_layers() -> None:
     assert c._cell.area(True)[gf.get_layer("WGCLAD")] == expected_area
 
 
+def test_diagonal_extrude_consistent_naming():
+    """This test intends to check that diagonal extrude components are properly serialized and get the same name on different platforms/environments."""
+    p = gf.path.Path([(0, 0), (4.9932849, 6.328497)])
+    c = p.extrude(cross_section="strip")
+    # This name was generated at the time of writing the test. We expect it to be the same across other platforms.
+    expected_name = "extrude_43964f7b"
+    assert c.name == expected_name
+
+
 if __name__ == "__main__":
     test_transition_cross_section()
