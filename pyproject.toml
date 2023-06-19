@@ -171,7 +171,7 @@ full = [
   "hyperopt",
   # sax
   "sax[nojax]==0.8.7",
-  "tidy3d==2.2.2"
+  "tidy3d==2.2.3"
 ]
 gmsh = [
   "gmsh",
@@ -199,7 +199,7 @@ sax = [
   "jax"
 ]
 tidy3d = [
-  "tidy3d==2.2.2"
+  "tidy3d==2.2.3"
 ]
 
 [project.scripts]
