@@ -133,17 +133,21 @@ def cell_without_validator(func: _F) -> _F:
         named_args_string = "_".join(changed_arg_list)
         # print(named_args_string)
 
-        if include_module:
-            named_args_string = f" {named_args_string}_{func.__module__}"
-
         if changed_arg_list or include_module:
-            named_args_string = (
-                hashlib.md5(named_args_string.encode()).hexdigest()[:8]
+            if include_module and changed_arg_list:
+                named_args_module_string = f"{named_args_string}_{func.__module__}"
+            elif include_module:
+                named_args_module_string = func.__module__
+            elif changed_arg_list:
+                named_args_module_string = named_args_string
+
+            named_args_module_string = (
+                hashlib.md5(named_args_module_string.encode()).hexdigest()[:8]
                 if with_hash
-                or len(named_args_string) > 28
-                or "'" in named_args_string
-                or "{" in named_args_string
-                else named_args_string
+                or len(named_args_module_string) > 28
+                or "'" in named_args_module_string
+                or "{" in named_args_module_string
+                else named_args_module_string
             )
             name_signature = clean_name(f"{prefix}_{named_args_string}")
         else:
