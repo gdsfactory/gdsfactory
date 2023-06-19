@@ -179,6 +179,11 @@ def get_bundle(
     if len(start_port_angles) > 1:
         raise ValueError(f"All start port angles {start_port_angles} must be equal")
 
+    path_length_match_params = {
+        "path_length_match_loops",
+        "path_length_match_modify_segment_i",
+        "path_length_match_extra_length",
+    }
     params = {
         "ports1": ports1,
         "ports2": ports2,
@@ -239,6 +244,8 @@ def get_bundle(
 
     elif end_angle == (start_angle + 180) % 360:
         # print("get_bundle_uindirect")
+        for param in path_length_match_params:
+            params.pop(param, None)
         return get_bundle_uindirect(extension_length=extension_length, **params)
     else:
         raise NotImplementedError("This should never happen")
